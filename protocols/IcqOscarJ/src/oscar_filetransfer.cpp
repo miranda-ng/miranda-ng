@@ -432,9 +432,9 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 						return;
 					}
 
-					BYTE* tBuf = tlv->pData;
+					BYTE  *tBuf = tlv->pData;
 					size_t tLen = tlv->wLen;
-					WORD wFlag;
+					WORD   wFlag;
 
 					unpackWord(&tBuf, &wFlag); // FT flag
 					unpackWord(&tBuf, &ft->wFilesCount);
@@ -488,9 +488,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 					}
 				}
 				int bAdded;
-				MCONTACT hContact = HContactFromUID(dwUin, szUID, &bAdded);
-
-				ft->hContact = hContact;
+				ft->hContact = HContactFromUID(dwUin, szUID, &bAdded);
 				ft->fileId = -1;
 
 				// Send chain event
@@ -508,7 +506,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				pre.descr.t = mir_utf8decodeT(pszDescription);
 				pre.files.t = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
-				ProtoChainRecvFile(hContact, &pre);
+				ProtoChainRecvFile(ft->hContact, &pre);
 
 				mir_free(pre.descr.t);
 				mir_free(ptszFileName);

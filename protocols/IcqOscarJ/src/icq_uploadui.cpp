@@ -33,18 +33,18 @@ static int bListInit = 0;
 static HANDLE hItemAll;
 static int dwUploadDelay = 1000; // initial setting, it is too low for icq server but good for short updates
 
-static HWND hwndUploadContacts=NULL;
-static const UINT settingsControls[]={IDOK};
+static HWND hwndUploadContacts = NULL;
+static const UINT settingsControls[] = { IDOK };
 
-static WORD* pwGroupIds = NULL;
+static WORD *pwGroupIds = NULL;
 static int cbGroupIds = 0;
 
 // Init default clist options
 static void ResetCListOptions(HWND hwndList)
 {
-	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE)|CLS_SHOWHIDDEN);
+	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) | CLS_SHOWHIDDEN);
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS) // hide empty groups
-		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM) TRUE, 0);
+		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM)TRUE, 0);
 }
 
 // Selects the "All contacts" checkbox if all other list entries
@@ -54,13 +54,10 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 	int check = 1;
 
 	MCONTACT hContact = db_find_first(ppro->m_szModuleName);
-	while (hContact)
-	{
+	while (hContact) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-		if (hItem)
-		{
-			if (!SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-			{ // if any of our contacts is unchecked, uncheck all contacts as well
+		if (hItem) {
+			if (!SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) { // if any of our contacts is unchecked, uncheck all contacts as well
 				check = 0;
 				break;
 			}
@@ -79,11 +76,9 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 	bListInit = 1; // lock CLC events
 
 	MCONTACT hContact = db_find_first(ppro->m_szModuleName);
-	while (hContact)
-	{
+	while (hContact) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-		if (hItem)
-		{
+		if (hItem) {
 			if (ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0))
 				SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 			else
@@ -127,25 +122,25 @@ static void AppendToUploadLog(HWND hwndDlg, const char *fmt, ...)
 
 static void DeleteLastUploadLogLine(HWND hwndDlg)
 {
-	SendDlgItemMessage(hwndDlg, IDC_LOG, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0)-1, 0);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0) - 1, 0);
 }
 
 static void GetLastUploadLogLine(HWND hwndDlg, char *szBuf, size_t cbBuf)
 {
 	WCHAR str[MAX_PATH];
-	SendDlgItemMessageW(hwndDlg, IDC_LOG, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0)-1, (LPARAM)str);
+	SendDlgItemMessageW(hwndDlg, IDC_LOG, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0) - 1, (LPARAM)str);
 	make_utf8_string_static(str, szBuf, cbBuf);
 }
 
-static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
-{ 
+static int GroupEnumIdsEnumProc(const char *szSetting, LPARAM lParam)
+{
 	// it is probably server group
 	if (szSetting && mir_strlen(szSetting) < 5) {
-		char val[MAX_PATH+2]; // dummy
+		char val[MAX_PATH + 2]; // dummy
 		if (db_get_static(NULL, (char*)lParam, szSetting, val, MAX_PATH))
 			return 0; // this converts all string types to DBVT_ASCIIZ
 
-		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds+1)*sizeof(WORD));
+		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds + 1)*sizeof(WORD));
 		pwGroupIds[cbGroupIds] = (WORD)strtoul(szSetting, NULL, 0x10);
 		cbGroupIds++;
 	}
@@ -154,7 +149,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 
 static void enumServerGroups(CIcqProto* ppro)
 {
-	char szModule[MAX_PATH+9];
+	char szModule[MAX_PATH + 9];
 	mir_snprintf(szModule, "%s%s", ppro->m_szModuleName, "SrvGroups");
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
@@ -169,8 +164,7 @@ static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char*
 	DWORD dwCookie;
 	cookie_servlist_action* ack;
 
-	if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))
-	{ // we have cookie good, go on
+	if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action))) { // we have cookie good, go on
 		ack->wGroupId = wGroupId;
 		ack->dwAction = SSA_SERVLIST_ACK;
 		dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, wAction, 0, ack);
@@ -184,38 +178,35 @@ static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char*
 
 static DWORD sendUploadBuddy(CIcqProto* ppro, MCONTACT hContact, WORD wAction, DWORD dwUin, char *szUID, WORD wContactId, WORD wGroupId, WORD wItemType)
 {
-	DWORD dwCookie;
-	cookie_servlist_action* ack;
+	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+	if (ack == NULL)
+		return 0;
+	
+	// we have cookie good, go on
+	ack->hContact = hContact;
+	ack->wContactId = wContactId;
+	ack->wGroupId = wGroupId;
+	ack->dwAction = SSA_SERVLIST_ACK;
+	DWORD dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, wAction, hContact, ack);
+	ack->lParam = dwCookie;
 
-	if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))
-	{ // we have cookie good, go on
-		ack->hContact = hContact;
-		ack->wContactId = wContactId;
-		ack->wGroupId = wGroupId;
-		ack->dwAction = SSA_SERVLIST_ACK;
-		dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, wAction, hContact, ack);
-		ack->lParam = dwCookie;
+	if (wItemType == SSI_ITEM_BUDDY)
+		ppro->icq_sendServerContact(hContact, dwCookie, wAction, ack->wGroupId, ack->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, NULL);
+	else
+		ppro->icq_sendSimpleItem(dwCookie, wAction, dwUin, szUID, ack->wGroupId, ack->wContactId, wItemType, SSOP_ITEM_ACTION, 500);
 
-		if (wItemType == SSI_ITEM_BUDDY)
-			ppro->icq_sendServerContact(hContact, dwCookie, wAction, ack->wGroupId, ack->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, NULL);
-		else
-			ppro->icq_sendSimpleItem(dwCookie, wAction, dwUin, szUID, ack->wGroupId, ack->wContactId, wItemType, SSOP_ITEM_ACTION, 500);
-
-		return dwCookie;
-	}
-	return 0;
+	return dwCookie;
 }
 
 static char* getServerResultDesc(int wCode)
 {
-	switch (wCode)
-	{
-		case 0:   return LPGEN("OK");
-		case 2:   return LPGEN("NOT FOUND");
-		case 3:   return LPGEN("ALREADY EXISTS");
-		case 0xA: return LPGEN("INVALID DATA");
-		case 0xC: return LPGEN("LIST FULL");
-		default:  return LPGEN("FAILED");
+	switch (wCode) {
+	case 0:   return LPGEN("OK");
+	case 2:   return LPGEN("NOT FOUND");
+	case 3:   return LPGEN("ALREADY EXISTS");
+	case 0xA: return LPGEN("INVALID DATA");
+	case 0xC: return LPGEN("LIST FULL");
+	default:  return LPGEN("FAILED");
 	}
 }
 
@@ -245,6 +236,7 @@ static char* getServerResultDesc(int wCode)
 static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact;
 
 	static int working;
 	static HANDLE hProtoAckHook;
@@ -280,195 +272,184 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		// The M_PROTOACK message is received when the
 		// server has responded to our last update packet
 	case M_PROTOACK:
-	{
-		int bMulti = 0;
-		ACKDATA *ack = (ACKDATA*)lParam;
-		char szLastLogLine[MAX_PATH];
-		char str[MAX_PATH];
+		{
+			int bMulti = 0;
+			ACKDATA *ack = (ACKDATA*)lParam;
+			char szLastLogLine[MAX_PATH];
+			char str[MAX_PATH];
 
-		// Is this an ack we are waiting for?
-		if (mir_strcmp(ack->szModule, ppro->m_szModuleName))
-			break;
+			// Is this an ack we are waiting for?
+			if (mir_strcmp(ack->szModule, ppro->m_szModuleName))
+				break;
 
-		if (ack->type == ICQACKTYPE_RATEWARNING) { // we are sending tooo fast, slow down the process
-			if (ack->hProcess != (HANDLE)1) break; // check class
-			if (ack->lParam == 2 || ack->lParam == 3) // check status
-			{
-				GetLastUploadLogLine(hwndDlg, szLastLogLine, MAX_PATH);
-				DeleteLastUploadLogLine(hwndDlg);
-				AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Server rate warning -> slowing down the process."), str, MAX_PATH));
-				AppendToUploadLog(hwndDlg, szLastLogLine);
+			if (ack->type == ICQACKTYPE_RATEWARNING) { // we are sending tooo fast, slow down the process
+				if (ack->hProcess != (HANDLE)1) break; // check class
+				if (ack->lParam == 2 || ack->lParam == 3) { // check status
+					GetLastUploadLogLine(hwndDlg, szLastLogLine, MAX_PATH);
+					DeleteLastUploadLogLine(hwndDlg);
+					AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Server rate warning -> slowing down the process."), str, MAX_PATH));
+					AppendToUploadLog(hwndDlg, szLastLogLine);
 
-				dwUploadDelay *= 2;
+					dwUploadDelay *= 2;
 
+					break;
+				}
+				if (ack->lParam == 4) dwUploadDelay /= 2; // the rate is ok, turn up
+			}
+
+			if (ack->type != ICQACKTYPE_SERVERCLIST)
+				break;
+
+			if ((INT_PTR)ack->hProcess != currentSequence)
+				break;
+
+			lastAckResult = ack->result == ACKRESULT_SUCCESS ? 0 : 1;
+
+			switch (currentAction) {
+			case ACTION_ADDBUDDY:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->setByte(hCurrentContact, "Auth", 0);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
+					break;
+				}
+				else { // If the server refused to add the contact without authorization,
+					// we try again _with_ authorization TLV
+					ppro->setByte(hCurrentContact, "Auth", 1);
+
+					DWORD dwUIN;
+					uid_str szUID;
+					if (!ppro->getContactUid(hCurrentContact, &dwUIN, &szUID)) {
+						currentAction = ACTION_ADDBUDDYAUTH;
+						currentSequence = sendUploadBuddy(ppro, hCurrentContact, ICQ_LISTS_ADDTOLIST, dwUIN, szUID, wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
+					}
+
+					return FALSE;
+				}
+
+			case ACTION_ADDBUDDYAUTH:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
+				}
+				else {
+					db_unset(hCurrentContact, ppro->m_szModuleName, "Auth");
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+				}
+				break;
+
+			case ACTION_REMOVEBUDDY:
+				if (ack->result == ACKRESULT_SUCCESS) { // clear obsolete settings
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+					db_unset(hCurrentContact, ppro->m_szModuleName, DBSETTING_SERVLIST_ID);
+					db_unset(hCurrentContact, ppro->m_szModuleName, DBSETTING_SERVLIST_GROUP);
+					db_unset(hCurrentContact, ppro->m_szModuleName, "Auth");
+				}
+				break;
+
+			case ACTION_ADDGROUP:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->setServListGroupName(wNewGroupId, szNewGroupName); // add group to list
+					ppro->setServListGroupLinkID(szNewGroupName, wNewGroupId); // grouppath is known
+
+					int groupSize;
+					void *groupData = ppro->collectGroups(&groupSize);
+					groupData = SAFE_REALLOC(groupData, groupSize + 2);
+					*(((WORD*)groupData) + (groupSize >> 1)) = wNewGroupId; // add this new group id
+					groupSize += 2;
+
+					cookie_servlist_action *action = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+					if (action) {
+						DWORD dwCookie; // we do not use this
+
+						action->dwAction = SSA_SERVLIST_ACK;
+						dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_UPDATEGROUP, 0, action);
+
+						ppro->icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, action->szGroupName, groupData, groupSize, 0);
+					}
+					SAFE_FREE((void**)&groupData);
+				}
+				else ppro->FreeServerID(wNewGroupId, SSIT_GROUP);
+
+				SAFE_FREE((void**)&szNewGroupName);
+				break;
+
+			case ACTION_REMOVEGROUP:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->FreeServerID(wNewGroupId, SSIT_GROUP);
+					ppro->setServListGroupName(wNewGroupId, NULL); // remove group from list
+					ppro->removeGroupPathLinks(wNewGroupId); // grouppath is known
+
+					int groupSize;
+					void *groupData = ppro->collectGroups(&groupSize);
+
+					cookie_servlist_action *action = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+					if (action) {
+						DWORD dwCookie; // we do not use this
+
+						action->dwAction = SSA_SERVLIST_ACK;
+						dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_UPDATEGROUP, 0, action);
+
+						ppro->icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, action->szGroupName, groupData, groupSize, 0);
+					}
+					SAFE_FREE((void**)&groupData);
+				}
+				break;
+
+			case ACTION_UPDATESTATE:
+				// do nothing
+				break;
+
+			case ACTION_MOVECONTACT:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->FreeServerID(ppro->getWord(hCurrentContact, DBSETTING_SERVLIST_ID, 0), SSIT_ITEM);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
+					dwUploadDelay *= 2; // we double the delay here (2 packets)
+				}
+				break;
+
+			case ACTION_ADDVISIBLE:
+				if (ack->result == ACKRESULT_SUCCESS)
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_PERMIT, wNewContactId);
+				else
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+				break;
+
+			case ACTION_ADDINVISIBLE:
+				if (ack->result == ACKRESULT_SUCCESS)
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_DENY, wNewContactId);
+				else
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+				break;
+
+			case ACTION_REMOVEVISIBLE:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_PERMIT, 0);
+				}
+				break;
+
+			case ACTION_REMOVEINVISIBLE:
+				if (ack->result == ACKRESULT_SUCCESS) {
+					ppro->FreeServerID(wNewContactId, SSIT_ITEM);
+					ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_DENY, 0);
+				}
 				break;
 			}
-			if (ack->lParam == 4) dwUploadDelay /= 2; // the rate is ok, turn up
+
+			// Update the log window
+			GetLastUploadLogLine(hwndDlg, szLastLogLine, MAX_PATH);
+			DeleteLastUploadLogLine(hwndDlg);
+			AppendToUploadLog(hwndDlg, "%s%s", szLastLogLine,
+				ICQTranslateUtfStatic(getServerResultDesc(ack->lParam), str, MAX_PATH));
+
+			if (!bMulti)
+				SetTimer(hwndDlg, M_UPLOADMORE, dwUploadDelay, 0); // delay
 		}
-
-		if (ack->type != ICQACKTYPE_SERVERCLIST)
-			break;
-
-		if ((INT_PTR)ack->hProcess != currentSequence)
-			break;
-
-		lastAckResult = ack->result == ACKRESULT_SUCCESS ? 0 : 1;
-
-		switch (currentAction) {
-		case ACTION_ADDBUDDY:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				ppro->setByte(hCurrentContact, "Auth", 0);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
-				break;
-			}
-			else { // If the server refused to add the contact without authorization,
-				// we try again _with_ authorization TLV
-				ppro->setByte(hCurrentContact, "Auth", 1);
-
-				DWORD dwUIN;
-				uid_str szUID;
-				if (!ppro->getContactUid(hCurrentContact, &dwUIN, &szUID)) {
-					currentAction = ACTION_ADDBUDDYAUTH;
-					currentSequence = sendUploadBuddy(ppro, hCurrentContact, ICQ_LISTS_ADDTOLIST, dwUIN, szUID, wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
-				}
-
-				return FALSE;
-			}
-
-		case ACTION_ADDBUDDYAUTH:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
-			}
-			else {
-				db_unset(hCurrentContact, ppro->m_szModuleName, "Auth");
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-			}
-
-			break;
-
-		case ACTION_REMOVEBUDDY:
-			if (ack->result == ACKRESULT_SUCCESS) { // clear obsolete settings
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-				db_unset(hCurrentContact, ppro->m_szModuleName, DBSETTING_SERVLIST_ID);
-				db_unset(hCurrentContact, ppro->m_szModuleName, DBSETTING_SERVLIST_GROUP);
-				db_unset(hCurrentContact, ppro->m_szModuleName, "Auth");
-			}
-			break;
-
-		case ACTION_ADDGROUP:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				void* groupData;
-				int groupSize;
-				cookie_servlist_action* ack;
-
-				ppro->setServListGroupName(wNewGroupId, szNewGroupName); // add group to list
-				ppro->setServListGroupLinkID(szNewGroupName, wNewGroupId); // grouppath is known
-
-				groupData = ppro->collectGroups(&groupSize);
-				groupData = SAFE_REALLOC(groupData, groupSize + 2);
-				*(((WORD*)groupData) + (groupSize >> 1)) = wNewGroupId; // add this new group id
-				groupSize += 2;
-
-				ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-				if (ack) {
-					DWORD dwCookie; // we do not use this
-
-					ack->dwAction = SSA_SERVLIST_ACK;
-					dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_UPDATEGROUP, 0, ack);
-
-					ppro->icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, ack->szGroupName, groupData, groupSize, 0);
-				}
-				SAFE_FREE((void**)&groupData);
-			}
-			else
-				ppro->FreeServerID(wNewGroupId, SSIT_GROUP);
-
-			SAFE_FREE((void**)&szNewGroupName);
-			break;
-
-		case ACTION_REMOVEGROUP:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				void* groupData;
-				int groupSize;
-				cookie_servlist_action* ack;
-
-				ppro->FreeServerID(wNewGroupId, SSIT_GROUP);
-				ppro->setServListGroupName(wNewGroupId, NULL); // remove group from list
-				ppro->removeGroupPathLinks(wNewGroupId); // grouppath is known
-
-				groupData = ppro->collectGroups(&groupSize);
-
-				ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-				if (ack) {
-					DWORD dwCookie; // we do not use this
-
-					ack->dwAction = SSA_SERVLIST_ACK;
-					dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_UPDATEGROUP, 0, ack);
-
-					ppro->icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, ack->szGroupName, groupData, groupSize, 0);
-				}
-				SAFE_FREE((void**)&groupData);
-			}
-			break;
-
-		case ACTION_UPDATESTATE:
-			// do nothing
-			break;
-
-		case ACTION_MOVECONTACT:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				ppro->FreeServerID(ppro->getWord(hCurrentContact, DBSETTING_SERVLIST_ID, 0), SSIT_ITEM);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_ID, wNewContactId);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_GROUP, wNewGroupId);
-				dwUploadDelay *= 2; // we double the delay here (2 packets)
-			}
-			break;
-
-		case ACTION_ADDVISIBLE:
-			if (ack->result == ACKRESULT_SUCCESS)
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_PERMIT, wNewContactId);
-			else
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-			break;
-
-		case ACTION_ADDINVISIBLE:
-			if (ack->result == ACKRESULT_SUCCESS)
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_DENY, wNewContactId);
-			else
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-			break;
-
-		case ACTION_REMOVEVISIBLE:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_PERMIT, 0);
-			}
-			break;
-
-		case ACTION_REMOVEINVISIBLE:
-			if (ack->result == ACKRESULT_SUCCESS) {
-				ppro->FreeServerID(wNewContactId, SSIT_ITEM);
-				ppro->setWord(hCurrentContact, DBSETTING_SERVLIST_DENY, 0);
-			}
-			break;
-		}
-
-		// Update the log window
-		GetLastUploadLogLine(hwndDlg, szLastLogLine, MAX_PATH);
-		DeleteLastUploadLogLine(hwndDlg);
-		AppendToUploadLog(hwndDlg, "%s%s", szLastLogLine,
-								ICQTranslateUtfStatic(getServerResultDesc(ack->lParam), str, MAX_PATH));
-
-		if (!bMulti) {
-			SetTimer(hwndDlg, M_UPLOADMORE, dwUploadDelay, 0); // delay
-		}
-	}
 		break;
 
 	case WM_TIMER:
-	{
 		switch (wParam) {
 		case M_UPLOADMORE:
 			KillTimer(hwndDlg, M_UPLOADMORE);
@@ -476,31 +457,19 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 				dwUploadDelay /= 2; // turn it back
 
 			PostMessage(hwndDlg, M_UPLOADMORE, 0, 0);
-
 			return 0;
 		}
-	}
 
 		// The M_UPLOADMORE window message is received when the user presses 'Update'
 		// and every time an ack from the server has been taken care of.
 	case M_UPLOADMORE:
 		{
-			MCONTACT hContact;
-			HANDLE hItem;
-			char *pszNick;
-			char *pszGroup;
-			int isChecked;
-			int isOnServer;
-			BOOL bUidOk;
 			char str[MAX_PATH];
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
 
 			switch (currentState) {
 			case STATE_REGROUP:
-
 				// TODO: iterate over all checked groups and create if needed
 				// if creation requires reallocation of groups do it here
-
 				currentState = STATE_ITEMS;
 				hCurrentContact = NULL;
 				PostMessage(hwndDlg, M_UPLOADMORE, 0, 0);
@@ -520,22 +489,23 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 				while (hContact) {
 					hCurrentContact = hContact;
 
-					hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
+					HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
+					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
-						isChecked = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0) != 0;
-						isOnServer = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0) != 0;
+						int isChecked = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0) != 0;
+						int isOnServer = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0) != 0;
 
 						DWORD dwUin;
 						uid_str szUid;
-						bUidOk = !ppro->getContactUid(hContact, &dwUin, &szUid);
+						BOOL bUidOk = !ppro->getContactUid(hContact, &dwUin, &szUid);
 
 						// Is this one out of sync?
 						if (bUidOk && (isChecked != isOnServer)) {
 							// Only upload custom nicks
-							pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
+							char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
 
 							if (isChecked) {  // Queue for uploading
-								pszGroup = ppro->getContactCListGroup(hContact);
+								char *pszGroup = ppro->getContactCListGroup(hContact);
 								if (!mir_strlen(pszGroup))
 									pszGroup = null_strdup(DEFAULT_SS_GROUP);
 
@@ -566,11 +536,11 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 									wNewContactId = ppro->GenerateServerID(SSIT_ITEM, 0);
 
 									currentSequence = sendUploadBuddy(ppro, hCurrentContact, ICQ_LISTS_ADDTOLIST, dwUin, szUid,
-																				 wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
+										wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
 									SAFE_FREE(&pszNick);
 									return FALSE;
 								}
-								
+
 								char szLastLogLine[MAX_PATH];
 								// Update the log window with the failure and continue with next contact
 								GetLastUploadLogLine(hwndDlg, szLastLogLine, MAX_PATH);
@@ -590,7 +560,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 								wNewContactId = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 								currentAction = ACTION_REMOVEBUDDY;
 								currentSequence = sendUploadBuddy(ppro, hContact, ICQ_LISTS_REMOVEFROMLIST, dwUin, szUid,
-																			 wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
+									wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
 							}
 							SAFE_FREE((void**)&pszNick);
 							break;
@@ -600,9 +570,10 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 						if (bUidOk && isChecked) {
 							WORD wCurrentGroupId = ppro->getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
 
-							pszGroup = ppro->getContactCListGroup(hContact);
+							char *pszGroup = ppro->getContactCListGroup(hContact);
 							if (!mir_strlen(pszGroup))
 								pszGroup = null_strdup(DEFAULT_SS_GROUP);
+
 							wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
 							if (!wNewGroupId && strstrnull(pszGroup, "\\") != NULL) { // if it is sub-group, take master parent
 								strstrnull(pszGroup, "\\")[0] = '\0';
@@ -624,7 +595,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 							if (wNewGroupId && (wNewGroupId != wCurrentGroupId)) {
 								WORD wCurrentContactId = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 
-								pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
+								char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
 								if (pszNick)
 									AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Moving %s to group \"%s\"..."), str, MAX_PATH), pszNick, pszGroup);
 								else
@@ -733,7 +704,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 					wNewGroupId = pwGroupIds[cbGroupIds];
 
 					if (groupData = ppro->collectBuddyGroup(wNewGroupId, &groupSize)) { // the group is still not empty, just update it
-						char* pszGroup = ppro->getServListGroupName(wNewGroupId);
+						char *pszGroup = ppro->getServListGroupName(wNewGroupId);
 						cookie_servlist_action* ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 
 						ack->dwAction = SSA_SERVLIST_ACK;
@@ -789,7 +760,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 				// end server modifications here
 				ppro->servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
 				working = 0;
-				UpdateCheckmarks(hwndList, ppro, hItemAll);
+				UpdateCheckmarks(GetDlgItem(hwndDlg, IDC_CLIST), ppro, hItemAll);
 				if (hProtoAckHook)
 					UnhookEvent(hProtoAckHook);
 			}
@@ -810,10 +781,9 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			currentState = STATE_REGROUP;
 			currentAction = ACTION_NONE;
 			icq_ShowMultipleControls(hwndDlg, settingsControls, _countof(settingsControls), SW_HIDE);
-			//        SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0xFFFFFFFF, 0);
-			//        InvalidateRect(GetDlgItem(hwndDlg, IDC_CLIST), NULL, FALSE);
 			EnableDlgItem(hwndDlg, IDC_CLIST, FALSE);
 			hProtoAckHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, M_PROTOACK);
+
 			// start server modifications here
 			ppro->servlistPostPacket(NULL, 0, SSO_BEGIN_OPERATION | SSOF_IMPORT_OPERATION, 100);
 			PostMessage(hwndDlg, M_UPLOADMORE, 0, 0);
@@ -826,67 +796,63 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		break;
 
 	case WM_NOTIFY:
-		switch (((NMHDR*)lParam)->idFrom) {
-		case IDC_CLIST:
-			{
-				HWND hClist = GetDlgItem(hwndDlg, IDC_CLIST);
+		if (((NMHDR*)lParam)->idFrom == IDC_CLIST) {
+			HWND hClist = GetDlgItem(hwndDlg, IDC_CLIST);
 
-				switch (((NMHDR*)lParam)->code) {
-				case CLN_OPTIONSCHANGED:
-					ResetCListOptions(hClist);
-					break;
+			switch (((NMHDR*)lParam)->code) {
+			case CLN_OPTIONSCHANGED:
+				ResetCListOptions(hClist);
+				break;
 
-				case CLN_NEWCONTACT:
-				case CLN_CONTACTMOVED:
+			case CLN_NEWCONTACT:
+			case CLN_CONTACTMOVED:
+				// Delete non-icq contacts
+				DeleteOtherContactsFromControl(hClist, ppro);
+				if (hItemAll)
+					UpdateAllContactsCheckmark(hClist, ppro, hItemAll);
+				break;
+
+			case CLN_LISTREBUILT:
+				{
+					int bCheck = false;
+
 					// Delete non-icq contacts
-					DeleteOtherContactsFromControl(hClist, ppro);
-					if (hItemAll)
-						UpdateAllContactsCheckmark(hClist, ppro, hItemAll);
-					break;
-
-				case CLN_LISTREBUILT:
-					{
-						int bCheck = false;
-
-						// Delete non-icq contacts
-						if (ppro) {
-							DeleteOtherContactsFromControl(hClist, ppro);
-							if (!bListInit) // do not enter twice
-								bCheck = UpdateCheckmarks(hClist, ppro, NULL);
-						}
-
-						if (!hItemAll) { // Add the "All contacts" item
-							CLCINFOITEM cii = { 0 };
-							cii.cbSize = sizeof(cii);
-							cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-							cii.pszText = TranslateT(LPGEN("** All contacts **"));
-							hItemAll = (HANDLE)SendMessage(hClist, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-						}
-
-						SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItemAll, bCheck);
+					if (ppro) {
+						DeleteOtherContactsFromControl(hClist, ppro);
+						if (!bListInit) // do not enter twice
+							bCheck = UpdateCheckmarks(hClist, ppro, NULL);
 					}
-					break;
 
-				case CLN_CHECKCHANGED:
-					if (!bListInit) {
-						NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-						if (nm->flags&CLNF_ISINFO) {
-							int check = SendMessage(hClist, CLM_GETCHECKMARK, (WPARAM)hItemAll, 0);
-
-							MCONTACT hContact = db_find_first(ppro->m_szModuleName);
-							while (hContact) {
-								HANDLE hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, hContact, 0);
-								if (hItem)
-									SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItem, check);
-								hContact = db_find_next(hContact, ppro->m_szModuleName);
-							}
-						}
-						else UpdateAllContactsCheckmark(hClist, ppro, hItemAll);
+					if (!hItemAll) { // Add the "All contacts" item
+						CLCINFOITEM cii = { 0 };
+						cii.cbSize = sizeof(cii);
+						cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
+						cii.pszText = TranslateT(LPGEN("** All contacts **"));
+						hItemAll = (HANDLE)SendMessage(hClist, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 					}
-					break;
+
+					SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItemAll, bCheck);
 				}
+				break;
+
+			case CLN_CHECKCHANGED:
+				if (!bListInit) {
+					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
+					if (nm->flags&CLNF_ISINFO) {
+						int check = SendMessage(hClist, CLM_GETCHECKMARK, (WPARAM)hItemAll, 0);
+
+						hContact = db_find_first(ppro->m_szModuleName);
+						while (hContact) {
+							HANDLE hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, hContact, 0);
+							if (hItem)
+								SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItem, check);
+							hContact = db_find_next(hContact, ppro->m_szModuleName);
+						}
+					}
+					else UpdateAllContactsCheckmark(hClist, ppro, hItemAll);
+				}
+				break;
 			}
-			break;
 		}
 		break;
 

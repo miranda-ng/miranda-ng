@@ -52,12 +52,12 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 
 	mir_cslock lck(proto->csSend);
 
-	va_start(vararg,fmt);
+	va_start(vararg, fmt);
 	size = 512;
-	str = (char *) mir_alloc(size);
+	str = (char *)mir_alloc(size);
 	while (mir_vsnprintf(str, size, fmt, vararg) == -1) {
 		size += 512;
-		str = (char *) mir_realloc(str, size);
+		str = (char *)mir_realloc(str, size);
 	}
 	va_end(vararg);
 
@@ -66,7 +66,8 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 	if (proto->threadData != NULL) {
 		if (proto->threadData->useAES) {
 			result = TlenWsSendAES(proto, str, size, &proto->threadData->aes_out_context, proto->threadData->aes_out_iv);
-		} else {
+		}
+		else {
 			result = TlenWsSend(proto, proto->threadData->s, str, size);
 		}
 	}
@@ -81,12 +82,12 @@ char *TlenResourceFromJID(const char *jid2)
 	char *nick;
 	char* jid = mir_strdup(jid2);
 
-	p=strchr(jid, '/');
+	p = strchr(jid, '/');
 	if (p != NULL && p[1] != '\0') {
 		p++;
-		if ((nick=(char *) mir_alloc(1+mir_strlen(jid)-(p-jid))) != NULL) {
-			strncpy(nick, p, mir_strlen(jid)-(p-jid));
-			nick[mir_strlen(jid)-(p-jid)] = '\0';
+		if ((nick = (char *)mir_alloc(1 + mir_strlen(jid) - (p - jid))) != NULL) {
+			strncpy(nick, p, mir_strlen(jid) - (p - jid));
+			nick[mir_strlen(jid) - (p - jid)] = '\0';
 		}
 	}
 	else {
@@ -103,12 +104,12 @@ char *TlenNickFromJID(const char *jid2)
 	char *nick;
 	char* jid = mir_strdup(jid2);
 
-	if ((p=strchr(jid, '@')) == NULL)
+	if ((p = strchr(jid, '@')) == NULL)
 		p = strchr(jid, '/');
 	if (p != NULL) {
-		if ((nick=(char *) mir_alloc((p-jid)+1)) != NULL) {
-			strncpy(nick, jid, p-jid);
-			nick[p-jid] = '\0';
+		if ((nick = (char *)mir_alloc((p - jid) + 1)) != NULL) {
+			strncpy(nick, jid, p - jid);
+			nick[p - jid] = '\0';
 		}
 	}
 	else {
@@ -127,9 +128,9 @@ char *TlenLoginFromJID(const char *jid2)
 
 	p = strchr(jid, '/');
 	if (p != NULL) {
-		if ((nick=(char *) mir_alloc((p-jid)+1)) != NULL) {
-			strncpy(nick, jid, p-jid);
-			nick[p-jid] = '\0';
+		if ((nick = (char *)mir_alloc((p - jid) + 1)) != NULL) {
+			strncpy(nick, jid, p - jid);
+			nick[p - jid] = '\0';
 		}
 	}
 	else {
@@ -157,13 +158,13 @@ char *TlenSha1(char *str)
 	DWORD digest[5];
 	char* result;
 
-	if ( str == NULL )
+	if (str == NULL)
 		return NULL;
 
-	mir_sha1_init( &sha );
-	mir_sha1_append( &sha, (BYTE* )str, (int)mir_strlen( str ));
-	mir_sha1_finish( &sha, (BYTE* )digest );
-	if ((result=(char *)mir_alloc(41)) == NULL)
+	mir_sha1_init(&sha);
+	mir_sha1_append(&sha, (BYTE*)str, (int)mir_strlen(str));
+	mir_sha1_finish(&sha, (BYTE*)digest);
+	if ((result = (char *)mir_alloc(41)) == NULL)
 		return NULL;
 	sprintf(result, "%08x%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4])); //!!!!!!!!!!!
 	return result;
@@ -176,16 +177,16 @@ char *TlenSha1(char *str, int len)
 	char* result;
 	int i;
 
-	if ( str == NULL )
+	if (str == NULL)
 		return NULL;
 
-	mir_sha1_init( &sha );
-	mir_sha1_append( &sha, (BYTE* )str, len);
-	mir_sha1_finish( &sha, digest );
-	if (( result=( char* )mir_alloc( 20 )) == NULL )
+	mir_sha1_init(&sha);
+	mir_sha1_append(&sha, (BYTE*)str, len);
+	mir_sha1_finish(&sha, digest);
+	if ((result = (char*)mir_alloc(20)) == NULL)
 		return NULL;
-	for (i=0; i<20; i++)
-		result[i]=digest[4*(i>>2)+(3-(i&0x3))];
+	for (i = 0; i < 20; i++)
+		result[i] = digest[4 * (i >> 2) + (3 - (i & 0x3))];
 	return result;
 }
 
@@ -195,16 +196,16 @@ char *TlenPasswordHash(const char *str)
 	char *p, *res;
 
 	if (str == NULL) return NULL;
-	for (p=(char *)str; *p != '\0'; p++) {
+	for (p = (char *)str; *p != '\0'; p++) {
 		if (*p != ' ' && *p != '\t') {
-			magic1 ^= (((magic1 & 0x3f) + sum) * ((char) *p)) + (magic1 << 8);
+			magic1 ^= (((magic1 & 0x3f) + sum) * ((char)*p)) + (magic1 << 8);
 			magic2 += (magic2 << 8) ^ magic1;
-			sum += ((char) *p);
+			sum += ((char)*p);
 		}
 	}
 	magic1 &= 0x7fffffff;
 	magic2 &= 0x7fffffff;
-	res = (char *) mir_alloc(17);
+	res = (char *)mir_alloc(17);
 	sprintf(res, "%08x%08x", magic1, magic2); //!!!!!!!!!!!
 	return res;
 }
@@ -215,21 +216,21 @@ char *TlenUrlEncode(const char *str)
 	unsigned char c;
 
 	if (str == NULL) return NULL;
-	res = (char *) mir_alloc(3*mir_strlen(str) + 1);
-	for (p=(char *)str,q=res; *p != '\0'; p++,q++) {
+	res = (char *)mir_alloc(3 * mir_strlen(str) + 1);
+	for (p = (char *)str, q = res; *p != '\0'; p++, q++) {
 		if (*p == ' ') {
 			*q = '+';
 		}
 		else if (*p < 0x20 || *p >= 0x7f || strchr("%&+:'<>\"", *p) != NULL) {
 			// Convert first from CP1252 to ISO8859-2
-			switch ((unsigned char) *p) {
-			case 0xa5: c = (unsigned char) 0xa1; break;
-			case 0x8c: c = (unsigned char) 0xa6; break;
-			case 0x8f: c = (unsigned char) 0xac; break;
-			case 0xb9: c = (unsigned char) 0xb1; break;
-			case 0x9c: c = (unsigned char) 0xb6; break;
-			case 0x9f: c = (unsigned char) 0xbc; break;
-			default: c = (unsigned char) *p; break;
+			switch ((unsigned char)*p) {
+			case 0xa5: c = (unsigned char)0xa1; break;
+			case 0x8c: c = (unsigned char)0xa6; break;
+			case 0x8f: c = (unsigned char)0xac; break;
+			case 0xb9: c = (unsigned char)0xb1; break;
+			case 0x9c: c = (unsigned char)0xb6; break;
+			case 0x9f: c = (unsigned char)0xbc; break;
+			default: c = (unsigned char)*p; break;
 			}
 			sprintf(q, "%%%02X", c); //!!!!!!!!!!!
 			q += 2;
@@ -248,21 +249,21 @@ void TlenUrlDecode(char *str)
 	unsigned int code;
 
 	if (str == NULL) return;
-	for (p=q=str; *p != '\0'; p++,q++) {
+	for (p = q = str; *p != '\0'; p++, q++) {
 		if (*p == '+') {
 			*q = ' ';
 		}
-		else if (*p == '%' && *(p+1) != '\0' && isxdigit(*(p+1)) && *(p+2) != '\0' && isxdigit(*(p+2))) {
-			sscanf(p+1, "%2x", &code);
-			*q = (char) code;
+		else if (*p == '%' && *(p + 1) != '\0' && isxdigit(*(p + 1)) && *(p + 2) != '\0' && isxdigit(*(p + 2))) {
+			sscanf(p + 1, "%2x", &code);
+			*q = (char)code;
 			// Convert from ISO8859-2 to CP1252
-			switch ((unsigned char) *q) {
-			case 0xa1: *q = (char) 0xa5; break;
-			case 0xa6: *q = (char) 0x8c; break;
-			case 0xac: *q = (char) 0x8f; break;
-			case 0xb1: *q = (char) 0xb9; break;
-			case 0xb6: *q = (char) 0x9c; break;
-			case 0xbc: *q = (char) 0x9f; break;
+			switch ((unsigned char)*q) {
+			case 0xa1: *q = (char)0xa5; break;
+			case 0xa6: *q = (char)0x8c; break;
+			case 0xac: *q = (char)0x8f; break;
+			case 0xb1: *q = (char)0xb9; break;
+			case 0xb6: *q = (char)0x9c; break;
+			case 0xbc: *q = (char)0x9f; break;
 			}
 			p += 2;
 		}
@@ -306,7 +307,7 @@ char *TlenTextEncode(const char *str)
 	char *s1;
 
 	if (str == NULL) return NULL;
-	if ((s1=TlenUrlEncode(str)) == NULL)
+	if ((s1 = TlenUrlEncode(str)) == NULL)
 		return NULL;
 	return s1;
 }
@@ -328,11 +329,12 @@ char *TlenTextDecode(const char *str)
 time_t  TlenTimeToUTC(time_t time) {
 	struct tm *timestamp;
 	timestamp = gmtime(&time);
-	if ( (timestamp->tm_mon > 2 && timestamp->tm_mon < 9) ||
-		 (timestamp->tm_mon == 2 && timestamp->tm_mday - timestamp->tm_wday >= 25) ||
-		 (timestamp->tm_mon == 9 && timestamp->tm_mday - timestamp->tm_wday < 25)) {
+	if ((timestamp->tm_mon > 2 && timestamp->tm_mon < 9) ||
+		(timestamp->tm_mon == 2 && timestamp->tm_mday - timestamp->tm_wday >= 25) ||
+		(timestamp->tm_mon == 9 && timestamp->tm_mday - timestamp->tm_wday < 25)) {
 		//time -= 3600;
-	} else {
+	}
+	else {
 		//time += 3600;
 	}
 	return time;
@@ -346,39 +348,39 @@ time_t TlenIsoToUnixTime(char *stamp)
 	int i, y;
 	time_t t;
 
-	if (stamp == NULL) return (time_t) 0;
+	if (stamp == NULL) return (time_t)0;
 
 	p = stamp;
 
 	// Get the date part
-	for (i=0; *p != '\0' && i<8 && isdigit(*p); p++,i++)
+	for (i = 0; *p != '\0' && i < 8 && isdigit(*p); p++, i++)
 		date[i] = *p;
 
 	// Parse year
 	if (i == 6) {
 		// 2-digit year (1970-2069)
-		y = (date[0]-'0')*10 + (date[1]-'0');
+		y = (date[0] - '0') * 10 + (date[1] - '0');
 		if (y < 70) y += 100;
 	}
 	else if (i == 8) {
 		// 4-digit year
-		y = (date[0]-'0')*1000 + (date[1]-'0')*100 + (date[2]-'0')*10 + date[3]-'0';
+		y = (date[0] - '0') * 1000 + (date[1] - '0') * 100 + (date[2] - '0') * 10 + date[3] - '0';
 		y -= 1900;
 	}
 	else
-		return (time_t) 0;
+		return (time_t)0;
 	timestamp.tm_year = y;
 	// Parse month
-	timestamp.tm_mon = (date[i-4]-'0')*10 + date[i-3]-'0' - 1;
+	timestamp.tm_mon = (date[i - 4] - '0') * 10 + date[i - 3] - '0' - 1;
 	// Parse date
-	timestamp.tm_mday = (date[i-2]-'0')*10 + date[i-1]-'0';
+	timestamp.tm_mday = (date[i - 2] - '0') * 10 + date[i - 1] - '0';
 
 	// Skip any date/time delimiter
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
 	if (sscanf(p, "%d:%d:%d", &(timestamp.tm_hour), &(timestamp.tm_min), &(timestamp.tm_sec)) != 3)
-		return (time_t) 0;
+		return (time_t)0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
 	_tzset();
@@ -389,7 +391,7 @@ time_t TlenIsoToUnixTime(char *stamp)
 	if (t >= 0)
 		return t;
 	else
-		return (time_t) 0;
+		return (time_t)0;
 }
 
 void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
@@ -402,7 +404,7 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 
 	if (*str == NULL || *sizeAlloced <= 0) {
 		*sizeAlloced = size = 2048;
-		*str = (char *) mir_alloc(size);
+		*str = (char *)mir_alloc(size);
 		len = 0;
 	}
 	else {
@@ -415,7 +417,7 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 	while (mir_vsnprintf(p, size, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
-		*str = (char *) mir_realloc(*str, *sizeAlloced);
+		*str = (char *)mir_realloc(*str, *sizeAlloced);
 		p = *str + len;
 	}
 	va_end(vararg);

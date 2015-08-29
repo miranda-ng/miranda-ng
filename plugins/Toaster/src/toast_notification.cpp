@@ -186,7 +186,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	return SetTextValues(textValues, _countof(textValues), *xml);
 }
 
-HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** notification)
+HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** _notification)
 {
 	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocument> xml;
 	HRESULT hr = CreateXml(&xml);
@@ -198,7 +198,7 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	if (FAILED(hr))
 		return hr;
 
-	return hr = factory->CreateToastNotification(xml.Get(), notification);
+	return hr = factory->CreateToastNotification(xml.Get(), _notification);
 }
 
 HRESULT ToastNotification::Show()

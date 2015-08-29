@@ -35,17 +35,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 DWORD_PTR TlenProtocol::GetCaps(int type, MCONTACT)
 {
-	switch(type) {
+	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM|PF1_AUTHREQ|PF1_SERVERCLIST|PF1_MODEMSG|PF1_BASICSEARCH|PF1_SEARCHBYEMAIL|PF1_EXTSEARCH|PF1_EXTSEARCHUI|PF1_SEARCHBYNAME|PF1_FILE;//|PF1_VISLIST|PF1_INVISLIST;
+		return PF1_IM | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_MODEMSG | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_EXTSEARCH | PF1_EXTSEARCHUI | PF1_SEARCHBYNAME | PF1_FILE;//|PF1_VISLIST|PF1_INVISLIST;
 	case PFLAGNUM_2:
-		return PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_HEAVYDND|PF2_FREECHAT;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_3:
-		return PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_HEAVYDND|PF2_FREECHAT;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH|PF4_NOCUSTOMAUTH|PF4_SUPPORTTYPING|PF4_AVATARS|PF4_IMSENDOFFLINE|PF4_OFFLINEFILES;
+		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) Translate("Tlen login");
+		return (INT_PTR)Translate("Tlen login");
 	case PFLAG_UNIQUEIDSETTING:
 		return (INT_PTR) "jid";
 	default:
@@ -67,10 +67,11 @@ int TlenRunSearch(TlenProtocol *proto) {
 		TlenIqAdd(proto, iqId, IQ_PROC_GETSEARCH, TlenIqResultSearch);
 		if (proto->searchIndex == 0) {
 			TlenSend(proto, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'>%s</query></iq>", iqId, proto->searchQuery);
-		} else {
+		}
+		else {
 			TlenSend(proto, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'>%s<f>%d</f></query></iq>", iqId, proto->searchQuery, proto->searchIndex * TLEN_MAX_SEARCH_RESULTS_PER_PAGE);
 		}
-		proto->searchIndex ++;
+		proto->searchIndex++;
 	}
 	return iqId;
 }
@@ -91,7 +92,7 @@ HANDLE TlenProtocol::SearchBasic(const TCHAR* id)
 	if (!isOnline) return 0;
 	if (id == NULL) return 0;
 	char* id_A = mir_t2a(id);
-	char *jid=TlenTextEncode(id_A);
+	char *jid = TlenTextEncode(id_A);
 	if (jid != NULL) {
 		searchJID = mir_strdup(id_A);
 		TlenResetSearchQuery(this);
@@ -111,7 +112,7 @@ HANDLE TlenProtocol::SearchByEmail(const TCHAR* email)
 	if (email == NULL) return 0;
 
 	char* email_A = mir_t2a(email);
-	char *emailEnc=TlenTextEncode(email_A);
+	char *emailEnc = TlenTextEncode(email_A);
 	if (emailEnc != NULL) {
 		TlenResetSearchQuery(this);
 		TlenStringAppend(&searchQuery, &searchQueryLen, "<email>%s</email>", emailEnc);
@@ -136,19 +137,19 @@ HANDLE TlenProtocol::SearchByName(const TCHAR* nickT, const TCHAR* firstNameT, c
 	TlenResetSearchQuery(this);
 
 	if (nick != NULL && nick[0] != '\0') {
-		if ((p=TlenTextEncode(nick)) != NULL) {
+		if ((p = TlenTextEncode(nick)) != NULL) {
 			TlenStringAppend(&searchQuery, &searchQueryLen, "<nick>%s</nick>", p);
 			mir_free(p);
 		}
 	}
 	if (firstName != NULL && firstName[0] != '\0') {
-		if ((p=TlenTextEncode(firstName)) != NULL) {
+		if ((p = TlenTextEncode(firstName)) != NULL) {
 			TlenStringAppend(&searchQuery, &searchQueryLen, "<first>%s</first>", p);
 			mir_free(p);
 		}
 	}
 	if (lastName != NULL && lastName[0] != '\0') {
-		if ((p=TlenTextEncode(lastName)) != NULL) {
+		if ((p = TlenTextEncode(lastName)) != NULL) {
 			TlenStringAppend(&searchQuery, &searchQueryLen, "<last>%s</last>", p);
 			mir_free(p);
 		}
@@ -160,7 +161,7 @@ HANDLE TlenProtocol::SearchByName(const TCHAR* nickT, const TCHAR* firstNameT, c
 
 HWND TlenProtocol::CreateExtendedSearchUI(HWND owner)
 {
-	return (HWND) CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADVSEARCH), owner, TlenAdvSearchDlgProc);
+	return (HWND)CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADVSEARCH), owner, TlenAdvSearchDlgProc);
 }
 
 HWND TlenProtocol::SearchAdvanced(HWND owner)
@@ -182,10 +183,10 @@ static MCONTACT AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD fl
 	if (hContact == NULL) {
 		// not already there: add
 		char *jid = mir_strdup(newJid); _strlwr(jid);
-		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		Proto_AddToContact(hContact, proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
-		char *nick=TlenNickFromJID(newJid);
+		char *nick = TlenNickFromJID(newJid);
 		if (nick == NULL)
 			nick = mir_strdup(newJid);
 		db_set_s(hContact, "CList", "MyHandle", nick);
@@ -227,7 +228,7 @@ MCONTACT TlenProtocol::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
-	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
@@ -238,24 +239,24 @@ MCONTACT TlenProtocol::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 		return NULL;
 	}
 
-/*
-	// EVENTTYPE_CONTACTS is when adding from when we receive contact list (not used in Tlen)
-	// EVENTTYPE_ADDED is when adding from when we receive "You are added" (also not used in Tlen)
-	// Tlen will only handle the case of EVENTTYPE_AUTHREQUEST
-	// EVENTTYPE_AUTHREQUEST is when adding from the authorization request dialog
-*/
+	/*
+		// EVENTTYPE_CONTACTS is when adding from when we receive contact list (not used in Tlen)
+		// EVENTTYPE_ADDED is when adding from when we receive "You are added" (also not used in Tlen)
+		// Tlen will only handle the case of EVENTTYPE_AUTHREQUEST
+		// EVENTTYPE_AUTHREQUEST is when adding from the authorization request dialog
+	*/
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
 	char *firstName = nick + mir_strlen(nick) + 1;
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
 
-	MCONTACT hContact = (MCONTACT) AddToListByJID(this, jid, flags);
+	MCONTACT hContact = (MCONTACT)AddToListByJID(this, jid, flags);
 	mir_free(dbei.pBlob);
 	return hContact;
 }
@@ -268,9 +269,9 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)-1)
 		return 1;
-	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)
 		return 1;
-	if (db_event_get(hDbEvent, &dbei)){
+	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
 		return 1;
 	}
@@ -283,7 +284,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 		return 1;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
 	char *firstName = nick + mir_strlen(nick) + 1;
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
@@ -297,7 +298,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 
 		if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 			debugLogA("Try adding contact automatically jid=%s", jid);
-			if ((hContact=AddToListByJID(this, jid, 0)) != NULL) {
+			if ((hContact = AddToListByJID(this, jid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and TlenDbSettingChanged().
 				db_unset(hContact, "CList", "NotOnList");
@@ -317,7 +318,7 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
-	if ((dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)
 		return 1;
 	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
@@ -332,7 +333,7 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 		return 1;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
 	char *firstName = nick + mir_strlen(nick) + 1;
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
@@ -346,15 +347,15 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 static void TlenConnect(TlenProtocol *proto, int initialStatus)
 {
 	if (!proto->isConnected) {
-		ThreadData *thread = (ThreadData *) mir_alloc(sizeof(ThreadData));
+		ThreadData *thread = (ThreadData *)mir_alloc(sizeof(ThreadData));
 		memset(thread, 0, sizeof(ThreadData));
 		thread->proto = proto;
 		proto->m_iDesiredStatus = initialStatus;
 
 		int oldStatus = proto->m_iStatus;
 		proto->m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, proto->m_iStatus);
-		thread->hThread = (HANDLE) forkthread((void (__cdecl *)(void*))TlenServerThread, 0, thread);
+		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, proto->m_iStatus);
+		thread->hThread = (HANDLE)forkthread((void(__cdecl *)(void*))TlenServerThread, 0, thread);
 	}
 }
 
@@ -377,8 +378,8 @@ int TlenProtocol::SetStatus(int iNewStatus)
 			threadData = NULL;
 			if (isConnected) {
 				Sleep(200);
-//				TlenSend(s, "</s>");
-				// Force closing connection
+				//				TlenSend(s, "</s>");
+								// Force closing connection
 				isConnected = FALSE;
 				isOnline = FALSE;
 				Netlib_CloseHandle(s);
@@ -393,9 +394,10 @@ int TlenProtocol::SetStatus(int iNewStatus)
 		}
 	}
 	else if (iNewStatus != m_iStatus) {
-		if (!isConnected){
+		if (!isConnected) {
 			TlenConnect(this, iNewStatus);
-		} else {
+		}
+		else {
 			// change status
 			oldStatus = m_iStatus;
 			// send presence update
@@ -477,10 +479,11 @@ int TlenProtocol::GetInfo(MCONTACT hContact, int)
 		iqId = TlenSerialNext(this);
 		TlenIqAdd(this, iqId, IQ_PROC_NONE, TlenIqResultVcard);
 		TlenSend(this, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:register'></query></iq>", iqId);
-	} else {
+	}
+	else {
 		if (db_get(hContact, m_szModuleName, "jid", &dbv)) return 1;
-		if ((nick=TlenNickFromJID(dbv.pszVal)) != NULL) {
-			if ((pNick=TlenTextEncode(nick)) != NULL) {
+		if ((nick = TlenNickFromJID(dbv.pszVal)) != NULL) {
+			if ((pNick = TlenTextEncode(nick)) != NULL) {
 				iqId = TlenSerialNext(this);
 				TlenIqAdd(this, iqId, IQ_PROC_NONE, TlenIqResultVcard);
 				TlenSend(this, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'><i>%s</i></query></iq>", iqId, pNick);
@@ -503,8 +506,8 @@ int TlenProtocol::SetApparentMode(MCONTACT hContact, int mode)
 	if (!db_get_b(NULL, m_szModuleName, "VisibilitySupport", FALSE)) return 0;
 	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE) return 1;
 	oldMode = db_get_w(hContact, m_szModuleName, "ApparentMode", 0);
-	if ((int) mode == oldMode) return 1;
-	db_set_w(hContact, m_szModuleName, "ApparentMode", (WORD) mode);
+	if ((int)mode == oldMode) return 1;
+	db_set_w(hContact, m_szModuleName, "ApparentMode", (WORD)mode);
 	if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		jid = dbv.pszVal;
 		switch (mode) {
@@ -532,9 +535,9 @@ int TlenProtocol::SetApparentMode(MCONTACT hContact, int mode)
 
 struct SENDACKTHREADDATA
 {
-	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, MCONTACT _hContact, int _msgid=0) :
+	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, MCONTACT _hContact, int _msgid = 0) :
 		proto(_ppro), hContact(_hContact), msgid(_msgid)
-		{}
+	{}
 
 	TlenProtocol *proto;
 	MCONTACT hContact;
@@ -565,25 +568,28 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	Sleep(50);
 
 	if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
-		TLEN_LIST_ITEM *item=TlenListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal);
+		TLEN_LIST_ITEM *item = TlenListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal);
 		if (item != NULL) {
 			db_free(&dbv);
 			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1,
 				item->statusMessage == NULL ? NULL : _A2T(item->statusMessage));
-		} else {
+		}
+		else {
 			ptrA ownJid(db_get_sa(NULL, data->proto->m_szModuleName, "jid"));
-			if (!mir_strcmp(ownJid, dbv.pszVal)){
+			if (!mir_strcmp(ownJid, dbv.pszVal)) {
 				DBVARIANT dbv2;
-				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_TCHAR)){
+				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_TCHAR)) {
 					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv2.ptszVal);
 					db_free(&dbv2);
-				} else {
+				}
+				else {
 					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, NULL);
 				}
 			}
 			db_free(&dbv);
 		}
-	} else {
+	}
+	else {
 		data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, NULL);
 	}
 
@@ -644,7 +650,7 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 				forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 			}
 			else {
-				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
+				if ((item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
 					item->idMsgAckPending = id;
 				TlenSend(this, "<message to='%s' type='%s' id='" TLEN_IQID "%d'><body>%s</body><x xmlns='jabber:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 			}
@@ -686,13 +692,13 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	if (avatarHash != NULL && !downloadingAvatar) {
-		TlenGetAvatarFileName(this, item, pai->filename, _countof(pai->filename)-1);
-		pai->format = ( pai->hContact == NULL ) ? threadData->avatarFormat : item->avatarFormat;
+		TlenGetAvatarFileName(this, item, pai->filename, _countof(pai->filename) - 1);
+		pai->format = (pai->hContact == NULL) ? threadData->avatarFormat : item->avatarFormat;
 		return GAIR_SUCCESS;
 	}
 
 	/* get avatar */
-	if (( wParam & GAIF_FORCE ) != 0 && pai->hContact != NULL && isOnline)
+	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL && isOnline)
 		return GAIR_WAITFOR;
 
 	return GAIR_NOAVATAR;
@@ -701,7 +707,7 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 HANDLE TlenProtocol::GetAwayMsg(MCONTACT hContact)
 {
 	SENDACKTHREADDATA *tdata = new SENDACKTHREADDATA(this, hContact, 0);
-	forkthread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
+	forkthread((void(__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
 	return (HANDLE)1;
 }
 
@@ -714,7 +720,7 @@ HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	if (!isOnline) return 0;
 
-	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
 	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to TCHAR*
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, ft->iqId);
 	if (item != NULL) {
@@ -723,7 +729,8 @@ HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 	char *nick = TlenNickFromJID(ft->jid);
 	if (ft->newP2P) {
 		TlenSend(this, "<iq to='%s'><query xmlns='p2p'><fs t='%s' e='5' i='%s' v='1'/></query></iq>", ft->jid, ft->jid, ft->iqId);
-	} else {
+	}
+	else {
 		TlenSend(this, "<f t='%s' i='%s' e='5' v='1'/>", nick, ft->iqId);
 	}
 	mir_free(nick);
@@ -734,12 +741,13 @@ int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
 {
 	if (!isOnline) return 1;
 
-	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
 	char *nick = TlenNickFromJID(ft->jid);
 	if (ft->newP2P) {
-		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick);\
-	} else {
-		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick);\
+		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick); \
+	}
+	else {
+		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick); \
 	}
 	mir_free(nick);
 	TlenP2PFreeFileTransfer(ft);
@@ -753,7 +761,7 @@ int TlenProtocol::FileResume(HANDLE, int*, const TCHAR**)
 
 int TlenProtocol::FileCancel(MCONTACT, HANDLE hTransfer)
 {
-	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
 	debugLogA("Invoking FileCancel()");
 	if (ft->s != NULL) {
 		ft->state = FT_ERROR;
@@ -764,7 +772,8 @@ int TlenProtocol::FileCancel(MCONTACT, HANDLE hTransfer)
 			ft->hFileEvent = NULL;
 			SetEvent(hEvent);
 		}
-	} else {
+	}
+	else {
 		TlenP2PFreeFileTransfer(ft);
 	}
 	return 0;
@@ -778,14 +787,14 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCH
 	char *nick, *p, idStr[10];
 
 	if (!isOnline) return 0;
-//	if (db_get_w(ccs->hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) return 0;
+	//	if (db_get_w(ccs->hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) return 0;
 	if (db_get(hContact, m_szModuleName, "jid", &dbv)) return 0;
 	TLEN_FILE_TRANSFER *ft = TlenFileCreateFT(this, dbv.pszVal);
-	for (ft->fileCount=0; ppszFiles[ft->fileCount]; ft->fileCount++);
-	ft->files = (char **) mir_alloc(sizeof(char *) * ft->fileCount);
-	ft->filesSize = (long *) mir_alloc(sizeof(long) * ft->fileCount);
+	for (ft->fileCount = 0; ppszFiles[ft->fileCount]; ft->fileCount++);
+	ft->files = (char **)mir_alloc(sizeof(char *) * ft->fileCount);
+	ft->filesSize = (long *)mir_alloc(sizeof(long) * ft->fileCount);
 	ft->allFileTotalSize = 0;
-	for (i=j=0; i<ft->fileCount; i++) {
+	for (i = j = 0; i < ft->fileCount; i++) {
 		char* ppszFiles_i_A = mir_t2a(ppszFiles[i]);
 		if (_stat(ppszFiles_i_A, &statbuf))
 			debugLogA("'%s' is an invalid filename", ppszFiles[i]);
@@ -814,43 +823,46 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCH
 				ft->jid, ft->jid, idStr, ft->fileCount, ft->allFileTotalSize, ft->fileCount);
 
 			ft->newP2P = TRUE;
-		} else {
+		}
+		else {
 			if (ft->fileCount == 1) {
 				char* ppszFiles_0_A = mir_t2a(ppszFiles[0]);
-				if ((p=strrchr(ppszFiles_0_A, '\\')) != NULL) {
+				if ((p = strrchr(ppszFiles_0_A, '\\')) != NULL) {
 					p++;
-				} else {
+				}
+				else {
 					p = ppszFiles_0_A;
 				}
 				p = TlenTextEncode(p);
 				TlenSend(this, "<f t='%s' n='%s' e='1' i='%s' c='1' s='%d' v='1'/>", nick, p, idStr, ft->allFileTotalSize);
 				mir_free(ppszFiles[0]);
 				mir_free(p);
-			} else {
+			}
+			else {
 				TlenSend(this, "<f t='%s' e='1' i='%s' c='%d' s='%d' v='1'/>", nick, idStr, ft->fileCount, ft->allFileTotalSize);
 			}
 		}
 		mir_free(nick);
 	}
 
-	return (HANDLE) ft;
+	return (HANDLE)ft;
 }
 
-static char* settingToChar( DBCONTACTWRITESETTING* cws )
+static char* settingToChar(DBCONTACTWRITESETTING* cws)
 {
-	switch( cws->value.type ) {
+	switch (cws->value.type) {
 	case DBVT_ASCIIZ:
-			return mir_strdup( cws->value.pszVal );
+		return mir_strdup(cws->value.pszVal);
 	case DBVT_UTF8:
-			return mir_utf8decode(mir_strdup(cws->value.pszVal), NULL);
+		return mir_utf8decode(mir_strdup(cws->value.pszVal), NULL);
 	}
 	return NULL;
 }
 
 int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT) wParam;
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	MCONTACT hContact = (MCONTACT)wParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	// no action for hContact == NULL or when offline
 	if (hContact == NULL) return 0;
 	if (!isConnected) return 0;
@@ -865,7 +877,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		// A contact's group is changed
 		if (!mir_strcmp(cws->szSetting, "Group")) {
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
-				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
+				if ((item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					db_free(&dbv);
 					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
 						nick = TlenTextEncode(dbv.pszVal);
@@ -887,7 +899,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 							char *newGroup = settingToChar(cws);
 							if (item->group == NULL || mir_strcmp(newGroup, item->group)) {
 								debugLogA("Group set to %s", newGroup);
-								if ((group=TlenGroupEncode(newGroup)) != NULL) {
+								if ((group = TlenGroupEncode(newGroup)) != NULL) {
 									TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, item->jid, group);
 									mir_free(group);
 								}
@@ -906,28 +918,31 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		else if (!mir_strcmp(cws->szSetting, "MyHandle")) {
 			char *newNick;
 
-//			hContact = (MCONTACT) wParam;
-//			szProto = GetContactProto(hContact);
-//			if (szProto == NULL || mir_strcmp(szProto, proto->m_szModuleName)) return 0;
+			//			hContact = (MCONTACT) wParam;
+			//			szProto = GetContactProto(hContact);
+			//			if (szProto == NULL || mir_strcmp(szProto, proto->m_szModuleName)) return 0;
 
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 				jid = dbv.pszVal;
-				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
+				if ((item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					if (cws->value.type == DBVT_DELETED) {
-						newNick = mir_strdup((char *) pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE));
-					} else if (cws->value.pszVal != NULL) {
+						newNick = mir_strdup((char *)pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE));
+					}
+					else if (cws->value.pszVal != NULL) {
 						newNick = settingToChar(cws);
-					} else {
+					}
+					else {
 						newNick = NULL;
 					}
 					// Note: we need to compare with item->nick to prevent infinite loop
 					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && mir_strcmp(item->nick, newNick)))) {
-						if ((nick=TlenTextEncode(newNick)) != NULL) {
+						if ((nick = TlenTextEncode(newNick)) != NULL) {
 							debugLogA("Nick set to %s", newNick);
-							if (item->group != NULL && (group=TlenGroupEncode(item->group)) != NULL) {
+							if (item->group != NULL && (group = TlenGroupEncode(item->group)) != NULL) {
 								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, jid, group);
 								mir_free(group);
-							} else {
+							}
+							else {
 								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'></item></query></iq>", nick, jid);
 							}
 							mir_free(nick);
@@ -940,38 +955,34 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 		// A temporary contact has been added permanently
 		else if (!mir_strcmp(cws->szSetting, "NotOnList")) {
-			char *jid, *nick, *pGroup;
-
-			if (cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_BYTE && cws->value.bVal==0)) {
-				if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
-					jid = mir_strdup(dbv.pszVal);
-					db_free(&dbv);
-					debugLogA("Add %s permanently to list", jid);
+			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
+				ptrA szJid(db_get_sa(hContact, m_szModuleName, "jid"));
+				if (szJid != NULL) {
+					char *szNick, *pGroup;
+					debugLogA("Add %s permanently to list", szJid);
 					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
-						nick = TlenTextEncode(dbv.pszVal); //Utf8Encode
+						szNick = TlenTextEncode(dbv.pszVal); //Utf8Encode
 						db_free(&dbv);
 					}
-					else {
-						nick = TlenNickFromJID(jid);
-					}
-					if (nick != NULL) {
-						debugLogA("jid=%s nick=%s", jid, nick);
+					else szNick = TlenNickFromJID(szJid);
+
+					if (szNick != NULL) {
+						debugLogA("jid=%s szNick=%s", szJid, szNick);
 						if (!db_get(hContact, "CList", "Group", &dbv)) {
-							if ((pGroup=TlenGroupEncode(dbv.pszVal)) != NULL) {
-								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, jid, pGroup);
-								TlenSend(this, "<presence to='%s' type='subscribe'/>", jid);
+							if ((pGroup = TlenGroupEncode(dbv.pszVal)) != NULL) {
+								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' szJid='%s'><group>%s</group></item></query></iq>", szNick, szJid, pGroup);
+								TlenSend(this, "<presence to='%s' type='subscribe'/>", szJid);
 								mir_free(pGroup);
 							}
 							db_free(&dbv);
 						}
 						else {
-							TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'/></query></iq>", nick, jid);
-							TlenSend(this, "<presence to='%s' type='subscribe'/>", jid);
+							TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' szJid='%s'/></query></iq>", szNick, szJid);
+							TlenSend(this, "<presence to='%s' type='subscribe'/>", szJid);
 						}
-						mir_free(nick);
+						mir_free(szNick);
 						db_unset(hContact, "CList", "Hidden");
 					}
-					mir_free(jid);
 				}
 			}
 		}
@@ -994,8 +1005,8 @@ int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM)
 		char *p, *q;
 
 		char *jid = dbv.pszVal;
-		if ((p=strchr(jid, '@')) != NULL) {
-			if ((q=strchr(p, '/')) != NULL)
+		if ((p = strchr(jid, '@')) != NULL) {
+			if ((q = strchr(p, '/')) != NULL)
 				*q = '\0';
 		}
 
@@ -1033,8 +1044,8 @@ int TlenProtocol::UserIsTyping(MCONTACT hContact, int type)
 INT_PTR TlenProtocol::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* buf = (TCHAR*)wParam;
-	int  size = ( int )lParam;
-	if ( buf == NULL || size <= 0 )
+	int  size = (int)lParam;
+	if (buf == NULL || size <= 0)
 		return -1;
 
 	TlenGetAvatarFileName(this, NULL, buf, size);
@@ -1056,14 +1067,14 @@ static INT_PTR CALLBACK TlenChangeAvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			{
-				int result = LOWORD(wParam);
-				if (IsDlgButtonChecked(hwndDlg, IDC_PUBLICAVATAR)) {
-					result |= 0x10000;
-				}
-				EndDialog(hwndDlg, result);
+		{
+			int result = LOWORD(wParam);
+			if (IsDlgButtonChecked(hwndDlg, IDC_PUBLICAVATAR)) {
+				result |= 0x10000;
 			}
-			return TRUE;
+			EndDialog(hwndDlg, result);
+		}
+		return TRUE;
 		}
 		break;
 	}
@@ -1109,12 +1120,12 @@ INT_PTR TlenProtocol::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case AF_MAXSIZE:
-		{
-			POINT* size = (POINT*)lParam;
-			if (size)
-				size->x = size->y = 64;
-		}
-		return 0;
+	{
+		POINT* size = (POINT*)lParam;
+		if (size)
+			size->x = size->y = 64;
+	}
+	return 0;
 	case AF_PROPORTION:
 		return PIP_SQUARE;
 	case AF_FORMATSUPPORTED:
@@ -1166,7 +1177,7 @@ void TlenInitServicesVTbl(TlenProtocol *proto)
 }
 
 TlenProtocol::TlenProtocol(const char *aProtoName, const TCHAR *aUserName) :
-PROTO<TlenProtocol>(aProtoName, aUserName)
+	PROTO<TlenProtocol>(aProtoName, aUserName)
 {
 	TlenInitServicesVTbl(this);
 
