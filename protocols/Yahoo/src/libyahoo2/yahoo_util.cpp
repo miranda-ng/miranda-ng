@@ -119,14 +119,12 @@ void y_strfreev(char ** vector)
 char ** y_strsplit(char * str, char * sep, int nelem)
 {
 	char ** vector;
-	char *s, *p;
 	int i=0;
 	int l = (int)strlen(sep);
 	if (nelem <= 0) {
-		char * s;
 		nelem=0;
 		if (*str) {
-			for(s=strstr(str, sep); s; s=strstr(s+l, sep),nelem++)
+			for(char *s=strstr(str, sep); s; s=strstr(s+l, sep),nelem++)
 				;
 			if (strcmp(str+strlen(str)-l, sep))
 				nelem++;
@@ -135,7 +133,7 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 
 	vector = y_new(char *, nelem + 1);
 
-	for(p=str, s=strstr(p,sep); i<nelem && s; p=s+l, s=strstr(p,sep), i++) {
+	for(char *p=str, *s=strstr(p,sep); i<nelem && s; p=s+l, s=strstr(p,sep), i++) {
 		int len = s-p;
 		vector[i] = y_new(char, len+1);
 		strncpy(vector[i], p, len);

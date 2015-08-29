@@ -46,40 +46,32 @@ static void TlenPsPostThread(void *ptr) {
 	BOOL bSent = FALSE;
 	if (socket != NULL) {
 		char header[512];
-		DWORD ret;
 		item->ft->s = socket;
 		item->ft->hFileEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		ret = mir_snprintf(header, "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
-		TlenWsSend(proto, socket, header, (int)ret);
+		int ret = mir_snprintf(header, "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
+		TlenWsSend(proto, socket, header, ret);
 		ret = WaitForSingleObject(item->ft->hFileEvent, 1000 * 60 * 5);
 		if (ret == WAIT_OBJECT_0) {
 			FILE *fp = fopen( item->ft->files[0], "rb" );
 			if (fp) {
-				int i;
-				char header[512];
 				char fileBuffer[2048];
-				i = mir_snprintf(header, "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
-				TlenWsSend(proto, socket, header, i);
+				ret = mir_snprintf(header, "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
+				TlenWsSend(proto, socket, header, ret);
 				proto->debugLogA("Sending picture data...");
-				for (i = item->ft->filesSize[0]; i > 0; ) {
+				for (int i = item->ft->filesSize[0]; i > 0; ) {
 					int toread = min(2048, i);
 					int readcount = (int)fread(fileBuffer, (size_t)1, (size_t)toread, fp);
 					i -= readcount;
-					if (readcount > 0) {
+					if (readcount > 0)
 						TlenWsSend(proto, socket, fileBuffer, readcount);
-					}
-					if (toread != readcount) {
+
+					if (toread != readcount)
 						break;
-					}
 				}
 				fclose(fp);
 				SleepEx(3000, TRUE);
 				bSent = TRUE;
-			} else {
-			  /* picture not found */
 			}
-		} else {
-			/* 5 minutes passed */
 		}
 		Netlib_CloseHandle(socket);
 		if (bSent) {
@@ -88,9 +80,8 @@ static void TlenPsPostThread(void *ptr) {
 		}
 		TlenP2PFreeFileTransfer(item->ft);
 		TlenListRemove(proto, LIST_PICTURE, item->jid);
-	} else {
-		/* cannot connect to ps server */
 	}
+
 	mir_free(data);
 }
 
