@@ -46,7 +46,17 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 			PROTO_AVATAR_INFORMATION pai = { 0 };
 			pai.hContact = hContact;
 			CallProtoService(szProto, PS_GETAVATARINFO, (WPARAM)0, (LPARAM)&pai);
-			imagePath = mir_tstrdup(pai.filename);
+			if (pai.format != PA_FORMAT_PNG)
+			{
+				wchar_t dir[MAX_PATH];
+				FoldersGetCustomPathT(g_hTempAvatarsFolder, dir, _countof(dir), VARSW(L"%miranda_userdata%\\Temp"));
+				ToasterAvatar *ta = new ToasterAvatar(&pai);
+				CMStringW wszPath(FORMAT, L"%s\\%lld.%d.png", dir, hContact, db_get_dw(hContact, "ContactPhoto", "ImagePath"));
+				ta->Save(wszPath);
+				imagePath = wszPath.Detach();
+				delete ta;
+			}
+			imagePath = pai.filename[0] ? mir_tstrdup(pai.filename) : nullptr;
 		}
 	}
 

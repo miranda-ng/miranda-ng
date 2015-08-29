@@ -3,6 +3,7 @@
 int hLangpack;
 
 HINSTANCE g_hInstance;
+HANDLE g_hTempAvatarsFolder;
 
 PLUGININFOEX pluginInfo =
 {
@@ -40,6 +41,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	g_hTempAvatarsFolder = FoldersRegisterCustomPathT(MODULE, Translate("Temp avatars"), VARSW(L"%miranda_userdata%\\Temp"));
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 	InitServices();
 
