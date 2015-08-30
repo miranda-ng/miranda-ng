@@ -8,6 +8,7 @@ private:
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
+	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotification> notification;
 
@@ -25,6 +26,7 @@ public:
 	COLORREF foreground;
 
 	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr);
+	HRESULT Initialize();
 	~ToastNotification();
 
 	HRESULT Show();

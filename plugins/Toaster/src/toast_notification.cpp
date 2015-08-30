@@ -3,11 +3,24 @@
 ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath)
 	: _text(text), _caption(caption), _imagePath(imagePath)
 {
-	
 }
 
 ToastNotification::~ToastNotification()
 {
+}
+
+HRESULT ToastNotification::Initialize()
+{
+	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
+	if (SUCCEEDED(hr))
+	{
+		hr = notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
+		if (SUCCEEDED(hr))
+		{
+			hr = Create(&notification);
+		}
+	}
+	return hr;
 }
 
 HRESULT ToastNotification::GetNodeByTag(_In_ HSTRING tagName, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
@@ -152,15 +165,11 @@ HRESULT ToastNotification::Setup(_In_ ABI::Windows::Data::Xml::Dom::IXmlDocument
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
 {
-	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
-	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
-	if (FAILED(hr))
-		RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
-
 	ABI::Windows::UI::Notifications::ToastTemplateType templateId = _imagePath == nullptr
 		? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText02
 		: ABI::Windows::UI::Notifications::ToastTemplateType_ToastImageAndText02;
-	hr = notificationManager->GetTemplateContent(templateId, xml);
+
+	HRESULT hr = notificationManager->GetTemplateContent(templateId, xml);
 	if (FAILED(hr))
 		return hr;
 
@@ -177,9 +186,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 
 	wchar_t* textValues[] =
 	{
-		_caption == nullptr
-			? L"Miranda NG"
-			: _caption,
+		_caption == nullptr ? L"Miranda NG" : _caption,
 		_text
 	};
 
@@ -208,19 +215,6 @@ HRESULT ToastNotification::Show()
 
 HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 {
-	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
-	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
-	if (FAILED(hr))
-		return hr;
-		//RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
-
-	hr = notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
-	if (FAILED(hr))
-		return hr;
-	hr = Create(&notification);
-	if (FAILED(hr))
-		return hr;
-
 	EventRegistrationToken activatedToken, dismissedToken, failedToken;
 	Microsoft::WRL::ComPtr<ToastEventHandler> eventHandler(handler);
 
