@@ -12,12 +12,8 @@ LONGLONG GetLastSentMessageTime(MCONTACT hContact)
 	return -1;
 }
 
-bool CheckProtoSupport(const char *szProto)
-{
-	if (szProto == NULL) return false;
-
-	DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-	return FLAG_CONTAINS(caps, PF4_READNOTIFY);
+__forceinline bool CheckProtoSupport(const char *szProto)
+{	return ((szProto != NULL) ? FLAG_CONTAINS(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0), PF4_READNOTIFY) : false);
 }
 
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
@@ -127,7 +123,7 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		char *szProto = GetContactProto(event->hContact);
+		const char *szProto = GetContactProto(event->hContact);
 		if (CheckProtoSupport(szProto))
 		{
 			arMonitoredWindows.insert((HANDLE)event->hContact);
