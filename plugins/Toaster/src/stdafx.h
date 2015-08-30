@@ -16,6 +16,9 @@
 #include <m_popup.h>
 #include <m_message.h>
 #include <m_chat.h>
+#include <m_skin.h>
+#include <m_imgsrvc.h>
+#include <m_netlib.h>
 
 #include "version.h"
 #include "resource.h"

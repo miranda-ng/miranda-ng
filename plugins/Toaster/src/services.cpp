@@ -7,6 +7,41 @@ __forceinline bool isChatRoom(MCONTACT hContact)
 {	return (db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0) == 1);
 }
 
+wchar_t* SaveBitmap(HBITMAP bmp, const char *szProto)
+{
+	wchar_t wszSavePath[MAX_PATH], wszRelativePath[MAX_PATH];
+	GetEnvironmentVariableW(L"TEMP", wszSavePath, MAX_PATH);
+	mir_snwprintf(wszRelativePath, L"\\MirandaToaster.%s.png", _A2T(szProto));
+	wcscat_s(wszSavePath, wszRelativePath);
+
+	if (!(GetFileAttributes(wszSavePath) < 0xFFFFFFF))
+	{
+		IMGSRVC_INFO isi = { sizeof(isi) };
+		isi.wszName = mir_wstrdup(wszSavePath);
+		isi.hbm = bmp;
+		isi.dwMask = IMGI_HBITMAP;
+		isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
+		CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
+	}
+
+	return mir_wstrdup(wszSavePath);
+}
+
+wchar_t* ProtoIcon(const char *szProto)
+{
+	HICON hIcon = Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1);
+	wchar_t *wszResult = NULL;
+	ICONINFO icon;
+	if (GetIconInfo(hIcon, &icon))
+	{
+		wszResult = SaveBitmap(icon.hbmColor, szProto);
+
+		DeleteObject(icon.hbmMask);
+		DeleteObject(icon.hbmColor);
+	}
+	return wszResult;
+}
+
 static void __cdecl OnToastNotificationClicked(void* arg)
 {
 	callbackArg *cb = (callbackArg*)arg;
@@ -15,7 +50,7 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 	{
 		if (!isChatRoom(hContact))
 		{
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)"");
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact);
 		}
 		else
 		{
@@ -48,12 +83,33 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 			{
 				imagePath = mir_tstrdup(pai.filename);
 			}
+			else
+			{
+				imagePath = ProtoIcon(szProto);
+			}
+		}
+		else
+		{
+			imagePath = ProtoIcon(szProto);
 		}
 	}
 
 	arg->notification = new ToastNotification(text, title, imagePath);
-	arg->notification->Show(new ToastEventHandler(OnToastNotificationClicked, arg));
-	lstNotifications.insert(arg->notification);
+		
+	HRESULT hr = arg->notification->Initialize();
+	if (SUCCEEDED(hr))
+	{
+		arg->notification->Show(new ToastEventHandler(OnToastNotificationClicked, arg));
+		lstNotifications.insert(arg->notification);
+	}
+	else
+	{
+#ifdef _DEBUG
+		DebugBreak();
+#else
+		Netlib_Logf(NULL, "Toaster: " __FUNCTION__ " failed: HRESULT = %lld", hr);
+#endif
+	}
 }
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
