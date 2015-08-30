@@ -63,7 +63,7 @@ int OnPreShutdown(WPARAM, LPARAM)
 {
 	mir_cslock lck(csNotifications);
 	for (int i = 0; i < lstNotifications.getCount(); i++)
-		lstNotifications[0].Hide();
+		lstNotifications[i].Hide();
 
 	lstNotifications.destroy();
 
