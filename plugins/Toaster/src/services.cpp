@@ -111,14 +111,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-
-		mir_cslock lck(csNotifications);
-		while (lstNotifications.getCount())
-		{
-			lstNotifications[0].Hide();
-			lstNotifications.remove(0);
-		}
-
+		HideAllToasts();
 		return enabled;
 	}
 	break;
@@ -128,6 +121,16 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 
 	default:
 		return 1;
+	}
+}
+
+void HideAllToasts()
+{
+	mir_cslock lck(csNotifications);
+	while (lstNotifications.getCount())
+	{
+		lstNotifications[0].Hide();
+		lstNotifications.remove(0);
 	}
 }
 

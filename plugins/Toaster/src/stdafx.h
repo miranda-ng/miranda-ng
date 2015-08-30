@@ -43,4 +43,5 @@ struct callbackArg
 
 void InitServices();
 int OnPreShutdown(WPARAM, LPARAM);
+void HideAllToasts();
 #endif //_COMMON_H_
