@@ -52,12 +52,16 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 	if (_callback != nullptr)
 		_callback(_arg);
 
+	callbackArg *cb = (callbackArg*)_arg;
+	mir_cslock lck(csNotifications);
+	lstNotifications.remove(cb->notification);
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs* /* e */)
 {
 	callbackArg *cb = (callbackArg*)_arg;
+	mir_cslock lck(csNotifications);
 	lstNotifications.remove(cb->notification);
 	return S_OK;
 }
@@ -65,6 +69,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs* /* e */)
 {
 	callbackArg *cb = (callbackArg*)_arg;
+	mir_cslock lck(csNotifications);
 	lstNotifications.remove(cb->notification);
 	return S_OK;
 }
