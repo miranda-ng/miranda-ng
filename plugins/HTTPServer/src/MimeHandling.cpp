@@ -5,7 +5,8 @@ ContentTypeDB MIME = NULL;
 /* Default Mime type when recognition fails */
 char DefaultMime[] = "application/octet-stream";
 
-int bInitMimeHandling() {
+int bInitMimeHandling()
+{
 	FILE *mimeDB;
 	char line[LINE_MAX_SIZE];
 	char *tok = NULL;
@@ -24,7 +25,7 @@ int bInitMimeHandling() {
 			/*filter junk lines assuming Mime type start with letter
 			(convention ?) */
 			if ((line[0] <= 'z' && line[0] >= 'a')
-			    || (line[0] <= 'Z' && line[0] >= 'A')) {
+				|| (line[0] <= 'Z' && line[0] >= 'A')) {
 				/*remove comments trailing comments*/
 				tok = strrchr(line, '#');
 				if (tok != NULL) {
@@ -54,7 +55,8 @@ int bInitMimeHandling() {
 					/*link*/
 					if (pDBCell->extList == NULL) {
 						pDBCell->extList = pExtCell;
-					} else {
+					}
+					else {
 						extListCur->next = pExtCell;
 					}
 					extListCur = pExtCell;
@@ -64,11 +66,13 @@ int bInitMimeHandling() {
 				if (pDBCell->extList != NULL) {	/*extension(s) found*/
 					if (MIME == NULL) {
 						MIME = pDBCell;
-					} else {
+					}
+					else {
 						pDB->next = pDBCell;
 					}
 					pDB = pDBCell;
-				} else {	/*no extension found, freeing memory*/
+				}
+				else {	/*no extension found, freeing memory*/
 					free(pDBCell->mimeType);
 					free(pDBCell);
 				}
@@ -83,7 +87,8 @@ int bInitMimeHandling() {
 	return 1;
 }
 
-const char * pszGetMimeType(const char * pszFileName) {
+const char* pszGetMimeType(const char * pszFileName)
+{
 	ContentTypeDB courMIME;
 	ExtensionList courEXT;
 	const char* ext;
@@ -94,7 +99,8 @@ const char * pszGetMimeType(const char * pszFileName) {
 		if (ext[1] == '\0') {
 			/*empty extension */
 			return DefaultMime;
-		} else {
+		}
+		else {
 			/*remove the "."*/
 			ext = ext + 1;
 		}
@@ -112,15 +118,16 @@ const char * pszGetMimeType(const char * pszFileName) {
 		}
 		/*extension unknown*/
 		return DefaultMime;
-	} else {
+	}
+	else {
 		/*no extension*/
 		return DefaultMime;
 	}
 }
 
-
 #ifdef TEST
-void printDB() {
+void printDB()
+{
 	ContentTypeDB courMIME;
 	ExtensionList courEXT;
 
@@ -137,7 +144,8 @@ void printDB() {
 	}
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	bInitMimeHandling();
 	printDB();
 	printf("%s\n", pszGetMimeType(argv[1]));
