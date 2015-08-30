@@ -36,7 +36,8 @@ mir_cs csFileShareListAccess;
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLShareUser::CLShareUser(HANDLE hCon, in_addr stAdd) {
+CLShareUser::CLShareUser(HANDLE hCon, in_addr stAdd)
+{
 	hConnection = hCon;
 	stAddr = stAdd;
 	pclNext = NULL;
@@ -58,7 +59,8 @@ CLShareUser::CLShareUser(HANDLE hCon, in_addr stAdd) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLShareUser::~CLShareUser() {
+CLShareUser::~CLShareUser()
+{
 	if (hConnection) {
 		CloseSocket();
 		Netlib_CloseHandle(hConnection);
@@ -79,8 +81,9 @@ CLShareUser::~CLShareUser() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void CLShareUser::CloseSocket() {
-	SOCKET s = CallService(MS_NETLIB_GETSOCKET, (WPARAM) hConnection, 0);
+void CLShareUser::CloseSocket()
+{
+	SOCKET s = CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0);
 	if (s != INVALID_SOCKET) {
 		shutdown(s, SD_SEND);
 		int nBytesRead;
@@ -105,7 +108,8 @@ void CLShareUser::CloseSocket() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-DWORD CLShareUser::dwGetDownloadSpeed() {
+DWORD CLShareUser::dwGetDownloadSpeed()
+{
 	return dwSpeed;
 }
 
@@ -124,7 +128,8 @@ DWORD CLShareUser::dwGetDownloadSpeed() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath) {
+CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath)
+{
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
@@ -146,7 +151,8 @@ CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo) {
+CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo)
+{
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
@@ -168,9 +174,10 @@ CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::~CLFileShareNode() {
-	delete [] st.pszSrvPath;
-	delete [] st.pszRealPath;
+CLFileShareNode::~CLFileShareNode()
+{
+	delete[] st.pszSrvPath;
+	delete[] st.pszRealPath;
 
 	CLShareUser * pclCur = pclCurrentUsers;
 	while (pclCur) {
@@ -195,7 +202,8 @@ CLFileShareNode::~CLFileShareNode() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
+bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath)
+{
 	/* This might be a problem !!
 	if( nDownloadsInProgress > 0 )
 		return false;
@@ -204,25 +212,26 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 	if (!pszSrvPath || !pszRealPath)
 		return false;
 
-	delete [] st.pszSrvPath;
-	delete [] st.pszRealPath;
+	delete[] st.pszSrvPath;
+	delete[] st.pszRealPath;
 
 	st.dwMaxSrvPath = (int)mir_strlen(pszSrvPath) + 1;
-	st.pszSrvPath = new char[ st.dwMaxSrvPath ];
+	st.pszSrvPath = new char[st.dwMaxSrvPath];
 	mir_strcpy(st.pszSrvPath, pszSrvPath);
 
 	int nRealLen = (int)mir_strlen(pszRealPath);
 	if (nRealLen <= 2 || !(pszRealPath[1] == ':' ||
-	    (pszRealPath[0] == '\\' && pszRealPath[1] == '\\'))) {
+		(pszRealPath[0] == '\\' && pszRealPath[1] == '\\'))) {
 		// Relative path
 		// we will prepend plugin path to avoid problems
-		st.dwMaxRealPath = nPluginPathLen  + nRealLen + 1;
-		st.pszRealPath = new char[ st.dwMaxRealPath ];
+		st.dwMaxRealPath = nPluginPathLen + nRealLen + 1;
+		st.pszRealPath = new char[st.dwMaxRealPath];
 		mir_strcpy(st.pszRealPath, szPluginPath);
 		pszOrigRealPath = &st.pszRealPath[nPluginPathLen];
-	} else {
+	}
+	else {
 		st.dwMaxRealPath = nRealLen + 1;
-		st.pszRealPath = new char[ st.dwMaxRealPath ];
+		st.pszRealPath = new char[st.dwMaxRealPath];
 		pszOrigRealPath = st.pszRealPath;
 	}
 	mir_strcpy(pszOrigRealPath, pszRealPath);
@@ -242,8 +251,9 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetInfo(STFileShareInfo * pstInfo) {
-	if (! bSetPaths(pstInfo->pszSrvPath, pstInfo->pszRealPath))
+bool CLFileShareNode::bSetInfo(STFileShareInfo * pstInfo)
+{
+	if (!bSetPaths(pstInfo->pszSrvPath, pstInfo->pszRealPath))
 		return false;
 	if (pstInfo->nMaxDownloads < -1)
 		return false;
@@ -287,7 +297,8 @@ CLHttpUser * CLFileShareNode::pclAddHttpUser( HANDLE hConnection, in_addr stAddr
 }
 */
 
-bool CLFileShareNode::bAddUser(CLShareUser * pclUser) {
+bool CLFileShareNode::bAddUser(CLShareUser * pclUser)
+{
 	// deny access
 	if (bIsOnline || !bLimitOnlyWhenOnline) {
 		int nConnectionCount = 0;
@@ -338,7 +349,8 @@ bool CLFileShareNode::bAddUser(CLShareUser * pclUser) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bRemoveUser(CLShareUser * pclUser) {
+bool CLFileShareNode::bRemoveUser(CLShareUser * pclUser)
+{
 	CLShareUser **pclPrev = &pclCurrentUsers;
 	CLShareUser * pclCur = pclCurrentUsers;
 	while (pclCur) {
@@ -366,7 +378,8 @@ bool CLFileShareNode::bRemoveUser(CLShareUser * pclUser) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void CLFileShareNode::CloseAllTransfers() {
+void CLFileShareNode::CloseAllTransfers()
+{
 	CLShareUser * pclCur = pclCurrentUsers;
 	while (pclCur) {
 		pclCur->CloseSocket();

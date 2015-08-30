@@ -31,7 +31,8 @@
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void FileTimeToUnixTime(LPFILETIME pft, time_t* t) {
+void FileTimeToUnixTime(LPFILETIME pft, time_t* t)
+{
 	LONGLONG ll = ((LONGLONG)pft->dwHighDateTime) << 32;
 	ll = ll + pft->dwLowDateTime - 116444736000000000;
 	*t = (time_t)(ll / 10000000);
@@ -51,8 +52,9 @@ void FileTimeToUnixTime(LPFILETIME pft, time_t* t) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-static int nUnescapedURI(char * pszURI) {
-	if (! pszURI)
+static int nUnescapedURI(char * pszURI)
+{
+	if (!pszURI)
 		return 0;
 
 	char * pszOrigURI = pszURI;
@@ -60,7 +62,7 @@ static int nUnescapedURI(char * pszURI) {
 	int more = -1;
 	char* pszCurInsert = pszURI;
 
-	for (; *pszURI && pszURI[0] != ' ' ; pszURI++) {
+	for (; *pszURI && pszURI[0] != ' '; pszURI++) {
 		int nNewChar;
 		if (pszURI[0] == '%') {
 			// we need to unescape the char
@@ -92,25 +94,30 @@ static int nUnescapedURI(char * pszURI) {
 		}
 
 		if ((nNewChar & 0xc0) == 0x80) {			// 10xxxxxx (continuation byte)
-			sumb = (sumb << 6) | (nNewChar & 0x3f) ;	// Add 6 bits to sumb
+			sumb = (sumb << 6) | (nNewChar & 0x3f);	// Add 6 bits to sumb
 			more--;
 			if (more == 0) {
 				*pszCurInsert = (char)sumb; // here we just throw away all the fine UTF-8 encoding
 				pszCurInsert++;
 			}
-		} else if ((nNewChar & 0xe0) == 0xc0) {		// 110xxxxx (yields 5 bits)
+		}
+		else if ((nNewChar & 0xe0) == 0xc0) {		// 110xxxxx (yields 5 bits)
 			sumb = nNewChar & 0x1f;
 			more = 1;				// Expect 1 more byte
-		} else if ((nNewChar & 0xf0) == 0xe0) {		// 1110xxxx (yields 4 bits)
+		}
+		else if ((nNewChar & 0xf0) == 0xe0) {		// 1110xxxx (yields 4 bits)
 			sumb = nNewChar & 0x0f;
 			more = 2;				// Expect 2 more bytes
-		} else if ((nNewChar & 0xf8) == 0xf0) {		// 11110xxx (yields 3 bits)
+		}
+		else if ((nNewChar & 0xf8) == 0xf0) {		// 11110xxx (yields 3 bits)
 			sumb = nNewChar & 0x07;
 			more = 3;				// Expect 3 more bytes
-		} else if ((nNewChar & 0xfc) == 0xf8) {		// 111110xx (yields 2 bits)
+		}
+		else if ((nNewChar & 0xfc) == 0xf8) {		// 111110xx (yields 2 bits)
 			sumb = nNewChar & 0x03;
 			more = 4;				// Expect 4 more bytes
-		} else /*if ((nNewChar & 0xfe) == 0xfc)*/
+		}
+		else /*if ((nNewChar & 0xfe) == 0xfc)*/
 		{	// 1111110x (yields 1 bit)
 			sumb = nNewChar & 0x01;
 			more = 5;				// Expect 5 more bytes
@@ -135,7 +142,8 @@ static int nUnescapedURI(char * pszURI) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLHttpUser::CLHttpUser(HANDLE hCon, in_addr stAdd) : CLShareUser(hCon, stAdd) {
+CLHttpUser::CLHttpUser(HANDLE hCon, in_addr stAdd) : CLShareUser(hCon, stAdd)
+{
 	memset(apszParam, 0, sizeof(apszParam));
 	hFile = INVALID_HANDLE_VALUE;
 }
@@ -154,7 +162,8 @@ CLHttpUser::CLHttpUser(HANDLE hCon, in_addr stAdd) : CLShareUser(hCon, stAdd) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLHttpUser::~CLHttpUser() {
+CLHttpUser::~CLHttpUser()
+{
 	if (hFile != INVALID_HANDLE_VALUE)
 		CloseHandle(hFile);
 }
@@ -172,9 +181,10 @@ CLHttpUser::~CLHttpUser() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLHttpUser::bReadGetParameters(char * pszRequest) {
+bool CLHttpUser::bReadGetParameters(char * pszRequest)
+{
 	bool bRet = true;
-	for (; *pszRequest ; pszRequest++) {
+	for (; *pszRequest; pszRequest++) {
 		if (pszRequest[0] != '\n') {
 			if (pszRequest[0] == '\r')
 				pszRequest[0] = 0;
@@ -182,13 +192,14 @@ bool CLHttpUser::bReadGetParameters(char * pszRequest) {
 		}
 		pszRequest[0] = 0;
 		pszRequest++;
-		for (int nCur = 0; nCur < eLastParam ; nCur++) {
+		for (int nCur = 0; nCur < eLastParam; nCur++) {
 			int nLen = (int)mir_strlen(szParmStr[nCur]);
 			if (strncmp(pszRequest, szParmStr[nCur], nLen) == 0) {
 				if (apszParam[nCur]) {
 					bRet = false;
 					// already set !!
-				} else {
+				}
+				else {
 					pszRequest += nLen;
 					apszParam[nCur] = pszRequest;
 					pszRequest += strcspn(pszRequest, "\r\n") - 1;
@@ -221,8 +232,9 @@ bool CLHttpUser::bReadGetParameters(char * pszRequest) {
 // Changed         : 21 January 2006 by Vampik
 /////////////////////////////////////////////////////////////////////
 
-void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * pszDescription) {
-	char szCurTime[ 100 ];
+void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * pszDescription)
+{
+	char szCurTime[100];
 	time_t ltime;
 	time(&ltime);
 	strftime(szCurTime, sizeof(szCurTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
@@ -232,25 +244,25 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 
 	char szBuf[1000];
 	DWORD dwBytesToWrite = mir_snprintf(szBuf,
-	    "HTTP/1.1 %i %s\r\n"
-	    "Date: %s\r\n"
-	    "Server: MirandaWeb/%s\r\n"
-	    "Transfer-Encoding: chunked\r\n"
-	    "Content-Type: text/html; charset=iso-8859-1\r\n"
-	    "\r\n"
-	    "10f\r\n"
-	    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
-	    "<HTML><HEAD>\n"
-	    "<TITLE>%i %s</TITLE>\n"
-	    "</HEAD><BODY>\n"
-	    "<H1>%s</H1>\n"
-	    "%s<P>\n"
-	    "<HR>\n"
-	    "<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
-	    "</BODY></HTML>\n"
-	    "\r\n"
-	    "\r\n",
-	    iErrorCode, pszError, szCurTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+		"HTTP/1.1 %i %s\r\n"
+		"Date: %s\r\n"
+		"Server: MirandaWeb/%s\r\n"
+		"Transfer-Encoding: chunked\r\n"
+		"Content-Type: text/html; charset=iso-8859-1\r\n"
+		"\r\n"
+		"10f\r\n"
+		"<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
+		"<HTML><HEAD>\n"
+		"<TITLE>%i %s</TITLE>\n"
+		"</HEAD><BODY>\n"
+		"<H1>%s</H1>\n"
+		"%s<P>\n"
+		"<HR>\n"
+		"<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
+		"</BODY></HTML>\n"
+		"\r\n"
+		"\r\n",
+		iErrorCode, pszError, szCurTime, __VERSION_STRING_DOTS, iErrorCode, pszError, pszError, pszDescription, __VERSION_STRING_DOTS);
 
 	Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
 }
@@ -271,8 +283,9 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 // Developer       : KN, Houdini, Vampik
 /////////////////////////////////////////////////////////////////////
 
-void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * pszDescription, const char * pszRedirect) {
-	char szCurrTime[ 100 ];
+void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * pszDescription, const char * pszRedirect)
+{
+	char szCurrTime[100];
 	time_t ltime;
 	time(&ltime);
 	strftime(szCurrTime, sizeof(szCurrTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
@@ -282,26 +295,26 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 
 	char szBuff[1000];
 	DWORD dwBytesToWrite = mir_snprintf(szBuff,
-	    "HTTP/1.1 %i %s\r\n"
-	    "Date: %s\r\n"
-	    "Server: MirandaWeb/%s\r\n"
-	    "Location: %s/\r\n"
-	    "Transfer-Encoding: chunked\r\n"
-	    "Content-Type: text/html; charset=iso-8859-1\r\n"
-	    "\r\n"
-	    "10f\r\n"
-	    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
-	    "<HTML><HEAD>\n"
-	    "<TITLE>%i %s</TITLE>\n"
-	    "</HEAD><BODY>\n"
-	    "<H1>%s</H1>\n"
-	    "%s<P>\n"
-	    "<HR>\n"
-	    "<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
-	    "</BODY></HTML>\n"
-	    "\r\n"
-	    "\r\n",
-	    iErrorCode, pszError, szCurrTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), pszRedirect, iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+		"HTTP/1.1 %i %s\r\n"
+		"Date: %s\r\n"
+		"Server: MirandaWeb/%s\r\n"
+		"Location: %s/\r\n"
+		"Transfer-Encoding: chunked\r\n"
+		"Content-Type: text/html; charset=iso-8859-1\r\n"
+		"\r\n"
+		"10f\r\n"
+		"<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
+		"<HTML><HEAD>\n"
+		"<TITLE>%i %s</TITLE>\n"
+		"</HEAD><BODY>\n"
+		"<H1>%s</H1>\n"
+		"%s<P>\n"
+		"<HR>\n"
+		"<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
+		"</BODY></HTML>\n"
+		"\r\n"
+		"\r\n",
+		iErrorCode, pszError, szCurrTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), pszRedirect, iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 
 	Netlib_Send(hConnection, szBuff, dwBytesToWrite, 0);
 }
@@ -321,7 +334,8 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-static void strmcat(char* pszDest, const char* pszSrc, int iMaxLength) {
+static void strmcat(char* pszDest, const char* pszSrc, int iMaxLength)
+{
 	int iLength = 0;
 	while (*pszDest != '\0') {
 		pszDest++;
@@ -355,7 +369,8 @@ static void strmcat(char* pszDest, const char* pszSrc, int iMaxLength) {
 // Changed         : 21 January 2006 by Vampik
 /////////////////////////////////////////////////////////////////////
 
-bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
+bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
+{
 	//LogEvent("Request", pszRequest);
 
 	int nUriLength = nUnescapedURI(pszRequest);
@@ -367,7 +382,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 	if (bShutdownInProgress)
 		return false;
 
-	static char szTempfile[MAX_PATH+1];
+	static char szTempfile[MAX_PATH + 1];
 	szTempfile[0] = '\0';
 
 	if (!bReadGetParameters(pszRequest)) {
@@ -376,7 +391,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 	}
 
 	DWORD dwRemoteIP = ntohl(stAddr.S_un.S_addr);
-	for (CLFileShareNode * pclCur = pclFirstNode; pclCur ; pclCur = pclCur->pclNext) {
+	for (CLFileShareNode * pclCur = pclFirstNode; pclCur; pclCur = pclCur->pclNext) {
 		if ((pclCur->st.dwAllowedIP ^ dwRemoteIP) & pclCur->st.dwAllowedMask)
 			continue; // Not an allowed IP address
 
@@ -384,15 +399,15 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			continue; // not the right length, quickly move on to the next.
 
 		if (pclCur->bIsDirectory() ?
-		    (strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen() - 1) == 0) :
-		    (strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen()) == 0)) {
+			(strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen() - 1) == 0) :
+			(strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen()) == 0)) {
 			/*OutputDebugString( "Request for file OK : ");
 			OutputDebugString( pclCur->st.pszSrvPath );
 			OutputDebugString( "\n" );*/
 
-			static char szSrvPath[MAX_PATH+1];
-			static char szRealPath[MAX_PATH+1];
-			char* pszSrvPath  = pclCur->st.pszSrvPath;
+			static char szSrvPath[MAX_PATH + 1];
+			static char szRealPath[MAX_PATH + 1];
+			char* pszSrvPath = pclCur->st.pszSrvPath;
 			char* pszRealPath = pclCur->st.pszRealPath;
 
 			if (pclCur->bIsDirectory()) {
@@ -409,9 +424,10 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				if (pclCur->nGetSrvPathLen() - nUriLength == 1) {
 					SendRedir(302, "Found", "The document has moved", pszRequest);
 					return false;
-				} else {
+				}
+				else {
 					strmcat(pszRealPath, &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
-					strmcat(pszSrvPath,  &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
+					strmcat(pszSrvPath, &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
 				}
 				pszRequest[nUriLength] = ' ';
 
@@ -425,27 +441,27 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				while (pszTmp = strchr(pszTmp, '/'))
 					* pszTmp = '\\';
 
-				hFile = CreateFile(pszRealPath, GENERIC_READ ,
-				    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+				hFile = CreateFile(pszRealPath, GENERIC_READ,
+					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
-					if (pszSrvPath[mir_strlen(pszSrvPath)-1] != '/') {
+					if (pszSrvPath[mir_strlen(pszSrvPath) - 1] != '/') {
 						strmcat(pszRealPath, "\\", MAX_PATH);
-						strmcat(pszSrvPath,  "/", MAX_PATH);
+						strmcat(pszSrvPath, "/", MAX_PATH);
 					}
 
 					// a directory with index.htm
 					strmcat(szRealPath, "index.htm", MAX_PATH);
 
-					hFile = CreateFile(pszRealPath, GENERIC_READ ,
-					    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
+					hFile = CreateFile(pszRealPath, GENERIC_READ,
+						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
 
 					if (hFile == INVALID_HANDLE_VALUE) {
 						// a directory with index.html
 						strmcat(szRealPath, "l", MAX_PATH);
 
-						hFile = CreateFile(pszRealPath, GENERIC_READ ,
-						    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
+						hFile = CreateFile(pszRealPath, GENERIC_READ,
+							FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
 
 						if (hFile == INVALID_HANDLE_VALUE) {
 							// generate directory index in temporary file
@@ -461,42 +477,48 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 							// detecting browser function removed
 							// every browser should support it by now
-							bool BrowserSupportsXML = true; 
-							  //(apszParam[eUserAgent] != NULL) &&
-							  //  (strstr(apszParam[eUserAgent], "Firefox") ||
-							  //   (strstr(apszParam[eUserAgent], "MSIE") && !strstr(apszParam[eUserAgent], "Opera")));
+							bool BrowserSupportsXML = true;
+							//(apszParam[eUserAgent] != NULL) &&
+							//  (strstr(apszParam[eUserAgent], "Firefox") ||
+							//   (strstr(apszParam[eUserAgent], "MSIE") && !strstr(apszParam[eUserAgent], "Opera")));
 
 							if ((indexCreationMode == INDEX_CREATION_XML ||
-							     (indexCreationMode == INDEX_CREATION_DETECT && BrowserSupportsXML)) &&
-							    bCreateIndexXML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
-								hFile = CreateFile(szTempfile, GENERIC_READ ,
-								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+								(indexCreationMode == INDEX_CREATION_DETECT && BrowserSupportsXML)) &&
+								bCreateIndexXML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
+								hFile = CreateFile(szTempfile, GENERIC_READ,
+									FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 								mir_strcpy(szRealPath, "a.xml"); // restore .xml for mime type
-							} else if ((indexCreationMode == INDEX_CREATION_HTML ||
-							    indexCreationMode == INDEX_CREATION_DETECT) &&
-							    bCreateIndexHTML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
+							}
+							else if ((indexCreationMode == INDEX_CREATION_HTML ||
+								indexCreationMode == INDEX_CREATION_DETECT) &&
+								bCreateIndexHTML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
 								hFile = CreateFile(szTempfile, GENERIC_READ,
-								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+									FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 								mir_strcpy(szRealPath, "a.html"); // restore .html for mime type
-							} else {
+							}
+							else {
 								continue;
 							}
-						} else {
+						}
+						else {
 							strmcat(pszSrvPath, "index.html", MAX_PATH);
 							szTempfile[0] = '\0';
 						}
-					} else {
+					}
+					else {
 						strmcat(pszSrvPath, "index.htm", MAX_PATH);
 						szTempfile[0] = '\0';
 					}
-				} else {
+				}
+				else {
 					szTempfile[0] = '\0';
 				}
-			} else {
-				hFile = CreateFile(pszRealPath, GENERIC_READ ,
-				    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			}
+			else {
+				hFile = CreateFile(pszRealPath, GENERIC_READ,
+					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
 					SendError(404, "Not Found", "HTTP server failed to open local file");
@@ -512,30 +534,30 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			FILETIME stFileTime;
 			GetFileTime(hFile, NULL, NULL, &stFileTime);
 
-			char szCurTime[ 100 ];
+			char szCurTime[100];
 			time_t ltime;
 			time(&ltime);
 			strftime(szCurTime, sizeof(szCurTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
 
-			char szFileTime[ 100 ];
+			char szFileTime[100];
 			FileTimeToUnixTime(&stFileTime, &ltime);
 			strftime(szFileTime, sizeof(szFileTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
-			
+
 			if (apszParam[eIfModifiedSince] && mir_strcmp(apszParam[eIfModifiedSince], szFileTime) == 0) {
-				SendError(304, "Not Modified" );
+				SendError(304, "Not Modified");
 				return true;
 			}
-	
+
 			// we found match send file !!
 			if (bIsGetCommand) {
-				if (! pclCur->bAddUser(this)) {
+				if (!pclCur->bAddUser(this)) {
 					SendError(403, "Forbidden", "Access has been denied because there are too many connections");
 					return false;
 				}
 			}
 
 			if (*(ULONG*)(&stAddr) != 0x0100007F && // do not show popup of 127.0.0.1
-			    strstr(pszRealPath, "\\@") == NULL) { // and of shares which start with an @
+				strstr(pszRealPath, "\\@") == NULL) { // and of shares which start with an @
 				ShowPopupWindow(inet_ntoa(stAddr), pszSrvPath);
 			}
 
@@ -544,10 +566,10 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			DWORD dwFileStart = 0;
 			DWORD dwDataToSend = nDataSize;
 
-			char szETag[ 50 ];
+			char szETag[50];
 			{
 				int nETagLen = mir_snprintf(szETag, "\"%x-%x-%x\"",
-				    nDataSize, stFileTime.dwHighDateTime, stFileTime.dwLowDateTime);
+					nDataSize, stFileTime.dwHighDateTime, stFileTime.dwLowDateTime);
 
 				if (!apszParam[eIfRange] || (strncmp(szETag, apszParam[eIfRange], nETagLen) == 0)) {
 					char * pszRange = apszParam[eRange];
@@ -561,7 +583,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 								DWORD dwLen = strtol(pszRange + 1, &pszEnd, 10);
 								if (dwLen < nDataSize)
 									dwFileStart = nDataSize - dwLen;
-							} else {
+							}
+							else {
 								DWORD dwLen = strtol(pszRange, &pszEnd, 10);
 								if (*pszEnd == '-' && dwLen < nDataSize) {
 									dwFileStart = dwLen;
@@ -573,7 +596,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 										else
 											dwFileStart = 0;
 									}
-								} else {
+								}
+								else {
 									SendError(400, "Bad Request");
 									return false;
 								}
@@ -605,46 +629,47 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				}
 
 				const char szHttpPartial[] = "HTTP/1.1 206 Partial Content\r\n"
-				    "Connection: Keep-Alive\r\n"
-				    "Date: %s\r\n"
-				    "Server: MirandaWeb/%s\r\n"
-				    "Accept-Ranges: bytes\r\n"
-				    "ETag: %s\r\n"
-				    "Content-Length: %d\r\n"
-				    "Content-Type: %s\r\n"
-				    "Content-Range: bytes %d-%d/%d\r\n"
-				    "Last-Modified: %s\r\n"
-				    "\r\n";
+					"Connection: Keep-Alive\r\n"
+					"Date: %s\r\n"
+					"Server: MirandaWeb/%s\r\n"
+					"Accept-Ranges: bytes\r\n"
+					"ETag: %s\r\n"
+					"Content-Length: %d\r\n"
+					"Content-Type: %s\r\n"
+					"Content-Range: bytes %d-%d/%d\r\n"
+					"Last-Modified: %s\r\n"
+					"\r\n";
 
 				dwBytesToWrite = mir_snprintf(szBuf, szHttpPartial,
-				    szCurTime,
-				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-				    szETag,
-				    dwDataToSend,
-				    pszGetMimeType(pszRealPath),
-				    dwFileStart,
-				    (dwFileStart + dwDataToSend - 1),
-				    nDataSize,
-				    szFileTime);
-			} else {
+					szCurTime,
+					PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+					szETag,
+					dwDataToSend,
+					pszGetMimeType(pszRealPath),
+					dwFileStart,
+					(dwFileStart + dwDataToSend - 1),
+					nDataSize,
+					szFileTime);
+			}
+			else {
 				const char szHttpOk[] = "HTTP/1.1 200 OK\r\n"
-				    "Connection: Keep-Alive\r\n"
-				    "Date: %s\r\n"
-				    "Server: MirandaWeb/%s\r\n"
-				    "Accept-Ranges: bytes\r\n"
-				    "ETag: %s\r\n"
-				    "Content-Length: %d\r\n"
-				    "Content-Type: %s\r\n"
-				    "Last-Modified: %s\r\n"
-				    "\r\n";
+					"Connection: Keep-Alive\r\n"
+					"Date: %s\r\n"
+					"Server: MirandaWeb/%s\r\n"
+					"Accept-Ranges: bytes\r\n"
+					"ETag: %s\r\n"
+					"Content-Length: %d\r\n"
+					"Content-Type: %s\r\n"
+					"Last-Modified: %s\r\n"
+					"\r\n";
 
 				dwBytesToWrite = mir_snprintf(szBuf, szHttpOk,
-				    szCurTime,
-				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-				    szETag,
-				    nDataSize,
-				    pszGetMimeType(pszRealPath),
-				    szFileTime);
+					szCurTime,
+					PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+					szETag,
+					nDataSize,
+					pszGetMimeType(pszRealPath),
+					szFileTime);
 			}
 
 			Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
@@ -747,7 +772,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				// Therefore we test it even if we did'en decreese it
 				if (pclCur->st.nMaxDownloads == 0 && !pclCur->bAnyUsers()) {
 					CLFileShareNode **pclPrev = &pclFirstNode;
-					for (CLFileShareNode * pcl = pclFirstNode ; pcl ; pcl = pcl->pclNext) {
+					for (CLFileShareNode * pcl = pclFirstNode; pcl; pcl = pcl->pclNext) {
 						if (pcl == pclCur) {
 							*pclPrev = pclCur->pclNext;
 							ShowPopupWindow(Translate("Share removed"), pclCur->st.pszSrvPath, RGB(255, 189, 189));
@@ -768,71 +793,29 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 		}
 	}
 
-
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	OutputDebugString("###########   Request Failed   ###########\n");
 	OutputDebugString(pszRequest);
-#endif
+	#endif
 
 	pszRequest[nUriLength] = 0;
 
 	if ((nUriLength != 12 || strncmp(pszRequest, "/favicon.ico", nUriLength)) &&  // do not show popup of favicon.ico
-	    *(ULONG*)(&stAddr) != 0x0100007F) { // do not show popup of 127.0.0.1
+		*(ULONG*)(&stAddr) != 0x0100007F) { // do not show popup of 127.0.0.1
 		ShowPopupWindow(inet_ntoa(stAddr), pszRequest, RGB(255, 189, 189));
 	}
 
 	SendError(404, "Not Found", "The requested URL was not found on this server.");
-
 	return false;
 }
 
-
-void CLHttpUser::HandleNewConnection() {
-	
-/*
- {
- SOCKET s = CallService(MS_NETLIB_GETSOCKET, (WPARAM) hConnection, 0);
- sockaddr_in MyAddr;
- int nSize = sizeof( MyAddr );
- getsockname( s, (sockaddr*)&MyAddr, &nSize );
- ShowPopupWindow( "My IP address", inet_ntoa( MyAddr.sin_addr ) );
- //OutputDebugString(  );
- }*/
-	/*
-	{
-	LINGER li;
-	int nLenght = sizeof( li );
-	int ret = getsockopt( s, IPPROTO_TCP, SO_LINGER, (char *)&li, &nLenght );
-	if( ret )
-	{
-	DWORD error = WSAGetLastError();
-	if( error
-	WSANOTINITIALISED
-	WSAENETDOWN The network subsystem has failed.
-	WSAEFAULT One of the optval or the optlen parameters is not a valid part of the user address space, or the optlen parameter is too small.
-	WSAEINPROGRESS A blocking Windows Sockets 1.1 call is in progress, or the service provider is still processing a callback function.
-	WSAEINVAL The level parameter is unknown or invalid.
-	WSAENOPROTOOPT The option is unknown or unsupported by the indicated protocol family.
-	WSAENOTSOCK
-	}
-	nLenght = sizeof( li );
-	li.l_onoff = 1;
-	li.l_linger = 0;// time is default
-	ret = setsockopt( s, IPPROTO_TCP, SO_LINGER, (const char *)&li, nLenght );
-	if( ret )
-	{
-	// error
-	}
-	int nLenght = sizeof( li );
-	int ret = getsockopt( s, IPPROTO_TCP, SO_LINGER, (char *)&li, &nLenght );
-	}
-	*/
-
+void CLHttpUser::HandleNewConnection()
+{
 	char szBuf[1000];
 	int nCurPos = 0;
 	while (sizeof(szBuf) - nCurPos > 10 && !bShutdownInProgress) {
 		int nBytesRead = Netlib_Recv(hConnection, &szBuf[nCurPos], sizeof(szBuf) - nCurPos, 0);
-		if (! nBytesRead) {
+		if (!nBytesRead) {
 			// socket closed gracefully
 			break;
 		}
@@ -857,10 +840,10 @@ void CLHttpUser::HandleNewConnection() {
 
 		bool bBreakWhile = false;
 		for (; nOldCurPos < nCurPos; nOldCurPos++) {
-			if (szBuf[nOldCurPos-2] == '\n' && szBuf[nOldCurPos-1] == '\r' && szBuf[nOldCurPos] == '\n') {
+			if (szBuf[nOldCurPos - 2] == '\n' && szBuf[nOldCurPos - 1] == '\r' && szBuf[nOldCurPos] == '\n') {
 				// we have a walid request !!! scan to see if we have this file
 				szBuf[nOldCurPos] = NULL;
-				bProcessGetRequest(&szBuf[bIsGetCommand?4:5], bIsGetCommand);
+				bProcessGetRequest(&szBuf[bIsGetCommand ? 4 : 5], bIsGetCommand);
 
 				bBreakWhile = true;
 				break;

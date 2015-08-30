@@ -20,19 +20,19 @@
 
 #define szConfigFile        "HTTPServer.xml"
 
-const TCHAR szXmlHeader[] =	_T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
-    _T("<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n")
-    _T("<config>\r\n");
+const TCHAR szXmlHeader[] = _T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
+_T("<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n")
+_T("<config>\r\n");
 
-const char szXmlData[] =	"\t<share>\r\n"
-    "\t\t<name>%s</name>\r\n"
-    "\t\t<file>%s</file>\r\n"
-    "\t\t<max_downloads>%d</max_downloads>\r\n"
-    "\t\t<ip_address>%d.%d.%d.%d</ip_address>\r\n"
-    "\t\t<ip_mask>%d.%d.%d.%d</ip_mask>\r\n"
-    "\t</share>\r\n";
+const char szXmlData[] = "\t<share>\r\n"
+"\t\t<name>%s</name>\r\n"
+"\t\t<file>%s</file>\r\n"
+"\t\t<max_downloads>%d</max_downloads>\r\n"
+"\t\t<ip_address>%d.%d.%d.%d</ip_address>\r\n"
+"\t\t<ip_mask>%d.%d.%d.%d</ip_mask>\r\n"
+"\t</share>\r\n";
 
-const TCHAR szXmlTail[] =	_T("</config>");
+const TCHAR szXmlTail[] = _T("</config>");
 
 const char* pszDefaultShares[] = {
 	"htdocs\\@settings\\favicon.ico",     "/favicon.ico",
@@ -64,7 +64,7 @@ static HANDLE hHttpGetAllShares = 0;
 
 static HGENMENU hAcceptConnectionsMenuItem = 0;
 
-char szPluginPath[MAX_PATH] = {0};
+char szPluginPath[MAX_PATH] = { 0 };
 int nPluginPathLen = 0;
 
 DWORD dwLocalIpAddress = 0;
@@ -116,8 +116,9 @@ PLUGININFOEX pluginInfo = {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bOpenLogFile() {
-	SHELLEXECUTEINFO st = {0};
+bool bOpenLogFile()
+{
+	SHELLEXECUTEINFO st = { 0 };
 	st.cbSize = sizeof(st);
 	st.fMask = SEE_MASK_INVOKEIDLIST;
 	st.hwnd = NULL;
@@ -128,7 +129,8 @@ bool bOpenLogFile() {
 }
 
 
-bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
+bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1)
+{
 	if (nLen < 0)
 		nLen = (int)mir_strlen(pszSrc);
 	DWORD dwBytesWritten;
@@ -150,7 +152,8 @@ bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
+void LogEvent(const TCHAR * pszTitle, const char * pszLog)
+{
 	HANDLE hFile = CreateFile(sLogFilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		MessageBox(NULL, TranslateT("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
@@ -168,14 +171,14 @@ void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 	int nLen = (int)strftime(szTmp, sizeof(szTmp), "%d-%m-%Y %H:%M:%S -- ", localtime(&now));
 
 	int nLogLen = (int)mir_strlen(pszLog);
-	while (nLogLen > 0 && (pszLog[nLogLen-1] == '\r' || pszLog[nLogLen-1] == '\n'))
+	while (nLogLen > 0 && (pszLog[nLogLen - 1] == '\r' || pszLog[nLogLen - 1] == '\n'))
 		nLogLen--;
 
 	if (!bWriteToFile(hFile, szTmp, nLen) ||
-	    !bWriteToFile(hFile, pszTitle) ||
-	    !bWriteToFile(hFile, " : ") ||
-	    !bWriteToFile(hFile, pszLog, nLogLen) ||
-	    !bWriteToFile(hFile, "\r\n")) {
+		!bWriteToFile(hFile, pszTitle) ||
+		!bWriteToFile(hFile, " : ") ||
+		!bWriteToFile(hFile, pszLog, nLogLen) ||
+		!bWriteToFile(hFile, "\r\n")) {
 		MessageBox(NULL, TranslateT("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
 	}
 	CloseHandle(hFile);
@@ -196,10 +199,11 @@ void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-DWORD dwReadIPAddress(char * pszStr, bool &bError) {
+DWORD dwReadIPAddress(char * pszStr, bool &bError)
+{
 	DWORD ip = 0;
 	char *pszEnd;
-	for (int n = 0 ; n < 4 ; n++) {
+	for (int n = 0; n < 4; n++) {
 		int nVal = strtol(pszStr, &pszEnd, 10);
 		if (pszEnd <= pszStr || (n != 3 && pszEnd[0] != '.') || (nVal < 0 || nVal > 255)) {
 			bError = true;
@@ -233,26 +237,26 @@ bool bReadConfigurationFile()
 	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
 	mir_strcat(szBuf, szConfigFile);
-	HANDLE hFile = CreateFile(szBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
+	HANDLE hFile = CreateFile(szBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return false;
-	
+
 	char *pszCurPos = szBuf;
 
 	bool bEof = false;
 	while (!bEof) {
 		DWORD dwBytesInBuffer = 0;
-		
+
 		// move rest of buffer to front
 		if (pszCurPos && pszCurPos != szBuf) {
 			dwBytesInBuffer = DWORD(sizeof(szBuf) - (pszCurPos - szBuf));
 			memmove(szBuf, pszCurPos, dwBytesInBuffer * sizeof(TCHAR));
 		}
-		
+
 		// append data to buffer
 		DWORD dwBytesRead = 0;
-		bEof = !ReadFile(hFile, &szBuf[dwBytesInBuffer], sizeof(szBuf) - dwBytesInBuffer, 
+		bEof = !ReadFile(hFile, &szBuf[dwBytesInBuffer], sizeof(szBuf) - dwBytesInBuffer,
 			&dwBytesRead, NULL) || dwBytesRead <= 0;
 		pszCurPos = szBuf;
 
@@ -260,8 +264,8 @@ bool bReadConfigurationFile()
 			while (pszCurPos && (pszCurPos = strstr(pszCurPos, "<share>")) != NULL) {
 				pszCurPos += 7;
 
-				char * pszColData[5] = {NULL};
-				for (int n = 0 ; n < 5 ; n++) {
+				char * pszColData[5] = { NULL };
+				for (int n = 0; n < 5; n++) {
 					pszColData[n] = strstr(pszCurPos, ">");
 					if (!pszColData[n])
 						break;
@@ -297,13 +301,14 @@ bool bReadConfigurationFile()
 					continue;
 				}
 
-				if (! pclLastNode) {
+				if (!pclLastNode) {
 					pclLastNode = pclFirstNode = pcl;
-				} else {
+				}
+				else {
 					pclLastNode->pclNext = pcl;
 					pclLastNode = pcl;
 				}
-				
+
 				// refill buffer
 				if (!bEof && pszCurPos - szBuf > sizeof(szBuf) / 2)
 					break;
@@ -338,26 +343,27 @@ bool bWriteConfigurationFile()
 	if (hFile == INVALID_HANDLE_VALUE) {
 		TCHAR temp[200];
 		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
-		MessageBox(NULL, temp , MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesWriten = 0;
-	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
+	if (!WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
 		TCHAR temp[200];
 		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
-	} else {
+	}
+	else {
 		CLFileShareNode * pclCur = pclFirstNode;
 		while (pclCur) {
-			DWORD dwBytesToWrite = mir_snprintf(szBuf, szXmlData ,
-			    pclCur->st.pszSrvPath,
-			    pclCur->pszOrigRealPath,
-			    pclCur->st.nMaxDownloads,
-			    SplitIpAddress(pclCur->st.dwAllowedIP),
-			    SplitIpAddress(pclCur->st.dwAllowedMask));
+			DWORD dwBytesToWrite = mir_snprintf(szBuf, szXmlData,
+				pclCur->st.pszSrvPath,
+				pclCur->pszOrigRealPath,
+				pclCur->st.nMaxDownloads,
+				SplitIpAddress(pclCur->st.dwAllowedIP),
+				SplitIpAddress(pclCur->st.dwAllowedMask));
 
-			if (! WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
+			if (!WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
 				mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
@@ -366,10 +372,10 @@ bool bWriteConfigurationFile()
 			pclCur = pclCur->pclNext;
 		}
 
-		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
-				TCHAR temp[200];
-				mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
-				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
+		if (!WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
+			TCHAR temp[200];
+			mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+			MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
 	SetEndOfFile(hFile);
@@ -410,7 +416,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 		return 1002;
 
 	CLFileShareListAccess clCritSection;
-	bool bIsDirectory = (pclNew->pszSrvPath[mir_strlen(pclNew->pszSrvPath)-1] == '/');
+	bool bIsDirectory = (pclNew->pszSrvPath[mir_strlen(pclNew->pszSrvPath) - 1] == '/');
 
 	CLFileShareNode **pclPrev = &pclFirstNode;
 	CLFileShareNode * pclCur = pclFirstNode;
@@ -444,9 +450,10 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 				// remove this one
 				*pclPrev = pclCur->pclNext;
 				delete pclCur;
-			} else {
+			}
+			else {
 				// update info !!
-				if (! pclCur->bSetInfo(pclNew))
+				if (!pclCur->bSetInfo(pclNew))
 					return 1003;
 			}
 			return !bWriteConfigurationFile();
@@ -608,7 +615,7 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam)
 	//todo: ignore weather protos
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type != ACKTYPE_STATUS ||                       //only send for statuses
-	    ack->result != ACKRESULT_SUCCESS)                  //only successful ones
+		ack->result != ACKRESULT_SUCCESS)                  //only successful ones
 		return 0;
 
 	bIsOnline = ((int)ack->lParam != ID_STATUS_AWAY && (int)ack->lParam != ID_STATUS_NA);
@@ -634,7 +641,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = { 0 };
 		nus.cbSize = sizeof(nus);
-		if (!CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM) hNetlibUser, (LPARAM) &nus))
+		if (!CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlibUser, (LPARAM)&nus))
 			Netlib_Logf(hNetlibUser, "Failed to get NETLIBUSERSETTINGS using MS_NETLIB_GETUSERSETTINGS");
 
 		NETLIBBIND nlb = { 0 };
@@ -645,10 +652,10 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		else
 			nlb.wPort = 80;
 
-		hDirectBoundPort = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM) & nlb);
+		hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)& nlb);
 		if (!hDirectBoundPort) {
 			TCHAR szTemp[200];
-			mir_snprintf(szTemp, TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
+			mir_snprintf(szTemp, TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port"),
 				nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;
@@ -665,7 +672,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 	}
 	else return 0; // no changes;
 
-	if (! bShutdownInProgress)
+	if (!bShutdownInProgress)
 		db_set_b(NULL, MODULE, "AcceptConnections", hDirectBoundPort != 0);
 
 	return 0;
@@ -710,7 +717,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
 	if (!bReadConfigurationFile()) {
 		char szRealPath[MAX_PATH];
-		char szSrvPath[MAX_PATH] = {0};
+		char szSrvPath[MAX_PATH] = { 0 };
 		STFileShareInfo share;
 
 		const char** p = pszDefaultShares;
@@ -743,7 +750,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = TranslateT("HTTP Server");
-	hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)& nlu);
 	if (!hNetlibUser) {
 		MessageBox(NULL, _T("Failed to register NetLib user"), MSG_BOX_TITEL, MB_OK);
 		return 0;
@@ -777,7 +784,7 @@ int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		CLFileShareListAccess clCrit;
 		bShutdownInProgress = true;
 
-		for (CLFileShareNode * pclCur = pclFirstNode; pclCur ; pclCur = pclCur->pclNext) {
+		for (CLFileShareNode * pclCur = pclFirstNode; pclCur; pclCur = pclCur->pclNext) {
 			pclCur->CloseAllTransfers();
 		}
 	}
@@ -834,7 +841,8 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 // Developer       : KN, Houdini
 /////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/) {
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/)
+{
 	return &pluginInfo;
 }
 
@@ -857,25 +865,25 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getCLI();
 
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
-	if (! hHttpAcceptConnectionsService) {
+	if (!hHttpAcceptConnectionsService) {
 		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS"), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
-	if (! hHttpAddChangeRemoveService) {
+	if (!hHttpAddChangeRemoveService) {
 		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE"), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
-	if (! hHttpGetShareService) {
+	if (!hHttpGetShareService) {
 		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_SHARE"), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpGetAllShares = CreateServiceFunction(MS_HTTP_GET_ALL_SHARES, nHttpGetAllShares);
-	if (! hHttpGetAllShares) {
+	if (!hHttpGetAllShares) {
 		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES"), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
@@ -893,15 +901,13 @@ extern "C" __declspec(dllexport) int Load()
 		return 1;
 	}
 
-	if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
-	{
+	if (CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szPluginPath)) {
 		MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 	mir_tstrncat(szPluginPath, _T("\\HTTPServer\\"), _countof(szPluginPath) - mir_tstrlen(szPluginPath));
 	int err = CreateDirectoryTree(szPluginPath);
-	if((err != 0) && (err != ERROR_ALREADY_EXISTS))
-	{
+	if ((err != 0) && (err != ERROR_ALREADY_EXISTS)) {
 		MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
@@ -918,7 +924,7 @@ extern "C" __declspec(dllexport) int Load()
 	nMaxConnectionsTotal = db_get_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
 	nMaxConnectionsPerUser = db_get_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
 	bLimitOnlyWhenOnline = db_get_b(NULL, MODULE, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
-	indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
+	indexCreationMode = (eIndexCreationMode)db_get_b(NULL, MODULE, "IndexCreationMode", 2);
 
 	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
 		CMenuItem mi;
@@ -956,7 +962,7 @@ extern "C" __declspec(dllexport) int Load()
 extern "C"  __declspec(dllexport) int Unload()
 {
 	nSystemShutdown(0, 0);
-	if(hwndStatsticView)
+	if (hwndStatsticView)
 		DestroyWindow(hwndStatsticView);
 	return 0;
 }
