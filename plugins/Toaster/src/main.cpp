@@ -61,11 +61,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 int OnPreShutdown(WPARAM, LPARAM)
 {
-	mir_cslock lck(csNotifications);
-	for (int i = 0; i < lstNotifications.getCount(); i++)
-		lstNotifications[i].Hide();
-
-	lstNotifications.destroy();
-
+	HideAllToasts();
 	return 0;
 }
