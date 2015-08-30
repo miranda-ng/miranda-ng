@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Cancel]

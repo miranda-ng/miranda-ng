@@ -87,8 +87,6 @@ Powód zaproszenia
 [Add]
 Dodaj
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-\[Miranda] zostałeś zaproszony do pokoju: %s z wiadomością: %s
 [%s denied invitation with message: %s]
 %s odrzucił zaproszenie z wiadomością: %s
 [Me]
@@ -107,6 +105,8 @@ Inne
 Dołącz Do Mojej Konferencji
 [No, thank you...]
 Nie, dziękuję
+[[miranda] Got conference invite to room: %s with msg: %s]
+\[Miranda] zostałeś zaproszony do pokoju: %s z wiadomością: %s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Ogólne

@@ -2,6 +2,7 @@
 [Enable icons]
 [Remove status (10x10)]
 [&E-mail]
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

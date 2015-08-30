@@ -1384,10 +1384,6 @@ Zulu
 Te zmiany przyniosą efekt po następnym połączeniu z siecią Jabber
 [Jabber Protocol Option]
 Opcje protokołu Jabber
-[Confirm password]
-Powtórz hasło
-[Passwords do not match.]
-Hasła różnią się od siebie.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 To polecenie usunie twoje konto, listę kontaktów i wszystkie inne informacje z serwera. Jesteś pewien, że chcesz to zrobić?
 [Account removal warning]

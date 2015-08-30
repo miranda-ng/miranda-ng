@@ -94,9 +94,9 @@
 [Click Next to continue]
 Нажмите "Далее" для продолжения
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите отменить?
+Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к исходной базе данных. Вы хотите отменить?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-Обработка ещё не завершена; если вы перейдёте назад сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите перейти назад?
+Обработка ещё не завершена; если вы перейдёте назад сейчас, то изменения не будут применены к исходной базе данных. Вы хотите перейти назад?
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящего драйвера БД для открытия '%s'.
 [Error]
@@ -112,15 +112,15 @@
 [All Files]
 Все файлы
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Были найдены ошибки, но вы не сохранили резервную копию. Строго рекомендуется её сделать, так как важные данные могут быть утеряны. Вы хотите сохранить резервную копию оригинальной базы данных?
+Были найдены ошибки, но вы не сохранили резервную копию. Строго рекомендуется её сделать, так как важные данные могут быть утеряны. Вы хотите сохранить резервную копию исходной базы данных?
 [%s\\Backup of %s]
 %s\\Резервная копия %s
 [%s\\Backup (%d) of %s]
 %s\\Резервная копия (%d) %s
 [Unable to rename original file]
-Невозможно переименовать оригинальный файл
+Невозможно переименовать исходный файл
 [Unable to delete original file]
-Невозможно удалить оригинальный файл
+Невозможно удалить исходный файл
 [Unable to rename output file]
 Невозможно переименовать файл на выходе
 [Database worker thread activated]

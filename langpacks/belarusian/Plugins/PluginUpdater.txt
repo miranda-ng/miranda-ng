@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 ;file \plugins\PluginUpdater\res\Resource.rc
@@ -24,7 +24,7 @@
 Гарачая клавіша
 [Go to Customize -> Hotkeys to change the hotkey]
 Налада ў Тонкая налада -> Гарачыя клавішы
-[Plugin updates options]
+[Update options]
 Налады абнаўленняў
 [On startup]
 Пры запуску

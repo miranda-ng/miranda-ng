@@ -30,13 +30,15 @@
 
 [Automatic messages synchronization]
 
-[Use local time for received messages]
-
 [Always notify as unread for all incoming message]
 
 [Place:]
 
 [Use hostname]
+
+[Use BBCode]
+
+[Change password]
 
 [Enter password]
 
@@ -93,9 +95,13 @@ Upozorenje
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [Invalid data!]
 
-[Original message:\n\t%s\n]
+[[b]Original message:[/b]\n%s\n]
 
-[Edited at %s:\n\t%s\n]
+[Original message:\n%s\n]
+
+[[b]Edited at %s:[/b]\n%s\n]
+
+[Edited at %s:\n%s\n]
 
 [Call]
 
@@ -151,7 +157,11 @@ Autoriziraj
 [Create new chat]
 
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[You cannot send when you are offline.]
+
 [Unknown error!]
+
+[Network error!]
 
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
@@ -178,7 +188,4 @@ Autoriziraj
 [Failed establish a TRouter connection.]
 
 [Incoming call from %s]
-
-;file \protocols\SkypeWeb\src\skype_utils.cpp
-[Message read: %s]
 

@@ -28,6 +28,7 @@
 [Chat log symbols (Webdings)]
 [&Leave chat]
 [Connecting (attempt %d)]
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]

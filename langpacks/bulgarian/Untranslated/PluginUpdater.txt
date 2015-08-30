@@ -1,3 +1,6 @@
 ﻿[Install and update plugins and other Miranda NG components.]
+[Backup database before update (requires db_autobackups)]
 [For "Restart" popup setting is always infinity]
 [Deprecated!]
+[Plugin updater URI scheme]
+[Backup profile before update]

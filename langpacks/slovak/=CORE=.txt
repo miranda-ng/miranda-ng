@@ -769,12 +769,6 @@ Prichádzajúci súbor
 História pre %s
 [View &history]
 Zobraziť &históriu
-[URL from %s]
-URL od %s
-[Web page address (&URL)]
-Adresa www stránky (&URL)
-[Send timed out]
-Čas k odoslaniu vypršal
 [Edit E-Mail address]
 Zmena e-mail adresy
 [Edit phone number]

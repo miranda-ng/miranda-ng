@@ -1891,18 +1891,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Выдаліць гісторыю
 [View &history]
 &Гісторыя
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-URL ад %s
-[Web page address (&URL)]
-Спасылка (&URL)
-[URL]
-Спасылка
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-Адправіць URL
-[Send timed out]
-Час адпраўкі мінуў
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Рэдагаваць адрас E-mail
@@ -2128,16 +2116,16 @@ URL ад %s
 Профіль не можа быць змешчаны ў каранёвую тэчку Міранды.\nКалі ласка, абярыце профілю іншае месца.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda не можа адкрыць '%s', бо плагіны для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_mmap.dll
-[No profile support installed!]
-Няма ўсталяваных плагінаў базы!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda NG не можа адчыніць '%s', профіль у невядомым фармаце.\nГэты профіль можа быць пашкоджаны, паспрабуйце выправіць яго з дапамогай DbChecker.
-[Miranda can't understand that profile]
-Miranda не можа распазнаць гэты профіль
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda не можа адкрыць '%s'\nЁн недасяжны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
+[No profile support installed!]
+Няма ўсталяваных плагінаў базы!
 [Miranda can't open that profile]
 Miranda NG не можа адкрыць гэты профіль
+[Miranda can't understand that profile]
+Miranda не можа распазнаць гэты профіль
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад кожнай вырабленай зменай.
@@ -2585,6 +2573,8 @@ ID конта
 [Icon sets]
 Наборы абразкоў
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+Спасылка
 [User online]
 Кантакт далучаны
 [Group (open)]

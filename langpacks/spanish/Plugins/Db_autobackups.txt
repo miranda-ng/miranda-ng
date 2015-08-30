@@ -11,10 +11,10 @@ Cancelar
 Desabilitado
 [Error]
 Error
-[Database]
-Base de datos
 [All files]
 Todos los archivos
+[Database]
+Base de datos
 [Variables]
 Variables
 [days]

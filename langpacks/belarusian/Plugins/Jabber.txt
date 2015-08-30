@@ -1370,10 +1370,6 @@ Jabber Рэсурс
 Змены будуць ужытыя пры наступным уваходзе ў Jabber.
 [Jabber Protocol Option]
 Налады пратаколу Jabber
-[Confirm password]
-Увядзіце пароль
-[Passwords do not match.]
-Паролі не супадаюць.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Гэта аперацыя выдаліць ваш конт, росцер і усю інфармацыю, што захаваная на серверы. Вы ўпэўнены?
 [Account removal warning]

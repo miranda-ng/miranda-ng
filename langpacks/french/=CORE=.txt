@@ -1901,18 +1901,6 @@ Voulez-vous vraiment supprimer cette entrée ?
 Effacer histori.
 [View &history]
 Voir l'&historique
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-Lien de %s
-[Web page address (&URL)]
-Adresse &Internet
-[URL]
-Lien
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-Envoi le lien à
-[Send timed out]
-Délai d'envoi expiré
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Éditer le courriel
@@ -2140,16 +2128,18 @@ Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas d�
 Le profil ne peut être placé dans le dossier racine de Miranda.\nVeuillez déplacer le profil à un autre endroit.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mmap.dll
-[No profile support installed!]
-Pas de support de profil installé !
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.\nCe profil peut également être endommagé, s'il vous plaît exécuter DbChecker qui doit être installé.
-[Miranda can't understand that profile]
-Miranda ne comprend pas ce profil !
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[No profile support installed!]
+Pas de support de profil installé !
 [Miranda can't open that profile]
 Miranda ne peut pas ouvrir ce profil
+[Miranda can't understand that profile]
+Miranda ne comprend pas ce profil !
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 
@@ -2659,6 +2649,8 @@ Aucun utilisateur trouvé
 [Icon sets]
 
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+Lien
 [User online]
 Utilisateur en ligne
 [Group (open)]

@@ -49,14 +49,14 @@
 Създава се резервно копие...
 [Error]
 Грешка
-[Database]
-База данни
 [Miranda NG databases]
 База данни на Miranda NG
 [Compressed Miranda NG databases]
 Компресирана база данни на Miranda NG
 [All files]
 Всички файлове
+[Database]
+База данни
 [Backup profile]
 Създаване резервно копие на профила
 [Save profile as...]

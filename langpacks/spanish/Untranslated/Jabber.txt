@@ -542,8 +542,6 @@
 [Zulu]
 [These changes will take effect the next time you connect to the Jabber network.]
 [Jabber Protocol Option]
-[Confirm password]
-[Passwords do not match.]
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 [Account removal warning]
 [You can change your password only when you are online]

@@ -1805,16 +1805,6 @@ Historial de %s
 Eliminar historial
 [View &history]
 Ver &historial
-[URL from %s]
-URL de %s
-[Web page address (&URL)]
-Dirección de página Web (&URL)
-[URL]
-URL
-[Send URL to]
-Enviar URL a
-[Send timed out]
-Tiempo de envio expirado
 [Edit E-Mail address]
 Editar dirección de correo
 [Edit phone number]
@@ -2017,16 +2007,16 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll
-[No profile support installed!]
-¡No soporta el perfil instalado!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda no pudo abrir '%s', está en un formato desconocido.\nEste perfil también puede estar dañado, Por favor, ejecute DbChecker que debe instalarse.
-[Miranda can't understand that profile]
-Miranda no puede entender el perfil
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda no pudo abrir '%s'\nEs inaccesible o utilizado por otra aplicación o instancia Miranda
+[No profile support installed!]
+¡No soporta el perfil instalado!
 [Miranda can't open that profile]
 Miranda no puede abrir ese perfil
+[Miranda can't understand that profile]
+Miranda no puede entender el perfil
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de cada cambio que se realiza.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2341,6 +2331,8 @@ Problema con la búsqueda
 Ningún usuario encontrado
 [Icon sets]
 Conjuntos de iconos
+[URL]
+URL
 [User online]
 Usuario en línea
 [Group (open)]

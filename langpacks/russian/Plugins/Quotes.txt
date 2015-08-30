@@ -208,13 +208,13 @@ HTTP подключение Quotes
 [From Currency Full Name]
 Полное название исходной валюты
 [From Currency Short Name]
-Короткое название исходной валюты
+Краткое название исходной валюты
 [Into Currency Full Name]
 Полное название целевой валюты
 [Into Currency Short Name]
-Короткое название целевой валюты
+Краткое название целевой валюты
 [Short notation for "%f/%i"]
-Короткое обозначение "%f/%i"
+Краткое обозначение "%f/%i"
 [Source of Information]
 Источник информации
 [Rate Value]

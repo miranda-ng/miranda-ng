@@ -30,14 +30,16 @@ Konto
 Inne
 [Automatic messages synchronization]
 Automatyczna synchronizacja wiadomości
-[Use local time for received messages]
-Używaj czasu lokalnego dla odebranych wiadomości
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
 [Place:]
 Miejsce:
 [Use hostname]
 Używaj nazwy hosta
+[Use BBCode]
+
+[Change password]
+Zmień hasło
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -93,10 +95,14 @@ Połączenie przychodzące
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [Invalid data!]
 
-[Original message:\n\t%s\n]
+[[b]Original message:[/b]\n%s\n]
 
-[Edited at %s:\n\t%s\n]
-edytowana %s:\n\t%s\n
+[Original message:\n%s\n]
+
+[[b]Edited at %s:[/b]\n%s\n]
+\[b]edytowana %s:[/b]\n%s\n
+[Edited at %s:\n%s\n]
+edytowana %s:\n%s\n
 [Call]
 
 [Call missed]
@@ -151,7 +157,11 @@ Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[You cannot send when you are offline.]
+
 [Unknown error!]
+
+[Network error!]
 
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
@@ -179,6 +189,3 @@ Dźwięk anulowania rozmowy przychodzącej
 Nie udało się ustanowić połączenia TRouter.
 [Incoming call from %s]
 Przychodząca rozmowa od %s
-;file \protocols\SkypeWeb\src\skype_utils.cpp
-[Message read: %s]
-Wiadomość odczytana: %s

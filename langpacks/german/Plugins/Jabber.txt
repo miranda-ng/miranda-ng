@@ -1384,10 +1384,6 @@ Zulu
 Die Änderungen werden erst nach einer Neueinwahl ins Jabbernetzwerk aktiv.
 [Jabber Protocol Option]
 Jabber-Protokolleinstellungen
-[Confirm password]
-Passwort bestätigen
-[Passwords do not match.]
-Passwörter stimmen nicht überein.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Dieser Vorgang wird Ihr Konto auf diesem Server endgültig löschen. Alle Kontakte und andere auf dem Server gespeicherten Daten gehen unwiederbringlich verloren. Wollen Sie dies wirklich machen?
 [Account removal warning]

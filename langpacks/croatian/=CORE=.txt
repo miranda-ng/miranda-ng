@@ -1901,18 +1901,6 @@ sve datoteke
 
 [View &history]
 
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-
-[Web page address (&URL)]
-
-[URL]
-
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-
-[Send timed out]
-
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 
@@ -2140,15 +2128,17 @@ sve datoteke
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 
-[No profile support installed!]
-
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-
-[Miranda can't understand that profile]
 
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[No profile support installed!]
+
 [Miranda can't open that profile]
+
+[Miranda can't understand that profile]
 
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
@@ -2659,6 +2649,8 @@ Nema pronađenih korisnika
 [Icon sets]
 Setovi ikona
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+
 [User online]
 Korisnik je na mreži
 [Group (open)]

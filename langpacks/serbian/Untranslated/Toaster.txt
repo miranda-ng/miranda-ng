@@ -1,0 +1,3 @@
+﻿[Provides popup services based on Windows toast notification for different plugins.]
+[This plugin requires Windows 8 or higher]
+[Failed create shortcut]

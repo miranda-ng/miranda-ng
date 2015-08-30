@@ -35,5 +35,3 @@ Red
 Notificaciones
 [Errors]
 Errores
-[Message read: %s]
-Leer mensaje: %s

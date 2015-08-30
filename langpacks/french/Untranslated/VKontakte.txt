@@ -111,7 +111,6 @@
 [shared your video]
 [Attachments:]
 [Wall post]
-[Image]
 [Gift]
 [Unsupported or unknown attachment type: %s]
 [Message from]

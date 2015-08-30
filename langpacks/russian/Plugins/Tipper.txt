@@ -508,7 +508,7 @@ xСтатус:
 [<prefix>Hours|Minutes to time]
 <префикс>часы|минуты - во время
 [DWORD timestamp to date (short)]
-Дв. слово - в дату (короткую)
+Дв. слово - в дату (краткую)
 [DWORD timestamp to date (long)]
 Дв. слово - в дату (длинную)
 [xStatus: empty xStatus name to default name]

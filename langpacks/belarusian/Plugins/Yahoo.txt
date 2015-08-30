@@ -83,8 +83,6 @@ Yahoo Японія
 [Add]
 Дадаць
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda NG) Атрымана запрашэнне ў чат %s:%s
 [%s denied invitation with message: %s]
 %s адмаўляе запрашэнне з паведамленнем: %s
 [Me]
@@ -103,6 +101,8 @@ Yahoo Японія
 Заходзь ў мой чат...
 [No, thank you...]
 Не, дзякуй...
+[[miranda] Got conference invite to room: %s with msg: %s]
+(Miranda NG) Атрымана запрашэнне ў чат %s:%s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Галоўны

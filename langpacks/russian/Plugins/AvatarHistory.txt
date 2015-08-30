@@ -92,7 +92,7 @@
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
-Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<время> (одинаковые аватары могут быть сохранены несколько раз)
+Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время> (одинаковые аватары могут быть сохранены несколько раз)
 [Avatar History for %s]
 История аватаров для %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]

@@ -59,6 +59,8 @@
 [Action]
 Дзеянне
 ;file \protocols\SkypeWeb\src\skype_events.cpp
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Абразок пратаколу
@@ -79,8 +81,6 @@
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 Злучэнне %s
-[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва
@@ -91,6 +91,3 @@
 Памылкі
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-;file \protocols\SkypeWeb\src\skype_utils.cpp
-[Message read: %s]
-Паведамленне прачытана ў: %s

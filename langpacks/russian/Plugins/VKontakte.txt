@@ -12,7 +12,7 @@
 [off]
 отключена
 [for original size images]
-для оригинального размера
+для исходного размера
 [for preview max 130px*130px]
 для предпросмотра в 130px*130px
 [for preview max 604px*604px]

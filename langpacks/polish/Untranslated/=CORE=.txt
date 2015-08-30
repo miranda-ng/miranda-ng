@@ -1,2 +1,3 @@
 ﻿[Insert submenu]
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [New submenu]

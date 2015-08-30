@@ -108,9 +108,6 @@
 С&касаваць
 [Add]
 Дадаць
-;file \protocols\MSN\src\msn_auth.cpp
-[MSN Protocol]
-Пратакол MSN
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Чат #
@@ -131,6 +128,8 @@
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
 [Accept NetMeeting request from %s?]
 Прымеце запыт NetMeeting ад  %s?
+[MSN Protocol]
+Пратакол MSN
 [Chat session established by my request]
 Сесія ўсталявана па маім запыце
 [Chat session established by contact request]
@@ -152,6 +151,7 @@ MSN Чат
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Кантакт не далучаны
+;file \protocols\MSN\src\msn_ieembed.cpp
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Спасылка MSN
@@ -285,4 +285,3 @@ MSN Чат
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Сесія скінута з-за неактыўнасці
-;file \protocols\MSN\src\stdafx.h
