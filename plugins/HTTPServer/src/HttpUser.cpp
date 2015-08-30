@@ -314,7 +314,7 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 		"</BODY></HTML>\n"
 		"\r\n"
 		"\r\n",
-		iErrorCode, pszError, szCurrTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), pszRedirect, iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+		iErrorCode, pszError, szCurrTime, __VERSION_STRING_DOTS, pszRedirect, iErrorCode, pszError, pszError, pszDescription, __VERSION_STRING_DOTS);
 
 	Netlib_Send(hConnection, szBuff, dwBytesToWrite, 0);
 }
@@ -628,7 +628,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					return true;
 				}
 
-				const char szHttpPartial[] = "HTTP/1.1 206 Partial Content\r\n"
+				dwBytesToWrite = mir_snprintf(szBuf, 
+					"HTTP/1.1 206 Partial Content\r\n"
 					"Connection: Keep-Alive\r\n"
 					"Date: %s\r\n"
 					"Server: MirandaWeb/%s\r\n"
@@ -638,21 +639,13 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					"Content-Type: %s\r\n"
 					"Content-Range: bytes %d-%d/%d\r\n"
 					"Last-Modified: %s\r\n"
-					"\r\n";
-
-				dwBytesToWrite = mir_snprintf(szBuf, szHttpPartial,
-					szCurTime,
-					PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-					szETag,
-					dwDataToSend,
-					pszGetMimeType(pszRealPath),
-					dwFileStart,
-					(dwFileStart + dwDataToSend - 1),
-					nDataSize,
-					szFileTime);
+					"\r\n",
+					szCurTime, __VERSION_STRING_DOTS, szETag, dwDataToSend, pszGetMimeType(pszRealPath),
+					dwFileStart, (dwFileStart + dwDataToSend - 1), nDataSize, szFileTime);
 			}
 			else {
-				const char szHttpOk[] = "HTTP/1.1 200 OK\r\n"
+				dwBytesToWrite = mir_snprintf(szBuf,
+					"HTTP/1.1 200 OK\r\n"
 					"Connection: Keep-Alive\r\n"
 					"Date: %s\r\n"
 					"Server: MirandaWeb/%s\r\n"
@@ -661,15 +654,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					"Content-Length: %d\r\n"
 					"Content-Type: %s\r\n"
 					"Last-Modified: %s\r\n"
-					"\r\n";
-
-				dwBytesToWrite = mir_snprintf(szBuf, szHttpOk,
-					szCurTime,
-					PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-					szETag,
-					nDataSize,
-					pszGetMimeType(pszRealPath),
-					szFileTime);
+					"\r\n",
+					szCurTime, __VERSION_STRING_DOTS, szETag, nDataSize, pszGetMimeType(pszRealPath), szFileTime);
 			}
 
 			Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
