@@ -1901,18 +1901,6 @@ Potvrda brisanja istorije korisnika: %s?
 Briši istoriju
 [View &history]
 Pregledaj %istoriju
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-Linkovi od: %s
-[Web page address (&URL)]
-Internet stranica (&URL)
-[URL]
-Link
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-Pošalji link kome:
-[Send timed out]
-Rok za slanje istekao
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Izmeni E-Mail adresu
@@ -2140,16 +2128,18 @@ Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude
 Profil ne može biti sačuvan u 'root' folderu.\nProfil premestite na drugo mesto.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda ne uspeva da otvori '%s' jer nije instaliran odgovarajući plug-in.\nPotrebna je biblioteka dbx_mmap.dll
-[No profile support installed!]
-Miranda nema podršku za (taj) profil!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda ne uspeva da otvori '%s', u pitanju je nepoznat format.\nZa slučaj da je datoteka profila oštećena, pokrenite DbChecker ako je instaliran.
-[Miranda can't understand that profile]
-Miranda ne razume sadržaj datog profila
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda ne uspeva da otvori '%s'\nNedostupnu datoteku koristi druga aplikacija, ili još jedna instanca Mirande
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[No profile support installed!]
+Miranda nema podršku za (taj) profil!
 [Miranda can't open that profile]
 Miranda ne može da otvori taj profil
+[Miranda can't understand that profile]
+Miranda ne razume sadržaj datog profila
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sistem(i) zaštite za prevenciju štetnih promena su pokrenuti i obaveštavaju korisnika o svakoj promeni.
@@ -2659,6 +2649,8 @@ Pretraga nije pronašla korisnike
 [Icon sets]
 Kompleti ikonica
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+Link
 [User online]
 Korisnik na vezi
 [Group (open)]

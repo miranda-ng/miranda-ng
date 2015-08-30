@@ -86,7 +86,7 @@
 [Co&py Non-IM Contact]
 Ко&пировать не-IM контакт
 [Type one replace string per line in the format "original text,new text"]
-Одна строка замены на каждую строчку в формате "оригинал,новый"
+Одна строка замены на каждую строчку в формате "исходный текст,новый текст"
 [EXAMPLE: %fn1,%fn2]
 ПРИМЕР: %fn1,%fn2
 [Select Folder]

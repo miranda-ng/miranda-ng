@@ -1384,10 +1384,6 @@ Zoulou
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
 Options du protocole Jabber
-[Confirm password]
-Confirmez le mot de passe
-[Passwords do not match.]
-
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 
 [Account removal warning]

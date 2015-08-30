@@ -112,7 +112,6 @@
 [shared your photo]
 [shared your video]
 [Wall post]
-[Image]
 [Gift]
 [Unsupported or unknown attachment type: %s]
 [at]

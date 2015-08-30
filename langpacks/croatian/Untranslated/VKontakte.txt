@@ -130,7 +130,6 @@
 [Video]
 [Document]
 [Wall post]
-[Image]
 [Gift]
 [Unsupported or unknown attachment type: %s]
 [(Unknown contact)]

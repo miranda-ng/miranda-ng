@@ -1807,14 +1807,6 @@ Popups за изобразяване
 Изтриване на историята
 [View &history]
 Преглед на историята
-[URL from %s]
-URL адрес от %s
-[Web page address (&URL)]
-уеб страница (URL)
-[URL]
-URL
-[Send URL to]
-Изпращане на URL до
 [Edit E-Mail address]
 Редактиране на имейла
 [Edit phone number]
@@ -2021,16 +2013,16 @@ URL
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mmap.dll
-[No profile support installed!]
-Не е инсталирана поддръжка на профила!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 "%s" не може да бъде отворен - неизвестен формат.\nВероятно профилът е повреден. Пробвайте да го поправите с DbChecker.
-[Miranda can't understand that profile]
-Анализирането на профила е невъзможно
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Профилът "%s" не може да бъде отворен.\nФайлът е недостъпен или се използва от друго приложение или инстанция на Miranda.
+[No profile support installed!]
+Не е инсталирана поддръжка на профила!
 [Miranda can't open that profile]
 Отварянето на профила е невъзможно.
+[Miranda can't understand that profile]
+Анализирането на профила е невъзможно
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди всяка промяна.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2445,6 +2437,8 @@ ID на акаунта
 Няма намерени потребители
 [Icon sets]
 Комплект икони
+[URL]
+URL
 [User online]
 Потребител "На линия"
 [Group (open)]

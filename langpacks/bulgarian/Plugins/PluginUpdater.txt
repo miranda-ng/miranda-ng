@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -23,7 +23,7 @@
 Клавишна комбинация
 [Go to Customize -> Hotkeys to change the hotkey]
 За промени отидете в Персонализиране>Клавишни комбинации
-[Plugin updates options]
+[Update options]
 Настройки за актуализирането
 [On startup]
 При стартиране
@@ -147,12 +147,12 @@ Plugin Updater
 Затваря popup
 [Do nothing]
 Нищо
+[Stable version (incompatible with current development version)]
+Стабилна версия (несъвместимо с текущата развойна версия)
 [hours]
 часа
 [days]
 дни
-[Stable version (incompatible with current development version)]
-Стабилна версия (несъвместимо с текущата развойна версия)
 [Test]
 Тест
 [Services]

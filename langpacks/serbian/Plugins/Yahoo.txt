@@ -87,8 +87,6 @@ Otkazivanje
 [Add]
 Dodaj
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-
 [%s denied invitation with message: %s]
 
 [Me]
@@ -106,6 +104,8 @@ Detalji &korisnika
 [Join My Conference...]
 
 [No, thank you...]
+
+[[miranda] Got conference invite to room: %s with msg: %s]
 
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]

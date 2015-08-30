@@ -87,8 +87,6 @@ Grund der Einlad.
 [Add]
 Hinzufügen
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-\[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
 [%s denied invitation with message: %s]
 %s hat die Einladung mit folgender Nachricht abgelehnt: %s
 [Me]
@@ -107,6 +105,8 @@ Verlauf des Kontakts
 Meine Koinferenz betreten...
 [No, thank you...]
 Nein, danke...
+[[miranda] Got conference invite to room: %s with msg: %s]
+\[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Allgemein

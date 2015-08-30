@@ -54,21 +54,21 @@ Copie de la base de données...
 [Error]
 Erreur
 ;file \plugins\Db_autobackups\src\main.cpp
-[Database]
-
-[Database backups]
-Profil sauvegardé
 [Miranda NG databases]
 
 [Compressed Miranda NG databases]
 
 [All files]
 Tous les fichiers
-[Backup folder]
+[Database]
 
 [Backup profile]
 Sauvegarder votre profil
 [Save profile as...]
+
+[Database backups]
+Profil sauvegardé
+[Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]

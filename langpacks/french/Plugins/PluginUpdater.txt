@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
@@ -26,8 +26,8 @@ Annuler
 Raccourci clavier
 [Go to Customize -> Hotkeys to change the hotkey]
 Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
-[Plugin updates options]
-Options du plugin de mise à jour
+[Update options]
+
 [On startup]
 Au démarrage
 [(but only once a day)]
@@ -35,6 +35,8 @@ Au démarrage
 [Every]
 Tous les
 [Silent mode]
+
+[Backup database before update (requires db_autobackups)]
 
 [Files source]
 Source du fichier
@@ -153,6 +155,8 @@ Aucune mises à jour trouvée.
 [Update checking already started!]
 Vérification des mises à jour en cours!
 ;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
@@ -160,12 +164,14 @@ Vérification des mises à jour en cours!
 [Do nothing]
 
 ;file \plugins\PluginUpdater\src\Options.cpp
+[Backup profile before update]
+
+[Stable version (incompatible with current development version)]
+
 [hours]
 heures
 [days]
 jours
-[Stable version (incompatible with current development version)]
-
 [Test]
 Test
 [Services]

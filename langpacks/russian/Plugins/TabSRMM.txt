@@ -364,7 +364,7 @@ ID пользователя в строке состояния
 [(0 = no limit)]
 (0=не ограничено)
 [Try to keep original size]
-Сохранять оригинальный размер
+Сохранять исходный размер
 [Help on this]
 Описание настроек
 [Reset all hidden warnings]
@@ -1466,9 +1466,9 @@ TabSRMM: набирает
 [This name is already in use]
 Это имя уже используется
 [A send later job completed successfully.\nThe original message: %s]
-Задача отправки с задержкой успешно выполнена. \nОригинальное сообщение: %s
+Задача отправки с задержкой успешно выполнена. \nИсходное сообщение: %s
 [A send later job failed to complete.\nThe original message: %s]
-Ошибка выполнения отправки с задержкой.\nОригинальное сообщение: %s
+Ошибка выполнения отправки с задержкой.\nИсходное сообщение: %s
 [<All contacts>]
 <Все контакты>
 [Removed]
@@ -1486,7 +1486,7 @@ TabSRMM: набирает
 [Contact]
 Контакт
 [Original timestamp]
-Оригинальная метка времени
+Исходное время
 [Message text]
 Текст сообщения
 [Status]
@@ -1496,7 +1496,7 @@ TabSRMM: набирает
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы собираетесь изменить состояние одного или нескольких элементов в очереди отправки. Требуемое действие(я) будет выполнено при следующей запланированной обработке очереди. Это действие не может быть отменено.
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
-Сообщение не может быть отослано нескольким контактам одновременно, потому что оно превыщает максимально допустимую длину %d байтов
+Сообщение не может быть отослано нескольким контактам одновременно, потому что оно превышает максимально допустимую длину %d байтов
 [A message delivery has failed.\nClick to open the message window.]
 Доставка сообщения не удалась.\nНажмите для открытия окна сообщений
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -1526,7 +1526,7 @@ TabSRMM: %s
 [Previews not available when using History++ plugin for message log display.]
 Предпросмотр недоступен при использовании History++ в качестве журнала сообщений.
 [%d unread]
-%d непрочитано
+%d не прочитано
 [Chat room %s]
 Комната чата %s
 [%d user(s)]

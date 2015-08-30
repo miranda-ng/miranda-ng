@@ -84,7 +84,7 @@
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]
 [Do you really want to cancel this upload?]
-[Status: %s\r\nFile: %s\r\nServer: %s]
+[Status: %s\r\nFile: %s\r\nServer: %S]
 [File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]

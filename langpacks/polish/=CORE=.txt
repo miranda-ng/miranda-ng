@@ -1901,18 +1901,6 @@ Czy jesteś pewien, że chcesz usunąć ten wpis historii?
 Usuń historię
 [View &history]
 Zobacz &historię
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-Link od %s
-[Web page address (&URL)]
-Adres strony internetowej (&link)
-[URL]
-Link
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-Wyślij link do
-[Send timed out]
-Przekroczono czas wysyłania
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Edytuj adres E-Mail
@@ -2140,16 +2128,18 @@ Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenie�
 Profil nie może być umieszczony w folderze głównym Mirandy.\Proszę przenieść profil do innej lokalizacji.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_mmap.dll
-[No profile support installed!]
-Nie zainstalowano wsparcia dla profili!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.\nTen profil może być uszkodzony, należy uruchomić DBChecker, który powinien być zainstalowany.
-[Miranda can't understand that profile]
-Miranda nie może otworzyć tego profilu
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda nie może uruchomić profilu "%s"\nProgram jest już uruchomiony lub profil został uszkodzony!
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[No profile support installed!]
+Nie zainstalowano wsparcia dla profili!
 [Miranda can't open that profile]
 Miranda nie może uruchomić profilu
+[Miranda can't understand that profile]
+Miranda nie może otworzyć tego profilu
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 System bezpieczeństwa chroniący przed złośliwymi zmianami został aktywowany i będziesz powiadamiany o każdej dokonanej zmianie.
@@ -2659,6 +2649,8 @@ Nie znaleziono użytkowników
 [Icon sets]
 Zestawy ikon
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+Link
 [User online]
 Połączony użytkownik
 [Group (open)]

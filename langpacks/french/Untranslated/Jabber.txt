@@ -337,7 +337,6 @@
 [Xhosa]
 [Yoruba]
 [Zhuang; Chuang]
-[Passwords do not match.]
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 [You can change your password only when you are online]
 [You must be online]

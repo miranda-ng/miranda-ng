@@ -114,9 +114,6 @@ E&inladen
 Abbre&chen
 [Add]
 Hinzufügen
-;file \protocols\MSN\src\msn_auth.cpp
-[MSN Protocol]
-MSN-Protokoll
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Chat #
@@ -143,6 +140,8 @@ MSN Alert
 Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [Accept NetMeeting request from %s?]
 NetMeeting-Anfrage von %s akzeptieren?
+[MSN Protocol]
+MSN-Protokoll
 [Chat session established by my request]
 Die Chatsitzung wurde von mir eingeleitet
 [Chat session established by contact request]
@@ -164,6 +163,17 @@ Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Benutzer nicht online
+;file \protocols\MSN\src\msn_ieembed.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 MSN-Link-Protokoll
@@ -297,6 +307,3 @@ In Chat umwandeln
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Die Chatsitzung wurde wegen Inaktivität beendet
-;file \protocols\MSN\src\stdafx.h
-[Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
-Automatische Autorisierung bei MSN fehlgeschlagen, vermutlich wegen Captcha-Authentifizierung. Möchten Sie ein Browserfenster öffnen um sich manuell anzumelden? Das wird Sie nicht in Miranda in MSN anmelden, aber es erlaubt Ihnen, potentielle Probleme zu beheben, beispielsweise ein Captcha, das durch einen Ortswechsel angezeigt wird, oder die neuen TOS zu akzeptieren, was nur einmal erforderlich ist.\n\Beachten Sie auch, dass MSN keine Zwei-Faktor-Authentifizierung unterstützt.

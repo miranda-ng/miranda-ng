@@ -10,5 +10,5 @@ Stellt Popup-Benachrichtigungen als Windows-Toast-Benachrichtigungen dar.
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Dieses Plugin benötigt Windows 8 oder neuer.
-[Failed create shortcut]
+[Failed to create shortcut]
 Erstellung der Verknüpfung fehlgeschlagen.

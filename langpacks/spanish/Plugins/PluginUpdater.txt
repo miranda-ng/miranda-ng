@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -23,8 +23,6 @@ Elegir &nada
 Tecla de acceso directo
 [Go to Customize -> Hotkeys to change the hotkey]
 Vaya a Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
-[Plugin updates options]
-Opciones de actualizaciones de plugin
 [On startup]
 Al inicio
 [(but only once a day)]

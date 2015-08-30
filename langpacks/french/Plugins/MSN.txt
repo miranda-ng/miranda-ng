@@ -114,9 +114,6 @@ Pseudo
 &Annuler
 [Add]
 Ajouter
-;file \protocols\MSN\src\msn_auth.cpp
-[MSN Protocol]
-Protocole MSN
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 
@@ -143,6 +140,8 @@ Alerte MSN
 Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée)
 [Accept NetMeeting request from %s?]
 
+[MSN Protocol]
+Protocole MSN
 [Chat session established by my request]
 Connexion au chat établie sur ma demande
 [Chat session established by contact request]
@@ -164,6 +163,17 @@ Autres
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Contact non connecté
+;file \protocols\MSN\src\msn_ieembed.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Raccourci du protocole MSN
@@ -297,6 +307,3 @@ Message trop long : MSN les limite à 1202 caractères en UTF8
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 La session chat a été arrêté car vous êtes inactif.
-;file \protocols\MSN\src\stdafx.h
-[Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
-

@@ -54,22 +54,22 @@ Datenbank wird gerade gesichert...
 [Error]
 Fehler
 ;file \plugins\Db_autobackups\src\main.cpp
-[Database]
-Datenbank
-[Database backups]
-Datenbanksicherung
 [Miranda NG databases]
 Miranda-NG-Datenbanken
 [Compressed Miranda NG databases]
 Komprimierte Miranda-NG-Datenbanken
 [All files]
 Alle Dateien
-[Backup folder]
-Sicherungsordner
+[Database]
+Datenbank
 [Backup profile]
 Sicherheitskopie des Profils erstellen
 [Save profile as...]
 Profil speichern unter...
+[Database backups]
+Datenbanksicherung
+[Backup folder]
+Sicherungsordner
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis

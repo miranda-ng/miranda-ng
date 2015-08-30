@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
@@ -26,7 +26,7 @@ Otkazivanje
 
 [Go to Customize -> Hotkeys to change the hotkey]
 
-[Plugin updates options]
+[Update options]
 
 [On startup]
 
@@ -35,6 +35,8 @@ Otkazivanje
 [Every]
 
 [Silent mode]
+
+[Backup database before update (requires db_autobackups)]
 
 [Files source]
 
@@ -153,6 +155,8 @@ Ostalo
 [Update checking already started!]
 
 ;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
@@ -160,11 +164,13 @@ Ostalo
 [Do nothing]
 
 ;file \plugins\PluginUpdater\src\Options.cpp
+[Backup profile before update]
+
+[Stable version (incompatible with current development version)]
+
 [hours]
 
 [days]
-
-[Stable version (incompatible with current development version)]
 
 [Test]
 

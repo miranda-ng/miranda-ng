@@ -83,8 +83,6 @@ Yahoo списък за игнориране
 Причина за поканата
 [Add]
 Добавяне
-[[miranda] Got conference invite to room: %s with msg: %s]
-\[Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s
 [%s denied invitation with message: %s]
 %s отхвърли поканата, със съобщението: %s
 [Me]
@@ -103,6 +101,8 @@ Yahoo списък за игнориране
 Присъединете се към конференцията ми...
 [No, thank you...]
 Не, благодаря...
+[[miranda] Got conference invite to room: %s with msg: %s]
+\[Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s
 [Main]
 Основна
 [Mail]

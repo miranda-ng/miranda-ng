@@ -64,7 +64,7 @@
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
-Этот файл содержит оригинальные значки игр. Вы можете также активировать автоматическую загрузку, если этого файла у вас нет.
+Этот файл содержит оригинальные значки игр. Вы можете также включить автоматическую загрузку значков, если этого файла у вас нет.
 [Be sure you put these files in following folder:]
 Будьте внимательны, вы поместите файлы в эту папку:
 [Status Message]

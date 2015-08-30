@@ -1227,10 +1227,6 @@ Jabber източник
 Промените ще бъдат осъществени при следващо свързване с мрежата Jabber.
 [Jabber Protocol Option]
 Настройки на протокола Jabber
-[Confirm password]
-Потвърдете паролата
-[Passwords do not match.]
-Паролите не съвпадат
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Акаунтът ви ще бъде заличен от сървъра, списъкът с хора и цялата информация, която сте съхранили на сървъра. Наистина ли желаете това?
 [Account removal warning]

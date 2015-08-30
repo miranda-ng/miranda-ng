@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.1
+;  Version: 0.6.0.2
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
@@ -218,7 +218,7 @@ označi sve
 
 [Do you really want to cancel this upload?]
 
-[Status: %s\r\nFile: %s\r\nServer: %s]
+[Status: %s\r\nFile: %s\r\nServer: %S]
 
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]

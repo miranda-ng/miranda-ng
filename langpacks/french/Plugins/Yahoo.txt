@@ -87,8 +87,6 @@ Re&joindre
 [Add]
 Ajouter
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-{Miranda} Invitation à la conférence ici : %s message : %s
 [%s denied invitation with message: %s]
 
 [Me]
@@ -107,6 +105,8 @@ Autres
 
 [No, thank you...]
 
+[[miranda] Got conference invite to room: %s with msg: %s]
+{Miranda} Invitation à la conférence ici : %s message : %s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Principales
