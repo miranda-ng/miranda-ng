@@ -223,9 +223,6 @@ HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 
 	EventRegistrationToken activatedToken, dismissedToken, failedToken;
 	Microsoft::WRL::ComPtr<ToastEventHandler> eventHandler(handler);
-	hr = notification->add_Activated(eventHandler.Get(), &activatedToken);
-	if (FAILED(hr))
-		return hr;
 
 	notification->add_Activated(eventHandler.Get(), &activatedToken);
 	notification->add_Dismissed(eventHandler.Get(), &dismissedToken);

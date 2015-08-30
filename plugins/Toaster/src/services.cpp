@@ -26,7 +26,6 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 			CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 		}
 	}
-	lstNotifications.remove(cb->notification);
 }
 
 static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
@@ -45,15 +44,16 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 		{
 			PROTO_AVATAR_INFORMATION pai = { 0 };
 			pai.hContact = hContact;
-			CallProtoService(szProto, PS_GETAVATARINFO, (WPARAM)0, (LPARAM)&pai);
-			imagePath = pai.filename[0] ? mir_tstrdup(pai.filename) : nullptr;
+			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
+			{
+				imagePath = mir_tstrdup(pai.filename);
+			}
 		}
 	}
 
-	ToastNotification* notification = new ToastNotification (text, title, imagePath);
-	arg->notification = notification;
-	notification->Show(new ToastEventHandler(OnToastNotificationClicked, arg));
-	lstNotifications.insert(notification);
+	arg->notification = new ToastNotification(text, title, imagePath);
+	arg->notification->Show(new ToastEventHandler(OnToastNotificationClicked, arg));
+	lstNotifications.insert(arg->notification);
 }
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
