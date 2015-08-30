@@ -37,6 +37,8 @@
 Використ. ім'я хоста
 [Use BBCode]
 Підтримка BBCode
+[Change password]
+Змінити пароль
 [Enter password]
 Введіть пароль
 [Save password]
@@ -167,7 +169,7 @@
 Вхідний дзвінок
 [Incoming call canceled sound]
 Вхідний дзвінок скасовано
-[Failed establish a TRouter connection.]
+[Failed to establish a TRouter connection.]
 Неможливо встановити з'єднання для TRouter.
 [Incoming call from %s]
 Вхідний дзвінок від %s

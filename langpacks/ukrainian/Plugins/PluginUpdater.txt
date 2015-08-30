@@ -155,7 +155,7 @@
 Закрити вікно
 [Do nothing]
 Нічого не робити
-[Backup profile before update]
+[Backup database before update]
 Резервувати профіль перед оновленням
 [Stable version (incompatible with current development version)]
 Стабільна версія (несумісна з версією в розробці)

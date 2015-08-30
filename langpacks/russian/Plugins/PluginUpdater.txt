@@ -155,7 +155,7 @@
 Закрыть всплывающее окно
 [Do nothing]
 Ничего не делать
-[Backup profile before update]
+[Backup database before update]
 Резервировать профиль перед обновлением
 [Stable version (incompatible with current development version)]
 Стабильная версия (несовместима с версией в разработке)

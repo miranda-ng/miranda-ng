@@ -1397,8 +1397,8 @@ Jabber ошибка
 Исправлять время во входящих сообщениях
 [Disable frame]
 Выключить фрейм
-[Enable XMPP link processing (requires Association Manager)]
-Обрабатывать XMPP ссылки (требуется плагин Association Manager)
+[Enable XMPP link processing (requires AssocMgr)]
+Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Использовать локальные группы (игнорировать группы ростера)
 [Security]

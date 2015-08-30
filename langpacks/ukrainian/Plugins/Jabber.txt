@@ -1401,8 +1401,8 @@ xHTML-формат повідомлень чату
 Виправляти час у вхідних повідомленнях
 [Disable frame]
 Вимкнути фрейм
-[Enable XMPP link processing (requires Association Manager)]
-Обробляти XMPP-посилання (потрібен плагін Association Manager)
+[Enable XMPP link processing (requires AssocMgr)]
+Обробляти XMPP-посилання (потрібен плагін AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Використовувати локальні групи (ігнорувати групи ростеру)
 [Security]

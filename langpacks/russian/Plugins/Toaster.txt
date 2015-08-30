@@ -5,3 +5,9 @@
 ;  Version: 0.11.1.0
 ;  Authors: Miranda NG team
 ;============================================================
+[Provides popup services based on Windows toast notification for different plugins.]
+Предоставляет для различных плагинов сервис всплывающих окон на основе системной службы Toast Notification.
+[This plugin requires Windows 8 or higher]
+Для этого плагина требуется Windows 8 или новее.
+[Failed to create shortcut]
+Не удалось создать ярлык.

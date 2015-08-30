@@ -204,7 +204,7 @@ FTP файл менеджер
 [Do you really want to cancel this upload?]
 Вы действительно хотите отменить эту загрузку?
 [Status: %s\r\nFile: %s\r\nServer: %S]
-Состояние: %s\r\nФайл: %s\r\nСервер: %s
+Состояние: %s\r\nФайл: %s\r\nСервер: %S
 [File exists - %s]
 Файл существует - %s
 [Error occurred when opening local file.\nAborting file upload...]
