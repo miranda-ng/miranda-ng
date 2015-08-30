@@ -471,12 +471,12 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const T
 		return 0; // Invalid contact
 
 	if (icqOnline() && hContact && szPath && hTransfer) { // approve old fashioned file transfer
-		basic_filetransfer *ft = (basic_filetransfer *)hTransfer;
+		basic_filetransfer *bft = (basic_filetransfer *)hTransfer;
 
-		if (!IsValidFileTransfer(ft))
+		if (!IsValidFileTransfer(bft))
 			return 0; // Invalid transfer
 
-		if (dwUin && ft->ft_magic == FT_MAGIC_ICQ) {
+		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) {
 			filetransfer *ft = (filetransfer *)hTransfer;
 			ft->szSavePath = tchar_to_utf8(szPath);
 			{
@@ -492,7 +492,7 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const T
 
 			return hTransfer; // Success
 		}
-		else if (ft->ft_magic == FT_MAGIC_OSCAR) { // approve oscar file transfer
+		else if (bft->ft_magic == FT_MAGIC_OSCAR) { // approve oscar file transfer
 			return oftFileAllow(hContact, hTransfer, szPath);
 		}
 	}
@@ -536,7 +536,7 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	int nReturnValue = 1;
-	basic_filetransfer *ft = (basic_filetransfer*)hTransfer;
+	basic_filetransfer *bft = (basic_filetransfer*)hTransfer;
 
 	DWORD dwUin;
 	uid_str szUid;
@@ -547,7 +547,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR
 		if (!IsValidFileTransfer(hTransfer))
 			return 1; // Invalid transfer
 
-		if (dwUin && ft->ft_magic == FT_MAGIC_ICQ) { // deny old fashioned file transfer
+		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) { // deny old fashioned file transfer
 			filetransfer *ft = (filetransfer*)hTransfer;
 			char *szReasonUtf = tchar_to_utf8(szReason);
 			// Was request received thru DC and have we a open DC, send through that
@@ -559,12 +559,12 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR
 
 			nReturnValue = 0; // Success
 		}
-		else if (ft->ft_magic == FT_MAGIC_OSCAR) { // deny oscar file transfer
+		else if (bft->ft_magic == FT_MAGIC_OSCAR) { // deny oscar file transfer
 			return oftFileDeny(hContact, hTransfer, szReason);
 		}
 	}
 	// Release possible orphan structure
-	SafeReleaseFileTransfer((void**)&ft);
+	SafeReleaseFileTransfer((void**)&bft);
 
 	return nReturnValue;
 }
