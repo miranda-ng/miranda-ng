@@ -34,14 +34,14 @@
 */
 
 char *TemplateNames[] = {
-	"Message In",
-	"Message Out",
-	"Group In (Start)",
-	"Group Out (Start)",
-	"Group In (Inner)",
-	"Group Out (Inner)",
-	"Status change",
-	"Error message"
+	LPGEN("Message In"),
+	LPGEN("Message Out"),
+	LPGEN("Group In (Start)"),
+	LPGEN("Group Out (Start)"),
+	LPGEN("Group In (Inner)"),
+	LPGEN("Group Out (Inner)"),
+	LPGEN("Status change"),
+	LPGEN("Error message")
 };
 
 TTemplateSet LTR_Default = { TRUE,
