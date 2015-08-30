@@ -801,7 +801,7 @@ public:
 		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Automatically accept authorization requests"), m_proto->m_options.AutoAcceptAuthorization);
 		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Fix incorrect timestamps in incoming messages"), m_proto->m_options.FixIncorrectTimestamps);
 		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Disable frame"), m_proto->m_options.DisableFrame);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Enable XMPP link processing (requires Association Manager)"), m_proto->m_options.ProcessXMPPLinks);
+		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_options.ProcessXMPPLinks);
 		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_options.IgnoreRosterGroups);
 
 		m_otvOptions.AddOption(LPGENT("Security") _T("/") LPGENT("Allow servers to request version (XEP-0092)"), m_proto->m_options.AllowVersionRequests);

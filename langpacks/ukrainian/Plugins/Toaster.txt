@@ -6,6 +6,8 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
-;file \plugins\Toaster\src\main.cpp
+Надає для інших плагінів службу спливаючих вікон на основі системної служби Toast Notification.
 [This plugin requires Windows 8 or higher]
+Для цього плагіна потрібна Windows 8 або новіша.
 [Failed to create shortcut]
+Не вдалося створити ярлик.

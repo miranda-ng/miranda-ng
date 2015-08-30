@@ -47,7 +47,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		if (FAILED(TryCreateShortcut()))
 		{
-			MessageBox(NULL, TranslateT("Failed create shortcut"), _T(MODULE), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, TranslateT("Failed to create shortcut"), _T(MODULE), MB_OK | MB_ICONERROR);
 		}
 	}
 

@@ -37,6 +37,8 @@
 Использовать имя хоста
 [Use BBCode]
 Использовать BBCode
+[Change password]
+Изменить пароль
 [Enter password]
 Введите пароль
 [Save password]
@@ -167,7 +169,7 @@ URI объект
 Звук входящего звонка
 [Incoming call canceled sound]
 Звук отмены входящего звонка
-[Failed establish a TRouter connection.]
+[Failed to establish a TRouter connection.]
 Невозможно установить соединение для TRouter.
 [Incoming call from %s]
 Входящий звонок от %s
