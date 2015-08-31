@@ -166,13 +166,33 @@ HRESULT ToastNotification::Setup(_In_ ABI::Windows::Data::Xml::Dom::IXmlDocument
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
 {
-	ABI::Windows::UI::Notifications::ToastTemplateType templateId = _imagePath == nullptr
+	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
+	HRESULT hr = Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument);
+	if (FAILED(hr))
+		return hr;
+
+	if(_imagePath == nullptr)
+	{
+		hr = xmlDocument->LoadXml(StringReferenceWrapper(L"<toast><visual><binding template=\"ToastText02\"><text id=\"1\"></text><text id=\"2\"></text></binding></visual></toast>").Get());
+	}
+	else
+	{
+		hr = xmlDocument->LoadXml(StringReferenceWrapper(L"<toast><visual><binding template=\"ToastImageAndText02\"><image id=\"1\" src=\"\"/><text id=\"1\"></text><text id=\"2\"></text></binding></visual></toast>").Get());
+	}
+	if (FAILED(hr))
+		return hr;
+
+	hr = xmlDocument.CopyTo(xml);
+	if (FAILED(hr))
+		return hr;
+
+	/*ABI::Windows::UI::Notifications::ToastTemplateType templateId = _imagePath == nullptr
 		? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText02
 		: ABI::Windows::UI::Notifications::ToastTemplateType_ToastImageAndText02;
 
 	HRESULT hr = notificationManager->GetTemplateContent(templateId, xml);
 	if (FAILED(hr))
-		return hr;
+		return hr;*/
 
 	hr = Setup(*xml);
 	if (FAILED(hr))
