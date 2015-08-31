@@ -23,147 +23,6 @@ HRESULT ToastNotification::Initialize()
 	return hr;
 }
 
-HRESULT ToastNotification::GetNodeByTag(_In_ HSTRING tagName, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNodeList> nodeList;
-	HRESULT hr = xml->GetElementsByTagName(tagName, &nodeList);
-	if (SUCCEEDED(hr))
-	{
-		UINT32 length;
-		hr = nodeList->get_Length(&length);
-		if (SUCCEEDED(hr))
-		{
-			if (length)
-				hr = nodeList->Item(0, node);
-			else
-				hr = E_INVALIDARG;
-		}
-	}
-	return hr;
-}
-
-HRESULT ToastNotification::AddNode(_In_ HSTRING name, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode *rootNode, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlElement> element;
-	HRESULT hr = xml->CreateElement(name, &element);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> tempNode;
-	hr = element.As(&tempNode);
-	if (FAILED(hr))
-		return hr;
-
-	return rootNode->AppendChild(tempNode.Get(), node);
-}
-
-HRESULT ToastNotification::SetNodeValueString(_In_ HSTRING inputString, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode* node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlText> inputText;
-	HRESULT hr = xml->CreateTextNode(inputString, &inputText);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> inputTextNode;
-	hr = inputText.As(&inputTextNode);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> pAppendedChild;
-	return hr = node->AppendChild(inputTextNode.Get(), &pAppendedChild);
-}
-
-HRESULT ToastNotification::SetTextValues(_In_reads_(textValuesCount) wchar_t** textValues, _In_ UINT32 textValuesCount, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	HRESULT hr = textValues != nullptr && textValuesCount > 0 ? S_OK : E_INVALIDARG;
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNodeList> nodeList;
-	hr = xml->GetElementsByTagName(StringReferenceWrapper(L"text").Get(), &nodeList);
-	if (FAILED(hr))
-		return hr;
-
-	UINT32 nodeListLength;
-	hr = nodeList->get_Length(&nodeListLength);
-	if (FAILED(hr))
-		return hr;
-
-	hr = textValuesCount <= nodeListLength ? S_OK : E_INVALIDARG;
-	if (FAILED(hr))
-		return hr;
-
-	for (UINT i = 0; i < textValuesCount; i++)
-	{
-		Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> textNode;
-		hr = nodeList->Item(i, &textNode);
-		if (FAILED(hr))
-			return hr;
-
-		hr = SetNodeValueString(StringReferenceWrapper(textValues[i], (UINT32)(mir_wstrlen(textValues[i]))).Get(), textNode.Get(), xml);
-		if (FAILED(hr))
-			return hr;
-	}
-
-	return S_OK;
-}
-
-HRESULT ToastNotification::SetImageSrc(_In_z_ wchar_t* imagePath, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	wchar_t imageSrc[MAX_PATH];
-	mir_snwprintf(imageSrc, _T("file:///%s"), imagePath);
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> imageNode;
-	HRESULT hr = GetNodeByTag(StringReferenceWrapper(L"image").Get(), &imageNode, xml);
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNamedNodeMap> attributes;
-	hr = imageNode->get_Attributes(&attributes);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> srcAttribute;
-	hr = attributes->GetNamedItem(StringReferenceWrapper(L"src").Get(), &srcAttribute);
-	if (FAILED(hr))
-		return hr;
-
-	return hr = SetNodeValueString(StringReferenceWrapper(imageSrc).Get(), srcAttribute.Get(), xml);
-}
-
-HRESULT ToastNotification::Setup(_In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
-{
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> toastNode;
-	HRESULT hr = GetNodeByTag(StringReferenceWrapper(L"toast").Get(), &toastNode, xml);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> audioNode;
-	hr = AddNode(StringReferenceWrapper(L"audio").Get(), &audioNode, toastNode.Get(), xml);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNamedNodeMap> attributes;
-	hr = audioNode->get_Attributes(&attributes);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlAttribute> silentAttribute;
-	hr = xml->CreateAttribute(StringReferenceWrapper(L"silent").Get(), &silentAttribute);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> silentAttributeNode;
-	hr = silentAttribute.As(&silentAttributeNode);
-	if (FAILED(hr))
-		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> tempNode;
-	hr = attributes->SetNamedItem(silentAttributeNode.Get(), &tempNode);
-	if (FAILED(hr))
-		return hr;
-
-	return SetNodeValueString(StringReferenceWrapper(L"true").Get(), silentAttributeNode.Get(), xml);
-}
-
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
 {
 	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
@@ -171,47 +30,38 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	if (FAILED(hr))
 		return hr;
 
-	if(_imagePath == nullptr)
+	HXML xmlToast = xmlCreateNode(L"toast", NULL, 0);
+	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", NULL);
+	xmlAddAttr(xmlAudioNode, L"silent", L"true");
+	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", NULL);
+	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", NULL);
+	if (_imagePath)
 	{
-		hr = xmlDocument->LoadXml(StringReferenceWrapper(L"<toast><visual><binding template=\"ToastText02\"><text id=\"1\"></text><text id=\"2\"></text></binding></visual></toast>").Get());
+		xmlAddAttr(xmlBindingNode, L"template", L"ToastImageAndText02");
+		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
+		xmlAddAttr(xmlImageNode, L"id", L"1");
+		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
 	else
 	{
-		hr = xmlDocument->LoadXml(StringReferenceWrapper(L"<toast><visual><binding template=\"ToastImageAndText02\"><image id=\"1\" src=\"\"/><text id=\"1\"></text><text id=\"2\"></text></binding></visual></toast>").Get());
+		xmlAddAttr(xmlBindingNode, L"template", L"ToastText02");
 	}
-	if (FAILED(hr))
-		return hr;
-
-	hr = xmlDocument.CopyTo(xml);
-	if (FAILED(hr))
-		return hr;
-
-	/*ABI::Windows::UI::Notifications::ToastTemplateType templateId = _imagePath == nullptr
-		? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText02
-		: ABI::Windows::UI::Notifications::ToastTemplateType_ToastImageAndText02;
-
-	HRESULT hr = notificationManager->GetTemplateContent(templateId, xml);
-	if (FAILED(hr))
-		return hr;*/
-
-	hr = Setup(*xml);
-	if (FAILED(hr))
-		return hr;
-
-	if (_imagePath)
+	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != NULL ? _caption : L"Miranda NG");
+	xmlAddAttr(xmlTitleNode, L"id", L"1");
+	if (_text)
 	{
-		hr = SetImageSrc(_imagePath, *xml);
-		if (FAILED(hr))
-			return hr;
+		HXML xmlTextNode = xmlAddChild(xmlBindingNode, L"text", _text);
+		xmlAddAttr(xmlTextNode, L"id", L"2");
 	}
 
-	wchar_t* textValues[] =
-	{
-		_caption == nullptr ? L"Miranda NG" : _caption,
-		_text
-	};
+	TCHAR *xtmp = xmlToString(xmlToast, NULL);
+	size_t xlen = mir_tstrlen(xtmp);
 
-	return SetTextValues(textValues, _countof(textValues), *xml);
+	hr = xmlDocument->LoadXml(StringReferenceWrapper(xtmp, xlen).Get());
+	if (FAILED(hr))
+		return hr;
+
+	return xmlDocument.CopyTo(xml);
 }
 
 HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** _notification)

@@ -20,6 +20,7 @@
 #include <m_skin.h>
 #include <m_imgsrvc.h>
 #include <m_netlib.h>
+#include <m_xml.h>
 
 #include "version.h"
 #include "resource.h"
