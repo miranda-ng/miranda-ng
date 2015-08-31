@@ -25,7 +25,7 @@ public:
 	template <size_t _>
 	StringReferenceWrapper(_In_reads_(_) wchar_t(&stringRef)[_]) throw()
 	{
-		size_t length = wcslen(stringRef);
+		size_t length = mir_wstrlen(stringRef);
 		WindowsCreateStringReference(stringRef, length, &_header, &_hstring);
 	}
 
