@@ -27,18 +27,19 @@ HRESULT ToastNotification::GetNodeByTag(_In_ HSTRING tagName, _Outptr_ ABI::Wind
 {
 	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNodeList> nodeList;
 	HRESULT hr = xml->GetElementsByTagName(tagName, &nodeList);
-	if (FAILED(hr))
-		return hr;
-
-	UINT32 length;
-	hr = nodeList->get_Length(&length);
-	if (FAILED(hr))
-		return hr;
-
-	if (length == 0)
-		return E_INVALIDARG;
-
-	return nodeList->Item(0, node);
+	if (SUCCEEDED(hr))
+	{
+		UINT32 length;
+		hr = nodeList->get_Length(&length);
+		if (SUCCEEDED(hr))
+		{
+			if (length)
+				hr = nodeList->Item(0, node);
+			else
+				hr = E_INVALIDARG;
+		}
+	}
+	return hr;
 }
 
 HRESULT ToastNotification::AddNode(_In_ HSTRING name, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode *rootNode, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
@@ -92,14 +93,14 @@ HRESULT ToastNotification::SetTextValues(_In_reads_(textValuesCount) wchar_t** t
 	if (FAILED(hr))
 		return hr;
 
-	for (UINT32 i = 0; i < textValuesCount; i++)
+	for (UINT i = 0; i < textValuesCount; i++)
 	{
 		Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> textNode;
 		hr = nodeList->Item(i, &textNode);
 		if (FAILED(hr))
 			return hr;
 
-		hr = SetNodeValueString(StringReferenceWrapper(textValues[i], (UINT32)wcslen(textValues[i])).Get(), textNode.Get(), xml);
+		hr = SetNodeValueString(StringReferenceWrapper(textValues[i], (UINT32)(mir_wstrlen(textValues[i]))).Get(), textNode.Get(), xml);
 		if (FAILED(hr))
 			return hr;
 	}
