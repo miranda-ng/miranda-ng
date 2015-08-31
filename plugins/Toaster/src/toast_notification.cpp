@@ -204,7 +204,6 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotification).Get(), &factory);
 	if (FAILED(hr))
 		return hr;
-
 	return hr = factory->CreateToastNotification(xml.Get(), _notification);
 }
 

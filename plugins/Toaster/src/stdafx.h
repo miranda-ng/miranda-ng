@@ -7,6 +7,7 @@
 #include <windows.ui.notifications.h>
 #include <ShObjIdl.h>
 #include <propvarutil.h>
+#include <memory>
 
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
@@ -44,7 +45,16 @@ struct callbackArg
 	ToastNotification* notification;
 };
 
+struct ToastData
+{
+	MCONTACT hContact;
+	TCHAR *tszTitle;
+	TCHAR *tszText;
+
+	ToastData(MCONTACT _hContact, TCHAR *_tszTitle, TCHAR *_tszText) : hContact(_hContact), tszTitle(_tszTitle), tszText(_tszText) {}
+};
+
 void InitServices();
 int OnPreShutdown(WPARAM, LPARAM);
-void HideAllToasts();
+void __stdcall HideAllToasts(void*);
 #endif //_COMMON_H_

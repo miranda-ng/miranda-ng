@@ -22,7 +22,6 @@ PLUGININFOEX pluginInfo =
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
 	g_hInstance = hInstance;
-
 	return TRUE;
 }
 
@@ -34,14 +33,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 		return NULL;
 	}
 	return &pluginInfo;
-
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-
-	CoInitialize(NULL);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 	InitServices();
@@ -59,13 +55,11 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	CoUninitialize();
-
 	return 0;
 }
 
 int OnPreShutdown(WPARAM, LPARAM)
 {
-	HideAllToasts();
+	CallFunctionAsync(&HideAllToasts, NULL);
 	return 0;
 }
