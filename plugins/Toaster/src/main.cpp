@@ -40,6 +40,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+
+	CoInitialize(NULL);
+
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 	InitServices();
 
@@ -56,6 +59,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	CoUninitialize();
+
 	return 0;
 }
 

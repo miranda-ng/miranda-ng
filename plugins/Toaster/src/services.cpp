@@ -104,11 +104,13 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 	}
 	else
 	{
-#ifdef _DEBUG
+		OutputDebugStringA(CMStringA(FORMAT, "Toaster error: HRESULT = %lld", hr));
+#ifdef _DEBUG	
 		DebugBreak();
 #else
 		Netlib_Logf(NULL, "Toaster: " __FUNCTION__ " failed: HRESULT = %lld", hr);
 #endif
+		delete arg->notification;
 	}
 }
 
