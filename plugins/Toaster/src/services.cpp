@@ -63,22 +63,24 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 	}
 }
 
-static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
+void __stdcall ShowToastNotification(void* p)
 {
+	std::unique_ptr<ToastData> td((ToastData*)p);
+
 	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 		return;
 
 	ptrT imagePath;
 	callbackArg *arg = (callbackArg*)mir_calloc(sizeof(callbackArg));
-	if (hContact)
+	if (td->hContact)
 	{
-		arg->hContact = hContact;
-		const char* szProto = GetContactProto(hContact);
+		arg->hContact = td->hContact;
+		const char* szProto = GetContactProto(td->hContact);
 
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
 			PROTO_AVATAR_INFORMATION pai = { 0 };
-			pai.hContact = hContact;
+			pai.hContact = td->hContact;
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
 			{
 				imagePath = mir_tstrdup(pai.filename);
@@ -94,7 +96,7 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 		}
 	}
 
-	arg->notification = new ToastNotification(text, title, imagePath);
+	arg->notification = new ToastNotification(td->tszText, td->tszTitle, imagePath);
 		
 	HRESULT hr = arg->notification->Initialize();
 	if (SUCCEEDED(hr))
@@ -104,12 +106,6 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 	}
 	else
 	{
-		OutputDebugStringA(CMStringA(FORMAT, "Toaster error: HRESULT = %lld", hr));
-#ifdef _DEBUG	
-		DebugBreak();
-#else
-		Netlib_Logf(NULL, "Toaster: " __FUNCTION__ " failed: HRESULT = %lld", hr);
-#endif
 		delete arg->notification;
 	}
 }
@@ -120,7 +116,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 	ptrW text(mir_a2u(ppd->lpzText));
 	ptrW contactName(mir_a2u(ppd->lpzContactName));
 
-	ShowToastNotification(text, contactName, ppd->lchContact);
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, contactName, text));
 
 	return 0;
 }
@@ -128,9 +124,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 {
 	POPUPDATAW *ppd = (POPUPDATAW*)wParam;
-
-	ShowToastNotification(ppd->lpwzText, ppd->lpwzContactName, ppd->lchContact);
-
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, ppd->lpwzContactName, ppd->lpwzText));
 	return 0;
 }
 
@@ -150,7 +144,7 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 		title = mir_a2u(ppd->lpzTitle);
 	}
 
-	ShowToastNotification(text, title, ppd->lchContact);
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, title, text));
 
 	return 0;
 }
@@ -169,7 +163,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-		HideAllToasts();
+		CallFunctionAsync(&HideAllToasts, NULL);
 		return enabled;
 	}
 	break;
@@ -182,7 +176,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	}
 }
 
-void HideAllToasts()
+void __stdcall HideAllToasts(void*)
 {
 	mir_cslock lck(csNotifications);
 	while (lstNotifications.getCount())
