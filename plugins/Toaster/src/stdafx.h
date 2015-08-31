@@ -31,6 +31,8 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 
 #define MODULE "Toaster"
 
+#define CHECKHR(x) if (FAILED(x)) return x;
+
 #include "string_reference_wrapper.h"
 #include "toast_event_handler.h"
 #include "toast_notification.h"

@@ -70,7 +70,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
 		0,
-		_T("") };
+		_T("")
+	};
 	SHFileOperation(&file_op);
 	return 0;
 }

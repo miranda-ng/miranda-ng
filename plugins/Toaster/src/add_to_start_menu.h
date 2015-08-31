@@ -1,10 +1,6 @@
-wchar_t* GetShortcutPath();
-HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath);
+#ifndef _ADD_TOSTART_MENU_H_
+#define _ADD_TOSTART_MENU_H_
 
-__forceinline bool ShortcutExists()
-{	return (GetFileAttributes(ptrW(GetShortcutPath())) < 0xFFFFFFF);
-}
+HRESULT TryCreateShortcut();
 
-__forceinline HRESULT TryCreateShortcut()
-{	return (ShortcutExists() ? S_OK : InstallShortcut(ptrW(GetShortcutPath())));
-}
+#endif //_ADD_TOSTART_MENU_H_
