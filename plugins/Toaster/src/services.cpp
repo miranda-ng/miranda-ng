@@ -81,8 +81,7 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
-			PROTO_AVATAR_INFORMATION pai = { 0 };
-			pai.hContact = td->hContact;
+			PROTO_AVATAR_INFORMATION pai = { td->hContact };
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
 			{
 				imagePath = mir_tstrdup(pai.filename);

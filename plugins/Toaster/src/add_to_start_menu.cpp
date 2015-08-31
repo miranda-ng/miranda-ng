@@ -18,42 +18,39 @@ HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
 	GetModuleFileName(NULL, exePath, MAX_PATH);
 
 	ComPtr<IShellLink> shellLink;
-	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&shellLink));
+	CHECKHR(CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&shellLink)));
+
+	CHECKHR(shellLink->SetPath(exePath));
+
+	CHECKHR(shellLink->SetArguments(L""));
+
+	ComPtr<IPropertyStore> propertyStore;
+	CHECKHR(shellLink.As(&propertyStore));
+
+	PROPVARIANT appIdPropVar;
+	HRESULT hr = InitPropVariantFromString(AppUserModelID, &appIdPropVar);
 	if (SUCCEEDED(hr))
 	{
-		hr = shellLink->SetPath(exePath);
-		if (SUCCEEDED(hr))
-		{
-			hr = shellLink->SetArguments(L"");
-			if (SUCCEEDED(hr))
-			{
-				ComPtr<IPropertyStore> propertyStore;
-				hr = shellLink.As(&propertyStore);
-				if (SUCCEEDED(hr))
-				{
-					PROPVARIANT appIdPropVar;
-					hr = InitPropVariantFromString(AppUserModelID, &appIdPropVar);
-					if (SUCCEEDED(hr))
-					{
-						hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
-						if (SUCCEEDED(hr))
-						{
-							hr = propertyStore->Commit();
-							if (SUCCEEDED(hr))
-							{
-								ComPtr<IPersistFile> persistFile;
-								hr = shellLink.As(&persistFile);
-								if (SUCCEEDED(hr))
-								{
-									hr = persistFile->Save(shortcutPath, TRUE);
-								}
-							}
-						}
-						PropVariantClear(&appIdPropVar);
-					}
-				}
-			}
-		}
+		CHECKHR(propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar));
+
+		CHECKHR(propertyStore->Commit());
+
+		ComPtr<IPersistFile> persistFile;
+		CHECKHR(hr = shellLink.As(&persistFile))
+
+		hr = persistFile->Save(shortcutPath, TRUE);
 	}
+	PropVariantClear(&appIdPropVar);
+
 	return hr;
+}
+
+bool ShortcutExists()
+{
+	return (GetFileAttributes(ptrW(GetShortcutPath())) < 0xFFFFFFF);
+}
+
+HRESULT TryCreateShortcut()
+{
+	return (ShortcutExists() ? S_OK : InstallShortcut(ptrW(GetShortcutPath())));
 }
