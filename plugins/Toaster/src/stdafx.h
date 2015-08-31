@@ -38,6 +38,7 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
 extern OBJLIST<ToastNotification> lstNotifications;
+extern wchar_t wszTempDir[MAX_PATH];
 
 struct callbackArg
 {
@@ -50,8 +51,14 @@ struct ToastData
 	MCONTACT hContact;
 	TCHAR *tszTitle;
 	TCHAR *tszText;
+	HICON hIcon;
 
-	ToastData(MCONTACT _hContact, TCHAR *_tszTitle, TCHAR *_tszText) : hContact(_hContact), tszTitle(_tszTitle), tszText(_tszText) {}
+	ToastData(MCONTACT _hContact, TCHAR *_tszTitle, TCHAR *_tszText, HICON _hIcon = NULL) : hContact(_hContact), tszTitle(mir_tstrdup(_tszTitle)), tszText(mir_tstrdup(_tszText)), hIcon(_hIcon) {}
+	~ToastData()
+	{
+		mir_free(tszTitle);
+		mir_free(tszText);
+	}
 };
 
 void InitServices();

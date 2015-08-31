@@ -2,17 +2,16 @@
 
 mir_cs csNotifications;
 OBJLIST<ToastNotification> lstNotifications(1);
+wchar_t wszTempDir[MAX_PATH];
 
 __forceinline bool isChatRoom(MCONTACT hContact)
 {	return (db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0) == 1);
 }
 
-wchar_t* SaveBitmap(HBITMAP bmp, const char *szProto)
+wchar_t* SaveBitmap(HBITMAP bmp, const char *szId)
 {
-	wchar_t wszSavePath[MAX_PATH], wszRelativePath[MAX_PATH];
-	GetEnvironmentVariableW(L"TEMP", wszSavePath, MAX_PATH);
-	mir_snwprintf(wszRelativePath, L"\\MirandaToaster.%s.png", _A2T(szProto));
-	wcscat_s(wszSavePath, wszRelativePath);
+	wchar_t wszSavePath[MAX_PATH];
+	mir_snwprintf(wszSavePath, L"%s\\MirandaToaster.%s.png", wszTempDir, _A2T(szId));
 
 	if (!(GetFileAttributes(wszSavePath) < 0xFFFFFFF))
 	{
@@ -27,19 +26,22 @@ wchar_t* SaveBitmap(HBITMAP bmp, const char *szProto)
 	return mir_wstrdup(wszSavePath);
 }
 
-wchar_t* ProtoIcon(const char *szProto)
+wchar_t* SaveHIcon(HICON hIcon, const char *szId)
 {
-	HICON hIcon = Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1);
 	wchar_t *wszResult = NULL;
 	ICONINFO icon;
 	if (GetIconInfo(hIcon, &icon))
 	{
-		wszResult = SaveBitmap(icon.hbmColor, szProto);
+		wszResult = SaveBitmap(icon.hbmColor, szId);
 
 		DeleteObject(icon.hbmMask);
 		DeleteObject(icon.hbmColor);
 	}
 	return wszResult;
+}
+
+__forceinline wchar_t* ProtoIcon(const char *szProto)
+{	return SaveHIcon(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1), szProto);
 }
 
 static void __cdecl OnToastNotificationClicked(void* arg)
@@ -72,7 +74,7 @@ void __stdcall ShowToastNotification(void* p)
 
 	ptrT imagePath;
 	callbackArg *arg = (callbackArg*)mir_calloc(sizeof(callbackArg));
-	if (td->hContact)
+	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID)
 	{
 		arg->hContact = td->hContact;
 		const char* szProto = GetContactProto(td->hContact);
@@ -85,14 +87,25 @@ void __stdcall ShowToastNotification(void* p)
 			{
 				imagePath = mir_tstrdup(pai.filename);
 			}
-			else
+		}
+
+		if (imagePath == NULL)
+		{
+			if (szProto)
 			{
 				imagePath = ProtoIcon(szProto);
 			}
+			else if (td->hIcon)
+			{
+				imagePath = SaveHIcon(td->hIcon, CMStringA(FORMAT, "%p", td->hIcon));
+			}
 		}
-		else
+	}
+	else
+	{
+		if (td->hIcon)
 		{
-			imagePath = ProtoIcon(szProto);
+			imagePath = SaveHIcon(td->hIcon, CMStringA(FORMAT, "%p", td->hIcon));
 		}
 	}
 
@@ -116,7 +129,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 	ptrW text(mir_a2u(ppd->lpzText));
 	ptrW contactName(mir_a2u(ppd->lpzContactName));
 
-	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, contactName, text));
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, contactName, text, ppd->lchIcon));
 
 	return 0;
 }
@@ -124,7 +137,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 {
 	POPUPDATAW *ppd = (POPUPDATAW*)wParam;
-	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, ppd->lpwzContactName, ppd->lpwzText));
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, ppd->lpwzContactName, ppd->lpwzText, ppd->lchIcon));
 	return 0;
 }
 
@@ -144,7 +157,7 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 		title = mir_a2u(ppd->lpzTitle);
 	}
 
-	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, title, text));
+	CallFunctionAsync(&ShowToastNotification, new ToastData(ppd->lchContact, title, text, ppd->lchIcon));
 
 	return 0;
 }

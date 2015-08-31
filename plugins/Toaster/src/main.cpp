@@ -42,6 +42,13 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 	InitServices();
 
+	GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH);
+	wcscat_s(wszTempDir, L"\\Miranda.Toaster");
+
+	DWORD dwAttributes = GetFileAttributes(wszTempDir);
+	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+		CreateDirectoryTreeT(wszTempDir);
+
 	if (IsWinVer8Plus() && !IsWinVer10Plus())
 	{
 		if (FAILED(TryCreateShortcut()))
@@ -55,6 +62,16 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	SHFILEOPSTRUCT file_op = {
+		NULL,
+		FO_DELETE,
+		wszTempDir,
+		_T(""),
+		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
+		false,
+		0,
+		_T("") };
+	SHFileOperation(&file_op);
 	return 0;
 }
 
