@@ -24,6 +24,7 @@
 #include <m_string.h>
 #include <m_msg_buttonsbar.h>
 #include <m_gui.h>
+#include <m_chat.h>
 
 #include <m_protoint.h>
 #include <m_protosvc.h>

@@ -150,16 +150,6 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	}
 
 	char *szMessage = (char*)pccsd->lParam;
-
-	/*DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = MODULE;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (int)mir_strlen(szMessage);
-	dbei.pBlob = (PBYTE)szMessage;
-	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
-	db_event_add(pccsd->hContact, &dbei);*/
-
 	if (*szMessage == '/')
 	{
 		// parse commands

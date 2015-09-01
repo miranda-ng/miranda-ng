@@ -37,3 +37,94 @@ void CDropbox::HandleHttpResponseError(NETLIBHTTPREQUEST *response)
 	if (response->resultCode != HTTP_STATUS_OK)
 		throw TransferException(HttpStatusToText((HTTP_STATUS)response->resultCode));
 }
+
+MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+{
+	DBEVENTINFO dbei;
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = MODULE;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = type;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = flags;
+	return db_event_add(hContact, &dbei);
+}
+
+void CDropbox::SendToContact(MCONTACT hContact, const char* data)
+{
+	if (hContact == GetDefaultContact())
+	{
+		char *message = mir_utf8encode(data);
+		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF, mir_strlen(message), (PBYTE)message);
+		return;
+	}
+
+	const char *szProto = GetContactProto(hContact);
+	bool isChatRoom = db_get_b(hContact, szProto, "ChatRoom", 0);
+	if (isChatRoom)
+	{
+		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.bIsMe = TRUE;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszText = mir_utf8decodeT(data);
+		gce.time = time(NULL);
+		CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+		mir_free((void*)gce.ptszText);
+		return;
+	}
+
+	CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data);
+}
+
+void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
+{
+	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
+	mwid.hContact = hContact;
+	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+
+	MessageWindowData mwd = { sizeof(MessageWindowData) };
+	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd))
+	{
+		HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
+		if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
+
+		ptrT text(mir_utf8decodeT(data));
+		SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)text);
+	}
+}
+
+void CDropbox::PasteToClipboard(MCONTACT hContact, const char* data)
+{
+	if (OpenClipboard(NULL))
+	{
+		EmptyClipboard();
+		size_t size = sizeof(TCHAR) * (mir_strlen(data) + 1);
+		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
+		if (hClipboardData)
+		{
+			TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
+			if (pchData)
+			{
+				memcpy(pchData, (TCHAR*)data, size);
+				GlobalUnlock(hClipboardData);
+				SetClipboardData(CF_TEXT, hClipboardData);
+			}
+		}
+		CloseClipboard();
+	}
+}
+
+void CDropbox::Report(MCONTACT hContact, const char* data)
+{
+	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
+		SendToContact(hContact, data);
+
+	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
+		PasteToInputArea(hContact, data);
+
+	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
+		PasteToClipboard(hContact, data);
+}
