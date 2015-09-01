@@ -176,7 +176,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
 	std::string user_id;
@@ -267,7 +267,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 
 	std::string thread_id = utils::url::encode(fbc->thread_id);
 
@@ -424,7 +424,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&uid=" + id;
 	query += "&__user=" + facy.self_.user_id;
-	query += "&phstamp=" + facy.phstamp(query);
+	query += "&ttstamp=" + facy.ttstamp_;
 
 	std::string get_query = "norefresh=true&unref=button_dropdown&uid=" + id;
 
@@ -622,7 +622,7 @@ void FacebookProto::SendPokeWorker(void *p)
 	data += "&do_confirm=0";
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
-	data += "&phstamp=" + facy.phstamp(data);
+	data += "&ttstamp=" + facy.ttstamp_;
 
 	// Send poke
 	http::response resp = facy.flap(REQUEST_POKE, &data);

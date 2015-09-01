@@ -58,7 +58,7 @@ void FacebookProto::ProcessBuddyList(void*)
 		post_data += i->data->user_id + "%2C";
 	}
 
-	post_data += "&phstamp=" + facy.phstamp(post_data);
+	post_data += "&ttstamp=" + facy.ttstamp_;
 
 	// Get buddy list
 	http::response resp = facy.flap(REQUEST_BUDDY_LIST, &post_data);
@@ -301,7 +301,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 	data += "&client=mercury";
 	data += "__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
 
@@ -359,7 +359,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		std::string data = "client=mercury";
 		data += "&__user=" + facy.self_.user_id;
 		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+		data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++) {
 			std::string thread_id = utils::url::encode(threads->at(i));
@@ -460,7 +460,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 
 	bool isChat = isChatRoom(hContact);
 
@@ -586,7 +586,7 @@ void FacebookProto::SyncThreads(void*)
 	data += "&folders[0]=inbox";
 	if (!inboxOnly)
 		data += "&folders[1]=other";
-	data += "&__req=7&__a=1&__dyn=&__req=&__rev=&ttstamp=" + facy.ttstamp();
+	data += "&__req=7&__a=1&__dyn=&__req=&__rev=&ttstamp=" + facy.ttstamp_;
 
 	debugLogA("    Facebook's milli timestamp for sync: %s", time.c_str());
 
@@ -1072,7 +1072,7 @@ void FacebookProto::ProcessNotifications(void*)
 	data += "&cursor="; // when loading more
 	data += "&length=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER); // number of items to load
 	data += "&businessID="; // probably for pages?
-	data += "&ttstamp=" + facy.ttstamp();
+	data += "&ttstamp=" + facy.ttstamp_;
 
 	// Get notifications
 	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data);

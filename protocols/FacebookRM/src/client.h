@@ -37,7 +37,7 @@ public:
 
 	facebook_client()
 	{
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = 0;
+		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
 		is_typing_ = false;
 
@@ -69,7 +69,7 @@ public:
 	std::string password_;
 
 	std::string dtsg_;
-	std::string csrf_;
+	std::string ttstamp_;
 	std::string logout_hash_;
 	std::string chat_channel_;
 	std::string chat_channel_host_;
@@ -84,8 +84,9 @@ public:
 	bool is_typing_;
 	time_t last_feeds_update_;
 	time_t last_notification_time_;
-	int msgid_;
+	volatile unsigned int msgid_;
 	int chat_msgs_recv_;
+	volatile unsigned int chat_req_;
 
 	////////////////////////////////////////////////////////////
 
@@ -144,16 +145,19 @@ public:
 
 	// Helpers for data
 
-	std::string __inline phstamp(const std::string &data) { 
-		std::stringstream out;
-		out << '2' << this->csrf_ << (int)data.length();
-		return out.str();
+	std::string __inline __dyn() {
+		return ""; // FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
 
-	std::string __inline ttstamp() {
-		std::stringstream out;
-		out << '1' << this->csrf_;
-		return out.str();
+	std::string __inline __req() {
+		// Increment request number and convert it to string with radix 36 (whole numbers + whole alphabet)
+		char buffer[10];
+		itoa(InterlockedIncrement(&this->chat_req_), buffer, 36);
+		return std::string(buffer);
+	}
+
+	std::string __inline __rev() {
+		return "1911928"; // FIXME: Some version of communication protocol? On 1.9.2015 was used "1911928"
 	}
 
 	////////////////////////////////////////////////////////////
