@@ -142,6 +142,28 @@ MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_CORE_DLL(char*) strdel(char *str, size_t len)
+{
+	char* p;
+	for (p = str + len; *p != 0; p++)
+		p[-len] = *p;
+
+	p[-len] = '\0';
+	return str;
+}
+
+MIR_CORE_DLL(wchar_t*) strdelw(wchar_t *str, size_t len)
+{
+	wchar_t* p;
+	for (p = str + len; *p != 0; p++)
+		p[-len] = *p;
+
+	p[-len] = '\0';
+	return str;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 {
 	if (name == NULL || mask == NULL)

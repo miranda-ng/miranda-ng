@@ -1390,15 +1390,6 @@ void DoIncomingDcc(HANDLE hConnection, DWORD dwRemoteIP, void * p1)
 
 // ident server
 
-void strdel(char* parBuffer, int len)
-{
-	char *p;
-	for (p = parBuffer + len; *p != 0; p++)
-		p[-len] = *p;
-
-	p[-len] = '\0';
-}
-
 void DoIdent(HANDLE hConnection, DWORD, void* extra)
 {
 	CIrcProto *ppro = (CIrcProto*)extra;

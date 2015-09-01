@@ -155,5 +155,13 @@ __forceinline TCHAR *Utils_ReplaceVarsT(const TCHAR *szData, MCONTACT hContact, 
 	return (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&vars);
 }
 
+void strdelt(TCHAR *parBuffer, int len)
+{
+	TCHAR* p;
+	for (p = parBuffer + len; *p != 0; p++)
+		p[-len] = *p;
+
+	p[-len] = '\0';
+}
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))

@@ -37,15 +37,6 @@ static TCHAR *EventTypes[] = { LPGENT("A string is present"), LPGENT("The web pa
 
 #define M_FILLSCRIPTCOMBO    (WM_USER+16)
 
-void strdel(TCHAR *parBuffer, int len)
-{
-	TCHAR* p;
-	for (p = parBuffer + len; *p != 0; p++)
-		p[-len] = *p;
-
-	p[-len] = '\0';
-}
-
 TCHAR* FixButtonText(TCHAR *url, size_t len)
 {
 	TCHAR buttontext[256], stringbefore[256], newbuttontext[256];
@@ -62,7 +53,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 			int pos = (stringafter - buttontext);
 			int posbefore = (stringafter - buttontext) - 1;
 			int posafter = (stringafter - buttontext) + 1;
-			strdel(stringafter, 1);
+			strdelt(stringafter, 1);
 			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
 			mir_sntprintf(newbuttontext, _T("%s!!%s"), stringbefore, stringafter);
 

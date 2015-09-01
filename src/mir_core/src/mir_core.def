@@ -981,3 +981,5 @@ mir_strncmp @1138
 mir_strncmpi @1139
 mir_wstrncmp @1140
 mir_wstrncmpi @1141
+strdel @1142
+strdelw @1143

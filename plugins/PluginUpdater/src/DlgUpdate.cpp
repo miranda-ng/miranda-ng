@@ -646,13 +646,13 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 
 					// remove trailing w or W and try again
 					int iPos = int(p - tszNewName) - 1;
-					strdel(p - 1, 1);
+					strdelt(p - 1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
 						Netlib_LogfT(hNetlibUser, _T("File %s: Not found on server, skipping"), ffd.cFileName);
 						continue;
 					}
 
-					strdel(tszNewName + iPos, 1);
+					strdelt(tszNewName + iPos, 1);
 				}
 
 #if MIRANDA_VER >= 0x0A00
