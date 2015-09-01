@@ -351,6 +351,13 @@ private:
 	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 	//---/
 
+	__inline ULONGLONG GenerateMessageId()
+	{
+		_timeb timeb;
+		_ftime(&timeb);
+		return (ULONGLONG)((timeb.time * 1000) + timeb.millitm);
+	}
+
 	time_t GetLastMessageTime(MCONTACT hContact);
 	CMString RunConfirmationCode();
 	CMString ChangeTopicForm();

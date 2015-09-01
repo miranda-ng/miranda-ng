@@ -39,7 +39,7 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, cons
 struct SendMessageParam
 {
 	MCONTACT hContact;
-	LONGLONG hMessage;
+	ULONGLONG hMessage;
 };
 
 // outcoming message flow
@@ -53,7 +53,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = time(NULL);
+	param->hMessage = GenerateMessageId();
 
 	ptrA username(getStringA(hContact, "Skypename"));
 

@@ -403,9 +403,9 @@ void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessa
 	ptrA szChatId(mir_t2a(chat_id));
 	ptrA szMessage(mir_utf8encodeT(tszMessage));
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendChatActionRequest(szChatId, time(NULL), szMessage, li));
+		SendRequest(new SendChatActionRequest(szChatId, GenerateMessageId(), szMessage, li));
 	else
-		SendRequest(new SendChatMessageRequest(szChatId, time(NULL), szMessage, li));
+		SendRequest(new SendChatMessageRequest(szChatId, GenerateMessageId(), szMessage, li));
 }
 
 void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
