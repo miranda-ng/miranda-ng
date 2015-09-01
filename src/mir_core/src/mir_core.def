@@ -983,3 +983,7 @@ mir_wstrncmp @1140
 mir_wstrncmpi @1141
 strdel @1142
 strdelw @1143
+mir_sha256_final @1144
+mir_sha256_hash @1145
+mir_sha256_init @1146
+mir_sha256_write @1147
