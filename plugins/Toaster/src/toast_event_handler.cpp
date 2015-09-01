@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 using namespace ABI::Windows::UI::Notifications;
+using namespace Microsoft::WRL;
 
 ToastEventHandler::ToastEventHandler() : _ref(1), _callback(nullptr), _arg(nullptr)
 {
@@ -47,7 +48,7 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 	return E_NOINTERFACE;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IInspectable* /* args */)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification *sender, _In_ IInspectable* args)
 {
 	if (_callback != nullptr)
 		_callback(_arg);
@@ -58,7 +59,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 	return S_OK;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs* /* e */)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
 {
 	callbackArg *cb = (callbackArg*)_arg;
 	mir_cslock lck(csNotifications);
@@ -66,7 +67,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 	return S_OK;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs* /* e */)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs*  /*e*/ )
 {
 	callbackArg *cb = (callbackArg*)_arg;
 	mir_cslock lck(csNotifications);

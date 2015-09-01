@@ -22,23 +22,23 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 {
 	ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
-
 	HXML xmlToast = xmlCreateNode(L"toast", NULL, 0);
+
 	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", NULL);
 	xmlAddAttr(xmlAudioNode, L"silent", L"true");
+
 	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", NULL);
+
 	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", NULL);
+	xmlAddAttr(xmlBindingNode, L"template", L"ToastGeneric");
 	if (_imagePath)
 	{
-		xmlAddAttr(xmlBindingNode, L"template", L"ToastImageAndText02");
 		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
+		xmlAddAttr(xmlImageNode, L"placement", L"appLogoOverride");
 		xmlAddAttr(xmlImageNode, L"id", L"1");
 		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
-	else
-	{
-		xmlAddAttr(xmlBindingNode, L"template", L"ToastText02");
-	}
+
 	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != NULL ? _caption : L"Miranda NG");
 	xmlAddAttr(xmlTitleNode, L"id", L"1");
 	if (_text)
@@ -46,9 +46,11 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 		HXML xmlTextNode = xmlAddChild(xmlBindingNode, L"text", _text);
 		xmlAddAttr(xmlTextNode, L"id", L"2");
 	}
-
+	
 	TCHAR *xtmp = xmlToString(xmlToast, NULL);
 	size_t xlen = mir_tstrlen(xtmp);
+
+	xmlDestroyNode(xmlToast);
 
 	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, xlen).Get()));
 
@@ -79,7 +81,6 @@ HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 	notification->add_Activated(eventHandler.Get(), &activatedToken);
 	notification->add_Dismissed(eventHandler.Get(), &dismissedToken);
 	notification->add_Failed(eventHandler.Get(), &failedToken);
-
 	return notifier->Show(notification.Get());
 }
 
