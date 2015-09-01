@@ -39,8 +39,6 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
-		is_typing_ = false;
-
 		buddies_lock_ = send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
 		hMsgCon = NULL;
 		hFcbCon = NULL;
@@ -81,7 +79,6 @@ public:
 	std::string chat_conn_num_;
 	std::string chat_clientid_;
 	std::string chat_traceid_;
-	bool is_typing_;
 	time_t last_feeds_update_;
 	time_t last_notification_time_;
 	volatile unsigned int msgid_;
