@@ -88,7 +88,7 @@
 [Close popup]
 [Do nothing]
 ;file \plugins\PluginUpdater\src\Options.cpp
-[Backup profile before update]
+[Backup database before update]
 [Stable version (incompatible with current development version)]
 [hours]
 [days]
