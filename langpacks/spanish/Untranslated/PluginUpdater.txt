@@ -13,7 +13,7 @@
 [You need to restart your Miranda to apply installed updates.]
 [Would you like to restart it now?]
 [Plugin updater URI scheme]
-[Backup profile before update]
+[Backup database before update]
 [Stable version (incompatible with current development version)]
 [Update completed]
 [Update failed]

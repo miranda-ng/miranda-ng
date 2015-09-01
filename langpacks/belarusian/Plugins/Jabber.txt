@@ -1422,8 +1422,8 @@ Jabber Рэсурс
 Выпраўляць час ва ўваходных паведамленнях
 [Disable frame]
 Выключыць фрэйм
-[Enable XMPP link processing (requires Association Manager)]
-Апрацоўваць XMPP спасылкі (патрабуецца плагін "Association Manager")
+[Enable XMPP link processing (requires AssocMgr)]
+Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
 [Keep contacts assigned to local groups (ignore roster group)]
 Выкарыстоўваць лакальныя гурты (ігнараваць гурты росцеру)
 [Security]

@@ -185,7 +185,7 @@ Eingehender-Anruf-Klang
 [Incoming call canceled sound]
 Eingehender-Anruf-Abgebrochen-Klang
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Failed establish a TRouter connection.]
+[Failed to establish a TRouter connection.]
 Aufbau einer TRouter-Verbindung fehlgeschlagen.
 [Incoming call from %s]
 Eingehender Anruf von %s

@@ -1562,6 +1562,20 @@ Serverfenster
 [%s on %s%s]
 %s in %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
+[Message In]
+Nachricht, Eingehend
+[Message Out]
+Nachricht, Ausgehend
+[Group In (Start)]
+Gruppiert, Ein (Start)
+[Group Out (Start)]
+Gruppiert, Aus (Start)
+[Group In (Inner)]
+Gruppiert, Ein (Innen)
+[Group Out (Inner)]
+Gruppiert, Aus (Innen)
+[Error message]
+Fehlernachricht
 [Template set editor]
 Bearbeiten des Nachrichtenverlaufs
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]

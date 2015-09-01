@@ -1436,7 +1436,7 @@ drugo
 
 [Disable frame]
 
-[Enable XMPP link processing (requires Association Manager)]
+[Enable XMPP link processing (requires AssocMgr)]
 
 [Keep contacts assigned to local groups (ignore roster group)]
 

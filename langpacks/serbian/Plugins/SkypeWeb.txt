@@ -185,7 +185,7 @@ Mreža
 [Incoming call canceled sound]
 
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Failed establish a TRouter connection.]
+[Failed to establish a TRouter connection.]
 
 [Incoming call from %s]
 

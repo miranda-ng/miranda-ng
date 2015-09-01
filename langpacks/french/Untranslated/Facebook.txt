@@ -1,6 +1,7 @@
 ﻿[Place:]
 [Attach contacts:]
 [Automatically set 'Ignore status change' flag]
+[Prefer real names instead of nicknames]
 [Event notifications]
 [News feeds (WARNING: Causes excessive network traffic!)]
 [News feed types to notify:]

@@ -1,4 +1,5 @@
-﻿[News feeds (WARNING: Causes excessive network traffic!)]
+﻿[Prefer real names instead of nicknames]
+[News feeds (WARNING: Causes excessive network traffic!)]
 [Don't show advertising posts]
 [Friendship notifications]
 [Ticker feeds]

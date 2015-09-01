@@ -1273,8 +1273,8 @@ Jabber източник
 Поправяне на грешните времеви марки във входящите съобщения
 [Disable frame]
 Без рамка
-[Enable XMPP link processing (requires Association Manager)]
-Асоцииране с XMPP връзки (изисква приставка Association Manager)
+[Enable XMPP link processing (requires AssocMgr)]
+Асоцииране с XMPP връзки (изисква приставка AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Назначавай контактите към местните групи (игнориране на списъка с хора)
 [Security]

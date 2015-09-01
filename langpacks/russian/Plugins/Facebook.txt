@@ -41,6 +41,8 @@
 Автоматически включать игнорирование смены статусов
 [Use bigger avatars]
 Большие аватары
+[Prefer real names instead of nicknames]
+Предпочитать реальные имена вместо ников
 [Event notifications]
 Уведомления
 [Notifications]

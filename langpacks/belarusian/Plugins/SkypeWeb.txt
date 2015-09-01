@@ -28,6 +28,8 @@
 Іншае
 [Place:]
 Месца:
+[Change password]
+Змяніць пароль
 [Enter password]
 Увядзіце пароль
 [Save password]
@@ -58,6 +60,8 @@
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Action]
 Дзеянне
+[Unknown event]
+Невядомая з'ява
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n

@@ -1562,6 +1562,20 @@ Okno serwera
 [%s on %s%s]
 %s (%s)%s
 ;file \plugins\TabSRMM\src\templates.cpp
+[Message In]
+
+[Message Out]
+
+[Group In (Start)]
+
+[Group Out (Start)]
+
+[Group In (Inner)]
+
+[Group Out (Inner)]
+
+[Error message]
+
 [Template set editor]
 Edytor zbioru szablonów
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]

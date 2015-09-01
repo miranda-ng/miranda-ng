@@ -1535,6 +1535,20 @@ TabSRMM: %s
 Окно сервера
 [%s on %s%s]
 %s в %s%s
+[Message In]
+Принятое сообщение
+[Message Out]
+Отправленное сообщение
+[Group In (Start)]
+Принятое сгруппированное (начало)
+[Group Out (Start)]
+Отправленное сгруппированное (начало)
+[Group In (Inner)]
+Принятое сгруппированное (середина)
+[Group Out (Inner)]
+Отправленное сгруппированное (середина)
+[Error message]
+Сообщение об ошибке
 [Template set editor]
 Редактор шаблонов
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
