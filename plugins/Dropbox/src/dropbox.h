@@ -113,6 +113,13 @@ private:
 	static char* HttpStatusToText(HTTP_STATUS status);
 	static void HandleHttpResponseError(NETLIBHTTPREQUEST *response);
 
+	static MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+
+	void SendToContact(MCONTACT hContact, const char* data);
+	void PasteToInputArea(MCONTACT hContact, const char* data);
+	void PasteToClipboard(MCONTACT hContact, const char* data);
+	void Report(MCONTACT hContact, const char* data);
+
 	template<int(CDropbox::*Event)(WPARAM, LPARAM)>
 	static int GlobalEvent(void *obj, WPARAM wParam, LPARAM lParam)
 	{

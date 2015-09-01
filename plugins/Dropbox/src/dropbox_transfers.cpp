@@ -222,66 +222,8 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	CMStringA urls;
 	for (int i = 0; i < ftp->urlList.getCount(); i++)
 		urls.AppendFormat("%s\r\n", ftp->urlList[i]);
-	char *data = urls.GetBuffer();
 
-	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-	{
-		char *message = mir_utf8encode(data);
-		if (ftp->hContact != instance->GetDefaultContact())
-		{
-			if (CallContactService(ftp->hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
-			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.flags = DBEF_UTF | DBEF_SENT;
-				dbei.szModule = MODULE;
-				dbei.timestamp = time(NULL);
-				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.cbBlob = (int)mir_strlen(data);
-				dbei.pBlob = (PBYTE)message;
-				db_event_add(ftp->hContact, &dbei);
-			}
-			else
-			{
-				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)data);
-				mir_free(message);
-			}
-		}
-		else
-		{
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			dbei.flags = DBEF_UTF;
-			dbei.szModule = MODULE;
-			dbei.timestamp = time(NULL);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.cbBlob = (int)mir_strlen(data);
-			dbei.pBlob = (PBYTE)message;
-			db_event_add(ftp->hContact, &dbei);
-		}
-	}
-
-	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
-		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)data);
-
-	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-	{
-		if (OpenClipboard(NULL))
-		{
-			EmptyClipboard();
-			size_t size = sizeof(TCHAR) * (urls.GetLength() + 1);
-			HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-			if (hClipboardData)
-			{
-				TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
-				if (pchData)
-				{
-					memcpy(pchData, (TCHAR*)data, size);
-					GlobalUnlock(hClipboardData);
-					SetClipboardData(CF_TEXT, hClipboardData);
-				}
-			}
-			CloseClipboard();
-		}
-	}
+	instance->Report(ftp->hContact, urls.GetBuffer());
 
 	instance->transfers.remove(ftp);
 	delete ftp;
