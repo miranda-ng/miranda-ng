@@ -67,6 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_HIDE_CHATS				"HideChats"
 #define FACEBOOK_KEY_ENABLE_CHATS			"EnableChat"
 #define FACEBOOK_KEY_NOTIFICATIONS_CHATROOM	"NotificationsChatroom"
+#define FACEBOOK_KEY_NAME_AS_NICK			"NameAsNick"
 
 // Account DB keys - notifications
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE	"EventNotificationsEnable"
@@ -83,6 +84,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit"				// [HIDDEN] - (byte)
 #define	FACEBOOK_KEY_LOCALE					"Locale"					// [HIDDEN] - (string) en_US, cs_CZ, etc. (requires restart to apply)
 #define FACEBOOK_KEY_NASEEMS_SPAM_MODE		"NaseemsSpamMode"			// [HIDDEN] - (byte) 1 = don't load messages sent from other instances (e.g., browser) - known as "Naseem's spam mode"
-#define FACEBOOK_KEY_NAME_AS_NICK			"NameAsNick"				// [HIDDEN] - (byte) 0 = don't use real name as nickname, use nickname if possible
 #define FACEBOOK_KEY_OPEN_URL_BROWSER		"OpenUrlBrowser"			// [HIDDEN] - (unicode) = absolute path to browser to open url links with
 #define FACEBOOK_KEY_SEND_MESSAGE_TRIES		"SendMessageTries"			// [HIDDEN] - (byte) = number of tries to send message, default=1, min=1, max=5
