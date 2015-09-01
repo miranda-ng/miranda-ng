@@ -296,21 +296,10 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/chat/buddy_list.php?__a=1";
 
 	case REQUEST_USER_INFO:
-	{
-		std::string action = "/ajax/chat/user_info.php?__a=1&viewer=%s&__user=%s";
-		utils::text::replace_all(&action, "%s", self_.user_id);
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
+		return "/ajax/chat/user_info.php?__a=1";
 
 	case REQUEST_USER_INFO_ALL:
-	{
-		std::string action = "/ajax/chat/user_info_all.php?__a=1&viewer=%s&__user=%s";
-		utils::text::replace_all(&action, "%s", self_.user_id);
-		return action;
-	}
+		return "/ajax/chat/user_info_all.php?__a=1&viewer=" + self_.user_id;
 
 	case REQUEST_USER_INFO_MOBILE:
 	{
@@ -432,7 +421,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/mercury/thread_info.php?__a=1";
 
 	case REQUEST_THREAD_SYNC:
-		return "/ajax/mercury/thread_sync.php";
+		return "/ajax/mercury/thread_sync.php?__a=1";
 
 	case REQUEST_MESSAGES_RECEIVE:
 	case REQUEST_ACTIVE_PING:

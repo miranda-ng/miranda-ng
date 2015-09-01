@@ -89,12 +89,16 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			tid = tid_;
 		}
 		else {
-			std::string post_data = "threads[thread_ids][0]=" + utils::url::encode(data->chat_id);
-			post_data += "&fb_dtsg=" + facy.dtsg_;
+			std::string post_data = "client=mercury";
 			post_data += "&__user=" + facy.self_.user_id;
+			post_data += "&__dyn=" + facy.__dyn();
+			post_data += "&__req=" + facy.__req();
+			post_data += "&fb_dtsg=" + facy.dtsg_;
 			post_data += "&ttstamp=" + facy.ttstamp_;
+			post_data += "&__rev=" + facy.__rev();
+			post_data += "&threads[thread_ids][0]=" + utils::url::encode(data->chat_id);
 
-			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
+			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data); // NOTE: Request revised 1.9.2015
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			if (!tid.empty() && tid.compare("null"))
@@ -143,31 +147,25 @@ void FacebookProto::SendTypingWorker(void *p)
 		return;
 	}
 
-	// TODO RM: maybe better send typing optimalization
-	facy.is_typing_ = (typing->status == PROTOTYPE_SELFTYPING_ON);
-	SleepEx(2000, true);
-
-	if (!facy.is_typing_ == (typing->status == PROTOTYPE_SELFTYPING_ON)) {
-		delete typing;
-		return;
-	}
-
 	const char *value = (isChatRoom(typing->hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
 	ptrA id(getStringA(typing->hContact, value));
 	if (id != NULL) {
-		std::string data = "&source=mercury-chat";
-		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0");
+		bool isChat = isChatRoom(typing->hContact);
+		std::string idEncoded = utils::url::encode(std::string(id));
 
-		data += "&to=";
-		if (isChatRoom(typing->hContact))
-			data += "&thread=";
-		data += utils::url::encode(std::string(id));
+		std::string data = (typing->status == PROTOTYPE_SELFTYPING_ON ? "typ=1" : "typ=0");
+		data += "&to=" + (isChat ? "" : idEncoded);
+		data += "&source=mercury-chat";
+		data += "&thread=" + idEncoded;
+		data += "&__user=" + facy.self_.user_id;
+		data += "&__dyn=" + facy.__dyn();
+		data += "&__req=" + facy.__req();
 
 		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&lsd=&__user=" + facy.self_.user_id;
-		data += "&ttstamp=" + facy.ttstramp_;
+		data += "&ttsamp=" + facy.ttstamp_;
+		data += "&__rev=" + facy.__rev();
 
-		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
+		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data); // NOTE: Request revised 1.9.2015
 	}
 
 	delete typing;
