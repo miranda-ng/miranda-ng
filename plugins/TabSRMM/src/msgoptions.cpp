@@ -92,6 +92,7 @@ static HWND hwndTabConfig = 0;
 // will be used as the name of the skin.
 //
 // [Global]/Name property is new in TabSRMM version 3.
+
 static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 {
 	bool fValid = false;
@@ -143,6 +144,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 //
 // By default, $SKINS_ROOT is set to %miranda_userdata% or custom folder
 // selected by the folders plugin.
+
 static int TSAPI RescanSkins(HWND hwndCombobox)
 {
 	DBVARIANT dbv = { 0 };
@@ -189,6 +191,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // mir_free the item extra data (used to store the skin filenames for each entry).
+
 static void TSAPI FreeComboData(HWND hwndCombobox)
 {
 	LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
@@ -204,6 +207,7 @@ static void TSAPI FreeComboData(HWND hwndCombobox)
 /////////////////////////////////////////////////////////////////////////////////////////
 // controls to disable when loading or unloading a skin is not possible (because
 // of at least one message window being open).
+
 static UINT _ctrls[] = { IDC_SKINNAME, IDC_RESCANSKIN, IDC_RESCANSKIN, IDC_RELOADSKIN, 0 };
 
 static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -378,6 +382,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 {
 	TVINSERTSTRUCT tvi = { 0 };
@@ -832,6 +837,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // typing notify options
+
 static void ResetCList(HWND hwndDlg)
 {
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
@@ -985,6 +991,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // options for tabbed messaging got their own page.. finally :)
+
 static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -1062,6 +1069,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // container options
+
 static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
