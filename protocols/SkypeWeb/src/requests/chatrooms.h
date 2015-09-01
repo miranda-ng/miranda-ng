@@ -40,7 +40,7 @@ public:
 class SendChatMessageRequest : public HttpRequest
 {
 public:
-	SendChatMessageRequest(const char *to, time_t timestamp, const char *message, LoginInfo &li) :
+	SendChatMessageRequest(const char *to, ULONGLONG timestamp, const char *message, LoginInfo &li) :
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", li.endpoint.szServer, to)
 	{
 		Headers
@@ -61,7 +61,7 @@ public:
 class SendChatActionRequest : public HttpRequest
 {
 public:
-	SendChatActionRequest(const char *to, time_t timestamp, const char *message, LoginInfo &li) :
+	SendChatActionRequest(const char *to, ULONGLONG timestamp, const char *message, LoginInfo &li) :
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", li.endpoint.szServer, to)
 	{
 		Headers
@@ -71,7 +71,7 @@ public:
 
 		JSONNode node(JSON_NODE);
 		node 
-			<< JSONNode("clientmessageid", (long)timestamp)
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
 			<< JSONNode("messagetype", "RichText")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message)
