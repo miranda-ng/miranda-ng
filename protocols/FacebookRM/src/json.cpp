@@ -146,6 +146,7 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 		return;
 	}
 
+	std::string alternateName = it["alternateName"].as_string(); // nickname
 	std::string name = it["name"].as_string();
 	std::string thumbSrc = it["thumbSrc"].as_string();
 	std::string vanity = it["vanity"].as_string(); // username
@@ -161,6 +162,8 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 		fbu->image_url = utils::text::slashu_to_utf8(thumbSrc);
 	if (!vanity.empty())
 		fbu->username = utils::text::slashu_to_utf8(vanity);
+	if (!alternateName.empty())
+		fbu->nick = alternateName;
 
 	if (gender) {
 		switch (gender) {
