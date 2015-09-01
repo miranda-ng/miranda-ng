@@ -693,7 +693,7 @@
 [Automatically accept authorization requests]
 [Fix incorrect timestamps in incoming messages]
 [Disable frame]
-[Enable XMPP link processing (requires Association Manager)]
+[Enable XMPP link processing (requires AssocMgr)]
 [Keep contacts assigned to local groups (ignore roster group)]
 [Security]
 [Allow servers to request version (XEP-0092)]

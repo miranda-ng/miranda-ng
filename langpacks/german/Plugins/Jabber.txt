@@ -1436,8 +1436,8 @@ Autorisierungsanfragen automatisch akzeptieren
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
-[Enable XMPP link processing (requires Association Manager)]
-XMPP-Linkverarbeitung aktivieren (benötigt File Association Manager)
+[Enable XMPP link processing (requires AssocMgr)]
+XMPP-Linkverarbeitung aktivieren (benötigt File AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Kontakte in ihren lokalen Gruppen belassen (Gruppen auf Server ignorieren)
 [Security]

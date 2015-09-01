@@ -65,7 +65,7 @@
 [Plugin updater URI scheme]
 [Close popup]
 [Do nothing]
-[Backup profile before update]
+[Backup database before update]
 [Stable version (incompatible with current development version)]
 [hours]
 [days]

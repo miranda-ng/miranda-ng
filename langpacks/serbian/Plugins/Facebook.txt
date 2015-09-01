@@ -44,6 +44,8 @@ Kontakti
 
 [Use bigger avatars]
 
+[Prefer real names instead of nicknames]
+
 [Event notifications]
 
 [Notifications]

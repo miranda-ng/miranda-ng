@@ -164,7 +164,7 @@ Popup schließen
 [Do nothing]
 Nichts tun
 ;file \plugins\PluginUpdater\src\Options.cpp
-[Backup profile before update]
+[Backup database before update]
 Datenbank vor Aktualisierung sichern
 [Stable version (incompatible with current development version)]
 Stabile Version (inkompatibel mit aktueller Entwicklungsversion)

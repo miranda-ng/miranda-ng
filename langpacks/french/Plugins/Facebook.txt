@@ -44,6 +44,8 @@ Groupes :
 
 [Use bigger avatars]
 Utiliser des grands avatars
+[Prefer real names instead of nicknames]
+
 [Event notifications]
 
 [Notifications]

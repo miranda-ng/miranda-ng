@@ -1436,7 +1436,7 @@ Automatycznie akceptuj prośby o autoryzację
 Naprawiaj błędne czasy przychodzących wiadomości
 [Disable frame]
 Wyłącz ramkę
-[Enable XMPP link processing (requires Association Manager)]
+[Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagany wtyczka AssocMgr.dll)
 [Keep contacts assigned to local groups (ignore roster group)]
 Utrzymuj kontakty przypisane do grup lokalnych (ignoruj grupy rostera)

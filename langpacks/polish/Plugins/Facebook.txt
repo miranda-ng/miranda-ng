@@ -44,6 +44,8 @@ Domyślna grupa:
 Automatycznie ustaw "Ignoruj zmiany statusu"
 [Use bigger avatars]
 Użyj większych awatarów
+[Prefer real names instead of nicknames]
+
 [Event notifications]
 Zdarzenia
 [Notifications]

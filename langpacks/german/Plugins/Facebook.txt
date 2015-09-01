@@ -44,6 +44,8 @@ Standardgruppe:
 Automatisch 'Ignoriere Statusänderung-Flag' setzen
 [Use bigger avatars]
 Größere Avatare nutzen
+[Prefer real names instead of nicknames]
+
 [Event notifications]
 Ereignisbenachrichtigungen
 [Notifications]

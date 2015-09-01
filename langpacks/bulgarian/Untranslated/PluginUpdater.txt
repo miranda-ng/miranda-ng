@@ -3,4 +3,4 @@
 [For "Restart" popup setting is always infinity]
 [Deprecated!]
 [Plugin updater URI scheme]
-[Backup profile before update]
+[Backup database before update]

@@ -51,4 +51,4 @@
 [Calls]
 [Incoming call sound]
 [Incoming call canceled sound]
-[Failed establish a TRouter connection.]
+[Failed to establish a TRouter connection.]

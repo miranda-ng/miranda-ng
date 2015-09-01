@@ -12,6 +12,7 @@
 [Default group:]
 [Automatically set 'Ignore status change' flag]
 [Use bigger avatars]
+[Prefer real names instead of nicknames]
 [Event notifications]
 [Notifications]
 [News feeds (WARNING: Causes excessive network traffic!)]
