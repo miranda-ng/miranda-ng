@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -931,12 +931,12 @@ bool facebook_client::home()
 
 	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 	{
-		// Compute csrf_ from dtsg_
+		// Compute ttstamp from dtsg_
 		std::stringstream csrf;
 		for (unsigned int i = 0; i < this->dtsg_.length(); i++) {
 			csrf << (int)this->dtsg_.at(i);
 		}
-		this->csrf_ = csrf.str();
+		this->ttstamp_ = "2" + csrf.str();
 	}	
 
 	if (this->dtsg_.empty()) {
@@ -1053,9 +1053,6 @@ bool facebook_client::reconnect()
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
-		// TODO: I'm not sure this goes to 0 after reconnect, or it is always same as chat_sequence_num_ (when watching website it was always same)
-		this->chat_msgs_recv_ = 0;
-
 		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
 		parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
 
@@ -1133,8 +1130,7 @@ bool facebook_client::channel()
 		parent->debugLogA("    Got self sequence number: %s", seq.c_str());
 
 		if (type == "msg") {
-			// Update msgs_recv number
-			// TODO: I'm not sure this is updated regarding "msg" received and reseted after reconnect, or it is always same as chat_sequence_num_ (when watching website it was always same)
+			// Update msgs_recv number for every "msg" type we receive (during fullRefresh/reload responses it stays the same)
 			this->chat_msgs_recv_++;
 		}
 
@@ -1261,7 +1257,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&client=mercury&__a=1&__dyn&__req&__rev";
 	data += "&fb_dtsg=" + this->dtsg_;
 	data += "&__user=" + this->self_.user_id;
-	data += "&ttstamp=" + ttstamp();
+	data += "&ttstamp=" + ttstamp_;
 
 	{
 		ScopedLock s(send_message_lock_);
@@ -1380,13 +1376,13 @@ bool facebook_client::post_status(status_data *status)
 		data = "fb_dtsg=" + this->dtsg_;
 		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=" + ttstamp();
+		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=" + ttstamp_;
 		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
 		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
 		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
 
-		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=" + ttstamp();
+		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=" + ttstamp_;
 		std::string form = utils::text::source_get_value(&temp, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
 		data += "&" + utils::text::source_get_form_data(&form) + "&";

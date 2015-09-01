@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			std::string post_data = "threads[thread_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + facy.dtsg_;
 			post_data += "&__user=" + facy.self_.user_id;
-			post_data += "&phstamp=" + facy.phstamp(post_data);
+			post_data += "&ttstamp=" + facy.ttstamp_;
 
 			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
 
@@ -114,12 +114,11 @@ void FacebookProto::SendChatMsgWorker(void *p)
 
 int FacebookProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
-	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
 	std::string message = msg;
-
-	facy.msgid_ = (facy.msgid_ % 1024) + 1;
-	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, facy.msgid_));
-	return facy.msgid_;
+	unsigned int msgId = InterlockedIncrement(&facy.msgid_);
+	
+	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, msgId));
+	return msgId;
 }
 
 int FacebookProto::UserIsTyping(MCONTACT hContact, int type)
@@ -165,7 +164,7 @@ void FacebookProto::SendTypingWorker(void *p)
 
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&lsd=&__user=" + facy.self_.user_id;
-		data += "&phstamp=" + facy.phstamp(data);
+		data += "&ttstamp=" + facy.ttstramp_;
 
 		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
 	}
@@ -190,7 +189,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 	std::string data = "fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
 
 	for (std::set<MCONTACT>::iterator it = hContacts->begin(); it != hContacts->end(); ++it) {
 		MCONTACT hContact = *it;
