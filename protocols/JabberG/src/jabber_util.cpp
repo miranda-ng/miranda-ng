@@ -134,15 +134,6 @@ TCHAR* JabberPrepareJid(LPCTSTR jid)
 	return szNewJid;
 }
 
-void strdel(char* parBuffer, int len)
-{
-	char* p;
-	for (p = parBuffer + len; *p != 0; p++)
-		p[-len] = *p;
-
-	p[-len] = '\0';
-}
-
 void __stdcall JabberUrlDecodeW(WCHAR *str)
 {
 	if (str == NULL)

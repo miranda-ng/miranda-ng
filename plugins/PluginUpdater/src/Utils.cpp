@@ -313,15 +313,6 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 	return ret;
 }
 
-void strdel(TCHAR *parBuffer, int len)
-{
-	TCHAR* p;
-	for (p = parBuffer + len; *p != 0; p++)
-		p[-len] = *p;
-
-	p[-len] = '\0';
-}
-
 void __stdcall OpenPluginOptions(void*)
 {
 	OPENOPTIONSDIALOG ood = {0};

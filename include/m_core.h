@@ -377,6 +377,9 @@ MIR_CORE_DLL(wchar_t*) ltrimw(wchar_t *str);
 MIR_CORE_DLL(char*)  ltrimp(char *str);  // returns pointer to the trimmed portion of string
 MIR_CORE_DLL(wchar_t*) ltrimpw(wchar_t *str);
 
+MIR_CORE_DLL(char*) strdel(char *str, size_t len);
+MIR_CORE_DLL(wchar_t*) strdelw(wchar_t *str, size_t len);
+
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask);
 MIR_CORE_DLL(int) wildcmpw(const wchar_t *name, const wchar_t *mask);
 
@@ -442,6 +445,8 @@ typedef union {
 	#define ltrimt  ltrimw
 	#define ltrimpt ltrimpw
 
+	#define strdelt strdelw
+
 	#define wildcmpt  wildcmpw
 	#define wildcmpit wildcmpiw
 
@@ -479,6 +484,8 @@ typedef union {
 	#define rtrimt rtrim
 	#define ltrimt ltrim
 	#define ltrimpt ltrimp
+
+	#define strdelt strdel
 
 	#define wildcmpt wildcmp
 	#define wildcmpit wildcmpi

@@ -759,10 +759,6 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime);
 int  UIEmulateBtnClick(HWND hwndDlg, UINT idcButton);
 void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow);
 
-//---- jabber_xml.cpp -------------------------------------------------------------------
-
-void  strdel(char* parBuffer, int len);
-
 //---- jabber_userinfo.cpp --------------------------------------------------------------
 
 void JabberUserInfoUpdate(MCONTACT hContact);

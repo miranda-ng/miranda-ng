@@ -226,7 +226,6 @@ void  CheckUpdateOnStartup();
 void  InitTimer(void *type);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
-void strdel(TCHAR *parBuffer, int len);
 
 ///////////////////////////////////////////////////////////////////////////////
 
