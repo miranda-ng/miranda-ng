@@ -342,12 +342,13 @@ MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
 
 #define MIR_SHA1_HASH_SIZE 20
 
-typedef struct {
+struct mir_sha1_ctx
+{
   ULONG H[5];
   ULONG W[80];
   int lenW;
   ULONG sizeHi, sizeLo;
-} mir_sha1_ctx;
+};
 
 MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx);
 MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, int len);
@@ -355,6 +356,24 @@ MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[MIR_SHA1_HASH
 MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, int len, BYTE hashout[MIR_SHA1_HASH_SIZE]);
 
 MIR_CORE_DLL(void) mir_hmac_sha1(BYTE hashout[MIR_SHA1_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen);
+
+///////////////////////////////////////////////////////////////////////////////
+// sha256 functions
+
+#define MIR_SHA256_HASH_SIZE 32
+
+struct SHA256_CONTEXT
+{
+	UINT32  h0, h1, h2, h3, h4, h5, h6, h7;
+	UINT32  nblocks;
+	BYTE buf[64];
+	int  count;
+};
+
+MIR_CORE_DLL(void) mir_sha256_init(SHA256_CONTEXT *ctx);
+MIR_CORE_DLL(void) mir_sha256_write(SHA256_CONTEXT *ctx, const void *dataIn, size_t len);
+MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *ctx, BYTE hashout[MIR_SHA256_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, BYTE hashout[MIR_SHA256_HASH_SIZE]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings
