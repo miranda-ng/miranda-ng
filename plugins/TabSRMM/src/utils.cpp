@@ -265,121 +265,73 @@ ok:
 /////////////////////////////////////////////////////////////////////////////////////////
 // format the title bar string for IM chat sessions using placeholders.
 // the caller must mir_free() the returned string
-TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
+
+static TCHAR* Trunc500(TCHAR *str)
 {
-	INT_PTR tempmark = 0;
-	TCHAR szTemp[512];
+	if (mir_tstrlen(str) > 500)
+		str[500] = 0;
+	return str;
+}
 
+bool Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat, CMString &dest)
+{
 	if (dat == 0)
-		return 0;
+		return false;
 
-	tstring title(szFormat);
-
-	for (size_t curpos = 0; curpos < title.length();) {
-		if (title[curpos] != '%') {
-			curpos++;
+	for (const TCHAR *src = szFormat; *src; src++) {
+		if (*src != '%') {
+			dest.AppendChar(*src);
 			continue;
 		}
-		tempmark = curpos;
-		curpos++;
-		if (title[curpos] == 0)
+
+		switch (*++src) {
+		case 'n':
+			dest.Append(dat->cache->getNick());
 			break;
 
-		const	TCHAR *p;
-		switch (title[curpos]) {
-		case 'n':
-			p = dat->cache->getNick();
-			if (p[0])
-				title.insert(tempmark + 2, p);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(p);
-			break;
 		case 'p':
 		case 'a':
-			p = dat->cache->getRealAccount();
-			if (p)
-				title.insert(tempmark + 2, p);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(p);
+			dest.Append(dat->cache->getRealAccount());
 			break;
 
 		case 's':
-			if (dat->szStatus[0])
-				title.insert(tempmark + 2, dat->szStatus);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(dat->szStatus);
+			dest.Append(dat->szStatus);
 			break;
 
 		case 'u':
-			p = dat->cache->getUIN();
-			if (p[0])
-				title.insert(tempmark + 2, p);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(p);
+			dest.Append(dat->cache->getUIN());
 			break;
 
 		case 'c':
-			p = (!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
-			title.insert(tempmark + 2, p);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(p);
+			dest.Append(!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
 			break;
 
 		case 'o':
 			{
 				const char *szProto = dat->cache->getActiveProto();
 				if (szProto)
-					title.insert(tempmark + 2, _A2T(szProto));
-				title.erase(tempmark, 2);
-				curpos = tempmark + (szProto ? mir_strlen(szProto) : 0);
+					dest.Append(_A2T(szProto));
 			}
 			break;
 
 		case 'x':
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
-
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					DBVARIANT dbv = { 0 };
-					if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-						_tcsncpy(szTemp, dbv.ptszVal, 500);
-						szTemp[500] = 0;
-						db_free(&dbv);
-						title.insert(tempmark + 2, szTemp);
-						curpos = tempmark + mir_tstrlen(szTemp);
-					}
-					else {
-						title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
-						curpos = tempmark + mir_tstrlen(xStatusDescr[xStatus - 1]);
-					}
+					ptrT szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
-				title.erase(tempmark, 2);
 			}
 			break;
 
 		case 'm':
-			p = NULL;
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					DBVARIANT dbv = { 0 };
-
-					if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-						_tcsncpy(szTemp, dbv.ptszVal, 500);
-						szTemp[500] = 0;
-						db_free(&dbv);
-						title.insert(tempmark + 2, szTemp);
-					}
-					else p = xStatusDescr[xStatus - 1];
+					ptrT szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
-				else p = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
-
-				if (p) {
-					title.insert(tempmark + 2, p);
-					curpos = tempmark + mir_tstrlen(p);
-				}
-
-				title.erase(tempmark, 2);
+				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
 			}
 			break;
 
@@ -388,26 +340,24 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 		case 'T':
 			{
 				ptrT tszStatus(dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true));
-				if (tszStatus) {
-					title.insert(tempmark + 2, tszStatus);
-					curpos = tempmark + mir_tstrlen(tszStatus);
-				}
-				else if (title[curpos] == 't') {
-					p = TranslateT("No status message");
-					title.insert(tempmark + 2, p);
-					curpos = tempmark + mir_tstrlen(p);
-				}
+				if (tszStatus)
+					dest.Append(tszStatus);
+				else if (*src == 't')
+					dest.Append(TranslateT("No status message"));
 			}
-			title.erase(tempmark, 2);
 			break;
 
-		default:
-			title.erase(tempmark, 1);
+		case 'g':
+			{
+				ptrT tszGroup(db_get_tsa(dat->hContact, "CList", "Group"));
+				if (tszGroup != NULL)
+					dest.Append(tszGroup);
+			}
 			break;
 		}
 	}
 
-	return mir_tstrndup(title.c_str(), title.length());
+	return true;
 }
 
 char* Utils::FilterEventMarkers(char *szText)

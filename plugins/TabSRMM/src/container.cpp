@@ -1040,11 +1040,9 @@ panel_found:
 		}
 		if (dat) {
 			SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabStatusIcon));
-			TCHAR *szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
-			if (szNewTitle) {
-				SetWindowText(hwndDlg, szNewTitle);
-				mir_free(szNewTitle);
-			}
+			CMString szTitle;
+			if (Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat, szTitle))
+				SetWindowText(hwndDlg, szTitle);
 		}
 		return 0;
 
