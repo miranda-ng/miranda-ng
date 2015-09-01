@@ -1870,6 +1870,7 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // cut off contact name to the option value set via Options->Tabbed messaging
 // some people were requesting this, because really long contact list names
 // are causing extraordinary wide tabs and these are looking ugly and wasting
@@ -1877,15 +1878,13 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 //
 // size = max length of target string
 
-int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size)
+int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, size_t size)
 {
-	size_t cutMax = PluginConfig.m_iTabNameLimit;
-
-	if (mir_tstrlen(oldname) <= cutMax)
+	if (mir_tstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
 		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
 		TCHAR fmt[30];
-		mir_sntprintf(fmt, _T("%%%d.%ds..."), cutMax, cutMax);
+		mir_sntprintf(fmt, _T("%%%d.%ds..."), PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
 		mir_sntprintf(newname, size, fmt, oldname);
 	}
 	return 0;

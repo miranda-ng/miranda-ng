@@ -64,7 +64,7 @@ int    TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat
 void   TSAPI LoadOverrideTheme(TContainerData *pContainer);
 void   TSAPI LoadThemeDefaults(TContainerData *pContainer);
 void   TSAPI ConfigureSmileyButton(TWindowData *dat);
-int    TSAPI CutContactName(const TCHAR *szold, TCHAR *sznew, unsigned int size);
+int    TSAPI CutContactName(const TCHAR *szold, TCHAR *sznew, size_t size);
 void   TSAPI SendNudge(const TWindowData *dat);
 void   TSAPI EnableSendButton(const TWindowData *dat, int iMode);
 LRESULT TSAPI GetSendButtonState(HWND hwnd);

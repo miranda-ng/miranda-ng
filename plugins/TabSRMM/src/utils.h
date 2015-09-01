@@ -58,7 +58,7 @@ public:
 	static LPCTSTR  FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent);
 	static bool     FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat, CMString &dest);
 	static char*    FilterEventMarkers(char *szText);
-	static LPCTSTR  DoubleAmpersands(TCHAR *pszText);
+	static void     DoubleAmpersands(TCHAR *pszText, size_t len);
 	static void     RTF_CTableInit();
 	static void     RTF_ColorAdd(const TCHAR *tszColname, size_t length);
 	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);

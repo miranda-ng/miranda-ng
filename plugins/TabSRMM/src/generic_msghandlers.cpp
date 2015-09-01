@@ -1744,7 +1744,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 				else
 					_tcsncpy_s(newcontactname, szNick, _TRUNCATE);
 
-				Utils::DoubleAmpersands(newcontactname);
+				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 
 				if (mir_tstrlen(newcontactname) != 0) {
 					if (PluginConfig.m_bStatusOnTabs)

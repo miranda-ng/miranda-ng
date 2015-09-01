@@ -421,7 +421,7 @@ static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
+	TCHAR *buf = DbGetEventTextT(dbe, CP_ACP);
 	if (mir_tstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
