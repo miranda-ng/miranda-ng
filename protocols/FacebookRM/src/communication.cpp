@@ -146,8 +146,14 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 				pos = resp.data.find("\"errorDescription\":\"", pos);
 				if (pos != std::string::npos) {
 					pos += 20;
-					error = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
-					error = utils::text::trim(utils::text::html_entities_decode(utils::text::slashu_to_utf8(error)));
+
+					std::string::size_type pos2 = resp.data.find("\",\"", pos);
+					if (pos2 == std::string::npos) {
+						pos2 = resp.data.find("\"", pos);
+					}
+
+					error = resp.data.substr(pos, pos2 - pos);
+					error = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(utils::text::slashu_to_utf8(error))));
 					error = ptrA(mir_utf8decodeA(error.c_str()));
 				}
 
@@ -156,7 +162,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 				if (pos != std::string::npos) {
 					pos += 16;
 					title = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
-					title = utils::text::trim(utils::text::html_entities_decode(utils::text::slashu_to_utf8(title)));
+					title = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(utils::text::slashu_to_utf8(title))));
 					title = ptrA(mir_utf8decodeA(title.c_str()));
 				}
 
@@ -1336,6 +1342,8 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 			}
 		}
 		return SEND_MESSAGE_CANCEL; // Cancel because we failed to load captcha image so we can't continue only with error
+
+	//case 1404123: // Blocked sending messages (with URLs) because Facebook think our computer is infected with malware
 
 	default: // Other error
 		parent->debugLogA("!!! Send message error #%d: %s", resp.error_number, resp.error_text.c_str());
