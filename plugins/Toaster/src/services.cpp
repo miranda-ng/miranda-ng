@@ -22,7 +22,6 @@ wchar_t* SaveBitmap(HBITMAP bmp, const char *szId)
 		isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
 		CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
 	}
-
 	return mir_wstrdup(wszSavePath);
 }
 
@@ -119,6 +118,7 @@ void __stdcall ShowToastNotification(void* p)
 	else
 	{
 		delete arg->notification;
+		mir_free(arg);
 	}
 }
 
