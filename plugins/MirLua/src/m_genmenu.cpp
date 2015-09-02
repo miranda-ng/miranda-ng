@@ -14,12 +14,16 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 
 	lua_pushliteral(L, "Uid");
 	lua_gettable(L, -2);
-	unsigned long a;
-	unsigned short b, c;
-	unsigned char d[8];
-	if (sscanf_s((char*)luaL_checkstring(L, -1), "{%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
-		&a, &b, &c, &d[0], &d[1], &d[2], &d[3], &d[4], &d[5], &d[6], &d[7]))
-		SET_UID(mi, a, b, c, d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
+	const char* uuid = (char*)lua_tostring(L, -1);
+	if (uuid)
+	{
+		unsigned long a;
+		unsigned short b, c;
+		unsigned char d[8];
+		if (sscanf_s(uuid, "{%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
+			&a, &b, &c, &d[0], &d[1], &d[2], &d[3], &d[4], &d[5], &d[6], &d[7]) == 11)
+			SET_UID(mi, a, b, c, d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
+	}
 	lua_pop(L, 1);
 
 	lua_pushliteral(L, "Name");
