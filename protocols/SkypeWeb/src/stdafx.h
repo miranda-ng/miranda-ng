@@ -24,7 +24,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <regex>
 #include <map>
-#include <sys/timeb.h>
 
 #include <newpluginapi.h>
 
@@ -92,7 +91,13 @@ struct TRInfo
 	sig,
 	url;
 	time_t lastRegistrationTime;
-}trouter;
+};
+
+struct MessageId
+{
+	ULONGLONG id;
+	HANDLE handle;
+};
 
 #include "version.h"
 #include "resource.h"

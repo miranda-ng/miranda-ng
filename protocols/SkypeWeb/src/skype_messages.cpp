@@ -39,7 +39,7 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, cons
 struct SendMessageParam
 {
 	MCONTACT hContact;
-	ULONGLONG hMessage;
+	LONGLONG hMessage;
 };
 
 // outcoming message flow
@@ -53,7 +53,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = GenerateMessageId();
+	param->hMessage = time(NULL);
 
 	ptrA username(getStringA(hContact, "Skypename"));
 
@@ -186,7 +186,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	{
 		if (IsMe(szFromSkypename))
 		{
-			HANDLE hMessage = (HANDLE)std::stoull(szMessageId.GetString());
+			szMessageId.Truncate(szMessageId.GetLength() - 3);
+			HANDLE hMessage = (HANDLE)(std::stoull(szMessageId.GetString()));
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
 				auto it = m_mpOutMessages.find(hMessage);
