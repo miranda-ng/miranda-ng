@@ -8,7 +8,7 @@
 #include <ShObjIdl.h>
 #include <propvarutil.h>
 #include <memory>
-
+#include <map>
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_langpack.h>
@@ -56,7 +56,7 @@ struct ToastData
 	TCHAR *tszText;
 	HICON hIcon;
 
-	ToastData(MCONTACT _hContact, TCHAR *_tszTitle, TCHAR *_tszText, HICON _hIcon = NULL) : hContact(_hContact), tszTitle(mir_tstrdup(_tszTitle)), tszText(mir_tstrdup(_tszText)), hIcon(_hIcon) {}
+	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL) : hContact(_hContact), tszTitle(mir_tstrdup(_tszTitle)), tszText(mir_tstrdup(_tszText)), hIcon(_hIcon) {}
 	~ToastData()
 	{
 		mir_free(tszTitle);
