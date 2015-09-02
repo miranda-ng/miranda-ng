@@ -2,19 +2,6 @@
 
 using namespace Microsoft::WRL;
 
-CMString GetStringChunk(const TCHAR *haystack, const TCHAR *start, const TCHAR *end)
-{
-	const TCHAR *sstart = wcsstr(haystack, start);
-	if (sstart == NULL)
-		return CMString();
-
-	sstart = sstart + mir_wstrlen(start);
-	const TCHAR *send = wcsstr(sstart, end);
-	if (send == NULL)
-		return CMString(sstart);
-	return CMString(sstart, send - sstart);
-}
-
 ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath)
 	: _text(text), _caption(caption), _imagePath(imagePath)
 {
@@ -61,19 +48,6 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	{
 		HXML xmlTextNode = xmlAddChild(xmlBindingNode, L"text", _text);
 		xmlAddAttr(xmlTextNode, L"id", L"2");
-
-/*
-		if (IsWinVer10Plus())
-		{
-			CMString link = GetStringChunk(_text, L"[img]", L"[/img]");
-			if (!link.IsEmpty())
-			{
-				HXML xmlInlineImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
-				xmlAddAttr(xmlInlineImageNode, L"placement", L"inline");
-				xmlAddAttr(xmlInlineImageNode, L"src", link);
-			}
-		}
-*/
 	}
 	
 	TCHAR *xtmp = xmlToString(xmlToast, NULL);
