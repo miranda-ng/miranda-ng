@@ -39,8 +39,6 @@ bool CToxProto::InitToxCore()
 		}
 	}
 
-	debugLogA(__FUNCTION__": loading tox profile");
-
 	if (LoadToxProfile(options))
 	{
 		tox_callback_friend_request(tox, OnFriendRequest, this);

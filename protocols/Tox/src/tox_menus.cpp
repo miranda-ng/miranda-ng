@@ -45,6 +45,7 @@ void CToxProto::InitMenus()
 	mi.flags = CMIF_TCHAR;
 
 	// Request authorization
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.pszService = MODULE"/RequestAuth";
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
@@ -53,6 +54,7 @@ void CToxProto::InitMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnRequestAuth>);
 
 	// Grant authorization
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.pszService = MODULE"/GrantAuth";
 	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
@@ -61,6 +63,7 @@ void CToxProto::InitMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 
 	// Start audio call
+	SET_UID(mi, 0x116cb7fe, 0xce37, 0x429c, 0xb0, 0xa9, 0x7d, 0xe7, 0x70, 0x59, 0xc3, 0x95);
 	mi.pszService = MODULE"/Audio/Call";
 	mi.name.t = LPGENT("Call");
 	mi.position = -2000020000 + CMI_AUDIO_CALL;

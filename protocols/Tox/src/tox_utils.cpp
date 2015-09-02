@@ -33,6 +33,33 @@ int CToxProto::ToxToMirandaStatus(TOX_USER_STATUS userstatus)
 	return status;
 }
 
+TCHAR* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
+{
+	switch (error)
+	{
+	case TOX_ERR_NEW_NULL:
+		return TranslateT("One of the arguments is not valid or ");
+	case TOX_ERR_NEW_MALLOC:
+		return TranslateT("Unable to allocate enough memory");
+	case TOX_ERR_NEW_PORT_ALLOC:
+		return TranslateT("Unable to bind to a port");
+	case TOX_ERR_NEW_PROXY_BAD_TYPE:
+		return TranslateT("The proxy type is not valid");
+	case TOX_ERR_NEW_PROXY_BAD_HOST:
+		return TranslateT("The proxy host is not valid");
+	case TOX_ERR_NEW_PROXY_BAD_PORT:
+		return TranslateT("The proxy port is not valid");
+	case TOX_ERR_NEW_PROXY_NOT_FOUND:
+		return TranslateT("The proxy address could not be resolved");
+	case TOX_ERR_NEW_LOAD_ENCRYPTED:
+		return TranslateT("The profile is encrypted");
+	case TOX_ERR_NEW_LOAD_BAD_FORMAT:
+		return TranslateT("The data format is not valid");
+	default:
+		return TranslateT("Unknown error");
+	}
+}
+
 void CToxProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())

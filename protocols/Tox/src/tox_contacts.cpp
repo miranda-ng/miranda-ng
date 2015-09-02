@@ -97,7 +97,7 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 
 uint32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 {
-	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 	TOX_ERR_FRIEND_BY_PUBLIC_KEY error;
 	uint32_t friendNumber = tox_friend_by_public_key(tox, pubKey.GetPubKey(), &error);
 	if (error != TOX_ERR_FRIEND_BY_PUBLIC_KEY_OK)
@@ -156,7 +156,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 
 	char *reason = lParam ? (char*)lParam : " ";
 	size_t length = mir_strlen(reason);
-	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	ToxBinAddress address(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 
 	TOX_ERR_FRIEND_ADD addFriendResult;
 	int32_t friendNumber = tox_friend_add(tox, address, (uint8_t*)reason, length, &addFriendResult);
