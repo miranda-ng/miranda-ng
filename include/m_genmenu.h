@@ -5,6 +5,10 @@
 #include <m_core.h>
 #endif
 
+#ifndef M_NEWPLUGINAPI_H__
+#include <newpluginapi.h>
+#endif
+
 #if defined MIR_APP_EXPORTS
 	typedef struct TMO_IntMenuItem* HGENMENU;
 #else
@@ -49,6 +53,7 @@ struct TMO_MenuItem
 		HANDLE hIcolibItem;
 	};
 	int hLangpack;
+	MUUID uid;
 };
 
 #ifdef __cplusplus
