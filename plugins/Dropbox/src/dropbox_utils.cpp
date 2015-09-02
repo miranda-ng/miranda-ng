@@ -61,8 +61,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const char* data)
 	}
 
 	const char *szProto = GetContactProto(hContact);
-	bool isChatRoom = db_get_b(hContact, szProto, "ChatRoom", 0);
-	if (isChatRoom)
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
 	{
 		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
@@ -96,7 +95,7 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
 	}
 }
 
-void CDropbox::PasteToClipboard(MCONTACT hContact, const char* data)
+void CDropbox::PasteToClipboard(const char* data)
 {
 	if (OpenClipboard(NULL))
 	{
@@ -126,5 +125,5 @@ void CDropbox::Report(MCONTACT hContact, const char* data)
 		PasteToInputArea(hContact, data);
 
 	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-		PasteToClipboard(hContact, data);
+		PasteToClipboard(data);
 }

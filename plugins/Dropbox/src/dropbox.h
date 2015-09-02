@@ -117,7 +117,7 @@ private:
 
 	void SendToContact(MCONTACT hContact, const char* data);
 	void PasteToInputArea(MCONTACT hContact, const char* data);
-	void PasteToClipboard(MCONTACT hContact, const char* data);
+	void PasteToClipboard(const char* data);
 	void Report(MCONTACT hContact, const char* data);
 
 	template<int(CDropbox::*Event)(WPARAM, LPARAM)>
