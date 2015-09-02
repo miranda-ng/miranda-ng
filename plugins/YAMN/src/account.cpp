@@ -41,7 +41,6 @@ INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
 	DWORD AccountVersion = (DWORD)lParam;
-	HACCOUNT NewAccount;
 
 	//test if we are going to initialize members of suitable structure (structures of plugin and YAMN must match)
 	if (AccountVersion != YAMN_ACCOUNTVERSION)
@@ -49,21 +48,19 @@ INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
 
 	if (Plugin != NULL)
 	{
+		HACCOUNT NewAccount;
 		if (Plugin->Fcn->NewAccountFcnPtr != NULL)
-		{
 			//Let plugin create its own structure, which can be derived from CAccount structure
 			NewAccount = Plugin->Fcn->NewAccountFcnPtr(Plugin, YAMN_ACCOUNTVERSION);
-			NewAccount->Plugin = Plugin;
-		}
 		else
-		{
 			//We suggest plugin uses standard CAccount structure, so we create it
 			NewAccount = new struct CAccount;
-			NewAccount->Plugin = Plugin;
-		}
+
 		//If not created successfully
 		if (NewAccount == NULL)
 			return NULL;
+			
+		NewAccount->Plugin = Plugin;
 		//Init every members of structure, used by YAMN
 		InitAccount(NewAccount);
 

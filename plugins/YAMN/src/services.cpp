@@ -124,12 +124,11 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 {
 	//This service will check/sincronize the account pointed by wParam
 	HACCOUNT ActualAccount = (HACCOUNT)wParam;
-	HANDLE ThreadRunningEV;
-	DWORD tid;
 	// copy/paste make mistakes
 	if (ActualAccount != NULL) {
 		//we use event to signal, that running thread has all needed stack parameters copied
-		if (NULL == (ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL)))
+		HANDLE ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL);
+		if (ThreadRunningEV == NULL)
 			return 0;
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
@@ -149,11 +148,12 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
 			#endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
-				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam?YAMN_FORCECHECK:YAMN_NORMALCHECK, (void *)0, NULL};
-				HANDLE NewThread;
+				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam?YAMN_FORCECHECK:YAMN_NORMALCHECK, 0, NULL};
 
 				ActualAccount->TimeLeft = ActualAccount->Interval;
-				if (NewThread = CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr, &ParamToPlugin, 0, &tid)) {
+				DWORD tid;
+				HANDLE NewThread = CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr, &ParamToPlugin, 0, &tid);
+				if (NewThread) {
 					WaitForSingleObject(ThreadRunningEV, INFINITE);
 					CloseHandle(NewThread);
 				}

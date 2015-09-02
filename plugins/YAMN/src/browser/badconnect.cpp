@@ -198,14 +198,13 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		{
 		case SC_CLOSE:
 			DestroyWindow(hDlg);
-			break;
 		}
+		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDC_BTNOK:
 			DestroyWindow(hDlg);
-			break;
 		}
 		break;
 	}

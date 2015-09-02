@@ -451,7 +451,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 
 HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 {
-	HYAMNMAIL FirstMail,Browser;
+	HYAMNMAIL FirstMail,Browser = 0;
 
 	for (FirstMail=NULL;From != NULL;From=From->Next)
 	{
