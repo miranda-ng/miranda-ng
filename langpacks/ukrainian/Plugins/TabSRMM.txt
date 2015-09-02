@@ -1484,7 +1484,7 @@ TabSRMM: Набирає
 [Contact]
 Контакт
 [Original timestamp]
-Оригінальна мітка часу
+Вихідний час
 [Message text]
 Текст повідомлення
 [Status]
@@ -1508,7 +1508,7 @@ TabSRMM: Набирає
 [The send later feature is not available on this protocol.]
 Відправлення з затримкою не підтримується протоколом.
 [\n(Sent delayed. Original timestamp %s)]
-\n(Відправлено з затримкою. Час відправлення %s)
+\n(Відправлено з затримкою. Вихідний час %s)
 [Like tabs, vertical text orientation]
 Як вкладки, вертикальна орієнтація тексту
 [Compact layout, horizontal buttons]
@@ -1524,7 +1524,7 @@ TabSRMM: %s
 [Previews not available when using History++ plugin for message log display.]
 Попередній перегляд недоступний при використанні History++ в якості журналу повідомлень.
 [%d unread]
-%d непрочитано
+%d не прочитано
 [Chat room %s]
 Чат-кімната %s
 [%d user(s)]
@@ -1533,6 +1533,20 @@ TabSRMM: %s
 Вікно сервера
 [%s on %s%s]
 %s %s%s
+[Message In]
+Отримане повідомлення
+[Message Out]
+Надіслане повідомлення
+[Group In (Start)]
+Отримане (група, початок)
+[Group Out (Start)]
+Надіслане (група, початок)
+[Group In (Inner)]
+Отримане (група, середина)
+[Group Out (Inner)]
+Надіслане (група, середина)
+[Error message]
+Повідомлення про помилку
 [Template set editor]
 Редактор шаблонів
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
@@ -1922,7 +1936,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 [Timestamp only when event time differs]
 Показувати час, якщо він змінився
 [Timestamp has same color as the event]
-Часова мітка того ж кольору, що й подія
+Час того ж кольору, що й подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення
 [Limit user names in the message log to 20 characters]

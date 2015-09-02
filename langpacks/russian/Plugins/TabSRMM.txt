@@ -1510,7 +1510,7 @@ TabSRMM: набирает
 [The send later feature is not available on this protocol.]
 Отправка с задержкой не поддерживается данным протоколом
 [\n(Sent delayed. Original timestamp %s)]
-\n(Отправлено с задержкой. Время отправки %s)
+\n(Отправлено с задержкой. Исходное время %s)
 [Like tabs, vertical text orientation]
 Как вкладки, вертикальная ориентация текста
 [Compact layout, horizontal buttons]

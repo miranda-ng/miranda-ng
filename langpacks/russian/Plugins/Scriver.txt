@@ -646,7 +646,7 @@ Miranda не смогла загрузить встроенную систему
 [Only prefix with timestamp if it has changed]
 Подставлять время, если есть изменения
 [Timestamp has same color as event]
-Время того же цвета, как и событие
+Время того же цвета, что и событие
 [Indent the second line of a message]
 Отступ второй строки сообщения
 [Limit user names to 20 characters]
