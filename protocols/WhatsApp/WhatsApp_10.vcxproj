@@ -227,7 +227,7 @@
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\MediaUploader.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../common.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\PhoneNumber.cpp">
       <PrecompiledHeaderFile>../common.h</PrecompiledHeaderFile>
