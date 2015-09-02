@@ -30,11 +30,14 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", NULL);
 
 	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", NULL);
-	xmlAddAttr(xmlBindingNode, L"template", L"ToastGeneric");
+	xmlAddAttr(xmlBindingNode, L"template", IsWinVer10Plus() ? L"ToastGeneric" : L"ToastImageAndText02");
 	if (_imagePath)
 	{
 		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
-		xmlAddAttr(xmlImageNode, L"placement", L"appLogoOverride");
+
+		if (IsWinVer10Plus())
+			xmlAddAttr(xmlImageNode, L"placement", L"appLogoOverride");
+
 		xmlAddAttr(xmlImageNode, L"id", L"1");
 		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
