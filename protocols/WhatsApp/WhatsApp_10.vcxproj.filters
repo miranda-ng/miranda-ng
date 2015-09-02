@@ -125,6 +125,12 @@
     <ClCompile Include="src\avatars.cpp">
       <Filter>Miranda Plugin\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\media.cpp">
+      <Filter>Miranda Plugin\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\MediaUploader.cpp">
+      <Filter>WhatsAPI++\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
@@ -210,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Miranda Plugin\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WhatsAPI++\MediaUploader.h">
+      <Filter>WhatsAPI++\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

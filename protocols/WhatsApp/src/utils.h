@@ -31,6 +31,9 @@ __forceinline TCHAR* str2t(const std::string &str)
 {	return mir_utf8decodeT(str.c_str());
 }
 
+std::vector<std::string> split(const std::string &s, char delim);
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+
 namespace utils
 {
 	TCHAR* removeA(TCHAR *str);

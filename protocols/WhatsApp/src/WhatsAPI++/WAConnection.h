@@ -20,6 +20,7 @@
 #include "utilities.h"
 #include "BinTreeNodeReader.h"
 #include "BinTreeNodeWriter.h"
+#include "MediaUploader.h"
 
 #pragma warning(disable : 4290)
 
@@ -314,6 +315,19 @@ class WAConnection
 		}
 	};
 
+	class MediaUploadResponseHandler : public IqResultHandler {
+	private:
+		FMessage message;
+	public:
+		MediaUploadResponseHandler(WAConnection* con, const FMessage &message) :IqResultHandler(con) { this->message = message; }
+		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+			this->con->processUploadResponse(node, &message);
+		}
+		void error(ProtocolTreeNode* node) throw (WAException) {
+			con->logData("Error on Media Upload Request: %s", node->toString().c_str());
+		}
+	};
+
 	friend class WALogin;
 
 private:
@@ -334,6 +348,8 @@ private:
 	void parsePresense(ProtocolTreeNode*) throw(WAException);
 	void parseReceipt(ProtocolTreeNode *node) throw (WAException);
 	std::map<string, string> parseCategories(ProtocolTreeNode* node) throw(WAException);
+
+	void processUploadResponse(ProtocolTreeNode *node, FMessage *message);
 
 	void sendMessageWithMedia(FMessage* message) throw(WAException);
 	void sendMessageWithBody(FMessage* message) throw(WAException);
@@ -381,6 +397,7 @@ public:
 	
 	bool read() throw(WAException);
 	
+	void sendAck(ProtocolTreeNode * node, const char *classType);
 	void sendPing() throw(WAException);
 	void sendQueryLastOnline(const std::string &jid) throw (WAException);
 	void sendPong(const std::string &id) throw(WAException);
