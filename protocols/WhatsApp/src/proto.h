@@ -50,6 +50,8 @@ public:
 
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
+
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);

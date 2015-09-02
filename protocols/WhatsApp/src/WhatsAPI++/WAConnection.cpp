@@ -198,6 +198,9 @@ bool WAConnection::read() throw(WAException)
 		parseReceipt(node);
 	else if (ProtocolTreeNode::tagEquals(node, "chatstate"))
 		parseChatStates(node);
+	else {
+		rawConn->log("Warning: Node parsing not handled:\n", tmp.c_str());
+	}
 
 	delete node;
 	return true;
@@ -546,15 +549,11 @@ void WAConnection::parseNotification(ProtocolTreeNode *node) throw(WAException)
 		if (bodyNode != NULL && m_pGroupEventHandler != NULL)
 			m_pGroupEventHandler->onGroupNewSubject(from, participant, bodyNode->getDataAsString(), ts);
 	}
+	else {
+		rawConn->log("Warning: Unknown Notification received:\n", node->toString().c_str());
+	}
 
-	ProtocolTreeNode sendNode("ack");
-	sendNode << XATTR("to", from) << XATTR("id", id) << XATTR("type", type) << XATTR("class", "notification");
-	const string &to = node->getAttributeValue("to");
-	if (!to.empty())
-		sendNode << XATTR("from", to);
-	if (!participant.empty())
-		sendNode << XATTR("participant", participant);
-	out.write(sendNode);
+	sendAck(node, "notification");
 }
 
 void WAConnection::parsePresense(ProtocolTreeNode *node) throw(WAException)
@@ -606,8 +605,7 @@ void WAConnection::parseReceipt(ProtocolTreeNode *node) throw(WAException)
 		m_pEventHandler->onMessageStatusUpdate(msg);
 	}
 
-	out.write(ProtocolTreeNode("ack")
-		<< XATTR("to", from) << XATTR("id", id) << XATTR("type", "read") << XATTRI("t", time(0)));
+	sendAck(node,"receipt");
 }
 
 std::vector<ProtocolTreeNode*>* WAConnection::processGroupSettings(const std::vector<GroupSetting>& groups)
@@ -730,6 +728,26 @@ void WAConnection::sendInactive() throw(WAException)
 	out.write(ProtocolTreeNode("presence") << XATTR("type", "inactive"));
 }
 
+void WAConnection::sendAck(ProtocolTreeNode *node, const char *classType)
+{
+	const string &from = node->getAttributeValue("from");
+	const string &to = node->getAttributeValue("to");
+	const string &participant = node->getAttributeValue("participant");
+	const string &id = node->getAttributeValue("id");
+	const string &type = node->getAttributeValue("type");
+
+	ProtocolTreeNode sendNode("ack");
+	sendNode << XATTR("to", from) << XATTR("id", id) << XATTR("class", classType);
+	if (!to.empty())
+		sendNode << XATTR("from", to);
+	if (!participant.empty())
+		sendNode << XATTR("participant", participant);
+	if (!type.empty())
+		sendNode << XATTR("type", type);
+
+	out.write(sendNode);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 ProtocolTreeNode* WAConnection::getMessageNode(FMessage* message, ProtocolTreeNode *child)
@@ -757,6 +775,21 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 	if (message->media_wa_type == FMessage::WA_TYPE_SYSTEM)
 		throw new WAException("Cannot send system message over the network");
 
+	// request node for image, audio or video upload
+	if (message->media_wa_type == FMessage::WA_TYPE_IMAGE || message->media_wa_type == FMessage::WA_TYPE_AUDIO || message->media_wa_type == FMessage::WA_TYPE_VIDEO) {
+		std::string id = makeId("iq_");
+		this->pending_server_requests[id] = new MediaUploadResponseHandler(this, *message);
+		
+		ProtocolTreeNode *mediaNode = new ProtocolTreeNode("media");
+		mediaNode << XATTR("hash", message->media_name) << XATTR("type", FMessage::getMessage_WA_Type_StrValue(message->media_wa_type)) << XATTR("size", std::to_string(message->media_size));
+	
+		ProtocolTreeNode *n = new ProtocolTreeNode("iq", mediaNode);
+		n << XATTR("id", id) << XATTR("to", this->domain) << XATTR("type", "set") << XATTR("xmlns", "w:m");
+		out.write(*n);
+		delete n;
+		return;
+	}
+
 	ProtocolTreeNode *mediaNode;
 	if (message->media_wa_type == FMessage::WA_TYPE_CONTACT && !message->media_name.empty()) {
 		ProtocolTreeNode *vcardNode = new ProtocolTreeNode("vcard", new std::vector<unsigned char>(message->data.begin(), message->data.end()))
@@ -781,6 +814,110 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 	ProtocolTreeNode *n = WAConnection::getMessageNode(message, mediaNode);
 	out.write(*n);
 	delete n;
+
+}
+
+// TODO remove this code from WA purple
+static std::string query_field(std::string work, std::string lo, bool integer = false)
+{
+	size_t p = work.find("\"" + lo + "\"");
+	if (p == std::string::npos)
+		return "";
+
+	work = work.substr(p + ("\"" + lo + "\"").size());
+
+	p = work.find("\"");
+	if (integer)
+		p = work.find(":");
+	if (p == std::string::npos)
+		return "";
+
+	work = work.substr(p + 1);
+
+	p = 0;
+	while (p < work.size()) {
+		if (work[p] == '"' && (p == 0 || work[p - 1] != '\\'))
+			break;
+		p++;
+	}
+	if (integer) {
+		p = 0;
+		while (p < work.size() && work[p] >= '0' && work[p] <= '9')
+			p++;
+	}
+	if (p == std::string::npos)
+		return "";
+
+	work = work.substr(0, p);
+
+	return work;
+}
+
+void WAConnection::processUploadResponse(ProtocolTreeNode * node, FMessage * message)
+{
+	ProtocolTreeNode* duplicate = node->getChild("duplicate");
+
+	// setup vars for media message
+	string fileType;
+	string caption, url, fileName, fileSize, filePath, fileHash;
+	caption = message->data;
+
+	// parse node
+	if (duplicate != NULL) {
+		url = duplicate->getAttributeValue("url");
+		fileSize = duplicate->getAttributeValue("size");
+		fileHash = duplicate->getAttributeValue("filehash");
+		fileType = duplicate->getAttributeValue("type");
+		string tempfileName = duplicate->getAttributeValue("url");
+		size_t index = tempfileName.find_last_of('/')+1;
+		fileName = tempfileName.substr(index);
+	}
+	else {
+		string json = MediaUploader::pushfile(node->getChild("media")->getAttributeValue("url"),message, this->user);
+		if (json.empty())
+			return;
+
+		//TODO why does the JSONNode not work? -> Throws some exception when trying to access elements after parsing.
+
+		/*JSONNode resp = JSONNode::parse(json.c_str());
+		fileName = resp["name"].as_string();
+		url = resp["url"].as_string();
+		fileSize = resp["size"].as_string();
+		fileHash = resp["filehash"].as_string();
+		fileType = resp["type"].as_string();
+		*/
+
+		// TODO remove this code from WA purple
+		size_t offset = json.find("{");
+		if (offset == std::string::npos)
+			return;
+		json = json.substr(offset + 1);
+
+		/* Look for closure */
+		size_t cl = json.find("{");
+		if (cl == std::string::npos)
+			cl = json.size();
+		std::string work = json.substr(0, cl);
+
+		fileName = query_field(work, "name");
+		url = query_field(work, "url");
+		fileSize = query_field(work, "size");
+		fileHash = query_field(work, "filehash");
+		fileType = query_field(work, "type");
+
+	}
+
+	// TODO show caption and(?) link to media file in message window and history
+	ProtocolTreeNode *mediaNode = new ProtocolTreeNode("media");
+	mediaNode << XATTR("type", fileType)
+		<< XATTR("url", url) << XATTR("encoding", "raw") << XATTR("file", fileName) 
+		<< XATTR("size", fileSize)<< XATTR("caption", caption);
+
+	ProtocolTreeNode * messageNode = new ProtocolTreeNode("message", mediaNode);
+	messageNode << XATTR("to", message->key.remote_jid) << XATTR("type", "media")
+		<< XATTR("id", message->key.id) << XATTRI("t", (int)time(0));
+	out.write(*messageNode);
+	delete messageNode;
 }
 
 void WAConnection::sendMessageWithBody(FMessage* message) throw (WAException)
@@ -794,7 +931,7 @@ void WAConnection::sendMessageWithBody(FMessage* message) throw (WAException)
 void WAConnection::sendMessageReceived(const FMessage &message) throw(WAException)
 {
 	out.write(ProtocolTreeNode("receipt") << XATTR("type", "read")
-		<< XATTR("to", message.key.remote_jid) << XATTR("id", message.key.id) << XATTRI("t", (int)time(0)));
+		<< XATTR("to", message.key.remote_jid) << XATTR("id", message.key.id));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

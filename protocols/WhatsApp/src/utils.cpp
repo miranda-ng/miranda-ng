@@ -76,3 +76,20 @@ void md5_string(const std::string &data, BYTE digest[16])
 {
 	utils::md5string(data, digest);
 }
+
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		if (item.length() > 0) {
+			elems.push_back(item);
+		}
+	}
+	return elems;
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
+}
