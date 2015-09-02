@@ -137,7 +137,7 @@ int MirandaSettings::enumSettingsProc(const char* szSetting, LPARAM lParam)
 	return 0;
 }
 
-void MirandaSettings::enumSettings(SetInserter& insertIterator)
+void MirandaSettings::enumSettings(const SetInserter& insertIterator)
 {
-	mu::db_contact::enumSettings(m_hContact, m_strModule.c_str(), enumSettingsProc, reinterpret_cast<LPARAM>(&insertIterator));
+	mu::db_contact::enumSettings(m_hContact, m_strModule.c_str(), enumSettingsProc, LPARAM(&insertIterator));
 }
