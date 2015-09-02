@@ -2,6 +2,7 @@
 
 mir_cs csNotifications;
 OBJLIST<ToastNotification> lstNotifications(1);
+std::map<std::string, int> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
 
 __forceinline bool isChatRoom(MCONTACT hContact)
@@ -161,6 +162,36 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+static INT_PTR RegisterClass(WPARAM, LPARAM lParam)
+{
+	POPUPCLASS *pc = (POPUPCLASS*)lParam;
+	mp_Classes[pc->pszName] = pc->flags;
+
+	HANDLE h;
+	Utils_GetRandom(&h, sizeof(h));
+	return (INT_PTR)h;
+}
+
+static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
+{
+	POPUPDATACLASS *ppc = (POPUPDATACLASS*)lParam;
+
+	auto it = mp_Classes.find(ppc->pszClassName);
+	if (it != mp_Classes.end())
+	{
+		if (it->second & PCF_TCHAR)
+		{
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText));
+		}
+		else
+		{
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText)));
+		}
+	}
+
+	return 0;
+}
+
 static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
@@ -204,4 +235,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2, CreatePopup2);
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterClass);
 }
