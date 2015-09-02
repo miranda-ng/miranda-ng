@@ -118,6 +118,7 @@ void CSteamProto::InitMenus()
 	mi.flags = CMIF_TCHAR;
 
 	// "Request authorization"
+	SET_UID(mi, 0x2a5a29c5, 0xed3f, 0x4c15, 0xa7, 0x9c, 0xc1, 0x80, 0x58, 0xb8, 0x6e, 0x27);
 	mi.pszService = MODULE "/AuthRequest";
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = -201001000 + CMI_AUTH_REQUEST;
@@ -126,6 +127,7 @@ void CSteamProto::InitMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRequestCommand>);
 
 	// "Block"
+	SET_UID(mi, 0xe22ccbb4, 0x7876, 0x42f0, 0x96, 0x85, 0x61, 0x89, 0xea, 0x42, 0xb, 0x85);
 	mi.pszService = MODULE "/Block";
 	mi.name.t = LPGENT("Block");
 	mi.position = -201001001 + CMI_BLOCK;
@@ -136,6 +138,7 @@ void CSteamProto::InitMenus()
 	mi.flags |= CMIF_NOTOFFLINE;
 
 	// "Join to game"
+	SET_UID(mi, 0x1a6aaab7, 0xba31, 0x4b47, 0x8e, 0xce, 0xf8, 0x8e, 0xf4, 0x62, 0x4f, 0xd7);
 	mi.pszService = MODULE "/JoinToGame";
 	mi.name.t = LPGENT("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
