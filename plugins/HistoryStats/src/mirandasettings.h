@@ -57,7 +57,7 @@ public:
 	bool delSetting(const char* szSetting);
 
 	// enumeration
-	void enumSettings(SetInserter& insertIterator);
+	void enumSettings(const SetInserter& insertIterator);
 };
 
 #endif // HISTORYSTATS_GUARD_MIRANDASETTINGS_H
