@@ -1360,7 +1360,7 @@ UIN, E-mail и т.д.
 [Only prefix with timestamp if it has changed]
 Подставлять время, если есть изменения
 [Timestamp has same color as the event]
-Показывать время тем же цветом что и событие
+Время того же цвета, что и событие
 [Indent the second line of a message]
 Отступ второй строки сообщения
 [Limit user names in the message log to 20 characters]

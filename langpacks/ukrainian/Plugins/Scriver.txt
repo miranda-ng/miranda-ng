@@ -644,7 +644,7 @@
 [Only prefix with timestamp if it has changed]
 Показувати час, якщо він змінився
 [Timestamp has same color as event]
-Часова мітка того ж кольору, що й подія
+Час того ж кольору, що й подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення
 [Limit user names to 20 characters]

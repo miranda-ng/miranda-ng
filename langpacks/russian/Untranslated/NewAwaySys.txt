@@ -1,5 +1,4 @@
 ﻿[Configure autoaway]
-[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
 [Set message for]
 [message for]
 [available autoreply only]

@@ -227,6 +227,8 @@
 Последние сообщения
 [Gone fragging]
 Занят
+[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
+Копычу фраги с %nas_awaysince_time%. Отвечу позже, когда адреналин кончиццо.
 [Creepy]
 (по умолчанию)
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
