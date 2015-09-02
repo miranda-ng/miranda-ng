@@ -443,7 +443,6 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 {
 	char *start=stream,*finder,*finderend;
 	char Encoding=0;
-	char *DecodedResult=NULL;
 
 	if (stream==NULL)
 		return;
@@ -477,8 +476,8 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 					cp=CP_ACP;
 				if (Encoding != 0)
 				{
-					int size,codeend;
-					char *pcodeend;
+					int size = 0,codeend;
+					char *pcodeend = 0;
 
 					finder=finderend+2;
 					if (CODED(finder))
@@ -508,9 +507,8 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 							size=finderend-finder+1+1;
 							break;
 					}
-					if (DecodedResult != NULL)
-						delete[] DecodedResult;
-					DecodedResult=new char[size+1];
+
+					char *DecodedResult = new char[size+1];
 					switch(Encoding)
 					{
 						case 'q':
@@ -540,7 +538,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 					}
 					delete oneWord;
 					oneWord = 0;
-					delete[] DecodedResult; DecodedResult = 0;
+					delete[] DecodedResult;
 					start = finderend;
 				} else if (!EOS(start)) start++;
 			} else if (!EOS(start)) start++;
