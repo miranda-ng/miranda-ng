@@ -48,7 +48,7 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 	return E_NOINTERFACE;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification *sender, _In_ IInspectable* args)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
 {
 	if (_callback != nullptr)
 		_callback(_arg);
