@@ -250,6 +250,8 @@ private:
 
 	// messages
 
+	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
+
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
 	MEVENT AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time);
@@ -350,13 +352,6 @@ private:
 	void ProcessTimer();
 	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 	//---/
-
-	__inline ULONGLONG GenerateMessageId()
-	{
-		_timeb timeb;
-		_ftime(&timeb);
-		return (ULONGLONG)((timeb.time * 1000) + timeb.millitm);
-	}
 
 	time_t GetLastMessageTime(MCONTACT hContact);
 	CMString RunConfirmationCode();

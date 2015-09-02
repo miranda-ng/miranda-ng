@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SendMessageRequest : public HttpRequest
 {
 public:
-	SendMessageRequest(const char *username, ULONGLONG timestamp, const char *message, LoginInfo &li) :
+	SendMessageRequest(const char *username, time_t timestamp, const char *message, LoginInfo &li) :
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, username)
 	{
 		Headers
@@ -31,7 +31,7 @@ public:
 
 		JSONNode node;
 		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
 			<< JSONNode("messagetype", "Text")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message);
@@ -43,7 +43,7 @@ public:
 class SendActionRequest : public HttpRequest
 {
 public:
-	SendActionRequest(const char *username, ULONGLONG timestamp, const char *message, LoginInfo &li) :
+	SendActionRequest(const char *username, time_t timestamp, const char *message, LoginInfo &li) :
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, username)
 	{
 		Headers
@@ -56,7 +56,7 @@ public:
 
 		JSONNode node;
 		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
 			<< JSONNode("messagetype", "RichText")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", content)
