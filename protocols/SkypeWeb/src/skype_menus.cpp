@@ -68,6 +68,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	SET_UID(mi, 0x6f117b10, 0xd0a7, 0x4195, 0x8e, 0x34, 0xe6, 0x5b, 0x2, 0x75, 0x8e, 0xb6);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnRequestAuth>);
 
@@ -76,6 +77,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	SET_UID(mi, 0x891bed52, 0xeb6e, 0x4689, 0x8e, 0x4e, 0xd4, 0x14, 0x31, 0x35, 0x6e, 0x53);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnGrantAuth>);
 
@@ -83,6 +85,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Get server history");
 	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
 	mi.hIcolibItem = GetIconHandle("synchistory");
+	SET_UID(mi, 0xc9a64e98, 0x9257, 0x4b52, 0x98, 0xdd, 0x7f, 0x56, 0xb3, 0x90, 0xe3, 0xde);
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
 
@@ -90,6 +93,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Block contact");
 	mi.position = CMI_POSITION + CMI_BLOCK;
 	mi.hIcolibItem = GetIconHandle("user_block");
+	SET_UID(mi ,0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
 
@@ -97,6 +101,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Unblock contact");
 	mi.position = CMI_POSITION + CMI_UNBLOCK;
 	mi.hIcolibItem = GetIconHandle("user_unblock");
+	SET_UID(mi, 0x88542f43, 0x7448, 0x48d0, 0x81, 0xa3, 0x26, 0x0, 0x4f, 0x37, 0xee, 0xe0);
 	ContactMenuItems[CMI_UNBLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::UnblockContact>);
 }
