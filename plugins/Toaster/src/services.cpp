@@ -55,13 +55,13 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (imagePath == NULL)
 		{
-			if (szProto)
-			{
-				imagePath = ProtoIcon(szProto);
-			}
-			else if (td->hIcon)
+			if ((td->hIcon && td->bForcehIcon) || !szProto)
 			{
 				imagePath = SaveHIcon(td->hIcon, CMStringA(FORMAT, "%p", td->hIcon));
+			}
+			else if (szProto)
+			{
+				imagePath = ProtoIcon(szProto);
 			}
 		}
 	}
@@ -146,11 +146,11 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	{
 		if (it->second->iFlags & PCF_TCHAR)
 		{
-			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText, it->second->hIcon));
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText, it->second->hIcon, 1));
 		}
 		else
 		{
-			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon));
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon, 1));
 		}
 	}
 
