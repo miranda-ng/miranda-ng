@@ -367,6 +367,7 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
 
 	CMenuItem mi;
+	SET_UID(mi, 0xe3b08c6f, 0x8a01, 0x4c94, 0xb3, 0xf5, 0x9d, 0x38, 0x6, 0x63, 0x7a, 0xa9);
 	mi.position = 200000;
 	mi.pszService = "CList/SetContactIgnore";
 	mi.hIcolibItem = iconItem[0].hIcolib;

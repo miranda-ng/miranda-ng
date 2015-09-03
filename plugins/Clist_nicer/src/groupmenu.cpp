@@ -94,26 +94,31 @@ void InitGroupMenus(void)
 
 	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildGroupMenu);
 
-	// add exit command to menu
+
 	CMenuItem mi;
+
+	SET_UID(mi, 0xe386678a, 0x5aee, 0x4bfa, 0xa8, 0x23, 0xd, 0xa0, 0x11, 0x99, 0xb1, 0x98);
 	mi.position = 500;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.name.a = LPGEN("&Hide/show");
 	hHideShowMainMenuItem = Menu_AddGroupMenuItem(&mi);
 
+	SET_UID(mi, 0xb0f29663, 0x68b6, 0x494c, 0xaf, 0xab, 0xf6, 0x86, 0x45, 0xb8, 0xdb, 0xde);
 	mi.position = 200000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
 	mi.name.a = LPGEN("&Find/add contacts...");
 	Menu_AddGroupMenuItem(&mi);
 
+	SET_UID(mi, 0xff6855b4, 0x8c50, 0x43b7, 0x97, 0x51, 0xc1, 0x28, 0xa3, 0x10, 0x2b, 0x86);
 	mi.position = 300000;
 	mi.pszService = "";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
 	mi.name.a = LPGEN("&Main menu");
 	hGroupMainMenuItemProxy = Menu_AddGroupMenuItem(&mi);
 
+	SET_UID(mi, 0xba91af46, 0x34e5, 0x4f3a, 0x88, 0x1c, 0xe7, 0xa3, 0x53, 0x58, 0x19, 0xde);
 	mi.position = 300100;
 	mi.pszService = "";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
@@ -121,11 +126,13 @@ void InitGroupMenus(void)
 	hGroupStatusMenuItemProxy = Menu_AddGroupMenuItem(&mi);
 
 	// Appearance menu
+	SET_UID(mi, 0x70c3cd5d, 0x775, 0x4197, 0x9a, 0x7f, 0x76, 0xd6, 0xba, 0x57, 0xf5, 0x78);
 	mi.position = 390100;
 	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.name.a = LPGEN("Appearance");
 	mi.root = Menu_AddGroupMenuItem(&mi);
 
+	mi.uid = MIID_LAST;
 	mi.hIcolibItem = NULL;
 	mi.pszService = "CLISTMENUSGroup/CommandHelper";
 	CreateServiceFunction(mi.pszService, CommandHelper);
@@ -137,6 +144,7 @@ void InitGroupMenus(void)
 		hAppearanceItems[i].hMenu = Menu_AddGroupMenuItem(&mi, &gmp);
 	}
 
+	SET_UID(mi, 0xc2895531, 0x98e9, 0x40bc, 0x9b, 0x8e, 0xfb, 0x33, 0xe8, 0xab, 0xcc, 0xef);
 	mi.root = NULL;
 	mi.position = 400000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
@@ -144,6 +152,7 @@ void InitGroupMenus(void)
 	mi.name.a = LPGEN("&Options...");
 	Menu_AddGroupMenuItem(&mi);
 
+	SET_UID(mi, 0x44ec5e76, 0xa5cc, 0x4e72, 0xb9, 0xa7, 0x5e, 0x41, 0xef, 0x99, 0x13, 0x19);
 	mi.position = 1000000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "CLN/About";
