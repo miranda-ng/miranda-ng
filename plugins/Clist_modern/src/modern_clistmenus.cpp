@@ -94,6 +94,8 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	BOOL bModifyMenu = FALSE;
 
 	CMenuItem mi;
+
+	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
 	mi.hIcolibItem = iconList[bContactRate].hIcolib;
 	mi.flags = CMIF_TCHAR;
 	if (!bContactRate)
@@ -122,6 +124,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	}
 
 	int i;
+	mi.uid = { 0 };
 	for (i = 0; i < _countof(rates); i++) {
 		mi.flags = CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
 		if (bModifyMenu && hFavoriteContactMenuItems[i])
@@ -140,6 +143,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	if (bModifyMenu && hShowIfOflineItem)
 		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
 	else {
+		SET_UID(mi, 0xbb78b0d3, 0xb56, 0x4d4c, 0xb5, 0x4d, 0x7c, 0x12, 0xc9, 0x6c, 0x5e, 0xe8);
 		mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 		mi.position = -100000000;
 		mi.name.t = LPGENT("Show even if offline");

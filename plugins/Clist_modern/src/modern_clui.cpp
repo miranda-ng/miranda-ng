@@ -330,6 +330,8 @@ HRESULT CLUI::RegisterAvatarMenu()
 	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
 
 	CMenuItem mi;
+
+	SET_UID(mi, 0x1cc99858, 0x40ca, 0x4558, 0xae, 0x10, 0xba, 0x81, 0xaf, 0x4c, 0x67, 0xb5);
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
 	mi.hIcolibItem = iconItem[0].hIcolib;
@@ -337,6 +339,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 	mi.pszService = "CList/ShowContactAvatar";
 	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x13f93d1b, 0xd470, 0x45de, 0x86, 0x8f, 0x22, 0x3b, 0x89, 0x4f, 0x4f, 0xa3);
 	CreateServiceFunction("CList/HideContactAvatar", CLUI::Service_Menu_HideContactAvatar);
 	mi.position = 2000150001;
 	mi.hIcolibItem = iconItem[1].hIcolib;
