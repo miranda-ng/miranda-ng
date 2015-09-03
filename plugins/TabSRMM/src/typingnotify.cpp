@@ -535,6 +535,7 @@ int TN_ModuleInit()
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
 		CMenuItem mi;
+		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");
 			mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
