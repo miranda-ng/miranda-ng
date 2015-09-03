@@ -56,7 +56,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 
 	xmlDestroyNode(xmlToast);
 
-	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, xlen).Get()));
+	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, (UINT32)xlen).Get()));
 
 	return xmlDocument.CopyTo(xml);
 }
