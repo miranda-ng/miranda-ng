@@ -112,6 +112,8 @@ void InitTrayMenus(void)
 
 	// add exit command to menu
 	CMenuItem mi;
+
+	SET_UID(mi, 0x6c202553, 0xb4d5, 0x403c, 0xa6, 0x82, 0x2, 0xd8, 0x2b, 0x42, 0xba, 0x9e);
 	mi.flags = CMIF_DEFAULT;
 	mi.position = 100000;
 	mi.pszService = MS_CLIST_SHOWHIDE;
@@ -119,6 +121,7 @@ void InitTrayMenus(void)
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0x10e9b2f0, 0xeef2, 0x4684, 0xa7, 0xa7, 0xde, 0x7f, 0x2a, 0xb3, 0x5b, 0x30);
 	mi.flags = 0;
 	mi.position = 200000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
@@ -126,30 +129,35 @@ void InitTrayMenus(void)
 	mi.name.a = LPGEN("&Find/add contacts...");
 	Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0xb6d861bc, 0x9c3f, 0x40d9, 0xaf, 0x58, 0x53, 0x9f, 0x22, 0xe4, 0x77, 0x98);
 	mi.position = 300000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszService = "MainMenu/Command";
 	mi.name.a = LPGEN("&Main menu");
 	hTrayMainMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0xbafb2db6, 0x8994, 0x40f5, 0x8f, 0x34, 0x4, 0xde, 0x67, 0x8e, 0x6e, 0x70);
 	mi.position = 300100;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
 	mi.pszService = "GlobalStatus/Command";
 	mi.name.a = LPGEN("&Status");
 	hTrayStatusMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0x75107441, 0xa2ef, 0x420d, 0x85, 0xd5, 0xf7, 0x40, 0x69, 0xf0, 0xa1, 0x42);
 	mi.position = 400000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
 	mi.name.a = LPGEN("&Options...");
 	Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0x8cecc833, 0x81ad, 0x499f, 0xb0, 0x44, 0x1, 0x5, 0xf7, 0xe1, 0xe6, 0x7);
 	mi.position = 500000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "Help/AboutCommand";
 	mi.name.a = LPGEN("&About");
 	Menu_AddTrayMenuItem(&mi);
 
+	SET_UID(mi, 0xdfde6fc7, 0xaef7, 0x40db, 0xb4, 0x15, 0xf4, 0x6d, 0xa8, 0xc4, 0x41, 0x71);
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");

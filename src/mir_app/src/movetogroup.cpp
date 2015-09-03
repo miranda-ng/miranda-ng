@@ -89,6 +89,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	if (!hMoveToGroupItem) {
 		CMenuItem mi;
+		SET_UID(mi, 0x403c548, 0x4ac6, 0x4ced, 0xa7, 0x6c, 0x4e, 0xb9, 0xc8, 0xba, 0x94, 0x5);
 		mi.position = 100000;
 		mi.name.a = LPGEN("&Move to group");
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);

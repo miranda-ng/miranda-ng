@@ -1023,6 +1023,7 @@ int LoadFindAddModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, FindAddPreShutdown);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x860556b9, 0x1577, 0x4f6f, 0x8c, 0xb0, 0x93, 0x24, 0xa8, 0x2e, 0x20, 0x92);
 	mi.position = 500020000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.name.a = LPGEN("&Find/add contacts...");
