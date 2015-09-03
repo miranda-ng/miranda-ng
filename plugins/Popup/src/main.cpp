@@ -183,12 +183,10 @@ void InitMenuItems(void)
 	mi.flags = CMIF_TCHAR;
 
 	// Build main menu
-	mi.position = -1000000000 /*1000001*/;
-	mi.name.t = LPGENT(MODULNAME_PLU);
-	mi.hIcolibItem = LoadIconEx(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
-	hMenuRoot = Menu_AddMainMenuItem(&mi);
+	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT(MODULNAME_PLU), -1000000000, LoadIconEx(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP));
 
 	// Add item to main menu
+	SET_UID(mi, 0x4353d44e, 0x177, 0x4843, 0x88, 0x30, 0x25, 0x5d, 0x91, 0xad, 0xdf, 0x3f);
 	mi.root = (HGENMENU)hMenuRoot;
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
@@ -196,6 +194,7 @@ void InitMenuItems(void)
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// Popup History
+	SET_UID(mi, 0x92c386ae, 0x6e81, 0x452d, 0xb5, 0x71, 0x87, 0x46, 0xe9, 0x2, 0x66, 0xe9);
 	mi.pszService = MENUCOMMAND_HISTORY;
 	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
