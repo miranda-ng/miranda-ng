@@ -37,6 +37,7 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 #include "toast_event_handler.h"
 #include "toast_notification.h"
 #include "add_to_start_menu.h"
+#include "images.h"
 
 extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
@@ -64,6 +65,18 @@ struct ToastData
 	}
 };
 
+struct ClassData
+{
+	int iFlags;
+	HICON hIcon;
+	HANDLE handle;
+	ClassData(int f, HICON h = NULL) : iFlags(f), hIcon(h) 
+	{
+		Utils_GetRandom(&handle, sizeof(handle));
+	}
+};
+
+void CleanupClasses();
 void InitServices();
 int OnPreShutdown(WPARAM, LPARAM);
 void __stdcall HideAllToasts(void*);
