@@ -168,6 +168,7 @@ int LoadAwayMsgModule(void)
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 
 	CMenuItem mi;
+	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.name.a = LPGEN("Re&ad status message");

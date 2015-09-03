@@ -337,6 +337,7 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
 	CMenuItem mi;
+	SET_UID(mi, 0x7f8dcf77, 0xe448, 0x4505, 0xb0, 0x56, 0xb, 0xb1, 0xab, 0xac, 0x64, 0x9d);
 	mi.position = -2000020000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.name.a = LPGEN("&File");
@@ -435,6 +436,7 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x75794ab5, 0x2573, 0x48f4, 0xb4, 0xa0, 0x93, 0xd6, 0xf5, 0xe0, 0xf3, 0x32);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("File &transfers...");

@@ -630,12 +630,14 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
 
 	CMenuItem mi;
+	SET_UID(mi, 0xe8731d53, 0x95af, 0x42cf, 0xae, 0x27, 0xc7, 0xa7, 0xa, 0xbf, 0x14, 0x1c);
 	mi.position = 1000050000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.a = LPGEN("User &details");
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x42852ca4, 0x4941, 0x4219, 0x8b, 0x98, 0x33, 0x46, 0x8c, 0x32, 0xd8, 0xb8);
 	mi.position = 500050000;
 	mi.name.a = LPGEN("View/change my &details...");
 	Menu_AddMainMenuItem(&mi);
