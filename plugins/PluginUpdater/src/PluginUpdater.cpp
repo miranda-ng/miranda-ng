@@ -87,6 +87,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 #if MIRANDA_VER >= 0x0A00
 	CMenuItem mi;
+
+	SET_UID(mi, 0xfa2cbe01, 0x3b37, 0x4a4c, 0xa6, 0x97, 0xe4, 0x6f, 0x31, 0xa9, 0xfc, 0x33);
 	mi.name.a = LPGEN("Check for updates");
 	mi.hIcolibItem = iconList[0].hIcolib;
 #else
@@ -102,6 +104,7 @@ extern "C" __declspec(dllexport) int Load(void)
 #if MIRANDA_VER >= 0x0A00
 	InitListNew();
 
+	SET_UID(mi, 0xafe94fad, 0xea83, 0x41aa, 0xa4, 0x26, 0xcb, 0x4a, 0x1c, 0x37, 0xc1, 0xd3);
 	mi.position++;
 	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.a = LPGEN("Available components list");
