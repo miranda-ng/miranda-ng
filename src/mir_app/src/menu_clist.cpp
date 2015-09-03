@@ -1163,6 +1163,7 @@ void InitCustomMenus(void)
 
 	// add exit command to menu
 	CMenuItem mi;
+	SET_UID(mi, 0x707c8962, 0xc33f, 0x4893, 0x8e, 0x36, 0x30, 0xb1, 0x7c, 0xd8, 0x61, 0x40);
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");

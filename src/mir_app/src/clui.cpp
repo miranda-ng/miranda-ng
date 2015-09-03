@@ -323,7 +323,8 @@ int LoadCLUIModule(void)
 					 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
 	CMenuItem mi;
-
+	
+	SET_UID(mi, 0x66aada45, 0x8bcb, 0x49bb, 0x85, 0xb0, 0xae, 0x1, 0xf8, 0xbe, 0x78, 0x7e);
 	mi.position = 2000070000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.name.a = LPGEN("De&lete");
@@ -331,6 +332,7 @@ int LoadCLUIModule(void)
 	Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, MenuItem_DeleteContact);
 
+	SET_UID(mi, 0xd5ff6500, 0xd8f4, 0x46c6, 0x87, 0xde, 0x76, 0x26, 0x2a, 0x63, 0xae, 0xed);
 	mi.position = 2000050000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 	mi.name.a = LPGEN("&Rename");
@@ -338,6 +340,7 @@ int LoadCLUIModule(void)
 	hRenameMenuItem = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, MenuItem_RenameContact);
 
+	SET_UID(mi, 0x417bc580, 0x7975, 0x43b4, 0x86, 0xf1, 0x5d, 0x18, 0xaf, 0x36, 0xca, 0x37);
 	mi.position = -2050000000;
 	mi.flags |= CMIF_NOTONLIST;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);

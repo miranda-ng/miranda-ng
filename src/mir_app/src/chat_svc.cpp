@@ -565,6 +565,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x2bb76d5, 0x740d, 0x4fd2, 0x8f, 0xee, 0x7c, 0xa4, 0x5a, 0x74, 0x65, 0xa6);
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
@@ -572,6 +573,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = "GChat/JoinChat";
 	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x72b7440b, 0xd2db, 0x4e22, 0xa6, 0xb1, 0x2, 0xd0, 0x96, 0xee, 0xad, 0x88);
 	mi.position = -2000090000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
 	mi.flags = CMIF_NOTOFFLINE;

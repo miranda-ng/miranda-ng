@@ -359,6 +359,7 @@ void InitMenus()
 	CMenuItem mi;
 
 	// main menu item
+	SET_UID(mi, 0x8999a6ca, 0x9c66, 0x49c1, 0xad, 0xe1, 0x48, 0x17, 0x28, 0xb, 0x94, 0x86);
 	mi.hIcolibItem = GetIconHandle(I_MENUOFF);
 	mi.name.a = LPGEN("Toggle metacontacts off");
 	mi.pszService = "MetaContacts/OnOff";
@@ -366,36 +367,42 @@ void InitMenus()
 	hMenuOnOff = Menu_AddMainMenuItem(&mi);
 
 	// contact menu items
+	SET_UID(mi, 0x48cdb295, 0x858f, 0x4f4f, 0x80, 0xc7, 0x50, 0x49, 0x91, 0x75, 0xa6, 0x63);
 	mi.hIcolibItem = GetIconHandle(I_CONVERT);
 	mi.position = -200010;
 	mi.name.a = LPGEN("Convert to metacontact");
 	mi.pszService = "MetaContacts/Convert";
 	hMenuConvert = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xf1437693, 0x69f5, 0x48b0, 0x89, 0xed, 0x29, 0x2c, 0x20, 0x1f, 0xed, 0x3e);
 	mi.hIcolibItem = GetIconHandle(I_ADD);
 	mi.position = -200009;
 	mi.name.a = LPGEN("Add to existing metacontact...");
 	mi.pszService = "MetaContacts/AddTo";
 	hMenuAdd = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x1673fd9e, 0x8d30, 0x4e07, 0x9f, 0x1b, 0xec, 0x92, 0xc0, 0x10, 0x90, 0x64);
 	mi.hIcolibItem = GetIconHandle(I_EDIT);
 	mi.position = -200010;
 	mi.name.a = LPGEN("Edit metacontact...");
 	mi.pszService = "MetaContacts/Edit";
 	hMenuEdit = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x38b7400, 0x685a, 0x497d, 0xbc, 0x15, 0x99, 0x45, 0xcc, 0x1d, 0x9d, 0xaf);
 	mi.hIcolibItem = GetIconHandle(I_SETDEFAULT);
 	mi.position = -200009;
 	mi.name.a = LPGEN("Set as metacontact default");
 	mi.pszService = "MetaContacts/Default";
 	hMenuDefault = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x102849ca, 0x9d2f, 0x4265, 0x81, 0xdc, 0x5d, 0xc8, 0x82, 0xb7, 0x70, 0xe5);
 	mi.hIcolibItem = GetIconHandle(I_REMOVE);
 	mi.position = -200008;
 	mi.name.a = LPGEN("Delete metacontact");
 	mi.pszService = "MetaContacts/Delete";
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xd31e772d, 0xf85a, 0x45e9, 0xb3, 0xa8, 0xf7, 0xa5, 0xf4, 0xfc, 0xf9, 0x6e);
 	mi.position = -99000;
 	mi.flags = CMIF_HIDDEN;
 	mi.hIcolibItem = 0;

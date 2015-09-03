@@ -1019,6 +1019,7 @@ static INT_PTR OptProtosShow(WPARAM, LPARAM)
 int OptProtosLoaded(WPARAM, LPARAM)
 {
 	CMenuItem mi;
+	SET_UID(mi, 0xb1f74008, 0x1fa6, 0x4e98, 0x95, 0x28, 0x5a, 0x7e, 0xab, 0xfe, 0x10, 0x61);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("&Accounts...");
