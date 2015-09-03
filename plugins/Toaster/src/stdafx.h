@@ -56,8 +56,9 @@ struct ToastData
 	TCHAR *tszTitle;
 	TCHAR *tszText;
 	HICON hIcon;
+	bool bForcehIcon;
 
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL) : hContact(_hContact), tszTitle(mir_tstrdup(_tszTitle)), tszText(mir_tstrdup(_tszText)), hIcon(_hIcon) {}
+	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL, bool b = false) : hContact(_hContact), tszTitle(mir_tstrdup(_tszTitle)), tszText(mir_tstrdup(_tszText)), hIcon(_hIcon), bForcehIcon(b) {}
 	~ToastData()
 	{
 		mir_free(tszTitle);
