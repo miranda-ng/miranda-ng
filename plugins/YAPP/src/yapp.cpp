@@ -174,11 +174,13 @@ void InitMenuItems(void)
 	mi.flags = CMIF_TCHAR;
 	mi.root = hMenuRoot;
 
+	SET_UID(mi, 0x92c386ae, 0x6e81, 0x452d, 0xb5, 0x71, 0x87, 0x46, 0xe9, 0x2, 0x66, 0xe9);
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService= MS_POPUP_SHOWHISTORY;
 	mi.name.t = LPGENT("Popup History");
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x4353d44e, 0x177, 0x4843, 0x88, 0x30, 0x25, 0x5d, 0x91, 0xad, 0xdf, 0x3f);
 	mi.hIcolibItem = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	mi.pszService = "Popup/EnableDisableMenuCommand";
 	mi.name.t = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
