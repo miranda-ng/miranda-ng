@@ -612,6 +612,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].m_status).Autoreply;
 
 	CMenuItem mi;
+	SET_UID(mi, 0xa379c361, 0x9e3f, 0x468d, 0xb2, 0xac, 0xc4, 0x89, 0xbb, 0xfc, 0x81, 0x15);
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
@@ -620,14 +621,16 @@ int MirandaLoaded(WPARAM, LPARAM)
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
+	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	mi.name.t = LPGENT("Read status message"); // never seen...
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
-	
+
 	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
 		memset(&mi, 0, sizeof(mi));
+		SET_UID(mi, 0xc42a4fdb, 0x51b8, 0x4bbe, 0x83, 0xee, 0x2d, 0x32, 0x29, 0x5c, 0x2, 0xb3);
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 		mi.name.t = LPGENT("Set status message"); // will never be shown
 		mi.position = 1000020000;
@@ -636,6 +639,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		memset(&mi, 0, sizeof(mi));
+		SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = NULL;
 		mi.position = 1000020000;
@@ -646,16 +650,19 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.root = g_hToggleSOEContactMenuItem;
 		mi.position = 1000020000;
 
+		SET_UID(mi, 0x1054c863, 0xfb0c, 0x4e90, 0xb9, 0xe5, 0x89, 0x95, 0x25, 0xb3, 0x5b, 0x6d);
 		mi.hIcolibItem = iconList[1].hIcolib;
 		mi.name.t = LPGENT("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
 		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
+		SET_UID(mi, 0xdb66409, 0x8d44, 0x43e7, 0x99, 0xa1, 0x1c, 0x48, 0xab, 0x73, 0x4d, 0xe8);
 		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.name.t = LPGENT("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
 		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
 
+		SET_UID(mi, 0x101471b9, 0x4309, 0x4062, 0xa8, 0x5e, 0xa2, 0xae, 0x14, 0x7e, 0x4a, 0xb3);
 		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT));
 		mi.name.t = LPGENT("Use the default setting");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
