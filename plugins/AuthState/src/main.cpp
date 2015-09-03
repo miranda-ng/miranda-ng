@@ -198,6 +198,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		hAuthMenuSelected = CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
 		CMenuItem mi;
+		SET_UID(mi, 0xc5a784ea, 0x8b07, 0x4b95, 0xa2, 0xb2, 0x84, 0x9d, 0x87, 0x43, 0x7e, 0xda);
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
 		mi.name.t = LPGENT("Enable AuthState icons");
