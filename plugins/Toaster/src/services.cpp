@@ -2,46 +2,11 @@
 
 mir_cs csNotifications;
 OBJLIST<ToastNotification> lstNotifications(1);
-std::map<std::string, int> mp_Classes;
+std::map<std::string, ClassData*> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
 
 __forceinline bool isChatRoom(MCONTACT hContact)
 {	return (db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0) == 1);
-}
-
-wchar_t* SaveBitmap(HBITMAP bmp, const char *szId)
-{
-	wchar_t wszSavePath[MAX_PATH];
-	mir_snwprintf(wszSavePath, L"%s\\MirandaToaster.%s.png", wszTempDir, _A2T(szId));
-
-	if (!(GetFileAttributes(wszSavePath) < 0xFFFFFFF))
-	{
-		IMGSRVC_INFO isi = { sizeof(isi) };
-		isi.wszName = mir_wstrdup(wszSavePath);
-		isi.hbm = bmp;
-		isi.dwMask = IMGI_HBITMAP;
-		isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
-		CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
-	}
-	return mir_wstrdup(wszSavePath);
-}
-
-wchar_t* SaveHIcon(HICON hIcon, const char *szId)
-{
-	wchar_t *wszResult = NULL;
-	ICONINFO icon;
-	if (GetIconInfo(hIcon, &icon))
-	{
-		wszResult = SaveBitmap(icon.hbmColor, szId);
-
-		DeleteObject(icon.hbmMask);
-		DeleteObject(icon.hbmColor);
-	}
-	return wszResult;
-}
-
-__forceinline wchar_t* ProtoIcon(const char *szProto)
-{	return SaveHIcon(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1), szProto);
 }
 
 static void __cdecl OnToastNotificationClicked(void* arg)
@@ -165,11 +130,11 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 static INT_PTR RegisterClass(WPARAM, LPARAM lParam)
 {
 	POPUPCLASS *pc = (POPUPCLASS*)lParam;
-	mp_Classes[pc->pszName] = pc->flags;
 
-	HANDLE h;
-	Utils_GetRandom(&h, sizeof(h));
-	return (INT_PTR)h;
+	ClassData *cd = new ClassData(pc->flags, pc->hIcon);
+	mp_Classes[pc->pszName] = cd;
+
+	return (INT_PTR)cd->handle;
 }
 
 static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
@@ -179,17 +144,41 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	auto it = mp_Classes.find(ppc->pszClassName);
 	if (it != mp_Classes.end())
 	{
-		if (it->second & PCF_TCHAR)
+		if (it->second->iFlags & PCF_TCHAR)
 		{
-			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText));
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText, it->second->hIcon));
 		}
 		else
 		{
-			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText)));
+			CallFunctionAsync(&ShowToastNotification, new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon));
 		}
 	}
 
 	return 0;
+}
+
+static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
+{
+	HANDLE h = (HANDLE)lParam;
+
+	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
+	{
+		if (it->second->handle == h)
+		{
+			delete it->second;
+			mp_Classes.erase(it);
+		}
+	}
+	return 0;
+}
+
+void CleanupClasses()
+{
+	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
+	{
+		delete it->second;
+		mp_Classes.erase(it);
+	}
 }
 
 static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
@@ -237,4 +226,5 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnRegisterClass);
 }
