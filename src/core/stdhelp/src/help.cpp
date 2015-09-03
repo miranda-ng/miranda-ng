@@ -76,24 +76,28 @@ int LoadHelpModule(void)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
 
+	SET_UID(mi, 0xf3ebf1fa, 0x587c, 0x494d, 0xbd, 0x33, 0x7f, 0x88, 0xb3, 0x61, 0x1e, 0xd3);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.position = 2000090000;
 	mi.name.a = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x495df66f, 0x844e, 0x479a, 0xaf, 0x21, 0x3e, 0x42, 0xc5, 0x14, 0x7c, 0x7e);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.position = -500050000;
 	mi.name.a = LPGEN("&Support");
 	mi.pszService = "Help/IndexCommand";
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x15e18b58, 0xec73, 0x45c2, 0xb9, 0xf4, 0x2a, 0xfe, 0xc2, 0xb7, 0xd3, 0x25);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
 	mi.position = 2000050000;
 	mi.name.a = LPGEN("&Miranda NG homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xe7d0fe8b, 0xfdeb, 0x45b3, 0xba, 0x83, 0x3, 0x1e, 0x15, 0xda, 0x7e, 0x52);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.position = 2000040000;
 	mi.name.a = LPGEN("&Report bug");

@@ -279,6 +279,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	LoadMsgLogIcons();
 
 	CMenuItem mi;
+	SET_UID(mi, 0x58d8dc1, 0x1c25, 0x49c0, 0xb8, 0x7c, 0xa3, 0x22, 0x2b, 0x3d, 0xf1, 0xd8);
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
