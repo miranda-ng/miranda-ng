@@ -236,6 +236,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 void GGPROTO::block_init()
 {
    CMenuItem mi;
+   SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
    mi.position = -500050000;
    mi.hIcolibItem = iconList[8].hIcolib;
    mi.name.a = LPGEN("&Block");

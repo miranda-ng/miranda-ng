@@ -519,6 +519,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.root = hRoot;
 
 	// Import from server item
+	SET_UID(mi, 0x50ea554c, 0x6371, 0x495c, 0x86, 0x7f, 0x28, 0x7, 0x47, 0x59, 0x20, 0x20);
 	mi.pszService = GGS_IMPORT_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::import_server);
 	mi.position = 2000500001;
@@ -527,6 +528,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Import from textfile
+	SET_UID(mi, 0x39c036d5, 0x6eb5, 0x49ae, 0xa8, 0x78, 0x8a, 0x72, 0xeb, 0xf, 0x15, 0x3d);
 	mi.pszService = GGS_IMPORT_TEXT;
 	CreateProtoService(mi.pszService, &GGPROTO::import_text);
 	mi.position = 2000500002;
@@ -535,6 +537,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Remove from server
+	SET_UID(mi, 0x6bdbe700, 0xf240, 0x4ed8, 0x86, 0x26, 0x31, 0x85, 0xf8, 0x5, 0xe5, 0xb1);
 	mi.pszService = GGS_REMOVE_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::remove_server);
 	mi.position = 2000500003;
@@ -543,6 +546,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Export to server
+	SET_UID(mi, 0xddb8e1f0, 0x7282, 0x4105, 0x90, 0x83, 0x92, 0x25, 0x21, 0x7d, 0xe2, 0x6a);
 	mi.pszService = GGS_EXPORT_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::export_server);
 	mi.position = 2005000001;
@@ -551,6 +555,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Export to textfile
+	SET_UID(mi, 0x7ee0000b, 0xb202, 0x4fe4, 0xb3, 0x42, 0x3b, 0x39, 0xfb, 0x9d, 0x80, 0x5d);
 	mi.pszService = GGS_EXPORT_TEXT;
 	CreateProtoService(mi.pszService, &GGPROTO::export_text);
 	mi.position = 2005000002;
