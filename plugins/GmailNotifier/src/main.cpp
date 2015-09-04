@@ -135,12 +135,14 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction(MODULE_NAME "/MenuCommand", PluginMenuCommand);
 
 	CMenuItem mi;
+	SET_UID(mi, 0xbe16f37, 0x17be, 0x4494, 0xaa, 0xb2, 0x3a, 0xa7, 0x38, 0xfa, 0xf9, 0xcc);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_ONLINE);
 	mi.name.a = LPGEN("&Check all Gmail inboxes");
 	mi.pszService = MODULE_NAME "/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x22c6ace1, 0xba0c, 0x44b5, 0xa4, 0xd2, 0x1, 0x7d, 0xb1, 0xe0, 0x51, 0xeb);
 	mi.name.a = LPGEN("&Check Gmail inbox");
 	mi.pszService = "/MenuCommand";
 	Menu_AddContactMenuItem(&mi, MODULE_NAME);
