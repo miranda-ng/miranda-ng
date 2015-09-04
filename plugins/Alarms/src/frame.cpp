@@ -542,6 +542,7 @@ int CreateFrame()
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
 		CMenuItem mi;
+		SET_UID(mi, 0x27556ea9, 0xfa19, 0x4c2e, 0xb0, 0xc9, 0x48, 0x2, 0x5c, 0x17, 0xba, 0x5);
 		mi.hIcolibItem = hIconMenuShowHide;
 		mi.name.a = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
