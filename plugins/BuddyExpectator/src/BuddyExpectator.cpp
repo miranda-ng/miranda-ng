@@ -610,6 +610,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
 		CMenuItem mi;
+		SET_UID(mi, 0xc48c31d4, 0x56b6, 0x48c6, 0x8e, 0xe9, 0xe6, 0x57, 0xb5, 0x80, 0xb8, 0x1e);
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
