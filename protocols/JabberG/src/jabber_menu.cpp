@@ -203,6 +203,7 @@ void g_MenuInit(void)
 	mi.flags = CMIF_UNMOVABLE;
 
 	// "Request authorization"
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = -2000001000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
@@ -211,6 +212,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuHandleRequestAuth);
 
 	// "Grant authorization"
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.pszService = "Jabber/GrantAuth";
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = -2000001001;
@@ -219,6 +221,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuHandleGrantAuth);
 
 	// Revoke auth
+	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
 	mi.pszService = "Jabber/RevokeAuth";
 	mi.name.a = LPGEN("Revoke authorization");
 	mi.position = -2000001002;
@@ -227,6 +230,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuRevokeAuth);
 
 	// "Convert Chat/Contact"
+	SET_UID(mi, 0xa98894ec, 0xbaa6, 0x4e1e, 0x8d, 0x75, 0x72, 0xc, 0xae, 0x25, 0xd8, 0x87);
 	mi.pszService = "Jabber/ConvertChatContact";
 	mi.name.a = LPGEN("Convert");
 	mi.position = -1999901004;
@@ -235,6 +239,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuConvertChatContact);
 
 	// "Add to roster"
+	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
 	mi.pszService = "Jabber/AddToRoster";
 	mi.name.a = LPGEN("Add to roster");
 	mi.position = -1999901005;
@@ -243,6 +248,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuRosterAdd);
 
 	// "Add to Bookmarks"
+	SET_UID(mi, 0x7d06d00b, 0x3a3e, 0x4d65, 0xac, 0xc5, 0x63, 0xe2, 0x60, 0xbe, 0xc6, 0x6);
 	mi.pszService = "Jabber/AddToBookmarks";
 	mi.name.a = LPGEN("Add to Bookmarks");
 	mi.position = -1999901006;
@@ -251,6 +257,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuBookmarkAdd);
 
 	// Login/logout
+	SET_UID(mi, 0x7674d540, 0x2638, 0x4958, 0x99, 0xda, 0x8, 0x3f, 0xad, 0x66, 0x8f, 0xed);
 	mi.pszService = "Jabber/TransportLogin";
 	mi.name.a = LPGEN("Login/logout");
 	mi.position = -1999901007;
@@ -259,6 +266,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuTransportLogin);
 
 	// Retrieve nicks
+	SET_UID(mi, 0x6adf70d9, 0x6e92, 0x4a4f, 0x90, 0x71, 0x67, 0xa7, 0xaa, 0x1a, 0x19, 0x7a);
 	mi.pszService = "Jabber/TransportGetNicks";
 	mi.name.a = LPGEN("Resolve nicks");
 	mi.position = -1999901008;
@@ -267,6 +275,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuTransportResolve);
 
 	// Run Commands
+	SET_UID(mi, 0x25546e26, 0xc82, 0x4715, 0xb8, 0xca, 0xe5, 0xf7, 0x2a, 0x58, 0x9, 0x2);
 	mi.pszService = "Jabber/RunCommands";
 	mi.name.a = LPGEN("Commands");
 	mi.position = -1999901009;
@@ -275,6 +284,7 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberContactMenuRunCommands);
 
 	// Send Note
+	SET_UID(mi, 0xf4b0cc51, 0xab9, 0x4cf0, 0x96, 0xaa, 0x22, 0xa0, 0x33, 0x9b, 0x56, 0xc5);
 	mi.pszService = "Jabber/SendNote";
 	mi.name.a = LPGEN("Send Note");
 	mi.position = -1999901010;
@@ -283,12 +293,14 @@ void g_MenuInit(void)
 	CreateServiceFunction(mi.pszService, JabberMenuSendNote);
 
 	// Direct Presence
+	SET_UID(mi,  0x89803943, 0xa87e, 0x4ae9, 0xbf, 0x79, 0xe3, 0xf3, 0xd6, 0x86, 0xf8, 0x3d);
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.name.a = LPGEN("Send Presence");
 	mi.position = -1999901011;
 	mi.hIcolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
+	UNSET_UID(mi);
 	mi.flags |= CMIF_TCHAR;
 	mi.root = g_hMenuDirectPresence[0];
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
@@ -306,12 +318,14 @@ void g_MenuInit(void)
 	mi.root = NULL;
 
 	// Resource selector
+	SET_UID(mi, 0x32a7bb9d, 0x4d9, 0x49b3, 0xac, 0x8f, 0x83, 0xb5, 0x6b, 0xff, 0x4f, 0x5);
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.name.a = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
 	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xb8059d69, 0xa927, 0x4d68, 0xb4, 0x88, 0xf7, 0x32, 0x85, 0x50, 0xde, 0x6f);
 	mi.pszService = "Jabber/UseResource_last";
 	mi.name.a = LPGEN("Last Active");
 	mi.position = -1999901000;
@@ -320,6 +334,7 @@ void g_MenuInit(void)
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN);
 
+	SET_UID(mi,0xf44812ea, 0x4f37, 0x4a57, 0x86, 0xa8, 0x40, 0x51, 0x22, 0x9f, 0xd5, 0xa8);
 	mi.pszService = "Jabber/UseResource_server";
 	mi.name.a = LPGEN("Server's Choice");
 	mi.position = -1999901000;
