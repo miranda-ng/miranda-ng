@@ -329,6 +329,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
 	
 		CMenuItem mi;
+		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		mi.flags = CMIF_TCHAR;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
