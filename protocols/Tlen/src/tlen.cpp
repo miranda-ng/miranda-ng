@@ -268,6 +268,7 @@ void TlenProtocol::initMenuItems()
 	hMenuChats = NULL;
 
 	// "Multi-User Conference"
+	SET_UID(mi,0x4984828, 0x2066, 0x43da, 0x87, 0x9e, 0x71, 0x23, 0xc6, 0xe2, 0x46, 0xd5);
 	mir_strcpy(pSvcName, "/MainMenuMUC");
 	CreateProtoService(pSvcName, &TlenProtocol::MUCMenuHandleMUC);
 	mi.name.a = LPGEN("Multi-User Conference");
@@ -276,6 +277,7 @@ void TlenProtocol::initMenuItems()
 	mi.pszService = text;
 	hMenuMUC = Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x594133f1, 0xc5b1, 0x4825, 0xa3, 0x8d, 0x33, 0x0, 0x33, 0x74, 0x3a, 0x29);
 	mir_strcpy(pSvcName, "/MainMenuInbox");
 	CreateProtoService(pSvcName, &TlenProtocol::MenuHandleInbox);
 	mi.name.a = LPGEN("Tlen Mail");
@@ -288,6 +290,7 @@ void TlenProtocol::initMenuItems()
 	mi.root = NULL;
 
 	// "Send picture"
+	SET_UID(mi, 0x12c66fb1, 0x6e57, 0x4acd, 0x90, 0x16, 0xc, 0x83, 0xae, 0x16, 0xe3, 0x12);
 	mi.pszService = "/SendPicture";
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleSendPicture);
 	mi.name.a = LPGEN("Send picture");
@@ -296,6 +299,7 @@ void TlenProtocol::initMenuItems()
 	hMenuPicture = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Invite to MUC"
+	SET_UID(mi, 0x4728c863, 0xe95f, 0x4203, 0x9b, 0xe8, 0x1, 0xbf, 0x5e, 0x57, 0x88, 0x43);
 	mi.pszService = "/ContactMenuMUC";
 	CreateProtoService(mi.pszService, &TlenProtocol::MUCContactMenuHandleMUC);
 	mi.name.a = LPGEN("Multi-User Conference");
@@ -304,6 +308,7 @@ void TlenProtocol::initMenuItems()
 	hMenuContactMUC = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Invite to voice chat"
+	SET_UID(mi, 0x53f919b6, 0x313c, 0x4ed4, 0x96, 0xbc, 0xf6, 0xa2, 0x67, 0x10, 0x7b, 0xa2);
 	mi.pszService = "/ContactMenuVoice";
 	CreateProtoService(mi.pszService, &TlenProtocol::VoiceContactMenuHandleVoice);
 	mi.name.a = LPGEN("Voice Chat");
@@ -312,6 +317,7 @@ void TlenProtocol::initMenuItems()
 	hMenuContactVoice = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Request authorization"
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.pszService = "/RequestAuth";
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleRequestAuth);
 	mi.name.a = LPGEN("Request authorization");
@@ -320,6 +326,7 @@ void TlenProtocol::initMenuItems()
 	hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Grant authorization"
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.pszService = "/GrantAuth";
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleGrantAuth);
 	mi.name.a = LPGEN("Grant authorization");
