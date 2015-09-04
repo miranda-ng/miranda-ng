@@ -116,6 +116,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	if (!bReplaceHistory)
 	{
 		CMenuItem mi;
+		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
 		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
