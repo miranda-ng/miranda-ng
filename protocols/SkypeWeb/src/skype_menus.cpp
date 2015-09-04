@@ -68,7 +68,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
-	SET_UID(mi, 0x6f117b10, 0xd0a7, 0x4195, 0x8e, 0x34, 0xe6, 0x5b, 0x2, 0x75, 0x8e, 0xb6);
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnRequestAuth>);
 
@@ -77,7 +77,7 @@ void CSkypeProto::InitMenus()
 	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
-	SET_UID(mi, 0x891bed52, 0xeb6e, 0x4689, 0x8e, 0x4e, 0xd4, 0x14, 0x31, 0x35, 0x6e, 0x53);
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnGrantAuth>);
 
