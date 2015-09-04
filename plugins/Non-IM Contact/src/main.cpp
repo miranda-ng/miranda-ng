@@ -143,6 +143,8 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
 	CMenuItem mi;
+
+	SET_UID(mi, 0x73c11266, 0x153c, 0x4da4, 0x9b, 0x82, 0x5c, 0xce, 0xca, 0x86, 0xd, 0x41);
 	mi.position = 600090000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
 	mi.name.a = LPGEN("&Add Non-IM Contact");
@@ -150,28 +152,33 @@ extern "C" __declspec(dllexport) int Load()
 	mi.hIcolibItem = icoList[0].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xa511c5e, 0x26d2, 0x41b1, 0xbd, 0xb7, 0x3e, 0x62, 0xc8, 0x44, 0x37, 0xc9);
 	mi.position = 600090001;
 	mi.name.a = LPGEN("&View/Edit Files");
 	mi.pszService = "LoadFilesDlg";
 	Menu_AddMainMenuItem(&mi);
 
 	if (db_get_b(NULL, MODNAME, "Beta", 0)) {
+		SET_UID(mi, 0x23051356, 0xad45, 0x4101, 0x8e, 0x11, 0xf6, 0x3a, 0xe8, 0xa3, 0xa5, 0x25);
 		mi.position = 600090002;
 		mi.name.a = LPGEN("&Export all Non-IM Contacts");
 		mi.pszService = "ExportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
 
+		SET_UID(mi, 0xf3c4ebed, 0x789c, 0x4293, 0xaa, 0xcb, 0x22, 0xdc, 0xd4, 0xe0, 0x3c, 0x41);
 		mi.position = 600090003;
 		mi.name.a = LPGEN("&Import Non-IM Contacts");
 		mi.pszService = "ImportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
 	}
 
+	SET_UID(mi, 0xb653d5e0, 0xb1e6, 0x46fc, 0xa7, 0x82, 0x35, 0x95, 0x74, 0xb1, 0xc, 0xdd);
 	mi.position = 600090000;
 	mi.name.a = LPGEN("&String Maker");
 	mi.pszService = "TestStringReplaceLine";
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x1033e16d, 0x8a7c, 0x43db, 0xa9, 0x83, 0x56, 0x2f, 0x8a, 0x16, 0x7c, 0xe9);
 	mi.root = NULL;
 	mi.position = -2000080000;
 	mi.name.a = LPGEN("E&dit Contact Settings");
