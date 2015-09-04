@@ -238,6 +238,7 @@ void CAimProto::InitContactMenus(void)
 {
 	CMenuItem mi;
 
+	SET_UID(mi, 0xb961e2af, 0x87a, 0x4fbf, 0xb5, 0x32, 0x6, 0xe2, 0x18, 0xad, 0x29, 0xac);
 	CreateProtoService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
 	mi.pszService = "/GetHTMLAwayMsg";
 	mi.position = -2000006000;
@@ -246,6 +247,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	m_hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
+	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	CreateProtoService("/GetProfile", &CAimProto::GetProfile);
 	mi.pszService = "/GetProfile";
 	mi.position = -2000005090;
@@ -254,6 +256,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTOFFLINE;
 	Menu_AddContactMenuItem(&mi, m_szModuleName);
 
+	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
 	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList); 
 	mi.pszService = "/AddToServerList";
 	mi.position = -2000005080;
@@ -262,6 +265,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTONLINE | CMIF_HIDDEN;
 	m_hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
+	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	CreateProtoService("/BlockCommand", &CAimProto::BlockBuddy);
 	mi.pszService = "/BlockCommand";
 	mi.position = -2000005060;
