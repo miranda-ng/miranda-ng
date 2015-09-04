@@ -58,9 +58,10 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-
 	UpdateTimers();
+
 	CMenuItem mi;
+	SET_UID(mi, 0xcbfbfd3d, 0x5002, 0x4c64, 0x92, 0xb, 0x9c, 0x12, 0x4b, 0x6, 0x51, 0x2a);
 	mi.hIcolibItem = hiMailIcon;
 	mi.position = 10000000;
 	mi.pszService = MS_EXCHANGE_CHECKEMAIL;
