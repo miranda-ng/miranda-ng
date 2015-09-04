@@ -71,6 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x326495e8, 0xab0a, 0x47d2, 0xb2, 0x22, 0x2a, 0x8e, 0xa8, 0xae, 0x53, 0x1a);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = IcoLib_GetIcon("check_update");
@@ -80,6 +81,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add empty updates folder menu item
 	CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	memset(&mi, 0, sizeof(mi));
+	SET_UID(mi, 0xc3eea590, 0xaba3, 0x454f, 0x93, 0x93, 0xbc, 0x97, 0x15, 0x2c, 0x3b, 0x3d);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = IcoLib_GetIcon("empty_folder");
