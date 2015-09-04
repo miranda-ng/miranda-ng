@@ -24,6 +24,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+static TCHAR* sttDecodeString(DWORD dwFlags, MAllStrings &src)
+{
+	if (dwFlags & PSR_UNICODE)
+		return mir_u2t(src.w);
+
+	if (dwFlags & PSR_UTF8)
+		return mir_utf8decodeT(src.a);
+
+	return mir_a2t(src.a);
+}
+
 class CAddContactDlg : public CDlgBase
 {
 	ADDCONTACTSTRUCT m_acs;
@@ -49,17 +60,6 @@ public:
 		m_btnOk.OnClick = Callback(this, &CAddContactDlg::OnOk);
 
 		m_acs = *acs;
-		if (m_acs.psr) {
-			PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)mir_alloc(m_acs.psr->cbSize);
-			memcpy(psr, m_acs.psr, m_acs.psr->cbSize);
-			psr->nick.t = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->nick.t) : mir_a2t((char*)psr->nick.t);
-			psr->firstName.t = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->firstName.t) : mir_a2t((char*)psr->firstName.t);
-			psr->lastName.t = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->lastName.t) : mir_a2t((char*)psr->lastName.t);
-			psr->email.t = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->email.t) : mir_a2t((char*)psr->email.t);
-			psr->id.t = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->id.t) : mir_a2t((char*)psr->id.t);
-			psr->flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
-			m_acs.psr = psr;
-		}
 	}
 
 	void OnInitDialog()
@@ -96,9 +96,16 @@ public:
 					isSet = 1;
 				}
 			}
-			if (!isSet) {
-				szName = (m_acs.handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
-					(m_acs.psr->id.t ? m_acs.psr->id.t : m_acs.psr->nick.t);
+			if (!isSet)
+			{
+				if (m_acs.handleType == HANDLE_EVENT)
+					szName = mir_a2t(szUin);
+				else
+				{
+					szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->id);
+					if (!szName)
+						szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->nick);
+				}
 			}
 		}
 
@@ -150,14 +157,6 @@ public:
 	void OnDestroy()
 	{
 		Window_FreeIcon_IcoLib(m_hwnd);
-
-		if (m_acs.psr) {
-			mir_free(m_acs.psr->nick.t);
-			mir_free(m_acs.psr->firstName.t);
-			mir_free(m_acs.psr->lastName.t);
-			mir_free(m_acs.psr->email.t);
-			mir_free(m_acs.psr);
-		}
 	}
 
 	void OnAuthClicked(CCtrlButton*)
