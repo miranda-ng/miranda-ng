@@ -14,7 +14,9 @@ void utils::copyText(HWND hwnd, const TCHAR *text)
 {
 	if (!hwnd || !text) return;
 
-	OpenClipboard(hwnd);
+	if (!OpenClipboard(hwnd))
+		return;
+
 	EmptyClipboard();
 	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
 	mir_tstrcpy((TCHAR*)GlobalLock(hMem), text);
