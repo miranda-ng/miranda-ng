@@ -328,6 +328,7 @@ int CreateFrame()
 		// Create menu item
 
 		CMenuItem mi;
+		SET_UID(mi, 0x69a43f1d, 0x6ebd, 0x4e41, 0xa6, 0xbd, 0x18, 0xea, 0xc4, 0x3, 0x90, 0x35);
 		mi.flags = CMIF_TCHAR;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
 		mi.position = 1;
