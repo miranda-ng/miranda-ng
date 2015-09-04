@@ -380,6 +380,7 @@ void MSN_InitContactMenu(void)
 	CMenuItem mi;
 	mi.pszService = servicefunction;
 
+	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	mir_strcpy(tDest, MSN_BLOCK);
 	hBlockCom = CreateServiceFunction(servicefunction, MsnMenuBlockCommand);
 	mi.position = -500050000;
@@ -387,6 +388,7 @@ void MSN_InitContactMenu(void)
 	mi.name.a = LPGEN("&Block");
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mir_strcpy(tDest, MSN_VIEW_PROFILE);
 	hViewProfile = CreateServiceFunction(servicefunction, MsnMenuViewProfile);
 	mi.position = -500050003;
@@ -404,6 +406,7 @@ void MSN_InitContactMenu(void)
 	hNetmeetingMenuItem = Menu_AddContactMenuItem(&mi);
 #endif
 
+	SET_UID(mi,0x25a007c0, 0x8dc7, 0x4284, 0x8a, 0x5e, 0x2, 0x83, 0x17, 0x5d, 0x52, 0xea);
 	mir_strcpy(tDest, "/SendHotmail");
 	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
 	mi.position = -2000010005;
