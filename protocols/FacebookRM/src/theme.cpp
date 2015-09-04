@@ -108,6 +108,8 @@ void InitContactMenus()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CMenuItem mi;
+
+	SET_UID(mi, 0x4f006492, 0x9fe5, 0x4d10, 0x88, 0xce, 0x47, 0x53, 0xba, 0x27, 0xe9, 0xc9);
 	mi.position = -2000006000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.name.a = LPGEN("Visit profile");
@@ -115,6 +117,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitProfile>);
 	g_hContactMenuVisitProfile = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x1e9d0534, 0xc319, 0x42a2, 0xbe, 0xd5, 0x1e, 0xae, 0xe1, 0x54, 0xd, 0x89);
 	mi.position = -2000006001;
 	mi.hIcolibItem = GetIconHandle("friendship");
 	mi.name.a = LPGEN("Visit friendship details");
@@ -122,6 +125,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitFriendship>);
 	g_hContactMenuVisitFriendship = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xd3bfd7d6, 0x43c3, 0x4b05, 0x81, 0x40, 0xc8, 0xbe, 0x81, 0xd9, 0x95, 0xff);
 	mi.position = -2000006002;
 	mi.hIcolibItem = GetIconHandle("conversation");
 	mi.name.a = LPGEN("Visit conversation");
@@ -129,6 +133,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitConversation>);
 	g_hContactMenuVisitConversation = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xc631b2ea, 0xa133, 0x4cc9, 0x81, 0x1e, 0xad, 0x8f, 0x36, 0x5c, 0x74, 0xbf);
 	mi.position = -2000006003;
 	mi.hIcolibItem = GetIconHandle("mind");
 	mi.name.a = LPGEN("Share status...");
@@ -136,6 +141,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnMind>);
 	g_hContactMenuPostStatus = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x10ce2dbf, 0x8acf, 0x4f51, 0x89, 0x76, 0xd9, 0x67, 0xef, 0x69, 0x1d, 0x9d);
 	mi.position = -2000006004;
 	mi.hIcolibItem = GetIconHandle("poke");
 	mi.name.a = LPGEN("Poke");
@@ -143,6 +149,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::Poke>);
 	g_hContactMenuPoke = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
 	mi.position = -2000006010;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Cancel friendship");
@@ -150,6 +157,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuAuthRevoke = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, x6d6b49b9, 0x71b8, 0x4a57, 0xab, 0x80, 0xc3, 0xb2, 0xbe, 0x2b, 0x9b, 0xf5);
 	mi.position = -2000006011;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Cancel friendship request");
@@ -157,6 +165,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuAuthCancel = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.position = -2000006012;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	mi.name.a = LPGEN("Request friendship");
@@ -164,6 +173,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::RequestFriendship>);
 	g_hContactMenuAuthAsk = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.position = -2000006013;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	mi.name.a = LPGEN("Approve friendship");
@@ -171,6 +181,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::ApproveFriendship>);
 	g_hContactMenuAuthGrant = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x29d0a371, 0xb8a7, 0x4fb2, 0x91, 0x10, 0x13, 0x6f, 0x8c, 0x5f, 0xb5, 0x7);
 	mi.position = -2000006014;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Deny friendship request");
