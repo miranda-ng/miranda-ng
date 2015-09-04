@@ -511,11 +511,13 @@ void CSametimeProto::InitConferenceMenu()
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	
+	SET_UID(mi, 0x98cf8a8c, 0x75ba, 0x46f2, 0xa3, 0x35, 0x65, 0x46, 0x4a, 0x38, 0x20, 0x7d);
 	mi.name.t = LPGENT("Leave conference");
 	mi.pszService = MS_SAMETIME_MENULEAVECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_LEAVE);
 	hLeaveChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
+	SET_UID(mi, 0x45501e10, 0x2914, 0x4daa, 0xb4, 0xcf, 0x83, 0x8a, 0x6a, 0x14, 0xd, 0x7);
 	mi.name.t = LPGENT("Start conference");
 	mi.pszService = MS_SAMETIME_MENUCREATECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_INVITE);
