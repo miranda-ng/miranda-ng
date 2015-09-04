@@ -89,6 +89,7 @@ void InitContactMenus()
 	CMenuItem mi;
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
+	SET_UID(mi,0xfc4e1245, 0xc8e0, 0x4de2, 0x92, 0x15, 0xfc, 0xcf, 0x48, 0xf9, 0x41, 0x56);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("reply");
 	mi.name.t = LPGENT("Reply...");
@@ -96,6 +97,7 @@ void InitContactMenus()
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("homepage");
 	mi.name.t = LPGENT("Visit Homepage");
