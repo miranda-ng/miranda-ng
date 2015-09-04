@@ -64,6 +64,7 @@ void MirandaContact::save(MCONTACT hContact, bool bValue)
 void MirandaContact::addMenuItem()
 {
 	CMenuItem mi;
+	SET_UID(mi,0x47bbf49f, 0x2b77, 0x412a, 0xaa, 0x80, 0xbe, 0xd5, 0x2f, 0x8, 0x29, 0x96);
 	mi.name.a = MENU_ITEM_TEXT;
 	mi.position = 65535;
 	mi.pszService = MENU_COMMAND_CALLBACK_SERVICE;
