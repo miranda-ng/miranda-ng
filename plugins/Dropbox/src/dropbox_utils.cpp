@@ -75,7 +75,11 @@ void CDropbox::SendToContact(MCONTACT hContact, const char* data)
 		return;
 	}
 
-	CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data);
+	if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED)
+	{
+		char *message = mir_utf8encode(data);
+		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, mir_strlen(message), (PBYTE)message);
+	}
 }
 
 void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
