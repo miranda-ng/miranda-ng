@@ -713,10 +713,11 @@ static INT_PTR OnHotKey_HideWhenCListShow(WPARAM, LPARAM)
 
 static void LoadMenus()
 {
+	CMenuItem mi;
+
 	// Remove thumb menu item
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
-
-	CMenuItem mi;
+	SET_UID(mi,0xbab83df0, 0xe126, 0x4d9a, 0xbc, 0xc3, 0x2b, 0xea, 0x84, 0x90, 0x58, 0xc8);
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
@@ -726,10 +727,10 @@ static void LoadMenus()
 
 	// Hide all thumbs main menu item
 	CreateServiceFunction(MODULE "/MainHideAllThumbs", OnMainMenu_HideAll);
-
+	SET_UID(mi, 0x9ce9983f, 0x782a, 0x4ec1, 0xb5, 0x9b, 0x41, 0x4e, 0x9d, 0x92, 0x8e, 0xcb);
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
 	mi.name.t = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	mi.pszService = MODULE "/MainHideAllThumbs";
+	mi.pszService = MODULE "/MainHideAllThumbs";	
 	Menu_AddMainMenuItem(&mi);
 
 	// Register hotkeys
