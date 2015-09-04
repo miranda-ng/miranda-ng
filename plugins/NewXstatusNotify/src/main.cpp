@@ -1072,6 +1072,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 void InitMainMenuItem()
 {
 	CMenuItem mi;
+	SET_UID(mi, 0x22b7b4db, 0xa9a1, 0x4d43, 0x88, 0x80, 0x4c, 0x23, 0x20, 0x31, 0xc6, 0xa0);
 	mi.flags = CMIF_TCHAR;
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
