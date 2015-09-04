@@ -136,6 +136,7 @@ static int HookModulesLoaded(WPARAM, LPARAM)
 	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, 1);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x94a4ed39, 0xabd0, 0x4c70, 0x89, 0xeb, 0x1b, 0x2, 0xf0, 0xac, 0x6, 0x4c);
 	mi.name.a = LPGEN("Contacts");
 	mi.position = -2000009990;  //position in menu
 	mi.pszService = MS_CONTACTS_SEND;
