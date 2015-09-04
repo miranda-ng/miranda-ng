@@ -549,16 +549,20 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
 		CMenuItem mi;
+
+		SET_UID(mi, 0xea31f628, 0x1445, 0x4b62, 0x98, 0x19, 0xce, 0x15, 0x81, 0x49, 0xa, 0xbd);
 		mi.position = -50010002; //TODO: check the warning
 		mi.name.a = BOLTUN_AUTO_CHAT;
 		mi.pszService = SERV_CONTACT_AUTO_CHAT;
 		hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
 
+		SET_UID(mi, 0x726af984, 0x988c, 0x4d5d, 0x97, 0x30, 0xdc, 0x46, 0x55, 0x76, 0x1, 0x73);
 		mi.position = -50010001; //TODO: check the warning
 		mi.name.a = BOLTUN_NOT_TO_CHAT;
 		mi.pszService = SERV_CONTACT_NOT_TO_CHAT;
 		hMenuItemNotToChat = Menu_AddContactMenuItem(&mi);
 
+		SET_UID(mi, 0x9e0117f3, 0xb7df, 0x4f1b, 0xae, 0xec, 0xc4, 0x72, 0x59, 0x72, 0xc8, 0x58);
 		mi.flags = CMIF_NOTOFFLINE;
 		mi.position = -50010000; //TODO: check the warning
 		mi.hIcolibItem = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
