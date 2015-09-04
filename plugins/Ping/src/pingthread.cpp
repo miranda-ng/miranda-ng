@@ -902,6 +902,7 @@ void InitList()
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
 
 		CMenuItem mi;
+		SET_UID(mi, 0x4adbd753, 0x27d6, 0x457a, 0xa6, 0x6, 0xdf, 0x4f, 0x2c, 0xd8, 0xb9, 0x3b);
 		mi.flags = CMIF_TCHAR;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
 		mi.position = 3000320001;
