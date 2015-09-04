@@ -98,6 +98,8 @@ int ToolbarModuleLoaded(WPARAM,LPARAM)
 void InitMenuItems()
 {
 	CMenuItem mi;
+
+	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.position = 1000090000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.name.a = LPGEN("View &History");
@@ -108,6 +110,7 @@ void InitMenuItems()
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x63929694, 0x2d3d, 0x4c5d, 0xa5, 0x2b, 0x64, 0x59, 0x72, 0x23, 0xe, 0x66);
 	mi.position = 1000090001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.name.a = LPGEN("Delete All User History");
@@ -122,6 +125,7 @@ void InitTaskMenuItems()
 	if (Options::instance->taskOptions.size() > 0) {
 		if (hTaskMainMenu == NULL) {
 			CMenuItem mi;
+			SET_UID(mi, 0xbf66499, 0x1b39, 0x47a2, 0x9b, 0x74, 0xa6, 0xae, 0x89, 0x95, 0x59, 0x59);
 			mi.position = 500060005;
 			mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 			mi.name.a = LPGEN("Execute history task");
