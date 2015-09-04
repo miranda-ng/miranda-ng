@@ -513,6 +513,7 @@ void InitMenuItem()
 	CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
 	CMenuItem mi;
+	SET_UID(mi,0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
 	mi.name.t = LPGENT("View Avatar History");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090010;
