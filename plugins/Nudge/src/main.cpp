@@ -337,6 +337,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Add contact menu entry
 	CMenuItem mi;
+	SET_UID(mi, 0xd617db26, 0x22ba, 0x4205, 0x9c, 0x3e, 0x53, 0x10, 0xbc, 0xcf, 0xce, 0x19);
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.hIcolibItem = iconList[0].hIcolib;
