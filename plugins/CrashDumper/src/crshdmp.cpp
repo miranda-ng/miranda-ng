@@ -258,36 +258,42 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 
+	SET_UID(mi, 0x52930e40, 0xb2ee, 0x4433, 0xad, 0x77, 0xf5, 0x42, 0xe, 0xf6, 0x57, 0xc1);
 	mi.position = 2000089995;
 	mi.name.a = LPGEN("Copy to clipboard");
 	mi.hIcolibItem = GetIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x54109094, 0x494e, 0x4535, 0x9c, 0x3a, 0xf6, 0x9e, 0x9a, 0xf7, 0xcd, 0xbe);
 	mi.position = 2000089996;
 	mi.name.a = LPGEN("Store to file");
 	mi.hIcolibItem = GetIconHandle(IDI_VITOFILE);
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x4004f9ee, 0x2c5a, 0x420a, 0xb1, 0x54, 0x3e, 0x47, 0xc1, 0xde, 0x46, 0xec);
 	mi.position = 2000089997;
 	mi.name.a = LPGEN("Show");
 	mi.hIcolibItem = GetIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x8526469a, 0x8ab4, 0x4dd4, 0xad, 0xbf, 0x51, 0xfd, 0x71, 0x10, 0xd3, 0x3c);
 	mi.position = 2000089998;
 	mi.name.a = LPGEN("Show with DLLs");
 	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
+	SET_UID(mi, 0xc6e3b558, 0xe1e8, 0x4cce, 0x96, 0x8, 0xc6, 0x89, 0x1b, 0x79, 0xf3, 0x7e);
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Upload");
 	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xa23da95a, 0x7624, 0x4343, 0x8c, 0xc0, 0xa6, 0x16, 0xbc, 0x30, 0x13, 0x8c);
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Copy link to clipboard");
 	mi.hIcolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
@@ -295,6 +301,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&mi);
 
 	if (catchcrashes && !needrestart) {
+		SET_UID(mi, 0xecae52f2, 0xd601, 0x4f85, 0x87, 0x9, 0xec, 0x8e, 0x84, 0xfe, 0x1b, 0x3c);
 		mi.position = 2000099990;
 		mi.name.a = LPGEN("Open crash report directory");
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
@@ -302,6 +309,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Menu_AddMainMenuItem(&mi);
 	}
 
+	SET_UID(mi, 0x6b19be3, 0xfb7d, 0x457d, 0x85, 0xde, 0xe0, 0x26, 0x4c, 0x87, 0x35, 0xf4);
 	mi.position = 2000099991;
 	mi.name.a = LPGEN("Open online Version Info");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
