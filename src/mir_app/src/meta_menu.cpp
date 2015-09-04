@@ -409,6 +409,7 @@ void InitMenus()
 	mi.name.a = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
+	UNSET_UID(mi);
 	mi.flags |= CMIF_SYSTEM;
 	mi.root = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
