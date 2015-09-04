@@ -124,7 +124,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	}
 
 	int i;
-	mi.uid = MIID_LAST;
+	SET_UID(mi, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	for (i = 0; i < _countof(rates); i++) {
 		mi.flags = CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
 		if (bModifyMenu && hFavoriteContactMenuItems[i])
