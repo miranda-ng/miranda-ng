@@ -637,8 +637,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		return;
 	}
 
-	CMString MirVer, OldMirVer;
-	OldMirVer = ptrT(db_get_tsa(hContact, m_szModuleName, "MirVer"));
+	CMString MirVer, OldMirVer(ptrT(db_get_tsa(hContact, m_szModuleName, "MirVer")));
 	bool bSetFlag = true;
 
 	switch (platform) {
