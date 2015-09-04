@@ -116,7 +116,7 @@ void g_MenuInit(void)
 
 	// "Request authorization"
 	mir_strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );
-
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = 1000030000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
@@ -124,7 +124,7 @@ void g_MenuInit(void)
 	
 	// "Grant authorization"
 	mir_strcpy(pszDest, MS_GRANT_AUTH); CreateServiceFunction(str, IcqMenuHandleGrantAuth);
-
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = 1000029999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
@@ -132,7 +132,7 @@ void g_MenuInit(void)
 	
 	// "Revoke authorization"
 	mir_strcpy(pszDest, MS_REVOKE_AUTH); CreateServiceFunction(str, IcqMenuHandleRevokeAuth);
-
+	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
 	mi.name.a = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
@@ -140,7 +140,7 @@ void g_MenuInit(void)
 	
 	// "Add to server list"
 	mir_strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
-
+	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
 	mi.name.a = LPGEN("Add to server list");
 	mi.position = -2049999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
@@ -148,7 +148,7 @@ void g_MenuInit(void)
 	
 	// "Show custom status details"
  	mir_strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
-
+	SET_UID(mi, 0x4767918b, 0x898b, 0x4cb6, 0x9c, 0x54, 0x8c, 0x56, 0x6a, 0xc4, 0xed, 0x42);
 	mi.name.a = LPGEN("Show custom status details");
 	mi.position = -2000004999;
 	mi.hIcolibItem = 0;
@@ -156,7 +156,7 @@ void g_MenuInit(void)
 	
 	// "Open ICQ profile"
 	mir_strcpy(pszDest, MS_OPEN_PROFILE); CreateServiceFunction(str, IcqMenuHandleOpenProfile);
-
+	SET_UID(mi, 0x4f006492, 0x9fe5, 0x4d10, 0x88, 0xce, 0x47, 0x53, 0xba, 0x27, 0xe9, 0xc9);
 	mi.name.a = LPGEN("Open ICQ profile");
 	mi.position = 1000029997;
 	g_hContactMenuItems[ICMI_OPEN_PROFILE] = Menu_AddContactMenuItem(&mi);
