@@ -132,7 +132,7 @@ void InitGroupMenus(void)
 	mi.name.a = LPGEN("Appearance");
 	mi.root = Menu_AddGroupMenuItem(&mi);
 
-	SET_UID(mi, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	UNSET_UID(mi);
 	mi.hIcolibItem = NULL;
 	mi.pszService = "CLISTMENUSGroup/CommandHelper";
 	CreateServiceFunction(mi.pszService, CommandHelper);
