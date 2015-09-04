@@ -928,6 +928,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
 		CMenuItem mi;
+		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;

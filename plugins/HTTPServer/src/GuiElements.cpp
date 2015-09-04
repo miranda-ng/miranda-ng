@@ -1474,6 +1474,7 @@ void InitGuiElements()
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 
 	CMenuItem mi;
+	SET_UID(mi, 0xb30a6ab5, 0x17a8, 0x4e2e, 0x84, 0x52, 0x5f, 0xbc, 0x83, 0x35, 0xf2, 0x6);
 	mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;
 	mi.name.t = LPGENT("HTTP Share new file");
@@ -1481,6 +1482,7 @@ void InitGuiElements()
 	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {
+		SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
 		mi.position = 1000085005;
 		mi.flags = CMIF_TCHAR;
 		mi.name.t = LPGENT("Show HTTP server statistics");
