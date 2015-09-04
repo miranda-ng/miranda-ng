@@ -157,7 +157,7 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuAuthRevoke = Menu_AddContactMenuItem(&mi);
 
-	SET_UID(mi, x6d6b49b9, 0x71b8, 0x4a57, 0xab, 0x80, 0xc3, 0xb2, 0xbe, 0x2b, 0x9b, 0xf5);
+	SET_UID(mi, 0x6d6b49b9, 0x71b8, 0x4a57, 0xab, 0x80, 0xc3, 0xb2, 0xbe, 0x2b, 0x9b, 0xf5);
 	mi.position = -2000006011;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Cancel friendship request");
