@@ -461,7 +461,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60)) {
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60LL)) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				SetMirVer(hContact, -1);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
