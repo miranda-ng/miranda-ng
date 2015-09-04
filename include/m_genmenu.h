@@ -58,8 +58,10 @@ struct TMO_MenuItem
 
 #if _MSC_VER <= 1600
 	#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { MUUID tmp = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; M.uid = tmp; }
+	#define UNSET_UID(M) { MUUID tmp = MIID_LAST; M.uid = tmp; }
 #else
 	#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { M.uid = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; }
+#define UNSET_UID(M) { M.uid = MIID_LAST; }
 #endif
 
 #ifdef __cplusplus
