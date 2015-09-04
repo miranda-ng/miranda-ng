@@ -181,6 +181,8 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
 	CMenuItem mi;
+
+	SET_UID(mi, 0xbd22e3f8, 0xc19c, 0x45a8, 0xb7, 0x37, 0x6b, 0x3b, 0x27, 0xf0, 0x8c, 0xbb);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -188,24 +190,28 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService = "/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xc8008193, 0x56a9, 0x414a, 0x82, 0x98, 0x78, 0xe8, 0xa8, 0x84, 0x20, 0x67);
 	mi.position = -0x7FFFFFFe;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.t = LPGENT("Toggle GPG encryption");
 	mi.pszService = "/ToggleEncryption";
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x42bb535f, 0xd58e, 0x4edb, 0xbf, 0x2c, 0xfa, 0x9a, 0xbf, 0x1e, 0xb8, 0x69);
 	mi.position = -0x7FFFFFFd;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.t = LPGENT("Send public key");
 	mi.pszService = "/SendKey";
 	hSendKey = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x33a204b2, 0xe3c0, 0x413b, 0xbf, 0xd8, 0x8b, 0x2e, 0x3d, 0xa0, 0xef, 0xa4);
 	mi.position = -0x7FFFFFFe;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.t = LPGENT("Export GPG Public keys");
 	mi.pszService = "/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x627fcfc1, 0x4e60, 0x4428, 0xaf, 0x96, 0x11, 0x42, 0x24, 0xeb, 0x7, 0xea);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.t = LPGENT("Import GPG Public keys");
