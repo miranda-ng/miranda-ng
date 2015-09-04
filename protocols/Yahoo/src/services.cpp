@@ -425,6 +425,7 @@ void CYahooProto::MenuContactInit(void)
 	CreateProtoService(YAHOO_SHOW_PROFILE, &CYahooProto::OnShowProfileCommand);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x4f006492, 0x9fe5, 0x4d10, 0x88, 0xce, 0x47, 0x53, 0xba, 0x27, 0xe9, 0xc9);
 	mi.pszService = YAHOO_SHOW_PROFILE;
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
