@@ -83,6 +83,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x6787c12d, 0xdc85, 0x409d, 0xaa, 0x6c, 0x1f, 0xfe, 0x5f, 0xe8, 0xc1, 0x18);
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_HELP);
