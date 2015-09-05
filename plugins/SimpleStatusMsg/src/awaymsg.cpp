@@ -394,12 +394,14 @@ int LoadAwayMsgModule(void)
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
+	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	mi.position = -2000005000;
 	mi.name.t = LPGENT("Re&ad Away message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x311124e9, 0xb477, 0x42ef, 0x84, 0xd2, 0xc, 0x6c, 0x50, 0x3f, 0x4a, 0x84);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle(IDI_COPY);
@@ -407,6 +409,7 @@ int LoadAwayMsgModule(void)
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xe2c75070, 0x455d, 0x455f, 0xbf, 0x53, 0x86, 0x64, 0xbc, 0x14, 0xa1, 0xbe);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
 	mi.hIcolibItem = GetIconHandle(IDI_GOTOURL);
