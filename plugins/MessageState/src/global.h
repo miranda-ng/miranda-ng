@@ -22,9 +22,10 @@ enum SRMM_ICON_TYPE
 
 #define FLAG_CONTAINS(x,y)      ((x & y) == y)
 #define DBKEY_MESSAGE_READ_TIME "LastMsgReadTime"
+#define DBKEY_MESSAGE_READ_TIME_TYPE "LastMsgReadTimeType"
 
 int OnModulesLoaded(WPARAM, LPARAM);
-INT_PTR DummyService(WPARAM, LPARAM);
+INT_PTR UpdateService(WPARAM, LPARAM);
 
 
 #endif //_GLOBAL_H_

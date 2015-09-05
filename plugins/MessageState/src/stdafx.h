@@ -4,6 +4,7 @@
 #include <time.h>
 #include <locale.h>
 
+#include <m_messagestate.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protocols.h>
