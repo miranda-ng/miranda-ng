@@ -95,7 +95,7 @@ int OnProtoAck(WPARAM, LPARAM lParam)
 		if (pAck->result == ACKRESULT_SUCCESS)
 		{
 			SetSRMMIcon(pAck->hContact, ICON_UNREAD);
-			ExtraIconsApply(hContact, 0);
+			ExtraIconsApply(pAck->hContact, 0);
 		}
 		else if (pAck->result == ACKRESULT_FAILED)
 		{
