@@ -139,9 +139,12 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
 {
 	MessageReadData *mrd = (MessageReadData*)lParam;
-	db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
-	db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
-	IconsUpdate(hContact, mrd->dw_lastTime);
+	if (mrd->dw_lastTime > db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0))
+	{
+		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
+		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
+		IconsUpdate(hContact, mrd->dw_lastTime);
+	}
 	return 0; 
 }
 
