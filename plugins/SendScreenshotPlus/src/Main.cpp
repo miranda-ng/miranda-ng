@@ -288,16 +288,19 @@ DLL_EXPORT int Load(void)
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 
+	SET_UID(mi, 0xa559a22e, 0xd0f9, 0x4553, 0x8e, 0x68, 0x55, 0xb3, 0xae, 0xc4, 0x5d, 0x93);
 	mi.name.t = LPGENT("Take a screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;
 	mi.position = 1000001;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xfea0a84, 0x1767, 0x4605, 0x99, 0xf0, 0xa9, 0x48, 0x1a, 0xa6, 0x6f, 0xce);
 	mi.name.t = LPGENT("Send screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;
 	mi.position = 1000000;
 	Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0x8d5b0d9a, 0x68d4, 0x4594, 0x9f, 0x41, 0x0, 0x64, 0x20, 0xe7, 0xf8, 0x9f);
 	mi.name.t = LPGENT("Send desktop screenshot");
 	mi.pszService = MS_SENDSS_SENDDESKTOP;
 	mi.position = 1000001;
