@@ -201,6 +201,16 @@ static int lua_ReplaceVariables(lua_State *L)
 	return 1;
 }
 
+static int lua_GetFullPath(lua_State *L)
+{
+	TCHAR path[MAX_PATH];
+	GetModuleFileName(NULL, path, MAX_PATH);
+	
+	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
+
+	return 1;
+}
+
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
@@ -224,6 +234,8 @@ luaL_Reg coreApi[] =
 
 	{ "Translate", lua_Translate },
 	{ "ReplaceVariables", lua_ReplaceVariables },
+
+	{ "GetFullPath", lua_GetFullPath },
 
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },
