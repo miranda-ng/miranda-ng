@@ -109,6 +109,7 @@ int	OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if (FLAG_CONTAINS(dbei->flags, DBEF_SENT) && CheckProtoSupport(dbei->szModule) && db_get_b(hContact, "Tab_SRMsg", "no_ack", 0))
 		SetSRMMIcon(hContact, ICON_NOSENT);
+	ExtraIconsApply(hContact, 0);
 	return 0;
 }
 
