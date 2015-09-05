@@ -70,6 +70,7 @@ void InitMenuitem()
 	CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x7d9b9518, 0x85fa, 0x40f1, 0xb5, 0x3e, 0x3e, 0x3c, 0x68, 0xae, 0xda, 0x90);
 	mi.position = -0x7FFFFFFF;
 	mi.name.a = LPGEN("Last seen");
 	mi.pszService = "LastSeenUserDetails";
