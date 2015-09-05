@@ -35,12 +35,20 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
 		case ICON_READ:
 			{
 				sid.hIcon = IcoLib_GetIcon("read_icon");
-				TCHAR ttime[64];
-				_locale_t locale = _create_locale(LC_ALL, "");
-				_tcsftime_l(ttime, _countof(ttime), _T("%X %x"), localtime(&time), locale);
-				_free_locale(locale);
-				CMString tooltip(FORMAT, L"%s %s",  TranslateT("Last message read at"), ttime);
-				sid.tszTooltip = mir_tstrdup(tooltip.GetBuffer());
+				CMString tooltip;
+				if (db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME)
+				{
+					TCHAR ttime[64];
+					_locale_t locale = _create_locale(LC_ALL, "");
+					_tcsftime_l(ttime, _countof(ttime), _T("%X %x"), localtime(&time), locale);
+					_free_locale(locale);
+					tooltip.Format(L"%s %s", TranslateT("Last message read at"), ttime);
+				}
+				else
+				{
+					tooltip = TranslateT("Last message read (unknown time)");
+				}
+				sid.tszTooltip = tooltip.Detach();
 				break;
 			}
 		case ICON_UNREAD:
@@ -100,14 +108,6 @@ int OnProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
-{	
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;	
-	if (CheckProtoSupport(GetContactProto(hContact)) && cws && cws->szSetting && !mir_strcmpi(cws->szSetting, DBKEY_MESSAGE_READ_TIME))
-		IconsUpdate(hContact, cws->value.dVal);
-	return 0;
-}
-
 int	OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
@@ -127,7 +127,7 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		if (CheckProtoSupport(szProto))
 		{
 			arMonitoredWindows.insert((HANDLE)event->hContact);
-			IconsUpdate(event->hContact, db_get_dw(event->hContact, szProto, DBKEY_MESSAGE_READ_TIME, 0));
+			IconsUpdate(event->hContact, db_get_dw(event->hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0));
 		}
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSE)
@@ -136,12 +136,18 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR DummyService(WPARAM, LPARAM){ return 0; }
+INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
+{
+	MessageReadData *mrd = (MessageReadData*)lParam;
+	db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
+	db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
+	IconsUpdate(hContact, mrd->dw_lastTime);
+	return 0; 
+}
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 

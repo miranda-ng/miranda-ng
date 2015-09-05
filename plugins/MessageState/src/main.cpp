@@ -2,7 +2,7 @@
 
 int hLangpack;
 HINSTANCE g_hInst;
-HANDLE hDummyService;
+HANDLE hUpdateService;
 
 PLUGININFOEX pluginInfo = 
 {
@@ -36,15 +36,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	hDummyService = CreateServiceFunction(MODULENAME "/DummyService", DummyService);
+	hUpdateService = CreateServiceFunction(MS_MESSAGESTATE_UPDATE, UpdateService);
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (hDummyService)
-		DestroyServiceFunction(hDummyService);
+	if (hUpdateService)
+		DestroyServiceFunction(hUpdateService);
 
 	return 0;
 }
