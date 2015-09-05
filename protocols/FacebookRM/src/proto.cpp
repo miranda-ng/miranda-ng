@@ -1125,7 +1125,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 		ptrT treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		mir_sntprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
-	} else if (!ServiceExists("MessageState/DummyService")){
+	} else if (!ServiceExists(MS_MESSAGESTATE_UPDATE)){
 		mir_sntprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	}

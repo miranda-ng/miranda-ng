@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_json.h>
 #include <m_imgsrvc.h>
 #include <m_http.h>
+#include <m_messagestate.h>
 
 class FacebookProto;
 
