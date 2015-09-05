@@ -96,13 +96,12 @@ INT_PTR GetVariablesSvc(WPARAM wParam, LPARAM)
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	PYAMN_PROTOPLUGINQUEUE ActualPlugin;
 	HACCOUNT ActualAccount;
-	HANDLE ThreadRunningEV;
 	DWORD Status, tid;
 
 //	we use event to signal, that running thread has all needed stack parameters copied
-	if (NULL==(ThreadRunningEV=CreateEvent(NULL, FALSE, FALSE, NULL)))
+	HANDLE ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (ThreadRunningEV == NULL)
 		return;
 //	if we want to close miranda, we get event and do not run checking anymore
 	if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV, 0))
@@ -111,7 +110,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		Status=CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
 	EnterCriticalSection(&PluginRegCS);
-	for (ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
+	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
 	{
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read wait\n");
@@ -210,10 +209,10 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 				if (!ActualAccount->TimeLeft)
 				{
 					struct CheckParam ParamToPlugin={YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_NORMALCHECK, (void *)0, NULL};
-					HANDLE NewThread;
 
 					ActualAccount->TimeLeft=ActualAccount->Interval;
-					if (NULL==(NewThread=CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->TimeoutFcnPtr, &ParamToPlugin, 0, &tid)))
+					HANDLE NewThread = CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->TimeoutFcnPtr, &ParamToPlugin, 0, &tid);
+					if (NewThread == NULL)
 					{
 #ifdef DEBUG_SYNCHRO
 						DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read done\n");
@@ -252,24 +251,22 @@ ChangeIsCountingStatusLabel:
 	}
 	LeaveCriticalSection(&PluginRegCS);
 	CloseHandle(ThreadRunningEV);
-	return;
 }
 
 INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 {
-	PYAMN_PROTOPLUGINQUEUE ActualPlugin;
 	HACCOUNT ActualAccount;
-	HANDLE ThreadRunningEV;
 	DWORD tid;
 
 	//we use event to signal, that running thread has all needed stack parameters copied
-	if (NULL==(ThreadRunningEV=CreateEvent(NULL, FALSE, FALSE, NULL)))
+	HANDLE ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (ThreadRunningEV == NULL)
 		return 0;
 	//if we want to close miranda, we get event and do not run pop3 checking anymore
 	if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV, 0))
 		return 0;
 	EnterCriticalSection(&PluginRegCS);
-	for (ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
+	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != NULL; ActualPlugin=ActualPlugin->Next)
 	{
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read wait\n");

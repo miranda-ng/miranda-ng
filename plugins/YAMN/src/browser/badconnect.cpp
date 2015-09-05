@@ -56,7 +56,7 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			else
 				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 #endif
-			SendMessage(hWnd, UM_DESTROYPOPUP, 0, 0);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
@@ -68,7 +68,7 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		//This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
 		break;
 	case WM_CONTEXTMENU:
-		SendMessage(hWnd, UM_DESTROYPOPUP, 0, 0);
+		PUDeletePopup(hWnd);
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -216,13 +216,12 @@ void __cdecl BadConnection(void *Param)
 	MSG msg;
 	HWND hBadConnect;
 	HACCOUNT ActualAccount;
-	struct BadConnectionParam MyParam;
 	NOTIFYICONDATA nid;
 	char *NotIconText = Translate(" - connection error"), *src;
 	TCHAR *dest;
 	int i;
 
-	MyParam = *(struct BadConnectionParam *)Param;
+	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
 	ActualAccount = MyParam.account;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"BadConnect:Incrementing \"using threads\" %x (account %x)\n",ActualAccount->UsingThreads,ActualAccount);

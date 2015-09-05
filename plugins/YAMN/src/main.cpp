@@ -237,13 +237,13 @@ static void LoadPlugins()
 				continue;
 			}
 
-			if (!(*LoadFilter)(GetFcnPtrSvc)) {
+			if (!LoadFilter(GetFcnPtrSvc)) {
 				FreeLibrary(hDll);
 				hDll = NULL;
 			}
 
 			if (hDll != NULL) {
-				hDllPlugins = (HINSTANCE *)realloc((void *)hDllPlugins, (iDllPlugins+1)*sizeof(HINSTANCE));
+				hDllPlugins = (HINSTANCE *)realloc(hDllPlugins, (iDllPlugins+1)*sizeof(HINSTANCE));
 				hDllPlugins[iDllPlugins++] = hDll;
 			}
 		}
