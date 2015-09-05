@@ -94,6 +94,7 @@ void RebuildContact()
 		break;
 	case 5:
 		//cascade all
+		SET_UID(mi, 0xeb3736b6, 0x3b6, 0x40fa, 0xa7, 0xe5, 0xbb, 0x40, 0xeb, 0x55, 0xf7, 0x84);
 		mi.position = 1000050000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
@@ -103,6 +104,7 @@ void RebuildContact()
 		break;
 	case 9:
 		//cascade Ex/Import
+		SET_UID(mi, 0x100de420, 0x4835, 0x4f8d, 0xbd, 0x58, 0x4f, 0x31, 0xcc, 0xe6, 0xc1, 0xa8);
 		mi.position = 1000050100;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
@@ -182,6 +184,7 @@ void RebuildMain()
 		break;
 	case 5:
 		//cascade all
+		SET_UID(mi, 0x17d277d5, 0x2772, 0x40c6, 0xbd, 0xbb, 0x2c, 0x3a, 0xcc, 0xda, 0xc, 0x72);
 		mi.position = 500050000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
@@ -191,6 +194,7 @@ void RebuildMain()
 		break;
 	case 9:
 		//cascade Ex/Import
+		SET_UID(mi, 0x80666af7, 0x1c92, 0x4ea6, 0xa8, 0xdc, 0x25, 0x88, 0x88, 0x27, 0x92, 0x68);
 		mi.position = 500050000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
@@ -216,6 +220,7 @@ void RebuildMain()
 	mi.root = mhExIm;
 
 	// Export
+	SET_UID(mi, 0xf7e939c0, 0xecd4, 0x46d4, 0x8f, 0x77, 0x81, 0xe6, 0xa1, 0x0, 0x1f, 0xde);
 	mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 500150000;
@@ -223,6 +228,7 @@ void RebuildMain()
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// Import
+	SET_UID(mi, 0x80f7441, 0xa907, 0x48ad, 0xa3, 0xf0, 0x13, 0x1e, 0xc0, 0xef, 0xd0, 0x4d);
 	mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 500151000;
@@ -236,12 +242,15 @@ void RebuildMain()
 		db_get_b(NULL, MODNAME, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 	if (bRemindMenus) {
 		// make backup of each protocol based birthday
+		SET_UID(mi, 0x67980bea, 0x8fca, 0x4642, 0x96, 0x78, 0x6a, 0xc0, 0xe3, 0x74, 0x4c, 0x2a);
 		mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
 		mi.name.a = LPGEN("Backup birthdays");
 		mi.position = 500253000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+
 		// Check anniversaries
+		SET_UID(mi, 0xcc1c8aa1, 0x7d1, 0x4554, 0x9c, 0xfe, 0xc4, 0x1e, 0xb9, 0x5d, 0x4a, 0xf);
 		mi.pszService = MS_USERINFO_REMINDER_CHECK;
 		mi.name.a = LPGEN("Check anniversaries");
 		mi.position = 500251000;
@@ -254,6 +263,7 @@ void RebuildMain()
 	}
 
 	// Refresh Contact Details
+	SET_UID(mi, 0x8b03ac79, 0x958a, 0x4967, 0x9d, 0x89, 0xd1, 0x4d, 0xf0, 0x91, 0x1c, 0x78);
 	mi.pszService = MS_USERINFO_REFRESH;
 	mi.name.a = LPGEN("Refresh contact details");
 	mi.position = 500254000;
@@ -261,6 +271,7 @@ void RebuildMain()
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// anniversary list
+	SET_UID(mi, 0x1b5e5630, 0xdaef, 0x40e0, 0xae, 0xb1, 0x62, 0x85, 0x9, 0x8e, 0x5e, 0x45);
 	mi.pszService = MS_USERINFO_REMINDER_LIST;
 	mi.name.a = LPGEN("Anniversary list");
 	mi.position = 500252000;
@@ -311,6 +322,7 @@ void RebuildGroup()
 		break;
 	case 5:
 		//cascade all
+		SET_UID(mi, 0xfefe20db, 0x431f, 0x4fef, 0x9d, 0xa6, 0x70, 0xcd, 0x25, 0xf1, 0x2f, 0x1d);
 		mi.position = 250000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
@@ -320,6 +332,7 @@ void RebuildGroup()
 		break;
 	case 9:
 		//cascade Ex/Import
+		SET_UID(mi, 0x3ec4da1, 0x8a1a, 0x4734, 0xba, 0x99, 0x7, 0x9c, 0x2, 0x46, 0xff, 0xec);
 		mi.position = 250100;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
@@ -336,6 +349,7 @@ void RebuildGroup()
 	mi.root = mhExIm;
 
 	// Export
+	SET_UID(mi, 0x9a0d81ec, 0x6795, 0x421a, 0xb2, 0x79, 0x41, 0xbd, 0xde, 0x29, 0x3b, 0xa4);
 	mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 250200;
@@ -343,6 +357,7 @@ void RebuildGroup()
 	hMenuItem[item++] = Menu_AddGroupMenuItem(&mi);
 
 	// Import
+	SET_UID(mi, 0xd6d98c8f, 0x5cdf, 0x4138, 0x88, 0x6c, 0x31, 0x1a, 0x5a, 0x9, 0x56, 0xbb);
 	mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 250300;
@@ -399,6 +414,7 @@ void RebuildSubGroup()
 		break;
 	case 5:
 		//cascade all
+		SET_UID(mi, 0x77b46004, 0xe845, 0x41f4, 0x9a, 0x56, 0x72, 0xd9, 0xa5, 0x61, 0x4d, 0x5);
 		mi.position = 1050000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
@@ -408,6 +424,7 @@ void RebuildSubGroup()
 		break;
 	case 9:
 		//cascade Ex/Import
+		SET_UID(mi, 0xac5e810b, 0x4b41, 0x477c, 0x98, 0xfe, 0x8, 0x88, 0xec, 0x6f, 0xc3, 0xcf);
 		mi.position = 1050100;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import group");
@@ -424,6 +441,7 @@ void RebuildSubGroup()
 	mi.root = mhExIm;
 
 	// Export
+	SET_UID(mi, 0x65be2523, 0x15fd, 0x45ca, 0xae, 0xe6, 0xc2, 0x98, 0xd2, 0xa9, 0xff, 0xd5);
 	mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
@@ -433,6 +451,7 @@ void RebuildSubGroup()
 	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&mi, &gmp);
 
 	// Import
+	SET_UID(mi, 0xf6be7278, 0x4adb, 0x4e6a, 0x9f, 0x63, 0x79, 0xda, 0xbb, 0xcd, 0xbe, 0x42);
 	mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
