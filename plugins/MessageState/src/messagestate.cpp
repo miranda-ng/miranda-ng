@@ -12,11 +12,7 @@ LONGLONG GetLastSentMessageTime(MCONTACT hContact)
 	return -1;
 }
 
-__forceinline bool CheckProtoSupport(const char *szProto)
-{	return ((szProto != NULL) ? FLAG_CONTAINS(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0), PF4_READNOTIFY) : false);
-}
-
-void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
+void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 {
 	if (hContact && arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
 	{
@@ -144,6 +140,7 @@ INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
 		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
 		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
 		IconsUpdate(hContact, mrd->dw_lastTime);
+		ExtraIconsApply(hContact, 0);
 	}
 	return 0; 
 }
@@ -153,7 +150,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
-
+	
 	// IcoLib support
 	for (size_t i = 0; i < _countof(Icons); i++)
 		Icon_Register(g_hInst, MODULENAME, &Icons[i], 1);
@@ -164,5 +161,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	sid.dwId = 1;
 	Srmm_AddIcon(&sid);
 
+	InitClistExtraIcon();
+	
 	return 0;
 }

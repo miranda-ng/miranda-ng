@@ -30,6 +30,7 @@ IDI_READ              ICON                    "read.ico"
 IDI_UNREAD            ICON                    "unread.ico"
 IDI_FAIL              ICON                    "fail.ico"
 IDI_NOSENT            ICON                    "nosent.ico"
+IDI_EXTRA             ICON                    "unread_clist.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
