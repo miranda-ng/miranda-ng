@@ -87,8 +87,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 
 			if (hContact != NULL && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
 				setDword(hContact, "LastMsgReadTime", time(NULL));
-				if (ServiceExists(MS_MESSAGESTATE_UPDATE))
-				{
+				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
 					MessageReadData data(time(NULL), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}

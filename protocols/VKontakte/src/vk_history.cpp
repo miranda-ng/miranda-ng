@@ -183,6 +183,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 
 	int iLastMsgId = getDword(param->hContact, "lastmsgid", -1);
+	time_t tLastReadMessageTime = 0;
 	int count = 0;
 
 	for (auto it = jnMsgs.rbegin(); it != jnMsgs.rend(); ++it) {
@@ -231,9 +232,17 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		recv.cbCustomDataSize = (int)mir_strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
 
+		if (isRead && isOut && datetime > tLastReadMessageTime)
+			tLastReadMessageTime = datetime;
+
 		count++;
 	}
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
+
+	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+		MessageReadData data(tLastReadMessageTime, MRD_TYPE_MESSAGETIME);
+		CallService(MS_MESSAGESTATE_UPDATE, param->hContact, (LPARAM)&data);
+	}
 
 	int once = jnResponse["once"].as_int();
 	int iRCount = jnResponse["rcount"].as_int();
