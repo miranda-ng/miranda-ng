@@ -239,6 +239,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();
 
+		SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);
 		mi.pszService = MODNAME "/MenuCommand";
 		noSoundMenu = Menu_AddMainMenuItem(&mi);
 	}
