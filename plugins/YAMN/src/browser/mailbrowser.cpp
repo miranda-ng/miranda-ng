@@ -765,8 +765,8 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NoNewMailPopup.lchIcon = g_LoadIconEx(1);
 		if (nflags & YAMN_ACC_POPC) {
-			NoNewMailPopup.colorBack = ActualAccount->NewMailN.PopupB;
-			NoNewMailPopup.colorText = ActualAccount->NewMailN.PopupT;
+			NoNewMailPopup.colorBack = ActualAccount->NoNewMailN.PopupB;
+			NoNewMailPopup.colorText = ActualAccount->NoNewMailN.PopupT;
 		}
 		else {
 			NoNewMailPopup.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -872,7 +872,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		}
 		// fall through
 	case WM_CONTEXTMENU:
-		SendMessage(hWnd, UM_DESTROYPOPUP, 0, 0);
+		PUDeletePopup(hWnd);
 		break;
 	case UM_FREEPLUGINDATA:
 		{
@@ -961,12 +961,12 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			else
 				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 		#endif
-			SendMessage(hWnd, UM_DESTROYPOPUP, 0, 0);
+			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		SendMessage(hWnd, UM_DESTROYPOPUP, 0, 0);
+		PUDeletePopup(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -1299,8 +1299,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			iValueW = new WCHAR[StrLen + 1];
 			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Value"), -1, iValueW, StrLen);
 
-			LVCOLUMNW lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 130, iHeaderW, 0, 0 };
-			LVCOLUMNW lvc1 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 400, iValueW, 0, 0 };
+			LVCOLUMN lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 130, iHeaderW, 0, 0 };
+			LVCOLUMN lvc1 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 400, iValueW, 0, 0 };
 			SendMessage(hListView, LVM_INSERTCOLUMN, 0, (LPARAM)&lvc0);
 			SendMessage(hListView, LVM_INSERTCOLUMN, 1, (LPARAM)&lvc1);
 			if (NULL != iHeaderW)
@@ -1439,8 +1439,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			else {
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags &= ~YAMN_MSG_UNSEEN; //mark the message as seen
-					HWND hMailBrowser;
-					if (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)MailParam->account)) {
+					HWND hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)MailParam->account);
+					if (hMailBrowser) {
 						struct CChangeContent Params = { MailParam->account->NewMailN.Flags | YAMN_ACC_MSGP, MailParam->account->NoNewMailN.Flags | YAMN_ACC_MSGP };
 						SendMessage(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)MailParam->account, (LPARAM)&Params);
 					}
@@ -1684,10 +1684,10 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			SetDlgItemText(hDlg, IDC_BTNCHECKALL, TranslateT("Select All"));
 			SetDlgItemText(hDlg, IDC_BTNOK, TranslateT("OK"));
 
-			LVCOLUMNW lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, FromWidth, TranslateT("From"), 0, 0 };
-			LVCOLUMNW lvc1 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SubjectWidth, TranslateT("Subject"), 0, 0 };
-			LVCOLUMNW lvc2 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeWidth, TranslateT("Size"), 0, 0 };
-			LVCOLUMNW lvc3 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeDate, TranslateT("Date"), 0, 0 };
+			LVCOLUMN lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, FromWidth, TranslateT("From"), 0, 0 };
+			LVCOLUMN lvc1 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SubjectWidth, TranslateT("Subject"), 0, 0 };
+			LVCOLUMN lvc2 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeWidth, TranslateT("Size"), 0, 0 };
+			LVCOLUMN lvc3 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeDate, TranslateT("Date"), 0, 0 };
 			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, 0, (LPARAM)&lvc0);
 			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, 1, (LPARAM)&lvc1);
 			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, (WPARAM)2, (LPARAM)&lvc2);
@@ -1720,7 +1720,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_DESTROY:
 		{
 			RECT coord;
-			LVCOLUMNW ColInfo;
+			LVCOLUMN ColInfo;
 			HYAMNMAIL Parser;
 
 			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
@@ -2292,8 +2292,8 @@ LRESULT CALLBACK ListViewSubclassProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_GETDLGCODE:
 		{
-			LPMSG lpmsg;
-			if ((lpmsg = (LPMSG)lParam) != NULL) {
+			LPMSG lpmsg = (LPMSG)lParam;
+			if (lpmsg != NULL) {
 				if (lpmsg->message == WM_KEYDOWN
 					&& lpmsg->wParam == VK_RETURN)
 					return DLGC_WANTALLKEYS;
@@ -2331,11 +2331,9 @@ void __cdecl MailBrowser(void *Param)
 
 	HWND hMailBrowser;
 	BOOL WndFound = FALSE;
-	HACCOUNT ActualAccount;
-	struct MailBrowserWinParam MyParam;
 
-	MyParam = *(struct MailBrowserWinParam *)Param;
-	ActualAccount = MyParam.account;
+	struct MailBrowserWinParam MyParam = *(struct MailBrowserWinParam *)Param;
+	HACCOUNT ActualAccount = MyParam.account;
 	SCIncFcn(ActualAccount->UsingThreads);
 
 	//	we will not use params in stack anymore
@@ -2391,18 +2389,17 @@ void __cdecl MailBrowser(void *Param)
 
 INT_PTR RunMailBrowserSvc(WPARAM wParam, LPARAM lParam)
 {
-	//an event for successfull copy parameters to which point a pointer in stack for new thread
-	HANDLE ThreadRunningEV;
 	PYAMN_MAILBROWSERPARAM Param = (PYAMN_MAILBROWSERPARAM)wParam;
 
 	if ((DWORD)lParam != YAMN_MAILBROWSERVERSION)
 		return 0;
 
-	if (NULL != (ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL))) {
-		HANDLE NewThread;
-
+	//an event for successfull copy parameters to which point a pointer in stack for new thread
+	HANDLE ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (ThreadRunningEV != NULL) {
 		Param->ThreadRunningEV = ThreadRunningEV;
-		if (NULL != (NewThread = mir_forkthread(MailBrowser, (void*)Param))) {
+		HANDLE NewThread = mir_forkthread(MailBrowser, Param);
+		if (NewThread != NULL) {
 			WaitForSingleObject(ThreadRunningEV, INFINITE);
 			CloseHandle(NewThread);
 		}
