@@ -269,6 +269,7 @@ void AddMenuItems(void)
 	CMenuItem mi;
 
 	// contact menu
+	SET_UID(mi, 0x266ef52b, 0x869a, 0x4cac, 0xa9, 0xf8, 0xea, 0x5b, 0xb8, 0xab, 0xe0, 0x24);
 	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
 	mi.position = -0x7FFFFFFA;
 	mi.hIcolibItem = GetIconHandle("update");
@@ -276,6 +277,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_UPDATE;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0x45361b4, 0x8de, 0x44b4, 0x8f, 0x11, 0x9b, 0xe9, 0x6e, 0xa8, 0x83, 0x54);
 	CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
 	mi.position = -0x7FFFFFF9;
 	mi.hIcolibItem = GetIconHandle("update2");
@@ -283,6 +285,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_REFRESH;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0x4232975e, 0xb181, 0x46a5, 0xb7, 0x6e, 0xd2, 0x5f, 0xef, 0xb8, 0xc4, 0x4d);
 	CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
 	mi.position = -0x7FFFFFF8;
 	mi.hIcolibItem = GetIconHandle("brief");
@@ -290,6 +293,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_BRIEF;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0x3d6ed729, 0xd49a, 0x4ae9, 0x8e, 0x2, 0x9f, 0xe0, 0xf0, 0x2c, 0xcc, 0xb1);
 	CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
 	mi.position = -0x7FFFFFF7;
 	mi.hIcolibItem = GetIconHandle("read");
@@ -297,6 +301,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_COMPLETE;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0xc4b6c5e0, 0x13c3, 0x4e02, 0x8a, 0xeb, 0xeb, 0x8a, 0xe2, 0x66, 0x40, 0xd4);
 	CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
 	mi.position = -0x7FFFFFF6;
 	mi.hIcolibItem = GetIconHandle("map");
@@ -304,6 +309,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_MAP;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0xee3ad7f4, 0x3377, 0x4e4c, 0x8f, 0x3c, 0x3b, 0xf5, 0xd4, 0x86, 0x28, 0x25);
 	CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
 	mi.position = -0x7FFFFFF5;
 	mi.hIcolibItem = GetIconHandle("log");
@@ -311,6 +317,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_LOG;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
+	SET_UID(mi, 0x1b01cd6a, 0xe5ee, 0x42b4, 0xa1, 0x6d, 0x43, 0xb9, 0x4, 0x58, 0x43, 0x2e);
 	CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
 	mi.position = -0x7FFFFFF4;
 	mi.hIcolibItem = GetIconHandle("edit");
@@ -321,6 +328,7 @@ void AddMenuItems(void)
 	// adding main menu items
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
 
+	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.name.a = LPGEN("Enable/Disable Weather Update");
 	mi.hIcolibItem = GetIconHandle("main");
@@ -329,6 +337,7 @@ void AddMenuItems(void)
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	UpdateMenu(opt.AutoUpdate);
 
+	SET_UID(mi, 0x2b1c2054, 0x2991, 0x4025, 0x87, 0x73, 0xb6, 0xf7, 0x85, 0xac, 0xc7, 0x37);
 	CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
 	mi.position = 20100001;
 	mi.hIcolibItem = GetIconHandle("update");
@@ -336,6 +345,7 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_UPDATEALL;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x8234c00e, 0x788e, 0x424f, 0xbc, 0xc4, 0x2, 0xfd, 0x67, 0x58, 0x2d, 0x19);
 	CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
 	mi.position = 20100002;
 	mi.hIcolibItem = GetIconHandle("update2");
@@ -345,6 +355,7 @@ void AddMenuItems(void)
 
 	// only run if popup service exists
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
 		CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.name.a = LPGEN("Weather Notification");
 		mi.hIcolibItem = GetIconHandle("popup");
@@ -356,6 +367,7 @@ void AddMenuItems(void)
 	}
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		SET_UID(mi, 0xe193fe9b, 0xf6ad, 0x41ac, 0x95, 0x29, 0x45, 0x4, 0x44, 0xb1, 0xeb, 0x5d);
 		mi.pszService = "Weather/mwin_menu";
 		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
