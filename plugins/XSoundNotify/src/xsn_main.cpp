@@ -178,6 +178,7 @@ static int OnLoadInit(WPARAM, LPARAM)
 	mir_getCI(NULL);
 
 	CMenuItem mi;
+	SET_UID(mi, 0x5d72ca1f, 0xc52, 0x436d, 0x81, 0x47, 0x29, 0xf6, 0xc3, 0x28, 0xb5, 0xd1);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
