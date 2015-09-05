@@ -461,11 +461,13 @@ int Create_TopToolbarShowList(WPARAM, LPARAM)
 int Create_MenuitemShowList(void)
 {
 	CMenuItem mi;
+	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
 	mi.position = 0xFFFFF;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Toggle Ignore");
