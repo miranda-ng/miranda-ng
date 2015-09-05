@@ -877,19 +877,19 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	std::map<std::string, std::string> thread_ids;
 	for (auto it = threads.begin(); it != threads.end(); ++it) {
 		const JSONNode &is_canonical_user = (*it)["is_canonical_user"];
-		const JSONNode &thread_fbid = (*it)["thread_fbid"]; // alternatively there is "other_user_fbid" too
+		const JSONNode &other_user_fbid = (*it)["other_user_fbid"]; // other_user_fbid is better than thread_fbid, because even multi chat has thread_fbid, but they have other_user_fbid=null
 		const JSONNode &thread_id = (*it)["thread_id"];
 		const JSONNode &name = (*it)["name"];
 		//const JSONNode &message_count = (*it)["message_count");
 		//const JSONNode &unread_count = (*it)["unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		const JSONNode &folder = (*it)["folder"];
 
-		if (!thread_fbid || !thread_id) {
-			proto->debugLogA("!!! Missing thread_fbid/thread_id");
+		if (!other_user_fbid || !thread_id) {
+			proto->debugLogA("!!! Missing other_user_fbid/thread_id");
 			continue;
 		}
 
-		std::string id = thread_fbid.as_string();
+		std::string id = other_user_fbid.as_string();
 		std::string tid = thread_id.as_string();
 
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
