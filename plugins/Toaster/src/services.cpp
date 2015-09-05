@@ -167,6 +167,7 @@ static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
 		{
 			delete it->second;
 			mp_Classes.erase(it);
+			break;
 		}
 	}
 	return 0;
@@ -174,11 +175,11 @@ static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
 
 void CleanupClasses()
 {
-	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
+	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); ++it)
 	{
 		delete it->second;
-		mp_Classes.erase(it);
 	}
+	mp_Classes.clear();
 }
 
 static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
