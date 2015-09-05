@@ -76,33 +76,39 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.position = 10000000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Birthdays (When Was It)"), mi.position);
 
+	SET_UID(mi, 0x4efbd640, 0xabbd, 0x470e, 0x9a, 0xa, 0x64, 0x76, 0x1a, 0x74, 0xf3, 0x24);
 	mi.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	mi.hIcolibItem = hCheckMenu;
 	mi.name.a = LPGEN("Check for birthdays");
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x3379c184, 0x5bfa, 0x456d, 0x80, 0xf7, 0xb3, 0x73, 0xd8, 0xe4, 0x4a, 0x33);
 	mi.pszService = MS_WWI_LIST_SHOW;
 	mi.name.a = LPGEN("Birthday list");
 	mi.hIcolibItem = hListMenu;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x57c88bdd, 0x389f, 0x40b2, 0xbb, 0xc5, 0x24, 0xcd, 0xef, 0xeb, 0xc8, 0x4);
 	mi.pszService = MS_WWI_REFRESH_USERDETAILS;
 	mi.position = 10100000;
 	mi.name.a = LPGEN("Refresh user details");
 	mi.hIcolibItem = hRefreshUserDetails;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x402c5566, 0x6272, 0x4ef8, 0x89, 0x7d, 0x2e, 0x23, 0x8b, 0xbd, 0xf1, 0x2d);
 	mi.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	mi.position = 10200000;
 	mi.name.a = LPGEN("Import birthdays");
 	mi.hIcolibItem = hImportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0xa1a1fd44, 0xc43a, 0x4615, 0xab, 0x5f, 0x4f, 0xd7, 0x57, 0x69, 0x19, 0xf6);
 	mi.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	mi.name.a = LPGEN("Export birthdays");
 	mi.hIcolibItem = hExportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
+	SET_UID(mi, 0x6f844569, 0xad06, 0x4b27, 0x8f, 0xd8, 0x1, 0x24, 0xe7, 0x1e, 0xcc, 0x43);
 	mi.root = 0;
 	mi.pszService = MS_WWI_ADD_BIRTHDAY;
 	mi.position = 10000000;
