@@ -214,7 +214,7 @@ static int lua_GetRegValue(lua_State *L)
 	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
 
 	HKEY hKey = 0;
-	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_WRITE, &hKey);
+	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_READ, &hKey);
 	if (res != ERROR_SUCCESS)
 	{
 		lua_pushvalue(L, 4);
@@ -248,7 +248,10 @@ static int lua_GetRegValue(lua_State *L)
 		case REG_SZ:
 		case REG_LINK:
 		case REG_EXPAND_SZ:
-			lua_pushlstring(L, ptrA(Utf8EncodeT((TCHAR*)value)), length);
+		{
+			ptrA str(Utf8EncodeT((TCHAR*)value));
+			lua_pushlstring(L, str, mir_strlen(str));
+		}
 			break;
 
 		default:
@@ -302,7 +305,7 @@ static int lua_SetRegValue(lua_State *L)
 
 	case LUA_TSTRING:
 		type = REG_SZ;
-		length = mir_strlen(lua_tostring(L, 4));
+		length = mir_strlen(lua_tostring(L, 4)) * sizeof(TCHAR);
 		value = (BYTE*)mir_utf8decodeT(lua_tostring(L, 4));
 		break;
 
