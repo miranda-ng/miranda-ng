@@ -184,19 +184,19 @@ IPv6 адрес (необязательно)
 [Query]
 Запрос
 [One of the arguments is not valid or ]
-Однин из аргументов является недопустимым или 
+Один из аргументов является недопустимым или\s
 [Unable to allocate enough memory]
 Невозможно выделить достаточно памяти
 [Unable to bind to a port]
 Невозможно выполнить привязку к порту
 [The proxy type is not valid]
-Этот тип прокси недоступен
+Некорректный тип прокси
 [The proxy host is not valid]
-Этот прокси хост недоступен
+Некорректный адрес прокси
 [The proxy port is not valid]
-Этот прокси порт недоступен
+Некорректный порт прокси
 [The proxy address could not be resolved]
-Адрес прокси не доступен
+Невозможно определить адрес прокси
 [The profile is encrypted]
 Профиль зашифрован
 [The data format is not valid]
