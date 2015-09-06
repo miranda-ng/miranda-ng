@@ -32,7 +32,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	FILE *profile = _tfopen(profilePath.c_str(), _T("rb"));
 	if (profile == NULL)
 	{
-		ShowNotification(TranslateT("Unable to open tox profile"), MB_ICONERROR);
+		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
 		debugLogA(__FUNCTION__": failed to open tox profile");
 		return false;
 	}
@@ -50,7 +50,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	if (fread((char*)data, sizeof(char), size, profile) != size)
 	{
 		fclose(profile);
-		ShowNotification(TranslateT("Unable to read tox profile"), MB_ICONERROR);
+		ShowNotification(TranslateT("Unable to read Tox profile"), MB_ICONERROR);
 		debugLogA(__FUNCTION__": failed to read tox profile");
 		mir_free(data);
 		return false;
@@ -73,7 +73,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		TOX_ERR_DECRYPTION coreDecryptError;
 		if (!tox_pass_decrypt(data, size, (uint8_t*)password, mir_strlen(password), encryptedData, &coreDecryptError))
 		{
-			ShowNotification(TranslateT("Unable to decrypt tox profile"), MB_ICONERROR);
+			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
 			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
 			mir_free(data);
 			return false;
@@ -95,7 +95,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	if (initError != TOX_ERR_NEW_OK)
 	{
 		debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
-		ShowNotification(ToxErrorToString(initError), TranslateT("Unable to load tox profile"), MB_ICONERROR);
+		ShowNotification(ToxErrorToString(initError), TranslateT("Unable to load Tox profile"), MB_ICONERROR);
 		mir_free(data);
 		return false;
 	}
