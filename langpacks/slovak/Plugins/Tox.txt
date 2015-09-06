@@ -25,3 +25,5 @@ Všetky súbory
 Chyba
 [Network]
 Sieť
+[Unknown error]
+Neznáma chyba

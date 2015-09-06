@@ -5,6 +5,7 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
+;file \plugins\MessageState\src\clist_extra.cpp
 ;file \plugins\MessageState\src\global.h
 ;file \plugins\MessageState\src\messagestate.cpp
 [Sending...]

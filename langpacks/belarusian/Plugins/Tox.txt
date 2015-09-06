@@ -79,9 +79,11 @@
 Сеціва
 [Account]
 Конт
+;file \protocols\Tox\src\tox_profile.cpp
 ;file \protocols\Tox\src\tox_proto.cpp
 [Contact already in your contact list]
 Кантакт ужо ў вашым спісе
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запыт
+;file \protocols\Tox\src\tox_utils.cpp
