@@ -119,7 +119,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = profilePath;
-	ofn.lpstrTitle = TranslateT("Select tox profile");
+	ofn.lpstrTitle = TranslateT("Select Tox profile");
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
 	ofn.lpstrInitialDir = _T("%APPDATA%\\Tox");
@@ -152,7 +152,7 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFile = profilePath;
-	ofn.lpstrTitle = TranslateT("Save tox profile");\
+	ofn.lpstrTitle = TranslateT("Save Tox profile");\
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
 	ofn.lpstrInitialDir = _T("%HOMEPATH%");
