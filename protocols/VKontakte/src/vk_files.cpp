@@ -82,8 +82,8 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 {
 	debugLog(_T("CVkProto::SendFileFiled <%s> Error code <%d>"), reason, fup->iErrorCode);
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup);
 	CMString tszError;
+	int iResult = ACKRESULT_FAILED;
 	switch (fup->iErrorCode) {
 	case VKERR_COULD_NOT_SAVE_FILE:
 		tszError = TranslateT("Couldn't save file");
@@ -102,6 +102,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 		break;
 	case VKERR_AUDIO_DEL_COPYRIGHT:
 		tszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");
+		iResult = ACKRESULT_DENIED;
 		break;
 	case VKERR_INVALID_FILENAME:
 		tszError = TranslateT("Invalid filename");
@@ -112,6 +113,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 	default:
 		tszError = TranslateT("Unknown error occurred");
 	}
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup);
 	MsgPopup(NULL, tszError, TranslateT("File upload error"), true);
 	delete fup;
 }
