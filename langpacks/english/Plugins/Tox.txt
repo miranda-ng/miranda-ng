@@ -97,8 +97,24 @@
 [Network]
 [Account]
 [Nodes]
+;file \protocols\Tox\src\tox_profile.cpp
+[Unable to open tox profile]
+[Unable to read tox profile]
+[Unable to decrypt tox profile]
+[Unable to load tox profile]
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 [Contact already in your contact list]
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
+;file \protocols\Tox\src\tox_utils.cpp
+[One of the arguments is not valid or ]
+[Unable to allocate enough memory]
+[Unable to bind to a port]
+[The proxy type is not valid]
+[The proxy host is not valid]
+[The proxy port is not valid]
+[The proxy address could not be resolved]
+[The profile is encrypted]
+[The data format is not valid]
+[Unknown error]

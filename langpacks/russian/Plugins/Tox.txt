@@ -169,9 +169,37 @@ IPv6 адрес (необязательно)
 Учётная запись
 [Nodes]
 Ноды
+[Unable to open tox profile]
+Невозможно открыть профиль
+[Unable to read tox profile]
+Невозможно прочесть профиль
+[Unable to decrypt tox profile]
+Невозможно расшифровать профиль
+[Unable to load tox profile]
+Невозможно загрузить профиль
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
 [Query]
 Запрос
+[One of the arguments is not valid or ]
+Однин из аргументов является недопустимым или 
+[Unable to allocate enough memory]
+Невозможно выделить достаточно памяти
+[Unable to bind to a port]
+Невозможно выполнить привязку к порту
+[The proxy type is not valid]
+Этот тип прокси недоступен
+[The proxy host is not valid]
+Этот прокси хост недоступен
+[The proxy port is not valid]
+Этот прокси порт недоступен
+[The proxy address could not be resolved]
+Адрес прокси не доступен
+[The profile is encrypted]
+Профиль зашифрован
+[The data format is not valid]
+Некорректный формат данных
+[Unknown error]
+Неизвестная ошибка
