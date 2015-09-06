@@ -129,6 +129,8 @@ void CVkProto::SendFileThread(void *p)
 		return;
 	}
 
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
+
 	AsyncHttpRequest *pReq;
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
@@ -192,6 +194,8 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 	fseek(pFile, 0, SEEK_SET);
+
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
 
 	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_POST, uri, false, &CVkProto::OnReciveUpload);
 	pUploadReq->m_bApiReq = false;
@@ -269,6 +273,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	CMString upload;
 
 	AsyncHttpRequest *pUploadReq;
+
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)fup);
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
