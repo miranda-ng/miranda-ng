@@ -21,13 +21,13 @@
 Пароль:
 [Default group:]
 Группа:
-[Create tox profile]
+[Create Tox profile]
 Создать профиль Tox
-[Import tox profile]
+[Import Tox profile]
 Импорт профиля Tox
 [Copy Tox ID]
 Копировать Tox ID
-[Export tox profile]
+[Export Tox profile]
 Экспорт профиля Tox
 [Connection settings]
 Настройки подключения
@@ -35,9 +35,9 @@
 Включить UDP (иначе принудительно использовать TCP)
 [Enable IPv6]
 Включить IPv6
-[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
-При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
-[Dns name:]
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+При введении в поле поиска адреса Tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи DNS сервиса обнаружения Tox.
+[DNS name:]
 DNS имя:
 [Enter password]
 Введите пароль
@@ -95,7 +95,7 @@ IPv6 адрес (необязательно)
 Исходящий звонок
 [To:]
 Для:
-[Groupchat]
+[Group chat]
 Чат
 [Profiles folder]
 Папка профилей
@@ -141,9 +141,9 @@ IPv6 адрес (необязательно)
 Профиль Tox
 [All files]
 Все файлы
-[Select tox profile]
+[Select Tox profile]
 Выберите профиль Tox
-[Save tox profile]
+[Save Tox profile]
 Сохранить профиль Tox
 [Add node]
 Добавление ноды
@@ -169,13 +169,13 @@ IPv6 адрес (необязательно)
 Учётная запись
 [Nodes]
 Ноды
-[Unable to open tox profile]
+[Unable to open Tox profile]
 Невозможно открыть профиль
-[Unable to read tox profile]
+[Unable to read Tox profile]
 Невозможно прочесть профиль
-[Unable to decrypt tox profile]
+[Unable to decrypt Tox profile]
 Невозможно расшифровать профиль
-[Unable to load tox profile]
+[Unable to load Tox profile]
 Невозможно загрузить профиль
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
