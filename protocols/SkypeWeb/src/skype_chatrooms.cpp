@@ -396,12 +396,30 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 }
 
+TCHAR* UnEscapeChatTags(TCHAR* str_in)
+{
+	TCHAR *s = str_in, *d = str_in;
+	while (*s) {
+		if (*s == '%' && s[1] == '%')
+			s++;
+		*d++ = *s++;
+	}
+	*d = 0;
+	return str_in;
+}
+
 void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage)
 {
 	if (!IsOnline())
 		return;
+
+	TCHAR *buf = NEWTSTR_ALLOCA(tszMessage);
+	rtrimt(buf);
+	UnEscapeChatTags(buf);
+
 	ptrA szChatId(mir_t2a(chat_id));
-	ptrA szMessage(mir_utf8encodeT(tszMessage));
+	ptrA szMessage(mir_utf8encodeT(buf));
+
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		SendRequest(new SendChatActionRequest(szChatId, time(NULL), szMessage, li));
 	else
@@ -418,7 +436,8 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	gce.time = timestamp;
 	gce.ptszUID = from;
 	ptrA szHtml(RemoveHtml(content));
-	ptrT tszHtml(mir_utf8decodeT(szHtml));
+	CMString tszHtml(mir_utf8decodeT(szHtml));
+	tszHtml.Replace(L"%", L"%%");
 	if (!isAction)
 	{
 		gce.ptszText = tszHtml;
@@ -426,7 +445,7 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	}
 	else
 	{
-		gce.ptszText = &tszHtml[emoteOffset];
+		gce.ptszText = &tszHtml.GetBuffer()[emoteOffset];
 	}
 
 	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
