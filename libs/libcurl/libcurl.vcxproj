@@ -29,6 +29,7 @@
     <ClCompile>
       <PreprocessorDefinitions>BUILDING_LIBCURL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4005;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
