@@ -7,6 +7,8 @@
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 Показує за допомогою значка у вікні повідомлень, прочитане ваше останнє надіслане повідомлення чи ще ні.
+[MessageState unread extra icon]
+Непрочитане повідомлення
 [Unread message icon]
 Непрочитане повідомлення
 [Read message icon]
@@ -15,8 +17,12 @@
 Помилка надсилання
 [Sending message icon]
 Надсилання
+[Unread clist extra icon]
+Непрочитане повідомлення в списку контактів
 [Last message read at]
 Останнє повідомлення прочитане о
+[Last message read (unknown time)]
+Останнє повідомлення прочитане (невідомо)
 [Last message is not read]
 Останнє повідомлення не прочитане
 [Last message was not sent.]

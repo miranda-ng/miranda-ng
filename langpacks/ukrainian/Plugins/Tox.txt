@@ -21,13 +21,13 @@
 Пароль:
 [Default group:]
 Група:
-[Create tox profile]
+[Create Tox profile]
 Створити профіль Tox
-[Import tox profile]
+[Import Tox profile]
 Імпортувати профіль Tox
 [Copy Tox ID]
 Копіювати Tox ID
-[Export tox profile]
+[Export Tox profile]
 Експорт профілю Tox
 [Connection settings]
 Налаштування підключення
@@ -35,9 +35,9 @@
 Увімкнути UDP (інакше примусово використовувати TCP)
 [Enable IPv6]
 Увімкнути IPv6
-[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
-[Dns name:]
+[DNS name:]
 Ім'я DNS:
 [Enter password]
 Введіть пароль
@@ -95,7 +95,7 @@ IPv6 адреса (необов'язково)
 Вихідний дзвінок
 [To:]
 Для:
-[Groupchat]
+[Group chat]
 Чат
 [Profiles folder]
 Папка профілів
@@ -141,9 +141,9 @@ IPv6 адреса (необов'язково)
 Профіль Tox
 [All files]
 Усі файли
-[Select tox profile]
+[Select Tox profile]
 Виберіть профіль Tox
-[Save tox profile]
+[Save Tox profile]
 Зберегти профіль Tox
 [Add node]
 Додати нод
@@ -169,9 +169,35 @@ IPv6 адреса (необов'язково)
 Обліковий запис
 [Nodes]
 Ноди
+[Unable to open Tox profile]
+Неможливо відкрити профіль
+[Unable to read Tox profile]
+Неможливо прочитати профіль
+[Unable to decrypt Tox profile]
+Неможливо розшифрувати профіль
 [You cannot add yourself to your contact list]
 Ви не можете додати себе до списку контактів
 [Contact already in your contact list]
 Контакт уже в списку
 [Query]
 Запит
+[One of the arguments is missing]
+Відсутній один з аргументів
+[Unable to allocate enough memory]
+Неможливо виділити достатньо пам'яті
+[Unable to bind to a port]
+Неможливо виконати прив'язку до порту
+[The proxy type is not valid]
+Неправильний тип проксі
+[The proxy host is not valid]
+Неправильна адреса проксі
+[The proxy port is not valid]
+Неправильний порт проксі
+[The proxy address could not be resolved]
+Неможливо визначити адресу проксі
+[The profile is encrypted]
+Профіль зашифровано
+[The data format is not valid]
+Неправильний формат даних
+[Unknown error]
+Невідома помилка
