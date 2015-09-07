@@ -57,14 +57,12 @@ extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
 
-	CLISTMENUITEM mi = {0};
-
+	CMenuItem mi;
 	CreateServiceFunction("TestPlug/MenuCommand", PluginMenuCommand);
-	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.ptszName = LPGENT("&Test Plugin...");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("&Test Plugin...");
 	mi.pszService = "TestPlug/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 	return 0;
