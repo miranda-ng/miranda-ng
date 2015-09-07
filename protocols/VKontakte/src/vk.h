@@ -76,8 +76,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_ERR_OPEN_FILE			10103	// Error open file
 #define VKERR_ERR_READ_FILE			10104	// Error read file
 #define VKERR_FILE_NOT_UPLOADED		10105	// Error upload file
-#define VKERR_INVALID_URL			10106	// Upload server return empty url
-#define VKERR_INVALID_USER			10107	// Invalid or unknow recepient user ID
+#define VKERR_INVALID_URL			10106	// Upload server returned empty URL
+#define VKERR_INVALID_USER			10107	// Invalid or unknown recipient user ID
 
 #define VK_API_VER "5.37"
 #define VER_API CHAR_PARAM("v", VK_API_VER)

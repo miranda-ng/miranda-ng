@@ -52,10 +52,10 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		tszError = TranslateT("Error upload file");
 		break;
 	case VKERR_INVALID_URL:
-		tszError = TranslateT("Upload server return empty url");
+		tszError = TranslateT("Upload server returned empty URL");
 		break;
 	case VKERR_INVALID_USER:
-		tszError = TranslateT("Invalid or unknow recepient user ID");
+		tszError = TranslateT("Invalid or unknown recipient user ID");
 		break;
 	case VKERR_INVALID_PARAMETERS:
 		tszError = TranslateT("One of the parameters specified was missing or invalid");
