@@ -272,10 +272,10 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 		HDC hDC = canvas.beginDraw();
 
 		SetBkColor(hDC, con::ColorOut);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(0, 0, outW, 15), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, outW, 15), NULL, 0, NULL);
 
 		SetBkColor(hDC, con::ColorIn);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(100 - inW, 0, 100, 15), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(100 - inW, 0, 100, 15), NULL, 0, NULL);
 
 		if (m_bGraphPercent)
 		{

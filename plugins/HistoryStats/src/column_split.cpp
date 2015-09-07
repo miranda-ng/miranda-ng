@@ -389,7 +389,7 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			{
 				int bar_len = (50 * part_top + top - 1) / top;
 
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(j * 5, 50 - bar_len, j * 5 + 4, 50), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(j * 5, 50 - bar_len, j * 5 + 4, 50), NULL, 0, NULL);
 			}			
 		}
 

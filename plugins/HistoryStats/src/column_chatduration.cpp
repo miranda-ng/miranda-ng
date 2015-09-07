@@ -219,7 +219,7 @@ void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& con
 				HDC hDC = canvas.beginDraw();
 
 				SetBkColor(hDC, con::ColorBar);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(0, 0, barW, 15), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, barW, 15), NULL, 0, NULL);
 
 				canvas.endDraw();
 
