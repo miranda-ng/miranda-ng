@@ -435,9 +435,12 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	gce.ptszNick = from;
 	gce.time = timestamp;
 	gce.ptszUID = from;
+
 	ptrA szHtml(RemoveHtml(content));
-	CMString tszHtml(mir_utf8decodeT(szHtml));
+
+	CMString tszHtml(ptrT(mir_utf8decodeT(szHtml)));
 	tszHtml.Replace(L"%", L"%%");
+
 	if (!isAction)
 	{
 		gce.ptszText = tszHtml;
@@ -445,7 +448,7 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	}
 	else
 	{
-		gce.ptszText = &tszHtml.GetBuffer()[emoteOffset];
+		gce.ptszText = &(tszHtml.GetBuffer())[emoteOffset];
 	}
 
 	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
