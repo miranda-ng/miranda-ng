@@ -175,16 +175,12 @@ IPv6 адрес (необязательно)
 Невозможно прочесть профиль
 [Unable to decrypt Tox profile]
 Невозможно расшифровать профиль
-[Unable to load Tox profile]
-Невозможно загрузить профиль
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
 [Query]
 Запрос
-[One of the arguments is not valid or ]
-Один из аргументов является недопустимым или\s
 [Unable to allocate enough memory]
 Невозможно выделить достаточно памяти
 [Unable to bind to a port]
