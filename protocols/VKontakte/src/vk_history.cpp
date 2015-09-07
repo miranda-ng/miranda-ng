@@ -169,15 +169,20 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveHistoryMessages %d", reply->resultCode);
-	if (reply->resultCode != 200)
+	if (reply->resultCode != 200 || !pReq->pUserInfo)
 		return;
 
 	JSONNode jnRoot;
-	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-	if (!jnResponse)
-		return;
-
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse) {
+		if (!pReq->bNeedsRestart || m_bTerminated) {
+			delete param;
+			pReq->pUserInfo = NULL;
+		}
+		return;
+	}
+	
 	int iTime = jnResponse["datetime"].as_int(); 
 	const JSONNode &jnMsgs = jnResponse["items"];
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
@@ -249,5 +254,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	if (count == iRCount && once == 0)
 		GetServerHistory(param->hContact, param->iCount + count, iRCount, iTime, param->iMsgID);
 
-	delete param;
+	if (!pReq->bNeedsRestart || m_bTerminated) {
+		delete param;
+		pReq->pUserInfo = NULL;
+	}
 }

@@ -131,84 +131,6 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 	return szOutput;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-ULONG AsyncHttpRequest::m_reqCount = 0;
-
-AsyncHttpRequest::AsyncHttpRequest()
-{
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	m_bApiReq = true;
-	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
-	pUserInfo = NULL;
-	m_iRetry = MAX_RETRIES;
-	bNeedsRestart = false;
-	bIsMainConn = false;
-	m_pFunc = NULL;
-	bExpUrlEncode = false;
-	m_reqNum = ::InterlockedIncrement(&m_reqCount);
-	m_priority = rpLow;
-}
-
-AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc, RequestPriority rpPriority)
-{
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	m_bApiReq = true;
-	bIsMainConn = false;
-	bExpUrlEncode = ppro->m_bUseNonStandardUrlEncode;
-	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
-
-	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (bSecure)
-		flags |= NLHRF_SSL;
-
-	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
-		m_szUrl += _url;
-		bIsMainConn = true;
-	}
-	else m_szUrl = _url;
-
-	if (bSecure)
-		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
-
-	requestType = iRequestType;
-	m_pFunc = pFunc;
-	pUserInfo = NULL;
-	m_iRetry = MAX_RETRIES;
-	bNeedsRestart = false;
-	m_reqNum = ::InterlockedIncrement(&m_reqCount);
-	m_priority = rpPriority;
-}
-
-AsyncHttpRequest::~AsyncHttpRequest()
-{
-	for (int i = 0; i < headersCount; i++) {
-		mir_free(headers[i].szName);
-		mir_free(headers[i].szValue);
-	}
-	mir_free(headers);
-	mir_free(pData);
-}
-
-void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
-{
-	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-	headers[headersCount].szName = mir_strdup(szName);
-	headers[headersCount].szValue = mir_strdup(szValue);
-	headersCount++;
-}
-
-void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
-{
-	for (int i = 0; i < nhr->headersCount; i++) {
-		LPCSTR szValue = nhr->headers[i].szValue;
-		if (!_stricmp(nhr->headers[i].szName, "Location"))
-			m_szUrl = szValue;
-	}
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -307,8 +229,10 @@ JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 {
 	debugLogA("CVkProto::CheckJsonResult");
-	if (!jnNode)
+	if (!jnNode) {
+		pReq->m_iErrorCode = VKERR_NO_JSONNODE;
 		return false;
+	}
 
 	const JSONNode &jnError = jnNode["error"];
 	const JSONNode &jnErrorCode = jnError["error_code"];
@@ -316,11 +240,9 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	if (!jnError || !jnErrorCode)
 		return true;
 
-	int iErrorCode = jnErrorCode.as_int();
-	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
-	CVkFileUploadParam * fup = (CVkFileUploadParam *)pReq->pUserInfo;
-	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	switch (iErrorCode) {
+	pReq->m_iErrorCode = jnErrorCode.as_int();
+	debugLogA("CVkProto::CheckJsonResult %d", pReq->m_iErrorCode);
+	switch (pReq->m_iErrorCode) {
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
@@ -338,17 +260,6 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, jnError);
 		break;
-	case VKERR_COULD_NOT_SAVE_FILE:
-	case VKERR_INVALID_ALBUM_ID:
-	case VKERR_INVALID_SERVER:
-	case VKERR_INVALID_HASH:
-	case VKERR_INVALID_AUDIO:
-	case VKERR_AUDIO_DEL_COPYRIGHT:
-	case VKERR_INVALID_FILENAME:
-	case VKERR_INVALID_FILESIZE:
-		if (fup)
-			fup->iErrorCode = iErrorCode;
-		break;
 	case VKERR_FLOOD_CONTROL:
 		pReq->m_iRetry = 0;
 		// fall through
@@ -362,26 +273,34 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMString msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
+			CMString msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), pReq->m_iErrorCode);
 			MsgPopup(NULL, msg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
 		break;
-	case VKERR_HIMSELF_AS_FRIEND:
-	case VKERR_YOU_ON_BLACKLIST:
-	case VKERR_USER_ON_BLACKLIST:
-		if (param)
-			param->iCount = iErrorCode;
-		break;
+
 	case VKERR_INVALID_PARAMETERS:
 		MsgPopup(NULL, TranslateT("One of the parameters specified was missing or invalid"), TranslateT("Error"), true);
 		break;
 	case VKERR_ACC_WALL_POST_DENIED:
 		MsgPopup(NULL, TranslateT("Access to adding post denied"), TranslateT("Error"), true);
 		break;
+	case VKERR_COULD_NOT_SAVE_FILE:
+	case VKERR_INVALID_ALBUM_ID:
+	case VKERR_INVALID_SERVER:
+	case VKERR_INVALID_HASH:
+	case VKERR_INVALID_AUDIO:
+	case VKERR_AUDIO_DEL_COPYRIGHT:
+	case VKERR_INVALID_FILENAME:
+	case VKERR_INVALID_FILESIZE:
+	case VKERR_HIMSELF_AS_FRIEND:
+	case VKERR_YOU_ON_BLACKLIST:
+	case VKERR_USER_ON_BLACKLIST:
+		// See CVkProto::SendFileFiled 
+		break;
 	}
 
-	return iErrorCode == 0;
+	return pReq->m_iErrorCode == 0;
 }
 
 void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

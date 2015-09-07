@@ -441,12 +441,6 @@ CVkChatInfo* CVkProto::GetChatById(LPCTSTR ptszId)
 	return NULL;
 }
 
-CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
-{
-	int user_id = _ttoi(ptszId);
-	return m_users.find((CVkChatUser*)&user_id);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)

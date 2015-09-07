@@ -17,56 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) :
-	hContact(_hContact), 
-	filetype(typeInvalid), 
-	atr(NULL), 
-	fname(NULL), 
-	iErrorCode(0)
-{
-	Desc = mir_tstrdup(_desc);
-	FileName = mir_tstrdup(_files[0]);
-}
-
-CVkFileUploadParam::~CVkFileUploadParam()
-{
-	mir_free(Desc);
-	mir_free(FileName);
-	mir_free(atr);
-	mir_free(fname);
-}
-
-CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
-{
-	if (filetype != typeInvalid)
-		return filetype;
-	
-	TCHAR img[] = _T(".jpg .jpeg .png .bmp");
-	TCHAR audio[] = _T(".mp3");
-	
-	TCHAR DRIVE[3], DIR[256], FNAME[256], EXT[256];
-	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
-		
-	T2Utf pszFNAME(FNAME), pszEXT(EXT);
-	CMStringA fn(FORMAT, "%s%s", pszFNAME, pszEXT);
-	fname = mir_strdup(fn);
-
-	if (tlstrstr(img, EXT)) {
-		filetype = CVkFileUploadParam::typeImg;
-		atr = mir_strdup("photo");
-	}
-	else if (tlstrstr(audio, EXT)) {
-		filetype = CVkFileUploadParam::typeAudio;
-		atr = mir_strdup("file");
-	}
-	else {
-		filetype = CVkFileUploadParam::typeDoc;
-		atr = mir_strdup("file");
-	}
-	
-	return filetype;
-}
-
 HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
@@ -79,12 +29,37 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 	return (HANDLE)fup;
 }
 
-void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
+void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 {
-	debugLog(_T("CVkProto::SendFileFiled <%s> Error code <%d>"), reason, fup->iErrorCode);
 	CMString tszError;
-	int iResult = ACKRESULT_FAILED;
-	switch (fup->iErrorCode) {
+	switch (ErrorCode) {
+	case VKERR_OFFLINE:
+		tszError = TranslateT("Protocol is offline");
+		break;
+	case VKERR_FILE_NOT_EXIST:
+		tszError = TranslateT("File not exist");
+		break;
+	case VKERR_FTYPE_NOT_SUPPORTED:
+		tszError = TranslateT("File type not supported");
+		break;
+	case VKERR_ERR_OPEN_FILE:
+		tszError = TranslateT("Error open file");
+		break;
+	case VKERR_ERR_READ_FILE:
+		tszError = TranslateT("Error read file");
+		break;
+	case VKERR_FILE_NOT_UPLOADED:
+		tszError = TranslateT("Error upload file");
+		break;
+	case VKERR_INVALID_URL:
+		tszError = TranslateT("Upload server return empty url");
+		break;
+	case VKERR_INVALID_USER:
+		tszError = TranslateT("Invalid or unknow recepient user ID");
+		break;
+	case VKERR_INVALID_PARAMETERS:
+		tszError = TranslateT("One of the parameters specified was missing or invalid");
+		break;		
 	case VKERR_COULD_NOT_SAVE_FILE:
 		tszError = TranslateT("Couldn't save file");
 		break;
@@ -101,8 +76,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 		tszError = TranslateT("Invalid audio");
 		break;
 	case VKERR_AUDIO_DEL_COPYRIGHT:
-		tszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");
-		iResult = ACKRESULT_DENIED;
+		tszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");		
 		break;
 	case VKERR_INVALID_FILENAME:
 		tszError = TranslateT("Invalid filename");
@@ -113,7 +87,8 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 	default:
 		tszError = TranslateT("Unknown error occurred");
 	}
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup);
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
+	debugLog(_T("CVkProto::SendFileFiled error code = %d (%s)"), ErrorCode, tszError);
 	MsgPopup(NULL, tszError, TranslateT("File upload error"), true);
 	delete fup;
 }
@@ -123,11 +98,11 @@ void CVkProto::SendFileThread(void *p)
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
 	debugLog(_T("CVkProto::SendFileThread %d %s"), fup->GetType(), fup->fileName());
 	if (!IsOnline()) {
-		SendFileFiled(fup, _T("NotOnline"));
+		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
 	}
 	if (!fup->IsAccess()) {
-		SendFileFiled(fup, _T("FileIsNotAccess"));
+		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
 		return;
 	}
 
@@ -148,7 +123,7 @@ void CVkProto::SendFileThread(void *p)
 			<< VER_API;
 		break;
 	default:
-		SendFileFiled(fup, _T("FileTypeNotSupported"));
+		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
 	pReq->pUserInfo = p;
@@ -159,32 +134,32 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, _T("NotOnline"));
+		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup, _T("NotUploadServer"));
+		SendFileFiled(fup, VKERR_INVALID_SERVER);
 		return;
 	}
 
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-	if (!jnResponse) {
-		SendFileFiled(fup);
+	if (!jnResponse || pReq->m_iErrorCode) {
+		SendFileFiled(fup, pReq->m_iErrorCode);
 		return;
 	}
 
-	CMStringA uri = jnResponse["upload_url"].as_mstring();
+	CMStringA uri(jnResponse["upload_url"].as_mstring());
 	if (uri.IsEmpty()) {
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_INVALID_URL);
 		return;
 	}
 	
 	FILE *pFile = _tfopen(fup->FileName, _T("rb"));
 	if (pFile == NULL) {
-		SendFileFiled(fup, _T("ErrorOpenFile"));
+		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
 		return;
 	}
 
@@ -192,7 +167,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	long iFileLen = ftell(pFile); //FileSize
 	if (iFileLen < 1) {
 		fclose(pFile);
-		SendFileFiled(fup, _T("ErrorReadFile"));
+		SendFileFiled(fup, VKERR_ERR_READ_FILE);
 		return;
 	}
 	fseek(pFile, 0, SEEK_SET);
@@ -238,7 +213,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	fclose(pFile);
 
 	if (lBytes != iFileLen) {
-		SendFileFiled(fup, _T("ErrorReadFile"));
+		SendFileFiled(fup, VKERR_ERR_READ_FILE);
 		mir_free(pUploadReq->pData);
 		delete pUploadReq;
 		return;
@@ -257,18 +232,28 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, _T("NotOnline"));
+		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_FILE_NOT_UPLOADED);
 		return;
 	}
 
 	JSONNode jnRoot;
 	CheckJsonResponse(pReq, reply, jnRoot);
+
+	if (pReq->m_iErrorCode) {
+		SendFileFiled(fup, pReq->m_iErrorCode);
+		return;
+	}
+
+	if (!jnRoot["server"] || !jnRoot["hash"]) {
+		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+		return;
+	}
 
 	CMString server(jnRoot["server"].as_mstring());
 	CMString hash(jnRoot["hash"].as_mstring());
@@ -282,7 +267,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeImg:
 		upload = jnRoot["photo"].as_mstring();
 		if (upload == _T("[]")) {
-			SendFileFiled(fup, _T("NotUpload Photo"));
+			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
@@ -294,7 +279,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
 		if (upload == _T("[]")) {
-			SendFileFiled(fup, _T("NotUpload Audio"));
+			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
@@ -306,7 +291,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeDoc:
 		upload = jnRoot["file"].as_mstring();
 		if (upload.IsEmpty()) {
-			SendFileFiled(fup, _T("NotUpload Doc"));
+			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
@@ -315,7 +300,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	default:
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
 	
@@ -327,27 +312,27 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, _T("NotOnline"));
+		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadFile %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_FILE_NOT_UPLOADED);
 		return;
 	}
 
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-	if (!jnResponse) {
-		SendFileFiled(fup);
+	if (!jnResponse || pReq->m_iErrorCode) {
+		SendFileFiled(fup, pReq->m_iErrorCode);
 		return;
 	}
 
 	int id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["id"].as_int() : (*jnResponse.begin())["id"].as_int();
 	int owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int(); 	
 	if ((id == 0) || (owner_id == 0)) {
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
 	
@@ -364,13 +349,13 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		Attachment.AppendFormat(_T("doc%d_%d"), owner_id, id);
 		break;
 	default:
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
 	
 	LONG userID = getDword(fup->hContact, "ID", -1);
 	if (userID == -1 || userID == VK_FEED_USER) {
-		SendFileFiled(fup);
+		SendFileFiled(fup, VKERR_INVALID_USER);
 		return;
 	}
 
@@ -380,7 +365,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		<< TCHAR_PARAM("attachment", Attachment)
 		<< VER_API;
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, -1, (INT_PTR)pReq->pUserInfo);
+	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	
 	Push(pMsgReq);
 }

@@ -592,7 +592,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 {
 	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	if (reply->resultCode == 200) {
+	if (reply->resultCode == 200 && param) {
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
@@ -621,7 +621,11 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 			}	
 		}
 	}
-	delete param;
+
+	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
+		delete param;
+		pReq->pUserInfo = NULL;
+	}
 }
 
 INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)

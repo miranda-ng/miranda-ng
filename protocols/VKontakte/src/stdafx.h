@@ -66,4 +66,5 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "resource.h"
 #include "vk.h"
+#include "vk_struct.h"
 #include "vk_proto.h"
