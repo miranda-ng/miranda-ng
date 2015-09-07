@@ -298,11 +298,11 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 			int from_left = 3 * ((curDay - m_nFirstDay) / m_nDays);
 
 			if (bar_len != 0)
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(from_left, 24 - bar_len, from_left + 3, 25 + bar_len), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24 - bar_len, from_left + 3, 25 + bar_len), NULL, 0, NULL);
 		}
 
 		SetBkColor(hDC, con::ColorBarLine);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
 
 		canvas.endDraw();
 
@@ -340,7 +340,7 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 
 			if (m_bDetail)
 			{
-				DWORD rightDay = min(curDay + m_nDays - 1, m_nLastDay);
+				int rightDay = min(curDay + m_nDays - 1, m_nLastDay);
 
 				tos << _T("<div title=\"");
 
@@ -399,7 +399,7 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 		HDC hDC = canvas.beginDraw();
 
 		SetBkColor(hDC, con::ColorIOLine);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
 
 		for (curDay = m_nFirstDay; curDay <= m_nLastDay; curDay += m_nDays)
 		{
@@ -430,12 +430,12 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 			if (bar_len < 0)
 			{
 				SetBkColor(hDC, con::ColorIn);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(from_left, 24, from_left + 3, 24 - bar_len), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24, from_left + 3, 24 - bar_len), NULL, 0, NULL);
 			}
 			else if (bar_len > 0)
 			{
 				SetBkColor(hDC, con::ColorOut);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(from_left, 25 - bar_len, from_left + 3, 25), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 25 - bar_len, from_left + 3, 25), NULL, 0, NULL);
 			}
 		}
 
@@ -484,7 +484,7 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 
 			if (m_bDetail)
 			{
-				DWORD rightDay = min(curDay + m_nDays - 1, m_nLastDay);
+				int rightDay = min(curDay + m_nDays - 1, m_nLastDay);
 
 				tos << _T("<div title=\"");
 
