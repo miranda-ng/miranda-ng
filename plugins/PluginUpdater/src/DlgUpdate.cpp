@@ -554,6 +554,7 @@ static renameTable[] =
 	{ _T("gender.dll"),                     NULL },
 	{ _T("langman.dll"),                    NULL },
 	{ _T("metacontacts.dll"),               NULL },
+	{ _T("xfire.dll"),                      NULL },
 	{ _T("WART-*.exe"),                     NULL },
 };
 

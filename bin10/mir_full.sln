@@ -297,8 +297,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickContacts", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tlen", "..\protocols\Tlen\tlen.vcxproj", "{F3208C96-3C21-46AA-8695-C794E28CDC34}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xfire", "..\protocols\Xfire\xfire.vcxproj", "{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobileState", "..\plugins\MobileState\mobilestate.vcxproj", "{AE677E3A-DAC5-42FD-8762-47370C57639B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoHistory\NoHistory.vcxproj", "{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}"
@@ -1427,14 +1425,6 @@ Global
 		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|Win32.Build.0 = Release|Win32
 		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|x64.ActiveCfg = Release|x64
 		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|x64.Build.0 = Release|x64
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Debug|Win32.Build.0 = Debug|Win32
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Debug|x64.ActiveCfg = Debug|x64
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Debug|x64.Build.0 = Debug|x64
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Release|Win32.ActiveCfg = Release|Win32
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Release|Win32.Build.0 = Release|Win32
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Release|x64.ActiveCfg = Release|x64
-		{E4CD8BBA-B580-4584-AC3E-B4E9915026AE}.Release|x64.Build.0 = Release|x64
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Debug|Win32.Build.0 = Debug|Win32
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Debug|x64.ActiveCfg = Debug|x64
