@@ -85,17 +85,23 @@ void __cdecl CVkProto::SearchThread(void* p)
 	Push(pReq);
 }
 
+void CVkProto::FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam)
+{
+	if (!pParam)
+		return;
+	
+	mir_free(pParam->pszFirstName);
+	mir_free(pParam->pszLastName);
+	mir_free(pParam->pszNick);
+	delete pParam;
+}
+
 void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)pReq->pUserInfo;
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		if (pParam) {
-			mir_free(pParam->pszFirstName);
-			mir_free(pParam->pszLastName);
-			mir_free(pParam->pszNick);
-			delete pParam;
-		}
+		FreeProtoShearchStruct(pParam);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1);
 		return;
 	}
@@ -103,12 +109,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse) {
-		if (pParam) {
-			mir_free(pParam->pszFirstName);
-			mir_free(pParam->pszLastName);
-			mir_free(pParam->pszNick);
-			delete pParam;
-		}
+		FreeProtoShearchStruct(pParam);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1);
 		return;
 	}
@@ -148,12 +149,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1);
-	if (pParam) {
-		mir_free(pParam->pszFirstName);
-		mir_free(pParam->pszLastName);
-		mir_free(pParam->pszNick);
-		delete pParam;
-	}
+	FreeProtoShearchStruct(pParam);
 }
 
 void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -116,7 +116,11 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			hContact = FindUser(uid);
 			if (hContact != NULL) {
 				setDword(hContact, "LastMsgReadTime", time(NULL));
-				if (!ServiceExists("MessageState/DummyService"))
+				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+					MessageReadData data(time(NULL), MRD_TYPE_READTIME);
+					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
+				}
+				else
 					SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);

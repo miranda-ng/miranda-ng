@@ -544,7 +544,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 {
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	if (reply->resultCode == 200) {
+	if (reply->resultCode == 200 && param) {
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
@@ -560,7 +560,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			}
 		} 
 		else {
-			switch (param->iCount) {
+			switch (pReq->m_iErrorCode) {
 			case VKERR_HIMSELF_AS_FRIEND:
 				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"), true);
 				break;
@@ -573,8 +573,11 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			}
 		}
 	}
-	if (!pReq->bNeedsRestart)
+
+	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
 		delete param;
+		pReq->pUserInfo = NULL;
+	}
 }
 
 int CVkProto::Authorize(MEVENT hDbEvent)

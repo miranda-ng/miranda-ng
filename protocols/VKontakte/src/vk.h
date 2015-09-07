@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma once
+
 #define VK_APP_ID 3917910
 
 // LongPool servers events
@@ -45,6 +47,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKFLAG_MSGMEDIA		512	// сообщение содержит медиаконтент
 
 // Errors
+#define VKERR_NO_JSONNODE			-2	// No JSON Node in server reply
+#define VKERR_OFFLINE				-1	// Proto is offline
 #define VKERR_NOERRORS				0	// No error
 #define VKERR_UNKNOWN				1	// Unknown error occurred
 #define VKERR_TOO_MANY_REQ_PER_SEC	6	// Too many requests per second
@@ -66,6 +70,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_AUDIO_DEL_COPYRIGHT	270	// The audio file was removed by the copyright holder and cannot be reuploaded.
 #define VKERR_INVALID_FILENAME		301	// Invalid filename
 #define VKERR_INVALID_FILESIZE		302	// Invalid filesize
+// File upload custom error
+#define VKERR_FILE_NOT_EXIST		10100	// File not exist
+#define VKERR_FTYPE_NOT_SUPPORTED	10101	// File type not supported
+#define VKERR_ERR_OPEN_FILE			10103	// Error open file
+#define VKERR_ERR_READ_FILE			10104	// Error read file
+#define VKERR_FILE_NOT_UPLOADED		10105	// Error upload file
+#define VKERR_INVALID_URL			10106	// Upload server return empty url
+#define VKERR_INVALID_USER			10107	// Invalid or unknow recepient user ID
 
 #define VK_API_VER "5.37"
 #define VER_API CHAR_PARAM("v", VK_API_VER)

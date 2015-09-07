@@ -31,9 +31,9 @@ int CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 void CVkProto::SendMsgAck(void *param)
 {
 	debugLogA("CVkProto::SendMsgAck");
-	TFakeAckParams *ack = (TFakeAckParams*)param;
+	CVkSendMsgParam *ack = (CVkSendMsgParam *)param;
 	Sleep(100);
-	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->msgid);
+	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->iMsgID);
 	delete ack;
 }
 
@@ -44,7 +44,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 		return 0;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1 || userID == VK_FEED_USER) {
-		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, 0));
+		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact));
 		return 0;
 	}
 
@@ -67,7 +67,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	Push(pReq);
 
 	if (!m_bServerDelivery)
-		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
+		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, msgId));
 
 	if (retMsg) {
 		Sleep(330);
@@ -83,7 +83,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		debugLogA("CVkProto::OnSendMessage failed! (pUserInfo == NULL)");
 		return;
 	}
-	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
+	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
 	if (reply->resultCode == 200) {
@@ -98,24 +98,26 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);
+
 			if (mid > getDword(param->hContact, "lastmsgid"))
 				setDword(param->hContact, "lastmsgid", mid);
+
 			if (m_iMarkMessageReadOn >= markOnReply)
 				MarkMessagesRead(param->hContact);
+
 			iResult = ACKRESULT_SUCCESS;
 		}
 	}
 
-	if (param->iMsgID == -1) {
-		CVkFileUploadParam *fup = (CVkFileUploadParam *)param->iCount;
-		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup);
-		if (!pReq->bNeedsRestart)
-			delete fup;
-		return;
+	if (param->pFUP) {
+		ProtoBroadcastAck(param->hContact, ACKTYPE_FILE, iResult, (HANDLE)(param->pFUP));
+		if (!pReq->bNeedsRestart || m_bTerminated) 
+			delete param->pFUP;
 	}
 	else if (m_bServerDelivery)
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID));
-	if (!pReq->bNeedsRestart) {
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID));
+
+	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;
 		pReq->pUserInfo = NULL;
 	}

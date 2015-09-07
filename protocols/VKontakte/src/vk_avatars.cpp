@@ -19,23 +19,28 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 {
-	if (reply->resultCode != 200)
+	if (reply->resultCode != 200 || !pReq->pUserInfo)
 		return;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	GetAvatarFileName((UINT_PTR)pReq->pUserInfo, ai.filename, _countof(ai.filename));
+	CVkSendMsgParam * param = (CVkSendMsgParam *)pReq->pUserInfo;
+	GetAvatarFileName(param->hContact, ai.filename, _countof(ai.filename));
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _tfopen(ai.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck((UINT_PTR)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+		delete param;
+		pReq->pUserInfo = NULL;
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
-	setByte((UINT_PTR)pReq->pUserInfo, "NeedNewAvatar", 0);
-	ProtoBroadcastAck((UINT_PTR)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+	setByte(param->hContact, "NeedNewAvatar", 0);
+	ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+	delete param;
+	pReq->pUserInfo = NULL;
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -93,7 +98,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 		AsyncHttpRequest *pReq = new AsyncHttpRequest();
 		pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 		pReq->m_szUrl = szUrl;
-		pReq->pUserInfo = (char*)pai->hContact;
+		pReq->pUserInfo = new CVkSendMsgParam(pai->hContact);
 		pReq->m_pFunc = &CVkProto::OnReceiveAvatar;
 		pReq->requestType = REQUEST_GET;
 		pReq->m_bApiReq = false;
