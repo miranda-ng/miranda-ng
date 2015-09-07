@@ -38,7 +38,7 @@ TCHAR* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 	switch (error)
 	{
 	case TOX_ERR_NEW_NULL:
-		return TranslateT("One of the arguments is not valid or ");
+		return TranslateT("One of the arguments is missing");
 	case TOX_ERR_NEW_MALLOC:
 		return TranslateT("Unable to allocate enough memory");
 	case TOX_ERR_NEW_PORT_ALLOC:

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-PROTO<CToxProto>(protoName, userName),
-tox(NULL), toxAv(NULL), password(NULL),
-isTerminated(false), isConnected(false),
-hPollingThread(NULL), hOutDevice(NULL)
+CToxProto::CToxProto(const char* protoName, const TCHAR* userName)
+	: PROTO<CToxProto>(protoName, userName),
+	tox(NULL), toxAv(NULL), password(NULL),
+	isTerminated(false), isConnected(false),
+	hPollingThread(NULL), hOutDevice(NULL)
 {
 	InitNetlib();
 
@@ -174,6 +174,8 @@ int CToxProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		isTerminated = true;
+		WaitForSingleObject(hPollingThread, INFINITE);
+		hPollingThread = NULL;
 
 		if (!Miranda_Terminated())
 		{
@@ -192,6 +194,12 @@ int CToxProto::SetStatus(int iNewStatus)
 
 		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 		{
+			if (hPollingThread != NULL)
+			{
+				m_iDesiredStatus = old_status;
+				return 0;
+			}
+
 			// login
 			m_iStatus = ID_STATUS_CONNECTING;
 

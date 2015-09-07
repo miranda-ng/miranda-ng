@@ -31,7 +31,7 @@ bool CToxProto::InitToxCore()
 
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
 			{
-				debugLogA("CToxProto::InitToxCore: setting socks user proxy config");
+				debugLogA(__FUNCTION__": setting socks user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_SOCKS5;
 				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
 				options->proxy_port = nlus.wProxyPort;
@@ -41,6 +41,16 @@ bool CToxProto::InitToxCore()
 
 	if (LoadToxProfile(options))
 	{
+		TOX_ERR_NEW initError;
+		tox = tox_new(options, &initError);
+		if (initError != TOX_ERR_NEW_OK)
+		{
+			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", initError);
+			ShowNotification(ToxErrorToString(initError), TranslateT("Unable to initialize tox core"), MB_ICONERROR);
+			tox_options_free(options);
+			return false;
+		}
+
 		tox_callback_friend_request(tox, OnFriendRequest, this);
 		tox_callback_friend_message(tox, OnFriendMessage, this);
 		tox_callback_friend_read_receipt(tox, OnReadReceipt, this);
