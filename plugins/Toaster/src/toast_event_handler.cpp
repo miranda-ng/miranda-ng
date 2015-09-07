@@ -60,6 +60,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
 {
+	((callbackArg*)_arg)->notification->Hide();
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(((callbackArg*)_arg)->notification);
 	return S_OK;
