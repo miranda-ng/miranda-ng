@@ -88,20 +88,10 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		options->savedata_data = data;
 		options->savedata_length = size;
 		options->savedata_type = TOX_SAVEDATA_TYPE_TOX_SAVE;
+		return true;
 	}
-	
-	TOX_ERR_NEW initError;
-	tox = tox_new(options, &initError);
-	if (initError != TOX_ERR_NEW_OK)
-	{
-		debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
-		ShowNotification(ToxErrorToString(initError), TranslateT("Unable to load Tox profile"), MB_ICONERROR);
-		mir_free(data);
-		return false;
-	}
-	mir_free(data);
-	debugLogA(__FUNCTION__": tox profile load successfully");
-	return true;
+
+	return false;
 }
 
 void CToxProto::SaveToxProfile()
