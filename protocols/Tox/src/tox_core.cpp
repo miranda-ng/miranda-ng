@@ -46,7 +46,7 @@ bool CToxProto::InitToxCore()
 		if (initError != TOX_ERR_NEW_OK)
 		{
 			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", initError);
-			ShowNotification(ToxErrorToString(initError), TranslateT("Unable to initialize tox core"), MB_ICONERROR);
+			ShowNotification(ToxErrorToString(initError), TranslateT("Unable to initialize Tox core"), MB_ICONERROR);
 			tox_options_free(options);
 			return false;
 		}
