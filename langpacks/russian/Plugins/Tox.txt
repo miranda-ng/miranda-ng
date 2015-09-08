@@ -7,6 +7,10 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
+[Unable to initialize tox core]
+Невозможно инициализировать ядро Tox
+[One of the arguments is missing]
+Пропущен один из аргументов
 [Create]
 Создать
 [Import]

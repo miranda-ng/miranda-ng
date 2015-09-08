@@ -1,4 +1,2 @@
 ﻿[Tox ID:]
 [Tox]
-[Unable to initialize tox core]
-[One of the arguments is missing]

@@ -459,3 +459,17 @@ Cоздать комнату чата
 Сообщение на стене пользователя
 [Attention! Message body or url should not be empty!]
 Внимание! Текст сообщения или ссылка не могут быть пустыми!
+[Protocol is offline]
+Протокол не в сети
+[File does not exist]
+Файл отсутствует
+[File type not supported]
+Неподдерживаемый тип файла
+[Error open file]
+Ошибка при открытии файла
+[Error read file]
+Ошибка при чтении файла
+[Upload server returned empty URL]
+Сервер вернул пустую ссылку
+[Invalid or unknown recipient user ID]
+ID получателя ошибочен или неизвестен

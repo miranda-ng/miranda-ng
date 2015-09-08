@@ -26,24 +26,24 @@ Hasło:
 Domyślna grupa:
 [Tox]
 Tox
-[Create tox profile]
-Stwórz profil tox
-[Import tox profile]
+[Create Tox profile]
+Stwórz profil Tox
+[Import Tox profile]
 Importuj profil Tox
 [Copy Tox ID]
 Kopiuj ID Tox
-[Export tox profile]
-Eksportuj profil tox
+[Export Tox profile]
+Eksportuj profil Tox
 [Connection settings]
 Ustawienia połączenia
 [Enable UDP (otherwise force Tox to use TCP)]
 Włącz UDP (w przeciwnym razie wymuszaj używanie TCP przez tox)
 [Enable IPv6]
 Włącz IPV6
-[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
-Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
-[Dns name:]
-Nazwa dns:
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+Jeżeli to pole zawiera adres Tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS Tox.
+[DNS name:]
+Nazwa DNS:
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -101,8 +101,11 @@ Połączenie wychodzące
 [To:]
 Do:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
-[Groupchat]
+[Group chat]
 Czat grupowy
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize tox core]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Folder profili
@@ -153,10 +156,10 @@ Połączenie %s
 Profil Tox
 [All files]
 Wszystkie pliki
-[Select tox profile]
-Wybierz profil tox
-[Save tox profile]
-Zapisz profil tox
+[Select Tox profile]
+Wybierz profil Tox
+[Save Tox profile]
+Zapisz profil Tox
 [Add node]
 Dodaj gniazdo
 [Change node]
@@ -182,13 +185,11 @@ Konto
 [Nodes]
 Gniazda
 ;file \protocols\Tox\src\tox_profile.cpp
-[Unable to open tox profile]
+[Unable to open Tox profile]
 
-[Unable to read tox profile]
+[Unable to read Tox profile]
 
-[Unable to decrypt tox profile]
-
-[Unable to load tox profile]
+[Unable to decrypt Tox profile]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
@@ -199,7 +200,7 @@ Kontakt jest już na liście kontaktów
 [Query]
 Zapytanie
 ;file \protocols\Tox\src\tox_utils.cpp
-[One of the arguments is not valid or ]
+[One of the arguments is missing]
 
 [Unable to allocate enough memory]
 
