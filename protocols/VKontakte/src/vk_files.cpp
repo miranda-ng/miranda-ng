@@ -20,8 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
+	isChatRoom(hContact);
 	LONG userID = getDword(hContact, "ID", -1);
-	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
+	if (!IsOnline() || ((userID == -1 || userID == VK_FEED_USER) && !isChatRoom(hContact)))
 		return (HANDLE)0;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
@@ -352,20 +353,43 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
+
+	AsyncHttpRequest *pMsgReq;
 	
-	LONG userID = getDword(fup->hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER) {
-		SendFileFiled(fup, VKERR_INVALID_USER);
-		return;
+	if (isChatRoom(fup->hContact)) {
+
+		ptrT tszChatID(getTStringA(fup->hContact, "ChatRoomID"));
+		if (!tszChatID) {
+			SendFileFiled(fup, VKERR_INVALID_USER);
+			return;
+		}
+
+		CVkChatInfo *cc = GetChatById(tszChatID);
+		if (cc == NULL) {
+			SendFileFiled(fup, VKERR_INVALID_USER);
+			return;
+		}
+
+		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
+			<< INT_PARAM("chat_id", cc->m_chatid);
+		pMsgReq->pUserInfo = pReq->pUserInfo;
+
+	}
+	else {
+		LONG userID = getDword(fup->hContact, "ID", -1);
+		if (userID == -1 || userID == VK_FEED_USER) {
+			SendFileFiled(fup, VKERR_INVALID_USER);
+			return;
+		}
+
+		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
+			<< INT_PARAM("user_id", userID);
+		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
+		
 	}
 
-	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
-		<< INT_PARAM("user_id", userID)
-		<< TCHAR_PARAM("message", fup->Desc)
-		<< TCHAR_PARAM("attachment", Attachment)
-		<< VER_API;
+	pMsgReq << TCHAR_PARAM("message", fup->Desc) << TCHAR_PARAM("attachment", Attachment) << VER_API;
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	
 	Push(pMsgReq);
 }
