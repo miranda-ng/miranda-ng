@@ -25,13 +25,13 @@ Tox ID:
 Станд. група:
 [Tox]
 Tox
-[Create tox profile]
+[Create Tox profile]
 Създаване на профил
-[Import tox profile]
+[Import Tox profile]
 Внасяне не Tox профил
 [Copy Tox ID]
 Копиране на ID
-[Export tox profile]
+[Export Tox profile]
 Износ на профла
 [Connection settings]
 Настройки за свързване
@@ -39,9 +39,9 @@ Tox
 Включване на UDP (в противен случай Tox ще ползва TCP)
 [Enable IPv6]
 Включване на IPv6
-[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
-[Dns name:]
+[DNS name:]
 DNS име:
 [Enter password]
 Въведете парола
@@ -99,7 +99,7 @@ IPv6 адрес (незадължително)
 Изходящо обаждане
 [To:]
 За:
-[Groupchat]
+[Group chat]
 Групов чат
 [Profiles folder]
 Папка на профилите
@@ -135,9 +135,9 @@ IPv6 адрес (незадължително)
 Tox профил
 [All files]
 Всички файлове
-[Select tox profile]
+[Select Tox profile]
 Изберете Tox профил
-[Save tox profile]
+[Save Tox profile]
 Запис на Tox профила
 [Add node]
 Добавяне на възел

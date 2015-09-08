@@ -51,6 +51,7 @@
 [To:]
 Для:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
+;file \protocols\Tox\src\tox_core.cpp
 ;file \protocols\Tox\src\tox_events.cpp
 [Action]
 Дзеянне

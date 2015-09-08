@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.13
+;  Version: 0.1.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -353,6 +353,22 @@ Treść posta:
 [Topic text:]
 Treść tematu:
 ;file \protocols\VKontakte\src\vk_files.cpp
+[Protocol is offline]
+Protokół jest rozłączony
+[File not exist]
+
+[File type not supported]
+
+[Error open file]
+
+[Error read file]
+
+[Error upload file]
+
+[Upload server returned empty URL]
+
+[Invalid or unknown recipient user ID]
+
 [Couldn't save file]
 Nie udało się zapisać pliku
 [Invalid album id]

@@ -5,6 +5,8 @@
 ;  Version: 0.11.1.13
 ;  Authors: Miranda NG Team
 ;============================================================
+[Unable to initialize tox core]
+Unable to initialise Tox core
 [Request authorization]
 Request authorisation
 [Grant authorization]
