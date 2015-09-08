@@ -251,7 +251,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	if (!jnRoot["server"] || !jnRoot["hash"]) {
+	if ((!jnRoot["server"] || !jnRoot["hash"]) && !jnRoot["file"]) {
 		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
