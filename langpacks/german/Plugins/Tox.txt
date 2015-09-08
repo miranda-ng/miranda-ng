@@ -105,7 +105,7 @@ An:
 Gruppenchat
 ;file \protocols\Tox\src\tox_core.cpp
 [Unable to initialize tox core]
-
+Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Profilverzeichnis
@@ -186,11 +186,11 @@ Konto
 Knoten
 ;file \protocols\Tox\src\tox_profile.cpp
 [Unable to open Tox profile]
-
+Konnte Tox-Profil nicht öffnen.
 [Unable to read Tox profile]
-
+Konnte Tox-Profil nicht lesen.
 [Unable to decrypt Tox profile]
-
+Konnte Tox-Profil nicht entschlüsseln.
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen
@@ -201,22 +201,22 @@ Der Kontakt ist bereits in Ihrer Kontaktliste
 Query
 ;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
-
+Eines der Argumente fehlt.
 [Unable to allocate enough memory]
-
+Konnte nicht ausreichend Arbeitsspeicher belegen.
 [Unable to bind to a port]
-
+Konnte nicht an einen Port binden.
 [The proxy type is not valid]
-
+Der Proxytyp ist ungültig.
 [The proxy host is not valid]
-
+Der Proxyhost ist ungültig.
 [The proxy port is not valid]
-
+Der Proxyport ist ungültig.
 [The proxy address could not be resolved]
-
+Die Proxyadresse konnte nicht aufgelöst werden.
 [The profile is encrypted]
-
+Das Profil ist verschlüsselt.
 [The data format is not valid]
-
+Das Datenformat ist ungültig.
 [Unknown error]
 Unbekannter Fehler

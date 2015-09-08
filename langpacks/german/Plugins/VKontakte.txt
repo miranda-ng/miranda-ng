@@ -356,19 +356,19 @@ Thementext:
 [Protocol is offline]
 Protokoll ist offline
 [File not exist]
-
+Datei existiert nicht
 [File type not supported]
-
+Dateityp wird nicht unterstützt
 [Error open file]
-
+Fehler beim Öffnen der Datei
 [Error read file]
-
+Fehler beim Lesen der Datei
 [Error upload file]
-
+Fehler beim Hochladen der Datei
 [Upload server returned empty URL]
-
+Hochladeserver gibt leere URL zurück
 [Invalid or unknown recipient user ID]
-
+Ungültige oder unbekannte Benutzer-ID des Empfängers.
 [Couldn't save file]
 Konnte Datei nicht speichern.
 [Invalid album id]
