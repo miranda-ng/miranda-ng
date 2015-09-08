@@ -2,7 +2,7 @@
 
 bool CToxProto::IsOnline()
 {
-	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
+	return isConnected && m_iStatus >= ID_STATUS_ONLINE;
 }
 
 void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)

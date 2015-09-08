@@ -54,9 +54,29 @@ int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 // outcoming message flow
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
+	if (!IsOnline())
+	{
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
+		return 0;
+	}
+
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)
 		return 0;
+
+	TOX_ERR_FRIEND_QUERY queryError;
+	TOX_CONNECTION connection = tox_friend_get_connection_status(tox, friendNumber, &queryError);
+	if (queryError == TOX_ERR_FRIEND_QUERY_OK)
+	{
+		debugLogA(__FUNCTION__": failed to get connection status for %d (%d)", friendNumber, queryError);
+		return 0;
+	}
+
+	if (connection == TOX_CONNECTION_NONE)
+	{
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when contact is offline."));
+		return 0;
+	}
 
 	size_t msgLen = mir_strlen(szMessage);
 	uint8_t *msg = (uint8_t*)szMessage;
@@ -66,11 +86,12 @@ int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 		msg += 4; msgLen -= 4;
 		type = TOX_MESSAGE_TYPE_ACTION;
 	}
-	TOX_ERR_FRIEND_SEND_MESSAGE error;
-	int messageId = tox_friend_send_message(tox, friendNumber, type, msg, msgLen, &error);
-	if (error != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
+
+	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
+	int messageId = tox_friend_send_message(tox, friendNumber, type, msg, msgLen, &sendError);
+	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
 	{
-		debugLogA(__FUNCTION__": failed to send message (%d)", error);
+		debugLogA(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
 		return 0;
 	}
 
