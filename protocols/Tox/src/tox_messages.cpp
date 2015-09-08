@@ -64,20 +64,6 @@ int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 	if (friendNumber == UINT32_MAX)
 		return 0;
 
-	TOX_ERR_FRIEND_QUERY queryError;
-	TOX_CONNECTION connection = tox_friend_get_connection_status(tox, friendNumber, &queryError);
-	if (queryError == TOX_ERR_FRIEND_QUERY_OK)
-	{
-		debugLogA(__FUNCTION__": failed to get connection status for %d (%d)", friendNumber, queryError);
-		return 0;
-	}
-
-	if (connection == TOX_CONNECTION_NONE)
-	{
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when contact is offline."));
-		return 0;
-	}
-
 	size_t msgLen = mir_strlen(szMessage);
 	uint8_t *msg = (uint8_t*)szMessage;
 	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
