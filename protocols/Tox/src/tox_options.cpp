@@ -152,8 +152,8 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFile = profilePath;
-	ofn.lpstrTitle = TranslateT("Save Tox profile");\
-	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrTitle = TranslateT("Save Tox profile"); \
+		ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
 	ofn.lpstrInitialDir = _T("%HOMEPATH%");
 
@@ -192,69 +192,124 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 {
 }
 
-bool CToxOptionsMultimedia::GetDeviceFullName(GUID guid, TCHAR *deviceName, DWORD deviceNameLength)
+void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting)
 {
-	TCHAR registryKey[MAX_PATH];
-	mir_sntprintf(registryKey, _T("System\\CurrentControlSet\\Control\\MediaCategories\\{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}"),
-		guid.Data1, guid.Data2, guid.Data3, guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]);
+	HRESULT hr;
+	UINT count;
+	DBVARIANT dbv;
+	LPWSTR pwszID = NULL,
+		pwszDefID = NULL;
+	IMMDevice *pDevice = NULL;
+	IMMDeviceCollection *pDevices = NULL;
+	PROPVARIANT varName;
+	IPropertyStore *pProperties = NULL;
 
-	HKEY hKey;
-	LONG error = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0, KEY_READ, &hKey);
-	if (error != ERROR_SUCCESS)
-		return false;
-
-	error = RegQueryValueEx(hKey, _T("Name"), 0, NULL, (LPBYTE)deviceName, &deviceNameLength);
-	if (error != ERROR_SUCCESS)
+	if (!m_proto->getWString(setting, &dbv))
 	{
-		RegCloseKey(hKey);
-		return false;
+		int len = mir_wstrlen(dbv.pwszVal) * 2;
+		pwszDefID = (LPWSTR)CoTaskMemAlloc(len + 1);
+		mir_wstrncpy(pwszDefID, dbv.pwszVal, len);
+		db_free(&dbv);
+	}
+	else
+	{
+		hr = pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDevice);
+		EXIT_ON_ERROR(hr);
+		hr = pDevice->GetId(&pwszDefID);
+		EXIT_ON_ERROR(hr);
 	}
 
-	RegCloseKey(hKey);
-	return true;
+	hr = pEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &pDevices);
+	EXIT_ON_ERROR(hr);
+	hr = pDevices->GetCount(&count);
+	EXIT_ON_ERROR(hr);
+
+	for (UINT i = 0; i < count; i++)
+	{
+		hr = pDevices->Item(i, &pDevice);
+		EXIT_ON_ERROR(hr);
+		hr = pDevice->OpenPropertyStore(STGM_READ, &pProperties);
+		EXIT_ON_ERROR(hr);
+		PropVariantInit(&varName);
+		hr = pProperties->GetValue(PKEY_Device_FriendlyName, &varName);
+		EXIT_ON_ERROR(hr);
+		hr = pDevice->GetId(&pwszID);
+		EXIT_ON_ERROR(hr);
+		combo.InsertString(varName.pwszVal, i, (LPARAM)mir_wstrdup(pwszID));
+		if (mir_wstrcmpi(pwszID, pwszDefID) == 0)
+			combo.SetCurSel(i);
+		CoTaskMemFree(pwszID);
+		CoTaskMemFree(pwszDefID);
+		PropVariantClear(&varName);
+		SAFE_RELEASE(pDevice);
+		SAFE_RELEASE(pProperties);
+	}
+
+	SAFE_RELEASE(pDevices);
+	return;
+
+Exit:
+	CoTaskMemFree(pwszID);
+	CoTaskMemFree(pwszDefID);
+	SAFE_RELEASE(pDevices);
+	SAFE_RELEASE(pDevice);
+	SAFE_RELEASE(pProperties);
 }
 
 void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
-	DWORD count = 0;
-	TCHAR deviceName[MAX_PATH];
-	DWORD deviceNameLength = _countof(deviceName);
+	IMMDeviceEnumerator *pEnumerator = NULL;
+	HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
+	EXIT_ON_ERROR(hr);
 
-	WAVEINCAPS2 wic2;
-	count = waveInGetNumDevs();
-	for (DWORD i = 0; i < count; i++)
-	{
-		if (!waveInGetDevCaps(i, (LPWAVEINCAPS)&wic2, sizeof(WAVEINCAPS2)))
-		{
-			if (!GetDeviceFullName(wic2.NameGuid, deviceName, deviceNameLength))
-				mir_tstrncpy(deviceName, wic2.szPname, deviceNameLength);
+	EnumDevices(m_audioInput, pEnumerator, eCapture, "AudioInputDeviceID");
+	EnumDevices(m_audioOutput, pEnumerator, eRender, "AudioOutputDeviceID");
+	return;
 
-			m_audioInput.InsertString(deviceName, i);
-		}
-	}
-	m_audioInput.SetCurSel(m_proto->getDword("AudioInputDeviceID", 0));
-
-	WAVEOUTCAPS2 woc2;
-	count = waveOutGetNumDevs();
-	for (DWORD i = 0; i < count; i++)
-	{
-		if (!waveOutGetDevCaps(i, (LPWAVEOUTCAPS)&woc2, sizeof(WAVEOUTCAPS2)))
-		{
-			if (!GetDeviceFullName(woc2.NameGuid, deviceName, deviceNameLength))
-				mir_tstrncpy(deviceName, woc2.szPname, deviceNameLength);
-
-			m_audioOutput.InsertString(deviceName, i);
-		}
-	}
-	m_audioOutput.SetCurSel(m_proto->getDword("AudioOutputDeviceID", 0));
+Exit:
+	SAFE_RELEASE(pEnumerator);
 }
 
 void CToxOptionsMultimedia::OnApply()
 {
-	m_proto->setDword("AudioInputDeviceID", m_audioInput.GetCurSel());
-	m_proto->setDword("AudioOutputDeviceID", m_audioOutput.GetCurSel());
+	int i = m_audioInput.GetCurSel();
+	if (i == -1)
+		m_proto->delSetting("AudioInputDeviceID");
+	else
+	{
+		wchar_t* data = (wchar_t*)m_audioInput.GetItemData(i);
+		m_proto->setWString("AudioInputDeviceID", data);
+	}
+
+	i = m_audioOutput.GetCurSel();
+	if (i == -1)
+		m_proto->delSetting("AudioOutputDeviceID");
+	else
+	{
+		wchar_t* data = (wchar_t*)m_audioOutput.GetItemData(i);
+		m_proto->setWString("AudioOutputDeviceID", data);
+	}
+}
+
+void CToxOptionsMultimedia::OnDestroy()
+{
+	int count = m_audioInput.GetCount();
+	for (int i = 0; i < count; i++)
+	{
+		wchar_t* data = (wchar_t*)m_audioInput.GetItemData(i);
+		mir_free(data);
+
+	}
+
+	count = m_audioOutput.GetCount();
+	for (int i = 0; i < count; i++)
+	{
+		wchar_t* data = (wchar_t*)m_audioOutput.GetItemData(i);
+		mir_free(data);
+
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -53,11 +53,12 @@ private:
 	CCtrlCombo m_audioInput;
 	CCtrlCombo m_audioOutput;
 
-	static bool GetDeviceFullName(GUID guid, TCHAR *deviceName, DWORD deviceNameLength);
-
 protected:
+	void EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting);
+
 	void OnInitDialog();
 	void OnApply();
+	void OnDestroy();
 
 public:
 	CToxOptionsMultimedia(CToxProto *proto);
