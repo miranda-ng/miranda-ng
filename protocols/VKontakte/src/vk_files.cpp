@@ -38,7 +38,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		tszError = TranslateT("Protocol is offline");
 		break;
 	case VKERR_FILE_NOT_EXIST:
-		tszError = TranslateT("File not exist");
+		tszError = TranslateT("File does not exist");
 		break;
 	case VKERR_FTYPE_NOT_SUPPORTED:
 		tszError = TranslateT("File type not supported");
@@ -50,7 +50,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		tszError = TranslateT("Error read file");
 		break;
 	case VKERR_FILE_NOT_UPLOADED:
-		tszError = TranslateT("Error upload file");
+		tszError = TranslateT("File upload error");
 		break;
 	case VKERR_INVALID_URL:
 		tszError = TranslateT("Upload server returned empty URL");

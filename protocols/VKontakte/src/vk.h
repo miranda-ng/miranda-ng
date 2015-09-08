@@ -71,11 +71,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_INVALID_FILENAME		301	// Invalid filename
 #define VKERR_INVALID_FILESIZE		302	// Invalid filesize
 // File upload custom error
-#define VKERR_FILE_NOT_EXIST		10100	// File not exist
+#define VKERR_FILE_NOT_EXIST		10100	// File does not exist
 #define VKERR_FTYPE_NOT_SUPPORTED	10101	// File type not supported
 #define VKERR_ERR_OPEN_FILE			10103	// Error open file
 #define VKERR_ERR_READ_FILE			10104	// Error read file
-#define VKERR_FILE_NOT_UPLOADED		10105	// Error upload file
+#define VKERR_FILE_NOT_UPLOADED		10105	// File upload error
 #define VKERR_INVALID_URL			10106	// Upload server returned empty URL
 #define VKERR_INVALID_USER			10107	// Invalid or unknown recipient user ID
 
