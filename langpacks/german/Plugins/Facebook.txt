@@ -45,7 +45,7 @@ Automatisch 'Ignoriere Statusänderung-Flag' setzen
 [Use bigger avatars]
 Größere Avatare nutzen
 [Prefer real names instead of nicknames]
-
+Echte Namen anstatt Nicknamen verwenden
 [Event notifications]
 Ereignisbenachrichtigungen
 [Notifications]

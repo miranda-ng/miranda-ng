@@ -9,7 +9,7 @@
 Zeigt mit einem Icon im Nachrichtenfenster ob Ihre Nachricht schon gelesen wurde oder noch ungelesen ist
 ;file \plugins\MessageState\src\clist_extra.cpp
 [MessageState unread extra icon]
-
+MessageState-Ungelesen-Icon
 ;file \plugins\MessageState\src\global.h
 [Unread message icon]
 Nachricht-ungelesen-Icon
@@ -20,12 +20,12 @@ Senden-fehlgeschlagen-Icon
 [Sending message icon]
 Nachricht-senden-Icon
 [Unread clist extra icon]
-
+Ungelesen-Kontaktlistenicon
 ;file \plugins\MessageState\src\messagestate.cpp
 [Last message read at]
 Letzte Nachricht gelesen um
 [Last message read (unknown time)]
-
+Letzte Nachricht gelesen (unbekannte Zeit)
 [Last message is not read]
 Letzte Nachricht ist ungelesen
 [Last message was not sent.]

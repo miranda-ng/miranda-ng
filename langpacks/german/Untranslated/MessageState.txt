@@ -1,3 +1,0 @@
-﻿[MessageState unread extra icon]
-[Unread clist extra icon]
-[Last message read (unknown time)]
