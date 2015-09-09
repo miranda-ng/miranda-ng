@@ -332,17 +332,35 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		if (jnDlg == NULL)
 			break;
 
+		int uid = 0;
+		MCONTACT hContact(NULL);
+		
 		int chatid = jnDlg["chat_id"].as_int();
-		if (chatid != 0) {
+
+		if (!chatid) {
+			uid = jnDlg["user_id"].as_int();
+			hContact = FindUser(uid, true);
+
+			if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+				time_t tLastReadMessageTime = jnDlg["date"].as_int();
+				bool isOut = jnDlg["out"].as_bool();
+				bool isRead = jnDlg["read_state"].as_bool();
+
+				if (isRead && isOut) {
+					MessageReadData data(tLastReadMessageTime, MRD_TYPE_MESSAGETIME);
+					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
+				}
+			}
+		}
+		
+		if (chatid) {
 			debugLogA("CVkProto::OnReceiveDlgs chatid = %d", chatid);
 			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
 				AppendChat(chatid, jnDlg);
 		}
 		else if (m_iSyncHistoryMetod) {
 			int mid = jnDlg["id"].as_int();
-			int uid = jnDlg["user_id"].as_int();
-			MCONTACT hContact = FindUser(uid, true);
-
+		
 			if (getDword(hContact, "lastmsgid", -1) == -1 && numUnread)
 				GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 			else
@@ -352,8 +370,6 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
-			int uid = jnDlg["user_id"].as_int();
-			MCONTACT hContact = FindUser(uid, true);
 			GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 
 			if (m_iMarkMessageReadOn == markOnReceive)
