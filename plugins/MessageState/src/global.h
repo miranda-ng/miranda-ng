@@ -22,6 +22,7 @@ enum SRMM_ICON_TYPE
 };
 
 #define FLAG_CONTAINS(x,y)      ((x & y) == y)
+
 #define DBKEY_MESSAGE_READ_TIME "LastMsgReadTime"
 #define DBKEY_MESSAGE_READ_TIME_TYPE "LastMsgReadTimeType"
 
@@ -29,10 +30,14 @@ __forceinline bool CheckProtoSupport(const char *szProto)
 {	return ((szProto != NULL) ? FLAG_CONTAINS(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0), PF4_READNOTIFY) : false);
 }
 
+void InitServices();
+void DestroyServices();
+INT_PTR UpdateService(WPARAM, LPARAM);
+
+int IconsUpdate(WPARAM hContact, LONGLONG readtime);
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0);
 LONGLONG GetLastSentMessageTime(MCONTACT hContact);
 int OnModulesLoaded(WPARAM, LPARAM);
-INT_PTR UpdateService(WPARAM, LPARAM);
 bool HasUnread(MCONTACT hContact);
 int ExtraIconsApply(WPARAM hContact, LPARAM);
 void InitClistExtraIcon();

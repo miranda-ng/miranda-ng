@@ -35,16 +35,13 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
-	hUpdateService = CreateServiceFunction(MS_MESSAGESTATE_UPDATE, UpdateService);
-
+	InitServices();
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (hUpdateService)
-		DestroyServiceFunction(hUpdateService);
+	DestroyServices();
 
 	return 0;
 }
