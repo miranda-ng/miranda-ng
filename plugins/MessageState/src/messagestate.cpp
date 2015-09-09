@@ -1,17 +1,5 @@
 #include "stdafx.h"
 
-LONGLONG GetLastSentMessageTime(MCONTACT hContact)
-{
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
-	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		db_event_get(hDbEvent, &dbei);
-		if (FLAG_CONTAINS(dbei.flags, DBEF_SENT))
-			return dbei.timestamp;
-	}
-	return -1;
-}
-
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 {
 	if (hContact && arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
@@ -20,6 +8,8 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 		sid.szModule = MODULENAME;
 		sid.dwId = 1;
 		sid.flags = MBF_TCHAR;
+
+		CMString tszTooltip;
 
 		switch (type)
 		{
@@ -31,43 +21,44 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 		case ICON_READ:
 			{
 				sid.hIcon = IcoLib_GetIcon("read_icon");
-				CMString tooltip;
+				
 				if (db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME)
 				{
 					TCHAR ttime[64];
 					_locale_t locale = _create_locale(LC_ALL, "");
 					_tcsftime_l(ttime, _countof(ttime), _T("%X %x"), localtime(&time), locale);
 					_free_locale(locale);
-					tooltip.Format(L"%s %s", TranslateT("Last message read at"), ttime);
+					tszTooltip.Format(L"%s %s", TranslateT("Last message read at"), ttime);
 				}
 				else
 				{
-					tooltip = TranslateT("Last message read (unknown time)");
+					tszTooltip = TranslateT("Last message read (unknown time)");
 				}
-				sid.tszTooltip = tooltip.Detach();
 				break;
 			}
 		case ICON_UNREAD:
 			{
 				sid.hIcon = IcoLib_GetIcon("unread_icon");
-				sid.tszTooltip = TranslateT("Last message is not read");
+				tszTooltip = TranslateT("Last message is not read");
 				break;
 			}
 		case ICON_FAILED:
 			{
 				sid.hIcon = IcoLib_GetIcon("fail_icon");
-				sid.tszTooltip = TranslateT("Last message was not sent.");
+				tszTooltip = TranslateT("Last message was not sent.");
 				break;
 			}
 		case ICON_NOSENT:
 			{
 				sid.hIcon = IcoLib_GetIcon("nosent_icon");
-				sid.tszTooltip = TranslateT("Sending...");
+				tszTooltip = TranslateT("Sending...");
 				break;
 			}
 		default:
 			return;
 		}
+
+		sid.tszTooltip = tszTooltip.GetBuffer();
 
 		Srmm_ModifyIcon(hContact, &sid);
 	}
@@ -80,10 +71,15 @@ int IconsUpdate(WPARAM hContact, LONGLONG readtime)
 	LONGLONG lasttime = GetLastSentMessageTime(hContact);
 	if (lasttime != -1 && readtime != 0)
 	{
-		SetSRMMIcon(hContact, (readtime >= lasttime) ? ICON_READ : ICON_UNREAD, readtime);
+		SetSRMMIcon(hContact, HasUnread(hContact) ? ICON_UNREAD : ICON_READ , readtime);
 	}
-	else 
+	else
+	{
 		SetSRMMIcon(hContact, ICON_HIDDEN);
+	}
+
+	ExtraIconsApply(hContact, 0);
+
 	return 0;
 }
 
@@ -132,19 +128,6 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		arMonitoredWindows.remove(event->hContact);
 
 	return 0;
-}
-
-INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
-{
-	MessageReadData *mrd = (MessageReadData*)lParam;
-	if (mrd->dw_lastTime > db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0))
-	{
-		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
-		db_set_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
-		IconsUpdate(hContact, mrd->dw_lastTime);
-		ExtraIconsApply(hContact, 0);
-	}
-	return 0; 
 }
 
 int OnModulesLoaded(WPARAM, LPARAM)

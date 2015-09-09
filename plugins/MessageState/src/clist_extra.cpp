@@ -2,17 +2,6 @@
 
 HANDLE hExtraIcon = NULL;
 
-bool HasUnread(MCONTACT hContact)
-{
-	const char *szProto = GetContactProto(hContact);
-	if (CheckProtoSupport(szProto))
-	{
-		return ((GetLastSentMessageTime(hContact) > db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0)) && db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0) != 0);
-	}
-
-	return false;
-}
-
 int ExtraIconsApply(WPARAM hContact, LPARAM)
 {
 	if (hContact == NULL) return 0;
