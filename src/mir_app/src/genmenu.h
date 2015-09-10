@@ -131,5 +131,4 @@ TIntMenuObject* GetMenuObjbyId(const int id);
 
 int ProtocolOrderOptInit(WPARAM wParam, LPARAM);
 
-void FreeAndNil(void **p);
 #endif
