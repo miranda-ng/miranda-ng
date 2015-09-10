@@ -39,7 +39,7 @@ void createXstatusListAux(void);
 void destroyXstatusListAux(void);
 
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
 
 extern BYTE bFlashOnMsg;
 extern BYTE bFlashOnURL;
@@ -90,7 +90,7 @@ BYTE trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
 int InitializeOptions(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Keyboard Flash");
 	odp.pszGroup = LPGEN("Events");
@@ -121,20 +121,20 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			tci.pszText = TranslateT("Ignore");
 			TabCtrl_InsertItem(tc, 4, &tci);
 
-			hwndProto = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM) NULL);
+			hwndProto = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM) NULL);
 			EnableThemeDialogTexture(hwndProto, ETDT_ENABLETAB);
 			SetWindowPos(hwndProto, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			ShowWindow(hwndProto, SW_SHOW);
-			hwndBasic = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM) NULL);
+			hwndBasic = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM) NULL);
 			EnableThemeDialogTexture(hwndBasic, ETDT_ENABLETAB);
 			SetWindowPos(hwndBasic, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			hwndEffect = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM) NULL);
+			hwndEffect = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM) NULL);
 			EnableThemeDialogTexture(hwndEffect, ETDT_ENABLETAB);
 			SetWindowPos(hwndEffect, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			hwndTheme = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM) NULL);
+			hwndTheme = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM) NULL);
 			EnableThemeDialogTexture(hwndTheme, ETDT_ENABLETAB);
 			SetWindowPos(hwndTheme, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			hwndIgnore = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM) NULL);
+			hwndIgnore = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM) NULL);
 			EnableThemeDialogTexture(hwndIgnore, ETDT_ENABLETAB);
 			SetWindowPos(hwndIgnore, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			hwndCurrentTab = hwndProto;
@@ -429,11 +429,11 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			return TRUE;
 		case IDC_ASSIGNPGMS:
-			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PROCESSES), hwndDlg, DlgProcProcesses, 0) == IDC_OKPGM)
+			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PROCESSES), hwndDlg, DlgProcProcesses, 0) == IDC_OKPGM)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SELECTXSTATUS:
-			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_XSTATUSES), hwndDlg, DlgProcXstatusList, 0) == IDC_OKXST)
+			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_XSTATUSES), hwndDlg, DlgProcXstatusList, 0) == IDC_OKXST)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SREMCHECK:
@@ -621,7 +621,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_ASSIGNLEDS:
-			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_EVENTLEDS), hwndDlg, DlgProcEventLeds, 0) == IDC_OK)
+			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EVENTLEDS), hwndDlg, DlgProcEventLeds, 0) == IDC_OK)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SDELAY:
