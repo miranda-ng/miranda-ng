@@ -2,8 +2,6 @@
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	tox(NULL), toxAv(NULL), password(NULL),
-	isTerminated(false), isConnected(false),
 	hPollingThread(NULL), hOutDevice(NULL)
 {
 	InitNetlib();
@@ -173,9 +171,9 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		// logout
-		isTerminated = true;
-		WaitForSingleObject(hPollingThread, INFINITE);
-		hPollingThread = NULL;
+		if (toxThread)
+			toxThread->isTerminated = true;
+		toxThread = NULL;
 
 		if (!Miranda_Terminated())
 		{
@@ -194,23 +192,16 @@ int CToxProto::SetStatus(int iNewStatus)
 
 		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 		{
-			if (hPollingThread != NULL)
-			{
-				m_iDesiredStatus = old_status;
-				return 0;
-			}
-
 			// login
 			m_iStatus = ID_STATUS_CONNECTING;
 
-			isTerminated = false;
 			hPollingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 		}
 		else
 		{
 			// set tox status
 			m_iStatus = iNewStatus;
-			tox_self_set_status(tox, MirandaToToxStatus(iNewStatus));
+			tox_self_set_status(toxThread->tox, MirandaToToxStatus(iNewStatus));
 		}
 	}
 
@@ -235,7 +226,7 @@ int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 	{
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
-		if (tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
+		if (tox_self_set_status_message(toxThread->tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
 			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
 	}
 

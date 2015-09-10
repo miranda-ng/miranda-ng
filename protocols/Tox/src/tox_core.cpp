@@ -1,16 +1,15 @@
 #include "stdafx.h"
 
-bool CToxProto::InitToxCore()
+Tox_Options* CToxProto::GetToxOptions()
 {
-	debugLogA(__FUNCTION__": initializing tox core");
-
 	TOX_ERR_OPTIONS_NEW error;
 	Tox_Options *options = tox_options_new(&error);
 	if (error != TOX_ERR_OPTIONS_NEW_OK)
 	{
 		debugLogA(__FUNCTION__": failed to initialize tox options (%d)", error);
-		return false;
+		return NULL;
 	}
+
 	options->udp_enabled = getBool("EnableUDP", 1);
 	options->ipv6_enabled = getBool("EnableIPv6", 0);
 
@@ -38,11 +37,22 @@ bool CToxProto::InitToxCore()
 			}
 		}
 	}
+	
+	return options;
+}
+
+bool CToxProto::InitToxCore(ToxThreadData *toxThread)
+{
+	debugLogA(__FUNCTION__": initializing tox core");
+
+	Tox_Options *options = GetToxOptions();
+	if (options == NULL)
+		return false;
 
 	if (LoadToxProfile(options))
 	{
 		TOX_ERR_NEW initError;
-		tox = tox_new(options, &initError);
+		toxThread->tox = tox_new(options, &initError);
 		if (initError != TOX_ERR_NEW_OK)
 		{
 			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", initError);
@@ -51,47 +61,47 @@ bool CToxProto::InitToxCore()
 			return false;
 		}
 
-		tox_callback_friend_request(tox, OnFriendRequest, this);
-		tox_callback_friend_message(tox, OnFriendMessage, this);
-		tox_callback_friend_read_receipt(tox, OnReadReceipt, this);
-		tox_callback_friend_typing(tox, OnTypingChanged, this);
+		tox_callback_friend_request(toxThread->tox, OnFriendRequest, this);
+		tox_callback_friend_message(toxThread->tox, OnFriendMessage, this);
+		tox_callback_friend_read_receipt(toxThread->tox, OnReadReceipt, this);
+		tox_callback_friend_typing(toxThread->tox, OnTypingChanged, this);
 		//
-		tox_callback_friend_name(tox, OnFriendNameChange, this);
-		tox_callback_friend_status_message(tox, OnStatusMessageChanged, this);
-		tox_callback_friend_status(tox, OnUserStatusChanged, this);
-		tox_callback_friend_connection_status(tox, OnConnectionStatusChanged, this);
+		tox_callback_friend_name(toxThread->tox, OnFriendNameChange, this);
+		tox_callback_friend_status_message(toxThread->tox, OnStatusMessageChanged, this);
+		tox_callback_friend_status(toxThread->tox, OnUserStatusChanged, this);
+		tox_callback_friend_connection_status(toxThread->tox, OnConnectionStatusChanged, this);
 		// transfers
-		tox_callback_file_recv_control(tox, OnFileRequest, this);
-		tox_callback_file_recv(tox, OnFriendFile, this);
-		tox_callback_file_recv_chunk(tox, OnDataReceiving, this);
-		tox_callback_file_chunk_request(tox, OnFileSendData, this);
+		tox_callback_file_recv_control(toxThread->tox, OnFileRequest, this);
+		tox_callback_file_recv(toxThread->tox, OnFriendFile, this);
+		tox_callback_file_recv_chunk(toxThread->tox, OnDataReceiving, this);
+		tox_callback_file_chunk_request(toxThread->tox, OnFileSendData, this);
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
 		// a/v
 		if (IsWinVerVistaPlus())
 		{
 			/*toxAv = toxav_new(tox, TOX_MAX_CALLS);
-			toxav_register_audio_callback(toxAv, OnFriendAudio, this);
-			toxav_register_callstate_callback(toxAv, OnAvInvite, av_OnInvite, this);
-			toxav_register_callstate_callback(toxAv, OnAvStart, av_OnStart, this);
-			toxav_register_callstate_callback(toxAv, OnAvCancel, av_OnCancel, this);
-			toxav_register_callstate_callback(toxAv, OnAvReject, av_OnReject, this);
-			toxav_register_callstate_callback(toxAv, OnAvEnd, av_OnEnd, this);
-			toxav_register_callstate_callback(toxAv, OnAvCallTimeout, av_OnRequestTimeout, this);
-			toxav_register_callstate_callback(toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);*/
+			toxav_register_audio_callback(toxThread->toxAv, OnFriendAudio, this);
+			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvInvite, av_OnInvite, this);
+			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvStart, av_OnStart, this);
+			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvCancel, av_OnCancel, this);
+			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvReject, av_OnReject, this);
+			toxav_register_callstate_callback(toxThread->toxAv, OnAvEnd, av_OnEnd, this);
+			toxav_register_callstate_callback(toxThread->toxAv, OnAvCallTimeout, av_OnRequestTimeout, this);
+			toxav_register_callstate_callback(toxThread->toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);*/
 		}
 
 		uint8_t data[TOX_ADDRESS_SIZE];
-		tox_self_get_address(tox, data);
+		tox_self_get_address(toxThread->tox, data);
 		ToxHexAddress address(data);
 		setString(TOX_SETTINGS_ID, address);
 
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
-		tox_self_get_name(tox, nick);
+		tox_self_get_name(toxThread->tox, nick);
 		setTString("Nick", ptrT(Utf8DecodeT((char*)nick)));
 
 		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
-		tox_self_get_status_message(tox, statusMessage);
+		tox_self_get_status_message(toxThread->tox, statusMessage);
 		setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));
 
 		return true;
@@ -102,14 +112,14 @@ bool CToxProto::InitToxCore()
 	return false;
 }
 
-void CToxProto::UninitToxCore()
+void CToxProto::UninitToxCore(ToxThreadData *toxThread)
 {
-	if (tox)
+	if (toxThread->tox)
 	{
 		for (size_t i = 0; i < transfers.Count(); i++)
 		{
 			FileTransferParam *transfer = transfers.GetAt(i);
-			tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+			tox_file_control(toxThread->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 			transfers.Remove(transfer);
 		}
@@ -124,16 +134,12 @@ void CToxProto::UninitToxCore()
 		//	tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
 		//}
 
-		if (toxAv)
-			toxav_kill(toxAv);
+		if (toxThread->toxAv)
+			toxav_kill(toxThread->toxAv);
 
 		SaveToxProfile();
-		if (password != NULL)
-		{
-			mir_free(password);
-			password = NULL;
-		}
-		tox_kill(tox);
-		tox = NULL;
+
+		tox_kill(toxThread->tox);
+		toxThread = NULL;
 	}
 }

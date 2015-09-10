@@ -2,7 +2,7 @@
 
 bool CToxProto::IsOnline()
 {
-	return isConnected && m_iStatus >= ID_STATUS_ONLINE;
+	return toxThread && toxThread->isConnected && m_iStatus >= ID_STATUS_ONLINE;
 }
 
 void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
@@ -11,10 +11,10 @@ void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
 		return;
 	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
 	TOX_ERR_BOOTSTRAP error;
-	if (!tox_bootstrap(tox, address, port, binKey, &error))
+	if (!tox_bootstrap(toxThread->tox, address, port, binKey, &error))
 		debugLogA(__FUNCTION__ ": failed to bootstrap node %s:%d \"%s\" (%d)", address, port, hexKey, error);
-	if (!tox_add_tcp_relay(tox, address, port, binKey, &error))
-		debugLogA(__FUNCTION__ ": failed to add tcp relay%s:%d \"%s\" (%d)", address, port, hexKey, error);
+	if (!tox_add_tcp_relay(toxThread->tox, address, port, binKey, &error))
+		debugLogA(__FUNCTION__ ": failed to add tcp relay %s:%d \"%s\" (%d)", address, port, hexKey, error);
 }
 
 void CToxProto::BootstrapNodesFromDb(bool isIPv6)
@@ -86,16 +86,16 @@ void CToxProto::BootstrapNodes()
 
 void CToxProto::TryConnect()
 {
-	if (tox_self_get_connection_status(tox) != TOX_CONNECTION_NONE)
+	if (tox_self_get_connection_status(toxThread->tox) != TOX_CONNECTION_NONE)
 	{
-		isConnected = true;
+		toxThread->isConnected = true;
 		debugLogA(__FUNCTION__": successfuly connected to DHT");
 
 		ForkThread(&CToxProto::LoadFriendList, NULL);
 
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-		tox_self_set_status(tox, MirandaToToxStatus(m_iStatus));
+		tox_self_set_status(toxThread->tox, MirandaToToxStatus(m_iStatus));
 		debugLogA(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 	}
 	else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
@@ -108,11 +108,11 @@ void CToxProto::TryConnect()
 
 void CToxProto::CheckConnection(int &retriesCount)
 {
-	if (!isConnected)
+	if (!toxThread->isConnected)
 	{
 		TryConnect();
 	}
-	else if (tox_self_get_connection_status(tox) != TOX_CONNECTION_NONE)
+	else if (tox_self_get_connection_status(toxThread->tox) != TOX_CONNECTION_NONE)
 	{
 		if (retriesCount < TOX_MAX_DISCONNECT_RETRIES)
 		{
@@ -134,30 +134,33 @@ void CToxProto::CheckConnection(int &retriesCount)
 		}
 		else if (!(--retriesCount))
 		{
-			isConnected = false;
+			toxThread->isConnected = false;
 			debugLogA(__FUNCTION__": disconnected from DHT");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
 }
 
-void CToxProto::DoTox()
+void DoTox(ToxThreadData *toxThread)
 {
 	{
-		mir_cslock lock(toxLock);
-		tox_iterate(tox);
-		if (toxAv)
-			toxav_do(toxAv);
+		mir_cslock lock(toxThread->toxLock);
+		tox_iterate(toxThread->tox);
+		if (toxThread->toxAv)
+			toxav_do(toxThread->toxAv);
 	}
-	uint32_t interval = tox_iteration_interval(tox);
+	uint32_t interval = tox_iteration_interval(toxThread->tox);
 	Sleep(interval);
 }
 
 void CToxProto::PollingThread(void*)
 {
+	ToxThreadData toxThread;
+	this->toxThread = &toxThread;
+
 	debugLogA(__FUNCTION__": entering");
 
-	if (!InitToxCore())
+	if (!InitToxCore(&toxThread))
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_WRONGPASSWORD);
@@ -166,17 +169,17 @@ void CToxProto::PollingThread(void*)
 	}
 
 	int retriesCount = TOX_MAX_DISCONNECT_RETRIES;
-	isConnected = false;
+	toxThread.isConnected = false;
 	BootstrapNodes();
 
-	while (!isTerminated)
+	while (!toxThread.isTerminated)
 	{
 		CheckConnection(retriesCount);
-		DoTox();
+		DoTox(&toxThread);
 	}
 
-	UninitToxCore();
-	isConnected = false;
+	UninitToxCore(&toxThread);
+	toxThread.isConnected = false;
 
 	debugLogA(__FUNCTION__": leaving");
 }
