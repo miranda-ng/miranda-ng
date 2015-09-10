@@ -1,17 +1,17 @@
 #include "commonheaders.h"
 
-INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM)
 {
 	return (isContactSecured(wParam)&SECURED) || isContactPGP(wParam) || isContactGPG(wParam);
 }
 
-INT_PTR __cdecl Service_CreateIM(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_CreateIM(WPARAM wParam, LPARAM)
 {
 	CallContactService(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_INIT);
 	return 1;
 }
 
-INT_PTR __cdecl Service_DisableIM(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_DisableIM(WPARAM wParam, LPARAM)
 {
 	CallContactService(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
 	return 1;
@@ -26,8 +26,10 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam)
 		pUinKey ptr = getUinKey(wParam);
 		if (ptr) {
 			ptr->status = ptr->tstatus = (BYTE)lParam;
-			if (ptr->status == STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
-			else 				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
+			if (ptr->status == STATUS_ENABLED)
+				db_unset(ptr->hContact, MODULENAME, "StatusID");
+			else
+				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 		}
 		break;
 	}
@@ -35,22 +37,22 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR __cdecl Service_StatusDis(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_StatusDis(WPARAM wParam, LPARAM)
 {
 	return Service_Status(wParam, STATUS_DISABLED + 1);
 }
 
-INT_PTR __cdecl Service_StatusEna(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_StatusEna(WPARAM wParam, LPARAM)
 {
 	return Service_Status(wParam, STATUS_ENABLED + 1);
 }
 
-INT_PTR __cdecl Service_StatusTry(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_StatusTry(WPARAM wParam, LPARAM)
 {
 	return Service_Status(wParam, STATUS_ALWAYSTRY + 1);
 }
 
-INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM)
 {
 	if (bPGPloaded) {
 		db_unset(wParam, MODULENAME, "pgp");
@@ -106,7 +108,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM)
 {
 	if (bGPGloaded)
 		db_unset(wParam, MODULENAME, "gpg");
@@ -130,7 +132,8 @@ INT_PTR __cdecl Service_GPGsetKey(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (del) Service_GPGdelKey(wParam, lParam);
+	if (del)
+		Service_GPGdelKey(wParam, lParam);
 	else {
 		pUinKey ptr = getUinKey(wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
@@ -172,22 +175,22 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR __cdecl Service_ModeNative(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_ModeNative(WPARAM wParam, LPARAM)
 {
 	return Service_Mode(wParam, MODE_NATIVE + 1);
 }
 
-INT_PTR __cdecl Service_ModePGP(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_ModePGP(WPARAM wParam, LPARAM)
 {
 	return Service_Mode(wParam, MODE_PGP + 1);
 }
 
-INT_PTR __cdecl Service_ModeGPG(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_ModeGPG(WPARAM wParam, LPARAM)
 {
 	return Service_Mode(wParam, MODE_GPG + 1);
 }
 
-INT_PTR __cdecl Service_ModeRSAAES(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl Service_ModeRSAAES(WPARAM wParam, LPARAM)
 {
 	return Service_Mode(wParam, MODE_RSAAES + 1);
 }
