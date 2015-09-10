@@ -219,8 +219,8 @@ INT_PTR FreeOwnerDataMainMenu(WPARAM, LPARAM lParam)
 {
 	MainMenuExecParam *mmep = (MainMenuExecParam*)lParam;
 	if (mmep != NULL) {
-		FreeAndNil((void**)&mmep->szServiceName);
-		FreeAndNil((void**)&mmep);
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
 	return 0;
 }
@@ -338,9 +338,9 @@ static INT_PTR FreeOwnerDataContactMenu(WPARAM, LPARAM lParam)
 {
 	ContactMenuExecParam *cmep = (ContactMenuExecParam*)lParam;
 	if (cmep != NULL) {
-		FreeAndNil((void**)&cmep->szServiceName);
-		FreeAndNil((void**)&cmep->pszContactOwner);
-		FreeAndNil((void**)&cmep);
+		mir_free(cmep->szServiceName);
+		mir_free(cmep->pszContactOwner);
+		mir_free(cmep);
 	}
 	return 0;
 }
