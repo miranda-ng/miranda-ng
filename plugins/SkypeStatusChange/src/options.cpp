@@ -145,7 +145,7 @@ inline ETreeCheckBoxState tree_get_state_image(HWND hwndTree,HTREEITEM hti)
 		return static_cast<ETreeCheckBoxState>(nState);
 	}
 
-	_ASSERT(!"we should never get here!");
+	assert(!"we should never get here!");
 	return TCBS_UNCHECKED;
 }
 
