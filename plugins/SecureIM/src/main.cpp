@@ -40,10 +40,10 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
 	CMenuItem mi;
-	mi.flags = flags | CMIF_HIDDEN;
+	mi.flags = flags | CMIF_HIDDEN | CMIF_UNICODE;
 	mi.position = pos;
 	mi.hIcolibItem = hicon;
-	mi.name.a = (char*)name;
+	mi.name.t = (TCHAR*)name;
 	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }
