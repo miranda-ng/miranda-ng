@@ -24,7 +24,7 @@ class IEEmbed;
 #include <mshtml.h>
 #include <exdisp.h>
 
-#include <atlbase.h>	// CComPtr
+#include <msapi/comptr.h>	// CComPtr
 
 #ifndef IEEMBED_INCLUDED
 #define IEEMBED_INCLUDED
