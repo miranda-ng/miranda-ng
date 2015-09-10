@@ -1,6 +1,19 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
+struct ToxThreadData
+{
+	Tox *tox;
+	ToxAv *toxAv;
+	bool isConnected;
+	bool isTerminated;
+
+	mir_cs toxLock;
+
+	ToxThreadData() : tox(NULL), toxAv(NULL),
+		isConnected(false), isTerminated(false) { }
+};
+
 struct CToxProto : public PROTO<CToxProto>
 {
 	friend CToxPasswordEditor;
@@ -69,14 +82,10 @@ public:
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
 private:
-	Tox *tox;
-	ToxAv *toxAv;
-	char *password;
-	mir_cs toxLock;
+	ToxThreadData *toxThread;
 	mir_cs profileLock;
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
-	bool isTerminated, isConnected;
 	CTransferList transfers;
 
 	static HANDLE hProfileFolderPath;
@@ -91,8 +100,9 @@ private:
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 
 	// tox core
-	bool InitToxCore();
-	void UninitToxCore();
+	Tox_Options* GetToxOptions();
+	bool InitToxCore(ToxThreadData *toxThread);
+	void UninitToxCore(ToxThreadData *toxThread);
 
 	// tox network
 	bool IsOnline();
@@ -103,7 +113,6 @@ private:
 	void BootstrapNodes();
 	void TryConnect();
 	void CheckConnection(int &retriesCount);
-	void DoTox();
 
 	void __cdecl PollingThread(void*);
 
@@ -224,7 +233,6 @@ private:
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	// transfer
-
 	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath);
 	int OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename);
 	int OnFileCancel(MCONTACT hContact, HANDLE hTransfer);

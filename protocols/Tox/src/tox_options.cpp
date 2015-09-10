@@ -62,6 +62,8 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
+	ToxThreadData toxThread;
+
 	std::tstring profilePath = m_proto->GetToxProfilePath();
 	if (!m_proto->IsFileExists(profilePath))
 	{
@@ -74,7 +76,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		CloseHandle(hProfile);
 
 		TOX_ERR_NEW initError;
-		m_proto->tox = tox_new(NULL, &initError);
+		toxThread.tox = tox_new(NULL, &initError);
 		if (initError != TOX_ERR_NEW_OK)
 		{
 			m_proto->debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
@@ -82,14 +84,14 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		}
 	}
 
-	if (m_proto->InitToxCore())
+	if (m_proto->InitToxCore(&toxThread))
 	{
 		TCHAR *group = m_group.GetText();
 		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
 			Clist_CreateGroup(0, group);
 
 		m_proto->LoadFriendList(NULL);
-		m_proto->UninitToxCore();
+		m_proto->UninitToxCore(&toxThread);
 
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
@@ -175,9 +177,8 @@ void CToxOptionsMain::OnApply()
 	{
 		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)ptrT(m_nickname.GetText()));
 
-		if (m_proto->password != NULL)
-			mir_free(m_proto->password);
-		m_proto->password = mir_utf8encodeW(ptrT(m_password.GetText()));
+		// todo: add checkbox
+		m_proto->setTString("Password", pass_ptrT(m_password.GetText()));
 
 		m_proto->SaveToxProfile();
 	}

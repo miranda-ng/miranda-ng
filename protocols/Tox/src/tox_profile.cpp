@@ -59,7 +59,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 
 	if (data && tox_is_data_encrypted(data))
 	{
-		password = mir_utf8encodeW(ptrT(getTStringA("Password")));
+		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
 		if (password == NULL || mir_strlen(password) == 0)
 		{
 			CToxPasswordEditor passwordEditor(this);
@@ -71,7 +71,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		}
 		uint8_t *encryptedData = (uint8_t*)mir_calloc(size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 		TOX_ERR_DECRYPTION coreDecryptError;
-		if (!tox_pass_decrypt(data, size, (uint8_t*)password, mir_strlen(password), encryptedData, &coreDecryptError))
+		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError))
 		{
 			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
 			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
@@ -98,15 +98,18 @@ void CToxProto::SaveToxProfile()
 {
 	mir_cslock locker(profileLock);
 
-	size_t size = tox_get_savedata_size(tox);
-	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
-	tox_get_savedata(tox, data);
+	if (!toxThread)
+		return;
 
-	size_t passwordLen = mir_strlen(password);
-	if (password && passwordLen)
+	size_t size = tox_get_savedata_size(toxThread->tox);
+	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
+	tox_get_savedata(toxThread->tox, data);
+
+	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
+	if (password && mir_strlen(password))
 	{
 		TOX_ERR_ENCRYPTION coreEncryptError;
-		if (!tox_pass_encrypt(data, size, (uint8_t*)password, passwordLen, data, &coreEncryptError))
+		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), data, &coreEncryptError))
 		{
 			debugLogA(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);
@@ -159,12 +162,9 @@ CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
 
 void CToxPasswordEditor::OnOk(CCtrlButton*)
 {
-	ptrT tszPassword(password.GetText());
+	pass_ptrT tszPassword(password.GetText());
 	if (savePermanently.Enabled())
 		m_proto->setTString("Password", tszPassword);
-	if (m_proto->password != NULL)
-		mir_free(m_proto->password);
-	m_proto->password = mir_utf8encodeW(tszPassword);
 
 	EndDialog(m_hwnd, 1);
 }
