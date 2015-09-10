@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <assert.h>
-#include <atlbase.h>
-#include <atlconv.h>
 #include <commctrl.h>
 
 #include <newpluginapi.h>

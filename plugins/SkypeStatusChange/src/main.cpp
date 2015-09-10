@@ -140,7 +140,7 @@ static void ThreadFunc(void*)
 		}
 		else {
 			DWORD dwResult = ::MsgWaitForMultipleObjects(1, &g_hEventShutdown, FALSE, INFINITE, QS_ALLEVENTS);
-			_ASSERT(WAIT_FAILED != dwResult);
+			assert(WAIT_FAILED != dwResult);
 			if (WAIT_OBJECT_0 == dwResult)
 				break;
 		}
@@ -240,17 +240,17 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 {
 	g_bMirandaIsShutdown = true;
 	BOOL b = SetEvent(g_hEventShutdown);
-	_ASSERT(b && "SetEvent failed");
+	assert(b && "SetEvent failed");
 
 	DWORD dwResult = ::WaitForSingleObject(g_hThread, INFINITE);
-	_ASSERT(WAIT_FAILED != dwResult);
+	assert(WAIT_FAILED != dwResult);
 
 	b = ::CloseHandle(g_hEventShutdown);
-	_ASSERT(b && "CloseHandle event");
+	assert(b && "CloseHandle event");
 
 	if (g_wndMainWindow) {
 		b = DestroyWindow(g_wndMainWindow);
-		_ASSERT(b && "DestoryWindow");
+		assert(b && "DestoryWindow");
 		g_wndMainWindow = NULL;
 	}
 
