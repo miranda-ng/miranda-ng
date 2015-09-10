@@ -195,82 +195,63 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 
 void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting)
 {
-	HRESULT hr;
-	UINT count;
-	DBVARIANT dbv;
-	LPWSTR pwszID = NULL,
-		pwszDefID = NULL;
-	IMMDevice *pDevice = NULL;
-	IMMDeviceCollection *pDevices = NULL;
-	PROPVARIANT varName;
-	IPropertyStore *pProperties = NULL;
-
-	if (!m_proto->getWString(setting, &dbv))
+	LPWSTR pwszDefID = NULL;
+	ptrW wszDefID(m_proto->getWStringA(setting));
+	if (wszDefID != NULL)
 	{
-		int len = mir_wstrlen(dbv.pwszVal) * 2;
-		pwszDefID = (LPWSTR)CoTaskMemAlloc(len + 1);
-		mir_wstrncpy(pwszDefID, dbv.pwszVal, len);
-		db_free(&dbv);
+		size_t len = mir_wstrlen(wszDefID) + 1;
+		pwszDefID = (LPWSTR)CoTaskMemAlloc(len*2);
+		mir_wstrncpy(pwszDefID, wszDefID, len);
 	}
 	else
 	{
-		hr = pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDevice);
-		EXIT_ON_ERROR(hr);
-		hr = pDevice->GetId(&pwszDefID);
-		EXIT_ON_ERROR(hr);
+		CComPtr<IMMDevice> pDevice = NULL;
+		if (FAILED(pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDevice))) return;
+		if (FAILED(pDevice->GetId(&pwszDefID))) return;
 	}
 
-	hr = pEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &pDevices);
-	EXIT_ON_ERROR(hr);
-	hr = pDevices->GetCount(&count);
-	EXIT_ON_ERROR(hr);
+	CComPtr<IMMDeviceCollection> pDevices = NULL;
+	EXIT_ON_ERROR(pEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &pDevices));
+
+	UINT count;
+	EXIT_ON_ERROR(pDevices->GetCount(&count));
 
 	for (UINT i = 0; i < count; i++)
 	{
-		hr = pDevices->Item(i, &pDevice);
-		EXIT_ON_ERROR(hr);
-		hr = pDevice->OpenPropertyStore(STGM_READ, &pProperties);
-		EXIT_ON_ERROR(hr);
+		CComPtr<IMMDevice> pDevice = NULL;
+		EXIT_ON_ERROR(pDevices->Item(i, &pDevice));
+
+		CComPtr<IPropertyStore> pProperties = NULL;
+		EXIT_ON_ERROR(pDevice->OpenPropertyStore(STGM_READ, &pProperties));
+
+		PROPVARIANT varName;
 		PropVariantInit(&varName);
-		hr = pProperties->GetValue(PKEY_Device_FriendlyName, &varName);
-		EXIT_ON_ERROR(hr);
-		hr = pDevice->GetId(&pwszID);
-		EXIT_ON_ERROR(hr);
+		EXIT_ON_ERROR(pProperties->GetValue(PKEY_Device_FriendlyName, &varName));
+
+		LPWSTR pwszID = NULL;
+		EXIT_ON_ERROR(pDevice->GetId(&pwszID));
 		combo.InsertString(varName.pwszVal, i, (LPARAM)mir_wstrdup(pwszID));
 		if (mir_wstrcmpi(pwszID, pwszDefID) == 0)
 			combo.SetCurSel(i);
 		CoTaskMemFree(pwszID);
-		CoTaskMemFree(pwszDefID);
+
 		PropVariantClear(&varName);
-		SAFE_RELEASE(pDevice);
-		SAFE_RELEASE(pProperties);
 	}
 
-	SAFE_RELEASE(pDevices);
-	return;
-
 Exit:
-	CoTaskMemFree(pwszID);
 	CoTaskMemFree(pwszDefID);
-	SAFE_RELEASE(pDevices);
-	SAFE_RELEASE(pDevice);
-	SAFE_RELEASE(pProperties);
 }
 
 void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
-	IMMDeviceEnumerator *pEnumerator = NULL;
-	HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
-	EXIT_ON_ERROR(hr);
+	CComPtr<IMMDeviceEnumerator> pEnumerator = NULL;
+	if (FAILED(CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator)))
+		return;
 
 	EnumDevices(m_audioInput, pEnumerator, eCapture, "AudioInputDeviceID");
 	EnumDevices(m_audioOutput, pEnumerator, eRender, "AudioOutputDeviceID");
-	return;
-
-Exit:
-	SAFE_RELEASE(pEnumerator);
 }
 
 void CToxOptionsMultimedia::OnApply()
