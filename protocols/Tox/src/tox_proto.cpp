@@ -145,25 +145,9 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
 
-	switch (iNewStatus)
-	{
-	case ID_STATUS_FREECHAT:
-	case ID_STATUS_ONTHEPHONE:
-		iNewStatus = ID_STATUS_ONLINE;
-		break;
+	iNewStatus = MapStatus(iNewStatus);
 
-	case ID_STATUS_NA:
-	case ID_STATUS_OUTTOLUNCH:
-		iNewStatus = ID_STATUS_AWAY;
-		break;
-
-	case ID_STATUS_DND:
-	case ID_STATUS_INVISIBLE:
-		iNewStatus = ID_STATUS_OCCUPIED;
-		break;
-	}
-
-	debugLogA("CToxProto::SetStatus: changing status from %i to %i", m_iStatus, iNewStatus);
+	logger->Log("CToxProto::SetStatus: changing status from %i to %i", m_iStatus, iNewStatus);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
@@ -172,8 +156,10 @@ int CToxProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		if (toxThread)
-			toxThread->isTerminated = true;
-		toxThread = NULL;
+		{
+			toxThread->Stop();
+			toxThread = NULL;
+		}
 
 		if (!Miranda_Terminated())
 		{
@@ -182,27 +168,25 @@ int CToxProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		return 0;
+	}
+
+	if (old_status == ID_STATUS_CONNECTING)
+		return 0;
+
+	if (old_status == ID_STATUS_OFFLINE && !IsOnline())
+	{
+		// login
+		m_iStatus = ID_STATUS_CONNECTING;
+
+		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, NULL, NULL);
 	}
 	else
 	{
-		if (old_status == ID_STATUS_CONNECTING)
-		{
-			return 0;
-		}
-
-		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
-		{
-			// login
-			m_iStatus = ID_STATUS_CONNECTING;
-
-			hPollingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
-		}
-		else
-		{
-			// set tox status
-			m_iStatus = iNewStatus;
-			tox_self_set_status(toxThread->tox, MirandaToToxStatus(iNewStatus));
-		}
+		// set tox status
+		m_iStatus = iNewStatus;
+		tox_self_set_status(toxThread->tox, MirandaToToxStatus(iNewStatus));
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -227,7 +211,7 @@ int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
 		if (tox_self_set_status_message(toxThread->tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
-			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
+			logger->Log("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
 	}
 
 	return 0;

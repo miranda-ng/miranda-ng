@@ -6,7 +6,7 @@ Tox_Options* CToxProto::GetToxOptions()
 	Tox_Options *options = tox_options_new(&error);
 	if (error != TOX_ERR_OPTIONS_NEW_OK)
 	{
-		debugLogA(__FUNCTION__": failed to initialize tox options (%d)", error);
+		logger->Log(__FUNCTION__": failed to initialize tox options (%d)", error);
 		return NULL;
 	}
 
@@ -22,7 +22,7 @@ Tox_Options* CToxProto::GetToxOptions()
 		{
 			if (nlus.proxyType == PROXYTYPE_HTTP || nlus.proxyType == PROXYTYPE_HTTPS)
 			{
-				debugLogA("CToxProto::InitToxCore: setting http user proxy config");
+				logger->Log("CToxProto::InitToxCore: setting http user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_HTTP;
 				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
 				options->proxy_port = nlus.wProxyPort;
@@ -30,7 +30,7 @@ Tox_Options* CToxProto::GetToxOptions()
 
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
 			{
-				debugLogA(__FUNCTION__": setting socks user proxy config");
+				logger->Log(__FUNCTION__": setting socks user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_SOCKS5;
 				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
 				options->proxy_port = nlus.wProxyPort;
@@ -43,7 +43,7 @@ Tox_Options* CToxProto::GetToxOptions()
 
 bool CToxProto::InitToxCore(ToxThreadData *toxThread)
 {
-	debugLogA(__FUNCTION__": initializing tox core");
+	logger->Log(__FUNCTION__": initializing tox core");
 
 	Tox_Options *options = GetToxOptions();
 	if (options == NULL)
@@ -55,7 +55,7 @@ bool CToxProto::InitToxCore(ToxThreadData *toxThread)
 		toxThread->tox = tox_new(options, &initError);
 		if (initError != TOX_ERR_NEW_OK)
 		{
-			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", initError);
+			logger->Log(__FUNCTION__": failed to initialize tox core (%d)", initError);
 			ShowNotification(ToxErrorToString(initError), TranslateT("Unable to initialize Tox core"), MB_ICONERROR);
 			tox_options_free(options);
 			return false;
