@@ -1,5 +1,27 @@
 #include "stdafx.h"
 
+int CToxProto::MapStatus(int status)
+{
+	switch (status)
+	{
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_ONTHEPHONE:
+		status = ID_STATUS_ONLINE;
+		break;
+
+	case ID_STATUS_NA:
+	case ID_STATUS_OUTTOLUNCH:
+		status = ID_STATUS_AWAY;
+		break;
+
+	case ID_STATUS_DND:
+	case ID_STATUS_INVISIBLE:
+		status = ID_STATUS_OCCUPIED;
+		break;
+	}
+	return status;
+}
+
 TOX_USER_STATUS CToxProto::MirandaToToxStatus(int status)
 {
 	TOX_USER_STATUS userstatus = TOX_USER_STATUS_NONE;
@@ -87,9 +109,9 @@ void CToxProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hCont
 	ShowNotification(_T(MODULE), message, flags, hContact);
 }
 
-bool CToxProto::IsFileExists(std::tstring path)
+bool CToxProto::IsFileExists(const TCHAR* path)
 {
-	return _taccess(path.c_str(), 0) == 0;
+	return _taccess(path, 0) == 0;
 }
 
 MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob)

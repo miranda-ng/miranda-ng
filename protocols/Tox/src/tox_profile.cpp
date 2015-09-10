@@ -2,14 +2,14 @@
 
 HANDLE CToxProto::hProfileFolderPath;
 
-std::tstring CToxProto::GetToxProfilePath()
+TCHAR* CToxProto::GetToxProfilePath()
 {
 	return GetToxProfilePath(m_tszUserName);
 }
 
-std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
+TCHAR* CToxProto::GetToxProfilePath(const TCHAR *accountName)
 {
-	TCHAR profilePath[MAX_PATH];
+	TCHAR *profilePath = (TCHAR*)mir_calloc(MAX_PATH * sizeof(TCHAR) + 1);
 	TCHAR profileRootPath[MAX_PATH];
 	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARST(_T("%miranda_userdata%")));
 	mir_sntprintf(profilePath, MAX_PATH, _T("%s\\%s.tox"), profileRootPath, accountName);
@@ -18,22 +18,22 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 
 bool CToxProto::LoadToxProfile(Tox_Options *options)
 {
-	debugLogA(__FUNCTION__": loading tox profile");
+	logger->Log(__FUNCTION__": loading tox profile");
 
 	mir_cslock locker(profileLock);
 
 	size_t size = 0;
 	uint8_t *data = NULL;
 	
-	std::tstring profilePath = GetToxProfilePath();
+	ptrT profilePath(GetToxProfilePath());
 	if (!IsFileExists(profilePath))
 		return false;
 
-	FILE *profile = _tfopen(profilePath.c_str(), _T("rb"));
+	FILE *profile = _tfopen(profilePath, _T("rb"));
 	if (profile == NULL)
 	{
 		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
-		debugLogA(__FUNCTION__": failed to open tox profile");
+		logger->Log(__FUNCTION__": failed to open tox profile");
 		return false;
 	}
 
@@ -51,7 +51,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	{
 		fclose(profile);
 		ShowNotification(TranslateT("Unable to read Tox profile"), MB_ICONERROR);
-		debugLogA(__FUNCTION__": failed to read tox profile");
+		logger->Log(__FUNCTION__": failed to read tox profile");
 		mir_free(data);
 		return false;
 	}
@@ -74,7 +74,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError))
 		{
 			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
-			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
+			logger->Log(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
 			mir_free(data);
 			return false;
 		}
@@ -111,18 +111,18 @@ void CToxProto::SaveToxProfile()
 		TOX_ERR_ENCRYPTION coreEncryptError;
 		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), data, &coreEncryptError))
 		{
-			debugLogA(__FUNCTION__": failed to encrypt tox profile");
+			logger->Log(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);
 			return;
 		}
 		size += TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 	}
 
-	std::tstring profilePath = GetToxProfilePath();
-	FILE *profile = _tfopen(profilePath.c_str(), _T("wb"));
+	ptrT profilePath(GetToxProfilePath());
+	FILE *profile = _tfopen(profilePath, _T("wb"));
 	if (profile == NULL)
 	{
-		debugLogA(__FUNCTION__": failed to open tox profile");
+		logger->Log(__FUNCTION__": failed to open tox profile");
 		mir_free(data);
 		return;
 	}
@@ -130,7 +130,7 @@ void CToxProto::SaveToxProfile()
 	size_t written = fwrite(data, sizeof(char), size, profile);
 	if (size != written)
 	{
-		debugLogA(__FUNCTION__": failed to write tox profile");
+		logger->Log(__FUNCTION__": failed to write tox profile");
 	}
 
 	fclose(profile);

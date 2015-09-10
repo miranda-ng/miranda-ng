@@ -26,7 +26,7 @@ void CToxOptionsMain::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
-	std::tstring profilePath = m_proto->GetToxProfilePath();
+	ptrT profilePath(m_proto->GetToxProfilePath());
 	if (CToxProto::IsFileExists(profilePath))
 	{
 		m_toxAddress.Enable();
@@ -64,13 +64,13 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
 	ToxThreadData toxThread;
 
-	std::tstring profilePath = m_proto->GetToxProfilePath();
+	ptrT profilePath(m_proto->GetToxProfilePath());
 	if (!m_proto->IsFileExists(profilePath))
 	{
-		HANDLE hProfile = CreateFile(profilePath.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hProfile == NULL)
 		{
-			m_proto->debugLogA(__FUNCTION__": failed to create tox profile");
+			m_proto->logger->Log(__FUNCTION__": failed to create tox profile");
 			return;
 		}
 		CloseHandle(hProfile);
@@ -79,7 +79,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		toxThread.tox = tox_new(NULL, &initError);
 		if (initError != TOX_ERR_NEW_OK)
 		{
-			m_proto->debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
+			m_proto->logger->Log(__FUNCTION__": failed to load tox profile (%d)", initError);
 			return;
 		}
 	}
@@ -131,10 +131,10 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 		return;
 	}
 
-	std::tstring defaultProfilePath = m_proto->GetToxProfilePath();
-	if (mir_tstrcmpi(profilePath, defaultProfilePath.c_str()) != 0)
+	ptrT defaultProfilePath(m_proto->GetToxProfilePath());
+	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
 	{
-		CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
+		CopyFile(profilePath, defaultProfilePath, FALSE);
 	}
 
 	m_profileCreate.OnClick(&m_profileCreate);
@@ -162,9 +162,9 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	if (!GetSaveFileName(&ofn))
 		return;
 
-	std::tstring defaultProfilePath = m_proto->GetToxProfilePath();
-	if (mir_tstrcmpi(profilePath, defaultProfilePath.c_str()) != 0)
-		CopyFile(defaultProfilePath.c_str(), profilePath, FALSE);
+	ptrT defaultProfilePath(m_proto->GetToxProfilePath());
+	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
+		CopyFile(defaultProfilePath, profilePath, FALSE);
 }
 
 void CToxOptionsMain::OnApply()

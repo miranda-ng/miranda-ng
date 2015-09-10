@@ -12,6 +12,8 @@ struct ToxThreadData
 
 	ToxThreadData() : tox(NULL), toxAv(NULL),
 		isConnected(false), isTerminated(false) { }
+
+	void Stop() { isTerminated = true; }
 };
 
 struct CToxProto : public PROTO<CToxProto>
@@ -87,12 +89,13 @@ private:
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
 	CTransferList transfers;
+	CLogger *logger;
 
 	static HANDLE hProfileFolderPath;
 
 	// tox profile
-	std::tstring GetToxProfilePath();
-	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
+	TCHAR* GetToxProfilePath();
+	static TCHAR* CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
 	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile();
@@ -250,8 +253,8 @@ private:
 	void ResumeIncomingTransfers(uint32_t friendNumber);
 
 	// avatars
-	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);
-	void SetToxAvatar(std::tstring path);
+	TCHAR* GetAvatarFilePath(MCONTACT hContact = NULL);
+	void SetToxAvatar(const TCHAR* path);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM lParam);
@@ -283,15 +286,16 @@ private:
 	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
 
 	// utils
-	TOX_USER_STATUS MirandaToToxStatus(int status);
-	int ToxToMirandaStatus(TOX_USER_STATUS userstatus);
+	static int MapStatus(int status);
+	static TOX_USER_STATUS MirandaToToxStatus(int status);
+	static int ToxToMirandaStatus(TOX_USER_STATUS userstatus);
 
 	static TCHAR* ToxErrorToString(TOX_ERR_NEW error);
 
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
-	static bool IsFileExists(std::tstring path);
+	static bool IsFileExists(const TCHAR* path);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
 

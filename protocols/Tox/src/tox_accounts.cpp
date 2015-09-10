@@ -42,10 +42,10 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 
 int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 {
-	std::tstring newPath = GetToxProfilePath();
+	ptrT newPath(GetToxProfilePath());
 	TCHAR oldPath[MAX_PATH];
 	mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
-	_trename(oldPath, newPath.c_str());
+	_trename(oldPath, newPath);
 	mir_free(accountName);
 	accountName = mir_tstrdup(m_tszUserName);
 

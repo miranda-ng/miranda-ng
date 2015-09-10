@@ -12,7 +12,9 @@ void CToxProto::InitNetlib()
 	nlu.szSettingsModule = m_szModuleName;
 	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
+	logger = new CLogger(hNetlib);
+
+	logger->Log("Setting protocol/module name to '%s'", m_szModuleName);
 }
 
 void CToxProto::UninitNetlib()
