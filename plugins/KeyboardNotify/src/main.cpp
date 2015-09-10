@@ -1,6 +1,6 @@
 /*
-            KeyboardNotify plugin v1.5 for Miranda IM
-            _________________________________________
+				KeyboardNotify plugin v1.5 for Miranda IM
+				_________________________________________
 
   Copyright (C) 2002,2003  Martin Öberg
   Copyright (C) 2004	   Std
@@ -26,7 +26,7 @@
 
 #define NCONVERS_BLINKID ((MEVENT)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-HINSTANCE hInst;
+HINSTANCE g_hInst;
 
 int hLangpack;
 
@@ -44,7 +44,7 @@ HHOOK hMouseHook = NULL;
 HHOOK hKeyBoardHook = NULL;
 BYTE  bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
-POINT lastGlobalMousePos = {0, 0};
+POINT lastGlobalMousePos = { 0, 0 };
 
 BYTE bFlashOnMsg;
 BYTE bFlashOnURL;
@@ -76,8 +76,8 @@ BYTE bTrillianLedsURL;
 BYTE bTrillianLedsFile;
 BYTE bTrillianLedsOther;
 
-PROTOCOL_LIST ProtoList = {0, NULL};
-PROCESS_LIST ProcessList = {0, NULL};
+PROTOCOL_LIST ProtoList = { 0, NULL };
+PROCESS_LIST ProcessList = { 0, NULL };
 
 int nWaitDelay;
 unsigned int nExternCount = 0;
@@ -86,7 +86,7 @@ BOOL bReminderDisabled = FALSE;
 
 BYTE bMetaProtoEnabled = 0;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -100,15 +100,23 @@ PLUGININFOEX pluginInfo={
 	{0x119d7288, 0x2050, 0x448d, {0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf}}
 };
 
-int InitializeOptions(WPARAM,LPARAM);
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+{
+	g_hInst = hinstDLL;
+	return TRUE;
+}
+
+int InitializeOptions(WPARAM, LPARAM);
 void LoadSettings(void);
 int HookWindowsHooks(void);
 int UnhookWindowsHooks(void);
-static LRESULT CALLBACK MouseHookFunction(int, WPARAM, LPARAM);
-static LRESULT CALLBACK KeyBoardHookFunction(int, WPARAM, LPARAM);
-static LRESULT CALLBACK MirandaMouseHookFunction(int, WPARAM, LPARAM);
-static LRESULT CALLBACK MirandaKeyBoardHookFunction(int, WPARAM, LPARAM);
-static LRESULT CALLBACK MirandaWndProcHookFunction(int, WPARAM, LPARAM);
+void destroyProcessList(void);
+
 BOOL CheckMsgWnd(MCONTACT, BOOL *);
 
 BOOL checkOpenWindow(MCONTACT hContact)
@@ -153,18 +161,18 @@ BOOL checkNotifyOptions()
 BOOL isStatusEnabled(int status)
 {
 	switch (status) {
-		case ID_STATUS_OFFLINE:		return wStatusMap & MAP_OFFLINE;
-		case ID_STATUS_ONLINE:		return wStatusMap & MAP_ONLINE;
-		case ID_STATUS_AWAY:		return wStatusMap & MAP_AWAY;
-		case ID_STATUS_NA:			return wStatusMap & MAP_NA;
-		case ID_STATUS_OCCUPIED:	return wStatusMap & MAP_OCCUPIED;
-		case ID_STATUS_DND:			return wStatusMap & MAP_DND;
-		case ID_STATUS_FREECHAT:	return wStatusMap & MAP_FREECHAT;
-		case ID_STATUS_INVISIBLE:	return wStatusMap & MAP_INVISIBLE;
-		case ID_STATUS_ONTHEPHONE:	return wStatusMap & MAP_ONTHEPHONE;
-		case ID_STATUS_OUTTOLUNCH:	return wStatusMap & MAP_OUTTOLUNCH;
-		default:					return FALSE;
+		case ID_STATUS_OFFLINE:    return wStatusMap & MAP_OFFLINE;
+		case ID_STATUS_ONLINE:     return wStatusMap & MAP_ONLINE;
+		case ID_STATUS_AWAY:       return wStatusMap & MAP_AWAY;
+		case ID_STATUS_NA:         return wStatusMap & MAP_NA;
+		case ID_STATUS_OCCUPIED:   return wStatusMap & MAP_OCCUPIED;
+		case ID_STATUS_DND:        return wStatusMap & MAP_DND;
+		case ID_STATUS_FREECHAT:   return wStatusMap & MAP_FREECHAT;
+		case ID_STATUS_INVISIBLE:  return wStatusMap & MAP_INVISIBLE;
+		case ID_STATUS_ONTHEPHONE: return wStatusMap & MAP_ONTHEPHONE;
+		case ID_STATUS_OUTTOLUNCH: return wStatusMap & MAP_OUTTOLUNCH;
 	}
+	return FALSE;
 }
 
 BOOL checkGlobalStatus()
@@ -174,10 +182,10 @@ BOOL checkGlobalStatus()
 
 BOOL checkGlobalXstatus()
 {
-	int protosSupporting=0, status=0;
+	int protosSupporting = 0, status = 0;
 
-	for (int i=0; i < ProtoList.protoCount; i++) {
-		if ( !ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count)
+	for (int i = 0; i < ProtoList.protoCount; i++) {
+		if (!ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count)
 			continue;
 
 		protosSupporting++;
@@ -222,7 +230,7 @@ BOOL checkProtocol(char *szProto)
 	if (!szProto)
 		return FALSE;
 
-	for (int i=0; i < ProtoList.protoCount; i++)
+	for (int i = 0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !mir_strcmp(ProtoList.protoInfo[i].szProto, szProto))
 			return ProtoList.protoInfo[i].enabled;
 
@@ -231,13 +239,13 @@ BOOL checkProtocol(char *szProto)
 
 BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 {
-	MCONTACT hSubContact=NULL;
+	MCONTACT hSubContact = NULL;
 
 	if (bMetaProtoEnabled && szProto && !mir_strcmp(META_PROTO, szProto))
 		if (hSubContact = db_mc_getMostOnline(hContact))
 			szProto = GetContactProto(hSubContact);
 
-	return checkProtocol(szProto) && checkIgnore(hSubContact?hSubContact:hContact, eventType);
+	return checkProtocol(szProto) && checkIgnore(hSubContact ? hSubContact : hContact, eventType);
 }
 
 
@@ -252,10 +260,10 @@ BOOL checkUnopenEvents()
 	for (nIndex = 0; pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
-		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg)  ||
-		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
-		    (einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-		    (einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
+		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
+			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
+			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
 				return TRUE;
@@ -264,19 +272,18 @@ BOOL checkUnopenEvents()
 	return FALSE;
 }
 
-static void __cdecl FlashThreadFunction(void *)
+static void __cdecl FlashThreadFunction(void*)
 {
 	BOOL bEvent = FALSE;
-	DWORD dwEventStarted, dwFlashStarted = 0;
+	DWORD dwEventStarted = 0, dwFlashStarted = 0;
 	BYTE data, unchangedLeds;
 
 	while (TRUE) {
-		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
+		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));
 		GetAsyncKeyState(VK_PAUSE); // empty Pause/Break's keystroke buffer
 
 		// Start flashing
-		while(bEvent && bFlashingEnabled)
-		{
+		while (bEvent && bFlashingEnabled) {
 			// Let's give the user the opportunity of finishing flashing manually :)
 			if (GetAsyncKeyState(VK_PAUSE) & 1)
 				break;
@@ -298,7 +305,7 @@ static void __cdecl FlashThreadFunction(void *)
 				break;
 
 			data = getBlinkingLeds();
-			ToggleKeyboardLights((BYTE)(data|unchangedLeds));
+			ToggleKeyboardLights((BYTE)(data | unchangedLeds));
 
 			// Wait for exit event
 			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0)
@@ -310,15 +317,11 @@ static void __cdecl FlashThreadFunction(void *)
 		bReminderDisabled = FALSE;
 
 		// Wait for new event
-		{
-			DWORD dwEvent;
-			HANDLE Objects[2];
-			Objects[0] = hFlashEvent;
-			Objects[1] = hExitEvent;
-			dwEvent = WaitForMultipleObjects(2, Objects, FALSE, INFINITE);
-			if ((dwEvent - WAIT_OBJECT_0) == 1)
-				return;
-		}
+		HANDLE Objects[2];
+		Objects[0] = hFlashEvent;
+		Objects[1] = hExitEvent;
+		if (WaitForMultipleObjects(2, Objects, FALSE, INFINITE) == WAIT_OBJECT_0 + 1)
+			return;
 
 		bEvent = TRUE;
 		bReminderDisabled = TRUE;
@@ -337,7 +340,7 @@ BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampC
 
 	for (MEVENT hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 		DBEVENTINFO einfo = { sizeof(einfo) };
-		if(!db_event_get(hEvent, &einfo)) {
+		if (!db_event_get(hEvent, &einfo)) {
 			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
 				return TRUE;
 			if (einfo.eventType == EVENTTYPE_MESSAGE)
@@ -372,12 +375,12 @@ BOOL checkStatus(char *szProto)
 
 BOOL checkXstatus(char *szProto)
 {
-	int status=0;
+	int status = 0;
 
 	if (!szProto)
 		return checkGlobalXstatus();
 
-	for (int i=0; i < ProtoList.protoCount; i++)
+	for (int i = 0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !mir_strcmp(ProtoList.protoInfo[i].szProto, szProto)) {
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
@@ -401,9 +404,9 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 	DBEVENTINFO einfo = { sizeof(einfo) };
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.timestamp)) ||
-		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
-		    (einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-		    (einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
+			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
+			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
 
 			if (contactCheckProtocol(einfo.szModule, hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule))
 
@@ -431,10 +434,10 @@ static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 	for (nIndex = 0; !bReminderDisabled && (pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex)); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
-		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg)  ||
-		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
-		    (einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-		    (einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
+		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
+			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
+			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule)) {
 
@@ -442,9 +445,7 @@ static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 				return;
 			}
 	}
-
 }
-
 
 // Support for third-party plugins and mBot's scripts
 static INT_PTR EnableService(WPARAM, LPARAM)
@@ -481,7 +482,6 @@ static INT_PTR EventsWereOpenedService(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-
 static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 {
 	if (!bReminderDisabled)
@@ -489,7 +489,6 @@ static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 
 	return (INT_PTR)getCurrentSequenceString();
 }
-
 
 INT_PTR NormalizeSequenceService(WPARAM, LPARAM lParam)
 {
@@ -501,14 +500,12 @@ INT_PTR NormalizeSequenceService(WPARAM, LPARAM lParam)
 	return (INT_PTR)strIn;
 }
 
-
 // Support for Trigger plugin
 static void __cdecl ForceEventsWereOpenedThread(void *eventMaxSeconds)
 {
-	Sleep(((WORD)eventMaxSeconds) * 1000);
+	Sleep(((UINT_PTR)eventMaxSeconds) * 1000);
 	CallService(MS_KBDNOTIFY_EVENTSOPENED, 1, 0);
 }
-
 
 void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 {
@@ -518,7 +515,6 @@ void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 	CallService(MS_KBDNOTIFY_STARTBLINK, 1, (LPARAM)flashSequence);
 }
 
-
 void createProcessList(void)
 {
 	int count = db_get_w(NULL, KEYBDMODULE, "processcount", 0);
@@ -526,28 +522,12 @@ void createProcessList(void)
 	ProcessList.count = 0;
 	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
-		for (int i=0; i < count; i++)
+		for (int i = 0; i < count; i++)
 			ProcessList.szFileName[i] = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
 
 		ProcessList.count = count;
 	}
 }
-
-
-void destroyProcessList(void)
-{
-	if (ProcessList.szFileName == NULL)
-		return;
-
-	for (int i = 0; i < ProcessList.count; i++)
-		if (ProcessList.szFileName[i])
-			mir_free(ProcessList.szFileName[i]);
-
-	free(ProcessList.szFileName);
-	ProcessList.count = 0;
-	ProcessList.szFileName = NULL;
-}
-
 
 void LoadSettings(void)
 {
@@ -582,12 +562,12 @@ void LoadSettings(void)
 	wStartDelay = db_get_w(NULL, KEYBDMODULE, "sdelay", DEF_SETTING_STARTDELAY);
 	bFlashSpeed = db_get_b(NULL, KEYBDMODULE, "speed", DEF_SETTING_FLASHSPEED);
 	switch (bFlashSpeed) {
-		case 0:	 nWaitDelay = 1500; break;
-		case 1:  nWaitDelay = 0750; break;
-		case 2:  nWaitDelay = 0250; break;
-		case 3:  nWaitDelay = 0150; break;
-		case 4:  nWaitDelay = 0100; break;
-		default: nWaitDelay = 0050; break;
+	case 0:	 nWaitDelay = 1500; break;
+	case 1:  nWaitDelay = 0750; break;
+	case 2:  nWaitDelay = 0250; break;
+	case 3:  nWaitDelay = 0150; break;
+	case 4:  nWaitDelay = 0100; break;
+	default: nWaitDelay = 0050; break;
 	}
 	setFlashingSequence();
 	bEmulateKeypresses = db_get_b(NULL, KEYBDMODULE, "keypresses", DEF_SETTING_KEYPRESSES);
@@ -597,11 +577,11 @@ void LoadSettings(void)
 		db_set_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
 	if (db_get_b(NULL, KEYBDMODULE, "testsecs", -1) == -1)
 		db_set_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
-	for (int i=0; i < ProtoList.protoCount; i++)
+	for (int i = 0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].visible) {
 			unsigned int j;
 			ProtoList.protoInfo[i].enabled = db_get_b(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
-			for (j=0; j < ProtoList.protoInfo[i].xstatus.count; j++)
+			for (j = 0; j < ProtoList.protoInfo[i].xstatus.count; j++)
 				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
@@ -617,7 +597,7 @@ void LoadSettings(void)
 void GetWindowsVersion(void)
 {
 	OSVERSIONINFOEX osvi = { sizeof(OSVERSIONINFOEX) };
-	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
+	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *)&osvi);
 
 	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
@@ -644,7 +624,7 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 	if (!protoInfo->xstatus.enabled)
 		protoInfo->xstatus.count = 0;
 	else
-		for (unsigned i=0; i < protoInfo->xstatus.count; i++)
+		for (unsigned i = 0; i < protoInfo->xstatus.count; i++)
 			protoInfo->xstatus.enabled[i] = FALSE;
 }
 
@@ -659,7 +639,7 @@ void createProtocolList(void)
 		return;
 	}
 
-	for (int i=0; i < ProtoList.protoCount; i++) {
+	for (int i = 0; i < ProtoList.protoCount; i++) {
 		ProtoList.protoInfo[i].xstatus.count = 0;
 		ProtoList.protoInfo[i].xstatus.enabled = NULL;
 		ProtoList.protoInfo[i].szProto = (char *)malloc(mir_strlen(proto[i]->szModuleName) + 1);
@@ -686,7 +666,7 @@ void createProtocolList(void)
 void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 {
 	size_t len;
-	TCHAR profileName[MAX_PATH+1], *str;
+	TCHAR profileName[MAX_PATH + 1], *str;
 
 	getAbsoluteProfileName(profileName, MAX_PATH);
 
@@ -701,153 +681,7 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 	}
 }
 
-
-// **
-// ** Everything below is just Miranda init/uninit stuff
-// **
-
-static int OnMetaChanged(WPARAM wParam, LPARAM)
-{
-	bMetaProtoEnabled = wParam;
-	return 0;
-}
-
-static int ModulesLoaded(WPARAM, LPARAM)
-{
-	TCHAR eventPrefix[MAX_PATH+1], eventName[MAX_PATH+1];
-
-	createProtocolList();
-	LoadSettings();
-
-	// Create some synchronisation objects
-	createEventPrefix(eventPrefix, MAX_PATH - 11);
-	mir_sntprintf(eventName, _T("%s/FlashEvent"), eventPrefix);
-	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-	mir_sntprintf(eventName, _T("%s/ExitEvent"), eventPrefix);
-	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-
-	hThread = mir_forkthread(FlashThreadFunction, 0);
-
-	HookEvent(ME_MC_ENABLED, OnMetaChanged);
-	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
-	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
-	
-	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
-	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
-	CreateServiceFunction(MS_KBDNOTIFY_STARTBLINK, StartBlinkService);
-	CreateServiceFunction(MS_KBDNOTIFY_EVENTSOPENED, EventsWereOpenedService);
-	CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
-	CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
-	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) int Load(void)
-{
-	mir_getLP(&pluginInfo);
-
-	GetWindowsVersion();
-	OpenKeyboardDevice();
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	return 0;
-}
-
-
-
-void destroyProtocolList(void)
-{
-	if (ProtoList.protoInfo == NULL)
-		return;
-	for (int i = 0; i < ProtoList.protoCount; i ++) {
-		if (ProtoList.protoInfo[i].szProto)
-			free(ProtoList.protoInfo[i].szProto);
-		if (ProtoList.protoInfo[i].xstatus.enabled)
-			free(ProtoList.protoInfo[i].xstatus.enabled);
-	}
-
-	free(ProtoList.protoInfo);
-	ProtoList.protoCount = 0;
-	ProtoList.protoInfo = NULL;
-}
-
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	UnhookWindowsHooks();
-
-	// Wait for thread to exit
-	SetEvent(hExitEvent);
-	WaitForSingleObject(hThread, INFINITE);
-
-	RestoreLEDState();
-	CloseKeyboardDevice();
-
-	destroyProcessList();
-	destroyProtocolList();
-
-	return 0;
-}
-
-
-// ========================== Windows hooks ==========================
-int HookWindowsHooks()
-{
-	if (wReminderCheck)
-		hReminderTimer = SetTimer(NULL,0, wReminderCheck * 60000, ReminderTimer);
-
-	if (bFlashUntil & UNTIL_REATTENDED)
-		switch (bMirandaOrWindows) {
-			case ACTIVE_WINDOWS:
-				if (bEmulateKeypresses) {
-					if (hMouseHook == NULL)
-						hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
-					if (hKeyBoardHook == NULL)
-						hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
-				}
-				break;
-			case ACTIVE_MIRANDA:
-				if (hMirandaMouseHook == NULL)
-					hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, NULL, GetCurrentThreadId());
-				if (hMirandaKeyBoardHook == NULL)
-					hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, NULL, GetCurrentThreadId());
-				if (hMirandaWndProcHook == NULL)
-					hMirandaWndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, MirandaWndProcHookFunction, NULL, GetCurrentThreadId());
-		}
-
-	return 0;
-}
-
-int UnhookWindowsHooks()
-{
-	if (hReminderTimer)
-		KillTimer(NULL, hReminderTimer);
-	if (hMouseHook)
-		UnhookWindowsHookEx(hMouseHook);
-	if (hKeyBoardHook)
-		UnhookWindowsHookEx(hKeyBoardHook);
-	if (hMirandaMouseHook)
-		UnhookWindowsHookEx(hMirandaMouseHook);
-	if (hMirandaKeyBoardHook)
-		UnhookWindowsHookEx(hMirandaKeyBoardHook);
-	if (hMirandaWndProcHook)
-		UnhookWindowsHookEx(hMirandaWndProcHook);
-
-	hReminderTimer = 0;
-	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = hMirandaWndProcHook = NULL;
-
-	return 0;
-}
+//========================== Windows hooks ==========================
 
 static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
@@ -859,7 +693,7 @@ static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam
 		else {
 			PMOUSEHOOKSTRUCT mouseInfo = (PMOUSEHOOKSTRUCT)lParam;
 			POINT pt = mouseInfo->pt;
-			if (pt.x!=lastGlobalMousePos.x || pt.y!=lastGlobalMousePos.y) {
+			if (pt.x != lastGlobalMousePos.x || pt.y != lastGlobalMousePos.y) {
 				lastGlobalMousePos = pt;
 				dwLastInput = GetTickCount();
 			}
@@ -879,21 +713,21 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 
 static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
-	static POINT lastMousePos = {0, 0};
+	static POINT lastMousePos = { 0, 0 };
 
 	if (code >= 0) {
 		/* Movement mouse messages are for some reason incoming in inactive/background window too, that is not input */
 		DWORD pid;
 		GetWindowThreadProcessId(GetForegroundWindow(), &pid);
-		if(pid == GetCurrentProcessId()) {
+		if (pid == GetCurrentProcessId()) {
 			/* This should handle all mouse buttons ... */
 			if ((wParam >= WM_NCLBUTTONDOWN && wParam <= WM_NCXBUTTONDBLCLK && wParam != 0x00AA) || (wParam >= WM_LBUTTONDOWN && wParam <= WM_XBUTTONDBLCLK))
- 				dwLastInput = GetTickCount();
+				dwLastInput = GetTickCount();
 			/* ... and here it is either mouse move, hover, leave or something unexpected */
 			else {
 				PMOUSEHOOKSTRUCT mouseInfo = (PMOUSEHOOKSTRUCT)lParam;
 				POINT pt = mouseInfo->pt;
-				if (pt.x!=lastMousePos.x || pt.y!=lastMousePos.y) {
+				if (pt.x != lastMousePos.x || pt.y != lastMousePos.y) {
 					lastMousePos = pt;
 					dwLastInput = GetTickCount();
 				}
@@ -904,7 +738,8 @@ static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM
 	return CallNextHookEx(hMirandaMouseHook, code, wParam, lParam);
 }
 
-static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam)
+{
 
 	if (code >= 0 && (!bEmulateKeypresses || (bEmulateKeypresses && wParam != VK_NUMLOCK && wParam != VK_CAPITAL && wParam != VK_SCROLL)))
 		dwLastInput = GetTickCount();
@@ -912,16 +747,46 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPA
 	return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
 }
 
-static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPARAM lParam)
+{
 
 	if (code >= 0) {
 		/* WM_ACTIVATEAPP with nonzero wParam means someone brought miranda to foreground, that equals to input */
 		PCWPSTRUCT cwpInfo = (PCWPSTRUCT)lParam;
-		if(cwpInfo->message == WM_ACTIVATEAPP && cwpInfo->wParam)
+		if (cwpInfo->message == WM_ACTIVATEAPP && cwpInfo->wParam)
 			dwLastInput = GetTickCount();
 	}
 
- 	return CallNextHookEx(hMirandaWndProcHook, code, wParam, lParam);
+	return CallNextHookEx(hMirandaWndProcHook, code, wParam, lParam);
+}
+
+int HookWindowsHooks()
+{
+	if (wReminderCheck)
+		hReminderTimer = SetTimer(NULL, 0, wReminderCheck * 60000, ReminderTimer);
+
+	if (bFlashUntil & UNTIL_REATTENDED) {
+		switch (bMirandaOrWindows) {
+		case ACTIVE_WINDOWS:
+			if (bEmulateKeypresses) {
+				if (hMouseHook == NULL)
+					hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
+				if (hKeyBoardHook == NULL)
+					hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
+			}
+			break;
+
+		case ACTIVE_MIRANDA:
+			if (hMirandaMouseHook == NULL)
+				hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, NULL, GetCurrentThreadId());
+			if (hMirandaKeyBoardHook == NULL)
+				hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, NULL, GetCurrentThreadId());
+			if (hMirandaWndProcHook == NULL)
+				hMirandaWndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, MirandaWndProcHookFunction, NULL, GetCurrentThreadId());
+		}
+	}
+
+	return 0;
 }
 
 BOOL CheckMsgWnd(MCONTACT hContact, BOOL *focus)
@@ -951,25 +816,151 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 	for (nIndex = 0; pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
-		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
-		switch (einfo.eventType) {
-		case EVENTTYPE_MESSAGE:
-			if (bFlashOnMsg)
-				(*msgCount)++;
-			break;
-		case EVENTTYPE_URL:
-			if (bFlashOnURL)
-				(*urlCount)++;
-			break;
-		case EVENTTYPE_FILE:
-			if (bFlashOnFile)
-				(*fileCount)++;
-			break;
-		default:
-			if (bFlashOnOther)
-				(*otherCount)++;
+		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType)) {
+			switch (einfo.eventType) {
+			case EVENTTYPE_MESSAGE:
+				if (bFlashOnMsg)
+					(*msgCount)++;
+				break;
+			case EVENTTYPE_URL:
+				if (bFlashOnURL)
+					(*urlCount)++;
+				break;
+			case EVENTTYPE_FILE:
+				if (bFlashOnFile)
+					(*fileCount)++;
+				break;
+			default:
+				if (bFlashOnOther)
+					(*otherCount)++;
+			}
 		}
 	}
 	if (bFlashOnOther)
 		(*otherCount) += nExternCount;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load
+
+static int OnMetaChanged(WPARAM wParam, LPARAM)
+{
+	bMetaProtoEnabled = wParam;
+	return 0;
+}
+
+static int OnPreshutdown(WPARAM, LPARAM)
+{
+	SetEvent(hExitEvent);
+	return 0;
+}
+
+static int ModulesLoaded(WPARAM, LPARAM)
+{
+	TCHAR eventPrefix[MAX_PATH + 1], eventName[MAX_PATH + 1];
+
+	createProtocolList();
+	LoadSettings();
+
+	// Create some synchronisation objects
+	createEventPrefix(eventPrefix, MAX_PATH - 11);
+	mir_sntprintf(eventName, _T("%s/FlashEvent"), eventPrefix);
+	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
+	mir_sntprintf(eventName, _T("%s/ExitEvent"), eventPrefix);
+	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
+
+	hThread = mir_forkthread(FlashThreadFunction, 0);
+
+	HookEvent(ME_MC_ENABLED, OnMetaChanged);
+	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
+	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
+
+	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
+	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
+	CreateServiceFunction(MS_KBDNOTIFY_STARTBLINK, StartBlinkService);
+	CreateServiceFunction(MS_KBDNOTIFY_EVENTSOPENED, EventsWereOpenedService);
+	CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
+	CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int Load(void)
+{
+	mir_getLP(&pluginInfo);
+
+	GetWindowsVersion();
+	OpenKeyboardDevice();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Unload
+
+int UnhookWindowsHooks()
+{
+	if (hReminderTimer)
+		KillTimer(NULL, hReminderTimer);
+	if (hMouseHook)
+		UnhookWindowsHookEx(hMouseHook);
+	if (hKeyBoardHook)
+		UnhookWindowsHookEx(hKeyBoardHook);
+	if (hMirandaMouseHook)
+		UnhookWindowsHookEx(hMirandaMouseHook);
+	if (hMirandaKeyBoardHook)
+		UnhookWindowsHookEx(hMirandaKeyBoardHook);
+	if (hMirandaWndProcHook)
+		UnhookWindowsHookEx(hMirandaWndProcHook);
+
+	hReminderTimer = 0;
+	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = hMirandaWndProcHook = NULL;
+	return 0;
+}
+
+void destroyProcessList(void)
+{
+	if (ProcessList.szFileName == NULL)
+		return;
+
+	for (int i = 0; i < ProcessList.count; i++)
+		if (ProcessList.szFileName[i])
+			mir_free(ProcessList.szFileName[i]);
+
+	free(ProcessList.szFileName);
+	ProcessList.count = 0;
+	ProcessList.szFileName = NULL;
+}
+
+static void destroyProtocolList(void)
+{
+	if (ProtoList.protoInfo == NULL)
+		return;
+
+	for (int i = 0; i < ProtoList.protoCount; i++) {
+		if (ProtoList.protoInfo[i].szProto)
+			free(ProtoList.protoInfo[i].szProto);
+		if (ProtoList.protoInfo[i].xstatus.enabled)
+			free(ProtoList.protoInfo[i].xstatus.enabled);
+	}
+
+	free(ProtoList.protoInfo);
+	ProtoList.protoCount = 0;
+	ProtoList.protoInfo = NULL;
+}
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
+	UnhookWindowsHooks();
+
+	// Wait for thread to exit
+	WaitForSingleObject(hThread, INFINITE);
+
+	RestoreLEDState();
+	CloseKeyboardDevice();
+
+	destroyProcessList();
+	destroyProtocolList();
+	return 0;
 }

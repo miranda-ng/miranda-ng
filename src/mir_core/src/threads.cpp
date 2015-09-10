@@ -206,7 +206,7 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 			// forcibly kill all remaining threads after 5 secs
 			WaitForSingleObject(hStackMutex, INFINITE);
 			for (int j = threads.getCount() - 1; j >= 0; j--) {
-				THREAD_WAIT_ENTRY* p = threads[j];
+				THREAD_WAIT_ENTRY *p = threads[j];
 				if (p->pObject == owner) {
 					char szModuleName[MAX_PATH];
 					GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
@@ -268,7 +268,8 @@ typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 static void* GetCurrentThreadEntryPoint()
 {
 	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread");
-	if (NtQueryInformationThread == NULL) return 0;
+	if (NtQueryInformationThread == NULL)
+		return 0;
 
 	HANDLE hDupHandle, hCurrentProcess = GetCurrentProcess();
 	if (!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
@@ -287,7 +288,7 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
 	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
-		THREAD_WAIT_ENTRY* p = (THREAD_WAIT_ENTRY*)mir_calloc(sizeof(THREAD_WAIT_ENTRY));
+		THREAD_WAIT_ENTRY *p = (THREAD_WAIT_ENTRY*)mir_calloc(sizeof(THREAD_WAIT_ENTRY));
 
 		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 		p->dwThreadId = GetCurrentThreadId();
