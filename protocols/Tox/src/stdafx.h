@@ -5,12 +5,13 @@
 #include <windns.h>
 #include <time.h>
 #include <commctrl.h>
+#include <msapi/comptr.h>
 
 #include <mmreg.h>
 #include <MMDeviceAPI.h>
 
 #define EXIT_ON_ERROR(hres) if (FAILED(hres)) { goto Exit; }
-#define SAFE_RELEASE(punk) if ((punk) != NULL) { (punk)->Release(); (punk) = NULL; }
+
 DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0, 14);
 
 #include <vector>

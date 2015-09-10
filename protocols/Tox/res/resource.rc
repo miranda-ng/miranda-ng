@@ -180,11 +180,11 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Multimedia",-1,7,7,296,89
     LTEXT           "Audio input device",-1,12,17,60,8
-    COMBOBOX        IDC_AUDIOINPUT,12,26,138,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_AUDIOINPUT,12,26,286,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Audio output device",-1,12,42,65,8
-    COMBOBOX        IDC_AUDIOOUTPUT,12,52,138,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_AUDIOOUTPUT,12,52,286,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Video input device",-1,15,68,59,8,NOT WS_VISIBLE
-    COMBOBOX        IDC_COMBO_VIDEOINPUT,12,78,138,30,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_VIDEOINPUT,12,78,286,30,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_CHATROOM_INVITE DIALOGEX 0, 0, 190, 179
@@ -312,8 +312,6 @@ BEGIN
         RIGHTMARGIN, 303
         VERTGUIDE, 12
         VERTGUIDE, 81
-        VERTGUIDE, 276
-        VERTGUIDE, 282
         VERTGUIDE, 298
         TOPMARGIN, 7
         BOTTOMMARGIN, 228
@@ -354,6 +352,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_MULTIMEDIA AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English resources
 /////////////////////////////////////////////////////////////////////////////
