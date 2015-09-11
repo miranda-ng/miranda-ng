@@ -36,7 +36,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
 #define PS_WALLPOST "/WallPost"
-#define MAXHISTORYMIDSPERONE 175
+#define MAXHISTORYMIDSPERONE 100
 #define MAX_RETRIES 10
 
 
