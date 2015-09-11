@@ -470,9 +470,9 @@ CMsgTree::CMsgTree(HWND hTreeView) : MsgTreePage(g_MsgTreePage), hTreeView(hTree
 	COptItem_TreeCtrl* TreeCtrl = (COptItem_TreeCtrl*)MsgTreePage.Find(IDV_MSGTREE);
 	TreeCtrl->SetDlgItemID(GetDlgCtrlID(hTreeView));
 	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
-	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_NEWMESSAGE)));
-	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_NEWCATEGORY)));
-	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DELETE)));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_NEWMESSAGE));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_NEWCATEGORY));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_DELETE));
 	MsgTreePage.DBToMemToPage();
 	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT)) // show "Recent messages" group only when RECENTMSGSCOUNT is not set to 0.
 		TreeView_DeleteItem(hTreeView, TreeCtrl->RootItems[g_Messages_RecentRootID].hItem);

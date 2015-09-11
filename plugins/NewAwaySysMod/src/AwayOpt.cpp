@@ -1109,15 +1109,20 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		{
 			MySetPos(hwndDlg);
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
-			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)));
-			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_IGNORE)));
-			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED)));
-			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED)));
-			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_INDEFINITE)));
+			ImageList_AddIcon(hIml, GetIcon(IDI_DOT));
+			ImageList_AddIcon(hIml, GetIcon(IDI_IGNORE));
+			ImageList_AddIcon(hIml, GetIcon(IDI_SOE_ENABLED));
+			ImageList_AddIcon(hIml, GetIcon(IDI_SOE_DISABLED));
+			ImageList_AddIcon(hIml, GetIcon(IDI_INDEFINITE));
 			
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendMessage(hwndDlg, UM_CONTACTSDLG_RESETLISTOPTIONS, 0, 0);
 			SendMessage(hwndList, CLM_SETEXTRACOLUMNS, EXTRACOLUMNSCOUNT, 0);
+
+			SendDlgItemMessage(hwndDlg, IDC_SI_INDEFINITE, STM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)GetIcon(IDI_INDEFINITE));
+			SendDlgItemMessage(hwndDlg, IDC_SI_SOE_ENABLED, STM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)GetIcon(IDI_SOE_ENABLED));
+			SendDlgItemMessage(hwndDlg, IDC_SI_SOE_DISABLED, STM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)GetIcon(IDI_SOE_DISABLED));
+			SendDlgItemMessage(hwndDlg, IDC_SI_IGNORE, STM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)GetIcon(IDI_IGNORE));
 			
 			CLCINFOITEM cii = { 0 };
 			cii.cbSize = sizeof(cii);
