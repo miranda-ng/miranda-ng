@@ -435,14 +435,15 @@ static void BackupRegTree_Worker(HKEY hKey,const char *pszSubKey,struct BackupRe
 
 static void BackupRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPrefix)
 {
+	char *prefix = mir_strdup(pszDbPrefix);
 	struct BackupRegTreeParam param;
 	DWORD dwDbPrefixSize;
 	param.level = 0;
 	param.pdwDbPrefixSize = &dwDbPrefixSize;
-	param.ppszDbPrefix = (char**)&pszDbPrefix;
-	pszDbPrefix = NEWSTR_ALLOCA(pszDbPrefix);
-	dwDbPrefixSize = (int)mir_strlen(pszDbPrefix)+1;
+	param.ppszDbPrefix = (char**)&prefix;
+	dwDbPrefixSize = (int)mir_strlen(prefix) + 1;
 	BackupRegTree_Worker(hKey, pszSubKey, &param);
+	mir_free(prefix);
 }
 
 static LONG RestoreRegTree(HKEY hKey,const char *pszSubKey,const char *pszDbPrefix)
