@@ -495,6 +495,9 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
 			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
+			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(IDI_IGNORE));
+			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_REPLYICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(IDI_SOE_ENABLED));
+
 			// init window size variables / resize the window
 			RECT rc;
 			POINT pt;
@@ -860,11 +863,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		{
 			// init contact tree
 			HIMAGELIST hil = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
-			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)));
-			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_IGNORE)));
-			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MSGICON)));
-			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED)));
-			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED)));
+			ImageList_AddIcon(hil, GetIcon(IDI_DOT));
+			ImageList_AddIcon(hil, GetIcon(IDI_IGNORE));
+			ImageList_AddIcon(hil, GetIcon(IDI_MSGICON));
+			ImageList_AddIcon(hil, GetIcon(IDI_SOE_ENABLED));
+			ImageList_AddIcon(hil, GetIcon(IDI_SOE_DISABLED));
 			CList->SetExtraImageList(hil);
 
 			HTREEITEM hSelItem;

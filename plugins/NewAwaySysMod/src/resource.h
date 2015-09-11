@@ -33,6 +33,10 @@
 #define IDD_SETAWAYMSG                  216
 #define IDD_MOREOPTDIALOG               217
 #define IDD_POPUPOPTDLG                 218
+#define IDC_SI_INDEFINITE               301
+#define IDC_SI_SOE_ENABLED              302
+#define IDC_SI_SOE_DISABLED             303
+#define IDC_SI_IGNORE                   304
 #define IDC_STATUSBAR                   999
 #define IDC_SAWAYMSG_MSGNAME            1001
 #define IDC_MESSAGEDLG_DEL              1002
