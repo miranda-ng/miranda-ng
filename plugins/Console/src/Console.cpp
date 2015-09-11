@@ -1199,6 +1199,7 @@ static int stringCompare(LOGWIN *lw1, LOGWIN *lw2)
 
 static UINT logicons[] = { IDI_EMPTY, IDI_ARROW, IDI_IN, IDI_OUT, IDI_INFO };
 
+static HANDLE hConsoleThread = NULL;
 
 void InitConsole()
 {
@@ -1230,7 +1231,7 @@ void InitConsole()
 
 	LoadSettings();
 
-	mir_forkthread(ConsoleThread, 0);
+	hConsoleThread = mir_forkthread(ConsoleThread, 0);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -1249,6 +1250,10 @@ void ShutdownConsole(void)
 	for (i = 0; i < _countof(hIcons); i++) {
 		if (hIcons[i]) DestroyIcon(hIcons[i]);
 	}
+
+	if(hwndConsole)
+		EndDialog(hwndConsole, TRUE);
+	WaitForSingleObject(hConsoleThread, INFINITE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
