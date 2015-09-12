@@ -1007,32 +1007,32 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD flags)
 {
-	char data[64], *peol1;
+	char data[1000];
 
-	while(true) {
-		int recvResult = NLRecv(nlc, data, 31, MSG_RAW | MSG_PEEK);
-		if (recvResult <= 0)
+	while (true) {
+		int recvResult = NLRecv(nlc, data, _countof(data)-1, MSG_RAW | MSG_PEEK);
+		if (recvResult <= 0 || recvResult >= _countof(data))
 			return SOCKET_ERROR;
 
 		data[recvResult] = 0;
 
-		peol1 = strchr(data, '\n');
-		if (peol1 != NULL) {
-			char *peol2 = first ? peol1 : strchr(peol1 + 1, '\n');
-			if (peol2 != NULL) {
-				int sz = peol2 - data + 1;
-				int r = strtol(first ? data : peol1 + 1, NULL, 16);
-				if (r == 0) {
-					char *peol3 = strchr(peol2 + 1, '\n');
-					if (peol3 == NULL) continue;
-					sz = peol3 - data + 1;
-				}
-				NLRecv(nlc, data, sz, MSG_RAW | flags);
-				return r;
-			}
-			else if (recvResult >= 31)
-				return SOCKET_ERROR;
+		char *peol1 = strchr(data, '\n');
+		if (peol1 == NULL)
+			continue;
+
+		char *peol2 = first ? peol1 : strchr(peol1 + 1, '\n');
+		if (peol2 == NULL)
+			continue;
+
+		int sz = peol2 - data + 1;
+		int r = strtol(first ? data : peol1 + 1, NULL, 16);
+		if (r == 0) {
+			char *peol3 = strchr(peol2 + 1, '\n');
+			if (peol3 == NULL) continue;
+			sz = peol3 - data + 1;
 		}
+		NLRecv(nlc, data, sz, MSG_RAW | flags);
+		return r;
 	}
 }
 
