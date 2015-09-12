@@ -9,6 +9,8 @@ ToastEventHandler::ToastEventHandler() : _ref(1)
 
 ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _thd(pData)
 {
+	if (_thd->pPopupProc)
+		_thd->pPopupProc((HWND)this, UM_INITPOPUP, 0, 0);
 }
 
 ToastEventHandler::~ToastEventHandler()
@@ -53,14 +55,16 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
 {
-	_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
+	if (_thd->pPopupProc)
+		_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
 	delete this;
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
 {
-	_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
+	if (_thd->pPopupProc)
+		_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
 	_thd->tstNotification->Hide();
 	delete this;
 	return S_OK;
