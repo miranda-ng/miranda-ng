@@ -13,10 +13,8 @@ void __stdcall ShowToastNotification(void* p)
 		return;
 
 	ptrT imagePath;
-	callbackArg *arg = (callbackArg*)mir_calloc(sizeof(callbackArg));
 	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID)
 	{
-		arg->hContact = td->hContact;
 		const char* szProto = GetContactProto(td->hContact);
 
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
@@ -48,24 +46,23 @@ void __stdcall ShowToastNotification(void* p)
 		}
 	}
 
-	arg->notification = new ToastNotification(td->tszText, td->tszTitle, imagePath);
+	ToastNotification *notification = new ToastNotification(td->tszText, td->tszTitle, imagePath);
 		
-	HRESULT hr = arg->notification->Initialize();
+	HRESULT hr = notification->Initialize();
 	if (SUCCEEDED(hr))
 	{
 		ToastHandlerData *thd = new ToastHandlerData();
 		thd->hContact = td->hContact;
 		thd->vPopupData = td->vPopupData;
 		thd->pPopupProc = td->pPopupProc;
-		thd->tstNotification = arg->notification;
+		thd->tstNotification = notification;
 
-		arg->notification->Show(new ToastEventHandler(thd));
-		lstNotifications.insert(arg->notification);
+		notification->Show(new ToastEventHandler(thd));
+		lstNotifications.insert(notification);
 	}
 	else
 	{
-		delete arg->notification;
-		mir_free(arg);
+		delete notification;
 	}
 }
 
