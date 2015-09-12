@@ -89,7 +89,6 @@ struct ClassData
 	HANDLE handle;
 
 	WNDPROC pPopupProc;
-	void *vPopupData;
 
 	ClassData(int f, HICON h = NULL) : iFlags(f), hIcon(h) 
 	{

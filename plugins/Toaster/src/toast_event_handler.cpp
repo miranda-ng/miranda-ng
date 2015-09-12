@@ -54,12 +54,15 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
 {
 	_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
+	delete this;
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
 {
 	_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
+	_thd->tstNotification->Hide();
+	delete this;
 	return S_OK;
 }
 
