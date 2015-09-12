@@ -5,12 +5,23 @@ typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notificat
 typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastDismissedEventArgs *> DesktopToastDismissedEventHandler;
 typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastFailedEventArgs *> DesktopToastFailedEventHandler;
 
+struct ToastHandlerData : public MZeroedObject
+{
+	MCONTACT hContact;
+
+	WNDPROC pPopupProc;
+	void *vPopupData;
+
+	ToastNotification *tstNotification;
+};
 
 class ToastEventHandler : public Microsoft::WRL::Implements<DesktopToastActivatedEventHandler, DesktopToastDismissedEventHandler, DesktopToastFailedEventHandler>
 {
 public:
+	ToastHandlerData *_thd;
+
 	ToastEventHandler::ToastEventHandler();
-	ToastEventHandler::ToastEventHandler(_In_ pEventHandler callback, _In_ void* arg = nullptr);
+	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData);
 	~ToastEventHandler();
 
 	IFACEMETHODIMP_(ULONG) AddRef();
@@ -23,8 +34,7 @@ public:
 	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs* /* e */);
 private:
 	ULONG _ref;
-	void* _arg;
-	pEventHandler _callback;
+
 };
 
 #endif //_TOAST_EVENT_HANDLER_H_
