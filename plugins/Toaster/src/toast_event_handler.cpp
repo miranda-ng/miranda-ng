@@ -3,17 +3,20 @@
 using namespace ABI::Windows::UI::Notifications;
 using namespace Microsoft::WRL;
 
-ToastEventHandler::ToastEventHandler() : _ref(1), _callback(nullptr), _arg(nullptr)
+ToastEventHandler::ToastEventHandler() : _ref(1)
 {
 }
 
-ToastEventHandler::ToastEventHandler(_In_ pEventHandler callback, _In_ void* arg) : _ref(1), _callback(callback), _arg(arg)
+ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _thd(pData)
 {
 }
 
 ToastEventHandler::~ToastEventHandler()
 {
-	mir_free(_arg);
+	_thd->pPopupProc((HWND)this, UM_FREEPLUGINDATA, 0, 0);
+
+	mir_cslock lck(csNotifications);
+	lstNotifications.remove(_thd->tstNotification);
 }
 
 IFACEMETHODIMP_(ULONG) ToastEventHandler::AddRef()
@@ -31,17 +34,17 @@ IFACEMETHODIMP_(ULONG) ToastEventHandler::Release()
 IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ void **ppv)
 {
 	if (IsEqualIID(riid, IID_IUnknown))
-		*ppv = static_cast<IUnknown*>(static_cast<DesktopToastActivatedEventHandler*>(this));
+		*ppv = (IUnknown*)(DesktopToastActivatedEventHandler*)(this);
 	else if (IsEqualIID(riid, __uuidof(DesktopToastActivatedEventHandler)))
-		*ppv = static_cast<DesktopToastActivatedEventHandler*>(this);
+		*ppv = (DesktopToastActivatedEventHandler*)(this);
 	else if (IsEqualIID(riid, __uuidof(DesktopToastDismissedEventHandler)))
-		*ppv = static_cast<DesktopToastDismissedEventHandler*>(this);
+		*ppv = (DesktopToastDismissedEventHandler*)(this);
 	else if (IsEqualIID(riid, __uuidof(DesktopToastFailedEventHandler)))
-		*ppv = static_cast<DesktopToastFailedEventHandler*>(this);
+		*ppv = (DesktopToastFailedEventHandler*)(this);
 	else *ppv = nullptr;
 
 	if (*ppv) {
-		reinterpret_cast<IUnknown*>(*ppv)->AddRef();
+		((IUnknown*)*ppv)->AddRef();
 		return S_OK;
 	}
 
@@ -50,25 +53,18 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
 {
-	if (_callback != nullptr)
-		_callback(_arg);
-
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(((callbackArg*)_arg)->notification);
+	_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
 {
-	((callbackArg*)_arg)->notification->Hide();
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(((callbackArg*)_arg)->notification);
+	_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs*  /*e*/ )
 {
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(((callbackArg*)_arg)->notification);
+	delete this;
 	return S_OK;
 }
