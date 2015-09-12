@@ -30,11 +30,11 @@ void __stdcall ShowToastNotification(void* p)
 		{
 			if ((td->hIcon && td->bForcehIcon) || !szProto)
 			{
-				imagePath = SaveHIcon(td->hIcon, CMStringA(FORMAT, "%p", td->hIcon));
+				imagePath = ToasterImage(td->hIcon);
 			}
 			else if (szProto)
 			{
-				imagePath = ProtoIcon(szProto);
+				imagePath = ToasterImage(szProto);
 			}
 		}
 	}
@@ -42,7 +42,7 @@ void __stdcall ShowToastNotification(void* p)
 	{
 		if (td->hIcon)
 		{
-			imagePath = SaveHIcon(td->hIcon, CMStringA(FORMAT, "%p", td->hIcon));
+			imagePath = ToasterImage(td->hIcon);
 		}
 	}
 

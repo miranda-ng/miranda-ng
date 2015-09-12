@@ -46,12 +46,8 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 		*ppv = (DesktopToastFailedEventHandler*)(this);
 	else *ppv = nullptr;
 
-	if (*ppv) {
-		((IUnknown*)*ppv)->AddRef();
-		return S_OK;
-	}
-
-	return E_NOINTERFACE;
+	if (*ppv) ((IUnknown*)*ppv)->AddRef();
+	return (*ppv ? S_OK : E_NOINTERFACE);
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
