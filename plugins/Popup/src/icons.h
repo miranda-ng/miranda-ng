@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __icons_h__
 
 //ICONS
-#define SECT_TOLBAR			"Toolbar"
 #define SECT_POPUP			MODULNAME_PLU
 #define SECT_POPUP_ACT		"/Actions"
 #define SECT_POPUP_OPT		"/Options"

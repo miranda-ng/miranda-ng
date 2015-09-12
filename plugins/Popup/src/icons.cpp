@@ -25,10 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static IconItem iconList[] =
 {
-	// toolbar
-	{ LPGEN("Popups are enabled"), "TBButton_ToogleUp", IDI_POPUP },
-	{ LPGEN("Popups are disabled"), "TBButton_ToogleDOWN", IDI_NOPOPUP },
-
 	// common popup
 	{ LPGEN("Popups are enabled"), "enabled", IDI_POPUP },
 	{ LPGEN("Popups are disabled"), "disabled", IDI_NOPOPUP },
@@ -66,10 +62,9 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, SECT_TOLBAR, iconList, 2, MODULNAME);
-	Icon_Register(hInst, SECT_POPUP, iconList + 2, 8, MODULNAME);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 10, 9, MODULNAME);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 19, 9, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP, iconList, 8, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 8, 9, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 17, 9, MODULNAME);
 }
 
 HICON LoadIconEx(int iconId, bool big)

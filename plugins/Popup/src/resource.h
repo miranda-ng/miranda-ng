@@ -21,10 +21,6 @@
 #define IDI_MB_INFO                     191
 #define IDI_MB_WARN                     194
 #define IDI_RESIZE                      196
-#define IDI_OPT_CHECK_OFF               198
-#define IDI_OPT_CHECK_ON                199
-#define IDI_OPT_RADIO_OFF               200
-#define IDI_OPT_RADIO_ON                201
 #define IDI_ACT_INFO                    203
 #define IDI_ACT_MENU                    204
 #define IDI_ACT_MESSAGE                 205
