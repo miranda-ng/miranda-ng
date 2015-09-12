@@ -15,7 +15,8 @@ ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _t
 
 ToastEventHandler::~ToastEventHandler()
 {
-	_thd->pPopupProc((HWND)this, UM_FREEPLUGINDATA, 0, 0);
+	if (_thd->pPopupProc)
+		_thd->pPopupProc((HWND)this, UM_FREEPLUGINDATA, 0, 0);
 
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(_thd->tstNotification);
