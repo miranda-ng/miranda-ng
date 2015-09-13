@@ -28,7 +28,11 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (imagePath == NULL)
 		{
-			if ((td->hIcon && td->bForcehIcon) || !szProto)
+			if (td->iType == 1 && td->hBitmap)
+			{
+				imagePath = ToasterImage(td->hBitmap);
+			}
+			else if (td->iType == 2 && td->hIcon)
 			{
 				imagePath = ToasterImage(td->hIcon);
 			}
@@ -119,7 +123,13 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 		title = mir_a2u(ppd->lpzTitle);
 	}
 
-	ToastData *td = new ToastData(ppd->lchContact, title, text, ppd->lchIcon);
+	ToastData *td = NULL;
+
+	if (ppd->hbmAvatar)
+		td = new ToastData(ppd->lchContact, title, text, ppd->hbmAvatar);
+	else
+		td = new ToastData(ppd->lchContact, title, text, ppd->lchIcon);
+
 	td->vPopupData = ppd->PluginData;
 	td->pPopupProc = ppd->PluginWindowProc;
 
@@ -151,11 +161,11 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 
 		if (it->second->iFlags & PCF_TCHAR)
 		{
-			td = new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText, it->second->hIcon, 1);
+			td = new ToastData(ppc->hContact, ppc->ptszTitle, ppc->ptszText, it->second->hIcon);
 		}
 		else
 		{
-			td = new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon, 1);
+			td = new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon);
 		}
 
 		td->vPopupData = ppc->PluginData;
@@ -219,6 +229,23 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	}
 }
 
+static INT_PTR ShowMessage(WPARAM wParam, LPARAM)
+{
+	ptrT tszText(mir_utf8decodeT((char*)wParam));
+	ToastData *td = new ToastData(NULL, NULL, tszText, HICON(0));
+
+	CallFunctionAsync(&ShowToastNotification, td);
+
+	return 0;
+}
+static INT_PTR ShowMessageW(WPARAM wParam, LPARAM)
+{
+	ToastData *td = new ToastData(NULL, NULL, (wchar_t*)wParam, HICON(0));
+	CallFunctionAsync(&ShowToastNotification, td);
+
+	return 0;
+}
+
 void __stdcall HideAllToasts(void*)
 {
 	mir_cslock lck(csNotifications);
@@ -231,10 +258,14 @@ void __stdcall HideAllToasts(void*)
 
 void InitServices()
 {
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, ShowMessageW);
+
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2, CreatePopup2);
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
+
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterClass);
 	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnRegisterClass);

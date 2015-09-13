@@ -59,6 +59,14 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	return 0;
+}
+
+int OnPreShutdown(WPARAM, LPARAM)
+{
+	CallFunctionAsync(&HideAllToasts, NULL);
+	CleanupClasses();
+
 	SHFILEOPSTRUCT file_op = {
 		NULL,
 		FO_DELETE,
@@ -70,12 +78,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 		_T("")
 	};
 	SHFileOperation(&file_op);
-	return 0;
-}
 
-int OnPreShutdown(WPARAM, LPARAM)
-{
-	CallFunctionAsync(&HideAllToasts, NULL);
-	CleanupClasses();
 	return 0;
 }

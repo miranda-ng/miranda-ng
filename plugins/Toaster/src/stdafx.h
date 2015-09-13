@@ -62,18 +62,29 @@ struct ToastData
 	MCONTACT hContact;
 	TCHAR *tszTitle;
 	TCHAR *tszText;
-	HICON hIcon;
-	bool bForcehIcon;
+	union
+	{
+		HICON hIcon;
+		HBITMAP hBitmap;
+	};
+	int iType; // 0 = none, 1 = hBitmap, 2 = hIcon
 
 	WNDPROC pPopupProc;
 	void *vPopupData;
 
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL, bool b = false) : 
+	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL) : 
 		hContact(_hContact),
 		tszTitle(mir_tstrdup(_tszTitle)), 
 		tszText(mir_tstrdup(_tszText)), 
 		hIcon(_hIcon), 
-		bForcehIcon(b) 
+		iType(_hIcon ? 2 : 0) 
+	{}
+	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HBITMAP bmp = NULL) :
+		hContact(_hContact),
+		tszTitle(mir_tstrdup(_tszTitle)),
+		tszText(mir_tstrdup(_tszText)),
+		hBitmap(bmp),
+		iType(bmp ? 1 : 0)
 	{}
 	~ToastData()
 	{
