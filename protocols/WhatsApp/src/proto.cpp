@@ -177,7 +177,6 @@ MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (!(flags & PALF_TEMPORARY))
 		db_unset(hContact, "CList", "NotOnList");
 
-	m_pConnection->sendQueryLastOnline(jid.c_str());
 	m_pConnection->sendPresenceSubscriptionRequest(jid.c_str());
 	return hContact;
 }
@@ -320,7 +319,6 @@ int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
 {
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 	if (jid && isOnline()) {
-		m_pConnection->sendQueryLastOnline((char*)jid);
 		m_pConnection->sendGetPicture((char*)jid, "image");
 		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
 	}
@@ -335,7 +333,6 @@ void WhatsAppProto::RequestFriendship(MCONTACT hContact)
 
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 	if (jid) {
-		m_pConnection->sendQueryLastOnline((char*)jid);
 		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
 	}
 }

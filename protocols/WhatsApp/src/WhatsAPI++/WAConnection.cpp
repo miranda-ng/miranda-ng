@@ -586,8 +586,10 @@ void WAConnection::parsePresense(ProtocolTreeNode *node) throw(WAException)
 	
 	if (m_pEventHandler != NULL) {
 		const string &type = node->getAttributeValue("type");
-		if (type == "unavailable")
-			m_pEventHandler->onAvailable(from, false);
+		if (type == "unavailable") {
+			const string &lastSeen = node->getAttributeValue("last");
+			m_pEventHandler->onAvailable(from, false,  (lastSeen == "deny") ? -2 : atoi(lastSeen.c_str()));
+		}
 		else if (type == "available" || type == "")
 			m_pEventHandler->onAvailable(from, true);
 	}
@@ -960,18 +962,6 @@ void WAConnection::sendPong(const std::string &id) throw(WAException)
 void WAConnection::sendPresenceSubscriptionRequest(const std::string &to) throw(WAException)
 {
 	out.write(ProtocolTreeNode("presence") << XATTR("type", "subscribe") << XATTR("to", to));
-}
-
-void WAConnection::sendQueryLastOnline(const std::string &jid) throw (WAException)
-{
-	if (jid == "Server@s.whatsapp.net") // to avoid error 405
-		return;
-
-	std::string id = makeId("iq_");
-	this->pending_server_requests[id] = new IqResultQueryLastOnlineHandler(this);
-
-	out.write(ProtocolTreeNode("iq", new ProtocolTreeNode("query"))
-		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid) << XATTR("xmlns", "jabber:iq:last"));
 }
 
 void WAConnection::sendSetPicture(const char *jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException)
