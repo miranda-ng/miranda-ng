@@ -16,7 +16,7 @@ bool CSteamProto::IsMe(const char *steamId)
 
 void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (!response)
 		return;
 
 	// load rsa key parts
@@ -75,7 +75,7 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 
 void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (!response)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -229,7 +229,7 @@ void CSteamProto::OnAuthorizationSuccess(const JSONNode &node)
 
 void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response)
 {
-	if(response == NULL)
+	if(!response)
 		return;
 
 	for (int i = 0; i < response->headersCount; i++)
@@ -260,7 +260,7 @@ void CSteamProto::HandleTokenExpired()
 
 void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (!response)
 	{
 		// Probably timeout or no connection, we can do nothing here
 		SetStatus(ID_STATUS_OFFLINE);

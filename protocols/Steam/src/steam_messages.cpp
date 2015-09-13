@@ -41,7 +41,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	ptrT error(mir_tstrdup(TranslateT("Unknown error")));
 	ptrT steamId(getTStringA(param->hContact, "SteamID"));
 
-	if (response != NULL && response->resultCode == HTTP_CODE_OK)
+	if (response && response->resultCode == HTTP_CODE_OK)
 	{
 		JSONROOT root(response->pData);
 		JSONNode *node = json_get(root, "error");
