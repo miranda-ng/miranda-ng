@@ -10,7 +10,7 @@ ToastEventHandler::ToastEventHandler() : _ref(1)
 ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _thd(pData)
 {
 	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, UM_INITPOPUP, 0, 0);
+		_thd->pPopupProc((HWND)this, UM_INITPOPUP, (WPARAM)this, 0);
 }
 
 ToastEventHandler::~ToastEventHandler()
@@ -58,12 +58,32 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _
 	return S_OK;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  /*e*/)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  e)
 {
-	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
-	_thd->tstNotification->Hide();
-	delete this;
+	ToastDismissalReason tdr;
+	CHECKHR(e->get_Reason(&tdr));
+
+	switch (tdr)
+	{
+	case ToastDismissalReason_ApplicationHidden:
+		{
+			if (_thd->pPopupProc)
+				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
+			delete this;
+			break;
+		}
+	case ToastDismissalReason_UserCanceled:
+		{
+			if (_thd->pPopupProc)
+				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
+			_thd->tstNotification->Hide();
+			delete this;
+			break;
+		}
+	case ToastDismissalReason_TimedOut:
+		delete this; // should be rewritten
+		break;
+	}
 	return S_OK;
 }
 
