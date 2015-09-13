@@ -3,12 +3,16 @@
 
 class HttpResponse : public NETLIBHTTPREQUEST, public MZeroedObject
 {
+private:
+	bool isEmptyResponse;
+
 public:
 	const NETLIBHTTPREQUEST* request;
 
 	HttpResponse(const NETLIBHTTPREQUEST* response, const NETLIBHTTPREQUEST* request = NULL)
 	{
 		request = request;
+		isEmptyResponse = (response == NULL);
 		if (response)
 		{
 			cbSize = response->cbSize;
@@ -30,6 +34,11 @@ public:
 			nlc = response->nlc;
 			timeout = response->timeout;
 		}
+	}
+
+	bool const operator !() const
+	{
+		return isEmptyResponse;
 	}
 
 	~HttpResponse()
