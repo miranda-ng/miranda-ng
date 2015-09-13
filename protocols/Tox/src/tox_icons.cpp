@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-IconInfo CToxProto::Icons[] =
+IconItemT CToxProto::Icons[] =
 {
 	{ LPGENT("Protocol icon"),			"main",				IDI_TOX			},
 	{ LPGENT("Audio call"),				"audio_call",		IDI_AUDIO_CALL	},
@@ -11,60 +11,14 @@ IconInfo CToxProto::Icons[] =
 
 void CToxProto::InitIcons()
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, szFile, MAX_PATH);
-
-	char szSettingName[100];
-	TCHAR szSectionName[100];
-
-	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.defaultFile.t = szFile;
-	sid.pszName = szSettingName;
-	sid.section.t = szSectionName;
-
-	mir_sntprintf(szSectionName, _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
-	for (int i = 0; i < _countof(Icons); i++)
-	{
-		mir_snprintf(szSettingName, "%s_%s", MODULE, Icons[i].Name);
-
-		sid.description.t = Icons[i].Description;
-		sid.iDefaultIndex = -Icons[i].IconId;
-		Icons[i].Handle = IcoLib_AddIcon(&sid);
-	}
+	Icon_RegisterT(g_hInstance, LPGENT("Protocols") "/" LPGENT(MODULE), Icons, _countof(Icons), MODULE);
 }
 
-HICON CToxProto::GetIcon(const char *name, bool size)
+HANDLE CToxProto::GetIconHandle(int iconId)
 {
 	for (size_t i = 0; i < _countof(Icons); i++)
-		if (mir_strcmpi(Icons[i].Name, name) == 0)
-			return IcoLib_GetIconByHandle(Icons[i].Handle, size);
+		if (Icons[i].defIconID == iconId)
+			return Icons[i].hIcolib;
 
 	return NULL;
-}
-
-HANDLE CToxProto::GetIconHandle(const char *name)
-{
-	for (size_t i = 0; i < _countof(Icons); i++)
-		if (mir_strcmpi(Icons[i].Name, name) == 0)
-			return Icons[i].Handle;
-
-	return NULL;
-}
-
-HANDLE CToxProto::Skin_GetIconHandle(const char *name)
-{
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, name);
-	HANDLE hIcon = IcoLib_GetIconHandle(iconName);
-	if (hIcon == NULL)
-		hIcon = GetIconHandle(name);
-
-	return hIcon;
-}
-
-void CToxProto::UninitIcons()
-{
-	for (size_t i = 0; i < _countof(Icons); i++)
-		IcoLib_RemoveIcon(Icons[i].Name);
 }

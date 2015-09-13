@@ -28,6 +28,6 @@ void CToxProto::InitCustomDbEvents()
 
 	dbEventType.eventType = DB_EVENT_CALL;
 	dbEventType.descr = Translate("Call");
-	dbEventType.eventIcon = GetIconHandle("audio_start");
+	dbEventType.eventIcon = GetIconHandle(IDI_AUDIO_START);
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
