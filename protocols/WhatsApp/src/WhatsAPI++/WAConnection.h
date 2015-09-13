@@ -36,9 +36,8 @@ public:
 	virtual void onMessageError(const FMessage &message, int paramInt) = 0;
 	virtual void onPing(const std::string &paramString) throw (WAException) = 0;
 	virtual void onPingResponseReceived() = 0;
-	virtual void onAvailable(const std::string &paramString, bool paramBoolean) = 0;
+	virtual void onAvailable(const std::string &paramString, bool paramBoolean, int lastSeenTime = -1) = 0;
 	virtual void onClientConfigReceived(const std::string &paramString) = 0;
-	virtual void onLastSeen(const std::string &paramString1, int paramInt, const string &paramString2) = 0;
 	virtual void onIsTyping(const std::string &paramString, bool paramBoolean) = 0;
 	virtual void onAccountChange(int paramInt, time_t paramLong) = 0;
 	virtual void onPrivacyBlockListAdd(const std::string &paramString) = 0;
@@ -219,20 +218,6 @@ class WAConnection
 		}
 	};
 
-	class IqResultQueryLastOnlineHandler: public IqResultHandler {
-	public:
-		IqResultQueryLastOnlineHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
-			ProtocolTreeNode* firstChild = node->getChild(0);
-			ProtocolTreeNode::require(firstChild, "query");
-			const string &seconds = firstChild->getAttributeValue("seconds");
-			const string &status = firstChild->getDataAsString();
-			if (!seconds.empty() && !from.empty())
-				if (this->con->m_pEventHandler != NULL)
-					this->con->m_pEventHandler->onLastSeen(from, atoi(seconds.c_str()), status);
-		}
-	};
-
 	class IqResultGetPhotoHandler: public IqResultHandler {
 	private:
 		std::string jid;
@@ -399,7 +384,6 @@ public:
 	
 	void sendAck(ProtocolTreeNode * node, const char *classType);
 	void sendPing() throw(WAException);
-	void sendQueryLastOnline(const std::string &jid) throw (WAException);
 	void sendPong(const std::string &id) throw(WAException);
 	void sendComposing(const std::string &to) throw(WAException);
 	void sendActive() throw(WAException);

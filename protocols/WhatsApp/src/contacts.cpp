@@ -104,28 +104,20 @@ void WhatsAppProto::ProcessBuddyList(void*)
 	CODE_BLOCK_CATCH_ALL
 }
 
-void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolean)
+void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolean, int lastSeenTime)
 {
 	MCONTACT hContact = AddToContactList(paramString);
 	if (hContact != NULL) {
-		if (paramBoolean)
+		if (paramBoolean) {
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
+			setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL));
+		}
 		else {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			UpdateStatusMsg(hContact);
+			setDword(hContact, WHATSAPP_KEY_LAST_SEEN, lastSeenTime);
 		}
+		UpdateStatusMsg(hContact);
 	}
-
-	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL));
-	UpdateStatusMsg(hContact);
-}
-
-void WhatsAppProto::onLastSeen(const std::string &paramString1, int paramInt, const string &paramString2)
-{
-	MCONTACT hContact = AddToContactList(paramString1);
-	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL) - paramInt);
-
-	UpdateStatusMsg(hContact);
 }
 
 void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
@@ -133,11 +125,18 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 	std::wstringstream ss;
 
 	int lastSeen = getDword(hContact, WHATSAPP_KEY_LAST_SEEN, -1);
-	if (lastSeen != -1) {
+	// TODO define these somewhere
+	// lastSeen -1: no time available in DB
+	// lastSeen -2: last seen denied by user
+	// lastSeen >= 0: timestamp
+	if (lastSeen >= 0) {
 		time_t ts = lastSeen;
 		TCHAR stzLastSeen[MAX_PATH];
 		_tcsftime(stzLastSeen, _countof(stzLastSeen), TranslateT("Last seen on %x at %X"), localtime(&ts));
 		ss << stzLastSeen;
+	}
+	else if (lastSeen == -2) {
+		ss << TranslateT("Last seen denied");
 	}
 
 	db_set_ws(hContact, "CList", "StatusMsg", ss.str().c_str());
