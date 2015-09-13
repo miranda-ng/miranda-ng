@@ -52,7 +52,6 @@ struct CToxProto;
 
 #include "version.h"
 #include "resource.h"
-#include "tox_icons.h"
 #include "tox_menus.h"
 #include "tox_logger.h"
 #include "tox_address.h"
