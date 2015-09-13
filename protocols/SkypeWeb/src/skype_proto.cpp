@@ -24,8 +24,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 		m_GCCreateDialogs(1),
 		m_OutMessages(3, PtrKeySortT)
 {
-	m_hProtoIcon = Icons[0].Handle;
-
 	InitNetwork();
 
 	requestQueue = new RequestQueue(m_hNetlibUser);

@@ -11,7 +11,7 @@ void CSkypeProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notify"));
+	ppc.hIcon = GetIcon(IDI_NOTIFY);
 	ppc.colorBack = RGB(255, 255, 255);
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 5;
@@ -21,7 +21,7 @@ void CSkypeProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("error"));
+	ppc.hIcon = GetIcon(IDI_ERRORICON);
 	ppc.colorBack = RGB(255, 255, 255);
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = -1;
@@ -31,7 +31,7 @@ void CSkypeProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Call");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("inc_call"));
+	ppc.hIcon = GetIcon(IDI_CALL);
 	ppc.colorBack = RGB(255, 255, 255);
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 30;

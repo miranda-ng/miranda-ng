@@ -101,13 +101,11 @@ struct MessageId
 
 #include "version.h"
 #include "resource.h"
-#include "skype_icons.h"
 #include "skype_menus.h"
 #include "skype_dialogs.h"
 #include "skype_options.h"
 #include "skype_trouter.h"
 #include "skype_db.h"
-//#include "skype_chatrooms.h"
 #include "skype_utils.h"
 #include "http_request.h"
 #include "requests\login.h"
