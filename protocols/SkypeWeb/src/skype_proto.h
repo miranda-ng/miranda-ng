@@ -59,11 +59,9 @@ public:
 
 	// icons
 	static void InitIcons();
-	static void UninitIcons();
 
 	// menus
 	static void InitMenus();
-	static void UninitMenus();
 
 	//popups
 	void InitPopups();
@@ -162,9 +160,9 @@ private:
 	void SendRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
 
 	// icons
-	static IconInfo Icons[];
-	static HANDLE GetIconHandle(const char *name);
-	static HANDLE Skin_GetIconHandle(const char *name);
+	static IconItemT Icons[];
+	static HICON GetIcon(int iconId);
+	static HANDLE GetIconHandle(int iconId);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];

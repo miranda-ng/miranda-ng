@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-IconInfo CSkypeProto::Icons[] =
+IconItemT CSkypeProto::Icons[] =
 {
 	{ LPGENT("Protocol icon"),        "main",             IDI_SKYPE         },
 	{ LPGENT("Create new chat icon"), "conference",       IDI_CONFERENCE    },
@@ -32,50 +32,21 @@ IconInfo CSkypeProto::Icons[] =
 
 void CSkypeProto::InitIcons()
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, szFile, MAX_PATH);
-
-	char szSettingName[100];
-	TCHAR szSectionName[100];
-
-	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.defaultFile.t = szFile;
-	sid.pszName = szSettingName;
-	sid.section.t = szSectionName;
-
-	mir_sntprintf(szSectionName, _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
-	for (int i = 0; i < _countof(Icons); i++)
-	{
-		mir_snprintf(szSettingName, "%s_%s", MODULE, Icons[i].Name);
-
-		sid.description.t = Icons[i].Description;
-		sid.iDefaultIndex = -Icons[i].IconId;
-		Icons[i].Handle = IcoLib_AddIcon(&sid);
-	}
-
+	Icon_RegisterT(g_hInstance, LPGENT("Protocols") "/" LPGENT(MODULE), Icons, _countof(Icons), MODULE);
 }
 
-HANDLE CSkypeProto::GetIconHandle(const char *name)
+HICON CSkypeProto::GetIcon(int iconId)
 {
 	for (size_t i = 0; i < _countof(Icons); i++)
-		if (mir_strcmpi(Icons[i].Name, name) == 0)
-			return Icons[i].Handle;
+		if (Icons[i].defIconID == iconId)
+			return IcoLib_GetIconByHandle(Icons[i].hIcolib);
 	return 0;
 }
 
-HANDLE CSkypeProto::Skin_GetIconHandle(const char *name)
-{
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, name);
-	HANDLE hIcon = IcoLib_GetIconHandle(iconName);
-	if (hIcon == NULL)
-		hIcon = GetIconHandle(name);
-	return hIcon;
-}
-
-void CSkypeProto::UninitIcons()
+HANDLE CSkypeProto::GetIconHandle(int iconId)
 {
 	for (size_t i = 0; i < _countof(Icons); i++)
-		IcoLib_RemoveIcon(Icons[i].Name);
+		if (Icons[i].defIconID == iconId)
+			return Icons[i].hIcolib;
+	return 0;
 }
