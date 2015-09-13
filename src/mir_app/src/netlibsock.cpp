@@ -234,11 +234,7 @@ void NetlibGetConnectionInfo(NetlibConnection *nlc, NETLIBCONNINFO *connInfo)
 	if (!getsockname(nlc->s, (PSOCKADDR)&sin, &len)) {
 		connInfo->wPort = ntohs(sin.Ipv4.sin_port);
 		connInfo->dwIpv4 = sin.si_family == AF_INET ? htonl(sin.Ipv4.sin_addr.s_addr) : 0;
-
-		char *szTmp = NetlibAddressToString(&sin);
-		strncpy(connInfo->szIpPort, szTmp, sizeof(connInfo->szIpPort));
-		connInfo->szIpPort[sizeof(connInfo->szIpPort) - 1] = 0;
-		mir_free(szTmp);
+		strncpy_s(connInfo->szIpPort, ptrA(NetlibAddressToString(&sin)), _TRUNCATE);
 	}
 }
 

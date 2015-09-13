@@ -155,10 +155,9 @@ void ThreadData::xmpp_client_query(void)
 	if (SUCCEEDED(status) && results) {
 		LIST<DNS_SRV_DATAA> dnsList(5, CompareDNS);
 
-		for (DNS_RECORDA *rec = results; rec; rec = rec->pNext) {
+		for (DNS_RECORDA *rec = results; rec; rec = rec->pNext)
 			if (rec->Data.Srv.pNameTarget && rec->wType == DNS_TYPE_SRV)
 				dnsList.insert(&rec->Data.Srv);
-		}
 
 		for (int i = 0; i < dnsList.getCount(); i++) {
 			WORD dnsPort = (conn.port == 0 || conn.port == 5222) ? dnsList[i]->wPort : conn.port;
@@ -170,7 +169,8 @@ void ThreadData::xmpp_client_query(void)
 				strncpy_s(conn.manualHost, dnsHost, _TRUNCATE);
 				conn.port = dnsPort;
 				break;
-		}	}
+			}
+		}
 		DnsRecordListFree(results, DnsFreeRecordList);
 	}
 	else proto->debugLogA("%s not resolved", temp);
