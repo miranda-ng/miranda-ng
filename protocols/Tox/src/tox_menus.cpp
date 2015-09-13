@@ -39,8 +39,6 @@ void CToxProto::InitMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::PrebuildContactMenu);
 
-	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
-
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
@@ -67,13 +65,9 @@ void CToxProto::InitMenus()
 	mi.pszService = MODULE"/Audio/Call";
 	mi.name.t = LPGENT("Call");
 	mi.position = -2000020000 + CMI_AUDIO_CALL;
-	mi.hIcolibItem = GetIconHandle("audio_start");
+	mi.hIcolibItem = GetIconHandle(IDI_AUDIO_START);
 	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnSendAudioCall>);
-}
-
-void CToxProto::UninitMenus()
-{
 }
 
 int CToxProto::OnInitStatusMenu()

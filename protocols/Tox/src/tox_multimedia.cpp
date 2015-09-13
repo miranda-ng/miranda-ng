@@ -314,7 +314,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
 	cle.lParam = DB_EVENT_CALL;
-	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle("audio_ring"));
+	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_AUDIO_RING));
 
 	TCHAR szTooltip[MAX_PATH];
 	mir_sntprintf(szTooltip, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));

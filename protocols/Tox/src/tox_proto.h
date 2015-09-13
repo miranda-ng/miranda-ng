@@ -72,11 +72,9 @@ public:
 
 	// icons
 	static void InitIcons();
-	static void UninitIcons();
 
 	// menus
 	static void InitMenus();
-	static void UninitMenus();
 
 	// events
 	void InitCustomDbEvents();
@@ -135,10 +133,8 @@ private:
 	void UninitNetlib();
 
 	// icons
-	static IconInfo Icons[];
-	static HICON GetIcon(const char *name, bool size = false);
-	static HANDLE GetIconHandle(const char *name);
-	static HANDLE Skin_GetIconHandle(const char *name);
+	static IconItemT Icons[];
+	static HANDLE GetIconHandle(int iconId);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];

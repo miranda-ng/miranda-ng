@@ -58,13 +58,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	CToxProto::UninitIcons();
-	CToxProto::UninitMenus();
-
 	if (g_hToxLibrary)
-	{
 		FreeLibrary(g_hToxLibrary);
-	}
 
 	return 0;
 }
