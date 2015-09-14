@@ -141,21 +141,9 @@ void CToxProto::CheckConnection(int &retriesCount)
 	}
 }
 
-void DoTox(ToxThreadData &toxThread)
-{
-	{
-		mir_cslock lock(toxThread.toxLock);
-		tox_iterate(toxThread.tox);
-		if (toxThread.toxAv)
-			toxav_do(toxThread.toxAv);
-	}
-	uint32_t interval = tox_iteration_interval(toxThread.tox);
-	Sleep(interval);
-}
-
 void CToxProto::PollingThread(void*)
 {
-	ToxThreadData toxThread;
+	CToxThread toxThread;
 	this->toxThread = &toxThread;
 
 	logger->Log(__FUNCTION__": entering");
@@ -175,10 +163,10 @@ void CToxProto::PollingThread(void*)
 	while (!toxThread.isTerminated)
 	{
 		CheckConnection(retriesCount);
-		DoTox(toxThread);
+		toxThread.Do();
 	}
 
-	UninitToxCore(&toxThread);
+	UninitToxCore();
 	toxThread.isConnected = false;
 
 	logger->Log(__FUNCTION__": leaving");
