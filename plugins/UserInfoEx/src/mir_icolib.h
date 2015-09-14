@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 // icons
 #define ICO_COMMON_MAIN        MODNAME"_common_main"
+#define ICO_COMMON_DEFAULT     MODNAME"_common_default"
 #define ICO_COMMON_IM          MODNAME"_common_im"
 #define ICO_COMMON_FEMALE      MODNAME"_common_female"
 #define ICO_COMMON_MALE        MODNAME"_common_male"

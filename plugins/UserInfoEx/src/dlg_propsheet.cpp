@@ -274,7 +274,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 
 	HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
 	if (!hDefIcon)
-		hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
+		hDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
 
 	// add the default icon to imagelist
 	ImageList_AddIcon(psh._hImages, hDefIcon);
@@ -552,7 +552,7 @@ void DlgContactInfoInitTreeIcons()
 		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
 			HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
 			if (!hDefIcon)
-				hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
+				hDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
 
 			// add the default icon to imagelist
 			ImageList_AddIcon(psh._hImages, hDefIcon);
