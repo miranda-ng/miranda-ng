@@ -314,20 +314,24 @@ HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, 
  *
  * @return		nothing
  **/
-static IconItem main = { LPGEN("Main"), ICO_COMMON_MAIN, IDI_MAIN };
+static IconItem common[] =
+{
+	{ LPGEN("Main"),    ICO_COMMON_MAIN,    IDI_MAIN    },
+	{ LPGEN("Default"), ICO_COMMON_DEFAULT, IDI_DEFAULT }
+};
 
 void IcoLib_LoadModule()
 {
-	Icon_Register(ghInst, SECT_COMMON, &main, 1);
+	Icon_Register(ghInst, SECT_COMMON, common, 2);
 
 	LPTSTR szDefaultFile = IcoLib_GetDefaultIconFileName();
 	IcoLib_CheckIconPackVersion(szDefaultFile);
 
 	// load default icon if required
-	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON,  GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	ghDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
 
 	for (int i = 0; i < _countof(icoDesc); i++)
 		IcoLib_RegisterIconHandleEx(
-			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, 
+			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection,
 			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);
 }
