@@ -19,6 +19,9 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 	if (!response)
 		return;
 
+	if (!response->pData)
+		return;
+
 	// load rsa key parts
 	JSONNode root = JSONNode::parse(response->pData);
 	if (!root)
@@ -76,6 +79,12 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response)
 {
 	if (!response)
+	{
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	if (!response->pData)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
