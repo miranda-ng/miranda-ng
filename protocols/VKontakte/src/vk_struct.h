@@ -92,8 +92,8 @@ struct CVkFileUploadParam : public MZeroedObject {
 	~CVkFileUploadParam();
 	VKFileType GetType();
 	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }
-	__forceinline char* atrName() { return atr; }
-	__forceinline char* fileName() { return fname; }
+	__forceinline char* atrName() { GetType();  return atr; }
+	__forceinline char* fileName() { GetType();  return fname; }
 };
 
 struct CVkSendMsgParam : public MZeroedObject
@@ -101,12 +101,14 @@ struct CVkSendMsgParam : public MZeroedObject
 	CVkSendMsgParam(MCONTACT _hContact, int _iMsgID = 0, int _iCount = 0) :
 		hContact(_hContact),
 		iMsgID(_iMsgID),
-		iCount(_iCount)
+		iCount(_iCount),
+		pFUP(NULL)
 	{}
 
 	CVkSendMsgParam(MCONTACT _hContact, CVkFileUploadParam *_pFUP) :
 		hContact(_hContact),
 		iMsgID(-1),
+		iCount(0),
 		pFUP(_pFUP)
 	{}
 

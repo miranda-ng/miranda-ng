@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
-	isChatRoom(hContact);
+
 	LONG userID = getDword(hContact, "ID", -1);
 	if (!IsOnline() || ((userID == -1 || userID == VK_FEED_USER) && !isChatRoom(hContact)))
 		return (HANDLE)0;
