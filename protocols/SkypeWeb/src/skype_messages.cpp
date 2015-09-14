@@ -186,7 +186,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	{
 		if (IsMe(szFromSkypename))
 		{
-			szMessageId.Truncate(szMessageId.GetLength() - 3);
+			if (szMessageId.GetLength() && szMessageId[szMessageId.GetLength() - 1] == '0' && szMessageId[szMessageId.GetLength() - 2] == '0' && szMessageId[szMessageId.GetLength() - 2] == '0')
+				szMessageId.Truncate(szMessageId.GetLength() - 3);
 			HANDLE hMessage = (HANDLE)(std::stoull(szMessageId.GetString()));
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
