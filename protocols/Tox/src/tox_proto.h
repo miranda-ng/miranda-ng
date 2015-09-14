@@ -87,7 +87,7 @@ private:
 
 	// tox core
 	Tox_Options* GetToxOptions();
-	bool InitToxCore(CToxThread *toxThread);
+	bool InitToxCore();
 	void UninitToxCore();
 
 	// tox network

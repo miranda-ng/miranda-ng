@@ -84,7 +84,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		}
 	}
 
-	if (m_proto->InitToxCore(&toxThread))
+	if (m_proto->InitToxCore())
 	{
 		TCHAR *group = m_group.GetText();
 		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))

@@ -41,7 +41,7 @@ Tox_Options* CToxProto::GetToxOptions()
 	return options;
 }
 
-bool CToxProto::InitToxCore(CToxThread *toxThread)
+bool CToxProto::InitToxCore()
 {
 	logger->Log(__FUNCTION__": initializing tox core");
 

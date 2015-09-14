@@ -158,7 +158,6 @@ int CToxProto::SetStatus(int iNewStatus)
 		if (toxThread)
 		{
 			toxThread->Stop();
-			toxThread = NULL;
 		}
 
 		if (!Miranda_Terminated())
