@@ -9,6 +9,7 @@
 #define WHATSAPP_KEY_LOGGING_ENABLE			   "LoggingEnable"
 #define WHATSAPP_KEY_NAME                    "RealName"
 #define WHATSAPP_KEY_LAST_SEEN               "LastSeen"
+#define WHATSAPP_KEY_LAST_SEEN_DENIED        "LastSeenDenied"
 #define WHATSAPP_KEY_AVATAR_ID               "AvatarId"
 #define WHATSAPP_KEY_SYSTRAY_NOTIFY			   "UseSystrayNotify"
 #define WHATSAPP_KEY_DEF_GROUP               "DefaultGroup"

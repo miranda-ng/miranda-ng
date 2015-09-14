@@ -588,7 +588,7 @@ void WAConnection::parsePresense(ProtocolTreeNode *node) throw(WAException)
 		const string &type = node->getAttributeValue("type");
 		if (type == "unavailable") {
 			const string &lastSeen = node->getAttributeValue("last");
-			m_pEventHandler->onAvailable(from, false,  (lastSeen == "deny") ? -2 : atoi(lastSeen.c_str()));
+			m_pEventHandler->onAvailable(from, false,  (lastSeen == "deny") ? 0 : stoul(lastSeen));
 		}
 		else if (type == "available" || type == "")
 			m_pEventHandler->onAvailable(from, true);

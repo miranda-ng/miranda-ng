@@ -165,7 +165,7 @@ protected:
 	virtual void onMessageError(const FMessage &message, int paramInt) { ; }
 	virtual void onPing(const std::string &id) throw (WAException);
 	virtual void onPingResponseReceived() {  }
-	virtual void onAvailable(const std::string &paramString, bool paramBoolean, int lastSeenTime);
+	virtual void onAvailable(const std::string &paramString, bool paramBoolean, DWORD lastSeenTime);
 	virtual void onClientConfigReceived(const std::string &paramString) {  }
 	virtual void onIsTyping(const std::string &paramString, bool paramBoolean);
 	virtual void onAccountChange(int paramInt, time_t expire_date) {  }
