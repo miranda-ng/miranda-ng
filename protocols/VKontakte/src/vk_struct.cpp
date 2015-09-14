@@ -103,7 +103,10 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) :
 	hContact(_hContact),
 	Desc(mir_tstrdup(_desc)),
-	FileName(mir_tstrdup(_files[0]))
+	FileName(mir_tstrdup(_files[0])),
+	atr(NULL),
+	fname(NULL),
+	filetype(typeInvalid)
 {}
 
 CVkFileUploadParam::~CVkFileUploadParam()
@@ -118,6 +121,11 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 {
 	if (filetype != typeInvalid)
 		return filetype;
+
+	if (atr)
+		mir_free(atr);
+	if (fname)
+		mir_free(fname);
 
 	TCHAR img[] = _T(".jpg .jpeg .png .bmp");
 	TCHAR audio[] = _T(".mp3");
