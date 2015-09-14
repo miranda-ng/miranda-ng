@@ -112,7 +112,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 	node = json_get(data, "realname");
 	if (node != NULL)
 	{
-		std::wstring realname = ptrT(json_as_string(node));
+		std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
 		if (!realname.empty())
 		{
 			size_t pos = realname.find(L' ', 1);
@@ -137,7 +137,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 	// avatar
 	bool biggerAvatars = getBool("UseBigAvatars", false);
 	node = json_get(data, biggerAvatars ? "avatarfull" : "avatarmedium");
-	std::string avatarUrl = _T2A(ptrT(json_as_string(node)));
+	std::string avatarUrl = (char*)_T2A(ptrT(json_as_string(node)));
 	CheckAvatarChange(hContact, avatarUrl);
 
 	// set country
@@ -364,7 +364,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 	if (root == NULL)
 		return;
 
-	std::string steamIds = ptrA(getStringA("SteamID"));
+	std::string steamIds = (char*)ptrA(getStringA("SteamID"));
 
 	std::map<std::string, JSONNode*> friends;
 
@@ -383,7 +383,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 			if (node == NULL)
 				continue;
 
-			std::string steamId = _T2A(ptrT(json_as_string(node)));
+			std::string steamId = (char*)_T2A(ptrT(json_as_string(node)));
 			friends.insert(std::make_pair(steamId, child));
 		}		
 	}
@@ -725,7 +725,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		node = json_get(nroot, "realname");
 		if (node != NULL)
 		{
-			std::wstring realname = ptrT(json_as_string(node));
+			std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
 			if (!realname.empty())
 			{
 				size_t pos = realname.find(' ', 1);
