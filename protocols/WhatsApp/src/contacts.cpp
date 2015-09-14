@@ -104,7 +104,7 @@ void WhatsAppProto::ProcessBuddyList(void*)
 	CODE_BLOCK_CATCH_ALL
 }
 
-void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolean, int lastSeenTime)
+void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolean, DWORD lastSeenTime)
 {
 	MCONTACT hContact = AddToContactList(paramString);
 	if (hContact != NULL) {
@@ -114,7 +114,12 @@ void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolea
 		}
 		else {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			setDword(hContact, WHATSAPP_KEY_LAST_SEEN, lastSeenTime);
+			if (lastSeenTime != 0) {
+				setDword(hContact, WHATSAPP_KEY_LAST_SEEN, lastSeenTime);
+				setByte(hContact, WHATSAPP_KEY_LAST_SEEN_DENIED, 0);
+			}
+			else
+				setByte(hContact, WHATSAPP_KEY_LAST_SEEN_DENIED, 1);
 		}
 		UpdateStatusMsg(hContact);
 	}
@@ -123,20 +128,18 @@ void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolea
 void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 {
 	std::wstringstream ss;
-
-	int lastSeen = getDword(hContact, WHATSAPP_KEY_LAST_SEEN, -1);
-	// TODO define these somewhere
-	// lastSeen -1: no time available in DB
-	// lastSeen -2: last seen denied by user
-	// lastSeen >= 0: timestamp
-	if (lastSeen >= 0) {
+	DWORD lastSeen = getDword(hContact, WHATSAPP_KEY_LAST_SEEN, 0);
+	WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	bool denied = getBool(hContact, WHATSAPP_KEY_LAST_SEEN_DENIED, false);
+	if (lastSeen > 0) {
 		time_t ts = lastSeen;
 		TCHAR stzLastSeen[MAX_PATH];
-		_tcsftime(stzLastSeen, _countof(stzLastSeen), TranslateT("Last seen on %x at %X"), localtime(&ts));
+		if (status == ID_STATUS_ONLINE)
+			 _tcsftime(stzLastSeen, _countof(stzLastSeen), TranslateT("Last online on %x at %X"), localtime(&ts));
+		else
+			_tcsftime(stzLastSeen, _countof(stzLastSeen), denied ? TranslateT("Denied: Last online on %x at %X") : TranslateT("Last seen on %x at %X"), localtime(&ts));
+
 		ss << stzLastSeen;
-	}
-	else if (lastSeen == -2) {
-		ss << TranslateT("Last seen denied");
 	}
 
 	db_set_ws(hContact, "CList", "StatusMsg", ss.str().c_str());

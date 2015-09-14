@@ -36,7 +36,7 @@ public:
 	virtual void onMessageError(const FMessage &message, int paramInt) = 0;
 	virtual void onPing(const std::string &paramString) throw (WAException) = 0;
 	virtual void onPingResponseReceived() = 0;
-	virtual void onAvailable(const std::string &paramString, bool paramBoolean, int lastSeenTime = -1) = 0;
+	virtual void onAvailable(const std::string &paramString, bool paramBoolean, DWORD lastSeenTime = 0) = 0;
 	virtual void onClientConfigReceived(const std::string &paramString) = 0;
 	virtual void onIsTyping(const std::string &paramString, bool paramBoolean) = 0;
 	virtual void onAccountChange(int paramInt, time_t paramLong) = 0;
