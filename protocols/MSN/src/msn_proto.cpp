@@ -810,7 +810,7 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)))
 	    db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
-	if (Lists_IsInList(LIST_FL, tEmail))
+	if (Lists_IsInList(LIST_FL, tEmail) && db_get_b(hContact, "MetaContacts", "IsSubcontact", 0) == 0)
 		db_unset(hContact, "CList", "Hidden");
 
 	return Proto_RecvMessage(hContact, pre);
