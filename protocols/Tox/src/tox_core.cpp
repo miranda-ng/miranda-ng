@@ -41,7 +41,7 @@ Tox_Options* CToxProto::GetToxOptions()
 	return options;
 }
 
-bool CToxProto::InitToxCore(ToxThreadData *toxThread)
+bool CToxProto::InitToxCore(CToxThread *toxThread)
 {
 	logger->Log(__FUNCTION__": initializing tox core");
 
@@ -112,34 +112,18 @@ bool CToxProto::InitToxCore(ToxThreadData *toxThread)
 	return false;
 }
 
-void CToxProto::UninitToxCore(ToxThreadData *toxThread)
+void CToxProto::UninitToxCore()
 {
+	if (toxThread->toxAv)
+		toxav_kill(toxThread->toxAv);
+
 	if (toxThread->tox)
 	{
-		for (size_t i = 0; i < transfers.Count(); i++)
-		{
-			FileTransferParam *transfer = transfers.GetAt(i);
-			tox_file_control(toxThread->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
-			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
-			transfers.Remove(transfer);
-		}
-
-		//if (IsToxCoreInited())
-		//{
-		//	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
-		//	tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
-
-		//	//temporary
-		//	ptrA statusmes(mir_utf8encodeW(ptrT(getTStringA("StatusMsg"))));
-		//	tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
-		//}
-
-		if (toxThread->toxAv)
-			toxav_kill(toxThread->toxAv);
+		CancelAllTransfers();
 
 		SaveToxProfile();
 
 		tox_kill(toxThread->tox);
-		toxThread = NULL;
+		this->toxThread = NULL;
 	}
 }

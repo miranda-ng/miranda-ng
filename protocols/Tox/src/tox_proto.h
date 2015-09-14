@@ -1,21 +1,6 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-struct ToxThreadData
-{
-	Tox *tox;
-	ToxAv *toxAv;
-	bool isConnected;
-	bool isTerminated;
-
-	mir_cs toxLock;
-
-	ToxThreadData() : tox(NULL), toxAv(NULL),
-		isConnected(false), isTerminated(false) { }
-
-	void Stop() { isTerminated = true; }
-};
-
 struct CToxProto : public PROTO<CToxProto>
 {
 	friend CToxPasswordEditor;
@@ -82,7 +67,7 @@ public:
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
 private:
-	ToxThreadData *toxThread;
+	CToxThread *toxThread;
 	mir_cs profileLock;
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
@@ -102,8 +87,8 @@ private:
 
 	// tox core
 	Tox_Options* GetToxOptions();
-	bool InitToxCore(ToxThreadData *toxThread);
-	void UninitToxCore(ToxThreadData *toxThread);
+	bool InitToxCore(CToxThread *toxThread);
+	void UninitToxCore();
 
 	// tox network
 	bool IsOnline();
@@ -247,6 +232,7 @@ private:
 
 	void PauseOutgoingTransfers(uint32_t friendNumber);
 	void ResumeIncomingTransfers(uint32_t friendNumber);
+	void CancelAllTransfers();
 
 	// avatars
 	TCHAR* GetAvatarFilePath(MCONTACT hContact = NULL);

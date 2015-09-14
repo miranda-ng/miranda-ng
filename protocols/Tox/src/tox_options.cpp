@@ -62,7 +62,7 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
-	ToxThreadData toxThread;
+	CToxThread toxThread;
 
 	ptrT profilePath(m_proto->GetToxProfilePath());
 	if (!m_proto->IsFileExists(profilePath))
@@ -91,7 +91,8 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 			Clist_CreateGroup(0, group);
 
 		m_proto->LoadFriendList(NULL);
-		m_proto->UninitToxCore(&toxThread);
+		m_proto->SaveToxProfile();
+		tox_kill(toxThread.tox);
 
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));

@@ -348,6 +348,17 @@ void CToxProto::ResumeIncomingTransfers(uint32_t friendNumber)
 	}
 }
 
+void CToxProto::CancelAllTransfers()
+{
+	for (size_t i = 0; i < transfers.Count(); i++)
+	{
+		FileTransferParam *transfer = transfers.GetAt(i);
+		tox_file_control(toxThread->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		transfers.Remove(transfer);
+	}
+}
+
 void CToxProto::OnFileRequest(Tox*, uint32_t friendNumber, uint32_t fileNumber, TOX_FILE_CONTROL control, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
