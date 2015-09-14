@@ -148,7 +148,7 @@ void CToxProto::PollingThread(void*)
 
 	logger->Log(__FUNCTION__": entering");
 
-	if (!InitToxCore(&toxThread))
+	if (!InitToxCore())
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_WRONGPASSWORD);
