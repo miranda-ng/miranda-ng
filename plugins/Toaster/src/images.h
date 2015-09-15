@@ -50,7 +50,14 @@ public:
 			isi.hbm = _hBitmap;
 			isi.dwMask = IMGI_HBITMAP;
 			isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
-			CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
+			try
+			{
+				CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
+			}
+			catch (...)
+			{
+				return nullptr;
+			}
 		}
 		return mir_wstrdup(wszSavePath);
 	}

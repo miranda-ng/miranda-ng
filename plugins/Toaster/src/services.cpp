@@ -19,8 +19,7 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
-			PROTO_AVATAR_INFORMATION pai = { 0 };
-			pai.hContact = td->hContact;
+			PROTO_AVATAR_INFORMATION pai = { td->hContact };
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
 			{
 				imagePath = mir_tstrdup(pai.filename);
@@ -29,17 +28,20 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (imagePath == NULL)
 		{
-			if (td->iType == 1 && td->hBitmap && !szProto)
-			{
-				imagePath = ToasterImage(td->hBitmap);
-			}
-			else if (td->iType == 2 && td->hIcon && !szProto)
-			{
-				imagePath = ToasterImage(td->hIcon);
-			}
-			else if (szProto)
+			if (szProto)
 			{
 				imagePath = ToasterImage(szProto);
+			}
+			else
+			{
+				if (td->iType == 1 && td->hBitmap)
+				{
+					imagePath = ToasterImage(td->hBitmap);
+				}
+				else if (td->iType == 2 && td->hIcon)
+				{
+					imagePath = ToasterImage(td->hIcon);
+				}
 			}
 		}
 	}
@@ -57,7 +59,7 @@ void __stdcall ShowToastNotification(void* p)
 	if (SUCCEEDED(hr))
 	{
 		ToastHandlerData *thd = new ToastHandlerData();
-		thd->hContact = td->hContact;
+		thd->hContact   = td->hContact;
 		thd->vPopupData = td->vPopupData;
 		thd->pPopupProc = td->pPopupProc;
 		thd->tstNotification = notification;
@@ -148,7 +150,7 @@ static INT_PTR RegisterClass(WPARAM, LPARAM lParam)
 
 	mp_Classes[pc->pszName] = cd;
 
-	return (INT_PTR)cd->handle;
+	return (INT_PTR)cd;
 }
 
 static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
@@ -180,11 +182,10 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 
 static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
 {
-	HANDLE h = (HANDLE)lParam;
 
 	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
 	{
-		if (it->second->handle == h)
+		if (it->second == (void*)lParam)
 		{
 			delete it->second;
 			mp_Classes.erase(it);
@@ -230,10 +231,24 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	}
 }
 
-static INT_PTR ShowMessage(WPARAM wParam, LPARAM)
+static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 {
+	HICON hIcon = NULL;
+	switch (lParam)
+	{
+	case SM_WARNING:
+		hIcon = Skin_LoadIcon(SKINICON_WARNING);
+		break;
+	case SM_ERROR:
+		hIcon = Skin_LoadIcon(SKINICON_ERROR);
+		break;
+	case SM_NOTIFY:
+		hIcon = Skin_LoadIcon(SKINICON_INFORMATION);
+		break;
+	}
+
 	ptrT tszText(mir_utf8decodeT((char*)wParam));
-	ToastData *td = new ToastData(NULL, NULL, tszText, HICON(0));
+	ToastData *td = new ToastData(NULL, NULL, tszText, hIcon);
 
 	CallFunctionAsync(&ShowToastNotification, td);
 
