@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 mir_cs csNotifications;
-OBJLIST<ToastNotification> lstNotifications(1);
+OBJLIST<ToastNotification> lstNotifications(2, PtrKeySortT);
 std::map<std::string, ClassData*> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
 
