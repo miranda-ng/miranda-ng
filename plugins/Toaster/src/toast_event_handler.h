@@ -5,22 +5,13 @@ typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notificat
 typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastDismissedEventArgs *> DesktopToastDismissedEventHandler;
 typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastFailedEventArgs *> DesktopToastFailedEventHandler;
 
-struct ToastHandlerData : public MZeroedObject
-{
-	MCONTACT hContact;
-
-	WNDPROC pPopupProc;
-	void *vPopupData;
-
-	ToastNotification *tstNotification;
-};
+struct ToastHandlerData;
 
 class ToastEventHandler : public Microsoft::WRL::Implements<DesktopToastActivatedEventHandler, DesktopToastDismissedEventHandler, DesktopToastFailedEventHandler>
 {
 public:
-	ToastHandlerData *_thd;
+	std::unique_ptr<ToastHandlerData> _thd;
 
-	ToastEventHandler::ToastEventHandler();
 	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData);
 	~ToastEventHandler();
 

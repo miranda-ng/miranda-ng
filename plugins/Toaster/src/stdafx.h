@@ -25,11 +25,6 @@
 #include "version.h"
 #include "resource.h"
 
-__forceinline bool isChatRoom(MCONTACT hContact)
-{
-	return (db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0) == 1);
-}
-
 typedef void(__cdecl *pEventHandler)(void*);
 const wchar_t AppUserModelID[] = _T("MirandaNG");
 DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0, 0xE1, 0xD4, 0x2D, 0xE1, 0xD5, 0xF3, 5);
@@ -38,74 +33,17 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 
 #define CHECKHR(x) if (FAILED(x)) return x;
 
-class ToastNotification;
-
 #include "string_reference_wrapper.h"
 #include "toast_event_handler.h"
 #include "toast_notification.h"
 #include "add_to_start_menu.h"
+#include "structs.h"
 #include "images.h"
 
 extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
 extern OBJLIST<ToastNotification> lstNotifications;
 extern wchar_t wszTempDir[MAX_PATH];
-
-struct callbackArg
-{
-	MCONTACT hContact;
-	ToastNotification* notification;
-};
-
-struct ToastData
-{
-	MCONTACT hContact;
-	TCHAR *tszTitle;
-	TCHAR *tszText;
-	union
-	{
-		HICON hIcon;
-		HBITMAP hBitmap;
-	};
-	int iType; // 0 = none, 1 = hBitmap, 2 = hIcon
-
-	WNDPROC pPopupProc;
-	void *vPopupData;
-
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL) : 
-		hContact(_hContact),
-		tszTitle(mir_tstrdup(_tszTitle)), 
-		tszText(mir_tstrdup(_tszText)), 
-		hIcon(_hIcon), 
-		iType(_hIcon ? 2 : 0) 
-	{}
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HBITMAP bmp = NULL) :
-		hContact(_hContact),
-		tszTitle(mir_tstrdup(_tszTitle)),
-		tszText(mir_tstrdup(_tszText)),
-		hBitmap(bmp),
-		iType(bmp ? 1 : 0)
-	{}
-	~ToastData()
-	{
-		mir_free(tszTitle);
-		mir_free(tszText);
-	}
-};
-
-struct ClassData
-{
-	int iFlags;
-	HICON hIcon;
-	HANDLE handle;
-
-	WNDPROC pPopupProc;
-
-	ClassData(int f, HICON h = NULL) : iFlags(f), hIcon(h) 
-	{
-		Utils_GetRandom(&handle, sizeof(handle));
-	}
-};
 
 void CleanupClasses();
 void InitServices();

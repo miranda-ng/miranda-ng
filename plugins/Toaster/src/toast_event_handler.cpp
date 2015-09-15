@@ -3,10 +3,6 @@
 using namespace ABI::Windows::UI::Notifications;
 using namespace Microsoft::WRL;
 
-ToastEventHandler::ToastEventHandler() : _ref(1)
-{
-}
-
 ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _thd(pData)
 {
 	if (_thd->pPopupProc)
