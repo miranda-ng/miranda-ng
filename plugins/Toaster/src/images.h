@@ -50,11 +50,11 @@ public:
 			isi.hbm = _hBitmap;
 			isi.dwMask = IMGI_HBITMAP;
 			isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
-			try
+			__try
 			{
 				CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_WCHAR);
 			}
-			catch (...)
+			__except (EXCEPTION_EXECUTE_HANDLER)
 			{
 				return nullptr;
 			}
