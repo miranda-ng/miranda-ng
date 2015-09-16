@@ -671,7 +671,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 		if (retLen < mir_strlen(Msg)) {
 			CMStringA szMsg(Msg, int(mir_strlen(Msg) - mir_strlen(tmpMsg)));
 			szMsg.Append(&tmpMsg[retLen]);
-			retMsg = mir_strdup(szMsg);
+			retMsg = mir_strdup(szMsg.Trim());
 		}	
 	}
 
