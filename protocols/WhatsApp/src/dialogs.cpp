@@ -39,46 +39,51 @@ public:
 
 	virtual void OnInitDialog()
 	{
-		m_pw1.SendMsg(EM_LIMITTEXT, 3, 0); m_pw1.Enable(false);
-		m_pw2.SendMsg(EM_LIMITTEXT, 3, 0); m_pw2.Enable(false);
+		m_pw1.SendMsg(EM_LIMITTEXT, 3, 0);
+		m_pw2.SendMsg(EM_LIMITTEXT, 3, 0);
+		bool bEnable = m_proto->getBool("CodeRequestDone", false);
+		m_pw1.Enable(bEnable);
+		m_pw2.Enable(bEnable);
 	}
 
 	void OnRequestClick(CCtrlButton*)
 	{
-		if (IDYES != MessageBox(NULL, TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO))
+		if (IDYES != MessageBox(GetHwnd(), TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO))
 			return;
 
 		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
 		string password;
 		if (m_proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string(), password)) {
 			if (!password.empty()) {
-				MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+				MessageBox(GetHwnd(), TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
 			}
 			else {
-				m_pw1.Enable(); // unblock sms code entry field
+				// unblock sms code entry field
+				m_pw1.Enable(); 
 				m_pw2.Enable();
+				m_proto->setByte("CodeRequestDone", 1);
 			}
 		}
 	}
 
 	void OnRegisterClick(CCtrlButton*)
 	{
-		if (GetWindowTextLength(m_pw1.GetHwnd()) != 3 || GetWindowTextLength(m_pw2.GetHwnd()) != 3) {
-			MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
-			return;
-		}
+		if (GetWindowTextLength(m_pw1.GetHwnd()) != 3 || GetWindowTextLength(m_pw2.GetHwnd()) != 3)
+			MessageBox(GetHwnd(), TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
+		else {
+			char code[10];
+			GetWindowTextA(m_pw1.GetHwnd(), code, 4);
+			GetWindowTextA(m_pw2.GetHwnd(), code + 3, 4);
 
-		char code[10];
-		GetWindowTextA(m_pw1.GetHwnd(), code, 4);
-		GetWindowTextA(m_pw2.GetHwnd(), code + 3, 4);
-
-		string password;
-		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
-		if (m_proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
-			m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
-			MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+			string password;
+			ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
+			if (m_proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
+				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
+				MessageBox(GetHwnd(), TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+			}
 		}
+		m_proto->setByte("CodeRequestDone", 0);
 	}
 
 	virtual void OnApply()
@@ -88,7 +93,7 @@ public:
 			m_proto->m_tszDefaultGroup = tszGroup.detach();
 
 		if (m_proto->isOnline())
-			MessageBox(NULL, TranslateT("Changes will be applied after protocol restart"), m_proto->m_tszUserName, MB_OK);
+			MessageBox(GetHwnd(), TranslateT("Changes will be applied after protocol restart"), m_proto->m_tszUserName, MB_OK);
 	}
 };
 
