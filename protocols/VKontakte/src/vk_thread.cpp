@@ -410,7 +410,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	
 	if (flag)
 		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
-			"var res=[];var index=US.length;while(index >0){index=index-1;if(US[index].online==1){res.unshift(US[index]);};};"
+			"var res=[];var index=US.length;while(index>0){index=index-1;if(US[index].online!=0){res.unshift(US[index]);};};"
 			"return{\"freeoffline\":1,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
 		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
