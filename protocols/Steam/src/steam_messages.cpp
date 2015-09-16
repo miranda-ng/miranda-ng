@@ -41,7 +41,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	ptrT error(mir_tstrdup(TranslateT("Unknown error")));
 	ptrT steamId(getTStringA(param->hContact, "SteamID"));
 
-	if (response && response->resultCode == HTTP_CODE_OK)
+	if (ResponseHttpOk(response))
 	{
 		JSONROOT root(response->pData);
 		JSONNode *node = json_get(root, "error");
@@ -54,8 +54,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		ptrA errorA(mir_t2a(error));
 		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, errorA);
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)errorA);
-		return;
 	}
-
-	ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hMessage, 0);
+	else
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hMessage, 0);
 }

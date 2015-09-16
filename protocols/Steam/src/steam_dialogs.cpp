@@ -21,11 +21,11 @@ void CSteamPasswordEditor::OnInitDialog()
 
 void CSteamPasswordEditor::OnOk(CCtrlButton*)
 {
-	if (m_savePermanently.Enabled())
-		m_proto->setTString("Password", m_password.GetText());
 	if (m_proto->password != NULL)
 		mir_free(m_proto->password);
 	m_proto->password = m_password.GetText();
+	if (m_savePermanently.Enabled())
+		m_proto->setTString("Password", m_proto->password);
 
 	EndDialog(m_hwnd, 1);
 }
