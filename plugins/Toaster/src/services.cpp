@@ -75,12 +75,12 @@ void __stdcall ShowToastNotification(void* p)
 
 static INT_PTR GetPopupData(WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)((ToastEventHandler*)wParam)->_thd->vPopupData;
+	return (INT_PTR)((ToastEventHandler*)wParam)->GetPluginData();
 }
 
 static INT_PTR GetPopupContact(WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)((ToastEventHandler*)wParam)->_thd->hContact;
+	return (INT_PTR)((ToastEventHandler*)wParam)->GetContact();
 }
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
@@ -231,7 +231,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	}
 }
 
-static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon = NULL;
 	switch (lParam)
@@ -247,19 +247,16 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	ptrT tszText(mir_utf8decodeT((char*)wParam));
-	ToastData *td = new ToastData(NULL, NULL, tszText, hIcon);
-
+	ToastData *td = new ToastData(NULL, NULL, (wchar_t*)wParam, hIcon);
 	CallFunctionAsync(&ShowToastNotification, td);
 
 	return 0;
 }
-static INT_PTR ShowMessageW(WPARAM wParam, LPARAM)
-{
-	ToastData *td = new ToastData(NULL, NULL, (wchar_t*)wParam, HICON(0));
-	CallFunctionAsync(&ShowToastNotification, td);
 
-	return 0;
+static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
+{
+	ptrT tszText(mir_utf8decodeW((char*)wParam));
+	return ShowMessageW(tszText, lParam);
 }
 
 void __stdcall HideAllToasts(void*)
@@ -280,6 +277,7 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2, CreatePopup2);
+
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);

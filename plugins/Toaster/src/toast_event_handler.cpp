@@ -3,7 +3,7 @@
 using namespace ABI::Windows::UI::Notifications;
 using namespace Microsoft::WRL;
 
-ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(1), _thd(pData)
+ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(0), _thd(pData)
 {
 	if (_thd->pPopupProc)
 		_thd->pPopupProc((HWND)this, UM_INITPOPUP, (WPARAM)this, 0);
@@ -68,7 +68,6 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 		{
 			if (_thd->pPopupProc)
 				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
-			//delete this;
 			break;
 		}
 	case ToastDismissalReason_UserCanceled:
@@ -76,11 +75,9 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 			if (_thd->pPopupProc)
 				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
 			_thd->tstNotification->Hide();
-			//delete this;
 			break;
 		}
 	case ToastDismissalReason_TimedOut:
-		//delete this; // should be rewritten
 		break;
 	}
 
@@ -95,4 +92,14 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(_thd->tstNotification);
 	return S_OK;
+}
+
+void* ToastEventHandler::GetPluginData()
+{
+	return _thd->vPopupData;
+}
+
+MCONTACT ToastEventHandler::GetContact()
+{
+	return _thd->hContact;
 }

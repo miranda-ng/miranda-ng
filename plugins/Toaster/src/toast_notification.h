@@ -8,6 +8,10 @@ private:
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
+	EventRegistrationToken ertActivated;
+	EventRegistrationToken ertDismissed;
+	EventRegistrationToken ertFailed;
+
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotification> notification;

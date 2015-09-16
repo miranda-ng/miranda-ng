@@ -10,8 +10,6 @@ struct ToastHandlerData;
 class ToastEventHandler : public Microsoft::WRL::Implements<DesktopToastActivatedEventHandler, DesktopToastDismissedEventHandler, DesktopToastFailedEventHandler>
 {
 public:
-	std::unique_ptr<ToastHandlerData> _thd;
-
 	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData);
 	~ToastEventHandler();
 
@@ -23,9 +21,13 @@ public:
 	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* sender, _In_ IInspectable* args);
 	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs* e);
 	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs* /* e */);
+
+	void* GetPluginData();
+	MCONTACT GetContact();
+
 private:
 	ULONG _ref;
-
+	std::unique_ptr<ToastHandlerData> _thd;
 };
 
 #endif //_TOAST_EVENT_HANDLER_H_
