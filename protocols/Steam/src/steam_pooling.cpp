@@ -180,7 +180,7 @@ void CSteamProto::PollingThread(void*)
 		HttpResponse *response = request->Send(m_hNetlibUser);
 		delete request;
 
-		if (!response || response->resultCode != HTTP_CODE_OK)
+		if (!ResponseHttpOk(response))
 		{
 			if (response != NULL)
 				delete response;

@@ -152,5 +152,12 @@ public:
 };
 
 
+bool __forceinline ResponseHttpOk(const NETLIBHTTPREQUEST *response) {
+	return (response && response->pData && (response->resultCode == HTTP_CODE_OK));
+}
+
+bool __forceinline CheckResponse(const NETLIBHTTPREQUEST *response) {
+	return (response && response->pData);
+}
 
 #endif //_HTTP_REQUEST_H_
