@@ -7,7 +7,7 @@ bool CToxProto::IsOnline()
 
 void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
 {
-	if (hexKey == NULL)
+	if (hexKey == NULL || toxThread == NULL)
 		return;
 	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
 	TOX_ERR_BOOTSTRAP error;
@@ -101,14 +101,14 @@ void CToxProto::TryConnect()
 	else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_NONETWORK);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		logger->Log(__FUNCTION__": failed to connect to DHT");
 	}
 }
 
 void CToxProto::CheckConnection(int &retriesCount)
 {
-	if (!toxThread->isConnected)
+	if (!toxThread || !toxThread->isConnected)
 	{
 		TryConnect();
 	}
@@ -151,7 +151,7 @@ void CToxProto::PollingThread(void*)
 	if (!InitToxCore())
 	{
 		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_WRONGPASSWORD);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		logger->Log(__FUNCTION__": leaving");
 		return;
 	}

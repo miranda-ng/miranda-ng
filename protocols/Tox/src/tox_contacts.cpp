@@ -350,6 +350,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 				if (error != TOX_ERR_FILE_SEND_OK)
 				{
 					proto->logger->Log(__FUNCTION__": failed to set new avatar");
+					fclose(hFile);
 					return;
 				}
 

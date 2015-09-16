@@ -10,8 +10,10 @@ TCHAR* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 		CreateDirectoryTreeT(path);
 
 	ptrT address(getTStringA(hContact, TOX_SETTINGS_ID));
-	if (address == NULL)
+	if (address == NULL) {
+		mir_free(path);
 		return mir_tstrdup(_T(""));
+	}
 
 	if (hContact && mir_tstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
 		address[TOX_PUBLIC_KEY_SIZE * 2] = 0;
@@ -30,7 +32,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 	}
 
 	fseek(hFile, 0, SEEK_END);
-	size_t length = ftell(hFile);
+	long length = ftell(hFile);
 	rewind(hFile);
 	if (length > TOX_MAX_AVATAR_SIZE)
 	{
