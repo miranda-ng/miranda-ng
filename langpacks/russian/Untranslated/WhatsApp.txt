@@ -1,1 +1,3 @@
 ﻿[Use remote message timestamps]
+[Last online on %x at %X]
+[Denied: Last online on %x at %X]

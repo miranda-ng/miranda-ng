@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.13
+;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
-[Unable to initialize tox core]
-Невозможно инициализировать ядро Tox
-[One of the arguments is missing]
-Пропущен один из аргументов
 [Create]
 Создать
 [Import]
@@ -101,6 +97,8 @@ IPv6 адрес (необязательно)
 Для:
 [Group chat]
 Чат
+[Unable to initialize Tox core]
+Невозможно инициализировать ядро Tox
 [Profiles folder]
 Папка профилей
 [Tox URI scheme]
@@ -185,6 +183,8 @@ IPv6 адрес (необязательно)
 Контакт уже в вашем списке контактов
 [Query]
 Запрос
+[One of the arguments is missing]
+Пропущен один из аргументов
 [Unable to allocate enough memory]
 Невозможно выделить достаточно памяти
 [Unable to bind to a port]
