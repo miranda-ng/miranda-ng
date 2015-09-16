@@ -9,6 +9,9 @@ ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, 
 
 ToastNotification::~ToastNotification()
 {
+	notification->remove_Activated(ertActivated);
+	notification->remove_Dismissed(ertDismissed);
+	notification->remove_Failed(ertFailed);
 }
 
 HRESULT ToastNotification::Initialize()
@@ -79,12 +82,12 @@ HRESULT ToastNotification::Show()
 
 HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 {
-	EventRegistrationToken activatedToken, dismissedToken, failedToken;
+	
 	ComPtr<ToastEventHandler> eventHandler(handler);
 
-	notification->add_Activated(eventHandler.Get(), &activatedToken);
-	notification->add_Dismissed(eventHandler.Get(), &dismissedToken);
-	notification->add_Failed(eventHandler.Get(), &failedToken);
+	notification->add_Activated(eventHandler.Get(), &ertActivated);
+	notification->add_Dismissed(eventHandler.Get(), &ertDismissed);
+	notification->add_Failed(eventHandler.Get(), &ertFailed);
 	return notifier->Show(notification.Get());
 }
 
