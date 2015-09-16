@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.14
+;  Version: 0.1.1.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -345,6 +345,22 @@ Cоздать комнату чата
 Текст записи:
 [Topic text:]
 Текст темы:
+[Protocol is offline]
+Протокол не в сети
+[File does not exist]
+Файл отсутствует
+[File type not supported]
+Неподдерживаемый тип файла
+[Error open file]
+Ошибка при открытии файла
+[Error read file]
+Ошибка при чтении файла
+[File upload error]
+Ошибка загрузки файла
+[Upload server returned empty URL]
+Сервер вернул пустую ссылку
+[Invalid or unknown recipient user ID]
+ID получателя ошибочен или неизвестен
 [Couldn't save file]
 Невозможно сохранить файл
 [Invalid album id]
@@ -363,8 +379,6 @@ Cоздать комнату чата
 Неверный размер файла
 [Unknown error occurred]
 Неизвестная ошибка
-[File upload error]
-Ошибка загрузки файла
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attention!]
@@ -459,17 +473,3 @@ Cоздать комнату чата
 Сообщение на стене пользователя
 [Attention! Message body or url should not be empty!]
 Внимание! Текст сообщения или ссылка не могут быть пустыми!
-[Protocol is offline]
-Протокол не в сети
-[File does not exist]
-Файл отсутствует
-[File type not supported]
-Неподдерживаемый тип файла
-[Error open file]
-Ошибка при открытии файла
-[Error read file]
-Ошибка при чтении файла
-[Upload server returned empty URL]
-Сервер вернул пустую ссылку
-[Invalid or unknown recipient user ID]
-ID получателя ошибочен или неизвестен

@@ -2,61 +2,11 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Позволяет удобно управлять сообщениями статуса.
-[Popup notification]
-Всплывающее окно
-[Popup text format]
-Формат сообщения во вспл. окне
-[Preview]
-Тест
-[V]
-Пер.
-[%extratext% is your status message]
-%extratext% это ваше сообщение статуса
-[Click action]
-Действия по щелчку
-[On left click]
-Левый щелчок
-[On right click]
-Правый щелчок
-[Delay]
-Задержка
-[Sec]
-сек.
-[0 = Default]
-0=Умолчание
-[-1 = Infinite]
--1=Бесконечно
-[Colors]
-Цвета
-[Background]
-Фон
-[Use default]
-По умолчанию
-[Text]
-Текст
-[Only notify when:]
-Уведомлять, только если:
-[On&line]
-В с&ети
-[&Away]
-&Отсутствую
-[&NA]
-&Недоступен
-[Occ&upied]
-Зан&ят
-[&DND]
-Не &беспокоить
-[&Free for chat]
-&Готов болтать
-[&Other]
-&Другое
-[Log to a file only when popup notification for a contact is enabled]
-Записывать в файл, только если уведомление окном включено
 [Enable autoreply]
 Включить автоответчик
 [On event...]
@@ -79,6 +29,18 @@
 Сбросить этот счётчик после смены статусного сообщения (но не статуса)
 [Disable autoreply when...]
 Отключить автоответчик когда...
+[On&line]
+В с&ети
+[&Away]
+&Отсутствую
+[&NA]
+&Недоступен
+[Occ&upied]
+Зан&ят
+[&DND]
+Не &беспокоить
+[&Free for chat]
+&Готов болтать
 [&Invisible]
 &Невидимый
 [On the &phone]
@@ -87,6 +49,10 @@
 Обедаю
 [Autoreply format:]
 Формат автоответа:
+[V]
+Пер.
+[%extratext% is your status message]
+%extratext% это ваше сообщение статуса
 [&Variables]
 &Переменные
 [Se&ttings]
@@ -271,10 +237,16 @@
 Обедаю
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Сейчас ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,ужинаю,обедаю),завтракаю),ужинаю) с %nas_awaysince_time%.
-[Toggle On]
-Включить
 [Toggle Off]
 Выключить
+[Toggle On]
+Включить
+[Ignore]
+Игнорировать
+[Set status message]
+Установить статусное сообщение
+[Add]
+Добавить
 [Set %s message for the contact]
 Уст. %s сообщение для контакта
 [Re&ad %s message]
@@ -315,8 +287,6 @@
 %d сек.
 [Read status message]
 Читать статусное сообщение
-[Set status message]
-Установить статусное сообщение
 [On]
 Вкл
 [Off]
