@@ -32,9 +32,6 @@
     <Image Include="res\SaveMsg.ico" />
     <Image Include="res\Settings.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="res\resource.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A516E27-AC50-5374-756B-A1558DB2EFA9}</ProjectGuid>
     <ProjectName>NewAwaySys</ProjectName>
