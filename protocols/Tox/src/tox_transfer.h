@@ -47,7 +47,7 @@ struct FileTransferParam
 
 	uint8_t GetDirection() const
 	{
-		return pfts.flags & PFTS_SENDING ? 0 : 1;
+		return (pfts.flags & PFTS_SENDING) ? 0 : 1;
 	}
 
 	~FileTransferParam()

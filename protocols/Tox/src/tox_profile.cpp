@@ -21,9 +21,6 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	logger->Log(__FUNCTION__": loading tox profile");
 
 	mir_cslock locker(profileLock);
-
-	size_t size = 0;
-	uint8_t *data = NULL;
 	
 	ptrT profilePath(GetToxProfilePath());
 	if (!IsFileExists(profilePath))
@@ -38,16 +35,16 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	}
 
 	fseek(profile, 0, SEEK_END);
-	size = ftell(profile);
+	long size = ftell(profile);
 	rewind(profile);
 	if (size < 0)
 	{
 		fclose(profile);
-		size = 0;
+		return false;
 	}
 
-	data = (uint8_t*)mir_calloc(size);
-	if (fread((char*)data, sizeof(char), size, profile) != size)
+	uint8_t *data = (uint8_t*)mir_calloc(size);
+	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size)
 	{
 		fclose(profile);
 		ShowNotification(TranslateT("Unable to read Tox profile"), MB_ICONERROR);
@@ -57,7 +54,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	}
 	fclose(profile);
 
-	if (data && tox_is_data_encrypted(data))
+	if (tox_is_data_encrypted(data))
 	{
 		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
 		if (password == NULL || mir_strlen(password) == 0)

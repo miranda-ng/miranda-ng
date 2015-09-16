@@ -78,7 +78,7 @@ private:
 
 	// tox profile
 	TCHAR* GetToxProfilePath();
-	static TCHAR* CToxProto::GetToxProfilePath(const TCHAR *accountName);
+	static TCHAR* GetToxProfilePath(const TCHAR *accountName);
 
 	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile();
@@ -129,7 +129,7 @@ private:
 	int OnInitStatusMenu();
 
 	//services
-	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SetMyNickname(WPARAM wParam, LPARAM lParam);
 
 	// options
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);

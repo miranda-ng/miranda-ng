@@ -2,7 +2,7 @@
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	hPollingThread(NULL), hOutDevice(NULL)
+	hPollingThread(NULL), hOutDevice(NULL), toxThread(NULL)
 {
 	InitNetlib();
 

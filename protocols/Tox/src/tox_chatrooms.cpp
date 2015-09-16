@@ -80,36 +80,22 @@ int CToxProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	{
 		return 1;
 	}
-	else if (mir_strcmp(gch->pDest->pszModule, this->m_szModuleName) != 0)
-	{
+	else 
 		return 0;
-	}
+}
+
+int CToxProto::OnGroupChatMenuHook(WPARAM, LPARAM)
+{
 	return 0;
 }
 
-int CToxProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
+INT_PTR CToxProto::OnJoinChatRoom(WPARAM, LPARAM)
 {
-	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
-	if (mir_strcmpi(gcmi->pszModule, this->m_szModuleName) != 0)
-	{
-		return 0;
-	}
 	return 0;
 }
 
-INT_PTR CToxProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
+INT_PTR CToxProto::OnLeaveChatRoom(WPARAM, LPARAM)
 {
-	if (hContact)
-	{
-	}
-	return 0;
-}
-
-INT_PTR CToxProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
-{
-	if (hContact)
-	{
-	}
 	return 0;
 }
 
