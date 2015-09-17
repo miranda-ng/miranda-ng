@@ -124,6 +124,7 @@ void CToxProto::UninitToxCore()
 		SaveToxProfile();
 
 		tox_kill(toxThread->tox);
-		this->toxThread = NULL;
 	}
+
+	toxThread = NULL;
 }
