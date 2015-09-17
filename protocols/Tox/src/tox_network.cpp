@@ -150,6 +150,7 @@ void CToxProto::PollingThread(void*)
 
 	if (!InitToxCore())
 	{
+		UninitToxCore();
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		logger->Log(__FUNCTION__": leaving");
