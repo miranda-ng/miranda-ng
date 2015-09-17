@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.14
+;  Version: 0.1.1.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -347,6 +347,22 @@
 Запис:
 [Topic text:]
 Тема:
+[Protocol is offline]
+Протокол не в мережі
+[File does not exist]
+Файл відсутній
+[File type not supported]
+Тип файлу не підтримується
+[Error open file]
+Помилка при відкритті файлу
+[Error read file]
+Помилка при читанні файлу
+[File upload error]
+Помилка при завантаженні файлу
+[Upload server returned empty URL]
+Сервер повернув порожнє посилання
+[Invalid or unknown recipient user ID]
+ID отримувача помилковий або невідомий
 [Couldn't save file]
 Неможливо зберегти файл
 [Invalid album id]
@@ -365,8 +381,6 @@
 Неправильний розмір файлу
 [Unknown error occurred]
 Невідома помилка
-[File upload error]
-Помилка при завантаженні файлу
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Ви впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
 [Attention!]

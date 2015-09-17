@@ -1792,7 +1792,7 @@ xСтатус ICQ
 [The file transfer failed: Proxy unavailable]
 Передача файлу не вдалася: Проксі недоступний
 [Failed to Initialize File Transfer. No valid files were specified.]
-Помилка ініціалізації передачі файлів. Файл не вказаний.
+Неможливо розпочати передачу файлу. Файл не вказаний.
 [The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Занадто великі файли не можуть бути відправлені за раз. Файли більше 4 ГБ можуть бути надіслані лише окремо.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]

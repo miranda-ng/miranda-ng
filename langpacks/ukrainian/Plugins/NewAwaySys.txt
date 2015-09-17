@@ -2,61 +2,11 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Зручне керування статусними повідомленнями.
-[Popup notification]
-Спливаюче вікно
-[Popup text format]
-Формат повідомлення в сплив. вікні
-[Preview]
-Тест
-[V]
-Змін.
-[%extratext% is your status message]
-%extratext% - ваше статусне повідомлення
-[Click action]
-Дії по клацанню
-[On left click]
-Лівий клік
-[On right click]
-Правий клік
-[Delay]
-Затримка
-[Sec]
-с
-[0 = Default]
-0=Замовчання
-[-1 = Infinite]
--1=Нескінченно
-[Colors]
-Кольори
-[Background]
-Фон
-[Use default]
-За замовчанням
-[Text]
-Текст
-[Only notify when:]
-Сповіщати, коли:
-[On&line]
-В &мережі
-[&Away]
-&Відсутній
-[&NA]
-Не&доступний
-[Occ&upied]
-&Зайнятий
-[&DND]
-Не т&урбувати
-[&Free for chat]
-&Готовий до чату
-[&Other]
-&Інше
-[Log to a file only when popup notification for a contact is enabled]
-Записувати у файл тільки якщо сповіщення вікнами ввімкнено
 [Enable autoreply]
 Увімкнути автовідповідач
 [On event...]
@@ -79,6 +29,18 @@
 Скинути цей лічильник при зміні статусного повідомлення (але не статусу)
 [Disable autoreply when...]
 Вимкнути, коли...
+[On&line]
+В &мережі
+[&Away]
+&Відсутній
+[&NA]
+Не&доступний
+[Occ&upied]
+&Зайнятий
+[&DND]
+Не т&урбувати
+[&Free for chat]
+&Готовий до чату
 [&Invisible]
 &Невидимий
 [On the &phone]
@@ -87,6 +49,10 @@
 Обід&аю
 [Autoreply format:]
 Формат автовідповіді:
+[V]
+Змін.
+[%extratext% is your status message]
+%extratext% - ваше статусне повідомлення
 [&Variables]
 &Змінні
 [Se&ttings]
@@ -267,10 +233,22 @@
 Обідаю
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вечеряю,обідаю),снідаю),вечеряю) з %nas_awaysince_time%.
-[Toggle On]
-Увімкнути
 [Toggle Off]
 Вимкнути
+[Toggle On]
+Увімкнути
+[Dot]
+Крапка
+[Ignore]
+Ігнорувати
+[Set status message]
+Встановити статусне повідомлення
+[Add]
+Додати
+[Save]
+Зберегти
+[Settings]
+Налаштування
 [Set %s message for the contact]
 Вст. повідомлення %s для контакта
 [Re&ad %s message]
@@ -311,8 +289,6 @@
 %d с
 [Read status message]
 Прочитати статусне повідомлення
-[Set status message]
-Встановити статусне повідомлення
 [On]
 Увімк.
 [Off]
