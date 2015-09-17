@@ -182,67 +182,69 @@ void CSteamProto::PollingThread(void*)
 
 		if (!ResponseHttpOk(response))
 		{
-			if (response != NULL)
-				delete response;
-
 			errors++;
-			continue;
 		}
 		else
-			errors = 0;
-
-		JSONROOT root(response->pData);
-		JSONNode *node = json_get(root, "error");
-		ptrT error(json_as_string(node));
-
-		if (!lstrcmpi(error, _T("OK")))
 		{
-			node = json_get(root, "messagelast");
-			messageId = json_as_int(node);
-
-			node = json_get(root, "messages");
-			JSONNode *nroot = json_as_array(node);
-
-			if (nroot != NULL)
+			JSONROOT root(response->pData);
+			if (root == NULL)
 			{
-				ParsePollData(nroot);
-				json_delete(nroot);
+				errors++;
 			}
-
-			m_pollingConnection = response->nlc;
-		}
-		else if (!lstrcmpi(error, _T("Timeout")))
-		{
-			continue;
-		}
-		/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
-		{
-			if (!IsOnline())
+			else
 			{
-				// need to relogin
-				debugLog(_T("CSteamProto::PollingThread: not logged on"));
+				errors = 0;
+				JSONNode *node = json_get(root, "error");
+				if (node) {
+					ptrT error(json_as_string(node));
 
-				SetStatus(ID_STATUS_OFFLINE);
+					if (!lstrcmpi(error, _T("OK")))
+					{
+						node = json_get(root, "messagelast");
+						messageId = json_as_int(node);
+
+						node = json_get(root, "messages");
+						JSONNode *nroot = json_as_array(node);
+
+						if (nroot != NULL)
+						{
+							ParsePollData(nroot);
+							json_delete(nroot);
+						}
+
+						m_pollingConnection = response->nlc;
+					}
+					/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
+					{
+						if (!IsOnline())
+						{
+							// need to relogin
+							debugLog(_T("CSteamProto::PollingThread: not logged on"));
+
+							SetStatus(ID_STATUS_OFFLINE);
+						}
+
+						breaked = true;
+					}*/
+					else if (lstrcmpi(error, _T("Timeout")))
+					{
+						// something wrong
+						debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
+
+						// token has expired
+						if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
+							delSetting("TokenSecret");
+
+						// too low timeout?
+						node = json_get(root, "sectimeout");
+						int timeout = json_as_int(node);
+						if (timeout < STEAM_API_TIMEOUT)
+							debugLog(_T("CSteamProto::PollingThread: Timeout is too low (%d)"), timeout);
+
+						breaked = true;
+					}
+				}
 			}
-
-			breaked = true;
-		}*/
-		else
-		{
-			// something wrong
-			debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
-
-			// token has expired
-			if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
-				delSetting("TokenSecret");
-
-			// too low timeout?
-			node = json_get(root, "sectimeout");
-			int timeout = json_as_int(node);
-			if (timeout < STEAM_API_TIMEOUT)
-				debugLog(_T("CSteamProto::PollingThread: Timeout is too low (%d)"), timeout);
-
-			breaked = true;
 		}
 
 		delete response;
