@@ -77,6 +77,10 @@ SMS-код
 Введіть пароль
 [is now known as '%s']
 змінив ім'я на %s
+[Last online on %x at %X]
+Був у мережі %x о %X
+[Denied: Last online on %x at %X]
+Відхилено: Був у мережі %x о %X
 [Last seen on %x at %X]
 Остання поява %x о %X
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
