@@ -86,23 +86,26 @@ void CToxProto::BootstrapNodes()
 
 void CToxProto::TryConnect()
 {
-	if (tox_self_get_connection_status(toxThread->tox) != TOX_CONNECTION_NONE)
+	if (toxThread != NULL)
 	{
-		toxThread->isConnected = true;
-		logger->Log(__FUNCTION__": successfuly connected to DHT");
+		if (tox_self_get_connection_status(toxThread->tox) != TOX_CONNECTION_NONE)
+		{
+			toxThread->isConnected = true;
+			logger->Log(__FUNCTION__": successfuly connected to DHT");
 
-		ForkThread(&CToxProto::LoadFriendList, NULL);
+			ForkThread(&CToxProto::LoadFriendList, NULL);
 
-		m_iStatus = m_iDesiredStatus;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-		tox_self_set_status(toxThread->tox, MirandaToToxStatus(m_iStatus));
-		logger->Log(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
-	}
-	else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
-	{
-		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
-		logger->Log(__FUNCTION__": failed to connect to DHT");
+			m_iStatus = m_iDesiredStatus;
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+			tox_self_set_status(toxThread->tox, MirandaToToxStatus(m_iStatus));
+			logger->Log(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
+		}
+		else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
+		{
+			SetStatus(ID_STATUS_OFFLINE);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			logger->Log(__FUNCTION__": failed to connect to DHT");
+		}
 	}
 }
 
