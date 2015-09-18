@@ -11,7 +11,7 @@ public:
 
 	HttpResponse(const NETLIBHTTPREQUEST* response, const NETLIBHTTPREQUEST* request = NULL)
 	{
-		request = request;
+		this->request = request;
 		isEmptyResponse = (response == NULL);
 		if (response)
 		{
