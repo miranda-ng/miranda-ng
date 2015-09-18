@@ -49,6 +49,7 @@ int ConnectToMiranda()
 	_tcscat(ptszVal, _T(";"));
 	GetEnvironmentVariable(_T("PATH"), ptszVal + cbPath + 1, cbSize);
 	SetEnvironmentVariable(_T("PATH"), ptszVal);
+	delete[] ptszVal;
 
 	char pluginPath[1024];
 	GetMirandaFolder(pluginPath, sizeof(pluginPath));
