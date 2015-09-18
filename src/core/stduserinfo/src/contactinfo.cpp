@@ -32,7 +32,7 @@ static INT_PTR CALLBACK EditUserEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		if (*(char*)lParam) SetWindowText(hwndDlg, TranslateT("Edit E-Mail address"));
+		if (*(char*)lParam) SetWindowText(hwndDlg, TranslateT("Edit e-mail address"));
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemTextA(hwndDlg, IDC_EMAIL, (char*)lParam);
 		EnableWindow(GetDlgItem(hwndDlg, IDOK), *(char*)lParam);

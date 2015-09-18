@@ -11,4 +11,4 @@
 #define __AUTHOR              "The Miranda developers team and contributors"
 #define __AUTHOREMAIL         "silvercircle@gmail.com"
 #define __AUTHORWEB           "http://miranda-ng.org/p/TabSRMM/"
-#define __COPYRIGHT           "© 2000-2010 Miranda Project and contributors. See readme.txt for more."
+#define __COPYRIGHT           "© 2012-15 Miranda NG team, 2000-2010 Miranda Project and contributors. See readme.txt for more."

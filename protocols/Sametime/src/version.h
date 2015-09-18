@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Implementation of instant messaging for the Lotus Sametime protocol."
 #define __AUTHOR                  "Scott Ellis, Szymon Tokarz"
 #define __AUTHOREMAIL             "mail"/*antispam*/"@"/*antispam*/"scottellis.com.au, wsx22"/*antispam*/"@"/*antispam*/"o2.pl"
-#define __COPYRIGHT               "© 2005 Scott Ellis, 2014 wsx22"
+#define __COPYRIGHT               "© 2005 Scott Ellis, 2014-15 wsx22"
 #define __AUTHORWEB               "http://miranda-ng.org/p/Sametime/"

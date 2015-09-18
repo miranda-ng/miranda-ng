@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Kennet Nielsen, mod by ring0"
 #define __AUTHOREMAIL            "Kennet_N@ofir.dk"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Msg_Export/"
-#define __COPYRIGHT              "© 2002 Kennet Nielsen, © 2012-15 Miranda NG Team"
+#define __COPYRIGHT              "© 2002 Kennet Nielsen, 2012-15 Miranda NG Team"

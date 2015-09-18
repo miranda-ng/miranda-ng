@@ -32,4 +32,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                 "Heiko Schillinger, YB"
 #define __AUTHOREMAIL            "y_b@saaplugin.no-ip.info"
 #define __AUTHORWEB              "http://miranda-ng.org/p/SeenPlugin/"
-#define __COPYRIGHT              "© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB"
+#define __COPYRIGHT              "© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-07 modified by YB"

@@ -11,4 +11,4 @@
 #define __AUTHOR               "icebreaker, Prezes, vj, vlko, Joe @ Whale"
 #define __AUTHOREMAIL            "jokusoftware@miranda-im.org"
 #define __AUTHORWEB               "http://miranda-ng.org/p/NewEventNotify/"
-#define __COPYRIGHT               "GNU GPL"
+#define __COPYRIGHT               ""

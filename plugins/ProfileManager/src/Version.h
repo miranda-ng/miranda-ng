@@ -11,4 +11,4 @@
 #define __AUTHOR               "Roman Gemini"
 #define __AUTHOREMAIL            "woobind@ukr.net"
 #define __AUTHORWEB               "http://miranda-ng.org/p/PManagerEx/"
-#define __COPYRIGHT               "© 2008 - 2010 Roman Gemini"
+#define __COPYRIGHT               "© 2008-10 Roman Gemini"

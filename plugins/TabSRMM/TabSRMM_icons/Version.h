@@ -8,4 +8,4 @@
 #define __PLUGIN_NAME            "TabSRMM icons"
 #define __FILENAME               "TabSRMM_icons.dll"
 #define __DESCRIPTION             "Iconpack for TabSRMM plugin of Miranda NG."
-#define __COPYRIGHT               "© 2000-2010 Miranda Project and contributors. See readme.txt for more."
+#define __COPYRIGHT               "© 2012-15 Miranda NG team, 2000-2010 Miranda Project and contributors. See readme.txt for more."

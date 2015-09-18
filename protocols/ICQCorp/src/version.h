@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda NG Team, Eugene Tarasenko"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/ICQCorp/"
-#define __COPYRIGHT              "© 2014 Miranda NG Team, 2003-2005 Eugene Tarasenko"
+#define __COPYRIGHT              "© 2014-15 Miranda NG Team, 2003-2005 Eugene Tarasenko"

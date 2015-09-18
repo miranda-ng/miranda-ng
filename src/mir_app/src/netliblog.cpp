@@ -78,7 +78,7 @@ static void InitLog()
 	}
 
 	if (logOptions.toFile)
-		hLogger = mir_createLog("Netlib", LPGENT("Standard netlib log"), logOptions.tszFile, 0);
+		hLogger = mir_createLog("Netlib", LPGENT("Standard Netlib log"), logOptions.tszFile, 0);
 }
 
 static const TCHAR* szTimeFormats[] =
