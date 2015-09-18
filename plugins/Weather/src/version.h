@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Miranda NG Team"
 #define __AUTHOREMAIL             ""
 #define __AUTHORWEB               "http://miranda-ng.org/p/Weather/"
-#define __COPYRIGHT               "© 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012 Miranda NG Team"
+#define __COPYRIGHT               "© 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012-15 Miranda NG Team"

@@ -1,7 +1,7 @@
-#define __MAJOR_VERSION            0
-#define __MINOR_VERSION            1
+#define __MAJOR_VERSION          0
+#define __MINOR_VERSION          1
 #define __RELEASE_NUM            1
-#define __BUILD_NUM               0
+#define __BUILD_NUM              0
 
 #include <stdver.h>
 
@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Mataes, jarvis"
 #define __AUTHOREMAIL            "mataes2007@gmail.com"
 #define __AUTHORWEB              "http://miranda-ng.org/p/CSList/"
-#define __COPYRIGHT              "© 2012-10 Mataes, 2009-2007 jarvis"
+#define __COPYRIGHT              "© 2010-15 Mataes, 2007-09 jarvis"

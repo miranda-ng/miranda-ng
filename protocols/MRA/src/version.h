@@ -11,4 +11,4 @@
 #define __AUTHOR             "Rozhuk Ivan"
 #define __AUTHOREMAIL        "Rozhuk_I@mail.ru"
 #define __AUTHORWEB          "http://miranda-ng.org/p/MRA/"
-#define __COPYRIGHT          "© 2005-2014 Rozhuk Ivan"
+#define __COPYRIGHT          "© 2005-15 Rozhuk Ivan"

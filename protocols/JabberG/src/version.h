@@ -9,5 +9,5 @@
 #define __DESCRIPTION         "Jabber (XMPP) protocol support for Miranda NG."
 #define __AUTHOR              "George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
 #define __AUTHOREMAIL         "ghazan@miranda.im"
-#define __COPYRIGHT           "(c) 2005-2013 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
+#define __COPYRIGHT           "© 2005-15 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
 #define __AUTHORWEB           "http://miranda-ng.org/p/Jabber/"

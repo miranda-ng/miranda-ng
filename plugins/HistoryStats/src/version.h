@@ -11,4 +11,4 @@
 #define __AUTHOR             "Martin Afanasjew"
 #define __AUTHOREMAIL        "miranda@dark-passage.de"
 #define __AUTHORWEB          "http://miranda-ng.org/p/HistoryStats/"
-#define __COPYRIGHT          "© 2005-2007 by Martin Afanasjew (see README for further credits)"
+#define __COPYRIGHT          "© 2005-2007 Martin Afanasjew (see README for further credits)"

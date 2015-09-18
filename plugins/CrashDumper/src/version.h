@@ -11,4 +11,4 @@
 #define __AUTHOR                   "borkra"
 #define __AUTHOREMAIL              "borkra@miranda-im.org"
 #define __AUTHORWEB                "http://miranda-ng.org/p/CrashDumper/"
-#define __COPYRIGHT                "© 2008 - 2012 Boris Krasnovskiy"
+#define __COPYRIGHT                "© 2008-12 Boris Krasnovskiy"

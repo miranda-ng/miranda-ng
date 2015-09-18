@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Iavor Vajarov, Kosh&chka, Victor Pavlychko"
 #define __AUTHOREMAIL            "ell-6@ya.ru"
 #define __AUTHORWEB              "http://miranda-ng.org/p/FloatingContacts/"
-#define __COPYRIGHT              "© 2002-2004 I. Vajarov (ivajarov@code.bg)6 2008 Kosh&chka, V. Pavlychko"
+#define __COPYRIGHT              "© 2002-2004 I. Vajarov (ivajarov@code.bg), 2008 Kosh&chka, V. Pavlychko"

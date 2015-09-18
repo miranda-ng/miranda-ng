@@ -379,7 +379,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
+static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
 
 int LoadSendRecvMessageModule(void)
 {
