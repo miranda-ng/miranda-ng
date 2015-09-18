@@ -175,6 +175,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		recv.szMessage = pszMessage;
 		ProtoChainRecvMsg(hContact, &recv);
 	}
+	mir_free(message);
 }
 
 void CheckCurrentFeed(MCONTACT hContact)
