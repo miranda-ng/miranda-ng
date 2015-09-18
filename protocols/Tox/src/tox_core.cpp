@@ -51,8 +51,10 @@ bool CToxProto::InitToxCore()
 
 	if (LoadToxProfile(options))
 	{
-		if (toxThread == NULL)
+		if (toxThread == NULL) {
+			tox_options_free(options);
 			return false;
+		}
 
 		TOX_ERR_NEW initError;
 		toxThread->tox = tox_new(options, &initError);
