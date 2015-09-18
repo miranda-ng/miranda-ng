@@ -170,13 +170,12 @@ void CSteamProto::PollingThread(void*)
 	ptrA umqId(getStringA("UMQID"));
 	UINT32 messageId = getDword("MessageID", 0);
 
-	//PollApi::PollResult pollResult;
 	int errors = 0;
 	bool breaked = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
-		//request->nlc = m_pollingConnection;
+		request->nlc = m_pollingConnection;
 		HttpResponse *response = request->Send(m_hNetlibUser);
 		delete request;
 
@@ -186,7 +185,8 @@ void CSteamProto::PollingThread(void*)
 		}
 		else
 		{
-			JSONROOT root(response->pData);
+			ptrA body(mir_strdup(response->pData));
+			JSONROOT root(body);
 			if (root == NULL)
 			{
 				errors++;
