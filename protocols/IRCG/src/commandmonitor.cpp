@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // certain commands from the server.
 
 #include "stdafx.h"
+#include "version.h"
 
 using namespace irc;
 
@@ -805,7 +806,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 		// incoming VERSION
 		else if (pmsg->m_bIncoming && command == _T("version")) {
-			PostIrcMessage(_T("/NOTICE %s \001VERSION Miranda NG %%mirver (IRC v.%%version), (c) 2003-2014 J.Persson, G.Hazan\001"), pmsg->prefix.sNick.c_str());
+			PostIrcMessage(_T("/NOTICE %s \001VERSION Miranda NG %%mirver (IRC v.%%version)") _T(", ") _T(__COPYRIGHT) _T("\001"), pmsg->prefix.sNick.c_str());
 
 			TCHAR temp[300];
 			mir_sntprintf(temp, TranslateT("CTCP VERSION requested by %s"), pmsg->prefix.sNick.c_str());
