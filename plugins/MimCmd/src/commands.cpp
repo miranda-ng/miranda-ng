@@ -40,7 +40,7 @@ int ConnectToMiranda()
 	TCHAR *p = _tcsrchr(tszPath, '\\');
 	if (p) p[1] = 0;
 
-	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
+	_tcsncat_s(tszPath, _T("libs"), _countof(tszPath) - mir_tstrlen(tszPath));
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
 
 	DWORD cbSize = GetEnvironmentVariable(_T("PATH"), NULL, 0);
