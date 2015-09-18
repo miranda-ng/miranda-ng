@@ -21,7 +21,7 @@
 [(but only once a day)]
 [Every]
 [Silent mode]
-[Backup database before update (requires db_autobackups)]
+[Backup database before update (requires Db_autobackups)]
 [Files source]
 [Stable version]
 [Development version (less stable)]
