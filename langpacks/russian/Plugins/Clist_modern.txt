@@ -584,7 +584,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [&DND\tCtrl+5]
 Не &беспокоить\tCtrl+5
 [&Free for chat\tCtrl+6]
-&Готов болтать\tCtrl+7
+&Готов болтать\tCtrl+6
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
 [On the &phone\tCtrl+8]

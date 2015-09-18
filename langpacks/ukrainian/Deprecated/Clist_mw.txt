@@ -258,7 +258,7 @@
 [&DND\tCtrl+5]
 Не т&урбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
-&Готовий до чату\tCtrl+7
+&Готовий до чату\tCtrl+6
 [&Invisible\tCtrl+7]
 &Невидимий\tCtrl+7
 [On the &phone\tCtrl+8]
