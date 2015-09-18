@@ -1,9 +1,8 @@
 ﻿#include "stdafx.h"
 
-CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CSteamProto>(protoName, userName),
-	hAuthProcess(1),
-	hMessageProcess(1)
+CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
+	: PROTO<CSteamProto>(protoName, userName),
+	hAuthProcess(1), hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
