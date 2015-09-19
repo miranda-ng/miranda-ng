@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Joe Kucera, Todor Totev"
 #define __AUTHOREMAIL            "jokusoftware@miranda-im.org"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Contacts/"
-#define __COPYRIGHT              "© 2004-2008 Joe Kucera, Original code Â© 2002 Dominus Procellarum"
+#define __COPYRIGHT              "© 2004-2008 Joe Kucera, Original code © 2002 Dominus Procellarum"
