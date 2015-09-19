@@ -597,7 +597,7 @@ BEGIN
     CONTROL         "Log status changes (in open message windows only)",IDC_UPREFS_LOGSTATUS,
                     "Button",BS_AUTO3STATE | WS_TABSTOP,15,210,290,11
     PUSHBUTTON      "Revert to global options",IDC_REVERTGLOBAL,62,242,191,18
-    LTEXT           "You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log",IDC_STATIC,16,4,296,28
+    LTEXT           "You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log",IDC_STATIC,16,4,296,28
     CONTROL         "Use normal templates (uncheck to use simple templates)",IDC_UPREFS_NORMALTEMPLATES,
                     "Button",BS_AUTO3STATE | WS_TABSTOP,15,224,290,11
 END

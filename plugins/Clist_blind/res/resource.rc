@@ -37,7 +37,7 @@ BEGIN
     DEFPUSHBUTTON   "No",IDNO,162,38,65,14
     CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,270,9
-    LTEXT           "Use Options->Contacts->Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
+    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
 END
 
 IDD_OPT_HOTKEY DIALOGEX 0, 0, 238, 136

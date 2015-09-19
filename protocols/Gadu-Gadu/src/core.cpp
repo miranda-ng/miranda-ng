@@ -242,7 +242,7 @@ void __cdecl GGPROTO::mainthread(void *)
 		{ GG_FAILURE_INVALID,     LPGENT("Received invalid server response.") },
 		{ GG_FAILURE_READING,     LPGENT("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
 		{ GG_FAILURE_WRITING,     LPGENT("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-		{ GG_FAILURE_PASSWORD,    LPGENT("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.") },
+		{ GG_FAILURE_PASSWORD,    LPGENT("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
 		{ GG_FAILURE_404,         LPGENT("Connecting to Gadu-Gadu hub failed.") },
 		{ GG_FAILURE_TLS,         LPGENT("Cannot establish secure connection.") },
 		{ GG_FAILURE_NEED_EMAIL,  LPGENT("Server disconnected asking you for changing your e-mail.") },

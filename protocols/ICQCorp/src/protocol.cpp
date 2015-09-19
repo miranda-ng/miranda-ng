@@ -863,7 +863,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
     case ICQ_CMDxRCV_WRONGxPASSWD: // incorrect password sent in logon
         T("[udp] incorrect password.\n");
         ProtoBroadcastAck(protoName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-        MessageBox(NULL, Translate("Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again."), protoName, MB_ICONERROR|MB_OK);
+        MessageBox(NULL, Translate("Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again."), protoName, MB_ICONERROR|MB_OK);
         break;
 
     case ICQ_CMDxRCV_BUSY: // server too busy to respond

@@ -87,7 +87,7 @@ BEGIN
     GROUPBOX        "Interface",IDC_STATIC,4,84,293,76
     CONTROL         "Do not change icon when testing",IDC_CHK_NOTESTICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,145,181,10
-    LTEXT           "Use the Customize/Fonts options to change text size and color.",IDC_STATFS,20,101,174,18
+    LTEXT           "Use the Customize -> Fonts options to change text size and color.",IDC_STATFS,20,101,174,18
     RTEXT           "Indent:",IDC_STATIC,44,127,33,8
     EDITTEXT        IDC_EDIT1,89,124,33,15,ES_AUTOHSCROLL
     CONTROL         "Spin2",IDC_SP_INDENT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,121,124,12,15

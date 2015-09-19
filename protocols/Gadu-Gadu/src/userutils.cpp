@@ -54,7 +54,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		gg_pubdir_free(h);
 		gg->debugLogA("gg_doregister(): Account registration succesful.");
 		MessageBox( NULL, 
-			TranslateT("You have registered new account.\nPlease fill up your personal details in \"M->View/Change My Details...\""),
+			TranslateT("You have registered new account.\nPlease fill up your personal details in \"Main menu -> View/change my details...\""),
 			gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 

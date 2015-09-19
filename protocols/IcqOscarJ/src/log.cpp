@@ -99,7 +99,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 
 	case WSAEHOSTUNREACH:
 	case WSAENETUNREACH:
-		pszErrorMsg = LPGEN("Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.");
+		pszErrorMsg = LPGEN("Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.");
 		break;
 
 	case WSAEHOSTDOWN:
@@ -109,12 +109,12 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		break;
 
 	case ERROR_ACCESS_DENIED:
-		pszErrorMsg = LPGEN("Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.");
+		pszErrorMsg = LPGEN("Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.");
 		break;
 
 	case WSAHOST_NOT_FOUND:
 	case WSANO_DATA:
-		pszErrorMsg = LPGEN("The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.");
+		pszErrorMsg = LPGEN("The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.");
 		break;
 
 	default:
