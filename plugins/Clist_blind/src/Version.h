@@ -1,3 +1,4 @@
+à
 #define __MAJOR_VERSION          0
 #define __MINOR_VERSION          8
 #define __RELEASE_NUM            1
@@ -11,4 +12,4 @@
 #define __AUTHOR                 "Ricardo Pescuma Domenecci, based on previous work from Miranda IM project"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/Clist_blind/"
-#define __COPYRIGHT              "Â© 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013-15 Miranda NG project"
+#define __COPYRIGHT              "© 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013-15 Miranda NG project"

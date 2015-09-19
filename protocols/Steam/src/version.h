@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Miranda NG Team, Robert P\xf6" "sel"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/Steam/"
-#define __COPYRIGHT                "Â© 2014-15 Miranda NG team"
+#define __COPYRIGHT                "© 2014-15 Miranda NG team"

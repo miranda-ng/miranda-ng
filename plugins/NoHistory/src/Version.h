@@ -11,4 +11,4 @@
 #define __AUTHOR               "Scott Ellis, NightFox"
 #define __AUTHOREMAIL            "mail@scottellis.com.au; nightfox@myied.org"
 #define __AUTHORWEB               "http://miranda-ng.org/p/NoHistory/"
-#define __COPYRIGHT               "© 2005 Scott Ellis, 2010 NightFox"
+#define __COPYRIGHT               "© 2005 Scott Ellis, 2010-15 NightFox"

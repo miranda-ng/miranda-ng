@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Nightwish, Pixel"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/Cln_skinedit/"
-#define __COPYRIGHT              "Â© 2000-2006 Miranda-IM project"
+#define __COPYRIGHT              "© 2000-2006 Miranda-IM project"
