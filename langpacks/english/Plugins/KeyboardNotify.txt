@@ -96,9 +96,9 @@
 [** All contacts **]
 [** Unknown contacts **]
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-[right->left]
-[left<->right]
+[left -> right]
+[right -> left]
+[left <-> right]
 [Keyboard Flash]
 [Events]
 [Accounts]

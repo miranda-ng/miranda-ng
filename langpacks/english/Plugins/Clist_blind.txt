@@ -13,7 +13,7 @@
 [Yes]
 [No]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 [Hotkeys]
 [Show/Hide:]
 [Read message:]

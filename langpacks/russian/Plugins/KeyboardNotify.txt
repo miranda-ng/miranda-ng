@@ -169,12 +169,12 @@ xСтатусы
 ** Все контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
-[left->right]
-лево->право
-[right->left]
-право->лево
-[left<->right]
-лево<->право
+[left -> right]
+лево -> право
+[right -> left]
+право -> лево
+[left <-> right]
+лево <-> право
 [Keyboard Flash]
 Мигание клавиатуры
 [Events]

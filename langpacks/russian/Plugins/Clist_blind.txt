@@ -19,8 +19,8 @@
 Нет
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скрыть из списка (останутся история и настройки видимости)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Скрытые контакты: "Настройки->Контакты->Игнорировать"
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Скрытые контакты: "Настройки -> Контакты -> Игнорировать"
 [Hotkeys]
 Горячие клавиши
 [Show/Hide:]

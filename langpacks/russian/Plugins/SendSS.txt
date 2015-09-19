@@ -209,7 +209,11 @@ Upload Pie (1 нед)
 Выберите файл
 [Select a target window.]
 Выберите окно для отправки.
-[Screenshot ]
-Снимок экрана\s
+[Screenshot of "%s"]
+Снимок "%s"
+[Screenshot for client area of "%s" window]
+Снимок содержимого окна "%s"
+[Screenshot of "%s" window]
+Снимок окна "%s"
 [Send screenshot?]
 Отправить скриншот?
