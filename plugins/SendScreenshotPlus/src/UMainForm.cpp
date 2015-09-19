@@ -983,18 +983,19 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	mir_free(path);
 
 	//Generate a description according to the screenshot
+
 	TCHAR winText[1024];
-	mir_tstradd(pszFileDesc, TranslateT("Screenshot "));
-	if (m_opt_tabCapture == 0 && m_opt_chkClientArea) {
-		mir_tstradd(pszFileDesc, TranslateT("for Client area "));
-	}
-	mir_tstradd(pszFileDesc, TranslateT("of \""));
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
-	mir_tstradd(pszFileDesc, winText);
-	if (m_opt_tabCapture == 1)
-		mir_tstradd(pszFileDesc, _T("\""));
-	else
-		mir_tstradd(pszFileDesc, TranslateT("\" Window"));
+
+
+	CMString tszFileDesc;
+	
+	if (!m_opt_tabCapture && m_opt_chkClientArea)
+		tszFileDesc.Format(TranslateT("Screenshot for Client area of \"%s\""), winText);
+	else 
+		tszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
+
+	pszFileDesc = tszFileDesc.Detach();
 
 	// convert to 32Bits (make shure it is 32bit)
 	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);
