@@ -1,4 +1,3 @@
-à
 #define __MAJOR_VERSION          0
 #define __MINOR_VERSION          8
 #define __RELEASE_NUM            1
