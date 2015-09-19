@@ -23,6 +23,8 @@
 Пинг:
 [Login Server:]
 Сервер:
+[ICQ number:]
+Номер ICQ:
 [Password:]
 Пароль:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -35,8 +37,6 @@
 Необходимо указать сервер для подключения.
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> Сеть -> ICQCorp и попробуйте подключиться снова.
-[ICQ number:]
-Номер ICQ:
 [%d file]
 %d файл
 [%d files]

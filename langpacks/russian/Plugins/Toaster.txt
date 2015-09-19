@@ -11,3 +11,11 @@
 Для этого плагина требуется Windows 8 или новее.
 [Failed to create shortcut]
 Не удалось создать ярлык.
+[Information]
+Информация
+[Warning]
+Предупреждение
+[Error]
+Ошибка
+[Popups]
+Всплывающие окна

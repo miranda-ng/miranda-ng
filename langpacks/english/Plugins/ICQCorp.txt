@@ -16,7 +16,7 @@
 [Ping:]
 [ICQ Corp]
 [Login Server:]
-[ICQ#:]
+[ICQ number:]
 [Password:]
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
 ;file \protocols\ICQCorp\src\options.cpp
@@ -26,7 +26,6 @@
 [You need specify ICQ Corporate login server.]
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
 [%d file]
 [%d files]
 [%d directory]
