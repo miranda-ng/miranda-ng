@@ -995,7 +995,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	else
 	{
 		if (m_opt_chkClientArea)
-			tszFileDesc.Format(TranslateT("Screenshot for Client area of \"%s\" window"), winText);
+			tszFileDesc.Format(TranslateT("Screenshot for client area of \"%s\" window"), winText);
 		else 
 			tszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
 	}
