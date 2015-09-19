@@ -617,8 +617,8 @@ RTL по умолчанию
 Записывать смены статуса (только для открытых окон сообщений)
 [Revert to global options]
 Вернуть глобальные настройки
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
-Вы можете индивидуально настроить журнал сообщений для этого контакта. Заполненные значения взяты из глобальных настроек (Беседы->Журнал)
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log]
+Вы можете индивидуально настроить журнал сообщений для этого контакта. Заполненные значения взяты из глобальных настроек (Беседы -> Журнал)
 [Use normal templates (uncheck to use simple templates)]
 Обычные шаблоны (откл. для использования простых шаблонов)
 [Queued send jobs]
@@ -1021,8 +1021,8 @@ BBCode ([b][i][u])
 Файл RTF
 [No status message]
 Нет сообщения статуса
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Проблема конфигурации|Автоматическая отправка отключена. \\b1Отправка с задержкой \\b0 и \\b1 мультиотправка \\b0 зависят от неё.\n\nВы должны включить её \\b1Настройки->Беседы->Дополнительные настройки\\b0. После изменения этой опции требуется перезапуск.
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
+Проблема конфигурации|Автоматическая отправка отключена. \\b1Отправка с задержкой \\b0 и \\b1 мультиотправка \\b0 зависят от неё.\n\nВы должны включить её \\b1Настройки -> Беседы -> Дополнительные настройки\\b0. После изменения этой опции требуется перезапуск.
 [You cannot edit user notes when there are unsent messages]
 Вы не можете править заметки, если есть неотправленные сообщения
 [Version]
@@ -1755,8 +1755,8 @@ TabSRMM: %s
 Предупреждение Aero peek|Вы включили использование особенностей Aero Peek и используете скин окна сообщений\n\nЭто может привести к незначительным визуальным искажениям в быстром просмотре.
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 Проблема передачи файла|Неудачная отправка изображения.\n\nВозможные причины: передача файлов не поддерживается, контакт не в сети, вы находитесь в стаусе "Невидимый" и контакт, которому отправляется файл, не в списке видимых.
-[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
-Проблема с настройками|Опция \\b1 История->Имитировать API IEView\\b0  активна и плагин History++ активен. Это может вызвать проблемы при использовании IEView в качестве журнала сообщений.\n\nСкорректировать настройки (необходим перезапуск)?
+[Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+Проблема с настройками|Опция \\b1 История -> Имитировать API IEView\\b0  активна и плагин History++ активен. Это может вызвать проблемы при использовании IEView в качестве журнала сообщений.\n\nСкорректировать настройки (необходим перезапуск)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Закрытие окна|Вы собираетесь закрыть окно с несколькими вкладками.\n\nПродолжить?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]

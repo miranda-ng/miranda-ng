@@ -33,8 +33,8 @@
 Протоколу ICQ Corporate требуется WinSock версии 2.2 или выше.
 [You need specify ICQ Corporate login server.]
 Необходимо указать сервер для подключения.
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
-Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> ICQCorp и попробуйте подключиться снова.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
+Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> Сеть -> ICQCorp и попробуйте подключиться снова.
 [ICQ number:]
 Номер ICQ:
 [%d file]

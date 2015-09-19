@@ -70,7 +70,7 @@ xСтатус
 [Status Notify]
 Смена статуса
 [Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
-Личные звуки выключены.\n\nЧтобы их включить, пойдите в Настройки - Статус - Смена статуса, включите\n"Индивидуальные звуки" и снова откройте это окно.
+Личные звуки выключены.\n\nЧтобы их включить, пойдите в Настройки -> Статус -> Смена статуса, включите\n"Индивидуальные звуки" и снова откройте это окно.
 [Sounds]
 Звуки
 [Popups]

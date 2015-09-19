@@ -3,7 +3,7 @@
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
 ;  Version: 0.1.0.0
-;  Authors: faith_healer, ghazan, mataes
+;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG отображает значки клиентов, используемых вашими собеседниками.

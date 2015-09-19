@@ -21,6 +21,3 @@
 [BBC link]
 [Could not register Miranda service.]
 [Fill description textbox.]
-[for Client area ]
-[of "]
-[" Window]

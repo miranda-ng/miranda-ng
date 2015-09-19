@@ -8,4 +8,4 @@
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 Транслитерация исходящих сообщений (замена кириллических символов на фонетический эквивалент латинских).
 [&Transliterate]
-&Транслитерация (ФЫВА->FYVA)
+&Транслитерация (ФЫВА -> FYVA)

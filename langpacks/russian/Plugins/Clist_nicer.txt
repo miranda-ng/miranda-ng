@@ -33,8 +33,8 @@
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скрыть из списка (останутся история и настройки видимости)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Скрытые контакты: "Настройки->Контакты->Игнорировать"
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Скрытые контакты: "Настройки -> Контакты -> Игнорировать"
 [Are you sure you want to delete %s?]
 Удалить %s из списка?
 [This will erase all history and settings for this contact!]
@@ -417,8 +417,8 @@
 Другое
 [Hide this contact from the list]
 Спрятать контакт из списка
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-Чтобы показать ранее спрятанный контакт, откройте Опции->События->Игнорировать, найдите контакт, и поставьте галочку перед его именем.
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Чтобы показать ранее спрятанный контакт, откройте Настройки -> События -> Игнорировать, найдите контакт, и поставьте галочку перед его именем.
 [Display options]
 Опции отображения
 [Show contact with priority]
