@@ -65,7 +65,7 @@ BEGIN
     PUSHBUTTON      "Yes",IDYES,54,38,65,14
     CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,270,9
-    LTEXT           "Use Options->Contacts->Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
+    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
     CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,14
 END
@@ -487,7 +487,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,111,182,11
     GROUPBOX        "Other",IDC_STATIC,7,125,197,96
     CONTROL         "Hide this contact from the list",IDC_HIDECONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,132,182,14
-    LTEXT           "To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
+    LTEXT           "To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
     GROUPBOX        "Display options",IDC_STATIC,209,3,143,218
     CONTROL         "Show contact with priority",IDC_IGN_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,219,13,127,11
     LTEXT           "Show avatar:",IDC_STATIC,225,28,94,11

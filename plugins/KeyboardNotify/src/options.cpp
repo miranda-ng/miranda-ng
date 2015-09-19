@@ -78,7 +78,7 @@ extern PROCESS_LIST ProcessList;
 HWND hwndProto, hwndBasic, hwndEffect, hwndTheme, hwndIgnore, hwndCurrentTab;
 
 TCHAR *AttendedName[]={_T("Miranda"), _T("Windows")};
-TCHAR *OrderName[]={TranslateT("left->right"), TranslateT("right->left"), TranslateT("left<->right")};
+TCHAR *OrderName[]={TranslateT("left -> right"), TranslateT("right -> left"), TranslateT("left <-> right")};
 
 PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;

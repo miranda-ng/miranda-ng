@@ -258,7 +258,7 @@ BEGIN
     RTEXT           "Accounts per line",IDC_STATIC,15,150,73,10
     EDITTEXT        IDC_MULTI_COUNT,93,148,48,12,ES_NUMBER
     CONTROL         "",IDC_MULTI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,148,11,12
-    LTEXT           "* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
+    LTEXT           "* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
     LTEXT           "Hold [Shift] to inverse [Right Click] behavior.",IDC_STATIC,27,207,267,8,WS_DISABLED
     LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.",IDC_STATIC,27,216,267,8,WS_DISABLED
     CONTROL         "Set options per account",IDC_STATUSBAR_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,12,134,10
@@ -299,7 +299,7 @@ BEGIN
     PUSHBUTTON      "Yes",IDYES,54,38,65,14
     CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,270,9
-    LTEXT           "Use Options->Contacts->Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
+    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
     CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,14
 END
