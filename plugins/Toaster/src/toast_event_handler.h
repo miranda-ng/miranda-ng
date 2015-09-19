@@ -10,7 +10,7 @@ struct ToastHandlerData;
 class ToastEventHandler : public Microsoft::WRL::Implements<DesktopToastActivatedEventHandler, DesktopToastDismissedEventHandler, DesktopToastFailedEventHandler>
 {
 public:
-	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData);
+	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData*);
 	~ToastEventHandler();
 
 	IFACEMETHODIMP_(ULONG) AddRef();
@@ -18,9 +18,9 @@ public:
 
 	IFACEMETHODIMP QueryInterface(_In_ REFIID riid, _COM_Outptr_ void** ppv);
 
-	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* sender, _In_ IInspectable* args);
-	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs* e);
-	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs* /* e */);
+	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ IInspectable*);
+	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
+	IFACEMETHODIMP Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
 
 	void* GetPluginData();
 	MCONTACT GetContact();

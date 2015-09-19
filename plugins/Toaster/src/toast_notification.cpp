@@ -4,14 +4,13 @@ using namespace Microsoft::WRL;
 
 ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath)
 	: _text(text), _caption(caption), _imagePath(imagePath)
-{
-}
+{}
 
 ToastNotification::~ToastNotification()
 {
-	notification->remove_Activated(ertActivated);
-	notification->remove_Dismissed(ertDismissed);
-	notification->remove_Failed(ertFailed);
+	notification->remove_Activated(_ertActivated);
+	notification->remove_Dismissed(_ertDismissed);
+	notification->remove_Failed(_ertFailed);
 }
 
 HRESULT ToastNotification::Initialize()
@@ -53,13 +52,12 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 		HXML xmlTextNode = xmlAddChild(xmlBindingNode, L"text", _text);
 		xmlAddAttr(xmlTextNode, L"id", L"2");
 	}
-	
-	TCHAR *xtmp = xmlToString(xmlToast, NULL);
-	size_t xlen = mir_tstrlen(xtmp);
 
+	int nLength;
+	TCHAR *xtmp = xmlToString(xmlToast, &nLength);
 	xmlDestroyNode(xmlToast);
 
-	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, (UINT32)xlen).Get()));
+	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, nLength).Get()));
 
 	return xmlDocument.CopyTo(xml);
 }
@@ -75,19 +73,14 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	return factory->CreateToastNotification(xml.Get(), _notification);
 }
 
-HRESULT ToastNotification::Show()
-{
-	return Show(new ToastEventHandler(nullptr));
-}
-
 HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 {
-	
 	ComPtr<ToastEventHandler> eventHandler(handler);
 
-	notification->add_Activated(eventHandler.Get(), &ertActivated);
-	notification->add_Dismissed(eventHandler.Get(), &ertDismissed);
-	notification->add_Failed(eventHandler.Get(), &ertFailed);
+	notification->add_Activated(eventHandler.Get(), &_ertActivated);
+	notification->add_Dismissed(eventHandler.Get(), &_ertDismissed);
+	notification->add_Failed(eventHandler.Get(), &_ertFailed);
+
 	return notifier->Show(notification.Get());
 }
 

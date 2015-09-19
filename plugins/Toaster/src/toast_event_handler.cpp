@@ -46,7 +46,7 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 	return (*ppv ? S_OK : E_NOINTERFACE);
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _In_ IInspectable* /*args*/)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IInspectable*)
 {
 	if (_thd->pPopupProc)
 		_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
@@ -57,7 +57,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification * /*sender*/, _
 	return S_OK;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs*  e)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastDismissedEventArgs*  e)
 {
 	ToastDismissalReason tdr;
 	CHECKHR(e->get_Reason(&tdr));
@@ -87,7 +87,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, 
 	return S_OK;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs*  /*e*/ )
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastFailedEventArgs*)
 {
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(_thd->tstNotification);
