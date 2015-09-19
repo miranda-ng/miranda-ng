@@ -989,11 +989,16 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 
 
 	CMString tszFileDesc;
-	
-	if (!m_opt_tabCapture && m_opt_chkClientArea)
-		tszFileDesc.Format(TranslateT("Screenshot for Client area of \"%s\""), winText);
-	else 
-		tszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
+
+	if (m_opt_tabCapture)
+		tszFileDesc.Format(TranslateT("Screenshot of \"%s\""), winText);
+	else
+	{
+		if (m_opt_chkClientArea)
+			tszFileDesc.Format(TranslateT("Screenshot for Client area of \"%s\" window"), winText);
+		else 
+			tszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
+	}
 
 	pszFileDesc = tszFileDesc.Detach();
 
