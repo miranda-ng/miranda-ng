@@ -39,7 +39,9 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
+	
 	InitServices();
 
 	GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH);
@@ -48,11 +50,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	DWORD dwAttributes = GetFileAttributes(wszTempDir);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(wszTempDir);
-
-	if (FAILED(TryCreateShortcut()))
-	{
-		MessageBox(NULL, TranslateT("Failed to create shortcut"), _T(MODULE), MB_OK | MB_ICONERROR);
-	}
 
 	return 0;
 }
