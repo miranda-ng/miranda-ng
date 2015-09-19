@@ -38,8 +38,13 @@ class CSendDropbox : public CSend {
 		int Send();
 
 	protected:
+		HANDLE m_hEvent;
+		HANDLE m_hDropHook;
+		HANDLE m_hDropSend;
+
 		void SendThread();
 		static void SendThreadWrapper(void *Obj);
+		static int OnDropSend(void*, WPARAM, LPARAM);
 };
 
 //---------------------------------------------------------------------------
