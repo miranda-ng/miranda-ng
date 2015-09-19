@@ -8,9 +8,9 @@ private:
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
-	EventRegistrationToken ertActivated;
-	EventRegistrationToken ertDismissed;
-	EventRegistrationToken ertFailed;
+	EventRegistrationToken _ertActivated;
+	EventRegistrationToken _ertDismissed;
+	EventRegistrationToken _ertFailed;
 
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
@@ -20,14 +20,10 @@ private:
 	HRESULT Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** notification);
 
 public:
-	COLORREF background;
-	COLORREF foreground;
-
 	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr);
-	HRESULT Initialize();
 	~ToastNotification();
 
-	HRESULT Show();
+	HRESULT Initialize();
 	HRESULT Show(_In_ ToastEventHandler* handler);
 	HRESULT Hide();
 };
