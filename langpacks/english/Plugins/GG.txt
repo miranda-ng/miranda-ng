@@ -229,7 +229,7 @@
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 [Registration rejected]
-[You have registered new account.\nPlease fill up your personal details in "M -> View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
 [Your account cannot be removed because of error:\n\t%s]
 [Bad number or password]
 [Your account has been removed.]

@@ -21,3 +21,4 @@
 [BBC link]
 [Could not register Miranda service.]
 [Fill description textbox.]
+[Screenshot of entire desktop]
