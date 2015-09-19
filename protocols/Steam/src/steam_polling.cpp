@@ -185,7 +185,8 @@ void CSteamProto::PollingThread(void*)
 		}
 		else
 		{
-			ptrA body(mir_strdup(response->pData));
+			ptrA body((char*)mir_calloc(response->dataLength + 2));
+			mir_strncpy(body, response->pData, response->dataLength + 1);
 			JSONROOT root(body);
 			if (root == NULL)
 			{
