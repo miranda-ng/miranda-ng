@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/Tox/"
-#define __COPYRIGHT                "Â© 2014-15 Miranda NG Team"
+#define __COPYRIGHT                "© 2014-15 Miranda NG Team"

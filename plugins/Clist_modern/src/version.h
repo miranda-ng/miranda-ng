@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven"
 #define __AUTHOREMAIL            "ashpynov@gmail.com"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Clist_modern/"
-#define __COPYRIGHT              "Â© 2000-2010 Miranda-IM project"
+#define __COPYRIGHT              "© 2000-2010 Miranda-IM project"
