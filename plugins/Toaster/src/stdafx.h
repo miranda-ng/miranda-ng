@@ -21,6 +21,8 @@
 #include <m_imgsrvc.h>
 #include <m_netlib.h>
 #include <m_xml.h>
+#include <m_options.h>
+#include <m_gui.h>
 
 #include "version.h"
 #include "resource.h"
@@ -37,6 +39,7 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 #include "toast_event_handler.h"
 #include "toast_notification.h"
 #include "add_to_start_menu.h"
+#include "options.h"
 #include "structs.h"
 #include "images.h"
 
@@ -49,4 +52,7 @@ void CleanupClasses();
 void InitServices();
 int OnPreShutdown(WPARAM, LPARAM);
 void __stdcall HideAllToasts(void*);
+
+int OnOptionsInitialized(WPARAM wParam, LPARAM);
+
 #endif //_COMMON_H_
