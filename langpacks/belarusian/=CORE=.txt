@@ -197,8 +197,8 @@
 Так
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захоўваецца гісторыя і налады бачнасці)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Налады -> Кантакты -> Ігнараваць, каб адлюстраваць кантакты.
 [Are you sure you want to delete %s?]
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
@@ -1844,8 +1844,8 @@ UIN, E-mail і г.д.
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае Msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
 Паведамленні IM
 [Incoming (focused window)]
@@ -1892,8 +1892,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 [View &history]
 &Гісторыя
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
-Рэдагаваць адрас E-mail
+[Edit e-mail address]
+Рэдагаваць адрас e-mail
 [Edit phone number]
 Змяніць тэлефонны нумар
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -2398,8 +2398,8 @@ xСтатус
 [<Root group>]
 <Каранёвы гурт>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
-Стандартны журнал netlib
+[Standard Netlib log]
+Стандартны журнал Netlib
 [No times]
 Без часу
 [Standard hh:mm:ss times]

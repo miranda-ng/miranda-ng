@@ -20,8 +20,8 @@
 Не
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Налады -> Кантакты -> Ігнараваць, каб адлюстраваць кантакты.
 [Hotkeys]
 Гарачыя клавішы
 [Show/Hide:]

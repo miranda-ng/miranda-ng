@@ -2,58 +2,10 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-Усплывальнае акно
-[Popup text format]
-Фармат усплывальнага вакна
-[Preview]
-Прагляд
-[%extratext% is your status message]
-%extratext% гэта Ваша паведамленне статуса
-[Click action]
-Дзеянні па пстрычцы
-[On left click]
-Левая пстрычка
-[On right click]
-Правая пстрычка
-[Delay]
-Затрымка
-[Sec]
-сек
-[0 = Default]
-0=Змаўчанне
-[-1 = Infinite]
--1=Бясконца
-[Colors]
-Колеры
-[Background]
-Фон
-[Use default]
-Па змаўчанні
-[Text]
-Тэкст
-[Only notify when:]
-Абвяшчаць, толькі калі:
-[On&line]
-&Далучаны
-[&Away]
-&Адсутнічаю
-[&NA]
-Недасяжны
-[Occ&upied]
-Зан&яты
-[&DND]
-&Не турбаваць
-[&Free for chat]
-&Вольны
-[&Other]
-&Іншае
-[Log to a file only when popup notification for a contact is enabled]
-Запісваць у файл, толькі калі абвестка вакном уключана
 [Enable autoreply]
 Уключыць аўтаадказнік
 [On event...]
@@ -76,6 +28,18 @@
 Скінуць гэты лічыльнік пасля змены статуснага паведамлення (але не статуса)
 [Disable autoreply when...]
 Адключыць аўтаадказнік калі...
+[On&line]
+&Далучаны
+[&Away]
+&Адсутнічаю
+[&NA]
+Недасяжны
+[Occ&upied]
+Зан&яты
+[&DND]
+&Не турбаваць
+[&Free for chat]
+&Вольны
 [&Invisible]
 Нябачны
 [On the &phone]
@@ -84,6 +48,8 @@
 Абедаю
 [Autoreply format:]
 Фармат аўтаадказу:
+[%extratext% is your status message]
+%extratext% гэта Ваша паведамленне статуса
 [&Variables]
 Зменныя
 [Se&ttings]
@@ -262,10 +228,16 @@
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вячэраю,абедаю),снедаю),вячэраю) з %nas_awaysince_time%.
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-Уключыць
 [Toggle Off]
 Выключыць
+[Toggle On]
+Уключыць
+[Ignore]
+Ігнараваць
+[Set status message]
+Усталяваць статуснае паведамленне
+[Add]
+Дадаць
 [Set %s message for the contact]
 Уст. %s паведамленне для кантакту
 [Re&ad %s message]
@@ -302,8 +274,6 @@
 %d секунд(ы)
 [Read status message]
 Чытаць статуснае паведамленне
-[Set status message]
-Усталяваць статуснае паведамленне
 [On]
 Укл.
 [Off]

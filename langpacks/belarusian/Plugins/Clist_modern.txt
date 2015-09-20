@@ -146,8 +146,8 @@
 Шматрадковая панэль статусу:
 [Accounts per line]
 Контаў у радку
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* Змена вышыні радка статусу: "Галоўнае меню -> Фрэймы -> Панэль статусу -> Плывучы рэжым" і расцягніце панэль.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift + Правы клік - Галоўнае меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -192,8 +192,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Так
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Налады -> Кантакты -> Ігнараваць, каб адлюстраваць кантакты.
 [Are you sure you want to delete %s?]
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
