@@ -1174,6 +1174,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if (ProcessListAux.szFileName[i])
 						mir_tstrcpy(ProcessListAux.szFileName[i], szFileNameAux);
 				}
+			// fallthrough
 
 		case IDC_CANCELPGM:
 			EndDialog(hwndDlg, LOWORD(wParam));
@@ -1456,7 +1457,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						XstatusListAux[i].enabled[j] = !!(TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK)&INDEXTOSTATEIMAGEMASK(2));
 					}
 				}
-			}
+			} // fallthrough
 
 		case IDC_CANCELXST:
 			EndDialog(hwndDlg, LOWORD(wParam));

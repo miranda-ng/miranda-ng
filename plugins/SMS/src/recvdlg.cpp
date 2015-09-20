@@ -138,7 +138,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 					hwndSendSms = SendSMSWindowAdd(prswdWindowData->hContact);
 					SetDlgItemText(hwndSendSms, IDC_ADDRESS, wszPhone);
 				}
-			}
+			} // fallthrough
 		case IDCANCEL:
 			RecvSMSWindowRemove(hWndDlg);
 			break;

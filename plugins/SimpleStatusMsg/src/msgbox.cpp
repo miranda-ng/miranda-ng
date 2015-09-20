@@ -1269,7 +1269,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						else
 							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, tszMsg, msgbox_data->m_bOnStartup);
 					}
-				}
+				} // fallthrough
 
 				case IDCANCEL:
 				case IDC_CANCEL:
