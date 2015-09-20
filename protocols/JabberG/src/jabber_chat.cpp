@@ -1376,7 +1376,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 
 int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 {
-	GCHOOK* gch = (GCHOOK*)lParam;
+	GCHOOK *gch = (GCHOOK*)lParam;
 	if (gch == NULL)
 		return 0;
 
