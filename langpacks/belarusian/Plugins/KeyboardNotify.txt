@@ -184,12 +184,12 @@ Scroll
 [** Unknown contacts **]
 ** Невядомыя кантакты **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-лева->права
-[right->left]
-права->лева
-[left<->right]
-лева<->права
+[left -> right]
+лева -> права
+[right -> left]
+права -> лева
+[left <-> right]
+лева <-> права
 [Keyboard Flash]
 Мігценне клавіятуры
 [Events]

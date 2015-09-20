@@ -185,9 +185,3 @@ SendScreenshot - Памылка
 Абярыце файл
 [Select a target window.]
 Абярыце вакно для адпраўкі.
-[Screenshot ]
-Здымак экрану\s
-[of "]
-з "
-[" Window]
-" вакно

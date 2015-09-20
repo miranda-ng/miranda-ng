@@ -168,8 +168,8 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Атрыманы няслушны адказ сервера.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнага сеціва.
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-Вашае імя ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Меню->Налады->Сетка->Gadu-Gadu і паспрабуйце яшчэ раз.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
+Вашае імя ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Налады -> Сетка -> Gadu-Gadu і паспрабуйце яшчэ раз.
 [Connecting to Gadu-Gadu hub failed.]
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]
@@ -435,7 +435,7 @@ IP Адрас
 Немагчыма зарэгістраваць карыстача з-за памылкі:\n\t%s
 [Registration rejected]
 У рэгістрацыі адмоўлена
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "M -> View/Change My Details..."]
 Вы зарэгістравалі новы конт.\nКалі ласка, запоўніце свае асабістыя дадзеныя.
 [Your account cannot be removed because of error:\n\t%s]
 Немагчыма выдаліць карыстача з-за памылкі:\n\t%s

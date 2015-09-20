@@ -16,6 +16,8 @@
 Порт:
 [Login Server:]
 Сервер:
+[ICQ number:]
+Нумар ICQ:
 [Password:]
 Пароль:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -25,8 +27,6 @@
 Сеціва
 ;file \protocols\ICQCorp\src\protocol.cpp
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
-Нумар ICQ:
 [%d files]
 %d файла(аў)
 [%d directories]
