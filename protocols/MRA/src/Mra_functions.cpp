@@ -1162,7 +1162,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 					dwBlogStatusID = 0;
 				}
 				dat->ppro->MraChangeUserBlogStatus(dwFlags, szBuff, dwBlogStatusID);
-			}
+			} // fallthrough
 		case IDCANCEL:
 			DestroyWindow(hWndDlg);
 			break;
