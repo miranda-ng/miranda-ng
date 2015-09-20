@@ -33,7 +33,7 @@
 Так
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Сховати зі списку, зберігши історію і параметри ігнорування та видимості
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 Приховані контакти: Налаштування -> Контакти -> Ігнорувати
 [Are you sure you want to delete %s?]
 Справді видалити %s зі списку?
@@ -415,7 +415,7 @@
 Інше
 [Hide this contact from the list]
 Сховати контакт зі списку
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 Щоб повернути прихований контакт до списку, відкрийте Налаштування -> Контакти -> Ігнорувати, знайдіть контакт і поставте позначку навпроти його імені.
 [Display options]
 Параметри показу

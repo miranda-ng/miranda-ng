@@ -165,7 +165,7 @@
 Отримано неправильну відповідь сервера.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба підключення до сервера завершилася помилкою. Можливо, трапився обрив з'єднання з локальною мережею.
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
 Логін або пароль не прийняті сервером. Будь ласка, перевірте правильність налаштувань (Налаштування -> Мережа -> Gadu-Gadu) і спробуйте ще раз.
 [Connecting to Gadu-Gadu hub failed.]
 З'єднання з Gadu-Gadu розірвано.
@@ -407,8 +407,8 @@ IP-адреса
 Неможливо зареєструвати користувача через помилку:\n\t%s
 [Registration rejected]
 У реєстрації відмовлено
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-Ви зареєстрували новий обліковий запис.\nБудь ласка, заповніть свої персональні дані в "Меню -> Особисті дані..."
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
+Ви зареєстрували новий обліковий запис.\nБудь ласка, заповніть свої персональні дані в "Головне меню -> Особисті дані..."
 [Your account cannot be removed because of error:\n\t%s]
 Неможливо видалити користувача через помилку:\n\t%s
 [Bad number or password]

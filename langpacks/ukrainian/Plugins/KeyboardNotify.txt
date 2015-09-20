@@ -169,12 +169,12 @@ xСтатуси
 ** Усі контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
-[left->right]
-ліво->право
-[right->left]
-право->ліво
-[left<->right]
-ліво<->право
+[left -> right]
+ліво -> право
+[right -> left]
+право -> ліво
+[left <-> right]
+ліво <-> право
 [Keyboard Flash]
 Блимання клавіатури
 [Events]

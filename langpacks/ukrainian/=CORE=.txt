@@ -193,7 +193,7 @@
 Так
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Сховати зі списку, зберігши історію і параметри ігнорування та видимості
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 Приховані контакти: Налаштування -> Контакти -> Ігнорувати
 [Are you sure you want to delete %s?]
 Справді видалити %s зі списку?
@@ -1809,7 +1809,7 @@ UIN, E-mail тощо
 %s друкує вам повідомлення
 [Typing notification]
 Увага!
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
 [Instant messages]
 Повідомлення
@@ -1853,7 +1853,7 @@ UIN, E-mail тощо
 Видалити історію
 [View &history]
 Історія
-[Edit E-Mail address]
+[Edit e-mail address]
 Змінити адресу E-mail
 [Edit phone number]
 Змінити номер телефону
@@ -2327,8 +2327,8 @@ xСтатус
 Пере&містити до групи
 [<Root group>]
 <Коренева група>
-[Standard netlib log]
-Стандартний журнал netlib
+[Standard Netlib log]
+Стандартний журнал Netlib
 [No times]
 Без часу
 [Standard hh:mm:ss times]
