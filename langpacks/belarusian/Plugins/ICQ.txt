@@ -1797,7 +1797,7 @@ xСтатус ICQ
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
-Не атрымалася дазволіць імя сервера ў IP адрас. Хутчэй за ўсё гэта злучана з адсутнасцю далучэння да Інтэрнэту (напрыклад, ваш мадэм адключыўся). Калі вы выкарыстоўваеце проксі, паспрабуйце ўключыць опцыю "Вызначаць імёны хастоў праз проксі": Налады-> Сетка.
+Не атрымалася дазволіць імя сервера ў IP адрас. Хутчэй за ўсё гэта злучана з адсутнасцю далучэння да Інтэрнэту (напрыклад, ваш мадэм адключыўся). Калі вы выкарыстоўваеце проксі, паспрабуйце ўключыць опцыю "Вызначаць імёны хастоў праз проксі": Налады -> Сетка.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не атрымалася далучыцца да сервера. Магчыма, сервер не працуе. Калі ласка, паспрабуйце далучыцца пазней.
 [Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
