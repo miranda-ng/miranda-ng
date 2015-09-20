@@ -148,8 +148,8 @@ Poziome wyrównanie
 Wielolinijkowy pasek statusu:
 [Accounts per line]
 Protokołów w linii
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Aby zwiększyć wysokość paska stanu:\nW menu głównym ustaw: ramki->Pasek Stanu->Pokaż tytuł, a następnie przeciągnij tytuł paska, który się pojawi w górę lub w dół.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* Aby zwiększyć wysokość paska stanu:\nW menu głównym ustaw: Ramki -> Pasek Stanu -> Pokaż tytuł, a następnie przeciągnij tytuł paska, który się pojawi w górę lub w dół.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Przytrzymaj Shift, aby odwrócić zachowanie przy kliknięciu prawym przyciskiem myszy
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -194,7 +194,7 @@ Nie
 Tak
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?

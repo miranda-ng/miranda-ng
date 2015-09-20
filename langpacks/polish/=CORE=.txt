@@ -199,7 +199,7 @@ Nie
 Tak
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
@@ -1059,7 +1059,7 @@ Przenieś do paska statusu
 [Warning!\r\nThis menu object not support user defined options.]
 Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika.
 [Insert submenu]
-
+Wstaw podmenu
 [Insert separator]
 Wstaw separator
 [Service:]
@@ -1854,8 +1854,8 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing notification]
 Pisanie
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda nie może załadować wbudowanego modułu wiadomości, brakuje Msftedit.dll. Wciśnij "Tak" aby kontynuować.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nie może załadować wbudowanego modułu wiadomości, brakuje msftedit.dll. Wciśnij "Tak" aby kontynuować.
 [Instant messages]
 Wiadomości
 [Incoming (focused window)]
@@ -1902,8 +1902,8 @@ Usuń historię
 [View &history]
 Zobacz &historię
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
-Edytuj adres E-Mail
+[Edit e-mail address]
+Edytuj adres e-mail
 [Edit phone number]
 Edytuj numer telefonu
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -2133,7 +2133,7 @@ Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.\nTen profil może 
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda nie może uruchomić profilu "%s"\nProgram jest już uruchomiony lub profil został uszkodzony!
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
-
+Miranda nie potrafiła otworzyć '%s'\nBrak zainstalowanego odpowiedniego sterownika bazy danych
 [No profile support installed!]
 Nie zainstalowano wsparcia dla profili!
 [Miranda can't open that profile]
@@ -2341,7 +2341,7 @@ Menu grupy
 Menu podgrupy
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
-
+Nowe podmenu
 [Menus]
 Menu
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2466,7 +2466,7 @@ Nie udało się zapisać nicka kontaktu do metakontaktu
 [<Root group>]
 <Grupa główna>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
+[Standard Netlib log]
 Standardowy log Netlib
 [No times]
 Bez czasu

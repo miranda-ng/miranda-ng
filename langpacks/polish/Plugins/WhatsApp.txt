@@ -29,7 +29,7 @@ Poproś o kod
 [Register code]
 Zarejestruj kod
 [Including country code, without '+' or '00']
-z kierunkowym kraju bez "+", ani "00"
+Z kierunkowym kraju bez "+", ani "00"
 [Invite users]
 Zaproś użytkowników
 [Choose a user]
@@ -83,6 +83,10 @@ Wprowadź hasło.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 jest od teraz znany jako "%s"
+[Last online on %x at %X]
+Ostatnio dostępny %x o %X
+[Denied: Last online on %x at %X]
+Zablokowane: Ostatnio dostępny %x o %X
 [Last seen on %x at %X]
 Ostatnio widziany %x o %X
 ;file \protocols\WhatsApp\src\dialogs.cpp

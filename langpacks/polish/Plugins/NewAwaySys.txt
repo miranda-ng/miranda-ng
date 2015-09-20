@@ -2,62 +2,12 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Pozwala Ci zarządzać swoimi opisami w wygodny sposób.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-Powiadomienie popup
-[Popup text format]
-Format tekstu popupu
-[Preview]
-Podgląd
-[V]
-V
-[%extratext% is your status message]
-%extratext% to twój opis
-[Click action]
-Akcje przycisku
-[On left click]
-LPM
-[On right click]
-PPM
-[Delay]
-Wyświetlaj
-[Sec]
-s
-[0 = Default]
-0 - domyślnie
-[-1 = Infinite]
--1 - nie chowaj
-[Colors]
-Kolory
-[Background]
-Tło
-[Use default]
-Domyślne
-[Text]
-Tekst
-[Only notify when:]
-Powiadamiaj tylko, gdy:
-[On&line]
-&Dostępny
-[&Away]
-&Zaraz wracam
-[&NA]
-&Wrócę później
-[Occ&upied]
-Za&jęty
-[&DND]
-&Nie przeszkadzać
-[&Free for chat]
-&Chętny do rozmowy
-[&Other]
-&Inne
-[Log to a file only when popup notification for a contact is enabled]
-Zapisuj do pliku tylko, jeśli dla kontaktu włączone jest powiadomienie popup
 [Enable autoreply]
 Włącz autoodpowiedzi
 [On event...]
@@ -80,6 +30,18 @@ razy (-1 - nieskończenie)
 Resetuj ten licznik także wtedy, gdy tylko zmieniam opis\n(ikona statusu pozostaje taka sama)
 [Disable autoreply when...]
 Wyłącz autodpowiedź, gdy...
+[On&line]
+&Dostępny
+[&Away]
+&Zaraz wracam
+[&NA]
+&Wrócę później
+[Occ&upied]
+Za&jęty
+[&DND]
+&Nie przeszkadzać
+[&Free for chat]
+&Chętny do rozmowy
 [&Invisible]
 N&iewidoczny
 [On the &phone]
@@ -88,6 +50,10 @@ Pod &telefonem
 Na &obiedzie
 [Autoreply format:]
 Format autoodpowiedzi:
+[V]
+V
+[%extratext% is your status message]
+%extratext% to twój opis
 [&Variables]
 &Zmienne
 [Se&ttings]
@@ -276,10 +242,24 @@ Na obiedzie
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Jem ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,kolację,obiad),śniadanie),kolację) od %nas_awaysince_time%.
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-Włącz przełączanie
 [Toggle Off]
 Wyłącz przełączanie
+[Toggle On]
+Włącz przełączanie
+[Dot]
+
+[Ignore]
+Ignorowanie
+[Indefinite]
+Nieokreślony
+[Set status message]
+Ustaw opis
+[Add]
+Dodaj
+[Save]
+Zapisz
+[Settings]
+Ustawienia
 [Set %s message for the contact]
 Ustaw opis %s dla kontaktu
 [Re&ad %s message]
@@ -320,8 +300,6 @@ Obcy
 %d sekund
 [Read status message]
 Czytaj opis kontaktu
-[Set status message]
-Ustaw opis
 [On]
 Wł.
 [Off]

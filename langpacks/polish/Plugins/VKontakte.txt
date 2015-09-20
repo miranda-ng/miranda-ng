@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.14
+;  Version: 0.1.1.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -296,13 +296,13 @@ Uczestnicy
 [Owners]
 Właściciele
 [create chat]
-Stwórz czat
+stwórz czat
 [kick user]
-Wyrzuć użytkownika
+wyrzuć użytkownika
 [left chat]
 opuścił/a czat
 [invite user]
-Zaproś użytkownika
+zaproś użytkownika
 [returned to chat]
 powrócił do czatu
 [change chat title to]
@@ -312,7 +312,7 @@ zmieniono okładkę czatu:
 [deleted chat cover]
 usunięto okładkę czatu
 [chat action not supported]
-Akcja czatu niewspierana
+akcja czatu niewspierana
 [Unknown]
 Nieznany
 [Enter new chat title]
@@ -355,20 +355,20 @@ Treść tematu:
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Protocol is offline]
 Protokół jest rozłączony
-[File not exist]
-
+[File does not exist]
+Plik nie istnieje
 [File type not supported]
-
+Niewspierany typ pliku
 [Error open file]
-
+Błąd otwierania pliku
 [Error read file]
-
-[Error upload file]
-
+Błąd odczytu pliku
+[File upload error]
+Błąd wysyłania pliku
 [Upload server returned empty URL]
-
+Serwer hosta zwrócił pusty URL
 [Invalid or unknown recipient user ID]
-
+Nieprawidłowy lub nieznany ID nadawcy
 [Couldn't save file]
 Nie udało się zapisać pliku
 [Invalid album id]
@@ -387,8 +387,6 @@ Niepoprawna nazwa pliku
 Niepoprawny rozmiar pliku
 [Unknown error occurred]
 Wystąpił nieznany błąd
-[File upload error]
-Błąd podczas wysyłania pliku
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
@@ -471,15 +469,15 @@ Sugestia użytkownika %s jako znajomego usunięta
 [User or request was not deleted]
 Użytkownik lub prośba nie zostały usunięte
 [ report abuse on him/her]
-Zgłoś go/ją za nadużycie
+ zgłoś go/ją za nadużycie
 [ clear server history with him/her]
-Wyczyść jego/jej historię z serwera
+ wyczyść jego/jej historię z serwera
 [ remove him/her from your friend list]
-Usuń go/ją z listy znajomych
+ usuń go/ją z listy znajomych
 [ remove him/her from your contact list]
-Usuń go/ją z listy kontaktów
+ usuń go/ją z listy kontaktów
 [Are you sure to ban %s? %s%sContinue?]
-Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?
+Czy jesteś pewien, że chcesz zbanować %s? %s%sKontynuować?
 [\nIt will also]
 \nTo także
 [Are you sure to report abuse on %s?]
@@ -488,4 +486,4 @@ Czy napewno chcesz zgłosić nadużycie przez %s?
 [Wall message for]
 Post na tablicy dla
 [Attention! Message body or url should not be empty!]
-Uwaga! Treść wiadomości lub link nie powinny byćpuste!
+Uwaga! Treść wiadomości lub link nie powinny być puste!

@@ -9,25 +9,25 @@
 Wyświetla ikonę w oknie rozmowy informującą o tym czy ostatnia wysłana wiadomość została już odczytana czy nie.
 ;file \plugins\MessageState\src\clist_extra.cpp
 [MessageState unread extra icon]
-
+Dodatkowa ikona nieodczytania MessageState
 ;file \plugins\MessageState\src\global.h
 [Unread message icon]
-Ikona nieprzeczytanej wiadomości
+Ikona nieodczytania wiadomości
 [Read message icon]
-Ikona odczytanej wiadomości
+Ikona odczytania wiadomości
 [Failed sending icon]
 Ikona nieudanego wysyłania
 [Sending message icon]
 Ikona wysyłania wiadomości
 [Unread clist extra icon]
-
+Dodatkowa ikona nieodczytania, lista kontaktów
 ;file \plugins\MessageState\src\messagestate.cpp
 [Last message read at]
-ostatnią wiadomość przeczytano 
+Ostatnią wiadomość odczytano o
 [Last message read (unknown time)]
-
+Ostatnią wiadomość odczytano (nieznany czas)
 [Last message is not read]
-Nie przeczytano ostatniej wiadomości
+Nie odczytano ostatniej wiadomości
 [Last message was not sent.]
 Ostatnia wiadomość nie została wysłana.
 [Sending...]

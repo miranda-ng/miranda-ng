@@ -271,13 +271,11 @@ Nie udało się zrobić zrzutu ekranu
 Wybierz plik
 [Select a target window.]
 Wybierz okno.
-[Screenshot ]
-Zrzut ekranu\s
-[for Client area ]
-dla pola Klienta\s
-[of "]
-z okna "
-[" Window]
-"
+[Screenshot of entire desktop]
+Zrzut ekranu całego pulpitu
+[Screenshot for client area of "%s" window]
+Zrzut ekranu obszaru z okna "%s"
+[Screenshot of "%s" window]
+Zrzut ekranu okna "%s%
 [Send screenshot?]
 Wysłać zrzut ekranu?
