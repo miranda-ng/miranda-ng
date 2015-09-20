@@ -419,7 +419,7 @@
 [Hide this contact from the list]
 Схаваць кантакт са спісу
 [To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Каб паказаць раней схаваны кантакт, адкрыйце Опцыі -> Падзеі -> Ігнараваць, знайдзіце кантакт, і пастаўце галачку перад яго імем.
+Каб паказаць раней схаваны кантакт, адкрыйце Налады -> Падзеі -> Ігнараваць, знайдзіце кантакт, і пастаўце галачку перад яго імем.
 [Display options]
 Опцыі адлюстравання
 [Show contact with priority]
