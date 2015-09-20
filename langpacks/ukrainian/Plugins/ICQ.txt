@@ -1517,13 +1517,13 @@ Web-дизайн
 З'єднання між клієнтами %s
 [User ID]
 ID користувача
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 Ви не ввели номер ICQ.\nВведіть його в розділі Налаштування -> Мережа -> ICQ і спробуйте знову.
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Неможливо встановити SSL-з'єднання з сервером ICQ
 [Unable to connect to ICQ login server]
 Неможливо підключитися до сервера ICQ
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
 Не вдалося виділити порт для з'єднань між клієнтами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), налаштуйте в ньому кілька портів і вкажіть їх у налаштуваннях (Мережа - з'єднання між користувачами).
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Невдале з'єднання.\nПослідовність входу не вдалася з невідомої причини.\nСпробуйте пізніше.
@@ -1769,13 +1769,13 @@ xСтатус ICQ
 Сервер не відповів на спробу підключення. Можливо, він тимчасово недоступний. Спробуйте пізніше.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба підключення до сервера завершилася помилкою. Можливо, трапився обрив з'єднання з локальною мережею.
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
 Не вдалося визначити IP-адресу сервера за його ім'ям. Можливо, це пов'язано з відсутністю підключення до Інтернету (наприклад, ваш модем відключився). Якщо ви використовуєте проксі, спробуйте ввімкнути опцію "Надсилати запити DNS через проксі": Налаштування -> Мережа.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не вдалося підключитися до сервера. Можливо, сервер не працює, спробуйте підключитися пізніше.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
 Ваш проксі-сервер відкинув ім'я і пароль. Будь ласка, перевірте їх: Налаштування -> Мережа.
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
 Сервер, до якого ви намагаєтеся підключитися, не існує. Перевірте сервер: Налаштування -> Мережа -> ICQ.
 [error]
 помилка

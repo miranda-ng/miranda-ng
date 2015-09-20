@@ -23,6 +23,8 @@
 Пінг:
 [Login Server:]
 Сервер:
+[ICQ number:]
+Номер ICQ:
 [Password:]
 Пароль:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -33,10 +35,8 @@
 Плагін ICQ Corporate використовує лише WinSock v2.2 або вище.
 [You need specify ICQ Corporate login server.]
 Необхідно вказати сервер ICQ Corporate.
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 Логін або пароль не прийняті сервером. Будь ласка, перевірте правильність налаштувань (Налаштування -> Мережа -> ICQCorp) і спробуйте ще раз.
-[ICQ number:]
-Номер ICQ:
 [%d file]
 %d файл
 [%d files]
