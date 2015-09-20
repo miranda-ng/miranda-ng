@@ -26,8 +26,8 @@ Ping:
 ICQ vorp
 [Login Server:]
 Serwer:
-[ICQ#:]
-ICQ#:
+[ICQ number:]
+Numer ICQ:
 [Password:]
 Hasło:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -40,11 +40,9 @@ Protokoły
  wtyczka ICQ Corporate używa jedynie Winsock v2.2 lub nowszego
 [You need specify ICQ Corporate login server.]
 Musisz określić serwer logowania ICQ Corporate
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
-Twoja Kombinacja numeru i hasła ICQ Corp została odrzucona przez serwer ICQ Corporate. Przejdź do M->Opcje->ICQCorp i spróbuj ponownie.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
+Twoja Kombinacja numeru i hasła ICQ Corp została odrzucona przez serwer ICQ Corporate. Przejdź do Opcje -> ICQCorp i spróbuj ponownie.
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
-Numer ICQ:
 [%d file]
 %d plik
 [%d files]

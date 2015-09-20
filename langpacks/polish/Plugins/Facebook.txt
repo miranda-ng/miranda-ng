@@ -45,7 +45,7 @@ Automatycznie ustaw "Ignoruj zmiany statusu"
 [Use bigger avatars]
 Użyj większych awatarów
 [Prefer real names instead of nicknames]
-
+Preferuj prawdziwe imiona niż nicki
 [Event notifications]
 Zdarzenia
 [Notifications]

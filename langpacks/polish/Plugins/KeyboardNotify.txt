@@ -184,12 +184,12 @@ Ustaw xStatus
 [** Unknown contacts **]
 ** Nieznane kontakty **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-lewy->prawy
-[right->left]
-prawo->lewo
-[left<->right]
-lewy<->prawy
+[left -> right]
+lewy -> prawy
+[right -> left]
+prawy -> lewy
+[left <-> right]
+lewy <-> prawy
 [Keyboard Flash]
 Miganie klawiatury
 [Events]

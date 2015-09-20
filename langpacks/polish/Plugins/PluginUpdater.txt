@@ -27,7 +27,7 @@ Skrót
 [Go to Customize -> Hotkeys to change the hotkey]
 Przejdź do Personalizacja -> Skróty, aby je ustawić
 [Update options]
-
+Opcje aktualizacji
 [On startup]
 Przy starcie
 [(but only once a day)]
@@ -36,8 +36,8 @@ Przy starcie
 Co
 [Silent mode]
 Tryb cichy
-[Backup database before update (requires db_autobackups)]
-
+[Backup database before update (requires Db_autobackups)]
+Rób kopię bazy danych przed aktualizacją (wymaga Db_autobackups)
 [Files source]
 Źródło plików
 [Stable version]
@@ -156,7 +156,7 @@ Nie znaleziono aktualizacji.
 Sprawdzanie aktualizacji już rozpoczęte!
 ;file \plugins\PluginUpdater\src\Events.cpp
 [Plugin updater URI scheme]
-
+Schemat URI Plugin updater'a
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
@@ -165,7 +165,7 @@ Zamknij popup
 Nic nie rób
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
-
+Rób kopię bazy danych przed aktualizacją
 [Stable version (incompatible with current development version)]
 Wersja stabilna (niekompatybilna z obecną wersją rozwojową)
 [hours]

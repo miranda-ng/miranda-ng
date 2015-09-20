@@ -293,7 +293,7 @@ Otwórz w edytorze profilu
 [<UNKNOWN>]
 <NIEZNANY>
 [[UNLOADED]]
-
+\[ODŁĄCZONE]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?

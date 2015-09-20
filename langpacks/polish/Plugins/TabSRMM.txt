@@ -620,8 +620,8 @@ RTL jest domyślnym kierunkiem tekstu
 Pokazuj zmiany statusu (tylko przy otwartym oknie rozmowy)
 [Revert to global options]
 Przywróć opcje globalne
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
-Tutaj możesz ustawić prywatne opcje dziennika zdarzeń dla tego kontaktu. Wypełnione pola zostały przejęte z ustawień globalnych, które można znaleźć w Okno rozmowy->Dziennik zdarzeń
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log]
+Tutaj możesz ustawić prywatne opcje dziennika zdarzeń dla tego kontaktu. Wypełnione pola zostały przejęte z ustawień globalnych, które można znaleźć w Okno rozmowy -> Dziennik zdarzeń
 [Use normal templates (uncheck to use simple templates)]
 Użyj normalnych szablonów (odznacz, aby używać prostych szablonów)
 [Queued send jobs]
@@ -1030,8 +1030,8 @@ Nieznany moduł lub kontakt
 Plik pola edycji z formatowaniem
 [No status message]
 Kontakt nie ma opisu.
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-błąd konfiguracji|Funkcja nienadzorowanego wysyłania jest wyłączona. Funkcje \\b1 wyślij później\\b0  oraz \\b1 wyślij do wielu kontaktów\\b0 zależą od niej.\n\nMusisz ją włączyć w \\b1Options->Okno rozmowy->Zaawansowane\\b0. Zmiana tej opcji wymaga ponownego uruchomienia.
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
+błąd konfiguracji|Funkcja nienadzorowanego wysyłania jest wyłączona. Funkcje \\b1 wyślij później\\b0  oraz \\b1 wyślij do wielu kontaktów\\b0 zależą od niej.\n\nMusisz ją włączyć w \\b1Opcje -> Okno rozmowy -> Zaawansowane\\b0. Zmiana tej opcji wymaga ponownego uruchomienia.
 [You cannot edit user notes when there are unsent messages]
 Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
 [Version]
@@ -1789,7 +1789,7 @@ Brakujący komponent|Brakuje ikon. Zainstaluj je w domyślnym folderze ikon.\n\n
 Ostrzeżenie Aero peek. Włączono funkcje Aero Peek oraz wczytywanie domyślnej skórki okna rozmowy\n\nMoże spowodować niewielkie widoczne nieprawidłowości w funkcji podglądu.
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 Problem z transferem pliku|Wysyłanie obrazka poprzez transfer pliku nie powiodło się.\n\nMożliwe przyczyny: Transfer plików niewspierany, ty lub kontakt docelowy jesteście rozłączeni lub jesteś niewidoczny, a kontakt docelowy nie znajduje się na twojej liście widoczności.
-[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+[Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Błąd ustawień|Opcja \\b1 Historia -> Imituj API IEView\\b0 i wtyczka History++ jest aktywna. Może to powodować problemy podczas korzystania z wtyczki IEView jako dziennik wiadomości.\n\nNależy skorygować opcje (ponowne uruchomienie jest wymagane)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma kartami.\n\nZatwierdzić?

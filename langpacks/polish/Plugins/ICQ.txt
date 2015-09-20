@@ -1537,15 +1537,15 @@ Połączenie %s
 Połączenie Klient-do-Klienta %s
 [User ID]
 ID użytkownika
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Nie możesz wpisać numeru ICQ.\nSkonfiguruj to w Opcje->Sieć->ICQ i spróbuj ponownie.
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Nie możesz wpisać numeru ICQ.\nSkonfiguruj to w Opcje -> Sieć -> ICQ, i spróbuj ponownie.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Nie udało się połączyć z serwerem logowania ICQ. Nie udało się wynegocjować połączenia szyfrowanego SSL.
 [Unable to connect to ICQ login server]
 Nie można połączyć się z serwerem logowania ICQ
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeśli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
+Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeśli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w Opcje -> ICQ -> Sieć.
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Połączenie nieudane.\nSekwencja logowania nie powiodła się z nieznanej przyczyny.\nSpróbuj ponownie później.
 [Your connection with the ICQ server was abortively closed]
@@ -1796,14 +1796,14 @@ Krytyczny błąd ICQ
 Serwer nie odpowiedział na próbę połączenia w rozsądnym czasie, możliwe, że jest tymczasowo niedostępny. Spróbuj później.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Podczas próby nawiązania połączenia z serwerem łączność została przerwana. Być może straciłeś połączenie z internetem.
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda nie mogła ustalić adresu IP serwera na podstawie podanej nazwy. Może to być spowodowane utratą połączenia (np. jeśli twój modem się rozłączył), ale jeśli używasz proxy, spróbuj włączyć opcję "Ustalaj nazwy hostów przez proxy" w M -> Opcje -> Sieć.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
+Miranda nie mogła ustalić adresu IP serwera na podstawie podanej nazwy. Może to być spowodowane utratą połączenia (np. jeśli twój modem się rozłączył), ale jeśli używasz proxy, spróbuj włączyć opcję "Ustalaj nazwy hostów przez proxy" w Opcje -> Sieć.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Miranda nie była w stanie nawiązać połączenia z serwerem. Prawdopodobnie serwer jest nieosiągalny. Odczekaj chwilę i spróbuj ponownie.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Twoje proxy odrzuciło podaną nazwę użytkownika i hasło. Sprawdź je w M -> Opcje -> Sieć.
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Serwer, z którym próbujesz się połączyć nie istnieje. Sprawdź pisownię w M -> Opcje -> Sieć -> ICQ.
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
+Twoje proxy odrzuciło podaną nazwę użytkownika i hasło. Sprawdź je w Opcje -> Sieć.
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
+Serwer, z którym próbujesz się połączyć nie istnieje. Sprawdź pisownię w Opcje -> Sieć -> ICQ.
 [error]
 błąd
 ;file \protocols\IcqOscarJ\src\loginpassword.cpp
