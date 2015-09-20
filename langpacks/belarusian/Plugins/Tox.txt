@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.13
+;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\Tox\res\resource.rc
@@ -65,6 +65,7 @@
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+;file \protocols\Tox\src\tox_messages.cpp
 ;file \protocols\Tox\src\tox_multimedia.cpp
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
