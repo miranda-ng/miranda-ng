@@ -15,14 +15,14 @@ UIN:
 Порт:
 [Login Server:]
 Сървър:
+[ICQ number:]
+ICQ номер:
 [Password:]
 Парола:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
 Необходимо е да се свържете наново към мрежата ICQ, за да бъдат осъществени направените тук промените.
 [Network]
 Мрежа
-[ICQ number:]
-ICQ номер:
 [%d files]
 %d файла
 [%d directories]

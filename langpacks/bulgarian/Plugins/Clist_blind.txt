@@ -19,8 +19,8 @@
 Не
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Може да отмените скриването от Настройки > Контакти > Игнориране
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Може да отмените скриването от Настройки > Контакти > Игнориране.
 [Hotkeys]
 Клавишни комбинации
 [Show/Hide:]

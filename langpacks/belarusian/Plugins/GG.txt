@@ -435,7 +435,7 @@ IP Адрас
 Немагчыма зарэгістраваць карыстача з-за памылкі:\n\t%s
 [Registration rejected]
 У рэгістрацыі адмоўлена
-[You have registered new account.\nPlease fill up your personal details in "M -> View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
 Вы зарэгістравалі новы конт.\nКалі ласка, запоўніце свае асабістыя дадзеныя.
 [Your account cannot be removed because of error:\n\t%s]
 Немагчыма выдаліць карыстача з-за памылкі:\n\t%s

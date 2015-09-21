@@ -193,7 +193,7 @@ Wikipedia
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Contacts->Ignore to unhide contacts.]
+[Use Options -> Contacts -> Ignore to unhide contacts.]
 Може да отмените скриването от Настройки > Контакти > Игнориране
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
@@ -1807,7 +1807,7 @@ Popups за изобразяване
 Изтриване на историята
 [View &history]
 Преглед на историята
-[Edit E-Mail address]
+[Edit e-mail address]
 Редактиране на имейла
 [Edit phone number]
 Редактиране на телефонния номер
