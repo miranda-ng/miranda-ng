@@ -66,6 +66,8 @@ void CSendDropbox::SendThread()
 	//m_bSilent = true;
 	m_hDropHook = HookEventObj(ME_DROPBOX_SENT, OnDropSend, this);
 	WaitForSingleObject(m_hEvent, INFINITE);
+	if (m_URL)
+		svcSendMsgExit(m_URL);
 }
 
 int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
@@ -76,7 +78,6 @@ int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
 	{
 		UnhookEvent(self->m_hDropHook);
 		self->m_URL = mir_strdup(info->data[0]);
-		self->svcSendMsgExit(self->m_URL);
 		SetEvent(self->m_hEvent);
 	}
 	return 0;
