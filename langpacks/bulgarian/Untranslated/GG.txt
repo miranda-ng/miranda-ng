@@ -11,7 +11,7 @@
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 [Received invalid server response.]
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
 [Connecting to Gadu-Gadu hub failed.]
 [Cannot establish secure connection.]
 [Server disconnected asking you for changing your e-mail.]

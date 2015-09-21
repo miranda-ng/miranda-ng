@@ -143,8 +143,8 @@
 Лента за състояние на няколко реда:
 [Accounts per line]
 Акаунти на ред
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* За увеличаване височината на лентата: Главно меню>Рамки >Лента за състояние>Показване на името, след което влачете появилото се име нагоре/надолу.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* За увеличаване височината на лентата: Главно меню > Рамки > Лента за състояние > Показване на името, след което влачете появилото се име нагоре/надолу.
 [Hold [Shift] to inverse [Right Click] behavior.]
 "Shift"+"Десен бутон" = Главно меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -189,8 +189,8 @@
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Може да отмените скриването от Настройки > Контакти > Игнориране
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Може да отмените скриването от Настройки > Контакти > Игнориране.
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]

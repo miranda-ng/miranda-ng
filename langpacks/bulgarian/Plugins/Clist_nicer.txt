@@ -35,8 +35,8 @@ Clist Nicer+
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Може да отмените скриването от Настройки > Контакти > Игнориране
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Може да отмените скриването от Настройки > Контакти > Игнориране.
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -387,8 +387,8 @@ URL събития
 Друго
 [Hide this contact from the list]
 Скриване на контакта от списъка
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-За да покажете скрит контакт отидете в Настройки>Събития>Игнориране. Потърсете контакта в списъка и отметнете полето за отметка до него.
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+За да покажете скрит контакт отидете в Настройки > Събития > Игнориране. Потърсете контакта в списъка и отметнете полето за отметка до него.
 [Display options]
 Настройки за изобразяване
 [Show contact with priority]

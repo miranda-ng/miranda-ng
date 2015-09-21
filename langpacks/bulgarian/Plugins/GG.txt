@@ -317,7 +317,7 @@ IP адрес
 Едновременни сесии
 [Registration rejected]
 Регистрацията е отхвърлена
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
 Регистрирахте нов акаунт.\nМоля, попълнете подробностите в "Главно меню > Преглед/Промяна на личните данни..."
 [Bad number or password]
 Неправилен номер или парола

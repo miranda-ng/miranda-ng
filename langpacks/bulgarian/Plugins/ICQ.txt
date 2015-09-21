@@ -1481,14 +1481,14 @@ Popup заглавие
 %s връзка със сървъра
 [%s client-to-client connections]
 %s връзки client-to-client
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Не сте въвели ICQ номер.\nВъведете го в Настройки>Мрежа>ICQ и опитайте отново.
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Не сте въвели ICQ номер.\nВъведете го в Настройки > Мрежа > ICQ и опитайте отново.
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Свързването с ICQ сървъра не е възможно - не може да се договори SSL
 [Unable to connect to ICQ login server]
 Вписването в сървъра на ICQ е невъзможно
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Заделянето на порт за очакване на директни peer-to-peer връзки между клиенти е невъзможно. Повечето услуги предлагани от мрежата ICQ ще бъдат достъпни, но вероятно няма да можете да изпращате/получавате файлове.\n\nАко имате firewall вероятно той блокира Miranda. Тогава трябва да настроите firewall да оставя някои портове отворени и да зададете същите в Главно меню>Настройки>Мрежа>ICQ.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
+Заделянето на порт за очакване на директни peer-to-peer връзки между клиенти е невъзможно. Повечето услуги предлагани от мрежата ICQ ще бъдат достъпни, но вероятно няма да можете да изпращате/получавате файлове.\n\nАко имате firewall вероятно той блокира Miranda. Тогава трябва да настроите firewall да оставя някои портове отворени и да зададете същите в Настройки > Мрежа > ICQ.
 [The contact's information was too big and was truncated.]
 Информацията за контакта е съкратена поради размера и.
 [Failed to create the correct sub-group, the using closest parent group.]
@@ -1713,14 +1713,14 @@ ICQ грешка
 ICQ фаталност
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Сървърът не отговоря на опита за свързване в разумен период от време, може бе не работи временно. Опитайте по-късно.
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Откриването (resolve) на името на сървъра от числовия адрес е невъзможно. Най-вероятно това е предизвикано от тотална загуба на мрежовата връзка (напр. изключен модем), но ако използвате прокси, може би трябва да отметнете "Откриване имената на хостовете чрез прокси сървъра" от Главно меню>Настройки>Мрежа.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
+Откриването (resolve) на името на сървъра от числовия адрес е невъзможно. Най-вероятно това е предизвикано от тотална загуба на мрежовата връзка (напр. изключен модем), но ако използвате прокси, може би трябва да отметнете "Откриване имената на хостовете чрез прокси сървъра" от Настройки > Мрежа.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Свърването със сървъра е невъзможно, вероятно не работи. В този случай изчакайте и опитайте по-късно да се свържете.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Потребителското име и парола, които въведохте бяха отхвърлени от прокси сървъра. Моля, проверете в Главно меню>Настройки>Мрежа.
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Сървърът, към който се опитвате да се свържете не съществува. Проверете правописа в Главно меню>Настройки>Мрежа>ICQ.
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
+Потребителското име и парола, които въведохте бяха отхвърлени от прокси сървъра. Моля, проверете в Настройки > Мрежа.
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
+Сървърът, към който се опитвате да се свържете не съществува. Проверете правописа в Настройки > Мрежа > ICQ.
 [error]
 грешка
 [Enter a password for UIN %u:]
