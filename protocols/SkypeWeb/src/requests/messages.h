@@ -31,7 +31,7 @@ public:
 
 		JSONNode node;
 		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
 			<< JSONNode("messagetype", "Text")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message);
@@ -56,7 +56,7 @@ public:
 
 		JSONNode node;
 		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
 			<< JSONNode("messagetype", "RichText")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", content)
