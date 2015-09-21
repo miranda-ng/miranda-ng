@@ -11,13 +11,16 @@ HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **pps
 	// input validation
 	char *name = mir_utf8encodeW(ppszFiles[0]);
 	string mime = MediaUploader::getMimeFromExtension(split(name, '.')[1]);
-	if (mime.empty())
+	if (mime.empty()) {
+		mir_free(name); 
 		return 0;
+	}
 
 	// get file size
 	FILE *hFile = _tfopen(ppszFiles[0], _T("rb"));
 	if (hFile == NULL) {
 		debugLogA(__FUNCTION__": cannot open file %s", ppszFiles[0]);
+		mir_free(name);
 		return 0;
 	}
 	_fseeki64(hFile, 0, SEEK_END);
@@ -30,18 +33,25 @@ HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **pps
 	// check max file sizes
 	switch (fileType) {
 	case FMessage::WA_TYPE_IMAGE:
-		if (fileSize >= 5 * 1024 * 1024) 
+		if (fileSize >= 5 * 1024 * 1024) {
+			mir_free(name);
 			return 0;
+		}
 		break;
 	case FMessage::WA_TYPE_AUDIO:
-		if (fileSize >= 10 * 1024 * 1024)
+		if (fileSize >= 10 * 1024 * 1024) {
+			mir_free(name);
 			return 0;
+		}
 		break;
 	case FMessage::WA_TYPE_VIDEO:
-		if (fileSize >= 20 * 1024 * 1024)
+		if (fileSize >= 20 * 1024 * 1024) {
+			mir_free(name);
 			return 0;
+		}
 		break;
 	default:
+		mir_free(name);
 		return 0;
 	}
 	

@@ -278,8 +278,10 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 		std::string reason = resp["reason"].as_string();
 		if (reason == "stale")
 			NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
-		else
-			NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
+		else {
+			CMString tmp(FORMAT, TranslateT("Registration failed. Reason: %s"), reason.c_str());
+			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_CLIENT);
+		}
 
 		const JSONNode &tmpVal = resp["retry_after"];
 		if (tmpVal) {

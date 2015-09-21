@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\miranda-ng\protocols\WhatsApp\res\whatsapp.rc
+// Used by ..\res\whatsapp.rc
 //
 #define IDD_INPUTBOX                    102
 #define IDR_REGISTERUTILITY             103
@@ -16,7 +16,7 @@
 #define IDC_PW                          1004
 #define IDC_SSL                         1005
 #define IDC_NICK                        1006
-#define IDC_BUTTON_REQUEST_CODE         1007
+#define IDC_BUTTON_REQUEST_SMS_CODE     1007
 #define IDC_BUTTON_REGISTER             1008
 #define IDC_CC                          1009
 #define IDC_VALUE                       1010
@@ -29,14 +29,15 @@
 #define IDC_AUTORUN                     1016
 #define IDC_DEFGROUP                    1017
 #define IDC_REMOTE_TIME                 1018
+#define IDC_BUTTON_REQUEST_VOICE_CODE   1019
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

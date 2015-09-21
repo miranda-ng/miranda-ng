@@ -27,7 +27,6 @@ std::string WAToken::GenerateToken(const string &number)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account registration
-
 CMStringA WARegister::RequestCodeUrl(const std::string &phoneNumber, const std::string &code)
 {
 	try {
@@ -38,17 +37,18 @@ CMStringA WARegister::RequestCodeUrl(const std::string &phoneNumber, const std::
 
 		const char *n = pn.Number.c_str();
 
-		if (!code.empty())
+		if (!code.empty() && code != "voice" && code != "sms")
 			return CMStringA(FORMAT, "https://v.whatsapp.net/v2/register?cc=%d&in=%s&id=%s&code=%s", pn.countryCode, n, id.c_str(), code.c_str());
 
-		return CMStringA(FORMAT, "https://v.whatsapp.net/v2/code?cc=%d&in=%s&to=%d%s&method=sms&mcc=%03d&mnc=%03d&token=%s&id=%s&lg=%s&lc=%s",
-							 pn.countryCode, n, pn.countryCode, n, pn.mcc, pn.mnc, token.c_str(), id.c_str(), pn.ISO639, pn.ISO3166);
+		return CMStringA(FORMAT, "https://v.whatsapp.net/v2/code?cc=%d&in=%s&to=%d%s&method=%s&mcc=%03d&mnc=%03d&token=%s&id=%s&lg=%s&lc=%s",
+							pn.countryCode, n, pn.countryCode, n, code.c_str(), pn.mcc, pn.mnc, token.c_str(), id.c_str(), pn.ISO639, pn.ISO3166);
 	}
 	catch (...)
 	{}
 	
 	return CMStringA();
 }
+
 
 std::string WARegister::GenerateIdentity(const std::string &phone)
 {

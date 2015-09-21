@@ -108,9 +108,8 @@ std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 		if (ProtocolTreeNode::tagEquals(root, "stream:features")) {
 			m_pConnection->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
 			delete root;
-			continue;
 		}
-		if (ProtocolTreeNode::tagEquals(root, "challenge")) {
+		else if (ProtocolTreeNode::tagEquals(root, "challenge")) {
 			std::vector<unsigned char> challengedata(root->data->begin(), root->data->end());
 			delete root;
 			this->sendResponse(challengedata);
@@ -119,12 +118,14 @@ std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 			m_pConnection->logData("Read success");
 			return std::vector<unsigned char>(data.begin(), data.end());
 		}
-		if (ProtocolTreeNode::tagEquals(root, "success")) {
+		else if (ProtocolTreeNode::tagEquals(root, "success")) {
 			std::vector<unsigned char> ret(root->data->begin(), root->data->end());
 			this->parseSuccessNode(root);
 			delete root;
 			return ret;
 		}
+		else
+			delete root;
 	}
 	throw WAException("fell out of loop in readFeaturesAndChallenge", WAException::CORRUPT_STREAM_EX, 0);
 }

@@ -875,7 +875,15 @@ void WAConnection::processUploadResponse(ProtocolTreeNode * node, FMessage * mes
 		fileName = tempfileName.substr(index);
 	}
 	else {
-		string json = MediaUploader::pushfile(node->getChild("media")->getAttributeValue("url"),message, this->user);
+		ProtocolTreeNode *media = node->getChild("media");
+		if (media == NULL)
+			return;
+		
+		string url = media->getAttributeValue("url");
+		if(url.empty())
+			return;
+		
+		string json = MediaUploader::pushfile(url,message, this->user);
 		if (json.empty())
 			return;
 
