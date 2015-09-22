@@ -121,6 +121,8 @@ IPv6 адрес (необязательно)
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[You cannot send when you are offline.]
+Вы не можете отправлять сообщения без подключения к сети.
 [Incoming call from %s]
 Входящий звонок от %s
 [Outgoing call to %s]

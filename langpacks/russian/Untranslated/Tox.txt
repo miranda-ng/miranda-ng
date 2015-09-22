@@ -1,3 +1,2 @@
 ﻿[Tox ID:]
 [Tox]
-[You cannot send when you are offline.]
