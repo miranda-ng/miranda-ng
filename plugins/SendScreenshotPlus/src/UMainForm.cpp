@@ -984,15 +984,16 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 
 	//Generate a description according to the screenshot
 
+	TCHAR winText[1024];
+	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
+
+
 	CMString tszFileDesc;
 
 	if (m_opt_tabCapture)
-		tszFileDesc.Format(TranslateT("Screenshot of entire desktop"));
+		tszFileDesc.Format(TranslateT("Screenshot of \"%s\""), winText);
 	else
 	{
-		TCHAR winText[1024];
-		GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
-
 		if (m_opt_chkClientArea)
 			tszFileDesc.Format(TranslateT("Screenshot for client area of \"%s\" window"), winText);
 		else 
