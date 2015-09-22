@@ -1,5 +1,4 @@
-﻿[Use Options -> Contacts -> Ignore to unhide contacts.]
-[Hot track items as mouse passes over]
+﻿[Hot track items as mouse passes over]
 [Disable drag and drop of items]
 [Disable rename of items by clicking twice]
 [Show selection even when list is not focused]

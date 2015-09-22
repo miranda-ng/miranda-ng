@@ -19,6 +19,12 @@
 Автоматически открывать комнаты чата
 [Registration]
 Регистрация
+[Enter code]
+Введите код
+[Request SMS code]
+Запросить код по SMS
+[Request Voice code]
+Запросить код с помощью звонка
 [Register code]
 Код регистрации
 [Including country code, without '+' or '00']
@@ -77,6 +83,12 @@
 Последнее появление %x в %X
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придёт на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+Код регистрации будет сообщён во время звонка на ваш телефон.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
+[Your password has been set automatically. You can proceed with login now.]
+Ваш пароль был установлен автоматически. Теперь вы можете подключиться.
+[Please correctly specify your registration code received by SMS/Voice.]
+Пожалуйста, верно укажите свой код регистрации, полученный через SMS/звонок.
 [Changes will be applied after protocol restart]
 Изменения будут применены после перезапуска протокола
 [Network]
@@ -97,6 +109,8 @@
 Неудачная регистрация. Неверный ответ сервера.
 [Registration failed due to stale code. Please request a new code]
 Неудачная регистрация вследствие устаревшего кода. Пожалуйста, запросите новый код
+[Registration failed. Reason: %s]
+Неудачная регистрация. Причина: %s
 [Please try again in %i seconds]
 Пожалуйста, попробуйте ещё раз через %i секунд
 [Registration code has been sent to your phone.]

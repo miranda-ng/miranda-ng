@@ -22,9 +22,11 @@
 
 [Registration]
 
-[SMS code]
+[Enter code]
 
-[Request code]
+[Request SMS code]
+
+[Request Voice code]
 
 [Register code]
 
@@ -92,9 +94,11 @@
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 
-[Your password has been set automatically. You can proceed with login now]
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 
-[Please correctly specify your registration code received by SMS]
+[Your password has been set automatically. You can proceed with login now.]
+
+[Please correctly specify your registration code received by SMS/Voice.]
 
 [Changes will be applied after protocol restart]
 
@@ -118,11 +122,13 @@
 
 [Registration failed due to stale code. Please request a new code]
 
-[Registration failed.]
+[Registration failed. Reason: %s]
 
 [Please try again in %i seconds]
 
 [Registration code has been sent to your phone.]
+
+[Registration failed.]
 
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]

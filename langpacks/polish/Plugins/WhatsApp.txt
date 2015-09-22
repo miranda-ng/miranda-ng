@@ -22,10 +22,12 @@ Używaj połączenia SSL (port 443)
 Automatycznie otwieraj czaty grupowe
 [Registration]
 Rejestracja
-[SMS code]
-Kod SMS
-[Request code]
-Poproś o kod
+[Enter code]
+
+[Request SMS code]
+
+[Request Voice code]
+
 [Register code]
 Zarejestruj kod
 [Including country code, without '+' or '00']
@@ -92,10 +94,12 @@ Ostatnio widziany %x o %X
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
-[Your password has been set automatically. You can proceed with login now]
-Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania
-[Please correctly specify your registration code received by SMS]
-Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+
+[Your password has been set automatically. You can proceed with login now.]
+Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania.
+[Please correctly specify your registration code received by SMS/Voice.]
+
 [Changes will be applied after protocol restart]
 Zmiany zostaną zastosowane po ponownym uruchomieniu protokołu
 [Network]
@@ -118,12 +122,14 @@ Błąd połączenia sieciowego.
 Rejestracja nieudana. Niepoprawna odpowiedź serwera.
 [Registration failed due to stale code. Please request a new code]
 Rejestracja nieudana z powodu wygasłego kodu. Proszę poprosić o nowy kod.
-[Registration failed.]
-Rejestracja nieudana.
+[Registration failed. Reason: %s]
+
 [Please try again in %i seconds]
 Proszę spróbować ponownie za %i sekund
 [Registration code has been sent to your phone.]
 Kod rejestracyjny został wysłany na twój telefon.
+[Registration failed.]
+Rejestracja nieudana.
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 Ikona WhatsApp

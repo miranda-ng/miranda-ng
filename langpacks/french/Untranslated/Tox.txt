@@ -24,7 +24,6 @@
 [Video input device]
 [Invite contacts to chat room]
 [Call]
-[End]
 [Incoming call]
 [Answer]
 [Reject]

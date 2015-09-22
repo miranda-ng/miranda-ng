@@ -16,10 +16,6 @@
 Гурт:
 [Use SSL connection (port 443)]
 Далучэнне па SSL (порт 443)
-[SMS code]
-Смс-код:
-[Request code]
-Код запыту
 [Register code]
 Код рэгістраці
 [Including country code, without '+' or '00']
@@ -62,8 +58,6 @@
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
-[Please correctly specify your registration code received by SMS]
-Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
 [Network]
 Сеціва
 [Account]

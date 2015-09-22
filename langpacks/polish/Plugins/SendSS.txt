@@ -271,8 +271,8 @@ Nie udało się zrobić zrzutu ekranu
 Wybierz plik
 [Select a target window.]
 Wybierz okno.
-[Screenshot of entire desktop]
-Zrzut ekranu całego pulpitu
+[Screenshot of "%s"]
+
 [Screenshot for client area of "%s" window]
 Zrzut ekranu obszaru z okna "%s"
 [Screenshot of "%s" window]

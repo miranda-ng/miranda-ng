@@ -271,7 +271,7 @@ Informations
 Sélectionnez un fichier
 [Select a target window.]
 Sélectionnez une fenêtre comme cible.
-[Screenshot of entire desktop]
+[Screenshot of "%s"]
 
 [Screenshot for client area of "%s" window]
 

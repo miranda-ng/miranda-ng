@@ -229,8 +229,6 @@ Upload Pie (1 тижд)
 Виберіть файл
 [Select a target window.]
 Виберіть вікно, щоб зробити знімок.
-[Screenshot of entire desktop]
-Знімок усього екрану
 [Screenshot for client area of "%s" window]
 Знімок вмісту вікна "%s"
 [Screenshot of "%s" window]

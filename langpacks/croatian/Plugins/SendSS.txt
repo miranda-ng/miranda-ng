@@ -271,7 +271,7 @@ informacija
 
 [Select a target window.]
 
-[Screenshot of entire desktop]
+[Screenshot of "%s"]
 
 [Screenshot for client area of "%s" window]
 

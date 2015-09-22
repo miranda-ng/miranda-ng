@@ -22,10 +22,12 @@ Serverseitige Nachrichtenzeitstempel verwenden
 Gruppenchats automatisch öffnen
 [Registration]
 Registrierung
-[SMS code]
-SMS-Code
-[Request code]
-Code anfordern
+[Enter code]
+
+[Request SMS code]
+
+[Request Voice code]
+
 [Register code]
 Code registrieren
 [Including country code, without '+' or '00']
@@ -92,10 +94,12 @@ Zuletzt gesehen am %x um %X
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
-[Your password has been set automatically. You can proceed with login now]
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+
+[Your password has been set automatically. You can proceed with login now.]
 Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
-[Please correctly specify your registration code received by SMS]
-Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
+[Please correctly specify your registration code received by SMS/Voice.]
+
 [Changes will be applied after protocol restart]
 Änderungen werden erst nach einem Neustart des Protokolls aktiv.
 [Network]
@@ -118,12 +122,14 @@ Netzwerkverbindungsfehler.
 Registrierung fehlgeschlagen. Ungültige Serverantwort.
 [Registration failed due to stale code. Please request a new code]
 Registrierung wegen abgelaufenem Code fehlgeschlagen. Bitte fordern Sie einen neuen Code an.
-[Registration failed.]
-Registrierung fehlgeschlagen.
+[Registration failed. Reason: %s]
+
 [Please try again in %i seconds]
 Bitte versuchen Sie es in %i Sekunden erneut
 [Registration code has been sent to your phone.]
 Registrierungscode wurde an Ihr Telefon geschickt.
+[Registration failed.]
+Registrierung fehlgeschlagen.
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp Icon

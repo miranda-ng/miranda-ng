@@ -1,1 +1,7 @@
 ﻿[Use remote message timestamps]
+[Enter code]
+[Request SMS code]
+[Request Voice code]
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[Please correctly specify your registration code received by SMS/Voice.]
+[Registration failed. Reason: %s]

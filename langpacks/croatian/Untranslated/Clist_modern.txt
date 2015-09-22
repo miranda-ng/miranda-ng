@@ -82,7 +82,6 @@
 [Right click opens Miranda menu]
 [Space on left]
 [Space on right]
-[Use Options -> Contacts -> Ignore to unhide contacts.]
 [Don't move offline user to bottom]
 [Place offline users out of groups]
 [Gamma correction]

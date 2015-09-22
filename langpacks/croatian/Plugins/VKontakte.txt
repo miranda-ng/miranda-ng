@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.15
+;  Version: 0.1.1.16
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -97,6 +97,8 @@ drugo
 [Advanced]
 
 [Hide chats on startup]
+
+[Sync read message status from server]
 
 [Always notify as unread for all incoming message]
 
