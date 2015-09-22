@@ -26,8 +26,8 @@ Port :
 
 [Login Server:]
 
-[ICQ#:]
-
+[ICQ number:]
+Identifiant :
 [Password:]
 Passe :
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -40,11 +40,9 @@ Réseau
 
 [You need specify ICQ Corporate login server.]
 
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
-Identifiant :
 [%d file]
 
 [%d files]

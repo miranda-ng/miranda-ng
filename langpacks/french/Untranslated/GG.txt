@@ -64,4 +64,4 @@
 [Copy Text]
 [Concurrent &sessions]
 [Could not load token image.]
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]

@@ -83,6 +83,10 @@ Otkazivanje
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 
+[Last online on %x at %X]
+
+[Denied: Last online on %x at %X]
+
 [Last seen on %x at %X]
 
 ;file \protocols\WhatsApp\src\dialogs.cpp

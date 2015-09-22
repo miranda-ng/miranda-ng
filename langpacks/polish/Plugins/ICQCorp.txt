@@ -41,7 +41,7 @@ Protokoły
 [You need specify ICQ Corporate login server.]
 Musisz określić serwer logowania ICQ Corporate
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
-Twoja Kombinacja numeru i hasła ICQ Corp została odrzucona przez serwer ICQ Corporate. Przejdź do Opcje -> ICQCorp i spróbuj ponownie.
+Twoja Kombinacja numeru i hasła ICQ Corp została odrzucona przez serwer ICQ Corporate. Przejdź do Opcje -> Sieć -> ICQCorp i spróbuj ponownie.
 ;file \protocols\ICQCorp\src\services.cpp
 [%d file]
 %d plik

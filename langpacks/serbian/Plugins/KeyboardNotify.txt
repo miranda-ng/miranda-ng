@@ -184,11 +184,11 @@ Ignorisati
 [** Unknown contacts **]
 ** Nepoznati kontakti **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
+[left -> right]
 
-[right->left]
+[right -> left]
 
-[left<->right]
+[left <-> right]
 
 [Keyboard Flash]
 

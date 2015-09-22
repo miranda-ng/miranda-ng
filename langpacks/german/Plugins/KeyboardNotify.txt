@@ -184,12 +184,12 @@ Stelle xStatus Liste ein
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-links->rechts
-[right->left]
-rechts->links
-[left<->right]
-links<->rechts
+[left -> right]
+links -> rechts
+[right -> left]
+rechts -> links
+[left <-> right]
+links <-> rechts
 [Keyboard Flash]
 Tastaturblinken
 [Events]

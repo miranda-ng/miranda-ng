@@ -36,8 +36,8 @@ Non
 Oui
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts.
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s?
 [This will erase all history and settings for this contact!]
@@ -424,8 +424,8 @@ Toujours apparaître déconnecté (contact bloqué)
 Autre
 [Hide this contact from the list]
 Cacher ce contact de la liste
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-Pour afficher un contact bloqué, aller dans Paramètres->Évènements->Ignorer et cocher le contact en question.
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Pour afficher un contact bloqué, aller dans Paramètres -> Évènements -> Ignorer et cocher le contact en question.
 [Display options]
 Options d'affichage
 [Show contact with priority]

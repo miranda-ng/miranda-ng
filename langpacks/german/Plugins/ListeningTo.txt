@@ -112,7 +112,7 @@ In allen Protokollen senden
 [Listening info]
 "Ich höre gerade"-Info
 [Listening info as set in the options]
-Info wie unter Status=>"Ich höre gerade" : Formate eingestellt
+Info wie unter Status -> "Ich höre gerade" : Formate eingestellt
 [Media type: Music, Video, etc.]
 Medientyp: Musik, Video usw.
 [Artist name]

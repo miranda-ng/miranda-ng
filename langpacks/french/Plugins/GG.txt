@@ -168,8 +168,8 @@ Miranda n'a pu trouver le nom du serveur de Gadu-Gadu via son adresse numérique
 Envoi d'une réponse inconnue du serveur.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-Vos identifiants ont été rejeté par le serveur Gadu-Gadu. Vérifier vos identifiants dans M->Options->Réseaux->Gadu-Gadu et reconnectez-vous.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
+Vos identifiants ont été rejeté par le serveur Gadu-Gadu. Vérifier vos identifiants dans Options -> Réseaux -> Gadu-Gadu et reconnectez-vous.
 [Connecting to Gadu-Gadu hub failed.]
 Échec de connexion au hub Gadu-Gadu.
 [Cannot establish secure connection.]
@@ -435,7 +435,7 @@ Une récupération a échoué. Erreur :\n\t%s
 Enregistrement du nouveau compte impossible Erreur :\n\t%s
 [Registration rejected]
 Enregistrement refusé
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+[You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
 
 [Your account cannot be removed because of error:\n\t%s]
 Votre compte n'a pu être effacé. Erreur :\n\t%s

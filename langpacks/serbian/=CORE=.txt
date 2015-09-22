@@ -199,8 +199,8 @@ Ne
 Da
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
-[Use Options->Contacts->Ignore to unhide contacts.]
-Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Putem Podešavanja -> Kontakti -> Ignorisani podešavaš vidljivost.
 [Are you sure you want to delete %s?]
 %s se briše sa spiska. Potvrda?
 [This will erase all history and settings for this contact!]
@@ -1854,8 +1854,8 @@ Poruka od: %s
 %s kuca poruku
 [Typing notification]
 Obaveštenje o kucanju
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda ne može da upotrebi sopstveni modul za poruke, ne postoji Msftedit.dll. Odgovor 'Da' za nastavak učitavanja.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda ne može da upotrebi sopstveni modul za poruke, ne postoji msftedit.dll. Odgovor 'Da' za nastavak učitavanja.
 [Instant messages]
 IM komunikacija
 [Incoming (focused window)]
@@ -1902,8 +1902,8 @@ Briši istoriju
 [View &history]
 Pregledaj %istoriju
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
-Izmeni E-Mail adresu
+[Edit e-mail address]
+Izmeni e-mail adresu
 [Edit phone number]
 Izmeni broj telefona
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -2466,8 +2466,8 @@ Neuspešan upis nadimka kontakta u metakontakt
 [<Root group>]
 <Glavna grupa (root)>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
-Tipičan netlib log
+[Standard Netlib log]
+Tipičan Netlib log
 [No times]
 Bez vremenskih odrednica
 [Standard hh:mm:ss times]

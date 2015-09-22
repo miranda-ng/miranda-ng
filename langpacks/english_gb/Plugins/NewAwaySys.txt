@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-[Colors]
-Colours
 [You can put your frequently used and favorite messages in this category.]
 You can put your frequently used and favourite messages in this category.
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]

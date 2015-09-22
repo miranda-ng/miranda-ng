@@ -36,8 +36,8 @@ Beim Start
 Alle
 [Silent mode]
 Stiller Modus
-[Backup database before update (requires db_autobackups)]
-Datenbank vor Aktualisierung sichern (benötigt db_autobackups)
+[Backup database before update (requires Db_autobackups)]
+Datenbank vor Aktualisierung sichern (benötigt Db_autobackups)
 [Files source]
 Quelle der Dateien
 [Stable version]

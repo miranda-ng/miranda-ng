@@ -2,13 +2,29 @@
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.1.1
+;  Version: 0.11.2.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
 Stellt Popup-Benachrichtigungen als Windows-Toast-Benachrichtigungen dar.
+;file \plugins\Toaster\res\resource.rc
+[Preview]
+Vorschau
+[Add shortcut]
+
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Dieses Plugin benötigt Windows 8 oder neuer.
+;file \plugins\Toaster\src\options.cpp
 [Failed to create shortcut]
 Erstellung der Verknüpfung fehlgeschlagen.
+[Shortcut was added to the start menu]
+
+[Information]
+Information
+[Warning]
+Warnung
+[Error]
+Fehler
+[Popups]
+Popups

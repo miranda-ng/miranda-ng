@@ -769,7 +769,7 @@ Prichádzajúci súbor
 História pre %s
 [View &history]
 Zobraziť &históriu
-[Edit E-Mail address]
+[Edit e-mail address]
 Zmena e-mail adresy
 [Edit phone number]
 Zmena telefónneho čísla

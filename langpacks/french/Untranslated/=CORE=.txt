@@ -124,7 +124,7 @@
 [Metacontacts]
 [Select metacontact]
 [Sender]
-[Standard netlib log]
+[Standard Netlib log]
 [(Miranda core logging)]
 [<mixed>]
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]

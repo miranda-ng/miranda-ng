@@ -199,8 +199,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -1854,8 +1854,8 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing notification]
 Tippbenachrichtigungen
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda konnte nicht das eingebaute Nachrichtenmodul laden, Msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda konnte nicht das eingebaute Nachrichtenmodul laden, msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
 [Instant messages]
 Sofortnachrichten
 [Incoming (focused window)]
@@ -1902,7 +1902,7 @@ Verlauf löschen
 [View &history]
 &Verlauf anzeigen
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
+[Edit e-mail address]
 E-Mail-Adresse bearbeiten
 [Edit phone number]
 Telefonnummer bearbeiten
@@ -2466,7 +2466,7 @@ Verschiebe in &Gruppe
 [<Root group>]
 <Hauptgruppe>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
+[Standard Netlib log]
 Standard Netlib Log
 [No times]
 keine Zeiten

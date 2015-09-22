@@ -2,21 +2,9 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-[On left click]
-јavým klikom
-[On right click]
-Pravým klikom
-[Sec]
-sek
-[Colors]
-Farby
-[Background]
-Pozadie
-[Text]
-Text
 [&Delete]
 Vymazať
 [Title:]
@@ -59,6 +47,8 @@ Schováva sa pred mafiou
 Telefonuje
 [Out to lunch]
 Na obede
+[Ignore]
+Ignorovať
 [Re&ad %s message]
 Čítať %s správu
 [&Close]

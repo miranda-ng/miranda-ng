@@ -195,8 +195,8 @@ No
 Sí
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options->Contacts->Ignore to unhide contacts.]
-Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos
 [Are you sure you want to delete %s?]
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
@@ -1761,8 +1761,8 @@ Mensaje de
 %s está escribiendo un mensaje
 [Typing notification]
 Escribiendo notificación
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda no pudo cargar el módulo de mensajes incorporado, falta Msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda no pudo cargar el módulo de mensajes incorporado, falta msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
 [Instant messages]
 Mensajes instantáneos
 [Incoming (focused window)]
@@ -1805,7 +1805,7 @@ Historial de %s
 Eliminar historial
 [View &history]
 Ver &historial
-[Edit E-Mail address]
+[Edit e-mail address]
 Editar dirección de correo
 [Edit phone number]
 Editar número de teléfono
@@ -2171,8 +2171,8 @@ Remitente
 &Mover a grupo
 [<Root group>]
 <Grupo raíz>
-[Standard netlib log]
-Registro netlib estándar
+[Standard Netlib log]
+Registro Netlib estándar
 [No times]
 No hay tiempos
 [Standard hh:mm:ss times]

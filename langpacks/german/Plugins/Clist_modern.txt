@@ -148,8 +148,8 @@ Horizontale Ausr.
 Mehrzeilige Statusleiste
 [Accounts per line]
 Konten pro Zeile
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* Änderung der Statusleistenhöhe:\nHauptmenü -> Frames -> Statusl.-> Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Umschalt gedrückt halten, um Rechtsklick-Verhalten umzukehren.
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -194,8 +194,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]

@@ -1524,7 +1524,7 @@ ID пользователя
 [Unable to connect to ICQ login server]
 Невозможно подключиться к серверу ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
-Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (firewall), настройте в нём несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
+Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (межсетевой экран, файрвол), откройте в нём несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Неудачное подключение.\nПоследовательность входа не удалась по неизвестной причине.\nПопробуйте позже.
 [Your connection with the ICQ server was abortively closed]
@@ -1770,7 +1770,7 @@ xСтатус ICQ
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Попытка подключения с сервером прервалась с ошибкой. Возможно, пропало подключение к локальной сети.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
-Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить опцию "Определять имена хостов через прокси": Настройки -> Сеть.
+Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить опцию "Отправлять запросы DNS через прокси": Настройки -> Сеть.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
 [Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]

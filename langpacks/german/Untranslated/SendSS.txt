@@ -1,0 +1,3 @@
+﻿[Screenshot of entire desktop]
+[Screenshot for client area of "%s" window]
+[Screenshot of "%s" window]

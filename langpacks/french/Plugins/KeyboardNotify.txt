@@ -184,12 +184,12 @@ Ignorer
 [** Unknown contacts **]
 ** Contacts inconnus **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-gauche->droite
-[right->left]
-droite->gauche
-[left<->right]
-gauche<->droite
+[left -> right]
+gauche -> droite
+[right -> left]
+droite -> gauche
+[left <-> right]
+gauche <-> droite
 [Keyboard Flash]
 
 [Events]

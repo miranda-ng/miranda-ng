@@ -20,8 +20,8 @@ Oui
 Non
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts.
 [Hotkeys]
 Raccourcis clavier
 [Show/Hide:]

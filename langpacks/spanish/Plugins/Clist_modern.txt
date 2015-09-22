@@ -145,8 +145,8 @@ Alineación horizontal
 Barra de estado de líneas múltiples:
 [Accounts per line]
 Cuentas por línea
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Para aumentar la altura de la barra de estado:\najuste en el menú principal: Marcos->Barra de estado->Mostrar barra de título, entonces arrastrar del título aparecido de la barra de estado hacia arriba o abajo.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* Para aumentar la altura de la barra de estado:\najuste en el menú principal: Marcos -> Barra de estado -> Mostrar barra de título, entonces arrastrar del título aparecido de la barra de estado hacia arriba o abajo.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Mantener [Shift] para invertir [Clic derecho] comportamiento.
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -191,8 +191,8 @@ No
 Sí
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options->Contacts->Ignore to unhide contacts.]
-Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 [Are you sure you want to delete %s?]
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]

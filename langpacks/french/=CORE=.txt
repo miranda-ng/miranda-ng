@@ -199,8 +199,8 @@ Non
 Oui
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]
@@ -1854,8 +1854,8 @@ Message de %s
 %s écrit un message
 [Typing notification]
 Notification de frappe
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda n'a pas pu charger le module de messagerie préinstallé, Msftedit.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda n'a pas pu charger le module de messagerie préinstallé, msftedit.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
 Messages instantanés
 [Incoming (focused window)]
@@ -1902,7 +1902,7 @@ Effacer histori.
 [View &history]
 Voir l'&historique
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
+[Edit e-mail address]
 Éditer le courriel
 [Edit phone number]
 Éditer le numéro de téléphone
@@ -2466,7 +2466,7 @@ Impossible d'écrire le pseudo du contact au metacontact
 [<Root group>]
 <sans groupe>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
+[Standard Netlib log]
 
 [No times]
 Sans durée

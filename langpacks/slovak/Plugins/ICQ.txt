@@ -181,8 +181,8 @@ Sieť
 Kontakty
 [Unable to connect to ICQ login server]
 Nemožno sa pripojiť na ICQ server.
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda nemôže alokovať port pre priame pripojenie s kientmi. Ak to chcete zapnúť, musíte si vypnút voľbu odosielania/prijímania súborov.\n\nAk máte firewall co blokuje mirande porty, povoľte v konfigúrácii firewallu porty, ktore ste si zadali vo Voľby->ICQ->Sieť.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
+Miranda nemôže alokovať port pre priame pripojenie s kientmi. Ak to chcete zapnúť, musíte si vypnút voľbu odosielania/prijímania súborov.\n\nAk máte firewall co blokuje mirande porty, povoľte v konfigúrácii firewallu porty, ktore ste si zadali vo Voľby -> ICQ -> Sieť.
 [Your connection with the ICQ server was abortively closed]
 Vaše pripojenie na ICQ server bolo nečakane ukončené
 [NOT FOUND]
