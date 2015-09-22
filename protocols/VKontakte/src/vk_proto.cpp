@@ -121,6 +121,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bShortenLinksForAudio = getBool("ShortenLinksForAudio", true);
 
 	m_bSplitFormatFwdMsg = getBool("SplitFormatFwdMsg", true);
+
+	m_bSyncReadMessageStatusFromServer = getBool("SyncReadMessageStatusFromServer", false);
+	m_bLoadFullCList = getBool("LoadFullCList", false);
 	
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;

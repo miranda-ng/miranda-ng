@@ -655,6 +655,32 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
+void CVkProto::MarkDialogAsRead(MCONTACT hContact) 
+{
+	debugLogA("CVkProto::MarkDialogAsRead");
+	if (!IsOnline())
+		return;
+
+	LONG userID = getDword(hContact, "ID", -1);
+	if (userID == -1 || userID == VK_FEED_USER)
+		return;
+
+	MEVENT hDBEvent;
+	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL) {
+		db_event_markRead(hContact, hDBEvent);
+		int res = CallService(MS_CLIST_REMOVEEVENT, hContact, hDBEvent);
+		debugLogA("CVkProto::MarkDialogAsRead [1] result = %d, hDbEvent = %d", res, (int)hDBEvent);
+	}	
+
+	hContact = db_mc_tryMeta(hContact);
+	CLISTEVENT *cle = NULL;
+	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)) != NULL) {
+		db_event_markRead(hContact, cle->hDbEvent);
+		int res = CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
+		debugLogA("CVkProto::MarkDialogAsRead [2] result = %d, hDbEvent = %d", res, (int)(cle->hDbEvent));
+	}
+}
+
 char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 {
 	stickerid = 0;

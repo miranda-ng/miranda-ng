@@ -278,7 +278,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		PROTORECVEVENT recv = { 0 };
-		if (isRead && !m_bMesAsUnread)
+		bool bUseServerReadFlag = m_bSyncReadMessageStatusFromServer ? true : !m_bMesAsUnread;
+		if (isRead && bUseServerReadFlag)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
