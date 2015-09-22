@@ -115,7 +115,7 @@
 [Appear always online]
 [Appear always offline (block contact)]
 [Hide this contact from the list]
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 [Display options]
 [Show contact with priority]
 [Show avatar:]

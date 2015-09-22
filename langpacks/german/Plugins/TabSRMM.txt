@@ -620,8 +620,8 @@ RTL ist Standardtextrichtung
 Statusänderungen speichern (nur in offenen Nachrichtenfenstern)
 [Revert to global options]
 Auf globale Einstellungen zurücksetzen
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
-Hier können Sie für diesen Kontakt die globalen Einstellungen von Nachrichtensitzungen => Nachrichtenverlauf überschreiben. Ausgefüllte Kästchen nutzen die globale Einstellung.
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log]
+Hier können Sie für diesen Kontakt die globalen Einstellungen von Nachrichtensitzungen -> Nachrichtenverlauf überschreiben. Ausgefüllte Kästchen nutzen die globale Einstellung.
 [Use normal templates (uncheck to use simple templates)]
 Verwende normale Vorlagen (anstelle von einfachen)
 [Queued send jobs]
@@ -1030,8 +1030,8 @@ Unbekanntes Modul oder Kontakt
 Rich-Edit-Datei
 [No status message]
 Keine Statusnachricht
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Konfigurationsproblem|Die Funktion zum unbeaufsichtigten Senden ist deaktiviert. Die Funktionen \\b1 später senden\\b0 und \\b1 an mehrere Kontakte senden\\b0 hängen davon ab.\n\nSie müssen sie unter \\b1Optionen->Nachrichtensitzungen->Erw. Einstellungen\\b0 aktivieren. Ein Neustart ist erforderlich.
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
+Konfigurationsproblem|Die Funktion zum unbeaufsichtigten Senden ist deaktiviert. Die Funktionen \\b1 später senden\\b0 und \\b1 an mehrere Kontakte senden\\b0 hängen davon ab.\n\nSie müssen sie unter \\b1Optionen -> Nachrichtensitzungen -> Erw. Einstellungen\\b0 aktivieren. Ein Neustart ist erforderlich.
 [You cannot edit user notes when there are unsent messages]
 Sie können keine Benutzernachrichten editieren, wenn ungesendete Nachrichten ausstehen.
 [Version]
@@ -1789,8 +1789,8 @@ Fehlende Komponenten|Das Icon-Pack fehlt. Bitte installieren Sie es in den Stand
 Aero-Peek Warnung|Sie haben Aero-Peek Funktionen aktiviert und einen eigenen Container-Fenster-Skin geladenn.\n\nDies kann zu kleinen visuellen Defekten in der Live-Vorschau führen.
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 Dateiübertragungs-Problem|Das Bild konnte nicht als Dateiübertragung gesendet werden.\n\nMögliche Gründe: Dateiübertragungen werden nicht unterstützt, entweder Sie oder der Zielkontakt sind offline, oder Sie sind unsichtbar und der Zielkontakt ist nicht auf Ihrer Sichtbarkeitsliste.
-[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
-Einstellungsproblem|Die Einstellung \\b1 Verlauf->IEView-API imitieren\\b0 ist aktiviert und das History++ Plugin ist aktiv. Das kann Probleme verursachen, wenn IEView als Nachrichtenverlauf-Betrachter verwendet wird.\n\nSoll ich diese Einstellung korrigieren (ein Neustart ist nötig)?
+[Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+Einstellungsproblem|Die Einstellung \\b1 Verlauf -> IEView-API imitieren\\b0 ist aktiviert und das History++ Plugin ist aktiv. Das kann Probleme verursachen, wenn IEView als Nachrichtenverlauf-Betrachter verwendet wird.\n\nSoll ich diese Einstellung korrigieren (ein Neustart ist nötig)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n\nFortsetzen?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]

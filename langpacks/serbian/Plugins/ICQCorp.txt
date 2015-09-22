@@ -26,7 +26,7 @@ Port:
 
 [Login Server:]
 
-[ICQ#:]
+[ICQ number:]
 
 [Password:]
 Šifra
@@ -40,11 +40,9 @@ Mreža
 
 [You need specify ICQ Corporate login server.]
 
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
-
 [%d file]
 
 [%d files]

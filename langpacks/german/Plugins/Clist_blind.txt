@@ -20,8 +20,8 @@ Ja
 Nein
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
 [Hotkeys]
 Hotkeys
 [Show/Hide:]

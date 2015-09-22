@@ -2,62 +2,12 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Erweitertes Abwesenheitssystem mit vordefinierten Abwesenheitsnachrichten und vielen anderen Funktionen.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-Popupbenachrichtigung
-[Popup text format]
-Popuptextformat
-[Preview]
-Vorschau
-[V]
-V
-[%extratext% is your status message]
-%extratext% ist ihre Statusnachricht
-[Click action]
-Aktion bei Klick
-[On left click]
-Bei Linksklick
-[On right click]
-Bei Rechtsklick
-[Delay]
-Verzögerung
-[Sec]
-Sek.
-[0 = Default]
-0 = Standard
-[-1 = Infinite]
--1 = Unendlich
-[Colors]
-Farben
-[Background]
-Hintergrund
-[Use default]
-Standard verw.
-[Text]
-Text
-[Only notify when:]
-Benachrichtigen bei:
-[On&line]
-On&line
-[&Away]
-&Abwesend
-[&NA]
-Außer Haus
-[Occ&upied]
-Beschäftigt
-[&DND]
-Bitte nicht stören
-[&Free for chat]
-&Für Chat bereit
-[&Other]
-Andere
-[Log to a file only when popup notification for a contact is enabled]
-Nur in Datei loggen, wenn Popupbenachrichtigung für Kontakt aktiviert
 [Enable autoreply]
 Autoantwort aktivieren
 [On event...]
@@ -80,6 +30,18 @@ Sende maximal
 Diesen Zähler auch zurücksetzen, wenn ich nur die Statusnachricht ändere\n(Statusicon verändert sich nicht)
 [Disable autoreply when...]
 Autoantwort deaktivieren wenn...
+[On&line]
+On&line
+[&Away]
+&Abwesend
+[&NA]
+Außer Haus
+[Occ&upied]
+Beschäftigt
+[&DND]
+Bitte nicht stören
+[&Free for chat]
+&Für Chat bereit
 [&Invisible]
 Uns&ichtbar
 [On the &phone]
@@ -88,6 +50,10 @@ Am Telefon
 Zum Essen
 [Autoreply format:]
 Format der Autoantwort:
+[V]
+V
+[%extratext% is your status message]
+%extratext% ist ihre Statusnachricht
 [&Variables]
 &Variablen
 [Se&ttings]
@@ -276,10 +242,24 @@ Zum Essen
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Ich bin seit ?nas_awaysince_time(HH:mm) beim ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,Abendessen,Mittagessen),Frühstück),Abendessen)
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-Einschalten
 [Toggle Off]
 Ausschalten
+[Toggle On]
+Einschalten
+[Dot]
+Punkt
+[Ignore]
+Ignorieren
+[Indefinite]
+
+[Set status message]
+Statusnachricht setzen
+[Add]
+Hinzufügen
+[Save]
+Speichern
+[Settings]
+Einstellungen
 [Set %s message for the contact]
 %s-Nachricht für diesen Kontakt
 [Re&ad %s message]
@@ -320,8 +300,6 @@ Unbekannter
 %d Sekunden
 [Read status message]
 Statusnachricht lesen
-[Set status message]
-Statusnachricht setzen
 [On]
 Ein
 [Off]

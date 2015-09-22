@@ -83,6 +83,10 @@ Bitte geben Sie ein Passwort ein.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 ist nun bekannt als %s
+[Last online on %x at %X]
+
+[Denied: Last online on %x at %X]
+
 [Last seen on %x at %X]
 Zuletzt gesehen am %x um %X
 ;file \protocols\WhatsApp\src\dialogs.cpp

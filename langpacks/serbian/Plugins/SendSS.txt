@@ -271,13 +271,11 @@ Obaveštenje
 
 [Select a target window.]
 
-[Screenshot ]
+[Screenshot of entire desktop]
 
-[for Client area ]
+[Screenshot for client area of "%s" window]
 
-[of "]
-
-[" Window]
+[Screenshot of "%s" window]
 
 [Send screenshot?]
 

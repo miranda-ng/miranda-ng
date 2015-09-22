@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.13
+;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -104,7 +104,7 @@ Date :
 [Group chat]
 Discussion de groupe
 ;file \protocols\Tox\src\tox_core.cpp
-[Unable to initialize tox core]
+[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
@@ -131,6 +131,9 @@ Protocoles
 Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
+;file \protocols\Tox\src\tox_messages.cpp
+[You cannot send when you are offline.]
+
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Incoming call from %s]
 

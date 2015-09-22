@@ -26,8 +26,8 @@ Ping:
 ICQ Corp
 [Login Server:]
 Loginserver:
-[ICQ#:]
-ICQ#:
+[ICQ number:]
+ICQ-Nummer:
 [Password:]
 Passwort:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -40,11 +40,9 @@ Netzwerk
 ICQ-Corporate-Plugin verwendet nur WinSock v2.2 oder neuer.
 [You need specify ICQ Corporate login server.]
 Sie müssen einen ICQ-Corporate-Anmeldeserver angeben.
-[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
-Ihre ICQ-Corp-Nummer und -Passwortkombination wurden vom ICQ-Corporate-Server abgelehnt. Bitte gehen Sie zu Einstellungen->ICQCorp und versuchen Sie es nochmal.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
+Ihre ICQ-Corp-Nummer und -Passwortkombination wurden vom ICQ-Corporate-Server abgelehnt. Bitte gehen Sie zu Einstellungen -> Netzwerk -> ICQCorp und versuchen Sie es nochmal.
 ;file \protocols\ICQCorp\src\services.cpp
-[ICQ number:]
-ICQ-Nummer:
 [%d file]
 %d Datei
 [%d files]

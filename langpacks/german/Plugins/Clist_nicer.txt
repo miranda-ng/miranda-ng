@@ -36,8 +36,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -424,8 +424,8 @@ Immer offline erscheinen bzw. Kontakt blockieren
 Sonstige
 [Hide this contact from the list]
 Kontakt nicht in der Kontaktliste anzeigen
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen-> Ereignisse-> Ignorieren einen Haken neben seinem Namen setzen.
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen -> Ereignisse -> Ignorieren einen Haken neben seinem Namen setzen.
 [Display options]
 Anzeigeoptionen
 [Show contact with priority]

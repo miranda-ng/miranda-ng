@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.14
+;  Version: 0.1.1.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -355,7 +355,7 @@ Thementext:
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Protocol is offline]
 Protokoll ist offline
-[File not exist]
+[File does not exist]
 Datei existiert nicht
 [File type not supported]
 Dateityp wird nicht unterstützt
@@ -363,7 +363,7 @@ Dateityp wird nicht unterstützt
 Fehler beim Öffnen der Datei
 [Error read file]
 Fehler beim Lesen der Datei
-[Error upload file]
+[File upload error]
 Fehler beim Hochladen der Datei
 [Upload server returned empty URL]
 Hochladeserver gibt leere URL zurück
@@ -387,8 +387,6 @@ Ungültiger Dateiname
 Ungültige Dateigröße
 [Unknown error occurred]
 Unbekannter Fehler aufgetreten
-[File upload error]
-Fehler beim Hochladen der Datei
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?

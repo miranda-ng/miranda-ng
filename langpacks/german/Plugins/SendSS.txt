@@ -271,13 +271,11 @@ Konnte keinen Screenshot aufnehmen.
 Datei auswählen
 [Select a target window.]
 Bitte gewünschtes Fenster auswählen.
-[Screenshot ]
-Screenshot\s
-[for Client area ]
-für Fensterinhalt\s
-[of "]
-vom "
-[" Window]
-"-Fenster
+[Screenshot of entire desktop]
+
+[Screenshot for client area of "%s" window]
+
+[Screenshot of "%s" window]
+
 [Send screenshot?]
 Screenshot senden?

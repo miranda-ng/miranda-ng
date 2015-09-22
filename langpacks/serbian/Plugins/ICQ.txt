@@ -1537,14 +1537,14 @@ Balončići
 
 [User ID]
 
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 
 [Unable to connect to ICQ login server]
 
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
 
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 
@@ -1796,13 +1796,13 @@ Poseban status
 
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
 
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
 
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
 
 [error]
 Greška

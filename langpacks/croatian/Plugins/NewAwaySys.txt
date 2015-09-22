@@ -2,62 +2,12 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-
-[Popup text format]
-
-[Preview]
-
-[V]
-
-[%extratext% is your status message]
-
-[Click action]
-
-[On left click]
-
-[On right click]
-
-[Delay]
-
-[Sec]
-
-[0 = Default]
-
-[-1 = Infinite]
-
-[Colors]
-
-[Background]
-Pozadina
-[Use default]
-
-[Text]
-tekst
-[Only notify when:]
-
-[On&line]
-
-[&Away]
-
-[&NA]
-
-[Occ&upied]
-
-[&DND]
-
-[&Free for chat]
-
-[&Other]
-
-[Log to a file only when popup notification for a contact is enabled]
-
 [Enable autoreply]
 
 [On event...]
@@ -80,6 +30,18 @@ tekst
 
 [Disable autoreply when...]
 
+[On&line]
+
+[&Away]
+
+[&NA]
+
+[Occ&upied]
+
+[&DND]
+
+[&Free for chat]
+
 [&Invisible]
 
 [On the &phone]
@@ -87,6 +49,10 @@ tekst
 [Out to &lunch]
 
 [Autoreply format:]
+
+[V]
+
+[%extratext% is your status message]
 
 [&Variables]
 
@@ -276,9 +242,23 @@ Statusne poruke
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
+[Toggle Off]
+
 [Toggle On]
 
-[Toggle Off]
+[Dot]
+
+[Ignore]
+
+[Indefinite]
+
+[Set status message]
+
+[Add]
+
+[Save]
+
+[Settings]
 
 [Set %s message for the contact]
 
@@ -319,8 +299,6 @@ Statusne poruke
 [%d seconds]
 
 [Read status message]
-
-[Set status message]
 
 [On]
 Uključen

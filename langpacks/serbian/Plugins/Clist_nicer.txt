@@ -36,8 +36,8 @@ Ne
 Da
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
-[Use Options->Contacts->Ignore to unhide contacts.]
-Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Putem Podešavanja -> Kontakti -> Ignorisani podešavaš vidljivost.
 [Are you sure you want to delete %s?]
 %s se briše sa spiska. Potvrda?
 [This will erase all history and settings for this contact!]
@@ -424,7 +424,7 @@ Vidljivost
 Ostalo
 [Hide this contact from the list]
 
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 
 [Display options]
 

@@ -29,6 +29,8 @@
 [Please enter a phone number without country code.]
 [Please enter a nickname.]
 [is now known as '%s']
+[Last online on %x at %X]
+[Denied: Last online on %x at %X]
 [Last seen on %x at %X]
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Your password has been set automatically. You can proceed with login now]

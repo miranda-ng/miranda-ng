@@ -1812,7 +1812,7 @@ UIN, E-mail и т.д.
 [Typing notification]
 Уведомление о наборе текста
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
+Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
 Сообщения IM
 [Incoming (focused window)]

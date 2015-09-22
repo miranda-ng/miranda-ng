@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.13
+;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
-[Unable to initialize tox core]
+[Unable to initialize Tox core]
 Unable to initialise Tox core
 [Request authorization]
 Request authorisation

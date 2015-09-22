@@ -2,62 +2,12 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-
-[Popup text format]
-
-[Preview]
-Aperçu
-[V]
-
-[%extratext% is your status message]
-
-[Click action]
-Action du clic
-[On left click]
-Clic gauche
-[On right click]
-Clic droit
-[Delay]
-
-[Sec]
-secondes
-[0 = Default]
-0 = Défaut
-[-1 = Infinite]
--1 = Infini
-[Colors]
-Couleurs
-[Background]
-Arrière-plan
-[Use default]
-
-[Text]
-Texte
-[Only notify when:]
-
-[On&line]
-&En ligne
-[&Away]
-&Absent
-[&NA]
-&Indisponible
-[Occ&upied]
-&Occupé
-[&DND]
-&Ne pas déranger
-[&Free for chat]
-&OK pour un chat
-[&Other]
-
-[Log to a file only when popup notification for a contact is enabled]
-
 [Enable autoreply]
 
 [On event...]
@@ -80,6 +30,18 @@ Texte
 
 [Disable autoreply when...]
 
+[On&line]
+&En ligne
+[&Away]
+&Absent
+[&NA]
+&Indisponible
+[Occ&upied]
+&Occupé
+[&DND]
+&Ne pas déranger
+[&Free for chat]
+&OK pour un chat
 [&Invisible]
 
 [On the &phone]
@@ -87,6 +49,10 @@ Texte
 [Out to &lunch]
 &Parti manger
 [Autoreply format:]
+
+[V]
+
+[%extratext% is your status message]
 
 [&Variables]
 
@@ -276,10 +242,24 @@ Parti manger
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-
 [Toggle Off]
 
+[Toggle On]
+
+[Dot]
+
+[Ignore]
+Ignorer
+[Indefinite]
+
+[Set status message]
+
+[Add]
+Ajouter
+[Save]
+Sauver
+[Settings]
+Paramètres
 [Set %s message for the contact]
 
 [Re&ad %s message]
@@ -320,8 +300,6 @@ Parti manger
 
 [Read status message]
 Lire le message d'état
-[Set status message]
-
 [On]
 
 [Off]

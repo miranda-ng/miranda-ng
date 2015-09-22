@@ -91,7 +91,7 @@ Info
 [Skin preview]
 Aperçu du Skin
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-ATTENTION => \tDes skins peuvent modifier votre profil. Un retour ne sera pas possible. \n\t\tVeuillez sauvegarder votre base de données avant de changer de skin.
+ATTENTION : \tDes skins peuvent modifier votre profil. Un retour ne sera pas possible. \n\t\tVeuillez sauvegarder votre base de données avant de changer de skin.
 [* Restart may be required for all changes to take effect]
 * Relancer Miranda pour valider tous les changements
 [Skin folder]
@@ -148,8 +148,8 @@ Horizontalement
 Barre des états
 [Accounts per line]
 Comptes par ligne
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-Pour réduire la barre des états :\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
+[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+Pour réduire la barre des états :\nMenu Principal -> Cadres -> Barre d'état -> Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Maintenez la touche [Maj] pour inverser le comportement du [clic droit]
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -194,8 +194,8 @@ Non
 Oui
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts.
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]

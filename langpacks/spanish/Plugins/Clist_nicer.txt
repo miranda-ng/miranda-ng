@@ -17,8 +17,8 @@ No
 Sí
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options->Contacts->Ignore to unhide contacts.]
-Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 [Are you sure you want to delete %s?]
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
