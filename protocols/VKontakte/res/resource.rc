@@ -209,29 +209,31 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced",IDC_STATIC,4,8,293,75
+    GROUPBOX        "Advanced",IDC_STATIC,4,8,293,83
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,278,10
+    CONTROL         "Sync read message status from server",IDC_SYNC_MSG_STATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,268,10                    
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Force invisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
-    LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,56,184,8
-    EDITTEXT        IDC_ED_INT_INVIS,204,52,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_INT_INVIS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,244,52,14,14
+    CONTROL         "Force invisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
+    LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,67,184,8
+    EDITTEXT        IDC_ED_INT_INVIS,204,63,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_INVIS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,244,63,14,14
     CONTROL         "Use non-standard urlEncode for sent messages (less traffic)",IDC_USENOSTDURLENCODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,278,10
-    GROUPBOX        "When I ban user...",IDC_STATIC,4,84,293,33
-    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,94,129,10
-    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,105,129,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,78,278,10
+    GROUPBOX        "When I ban user...",IDC_STATIC,4,92,293,33
+    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,102,129,10
+    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,113,129,10
     CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,94,141,10
-    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,105,141,10
-    GROUPBOX        "Broadcast music...",IDC_STATIC_SEND_MUSIC_METOD,4,120,293,58,WS_GROUP
-    CONTROL         "off",IDC_SEND_MUSIC_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,131,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,102,141,10
+    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,113,141,10
+    GROUPBOX        "Broadcast music...",IDC_STATIC_SEND_MUSIC_METOD,4,128,293,58,WS_GROUP
+    CONTROL         "off",IDC_SEND_MUSIC_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,139,278,10
     CONTROL         "as regular status for unknown music and audio status otherwise",IDC_SEND_MUSIC_BROADCAST_AND_STATUS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,142,278,10
-    CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,153,278,10
-    CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,164,278,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,150,278,10
+    CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,161,278,10
+    CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,172,278,10   
 END
 
 IDD_OPT_MAIN DIALOGEX 0, 0, 304, 213

@@ -243,7 +243,11 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SYNC_MSG_STATUS, ppro->m_bSyncReadMessageStatusFromServer ? BST_CHECKED : BST_UNCHECKED);
+		
+		EnableWindow(GetDlgItem(hwndDlg, IDC_MESASUREAD), IsDlgButtonChecked(hwndDlg, IDC_SYNC_MSG_STATUS) == BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread ? BST_CHECKED : BST_UNCHECKED);
+
 		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USENOSTDURLENCODE, ppro->m_bUseNonStandardUrlEncode ? BST_CHECKED : BST_UNCHECKED);
 
@@ -267,6 +271,13 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		case IDC_ED_INT_INVIS:
 			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		
+		case IDC_SYNC_MSG_STATUS:
+			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_MESASUREAD), IsDlgButtonChecked(hwndDlg, IDC_SYNC_MSG_STATUS) == BST_UNCHECKED);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
 			break;
 
 		case IDC_HIDECHATS:
@@ -295,9 +306,12 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bHideChats = IsDlgButtonChecked(hwndDlg, IDC_HIDECHATS) == BST_CHECKED;
 			ppro->setByte("HideChats", ppro->m_bHideChats);
 			
+			ppro->m_bSyncReadMessageStatusFromServer = IsDlgButtonChecked(hwndDlg, IDC_SYNC_MSG_STATUS) == BST_CHECKED;
+			ppro->setByte("SyncReadMessageStatusFromServer", ppro->m_bSyncReadMessageStatusFromServer);
+
 			ppro->m_bMesAsUnread = IsDlgButtonChecked(hwndDlg, IDC_MESASUREAD) == BST_CHECKED;
 			ppro->setByte("MesAsUnread", ppro->m_bMesAsUnread);
-
+			
 			ppro->m_bUserForceOnlineOnActivity = IsDlgButtonChecked(hwndDlg, IDC_FORCE_ONLINE_ON_ACT) == BST_CHECKED;
 			ppro->setByte("UserForceOnlineOnActivity", ppro->m_bUserForceOnlineOnActivity);
 

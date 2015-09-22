@@ -198,6 +198,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void __cdecl ContactTypingThread(void *p);
 	void SetSrmmReadStatus(MCONTACT hContact);
+	void MarkDialogAsRead(MCONTACT hContact);
 
 	char* GetStickerId(const char* Msg, int& stickerid);
 
@@ -387,7 +388,9 @@ private:
 		m_bUseNonStandardUrlEncode,
 		m_bSetBroadcast,
 		m_bShortenLinksForAudio,
-		m_bSplitFormatFwdMsg;
+		m_bSplitFormatFwdMsg,
+		m_bSyncReadMessageStatusFromServer,
+		m_bLoadFullCList;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 

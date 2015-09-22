@@ -95,6 +95,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);
+				if (m_bSyncReadMessageStatusFromServer)
+					MarkDialogAsRead(hContact);
 			}
 			break;
 
@@ -125,6 +127,12 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);
 			}
+			break;
+		case VKPOLL_READ_ALL_IN:
+			uid = jnChild[1].as_int();
+			hContact = FindUser(uid);
+			if (hContact != NULL && m_bSyncReadMessageStatusFromServer)
+				MarkDialogAsRead(hContact);
 			break;
 
 		case VKPOLL_USR_ONLINE:
