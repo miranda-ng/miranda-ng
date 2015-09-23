@@ -47,7 +47,8 @@ private:
 	HANDLE hConnection;
 	mir_cs requestQueueLock;
 	LIST<RequestQueueItem> requests;
-	HANDLE hRequestQueueEvent, hRequestQueueThread;
+	EventHandle hRequestQueueEvent;
+	HANDLE hRequestQueueThread;
 
 	void Execute(RequestQueueItem *item);
 

@@ -263,7 +263,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	FreeList(skypenames);
 	skypenames.destroy();
 
-	SetEvent(m_hPollingEvent);
+	m_hPollingEvent.Set();
 
 	SendRequest(new LoadChatsRequest(li), &CSkypeProto::OnLoadChats);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);

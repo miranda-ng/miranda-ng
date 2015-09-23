@@ -126,10 +126,10 @@ private:
 
 	bool m_bThreadsTerminated;
 
-	HANDLE m_hPollingEvent;
-	HANDLE m_hTrouterEvent;
+	EventHandle m_hPollingEvent;
+	EventHandle m_hTrouterEvent;
 
-	HANDLE m_hTrouterHealthEvent;
+	EventHandle m_hTrouterHealthEvent;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
