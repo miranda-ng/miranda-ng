@@ -104,8 +104,8 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	TRouter.sessId = szToken.GetString();
 	
-	SetEvent(m_hTrouterEvent);
-	SetEvent(m_hTrouterHealthEvent);
+	m_hTrouterEvent.Set();
+	m_hTrouterHealthEvent.Set();
 
 	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600)
 	{
@@ -136,7 +136,7 @@ void CSkypeProto::TRouterThread(void*)
 	while (!m_bThreadsTerminated)
 	{
 
-		WaitForSingleObject(m_hTrouterEvent, INFINITE);
+		m_hTrouterEvent.Wait();
 		errors = 0;
 
 		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE)
@@ -169,7 +169,7 @@ void CSkypeProto::TRouterThread(void*)
 			else
 			{
 				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
-				WaitForSingleObject(m_hTrouterHealthEvent, INFINITE);
+				m_hTrouterHealthEvent.Wait();
 			}
 			m_TrouterConnection = response->nlc;
 		}

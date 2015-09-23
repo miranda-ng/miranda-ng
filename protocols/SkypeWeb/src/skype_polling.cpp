@@ -24,7 +24,7 @@ void CSkypeProto::PollingThread(void*)
 	int nErrors = 0;
 	while (!m_bThreadsTerminated)
 	{
-		WaitForSingleObject(m_hPollingEvent, INFINITE);
+		m_hPollingEvent.Wait();
 		nErrors = 0;
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)

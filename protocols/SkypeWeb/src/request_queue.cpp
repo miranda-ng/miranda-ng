@@ -22,13 +22,11 @@ hConnection(hConnection), requests(1)
 {
 	isTerminated = true;
 	hRequestQueueThread = NULL;
-	hRequestQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 RequestQueue::~RequestQueue()
 {
 	requests.destroy();
-	CloseHandle(hRequestQueueEvent);
 }
 
 void RequestQueue::Start()
@@ -47,7 +45,7 @@ void RequestQueue::Stop()
 		return;
 
 	isTerminated = true;
-	SetEvent(hRequestQueueEvent);
+	hRequestQueueEvent.Set();
 }
 
 void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, void *arg)
@@ -61,7 +59,7 @@ void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, voi
 
 		requests.insert(item);
 	}
-	SetEvent(hRequestQueueEvent);
+	hRequestQueueEvent.Set();
 }
 
 void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg)
@@ -96,7 +94,7 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 
 	while (!queue->isTerminated)
 	{
-		WaitForSingleObject(queue->hRequestQueueEvent, INFINITE);
+		queue->hRequestQueueEvent.Wait();
 		while (true)
 		{
 			RequestQueueItem *item = NULL;
