@@ -57,27 +57,40 @@ int CSendDropbox::Send()
 void CSendDropbox::SendThread()
 {
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
-	INT_PTR ret = CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile);
-	if (!ret) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), ret);
+
+	if (!ServiceExists(MS_DROPBOX_SEND_FILE))
+	{
+		Error(LPGENT("Dropbox plugin is not installed"));
 		Exit(ACKRESULT_FAILED); return;
 	}
-	m_hDropSend = (HANDLE)ret;
-	//m_bSilent = true;
+
 	m_hDropHook = HookEventObj(ME_DROPBOX_SENT, OnDropSend, this);
-	WaitForSingleObject(m_hEvent, INFINITE);
+
+	if (!(m_hDropSend = (HANDLE)CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile)))
+	{
+		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), (INT_PTR)m_hDropSend);
+		Exit(ACKRESULT_FAILED); return;
+	}
+
+	WaitForSingleObject(m_hEvent, 1000 * 60 * 5);
+	UnhookEvent(m_hDropHook);
+
 	if (m_URL)
 		svcSendMsgExit(m_URL);
+	else
+		Exit(ACKRESULT_FAILED);
 }
 
 int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
 {
 	CSendDropbox *self = (CSendDropbox*)obj;
 	TRANSFERINFO *info = (TRANSFERINFO*)lParam;
-	if (info->hProcess == self->m_hDropSend && !info->status)
+	if (info->hProcess == self->m_hDropSend)
 	{
-		UnhookEvent(self->m_hDropHook);
-		self->m_URL = mir_strdup(info->data[0]);
+		if (!info->status)
+		{
+			self->m_URL = mir_strdup(info->data[0]);
+		}
 		SetEvent(self->m_hEvent);
 	}
 	return 0;
