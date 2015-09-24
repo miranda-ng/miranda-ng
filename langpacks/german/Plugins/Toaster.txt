@@ -11,7 +11,7 @@ Stellt Popup-Benachrichtigungen als Windows-Toast-Benachrichtigungen dar.
 [Preview]
 Vorschau
 [Add shortcut]
-
+Verknüpfung hinzufügen
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Dieses Plugin benötigt Windows 8 oder neuer.
@@ -19,7 +19,7 @@ Dieses Plugin benötigt Windows 8 oder neuer.
 [Failed to create shortcut]
 Erstellung der Verknüpfung fehlgeschlagen.
 [Shortcut was added to the start menu]
-
+Verknüpfung wurde zum Startmenü hinzugefügt.
 [Information]
 Information
 [Warning]
