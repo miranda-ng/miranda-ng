@@ -162,6 +162,15 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			szText = Translate("Incoming call");
 			break;
 		}
+	case SKYPE_DB_EVENT_TYPE_MOJI:
+		{
+			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("URIObject"));
+			if (xml != NULL)
+			{
+				szText.Format("Moji: %s (%s)", _T2A(xmlGetAttrValue(xmlGetChildByPath(xml, _T("OriginalName"), 1), _T("v"))), _T2A(xmlGetAttrValue(xmlGetChildByPath(xml, _T("a"), 1), _T("href"))));
+			}
+			break;
+		}
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
 		{
 			szText.Format(Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)pEvent->dbei->pBlob));
