@@ -369,8 +369,9 @@ extern "C" {
 			break; }
 		case OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED:{
 			//			title = TranslateT("Received unencrypted message");
+			msgfunc = ShowMessageInline;
 			TCHAR* tmp = mir_utf8decodeT(message);
-			mir_snwprintf(msg, _countof(msg), TranslateT("The following message received from '%s' was NOT encrypted: [%s]"), contact, tmp);
+			mir_snwprintf(msg, _countof(msg), TranslateT("The following message received from '%s' was NOT encrypted:\n\n%s"), contact, tmp);
 			mir_free(tmp);
 			break; }
 		case OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE:
