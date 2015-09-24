@@ -237,13 +237,13 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 	switch (lParam)
 	{
 	case SM_WARNING:
-		hIcon = Skin_LoadIcon(SKINICON_WARNING);
+		hIcon = Skin_LoadIcon(SKINICON_WARNING, 1);
 		break;
 	case SM_ERROR:
-		hIcon = Skin_LoadIcon(SKINICON_ERROR);
+		hIcon = Skin_LoadIcon(SKINICON_ERROR, 1);
 		break;
 	case SM_NOTIFY:
-		hIcon = Skin_LoadIcon(SKINICON_INFORMATION);
+		hIcon = Skin_LoadIcon(SKINICON_INFORMATION, 1);
 		break;
 	}
 
