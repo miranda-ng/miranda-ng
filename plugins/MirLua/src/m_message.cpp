@@ -27,24 +27,43 @@ static int lua_Paste(lua_State *L)
 static int lua_Send(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
-	ptrT text(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	const char *message = luaL_checkstring(L, 2);
 
-	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
-	mwid.hContact = hContact;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+	INT_PTR res = 1;
 
-	MessageWindowData mwd = { sizeof(MessageWindowData) };
+	const char *szProto = GetContactProto(hContact);
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
+	{
+		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.bIsMe = TRUE;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszText = mir_utf8decodeT(message);
+		gce.time = time(NULL);
 
-	INT_PTR res = ::CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
-	lua_pushinteger(L, res);
-	if (res)
+		res = ::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+		lua_pushinteger(L, res);
+
+		mir_free((void*)gce.ptszText);
+	}
+	else if ((res = ::CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED)
+	{
+		DBEVENTINFO dbei;
+		dbei.cbSize = sizeof(dbei);
+		dbei.szModule = MODULE;
+		dbei.timestamp = time(NULL);
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.cbBlob = mir_strlen(message);
+		dbei.pBlob = (PBYTE)mir_strdup(message);
+		dbei.flags = DBEF_UTF | DBEF_SENT;
+		::db_event_add(hContact, &dbei);
+
+		lua_pushinteger(L, res);
 		return 1;
+	}
 
-	HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
-	if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
-
-	SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)text);
-	SendMessage(mwd.hwndWindow, WM_COMMAND, IDOK, 0);
+	lua_pushinteger(L, res);
 
 	return 1;
 }
