@@ -1,3 +1,0 @@
-﻿[Screenshot of "%s"]
-[Screenshot for client area of "%s" window]
-[Screenshot of "%s" window]

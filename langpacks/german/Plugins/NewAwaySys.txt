@@ -251,7 +251,7 @@ Punkt
 [Ignore]
 Ignorieren
 [Indefinite]
-
+Unbestimmt
 [Set status message]
 Statusnachricht setzen
 [Add]

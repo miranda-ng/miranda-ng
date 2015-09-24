@@ -99,7 +99,7 @@ Erweitert
 [Hide chats on startup]
 Chats beim Start verbergen
 [Sync read message status from server]
-
+Nachricht-gelesen-Status mit Server synchronisieren
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Force invisible status upon user activity]
