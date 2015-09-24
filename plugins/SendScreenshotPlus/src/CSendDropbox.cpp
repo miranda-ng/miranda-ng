@@ -58,21 +58,17 @@ void CSendDropbox::SendThread()
 {
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
-	if (!ServiceExists(MS_DROPBOX_SEND_FILE))
-	{
-		Error(LPGENT("Dropbox plugin is not installed"));
-		Exit(ACKRESULT_FAILED); return;
-	}
-
 	m_hDropHook = HookEventObj(ME_DROPBOX_SENT, OnDropSend, this);
+	m_hOnAck = HookEventObj(ME_PROTO_ACK, OnDropAck, this);
 
-	if (!(m_hDropSend = (HANDLE)CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile)))
+	if ((m_hDropSend = (HANDLE)CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile)) == NULL)
 	{
 		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), (INT_PTR)m_hDropSend);
 		Exit(ACKRESULT_FAILED); return;
 	}
 
-	WaitForSingleObject(m_hEvent, 1000 * 60 * 5);
+	WaitForSingleObject(m_hEvent, INFINITE);
+	UnhookEvent(m_hOnAck);
 	UnhookEvent(m_hDropHook);
 
 	if (m_URL)
@@ -92,6 +88,23 @@ int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
 			self->m_URL = mir_strdup(info->data[0]);
 		}
 		SetEvent(self->m_hEvent);
+	}
+	return 0;
+}
+
+int CSendDropbox::OnDropAck(void *obj, WPARAM, LPARAM lParam)
+{
+	CSendDropbox* self = (CSendDropbox*)obj;
+	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack->hProcess == self->m_hDropSend)
+	{
+		switch (ack->result)
+		{
+		case ACKRESULT_DENIED:
+		case ACKRESULT_FAILED:
+			SetEvent(self->m_hEvent);
+			break;
+		}
 	}
 	return 0;
 }
