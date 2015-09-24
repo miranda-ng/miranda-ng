@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+HANDLE hRecvMessage = NULL;
+
 static void MapToTable(lua_State *L, const PROTOCOLDESCRIPTOR* pd)
 {
 	lua_newtable(L);
@@ -187,6 +189,120 @@ static int lua_EnumAccounts(lua_State *L)
 	return 1;
 }
 
+int ProtoAckHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+{
+	lua_State *L = (lua_State*)obj;
+
+	int ref = param;
+	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+	lua_pushnumber(L, wParam);
+
+	ACKDATA *ack = (ACKDATA*)lParam;
+
+	lua_newtable(L);
+	lua_pushliteral(L, "Module");
+	lua_pushstring(L, ptrA(mir_utf8encode(ack->szModule)));
+	lua_settable(L, -3);
+	lua_pushliteral(L, "hContact");
+	lua_pushinteger(L, ack->hContact);
+	lua_settable(L, -3);
+	lua_pushliteral(L, "Type");
+	lua_pushinteger(L, ack->type);
+	lua_settable(L, -3);
+	lua_pushliteral(L, "Result");
+	lua_pushinteger(L, ack->result);
+	lua_settable(L, -3);
+	lua_pushliteral(L, "hProcess");
+	lua_pushlightuserdata(L, ack->hProcess);
+	lua_settable(L, -3);
+	lua_pushliteral(L, "lParam");
+	lua_pushnumber(L, ack->lParam);
+	lua_settable(L, -3);
+
+	if (lua_pcall(L, 2, 1, 0))
+		printf("%s\n", lua_tostring(L, -1));
+
+	int res = (int)lua_tointeger(L, 1);
+
+	return res;
+}
+
+static int lua_OnProtoAck(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = ::HookEventObjParam(ME_PROTO_ACK, ProtoAckHookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
+
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+
+	return 1;
+}
+
+int RecvMessageHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+{
+	lua_State *L = (lua_State*)obj;
+
+	int ref = param;
+	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+	lua_pushnumber(L, wParam);
+
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
+
+	lua_newtable(L);
+	lua_pushliteral(L, "hContact");
+	lua_pushinteger(L, ccs->hContact);
+	lua_settable(L, -3);
+	lua_pushliteral(L, "Message");
+	lua_pushstring(L, pre->szMessage);
+	lua_settable(L, -3);
+
+	if (lua_pcall(L, 2, 1, 0))
+		printf("%s\n", lua_tostring(L, -1));
+
+	int res = (int)lua_tointeger(L, 1);
+
+	return res;
+}
+
+static int lua_OnReceiveMessage(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = ::HookEventObjParam(MODULE PSR_MESSAGE, RecvMessageHookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
+
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+
+	return 1;
+}
+
+INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
+{
+	NotifyEventHooks(hRecvMessage, wParam, lParam);
+
+	return Proto_ChainRecv(wParam, (CCSDATA*)lParam);
+}
+
 static luaL_Reg protocolsApi[] =
 {
 	{ "GetProto", lua_GetProto },
@@ -196,6 +312,9 @@ static luaL_Reg protocolsApi[] =
 	{ "GetAccount", lua_GetAccount },
 	{ "AllAccounts", lua_AllAccounts },
 	{ "EnumAccounts", lua_EnumAccounts },
+
+	{ "OnProtoAck", lua_OnProtoAck },
+	{ "OnReceiveMessage", lua_OnReceiveMessage },
 
 	{ NULL, NULL }
 };
