@@ -34,14 +34,12 @@ CSendDropbox::CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync)
 	: CSend(Owner, hContact, bAsync)
 {
 	/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
-	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND/* | SS_DLG_DELETEAFTERSSEND*/;
+	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = TranslateT("Dropbox transfer");
-	m_hEvent = CreateEvent(NULL, 0, 0, NULL);
 }
 
 CSendDropbox::~CSendDropbox()
 {
-	CloseHandle(m_hEvent);
 }
 
 //---------------------------------------------------------------------------
@@ -59,7 +57,6 @@ void CSendDropbox::SendThread()
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
 	m_hDropHook = HookEventObj(ME_DROPBOX_SENT, OnDropSend, this);
-	m_hOnAck = HookEventObj(ME_PROTO_ACK, OnDropAck, this);
 
 	if ((m_hDropSend = (HANDLE)CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile)) == NULL)
 	{
@@ -67,8 +64,7 @@ void CSendDropbox::SendThread()
 		Exit(ACKRESULT_FAILED); return;
 	}
 
-	WaitForSingleObject(m_hEvent, INFINITE);
-	UnhookEvent(m_hOnAck);
+	m_hEvent.Wait();
 	UnhookEvent(m_hDropHook);
 
 	if (m_URL)
@@ -87,24 +83,7 @@ int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
 		{
 			self->m_URL = mir_strdup(info->data[0]);
 		}
-		SetEvent(self->m_hEvent);
-	}
-	return 0;
-}
-
-int CSendDropbox::OnDropAck(void *obj, WPARAM, LPARAM lParam)
-{
-	CSendDropbox* self = (CSendDropbox*)obj;
-	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack->hProcess == self->m_hDropSend)
-	{
-		switch (ack->result)
-		{
-		case ACKRESULT_DENIED:
-		case ACKRESULT_FAILED:
-			SetEvent(self->m_hEvent);
-			break;
-		}
+		self->m_hEvent.Set();
 	}
 	return 0;
 }
