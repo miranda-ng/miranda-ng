@@ -41,10 +41,12 @@ class CSendDropbox : public CSend {
 		HANDLE m_hEvent;
 		HANDLE m_hDropHook;
 		HANDLE m_hDropSend;
+		HANDLE m_hOnAck;
 
 		void SendThread();
 		static void SendThreadWrapper(void *Obj);
 		static int OnDropSend(void*, WPARAM, LPARAM);
+		static int OnDropAck(void*, WPARAM, LPARAM);
 };
 
 //---------------------------------------------------------------------------
