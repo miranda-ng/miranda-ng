@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <malloc.h>
+#include <time.h>
 
 #include <newpluginapi.h>
 #include <m_core.h>
@@ -19,6 +20,7 @@
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_message.h>
+#include <m_chat.h>
 #include <m_protocols.h>
 
 #include <m_folders.h>
