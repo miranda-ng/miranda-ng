@@ -23,7 +23,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 		m_InviteDialogs(1),
 		m_GCCreateDialogs(1),
 		m_OutMessages(3, PtrKeySortT),
-		m_bThreadsTerminated(1)
+		m_bThreadsTerminated(0)
 {
 	InitNetwork();
 
