@@ -403,17 +403,18 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 		userIDs.AppendFormat(_T("%i"), userID);
 	}
 
-	CMString codeformat("var userIDs=\"%s\";");
+	CMString codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
 
 	if (m_bNeedSendOnline)
 		codeformat += _T("API.account.setOnline();");
 	
 	if (flag && !m_bLoadFullCList)
-		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
+		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
+			"var _US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});if(_US.length>US.length)US=_US;"
 			"var res=[];var index=US.length;while(index>0){index=index-1;if(US[index].online!=0){res.unshift(US[index]);};};"
 			"return{\"freeoffline\":1,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
-		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
+		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"return{\"freeoffline\":0,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	code.AppendFormat(codeformat, userIDs, CMString(flag ? "online,status" : fieldsName));
 
