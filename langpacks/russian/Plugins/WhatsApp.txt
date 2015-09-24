@@ -18,15 +18,15 @@
 [Automatically open group chats]
 Автоматически открывать комнаты чата
 [Registration]
-Регистрация
-[Enter code]
-Введите код
-[Request SMS code]
-Запросить код по SMS
-[Request Voice code]
-Запросить код с помощью звонка
-[Register code]
 Код регистрации
+[Enter code]
+Ввести
+[Request SMS code]
+Запрос по SMS
+[Request Voice code]
+Запрос звонка
+[Register code]
+Подтвердить
 [Including country code, without '+' or '00']
 Включая код страны, без '+' или '00'
 [Invite users]
