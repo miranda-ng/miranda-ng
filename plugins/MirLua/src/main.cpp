@@ -43,10 +43,13 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_hCommonScriptFolder = FoldersRegisterCustomPathT(MODULE, Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 
+	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
+
+	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
+
 	g_mLua = new CMLua();
 	g_mLua->Load();
-
-	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
 
 	return 0;
 }
@@ -63,6 +66,20 @@ extern "C" int __declspec(dllexport) Load(void)
 	nlu.ptszDescriptiveName = _T(MODULE);
 	nlu.szSettingsModule = MODULE;
 	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
+	pd.szName = MODULE;
+	pd.type = PROTOTYPE_FILTER;
+	Proto_RegisterModule(&pd);
+
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
+	/*CreateProtoServiceFunction(MODULE, PSR_AUTH, FilterRecvAuth);
+	CreateProtoServiceFunction(MODULE, PSR_FILE, FilterRecvFile);
+	CreateProtoServiceFunction(MODULE, PSR_URL, FilterRecvUrl);
+	CreateProtoServiceFunction(MODULE, PSR_CONTACTS, FilterRecvUrl);
+	CreateProtoServiceFunction(MODULE, PSR_AWAYMSG, FilterRecvUrl);*/
+	
 
 	return 0;
 }

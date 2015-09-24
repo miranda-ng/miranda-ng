@@ -17,8 +17,6 @@ private:
 
 	static void KillModuleEventHooks();
 	static void KillModuleServices();
-	
-	
 
 public:
 	static LIST<void> Hooks;
