@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Нейтральный resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -31,6 +31,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Preview",IDC_PREVIEW,219,203,73,14
     PUSHBUTTON      "Add shortcut",IDC_SHORTCUT,11,203,73,14
+    CONTROL         "Enabled",IDC_CHECK_ENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,123,10
 END
 
 
@@ -44,6 +45,8 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS_MAIN, DIALOG
     BEGIN
+        VERTGUIDE, 14
+        HORZGUIDE, 30
         HORZGUIDE, 203
     END
 END
@@ -55,17 +58,17 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_OPTIONS_MAIN AFX_DIALOG_LAYOUT
+IDD_OPTIONS_MAIN AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-#endif    // Neutral resources
+#endif    // Нейтральный resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Русский (Россия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -96,7 +99,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian (Russia) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

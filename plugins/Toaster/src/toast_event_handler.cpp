@@ -13,8 +13,6 @@ ToastEventHandler::~ToastEventHandler()
 {
 	if (_thd->pPopupProc)
 		_thd->pPopupProc((HWND)this, UM_FREEPLUGINDATA, 0, 0);
-
-	lstNotifications.remove(_thd->tstNotification);
 }
 
 IFACEMETHODIMP_(ULONG) ToastEventHandler::AddRef()
@@ -51,8 +49,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IInspect
 	if (_thd->pPopupProc)
 		_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
 
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(_thd->tstNotification);
+	DestroyNotification();
 
 	return S_OK;
 }
@@ -64,12 +61,6 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastDi
 
 	switch (tdr)
 	{
-	case ToastDismissalReason_ApplicationHidden:
-		{
-			if (_thd->pPopupProc)
-				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
-			break;
-		}
 	case ToastDismissalReason_UserCanceled:
 		{
 			if (_thd->pPopupProc)
@@ -77,21 +68,25 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastDi
 			_thd->tstNotification->Hide();
 			break;
 		}
+	case ToastDismissalReason_ApplicationHidden:
 	case ToastDismissalReason_TimedOut:
+		DestroyNotification();
 		break;
 	}
-
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(_thd->tstNotification);
 
 	return S_OK;
 }
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastFailedEventArgs*)
 {
+	DestroyNotification();
+	return S_OK;
+}
+
+void ToastEventHandler::DestroyNotification()
+{
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(_thd->tstNotification);
-	return S_OK;
 }
 
 void* ToastEventHandler::GetPluginData()

@@ -77,9 +77,9 @@ HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 {
 	ComPtr<ToastEventHandler> eventHandler(handler);
 
-	notification->add_Activated(eventHandler.Get(), &_ertActivated);
-	notification->add_Dismissed(eventHandler.Get(), &_ertDismissed);
-	notification->add_Failed(eventHandler.Get(), &_ertFailed);
+	CHECKHR(notification->add_Activated(eventHandler.Get(), &_ertActivated));
+	CHECKHR(notification->add_Dismissed(eventHandler.Get(), &_ertDismissed));
+	CHECKHR(notification->add_Failed(eventHandler.Get(), &_ertFailed));
 
 	return notifier->Show(notification.Get());
 }
