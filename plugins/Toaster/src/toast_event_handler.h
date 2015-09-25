@@ -28,6 +28,8 @@ public:
 private:
 	ULONG _ref;
 	std::unique_ptr<ToastHandlerData> _thd;
+
+	void DestroyNotification();
 };
 
 #endif //_TOAST_EVENT_HANDLER_H_

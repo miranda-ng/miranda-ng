@@ -262,11 +262,8 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 void __stdcall HideAllToasts(void*)
 {
 	mir_cslock lck(csNotifications);
-	while (lstNotifications.getCount())
-	{
-		lstNotifications[0].Hide();
-		lstNotifications.remove(0);
-	}
+	for (int i = 0; i < lstNotifications.getCount(); i++)
+		lstNotifications[i].Hide();
 }
 
 void InitServices()
