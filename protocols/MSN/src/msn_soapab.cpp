@@ -686,7 +686,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					while (anot != NULL) {
 						if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.NickName") == 0) {
 							szNick = ezxml_txt(ezxml_child(anot, "Value"));
-							db_set_utf(hContact, "CList", "MyHandle", szNick);
+							db_set_utf(hContact, m_szModuleName, "Nick", szNick);
 						}
 						if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.JobTitle") == 0) {
 							const char *szTmp = ezxml_txt(ezxml_child(anot, "Value"));
@@ -695,7 +695,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 						anot = ezxml_next(anot);
 					}
 					if (szNick == NULL)
-						db_unset(hContact, "CList", "MyHandle");
+						delSetting(hContact,"Nick");
 
 					setString(hContact, "ID", szContId);
 
@@ -911,8 +911,10 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 						if (!hContact) continue;
 
 						const char* szNick = ezxml_txt(ezxml_child(pers, "orderedName"));
-						if (*szNick) db_set_utf(hContact, "CList", "MyHandle", szNick);
-						else db_unset(hContact, "CList", "MyHandle");
+						if (*szNick)
+							db_set_utf(hContact, m_szModuleName, "Nick", szNick);
+						else
+							delSetting(hContact, "Nick");
 						if (mir_strcmpi(ezxml_txt(ezxml_child(pers, "onHideList")), "true") == 0) 
 							db_set_b(hContact, "CList", "Hidden", 1); 
 						setString(hContact, "ID", ezxml_txt(ezxml_child(pers, "id")));
