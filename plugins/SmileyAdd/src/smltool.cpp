@@ -639,7 +639,7 @@ void SmileyToolWindowType::CreateSmileyWinDim(void)
 
 	const int colsz = m_ButtonSize.cy + m_ButtonSpace;
 	int wndsz = min((int)m_BitmapWidth.cy, GetSystemMetrics(SM_CYSCREEN) / 2);
-	if (opt.IEViewStyle) wndsz = min(wndsz, 250);
+	if (opt.IEViewStyle) wndsz = min(wndsz, 400);
 
 	if (m_pSmileyPack->win.x != 0 && m_pSmileyPack->win.y != 0)
 		wndsz = min(wndsz, m_pSmileyPack->win.y * (m_ButtonSize.cy + (int)m_ButtonSpace) + (int)m_ButtonSpace);
@@ -688,7 +688,7 @@ RECT SmileyToolWindowType::CalculateButtonToCoordinates(int buttonPosition, int 
 { 
 	int row, rowpos;
 
-	if (opt.IEViewStyle)
+	if (opt.HorisontalSorting)
 	{
 		row = buttonPosition / m_NumberOfHorizontalButtons;
 		rowpos = buttonPosition % m_NumberOfHorizontalButtons;
@@ -715,7 +715,7 @@ int SmileyToolWindowType::CalculateCoordinatesToButton(POINT pt, int scroll)
 	const int row = (pt.y - m_ButtonSpace) / (m_ButtonSize.cy + m_ButtonSpace) + scroll;
 
 	int pos;
-	if (opt.IEViewStyle)
+	if (opt.HorisontalSorting)
 		pos = m_NumberOfHorizontalButtons * row + rowpos;
 	else
 		pos = m_NumberOfVerticalButtons * rowpos + row;

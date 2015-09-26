@@ -13,11 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Нейтральный resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -45,7 +45,8 @@ BEGIN
     EDITTEXT        IDC_NEWCATEGORY,164,85,91,13,ES_AUTOHSCROLL
     PUSHBUTTON      "+",IDC_ADDCATEGORY,263,84,17,15
     PUSHBUTTON      "-",IDC_DELETECATEGORY,290,84,17,15
-    CONTROL         "Use per protocol global smiley packs",IDC_USEPHYSPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,92,143,11
+    CONTROL         "Use per protocol global smiley packs",IDC_USEPHYSPROTO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,92,143,11
     GROUPBOX        "Display",IDC_STATIC,6,106,310,54
     CONTROL         "Replace only smileys surrounded by spaces",IDC_SPACES,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,115,198,12,WS_EX_RTLREADING
@@ -65,9 +66,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,235,10
     CONTROL         "Use first smiley for selection size",IDC_SCALEALLSMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,182,209,10
-    CONTROL         "IEView style window",IDC_IEVIEWSTYLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,193,198,10
+    CONTROL         "IEView style window",IDC_IEVIEWSTYLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,193,120,10
     CONTROL         "",IDC_SELCLR,"ColourPicker",WS_TABSTOP,260,170,50,11
-    CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,193,91,10
+    CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,193,67,10
     GROUPBOX        "Input area",IDC_STATIC,6,208,145,42
     CONTROL         "Enable smileys",IDC_INPUTSMILEYS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,219,130,12
     CONTROL         "Don't replace at cursor",IDC_DCURSORSMILEY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,231,130,12
@@ -75,6 +76,7 @@ BEGIN
     CONTROL         "Disable",IDC_PLUGENABLED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,240,217,69,12
     COMBOBOX        IDC_SMLBUT,159,230,60,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Smiley button",IDC_STATIC,161,219,72,8
+    CONTROL         "Horisontal sorting",IDC_SORTING_HORISONTAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,193,91,10
 END
 
 
@@ -131,7 +133,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
+#endif    // Нейтральный resources
 /////////////////////////////////////////////////////////////////////////////
 
 

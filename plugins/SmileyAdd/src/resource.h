@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется D:\Others\SVN\MirandaNG\trunk\plugins\SmileyAdd\res\resource.rc
 //
 #define IDI_SMILINGICON                 124
 #define IDD_OPT_SMILEYS                 245
@@ -33,9 +33,10 @@
 #define IDC_MAXCUSTSPIN                 1063
 #define IDC_MINSMSZ                     1064
 #define IDC_MINSPIN                     1065
+#define IDC_CHECK1                      1066
+#define IDC_SORTING_HORISONTAL          1066
 #define IDC_BROWSE                      1184
 #define IDC_FILENAME                    1271
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
@@ -44,7 +45,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        127
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1064
+#define _APS_NEXT_CONTROL_VALUE         1067
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
