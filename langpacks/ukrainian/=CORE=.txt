@@ -194,7 +194,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Сховати зі списку, зберігши історію і параметри ігнорування та видимості
 [Use Options -> Contacts -> Ignore to unhide contacts.]
-Приховані контакти: Налаштування -> Контакти -> Ігнорувати
+Приховані контакти: Налаштування -> Контакти -> Ігнорувати.
 [Are you sure you want to delete %s?]
 Справді видалити %s зі списку?
 [This will erase all history and settings for this contact!]

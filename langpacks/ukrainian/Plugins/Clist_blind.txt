@@ -20,7 +20,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Сховати зі списку, зберігши історію і параметри ігнорування та видимості
 [Use Options -> Contacts -> Ignore to unhide contacts.]
-Приховані контакти: Налаштування -> Контакти -> Ігнорувати
+Приховані контакти: Налаштування -> Контакти -> Ігнорувати.
 [Hotkeys]
 Гарячі клавіші
 [Show/Hide:]
