@@ -10,6 +10,7 @@
 [Don't replace at cursor]
 [Built-in message dialog support]
 [Disable]
+[Horizontal sorting]
 [SmileyAdd]
 [Smiley cache]
 [Smileys]

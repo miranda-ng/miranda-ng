@@ -266,8 +266,8 @@ Zaszyfrowana wiadomość od "%s" jest nieczytelna, ponieważ nie komunikujecie s
 Otrzymaliśmy nieczytelną, zaszyfrowaną wiadomość od "%s"
 [We received a malformed data message from '%s']
 Otrzymaliśmy wiadomość ze zniekształconymi danymi od "%s"
-[The following message received from '%s' was NOT encrypted: [%s]]
-Następująca wiadomość, otrzymana od "%s", nie została zaszyfrowana: [%s]
+[The following message received from '%s' was NOT encrypted:\n\n%s]
+Następująca wiadomość, otrzymana od "%s", nie została zaszyfrowana:\n\n%s
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 "%s" wysłał wiadomość przeznaczoną dla innej sesji. Jeżeli jesteś zalogowany wielokrotnie, inna sesja mogła otrzymać wiadomość.
 [unknown OTR message received, please report that to Miranda NG]
