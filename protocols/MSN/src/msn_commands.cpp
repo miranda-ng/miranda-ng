@@ -500,7 +500,10 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			CallService(MS_PROTO_CONTACTISTYPING, WPARAM(hContact), 0);
 
 			PROTORECVEVENT pre = { 0 };
-			pre.szMessage = (char*)ezxml_txt(xmli);
+			CMStringA msgtxt((char*)ezxml_txt(xmli));
+			ezxml_t urllnk;
+			if (urllnk=ezxml_child(xmli, "a")) msgtxt.AppendFormat(" %s", ezxml_txt(urllnk));
+			pre.szMessage = (char*)(const char*)msgtxt;
 			pre.timestamp = (DWORD)time(NULL);
 			ProtoChainRecvMsg(hContact, &pre);
 		}
