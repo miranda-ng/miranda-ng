@@ -22,6 +22,7 @@
 [Don't replace at cursor]
 [Built-in message dialog support]
 [Disable]
+[Horizontal sorting]
 [Show smiley selection window]
 [SmileyAdd]
 [Smiley cache]

@@ -58,6 +58,8 @@ Wbudowane wsparcie dla okna rozmowy
 Wyłącz
 [Smiley button]
 Przycisk emotikon
+[Horizontal sorting]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Pokaż okno wyboru emotikon

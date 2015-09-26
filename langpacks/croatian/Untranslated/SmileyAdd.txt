@@ -24,6 +24,7 @@
 [Built-in message dialog support]
 [Disable]
 [Smiley button]
+[Horizontal sorting]
 [Show smiley selection window]
 [SmileyAdd]
 [Smiley cache]

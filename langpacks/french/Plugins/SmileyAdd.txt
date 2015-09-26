@@ -58,6 +58,8 @@ Zone de saisie
 
 [Smiley button]
 Position du bouton
+[Horizontal sorting]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Voir la fenêtre de sélection des smileys

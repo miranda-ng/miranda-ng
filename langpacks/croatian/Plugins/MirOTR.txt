@@ -266,7 +266,7 @@ ne
 
 [We received a malformed data message from '%s']
 
-[The following message received from '%s' was NOT encrypted: [%s]]
+[The following message received from '%s' was NOT encrypted:\n\n%s]
 
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 

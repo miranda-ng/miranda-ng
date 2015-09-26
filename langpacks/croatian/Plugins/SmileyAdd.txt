@@ -58,6 +58,8 @@
 
 [Smiley button]
 
+[Horizontal sorting]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 

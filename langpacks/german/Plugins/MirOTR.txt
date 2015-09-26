@@ -266,8 +266,8 @@ Die von '%s' empfangene verschlüsselte Nachricht ist unlesbar, da Sie gerade ni
 Wir haben eine unlesbare, verschlüsselte Nachricht von '%s' empfangen
 [We received a malformed data message from '%s']
 Wir haben eine missgeformte Datennachricht von '%s' empfangen
-[The following message received from '%s' was NOT encrypted: [%s]]
-Die folgende Nachricht von'%s' war NICHT verschlüsselt: [%s]
+[The following message received from '%s' was NOT encrypted:\n\n%s]
+Die folgende Nachricht von'%s' war NICHT verschlüsselt::\n\n%s
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 '%s' hat Ihnen eine Nachricht für eine andere Sitzung gesendet. Wenn Sie mehrfach angemeldet sind, dann könnte eine andere Sitzung diese Nachricht empfangen haben.
 [unknown OTR message received, please report that to Miranda NG]

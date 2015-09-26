@@ -19,6 +19,7 @@
 [Enable smileys]
 [Don't replace at cursor]
 [Built-in message dialog support]
+[Horizontal sorting]
 [Show smiley selection window]
 [SmileyAdd]
 [Smiley cache]

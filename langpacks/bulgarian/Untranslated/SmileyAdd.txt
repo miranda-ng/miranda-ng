@@ -1,6 +1,7 @@
 ﻿[Use per protocol global smiley packs]
 [Maximum 'Custom smiley' height]
 [IEView style window]
+[Horizontal sorting]
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 [Protocol specific]
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]

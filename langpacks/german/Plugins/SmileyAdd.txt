@@ -58,6 +58,8 @@ Nachrichtenfensterunterstützung
 Deaktivieren
 [Smiley button]
 Smileybutton
+[Horizontal sorting]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Smiley-Auswahlfenster anzeigen
