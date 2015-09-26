@@ -177,7 +177,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_DCURSORSMILEY:
 		case IDC_DISABLECUSTOM:
 		case IDC_HQSCALING:
-		case IDC_SORTING_HORISONTAL:
+		case IDC_SORTING_HORIZONTAL:
 			if (HIWORD(wParam) == BN_CLICKED)
 				SetChanged();
 			break;
@@ -409,7 +409,7 @@ void OptionsDialogType::InitDialog(void)
 	CheckDlgButton(m_hwndDialog, IDC_DCURSORSMILEY, opt.DCursorSmiley ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_DISABLECUSTOM, opt.DisableCustom ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(m_hwndDialog, IDC_SORTING_HORISONTAL, opt.HorisontalSorting ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(m_hwndDialog, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
 
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM) TranslateT("Off"));  
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM) TranslateT("Top"));  
@@ -486,7 +486,7 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.DCursorSmiley = IsDlgButtonChecked(m_hwndDialog, IDC_DCURSORSMILEY) == BST_CHECKED;
 	opt.DisableCustom = IsDlgButtonChecked(m_hwndDialog, IDC_DISABLECUSTOM) == BST_CHECKED;
 	opt.HQScaling = IsDlgButtonChecked(m_hwndDialog, IDC_HQSCALING) == BST_CHECKED;
-	opt.HorisontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORISONTAL) == BST_CHECKED;
+	opt.HorizontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
 	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);  
 	opt.SelWndBkgClr = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SELCLR, CPM_GETCOLOUR, 0, 0);
@@ -616,7 +616,7 @@ void OptionsType::Save(void)
 	db_set_dw(NULL, "SmileyAdd", "SelWndBkgClr", SelWndBkgClr);
 	db_set_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", MaxCustomSmileySize);
 	db_set_dw(NULL, "SmileyAdd", "MinSmileySize", MinSmileySize);
-	db_set_b(NULL, "SmileyAdd", "HorisontalSorting", HorisontalSorting);
+	db_set_b(NULL, "SmileyAdd", "HorizontalSorting", HorizontalSorting);
 }
 
 void OptionsType::Load(void)
@@ -641,7 +641,7 @@ void OptionsType::Load(void)
 	SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
 	MaxCustomSmileySize = db_get_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", 0);
 	MinSmileySize = db_get_dw(NULL, "SmileyAdd", "MinSmileySize", 0);
-	HorisontalSorting = db_get_b(NULL, "SmileyAdd", "HorisontalSorting") != 0;
+	HorizontalSorting = db_get_b(NULL, "SmileyAdd", "HorizontalSorting") != 0;
 }
 
 

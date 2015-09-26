@@ -34,7 +34,7 @@
 #define IDC_MINSMSZ                     1064
 #define IDC_MINSPIN                     1065
 #define IDC_CHECK1                      1066
-#define IDC_SORTING_HORISONTAL          1066
+#define IDC_SORTING_HORIZONTAL          1066
 #define IDC_BROWSE                      1184
 #define IDC_FILENAME                    1271
 
