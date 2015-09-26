@@ -42,7 +42,9 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 				msnPingTimeout = 45;
 			else {
 				msnPingTimeout = 20;
-				keepFlag = keepFlag && msnNsThread->sendPacket("PNG", "CON 0");
+				keepFlag = keepFlag && (lastMsgId?msnNsThread->sendPacketPayload("PNG", "CON", "\bLast-Msg-Id: %I64u\r\n\r\n", lastMsgId):
+					(msnRegistration?msnNsThread->sendPacketPayload("PNG", "CON", "\b\r\n"):
+					msnNsThread->sendPacket("PNG", "CON 0")));
 			}
 #ifdef OBSOLETE
 			p2p_clearDormantSessions();

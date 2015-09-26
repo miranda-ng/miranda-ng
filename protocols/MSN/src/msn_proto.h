@@ -151,6 +151,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	LONG m_chatID;
 
 	int msnPingTimeout;
+	unsigned __int64  lastMsgId;
 	HANDLE hKeepAliveThreadEvt;
 
 	char* msnModeMsgs[MSN_NUM_MODES];
