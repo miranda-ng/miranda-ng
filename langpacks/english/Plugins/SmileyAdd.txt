@@ -32,6 +32,7 @@
 [Built-in message dialog support]
 [Disable]
 [Smiley button]
+[Horisontal sorting]
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 ;file \plugins\SmileyAdd\src\download.cpp
