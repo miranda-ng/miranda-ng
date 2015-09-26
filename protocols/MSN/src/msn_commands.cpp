@@ -163,6 +163,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	else mChatID = info->mChatID;
 
 	const char* tMsgId = tHeader["Message-ID"];
+	if (tMsgId) lastMsgId=_atoi64(tMsgId);
 
 	// Chunked message
 	char* newbody = NULL;
