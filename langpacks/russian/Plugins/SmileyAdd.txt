@@ -57,6 +57,8 @@
 Выключить
 [Smiley button]
 Кнопка смайла
+[Horizontal sorting]
+Горизонтальная сортировка
 [Show smiley selection window]
 Показать окно для выбора смайла
 [SmileyAdd]
