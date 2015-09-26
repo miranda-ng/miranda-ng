@@ -688,7 +688,7 @@ RECT SmileyToolWindowType::CalculateButtonToCoordinates(int buttonPosition, int 
 { 
 	int row, rowpos;
 
-	if (opt.HorisontalSorting)
+	if (opt.HorizontalSorting)
 	{
 		row = buttonPosition / m_NumberOfHorizontalButtons;
 		rowpos = buttonPosition % m_NumberOfHorizontalButtons;
@@ -715,7 +715,7 @@ int SmileyToolWindowType::CalculateCoordinatesToButton(POINT pt, int scroll)
 	const int row = (pt.y - m_ButtonSpace) / (m_ButtonSize.cy + m_ButtonSpace) + scroll;
 
 	int pos;
-	if (opt.HorisontalSorting)
+	if (opt.HorizontalSorting)
 		pos = m_NumberOfHorizontalButtons * row + rowpos;
 	else
 		pos = m_NumberOfVerticalButtons * rowpos + row;
