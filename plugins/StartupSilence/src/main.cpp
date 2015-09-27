@@ -152,9 +152,7 @@ int DisablePopup(WPARAM wParam, LPARAM)
 
 void EnablePopupModule()
 {
-	if (ServiceExists(POPUPONOFF) && db_get_b(NULL,"Popup", "ModuleIsEnabled", 0) == 0) {
-		CallService(POPUPONOFF, NULL, NULL);
-	}
+	CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS);
 }
 
 void InitSettings()
