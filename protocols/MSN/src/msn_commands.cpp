@@ -474,6 +474,12 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 					if ((originalName = ezxml_child(xmli, "meta")))
 						pszFile = (char*)ezxml_attr(originalName, "originalName");
 				}
+				if (!pszFile || !*pszFile) {
+					if ((originalName = ezxml_child(xmli, "meta")) && (pszFile = (char*)ezxml_attr(originalName, "type"))) {
+						if (!mir_strcmp(pszFile, "photo")) pszFile="IMG00001.JPG";
+					}
+					if (!pszFile || !*pszFile) pszFile="file";
+				}
 				ft->std.tszCurrentFile = mir_utf8decodeT(pszFile);
 				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
 				ft->std.totalFiles = 1;
