@@ -119,17 +119,18 @@ bool CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	if (toxThread->toxAv)
-		toxav_kill(toxThread->toxAv);
+	if (toxThread) {
+		if (toxThread->toxAv)
+			toxav_kill(toxThread->toxAv);
 
-	if (toxThread->tox)
-	{
-		CancelAllTransfers();
+		if (toxThread->tox)
+		{
+			CancelAllTransfers();
 
-		SaveToxProfile();
+			SaveToxProfile();
 
-		tox_kill(toxThread->tox);
+			tox_kill(toxThread->tox);
+		}
+		toxThread = NULL;
 	}
-
-	toxThread = NULL;
 }
