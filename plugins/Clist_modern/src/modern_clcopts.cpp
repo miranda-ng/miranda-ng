@@ -434,7 +434,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				hti.pt.x = (short)LOWORD(GetMessagePos());
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
+				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
 					if (hti.flags & TVHT_ONITEMICON) {
 						TVITEMA tvi;
 						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -444,6 +444,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 					}
+				}
 			}
 			break;
 
@@ -617,17 +618,14 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "IconFlashTime", SETTING_ICONFLASHTIME_DEFAULT), 0));
 
 		// == Tray icon mode ==
-		// Готовим список аккаунтов.
+		// preparing account list.
 		{
 			int AccNum, i, siS, siV, item;
 			PROTOACCOUNT **acc;
-
 			Proto_EnumAccounts(&AccNum, &acc);
 
-			for (siS = siV = -1, i = 0; i < AccNum; i++)
-			{
-				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->bIsEnabled)
-				{
+			for (siS = siV = -1, i = 0; i < AccNum; i++) {
+				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->bIsEnabled) {
 					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETITEMDATA, item, (LPARAM)acc[i]);
 
@@ -642,45 +640,49 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				}
 			}
-			if (siS < 0) siS = 0; if (siV < 0) siV = 0; // Пустой элемент в качестве выбранного оставлять нельзя.
+			
+			// the empty list item must not be selected
+			if (siS < 0) siS = 0; if (siV < 0) siV = 0;
+			
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETCURSEL, siS, 0);
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_SETCURSEL, siV, 0);
 		}
-		// Какой период смены иконок?
+
+		// setting icon cycling period
 		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
 		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
-		// Какой режим иконок?
-		switch (db_get_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL))
-		{
-			case TRAY_ICON_MODE_GLOBAL:
-				CheckDlgButton(hwndDlg, IDC_ICON_GLOBAL_S, 1);
-				break;
-			case TRAY_ICON_MODE_ACC:
-				CheckDlgButton(hwndDlg, IDC_ICON_ACC_S, 1);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS_S), TRUE);
-				break;
-			case TRAY_ICON_MODE_CYCLE:
-				CheckDlgButton(hwndDlg, IDC_ICON_CYCLE_S, 1);
-				break;
-			case TRAY_ICON_MODE_ALL:
-				CheckDlgButton(hwndDlg, IDC_ICON_ALL_S, 1);
-				break;
+
+		// setting icon mode
+		switch (db_get_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL)) {
+		case TRAY_ICON_MODE_GLOBAL:
+			CheckDlgButton(hwndDlg, IDC_ICON_GLOBAL_S, 1);
+			break;
+		case TRAY_ICON_MODE_ACC:
+			CheckDlgButton(hwndDlg, IDC_ICON_ACC_S, 1);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS_S), TRUE);
+			break;
+		case TRAY_ICON_MODE_CYCLE:
+			CheckDlgButton(hwndDlg, IDC_ICON_CYCLE_S, 1);
+			break;
+		case TRAY_ICON_MODE_ALL:
+			CheckDlgButton(hwndDlg, IDC_ICON_ALL_S, 1);
+			break;
 		}
-		switch (db_get_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL))
-		{
-			case TRAY_ICON_MODE_GLOBAL:
-				CheckDlgButton(hwndDlg, IDC_ICON_GLOBAL_V, 1);
-				break;
-			case TRAY_ICON_MODE_ACC:
-				CheckDlgButton(hwndDlg, IDC_ICON_ACC_V, 1);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS_V), TRUE);
-				break;
-			case TRAY_ICON_MODE_CYCLE:
-				CheckDlgButton(hwndDlg, IDC_ICON_CYCLE_V, 1);
-				break;
-			case TRAY_ICON_MODE_ALL:
-				CheckDlgButton(hwndDlg, IDC_ICON_ALL_V, 1);
-				break;
+
+		switch (db_get_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL)) {
+		case TRAY_ICON_MODE_GLOBAL:
+			CheckDlgButton(hwndDlg, IDC_ICON_GLOBAL_V, 1);
+			break;
+		case TRAY_ICON_MODE_ACC:
+			CheckDlgButton(hwndDlg, IDC_ICON_ACC_V, 1);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS_V), TRUE);
+			break;
+		case TRAY_ICON_MODE_CYCLE:
+			CheckDlgButton(hwndDlg, IDC_ICON_CYCLE_V, 1);
+			break;
+		case TRAY_ICON_MODE_ALL:
+			CheckDlgButton(hwndDlg, IDC_ICON_ALL_V, 1);
+			break;
 		}
 
 		return TRUE;
@@ -691,12 +693,12 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
 		}
 
-		if (   LOWORD(wParam) == IDC_ICON_GLOBAL_S
+		if (LOWORD(wParam) == IDC_ICON_GLOBAL_S
 			|| LOWORD(wParam) == IDC_ICON_ACC_S
 			|| LOWORD(wParam) == IDC_ICON_CYCLE_S
 			|| LOWORD(wParam) == IDC_ICON_ALL_S)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS_S), IsDlgButtonChecked(hwndDlg, IDC_ICON_ACC_S));
-		if (   LOWORD(wParam) == IDC_ICON_GLOBAL_V
+		if (LOWORD(wParam) == IDC_ICON_GLOBAL_V
 			|| LOWORD(wParam) == IDC_ICON_ACC_V
 			|| LOWORD(wParam) == IDC_ICON_CYCLE_V
 			|| LOWORD(wParam) == IDC_ICON_ALL_V)
@@ -729,26 +731,30 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				db_set_b(NULL, "CLUI", "XStatusTray", xOptions);
 
 				// == Tray icon mode ==
-				// Имя выбранного аккаунта.
-				{
-					PROTOACCOUNT *pa;
-					pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_GETITEMDATA,
-							SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_GETCURSEL, 0, 0), 0);
+				// chosen account name.
+				int idx = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_GETCURSEL, 0, 0);
+				if (idx != CB_ERR) {
+					PROTOACCOUNT *pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_GETITEMDATA, idx, 0);
 					db_set_s(NULL, "CList", "tiAccS", pa->szModuleName);
-					pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_GETITEMDATA,
-							SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_GETCURSEL, 0, 0), 0);
+				}
+
+				idx = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_GETCURSEL, 0, 0);
+				if (idx != CB_ERR) {
+					PROTOACCOUNT *pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_GETITEMDATA, idx, 0);
 					db_set_s(NULL, "CList", "tiAccV", pa->szModuleName);
 				}
-				// Период смены иконок.
+
+				// icon cycling timeout.
 				db_set_w(NULL, "CList", "CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-				// Режим иконок.
+				
+				// icon modes
 				db_set_b(NULL, "CList", "tiModeS",
-					  IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL_S) << 0
+					IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL_S) << 0
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ACC_S) << 1
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE_S) << 2
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ALL_S) << 3);
 				db_set_b(NULL, "CList", "tiModeV",
-					  IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL_V) << 0
+					IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL_V) << 0
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ACC_V) << 1
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE_V) << 2
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ALL_V) << 3);
