@@ -86,7 +86,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 
 	if (m_proto->InitToxCore())
 	{
-		TCHAR *group = m_group.GetText();
+		ptrT group(m_group.GetText());
 		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
 			Clist_CreateGroup(0, group);
 
@@ -155,8 +155,8 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFile = profilePath;
-	ofn.lpstrTitle = TranslateT("Save Tox profile"); \
-		ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrTitle = TranslateT("Save Tox profile");
+	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
 	ofn.lpstrInitialDir = _T("%HOMEPATH%");
 
