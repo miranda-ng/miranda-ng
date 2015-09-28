@@ -555,6 +555,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		CMStringA szBuff = CreateBlobFromContact(hContact, _T(""));
 
 		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.flags = DBEF_UTF;
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = (DWORD)_time32(NULL);
 		dbei.eventType = EVENTTYPE_ADDED;
@@ -1743,7 +1744,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = _time32(NULL);
-					dbei.flags = DBEF_READ;
+					dbei.flags = DBEF_READ | DBEF_UTF;
 					dbei.eventType = EVENTTYPE_AUTHREQUEST;
 					dbei.pBlob = (PBYTE)szBlob.c_str();
 					dbei.cbBlob = szBlob.GetLength();
