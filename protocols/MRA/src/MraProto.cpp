@@ -172,7 +172,7 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 			char *firstName = nick + mir_strlen(nick) + 1;
 			char *lastName = firstName + mir_strlen(firstName) + 1;
 			char *email = lastName + mir_strlen(lastName) + 1;
-			return AddToListByEmail(_A2T(email), _A2T(nick), _A2T(firstName), _A2T(lastName), 0);
+			return AddToListByEmail(ptrT(mir_utf8decodeT(email)), ptrT(mir_utf8decodeT(nick)), ptrT(mir_utf8decodeT(firstName)), ptrT(mir_utf8decodeT(lastName)), 0);
 		}
 	}
 	return 0;

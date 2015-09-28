@@ -909,24 +909,24 @@ DWORD CMraProto::ProtoBroadcastAckAsync(MCONTACT hContact, int type, int hResult
 
 CMStringA CMraProto::CreateBlobFromContact(MCONTACT hContact, const CMStringW &wszRequestReason)
 {
-	CMStringA res('\0', 8), tmp;
+	CMStringA res('\0', 8);
+	CMStringW tmp;
 	DWORD *p = (DWORD*)res.c_str();
 	p[0] = 0; p[1] = (DWORD)hContact;
 
-	mraGetStringA(hContact, "Nick", tmp);
-	res += tmp; res.AppendChar(0);
+	mraGetStringW(hContact, "Nick", tmp);
+	res.Append(ptrA(mir_utf8encodeW(tmp))); res.AppendChar(0);
 
-	mraGetStringA(hContact, "FirstName", tmp);
-	res += tmp; res.AppendChar(0);
+	mraGetStringW(hContact, "FirstName", tmp);
+	res.Append(ptrA(mir_utf8encodeW(tmp))); res.AppendChar(0);
 
-	mraGetStringA(hContact, "LastName", tmp);
-	res += tmp; res.AppendChar(0);
+	mraGetStringW(hContact, "LastName", tmp);
+	res.Append(ptrA(mir_utf8encodeW(tmp))); res.AppendChar(0);
 
-	mraGetStringA(hContact, "e-mail", tmp);
-	res += tmp; res.AppendChar(0);
+	mraGetStringW(hContact, "e-mail", tmp);
+	res.Append(ptrA(mir_utf8encodeW(tmp))); res.AppendChar(0);
 
-	tmp = wszRequestReason;
-	res += tmp; res.AppendChar(0);
+	res.Append(ptrA(mir_utf8encodeW(wszRequestReason))); res.AppendChar(0);
 	return res;
 }
 
