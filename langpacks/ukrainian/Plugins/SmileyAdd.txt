@@ -39,12 +39,6 @@
 Мінімальна висота смайлів
 [Smiley selector]
 Вибір смайла
-[Surround inserted smiley with spaces]
-Вставити смайл з пробілами
-[Use first smiley for selection size]
-Розмір усіх смайлів як у першого
-[IEView style window]
-Вікно в стилі IEView
 [Input area]
 Поле вводу
 [Enable smileys]
@@ -57,6 +51,16 @@
 Вимкнути
 [Smiley button]
 Кнопка смайла
+[Background\ncolor]
+Колір\nфону
+[Surround inserted smiley with spaces]
+Вставити смайл з пробілами
+[Use first smiley for selection size]
+Розмір усіх смайлів як у першого
+[IEView style window]
+Вікно в стилі IEView
+[Horizontal sorting]
+Впорядкувати горизонтально
 [Show smiley selection window]
 Показати вікно вибору смайлів
 [SmileyAdd]

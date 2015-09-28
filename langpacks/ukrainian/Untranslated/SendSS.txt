@@ -11,4 +11,3 @@
 [Edit on]
 [BBC]
 [BBC link]
-[Screenshot of "%s"]
