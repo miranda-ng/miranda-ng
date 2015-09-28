@@ -493,7 +493,7 @@ static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR 
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO* ui = chatApi.UM_FindUser(si->pUsers, pszUID);
+		USERINFO *ui = chatApi.UM_FindUser(si->pUsers, pszUID);
 		if (ui)
 			replaceStrT(ui->pszUID, pszNewUID);
 		if (pszID)
