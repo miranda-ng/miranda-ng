@@ -160,7 +160,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hDbEvent = lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+			//blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
@@ -177,7 +177,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
-			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
+			PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
 
 			ptrT lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last));
 			ptrT firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first));
