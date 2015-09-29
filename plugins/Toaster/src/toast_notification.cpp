@@ -8,9 +8,6 @@ ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, 
 
 ToastNotification::~ToastNotification()
 {
-	notification->remove_Activated(_ertActivated);
-	notification->remove_Dismissed(_ertDismissed);
-	notification->remove_Failed(_ertFailed);
 }
 
 HRESULT ToastNotification::Initialize()
@@ -26,6 +23,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
 
 	HXML xmlToast = xmlCreateNode(L"toast", NULL, 0);
+	xmlAddAttr(xmlToast, L"activationType", L"foreground");
 
 	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", NULL);
 	xmlAddAttr(xmlAudioNode, L"silent", L"true");
@@ -33,14 +31,10 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", NULL);
 
 	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", NULL);
-	xmlAddAttr(xmlBindingNode, L"template", IsWinVer10Plus() ? L"ToastGeneric" : L"ToastImageAndText02");
+	xmlAddAttr(xmlBindingNode, L"template", L"ToastImageAndText02");
 	if (_imagePath)
 	{
 		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
-
-		if (IsWinVer10Plus())
-			xmlAddAttr(xmlImageNode, L"placement", L"appLogoOverride");
-
 		xmlAddAttr(xmlImageNode, L"id", L"1");
 		xmlAddAttr(xmlImageNode, L"src", CMString(FORMAT, L"file:///%s", _imagePath));
 	}
@@ -73,9 +67,9 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	return factory->CreateToastNotification(xml.Get(), _notification);
 }
 
-HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
+HRESULT ToastNotification::Show(_In_ ToastHandlerData* thd)
 {
-	ComPtr<ToastEventHandler> eventHandler(handler);
+	ComPtr<ToastEventHandler> eventHandler(new ToastEventHandler(thd));
 
 	CHECKHR(notification->add_Activated(eventHandler.Get(), &_ertActivated));
 	CHECKHR(notification->add_Dismissed(eventHandler.Get(), &_ertDismissed));

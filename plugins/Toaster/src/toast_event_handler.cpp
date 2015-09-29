@@ -5,14 +5,12 @@ using namespace Microsoft::WRL;
 
 ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(0), _thd(pData)
 {
-	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, UM_INITPOPUP, (WPARAM)this, 0);
+	CallPopupProc(UM_INITPOPUP);
 }
 
 ToastEventHandler::~ToastEventHandler()
 {
-	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, UM_FREEPLUGINDATA, 0, 0);
+	CallPopupProc(UM_FREEPLUGINDATA);
 }
 
 IFACEMETHODIMP_(ULONG) ToastEventHandler::AddRef()
@@ -46,11 +44,8 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 
 IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IInspectable*)
 {
-	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, WM_COMMAND, 0, 0);
-
+	CallPopupProc(WM_COMMAND);
 	DestroyNotification();
-
 	return S_OK;
 }
 
@@ -63,8 +58,7 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastDi
 	{
 	case ToastDismissalReason_UserCanceled:
 		{
-			if (_thd->pPopupProc)
-				_thd->pPopupProc((HWND)this, WM_CONTEXTMENU, 0, 0);
+			CallPopupProc(WM_CONTEXTMENU);
 			_thd->tstNotification->Hide();
 			break;
 		}
@@ -87,6 +81,12 @@ void ToastEventHandler::DestroyNotification()
 {
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(_thd->tstNotification);
+}
+
+void ToastEventHandler::CallPopupProc(UINT uMsg)
+{
+	if (_thd->pPopupProc)
+		_thd->pPopupProc((HWND)this, uMsg, 0, 0);
 }
 
 void* ToastEventHandler::GetPluginData()
