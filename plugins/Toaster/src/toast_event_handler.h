@@ -30,6 +30,8 @@ private:
 	std::unique_ptr<ToastHandlerData> _thd;
 
 	void DestroyNotification();
+
+	void CallPopupProc(UINT uMsg);
 };
 
 #endif //_TOAST_EVENT_HANDLER_H_

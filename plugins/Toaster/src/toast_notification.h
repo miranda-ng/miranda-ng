@@ -24,7 +24,7 @@ public:
 	~ToastNotification();
 
 	HRESULT Initialize();
-	HRESULT Show(_In_ ToastEventHandler* handler);
+	HRESULT Show(_In_ ToastHandlerData*);
 	HRESULT Hide();
 };
 

@@ -64,7 +64,7 @@ void __stdcall ShowToastNotification(void* p)
 		thd->pPopupProc = td->pPopupProc;
 		thd->tstNotification = notification;
 
-		notification->Show(new ToastEventHandler(thd));
+		notification->Show(thd);
 		lstNotifications.insert(notification);
 	}
 	else
@@ -255,7 +255,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 {
-	ptrT tszText(mir_utf8decodeW((char*)wParam));
+	ptrW tszText(mir_utf8decodeW((char*)wParam));
 	return ShowMessageW(tszText, lParam);
 }
 
