@@ -35,7 +35,6 @@ This file contains code related to new modern free positioned skinned buttons
 BOOL ModernSkinButtonModuleIsLoaded = FALSE;
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int ModernSkinButtonUnloadModule(WPARAM wParam, LPARAM lParam);
-int SkinSelector_DeleteMask(MODERNMASK *mm);
 HWND SetToolTip(HWND hwnd, TCHAR * tip);
 
 typedef struct _ModernSkinButtonCtrl
@@ -164,7 +163,6 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 		}
 		SkinDrawGlyphMask(hdc, &rc, &rc, &Request);
 		SkinSelector_DeleteMask(&Request);
-		// DeleteObject(br);
 	}
 
 	if (!whdc && g_CluiData.fLayered) {
