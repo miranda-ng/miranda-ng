@@ -23,22 +23,6 @@ char * __cdecl strstri(char *a, const char *b)
 	return NULL;
 }
 
-//copy len symbols from string - do not check is it null terminated or len is more then actual
-char * strdupn(const char * src, int len)
-{
-	char * p;
-	if (src == NULL) return NULL;
-	p = (char*)malloc(len + 1);
-	if (!p) return 0;
-	memcpy(p, src, len);
-	p[len] = '\0';
-	return p;
-}
-
-#ifdef _DEBUG
-#undef DeleteObject
-#endif
-
 void TRACE_ERROR()
 {
 	DWORD t = GetLastError();
@@ -63,17 +47,6 @@ void TRACE_ERROR()
 #endif
 	LocalFree(lpMsgBuf);
 }
-
-BOOL DebugDeleteObject(HGDIOBJ a)
-{
-	BOOL res = DeleteObject(a);
-	if (!res) TRACE_ERROR();
-	return res;
-}
-
-#ifdef _DEBUG
-#define DeleteObject(a) DebugDeleteObject(a)
-#endif
 
 // load small icon (not shared) it IS NEED to be destroyed
 HICON LoadSmallIcon(HINSTANCE hInstance, int index)

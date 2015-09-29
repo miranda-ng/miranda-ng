@@ -175,7 +175,6 @@ void MakeButtonSkinned(HWND hWnd);
 #define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_tstrdup(b);}
 
 extern void TRACE_ERROR();
-extern BOOL DebugDeleteObject(HGDIOBJ a);
 extern void IvalidateDisplayNameCache(DWORD mode);
 
 extern LIST<ClcCacheEntry> clistCache;
@@ -201,8 +200,6 @@ enum
 
 #define MirandaLoading() ((g_CluiData.bSTATE<STATE_NORMAL))
 #define MirandaExiting() ((g_CluiData.bSTATE>STATE_NORMAL))
-
-char * strdupn(const char * src, int len);
 
 #define SORTBY_NAME	   0
 #define SORTBY_STATUS  1

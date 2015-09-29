@@ -108,7 +108,7 @@ CLCPaint::CLCPaint()
 	_FillQuickHash();
 };
 
-void  CLCPaint::cliPaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint)
+void CLCPaint::cliPaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint)
 {
 	if (MirandaExiting()) return;
 	g_CluiData.mutexPaintLock++;
@@ -194,7 +194,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 	}
 }
 
-void  CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, TCHAR *szText, SortedList *plText, UINT uTextFormat, int smiley_height)
+void CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, TCHAR *szText, SortedList *plText, UINT uTextFormat, int smiley_height)
 {
 	if (szText == NULL || !szText[0]) {
 		text_size->cy = 0;
@@ -245,7 +245,7 @@ void  CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, TCHAR
 	}
 }
 
-void  CLCPaint::AddParam(MODERNMASK *mpModernMask, DWORD dwParamHash, const char* const szValue, DWORD dwValueHash)
+void CLCPaint::AddParam(MODERNMASK *mpModernMask, DWORD dwParamHash, const char* const szValue, DWORD dwValueHash)
 {
 	static MASKPARAM param = { 0 }; //AddParameter will clear it so it can be static to avoid initializations
 	_FillParam(&param, dwParamHash, szValue, dwValueHash);
@@ -268,14 +268,14 @@ tPaintCallbackProc CLCPaint::PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint
 	return NULL;
 }
 
-void  CLCPaint::_FillQuickHash()
+void CLCPaint::_FillQuickHash()
 {
 	int i;
 	for (i = 0; i < hi_LastItem; i++)
 		HASH[i] = mod_CalcHash(HASHTEXT[i]);
 }
 
-void  CLCPaint::_SetHotTrackColour(HDC hdc, ClcData *dat)
+void CLCPaint::_SetHotTrackColour(HDC hdc, ClcData *dat)
 {
 	if (dat->gammaCorrection) {
 		COLORREF oldCol, newCol;
@@ -414,7 +414,7 @@ RECT  CLCPaint::_GetRectangle(ClcData *dat, RECT *row_rc, RECT *free_row_rc, int
 
 
 
-void  CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHAR *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley)
+void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHAR *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley)
 {
 	if (szText == NULL)return;
 	uTextFormat &= ~DT_RIGHT;
@@ -511,15 +511,15 @@ void  CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCH
 }
 
 
-void  CLCPaint::_AddParameter(MODERNMASK *mpModernMask, MASKPARAM * lpParam)
+void CLCPaint::_AddParameter(MODERNMASK *mpModernMask, MASKPARAM * lpParam)
 {
-	mpModernMask->pl_Params = (MASKPARAM *)realloc(mpModernMask->pl_Params, (mpModernMask->dwParamCnt + 1)*sizeof(MASKPARAM));
+	mpModernMask->pl_Params = (MASKPARAM *)mir_realloc(mpModernMask->pl_Params, (mpModernMask->dwParamCnt + 1)*sizeof(MASKPARAM));
 	memmove(&(mpModernMask->pl_Params[mpModernMask->dwParamCnt]), lpParam, sizeof(MASKPARAM));
 	mpModernMask->dwParamCnt++;
 	memset(lpParam, 0, sizeof(MASKPARAM));
 }
 
-void  CLCPaint::_FillParam(MASKPARAM * lpParam, DWORD dwParamHash, const char* const szValue, DWORD dwValueHash)
+void CLCPaint::_FillParam(MASKPARAM *lpParam, DWORD dwParamHash, const char* const szValue, DWORD dwValueHash)
 {
 	lpParam->bMaskParamFlag = MPF_EQUAL | MPF_HASHED;
 	lpParam->dwId = dwParamHash;
@@ -530,17 +530,17 @@ void  CLCPaint::_FillParam(MASKPARAM * lpParam, DWORD dwParamHash, const char* c
 		lpParam->dwValueHash = dwValueHash;
 
 	if (szValue)
-		lpParam->szValue = strdupn(szValue, (int)mir_strlen(szValue));
+		lpParam->szValue = mir_strndup(szValue, (int)mir_strlen(szValue));
 	else
 		lpParam->szValue = NULL;
 }
 
-void  CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWORD dwValueIndex)
+void CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWORD dwValueIndex)
 {
 	AddParam(mpModernMask, HASH[dwParamIndex], HASHTEXT[dwValueIndex], HASH[dwValueIndex]);
 }
 
-MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
+MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
 {
 	if (Drawing == NULL)
 		return 0;
@@ -595,8 +595,9 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 			}
 			_AddParamShort(mpModernMask, hi_HasAvatar, (dat->avatars_show  && Drawing->avatar_data != NULL) ? hi_True : hi_False);
 			_AddParamShort(mpModernMask, hi_Rate, hi_None + Drawing->bContactRate);
-			break;
 		}
+		break;
+
 	case CLCIT_DIVIDER:
 		_AddParamShort(mpModernMask, hi_Type, hi_Divider);
 		break;
@@ -1820,8 +1821,8 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 				_PaintRowItems(hWnd, pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint);
 				if (mpRequest) {
 					if (!dat->force_in_dialog) {
-						free(mpRequest->pl_Params[1].szValue);
-						mpRequest->pl_Params[1].szValue = strdupn("Ovl", 3);
+						mir_free(mpRequest->pl_Params[1].szValue);
+						mpRequest->pl_Params[1].szValue = mir_strndup("Ovl", 3);
 						mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
 						{
 							RECT mrc = row_rc;
