@@ -350,19 +350,19 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case VK_LEFT:
-		but -= (opt.IEViewStyle ? 1 : m_NumberOfVerticalButtons) * LOWORD(lParam);
+		but -= (opt.HorizontalSorting ? 1 : m_NumberOfVerticalButtons) * LOWORD(lParam);
 		break;
 
 	case VK_UP:
-		but -= (opt.IEViewStyle ? m_NumberOfHorizontalButtons : 1) * LOWORD(lParam);
+		but -= (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) * LOWORD(lParam);
 		break;
 
 	case VK_RIGHT:
-		but += (opt.IEViewStyle ? 1 : m_NumberOfVerticalButtons) * LOWORD(lParam);
+		but += (opt.HorizontalSorting ? 1 : m_NumberOfVerticalButtons) * LOWORD(lParam);
 		break;
 
 	case VK_DOWN:
-		but += (opt.IEViewStyle ? m_NumberOfHorizontalButtons : 1) * LOWORD(lParam);
+		but += (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) * LOWORD(lParam);
 		break;
 
 	case VK_SPACE:
@@ -412,11 +412,11 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 	if (numKey != -1) {
 		if (rowSel == -1) { 
 			rowSel = numKey;
-			but = (opt.IEViewStyle ? m_NumberOfHorizontalButtons : 1) * rowSel;
+			but = (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) * rowSel;
 		}
 		else {
 			colSel = numKey;
-			if (opt.IEViewStyle)
+			if (opt.HorizontalSorting)
 				but = colSel + m_NumberOfHorizontalButtons * rowSel;
 			else
 				but = rowSel + m_NumberOfVerticalButtons * colSel;

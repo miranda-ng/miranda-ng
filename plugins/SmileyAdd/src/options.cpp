@@ -641,7 +641,7 @@ void OptionsType::Load(void)
 	SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
 	MaxCustomSmileySize = db_get_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", 0);
 	MinSmileySize = db_get_dw(NULL, "SmileyAdd", "MinSmileySize", 0);
-	HorizontalSorting = db_get_b(NULL, "SmileyAdd", "HorizontalSorting") != 0;
+	HorizontalSorting = db_get_b(NULL, "SmileyAdd", "HorizontalSorting", 1) != 0;
 }
 
 
