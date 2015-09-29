@@ -272,7 +272,7 @@ Wybierz plik
 [Select a target window.]
 Wybierz okno.
 [Screenshot of "%s"]
-
+Zrzut ekranu z "%s"
 [Screenshot for client area of "%s" window]
 Zrzut ekranu obszaru z okna "%s"
 [Screenshot of "%s" window]

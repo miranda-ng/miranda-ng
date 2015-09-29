@@ -247,7 +247,7 @@ Wyłącz przełączanie
 [Toggle On]
 Włącz przełączanie
 [Dot]
-
+Kropka
 [Ignore]
 Ignorowanie
 [Indefinite]

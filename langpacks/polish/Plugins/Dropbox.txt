@@ -34,6 +34,15 @@ Automatycznie wyślij link do pobrana do kontaktu
 Wklej link do pobrania do pola wpisywania wiadomości
 [Copy download link to clipboard]
 Kopiuj link do pobrania do schowka
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Name]
+Nazwa
+[Value]
+Wartość
+[Type]
+Typ
+[Size]
+Rozmiar
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 w toku...
