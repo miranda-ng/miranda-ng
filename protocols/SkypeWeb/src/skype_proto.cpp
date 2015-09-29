@@ -84,9 +84,8 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 	m_bThreadsTerminated = true;
 
-	ShutdownConnections();
-
 	m_hPollingEvent.Set();
+	m_hTrouterEvent.Set();
 	
 	return 0;
 }
@@ -243,7 +242,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
 		requestQueue->Stop();
-		ShutdownConnections();
 		
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
