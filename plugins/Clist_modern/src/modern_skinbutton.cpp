@@ -622,10 +622,9 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 
 int ModernSkinButtonRedrawAll()
 {
-	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
-	for (i = 0; i < ButtonsCount; i++) {
+	for (DWORD i = 0; i < ButtonsCount; i++) {
 		if (pcli->hwndContactList && Buttons[i].hwnd == NULL)
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, pcli->hwndContactList);
 		ModernSkinButtonPaintWorker(Buttons[i].hwnd, 0);

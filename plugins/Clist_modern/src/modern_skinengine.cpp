@@ -585,7 +585,7 @@ BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 
 	if (!bmp.bmBits) {
 		f = 1;
-		bits = (BYTE*)malloc(bmp.bmWidthBytes*bmp.bmHeight);
+		bits = (BYTE*)mir_alloc(bmp.bmWidthBytes*bmp.bmHeight);
 		GetBitmapBits(hbmp, bmp.bmWidthBytes*bmp.bmHeight, bits);
 	}
 	else
@@ -609,7 +609,7 @@ BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 	}
 	if (f) {
 		SetBitmapBits(hbmp, bmp.bmWidthBytes*bmp.bmHeight, bits);
-		free(bits);
+		mir_free(bits);
 	}
 	// DeleteObject(hbmp);
 	return 1;
@@ -937,7 +937,7 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 		return NULL;
 
 	unsigned int cRect = 64;
-	PRGNDATA pRgnData = (PRGNDATA)malloc(sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
+	PRGNDATA pRgnData = (PRGNDATA)mir_alloc(sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 	memset(pRgnData, 0, sizeof(RGNDATAHEADER));
 	pRgnData->rdh.dwSize = sizeof(RGNDATAHEADER);
 	pRgnData->rdh.iType = RDH_RECTANGLES;
@@ -959,7 +959,7 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 				else {
 					if (pRgnData->rdh.nCount == cRect) {
 						cRect = cRect + 64;
-						pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
+						pRgnData = (PRGNDATA)mir_realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 					}
 					SetRect(((LPRECT)pRgnData->Buffer) + pRgnData->rdh.nCount, entry, g_pCachedWindow->Height - y, x, g_pCachedWindow->Height - y + 1);
 
@@ -972,7 +972,7 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 		if (lastin) {
 			if (pRgnData->rdh.nCount == cRect) {
 				cRect = cRect + 64;
-				pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
+				pRgnData = (PRGNDATA)mir_realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 			}
 			SetRect(((LPRECT)pRgnData->Buffer) + pRgnData->rdh.nCount, entry, g_pCachedWindow->Height - y, g_pCachedWindow->Width, g_pCachedWindow->Height - y + 1);
 
@@ -981,7 +981,7 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 	}
 
 	HRGN hRgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
-	free(pRgnData);
+	mir_free(pRgnData);
 	return hRgn;
 }
 
@@ -1445,7 +1445,7 @@ void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 	Len = bh*bw * 4;
 	flag = (bmp.bmBits == NULL);
 	if (flag) {
-		pBitmapBits = (LPBYTE)malloc(Len);
+		pBitmapBits = (LPBYTE)mir_alloc(Len);
 		GetBitmapBits(hbmp, Len, pBitmapBits);
 	}
 	else
@@ -1467,7 +1467,7 @@ void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 	}
 	if (flag) {
 		Len = SetBitmapBits(hbmp, Len, pBitmapBits);
-		free(pBitmapBits);
+		mir_free(pBitmapBits);
 	}
 	return;
 }
@@ -1584,7 +1584,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 		}
 
 		/*memory allocation */
-		colormap = (BYTE*)malloc(header.width*header.height * 4);
+		colormap = (BYTE*)mir_alloc(header.width*header.height * 4);
 		cx = header.width;
 		cy = header.height;
 		fseek(fp, header.id_lenght, SEEK_CUR);
@@ -1603,7 +1603,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 		if (size > sizeof(header)) {
 			tga_header_t *tgahdr = (tga_header_t*)mem;
 			if (tgahdr->pixel_depth == 32 && (tgahdr->image_type == 2 || tgahdr->image_type == 10)) {
-				colormap = (BYTE*)malloc(tgahdr->width*tgahdr->height * 4);
+				colormap = (BYTE*)mir_alloc(tgahdr->width*tgahdr->height * 4);
 				cx = tgahdr->width;
 				cy = tgahdr->height;
 				ske_ReadTGAImageData((void*)(mem + sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), size - (sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), colormap, cx*cy * 4, tgahdr->image_type == 10);
@@ -1617,7 +1617,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 		HBITMAP hbmp = ske_CreateDIB32Point(cx, cy, (void**)&pt);
 		if (hbmp)
 			memcpy(pt, colormap, cx*cy * 4);
-		free(colormap);
+		mir_free(colormap);
 		return hbmp;
 	}
 	return NULL;
@@ -2096,7 +2096,7 @@ static bool ske_DrawTextEffect(BYTE* destPt, BYTE* maskPt, DWORD width, DWORD he
 	if (effect->EffectID == 0xFF) return false;
 	if (!width || !height) return false;
 	if (!destPt) return false;
-	buf = (sbyte*)malloc(width*height*sizeof(BYTE));
+	buf = (sbyte*)mir_alloc(width*height*sizeof(BYTE));
 	{
 		matrix = effect->EffectMatrix.matrix;
 		mcTopStart = 2 - effect->EffectMatrix.topEffect;
@@ -2138,7 +2138,7 @@ static bool ske_DrawTextEffect(BYTE* destPt, BYTE* maskPt, DWORD width, DWORD he
 		maxX = min((int)width, maxX + mcRightEnd - 1);
 		maxY = min((int)height, maxY + mcBottomEnd - 1);
 
-		outbuf = (sbyte*)malloc(width*height*sizeof(sbyte));
+		outbuf = (sbyte*)mir_alloc(width*height*sizeof(sbyte));
 		memset(outbuf, 0, width*height*sizeof(sbyte));
 		for (y = (DWORD)minY; y < (DWORD)maxY; y++) {
 			int val;
@@ -2168,7 +2168,7 @@ static bool ske_DrawTextEffect(BYTE* destPt, BYTE* maskPt, DWORD width, DWORD he
 				buflineMid++;
 			}
 		}
-		free(buf);
+		mir_free(buf);
 		buf = outbuf;
 	}
 	{
@@ -2201,7 +2201,7 @@ static bool ske_DrawTextEffect(BYTE* destPt, BYTE* maskPt, DWORD width, DWORD he
 				destline += 4;
 			}
 		}
-		free(buf);
+		mir_free(buf);
 	}
 	return false;
 }
@@ -2244,7 +2244,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	bool destHasNotDIB = (bmpDest.bmBits == NULL);
 	BYTE *pDestBits;
 	if (destHasNotDIB) {
-		pDestBits = (BYTE*)malloc(bmpDest.bmHeight * bmpDest.bmWidthBytes);
+		pDestBits = (BYTE*)mir_alloc(bmpDest.bmHeight * bmpDest.bmWidthBytes);
 		GetBitmapBits(hDestBitmap, bmpDest.bmHeight*bmpDest.bmWidthBytes, pDestBits);
 	}
 	else
@@ -2289,7 +2289,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 
 		// replace end of string by elipsis
 		bNeedFreeWorkString = TRUE;
-		lpWorkString = (TCHAR*)malloc((visibleCharCount + 4) * sizeof(TCHAR));
+		lpWorkString = (TCHAR*)mir_alloc((visibleCharCount + 4) * sizeof(TCHAR));
 
 		memcpy((void*)lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
 		memcpy((void*)(lpWorkString + visibleCharCount), _T("..."), 4 * sizeof(TCHAR)); // 3 + 1
@@ -2430,10 +2430,10 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	DeleteDC(hOffscreenDC);
 
 	if (destHasNotDIB)
-		free(pDestBits);
+		mir_free(pDestBits);
 
 	if (bNeedFreeWorkString)
-		free((void*)lpWorkString);
+		mir_free((void*)lpWorkString);
 
 	return 0;
 }
@@ -2503,7 +2503,7 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 		if (bm.bmBitsPixel == 32) {
 			BYTE *bits = (BYTE*)bm.bmBits;
 			if (!bits) {
-				bits = (BYTE*)malloc(bm.bmWidthBytes*bm.bmHeight);
+				bits = (BYTE*)mir_alloc(bm.bmWidthBytes*bm.bmHeight);
 				GetBitmapBits(imi.hbmImage, bm.bmWidthBytes*bm.bmHeight, bits);
 			}
 
@@ -2535,7 +2535,7 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 
 			if (!bm.bmBits) {
 				SetBitmapBits(imi.hbmImage, bm.bmWidthBytes*bm.bmHeight, bits);
-				free(bits);
+				mir_free(bits);
 			}
 		}
 	}
@@ -2625,13 +2625,13 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 
 	bool NoDIBImage = (imbt.bmBits == NULL);
 	if (NoDIBImage) {
-		imimagbits = (BYTE*)malloc(cy*imbt.bmWidthBytes);
+		imimagbits = (BYTE*)mir_alloc(cy*imbt.bmWidthBytes);
 		GetBitmapBits(ici.hbmColor, cy*imbt.bmWidthBytes, (void*)imimagbits);
 	}
 	else imimagbits = (BYTE*)imbt.bmBits;
 
 	if (immaskbt.bmBits == NULL) {
-		immaskbits = (BYTE*)malloc(cy*immaskbt.bmWidthBytes);
+		immaskbits = (BYTE*)mir_alloc(cy*immaskbt.bmWidthBytes);
 		GetBitmapBits(ici.hbmMask, cy*immaskbt.bmWidthBytes, (void*)immaskbits);
 	}
 	else immaskbits = (BYTE*)immaskbt.bmBits;
@@ -2705,8 +2705,8 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 	BLENDFUNCTION bf = { AC_SRC_OVER, diFlags & 128, alpha, AC_SRC_ALPHA };
 	ske_AlphaBlend(hdcDst, xLeft, yTop, cxWidth, cyWidth, imDC, 0, 0, cx, icy, bf);
 
-	if (immaskbt.bmBits == NULL) free(immaskbits);
-	if (imbt.bmBits == NULL) free(imimagbits);
+	if (immaskbt.bmBits == NULL) mir_free(immaskbits);
+	if (imbt.bmBits == NULL) mir_free(imimagbits);
 	SelectObject(imDC, oldBmp);
 	DeleteObject(imBmp);
 	if (no32bit)DeleteObject(tBmp);
@@ -3597,7 +3597,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 		alpha = alpha ? alpha : 255;
 		if (bmp_bottom.bmBits) bb = BottomBuffer = (BYTE*)bmp_bottom.bmBits;
 		else {
-			BottomBuffer = (BYTE*)malloc(bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes);
+			BottomBuffer = (BYTE*)mir_alloc(bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes);
 			GetBitmapBits(iciBottom.hbmColor, bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes, BottomBuffer);
 			bb = BottomBuffer + vstep_b*(bmp_bottom.bmHeight - 1);
 			vstep_b = -vstep_b;
@@ -3605,7 +3605,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 
 		if (bmp_top.bmBits) tb = TopBuffer = (BYTE*)bmp_top.bmBits;
 		else {
-			TopBuffer = (BYTE*)malloc(bmp_top.bmHeight*bmp_top.bmWidthBytes);
+			TopBuffer = (BYTE*)mir_alloc(bmp_top.bmHeight*bmp_top.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmColor, bmp_top.bmHeight*bmp_top.bmWidthBytes, TopBuffer);
 			tb = TopBuffer + vstep_t*(bmp_top.bmHeight - 1);
 			vstep_t = -vstep_t;
@@ -3616,7 +3616,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 			bmb = BottomMaskBuffer;
 		}
 		else {
-			BottomMaskBuffer = (BYTE*)malloc(bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes);
+			BottomMaskBuffer = (BYTE*)mir_alloc(bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes);
 			GetBitmapBits(iciBottom.hbmMask, bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes, BottomMaskBuffer);
 			bmb = BottomMaskBuffer + vstep_bm*(bmp_bottom_mask.bmHeight - 1);
 			vstep_bm = -vstep_bm;
@@ -3628,7 +3628,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 			tmb = TopMaskBuffer;
 		}
 		else {
-			TopMaskBuffer = (BYTE*)malloc(bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes);
+			TopMaskBuffer = (BYTE*)mir_alloc(bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmMask, bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes, TopMaskBuffer);
 			tmb = TopMaskBuffer + vstep_tm*(bmp_top_mask.bmHeight - 1);
 			vstep_tm = -vstep_tm;
@@ -3661,10 +3661,10 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 			db += vstep_d;
 		}
 
-		if (!bmp_bottom.bmBits) free(BottomBuffer);
-		if (!bmp_top.bmBits) free(TopBuffer);
-		if (!bmp_bottom_mask.bmBits) free(BottomMaskBuffer);
-		if (!bmp_top_mask.bmBits) free(TopMaskBuffer);
+		if (!bmp_bottom.bmBits) mir_free(BottomBuffer);
+		if (!bmp_top.bmBits) mir_free(TopBuffer);
+		if (!bmp_bottom_mask.bmBits) mir_free(BottomMaskBuffer);
+		if (!bmp_top_mask.bmBits) mir_free(TopMaskBuffer);
 	}
 	else {
 		ske_DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, NULL, DI_NORMAL);
