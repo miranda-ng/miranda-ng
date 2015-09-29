@@ -102,7 +102,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 {
 	CMString message = db_get_tsa(hContact, MODULE, "MsgFormat");
 	if (!message)
-		message = mir_tstrdup(TAGSDEFAULT);
+		message = TAGSDEFAULT;
 
 	if (title.IsEmpty())
 		message.Replace(_T("#<title>#"), TranslateT("empty"));
