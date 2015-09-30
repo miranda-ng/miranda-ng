@@ -210,7 +210,7 @@ ID ключа:
 [You didn't set a private key.\nWould you like to set it now?]
 Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
 [Own private key warning]
-Попередження! Не вибрано приватний ключ.
+Увага! Не вибрано приватний ключ.
 [Services]
 Служби
 [Main]

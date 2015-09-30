@@ -482,7 +482,7 @@ HistoryStats - Предупреждение
 [Show statistics]
 Показать статистику
 [There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
-Есть потенциальные проблемы в ваших настройках. В любом случае, это только предупреждение, и на него можно не обращать внимания. Детали:
+В ваших настройках есть потенциальные проблемы. В любом случае, это только предупреждение, и на него можно не обращать внимания. Детали:
 [Add column...]
 Добавить колонку...
 [Delete column]
