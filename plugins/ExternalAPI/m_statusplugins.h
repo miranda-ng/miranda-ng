@@ -135,19 +135,12 @@ typedef struct {
 
 __inline static int announce_status_change(char *szProto, int newstatus, TCHAR *szMsg) {
 
-	PROTOCOLSETTINGEX ps;
-
-	ZeroMemory(&ps, sizeof(PROTOCOLSETTINGEX));
+	PROTOCOLSETTINGEX ps = { 0 };
 	ps.cbSize = sizeof(PROTOCOLSETTINGEX);
-	if (szProto != NULL) {
-		ps.lastStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-	} else {
-		ps.lastStatus = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-	}
+	ps.lastStatus = szProto != NULL ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	ps.status = newstatus;
 	ps.szMsg = szMsg;
 	ps.szName = szProto;
-
 	return CallService(MS_KS_ANNOUNCESTATUSCHANGE, 0, (LPARAM)&ps);
 }
 
