@@ -208,7 +208,7 @@ ID ключа:
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбрали приватный ключ.\nВы хотите сделать это сейчас?
 [Own private key warning]
-Предупреждение! Не выбран приватный ключ.
+Внимание! Не выбран приватный ключ.
 [Services]
 Службы
 [Main]
