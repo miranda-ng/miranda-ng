@@ -23,7 +23,6 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
 
 	HXML xmlToast = xmlCreateNode(L"toast", NULL, 0);
-	xmlAddAttr(xmlToast, L"activationType", L"foreground");
 
 	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", NULL);
 	xmlAddAttr(xmlAudioNode, L"silent", L"true");
