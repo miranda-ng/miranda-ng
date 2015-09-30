@@ -17,7 +17,7 @@ Domyślna grupa:
 [Use SSL connection (port 443)]
 Używaj połączenia SSL (port 443)
 [Use remote message timestamps]
-
+Używaj znaczników czasu serwera dla wiadomości
 [Automatically open group chats]
 Automatycznie otwieraj czaty grupowe
 [Registration]
