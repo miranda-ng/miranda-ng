@@ -96,7 +96,7 @@ Połączenie przychodzące
 [Invalid data!]
 Nieprawidłowe dane!
 [[b]Original message:[/b]\n%s\n]
-<<<<<<< .mine
+\[b]Wiadomość oryginalna:[/b]\n%s\n
 [Original message:\n%s\n]
 Wiadomość oryginalna:\n%s\n
 [[b]Edited at %s:[/b]\n%s\n]
@@ -104,15 +104,15 @@ Wiadomość oryginalna:\n%s\n
 [Edited at %s:\n%s\n]
 edytowana %s:\n%s\n
 [Call]
-<<<<<<< .mine
+Zadzwoń
 [Call missed]
-<<<<<<< .mine
+Rozmowa nieodebrana
 [Call ended (%s)]
 Rozmowa zakończona (%s)
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Transfer pliku:\n\tNazwa pliku: %s \n\tRozmiar: %lld bajtów \n
 [Unknown event, please send this text for developer: "%s"]
-<<<<<<< .mine
+Nieznane zdarzenie, proszę prześlij ten tekst programistom: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -158,7 +158,7 @@ Odblokuj kontakt
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [You cannot send when you are offline.]
-<<<<<<< .mine
+Nie możesz wysyłać będąc rozłączony.
 [Unknown error!]
 Nieznany błąd!
 [Network error!]
