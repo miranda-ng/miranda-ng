@@ -1563,19 +1563,19 @@ Okno serwera
 %s (%s)%s
 ;file \plugins\TabSRMM\src\templates.cpp
 [Message In]
-
+Przychodząca Wiadomość
 [Message Out]
-
+Wiadomość Wychodząca
 [Group In (Start)]
-
+Wiadomość Przychodząca Rozpoczynająca Czat
 [Group Out (Start)]
-
+Wiadomość Wychodząca Rozpoczynająca Czat
 [Group In (Inner)]
-
+Wiadomość Przychodząca na Czacie
 [Group Out (Inner)]
-
+Wiadomość Wychodząca na Czacie
 [Error message]
-
+Komunikat o błędzie
 [Template set editor]
 Edytor zbioru szablonów
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
