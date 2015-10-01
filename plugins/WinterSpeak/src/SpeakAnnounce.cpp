@@ -157,9 +157,9 @@ bool SpeakAnnounce::readMessage(MCONTACT contact)
 		//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 		if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd) == 0) {
 			if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-				return ((mwd.uState & MSG_WINDOW_STATE_EXISTS) != 0);
-			else if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-				return ((mwd.uState & MSG_WINDOW_STATE_FOCUS) != 0);
+				return ((mwd.uState & MSG_WINDOW_STATE_EXISTS) == 0);
+			else if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))
+				return ((mwd.uState & MSG_WINDOW_STATE_FOCUS) == 0);
 		}
 	}
 	return true;
