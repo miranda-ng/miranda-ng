@@ -1,6 +1,8 @@
 #ifndef _TOAST_NOTIFICATION_H_
 #define _TOAST_NOTIFICATION_H_
 
+struct ToastHandlerData;
+
 class ToastNotification
 {
 private:

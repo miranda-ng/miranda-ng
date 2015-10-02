@@ -259,6 +259,11 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 	return ShowMessageW(tszText, lParam);
 }
 
+static INT_PTR HideToast(WPARAM, LPARAM lParam)
+{
+	static_cast<ToastNotification*>(reinterpret_cast<ToastEventHandler*>(lParam)->GetToastNotification())->Hide();
+	return 0;
+}
 void __stdcall HideAllToasts(void*)
 {
 	mir_cslock lck(csNotifications);
@@ -283,4 +288,6 @@ void InitServices()
 
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetPopupData);
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetPopupContact);
+
+	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, HideToast);
 }

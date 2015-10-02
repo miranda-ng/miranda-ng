@@ -100,3 +100,8 @@ MCONTACT ToastEventHandler::GetContact()
 {
 	return _thd->hContact;
 }
+
+void* ToastEventHandler::GetToastNotification()
+{
+	return _thd->tstNotification;
+}

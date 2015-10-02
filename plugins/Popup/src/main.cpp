@@ -387,6 +387,8 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, Popup_UnregisterPopupClass);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, Popup_CreateClassPopup);
 
+	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, Popup_DeletePopup);
+
 	// load icons / create hook
 	InitIcons();
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
