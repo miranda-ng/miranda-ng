@@ -310,9 +310,9 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			}
 			else {
 				if (eventData->iType == IEED_EVENT_MESSAGE)
-					className = isRTL ? isSent ? "divOutRTL" : "divInRTL" : isSent ? "divOut" : "divIn";
+					className = isRTL ? (isSent ? "divOutRTL" : "divInRTL") : (isSent ? "divOut" : "divIn");
 				else
-					className = isRTL ? isSent ? "divNoticeRTL" : "divNoticeRTL" : isSent ? "divNotice" : "divNotice";
+					className = isRTL ? "divNoticeRTL" : (isSent ? "divNotice" : "divNotice");
 			}
 
 			CMStringA str;

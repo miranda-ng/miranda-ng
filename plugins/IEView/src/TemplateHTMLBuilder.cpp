@@ -27,17 +27,10 @@ TemplateHTMLBuilder::TemplateHTMLBuilder()
 	startedTime = time(NULL);
 	lastEventTime = time(NULL);
 	groupTemplate = NULL;
-	flashAvatarsTime[0] = time(NULL);
-	flashAvatarsTime[1] = time(NULL);
-	flashAvatars[0] = NULL;
-	flashAvatars[1] = NULL;
 }
 
 TemplateHTMLBuilder::~TemplateHTMLBuilder()
 {
-	for (int i = 0; i < 2; i++)
-		if (flashAvatars[i] != NULL)
-			mir_free(flashAvatars[i]);
 }
 
 char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
@@ -63,17 +56,12 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) > 0) {
 			TCHAR *ext = _tcsrchr(dbv.ptszVal, '.');
-			if (ext && mir_tstrcmpi(ext, _T(".xml")) == 0)
-				result = (TCHAR*)getFlashAvatar(dbv.ptszVal, (hContact == NULL) ? 1 : 0);
-			else {
-				if (result == NULL) {
-					/* relative -> absolute */
-					mir_tstrcpy(tmpPath, dbv.ptszVal);
-					if (_tcsncmp(tmpPath, _T("http://"), 7))
-						PathToAbsoluteT(dbv.ptszVal, tmpPath);
-
-					result = tmpPath;
-				}
+			if (result == NULL) {
+				/* relative -> absolute */
+				mir_tstrcpy(tmpPath, dbv.ptszVal);
+				if (_tcsncmp(tmpPath, _T("http://"), 7))
+					PathToAbsoluteT(dbv.ptszVal, tmpPath);
+				result = tmpPath;
 			}
 		}
 		db_free(&dbv);
@@ -81,29 +69,6 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	char* res = mir_utf8encodeT(result);
 	Utils::convertPath(res);
 	return res;
-}
-
-const char *TemplateHTMLBuilder::getFlashAvatar(const TCHAR *file, int index)
-{
-	if (time(NULL) - flashAvatarsTime[index] > 600 || flashAvatars[index] == NULL) {
-		if (flashAvatars[index] != NULL) {
-			mir_free(flashAvatars[index]);
-			flashAvatars[index] = NULL;
-		}
-		flashAvatarsTime[index] = time(NULL);
-		int src = _topen(file, _O_BINARY | _O_RDONLY);
-		if (src != -1) {
-			char pBuf[2048];
-			char *urlBuf;
-			_read(src, pBuf, 2048);
-			_close(src);
-			urlBuf = strstr(pBuf, "<URL>");
-			if (urlBuf) {
-				flashAvatars[index] = mir_strdup(strtok(urlBuf + 5, "<\t\n\r"));
-			}
-		}
-	}
-	return flashAvatars[index];
 }
 
 TemplateMap *TemplateHTMLBuilder::getTemplateMap(ProtocolSettings * protoSettings)
