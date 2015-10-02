@@ -6,34 +6,31 @@ class ToasterImage
 	ptrT tszId;
 
 public:
-	ToasterImage(HICON hIcon)
+	__inline explicit ToasterImage(HICON hIcon) : tszId(CMString(FORMAT, _T("%p"), hIcon).Detach())
 	{
-		ICONINFO icon;
+		ICONINFO icon = { 0 };
 		if (GetIconInfo(hIcon, &icon))
 		{
 			_hBitmap = icon.hbmColor;
 			DeleteObject(icon.hbmMask);
 		}
-		tszId = CMString(FORMAT, _T("%p"), hIcon).Detach();
 	}
 
-	inline ToasterImage(HBITMAP bmp) : _hBitmap(bmp)
-	{ 
-		tszId = CMString(FORMAT, _T("%p"), bmp).Detach(); 
+	__inline explicit ToasterImage(HBITMAP bmp) : _hBitmap(bmp), tszId(CMString(FORMAT, _T("%p"), bmp).Detach())
+	{  
 	}
 
-	ToasterImage(const char *szProto)
+	__inline explicit ToasterImage(const char *szProto) : tszId(mir_a2t(szProto))
 	{
-		ICONINFO icon;
+		ICONINFO icon = { 0 };
 		if (GetIconInfo(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1), &icon))
 		{
 			_hBitmap = icon.hbmColor;
 			DeleteObject(icon.hbmMask);
 		}
-		tszId = mir_a2t(szProto);
 	}
 
-	inline ~ToasterImage()
+	__inline ~ToasterImage()
 	{
 		DeleteObject(_hBitmap);
 	}
@@ -62,7 +59,7 @@ public:
 		return mir_wstrdup(wszSavePath);
 	}
 
-	inline operator wchar_t*()
+	__inline operator wchar_t*()
 	{	return Save();
 	}
 };

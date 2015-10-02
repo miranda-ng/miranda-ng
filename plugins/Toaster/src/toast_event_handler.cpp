@@ -21,8 +21,7 @@ IFACEMETHODIMP_(ULONG) ToastEventHandler::AddRef()
 IFACEMETHODIMP_(ULONG) ToastEventHandler::Release()
 {
 	ULONG l = InterlockedDecrement(&_ref);
-	if (l == 0) 
-		delete this;
+	if (l == 0) delete this;
 	return l;
 }
 
@@ -79,14 +78,17 @@ IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification*, _In_ IToastFa
 
 void ToastEventHandler::DestroyNotification()
 {
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(_thd->tstNotification);
+	if (_thd->tstNotification != nullptr)
+	{
+		mir_cslock lck(csNotifications);
+		lstNotifications.remove(_thd->tstNotification);
+	}
+	_thd->tstNotification = nullptr;
 }
 
-void ToastEventHandler::CallPopupProc(UINT uMsg)
+LRESULT ToastEventHandler::CallPopupProc(UINT uMsg)
 {
-	if (_thd->pPopupProc)
-		_thd->pPopupProc((HWND)this, uMsg, 0, 0);
+	return (_thd->pPopupProc ? _thd->pPopupProc((HWND)this, uMsg, 0, 0) : 0);
 }
 
 void* ToastEventHandler::GetPluginData()
