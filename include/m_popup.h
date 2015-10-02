@@ -326,9 +326,10 @@ Send this message when you want to destroy the popup, or use the function below.
 wParam = 0
 lParam = 0
 */
+#define MS_POPUP_DESTROYPOPUP "Popup/Delete"
 #define UM_DESTROYPOPUP          (WM_USER + 0x0201)
 static int __inline PUDeletePopup(HWND hWndPopup) {
-	return (int)SendMessage(hWndPopup, UM_DESTROYPOPUP, 0, 0);
+	return (int)CallService(MS_POPUP_DESTROYPOPUP, 0, (LPARAM)hWndPopup);
 }
 
 /* UM_INITPOPUP
