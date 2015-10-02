@@ -24,6 +24,7 @@ public:
 
 	void* GetPluginData();
 	MCONTACT GetContact();
+	void* GetToastNotification();
 
 private:
 	ULONG _ref;

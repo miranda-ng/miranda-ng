@@ -376,7 +376,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// avatar & time if with avatar
 			if (options.av_layout != PAV_NONE && (pwd->have_av || options.time_layout == PT_WITHAV)) {
-				RECT avr;
+				RECT avr = { 0 };
 				avr.top = options.av_padding;
 
 				if (options.av_layout == PAV_LEFT) {

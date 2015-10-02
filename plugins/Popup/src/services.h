@@ -51,5 +51,6 @@ INT_PTR Popup_RegisterVfx(WPARAM wParam, LPARAM lParam);
 INT_PTR Popup_RegisterPopupClass(WPARAM wParam, LPARAM lParam);
 INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam);
 INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam);
+INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam);
 
 #endif // __services_h__

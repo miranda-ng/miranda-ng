@@ -470,3 +470,8 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 
 	return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
 }
+
+INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam)
+{
+	return (INT_PTR)SendMessage((HWND)lParam, UM_DESTROYPOPUP, 0, 0);
+}
