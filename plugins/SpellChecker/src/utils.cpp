@@ -896,7 +896,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 
 		dlg->hContact = hContact;
 		dlg->hwnd = hwnd;
-		strncpy(dlg->name, name, sizeof(dlg->name));
+		strncpy(dlg->name, name, _countof(dlg->name));
 		dlg->enabled = db_get_b(dlg->hContact, MODULE_NAME, dlg->name, 1);
 		dlg->srmm = srmm;
 
@@ -1578,11 +1578,7 @@ BOOL lstreq(TCHAR *a, TCHAR *b, size_t len)
 {
 	a = CharLower(_tcsdup(a));
 	b = CharLower(_tcsdup(b));
-	BOOL ret;
-	if (len >= 0)
-		ret = !_tcsncmp(a, b, len);
-	else
-		ret = !mir_tstrcmp(a, b);
+	BOOL ret = len ? !_tcsncmp(a, b, len) : !mir_tstrcmp(a, b);
 	free(a);
 	free(b);
 	return ret;
