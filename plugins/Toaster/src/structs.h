@@ -20,14 +20,18 @@ struct ToastData : public MZeroedObject
 		tszTitle(mir_tstrdup(_tszTitle)), 
 		tszText(mir_tstrdup(_tszText)), 
 		hIcon(_hIcon), 
-		iType(_hIcon ? 2 : 0) 
+		iType(_hIcon ? 2 : 0) ,
+		pPopupProc(NULL),
+		vPopupData(NULL)
 	{}
 	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HBITMAP bmp = NULL) :
 		hContact(_hContact),
 		tszTitle(mir_tstrdup(_tszTitle)),
 		tszText(mir_tstrdup(_tszText)),
 		hBitmap(bmp),
-		iType(bmp ? 1 : 0)
+		iType(bmp ? 1 : 0),
+		pPopupProc(NULL),
+		vPopupData(NULL)
 	{}
 	~ToastData()
 	{
@@ -43,7 +47,7 @@ struct ClassData : public MZeroedObject
 
 	WNDPROC pPopupProc;
 
-	ClassData(int f, HICON h = NULL) : iFlags(f), hIcon(h) 
+	ClassData(int f, HICON h = NULL) : iFlags(f), hIcon(h), pPopupProc(NULL)
 	{
 	}
 };
