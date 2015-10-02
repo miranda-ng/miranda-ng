@@ -221,7 +221,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 		TextDocument->Release();
 		RichEditOle->Release();
 		return;
-	}
+	} // fallthrough  
 
 	TextRange->Release();
 
