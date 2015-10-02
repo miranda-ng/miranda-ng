@@ -238,7 +238,7 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 							m_SmileyList[dist].m_InsertText = out;
 							first = false;
 						}
-					}
+					} // fallthrough  
 				}
 				li = m0->getEndingIndex();
 			}

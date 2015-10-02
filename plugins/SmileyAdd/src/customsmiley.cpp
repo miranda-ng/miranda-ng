@@ -75,7 +75,7 @@ bool SmileyCType::CreateTriggerText(char* text)
 	if (len == 0) return false;
 
 	unsigned reslen;
-	char* res = (char*)mir_base64_decode(text, &reslen);
+	ptrA res((char*)mir_base64_decode(text, &reslen));
 	if (res == NULL)
 		return false;
 
@@ -88,7 +88,6 @@ bool SmileyCType::CreateTriggerText(char* text)
 
 	m_TriggerText = txt;
 	mir_free(txt);
-	mir_free(res);
 	return true;
 }
 
