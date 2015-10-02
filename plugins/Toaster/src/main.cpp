@@ -44,12 +44,18 @@ extern "C" int __declspec(dllexport) Load(void)
 	
 	InitServices();
 
-	GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH);
-	wcscat_s(wszTempDir, L"\\Miranda.Toaster");
+	if (GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH) != 0)
+	{
+		wcscat_s(wszTempDir, L"\\Miranda.Toaster");
 
-	DWORD dwAttributes = GetFileAttributes(wszTempDir);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(wszTempDir);
+		DWORD dwAttributes = GetFileAttributes(wszTempDir);
+		if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+			CreateDirectoryTreeT(wszTempDir);
+	}
+	else
+	{
+		MessageBox(NULL, TranslateT("Failed create temporary directory"), _T(MODULE), MB_OK | MB_ICONERROR);
+	}
 
 	return 0;
 }

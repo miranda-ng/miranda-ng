@@ -168,7 +168,7 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 		}
 		else
 		{
-			td = new ToastData(ppc->hContact, mir_utf8decodeT(ppc->pszTitle), mir_utf8decodeT(ppc->pszText), it->second->hIcon);
+			td = new ToastData(ppc->hContact, ptrT(mir_utf8decodeT(ppc->pszTitle)), ptrT(mir_utf8decodeT(ppc->pszText)), it->second->hIcon);
 		}
 
 		td->vPopupData = ppc->PluginData;

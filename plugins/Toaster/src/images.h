@@ -6,7 +6,7 @@ class ToasterImage
 	ptrT tszId;
 
 public:
-	__inline explicit ToasterImage(HICON hIcon) : tszId(CMString(FORMAT, _T("%p"), hIcon).Detach())
+	__inline explicit ToasterImage(HICON hIcon) : _hBitmap(NULL), tszId(CMString(FORMAT, _T("%p"), hIcon).Detach())
 	{
 		ICONINFO icon = { 0 };
 		if (GetIconInfo(hIcon, &icon))
@@ -20,7 +20,7 @@ public:
 	{  
 	}
 
-	__inline explicit ToasterImage(const char *szProto) : tszId(mir_a2t(szProto))
+	__inline explicit ToasterImage(const char *szProto) : _hBitmap(NULL), tszId(mir_a2t(szProto))
 	{
 		ICONINFO icon = { 0 };
 		if (GetIconInfo(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1), &icon))
