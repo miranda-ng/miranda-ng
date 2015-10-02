@@ -78,6 +78,7 @@ void RequestQueue::Execute(RequestQueueItem *item)
 	if (item->finallyCallback != NULL)
 		item->finallyCallback(item->arg);
 	delete item;
+	delete response;
 }
 
 unsigned int RequestQueue::AsyncSendThread(void *owner, void *arg)

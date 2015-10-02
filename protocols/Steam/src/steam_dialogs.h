@@ -28,7 +28,7 @@ class CSteamGuardDialog : public CSteamDlgBase
 {
 private:
 	char m_domain[32];
-	char m_guardCode[5];
+	char m_guardCode[6];
 
 	CCtrlEdit m_text;
 	CCtrlButton m_ok;
@@ -50,7 +50,7 @@ public:
 class CSteamCaptchaDialog : public CSteamDlgBase
 {
 private:
-	char m_captchaText[6];
+	char m_captchaText[7];
 
 	BYTE *m_captchaImage;
 	int m_captchaImageSize;
