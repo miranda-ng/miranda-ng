@@ -814,7 +814,7 @@ void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 	PLUGIN_DATAT *_T = 0;
 	while ((_T = PU_GetByContact(hContact)) != 0) {
 		_T->hContact = 0;									// make sure, it never "comes back"
-		if (_T->hWnd != 0 && IsWindow(_T->hWnd))
+		if (_T->hWnd != 0)
 			PUDeletePopup(_T->hWnd);
 	}
 }
