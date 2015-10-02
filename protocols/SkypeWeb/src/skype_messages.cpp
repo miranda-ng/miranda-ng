@@ -171,7 +171,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	MCONTACT hContact = AddContact(szConversationName, true);
 
-	if (HistorySynced)
+	if (m_bHistorySynced)
 		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
 	if (strMessageType == "Control/Typing")

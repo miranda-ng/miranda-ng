@@ -172,7 +172,7 @@ void CSkypeProto::TRouterThread(void*)
 				m_hTrouterHealthEvent.Wait();
 			}
 			m_TrouterConnection = response->nlc;
-		}
+		} // fallthrough 
 	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;

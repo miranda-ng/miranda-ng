@@ -162,5 +162,5 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	HistorySynced = true;
+	m_bHistorySynced = true;
 }

@@ -23,7 +23,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 		m_InviteDialogs(1),
 		m_GCCreateDialogs(1),
 		m_OutMessages(3, PtrKeySortT),
-		m_bThreadsTerminated(0)
+		m_bThreadsTerminated(0),
+		m_TrouterConnection(0),
+		m_pollingConnection(0)
 {
 	InitNetwork();
 

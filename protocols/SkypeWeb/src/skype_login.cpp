@@ -34,7 +34,7 @@ void CSkypeProto::Login()
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		return;
 	}	
-	HistorySynced = m_bThreadsTerminated = false;
+	m_bHistorySynced = m_bThreadsTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
 	else
