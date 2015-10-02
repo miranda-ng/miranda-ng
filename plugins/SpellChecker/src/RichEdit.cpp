@@ -296,11 +296,12 @@ int RichEdit::FixSel(CHARRANGE *to_fix, CHARRANGE sel_changed, int new_len)
 		return dif;
 
 	int newMax = sel_changed.cpMax + dif;
+	int newMin = sel_changed.cpMin + dif;
 
-	if (to_fix->cpMin >= sel_changed.cpMax)
+	if (to_fix->cpMin >= sel_changed.cpMin)
 		to_fix->cpMin += dif;
-	else if (to_fix->cpMin >= newMax) // For dif < 0, pos beetween sel_changed.cpMax + dif and sel_changed.cpMax
-		to_fix->cpMin = newMax;
+	else if (to_fix->cpMin >= newMin) // For dif < 0, pos beetween sel_changed.cpMax + dif and sel_changed.cpMax
+		to_fix->cpMin = newMin;
 
 	if (to_fix->cpMax >= sel_changed.cpMax)
 		to_fix->cpMax += dif;
