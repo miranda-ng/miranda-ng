@@ -540,7 +540,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 	MCONTACT hContact;
 	MCONTACT session_list_t[255] = { 0 };
 	int mode = 0;
-	if ((int)lparam >= g_ses_limit&&lparam != 256) {
+	if ((int)lparam >= g_ses_limit && lparam != 256) {
 		mode = 1;
 		lparam -= g_ses_limit;
 	}
@@ -575,7 +575,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 	}
 
 	if (dup == i) {
-		if (!hidden) {
+		if (!hidden[i]) {
 			if (g_bOtherWarnings)
 				MessageBox(NULL, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
