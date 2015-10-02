@@ -255,7 +255,7 @@ void CIrcProto::Disconnect(void)
 
 	KillIdent();
 
-	if (m_quitMessage && m_quitMessage[0])
+	if (m_quitMessage[0])
 		NLSend(_T("QUIT :%s\r\n"), m_quitMessage);
 	else
 		NLSend("QUIT \r\n");
