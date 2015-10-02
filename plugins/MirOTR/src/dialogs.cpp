@@ -435,7 +435,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							TCHAR *answer = new TCHAR[len + 1];
 							GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len + 1);
 							T2Utf ans(answer);
-							delete answer;
+							delete[] answer;
 
 							SMPInitUpdateDialog(context, false);
 							otr_start_smp(context, quest, (const unsigned char*)ans, mir_strlen(ans));

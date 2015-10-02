@@ -207,15 +207,15 @@ void ShowWarning(TCHAR *msg) {
 
 	mir_sntprintf(buffer, _T("%s Warning"), _T(MODULENAME));
 
-	TCHAR *message;
+	
 	switch(disp) {
 		case ED_POP:
 			{
 				int size = int(mir_tstrlen(msg) + 515);
-				message = new TCHAR[size]; // newline and null terminator
+				TCHAR *message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
-				delete message;
+				delete[] message;
 			}
 			break;
 		case ED_MB:
