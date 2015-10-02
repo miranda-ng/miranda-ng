@@ -159,6 +159,7 @@ ReadData* BinTreeNodeReader::readString(int token)
 
 	switch (token) {
 	case 0:
+		delete ret;
 		return NULL;
 
 	case 252:
