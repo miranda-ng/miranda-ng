@@ -94,7 +94,7 @@ private:
 
 	RequestQueue *requestQueue;
 
-	bool HistorySynced;
+	bool m_bHistorySynced;
 
 	std::map<HANDLE, time_t> m_mpOutMessages;
 

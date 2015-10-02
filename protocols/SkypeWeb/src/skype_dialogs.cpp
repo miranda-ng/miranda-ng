@@ -34,7 +34,7 @@ void CSkypeProto::CloseDialogs()
 
 //CSkypeInvideDlg
 CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
-	CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT)
+CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
 {
 	m_ok.OnClick = Callback(this, &CSkypeInviteDlg::btnOk_OnOk);
 }
