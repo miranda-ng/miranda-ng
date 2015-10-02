@@ -33,9 +33,6 @@ protected:
 	time_t 		startedTime;
 	time_t 		getStartedTime();
 	const char *groupTemplate;
-	time_t 		flashAvatarsTime[2];
-	char *		flashAvatars[2];
-	const char *getFlashAvatar(const TCHAR *file, int index);
 	char *getAvatar(MCONTACT hContact, const char *szProto);
 	void buildHeadTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
 	void appendEventTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
