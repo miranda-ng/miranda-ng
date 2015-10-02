@@ -207,7 +207,7 @@ void WhatsAppProto::NickListMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 		break;
 
 	case IDM_CPY_NICK:
-		utils::copyText(pcli->hwndContactList, GetChatUserNick(std::string((char*)_T2A(gch->ptszUID))));
+		utils::copyText(pcli->hwndContactList, ptrT(GetChatUserNick(std::string((char*)_T2A(gch->ptszUID)))));
 		break;
 
 	case IDM_CPY_RJID:
