@@ -10,7 +10,7 @@ struct ToastHandlerData;
 class ToastEventHandler : public Microsoft::WRL::Implements<DesktopToastActivatedEventHandler, DesktopToastDismissedEventHandler, DesktopToastFailedEventHandler>
 {
 public:
-	ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData*);
+	explicit ToastEventHandler(_In_ ToastHandlerData*);
 	~ToastEventHandler();
 
 	IFACEMETHODIMP_(ULONG) AddRef();
@@ -30,8 +30,7 @@ private:
 	std::unique_ptr<ToastHandlerData> _thd;
 
 	void DestroyNotification();
-
-	void CallPopupProc(UINT uMsg);
+	LRESULT CallPopupProc(UINT uMsg);
 };
 
 #endif //_TOAST_EVENT_HANDLER_H_
