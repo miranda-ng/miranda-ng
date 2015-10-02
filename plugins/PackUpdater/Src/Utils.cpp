@@ -309,7 +309,7 @@ static void CheckUpdates(void *)
 				break;
 			case 4:
 			case 5: {
-				VARST tszUtilRoot = Utils_ReplaceVarsT(_T("%miranda_path%"));
+				TCHAR *tszUtilRoot = VARST(_T("%miranda_path%"));
 				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 					mir_sntprintf(tszFilePathDest, _T("%s\\%s"), tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
 				else
