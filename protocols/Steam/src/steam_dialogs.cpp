@@ -38,9 +38,12 @@ void CSteamPasswordEditor::OnClose()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain)
-	: CSteamDlgBase(proto, IDD_GUARD, false), m_ok(this, IDOK),
-	m_text(this, IDC_TEXT), m_link(this, IDC_GETDOMAIN, domain)
+	: CSteamDlgBase(proto, IDD_GUARD, false),
+	m_ok(this, IDOK),
+	m_text(this, IDC_TEXT),
+	m_link(this, IDC_GETDOMAIN, domain)
 {
+	memset(m_guardCode, 0, sizeof(m_guardCode));
 	mir_strcpy(m_domain, domain);
 	m_ok.OnClick = Callback(this, &CSteamGuardDialog::OnOk);
 }
@@ -59,7 +62,7 @@ void CSteamGuardDialog::OnInitDialog()
 
 void CSteamGuardDialog::OnOk(CCtrlButton*)
 {
-	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode) + 1);
+	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode));
 	EndDialog(m_hwnd, 1);
 }
 
@@ -80,6 +83,7 @@ CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage,
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),
 	m_captchaImage(NULL)
 {
+	memset(m_captchaText, 0, sizeof(m_captchaText));
 	m_captchaImageSize = captchaImageSize;
 	m_captchaImage = (BYTE*)mir_alloc(captchaImageSize);
 	memcpy(m_captchaImage, captchaImage, captchaImageSize);
@@ -106,7 +110,7 @@ void CSteamCaptchaDialog::OnInitDialog()
 
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 {
-	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText) + 1);
+	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText));
 	EndDialog(m_hwnd, 1);
 }
 
