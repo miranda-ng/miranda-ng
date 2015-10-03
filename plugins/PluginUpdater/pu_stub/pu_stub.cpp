@@ -80,7 +80,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 
 	log( L"Entering the reading cycle...");
 
-	BYTE szReadBuffer[1024];
+	BYTE szReadBuffer[1024] = { 0 };
 	DWORD dwBytes;
 	while ( ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, NULL)) {
 		DWORD dwAction = *(DWORD*)szReadBuffer;
