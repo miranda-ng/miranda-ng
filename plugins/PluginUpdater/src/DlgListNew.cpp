@@ -347,7 +347,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* t
 
 	TCHAR tszFileName[MAX_PATH];
 	_tcsncpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1, _countof(tszFileName));
-	TCHAR *tp = _tcschr(tszFileName, L'.'); *tp = 0;
+	TCHAR *tp = _tcschr(tszFileName, L'.'); if (tp) *tp = 0;
 
 	TCHAR tszRelFileName[MAX_PATH];
 	_tcsncpy(tszRelFileName, hash.m_name, MAX_PATH);
