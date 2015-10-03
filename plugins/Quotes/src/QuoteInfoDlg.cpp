@@ -64,10 +64,9 @@ INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WP
 			time_t nFetchTime;
 			if (true == get_fetch_time(nFetchTime, hContact))
 			{
-				TCHAR szTime[50];
+				TCHAR szTime[50] = { 0 };
 				if (0 == _tctime_s(szTime, 50, &nFetchTime))
 				{
-					szTime[::mir_tstrlen(szTime) - 1] = _T('\0');
 					::SetDlgItemText(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
 				}
 			}
