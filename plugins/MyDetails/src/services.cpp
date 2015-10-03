@@ -274,7 +274,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 			protocols->Get(i)->GetAvatar();
 
-			if (protocols->Get(i)->avatar_file != NULL)
+			if (mir_tstrlen(protocols->Get(i)->avatar_file))
 				mir_tstrncpy(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 			else
 				ret[0] = '\0';
@@ -429,7 +429,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		else
 			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);
 		return 0;
-	}
+	} // fallthrough
 
 	if (proto == NULL || proto->status != ID_STATUS_OFFLINE) {
 		if (!status_msg_dialog_open) {
