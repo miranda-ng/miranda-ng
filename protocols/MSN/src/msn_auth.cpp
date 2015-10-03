@@ -390,7 +390,7 @@ static unsigned char* PKCS5_Padding(char* in, size_t &len)
 char* CMsnProto::GenerateLoginBlob(char* challenge)
 {
 	unsigned key1len;
-	BYTE *key1 = (BYTE*)mir_base64_decode(authSecretToken, &key1len);
+	mir_ptr<BYTE> key1((BYTE*)mir_base64_decode(authSecretToken, &key1len));
 
 	BYTE key2[MIR_SHA1_HASH_SIZE + 4];
 	BYTE key3[MIR_SHA1_HASH_SIZE + 4];
@@ -441,7 +441,7 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	Utils_GetRandom(nonce, sizeof(nonce));
 
 	unsigned key1len;
-	BYTE *key1 = (BYTE*)mir_base64_decode(hotSecretToken, &key1len);
+	mir_ptr<BYTE> key1((BYTE*)mir_base64_decode(hotSecretToken, &key1len));
 
 	static const unsigned char encdata[] = "WS-SecureConversation";
 	const size_t data1len = sizeof(nonce) + sizeof(encdata) - 1;
