@@ -261,7 +261,16 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
-	static_cast<ToastNotification*>(reinterpret_cast<ToastEventHandler*>(lParam)->GetToastNotification())->Hide();
+	extern LIST<ToastEventHandler> lstHandlers;
+	ToastEventHandler* handler = reinterpret_cast<ToastEventHandler*>(lParam);
+	if (lstHandlers.getIndex(handler) != -1)
+	{
+		ToastNotification* notification = static_cast<ToastNotification*>(handler->GetToastNotification());
+		if (lstNotifications.getIndex(notification) != -1)
+		{
+			notification->Hide();
+		}
+	}
 	return 0;
 }
 void __stdcall HideAllToasts(void*)

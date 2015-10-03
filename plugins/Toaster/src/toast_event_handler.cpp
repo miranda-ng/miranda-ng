@@ -3,13 +3,17 @@
 using namespace ABI::Windows::UI::Notifications;
 using namespace Microsoft::WRL;
 
+LIST<ToastEventHandler> lstHandlers(2, PtrKeySortT);
+
 ToastEventHandler::ToastEventHandler(_In_ ToastHandlerData *pData) : _ref(0), _thd(pData)
 {
+	lstHandlers.insert(this);
 	CallPopupProc(UM_INITPOPUP);
 }
 
 ToastEventHandler::~ToastEventHandler()
 {
+	lstHandlers.remove(this);
 	CallPopupProc(UM_FREEPLUGINDATA);
 }
 
