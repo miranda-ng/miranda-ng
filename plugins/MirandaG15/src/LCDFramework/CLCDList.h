@@ -400,7 +400,8 @@ public:
 					delete *iter;
 					
 					m_Entrys.erase(iter);
-					m_pRoot->UpdateEntryCount();
+					if (m_pRoot)
+						m_pRoot->UpdateEntryCount();
 					return;
 				}
 			}

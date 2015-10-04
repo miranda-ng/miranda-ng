@@ -750,9 +750,6 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessage)
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
-	SMessageJob *pJob = new SMessageJob();
-	pJob->dwTimestamp = GetTickCount();
-	pJob->hContact = hContact;
 
 	char *szProto = GetContactProto(hContact);
 	tstring strProto = toTstring(szProto);
@@ -760,13 +757,12 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
 
 	if (pIRCCon && db_get_b(hContact, szProto, "ChatRoom", 0) != 0) {
-		GCDEST gcd = { szProto, 0, GC_EVENT_SENDMESSAGE };
-
 		DBVARIANT dbv;
-		if (!db_get_ts(hContact, szProto, "Nick", &dbv))
-			gcd.ptszID = dbv.ptszVal;
-		else
+		if (db_get_ts(hContact, szProto, "Nick", &dbv))
 			return NULL;
+
+		GCDEST gcd = { szProto, 0, GC_EVENT_SENDMESSAGE };
+		gcd.ptszID = dbv.ptszVal;
 
 		tstring strID = tstring(gcd.ptszID) + _T(" - ") + tstring(_A2T(toNarrowString(pIRCCon->strNetwork).c_str()));
 		gcd.ptszID = (LPTSTR)strID.c_str();
@@ -778,9 +774,14 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 		gce.bIsMe = true;
 		CallService(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
-		pJob->hEvent = NULL;
+		db_free(&dbv);
+		return 0;
 	}
 	else {
+		SMessageJob *pJob = new SMessageJob();
+		pJob->dwTimestamp = GetTickCount();
+		pJob->hContact = hContact;
+
 		char* szMsgUtf = mir_utf8encodeW(strMessage.c_str());
 
 		pJob->iBufferSize = (int)mir_strlen(szMsgUtf) + 1;
@@ -792,9 +793,8 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 
 		pJob->hEvent = (MEVENT)CallContactService(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer);
 		CAppletManager::GetInstance()->AddMessageJob(pJob);
+		return pJob->hEvent;
 	}
-
-	return pJob->hEvent;
 }
 
 //************************************************************************
@@ -1361,7 +1361,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(_T("OK!\n"));
 		return 0;
 	}
-	if (gcd->ptszID != NULL) {
+	else if (gcd->ptszID != NULL) {
 		TRACE(_T("OK!\n"));
 		return 0;
 	}
@@ -1583,6 +1583,7 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 		if (pProtoData == NULL)
 			return 0;
 
+		// Skip connecting status
 		if (iNewStatus == ID_STATUS_CONNECTING)
 			return 0;
 
@@ -1601,10 +1602,6 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 				Event.bNotification = true;
 			Event.eType = EVENT_PROTO_STATUS;
 		}
-
-		// Skip connecting status
-		if (iNewStatus == ID_STATUS_CONNECTING)
-			return 0;
 
 		pProtoData->iStatus = iNewStatus;
 
