@@ -67,7 +67,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 int OnPreShutdown(WPARAM, LPARAM)
 {
-	CallFunctionAsync(&HideAllToasts, NULL);
 	CleanupClasses();
 
 	SHFILEOPSTRUCT file_op = {
