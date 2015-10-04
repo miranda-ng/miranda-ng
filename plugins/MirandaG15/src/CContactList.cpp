@@ -813,7 +813,7 @@ void CContactList::OnContactDeleted(MCONTACT hContact)
 		if(!db_mc_isSub(hContact))
 			ChangeGroupObjectCounters(strGroup,-1);
 		
-		if(pGroup->iMembers <= 0)
+		if(pGroup && pGroup->iMembers <= 0)
 			DeleteGroupObjectByPath(pGroup->strPath);
 	}
 }
@@ -997,14 +997,11 @@ void CContactList::UninitializeGroupObjects()
 void CContactList::InitializeGroupObjects()
 {
 	UninitializeGroupObjects();
-
-	CContactListGroup *pGroup = NULL;
 	
-	char *szProto = NULL;
 	for(MCONTACT hContact =  db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 	{
 		tstring strGroup = GetContactGroupPath(hContact);
-		szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if(szProto && db_get_b(NULL,META_PROTO,"Enabled",1) && !mir_strcmpi(szProto,META_PROTO))
 		{
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
@@ -1013,7 +1010,7 @@ void CContactList::InitializeGroupObjects()
 				strPath += strGroup;
 			strPath += (strPath.empty()?_T(""):_T("\\")) + strName;
 
-			pGroup = CreateGroupObjectByPath(strPath);	
+			CContactListGroup *pGroup = CreateGroupObjectByPath(strPath);
 			pGroup->hMetaContact = hContact;
 
 			if(!strGroup.empty())
@@ -1022,11 +1019,11 @@ void CContactList::InitializeGroupObjects()
 		// If the contact has no group, continue
 		else if(!strGroup.empty() && CConfig::GetBoolSetting(CLIST_USEGROUPS))
 		{
-			pGroup = GetGroupObjectByPath(strGroup);	
+			CContactListGroup *pGroup = GetGroupObjectByPath(strGroup);
 
 			// create the group
 			if(!pGroup)
-				pGroup = CreateGroupObjectByPath(strGroup);
+				CreateGroupObjectByPath(strGroup);
 
 			// update it's counters
 			if(!db_mc_isSub(hContact))
@@ -1104,9 +1101,7 @@ void CContactList::DeleteGroupObjectByPath(tstring strPath)
 {
 	ASSERT(!strPath.empty());
 
-	CContactListGroup *pParentGroup = NULL;
-	vector<CContactListGroup*>::iterator iter = m_Groups.begin();
-	for(iter = m_Groups.begin();iter != m_Groups.end();iter++)
+	for(vector<CContactListGroup*>::iterator iter = iter = m_Groups.begin();iter != m_Groups.end();iter++)
 	{
 		if((*iter)->strPath == strPath)
 		{
@@ -1120,13 +1115,15 @@ void CContactList::DeleteGroupObjectByPath(tstring strPath)
 
 			tstring strParse = strPath;
 			tstring::size_type pos = strParse.rfind('\\');
-			if(pos !=  tstring::npos )
+			if (pos != tstring::npos)
 			{
-				strParse = strParse.substr(0,pos);
-				pParentGroup = GetGroupObjectByPath(strParse);
-				pParentGroup->iGroups--;
-				if(pParentGroup->iMembers <= 0 && pParentGroup->iGroups <= 0)
-					DeleteGroupObjectByPath(strParse);
+				strParse = strParse.substr(0, pos);
+				CContactListGroup *pParentGroup = GetGroupObjectByPath(strParse);
+				if (pParentGroup) {
+					pParentGroup->iGroups--;
+					if (pParentGroup->iMembers <= 0 && pParentGroup->iGroups <= 0)
+						DeleteGroupObjectByPath(strParse);
+				}
 			}
 			return;
 		}
