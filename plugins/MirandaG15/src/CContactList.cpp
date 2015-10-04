@@ -1101,7 +1101,7 @@ void CContactList::DeleteGroupObjectByPath(tstring strPath)
 {
 	ASSERT(!strPath.empty());
 
-	for(vector<CContactListGroup*>::iterator iter = iter = m_Groups.begin();iter != m_Groups.end();iter++)
+	for(vector<CContactListGroup*>::iterator iter = m_Groups.begin();iter != m_Groups.end();iter++)
 	{
 		if((*iter)->strPath == strPath)
 		{
