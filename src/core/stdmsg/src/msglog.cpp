@@ -50,61 +50,30 @@ struct LogStreamData
 static int logPixelSY;
 static char szSep2[40], szSep2_RTL[50];
 
-static void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
-{
-	va_list va;
-	int charsDone;
-
-	va_start(va, fmt);
-	for (;;) {
-		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
-		if (charsDone >= 0)
-			break;
-		cbBufferAlloced += 1024;
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
-	va_end(va);
-	cbBufferEnd += charsDone;
-}
-
 static const TCHAR *bbcodes[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]") };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
 
-static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, TCHAR* line)
+static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 {
-	DWORD textCharsCount = 0;
-	char *d;
-
 	if (line == NULL)
-		return 0;
+		return;
 
-	size_t lineLen = mir_tstrlen(line) * 9 + 8;
-	if (cbBufferEnd + lineLen > cbBufferAlloced) {
-		cbBufferAlloced += lineLen + 1024 - lineLen % 1024;
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
+	buf.Append("{\\uc1 ");
 
-	d = buffer + cbBufferEnd;
-	mir_strcpy(d, "{\\uc1 ");
-	d += 6;
-
-	for (; *line; line++, textCharsCount++) {
+	for (; *line; line++) {
 		if (*line == '\r' && line[1] == '\n') {
-			memcpy(d, "\\par ", 5);
+			buf.Append("\\par ");
 			line++;
-			d += 5;
 		}
 		else if (*line == '\n') {
-			memcpy(d, "\\par ", 5);
-			d += 5;
+			buf.Append("\\par ");
 		}
 		else if (*line == '\t') {
-			memcpy(d, "\\tab ", 5);
-			d += 5;
+			buf.Append("\\tab ");
 		}
 		else if (*line == '\\' || *line == '{' || *line == '}') {
-			*d++ = '\\';
-			*d++ = (char)*line;
+			buf.AppendChar('\\');
+			buf.AppendChar(*line);
 		}
 		else if (*line == '[' && (g_dat.flags & SMF_SHOWFORMAT)) {
 			int i, found = 0;
@@ -112,9 +81,7 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 				if (line[1] == bbcodes[i][1]) {
 					size_t lenb = mir_tstrlen(bbcodes[i]);
 					if (!_tcsnicmp(line, bbcodes[i], lenb)) {
-						size_t len = mir_strlen(bbcodefmt[i]);
-						memcpy(d, bbcodefmt[i], len);
-						d += len;
+						buf.Append(bbcodefmt[i]);
 						line += lenb - 1;
 						found = 1;
 						break;
@@ -123,22 +90,22 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 			}
 			if (!found) {
 				if (!_tcsnicmp(line, _T("[url"), 4)) {
-					TCHAR* tag = _tcschr(line + 4, ']');
+					const TCHAR* tag = _tcschr(line + 4, ']');
 					if (tag) {
-						TCHAR *tagu = (line[4] == '=') ? line + 5 : tag + 1;
-						TCHAR *tage = _tcsstr(tag, _T("[/url]"));
+						const TCHAR *tagu = (line[4] == '=') ? line + 5 : tag + 1;
+						const TCHAR *tage = _tcsstr(tag, _T("[/url]"));
 						if (!tage) tage = _tcsstr(tag, _T("[/URL]"));
 						if (tage) {
-							*tag = 0;
-							*tage = 0;
-							d += sprintf(d, "{\\field{\\*\\fldinst HYPERLINK \"%s\"}{\\fldrslt %s}}", mir_t2a(tagu), mir_t2a(tag + 1)); //!!!!!!!!!!
+							*(TCHAR*)tag = 0;
+							*(TCHAR*)tage = 0;
+							buf.AppendFormat("{\\field{\\*\\fldinst HYPERLINK \"%s\"}{\\fldrslt %s}}", T2Utf(tagu), T2Utf(tag + 1));
 							line = tage + 5;
 							found = 1;
 						}
 					}
 				}
 				else if (!_tcsnicmp(line, _T("[color="), 7)) {
-					TCHAR* tag = _tcschr(line + 7, ']');
+					const TCHAR* tag = _tcschr(line + 7, ']');
 					if (tag) {
 						line = tag;
 						found = 1;
@@ -150,59 +117,54 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 				}
 			}
 			if (!found) {
-				if (*line < 128)  *d++ = (char)*line;
-				else d += sprintf(d, "\\u%d ?", *line); //!!!!!!!!!!
+				if (*line < 128)
+					buf.AppendChar((char)*line);
+				else
+					buf.AppendFormat("\\u%d ?", *line);
 			}
 		}
-		else if (*line < 128) *d++ = (char)*line;
-		else d += sprintf(d, "\\u%d ?", *line); //!!!!!!!!!!
+		else if (*line < 128)
+			buf.AppendChar((char)*line);
+		else
+			buf.AppendFormat("\\u%d ?", *line);
 	}
 
-	*(d++) = '}';
-	*d = 0;
-
-	cbBufferEnd = (int)(d - buffer);
-	return textCharsCount;
+	buf.AppendChar('}');
 }
 
 #define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
-static char *CreateRTFHeader(SrmmWindowData*)
+static char* CreateRTFHeader(SrmmWindowData*)
 {
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
-	size_t bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char *)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+
+	CMStringA buffer;
+	buffer.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	LOGFONT lf;
 	for (int i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
+		buffer.AppendFormat(FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ");
+	buffer.Append("}{\\colortbl ");
 	COLORREF colour;
 	for (int i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
 		colour = RGB(0, 0, 255);
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
-	return buffer;
+	buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	buffer.Append("}");
+	return buffer.Detach();
 }
 
-//mir_free() the return value
+// mir_free() the return value
 static char *CreateRTFTail(SrmmWindowData*)
 {
-	size_t bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char *)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
-	return buffer;
+	return mir_strdup("}");
 }
 
 //return value is static
@@ -250,38 +212,31 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(hContact, hDbEvent);
 	}
-	
-	size_t bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char *)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
 
+	CMStringA buffer;
 	if (!dat->bIsAutoRTL && !streamData->isEmpty)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
+		buffer.Append("\\par");
 
 	if (dbei.flags & DBEF_RTL) {
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlpar");
+		buffer.Append("\\rtlpar");
 		dat->bIsAutoRTL = TRUE;
 	}
-	else AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrpar");
+	else buffer.Append("\\ltrpar");
 
 	streamData->isEmpty = 0;
 
 	if (dat->bIsAutoRTL) {
 		if (dbei.flags & DBEF_RTL)
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrch\\rtlch");
+			buffer.Append("\\ltrch\\rtlch");
 		else
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlch\\ltrch");
+			buffer.Append("\\rtlch\\ltrch");
 	}
 
 	if (g_dat.flags & SMF_SHOWICONS) {
 		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\f0\\fs14");
-		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
-			bufferAlloced += 1024;
-		buffer = (char *)mir_realloc(buffer, bufferAlloced);
-		memcpy(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
-		bufferEnd += logIconBmpSize[i];
+		buffer.Append("\\f0\\fs14");
+		buffer.Append(pLogIconBmpBits[i]);
 	}
 
 	if (g_dat.flags & SMF_SHOWTIME) {
@@ -295,8 +250,8 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, _countof(str), 0);
 
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, str);
+		buffer.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+		AppendToBufferWithRTF(buffer, str);
 		showColon = 1;
 	}
 
@@ -318,15 +273,15 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, szName);
+		buffer.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+		AppendToBufferWithRTF(buffer, szName);
 		showColon = 1;
 		if (ci.pszVal)
 			mir_free(ci.pszVal);
 	}
 
 	if (showColon)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+		buffer.AppendFormat("%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 
 	TCHAR *msg, *szName;
 	switch (dbei.eventType) {
@@ -348,13 +303,13 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, szName);
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, _T(" "));
+		buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(buffer, szName);
+		AppendToBufferWithRTF(buffer, _T(" "));
 
 		msg = DbGetEventTextT(&dbei, CP_ACP);
 		if (msg) {
-			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, msg);
+			AppendToBufferWithRTF(buffer, msg);
 			mir_free(msg);
 		}
 		break;
@@ -365,16 +320,16 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 			char* descr = filename + mir_strlen(filename) + 1;
 			
 			ptrT ptszFileName(DbGetEventStringT(&dbei, filename));
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, ": ");
-			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszFileName);
+			buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
+			AppendToBufferWithRTF(buffer, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+			buffer.Append(": ");
+			AppendToBufferWithRTF(buffer, ptszFileName);
 
 			if (*descr != 0) {
 				ptrT ptszDescr(DbGetEventStringT(&dbei, descr));
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, " (");
-				AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszDescr);
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, ")");
+				buffer.Append(" (");
+				AppendToBufferWithRTF(buffer, ptszDescr);
+				buffer.Append(")");
 			}
 		}
 		break;
@@ -382,16 +337,16 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	case EVENTTYPE_MESSAGE:
 	default:
 		msg = DbGetEventTextT(&dbei, CP_ACP);
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, msg);
+		buffer.AppendFormat(" %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(buffer, msg);
 		mir_free(msg);
 	}
 
 	if (dat->bIsAutoRTL)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
+		buffer.Append("\\par");
 
 	mir_free(dbei.pBlob);
-	return buffer;
+	return buffer.Detach();
 }
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
