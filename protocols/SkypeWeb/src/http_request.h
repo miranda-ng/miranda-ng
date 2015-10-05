@@ -58,7 +58,7 @@ struct FORMAT_VALUE : public VALUE
 	}
 };
 
-class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : protected NETLIBHTTPREQUEST, public MZeroedObject
 {
 	HttpRequest& operator=(const HttpRequest&); // to prevent copying;
 
