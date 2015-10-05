@@ -920,19 +920,19 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					str.AppendFormat("\\cf%d ", MSGDLGFONTCOUNT + 8 + (color - '0'));
 					i++;
 				}
-				else if (color == (TCHAR)'d') {
+				else if (color == 'd') {
 					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 					i++;
 				}
-				else if (color == (TCHAR)'m') {
+				else if (color == 'm') {
 					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 					i++;
 				}
-				else if (color == (TCHAR)'n') {
+				else if (color == 'n') {
 					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 					i++;
 				}
-				else if (color == (TCHAR)'s') {
+				else if (color == 's') {
 					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN);
 					i++;
 				}
@@ -1002,7 +1002,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			}
 			dat->stage = STREAMSTAGE_TAIL;
 
-			//fall through
+		// fall through
 		case STREAMSTAGE_TAIL:
 			mir_free(dat->buffer);
 			dat->buffer = CreateRTFTail();

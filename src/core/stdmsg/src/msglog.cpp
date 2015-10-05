@@ -53,6 +53,16 @@ static char szSep2[40], szSep2_RTL[50];
 static const TCHAR *bbcodes[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]") };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
 
+static void AppendPlainUnicode(CMStringA &buf, const TCHAR *str)
+{
+	for (; *str; str++) {
+		if (*str < 128)
+			buf.AppendChar((char)*str);
+		else
+			buf.AppendFormat("\\u%d ?", *str);
+	}
+}
+
 static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 {
 	if (line == NULL)
@@ -98,7 +108,11 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 						if (tage) {
 							*(TCHAR*)tag = 0;
 							*(TCHAR*)tage = 0;
-							buf.AppendFormat("{\\field{\\*\\fldinst HYPERLINK \"%s\"}{\\fldrslt %s}}", T2Utf(tagu), T2Utf(tag + 1));
+							buf.Append("{\\field{\\*\\fldinst HYPERLINK \"");
+							AppendPlainUnicode(buf, tagu);
+							buf.Append("\"}{\\fldrslt ");
+							AppendPlainUnicode(buf, tag+1);
+							buf.Append("}}");
 							line = tage + 5;
 							found = 1;
 						}
@@ -162,13 +176,13 @@ static char* CreateRTFHeader(SrmmWindowData*)
 }
 
 // mir_free() the return value
-static char *CreateRTFTail(SrmmWindowData*)
+static char* CreateRTFTail(SrmmWindowData*)
 {
 	return mir_strdup("}");
 }
 
 //return value is static
-static char *SetToStyle(int style)
+static char* SetToStyle(int style)
 {
 	static char szStyle[128];
 	LOGFONT lf;
@@ -190,7 +204,7 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 }
 
 //mir_free() the return value
-static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
+static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
 {
 	int showColon = 0;
 
@@ -401,22 +415,24 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 {
-	EDITSTREAM stream = { 0 };
-	struct LogStreamData streamData = { 0 };
 	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
-	POINT scrollPos;
 	BOOL bottomScroll = TRUE;
+	POINT scrollPos;
 
 	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 
 	SendMessage(hwndLog, WM_SETREDRAW, FALSE, 0);
 	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)& oldSel);
+
+	LogStreamData streamData = { 0 };
 	streamData.hContact = dat->hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
 	streamData.isEmpty = !fAppend || GetWindowTextLength(hwndLog) == 0;
+
+	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)&streamData;
 
@@ -430,7 +446,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 			bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
 		}
 		if (!bottomScroll)
-			SendMessage(hwndLog, EM_GETSCROLLPOS, 0, (LPARAM)& scrollPos);
+			SendMessage(hwndLog, EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
 	if (fAppend) {
 		sel.cpMin = sel.cpMax = -1;
@@ -443,15 +459,15 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	SendMessage(hwndLog, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)& stream);
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
 		if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
 			SendMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
 			PostMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
 		}
 	}
 	else {
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)& oldSel);
-		SendMessage(hwndLog, EM_SETSCROLLPOS, 0, (LPARAM)& scrollPos);
+		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&oldSel);
+		SendMessage(hwndLog, EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
 
 	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
