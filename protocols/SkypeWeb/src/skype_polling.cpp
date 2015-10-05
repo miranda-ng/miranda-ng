@@ -30,7 +30,6 @@ void CSkypeProto::PollingThread(void*)
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)
 		{
 			PollRequest *request = new PollRequest(li);
-			request->nlc = m_pollingConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
 			delete request;
 
