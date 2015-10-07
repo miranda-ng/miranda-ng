@@ -536,16 +536,15 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 		else if (!strncmp(&oldString[positionInOldString], "filename(", mir_strlen("filename("))) {
 			positionInOldString += (int)mir_strlen("filename(");
 			tempInt = getNumber(&oldString[positionInOldString]);
-			if (tempInt == -1) {
+			if (tempInt == -1) 
 				return ERROR_NO_FILE;
-			}
-			else {
-				mir_snprintf(tempString, "fn%d", tempInt);
-				if (db_get_static(NULL, MODNAME, tempString, tempString, _countof(tempString)))
-					szNewString.Append(tempString);
-				else return ERROR_NO_FILE;
-				positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
-			}
+
+			mir_snprintf(tempString, "fn%d", tempInt);
+			if (db_get_static(NULL, MODNAME, tempString, tempString, _countof(tempString)))
+				return ERROR_NO_FILE;
+
+			szNewString.Append(tempString);
+			positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
 		}
 		// lastchecked(file(X))
 		else if (!strncmp(&oldString[positionInOldString], "lastchecked(file(", mir_strlen("lastchecked(file("))) {
@@ -557,7 +556,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 		}
 	}
 	// free the file strings
-	for (tempInt = 0; (fileContents[tempInt] != NULL) && (tempInt < MAXLINES); tempInt++)
+	for (tempInt = 0; (tempInt < MAXLINES) && (fileContents[tempInt] != NULL); tempInt++)
 		free(fileContents[tempInt]);
 
 	// check for load("A","B")
@@ -578,7 +577,7 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 	CMStringA newString;
 	char text[MAX_STRING_LENGTH];
 	int error = 0, status = GetLCStatus(0, 0);
-	if (db_get_static(hContact, module1, setting1, text, _countof(text))) {
+	if (!db_get_static(hContact, module1, setting1, text, _countof(text))) {
 		switch (stringReplacer(text, newString, hContact)) {
 		case ERROR_NO_LINE_AFTER_VAR_F:
 			newString.Format(Translate("%s - ERROR: no line specified or line not found (in %s)"), text, setting1);
@@ -616,18 +615,19 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 
 void replaceAllStrings(MCONTACT hContact)
 {
-	char tmp1[256], tmp2[256], tmp3[256];
 	WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");
 	WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
 	WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 	/* tooltips*/
 	WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
-	if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1)) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2, _countof(tmp2))) {
+
+	char tmp1[256], tmp2[256], tmp3[256];
+	if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1)))
+		db_set_s(hContact, "UserInfo", "FirstName", "");
+	else if (db_get_static(hContact, MODNAME, "ProgramParams", tmp2, _countof(tmp2)))
+		db_set_s(hContact, "UserInfo", "FirstName", tmp1);
+	else {
 		mir_snprintf(tmp3, "%s %s", tmp1, tmp2);
 		db_set_s(hContact, "UserInfo", "FirstName", tmp3);
 	}
-	else if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1))) {
-		db_set_s(hContact, "UserInfo", "FirstName", tmp1);
-	}
-	else db_set_s(hContact, "UserInfo", "FirstName", "");
 }

@@ -8,7 +8,7 @@ static UINT_PTR timerId = 0;
 // Returns : void
 // Description : called when the timer interval occurs
 //=====================================================
-
+//
 void timerFunc(void*)
 {
 	char text[512], fn[16], szFileName[MAX_PATH], temp[MAX_PATH];
@@ -24,7 +24,7 @@ void timerFunc(void*)
 	/* update the web pages*/
 	for (int i = 0;; i++) {
 		mir_snprintf(fn, "fn%d", i);
-		if (!db_get_static(NULL, MODNAME, fn, text, _countof(text)))
+		if (db_get_static(NULL, MODNAME, fn, text, _countof(text)))
 			break;
 
 		if (!strncmp("http://", text, mir_strlen("http://")) || !strncmp("https://", text, mir_strlen("https://"))) {
@@ -43,7 +43,7 @@ void timerFunc(void*)
 	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
 		int timer = db_get_w(hContact, MODNAME, "Timer", 15);
 		if (timer && !(timerCount % timer))
-			if (db_get_static(hContact, MODNAME, "Name", text, _countof(text)))
+			if (!db_get_static(hContact, MODNAME, "Name", text, _countof(text)))
 				replaceAllStrings(hContact);
 	}
 }
@@ -60,7 +60,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 // Returns : int
 // Description : starts the timer
 //=====================================================
-
+//
 int startTimer(int interval)
 {
 	timerId = SetTimer(NULL, 0, interval, timerProc);
@@ -73,7 +73,7 @@ int startTimer(int interval)
 // Returns : int
 // Description : stops the timer
 //=====================================================
-
+//
 int killTimer()
 {
 	if (timerId != 0) {

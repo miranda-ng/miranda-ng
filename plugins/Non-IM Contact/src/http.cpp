@@ -31,7 +31,7 @@ HANDLE hNetlibUser;
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-
+//
 int InternetDownloadFile(char *szUrl)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
@@ -44,7 +44,6 @@ int InternetDownloadFile(char *szUrl)
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount++;
 	nlhr.headers = (NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	memcpy(nlhr.headers, nlhr.headers, sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 	nlhr.headers[nlhr.headersCount - 1].szName = "User-Agent";
 	nlhr.headers[nlhr.headersCount - 1].szValue = NETLIB_USER_AGENT;
 
