@@ -113,11 +113,11 @@ const
      mask:0; atype:uaMenu+(ORD(main_menu   ) shl 8); enable:false),
     (name:'Contact menu'        ; service:nil;
      mask:0; atype:uaMenu+(ORD(contact_menu) shl 8); enable:false),
-    (name:'Tray menu'           ; service:'CList/AddTrayMenuItem';
+    (name:'Tray menu'           ; service:nil;
      mask:0; atype:uaMenu+(ORD(tray_menu   ) shl 8); enable:false),
-    (name:'Protocol menus'      ; service:'CList/AddProtoMenuItem';
+    (name:'Protocol menus'      ; service:nil;
      mask:0; atype:uaMenu+(ORD(proto_menu  ) shl 8); enable:false),
-    (name:'Status menu'         ; service:'CList/AddStatusMenuItem';
+    (name:'Status menu'         ; service:nil;
      mask:0; atype:uaMenu+(ORD(status_menu ) shl 8); enable:false)
     );
 
