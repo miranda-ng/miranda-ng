@@ -1,23 +1,9 @@
 #include "stdafx.h"
 
 //=======================================================
-// db_get_static
-//=======================================================
-
-int db_get_static(MCONTACT hContact, const char *szModule, const char *szSetting, char *value, size_t length)
-{
-	ptrA str(db_get_sa(hContact, szModule, szSetting));
-	if (str == NULL)
-		return 0;
-
-	strncpy_s(value, length, str, _TRUNCATE);
-	return 1;
-}
-
-//=======================================================
 // GetCaps
 //=======================================================
-
+//
 INT_PTR GetLCCaps(WPARAM wParam, LPARAM)
 {
 	if (wParam == PFLAGNUM_1)
@@ -32,6 +18,7 @@ INT_PTR GetLCCaps(WPARAM wParam, LPARAM)
 //=======================================================
 // GetName
 //=======================================================
+//
 INT_PTR GetLCName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char*)lParam, MODNAME, wParam);
@@ -41,6 +28,7 @@ INT_PTR GetLCName(WPARAM wParam, LPARAM lParam)
 //=======================================================
 // BPLoadIcon
 //=======================================================
+//
 INT_PTR LoadLCIcon(WPARAM wParam, LPARAM)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL) {
@@ -62,7 +50,7 @@ INT_PTR LoadLCIcon(WPARAM wParam, LPARAM)
 //=======================================================
 // SetFStatus			
 //=======================================================
-
+//
 int SetLCStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = LCStatus;
@@ -113,7 +101,7 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 //=======================================================
 // GetStatus
 //=======================================================
-
+//
 INT_PTR GetLCStatus(WPARAM, LPARAM)
 {
 	if ((LCStatus >= ID_STATUS_ONLINE) && (LCStatus <= ID_STATUS_OUTTOLUNCH))

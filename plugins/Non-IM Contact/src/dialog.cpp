@@ -235,7 +235,7 @@ static int CALLBACK PropSheetProc(HWND, UINT uMsg, LPARAM lParam)
 
 void DoPropertySheet(MCONTACT hContact)
 {
-	char title[256], nick[256];
+	char nick[256];
 	PROPSHEETPAGEA psp[4] = { 0 };
 
 	/* contact info */
@@ -287,9 +287,11 @@ void DoPropertySheet(MCONTACT hContact)
 	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
 	psh.hInstance = g_hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
-	db_get_static(hContact, MODNAME, "Nick", nick, _countof(nick));
-	mir_snprintf(title, Translate("Edit Non-IM Contact \"%s\""), nick);
-	psh.pszCaption = title;
+	if (!db_get_static(hContact, MODNAME, "Nick", nick, _countof(nick))) {
+		char title[256];
+		mir_snprintf(title, Translate("Edit Non-IM Contact \"%s\""), nick);
+		psh.pszCaption = title;
+	}
 	psh.nPages = _countof(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;
 	psh.pfnCallback = PropSheetProc;
@@ -306,7 +308,7 @@ INT_PTR addContact(WPARAM, LPARAM)
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
+	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;
@@ -323,7 +325,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
+	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;

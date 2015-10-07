@@ -119,8 +119,6 @@ extern char *szInfo;
 extern char *szData;
 extern HANDLE hNetlibUser;
 
-int db_get_static(MCONTACT hContact, const char *moduleName, const char *fn, char *buf, size_t cbSize);
-
 #endif
 
 #pragma comment(lib,"comctl32.lib")

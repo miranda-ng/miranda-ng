@@ -32,8 +32,8 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM)
 	if (proto && !mir_strcmp(proto, MODNAME)) {
 		if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 			editContact(wParam, 0);		// for later when i add a second double click setting
-		else if (db_get_static(wParam, MODNAME, "Program", program, _countof(program)) && mir_strcmp(program, "")) {
-			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, _countof(params)))
+		else if (!db_get_static(wParam, MODNAME, "Program", program, _countof(program)) && mir_strcmp(program, "")) {
+			if (db_get_static(wParam, MODNAME, "ProgramParams", params, _countof(params)))
 				mir_strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))
 				Utils_OpenUrl(program);
@@ -60,6 +60,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 // Returns : int
 // Description : Called at very beginning of plugin
 //=====================================================
+//
 int NimcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -77,7 +78,7 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 // Returns :
 // Description : Sets plugin info
 //=====================================================
-
+//
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -89,7 +90,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 // Returns : BOOL
 // Description :
 //=====================================================
-
+//
 BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	g_hInst = hinst;
@@ -102,18 +103,18 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+IconItem icoList[] =
+{
+	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
+};
+
 //=====================================================
 // Name : Load
 // Parameters: PLUGINLINK *link
 // Returns : int
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
-
-IconItem icoList[] =
-{
-	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
-};
-
+//
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
@@ -195,7 +196,7 @@ extern "C" __declspec(dllexport) int Load()
 // Returns :
 // Description : Unloads plugin
 //=====================================================
-
+//
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	killTimer();
