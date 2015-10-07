@@ -380,7 +380,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	if (userID == VK_FEED_USER || !IsOnline())
 		return;
 	
-	CMString code(FORMAT, _T("var userIDs=\"%i\";return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};"),
+	CMString code(FORMAT, _T("var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"usercount\":res.length,\"users\":res};"),
 		userID, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code)
@@ -409,13 +409,12 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 		codeformat += _T("API.account.setOnline();");
 	
 	if (flag && !m_bLoadFullCList)
-		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
-			"var _US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});if(_US.length>US.length)US=_US;"
-			"var res=[];var index=US.length;while(index>0){index=index-1;if(US[index].online!=0){res.unshift(US[index]);};};"
-			"return{\"freeoffline\":1,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
+		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"			
+			"var res=[];var index=US.length;var _count=index;while(index>0){index=index-1;if(US[index].online!=0){res.unshift(US[index]);};};"
+			"return{\"freeoffline\":1,\"usercount\":_count,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
-		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
-			"return{\"freeoffline\":0,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
+		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});var _count=res.length;"
+			"return{\"freeoffline\":0,\"usercount\":_count,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	code.AppendFormat(codeformat, userIDs, CMString(flag ? "online,status" : fieldsName));
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
@@ -439,37 +438,41 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (!jnUsers)
 		return;
 
-	LIST<void> arContacts(10, PtrKeySortT);
 	MCONTACT hContact;
 
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		if (!isChatRoom(hContact))
-			arContacts.insert((HANDLE)hContact);
+	debugLogA("CVkProto::OnReceiveUserInfo usercount = %d", jnResponse["usercount"].as_int());
+	if (jnResponse["usercount"].as_int() > 0) {
+		LIST<void> arContacts(10, PtrKeySortT);
+		for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+			if (!isChatRoom(hContact))
+				arContacts.insert((HANDLE)hContact);
 
-	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-		hContact = SetContactInfo((*it));
-		if (hContact)
-			arContacts.remove((HANDLE)hContact);
-	}
-	
-	if (jnResponse["freeoffline"].as_bool())
-		for (int i = 0; i < arContacts.getCount(); i++) {
-			hContact = (UINT_PTR)arContacts[i];
-			LONG userID = getDword(hContact, "ID", -1);
-			if (userID == m_myUserId || userID == VK_FEED_USER)
-				continue;
-
-			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-
-			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60LL)) {
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-				SetMirVer(hContact, -1);
-				db_unset(hContact, m_szModuleName, "ListeningTo");
-			}
+		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
+			hContact = SetContactInfo((*it));
+			if (hContact)
+				arContacts.remove((HANDLE)hContact);
 		}
 
-	arContacts.destroy();
+		if (jnResponse["freeoffline"].as_bool())
+			for (int i = 0; i < arContacts.getCount(); i++) {
+				hContact = (UINT_PTR)arContacts[i];
+				LONG userID = getDword(hContact, "ID", -1);
+				if (userID == m_myUserId || userID == VK_FEED_USER)
+					continue;
+
+				int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+				if ((iContactStatus == ID_STATUS_ONLINE)
+					|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60LL)) {
+					setWord(hContact, "Status", ID_STATUS_OFFLINE);
+					SetMirVer(hContact, -1);
+					db_unset(hContact, m_szModuleName, "ListeningTo");
+				}
+			}
+
+		arContacts.destroy();
+	}
+	
 	AddFeedSpecialUser();
 
 	const JSONNode &jnRequests = jnResponse["requests"];
