@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (!InternetDownloadFile(text)) {
 					for (int i = 0;; i++) {
 						mir_snprintf(fn, "fn%d", i);
-						if (!db_get_static(NULL, MODNAME, fn, text, _countof(text))) {
+						if (db_get_static(NULL, MODNAME, fn, text, _countof(text))) {
 							mir_snprintf(szFileName, "%s\\plugins\\%s.html", getMimDir(temp), fn);
 							if (savehtml(szFileName)) {
 								mir_snprintf(fn, "fn%d", i);
@@ -212,7 +212,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (int i = 0;; i++) {
 				char file[MAX_PATH];
 				mir_snprintf(fn, "fn%d", i);
-				if (!db_get_static(NULL, MODNAME, fn, file, _countof(file))) {
+				if (db_get_static(NULL, MODNAME, fn, file, _countof(file))) {
 					if (Openfile(file, 1)) {
 						db_set_s(NULL, MODNAME, fn, file);
 						int index = SendDlgItemMessageA(hwnd, IDC_FILE_LIST, CB_ADDSTRING, 0, (LPARAM)file);
