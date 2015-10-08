@@ -411,8 +411,8 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	if (flag && !m_bLoadFullCList)
 		codeformat += CMString("var US=[];var res=[];var t=3;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
-			"var index=US.length;var _count=index;"
-			"while(index>0){index=index-1;if(US[index].online!=0){res.push(US[index]);};};"
+			"var index=US.length;while(index>0){"
+			"index=index-1;if(US[index].online!=0){res.push(US[index]);};};"
 			"t=t-1;if(res.length>0)t=0;};"
 			"return{\"freeoffline\":1,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
