@@ -409,7 +409,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 		codeformat += _T("API.account.setOnline();");
 	
 	if (flag && !m_bLoadFullCList)
-		codeformat += CMString("var US=[];var res=[];var t=3;while(t>0){"
+		codeformat += CMString("var US=[];var res=[];var t=10;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"var index=US.length;while(index>0){"
 			"index=index-1;if(US[index].online!=0){res.push(US[index]);};};"
