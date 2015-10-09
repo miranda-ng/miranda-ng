@@ -31,6 +31,7 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
+HMODULE hMsftEdit;
 
 static int SRMMStatusToPf2(int status)
 {
@@ -383,7 +384,7 @@ static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message mo
 
 int LoadSendRecvMessageModule(void)
 {
-	if (LoadLibraryA("Msftedit.dll") == NULL) {
+	if ((hMsftEdit = LoadLibrary(_T("Msftedit.dll"))) == NULL) {
 		if (IDYES != MessageBox(0, TranslateTS(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
@@ -443,7 +444,7 @@ int SplitmsgShutdown(void)
 	DestroyHookableEvent(hHookWinWrite);
 
 	FreeMsgLogIcons();
-	FreeLibrary(GetModuleHandleA("Msftedit"));
+	FreeLibrary(hMsftEdit);
 	RichUtil_Unload();
 	msgQueue_destroy();
 	return 0;
