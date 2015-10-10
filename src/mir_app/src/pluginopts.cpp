@@ -510,7 +510,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), needRestart);
 				if (needRestart) {
 					mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, _T("\n%s"), TranslateT("Do you want to restart it now?"));
-					if (MessageBox(NULL, bufRestart, _T("Miranda NG"), MB_ICONWARNING | MB_YESNO) == IDYES)
+					if (MessageBox(hwndDlg, bufRestart, _T("Miranda NG"), MB_ICONWARNING | MB_YESNO) == IDYES)
 						CallService(MS_SYSTEM_RESTART, 1, 0);
 				}
 			}
