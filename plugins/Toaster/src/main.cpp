@@ -54,7 +54,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 	else
 	{
-		MessageBox(NULL, TranslateT("Failed create temporary directory"), _T(MODULE), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, TranslateT("Failed to create temporary directory"), _T(MODULE), MB_OK | MB_ICONERROR);
 	}
 
 	return 0;

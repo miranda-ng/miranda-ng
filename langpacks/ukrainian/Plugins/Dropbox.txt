@@ -33,14 +33,6 @@
 Вставляти посилання в поле вводу
 [Copy download link to clipboard]
 Копіювати посилання в буфер обміну
-[Name]
-Ім'я
-[Value]
-Значення
-[Type]
-Тип
-[Size]
-Розмір
 [in process...]
 зачекайте...
 [server does not respond]
