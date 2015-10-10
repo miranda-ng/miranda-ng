@@ -103,8 +103,8 @@
 Емоції
 [Status changes]
 Зміни статусів
-[Special IRC events:]
-Тільки для IRC
+[Group chat events:]
+Події чатів:
 [Notices]
 Сповіщення
 [Channel events]
