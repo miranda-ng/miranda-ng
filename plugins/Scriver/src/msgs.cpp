@@ -493,7 +493,6 @@ int OnUnloadModule(void)
 
 	ReleaseIcons();
 	FreeMsgLogIcons();
-	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
 	RichUtil_Unload();
 	FreeGlobals();
 	FreeLibrary(hMsftEdit);
