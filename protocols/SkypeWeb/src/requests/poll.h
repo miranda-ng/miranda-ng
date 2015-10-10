@@ -25,9 +25,7 @@ public:
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", li.endpoint.szServer)
 	{
 		timeout = 60000;
-		flags |= NLHRF_PERSISTENT;
 		Headers
-			<< CHAR_VALUE("Connection", "keep-alive")
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken);
 	}
