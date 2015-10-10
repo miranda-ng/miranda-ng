@@ -22,8 +22,8 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	switch (wParam)
 	{
 	case AF_MAXSIZE:
-		((POINT*)lParam)->x = 150;
-		((POINT*)lParam)->y = 150;
+		((POINT*)lParam)->x = 98;
+		((POINT*)lParam)->y = 98;
 		return 0;
 
 	case AF_MAXFILESIZE:
@@ -171,39 +171,36 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 	GetAvatarFileName(NULL, avatarPath, _countof(avatarPath));
 	if (path != NULL)
 	{
-		if (!CopyFile(path, avatarPath, FALSE))
+		if (CopyFile(path, avatarPath, FALSE))
 		{
-			debugLogA("CSkypeProto::SetMyAvatar: failed to copy new avatar to avatar cache");
-			return -1;
-		}
+			FILE *hFile = _tfopen(path, L"rb");
+			if (hFile)
+			{
+				fseek(hFile, 0, SEEK_END);
+				size_t length = ftell(hFile);
+				if (length != -1)
+				{
+					rewind(hFile);
 
-		FILE *hFile = _tfopen(path, L"rb");
-		if (!hFile)
-		{
-			debugLogA("CSkypeProto::SetMyAvatar: failed to open avatar file");
-			return -1;
-		}
+					mir_ptr<BYTE> data((PBYTE)mir_alloc(length));
 
-		fseek(hFile, 0, SEEK_END);
-		size_t length = ftell(hFile);
-		if (length == -1)
-		{
-			debugLogA("CSkypeProto::SvcSetMyAvatar: failed to get avatar file size");
-			fclose(hFile);
-			return -1;
-		}
-		rewind(hFile);
+					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length)
+					{
+						FI_INTERFACE *fii = NULL;
+						const char *szMime = "image/jpeg";
+						if (CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii) == S_OK && fii)
+						{
+							szMime = fii->FI_GetFIFMimeType(fii->FI_GetFIFFromFilenameU(path));
+						}
 
-		ptrA data((char*)mir_alloc(length));
-
-		if (data == NULL || fread(data, sizeof(char), length, hFile) != length)
-		{
-			debugLogA("CSkypeProto::SvcSetMyAvatar: failed to read avatar file");
-			fclose(hFile);
-			return -1;
+						PushRequest(new SetAvatarRequest(data, length, szMime, li), &CSkypeProto::OnSentAvatar);
+						return 0;
+					}
+				}
+				fclose(hFile);
+			}
 		}
-		fclose(hFile);
-		PushRequest(new SetAvatarRequest(data, length, li), &CSkypeProto::OnSentAvatar);
+		return -1;
 	}
 	else
 	{
