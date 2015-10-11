@@ -130,12 +130,8 @@ void CMLan::StartChecking()
 	if (m_hCheckThread)
 		return;
 
-	TContact* cont = m_pRootContact;
-	while (cont)
-	{
+	for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev)
 		cont->m_time = MLAN_CHECK + MLAN_TIMEOUT;
-		cont = cont->m_prev;
-	}
 
 	m_hCheckThread = mir_forkthread(CheckProc, (void*)this);
 	StartListen();
@@ -154,13 +150,10 @@ void CMLan::StopChecking()
 	m_mirStatus = ID_STATUS_OFFLINE;
 	RequestStatus(false);
 	StopListen();
-
-	TFileConnection* fc = m_pFileConnectionList;
-	while (fc)
-	{
+	
+	for (TFileConnection *fc = m_pFileConnectionList; fc; fc = fc->m_pNext)
 		fc->Terminate();
-		fc = fc->m_pNext;
-	}
+
 	while (m_pFileConnectionList)
 		Sleep(10);
 
@@ -179,8 +172,8 @@ void CMLan::Check()
 	{
 		Sleep(MLAN_SLEEP);
 		mir_cslock lck(m_csAccessClass);
-		TContact* cont = m_pRootContact;
-		while (cont)
+		
+		for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev)
 		{
 			if (cont->m_status != ID_STATUS_OFFLINE)
 			{
@@ -193,12 +186,9 @@ void CMLan::Check()
 					cont->m_status = ID_STATUS_OFFLINE;
 					MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 					if (hContact)
-					{
 						db_set_w(hContact, PROTONAME, "Status", ID_STATUS_OFFLINE);
-					}
 				}
 			}
-			cont = cont->m_prev;
 		}
 	}
 }
@@ -312,9 +302,9 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 						u_int rip = cont->m_addr.S_un.S_addr;
 						int tip = (rip << 24) | ((rip & 0xff00) << 8) | ((rip & 0xff0000) >> 8) | (rip >> 24);
 						db_set_dw(hContact, PROTONAME, "IP", tip);
-						//						HOSTENT* host = gethostbyaddr((const char*)&rip, sizeof(rip), AF_INET);
-						//						if (host)
-						//							db_set_s(hContact, PROTONAME, "UID", host->h_name);
+//						HOSTENT* host = gethostbyaddr((const char*)&rip, sizeof(rip), AF_INET);
+//						if (host)
+//							db_set_s(hContact, PROTONAME, "UID", host->h_name);
 					}
 				}
 			}
@@ -360,23 +350,23 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 			if (pak.idReqAwayMessage && cont)
 			{
 				MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false);
-				// Removed - it causes that whoisreadingawaymessage plugin was not working
-				//				if (hContact)
-				//				{
-				//					int IcqStatus = 0;
-				//					switch (m_mirStatus)
-				//					{
-				//					case ID_STATUS_AWAY: IcqStatus = ICQ_MSGTYPE_GETAWAYMSG; break;
-				//					case ID_STATUS_NA: IcqStatus = ICQ_MSGTYPE_GETNAMSG; break;
-				//					case ID_STATUS_OCCUPIED: IcqStatus = ICQ_MSGTYPE_GETOCCUMSG; break;
-				//					case ID_STATUS_DND: IcqStatus = ICQ_MSGTYPE_GETDNDMSG; break;
-				//					case ID_STATUS_FREECHAT: IcqStatus = ICQ_MSGTYPE_GETFFCMSG; break;
-				//					}
-				//					// HACK: this is a real hack
-				//					db_set_dw(hContact, "ICQ", "UIN", 1/*0xffffffff*/);
-				//					NotifyEventHooks(m_hookIcqMsgReq, IcqStatus, 1/*0xffffffff*/);
-				//					db_unset(hContact, "ICQ", "UIN");
-				//				}
+// Removed - it causes that whoisreadingawaymessage plugin was not working
+//				if (hContact)
+//				{
+//					int IcqStatus = 0;
+//					switch (m_mirStatus)
+//					{
+//					case ID_STATUS_AWAY: IcqStatus = ICQ_MSGTYPE_GETAWAYMSG; break;
+//					case ID_STATUS_NA: IcqStatus = ICQ_MSGTYPE_GETNAMSG; break;
+//					case ID_STATUS_OCCUPIED: IcqStatus = ICQ_MSGTYPE_GETOCCUMSG; break;
+//					case ID_STATUS_DND: IcqStatus = ICQ_MSGTYPE_GETDNDMSG; break;
+//					case ID_STATUS_FREECHAT: IcqStatus = ICQ_MSGTYPE_GETFFCMSG; break;
+//					}
+//					// HACK: this is a real hack
+//					db_set_dw(hContact, "ICQ", "UIN", 1/*0xffffffff*/);
+//					NotifyEventHooks(m_hookIcqMsgReq, IcqStatus, 1/*0xffffffff*/);
+//					db_unset(hContact, "ICQ", "UIN");
+//				}
 
 				mir_cslock lck(m_csAccessAwayMes);
 
@@ -511,14 +501,12 @@ void __cdecl CMLan::LaunchExt(void *lpParameter)
 void CMLan::SearchExt(TDataHolder* hold)
 {
 	// TODO: Normal search must be added
-
 	Sleep(0);
 	EMPSEARCHRESULT psr;
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
 
-	TContact* cont = m_pRootContact;
-	while (cont)
+	for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev)
 	{
 		if (mir_strcmp(hold->msg, cont->m_nick) == 0 || mir_strcmp(hold->msg, "*") == 0)
 		{
@@ -537,7 +525,6 @@ void CMLan::SearchExt(TDataHolder* hold)
 
 			ProtoBroadcastAck(PROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)hold->id, (LPARAM)&psr);
 		}
-		cont = cont->m_prev;
 	}
 	ProtoBroadcastAck(PROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)hold->id, 0);
 	delete hold;
@@ -546,7 +533,7 @@ void CMLan::SearchExt(TDataHolder* hold)
 void CMLan::SendMessageExt(TDataHolder* hold)
 {
 	Sleep(0);
-	if (db_get_w((MCONTACT)hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+	if (db_get_w(hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 	{
 		Sleep(20);
 		ProtoBroadcastAck(PROTONAME, hold->hContact, (hold->op == LEXT_SENDURL) ? ACKTYPE_URL : ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hold->id, 0);
@@ -555,7 +542,7 @@ void CMLan::SendMessageExt(TDataHolder* hold)
 	{
 		TPacket pak;
 		memset(&pak, 0, sizeof(pak));
-		u_long addr = db_get_dw((MCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
+		u_long addr = db_get_dw(hold->hContact, PROTONAME, "ipaddr", 0);
 		pak.strMessage = hold->msg;
 		pak.idMessage = hold->id;
 		if (hold->op == LEXT_SENDURL)
@@ -572,7 +559,7 @@ void CMLan::GetAwayMsgExt(TDataHolder* hold)
 	TPacket pak;
 	memset(&pak, 0, sizeof(pak));
 	pak.idReqAwayMessage = hold->id;
-	u_long addr = db_get_dw((MCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
+	u_long addr = db_get_dw(hold->hContact, PROTONAME, "ipaddr", 0);
 	SendPacketExt(pak, addr);
 
 	ProtoBroadcastAck(PROTONAME, hold->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SENTREQUEST, (HANDLE)hold->id, 0);
@@ -789,6 +776,7 @@ void CMLan::ParsePacket(TPacket& pak, u_char* buf, int len)
 			break;
 		case MCODE_SND_URL:
 			pak.flIsUrl = true;
+			// fall through
 		case MCODE_SND_MESSAGE:
 			pak.idMessage = *((u_int*)pb);
 			pb += sizeof(u_int);
@@ -796,6 +784,7 @@ void CMLan::ParsePacket(TPacket& pak, u_char* buf, int len)
 			break;
 		case MCODE_ACK_URL:
 			pak.flIsUrl = true;
+			// fall through
 		case MCODE_ACK_MESSAGE:
 			pak.idAckMessage = *((u_int*)pb);
 			//pb += sizeof(u_int);
@@ -939,7 +928,7 @@ int CMLan::TFileConnection::Recv(bool halt)
 	if (size == 0)
 	{
 		EMLOG("Connection was gracefully closed - size is 0");
-		delete m_buf;
+		delete[] m_buf;
 		m_buf = NULL;
 		m_recSize = 0;
 		return FCS_OK;
@@ -1058,12 +1047,11 @@ void CMLan::FileRemoveFromList(TFileConnection* conn)
 void CMLan::RecvFile(CCSDATA* ccs)
 {
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	char *szDesc, *szFile;
 
 	db_unset(ccs->hContact, "CList", "Hidden");
 
-	szFile = pre->szMessage + sizeof(DWORD);
-	szDesc = szFile + mir_strlen(szFile) + 1;
+	char *szFile = pre->szMessage + sizeof(DWORD);
+	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = PROTONAME;
@@ -1335,13 +1323,9 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	}
 
 	if (err)
-	{
 		ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Connection aborted");
-		delete conn;
-		return;
-	}
-
-	ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)conn->m_cid, 0);
+	else
+		ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)conn->m_cid, 0);
 
 	delete conn;
 }
@@ -1392,7 +1376,7 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 
 		char* filepart;
 		GetFullPathName(*pf, MAX_PATH, (char*)name, &filepart);
-		delete[] * pf;
+		free(*pf);
 		*pf = _strdup(name);
 		mir_strcpy((char*)buf + len, filepart);
 		len += (int)mir_strlen(filepart) + 1;
@@ -1565,11 +1549,9 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 		EMLOG("There was error during file transfering");
 		conn->Send(NULL, 0);
 		ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Connection aborted");
-		delete conn;
-		return;
 	}
-
-	ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)conn->m_cid, 0);
+	else
+		ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)conn->m_cid, 0);
 
 	delete conn;
 }
