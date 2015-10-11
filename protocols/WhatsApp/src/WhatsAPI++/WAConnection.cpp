@@ -92,6 +92,7 @@ void WAConnection::logData(const char *format, ...)
 	char tmp[4000];
 	vsprintf_s(tmp, format, args);
 	rawConn->log(">> ", tmp);
+	va_end(args);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
