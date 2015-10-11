@@ -382,26 +382,6 @@ void GetWow64String(CMString &buffer)
 		buffer.Append(TEXT(" [running inside WOW64]"));
 }
 
-
-bool CreateDirectoryTree(LPTSTR szDir)
-{
-	DWORD dwAttr = GetFileAttributes(szDir);
-	if (dwAttr != INVALID_FILE_ATTRIBUTES && (dwAttr & FILE_ATTRIBUTE_DIRECTORY))
-		return true;
-
-	TCHAR* pszSlash = _tcsrchr(szDir, TEXT('\\'));
-	if (pszSlash == NULL)
-		return false;
-
-	*pszSlash = 0;
-	bool res = CreateDirectoryTree(szDir);
-	*pszSlash = TEXT('\\');
-
-	if (res) res = CreateDirectory(szDir, NULL) != 0;
-
-	return res;
-}
-
 void GetVersionInfo(HMODULE hLib, CMString& buffer)
 {
 	HRSRC hVersion = FindResource(hLib, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION);

@@ -65,7 +65,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVIC
 
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
-	CreateDirectoryTree(VersionInfoFolder);
+	CreateDirectoryTreeT(VersionInfoFolder);
 
 	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);

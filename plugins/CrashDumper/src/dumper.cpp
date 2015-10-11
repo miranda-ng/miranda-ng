@@ -62,7 +62,7 @@ BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOI
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(hModule, path, MAX_PATH);
 
-	buffer.AppendFormat(TEXT("%s  %p - %p"), path, (LPVOID)ModuleBase, (LPVOID)(ModuleBase + ModuleSize));
+	buffer.AppendFormat(TEXT("%s  %p - %p"), path, ModuleBase, ModuleBase + ModuleSize);
 
 	GetVersionInfo(hModule, buffer);
 
@@ -137,12 +137,16 @@ void GetLinkedModulesInfo(TCHAR *moduleName, CMString &buffer)
 			IMAGE_DIRECTORY_ENTRY_EXPORT, &tableSize);
 		if (exportData) {
 			ULONG* funcAddr = (ULONG*)ImageRvaToVa(nthdrs, dllAddr, exportData->AddressOfNames, NULL);
-			for (unsigned i = 0; i < exportData->NumberOfNames && !found; ++i) {
+			for (unsigned i = 0; i < exportData->NumberOfNames; ++i) {
 				char* funcName = (char*)ImageRvaToVa(nthdrs, dllAddr, funcAddr[i], NULL);
-				found = mir_strcmp(funcName, "MirandaPluginInfoEx") == 0 || mir_strcmp(funcName, "MirandaPluginInfo") == 0;
 				if (mir_strcmp(funcName, "DatabasePluginInfo") == 0) {
 					buffer.Append(TEXT("    This dll is a Miranda database plugin, another database is active right now\r\n"));
 					found = true;
+					break;
+				}
+				else if(mir_strcmp(funcName, "MirandaPluginInfoEx") == 0) {
+					found = true;
+					break;
 				}
 			}
 		}
@@ -185,7 +189,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 	CMString ubuffer;
 	ListItem* dlllist = NULL;
 
-	static const TCHAR format[] = TEXT("%c %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n");
+	static const TCHAR format[] = TEXT("\xa4 %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n");
 
 	do {
 		bool loaded = false;
@@ -200,7 +204,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 				TCHAR timebuf[30] = TEXT("");
 				GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-				ubuffer.AppendFormat(format, TEXT(' '), FindFileData.cFileName,
+				ubuffer.AppendFormat(format, FindFileData.cFileName,
 					(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 					0, 0, 0, 0,
 					(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
@@ -219,8 +223,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			TCHAR timebuf[30] = TEXT("");
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-			bool ep = (size_t)pi->cbSize > sizeof(PLUGININFOEX);
-			const TCHAR *unica = (ep && ((PLUGININFOEX*)pi)->flags & 1) ? TEXT("|Unicode aware|") : TEXT("");
+			const TCHAR *unica = (((PLUGININFOEX*)pi)->flags & UNICODE_AWARE) ? TEXT("|Unicode aware|") : TEXT("");
 
 			ListItem* lst = new ListItem;
 			int v1, v2, v3, v4;
@@ -241,7 +244,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 				v1 = HIBYTE(HIWORD(ver)), v2 = LOBYTE(HIWORD(ver)), v3 = HIBYTE(LOWORD(ver)), v4 = LOBYTE(LOWORD(ver));
 			}
 
-			lst->str.AppendFormat(format, ep ? TEXT('\xa4') : TEXT(' '), FindFileData.cFileName,
+			lst->str.AppendFormat(format, FindFileData.cFileName,
 				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 				v1, v2, v3, v4,
 				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
@@ -660,9 +663,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 		static const TCHAR formatd[] = TEXT("%p (%S %p): %S (%d): %S\r\n");
 
-		buffer.AppendFormat(formatd,
-			(LPVOID)frame.AddrPC.Offset, moduleName, (LPVOID)Module.BaseOfImage,
-			lineFileName, Line.LineNumber, name);
+		buffer.AppendFormat(formatd, frame.AddrPC.Offset, moduleName, Module.BaseOfImage,lineFileName, Line.LineNumber, name);
 	}
 	SymCleanup(hProcess);
 	buffer.Append(_T("\r\n"));
