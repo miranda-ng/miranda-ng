@@ -812,7 +812,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_path, TCHAR *source)
 {
 	// Load the language files and create an array with then
-	TCHAR file[1024];
+	TCHAR file[1024] = { 0 };
 	mir_sntprintf(file, _T("%s\\*.dic"), path);
 
 	BOOL found = FALSE;
