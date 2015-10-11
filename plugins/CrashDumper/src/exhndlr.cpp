@@ -51,7 +51,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	HANDLE hDumpFile = NULL;
 
 	GetLocalTime(&st);
-	CreateDirectoryTree(CrashLogFolder);
+	CreateDirectoryTreeT(CrashLogFolder);
 
 	__try {
 		if (dtsubfldr) {

@@ -117,7 +117,6 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer);
 
 void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize);
 void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, DWORD dwSize);
-bool CreateDirectoryTree(LPTSTR szDir);
 void StoreStringToClip(CMString& buffer);
 void ShowMessage(int type, const TCHAR* format, ...);
 bool IsPluginEnabled(TCHAR* filename);
