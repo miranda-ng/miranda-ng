@@ -7,7 +7,6 @@
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Імпарт кантактаў і паведамленняў з іншых профіляў Miranda і іншых праграм.
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Абярыце, адкуль неабходна вырабіць імпарт дадзеных:
 [From a Miranda NG database.]
@@ -70,7 +69,6 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Перадача файлаў
 [Other]
 Іншае
-;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новы конт>
 [New account]
@@ -129,10 +127,8 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Прапушчана %d кантактаў.
 [Skipped %d duplicates and %d filtered events.]
 Прапушчана %d дублікатаў і %d адфільтраваных падзей.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Імпарт
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Дадзены файл не існуе. Праверце імя файла.
 [Miranda Import]
@@ -141,11 +137,9 @@ Miranda знайшла наступныя профілі. Абярыце про�
 База Miranda NG/IM
 [All Files]
 Усе файлы
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропуск дубліката гурта %s
 [Import...]
 Імпарт...
-;file \plugins\Import\src\wizard.cpp
 [Finish]
 Завяршыць

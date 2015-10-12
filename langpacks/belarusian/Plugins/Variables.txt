@@ -7,7 +7,6 @@
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
 Падтрымка дынамічных зменных для іншых плагінаў
-;file \plugins\Variables\res\Variables.rc
 [Parse options]
 Налады аналізу
 [Automatically strip "end of line" characters]
@@ -48,7 +47,6 @@
 Нататкі
 [Variables...]
 Зменныя...
-;file \plugins\Variables\src\help.cpp
 [Token]
 Маркер
 [Tokens]
@@ -63,19 +61,16 @@
 Дапамога па зменных
 [Open String Formatting Help]
 Дапамога па фармаце радкоў
-;file \plugins\Variables\src\options.cpp
 [Services]
 Службы
 [Variables]
 Зменныя
-;file \plugins\Variables\src\parse_alias.cpp
 [Alias]
 Аліас
 [user defined]
 пераназначана
 [stores y as alias named x]
 захоўвае Y, як аліас X
-;file \plugins\Variables\src\parse_external.cpp
 [Stopped]
 Спынена
 [Paused]
@@ -86,7 +81,6 @@
 атрымлівае імя песні якая грае ў Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 атрымлівае стан Winamp (грае/паўза/спынены)
-;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Інтэрнэт
 [converts each non-html character into hex format]
@@ -97,7 +91,6 @@
 перакладае 32бітную лічбу у фармат IPv4 (4 лічбы падзелены кропкамі)
 [converts a 32-bit number (in host byte order) to IPv4 dotted notation]
 перакладае 32бітную лічбу (у парадку хаста) у фармат IPv4 (4 лічбы падзелены кропкамі)
-;file \plugins\Variables\src\parse_logic.cpp
 [Logical Expressions]
 Лагічныя выразы
 [performs logical AND (x && y && ...)]
@@ -132,7 +125,6 @@ y, калі даўжыня радка w > x, у іншым выпадку z
 Лагічнае ПРАЎДА
 [performs logical XOR (x ^ y)]
 выконвае лагічнае выключальнае ЦІ - XOR (x ^ y)
-;file \plugins\Variables\src\parse_math.cpp
 [Mathematical Functions]
 Матэматычныя функцыі
 [x + y + ...]
@@ -157,7 +149,6 @@ x памножанае на y дзеленае на z
 выпадковы нумар
 [x - y - ...]
 x - y - ...
-;file \plugins\Variables\src\parse_metacontacts.cpp
 [Metacontacts]
 Метакантакты
 [get parent metacontact of contact x]
@@ -166,7 +157,6 @@ x - y - ...
 вяртае субкантакт па змаўчанні метакантакту x
 [get the 'most online' subcontact x]
 вяртае субкантакт 'Далучаны' метакантакту x
-;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Зменныя ядра Miranda
 [path to Miranda root folder]
@@ -231,14 +221,12 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 атрымаць дату і час (выкарыстоўваецца фармат Miranda NG)
 [TRUE if service function exists]
 ПРАЎДА, калі сэрвісная функцыя існуе
-;file \plugins\Variables\src\parse_regexp.cpp
 [Regular Expressions]
 Рэгулярныя выразы
 [(ANSI input only) the number of substring matches found in y with pattern x]
 (уваход. дадзеныя толькі ANSI) колькасць падрадкоў знойдзеных у y, па масцы x
 [(ANSI input only) substring match number z found in subject y with pattern x]
 (Толькі ANSI увод) падрадок супадзення z знойдзены ў тэме y з шаблонам x
-;file \plugins\Variables\src\parse_str.cpp
 [String Functions]
 Радковыя функцыі
 [converts each first letter of a word to uppercase, all others to lowercase]
@@ -317,7 +305,6 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 перакладае x у ЗАГАЛОЎНЫЯ літары
 [words (separated by white spaces) number y to z from string x (z is optional)]
 словы (падзеленыя прабелам) колькасцю ад y да z з радка x (z неабавязкова)
-;file \plugins\Variables\src\parse_system.cpp
 [System Functions]
 Сістэмныя функцыі
 [computer name]
@@ -360,14 +347,11 @@ y > 0: радок нумар y з файла x, y = 0: цэлы файл, y < 0:
 імя карыстача
 [text from clipboard]
 тэкст з буфера абмену
-;file \plugins\Variables\src\parse_variables.cpp
 [variable set by put(s) with name x]
 зменная зададзеная put з імем x
 [x, and stores y as variable named x]
 x, і захоўвае y, як зменную з імем x
 [only stores y as variables x]
 толькі захоўвае y, як зменную x
-;file \plugins\Variables\src\stdafx.h
 [--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (UIN for ICQ, email for MSN) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
 --- Адмысловыя знакі ---\r\n\r\nНаступныя знакі маюць адмысловае значэнне ў радку фарматавання:\r\n\r\n?<функцыя>(<аргументы>)\n Апрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\r\n\r\n!<функцыя>(<аргументы>)\n Апрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\r\n\r\n%<поле>%\nАпрацуе гэта поле . Прыклад: Я ўсталяваў Miranda NG у: %mirandapath%.\r\n\r\n`<радок>`\nНе апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху устаноўкі.\r\n\r\n#<каментар>\nДаданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\r\n\r\r\n\r\n--- Кантакты ---\r\n\r\nКалі функцыі неабходны кантакт як аргумент, яго можна атрымаць двума шляхамі:\r\n\r\n(1) выкарыстоўваючы ўнікальны ID (UIN для ICQ, e-mail для MSN) ці ID кантакту, наступным за ID пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\r\n\r\n(2) выкарыстоўваючы функцыю contact:\n?contact(x,y)\nВерне кантакт са значэннем x уласцівасці y, y можа быць адным з:\nfirst, last, nick, email, ID ці display\r\n\r\n Прыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.
-;file \plugins\Variables\src\variables.cpp

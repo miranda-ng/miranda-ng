@@ -1,0 +1,2 @@
+﻿[Keep connection on error]
+[...even if popup not clicked]

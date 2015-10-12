@@ -5,7 +5,6 @@
 ;  Version: 0.3.1.1
 ;  Authors: Mixwind
 ;============================================================
-;file \plugins\GmailNotifier\res\options.rc
 [Name:]
 Імя:
 [Password:]
@@ -24,10 +23,7 @@
 секунд(ы)
 [Popup plugin]
 Успл. вокны
-;file \plugins\GmailNotifier\src\check.cpp
-;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Іншае
-;file \plugins\GmailNotifier\src\options.cpp
 [Network]
 Сеціва

@@ -7,7 +7,6 @@
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
 Перадача файлаў праз паведамленні - просты тэкст.
-;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 Файл праз паведамленні
 [Filename:]
@@ -38,7 +37,6 @@
 Толькі літарна-цыфравая кадоўка для перадачы
 [Extra options: Events > File Transfers, "Receiving files" group]
 Дад. налады: Падзеі> Перадача файлаў, "Прыём файлаў"
-;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
 [Couldn't open a file]
@@ -83,7 +81,6 @@
 Адменена
 [Transfer is in progress. Do you really want to close?]
 Ідзе перадача файла. Спыніць?
-;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Пуск
 [Pause]
@@ -98,6 +95,5 @@
 Падзеі
 [File As Message...]
 Файл праз паведамленне..
-;file \plugins\FileAsMessage\src\main.h
 [File As Message]
 Файл праз паведамленне

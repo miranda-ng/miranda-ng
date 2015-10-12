@@ -5,7 +5,6 @@
 ;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Інфармацыя пра версіі
 [Close]
@@ -34,7 +33,6 @@
 Ка&піяваць усе
 [Select &All]
 Вылучыць &усё
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Info stored into file %s]
 Версіі захаваны ў файле %s
 [Version Info file %s is inaccessible]
@@ -69,18 +67,14 @@
 Капіяваць версіі ў буфер абмену
 [Show Version Info]
 Паказаць версіі
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 Справаздача пра памылкі
-;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is not available]
 Шлях для запісу справаздачы пра памылку недасяжны
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda  NG была завершана аварыйна. Справаздача захавана ў \n %s\n\nЦі жадаеце вы захаваць яе ў буфер абмену?
-;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Інфармацыя пра версіі(з бібліятэкамі)
-;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Версіі паспяхова загружаны.
 [Cannot upload Version Info. Incorrect username or password]

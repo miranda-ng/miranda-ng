@@ -7,7 +7,6 @@
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
 HTTP вэб-сервер для Miranda.
-;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP адрас 1
 [IPAddress2]
@@ -84,10 +83,8 @@ IP адрас 2
 Адкрыць у браўзары
 [&Copy link]
 &Капіяваць спасылку
-;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
 Miranda NG HTTP-сервер
-;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Даць доступ да гэтай тэчкі
 [All files]
@@ -140,10 +137,8 @@ HTTP Сервер
 Сеціва
 [HTTP Share new file]
 HTTP Новы агульны файл
-;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Агульнае выдалена
-;file \plugins\HTTPServer\src\main.cpp
 [Failed to open or create log file]
 Памылка адкрыцця ці стварэння лога
 [Failed to move to the end of the log file]

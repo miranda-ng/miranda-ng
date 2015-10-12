@@ -7,7 +7,6 @@
 ;============================================================
 [Ping labelled IP addresses or domain names.]
 Пінгуе IP адрас ці даменнае імя.
-;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Затрымка паміж пінгамі (сек):
 [Timeout]
@@ -36,8 +35,6 @@
 Выгляд
 [Do not change icon when testing]
 Не змяняць абразок пры праглядзе
-[Use the Customize -> Fonts options to change text size and color.]
-Налада шрыфтоў у "Тонкая налада -> Шрыфты і колеры"
 [Indent:]
 Водступ:
 [Row height:]
@@ -98,10 +95,8 @@ TCP злучэнне
 Налады...
 [Hosts...]
 Хасты...
-;file \plugins\Ping\src\menu.cpp
 [Ping]
 Пінг
-;file \plugins\Ping\src\options.cpp
 [Text Files (*.txt)]
 Тэкставыя файлы (*.txt)
 [All Files]
@@ -116,7 +111,6 @@ TCP злучэнне
 Налады
 [Hosts]
 Хасты
-;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагін пінг
 [Responding]
@@ -127,7 +121,6 @@ TCP злучэнне
 Тэставанне
 [Disabled]
 Выключаны
-;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Паказваць лініі
 [Show stats]
@@ -140,7 +133,6 @@ TCP злучэнне
 МАКС %hd мс
 [MIN %hd ms]
 МІН %hd мс
-;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%S' (%d)]
 %d - устаноўка статусу пратаколу '%S' (%d)
 [%s - reply, %d]
@@ -157,10 +149,8 @@ TCP злучэнне
 Паказаць/схаваць вакно
 [List]
 Спіс
-;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s патрабуе паменшыць колькасць пасыланага вамі трафіку.
-;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 Невядомы адрас
 [Unknown]

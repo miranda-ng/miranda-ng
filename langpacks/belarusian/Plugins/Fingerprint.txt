@@ -7,7 +7,6 @@
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG адлюстроўвае абразкі кліентаў, выкарыстованых вашымі суразмоўцамі.
-;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Адбіткі кліентаў
 [Miranda clients]
@@ -60,10 +59,8 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Іншыя абразкі
 [Show client icon in message window status bar]
 Паказаць абразок у статусным радку гутаркі
-;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Адбітак
-;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 Кліенты
 [Pack overlays]
@@ -82,7 +79,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Бяспека
 [Protocol]
 Пратакол
-;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Стабільная Miranda NG
 [Miranda IM (old versions)]
@@ -183,6 +179,5 @@ x32
 Шыфраванне MirOTR
 [SecureIM overlay]
 SecureIM
-;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Абразкі

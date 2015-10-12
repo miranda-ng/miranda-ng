@@ -7,7 +7,6 @@
 ;============================================================
 [Console log window for Miranda.]
 Дадатак вакна кансолі Miranda NG.
-;file \plugins\Console\res\resource.rc
 [Console]
 Кансоль
 [Single window mode*]
@@ -26,7 +25,6 @@
 * Патрабуецца перазапуск
 [Save settings and restart console]
 Захаваць налады і перазапусціць кансоль
-;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 Паказаць/схаваць кансоль
 [Hide Console]

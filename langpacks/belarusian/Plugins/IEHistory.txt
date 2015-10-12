@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Дыялог
 [Close]
@@ -46,7 +45,6 @@ RTL па змаўчанні
 Угару
 [Down]
 Уніз
-;file \plugins\IEHistory\src\dlgHandlers.cpp
 [System History]
 Сістэмная гісторыя
 [Out of a total of]
@@ -63,10 +61,8 @@ RTL па змаўчанні
 Пошук завершаны. Больш вынікаў няма...
 [Information]
 Інфармацыя
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Гісторыя
-;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &Гісторыя
 [&System History]

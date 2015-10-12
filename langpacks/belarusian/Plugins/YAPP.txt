@@ -7,7 +7,6 @@
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Cлужба ўсплывальных паведамленняў для іншых плагiнаў.
-;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Гісторыя ўсплывальных вокнаў
 [Close]
@@ -60,17 +59,14 @@ Cлужба ўсплывальных паведамленняў для іншы�
 Усталяваць затрымку
 [Timeout value (0 = default):]
 Затрымка (0 = па змаўчанні):
-;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Вокны ўключаны
 [Popups are disabled]
 Вокны выключаны
 [Popup History]
 Гісторыя успл.вокнаў
-;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 YAPP вокны
-;file \plugins\YAPP\src\options.cpp
 [Example]
 Прыклад
 [Example With a Long Title]
@@ -123,12 +119,10 @@ YAPP вокны
 Налады
 [Classes]
 Класы
-;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 Адключыць усплывальныя вокны
 [Enable Popups]
 Уключыць усплывальныя вокны
-;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
 Укл/Выкл Вокны
 [First line]
@@ -143,7 +137,6 @@ YAPP вокны
 Урэзка
 [Title underline]
 Падкрэсленне загалоўка
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Капіяваць загаловак у буфер
 [Copy message to clipboard]

@@ -7,7 +7,6 @@
 ;============================================================
 [Service offering misc country utilities as flag icons and an IP-to-Country database.]
 Служба, якая дадае нацыянальныя сцягі як значкі, і ip-у краіну базу дадзеных.
-;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
 Сцягі краін
 [Show country flag as &status icon on message window]
@@ -18,9 +17,7 @@
 Выкарыстоўваць базу IP для вызначэння краіны
 [Use &unknown flag if the country cannot be determined]
 Паказаць невядомы сцяг, калі краіну нельга вызначыць
-;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Сцяг краіны
-;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Абразкі

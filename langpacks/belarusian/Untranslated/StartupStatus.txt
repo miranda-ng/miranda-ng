@@ -1,0 +1,3 @@
+﻿[x]
+[size: %d x %d]
+[loc: %d x %d]

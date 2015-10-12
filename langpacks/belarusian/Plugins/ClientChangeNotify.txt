@@ -7,7 +7,6 @@
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
 Папярэдзіць пра змену кліента ў Вашых кантактаў.
-;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 Памылка ClientChangeNotify
 [Fingerprint plugin not found.]
@@ -54,7 +53,6 @@
 Ігнараваць гэтыя кліенты (праз кропку з коскі):
 [(you have to install pcre16.mir to use regular expressions here)]
 (усталюеце pcre16.mir каб выкарыстоўваць тут рэгулярныя выразы)
-;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 змяніў кліент на %s (быў %s)
 [changed client to %s]
@@ -69,12 +67,10 @@
 Абвестка пра змену кліента: Кліент змяніўся
 [Popups]
 Усплывальныя вокны
-;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Памылка #%d
 [Can't open log file ]
 Немагчыма адкрыць файл лога\s
-;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (Вы можаце выкарыстоўваць тут рэгулярныя выразы)
 [Open message window]

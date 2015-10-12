@@ -7,7 +7,6 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Падтрымка пратаколу Microsoft Network (MSN).
-;file \protocols\MSN\res\msn.rc
 [Password:]
 Пароль:
 [Nickname:]
@@ -108,7 +107,6 @@
 С&касаваць
 [Add]
 Дадаць
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Чат #
 [&Invite user...]
@@ -119,7 +117,6 @@
 &Дадзеныя кантакту
 [User &history]
 &Гісторыя кантакта
-;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u байт
 [MSN Alert]
@@ -148,19 +145,14 @@ MSN Чат
 Іншае
 [Message delivery failed]
 Дастаўка паведамлення не атрымалася
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Кантакт не далучаны
-;file \protocols\MSN\src\msn_ieembed.cpp
-;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Спасылка MSN
-;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Кантакт %s быў выдалены з сервера.\nЦi хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
 [%s protocol]
 %s конт
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Тэма: %s
 [Hotmail from %s (%S)]
@@ -169,7 +161,6 @@ MSN Чат
 Пошта Hotmail ад %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
-;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 Разблакаваць
 [&Block]
@@ -192,15 +183,12 @@ MSN Чат
 Налады Live &Alerts
 [&Start Netmeeting]
 Запусціць Netmeeting
-;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Свае смайлы
 [Notify]
 Абвестка
 [Error]
 Памылка
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Абразок конту
 [Hotmail Inbox]
@@ -251,12 +239,10 @@ MSN Чат
 Спіс на серверы
 [Notifications]
 Абвесткі
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
 [Contact tried to view your webcam data (not currently supported)]
 Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Пошта Live
 [Live Alert]
@@ -277,11 +263,9 @@ MSN Чат
 Паведамленні MSN абмежаваны 1202 знакамі UTF-8
 [Offline messaging is not allowed for LCS contacts]
 Паведамленні адключаным LCS кантактам немагчымыя
-;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для MSN затрымка адпраўлення паведамлення павінна быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
 [Convert to Chat]
 Канвертаваць у чат
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Сесія скінута з-за неактыўнасці

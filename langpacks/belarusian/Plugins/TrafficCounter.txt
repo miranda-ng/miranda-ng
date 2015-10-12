@@ -7,7 +7,6 @@
 ;============================================================
 [Adding traffic and time counters.]
 Лічыльнік трафіка.
-;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Вылучана ўсяго
 [Accounts]
@@ -48,7 +47,6 @@
 Фармат падказкі:
 [Display traffic for current]
 Трафік за бягучы
-;file \plugins\TrafficCounter\src\options.cpp
 [Display]
 Паказваць
 [Icon]
@@ -97,7 +95,6 @@
 Статыстыка
 [Popups]
 Усплывальныя вокны
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байт
 [KB]
@@ -132,7 +129,6 @@
 Не магу прачытаць файл статыстыкі
 [Traffic Counter]
 Лічыльнік трафіку
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрыфт
 [Show/Hide frame]

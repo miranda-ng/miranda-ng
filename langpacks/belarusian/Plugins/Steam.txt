@@ -5,7 +5,6 @@
 ;  Version: 0.11.4.2
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
-;file \protocols\Steam\res\Resource.rc
 [Username:]
 Карыстач:
 [Password:]
@@ -26,29 +25,20 @@
 Увядзіце пароль
 [Save password]
 Захаваць пароль
-;file \protocols\Steam\src\main.cpp
-;file \protocols\Steam\src\steam_contacts.cpp
 [Playing]
 Грае
-;file \protocols\Steam\src\steam_dialogs.cpp
 [Fatal error, image services not found. Avatar services will be disabled.]
 Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
 [Avatar Service]
 Служба аватар
-;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Сеціва
-;file \protocols\Steam\src\steam_login.cpp
-;file \protocols\Steam\src\steam_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
-;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Невядомая памылка
-;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Імя
-;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Пратаколы
 [Protocol icon]
@@ -57,4 +47,3 @@
 Злучэнне %s
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
-;file \protocols\Steam\src\steam_xstatus.cpp

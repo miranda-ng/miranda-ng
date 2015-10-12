@@ -7,7 +7,6 @@
 ;============================================================
 [Notify with popup if some connection established]
 Паведамляе вакном пра далучэнне
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Колер паведамленняў
 [Popup options]
@@ -52,7 +51,6 @@
 тут даступныя * і ? фільтры (для порта увядзіце нумар або *)
 [Remote IP:Port]
 Аддалены IP: Порт
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Паказаць
 [Hide]
@@ -75,6 +73,5 @@
 Плагіны
 [New Connection Notification]
 Паведамленне пра новае далучэнне
-;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Спачатку зачыніць налады

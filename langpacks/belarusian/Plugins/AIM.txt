@@ -7,7 +7,6 @@
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Плагiн пратаколу AOL Instant Messenger (AIM).
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Пра кантакт AIM
 [Screen Name:]
@@ -136,7 +135,6 @@ AIM Усталяваць Instant Idle
 Паведамленне
 [Room]
 Чат
-;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Я
 [Others]
@@ -149,7 +147,6 @@ AIM Усталяваць Instant Idle
 &Дадзеныя кантакту
 [User &history]
 &Гісторыя кантакта
-;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 Няслушнае імя ці пароль
 [Mismatched Screen Name or password.]
@@ -274,23 +271,18 @@ AIM Усталяваць Instant Idle
 Памылка Email.
 [DNS Fail.]
 Памылка DNS.
-;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 Не атрымалася адкрыць файл: %s : %s
-;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
 Пратакол AIM
-;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
 %s Пратакол
 [Open mail account?]
 Адчыніць скрыню конта?
-;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [%s Client-to-client connection]
 %s  злучэнне кліент-кліент
-;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 (Аўтаадказ):
 [Contact tried to open an audio/video conference (not currently supported)]
@@ -337,7 +329,6 @@ AIM Усталяваць Instant Idle
 Ваш конт ужо пацверджаны.
 [Can't start the confirmation procedure.]
 Не ўдаецца запусціць працэдуру пацвярджэння.
-;file \protocols\AimOscar\src\theme.cpp
 [Block]
 Заблакаваць
 [Profile]
@@ -406,7 +397,6 @@ AOL
 Прагледзець профіль
 [Add To Server List]
 Дадаць у спіс на серверы
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Сеціва
 [Basic]
@@ -415,7 +405,6 @@ AOL
 Прыватнасць
 [Join me in this buddy chat!]
 Далучайцеся да мяне ў гэтым чаце!
-;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Калі ласка, увядзіце імя ў наладах
 [Please, enter a password in the options dialog.]

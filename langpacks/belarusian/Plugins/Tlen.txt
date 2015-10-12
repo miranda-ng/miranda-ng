@@ -7,7 +7,6 @@
 ;============================================================
 [Tlen protocol support for Miranda NG.]
 Падтрымка пратакола Tlen для Miranda NG.
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Карыстач:
 [Password:]
@@ -164,7 +163,6 @@ Tlen запрашэнне галасавога чата
 Ад:
 [The following invitation to join a voice chat is received.]
 Атрымана запрашэнне ўвайсці ў галасавы чат.
-;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Абразок пратаколу
 [Tlen inbox]
@@ -197,20 +195,16 @@ Tlen пошта
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
-;file \protocols\Tlen\src\tlen_avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Не атрымалася стварыць кэш для аватараў. ПАМЫЛКА: %d: %s\n%s
-;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 файл
 [%d Files]
 %d файлаў
-;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for %s@%s.]
 Аутэнтыфікацыя не пройдзена для %s@%s.
 [Tlen Authentication]
 Аўтэнтыфікацыя Tlen
-;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Агульнае
 [Advanced]
@@ -251,11 +245,8 @@ Tlen пошта
 Перанакіраванне
 [%S mail]
 %S пошта
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 Tlen уваход
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for %s]
 Увядзіце пароль для %s.
 [Tlen Connection Error]
@@ -276,7 +267,6 @@ Tlen памылка далучэння
 %s пошта
 [Subject]
 Тэма
-;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Конт
 [both]
@@ -287,7 +277,6 @@ Tlen памылка далучэння
 няма
 [not on roster]
 не у росцеры
-;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 ...далучэнне...
 [...Waiting for connection...]
@@ -300,6 +289,5 @@ Tlen памылка далучэння
 ...Забаронена...
 [Default]
 Змаўчанні
-;file \protocols\Tlen\src\tlen_ws.cpp
 [%s connection]
 Злучэнне %s

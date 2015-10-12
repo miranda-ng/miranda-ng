@@ -1,0 +1,2 @@
+﻿[Shows the history for a given contact using IEView.]
+[You can't close the window now, wait for all events to load.]

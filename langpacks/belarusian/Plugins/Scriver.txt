@@ -7,7 +7,6 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Плагін асабістых і гуртавых гутарак для Miranda NG.
-;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Паводзіны
 [Automatically pop up the window when]
@@ -308,7 +307,6 @@ KB
 &Паведамленне
 [Clear lo&g]
 Сцерці чат
-;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
 [User's details]
@@ -433,7 +431,6 @@ KB
 В'етнамскі
 [Korean (Johab)]
 Карэйскі (Johab)
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Паведамленні
 [Navigate: previous tab]
@@ -462,7 +459,6 @@ KB
 Дзеянне: Паслаць усім
 [Action: Paste and send]
 Дзеянне: Уставіць і адправіць
-;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Цытата
 [Smiley]
@@ -497,7 +493,6 @@ KB
 %s набірае тэкст...
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
-;file \plugins\Scriver\src\msglog.cpp
 [Unknown contact]
 Невядомы кантакт
 [Me]
@@ -516,7 +511,6 @@ KB
 URL адасланы
 [URL received]
 URL атрыманы
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Агульнае
 [Event log]
@@ -587,7 +581,6 @@ URL атрыманы
 Гутаркі
 [Typing notify]
 Набірае тэкст
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Паведамленне ад %s
 [%s is typing a message]
@@ -610,17 +603,12 @@ Miranda не змагла загрузіць убудаваную сістэму
 Кантакт пачаў пісаць
 [Contact stopped typing]
 Кантакт скончыў пісаць
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always on top]
 Па-над усімі вокнамі
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
-;file \plugins\Scriver\src\chat\main.cpp
-;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -787,10 +775,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абраць тэчку
 [Popups]
 Усплывальныя вокны
-;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 Паведамленне %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Курсіў
 [Underline]

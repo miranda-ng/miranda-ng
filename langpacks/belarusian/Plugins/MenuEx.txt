@@ -7,7 +7,6 @@
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Дадае дадатковыя пункты меню кантактаў.
-;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 Тэкст запыту аўтарызацыі
 [&Send]
@@ -52,7 +51,6 @@
 * Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага вакна са скапіяваным тэкстам
 [Hide contact on 'Ignore all']
 Хаваць пры 'Ignore all'
-;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Паведамленне статусу
 [xStatus title]
@@ -101,6 +99,5 @@
 Запытаць аўтарызацыю
 [MenuItemEx]
 Дадатковае меню
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Тонкая налада

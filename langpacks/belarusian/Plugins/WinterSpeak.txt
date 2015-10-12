@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda interface to the Microsoft Speech API.]
 Распазнанне гаворкі Microsoft.
-;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
 Налады рухавіка
 [Engine]
@@ -86,15 +85,12 @@
 Дадаць
 [Remove]
 Выдаліць
-;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
 [** All contacts **]
 ** Усе кантакты **
 [** Unknown contacts **]
 ** Невядомыя кантакты **
-;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
 [testing testing 1 2 3]
 Праверка, праверка: 1 2 3
-;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 Паведамленне ад %u.
 [incoming URL from %u]
@@ -107,14 +103,12 @@
 ёсць файл ад кантакта %u.
 [%u says]
 %u піша:
-;file \plugins\WinterSpeak\src\main.cpp
 [Speak]
 Гаворка
 [Engine/Voice]
 Рухавік/Голас
 [Announce]
 Аб'яўленьне
-;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
 %u адключыўся.
 [%u is now online]

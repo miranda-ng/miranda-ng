@@ -7,7 +7,6 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Забяспечвае падтрымку шыфравання GPG.
-;file \plugins\New_GPG\res\new_gpg.rc
 [Load from file]
 Імпарт з файла
 [Select existing]
@@ -130,10 +129,8 @@ ID ключа:
 Канца
 [Strip all tags in outgoing messages]
 Выдаляць усе пазнакі з выходных паведамленняў
-;file \plugins\New_GPG\src\init.cpp
 [GPG encryption status]
 Статус шыфравання GPG
-;file \plugins\New_GPG\src\main.cpp
 [Email]
 Пошта
 [Name]
@@ -180,8 +177,6 @@ ID ключа:
 Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
 [Own private key warning]
 Увага! Не вылучаны прыватны ключ.
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Services]
 Службы
 [Main]
@@ -208,7 +203,6 @@ ID ключа:
 Файлы лога
 [Choose gpg.exe]
 Знайсці gpg.exe
-;file \plugins\New_GPG\src\utilities.cpp
 [New passwords do not match]
 Новыя паролі не супадаюць
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]

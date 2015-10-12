@@ -5,7 +5,6 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
-;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Close Miranda]
 Зачыніць Miranda
 [Clear]
@@ -14,6 +13,5 @@
 Паказаць/Схаваць спіс кантактаў
 [Read message]
 Прачытаць паведамленне
-;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Тонкая налада

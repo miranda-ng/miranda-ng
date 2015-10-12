@@ -7,7 +7,6 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Шпаркія кантакты, на гарачыя клавішы.
-;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Апошняя адпраўленая падзея
 [Enable last-sent-to]
@@ -36,10 +35,8 @@
 Увядзіце імя:
 [Show all contacts (Ctrl+A)]
 Паказаць усе кантакты (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Шпаркія кантакты
-;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Адкрыць гутарку
 [Send file]

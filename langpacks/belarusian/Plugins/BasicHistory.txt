@@ -7,7 +7,6 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Праглядчык гісторыі для Miranda NG.
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 Гісторыя паведамленняў
 [Settings]
@@ -138,7 +137,6 @@
 Выконваць задачу для вызначаных кантактаў
 [Cancel]
 Скасаваць
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Адчыніць гісторыю
 [View &History]
@@ -167,7 +165,6 @@
 Мінус у экспарце
 [History]
 Гісторыя
-;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Усе падзеі
 [Default history events]
@@ -180,7 +177,6 @@
 Я
 [Invalid Message]
 Паведамленне пашкоджана
-;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 %s файлы (*.%s)
 [Import]
@@ -191,7 +187,6 @@
 Файл не ўтрымлівае абранага кантакту
 [File is corrupted]
 Файл спорчаны
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
 [Are You sure?]
@@ -246,7 +241,6 @@ Dat (мКантакты)
 Памылка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Паведамленне
 [File transfer]
@@ -405,15 +399,12 @@ Dat (мКантакты)
 Імпарт з:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History Log]
 Прагляд гісторыі
 [Filter:]
 Фільтр:
 [Conversation started at %s]
 Гутарка пачата ў %s
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [_files]
 _файлы
 [Menu]
@@ -422,7 +413,6 @@ _файлы
 Адчыніць усе
 [Close all]
 Зачыніць усе
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 Гісторыя
 [Contacts]
@@ -465,7 +455,6 @@ FTP шлях павінен змяшчаць '/' замест '\\', а пачы�
 Заданне '%s' выпаўнена
 [Task '%s' execution failed:]
 Заданне '%s' не выканана:
-;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не знойдзена
 [Search]
@@ -474,4 +463,3 @@ FTP шлях павінен змяшчаць '/' замест '\\', а пачы�
 Вы дасягнулі канца гурту.
 [You have reached the end of the history.]
 Вы дабраліся да канца гісторыі.
-;file \plugins\BasicHistory\src\TxtExport.cpp

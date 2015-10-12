@@ -7,7 +7,6 @@
 ;============================================================
 [Advanced Database Editor.]
 Пашыраны рэдактар базы.
-;file \plugins\DbEditorPP\res\resource.rc
 [Search and replace]
 Знайсці і замяніць
 [Search for]
@@ -192,8 +191,6 @@
 Акно назіранняў
 [Reload watch list]
 Абнавіць спіс назіранняў
-;file \plugins\DbEditorPP\src\copymodule.cpp
-;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Выдаліць плагін "%s"?
 [Delete module from database]
@@ -202,7 +199,6 @@
 Выдаленне плагіна з базы... Загрузка
 [Delete from all contacts (including Settings)]
 Выдаліць з усіх кантактаў (з наладамі)
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлы
 [All Files]
@@ -213,7 +209,6 @@ INI файлы
 Не атрымоўваецца адкрыць файл на запіс
 [Import from files]
 Імпарт з файлаў
-;file \plugins\DbEditorPP\src\findwindow.cpp
 [Result]
 Вынік
 [Contact]
@@ -236,7 +231,6 @@ INI файлы
 Пошук...
 [Finished. Items found: %d / replaced: %d / deleted: %d]
 Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
-;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Галоўны абразок
 [Settings]
@@ -249,7 +243,6 @@ INI файлы
 Вядомы кантакт
 [Handle]
 Назва
-;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Рэдактар базы
 [Database]
@@ -258,33 +251,25 @@ INI файлы
 Рэдактары базы
 [<UNKNOWN>]
 <НЕВЯДОМА>
-;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
-;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Памылка загрузкі спісу плагінаў
 [Error loading setting list]
 Памылка загрузкі спісу налад
-;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Загрузка кантактаў...
 [Loading modules...]
 Загрузка плагінаў...
 [Contacts]
 Кантакты
-;file \plugins\DbEditorPP\src\options.cpp
-;file \plugins\DbEditorPP\src\renamemodule.cpp
-;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]
 Тып
 [Size]
 Памер
 [*** encrypted ***]
 *** зашыфравана ***
-;file \plugins\DbEditorPP\src\settingsdlg.cpp
 [Edit setting (%s)]
 Рэдагаваць наладу (%s)
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Зменена налада базы: \nПлагін: "%s", налада: "%s"\nНовае значэнне (%s): "%s"

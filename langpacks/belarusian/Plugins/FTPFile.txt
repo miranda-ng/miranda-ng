@@ -7,7 +7,6 @@
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
 FTP-конты
 [Host name]
@@ -126,7 +125,6 @@ FTP файл мэнэджар
 Вызаліць з спісу
 [Copy Link]
 Капіяваць спасылку
-;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Інфармацыя
 [Copy Link to Clipboard]
@@ -139,7 +137,6 @@ FTP файл мэнэджар
 %d дзён
 [Do you really want to cancel all running jobs?]
 Скасаваць усе зпушчаныя заданні?
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP сервер 1
 [FTP Server 2]
@@ -180,7 +177,6 @@ FTP файл мэнэджар
 Запампоўка файла завершана
 [Upload canceled]
 Запампоўка адменена
-;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Усе файлы (*.*)
 [FTP File - Select files]
@@ -207,7 +203,6 @@ FTP файл - выбар каталога
 ЧАКАННЕ...
 [UNKNOWN]
 НЕВЯДОМА
-;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 Адбылася памылка пры ўпакоўцы файлаў.
 [%0.1f kB/s]
@@ -220,7 +215,6 @@ FTP файл - выбар каталога
 Вы сапраўды хочаце адмяніць гэтую загрузку?
 [Status: %s\r\nFile: %s\r\nServer: %S]
 Статус: %s\r\nФайл: %s\r\nСервер: %S
-;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Файл існуе - %s
 [Error occurred when opening local file.\nAborting file upload...]
@@ -235,12 +229,10 @@ FTP файл - выбар каталога
 Вы сапраўды жадаеце адмяніць загрузку?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\nХуткасць: %s\r\nЗавершана: %s\r\nЗасталося: %s
-;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Вы павінны дадаць хоць бы адзін FTP сервер у наладах.
 [Clear All]
 Сцерці ўсе
-;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
 FTP (Звычайны)
 [FTP+SSL (Explicit)]
@@ -261,5 +253,3 @@ SFTP (Абаронены FTP праз SSH)
 Конты
 [Advanced]
 Дадаткова
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

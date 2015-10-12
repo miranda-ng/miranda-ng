@@ -7,7 +7,6 @@
 ;============================================================
 [Tool Tip notification windows.]
 Усплывальныя падказкi для іншых плагiнаў.
-;file \plugins\TipperYM\res\resource.rc
 [Layout]
 Размяшчэнне
 [Text indent:]
@@ -188,10 +187,8 @@
 Схаваць адключаных
 [Append protocol name]
 Дадаць імя пратаколу
-;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
 Смайлы падказак
-;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
 Вы павінны ўвесці пазнаку
 [Invalid Substitution]
@@ -256,7 +253,6 @@
 Падказкі ў трэі
 [Extra]
 Іншае
-;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
 Паказваць для ўсіх тыпаў кантактаў
 [Show only for contacts]
@@ -291,7 +287,6 @@
 Сцяг краіны
 [Client]
 Кліент
-;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заблакаваны)
 [%s ago]
@@ -328,7 +323,6 @@ xСтатус:
 Іншае
 [Miranda uptime:]
 Час працы Miranda:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Конт
 [Account:]
@@ -451,15 +445,12 @@ xСтатус:
 (weather.dll) Вецер
 [Wind:]
 Вецер:
-;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# заліванне колерам
-;file \plugins\TipperYM\src\subst.cpp
 [%dh %dm]
 %dгадз. %dхв.
 [%dm]
 %dхв.
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
 [Dividers]
@@ -476,7 +467,6 @@ xСтатус:
 Загаловак у трэі
 [Tipper]
 Падказкі
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жаночы
 [Male]
@@ -527,7 +517,6 @@ xСтатус: пустое імя ў імя па змаўчанні
 Слова - у назву месяца (1..12, 1 - студзень)
 [BYTE to language (ICQ)]
 Байт - у мову (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 Афрыкаанс
 [Albanian]

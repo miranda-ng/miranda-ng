@@ -7,7 +7,6 @@
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
 Падаўляе усплывальныя вокны і гукаі на 10-300 сек пасля запуску Міранды, затым ўстанаўлівае іх назад у адпаведнасці з іх наладамі (Асабіста для кожнага кампутара).
-;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
 Ціхі старт
 [Settings for the next Computer Name:]
@@ -32,10 +31,8 @@
 Налады захоўваюцца аўтаматычна.
 [Enable sounds]
 Уключыць гукі
-;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Падзеі
-;file \plugins\StartupSilence\src\stdafx.h
 [Silence at startup]
 Ціхі запуск
 [Toggle Silence OFF]

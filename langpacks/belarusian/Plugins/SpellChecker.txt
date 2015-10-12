@@ -7,7 +7,6 @@
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 Праверка арфаграфіі ў вакне паведамленняў. Выкарыстоўвае Hunspell для праверкі.
-;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замены
 [Enable auto-replacements]
@@ -64,11 +63,8 @@
 Выкарыстоўваць слоўнікі з іншых праграм
 [Avoid removing underscores (slows down checking of long texts)]
 Не выдаляць падкрэсленні (запавольвае праверку вялікіх тэкстаў)
-;file \plugins\SpellChecker\src\ardialog.cpp
 [Wrong Correction]
 Няслушнае выпраўленне
-;file \plugins\SpellChecker\src\dictionary.cpp
-;file \plugins\SpellChecker\src\options.cpp
 [Message sessions]
 Гутаркі
 [Auto-replacements]
@@ -91,7 +87,6 @@
 Няслушнае слова
 [Correction]
 Выпраўленне
-;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Слоўнікі
 [Custom Dictionaries]
@@ -108,7 +103,6 @@
 Выключаны
 [Unknown]
 Невядома
-;file \plugins\SpellChecker\src\utils.cpp
 [Other...]
 Іншае...
 [Always replace with]

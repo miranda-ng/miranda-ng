@@ -7,7 +7,6 @@
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Падтрымка пратакола ICQ для Miranda NG.
-;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 Нумар ICQ:
 [Password:]
@@ -270,10 +269,8 @@ xСтатус "%s"
 Паўторыце ваш новы пароль:
 [Enter your current password:]
 Увядзіце бягучы пароль:
-;file \protocols\IcqOscarJ\src\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
 Дазволіце, калі ласка, дадаць Вас у спіс.
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 Немагчыма далучыцца да мігрыраванага серверу зносін ICQ
 [Unable to connect to ICQ communication server]
@@ -304,7 +301,6 @@ xСтатус "%s"
 Сервер зачыніў злучэнне, бо вы ўвайшлі з іншага месца выкарыстоўваючы той жа нумар ICQ.
 [Unknown runtime error: 0x%02x]
 Невядомая памылка: 0x%02x
-;file \protocols\IcqOscarJ\src\constants.cpp
 [January]
 Студзень
 [February]
@@ -439,7 +435,6 @@ xСтатус "%s"
 Катэгорыя 4
 [Interest areas 4]
 Цікаўлюся 4
-;file \protocols\IcqOscarJ\src\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 Пароль не супадае з існым. Праверце Caps Lock і паспрабуйце зноў.
 [Change ICQ Details]
@@ -448,7 +443,6 @@ xСтатус "%s"
 Пароль не супадае з паролем, уведзеным раней. Праверце Caps Lock і паспрабуйце зноў.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 Сервер ICQ не падтрымлівае паролі даўжынёй больш 8 знакаў. Выкарыстоўвайце пароль па карацей.
-;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <нельга выдаліць пасля ўводу>
 [<empty>]
@@ -465,17 +459,14 @@ xСтатус "%s"
 Загрузка завершана
 [Upload FAILED]
 Загрузка не атрымалася
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Пераход з сервера на сервер не атрымаўся бо сервер вярнуў няслушныя дадзеныя. Вам трэба далучыцца ўручную.
 [Failed to request offline messages. They may be received next time you log in.]
 Памылка запыту афлайн паведамленняў. Яны могуць быць атрыманы пры наступным далучэнні.
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Выяўлены спамбот
 [Contact deleted & further events blocked.]
 Кантакт выдалены, новыя падзеі заблакаваны.
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 Уваходны URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -502,7 +493,6 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 Кантакт "%s" зачыніў вакно паведамленняў.
 [ICQ Note]
 Інфармацыя ICQ
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 Спіс кантактаў на серверы недаступны, Miranda будзе выкарыстоўваць лакальны.
 [Updating of server contact failed.]
@@ -531,12 +521,10 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 Кантакт "%s" страціў аўтарызацыю ў спісе на серверы.
 [User "%s" was removed from server list.]
 Кантакт "%s" быў выдалены са спісу на серверы.
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Памылка абароненага ўваходу.\nНяверны адказ сервера.
 [Secure login failed.\nInvalid key length.]
 Памылка абароненага ўваходу.\nНяверная даўжыня ключа
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю?\nВыдаліць вас са спісу кантактаў на некаторых кліентах.
 [Confirmation]
@@ -551,12 +539,10 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 ** Гэта паведамленне было заблакавана серверам ICQ ** Нядобры вы чалавек...
 [** Unknown missed message event.]
 ** Невядомая страчаная падзея.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 Памылка загрузкі аватара на сервер. Сервер часова недаступны.
 [Error uploading avatar to server, server refused to accept the image.]
 Памылка загрузкі аватара на сервер, сервер не прыняў малюнак.
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Афганістан
 [Albania]
@@ -1457,15 +1443,12 @@ Web-службы
 Удавец/Удава
 [Open relationship]
 У актыўным пошуку
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 [No description given]
 Без апісання
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Перадача файла была адменена, таму што адзін з абраных файлаў не чытаецца з дыска, бо быў перамешчаны ці выдалены.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Перадача файла была адменена, таму што немагчыма адкрыць лакальны файл на запіс. Хутчэй за ўсё, вы спрабуеце захаваць файл у тэчку дзе няма права на запіс.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
@@ -1478,7 +1461,6 @@ Web-службы
 Падрабязны xСтатус
 [Open ICQ profile]
 Профіль на сайце ICQ
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Усе праблемы
 [Display problems causing possible loss of data]
@@ -1517,7 +1499,6 @@ Web-службы
 Прыватнасць
 [Popups]
 Усплывальныя вокны
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 Загаловак вакна
 [Sample Note]
@@ -1530,7 +1511,6 @@ Web-службы
 Прыклад фатальнай памылкі
 [Sample Spambot]
 Прыклад спамбота
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [%s client-to-client connections]
@@ -1539,7 +1519,6 @@ Web-службы
 ID кантакта
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ўвялі нумар ICQ.\nНаладзьце яго ў частцы Налады -> Сетка -> ICQ і паспрабуйце зноў.
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Немагчыма наладзіць SSL злучэнне з серверам ICQ
 [Unable to connect to ICQ login server]
@@ -1550,12 +1529,10 @@ ID кантакта
 Няўдалае далучэнне.\&nПаслядоўнасць уваходу не атрымалася па невядомым чынніку.\nПаспрабуйце пазней.
 [Your connection with the ICQ server was abortively closed]
 далучэнне да ICQ серверу зачынена.
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 Інфармацыя пра кантакт занадта доўгая і была абрэзана.
 [Failed to create the correct sub-group, the using closest parent group.]
 Не атрымалася зрабіць падгурт, будзе выкарыстаны бліжэйшы гурт.
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 НЕ ЗНОЙДЗЕНА
 [ALREADY EXISTS]
@@ -1604,7 +1581,6 @@ ID кантакта
 Вы павінны быць далучаны для сінхранізацыі спісу на серверы
 [** All contacts **]
 ** Усе кантакты **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Angry]
 Злуюся
 [Taking a bath]
@@ -1779,13 +1755,10 @@ xСтатус %s
 Няма
 [Custom Status]
 xСтатус
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Паштоўка:
-;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ xStatus]
 xСтатус ICQ
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 Заўвага ICQ
 [ICQ Error]
@@ -1806,10 +1779,8 @@ xСтатус ICQ
 Сервер, да якога вы спрабуеце далучыцца, не існуе. Праверце сервер: Налады -> Сетка -> ICQ.
 [error]
 памылка
-;file \protocols\IcqOscarJ\src\loginpassword.cpp
 [Enter a password for UIN %u:]
 Увядзіце пароль для %u:
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d файлаў
 [The file transfer was aborted by the other user.]
@@ -1832,10 +1803,8 @@ xСтатус ICQ
 Перадача файла не атрымалася па невядомым чынніку.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
-;file \protocols\IcqOscarJ\src\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не далучаны да ICQ. Каб абнаўляць дадзеныя, трэба далучыцца.
-;file \protocols\IcqOscarJ\src\userinfotab.cpp
 [ (DC Established)]
  (DC усталявана)
 [ScreenName:]
@@ -1846,6 +1815,5 @@ xСтатус ICQ
 Удзельнік з:
 [%s Details]
 %s Дэталі
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <памылкова>

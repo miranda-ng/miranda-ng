@@ -7,6 +7,5 @@
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 Паказвае у спісе кантактаў мабільных кліентаў.
-;file \plugins\MobileState\src\main.cpp
 [Mobile State]
 Стан мабільнага

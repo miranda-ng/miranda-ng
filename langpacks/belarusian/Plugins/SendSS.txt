@@ -7,7 +7,6 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Стварэння здымкаў і адсылка кантакту.
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Гутарка
 [All]
@@ -62,7 +61,6 @@
 &Капіяваць
 [Close]
 Зачыніць
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Copy]
 Капіяваць
 [Error]
@@ -71,30 +69,20 @@
 Памылка GCHAT
 [An unknown error has occurred.]
 Невядомая памылка.
-;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Не ўдалося ініцыяваць %s.
 [MAPI error (%i):\n%s.]
 Памылка MAPI (%i):\n%s.
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [The specified attachment was not found]
 Укладанне не знойдзена
 [The specified attachment could not be opened]
 Укладанне немагчыма адчыніць
 [Unknown Error]
 Невядомая памылка
-;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
 Перадача файла
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Яшчэ раз
 [Yes]
@@ -105,7 +93,6 @@
 Скасаваць
 [Ignore]
 Ігнараваць
-;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Галоўны абразок
 [Help]
@@ -146,13 +133,10 @@ HTTP далучэнне SendSS
 Адправіць скрыншот экрана
 [Open SendSS+]
 Адчыніць SendSS+
-;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
 SendScreenshot - Памылка
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Аўтары
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
 [Window]

@@ -1,0 +1,7 @@
+﻿[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+[Problem]
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+[Miranda NG - Shell context menus (shellext.dll)]

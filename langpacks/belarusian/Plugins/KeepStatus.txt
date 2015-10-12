@@ -7,7 +7,6 @@
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Правяраць
 [Max. retries]
@@ -262,7 +261,6 @@ Dial-up (эксперыментальна)
 Дадзеныя трыгера
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [Protocol]
 Пратакол
 [%s connected from another location]
@@ -291,7 +289,6 @@ Dial-up (эксперыментальна)
 Спыняю
 [KeepStatus]
 Перадалучэнне
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
 Асноўныя
 [Advanced]
@@ -300,7 +297,6 @@ Dial-up (эксперыментальна)
 Злучэнне з Інтэрнэт разарвана!
 [Popups]
 Усплывальныя вокны
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
 [Give it up, I'm not in!]
@@ -323,7 +319,6 @@ Dial-up (эксперыментальна)
 Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<last>]

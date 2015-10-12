@@ -7,7 +7,6 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Падтрымка пратаколу  Facebook.
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Пошта:
 [Password:]
@@ -82,10 +81,8 @@ URL:
 Не пазначаць паведамленні прачытанымі
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
-;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
-;file \protocols\FacebookRM\src\chat.cpp
 [User]
 Карыстач
 [&Invite user...]
@@ -96,7 +93,6 @@ URL:
 &Дадзеныя кантакта
 [User &history]
 &Гісторыя кантакта
-;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Памылка далучэння: %s
 [Unknown error]
@@ -113,12 +109,10 @@ URL:
 Затрымка пры адпраўцы паведамлення.
 [Status update was successful.]
 Паспяховае абнаўленне статуса.
-;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
-;file \protocols\FacebookRM\src\constants.h
 [Top News]
 Папулярныя навіны
 [Most Recent]
@@ -139,7 +133,6 @@ URL:
 Сябрам, акр. знаёмых
 [Only me]
 Толькі мне
-;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Кантакт быў выдалены з вашага спісу на серверы.
 [Error occurred when removing contact from server.]
@@ -152,7 +145,6 @@ URL:
 Запыт на сяброўства быў адменены.
 [Error occurred when canceling friendship request.]
 Адбылася памылка пры скасаванні запыта сяброўства.
-;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Змаўчанні
 [<< Contacts]
@@ -167,7 +159,6 @@ URL:
 Прыклад навіны
 [Sample notification]
 Прыклад абвесткі
-;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 сцікер
 [files]
@@ -186,15 +177,12 @@ URL:
 Паведамленне недасяжна,таму што было адзначана як спам.
 [%s is typing a message...]
 %s набірае тэкст...
-;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
-;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 Кантакт даданы ў спіс на серверы.
 [Contact is no longer on server-list.]
 Кантакт выдалены з спісу сервера.
-;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
@@ -237,7 +225,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Паведамленне прачытана ў: %s карытальнікам %s
 [Message read: %s]
 Паведамленне прачытана ў: %s
-;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Абразок Facebook
 [Mind]
