@@ -18,7 +18,7 @@
 [Send screenshot to <unknown>]
 Адправіць здымак экрану <невядома>
 [Take a screenshot and send it to a contact]
-
+Зрабіць здымак і адаслаць кантакту
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]
@@ -34,7 +34,7 @@
 [Delete &after send]
 Выдаліць пасля адпраўкі
 [Open editor before sending]
-
+Адчыніць рэдактар перад адпраўкай
 [Open again]
 Адкрыць ізноў
 [&Capture]
@@ -64,7 +64,7 @@
 [Result]
 Вынік
 [Thumbnail]
-
+Прэв'ю
 [&Copy]
 &Капіяваць
 [Close]
@@ -74,7 +74,7 @@
 [Copy]
 Капіяваць
 [Copy BBCode]
-
+Капіраваць BBCode
 [Copy BBCode w/ link]
 
 [%s requires a valid contact!]
@@ -90,9 +90,9 @@
 [MAPI error (%i):\n%s.]
 Памылка MAPI (%i):\n%s.
 [Unknown response from %s (%i)]
-
+Невядомы адказ ад %s (%i)
 [Got no response from %s (%i)]
-
+Няма адказу ад %s (%i)
 [Dropbox transfer]
 
 [%s (%i):\nCould not add a share to the Dropbox plugin.]
@@ -214,7 +214,7 @@ SendScreenshot - Памылка
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
 [Send screenshot to %s]
-
+Адаслаць здымак экрану для %s
 [Window]
 Акно
 [Desktop]
@@ -262,4 +262,4 @@ SendScreenshot - Памылка
 [Screenshot of "%s" window]
 
 [Send screenshot?]
-
+Адаслаць здымак ? 
