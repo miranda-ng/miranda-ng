@@ -5,7 +5,6 @@
 ;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \protocols\Tox\res\resource.rc
 [Import]
 Імпартаваць
 [Copy ID]
@@ -50,27 +49,18 @@
 &Гісторыя
 [To:]
 Для:
-;file \protocols\Tox\src\tox_chatrooms.cpp
-;file \protocols\Tox\src\tox_core.cpp
-;file \protocols\Tox\src\tox_events.cpp
 [Action]
 Дзеянне
-;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Абразок пратаколу
 [Protocols]
 Пратаколы
-;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
-;file \protocols\Tox\src\tox_messages.cpp
-;file \protocols\Tox\src\tox_multimedia.cpp
-;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Злучэнне %s
-;file \protocols\Tox\src\tox_options.cpp
 [All files]
 Усе файлы
 [Error]
@@ -81,11 +71,7 @@
 Сеціва
 [Account]
 Конт
-;file \protocols\Tox\src\tox_profile.cpp
-;file \protocols\Tox\src\tox_proto.cpp
 [Contact already in your contact list]
 Кантакт ужо ў вашым спісе
-;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запыт
-;file \protocols\Tox\src\tox_utils.cpp

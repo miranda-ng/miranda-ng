@@ -7,7 +7,6 @@
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Запыт і адлюстраванне інфармацыі пра надвор'е ў вашым спісе кантактаў.
-;file \plugins\Weather\res\resource.rc
 [Update]
 Абнавіць
 [Brief Info]
@@ -254,7 +253,6 @@
 Да старых
 [To default]
 Па змаўчанні
-;file \plugins\Weather\src\stdafx.h
 [N/A]
 Недасяжны
 [Invalid ID format, missing "/" (10)]
@@ -335,7 +333,6 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
-;file \plugins\Weather\src\weather.cpp
 [Auto Update Enabled]
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
@@ -344,7 +341,6 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 Weather: Надвор'е змянілася
 [Weather Alert Issued]
 Weather: Заўвага
-;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Бягучая інфармацыя пра надвор'е для %s
 [%s is now the default weather station]
@@ -357,7 +353,6 @@ Weather: Заўвага
 <Увядзіце назву горада>
 [<Enter station ID here>]
 <Увядзіце ID гарады>
-;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Лог надвор'я не вядзецца.
 [Get city name from ID]
@@ -374,7 +369,6 @@ Weather: Заўвага
 Тэкставыя файлы
 [All Files]
 Усе файлы
-;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 мбар
 [in]
@@ -387,15 +381,12 @@ Weather: Заўвага
 <Памылка>
 [HTTP Error %i]
 Памылка HTTP %i
-;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Увядзіце назву горада>
 [Error when obtaining data: %s]
 Памылка пры атрыманні дадзеных: %s
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 HTTP падлучэнне Weather
-;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 Абразок конту
 [Update Disabled]
@@ -416,7 +407,6 @@ HTTP падлучэнне Weather
 Без вокнаў
 [Edit Settings]
 Змяніць налады
-;file \plugins\Weather\src\weather_info.cpp
 [Name]
 Імя
 [Author]
@@ -455,21 +445,18 @@ HTTP падлучэнне Weather
 байт
 [Description:]
 Апісанне:
-;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не знойдзены файл абнаўлення. Калі ласка, праверце тэчку Plugins\\Weather.
 [Invalid ini format for: %s]
 Уласны фармат ini для: %s
 [All update data has been reloaded.]
 Усе абноўленыя дадзеныя перазагружаны.
-;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 Шрыфт фрэйма
 [Frame Title Font]
 Шрыфт загалоўка фрэйма
 [Frame Background]
 Фон фрэйма
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Сеціва
 [General]
@@ -480,8 +467,6 @@ HTTP падлучэнне Weather
 Усплывальныя вокны
 [Weather Protocol Text Preview]
 Прагляд конту надвор'я
-;file \plugins\Weather\src\weather_popup.cpp
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID гарады
 [Disable &weather notification]
@@ -508,10 +493,8 @@ ID гарады
 Напамінак пра надвор'е
 [Display in a frame]
 Паказваць у фрэйме
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Немагчыма знайсці інфармацыю пра надвор'е для %s
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Бягучы стан для %n
 [Last update on:   %u]

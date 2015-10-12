@@ -1,0 +1,2 @@
+﻿[Database back up in process...]
+[path to folder containing Miranda profiles]

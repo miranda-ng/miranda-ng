@@ -7,7 +7,6 @@
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Пачатковы статус, дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Правяраць
 [Max. retries]
@@ -262,7 +261,6 @@ Dial-up (эксперыментальна)
 Дадзеныя трыгера
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <апошні>
 [<current>]
@@ -293,15 +291,12 @@ Dial-up (эксперыментальна)
 Пачатковы статус
 [Your default profile will be changed]
 Профіль па змаўчанні будзе зменены
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 Максімум 6 пунктаў меню
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 Націснуты абразок панэлі
 [Released toolbar icon]
 Адпушчаны абразок панэлі
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
 [Give it up, I'm not in!]
@@ -324,7 +319,6 @@ Dial-up (эксперыментальна)
 Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<n/a>]

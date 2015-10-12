@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda NG Database Checker.]
 Плагін праверкі БД Miranda NG.
-;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 Сардэчна запрашаем у майстар базы дадзеных
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -90,17 +89,14 @@
 Рэзерв:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
 Праверка базы завершана. Націсніце "Далей" для звароту ў майстар і праверкі іншай базы, ці "Завяршыць" для выйсця.
-;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
 Завяршыць
-;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 Націсніце "Далей" для працягу
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Апрацоўка яшчэ не завершана; калі вы адменіце яе цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце адмяніць?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Апрацоўка яшчэ не завершана; калі вы пяройдзеце назад цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце перайсці назад?
-;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагін праверкі не можа знайсці патэбнага драйвера БД для адкрыцця '%s'.
 [Error]
@@ -115,8 +111,6 @@
 Базы Miranda NG (*.dat)
 [All Files]
 Усе файлы
-;file \plugins\DbChecker\src\wizard.cpp
-;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 Былі знойдзены памылкі, але вы не захавалі рэзервовую копію. Строга рэкамендуецца яе зрабіць, бо важныя дадзеныя могуць быць згублены. Вы жадаеце захаваць рэзервовую копію арыгінальнай базы дадзеных?
 [%s\\Backup of %s]

@@ -7,7 +7,6 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Дадае сайты ў спіс кантактаў і можа адлюстроўваць тэкст ці/або абвяшчае, калі ёсць змены на гэтых старонках.
-;file \plugins\WebView\res\webview.rc
 [Update data every]
 Абнавіць усе
 [minutes]
@@ -88,26 +87,19 @@
 Капіяваць усё
 [&Select all]
 &Вылучыць усё
-;file \plugins\WebView\src\main.cpp
 [Auto update disabled]
 Аўтаабнаўленне выключана
 [Auto update enabled]
 Аўтаабнаўленне ўключана
-;file \plugins\WebView\src\webview.cpp
 [Network]
 Сеціва
 [Popups]
 Усплывальныя вокны
-;file \plugins\WebView\src\webview_alerts.cpp
-;file \plugins\WebView\src\webview_datawnd.cpp
-;file \plugins\WebView\src\webview_getdata.cpp
 [Alert!]
 Увага!
 [Online]
 Далучаны
-;file \plugins\WebView\src\webview_opts.cpp
 [Popup plugin]
 Успл. вокны
-;file \plugins\WebView\src\webview_services.cpp
 [Please select site in Find/Add contacts...]
 Абярыце сайт у Знайсці...

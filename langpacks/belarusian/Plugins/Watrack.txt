@@ -613,7 +613,6 @@ VBR ці няма
 Шрыфт...
 [Genres]
 Жанр
-;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Скробліць з
 [Timeout, ms]
@@ -622,7 +621,6 @@ VBR ці няма
 Інфармацыя пра серыю
 [Episode]
 Эпізод
-;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 Памылка Last.fm:\s
 [Client is banned]
@@ -631,10 +629,8 @@ VBR ці няма
 Памылка аўтарызацыі. Праверце логін і пароль
 [Bad TimeStamp]
 Няслушны час
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Падобныя выканаўцы
-;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 Інфармацыя пра музыку ад\s
 [You Get Error]

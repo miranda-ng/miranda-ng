@@ -7,7 +7,6 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
 Паказвае кантакты, з'явы, статусы протоколаў.
-;file \plugins\Clist_nicer\res\resource.rc
 [Clist Nicer exception]
 Выключэнні Clist Nicer
 [Copy to clipboard]
@@ -458,7 +457,6 @@
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Меню
 [Show/Hide offline contacts]
@@ -483,7 +481,6 @@
 Наладзіць рэжымы выгляду
 [Clear view mode]
 Сцерці рэжым выгляду
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -556,10 +553,8 @@
 Дадаткова
 [Skins]
 Скіны
-;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Падзей няма...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Дадаць у спіс
 [Revert to default]
@@ -578,10 +573,8 @@
 Налады адлюстравання і ігнараванні для %s
 [&Contact list settings...]
 Налады кантакт-ліста...
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Глабальныя
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Укл/Выкл адключаных карыстачоў
 [Toggle groups]
@@ -652,7 +645,6 @@
 Хуткі пошук
 [Embedded frames border]
 Мяжа фрэймаў
-;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 &Загаловак фрэйма
 [&Visible]
@@ -701,7 +693,6 @@
 Ужываць скін да фрэйма
 [Floating]
 Плывучае
-;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Загаловак
 [Tool Window]
@@ -710,15 +701,12 @@
 Тонкая рамка
 [No border]
 Без рамкі
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Немагчыма паркаваць спіс кантактаў пры выкарыстанні мяжы і загалоўка па змаўчанні. Выкарыстоўвайце стыль "Без меж" ці "Панэль"
 [Contact list docking]
 Паркоўка
-;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Загрузіць і ўжыць
-;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Паказваць значкі метакантактаў
 [Show additional buttons]
@@ -735,7 +723,6 @@
 &Налады
 [&About the contact list...]
 Пра спіс кантактаў...
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Кантакты па-за гуртамі
 [And]

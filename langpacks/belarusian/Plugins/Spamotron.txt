@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антыспам плагін з капчай і Баесаўскім фільтраваннем.
-;file \plugins\Spamotron\res\spamotron.rc
 [Enabled]
 Уключаны
 [Learned ham messages:]
@@ -114,10 +113,8 @@
 Па змаўчанні
 [Preview]
 Прагляд
-;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Размяшчэнне базы Байеса
-;file \plugins\Spamotron\src\options.cpp
 [Simple]
 Просты
 [Math expression]
@@ -140,14 +137,12 @@
 Байес
 [Popups]
 Усплывальныя вокны
-;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
 Паведамленне заблакавана для прыкладу
 [Contact approved due to preview action]
 Кантакт падцверджаны для прыкладу
 [Challenge sent to preview contact]
 Адпраўка кантрольнага пытання для прыкладу
-;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Кантакт %s пацверджаны.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -166,7 +161,6 @@
 Адпраўка выпадковага пытання %s.
 [Sending math expression challenge to %s.]
 Адпраўка кантрольнага пытання %s.
-;file \plugins\Spamotron\src\stdafx.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Паведамленне часова заблакавана. Напішыце "%response%" без двукоссяў.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
@@ -177,6 +171,5 @@
 Запыт аўтарызацыі часова заблакаваны. Напішыце "%response%" без двукоссяў.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Запыт аўтарызацыі часова заблакаваны. Колькі будзе %mathexpr%?
-;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
 Паведамленне было

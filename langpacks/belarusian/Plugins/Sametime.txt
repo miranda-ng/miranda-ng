@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
-;file \protocols\Sametime\res\resource.rc
 [Connection]
 Далучэнне
 [Password:]
@@ -24,15 +23,10 @@
 Скасаваць
 [Select all]
 Вылучыць усё
-;file \protocols\Sametime\src\conference.cpp
 [Normal]
 Звычайны
-;file \protocols\Sametime\src\files.cpp
-;file \protocols\Sametime\src\messaging.cpp
-;file \protocols\Sametime\src\options.cpp
 [Network]
 Сеціва
-;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 Абразок пратаколу
 [Announce]
@@ -41,18 +35,12 @@
 Абвестка
 [Error]
 Памылка
-;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 Злучэнне %s
-;file \protocols\Sametime\src\sametime_session.cpp
-;file \protocols\Sametime\src\session_announce_win.cpp
-;file \protocols\Sametime\src\userlist.cpp
 [Name]
 Імя
 [Description]
 Апісанне
-;file \protocols\Sametime\src\utils.cpp
-;file \protocols\Sametime\src\meanwhile\src\error.c
 [Not authorized]
 Не аўтарызаваны
 [Invalid data]

@@ -7,7 +7,6 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Паказвае кантакты, падзеі, статусы пратаколаў з пашыранымі функцыямі афармлення (скіны). Мультываконная мадыфікацыя, пашыраная падтрымка метакантактаў.
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Празрыстасць:
 [Window behavior:]
@@ -146,8 +145,6 @@
 Шматрадковая панэль статусу:
 [Accounts per line]
 Контаў у радку
-[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
-* Змена вышыні радка статусу: "Галоўнае меню -> Фрэймы -> Панэль статусу -> Плывучы рэжым" і расцягніце панэль.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift + Правы клік - Галоўнае меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -574,7 +571,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Бачнасць
 [&Show title]
@@ -609,7 +605,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць назвы
 [Lock frame]
 Замацаваць фрэйм
-;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&хаваць/паказаць
 [&Find/add contacts...]
@@ -620,7 +615,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Пра праграму
 [&Show offline users in here]
 Паказаць адключаных у гурце
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
 [Converting to metacontact]
@@ -659,7 +653,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Фон панэлі статуса
 [Frames title bar background]
 Фон загалоўка фрэймаў
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Кантакты
 [Row items]
@@ -778,14 +771,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Спіс
 [Window]
 Акно
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [No events]
 Падзей няма
 [Event area background]
 Фон вобласці падзей
 [Event area]
 Вобласць падзей
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Рэйтынг кантакту
 [None]
@@ -806,7 +797,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рэйтынг кантакту: высокі
 [Show even if offline]
 Паказваць адключаных
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар
 [Icon]
@@ -825,10 +815,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Радок
 [Row design]
 Дызайн радка
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show contact &avatar]
 Паказаць аватар
 [Hide contact &avatar]
@@ -837,7 +825,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Мае кантакты
 [My Contacts]
 Мае кантакты
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Зачыніць праграму
 [Main]
@@ -846,7 +833,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аднавіць апошні стан статусу
 [Show/Hide offline users]
 Паказаць/Скрыць адключаных
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Пуста %s клетак
 [column]
@@ -861,7 +847,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 %s, утрымлівае %s
 [ layered]
 слаіста
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( невядома )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -892,8 +877,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Стандартны скін
 [%Default Skin%]
 %Стандартны Скін%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Агульнае>>
 [Left]
@@ -906,7 +889,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Угару
 [Bottom]
 Знізу
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Галоўнае меню
 [Status menu]
@@ -941,7 +923,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Фон панэлі кнопак
 [Toolbar upgrade]
 Аднаўленне панэлі кнопак
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Кантакты па-за гуртамі
 [And]

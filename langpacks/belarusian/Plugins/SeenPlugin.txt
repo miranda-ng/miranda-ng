@@ -7,7 +7,6 @@
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
 Запамінае, калі кантакт апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
-;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры апошняга з'яўлення
 [Last seen menu item]
@@ -76,12 +75,10 @@
 Пра кантакт
 [Send Instant Message]
 Адправіць імгненнае паведамленне
-;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 гісторыя апошняй сустрэчы
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y) \nАдносная дата: %W - %w - %E - %e \nЧас: %H:%M:%S (%h-%p) \nкантакт: %n - %u \nСтатус: %s \nIP: %i - %r
-;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Апошняе з'яўленне
 [User status change]
@@ -92,12 +89,10 @@
 Кантакт Адключаны
 [User Logged In]
 Кантакт далучаны
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <невядома>
 [Last seen]
 Апошняе з'яўленне
-;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -172,15 +167,12 @@
 Кантакты
 [Popups]
 Усплывальныя вокны
-;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n %s (%u)
 [%i(%r)%bWas %o]
 %i(%r)%b быў %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 Нядзеля
 [Monday]

@@ -7,7 +7,6 @@
 ;============================================================
 [Smiley support for Miranda NG.]
 Падтрымка смайлаў у Miranda NG.
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Катэгорыі смайлаў
 [Specify smiley pack for each category]
@@ -38,12 +37,6 @@
 Мін. вышыня смайлаў
 [Smiley selector]
 Выбар смайла
-[Surround inserted smiley with spaces]
-Уставіць смайл з прабеламі
-[Use first smiley for selection size]
-Памер усіх смайлаў як у першага
-[IEView style window]
-Акно ў стылі IEView
 [Input area]
 Поле ўводу
 [Enable smileys]
@@ -56,24 +49,26 @@
 Выключыць
 [Smiley button]
 Кнопка смайла
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Surround inserted smiley with spaces]
+Уставіць смайл з прабеламі
+[Use first smiley for selection size]
+Памер усіх смайлаў як у першага
+[IEView style window]
+Акно ў стылі IEView
 [Show smiley selection window]
 Акно выбару эмоцый
-;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Смайлы
 [Smiley cache]
 Кэш смайлаў
 [SmileyAdd HTTP connections]
 HTTP далучэнне SmileyAdd
-;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Кнопка смайла
 [Assign smiley category]
 Катэгорыя смайлаў
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Толькі адна копія SmileyAdd можа быць запушчана.\nУдаліце дублікат з тэчкі "Plugins"
-;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Смайлы
 [Customize]
@@ -88,10 +83,8 @@ HTTP далучэнне SmileyAdd
 Набор смайлаў
 [All files]
 Усе файлы
-;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 У адпаведнасці з пратаколам
-;file \plugins\SmileyAdd\src\smileys.cpp
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
 [Smiley #%u in file %s for smiley pack %s not found.]
@@ -102,6 +95,5 @@ HTTP далучэнне SmileyAdd
 Рэгулярны выраз "%s" у наборы смайлаў "%s" не можа выводзіць "пустыя значэнні".
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Рэгулярны выраз "%s" у наборы смайлаў "%s" пашкоджана.
-;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Ох!

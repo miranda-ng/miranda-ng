@@ -7,7 +7,6 @@
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Плагін пашыранай інфармацыі кантактаў. Дазваляе рэдагаваць усю інфармацыю, абвяшчае пра дні нараджэння і г.д.
-;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Рэдагаваць дадзеныя кантакту
 [This list gives you some overview about all your contact's anniversaries.]
@@ -330,7 +329,6 @@ E-Mail
 Зняць усё
 [&Export]
 &Экспарт
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Авен
 [Taurus]
@@ -361,7 +359,6 @@ E-Mail
 Абнаўленне наладжаных дзён нараджэнняў
 [Keeps your custom birthday up to date.]
 Рэзервуе наладжаныя дні нараджэння.
-;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 З-за памылкі ў параметры, адзін з элементаў дрэва не можа быць дададзены!
 [Rename Item]
@@ -372,21 +369,18 @@ E-Mail
 Паказаць:
 [Reset to defaults]
 Скінуць
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 Памылка пры стварэнні імя для старонкі з %d, код памылкі %d
 [Creating the label for a page failed with %d and error code %d]
 Памылка пры стварэнні назвы для старонкі з %d, код памылкі %d
 [The dialog template type is no longer supported]
 Шаблон дыялога больш не падтрымліваецца
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Дадаць новае свята
 [Delete an existing anniversary]
 Выдаліць існае свята
 [Unspecified]
 Не паказана
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
 Кіраваць E-Mail
 [Edit phone number]
@@ -407,7 +401,6 @@ E-Mail
 Выдаліць абраны запіс?\n\t%s\n\t%s
 [Other]
 Іншае
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Засталося дзён
 [Contact]
@@ -430,7 +423,6 @@ E-Mail
 Адкл. напамінкі
 [Popup anniversary list]
 Паказаць спіс свят
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Яшчэ раз
 [Yes]
@@ -443,7 +435,6 @@ E-Mail
 Ігнараваць
 [Error]
 Памылка
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload details]
 Запампаваць дэталі
 [Protocol '%s' is offline]
@@ -494,8 +485,6 @@ E-Mail
 Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 [updating]
 абнаўленне
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Імя ў IM
 [Password]
@@ -598,10 +587,8 @@ E-Mail
 Увага: Набор абразкоў не знойдзены ў тэчках: 'customize\\icons', 'icons' і 'plugins'!
 [Main]
 Галоўны
-;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Асабістыя дадзеныя
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Экс-/Імпарт кантакт
 [User &details]
@@ -626,19 +613,16 @@ E-Mail
 Экспартаваць гурт
 [&Import group]
 Імпартаваць гурт
-;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Мае нататкі:
 [About:]
 Інфармацыя:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Спачатку ўвядзіце правільнае апісанне!
 [No valid date selected for editing!]
 Няма абранай даты для рэдагавання!
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
-;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
 дома
 [Open in browser]
@@ -651,7 +635,6 @@ E-Mail
 Трэці e-mail
 [company]
 Кампанія
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Пытанне
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -680,7 +663,6 @@ E-Mail
 Дыялогі
 [Popups]
 Усплывальныя вокны
-;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Мінулае
 [Affiliation]
@@ -699,7 +681,6 @@ E-Mail
 Выдаліць запіс
 [Do you really want to delete this entry?]
 Вы сапраўды жадаеце выдаліць гэта?
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Афрыкаанс
 [Albanian]
@@ -1058,19 +1039,14 @@ Web Дызайн
 мл.
 [sen.]
 сен.
-;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Невядомы кантакт)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Адправіць e-mail
 [Memory allocation error!]
 Памылка выдзялення памяці!
-;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
 Род (uinfoex)
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 У кантакта няма хатняй старонкі
 [View Homepage]
@@ -1079,8 +1055,6 @@ Web Дызайн
 Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d кантактаў засталося
 [Abort Refreshing Contact Details]
@@ -1089,7 +1063,6 @@ Web Дызайн
 Вы сапраўды хочаце скасаваць абнаўленне дадзеных?
 [Miranda must be online for refreshing contact information!]
 Для абнаўлення конты павінны быць далучаныя!
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s святкуе %s сёння.
 [an anniversary]
@@ -1122,12 +1095,10 @@ Web Дызайн
 Напамінак пра свята
 [Reminder (uinfoex)]
 Напамінак (uinfoex)
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 ідэнтыфікацыя кантакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Кантакт %s(%s) не мае ўнікальнага нумара ў vCard,\nале ў спісе кантактаў ёсць кантакт таго ж конту і з такім жа іменем.\nВы жадаеце выкарыстоўваць яго нумар для гэтага кантакту?
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Імпартаванне новага кантакту спынена!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
@@ -1140,14 +1111,12 @@ Web Дызайн
 Налады: %S
 [Events: %S]
 Падзеі: %S
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Усе кантакты
 [Required modules]
 Абавязковыя плагіны
 [Optional modules]
 Дадатковыя плагіны
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
 Паказваць тэчку ўстаноўкі Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
@@ -1156,7 +1125,6 @@ Web Дызайн
 OpenFileDialog вярнуў памылку: %d!
 [The SaveFileDialog returned an error: %d!]
 SaveFileDialog вярнуў памылку: %d!
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 INI файл "%s"\nдля захавання кантакту не можа быць адкрыты.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
@@ -1169,14 +1137,12 @@ INI файл "%s"\nдля захавання кантакту не можа бы
 Дададзена %d з %d кантактаў з ini-файла.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 INI файл "%s"\nнельга адчыніць для чытання.
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усе кантакты
 [Select a destination file...]
 Абярыце імя файла для экспарту
 [Import User Details from VCard]
 Імпарт дэталей кантакта з vCard
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Немагчыма стварыць XML файл!\n%S
 [Contact: %s (%S)]
@@ -1205,7 +1171,5 @@ INI файл "%s"\nнельга адчыніць для чытання.
 Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Фатальна: Памылка пры імпартаванні кантактаў з xml карткі!
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
 Сцягі (uinfoex)
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

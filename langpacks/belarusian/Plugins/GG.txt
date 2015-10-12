@@ -7,7 +7,6 @@
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
 Падтрымка пратакола Gadu-Gadu для Miranda NG.
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Пра кантакт Gadu-Gadu
 [Gadu-Gadu Number:]
@@ -152,14 +151,12 @@
 Інфармацыя пра актыўныя адначасовыя сесіі
 [Sign out all sessions]
 Выйсці з усіх сесій
-;file \protocols\Gadu-Gadu\src\avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Не атрымалася стварыць кэш для аватараў. ПАМЫЛКА: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Не атрымалася стварыць файл аватара. ПАМЫЛКА: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Не атрымалася адкрыць файл аватара. ПАМЫЛКА: %d: %s\n%s
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda не можа распазнаць імя сервера Gadu-Gadu па IP-адрасу.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
@@ -206,7 +203,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Вы ўвайшлі з іншага месца
 [Incoming image]
 Уваходнае паведамленне
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Мужчынскі
 [Female]
@@ -245,12 +241,10 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Ваша інфармацыя была запісаная на агульным каталогу.
 [You have to be logged in before you can change your details.]
 Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc7)\n%s
-;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
 HTTP - памылка памяці
 [HTTP failed connecting]
@@ -269,14 +263,12 @@ HTTP невядомая памылка
 Блакаваць
 [Contact list]
 Спіс кантактаў
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 Злучэнне %s
 [Images]
 Выявы
 [Gadu-Gadu Number]
 Нумар Gadu-Gadu
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Адкрыць канферэнцыю...
 [&Clear ignored conferences]
@@ -297,7 +289,6 @@ HTTP невядомая памылка
 Спіс ігнаруемых канферэнцый вычышчаны і ўжываецца агульная палітыка канферэнцый.
 [There are no ignored conferences.]
 Ігнаруемых канферэнцый няма.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Абразок пратаколу
 [Import list from server]
@@ -328,7 +319,6 @@ HTTP невядомая памылка
 Выдаліць ігнаруемыя канферэнцыі
 [Concurrent sessions]
 Паралельныя сесіі
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Малюнак
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -353,7 +343,6 @@ HTTP невядомая памылка
 Немагчыма адкрыць файл малюнка. ПАМЫЛКА: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
 Дапушчальны памер малюнка да 255 KB
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Усталюйце злучэнне перад імпартам/экспартам кантактаў з/на сервер.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
@@ -382,29 +371,24 @@ HTTP невядомая памылка
 Экспартаваць спіс на &Сервер
 [Export List To &Text File...]
 Экспартаваць спіс у &Файл...
-;file \protocols\Gadu-Gadu\src\links.cpp
 [Gadu-Gadu account chooser]
 Выбар конта Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Пратакол Gadu-Gadu
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Пароль немагчыма нагадаць з-за памылкі:\n\t%s (Памылка: %d)
 [Password was sent to your e-mail.]
 Пароль высланы на ваш e-mail.
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Notify]
 Абвестка
 [Error]
 Памылка
-;file \protocols\Gadu-Gadu\src\services.cpp
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Немагчыма выдаліць стары файл аватара да абнаўлення. Памылка: %d: %s\n%s
 [Cannot remove old avatar file. ERROR: %d: %s\n%s]
 Немагчыма выдаліць стары файл аватара. Памылка: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Для выдалення Gadu-Gadu аватара скарыстайцеся сайтам gg.pl.
-;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 Імя кліента
 [IP Address]
@@ -425,12 +409,10 @@ IP Адрас
 Інфармацыя
 [Concurrent &sessions]
 Адначасовыя сесіі
-;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Маркер не атрыманы з-за памылкі\n\t%s
 [Could not load token image.]
 Не магу загрузіць маркер.
-;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Немагчыма зарэгістраваць карыстача з-за памылкі:\n\t%s
 [Registration rejected]

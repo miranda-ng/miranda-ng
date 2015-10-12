@@ -7,7 +7,6 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Дадатак адлюстроўвае курсы валют і каціровак.
-;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Спіс зменных
 [Edit Settings]
@@ -126,20 +125,16 @@
 &Адсочваныя каціроўкі:
 [Status &Message:]
 Паведамленне статусу:
-;file \plugins\Quotes\src\Chart.h
-;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Секунд
 [Minutes]
 Хвілін
 [Hours]
 Гадзін
-;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Інфармацыя прадстаўлена
 [Enter positive number.]
 Увядзіце станоўчую лічбу.
-;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
@@ -164,10 +159,8 @@
 Налады...
 [Network]
 Сеціва
-;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP далучэнне Quotes
-;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Абразок конту
 [Quote/Rate up]
@@ -186,13 +179,10 @@ HTTP далучэнне Quotes
 Памяняць месцамі
 [Import]
 Імпарт
-;file \plugins\Quotes\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML(*.xml)
 [All files (*.*)]
 Усе файлы (*.*)
-;file \plugins\Quotes\src\ModuleInfo.cpp
-;file \plugins\Quotes\src\QuoteChart.cpp
 [Log File]
 Файл лога
 [Miranda's History]
@@ -209,13 +199,10 @@ HTTP далучэнне Quotes
 Апошні год
 [User-Defined]
 Карыстальніцкі
-;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 Памылка падчас парсінгу HTML.
 [Error occurred during site access.]
 Памылка пры доступе да сайта.
-;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 Знак каціроўкі
 [Quote Name]
@@ -262,7 +249,6 @@ HTTP далучэнне Quotes
 Значэнне на папярэдняе зачыненне
 [Change]
 Змена
-;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Лог (*.txt,*.log)
 [Enter integer value]

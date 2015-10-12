@@ -1,0 +1,3 @@
+﻿[%dd %dh %dm]
+[%dy %dd %dh %dm]
+[%dd]

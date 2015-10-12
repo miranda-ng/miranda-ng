@@ -7,7 +7,6 @@
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Дадае магчымасць кіравання камп'ютара праз Miranda NG.
-;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Выключэнне
 [&Show confirmation dialog before shutdown]
@@ -62,7 +61,6 @@
 Націсніце "Скасаваць", калі жадаеце спыніць
 [&Now!]
 Зараз!
-;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 Выключыць у:
 [Time left:]
@@ -83,17 +81,14 @@
 Фон
 [Progress Bar]
 Радок стана
-;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 Загаловак
 [Active]
 Актыўна
 [Inactive]
 Не Актыўна
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Падзеі
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [Second(s)]
 Секунд(ы)
 [Minute(s)]
@@ -118,7 +113,6 @@
 Спыніць аўтавыключэнне
 [Automatic &shutdown...]
 Аўтавыключэнне...
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG аўтаматычна зачынецца праз %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -185,7 +179,6 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Абвесткі
 [Automatic Shutdown Countdown]
 Зваротны адлік аўтавыключэння
-;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Пераключыць аўтавыключэнне
 [Main]

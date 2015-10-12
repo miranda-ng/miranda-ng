@@ -7,7 +7,6 @@
 ;============================================================
 [Change status when you send/receive an event.]
 Змяняе статус пры атрыманні ці адпраўкі падзеі.
-;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Адключаны
 [Online]
@@ -44,7 +43,6 @@
 ...змяніць статус на...
 [...if status is...]
 ...калі статус...
-;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Змена статусу
 [Status]

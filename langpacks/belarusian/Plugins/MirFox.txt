@@ -7,7 +7,6 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Міранда NG) - частка Міранда-Firefox інтэграцыі - http://wsx22.3.xpdev-hosted.com
-;file \plugins\MirFox\res\resource.rc
 [Send to contact action]
 Для таго каб адправіць
 [on left mouse button click]
@@ -24,12 +23,10 @@ MirFox (Міранда NG) - частка Міранда-Firefox інтэгра�
 Паказаць гэтыя кантакты ў меню Firefox "Адправіць ... "
 [Show these accounts in 'Set status message' option in Firefox]
 Паказаць конт у опцыі Firefox 'Статус паведамленне'
-;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 MirFox/Notification
 [MirFox/Error]
 MirFox/Error
-;file \plugins\MirFox\src\MirandaOptions.cpp
 [just send message]
 проста адправіць паведамленне
 [send message and open message window]
@@ -48,7 +45,6 @@ MirFox/Error
 Кантакты
 [Accounts]
 Конты
-;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
 MirFox log
 [Message sent to %s (%s)]
@@ -73,7 +69,6 @@ MirFox Памылка
 не магу ўсталяваць статус на %s
 [Cannot set status message]
 не магу ўсталяваць статус
-;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [This MirFox (Miranda) plugin is too old. Please update it.]
 Гэта старая версія MirFox. Калі ласка, абнавіце яго.
 [MirFox (Miranda) - Error]

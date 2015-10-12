@@ -5,9 +5,6 @@
 ;  Version: 0.11.2.0
 ;  Authors: Miranda NG team
 ;============================================================
-;file \plugins\Toaster\res\resource.rc
-;file \plugins\Toaster\src\main.cpp
-;file \plugins\Toaster\src\options.cpp
 [Information]
 Інфармацыя
 [Warning]

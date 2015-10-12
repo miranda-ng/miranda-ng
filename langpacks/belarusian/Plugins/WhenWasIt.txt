@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Абвестка пра дні нараджэння.
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Паведаміць пра дзень нараджэння:
 [Popups]
@@ -84,7 +83,6 @@
 Выдаліць
 [Upcoming birthdays]
 Надыходзячыя дні нараджэння
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 Будучы ўзрост
 [Current age]
@@ -139,14 +137,12 @@
 Закрыецца праз %d секунд...
 [Closing in %d second]
 Зачыненне праз %d секунд
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 Праверыць дні нараджэння
 [Birthdays]
 Дні нараджэння
 [Contacts]
 Кантакты
-;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 Дні нараджэння
 [Check birthdays menu item]
@@ -171,7 +167,6 @@
 Больш %d дзён да свята
 [WhenWasIt birthday reminder]
 Дні нараджэння
-;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Блізкіх дзён нараджэння няма.
 [%s has birthday in %d days.]
@@ -198,7 +193,6 @@
 %s\n%s будзе %d .
 [%s\n%s just turned %d.]
 %s\n%s споўнілася %d
-;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 Пачатак абнаўлення інфармацыі пра кантакты
 [Done refreshing user details]
@@ -233,10 +227,8 @@
 Увага! Калі ласка, не путайзе Unicode і Ansi экспартуемых файлаў нараджэння. Выкарыстоўвайце тую ж версію (ANSI / Unicode) WhenWasIt.\n
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Гэты файл быў экспартаваны з Unicode версіі WhenWasIt. Калі ласка, выкарыстоўвайце толькі Unicode версіі плагіна для імпарту дней нараджэння.\n
-;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 Не знайшоўся UID '%s [%S]' у бягучай базе дадзеных, пропуск
-;file \plugins\WhenWasIt\src\WhenWasIt.cpp
 [Birthdays (When Was It)]
 Дні нараджэння
 [Add/change user &birthday]

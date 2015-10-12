@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
 Абвяшчае, калі ў вас ёсць непрачытаныя электроннай пошты на Exchange Server.
-;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Непрачытаныя лісты
 [Close]
@@ -40,14 +39,12 @@
 разоў, перш чым здацца
 [Show email notifications using popup module]
 Паказаць абвесткі праз усплывальнае вакно
-;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 Параметры уваходу
 [Subject]
 Тэма
 [Sender]
 Адпраўшчык
-;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails...]
 У вас %d непрачытаных лістоў...
 [You have one unread email...]
@@ -56,11 +53,9 @@
 Пошта Exchange
 [Do you want to see the email headers?]
 Паказаць загалоўкі электроннай пошты?
-;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 Праверыць скрыню exchange
 [Exchange notify]
 Паведамленне Exchange
 [Plugins]
 Плагіны
-;file \plugins\Exchange\src\MirandaExchange.cpp

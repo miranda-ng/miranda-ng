@@ -7,7 +7,6 @@
 ;============================================================
 [An Auto Away module with some more options than the original.]
 AutoAway - плагін з пашыраным наборам функцый.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Правяраць
 [Max. retries]
@@ -262,7 +261,6 @@ Dial-up (эксперыментальна)
 Дадзеныя трыгера
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 хвілін рэжыму "%s"
 [Rules]
@@ -271,7 +269,6 @@ Dial-up (эксперыментальна)
 Паведамленні статусу
 [Auto Away]
 Адсутнасць
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
 [Give it up, I'm not in!]
@@ -294,7 +291,6 @@ Dial-up (эксперыментальна)
 Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<last>]

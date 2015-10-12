@@ -1,0 +1,6 @@
+﻿[Provides popup services based on Windows toast notification for different plugins.]
+[Preview]
+[Add shortcut]
+[This plugin requires Windows 8 or higher]
+[Failed to create shortcut]
+[Shortcut was added to the start menu]

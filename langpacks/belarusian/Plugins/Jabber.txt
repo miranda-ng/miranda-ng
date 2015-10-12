@@ -7,7 +7,6 @@
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
 Падтрымка пратакола Jabber (XMPP) у Miranda NG.
-;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Рэдагаваць нататку
 [Tags:]
@@ -394,7 +393,6 @@ XML Кансоль
 Скінуць лог
 [Send]
 Адправіць
-;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Пратакол Jabber
 [Frame title]
@@ -405,7 +403,6 @@ XML Кансоль
 Занятак Jabber
 [Jabber Mood]
 Настрой Jabber
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Памылка %s %s
 [Select Command]
@@ -424,7 +421,6 @@ XML Кансоль
 Jabber Ad-Hoc каманды на %s
 [Sending Ad-Hoc command to %s]
 Адправіць Ad-Hoc каманду %s
-;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Рэгістрацыя агента Jabber
 [No message]
@@ -433,7 +429,6 @@ Jabber Ad-Hoc каманды на %s
 Рэгістрацыя
 [Please wait...]
 Пачакайце, калі ласка...
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Імя закладкі
 [Address (JID or URL)]
@@ -444,10 +439,8 @@ Jabber Ad-Hoc каманды на %s
 Канферэнцыі
 [Links]
 Спасылкі
-;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 Bytestream проксі недасяжны.
-;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Інфармацыя пра службы
 [Supports Service Discovery items list]
@@ -532,10 +525,8 @@ xHTML фармат чат-паведамленняў
 Падтрымка абмена росцера
 [Supports direct chat invitations (XEP-0249)]
 Падтрымка прамых запрашэнняў ш чат (XEP-0249)
-;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Няма
 [Member]
@@ -688,12 +679,10 @@ xHTML фармат чат-паведамленняў
 Змяніць мянушку ў %s
 [Reason to destroy %s]
 Чыннік знішчэння %s
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Немагчыма адаслаць - не ў сеціве.
 [Jabber Error]
 Jabber памылка
-;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 затрымка запыту.
 [Node hierarchy]
@@ -744,7 +733,6 @@ Jabber памылка
 Скапіраваць імя
 [Copy node information]
 Скапіраваць інфармацыю
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Ідэнтыфікатары
 [category]
@@ -761,10 +749,8 @@ Jabber памылка
 Памылка запыту інфармацыі
 [Items request error]
 Памылка запыту
-;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Фільтр...
-;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Памылка запыту спісу чатаў.
 [No rooms available on server.]
@@ -785,7 +771,6 @@ Jabber памылка
 усталяваў(ла) тэму:
 [Group chat invitation to\n%s]
 Запрашэнне ў канферэнцыю\n%s
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Статус
 [transport]
@@ -870,7 +855,6 @@ Jabber памылка
 Прагляд
 [Privacy]
 Прыватнасць
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутэнтыфікацыя не прайшла для %s.
 [Jabber Authentication]
@@ -883,7 +867,6 @@ Jabber памылка
 Пароль не можа быць зменены
 [Jabber Bookmarks Error]
 Памылка закладак Jabber
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пункта(ў) (%s)
 [Voice List]
@@ -902,10 +885,8 @@ Jabber памылка
 Чыннік бана
 [Removing %s?]
 Выдаліць %s?
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Атрыманы запыт HTTP аўтарызацыі
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Выбар конту Jabber
 [Request authorization]
@@ -968,8 +949,6 @@ Jabber Рэсурс
 Найвысокі прыярытэт (выбар сервера)
 [Status Message]
 Статуснае паведамленне
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Для канферэнцый патрэбны убудаваны плагін чатаў.
 [To]
@@ -980,7 +959,6 @@ Jabber Рэсурс
 у абодва бакі
 [Errors]
 Памылкі
-;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Уваходная нататка ад %s
 [Send note to %s]
@@ -995,7 +973,6 @@ Jabber Рэсурс
 Вы ўпэўнены?
 [Incoming note]
 Уваходная нататка
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Афар
 [Abkhazian]
@@ -1494,14 +1471,12 @@ Google Talk!
 Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некаторыя змены ўступяць у сілу пасля наступнага далучэння.
-;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 Устаноўка новага пароля для %s@%S
 [New password does not match.]
 Новыя паролі не супадаюць
 [Current password is incorrect.]
 Бягучы пароль няверны
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Sending request, please wait...]
 Адпраўка запыту, калі ласка, пачакайце...
 [Warning: privacy lists were changed on server.]
@@ -1624,12 +1599,10 @@ Odnoklassniki
 Немагчыма захаваць спіс, спачатку далучыцеся.
 [List Editor...]
 Рэдактар спісаў...
-;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
 [Protocol is offline or no JID]
 Конт не далучаны ці няма JID.
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Каманда выканана паспяхова
 [Error occurred during processing command]
@@ -1698,7 +1671,6 @@ Odnoklassniki
 Няма чатаў для адключэння
 [Choose the group chats you want to leave]
 Абярыце чаты, якія вы хочаце пакінуць
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Памылка %s %s\r\n Калі ласка абярыце іншы сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -1713,7 +1685,6 @@ Odnoklassniki
 Пачакайце...\r\n Падлучэнне да сервера пошуку...
 [You have to be connected to server]
 Трэба далучэнне да сервера
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 зачыніў вакно чата
 [sent subscription request]
@@ -1732,7 +1703,6 @@ Odnoklassniki
 Статус:
 [Real JID:]
 Сапраўдны JID:
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 увядзіце пароль для %s
 [Error: Not enough memory]
@@ -1749,7 +1719,6 @@ Odnoklassniki
 Паведамленне пераслана ад %s\r\n%s
 [Sending registration information...]
 Дасылка рэгістрацыйнай інфармацыі...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Рэсурс
 [<not specified>]
@@ -1816,7 +1785,6 @@ Odnoklassniki
 <Няма фота>
 [Photo]
 Фота
-;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Перанакіраванне
 [Bad request]
@@ -1861,7 +1829,6 @@ Odnoklassniki
 Настрой...
 [Set activity...]
 Занятак...
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужчынскі
 [Female]
@@ -1878,10 +1845,8 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
-;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 Злучэнне %s
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Спалоханы
 [Amazed]
@@ -2218,8 +2183,6 @@ Jabber vCard: рэдагаванне тэлефона
 Настроі
 [Activities]
 Заняткі
-;file \protocols\JabberG\src\stdafx.h
-;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
 [First Name]
 Імя
 [Last Name]

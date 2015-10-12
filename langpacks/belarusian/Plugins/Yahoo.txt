@@ -7,7 +7,6 @@
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Падтрымка пратакола Yahoo.
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 Пароль:
 [Nick:]
@@ -82,7 +81,6 @@ Yahoo Японія
 Мэта запрашэння
 [Add]
 Дадаць
-;file \protocols\Yahoo\src\chat.cpp
 [%s denied invitation with message: %s]
 %s адмаўляе запрашэнне з паведамленнем: %s
 [Me]
@@ -103,7 +101,6 @@ Yahoo Японія
 Не, дзякуй...
 [[miranda] Got conference invite to room: %s with msg: %s]
 (Miranda NG) Атрымана запрашэнне ў чат %s:%s
-;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Галоўны
 [Mail]
@@ -118,20 +115,16 @@ Yahoo Японія
 Усталяваць статус
 [Calendar]
 Каляндар
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Памылка Yahoo
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Паведамленне занадта доўгае: Yahoo абмежавана ў 800 UTF8 знакаў
-;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
 Спасылка YAHOO
-;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 HTTP злучэнні YAHOO
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Змены ўступяць пры наступным уваходзе ў Yahoo.
 [YAHOO Options]
@@ -156,7 +149,6 @@ Yahoo Ігнор
 Далучэнне
 [Ignore List]
 Чорны спіс
-;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
 Новая пошта ў тэчцы "Ўваходныя"
 [%s plugin connections]
@@ -167,7 +159,6 @@ Yahoo Ігнор
 Увядзіце ваш Yahoo пароль - Налады/Сеціва/Yahoo
 [Yahoo Login Error]
 Памылка далучэння Yahoo
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Вы павінны быць далучаны каб задаць паведамленне
 [You need to be connected to refresh your buddy list]
@@ -188,10 +179,8 @@ Yahoo Ігнор
 Стварыць чат
 [&Show Profile]
 Профіль
-;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
 (Miranda NG) Запрашэнне ў відэаканферэнцыю (пакуль не падтрымліваецца)
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Каляндар напамінкаў
 [%s has rejected your request and sent the following message:]

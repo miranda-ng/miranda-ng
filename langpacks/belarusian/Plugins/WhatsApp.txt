@@ -7,7 +7,6 @@
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Падтрымка пратакола WhatsApp для Miranda NG.
-;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Тэлефон
 [Nickname]
@@ -24,7 +23,6 @@
 Запрасіць
 [Cancel]
 Скасаваць
-;file \protocols\WhatsApp\src\chat.cpp
 [Owners]
 Уладальнікі
 [&Invite a user]
@@ -45,7 +43,6 @@
 Капіяваць мянушку
 [Copy real &JID]
 Капіяваць JID
-;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Абярыце код краіны.
 [Please enter a phone number without country code.]
@@ -54,25 +51,20 @@
 Увядзіце мянушку
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
-;file \protocols\WhatsApp\src\contacts.cpp
-;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
 [Network]
 Сеціва
 [Account]
 Конт
-;file \protocols\WhatsApp\src\messages.cpp
 [server]
 сервер
-;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
 [Network connection error.]
 Памылка далучэння
-;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 Абразок WhatsApp
 [Create chat group]

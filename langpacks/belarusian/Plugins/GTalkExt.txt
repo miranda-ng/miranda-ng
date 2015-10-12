@@ -7,7 +7,6 @@
 ;============================================================
 [GTalk extensions for Jabber protocol]
 Пашырэнне пратакола  Jabber для абвестках аб пошце GTalk.
-;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
 Абвесткі вакном (патрабуецца плагiн ўсплывальных вокнаў)
 [Notify in fullscreen mode too]
@@ -46,24 +45,19 @@
 0 - па змаўчанні,\n-1 - Бясконца
 [Test]
 Прагляд
-;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Адкрыць паштовую скрыню
-;file \protocols\GTalkExt\src\notifications.cpp
-;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Усплывальныя вокны
 [Network]
 Сеціва
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 * Сістэма прымітыўныага тыпу\n* Няма перазагрузкі\n* Абмежаваныя магчымасці для абстракцыі дадзеных, палімарфізм падтыпаў і паўторнага выкарыстання кода\n* Няма метапраграмавання акрамя макрасаў прэпрацэсара\n* Няма выключэння
-;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 Абвесткі пра пошту GMail
 [subject\n    %s\nfrom\n%s\n%s\n]
 тэма\n    %s\nад\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 тэма\n    %s\nад\n%s
-;file \protocols\GTalkExt\src\tipper_items.cpp
 [Unread threads:]
 Непрачытаных ланцужкоў:

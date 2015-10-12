@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin to shake the contact list and chat window.]
 Будзільнік (трасенне вакон)
-;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Налады пратаколу
 [Specify options for each protocol]
@@ -78,7 +77,6 @@
 Статычны
 [Shaking Message Window Options]
 Трасенне вакна паведамленняў
-;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Нельга пасылаць шмат падтрэсванняў (толькі 1 кожныя %d сек, %d сек засталося)
 [Nudge]
@@ -95,12 +93,10 @@
 Патрэсці
 [Nudge for %s]
 Будзільнік для %s
-;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Вас падтрэслі
 [You sent a nudge]
 Вы падтрэслі
-;file \plugins\Nudge\src\options.cpp
 [Events]
 Падзеі
 [Window Shaking]

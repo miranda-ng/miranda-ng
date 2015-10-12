@@ -7,7 +7,6 @@
 ;============================================================
 [A contact list for blind folks.]
 Спіс канатактаў для людзей з дрэнным зрокам.
-;file \plugins\Clist_blind\res\resource.rc
 [Delete contact]
 Выдаліць кантакт
 [Are you sure you want to delete %s?]
@@ -220,7 +219,6 @@
 Пераназваць гурт
 [&Delete group]
 Выдаліць гурт
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -251,11 +249,8 @@
 Інфо: %s
 [List]
 Спіс
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Глабальныя
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp
 [Unknown protocol]
 Невядомы пратакол
 [Expanded]

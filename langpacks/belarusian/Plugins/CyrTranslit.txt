@@ -7,6 +7,5 @@
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 Транслітарацыя выходных паведамленняў (замена кірылічных знакаў на фанетычны эквівалент лацінскіх).
-;file \plugins\CyrTranslit\src\MirandaContact.cpp
 [&Transliterate]
 Транслітаваць

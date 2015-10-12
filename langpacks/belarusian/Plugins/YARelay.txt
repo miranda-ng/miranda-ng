@@ -7,7 +7,6 @@
 ;============================================================
 [Forwards messages to some contact when you are not available.]
 У вашу адсутнасць перасылае атрымованыя паведамленні іншаму кантакту.
-;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Перасылаць паведамленні ад...
 [Everyone]
@@ -56,7 +55,6 @@
 Нататка: Максімальны памер - велічыня параметру %m
 [Note: messages from this contact will not be forwarded]
 Нататка: паведамленні ад гэтага кантакту не будуць перасылацца
-;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
 !УСІМ!
 [!DON'T FORWARD!]

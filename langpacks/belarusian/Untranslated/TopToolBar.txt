@@ -1,0 +1,8 @@
+﻿[Show main menu]
+[Show options page]
+[Show accounts manager]
+[Show status menu]
+[Enable/disable metacontacts]
+[Disable metacontacts]
+[Enable metacontacts]
+[Enable/disable groups]

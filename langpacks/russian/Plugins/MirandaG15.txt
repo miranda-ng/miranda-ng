@@ -105,8 +105,6 @@
 Эмоции
 [Status changes]
 Смены статуса
-[Special IRC events:]
-Только для IRC
 [Notices]
 Уведомления
 [Channel events]

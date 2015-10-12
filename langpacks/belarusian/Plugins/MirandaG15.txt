@@ -7,7 +7,6 @@
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Плагін дадае магчымасць выкарыстання  Miranda NG на ВК-экране разнастайных прылад Logitech.
-;file \plugins\MirandaG15\res\MirandaG15.rc
 [General settings]
 Агульныя налады
 [Show softkey labels]
@@ -106,8 +105,6 @@
 Эмоцыі
 [Status changes]
 Змены статусу
-[Special IRC events:]
-Толькі IRC
 [Notices]
 Абвесткі
 [Channel events]
@@ -198,7 +195,6 @@
 Зачыняць чап пасля
 [When in background]
 Калі згорнута
-;file \plugins\MirandaG15\src\CConfig.cpp
 [Appearance]
 Знешні выгляд
 [Notifications]

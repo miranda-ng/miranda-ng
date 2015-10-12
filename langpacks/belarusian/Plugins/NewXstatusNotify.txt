@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Абвяшчае вас пра змены статусаў, xСтатусаў ці статусных паведамленняў.
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
 [Online]
@@ -162,7 +161,6 @@
 Запісваць змены статусаў
 [Log status changes to history]
 Запісваць змены статусаў у гісторыю
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Файлы гукаў
 [All files]
@@ -173,10 +171,8 @@
 Статус
 [** All contacts **]
 ** Усе кантакты **
-;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (па змаўчанні)
-;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <няма паведамлення статусу>
 [Contact]
@@ -295,7 +291,6 @@
 Укл/Выкл абвесткі пра змену статусу
 [Status change]
 Змена статуса
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Усе
 [Log]
@@ -314,7 +309,6 @@
 Конт
 [Filtering]
 Фільтраванне
-;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (быў(ла) %s)
 [Open message window]
@@ -329,19 +323,16 @@
 Адкрыць гісторыю кантакту
 [Do nothing]
 Нічога не рабіць
-;file \plugins\NewXstatusNotify\src\utils.cpp
 [Can't open the log file!]
 Не магу адкрыць файл лога!
 [NewXstatusNotify]
 Абвесткі пра змену статусаў
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Настрой
 [Activity]
 Занятак
 [xStatus]
 xСтатус
-;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
 змяніў(ла) %n на: %t
 [removed %n]

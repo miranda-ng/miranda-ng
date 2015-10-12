@@ -7,12 +7,10 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Гэты плвгін дазваляе кіраваць Мірандай праз камандны радок.
-;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
 Не атрымалася ініцыялізаваць уласнасцівасці CmdLine
 [Error]
 Памылка
-;file \plugins\CmdLine\src\mimcmd_data.h
 [Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
 Змена статуснага паведамлення конта ці глабальнага.\nВыкарыстанне: awaymsg <паведамленне> [<конт>].\n<Паведамленне> - тэкст статуснага паведамлення.\n<Конт> - дадатковы параметр, які паказвае імя конта для ўстаноўкі паведамлення. Калі не пазначана - паведамленне статуса будзе устаноўлена глабальна.
 [Changes extended status either globally or per account.\nUsage: xstatus <xStatus> [<account>].\n<xStatus> is the new extended status to set. Possible values are: ...\n<Account> is an optional parameter specifying the account for which extended status is set. If not specified then extended status for all accounts will be changed.\nNOTE: Not all accounts/protocols support extended status.]
@@ -49,7 +47,6 @@
 Мяняе мянушку кантакта ў пазначаным пратаколе.\nВыкарыстанне: setnickname <пратакол> новая_мянушка.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Уключэнне і адключэнне сцяга "ігнараваць" для паказаных кантактаў.\nВыкарыстанне:\n  ignore (block | unblock) <кантакт> [<кантакт> [<кантакт> [...]]].\nКаманда пераключыць (усталюе ці выдаліць) ігнараванне для пазначаных кантактаў.
-;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Wrong number of parameters for command '%s'.]
 Няслушная колькасць параметраў для каманды '%s'
 [Unknown parameter '%s' for command '%s'.]
@@ -132,12 +129,10 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 Памылка ўстаноўкі мянушкі '%s' для пратакола '%s'
 [Command '%s' is not currently supported.]
 Каманда '%s' не падтрымліваецца.
-;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Немагчыма стварыць сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Вы можаце запускаць толькі адну копію плагіна CmdLine.
-;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 Абвестка
 [Warning]

@@ -7,7 +7,6 @@
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Дадатак для абнаўлення зборак Miranda NG.
-;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
 Знойдзены абнаўленні!
 [Update]
@@ -84,12 +83,10 @@
 Вокны
 [Popups]
 Усплывальныя вокны
-;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 Праверыць абнаўленні зборкі
 [Pack Updater]
 Абнаўленне зборкі
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occurred while downloading the update.]
 Падчас загрузкі абнаўлення адбылася памылка.
 [Component Name]
@@ -108,12 +105,10 @@
 Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda NG зачынена.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Вы адмовіліся ад неадкладнай устаноўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
-;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Зачыніць вакно
 [Do nothing]
 Нічога не рабіць
-;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 гадзін(ы)
 [days]
@@ -122,10 +117,8 @@
 Прагляд
 [Services]
 Службы
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
 Сцерці тэчку з абнаўленнямі зборкі
-;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 Кнопка 'Так'
 ['No' Button]

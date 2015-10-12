@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Плагін антыспама для  Miranda NG.
-;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question (Ctrl+Enter for carriage return):]
 Пытанне (Ctrl+Enter для пачатку новага радка):
 [Restore defaults]
@@ -40,7 +39,6 @@
 Выдаляць усе часовыя кантакты пасля перазапуску
 [Log Spammers to system history]
 Запісваць у сістэмную гісторыю
-;file \plugins\StopSpamPlus\src\events.cpp
 [Message sessions]
 Гутаркі
 [General]
@@ -49,19 +47,15 @@
 Паведамленні
 [Accounts]
 Конты
-;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты плагін працуе проста:\r\nУ той час як паведамленні ад кантактаў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых кантактаў вам не дастаўляюцца. Але яны не ігнаруюцца, плагін адказвае простым пытаннем, і калі кантакт дае правільны адказ, плагін дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
 [StopSpam automatic message:\r\n]
 Паведамленне антыспама:\r\n
-;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
 Не ў спісе
 [Complete]
 Зроблена
-;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 Антыспам
-;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
 Выдаліць часовыя кантакты

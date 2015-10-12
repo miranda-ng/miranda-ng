@@ -7,7 +7,6 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагiн захоўвае гісторыю змены аватараў кантактаў і паказвае ўсплывальныя вокны.
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Save As...]
 Захаваць як...
 [Delete this entry]
@@ -92,7 +91,6 @@
 Гісторыя захоўваецца толькі на дыск. Яе можна прагледзець убудаваным прагляднікам.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<час> (аднолькавыя аватары могуць быць захаваны некалькі разоў)
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
 Гісторыя аватараў %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
@@ -117,7 +115,6 @@
 Захаваць аватар %s
 [Save Avatar]
 Захаваць аватар
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [Removed avatar, no avatar before... skipping]
 Аватара няма ці ён быў выдалены раней. Пропуск
 [Hashes are the same... skipping]
@@ -130,12 +127,10 @@
 Кантакт змяніў выяву
 [Contact removed avatar]
 Кантакт выдаліў выяву
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Гісторыя
 [Avatar Overlay]
 Адбітак аватара
-;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
 Нічога не рабіць
 [Close popup]
@@ -154,12 +149,10 @@
 Усплывальныя вокны
 [Avatar Change]
 Змена аватара
-;file \plugins\AvatarHistory\src\stdafx.h
 [removed his/her avatar]
 выдаліў(ла) свой аватар
 [changed his/her avatar]
 змяніў(ла) свой аватар
-;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Невядомы нумар
 [Unknown Protocol]

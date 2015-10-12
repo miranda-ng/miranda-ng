@@ -7,7 +7,6 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
-;file \protocols\VKontakte\res\resource.rc
 [off]
 адкл.
 [Other]
@@ -62,7 +61,6 @@
 Падзяліцца
 [URL:]
 Спасылка:
-;file \protocols\VKontakte\src\misc.cpp
 [Status icon]
 Абразок статусу
 [Protocols]
@@ -89,10 +87,8 @@
 Непадтрымліваемы ці невядомы тып укладання: %s
 [(Unknown contact)]
 (Невядомы кантакт)
-;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
-;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Удзельнікі
 [Owners]
@@ -119,17 +115,12 @@
 Профіль
 [&Kick]
 Выкінуць
-;file \protocols\VKontakte\src\vk_feed.cpp
-;file \protocols\VKontakte\src\vk_files.cpp
-;file \protocols\VKontakte\src\vk_history.cpp
-;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва
 [Account]
 Конт
 [View]
 Выгляд
-;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [Create new chat]
@@ -140,8 +131,5 @@
 Памылкі
 [Notification]
 Абвестка
-;file \protocols\VKontakte\src\vk_status.cpp
 [Waiting...]
 Чаканне...
-;file \protocols\VKontakte\src\vk_thread.cpp
-;file \protocols\VKontakte\src\vk_wallpost.cpp

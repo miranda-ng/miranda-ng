@@ -7,7 +7,6 @@
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Плагiн падтрымкі пратаколу IRC.
-;file \protocols\IRCG\res\IRC.rc
 [Default network]
 Сетка па змаўчанні
 [Enable]
@@ -268,10 +267,8 @@ Wildcard пошук па сетцы
 Сервер:
 [Password:]
 Пароль:
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s ставіць рэжым %s
 [%s sets mode %s%s]
@@ -336,7 +333,6 @@ Jerk
 Выкарыстанне /AWAY у буферы выканання абмежавана\n бо IRC аўтаматычна пасылае гэту каманду.
 [IRC Error]
 Памылка IRC
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 Функцыя праверкі прыяцеляў уключана
 [The buddy check function is disabled]
@@ -379,12 +375,10 @@ CTCP %s запыт пасланы для %s
 Увод каманды
 [Please enter the reply]
 Увядзіце адказ
-;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 Не атрымалася далучыцца да
 [DCC ERROR: Unable to bind local port for passive file transfer]
 Памылка DCC: Немагчыма адкрыць лакальны порт для пасіўнай перадачы файлаў
-;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [%s client-to-client connections]
@@ -407,7 +401,6 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (мянушка, User ID і імя)
-;file \protocols\IRCG\src\options.cpp
 [Main]
 Галоўны
 [Add]
@@ -514,7 +507,6 @@ WhoIs
 DCC і CTCP
 [Advanced]
 Дадаткова
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps ад %s:\s
 [%s invites you to %s]
@@ -529,7 +521,6 @@ CTCP %s адказ пасланы для %s
 CTCP %s адказ пасланы для %s: %s
 [Notice to %s: ]
 Абвестка для %s:\s
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Хуткае далучэнне
 [&Join channel]
@@ -710,10 +701,8 @@ Nickserv забіць фантому
 Дадаць у кантакты
 [Connecting to]
 Злучэнне з
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Адключаны
-;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Хутчэй! Шукае ў сетцы для дакладнай адпаведнасці толькі мянушкай. Маска хосту з'яўляецца неабавязковай і забяспечвае дадатковую абарону пры выкарыстанні. Гуртавыя сімвалы (* і?) Не дапускаюцца.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
@@ -722,7 +711,6 @@ Nickserv забіць фантому
 Налады не захаваны.\n\nПоле "Мянушка" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з мянушкай па змаўчанні для гэтага кантакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налады не захаваны!\n\nДля гэтага рэжыма павінна быць пазначана поўная маска хаста.
-;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Пачакайце, калі ласка...
 [Channel]

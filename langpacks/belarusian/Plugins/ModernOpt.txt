@@ -7,7 +7,6 @@
 ;============================================================
 [Support for new options design.]
 Падтрымка новага дызайну налад.
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Афіцыйны сайт Miranda NG
 [Sample page]
@@ -24,7 +23,6 @@
 Класічны выгляд налад
 [Advanced]
 Дадаткова
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
 Дома
 [Miranda NG configuration center]

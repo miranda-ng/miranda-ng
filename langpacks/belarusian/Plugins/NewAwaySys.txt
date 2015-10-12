@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Enable autoreply]
 Уключыць аўтаадказнік
 [On event...]
@@ -150,7 +149,6 @@
 Пераназваць
 [Set as &default for]
 Уст. па &змаўчанні для
-;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
 Новае паведамленне
 [Create new category]
@@ -227,7 +225,6 @@
 Абедаю
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вячэраю,абедаю),снедаю),вячэраю) з %nas_awaysince_time%.
-;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 Выключыць
 [Toggle On]
@@ -282,20 +279,16 @@
 Выкарыстоўваць па змаўчанні
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Уваходны запыт статуснага паведамлення
-;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы змянілі некалькі дрэў адразу.\r\n Вы жадаеце захаваць змены ў "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 " дыялог?\r\b\n"Ды" для захавання, "Няма" для  адмены змен.
-;file \plugins\NewAwaySysMod\src\Notification.cpp
 [Error #%d]
 Памылка #%d
 [Can't open log file ]
 Немагчыма адкрыць файл лога\s
-;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
 Зачыніць
-;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 Захаваць, замяніўшы вылучанае паведамленне
 [Save as a new message]
@@ -316,7 +309,6 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 на працягу
 [Closing in %d]
 Зачыніць (%d)
-;file \plugins\NewAwaySysMod\src\stdafx.h
 [Miranda NG autoreply >\r\n%extratext%]
 Аўтаадказ Miranda NG >\r\n%extratext%
 [extended status]

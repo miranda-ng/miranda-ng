@@ -7,7 +7,6 @@
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 Аўтаматычная забарона розных падзей, у залежнасці ад вызначанага статусу.
-;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Няма гукаў, калі:
 [No CList blink when:]
@@ -16,12 +15,10 @@
 Няма мігцення ў трэі:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Схаваць "укл/выкл гук" у галоўным меню (патрабуецца перазапуск)
-;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Забарона абвестак
 [Plugins]
 Плагіны
-;file \plugins\ZeroNotification\src\stdafx.h
 [Disable &Sounds]
 Забараніць гукі
 [Enable &Sounds]

@@ -7,7 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Падае сэрвіс усплывальных вокнаў для розных плагінаў.
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Стыль вокнаў
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -200,7 +199,6 @@ History++ для гісторыі вокнаў
 Поўны экран
 [Debug]
 Адладка
-;file \plugins\Popup\src\actions.cpp
 [Quick reply]
 Хуткі адказ
 [Send message]
@@ -221,7 +219,6 @@ History++ для гісторыі вокнаў
 няма дзеяння
 [Action]
 Дзеянне
-;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустаслоўе
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
@@ -234,8 +231,6 @@ History++ для гісторыі вокнаў
 Гэта заўвага
 [This is an error message]
 Гэта паведамленне пра памылку
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.h
 [Popups]
 Усплывальныя вокны
 [Title]
@@ -256,12 +251,10 @@ History++ для гісторыі вокнаў
 Падкрэсленне загалоўка
 [Avatar border]
 Мяжа аватара
-;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Гісторыя ўсплывальных вокнаў адключана
 [Popup History message]
 Гісторыя ўсплывальных вокнаў
-;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Вокны ўключаны
 [Popups are disabled]
@@ -294,7 +287,6 @@ History++ для гісторыі вокнаў
 Замацаванае
 [Add contact permanently]
 Дадаць кантакт заўсёды
-;file \plugins\Popup\src\main.cpp
 [Classes]
 Класы
 [Actions]
@@ -311,15 +303,12 @@ History++ для гісторыі вокнаў
 Адключыць Вокны
 [Popup Plus]
 Вокны
-;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без эфекту
 [Fade in/out]
 Плыўны паказ
-;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Гурты плагінаў
-;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Адключаны
 [Online]
@@ -362,7 +351,6 @@ History++ для гісторыі вокнаў
 Значэнне меншае %d ці большае %d не дапушчаецца.
 [Popup Plus Warning]
 Заўвага Popup Plus
-;file \plugins\Popup\src\opt_skins.cpp
 [Skin preview]
 Прагляд скіна
 [Just take a look at this skin... ;)]
@@ -383,13 +371,8 @@ History++ для гісторыі вокнаў
 Глабальныя налады
 [Refresh List]
 Абнавіць спіс
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Notify]
 Абвестка
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Аўта
 [Favorite]
