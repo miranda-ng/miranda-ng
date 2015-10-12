@@ -112,8 +112,8 @@ Zdarzenia kontaktu
 Emotikony
 [Status changes]
 Zmiany statusu
-[Special IRC events:]
-Specjalne zdarzenia IRC:
+[Group chat events:]
+Zdarzenia rozmowy grupowej:
 [Notices]
 Wzmianki
 [Channel events]
