@@ -48,7 +48,7 @@
 [Database backed up]
 Профіль зарэзерваваны
 [Database back up in process...]
-
+Рэзерваванне профилю...
 [Error]
 Памылка
 [Miranda NG databases]

@@ -2026,7 +2026,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 [Connecting]
 Далучэнне
 [Connecting (attempt %d)]
-
+Далучэнне (спроба %d)
 [(Unknown contact)]
 (Невядомы кантакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2072,7 +2072,7 @@ Miranda NG не можа адчыніць '%s', профіль у невядом
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda не можа адкрыць '%s'\nЁн недасяжны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
-
+Miranda не можа адкрыць '%s'\nНе ўсталяваны неабходны драйвер
 [No profile support installed!]
 Няма ўсталяваных плагінаў базы!
 [Miranda can't open that profile]
@@ -2106,7 +2106,7 @@ Miranda не можа распазнаць гэты профіль
 [Search]
 Пошук
 [Ctrl+Search add contact]
-
+Ctrl+Шукаць дадае карыстальніка
 [Results]
 Вынікі
 [There are no results to display.]
@@ -2310,7 +2310,7 @@ xСтатус
 [Send offline]
 Адпраўка ў афлайн
 [Send &online]
-
+У &анлайн
 [Delete metacontact?]
 Выдаліць метакантакт?
 [Toggle off]
@@ -2354,7 +2354,7 @@ xСтатус
 [No online contacts found.]
 Няма далучаных кантактаў.
 [Select metacontact]
-
+Выберыце метакантакт
 [Sender]
 Адпраўшчык
 [Could not retrieve contact protocol]
@@ -2458,15 +2458,15 @@ xСтатус
 [<In use>]
 <Выкарыстоўваецца>
 [<Unknown format>]
-
+<Невядомы фармат>
 [Are you sure you want to remove profile "%s"?]
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
 [&Convert]
-
+&Канвертаваць
 [Run]
 Запусціць
 [Convert database]
-
+Канвертаваць базу
 [Check database]
 Праверыць базу
 [Size]
@@ -2486,23 +2486,23 @@ xСтатус
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
 [Account name must be filled.]
-
+Неабходна ўвесці імя ўліковага запісу
 [Account error]
-Памылка конта
+Памылка ўліковага запісу
 [Account name has to be unique. Please enter unique name.]
-Імя конта павінна быць унікальным. Калі ласка, увядзіце іншае імя.
+Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Create new account]
-Новы конт
+Новы ўліковы запіс
 [Editing account]
-Кіраваць конт
+Кіраваць ўліковым запісам
 [Upgrading account]
-Аднавіць конт
+Аднавіць ўліковы запіс
 [Account is disabled. Please activate it to access options.]
-Конт адключаны. Уключыце для кіравання.
+Уліковы запіс адключаны. Уключыце для кіравання.
 [New account]
-Новы конт
+Новы ўліковы запіс
 [Remove account]
-Выдаліць конт
+Выдаліць ўліковы запіс
 [Configure...]
 Налада...
 [Upgrade account]
@@ -2528,9 +2528,9 @@ ID конта
 [You need to disable plugin to delete this account]
 Для выдалення конта неабходна яго адключыць
 [&Accounts...]
-Конты...
+Уліковыя запісы...
 [Account]
-Конт
+Уліковы запіс
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
 [Could not search on any of the protocols, are you online?]
@@ -2608,7 +2608,7 @@ ANSI плагін
 [Frames]
 Фрэймы
 [Add group]
-
+Дадаць групу
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]

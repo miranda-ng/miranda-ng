@@ -28,15 +28,15 @@
 [Others]
 Іншае
 [Automatic messages synchronization]
-
+Аўтаматычная сінхранізацыя паведамленняў 
 [Always notify as unread for all incoming message]
-
+Заўжды паведамляць аб уваходзячых паведамленнях
 [Place:]
 Месца:
 [Use hostname]
-
+Выкарыстоўваць имя хоста
 [Use BBCode]
-
+Выкарыстоўваць BBCode
 [Change password]
 Змяніць пароль
 [Enter password]
@@ -46,7 +46,7 @@
 [Enter the password to continue.]
 
 [Skype Link Protocol]
-
+Пратакол Skype
 [Admin]
 Адмін
 [User]
@@ -60,9 +60,9 @@
 [&Leave chat session]
 &Пакінуць сеанс
 [&Change topic]
-
+&Змяніць тэму
 [Kick &user]
-
+Выгнаць карыстальніка
 [Set &role]
 Усталяваць &ролю
 [&Admin]
@@ -70,7 +70,7 @@
 [&User]
 &Карыстач
 [Enter new chatroom topic]
-
+Увядзіце новую тэму чату
 [Are you sure?]
 Вы ўпэўнены?
 [Edited message]
