@@ -3,7 +3,7 @@
 REM ====== VARIABLES ========
 
 set "language=polish"
-set "oldLangpackPath=Deprecated\Langpack_polish.txt"
+set "oldLangpackPath="
 set "mirandaPath=C:\Program files\Miranda NG"
 
 REM =========================
