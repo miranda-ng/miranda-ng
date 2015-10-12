@@ -8,43 +8,43 @@
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
 [[img] BBCode support for image]
-
+Падтрымка BB-кода [img] для выяў
 [off]
 адкл.
 [for original size images]
-
+для арыгінальнага памеру
 [for preview max 130px*130px]
-
+для прэв'ю 130px*130px 
 [for preview max 604px*604px]
-
+для прэв'ю 604px*604px 
 [BBCode support on news and event notifications]
-
+Падтрымка BBCode для навін і паведамленняў
 [basic ([b], [i], [u], [s])]
-
+базавая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
-
+пашыраная (+[url], [size], [color])
 [Use this setting also for attachments on news and notifications]
 
 [Other]
 Іншае
 [BBCode support on attachments]
-
+Падтрымка BBCode для ўкладанняў
 [Process stickers as smileys]
-
+Апрацоўваць стыкеры як смайлы
 [Shorten links for audio attachments]
-
+Пакарочаныя спасылкі для аўдыё
 [News and event notifications]
-
+Паведамленні аб навінах і падзеях
 [WARNING: Causes excessive network traffic!!!]
-
+ЎВАГА: Вялікае ўжыванне трафіку !!!
 [Enable news feeds]
-
+Ўключыць ленту навін
 [Interval for news updates (min):]
-
+Перыяд абнаўлення навін (хвіліны):
 [Enable event notifications]
-
+Ўключыць паведамленні аб падзеях
 [Interval for notification updates (min):]
-
+Перыяд абнаўлення падзей (хвіліны):
 [Mark notification as viewed on receive]
 
 [Special contact always enabled]
@@ -70,7 +70,7 @@
 [Include banned sources]
 
 [Pages]
-
+Старонкі
 [Subscriptions to users]
 
 [No reposts]
@@ -78,9 +78,9 @@
 [Notifications types]
 
 [Comments]
-
+Каментарыі
 [Likes]
-
+"Мне падабаецца"
 [Invites]
 Запрашэнні
 [Reposts]
@@ -180,7 +180,7 @@
 [Only for friends]
 
 [Attention]
-
+Папярэджанне
 [Captcha form icon]
 
 [Notification icon]

@@ -20,12 +20,12 @@
 [Unread clist extra icon]
 
 [Last message read at]
-
+Апошняе паведамленне прачытана ў 
 [Last message read (unknown time)]
-
+Апошняе паведамленне прачытана (час невядомы)
 [Last message is not read]
-
+Апошняе паведамленне не прачытана
 [Last message was not sent.]
-
+Апошняе паведамленне не адаслана
 [Sending...]
 Перадача...

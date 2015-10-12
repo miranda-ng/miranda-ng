@@ -74,15 +74,15 @@
 [Are you sure?]
 Вы ўпэўнены?
 [Edited message]
-
+Рэдагаванае паведамленне
 [Action]
 Дзеянне
 [Call information]
-
+Інфармацыя пра тэлефанаванне
 [File transfer information]
-
+Інфармацыя пра перадачу файла
 [URI object]
-
+URI аб'ект
 [Unknown event]
 Невядомая з'ява
 [Incoming call]
@@ -128,31 +128,31 @@
 [Protocols]
 Пратаколы
 [Authentication failed. Invalid username.]
-
+Памылка ўваходу. Неправільнае імя карыстальніка.
 [Authentication failed. Bad username or password.]
-
+Памылка ўваходу. Неправільнае імя карыстальніка або пароль.
 [Too many failed authentication attempts with given username or IP.]
-
+Вельмі многа спроб увайсці з гэтага імя карыстальніка або IP.
 [Authentication failed. Unknown error.]
-
+Памылка ўваходу. Невядомая памылка.
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
 [Get server history]
-
+Атрымаць гісторыю паведамленняў
 [Block contact]
-Заблакаваць
+Заблакаваць карыстальніка
 [Unblock contact]
-
+Разблакаваць карыстальніка
 [Create new chat]
 Стварыць чат
 [You cannot send when you are offline.]
 
 [Unknown error!]
-
+Невядомая памылка
 [Network error!]
-
+Сеткавая памылка
 [Enter confirmation code]
 
 [%s connection]

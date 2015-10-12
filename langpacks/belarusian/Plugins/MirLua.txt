@@ -6,12 +6,12 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
-
+Пашырае функцыянал Miranda NG з дапамогай lua скрыптоў.
 [Reload all]
 
 [Common scripts folder]
-
+Агульны каталог скыптоў
 [Scripts]
-
+Скрыпты
 [Common scripts]
-
+Агульныя скрыпты
