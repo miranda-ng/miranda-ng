@@ -6,5 +6,5 @@ set OldLangpackPath=
 del /f /q %langdir%\Untranslated\*.txt
 
 pushd ..\..\tools\lpgen
-cscript /nologo translate.js /sourcelang:"%lang%" noref:"yes" /out:"%langdir%" /untranslated:"%langdir%\Untranslated" /langpack:%OldLangpackPath%
+cscript /nologo translate.js /sourcelang:"%lang%" noref:"yes" /out:"%langdir%" /langpack:%OldLangpackPath%
 popd
