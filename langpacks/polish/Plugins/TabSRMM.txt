@@ -620,8 +620,8 @@ RTL jest domyślnym kierunkiem tekstu
 Pokazuj zmiany statusu (tylko przy otwartym oknie rozmowy)
 [Revert to global options]
 Przywróć opcje globalne
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log]
-Tutaj możesz ustawić prywatne opcje dziennika zdarzeń dla tego kontaktu. Wypełnione pola zostały przejęte z ustawień globalnych, które można znaleźć w Okno rozmowy -> Dziennik zdarzeń
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
+Tutaj możesz ustawić prywatne opcje dziennika zdarzeń dla tego kontaktu. Wypełnione pola zostały przejęte z ustawień globalnych,które można znaleźć w Opcjach -> Okno rozmowy -> Dziennik Zdarzeń
 [Use normal templates (uncheck to use simple templates)]
 Użyj normalnych szablonów (odznacz, aby używać prostych szablonów)
 [Queued send jobs]

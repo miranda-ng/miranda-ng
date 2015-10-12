@@ -36,8 +36,8 @@ Przeglądaj...
 Interfejs
 [Do not change icon when testing]
 Nie zmieniaj ikony podczas testu
-[Use the Customize -> Fonts options to change text size and color.]
-Rozmiar i kolor tekstu zmienisz w Personalizacja -> Czcionka.
+[Use the Options -> Customize -> Fonts options to change text size and color.]
+Użyj ustawień w Opcje -> Personalizacja ->Czcionki,by zmieniać rozmiar oraz kolor czcionek
 [Indent:]
 Wcięcie:
 [Row height:]
