@@ -138,7 +138,6 @@
 [Video description:]
 [Post text:]
 [Topic text:]
-[Protocol is offline]
 [File does not exist]
 [File type not supported]
 [Error open file]

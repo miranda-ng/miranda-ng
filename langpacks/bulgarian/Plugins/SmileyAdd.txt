@@ -35,10 +35,6 @@
 Мин. височина на усмивките
 [Smiley selector]
 Избор на усмивка
-[Surround inserted smiley with spaces]
-Ограждане на вмъкнатите усмивки с интервал
-[Use first smiley for selection size]
-Задаване на размер от първата усмивка
 [Input area]
 Поле за въвеждане
 [Enable smileys]
@@ -51,6 +47,10 @@
 Изключване
 [Smiley button]
 Бутон "Усмивки"
+[Surround inserted smiley with spaces]
+Ограждане на вмъкнатите усмивки с интервал
+[Use first smiley for selection size]
+Задаване на размер от първата усмивка
 [Show smiley selection window]
 Показване на прозореца за избор на усмивка
 [SmileyAdd]

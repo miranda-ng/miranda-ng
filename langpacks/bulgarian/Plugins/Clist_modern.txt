@@ -143,7 +143,7 @@
 Лента за състояние на няколко реда:
 [Accounts per line]
 Акаунти на ред
-[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
 * За увеличаване височината на лентата: Главно меню > Рамки > Лента за състояние > Показване на името, след което влачете появилото се име нагоре/надолу.
 [Hold [Shift] to inverse [Right Click] behavior.]
 "Shift"+"Десен бутон" = Главно меню

@@ -80,7 +80,7 @@
 [ was added.]
  был добавлен.
 [RESULT]
-результат
+РЕЗУЛЬТАТ
 [%s has joined.]
 %s вошёл.
 [%s has left.]

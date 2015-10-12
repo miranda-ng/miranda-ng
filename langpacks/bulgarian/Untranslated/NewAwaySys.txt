@@ -75,8 +75,6 @@
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 [Dot]
 [Indefinite]
-[Save]
-[Settings]
 [Set %s message for the contact]
 [Toggle autoreply on/off]
 [Toggle autoreply off]

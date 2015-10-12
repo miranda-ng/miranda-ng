@@ -1774,7 +1774,7 @@ xСтатус ICQ
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
 [Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
-Ваш прокси сервер отверг имя и пароль. Пожалуйста, проверьте их: Настройки -> Сеть.
+Ваш прокси отверг имя и пароль. Пожалуйста, проверьте их: Настройки -> Сеть.
 [The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
 Сервер, к которому вы пытаетесь подключиться, не существует. Проверьте сервер: Настройки -> Сеть -> ICQ.
 [error]

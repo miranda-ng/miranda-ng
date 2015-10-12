@@ -597,8 +597,8 @@ Windows Aero - настройки
 Log status changes (само в отворените прозорци)
 [Revert to global options]
 Задаване на общите настройки
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions -> Message log]
-Можете да зададете някои опции на дневника като частни, за контак-\nта. Запълнените полета показват, че съответните опции действат съ-\nобразно общите настройки от Разговори > Дневник за съобщения.
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
+Можете да зададете някои опции на дневника като частни, за контак-\nта. Запълнените полета показват, че съответните опции действат съ-\nобразно общите настройки от Настройки > Разговори > Дневник за съобщения.
 [Use normal templates (uncheck to use simple templates)]
 Ползване на нормални шаблони (махнете отметката за прости шаблони)
 [Queued send jobs]

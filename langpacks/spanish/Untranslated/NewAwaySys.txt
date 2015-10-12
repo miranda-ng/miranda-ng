@@ -89,8 +89,6 @@
 [Toggle On]
 [Dot]
 [Indefinite]
-[Save]
-[Settings]
 [Set %s message for the contact]
 [Toggle autoreply on/off]
 [Toggle autoreply off]

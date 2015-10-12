@@ -71,6 +71,10 @@ Ignorar
 Establecer mensaje de estado
 [Add]
 Añadir
+[Save]
+Guardar
+[Settings]
+Ajustes
 [Re&ad %s message]
 Leer %s mens&aje(s)
 [On]

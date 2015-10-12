@@ -112,7 +112,7 @@ Poruke
 
 [Status changes]
 Izmene statusa
-[Special IRC events:]
+[Group chat events:]
 
 [Notices]
 naznake

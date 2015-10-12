@@ -86,7 +86,7 @@ TLS
 [Specify external address:]
 Внешний адрес:
 [Allow file sending through bytestream proxy server:]
-Передача через потоковый прокси сервер:
+Передача через потоковый прокси-сервер:
 [Miscellaneous]
 Прочее
 [Hint:]

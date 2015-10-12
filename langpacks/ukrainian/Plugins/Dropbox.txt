@@ -33,6 +33,10 @@
 Вставляти посилання в поле вводу
 [Copy download link to clipboard]
 Копіювати посилання в буфер обміну
+[Protocol icon]
+Значок протоколу
+[Upload file(s)]
+Завантажити файл(и)
 [in process...]
 зачекайте...
 [server does not respond]
@@ -59,10 +63,6 @@
 видалений
 [Upload files to Dropbox]
 Файл через Dropbox
-[Protocol icon]
-Значок протоколу
-[Upload file(s)]
-Завантажити файл(и)
 [you are already authorized]
 ви вже авторизовані
 [you are not authorized yet]

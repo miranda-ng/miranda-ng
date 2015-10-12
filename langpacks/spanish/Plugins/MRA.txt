@@ -68,7 +68,7 @@ Conceder autorización
 [Protocols]
 Protocolos
 [Main Menu]
-Menú Principal
+Menú principal
 [Contact Menu]
 Menú de contacto
 [Custom Status]

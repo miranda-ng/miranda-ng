@@ -5,6 +5,8 @@
 ;  Version: 0.11.2.0
 ;  Authors: Miranda NG team
 ;============================================================
+[Preview]
+Образец
 [Information]
 Информация
 [Warning]

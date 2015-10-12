@@ -17,6 +17,8 @@
 Други
 [Place:]
 Място:
+[Change password]
+Промяна на паролата
 [Enter password]
 Въведете парола
 [Save password]
@@ -41,8 +43,12 @@
 Сигурни ли сте?
 [Action]
 Действие
+[Unknown event]
+Неизвестно събитие
 [Incoming call]
 Входящо обаждане
+[Call]
+Обаждане
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Прехвърляне на файл:\n\tИме на файла: %s \n\tРазмер: %lld байта \n
 [Protocol icon]

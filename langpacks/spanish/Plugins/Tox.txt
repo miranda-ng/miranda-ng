@@ -47,3 +47,5 @@ Error
 Red
 [Account]
 Cuenta
+[Unknown error]
+Error desconocido

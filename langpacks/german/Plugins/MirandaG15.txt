@@ -112,8 +112,8 @@ Benutzer-Ereignisse
 Emotes
 [Status changes]
 Statusänderungen
-[Special IRC events:]
-Spezielle IRC-Ereignisse:
+[Group chat events:]
+
 [Notices]
 Notizen
 [Channel events]

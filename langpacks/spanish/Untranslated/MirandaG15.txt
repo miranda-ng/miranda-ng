@@ -41,7 +41,7 @@
 [Show timestamps]
 [User events]
 [Emotes]
-[Special IRC events:]
+[Group chat events:]
 [Channel events]
 [Cut off nicknames after]
 [chars]

@@ -9,7 +9,6 @@
 [Always notify as unread for all incoming message]
 [Use hostname]
 [Use BBCode]
-[Change password]
 [Enter password]
 [Enter the password to continue.]
 [Skype Link Protocol]
