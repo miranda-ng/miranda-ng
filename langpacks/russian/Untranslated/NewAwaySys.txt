@@ -1,8 +1,6 @@
 ﻿[Configure autoaway]
 [Dot]
 [Indefinite]
-[Save]
-[Settings]
 [Set message for]
 [message for]
 [available autoreply only]
