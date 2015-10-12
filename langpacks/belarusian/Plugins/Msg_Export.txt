@@ -73,6 +73,22 @@ UTF8 у новых файлах
 Капіяваць
 [Failed to write to the RichEdit the buffer was to small.]
 Не атрымалася запісаць у RichEdit.
+[Error: Optimal buffer size decreased to a too low size!]
+
+[Internal error! (lExtraRead >= 0)]
+
+[Failed to execute external file view]
+
+[Failed to load Rich Edit ( Msftedit.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
 [Search string was not found!]
 Радок не знойдзена!
 [Save as RTF]
@@ -85,10 +101,20 @@ UTF8 у новых файлах
 Падсвятленне сінтаксісу
 [Failed to create file]
 Памылка стварэння файла
+[Failed to save file]
+
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
 [Open E&xported History]
 Экспартаваная гісторыя
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
 [No contacts found to export]
 Няма кантактаў для экспарту
+[Reading database information (Phase 1 of 2)]
+
 [Failed to export at least one contact]
 Не атрымалася экспартаваць прынамсі 1 кантакт
 [Sorting and writing database information (Phase 2 of 2)]
@@ -113,6 +139,10 @@ UTF8 у новых файлах
 Прыкладанні
 [All files]
 Усе файлы
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
 [Select Destination Directory]
 Абраць тэчку для запісу
 [Export Protocols]
@@ -131,18 +161,28 @@ Miranda NG (Плагін экспарту паведамленняў)
 Без_Мянушкі
 [No_Group]
 Без_Гурта
+[Database: Attempt to get wrong type of value, string]
+
 [(Unknown Contact)]
 (Невядомы кантакт)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
 [\nError: ]
 \nПамылка:\s
 [\nMessage has not been saved!\n]
 \nПаведамленне не захаванае!\n
+[Do you wish to save debug information?]
+
+[All\0*.*\0Text\0*.TXT\0\0]
+
 [Failed to open or create file :\n]
 Не атрымалася адкрыць ці стварыць файл :\n
 [Failed to move to the end of the file :\n]
 Не атрымалася перайсці да канца файла:\n
+[Failed to UTF8 byte order code to file :\n]
+
 [      History for\r\n]
      Гісторыя для\r\n
 [User      : %User%\r\n]
@@ -165,10 +205,14 @@ Miranda NG (Плагін экспарту паведамленняў)
 Мянушка : %Nick%\r\n
 [City      : %City%\r\n]
 Горад      : %City%\r\n
+[State     : %State%\r\n]
+
 [Phone     : %Phone%\r\n]
 Тэлефон  : %Phone%\r\n
 [Homepage  : %Homepage%\r\n]
 Сайт : %Homepage%\r\n
+[- About -\r\n%About%\r\n]
+
 [Failed to write user details to file :\n]
 Не атрымалася запісаць дадзеныя кантакта ў файл:
 [Failed to write timestamp and username to file :\n]

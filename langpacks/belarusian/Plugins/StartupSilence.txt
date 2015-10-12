@@ -27,10 +27,20 @@
 Кнопка ў TopToolBar (з'явіцца пасля перазапуску)
 [Reset to default\r\n(for this computer)]
 Скінуць налады\r\n(для гэтага камп'ютэра)
+[You need to configure it once for each computer, where you run your Miranda NG.]
+
 [No Apply button required.]
 Налады захоўваюцца аўтаматычна.
+[After startup set:]
+
+[Filtered popups only (leave uncheck for no popups)]
+
 [Enable sounds]
 Уключыць гукі
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+
+[Allow mRadio or Weather popups, etc.]
+
 [Events]
 Падзеі
 [Silence at startup]
@@ -39,12 +49,18 @@
 Выключыць ціхі запуск
 [Toggle Silence ON]
 Уключыць ціхі запуск
+[Toggle Silence OFF TTB]
+
 [Toggle Silence ON TTB]
 Уключаны ціхі запуск TTB
 [Sounds and popups are enabled]
 Гукі і усплывальныя вокны выключаны
+[Filtered mode ON]
+
 [Sounds and popups are disabled temporarily]
 Гукі і усплывальныя вокны часова выключаны
+[Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
+
 [Silent Startup mode changed to ON]
 Ціхі запуск уключаны
 [Silent Startup mode changed to OFF]

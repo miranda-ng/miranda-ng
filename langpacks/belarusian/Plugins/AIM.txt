@@ -337,6 +337,8 @@ AIM Усталяваць Instant Idle
 Пошта AOL
 [AIM Icon]
 Абразок AIM
+[Hiptop]
+
 [AOL Bot]
 Бот AOL
 [Admin]

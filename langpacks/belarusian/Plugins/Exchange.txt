@@ -45,10 +45,18 @@
 Тэма
 [Sender]
 Адпраўшчык
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+
+[Server not available]
+
+[Server is not configured...]
+
 [You have %d unread emails...]
 У вас %d непрачытаных лістоў...
 [You have one unread email...]
 У вас непрачытаныя паведамленніl...
+[Cannot connect to Exchange server...]
+
 [Exchange email]
 Пошта Exchange
 [Do you want to see the email headers?]
@@ -59,3 +67,7 @@
 Паведамленне Exchange
 [Plugins]
 Плагіны
+[Forcefully reconnecting to Exchange server ...]
+
+[Connecting to Exchange ...]
+

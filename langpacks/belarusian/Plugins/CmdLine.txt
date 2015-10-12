@@ -11,6 +11,8 @@
 Не атрымалася ініцыялізаваць уласнасцівасці CmdLine
 [Error]
 Памылка
+[Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.]
+
 [Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
 Змена статуснага паведамлення конта ці глабальнага.\nВыкарыстанне: awaymsg <паведамленне> [<конт>].\n<Паведамленне> - тэкст статуснага паведамлення.\n<Конт> - дадатковы параметр, які паказвае імя конта для ўстаноўкі паведамлення. Калі не пазначана - паведамленне статуса будзе устаноўлена глабальна.
 [Changes extended status either globally or per account.\nUsage: xstatus <xStatus> [<account>].\n<xStatus> is the new extended status to set. Possible values are: ...\n<Account> is an optional parameter specifying the account for which extended status is set. If not specified then extended status for all accounts will be changed.\nNOTE: Not all accounts/protocols support extended status.]
@@ -73,6 +75,38 @@
 Конт '%S' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Не атрымалася змяніць паведамленне статуса для конту '% S' у '% S' (статус '% S').
+[Popups are currently enabled.]
+
+[Popups are currently disabled.]
+
+[Popups were enabled successfully.]
+
+[Popups could not be enabled.]
+
+[Popups were disabled successfully.]
+
+[Popups could not be disabled.]
+
+[Sounds are currently enabled.]
+
+[Sounds are currently disabled.]
+
+[Sounds were enabled successfully.]
+
+[Sounds were disabled successfully.]
+
+[Contact list is currently shown.]
+
+[Contact list is currently hidden.]
+
+[Contact list was shown successfully.]
+
+[Contact list was hidden successfully.]
+
+[Issued a quit command.]
+
+[Issued a quit and wait command.]
+
 [Issued check email command to Exchange plugin.]
 Адпраўлена каманда праверкі пошты для плагіна Exchange.
 [Exchange plugin is not running.]
@@ -97,10 +131,34 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 Час чакання падцверджання ад кантакта '%s'.
 [Could not find contact handle for contact '%s'.]
 Немагчыма знайсці апрацоўнік для кантакту '%s'.
+[byte:%d]
+
+[word:%d]
+
+[dword:%ld]
+
+[string:'%s']
+
+[wide string:'%S']
+
+[utf8:'%s']
+
+[blob:N/A]
+
 [unknown value]
 невядомае значэнне
 [Setting '%s/%s' deleted.]
 Налада '%s/%s' выдалена.
+[string]
+
+[byte]
+
+[word]
+
+[dword]
+
+[wide string]
+
 [Wrote '%s:%s' to database entry '%s/%s'.]
 Запісана '%s:%s' у запіс '%s/%s' базы дадзеных.
 [Could not retrieve setting '%s/%s': %s.]

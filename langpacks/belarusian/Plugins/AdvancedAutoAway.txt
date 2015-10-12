@@ -105,6 +105,8 @@ AutoAway - плагін з пашыраным наборам функцый.
 Пазіцыя вакна
 [Set window size]
 Памер вакна
+[x]
+
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status profiles' options screen]

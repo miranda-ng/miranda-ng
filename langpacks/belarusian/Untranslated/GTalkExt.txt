@@ -1,4 +1,0 @@
-﻿[You've received an e-mail\n%s unread threads]
-[Why C sucks]
-[brickstrace@gmail.com [1]]
-[    bems\n]

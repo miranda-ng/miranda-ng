@@ -143,12 +143,18 @@ HTTP Новы агульны файл
 Памылка адкрыцця ці стварэння лога
 [Failed to move to the end of the log file]
 Памылка перасоўвання ў канец лога
+[Failed to write some part of the log file]
+
 [Failed to open or create file ]
 Памылка адкрыцця ці стварэння файла\s
 [Failed to write xml header to file ]
 Памылка запісу ў загаловак XML файлу\s
 [Failed to write xml data to file ]
 Памылка запісу у XML файл\s
+[Failed to write xml tail to file ]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
 [Disable HTTP server]
 Адключыць HTTP сервер
 [Enable HTTP server]

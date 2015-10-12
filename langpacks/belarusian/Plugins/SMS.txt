@@ -73,6 +73,8 @@ ID паведамлення:
 Ад %s:\r\n\r\n
 [Events]
 Падзеі
+[SMS message didn't send by %S to %s because: %S]
+
 [SMS Message from %s]
 SMS ад %s
 [SMS Confirmation from %s]
@@ -103,6 +105,8 @@ SMS пацверджанне ад %s
 У спісе павінны быць нумары.
 [No Numbers]
 Няма нумароў
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
 [Invalid phone number]
 Няслушны нумар тэлефона
 [<< Single]

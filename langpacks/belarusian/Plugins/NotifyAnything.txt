@@ -31,6 +31,8 @@
 Запіс у файл
 [Message debugging]
 Адладка паведамленняў
+[Notify Anything]
+
 [N/A: Failed to format error message]
 N/A: Памылка фармату паведамлення, з памылкай
 [N/A: FormatMessage failed, error code was 0x]
@@ -41,5 +43,7 @@ N/A: Памылка фармату паведамлення, код памылк
 Лог (*.log)\0*.log\0Тэкст (*.txt)\0*.txt\0Усе фарматы (*.*)\0*.*\0
 [Invalid port number]
 Няслушны нумар порта
+[NotifyAnything]
+
 [Plugins]
 Плагіны

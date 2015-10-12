@@ -1,5 +1,0 @@
-﻿[Clist Nicer+]
-[Tree hide offline]
-[Tree gray out]
-[Overlay icons]
-[Connecting icons]

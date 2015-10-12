@@ -17,6 +17,8 @@
 Запрасіць у чат
 [Choose one of your contacts to be invited:]
 Абярыце кантакт для запрашэння ў чат:
+[Skypename:]
+
 [Password:]
 Пароль:
 [Default group:]
@@ -25,14 +27,26 @@
 Конт
 [Others]
 Іншае
+[Automatic messages synchronization]
+
+[Always notify as unread for all incoming message]
+
 [Place:]
 Месца:
+[Use hostname]
+
+[Use BBCode]
+
 [Change password]
 Змяніць пароль
 [Enter password]
 Увядзіце пароль
 [Save password]
 Захаваць пароль
+[Enter the password to continue.]
+
+[Skype Link Protocol]
+
 [Admin]
 Адмін
 [User]
@@ -45,32 +59,102 @@
 &Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
+[&Change topic]
+
+[Kick &user]
+
 [Set &role]
 Усталяваць &ролю
 [&Admin]
 &Адмін
 [&User]
 &Карыстач
+[Enter new chatroom topic]
+
 [Are you sure?]
 Вы ўпэўнены?
+[Edited message]
+
 [Action]
 Дзеянне
+[Call information]
+
+[File transfer information]
+
+[URI object]
+
 [Unknown event]
 Невядомая з'ява
+[Incoming call]
+
+[Invalid data!]
+
+[[b]Original message:[/b]\n%s\n]
+
+[Original message:\n%s\n]
+
+[[b]Edited at %s:[/b]\n%s\n]
+
+[Edited at %s:\n%s\n]
+
+[Call]
+
+[Call missed]
+
+[Call ended (%s)]
+
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n
+[Unknown event, please send this text for developer: "%s"]
+
 [Protocol icon]
 Абразок пратаколу
+[Create new chat icon]
+
+[Sync history icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
+
+[Notification icon]
+
+[Error icon]
+
+[Action icon]
+
 [Protocols]
 Пратаколы
+[Authentication failed. Invalid username.]
+
+[Authentication failed. Bad username or password.]
+
+[Too many failed authentication attempts with given username or IP.]
+
+[Authentication failed. Unknown error.]
+
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+[Get server history]
+
 [Block contact]
 Заблакаваць
+[Unblock contact]
+
 [Create new chat]
 Стварыць чат
+[You cannot send when you are offline.]
+
+[Unknown error!]
+
+[Network error!]
+
+[Enter confirmation code]
+
 [%s connection]
 Злучэнне %s
 [Network]
@@ -79,3 +163,13 @@
 Абвесткі
 [Errors]
 Памылкі
+[Calls]
+
+[Incoming call sound]
+
+[Incoming call canceled sound]
+
+[Failed to establish a TRouter connection.]
+
+[Incoming call from %s]
+

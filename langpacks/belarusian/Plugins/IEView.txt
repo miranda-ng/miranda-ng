@@ -79,6 +79,16 @@ URL атрыманы
  запрасіў аўтарызацыю
 [ was added.]
  быў дададзены.
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
 [%s has joined.]
 %s увайшоў.
 [%s has left.]

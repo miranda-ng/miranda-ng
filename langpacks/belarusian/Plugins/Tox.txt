@@ -5,6 +5,12 @@
 ;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
+[Tox protocol support for Miranda NG.]
+
+[Tox ID:]
+
+[Create]
+
 [Import]
 Імпартаваць
 [Copy ID]
@@ -17,26 +23,68 @@
 Пароль:
 [Default group:]
 Гурт:
+[Tox]
+
+[Create Tox profile]
+
+[Import Tox profile]
+
+[Copy Tox ID]
+
+[Export Tox profile]
+
 [Connection settings]
 Налады далучэння
+[Enable UDP (otherwise force Tox to use TCP)]
+
+[Enable IPv6]
+
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+
+[DNS name:]
+
 [Enter password]
 Увядзіце пароль
 [Save password]
 Захаваць пароль
 [Cancel]
 Скасаваць
+[Tox profile is encrypted. Enter the password to continue.]
+
 [Add]
 Дадаць
+[IPv4 address/ Host]
+
+[IPv6 address (optional)]
+
 [Port]
 Порт
 [Public key]
 Адкрыты ключ
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Video input device]
+
+[Invite contacts to chat room]
+
 [&Invite]
 Запрасіць
 [&Cancel]
 Скасаваць
+[Call]
+
 [End]
 канец
+[Incoming call]
+
+[Answer]
+
+[Reject]
+
 [From:]
 Ад:
 [Date:]
@@ -47,31 +95,117 @@
 &Інфармацыя
 [&History]
 &Гісторыя
+[Outgoing call]
+
 [To:]
 Для:
+[Group chat]
+
+[Unable to initialize Tox core]
+
+[Profiles folder]
+
+[Tox URI scheme]
+
 [Action]
 Дзеянне
 [Protocol icon]
 Абразок пратаколу
+[Audio call]
+
+[Audio ring]
+
+[Audio start]
+
+[Audio end]
+
 [Protocols]
 Пратаколы
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+[You cannot send when you are offline.]
+
+[Incoming call from %s]
+
+[Outgoing call to %s]
+
+[Unable to find input audio device]
+
+[Video call is unsupported]
+
+[Call canceled]
+
+[Unable to find output audio device]
+
+[Call started]
+
+[Call ended]
+
 [%s connection]
 Злучэнне %s
+[Tox profile]
+
 [All files]
 Усе файлы
+[Select Tox profile]
+
+[Save Tox profile]
+
+[Add node]
+
+[Change node]
+
+[Enter IPv4]
+
 [Error]
 Памылка
+[Enter public key]
+
+[Common nodes]
+
+[User nodes]
+
 [Are you sure?]
 Вы ўпэўнены?
+[Node deleting]
+
 [Network]
 Сеціва
 [Account]
 Конт
+[Nodes]
+
+[Unable to open Tox profile]
+
+[Unable to read Tox profile]
+
+[Unable to decrypt Tox profile]
+
+[You cannot add yourself to your contact list]
+
 [Contact already in your contact list]
 Кантакт ужо ў вашым спісе
 [Query]
 Запыт
+[One of the arguments is missing]
+
+[Unable to allocate enough memory]
+
+[Unable to bind to a port]
+
+[The proxy type is not valid]
+
+[The proxy host is not valid]
+
+[The proxy port is not valid]
+
+[The proxy address could not be resolved]
+
+[The profile is encrypted]
+
+[The data format is not valid]
+
+[Unknown error]
+

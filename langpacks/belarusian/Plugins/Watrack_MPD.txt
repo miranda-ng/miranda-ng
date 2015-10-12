@@ -19,3 +19,5 @@ Watrack MPD злучэнне
 Зараз слухаю (WATrack)
 [Plugins]
 Плагіны
+[Watrack MPD]
+

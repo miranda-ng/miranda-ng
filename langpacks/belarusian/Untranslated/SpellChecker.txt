@@ -1,6 +1,0 @@
-﻿[The wrong word can't be empty!]
-[The correction can't be empty!]
-[The correction can't be equal to the wrong word!]
-[Tagalog (Philippines)]
-[German (Germany)]
-[There are %d spelling errors. Are you sure you want to send this message?]

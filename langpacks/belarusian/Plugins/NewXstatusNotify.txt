@@ -31,6 +31,8 @@
 На тэлефоне
 [Always when changing from offline]
 Са статусу "Адключаны"
+[Notify when contact changes]
+
 [Extra status]
 Даатковы статус
 [Status message]
@@ -47,6 +49,8 @@
 Індывідуальныя гукі
 [Blink icon in the system tray]
 Абразок, што мігае у сіст. трэі
+[Also when extra status or status message changes]
+
 [Use status icon]
 Абразок статусу
 [Log to file]
@@ -79,6 +83,10 @@
 Адключыць усё
 [Enable all]
 Уключыць усё
+[Status message notify]
+
+[Status message logging]
+
 [Popups when status changes to:]
 Вокны, калі статус змяніўся на:
 [Background]
@@ -133,8 +141,16 @@
 знакаў
 [Templates]
 Шаблоны
+[Notify when contact changes extra status]
+
 [Template:]
 Шаблон:
+[Notify when contact removes extra status]
+
+[Notify when contact changes extra status message]
+
+[Notify when contact removes extra status message]
+
 [Variables]
 Зменныя
 [Reset]
@@ -149,18 +165,56 @@
 Адключаць, толькі пры змене глабальнага статусу
 [Cancel]
 Скасаваць
+[Log extra status changes]
+
+[Log extra status changes to file]
+
+[Log extra status changes to history]
+
 [Only when message window is open]
 Толькі калі адчынена вакно паведамленняў
+[Remove events from history when closing message window]
+
+[Log when contact changes extra status]
+
+[Log when contact removes extra status]
+
+[Log when contact changes extra status message]
+
+[Log when contact removes extra status message]
+
+[Log extra status when opening message window]
+
 [General]
 Агульнае
 [Accounts]
 Конты
 [Enable/Disable accounts which you don't wish to be notified for:]
 Уключыць/Выключыць абвесткі для контаў:
+[Notify when contact changes status message]
+
+[Notify when contact removes status message]
+
 [Log status changes]
 Запісваць змены статусаў
+[Log status changes to file]
+
 [Log status changes to history]
 Запісваць змены статусаў у гісторыю
+[Log previous status too]
+
+[Log status message changes]
+
+[Log status message changes to file]
+
+[Log status message changes to history]
+
+[Log when contact changes status message]
+
+[Log when contact removes status message]
+
+[Log status message when opening message window]
+
 [Sound files]
 Файлы гукаў
 [All files]
@@ -169,6 +223,8 @@
 Файлы Wave
 [Status]
 Статус
+[Sound file]
+
 [** All contacts **]
 ** Усе кантакты **
 [(default sound)]
@@ -189,6 +245,8 @@
 адключаецца
 [playing]
 грае
+[%s changed status message to %s]
+
 [(M) is back online!]
 далучаны ізноў!
 [(F) is back online!]
@@ -271,12 +329,18 @@
 Кантакт: Тэлефануе
 [User: from offline (has priority!)]
 Кантакт:  далучаецца (мае прыярытэт!)
+[Status message removed]
+
+[Status message changed]
+
 [Extra status removed]
 Дадатковы статус выдалены
 [Extra status message changed]
 Зменена дадатковага статусу
 [Extra status changed]
 Дадатковы статус зменены
+[Extra status message removed]
+
 [Enable status notification]
 Уключыць абвесткі пра змену статусу
 [Disable status notification]
@@ -297,6 +361,8 @@
 Лог
 [This is status message]
 Гэта паведамленне статусу
+[This is extra status]
+
 [Show available variables]
 Даступныя зменныя
 [Reset all templates to default]
@@ -307,6 +373,8 @@
 Скінуць шаблоны
 [Account]
 Конт
+[Status logging]
+
 [Filtering]
 Фільтраванне
 [(was %s)]
@@ -333,6 +401,10 @@
 Занятак
 [xStatus]
 xСтатус
+[<no title>]
+
+[%s changed %s]
+
 [changed %n to: %t]
 змяніў(ла) %n на: %t
 [removed %n]
@@ -349,5 +421,13 @@ xСтатус
 змяніў(ла) %n @ %t: %m
 [changed %n message @ %m]
 змяніў(ла) паведамленне %n @ %m
+[has %n @ %t: %m]
+
 [changed status message @ %n]
 змяніў(ла) статуснае паведамленне @ %n
+[is %s and has status message @ %n]
+
+[These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+

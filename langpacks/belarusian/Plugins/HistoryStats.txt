@@ -7,6 +7,8 @@
 ;============================================================
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Стварае падрабязную, каляровую статыстыку вашай гісторыі паведамленняў
+[Band]
+
 [HistoryStats - Working...]
 HistoryStats - Працую...
 [Cancel]
@@ -93,6 +95,8 @@ HistoryStats - Фільтр слоў/паведамленняў
 Паказаць графік для працягласці чата тыпу
 [Other information in tooltip]
 Іншая інфармацыя ў падказцы
+[Minimum chat duration]
+
 [Average chat duration]
 Сярэдні час чата
 [Maximum chat duration]
@@ -109,6 +113,8 @@ HistoryStats - Фільтр слоў/паведамленняў
 (Сярэдняе) #{amount}
 [[Max] #{amount}]
 (Максімальна) #{amount}
+[[Sum] #{amount}]
+
 [Column holding the amount of time you have chatted with the given contact.]
 Калонка ўтрымоўвае час сувязі з дадзеным кантактам.
 [Events to count]
@@ -131,8 +137,12 @@ URL (усё)
 Файлы
 [Incoming URLs]
 Уваходныя URL
+[Outgoing URLs]
+
 [Incoming files]
 Уваходныя файлы
+[Outgoing files]
+
 [Events]
 Падзеі
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
@@ -177,12 +187,22 @@ URL (усё)
 Паведамленні
 [Chats]
 Чатаў
+[Incoming characters]
+
+[Outgoing characters]
+
+[Incoming chats]
+
+[Outgoing chats]
+
 [day]
 дзень
 [week]
 тыдзень
 [month]
 месяц
+[#{data} per #{unit}]
+
 [In/out]
 Уваходнае/Выходнае
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
@@ -203,6 +223,8 @@ URL (усё)
 Уваходныя
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
 (Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
+[[Out] #{out_amount} / [In] #{in_amount}]
+
 [In/out graph]
 Графік Прынята/Даслана
 [Column holding in/out bar graphs for characters, messages or chats.]
@@ -217,6 +239,8 @@ URL (усё)
 (Першае) #{first_time} / (Апошняе) #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
 \#{count} кантактаў / (Першы) #{first_time} / (Апошні) #{last_time}
+[#{count} contacts]
+
 [Omitted]
 Апушчана
 [Totals]
@@ -229,6 +253,8 @@ URL (усё)
 Калонка ўтрымоўвае пратакол кантакту.
 [Rank]
 Ранг
+[#{rank}.]
+
 [Column holding the contact's placing according to your sorting criteria.]
 Калонка ўтрымоўвае месца кантакту, паводле Вашых крытэраў сартавання.
 ["Split" type]
@@ -265,6 +291,10 @@ URL (усё)
 Дэталі для кожнай калонкі (падказка) магчымыя, толькі ў рэжыме HTML.
 ["Split"]
 "Разбіўка"
+[incoming characters]
+
+[outgoing characters]
+
 [all characters]
 усе знакі
 [incoming messages]
@@ -273,10 +303,34 @@ URL (усё)
 выходныя паведамленні
 [all messages]
 усе паведамленні
+[incoming chats]
+
+[outgoing chats]
+
 [all chats]
 усе чаты
 [#{type} for #{data}]
 \#{type} для #{data}
+[wday3:Mon]
+
+[wday3:Tue]
+
+[wday3:Wed]
+
+[wday3:Thu]
+
+[wday3:Fri]
+
+[wday3:Sat]
+
+[wday3:Sun]
+
+[[#{hour}:00-#{hour}:59] #{amount}]
+
+[[#{day}] #{amount}]
+
+[#{amount}]
+
 [Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата, пабітага па днях тыдня, ці па часе сутак. Рознае вымярэнне статыстыкі чатаў даступна.
 [Drop everything older than (days, 0=no limit)]
@@ -319,6 +373,14 @@ URL (усё)
 Шкала часу для #{data}
 [Timeline]
 Графік часу
+[[#{start_date}-#{end_date}] #{amount}]
+
+[[#{date}] #{amount}]
+
+[[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
+
+[[#{date}] #{out_amount} (out) / #{in_amount} (in)]
+
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга на падставе дзён. Дні могуць быць згрупаваны. Рознае вымярэнне статыстыкі чатаў даступна.
 [Word count type]
@@ -417,6 +479,8 @@ HistoryStats - Папярэджанне
 Выснова
 [Output settings]
 Налады высновы
+[Create]
+
 [Create statistics]
 Стварыць статыстыку
 [Create statistics (there are warnings)]
@@ -461,6 +525,10 @@ PNG (часткова)
 Нічога (калонка будзе прапушчана)
 [HTML as fallback]
 HTML як адкат
+[PNG, ignoring some settings]
+
+[An internal column configuration error occurred. Please contact the author of this plugin.]
+
 [HistoryStats - Error]
 HistoryStats - Памылка
 [HTML output unsupported.]
@@ -471,6 +539,8 @@ HTML выснова немагчымы.
 Опцыя прапушчана, бо ўключаны выснова PNG.
 [** All contacts **]
 ** Усе кантакты **
+[Integration]
+
 [Create statistics on Miranda NG startup]
 Ствараць статыстыку пры старце праграмы
 [Add menu items to main menu]
@@ -501,6 +571,8 @@ HTML выснова немагчымы.
 Ствараць статыстыку ў фонавым працэсе з нізкім прыярытэтам
 [Path to browser (leave blank for system default)]
 Шлях да браўзара (пуста = сістэмны браўзар)
+[At this time there is no external plugin supported.]
+
 [Supported plugins (double-click to learn more):]
 Падтрымоўваныя модулі (падвойная пстрычка для інфармацыі):
 [HistoryStats supports several plugins. Click to hide info...]
@@ -551,6 +623,8 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 ...перад (не=не лімітавана)
 [...after date (none=no limit)]
 ...пасля даты (не=не лімітавана)
+[Strip raw RTF control sequences from message]
+
 [Strip BBCode tags from messages]
 Выразаць BBCode з паведамленняў
 [Contact filtering and totals]
@@ -611,6 +685,8 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Тэчкі і файлы для высновы
 [Substitute variables in output file name and subfolder for additional files]
 Замяняць зменныя ў файле выйсця і падтэчцы для дадатковых файлаў
+[Output file]
+
 [Output additional files to subfolder]
 Класці дадатковыя файлы ў падтэчку
 [Subfolder for additional files]
@@ -763,8 +839,20 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Налада...
 [Configure statistics...]
 Наладзіць статыстыку...
+[You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
+
+[HistoryStats - Confirm]
+
+[Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
+
+[HistoryStats - Information]
+
 [Exclude from statistics]
 Выключыць са статыстыкі
+[Copy history]
+
+[Paste history...]
+
 [History]
 Гісторыя
 [(Unknown)]
@@ -817,17 +905,87 @@ HistoryStats не можа адкрыць файл для запісу (#{file})
 Ужо існы файл
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
 Ужо запушчаны працэс стварэння статыстыкі. Калі ласка пачакайце, пакуль ён скончыцца, ці адменіце яго, і паспрабуйце зноў.
+[month3:Jan]
+
+[monthF:January]
+
+[month3:Feb]
+
+[monthF:February]
+
+[month3:Mar]
+
+[monthF:March]
+
+[month3:Apr]
+
+[monthF:April]
+
+[month3:May]
+
+[monthF:May]
+
+[month3:Jun]
+
+[monthF:June]
+
+[month3:Jul]
+
+[monthF:July]
+
+[month3:Aug]
+
+[monthF:August]
+
+[month3:Sep]
+
+[monthF:September]
+
+[month3:Oct]
+
+[monthF:October]
+
+[month3:Nov]
+
+[monthF:November]
+
+[month3:Dec]
+
+[monthF:December]
+
+[wday2:Mo]
+
 [wdayF:Monday]
 wdayF:Панядзелак
+[wday2:Tu]
+
 [wdayF:Tuesday]
 wdayF:Аўторак
+[wday2:We]
+
 [wdayF:Wednesday]
 wdayF:Асяроддзе
+[wday2:Th]
+
 [wdayF:Thursday]
 wdayF:Чацвер
+[wday2:Fr]
+
 [wdayF:Friday]
 wdayF:Пятніца
+[wday2:Sa]
+
 [wdayF:Saturday]
 wdayF:Субота
+[wday2:Su]
+
 [wdayF:Sunday]
 wdayF:Нядзеля
+[pm]
+
+[am]
+
+[PM]
+
+[AM]
+

@@ -5,6 +5,8 @@
 ;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
+[Allows you to handle your status messages in a convenient way.]
+
 [Enable autoreply]
 Уключыць аўтаадказнік
 [On event...]
@@ -47,6 +49,8 @@
 Абедаю
 [Autoreply format:]
 Фармат аўтаадказу:
+[V]
+
 [%extratext% is your status message]
 %extratext% гэта Ваша паведамленне статуса
 [&Variables]
@@ -77,12 +81,18 @@
 Выдаліць
 [Status messages:]
 Статусныя паведамленні:
+[Configure autoaway]
+
+[Wait]
+
 [seconds before closing the status message dialog (-1=don't close)]
 секунд перад зачыненнем вакна выбару статусаў(-1=не зачыняць)
 [Store]
 Захоўваць
 [most recent messages (0=disable)]
 апошніх паведамленняў (0=адключыць)
+[Store for each status separately]
+
 [Use default...]
 Па змаўчанні...
 [Use the most recent message]
@@ -183,8 +193,12 @@
 Прадусталяваныя паведамленні
 [Recent messages]
 Апошнія паведамленні
+[Gone fragging]
+
 [Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
 Заняты важнымі справамі з %nas_awaysince_time%. Я напішу вам калі вызвалюся...
+[Creepy]
+
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
 Мой гаспадар, %nas_mynick%, быў %nas_statdesc% пачынальна з гэтага дня і даты ?nas_awaysince_date(dddd)... Калі ён вернецца, я яму перадам, каб ён з Вамі звязаўся...
 [Default messages]
@@ -229,12 +243,20 @@
 Выключыць
 [Toggle On]
 Уключыць
+[Dot]
+
 [Ignore]
 Ігнараваць
+[Indefinite]
+
 [Set status message]
 Усталяваць статуснае паведамленне
 [Add]
 Дадаць
+[Save]
+
+[Settings]
+
 [Set %s message for the contact]
 Уст. %s паведамленне для кантакту
 [Re&ad %s message]
@@ -247,6 +269,10 @@
 Уключыць аўтаадказнік
 [New Away System]
 Сістэма паведамленняў
+[Away since time in default format; ?nas_awaysince_time(x) in format x]
+
+[Away since date in default format; ?nas_awaysince_date(x) in format x]
+
 [Status description]
 Апісанне статуса
 [Your nick for current protocol]
@@ -283,6 +309,10 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 Вы змянілі некалькі дрэў адразу.\r\n Вы жадаеце захаваць змены ў "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 " дыялог?\r\b\n"Ды" для захавання, "Няма" для  адмены змен.
+[Do you really want to delete this category with its messages?]
+
+[Do you really want to delete this message?]
+
 [Error #%d]
 Памылка #%d
 [Can't open log file ]
@@ -303,10 +333,18 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 Ужыць
 [Do you want to apply the message?]
 Жадаеце прыняць паведамленне?
+[Set message for]
+
 [Statuses]
 Статусы
+[message for]
+
 [for]
 на працягу
+[available autoreply only]
+
+[all accounts]
+
 [Closing in %d]
 Зачыніць (%d)
 [Miranda NG autoreply >\r\n%extratext%]

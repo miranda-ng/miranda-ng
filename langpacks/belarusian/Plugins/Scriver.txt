@@ -273,6 +273,20 @@ KB
 Вылучыць &усё
 [Word lookup]
 Знайсці слова
+[Bing]
+
+[Yandex]
+
+[Wikipedia (en)]
+
+[Google Maps]
+
+[Google Translate]
+
+[Yahoo]
+
+[Foodnetwork]
+
 [C&lear log]
 Сцерці лог
 [&Open link]
@@ -497,8 +511,16 @@ KB
 Невядомы кантакт
 [Me]
 Я
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
+[to tiny bits, in Thy mercy]
+
 [My contact]
 Мае кантакты
+[Lorem ipsum dolor sit amet,]
+
+[consectetur adipisicing elit]
+
 [Today]
 Сёння
 [Yesterday]
@@ -551,6 +573,8 @@ URL атрыманы
 Фон інфопанэлі
 [Info bar status message]
 Інфа-Панэль: статуснае паведамленне
+[Line between messages]
+
 [Offline]
 Адключаны
 [Online]
@@ -727,14 +751,20 @@ Miranda не змагла загрузіць убудаваную сістэму
 мянушка бягучага кантакту (калі пазначана)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
+[user-defined account name of current contact (if defined).]
+
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 верне радок выгляду %miranda_profilesdir%\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
 [username for currently logged-on Windows user]

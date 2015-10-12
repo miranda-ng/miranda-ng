@@ -88,6 +88,38 @@
 Вецер: кірунак
 [Wind Speed]
 Вецер: хуткасць
+[N]
+
+[W]
+
+[S]
+
+[E]
+
+[NW]
+
+[NE]
+
+[SW]
+
+[SE]
+
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
 [WindDir1]
 Вецер: кірунак 1
 [WindDir2]

@@ -147,6 +147,8 @@ ID навіны.
 Сеціва
 [Avatars]
 Аватары
+[Enable/disable auto update]
+
 [NewsAggregator HTTP connection]
 HTTP далучэнне каналаў навін
 [Feed]

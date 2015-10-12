@@ -105,6 +105,8 @@
 Пазіцыя вакна
 [Set window size]
 Памер вакна
+[x]
+
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -273,6 +275,10 @@ Dial-up (эксперыментальна)
 Справа
 [None]
 Няма
+[size: %d x %d]
+
+[loc: %d x %d]
+
 [Hidden]
 Утоены
 [Minimized]

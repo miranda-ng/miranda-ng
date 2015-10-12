@@ -73,6 +73,8 @@ URL:
 Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Не атрымалася атрымаць жэтоны доступу Twitter, выйдзіце і паўтарыце спробу. Калі так адбываецца заўсёды, праверце злучэнне з інтэрнэтам.
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
+
 [Send Tweet...]
 Паслаць твіт...
 [Network]
@@ -87,8 +89,12 @@ URL:
 Немагчыма стварыць злучэнне Netlib для %s.
 [%s avatar connection]
 далучэнне аватараў %s
+[Twitter (avatars)]
+
 [%s Protocol]
 %s Конт
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+
 [Twitter Icon]
 Абразок Twitter
 [Tweet]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
+[Shows the history for a given contact using IEView.]
+
 [Dialog]
 Дыялог
 [Close]
@@ -49,6 +51,8 @@ RTL па змаўчанні
 Сістэмная гісторыя
 [Out of a total of]
 Усяго з
+[You can't close the window now, wait for all events to load.]
+
 [Error]
 Памылка
 [Text search]

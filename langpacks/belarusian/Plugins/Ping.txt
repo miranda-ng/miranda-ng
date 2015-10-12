@@ -35,6 +35,8 @@
 Выгляд
 [Do not change icon when testing]
 Не змяняць абразок пры праглядзе
+[Use the Options -> Customize -> Fonts options to change text size and color.]
+
 [Indent:]
 Водступ:
 [Row height:]
@@ -133,10 +135,16 @@ TCP злучэнне
 МАКС %hd мс
 [MIN %hd ms]
 МІН %hd мс
+[Ping Graph]
+
 [%s - setting status of protocol '%S' (%d)]
 %d - устаноўка статусу пратаколу '%S' (%d)
+[Ping Reply]
+
 [%s - reply, %d]
 %s - адказ, %d
+[Ping Timeout]
+
 [%s - timeout]
 %s - затрымка
 [Disable]

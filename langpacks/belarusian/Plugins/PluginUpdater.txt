@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
+[Install and update plugins and other Miranda NG components.]
+
 [Updates found!]
 Знойдзены абнаўленні!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -31,6 +33,10 @@
 (але толькі 1 раз у дзень)
 [Every]
 Кожныя
+[Silent mode]
+
+[Backup database before update (requires Db_autobackups)]
+
 [Files source]
 Крыніца абнаўлення
 [Stable version]
@@ -41,6 +47,8 @@
 Версія ў распрацоўцы з сімваламі адладкі
 [Custom version]
 Зададзеная версія
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+
 [Notifications]
 Абвесткі
 [Restart]
@@ -77,6 +85,8 @@
 -1=Бясконца
 [Sec]
 сек.
+[For "Restart" popup setting is always infinity]
+
 [Popups]
 Усплывальныя вокны
 [Component list]
@@ -119,20 +129,38 @@
 Выдалена!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Абнаўленне скончана. Націсніце "Так" для перазагрузкі праграмы ці "Не", каб зрабіць гэта пазней.
+[Miranda NG Core]
+
+[Deprecated!]
+
+[Update found!]
+
 [<< Details]
 << Дэталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Не атрымалася выканаць абнаўленне! Адзін з кампанентаў быў запампаваны з памылкай. Паспрабуйце паўтарыць пазней.
+[%d component(s) was updated]
+
+[You need to restart your Miranda to apply installed updates.]
+
+[Would you like to restart it now?]
+
 [Checking for new updates...]
 Праверка абнаўленняў...
 [No updates found.]
 Абнаўленняў няма.
 [Update checking already started!]
 Абнаўленне ўжо запушчана!
+[Plugin updater URI scheme]
+
 [Close popup]
 Зачыніць вакно
 [Do nothing]
 Нічога не рабіць
+[Backup database before update]
+
+[Stable version (incompatible with current development version)]
+
 [hours]
 гадзін(ы)
 [days]
@@ -145,6 +173,10 @@
 Праверыць абнаўленні
 [Available components list]
 Увесь спіс плагінаў
+[Update completed]
+
+[Update failed]
+
 [Plugin info]
 Пра плагін
 [Plugin Updater HTTP connections]

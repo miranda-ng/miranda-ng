@@ -7,6 +7,10 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Падтрымка пратаколу Microsoft Network (MSN).
+[MSN]
+
+[Live ID:]
+
 [Password:]
 Пароль:
 [Nickname:]
@@ -101,6 +105,8 @@
 Заблакаваць
 [Invite Contact To Chat]
 Запрасіць да чата
+[Live ID]
+
 [&Invite]
 Запрасіць
 [&Cancel]
@@ -117,6 +123,12 @@
 &Дадзеныя кантакту
 [User &history]
 &Гісторыя кантакта
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
 [%I64u bytes]
 %I64u байт
 [MSN Alert]
@@ -147,6 +159,16 @@ MSN Чат
 Дастаўка паведамлення не атрымалася
 [User not online]
 Кантакт не далучаны
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
 [MSN Link Protocol]
 Спасылка MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]

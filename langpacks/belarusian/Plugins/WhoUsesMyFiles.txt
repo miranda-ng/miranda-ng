@@ -81,6 +81,8 @@ Popup плагін не знойдзены!
 Пакуль не рэалізавана...
 [Show connections list]
 Паказаць спіс далучэнняў
+[Who uses my files]
+
 [Services]
 Службы
 [Popups]

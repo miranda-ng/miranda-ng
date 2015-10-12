@@ -27,6 +27,8 @@
 хв.
 [(0-disabled)]
 0-выключана
+[Keep connection on error]
+
 [Set popup colors]
 Колер вакна
 [Background]
@@ -49,6 +51,8 @@
 Паказаць паведамленне памылкі
 [Remember newest message ID and don't show older]
 Запамінаць найноўшы ID паведамлення і не паказваць старэй
+[...even if popup not clicked]
+
 [Clear popups history]
 Выдаліць гісторыю усплывальных вокнаў
 [Filter messages containing the following:]

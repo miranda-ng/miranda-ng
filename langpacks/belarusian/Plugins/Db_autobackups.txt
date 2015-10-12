@@ -47,6 +47,8 @@
 Капіяванне файла базы...
 [Database backed up]
 Профіль зарэзерваваны
+[Database back up in process...]
+
 [Error]
 Памылка
 [Miranda NG databases]
@@ -67,6 +69,8 @@
 Тэчка рэзервавання
 [path to Miranda root folder]
 шлях да тэчкі праграмы
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

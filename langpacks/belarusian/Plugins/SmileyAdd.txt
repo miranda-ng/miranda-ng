@@ -19,6 +19,8 @@
 Версія:
 [Preview]
 Прагляд
+[Use per protocol global smiley packs]
+
 [Display]
 Паказваць
 [Replace only smileys surrounded by spaces]
@@ -49,12 +51,16 @@
 Выключыць
 [Smiley button]
 Кнопка смайла
+[Background\ncolor]
+
 [Surround inserted smiley with spaces]
 Уставіць смайл з прабеламі
 [Use first smiley for selection size]
 Памер усіх смайлаў як у першага
 [IEView style window]
 Акно ў стылі IEView
+[Horizontal sorting]
+
 [Show smiley selection window]
 Акно выбару эмоцый
 [SmileyAdd]
@@ -85,10 +91,14 @@ HTTP далучэнне SmileyAdd
 Усе файлы
 [Protocol specific]
 У адпаведнасці з пратаколам
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u у файле %s для набору смайлікаў %s не знойдзены.
+[%s global smiley pack]
+
 [Standard]
 Стандартныя
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

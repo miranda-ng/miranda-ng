@@ -1,5 +1,0 @@
-﻿[Use per protocol global smiley packs]
-[Background\ncolor]
-[Horizontal sorting]
-[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-[%s global smiley pack]
