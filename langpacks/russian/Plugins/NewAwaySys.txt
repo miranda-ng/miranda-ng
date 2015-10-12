@@ -247,6 +247,10 @@
 Установить статусное сообщение
 [Add]
 Добавить
+[Save]
+Сохранить
+[Settings]
+Настройки
 [Set %s message for the contact]
 Уст. %s сообщение для контакта
 [Re&ad %s message]

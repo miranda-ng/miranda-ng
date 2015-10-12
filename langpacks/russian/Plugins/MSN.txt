@@ -151,6 +151,8 @@ MSN Чат
 Доставка сообщения не удалась
 [User not online]
 Пользователь не в сети
+[RESULT]
+результат
 [MSN Link Protocol]
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
