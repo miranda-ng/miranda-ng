@@ -1,3 +1,0 @@
-﻿[ID]
-[%n   (%u)]
-[Enable/disable auto update]

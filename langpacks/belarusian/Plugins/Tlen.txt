@@ -15,6 +15,8 @@
 Захаваць пароль
 [Create new account]
 Новы конт
+[Tlen]
+
 [Options]
 Налады
 [Automatically reconnect after unintentional disconnection]
@@ -39,6 +41,8 @@
 Захоўв. падзеі як паведамленні
 [Group chat policy]
 Правілы гутарак
+[Image transfer policy]
+
 [Voice Chats]
 Галасавыя гутаркі
 [Voice chat policy]
@@ -117,12 +121,16 @@ Tlen Пароль
 Шукаю:
 [Voice chats]
 Галасавыя чаты
+[Publicly visible status]
+
 [Save changes]
 Захаваць змены
 [Avatar]
 Аватар
 [Avatar Options]
 Налады аватара
+[Public avatar]
+
 [Tlen login:]
 Уваход Tlen:
 [Subscription:]
@@ -197,6 +205,14 @@ Tlen пошта
 Аўтарызаваць
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Не атрымалася стварыць кэш для аватараў. ПАМЫЛКА: %d: %s\n%s
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
+
+[Error while setting avatar on Tlen account (no response)]
+
+[Error while setting avatar on Tlen account (invalid response)]
+
+[Error while setting avatar on Tlen account]
+
 [1 File]
 1 файл
 [%d Files]
@@ -245,8 +261,14 @@ Tlen пошта
 Перанакіраванне
 [%S mail]
 %S пошта
+[Image sent file://%s]
+
+[Image received file://%s]
+
 [Tlen login]
 Tlen уваход
+[You need to be connected to Tlen account to set avatar.]
+
 [Enter password for %s]
 Увядзіце пароль для %s.
 [Tlen Connection Error]
@@ -291,3 +313,5 @@ Tlen памылка далучэння
 Змаўчанні
 [%s connection]
 Злучэнне %s
+[%s SOCKS connection]
+

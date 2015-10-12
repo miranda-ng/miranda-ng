@@ -1,2 +1,0 @@
-﻿[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-[Obsolete database format]

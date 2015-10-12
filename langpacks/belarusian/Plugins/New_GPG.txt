@@ -7,6 +7,8 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Забяспечвае падтрымку шыфравання GPG.
+[Load Public GPG key]
+
 [Load from file]
 Імпарт з файла
 [Select existing]
@@ -33,6 +35,10 @@
 Конт:
 [Key ID:]
 ID ключа:
+[Copy public key]
+
+[Export private key]
+
 [Change password]
 Змяніць пароль
 [Set GPG bin path and keyring home dir.]
@@ -83,6 +89,8 @@ ID ключа:
 0 - ніколі не сканчаецца
 [Select existing public key from list]
 Выбраць адкрыты ключ з спісу
+[Enter password for your secret key]
+
 [Password:]
 Пароль:
 [Save password to database]
@@ -97,6 +105,20 @@ ID ключа:
 Атрыманы шыфраваны файл
 [Decrypt]
 Расшыфраваць
+[Received encrypted file from contact with disabled encryption.]
+
+[Remember choice]
+
+[Choose which keys to export]
+
+[Export public keys (only set for contacts)]
+
+[Export all private keys]
+
+[Export public and private keys]
+
+[Change private key password]
+
 [Current password:]
 Цяперашні пароль:
 [New password twice:]
@@ -109,6 +131,8 @@ ID ключа:
 Укл. запіс адладкі
 [Use Jabber API on Miranda NG (recommended)]
 Выкарыстоўваць Jabber API Miranda NG (Рэкамендуецца)
+[Default key]
+
 [Encrypt file transfers]
 Шыфраваная перадача файлаў
 [Automatic key exchange]
@@ -129,6 +153,26 @@ ID ключа:
 Канца
 [Strip all tags in outgoing messages]
 Выдаляць усе пазнакі з выходных паведамленняў
+[Turn on presence signing (Jabber) (required by XEP 0-27)]
+
+[Export keys]
+
+[Import keys]
+
+[GPG Turn off encryption]
+
+[GPG Turn on encryption]
+
+[Load GPG public key]
+
+[Toggle GPG encryption]
+
+[Send public key]
+
+[Export GPG Public keys]
+
+[Import GPG Public keys]
+
 [GPG encryption status]
 Статус шыфравання GPG
 [Email]
@@ -137,6 +181,8 @@ ID ключа:
 Імя
 [Creation date]
 Дата стварэння
+[Expire date]
+
 [Key length]
 Доўгая ключа
 [Accounts]
@@ -145,20 +191,40 @@ ID ключа:
 Змаўчанні
 [key ID]
 Ключ
+[not set]
+
 [Default private key ID]
 Асноўны прыватны ключ
+[Failed to open file]
+
 [Error]
 Памылка
+[Generating new random key, please wait]
+
+[Failed to allocate memory]
+
+[Failed to lock memory with error %d]
+
+[Failed write to clipboard with error %d]
+
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+
 [Warning]
 Заўвага
+[Wrong GPG binary location found in system.\nPlease choose another location]
+
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+
 [Info]
 Інфа
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
+[GPG binary does not exist.\nPlease choose another location]
+
 [Please choose GPG binary location]
 Вылучыце дырэкторыю з GnuPG
 [Please set keyring's home directory]
@@ -171,12 +237,70 @@ ID ключа:
 Замяніць
 [Accept]
 Прыняць
+[Received key from %s]
+
+[You must set encryption algorithm first]
+
+[Key length must be of length from 1024 to 4096 bits]
+
+[Invalid date]
+
+[Name must contain at least 5 characters]
+
+[Name cannot contain '(' or ')']
+
+[Invalid Email]
+
+[Generating new key, please wait...]
+
+[Failed to export public key.]
+
+[GPG binary is set and valid (this is good).\n]
+
+[GPG binary unset or invalid (plugin will not work).\n]
+
+[Home dir write access granted (this is good).\n]
+
+[Home dir has no write access (plugin most probably will not work).\n]
+
+[Temp dir write access granted (this is good).\n]
+
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
+
+[\nGPG will be disabled until you solve these problems]
+
+[GPG plugin problems]
+
+[Your secret key with ID: ]
+
 [ for account ]
  для конта\s
+[ deleted from GPG secret keyring.\nDo you want to set another key?]
+
+[Own secret key warning]
+
+[ expired and will not work.\nDo you want to set another key?]
+
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
 [Own private key warning]
 Увага! Не вылучаны прыватны ключ.
+[Do you want to load key for all subcontacts?]
+
+[Metacontact detected]
+
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
+
+[Do you want to try to decrypt encrypted message?]
+
+[failed to decrypt message, GPG returned error, turn on debug log for more details]
+
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
+
+[failed to encrypt message, GPG returned error, turn on debug log for more details]
+
+[Something is wrong, GPG does not understand us, aborting encryption.]
+
 [Services]
 Службы
 [Main]
@@ -193,16 +317,82 @@ ID ключа:
 Ключ
 [Protocol]
 Пратакол
+[This key is not used by any contact. Do you want to remove it from public keyring?]
+
+[Key info]
+
+[we have secret key for this public key, do not removing from GPG keyring]
+
 [info]
 інфа
+[Key removed from GPG keyring]
+
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Вы хочаце прыбраць ключ для метаконтакта (усіх субконтактаў)?
+[Export public key]
+
+[.asc pubkey file]
+
+[Failed to open clipboard with error %d]
+
 [Set log file]
 Пазначыць файл лога
 [LOG files]
 Файлы лога
 [Choose gpg.exe]
 Знайсці gpg.exe
+[Set home directory]
+
+[Load Public GPG Key for ]
+
+[Turn off encryption]
+
+[ found in presence, and exists in keyring.)]
+
+[Load Public GPG Key (Key ID: ]
+
+[ found in presence.)]
+
+[This is not public or private key]
+
+[Key already in secret keyring.]
+
+[Set file containing GPG public key]
+
+[GPG public key file]
+
+[There is no public or private key.]
+
+[Do you want to toggle encryption for all subcontacts?]
+
+[Turn off GPG encryption]
+
+[Turn on GPG encryption]
+
+[Target file exists, do you want to replace it?]
+
+[Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
+
+[File transfer warning]
+
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+
+[encrypting file for transfer]
+
+[We have successfully exported %d public keys and all private keys.]
+
+[We have successfully exported all private keys.]
+
+[We have successfully exported %d public keys.]
+
+[Keys export result]
+
+[We have successfully processed %d public keys and some private keys.]
+
+[We have successfully processed %d public keys.]
+
+[Keys import result]
+
 [New passwords do not match]
 Новыя паролі не супадаюць
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]

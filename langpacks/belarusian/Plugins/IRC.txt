@@ -15,6 +15,8 @@
 Імя сервера
 [Internet address]
 Сеткавы адрас
+[SSL]
+
 [Port range]
 Дыяпазон портаў
 [Password]
@@ -255,6 +257,10 @@ Wildcard пошук па сетцы
 Паведамленні
 [Notices]
 Абвесткі
+[CTCP]
+
+[DCC]
+
 [Ignore mask (nick!user@host)]
 Маска ігнаравання (nick!user@host)
 [Network (*)]
@@ -311,6 +317,16 @@ CTCP %s адказ ад %s: %s
 Выканана: %u чатаў
 [(probably truncated by server)]
 (магчыма абмежавана серверам)
+[%ud, %uh, %um, %us]
+
+[%uh, %um, %us]
+
+[%um, %us]
+
+[%us]
+
+[online since %s, idle %s]
+
 [Change nickname]
 Змяніць мянушку
 [IRC error]
@@ -479,6 +495,24 @@ WhoIs
 <Аўтаматычна>
 [<Local IP: ]
 <Лакальны IP:>
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
 [ALL NETWORKS]
 Усе сеткі
 [Click to set commands that will be performed for this event]
@@ -603,6 +637,8 @@ CTCP %s адказ пасланы для %s: %s
 Увядзіце імя чата для запрашэння
 [Invite to channel]
 Запрасіць у чат
+[NickServ]
+
 [Register nick]
 Зарэгістраваць мянушку
 [Auth nick]

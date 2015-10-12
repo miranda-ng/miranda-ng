@@ -1803,6 +1803,8 @@ xСтатус ICQ
 Перадача файла не атрымалася па невядомым чынніку.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
+[Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не далучаны да ICQ. Каб абнаўляць дадзеныя, трэба далучыцца.
 [ (DC Established)]

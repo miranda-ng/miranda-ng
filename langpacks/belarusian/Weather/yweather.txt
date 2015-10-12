@@ -2,6 +2,12 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+
+[ESE]
+
+[E]
+
 [East]
 Усход
 [Feel]
@@ -30,6 +36,16 @@
 Пераважна хмарна
 [Mostly Sunny]
 Пераважна сонечна
+[NE]
+
+[NNE]
+
+[NNW]
+
+[NW]
+
+[N]
+
 [North]
 Поўнач
 [Northeast]
@@ -40,6 +56,16 @@
 Месцамі хмарна
 [Partly Sunny]
 Месцамі сонечна
+[SE]
+
+[SSE]
+
+[SSW]
+
+[SW]
+
+[S]
+
 [Sat]
 СБ
 [Scattered Clouds]
@@ -58,6 +84,12 @@
 ЧЦ
 [Tue]
 АЎТ
+[WNW]
+
+[WSW]
+
+[W]
+
 [Wed]
 СР
 [West]

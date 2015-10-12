@@ -35,14 +35,30 @@
 Шлях:
 [Set]
 Абраць
+[Show main menu]
+
+[Show options page]
+
+[Show accounts manager]
+
 [Find/add contacts]
 Знайсці/дадаць кантакты
+[Show status menu]
+
 [Show/hide offline contacts]
 Паказаць/схаваць адключаных
 [Hide offline contacts]
 Схаваць адключаных
 [Show offline contacts]
 Паказаць адключаных
+[Enable/disable metacontacts]
+
+[Disable metacontacts]
+
+[Enable metacontacts]
+
+[Enable/disable groups]
+
 [Enable groups]
 Уключыць гурты
 [Disable groups]

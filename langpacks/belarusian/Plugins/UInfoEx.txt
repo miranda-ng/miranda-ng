@@ -361,6 +361,8 @@ E-Mail
 Рэзервуе наладжаныя дні нараджэння.
 [Due to a parameter error, one of the treeitems can't be added!]
 З-за памылкі ў параметры, адзін з элементаў дрэва не можа быць дададзены!
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
+
 [Rename Item]
 Пераназваць
 [Hide Item]
@@ -485,6 +487,8 @@ E-Mail
 Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 [updating]
 абнаўленне
+[Fatal error, image services not found. Flags module will be disabled.]
+
 [IM naming]
 Імя ў IM
 [Password]
@@ -609,10 +613,16 @@ E-Mail
 Рэзерваваць дні нараджэння
 [Check anniversaries]
 Праверыць святы
+[Export/import group]
+
 [&Export group]
 Экспартаваць гурт
 [&Import group]
 Імпартаваць гурт
+[&Export xml]
+
+[&Import xml]
+
 [My notes:]
 Мае нататкі:
 [About:]
@@ -633,6 +643,8 @@ E-Mail
 Другасны e-mail
 [Tertiary e-mail]
 Трэці e-mail
+[Address and contact]
+
 [company]
 Кампанія
 [Question]
@@ -1021,6 +1033,10 @@ Web Дызайн
 ВНУ
 [University]
 Універсітэт
+[TmplPast Work Place]
+
+[TmplPast Organization]
+
 [Single]
 Самотны
 [Close relationships]
@@ -1045,6 +1061,8 @@ Web Дызайн
 Адправіць e-mail
 [Memory allocation error!]
 Памылка выдзялення памяці!
+[E-mail (uinfoex)]
+
 [Gender (uinfoex)]
 Род (uinfoex)
 [User has no valid homepage]
@@ -1055,6 +1073,8 @@ Web Дызайн
 Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
+[Phone (uinfoex)]
+
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d кантактаў засталося
 [Abort Refreshing Contact Details]
@@ -1063,14 +1083,24 @@ Web Дызайн
 Вы сапраўды хочаце скасаваць абнаўленне дадзеных?
 [Miranda must be online for refreshing contact information!]
 Для абнаўлення конты павінны быць далучаныя!
+[The function caused an exception!]
+
 [%s has %s today.]
 %s святкуе %s сёння.
 [an anniversary]
 свята
+[He/she has the following anniversaries:]
+
+[He has the following anniversaries:]
+
+[She has the following anniversaries:]
+
 [%d. %s today]
 %d. %s сёння
 [%d. %s tomorrow]
 %d. %s заўтра
+[%d. %s in %d days]
+
 [%s has birthday today.]
 %s адзначае Дзень нараджэння сёння.
 [%s has birthday tomorrow.]
@@ -1145,6 +1175,8 @@ INI файл "%s"\nнельга адчыніць для чытання.
 Імпарт дэталей кантакта з vCard
 [Can't create xml file!\n%S]
 Немагчыма стварыць XML файл!\n%S
+[Export took %f ms]
+
 [Contact: %s (%S)]
 Кантакт: %s (%S)
 [Importing %s caused error %d]

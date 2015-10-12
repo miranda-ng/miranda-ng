@@ -69,8 +69,12 @@ Cлужба ўсплывальных паведамленняў для іншы�
 YAPP вокны
 [Example]
 Прыклад
+[The quick brown fox jumped over the lazy dog.]
+
 [Example With a Long Title]
 Прыклад з доўгім загалоўкам
+[Thequickbrownfoxjumpedoverthelazydog.]
+
 [An avatar.]
 З аватарам.
 [Bottom right]

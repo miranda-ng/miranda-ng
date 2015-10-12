@@ -27,6 +27,10 @@
 Сервер:
 [Port:]
 Порт:
+[SSL]
+
+[APOP]
+
 [User Name:]
 Імя карыстача:
 [Password:]

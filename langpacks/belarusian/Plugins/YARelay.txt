@@ -61,3 +61,5 @@
 !НЕ ПЕРАСЫЛАЦЬ!
 [Message sessions]
 Гутаркі
+[Messages forwarding]
+

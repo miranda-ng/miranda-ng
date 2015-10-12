@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.2
 ;  Authors: Robert Pösel
 ;============================================================
+[Minecraft Dynmap support for Miranda NG.]
+
 [Server:]
 Сервер:
 [Visible name:]
@@ -13,6 +15,10 @@
 Сервер
 [You]
 Вы
+[Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
+
+[Set server address to connect.]
+
 [Protocol icon]
 Абразок пратаколу
 [%s server connection]

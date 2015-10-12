@@ -115,6 +115,8 @@
 Капіяваць усё
 [Word lookup]
 Знайсці слова
+[Wikipedia]
+
 [Link]
 Спасылка
 [Open a &new browser window]
@@ -615,6 +617,8 @@ RTL па змаўчанні
 Запісваць змены статусу (толькі для адкрытых вокнаў паведамленняў)
 [Revert to global options]
 Вярнуць глабальныя налады
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
+
 [Use normal templates (uncheck to use simple templates)]
 Звычайныя шаблоны (адкл. для выкарыстання простых шаблонаў)
 [Queued send jobs]
@@ -1471,8 +1475,12 @@ TabSRMM: Набірае
 Выдаліць
 [Failed]
 Не атрымалася
+[Sent OK]
+
 [Deferred]
 Адкладзены
+[Suspended]
+
 [Pending]
 У чаканні
 [Contact]
@@ -1527,6 +1535,20 @@ tabSRMM: %s
 Вакно сервера
 [%s on %s%s]
 %s у %s%s
+[Message In]
+
+[Message Out]
+
+[Group In (Start)]
+
+[Group Out (Start)]
+
+[Group In (Inner)]
+
+[Group Out (Inner)]
+
+[Error message]
+
 [Template set editor]
 Рэдактар шаблонаў
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
@@ -1553,6 +1575,8 @@ tabSRMM: %s
 Змяніць скін
 [Message window tweaks]
 Налады вакна паведамленняў
+[Display metacontact icons]
+
 [Error feedback]
 Памылкі дастаўкі паведамленняў
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1567,6 +1591,10 @@ tabSRMM: %s
 Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
 [Show client description in info panel]
 Паказваць у інфо-панэлі кліент кантакту
+[On tab control]
+
+[On the button bar]
+
 [Disable error popups on sending failures]
 Адключыць усплывальныя вокны пра няўдалую дастаўку
 [Show a preview of the event]
@@ -1763,6 +1791,8 @@ tabSRMM: %s
 %s выключае статус '%s' для %s
 [Add user to highlight list]
 Дадаць карыстача ў спіс падсветкі
+[Edit user highlight list]
+
 [Input area background]
 Фон поля ўводу
 [Log background]
@@ -2007,14 +2037,20 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
+[user-defined account name of current contact (if defined).]
+
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 верне радок выгляду %miranda_profilesdir%\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
 [username for currently logged-on Windows user]

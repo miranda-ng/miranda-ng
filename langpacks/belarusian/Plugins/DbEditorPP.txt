@@ -59,6 +59,10 @@
 Значэнне
 [Base]
 Падстава
+[Hexadecimal]
+
+[Decimal]
+
 [Save value as:]
 Захаваць як:
 [Byte]
@@ -95,6 +99,8 @@
 Дзеянні
 [&Search and replace]
 Знайсці і замяніць...
+[&Fix resident settings]
+
 [&Delete module]
 Выдаліць плагін...
 [&Watches]
@@ -133,6 +139,8 @@
 Словы ў шаснаццатковым выглядзе
 [Edit &Dwords in Hex]
 Падвойныя словы ў шаснаццатковым выглядзе
+[&Inline edit]
+
 [&Restore position]
 Аднаўляць становішча
 [&Open options]
@@ -157,6 +165,8 @@
 Юнікод
 [New]
 Стварыць
+[BL&OB]
+
 [&Watch]
 Назіраць
 [&Refresh]
@@ -191,6 +201,8 @@
 Акно назіранняў
 [Reload watch list]
 Абнавіць спіс назіранняў
+[Copy module "%s"]
+
 [Are you sure you want to delete module "%s"?]
 Выдаліць плагін "%s"?
 [Delete module from database]
@@ -207,6 +219,8 @@ INI файлы
 Экспарт
 [Couldn't open file for writing]
 Не атрымоўваецца адкрыць файл на запіс
+[Import to "%s"]
+
 [Import from files]
 Імпарт з файлаў
 [Result]
@@ -233,6 +247,10 @@ INI файлы
 Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
 [Main icon]
 Галоўны абразок
+[Closed module]
+
+[Open module]
+
 [Settings]
 Налады
 [Contacts group]
@@ -241,6 +259,22 @@ INI файлы
 Невядомы кантакт
 [Known contact]
 Вядомы кантакт
+[Open user tree]
+
+[Empty setting]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
 [Handle]
 Назва
 [Open Database Editor]
@@ -251,8 +285,14 @@ INI файлы
 Рэдактары базы
 [<UNKNOWN>]
 <НЕВЯДОМА>
+[[UNLOADED]]
+
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
+[Delete resident settings from database?]
+
+[%d orphaned items deleted.]
+
 [Error loading module list]
 Памылка загрузкі спісу плагінаў
 [Error loading setting list]
@@ -263,13 +303,27 @@ INI файлы
 Загрузка плагінаў...
 [Contacts]
 Кантакты
+[Add module to "%s"]
+
 [Type]
 Тып
 [Size]
 Памер
+[Unable to store value in this data type!]
+
+[Are you sure you want to delete setting(s): %d?]
+
 [*** encrypted ***]
 *** зашыфравана ***
+[*** buggy resident ***]
+
+[Unknown DBVariant type!]
+
 [Edit setting (%s)]
 Рэдагаваць наладу (%s)
+[New setting (%s)]
+
+[*** resident ***]
+
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Зменена налада базы: \nПлагін: "%s", налада: "%s"\nНовае значэнне (%s): "%s"

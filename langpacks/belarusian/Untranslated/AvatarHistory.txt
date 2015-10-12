@@ -1,5 +1,0 @@
-﻿[Avatar List Popup]
-[AVH Debug]
-[AVH Debug: File copied successfully]
-[AVH Debug: GetOldStyleAvatarName]
-[AVH Debug: Shortcut created successfully]

@@ -93,6 +93,8 @@
 УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
 [* Restart may be required for all changes to take effect]
 * Для змяненняў патрэбны перазапуск
+[Skin folder]
+
 [Available view modes]
 Даступныя рэжымы выгляду
 [Include protocols]
@@ -145,6 +147,8 @@
 Шматрадковая панэль статусу:
 [Accounts per line]
 Контаў у радку
+[* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift + Правы клік - Галоўнае меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -321,8 +325,22 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абразок у трэі
 [Use xStatus icon]
 Абразок xСтатуса
+[Icon mode]
+
+[For similar statuses]
+
 [Global status]
 Агульны статус
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+
+[For different statuses]
+
+[Cycle period, seconds]
+
 [Additional stuff]
 Дадаткова
 [Ignore empty extra icons places (arrange to right).]
@@ -415,6 +433,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рамкі на выявах
 [Draw overlay icons]
 Абразкі на аватарах
+[Max size (pixels):]
+
 [Round corners of avatars]
 Закругленыя аватары
 [Ignore size for row height calcs]
@@ -635,6 +655,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
 [Changing metacontacts (moving)]
 Змена метакантакту (перасоўванне)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
+
+[Error loading plugin]
+
 [Skins]
 Скіны
 [Modern contact list]
@@ -817,6 +841,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Дызайн радка
 [(Unknown contact)]
 (Невядомы кантакт)
+[Show avatar]
+
+[Hide avatar]
+
 [Show contact &avatar]
 Паказаць аватар
 [Hide contact &avatar]

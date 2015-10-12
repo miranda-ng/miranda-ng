@@ -5,3 +5,13 @@
 ;  Version: 0.11.4.7
 ;  Authors: Miranda NG team
 ;============================================================
+[Extends Miranda NG functionality with Lua scripts.]
+
+[Reload all]
+
+[Common scripts folder]
+
+[Scripts]
+
+[Common scripts]
+

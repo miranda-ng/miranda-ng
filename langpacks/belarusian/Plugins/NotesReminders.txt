@@ -219,18 +219,44 @@
 Міранда не можа загрузіць плагін NotesReminders, няма Msftedit.dll. Калі вы выкарыстоўваеце WINE, пераканайцеся, што вы ўсталявалі бібліятэкі Msftedit.dll. Націсніце кнопку "Так" для працягу загрузкі Міранды.
 [Black]
 Чорны
+[Maroon]
+
 [Green]
 Зялены
+[Olive]
+
+[Navy]
+
+[Purple]
+
+[Teal]
+
+[Gray]
+
+[Silver]
+
 [Red]
 Чырвоны
+[Orange]
+
+[Lime]
+
 [Yellow]
 Жоўты
 [Blue]
 Сіні
+[Fuchsia]
+
+[Aqua]
+
 [White]
 Белы
 [Are you sure you want to delete this note?]
 Упэўнены, што жадаеце выдаліць нататку?
+[Visible]
+
+[Top]
+
 [Notes]
 Нататкі
 [Note text]

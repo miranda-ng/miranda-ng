@@ -37,8 +37,16 @@
 Не для ўсіх
 [Export]
 Экспарт
+[Reload/Refresh]
+
 [Registered actions]
 Зарэгістраваныя дзеянні
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+
+[Actman settings converted to new version]
+
 [Actions]
 Дзеянні
 [No description]
@@ -53,10 +61,14 @@
 Дзеянне
 [Notes]
 Нататкі
+[INI]
+
 [Read]
 Чытанне
 [Write]
 Запіс
+[INI file name]
+
 [Text Editor]
 Тэкставы рэдактар
 [Script]
@@ -65,10 +77,16 @@
 Перанос радкоў
 [C&ancel]
 Скасаваць
+[Section]
+
 [Parameter]
 Параметр
 [Value]
 Значэнне
+[Use LastResult]
+
+[UTF8 encoding]
+
 [Function call]
 Вызаў функцыі
 [Function name]
@@ -81,8 +99,12 @@
 Аргументы
 [Number of arguments]
 Колькасць аргументаў
+[Argument]
+
 [Param]
 Параметр
+[Param type]
+
 [number value]
 лік
 [ANSI string]
@@ -97,6 +119,10 @@
 параметр
 [structure]
 структура
+[Ansi message]
+
+[Ansi caption]
+
 [Structure]
 Структура
 [Structure editor]
@@ -145,6 +171,12 @@
 даўжыня
 [Use Variables]
 Уключыць зменныя
+[V]
+
+[Structure size]
+
+[Use MMI]
+
 [Structure help]
 Дапамога па структуры
 [Name]
@@ -297,6 +329,8 @@ UTF16+сігнатура
 Загаловак вакна
 [Message text]
 Тэкст паведамлення
+[RTL]
+
 [Right justified text]
 Выраўноўванне па праваму краі
 [Icons]
@@ -323,6 +357,8 @@ UTF16+сігнатура
 Паўтор, Скасаваць
 [Database]
 Профіль
+[Contact type]
+
 [Own settings]
 Свае налады
 [Manual]
@@ -383,6 +419,10 @@ UTF16+сігнатура
 Цяперашні макрас
 [Select for FirstRun]
 Абраць для першага запуска
+[Mark as Volatile]
+
+[Single instance]
+
 [Scheduler]
 Планоўшчык
 [Task sample]
@@ -421,6 +461,8 @@ UTF16+сігнатура
 прыклад хука
 [Event]
 Падзея
+[Miranda event help]
+
 [Use Actions]
 Выкарыстанне дзеянняў
 [Action list]
@@ -457,20 +499,48 @@ UTF16+сігнатура
 Падказка да кнопкі ў націснутым становішчы
 [Show only if variables return 1]
 Паказваць толькі пры вяртанні 1
+[Main settings]
+
 [Root popup:]
 Корань падменю:
 [Menu item name:]
 Назва пункта меню:
+[Custom settings]
+
 [Separated]
 Падзельнік
+[Do not translate]
+
+[Show window for new/changed profile password]
+
 [int 0, if successful]
 0 у выніку поспеху
+[Hide All Titlebars]
+
 [Show All Frames]
 Паказаць усе
+[Show All Titlebars]
+
+[will never return the user's custom name]
+
+[will return Unicode instead of AnsiChar]
+
+[will not use the cache]
+
+[Gets the string that the contact list will use to represent a contact]
+
+[int hMenu handle]
+
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
 [Show All Users]
 Паказваць усе кантакты
 [Show only Online Users]
 Схаваць адключаных
+[Toggle status]
+
+[Change 'hide offline contacts' option value]
+
 [Offline]
 Адключаны
 [Online]
@@ -491,6 +561,18 @@ UTF16+сігнатура
 На тэлефоне
 [Out to Lunch]
 Абедаю
+[Set global status]
+
+[Switch contact list status]
+
+[Closes Miranda]
+
+[Show or hide netlog console window]
+
+[int Value]
+
+[Returns contact amount, excluding user account]
+
 [Ansi Text]
 Тэкст Ansi
 [Removes all settings for the specified module]
@@ -499,8 +581,32 @@ UTF16+сігнатура
 цэлая частка 0
 [Import settings/contacts from file]
 Імпарт налад/кантактаў у файл
+[Opens or activate database editor]
+
+[Opens or activate user search dialog]
+
+[displays File Transfer window]
+
+[on Desktop]
+
+[parent window handle]
+
+[Show "About..." window]
+
+[Open support (originally - Miranda wiki) page]
+
+[Go to Miranda Homepage]
+
+[Open bug report page]
+
 [System]
 Сістэма
+[Shows contact history or (wParam=0) system history]
+
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+
+[Show Global history search window. If already opened, bring it to front.]
+
 [Ignore all]
 Ігнараваць усё
 [Ignore messages]
@@ -509,22 +615,146 @@ UTF16+сігнатура
 Адрасы (URL)
 [Ignore files]
 Перадачы файлаў
+[Ignore User Online]
+
 [Ignore requests]
 Ігнараваць запыты
+[Ignore 'You were added']
+
 [Ignore Contact]
 Ігнараваць кантакт
+[Unignore Contact]
+
+[restart in default profile or profile manager]
+
+[restart with current profile]
+
+[Restarts Miranda]
+
 [Station name]
 Імя станцыі
+[wParam is Handle]
+
+[wParam is Ansi station name]
+
+[wParam is Unicode station name]
+
+[Starting or stopping radio station]
+
+[Stop cycle]
+
+[Start cycle]
+
+[Start/stops the cycling through protocols]
+
+[All protocols]
+
 [Protocol]
 Пратакол
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+
+[Shows a dialog to set the avatar for all possible protocols]
+
+[Shows the next protocol in the frame]
+
+[Shows the previous protocol in the frame]
+
+[Open Options dialog]
+
+[Opens the options dialog, optionally at the specified page]
+
 [Check for updates]
 Праверыць абнаўленні
+[with confirmation]
+
+[without confirmation]
+
+[Empty updater download folder]
+
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+
+[Enables or disables Popup windows]
+
 [Notify]
 Абвестка
+[YAPP or Popup]
+
 [Popup window]
 Усплывальнае вакно
+[Unicode Text]
+
+[Enables or disables Popup windows (maybe deprecated)]
+
+[result of protocol service call]
+
+[Send a general request through the protocol chain for a contact]
+
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
+
+[displays the Account Manager]
+
+[Show the dialog to select the contact]
+
+[filter text]
+
+[wParam is unicode]
+
+[wParam is Ansi]
+
+[Reserved]
+
+[Open main QuickSearch window with text filter]
+
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+
+[Send Email to contact]
+
+[struct]
+
+[Returns the received files folder for a contact]
+
+[Open contact received file directory]
+
+[Send file to contact.]
+
+[Opens message window for contact with handle in wparam]
+
+[remove all temporary contacts from db]
+
+[Call avatar option dialog for contact]
+
 [Filename]
 Імя файла
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+
+[Shows contact property window.]
+
+[Open URL in current window]
+
+[0 - Open URL in current window]
+
+[Open URL in default browser]
+
+[With formating]
+
+[Don't use formating]
+
+[Returns a string containing the versioninfo post]
+
+[Show or save (call default action) Modules version Info]
+
+[Show popup or Info window with current music information.]
+
+[log filename]
+
+[report filename]
+
+[int 0, if unsuccessful]
+
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+
 [display birthdays window]
 паказвае вакно дзён нараджэння
 [Manage Jabber Bookmarks]
@@ -615,7 +845,11 @@ UTF16+сігнатура
 Пабудова кантэкстнага меню для кантакту
 [Double click on the contact list]
 Падвойная пстрычка па спісу кантактаў
+[database driver]
+
 [New contact added to database]
 Новы кантакт дададзены ў базу
 [Contact deleting]
 Выдаліць кантакт
+[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
+

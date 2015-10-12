@@ -447,6 +447,8 @@ xСтатус:
 Вецер:
 [# Solid color fill]
 \# заліванне колерам
+[%dd %dh %dm]
+
 [%dh %dm]
 %dгадз. %dхв.
 [%dm]
@@ -471,6 +473,10 @@ xСтатус:
 Жаночы
 [Male]
 Мужчынскі
+[%dy %dd %dh %dm]
+
+[%dd]
+
 [[No translation]]
 (без пераўтварэння)
 [WORD to status description]

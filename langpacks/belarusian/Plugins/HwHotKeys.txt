@@ -5,13 +5,27 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
+[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
+
 [Close Miranda]
 Зачыніць Miranda
+[Assign]
+
 [Clear]
 Сцерці
 [Show/Hide contact list]
 Паказаць/Схаваць спіс кантактаў
 [Read message]
 Прачытаць паведамленне
+[Last pressed key]
+
+[Extended flag (1xx), Hardware scan code (x23), KeyName]
+
+[Combine left/right keys Shift, Ctrl, Win, Alt]
+
+[Combination of keys for assignment]
+
 [Customize]
 Тонкая налада
+[Hardware HotKeys]
+

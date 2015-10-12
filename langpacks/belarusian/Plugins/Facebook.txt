@@ -43,20 +43,34 @@ URL:
 Аўтаматычна ўключаць ігнараванне змены статусаў
 [Use bigger avatars]
 Вялікія аватары
+[Prefer real names instead of nicknames]
+
 [Event notifications]
 Абвесткі
 [Notifications]
 Абвесткі
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Абвяшчаць пра тыпы навін:
+[Don't show advertising posts]
+
 [Other events]
 Іншыя падзеі
 [Client notifications]
 Абвесткі кліента
+[Friendship notifications]
+
+[Ticker feeds]
+
+[Show "On this day" posts at login]
+
 [Use this server for opening links:]
 Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
 [Use balloon notifications in system tray instead of popups]
 Абвяшчаць падказкай у трэі замест усплывальных вокнаў
+[Use logging notifications into special chatroom]
+
 [Preview]
 Прагляд
 [Statuses]
@@ -65,6 +79,8 @@ URL:
 Публікаваць статусы Miranda на сцяну
 [Turn off chat on Facebook when going to offline in Miranda]
 Адключаць чат на сайце пры адключэнні
+[Map unsupported statuses to Invisible (instead of Online)]
+
 [Allow posting statuses to my pages (may slow down login)]
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
 [Bots challenge test]
@@ -81,10 +97,28 @@ URL:
 Не пазначаць паведамленні прачытанымі
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
+
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+[Myself]
+
 [User]
 Карыстач
+[Friend]
+
 [&Invite user...]
 &Запрасіць кантакт...
 [&Leave chat session]
@@ -101,10 +135,22 @@ URL:
 Памылка далучэння: Памылковы запрос.
 [Login error: Some Facebook things are required.]
 Памылка далучэння: Неабходны некаторыя рэчы Facebook.
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+
 [Login error, probably bad login credentials.]
 Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
+[Could not load communication token. You should report this and wait for plugin update.]
+
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+
+[Contact doesn't have required data in database.]
+
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт Facebook і паспрабуйце там адправіць паведамленне гэтаму кантакту!
+[User cancel captcha challenge.]
+
 [Timeout when sending message.]
 Затрымка пры адпраўцы паведамлення.
 [Status update was successful.]
@@ -117,6 +163,8 @@ URL:
 Папулярныя навіны
 [Most Recent]
 Апошнія абнаўленні
+[Pages]
+
 [Classic website]
 Класічны сайт
 [Mobile website]
@@ -133,6 +181,8 @@ URL:
 Сябрам, акр. знаёмых
 [Only me]
 Толькі мне
+[%s and more (%d)]
+
 [Contact was removed from your server list.]
 Кантакт быў выдалены з вашага спісу на серверы.
 [Error occurred when removing contact from server.]
@@ -141,10 +191,18 @@ URL:
 Запыт на сяброўства адпраўлены.
 [Error occurred when requesting friendship.]
 Адбылася памылка пры запыце сяброўства.
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
 [Request for friendship was canceled.]
 Запыт на сяброўства быў адменены.
 [Error occurred when canceling friendship request.]
 Адбылася памылка пры скасаванні запыта сяброўства.
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
+
 [Default]
 Змаўчанні
 [<< Contacts]
@@ -159,8 +217,16 @@ URL:
 Прыклад навіны
 [Sample notification]
 Прыклад абвесткі
+[Sample friendship]
+
+[Sample ticker]
+
+[Sample on this day]
+
 [a sticker]
 сцікер
+[a link]
+
 [files]
 файлы
 [a file]
@@ -183,10 +249,14 @@ URL:
 Кантакт даданы ў спіс на серверы.
 [Contact is no longer on server-list.]
 Кантакт выдалены з спісу сервера.
+[On this day]
+
 [%s server connection]
 Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
+[Video call]
+
 [Facebook ID must be numeric value.]
 Facebook ID павінна быць лічбавым значэннем.
 [Network]
@@ -211,8 +281,14 @@ Facebook ID павінна быць лічбавым значэннем.
 Хочаце адмяніць сяброўства з '%s'?
 [News feeds]
 Навіны
+[Friendship events]
+
+[On this day posts]
+
 [Visit profile]
 Профіль
+[Visit notifications]
+
 [Show 'Share status' window]
 Паведамленне статуса Facebook
 [Notification]
@@ -221,6 +297,12 @@ Facebook ID павінна быць лічбавым значэннем.
 Навіны
 [Other event]
 Іншая падзея
+[Friendship event]
+
+[Ticker event]
+
+[On this day event]
+
 [Message read: %s by %s]
 Паведамленне прачытана ў: %s карытальнікам %s
 [Message read: %s]
@@ -237,6 +319,10 @@ Facebook ID павінна быць лічбавым значэннем.
 Дэталі сяброўства
 [Conversation]
 Гутарка
+[Message read]
+
+[Captcha form icon]
+
 [Visit friendship details]
 Дэталі сяброўства
 [Visit conversation]
@@ -249,6 +335,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Дадаць ў сябры
 [Approve friendship]
 Дадаць ў сябры
+[Deny friendship request]
+
 [Services...]
 Службы...
 [Refresh Buddy List]

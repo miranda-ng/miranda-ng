@@ -153,6 +153,8 @@
 Капіяваць усё
 [Word lookup]
 Знайсці слова
+[Wikipedia]
+
 [Link]
 Спасылка
 [Open a &new browser window]
@@ -1045,6 +1047,8 @@
 У панэлі статусаў
 [Warning!\r\nThis menu object not support user defined options.]
 Увага!\r\nГэтыя пункты меню не паддаюцца наладзе.
+[Insert submenu]
+
 [Insert separator]
 Уставіць падзельнік
 [Service:]
@@ -1167,6 +1171,8 @@ UIN, E-mail і г.д.
 Выкарыстоўваць імя
 [Contact labels]
 Пазнакі кантактаў
+[When I click on a sub in the popup menu...]
+
 [Set default and open message window]
 Адчыніць вакно паведамленні
 [Show subcontact context menu]
@@ -1179,6 +1185,8 @@ UIN, E-mail і г.д.
 Выкарыстоўваць адлюстроўванае імя
 [Lock name to first contact]
 Фіксаваць імя
+[Current language:]
+
 [Last modified using:]
 Праверана на версіі:
 [Locale:]
@@ -1681,6 +1689,8 @@ UIN, E-mail і г.д.
 Меню кантакта
 [Canceled]
 Скасавана
+[This file transfer has been canceled by the other side]
+
 [%d files]
 %d файла(аў)
 [%d directories]
@@ -2015,6 +2025,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Тэма '%s' (усталявана %s)
 [Connecting]
 Далучэнне
+[Connecting (attempt %d)]
+
 [(Unknown contact)]
 (Невядомы кантакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2059,6 +2071,8 @@ Miranda не можа адкрыць '%s', бо плагіны для падтр
 Miranda NG не можа адчыніць '%s', профіль у невядомым фармаце.\nГэты профіль можа быць пашкоджаны, паспрабуйце выправіць яго з дапамогай DbChecker.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda не можа адкрыць '%s'\nЁн недасяжны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
 [No profile support installed!]
 Няма ўсталяваных плагінаў базы!
 [Miranda can't open that profile]
@@ -2091,6 +2105,8 @@ Miranda не можа распазнаць гэты профіль
 Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
 [Search]
 Пошук
+[Ctrl+Search add contact]
+
 [Results]
 Вынікі
 [There are no results to display.]
@@ -2151,6 +2167,50 @@ Miranda не можа распазнаць гэты профіль
 Пераназваць гурт
 [This group]
 Гэты гурт
+[Browser: Back]
+
+[Browser: Forward]
+
+[Browser: Refresh]
+
+[Browser: Stop]
+
+[Browser: Search]
+
+[Browser: Fav]
+
+[Browser: Home]
+
+[Mute]
+
+[Vol-]
+
+[Vol+]
+
+[Media: Next Track]
+
+[Media: Prev. Track]
+
+[Media: Stop]
+
+[Media: Play/Pause]
+
+[Mail]
+
+[Media: Select]
+
+[App 1]
+
+[App 2]
+
+[Ctrl + ]
+
+[Alt + ]
+
+[Shift + ]
+
+[Win + ]
+
 [Remove shortcut]
 Выдаліць спалучэнне
 [Add another shortcut]
@@ -2203,6 +2263,8 @@ xСтатус
 Меню гуртоў
 [Subgroup menu]
 Меню падгуртоў
+[New submenu]
+
 [Menus]
 Меню
 [Tray menu]
@@ -2241,10 +2303,14 @@ xСтатус
 Не атрымалася дадаць да метакантакту.
 [Assignment failure]
 Няўдалае прызначэнне
+[ID]
+
 [Protocol]
 Пратакол
 [Send offline]
 Адпраўка ў афлайн
+[Send &online]
+
 [Delete metacontact?]
 Выдаліць метакантакт?
 [Toggle off]
@@ -2287,6 +2353,8 @@ xСтатус
 Метакантакты
 [No online contacts found.]
 Няма далучаных кантактаў.
+[Select metacontact]
+
 [Sender]
 Адпраўшчык
 [Could not retrieve contact protocol]
@@ -2389,10 +2457,16 @@ xСтатус
 Стварыць
 [<In use>]
 <Выкарыстоўваецца>
+[<Unknown format>]
+
 [Are you sure you want to remove profile "%s"?]
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
+[&Convert]
+
 [Run]
 Запусціць
+[Convert database]
+
 [Check database]
 Праверыць базу
 [Size]
@@ -2411,6 +2485,8 @@ xСтатус
 Ваш конт паспяхова адноўлены. Для яго актывацыі неабходна перазапусціць Miranda\n\nДля перазапуску націсніце "Так", калі жадаеце аднавіць іншы конт, націсніце "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
+[Account name must be filled.]
+
 [Account error]
 Памылка конта
 [Account name has to be unique. Please enter unique name.]
@@ -2531,6 +2607,8 @@ ANSI плагін
 Не загружваемы плагін
 [Frames]
 Фрэймы
+[Add group]
+
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
@@ -2957,6 +3035,8 @@ ANSI плагін
 Сьера-Леонэ
 [Singapore]
 Сінгапур
+[Sint Maarten (Dutch part)]
+
 [Slovakia]
 Славакія
 [Slovenia]

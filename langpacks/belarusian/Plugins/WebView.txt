@@ -7,14 +7,28 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Дадае сайты ў спіс кантактаў і можа адлюстроўваць тэкст ці/або абвяшчае, калі ёсць змены на гэтых старонках.
+[Webview]
+
 [Update data every]
 Абнавіць усе
 [minutes]
 хвілін(ы)
+[Delay update on start]
+
 [seconds]
 секунд(ы)
+[Hide icon on status bar]
+
 [Disable main menu items]
 Адкл. пункты галоўнага меню
+[Load page on window open]
+
+[Update data on startup]
+
+[Only update window on alert]
+
+[Window appearance]
+
 [Background color:]
 Колер фону:
 [Text color:]
@@ -25,18 +39,52 @@
 Курсіў
 [Underline]
 Падкрэсленне
+[Save individual window positions]
+
 [Error messages]
 Памылкі
+[Suppress error messages]
+
+[Display using Popup or OSD plugin]
+
 [Expert options]
 Дадатковыя налады
+[Disable download protection]
+
+[(not recommended)]
+
+[Display data in popup on alert]
+
+[Display data in popup]
+
+[You may need to restart Miranda NG for this change to take effect.]
+
+[Contact name:]
+
 [URL:]
 Спасылка:
 [Display]
 Паказваць
+[Between start and end strings]
+
+[Whole web page]
+
 [Start:]
 Пачатак:
 [End:]
 Канец:
+[Copy strings to alerts]
+
+[Double click action]
+
+[Opens web page]
+
+[Opens data window]
+
+[Display clean-up]
+
+[Remove HTML]
+
 [Cancel]
 Скасаваць
 [Apply]
@@ -47,10 +95,42 @@
 &Наступны
 [Find what:]
 Знайсці:
+[Search was completed.]
+
+[Events and alerts]
+
+[Enable alerts]
+
+[Always log to file]
+
+[Add time and date of alert to contact name]
+
+[Use 24 hour time format instead of 12 hour]
+
+[Add as prefix]
+
+[Add as suffix]
+
+[Alert when:]
+
+[Alert type:]
+
+[Test conditions]
+
+[Alert when string is present on web page]
+
+[String:]
+
+[Alert when specific area of web page changes]
+
 [Log to file]
 Запіс у файл
+[Log file:]
+
 [Append data to file]
 Дадаць змесціва ў файл
+[Save as raw data]
+
 [Popup delay]
 Затрымка вакна
 [Delay]
@@ -71,8 +151,18 @@
 Тэкст
 [Use Windows colors]
 Колеры Windows
+[Use same colors as data window]
+
+[Left click action]
+
+[Open data display window]
+
+[Open web page]
+
 [Dismiss popup]
 Зачыніць вакно
+[Right click action]
+
 [Log]
 Лог
 [&Copy]
@@ -87,19 +177,169 @@
 Капіяваць усё
 [&Select all]
 &Вылучыць усё
+[C&lear all]
+
+[Alert event]
+
 [Auto update disabled]
 Аўтаабнаўленне выключана
 [Auto update enabled]
 Аўтаабнаўленне ўключана
+[Update all Webview sites]
+
+[Mark all Webview sites as read]
+
+[Open cache folder]
+
+[%d minutes to update]
+
+[Open/Close window]
+
+[Update data]
+
+[Contact options]
+
+[Contact alert options]
+
+[Ping web site]
+
+[Stop data processing]
+
+[All Webview sites have been updated.]
+
 [Network]
 Сеціва
 [Popups]
 Усплывальныя вокны
+[Cannot write to file]
+
+[Last updated on]
+
+[Start/end strings not found or strings not set.]
+
+[Alert start/end strings not found or strings not set.]
+
+[The string]
+
+[has been found on the web page]
+
+[Download successful; about to process data...]
+
+[Unknown alert type.]
+
+[Cannot read from file]
+
+[Cannot write to file 1]
+
+[The web page has changed.]
+
+[Cannot write to file 2]
+
+[Specific part of the web page has changed.]
+
+[Cannot read from cache file]
+
+[Loaded from cache]
+
+[ERROR: You have two or more Webview contacts with the same URL and contact name.]
+
+[Alert options]
+
+[Stop processing]
+
+[Click here to open this URL in a browser window.]
+
+[Stick to the front]
+
+[Disable stick to the front]
+
+[URL not supplied]
+
+[Download in progress, please wait...]
+
+[Updating...]
+
+[The server replied with a failure code]
+
+[The server is down or lagging.]
+
+[Invalid search parameters.]
+
+[Both search strings not found or strings not set.]
+
+[at the time]
+
+[Processing data (Stage 1)]
+
+[Processing data stopped by user.]
+
+[Processing data (Stage 2)]
+
+[Processing data (Stage 3)]
+
+[Processing data (Stage 4)]
+
+[Processing data (Stage 5)]
+
+[Processing data (Stage 6)]
+
+[Processing data (Stage 7)]
+
+[Processing data (Stage 8)]
+
 [Alert!]
 Увага!
 [Online]
 Далучаны
+[A site is already downloading, try again in a moment.]
+
+[Bytes in display]
+
+[Bytes downloaded]
+
+[Alert test conditions not met; press the refresh button to view content.]
+
+[No whitespace removal]
+
+[Minimal level of whitespace removal]
+
+[Medium level of whitespace removal]
+
+[Large level of whitespace removal]
+
+[Remove all whitespace]
+
 [Popup plugin]
 Успл. вокны
+[Use OSD plugin]
+
+[A string is present]
+
+[The web page changes]
+
+[A specific part of web page changes]
+
+[This is a preview popup.]
+
+[You need to supply a search string.]
+
+[You need to supply a start string.]
+
+[You need to supply an end string.]
+
+[You need to supply a file name and path.]
+
+[You need to supply a URL.]
+
+[You need to supply a name for the contact.]
+
+[Invalid symbol present in contact name.]
+
+[Cache folder does not exist.]
+
+[Missing "psite.bat" file.]
+
+[Site URL]
+
 [Please select site in Find/Add contacts...]
 Абярыце сайт у Знайсці...

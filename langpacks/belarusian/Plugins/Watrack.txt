@@ -644,3 +644,7 @@ VBR ці няма
 Націснуты лятунок
 [WATrack status]
 WATrack статус
+[Enable WATrack]
+
+[Disable WATrack]
+

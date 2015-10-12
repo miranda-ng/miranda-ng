@@ -17,6 +17,8 @@
 Скасаваць
 [Send screenshot to <unknown>]
 Адправіць здымак экрану <невядома>
+[Take a screenshot and send it to a contact]
+
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]
@@ -31,6 +33,8 @@
 Запоўніць радкі апісання.
 [Delete &after send]
 Выдаліць пасля адпраўкі
+[Open editor before sending]
+
 [Open again]
 Адкрыць ізноў
 [&Capture]
@@ -49,6 +53,8 @@
 Памер (HxW):
 [C&lient area]
 Змесціва
+[Indirect capture]
+
 [Target tool]
 Прыцэл
 [File:]
@@ -57,12 +63,22 @@
 Апісанне:
 [Result]
 Вынік
+[Thumbnail]
+
 [&Copy]
 &Капіяваць
 [Close]
 Зачыніць
+[Resulting URL from\n]
+
 [Copy]
 Капіяваць
+[Copy BBCode]
+
+[Copy BBCode w/ link]
+
+[%s requires a valid contact!]
+
 [Error]
 Памылка
 [GCHAT error]
@@ -73,16 +89,58 @@
 Не ўдалося ініцыяваць %s.
 [MAPI error (%i):\n%s.]
 Памылка MAPI (%i):\n%s.
+[Unknown response from %s (%i)]
+
+[Got no response from %s (%i)]
+
+[Dropbox transfer]
+
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
+
+[Email transfer]
+
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
 [The specified attachment was not found]
 Укладанне не знойдзена
 [The specified attachment could not be opened]
 Укладанне немагчыма адчыніць
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
+[One or more unspecified errors occurred]
+
+[There was insufficient memory to proceed]
+
+[One or more recipients were invalid or did not resolve to any address]
+
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+
+[The text in the message was too large]
+
+[There were too many file attachments]
+
+[There were too many recipients]
+
+[A recipient did not appear in the address list]
+
+[The user canceled one of the dialog boxes]
+
 [Unknown Error]
 Невядомая памылка
 [File transfer]
 Перадача файла
+[FTPFile transfer]
+
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+
+[Image upload]
+
+[HTTPServer transfer]
+
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+
 [Retry]
 Яшчэ раз
 [Yes]
@@ -95,6 +153,10 @@
 Ігнараваць
 [Main Icon]
 Галоўны абразок
+[Target Cursor]
+
+[Target Desktop]
+
 [Help]
 Даведка
 [Open Folder]
@@ -113,8 +175,16 @@
 Наперад
 [Update]
 Абнавіць
+[Edit on]
+
+[BBC]
+
+[BBC link]
+
 [Down arrow]
 Стрэлка ўніз
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
 [Could not create main dialog.]
 Немагчыма стварыць галоўны дыялог.
 [SendSS HTTP connections]
@@ -123,8 +193,12 @@ HTTP далучэнне SendSS
 Адправіць скрыншот
 [Screenshots]
 Здымкі экрана
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+
 [Buttons]
 Кнопкі
+[Could not register Miranda service.]
+
 [Take a screenshot]
 Зрабіць скрыншот
 [Send screenshot]
@@ -139,6 +213,8 @@ SendScreenshot - Памылка
 Аўтары
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
+[Send screenshot to %s]
+
 [Window]
 Акно
 [Desktop]
@@ -159,13 +235,31 @@ SendScreenshot - Памылка
 Пошта
 [FTP File]
 Файл на FTP
+[Upload Pie (30m)]
+
+[Upload Pie (1d)]
+
+[Upload Pie (1w)]
+
 [Information]
 Інфармацыя
+[Fill description textbox.]
+
 [Delete after send]
 Выдаліць пасля адпраўкі
 [Capture]
 Запіс
+[Couldn't take a screenshot]
+
 [Select a file]
 Абярыце файл
 [Select a target window.]
 Абярыце вакно для адпраўкі.
+[Screenshot of "%s"]
+
+[Screenshot for client area of "%s" window]
+
+[Screenshot of "%s" window]
+
+[Send screenshot?]
+

@@ -103,8 +103,14 @@
 Вас дадалі
 [Requests your authorization]
 Запыт вашай аўтарызацыі
+[ICQ Web pager]
+
+[ICQ Email express]
+
 [SMS Message]
 Паведамленне SMS
+[SMS Confirmation]
+
 [Unknown Event]
 Невядомая падзея
 [Notify of new events]

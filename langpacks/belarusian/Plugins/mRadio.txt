@@ -163,6 +163,10 @@ URL станцыі/плэйліста
 Выкл гук
 [mRadio volume control]
 Узровень гучнасці mRadio
+[mRadio off]
+
+[mRadio on]
+
 [Import File]
 Імпартаваць файл
 [Play Station]
@@ -193,3 +197,5 @@ URL станцыі/плэйліста
 Эквалайзер
 [New]
 Стварыць
+[Quick Open]
+

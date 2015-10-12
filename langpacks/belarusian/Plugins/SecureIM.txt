@@ -37,6 +37,10 @@
 Захоўваць ключ:
 [days]
 дзён
+[PGP]
+
+[GPG]
+
 [Reset All]
 Скід
 [Protocols]
@@ -49,6 +53,8 @@
 Адключаны:
 [RSA Key]
 Ключ RSA
+[SHA1:]
+
 [Public]
 Публічны
 [&Copy SHA1]
@@ -137,6 +143,8 @@
 PGP у SecureIM
 [GPG SecureIM]
 GPG у SecureIM
+[RSA/AES SecureIM]
+
 [Status]
 Статус
 [Always Try to Establish Secure IM]
@@ -151,18 +159,30 @@ Secure IM Выключаны
 Усталяваць ключ
 [Delete key]
 Выдаліць ключ
+[Set pre-shared key]
+
+[Delete pre-shared key]
+
 [Public key]
 Адкрыты ключ
 [Export key]
 Экспартаваць ключ
 [Import key]
 Імпартаваць ключ
+[Export public key]
+
+[Import public key]
+
+[Delete public key]
+
 [SecureIM established...]
 Бяспечнае злучэнне ўсталявана...
 [Key exchange failed...]
 Абмен ключамі не адбыўся
 [Key from disabled...]
 Ключ быў адпрэчаны
+[Sent back message received...]
+
 [Sending back secure message...]
 Адпраўка зваротнага паведамлення...
 [SecureIM disabled...]
@@ -195,6 +215,8 @@ SecureIM выключаны! Вы павінны ўключыць яго для 
 Немагчыма адправіць шыфраванае паведамленне!\nКантакт зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\nЯно будзе адпраўлена незашыфраваным!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Плагін SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці не адпавядае версіі!
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не можа адправіць шыфраванае паведамленне! Праверце давер да PGP/GPG ключу!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
@@ -253,6 +275,14 @@ Keyrings адключаны!
 Стварыць SecureIM злучэнне
 [Disable SecureIM connection]
 Адмяніць SecureIM злучэнне
+[Load PGP Key]
+
+[Unload PGP Key]
+
+[Load GPG Key]
+
+[Unload GPG Key]
+
 [Delete RSA Key]
 Выдаліць ключ RSA
 [SecureIM mode (Native)]
@@ -351,14 +381,22 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Статус шыфравання
 [Executable Files]
 Выкананыя файлы
+[Select GnuPG Executable]
+
+[ASC files]
+
 [All files]
 Усе файлы
+[Open Key File]
+
 [Save Private Key File]
 Захаванне прыватнага ключа
 [Save Public Key File]
 Захаванне публічнага ключа
 [Load Private Key File]
 Загрузка прыватнага ключа
+[Load Public Key File]
+
 [Services]
 Службы
 [Key Popup]

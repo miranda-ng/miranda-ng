@@ -1,2 +1,0 @@
-﻿[Enable WATrack]
-[Disable WATrack]

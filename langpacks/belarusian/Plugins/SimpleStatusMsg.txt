@@ -111,6 +111,44 @@
 Незалежна для кожнага пратакола
 [Pop up dialog asking for status message]
 Паказваць вакно запытання смены статуса
+[Fortune]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+
 [Cut]
 Выразаць
 [Copy]
@@ -121,12 +159,16 @@
 Выдаліць
 [Select all]
 Вылучыць усё
+[Failed to retrieve %s message.]
+
 [&Close]
 &Зачыніць
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Copy %s message]
 Капіяваць паведамленне %s
+[&Go to URL in %s message]
+
 [Re&ad Away message]
 Пра&чытаць паведамленне "Адсутнічаю"
 [Copy Away message]
@@ -145,8 +187,14 @@
 %s (заблакаваны)
 [External Applications]
 Знешнія прыкладанні
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
 [Miranda Related]
 Адносіцца да Miranda
+[get the date (Simple Status Message compatible)]
+
+[<startup>]
+
 [<current>]
 <бягучы>
 [Clear history]

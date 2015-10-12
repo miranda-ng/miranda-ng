@@ -5,6 +5,8 @@
 ;  Version: 0.11.4.2
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
+[Steam protocol support for Miranda NG.]
+
 [Username:]
 Карыстач:
 [Password:]
@@ -17,24 +19,58 @@
 Кантакты
 [Use bigger avatars]
 Вялікія аватары
+[Captcha]
+
 [Cancel]
 Скасаваць
+[Steam Guard]
+
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+
+[Go to email domain]
+
 [Block]
 Заблакаваць
 [Enter password]
 Увядзіце пароль
 [Save password]
 Захаваць пароль
+[Enter the password to continue.]
+
+[Steam game]
+
+[Looking to play]
+
+[Looking to trade]
+
+[ (Non-Steam)]
+
+[ on server %s]
+
 [Playing]
 Грае
+[%s has been removed from your contact list]
+
+[%s is back in your contact list]
+
+[%s has added you to his or her Friend List]
+
 [Fatal error, image services not found. Avatar services will be disabled.]
 Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
 [Avatar Service]
 Служба аватар
 [Network]
 Сеціва
+[Blocked contacts]
+
+[Connection token expired. Please login again.]
+
+[Steam menu chooser]
+
 [Request authorization]
 Запытаць аўтарызацыю
+[Join to game]
+
 [Unknown error]
 Невядомая памылка
 [Name]
@@ -43,7 +79,11 @@
 Пратаколы
 [Protocol icon]
 Абразок пратаколу
+[Gaming icon]
+
 [%s connection]
 Злучэнне %s
+[SteamID]
+
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
