@@ -152,7 +152,7 @@ MSN Чат
 [User not online]
 Пользователь не в сети
 [RESULT]
-результат
+РЕЗУЛЬТАТ
 [MSN Link Protocol]
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]

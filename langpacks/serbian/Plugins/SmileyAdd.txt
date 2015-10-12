@@ -40,12 +40,6 @@ Ime:
 
 [Smiley selector]
 
-[Surround inserted smiley with spaces]
-
-[Use first smiley for selection size]
-
-[IEView style window]
-
 [Input area]
 
 [Enable smileys]
@@ -58,6 +52,14 @@ Ime:
 
 [Smiley button]
 Smeško-dugme
+[Background\ncolor]
+
+[Surround inserted smiley with spaces]
+
+[Use first smiley for selection size]
+
+[IEView style window]
+
 [Horizontal sorting]
 
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp

@@ -112,7 +112,7 @@ Messages
 
 [Status changes]
 Changements d'état
-[Special IRC events:]
+[Group chat events:]
 
 [Notices]
 Notifications

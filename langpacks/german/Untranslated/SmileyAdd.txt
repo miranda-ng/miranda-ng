@@ -1,1 +1,2 @@
-﻿[Horizontal sorting]
+﻿[Background\ncolor]
+[Horizontal sorting]

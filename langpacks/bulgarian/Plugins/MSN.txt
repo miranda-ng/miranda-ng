@@ -145,6 +145,8 @@ MSN чат
 Неуспешно доставяне на съобщение
 [User not online]
 Потребителя не е на линия
+[RESULT]
+РЕЗУЛТАТ
 [MSN Link Protocol]
 MSN Link Protocol
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]

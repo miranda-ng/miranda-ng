@@ -45,7 +45,7 @@
 [User events]
 [Emotes]
 [Status changes]
-[Special IRC events:]
+[Group chat events:]
 [Notices]
 [Channel events]
 [Cut off nicknames after]

@@ -78,4 +78,3 @@
 [The proxy address could not be resolved]
 [The profile is encrypted]
 [The data format is not valid]
-[Unknown error]

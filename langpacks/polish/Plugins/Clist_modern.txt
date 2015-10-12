@@ -149,7 +149,7 @@ Wielolinijkowy pasek statusu:
 [Accounts per line]
 Protokołów w linii
 [* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
-* Aby zmienić wysokość paska stanu:\nw Menu głównym -> ramki -> Pasek stanu włącz opcję Pokaż Tytuł a następnie przeciągaj tytuł paska stanu w górę lub w dół.
+* Aby zmienić wysokość paska stanu:\nw Menu głównym -> Ramki -> Pasek stanu włącz opcję Pokaż tytuł a następnie przeciągaj tytuł paska stanu w górę lub w dół.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Przytrzymaj Shift, aby odwrócić zachowanie przy kliknięciu prawym przyciskiem myszy
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]

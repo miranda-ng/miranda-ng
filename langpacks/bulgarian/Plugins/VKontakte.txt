@@ -69,6 +69,8 @@ URL:
 Подробности за потребителя
 [&Kick]
 Изгонване
+[Protocol is offline]
+Протоколът е извън линия
 [Network]
 Мрежа
 [Account]

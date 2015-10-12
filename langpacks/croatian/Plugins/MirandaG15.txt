@@ -112,7 +112,7 @@ poruke
 
 [Status changes]
 promjene statusa
-[Special IRC events:]
+[Group chat events:]
 
 [Notices]
 obavještava

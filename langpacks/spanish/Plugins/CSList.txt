@@ -18,7 +18,7 @@ Advertencia
 [Message]
 Mensaje
 [Main Menu]
-Menú Principal
+Menú principal
 [Main Icon]
 Icono principal
 [Remove]

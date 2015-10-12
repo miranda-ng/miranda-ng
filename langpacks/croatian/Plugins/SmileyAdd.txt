@@ -40,12 +40,6 @@
 
 [Smiley selector]
 
-[Surround inserted smiley with spaces]
-
-[Use first smiley for selection size]
-
-[IEView style window]
-
 [Input area]
 
 [Enable smileys]
@@ -57,6 +51,14 @@
 [Disable]
 
 [Smiley button]
+
+[Background\ncolor]
+
+[Surround inserted smiley with spaces]
+
+[Use first smiley for selection size]
+
+[IEView style window]
 
 [Horizontal sorting]
 

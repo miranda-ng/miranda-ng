@@ -148,7 +148,7 @@ Horizontalement
 Barre des états
 [Accounts per line]
 Comptes par ligne
-[* To increase status bar height:\nset in Main menu: Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
 Pour réduire la barre des états :\nMenu Principal -> Cadres -> Barre d'état -> Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Maintenez la touche [Maj] pour inverser le comportement du [clic droit]
