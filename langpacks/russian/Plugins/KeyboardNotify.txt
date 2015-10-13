@@ -82,7 +82,7 @@
 [xStatuses]
 xСтатусы
 [Keys to flash]
-Чем моргать
+Чем мигать
 [Flashing effects]
 Мигать
 [All at the same time]
@@ -106,7 +106,7 @@ xСтатусы
 [&Preview]
 &Тест
 [Emulate key presses (Use this option if you are using a USB keyboard)]
-Эмулировать нажатия клавиш (Только для USB-клавиатур)
+Эмулировать нажатия клавиш (только для USB-клавиатур)
 [Create/Edit Themes]
 Создать/Редактировать тему
 [Theme]
