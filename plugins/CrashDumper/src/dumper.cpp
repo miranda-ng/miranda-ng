@@ -62,7 +62,7 @@ BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOI
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(hModule, path, MAX_PATH);
 
-	buffer.AppendFormat(TEXT("%s  %p - %p"), path, ModuleBase, ModuleBase + ModuleSize);
+	buffer.AppendFormat(TEXT("%s  %p - %p"), path, (void*)ModuleBase, (void*)(ModuleBase + ModuleSize));
 
 	GetVersionInfo(hModule, buffer);
 
@@ -223,7 +223,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			TCHAR timebuf[30] = TEXT("");
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-			const TCHAR *unica = (((PLUGININFOEX*)pi)->flags & UNICODE_AWARE) ? TEXT("|Unicode aware|") : TEXT("");
+			const TCHAR *unica = !(((PLUGININFOEX*)pi)->flags & UNICODE_AWARE) ? TEXT("|ANSI|") : TEXT("");
 
 			ListItem* lst = new ListItem;
 			int v1, v2, v3, v4;
@@ -663,7 +663,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 		static const TCHAR formatd[] = TEXT("%p (%S %p): %S (%d): %S\r\n");
 
-		buffer.AppendFormat(formatd, frame.AddrPC.Offset, moduleName, Module.BaseOfImage,lineFileName, Line.LineNumber, name);
+		buffer.AppendFormat(formatd, (void*)frame.AddrPC.Offset, moduleName, (void*)Module.BaseOfImage,lineFileName, Line.LineNumber, name);
 	}
 	SymCleanup(hProcess);
 	buffer.Append(_T("\r\n"));
