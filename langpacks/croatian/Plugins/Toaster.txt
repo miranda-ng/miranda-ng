@@ -12,8 +12,12 @@
 
 [Add shortcut]
 
+[Enabled]
+
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
+
+[Failed to create temporary directory]
 
 ;file \plugins\Toaster\src\options.cpp
 [Failed to create shortcut]
@@ -25,6 +29,4 @@ informacija
 [Warning]
 Upozorenje
 [Error]
-
-[Popups]
 

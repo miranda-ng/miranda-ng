@@ -33,10 +33,6 @@
 
 [Copy download link to clipboard]
 
-[Protocol icon]
-Абразок пратаколу
-[Upload file(s)]
-Загрузіць файл(ы)
 [in process...]
 
 [server does not respond]
@@ -63,6 +59,10 @@
 
 [Upload files to Dropbox]
 
+[Protocol icon]
+Абразок пратаколу
+[Upload file(s)]
+Загрузіць файл(ы)
 [you are already authorized]
 
 [you are not authorized yet]

@@ -13,6 +13,8 @@
 Добавить ярлык
 [This plugin requires Windows 8 or higher]
 Для этого плагина требуется Windows 8 или новее.
+[Failed to create temporary directory]
+Не удалось создать временную папку
 [Failed to create shortcut]
 Не удалось создать ярлык.
 [Shortcut was added to the start menu]
@@ -23,5 +25,3 @@
 Предупреждение
 [Error]
 Ошибка
-[Popups]
-Всплывающие окна

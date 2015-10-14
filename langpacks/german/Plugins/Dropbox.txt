@@ -34,11 +34,6 @@ Downloadlink automatisch an Kontakt senden
 Downloadlink im Nachrichteneingabebereich einfügen
 [Copy download link to clipboard]
 Downloadlink in Zwischenablage kopieren
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Protocol icon]
-Protokollicon
-[Upload file(s)]
-Datei(en) hochladen
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 In Arbeit...
@@ -69,6 +64,10 @@ ist gelöscht
 [Upload files to Dropbox]
 Dateien auf Dropbox hochladen
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+Protokollicon
+[Upload file(s)]
+Datei(en) hochladen
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]

@@ -34,11 +34,6 @@
 
 [Copy download link to clipboard]
 
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Protocol icon]
-
-[Upload file(s)]
-
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 
@@ -69,6 +64,10 @@
 [Upload files to Dropbox]
 
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+
+[Upload file(s)]
+
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]

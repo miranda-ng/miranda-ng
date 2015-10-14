@@ -13,5 +13,3 @@ Información
 Advertencia
 [Error]
 Error
-[Popups]
-Ventanas emergentes
