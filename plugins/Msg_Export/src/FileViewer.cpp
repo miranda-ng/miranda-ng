@@ -141,6 +141,7 @@ mir_cs csHistoryList;
 class CLStreamRTFInfo
 {
 private:
+	MCONTACT hContact;
 	HANDLE hFile;
 	bool bHeaderWriten;
 	bool bTailWriten;
@@ -158,9 +159,10 @@ private:
 	int nWriteHeader(char *pszTarget, int nLen);
 public:
 	bool bUtf8File;
-	CLStreamRTFInfo(HANDLE hFile)
+	CLStreamRTFInfo(HANDLE _hFile, MCONTACT _hContact)
 	{
-		this->hFile = hFile;
+		hContact = _hContact;
+		hFile = _hFile;
 		bHeaderWriten = false;
 		bTailWriten = false;
 		bCheckFirstForNick = false;
@@ -256,7 +258,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 		}
 		dwCurrent += nWriteHeader((char*)pbBuff, cb);
 
-		tstring sMyNick = NickFromHandle(0);
+		tstring sMyNick = ptrT(GetMyOwnNick(hContact));
 
 		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP, 0, sMyNick.c_str(), (int)sMyNick.length(), szMyNick, sizeof(szMyNick), NULL, NULL);
 	}
@@ -652,7 +654,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	if (bUseSyntaxHL) {
 		SendMessage(hRichEdit, EM_EXLIMITTEXT, 0, 0x7FFFFFFF);
 
-		CLStreamRTFInfo clInfo(hFile);
+		CLStreamRTFInfo clInfo(hFile, pclDlg->hContact);
 		eds.dwCookie = (DWORD_PTR)&clInfo;
 		eds.pfnCallback = RichEditRTFStreamLoadFile;
 
@@ -980,7 +982,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TCHAR szFormat[200];
 			TCHAR szTitle[200];
 			if (GetWindowText(hwndDlg, szFormat, _countof(szFormat))) {
-				const TCHAR *pszNick = NickFromHandle(pclDlg->hContact);
+				const TCHAR *pszNick = pcli->pfnGetContactDisplayName(pclDlg->hContact, 0);
 				tstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of('\\');
 				if (n != sPath.npos)

@@ -92,7 +92,7 @@ public:
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	if (lParamSort == 1)
-		return mir_tstrcmpi(NickFromHandle((MCONTACT)lParam1), NickFromHandle((MCONTACT)lParam2));
+		return mir_tstrcmpi(pcli->pfnGetContactDisplayName(lParam1, 0), pcli->pfnGetContactDisplayName(lParam2, 0));
 
 	if (lParamSort == 2)
 		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", _T("")).compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", _T("")));
@@ -693,7 +693,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					sItem.mask = LVIF_TEXT;
 					sItem.iSubItem = 1;
-					sItem.pszText = (TCHAR*)NickFromHandle(hContact);
+					sItem.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 					ListView_SetItem(hMapUser, &sItem);
 
 					sItem.iSubItem = 2;

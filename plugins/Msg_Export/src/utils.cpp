@@ -19,7 +19,6 @@
 #include "stdafx.h"
 
 // Default error string used upon errors 
-const TCHAR *pszNickError = LPGENT("No_Nick");
 const TCHAR *pszGroupError = LPGENT("No_Group");
 const TCHAR *pszDbPathError = _T(".");
 
@@ -203,28 +202,6 @@ void DisplayLastError(const TCHAR *pszError)
 	sError += szTemp;
 	sError += sGetErrorString(error);
 	MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_OK);
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : NickFromHandle
-// Type            : Global
-// Parameters      : hContact - ?
-// Returns         : TCHAR*
-// Description     : Reads a Nick from the database and returns a 
-//                   pointer to this.
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-const TCHAR* NickFromHandle(MCONTACT hContact)
-{
-	const TCHAR *psz = pcli->pfnGetContactDisplayName(hContact, 0);
-	if (psz)
-		return psz;
-	return pszNickError;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -560,7 +537,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (_tcsstr(NickFromHandle(hContact), LPGENT("(Unknown Contact)")) != 0))
+			if (bNickUsed && (_tcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENT("(Unknown Contact)")) != 0))
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
 
 			// file name has changed
@@ -584,7 +561,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 					bool bTryRename;
 
 					if (enRenameAction != eDAAutomatic) {
-						tstring sRemoteUser = NickFromHandle(hContact);
+						tstring sRemoteUser = pcli->pfnGetContactDisplayName(hContact, 0);
 						mir_sntprintf(szTemp,
 							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"),
 							sRemoteUser.c_str(),
@@ -640,7 +617,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 tstring FileNickFromHandle(MCONTACT hContact)
 {
-	tstring ret = NickFromHandle(hContact);
+	tstring ret = pcli->pfnGetContactDisplayName(hContact, 0);
 	string::size_type nCur = 0;
 	while ((nCur = ret.find_first_of(_T(":\\"), nCur)) != ret.npos)
 		ret[nCur] = cBadCharReplace;
@@ -811,7 +788,7 @@ void UpdateFileToColWidth()
 	clFileTo1ColWidth.clear();
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		tstring sNick = NickFromHandle(hContact);
+		tstring sNick = pcli->pfnGetContactDisplayName(hContact, 0);
 		string::size_type &rnValue = clFileTo1ColWidth[GetFilePathFromUser(hContact)];
 		if (rnValue < sNick.size())
 			rnValue = sNick.size();
@@ -931,8 +908,8 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		nFirstColumnWidth = 4;
 	}
 	else {
-		sLocalUser = NickFromHandle(0);
-		sRemoteUser = NickFromHandle(hContact);
+		sLocalUser = ptrT(GetMyOwnNick(hContact));
+		sRemoteUser = pcli->pfnGetContactDisplayName(hContact, 0);
 		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
 		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
 		nFirstColumnWidth += 2;
@@ -1454,4 +1431,15 @@ void SaveSettings()
 
 	db_set_b(NULL, MODULE, "RenameAction", (BYTE)enRenameAction);
 	db_set_b(NULL, MODULE, "DeleteAction", (BYTE)enDeleteAction);
+}
+
+/////////////////////////////////////////////////////////////////////
+
+TCHAR* GetMyOwnNick(MCONTACT hContact)
+{
+	CONTACTINFO ci = { 0 };
+	ci.cbSize = sizeof(ci);
+	ci.szProto = GetContactProto(hContact);
+	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
+	return CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci)) ? NULL : ci.pszVal;
 }
