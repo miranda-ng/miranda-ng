@@ -31,6 +31,7 @@ using namespace std;
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_history.h>

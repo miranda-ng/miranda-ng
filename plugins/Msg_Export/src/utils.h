@@ -57,7 +57,7 @@ void ShowDebugInfo();
 int nExportEvent(WPARAM wparam, LPARAM lparam);
 int nContactDeleted(WPARAM wparam, LPARAM lparam);
 
-const TCHAR *NickFromHandle(MCONTACT hContact);
+TCHAR* GetMyOwnNick(MCONTACT hContact);
 
 tstring __inline _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *pszError);
 string __inline _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSetting, const char *pszError);

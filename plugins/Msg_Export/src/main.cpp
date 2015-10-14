@@ -22,8 +22,6 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInstance = NULL;
 int hLangpack = 0;
 
-static HANDLE hOpenHistoryMenuItem = 0;
-
 MWindowList hInternalWindowList = NULL;
 
 /////////////////////////////////////////////////////
@@ -121,10 +119,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
-		hOpenHistoryMenuItem = Menu_AddContactMenuItem(&mi);
-
-		if (!hOpenHistoryMenuItem)
-			MessageBox(NULL, TranslateT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK);
+		Menu_AddContactMenuItem(&mi);
 	}
 
 	HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
