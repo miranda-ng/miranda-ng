@@ -11,8 +11,12 @@
 Тест
 [Add shortcut]
 Додати ярлик
+[Enabled]
+Увімкнено
 [This plugin requires Windows 8 or higher]
 Для цього плагіна потрібна Windows 8 або новіша.
+[Failed to create temporary directory]
+Не вдалося створити тимчасову папку.
 [Failed to create shortcut]
 Не вдалося створити ярлик.
 [Shortcut was added to the start menu]
@@ -23,5 +27,3 @@
 Попередження
 [Error]
 Помилка
-[Popups]
-Спливаючі вікна

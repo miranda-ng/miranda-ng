@@ -153,6 +153,8 @@
 Доставка повідомлення не вдалася
 [User not online]
 Користувач не в мережі
+[RESULT]
+Результат
 [MSN Link Protocol]
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
