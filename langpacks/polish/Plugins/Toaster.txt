@@ -12,9 +12,13 @@ Dostarcza usługi popupów dla różnych wtyczek, opartej na powiadomieniach apl
 Podgląd
 [Add shortcut]
 Dodaj skrót
+[Enabled]
+Włączony
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Wtyczka wymaga Windows w wersji 8 lub wyższej.
+[Failed to create temporary directory]
+Nie udało się stworzyć katalogu tymczasowego
 ;file \plugins\Toaster\src\options.cpp
 [Failed to create shortcut]
 Nieudane utworzenie skrótu
@@ -26,5 +30,3 @@ Informacje
 Ostrzeżenie
 [Error]
 Błąd
-[Popups]
-Popupy

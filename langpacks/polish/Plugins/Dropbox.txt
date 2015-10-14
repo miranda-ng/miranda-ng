@@ -34,11 +34,6 @@ Automatycznie wyślij link do pobrana do kontaktu
 Wklej link do pobrania do pola wpisywania wiadomości
 [Copy download link to clipboard]
 Kopiuj link do pobrania do schowka
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Protocol icon]
-Ikona protokołu
-[Upload file(s)]
-Wyślij plik(i)
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 w toku...
@@ -69,6 +64,10 @@ jest usunięty
 [Upload files to Dropbox]
 Wyślij pliki do Dropbox'a
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Upload file(s)]
+Wyślij plik(i)
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]
