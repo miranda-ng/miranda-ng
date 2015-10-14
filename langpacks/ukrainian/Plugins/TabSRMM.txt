@@ -596,15 +596,15 @@ ID користувача в панелі статусу
 [Show date in timestamps]
 Показувати дату
 [Use contacts local time]
-Використовувати локальний час контакту
+Локальний час контакту
 [Format]
 Формат
 [Indent message body]
 Відступ тіла повідомлень
 [Display grid lines]
-Відображати лінії сітки
+Малювати лінії сітки
 [Message grouping]
-Групування повідомлень
+Групувати повідомлення
 [Support BBCode]
 Підтримка BBCode
 [Misc]
@@ -616,7 +616,7 @@ RTL за замовчанням
 [Revert to global options]
 Повернути глобальні налаштування
 [You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
-Ви можете налаштувати журнал повідомлень для цього контакту. Заповнені значення взяті з глобальних налаштувань (Налаштування -> Бесіди -> Журнал)
+Тут можна налаштувати журнал повідомлень окремо для цього контакту. Заповнені значення взяті з глобальних налаштувань (Налаштування -> Бесіди -> Журнал).
 [Use normal templates (uncheck to use simple templates)]
 Звичайні шаблони (вимкніть для спрощених шаблонів)
 [Queued send jobs]

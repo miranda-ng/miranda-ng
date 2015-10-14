@@ -106,7 +106,7 @@ xСтатуси
 [&Preview]
 &Тест
 [Emulate key presses (Use this option if you are using a USB keyboard)]
-Емулювати натискання клавіш (Тільки для USB-клавіатур)
+Емулювати натискання клавіш (тільки для USB-клавіатур)
 [Create/Edit Themes]
 Створити/Редагувати тему
 [Theme]

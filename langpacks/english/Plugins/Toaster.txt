@@ -9,12 +9,13 @@
 ;file \plugins\Toaster\res\resource.rc
 [Preview]
 [Add shortcut]
+[Enabled]
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
+[Failed to create temporary directory]
 ;file \plugins\Toaster\src\options.cpp
 [Failed to create shortcut]
 [Shortcut was added to the start menu]
 [Information]
 [Warning]
 [Error]
-[Popups]
