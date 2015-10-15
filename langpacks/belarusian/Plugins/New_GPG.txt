@@ -192,7 +192,7 @@ ID ключа:
 [key ID]
 Ключ
 [not set]
-
+не наладжана
 [Default private key ID]
 Асноўны прыватны ключ
 [Failed to open file]

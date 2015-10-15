@@ -100,7 +100,7 @@
 [To:]
 Для:
 [Group chat]
-
+Чат
 [Unable to initialize Tox core]
 
 [Profiles folder]
@@ -208,4 +208,4 @@
 [The data format is not valid]
 
 [Unknown error]
-
+Невядомая памылка

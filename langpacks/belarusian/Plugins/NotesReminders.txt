@@ -254,9 +254,9 @@
 [Are you sure you want to delete this note?]
 Упэўнены, што жадаеце выдаліць нататку?
 [Visible]
-
+Бачны
 [Top]
-
+Угару
 [Notes]
 Нататкі
 [Note text]
