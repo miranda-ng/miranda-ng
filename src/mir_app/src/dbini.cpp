@@ -216,6 +216,20 @@ static void ConvertBackslashes(char *str, UINT fileCp)
 	}
 }
 
+struct ESFDParam
+{
+	LIST<char> *pList;
+	const char *pMask;
+};
+
+static int EnumSettingsForDeletion(const char *szSetting, LPARAM param)
+{
+	ESFDParam *pParam = (ESFDParam*)param;
+	if (wildcmpi(szSetting, pParam->pMask))
+		pParam->pList->insert(mir_strdup(szSetting));
+	return 0;
+}
+
 static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
 	FILE *fp = _tfopen(szIniPath, _T("rt"));
@@ -329,6 +343,20 @@ LBL_NewLine:
 		case 'l':
 		case 'L':
 		case '-':
+			if (szValue[1] == '*') {
+				LIST<char> arSettings(1);
+				ESFDParam param = { &arSettings, szName };
+				DBCONTACTENUMSETTINGS dbep = {};
+				dbep.pfnEnumProc = EnumSettingsForDeletion;
+				dbep.szModule = szSection;
+				dbep.lParam = (LPARAM)&param;
+				CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, LPARAM(&dbep));
+				while (arSettings.getCount()) {
+					db_unset(NULL, szSection, arSettings[0]);
+					mir_free(arSettings[0]);
+					arSettings.remove(0);
+				}
+			}
 			db_unset(NULL, szSection, szName);
 			break;
 		case 'e':
