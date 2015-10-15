@@ -254,9 +254,9 @@
 [Add]
 Дадаць
 [Save]
-
+Захаваць
 [Settings]
-
+Налады
 [Set %s message for the contact]
 Уст. %s паведамленне для кантакту
 [Re&ad %s message]

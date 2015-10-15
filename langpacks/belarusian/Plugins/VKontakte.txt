@@ -100,7 +100,7 @@
 [Sync read message status from server]
 
 [Always notify as unread for all incoming message]
-
+Заўжды паведамляць аб уваходзячых паведамленнях
 [Force invisible status upon user activity]
 
 [Invisible interval timeout (min):]
@@ -350,7 +350,7 @@
 [Topic text:]
 
 [Protocol is offline]
-
+Конт адключаны
 [File does not exist]
 
 [File type not supported]
