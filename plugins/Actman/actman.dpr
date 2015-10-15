@@ -180,6 +180,14 @@ begin
   end;
 end;
 
+function DoCallContactService(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+var
+  ccs:PCCSDATA;
+begin
+  ccs := PCCSDATA(lParam);
+  result := CallContactService(ccs^.hContact, ccs^.szProtoService, ccs^.wParam, ccs^.lParam);
+end;
+
 function DoOpenUrl(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 begin
   Utils_OpenUrl(PAnsiChar(lParam), byte(wParam));
@@ -232,6 +240,7 @@ begin
   CreateServiceFunction(MS_ACT_SELECT   ,@ActSelect);
 
   CreateServiceFunction('Utils/OpenURL',@DoOpenUrl);
+  CreateServiceFunction('Proto/CallContactService', @DoCallContactService);
 
   HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
 end;
