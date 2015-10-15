@@ -218,6 +218,10 @@ bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root)
 {
 	debugLogA("CVkProto::CheckJsonResponse");
+
+	if (!reply || !reply->pData)
+		return nullNode;
+
 	root = JSONNode::parse(reply->pData);
 
 	if (!CheckJsonResult(pReq, root))
