@@ -18,6 +18,7 @@
 #include <m_autobackups.h>
 
 #include <m_folders.h>
+#include <m_dropbox.h>
 
 #include "options.h"
 #include "resource.h"
