@@ -272,6 +272,12 @@ int Backup(TCHAR *backup_filename)
 		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
 		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
+
+		if (options.use_dropbox)
+		{
+			CallService(MS_DROPBOX_SEND_FILE, NULL, (LPARAM)&dest_file);
+		}
+
 		if (!options.disable_popups) {
 			size_t dest_file_len = mir_tstrlen(dest_file);
 			TCHAR *puText;

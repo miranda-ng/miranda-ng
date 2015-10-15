@@ -56,8 +56,9 @@ BEGIN
     CONTROL         "Go to the ""Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
                     "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,18,135,231,17
     CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,156,231,10
-    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,172,231,10
-    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,188,231,11
+    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,167,231,10
+    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,176,231,11
+    CONTROL         "Use Dropbox",IDC_DROPBOX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,187,176,10
 END
 
 

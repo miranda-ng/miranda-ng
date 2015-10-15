@@ -60,6 +60,7 @@ int LoadOptions(void)
 	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
 	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
 	options.use_zip = (BOOL)db_get_b(0, "AutoBackups", "UseZip", 0);
+	options.use_dropbox = (BOOL)db_get_b(0, "AutoBackups", "UseDropbox", 0);
 
 	SetBackupTimer();
 	return 0;
@@ -95,6 +96,7 @@ int SaveOptions(void)
 	db_set_b(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
 	db_set_b(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
 	db_set_b(0, "AutoBackups", "UseZip", (BYTE)options.use_zip);
+	db_set_b(0, "AutoBackups", "UseDropbox", (BYTE)options.use_dropbox);
 
 	SetBackupTimer();
 	return 0;
@@ -152,6 +154,7 @@ int SetDlgState(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPROG, new_options.disable_progress ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPOPUP, new_options.disable_popups ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_USEZIP, new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_DROPBOX, new_options.use_dropbox ? BST_CHECKED : BST_UNCHECKED);
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), SW_HIDE);
 
@@ -302,6 +305,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 			case IDC_CHK_USEZIP:
 				new_options.use_zip = IsDlgButtonChecked(hwndDlg, IDC_CHK_USEZIP);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			case IDC_DROPBOX:
+				new_options.use_dropbox = IsDlgButtonChecked(hwndDlg, IDC_DROPBOX);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LNK_FOLDERS:
