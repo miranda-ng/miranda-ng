@@ -147,27 +147,20 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 		{
 			ItemInfo &SelItem = *(ItemInfo*)lParam;
-			ItemInfo *nSelItem = new ItemInfo(SelItem);
 			SetWindowText(hwndDlg, TranslateT("Change Feed"));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
-			MCONTACT hContact;
-			for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 				ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
-				if (dbNick == NULL)
-					continue;
-
-				if (mir_tstrcmp(dbNick, SelItem.nick) != 0)
+				if ((dbNick == NULL) || (mir_tstrcmp(dbNick, SelItem.nick) != 0))
 					continue;
 
 				ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
-				if (dbURL == NULL)
+				if ((dbURL == NULL) || (mir_tstrcmp(dbURL, SelItem.url) != 0))
 					continue;
 
-				if (mir_tstrcmp(dbURL, SelItem.url) != 0)
-					continue;
-
+				ItemInfo *nSelItem = new ItemInfo(SelItem);
 				nSelItem->hContact = hContact;
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
 				SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
@@ -189,13 +182,13 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						SetDlgItemText(hwndDlg, IDC_LOGIN, szLogin);
 						mir_free(szLogin);
 					}
-					ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+					pass_ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
 					SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
 				}
+				WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
+				Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 				break;
 			}
-			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
-			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 		}
 		return TRUE;
 
@@ -351,7 +344,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
 					mir_free(ptszLogin);
 				}
-				ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+				pass_ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
 			}
 		}
