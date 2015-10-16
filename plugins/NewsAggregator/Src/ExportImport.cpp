@@ -215,7 +215,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
-
+			// fall through
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
@@ -556,7 +556,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					xmlDestroyNode(hXml);
 				}
 			}
-
+			// fall through
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
