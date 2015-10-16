@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 int hLangpack;
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
+FI_INTERFACE *fii = NULL;
 char g_szMirVer[100];
 HANDLE g_hCallEvent;
 
@@ -56,7 +57,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-
+	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(g_szMirVer), LPARAM(g_szMirVer));
 
 	PROTOCOLDESCRIPTOR pd = { 0 };

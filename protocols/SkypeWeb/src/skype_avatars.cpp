@@ -186,14 +186,12 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 
 					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length)
 					{
-						FI_INTERFACE *fii = NULL;
 						const char *szMime = "image/jpeg";
-						if (CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii) == S_OK && fii)
-						{
+						if (fii)
 							szMime = fii->FI_GetFIFMimeType(fii->FI_GetFIFFromFilenameU(path));
-						}
 
 						PushRequest(new SetAvatarRequest(data, length, szMime, li), &CSkypeProto::OnSentAvatar);
+						fclose(hFile);
 						return 0;
 					}
 				}
