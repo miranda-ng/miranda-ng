@@ -118,14 +118,14 @@ char* contact_get_id(MCONTACT hContact, bool bNameOnError) {
 		}
 	}
 	if (!pszUniqueID && bNameOnError) {
-		char *name = (char *)pcli->pfnGetContactDisplayName(hContact, 0);
-		if (name) pszUniqueID = mir_strdup(name);
+		const TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
+		if (name) pszUniqueID = mir_t2a(name);
 	}
 	return pszUniqueID;
 }
 
 __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
-	return (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
+	return pcli->pfnGetContactDisplayName(hContact, 0);
 }
 
 TCHAR* ProtoGetNickname(const char* proto)
