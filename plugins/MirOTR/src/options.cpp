@@ -21,17 +21,9 @@ void SetFilenames(const TCHAR *path)
 		return;
 	CreateDirectoryTreeT(path);
 	
-	mir_tstrcpy(g_private_key_filename, path);
-	mir_tstrcat(g_private_key_filename, _T("\\"));
-	mir_tstrcat(g_private_key_filename, _T(PRIVATE_KEY_FILENAME));
-	
-	mir_tstrcpy(g_fingerprint_store_filename, path);
-	mir_tstrcat(g_fingerprint_store_filename, _T("\\"));
-	mir_tstrcat(g_fingerprint_store_filename, _T(FINGERPRINT_STORE_FILENAME));
-	
-	mir_tstrcpy(g_instag_filename, path);
-	mir_tstrcat(g_instag_filename, _T("\\"));
-	mir_tstrcat(g_instag_filename, _T(INSTAG_FILENAME));
+	mir_sntprintf(g_private_key_filename, _T("%s\\") _T(PRIVATE_KEY_FILENAME), path);
+	mir_sntprintf(g_fingerprint_store_filename, _T("%s\\") _T(FINGERPRINT_STORE_FILENAME), path);
+	mir_sntprintf(g_instag_filename, _T("%s\\") _T(INSTAG_FILENAME), path);
 }
 
 int FoldersChanged(WPARAM wParam, LPARAM lParam)
@@ -137,9 +129,11 @@ void ReadPrivkeyFiles()
 
 static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static bool bInit = true;
 	TCHAR *prefix;
 	switch ( msg ) {
 	case WM_INITDIALOG:
+		bInit = false;
 		TranslateDialogDefault( hwndDlg );
 
 		// set default policy radio
@@ -170,7 +164,8 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		prefix = mir_utf8decodeT(options.prefix);
 		SetDlgItemText(hwndDlg, IDC_ED_PREFIX, prefix);
 		mir_free(prefix);
-		return TRUE;
+		bInit = true;
+		return FALSE;
 
 	case WM_COMMAND:
 		switch ( HIWORD( wParam )) {
@@ -187,11 +182,12 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					case IDC_CHK_AUTOSHOW_VERIFY:
 					case IDC_CHK_ENDOFFLINE:
 					case IDC_CHK_ENDCLOSE:
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						if (bInit)
+							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
 			case EN_CHANGE:
-				if (LOWORD( wParam ) == IDC_ED_PREFIX && ( HWND )lParam == GetFocus())
+				if ((LOWORD( wParam ) == IDC_ED_PREFIX) && bInit)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 		}
@@ -526,7 +522,6 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 		case CBN_SELCHANGE:
 			switch (LOWORD(wParam)) {
 			case IDC_CMB_CONT_POLICY:
-				MCONTACT hContact = 0;
 				int iUser = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS));
 				if (iUser == -1) break;
 				int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETCURSEL, 0, 0);
@@ -546,7 +541,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), &lvi);
 
 				ContactPolicyMap* cpm = (ContactPolicyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				hContact = (MCONTACT)lvi.lParam;
+				MCONTACT hContact = (MCONTACT)lvi.lParam;
 				(*cpm)[hContact].policy = policy;
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
@@ -564,8 +559,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			// Using a const_iterator since we are not going to change the values.
 			for (ContactPolicyMap::const_iterator it = cpm->begin(); it != cpm->end(); ++it) {
 				if (!it->first) continue;
-				if (it->second.policy) db_set_dw(it->first, MODULENAME, "Policy", (DWORD)it->second.policy);
-				if (it->second.htmlconv) db_set_b(it->first, MODULENAME, "HTMLConv", it->second.htmlconv - 1);
+				db_set_dw(it->first, MODULENAME, "Policy", (DWORD)it->second.policy);
+				db_set_b(it->first, MODULENAME, "HTMLConv", it->second.htmlconv);
 			}
 			return TRUE;
 		}
@@ -604,7 +599,6 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 						(*cp)[hContact].htmlconv = HTMLCONV_ENABLE;
 						ListView_SetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, TranslateT(LANG_YES));
 					}
-					(*cp)[hContact].htmlconv += 1;
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 			}

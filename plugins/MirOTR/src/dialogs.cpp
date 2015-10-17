@@ -12,7 +12,7 @@ typedef std::map<HANDLE, SmpData> SmpForContactMap;
 SmpForContactMap smp_for_contact;
 
 
-INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_DESTROY: {
@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-void SMPInitUpdateDialog(ConnContext *context, bool responder)
+static void SMPInitUpdateDialog(ConnContext *context, bool responder)
 {
 	if (!context) return;
 	SmpData *data = (SmpData*)mir_calloc(sizeof(SmpData));
@@ -155,7 +155,7 @@ void SMPInitUpdateDialog(ConnContext *context, bool responder)
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_PROGRESS), 0, DlgSMPUpdateProc, (LPARAM)data);
 }
 
-INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_DESTROY: {
@@ -231,11 +231,11 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			// Move window to screen center
 			// Get the owner window and dialog box rectangles. 
-			HWND hwndOwner; RECT rcOwner, rcDlg, rc;
-			if ((hwndOwner = GetParent(hwndDlg)) == NULL) {
+			HWND hwndOwner = GetParent(hwndDlg); 
+			if (hwndOwner == NULL)
 				hwndOwner = GetDesktopWindow();
-			}
 
+			RECT rcOwner, rcDlg, rc;
 			GetWindowRect(hwndOwner, &rcOwner);
 			GetWindowRect(hwndDlg, &rcDlg);
 			CopyRect(&rc, &rcOwner);
@@ -259,9 +259,6 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SWP_NOSIZE);
 
 			// end center dialog
-
-
-
 			return TRUE;
 		}
 
@@ -310,7 +307,7 @@ void SMPInitResponseDialog(ConnContext *context, const TCHAR *question) {
 }
 */
 
-INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -337,11 +334,11 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			// Move window to screen center
 			// Get the owner window and dialog box rectangles. 
-			HWND hwndOwner; RECT rcOwner, rcDlg, rc;
-			if ((hwndOwner = GetParent(hwndDlg)) == NULL) {
+			HWND hwndOwner = GetParent(hwndDlg); 
+			if (hwndOwner == NULL)
 				hwndOwner = GetDesktopWindow();
-			}
 
+			RECT rcOwner, rcDlg, rc;
 			GetWindowRect(hwndOwner, &rcOwner);
 			GetWindowRect(hwndDlg, &rcDlg);
 			CopyRect(&rc, &rcOwner);
@@ -621,97 +618,90 @@ void SMPDialogReply(ConnContext *context, const char* question)
 	//otr_continue_smp(context, pass, mir_strlen(pass));
 }
 
-unsigned int CALLBACK verify_context_thread(void *param);
-void VerifyContextDialog(ConnContext* context)
-{
-	if (!context) return;
-	CloseHandle((HANDLE)_beginthreadex(0, 0, verify_context_thread, context, 0, 0));
-}
-
-INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			if (!lParam) {
-				EndDialog(hwndDlg, IDCANCEL);
-				return FALSE;
-			}
-			SetWindowText(hwndDlg, _T(LANG_OTR_FPVERIFY_TITLE));
-			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, _T(LANG_OTR_FPVERIFY_TITLE));
-			TranslateDialogDefault(hwndDlg);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-			// Move window to screen center
-			// Get the owner window and dialog box rectangles. 
-			HWND hwndOwner; RECT rcOwner, rcDlg, rc;
-			if ((hwndOwner = GetParent(hwndDlg)) == NULL) {
-				hwndOwner = GetDesktopWindow();
-			}
-
-			GetWindowRect(hwndOwner, &rcOwner);
-			GetWindowRect(hwndDlg, &rcDlg);
-			CopyRect(&rc, &rcOwner);
-
-			// Offset the owner and dialog box rectangles so that right and bottom 
-			// values represent the width and height, and then offset the owner again 
-			// to discard space taken up by the dialog box. 
-
-			OffsetRect(&rcDlg, -rcDlg.left, -rcDlg.top);
-			OffsetRect(&rc, -rc.left, -rc.top);
-			OffsetRect(&rc, -rcDlg.right, -rcDlg.bottom);
-
-			// The new position is the sum of half the remaining space and the owner's 
-			// original position. 
-
-			SetWindowPos(hwndDlg,
-				HWND_TOP,
-				rcOwner.left + (rc.right / 2),
-				rcOwner.top + (rc.bottom / 2),
-				0, 0,          // Ignores size arguments. 
-				SWP_NOSIZE);
-
-			// end center dialog
-
-			ConnContext *context = (ConnContext*)lParam;
-			MCONTACT hContact = (UINT_PTR)context->app_data;
-			Fingerprint *fp = context->active_fingerprint;
-			if (!fp) {
-				EndDialog(hwndDlg, IDCANCEL);
-				return FALSE;
-			}
-			TCHAR buff[512];
-			if (!fp->trust || fp->trust[0] == '\0')
-				mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
-			else
-				mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
-
-			SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
-
-			unsigned char hash[20];
-			lib_cs_lock();
-			if (!otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol)) {
-				EndDialog(hwndDlg, IDCANCEL);
-				return FALSE;
-			}
-			otrl_privkey_hash_to_humanT(buff, hash);
-			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, buff);
-			SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
-			SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_YOUR_PRIVKEY));
-
-			otrl_privkey_hash_to_humanT(buff, fp->fingerprint);
-			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, buff);
-			SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, TRUE, 0);
-			SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_CONTACT_FINGERPRINT));
-
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CBO_SMP_CHOOSE), FALSE);
-
-			ShowWindow(GetDlgItem(hwndDlg, IDOK), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDYES), SW_SHOWNA);
-			ShowWindow(GetDlgItem(hwndDlg, IDNO), SW_SHOWNA);
-			SetFocus(GetDlgItem(hwndDlg, IDCANCEL));
+	{
+		if (!lParam) {
+			EndDialog(hwndDlg, IDCANCEL);
+			return FALSE;
 		}
-		return FALSE;
+		SetWindowText(hwndDlg, _T(LANG_OTR_FPVERIFY_TITLE));
+		SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, _T(LANG_OTR_FPVERIFY_TITLE));
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		// Move window to screen center
+		// Get the owner window and dialog box rectangles. 
+		HWND hwndOwner = GetParent(hwndDlg);
+		if (hwndOwner == NULL)
+			hwndOwner = GetDesktopWindow();
+
+		RECT rcOwner, rcDlg, rc;
+		GetWindowRect(hwndOwner, &rcOwner);
+		GetWindowRect(hwndDlg, &rcDlg);
+		CopyRect(&rc, &rcOwner);
+
+		// Offset the owner and dialog box rectangles so that right and bottom 
+		// values represent the width and height, and then offset the owner again 
+		// to discard space taken up by the dialog box. 
+
+		OffsetRect(&rcDlg, -rcDlg.left, -rcDlg.top);
+		OffsetRect(&rc, -rc.left, -rc.top);
+		OffsetRect(&rc, -rcDlg.right, -rcDlg.bottom);
+
+		// The new position is the sum of half the remaining space and the owner's 
+		// original position. 
+
+		SetWindowPos(hwndDlg,
+			HWND_TOP,
+			rcOwner.left + (rc.right / 2),
+			rcOwner.top + (rc.bottom / 2),
+			0, 0,          // Ignores size arguments. 
+			SWP_NOSIZE);
+
+		// end center dialog
+
+		ConnContext *context = (ConnContext*)lParam;
+		MCONTACT hContact = (UINT_PTR)context->app_data;
+		Fingerprint *fp = context->active_fingerprint;
+		if (!fp) {
+			EndDialog(hwndDlg, IDCANCEL);
+			return FALSE;
+		}
+		TCHAR buff[512];
+		if (!fp->trust || fp->trust[0] == '\0')
+			mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
+		else
+			mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
+
+		SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
+
+		unsigned char hash[20];
+		lib_cs_lock();
+		if (!otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol)) {
+			EndDialog(hwndDlg, IDCANCEL);
+			return FALSE;
+		}
+		otrl_privkey_hash_to_humanT(buff, hash);
+		SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, buff);
+		SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
+		SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_YOUR_PRIVKEY));
+
+		otrl_privkey_hash_to_humanT(buff, fp->fingerprint);
+		SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, buff);
+		SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, TRUE, 0);
+		SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_CONTACT_FINGERPRINT));
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CBO_SMP_CHOOSE), FALSE);
+
+		ShowWindow(GetDlgItem(hwndDlg, IDOK), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDYES), SW_SHOWNA);
+		ShowWindow(GetDlgItem(hwndDlg, IDNO), SW_SHOWNA);
+		SetFocus(GetDlgItem(hwndDlg, IDCANCEL));
+	}
+	return FALSE;
 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
@@ -732,7 +722,7 @@ INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return FALSE;
 }
 
-unsigned int CALLBACK verify_context_thread(void *param)
+static unsigned int CALLBACK verify_context_thread(void *param)
 {
 	Thread_Push(0);
 
@@ -764,4 +754,10 @@ unsigned int CALLBACK verify_context_thread(void *param)
 
 	Thread_Pop();
 	return 0;
+}
+
+void VerifyContextDialog(ConnContext* context)
+{
+	if (!context) return;
+	CloseHandle((HANDLE)_beginthreadex(0, 0, verify_context_thread, context, 0, 0));
 }
