@@ -5,9 +5,7 @@ ICMP *ICMP::instance = 0;
 
 #define BUFFER_SIZE			(16 * (sizeof(ICMP_ECHO_REPLY) + sizeof(data)))
 
-ICMP::ICMP() :
-timeout(2000),
-functions_loaded(false)
+ICMP::ICMP() : timeout(2000), functions_loaded(false), hIP(0)
 {
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {

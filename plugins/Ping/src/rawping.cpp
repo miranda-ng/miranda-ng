@@ -106,11 +106,12 @@ extern int raw_ping(char *host, int timeout)
 	header->checksum = ip_checksum((USHORT*)header, sizeof(ICMPHeader));
 
 	bool use_hi_res = false;
-	LARGE_INTEGER hr_freq, hr_send_time;
+	LARGE_INTEGER hr_freq = { 0 }, hr_send_time = { 0 };
 	DWORD send_time;
 	if (QueryPerformanceFrequency(&hr_freq)) {
 		use_hi_res = true;
 		QueryPerformanceCounter(&hr_send_time);
+		send_time = 0;
 	}
 	else
 		send_time = GetTickCount();
@@ -128,19 +129,17 @@ extern int raw_ping(char *host, int timeout)
 	IPHeader *reply_header = (IPHeader *)recv_buff;
 	ICMPHeader *reply;
 	DWORD start, current_time;
-	LARGE_INTEGER hr_start, hr_current_time, hr_timeout;
+	LARGE_INTEGER hr_start = { 0 }, hr_current_time = { 0 }, hr_timeout = { 0 };
 	if (use_hi_res) {
-		hr_timeout.QuadPart = (timeout * hr_freq.QuadPart / 1000);
+		hr_timeout.QuadPart = (timeout * hr_freq.QuadPart / 1000LL);
 		QueryPerformanceCounter(&hr_start);
 		hr_current_time = hr_start;
+		current_time = start = 0;
 	}
-	else {
-		start = GetTickCount();
-		current_time = start;
-	}
+	else
+		current_time = start = GetTickCount();
 
-	while (((use_hi_res && (hr_current_time.QuadPart < hr_start.QuadPart + hr_timeout.QuadPart))
-		|| (!use_hi_res && current_time < start + timeout)))
+	while (use_hi_res ? (hr_current_time.QuadPart < hr_start.QuadPart + hr_timeout.QuadPart) : (current_time < start + timeout))
 	{
 		int bread = recvfrom(sd, recv_buff, 1024, 0, (sockaddr*)&source, &fromlen);
 
