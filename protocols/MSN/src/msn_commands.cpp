@@ -418,7 +418,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 	if ((pszSkypeToken=GetSkypeToken(true)) && xmli) {
 		/* FIXME: As soon as core has functions to POST images in a conversation AND gives the possibility to supply a
-			* callback for fetching thta image, this may be possible, but currently due to required Auth-Header, this
+			* callback for fetching that image, this may be possible, but currently due to required Auth-Header, this
 			* is not possible and we just send an incoming file transfer 
 		const char *thumb = ezxml_attr(xmli, "url_thumbnail");
 		if (thumb && ServiceExists("IEVIEW/NewWindow")) {
@@ -914,26 +914,28 @@ LBL_InvalidCommand:
 			HReadBuffer buf(info, 0);
 			buf.surelyRead(atol(data.strMsgBytes));
 
-			if (!bSentBND)
-			{
-				info->sendPacketPayload("BND", "CON\\MSGR",
-					"<msgr><ver>%d</ver>%s<client><name>%s</name><ver>%s</ver></client>"
-							"<epid>%.*s</epid></msgr>\r\n", 
-							msnP24Ver, (msnP24Ver>1?"<altVersions><ver>1</ver></altVersions>":""),
-							msnStoreAppId, msnProductVer, 
-							mir_strlen(MyOptions.szMachineGuid)-2, MyOptions.szMachineGuid+1);
-				bSentBND = true;
-			}
-			else
-			{
-				msnLoggedIn = true;
-				isConnectSuccess = true;
-				emailEnabled = MyOptions.netId==NETID_MSN; // Let's assume it?
-				MSN_SetServerStatus(m_iDesiredStatus);
-				MSN_EnableMenuItems(true);
-				// Fork refreshing and populating contact list to the background
-				ForkThread(&CMsnProto::msn_loginThread, NULL);
-			}
+			if (!bIgnoreATH) {
+				if (!bSentBND)
+				{
+					info->sendPacketPayload("BND", "CON\\MSGR",
+						"<msgr><ver>%d</ver>%s<client><name>%s</name><ver>%s</ver></client>"
+								"<epid>%.*s</epid></msgr>\r\n", 
+								msnP24Ver, (msnP24Ver>1?"<altVersions><ver>1</ver></altVersions>":""),
+								msnStoreAppId, msnProductVer, 
+								mir_strlen(MyOptions.szMachineGuid)-2, MyOptions.szMachineGuid+1);
+					bSentBND = true;
+				}
+				else
+				{
+					msnLoggedIn = true;
+					isConnectSuccess = true;
+					emailEnabled = MyOptions.netId==NETID_MSN; // Let's assume it?
+					MSN_SetServerStatus(m_iDesiredStatus);
+					MSN_EnableMenuItems(true);
+					// Fork refreshing and populating contact list to the background
+					ForkThread(&CMsnProto::msn_loginThread, NULL);
+				}
+			} else bIgnoreATH = false;
 		}
 		break;
 
@@ -985,29 +987,7 @@ LBL_InvalidCommand:
 			if (MyOptions.netId!=NETID_SKYPE) {
 				/* MSN account login */
 
-				switch (MSN_AuthOAuth())
-				{
-				case 1: 
-					info->sendPacketPayload("ATH", "CON\\USER",
-						"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
-						"<uic>%s</uic>"
-						"<id>%s</id><alias>%s</alias></user>\r\n", 
-						authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
-						authUIC, 
-						GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
-					break;
-
-				case 2: 
-					info->sendPacketPayload("ATH", "CON\\USER",
-						"<user><ssl-compact-ticket>%s</ssl-compact-ticket>"
-						"<uic>%s</uic>"
-						"<ssl-site-name>chatservice.live.com</ssl-site-name>"
-						"</user>\r\n", 
-						authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
-						authUIC);
-					break;
-
-				default:
+				if (MSN_AuthOAuth()<1) {
 					m_iDesiredStatus = ID_STATUS_OFFLINE;
 					return 1;
 				}
@@ -1020,12 +1000,11 @@ LBL_InvalidCommand:
 					char szUIC[1024]={0};
 
 					MSN_SkypeAuth(xmlnonce->txt, szUIC);
-					info->sendPacketPayload("ATH", "CON\\USER",
-						"<user><uic>%s</uic><id>%s</id></user>\r\n", 
-						szUIC, MyOptions.szEmail);
+					replaceStr(authUIC, szUIC);
 				}
 				ezxml_free(xmlcnt);
 			}
+			MSN_SendATH(info);
 
 			bSentBND = false;
 			if (!hKeepAliveThreadEvt) ForkThread(&CMsnProto::msn_keepAliveThread, NULL);

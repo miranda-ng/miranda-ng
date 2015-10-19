@@ -118,10 +118,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	char *authStorageToken;
 	char *hotSecretToken, *hotAuthToken;
 	char *authUser, *authUIC, *authCookies, *authSSLToken, *authAccessToken, *authRefreshToken, *authSkypeComToken, *authSkypeToken;
-	bool bAskingForAuth;
+	bool bAskingForAuth, bPassportAuth;
 	int  authMethod;
 	time_t authTokenExpiretime;
-	bool bSentBND;
+	bool bSentBND, bIgnoreATH;
 
 	char *abCacheKey, *sharingCacheKey, *storageCacheKey;
 
@@ -278,6 +278,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void __cdecl msn_keepAliveThread(void* arg);
 	void __cdecl msn_loginThread(void* arg);
 	void __cdecl msn_IEAuthThread(void* arg);
+	void __cdecl msn_refreshOAuthThread(void*);
 	void __cdecl MSNServerThread(void* arg);
 
 	void __cdecl MsnFileAckThread(void* arg);
@@ -499,6 +500,8 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int       LoginSkypeOAuth(const char *pRefreshToken);
 	bool      RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken=NULL, time_t *ptExpires=NULL);
 	int       MSN_AuthOAuth(void);
+	int		  MSN_RefreshOAuthTokens(void);
+	void	  MSN_SendATH(ThreadData* info);
 	CMStringA HotmailLogin(const char* url);
 	void	    FreeAuthTokens(void);
 	int       GetMyNetID(void);

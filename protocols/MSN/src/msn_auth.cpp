@@ -158,6 +158,26 @@ int CMsnProto::MSN_GetPassportAuth(void)
 {
 	int retVal = -1;
 
+	if (!bPassportAuth && authRefreshToken) {
+		// Slow authentication required by fetching multiple tokens, i.e. 2-factor auth :(
+		char szToken[1024];
+
+		if (authMethod == 2 && RefreshOAuth(authRefreshToken, "service::chatservice.live.com::MBI_SSL", szToken+2)) {
+			memcpy (szToken, "t=", 2);
+			replaceStr(authStrToken, szToken);
+			setString("authStrToken", authStrToken);
+		}
+		if (RefreshOAuth(authRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
+			replaceStr(authContactToken, szToken);
+			setString("authContactToken", authContactToken);
+		}
+		if (RefreshOAuth(authRefreshToken, "service::storage.msn.com::MBI_SSL", szToken)) {
+			replaceStr(authStorageToken, szToken);
+			setString("authStorageToken", authStorageToken);
+		}
+		return 0;
+	}
+
 	char szPassword[100];
 	db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
 	szPassword[16] = 0;
@@ -666,6 +686,7 @@ void CMsnProto::LoadAuthTokensDB(void)
 
 	authTokenExpiretime = getDword("authTokenExpiretime", 0);
 	authMethod = getDword("authMethod", 0);
+	bPassportAuth = getByte("PassportAuth", true);
 	if (getString("authUser", &dbv) == 0) {
 		replaceStr(authUser, dbv.pszVal);
 		db_free(&dbv);
@@ -800,7 +821,7 @@ LRESULT CALLBACK AuthWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				else pAuth->pszCookies = mir_u2a(pAuth->pEmbed->getCookies());			
 				PostMessage(hwnd, WM_CLOSE, 0, 0);
 			}
-			else if (wcsstr((WCHAR*)lParam, L"res=cancel")) {
+			else if (wcsstr((WCHAR*)lParam, L"res=cancel") || wcsstr((WCHAR*)lParam, L"access_denied")) {
 				PostMessage(hwnd, WM_CLOSE, 0, 0);
 			}
 			return(0);
@@ -887,6 +908,77 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 	return false;
 }
 
+// -1 - Refresh failed
+//  0 - No need to refresh
+//  1 - Refresh succeeded
+int CMsnProto::MSN_RefreshOAuthTokens(void)
+{
+	time_t t;
+	char szToken[1024], szRefreshToken[1024];
+	bool bPassportAuthBak = bPassportAuth;
+
+	if (!authTokenExpiretime || time(&t)+3600 < authTokenExpiretime) return 0;
+	
+	// Ensure that we won't be invoked twice
+	t = authTokenExpiretime;
+	authTokenExpiretime = 0x7FFFFFFF;
+	
+	bPassportAuth = false;
+	MSN_GetPassportAuth();
+	bPassportAuth = bPassportAuthBak;
+
+	if (authSSLToken && RefreshOAuth(authRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
+		replaceStr(authSSLToken, szToken);
+		setString("authSSLToken", authSSLToken);
+	}
+
+	if (!RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken, szRefreshToken, &authTokenExpiretime)) {
+		authTokenExpiretime = t;
+		return -1;
+	}
+	if (authSkypeComToken) replaceStr(authSkypeComToken, szToken);
+	replaceStr(authRefreshToken, szRefreshToken);
+	setDword("authTokenExpiretime", authTokenExpiretime);
+	setString("authRefreshToken", authRefreshToken);
+
+	return 1;
+}
+
+void CMsnProto::MSN_SendATH(ThreadData* info)
+{
+	if (MyOptions.netId!=NETID_SKYPE) {
+		/* MSN account login */
+
+		switch (authMethod)
+		{
+		case 1: 
+			info->sendPacketPayload("ATH", "CON\\USER",
+				"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
+				"<uic>%s</uic>"
+				"<id>%s</id><alias>%s</alias></user>\r\n", 
+				authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
+				authUIC, 
+				GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
+			break;
+
+		case 2: 
+			info->sendPacketPayload("ATH", "CON\\USER",
+				"<user><ssl-compact-ticket>%s</ssl-compact-ticket>"
+				"<uic>%s</uic>"
+				"<ssl-site-name>chatservice.live.com</ssl-site-name>"
+				"</user>\r\n", 
+				authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
+				authUIC);
+			break;
+		}
+
+	} else {
+		info->sendPacketPayload("ATH", "CON\\USER",
+			"<user><uic>%s</uic><id>%s</id></user>\r\n", 
+			authUIC, MyOptions.szEmail);
+	}
+}
+
 // -1 - Error on login sequence 
 //  0 - Login failed (invalid username?)
 //  1 - Login via Skype login server succeeded
@@ -894,7 +986,6 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 int CMsnProto::MSN_AuthOAuth(void)
 {
 	int retVal = -1;
-	bool bPassportAuth = true;
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
@@ -952,6 +1043,8 @@ int CMsnProto::MSN_AuthOAuth(void)
 					char *pszURL=NULL, *pAccessToken, *pEnd;
 					hHttpsConnection = nlhrReply2->nlc;
 
+					bPassportAuth = true;
+					
 					if (nlhrReply2->resultCode == 302) {
 						/* Extract access_token from Location can be found */
 						for (int i = 0; i < nlhrReply2->headersCount; i++) {
@@ -979,6 +1072,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 							bPassportAuth = false;
 						}
 					}
+					setByte("PassportAuth", bPassportAuth);
 					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 					nlhrReply = nlhrReply2;
 
