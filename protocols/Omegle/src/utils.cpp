@@ -108,13 +108,29 @@ std::string utils::text::slashu_to_utf8(const std::string &data )
 	return new_string;
 }
 
-std::string utils::text::trim(const std::string &data )
+std::string utils::text::trim(const std::string &data)
 {
 	std::string spaces = " \t\r\n";
-	std::string::size_type begin = data.find_first_not_of( spaces );
-	std::string::size_type end = data.find_last_not_of( spaces ) + 1;
+	std::string::size_type begin = data.find_first_not_of(spaces);
+	std::string::size_type end = data.find_last_not_of(spaces);
 
-	return (begin != std::string::npos) ? data.substr( begin, end - begin ) : "";
+	return (end != std::string::npos) ? data.substr(begin, end + 1 - begin) : "";
+}
+
+void utils::text::explode(std::string str, std::string separator, std::vector<std::string>* results)
+{
+	std::string::size_type pos;
+	pos = str.find_first_of(separator);
+	while (pos != std::string::npos) {
+		if (pos > 0) {
+			results->push_back(str.substr(0, pos));
+		}
+		str = str.substr(pos + 1);
+		pos = str.find_first_of(separator);
+	}
+	if (str.length() > 0) {
+		results->push_back(str);
+	}
 }
 
 int utils::debug::log(const std::string &file_name, const std::string &text)

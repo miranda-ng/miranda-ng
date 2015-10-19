@@ -55,13 +55,11 @@ void OmegleProto::SendTypingWorker(void *p)
 	if (facy.typing_ == typ)
 		return;
 
-	facy.typing_ = typ;
-	// Wait for eventually changes to typing info by other thread and ignore if changed
-	SleepEx(2000, true);
-	if (facy.typing_ != typ || facy.old_typing_ == typ || facy.state_ != STATE_ACTIVE)
-		return;	
+	if (facy.state_ != STATE_ACTIVE)
+		return;
 
-	facy.old_typing_ = typ;
+	facy.typing_ = typ;
+
 	if (typ)
 		facy.typing_start();
 	else

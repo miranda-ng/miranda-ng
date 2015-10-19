@@ -37,6 +37,7 @@ namespace utils
 		std::string special_expressions_decode( std::string data );
 		std::string slashu_to_utf8(const std::string &data );
 		std::string trim(const std::string &data );
+		void explode(std::string str, std::string separator, std::vector<std::string>* results);
 	};
 
 	namespace debug
