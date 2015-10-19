@@ -84,7 +84,7 @@
 [Launch Miranda with this profile]
 Запустить Miranda NG с этим профилем
 [Launches Miranda with the profile that was just worked on.]
-Запускает Miranda NG с предыдущим профилем
+Запускает Miranda NG с профилем, который только что проверяли.
 [Backup:]
 Резерв:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
