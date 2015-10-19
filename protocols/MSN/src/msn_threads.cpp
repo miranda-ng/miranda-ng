@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void __cdecl CMsnProto::msn_keepAliveThread(void*)
 {
 	bool keepFlag = true;
+	time_t t;
 
 	hKeepAliveThreadEvt = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -58,6 +59,8 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 				mStatusMsgTS = 0;
 				ForkThread(&CMsnProto::msn_storeProfileThread, NULL);
 			}
+			if (MyOptions.netId!=NETID_SKYPE && time(&t) >= authTokenExpiretime-3600) 
+				ForkThread(&CMsnProto::msn_refreshOAuthThread, msnNsThread);
 			break;
 
 		case WAIT_OBJECT_0:
@@ -80,6 +83,13 @@ void __cdecl CMsnProto::msn_loginThread(void*)
 	MSN_FetchRecentMessages();
 }
 
+void __cdecl CMsnProto::msn_refreshOAuthThread(void *param)
+{
+	if (MSN_RefreshOAuthTokens() > 0) {
+		bIgnoreATH = true;
+		MSN_SendATH((ThreadData*)param);
+	}
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN server thread - read and process commands from a server
 

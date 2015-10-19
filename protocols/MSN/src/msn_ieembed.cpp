@@ -126,7 +126,8 @@ static LRESULT CALLBACK IEEmbedServerWindowProcedure(HWND hwnd, UINT message, WP
 			break; */
 		
 		case WM_KEYDOWN:
-			(*view)->translateAccelerator(message, wParam, lParam);
+			if (LOWORD(wParam) != VK_BACK)
+				(*view)->translateAccelerator(message, wParam, lParam);
 			break;
 		
 			/*
