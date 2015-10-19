@@ -584,9 +584,9 @@ bool Omegle_client::events()
 				TCHAR *msg = mir_a2t_cp(message.c_str(),CP_UTF8);
 				parent->UpdateChat(TranslateT("Stranger"), msg);
 				mir_free(msg);
-
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
 			}
+
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
 		}
 
 		pos = 0;
@@ -616,6 +616,8 @@ bool Omegle_client::events()
 		}
 
 		if ( resp.data.find( "[\"strangerDisconnected\"]" ) != std::string::npos ) {
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+
 			// Stranger disconnected
 			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 			{
@@ -682,8 +684,12 @@ bool Omegle_client::events()
 			if ( db_get_b( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 )) {
 				DBVARIANT dbv;
 				if ( !db_get_utf( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv )) {
-					std::string *message = new std::string(dbv.pszVal);
+					std::vector<std::string> messages;
+					utils::text::explode(std::string(dbv.pszVal), "\r\n", &messages);
 					db_free(&dbv);
+
+					int pos = rand() % messages.size();
+					std::string *message = new std::string(messages.at(pos));
 	
 					parent->debugLogA("**Chat - saying Hi! message");
 					parent->ForkThread(&OmegleProto::SendMsgWorker, message);

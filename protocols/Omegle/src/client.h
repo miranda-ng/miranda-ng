@@ -42,7 +42,7 @@ public:
 		send_message_lock_ = NULL;
 		state_ = STATE_INACTIVE;
 
-		old_typing_ = typing_ = spy_mode_ = false;
+		typing_ = spy_mode_ = false;
 
 		error_count_ = 0;
 
@@ -74,7 +74,6 @@ public:
 	// State of client
 	int state_;
 	bool typing_;
-	bool old_typing_;
 	bool spy_mode_;
 
 	// Data storage
