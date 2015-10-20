@@ -30,6 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define STATE_DISCONNECTING		3	// disconnecting from stranger
 #define STATE_SPY				4	// spy mode (read-only)
 
+#define HANDLE_ENTRY handle_entry(__FUNCTION__)
+#define HANDLE_SUCCESS handle_success(__FUNCTION__)
+#define HANDLE_ERROR(force_disconnect) handle_error(__FUNCTION__, force_disconnect)
+
 class Omegle_client
 {
 public:
