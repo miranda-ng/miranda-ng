@@ -52,6 +52,8 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_OMEGLE              ICON                    "omegle.ico"
+IDI_TYPING_ON           ICON                    "typing.ico"
+IDI_TYPING_OFF          ICON                    "typingoff.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

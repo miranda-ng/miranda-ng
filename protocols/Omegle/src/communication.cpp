@@ -557,9 +557,10 @@ bool Omegle_client::events()
 
 				StatusTextData st = { 0 };
 				st.cbSize = sizeof(st);
-				// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
+				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
 
-				mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateT("Stranger"));
+				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(_T("Stranger")));
+				mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
@@ -569,13 +570,16 @@ bool Omegle_client::events()
 
 				StatusTextData st = { 0 };
 				st.cbSize = sizeof(st);
-				// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
+				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
 
-				mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateT("Stranger"));
+				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(_T("Stranger")));
+				mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
 			else if (name == "gotMessage") {
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+
 				// Play sound as we received message
 				SkinPlaySound("StrangerMessage");
 
@@ -583,10 +587,10 @@ bool Omegle_client::events()
 					ptrT msg(json_as_string(json_at(item, 1)));
 					parent->UpdateChat(TranslateT("Stranger"), msg);
 				}
-
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
 			}
 			else if (name == "spyMessage") {
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+
 				// Play sound as we received message
 				SkinPlaySound("StrangerMessage");
 
@@ -609,6 +613,8 @@ bool Omegle_client::events()
 					parent->StopChat(false);
 			}
 			else if (name == "spyDisconnected") {
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+
 				ptrT stranger(json_as_string(json_at(item, 1)));
 
 				TCHAR strT[255];
@@ -642,7 +648,7 @@ bool Omegle_client::events()
 			}
 		}
 		
-		if (newStranger && state_ != STATE_SPY) {
+		if (newStranger && !spy_mode_) {
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
 			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0)) {
 				DBVARIANT dbv;

@@ -153,22 +153,22 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			else if (!mir_strcmpi(command.c_str(), "help"))
 			{
 				UpdateChat(NULL, TranslateT("There are three different modes of chatting:\
-											\n1) Standard mode\t - You chat with random stranger privately\
-											\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\
-											\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
-											\n\nSend '/commands' for available commands."), false);
+\n1) Standard mode\t - You chat with random stranger privately\
+\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\
+\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
+\n\nSend '/commands' for available commands."), false);
 			}
 			else if (!mir_strcmpi(command.c_str(), "commands"))
 			{
 				UpdateChat(NULL, TranslateT("You can use different commands:\
-											\n/help\t - show info about chat modes\
-											\n/new\t - start standard mode\
-											\n/ask <question> - start question mode with your question\
-											\n/ask\t - start question mode with your last asked question\
-											\n/spy\t - start spy mode\
-											\n/quit\t - disconnect from stranger or stop connecting\
-											\n/asl\t - send your predefined ASL message\
-											\n\nNote: You can reconnect to different stranger without disconnecting from current one."), false);
+\n/help\t - show info about chat modes\
+\n/new\t - start standard mode\
+\n/ask <question> - start question mode with your question\
+\n/ask\t - start question mode with your last asked question\
+\n/spy\t - start spy mode\
+\n/quit\t - disconnect from stranger or stop connecting\
+\n/asl\t - send your predefined ASL message\
+\n\nNote: You can reconnect to different stranger without disconnecting from current one."), false);
 				break;
 			}
 			else
