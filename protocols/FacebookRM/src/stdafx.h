@@ -64,12 +64,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class FacebookProto;
 
+#include "../../utils/std_string_utils.h"
+
 #include "constants.h"
 #include "definitions.h"
 #include "entities.h"
 #include "http.h"
 #include "list.hpp"
-#include "utils.h"
 #include "client.h"
 #include "proto.h"
 #include "json.h"
@@ -82,3 +83,25 @@ class FacebookProto;
 extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
+
+class ScopedLock
+{
+public:
+	ScopedLock(HANDLE h, int t = INFINITE) : handle_(h), timeout_(t)
+	{
+		WaitForSingleObject(handle_,timeout_);
+	}
+	~ScopedLock()
+	{
+		if(handle_)
+			ReleaseMutex(handle_);
+	}
+	void Unlock()
+	{
+		ReleaseMutex(handle_);
+		handle_ = 0;
+	}
+private:
+	HANDLE handle_;
+	int timeout_;
+};
