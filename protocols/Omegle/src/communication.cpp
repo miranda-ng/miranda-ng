@@ -471,227 +471,177 @@ bool Omegle_client::events()
 			return HANDLE_ERROR(false);
 		}
 
-		std::string::size_type pos = 0;
+		JSONROOT root(resp.data.c_str());
+		if (root == NULL)
+			return HANDLE_ERROR(false);
+
 		bool newStranger = false;
 		bool waiting = false;
 
-		if (resp.data.find("[\"waiting\"]") != std::string::npos) {
-			// We are just waiting for new Stranger
-			waiting = true;
-		}
+		JSONNode *items = json_as_array(root);
+		
+		for (size_t i = 0; i < json_size(items); i++) {
+			JSONNode *child = json_at(items, i);
+			if (child == NULL)
+				continue;
 
-		/*if ( (pos = resp.data.find( "[\"count\"," )) != std::string::npos ) {
-			// We got info about count of connected people there
-			pos += 9;
-
-			std::string count = utils::text::trim( resp.data.substr(pos, resp.data.find("]", pos) - pos));
-
-			char str[255];
-			mir_snprintf(str, Translate("On whole Omegle are %s strangers online now."), count.c_str());
-
-			TCHAR *msg = mir_a2t_cp(str,CP_UTF8);
-			parent->UpdateChat(NULL, msg);
-			mir_free(msg);
-			}*/
-
-		if ((pos = resp.data.find("[\"serverMessage\",")) != std::string::npos) {
-			// We got server message
-			pos += 18;
-
-			std::string message = utils::text::trim(resp.data.substr(pos, resp.data.find("\"]", pos) - pos));
-			TCHAR *tstr = Langpack_PcharToTchar(message.c_str());
-			parent->UpdateChat(NULL, tstr);
-			mir_free(tstr);
-		}
-
-		if (resp.data.find("[\"connected\"]") != std::string::npos) {
-			// Stranger connected
-			if (this->spy_mode_ && !this->question_.empty()) {
-				parent->AddChatContact(TranslateT("Stranger 1"));
-				parent->AddChatContact(TranslateT("Stranger 2"));
-				this->state_ = STATE_SPY;
+			JSONNode *item = json_as_array(child);
+			std::string name = _T2A(json_as_string(json_at(item, 0)));
+		
+			if (name == "waiting") {
+				// We are just waiting for new Stranger
+				waiting = true;
 			}
-			else {
-				parent->AddChatContact(TranslateT("Stranger"));
-				this->state_ = STATE_ACTIVE;
+			else if (name == "identDigests") {
+				// We get some comma separated hashes, I'm not sure what for
 			}
+			else if (name == "statusInfo") {
+				JSONNode *data = json_at(item, 1);
 
-			newStranger = true;
-			waiting = false;
-		}
+				// We got some object as second parameter
+				//data["antinudepercent"]; // probably 1 by default
+				//data["antinudeservers"]; // array of server names, like "waw3.omegle.com"
+				//data["rtmfp"]; // some rtmfp protocol address
+				//data["servers"]; // array of server names, like "front5.omegle.com"
+				//data["spyeeQueueTime"]; // some float number, e.g. 0.0701999903
+				//data["spyQueueTime"]; // some float number, e.g. 4.7505000114
+				//data["timestamp"]; // e.g. 1445336566.0196209
 
-		if ((pos = resp.data.find("[\"commonLikes\",")) != std::string::npos) {
-			pos += 17;
-			std::string like = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
-			utils::text::replace_all(&like, "\", \"", ", ");
+				// We got info about count of connected people there
+				ptrT count(json_as_string(json_get(data, "count")));
+				TCHAR strT[255];
+				mir_sntprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
 
-			parent->debugLogA("Got common likes: '%s'", like.c_str());
-
-			like = Translate("You and the Stranger both like: ") + like;
-
-			TCHAR *msg = mir_a2t(like.c_str());
-			parent->SetTopic(msg);
-			mir_free(msg);
-		}
-
-		if ((pos = resp.data.find("[\"question\",")) != std::string::npos) {
-			pos += 13;
-
-			std::string question = utils::text::trim(
-				utils::text::html_entities_decode(
-				utils::text::slashu_to_utf8(
-				resp.data.substr(pos, resp.data.find("\"]", pos) - pos))));
-
-			TCHAR *msg = mir_a2t_cp(question.c_str(), CP_UTF8);
-			parent->SetTopic(msg);
-			mir_free(msg);
-		}
-
-		if (resp.data.find("[\"typing\"]") != std::string::npos
-			|| resp.data.find("[\"spyTyping\",") != std::string::npos)
-		{
-			// Stranger is typing, not supported by chat module yet
-			SkinPlaySound("StrangerTyp");
-
-
-			StatusTextData st = { 0 };
-			st.cbSize = sizeof(st);
-			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
-
-			mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateT("Stranger"));
-
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
-		}
-
-		if (resp.data.find("[\"stoppedTyping\"]") != std::string::npos
-			|| resp.data.find("[\"spyStoppedTyping\",") != std::string::npos)
-		{
-			// Stranger stopped typing, not supported by chat module yet
-			SkinPlaySound("StrangerTypStop");
-
-			StatusTextData st = { 0 };
-			st.cbSize = sizeof(st);
-			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
-
-			mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateT("Stranger"));
-
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
-		}
-
-		pos = 0;
-		while ((pos = resp.data.find("[\"gotMessage\",", pos)) != std::string::npos) {
-			// Play sound as we received message
-			SkinPlaySound("StrangerMessage");
-
-			pos += 15;
-
-			std::string message = utils::text::trim(
-				utils::text::html_entities_decode(
-				utils::text::slashu_to_utf8(
-				resp.data.substr(pos, resp.data.find("\"]", pos) - pos))));
-
-			if (state_ == STATE_ACTIVE) {
-				TCHAR *msg = mir_a2t_cp(message.c_str(), CP_UTF8);
-				parent->UpdateChat(TranslateT("Stranger"), msg);
-				mir_free(msg);
+				parent->UpdateChat(NULL, strT);
 			}
-
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
-		}
-
-		pos = 0;
-		while ((pos = resp.data.find("[\"spyMessage\",", pos)) != std::string::npos) {
-			// Play sound as we received message
-			SkinPlaySound("StrangerMessage");
-
-			pos += 15;
-
-			std::string message = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
-
-			if (state_ == STATE_SPY) {
-				std::string stranger = message.substr(0, message.find("\""));
-				message = message.substr(stranger.length() + 4);
-
-				message = utils::text::trim(
-					utils::text::html_entities_decode(
-					utils::text::slashu_to_utf8(message)));
-
-				stranger = Translate(stranger.c_str());
-
-				TCHAR *str = mir_a2t_cp(stranger.c_str(), CP_UTF8);
-				TCHAR *msg = mir_a2t_cp(message.c_str(), CP_UTF8);
-
-				parent->UpdateChat(str, msg);
-
-				mir_free(msg);
-				mir_free(str);
+			else if (name == "serverMessage") {
+				ptrT message(json_as_string(json_at(item, 1)));
+				parent->UpdateChat(NULL, TranslateTS(message));
 			}
-		}
+			else if (name == "connected") {
+				// Stranger connected
+				if (this->spy_mode_ && !this->question_.empty()) {
+					parent->AddChatContact(TranslateT("Stranger 1"));
+					parent->AddChatContact(TranslateT("Stranger 2"));
+					this->state_ = STATE_SPY;
+				}
+				else {
+					parent->AddChatContact(TranslateT("Stranger"));
+					this->state_ = STATE_ACTIVE;
+				}
 
-		if (resp.data.find("[\"strangerDisconnected\"]") != std::string::npos) {
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
-
-			// Stranger disconnected
-			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
-			{
-				SkinPlaySound("StrangerChange");
-				parent->NewChat();
+				newStranger = true;
+				waiting = false;
 			}
-			else
+			else if (name == "commonLikes") {
+				std::tstring likes = TranslateT("You and the Stranger both like: %s");
+
+				JSONNode *items = json_as_array(json_at(item, 1));
+				size_t size = json_size(items);
+				for (size_t i = 0; i < size; i++) {
+					likes += json_as_string(json_at(items, i));
+					if (i < size - 1)
+						likes += _T(", ");
+				}
+				
+				parent->debugLog(_T("Got common likes: '%s'"), likes.c_str());
+				parent->SetTopic(likes.c_str());
+			}
+			else if (name == "question") {
+				ptrT question(json_as_string(json_at(item, 1)));
+				parent->SetTopic(question);
+			}
+			else if (name == "typing" || name == "spyTyping") {
+				// Stranger is typing, not supported by chat module yet
+				SkinPlaySound("StrangerTyp");
+
+				StatusTextData st = { 0 };
+				st.cbSize = sizeof(st);
+				// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
+
+				mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateT("Stranger"));
+
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
+			}
+			else if (name == "stoppedTyping" || name == "spyStoppedTyping") {
+				// Stranger stopped typing, not supported by chat module yet
+				SkinPlaySound("StrangerTypStop");
+
+				StatusTextData st = { 0 };
+				st.cbSize = sizeof(st);
+				// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
+
+				mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateT("Stranger"));
+
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
+			}
+			else if (name == "gotMessage") {
+				// Play sound as we received message
+				SkinPlaySound("StrangerMessage");
+
+				if (state_ == STATE_ACTIVE) {
+					ptrT msg(json_as_string(json_at(item, 1)));
+					parent->UpdateChat(TranslateT("Stranger"), msg);
+				}
+
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), 0);
+			}
+			else if (name == "spyMessage") {
+				// Play sound as we received message
+				SkinPlaySound("StrangerMessage");
+
+				if (state_ == STATE_SPY) {
+					ptrT stranger(json_as_string(json_at(item, 1)));
+					ptrT msg(json_as_string(json_at(item, 2)));
+					parent->UpdateChat(stranger, msg);
+				}
+			}
+			else if (name == "strangerDisconnected") {
+				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+
+				// Stranger disconnected
+				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+				{
+					SkinPlaySound("StrangerChange");
+					parent->NewChat();
+				}
+				else
+					parent->StopChat(false);
+			}
+			else if (name == "spyDisconnected") {
+				ptrT stranger(json_as_string(json_at(item, 1)));
+
+				TCHAR strT[255];
+				mir_sntprintf(strT, TranslateT("%s disconnected."), TranslateTS(stranger));
+				parent->UpdateChat(NULL, strT);
+
+				// Stranger disconnected
+				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+				{
+					SkinPlaySound("StrangerChange");
+					parent->NewChat();
+				}
+				else
+					parent->StopChat(false);
+			}
+			else if (name == "recaptchaRequired") {
+				// Nothing to do with recaptcha
+				parent->UpdateChat(NULL, TranslateT("Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again."));
 				parent->StopChat(false);
-		}
-
-		if ((pos = resp.data.find("[\"spyDisconnected\",")) != std::string::npos) {
-			pos += 20;
-
-			std::string stranger = utils::text::trim(
-				utils::text::html_entities_decode(
-				utils::text::slashu_to_utf8(
-				resp.data.substr(pos, resp.data.find("\"]", pos) - pos))));
-
-			char str[255];
-			mir_snprintf(str, Translate("%s disconnected."), Translate(stranger.c_str()));
-
-			TCHAR *msg = mir_a2t(str);
-			parent->UpdateChat(NULL, msg);
-			mir_free(msg);
-
-			// Stranger disconnected
-			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
-			{
-				SkinPlaySound("StrangerChange");
-				parent->NewChat();
 			}
-			else
+			else if (name == "recaptchaRejected") {
+				// Nothing to do with recaptcha
 				parent->StopChat(false);
+			}
+			else if (name == "error") {
+				ptrT error(json_as_string(json_at(item, 1)));
+
+				TCHAR strT[255];
+				mir_sntprintf(strT, TranslateT("Error: %s"), TranslateTS(error));
+				parent->UpdateChat(NULL, strT);
+			}
 		}
-
-		if (resp.data.find("[\"recaptchaRequired\"") != std::string::npos) {
-			// Nothing to do with recaptcha
-			parent->UpdateChat(NULL, TranslateT("Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again."));
-			parent->StopChat(false);
-		}
-
-		if (resp.data.find("[\"recaptchaRejected\"]") != std::string::npos) {
-			// Nothing to do with recaptcha
-			parent->StopChat(false);
-		}
-
-		if ((pos = resp.data.find("[\"error\",")) != std::string::npos) {
-			pos += 10;
-
-			std::string error = utils::text::trim(
-				utils::text::html_entities_decode(
-				utils::text::slashu_to_utf8(
-				resp.data.substr(pos, resp.data.find("\"]", pos) - pos))));
-
-			error = Translate("Error: ") + error;
-
-			TCHAR *msg = mir_a2t(error.c_str());
-			parent->UpdateChat(NULL, msg);
-			mir_free(msg);
-		}
-
+		
 		if (newStranger && state_ != STATE_SPY) {
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
 			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0)) {
