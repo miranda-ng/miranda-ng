@@ -41,28 +41,6 @@ namespace http
 	};
 }
 
-namespace utils
-{
-	namespace url
-	{
-		std::string encode(const std::string &s);
-	};
-
-	namespace text
-	{
-		void replace_first(std::string* data, const std::string &from, const std::string &to);
-		void replace_all(std::string* data, const std::string &from, const std::string &to);
-		std::string special_expressions_decode(std::string data);
-		std::string slashu_to_utf8(const std::string &data);
-		std::string trim(const std::string &data);
-	};
-
-	namespace time
-	{
-		time_t from_string(const std::string &data);
-	};
-};
-
 class ScopedLock
 {
 public:
