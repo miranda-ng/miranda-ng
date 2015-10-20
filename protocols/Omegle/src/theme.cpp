@@ -38,9 +38,9 @@ void InitIcons(void)
 
 HANDLE GetIconHandle(const char* name)
 {
-	for(size_t i=0; i<_countof(icons); i++)
+	for (size_t i = 0; i < _countof(icons); i++)
 	{
-		if(mir_strcmp(icons[i].szName, name) == 0)
+		if (mir_strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 	}
 	return 0;

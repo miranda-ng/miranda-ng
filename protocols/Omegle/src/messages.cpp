@@ -24,17 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void OmegleProto::SendMsgWorker(void *p)
 {
-	if(p == NULL)
+	if (p == NULL)
 		return;
-  
-	ScopedLock s( facy.send_message_lock_ );
+
+	ScopedLock s(facy.send_message_lock_);
 
 	std::string data = *(std::string*)p;
 	delete (std::string*)p;
 
 	data = utils::text::trim(data);
 
-	if (facy.state_ == STATE_ACTIVE && data.length() && facy.send_message( data ))
+	if (facy.state_ == STATE_ACTIVE && data.length() && facy.send_message(data))
 	{
 		TCHAR *msg = mir_a2t_cp(data.c_str(), CP_UTF8);
 		UpdateChat(facy.nick_, msg);

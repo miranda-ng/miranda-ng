@@ -22,5 +22,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
+INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);

@@ -70,7 +70,7 @@ public:
 
 	HANDLE send_message_lock_;
 	//int	msgid_;
-	
+
 	// State of client
 	int state_;
 	bool typing_;
@@ -78,7 +78,7 @@ public:
 
 	// Data storage
 	void    store_headers(http::response *resp, NETLIBHTTPHEADER *headers, int headers_count);
-	
+
 	std::string get_server(bool not_last = false);
 	std::string get_language();
 
@@ -90,8 +90,8 @@ public:
 	bool    handle_error(const std::string &method, bool force_disconnect = false);
 
 	void __inline increment_error() { error_count_++; }
-	void __inline decrement_error() { if ( error_count_ > 0 ) error_count_--; }
-	void __inline reset_error() { error_count_ = 0; }	
+	void __inline decrement_error() { if (error_count_ > 0) error_count_--; }
+	void __inline reset_error() { error_count_ = 0; }
 
 	bool    start();
 	bool    stop();
@@ -102,7 +102,7 @@ public:
 	bool    recaptcha();
 
 	std::string get_page(int);
-	
+
 	bool    send_message(const std::string &message_text);
 
 	// HTTP communication

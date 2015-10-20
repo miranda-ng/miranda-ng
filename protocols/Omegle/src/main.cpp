@@ -54,7 +54,7 @@ static int compare_protos(const OmegleProto *p1, const OmegleProto *p2)
 
 OBJLIST<OmegleProto> g_Instances(1, compare_protos);
 
-DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
+DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
 	g_hInstance = hInstance;
 	return TRUE;
@@ -69,12 +69,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username )
+static PROTO_INTERFACE* protoInit(const char *proto_name, const TCHAR *username)
 {
 	OmegleProto *proto = new OmegleProto(proto_name, username);
 	g_Instances.insert(proto);
@@ -83,7 +83,7 @@ static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username )
 
 static int protoUninit(PROTO_INTERFACE* proto)
 {
-	g_Instances.remove(( OmegleProto* )proto);
+	g_Instances.remove((OmegleProto*)proto);
 	return EXIT_SUCCESS;
 }
 
@@ -109,23 +109,23 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		std::stringstream agent;
 		agent << "Miranda NG/";
-		agent << (( g_mirandaVersion >> 24) & 0xFF);
+		agent << ((g_mirandaVersion >> 24) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion >> 16) & 0xFF);
+		agent << ((g_mirandaVersion >> 16) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion >>  8) & 0xFF);
+		agent << ((g_mirandaVersion >> 8) & 0xFF);
 		agent << ".";
-		agent << (( g_mirandaVersion      ) & 0xFF);
-	#ifdef _WIN64
+		agent << ((g_mirandaVersion)& 0xFF);
+#ifdef _WIN64
 		agent << " Omegle Protocol x64/";
-	#else
+#else
 		agent << " Omegle Protocol/";
-	#endif
+#endif
 		agent << __VERSION_STRING_DOTS;
-		g_strUserAgent = agent.str( );
+		g_strUserAgent = agent.str();
 	}
 
-  return 0;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	//UninitContactMenus();
-	for(size_t i=0; i<_countof(g_hEvents); i++)
+	for (size_t i = 0; i < _countof(g_hEvents); i++)
 		UnhookEvent(g_hEvents[i]);
 
 	return 0;
