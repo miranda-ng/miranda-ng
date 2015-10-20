@@ -3,6 +3,8 @@
 // Used by ..\res\omegle.rc
 //
 #define IDI_OMEGLE                      101
+#define IDI_TYPING_ON                   105
+#define IDI_TYPING_OFF                  106
 #define IDD_OmegleACCOUNT               111
 #define IDD_OPTIONS                     122
 #define IDC_SERVER                      1204
