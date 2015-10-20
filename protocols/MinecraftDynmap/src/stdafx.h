@@ -63,6 +63,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class MinecraftDynmapProto;
 
+#include "../../utils/std_string_utils.h"
+
 #include "utils.h"
 #include "proto.h"
 #include "constants.h"
