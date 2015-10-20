@@ -290,7 +290,7 @@ void Omegle_client::store_headers(http::response* resp, NETLIBHTTPHEADER* header
 
 bool Omegle_client::start()
 {
-	handle_entry("start");
+	HANDLE_ENTRY;
 
 	this->server_ = get_server();
 	//parent->debugLogA("Chosing server %s", this->server_.c_str());
@@ -387,7 +387,7 @@ bool Omegle_client::start()
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	{
 		// If is is only timeout error, try login once more
-		if (handle_error("start"))
+		if (HANDLE_ERROR(false))
 			return start();
 		else
 			return false;
@@ -399,15 +399,15 @@ bool Omegle_client::start()
 			this->chat_id_ = resp.data.substr(1, resp.data.length() - 2);
 			this->state_ = STATE_WAITING;
 
-			return handle_success("start");
+			return HANDLE_SUCCESS;
 		}
 		else {
-			return handle_error("start", FORCE_DISCONNECT);
+			return HANDLE_ERROR(FORCE_DISCONNECT);
 		}
 	}
 
 	default:
-		return handle_error("start", FORCE_DISCONNECT);
+		return HANDLE_ERROR(FORCE_DISCONNECT);
 	}
 }
 
@@ -416,7 +416,7 @@ bool Omegle_client::stop()
 	if (parent->isOffline())
 		return true;
 
-	handle_entry("stop");
+	HANDLE_ENTRY;
 
 	std::string data = "id=" + this->chat_id_;
 
@@ -431,10 +431,10 @@ bool Omegle_client::stop()
 	hEventsConnection = NULL;
 
 	if (resp.data == "win") {
-		return handle_success("stop");
+		return HANDLE_SUCCESS;
 	}
 	else {
-		return handle_error("stop");
+		return HANDLE_ERROR(false);
 	}
 
 	/*	switch ( resp.code )
@@ -449,7 +449,7 @@ bool Omegle_client::stop()
 
 bool Omegle_client::events()
 {
-	handle_entry("events");
+	HANDLE_ENTRY;
 
 	std::string data = "id=" + this->chat_id_;
 
@@ -464,11 +464,11 @@ bool Omegle_client::events()
 		if (resp.data == "null") {
 			// Everything is OK, no new message received -- OR it is a problem
 			// TODO: if we are waiting for Stranger with common likes, then we should try standard Stranger if this takes too long
-			return handle_error("events");
+			return HANDLE_ERROR(false);
 		}
 		else if (resp.data == "fail") {
 			// Something went wrong
-			return handle_error("events");
+			return HANDLE_ERROR(false);
 		}
 
 		std::string::size_type pos = 0;
@@ -716,22 +716,22 @@ bool Omegle_client::events()
 			parent->UpdateChat(NULL, TranslateT("We are still waiting..."));
 		}
 
-		return handle_success("events");
+		return HANDLE_SUCCESS;
 	}
 
 	case HTTP_CODE_FAKE_DISCONNECTED:
 		// timeout
-		return handle_success("events");
+		return HANDLE_SUCCESS;
 
 	case HTTP_CODE_FAKE_ERROR:
 	default:
-		return handle_error("events");
+		return HANDLE_ERROR(false);
 	}
 }
 
 bool Omegle_client::send_message(const std::string &message_text)
 {
-	handle_entry("send_message");
+	HANDLE_ENTRY;
 
 	std::string data = "msg=" + utils::url::encode(message_text);
 	data += "&id=" + this->chat_id_;
@@ -742,19 +742,19 @@ bool Omegle_client::send_message(const std::string &message_text)
 	{
 	case HTTP_CODE_OK:
 		if (resp.data == "win") {
-			return handle_success("send_message");
+			return HANDLE_SUCCESS;
 		}
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		return handle_error("send_message");
+		return HANDLE_ERROR(false);
 	}
 }
 
 bool Omegle_client::typing_start()
 {
-	handle_entry("typing_start");
+	HANDLE_ENTRY;
 
 	std::string data = "id=" + this->chat_id_;
 
@@ -764,19 +764,19 @@ bool Omegle_client::typing_start()
 	{
 	case HTTP_CODE_OK:
 		if (resp.data == "win") {
-			return handle_success("typing_start");
+			return HANDLE_SUCCESS;
 		}
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		return handle_error("typing_start");
+		return HANDLE_ERROR(false);
 	}
 }
 
 bool Omegle_client::typing_stop()
 {
-	handle_entry("typing_stop");
+	HANDLE_ENTRY;
 
 	std::string data = "id=" + this->chat_id_;
 
@@ -786,13 +786,13 @@ bool Omegle_client::typing_stop()
 	{
 	case HTTP_CODE_OK:
 		if (resp.data == "win") {
-			return handle_success("typing_stop");
+			return HANDLE_SUCCESS;
 		}
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		return handle_error("typing_stop");
+		return HANDLE_ERROR(false);
 	}
 }
 
@@ -800,7 +800,7 @@ bool Omegle_client::recaptcha()
 {
 	// TODO: Implement!
 
-	handle_entry("recaptcha");
+	HANDLE_ENTRY;
 
 	// data:{id:this.clientID,challenge:b,response:a}}
 	//std::string data = "?id=...&challenge= ..., &response= ...";
@@ -817,26 +817,26 @@ bool Omegle_client::recaptcha()
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		return handle_error("typing_start");
+		return HANDLE_ERROR(false);
 	}
 }
 
 std::string Omegle_client::get_page(const int request_type)
 {
-	handle_entry("get_page");
+	HANDLE_ENTRY;
 
 	http::response resp = flap(request_type);
 
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
-		handle_success("get_page");
+		HANDLE_SUCCESS;
 		break;
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		handle_error("get_page");
+		HANDLE_ERROR(false);
 	}
 
 	return resp.data;
