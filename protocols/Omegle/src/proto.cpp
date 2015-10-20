@@ -61,6 +61,7 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENT("Stranger typing"));
 	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENT("Stranger stopped typing"));
 	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENT("Changing stranger"));
+	SkinAddNewSoundExT("StrangerMessage", m_tszUserName, LPGENT("Receive message"));
 }
 
 OmegleProto::~OmegleProto()

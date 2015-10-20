@@ -573,6 +573,9 @@ bool Omegle_client::events()
 
 		pos = 0;
 		while ( (pos = resp.data.find( "[\"gotMessage\",", pos )) != std::string::npos ) {
+			// Play sound as we received message
+			SkinPlaySound("StrangerMessage");
+
 			pos += 15;
 
 			std::string message = utils::text::trim(
@@ -591,6 +594,9 @@ bool Omegle_client::events()
 
 		pos = 0;
 		while ( (pos = resp.data.find( "[\"spyMessage\",", pos )) != std::string::npos ) {
+			// Play sound as we received message
+			SkinPlaySound("StrangerMessage");
+
 			pos += 15;
 
 			std::string message = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
