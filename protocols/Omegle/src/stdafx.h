@@ -64,8 +64,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class OmegleProto;
 
+#include "../../utils/std_string_utils.h"
+
 #include "http.h"
-#include "utils.h"
 #include "client.h"
 #include "proto.h"
 #include "db.h"
@@ -77,3 +78,24 @@ class OmegleProto;
 extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
+
+class ScopedLock
+{
+public:
+	ScopedLock(HANDLE h) : handle_(h)
+	{
+		WaitForSingleObject(handle_,INFINITE);
+	}
+	~ScopedLock()
+	{
+		if(handle_)
+			ReleaseMutex(handle_);
+	}
+	void Unlock()
+	{
+		ReleaseMutex(handle_);
+		handle_ = 0;
+	}
+private:
+	HANDLE handle_;
+};

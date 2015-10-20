@@ -531,7 +531,7 @@ bool Omegle_client::events()
 			pos += 13;
 
 			std::string question = utils::text::trim(
-				utils::text::special_expressions_decode(
+				utils::text::html_entities_decode(
 					utils::text::slashu_to_utf8(
 						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
@@ -576,7 +576,7 @@ bool Omegle_client::events()
 			pos += 15;
 
 			std::string message = utils::text::trim(
-				utils::text::special_expressions_decode(
+				utils::text::html_entities_decode(
 					utils::text::slashu_to_utf8(
 						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 			
@@ -600,7 +600,7 @@ bool Omegle_client::events()
 				message = message.substr(stranger.length() + 4);
 
 				message = utils::text::trim(
-							utils::text::special_expressions_decode(
+							utils::text::html_entities_decode(
 								utils::text::slashu_to_utf8( message )) );
 				
 				stranger = Translate(stranger.c_str());
@@ -632,7 +632,7 @@ bool Omegle_client::events()
 			pos += 20;
 
 			std::string stranger = utils::text::trim(
-				utils::text::special_expressions_decode(
+				utils::text::html_entities_decode(
 					utils::text::slashu_to_utf8(
 						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
@@ -668,7 +668,7 @@ bool Omegle_client::events()
 			pos += 10;
 
 			std::string error = utils::text::trim(
-				utils::text::special_expressions_decode(
+				utils::text::html_entities_decode(
 					utils::text::slashu_to_utf8(
 						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
