@@ -40,25 +40,25 @@ void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addto
 	else gce.bIsMe = !mir_tstrcmp(name, this->facy.nick_);
 
 	if (addtolog)
-		gce.dwFlags  |= GCEF_ADDTOLOG;
+		gce.dwFlags |= GCEF_ADDTOLOG;
 
 	gce.ptszNick = name;
-	gce.ptszUID  = gce.ptszNick;
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	gce.ptszUID = gce.ptszNick;
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
 int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if(mir_strcmp(hook->pDest->pszModule,m_szModuleName))
+	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	switch(hook->pDest->iType)
+	switch (hook->pDest->iType)
 	{
 	case GC_USER_MESSAGE:
-	{		
-		std::string text = mir_t2a_cp(hook->ptszText,CP_UTF8);
+	{
+		std::string text = mir_t2a_cp(hook->ptszText, CP_UTF8);
 
 		// replace %% back to %, because chat automatically does this to sent messages
 		utils::text::replace_all(&text, "%%", "%");
@@ -66,17 +66,18 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 		if (text.empty())
 			break;
 
-		if (text.substr(0,1) == "/")
+		if (text.substr(0, 1) == "/")
 		{ // Process commands
-			
+
 			std::string command = "";
-			std::string params = "";						
+			std::string params = "";
 
 			std::string::size_type pos = 0;
 			if ((pos = text.find(" ")) != std::string::npos) {
-				command = text.substr(1, pos-1);
-				params = text.substr(pos+1);
-			} else {
+				command = text.substr(1, pos - 1);
+				params = text.substr(pos + 1);
+			}
+			else {
 				command = text.substr(1);
 			}
 
@@ -97,29 +98,30 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			{
 				facy.spy_mode_ = true;
 				facy.question_.clear();
-				
+
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
 			else if (!mir_strcmpi(command.c_str(), "ask"))
-			{						
+			{
 				if (params.empty()) {
 					// Load last question
 					DBVARIANT dbv;
-					if ( !getU8String( OMEGLE_KEY_LAST_QUESTION,&dbv )) {
+					if (!getU8String(OMEGLE_KEY_LAST_QUESTION, &dbv)) {
 						params = dbv.pszVal;
 						db_free(&dbv);
 					}
-					
+
 					if (params.empty()) {
 						UpdateChat(NULL, TranslateT("Last question is empty."), false);
 						break;
 					}
-				} else {
+				}
+				else {
 					// Save actual question as last question
 					if (params.length() >= OMEGLE_QUESTION_MIN_LENGTH)
 					{
-						setU8String( OMEGLE_KEY_LAST_QUESTION, params.c_str());
+						setU8String(OMEGLE_KEY_LAST_QUESTION, params.c_str());
 					}
 				}
 
@@ -137,12 +139,13 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			else if (!mir_strcmpi(command.c_str(), "asl"))
 			{
 				DBVARIANT dbv;
-				if ( !getU8String( OMEGLE_KEY_ASL,&dbv )) {
+				if (!getU8String(OMEGLE_KEY_ASL, &dbv)) {
 					text = dbv.pszVal;
 					db_free(&dbv);
 
 					SendChatMessage(text);
-				} else {
+				}
+				else {
 					UpdateChat(NULL, TranslateT("Your '/asl' setting is empty."), false);
 					break;
 				}
@@ -150,22 +153,22 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			else if (!mir_strcmpi(command.c_str(), "help"))
 			{
 				UpdateChat(NULL, TranslateT("There are three different modes of chatting:\
-\n1) Standard mode\t - You chat with random stranger privately\
-\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\
-\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
-\n\nSend '/commands' for available commands."), false);
+											\n1) Standard mode\t - You chat with random stranger privately\
+											\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\
+											\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
+											\n\nSend '/commands' for available commands."), false);
 			}
 			else if (!mir_strcmpi(command.c_str(), "commands"))
 			{
 				UpdateChat(NULL, TranslateT("You can use different commands:\
-\n/help\t - show info about chat modes\
-\n/new\t - start standard mode\
-\n/ask <question> - start question mode with your question\
-\n/ask\t - start question mode with your last asked question\
-\n/spy\t - start spy mode\
-\n/quit\t - disconnect from stranger or stop connecting\
-\n/asl\t - send your predefined ASL message\
-\n\nNote: You can reconnect to different stranger without disconnecting from current one."), false);
+											\n/help\t - show info about chat modes\
+											\n/new\t - start standard mode\
+											\n/ask <question> - start question mode with your question\
+											\n/ask\t - start question mode with your last asked question\
+											\n/spy\t - start spy mode\
+											\n/quit\t - disconnect from stranger or stop connecting\
+											\n/asl\t - send your predefined ASL message\
+											\n\nNote: You can reconnect to different stranger without disconnecting from current one."), false);
 				break;
 			}
 			else
@@ -174,11 +177,12 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				break;
 			}
 
-		} else {
+		}
+		else {
 			// Outgoing message
 			SendChatMessage(text);
 		}
-	
+
 		break;
 	}
 
@@ -208,8 +212,8 @@ void OmegleProto::SendChatMessage(std::string text)
 		UpdateChat(NULL, TranslateT("You can't send messages in question mode."), false);
 		break;
 
-	//case STATE_WAITING:
-	//case STATE_DISCONNECTING:
+		//case STATE_WAITING:
+		//case STATE_DISCONNECTING:
 	default:
 		break;
 	}
@@ -217,13 +221,13 @@ void OmegleProto::SendChatMessage(std::string text)
 
 /*void OmegleProto::SendChatEvent(int type)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
+GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
+GCEVENT gce = { sizeof(gce), &gcd };
+CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
 }*/
 
 void OmegleProto::AddChatContact(const TCHAR *name)
-{	
+{
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
@@ -233,7 +237,7 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 
 	if (name == NULL)
 		gce.bIsMe = false;
-	else 
+	else
 		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
 
 	if (gce.bIsMe)
@@ -241,7 +245,7 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 	else
 		gce.ptszStatus = _T("Normal");
 
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
 void OmegleProto::DeleteChatContact(const TCHAR *name)
@@ -254,37 +258,37 @@ void OmegleProto::DeleteChatContact(const TCHAR *name)
 	gce.time = DWORD(time(0));
 	if (name == NULL)
 		gce.bIsMe = false;
-	else 
+	else
 		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
 
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
-{	
+INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
+{
 	// Create the group chat session
-	GCSESSION gcw = {sizeof(gcw)};
+	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = m_tszUserName;
 	gcw.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	if(m_iStatus == ID_STATUS_OFFLINE)
+	if (m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
 
 	// Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	
+
 	gce.ptszStatus = _T("Admin");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+
 	gce.ptszStatus = _T("Normal");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	SetTopic();
-		
+
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)
 		SetChatStatus(m_iStatus);
@@ -293,7 +297,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 }
 
 void OmegleProto::SetTopic(const TCHAR *topic)
-{		
+{
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
@@ -303,17 +307,17 @@ void OmegleProto::SetTopic(const TCHAR *topic)
 	else
 		gce.ptszText = topic;
 
-	CallServiceSync(MS_GC_EVENT,0,  reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-INT_PTR OmegleProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR OmegleProto::OnLeaveChat(WPARAM, LPARAM)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
-	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT,SESSION_TERMINATE,reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
 
 	return 0;
 }
@@ -323,9 +327,9 @@ void OmegleProto::SetChatStatus(int status)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
-	
-	if(status == ID_STATUS_ONLINE)
-	{		
+
+	if (status == ID_STATUS_ONLINE)
+	{
 		// Load actual name from database
 		facy.nick_ = db_get_tsa(NULL, m_szModuleName, OMEGLE_KEY_NAME);
 		if (facy.nick_ == NULL) {
@@ -336,12 +340,12 @@ void OmegleProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(facy.nick_);
 
-		CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
 	}
 	else
 	{
-		CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
 	}
 }
 
@@ -361,17 +365,17 @@ MCONTACT OmegleProto::GetChatHandle()
 	/*if (facy.chatHandle_ != NULL)
 		return facy.chatHandle_;
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
-			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
-			if (id != NULL && !mir_strcmp(id, m_szModuleName))
-				return hContact;
+		ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
+		if (id != NULL && !mir_strcmp(id, m_szModuleName))
+		return hContact;
 		}
-	}
+		}
 
-	return NULL;*/
+		return NULL;*/
 
-	GC_INFO gci = {0};
+	GC_INFO gci = { 0 };
 	gci.Flags = GCF_HCONTACT;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = m_tszUserName;

@@ -84,11 +84,11 @@ class ScopedLock
 public:
 	ScopedLock(HANDLE h) : handle_(h)
 	{
-		WaitForSingleObject(handle_,INFINITE);
+		WaitForSingleObject(handle_, INFINITE);
 	}
 	~ScopedLock()
 	{
-		if(handle_)
+		if (handle_)
 			ReleaseMutex(handle_);
 	}
 	void Unlock()

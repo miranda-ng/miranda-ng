@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
-	PROTO<OmegleProto>(proto_name, username)
+PROTO<OmegleProto>(proto_name, username)
 {
 	this->facy.parent = this;
 

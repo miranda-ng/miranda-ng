@@ -22,52 +22,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class OmegleProto : public PROTO<OmegleProto>
+class OmegleProto : public PROTO < OmegleProto >
 {
 public:
-	OmegleProto( const char *proto_name, const TCHAR *username );
-	~OmegleProto( );
+	OmegleProto(const char *proto_name, const TCHAR *username);
+	~OmegleProto();
 
-	inline const char* ModuleName( ) const
+	inline const char* ModuleName() const
 	{
 		return m_szModuleName;
 	}
 
-	inline bool isOnline( )
+	inline bool isOnline()
 	{
-		return ( m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING );
+		return (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING);
 	}
 
-	inline bool isOffline( )
+	inline bool isOffline()
 	{
-		return ( m_iStatus == ID_STATUS_OFFLINE );
+		return (m_iStatus == ID_STATUS_OFFLINE);
 	}
 
 	// PROTO_INTERFACE
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
+	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
-	virtual	int       __cdecl SetStatus( int iNewStatus );
+	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	int       __cdecl UserIsTyping( MCONTACT hContact, int type );
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
-	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam );
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
 	// Services
-	INT_PTR __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM );
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
-	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
+	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
+	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int  __cdecl OnPrebuildContactMenu(WPARAM, LPARAM);
 
 	// Chat handling
-	int     __cdecl OnChatEvent(WPARAM,LPARAM);
-	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
-	INT_PTR __cdecl OnLeaveChat(WPARAM,LPARAM);
-		  
+	int     __cdecl OnChatEvent(WPARAM, LPARAM);
+	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
+
 	// Loops
 	void __cdecl EventsLoop(void*);
 
@@ -88,7 +88,7 @@ public:
 	//bool    IsMyContact(HANDLE, bool include_chat = false);
 
 	// Chat handling
- 	void AddChat(const TCHAR *id,const TCHAR *name);
+	void AddChat(const TCHAR *id, const TCHAR *name);
 	void UpdateChat(const TCHAR *name, const TCHAR *message, bool addtochat = true);
 	void SendChatMessage(std::string message);
 	void AddChatContact(const TCHAR *nick);
