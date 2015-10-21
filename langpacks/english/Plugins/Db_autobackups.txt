@@ -22,6 +22,7 @@
 [Compress backup to zip-archive]
 [Disable progress bar]
 [Disable popups]
+[Use Dropbox]
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
 [Created by:]
