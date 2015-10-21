@@ -230,6 +230,8 @@ int ProtoAckHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM pa
 
 static int lua_OnProtoAck(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -278,6 +280,8 @@ int RecvMessageHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM
 
 static int lua_OnReceiveMessage(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -319,9 +323,110 @@ static luaL_Reg protocolsApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_ACKDATA "ACKDATA"
+
+static int ack__init(lua_State *L)
+{
+	ACKDATA *udata = (ACKDATA*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	ACKDATA **ack = (ACKDATA**)lua_newuserdata(L, sizeof(ACKDATA*));
+	*ack = udata;
+
+	luaL_setmetatable(L, MT_ACKDATA);
+
+	return 1;
+}
+
+static int ack__index(lua_State *L)
+{
+	ACKDATA *ack = *(ACKDATA**)luaL_checkudata(L, 1, MT_ACKDATA);
+	const char *key = lua_tostring(L, 2);
+
+	if (!mir_strcmpi(key, "Module"))
+		lua_pushstring(L, ptrA(mir_utf8encode(ack->szModule)));
+	if (!mir_strcmpi(key, "hContact"))
+		lua_pushinteger(L, ack->hContact);
+	if (!mir_strcmpi(key, "Type"))
+		lua_pushinteger(L, ack->type);
+	if (!mir_strcmpi(key, "Result"))
+		lua_pushinteger(L, ack->result);
+	if (!mir_strcmpi(key, "hProcess"))
+		lua_pushlightuserdata(L, ack->hProcess);
+	if (!mir_strcmpi(key, "lParam"))
+		lua_pushnumber(L, ack->lParam);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg ackMeta[] =
+{
+	{ "__init", ack__init },
+	{ "__index", ack__index },
+	{ NULL, NULL }
+};
+
+#define MT_CCSDATA "CCSDATA"
+
+static int ccs__init(lua_State *L)
+{
+	CCSDATA *udata = (CCSDATA*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	CCSDATA **ccs = (CCSDATA**)lua_newuserdata(L, sizeof(CCSDATA*));
+	*ccs = udata;
+
+	luaL_setmetatable(L, MT_ACKDATA);
+
+	return 1;
+}
+
+static int ccs__index(lua_State *L)
+{
+	CCSDATA *ccs = *(CCSDATA**)luaL_checkudata(L, 1, MT_CCSDATA);
+	const char *key = lua_tostring(L, 2);
+
+	if (!mir_strcmpi(key, "hContact"))
+		lua_pushinteger(L, ccs->hContact);
+	if (!mir_strcmpi(key, "Message"))
+	{
+		PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
+		lua_pushstring(L, pre->szMessage);
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg ccsMeta[] =
+{
+	{ "__init", ccs__init },
+	{ "__index", ccs__index },
+	{ NULL, NULL }
+};
+
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	luaL_newlib(L, protocolsApi);
+
+	luaL_newmetatable(L, MT_ACKDATA);
+	luaL_setfuncs(L, ackMeta, 0);
+	lua_pop(L, 1);
+
+	luaL_newmetatable(L, MT_CCSDATA);
+	luaL_setfuncs(L, ccsMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }

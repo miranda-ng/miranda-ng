@@ -116,3 +116,49 @@ LPARAM luaM_tolparam(lua_State *L, int idx)
 	}
 	return lParam;
 }
+
+int luaM_totable(lua_State *L)
+{
+	const char *tname = luaL_checkstring(L, -1);
+
+	luaL_getmetatable(L, tname);
+	lua_getfield(L, -1, "__init");
+	lua_pushvalue(L, 1);
+	if (lua_pcall(L, 1, 1, 0))
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+
+	return 1;
+}
+
+void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
+{
+	if (Miranda_Terminated())
+	{
+		return;
+	}
+
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	{
+		POPUPDATA ppd = { 0 };
+		ppd.lchContact = hContact;
+		mir_strncpy(ppd.lpzContactName, caption, MAX_CONTACTNAME);
+		mir_strncpy(ppd.lpzText, message, MAX_SECONDLINE);
+
+		if (!PUAddPopup(&ppd))
+			return;
+	}
+
+	::MessageBoxA(NULL, message, caption, MB_OK | flags);
+}
+
+void ObsoleteMethod(lua_State *L, const char *message)
+{
+	lua_Debug info;
+	lua_getstack(L, 0, &info);
+	lua_getinfo(L, "n", &info);
+
+	char text[512];
+	mir_snprintf(text, "%s is obsolete. %s", info.name, message);
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)text);
+	ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+}

@@ -480,6 +480,8 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 
 static int lua_OnSettingChanged(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -500,6 +502,8 @@ static int lua_OnSettingChanged(lua_State *L)
 
 static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
 {
+	ObsoleteMethod(L, "Use totable(x, \"DBCONTACTWRITESETTING\") instead");
+
 	DBCONTACTWRITESETTING *pDBCWS = (DBCONTACTWRITESETTING*)lua_tointeger(L, 1);
 
 	lua_newtable(L);
@@ -575,9 +579,81 @@ static luaL_Reg databaseApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
+
+static int dbcw__init(lua_State *L)
+{
+	DBCONTACTWRITESETTING *udata = (DBCONTACTWRITESETTING*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	DBCONTACTWRITESETTING **dbcw = (DBCONTACTWRITESETTING**)lua_newuserdata(L, sizeof(DBCONTACTWRITESETTING*));
+	*dbcw = udata;
+
+	luaL_setmetatable(L, MT_DBCONTACTWRITESETTING);
+
+	return 1;
+}
+
+static int dbcw__index(lua_State *L)
+{
+	DBCONTACTWRITESETTING *dbcw = (DBCONTACTWRITESETTING*)luaL_checkudata(L, 1, MT_DBCONTACTWRITESETTING);
+	const char *key = luaL_checkstring(L, 2);
+
+	if (mir_strcmpi(key, "Module"))
+		lua_pushstring(L, dbcw->szModule);
+	if (mir_strcmpi(key, "Setting"))
+		lua_pushstring(L, dbcw->szSetting);
+	if (mir_strcmpi(key, "Value"))
+	{
+		switch (dbcw->value.type)
+		{
+		case DBVT_BYTE:
+			lua_pushinteger(L, dbcw->value.bVal);
+			break;
+		case DBVT_WORD:
+			lua_pushinteger(L, dbcw->value.wVal);
+			break;
+		case DBVT_DWORD:
+			lua_pushnumber(L, dbcw->value.dVal);
+			break;
+		case DBVT_ASCIIZ:
+			lua_pushstring(L, ptrA(mir_utf8encode(dbcw->value.pszVal)));
+			break;
+		case DBVT_UTF8:
+			lua_pushstring(L, dbcw->value.pszVal);
+			break;
+		case DBVT_WCHAR:
+			lua_pushstring(L, ptrA(mir_utf8encodeW(dbcw->value.pwszVal)));
+			break;
+		default:
+			lua_pushnil(L);
+		}
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static const luaL_Reg dbcwMeta[] =
+{
+	{ "__init", dbcw__init },
+	{ "__index", dbcw__index },
+	{ NULL, NULL }
+};
+
+
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
+
+	luaL_newmetatable(L, MT_DBCONTACTWRITESETTING);
+	luaL_setfuncs(L, dbcwMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }

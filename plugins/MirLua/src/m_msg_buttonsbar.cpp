@@ -132,7 +132,7 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
 	lua_pushnumber(L, wParam);
-	
+
 	CustomButtonClickData *bcd = (CustomButtonClickData*)lParam;
 
 	lua_newtable(L);
@@ -159,6 +159,8 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 
 static int lua_OnMsgToolBarButtonPressed(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -210,9 +212,58 @@ static luaL_Reg msgbuttinsbarApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_CUSTOMBUTTONCLICKDATA "CustomButtonClickData"
+
+static int bcd__init(lua_State *L)
+{
+	CustomButtonClickData *udata = (CustomButtonClickData*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	CustomButtonClickData **bcd = (CustomButtonClickData**)lua_newuserdata(L, sizeof(CustomButtonClickData*));
+	*bcd = udata;
+
+	luaL_setmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
+
+	return 1;
+}
+
+static int bcd__index(lua_State *L)
+{
+	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
+	const char *key = lua_tostring(L, 2);
+
+	if (!mir_strcmpi(key, "Module"))
+		lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
+	else if (!mir_strcmpi(key, "ButtonID"))
+		lua_pushinteger(L, bcd->dwButtonId);
+	else if (!mir_strcmpi(key, "hContact"))
+		lua_pushinteger(L, bcd->hContact);
+	else if (!mir_strcmpi(key, "Flags"))
+		lua_pushinteger(L, bcd->flags);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg bcdMeta[] =
+{
+	{ "__init", bcd__init },
+	{ "__index", bcd__index },
+	{ NULL, NULL }
+};
+
 LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 {
 	luaL_newlib(L, msgbuttinsbarApi);
+	
+	luaL_newmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
+	luaL_setfuncs(L, bcdMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }

@@ -41,6 +41,8 @@ void CMLua::Load()
 	lua_setfield(L, -2, "a");
 	lua_pushcclosure(L, luaM_toucs2, 0);
 	lua_setfield(L, -2, "u");
+	lua_pushcclosure(L, luaM_totable, 0);
+	lua_setfield(L, -2, "totable");
 	lua_pop(L, 1);
 
 	lua_atpanic(L, luaM_atpanic);
@@ -135,8 +137,8 @@ int CMLua::HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
-	lua_pushnumber(L, wParam);
-	lua_pushnumber(L, lParam);
+	lua_pushlightuserdata(L, (void*)wParam);
+	lua_pushlightuserdata(L, (void*)lParam);
 	if (lua_pcall(L, 2, 1, 0))
 		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 
