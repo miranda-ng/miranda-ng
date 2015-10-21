@@ -132,6 +132,10 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 			pcli->pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
 		else if (!mir_strcmp(cws->szSetting, "XStatusId") || !mir_strcmp(cws->szSetting, "XStatusName"))
 			cliCluiProtocolStatusChanged(0, cws->szModule);
+		else if (!mir_strcmp(cws->szModule, "CList")) {
+			if (!mir_strcmp(cws->szSetting, "OnTop"))
+				SetWindowPos(pcli->hwndContactList, cws->value.bVal ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+		}
 	}
 	else {
 		if (!mir_strcmp(cws->szSetting, "TickTS"))
@@ -143,7 +147,6 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!mir_strcmp(cws->szModule, "CList")) {
 			if (!mir_strcmp(cws->szSetting, "StatusMsg"))
 				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
-
 		}
 		else if (!mir_strcmp(cws->szModule, "ContactPhoto")) {
 			if (!mir_strcmp(cws->szSetting, "File"))
