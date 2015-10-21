@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.0.3
+;  Version: 3.1.1.4
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -112,8 +112,6 @@ Nie udało się utworzyć okna historii
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Otwórz e&ksportowaną historię
-[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
-Nie udało się dodać elementu menu Otwórz Wyeksportowaną Historię\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Nie znaleziono kontaktów do eksportu
@@ -163,8 +161,6 @@ Dodatkowe
 [Miranda NG (Message Export Plugin)]
 Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\utils.cpp
-[No_Nick]
-Brak nicka
 [No_Group]
 Brak grupy
 [Database: Attempt to get wrong type of value, string]

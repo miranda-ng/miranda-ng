@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
+;  Version: 0.1.3.0
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -16,8 +16,8 @@ Język:
 Widoczna nazwa:
 [Meet strangers with common interests (separated by commas):]
 Spotykaj obcych o wspólnych zainteresowaniach (oddzielone przecinkami):
-[Automatically send this message to stranger after connection:]
-Automatycznie wysyłaj tę wiadomość obcemu po połączeniu:
+[Automatically send one of these messages (each on new line) to stranger after connection:]
+Automatycznie wysyłaj jedną z tych wiadomości (każda w nowej linii) obcemu po połączeniu:
 [This text will be sent when you use "/asl" message:]
 Ten tekst zostanie wysłany po wpisaniu komendy /asl:
 [Last used question (Question mode):]
@@ -66,14 +66,16 @@ Błąd połączenia.
 Połączono z serwerem %s. Obecnie znajduje się na nim %s osób.
 [Connected to server %s.]
 Połączono z serwerem %s.
+[On whole Omegle are %s strangers online now.]
+W całym Omegle jest teraz %s użytkowników online.
 [Stranger 1]
 Obcy 1
 [Stranger 2]
 Obcy 2
 [Stranger]
 Obcy
-[You and the Stranger both like: ]
-Zarówno ty jak i obcy lubicie:\s
+[You and the Stranger both like: %s]
+Ty i obcy lubicie: %s
 [%s is typing.]
 %s pisze.
 [%s stopped typing.]
@@ -82,8 +84,8 @@ Zarówno ty jak i obcy lubicie:\s
 %s rozłączono.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Recaptcha jest wymagana.\nOtwórz http://omegle.com, podaj kod wyświetlony na obrazku i spróbuj jeszcze raz.
-[Error: ]
-Błąd:\s
+[Error: %s]
+Błąd: %s
 [We are still waiting...]
 Wciąż czekamy...
 ;file \protocols\Omegle\src\connection.cpp
@@ -115,6 +117,8 @@ Obcy pisze
 Obcy przestał pisać
 [Changing stranger]
 Zmienianie obcego
+[Receive message]
+Otrzymana wiadomość
 [Visible name]
 Widoczna nazwa
 [Network]
@@ -124,3 +128,5 @@ Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Ikona Omegle
+[Stranger is typing]
+Obcy pisze
