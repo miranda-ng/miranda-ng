@@ -146,7 +146,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
     CONTROL         "Launch Miranda with this profile",IDC_LAUNCHMIRANDA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,87,226,10,WS_EX_CLIENTEDGE
-    LTEXT           "Launches Miranda with the profile that was just worked on.",IDC_STATIC,37,98,212,8
+    LTEXT           "Launches Miranda with the profile that was just worked on.",IDC_STATIC,37,98,212,16
     LTEXT           "",IDC_DBFILE,23,68,226,8,SS_NOPREFIX | WS_BORDER
     RTEXT           "Backup:",IDC_STBACKUP,23,76,30,8
     LTEXT           "",IDC_BACKUPFILE,56,76,193,8,SS_NOPREFIX
