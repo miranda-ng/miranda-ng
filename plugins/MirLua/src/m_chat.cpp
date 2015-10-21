@@ -7,7 +7,11 @@ int GCHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
-	lua_pushnumber(L, wParam);
+	WPARAM* wParam_ptr = (WPARAM*)lua_newuserdata(L, sizeof(WPARAM));
+	*wParam_ptr = wParam;
+
+	LPARAM* lParam_ptr = (LPARAM*)lua_newuserdata(L, sizeof(LPARAM));
+	*lParam_ptr = lParam;
 
 	GCEVENT *gce = (GCEVENT*)lParam;
 
@@ -53,6 +57,8 @@ int GCHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 
 static int lua_OnReceiveEvent(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -78,9 +84,70 @@ static luaL_Reg chatApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_GCEVENT "GCEVENT"
+
+static int gce__init(lua_State *L)
+{
+	GCEVENT *udata = (GCEVENT*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	GCEVENT **gce = (GCEVENT**)lua_newuserdata(L, sizeof(GCEVENT*));
+	*gce = udata;
+
+	luaL_setmetatable(L, MT_GCEVENT);
+
+	return 1;
+}
+
+static int gce__index(lua_State *L)
+{
+	GCEVENT *gce = (GCEVENT*)luaL_checkudata(L, 1, MT_GCEVENT);
+	const char *key = luaL_checkstring(L, 2);
+
+	if (mir_strcmpi(key, "Module"))
+		lua_pushstring(L, gce->pDest->pszModule);
+	if (mir_strcmpi(key, "Id"))
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+	if (mir_strcmpi(key, "Type"))
+		lua_pushinteger(L, gce->pDest->iType);
+	if (mir_strcmpi(key, "Timestamp"))
+		lua_pushnumber(L, gce->time);
+	if (mir_strcmpi(key, "IsMe"))
+		lua_pushboolean(L, gce->bIsMe);
+	if (mir_strcmpi(key, "Flags"))
+		lua_pushinteger(L, gce->dwFlags);
+	if (mir_strcmpi(key, "Uid"))
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+	if (mir_strcmpi(key, "Nick"))
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+	if (mir_strcmpi(key, "Status"))
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+	if (mir_strcmpi(key, "Text"))
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static const luaL_Reg gceMeta[] =
+{
+	{ "__init", gce__init },
+	{ "__index", gce__index },
+	{ NULL, NULL }
+};
+
 LUAMOD_API int luaopen_m_chat(lua_State *L)
 {
 	luaL_newlib(L, chatApi);
+
+	luaL_newmetatable(L, MT_GCEVENT);
+	luaL_setfuncs(L, gceMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }

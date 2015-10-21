@@ -119,6 +119,8 @@ static int lua_RemoveButton(lua_State *L)
 
 static int lua_OnTopToolBarLoaded(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);

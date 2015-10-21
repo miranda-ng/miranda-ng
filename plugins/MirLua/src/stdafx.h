@@ -106,8 +106,14 @@ int luaM_atpanic(lua_State *L);
 int luaM_toansi(lua_State *L);
 int luaM_toucs2(lua_State *L);
 
+int luaM_totable(lua_State *L);
+
 bool luaM_toboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
+
+void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact);
+
+void ObsoleteMethod(lua_State *L, const char *message);
 
 #endif //_COMMON_H_

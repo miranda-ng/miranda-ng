@@ -103,6 +103,8 @@ int MsgWindowEventHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPA
 
 static int lua_OnMsgWindowEvent(lua_State *L)
 {
+	ObsoleteMethod(L, "Use m.HookEvent instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -131,9 +133,58 @@ static luaL_Reg messageApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_MESSAGEWINDOWEVENTDATA "MessageWindowEventData"
+
+static int mwed__init(lua_State *L)
+{
+	MessageWindowEventData *udata = (MessageWindowEventData*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	MessageWindowEventData **mwed = (MessageWindowEventData**)lua_newuserdata(L, sizeof(MessageWindowEventData*));
+	*mwed = udata;
+
+	luaL_setmetatable(L, MT_MESSAGEWINDOWEVENTDATA);
+
+	return 1;
+}
+
+static int mwed__index(lua_State *L)
+{
+	MessageWindowEventData *mwed = *(MessageWindowEventData**)luaL_checkudata(L, 1, MT_MESSAGEWINDOWEVENTDATA);
+	const char *key = lua_tostring(L, 2);
+
+	if (!mir_strcmpi(key, "Module"))
+		lua_pushstring(L, ptrA(mir_utf8encode(mwed->szModule)));
+	if (!mir_strcmpi(key, "Type"))
+		lua_pushinteger(L, mwed->uType);
+	if (!mir_strcmpi(key, "hContact"))
+		lua_pushinteger(L, mwed->hContact);
+	if (!mir_strcmpi(key, "Flags"))
+		lua_pushinteger(L, mwed->uFlags);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg mwedMeta[] =
+{
+	{ "__init", mwed__init },
+	{ "__index", mwed__index },
+	{ NULL, NULL }
+};
+
 LUAMOD_API int luaopen_m_message(lua_State *L)
 {
 	luaL_newlib(L, messageApi);
+
+	luaL_newmetatable(L, MT_MESSAGEWINDOWEVENTDATA);
+	luaL_setfuncs(L, mwedMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }
