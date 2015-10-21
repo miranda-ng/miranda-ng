@@ -18,12 +18,16 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 	lua_pop(L, 1);
 }
 
-void CLuaScriptLoader::LoadScript(const TCHAR *path, int iGroup)
+void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file, int iGroup)
 {
+	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
+	mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, file);
+	PathToRelativeT(fullPath, path);
+
 	CMLuaScript *script = new CMLuaScript(L, path, iGroup);
 	g_mLua->Scripts.insert(script);
 
-	if (script->Load())
+	if (db_get_b(NULL, MODULE, _T2A(file), 1) && script->Load())
 	{
 		TCHAR buf[4096];
 		mir_sntprintf(buf, _T("%s:OK"), path);
@@ -42,22 +46,14 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir, int iGroup)
 	TCHAR searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
 
-	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
-
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchMask, &fd);
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
 		do
-		{
 			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
-				PathToRelativeT(fullPath, path);
-				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					LoadScript(fullPath, iGroup);
-			}
-		} while (FindNextFile(hFind, &fd));
+				LoadScript(scriptDir, fd.cFileName, iGroup);
+		while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }

@@ -10,7 +10,7 @@ private:
 
 	void RegisterScriptsFolder(const char *path);
 
-	void LoadScript(const TCHAR *path, int iGroup = 0);
+	void LoadScript(const TCHAR *scriptDir, const TCHAR *file, int iGroup = 0);
 	void LoadScripts(const TCHAR *scriptDir, int iGroup = 0);
 
 public:
