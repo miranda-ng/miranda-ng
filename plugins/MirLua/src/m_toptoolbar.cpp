@@ -32,9 +32,6 @@ static TTBButton* MakeTBButton(lua_State *L)
 	tbb->dwFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(tbb->dwFlags & TTBBF_ISLBUTTON))
-		tbb->dwFlags |= TTBBF_ISLBUTTON;
-
 	// up state
 	lua_pushliteral(L, "IconUp");
 	lua_gettable(L, -2);
