@@ -18,7 +18,7 @@ Aktiviert
 [This plugin requires Windows 8 or higher]
 Dieses Plugin benötigt Windows 8 oder neuer.
 [Failed to create temporary directory]
-
+Konnte temporäres Verzeichnis nicht erstellen.
 ;file \plugins\Toaster\src\options.cpp
 [Failed to create shortcut]
 Erstellung der Verknüpfung fehlgeschlagen.
