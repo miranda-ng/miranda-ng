@@ -53,10 +53,10 @@ using namespace std;
 #include <m_userinfoex.h>
 #include <m_spellchecker.h>
 
-#include <../utils/mir_options.h>
-//#include <../utils/tstring.h>
-#include <../utils/utf8_helpers.h>
-#include <../utils/scope.h>
+#include <../../utils/mir_options.h>
+//#include <../../utils/tstring.h>
+#include <../../utils/utf8_helpers.h>
+#include <../../utils/scope.h>
 
 #include "hunspell/affentry.hxx"
 #include "hunspell/config.h"

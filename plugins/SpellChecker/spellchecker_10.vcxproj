@@ -213,7 +213,7 @@
     <ClCompile Include="src\ardialog.cpp" />
     <ClCompile Include="src\autoreplace.cpp" />
     <ClCompile Include="src\dictionary.cpp" />
-    <ClCompile Include="..\utils\mir_options.cpp">
+    <ClCompile Include="..\..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
@@ -255,7 +255,7 @@
       <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\SpellChecker.cpp" />
-    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\..\utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

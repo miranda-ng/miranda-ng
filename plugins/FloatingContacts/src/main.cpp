@@ -16,7 +16,7 @@ No warranty for any misbehaviour.
 
 #include "stdafx.h"
 
-#include "../Utils/mir_fonts.h"
+#include "../../utils/mir_fonts.h"
 
 // Globals
 

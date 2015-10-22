@@ -26,10 +26,10 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="..\utils\mir_options.h" />
+    <ClInclude Include="..\..\utils\mir_options.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Utils\mir_options.cpp">
+    <ClCompile Include="..\..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

@@ -155,7 +155,7 @@
     <ClCompile Include="src\shutdownsvc.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\watcher.cpp" />
-    <ClCompile Include="..\Utils\mir_fonts.cpp">
+    <ClCompile Include="..\..\utils\mir_fonts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

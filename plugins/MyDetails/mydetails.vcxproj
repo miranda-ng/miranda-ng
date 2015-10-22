@@ -26,15 +26,15 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="..\utils\mir_options.cpp">
+    <ClCompile Include="..\..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\utils\mir_smileys.cpp">
+    <ClCompile Include="..\..\utils\mir_smileys.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\utils\mir_options.h" />
-    <ClInclude Include="..\utils\mir_smileys.h" />
+    <ClInclude Include="..\..\utils\mir_options.h" />
+    <ClInclude Include="..\..\utils\mir_smileys.h" />
   </ItemGroup>
 </Project>
