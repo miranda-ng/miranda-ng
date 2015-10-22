@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
+;  Version: 0.1.3.0
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -15,8 +15,6 @@
 Видиме ім'я:
 [Meet strangers with common interests (separated by commas):]
 Шукати незнайомців із спільними інтересами (розділяти комою):
-[Automatically send this message to stranger after connection:]
-Автоматично надсилати повідомлення незнайомцю після підключення:
 [This text will be sent when you use "/asl" message:]
 Повідомлення для відправки по команді '/asl':
 [Last used question (Question mode):]
@@ -69,8 +67,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 Незнайомець 2
 [Stranger]
 Незнайомець
-[You and the Stranger both like: ]
-Вам і незнайомцю подобається:\s
+[You and the Stranger both like: %s]
+Вам і незнайомцю подобається: %s
 [%s is typing.]
 %s друкує.
 [%s stopped typing.]
@@ -79,8 +77,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 %s відключився.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Потрібна капча.\nПерейдіть на http://omegle.com, введіть капчу і спробуйте знову.
-[Error: ]
-Помилка:\s
+[Error: %s]
+Помилка: %s
 [We are still waiting...]
 Ми досі чекаємо...
 [Connecting canceled.]
@@ -117,3 +115,5 @@ Omegle - чудовий спосіб знайти нових друзів!
 Обліковий запис
 [Omegle Icon]
 Значок протоколу
+[Stranger is typing]
+Незнайомець набирає

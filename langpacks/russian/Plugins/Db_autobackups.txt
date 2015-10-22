@@ -37,6 +37,8 @@
 Отключить индикатор выполнения
 [Disable popups]
 Отключить всплывающие окна
+[Use Dropbox]
+Использовать Dropbox
 [Miranda NG database]
 Резервная копия профиля Miranda NG
 [Created by:]

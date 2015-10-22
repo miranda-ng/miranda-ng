@@ -14,7 +14,6 @@
 [With scroll to bottom %d\n]
 [Syntax highlight]
 [Failed to create history dialog]
-[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 [Failed to get the shells allocator!]
 [Failed to Allocate buffer space]

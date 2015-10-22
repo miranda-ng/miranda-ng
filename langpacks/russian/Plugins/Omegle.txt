@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
+;  Version: 0.1.3.0
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -15,8 +15,8 @@
 Видимое имя:
 [Meet strangers with common interests (separated by commas):]
 Искать незнакомцев с общими интересами (через запятую):
-[Automatically send this message to stranger after connection:]
-Автоматически отправлять сообщение незнакомцу после подключения:
+[Automatically send one of these messages (each on new line) to stranger after connection:]
+Автоматически отправлять одно из сообщений (каждое с новой строки) незнакомцу после подключения:
 [This text will be sent when you use "/asl" message:]
 Сообщение для отправки по команде '/asl':
 [Last used question (Question mode):]
@@ -63,14 +63,16 @@ Omegle - отличный способ найти новых друзей!
 Подключён к серверу %s (%s пользователей в сети).
 [Connected to server %s.]
 Подключён к серверу %s.
+[On whole Omegle are %s strangers online now.]
+Пользователей в сети: %s
 [Stranger 1]
 Незнакомец 1
 [Stranger 2]
 Незнакомец 2
 [Stranger]
 Незнакомец
-[You and the Stranger both like: ]
-Вам и незнакомцу нравится:\s
+[You and the Stranger both like: %s]
+Вам и незнакомцу нравится: %s
 [%s is typing.]
 %s набирает сообщение.
 [%s stopped typing.]
@@ -79,8 +81,8 @@ Omegle - отличный способ найти новых друзей!
 %s отключился.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Требуется капча.\nПерейдите на http://omegle.com, введите капчу и попробуйте ещё раз.
-[Error: ]
-Ошибка:\s
+[Error: %s]
+Ошибка: %s
 [We are still waiting...]
 Мы до сих пор ждём...
 [Connecting canceled.]
@@ -117,3 +119,5 @@ Omegle - отличный способ найти новых друзей!
 Учётная запись
 [Omegle Icon]
 Значок протокола
+[Stranger is typing]
+Незнакомец набирает текст

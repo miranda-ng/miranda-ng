@@ -1,0 +1,3 @@
+﻿[Automatically send one of these messages (each on new line) to stranger after connection:]
+[On whole Omegle are %s strangers online now.]
+[Receive message]

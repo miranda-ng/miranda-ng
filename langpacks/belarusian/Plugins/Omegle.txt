@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
+;  Version: 0.1.3.0
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -15,8 +15,8 @@
 Бачнае імя:
 [Meet strangers with common interests (separated by commas):]
 Шукаць незнаёмцаў з агульнымі інтарэсамі (падзельнік коска):
-[Automatically send this message to stranger after connection:]
-Аўтаматычна адпраўляць гэта паведамленне незнаёмцам пасля далучэння:
+[Automatically send one of these messages (each on new line) to stranger after connection:]
+
 [This text will be sent when you use "/asl" message:]
 Гэты тэкст будзе адпраўлены, калі вы напішаце  "/asl":
 [Last used question (Question mode):]
@@ -63,14 +63,16 @@ Omegle гэта новы спосаб сяброўства!
 Далучэнняў да сервера %s. Там зараз далучана %s кантактаў.
 [Connected to server %s.]
 Далучэнне да сервера %s.
+[On whole Omegle are %s strangers online now.]
+
 [Stranger 1]
 Незнаёмы 1
 [Stranger 2]
 Незнаёмы 2
 [Stranger]
 Незнаёмец
-[You and the Stranger both like: ]
-Вам і незнаёмцу падабаецца:\s
+[You and the Stranger both like: %s]
+Вам і незнаёмцу падабаецца:%s
 [%s is typing.]
 %s піша.
 [%s stopped typing.]
@@ -79,8 +81,8 @@ Omegle гэта новы спосаб сяброўства!
 %s адкючыўся.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Патрэбны код праверкі.\nПерайдзіце на http://omegle.com, увядзіце там капчу і паспрабуйце ізноў.
-[Error: ]
-Памылка:\s
+[Error: %s]
+Памылка:%s
 [We are still waiting...]
 Мы доўга чакаем...
 [Connecting canceled.]
@@ -109,6 +111,8 @@ Omegle гэта новы спосаб сяброўства!
 Незнаёмец скончыў пісаць
 [Changing stranger]
 Змена незнаёмца
+[Receive message]
+
 [Visible name]
 Бачнае імя
 [Network]
@@ -117,3 +121,5 @@ Omegle гэта новы спосаб сяброўства!
 Конт
 [Omegle Icon]
 Абразок Omegle
+[Stranger is typing]
+Незнаёмец піша
