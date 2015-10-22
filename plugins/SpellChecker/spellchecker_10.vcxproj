@@ -255,7 +255,7 @@
       <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\SpellChecker.cpp" />
-    <ClCompile Include="src\..\utils.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
