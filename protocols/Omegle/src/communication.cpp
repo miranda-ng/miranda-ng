@@ -533,7 +533,7 @@ bool Omegle_client::events()
 			else if (name == "commonLikes") {
 				std::tstring likes = TranslateT("You and the Stranger both like: ");
 
-				JSONNode *items = json_as_array(json_at(item, 1));
+				JSONNode *items = json_at(item, 1);
 				size_t size = json_size(items);
 				for (size_t i = 0; i < size; i++) {
 					likes += ptrT(json_as_string(json_at(items, i)));
