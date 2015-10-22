@@ -478,14 +478,11 @@ bool Omegle_client::events()
 		bool newStranger = false;
 		bool waiting = false;
 
-		JSONNode *items = json_as_array(root);
-		
-		for (size_t i = 0; i < json_size(items); i++) {
-			JSONNode *child = json_at(items, i);
-			if (child == NULL)
+		for (size_t i = 0; i < json_size(root); i++) {
+			JSONNode *item = json_at(root, i);
+			if (item == NULL)
 				continue;
 
-			JSONNode *item = json_as_array(child);
 			std::string name = _T2A(json_as_string(json_at(item, 0)));
 		
 			if (name == "waiting") {
@@ -534,12 +531,12 @@ bool Omegle_client::events()
 				waiting = false;
 			}
 			else if (name == "commonLikes") {
-				std::tstring likes = TranslateT("You and the Stranger both like: %s");
+				std::tstring likes = TranslateT("You and the Stranger both like: ");
 
 				JSONNode *items = json_as_array(json_at(item, 1));
 				size_t size = json_size(items);
 				for (size_t i = 0; i < size; i++) {
-					likes += json_as_string(json_at(items, i));
+					likes += ptrT(json_as_string(json_at(items, i)));
 					if (i < size - 1)
 						likes += _T(", ");
 				}
