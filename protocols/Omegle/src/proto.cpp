@@ -58,7 +58,7 @@ PROTO<OmegleProto>(proto_name, username)
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENT("Stranger typing"));
+	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENT("Stranger is typing"));
 	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENT("Stranger stopped typing"));
 	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENT("Changing stranger"));
 	SkinAddNewSoundExT("StrangerMessage", m_tszUserName, LPGENT("Receive message"));
