@@ -17,7 +17,7 @@ Sichtbarer Name:
 [Meet strangers with common interests (separated by commas):]
 Fremde mit gemeinsamen Interessen treffen (durch Komma trennen):
 [Automatically send one of these messages (each on new line) to stranger after connection:]
-
+Automatisch eine der folgenden Nachrichten (eine pro Zeile) an den Fremden nach dem Verbinden senden:
 [This text will be sent when you use "/asl" message:]
 Dieser Text wird gesendet nachdem Sie "/asl" Nachrichten nutzen:
 [Last used question (Question mode):]
@@ -67,7 +67,7 @@ Verbinde zum Server %s. Es sind jetzt %s Nutzer online.
 [Connected to server %s.]
 Verbinde zum Server %s.
 [On whole Omegle are %s strangers online now.]
-
+Auf Omegle sind momentan insgesamt %s Fremde online.
 [Stranger 1]
 Fremder 1
 [Stranger 2]
@@ -118,7 +118,7 @@ Fremder tippt nicht mehr
 [Changing stranger]
 Fremder wechselt
 [Receive message]
-
+Nachricht empfangen
 [Visible name]
 Sichtbarer Name
 [Network]

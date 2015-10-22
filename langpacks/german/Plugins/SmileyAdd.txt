@@ -53,7 +53,7 @@ Deaktivieren
 [Smiley button]
 Smileybutton
 [Background\ncolor]
-
+Hintergrund-\nfarbe
 [Surround inserted smiley with spaces]
 Eingefügte Smileys mit Leerzeichen umgeben
 [Use first smiley for selection size]
@@ -61,7 +61,7 @@ Auswahlgröße an ersten Smiley anpassen
 [IEView style window]
 IEView-Auswahlfenster
 [Horizontal sorting]
-
+Horizontal sortieren
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Smiley-Auswahlfenster anzeigen

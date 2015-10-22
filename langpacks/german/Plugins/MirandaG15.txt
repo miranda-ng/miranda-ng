@@ -113,7 +113,7 @@ Emotes
 [Status changes]
 Statusänderungen
 [Group chat events:]
-
+Gruppenchatereignisse:
 [Notices]
 Notizen
 [Channel events]
