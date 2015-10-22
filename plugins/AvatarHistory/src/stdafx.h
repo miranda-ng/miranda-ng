@@ -24,7 +24,7 @@
 #include <m_metacontacts.h>
 #include <m_avatarhistory.h>
 
-#include "../utils/mir_options.h"
+#include "../../utils/mir_options.h"
 
 #include "resource.h"
 #include "Version.h"

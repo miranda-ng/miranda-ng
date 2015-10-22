@@ -50,8 +50,8 @@ Boston, MA 02111-1307, USA.
 #include <m_mydetails.h>
 #include <m_skin_eng.h>
 
-#include "../utils/mir_smileys.h"
-#include "../utils/mir_options.h"
+#include "../../utils/mir_smileys.h"
+#include "../../utils/mir_options.h"
 
 #include "resource.h"
 #include "Version.h"
