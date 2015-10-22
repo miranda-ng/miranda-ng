@@ -4,6 +4,7 @@
 [Go to the "Customize -> Folders" to change settings]
 [Compress backup to zip-archive]
 [Disable popups]
+[Use Dropbox]
 [Created by:]
 [Database backed up]
 [Database back up in process...]

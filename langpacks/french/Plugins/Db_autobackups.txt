@@ -38,6 +38,8 @@ Dossier de sauvegarde :
 Désactiver la barre de progression
 [Disable popups]
 
+[Use Dropbox]
+
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
 Profil Miranda-IM

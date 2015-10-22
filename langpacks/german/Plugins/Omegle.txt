@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
+;  Version: 0.1.3.0
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -16,8 +16,8 @@ Sprache:
 Sichtbarer Name:
 [Meet strangers with common interests (separated by commas):]
 Fremde mit gemeinsamen Interessen treffen (durch Komma trennen):
-[Automatically send this message to stranger after connection:]
-Automatisch diese Nachricht zu Fremden nach dem Verbinden senden:
+[Automatically send one of these messages (each on new line) to stranger after connection:]
+
 [This text will be sent when you use "/asl" message:]
 Dieser Text wird gesendet nachdem Sie "/asl" Nachrichten nutzen:
 [Last used question (Question mode):]
@@ -66,14 +66,16 @@ Verbindungsfehler.
 Verbinde zum Server %s. Es sind jetzt %s Nutzer online.
 [Connected to server %s.]
 Verbinde zum Server %s.
+[On whole Omegle are %s strangers online now.]
+
 [Stranger 1]
 Fremder 1
 [Stranger 2]
 Fremder 2
 [Stranger]
 Unbekannter
-[You and the Stranger both like: ]
-Sie und der Fremde mögen beide:\s
+[You and the Stranger both like: %s]
+Sie und der Fremde mögen beide: %s
 [%s is typing.]
 %s tippt.
 [%s stopped typing.]
@@ -82,8 +84,8 @@ Sie und der Fremde mögen beide:\s
 %s wurde getrennt.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha und versuchen Sie es nochmal.
-[Error: ]
-Fehler:\s
+[Error: %s]
+Fehler: %s
 [We are still waiting...]
 Wir warten immer noch...
 ;file \protocols\Omegle\src\connection.cpp
@@ -115,6 +117,8 @@ Fremder tippt
 Fremder tippt nicht mehr
 [Changing stranger]
 Fremder wechselt
+[Receive message]
+
 [Visible name]
 Sichtbarer Name
 [Network]
@@ -124,3 +128,5 @@ Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Omegle-Icon
+[Stranger is typing]
+Fremder tippt

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.0.3
+;  Version: 3.1.1.4
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -109,8 +109,6 @@ UTF8 у новых файлах
 
 [Open E&xported History]
 Экспартаваная гісторыя
-[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
-
 [No contacts found to export]
 Няма кантактаў для экспарту
 [Reading database information (Phase 1 of 2)]
@@ -157,8 +155,6 @@ UTF8 у новых файлах
 Дадаткова
 [Miranda NG (Message Export Plugin)]
 Miranda NG (Плагін экспарту паведамленняў)
-[No_Nick]
-Без_Мянушкі
 [No_Group]
 Без_Гурта
 [Database: Attempt to get wrong type of value, string]

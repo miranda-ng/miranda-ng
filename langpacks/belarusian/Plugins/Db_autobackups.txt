@@ -37,6 +37,8 @@
 Адключыць індыкатар выканання
 [Disable popups]
 Адключыць усплывальныя вокны
+[Use Dropbox]
+
 [Miranda NG database]
 Рэзервовая копія профіля
 [Created by:]
