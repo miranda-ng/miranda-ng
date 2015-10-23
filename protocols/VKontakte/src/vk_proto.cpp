@@ -171,6 +171,8 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
+	//Sounds
+	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("VKontakte newsfeed & notification event"));
 
 	InitPopups();
 	InitMenus();
@@ -397,12 +399,39 @@ void CVkProto::UnInitMenus()
 /////////////////////////////////////////////////////////////////////////////////////////
 // PopUp support 
 
+LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_COMMAND:
+	case WM_CONTEXTMENU:
+		{
+			CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
+			if (pd != NULL && pd->hContact != NULL)
+				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pd->hContact, 0);	
+			PUDeletePopup(hwnd);
+		} 
+		break;
+	case UM_FREEPLUGINDATA:
+		{
+			CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
+			delete pd;
+		} 
+		return FALSE;
+	default:
+		break;
+	}
+
+	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
 void CVkProto::InitPopups(void)
 {
 	TCHAR desc[256];
 	char name[256];
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
+	ppc.PluginWindowProc = PopupDlgProc;
+	ppc.lParam = APF_RETURN_HWND;
 
 	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
@@ -435,6 +464,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 		ppd.ptszText = szMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
+		ppd.PluginData = new CVkSendMsgParam(hContact);
 		mir_snprintf(name, "%s_%s", m_szModuleName, err ? "Error" : "Notification");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
