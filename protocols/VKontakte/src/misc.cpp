@@ -1160,6 +1160,8 @@ CMString CVkProto::RemoveBBC(CMString& tszSrc)
 
 	static const TCHAR* tszParamBBCodes[][2] = {
 		{ _T("[url="), _T("[/url]") },
+		{ _T("[img="), _T("[/img]") },
+		{ _T("[size="), _T("[/size]") },
 		{ _T("[color="), _T("[/color]") },
 	};
 
