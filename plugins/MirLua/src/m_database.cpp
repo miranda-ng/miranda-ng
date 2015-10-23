@@ -334,7 +334,7 @@ static int lua_SettingIterator(lua_State *L)
 	{
 		lua_pushnil(L);
 		mir_free(param->pszSettingName);
-		//mir_free(param);
+		mir_free(param);
 	}
 
 	return 1;
@@ -342,8 +342,8 @@ static int lua_SettingIterator(lua_State *L)
 
 static int lua_AllSettings(lua_State *L)
 {
-	const char* szModule = luaL_checkstring(L, 1);
-	MCONTACT hContact = lua_tointeger(L, 2);
+	MCONTACT hContact = lua_tointeger(L, 1);
+	const char* szModule = luaL_checkstring(L, 2);
 
 	enumDBSettingsParam* param = (enumDBSettingsParam*)mir_alloc(sizeof(enumDBSettingsParam));
 	param->count = 0;
@@ -365,6 +365,8 @@ static int lua_AllSettings(lua_State *L)
 
 static int lua_EnumSettings(lua_State *L)
 {
+	ObsoleteMethod(L, "Use \"for x in db.AllSettings \" instead");
+
 	LPCSTR szModule = luaL_checkstring(L, 1);
 	MCONTACT hContact = lua_tointeger(L, 2);
 
