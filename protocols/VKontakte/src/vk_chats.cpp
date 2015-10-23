@@ -659,9 +659,10 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (chat_id == -1)
 		return 1;
 
+	CMString tszReturnChatMessage(ptrT(getTStringA("ReturnChatMessage")));
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("chat_id", chat_id)
-		<< TCHAR_PARAM("message", TranslateT("I'm back"))
+		<< TCHAR_PARAM("message", tszReturnChatMessage.IsEmpty() ? TranslateT("I'm back") : tszReturnChatMessage)
 		<< VER_API;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pReq);

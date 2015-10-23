@@ -145,8 +145,9 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Feed ==========================================================================
 
 	void AddFeedSpecialUser();
-	void AddFeedEvent(CMString& tszBody, time_t tTime);
-	
+	void AddFeedEvent(CVKNewsItem& vkNewsItem);
+	void AddCListEvent(bool bNews);
+		
 	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);
 		
@@ -212,6 +213,7 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
 
 	void SetInvisible(MCONTACT hContact);
+	CMString RemoveBBC(CMString& tszSrc);
 
 	//====================================================================================
 

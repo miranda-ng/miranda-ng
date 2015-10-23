@@ -212,6 +212,8 @@ struct CVKNewsItem : public MZeroedObject {
 	CMString tszText;
 	CMString tszLink;
 	CMString tszType;
+	CMString tszPopupTitle;
+	CMString tszPopupText;
 	VKObjType vkFeedbackType, vkParentType;
 	bool bIsGroup;
 	bool bIsRepost;

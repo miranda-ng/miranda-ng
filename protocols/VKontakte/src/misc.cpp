@@ -1148,3 +1148,82 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	}
 	setDword(hContact, "InvisibleTS", time(NULL));
 }
+
+CMString CVkProto::RemoveBBC(CMString& tszSrc) 
+{
+	static const TCHAR* tszSimpleBBCodes[][2] = {
+		{ _T("[b]"), _T("[/b]") },
+		{ _T("[u]"), _T("[/u]") },
+		{ _T("[i]"), _T("[/i]") },
+		{ _T("[s]"), _T("[/s]") },
+	};
+
+	static const TCHAR* tszParamBBCodes[][2] = {
+		{ _T("[url="), _T("[/url]") },
+		{ _T("[color="), _T("[/color]") },
+	};
+
+	CMString tszRes(tszSrc); 
+	CMString tszLow(tszSrc); 
+	tszLow.MakeLower();
+
+	for (int i = 0; i < _countof(tszSimpleBBCodes); i++) {
+		CMString tszOpenTag(tszSimpleBBCodes[i][0]);
+		CMString tszCloseTag(tszSimpleBBCodes[i][1]);
+		
+		int lenOpen = tszOpenTag.GetLength();
+		int lenClose = tszCloseTag.GetLength();
+
+		int posOpen = 0;
+		int posClose = 0;
+
+		while (true) {
+			if ((posOpen = tszLow.Find(tszOpenTag, posOpen)) < 0)
+				break;
+
+			if ((posClose = tszLow.Find(tszCloseTag, posOpen + lenOpen)) < 0)
+				break;
+
+			tszLow.Delete(posOpen, lenOpen);
+			tszLow.Delete(posClose - lenOpen, lenClose);
+
+			tszRes.Delete(posOpen, lenOpen);
+			tszRes.Delete(posClose - lenOpen, lenClose);
+
+		}
+	}
+
+	for (int i = 0; i < _countof(tszParamBBCodes); i++) {
+		CMString tszOpenTag(tszParamBBCodes[i][0]);
+		CMString tszCloseTag(tszParamBBCodes[i][1]);
+
+		int lenOpen = tszOpenTag.GetLength();
+		int lenClose = tszCloseTag.GetLength();
+
+		int posOpen = 0;
+		int posOpen2 = 0;
+		int posClose = 0;
+
+		while (true) {
+			if ((posOpen = tszLow.Find(tszOpenTag, posOpen)) < 0)
+				break;
+			
+			if ((posOpen2 = tszLow.Find(_T("]"), posOpen + lenOpen)) < 0)
+				break;
+
+			if ((posClose = tszLow.Find(tszCloseTag, posOpen2 + 1)) < 0)
+				break;
+
+			tszLow.Delete(posOpen, posOpen2 - posOpen + 1);
+			tszLow.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
+
+			tszRes.Delete(posOpen, posOpen2 - posOpen + 1);
+			tszRes.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
+
+		}
+
+	}
+
+	return tszRes;
+
+}
