@@ -260,14 +260,16 @@ luaL_Reg coreApi[] =
 	{ NULL, NULL }
 };
 
-LUAMOD_API int luaopen_m(lua_State *L)
+LUAMOD_API int luaopen_m_core(lua_State *L)
 {
 	luaL_newlib(L, coreApi);
 	lua_pushlightuserdata(L, NULL);
 	lua_setfield(L, -2, "NULL");
 	lua_pushlightuserdata(L, INVALID_HANDLE_VALUE);
 	lua_setfield(L, -2, "INVALID_HANDLE_VALUE");
-	lua_setglobal(L, MLUA_CORE);
+	// set copy to global variable m
+	lua_pushvalue(L, -1);
+	lua_setglobal(L, "m");
 
 	return 1;
 }

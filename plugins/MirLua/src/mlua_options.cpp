@@ -40,8 +40,9 @@ int CLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Scripts");
-	odp.ptszTitle = _T("Lua");
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTitle = _T(MODULE);
+	odp.ptszTab = LPGENT("Scripts");
 	odp.pDialog = CLuaOptions::CreateOptionsPage();
 	Options_AddPage(wParam, &odp);
 
