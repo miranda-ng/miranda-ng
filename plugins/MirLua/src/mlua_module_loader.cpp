@@ -14,9 +14,8 @@ void CLuaModuleLoader::PreloadModule(const char *name, lua_CFunction loader)
 
 void CLuaModuleLoader::LoadModules()
 {
-	// load core module
-	luaopen_m(L);
 	// regirter delay loading of miranda modules
+	PreloadModule(MLUA_CORE, luaopen_m_core);
 	PreloadModule(MLUA_CLIST, luaopen_m_clist);
 	PreloadModule(MLUA_DATABASE, luaopen_m_database);
 	PreloadModule(MLUA_ICOLIB, luaopen_m_icolib);
@@ -29,6 +28,15 @@ void CLuaModuleLoader::LoadModules()
 	PreloadModule(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 	PreloadModule(MLUA_VARIABLES, luaopen_m_variables);
 	PreloadModule(MLUA_WINDOWS, luaopen_m_windows);
+
+	// load m_core module
+	lua_pushglobaltable(L);
+	lua_getfield(L, -1, "require");
+	lua_pushstring(L, "m_core");
+	if (lua_pcall(L, 1, 1, 0))
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	lua_pop(L, 1);
+	lua_pop(L, 1);
 }
 
 void CLuaModuleLoader::Load(lua_State *L)

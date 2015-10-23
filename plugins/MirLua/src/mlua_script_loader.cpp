@@ -27,7 +27,16 @@ void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file, int
 	CMLuaScript *script = new CMLuaScript(L, path, iGroup);
 	g_mLua->Scripts.insert(script);
 
-	if (db_get_b(NULL, MODULE, _T2A(file), 1) && script->Load())
+	TCHAR buf[4096];
+	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE)
+	{
+		
+		mir_sntprintf(buf, _T("%s:PASS"), path);
+		CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)buf);
+		return;
+	}
+
+	if (script->Load())
 	{
 		TCHAR buf[4096];
 		mir_sntprintf(buf, _T("%s:OK"), path);
@@ -51,9 +60,11 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir, int iGroup)
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
 		do
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-				LoadScript(scriptDir, fd.cFileName, iGroup);
-		while (FindNextFile(hFind, &fd));
+		{
+			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				continue;
+			LoadScript(scriptDir, fd.cFileName, iGroup);
+		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
