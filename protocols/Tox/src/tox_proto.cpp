@@ -125,11 +125,6 @@ HWND CToxProto::CreateExtendedSearchUI(HWND owner)
 	return OnCreateExtendedSearchUI(owner);
 }
 
-int CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	return OnReceiveMessage(hContact, pre);
-}
-
 int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	return OnSendMessage(hContact, msg);
