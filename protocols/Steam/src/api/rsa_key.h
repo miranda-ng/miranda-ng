@@ -9,7 +9,7 @@ public:
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
 		CMStringA data;
 		data.AppendFormat("username=%s&donotcache=%lld", ptrA(mir_urlEncode(username)), time(NULL));

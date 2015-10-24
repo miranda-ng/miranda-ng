@@ -9,7 +9,7 @@ public:
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		AddHeader("Referer", STEAM_WEB_URL "/mobilelogin/dologin?oauth_client_id=3638BFB1&oauth_scope=read_profile%20write_profile%20read_client%20write_client");
 		AddHeader("Cookie", "mobileClientVersion=1291812;forceMobile=1;mobileClient=ios");
 

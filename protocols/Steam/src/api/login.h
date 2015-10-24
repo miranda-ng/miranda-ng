@@ -11,7 +11,7 @@ public:
 		mir_snprintf(data, "access_token=%s&ui_mode=web", token);
 
 		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
@@ -25,7 +25,7 @@ public:
 		mir_snprintf(data, "access_token=%s&umqid=%s", token, umqId);
 
 		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

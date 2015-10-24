@@ -32,16 +32,17 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			ptrT text(json_as_string(node));
 			T2Utf szMessage(text);
 
+			PROTORECVEVENT recv = { 0 };
+			recv.timestamp = timestamp;
+			recv.szMessage = szMessage;
 			if (_tcsstr(type, _T("my_")) == NULL)
 			{
-				PROTORECVEVENT recv = { 0 };
-				recv.timestamp = timestamp;
-				recv.szMessage = szMessage;
 				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else
 			{
-				AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, (int)mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
+				recv.flags = PREF_SENT;
+				Proto_RecvMessage(hContact, &recv);
 			}
 		}
 		else if (!lstrcmpi(type, _T("typing")))

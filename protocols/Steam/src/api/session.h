@@ -17,7 +17,7 @@ public:
 			cookie);
 
 		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

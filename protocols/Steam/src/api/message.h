@@ -15,7 +15,7 @@ public:
 			ptrA(mir_urlEncode(text)));
 
 		SetData(data, data.GetLength());
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

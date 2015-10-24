@@ -237,11 +237,6 @@ HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
-int CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
-{
-	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, (DWORD)mir_strlen(pre->szMessage), (BYTE*)pre->szMessage);
-}
-
 int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 {
 	if (!IsOnline())

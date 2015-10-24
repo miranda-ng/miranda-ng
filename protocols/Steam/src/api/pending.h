@@ -18,7 +18,7 @@ public:
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
@@ -39,7 +39,7 @@ public:
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
@@ -60,7 +60,7 @@ public:
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

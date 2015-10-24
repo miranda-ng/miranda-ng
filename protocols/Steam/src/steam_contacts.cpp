@@ -651,7 +651,11 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		pCurBlob += mir_strlen(steamId) + 1;
 		mir_strcpy((char*)pCurBlob, reason);
 
-		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
+		PROTORECVEVENT recv = { 0 };
+		recv.timestamp = time(NULL);
+		recv.szMessage = (char*)pBlob;
+		recv.lParam = cbBlob;
+		Proto_AuthRecv(m_szModuleName, &recv);
 	}
 
 	json_delete(nodes);
