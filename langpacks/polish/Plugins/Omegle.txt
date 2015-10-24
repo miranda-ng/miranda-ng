@@ -74,8 +74,8 @@ Obcy 1
 Obcy 2
 [Stranger]
 Obcy
-[You and the Stranger both like: %s]
-Ty i obcy lubicie: %s
+[You and the Stranger both like: ]
+Ty i obcy lubicie: 
 [%s is typing.]
 %s pisze.
 [%s stopped typing.]
@@ -111,7 +111,7 @@ Oboje mówicie w tym samym języku.
 Połączenie %s
 [Unable to initialize Netlib for %s.]
 Nie udało się zainicjować połączenia Netlib dla %s.
-[Stranger typing]
+[Stranger is typing]
 Obcy pisze
 [Stranger stopped typing]
 Obcy przestał pisać
@@ -128,5 +128,3 @@ Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Ikona Omegle
-[Stranger is typing]
-Obcy pisze
