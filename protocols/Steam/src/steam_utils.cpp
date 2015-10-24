@@ -159,19 +159,6 @@ exit:
 	return 0;
 }
 
-MEVENT CSteamProto::AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
-{
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = timestamp;
-	dbei.eventType = type;
-	dbei.cbBlob = cbBlob;
-	dbei.pBlob = pBlob;
-	dbei.flags = flags;
-
-	return db_event_add(hContact, &dbei);
-}
-
 void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())

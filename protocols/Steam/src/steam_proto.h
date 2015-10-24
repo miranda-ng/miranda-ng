@@ -53,8 +53,6 @@ public:
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
 
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
@@ -207,8 +205,6 @@ protected:
 	static int MirandaToSteamState(int status);
 
 	static int RsaEncrypt(const char *pszModulus, const char *data, BYTE *encrypted, DWORD &encryptedSize);
-
-	MEVENT AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
 	static void CSteamProto::ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);

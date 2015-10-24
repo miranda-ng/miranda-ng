@@ -21,7 +21,7 @@ public:
 		SetData(data, data.GetLength());
 
 		AddHeader("Connection", "keep-alive");
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
