@@ -74,8 +74,8 @@ Fremder 1
 Fremder 2
 [Stranger]
 Unbekannter
-[You and the Stranger both like: %s]
-Sie und der Fremde mögen beide: %s
+[You and the Stranger both like: ]
+Sie und der Fremde mögen beide:\s
 [%s is typing.]
 %s tippt.
 [%s stopped typing.]
@@ -111,7 +111,7 @@ Sie sprechen beide die selbe Sprache.
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
-[Stranger typing]
+[Stranger is typing]
 Fremder tippt
 [Stranger stopped typing]
 Fremder tippt nicht mehr
@@ -128,5 +128,3 @@ Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Omegle-Icon
-[Stranger is typing]
-Fremder tippt

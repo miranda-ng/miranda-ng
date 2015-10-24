@@ -74,7 +74,7 @@ Serveur
 
 [Stranger]
 Étranger
-[You and the Stranger both like: %s]
+[You and the Stranger both like: ]
 
 [%s is typing.]
 
@@ -111,7 +111,7 @@ Connexion en cours...
 %s serveur connexion
 [Unable to initialize Netlib for %s.]
 
-[Stranger typing]
+[Stranger is typing]
 
 [Stranger stopped typing]
 
@@ -127,6 +127,4 @@ Réseau
 Compte
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-
-[Stranger is typing]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.16
+;  Version: 0.1.1.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [off]

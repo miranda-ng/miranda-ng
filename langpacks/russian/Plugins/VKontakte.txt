@@ -333,10 +333,20 @@ Cоздать комнату чата
 Профиль на сайте
 [&Kick]
 &Выкинуть
+[news]
+новости
+[notifications]
+уведомления
 [User was tagged in these photos:]
 Пользователь был отмечен на этих фотографиях
+[(photos)]
+(фотографии)
+[(attachments)]
+вложения
 [News from %s\n%s]
 Новость от %s\n%s
+[News from %s]
+Новости от %s
 [\tRepost from %s\n%s]
 \tРепост от %s\n%s
 [Video description:]
