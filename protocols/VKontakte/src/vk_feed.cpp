@@ -80,7 +80,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	cle.ptszTooltip = toolTip;
 
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-	SkinPlaySound("NewsFeed");
+	SkinPlaySound("VKNewsFeed");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
