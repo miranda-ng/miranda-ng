@@ -37,7 +37,6 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
@@ -203,7 +202,6 @@ private:
 	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// messages
-	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
 	int OnSendMessage(MCONTACT hContact, const char *message);
 
 	static void OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg);

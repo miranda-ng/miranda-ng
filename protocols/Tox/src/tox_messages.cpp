@@ -22,31 +22,12 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 	rawMessage[length] = 0;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.flags = 0;
 	recv.timestamp = time(NULL);
 	recv.szMessage = rawMessage;
 	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL ? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
 	ProtoChainRecvMsg(hContact, &recv);
 
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-}
-
-// writing message/even into db
-int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	//return Proto_RecvMessage(hContact, pre);
-	if (pre->szMessage == NULL)
-		return NULL;
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF;
-	dbei.eventType = pre->lParam;
-	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-
-	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 
 /* MESSAGE SENDING */
