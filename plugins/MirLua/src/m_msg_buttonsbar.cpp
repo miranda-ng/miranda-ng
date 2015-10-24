@@ -236,13 +236,13 @@ static int bcd__index(lua_State *L)
 	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
 	const char *key = lua_tostring(L, 2);
 
-	if (!mir_strcmpi(key, "Module"))
+	if (mir_strcmpi(key, "Module") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
-	else if (!mir_strcmpi(key, "ButtonID"))
+	else if (mir_strcmpi(key, "ButtonID") == 0)
 		lua_pushinteger(L, bcd->dwButtonId);
-	else if (!mir_strcmpi(key, "hContact"))
+	else if (mir_strcmpi(key, "hContact") == 0)
 		lua_pushinteger(L, bcd->hContact);
-	else if (!mir_strcmpi(key, "Flags"))
+	else if (mir_strcmpi(key, "Flags") == 0)
 		lua_pushinteger(L, bcd->flags);
 	else
 		lua_pushnil(L);
