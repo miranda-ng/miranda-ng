@@ -655,7 +655,7 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		recv.timestamp = time(NULL);
 		recv.szMessage = (char*)pBlob;
 		recv.lParam = cbBlob;
-		Proto_AuthRecv(m_szModuleName, &recv);
+		ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&recv);
 	}
 
 	json_delete(nodes);
