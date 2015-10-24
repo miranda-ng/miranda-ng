@@ -172,7 +172,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
 	//Sounds
-	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("VKontakte newsfeed & notification event"));
+	SkinAddNewSoundExT("VKNewsFeed", m_tszUserName, LPGENT("VKontakte newsfeed & notification event"));
 
 	InitPopups();
 	InitMenus();
