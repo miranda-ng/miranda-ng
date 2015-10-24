@@ -75,7 +75,7 @@ Obcy 2
 [Stranger]
 Obcy
 [You and the Stranger both like: ]
-Ty i obcy lubicie: 
+Ty i obcy lubicie:\s
 [%s is typing.]
 %s pisze.
 [%s stopped typing.]

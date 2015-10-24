@@ -74,7 +74,7 @@
 
 [Stranger]
 
-[You and the Stranger both like: %s]
+[You and the Stranger both like: ]
 
 [%s is typing.]
 
@@ -111,7 +111,7 @@ Uspostavljanje veze...
 
 [Unable to initialize Netlib for %s.]
 
-[Stranger typing]
+[Stranger is typing]
 
 [Stranger stopped typing]
 
@@ -127,6 +127,4 @@ Mreža
 
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-
-[Stranger is typing]
 

@@ -1,7 +1,6 @@
-﻿[Sync read message status from server]
-[New %s]
+﻿[New %s]
 [news]
-[notifications]
+[notifications
 [(photos)]
 [(attachments)]
 [News from %s]

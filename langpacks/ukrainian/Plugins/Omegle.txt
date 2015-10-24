@@ -67,8 +67,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 Незнайомець 2
 [Stranger]
 Незнайомець
-[You and the Stranger both like: %s]
-Вам і незнайомцю подобається: %s
+[You and the Stranger both like: ]
+Вам і незнайомцю подобається:\s
 [%s is typing.]
 %s друкує.
 [%s stopped typing.]
@@ -101,7 +101,7 @@ Omegle - чудовий спосіб знайти нових друзів!
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
 Не вдається встановити з'єднання Netlib для %s.
-[Stranger typing]
+[Stranger is typing]
 Незнайомець набирає
 [Stranger stopped typing]
 Незнайомець припинив набирати
@@ -115,5 +115,3 @@ Omegle - чудовий спосіб знайти нових друзів!
 Обліковий запис
 [Omegle Icon]
 Значок протоколу
-[Stranger is typing]
-Незнайомець набирає

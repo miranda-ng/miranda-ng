@@ -71,6 +71,8 @@ Omegle - отличный способ найти новых друзей!
 Незнакомец 2
 [Stranger]
 Незнакомец
+[You and the Stranger both like: ]
+Вам и незнакомцу нравится:\s
 [%s is typing.]
 %s набирает сообщение.
 [%s stopped typing.]

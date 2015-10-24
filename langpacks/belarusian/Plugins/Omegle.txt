@@ -71,8 +71,8 @@ Omegle гэта новы спосаб сяброўства!
 Незнаёмы 2
 [Stranger]
 Незнаёмец
-[You and the Stranger both like: %s]
-Вам і незнаёмцу падабаецца:%s
+[You and the Stranger both like: ]
+Вам і незнаёмцу падабаецца:\s
 [%s is typing.]
 %s піша.
 [%s stopped typing.]
@@ -105,7 +105,7 @@ Omegle гэта новы спосаб сяброўства!
 Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
-[Stranger typing]
+[Stranger is typing]
 Незнаёмец піша
 [Stranger stopped typing]
 Незнаёмец скончыў пісаць
@@ -121,5 +121,3 @@ Omegle гэта новы спосаб сяброўства!
 Конт
 [Omegle Icon]
 Абразок Omegle
-[Stranger is typing]
-Незнаёмец піша
