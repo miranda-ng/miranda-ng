@@ -157,13 +157,13 @@ static int mwed__index(lua_State *L)
 	MessageWindowEventData *mwed = *(MessageWindowEventData**)luaL_checkudata(L, 1, MT_MESSAGEWINDOWEVENTDATA);
 	const char *key = lua_tostring(L, 2);
 
-	if (!mir_strcmpi(key, "Module"))
+	if (!mir_strcmpi(key, "Module") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(mwed->szModule)));
-	if (!mir_strcmpi(key, "Type"))
+	else if (!mir_strcmpi(key, "Type") == 0)
 		lua_pushinteger(L, mwed->uType);
-	if (!mir_strcmpi(key, "hContact"))
+	else if (!mir_strcmpi(key, "hContact") == 0)
 		lua_pushinteger(L, mwed->hContact);
-	if (!mir_strcmpi(key, "Flags"))
+	else if (!mir_strcmpi(key, "Flags") == 0)
 		lua_pushinteger(L, mwed->uFlags);
 	else
 		lua_pushnil(L);

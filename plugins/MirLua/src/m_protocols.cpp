@@ -347,17 +347,17 @@ static int ack__index(lua_State *L)
 	ACKDATA *ack = *(ACKDATA**)luaL_checkudata(L, 1, MT_ACKDATA);
 	const char *key = lua_tostring(L, 2);
 
-	if (!mir_strcmpi(key, "Module"))
+	if (mir_strcmpi(key, "Module") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(ack->szModule)));
-	if (!mir_strcmpi(key, "hContact"))
+	else if (mir_strcmpi(key, "hContact") == 0)
 		lua_pushinteger(L, ack->hContact);
-	if (!mir_strcmpi(key, "Type"))
+	else if (mir_strcmpi(key, "Type") == 0)
 		lua_pushinteger(L, ack->type);
-	if (!mir_strcmpi(key, "Result"))
+	else if (mir_strcmpi(key, "Result") == 0)
 		lua_pushinteger(L, ack->result);
-	if (!mir_strcmpi(key, "hProcess"))
+	else if (mir_strcmpi(key, "hProcess") == 0)
 		lua_pushlightuserdata(L, ack->hProcess);
-	if (!mir_strcmpi(key, "lParam"))
+	else if (mir_strcmpi(key, "lParam") == 0)
 		lua_pushnumber(L, ack->lParam);
 	else
 		lua_pushnil(L);
@@ -396,9 +396,9 @@ static int ccs__index(lua_State *L)
 	CCSDATA *ccs = *(CCSDATA**)luaL_checkudata(L, 1, MT_CCSDATA);
 	const char *key = lua_tostring(L, 2);
 
-	if (!mir_strcmpi(key, "hContact"))
+	if (mir_strcmpi(key, "hContact") == 0)
 		lua_pushinteger(L, ccs->hContact);
-	if (!mir_strcmpi(key, "Message"))
+	else if (mir_strcmpi(key, "Message") == 0)
 	{
 		PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 		lua_pushstring(L, pre->szMessage);

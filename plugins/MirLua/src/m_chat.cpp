@@ -108,25 +108,25 @@ static int gce__index(lua_State *L)
 	GCEVENT *gce = (GCEVENT*)luaL_checkudata(L, 1, MT_GCEVENT);
 	const char *key = luaL_checkstring(L, 2);
 
-	if (mir_strcmpi(key, "Module"))
+	if (mir_strcmpi(key, "Module") == 0)
 		lua_pushstring(L, gce->pDest->pszModule);
-	if (mir_strcmpi(key, "Id"))
+	else if (mir_strcmpi(key, "Id") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
-	if (mir_strcmpi(key, "Type"))
+	else if (mir_strcmpi(key, "Type") == 0)
 		lua_pushinteger(L, gce->pDest->iType);
-	if (mir_strcmpi(key, "Timestamp"))
+	else if (mir_strcmpi(key, "Timestamp") == 0)
 		lua_pushnumber(L, gce->time);
-	if (mir_strcmpi(key, "IsMe"))
+	else if (mir_strcmpi(key, "IsMe") == 0)
 		lua_pushboolean(L, gce->bIsMe);
-	if (mir_strcmpi(key, "Flags"))
+	else if (mir_strcmpi(key, "Flags") == 0)
 		lua_pushinteger(L, gce->dwFlags);
-	if (mir_strcmpi(key, "Uid"))
+	else if (mir_strcmpi(key, "Uid") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
-	if (mir_strcmpi(key, "Nick"))
+	else if (mir_strcmpi(key, "Nick") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
-	if (mir_strcmpi(key, "Status"))
+	else if (mir_strcmpi(key, "Status") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
-	if (mir_strcmpi(key, "Text"))
+	else if (mir_strcmpi(key, "Text") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
 	else
 		lua_pushnil(L);

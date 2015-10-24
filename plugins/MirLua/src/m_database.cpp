@@ -23,18 +23,18 @@ static int lua_FindNextContact(lua_State *L)
 
 static int lua_ContactIterator(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(1));
-	const char *szProto = lua_tostring(L, lua_upvalueindex(2));
+	const char *szProto = lua_tostring(L, lua_upvalueindex(1));
+	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(2));
 
 	hContact = hContact == NULL
 		? db_find_first(szProto)
-		: db_find_next(hContact);
+		: db_find_next(hContact, szProto);
 
 	if (hContact)
 	{
 		lua_pushinteger(L, hContact);
 		lua_pushvalue(L, -1);
-		lua_replace(L, lua_upvalueindex(1));
+		lua_replace(L, lua_upvalueindex(2));
 	}
 	else
 		lua_pushnil(L);
@@ -109,6 +109,8 @@ static int lua_GetLastEvent(lua_State *L)
 
 static int lua_GetEvent(lua_State *L)
 {
+	ObsoleteMethod(L, "Use totable(x, \"DBEVENTINFO\") instead");
+
 	MEVENT hEvent = luaL_checkinteger(L, 1);
 
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
@@ -164,7 +166,7 @@ static int lua_EventIterator(lua_State *L)
 
 	if (hEvent)
 	{
-		lua_pushinteger(L, hContact);
+		lua_pushinteger(L, hEvent);
 		lua_pushvalue(L, -1);
 		lua_replace(L, lua_upvalueindex(2));
 	}
@@ -342,8 +344,8 @@ static int lua_SettingIterator(lua_State *L)
 
 static int lua_AllSettings(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
-	const char* szModule = luaL_checkstring(L, 2);
+	const char* szModule = luaL_checkstring(L, 1);
+	MCONTACT hContact = lua_tointeger(L, 2);
 
 	enumDBSettingsParam* param = (enumDBSettingsParam*)mir_alloc(sizeof(enumDBSettingsParam));
 	param->count = 0;
@@ -581,6 +583,71 @@ static luaL_Reg databaseApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_DBEVENTINFO "DBEVENTINFO"
+
+static int dbei__init(lua_State *L)
+{
+	MEVENT hEvent = lua_tointeger(L, 1);
+
+	DBEVENTINFO *dbei = (DBEVENTINFO*)lua_newuserdata(L, sizeof(DBEVENTINFO));
+	dbei->cbSize = sizeof(DBEVENTINFO);
+	dbei->cbBlob = db_event_getBlobSize(hEvent);
+	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
+	db_event_get(hEvent, dbei);
+
+	luaL_setmetatable(L, MT_DBEVENTINFO);
+
+	return 1;
+}
+
+static int dbei__index(lua_State *L)
+{
+	DBEVENTINFO *dbei = (DBEVENTINFO*)luaL_checkudata(L, 1, MT_DBEVENTINFO);
+	const char *key = luaL_checkstring(L, 2);
+
+	if (mir_strcmpi(key, "Module") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encode(dbei->szModule)));
+	else if (mir_strcmpi(key, "Timestamp") == 0)
+		lua_pushnumber(L, dbei->timestamp);
+	else if (mir_strcmpi(key, "Type") == 0)
+		lua_pushinteger(L, dbei->eventType);
+	else if (mir_strcmpi(key, "Flags") == 0)
+		lua_pushinteger(L, dbei->flags);
+	else if (mir_strcmpi(key, "Length") == 0)
+		lua_pushnumber(L, dbei->cbBlob);
+	else if (mir_strcmpi(key, "Blob") == 0)
+	{
+		lua_newtable(L);
+		for (DWORD i = 0; i < dbei->cbBlob; i++)
+		{
+			lua_pushinteger(L, i + 1);
+			lua_pushinteger(L, dbei->pBlob[i]);
+			lua_settable(L, -3);
+		}
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int dbei__gc(lua_State *L)
+{
+	DBEVENTINFO *dbei = (DBEVENTINFO*)luaL_checkudata(L, 1, MT_DBEVENTINFO);
+
+	mir_free(dbei->pBlob);
+
+	return 1;
+}
+
+static const luaL_Reg dbeiMeta[] =
+{
+	{ "__init", dbei__init },
+	{ "__index", dbei__index },
+	{ "__gc", dbei__gc },
+	{ NULL, NULL }
+};
+
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
 static int dbcw__init(lua_State *L)
@@ -605,11 +672,11 @@ static int dbcw__index(lua_State *L)
 	DBCONTACTWRITESETTING *dbcw = (DBCONTACTWRITESETTING*)luaL_checkudata(L, 1, MT_DBCONTACTWRITESETTING);
 	const char *key = luaL_checkstring(L, 2);
 
-	if (mir_strcmpi(key, "Module"))
+	if (mir_strcmpi(key, "Module") == 0)
 		lua_pushstring(L, dbcw->szModule);
-	if (mir_strcmpi(key, "Setting"))
+	else if (mir_strcmpi(key, "Setting") == 0)
 		lua_pushstring(L, dbcw->szSetting);
-	if (mir_strcmpi(key, "Value"))
+	else if (mir_strcmpi(key, "Value") == 0)
 	{
 		switch (dbcw->value.type)
 		{
@@ -652,6 +719,10 @@ static const luaL_Reg dbcwMeta[] =
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
+
+	luaL_newmetatable(L, MT_DBEVENTINFO);
+	luaL_setfuncs(L, dbeiMeta, 0);
+	lua_pop(L, 1);
 
 	luaL_newmetatable(L, MT_DBCONTACTWRITESETTING);
 	luaL_setfuncs(L, dbcwMeta, 0);
