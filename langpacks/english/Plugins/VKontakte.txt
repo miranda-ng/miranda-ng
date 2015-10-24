@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.16
+;  Version: 0.1.1.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -176,9 +176,16 @@
 [Visit profile]
 [&Kick]
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[New %s]
+[news]
+[notifications]
 [User was tagged in these photos:]
+[(photos)]
+[(attachments)]
 [News from %s\n%s]
+[News from %s]
 [\tRepost from %s\n%s]
+[Repost from %s]
 [Video description:]
 [Post text:]
 [Topic text:]
@@ -210,6 +217,7 @@
 [View]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
+[VKontakte newsfeed & notification event]
 [Create new chat]
 [Status message]
 [Send message to my wall]

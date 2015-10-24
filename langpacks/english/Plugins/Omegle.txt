@@ -41,7 +41,7 @@
 [Stranger 1]
 [Stranger 2]
 [Stranger]
-[You and the Stranger both like: %s]
+[You and the Stranger both like: ]
 [%s is typing.]
 [%s stopped typing.]
 [%s disconnected.]
@@ -61,7 +61,7 @@
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to initialize Netlib for %s.]
-[Stranger typing]
+[Stranger is typing]
 [Stranger stopped typing]
 [Changing stranger]
 [Receive message]
@@ -70,4 +70,3 @@
 [Account]
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-[Stranger is typing]
