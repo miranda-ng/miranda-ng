@@ -15,6 +15,8 @@
 Видиме ім'я:
 [Meet strangers with common interests (separated by commas):]
 Шукати незнайомців із спільними інтересами (розділяти комою):
+[Automatically send one of these messages (each on new line) to stranger after connection:]
+Після підключення автоматично надсилати незнайомцю одне з цих повідомлень (кожне з нового рядка):
 [This text will be sent when you use "/asl" message:]
 Повідомлення для відправки по команді '/asl':
 [Last used question (Question mode):]
@@ -61,6 +63,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 Підключений до сервера %s (%s користувачів у мережі).
 [Connected to server %s.]
 Підключений до сервера %s.
+[On whole Omegle are %s strangers online now.]
+Користувачів у мережі: %s
 [Stranger 1]
 Незнайомець 1
 [Stranger 2]
@@ -107,6 +111,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 Незнайомець припинив набирати
 [Changing stranger]
 Зміна незнайомця
+[Receive message]
+Вхідне повідомлення
 [Visible name]
 Видиме ім'я
 [Network]

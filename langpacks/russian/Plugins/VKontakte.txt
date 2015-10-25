@@ -403,6 +403,8 @@ ID получателя ошибочен или неизвестен
 Вид
 [%s server connection]
 Подключение к серверу %s
+[VKontakte newsfeed & notification event]
+Новости и уведомления ВКонтакте
 [Create new chat]
 Создать новый чат
 [Status message]

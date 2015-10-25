@@ -2,4 +2,3 @@
 [URL:]
 [New %s]
 [Repost from %s]
-[VKontakte newsfeed & notification event]

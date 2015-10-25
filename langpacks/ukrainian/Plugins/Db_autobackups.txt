@@ -37,6 +37,8 @@
 Вимкнути індикацію
 [Disable popups]
 Вимкнути сплив. вікна
+[Use Dropbox]
+Використовувати Dropbox
 [Miranda NG database]
 База даних Miranda NG
 [Created by:]

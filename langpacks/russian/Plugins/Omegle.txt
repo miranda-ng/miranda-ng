@@ -111,6 +111,8 @@ Omegle - отличный способ найти новых друзей!
 Незнакомец закончил набор
 [Changing stranger]
 Смена незнакомца
+[Receive message]
+Входящее сообщение
 [Visible name]
 Видимое имя
 [Network]

@@ -11,6 +11,8 @@
 Перезагрузить всё
 [Common scripts folder]
 Папка с общими скриптами
+[Services]
+Службы
 [Scripts]
 Скрипты
 [Common scripts]
