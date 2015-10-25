@@ -163,6 +163,17 @@ Zpráva nebyla doručena
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Uživatel není online
+;file \protocols\MSN\src\msn_ieembed.cpp
+[IID_IOleObject failed.]
+Selhání IID_IOleObject.
+[RESULT]
+VÝSLEDEK
+[IID_IOleInPlaceObject failed.]
+Selhání IID_IOleInPlaceObject.
+[Failed to Advise]
+Selhání sdělení
+[C++ Event Sink]
+Potopení C++ události
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Odkaz protokolu MSN

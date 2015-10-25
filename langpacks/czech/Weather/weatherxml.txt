@@ -114,8 +114,12 @@ silné sněžení / větrno
 silná sněhová přeháňka
 [Heavy Snow]
 silné sněžení
+[Heavy T-Storm]
+silná bouřka
 [Heavy T-Storms]
 silná bouřka
+[Ice Crystals]
+ledové krystaly
 [Isolated T-Storms / Wind]
 ojedinělé bouřky / vítr
 [Isolated T-Storms]
@@ -138,6 +142,8 @@ slabý mrznoucí déšť/hustá mlha
 slabý mrznoucí déšť/větrno
 [Light Rain / Fog]
 slabý déšť / mlha
+[Light Rain / Freezing Rain]
+slabý déšť / mrznoucí déšť
 [Light Rain / Wind Early]
 slabý déšť/k ránu vítr
 [Light Rain / Wind]
@@ -364,6 +370,8 @@ slunečno/větrno
 slunečno
 [T-Showers Early]
 k ránu přeháňky s hřměním
+[T-Showers]
+přeháňky / hřmění
 [T-Storm]
 bouřka
 [T-Storms Early]
@@ -416,11 +424,3 @@ klesá
 stoupá
 [steady]
 ustálený
-[Heavy T-Storm]
-silná bouřka
-[Light Rain / Freezing Rain]
-slabý déšť / mrznoucí déšť
-[T-Showers]
-přeháňky / hřmění
-[Ice Crystals]
-ledové krystaly

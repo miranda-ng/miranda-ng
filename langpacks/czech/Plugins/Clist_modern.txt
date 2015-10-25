@@ -148,8 +148,8 @@ Vodorovné zarovnání
 Víceřádková stavová lišta
 [Accounts per line]
 Účty na řádku
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky->Stavová lišta->Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
+[* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
+* Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky -> Stavová lišta -> Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Pomocí [Shift] obrátíte funkci [pravého tlačítka].
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -194,8 +194,8 @@ Ne
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options->Contacts->Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
 [Are you sure you want to delete %s?]
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
@@ -592,34 +592,52 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
-[Tray]
-Oznamovací oblast
-[&Hide/Show]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+&Viditelný
+[&Show title]
+&Zobrazit titulek
+[&Locked]
+Zamkn&utý
+[&Expanded]
+&Rozbalený
+[&Floating mode]
+&Plovoucí
+[&Border]
+O&kraj
+[&Align]
+Z&arovnat
+[&Top]
+Na&hoře
+[&Client]
+&Klient
+[&Bottom]
+Do&le
+[&Position]
+U&místění
+[&Up]
+Nahor&u
+[&Down]
+&Dolů
+[Show all frames]
+Zobrazit všechny rámečky
+[Show all title bars]
+Zobrazit záhlaví rámečků
+[Hide all title bars]
+Skrýt záhlaví rámečků
+[Lock frame]
+Zamknout rámeček
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
 Skrýt/Zo&brazit
-[Nowhere]
-Nikde
-[&New group]
-&Nová skupina
-[&Hide offline users]
-&Skrýt uživatele offline
-[Hide &offline users out here]
-Skrýt uživatele &offline mimo skupiny
-[Hide &empty groups]
-S&krýt prázdné skupiny
-[Disable &groups]
-Vypnout zobrazení s&kupin
-[Hide Miranda]
-Skrýt Mirandu
-[&New subgroup]
-&Nová podskupina
-[&Hide offline users in here]
-Skrýt uživatele o&ffline
+[&Find/add contacts...]
+&Vyhledat kontakty...
+[&Options...]
+M&ožnosti...
+[&About]
+O progr&amu
 [&Show offline users in here]
 Zobrazit &uživatele offline
-[&Rename group]
-Př&ejmenovat skupinu
-[&Delete group]
-&Smazat skupinu
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
@@ -776,6 +794,8 @@ Za levý okraj
 Za pravý okraj
 [General]
 Obecné
+[Tray]
+Oznamovací oblast
 [List]
 Seznam
 [Window]
@@ -830,17 +850,6 @@ Vzhled řádku
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-Nabídka ikony
-[&Hide/show]
-Skrýt/Zo&brazit
-[&Find/add contacts...]
-&Vyhledat kontakty...
-[&Options...]
-M&ožnosti...
-[&About]
-O progr&amu
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 Zobrazit avatar
@@ -1007,48 +1016,3 @@ Výchozí režim zobrazení
 Pozadí režimu zobrazení
 [View modes]
 Režimy zobrazení
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-&Viditelný
-[&Show title]
-&Zobrazit titulek
-[&Locked]
-Zamkn&utý
-[&Expanded]
-&Rozbalený
-[&Floating mode]
-&Plovoucí
-[&Border]
-O&kraj
-[&Align]
-Z&arovnat
-[&Top]
-Na&hoře
-[&Client]
-&Klient
-[&Bottom]
-Do&le
-[&Position]
-U&místění
-[&Up]
-Nahor&u
-[&Down]
-&Dolů
-[Show all frames]
-Zobrazit všechny rámečky
-[Show all title bars]
-Zobrazit záhlaví rámečků
-[Hide all title bars]
-Skrýt záhlaví rámečků
-[Lock frame]
-Zamknout rámeček
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Nabídka rámečku
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nová skupina
-[Group menu]
-Nabídka skupiny
-[Subgroup menu]
-Nabídka podskupiny

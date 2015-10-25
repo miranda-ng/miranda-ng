@@ -7,7 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Umožňuje úpravu skinu pro clist nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Položky skinu
 [General]
@@ -58,7 +58,7 @@ Ignorovat položku
 Dialog
 [Not yet supported]
 <zatím mimo provoz>
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 Zkopírovat z
 [<None>]

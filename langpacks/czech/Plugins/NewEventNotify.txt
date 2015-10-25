@@ -79,29 +79,6 @@ Neoznamovat přečtené zprávy
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Oznámení
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Kontakty
-[You were added!]
-Byl jste přidán
-[Requests your authorization]
-Žádost o autorizaci
-[ICQ Web pager]
-ICQ WebPager
-[ICQ Email express]
-ICQ EmailExpress
-[SMS Message]
-Zpráva SMS
-[SMS Confirmation]
-Potvrzení SMS
-[Unknown Event]
-Neznámá událost
-[Notify of new events]
-Informovat o událostech
-[Enable new event notification]
-Zapnout oznámení nové události
-[Disable new event notification]
-Vypnout oznámení nové události
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Oznámení události
@@ -124,3 +101,26 @@ Zkouška  jiné události ;-D
 Zkouška doplňku
 [[b]Number of new message(s): %d[/b]\n]
 \[b]Počet nových zpráv: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Kontakty
+[You were added!]
+Byl jste přidán
+[Requests your authorization]
+Žádost o autorizaci
+[ICQ Web pager]
+ICQ WebPager
+[ICQ Email express]
+ICQ EmailExpress
+[SMS Message]
+Zpráva SMS
+[SMS Confirmation]
+Potvrzení SMS
+[Unknown Event]
+Neznámá událost
+[Notify of new events]
+Informovat o událostech
+[Enable new event notification]
+Zapnout oznámení nové události
+[Disable new event notification]
+Vypnout oznámení nové události

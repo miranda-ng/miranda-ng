@@ -2,62 +2,12 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Umožňuje pohodlně spravovat stavové zprávy.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-Upozornit oznámením
-[Popup text format]
-Formát textu oznámení
-[Preview]
-Náhled
-[V]
-v
-[%extratext% is your status message]
-%extratext% je vaše stavová zpráva
-[Click action]
-Při kliknutí myší
-[On left click]
-Levé tlačítko
-[On right click]
-Pravé tlačítko
-[Delay]
-Prodleva
-[Sec]
-sek.
-[0 = Default]
-0 = výchozí
-[-1 = Infinite]
--1 = neustále
-[Colors]
-Barvy
-[Background]
-Pozadí
-[Use default]
-Výchozí
-[Text]
-Text
-[Only notify when:]
-Oznamovat jen při stavu
-[On&line]
-On&line
-[&Away]
-N&a chvíli pryč
-[&NA]
-&Nejsem tady
-[Occ&upied]
-N&emám čas
-[&DND]
-Ne&rušit!
-[&Free for chat]
-&Mám volno
-[&Other]
-&Jiné
-[Log to a file only when popup notification for a contact is enabled]
-Zaznamenat do souboru, pokud je oznámení pro kontakt povoleno
 [Enable autoreply]
 Povolit automatickou odpověď
 [On event...]
@@ -80,6 +30,18 @@ Poslat maximálně
 Vynulovat toto počítadlo i když jen změním zprávu stavu\n(když ikona stavu zůstane stejná)
 [Disable autoreply when...]
 Neposílat automatickou odpověď ve stavu:
+[On&line]
+On&line
+[&Away]
+N&a chvíli pryč
+[&NA]
+&Nejsem tady
+[Occ&upied]
+N&emám čas
+[&DND]
+Ne&rušit!
+[&Free for chat]
+&Mám volno
 [&Invisible]
 Nev&iditelný
 [On the &phone]
@@ -88,6 +50,10 @@ Na &telefonu
 Na &obědě
 [Autoreply format:]
 Formát automatické odpovědi:
+[V]
+v
+[%extratext% is your status message]
+%extratext% je vaše stavová zpráva
 [&Variables]
 &Proměnné
 [Se&ttings]
@@ -127,9 +93,9 @@ Uložit
 [most recent messages (0=disable)]
 posledních zpráv (0 = vypnout)
 [Store for each status separately]
-
+Uložit pro každý stav zvlášť
 [Use default...]
-
+Použít výchozí...
 [Use the most recent message]
 Použít nejposlednější zprávu
 [Use the default message]
@@ -276,10 +242,24 @@ Jsem na obědě
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Od %nas_awaysince_time% ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,obědvám,večeřím),snídám),obědvám).
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-Zapnout
 [Toggle Off]
 Vypnout
+[Toggle On]
+Zapnout
+[Dot]
+
+[Ignore]
+Filtrování
+[Indefinite]
+Nekonečný
+[Set status message]
+Nastavit stavové zprávy
+[Add]
+Přidat
+[Save]
+Uložit
+[Settings]
+Nastavení
 [Set %s message for the contact]
 Nastavit %s (zprávu stavu) pro kontakt
 [Re&ad %s message]
@@ -320,8 +300,6 @@ Cizinec
 %d sek.
 [Read status message]
 Přečíst zprávu stavu
-[Set status message]
-Nastavit stavové zprávy
 [On]
 Zap
 [Off]
@@ -330,19 +308,6 @@ Vyp
 Použít výchozí nastavení
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Příchozí požadavek na přečtení stavové zprávy
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-Miranda NG automatická odpověď >\r\n%extratext%
-[extended status]
-rozšířený stav
-[Away System]
-Automatické odpovědi
-[Status]
-Stavy
-[Popups]
-Oznámení
-[Variables plugin is not installed]
-Doplněk Variables není nainstalován
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Změnili jste zprávy v několika seznamech najednou.\r\nChcete ponechat změny v dialogu '
@@ -389,3 +354,16 @@ po dobu
 všechny účty
 [Closing in %d]
 Zavře se za %d sek.
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+Miranda NG automatická odpověď >\r\n%extratext%
+[extended status]
+rozšířený stav
+[Away System]
+Automatické odpovědi
+[Status]
+Stavy
+[Popups]
+Oznámení
+[Variables plugin is not installed]
+Doplněk Variables není nainstalován

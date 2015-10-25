@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.0.0
+;  Version: 4.0.1.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -141,7 +141,7 @@ Upravovat &Words v hexa
 [Edit &Dwords in Hex]
 Upravovat &Dwords v hexa
 [&Inline edit]
-
+Ú&prava v řádku
 [&Restore position]
 &Obnovit pozici
 [&Open options]
@@ -286,19 +286,21 @@ Ukazatel
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Otevřít editor databáze
+[Database]
+Databáze
 [Open user tree in DBE++]
 Upravit položky v DBE++
 [<UNKNOWN>]
-<neznámý>
+<NEZNÁMÝ>
 [[UNLOADED]]
-
+\[NENAČTENÝ]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
 [Delete resident settings from database?]
-
+Odstranit rezidentní nastavení z databáze?
 [%d orphaned items deleted.]
-
+Smazáno %d osamocených položek.
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Chyba při načítání seznamu modulů
@@ -312,8 +314,6 @@ Načítání modulů...
 [Contacts]
 Kontakty
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
-Databáze
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Přidat modul do "%s"
@@ -323,9 +323,9 @@ Typ
 [Size]
 Velikost
 [Unable to store value in this data type!]
-
+Nelze uložit hodnotu do tohoto datového typu!
 [Are you sure you want to delete setting(s): %d?]
-
+Opravdu si přejete smazat %d nastavení?
 [*** encrypted ***]
 *** zašifrováno ***
 [*** buggy resident ***]
@@ -341,4 +341,4 @@ Nové nastavení (%s)
 [*** resident ***]
 *** rezidentní ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
-
+Nastavení databáze změněno: \nModul: "%s", Nastavení: "%s"\nNová hodnota (%s): "%s"

@@ -620,7 +620,7 @@ Zprava doleva je výchozí směr psaní
 Zaznamenávat změny stavu (pouze při otevřeném okně)
 [Revert to global options]
 Resetovat nastavení
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
 Zde si můžete nastavit záznam rozhovoru pro konkrétní kontakt. Předvyplněné hodnoty jsou převzaty z globálního nastavení, které se nachází v Komunikace -> Záznam komunikace
 [Use normal templates (uncheck to use simple templates)]
 Použít normální šablony (odznačením se použijí jednoduché)
@@ -1030,8 +1030,8 @@ Neznámý modul nebo uživatel
 Rich Edit soubor
 [No status message]
 Žádná zpráva stavu
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce \\b1 zpožděné odesílání\\b0  a \\b1 poslat více kontaktům\\b0  ji však vyžadují.\n\nNutno povolit v \\b1Možnosti->Komunikace->Pokročilé úpravy\\b0. Změna tohoto nastavení vyžaduje restart.
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
+Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce \\b1 zpožděné odesílání\\b0  a \\b1 poslat více kontaktům\\b0  ji však vyžadují.\n\nNutno povolit v \\b1Možnosti -> Komunikace -> Pokročilé úpravy\\b0. Změna tohoto nastavení vyžaduje restart.
 [You cannot edit user notes when there are unsent messages]
 Nemůžete upravovat poznámky k uživateli pokud existují neodeslané zprávy.
 [Version]
@@ -1562,6 +1562,20 @@ Okno serveru
 [%s on %s%s]
 %s v síti %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
+[Message In]
+Příchozí zpráva
+[Message Out]
+Odchozí zpráva
+[Group In (Start)]
+Seskupené příchozí (začátek)
+[Group Out (Start)]
+Seskupené odchozí (začátek)
+[Group In (Inner)]
+Seskupené příchozí (uvnitř)
+[Group Out (Inner)]
+Seskupené odchozí (uvnitř)
+[Error message]
+Chybová zpráva
 [Template set editor]
 Editor sady šablon
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
@@ -1775,8 +1789,8 @@ Editovat poznámky k uživateli|Editujete poznámky k uživateli. Klikněte na t
 Aero náhled - varování|Máte povolen Aero náhled a nahrán vlastní styl kontejneru\n\nTo může vést k vedlejším vizuálním anomáliím.
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 
-[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
-Problém v nastavení|Možnost \\b1 History->Imitate IEView API\\b0 je povolena a plugin History++ je aktivní. To může vést k problémům při použití IEView jako prohlížeče záznamu komunikace.\n\nMohu napravit nastavení (vyžaduje restart)?
+[Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+Problém v nastavení|Možnost \\b1 Historie -> Imitovat IEView API\\b0 je povolena a plugin History++ je aktivní. To může vést k problémům při použití IEView jako prohlížeče záznamu komunikace.\n\nMohu napravit nastavení (vyžaduje restart)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n\nPokračovat?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]

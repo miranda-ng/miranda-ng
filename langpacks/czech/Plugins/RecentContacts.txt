@@ -36,4 +36,4 @@ Ignorovat kontakt
 Zobrazit kontakt
 [Show Recent Contacts]
 Zobrazit nedávné kontakty
-;file \plugins\RecentContacts\src\RecentContacts.h
+;file \plugins\RecentContacts\src\stdafx.h

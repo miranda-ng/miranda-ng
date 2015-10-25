@@ -65,10 +65,10 @@ změnil klienta na %s
 Vypnout oznámení o změně klienta
 [Enable c&lient change notification]
 Zapnout oznámení o změně klienta
-[Popups]
-Oznámení
 [ClientChangeNotify: Client changed]
 Změna klienta
+[Popups]
+Oznámení
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Chyba č.%d

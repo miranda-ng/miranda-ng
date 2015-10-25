@@ -184,11 +184,11 @@ Nastavit rozšířené stavy
 [** Unknown contacts **]
 ** neznámé kontakty **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
+[left -> right]
 zleva doprava
-[right->left]
+[right -> left]
 zprava doleva
-[left<->right]
+[left <-> right]
 Knight Rider
 [Keyboard Flash]
 Blikání klávesnicí

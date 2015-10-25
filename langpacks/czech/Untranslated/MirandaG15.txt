@@ -35,7 +35,7 @@
 [Chat session specific]
 [User events]
 [Emotes]
-[Special IRC events:]
+[Group chat events:]
 [Channel events]
 [Cut off nicknames after]
 [Show protocol labels]

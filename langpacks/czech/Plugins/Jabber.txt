@@ -512,7 +512,7 @@ Podporuje doplněk SecureIM pro Mirandu
 Podporuje OTR (komunikace mimo záznam)
 [Supports New_GPG plugin for Miranda NG]
 Podporuje doplněk New_GPG pro Mirandu
-[Blocks packets from other users/groupchats using Privacy lists]
+[Blocks packets from other users/group chats using Privacy lists]
 Umožňuje blokovat komunikaci na základě definovaných filtrů
 [Supports Message Receipts]
 Podporuje potvrzenky o doručení
@@ -1384,10 +1384,6 @@ jorubština
 Změny se projeví až při příštím připojení do sítě Jabber.
 [Jabber Protocol Option]
 Možnost protokolu Jabber
-[Confirm password]
-Potvrzení hesla
-[Passwords do not match.]
-Hesla se neshodují.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Opravdu chcete odstranit vybraný účet, tj. seznam kontaktů umístěný na serveru a všechny ostatní související informace?
 [Account removal warning]
@@ -1440,8 +1436,8 @@ Automaticky přijímat žádosti o autorizaci
 Opravovat neplatné datum příchozích zpráv
 [Disable frame]
 Vypnout zobrazení rámečku
-[Enable XMPP link processing (requires Association Manager)]
-Povolit práci s odkazy (vyžaduje doplněk Association Manager)
+[Enable XMPP link processing (requires AssocMgr)]
+Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Neměnit rozmístění kontaktů ve skupinách (ignorovat stav na serveru)
 [Security]

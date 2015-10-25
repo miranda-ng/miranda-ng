@@ -95,8 +95,8 @@ Uživatel se přihlásil
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <neznámý>
-[<none>]
-<žádný>
+[Last seen]
+Naposledy spatřen
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 -- Datum --
@@ -172,11 +172,9 @@ namísto
 Last Seen - seznam proměnných
 [Contacts]
 Kontakty
-[Last seen]
-Naposledy spatřen
 [Popups]
 Oznámení
-;file \plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n je %s (%u)
 [%i(%r)%bWas %o]

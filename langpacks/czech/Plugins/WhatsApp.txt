@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.14
+;  Version: 0.1.3.2
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -16,14 +16,18 @@ Přezdívka
 Výchozí skupina:
 [Use SSL connection (port 443)]
 Použít SSL připojení (port 443)
+[Use remote message timestamps]
+Použít časové razítko zpráv ze serveru
 [Automatically open group chats]
 Automaticky otevírat skupinové rozhovory
 [Registration]
 Registrace
-[SMS code]
-SMS kód
-[Request code]
-Vyžádat kód
+[Enter code]
+Zadejte kód
+[Request SMS code]
+Vyžádat SMS kód
+[Request Voice code]
+Vyžádat hlasový kód
 [Register code]
 Zaregistrovat kód
 [Including country code, without '+' or '00']
@@ -81,15 +85,21 @@ Zadejte prosím heslo.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 je nyní znám jako '%s'
+[Last online on %x at %X]
+Naposledy online na %x v %X
+[Denied: Last online on %x at %X]
+Zakázáno: Naposledy online na %x v %X
 [Last seen on %x at %X]
 Naposledy spatřen %x v %X
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS s registračním kódem bude odeslána na váš mobilní telefon.\nPoznámka: Není možné používat WhatsApp aplikaci a tento doplněk zároveň!\nPokračovat?
-[Your password has been set automatically. You can proceed with login now]
-Vaše heslo bylo nastaveno automaticky. Nyní můžete pokračovat v přihlášení
-[Please correctly specify your registration code received by SMS]
-Zadejte váš registrační kód, který vám přišel v SMS
+[A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+Hovor s registračním kódem bude proveden na váš mobilní telefon.\nPoznámka: Není možné používat WhatsApp aplikaci a tento doplněk zároveň!\nPokračovat?
+[Your password has been set automatically. You can proceed with login now.]
+Vaše heslo bylo nastaveno automaticky. Nyní můžete pokračovat v přihlášení.
+[Please correctly specify your registration code received by SMS/Voice.]
+Zadejte váš registrační kód, který vám přišel v SMS/hovoru.
 [Changes will be applied after protocol restart]
 Změny budou použity při dalším načtení protokolu
 [Network]
@@ -112,12 +122,14 @@ Chyba síťového připojení.
 Registrace se nezdařila. Neplatná odpověď serveru.
 [Registration failed due to stale code. Please request a new code]
 Registrace se nezdařila. Kód již není platný, vyžádejte si nový kód.
-[Registration failed.]
-Registrace se nezdařila.
+[Registration failed. Reason: %s]
+Registrace se nezdařila. Důvod: %s
 [Please try again in %i seconds]
 Zkuste to znovu za %i sekund
 [Registration code has been sent to your phone.]
 Registrační kód byl odeslán do vašeho telefonu.
+[Registration failed.]
+Registrace se nezdařila.
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp ikona

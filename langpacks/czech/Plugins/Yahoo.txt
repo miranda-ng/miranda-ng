@@ -87,8 +87,6 @@ Důvod pozvání
 [Add]
 Přidat
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
 %s odmítnul pozvánku s odpovědí: %s
 [Me]
@@ -107,6 +105,8 @@ Zobrazit &historii
 Připojit ke konferenci...
 [No, thank you...]
 Ne, děkuji...
+[[miranda] Got conference invite to room: %s with msg: %s]
+Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Hlavní

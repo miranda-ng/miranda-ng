@@ -2,25 +2,21 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.0.0
+;  Version: 0.11.5.1
 ;  Authors: Miranda NG team
 ;============================================================
-[Allow you to extend Miranda NG functionality with lua scripts.]
-
+[Extends Miranda NG functionality with Lua scripts.]
+Rozšiřuje funkčnost Mirandy IM pomocí skriptů v jazyce Lua.
 ;file \plugins\MirLua\res\resource.rc
-[Reload]
-Načíst znovu
+[Reload all]
+Načíst vše znovu
 ;file \plugins\MirLua\src\main.cpp
-[Customize]
-Vlastní úpravy
+[Common scripts folder]
+Složka s obecnými skripty
+;file \plugins\MirLua\src\mlua_options.cpp
+[Services]
+Služby
 [Scripts]
 Skripty
-[Common scripts folder]
-
-[Custom scripts folder]
-
-;file \plugins\MirLua\src\mlua_options.cpp
 [Common scripts]
-
-[Custom scripts]
-
+Obecné skripty

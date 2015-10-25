@@ -83,10 +83,6 @@ Ostatní
 [Choose appropriate accounts for import]
 Zvolte požadované účty pro import
 ;file \plugins\Import\src\import.cpp
-[Ignored event from/to self]
-Ignorována událost od/pro mě
-[Added contact %u (found in history)]
-Přidán kontakt %u (nalezen v historii)
 [<New account>]
 <Nový účet>
 [Old account]
