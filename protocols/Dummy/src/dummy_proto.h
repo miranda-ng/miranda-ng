@@ -32,6 +32,10 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+
+	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+
 	//==== Events ========================================================================
 
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -43,6 +47,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	
 	void __cdecl SendMsgAck(void *param);
+	void __cdecl SearchIdAckThread(void*);
 	
 	char uniqueIdText[100];
 	char uniqueIdSetting[100];

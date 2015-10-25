@@ -24,6 +24,19 @@ void CDummyProto::SendMsgAck(void *param)
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)Translate("Dummy protocol is too dumb to send messages."));
 }
 
+void CDummyProto::SearchIdAckThread(void *targ)
+{
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+	psr.id.t = (TCHAR*)targ;
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
+	
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+
+	mir_free(targ);
+}
+
 static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 {
 	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
@@ -63,7 +76,7 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
-		return PF1_IM;
+		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
@@ -72,7 +85,7 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 		return 0;
 
 	case PFLAGNUM_4:
-		return 0;
+		return PF4_AVATARS | PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH;
 
 	case PFLAGNUM_5:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
@@ -112,4 +125,42 @@ int CDummyProto::SendMsg(MCONTACT hContact, int, const char*)
 int CDummyProto::SetStatus(int)
 {
 	return 0;
+}
+
+HANDLE CDummyProto::SearchBasic(const TCHAR* id)
+{
+	if (uniqueIdSetting[0] == '\0')
+		return 0;
+
+	TCHAR *tid = mir_tstrdup(id);
+	ForkThread(&CDummyProto::SearchIdAckThread, tid);
+	return tid;
+}
+
+MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+{
+	if (psr->id.t == NULL)
+		return NULL;
+
+	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
+
+	if (hContact && Proto_AddToContact(hContact, m_szModuleName) != 0) {
+		CallService(MS_DB_CONTACT_DELETE, hContact);
+		hContact = NULL;
+	}
+
+	if (hContact) {
+		if (flags & PALF_TEMPORARY) {
+			db_set_b(hContact, "CList", "Hidden", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
+		}
+		else if (db_get_b(hContact, "CList", "NotOnList", 0)) {
+			db_unset(hContact, "CList", "Hidden");
+			db_unset(hContact, "CList", "NotOnList");
+		}
+		setTString(hContact, uniqueIdSetting, psr->id.t);
+		setTString(hContact, "Nick", psr->id.t);
+	}
+
+	return hContact;
 }
