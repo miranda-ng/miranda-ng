@@ -17,11 +17,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CDummyProto::SendMsgAck(void *param)
+void CDummyProto::SendMsgAck(void *p)
 {
-	MCONTACT hContact = (UINT_PTR)param;
+	if (p == NULL)
+		return;
+
+	message_data *data = static_cast<message_data*>(p);
+
 	Sleep(100);
-	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)Translate("Dummy protocol is too dumb to send messages."));
+
+	if (getByte(DUMMY_KEY_ALLOW_SENDING, 0))
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
+	else
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("This Dummy account has disabled sending messages. Enable it in account options."));
+
+	delete data;
 }
 
 void CDummyProto::SearchIdAckThread(void *targ)
@@ -48,6 +58,8 @@ CDummyProto::CDummyProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CDummyProto>(szModuleName, ptszUserName)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CDummyProto::SvcCreateAccMgrUI);
+
+	msgid = 0;
 
 	uniqueIdText[0] = '\0';
 	uniqueIdSetting[0] = '\0';
@@ -116,10 +128,13 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CDummyProto::SendMsg(MCONTACT hContact, int, const char*)
+int CDummyProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
-	ForkThread(&CDummyProto::SendMsgAck, (void*)hContact);
-	return 0;
+	std::string message = msg;
+	unsigned int id = InterlockedIncrement(&this->msgid);
+
+	ForkThread(&CDummyProto::SendMsgAck, new message_data(hContact, message, id));
+	return id;
 }
 
 int CDummyProto::SetStatus(int)

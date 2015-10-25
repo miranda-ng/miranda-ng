@@ -6,6 +6,7 @@
 #define IDC_ID_TEXT                     1030
 #define IDC_ID_SETTING                  1031
 #define IDC_TEMPLATE                    1032
+#define IDC_ALLOW_SENDING               1033
 
 // Next default values for new objects
 // 
@@ -14,7 +15,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1033
+#define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

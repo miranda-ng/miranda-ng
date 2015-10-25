@@ -56,6 +56,9 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 			int templateId = ppro->getTemplateId();
 			SendDlgItemMessage(hwndDlg, IDC_TEMPLATE, CB_SETCURSEL, templateId, 0);
 
+			boolean allowSending = ppro->getByte(DUMMY_KEY_ALLOW_SENDING, 0);
+			CheckDlgButton(hwndDlg, IDC_ALLOW_SENDING, allowSending ? BST_CHECKED : BST_UNCHECKED);
+
 			onTemplateSelected(hwndDlg, ppro, templateId);
 		}
 		return TRUE;
@@ -75,6 +78,8 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
+		default:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
@@ -93,6 +98,8 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 				GetDlgItemTextA(hwndDlg, IDC_ID_SETTING, str, _countof(str));
 				ppro->setString(DUMMY_ID_SETTING, str);
 			}
+
+			ppro->setByte(DUMMY_KEY_ALLOW_SENDING, IsDlgButtonChecked(hwndDlg, IDC_ALLOW_SENDING));
 		}
 		break;
 

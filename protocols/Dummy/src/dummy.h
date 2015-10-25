@@ -22,6 +22,15 @@ extern HINSTANCE hInst;
 #define DUMMY_ID_TEMPLATE "Template"
 #define DUMMY_ID_TEXT "UniqueIdText"
 #define DUMMY_ID_SETTING "UniqueIdSetting"
+#define DUMMY_KEY_ALLOW_SENDING "AllowSending"
+
+struct message_data
+{
+	message_data(MCONTACT hContact, const std::string &msg, int msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
+	MCONTACT hContact;
+	std::string msg;
+	int msgid;
+};
 
 typedef struct {
 	const char *name;

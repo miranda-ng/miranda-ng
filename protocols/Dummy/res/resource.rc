@@ -23,7 +23,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_ACCMGRUI DIALOGEX 0, 0, 186, 122
+IDD_ACCMGRUI DIALOGEX 0, 0, 186, 144
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -37,6 +37,8 @@ BEGIN
     EDITTEXT        IDC_ID_TEXT,95,63,90,12,ES_AUTOHSCROLL
     LTEXT           "Visible name of unique identifier of contacts",IDC_STATIC,10,79,175,18
     LTEXT           "Restart is required to apply these changes.",IDC_STATIC,0,105,185,8
+    CONTROL         "Allow sending messages to contacts",IDC_ALLOW_SENDING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,121,185,10
 END
 
 
@@ -79,7 +81,7 @@ BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 95
         VERTGUIDE, 185
-        BOTTOMMARGIN, 93
+        BOTTOMMARGIN, 138
     END
 END
 #endif    // APSTUDIO_INVOKED
