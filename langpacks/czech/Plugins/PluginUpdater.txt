@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
@@ -26,7 +26,7 @@ Z&rušit výběr
 Klávesy
 [Go to Customize -> Hotkeys to change the hotkey]
 Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
-[Plugin updates options]
+[Update options]
 Kontrola aktualizací
 [On startup]
 Po spuštění
@@ -36,6 +36,8 @@ Po spuštění
 Každých
 [Silent mode]
 Tichý režim
+[Backup database before update (requires Db_autobackups)]
+Zálohovat databázi před aktualizací (vyžaduje Db_autobackups)
 [Files source]
 Zdroj dat
 [Stable version]
@@ -153,6 +155,8 @@ Zjišťování aktualizací...
 [Update checking already started!]
 Kontrola aktualizací již probíhá!
 ;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+Schéma URI pro aktualizátor
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
@@ -160,12 +164,14 @@ Zavřít oznámení
 [Do nothing]
 Nedělat nic
 ;file \plugins\PluginUpdater\src\Options.cpp
+[Backup database before update]
+Zálohovat databázi před aktualizací
+[Stable version (incompatible with current development version)]
+Stabilní verze (nekompatibilní s aktuální vývojovou verzí)
 [hours]
 hodin
 [days]
 dnů
-[Stable version (incompatible with current development version)]
-
 [Test]
 Ověřit
 [Services]
@@ -183,7 +189,7 @@ Aktualizace selhala
 [Plugin info]
 Informace
 [Plugin Updater HTTP connections]
-
+HTTP spojení pro aktualizátor
 [An error occurred while checking for new updates.]
 Nastala chyba při zjišťování aktualizací.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

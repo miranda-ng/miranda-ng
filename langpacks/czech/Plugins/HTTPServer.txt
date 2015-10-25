@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.2
+;  Version: 0.1.2.3
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -138,13 +138,7 @@ DOKONČENO
 
 [Network]
 Sítě
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
-
-[Failed to add contact menu item]
 
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]

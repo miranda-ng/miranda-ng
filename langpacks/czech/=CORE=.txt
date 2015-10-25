@@ -199,8 +199,8 @@ Ne
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options->Contacts->Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
 [Are you sure you want to delete %s?]
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
@@ -423,34 +423,6 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
-[Tray]
-Oznamovací oblast
-[&Hide/Show]
-Skrýt/Zo&brazit
-[Nowhere]
-Nikde
-[&New group]
-&Nová skupina
-[&Hide offline users]
-&Skrýt uživatele offline
-[Hide &offline users out here]
-Skrýt uživatele &offline mimo skupiny
-[Hide &empty groups]
-S&krýt prázdné skupiny
-[Disable &groups]
-Vypnout zobrazení s&kupin
-[Hide Miranda]
-Skrýt Mirandu
-[Group]
-Skupina
-[&New subgroup]
-&Nová podskupina
-[&Hide offline users in here]
-Skrýt uživatele o&ffline
-[&Rename group]
-Př&ejmenovat skupinu
-[&Delete group]
-&Smazat skupinu
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Poslat soubory
@@ -1086,6 +1058,8 @@ Přesunout do hlavní nabídky
 Přesunout do nabídky stavu
 [Warning!\r\nThis menu object not support user defined options.]
 Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
+[Insert submenu]
+Vložit podnabídku
 [Insert separator]
 Vložit oddělovač
 [Service:]
@@ -1232,6 +1206,34 @@ Lokalizace:
 Znovu načíst jazyk
 [Download more language packs]
 Stáhnout další jazykové balíčky
+[Tray]
+Oznamovací oblast
+[&Hide/Show]
+Skrýt/Zo&brazit
+[Nowhere]
+Nikde
+[&New group]
+&Nová skupina
+[&Hide offline users]
+&Skrýt uživatele offline
+[Hide &offline users out here]
+Skrýt uživatele &offline mimo skupiny
+[Hide &empty groups]
+S&krýt prázdné skupiny
+[Disable &groups]
+Vypnout zobrazení s&kupin
+[Hide Miranda]
+Skrýt Mirandu
+[Group]
+Skupina
+[&New subgroup]
+&Nová podskupina
+[&Hide offline users in here]
+Skrýt uživatele o&ffline
+[&Rename group]
+Př&ejmenovat skupinu
+[&Delete group]
+&Smazat skupinu
 [&Reset to default]
 O&bnovit výchozí
 [find/add]
@@ -1852,8 +1854,8 @@ Zpráva od: %s
 %s píše zprávu
 [Typing notification]
 Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda nemůže načíst vestavěný komunikační modul, Msftedit.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
+[Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nemůže načíst vestavěný komunikační modul, msftedit.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
 [Instant messages]
 Zprávy
 [Incoming (focused window)]
@@ -1899,20 +1901,8 @@ Opravdu si přejete odstranit tento záznam z historie?
 Smazat historii
 [View &history]
 Zobrazit &historii
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-Odkaz od: %s
-[Web page address (&URL)]
-Odkaz (&URL)
-[URL]
-Odkaz
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-Odeslání odkazu:
-[Send timed out]
-Vypršel čas na odeslání
 ;file \src\core\stduserinfo\src\contactinfo.cpp
-[Edit E-Mail address]
+[Edit e-mail address]
 Upravit e-mail
 [Edit phone number]
 Upravit telefonní číslo
@@ -2088,15 +2078,6 @@ Aktuální téma: %s
 [The topic is '%s' (set by %s)]
 Aktuální téma: %s (nastavil %s)
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-Rozšířený stav
-[%s (locked)]
-%s (uzamčený)
-[Status menu]
-Nabídka stavů
-[Main menu]
-Hlavní nabídka
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Připojování
@@ -2105,7 +2086,6 @@ Připojování (pokus č.%d)
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
@@ -2148,16 +2128,18 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mmap.dll.
-[No profile support installed!]
-Není nainstalovaná podpora pro profily!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda nemůže otevřít '%s', který má neznámý formát.\nTento profil může být také poškozen, spusťte prosím DbChecker.
-[Miranda can't understand that profile]
-Tento profil není ve formátu Miranda-IM
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení dat z adresáře s profilem.
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+Miranda nemůže otevřít '%s'.\nNení nainstalován odpovídající ovladač databáze.
+[No profile support installed!]
+Není nainstalovaná podpora pro profily!
 [Miranda can't open that profile]
 Vybraný profil nelze otevřít
+[Miranda can't understand that profile]
+Miranda nedokáže rozpoznat tento profil
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Bezpečnostní systémy pro ochranu před škodlivými změnami jsou zapnuty a budete varování před všemi změnami.
@@ -2241,12 +2223,6 @@ Záhlaví
 Běžný text
 [Small text]
 Poznámky
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-Nabídky
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
-Nabídky
 ;file \src\mir_app\src\groups.cpp
 [New group]
 nová skupina
@@ -2346,6 +2322,40 @@ Neznámý
 interní
 [Languages]
 Jazyky
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+Rozšířený stav
+[%s (locked)]
+%s (uzamčený)
+[Status menu]
+Nabídka stavů
+[Main menu]
+Hlavní nabídka
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+Nabídka rámečků
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+Nabídka skupiny
+[Subgroup menu]
+Nabídka podskupiny
+;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+Nová podnabídka
+[Menus]
+Nabídky
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+Nabídka ikony
+[&Hide/show]
+Skrýt/Zo&brazit
+[&Options...]
+M&ožnosti...
+[&About]
+O progr&amu
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
+Nabídky
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Chystáte se odstranit z metakontaktu všechny kontakty.\nTo způsobí smazání celého metakontaktu.\n\nUrčitě chcete pokračovat?
@@ -2456,8 +2466,8 @@ Přesunout do s&kupiny
 [<Root group>]
 <kořenová skupina>
 ;file \src\mir_app\src\netliblog.cpp
-[Standard netlib log]
-Výchozí záznam pro netlib
+[Standard Netlib log]
+Výchozí záznam pro Netlib
 [No times]
 Bez časového údaje
 [Standard hh:mm:ss times]
@@ -2507,8 +2517,6 @@ Načítání... %d%%
 %s nastavení
 [Miranda NG options]
 Miranda - možnosti nastavení
-[&Options...]
-M&ožnosti...
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 Doplňkové ikony
@@ -2641,6 +2649,8 @@ Počet nalezených: 0
 [Icon sets]
 Sada ikon
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+Odkaz
 [User online]
 Uživatel online
 [Group (open)]
@@ -2699,6 +2709,8 @@ Běžící doplněk jádra
 Nenačitatelný doplněk
 [Frames]
 Rámečky
+[Add group]
+Přidat skupinu
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]

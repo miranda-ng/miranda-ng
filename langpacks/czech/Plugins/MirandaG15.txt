@@ -8,12 +8,12 @@
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
-Písma
 [General settings]
 Obecná nastavení
 [Show softkey labels]
 
+[Fonts]
+Písma
 [Event log:]
 
 [Sample]
@@ -58,8 +58,6 @@ Informace
 
 [Skip driver missing notification]
 
-[Notifications]
-Upozornění
 [Notification screen title]
 
 [Hide it]
@@ -114,7 +112,7 @@ Zprávy
 
 [Status changes]
 Změny stavu
-[Special IRC events:]
+[Group chat events:]
 
 [Notices]
 Poznámky
@@ -132,8 +130,6 @@ znaků
 
 [Cut off channel names after]
 
-[Contact list]
-Seznam kontaktů
 [Show the contacts protocols]
 
 [Hide offline users]
@@ -166,8 +162,6 @@ Skrýt uživatele offline
 
 [Fade out selection rectangle]
 
-[Chat]
-Diskuse
 [Typing notifications]
 
 [Show typing notifications]
@@ -215,7 +209,11 @@ Nedělat nic
 
 [Appearance]
 Vzhled
+[Notifications]
+Upozornění
 [Chat sessions]
 
+[Contact list]
+Seznam kontaktů
 [No device attached]
 

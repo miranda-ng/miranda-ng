@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.8
+;  Version: 0.11.1.14
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -26,13 +26,13 @@ Heslo:
 Výchozí skupina:
 [Tox]
 Tox
-[Create tox profile]
+[Create Tox profile]
 Vytvořit Tox profil
-[Import tox profile]
+[Import Tox profile]
 Importovat Tox profil
 [Copy Tox ID]
 Zkopírovat Tox ID
-[Export tox profile]
+[Export Tox profile]
 Exportovat Tox profil
 [Connection settings]
 Možnosti připojení
@@ -40,10 +40,10 @@ Možnosti připojení
 Povolit UDP (jinak vynutí použití TCP)
 [Enable IPv6]
 Povolit IPv6
-[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
-Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí toxme.se.
-[Dns name:]
-Dns název:
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí Tox DNS discovery.
+[DNS name:]
+DNS název:
 [Enter password]
 Zadejte heslo
 [Save password]
@@ -101,13 +101,16 @@ Odchozí hovor
 [To:]
 Pro:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
-[Groupchat]
+[Group chat]
 Skupinový rozhovor
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Složka s profily
 [Tox URI scheme]
-
+Tox URI schéma
 [Action]
 Akce
 ;file \protocols\Tox\src\tox_icons.cpp
@@ -128,6 +131,9 @@ Protokoly
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
+;file \protocols\Tox\src\tox_messages.cpp
+[You cannot send when you are offline.]
+Nemůžete odesílat zprávy ve stavu offline.
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Incoming call from %s]
 Příchozí hovor (%s)
@@ -153,9 +159,9 @@ Hovor skončil
 Tox profil
 [All files]
 Všechny soubory
-[Select tox profile]
+[Select Tox profile]
 Vyberte Tox profil
-[Save tox profile]
+[Save Tox profile]
 Uložit Tox profil
 [Add node]
 Přidat uzel
@@ -181,6 +187,13 @@ Sítě
 Účet
 [Nodes]
 Uzly
+;file \protocols\Tox\src\tox_profile.cpp
+[Unable to open Tox profile]
+Nelze otevřít profil Tox
+[Unable to read Tox profile]
+Nelze číst profil Tox
+[Unable to decrypt Tox profile]
+Nelze dešifrovat profil Tox
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
@@ -189,3 +202,24 @@ Kontakt je již ve vašem seznamu
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Dotaz
+;file \protocols\Tox\src\tox_utils.cpp
+[One of the arguments is missing]
+Chybí jeden z argumentů
+[Unable to allocate enough memory]
+Nelze alokovat dostatek paměti
+[Unable to bind to a port]
+Nelze nabindovat port
+[The proxy type is not valid]
+Typ proxy není platný
+[The proxy host is not valid]
+Hostitel proxy není platný
+[The proxy port is not valid]
+Port proxy není platný
+[The proxy address could not be resolved]
+Adresa proxy nemohla být získána
+[The profile is encrypted]
+Profil je zašifrovaný
+[The data format is not valid]
+Formát dat není platný
+[Unknown error]
+Neznámá chyba

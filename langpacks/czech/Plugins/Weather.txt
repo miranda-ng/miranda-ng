@@ -256,18 +256,7 @@ Zobrazit informaci o osobě
 Předchozí nastavení
 [To default]
 Výchozí nastavení
-;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-Povolit/zakázat automatickou aktualizaci
-[Auto Update Enabled]
-Zakázat automatickou aktualizaci
-[Auto Update Disabled]
-Povolit automatickou aktualizaci
-[Weather Condition Changed]
-Počasí (změna počasí)
-[Weather Alert Issued]
-Počasí (varování)
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 <neuvedeno>
 [Invalid ID format, missing "/" (10)]
@@ -350,6 +339,17 @@ Seznam ostatních proměnných, které jsou k dispozici:
 Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+Povolit/zakázat automatickou aktualizaci
+[Auto Update Enabled]
+Zakázat automatickou aktualizaci
+[Auto Update Disabled]
+Povolit automatickou aktualizaci
+[Weather Condition Changed]
+Počasí (změna počasí)
+[Weather Alert Issued]
+Počasí (varování)
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.7
+;  Version: 0.1.1.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -98,6 +98,8 @@ Heslo:
 Extra
 [Hide chats on startup]
 
+[Sync read message status from server]
+
 [Always notify as unread for all incoming message]
 Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [Force invisible status upon user activity]
@@ -174,7 +176,7 @@ Označte kontakty, které chcete pozvat do nové diskuse
 
 [Share]
 Sdílet
-[Url:]
+[URL:]
 Odkaz:
 [Only for friends]
 
@@ -220,7 +222,7 @@ Chyba
 [Access to adding post denied]
 
 [Enter confirmation code]
-
+Zadejte potvrzovací kód
 [Message read: %s]
 Zpráva byla přečtena: %s
 [has invited you to a group]
@@ -277,8 +279,6 @@ Dokument
 Příspěvek na zdi
 [Link]
 Adresa
-[Image]
-Obrázek
 [Gift]
 Dárek
 [Unsupported or unknown attachment type: %s]
@@ -309,6 +309,10 @@ Vlastníci
 
 [change chat title to]
 
+[changed chat cover:]
+
+[deleted chat cover]
+
 [chat action not supported]
 
 [Unknown]
@@ -338,11 +342,25 @@ Zobrazit profil
 [&Kick]
 Vy&kopnout
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[New %s]
+
+[news]
+novinky
+[notifications]
+upozornění
 [User was tagged in these photos:]
 
+[(photos)]
+(fotky)
+[(attachments)]
+(přílohy)
 [News from %s\n%s]
 
+[News from %s]
+
 [\tRepost from %s\n%s]
+
+[Repost from %s]
 
 [Video description:]
 
@@ -351,6 +369,22 @@ Vy&kopnout
 [Topic text:]
 
 ;file \protocols\VKontakte\src\vk_files.cpp
+[Protocol is offline]
+Protokol je offline
+[File does not exist]
+
+[File type not supported]
+
+[Error open file]
+
+[Error read file]
+
+[File upload error]
+
+[Upload server returned empty URL]
+
+[Invalid or unknown recipient user ID]
+
 [Couldn't save file]
 
 [Invalid album id]
@@ -369,8 +403,6 @@ Vy&kopnout
 
 [Unknown error occurred]
 
-[File upload error]
-
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
@@ -388,6 +420,8 @@ Zobrazit
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
+[VKontakte newsfeed & notification event]
+
 [Create new chat]
 Založit novou diskusi
 [Status message]

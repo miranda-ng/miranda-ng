@@ -1537,14 +1537,14 @@ Náhled: Spam
 %s - přímé spojení mezi klienty
 [User ID]
 Identifikátor
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Nezadali jste číslo účtu v síti ICQ.\nOtevřete nastavení programu Miranda\na potřebné údaje doplňte (Síť->ICQ).
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Nezadali jste číslo účtu v síti ICQ.\nOtevřete nastavení programu Miranda\na potřebné údaje doplňte (Možnosti -> Sítě -> ICQ).
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 
 [Unable to connect to ICQ login server]
 Chyba při připojování k serveru ICQ
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
 
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Chyba připojení.\nPřihlášení k síti se nezdařilo z neznámého důvodu.\nZkuste prosím danou akci zopakovat později.
@@ -1796,14 +1796,14 @@ ICQ: Závažná chyba
 Server ICQ nereaguje na pokus o připojení. Zkuste prosím danou akci zopakovat později.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Připojování k serveru ICQ bylo přerušeno. Nejste náhodou odpojeni od sítě?
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Chyba při překladu jmenného názvu serveru na IP adresu. Tento problém může být způsoben jak odpojením od sítě, tak např. použitou proxy. Pokud se vás týká druhý případ, zkuste použít funkci 'Překládat jména hostitelů pomocí proxy', kterou najdete v nastavení Mirandy (položka Síť).
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
+Chyba při překladu jmenného názvu serveru na IP adresu. Tento problém může být způsoben jak odpojením od sítě, tak např. použitou proxy. Pokud se vás týká druhý případ, zkuste použít funkci 'Překládat jména hostitelů pomocí proxy', kterou najdete v nastavení Mirandy (položka Sítě).
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Chyba při připojování k serveru ICQ. Zkuste prosím danou akci zopakovat později.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Proxy odmítla zadané uživatelské jméno a heslo. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Síť).
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Zadaný server ICQ neexistuje. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Síť->ICQ).
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
+Proxy odmítla zadané uživatelské jméno a heslo. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Síťě).
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
+Zadaný server ICQ neexistuje. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Sítě -> ICQ).
 [error]
 chyba
 ;file \protocols\IcqOscarJ\src\loginpassword.cpp

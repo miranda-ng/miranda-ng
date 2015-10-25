@@ -20,8 +20,8 @@ Ano
 Ne
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options->Contacts->Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
+[Use Options -> Contacts -> Ignore to unhide contacts.]
+(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
 [Hotkeys]
 Klávesové zkratky
 [Show/Hide:]

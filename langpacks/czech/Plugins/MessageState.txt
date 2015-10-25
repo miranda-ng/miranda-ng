@@ -7,6 +7,9 @@
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 
+;file \plugins\MessageState\src\clist_extra.cpp
+[MessageState unread extra icon]
+
 ;file \plugins\MessageState\src\global.h
 [Unread message icon]
 
@@ -16,12 +19,16 @@
 
 [Sending message icon]
 
+[Unread clist extra icon]
+
 ;file \plugins\MessageState\src\messagestate.cpp
 [Last message read at]
-
+Poslední zpráva přečtena v
+[Last message read (unknown time)]
+Poslední zpráva přečtena (neznámo kdy)
 [Last message is not read]
-
+Poslední zpráva nebyla přečtena
 [Last message was not sent.]
-
+Poslední zpráva nebyla odeslána.
 [Sending...]
-Posílání dat...
+Odesílání...

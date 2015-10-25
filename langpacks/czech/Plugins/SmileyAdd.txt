@@ -40,12 +40,6 @@ Max. velikost vlastních smajlíků
 Min. velikost smajlíků
 [Smiley selector]
 Použití smajlíku
-[Surround inserted smiley with spaces]
-Přidat mezeru z každé strany smajlíku
-[Use first smiley for selection size]
-Velikost smajlíku definovat dle prvního
-[IEView style window]
-Vzhled okna nastavit dle IEView
 [Input area]
 Oblast psaní zprávy
 [Enable smileys]
@@ -58,6 +52,16 @@ Vestavěná podpora
 Vypnout
 [Smiley button]
 Tlačítko se smajlíky
+[Background\ncolor]
+Barva pozadí
+[Surround inserted smiley with spaces]
+Přidat mezeru z každé strany smajlíku
+[Use first smiley for selection size]
+Velikost smajlíku definovat dle prvního
+[IEView style window]
+Vzhled okna nastavit dle IEView
+[Horizontal sorting]
+Horizontální řazení
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Zobrazit okno s výběrem smajlíků
@@ -94,8 +98,8 @@ Všechny soubory
 [Protocol specific]
 Závisí na protokolu
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti -> Vlastní úpravy -> Smajlíky.
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Knihovna smajlíků %s pro kategorii "%s" nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti -> Vlastní úpravy -> Smajlíky.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
 [Smiley #%u in file %s for smiley pack %s not found.]

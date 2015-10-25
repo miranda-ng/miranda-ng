@@ -32,9 +32,6 @@ Debug
 Uložit záznam
 [Message debugging]
 
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 
@@ -49,5 +46,8 @@ Chyba
 
 [Invalid port number]
 
+[NotifyAnything]
+
 [Plugins]
 Doplňky
+;file \plugins\NotifyAnything\src\stdafx.h
