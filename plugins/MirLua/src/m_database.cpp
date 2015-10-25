@@ -344,8 +344,8 @@ static int lua_SettingIterator(lua_State *L)
 
 static int lua_AllSettings(lua_State *L)
 {
-	const char* szModule = luaL_checkstring(L, 1);
-	MCONTACT hContact = lua_tointeger(L, 2);
+	MCONTACT hContact = lua_tointeger(L, 1);
+	const char* szModule = luaL_checkstring(L, 2);
 
 	enumDBSettingsParam* param = (enumDBSettingsParam*)mir_alloc(sizeof(enumDBSettingsParam));
 	param->count = 0;

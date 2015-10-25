@@ -15,6 +15,8 @@ static void MapToTable(lua_State *L, const PROTOCOLDESCRIPTOR* pd)
 
 static int lua_GetProto(lua_State *L)
 {
+	ObsoleteMethod(L, "Use totable(x, \"PROTOCOLDESCRIPTOR\") instead");
+
 	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
 	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(name);
@@ -61,6 +63,8 @@ static int lua_AllProtos(lua_State *L)
 
 static int lua_EnumProtos(lua_State *L)
 {
+	ObsoleteMethod(L, "Use \"for x in protos.AllProtos \" instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -116,6 +120,8 @@ static void MapToTable(lua_State *L, const PROTOACCOUNT* pa)
 
 static int lua_GetAccount(lua_State *L)
 {
+	ObsoleteMethod(L, "Use totable(x, \"PROTOACCOUNT\") instead");
+
 	ptrA moduleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
 	PROTOACCOUNT* pa = ::Proto_GetAccount(moduleName);
@@ -162,6 +168,8 @@ static int lua_AllAccounts(lua_State *L)
 
 static int lua_EnumAccounts(lua_State *L)
 {
+	ObsoleteMethod(L, "Use \"for x in protos.AllAccounts \" instead");
+
 	if (!lua_isfunction(L, 1))
 	{
 		lua_pushlightuserdata(L, NULL);
@@ -323,6 +331,98 @@ static luaL_Reg protocolsApi[] =
 	{ NULL, NULL }
 };
 
+#define MT_PROTOCOLDESCRIPTOR "PROTOCOLDESCRIPTOR"
+
+static int pd__init(lua_State *L)
+{
+	PROTOCOLDESCRIPTOR *udata = (PROTOCOLDESCRIPTOR*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	PROTOCOLDESCRIPTOR **pd = (PROTOCOLDESCRIPTOR**)lua_newuserdata(L, sizeof(PROTOCOLDESCRIPTOR*));
+	*pd = udata;
+
+	luaL_setmetatable(L, MT_PROTOCOLDESCRIPTOR);
+
+	return 1;
+}
+
+static int pd__index(lua_State *L)
+{
+	PROTOCOLDESCRIPTOR *pd = *(PROTOCOLDESCRIPTOR**)luaL_checkudata(L, 1, MT_PROTOCOLDESCRIPTOR);
+	const char *key = lua_tostring(L, 2);
+
+	if (mir_strcmpi(key, "Name") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encode(pd->szName)));
+	else if (mir_strcmpi(key, "Type") == 0)
+		lua_pushinteger(L, pd->type);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg pdMeta[] =
+{
+	{ "__init", pd__init },
+	{ "__index", pd__index },
+	{ NULL, NULL }
+};
+
+#define MT_PROTOACCOUNT "PROTOACCOUNT"
+
+static int pa__init(lua_State *L)
+{
+	PROTOACCOUNT *udata = (PROTOACCOUNT*)lua_touserdata(L, 1);
+	if (udata == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	PROTOACCOUNT **pa = (PROTOACCOUNT**)lua_newuserdata(L, sizeof(PROTOACCOUNT*));
+	*pa = udata;
+
+	luaL_setmetatable(L, MT_PROTOCOLDESCRIPTOR);
+
+	return 1;
+}
+
+static int pa__index(lua_State *L)
+{
+	PROTOACCOUNT *pa = *(PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
+	const char *key = lua_tostring(L, 2);
+
+	if (mir_strcmpi(key, "InternalName") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
+	if (mir_strcmpi(key, "AccountName") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encodeT(pa->tszAccountName)));
+	if (mir_strcmpi(key, "ProtoName") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encode(pa->szProtoName)));
+	if (mir_strcmpi(key, "IsEnabled") == 0)
+		lua_pushboolean(L, pa->bIsEnabled);
+	if (mir_strcmpi(key, "IsVisible") == 0)
+		lua_pushboolean(L, pa->bIsVisible);
+	if (mir_strcmpi(key, "IsVirtual") == 0)
+		lua_pushboolean(L, pa->bIsVirtual);
+	if (mir_strcmpi(key, "OldProto") == 0)
+		lua_pushboolean(L, pa->bOldProto);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static luaL_Reg paMeta[] =
+{
+	{ "__init", pa__init },
+	{ "__index", pa__index },
+	{ NULL, NULL }
+};
+
 #define MT_ACKDATA "ACKDATA"
 
 static int ack__init(lua_State *L)
@@ -419,6 +519,14 @@ static luaL_Reg ccsMeta[] =
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	luaL_newlib(L, protocolsApi);
+
+	luaL_newmetatable(L, MT_PROTOCOLDESCRIPTOR);
+	luaL_setfuncs(L, pdMeta, 0);
+	lua_pop(L, 1);
+
+	luaL_newmetatable(L, MT_PROTOACCOUNT);
+	luaL_setfuncs(L, paMeta, 0);
+	lua_pop(L, 1);
 
 	luaL_newmetatable(L, MT_ACKDATA);
 	luaL_setfuncs(L, ackMeta, 0);
