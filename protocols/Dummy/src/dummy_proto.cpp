@@ -50,6 +50,15 @@ CDummyProto::~CDummyProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
+int CDummyProto::getTemplateId()
+{
+	int id = this->getByte(DUMMY_ID_TEMPLATE, 0);
+	if (id < 0 || id >= _countof(templates)) {
+		return 0;
+	}
+	return id;
+}
+
 DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
@@ -73,7 +82,8 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDTEXT:
 		if (uniqueIdSetting[0] == '\0') {
-			ptrA setting(getStringA(DUMMY_ID_TEXT));
+			int id = getTemplateId();
+			ptrA setting(id > 0 ? mir_strdup(Translate(templates[id].text)) : getStringA(DUMMY_ID_TEXT));
 			if (setting != NULL)
 				strncpy_s(uniqueIdSetting, setting, _TRUNCATE);
 		}
@@ -81,7 +91,8 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDSETTING:
 		if (uniqueIdText[0] == '\0') {
-			ptrA setting(getStringA(DUMMY_ID_SETTING));
+			int id = getTemplateId();
+			ptrA setting(id > 0 ? mir_strdup(templates[id].setting) : getStringA(DUMMY_ID_SETTING));
 			if (setting != NULL)
 				strncpy_s(uniqueIdText, setting, _TRUNCATE);
 		}
