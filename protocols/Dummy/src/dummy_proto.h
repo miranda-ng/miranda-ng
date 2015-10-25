@@ -46,4 +46,6 @@ struct CDummyProto : public PROTO<CDummyProto>
 	
 	char uniqueIdText[100];
 	char uniqueIdSetting[100];
+
+	int getTemplateId();
 };

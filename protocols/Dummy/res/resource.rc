@@ -23,37 +23,21 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_ACCMGRUI DIALOGEX 0, 0, 186, 93
+IDD_ACCMGRUI DIALOGEX 0, 0, 186, 122
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Unique ID setting:",IDC_STATIC,0,0,95,12
-    EDITTEXT        IDC_ID_SETTING,96,0,89,12,ES_AUTOHSCROLL
-    LTEXT           "Name of setting that holds unique identifier of contacts",IDC_STATIC,10,15,175,18
-    LTEXT           "Unique ID text:",IDC_STATIC,0,36,94,12
-    EDITTEXT        IDC_ID_TEXT,95,36,90,12,ES_AUTOHSCROLL
-    LTEXT           "Visible name of unique identifier of contacts",IDC_STATIC,10,52,175,18
-    LTEXT           "Restart is required to apply these changes.",IDC_STATIC,0,78,185,8
+    LTEXT           "Protocol template:",IDC_STATIC,0,7,95,12
+    COMBOBOX        IDC_TEMPLATE,95,5,90,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Unique ID setting:",IDC_STATIC,0,27,95,12
+    EDITTEXT        IDC_ID_SETTING,95,27,90,12,ES_AUTOHSCROLL
+    LTEXT           "Name of setting that holds unique identifier of contacts",IDC_STATIC,10,42,175,18
+    LTEXT           "Unique ID text:",IDC_STATIC,0,63,95,12
+    EDITTEXT        IDC_ID_TEXT,95,63,90,12,ES_AUTOHSCROLL
+    LTEXT           "Visible name of unique identifier of contacts",IDC_STATIC,10,79,175,18
+    LTEXT           "Restart is required to apply these changes.",IDC_STATIC,0,105,185,8
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_ACCMGRUI, DIALOG
-    BEGIN
-        RIGHTMARGIN, 185
-        VERTGUIDE, 10
-        , 50
-    END
-END
-#endif    // APSTUDIO_INVOKED
 
 
 #ifdef APSTUDIO_INVOKED
@@ -79,6 +63,25 @@ BEGIN
     "\0"
 END
 
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ACCMGRUI, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 95
+        VERTGUIDE, 185
+        BOTTOMMARGIN, 93
+    END
+END
 #endif    // APSTUDIO_INVOKED
 
 #endif    // English (United States) resources
