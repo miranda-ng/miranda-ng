@@ -11,6 +11,8 @@
 Перезавантажити
 [Common scripts folder]
 Папка із загальними скриптами
+[Services]
+Служби
 [Scripts]
 Скрипти
 [Common scripts]

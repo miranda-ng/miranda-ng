@@ -6,4 +6,3 @@
 [(attachments)]
 [News from %s]
 [Repost from %s]
-[VKontakte newsfeed & notification event]

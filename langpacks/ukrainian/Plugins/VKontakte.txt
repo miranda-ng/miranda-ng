@@ -395,6 +395,8 @@ ID отримувача помилковий або невідомий
 Вигляд
 [%s server connection]
 З'єднання з сервером %s
+[VKontakte newsfeed & notification event]
+Новини і сповіщення ВКонтакті
 [Create new chat]
 Створити новий чат
 [Status message]
