@@ -177,6 +177,23 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
+static int lua_IsPluginLoaded(lua_State *L)
+{
+	const char *value = luaL_checkstring(L, 1);
+
+	MUUID uuid = { 0 };
+	int res = sscanf_s(value, "{%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
+		&uuid.a, &uuid.b, &uuid.c, &uuid.d[0], &uuid.d[1], &uuid.d[2], &uuid.d[3], &uuid.d[4], &uuid.d[5], &uuid.d[6], &uuid.d[7]);
+	if (res == 11)
+	{
+		res = ::IsPluginLoaded(uuid);
+	}
+	lua_pushboolean(L, res);
+
+	return 1;
+}
+
+
 static int lua_Utf8DecodeA(lua_State *L)
 {
 	return luaM_toansi(L);
@@ -243,6 +260,8 @@ luaL_Reg coreApi[] =
 
 	{ "ServiceExists", lua_ServiceExists },
 	{ "CallService", lua_CallService },
+
+	{ "IsPluginLoaded", lua_IsPluginLoaded },
 
 	{ "Utf8DecodeA", lua_Utf8DecodeA },
 	{ "Utf8DecodeW", lua_Utf8DecodeW },
