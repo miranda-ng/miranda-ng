@@ -126,9 +126,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage)
 {
-	int itemType;
-
-	itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
+	int itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 	if(itemType == CLCIT_CONTACT) {
 		int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
 		if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
@@ -149,11 +147,8 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 
 static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD protoCaps)
 {
-	DWORD mask;
-	int i;
-	
-	mask = GetMask(hContact);
-	for (i=0; i < IGNOREEVENT_MAX; i++)
+	DWORD mask = GetMask(hContact);
+	for (int i=0; i < IGNOREEVENT_MAX; i++)
 		if(ignoreIdToPf1[i] == 0xFFFFFFFF || protoCaps & ignoreIdToPf1[i])
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1<<i)?i+3:0));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
@@ -162,11 +157,10 @@ static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD
 
 static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const char *pszSetting)
 {
-	DWORD mask;
-	int i, iImage;
+	DWORD mask=0;
 
-	for (i=0, mask=0; i < IGNOREEVENT_MAX; i++) {
-		iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
+	for (int i=0; i < IGNOREEVENT_MAX; i++) {
+		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 		if(iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1<<i;
 	}
@@ -261,14 +255,14 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 							SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 							break;
 						case NM_CLICK:
-						{	int iImage;
-							HANDLE hItem;
+						{
+							int iImage;
 							DWORD hitFlags;
 							NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 
 							if(nm->iColumn == -1)
 								break;
-							hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
+							HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 							if(hItem == NULL)
 								break;
 							if (!(hitFlags & CLCHT_ONITEMEXTRA))
@@ -314,11 +308,10 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 			}
 			break;
 		case WM_DESTROY:
-		{	int i;
-			HIMAGELIST hIml;
-			for (i=0; i < _countof(hIcons); i++)
+		{
+			for (int i=0; i < _countof(hIcons); i++)
 				DestroyIcon(hIcons[i]);
-			hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
+			HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 			ImageList_Destroy(hIml);
 			break;
 		}
