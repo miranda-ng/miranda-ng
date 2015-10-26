@@ -50,6 +50,7 @@ struct MUUID
 };
 
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack);
+MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Used to define the end of the MirandaPluginInterface list
