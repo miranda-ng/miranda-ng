@@ -247,3 +247,4 @@ KillModuleExtraIcons @245
 KillModuleFonts @246
 KillModuleHotkeys @247
 KillModuleSounds @248
+IsPluginLoaded @249

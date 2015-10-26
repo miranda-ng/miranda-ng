@@ -218,6 +218,20 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 	return 0;
 }
 
+MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
+{
+	for (int i = 0; i < pluginList.getCount(); i++) {
+		pluginEntry *p = pluginList[i];
+		if (!p->bpi.hInst)
+			continue;
+
+		if (equalUUID(p->bpi.pluginInfo->uuid, uuid))
+			return true;
+	}
+
+	return false;
+}
+
 static bool validInterfaceList(MUUID *piface)
 {
 	if (piface == NULL)
