@@ -1,4 +1,3 @@
 ﻿[Sync read message status from server]
 [URL:]
 [New %s]
-[Repost from %s]
