@@ -15,11 +15,9 @@ static void MapToTable(lua_State *L, const PROTOCOLDESCRIPTOR* pd)
 
 static int lua_GetProto(lua_State *L)
 {
-	ObsoleteMethod(L, "Use totable(x, \"PROTOCOLDESCRIPTOR\") instead");
+	const char *name = luaL_checkstring(L, 1);
 
-	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
-
-	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(name);
+	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
 
 	if (pd)
 		MapToTable(L, pd);
@@ -95,7 +93,7 @@ static int lua_EnumProtos(lua_State *L)
 static void MapToTable(lua_State *L, const PROTOACCOUNT* pa)
 {
 	lua_newtable(L);
-	lua_pushliteral(L, "InternalName");
+	lua_pushliteral(L, "ModuleName");
 	lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
 	lua_settable(L, -3);
 	lua_pushliteral(L, "AccountName");
@@ -113,15 +111,13 @@ static void MapToTable(lua_State *L, const PROTOACCOUNT* pa)
 	lua_pushliteral(L, "IsVirtual");
 	lua_pushboolean(L, pa->bIsVirtual);
 	lua_settable(L, -3);
-	lua_pushliteral(L, "OldProto");
+	lua_pushliteral(L, "IsOldProto");
 	lua_pushboolean(L, pa->bOldProto);
 	lua_settable(L, -3);
 }
 
 static int lua_GetAccount(lua_State *L)
 {
-	ObsoleteMethod(L, "Use totable(x, \"PROTOACCOUNT\") instead");
-
 	ptrA moduleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
 	PROTOACCOUNT* pa = ::Proto_GetAccount(moduleName);
@@ -396,7 +392,7 @@ static int pa__index(lua_State *L)
 	PROTOACCOUNT *pa = *(PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
 	const char *key = lua_tostring(L, 2);
 
-	if (mir_strcmpi(key, "InternalName") == 0)
+	if (mir_strcmpi(key, "ModuleName") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
 	if (mir_strcmpi(key, "AccountName") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(pa->tszAccountName)));
@@ -408,7 +404,7 @@ static int pa__index(lua_State *L)
 		lua_pushboolean(L, pa->bIsVisible);
 	if (mir_strcmpi(key, "IsVirtual") == 0)
 		lua_pushboolean(L, pa->bIsVirtual);
-	if (mir_strcmpi(key, "OldProto") == 0)
+	if (mir_strcmpi(key, "IsOldProto") == 0)
 		lua_pushboolean(L, pa->bOldProto);
 	else
 		lua_pushnil(L);
