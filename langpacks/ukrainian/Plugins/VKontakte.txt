@@ -335,12 +335,24 @@
 Профіль на сайті
 [&Kick]
 &Вигнати
+[news]
+новини
+[notifications]
+сповіщення
 [User was tagged in these photos:]
 Користувач позначений на цих фотографіях:
+[(photos)]
+(фото)
+[(attachments)]
+(вкладення)
 [News from %s\n%s]
 Новина від %s\n%s
+[News from %s]
+Новини від %s
 [\tRepost from %s\n%s]
 \tРепост від %s\n%s
+[Repost from %s]
+Репост від %s
 [Video description:]
 Опис відео:
 [Post text:]

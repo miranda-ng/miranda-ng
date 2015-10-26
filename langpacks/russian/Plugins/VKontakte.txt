@@ -342,13 +342,15 @@ Cоздать комнату чата
 [(photos)]
 (фотографии)
 [(attachments)]
-вложения
+(вложения)
 [News from %s\n%s]
 Новость от %s\n%s
 [News from %s]
 Новости от %s
 [\tRepost from %s\n%s]
 \tРепост от %s\n%s
+[Repost from %s]
+Репост от %s
 [Video description:]
 Описание видео
 [Post text:]

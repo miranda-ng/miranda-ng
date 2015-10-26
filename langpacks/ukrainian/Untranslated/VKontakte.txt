@@ -1,8 +1,2 @@
 ﻿[Sync read message status from server]
 [New %s]
-[news]
-[notifications]
-[(photos)]
-[(attachments)]
-[News from %s]
-[Repost from %s]
