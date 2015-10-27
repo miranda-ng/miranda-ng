@@ -402,7 +402,7 @@ MIR_CORE_DLL(int) mir_strcmp(const char *p1, const char *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1) - 2;
+	return strcmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
@@ -411,7 +411,7 @@ MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1) - 2;
+	return wcscmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
@@ -420,7 +420,7 @@ MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1) - 2;
+	return stricmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
@@ -429,7 +429,7 @@ MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1) - 2;
+	return wcsicmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_strncmp(const char *p1, const char *p2, size_t n)
@@ -438,7 +438,7 @@ MIR_CORE_DLL(int) mir_strncmp(const char *p1, const char *p2, size_t n)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, 0, p1, (int)n, p2, (int)n) - 2;
+	return strncmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_wstrncmp(const wchar_t *p1, const wchar_t *p2, size_t n)
@@ -447,7 +447,7 @@ MIR_CORE_DLL(int) mir_wstrncmp(const wchar_t *p1, const wchar_t *p2, size_t n)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, 0, p1, (int)n, p2, (int)n) - 2;
+	return wcsncmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_strncmpi(const char *p1, const char *p2, size_t n)
@@ -456,7 +456,7 @@ MIR_CORE_DLL(int) mir_strncmpi(const char *p1, const char *p2, size_t n)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, (int)n, p2, (int)n) - 2;
+	return strnicmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n)
@@ -465,7 +465,7 @@ MIR_CORE_DLL(int) mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, (int)n, p2, (int)n) - 2;
+	return wcsnicmp(p1, p2, n);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
