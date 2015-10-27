@@ -416,7 +416,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 {
 	const char *pszSkypeToken;
 
-	if ((pszSkypeToken=GetSkypeToken(true)) && xmli) {
+	if ((pszSkypeToken=authSkypeToken.Token()) && xmli) {
 		/* FIXME: As soon as core has functions to POST images in a conversation AND gives the possibility to supply a
 			* callback for fetching that image, this may be possible, but currently due to required Auth-Header, this
 			* is not possible and we just send an incoming file transfer 

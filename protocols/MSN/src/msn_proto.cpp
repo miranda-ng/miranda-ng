@@ -45,12 +45,27 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 #endif
 	lsMessageQueue(1),
 	lsAvatarQueue(1),
-	msgCache(5, CompareId)
+	msgCache(5, CompareId),
+	authContactToken("authContact", "service::contacts.msn.com::MBI_SSL"),
+	authStorageToken("authStorage", "service::storage.msn.com::MBI_SSL"),
+	authSSLToken("authSSL", "service::ssl.live.com::MBI_SSL"),
+	authSkypeComToken("authSkypeCom", "service::skype.com::MBI_SSL"),
+	authStrToken("authStr", "service::chatservice.live.com::MBI_SSL", true),
+	authSkypeToken("authSkype")
 {
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "p2pMsgId");
 	db_set_resident(m_szModuleName, "MobileEnabled");
 	db_set_resident(m_szModuleName, "MobileAllowed");
+
+	// Initialize tokens
+	authContactToken.Init(this);
+	authStorageToken.Init(this);
+	authSSLToken.Init(this);
+	authSkypeComToken.Init(this);
+	authStrToken.Init(this);
+	authSkypeToken.Init(this);
+	LoadAuthTokensDB();
 
 	// Protocol services and events...
 
@@ -517,7 +532,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	if (ft->tType == SERVER_HTTP) {
 		const char *pszSkypeToken;
 
-		if (ft->fileId != -1 && (pszSkypeToken=GetSkypeToken(true))) {
+		if (ft->fileId != -1 && (pszSkypeToken=authSkypeToken.Token())) {
 			NETLIBHTTPHEADER nlbhHeaders[3] = { 0 };
 			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 			char szRange[32];

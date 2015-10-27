@@ -152,6 +152,186 @@ static const char authPacket[] =
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Tokens, tokens, tokens.....
+GenericToken::GenericToken(const char *pszTokenName):
+	m_pszTokenName(pszTokenName),
+	m_pszToken(NULL),
+	m_tExpires(0)
+{
+}
+
+GenericToken::~GenericToken()
+{
+	mir_free(m_pszToken);
+//	mir_free(m_pszRefreshToken);
+}
+
+bool GenericToken::Load()
+{
+	DBVARIANT dbv;
+	char szTokenName[64];
+
+	mir_snprintf(szTokenName, sizeof(szTokenName), "%sToken", m_pszTokenName);
+	if (m_proto->getString(szTokenName, &dbv) == 0) {
+		replaceStr(m_pszToken, dbv.pszVal);
+		db_free(&dbv);
+
+		mir_snprintf(szTokenName, sizeof(szTokenName), "%sExpiretime", m_pszTokenName);
+		m_tExpires = m_proto->getDword(szTokenName, 0);
+
+		return true;
+	}
+	return false;
+}
+
+void GenericToken::Save()
+{
+	char szTokenName[64];
+
+	mir_snprintf(szTokenName, sizeof(szTokenName), "%sToken", m_pszTokenName);
+	m_proto->setString(szTokenName, m_pszToken);
+	mir_snprintf(szTokenName, sizeof(szTokenName), "%sExpiretime", m_pszTokenName);
+	m_proto->setDword(szTokenName, m_tExpires);
+}
+
+bool GenericToken::Expired(time_t t)
+{
+	return t+3600 >= m_tExpires;
+}
+
+void GenericToken::SetToken(const char *pszToken, time_t tExpires)
+{ 
+	replaceStr(m_pszToken, pszToken);
+	m_tExpires = tExpires;
+	Save();
+}
+
+const char *GenericToken::Token()
+{
+	Refresh();
+	return m_pszToken;
+}
+
+void GenericToken::Clear()
+{
+	char szTokenName[64];
+
+	mir_free(m_pszToken);
+	m_pszToken = NULL;
+	m_tExpires = 0;
+	mir_snprintf(szTokenName, sizeof(szTokenName), "%sToken", m_pszTokenName);
+	m_proto->delSetting(szTokenName);
+	mir_snprintf(szTokenName, sizeof(szTokenName), "%sExpiretime", m_pszTokenName);
+	m_proto->delSetting(szTokenName);
+}
+
+OAuthToken::OAuthToken(const char *pszTokenName, const char *pszService, bool bPrependT):
+	GenericToken(pszTokenName),
+	m_pszService(pszService),
+	m_bPreprendT(bPrependT)
+{
+}
+
+bool OAuthToken::Refresh(bool bForce)
+{
+	char szToken[1024], szRefreshToken[1024];
+	time_t tExpires;
+
+	if ((!bForce && !Expired()) || !m_proto->authRefreshToken ||
+		!m_proto->RefreshOAuth(m_proto->authRefreshToken, m_pszService, szToken+(m_bPreprendT?2:0), 
+			szRefreshToken, &tExpires)) return false;
+	if (m_bPreprendT) memcpy (szToken, "t=", 2);
+	//replaceStr(m_pszRefreshToken, szRefreshToken);
+	replaceStr(m_proto->authRefreshToken, szRefreshToken);
+	m_proto->setString("authRefreshToken", szRefreshToken);
+	SetToken(szToken, tExpires);
+	return true;
+}
+
+SkypeToken::SkypeToken(const char *pszTokenName):
+	GenericToken(pszTokenName)
+{
+}
+
+bool SkypeToken::Refresh(bool bForce)
+{
+	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST *nlhrReply;
+	NETLIBHTTPHEADER headers[1];
+	char szPOST[2048], szToken[1024];
+
+	if (!bForce && !Expired()) return false;
+
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_POST;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.nlc = m_proto->hHttpsConnection;
+	nlhr.headersCount = _countof(headers);
+	nlhr.headers = headers;
+	nlhr.headers[0].szName = "User-Agent";
+	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
+	nlhr.pData = szPOST;
+
+	if (m_proto->MyOptions.netId == NETID_SKYPE) {
+		BYTE digest[16];
+		int cbPasswd;
+		char szPassword[100]={0};
+
+		cbPasswd=mir_snprintf(szPassword, sizeof(szPassword), "%s\nskyper\n", m_proto->MyOptions.szEmail);
+		db_get_static(NULL, m_proto->m_szModuleName, "Password", szPassword+cbPasswd, sizeof(szPassword)-cbPasswd-1);
+		mir_md5_hash((BYTE*)szPassword, mir_strlen(szPassword), digest);
+		mir_base64_encodebuf(digest, sizeof(digest), szPassword, sizeof(szPassword));
+		nlhr.szUrl = "https://api.skype.com/login/skypetoken";
+		nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&username=%s&passwordHash=%s", 
+			msnProductVer, m_proto->MyOptions.szEmail, szPassword);
+	} else {
+		// Get skype_token
+		nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
+		nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
+			msnProductVer, m_proto->authSkypeComToken.Token());
+	}
+
+	m_proto->mHttpsTS = clock();
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_proto->hNetlibUserHttps, (LPARAM)&nlhr);
+	m_proto->mHttpsTS = clock();
+
+	if (nlhrReply)  {
+		m_proto->hHttpsConnection = nlhrReply->nlc;
+
+		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+			char *pSkypeToken, *pExpireTime, *pEnd;
+			time_t tExpires;
+
+			if ((pSkypeToken = strstr(nlhrReply->pData, "\"skypetoken\":\"")) && 
+				(pEnd=strchr(pSkypeToken+15, '"')))
+			{
+				*pEnd = 0;
+				pSkypeToken+=14;
+				mir_snprintf (szToken, sizeof(szToken), "skype_token %s", pSkypeToken);
+
+				if ((pExpireTime = strstr(pEnd+1, "\"expiresIn\":")) && 
+					(pEnd=strchr(pExpireTime+12, '}'))) {
+						*pEnd = 0;
+						tExpires = atoi(pExpireTime+12);
+				} else tExpires=86400;
+				SetToken(szToken, time(NULL)+tExpires);
+			}
+		}
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	} else m_proto->hHttpsConnection = NULL;
+}
+
+const char *SkypeToken::XSkypetoken()
+{
+	Refresh();
+	if (m_pszToken) {
+		char *pszRet = strchr(m_pszToken, ' ');
+		if (pszRet) return pszRet+1;
+	}
+	return NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Performs the MSN Passport login via TLS
 
 int CMsnProto::MSN_GetPassportAuth(void)
@@ -160,21 +340,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	if (!bPassportAuth && authRefreshToken) {
 		// Slow authentication required by fetching multiple tokens, i.e. 2-factor auth :(
-		char szToken[1024];
-
-		if (authMethod == 2 && RefreshOAuth(authRefreshToken, "service::chatservice.live.com::MBI_SSL", szToken+2)) {
-			memcpy (szToken, "t=", 2);
-			replaceStr(authStrToken, szToken);
-			setString("authStrToken", authStrToken);
-		}
-		if (RefreshOAuth(authRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
-			replaceStr(authContactToken, szToken);
-			setString("authContactToken", authContactToken);
-		}
-		if (RefreshOAuth(authRefreshToken, "service::storage.msn.com::MBI_SSL", szToken)) {
-			replaceStr(authStorageToken, szToken);
-			setString("authStorageToken", authStorageToken);
-		}
+		MSN_RefreshOAuthTokens(false);
 		return 0;
 	}
 
@@ -231,6 +397,11 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					const char* addr = ezxml_txt(ezxml_get(tokr, "wsp:AppliesTo", 0,
 						"wsa:EndpointReference", 0, "wsa:Address", -1));
 
+					ezxml_t xml_expires = ezxml_get(tokr, "wst:Lifetime", 0, "wsu:Expires", -1);
+					time_t expires;
+					expires = xml_expires?IsoToUnixTime(ezxml_txt(xml_expires)):time(NULL)+86400;
+
+
 					if (mir_strcmp(addr, "http://Passport.NET/tb") == 0) {
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedSecurityToken", 0, "EncryptedData", -1);
 						free(hotAuthToken);
@@ -245,7 +416,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0,
 							"wst:BinarySecret", -1);
 						if (toks) {
-							replaceStr(authStrToken, ezxml_txt(toks));
+							authStrToken.SetToken(ezxml_txt(toks), expires);
 							replaceStr(authSecretToken, ezxml_txt(node));
 							retVal = 0;
 						}
@@ -261,17 +432,13 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						replaceStr(pAuthToken, ch + 3);
 						*ch = '&';
 					}
-					else if (mir_strcmp(addr, "contacts.msn.com") == 0 && toks) {
-						replaceStr(authContactToken, ezxml_txt(toks));
-						setString("authContactToken", authContactToken);
-					}
+					else if (mir_strcmp(addr, "contacts.msn.com") == 0 && toks)
+						authContactToken.SetToken(ezxml_txt(toks), expires);
 					else if (mir_strcmp(addr, "messengersecure.live.com") == 0 && toks) {
 						replaceStr(oimSendToken, ezxml_txt(toks));
 					}
-					else if (mir_strcmp(addr, "storage.msn.com") == 0 && toks) {
-						replaceStr(authStorageToken, ezxml_txt(toks));
-						setString("authStorageToken", authStorageToken);
-					}
+					else if (mir_strcmp(addr, "storage.msn.com") == 0 && toks)
+						authStorageToken.SetToken(ezxml_txt(toks), expires);
 
 					tokr = ezxml_next(tokr);
 				}
@@ -684,21 +851,15 @@ void CMsnProto::LoadAuthTokensDB(void)
 {
 	DBVARIANT dbv;
 
-	authTokenExpiretime = getDword("authTokenExpiretime", 0);
+	authSkypeComToken.Load();
 	authMethod = getDword("authMethod", 0);
 	bPassportAuth = getByte("PassportAuth", true);
 	if (getString("authUser", &dbv) == 0) {
 		replaceStr(authUser, dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (getString("authSSLToken", &dbv) == 0) {
-		replaceStr(authSSLToken, dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (getString("authContactToken", &dbv) == 0) {
-		replaceStr(authContactToken, dbv.pszVal);
-		db_free(&dbv);
-	}
+	authSSLToken.Load();
+	authContactToken.Load();
 	if (getString("authUIC", &dbv) == 0) {
 		replaceStr(authUIC, dbv.pszVal);
 		db_free(&dbv);
@@ -707,10 +868,7 @@ void CMsnProto::LoadAuthTokensDB(void)
 		replaceStr(authCookies, dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (getString("authStrToken", &dbv) == 0) {
-		replaceStr(authStrToken, dbv.pszVal);
-		db_free(&dbv);
-	}
+	authStrToken.Load();
 	if (getString("hotSecretToken", &dbv) == 0) {
 		replaceStr(hotSecretToken, dbv.pszVal);
 		db_free(&dbv);
@@ -720,33 +878,20 @@ void CMsnProto::LoadAuthTokensDB(void)
 		hotAuthToken = strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (getString("authStorageToken", &dbv) == 0) {
-		replaceStr(authStorageToken, dbv.pszVal);
-		db_free(&dbv);
-	}
+	authStorageToken.Load();
 	if (getString("authRefreshToken", &dbv) == 0) {
 		replaceStr(authRefreshToken, dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (getString("authSkypeComToken", &dbv) == 0) {
-		replaceStr(authSkypeComToken, dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (getString("authSkypeToken", &dbv) == 0) {
-		replaceStr(authSkypeToken, dbv.pszVal);
-		db_free(&dbv);
-	}
+	authSkypeToken.Load();
 }
 
 void CMsnProto::SaveAuthTokensDB(void)
 {
-	setDword("authTokenExpiretime", authTokenExpiretime);
 	setDword("authMethod", authMethod);
 	setString("authUser", authUser);
-	setString("authSSLToken", authSSLToken);
 	setString("authUIC", authUIC);
 	setString("authCookies", authCookies);
-	setString("authStrToken", authStrToken);
 	setString("authRefreshToken", authRefreshToken);
 }
 
@@ -911,37 +1056,24 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 // -1 - Refresh failed
 //  0 - No need to refresh
 //  1 - Refresh succeeded
-int CMsnProto::MSN_RefreshOAuthTokens(void)
+int CMsnProto::MSN_RefreshOAuthTokens(bool bJustCheck)
 {
 	time_t t;
-	char szToken[1024], szRefreshToken[1024];
-	bool bPassportAuthBak = bPassportAuth;
+	int i=authMethod==2?0:1, iRet;
+	OAuthToken *tokens[] = {&authStrToken, &authContactToken, &authStorageToken, &authSSLToken, &authSkypeComToken};
 
-	if (!authTokenExpiretime || time(&t)+3600 < authTokenExpiretime) return 0;
-	
-	// Ensure that we won't be invoked twice
-	t = authTokenExpiretime;
-	authTokenExpiretime = 0x7FFFFFFF;
-	
-	bPassportAuth = false;
-	MSN_GetPassportAuth();
-	bPassportAuth = bPassportAuthBak;
-
-	if (authSSLToken && RefreshOAuth(authRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
-		replaceStr(authSSLToken, szToken);
-		setString("authSSLToken", authSSLToken);
+	time(&t);
+	if (bJustCheck) {
+		for (;i<sizeof(tokens)/sizeof(tokens[0]);i++) 
+			if (tokens[i]->Expired(t)) return 1;
+		return 0;
 	}
 
-	if (!RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken, szRefreshToken, &authTokenExpiretime)) {
-		authTokenExpiretime = t;
-		return -1;
+	for (iRet=0;i<sizeof(tokens)/sizeof(tokens[0]);i++) {
+		if (tokens[i]->Expired())
+			iRet=tokens[i]->Refresh(true)?1:-1;
 	}
-	if (authSkypeComToken) replaceStr(authSkypeComToken, szToken);
-	replaceStr(authRefreshToken, szRefreshToken);
-	setDword("authTokenExpiretime", authTokenExpiretime);
-	setString("authRefreshToken", authRefreshToken);
-
-	return 1;
+	return iRet;
 }
 
 void CMsnProto::MSN_SendATH(ThreadData* info)
@@ -956,7 +1088,7 @@ void CMsnProto::MSN_SendATH(ThreadData* info)
 				"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
 				"<uic>%s</uic>"
 				"<id>%s</id><alias>%s</alias></user>\r\n", 
-				authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
+				(const char*)authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
 				authUIC, 
 				GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
 			break;
@@ -967,7 +1099,7 @@ void CMsnProto::MSN_SendATH(ThreadData* info)
 				"<uic>%s</uic>"
 				"<ssl-site-name>chatservice.live.com</ssl-site-name>"
 				"</user>\r\n", 
-				authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
+				(const char*)authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
 				authUIC);
 			break;
 		}
@@ -989,15 +1121,14 @@ int CMsnProto::MSN_AuthOAuth(void)
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
-	time_t t;
 
 	if (bAskingForAuth) return 0;
 
-	// Load credentials from DB so that we don't have to do all this stuff if token isn't expired 
-	if (!authTokenExpiretime) LoadAuthTokensDB();
-
 	// Is there already a valid token and we can skip this?
-	if (time(&t)+10 < authTokenExpiretime && !mir_strcmp(authUser, MyOptions.szEmail)) return authMethod;
+	if (!authSkypeComToken.Expired() && !mir_strcmp(authUser, MyOptions.szEmail)) {
+		MSN_RefreshOAuthTokens(false);
+		return authMethod;
+	}
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
@@ -1079,29 +1210,33 @@ int CMsnProto::MSN_AuthOAuth(void)
 					if (pszURL &&
 						(pAccessToken = strstr(pszURL, "access_token=")) &&
 						(pEnd = strchr(pAccessToken + 13, '&'))) {
-						char *pRefreshToken, *pExpires, szToken[1024];
+						char *pRefreshToken, *pExpires;
 						bool bLogin = false;
+
+						pRefreshToken = strstr(pszURL, "refresh_token=");
+						pExpires = strstr(pszURL, "expires_in=");
 
 						*pEnd = 0;
 						pAccessToken += 13;
 						UrlDecode(pAccessToken);
-						replaceStr(authAccessToken, pAccessToken);
 
 						/* Extract refresh token */
-						if ((pRefreshToken = strstr(pEnd + 1, "refresh_token=")) && (pEnd = strchr(pRefreshToken + 14, '&'))) {
+						if (pRefreshToken && (pEnd = strchr(pRefreshToken + 14, '&'))) {
 							*pEnd = 0;
 							pRefreshToken += 14;
 						}
 						replaceStr(authRefreshToken, pRefreshToken);
 
 						/* Extract expire time */
+						time_t authTokenExpiretime;
 						time(&authTokenExpiretime);
-						if ((pExpires = strstr(pEnd + 1, "expires_in=")) && (pEnd = strchr(pExpires + 11, '&'))) {
+						if (pExpires && (pEnd = strchr(pExpires + 11, '&'))) {
 							*pEnd = 0;
 							pExpires += 11;
 							authTokenExpiretime += atoi(pExpires);
 						}
 						else authTokenExpiretime += 86400;
+						authSkypeComToken.SetToken(pAccessToken, authTokenExpiretime);
 
 						/* Copy auth Cookies to class for other web requests like contact list fetching to avoid ActiveSync */
 						if (nlhrReply) {
@@ -1117,14 +1252,12 @@ int CMsnProto::MSN_AuthOAuth(void)
 						}
 						else {
 							/* SkyLogin succeeded, request required tokens */
-							if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
-								replaceStr(authSSLToken, szToken);
+							if (authSSLToken.Refresh(true)) {
 								replaceStr(authUser, MyOptions.szEmail);
 								authMethod = retVal = 1;
 							}
 						}
-						mir_free(authSkypeComToken); authSkypeComToken = NULL;
-						mir_free(authSkypeToken); authSkypeToken = NULL;
+						authSkypeToken.Clear();
 
 
 						/* If you need Skypewebexperience login, as i.e. skylogin.dll is not available, we do this here */
@@ -1171,26 +1304,15 @@ int CMsnProto::MSN_AuthOAuth(void)
 		if (nlhrReply) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else hHttpsConnection = NULL;
 
-	if (retVal<=0) authTokenExpiretime=0; else {
+	if (retVal<=0) authSkypeComToken.Clear(); else {
 		if (bPassportAuth) {
 			// Fast authentication with just 1 SOAP call supported :)
 			MSN_GetPassportAuth();
 		} else {
 			// Slow authentication required by fetching multiple tokens, i.e. 2-factor auth :(
-			char szToken[1024];
-
-			if (authMethod == 2 && RefreshOAuth(authRefreshToken, "service::chatservice.live.com::MBI_SSL", szToken+2)) {
-				memcpy (szToken, "t=", 2);
-				replaceStr(authStrToken, szToken);
-			}
-			if (RefreshOAuth(authRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
-				replaceStr(authContactToken, szToken);
-				setString("authContactToken", authContactToken);
-			}
-			if (RefreshOAuth(authRefreshToken, "service::storage.msn.com::MBI_SSL", szToken)) {
-				replaceStr(authStorageToken, szToken);
-				setString("authStorageToken", authStorageToken);
-			}
+			if (authMethod == 2) authStrToken.Refresh();
+			authContactToken.Refresh();
+			authStorageToken.Refresh();
 		}
 		SaveAuthTokensDB();
 	}
@@ -1217,104 +1339,16 @@ const char *CMsnProto::GetMyUsername(int netId)
 	return MyOptions.szEmail;
 }
 
-const char *CMsnProto::GetSkypeToken(bool bAsAuthHeader)
-{
-	char szToken[1024];
-
-	// Ensure that token isn't expired
-	if (MyOptions.netId == NETID_MSN) MSN_AuthOAuth();
-
-	// No token available, fetch it
-	if (!authSkypeToken) {
-		NETLIBHTTPREQUEST nlhr = { 0 };
-		NETLIBHTTPREQUEST *nlhrReply;
-		NETLIBHTTPHEADER headers[1];
-		char szPOST[2048];
-
-		nlhr.cbSize = sizeof(nlhr);
-		nlhr.requestType = REQUEST_POST;
-		nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
-		nlhr.nlc = hHttpsConnection;
-		nlhr.headersCount = _countof(headers);
-		nlhr.headers = headers;
-		nlhr.headers[0].szName = "User-Agent";
-		nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
-		nlhr.pData = szPOST;
-
-		if (MyOptions.netId == NETID_SKYPE) {
-			BYTE digest[16];
-			int cbPasswd;
-			char szPassword[100]={0};
-
-			cbPasswd=mir_snprintf(szPassword, sizeof(szPassword), "%s\nskyper\n", MyOptions.szEmail);
-			db_get_static(NULL, m_szModuleName, "Password", szPassword+cbPasswd, sizeof(szPassword)-cbPasswd-1);
-			mir_md5_hash((BYTE*)szPassword, mir_strlen(szPassword), digest);
-			mir_base64_encodebuf(digest, sizeof(digest), szPassword, sizeof(szPassword));
-			nlhr.szUrl = "https://api.skype.com/login/skypetoken";
-			nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&username=%s&passwordHash=%s", 
-				msnProductVer, MyOptions.szEmail, szPassword);
-		} else {
-			// Get skype.com OAuth token needed to acquire skype_token
-			if (!authSkypeComToken) {
-				if (RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken))
-					replaceStr(authSkypeComToken, szToken);
-				else return NULL;
-			}
-
-			// Get skype_token
-			nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
-			nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
-				msnProductVer, authSkypeComToken);
-		}
-
-		mHttpsTS = clock();
-		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
-		mHttpsTS = clock();
-
-		if (nlhrReply)  {
-			hHttpsConnection = nlhrReply->nlc;
-
-			if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
-				char *pSkypeToken, *pEnd;
-
-				if ((pSkypeToken = strstr(nlhrReply->pData, "\"skypetoken\":\"")) && 
-					(pEnd=strchr(pSkypeToken+15, '"')))
-				{
-					*pEnd = 0;
-					pSkypeToken+=14;
-					mir_snprintf (szToken, sizeof(szToken), "skype_token %s", pSkypeToken);
-					replaceStr(authSkypeToken, szToken);
-					setString("authSkypeToken", authSkypeToken);
-				}
-
-			}
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-		} else hHttpsConnection = NULL;
-	}
-	if (!bAsAuthHeader && authSkypeToken) {
-		char *pszRet = strchr(authSkypeToken, ' ');
-		if (pszRet) return pszRet+1;
-	}
-	return authSkypeToken;
-}
-
 void CMsnProto::FreeAuthTokens(void)
 {
 	mir_free(pAuthToken);
 	mir_free(tAuthToken);
 	mir_free(oimSendToken);
-	mir_free(authStrToken);
 	mir_free(authSecretToken);
-	mir_free(authContactToken);
-	mir_free(authStorageToken);
 	mir_free(hotSecretToken);
 	mir_free(authUIC);
 	mir_free(authCookies);
-	mir_free(authSSLToken);
-	mir_free(authSkypeComToken);
-	mir_free(authSkypeToken);
 	mir_free(authUser);
-	mir_free(authAccessToken);
 	mir_free(authRefreshToken);
 	free(hotAuthToken);
 }
