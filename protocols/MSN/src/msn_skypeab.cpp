@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool CMsnProto::APISkypeComRequest(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *headers)
 {
-	const char *pszSkypeToken = GetSkypeToken(false);
+	const char *pszSkypeToken = authSkypeToken.XSkypetoken();
 
 	if (!pszSkypeToken) return false;
 	nlhr->cbSize = sizeof(NETLIBHTTPREQUEST);

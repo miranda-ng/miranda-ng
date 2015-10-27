@@ -697,6 +697,51 @@ struct AvatarQueueEntry
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//	OAuth Token
+class GenericToken {
+public:
+	GenericToken(const char *pszTokenName);
+	~GenericToken();
+
+	__forceinline void Init(CMsnProto* proto) { m_proto = proto; }
+	bool Load();
+	void Save();
+	virtual bool Refresh(bool bForce = false) { return false; }
+	bool Expired(time_t t = time(NULL));
+	void Clear();
+	const char *Token();
+	__forceinline operator char*() const { return m_pszToken; }
+	void SetToken(const char *pszToken, time_t tExpires);
+	//__forceinline const char *RefreshToken() { return m_pszRefreshToken; }
+
+protected:
+	const char *m_pszTokenName;
+	char *m_pszToken;
+	//char *m_pszRefreshToken;
+	time_t m_tExpires;
+	CMsnProto*    m_proto;
+};
+
+class OAuthToken : public GenericToken {
+public:
+	OAuthToken(const char *pszTokenName, const char *pszService, bool bPreprendT = false);
+
+	bool Refresh(bool bForce = false);
+
+private:
+	const char *m_pszService;
+	bool m_bPreprendT;
+};
+
+class SkypeToken : public GenericToken {
+public:
+	SkypeToken(const char *pszTokenName);
+	bool Refresh(bool bForce = false);
+	const char *XSkypetoken();
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //	User lists
 
 template< class T >  int CompareId(const T* p1, const T* p2)
