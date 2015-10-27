@@ -315,6 +315,13 @@ static void RegisterFonts()
 	ColourRegisterT(&colourid);
 }
 
+static int OnCheckPlugins(WPARAM, LPARAM)
+{
+	SmileyAddInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
+	PopupInstalled = ServiceExists(MS_POPUP_ADDPOPUPT);
+	return 0;
+}
+
 static void TabsInit()
 {
 	memset(&g_TabSession, 0, sizeof(SESSION_INFO));
@@ -372,11 +379,18 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-	LoadIcons();
+
+	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
+	ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
+	ImageList_SetOverlayImage(hIconsList, 1, 1);
+
 	TabsInit();
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnCheckPlugins);
 	return 0;
 }
 
@@ -393,14 +407,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 		DeleteObject(g_Settings.MessageAreaFont);
 	DestroyMenu(g_hMenu);
 	return 0;
-}
-
-void LoadIcons(void)
-{
-	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
-	ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
-	ImageList_SetOverlayImage(hIconsList, 1, 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
