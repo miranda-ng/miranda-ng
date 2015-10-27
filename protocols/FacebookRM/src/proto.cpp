@@ -565,9 +565,9 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int FacebookProto::OnDbEventRead(WPARAM wParam, LPARAM)
+int FacebookProto::OnDbEventRead(WPARAM, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = db_event_getContact((MEVENT)lParam);
 
 	if (isOffline() || !IsMyContact(hContact, false)) // ignore chats
 		return 0;
