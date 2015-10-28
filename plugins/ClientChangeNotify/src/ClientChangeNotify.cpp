@@ -234,7 +234,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				LPCTSTR ptszOldClient = Finger_GetClientDescr(sd.OldMirVer); 
 				LPCTSTR ptszClient = Finger_GetClientDescr(sd.MirVer);
 				if (ptszOldClient && ptszClient) {
-					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !tstrcmp(ptszClient, ptszOldClient))
+					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !mir_tstrcmp(ptszClient, ptszOldClient))
 						return 0;
 
 					if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
