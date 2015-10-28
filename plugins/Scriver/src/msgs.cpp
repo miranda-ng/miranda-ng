@@ -238,8 +238,9 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	char *szProto = GetContactProto(hContact);
-	if (!strcmp(cws->szModule, "CList") || !strcmp(cws->szModule, szProto))
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
+	if (szProto)
+		if (!strcmp(cws->szModule, "CList") || !strcmp(cws->szModule, szProto))
+			WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
 }
 
