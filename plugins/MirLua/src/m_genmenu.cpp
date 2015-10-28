@@ -15,15 +15,8 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pushliteral(L, "Uid");
 	lua_gettable(L, -2);
 	const char* uuid = (char*)lua_tostring(L, -1);
-	if (uuid)
-	{
-		unsigned long a;
-		unsigned short b, c;
-		unsigned char d[8];
-		if (sscanf_s(uuid, "{%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX}",
-			&a, &b, &c, &d[0], &d[1], &d[2], &d[3], &d[4], &d[5], &d[6], &d[7]) == 11)
-			SET_UID(mi, a, b, c, d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
-	}
+	if (CLSIDFromString((LPCOLESTR)ptrT(mir_utf8decodeT(uuid)), (LPCLSID)&mi.uid) != NOERROR)
+		UNSET_UID(mi);
 	lua_pop(L, 1);
 
 	lua_pushliteral(L, "Name");
