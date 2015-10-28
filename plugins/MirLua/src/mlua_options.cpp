@@ -59,9 +59,9 @@ void CLuaOptions::LoadScripts()
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
 		m_scripts.SetItem(iItem, 1, _T(""), 0);
-#ifdef DEBUG
+//#ifdef DEBUG
 		m_scripts.SetItem(iItem, 2, _T(""), 1);
-#endif
+//#endif
 	}
 }
 
