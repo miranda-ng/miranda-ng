@@ -237,10 +237,9 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	char *szProto = GetContactProto(hContact);
-	if (szProto)
-		if (!strcmp(cws->szModule, "CList") || !strcmp(cws->szModule, szProto))
-			WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
+	char *szProto = GetContactProto(hContact); // szProto maybe NULL
+	if (!strcmp(cws->szModule, "CList") || !mir_strcmp(cws->szModule, szProto))
+		WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
 }
 
