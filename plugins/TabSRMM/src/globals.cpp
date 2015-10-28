@@ -365,20 +365,20 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	HWND hwnd = M.FindWindow(hContact);
 
 	if (hwnd == 0 && hContact != 0) {     // we are not interested in this event if there is no open message window/tab
-		if (!mir_strcmp(setting, "Status") || !mir_strcmp(setting, "MyHandle") || !mir_strcmp(setting, "Nick") || !mir_strcmp(cws->szModule, SRMSGMOD_T)) {
+		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
 			c = CContactCache::getContactCache(hContact);
 			if (c) {
 				fChanged = c->updateStatus();
-				if (mir_strcmp(setting, "Status"))
+				if (strcmp(setting, "Status"))
 					c->updateNick();
-				if (!mir_strcmp(setting, "isFavorite") || !mir_strcmp(setting, "isRecent"))
+				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
 		return 0;
 	}
 
-	if (hContact == 0 && !mir_strcmp("Nick", setting)) {
+	if (hContact == 0 && !strcmp("Nick", setting)) {
 		M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
 		return 0;
 	}
@@ -387,18 +387,18 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		c = CContactCache::getContactCache(hContact);
 		if (c) {
 			szProto = c->getProto();
-			if (!mir_strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
-				if (!mir_strcmp(setting, "isFavorite") || !mir_strcmp(setting, "isRecent"))
+			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
+				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
 	}
 
-	if (mir_strcmp(cws->szModule, "CList") && (szProto == NULL || mir_strcmp(cws->szModule, szProto)))
+	if (strcmp(cws->szModule, "CList") && (szProto == NULL || strcmp(cws->szModule, szProto)))
 		return 0;
 
-	if (!mir_strcmp(cws->szModule, META_PROTO))
-		if (hContact != 0 && !mir_strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
+	if (!strcmp(cws->szModule, META_PROTO))
+		if (hContact != 0 && !strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 
 	if (hwnd) {
@@ -406,21 +406,21 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			fChanged = c->updateStatus();
 			fNickChanged = c->updateNick();
 		}
-		if (mir_strlen(setting) > 6 && mir_strlen(setting) < 9 && !strncmp(setting, "Status", 6)) {
+		if (strlen(setting) > 6 && strlen(setting) < 9 && !strncmp(setting, "Status", 6)) {
 			fChanged = true;
 			if (c) {
 				c->updateMeta();
 				c->updateUIN();
 			}
 		}
-		else if (!mir_strcmp(setting, "MirVer"))
+		else if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
-		else if (!mir_strcmp(setting, "display_uid")) {
+		else if (!strcmp(setting, "display_uid")) {
 			if (c)
 				c->updateUIN();
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
 		}
-		else if (mir_strlen(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
+		else if (strlen(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
 			if (c) {
 				c->updateStatusMsg(setting);
 				fExtendedStatusChange = true;

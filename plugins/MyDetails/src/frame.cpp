@@ -2386,13 +2386,13 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 	if ((HANDLE)wParam == NULL) {
 		Protocol *proto = protocols->Get(cws->szModule);
 
-		if (!mir_strcmp(cws->szSetting, "MyHandle")
-			|| !mir_strcmp(cws->szSetting, "UIN")
-			|| !mir_strcmp(cws->szSetting, "Nick")
-			|| !mir_strcmp(cws->szSetting, "FirstName")
-			|| !mir_strcmp(cws->szSetting, "e-mail")
-			|| !mir_strcmp(cws->szSetting, "LastName")
-			|| !mir_strcmp(cws->szSetting, "JID")) {
+		if (!strcmp(cws->szSetting, "MyHandle")
+			|| !strcmp(cws->szSetting, "UIN")
+			|| !strcmp(cws->szSetting, "Nick")
+			|| !strcmp(cws->szSetting, "FirstName")
+			|| !strcmp(cws->szSetting, "e-mail")
+			|| !strcmp(cws->szSetting, "LastName")
+			|| !strcmp(cws->szSetting, "JID")) {
 			// Name changed
 			if (proto != NULL)
 				PostMessage(hwnd_frame, MWM_NICK_CHANGED, (WPARAM)proto->name, 0);
@@ -2400,7 +2400,7 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 		else if (strstr(cws->szModule, "Away"))
 			// Status message changed
 			PostMessage(hwnd_frame, MWM_STATUS_MSG_CHANGED, 0, 0);
-		else if (proto != NULL && mir_strcmp(cws->szSetting, "ListeningTo") == 0)
+		else if (proto != NULL && strcmp(cws->szSetting, "ListeningTo") == 0)
 			PostMessage(hwnd_frame, MWM_LISTENINGTO_CHANGED, (WPARAM)proto->name, 0);
 	}
 

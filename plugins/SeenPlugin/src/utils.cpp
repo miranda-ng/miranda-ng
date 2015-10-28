@@ -560,7 +560,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lparam;
 	char *szProto = GetContactProto(hContact);
 
-	if (cws->value.type == DBVT_DWORD && !mir_strcmp(cws->szSetting, "LastSeen") && !mir_strcmp(cws->szModule, szProto)) {
+	if (cws->value.type == DBVT_DWORD && !strcmp(cws->szSetting, "LastSeen") && !mir_strcmp(cws->szModule, szProto)) {
 		DBWriteTimeTS(cws->value.dVal, hContact);
 		
 		HWND hwnd = WindowList_Find(g_pUserInfo, hContact);
@@ -569,11 +569,11 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 		return 0;
 	}
 
-	BOOL isIdleEvent = includeIdle ? (mir_strcmp(cws->szSetting, "IdleTS") == 0) : 0;
-	if (mir_strcmp(cws->szSetting, "Status") && mir_strcmp(cws->szSetting, "StatusTriger") && (isIdleEvent == 0))
+	BOOL isIdleEvent = includeIdle ? (strcmp(cws->szSetting, "IdleTS") == 0) : 0;
+	if (strcmp(cws->szSetting, "Status") && strcmp(cws->szSetting, "StatusTriger") && (isIdleEvent == 0))
 		return 0;
 	
-	if (!mir_strcmp(cws->szModule, S_MOD)) {
+	if (!strcmp(cws->szModule, S_MOD)) {
 		// here we will come when Settings/SeenModule/StatusTriger is changed
 		WORD prevStatus = db_get_w(hContact, S_MOD, "OldStatus", ID_STATUS_OFFLINE);
 		if (includeIdle) {

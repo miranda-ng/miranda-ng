@@ -785,11 +785,11 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (ProcessExtraStatus(cws, hContact))
 			return 0;
 
-	if (!mir_strcmp(cws->szSetting, "Status"))
+	if (!strcmp(cws->szSetting, "Status"))
 		if (ProcessStatus(cws, hContact))
 			return 0;
 
-	if (!mir_strcmp(cws->szModule, "CList") && !mir_strcmp(cws->szSetting, "StatusMsg"))
+	if (!strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg"))
 		if (ProcessStatusMessage(cws, hContact))
 			return 0;
 

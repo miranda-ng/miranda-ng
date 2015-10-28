@@ -37,15 +37,15 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	if (!mir_strcmp(cws->szModule, "CList")) {
+	if (!strcmp(cws->szModule, "CList")) {
 		int invalidpresent = 0;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || mir_strcmp(szProto, MODULENAME))
+		if (szProto == NULL || strcmp(szProto, MODULENAME))
 			return 0;
 
 		// A contact is renamed
-		if (!mir_strcmp(cws->szSetting, "MyHandle")) {
+		if (!strcmp(cws->szSetting, "MyHandle")) {
 			ptrT oldName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 			if (oldName == NULL)
 				return 0;

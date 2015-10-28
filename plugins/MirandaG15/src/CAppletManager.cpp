@@ -1440,7 +1440,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if ((wParam == 0) || (mir_strcmp(cws->szSetting, "Status") != NULL))
+	if ((wParam == 0) || (strcmp(cws->szSetting, "Status") != NULL))
 		return 0;
 
 
@@ -1665,10 +1665,10 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 	CEvent Event;
 	Event.hContact = hContact;
 
-	if (!mir_strcmp(dbcws->szSetting, "Nick") || !mir_strcmp(dbcws->szSetting, "MyHandle")) {
+	if (!strcmp(dbcws->szSetting, "Nick") || !strcmp(dbcws->szSetting, "MyHandle")) {
 		DBVARIANT dbv = { 0 };
 		// if the protocol nick has changed, check if a custom handle is set
-		if (!mir_strcmp(dbcws->szSetting, "Nick")) {
+		if (!strcmp(dbcws->szSetting, "Nick")) {
 			if (!db_get_ts(Event.hContact, "CList", "MyHandle", &dbv)) {
 				// handle found, ignore this event
 				if (dbv.pszVal && mir_strlen(dbv.pszVal) > 0)
@@ -1692,12 +1692,12 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 			db_free(&dbv);
 		}
 	}
-	else if (!mir_strcmp(dbcws->szModule, "CList")) {
-		if (!mir_strcmp(dbcws->szSetting, "Hidden")) {
+	else if (!strcmp(dbcws->szModule, "CList")) {
+		if (!strcmp(dbcws->szSetting, "Hidden")) {
 			Event.eType = EVENT_CONTACT_HIDDEN;
 			Event.iValue = db_get_b(hContact, "CList", "Hidden", 0);
 		}
-		else if (!mir_strcmp(dbcws->szSetting, "Group")) {
+		else if (!strcmp(dbcws->szSetting, "Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
 			int res = db_get_ts(hContact, "CList", "Group", &dbv);

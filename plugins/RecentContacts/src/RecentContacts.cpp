@@ -441,7 +441,7 @@ static int OnContactSettingChanged( WPARAM hContact, LPARAM lParam )
 {
 	DBCONTACTWRITESETTING* pdbcws = ( DBCONTACTWRITESETTING* )lParam;
 	if ( hContact == NULL )
-		if ( !mir_strcmpi( pdbcws->szModule, dbLastUC_ModuleName))
+		if ( !strcmp( pdbcws->szModule, dbLastUC_ModuleName))
 			LoadDBSettings();
 
 	return 0;

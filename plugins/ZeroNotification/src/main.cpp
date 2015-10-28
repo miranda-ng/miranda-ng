@@ -103,7 +103,7 @@ static void UpdateMenuItem()
 static int SoundSettingChanged(WPARAM, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (mir_strcmp(cws->szModule, "Skin") || mir_strcmp(cws->szSetting, "UseSound"))
+	if (strcmp(cws->szModule, "Skin") || strcmp(cws->szSetting, "UseSound"))
 		return 0;
 
 	UpdateMenuItem();

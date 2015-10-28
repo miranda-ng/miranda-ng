@@ -146,11 +146,11 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if (!mir_strcmp(cws->szModule, "Ignore") && !mir_strcmp(cws->szSetting, "Mask1"))
+	if (!strcmp(cws->szModule, "Ignore") && !strcmp(cws->szSetting, "Mask1"))
 		applyExtraImage(hContact);
 	else if (hContact == 0) {
-		if ((!mir_strcmp(cws->szModule, MODULENAME) && !mir_strcmp(cws->szSetting, "Filter")) ||
-			(bUseMirandaSettings && !mir_strcmp(cws->szModule, "Ignore") && !mir_strcmp(cws->szSetting, "Default1")))
+		if ((!strcmp(cws->szModule, MODULENAME) && !strcmp(cws->szSetting, "Filter")) ||
+			(bUseMirandaSettings && !strcmp(cws->szModule, "Ignore") && !strcmp(cws->szSetting, "Default1")))
 		{
 			fill_filter();
 		}

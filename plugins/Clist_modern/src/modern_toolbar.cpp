@@ -117,14 +117,14 @@ static int ehhToolBarSettingsChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact != NULL)
 		return 0;
 
-	if (!mir_strcmp(cws->szModule, "CList")) {
-		if (!mir_strcmp(cws->szSetting, "HideOffline"))
+	if (!strcmp(cws->szModule, "CList")) {
+		if (!strcmp(cws->szSetting, "HideOffline"))
 			SetButtonPressed(3, cws->value.bVal);
-		else if (!mir_strcmp(cws->szSetting, "UseGroups"))
+		else if (!strcmp(cws->szSetting, "UseGroups"))
 			SetButtonPressed(6, cws->value.bVal);
 	}
-	else if (!mir_strcmp(cws->szModule, "Skin")) {
-		if (!mir_strcmp(cws->szSetting, "UseSound"))
+	else if (!strcmp(cws->szModule, "Skin")) {
+		if (!strcmp(cws->szSetting, "UseSound"))
 			SetButtonPressed(7, cws->value.bVal);
 	}
 

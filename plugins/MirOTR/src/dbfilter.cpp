@@ -222,7 +222,7 @@ int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (!lParam || mir_strcmp(cws->szSetting, "Status") != 0) return 0;
+	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
 	int status = 0;
 	switch (cws->value.type) {
 	case DBVT_WORD:

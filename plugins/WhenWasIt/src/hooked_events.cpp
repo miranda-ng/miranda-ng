@@ -58,7 +58,7 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *)lParam;
-	if ((mir_strcmp(dw->szModule, DUMMY_MODULE) == 0) && (mir_strcmp(dw->szSetting, DUMMY_SETTING) == 0))
+	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
 		RefreshContactListIcons(hContact);
 
 	return 0;

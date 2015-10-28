@@ -191,9 +191,9 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, hContact, l)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)l;
 
 	// if CList/NotOnList is being deleted then remove answeredSetting
-	if (mir_strcmp(cws->szModule, "CList"))
+	if (strcmp(cws->szModule, "CList"))
 		return 0;
-	if (mir_strcmp(cws->szSetting, "NotOnList"))
+	if (strcmp(cws->szSetting, "NotOnList"))
 		return 0;
 
 	if (!cws->value.type) {
