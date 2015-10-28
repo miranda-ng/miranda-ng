@@ -48,6 +48,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
 
+	InitIcons();
+
 	g_mLua = new CMLua();
 	g_mLua->Load();
 

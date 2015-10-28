@@ -182,7 +182,7 @@ static int lua_IsPluginLoaded(lua_State *L)
 	const char *value = lua_tostring(L, 1);
 
 	MUUID uuid = { 0 };
-	int res = sscanf_s(value, "{%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
+	int res = sscanf_s(value, "{%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX}",
 		&uuid.a, &uuid.b, &uuid.c, &uuid.d[0], &uuid.d[1], &uuid.d[2], &uuid.d[3], &uuid.d[4], &uuid.d[5], &uuid.d[6], &uuid.d[7]) == 11;
 	if (res == TRUE)
 		res = ::IsPluginLoaded(uuid);

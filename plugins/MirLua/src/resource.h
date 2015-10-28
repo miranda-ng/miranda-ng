@@ -1,8 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\MirandaNG\plugins\MirLua\res\resource.rc
+// Used by E:\Projects\C++\MirandaNG\plugins\MirLua\res\resource.rc
 //
 #define IDI_ICON                        100
+#define IDI_SCRIPT                      100
 #define IDI_OPEN                        105
 #define IDD_OPTIONS                     106
 #define IDI_RELOAD                      107
