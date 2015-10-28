@@ -1327,7 +1327,9 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	char *szProto = NULL;
 
+#ifdef DEBUGMODE
 	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
+#endif
 
 	// Check if the contact is NULL or we are not online
 	if (!isonline())
