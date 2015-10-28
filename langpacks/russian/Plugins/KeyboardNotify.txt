@@ -175,10 +175,14 @@ xСтатусы
 право -> лево
 [left <-> right]
 лево <-> право
-[Keyboard Flash]
-Мигание клавиатуры
-[Events]
-События
+[None]
+Нет
+[Protocol]
+Протокол
+[Keyboard Notify Theme]
+Тема уведомления
+[All Files]
+Все файлы
 [Accounts]
 Учётные записи
 [Rules]
@@ -187,11 +191,7 @@ xСтатусы
 Мигание
 [Themes]
 Темы
-[Protocol]
-Протокол
-[Keyboard Notify Theme]
-Тема уведомления
-[All Files]
-Все файлы
-[None]
-Нет
+[Keyboard Flash]
+Мигание клавиатуры
+[Events]
+События

@@ -1,3 +1,6 @@
 ﻿[Sync read message status from server]
+[Use non-standard popups for news and event notifications]
+[Chats]
+[Message for return to chat:]
 [URL:]
 [New %s]
