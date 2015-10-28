@@ -529,6 +529,7 @@ static renameTable[] =
 	{ _T("actman30.dll"),                   _T("Plugins\\actman.dll") },
 	{ _T("skype.dll"),                      _T("Plugins\\skypeweb.dll") },
 	{ _T("skypeclassic.dll"),               _T("Plugins\\skypeweb.dll") },
+	{ _T("historysweeper.dll"),             _T("Plugins\\historysweeperlight.dll") },
 
 #if MIRANDA_VER >= 0x0A00
 	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
