@@ -359,23 +359,31 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbw = (DBCONTACTWRITESETTING*)lParam;
 
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL)
+		return 0;
+
+	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+
+	bool isNick = !strcmp(dbw->szSetting, "Nick");
+	bool isFirstName = !strcmp(dbw->szSetting, "FirstName");
+	bool isLastName = !strcmp(dbw->szSetting, "LastName");
+	bool isEmail = !strcmp(dbw->szSetting, "e-mail");
+	bool isMyHandle = !strcmp(dbw->szSetting, "MyHandle");
+	bool isUid = (((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid));
+
 	mir_cslock lck(csContactCache);
 	for (int i = 0; i < cacheSize; i++) {
 		if (hContact != cce[i].hContact && (cce[i].flags & CI_CNFINFO) == 0)
 			continue;
-
-		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL)
-			continue;
-
-		char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (((!strcmp(dbw->szSetting, "Nick")) && (cce[i].flags & CI_NICK)) ||
-			((!strcmp(dbw->szSetting, "FirstName")) && (cce[i].flags & CI_FIRSTNAME)) ||
-			((!strcmp(dbw->szSetting, "LastName")) && (cce[i].flags & CI_LASTNAME)) ||
-			((!strcmp(dbw->szSetting, "e-mail")) && (cce[i].flags & CI_EMAIL)) ||
-			((!strcmp(dbw->szSetting, "MyHandle")) && (cce[i].flags & CI_LISTNAME)) ||
+		
+		if ((isNick && (cce[i].flags & CI_NICK)) ||
+			(isFirstName && (cce[i].flags & CI_FIRSTNAME)) ||
+			(isLastName && (cce[i].flags & CI_LASTNAME)) ||
+			(isEmail && (cce[i].flags & CI_EMAIL)) ||
+			(isMyHandle && (cce[i].flags & CI_LISTNAME)) ||
 			(cce[i].flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
-			((((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID))) {
+			(isUid && (cce[i].flags & CI_UNIQUEID))) {
 			/* remove from cache */
 			mir_free(cce[i].tszContact);
 			if (cacheSize > 1) {
