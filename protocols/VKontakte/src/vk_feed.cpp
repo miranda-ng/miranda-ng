@@ -60,9 +60,13 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	recv.lParam = 0;
 	recv.pCustomData = NULL;
 	recv.cbCustomDataSize = 0;
-	recv.flags = PREF_CREATEREAD;
+
+	if (m_bUseNonStandardNotifications) {
+		recv.flags = PREF_CREATEREAD;
+		MsgPopup(hContact, vkNewsItem.tszPopupText, vkNewsItem.tszPopupTitle);
+	}
+
 	ProtoChainRecvMsg(hContact, &recv);
-	MsgPopup(hContact, vkNewsItem.tszPopupText, vkNewsItem.tszPopupTitle);
 }
 
 void CVkProto::AddCListEvent(bool bNews)
