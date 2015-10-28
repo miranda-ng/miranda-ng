@@ -36,7 +36,7 @@ static int lua_ProtoIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		MapToTable(L, protos[i]);
+		lua_pushlightuserdata(L, protos[i]);
 	}
 	else
 		lua_pushnil(L);
@@ -138,7 +138,7 @@ static int lua_AccountIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		MapToTable(L, accounts[i]);
+		lua_pushlightuserdata(L, accounts[i]);
 	}
 	else
 		lua_pushnil(L);
