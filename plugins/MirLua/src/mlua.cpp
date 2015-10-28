@@ -71,6 +71,8 @@ void CMLua::Unload()
 	::KillModuleIcons(hScriptsLangpack);
 	::KillModuleMenus(hScriptsLangpack);
 	::KillModuleHotkeys(hScriptsLangpack);
+	::KillObjectEventHooks(L);
+	::KillObjectServices(L);
 	CMLua::KillModuleServices();
 	CMLua::KillModuleEventHooks();
 	//KillModuleSubclassing
