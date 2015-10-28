@@ -20,8 +20,8 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 		unsigned long a;
 		unsigned short b, c;
 		unsigned char d[8];
-		if (sscanf_s(uuid, "{%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
-			&mi.uid.a, &mi.uid.b, &mi.uid.c, &mi.uid.d[0], &mi.uid.d[1], &mi.uid.d[2], &mi.uid.d[3], &mi.uid.d[4], &mi.uid.d[5], &mi.uid.d[6], &mi.uid.d[7]) == 11)
+		if (sscanf_s(uuid, "{%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX}",
+			&a, &b, &c, &d[0], &d[1], &d[2], &d[3], &d[4], &d[5], &d[6], &d[7]) == 11)
 			SET_UID(mi, a, b, c, d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
 	}
 	lua_pop(L, 1);

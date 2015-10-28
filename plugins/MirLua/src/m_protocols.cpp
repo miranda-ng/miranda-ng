@@ -18,9 +18,8 @@ static int lua_GetProto(lua_State *L)
 	const char *name = luaL_checkstring(L, 1);
 
 	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
-
 	if (pd)
-		MapToTable(L, pd);
+		lua_pushlightuserdata(L, pd);
 	else
 		lua_pushnil(L);
 
@@ -121,9 +120,8 @@ static int lua_GetAccount(lua_State *L)
 	ptrA moduleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
 	PROTOACCOUNT* pa = ::Proto_GetAccount(moduleName);
-
 	if (pa)
-		MapToTable(L, pa);
+		lua_pushlightuserdata(L, pa);
 	else
 		lua_pushnil(L);
 

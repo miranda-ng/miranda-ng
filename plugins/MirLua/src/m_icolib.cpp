@@ -15,7 +15,7 @@ static int lua_AddIcon(lua_State *L)
 	si.description.t = description;
 	si.section.t = section;
 	si.defaultFile.t = filePath;
-	si.iDefaultIndex = -IDI_ICON;
+	si.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
 	HANDLE res = ::IcoLib_AddIcon(&si, hScriptsLangpack);
 	lua_pushlightuserdata(L, res);

@@ -62,7 +62,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "icon.ico"
+IDI_SCRIPT              ICON                    "script.ico"
 IDI_OPEN                ICON                    "open.ico"
 IDI_RELOAD              ICON                    "reload.ico"
 

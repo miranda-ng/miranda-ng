@@ -112,6 +112,10 @@ bool luaM_toboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
 
+void InitIcons();
+HICON GetIcon(int iconId);
+HANDLE GetIconHandle(int iconId);
+
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact);
 
 void ObsoleteMethod(lua_State *L, const char *message);

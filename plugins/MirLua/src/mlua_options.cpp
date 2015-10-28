@@ -72,8 +72,8 @@ void CLuaOptions::OnInitDialog()
 	m_scripts.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
-	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPEN)));
-	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_RELOAD)));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
 
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hCommonScriptFolder, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
@@ -84,9 +84,9 @@ void CLuaOptions::OnInitDialog()
 
 	m_scripts.AddColumn(0, _T("Script"), 420);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-#ifdef DEBUG
+//#ifdef DEBUG
 	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-#endif
+//#endif
 
 	LoadScripts();
 
@@ -144,16 +144,14 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	CMLuaScript* script = (CMLuaScript*)lvi.lParam;
 
 	if (lvi.iSubItem == 1)
-	{
-		ShellExecute(m_hwnd, NULL, lvi.pszText, NULL, script->GetFilePath(), SW_SHOWNORMAL);
-	}
-#ifdef DEBUG
+		ShellExecute(m_hwnd, _T("Open"), script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
+//#ifdef DEBUG
 	else if (lvi.iSubItem == 2)
 	{
 		script->Unload();
 		script->Load();
 	}
-#endif
+//#endif
 	mir_free(lvi.pszText);
 }
 
