@@ -143,9 +143,9 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
-			(!mir_strncmp(pdbcws->szSetting, SET_CONTACT_EMAIL, 6) ||
-			 !mir_strncmp(pdbcws->szSetting, SET_CONTACT_COMPANY_EMAIL, 13) ||
-			 !mir_strncmp(pdbcws->szSetting, "mye-mail0", 9)))
+			(!strncmp(pdbcws->szSetting, SET_CONTACT_EMAIL, 6) ||
+			 !strncmp(pdbcws->szSetting, SET_CONTACT_COMPANY_EMAIL, 13) ||
+			 !strncmp(pdbcws->szSetting, "mye-mail0", 9)))
 	{
 		OnCListApplyIcons(hContact, 0);
 	}

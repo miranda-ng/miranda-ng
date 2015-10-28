@@ -229,7 +229,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (hContact == NULL) {
-		if ((0 == _stricmp(pdbcws->szModule, "CLC")) || (0 == _stricmp(pdbcws->szModule, MODULE))) {
+		if ((0 == strcmp(pdbcws->szModule, "CLC")) || (0 == strcmp(pdbcws->szModule, MODULE))) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
 		}
@@ -241,15 +241,15 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	// Only on these 2 events we need to refresh
-	if (0 == _stricmp(pdbcws->szSetting, "Status"))
+	if (0 == strcmp(pdbcws->szSetting, "Status"))
 		idStatus = pdbcws->value.wVal;
-	else if (0 == _stricmp(pdbcws->szSetting, "ApparentMode"))
+	else if (0 == strcmp(pdbcws->szSetting, "ApparentMode"))
 		idStatus = GetContactStatus(hContact);
-	else if (0 == _stricmp(pdbcws->szSetting, "Nick"))
+	else if (0 == strcmp(pdbcws->szSetting, "Nick"))
 		idStatus = GetContactStatus(hContact);
-	else if (0 == _stricmp(pdbcws->szSetting, "MyHandle"))
+	else if (0 == strcmp(pdbcws->szSetting, "MyHandle"))
 		idStatus = GetContactStatus(hContact);
-	else if (fcOpt.bShowIdle && 0 == _stricmp(pdbcws->szSetting, "IdleTS"))
+	else if (fcOpt.bShowIdle && 0 == strcmp(pdbcws->szSetting, "IdleTS"))
 		idStatus = GetContactStatus(hContact);
 	else
 		bRefresh = FALSE;

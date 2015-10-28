@@ -75,9 +75,9 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	MCONTACT hContact = (MCONTACT) wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	logmsg("ContactSettingChanged1");
+	if(hContact==NULL || strcmp(cws->szSetting,"Status")) return 0;
 
-	if(hContact==NULL || mir_strcmp(cws->szSetting,"Status")) return 0;
+	logmsg("ContactSettingChanged1");
 
 	WORD newStatus = cws->value.wVal;
 	WORD oldStatus = DBGetContactSettingRangedWord(hContact,"UserOnline","OldStatus2",ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);

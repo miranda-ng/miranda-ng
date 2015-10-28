@@ -94,7 +94,7 @@ int ReloadFont(WPARAM, LPARAM)
 int SettingChanged(WPARAM, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
-	if (mir_strcmp(dcws->szModule, "CList") != 0 || mir_strcmp(dcws->szSetting, "State") != 0)
+	if (strcmp(dcws->szModule, "CList") != 0 || strcmp(dcws->szSetting, "State") != 0)
 		return 0;
 
 	// clist hiding

@@ -31,7 +31,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			MCONTACT hContact = (MCONTACT)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *)lParam;
 			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL &&
-				 mir_strcmpi(ws->szModule, "CList") == 0 && mir_strcmpi(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
+				 strcmp(ws->szModule, "CList") == 0 && strcmp(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
 				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0 ? BST_CHECKED : BST_UNCHECKED);
 		}
 		break;

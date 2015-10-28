@@ -88,7 +88,7 @@ int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!mir_strcmp(cws->szModule, proto) && !mir_strcmp(cws->szSetting, "MirVer"))
+	if (!strcmp(cws->szModule, proto) && !strcmp(cws->szSetting, "MirVer"))
 		ExtraIconsApply(wParam, 1);
 
 	return 0;

@@ -867,15 +867,15 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL) return 0;
 	if (!isConnected) return 0;
 
-	if (!mir_strcmp(cws->szModule, "CList")) {
+	if (!strcmp(cws->szModule, "CList")) {
 		DBVARIANT dbv;
 		TLEN_LIST_ITEM *item;
 		char *nick, *jid, *group;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || mir_strcmp(szProto, m_szModuleName)) return 0;
+		if (szProto == NULL || strcmp(szProto, m_szModuleName)) return 0;
 		// A contact's group is changed
-		if (!mir_strcmp(cws->szSetting, "Group")) {
+		if (!strcmp(cws->szSetting, "Group")) {
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 				if ((item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					db_free(&dbv);
@@ -897,7 +897,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						}
 						else if (cws->value.pszVal != NULL) {
 							char *newGroup = settingToChar(cws);
-							if (item->group == NULL || mir_strcmp(newGroup, item->group)) {
+							if (item->group == NULL || strcmp(newGroup, item->group)) {
 								debugLogA("Group set to %s", newGroup);
 								if ((group = TlenGroupEncode(newGroup)) != NULL) {
 									TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, item->jid, group);
@@ -915,12 +915,12 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// A contact is renamed
-		else if (!mir_strcmp(cws->szSetting, "MyHandle")) {
+		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			char *newNick;
 
 			//			hContact = (MCONTACT) wParam;
 			//			szProto = GetContactProto(hContact);
-			//			if (szProto == NULL || mir_strcmp(szProto, proto->m_szModuleName)) return 0;
+			//			if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
 
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 				jid = dbv.pszVal;
@@ -935,7 +935,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						newNick = NULL;
 					}
 					// Note: we need to compare with item->nick to prevent infinite loop
-					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && mir_strcmp(item->nick, newNick)))) {
+					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && strcmp(item->nick, newNick)))) {
 						if ((nick = TlenTextEncode(newNick)) != NULL) {
 							debugLogA("Nick set to %s", newNick);
 							if (item->group != NULL && (group = TlenGroupEncode(item->group)) != NULL) {
@@ -954,7 +954,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// A temporary contact has been added permanently
-		else if (!mir_strcmp(cws->szSetting, "NotOnList")) {
+		else if (!strcmp(cws->szSetting, "NotOnList")) {
 			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 				ptrA szJid(db_get_sa(hContact, m_szModuleName, "jid"));
 				if (szJid != NULL) {

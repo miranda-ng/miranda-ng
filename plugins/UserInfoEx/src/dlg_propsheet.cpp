@@ -1327,13 +1327,13 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					break;
 			}
 
-			if ( !mir_strcmp(pdbcws->szSetting, SET_CONTACT_MYHANDLE) || !mir_strcmp(pdbcws->szSetting, SET_CONTACT_NICK)) {
+			if ( !strcmp(pdbcws->szSetting, SET_CONTACT_MYHANDLE) || !strcmp(pdbcws->szSetting, SET_CONTACT_NICK)) {
 				// force the update of all propertysheetpages
 				DlgProc(hDlg, PSM_FORCECHANGED, NULL, NULL);
 				// update the windowtitle
 				DlgProc(hDlg, HM_SETWINDOWTITLE, NULL, lParam);
 			}
-			else if ( !mir_strcmp(pdbcws->szModule, USERINFO) || !mir_strcmp(pdbcws->szModule, pPs->pszProto) || !mir_strcmp(pdbcws->szModule, MOD_MBIRTHDAY)) {
+			else if ( !strcmp(pdbcws->szModule, USERINFO) || !strcmp(pdbcws->szModule, pPs->pszProto) || !strcmp(pdbcws->szModule, MOD_MBIRTHDAY)) {
 				// force the update of all propertysheetpages
 				DlgProc(hDlg, PSM_FORCECHANGED, NULL, NULL);
 			}

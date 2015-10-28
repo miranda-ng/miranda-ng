@@ -367,7 +367,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact != NULL && !mir_strcmp(cws->szSetting, "Status"))
+	if (hContact != NULL && !strcmp(cws->szSetting, "Status"))
 		db_set_w(hContact, "UserOnline", "OldStatus", cws->value.wVal);
 	
 	return 0;

@@ -198,9 +198,9 @@ static int StatusSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (currentWatcherType&SDWTF_STATUS) {
 		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-		if ((HANDLE)wParam != NULL && dbcws->value.wVal == ID_STATUS_OFFLINE && !mir_strcmp(dbcws->szSetting, "Status")) {
+		if ((HANDLE)wParam != NULL && dbcws->value.wVal == ID_STATUS_OFFLINE && !strcmp(dbcws->szSetting, "Status")) {
 			char *pszProto = GetContactProto(wParam);
-			if (pszProto != NULL && !mir_strcmp(dbcws->szModule, pszProto))
+			if (pszProto != NULL && !strcmp(dbcws->szModule, pszProto))
 				if (CheckAllContactsOffline())
 					ShutdownAndStopWatcher();
 		}
