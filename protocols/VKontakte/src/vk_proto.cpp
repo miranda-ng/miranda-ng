@@ -114,6 +114,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterReposts = getBool("NotificationFilterReposts", true);
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
 	m_bNotificationFilterInvites = getBool("NotificationFilterInvites", true);
+	
+	m_bUseNonStandardNotifications = getBool("UseNonStandardNotifications", false);
 
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
 	m_iInvisibleInterval = getDword("InvisibleInterval", 10);
@@ -128,6 +130,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;
 	delSetting("InviteGroupIds");
+
+	m_ReturnChatMessage = getTStringA("ReturnChatMessage");
+	if (m_ReturnChatMessage == NULL)
+		m_ReturnChatMessage = TranslateT("I'm back");
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

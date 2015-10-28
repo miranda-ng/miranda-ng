@@ -60,6 +60,7 @@
 #define IDC_SEND_MUSIC_BROADCAST        1047
 #define IDC_SEND_MUSIC_BROADCAST_AND_STATUS 1048
 #define IDC_STATIC_SYNC_HISTORY         1049
+#define IDC_STATIC_CHATS                1049
 #define IDC_SYNC_OFF                    1050
 #define IDC_SYNC_AUTO                   1051
 #define IDC_SYNC_LAST1DAY               1052
@@ -107,6 +108,8 @@
 #define IDC_ST_WARNING                  1095
 #define IDC_NOTIF_MARK_VIEWED           1096
 #define IDC_N_INVITES                   1097
+#define IDC_USENOSTDPOPUPS              1098
+#define IDC_RET_CHAT_MES                1099
 
 // Next default values for new objects
 // 
@@ -115,7 +118,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        122
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1098
+#define _APS_NEXT_CONTROL_VALUE         1100
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

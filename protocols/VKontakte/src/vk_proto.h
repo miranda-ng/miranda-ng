@@ -392,7 +392,8 @@ private:
 		m_bShortenLinksForAudio,
 		m_bSplitFormatFwdMsg,
 		m_bSyncReadMessageStatusFromServer,
-		m_bLoadFullCList;
+		m_bLoadFullCList,
+		m_bUseNonStandardNotifications;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 
@@ -417,6 +418,7 @@ private:
 
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;
+	ptrT	m_ReturnChatMessage;
 
 	ptrA
 		m_pollingServer,

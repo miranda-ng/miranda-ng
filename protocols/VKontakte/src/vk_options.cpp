@@ -250,6 +250,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USENOSTDURLENCODE, ppro->m_bUseNonStandardUrlEncode ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USENOSTDPOPUPS, ppro->m_bUseNonStandardNotifications ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory ? BST_CHECKED : BST_UNCHECKED);
@@ -263,6 +264,8 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_INVIS, UDM_SETRANGE, 0, MAKELONG(60, 0));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_INVIS, UDM_SETPOS, 0, ppro->m_iInvisibleInterval);
+
+		SetDlgItemText(hwndDlg, IDC_RET_CHAT_MES, ppro->m_ReturnChatMessage);
 
 		return TRUE;
 
@@ -280,10 +283,16 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			}
 			break;
 
+		case IDC_RET_CHAT_MES:
+			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
 		case IDC_HIDECHATS:
 		case IDC_MESASUREAD:
 		case IDC_FORCE_ONLINE_ON_ACT:
 		case IDC_USENOSTDURLENCODE:
+		case IDC_USENOSTDPOPUPS:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
@@ -318,6 +327,9 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bUseNonStandardUrlEncode = IsDlgButtonChecked(hwndDlg, IDC_USENOSTDURLENCODE) == BST_CHECKED;
 			ppro->setByte("UseNonStandardUrlEncode", ppro->m_bUseNonStandardUrlEncode);
 
+			ppro->m_bUseNonStandardNotifications = IsDlgButtonChecked(hwndDlg, IDC_USENOSTDPOPUPS) == BST_CHECKED;
+			ppro->setByte("UseNonStandardNotifications", ppro->m_bUseNonStandardNotifications);
+
 			ppro->m_bReportAbuse = IsDlgButtonChecked(hwndDlg, IDC_REPORT_ABUSE) == BST_CHECKED;
 			ppro->setByte("ReportAbuseOnBanUser", ppro->m_bReportAbuse);
 
@@ -346,6 +358,15 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, _countof(buffer));
 			ppro->setDword("InvisibleInterval", ppro->m_iInvisibleInterval = _ttoi(buffer));
+			
+			TCHAR str[4096];
+			GetDlgItemText(hwndDlg, IDC_RET_CHAT_MES, str, _countof(str));
+			CMString tszReturnChatMessage(str);
+			if (tszReturnChatMessage != ppro->m_ReturnChatMessage) {
+				tszReturnChatMessage.Trim();
+				ppro->m_ReturnChatMessage = mir_tstrdup(tszReturnChatMessage.IsEmpty() ? TranslateT("I'm back"): tszReturnChatMessage);
+				ppro->setTString("ReturnChatMessage", ppro->m_ReturnChatMessage);
+			}
 		}
 		break;
 
