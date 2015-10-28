@@ -200,30 +200,27 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 	TCHAR buf[128];
 	#endif
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	TCHAR *tszModule = mir_a2t(cws->szModule), *tszSetting = mir_a2t(cws->szSetting);
 	if (options.inheritGS) {
-		if (!mir_tstrcmp(tszModule, _T("Skin")) & !mir_tstrcmp(tszSetting, _T("UseSound"))) {
+		if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound")) {
 			db_set_b(NULL, MODNAME, "PlaySound", cws->value.bVal);
 			#ifdef _DEBUG
 			cws->value.bVal ? _DebugPopup(NULL, _T("Sounds enabled."), _T("")) : _DebugPopup(NULL, _T("Sounds disabled."), _T(""));
-			logMessage(_T("Module"), tszModule);
-			logMessage(_T("Setting"), tszSetting);
+			logMessage(_T("Module"), _A2T(cws->szModule));
+			logMessage(_T("Setting"), _A2T(cws->szSetting));
 			logMessage(_T("Value"), _itot(cws->value.bVal, buf, 10));
 			#endif
 		}
-		if (!mir_tstrcmp(tszModule, _T("PluginDisable")) & (!mir_tstrcmp(tszSetting, szDllName))) {
+		if (!strcmp(cws->szModule, "PluginDisable") && !strcmp(cws->szSetting, _T2A(szDllName))) {
 			db_set_b(NULL, MODNAME, "Active", cws->value.bVal);
 			#ifdef _DEBUG
 			cws->value.bVal ? _DebugPopup(NULL, _T("Disabled."), "") : _DebugPopup(NULL, _T("Enabled."), _T(""));
 			logMessage(_T("PlugDisableHook"), _T("Triggered"));
-			logMessage(_T("Module"), tszModule);
-			logMessage(_T("Setting"), tszSetting);
+			logMessage(_T("Module"), _A2T(cws->szModule));
+			logMessage(_T("Setting"), _A2T(cws->szSetting));
 			logMessage(_T("Value"), _itot(cws->value.bVal, buf, 10));
 			#endif
 		}
 	}
-	mir_free(tszModule);
-	mir_free(tszSetting);
 
 	return 0;
 }
