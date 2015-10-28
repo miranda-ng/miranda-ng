@@ -108,6 +108,8 @@ drugo
 
 [Use non-standard urlEncode for sent messages (less traffic)]
 
+[Use non-standard popups for news and event notifications]
+
 [When I ban user...]
 
 [Report abuse]
@@ -125,6 +127,10 @@ drugo
 [as audio status only]
 
 [as regular status only]
+
+[Chats]
+
+[Message for return to chat:]
 
 [Login settings]
 
@@ -323,8 +329,6 @@ Link
 
 [Warning]
 Upozorenje
-[I'm back]
-
 [You've been kicked by ]
 
 [Chat]
@@ -409,6 +413,8 @@ Upozorenje
 [Attention!]
 
 ;file \protocols\VKontakte\src\vk_options.cpp
+[I'm back]
+
 [Network]
 
 [Account]

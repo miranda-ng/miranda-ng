@@ -187,10 +187,18 @@ Scroll
 права -> лева
 [left <-> right]
 лева <-> права
-[Keyboard Flash]
-Мігценне клавіятуры
-[Events]
-Падзеі
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n ; Аўтаматычна згенераваны файл тэмы Keyboard Notify\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Канец аўтаматычна згенераванага файла тэмы Keyboard Notify\n\n
+[None]
+Няма
+[Protocol]
+Пратакол
+[Keyboard Notify Theme]
+Тэма звесткі
+[All Files]
+Усе файлы
 [Accounts]
 Конты
 [Rules]
@@ -199,15 +207,7 @@ Scroll
 Мігценне
 [Themes]
 Тэмы
-[Protocol]
-Пратакол
-[Keyboard Notify Theme]
-Тэма звесткі
-[All Files]
-Усе файлы
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n ; Аўтаматычна згенераваны файл тэмы Keyboard Notify\n\n
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Канец аўтаматычна згенераванага файла тэмы Keyboard Notify\n\n
-[None]
-Няма
+[Keyboard Flash]
+Мігценне клавіятуры
+[Events]
+Падзеі

@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
-[Dummy protocol for Miranda NG.]
-Протокол-заглушка для застарілих протоколів у Miranda NG.
 [Unique ID setting:]
 Унікальний ID:
 [Name of setting that holds unique identifier of contacts]
@@ -17,5 +15,11 @@
 Видиме ім'я унікального ідентифікатора контактів
 [Restart is required to apply these changes.]
 Для застосування змін необхідний перезапуск.
-[Dummy protocol is too dumb to send messages.]
-Протокол-заглушка не може надсилати повідомлення.
+[Custom]
+Вказане
+[Nickname]
+Нік
+[E-mail address]
+Адреса E-mail
+[Username]
+Ім'я користувача

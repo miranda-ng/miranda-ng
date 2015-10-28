@@ -190,10 +190,18 @@ Ignorisati
 
 [left <-> right]
 
-[Keyboard Flash]
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 
-[Events]
-Događaji
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
+[None]
+Nema
+[Protocol]
+Protokol
+[Keyboard Notify Theme]
+
+[All Files]
+Sve datoteke
 [Accounts]
 Nalozi
 [Rules]
@@ -202,15 +210,7 @@ Nalozi
 
 [Themes]
 
-[Protocol]
-Protokol
-[Keyboard Notify Theme]
+[Keyboard Flash]
 
-[All Files]
-Sve datoteke
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-
-[None]
-Nema
+[Events]
+Događaji

@@ -175,10 +175,18 @@ xСтатуси
 право -> ліво
 [left <-> right]
 ліво <-> право
-[Keyboard Flash]
-Блимання клавіатури
-[Events]
-Події
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Файл теми для Keyboard Notify\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Кінець файлу теми для Keyboard Notify\n
+[None]
+Немає
+[Protocol]
+Протокол
+[Keyboard Notify Theme]
+Тема сповіщення
+[All Files]
+Усі файли
 [Accounts]
 Облікові записи
 [Rules]
@@ -187,15 +195,7 @@ xСтатуси
 Блимання
 [Themes]
 Теми
-[Protocol]
-Протокол
-[Keyboard Notify Theme]
-Тема сповіщення
-[All Files]
-Усі файли
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n; Файл теми для Keyboard Notify\n\n\n
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Кінець файлу теми для Keyboard Notify\n
-[None]
-Немає
+[Keyboard Flash]
+Блимання клавіатури
+[Events]
+Події

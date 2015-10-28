@@ -32,7 +32,7 @@
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [Shorten links for audio attachments]
-Короткие ссылки для вложений с аудио
+Сокращённые ссылки для вложений с аудио
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
@@ -123,6 +123,8 @@ E-mail или номер телефона:
 только как аудио статус
 [as regular status only]
 только как обычный статус
+[Chats]
+Чаты
 [Login settings]
 Настройки входа
 [Local settings]

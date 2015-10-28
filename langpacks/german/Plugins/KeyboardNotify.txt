@@ -190,10 +190,18 @@ links -> rechts
 rechts -> links
 [left <-> right]
 links <-> rechts
-[Keyboard Flash]
-Tastaturblinken
-[Events]
-Ereignisse
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Automatisch erzeugte Keyboard-Notify-Designdatei\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Ende der automatisch erzeugten Keyboard-Notify-Designdatei\n
+[None]
+Keine
+[Protocol]
+Protokoll
+[Keyboard Notify Theme]
+Tastaturblinker-Schemas
+[All Files]
+Alle Dateien
 [Accounts]
 Konten
 [Rules]
@@ -202,15 +210,7 @@ Regeln
 Blinken
 [Themes]
 Schemas
-[Protocol]
-Protokoll
-[Keyboard Notify Theme]
-Tastaturblinker-Schemas
-[All Files]
-Alle Dateien
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n; Automatisch erzeugte Keyboard-Notify-Designdatei\n\n\n
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Ende der automatisch erzeugten Keyboard-Notify-Designdatei\n
-[None]
-Keine
+[Keyboard Flash]
+Tastaturblinken
+[Events]
+Ereignisse

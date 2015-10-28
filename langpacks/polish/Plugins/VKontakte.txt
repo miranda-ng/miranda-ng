@@ -108,6 +108,8 @@ Wymuś status niewidoczny po wykryciu aktywności użytkownika
 Czas wygasania niewidoczności (min):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Niestandardowe kodowanie linków dla wysyłanych wiadomości (mniejsze obciążenie)
+[Use non-standard popups for news and event notifications]
+
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -126,6 +128,10 @@ Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 Tylko jako status audio
 [as regular status only]
 Tylko jako zwykły status
+[Chats]
+Rozmowy
+[Message for return to chat:]
+
 [Login settings]
 Opcje logowania
 [Local settings]
@@ -323,8 +329,6 @@ Wprowadź nową nazwę czatu
 Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]
 Ostrzeżenie
-[I'm back]
-Wróciłem
 [You've been kicked by ]
 Zostałeś wykopany przez\s
 [Chat]
@@ -409,6 +413,8 @@ Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokaln
 [Attention!]
 Uwaga!
 ;file \protocols\VKontakte\src\vk_options.cpp
+[I'm back]
+Wróciłem
 [Network]
 Protokoły
 [Account]

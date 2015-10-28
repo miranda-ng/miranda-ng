@@ -57,15 +57,15 @@ Ignorar
 ** Todos los contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-[Events]
-Eventos
-[Accounts]
-Cuentas
-[Rules]
-Reglas
+[None]
+Ninguno
 [Protocol]
 Protocolo
 [All Files]
 Todos los archivos
-[None]
-Ninguno
+[Accounts]
+Cuentas
+[Rules]
+Reglas
+[Events]
+Eventos

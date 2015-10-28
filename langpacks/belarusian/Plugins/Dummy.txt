@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
-[Dummy protocol for Miranda NG.]
+[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
+
+[Protocol template:]
 
 [Unique ID setting:]
 
@@ -17,5 +19,47 @@
 
 [Restart is required to apply these changes.]
 
-[Dummy protocol is too dumb to send messages.]
+[Allow sending messages to contacts]
+
+[Custom]
+Наладзіць
+[Screen Name]
+Мянушка
+[User name]
+Імя карыстача
+[Facebook ID]
+
+[Gadu-Gadu Number]
+Нумар Gadu-Gadu
+[User ID]
+ID кантакта
+[ICQ number]
+
+[Nickname]
+Мянушка
+[JID]
+
+[Visible name]
+Бачнае імя
+[E-mail address]
+Адрас e-mail
+[Live ID]
+
+[ID]
+
+[Skype name]
+
+[Steam ID]
+
+[Tlen login]
+Tlen уваход
+[Tox ID]
+
+[Username]
+Імя карыстача
+[VK ID]
+
+[WhatsApp ID]
+
+[This Dummy account has disabled sending messages. Enable it in account options.]
 

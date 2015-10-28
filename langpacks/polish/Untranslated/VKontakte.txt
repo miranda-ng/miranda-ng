@@ -1,0 +1,2 @@
+﻿[Use non-standard popups for news and event notifications]
+[Message for return to chat:]

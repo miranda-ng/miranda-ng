@@ -108,6 +108,8 @@ Unsichtbarstatus bei Benutzeraktivität erzwingen
 Intervall der Unsichtbarkeit (Min.):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
+[Use non-standard popups for news and event notifications]
+
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -126,6 +128,10 @@ Als regulärer Status für unbekannte Musik, sonst Audiostatus
 Nur als Audiostatus
 [as regular status only]
 Nur als regulärer Status
+[Chats]
+Chats
+[Message for return to chat:]
+
 [Login settings]
 Anmeldeeinstellungen
 [Local settings]
@@ -323,8 +329,6 @@ Neuen Chattitel eingeben
 Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
 [Warning]
 Warnung
-[I'm back]
-Ich bin zurück
 [You've been kicked by ]
 Sie wurden gekickt von\s
 [Chat]
@@ -409,6 +413,8 @@ Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf
 [Attention!]
 Achtung!
 ;file \protocols\VKontakte\src\vk_options.cpp
+[I'm back]
+Ich bin zurück
 [Network]
 Netzwerk
 [Account]

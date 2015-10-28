@@ -12,7 +12,7 @@
 [Add shortcut]
 
 [Enabled]
-
+Уключаны
 [This plugin requires Windows 8 or higher]
 
 [Failed to create temporary directory]

@@ -12,7 +12,7 @@
 [Common scripts folder]
 Агульны каталог скыптоў
 [Services]
-
+Службы
 [Scripts]
 Скрыпты
 [Common scripts]
