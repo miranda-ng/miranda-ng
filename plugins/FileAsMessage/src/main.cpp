@@ -55,8 +55,11 @@ int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	HWND hwnd = WindowList_Find(hFileList, hContact);
-	PostMessage(hwnd, WM_FE_STATUSCHANGE, 0, 0);
+	if (hContact && !strcmp(cws->szSetting, "Status"))
+	{
+		HWND hwnd = WindowList_Find(hFileList, hContact);
+		PostMessage(hwnd, WM_FE_STATUSCHANGE, 0, 0);
+	}
 	return 0;
 }
 
