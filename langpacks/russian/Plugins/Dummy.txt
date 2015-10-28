@@ -5,6 +5,10 @@
 ;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
+[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
+Протокол-заглушка для Miranda NG. Предназначен для для создания виртуальных контактов или для сохранения истории и контактов, оставшихся от неподдерживаемых протоколов.
+[Protocol template:]
+Шаблон протокола:
 [Unique ID setting:]
 Уникальные настройки ID
 [Name of setting that holds unique identifier of contacts]
@@ -15,11 +19,29 @@
 Видимое имя уникального идентификатора контактов
 [Restart is required to apply these changes.]
 Необходим перезапуск для применения настроек.
+[Allow sending messages to contacts]
+Разрешить отправку сообщений
 [Custom]
 Настроить
+[Screen Name]
+Ник
+[User name]
+Имя пользователя
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[User ID]
+ID пользователя
+[ICQ number]
+Номер ICQ
 [Nickname]
 Ник
+[Visible name]
+Видимое имя
 [E-mail address]
 Адрес e-mail
+[Skype name]
+Логин Skype
 [Username]
 Имя пользователя
+[This Dummy account has disabled sending messages. Enable it in account options.]
+Отправка сообщений запрещена. Включите её в настройках этой учётной записи-заглушки.

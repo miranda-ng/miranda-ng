@@ -1,6 +1,8 @@
-﻿[New %s]
+﻿[Use non-standard popups for news and event notifications]
+[Message for return to chat:]
+[New %s]
 [news]
-[notifications
+[notifications]
 [(photos)]
 [(attachments)]
 [News from %s]

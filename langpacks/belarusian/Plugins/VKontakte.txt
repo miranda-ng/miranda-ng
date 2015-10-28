@@ -107,6 +107,8 @@
 
 [Use non-standard urlEncode for sent messages (less traffic)]
 
+[Use non-standard popups for news and event notifications]
+
 [When I ban user...]
 
 [Report abuse]
@@ -124,6 +126,10 @@
 [as audio status only]
 
 [as regular status only]
+
+[Chats]
+Чатаў
+[Message for return to chat:]
 
 [Login settings]
 Налады уваходу
@@ -319,8 +325,6 @@
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
 Папярэджанне
-[I'm back]
-
 [You've been kicked by ]
 
 [Chat]
@@ -342,7 +346,7 @@
 [news]
 
 [notifications]
-
+абвесткі
 [User was tagged in these photos:]
 
 [(photos)]
@@ -400,6 +404,8 @@
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
 [Attention!]
+
+[I'm back]
 
 [Network]
 Сеціва

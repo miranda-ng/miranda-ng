@@ -51,9 +51,9 @@ Ignorovať
 ** Všetky kontakty **
 [** Unknown contacts **]
 ** Neznáme kontakty **
-[Events]
-Udalosti
-[All Files]
-Všetky súbory
 [None]
 Žiadne
+[All Files]
+Všetky súbory
+[Events]
+Udalosti

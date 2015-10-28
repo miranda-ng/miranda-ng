@@ -190,10 +190,18 @@ sekundi
 
 [left <-> right]
 
-[Keyboard Flash]
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 
-[Events]
+[\n; End of automatically generated Keyboard Notify Theme file\n]
 
+[None]
+
+[Protocol]
+
+[Keyboard Notify Theme]
+
+[All Files]
+sve datoteke
 [Accounts]
 
 [Rules]
@@ -202,15 +210,7 @@ sekundi
 
 [Themes]
 
-[Protocol]
+[Keyboard Flash]
 
-[Keyboard Notify Theme]
-
-[All Files]
-sve datoteke
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-
-[None]
+[Events]
 

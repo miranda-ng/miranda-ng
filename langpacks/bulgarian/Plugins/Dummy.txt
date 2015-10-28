@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
-[Dummy protocol for Miranda NG.]
-Фиктивен протокол за Miranda NG. Ползва се когато даден протокол стигне края на живота си. Тогава фиктивния протокол поема собствеността над контактите, които вече нямат протокол, с цел да се запази историята на съобщенията.
 [Unique ID setting:]
 Настройката с уникален ИД:
 [Name of setting that holds unique identifier of contacts]
@@ -17,5 +15,13 @@
 Видимо име на уникалния идентификатор на контактите
 [Restart is required to apply these changes.]
 За да бъдат приложени промените е необходимо да рестартирате.
-[Dummy protocol is too dumb to send messages.]
-Фиктивния протокол е твърде глупав да изпраща съобщения.
+[Custom]
+Избор
+[Nickname]
+Прякор
+[E-mail address]
+Имейл
+[ID]
+Идентификатор
+[Username]
+Потребител

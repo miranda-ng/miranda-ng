@@ -190,10 +190,18 @@ gauche -> droite
 droite -> gauche
 [left <-> right]
 gauche <-> droite
-[Keyboard Flash]
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 
-[Events]
-Évènements
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
+[None]
+Aucun
+[Protocol]
+Protocole
+[Keyboard Notify Theme]
+
+[All Files]
+Tous les fichiers
 [Accounts]
 Comptes
 [Rules]
@@ -202,15 +210,7 @@ Comptes
 
 [Themes]
 Thèmes
-[Protocol]
-Protocole
-[Keyboard Notify Theme]
+[Keyboard Flash]
 
-[All Files]
-Tous les fichiers
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-
-[None]
-Aucun
+[Events]
+Évènements

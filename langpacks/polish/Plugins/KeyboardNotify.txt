@@ -190,10 +190,18 @@ lewy -> prawy
 prawy -> lewy
 [left <-> right]
 lewy <-> prawy
-[Keyboard Flash]
-Miganie klawiatury
-[Events]
-Zdarzenia
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Automatycznie wygenerowany plik motywu Keyboard Notify\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Koniec automatycznie wygenerowanego pliku motywu Keyboard Notify\n
+[None]
+Brak
+[Protocol]
+Protokół
+[Keyboard Notify Theme]
+Motyw Keyboard Notify
+[All Files]
+Wszystkie pliki
 [Accounts]
 Konta
 [Rules]
@@ -202,15 +210,7 @@ Zasady
 Miganie
 [Themes]
 Motywy
-[Protocol]
-Protokół
-[Keyboard Notify Theme]
-Motyw Keyboard Notify
-[All Files]
-Wszystkie pliki
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n; Automatycznie wygenerowany plik motywu Keyboard Notify\n\n\n
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Koniec automatycznie wygenerowanego pliku motywu Keyboard Notify\n
-[None]
-Brak
+[Keyboard Flash]
+Miganie klawiatury
+[Events]
+Zdarzenia
