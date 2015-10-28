@@ -958,13 +958,13 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
-	if (mir_strcmp(cws->szModule, "CList"))
+	if (strcmp(cws->szModule, "CList"))
 		return 0;
 
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 		return 0;
 
-	if (!mir_strcmp(cws->szSetting, "NotOnList")) {
+	if (!strcmp(cws->szSetting, "NotOnList")) {
 		DBVARIANT dbv;
 		if (!getTString(hContact, "Nick", &dbv)) {
 			if (getByte("MirVerAutoRequest", 1))

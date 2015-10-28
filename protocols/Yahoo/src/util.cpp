@@ -159,7 +159,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!mir_strcmp(cws->szSetting, "ApparentMode")) {
+	if (!strcmp(cws->szSetting, "ApparentMode")) {
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;

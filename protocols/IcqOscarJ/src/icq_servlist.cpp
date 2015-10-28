@@ -2268,20 +2268,20 @@ int CIcqProto::ServListDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!icqOnline() || !m_bSsiEnabled || bIsSyncingCL)
 		return 0;
 
-	if (!mir_strcmp(cws->szModule, "CList")) {
+	if (!strcmp(cws->szModule, "CList")) {
 		// Has contact been renamed?
-		if (!mir_strcmp(cws->szSetting, "MyHandle") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+		if (!strcmp(cws->szSetting, "MyHandle") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
 			servlistUpdateContact(hContact); // Update contact's details in server-list
 
 		// Has contact been moved to another group?
-		if (!mir_strcmp(cws->szSetting, "Group") && getByte("StoreServerDetails", DEFAULT_SS_STORE)) {
+		if (!strcmp(cws->szSetting, "Group") && getByte("StoreServerDetails", DEFAULT_SS_STORE)) {
 			char* szNewGroup = getContactCListGroup(hContact); // Read group from DB
 			SAFE_FREE(&szNewGroup);
 		}
 	}
-	else if (!mir_strcmp(cws->szModule, "UserInfo")) {
+	else if (!strcmp(cws->szModule, "UserInfo")) {
 		// Update contact's details in server-list
-		if (!mir_strcmp(cws->szSetting, "MyNotes") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+		if (!strcmp(cws->szSetting, "MyNotes") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
 			servlistUpdateContact(hContact);
 	}
 

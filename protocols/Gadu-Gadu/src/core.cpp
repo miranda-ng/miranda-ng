@@ -1334,14 +1334,14 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	// If contact has been blocked
-	if (!mir_strcmp(cws->szModule, m_szModuleName) && !mir_strcmp(cws->szSetting, GG_KEY_BLOCK))
+	if (!strcmp(cws->szModule, m_szModuleName) && !mir_strcmp(cws->szSetting, GG_KEY_BLOCK))
 	{
 		notifyuser(hContact, 1);
 		return 0;
 	}
 
 	// Contact is being renamed
-	if (gc_enabled && !mir_strcmp(cws->szModule, m_szModuleName) && !mir_strcmp(cws->szSetting, GG_KEY_NICK)){
+	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)){
 
 		TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
 		if(ptszVal==NULL) return 0;
@@ -1372,10 +1372,10 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	// Contact list changes
-	if (!mir_strcmp(cws->szModule, "CList"))
+	if (!strcmp(cws->szModule, "CList"))
 	{
 		// If name changed... change nick
-		if (!mir_strcmp(cws->szSetting, "MyHandle")){
+		if (!strcmp(cws->szSetting, "MyHandle")){
 			TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
 			if(ptszVal==NULL) return 0;
 			setTString(hContact, GG_KEY_NICK, ptszVal);
@@ -1383,7 +1383,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		}
 
 		// If not on list changed
-		if (!mir_strcmp(cws->szSetting, "NotOnList"))
+		if (!strcmp(cws->szSetting, "NotOnList"))
 		{
 			if (db_get_b(hContact, "CList", "Hidden", 0))
 				return 0;

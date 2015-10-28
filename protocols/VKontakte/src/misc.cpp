@@ -710,12 +710,12 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact != NULL)
 		return 0;
 
-	if (mir_strcmp(cws->szModule, "ListeningTo"))
+	if (strcmp(cws->szModule, "ListeningTo"))
 		return 0;
 	
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
-	if (!mir_strcmp(cws->szSetting, szListeningTo)) {
+	if (!strcmp(cws->szSetting, szListeningTo)) {
 		MusicSendMetod iOldMusicSendMetod = (MusicSendMetod)getByte("OldMusicSendMetod", sendBroadcastAndStatus);
 		
 		if (cws->value.bVal == 0)
