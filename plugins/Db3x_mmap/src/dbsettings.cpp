@@ -770,9 +770,15 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 			}
 			DBMoveChunk(ofsSettingToCut, ofsSettingToCut + nameLen + valLen, ofsBlobPtr + 1 - ofsSettingToCut);
 			DBFlush(1);
-		}
 
-		m_cache->GetCachedValuePtr(saveContact, szCachedSettingName, -1);
+			// remove a value from cache anyway
+			m_cache->GetCachedValuePtr(saveContact, szCachedSettingName, -1);
+		}
+		else { // resident variable
+			// if a value doesn't exist, simply return error
+			if (m_cache->GetCachedValuePtr(saveContact, szCachedSettingName, -1) == NULL)
+				return 1;
+		}
 	}
 
 	// notify

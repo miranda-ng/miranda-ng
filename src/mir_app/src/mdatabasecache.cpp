@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "database.h"
 
+static DBVARIANT temp;
+
 static int stringCompare(const char *p1, const char *p2)
 {
 	return mir_strcmp(p1, p2);
@@ -185,7 +187,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 				FreeCachedVariant(&V->value);
 				m_lGlobalSettings.remove(index);
 				HeapFree(m_hCacheHeap, 0, V);
-				return NULL;
+				return &temp; // not null - smth were deleted
 			}
 		}
 		else {
@@ -245,7 +247,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 					break;
 				}
 		HeapFree(m_hCacheHeap, 0, V);
-		return NULL;
+		return &temp; // not null - smth were deleted
 	}
 
 	return &V->value;

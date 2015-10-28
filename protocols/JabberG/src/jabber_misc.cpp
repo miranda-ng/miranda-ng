@@ -455,8 +455,6 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 
 	ResetAdvStatus(hContact, ADVSTATUS_MOOD);
 	ResetAdvStatus(hContact, ADVSTATUS_TUNE);
-
-	//JabberUpdateContactExtraIcon(hContact);
 }
 
 void CJabberProto::InitPopups(void)
