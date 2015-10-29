@@ -367,7 +367,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 					}
 					else
 						tszBody = TranslateT("invite user");
-				}			
+				}
 			}
 		}
 		else if (tszAction == _T("chat_title_update")) {
@@ -576,7 +576,7 @@ static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			else
 				EndDialog(hwndDlg, 0);
 			return TRUE;
-		}		
+		}
 	}
 
 	return 0;
@@ -720,7 +720,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, con
 
 	if (user_id == m_myUserId)
 		LeaveChat(chat_id);
-	
+
 	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&chat_id);
 	if (cc == NULL)
 		return;
@@ -747,7 +747,7 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	debugLogA("CVkProto::OnChatLeave %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
-	
+
 	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
 	LeaveChat(cc->m_chatid);
 }
@@ -764,7 +764,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	int chat_id = getDword(hContact, "vk_chat_id", -1);
 	if (chat_id == -1) 
 		return 1;
-	
+
 	CMStringA code;
 	code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 		"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
@@ -822,7 +822,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		else 
 			SvcVisitProfile(hContact, 0);
 		break;
-		
+
 	case IDM_KICK:
 		if (!IsOnline())
 			return;

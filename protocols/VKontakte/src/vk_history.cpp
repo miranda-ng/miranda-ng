@@ -101,7 +101,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 	debugLogA("CVkProto::SvcGetServerHistoryLastNDay %d", NDay);
 
 	time_t tTime = time(NULL) - 60 * 60 * 24 * NDay;
-	
+
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
@@ -111,7 +111,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 			db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
-	
+
 	db_unset(hContact, m_szModuleName, "lastmsgid");
 	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, tTime, 0);
 }
@@ -121,7 +121,7 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	debugLogA("CVkProto::GetServerHistory %d %d %d %d %d", iOffset, iCount, iTime, iLastMsgId, (int)once);
 	if (!IsOnline())
 		return;
-	
+
 	LONG userID = getDword(hContact, "ID", -1);
 	if (-1 == userID || userID == VK_FEED_USER)
 		return;
@@ -163,7 +163,6 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 		GetServerHistoryLastNDay(hContact, 3);
 		break;
 	}
-	
 }
 
 void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -182,7 +181,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		}
 		return;
 	}
-	
+
 	int iTime = jnResponse["datetime"].as_int(); 
 	const JSONNode &jnMsgs = jnResponse["items"];
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
@@ -206,7 +205,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		int isOut = jnMsg["out"].as_int();
 		int isRead = jnMsg["read_state"].as_int(); 
 		int uid = jnMsg["user_id"].as_int(); 
-		
+
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_iBBCForAttachments);
@@ -214,7 +213,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody += tszFwdMessages;
 		}
-		
+
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);

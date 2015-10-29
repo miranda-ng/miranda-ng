@@ -126,7 +126,7 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 			*d++ = szHexDigits[*s >> 4];
 			*d++ = szHexDigits[*s & 0xF];
 		}
-	
+
 	*d = '\0';
 	return szOutput;
 }
@@ -149,7 +149,7 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 			SetChatStatus(hContact, iStatus);
 		else if (getWord(hContact, "Status") != iStatus)
 			setWord(hContact, "Status", iStatus);
-		
+
 		if (iStatus == ID_STATUS_OFFLINE) {
 			SetMirVer(hContact, -1);
 			db_unset(hContact, m_szModuleName, "ListeningTo");
@@ -342,7 +342,7 @@ static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 	*pEnd = '>';
 	if (p2 == NULL) 
 		return "";
-	
+
 	return CMStringA(p1, (int)(p2-p1));
 }
 
@@ -490,11 +490,11 @@ void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
-		
+
 	T2Utf szNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")));
 	T2Utf szFirstName(ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName")));
 	T2Utf szLastName(ptrT(db_get_tsa(hContact, m_szModuleName, "LastName")));
-		
+
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
@@ -503,7 +503,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szFirstName) + mir_strlen(szLastName) + 5);
-	
+
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 
 	*((PDWORD)pCurBlob) = 0; 
@@ -623,7 +623,7 @@ void CVkProto::ContactTypingThread(void *p)
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 	Sleep(5500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact);
-	
+
 	if (!ServiceExists(MS_MESSAGESTATE_UPDATE)) {
 		Sleep(1500);
 		SetSrmmReadStatus(hContact);
@@ -685,7 +685,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 {
 	stickerid = 0;
 	char* retMsg = NULL;
-	
+
 	int iRes = 0;
 	char HeadMsg[32] = { 0 };
 	const char * tmpMsg = strstr(Msg, "[sticker:");
@@ -712,7 +712,7 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (strcmp(cws->szModule, "ListeningTo"))
 		return 0;
-	
+
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	if (!strcmp(cws->szSetting, szListeningTo)) {
@@ -725,7 +725,7 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		
 		m_iMusicSendMetod = cws->value.bVal == 0 ? sendNone : iOldMusicSendMetod;
 		setByte("MusicSendMetod", m_iMusicSendMetod);
-	}	
+	}
 
 	return 0;
 }
@@ -1058,7 +1058,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		debugLogA("CVkProto::GetFwdMessages pMessages == NULL");
 		return res;
 	}
-	
+
 	OBJLIST<CVkUserInfo> vkUsers(2, NumericKeySortT);
 
 	for (auto it = jnFUsers.begin(); it != jnFUsers.end(); ++it) {
@@ -1227,5 +1227,4 @@ CMString CVkProto::RemoveBBC(CMString& tszSrc)
 	}
 
 	return tszRes;
-
 }

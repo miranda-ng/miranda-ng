@@ -178,7 +178,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
-		
+
 	CMStringA szAction, szBody;
 	bool bSuccess = AutoFillForm(reply->pData, szAction, szBody);
 	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
@@ -227,9 +227,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
 		return;
-	
-	const JSONNode &jnUser = *(jnResponse.begin());
 
+	const JSONNode &jnUser = *(jnResponse.begin());
 
 	m_myUserId = jnUser["id"].as_int();
 	setDword("ID", m_myUserId);
@@ -254,7 +253,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		return NULL;
 
 	MCONTACT hContact = FindUser(userid, flag);
-	
+
 	if (userid == m_myUserId) {
 		if (hContact != NULL)
 			if (self)
@@ -264,7 +263,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	}
 	else if (hContact == NULL)
 		return NULL;
-	
+
 	CMString tszNick, tszValue;
 	int iValue;
 
@@ -323,14 +322,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	}
 	else
 		SetMirVer(hContact, -1); // unset MinVer
-		
+
 	if ((iValue = jnItem["timezone"].as_int()) != 0)
 		setByte(hContact, "Timezone", iValue * -2);
 
 	tszValue = jnItem["mobile_phone"].as_mstring();
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Cellular", tszValue);
-	
+
 	tszValue = jnItem["home_phone"].as_mstring();
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Phone", tszValue);
@@ -358,7 +357,6 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		db_unset(hContact, m_szModuleName, "AudioUrl");
 	}
 
-
 	tszValue = jnItem["about"].as_mstring();
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "About", tszValue);
@@ -379,7 +377,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
 	if (userID == VK_FEED_USER || !IsOnline())
 		return;
-	
+
 	CMString code(FORMAT, _T("var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};"),
 		userID, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
@@ -407,7 +405,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 	if (m_bNeedSendOnline)
 		codeformat += _T("API.account.setOnline();");
-	
+
 	if (bFreeOffline && !m_bLoadFullCList)
 		codeformat += CMString("var US=[];var res=[];var t=10;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
@@ -431,7 +429,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if (reply->resultCode != 200 || !IsOnline())
 		return;
-	
+
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
@@ -448,7 +446,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	MCONTACT hContact;
 	LIST<void> arContacts(10, PtrKeySortT);
-	
+
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if (!isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
@@ -482,7 +480,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	const JSONNode &jnRequests = jnResponse["requests"];
 	if (!jnRequests)
 		return;
-	
+
 	int iCount = jnRequests["count"].as_int();
 	const JSONNode &jnItems = jnRequests["items"];
 	if (!iCount || !jnItems)
@@ -536,7 +534,6 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			arContacts.insert((HANDLE)hContact);
 	}
 
-
 	const JSONNode &jnItems = jnResponse["items"];
 
 	if (jnItems)
@@ -580,8 +577,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	LONG userID = getDword(hContact, "ID", -1);
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
-	
-	 
+
 	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
 	CMString ptszMsg;
 	if (flag == 0) {
@@ -618,7 +614,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 					msgformat = TranslateT("Friend request from the user %s declined");
 				else if (jnResponse["suggestion_deleted"].as_bool())
 					msgformat = TranslateT("Friend request suggestion for the user %s deleted");
-				
+
 				msg.AppendFormat(msgformat, tszNick);
 				MsgPopup(param->hContact, msg, tszNick);
 				setByte(param->hContact, "Auth", 1);
@@ -626,7 +622,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 			else {
 				msg = TranslateT("User or request was not deleted");
 				MsgPopup(param->hContact, msg, tszNick);
-			}	
+			}
 		}
 	}
 
@@ -722,7 +718,7 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 	CMString tszAudio(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl")));
 	if (!tszAudio.IsEmpty())
 		Utils_OpenUrlT(tszAudio);
-	
+
 	return 0;
 }
 

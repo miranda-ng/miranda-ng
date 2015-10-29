@@ -118,10 +118,10 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	if (SvcGetAvatarInfo(0, (LPARAM)&ai) != GAIR_SUCCESS)
 		return 1;
-	
+
 	TCHAR* buf = (TCHAR*)wParam;
 	int size = (int)lParam;
-	
+
 	_tcsncpy(buf, ai.filename, size);
 	buf[size - 1] = 0;
 
