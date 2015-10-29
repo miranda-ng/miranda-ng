@@ -29,7 +29,7 @@
 #define ACCOUNT_URL_REGISTERREQUESTV2 "https://v.whatsapp.net/v2/register"
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
-// WhatsApp Nokia 302 S40
+// WhatsApp Samsung Galaxy S3
 #define ACCOUNT_RESOURCE  "Android-2.12.176-443"
 
 #define WHATSAPP_RECV_MESSAGE 1
