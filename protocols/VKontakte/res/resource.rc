@@ -236,8 +236,8 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,160,278,10
     CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,171,278,10
     CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,182,278,10
-    GROUPBOX        "Chats",IDC_STATIC_CHATS,4,195,293,27,WS_GROUP
-    LTEXT           "Message for return to chat:",IDC_STATIC,12,206,120,8
+    GROUPBOX        "Group chats",IDC_STATIC_CHATS,4,195,293,27,WS_GROUP
+    LTEXT           "Message for return to group chat:",IDC_STATIC,12,206,120,8
     EDITTEXT        IDC_RET_CHAT_MES,134,204,157,12,ES_AUTOHSCROLL
 END
 

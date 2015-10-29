@@ -114,7 +114,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterReposts = getBool("NotificationFilterReposts", true);
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
 	m_bNotificationFilterInvites = getBool("NotificationFilterInvites", true);
-	
+
 	m_bUseNonStandardNotifications = getBool("UseNonStandardNotifications", false);
 
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
@@ -126,7 +126,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_bSyncReadMessageStatusFromServer = getBool("SyncReadMessageStatusFromServer", false);
 	m_bLoadFullCList = getBool("LoadFullCList", false);
-	
+
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;
 	delSetting("InviteGroupIds");
@@ -210,7 +210,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
-		
+
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
 
@@ -242,7 +242,7 @@ void CVkProto::InitMenus()
 	mi.name.a = LPGEN("Load news from VK");
 	SET_UID(mi, 0x7c449456, 0xb731, 0x48cc, 0x9c, 0x4e, 0x20, 0xe4, 0x66, 0x7a, 0x16, 0x23);
 	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-	
+
 	mi.pszService = PS_VISITPROFILE;
 	mi.position = 10009 + PMI_VISITPROFILE;
 	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
@@ -323,7 +323,7 @@ void CVkProto::InitMenus()
 	mi.name.t = LPGENT("Reload messages from vk.com...");
 	SET_UID(mi, 0xc6b59e9f, 0x5250, 0x4146, 0xb6, 0xf3, 0x2d, 0xe1, 0x4, 0x3b, 0x95, 0xf5);
 	g_hContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-		
+
 	mi.root = g_hContactMenuItems[CMI_GETSERVERHISTORY];
 
 	mi.pszService = PS_GETSERVERHISTORYLAST1DAY;
@@ -394,7 +394,7 @@ void CVkProto::UnInitMenus()
 	debugLogA("CVkProto::UnInitMenus");
 	for (int i = 0; i < PMI_COUNT; i++)
 		Menu_RemoveItem(g_hProtoMenuItems[i]);
-	
+
 	for (int i = 0; i < CHMI_COUNT; i++)
 		Menu_RemoveItem(g_hContactHistoryMenuItems[i]);
 
@@ -486,7 +486,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 int CVkProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	debugLogA("CVkProto::OnPreShutdown");
-		
+
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
 	return 0;
@@ -627,7 +627,7 @@ int CVkProto::Authorize(MEVENT hDbEvent)
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
-	
+
 	return AuthRequest(hContact, NULL);
 }
 
@@ -650,7 +650,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		LONG userID = getDword(hContact, "ID", -1);
 		if (userID == -1 || !IsOnline() || userID == VK_FEED_USER)
 			return 1;
-		
+
 		if (m_iMarkMessageReadOn == markOnTyping)
 			MarkMessagesRead(hContact);
 		

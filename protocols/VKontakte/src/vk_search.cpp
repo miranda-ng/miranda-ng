@@ -69,7 +69,7 @@ void CVkProto::SearchByMailThread(void* email)
 void __cdecl CVkProto::SearchThread(void* p)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
-		
+
 	TCHAR arg[200];
 	mir_sntprintf(arg, _T("%s %s %s"), pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
 	debugLog(_T("CVkProto::SearchThread %s"), arg);
@@ -119,7 +119,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		const JSONNode &jnRecord = (*it);
 		if (!jnRecord)
 			break;
-		
+
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
@@ -133,7 +133,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		psr.firstName.t = mir_tstrdup(FirstName);
 		psr.lastName.t = mir_tstrdup(LastName);
 		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
-		
+
 		bool filter = true;
 		if (pParam) {
 			if (psr.firstName.t && pParam->pszFirstName)
@@ -172,7 +172,7 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1);
 		return;
 	}
-	
+
 	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 		const JSONNode &jnRecord = (*it);
 		if (!jnRecord)
@@ -187,13 +187,12 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Email(jnRecord["contact"].as_mstring());
 
-
 		psr.id.t = mir_tstrdup(Id);
 		psr.firstName.t = mir_tstrdup(FirstName);
 		psr.lastName.t = mir_tstrdup(LastName);
 		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
 		psr.email.t = mir_tstrdup(Email);
-			
+
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 

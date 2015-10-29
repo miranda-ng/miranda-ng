@@ -81,7 +81,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	
+
 	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -141,26 +141,26 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	
+
 	//==== Feed ==========================================================================
 
 	void AddFeedSpecialUser();
 	void AddFeedEvent(CVKNewsItem& vkNewsItem);
 	void AddCListEvent(bool bNews);
-		
+
 	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);
-		
+
 	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
 	CVKNewsItem* GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CMString GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCTSTR ptszReplyText = NULL, LPCTSTR ptszReplyLink = NULL);
-	
+
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	
+
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
 	bool FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented);
 	void NotificationMarkAsViewed();
@@ -174,7 +174,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	TCHAR* GetUserStoredPassword(void);
 	void SetAllContactStatuses(int status);
-	
+
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
 	MCONTACT FindChat(LONG dwUserid);
 
@@ -328,7 +328,7 @@ private:
 	};
 
 	OBJLIST<Cookie> m_cookies;
-	
+
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);
@@ -351,7 +351,6 @@ private:
 	void __cdecl SendMsgAck(void *param);
 
 	//============== Options =============================================================
-	
 
 	bool	m_prevError,
 		m_bOnline,
@@ -403,10 +402,10 @@ private:
 
 	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
 	MarkMsgReadOn m_iMarkMessageReadOn;
-	
+
 	enum SyncHistoryMetod { syncOff, syncAuto, sync1Days, sync3Days };
 	SyncHistoryMetod m_iSyncHistoryMetod;
-	
+
 	enum MusicSendMetod { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
 	MusicSendMetod	m_iMusicSendMetod;
 
@@ -431,9 +430,9 @@ private:
 		m_hPollingThread, 
 		m_hPopupClassError, 
 		m_hPopupClassNotification;
-	
+
 	ULONG m_msgId;
-	
+
 	LIST<void> m_sendIds;
 	LIST<void> m_incIds;
 

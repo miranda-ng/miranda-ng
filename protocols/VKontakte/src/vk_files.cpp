@@ -60,7 +60,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		break;
 	case VKERR_INVALID_PARAMETERS:
 		tszError = TranslateT("One of the parameters specified was missing or invalid");
-		break;		
+		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
 		tszError = TranslateT("Couldn't save file");
 		break;
@@ -181,7 +181,6 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	CMStringA boundary, header;
 	CMStringA NamePart = fup->atrName();
 	CMStringA FNamePart = fup->fileName();
-	
 	// Boundary
 	int iboundary;
 	Utils_GetRandom(&iboundary, sizeof(iboundary));
@@ -304,7 +303,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
-	
+
 	pUploadReq->pUserInfo = pReq->pUserInfo;
 	Push(pUploadReq);
 }
@@ -336,7 +335,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
-	
+
 	CMString Attachment;
 
 	switch (fup->GetType()) {
@@ -355,7 +354,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	}
 
 	AsyncHttpRequest *pMsgReq;
-	
+
 	if (isChatRoom(fup->hContact)) {
 
 		ptrT tszChatID(getTStringA(fup->hContact, "ChatRoomID"));
@@ -390,6 +389,6 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	pMsgReq << TCHAR_PARAM("message", fup->Desc) << TCHAR_PARAM("attachment", Attachment) << VER_API;
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	
+
 	Push(pMsgReq);
 }

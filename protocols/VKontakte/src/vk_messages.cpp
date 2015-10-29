@@ -320,7 +320,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
 		return;
-		
+
 	const JSONNode &jnDlgs = jnResponse["items"];
 	if (!jnDlgs)
 		return;

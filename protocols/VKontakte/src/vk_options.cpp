@@ -122,17 +122,17 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getBool("AutoClean") ? BST_CHECKED : BST_UNCHECKED);
-		
+
 		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONTYPING, (ppro->m_iMarkMessageReadOn == markOnTyping) ? BST_CHECKED : BST_UNCHECKED);
-		
+
 		CheckDlgButton(hwndDlg, IDC_SYNC_OFF, (ppro->m_iSyncHistoryMetod == syncOff) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SYNC_AUTO, (ppro->m_iSyncHistoryMetod == syncAuto) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SYNC_LAST1DAY, (ppro->m_iSyncHistoryMetod == sync1Days) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SYNC_LAST3DAY, (ppro->m_iSyncHistoryMetod == sync3Days) ? BST_CHECKED : BST_UNCHECKED);
-		
+
 		return TRUE;
 
 	case WM_COMMAND:
@@ -151,12 +151,12 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_DELIVERY: 
 		case IDC_USE_LOCAL_TIME:
 		case IDC_AUTOCLEAN:
-		
+
 		case IDC_ONREAD:
 		case IDC_ONRECEIVE:
 		case IDC_ONREPLY:
 		case IDC_ONTYPING:
-		
+
 		case IDC_SYNC_OFF:
 		case IDC_SYNC_AUTO:
 		case IDC_SYNC_LAST1DAY:
@@ -178,7 +178,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}
-			
+
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
 			T2Utf szRawPasswd(str);
 			if (szRawPasswd != NULL)
@@ -186,7 +186,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bServerDelivery = IsDlgButtonChecked(hwndDlg, IDC_DELIVERY) == BST_CHECKED;
 			ppro->setByte("ServerDelivery", ppro->m_bServerDelivery);
-						
+
 			ppro->setByte("AutoClean", IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAN) == BST_CHECKED);
 
 			ppro->m_bUseLocalTime = IsDlgButtonChecked(hwndDlg, IDC_USE_LOCAL_TIME) == BST_CHECKED;
@@ -256,7 +256,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist ? BST_CHECKED : BST_UNCHECKED);
-		
+
 		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_NONE, (ppro->m_iMusicSendMetod == sendNone) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST, (ppro->m_iMusicSendMetod == sendBroadcastOnly) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_STATUS, (ppro->m_iMusicSendMetod == sendStatusOnly) ? BST_CHECKED : BST_UNCHECKED);
@@ -275,7 +275,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-		
+
 		case IDC_SYNC_MSG_STATUS:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MESASUREAD), IsDlgButtonChecked(hwndDlg, IDC_SYNC_MSG_STATUS) == BST_UNCHECKED);
@@ -358,7 +358,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, _countof(buffer));
 			ppro->setDword("InvisibleInterval", ppro->m_iInvisibleInterval = _ttoi(buffer));
-			
+
 			TCHAR str[4096];
 			GetDlgItemText(hwndDlg, IDC_RET_CHAT_MES, str, _countof(str));
 			CMString tszReturnChatMessage(str);
@@ -407,7 +407,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_F_PHOTOS, ppro->m_bNewsFilterPhotos ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_F_TAGS, ppro->m_bNewsFilterTags ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_F_WALLPHOTOS, ppro->m_bNewsFilterWallPhotos ? BST_CHECKED : BST_UNCHECKED);
-		
+
 		CheckDlgButton(hwndDlg, IDC_S_FRIENDS, ppro->m_bNewsSourceFriends ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_S_GROUPS, ppro->m_bNewsSourceGroups ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_S_PAGES, ppro->m_bNewsSourcePages ? BST_CHECKED : BST_UNCHECKED);
@@ -426,7 +426,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NOTIF, UDM_SETRANGE, 0, MAKELONG(60 * 24, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NOTIF, UDM_SETPOS, 0, ppro->m_iNotificationsInterval);
-		
+
 		return TRUE;
 
 	case WM_COMMAND:
@@ -436,7 +436,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-		
+
 		case IDC_NEWS_ENBL:
 		case IDC_NOTIF_ENBL:
 		case IDC_NOTIF_MARK_VIEWED:
@@ -534,7 +534,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 			GetDlgItemText(hwndDlg, IDC_ED_INT_NOTIF, buffer, _countof(buffer));
 			ppro->setDword("NotificationsInterval", ppro->m_iNotificationsInterval = _ttoi(buffer));
-			
+
 		}
 		break;
 
@@ -666,7 +666,7 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Network");
-	
+
 	odp.ptszTab = LPGENT("Account");
 	odp.position = 1;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);

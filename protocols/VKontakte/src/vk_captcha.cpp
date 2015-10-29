@@ -124,7 +124,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	memio.pBuf = reply->pData;
 	memio.fif = FIF_UNKNOWN; /* detect */
 	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
-	
+
 	BITMAP bmp = {0};
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
@@ -132,7 +132,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;
-	
+
 	debugLogA("CVkProto::RunCaptchaForm: user entered text %s", param.Result);
 	result = param.Result;
 	return true;
@@ -146,7 +146,7 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 	debugLogA("CVkProto::ApplyCaptcha");
 	if (!IsOnline())
 		return false;
-	
+
 	CMStringA szUrl(jnErrorNode["captcha_img"].as_mstring());
 	CMStringA szSid(jnErrorNode["captcha_sid"].as_mstring());
 
