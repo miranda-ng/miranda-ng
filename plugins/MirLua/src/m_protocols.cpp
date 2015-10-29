@@ -392,17 +392,17 @@ static int pa__index(lua_State *L)
 
 	if (mir_strcmpi(key, "ModuleName") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
-	if (mir_strcmpi(key, "AccountName") == 0)
+	else if (mir_strcmpi(key, "AccountName") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(pa->tszAccountName)));
-	if (mir_strcmpi(key, "ProtoName") == 0)
+	else if (mir_strcmpi(key, "ProtoName") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encode(pa->szProtoName)));
-	if (mir_strcmpi(key, "IsEnabled") == 0)
+	else if (mir_strcmpi(key, "IsEnabled") == 0)
 		lua_pushboolean(L, pa->bIsEnabled);
-	if (mir_strcmpi(key, "IsVisible") == 0)
+	else if (mir_strcmpi(key, "IsVisible") == 0)
 		lua_pushboolean(L, pa->bIsVisible);
-	if (mir_strcmpi(key, "IsVirtual") == 0)
+	else if (mir_strcmpi(key, "IsVirtual") == 0)
 		lua_pushboolean(L, pa->bIsVirtual);
-	if (mir_strcmpi(key, "IsOldProto") == 0)
+	else if (mir_strcmpi(key, "IsOldProto") == 0)
 		lua_pushboolean(L, pa->bOldProto);
 	else
 		lua_pushnil(L);
