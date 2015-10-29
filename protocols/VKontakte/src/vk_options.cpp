@@ -34,13 +34,13 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 		{
-			ptrT tszLogin(ppro->getTStringA("Login"));
-			if (tszLogin != NULL)
-				SetDlgItemText(hwndDlg, IDC_LOGIN, tszLogin);
+			ptrT ptszLogin(ppro->getTStringA("Login"));
+			if (ptszLogin != NULL)
+				SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
 
-			ptrT tszPassw(ppro->GetUserStoredPassword());
-			if (tszPassw != NULL)
-				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
+			ptrT ptszPassw(ppro->GetUserStoredPassword());
+			if (ptszPassw != NULL)
+				SetDlgItemText(hwndDlg, IDC_PASSWORD, ptszPassw);
 		}
 		return TRUE;
 
@@ -63,13 +63,27 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			TCHAR str[1025];
+			bool bNeedClearToken = false;
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-			ppro->setTString("Login", str);
+
+			CMString tszLogin(ptrT(ppro->getTStringA("Login")));
+			if (tszLogin != str) {
+				bNeedClearToken = true;
+				ppro->setTString("Login", str);
+			}
 			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
+			CMString tszPassw(ptrT(ppro->GetUserStoredPassword()));
+
 			T2Utf szRawPasswd(str);
-			if (szRawPasswd != NULL)
+			if (szRawPasswd != NULL && tszPassw != str) {
+				bNeedClearToken = true;
 				ppro->setString("Password", szRawPasswd);
+			}
+
+			if (bNeedClearToken)
+				ppro->ClearAccessToken();
+
 		}
 		break;
 
@@ -108,13 +122,13 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 		{
-			ptrT tszLogin(ppro->getTStringA("Login"));
-			if (tszLogin != NULL)
-				SetDlgItemText(hwndDlg, IDC_LOGIN, tszLogin);
+			ptrT ptszLogin(ppro->getTStringA("Login"));
+			if (ptszLogin != NULL)
+				SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
 
-			ptrT tszPassw(ppro->GetUserStoredPassword());
-			if (tszPassw != NULL)
-				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
+			ptrT ptszPassw(ppro->GetUserStoredPassword());
+			if (ptszPassw != NULL)
+				SetDlgItemText(hwndDlg, IDC_PASSWORD, ptszPassw);
 
 			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
 		}
@@ -170,20 +184,30 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCHAR str[1025];
+			bool bNeedClearToken = false;
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-			ppro->setTString("Login", str);
 
+			CMString tszLogin(ptrT(ppro->getTStringA("Login")));
+			if (tszLogin != str) {
+				bNeedClearToken = true;
+				ppro->setTString("Login", str);
+			}
+
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
+			CMString tszPassw(ptrT(ppro->GetUserStoredPassword()));
+
+			T2Utf szRawPasswd(str);
+			if (szRawPasswd != NULL && tszPassw != str) {
+				bNeedClearToken = true;
+				ppro->setString("Password", szRawPasswd);
+			}
+						
 			GetDlgItemText(hwndDlg, IDC_GROUPNAME, str, _countof(str));
 			if (mir_tstrcmp(ppro->getGroup(), str)) {
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}
-
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
-			T2Utf szRawPasswd(str);
-			if (szRawPasswd != NULL)
-				ppro->setString("Password", szRawPasswd);
-
+			
 			ppro->m_bServerDelivery = IsDlgButtonChecked(hwndDlg, IDC_DELIVERY) == BST_CHECKED;
 			ppro->setByte("ServerDelivery", ppro->m_bServerDelivery);
 
@@ -212,6 +236,9 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				ppro->m_iSyncHistoryMetod = sync3Days;
 
 			ppro->setByte("SyncHistoryMetod", ppro->m_iSyncHistoryMetod);
+
+			if (bNeedClearToken)
+				ppro->ClearAccessToken();
 		}
 		break;
 

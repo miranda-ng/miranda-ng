@@ -270,6 +270,8 @@ struct CVkProto : public PROTO<CVkProto>
 	static mir_cs m_csTimer;
 	static UINT_PTR m_timer;
 
+	void ClearAccessToken();
+
 private:
 	friend struct AsyncHttpRequest;
 

@@ -134,6 +134,15 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::ClearAccessToken()
+{
+	debugLogA("CVkProto::ClearAccessToken");
+	setDword("LastAccessTokenTime", (DWORD)time(NULL));
+	m_szAccessToken = NULL;
+	delSetting("AccessToken");
+	ShutdownSession();
+}
+
 TCHAR* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
@@ -253,9 +262,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_ACCESS_DENIED:
 		if (time(NULL) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
 			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (AccessToken fail?)");
-			setDword("LastAccessTokenTime", (DWORD)time(NULL));
-			delSetting("AccessToken");
-			ShutdownSession();
+			ClearAccessToken();
 			return false;
 		}
 		debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED");
