@@ -277,8 +277,10 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		ListView_SetItem(hwnd2List, &lvi);
 
 		length = (int)mir_strlen(dbv->pszVal) + 1;
-		ListView_SetItemText(hwnd2List, index, 1, ptrT(mir_utf8decodeT(dbv->pszVal)));
-
+		{
+			ptrT tszText(mir_utf8decodeT(dbv->pszVal));
+			ListView_SetItemText(hwnd2List, index, 1, tszText);
+		}
 		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
