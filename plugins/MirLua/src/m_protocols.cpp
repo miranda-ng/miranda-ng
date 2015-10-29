@@ -380,7 +380,7 @@ static int pa__init(lua_State *L)
 	PROTOACCOUNT **pa = (PROTOACCOUNT**)lua_newuserdata(L, sizeof(PROTOACCOUNT*));
 	*pa = udata;
 
-	luaL_setmetatable(L, MT_PROTOCOLDESCRIPTOR);
+	luaL_setmetatable(L, MT_PROTOACCOUNT);
 
 	return 1;
 }
