@@ -313,7 +313,7 @@ char *GetContactCachedProtocol(MCONTACT hContact)
 
 int GetStatusForContact(MCONTACT hContact, char *szProto)
 {
-	return (szProto) ? (int)(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) : ID_STATUS_OFFLINE;
+	return (szProto) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE;
 }
 
 void ClcCacheEntry::freeName()
@@ -366,10 +366,9 @@ int GetContactCachedStatus(MCONTACT hContact)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	if (!MirandaExiting()) {
+	if (!MirandaExiting())
 		cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact), ID_STATUS_OFFLINE, hContact), 1); ///by FYR
-		pcli->pfnSortContacts();
-	}
+
 	return 0;
 }
 
@@ -414,25 +413,19 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				return 0;
 			}
 
-			if (pdnce->bIsHidden != 1) {
-				pdnce->m_cache_nStatus = cws->value.wVal;
-				if (cws->value.wVal == ID_STATUS_OFFLINE)
-					if (g_CluiData.bRemoveAwayMessageForOffline)
-						db_set_s(hContact, "CList", "StatusMsg", "");
-
-				if ((db_get_w(NULL, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_cache_cszProto)
-					amRequestAwayMsg(hContact);
-
-				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-				cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
-				pcli->pfnSortContacts();
-			}
-			else {
-				if (!(!strcmp(cws->szSetting, "LogonTS") || !strcmp(cws->szSetting, "TickTS") || !strcmp(cws->szSetting, "InfoTS")))
-					pcli->pfnSortContacts();
-
+			if (pdnce->bIsHidden)
 				return 0;
-			}
+
+			pdnce->m_cache_nStatus = cws->value.wVal;
+			if (cws->value.wVal == ID_STATUS_OFFLINE)
+				if (g_CluiData.bRemoveAwayMessageForOffline)
+					db_set_s(hContact, "CList", "StatusMsg", "");
+
+			if ((db_get_w(NULL, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_cache_cszProto)
+				amRequestAwayMsg(hContact);
+
+			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
+			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 		}
 	}
 

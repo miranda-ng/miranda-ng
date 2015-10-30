@@ -149,7 +149,6 @@ INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM)
 int ContactAdded(WPARAM wParam, LPARAM)
 {
 	cli.pfnChangeContactIcon(wParam, cli.pfnIconFromStatusMode(GetContactProto(wParam), ID_STATUS_OFFLINE, NULL), 1);
-	cli.pfnSortContacts();
 	return 0;
 }
 
@@ -196,7 +195,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				mir_free(dbv.pszVal);
 				return 0;
 			}
-			cli.pfnSortContacts();
 		}
 	}
 

@@ -1500,9 +1500,8 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 		Cache_GetText(dat, contact, 1);
 		cliRecalcScrollBar(hwnd, dat);
 	}
-	dat->needsResort = 1;
-	pcli->pfnSortContacts();
 
+	dat->needsResort = 1;
 	return ret;
 }
 
@@ -1584,10 +1583,9 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 
 	if (db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOOFLINETOROOT_DEFAULT))
 		pcli->pfnInitAutoRebuild(hwnd);
-	else {
-		pcli->pfnSortContacts();
+	else
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
-	}
+
 	return ret;
 }
 

@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define FONTID_LAST 7
 
+int CompareContacts(const ClcContact *contact1, const ClcContact *contact2);
+
 struct ClcContact : public ClcContactBase
 {
 };

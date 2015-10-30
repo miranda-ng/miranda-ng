@@ -433,7 +433,6 @@ type
     pfnChangeContactIcon : procedure (hContact:TMCONTACT; iIcon:int; add:int); cdecl;
     pfnLoadContactTree   : procedure ; cdecl;
     pfnCompareContacts   : function (var contact1:TClcContact; var contact2:TClcContact):int; cdecl;
-    pfnSortContacts      : procedure ; cdecl;
     pfnSetHideOffline    : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
 
   (* docking.c *)

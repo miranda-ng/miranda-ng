@@ -125,15 +125,15 @@ void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
 void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 
 ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact);
-ClcCacheEntry* fnCreateCacheItem (MCONTACT hContact);
+ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact);
 void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
 
 /* clcfiledrop.c */
 void InitFileDropping(void);
 
-void   fnRegisterFileDropping (HWND hwnd);
-void   fnUnregisterFileDropping (HWND hwnd);
+void   fnRegisterFileDropping(HWND hwnd);
+void   fnUnregisterFileDropping(HWND hwnd);
 
 /* clistevents.c */
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);
@@ -163,44 +163,42 @@ void   fnUninitTray(void);
 int    fnCListTrayNotify(MIRANDASYSTRAYNOTIFY *msn);
 int    fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 int    fnTrayIconDestroy(HWND hwnd);
-void   fnTrayIconIconsChanged (void);
+void   fnTrayIconIconsChanged(void);
 int    fnTrayIconInit(HWND hwnd);
 TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto);
-int    fnTrayIconPauseAutoHide (WPARAM wParam, LPARAM lParam);
-INT_PTR    fnTrayIconProcessMessage (WPARAM wParam, LPARAM lParam);
+int    fnTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
+INT_PTR    fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 void   fnTrayIconRemove(HWND hwnd, const char *szProto);
 int    fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
-void   fnTrayIconSetToBase (char *szPreferredProto);
+void   fnTrayIconSetToBase(char *szPreferredProto);
 void   fnTrayIconTaskbarCreated(HWND hwnd);
 int    fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase);
-void   fnTrayIconUpdateBase (const char *szChangedProto);
+void   fnTrayIconUpdateBase(const char *szChangedProto);
 int    fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
-void   fnTrayIconUpdateWithImageList (int iImage, const TCHAR *szNewTip, char *szPreferredProto);
+void   fnTrayIconUpdateWithImageList(int iImage, const TCHAR *szNewTip, char *szPreferredProto);
 
 VOID CALLBACK fnTrayCycleTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 
 /* clui.c */
-LRESULT CALLBACK fnContactListWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void fnLoadCluiGlobalOpts(void);
 void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
-void fnChangeContactIcon (MCONTACT hContact, int iIcon, int add);
-void fnLoadContactTree (void);
-int  fnCompareContacts (const ClcContact *contact1, const ClcContact *contact2);
-void fnSortContacts (void);
-int  fnSetHideOffline (WPARAM wParam, LPARAM lParam);
+void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add);
+void fnLoadContactTree(void);
+int  fnSetHideOffline(WPARAM wParam, LPARAM lParam);
 
 /* docking.c */
-int fnDocking_ProcessWindowMessage (WPARAM wParam, LPARAM lParam);
+int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 
 /* group.c */
-TCHAR* fnGetGroupName (int idx, DWORD* pdwFlags);
-int    fnRenameGroup (int groupID, TCHAR* newName);
+TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags);
+int    fnRenameGroup(int groupID, TCHAR* newName);
 
 /* keyboard.c */
-int  fnHotKeysRegister (HWND hwnd);
-void fnHotKeysUnregister (HWND hwnd);
-int  fnHotKeysProcess (HWND hwnd, WPARAM wParam, LPARAM lParam);
-int  fnHotkeysProcessMessage (WPARAM wParam, LPARAM lParam);
+int  fnHotKeysRegister(HWND hwnd);
+void fnHotKeysUnregister(HWND hwnd);
+int  fnHotKeysProcess(HWND hwnd, WPARAM wParam, LPARAM lParam);
+int  fnHotkeysProcessMessage(WPARAM wParam, LPARAM lParam);

@@ -333,6 +333,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	BOOL PlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT);
 	KillTimer(hwnd, TIMERID_REBUILDAFTER);
+	pcli->bAutoRebuild = false;
 
 	ClearRowByIndexCache();
 	ImageArray_Clear(&dat->avatar_cache);

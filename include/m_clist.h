@@ -510,8 +510,8 @@ __forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // determines the ordering of two contacts
-// wParam = (WPARAM)(HANDLE)hContact1
-// lParam = (LPARAM)(HANDLE)hContact2
+// wParam = (WPARAM)(MCONTACT)hContact1
+// lParam = (LPARAM)(MCONTACT)hContact2
 // returns 0 if hContact1 is the same as hContact2
 // returns +1 if hContact2 should be displayed after hContact1
 // returns -1 if hContact1 should be displayed after hContact2
