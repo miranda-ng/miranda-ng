@@ -41,9 +41,12 @@ Tox_Options* CToxProto::GetToxOptions()
 	return options;
 }
 
-bool CToxProto::InitToxCore()
+bool CToxProto::InitToxCore(CToxThread *toxThread)
 {
 	logger->Log(__FUNCTION__": initializing tox core");
+
+	if (toxThread == NULL)
+		return false;
 
 	Tox_Options *options = GetToxOptions();
 	if (options == NULL)
@@ -51,11 +54,6 @@ bool CToxProto::InitToxCore()
 
 	if (LoadToxProfile(options))
 	{
-		if (toxThread == NULL) {
-			tox_options_free(options);
-			return false;
-		}
-
 		TOX_ERR_NEW initError;
 		toxThread->tox = tox_new(options, &initError);
 		if (initError != TOX_ERR_NEW_OK)
@@ -117,7 +115,7 @@ bool CToxProto::InitToxCore()
 	return false;
 }
 
-void CToxProto::UninitToxCore()
+void CToxProto::UninitToxCore(CToxThread *toxThread)
 {
 	if (toxThread) {
 		if (toxThread->toxAv)
@@ -130,6 +128,7 @@ void CToxProto::UninitToxCore()
 			SaveToxProfile();
 
 			tox_kill(toxThread->tox);
+			toxThread->tox = NULL;
 		}
 		toxThread = NULL;
 	}

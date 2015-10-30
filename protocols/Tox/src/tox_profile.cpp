@@ -42,6 +42,12 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		fclose(profile);
 		return false;
 	}
+	
+	if (size == 0)
+	{
+		fclose(profile);
+		return true;
+	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
 	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size)

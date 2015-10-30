@@ -86,8 +86,8 @@ private:
 
 	// tox core
 	Tox_Options* GetToxOptions();
-	bool InitToxCore();
-	void UninitToxCore();
+	bool InitToxCore(CToxThread *toxThread);
+	void UninitToxCore(CToxThread *toxThread);
 
 	// tox network
 	bool IsOnline();
