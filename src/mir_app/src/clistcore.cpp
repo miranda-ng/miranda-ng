@@ -181,8 +181,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 
 		cli.pfnChangeContactIcon               = fnChangeContactIcon;
 		cli.pfnLoadContactTree                 = fnLoadContactTree;
-		cli.pfnCompareContacts                 = fnCompareContacts;
-		cli.pfnSortContacts                    = fnSortContacts;
 		cli.pfnSetHideOffline                  = fnSetHideOffline;
 
 		cli.pfnDocking_ProcessWindowMessage	   = fnDocking_ProcessWindowMessage;

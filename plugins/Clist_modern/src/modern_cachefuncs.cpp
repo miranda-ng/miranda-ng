@@ -515,7 +515,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 	TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
-	if (dat->first_line_append_nick && (!dat->force_in_dialog)) {
+	if (dat->first_line_append_nick && !dat->force_in_dialog) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
 			TCHAR nick[_countof(contact->szText)];

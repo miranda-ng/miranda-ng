@@ -251,14 +251,12 @@ static INT_PTR ContactFilesDropped(WPARAM wParam, LPARAM lParam)
 
 static int CListIconsChanged(WPARAM, LPARAM)
 {
-	int i, j;
-
-	for (i = 0; i < _countof(statusModeList); i++)
+	for (int i = 0; i < _countof(statusModeList); i++)
 		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
-	for (i = 0; i < protoIconIndex.getCount(); i++)
-		for (j = 0; j < _countof(statusModeList); j++)
+	for (int i = 0; i < protoIconIndex.getCount(); i++)
+		for (int j = 0; j < _countof(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
 	cli.pfnInvalidateRect(cli.hwndContactList, NULL, TRUE);
@@ -333,7 +331,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (iNotCoveredDots == 0)  //They're all covered!
 		return GWVS_COVERED;
 
-	//There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
+	// There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
 	return GWVS_PARTIALLY_COVERED;
 }
 
@@ -361,8 +359,6 @@ int fnShowHide(WPARAM, LPARAM)
 	}
 
 	if (bShow == TRUE) {
-		RECT rcWindow;
-
 		ShowWindow(cli.hwndContactList, SW_RESTORE);
 		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(cli.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -372,14 +368,13 @@ int fnShowHide(WPARAM, LPARAM)
 		SetForegroundWindow(cli.hwndContactList);
 		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 
-		//this forces the window onto the visible screen
+		// this forces the window onto the visible screen
+		RECT rcWindow;
 		GetWindowRect(cli.hwndContactList, &rcWindow);
-		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
-			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top,
-				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
-		}
+		if (Utils_AssertInsideScreen(&rcWindow) == 1)
+			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
-	else {                      //It needs to be hidden
+	else { // It needs to be hidden
 		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
 			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
@@ -396,57 +391,15 @@ int fnShowHide(WPARAM, LPARAM)
 	return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// old evil code. hopefully it will be deleted soon, cause nobody uses it now
-
-#define SAFESTRING(a) a?a:""
-
-int GetStatusModeOrdering(int statusMode);
-extern int sortByStatus, sortByProto;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT a = wParam, b = lParam;
-	TCHAR namea[128], *nameb;
-	int rc;
+	ClcContact *p1, *p2;
+	if (!cli.pfnFindItem(cli.hwndContactTree, NULL, wParam, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, NULL, lParam, &p2, NULL, NULL))
+		return cli.pfnCompareContacts(p1, p2);
 
-	char *szProto1 = GetContactProto(a);
-	char *szProto2 = GetContactProto(b);
-	int statusa = db_get_w(a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
-	int statusb = db_get_w(b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
-
-	if (sortByProto) {
-		/* deal with statuses, online contacts have to go above offline */
-		if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) {
-			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
-		}
-		/* both are online, now check protocols */
-		rc = mir_strcmp(SAFESTRING(szProto1), SAFESTRING(szProto2));        /* mir_strcmp() doesn't like NULL so feed in "" as needed */
-		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
-			return rc;
-		/* protocols are the same, order by display name */
-	}
-
-	if (sortByStatus) {
-		int ordera, orderb;
-		ordera = GetStatusModeOrdering(statusa);
-		orderb = GetStatusModeOrdering(statusb);
-		if (ordera != orderb)
-			return ordera - orderb;
-	}
-	else {
-		//one is offline: offline goes below online
-		if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) {
-			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
-		}
-	}
-
-	nameb = cli.pfnGetContactDisplayName(a, 0);
-	_tcsncpy_s(namea, nameb, _TRUNCATE);
-	nameb = cli.pfnGetContactDisplayName(b, 0);
-
-	//otherwise just compare names
-	return mir_tstrcmpi(namea, nameb);
+	return 0;
 }
 
 /***************************************************************************************/

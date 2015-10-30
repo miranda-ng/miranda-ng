@@ -179,7 +179,6 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->cle.ptszTooltip, szProto);
 	}
 	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex, 1);
-	cli.pfnSortContacts();
 	return p;
 }
 

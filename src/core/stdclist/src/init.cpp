@@ -135,10 +135,14 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
+	g_bSortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
+	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+
 	coreCli = *pcli;
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnLoadClcOptions = LoadClcOptions;
+	pcli->pfnCompareContacts = CompareContacts;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

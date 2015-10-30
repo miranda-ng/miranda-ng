@@ -520,8 +520,10 @@ recvRest:
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 			// Set all contacts to offline
+			debugLogA("1");
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactOfflineStatus(hContact);
+			debugLogA("2");
 
 			mir_free(m_szJabberJID);
 			m_szJabberJID = NULL;
