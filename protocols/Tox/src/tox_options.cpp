@@ -74,25 +74,15 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 			return;
 		}
 		CloseHandle(hProfile);
-
-		TOX_ERR_NEW initError;
-		toxThread.tox = tox_new(NULL, &initError);
-		if (initError != TOX_ERR_NEW_OK)
-		{
-			m_proto->logger->Log(__FUNCTION__": failed to load tox profile (%d)", initError);
-			return;
-		}
 	}
 
-	if (m_proto->InitToxCore())
+	if (m_proto->InitToxCore(&toxThread))
 	{
 		ptrT group(m_group.GetText());
 		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
 			Clist_CreateGroup(0, group);
 
-		m_proto->LoadFriendList(NULL);
-		m_proto->SaveToxProfile();
-		tox_kill(toxThread.tox);
+		m_proto->UninitToxCore(&toxThread);
 
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
@@ -128,15 +118,11 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	ofn.lpstrInitialDir = _T("%APPDATA%\\Tox");
 
 	if (!GetOpenFileName(&ofn))
-	{
 		return;
-	}
 
 	ptrT defaultProfilePath(m_proto->GetToxProfilePath());
 	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
-	{
 		CopyFile(profilePath, defaultProfilePath, FALSE);
-	}
 
 	m_profileCreate.OnClick(&m_profileCreate);
 }

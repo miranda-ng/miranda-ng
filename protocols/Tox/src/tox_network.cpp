@@ -151,9 +151,9 @@ void CToxProto::PollingThread(void*)
 
 	logger->Log(__FUNCTION__": entering");
 
-	if (!InitToxCore())
+	if (!InitToxCore(&toxThread))
 	{
-		UninitToxCore();
+		UninitToxCore(&toxThread);
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		logger->Log(__FUNCTION__": leaving");
@@ -170,7 +170,7 @@ void CToxProto::PollingThread(void*)
 		toxThread.Do();
 	}
 
-	UninitToxCore();
+	UninitToxCore(&toxThread);
 	toxThread.isConnected = false;
 
 	logger->Log(__FUNCTION__": leaving");
