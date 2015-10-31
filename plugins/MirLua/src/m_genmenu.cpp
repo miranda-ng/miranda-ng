@@ -50,7 +50,7 @@ static int lua_CreateRoot(lua_State *L)
 	int hMenuObject = lua_tointeger(L, 1);
 	const char *name = luaL_checkstring(L, 2);
 	int position = lua_tointeger(L, 3);
-	HANDLE hIcon = (HANDLE)lua_touserdata(L, -4);
+	HANDLE hIcon = (HANDLE)lua_touserdata(L, 4);
 
 	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrT(Utf8DecodeT(name)), position, hIcon);
 	lua_pushlightuserdata(L, res);
