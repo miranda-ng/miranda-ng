@@ -45,6 +45,19 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 }
 
+static int lua_CreateRoot(lua_State *L)
+{
+	int hMenuObject = lua_tointeger(L, 1);
+	const char *name = luaL_checkstring(L, 2);
+	int position = lua_tointeger(L, 3);
+	HANDLE hIcon = (HANDLE)lua_touserdata(L, -4);
+
+	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrT(Utf8DecodeT(name)), position, hIcon);
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
 static int lua_AddMenuItem(lua_State *L)
 {
 	int hMenuObject = lua_tointeger(L, 1);
@@ -121,6 +134,7 @@ static int lua_RemoveMenuItem(lua_State *L)
 
 static luaL_Reg genmenuApi[] =
 {
+	{ "CreateRoot", lua_CreateRoot },
 	{ "AddMenuItem", lua_AddMenuItem },
 	{ "ModifyMenuItem", lua_ModifyMenuItem },
 	{ "ShowMenuItem", lua_ShowMenuItem },
