@@ -839,7 +839,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 	return status == 200;
 }
 
-bool CMsnProto::MSN_ABRefreshClist(void)
+bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[2];
@@ -939,6 +939,12 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 				}
 				ezxml_free(xmlm);
 			}
+		} else if (nlhrReply->resultCode == 400 && !nTry) {
+			// FIXME: No idea how to properly refresh WLSSC cookie required, therefore
+			// complete relogin :( For this we nuke auth token so that relogin is encforeced
+			// until we have a better solution 
+			authSkypeComToken.Clear();
+			if (MSN_AuthOAuth() > 0) return MSN_ABRefreshClist(1);
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else hHttpsConnection = NULL;
