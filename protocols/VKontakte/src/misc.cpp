@@ -271,6 +271,9 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, jnError);
 		break;
+	case VKERR_VALIDATION_REQUIRED:	// Validation Required
+		MsgPopup(NULL, TranslateT("You must validate your account before use VK in Miranda NG"), TranslateT("Error"), true);
+		break;
 	case VKERR_FLOOD_CONTROL:
 		pReq->m_iRetry = 0;
 		// fall through
