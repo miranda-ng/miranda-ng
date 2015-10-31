@@ -639,7 +639,7 @@ static int dbei__gc(lua_State *L)
 
 	mir_free(dbei->pBlob);
 
-	return 1;
+	return 0;
 }
 
 static const luaL_Reg dbeiMeta[] =
