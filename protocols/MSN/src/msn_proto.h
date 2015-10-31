@@ -563,7 +563,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	bool MSN_ABAddRemoveContact(const char* szCntId, int netId, bool add, bool allowRecurse = true);
 	unsigned MSN_ABContactAdd(const char* szEmail, const char* szNick, int netId, const char* szInvite, bool search, bool retry = false, bool allowRecurse = true);
 	void MSN_ABUpdateDynamicItem(bool allowRecurse = true);
-	bool MSN_ABRefreshClist(void);
+	bool MSN_ABRefreshClist(unsigned int nTry=0);
 
 	ezxml_t abSoapHdr(const char* service, const char* scenario, ezxml_t& tbdy, char*& httphdr);
 	char* GetABHost(const char* service, bool isSharing);
