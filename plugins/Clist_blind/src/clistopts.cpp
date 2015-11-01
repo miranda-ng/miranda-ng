@@ -184,8 +184,8 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							(WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 					}
 				}
-				db_set_b(NULL, "CList", "SortByStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SORTBYSTATUS));
-				db_set_b(NULL, "CList", "SortByProto", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SORTBYPROTO));
+				db_set_b(NULL, "CList", "SortByStatus", (BYTE) (g_bSortByStatus = IsDlgButtonChecked(hwndDlg, IDC_SORTBYSTATUS)));
+				db_set_b(NULL, "CList", "SortByProto", (BYTE) (g_bSortByProto = IsDlgButtonChecked(hwndDlg, IDC_SORTBYPROTO)));
 				db_set_b(NULL, "CList", "ConfirmDelete", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONFIRMDELETE));
 				db_set_b(NULL, "CList", "Tray1Click", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONECLK));
 				db_set_b(NULL, "CList", "AlwaysStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYSSTATUS));

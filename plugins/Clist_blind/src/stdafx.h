@@ -49,6 +49,10 @@ struct ClcData : public ClcDataBase
 // shared vars
 extern HINSTANCE g_hInst;
 extern CLIST_INTERFACE coreCli;
+extern int g_bSortByStatus, g_bSortByProto;
+
+
+int CompareContacts(const ClcContact *contact1, const ClcContact *contact2);
 
 /* most free()'s are invalid when the code is executed from a dll, so this changes
  all the bad free()'s to good ones, however it's still incorrect code. The reasons for not
