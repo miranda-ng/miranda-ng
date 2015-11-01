@@ -109,7 +109,7 @@ Intervall der Unsichtbarkeit (Min.):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
 [Use non-standard popups for news and event notifications]
-
+Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -131,7 +131,7 @@ Nur als regulärer Status
 [Group chats]
 Gruppenchats
 [Message for return to group chat:]
-
+Nachricht beim Zurückkehren ins Gruppenchat:
 [Login settings]
 Anmeldeeinstellungen
 [Local settings]
@@ -222,7 +222,7 @@ Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
 Fehler
 [You must validate your account before use VK in Miranda NG]
-
+Sie müssen Ihr Konto verifizieren bevor Sie VK in Miranda NG verwenden können.
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
 [One of the parameters specified was missing or invalid]
@@ -349,25 +349,25 @@ Profil ansehen
 &Kick
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New %s]
-
+Neue %s
 [news]
-
+Neuigkeiten
 [notifications]
-
+Benachrichtigungen
 [User was tagged in these photos:]
 Benutzer wurde in diesen Fotos markiert:
 [(photos)]
-
+(Fotos)
 [(attachments)]
-
+(Anhänge)
 [News from %s\n%s]
 Neuigkeiten von %s\n%s
 [News from %s]
-
+Neuigkeiten von %s
 [\tRepost from %s\n%s]
 \tGeteilt von %s\n%s
 [Repost from %s]
-
+Geteilt von %s
 [Video description:]
 Videobeschreibung:
 [Post text:]
@@ -429,7 +429,7 @@ Anzeige
 [%s server connection]
 %s Serververbindung
 [VKontakte newsfeed & notification event]
-
+VKontakte Newsfeed- und Benachrichtigungsereignis
 [Create new chat]
 Neuen Chat erstellen
 [Status message]
