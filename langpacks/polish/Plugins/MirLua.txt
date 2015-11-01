@@ -13,6 +13,13 @@ Załaduj wszystkie ponownie
 ;file \plugins\MirLua\src\main.cpp
 [Common scripts folder]
 Wspólny folder skryptów
+;file \plugins\MirLua\src\mlua_icons.cpp
+[Script]
+Skrypt
+[Open]
+Otwórz
+[Reload]
+Odśwież
 ;file \plugins\MirLua\src\mlua_options.cpp
 [Services]
 Usługi

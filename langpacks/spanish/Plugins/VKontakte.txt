@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.17
+;  Version: 0.1.1.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -25,6 +25,8 @@ Contraseña:
 Abrir sitio VKontakte
 [Advanced]
 Avanzado
+[Group chats]
+Grupo de chats
 [Bots challenge test]
 Prueba de reto Bots
 [Instruction:]

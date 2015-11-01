@@ -32,7 +32,7 @@ Utilisateur
 [Facebook ID]
 
 [Gadu-Gadu Number]
-Numéro Gadu-Gadu :
+Numéro Gadu-Gadu
 [User ID]
 
 [ICQ number]

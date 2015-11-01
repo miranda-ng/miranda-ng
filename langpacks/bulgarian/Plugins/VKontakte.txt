@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.17
+;  Version: 0.1.1.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [off]
@@ -19,6 +19,8 @@
 Парола:
 [Advanced]
 Разширени
+[Group chats]
+Групови чатове
 [Bots challenge test]
 Тест за ботове
 [Instruction:]

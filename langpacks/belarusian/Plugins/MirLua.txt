@@ -11,6 +11,12 @@
 
 [Common scripts folder]
 Агульны каталог скыптоў
+[Script]
+
+[Open]
+
+[Reload]
+
 [Services]
 Службы
 [Scripts]
