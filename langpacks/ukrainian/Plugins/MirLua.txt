@@ -11,6 +11,12 @@
 Перезавантажити
 [Common scripts folder]
 Папка із загальними скриптами
+[Script]
+Скрипт
+[Open]
+Відкрити
+[Reload]
+Перезавантажити
 [Services]
 Служби
 [Scripts]

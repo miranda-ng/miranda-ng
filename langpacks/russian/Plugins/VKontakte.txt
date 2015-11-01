@@ -130,7 +130,7 @@ E-mail или номер телефона:
 [Group chats]
 Чаты
 [Message for return to group chat:]
-Сообщение возвращения в групповой чат:
+Сообщение возвращения в чат:
 [Login settings]
 Настройки входа
 [Local settings]

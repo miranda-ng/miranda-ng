@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-Не-IM контакт дозволяє додавати посилання на інші програми і веб-сторінки в якості "контактів". Імена цих контактів можуть братися з текстового файлу (файлів ASCII).
+Не-IM контакт дозволяє додавати у вигляді "контактів" посилання на інші програми і веб-сторінки. Імена цих контактів можуть братися з текстового файлу (файлів ASCII).
 [View/Edit Files]
 Перегляд/Редагування файлів
 [Add File]

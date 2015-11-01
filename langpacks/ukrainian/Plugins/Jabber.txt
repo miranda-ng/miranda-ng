@@ -54,7 +54,7 @@ Active Directory логін
 [Priority:]
 Пріоритет:
 [Use hostname as resource]
-Ім'я хоста в якості ресурсу
+Ім'я хоста як ресурс
 [List of public servers]
 Публічні сервери
 [Port:]
@@ -1474,7 +1474,7 @@ Google Hangouts
 [Some changes will take effect the next time you connect to the Jabber network.]
 Деякі зміни наберуть чинності при наступному вході до мережі.
 [Set New Password for %s@%S]
-Установка нового паролю для %s@%S
+Установка нового пароля для %s@%S
 [New password does not match.]
 Новий пароль не збігається
 [Current password is incorrect.]

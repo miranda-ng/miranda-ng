@@ -308,7 +308,7 @@ VBR або порожній
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Вбудовуватися в процес плеєра для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.
 [Keep opened file as active, not newly founded.]
-Використовувати відкритий файл в якості активного, а не новостворений.
+Вважати активним відкритий файл, а не новостворений.
 [Use this option if WATrack freeze while player running. Slower processing.]
 Увімкніть, якщо WATrack підвисає під час програвання. Більше навантаження на процесор.
 [Use "Variables" plugin]

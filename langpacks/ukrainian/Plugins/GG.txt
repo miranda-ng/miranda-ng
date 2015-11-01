@@ -124,7 +124,7 @@
 [Change Gadu-Gadu password]
 Змінити пароль Gadu-Gadu
 [Changes current Gadu-Gadu user password]
-Зміна поточного паролю Gadu-Gadu
+Зміна поточного пароля Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Змінити E-mail Gadu-Gadu
 [Changes current Gadu-Gadu user e-mail]

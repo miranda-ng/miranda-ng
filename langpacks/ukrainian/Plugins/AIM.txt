@@ -12,7 +12,7 @@
 [Screen Name:]
 Ім'я AIM:
 [Display Name:]
-Показув. ім'я:
+Видиме ім'я:
 [Password:]
 Пароль:
 [Login Server:]
@@ -157,8 +157,12 @@ AIM Встановити Instant Idle
 Не підтримується клієнтом
 [Refused by client.]
 Відхилено клієнтом.
+[Incorrect SNAC format.]
+Неправильний формат SNAC.
 [User temporarily unavailable.]
 Користувач тимчасово недоступний.
+[No Match.]
+Немає збігів.
 [Check your Screen Name.]
 Перевірте своє ім'я AIM.
 [Check your Password.]
@@ -167,12 +171,32 @@ AIM Встановити Instant Idle
 Перевірте свою адресу електронної пошти.
 [Service temporarily unavailable.]
 Сервіс тимчасово недоступний.
+[Invalid Screen Name.]
+Неправильне ім'я AIM.
+[Invalid Password.]
+Неправильний пароль.
+[Invalid Email.]
+Неправильна адреса E-mail.
+[Invalid Old Password.]
+Неправильний старий пароль.
+[Invalid Screen Name Length.]
+Неправильна довжина імені AIM.
+[Invalid Password Length.]
+Неправильна довжина пароля.
+[Invalid Email Length.]
+Неправильна довжина адреси E-mail.
+[Invalid Old Password Length.]
+Неправильна довжина старого пароля.
+[Need Old Password.]
+Потрібен старий пароль.
 [Unsupported Type.]
 Цей тип не підтримується
 [An Error has occurred.]
 Невідома помилка.
 [Internal Error.]
 Внутрішня помилка.
+[DNS Fail.]
+Помилка DNS.
 [Failed to open file: %s : %s]
 Не вдалося відкрити файл: %s : %s
 [AIM Link Protocol]

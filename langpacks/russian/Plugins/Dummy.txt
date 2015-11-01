@@ -6,7 +6,7 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
-Протокол-заглушка для Miranda NG. Предназначен для для создания виртуальных контактов или для сохранения истории и контактов, оставшихся от неподдерживаемых протоколов.
+Протокол-заглушка для Miranda NG. Предназначен для создания виртуальных контактов или для сохранения истории и контактов, оставшихся от неподдерживаемых протоколов.
 [Protocol template:]
 Шаблон протокола:
 [Unique ID setting:]

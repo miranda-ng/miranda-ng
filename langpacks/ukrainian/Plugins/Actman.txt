@@ -561,6 +561,8 @@ UTF16+сигнатури
 Текст ANSI
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
+[Import settings/contacts from file]
+Імпортує налаштування/контакти з файлу
 [displays File Transfer window]
 Відкриває вікно передачі файлів
 [on Desktop]
@@ -569,6 +571,8 @@ UTF16+сигнатури
 Показує вікно "Про Miranda NG"
 [Open support (originally - Miranda wiki) page]
 Відкриває сторінку підтримки (вікі)
+[Go to Miranda Homepage]
+Перехід на домашню сторінку Miranda
 [Open bug report page]
 Відкриває сторінку для створення повідомлення про помилку
 [System]
@@ -603,16 +607,26 @@ UTF16+сигнатури
 Перезапускає Miranda
 [Station name]
 Ім'я станції
+[wParam is Ansi station name]
+wParam містить ім'я станції в ANSI
+[wParam is Unicode station name]
+wParam містить ім'я станції в Unicode
 [All protocols]
 усі протоколи
 [Protocol]
 Протокол
+[Shows a dialog to set the avatar for all possible protocols]
+Відкриває вікно встановлення аватару для всіх доступних протоколів
+[Open Options dialog]
+Відкриває вікно налаштувань програми
 [Check for updates]
 Перевіряє наявність оновлень
 [with confirmation]
 з підтвердженням
 [without confirmation]
 без підтвердження
+[Enables or disables Popup windows]
+Вмикає або вимикає спливаючі вікна
 [Notify]
 Сповіщення
 [YAPP or Popup]
@@ -621,8 +635,12 @@ YAPP або Popup
 Спливаюче вікно
 [Unicode Text]
 Текст Unicode
+[Enables or disables Popup windows (maybe deprecated)]
+Вмикає або вимикає спливаючі вікна (можливо, не підтримується)
 [displays the Account Manager]
 Відкриває менеджер облікових записів
+[Show the dialog to select the contact]
+Відкриває вікно вибору контакта
 [wParam is unicode]
 wParam в Unicode
 [wParam is Ansi]
@@ -633,6 +651,8 @@ wParam в ANSI
 структура
 [Send file to contact.]
 Відправляє контакту файл
+[Opens message window for contact with handle in wparam]
+Відкриває вікно повідомлень з контактом, handle якого знаходиться у wParam
 [remove all temporary contacts from db]
 Видаляє з бази всі тимчасові контакти
 [Filename]
@@ -745,3 +765,5 @@ wParam в ANSI
 Додавання нового контакту до бази
 [Contact deleting]
 Видалення контакту
+[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
+Показує модальне вікно із системним значком, набором кнопок і коротким повідомленням, пов'язаним із програмою (наприклад, статусом чи інформацією про помилку).
