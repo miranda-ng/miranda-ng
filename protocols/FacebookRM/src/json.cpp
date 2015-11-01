@@ -35,9 +35,11 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 	if (!list)
 		return EXIT_FAILURE;
 
-	// Set all contacts in map to offline
-	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next)
+	// Set all contacts in map to offline (and reset client)
+	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
 		i->data->status_id = ID_STATUS_OFFLINE;
+		i->data->client = CLIENT_WEB;
+	}
 
 	// Load last active times
 	const JSONNode &lastActive = list["last_active_times"];
@@ -82,7 +84,7 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 			current->user_id = id;
 		}
 
-		current->status_id = ID_STATUS_ONLINE;
+		current->status_id = (current->client == CLIENT_MOBILE) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
 
 		const JSONNode &p = (*it)["p"];
 		if (p) {
