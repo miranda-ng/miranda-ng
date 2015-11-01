@@ -130,6 +130,8 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getCLI();
+	g_bSortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
+	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
 	coreCli = *pcli;
 
@@ -144,6 +146,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnLoadClcOptions = LoadClcOptions;
 	pcli->pfnGetRowHeight = GetRowHeight;
 	pcli->pfnSortCLC = SortCLC;
+	pcli->pfnCompareContacts = CompareContacts;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
