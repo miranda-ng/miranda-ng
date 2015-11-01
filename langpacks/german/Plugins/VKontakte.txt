@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.17
+;  Version: 0.1.1.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -128,9 +128,9 @@ Als regulärer Status für unbekannte Musik, sonst Audiostatus
 Nur als Audiostatus
 [as regular status only]
 Nur als regulärer Status
-[Chats]
-Chats
-[Message for return to chat:]
+[Group chats]
+Gruppenchats
+[Message for return to group chat:]
 
 [Login settings]
 Anmeldeeinstellungen
@@ -221,6 +221,8 @@ VKontakte
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
 Fehler
+[You must validate your account before use VK in Miranda NG]
+
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
 [One of the parameters specified was missing or invalid]

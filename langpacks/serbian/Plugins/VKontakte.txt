@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.17
+;  Version: 0.1.1.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -128,9 +128,9 @@ Napredno
 
 [as regular status only]
 
-[Chats]
-
-[Message for return to chat:]
+[Group chats]
+Sobe za razgovor
+[Message for return to group chat:]
 
 [Login settings]
 
@@ -221,6 +221,8 @@ Otkazivanje
 
 [Error]
 Greška
+[You must validate your account before use VK in Miranda NG]
+
 [Error %d. Data will not be sent or received.]
 
 [One of the parameters specified was missing or invalid]

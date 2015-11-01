@@ -1,2 +1,3 @@
 ﻿[Use non-standard popups for news and event notifications]
-[Message for return to chat:]
+[Message for return to group chat:]
+[You must validate your account before use VK in Miranda NG]
