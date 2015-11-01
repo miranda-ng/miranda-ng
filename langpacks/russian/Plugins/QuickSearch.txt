@@ -241,6 +241,10 @@ ID клиента
 Добавить цвет
 [QuickSearch window hotkey]
 Открыть окно быстрого поиска
+[Column content is simple database setting.]
+Колонка содержит настройку из базы.
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+Колонка содержит результат выполнения скрипта.\r\nДля получения подробной информации нажмите "Помощь" в диалоге скрипта.
 [Column content is contact property (see list). Can be empty.]
 Колонка содержит свойство контакта (см. список). Может быть пустой.
 [Content is time of last contact event.]

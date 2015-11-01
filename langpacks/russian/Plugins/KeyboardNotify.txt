@@ -175,6 +175,10 @@ xСтатусы
 право -> лево
 [left <-> right]
 лево <-> право
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Автоматически созданный файл темы Keyboard Notify\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Окончание автоматически созданного файла темы Keyboard Notify\n
 [None]
 Нет
 [Protocol]
