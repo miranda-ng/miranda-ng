@@ -103,7 +103,7 @@ static bool AcquireCredentials(void)
 	memset(&SchannelCred, 0, sizeof(SchannelCred));
 
 	SchannelCred.dwVersion = SCHANNEL_CRED_VERSION;
-	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_CLIENTS;
+	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_X_CLIENTS;
 	SchannelCred.dwFlags |= SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
 
 	// Create an SSPI credential.
