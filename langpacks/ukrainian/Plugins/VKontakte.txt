@@ -97,6 +97,8 @@
 Додатково
 [Hide chats on startup]
 Не відкривати вікна чатів при старті
+[Sync read message status from server]
+Синхронізувати стан прочитання з сервером
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
 [Force invisible status upon user activity]
@@ -105,6 +107,8 @@
 Інтервал переходу в "Невидимий" (хв):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Нестандартний urlEncode для повідомлень (економія трафіку)
+[Use non-standard popups for news and event notifications]
+Нестандартні спливаючі вікна для новин і подій
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]
@@ -125,6 +129,8 @@
 тільки як звичайний статус
 [Group chats]
 Групові чати
+[Message for return to group chat:]
+Повідомлення при поверненні в чат
 [Login settings]
 Налаштування входу
 [Local settings]
@@ -213,6 +219,8 @@
 Відмовлено в доступі! Дані не передаватимуться і не прийматимуться.
 [Error]
 Помилка
+[You must validate your account before use VK in Miranda NG]
+Перед користуванням протоколом ВКонтакті в Miranda NG необхідно підтвердити свій обліковий запис
 [Error %d. Data will not be sent or received.]
 Помилка %d. Дані не передаватимуться і не прийматимуться.
 [One of the parameters specified was missing or invalid]
@@ -335,6 +343,8 @@
 Профіль на сайті
 [&Kick]
 &Вигнати
+[New %s]
+%s нових
 [news]
 новини
 [notifications]
