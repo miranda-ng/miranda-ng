@@ -2,7 +2,7 @@
 
 bool CToxProto::IsOnline()
 {
-	return toxThread && toxThread->isConnected && m_iStatus >= ID_STATUS_ONLINE;
+	return toxThread && toxThread->tox && toxThread->isConnected && m_iStatus >= ID_STATUS_ONLINE;
 }
 
 void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
@@ -170,8 +170,8 @@ void CToxProto::PollingThread(void*)
 		toxThread.Do();
 	}
 
-	UninitToxCore(&toxThread);
 	toxThread.isConnected = false;
+	UninitToxCore(&toxThread);
 
 	logger->Log(__FUNCTION__": leaving");
 }
