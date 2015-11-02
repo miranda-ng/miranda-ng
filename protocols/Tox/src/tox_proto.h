@@ -72,6 +72,7 @@ private:
 	HANDLE hNetlib, hPollingThread;
 	CTransferList transfers;
 	CLogger *logger;
+	ULONG hMessageProcess;
 
 	static HANDLE hProfileFolderPath;
 
@@ -202,10 +203,13 @@ private:
 	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// messages
+	std::map<uint64_t, UINT> messages;
+
+	void __cdecl SendMessageAsync(void *arg);
 	int OnSendMessage(MCONTACT hContact, const char *message);
 
 	static void OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg);
-	static void OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageId, void *arg);
+	static void OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageNumber, void *arg);
 
 	void __cdecl GetStatusMessageAsync(void* arg);
 

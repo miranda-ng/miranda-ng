@@ -33,6 +33,42 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 /* MESSAGE SENDING */
 
 // outcoming message flow
+struct SendMessageParam
+{
+	MCONTACT hContact;
+	UINT hMessage;
+	char *message;
+};
+
+void CToxProto::SendMessageAsync(void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+
+	int32_t friendNumber = GetToxFriendNumber(param->hContact);
+	if (friendNumber == UINT32_MAX)
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, 0);
+
+	size_t msgLen = mir_strlen(param->message);
+	uint8_t *msg = (uint8_t*)param->message;
+	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
+	if (strncmp(param->message, "/me ", 4) == 0)
+	{
+		msg += 4; msgLen -= 4;
+		type = TOX_MESSAGE_TYPE_ACTION;
+	}
+
+	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
+	int messageNumber = tox_friend_send_message(toxThread->tox, friendNumber, type, msg, msgLen, &sendError);
+	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
+	{
+		logger->Log(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, 0);
+	}
+
+	uint64_t messageId = (((int64_t)friendNumber) << 32) | ((int64_t)messageNumber);
+	messages[messageId] = param->hMessage;
+}
+
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
 	if (!IsOnline())
@@ -41,32 +77,20 @@ int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 		return 0;
 	}
 
-	int32_t friendNumber = GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-		return 0;
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
-	size_t msgLen = mir_strlen(szMessage);
-	uint8_t *msg = (uint8_t*)szMessage;
-	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
-	if (strncmp(szMessage, "/me ", 4) == 0)
-	{
-		msg += 4; msgLen -= 4;
-		type = TOX_MESSAGE_TYPE_ACTION;
-	}
+	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
+	param->hContact = hContact;
+	param->hMessage = hMessage;
+	param->message = mir_strdup(szMessage);
 
-	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
-	int messageId = tox_friend_send_message(toxThread->tox, friendNumber, type, msg, msgLen, &sendError);
-	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
-	{
-		logger->Log(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
-		return 0;
-	}
+	ForkThread(&CToxProto::SendMessageAsync, param);
 
-	return messageId;
+	return hMessage;
 }
 
 // message is received by the other side
-void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageId, void *arg)
+void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageNumber, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -74,8 +98,9 @@ void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageId, v
 	if (hContact == NULL)
 		return;
 
-	proto->ProtoBroadcastAck(
-		hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)messageId, 0);
+	uint64_t messageId = (((int64_t)friendNumber) << 32) | ((int64_t)messageNumber);
+	UINT hMessage = proto->messages[messageId];
+	proto->ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 }
 
 // preparing message/action to writing into db
