@@ -67,6 +67,9 @@ void CToxProto::SendMessageAsync(void *arg)
 
 	uint64_t messageId = (((int64_t)friendNumber) << 32) | ((int64_t)messageNumber);
 	messages[messageId] = param->hMessage;
+
+	mir_free(param->message);
+	mir_free(param);
 }
 
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
