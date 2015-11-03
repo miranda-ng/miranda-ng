@@ -500,7 +500,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 }
 
-void CVkProto::RetrieveFriends()
+void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 {
 	debugLogA("CVkProto::RetrieveFriends");
 	if (!IsOnline())
@@ -508,7 +508,7 @@ void CVkProto::RetrieveFriends()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", 1000) 
 		<< CHAR_PARAM("fields", fieldsName)
-		<<VER_API);
+		<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -521,8 +521,11 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
 		return;
+	
+	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
+	bool bCleanContacts = getBool("AutoClean") || (param->iMsgID != 0);
+	delete param;
 
-	bool bCleanContacts = getBool("AutoClean");
 	LIST<void> arContacts(10, PtrKeySortT);
 		
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -568,6 +571,17 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 	CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
+	return 0;
+}
+
+INT_PTR CVkProto::SvcWipeNonFriendContacts(WPARAM, LPARAM)
+{
+	debugLogA("CVkProto::SvcWipeNonFriendContacts");
+	if (IDNO == MessageBox(NULL, TranslateT("Are you sure to wipe local contacts missing in your friend list?"), 
+		TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		return 0;
+
+	RetrieveFriends(true);
 	return 0;
 }
 

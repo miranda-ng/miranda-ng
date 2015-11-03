@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define PS_CREATECHAT "/CreateNewChat"
 #define PS_LOADVKNEWS "/LoadVKNews"
+#define PS_WIPENONFRIENDS "/WipeNonFriendContacts"
 #define PS_GETSERVERHISTORY "/SyncHistory"
 #define PS_GETSERVERHISTORYLAST1DAY "/GetServerHystoryLast1Day"
 #define PS_GETSERVERHISTORYLAST3DAY "/GetServerHystoryLast3Day"
@@ -94,6 +95,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcWipeNonFriendContacts(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
@@ -228,7 +230,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveUserInfo(LONG userId);
 	void RetrieveUsersInfo(bool flag = false, bool bRepeat = false);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void RetrieveFriends();
+	void RetrieveFriends(bool bCleanNonFriendContacts = false);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void MarkMessagesRead(const CMStringA &mids);
@@ -310,6 +312,7 @@ private:
 		PMI_SETSTATUSMSG,
 		PMI_WALLPOST,
 		PMI_LOADVKNEWS,
+		PMI_WIPENONFRIENDS,
 		PMI_VISITPROFILE,
 		PMI_COUNT
 	};

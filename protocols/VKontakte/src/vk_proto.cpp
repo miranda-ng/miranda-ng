@@ -208,6 +208,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
+	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 
@@ -242,6 +243,13 @@ void CVkProto::InitMenus()
 	mi.name.a = LPGEN("Load news from VK");
 	SET_UID(mi, 0x7c449456, 0xb731, 0x48cc, 0x9c, 0x4e, 0x20, 0xe4, 0x66, 0x7a, 0x16, 0x23);
 	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = PS_WIPENONFRIENDS;
+	mi.position = 10009 + PMI_WIPENONFRIENDS;
+	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
+	mi.name.a = LPGEN("Wipe contacts missing in friend list");
+	SET_UID(mi,	0xcfe99159, 0xf237, 0x4546, 0x80, 0x3e, 0x51, 0x88, 0x26, 0x55, 0xdc, 0x5f);
+	g_hProtoMenuItems[PMI_WIPENONFRIENDS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_VISITPROFILE;
 	mi.position = 10009 + PMI_VISITPROFILE;
