@@ -5,13 +5,13 @@ class CToxThread
 {
 public:
 	Tox *tox;
-	ToxAv *toxAv;
+	ToxAV *toxAV;
 	bool isConnected;
 	bool isTerminated;
 
 	mir_cs toxLock;
 
-	CToxThread() : tox(NULL), toxAv(NULL),
+	CToxThread() : tox(NULL), toxAV(NULL),
 		isConnected(false), isTerminated(false) { }
 
 	void Do()
@@ -19,8 +19,8 @@ public:
 		{
 			mir_cslock lock(toxLock);
 			tox_iterate(tox);
-			if (toxAv)
-				toxav_do(toxAv);
+			//if (toxAV)
+			//	toxav_iterate(toxAV);
 		}
 		uint32_t interval = tox_iteration_interval(tox);
 		Sleep(interval);

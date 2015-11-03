@@ -81,18 +81,19 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
 		// a/v
-		if (IsWinVerVistaPlus())
-		{
-			/*toxAv = toxav_new(tox, TOX_MAX_CALLS);
-			toxav_register_audio_callback(toxThread->toxAv, OnFriendAudio, this);
-			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvInvite, av_OnInvite, this);
-			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvStart, av_OnStart, this);
-			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvCancel, av_OnCancel, this);
-			toxav_register_callstate_callbacktox(Thread->toxAv, OnAvReject, av_OnReject, this);
-			toxav_register_callstate_callback(toxThread->toxAv, OnAvEnd, av_OnEnd, this);
-			toxav_register_callstate_callback(toxThread->toxAv, OnAvCallTimeout, av_OnRequestTimeout, this);
-			toxav_register_callstate_callback(toxThread->toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);*/
-		}
+		//if (IsWinVerVistaPlus())
+		//{
+		//	TOXAV_ERR_NEW avInitError;
+		//	toxThread->toxAV = toxav_new(toxThread->tox, &avInitError);
+		//	if (initError != TOX_ERR_NEW_OK)
+		//	{
+		//		toxav_callback_call(toxThread->toxAV, OnFriendCall, this);
+		//		toxav_callback_call_state(toxThread->toxAV, OnFriendCallState, this);
+		//		toxav_callback_bit_rate_status(toxThread->toxAV, OnBitrateChanged, this);
+		//		toxav_callback_audio_receive_frame(toxThread->toxAV, OnFriendAudioFrame, this);
+		//		//toxav_callback_video_receive_frame(toxThread->toxAV, , this);
+		//	}
+		//}
 
 		uint8_t data[TOX_ADDRESS_SIZE];
 		tox_self_get_address(toxThread->tox, data);
@@ -118,8 +119,8 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 void CToxProto::UninitToxCore(CToxThread *toxThread)
 {
 	if (toxThread) {
-		if (toxThread->toxAv)
-			toxav_kill(toxThread->toxAv);
+		if (toxThread->toxAV)
+			toxav_kill(toxThread->toxAV);
 
 		if (toxThread->tox)
 		{
