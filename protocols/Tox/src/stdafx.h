@@ -44,7 +44,7 @@ DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0
 #include <m_assocmgr.h>
 
 #include <tox.h>
-#include <toxav.h>
+#include <ToxAV.h>
 #include <toxdns.h>
 #include <toxencryptsave.h>
 
