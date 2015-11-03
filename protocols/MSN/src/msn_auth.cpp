@@ -156,7 +156,8 @@ static const char authPacket[] =
 GenericToken::GenericToken(const char *pszTokenName):
 	m_pszTokenName(pszTokenName),
 	m_pszToken(NULL),
-	m_tExpires(0)
+	m_tExpires(0),
+	m_proto(NULL)
 {
 }
 
@@ -259,6 +260,7 @@ bool SkypeToken::Refresh(bool bForce)
 	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[1];
 	char szPOST[2048], szToken[1024];
+	bool bRet = false;
 
 	if (!bForce && !Expired()) return false;
 
@@ -315,10 +317,12 @@ bool SkypeToken::Refresh(bool bForce)
 						tExpires = atoi(pExpireTime+12);
 				} else tExpires=86400;
 				SetToken(szToken, time(NULL)+tExpires);
+				bRet=true;
 			}
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else m_proto->hHttpsConnection = NULL;
+	return bRet;
 }
 
 const char *SkypeToken::XSkypetoken()
