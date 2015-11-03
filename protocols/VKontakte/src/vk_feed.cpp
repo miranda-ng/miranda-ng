@@ -84,7 +84,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	cle.hContact = hContact;
 	cle.hDbEvent = NULL;
 	TCHAR toolTip[255];
-	mir_sntprintf(toolTip, TranslateT("New %s"), bNews ? TranslateT("news") : TranslateT("notifications"));
+	mir_sntprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.ptszTooltip = toolTip;
 
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
