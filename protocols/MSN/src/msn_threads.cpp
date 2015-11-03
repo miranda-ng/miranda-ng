@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void __cdecl CMsnProto::msn_keepAliveThread(void*)
 {
 	bool keepFlag = true;
-	time_t t;
 
 	hKeepAliveThreadEvt = CreateEvent(NULL, FALSE, FALSE, NULL);
 
