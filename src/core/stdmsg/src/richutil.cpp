@@ -100,7 +100,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			HWND hwndMsg = GetDlgItem(GetParent(hwnd), IDC_MESSAGE);
 			if (hwndMsg != hwnd) {
 				SetFocus(hwndMsg);
-				SendMessage(hwndMsg, WM_CHAR, wParam, lParam);
+				if (wParam != '\t') SendMessage(hwndMsg, WM_CHAR, wParam, lParam);
 			}
 		}
 		break;
