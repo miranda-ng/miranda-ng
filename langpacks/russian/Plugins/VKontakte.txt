@@ -140,7 +140,7 @@ E-mail или номер телефона:
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Use local time for received messages]
-Локальное время для принятых сообщений
+Местное время для принятых сообщений
 [Automatically wipe local contacts missing in your friend list]
 Автоматически удалять локальные контакты, которых нет в списке друзей
 [Mark message as read...]
