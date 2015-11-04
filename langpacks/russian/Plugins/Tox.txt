@@ -127,18 +127,6 @@ IPv6 адрес (необязательно)
 Входящий звонок от %s
 [Outgoing call to %s]
 Исходящий звонок к %s
-[Unable to find input audio device]
-Устройство аудиовхода не найдено
-[Video call is unsupported]
-Видеовызовы не поддерживаются
-[Call canceled]
-Звонок отменён
-[Unable to find output audio device]
-Выходное аудиоустройство не найдено
-[Call started]
-Начало беседы
-[Call ended]
-Окончание беседы
 [%s connection]
 %s подключение
 [Tox profile]
