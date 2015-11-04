@@ -462,7 +462,7 @@ Jabber Ad-Hoc команды на %s
 [Can report own version information]
 Сообщение версий
 [Can report local time of the user]
-Сообщение локального времени
+Сообщение местного времени
 [Can send and receive ping requests]
 Приём и отправка пингов (ping)
 [Supports data forms]

@@ -4,7 +4,6 @@
 [Audio start]
 [Audio end]
 [You cannot send when you are offline.]
-[Call canceled]
 [Unable to open Tox profile]
 [Unable to read Tox profile]
 [Unable to decrypt Tox profile]

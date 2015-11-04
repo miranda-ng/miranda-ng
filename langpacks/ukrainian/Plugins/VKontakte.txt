@@ -343,12 +343,6 @@
 Профіль на сайті
 [&Kick]
 &Вигнати
-[New %s]
-%s нових
-[news]
-новини
-[notifications]
-сповіщення
 [User was tagged in these photos:]
 Користувач позначений на цих фотографіях:
 [(photos)]
