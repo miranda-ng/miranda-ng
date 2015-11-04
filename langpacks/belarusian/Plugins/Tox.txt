@@ -131,18 +131,6 @@
 
 [Outgoing call to %s]
 
-[Unable to find input audio device]
-
-[Video call is unsupported]
-
-[Call canceled]
-
-[Unable to find output audio device]
-
-[Call started]
-
-[Call ended]
-
 [%s connection]
 Злучэнне %s
 [Tox profile]

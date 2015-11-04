@@ -11,5 +11,3 @@ Unable to initialise Tox core
 Request authorisation
 [Grant authorization]
 Grant authorisation
-[Call canceled]
-Call cancelled

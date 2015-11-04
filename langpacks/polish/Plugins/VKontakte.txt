@@ -348,12 +348,10 @@ Odwiedź profil
 [&Kick]
 &Wyrzuć
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[New %s]
-Nowy %s
-[news]
-Aktualności
-[notifications]
-Powiadomienia
+[New news]
+
+[New notifications]
+
 [User was tagged in these photos:]
 Użytkownik został oznaczony na tych zdjęciach:
 [(photos)]
@@ -438,6 +436,8 @@ Opis
 Wyślij posta na moją tablicę
 [Load news from VK]
 Załaduj aktualności z VK
+[Wipe contacts missing in friend list]
+
 [Send message to user\'s wall]
 Wyślij posta na tablicę użytkownika
 [Add as friend]
@@ -482,6 +482,8 @@ Wprowadź nowy opis
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
+[Are you sure to wipe local contacts missing in your friend list?]
+
 [Are you sure to delete %s from your friend list?]
 Czy na pewno chcesz usunąć %s ze znajomych?
 [User %s was deleted from your friend list]

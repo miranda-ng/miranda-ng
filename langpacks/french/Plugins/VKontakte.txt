@@ -348,12 +348,10 @@ Visiter le profil
 [&Kick]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[New %s]
+[New news]
 
-[news]
+[New notifications]
 
-[notifications]
-notifications
 [User was tagged in these photos:]
 
 [(photos)]
@@ -438,6 +436,8 @@ Compte
 
 [Load news from VK]
 
+[Wipe contacts missing in friend list]
+
 [Send message to user\'s wall]
 
 [Add as friend]
@@ -481,6 +481,8 @@ EN ATTENTE...
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
+
+[Are you sure to wipe local contacts missing in your friend list?]
 
 [Are you sure to delete %s from your friend list?]
 

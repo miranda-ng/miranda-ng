@@ -343,12 +343,10 @@
 Профіль
 [&Kick]
 Выкінуць
-[New %s]
+[New news]
 
-[news]
+[New notifications]
 
-[notifications]
-абвесткі
 [User was tagged in these photos:]
 
 [(photos)]
@@ -429,6 +427,8 @@
 
 [Load news from VK]
 
+[Wipe contacts missing in friend list]
+
 [Send message to user\'s wall]
 
 [Add as friend]
@@ -470,6 +470,8 @@
 [Enter new status message]
 
 [Please authorize me to add you to my friend list.]
+
+[Are you sure to wipe local contacts missing in your friend list?]
 
 [Are you sure to delete %s from your friend list?]
 

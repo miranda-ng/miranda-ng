@@ -119,16 +119,6 @@ IPv6 адрес (незадължително)
 Входящо обаждане от %s
 [Outgoing call to %s]
 Изходящо обаждане от %s
-[Unable to find input audio device]
-Не може да бъде открит микрофон
-[Video call is unsupported]
-Видео обажданията не се поддържат
-[Unable to find output audio device]
-Не може да бъде открит говорител
-[Call started]
-Начало на разговора
-[Call ended]
-Край на разговора
 [%s connection]
 %s връзка
 [Tox profile]

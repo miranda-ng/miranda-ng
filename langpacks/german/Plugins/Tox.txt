@@ -139,18 +139,6 @@ Sie können keine Nachricht versenden, so lange Sie offline sind.
 Eingehender Anruf von %s
 [Outgoing call to %s]
 Ausgehender Anruf an %s
-[Unable to find input audio device]
-Konnte kein Audioeingabegerät finden
-[Video call is unsupported]
-Videoanruf wird nicht unterstützt
-[Call canceled]
-Anruf abgebrochen
-[Unable to find output audio device]
-Konnte kein Audioausgabegerät finden
-[Call started]
-Anruf begonnen
-[Call ended]
-Anruf beendet
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung

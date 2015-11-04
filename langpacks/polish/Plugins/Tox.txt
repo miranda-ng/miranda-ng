@@ -139,18 +139,6 @@ Nie możesz wysyłać będąc rozłączonym.
 Przychodząca rozmowa od %s
 [Outgoing call to %s]
 Rozmowa wychodząca z %s
-[Unable to find input audio device]
-Nie udało się znaleźć urządzenia wejścia audio
-[Video call is unsupported]
-Rozmowa video nie jest wspierana
-[Call canceled]
-Rozmowa anulowana
-[Unable to find output audio device]
-Nie udało się znaleźć urządzenia wyjścia audio
-[Call started]
-Rozmowa rozpoczęta
-[Call ended]
-Rozmowa zakończona
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
