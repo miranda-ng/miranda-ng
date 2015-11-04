@@ -27,15 +27,14 @@ static HGENMENU hBlockMenuItem, hLiveSpaceMenuItem, hNetmeetingMenuItem, hChatIn
 
 HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // Block command callback function
-
 INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 {
 	if (msnLoggedIn) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)))
-		db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
+		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail))
+				&& db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
+			return 0;
 
 		if (Lists_IsInList(LIST_BL, tEmail))
 			delSetting(hContact, "ApparentMode");
@@ -45,9 +44,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnGotoInbox - goes to the Inbox folder at the live.com
-
 INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
@@ -68,18 +65,14 @@ INT_PTR CMsnProto::MsnSendHotmail(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetupAlerts - goes to the alerts section at the live.com
-
 INT_PTR CMsnProto::MsnSetupAlerts(WPARAM, LPARAM)
 {
 	MsnInvokeMyURL(false, "http://alerts.live.com");
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnViewProfile - view a contact's profile
-
 INT_PTR CMsnProto::MsnViewProfile(WPARAM hContact, LPARAM)
 {
 	char buf[64], *cid;
@@ -98,18 +91,14 @@ INT_PTR CMsnProto::MsnViewProfile(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnEditProfile - goes to the Profile section at the live.com
-
 INT_PTR CMsnProto::MsnEditProfile(WPARAM, LPARAM)
 {
 	MsnViewProfile(0, 0);
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnInviteCommand - invite command callback function
-
 INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 {
 	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
@@ -117,9 +106,7 @@ INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnRebuildContactMenu - gray or ungray the block menus according to contact's status
-
 int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (!MSN_IsMyContact(hContact))
@@ -156,9 +143,7 @@ int CMsnProto::OnContactDoubleClicked(WPARAM hContact, LPARAM)
 }
 
 #ifdef OBSOLETE
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendNetMeeting - Netmeeting callback function
-
 INT_PTR CMsnProto::MsnSendNetMeeting(WPARAM wParam, LPARAM)
 {
 	if (!msnLoggedIn) return 0;
@@ -197,9 +182,7 @@ static INT_PTR MsnMenuSendNetMeeting(WPARAM wParam, LPARAM lParam)
 	return (ppro) ? ppro->MsnSendNetMeeting(wParam, lParam) : 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 //	SetNicknameCommand - sets nick name
-
 static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -263,9 +246,7 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 }
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////
 // Menus initialization
-
 void CMsnProto::MsnInitMainMenu(void)
 {
 	CMenuItem mi;

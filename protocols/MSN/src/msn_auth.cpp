@@ -257,7 +257,6 @@ SkypeToken::SkypeToken(const char *pszTokenName):
 bool SkypeToken::Refresh(bool bForce)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[1];
 	char szPOST[2048], szToken[1024];
 	bool bRet = false;
@@ -276,11 +275,11 @@ bool SkypeToken::Refresh(bool bForce)
 
 	if (m_proto->MyOptions.netId == NETID_SKYPE) {
 		BYTE digest[16];
-		int cbPasswd;
 		char szPassword[100]={0};
 
-		cbPasswd=mir_snprintf(szPassword, sizeof(szPassword), "%s\nskyper\n", m_proto->MyOptions.szEmail);
-		db_get_static(NULL, m_proto->m_szModuleName, "Password", szPassword+cbPasswd, sizeof(szPassword)-cbPasswd-1);
+		int cbPasswd=mir_snprintf(szPassword, sizeof(szPassword), "%s\nskyper\n", m_proto->MyOptions.szEmail);
+		if (db_get_static(NULL, m_proto->m_szModuleName, "Password", szPassword + cbPasswd, sizeof(szPassword) - cbPasswd - 1))
+			return false;
 		mir_md5_hash((BYTE*)szPassword, mir_strlen(szPassword), digest);
 		mir_base64_encodebuf(digest, sizeof(digest), szPassword, sizeof(szPassword));
 		nlhr.szUrl = "https://api.skype.com/login/skypetoken";
@@ -294,7 +293,7 @@ bool SkypeToken::Refresh(bool bForce)
 	}
 
 	m_proto->mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_proto->hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_proto->hNetlibUserHttps, (LPARAM)&nlhr);
 	m_proto->mHttpsTS = clock();
 
 	if (nlhrReply)  {
@@ -334,10 +333,7 @@ const char *SkypeToken::XSkypetoken()
 	}
 	return NULL;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Performs the MSN Passport login via TLS
-
 int CMsnProto::MSN_GetPassportAuth(void)
 {
 	int retVal = -1;
@@ -349,7 +345,9 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	}
 
 	char szPassword[100];
-	db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
+	if (db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword)))
+		return 0;
+
 	szPassword[16] = 0;
 
 	time_t ts = time(NULL);
@@ -518,10 +516,8 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 static void derive_key(BYTE* der, unsigned char* key, size_t keylen, unsigned char* data, size_t datalen)
 {
-	BYTE hash1[MIR_SHA1_HASH_SIZE];
-	BYTE hash2[MIR_SHA1_HASH_SIZE];
-	BYTE hash3[MIR_SHA1_HASH_SIZE];
-	BYTE hash4[MIR_SHA1_HASH_SIZE];
+	BYTE hash1[MIR_SHA1_HASH_SIZE], hash2[MIR_SHA1_HASH_SIZE],
+		hash3[MIR_SHA1_HASH_SIZE], hash4[MIR_SHA1_HASH_SIZE];
 
 	const size_t buflen = MIR_SHA1_HASH_SIZE + datalen;
 	BYTE* buf = (BYTE*)alloca(buflen);
@@ -583,8 +579,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	unsigned key1len;
 	mir_ptr<BYTE> key1((BYTE*)mir_base64_decode(authSecretToken, &key1len));
 
-	BYTE key2[MIR_SHA1_HASH_SIZE + 4];
-	BYTE key3[MIR_SHA1_HASH_SIZE + 4];
+	BYTE key2[MIR_SHA1_HASH_SIZE + 4], key3[MIR_SHA1_HASH_SIZE + 4];
 
 	static const unsigned char encdata1[] = "WS-SecureConversationSESSION KEY HASH";
 	static const unsigned char encdata2[] = "WS-SecureConversationSESSION KEY ENCRYPTION";
@@ -672,11 +667,8 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 	pfnSkyLogin_PerformLogin SkyLogin_PerformLogin;
 	pfnSkyLogin_CreateUICString SkyLogin_CreateUICString;
 
-	HMODULE hLibSkylogin;
-
-	if ((hLibSkylogin = LoadLibraryA("Plugins\\skylogin.dll"))) {
-		SkyLogin hLogin;
-		char szPassword[100];
+	HMODULE hLibSkylogin = LoadLibrary(_T("Plugins\\skylogin.dll"));
+	if (hLibSkylogin) {
 
 		// load function pointers
 		if (!LOAD_FN(SkyLogin_Init) ||
@@ -690,16 +682,21 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 		}
 
 		// Perform login
-		if (hLogin = SkyLogin_Init()) {
-			db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
-			if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
-				SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
-			{
-				if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
-					iRet = 1;
-			} else iRet = 0;
-			SkyLogin_Exit(hLogin);
-		} else iRet = -3;
+		SkyLogin hLogin = SkyLogin_Init();
+		if (hLogin) {
+			char szPassword[100];
+			if (!db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
+				if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
+					SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
+				{
+					if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
+						iRet = 1;
+				}
+				else iRet = 0;
+				SkyLogin_Exit(hLogin);
+			}
+			else iRet = -3;
+		}
 		FreeLibrary(hLibSkylogin);
 	}
 	return iRet;
@@ -721,11 +718,8 @@ int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 	pfnSkyLogin_GetCredentialsUIC SkyLogin_GetCredentialsUIC;
 	pfnSkyLogin_GetUser SkyLogin_GetUser;
 
-	HMODULE hLibSkylogin;
-
-	if ((hLibSkylogin = LoadLibraryA("Plugins\\skylogin.dll"))) {
-		SkyLogin hLogin;
-
+	HMODULE hLibSkylogin = LoadLibrary(_T("Plugins\\skylogin.dll"));
+	if (hLibSkylogin) {
 		// load function pointers
 		if (!LOAD_FN(SkyLogin_Init) ||
 			!LOAD_FN(SkyLogin_Exit) ||
@@ -739,7 +733,8 @@ int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 		}
 
 		// Perform login
-		if (hLogin = SkyLogin_Init()) {
+		SkyLogin hLogin = SkyLogin_Init();
+		if (hLogin) {
 			char szLoginToken[1024];
 			if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
 				SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
@@ -796,7 +791,6 @@ static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
 bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken, time_t *ptExpires)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
 	bool bRet = false;
 	CMStringA post;
@@ -825,7 +819,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 
 	// Query
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -857,7 +851,7 @@ void CMsnProto::LoadAuthTokensDB(void)
 
 	authSkypeComToken.Load();
 	authMethod = getDword("authMethod", 0);
-	bPassportAuth = getByte("PassportAuth", true);
+	bPassportAuth = getBool("PassportAuth", true);
 	if (getString("authUser", &dbv) == 0) {
 		replaceStr(authUser, dbv.pszVal);
 		db_free(&dbv);
@@ -1044,7 +1038,8 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 
 		/* Create POST data */
 		char szPassword[100];
-		db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
+		if (db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword)))
+			return false;
 		szPassword[16] = 0;
 		post->Format("PPFT=%s&login=%s&passwd=%s", ptrA(mir_urlEncode(pPPFT)), 
 			ptrA(mir_urlEncode(MyOptions.szEmail)), ptrA(mir_urlEncode(szPassword)));
@@ -1123,7 +1118,6 @@ int CMsnProto::MSN_AuthOAuth(void)
 {
 	int retVal = -1;
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
 
 	if (bAskingForAuth) return 0;
@@ -1147,7 +1141,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 	// Get oauth20 login data
 	nlhr.szUrl = AUTH_URL;
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 
 	if (nlhrReply)  {

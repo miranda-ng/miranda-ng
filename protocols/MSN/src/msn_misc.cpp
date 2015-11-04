@@ -25,9 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MirandaStatusToMSN - status helper functions
-
 const char* CMsnProto::MirandaStatusToMSN(int status)
 {
 	switch (status) {
@@ -80,9 +78,7 @@ char** CMsnProto::GetStatusMsgLoc(int status)
 	return NULL;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_AddAuthRequest - adds the authorization event to the database
-
 void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const char *reason)
 {
 	//blob is: UIN=0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
@@ -171,9 +167,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 	return res;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
-
 void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
 	size_t tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
@@ -301,22 +295,21 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 		_close(fileId);
 
 		char szAvatarHashdOld[41] = "";
-		db_get_static(NULL, m_szModuleName, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld));
-		char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
-		if (mir_strcmp(szAvatarHashdOld, szAvatarHash)) {
-			setString("PictObject", szEncodedBuffer);
-			setString("AvatarHash", szAvatarHash);
+		if (!db_get_static(NULL, m_szModuleName, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld))) {
+			char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
+			if (mir_strcmp(szAvatarHashdOld, szAvatarHash)) {
+				setString("PictObject", szEncodedBuffer);
+				setString("AvatarHash", szAvatarHash);
+			}
+			mir_free(szAvatarHash);
 		}
-		mir_free(szAvatarHash);
 	}
 	else MSN_ShowError("Cannot set avatar. File '%s' could not be created/overwritten", szFileName);
 
 	return fmt;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetCustomSmileyFileName - gets a file name for an contact's custom smiley
-
 void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int type)
 {
 	size_t tPathLen;
@@ -340,7 +333,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 		DBVARIANT dbv = { 0 };
 		if (getTString(hContact, "e-mail", &dbv)) {
 			dbv.type = DBVT_ASCIIZ;
-			dbv.ptszVal = (TCHAR*)mir_alloc(11);
+			dbv.ptszVal = (TCHAR*)mir_alloc(11*sizeof(TCHAR));
 			_ui64tot((UINT_PTR)hContact, dbv.ptszVal, 10);
 		}
 
@@ -369,9 +362,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 	mir_free(sztSmileyName);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GoOffline - performs several actions when a server goes offline
-
 void CMsnProto::MSN_GoOffline(void)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE) return;
@@ -422,13 +413,10 @@ void CMsnProto::MSN_GoOffline(void)
 		}
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// MSN_SendMessage - formats and sends a MSG packet through the server
-
 #ifdef OBSOLETE
 int ThreadData::sendMessage(int msgType, const char* email, int netId, const char* parMsg, int parFlags)
 #else
+// MSN_SendMessage - formats and sends a MSG packet through the server
 int ThreadData::sendMessage(int, const char *email, int netId, const char *parMsg, int parFlags)
 #endif
 {
@@ -558,9 +546,7 @@ void ThreadData::sendTerminate(void)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SendRawPacket - sends a packet accordingly to the MSN protocol
-
 int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 {
 	if (data == NULL)
@@ -582,7 +568,6 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 }
 
 // Typing notifications support
-
 void CMsnProto::MSN_SendTyping(ThreadData* info, const char* email, int netId, bool bTyping)
 {
 	char tCommand[1024];
@@ -601,10 +586,6 @@ void CMsnProto::MSN_StartStopTyping(GCThreadData* info, bool start)
 	MSN_SendTyping(msnNsThread, info->szEmail, info->netId, start);
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// MSN_SendStatusMessage - notify a server about the status message change
-
 // Helper to process texts
 static char * HtmlEncodeUTF8T(const TCHAR *src)
 {
@@ -617,6 +598,7 @@ static char * HtmlEncodeUTF8T(const TCHAR *src)
 #ifdef OBSOLETE
 void CMsnProto::MSN_SendStatusMessage(const char* msg)
 #else
+// MSN_SendStatusMessage - notify a server about the status message change
 void CMsnProto::MSN_SendStatusMessage(const char*)
 #endif
 {
@@ -698,9 +680,7 @@ void CMsnProto::MSN_SendStatusMessage(const char*)
 #endif
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SendPacket - sends a packet accordingly to the MSN protocol
-
 int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 {
 	if (this == NULL) return 0;
@@ -769,10 +749,7 @@ int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char
 	return (result > 0) ? thisTrid : -1;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SetServerStatus - changes plugins status at the server
-
 void CMsnProto::MSN_SetServerStatus(int newStatus)
 {
 	debugLogA("Setting MSN server status %d, logged in = %d", newStatus, msnLoggedIn);
@@ -889,9 +866,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 #endif
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_FetchRecentMessages - fetches missed offline messages
-
 void CMsnProto::MSN_FetchRecentMessages(time_t since)
 {
 	if (!since) {
@@ -917,13 +892,10 @@ void CMsnProto::MSN_FetchRecentMessages(time_t since)
 		((unsigned __int64)since)*1000);
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Display Hotmail Inbox thread
-
 static const char postdataM[] = "ct=%u&bver=7&wa=wsignin1.0&ru=%s&pl=MBI";
 static const char postdataS[] = "ct=%u&bver=7&id=73625&ru=%s&js=yes&pl=%%3Fid%%3D73625";
 
+// Display Hotmail Inbox thread
 void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 {
 	if (!url)
@@ -950,9 +922,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_ShowError - shows an error
-
 void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 {
 	TCHAR   tBuffer[4096];
@@ -989,9 +959,8 @@ void RemovePopupData(PopupData *tData) {
 			CallService(MS_CLIST_REMOVEEVENT, hContact, 1);
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////
-// Popup plugin window proc
 
+// Popup plugin window proc
 LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PopupData *tData = (PopupData*)PUGetPluginData(hWnd);
@@ -1020,9 +989,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // InitPopups - popup plugin support
-
 void CMsnProto::InitPopups(void)
 {
 	TCHAR desc[256];
@@ -1059,12 +1026,10 @@ void CMsnProto::InitPopups(void)
 	hPopupError = Popup_RegisterClass(&ppc);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MSN_ShowPopup - popup plugin support
-
-void CALLBACK sttMainThreadCallback(PVOID dwParam)
+void CALLBACK sttMainThreadCallback(void *param)
 {
-	PopupData* pud = (PopupData*)dwParam;
+	PopupData* pud = (PopupData*)param;
 
 	bool iserr = (pud->flags & MSN_SHOW_ERROR) != 0;
 	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups) || !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {

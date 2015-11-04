@@ -642,14 +642,15 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 
 			if (hContact != NULL) {
 				char szSavedHash[64] = "";
-				db_get_static(hContact, m_szModuleName, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash));
-				if (mir_strcmpi(szSavedHash, pszAvatarHash))
-					pushAvatarRequest(hContact, pszUrl);
-				else {
-					char szSavedContext[64];
-					int result = db_get_static(hContact, m_szModuleName, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
-					if (result || mir_strcmp(szSavedContext, cmdstring))
+				if (!db_get_static(hContact, m_szModuleName, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash))) {
+					if (mir_strcmpi(szSavedHash, pszAvatarHash))
 						pushAvatarRequest(hContact, pszUrl);
+					else {
+						char szSavedContext[64];
+						int result = db_get_static(hContact, m_szModuleName, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
+						if (result || mir_strcmp(szSavedContext, cmdstring))
+							pushAvatarRequest(hContact, pszUrl);
+					}
 				}
 			}
 			mir_free(pszAvatarHash);
