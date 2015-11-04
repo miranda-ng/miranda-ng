@@ -142,7 +142,7 @@ E-mail или номер телефона:
 [Use local time for received messages]
 Местное время для принятых сообщений
 [Automatically wipe local contacts missing in your friend list]
-Автоматически удалять локальные контакты, которых нет в списке друзей
+Автоматически удалять локальные контакты, отсутствующие в списке друзей
 [Mark message as read...]
 Помечать сообщение прочитанным...
 [on read]
