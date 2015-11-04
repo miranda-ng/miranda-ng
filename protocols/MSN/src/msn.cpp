@@ -58,7 +58,6 @@ static const PLUGININFOEX pluginInfo =
 int MSN_GCEventHook(WPARAM wParam, LPARAM lParam);
 int MSN_GCMenuHook(WPARAM wParam, LPARAM lParam);
 
-/////////////////////////////////////////////////////////////////////////////
 // Protocol instances
 static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 {
@@ -67,9 +66,7 @@ static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 
 OBJLIST<CMsnProto> g_Instances(1, sttCompareProtocols);
 
-/////////////////////////////////////////////////////////////////////////////////////////
 //	Main DLL function
-
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
@@ -79,9 +76,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 //	OnModulesLoaded - finalizes plugin's configuration on load
-
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	avsPresent = ServiceExists(MS_AV_SETMYAVATART) != 0;
@@ -104,10 +99,7 @@ static int msnProtoUninit(CMsnProto* ppro)
 	return 0;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -128,9 +120,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // Unload a plugin
-
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	MSN_RemoveContactMenus();
@@ -138,15 +128,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns an information about a plugin
-
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
-
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

@@ -680,7 +680,6 @@ struct MsgQueueEntry
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Avatars' queue
-
 struct AvatarQueueEntry
 {
 	MCONTACT hContact;
@@ -763,7 +762,9 @@ struct MsnPlace
 	unsigned p2pMsgId;
 	unsigned short p2pPktNum;
 
-	~MsnPlace() { mir_free(id); }
+	~MsnPlace() {
+		mir_free(id);
+	}
 };
 
 struct MsnContact
@@ -780,8 +781,16 @@ struct MsnContact
 
 	OBJLIST<MsnPlace> places;
 
-	MsnContact() : places(1, CompareId) {}
-	~MsnContact() { mir_free(email); mir_free(nick); mir_free(invite); }
+	MsnContact() : email(0), invite(0), nick(0),
+		hContact(0), list(0), netId(0), p2pMsgId(0),
+		cap1(0), cap2(0), places(1, CompareId) {
+	}
+
+	~MsnContact() {
+		mir_free(email);
+		mir_free(nick);
+		mir_free(invite);
+	}
 };
 
 #define cap_OnlineViaMobile                 0x00000001
@@ -882,9 +891,7 @@ struct MsnContact
 #define	LIST_REMOVE     0x0100
 #define	LIST_REMOVENH   0x0300
 
-/////////////////////////////////////////////////////////////////////////////////////////
 //	MSN plugin options
-
 typedef struct _tag_MYOPTIONS
 {
 	bool		EnableSounds;
@@ -900,9 +907,7 @@ typedef struct _tag_MYOPTIONS
 }
 MYOPTIONS;
 
-/////////////////////////////////////////////////////////////////////////////////////////
 //	Windows error class
-
 struct TWinErrorCode
 {
 	WINAPI	TWinErrorCode();
@@ -1029,8 +1034,9 @@ struct InviteChatParam
 	InviteChatParam(const TCHAR* id, MCONTACT hContact, CMsnProto* ppro)
 		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
 
-	~InviteChatParam()
-	{ mir_free(id); }
+	~InviteChatParam() {
+		mir_free(id);
+	}
 };
 
 INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -67,6 +67,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 			nlhr.headers[nlhr.headersCount].szValue = fnd;
 
 			fnd = strchr(fnd, '\r');
+			if (fnd == NULL) break;
 			*fnd = 0;
 			hdrprs = fnd + 2;
 			++nlhr.headersCount;
@@ -75,8 +76,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 	}
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-		(WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -120,8 +120,7 @@ bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname)
 	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-		(WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength)
