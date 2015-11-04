@@ -341,6 +341,10 @@ Cоздать комнату чата
 Профиль на сайте
 [&Kick]
 &Выкинуть
+[New news]
+Новости
+[New notifications]
+Новые уведомление
 [User was tagged in these photos:]
 Пользователь был отмечен на этих фотографиях
 [(photos)]
@@ -421,6 +425,8 @@ ID получателя ошибочен или неизвестен
 Опубликовать на своей стене
 [Load news from VK]
 Загрузить новости с VK
+[Wipe contacts missing in friend list]
+Удалить контакты, которые не в списке друзей
 [Send message to user\'s wall]
 Сообщение на стене
 [Add as friend]
@@ -463,6 +469,8 @@ ID получателя ошибочен или неизвестен
 Введите новое сообщение статуса
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
+[Are you sure to wipe local contacts missing in your friend list?]
+Вы действительно хотите удалить локальные контакты которые не в списке друзей?
 [Are you sure to delete %s from your friend list?]
 Вы уверены, что хотите удалить %s из списка друзей?
 [User %s was deleted from your friend list]

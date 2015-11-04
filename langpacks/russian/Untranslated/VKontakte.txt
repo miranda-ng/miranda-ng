@@ -1,5 +1,1 @@
 ﻿[URL:]
-[New news]
-[New notifications]
-[Wipe contacts missing in friend list]
-[Are you sure to wipe local contacts missing in your friend list?]
