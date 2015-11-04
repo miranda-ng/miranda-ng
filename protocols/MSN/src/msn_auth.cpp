@@ -692,11 +692,15 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 					if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
 						iRet = 1;
 				}
-				else iRet = 0;
+				else
+					iRet = 0;
 				SkyLogin_Exit(hLogin);
 			}
-			else iRet = -3;
+			else
+				iRet = 0;
 		}
+		else
+			iRet = -3;
 		FreeLibrary(hLibSkylogin);
 	}
 	return iRet;
@@ -748,9 +752,13 @@ int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 					if (pszPartner = SkyLogin_GetUser(hLogin)) 
 						setString("SkypePartner", pszPartner);
 				}
-			} else iRet = 0;
+			}
+			else
+				iRet = 0;
 			SkyLogin_Exit(hLogin);
-		} else iRet = -3;
+		} 
+		else
+			iRet = -3;
 		FreeLibrary(hLibSkylogin);
 	}
 	return iRet;
