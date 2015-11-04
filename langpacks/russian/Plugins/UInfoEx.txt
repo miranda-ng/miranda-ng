@@ -60,7 +60,7 @@
 [Just from the beginning.]
 С самого начала.
 [Your contact's local time is:]
-Локальное время контакта:
+Местное время контакта:
 [Timezone:]
 Часовой пояс:
 [Company:]

@@ -430,7 +430,7 @@
 [Draw overlay icon on avatar]
 Значок поверх аватара
 [Show local time]
-Локальное время
+Местное время
 [&Main menu]
 &Главное меню
 [E&xit]
@@ -640,7 +640,7 @@
 [Frame titles]
 Заголовки фреймов
 [Contact list local time]
-Локальное время контакта
+Местное время контакта
 [Selected text]
 Выделенный текст
 [Hottrack text]
