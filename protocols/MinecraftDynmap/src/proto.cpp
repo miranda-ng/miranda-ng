@@ -23,7 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* username) :
-	PROTO<MinecraftDynmapProto>(proto_name, username)
+	PROTO<MinecraftDynmapProto>(proto_name, username), m_interval(0), hConnection(0), hEventsConnection(0),
+	m_updateRate(5000), m_nick("")
 {
 	this->signon_lock_ = CreateMutex(NULL, FALSE, NULL);
 	this->send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
@@ -54,15 +55,9 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* 
 		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
 	}
 
-	// Http connection handles
-	this->hConnection = NULL;
-	this->hEventsConnection = NULL;
-
 	// Client instantiation
-	this->m_nick = "";
 	this->error_count_ = 0;
 	this->chatHandle_ = NULL;
-	this->m_updateRate = 5000; // Some default update rate
 }
 
 MinecraftDynmapProto::~MinecraftDynmapProto()
@@ -159,8 +154,7 @@ int MinecraftDynmapProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lPar
 
 INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT),
-		(HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
+	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
 }
 
 int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
