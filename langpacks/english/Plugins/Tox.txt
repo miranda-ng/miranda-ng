@@ -76,12 +76,6 @@
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Incoming call from %s]
 [Outgoing call to %s]
-[Unable to find input audio device]
-[Video call is unsupported]
-[Call canceled]
-[Unable to find output audio device]
-[Call started]
-[Call ended]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
