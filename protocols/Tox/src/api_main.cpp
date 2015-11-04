@@ -19,8 +19,7 @@ Tox *tox_new(const struct Tox_Options *options, TOX_ERR_NEW *error)
 
 void tox_kill(Tox *tox)
 {
-	CreateFunction<int(*)(const Tox*)>(__FUNCTION__)(tox);
-	tox = NULL;
+	CreateFunction<int(*)(Tox*)>(__FUNCTION__)(tox);
 }
 
 void tox_self_get_address(const Tox *tox, uint8_t *address)

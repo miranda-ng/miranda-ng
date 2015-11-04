@@ -128,8 +128,11 @@ void CToxProto::UninitToxCore(CToxThread *toxThread)
 
 			SaveToxProfile();
 
-			tox_kill(toxThread->tox);
-			toxThread->tox = NULL;
+			if (toxThread->tox != NULL)
+			{
+				tox_kill(toxThread->tox);
+				toxThread->tox = NULL;
+			}
 		}
 		toxThread = NULL;
 	}
