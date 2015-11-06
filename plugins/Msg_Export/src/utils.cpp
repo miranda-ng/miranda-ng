@@ -1441,5 +1441,5 @@ TCHAR* GetMyOwnNick(MCONTACT hContact)
 	ci.cbSize = sizeof(ci);
 	ci.szProto = GetContactProto(hContact);
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	return CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci)) ? NULL : ci.pszVal;
+	return CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci)) ? mir_tstrdup(TranslateT("No_Nick")) : ci.pszVal;
 }
