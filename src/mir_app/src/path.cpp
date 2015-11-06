@@ -34,15 +34,9 @@ static TCHAR tszAvatarRoot[MAX_PATH];
 
 TCHAR* GetContactID(MCONTACT hContact)
 {
-	TCHAR *theValue = {0};
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
-		DBVARIANT dbv;
-		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
-			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-			return theValue;
-		}
+		return db_get_tsa(hContact, szProto, "ChatRoomID");
 	}
 	else {
 		CONTACTINFO ci = {0};
@@ -54,14 +48,12 @@ TCHAR* GetContactID(MCONTACT hContact)
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				return (TCHAR *)ci.pszVal;
-				break;
 			case CNFT_DWORD:
 				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
-				break;
 			}
 		}
+		return NULL;
 	}
-	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +72,7 @@ static __forceinline char *mir_a2x(const char*, const char *s) { return mir_strd
 
 static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 {
-	return mir_strdup(_T2A(cli.pfnGetContactDisplayName(hContact, 0)));
+	return mir_t2a(cli.pfnGetContactDisplayName(hContact, 0));
 }
 
 static __forceinline char *GetContactIDX(const char*, MCONTACT hContact)
