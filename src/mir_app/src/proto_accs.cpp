@@ -45,44 +45,44 @@ LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
 
 static int EnumDbModules(const char *szModuleName, DWORD, LPARAM)
 {
-	DBVARIANT dbv;
-	if (!db_get_s(NULL, szModuleName, "AM_BaseProto", &dbv)) {
+	char *szProtoName = db_get_sa(NULL, szModuleName, "AM_BaseProto");
+	if (szProtoName) {
 		if (!Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
-			pa->szProtoName = mir_strdup(dbv.pszVal);
+			pa->szProtoName = szProtoName;
 			pa->tszAccountName = mir_a2t(szModuleName);
 			pa->bIsVisible = TRUE;
 			pa->bIsEnabled = FALSE;
 			pa->iOrder = accounts.getCount();
 			accounts.insert(pa);
 		}
-		db_free(&dbv);
+		else
+			mir_free(szProtoName);
 	}
 	return 0;
 }
 
 void LoadDbAccounts(void)
 {
-	DBVARIANT dbv;
 	int ver = db_get_dw(NULL, "Protocols", "PrVer", -1);
 	int count = db_get_dw(NULL, "Protocols", "ProtoCount", 0);
 
 	for (int i = 0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
-		if (db_get_s(NULL, "Protocols", buf, &dbv))
+		char *szModuleName = db_get_sa(NULL, "Protocols", buf);
+		if (szModuleName == NULL)
 			continue;
 
 		PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 		if (pa == NULL) {
-			db_free(&dbv);
+			mir_free(szModuleName);
 			continue;
 		}
 		pa->cbSize = sizeof(*pa);
-		pa->szModuleName = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
+		pa->szModuleName = szModuleName;
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
 		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1) != 0;
@@ -91,30 +91,23 @@ void LoadDbAccounts(void)
 		pa->iOrder = db_get_dw(NULL, "Protocols", buf, 1);
 
 		if (ver >= 4) {
-			db_free(&dbv);
 			_itoa(OFFSET_NAME + i, buf, 10);
-			if (!db_get_ts(NULL, "Protocols", buf, &dbv)) {
-				pa->tszAccountName = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
+			pa->tszAccountName = db_get_tsa(NULL, "Protocols", buf);
 
 			_itoa(OFFSET_ENABLED + i, buf, 10);
 			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1) != 0;
 
-			if (!db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
-				pa->szProtoName = mir_strdup(dbv.pszVal);
-				db_free(&dbv);
-			}
+			pa->szProtoName = db_get_sa(NULL, szModuleName, "AM_BaseProto");
 		}
 		else pa->bIsEnabled = true;
 
 		if (!pa->szProtoName) {
-			pa->szProtoName = mir_strdup(pa->szModuleName);
-			db_set_s(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
+			pa->szProtoName = mir_strdup(szModuleName);
+			db_set_s(NULL, szModuleName, "AM_BaseProto", pa->szProtoName);
 		}
 
 		if (!pa->tszAccountName)
-			pa->tszAccountName = mir_a2t(pa->szModuleName);
+			pa->tszAccountName = mir_a2t(szModuleName);
 
 		accounts.insert(pa);
 	}

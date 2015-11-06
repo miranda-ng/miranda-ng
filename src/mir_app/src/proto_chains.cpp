@@ -127,7 +127,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 
 	//end of chain, call network protocol again
 	char szProto[40];
-	if (GetProtocolP((MCONTACT)ccs->hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -150,7 +150,7 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 		return NULL;
 
 	char szProto[40];
-	if (GetProtocolP((MCONTACT)hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP(hContact, szProto, sizeof(szProto)))
 		return NULL;
 
 	return Proto_GetAccount(szProto);
