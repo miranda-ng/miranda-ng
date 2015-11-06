@@ -6,10 +6,8 @@
 //************************************************************************
 // constructor
 //************************************************************************
-CLCDTextObject::CLCDTextObject()
+CLCDTextObject::CLCDTextObject() : m_bWordWrap(false), m_hFont(NULL), m_iFontHeight(0)
 {
-	m_hFont = NULL;
-	m_iFontHeight = 0;
 	// Initialize DRAWTEXTPARAMS
 	memset(&m_dtp, 0, sizeof(DRAWTEXTPARAMS));
     m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);

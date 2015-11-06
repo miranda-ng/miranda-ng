@@ -5,7 +5,8 @@
 //************************************************************************
 // Constructor
 //************************************************************************
-CScreensaverScreen::CScreensaverScreen()
+CScreensaverScreen::CScreensaverScreen() : m_dwActivation(0),
+	m_dwDuration(0), m_iPosition(0)
 {
 }
 

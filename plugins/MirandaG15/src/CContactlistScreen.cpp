@@ -6,7 +6,7 @@
 //************************************************************************
 // Constructor
 //************************************************************************
-CContactlistScreen::CContactlistScreen()
+CContactlistScreen::CContactlistScreen() : m_bLongPress(false)
 {
 }
 
