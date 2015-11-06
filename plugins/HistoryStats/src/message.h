@@ -43,10 +43,9 @@ private:
 
 public:
 	explicit Message(bool bStripRawRTF, bool bStripBBCodes)
-		: m_RawSource(NULL)
-		, m_Available(0)
-		, m_bStripRawRTF(bStripRawRTF)
-		, m_bStripBBCodes(bStripBBCodes)
+		: m_RawSource(NULL), m_Available(0),
+		m_bStripRawRTF(bStripRawRTF), m_bStripBBCodes(bStripBBCodes),
+		m_bOutgoing(false), m_Timestamp(0), m_nLength(0)
 	{
 	}
 

@@ -945,10 +945,7 @@ namespace utils
 /*
  * OS
  */
-
-OS::OS()
-: m_bIsXPPlus(false),
-m_ImageListColor(ILC_COLORDDB) // MEMO: maybe change this to ILC_COLOR{8,16,24}
+OS::OS() : m_bIsXPPlus(false), m_ImageListColor(ILC_COLORDDB) // MEMO: maybe change this to ILC_COLOR{8,16,24}
 {
 	m_SmIcon.cx = 16; // GetSystemMetrics(SM_CXSMICON);
 	m_SmIcon.cy = 16; // GetSystemMetrics(SM_CYSMICON);
@@ -971,7 +968,6 @@ OS OS::m_Data;
 /*
  * Locale
  */
-
 void Locale::init()
 {
 	m_Data.m_ThousandSep = utils::fromA(localeconv()->thousands_sep).c_str()[0];
@@ -984,9 +980,7 @@ Locale Locale::m_Data;
 /*
  * RTFFilter
  */
-
-RTFFilter::RTFFilter() :
-	m_hRTFConv(NULL)
+RTFFilter::RTFFilter() : m_hRTFConv(NULL), m_RTFConvString(0)
 {
 }
 
