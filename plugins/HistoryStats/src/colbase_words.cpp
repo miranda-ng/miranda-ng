@@ -163,9 +163,9 @@ void ColBaseWords::parseMsg(WordMap* pWords, const ext::string& msg, bool bOutgo
 	}
 }
 
-ColBaseWords::ColBaseWords()
-	: m_nSource(2), m_nMinLength(1), m_nMaxLength(0), m_bFilterLinks(true),
-	m_hSource(NULL), m_hMinLength(NULL), m_hMaxLength(NULL), m_hFilterLinks(NULL)
+ColBaseWords::ColBaseWords() : m_nSource(2), m_nMinLength(1), m_nMaxLength(0), m_bFilterLinks(true),
+	m_hSource(NULL), m_hMinLength(NULL), m_hMaxLength(NULL), m_hFilterLinks(NULL),
+	m_bFilterMessages(false), m_bFilterWords(false)
 {
 }
 

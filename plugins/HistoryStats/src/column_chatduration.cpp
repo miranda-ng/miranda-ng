@@ -4,10 +4,8 @@
 /*
  * ColChatDuration
  */
-
-ColChatDuration::ColChatDuration()
-	: m_nVisMode(3), m_bGraph(true), m_bDetail(true), 
-	m_hVisMode(NULL), m_hGraph(NULL), m_hDetail(NULL)
+ColChatDuration::ColChatDuration() : m_nVisMode(3), m_bGraph(true), m_bDetail(true), 
+	m_hVisMode(NULL), m_hGraph(NULL), m_hDetail(NULL), m_nMaxForGraph(0)
 {
 }
 

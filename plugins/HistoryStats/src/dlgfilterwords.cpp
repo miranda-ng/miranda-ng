@@ -297,8 +297,7 @@ void DlgFilterWords::clearFilters()
 	m_Filters.clear();
 }
 
-DlgFilterWords::DlgFilterWords() :
-	m_hWnd(NULL), m_bColProvided(false)
+DlgFilterWords::DlgFilterWords() : m_hWnd(NULL), m_bColProvided(false)
 {
 }
 

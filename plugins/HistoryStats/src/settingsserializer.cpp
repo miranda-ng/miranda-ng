@@ -75,7 +75,7 @@ static const char* g_UsedSettings[] = {
 	con::SettWordDelimiters,
 };
 
-SettingsSerializer::SettingsSerializer(const char* module)
+SettingsSerializer::SettingsSerializer(const char* module) : m_VersionInDB(0)
 {	
 	m_DB.setContact(0);
 	m_DB.setModule(module);

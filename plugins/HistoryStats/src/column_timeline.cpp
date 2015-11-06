@@ -5,9 +5,9 @@
  * ColTimeline
  */
 
-ColTimeline::ColTimeline()
-	: m_nSource(0), m_nSourceType(2), m_nIgnoreOld(0), m_bDetail(true), m_nDays(7),
-	m_hSource(NULL), m_hIgnoreOld(NULL), m_hDetail(NULL), m_hDays(NULL)
+ColTimeline::ColTimeline() : m_nSource(0), m_nSourceType(2), m_nIgnoreOld(0), m_bDetail(true), 
+	m_nDays(7), m_hSource(NULL), m_hIgnoreOld(NULL), m_hDetail(NULL), m_hDays(NULL),
+	m_nTimelineWidth(0), m_nFirstDay(0), m_nLastDay(0)
 {
 }
 

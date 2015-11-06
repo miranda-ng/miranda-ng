@@ -29,14 +29,10 @@ void Canvas::updateTrans(BYTE* pData)
 	}
 }
 
-Canvas::Canvas(int nWidth, int nHeight) :
-	m_nChannels(4),
-	m_nWidth(nWidth),
-	m_nHeight(nHeight),
-	m_nLineLength((m_nChannels * m_nWidth + 3) & ~0x3),
-	m_bTransColor(false),
-	m_TransColor(0),
-	m_pBMIH(NULL)
+Canvas::Canvas(int nWidth, int nHeight) : m_nChannels(4), m_nWidth(nWidth),
+	m_nHeight(nHeight), m_nLineLength((m_nChannels * m_nWidth + 3) & ~0x3),
+	m_bTransColor(false), m_TransColor(0),	m_pBMIH(NULL), m_hDC(0),
+	m_hBmp(0), m_hOldBmp(0)
 {}
 
 Canvas::~Canvas()
