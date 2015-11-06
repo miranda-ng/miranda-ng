@@ -23,7 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
 //	Keep-alive thread for the main connection
+
 void __cdecl CMsnProto::msn_keepAliveThread(void*)
 {
 	bool keepFlag = true;
@@ -87,6 +89,8 @@ void __cdecl CMsnProto::msn_refreshOAuthThread(void *param)
 		MSN_SendATH((ThreadData*)param);
 	}
 }
+/////////////////////////////////////////////////////////////////////////////////////////
+//	MSN server thread - read and process commands from a server
 
 static bool ReallocInfoBuffer(ThreadData *info, size_t mDataSize)
 {
@@ -100,7 +104,6 @@ static bool ReallocInfoBuffer(ThreadData *info, size_t mDataSize)
 	return true;
 }
 
-//	MSN server thread - read and process commands from a server
 void __cdecl CMsnProto::MSNServerThread(void* arg)
 {
 	ThreadData* info = (ThreadData*)arg;
@@ -541,15 +544,14 @@ ThreadData* CMsnProto::MSN_GetThreadByPort(WORD wPort)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // class ThreadData members
-ThreadData::ThreadData() : mDataSize(8192), mGatewayTimeout(2), mFunc(0), mIncomingBoundPort(0), mIncomingPort(0),
-	mIsMainThread(false), sessionClosed(false), mBridgeInit(false), gatewayType(false), termPending(false), firstMsgRecv(false),
-	mTrid(0), mBytesInData(0), mMsnFtp(0), mCaller(0), mTimerId(0), proto(0), s(0)
+
+ThreadData::ThreadData()
 {
 	memset(&mInitialContactWLID, 0, sizeof(ThreadData) - 2 * sizeof(STRLIST));
-	
+	mGatewayTimeout = 2;
 	resetTimeout();
 	hWaitEvent = CreateSemaphore(NULL, 0, MSN_PACKETS_COMBINE, NULL);
-	mData = (char*)mir_calloc(mDataSize + 1);
+	mData = (char*)mir_calloc((mDataSize=8192)+1);
 }
 
 ThreadData::~ThreadData()
@@ -752,7 +754,9 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // class GCThreadData members
-GCThreadData::GCThreadData() : mJoinedContacts(10, PtrKeySortT), mMe(0), netId(0)
+
+GCThreadData::GCThreadData() :
+mJoinedContacts(10, PtrKeySortT)
 {
 	memset(&mCreator, 0, sizeof(GCThreadData) - sizeof(mJoinedContacts));
 }
