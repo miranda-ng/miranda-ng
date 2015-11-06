@@ -5,19 +5,12 @@
 //************************************************************************
 // CLCDInput::CLCDInput
 //************************************************************************
-CLCDInput::CLCDInput()
+CLCDInput::CLCDInput() : m_hKBHook(0), m_bShowSymbols(true), m_bShowMarker(false),
+	m_lInputTime(0), m_iLinePosition(0), m_iLineCount(0), m_iBreakKeys(KEYS_RETURN),
+	m_lBlinkTimer(0), m_pScrollbar(NULL)
 {
-	m_lInputTime = 0;
-	m_iLinePosition = 0;
 	memset(&m_Marker, 0, sizeof(m_Marker));
 
-	m_pScrollbar = NULL;
-	m_bShowSymbols = true;
-	m_iBreakKeys = KEYS_RETURN;
-	m_bShowMarker = false;
-	m_lBlinkTimer = 0;
-
-	m_iLineCount = 0;
 //	SetScrollbarAlignment(TOP);
 	Reset();
 }

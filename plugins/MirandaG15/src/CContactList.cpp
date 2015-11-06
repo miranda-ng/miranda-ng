@@ -18,11 +18,9 @@ const int aiStatusPriority[] = {	0,	// ID_STATUS_OFFLINE               40071
 //************************************************************************
 // constructor
 //************************************************************************
-CContactList::CContactList()
+CContactList::CContactList() : m_bUseGroups(false), m_bUseMetaContacts(false),
+	m_dwLastScroll(0)
 {
-	m_bUseGroups = false;
-	m_bUseMetaContacts = false;
-	m_dwLastScroll = 0;
 }
 
 //************************************************************************

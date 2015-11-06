@@ -5,7 +5,7 @@
 //************************************************************************
 // Constructor
 //************************************************************************
-CCreditsScreen::CCreditsScreen()
+CCreditsScreen::CCreditsScreen() : m_dwActivation(0), m_dwDuration(0), m_iPosition(0)
 {
 }
 

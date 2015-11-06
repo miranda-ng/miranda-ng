@@ -6,20 +6,12 @@
 //************************************************************************
 // Constructor
 //************************************************************************
-CChatScreen::CChatScreen()
+CChatScreen::CChatScreen() : m_bTyping(false), m_bHideTitle(false), m_bContactTyping(false),
+	m_bHideLabels(false), m_bMaximizedTimer(false), m_bCloseTimer(false), 
+	m_bIRCProtocol(false), m_dwCloseTimer(0), m_dwMaximizedTimer(0),
+	m_dwMaximizedDuration(0), m_eReplyState(REPLY_STATE_NONE), m_iStatus(ID_STATUS_OFFLINE),
+	m_hContact(NULL), m_hMessage(0)
 {
-	m_bTyping = false;
-	m_hContact = NULL;
-	m_bHideTitle = false;
-	m_bHideLabels = false;
-
-	m_dwMaximizedTimer = 0;
-	m_bMaximizedTimer = false;
-	m_bCloseTimer = false;
-	m_dwCloseTimer = 0;
-
-	m_eReplyState = REPLY_STATE_NONE;
-	m_iStatus = ID_STATUS_OFFLINE;
 }
 
 //************************************************************************
@@ -47,42 +39,38 @@ bool CChatScreen::Initialize()
 	
 	UpdateObjects();
 	// other attributes
-		m_InfoText.SetAlignment(DT_CENTER);
-		m_InfoText.SetWordWrap(TRUE);
-		m_InfoText.SetText(_T(""));
-		m_InfoText.Show(0);
+	m_InfoText.SetAlignment(DT_CENTER);
+	m_InfoText.SetWordWrap(TRUE);
+	m_InfoText.SetText(_T(""));
+	m_InfoText.Show(0);
 
-		m_UserName.SetAlignment(DT_CENTER);
-		m_UserName.SetWordWrap(TRUE);
-		m_UserName.SetText(_T("Proto"));
+	m_UserName.SetAlignment(DT_CENTER);
+	m_UserName.SetWordWrap(TRUE);
+	m_UserName.SetText(_T("Proto"));
 
 
-		m_UserStatus.SetAlignment(DT_LEFT);
-		m_UserStatus.SetWordWrap(TRUE);
-		m_UserStatus.SetText(_T("Status"));
+	m_UserStatus.SetAlignment(DT_LEFT);
+	m_UserStatus.SetWordWrap(TRUE);
+	m_UserStatus.SetText(_T("Status"));
 	
 		
-		m_UserProto.SetAlignment(DT_RIGHT);
-		m_UserProto.SetWordWrap(TRUE);
-		m_UserProto.SetText(_T("User"));
+	m_UserProto.SetAlignment(DT_RIGHT);
+	m_UserProto.SetWordWrap(TRUE);
+	m_UserProto.SetText(_T("User"));
 
-		m_Input.Show(0);
+	m_Input.Show(0);
 	
+	m_TextLog.Show(1);
 		
-		
-		m_TextLog.Show(1);
-		
-	
-	
-		m_TextLog.SetScrollbar(&m_Scrollbar);
+	m_TextLog.SetScrollbar(&m_Scrollbar);
 
-		AddObject(&m_Scrollbar);
-		AddObject(&m_TextLog);
-		AddObject(&m_Input);
-		AddObject(&m_InfoText);
-		AddObject(&m_UserName);
-		AddObject(&m_UserStatus);
-		AddObject(&m_UserProto);
+	AddObject(&m_Scrollbar);
+	AddObject(&m_TextLog);
+	AddObject(&m_Input);
+	AddObject(&m_InfoText);
+	AddObject(&m_UserName);
+	AddObject(&m_UserStatus);
+	AddObject(&m_UserProto);
 
 
 	SetButtonBitmap(0,IDB_UP);

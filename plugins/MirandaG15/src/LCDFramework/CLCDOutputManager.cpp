@@ -14,18 +14,14 @@ CLCDOutputManager *CLCDOutputManager::m_pInstance = NULL;
 //************************************************************************
 // Constructor
 //************************************************************************
-CLCDOutputManager::CLCDOutputManager()
+CLCDOutputManager::CLCDOutputManager() : m_dwButtonRepeatDelay(300), m_pGfx(0),
+	m_pdwButtonRepeatTimers(0), m_pdwButtonRepeatStarts(0), m_pbButtonStates(0),
+	m_pLcdConnection(0), m_bInitialized(false), m_dwLastUpdate(0), m_pActiveScreen(NULL)
 {
 	ASSERT(m_pInstance == NULL);
 
 	m_pInstance = this;
 	m_strAppletName = _T("");
-	m_pbButtonStates = NULL;
-	m_pActiveScreen = NULL;
-	m_bInitialized = false;
-
-	m_dwButtonRepeatDelay = 300;
-	m_dwLastUpdate = 0;
 }
 
 //************************************************************************
