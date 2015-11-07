@@ -78,6 +78,10 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	}
 
 	setDword(gci.hContact, "vk_chat_id", id);
+
+	CMString tszHomepage(FORMAT, _T("https://vk.com/im?sel=c%d"), id);
+	setTString(gci.hContact, "Homepage", tszHomepage);
+	
 	db_unset(gci.hContact, m_szModuleName, "off");
 
 	if (jnDlg["left"].as_bool())  {
