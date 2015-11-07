@@ -52,7 +52,7 @@ static int lua_CreateRoot(lua_State *L)
 	int position = lua_tointeger(L, 3);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 4);
 
-	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrT(Utf8DecodeT(name)), position, hIcon);
+	HGENMENU res = Menu_CreateRoot(hMenuObject, ptrT(Utf8DecodeT(name)), position, hIcon);
 	lua_pushlightuserdata(L, res);
 
 	return 1;

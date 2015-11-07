@@ -345,8 +345,6 @@ static int lua_SettingIterator(lua_State *L)
 static int lua_AllSettings(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
-	int tp = lua_type(L, 2);
-	const char *type = lua_typename(L, tp);
 	const char* szModule = luaL_checkstring(L, 2);
 
 	enumDBSettingsParam* param = (enumDBSettingsParam*)mir_alloc(sizeof(enumDBSettingsParam));
@@ -618,15 +616,7 @@ static int dbei__index(lua_State *L)
 	else if (mir_strcmpi(key, "Length") == 0)
 		lua_pushnumber(L, dbei->cbBlob);
 	else if (mir_strcmpi(key, "Blob") == 0)
-	{
-		lua_newtable(L);
-		for (DWORD i = 0; i < dbei->cbBlob; i++)
-		{
-			lua_pushinteger(L, i + 1);
-			lua_pushinteger(L, dbei->pBlob[i]);
-			lua_settable(L, -3);
-		}
-	}
+		lua_pushlightuserdata(L, dbei->pBlob);
 	else
 		lua_pushnil(L);
 
@@ -644,7 +634,7 @@ static int dbei__gc(lua_State *L)
 
 static const luaL_Reg dbeiMeta[] =
 {
-	{ "__init", dbei__init },
+	{ "MT_DBEVENTINFO", dbei__init },
 	{ "__index", dbei__index },
 	{ "__gc", dbei__gc },
 	{ NULL, NULL }
@@ -712,7 +702,7 @@ static int dbcw__index(lua_State *L)
 
 static const luaL_Reg dbcwMeta[] =
 {
-	{ "__init", dbcw__init },
+	{ MT_DBCONTACTWRITESETTING, dbcw__init },
 	{ "__index", dbcw__index },
 	{ NULL, NULL }
 };

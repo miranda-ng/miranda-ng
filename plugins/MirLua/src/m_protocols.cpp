@@ -361,7 +361,7 @@ static int pd__index(lua_State *L)
 
 static luaL_Reg pdMeta[] =
 {
-	{ "__init", pd__init },
+	{ MT_PROTOCOLDESCRIPTOR, pd__init },
 	{ "__index", pd__index },
 	{ NULL, NULL }
 };
@@ -412,7 +412,7 @@ static int pa__index(lua_State *L)
 
 static luaL_Reg paMeta[] =
 {
-	{ "__init", pa__init },
+	{ MT_PROTOACCOUNT, pa__init },
 	{ "__index", pa__index },
 	{ NULL, NULL }
 };
@@ -461,7 +461,7 @@ static int ack__index(lua_State *L)
 
 static luaL_Reg ackMeta[] =
 {
-	{ "__init", ack__init },
+	{ MT_ACKDATA, ack__init },
 	{ "__index", ack__index },
 	{ NULL, NULL }
 };
@@ -505,7 +505,7 @@ static int ccs__index(lua_State *L)
 
 static luaL_Reg ccsMeta[] =
 {
-	{ "__init", ccs__init },
+	{ MT_CCSDATA, ccs__init },
 	{ "__index", ccs__index },
 	{ NULL, NULL }
 };

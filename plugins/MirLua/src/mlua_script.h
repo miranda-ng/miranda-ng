@@ -10,11 +10,10 @@ private:
 	TCHAR* fileName;
 	TCHAR filePath[MAX_PATH];
 	bool isLoaded;
-	int group;
 	int unloadRef;
 
 public:
-	CMLuaScript(lua_State *L, const TCHAR* path, int iGroup = 0);
+	CMLuaScript(lua_State *L, const TCHAR* path);
 	~CMLuaScript();
 
 	const char* GetModuleName() const;

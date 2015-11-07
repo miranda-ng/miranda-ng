@@ -1,11 +1,9 @@
 #include "stdafx.h"
 
-CMLuaScript::CMLuaScript(lua_State *L, const TCHAR* path, int iGroup)
+CMLuaScript::CMLuaScript(lua_State *L, const TCHAR* path)
 	: L(L), unloadRef(0)
 {
 	mir_tstrcpy(filePath, path);
-
-	group = iGroup;
 
 	fileName = _tcsrchr(filePath, '\\') + 1;
 	size_t length = mir_tstrlen(fileName) - 3;
@@ -34,11 +32,6 @@ const TCHAR* CMLuaScript::GetFilePath() const
 const TCHAR* CMLuaScript::GetFileName() const
 {
 	return fileName;
-}
-
-const int CMLuaScript::GetGroup() const
-{
-	return group;
 }
 
 bool CMLuaScript::Load()
