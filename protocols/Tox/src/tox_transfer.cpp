@@ -353,7 +353,8 @@ void CToxProto::CancelAllTransfers()
 	for (size_t i = 0; i < transfers.Count(); i++)
 	{
 		FileTransferParam *transfer = transfers.GetAt(i);
-		tox_file_control(toxThread->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+		if (toxThread && toxThread->tox)
+			tox_file_control(toxThread->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 		transfers.Remove(transfer);
 	}
