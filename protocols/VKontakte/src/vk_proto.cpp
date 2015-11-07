@@ -248,7 +248,7 @@ void CVkProto::InitMenus()
 	mi.position = 10009 + PMI_WIPENONFRIENDS;
 	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
 	mi.name.a = LPGEN("Wipe contacts missing in friend list");
-	SET_UID(mi,	0xcfe99159, 0xf237, 0x4546, 0x80, 0x3e, 0x51, 0x88, 0x26, 0x55, 0xdc, 0x5f);
+	SET_UID(mi, 0xcfe99159, 0xf237, 0x4546, 0x80, 0x3e, 0x51, 0x88, 0x26, 0x55, 0xdc, 0x5f);
 	g_hProtoMenuItems[PMI_WIPENONFRIENDS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_VISITPROFILE;
@@ -382,7 +382,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	LONG userID = getDword(hContact, "ID", -1);
 	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
-	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact) && userID != VK_FEED_USER);
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
