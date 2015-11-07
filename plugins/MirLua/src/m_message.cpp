@@ -173,7 +173,7 @@ static int mwed__index(lua_State *L)
 
 static luaL_Reg mwedMeta[] =
 {
-	{ "__init", mwed__init },
+	{ MT_MESSAGEWINDOWEVENTDATA, mwed__init },
 	{ "__index", mwed__index },
 	{ NULL, NULL }
 };

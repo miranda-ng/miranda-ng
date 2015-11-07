@@ -18,13 +18,13 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 	lua_pop(L, 1);
 }
 
-void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file, int iGroup)
+void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 {
 	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
 	mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, file);
 	PathToRelativeT(fullPath, path);
 
-	CMLuaScript *script = new CMLuaScript(L, path, iGroup);
+	CMLuaScript *script = new CMLuaScript(L, path);
 	g_mLua->Scripts.insert(script);
 
 	TCHAR buf[4096];
@@ -38,13 +38,12 @@ void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file, int
 
 	if (script->Load())
 	{
-		TCHAR buf[4096];
 		mir_sntprintf(buf, _T("%s:OK"), path);
 		CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)buf);
 	}
 }
 
-void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir, int iGroup)
+void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 {
 	TCHAR buf[4096];
 	mir_sntprintf(buf, _T("Loading scripts from %s"), scriptDir);
@@ -63,7 +62,7 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir, int iGroup)
 		{
 			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
-			LoadScript(scriptDir, fd.cFileName, iGroup);
+			LoadScript(scriptDir, fd.cFileName);
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
@@ -75,5 +74,5 @@ void CLuaScriptLoader::Load(lua_State *L)
 	CLuaScriptLoader loader(L);
 
 	FoldersGetCustomPathT(g_hCommonScriptFolder, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
-	loader.LoadScripts(scriptDir, 0);
+	loader.LoadScripts(scriptDir);
 }

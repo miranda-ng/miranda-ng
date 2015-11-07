@@ -136,7 +136,7 @@ static int gce__index(lua_State *L)
 
 static const luaL_Reg gceMeta[] =
 {
-	{ "__init", gce__init },
+	{ MT_GCEVENT, gce__init },
 	{ "__index", gce__index },
 	{ NULL, NULL }
 };

@@ -46,6 +46,7 @@ class CMLuaScript;
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"
 #include "mlua_options.h"
+#include "mlua_metatable.h"
 
 #define MODULE "MirLua"
 
@@ -119,5 +120,7 @@ HANDLE GetIconHandle(int iconId);
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact);
 
 void ObsoleteMethod(lua_State *L, const char *message);
+
+#include <typeinfo>
 
 #endif //_COMMON_H_

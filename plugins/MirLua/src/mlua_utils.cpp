@@ -119,10 +119,11 @@ LPARAM luaM_tolparam(lua_State *L, int idx)
 
 int luaM_totable(lua_State *L)
 {
-	const char *tname = luaL_checkstring(L, -1);
+	const char *tname = luaL_checkstring(L, 2);
 
-	luaL_getmetatable(L, tname);
-	lua_getfield(L, -1, "__init");
+	//luaL_getmetatable(L, tname);
+	//lua_getfield(L, -1, "__init");
+	lua_getglobal(L, tname);
 	lua_pushvalue(L, 1);
 	if (lua_pcall(L, 1, 1, 0))
 		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
@@ -133,9 +134,7 @@ int luaM_totable(lua_State *L)
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())
-	{
 		return;
-	}
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
 	{
