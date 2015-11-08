@@ -739,6 +739,13 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcVisitProfile");
+	if (isChatRoom(hContact)) {
+		ptrT tszHomepage(db_get_tsa(hContact, m_szModuleName, "Homepage"));
+		if(!IsEmpty(tszHomepage))
+			Utils_OpenUrlT(tszHomepage);
+		return 0;
+	}
+
 	LONG userID = getDword(hContact, "ID", -1);
 	ptrT tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
 
