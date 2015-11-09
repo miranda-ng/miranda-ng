@@ -72,7 +72,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		{
 			if (messageType == "Text" || messageType == "RichText")
 			{
-				ptrA szMessage(RemoveHtml(content.c_str()));
+				ptrA szMessage(messageType == "RichText" ? RemoveHtml(content.c_str()) : mir_strdup(content.c_str()));
 				MEVENT dbevent = GetMessageFromDb(hContact, szMessageId);
 
 				if (isEdited && dbevent != NULL)

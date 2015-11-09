@@ -290,7 +290,8 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	std::string messageType = node["messagetype"].as_string();
 	if (messageType == "Text" || messageType == "RichText")
 	{
-		AddMessageToChat(_A2T(szConversationName), _A2T(szFromSkypename), strContent.c_str(), nEmoteOffset != NULL, nEmoteOffset, timestamp);
+		ptrA szClearedContent(messageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
+		AddMessageToChat(_A2T(szConversationName), _A2T(szFromSkypename), szClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
 	}
 	else if (messageType == "ThreadActivity/AddMember")
 	{
@@ -436,19 +437,17 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	gce.time = timestamp;
 	gce.ptszUID = from;
 
-	ptrA szHtml(RemoveHtml(content));
-
-	CMString tszHtml(ptrT(mir_utf8decodeT(szHtml)));
-	tszHtml.Replace(L"%", L"%%");
+	CMString tszText(ptrT(mir_utf8decodeT(content)));
+	tszText.Replace(L"%", L"%%");
 
 	if (!isAction)
 	{
-		gce.ptszText = tszHtml;
+		gce.ptszText = tszText;
 		gce.dwFlags = GCEF_ADDTOLOG;
 	}
 	else
 	{
-		gce.ptszText = &(tszHtml.GetBuffer())[emoteOffset];
+		gce.ptszText = &(tszText.GetBuffer())[emoteOffset];
 	}
 
 	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;

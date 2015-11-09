@@ -162,7 +162,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	std::string strMessageType = node["messagetype"].as_string();
 	std::string strContent = node["content"].as_string();
-	ptrA szClearedContent(RemoveHtml(strContent.c_str()));
+	ptrA szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
 
 	bool bEdited = node["skypeeditedid"];
 	time_t timestamp =  IsoToUnixTime(node["composetime"].as_string().c_str());
