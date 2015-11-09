@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#define POLLING_ERRORS_LIMIT 3
+#define POLLING_ERRORS_LIMIT 5
 
 void CSteamProto::ParsePollData(JSONNode *data)
 {
@@ -172,8 +172,9 @@ void CSteamProto::PollingThread(void*)
 	UINT32 messageId = getDword("MessageID", 0);
 
 	int errors = 0;
+	int errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
 	bool breaked = false;
-	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
+	while (!isTerminated && !breaked && errors < errorsLimit)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
 		request->nlc = m_pollingConnection;
