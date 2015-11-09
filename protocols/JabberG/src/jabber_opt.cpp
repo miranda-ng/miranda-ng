@@ -760,15 +760,18 @@ class CDlgOptAdvanced: public CJabberDlgBase
 	CCtrlEdit		m_txtProxy;
 	CCtrlTreeOpts	m_otvOptions;
 
+	BYTE m_oldFrameValue;
+
 public:
-	CDlgOptAdvanced(CJabberProto *proto):
+	CDlgOptAdvanced(CJabberProto *proto) :
 		CJabberDlgBase(proto, IDD_OPT_JABBER2, false),
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
 		m_chkProxy(this, IDC_PROXY_MANUAL),
 		m_txtDirect(this, IDC_DIRECT_ADDR),
 		m_txtProxy(this, IDC_PROXY_ADDR),
-		m_otvOptions(this, IDC_OPTTREE)
+		m_otvOptions(this, IDC_OPTTREE),
+		m_oldFrameValue(proto->m_options.DisableFrame)
 	{
 		CreateLink(m_chkDirect, proto->m_options.BsDirect);
 		CreateLink(m_chkDirectManual, proto->m_options.BsDirectManual);
@@ -820,6 +823,9 @@ public:
 
 	void OnApply()
 	{
+		if (m_proto->m_options.DisableFrame != m_oldFrameValue)
+			m_proto->InitInfoFrame();
+
 		BOOL bChecked = m_proto->m_options.ShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
 		{

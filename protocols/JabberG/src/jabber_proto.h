@@ -746,7 +746,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   SendPresenceTo(int status, const TCHAR* to, HXML extra, const TCHAR *msg = NULL);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
 	void   StringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
+
 	void   RebuildInfoFrame(void);
+	void   InitInfoFrame(void);
 
 	// returns buf or NULL on error
 	TCHAR* GetClientJID(MCONTACT hContact, TCHAR *dest, size_t destLen);
