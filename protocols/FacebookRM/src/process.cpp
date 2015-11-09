@@ -57,7 +57,8 @@ void FacebookProto::ProcessBuddyList(void*)
 		data += i->data->user_id + "%2C";
 	}
 
-	data += "&fetch_mobile=true";
+	if (getByte(FACEBOOK_KEY_FETCH_MOBILE, 0) == 1)
+		data += "&fetch_mobile=true";
 	// data += "&additional_buddies[0]=" + some_user_id; // FIXME: I'm not sure what this is for
 	// data += "&additional_buddies[1]=" + some_user_id;
 	data += "&get_now_available_list=true";

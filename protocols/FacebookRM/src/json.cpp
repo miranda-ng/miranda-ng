@@ -84,8 +84,21 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 			current->user_id = id;
 		}
 
-		current->status_id = (current->client == CLIENT_MOBILE) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
+		if (proto->getByte(FACEBOOK_KEY_FETCH_MOBILE, 0) == 2) {
+			// a=1 && c=8 means web for my test contact
+			// a=1 && c=0 means miranda (i.e. web) for one contact
 
+			const JSONNode &a = (*it)["a"]; // usually "2" (active less than 15 minutes ago?), sometimes "1" (active more than 15 minutes ago?)
+			const JSONNode &c = (*it)["c"]; // sometimes "0", sometimes "8", sometimes "10"
+			// const JSONNode &i = (*it)["i"]; // it's always "false" for my contacts
+
+			current->idle = (a.as_int() == 1);
+			current->client = (c.as_int() == 8 ? CLIENT_WEB : (c.as_int() == 0 ? CLIENT_OTHER : (c.as_int() == 10 ? CLIENT_MOBILE : CLIENT_MESSENGER)));
+		}
+
+		current->status_id = (current->client == CLIENT_MOBILE || current->client == CLIENT_MESSENGER) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
+
+		// Facebook is not sending this info anymore, it should be removed
 		const JSONNode &p = (*it)["p"];
 		if (p) {
 			std::string status = p["status"].as_string(); // this seems to be "active" everytime
