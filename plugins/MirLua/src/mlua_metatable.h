@@ -27,12 +27,10 @@ private:
 
 	template<typename R> static int GetType(R T::*) { return NULL; }
 
-	template<> static int GetType(int T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(unsigned int T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(long T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(unsigned long T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(long long T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(unsigned long long T::*) { return LUA_TINTEGER; }
+	template<> static int GetType(__int32 T::*) { return LUA_TINTEGER; }
+	template<> static int GetType(unsigned __int32 T::*) { return LUA_TINTEGER; }
+	template<> static int GetType(__int64 T::*) { return LUA_TINTEGER; }
+	template<> static int GetType(unsigned __int64 T::*) { return LUA_TINTEGER; }
 
 	template<> static int GetType(char* T::*) { return LUA_TSTRINGA; }
 	template<> static int GetType(wchar_t* T::*) { return LUA_TSTRINGW; }
