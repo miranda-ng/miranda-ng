@@ -690,21 +690,20 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 		m_mode = mood;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (mood >= 0) ? g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag) : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon;
 		TCHAR title[128];
-
-		if (m_proto->m_pInfoFrame) {
-			if (mood >= 0) {
-				mir_sntprintf(title, TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName));
-			}
-			else {
-				mir_tstrcpy(title, LPGENT("Set mood..."));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
-			}
+		if (mood >= 0) {
+			mir_sntprintf(title, TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
+			hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag);
+		}
+		else {
+			mir_tstrcpy(title, TranslateT("Set mood..."));
+			hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 		}
 
 		UpdateMenuItem(hIcon, title);
+		if (m_proto->m_pInfoFrame)
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
 	}
 	else SetExtraIcon(hContact, mood < 0 ? NULL : g_arrMoods[mood].szTag);
 

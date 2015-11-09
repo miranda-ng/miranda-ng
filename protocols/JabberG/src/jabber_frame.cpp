@@ -75,54 +75,55 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	m_proto = proto;
 	m_clickedItem = -1;
 
-	if (!proto->m_options.DisableFrame && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		InitClass();
+	InitClass();
 
-		CLISTFrame frame = { sizeof(frame) };
-		HWND hwndClist = pcli->hwndContactList;
-		frame.hWnd = CreateWindowEx(0, _T("JabberInfoFrameClass"), NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
-		frame.align = alBottom;
-		frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
-		frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
-		frame.tname = mir_a2t(proto->m_szModuleName);
-		frame.TBtname = proto->m_tszUserName;
-		m_frameId = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
-		mir_free(frame.tname);
-		if (m_frameId == -1) {
-			DestroyWindow(frame.hWnd);
-			return;
-		}
-
-		m_hhkFontsChanged = HookEventMessage(ME_FONT_RELOAD, m_hwnd, WM_APP);
-		ReloadFonts();
-
-		m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
-			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			m_hwnd, NULL, hInst, NULL);
-		SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-
-		CreateInfoItem("$", true);
-		UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
-
-		CreateInfoItem("$/JID", true);
-		UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
-		SetInfoItemCallback("$/JID", &CJabberProto::InfoFrame_OnSetup);
+	CLISTFrame frame = { sizeof(frame) };
+	HWND hwndClist = pcli->hwndContactList;
+	frame.hWnd = CreateWindowEx(0, _T("JabberInfoFrameClass"), NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
+	frame.align = alBottom;
+	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
+	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
+	frame.tname = mir_a2t(proto->m_szModuleName);
+	frame.TBtname = proto->m_tszUserName;
+	m_frameId = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
+	mir_free(frame.tname);
+	if (m_frameId == -1) {
+		DestroyWindow(frame.hWnd);
+		return;
 	}
+
+	m_hhkFontsChanged = HookEventMessage(ME_FONT_RELOAD, m_hwnd, WM_APP);
+	ReloadFonts();
+
+	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		m_hwnd, NULL, hInst, NULL);
+	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+	CreateInfoItem("$", true);
+	UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
+
+	CreateInfoItem("$/JID", true);
+	UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
+	SetInfoItemCallback("$/JID", &CJabberProto::InfoFrame_OnSetup);
 }
 
 CJabberInfoFrame::~CJabberInfoFrame()
 {
-	if (!m_hwnd) return;
-
-	if (m_hhkFontsChanged) UnhookEvent(m_hhkFontsChanged);
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)m_frameId, 0);
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	DestroyWindow(m_hwnd);
-	DestroyWindow(m_hwndToolTip);
-	DeleteObject(m_hfntText);
-	DeleteObject(m_hfntTitle);
-	m_hwnd = NULL;
+
+	if (m_hhkFontsChanged)
+		UnhookEvent(m_hhkFontsChanged);
+
+	if (m_hwnd != NULL) {
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+		DestroyWindow(m_hwnd);
+		DestroyWindow(m_hwndToolTip);
+		DeleteObject(m_hfntText);
+		DeleteObject(m_hfntTitle);
+		m_hwnd = NULL;
+	}
 }
 
 void CJabberInfoFrame::InitClass()
@@ -496,4 +497,19 @@ void CJabberInfoFrame::RemoveInfoItem(char *pszName)
 
 	if (bUpdate)
 		UpdateSize();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CJabberProto::InitInfoFrame()
+{
+	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		return;
+
+	if (!m_options.DisableFrame)
+		m_pInfoFrame = new CJabberInfoFrame(this);
+	else {
+		delete m_pInfoFrame;
+		m_pInfoFrame = NULL;
+	}
 }

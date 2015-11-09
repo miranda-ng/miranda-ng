@@ -199,7 +199,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	XStatusInit();
 	m_pepServices.InitGui();
 
-	m_pInfoFrame = new CJabberInfoFrame(this);
+	InitInfoFrame();
 
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
