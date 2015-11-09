@@ -25,16 +25,6 @@ private:
 	static const char *name;
 	static std::map<std::string, MTField*> fields;
 
-	template<typename R> static int GetType(R T::*) { return NULL; }
-
-	template<> static int GetType(__int32 T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(unsigned __int32 T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(__int64 T::*) { return LUA_TINTEGER; }
-	template<> static int GetType(unsigned __int64 T::*) { return LUA_TINTEGER; }
-
-	template<> static int GetType(char* T::*) { return LUA_TSTRINGA; }
-	template<> static int GetType(wchar_t* T::*) { return LUA_TSTRINGW; }
-
 	template<typename R>
 	static R GetValue(const T *obj, size_t offset, size_t size)
 	{
@@ -136,10 +126,9 @@ public:
 	}
 
 	template<typename R>
-	MT& Field(R T::*M, const char *name, int type = LUA_TNONE, size_t size = sizeof(R))
+	MT& Field(R T::*M, const char *name, int type, size_t size = sizeof(R))
 	{
 		size_t offset = reinterpret_cast<size_t>(&(((T*)0)->*M));
-		if (type == LUA_TNONE) type = GetType(M);
 		if (type != LUA_TNONE)
 			fields[name] = new MTField(offset, size, type);
 		return *this;
