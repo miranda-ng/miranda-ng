@@ -45,7 +45,7 @@ private:
 		return res;
 	}
 
-	static int __new(lua_State *L)
+	static int lua__new(lua_State *L)
 	{
 		T *obj = NULL;
 		T **udata = NULL;
@@ -68,7 +68,7 @@ private:
 		return 1;
 	}
 
-	static int __index(lua_State *L)
+	static int lua__index(lua_State *L)
 	{
 		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
 		const char *key = lua_tostring(L, 2);
@@ -111,7 +111,7 @@ private:
 		return 1;
 	}
 
-	static int __gc(lua_State *L)
+	static int lua__gc(lua_State *L)
 	{
 		T** obj = (T**)luaL_checkudata(L, 1, MT::name);
 		MT::Free(obj);
@@ -120,19 +120,21 @@ private:
 
 	static T* Load(lua_State *L) { return (T*)lua_touserdata(L, 1); }
 	static T* Init(T *val) { return val; }
-	static void Free(T *obj) { obj = NULL; }
+	static void Free(T **obj) { *obj = NULL; }
 
 public:
 	MT(lua_State *L, const char *tname)
 	{
 		MT::name = tname;
 
-		lua_pushcfunction(L, __new);
+		lua_pushcfunction(L, lua__new);
 		lua_setglobal(L, MT::name);
 
 		luaL_newmetatable(L, MT::name);
-		lua_pushcfunction(L, __index);
+		lua_pushcfunction(L, lua__index);
 		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, lua__gc);
+		lua_setfield(L, -2, "__gc");
 	}
 
 	template<typename R>
