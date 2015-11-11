@@ -952,7 +952,9 @@ LBL_InvalidCommand:
 
 			MimeHeaders tHeader;
 			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+			BYTE *msgb = buf.surelyRead(atol(data.strMsgBytes));
+			if (!msgb) break;
+			char* msgBody = tHeader.readFromBuffer((char*)msgb);
 
 			replaceStr(msnRegistration,tHeader["Set-Registration"]);
 			if (!mir_strcmp(data.typeId, "CON")) {
@@ -995,6 +997,7 @@ LBL_InvalidCommand:
 
 			} else {
 				/* Skype username/pass login */
+				if (!msgBody) break;
 				ezxml_t xmlcnt = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmlnonce = ezxml_child(xmlcnt, "nonce");
 				if (xmlnonce) {
@@ -1028,7 +1031,9 @@ LBL_InvalidCommand:
 
 			MimeHeaders tHeader;
 			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+			BYTE *msgb = buf.surelyRead(atol(data.strMsgBytes));
+			if (!msgb) break;
+			char* msgBody = tHeader.readFromBuffer((char*)msgb);
 			ezxml_t xmli;
 
 			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
@@ -1263,7 +1268,9 @@ LBL_InvalidCommand:
 
 			MimeHeaders tHeader;
 			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+			BYTE *msgb = buf.surelyRead(atol(data.strMsgBytes));
+			if (!msgb) break;
+			char* msgBody = tHeader.readFromBuffer((char*)msgb);
 
 			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
 			if (cmdString[1]=='N') { // PNG
@@ -1314,7 +1321,9 @@ LBL_InvalidCommand:
 
 			MimeHeaders tHeader;
 			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+			BYTE *msgb = buf.surelyRead(atol(data.strMsgBytes));
+			if (!msgb) break;
+			char* msgBody = tHeader.readFromBuffer((char*)msgb);
 			if (!mir_strcmp(data.typeId, "CON")) {
 				ezxml_t xmlxfr = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmltgt = ezxml_child(xmlxfr, "target");
