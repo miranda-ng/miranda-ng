@@ -630,7 +630,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL)
 					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL)
 						if (!mir_strcmp(item->ft->jid, jid))
-							forkthread((void(__cdecl *)(void*))TlenFileSendingThread, 0, item->ft);
+							mir_forkthread((pThreadFunc)TlenFileSendingThread, item->ft);
 			}
 			else if (!mir_strcmp(e, "6")) {
 				// FILE_RECV : e='6' : IP and port information to connect to get file
@@ -640,7 +640,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 							item->ft->hostName = mir_strdup(p);
 							if ((p = TlenXmlGetAttrValue(node, "p")) != NULL) {
 								item->ft->wPort = atoi(p);
-								forkthread((void(__cdecl *)(void*))TlenFileReceiveThread, 0, item->ft);
+								mir_forkthread((pThreadFunc)TlenFileReceiveThread, item->ft);
 							}
 						}
 					}

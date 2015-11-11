@@ -339,7 +339,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	strncpy(sb->szHost, inet_ntoa(in), sizeof(sb->szHost)-1);
 	sb->wPort = htons(*(PWORD)(buf+2));
 	ft->s = s;
-	forkthread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
+	mir_forkthread(pThreadFunc(TlenFileBindSocks4Thread), ft);
 	return s;
 }
 
@@ -436,7 +436,7 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	sb->wPort = htons(*(PWORD)(buf+len));
 	ft->s = s;
 
-	forkthread((void (__cdecl *)(void*))TlenFileBindSocks5Thread, 0, ft);
+	mir_forkthread(pThreadFunc(TlenFileBindSocks5Thread), ft);
 	return s;
 }
 

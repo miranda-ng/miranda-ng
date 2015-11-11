@@ -554,32 +554,27 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // threads
 
-typedef void (__cdecl *pThreadFunc)(void*);
-typedef unsigned (__stdcall *pThreadFuncEx)(void*);
-typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void* param);
+typedef void (__cdecl *pThreadFunc)(void *param);
+typedef unsigned (__stdcall *pThreadFuncEx)(void *param);
+typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void *param);
 
 #if defined( __cplusplus )
-	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner=NULL);
+	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner = NULL);
 #else
 	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner);
 #endif
 MIR_CORE_DLL(INT_PTR) Thread_Pop(void);
 MIR_CORE_DLL(void)    Thread_Wait(void);
 
-MIR_CORE_DLL(UINT_PTR) forkthread(pThreadFunc, unsigned long stacksize, void *arg);
-MIR_CORE_DLL(UINT_PTR) forkthreadex(void *sec, unsigned stacksize, pThreadFuncEx, void* owner, void *arg, unsigned *thraddr);
-
-__forceinline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
-{	return (HANDLE)forkthread(aFunc, 0, arg);
-}
-
-__forceinline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, unsigned* pThreadID)
-{	return (HANDLE)forkthreadex(NULL, 0, aFunc, NULL, arg, pThreadID);
-}
-
-__forceinline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
-{	return (HANDLE)forkthreadex(NULL, 0, (pThreadFuncEx)aFunc, owner, arg, pThreadID);
-}
+#if defined( __cplusplus )
+MIR_CORE_DLL(HANDLE) mir_forkthread(pThreadFunc aFunc, void *arg = NULL);
+MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void *arg = NULL, unsigned *pThreadID = NULL);
+MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg = NULL, unsigned *pThreadID = NULL);
+#else
+MIR_CORE_DLL(HANDLE) mir_forkthread(pThreadFunc aFunc, void *arg);
+MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void *arg, unsigned *pThreadID);
+MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg, unsigned *pThreadID);
+#endif
 
 MIR_CORE_DLL(void) Thread_SetName(const char *szThreadName);
 

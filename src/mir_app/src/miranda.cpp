@@ -254,7 +254,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		// ensure that the kernel hooks the SystemShutdownProc() after all plugins
 		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
 
-		forkthread(compactHeapsThread, 0, NULL);
+		mir_forkthread(compactHeapsThread);
 		CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
 		CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
 		dwEventTime = GetTickCount();

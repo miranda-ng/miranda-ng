@@ -46,7 +46,7 @@ static INT_PTR SendEMailCommand(WPARAM hContact, LPARAM lParam)
 	mir_strcpy(szUrl, "mailto:");
 	mir_strcat(szUrl, dbv.pszVal);
 	mir_free(dbv.pszVal);
-	forkthread(SendEmailThread, 0, szUrl);
+	mir_forkthread(SendEmailThread, szUrl);
 	return 0;
 }
 

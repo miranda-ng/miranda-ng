@@ -43,7 +43,7 @@ HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 void   InitServices();
 
-static int ComparePicture(const protoPicCacheEntry* p1, const protoPicCacheEntry* p2)
+static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry *p2)
 {
 	if ((mir_strcmp(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return -1;

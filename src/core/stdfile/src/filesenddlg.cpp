@@ -313,7 +313,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam)) {
 		case IDC_CHOOSE:
 			EnableWindow(hwndDlg, FALSE);
-			forkthread(ChooseFilesThread, 0, hwndDlg);
+			mir_forkthread(ChooseFilesThread, hwndDlg);
 			break;
 
 		case IDOK:

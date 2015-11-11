@@ -452,14 +452,8 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
 {
 	int dbHidden = cfg::getByte(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
-	int filterResult = 1;
-	DBVARIANT dbv = { 0 };
-	char szTemp[64];
-	TCHAR szGroupMask[256];
-	DWORD dwLocalMask;
 
 	// always hide subcontacts (but show them on embedded contact lists)
-
 	if (dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
 		return 1;
 
@@ -470,7 +464,8 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 		szProto = GetContactProto(hContact);
 	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 	if (cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {
-		if ((dwLocalMask = cfg::getDword(hContact, "CLVM", cfg::dat.current_viewmode, 0)) != 0) {
+		DWORD dwLocalMask = cfg::getDword(hContact, "CLVM", cfg::dat.current_viewmode, 0);
+		if (dwLocalMask != 0) {
 			if (cfg::dat.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
 				WORD wStatus = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
@@ -478,31 +473,37 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 			return 0;
 		}
 	}
+
 	// check the proto, use it as a base filter result for all further checks
+	int filterResult = 1;
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_PROTOS) {
+		char szTemp[64];
 		mir_snprintf(szTemp, "%s|", szProto);
 		filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
 	}
+	
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		if (!cfg::getTString(hContact, "CList", "Group", &dbv)) {
-			mir_sntprintf(szGroupMask, _T("%s|"), &dbv.ptszVal[1]);
+		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		if (tszGroup != NULL) {
+			TCHAR szGroupMask[256];
+			mir_sntprintf(szGroupMask, _T("%s|"), LPTSTR(tszGroup)+1);
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0));
-			mir_free(dbv.ptszVal);
 		}
 		else if (cfg::dat.filterFlags & CLVM_INCLUDED_UNGROUPED)
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;
 		else
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
 	}
+
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_STATUS) {
 		WORD wStatus = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		filterResult = (cfg::dat.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0));
 	}
+
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG) {
-		DWORD now;
 		TExtraCache *p = cfg::getCache(hContact, szProto);
 		if (p) {
-			now = cfg::dat.t_now;
+			DWORD now = cfg::dat.t_now;
 			now -= cfg::dat.lastMsgFilter;
 			if (cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
 				filterResult = filterResult & (p->dwLastMsgTime < now);

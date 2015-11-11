@@ -280,7 +280,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		if (info->proto->m_iDesiredStatus != ID_STATUS_OFFLINE) {
 
 			info->proto->isConnected = TRUE;
-			forkthread(TlenKeepAliveThread, 0, info->proto);
+			mir_forkthread(TlenKeepAliveThread, info->proto);
 
 			TlenXmlInitState(&xmlState);
 			TlenXmlSetCallback(&xmlState, 1, ELEM_OPEN, (void (__cdecl *)(XmlNode *,void *))TlenProcessStreamOpening, info);
@@ -1266,7 +1266,7 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 							if ((p=TlenXmlGetAttrValue(node, "p")) != NULL) {
 								item->ft->wPort = atoi(p);
 								TlenVoiceStart(item->ft, 0);
-								//forkthread((void (__cdecl *)(void*))TlenVoiceReceiveThread, 0, item->ft);
+								//forkthread((pThreadFunc)TlenVoiceReceiveThread, 0, item->ft);
 							}
 						}
 					}
