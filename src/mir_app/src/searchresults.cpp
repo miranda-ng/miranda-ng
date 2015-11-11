@@ -210,7 +210,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		if (failures) {
 			//infuriatingly vague error message. fixme.
 			if (dat->searchCount == 0) {
-				forkthread(BeginSearchFailed, 0, NULL);
+				mir_forkthread(BeginSearchFailed);
 				mir_free(dat->search);
 				dat->search = NULL;
 				return 1;
@@ -225,7 +225,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			forkthread(BeginSearchFailed, 0, mir_tstrdup(pa->tszAccountName));
+			mir_forkthread(BeginSearchFailed, mir_tstrdup(pa->tszAccountName));
 			mir_free(dat->search);
 			dat->search = NULL;
 			dat->searchCount = 0;

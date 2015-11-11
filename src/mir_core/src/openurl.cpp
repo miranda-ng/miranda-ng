@@ -68,11 +68,11 @@ static void OpenURLThread(void *arg)
 MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow)
 {
 	if (pszUrl)
-		forkthread(OpenURLThread, 0, new TOpenUrlInfo(mir_a2t(pszUrl), bOpenInNewWindow));
+		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_a2t(pszUrl), bOpenInNewWindow));
 }
 
 MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow)
 {
 	if (pszUrl)
-		forkthread(OpenURLThread, 0, new TOpenUrlInfo(mir_wstrdup(pszUrl), bOpenInNewWindow));
+		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_wstrdup(pszUrl), bOpenInNewWindow));
 }

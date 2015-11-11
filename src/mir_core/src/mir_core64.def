@@ -73,8 +73,8 @@ Utf8DecodeW                    @72
 Utf8Encode                     @73
 Utf8EncodeCP                   @74
 Utf8EncodeW                    @75
-forkthread                     @76
-forkthreadex                   @77
+mir_forkthread                 @76
+mir_forkthreadex               @77
 ltrim                          @78
 ltrimp                         @79
 mir_a2u                        @80
@@ -987,3 +987,4 @@ mir_sha256_final @1144
 mir_sha256_hash @1145
 mir_sha256_init @1146
 mir_sha256_write @1147
+mir_forkthreadowner @1148

@@ -16,10 +16,6 @@ function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsi
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
 function PLUGIN_CMP_VERSION(verA: LongInt; verB: LongInt): int;
 
-function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; {inline}
-function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
-function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
-
 function Netlib_CloseHandle(Handle: THANDLE): int;
 function Netlib_GetBase64DecodedBufferSize(const cchEncoded: int): int;
 function Netlib_GetBase64EncodedBufferSize(const cbDecoded: int): int;
@@ -187,24 +183,6 @@ begin
   Inc(Result, (verA and $FF0000  ) - (verB and $FF0000));
   Inc(Result, (verA and $FF000000) - (verB and $FF000000));
 end;
-
-
-function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-	result:=forkthread(aFunc, 0, arg);
-end;
-function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-	result:=forkthreadex(nil, 0, aFunc, nil, arg, pThreadID);
-end;
-function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-	result:=forkthreadex(nil, 0, pThreadFuncEx(aFunc), owner, arg, pThreadID);
-end;
-
 
 function Netlib_CloseHandle(Handle: THANDLE): int;
   {$IFDEF AllowInline}inline;{$ENDIF}

@@ -108,7 +108,7 @@ struct FORK_ARG
 /////////////////////////////////////////////////////////////////////////////////////////
 // forkthread - starts a new thread
 
-void __cdecl forkthread_r(void *arg)
+DWORD WINAPI forkthread_r(void *arg)
 {
 	FORK_ARG *fa = (FORK_ARG*)arg;
 	pThreadFunc callercode = fa->threadcode;
@@ -120,26 +120,31 @@ void __cdecl forkthread_r(void *arg)
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
+	return 0;
 }
 
-MIR_CORE_DLL(UINT_PTR) forkthread(void(__cdecl *threadcode)(void*), unsigned long stacksize, void *arg)
+MIR_CORE_DLL(HANDLE) mir_forkthread(void(__cdecl *threadcode)(void*), void *arg)
 {
 	FORK_ARG fa;
 	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	fa.threadcode = threadcode;
 	fa.arg = arg;
-	UINT_PTR rc = _beginthread(forkthread_r, stacksize, &fa);
-	if ((UINT_PTR)-1L != rc)
+
+	DWORD threadID;
+	HANDLE hThread = CreateThread(NULL, 0, forkthread_r, &fa, 0, &threadID);
+	if (hThread != NULL) {
 		WaitForSingleObject(fa.hEvent, INFINITE);
+		CloseHandle(hThread);
+	}
 
 	CloseHandle(fa.hEvent);
-	return rc;
+	return hThread;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // forkthreadex - starts a new thread with the extended info and returns the thread id
 
-unsigned __stdcall forkthreadex_r(void * arg)
+DWORD WINAPI forkthreadex_r(void * arg)
 {
 	struct FORK_ARG *fa = (struct FORK_ARG *)arg;
 	pThreadFuncEx threadcode = fa->threadcodeex;
@@ -160,25 +165,43 @@ unsigned __stdcall forkthreadex_r(void * arg)
 	return rc;
 }
 
-MIR_CORE_DLL(UINT_PTR) forkthreadex(
-	void *sec,
-	unsigned stacksize,
-	unsigned(__stdcall *threadcode)(void*),
-	void *owner,
-	void *arg,
-	unsigned *thraddr)
+MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void* arg, unsigned *pThreadID)
 {
 	struct FORK_ARG fa = { 0 };
-	fa.threadcodeex = threadcode;
+	fa.threadcodeex = aFunc;
+	fa.arg = arg;
+	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+
+	DWORD threadID = 0;
+	HANDLE hThread = CreateThread(NULL, 0, forkthreadex_r, &fa, 0, &threadID);
+	if (hThread != NULL)
+		WaitForSingleObject(fa.hEvent, INFINITE);
+
+	if (pThreadID != NULL)
+		*pThreadID = threadID;
+
+	CloseHandle(fa.hEvent);
+	return hThread;
+}
+
+MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg, unsigned *pThreadID)
+{
+	struct FORK_ARG fa = { 0 };
+	fa.threadcodeex = (pThreadFuncEx)aFunc;
 	fa.arg = arg;
 	fa.owner = owner;
 	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	UINT_PTR rc = _beginthreadex(sec, stacksize, forkthreadex_r, (void *)&fa, 0, thraddr);
-	if (rc)
+
+	DWORD threadID = 0;
+	HANDLE hThread = CreateThread(NULL, 0, forkthreadex_r, &fa, 0, &threadID);
+	if (hThread != NULL)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
+	if (pThreadID != NULL)
+		*pThreadID = threadID;
+
 	CloseHandle(fa.hEvent);
-	return rc;
+	return hThread;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

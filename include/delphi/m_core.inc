@@ -553,9 +553,13 @@ function Thread_Pop():int_ptr; stdcall;
 procedure Thread_Wait(); stdcall;
                  external CoreDLL name 'Thread_Wait';
 
-function forkthread(func:pThreadFunc; stacksize:uint; arg:pointer):uint_ptr; stdcall;
-                 external CoreDLL name 'forkthread';
-function forkthreadex(sec:pointer; stacksize:uint; func:pThreadFuncEx; owner:pointer; arg:pointer; thraddr:puint_ptr):uint_ptr; stdcall;
+function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; stdcall;
+                 external CoreDLL name 'forkthreadex';
+
+function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE; stdcall;
+                 external CoreDLL name 'forkthreadex';
+
+function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; stdcall;
                  external CoreDLL name 'forkthreadex';
 
 procedure Thread_SetName(const szThreadName:PAnsiChar); stdcall;

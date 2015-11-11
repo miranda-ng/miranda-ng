@@ -233,7 +233,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lisi->hwndDlg = hwndDlg;
 			lisi->szFilename = mir_tstrdup(fts->tszCurrentFile);
 			//can be a little slow, so why not?
-			forkthread(LoadIconsAndTypesThread, 0, lisi);
+			mir_forkthread(LoadIconsAndTypesThread, lisi);
 			SetFocus(hwndFocus);
 			SetWindowLongPtr(hwndFocus, GWL_STYLE, GetWindowLongPtr(hwndFocus, GWL_STYLE) | BS_DEFPUSHBUTTON);
 		}

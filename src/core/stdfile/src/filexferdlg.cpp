@@ -530,7 +530,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						vstsi->hwndReply = hwndDlg;
 						vstsi->szFile = mir_tstrdup(dat->files[dat->transferStatus.currentFileNumber]);
 						vstsi->returnCode = dat->transferStatus.currentFileNumber;
-						forkthread((void(*)(void*))RunVirusScannerThread, 0, vstsi);
+						mir_forkthread((void(*)(void*))RunVirusScannerThread, vstsi);
 					}
 				}
 				break;
@@ -673,7 +673,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							}
 							SetFtStatus(hwndDlg, LPGENT("Scanning for viruses..."), FTS_TEXT);
 							if (vstsi)
-								forkthread((void(*)(void*))RunVirusScannerThread, 0, vstsi);
+								mir_forkthread((void(*)(void*))RunVirusScannerThread, vstsi);
 						}
 						else dat->fs = NULL; /* protocol will free structure */
 

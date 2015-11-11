@@ -51,7 +51,7 @@ void timerFunc(void*)
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	// new thread for the timer...
-	forkthread(timerFunc, 0, 0);
+	mir_forkthread(timerFunc);
 }
 
 //=====================================================

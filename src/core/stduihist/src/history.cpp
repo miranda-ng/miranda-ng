@@ -221,7 +221,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIST), FALSE);
 			hInfo->hContact = hContact;
 			hInfo->hwnd = hwndDlg;
-			forkthread(FillHistoryThread, 0, hInfo);
+			mir_forkthread(FillHistoryThread, hInfo);
 		}
 		return TRUE;
 

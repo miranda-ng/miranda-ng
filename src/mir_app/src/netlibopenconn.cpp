@@ -865,7 +865,7 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 		mir_cslock lck(csNetlibUser);
 		if (iUPnPCleanup == 0) {
 			iUPnPCleanup = 1;
-			forkthread(NetlibUPnPCleanup, 0, NULL);
+			mir_forkthread(NetlibUPnPCleanup);
 		}
 	}
 

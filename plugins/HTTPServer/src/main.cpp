@@ -591,10 +591,9 @@ void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP)
 	in_addr stAddr;
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);
 
-	CLHttpUser * pclUser = new CLHttpUser(hNewConnection, stAddr);
-	forkthread(HandleNewConnection, 0, (void*)pclUser);
+	CLHttpUser *pclUser = new CLHttpUser(hNewConnection, stAddr);
+	mir_forkthread(HandleNewConnection, pclUser);
 }
-
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : nProtoAck
