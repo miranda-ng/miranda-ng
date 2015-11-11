@@ -396,8 +396,10 @@ int fnShowHide(WPARAM, LPARAM)
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *p1, *p2;
-	if (!cli.pfnFindItem(cli.hwndContactTree, NULL, wParam, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, NULL, lParam, &p2, NULL, NULL))
-		return cli.pfnCompareContacts(p1, p2);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(cli.hwndContactTree, 0);
+	if (dat != NULL)
+		if (!cli.pfnFindItem(cli.hwndContactTree, dat, wParam, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, dat, lParam, &p2, NULL, NULL))
+			return cli.pfnCompareContacts(p1, p2);
 
 	return 0;
 }
