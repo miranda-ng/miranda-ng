@@ -48,8 +48,8 @@ private:
 			udata = (T**)lua_newuserdata(L, sizeof(T*));
 			*udata = MT::Init(obj);
 		//case LUA_TUSERDATA:
-		//	luaL_setmetatable(L, MT::name);
-		//	return 1;
+			luaL_setmetatable(L, MT::name);
+			return 1;
 		}
 		lua_pushnil(L);
 
