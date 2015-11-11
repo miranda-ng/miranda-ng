@@ -744,19 +744,20 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 		replaceStrT(m_text, dlg.GetStatusText());
 	}
 
-	if (m_proto->m_pInfoFrame) {
-		if (m_mode >= 0) {
-			Publish();
-
-			UpdateMenuItem(g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag), g_arrMoods[m_mode].szName);
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag), TranslateTS(g_arrMoods[m_mode].szName));
-		}
-		else {
-			Retract();
-			UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
-		}
+	HANDLE hIcon;
+	TCHAR *ptszTitle;
+	if (m_mode >= 0) {
+		Publish();
+		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag); ptszTitle = TranslateTS(g_arrMoods[m_mode].szName);
 	}
+	else {
+		Retract();
+		hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT); ptszTitle = TranslateT("Set mood...");
+	}
+
+	UpdateMenuItem(hIcon, ptszTitle);
+	if (m_proto->m_pInfoFrame)
+		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, ptszTitle);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1077,21 +1078,21 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 		m_mode = activity;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (activity >= 0) ? g_ActivityIcons.GetIcolibHandle(returnActivity(activity)) : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon;
 		TCHAR title[128];
 
-		if (m_proto->m_pInfoFrame) {
-			if (activity >= 0) {
-				mir_sntprintf(title, TranslateT("Activity: %s"), activityTitle);
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(activity)), activityTitle);
-			}
-			else {
-				mir_tstrcpy(title, LPGENT("Set activity..."));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
-			}
+		if (activity >= 0) {
+			mir_sntprintf(title, TranslateT("Activity: %s"), activityTitle);
+			hIcon = g_ActivityIcons.GetIcolibHandle(returnActivity(activity));
 		}
-
+		else {
+			mir_tstrcpy(title, LPGENT("Set activity..."));
+			hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
+		}
+ 
 		UpdateMenuItem(hIcon, title);
+		if (m_proto->m_pInfoFrame)
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", hIcon, title);
 	}
 	else SetExtraIcon(hContact, activity < 0 ? NULL : returnActivity(activity));
 
