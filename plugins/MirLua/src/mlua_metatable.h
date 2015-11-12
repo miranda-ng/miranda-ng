@@ -28,7 +28,7 @@ private:
 	template<typename R>
 	static R GetValue(const T *obj, size_t offset, size_t size)
 	{
-		R res;
+		R res = NULL;
 		memcpy(&res, ((char*)obj) + offset, size);
 		return res;
 	}
