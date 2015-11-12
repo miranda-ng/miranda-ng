@@ -1019,12 +1019,16 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 
 			CMString tszUrl(jnLink["url"].as_mstring());
 			CMString tszTitle(jnLink["title"].as_mstring());
+			CMString tszCaption(jnLink["caption"].as_mstring());
 			CMString tszDescription(jnLink["description"].as_mstring());
 
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
-
+			
+			if (!tszDescription.IsEmpty())
+				res.AppendFormat(_T("\n\t%s"), SetBBCString(tszCaption, iBBC, vkbbcI));
+			
 			if (jnLink["photo"])		
 				res.AppendFormat(_T("\n\t%s"), GetVkPhotoItem(jnLink["photo"], iBBC));
 

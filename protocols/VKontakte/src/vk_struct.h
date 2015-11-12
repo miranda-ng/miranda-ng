@@ -165,6 +165,7 @@ struct CVkChatInfo : public MZeroedObject
 	OBJLIST<CVkChatMessage> m_msgs;
 
 	CVkChatUser* GetUserById(LPCTSTR);
+	CVkChatUser* GetUserById(int user_id);
 };
 
 struct CVkUserInfo : public MZeroedObject {
@@ -226,4 +227,14 @@ struct CVKBBCItem {
 	VKBBCType vkBBCType;
 	BBCSupport vkBBCSettings;
 	TCHAR *ptszTempate;
+};
+
+struct CVKChatContactTypingParam {
+	CVKChatContactTypingParam(int pChatId, int pUserId) :
+		m_ChatId(pChatId),
+		m_UserId(pUserId)
+	{}
+
+	int m_ChatId;
+	int m_UserId;
 };

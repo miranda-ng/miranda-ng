@@ -161,4 +161,9 @@ CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
 	return m_users.find((CVkChatUser*)&user_id);
 }
 
+CVkChatUser* CVkChatInfo::GetUserById(int user_id)
+{
+	return m_users.find((CVkChatUser*)&user_id);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
