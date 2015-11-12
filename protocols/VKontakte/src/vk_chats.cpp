@@ -905,7 +905,7 @@ void CVkProto::ChatContactTypingThread(void * p)
 	mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
 
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
-	Sleep(5500);
+	Sleep(9500);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
 }
 

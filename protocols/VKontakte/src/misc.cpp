@@ -631,7 +631,7 @@ void CVkProto::ContactTypingThread(void *p)
 	debugLogA("CVkProto::ContactTypingThread");
 	MCONTACT hContact = (UINT_PTR)p;
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
-	Sleep(5500);
+	Sleep(9500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact);
 
 	if (!ServiceExists(MS_MESSAGESTATE_UPDATE)) {
