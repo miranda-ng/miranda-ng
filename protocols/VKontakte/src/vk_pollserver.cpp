@@ -163,6 +163,10 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			}
 			break;
 
+		case VKPOLL_CHAT_UTN:
+			ForkThread(&CVkProto::ChatContactTypingThread, new CVKChatContactTypingParam(jnChild[2].as_int(), jnChild[1].as_int()));
+			break;
+
 		case VKPOLL_CHAT_CHANGED:
 			int chat_id = jnChild[1].as_int();
 			CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&chat_id);

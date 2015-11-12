@@ -200,6 +200,8 @@ struct CVkProto : public PROTO<CVkProto>
 	void SetMirVer(MCONTACT hContact, int platform);
 
 	void __cdecl ContactTypingThread(void *p);
+	void __cdecl ChatContactTypingThread(void *p);
+
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 

@@ -877,6 +877,38 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+void CVkProto::ChatContactTypingThread(void * p)
+{
+	CVKChatContactTypingParam *param = (CVKChatContactTypingParam *)p;
+	if (!p)
+		return;
+
+	int iChatId = param->m_ChatId;
+	int iUserId = param->m_UserId;
+
+	delete param;
+
+	MCONTACT hChatContact = FindChat(iChatId);
+	if (hChatContact && getBool(hChatContact, "off")) 
+		return;
+
+	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&iChatId);
+	if (cc == NULL)
+		return;
+
+	CVkChatUser* cu = cc->GetUserById(iUserId);
+	if (cu == NULL)
+		return;
+	
+	StatusTextData st = { 0 };
+	st.cbSize = sizeof(st);
+	mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
+
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+	Sleep(5500);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
