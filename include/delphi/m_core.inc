@@ -554,13 +554,13 @@ procedure Thread_Wait(); stdcall;
                  external CoreDLL name 'Thread_Wait';
 
 function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; stdcall;
-                 external CoreDLL name 'mir_forkthreadex';
+                 external CoreDLL;
 
 function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE; stdcall;
-                 external CoreDLL name 'mir_forkthreadex';
+                 external CoreDLL;
 
 function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; stdcall;
-                 external CoreDLL name 'mir_forkthreadex';
+                 external CoreDLL;
 
 procedure Thread_SetName(const szThreadName:PAnsiChar); stdcall;
                  external CoreDLL name 'Thread_SetName';
