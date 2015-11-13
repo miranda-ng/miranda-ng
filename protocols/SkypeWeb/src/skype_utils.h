@@ -80,13 +80,12 @@ class EventHandle
 {
 	HANDLE _hEvent;
 public:
-	inline EventHandle() { _hEvent = CreateEvent(NULL, 0, 0, NULL); }
-	inline ~EventHandle() { CloseHandle(_hEvent); }
-	inline void Set() { SetEvent(_hEvent); }
-	inline void Wait() { WaitForSingleObject(_hEvent, INFINITE); }
-	inline void Wait(DWORD dwMilliseconds) { WaitForSingleObject(_hEvent, dwMilliseconds); }
-	inline operator HANDLE() { return _hEvent; }
+	__inline explicit EventHandle() { _hEvent = CreateEvent(NULL, 0, 0, NULL); }
+	__inline explicit EventHandle(HANDLE hEvent) : _hEvent(hEvent) {}
+	__inline ~EventHandle() { CloseHandle(_hEvent); }
+	__inline void Set() { SetEvent(_hEvent); }
+	__inline void Wait(DWORD dwMilliseconds = INFINITE) { WaitForSingleObject(_hEvent, dwMilliseconds); }
+	__inline operator HANDLE() { return _hEvent; }
 };
-
 
 #endif //_UTILS_H_

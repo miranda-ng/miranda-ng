@@ -240,6 +240,7 @@ public:
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
+		pData = NULL;
 	}
 
 	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
@@ -249,6 +250,7 @@ public:
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 		va_end(formatArgs);
+		pData = NULL;
 	}
 
 	~HttpRequest()
