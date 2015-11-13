@@ -5,33 +5,37 @@ static int lua_CreateHookableEvent(lua_State *L)
 	const char *name = luaL_checkstring(L, 1);
 
 	HANDLE res = ::CreateHookableEvent(name);
-	lua_pushlightuserdata(L, res);
-
-	CMLua::Events.insert(res);
+	if (res)
+	{
+		lua_pushlightuserdata(L, res);
+		CMLua::Events.insert(res);
+	}
+	else
+		lua_pushnil(L);
 
 	return 1;
 }
 
 static int lua_DestroyHookableEvent(lua_State *L)
 {
-	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-
-	CMLua::Events.remove(hEvent);
+	HANDLE hEvent = lua_touserdata(L, 1);
 
 	int res = ::DestroyHookableEvent(hEvent);
-	lua_pushinteger(L, res);
+	if (!res)
+		CMLua::Events.remove(hEvent);
+	lua_pushboolean(L, !res);
 
 	return 1;
 }
 
 static int lua_NotifyEventHooks(lua_State *L)
 {
-	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
+	HANDLE hEvent = lua_touserdata(L, 1);
 	WPARAM wParam = luaM_towparam(L, 2);
 	LPARAM lParam = luaM_tolparam(L, 3);
 
 	int res = ::NotifyEventHooks(hEvent, wParam, lParam);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, res != -1);
 
 	return 1;
 }
@@ -56,41 +60,46 @@ int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 static int lua_HookEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-
-	if (!lua_isfunction(L, 2))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
+	luaL_checktype(L, 2, LUA_TFUNCTION);
 
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = ::HookEventObjParam(name, HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	CMLua::Hooks.insert(res);
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+	if (res)
+	{
+		CMLua::Hooks.insert(res);
+		CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+		
+		lua_pushlightuserdata(L, res);
+	}
+	else
+	{
+		luaL_unref(L, LUA_REGISTRYINDEX, ref);
+		lua_pushnil(L);
+	}
 
 	return 1;
 }
 
 static int lua_UnhookEvent(lua_State *L)
 {
-	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-
-	CMLua::Hooks.remove(hEvent);
-
-	HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(hEvent);
-	if (param != NULL)
-	{
-		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-		CMLua::HookRefs.remove(param);
-		delete param;
-	}
+	HANDLE hEvent = lua_touserdata(L, 1);
 
 	int res = ::UnhookEvent(hEvent);
-	lua_pushinteger(L, res);
+	if (!res)
+	{
+		CMLua::Hooks.remove(hEvent);
+
+		HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(hEvent);
+		if (param != NULL)
+		{
+			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+			CMLua::HookRefs.remove(param);
+			delete param;
+		}
+	}
+	lua_pushboolean(L, !res);
 
 	return 1;
 }
@@ -107,7 +116,7 @@ INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, L
 	if (lua_pcall(L, 2, 1, 0))
 		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 
-	INT_PTR res = (INT_PTR)lua_tointeger(L, 1);
+	INT_PTR res = lua_tointeger(L, 1);
 	lua_pushinteger(L, res);
 
 	return res;
@@ -116,28 +125,31 @@ INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, L
 static int lua_CreateServiceFunction(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-
-	if (!lua_isfunction(L, 2))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
+	luaL_checktype(L, 2, LUA_TFUNCTION);
 
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = ::CreateServiceFunctionObjParam(name, CreateServiceFunctionObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
+	if (!res)
+	{
+		CMLua::Services.insert(res);
+		CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
 
-	CMLua::Services.insert(res);
-	CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
+		lua_pushlightuserdata(L, res);
+	}
+	else
+	{
+		luaL_unref(L, LUA_REGISTRYINDEX, ref);
+		lua_pushnil(L);
+	}
 
 	return 1;
 }
 
 static int lua_DestroyServiceFunction(lua_State *L)
 {
-	HANDLE hService = (HANDLE)lua_touserdata(L, 1);
+	HANDLE hService = lua_touserdata(L, 1);
 
 	CMLua::Services.remove(hService);
 
@@ -149,10 +161,9 @@ static int lua_DestroyServiceFunction(lua_State *L)
 		delete param;
 	}
 
-	int res = ::DestroyServiceFunction(hService);
-	lua_pushinteger(L, res);
+	::DestroyServiceFunction(hService);
 
-	return 1;
+	return 0;
 }
 
 static int lua_ServiceExists(lua_State *L)
@@ -189,7 +200,6 @@ static int lua_IsPluginLoaded(lua_State *L)
 
 	return 1;
 }
-
 
 static int lua_Utf8DecodeA(lua_State *L)
 {
@@ -272,6 +282,7 @@ luaL_Reg coreApi[] =
 
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },
+	{ "CALLSERVICE_NOTFOUND", NULL },
 
 	{ NULL, NULL }
 };
@@ -283,6 +294,8 @@ LUAMOD_API int luaopen_m_core(lua_State *L)
 	lua_setfield(L, -2, "NULL");
 	lua_pushlightuserdata(L, INVALID_HANDLE_VALUE);
 	lua_setfield(L, -2, "INVALID_HANDLE_VALUE");
+	lua_pushinteger(L, CALLSERVICE_NOTFOUND);
+	lua_setfield(L, -2, "CALLSERVICE_NOTFOUND");
 	// set copy to global variable m
 	lua_pushvalue(L, -1);
 	lua_setglobal(L, "m");

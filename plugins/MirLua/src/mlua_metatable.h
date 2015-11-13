@@ -92,6 +92,9 @@ private:
 		case LUA_TSTRINGW:
 			lua_pushstring(L, ptrA(mir_utf8encodeW(GetValue<wchar_t*>(obj, offset, size))));
 			break;
+		case LUA_TLIGHTUSERDATA:
+			lua_pushlightuserdata(L, GetValue<void*>(obj, offset, size));
+			break;
 		default:
 			lua_pushnil(L);
 		}

@@ -123,11 +123,11 @@ static int gce__index(lua_State *L)
 	else if (mir_strcmpi(key, "Uid") == 0)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
 	else if (mir_strcmpi(key, "Nick") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->ptszNick)));
 	else if (mir_strcmpi(key, "Status") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->ptszStatus)));
 	else if (mir_strcmpi(key, "Text") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
+		lua_pushstring(L, ptrA(mir_utf8encodeT(gce->ptszText)));
 	else
 		lua_pushnil(L);
 
