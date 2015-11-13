@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <regex>
 #include <map>
+#include <memory>
 
 #include <newpluginapi.h>
 
@@ -124,6 +125,7 @@ struct MessageId
 #include "requests\chatrooms.h"
 #include "requests\trouter.h"
 #include "requests\mslogin.h"
+#include "requests\asm\images.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 
