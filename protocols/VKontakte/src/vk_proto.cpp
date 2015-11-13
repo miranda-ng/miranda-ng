@@ -40,7 +40,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_incIds(3, PtrKeySortT),
 	m_cookies(5),
 	m_msgId(1),
-	m_chats(1, NumericKeySortT)
+	m_chats(1, NumericKeySortT),
+	m_ChatsTyping (1, NumericKeySortT)
 {
 	InitQueue();
 
