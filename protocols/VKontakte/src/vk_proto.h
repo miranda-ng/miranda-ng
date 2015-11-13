@@ -200,7 +200,6 @@ struct CVkProto : public PROTO<CVkProto>
 	void SetMirVer(MCONTACT hContact, int platform);
 
 	void __cdecl ContactTypingThread(void *p);
-	void __cdecl ChatContactTypingThread(void *p);
 
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
@@ -449,6 +448,12 @@ private:
 	static INT_PTR CALLBACK OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
+
+	OBJLIST<CVKChatContactTypingParam> m_ChatsTyping;
+	mir_cs m_csChatTyping;
+	void __cdecl ChatContactTypingThread(void *p);
+	void StopChatContactTyping(int iChatId, int iUserId);
+
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);

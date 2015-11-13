@@ -432,6 +432,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
 	gce.ptszText = IsEmpty((TCHAR *)ptszBody) ? mir_tstrdup(_T("...")) : mir_tstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	StopChatContactTyping(cc->m_chatid, uid);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -877,6 +878,8 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CVkProto::ChatContactTypingThread(void * p)
 {
 	CVKChatContactTypingParam *param = (CVKChatContactTypingParam *)p;
@@ -886,27 +889,80 @@ void CVkProto::ChatContactTypingThread(void * p)
 	int iChatId = param->m_ChatId;
 	int iUserId = param->m_UserId;
 
-	delete param;
+	debugLogA("CVkProto::ChatContactTypingThread %d %d", iChatId, iUserId);
 
+	MCONTACT hChatContact = FindChat(iChatId);
+	if (hChatContact && getBool(hChatContact, "off")) {
+		delete param;
+		return;
+	}
+	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&iChatId);
+	if (cc == NULL) {
+		delete param;
+		return;
+	}
+	CVkChatUser* cu = cc->GetUserById(iUserId);
+	if (cu == NULL) {
+		delete param;
+		return;
+	}
+	
+	{
+		mir_cslock lck(m_csChatTyping);
+		CVKChatContactTypingParam *cp = (CVKChatContactTypingParam *)m_ChatsTyping.find((CVKChatContactTypingParam *)&iChatId);
+		if (cp != NULL)
+			m_ChatsTyping.remove(cp);	
+		m_ChatsTyping.insert(param);
+		
+		StatusTextData st = { 0 };
+		st.cbSize = sizeof(st);
+		mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
+
+		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+	}
+
+	Sleep(9500);
+	StopChatContactTyping(iChatId, iUserId);
+}
+
+
+void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
+{
+	debugLogA("CVkProto::StopChatContactTyping %d %d", iChatId, iUserId);
 	MCONTACT hChatContact = FindChat(iChatId);
 	if (hChatContact && getBool(hChatContact, "off")) 
 		return;
-
+	
 	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&iChatId);
 	if (cc == NULL)
 		return;
-
+	
 	CVkChatUser* cu = cc->GetUserById(iUserId);
-	if (cu == NULL)
+	if (cu == NULL) 
 		return;
 	
-	StatusTextData st = { 0 };
-	st.cbSize = sizeof(st);
-	mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
+	mir_cslock lck(m_csChatTyping);
+	CVKChatContactTypingParam *cp = (CVKChatContactTypingParam *)m_ChatsTyping.find((CVKChatContactTypingParam *)&iChatId);
 
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
-	Sleep(9500);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
+	if (cp != NULL && cp->m_UserId == iUserId) {
+		m_ChatsTyping.remove(cp);
+
+		StatusTextData st = { 0 };
+		st.cbSize = sizeof(st);
+		mir_sntprintf(st.tszText, _T(" "));
+		
+		// CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL) clears statusbar very slowly. 
+		// (1-10 sec(!!!) for me on tabSRMM O_o)
+		// So I call MS_MSG_SETSTATUSTEXT with st.tszText = " " for cleaning of "... is typing a message..." string.
+		// It works instantly!
+		
+		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+				
+		// After that I call standard cleaning procedure:
+
+		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
+
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
