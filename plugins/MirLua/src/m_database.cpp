@@ -583,63 +583,6 @@ static luaL_Reg databaseApi[] =
 	{ NULL, NULL }
 };
 
-#define MT_DBEVENTINFO "DBEVENTINFO"
-
-static int dbei__init(lua_State *L)
-{
-	MEVENT hEvent = lua_tointeger(L, 1);
-
-	DBEVENTINFO *dbei = (DBEVENTINFO*)lua_newuserdata(L, sizeof(DBEVENTINFO));
-	dbei->cbSize = sizeof(DBEVENTINFO);
-	dbei->cbBlob = db_event_getBlobSize(hEvent);
-	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
-	db_event_get(hEvent, dbei);
-
-	luaL_setmetatable(L, MT_DBEVENTINFO);
-
-	return 1;
-}
-
-static int dbei__index(lua_State *L)
-{
-	DBEVENTINFO *dbei = (DBEVENTINFO*)luaL_checkudata(L, 1, MT_DBEVENTINFO);
-	const char *key = luaL_checkstring(L, 2);
-
-	if (mir_strcmpi(key, "Module") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(dbei->szModule)));
-	else if (mir_strcmpi(key, "Timestamp") == 0)
-		lua_pushnumber(L, dbei->timestamp);
-	else if (mir_strcmpi(key, "Type") == 0)
-		lua_pushinteger(L, dbei->eventType);
-	else if (mir_strcmpi(key, "Flags") == 0)
-		lua_pushinteger(L, dbei->flags);
-	else if (mir_strcmpi(key, "Length") == 0)
-		lua_pushnumber(L, dbei->cbBlob);
-	else if (mir_strcmpi(key, "Blob") == 0)
-		lua_pushlightuserdata(L, dbei->pBlob);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static int dbei__gc(lua_State *L)
-{
-	DBEVENTINFO *dbei = (DBEVENTINFO*)luaL_checkudata(L, 1, MT_DBEVENTINFO);
-
-	mir_free(dbei->pBlob);
-
-	return 0;
-}
-
-static const luaL_Reg dbeiMeta[] =
-{
-	{ "MT_DBEVENTINFO", dbei__init },
-	{ "__index", dbei__index },
-	{ "__gc", dbei__gc },
-	{ NULL, NULL }
-};
-
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
 static int dbcw__init(lua_State *L)
@@ -707,13 +650,35 @@ static const luaL_Reg dbcwMeta[] =
 	{ NULL, NULL }
 };
 
+DBEVENTINFO* MT<DBEVENTINFO>::Load(lua_State *L)
+{
+	MEVENT hDbEvent = luaL_checkinteger(L, 1);
+
+	DBEVENTINFO *dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
+	dbei->cbSize = sizeof(DBEVENTINFO);
+	dbei->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
+	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
+	db_event_get((MEVENT)hDbEvent, dbei);
+	return dbei;
+}
+
+void MT<DBEVENTINFO>::Free(DBEVENTINFO **dbei)
+{
+	mir_free((*dbei)->pBlob);
+	mir_free(*dbei);
+}
 
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
 
-	luaL_newmetatable(L, MT_DBEVENTINFO);
-	luaL_setfuncs(L, dbeiMeta, 0);
+	MT<DBEVENTINFO>(L, "DBEVENTINFO")
+		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
+		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
 	luaL_newmetatable(L, MT_DBCONTACTWRITESETTING);

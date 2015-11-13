@@ -212,51 +212,6 @@ static luaL_Reg msgbuttinsbarApi[] =
 	{ NULL, NULL }
 };
 
-/*#define MT_CUSTOMBUTTONCLICKDATA "CustomButtonClickData"
-
-static int bcd__init(lua_State *L)
-{
-	CustomButtonClickData *udata = (CustomButtonClickData*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	CustomButtonClickData **bcd = (CustomButtonClickData**)lua_newuserdata(L, sizeof(CustomButtonClickData*));
-	*bcd = udata;
-
-	luaL_setmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
-
-	return 1;
-}
-
-static int bcd__index(lua_State *L)
-{
-	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
-	const char *key = lua_tostring(L, 2);
-
-	if (mir_strcmpi(key, "Module") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
-	else if (mir_strcmpi(key, "ButtonID") == 0)
-		lua_pushinteger(L, bcd->dwButtonId);
-	else if (mir_strcmpi(key, "hContact") == 0)
-		lua_pushinteger(L, bcd->hContact);
-	else if (mir_strcmpi(key, "Flags") == 0)
-		lua_pushinteger(L, bcd->flags);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static luaL_Reg bcdMeta[] =
-{
-	{ MT_CUSTOMBUTTONCLICKDATA, bcd__init },
-	{ "__index", bcd__index },
-	{ NULL, NULL }
-};*/
-
 LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 {
 	luaL_newlib(L, msgbuttinsbarApi);
@@ -267,10 +222,6 @@ LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 		.Field(&CustomButtonClickData::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CustomButtonClickData::flags, "Flags", LUA_TINTEGER);
 	lua_pop(L, 1);
-
-	/*luaL_newmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
-	luaL_setfuncs(L, bcdMeta, 0);
-	lua_pop(L, 1);*/
 
 	return 1;
 }

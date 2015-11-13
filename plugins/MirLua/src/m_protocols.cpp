@@ -325,147 +325,6 @@ static luaL_Reg protocolsApi[] =
 	{ NULL, NULL }
 };
 
-#define MT_PROTOCOLDESCRIPTOR "PROTOCOLDESCRIPTOR"
-
-static int pd__init(lua_State *L)
-{
-	PROTOCOLDESCRIPTOR *udata = (PROTOCOLDESCRIPTOR*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	PROTOCOLDESCRIPTOR **pd = (PROTOCOLDESCRIPTOR**)lua_newuserdata(L, sizeof(PROTOCOLDESCRIPTOR*));
-	*pd = udata;
-
-	luaL_setmetatable(L, MT_PROTOCOLDESCRIPTOR);
-
-	return 1;
-}
-
-static int pd__index(lua_State *L)
-{
-	PROTOCOLDESCRIPTOR *pd = *(PROTOCOLDESCRIPTOR**)luaL_checkudata(L, 1, MT_PROTOCOLDESCRIPTOR);
-	const char *key = lua_tostring(L, 2);
-
-	if (mir_strcmpi(key, "Name") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(pd->szName)));
-	else if (mir_strcmpi(key, "Type") == 0)
-		lua_pushinteger(L, pd->type);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static luaL_Reg pdMeta[] =
-{
-	{ MT_PROTOCOLDESCRIPTOR, pd__init },
-	{ "__index", pd__index },
-	{ NULL, NULL }
-};
-
-#define MT_PROTOACCOUNT "PROTOACCOUNT"
-
-static int pa__init(lua_State *L)
-{
-	PROTOACCOUNT *udata = (PROTOACCOUNT*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	PROTOACCOUNT **pa = (PROTOACCOUNT**)lua_newuserdata(L, sizeof(PROTOACCOUNT*));
-	*pa = udata;
-
-	luaL_setmetatable(L, MT_PROTOACCOUNT);
-
-	return 1;
-}
-
-static int pa__index(lua_State *L)
-{
-	PROTOACCOUNT *pa = *(PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
-	const char *key = lua_tostring(L, 2);
-
-	if (mir_strcmpi(key, "ModuleName") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
-	else if (mir_strcmpi(key, "AccountName") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encodeT(pa->tszAccountName)));
-	else if (mir_strcmpi(key, "ProtoName") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(pa->szProtoName)));
-	else if (mir_strcmpi(key, "IsEnabled") == 0)
-		lua_pushboolean(L, pa->bIsEnabled);
-	else if (mir_strcmpi(key, "IsVisible") == 0)
-		lua_pushboolean(L, pa->bIsVisible);
-	else if (mir_strcmpi(key, "IsVirtual") == 0)
-		lua_pushboolean(L, pa->bIsVirtual);
-	else if (mir_strcmpi(key, "IsOldProto") == 0)
-		lua_pushboolean(L, pa->bOldProto);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static luaL_Reg paMeta[] =
-{
-	{ MT_PROTOACCOUNT, pa__init },
-	{ "__index", pa__index },
-	{ NULL, NULL }
-};
-
-#define MT_ACKDATA "ACKDATA"
-
-static int ack__init(lua_State *L)
-{
-	ACKDATA *udata = (ACKDATA*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	ACKDATA **ack = (ACKDATA**)lua_newuserdata(L, sizeof(ACKDATA*));
-	*ack = udata;
-
-	luaL_setmetatable(L, MT_ACKDATA);
-
-	return 1;
-}
-
-static int ack__index(lua_State *L)
-{
-	ACKDATA *ack = *(ACKDATA**)luaL_checkudata(L, 1, MT_ACKDATA);
-	const char *key = lua_tostring(L, 2);
-
-	if (mir_strcmpi(key, "Module") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(ack->szModule)));
-	else if (mir_strcmpi(key, "hContact") == 0)
-		lua_pushinteger(L, ack->hContact);
-	else if (mir_strcmpi(key, "Type") == 0)
-		lua_pushinteger(L, ack->type);
-	else if (mir_strcmpi(key, "Result") == 0)
-		lua_pushinteger(L, ack->result);
-	else if (mir_strcmpi(key, "hProcess") == 0)
-		lua_pushlightuserdata(L, ack->hProcess);
-	else if (mir_strcmpi(key, "lParam") == 0)
-		lua_pushnumber(L, ack->lParam);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static luaL_Reg ackMeta[] =
-{
-	{ MT_ACKDATA, ack__init },
-	{ "__index", ack__index },
-	{ NULL, NULL }
-};
-
 #define MT_CCSDATA "CCSDATA"
 
 static int ccs__init(lua_State *L)
@@ -480,7 +339,7 @@ static int ccs__init(lua_State *L)
 	CCSDATA **ccs = (CCSDATA**)lua_newuserdata(L, sizeof(CCSDATA*));
 	*ccs = udata;
 
-	luaL_setmetatable(L, MT_ACKDATA);
+	luaL_setmetatable(L, MT_CCSDATA);
 
 	return 1;
 }
@@ -514,16 +373,28 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	luaL_newlib(L, protocolsApi);
 
-	luaL_newmetatable(L, MT_PROTOCOLDESCRIPTOR);
-	luaL_setfuncs(L, pdMeta, 0);
+	MT<PROTOCOLDESCRIPTOR>(L, "PROTOCOLDESCRIPTOR")
+		.Field(&PROTOCOLDESCRIPTOR::szName, "Name", LUA_TSTRINGA)
+		.Field(&PROTOCOLDESCRIPTOR::type, "Type", LUA_TINTEGER);
 	lua_pop(L, 1);
 
-	luaL_newmetatable(L, MT_PROTOACCOUNT);
-	luaL_setfuncs(L, paMeta, 0);
+	MT<PROTOACCOUNT>(L, "PROTOACCOUNT")
+		.Field(&PROTOACCOUNT::szModuleName, "ModuleName", LUA_TSTRINGA)
+		.Field(&PROTOACCOUNT::tszAccountName, "AccountName", LUA_TSTRINGW)
+		.Field(&PROTOACCOUNT::szProtoName, "ProtoName", LUA_TSTRINGA)
+		.Field(&PROTOACCOUNT::bIsEnabled, "IsEnabled", LUA_TBOOLEAN)
+		.Field(&PROTOACCOUNT::bIsVisible, "IsVisible", LUA_TBOOLEAN)
+		.Field(&PROTOACCOUNT::bIsVirtual, "IsVirtual", LUA_TBOOLEAN)
+		.Field(&PROTOACCOUNT::bOldProto, "IsOldProto", LUA_TBOOLEAN);
 	lua_pop(L, 1);
 
-	luaL_newmetatable(L, MT_ACKDATA);
-	luaL_setfuncs(L, ackMeta, 0);
+	MT<ACKDATA>(L, "ACKDATA")
+		.Field(&ACKDATA::szModule, "Module", LUA_TSTRINGA)
+		.Field(&ACKDATA::hContact, "hContact", LUA_TINTEGER)
+		.Field(&ACKDATA::type, "Type", LUA_TINTEGER)
+		.Field(&ACKDATA::result, "Result", LUA_TINTEGER)
+		.Field(&ACKDATA::hProcess, "hProcess", LUA_TLIGHTUSERDATA)
+		.Field(&ACKDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
 	luaL_newmetatable(L, MT_CCSDATA);

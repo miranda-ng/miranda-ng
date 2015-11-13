@@ -133,57 +133,15 @@ static luaL_Reg messageApi[] =
 	{ NULL, NULL }
 };
 
-#define MT_MESSAGEWINDOWEVENTDATA "MessageWindowEventData"
-
-static int mwed__init(lua_State *L)
-{
-	MessageWindowEventData *udata = (MessageWindowEventData*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	MessageWindowEventData **mwed = (MessageWindowEventData**)lua_newuserdata(L, sizeof(MessageWindowEventData*));
-	*mwed = udata;
-
-	luaL_setmetatable(L, MT_MESSAGEWINDOWEVENTDATA);
-
-	return 1;
-}
-
-static int mwed__index(lua_State *L)
-{
-	MessageWindowEventData *mwed = *(MessageWindowEventData**)luaL_checkudata(L, 1, MT_MESSAGEWINDOWEVENTDATA);
-	const char *key = lua_tostring(L, 2);
-
-	if (!mir_strcmpi(key, "Module") == 0)
-		lua_pushstring(L, ptrA(mir_utf8encode(mwed->szModule)));
-	else if (!mir_strcmpi(key, "Type") == 0)
-		lua_pushinteger(L, mwed->uType);
-	else if (!mir_strcmpi(key, "hContact") == 0)
-		lua_pushinteger(L, mwed->hContact);
-	else if (!mir_strcmpi(key, "Flags") == 0)
-		lua_pushinteger(L, mwed->uFlags);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-static luaL_Reg mwedMeta[] =
-{
-	{ MT_MESSAGEWINDOWEVENTDATA, mwed__init },
-	{ "__index", mwed__index },
-	{ NULL, NULL }
-};
-
 LUAMOD_API int luaopen_m_message(lua_State *L)
 {
 	luaL_newlib(L, messageApi);
 
-	luaL_newmetatable(L, MT_MESSAGEWINDOWEVENTDATA);
-	luaL_setfuncs(L, mwedMeta, 0);
+	MT<MessageWindowEventData>(L, "MessageWindowEventData")
+		.Field(&MessageWindowEventData::szModule, "Module", LUA_TSTRINGA)
+		.Field(&MessageWindowEventData::uType, "Type", LUA_TINTEGER)
+		.Field(&MessageWindowEventData::hContact, "hContact", LUA_TINTEGER)
+		.Field(&MessageWindowEventData::uFlags, "Flags", LUA_TINTEGER);
 	lua_pop(L, 1);
 
 	return 1;
