@@ -134,6 +134,8 @@ static void DoSplitSendA(LPVOID param)
 			fSplitting = FALSE;
 
 		if (fSplitting) {
+			job->iAcksNeeded++;
+
 			char *szSaved = &szBegin[iCur];
 			int iSavedCur = iCur;
 			for (int i = 0; iCur; i++, iCur--) {
