@@ -57,9 +57,6 @@ typedef struct TLEN_VOICE_CONTROL_STRUCT {
 } TLEN_VOICE_CONTROL;
 
 
-void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft);
-void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft);
-
 int TlenVoiceStart(TLEN_FILE_TRANSFER *ft, int mode) ;
 int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from);
 int TlenVoiceIsInUse(TlenProtocol *proto);
