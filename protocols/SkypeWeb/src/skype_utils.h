@@ -88,4 +88,16 @@ public:
 	__inline operator HANDLE() { return _hEvent; }
 };
 
+struct CFileUploadParam : public MZeroedObject {
+	ptrT tszFileName;
+	ptrT tszDesc;
+	char* atr;
+	char* fname;
+	MCONTACT hContact;
+
+	__forceinline CFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) : hContact(_hContact), tszDesc(mir_tstrdup(_desc)), tszFileName(mir_tstrdup(_files[0])) {};
+	__forceinline bool IsAccess() { return ::_taccess(tszFileName, 0) == 0; }
+};
+
+
 #endif //_UTILS_H_

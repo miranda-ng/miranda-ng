@@ -53,6 +53,8 @@ public:
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+
 	// accounts
 	static CSkypeProto* InitAccount(const char *protoName, const TCHAR *userName);
 	static int          UninitAccount(CSkypeProto *proto);
@@ -218,6 +220,11 @@ private:
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
 	void LoadProfile(const NETLIBHTTPREQUEST *response);
+
+
+	void __cdecl CSkypeProto::SendFileThread(void *p);
+	void OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
