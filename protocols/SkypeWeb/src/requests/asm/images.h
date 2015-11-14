@@ -11,7 +11,7 @@ public:
 
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
 		jPermissions.set_name("permissions");
-		jPermission.set_name(CMStringA(::FORMAT, "8:%s", szContact).GetString());
+		jPermission.set_name(szContact);
 		jPermission << JSONNode("read", (char*)NULL);
 		jPermissions << jPermission;
 		node << JSONNode("type", "pish/image") << jPermissions;
@@ -25,7 +25,7 @@ class ASMObjectUploadRequest : public HttpRequest
 {
 public:
 	ASMObjectUploadRequest(LoginInfo &li, const char *szObject, const PBYTE data, const size_t size) :
-		HttpRequest(REQUEST_POST, FORMAT, "api.asm.skype.com/v1/objects/%s/content/imgpsh", szObject)
+		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/imgpsh", szObject)
 	{
 		Headers
 			<< CHAR_VALUE("Authorization:", CMStringA(::FORMAT, "skype_token %s", li.api.szToken));
