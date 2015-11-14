@@ -172,8 +172,9 @@ static void TlenFileReceivingConnection(HANDLE hConnection, DWORD, void * pExtra
 	else Netlib_CloseHandle(hConnection);
 }
 
-static void __cdecl TlenFileReceiveThread(TLEN_FILE_TRANSFER *ft)
+static void __cdecl TlenFileReceiveThread(void *arg)
 {
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)arg;
 	ft->proto->debugLogA("Thread started: type=file_receive server='%s' port='%d'", ft->hostName, ft->wPort);
 	ft->mode = FT_RECV;
 
@@ -441,8 +442,9 @@ int TlenFileCancelAll(TlenProtocol *proto)
 	return 0;
 }
 
-static void __cdecl TlenFileSendingThread(TLEN_FILE_TRANSFER *ft)
+static void __cdecl TlenFileSendingThread(void *arg)
 {
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)arg;
 	char *nick;
 
 	ft->proto->debugLogA("Thread started: type=tlen_file_send");
@@ -630,7 +632,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL)
 					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL)
 						if (!mir_strcmp(item->ft->jid, jid))
-							mir_forkthread((pThreadFunc)TlenFileSendingThread, item->ft);
+							mir_forkthread(TlenFileSendingThread, item->ft);
 			}
 			else if (!mir_strcmp(e, "6")) {
 				// FILE_RECV : e='6' : IP and port information to connect to get file
@@ -640,7 +642,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 							item->ft->hostName = mir_strdup(p);
 							if ((p = TlenXmlGetAttrValue(node, "p")) != NULL) {
 								item->ft->wPort = atoi(p);
-								mir_forkthread((pThreadFunc)TlenFileReceiveThread, item->ft);
+								mir_forkthread(TlenFileReceiveThread, item->ft);
 							}
 						}
 					}
