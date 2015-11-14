@@ -5,13 +5,14 @@ static int lua_CreateHookableEvent(lua_State *L)
 	const char *name = luaL_checkstring(L, 1);
 
 	HANDLE res = ::CreateHookableEvent(name);
-	if (res)
+	if (!res)
 	{
-		lua_pushlightuserdata(L, res);
-		CMLua::Events.insert(res);
-	}
-	else
 		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_pushlightuserdata(L, res);
+	CMLua::Events.insert(res);
 
 	return 1;
 }
@@ -66,18 +67,17 @@ static int lua_HookEvent(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = ::HookEventObjParam(name, HookEventObjParam, L, ref);
-	if (res)
-	{
-		CMLua::Hooks.insert(res);
-		CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
-		
-		lua_pushlightuserdata(L, res);
-	}
-	else
+	if (!res)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
+		return 1;
 	}
+
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+		
+	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
@@ -133,16 +133,15 @@ static int lua_CreateServiceFunction(lua_State *L)
 	HANDLE res = ::CreateServiceFunctionObjParam(name, CreateServiceFunctionObjParam, L, ref);
 	if (!res)
 	{
-		CMLua::Services.insert(res);
-		CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
-
-		lua_pushlightuserdata(L, res);
-	}
-	else
-	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
+		return 1;
 	}
+
+	CMLua::Services.insert(res);
+	CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
+
+	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
