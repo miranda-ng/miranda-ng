@@ -216,7 +216,7 @@ xСтатус "%s"
 [Avatars: can't open file %s, error]
 Аватары: невозможно открыть %s, ошибка
 [CHAT plugin is required for conferences. Install it before chatting]
-Для конференций требуется модуль Chat или tabSRMM 1.0+.
+Для конференций требуется плагин чата (StdChat, Scriver или TabSRMM).
 [invite sender]
 отправитель приглашения
 [invite new members]
@@ -240,7 +240,7 @@ xСтатус "%s"
 [My World]
 Мой мир
 [Web search]
-Поиск в вебе
+Поиск в Интернете
 [Update all users info]
 Обновить информацию всех пользователей
 [Check users avatars updates]

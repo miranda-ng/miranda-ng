@@ -106,17 +106,17 @@
 [Network connection error.]
 Ошибка соединения.
 [Registration failed. Invalid server response.]
-Неудачная регистрация. Неверный ответ сервера.
+Не удалось зарегистрироваться. Неверный ответ сервера.
 [Registration failed due to stale code. Please request a new code]
-Неудачная регистрация вследствие устаревшего кода. Пожалуйста, запросите новый код
+Не удалось зарегистрироваться, поскольку код устарел. Пожалуйста, запросите новый код
 [Registration failed. Reason: %s]
-Неудачная регистрация. Причина: %s
+Не удалось зарегистрироваться. Причина: %s
 [Please try again in %i seconds]
 Пожалуйста, попробуйте ещё раз через %i секунд
 [Registration code has been sent to your phone.]
 Код регистрации был выслан на ваш телефон.
 [Registration failed.]
-Неудачная регистрация.
+Не удалось зарегистрироваться.
 [WhatsApp icon]
 Значок WhatsApp
 [Create chat group]

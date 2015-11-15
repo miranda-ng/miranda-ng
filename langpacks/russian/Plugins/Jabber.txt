@@ -948,7 +948,7 @@ Jabber ошибка
 [Status Message]
 Статусное сообщение
 [CHAT plugin is required for conferences. Install it before chatting]
-Для конференций требуется модуль Chat или tabSRMM 1.0+.
+Для конференций требуется плагин чата (StdChat, Scriver или TabSRMM).
 [To]
 В
 [From]
