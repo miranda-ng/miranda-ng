@@ -29,7 +29,7 @@
 Сохранять в папку:
 [Browse...]
 Обзор...
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 Откройте "Тонкая настройка -> Папки" для изменения настроек
 [Compress backup to zip-archive]
 Сжать резервную копию в zip-архив

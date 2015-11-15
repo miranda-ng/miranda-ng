@@ -947,7 +947,7 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 Для конференций требуется плагин чата (StdChat, TabSRMM или Scriver).
 [To]
 В
