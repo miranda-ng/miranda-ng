@@ -29,7 +29,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_MAINOPT_LNK_HOTKEY,
+    CONTROL         "Go to Options -> Customize -> Hotkeys to change the hotkey",IDC_MAINOPT_LNK_HOTKEY,
                     "Hyperlink",WS_TABSTOP,12,14,203,12
     GROUPBOX        "When I press the hotkey:",IDC_STATIC,0,42,224,124
     CONTROL         "Change status to",IDC_MAINOPT_CHANGESTATUSBOX,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,12,55,97,10
