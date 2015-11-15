@@ -2,6 +2,7 @@
 attachment - вложение
 cache - кэш
 contact list - список контактов
+firewall - брандмауэр (терминология Microsoft)
 forward - пересылка
 HTML entity - HTML-представление
 icon - значок
