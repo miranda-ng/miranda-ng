@@ -8,7 +8,7 @@ static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };
 
 void CMraProto::MraChatDllError()
 {
-	MessageBox(NULL, TranslateT("CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK | MB_ICONWARNING));
+	MessageBox(NULL, TranslateT("Chat plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK | MB_ICONWARNING));
 }
 
 bool CMraProto::MraChatRegister()

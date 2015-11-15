@@ -46,7 +46,7 @@ void CJabberProto::AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const
 void JabberChatDllError()
 {
 	MessageBox(NULL,
-		TranslateT("CHAT plugin is required for conferences. Install it before chatting"),
+		TranslateT("Chat plugin is required for conferences. Install it before chatting"),
 		TranslateT("Jabber Error"), MB_OK | MB_SETFOREGROUND);
 }
 
