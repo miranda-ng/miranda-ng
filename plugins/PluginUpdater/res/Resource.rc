@@ -58,7 +58,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Hotkey",IDC_STATIC,2,0,284,26
-    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,
+    CONTROL         "Go to Options -> Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,
                     "Hyperlink",WS_TABSTOP,29,11,249,10
     GROUPBOX        "Update options",IDC_STATIC,1,29,285,73
     CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,73,10

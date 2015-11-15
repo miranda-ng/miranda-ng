@@ -53,7 +53,7 @@ BEGIN
     LTEXT           "Backup to folder:",IDC_STATIC,18,120,124,11
     EDITTEXT        IDC_ED_FOLDER,17,133,177,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,132,49,14
-    CONTROL         "Go to the ""Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
+    CONTROL         "Go to the ""Options -> Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
                     "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,18,135,231,17
     CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,156,231,10
     CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,167,231,10
