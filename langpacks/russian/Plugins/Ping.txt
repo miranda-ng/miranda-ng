@@ -35,7 +35,7 @@
 Интерфейс
 [Do not change icon when testing]
 Не менять значок при тестировании
-[Use Options -> Customize -> Fonts to change text size and color.]
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
 Настройка шрифтов в "Настройки -> Тонкая настройка -> Шрифты и цвета".
 [Indent:]
 Отступ:

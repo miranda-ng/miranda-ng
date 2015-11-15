@@ -114,7 +114,7 @@
 [Avatars: server return HTTP code: %lu]
 [Avatars: can't open file %s, error]
 ;file \protocols\MRA\src\MraChat.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 [invite sender]
 [invite new members]
 ;file \protocols\MRA\src\MraConstans.h

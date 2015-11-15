@@ -29,7 +29,7 @@
 Напоминать о неустановленном обновлении
 [Hotkey]
 Горячая клавиша
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 Настройка в Тонкая настройка -> Горячие клавиши
 [Notifications]
 Уведомления
