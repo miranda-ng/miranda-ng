@@ -216,7 +216,7 @@ xСтатус "%s"
 [Avatars: can't open file %s, error]
 Аватары: невозможно открыть %s, ошибка
 [CHAT plugin is required for conferences. Install it before chatting]
-Для конференций требуется плагин чата (StdChat, Scriver или TabSRMM).
+Для конференций требуется плагин чата (StdChat, TabSRMM или Scriver).
 [invite sender]
 отправитель приглашения
 [invite new members]
