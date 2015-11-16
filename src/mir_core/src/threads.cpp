@@ -118,8 +118,10 @@ DWORD WINAPI forkthread_r(void *arg)
 
 	callercode(cookie);
 
-	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+	HANDLE hThread = GetCurrentThread();
+	SetThreadPriority(hThread, THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
+	CloseHandle(hThread);
 	return 0;
 }
 
@@ -132,10 +134,8 @@ MIR_CORE_DLL(HANDLE) mir_forkthread(void(__cdecl *threadcode)(void*), void *arg)
 
 	DWORD threadID;
 	HANDLE hThread = CreateThread(NULL, 0, forkthread_r, &fa, 0, &threadID);
-	if (hThread != NULL) {
+	if (hThread != NULL)
 		WaitForSingleObject(fa.hEvent, INFINITE);
-		CloseHandle(hThread);
-	}
 
 	CloseHandle(fa.hEvent);
 	return hThread;
