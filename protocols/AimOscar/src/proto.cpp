@@ -59,7 +59,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	char szP2P[128];
 	mir_snprintf(szP2P, "%sP2P", m_szModuleName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
-	mir_sntprintf(descr, TranslateT("%s Client-to-client connection"), m_tszUserName);
+	mir_sntprintf(descr, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.szSettingsModule = szP2P;
 	nlu.minIncomingPorts = 1;
 	m_hNetlibPeer = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
