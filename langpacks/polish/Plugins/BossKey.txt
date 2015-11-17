@@ -8,8 +8,8 @@
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Wtyczka Anti-Boss. Ukrywa Mirandę lub blokuje hasłem.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[Go to Customize -> Hotkeys to change the hotkey]
-Przejdź do Personalizacja -> Skróty, aby je ustawić
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Przejdź do Opcje -> Personalizacja -> Skróty, aby je ustawić
 [When I press the hotkey:]
 Kiedy nacisnę skrót:
 [Change status to]

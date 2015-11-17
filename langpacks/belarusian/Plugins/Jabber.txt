@@ -963,7 +963,7 @@ Jabber Рэсурс
 Найвысокі прыярытэт (выбар сервера)
 [Status Message]
 Статуснае паведамленне
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 Для канферэнцый патрэбны убудаваны плагін чатаў.
 [To]
 У

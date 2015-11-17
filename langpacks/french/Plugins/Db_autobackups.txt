@@ -30,7 +30,7 @@ Nombre de sauvegarde à conserver :
 Dossier de sauvegarde :
 [Browse...]
 
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 
 [Compress backup to zip-archive]
 

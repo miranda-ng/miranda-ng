@@ -35,7 +35,7 @@
 Выгляд
 [Do not change icon when testing]
 Не змяняць абразок пры праглядзе
-[Use Options -> Customize -> Fonts to change text size and color.]
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
 
 [Indent:]
 Водступ:

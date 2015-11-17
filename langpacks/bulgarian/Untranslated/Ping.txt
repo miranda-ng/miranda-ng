@@ -6,7 +6,7 @@
 [Reply]
 [Block Repetitions]
 [Do not change icon when testing]
-[Use Options -> Customize -> Fonts to change text size and color.]
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
 [Repeats for success/failure:]
 [Attach to contact list]
 [Use CSV format]

@@ -23,7 +23,7 @@
 Зняти вибір
 [Hotkey]
 Гаряча клавіша
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 Налаштувати: Тонке налаштування -> Гарячі клавіші
 [Update options]
 Налаштування оновлень

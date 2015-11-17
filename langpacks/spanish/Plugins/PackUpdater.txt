@@ -17,8 +17,8 @@ Descargando...
 Al inicio
 [Hotkey]
 Tecla de acceso directo
-[Go to Customize -> Hotkeys to change the hotkey]
-Vaya a Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Vaya a Opciones -> Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
 [Notifications]
 Notificaciones
 [Errors]

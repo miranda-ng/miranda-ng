@@ -219,7 +219,7 @@ Avatare: Server gibt HTTP-Code %lu zurück.
 [Avatars: can't open file %s, error]
 Avatare: Kann Datei %s nicht öffnen, Fehler.
 ;file \protocols\MRA\src\MraChat.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 Chat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
 [invite sender]
 Sender einladen

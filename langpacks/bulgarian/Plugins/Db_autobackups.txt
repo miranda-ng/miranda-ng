@@ -27,7 +27,7 @@
 Папка за резервните копия:
 [Browse...]
 Преглед...
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 Можете да промените настройките от Персонализиране>Папки
 [Compress backup to zip-archive]
 Компресиране в .zip архив

@@ -306,7 +306,7 @@ VBR или пусто
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Если опция включена, то будет применён один шаблон для всех протоколов, а также плееров и статусов. Страница настройки шаблонов изменится после перезагрузки
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
-Встраиваться в процесс проигрывателя для облегчения получения информации. Может спровоцировать тревогу фаервола или антивируса.
+Встраиваться в процесс проигрывателя для облегчения получения информации. Может спровоцировать тревогу брандмауэра или антивируса.
 [Keep opened file as active, not newly founded.]
 Использовать открытый файл в качестве активного, а не новосозданный.
 [Use this option if WATrack freeze while player running. Slower processing.]

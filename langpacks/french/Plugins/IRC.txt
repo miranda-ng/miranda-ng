@@ -404,7 +404,7 @@ N'a pas pu se connecter à
 [%s server connection]
 %s serveur connexion
 [%s client-to-client connections]
-/s client-to-client connexions
+%s client-to-client connexions
 [Nickname]
 Pseudo
 [DCC ERROR: No valid files specified]

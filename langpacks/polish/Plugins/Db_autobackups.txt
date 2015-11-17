@@ -30,8 +30,8 @@ Liczba trzymanych kopii zapasowych:
 Zapisuj kopię do folderu:
 [Browse...]
 Przeglądaj...
-[Go to the "Customize -> Folders" to change settings]
-Idź do Personalizacja -> Foldery aby zmienić ustawienia
+[Go to the "Options -> Customize -> Folders" to change settings]
+Idź do Opcje -> Personalizacja -> Foldery aby zmienić ustawienia
 [Compress backup to zip-archive]
 Kompresuj kopię do archiwum zip
 [Disable progress bar]

@@ -30,7 +30,7 @@
 
 [Hotkey]
 
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 
 [Notifications]
 

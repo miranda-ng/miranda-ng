@@ -269,3 +269,5 @@ Unbekannter Ereignistyp %d, Größe %d.
 Benutzer wurde gelöscht. Möchten Sie die Datei löschen?
 [Failed to delete the file]
 Datei konnte nicht gelöscht werden
+[No_Nick]
+
