@@ -596,7 +596,7 @@ ID користувача в панелі статусу
 [Show date in timestamps]
 Показувати дату
 [Use contacts local time]
-Локальний час контакту
+Місцевий час контакту
 [Format]
 Формат
 [Indent message body]
@@ -1672,7 +1672,7 @@ TabSRMM: %s
 [Show seconds in timestamps]
 Показувати секунди
 [Use contacts local time (if timezone info available)]
-Локальний час контакту (якщо доступний часовий пояс)
+Місцевий час контакту (якщо доступний часовий пояс)
 [Draw grid lines]
 Малювати лінії сітки
 [Use incoming/outgoing icons]

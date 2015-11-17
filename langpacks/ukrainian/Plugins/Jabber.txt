@@ -462,7 +462,7 @@ XML-консоль
 [Can report own version information]
 Повідомлення версій
 [Can report local time of the user]
-Повідомлення локального часу
+Повідомлення місцевого часу
 [Can send and receive ping requests]
 Прийом і відправка пінгів (ping)
 [Supports data forms]
@@ -952,7 +952,7 @@ xHTML-формат повідомлень чату
 [Status Message]
 Статусне повідомлення
 [Chat plugin is required for conferences. Install it before chatting]
-Для конференцій потрібен плагін StdChat або TabSRMM.
+Для конференцій потрібен плагін StdChat, Scriver або TabSRMM.
 [To]
 До
 [From]

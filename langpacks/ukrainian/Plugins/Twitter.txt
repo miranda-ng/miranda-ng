@@ -90,7 +90,7 @@ Twitter (аватари)
 [%s Protocol]
 Протокол %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
-Усім відомо, що максимальна довжина твіта - 140 символів. Навіщо ви намагаєтесь умістити сюди %d символів?
+Максимальна довжина твіта становить 140 символів. Навіщо ви намагаєтесь умістити сюди %d символів?
 [Twitter Icon]
 Значок Twitter
 [Tweet]

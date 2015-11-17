@@ -140,7 +140,7 @@
 [Server-side delivery confirmation]
 Підтвердження доставки зі сторони серверу
 [Use local time for received messages]
-Локальний час для прийнятих повідомлень
+Місцевий час для прийнятих повідомлень
 [Automatically wipe local contacts missing in your friend list]
 Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Mark message as read...]
@@ -345,6 +345,10 @@
 &Вигнати
 [%s is typing a message...]
 %s друкує вам повідомлення...
+[New news]
+Новини
+[New notifications]
+Нові сповіщення
 [User was tagged in these photos:]
 Користувач позначений на цих фотографіях:
 [(photos)]
@@ -425,6 +429,8 @@ ID отримувача помилковий або невідомий
 Публікувати на своїй стіні
 [Load news from VK]
 Завантажити новини з сайту
+[Wipe contacts missing in friend list]
+Видалити контакти поза списком друзів
 [Send message to user\'s wall]
 Повідомлення на стіні користувача
 [Add as friend]
@@ -467,6 +473,8 @@ ID отримувача помилковий або невідомий
 Введіть нове статусне повідомлення
 [Please authorize me to add you to my friend list.]
 Будь ласка, дозвольте додати вас до списку друзів.
+[Are you sure to wipe local contacts missing in your friend list?]
+Ви впевнені, що хочете видалити локальні контакти, яких немає в списку друзів?
 [Are you sure to delete %s from your friend list?]
 Ви впевнені, що хочете видалити %s з друзів?
 [User %s was deleted from your friend list]
