@@ -2184,7 +2184,7 @@ Sve mreže
 [Handle]
 Koristeći
 [&Find/add contacts...]
-%Pretraži/dodaj kontakte...
+&Pretraži/dodaj kontakte...
 ;file \src\mir_app\src\FontOptions.cpp
 [Failed to create file]
 Datoteka nije kreirana

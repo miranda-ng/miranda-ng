@@ -269,3 +269,5 @@ EmailExpress de :
 
 [Failed to delete the file]
 Échec de la suppression du fichier
+[No_Nick]
+

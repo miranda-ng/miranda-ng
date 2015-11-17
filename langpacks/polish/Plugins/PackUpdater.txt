@@ -30,8 +30,8 @@ Przy starcie
 Przypomnij o niezainstalowanej aktualizacji paczki
 [Hotkey]
 Skrót
-[Go to Customize -> Hotkeys to change the hotkey]
-Przejdź do Personalizacja -> Skróty, aby je ustawić
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Przejdź do Opcje -> Personalizacja -> Skróty, aby je ustawić
 [Notifications]
 Powiadomienia
 [Message boxes]

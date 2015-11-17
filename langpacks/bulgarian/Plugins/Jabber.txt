@@ -905,8 +905,8 @@ Jabber източник
 Най-голямо предимство (сървърът избира)
 [Status Message]
 Текст за състояние
-[CHAT plugin is required for conferences. Install it before chatting]
-За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
+[Chat plugin is required for conferences. Install it before chatting]
+
 [To]
 За
 [From]

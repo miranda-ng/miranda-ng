@@ -29,7 +29,7 @@
 Захоўваць у тэчку:
 [Browse...]
 Адкрыць...
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
 [Compress backup to zip-archive]
 Сціск рэзервовай копіі ў архіў

@@ -36,8 +36,8 @@ Durchsuchen...
 Oberfläche
 [Do not change icon when testing]
 Icon beim Testen nicht ändern
-[Use Options -> Customize -> Fonts to change text size and color.]
-Verwenden Sie Einstellungen -> Customize -> Schriften, um Textgröße und -farbe zu ändern.
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
+Verwenden Sie Einstellungen -> Customize -> Schriften und Farben, um Textgröße und -farbe zu ändern.
 [Indent:]
 Einzug:
 [Row height:]

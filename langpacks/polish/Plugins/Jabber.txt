@@ -984,8 +984,8 @@ Najwyższy priorytet (wybór serwera)
 Opis
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
-Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę CHAT
+[Chat plugin is required for conferences. Install it before chatting]
+
 [To]
 Do
 [From]

@@ -36,7 +36,7 @@ Pas de répétitions
 
 [Do not change icon when testing]
 Ne pas changer d'icône pendant le test
-[Use Options -> Customize -> Fonts to change text size and color.]
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
 Aller dans Paramètres -> Apparence -> Polices pour changer la taille et la couleur de la police de caractères.
 [Indent:]
 

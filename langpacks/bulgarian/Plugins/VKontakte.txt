@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.18
+;  Version: 0.1.1.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [off]
@@ -71,6 +71,8 @@ URL:
 Подробности за потребителя
 [&Kick]
 Изгонване
+[%s is typing a message...]
+%s пише съобщение...
 [Protocol is offline]
 Протоколът е извън линия
 [Network]

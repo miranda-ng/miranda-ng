@@ -5,5 +5,5 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Go to the "Customize -> Folders" to change settings]
-Go to the "Customise -> Folders" to change settings
+[Go to the "Options -> Customize -> Folders" to change settings]
+Go to the "Options -> Customise -> Folders" to change settings

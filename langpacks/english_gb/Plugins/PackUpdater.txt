@@ -5,8 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-[Go to Customize -> Hotkeys to change the hotkey]
-Go to Customise -> Hotkeys to change the hotkey
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Go to Options -> Customise -> Hotkeys to change the hotkey
 [Colors]
 Colours
 [Use cus&tom colors]

@@ -7,7 +7,7 @@
 [Select &all]
 [Select &none]
 [Hotkey]
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 [Update options]
 [On startup]
 [(but only once a day)]

@@ -1544,8 +1544,8 @@ Sie haben keine ICQ-Nummer angegeben.\nDiese bitte unter Einstellungen -> Netzwe
 Die Verbindung zum ICQ-Loginserver konnte nicht hergestellt werden, SSL konnte nicht ausgehandelt werden.
 [Unable to connect to ICQ login server]
 Konnte sich nicht mit dem ICQ-Loginserver verbinden.
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> ICQ -> Network.]
-Miranda konnte den Port für die direkte P2P-Verbindung zwischen den Clients nicht zuweisen. Sie können das ICQ-Netzwerk ohne Probleme benutzen (z.B. die Suche), allerdings können keine Daten empfangen oder gesendet werden..\n\nFalls Sie eine Firewall haben, blockt diese evtt. Miranda NG. Kontrollieren Sie alle Einstellungen und überprüfen Sie alle Ports die Miranda NG und ICQ benötigen unter Einstellungen -> ICQ KOnto -> Verbindungseinstellungen und Einstellungen -> Protokolle.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> <UIN> client-to-client connections -> Port range.]
+
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Verbindungsversuch aus unbekannter Ursache fehlgeschlagen.\nBitte in 30 Minuten noch einmal versuchen.
 [Your connection with the ICQ server was abortively closed]

@@ -30,7 +30,7 @@ Au démarrage
 
 [Hotkey]
 Raccourci clavier
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
 [Notifications]
 Notifications

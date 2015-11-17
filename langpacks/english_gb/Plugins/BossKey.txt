@@ -5,5 +5,5 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-[Go to Customize -> Hotkeys to change the hotkey]
-Go to Customise -> Hotkeys to change the hotkey
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Go to Options -> Customise -> Hotkeys to change the hotkey

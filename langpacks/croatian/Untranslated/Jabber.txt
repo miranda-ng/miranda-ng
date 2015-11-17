@@ -470,7 +470,7 @@
 [No activity yet, use server's choice]
 [Highest priority (server's choice)]
 [Status Message]
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 [To]
 [From]
 [Both]

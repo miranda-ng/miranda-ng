@@ -1,7 +1,7 @@
 ﻿[Database autobackuper plugin.]
 [Backup progress]
 [Browse...]
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 [Compress backup to zip-archive]
 [Disable popups]
 [Use Dropbox]

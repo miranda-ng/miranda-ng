@@ -30,7 +30,7 @@ Anzahl der gespeicherten Sicherungen:
 Ordner für Sicherungen:
 [Browse...]
 Durchsuchen...
-[Go to the "Customize -> Folders" to change settings]
+[Go to the "Options -> Customize -> Folders" to change settings]
 Gehen Sie zu "Customize->Verzeichnisse", um die Einstellungen zu ändern.
 [Compress backup to zip-archive]
 Sicherungen in Zip-Archiven komprimieren

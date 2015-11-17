@@ -163,6 +163,7 @@
 [&User details]
 [Visit profile]
 [&Kick]
+[%s is typing a message...]
 [New news]
 [New notifications]
 [User was tagged in these photos:]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.18
+;  Version: 0.1.1.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -347,6 +347,8 @@ Dane &kontaktu
 Odwiedź profil
 [&Kick]
 &Wyrzuć
+[%s is typing a message...]
+%s pisze wiadomość...
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 
