@@ -206,7 +206,7 @@ AIM Встановити Instant Idle
 [%s server connection]
 З'єднання з сервером %s
 [%s Client-to-client connection]
-З'єднання між клієнтами %s
+З'єднання між користувачами %s
 [[Auto-Response]:]
 (Автовідповідь):
 [No information has been provided by the server.]

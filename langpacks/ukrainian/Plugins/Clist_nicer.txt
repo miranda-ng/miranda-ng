@@ -638,7 +638,7 @@
 [Frame titles]
 Заголовки фреймів
 [Contact list local time]
-Локальний час контакту
+Місцевий час контакту
 [Selected text]
 Виділений текст
 [Hottrack text]
