@@ -390,7 +390,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]
-%s подключения между клиентами
+%s подключения между пользователями
 [Nickname]
 Ник
 [DCC ERROR: No valid files specified]

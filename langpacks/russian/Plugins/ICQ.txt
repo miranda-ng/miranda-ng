@@ -1514,17 +1514,17 @@ Web-службы
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]
-%s соединения между клиентами
+%s подключения между пользователями
 [User ID]
 ID пользователя
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
-Вы не ввели номер ICQ.\nНастройте его в разделе Настройки -> Сеть -> ICQ и попробуйте снова.
+Вы не ввели номер ICQ.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Невозможно установить SSL соединение с сервером ICQ
 [Unable to connect to ICQ login server]
 Невозможно подключиться к серверу ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> <UIN> client-to-client connections -> Port range.]
-Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (межсетевой экран, файрвол), откройте в нём несколько портов и укажите их в настройках (Сеть -> <UIN> соединения между клиентами -> Порты)
+Не удалось выделить порт для соединений между пользователями. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (межсетевой экран, файрвол), откройте в нём несколько портов и укажите их в настройках (Сеть -> <UIN> подключения между пользователями -> Порты)
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Неудачное подключение.\nПоследовательность входа не удалась по неизвестной причине.\nПопробуйте позже.
 [Your connection with the ICQ server was abortively closed]
