@@ -37,7 +37,7 @@ BEGIN
     PUSHBUTTON      "Delete default picture",IDC_REMOVEPROTOPIC,176,99,106,14
     CONTROL         "",IDC_PROTOPIC,"Button",BS_OWNERDRAW,197,118,56,50
     EDITTEXT        IDC_PROTOAVATARNAME,18,176,264,30,ES_MULTILINE | ES_READONLY,WS_EX_CLIENTEDGE
-    CTEXT           "CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.",IDC_STATIC,0,53,294,18
+    CTEXT           "CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.",IDC_STATIC,0,53,294,18
 END
 
 IDD_OPTIONS_AVATARS DIALOGEX 0, 0, 302, 189
