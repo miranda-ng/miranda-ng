@@ -96,7 +96,6 @@ private:
 	int m_nameLen;
 
 	mir_cs m_csAccessClass;
-	mir_cs m_csReceiveThreadLock;
 	mir_cs m_csAccessAwayMes;
 
 	void RequestStatus(bool answer = false, u_long m_addr = INADDR_BROADCAST);
@@ -161,8 +160,7 @@ private:
 
 		TFileConnection();
 		~TFileConnection();
-		void Lock() { mir_cslock lck(m_csAccess); }
-		void Terminate() { Lock(); m_state = FCS_TERMINATE; }
+		void Terminate() { m_state = FCS_TERMINATE; }
 		int Recv(bool halt = true);
 		int Send(u_char* buf, int size);
 		int SendRaw(u_char* buf, int size);

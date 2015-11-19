@@ -22,19 +22,16 @@ CLan::~CLan()
 void CLan::Startup()
 {
 	WSADATA wsa;
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) == 0)
-	{
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) == 0) {
 		m_status = LS_OK;
 		m_mode = LM_ON;
 
 		char hostname[256];
-		if (gethostname(hostname, 256) == 0)
-		{
+		if (gethostname(hostname, 256) == 0) {
 			hostent* host = gethostbyname(hostname);
 			char** pAddr = host->h_addr_list;
 			m_hostAddrCount = 0;
-			while (*pAddr && m_hostAddrCount < MAX_INTERNAL_IP)
-			{
+			while (*pAddr && m_hostAddrCount < MAX_INTERNAL_IP) {
 				in_addr addr;
 				addr.S_un.S_addr = *((u_long*)(*pAddr));
 				m_hostAddr[m_hostAddrCount++] = addr;
@@ -42,13 +39,11 @@ void CLan::Startup()
 			}
 			m_curAddr = m_hostAddr[0];
 		}
-		else
-		{
+		else {
 			m_status = LS_CANT_GET_HOSTADDR;
 		}
 	}
-	else
-	{
+	else {
 		m_status = LS_OK;
 		m_mode = LM_OFF;
 	}
@@ -71,23 +66,20 @@ void CLan::StopListen()
 	if (m_mode == LM_OFF)
 		return;
 
-	if (m_hListenThread)
-	{
-		TerminateThread(m_hListenThread, 0);
+	if (m_hListenThread) {
+		shutdown(m_income, SD_BOTH);
+		WaitForSingleObject(m_hListenThread, INFINITE);
 		m_hListenThread = NULL;
 	}
-	if (m_hAcceptTCPThread)
-	{
+	if (m_hAcceptTCPThread) {
 		TerminateThread(m_hAcceptTCPThread, 0);
 		m_hAcceptTCPThread = NULL;
 	}
-	if (m_income != INVALID_SOCKET)
-	{
+	if (m_income != INVALID_SOCKET) {
 		closesocket(m_income);
 		m_income = INVALID_SOCKET;
 	}
-	if (m_filesoc != INVALID_SOCKET)
-	{
+	if (m_filesoc != INVALID_SOCKET) {
 		closesocket(m_filesoc);
 		m_filesoc = INVALID_SOCKET;
 	}
@@ -101,16 +93,13 @@ void CLan::StartListen()
 
 	m_income = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	m_filesoc = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (m_income == INVALID_SOCKET || m_filesoc == INVALID_SOCKET)
-	{
+	if (m_income == INVALID_SOCKET || m_filesoc == INVALID_SOCKET) {
 		m_status = LS_CANT_CREATE_SOCKET;
 		StopListen();
 	}
-	else
-	{
+	else {
 		int enable = 1;
-		if (setsockopt(m_income, SOL_SOCKET, SO_BROADCAST, (const char*)&enable, sizeof(enable)) != 0)
-		{
+		if (setsockopt(m_income, SOL_SOCKET, SO_BROADCAST, (const char*)&enable, sizeof(enable)) != 0) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_TURN_ON_BROADCAST;
 			StopListen();
@@ -121,24 +110,21 @@ void CLan::StartListen()
 		addr.sin_addr = m_curAddr;
 		addr.sin_family = AF_INET;
 		addr.sin_port = PORT_NUMBER;
-		if (bind(m_income, (sockaddr*)&addr, sizeof(addr)) != 0)
-		{
+		if (bind(m_income, (sockaddr*)&addr, sizeof(addr)) != 0) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_BIND_SOCKET;
 			StopListen();
 			return;
 		}
 
-		if (bind(m_filesoc, (sockaddr*)&addr, sizeof(addr)) != 0)
-		{
+		if (bind(m_filesoc, (sockaddr*)&addr, sizeof(addr)) != 0) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_BIND_SOCKET;
 			StopListen();
 			return;
 		}
 
-		if (listen(m_filesoc, SOMAXCONN) != 0)
-		{
+		if (listen(m_filesoc, SOMAXCONN) != 0) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_START_LISTEN;
 			StopListen();
@@ -147,8 +133,7 @@ void CLan::StartListen()
 
 		m_hListenThread = mir_forkthread(ListenProc, (void*)this);
 		m_hAcceptTCPThread = mir_forkthread(AcceptTCPProc, (void*)this);
-		if (m_hListenThread == NULL || m_hAcceptTCPThread == NULL)
-		{
+		if (m_hListenThread == NULL || m_hAcceptTCPThread == NULL) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_CREATE_THREADS;
 			StopListen();
@@ -159,8 +144,7 @@ void CLan::StartListen()
 
 void CLan::SetCurHostAddress(in_addr addr)
 {
-	if (m_mode != LM_OFF)
-	{
+	if (m_mode != LM_OFF) {
 		int oldMode = m_mode;
 		StopListen();
 		m_curAddr = addr;
@@ -177,19 +161,20 @@ void __cdecl CLan::ListenProc(void *lpParameter)
 
 void CLan::Listen()
 {
-	if (m_mode == LM_LISTEN)
-	{
+	if (m_mode == LM_LISTEN) {
 		char buf[65536];
-		while (1)
-		{
+		while (true) {
 			sockaddr_in addr;
 			int addrLen = sizeof(addr);
 			Sleep(20);
 			int recLen = recvfrom(m_income, buf, 65536, 0, (sockaddr*)&addr, &addrLen);
-			if (recLen != SOCKET_ERROR)
-				OnRecvPacket((u_char*)buf, recLen, addr.sin_addr);
+			if (recLen == SOCKET_ERROR)
+				break;
+
+			OnRecvPacket((u_char*)buf, recLen, addr.sin_addr);
 		}
 	}
+	m_hListenThread = NULL;
 }
 
 void CLan::SendPacketBroadcast(const u_char* mes, int len)
@@ -201,8 +186,7 @@ void CLan::SendPacketBroadcast(const u_char* mes, int len)
 
 void CLan::SendPacket(in_addr addr, const u_char* mes, int len)
 {
-	if (m_mode == LM_LISTEN)
-	{
+	if (m_mode == LM_LISTEN) {
 		sockaddr_in addrTo;
 		addrTo.sin_addr = addr;
 		addrTo.sin_family = AF_INET;
@@ -221,22 +205,21 @@ void __cdecl CLan::AcceptTCPProc(void *lpParameter)
 
 void CLan::AcceptTCP()
 {
-	while (1)
-	{
-		SOCKET in_socket;
+	while (true) {
 		sockaddr_in addrFrom;
 		int addrLen = sizeof(addrFrom);
-		in_socket = accept(m_filesoc, (sockaddr*)&addrFrom, &addrLen);
-		if (in_socket != INVALID_SOCKET)
-		{
-			TTCPConnect* tcp_conn = new TTCPConnect;
-			tcp_conn->m_addr = addrFrom.sin_addr.S_un.S_addr;
-			tcp_conn->m_lan = this;
-			tcp_conn->m_socket = in_socket;
-			mir_forkthread(OnInTCPConnectionProc, (void*)tcp_conn);
-		}
+		SOCKET in_socket = accept(m_filesoc, (sockaddr*)&addrFrom, &addrLen);
+		if (in_socket == SOCKET_ERROR)
+			break;
+		
+		TTCPConnect* tcp_conn = new TTCPConnect;
+		tcp_conn->m_addr = addrFrom.sin_addr.S_un.S_addr;
+		tcp_conn->m_lan = this;
+		tcp_conn->m_socket = in_socket;
+		mir_forkthread(OnInTCPConnectionProc, (void*)tcp_conn);
 		Sleep(100);
 	}
+	m_hAcceptTCPThread = NULL;
 }
 
 void __cdecl CLan::OnInTCPConnectionProc(void *lpParameter)
@@ -258,8 +241,7 @@ SOCKET CLan::CreateTCPConnection(u_long addr, LPVOID lpParameter)
 	addrTo.sin_addr.S_un.S_addr = addr;
 	addrTo.sin_family = AF_INET;
 	addrTo.sin_port = PORT_NUMBER;
-	if (connect(out_socket, (sockaddr*)&addrTo, sizeof(addrTo)) != 0)
-	{
+	if (connect(out_socket, (sockaddr*)&addrTo, sizeof(addrTo)) != 0) {
 		closesocket(out_socket);
 		out_socket = INVALID_SOCKET;
 	}
