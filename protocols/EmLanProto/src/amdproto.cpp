@@ -5,7 +5,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -16,12 +16,11 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {E08CE7C4-9EEB-4272-B544-0D32E18D90DE}
-	{0xe08ce7c4, 0x9eeb, 0x4272, {0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde}}
+	{ 0xe08ce7c4, 0x9eeb, 0x4272, { 0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde } }
 };
 
 HINSTANCE g_hInstance = NULL;
 CMLan* g_lan = NULL;
-HANDLE g_heOptions = NULL;
 
 int hLangpack;
 bool g_InitOptions = false;
@@ -38,7 +37,7 @@ extern "C" __declspec(dllexport)  PLUGININFOEX* __cdecl MirandaPluginInfoEx(DWOR
 //////////////////////////////////////////////////////////////////////////
 // Interface information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +46,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID)
 	g_hInstance = hInstDLL;
 	if (reason == DLL_PROCESS_ATTACH) {
 		EMLOG("EmLan Started");
-		DisableThreadLibraryCalls( hInstDLL);
+		DisableThreadLibraryCalls(hInstDLL);
 	}
 	else if (reason == DLL_PROCESS_DETACH) {
 		EMLOG("EmLan Stopped");
@@ -58,13 +57,13 @@ BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID)
 
 //////////////////////////////////////////////////////////////////////////
 
-static INT_PTR __cdecl EMPGetCaps(WPARAM wParam,LPARAM )
+static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 {
-	switch(wParam) {
+	switch (wParam) {
 	case PFLAGNUM_1:
-		return PF1_IM|PF1_BASICSEARCH|PF1_ADDSEARCHRES|PF1_PEER2PEER|PF1_INDIVSTATUS|
-		      PF1_URL|PF1_MODEMSG|PF1_FILE|PF1_CANRENAMEFILE|PF1_FILERESUME;
-	case PFLAGNUM_2:		
+		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_PEER2PEER | PF1_INDIVSTATUS |
+			PF1_URL | PF1_MODEMSG | PF1_FILE | PF1_CANRENAMEFILE | PF1_FILERESUME;
+	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_3:
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
@@ -78,7 +77,7 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam,LPARAM )
 	}
 }
 
-static INT_PTR __cdecl EMPGetName(WPARAM wParam,LPARAM lParam)
+static INT_PTR __cdecl EMPGetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_tstrncpy((char*)lParam, "EmLan", wParam);
 	return 0;
@@ -86,14 +85,14 @@ static INT_PTR __cdecl EMPGetName(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 {
-	UINT id = IDI_ICON_ONLINE;	
+	UINT id = IDI_ICON_ONLINE;
 	if ((wParam & 0xFFFF) == PLI_OFFLINE)
-		id = IDI_ICON_OFFLINE;	
-	HICON res = LoadIcon(g_hInstance, MAKEINTRESOURCE(id));	
+		id = IDI_ICON_OFFLINE;
+	HICON res = LoadIcon(g_hInstance, MAKEINTRESOURCE(id));
 	return (INT_PTR)res;
 }
 
-static INT_PTR __cdecl EMPGetStatus(WPARAM ,LPARAM)
+static INT_PTR __cdecl EMPGetStatus(WPARAM, LPARAM)
 {
 	return g_lan->GetMirandaStatus();
 }
@@ -104,23 +103,23 @@ INT_PTR __cdecl EMPSetStatus(WPARAM new_status, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR __cdecl EMPSendMessage(WPARAM ,LPARAM lParam)
+static INT_PTR __cdecl EMPSendMessage(WPARAM, LPARAM lParam)
 {
 	return g_lan->SendMessageUrl((CCSDATA*)lParam, false);
 }
 
-static INT_PTR __cdecl EMPSendUrl(WPARAM ,LPARAM lParam)
+static INT_PTR __cdecl EMPSendUrl(WPARAM, LPARAM lParam)
 {
 	return g_lan->SendMessageUrl((CCSDATA*)lParam, true);
 }
 
-static INT_PTR __cdecl EMPRecvMessageUrl(WPARAM ,LPARAM lParam)
+static INT_PTR __cdecl EMPRecvMessageUrl(WPARAM, LPARAM lParam)
 {
 	g_lan->RecvMessageUrl((CCSDATA*)lParam);
 	return 0;
 }
 
-static INT_PTR __cdecl EMPAddToList(WPARAM flags,LPARAM lParam)
+static INT_PTR __cdecl EMPAddToList(WPARAM flags, LPARAM lParam)
 {
 	return g_lan->AddToContactList((u_int)flags, (EMPSEARCHRESULT*)lParam);
 }
@@ -188,9 +187,8 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			int count = g_lan->GetHostAddrCount();
 			in_addr caddr = g_lan->GetCurHostAddress();
 			int cind = 0;
-			for (int i=0; i<count; i++)
-			{
-				in_addr addr  = g_lan->GetHostAddress(i);
+			for (int i = 0; i < count; i++) {
+				in_addr addr = g_lan->GetHostAddress(i);
 				char* ipStr = inet_ntoa(addr);
 				if (addr.S_un.S_addr == caddr.S_un.S_addr)
 					cind = i;
@@ -198,14 +196,12 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			}
 			SendDlgItemMessage(hwndDlg, IDC_LIST_IP, LB_SETCURSEL, cind, 0);
 			SetDlgItemText(hwndDlg, IDC_EDIT_NAME, g_lan->GetName());
-			if (g_lan->GetUseHostName())
-			{
+			if (g_lan->GetUseHostName()) {
 				CheckDlgButton(hwndDlg, IDC_RADIO_USECOMPNAME, BST_CHECKED);
 				CheckDlgButton(hwndDlg, IDC_RADIO_USEOWN, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_NAME), FALSE);
 			}
-			else
-			{
+			else {
 				CheckDlgButton(hwndDlg, IDC_RADIO_USECOMPNAME, BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_RADIO_USEOWN, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_NAME), TRUE);
@@ -220,7 +216,7 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				break;
 
 			bool changed = false;
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_RADIO_USECOMPNAME:
 				g_lan->SetUseHostName(true);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_NAME), FALSE);
@@ -234,29 +230,26 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			case IDC_LIST_IP:
 				{
 					u_long addr = g_lan->GetHostAddress(SendDlgItemMessage(hwndDlg, IDC_LIST_IP, LB_GETCURSEL, 0, 0)).S_un.S_addr;
-					if (addr != g_lan->GetCurHostAddress().S_un.S_addr)
-					{
+					if (addr != g_lan->GetCurHostAddress().S_un.S_addr) {
 						g_lan->SetRequiredIp(addr);
 						changed = true;
 					}
 				}
 				break;
 			case IDC_EDIT_NAME:
-				if (HIWORD(wParam)==EN_CHANGE)
+				if (HIWORD(wParam) == EN_CHANGE)
 					changed = true;
 				break;
 			}
 			if (changed)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED,0,0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) 
-		{
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR)lParam)->code) 
-			{
-			case PSN_RESET:	
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
 				g_lan->LoadSettings();
 				return TRUE;
 			case PSN_APPLY:
@@ -279,7 +272,7 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int __cdecl EMPCreateOptionsDlg(WPARAM wParam,LPARAM)
+int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
@@ -298,45 +291,35 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam,LPARAM)
 
 INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	HWND hwndOwner;
+	RECT rc, rcDlg, rcOwner;
+
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		{
-			HWND hwndOwner; 
-			RECT rc, rcDlg, rcOwner; 
-			if ((hwndOwner = GetParent(hwndDlg)) == NULL) 
-			{
-				hwndOwner = GetDesktopWindow(); 
-			}
+		if ((hwndOwner = GetParent(hwndDlg)) == NULL)
+			hwndOwner = GetDesktopWindow();
 
-			GetWindowRect(hwndOwner, &rcOwner); 
-			GetWindowRect(hwndDlg, &rcDlg); 
-			CopyRect(&rc, &rcOwner); 
+		GetWindowRect(hwndOwner, &rcOwner);
+		GetWindowRect(hwndDlg, &rcDlg);
+		CopyRect(&rc, &rcOwner);
 
-			OffsetRect(&rcDlg, -rcDlg.left, -rcDlg.top); 
-			OffsetRect(&rc, -rc.left, -rc.top); 
-			OffsetRect(&rc, -rcDlg.right, -rcDlg.bottom); 
+		OffsetRect(&rcDlg, -rcDlg.left, -rcDlg.top);
+		OffsetRect(&rc, -rc.left, -rc.top);
+		OffsetRect(&rc, -rcDlg.right, -rcDlg.bottom);
+		SetWindowPos(hwndDlg, HWND_TOP, rcOwner.left + (rc.right / 2), rcOwner.top + (rc.bottom / 2), 0, 0,  SWP_NOSIZE);
 
-			SetWindowPos(hwndDlg, 
-				HWND_TOP, 
-				rcOwner.left + (rc.right / 2), 
-				rcOwner.top + (rc.bottom / 2), 
-				0, 0,          // ignores size arguments 
-				SWP_NOSIZE); 
-
-			if (GetDlgCtrlID((HWND) wParam) != IDOK) { 
-				SetFocus(GetDlgItem(hwndDlg, IDOK)); 
-				return FALSE; 
-			} 
-			return TRUE;
+		if (GetDlgCtrlID((HWND)wParam) != IDOK) {
+			SetFocus(GetDlgItem(hwndDlg, IDOK));
+			return FALSE;
 		}
-		break;
+		return TRUE;
 
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			EndDialog(hwndDlg, 0);
 			return TRUE;
@@ -377,15 +360,12 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 	CreateProtoServiceFunction(PROTONAME, PSS_FILE, EMPSendFile);
 	CreateProtoServiceFunction(PROTONAME, PSR_FILE, EMPRecvFile);
 
-	g_heOptions = HookEvent(ME_OPT_INITIALISE,EMPCreateOptionsDlg);
-
+	HookEvent(ME_OPT_INITIALISE, EMPCreateOptionsDlg);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) __cdecl Unload()
 {
-	UnhookEvent(g_heOptions);
-
 	delete g_lan;
 	return 0;
 }
