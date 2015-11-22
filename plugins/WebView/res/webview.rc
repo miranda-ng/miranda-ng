@@ -94,7 +94,7 @@ BEGIN
    GROUPBOX        "Error messages",IDC_STATIC,1,137,278,25
    CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",
         BS_AUTOCHECKBOX | WS_TABSTOP,16,149,110,8
-   CONTROL         "Display using Popup or OSD plugin",IDC_ERROR_POPUP,"Button",
+   CONTROL         "Display using Popup or wbOSD plugin",IDC_ERROR_POPUP,"Button",
         BS_AUTOCHECKBOX | WS_TABSTOP,140,149,130,8
 //////////
    GROUPBOX         "Expert options",IDC_ADV_GRP,142,163,137,35,WS_GROUP
