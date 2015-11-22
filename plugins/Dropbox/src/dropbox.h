@@ -81,7 +81,7 @@ private:
 	static UINT RequestAccessTokenAsync(void *owner, void *param);
 
 	// account info
-	void RequestAccountInfo();
+	static void __cdecl RequestAccountInfo(void*);
 
 	// transfers
 	void SendFile(const char *path, const char *data, size_t size);
