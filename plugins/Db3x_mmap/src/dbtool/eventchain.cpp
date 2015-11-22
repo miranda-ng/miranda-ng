@@ -214,7 +214,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	}
 
 	if (dbeOld.cbBlob > 1024 * 1024 || dbeOld.cbBlob == 0) {
-		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Unfeasibly large event blob: skipping"));
+		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Infeasibly large event blob: skipping"));
 		ofsThisEvent = dbeOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
