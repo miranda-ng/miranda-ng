@@ -43,7 +43,7 @@ int CDb3Mmap::WorkSettingsChain(DBContact *dbc, int firstTime)
 		return ERROR_NO_MORE_ITEMS;
 
 	if (dbcsOld.cbBlob > 256 * 1024 || dbcsOld.cbBlob == 0) {
-		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Infeasibly large settings blob: skipping"));
+		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Unfeasibly large settings blob: skipping"));
 		ofsThisSettings = dbcsOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
