@@ -60,13 +60,15 @@ bool CDropbox::HasAccessToken()
 	return db_get_sa(NULL, MODULE, "TokenSecret") != NULL;
 }
 
-void CDropbox::RequestAccountInfo()
+void CDropbox::RequestAccountInfo(void *p)
 {
-	MCONTACT hContact = CDropbox::GetDefaultContact();
+	CDropbox *self = (CDropbox*)p;
+
+	MCONTACT hContact = self->GetDefaultContact();
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	GetAccountInfoRequest request(token);
-	NLHR_PTR response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(self->hNetlibConnection));
 	HandleHttpResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -111,9 +113,15 @@ void CDropbox::RequestAccountInfo()
 	JSONNode quota_info = root.at("quota_info");
 	if (!quota_info.empty())
 	{
-		db_set_dw(hContact, MODULE, "SharedQuota", quota_info.at("shared").as_int());
-		db_set_dw(hContact, MODULE, "NormalQuota", quota_info.at("normal").as_int());
-		db_set_dw(hContact, MODULE, "TotalQuota", quota_info.at("quota").as_int());
+		ULONG lTotalQuota = quota_info.at("quota").as_int();
+		ULONG lNormalQuota = quota_info.at("normal").as_int();
+		ULONG lSharedQuota = quota_info.at("shared").as_int();
+	
+		db_set_dw(hContact, MODULE, "SharedQuota", lSharedQuota);
+		db_set_dw(hContact, MODULE, "NormalQuota", lNormalQuota);
+		db_set_dw(hContact, MODULE, "TotalQuota", lTotalQuota);
+		
+		db_set_s(hContact, "CList", "StatusMsg", CMStringA(FORMAT, Translate("Free %ld of %ld MB"), (lTotalQuota - lNormalQuota)/(1024*1024), lTotalQuota/(1024*1024)));
 	}
 }
 
@@ -194,7 +202,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 
 	try
 	{
-		instance->RequestAccountInfo();
+		RequestAccountInfo(instance);
 	}
 	catch (TransferException &ex)
 	{

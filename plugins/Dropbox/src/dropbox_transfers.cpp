@@ -203,6 +203,8 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
 
+	mir_forkthread(&CDropbox::RequestAccountInfo, instance);
+
 	return 0;
 }
 
