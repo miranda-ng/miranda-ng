@@ -25,7 +25,6 @@
 #define ID_ADDPERMANENT                 1014
 #define ID_ADDPERMANENT2                1015
 #define ID_HANDLEAUTHREQ                1015
-#define ID_DOS_INTEGRATION              1016
 #define ID_SPECIALGROUP                 1017
 #define IDC_BUTTON1                     1017
 #define IDC_VARS                        1017

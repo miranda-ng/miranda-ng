@@ -31,7 +31,6 @@ BOOL gbExclude = 1;
 BOOL gbDelExcluded = 0;
 BOOL gbDelAllTempory = 0;
 BOOL gbHistoryLog = 0;
-BOOL gbDosServiceIntegration = 0;
 BOOL gbCaseInsensitive = 0;
 BOOL gbRegexMatch = 0;
 BOOL gbInvisDisable = 0;
@@ -80,7 +79,6 @@ extern tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szMo
 
 void InitVars()
 {
-	gbDosServiceIntegration = db_get_b(NULL, pluginName, "DOSIntegration", 0);
 	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("Spammers"));
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));

@@ -10,7 +10,6 @@ extern BOOL gbHideContacts;
 extern BOOL gbIgnoreContacts;
 extern BOOL gbExclude;
 extern BOOL gbDelExcluded;
-extern BOOL gbDosServiceIntegration;
 extern BOOL gbDelNotInList;
 extern BOOL gbCaseInsensitive;
 extern BOOL gbRegexMatch;
