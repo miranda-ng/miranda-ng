@@ -177,7 +177,7 @@ void CSteamProto::PollingThread(void*)
 	while (!isTerminated && !breaked && errors < errorsLimit)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
-		request->nlc = m_pollingConnection;
+		// request->nlc = m_pollingConnection;
 		HttpResponse *response = request->Send(m_hNetlibUser);
 		delete request;
 
@@ -215,7 +215,7 @@ void CSteamProto::PollingThread(void*)
 							json_delete(nroot);
 						}
 
-						m_pollingConnection = response->nlc;
+						// m_pollingConnection = response->nlc;
 					}
 					/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
 					{
