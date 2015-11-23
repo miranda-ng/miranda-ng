@@ -46,7 +46,7 @@ void CToxProto::SendMessageAsync(void *arg)
 
 	int32_t friendNumber = GetToxFriendNumber(param->hContact);
 	if (friendNumber == UINT32_MAX)
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, 0);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND)));
 
 	size_t msgLen = mir_strlen(param->message);
 	uint8_t *msg = (uint8_t*)param->message;
@@ -62,9 +62,8 @@ void CToxProto::SendMessageAsync(void *arg)
 	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
 	{
 		logger->Log(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, 0);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(sendError)));
 	}
-
 	uint64_t messageId = (((int64_t)friendNumber) << 32) | ((int64_t)messageNumber);
 	messages[messageId] = param->hMessage;
 

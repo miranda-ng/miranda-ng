@@ -82,6 +82,27 @@ TCHAR* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 	}
 }
 
+TCHAR* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
+{
+	switch (error)
+	{
+	case TOX_ERR_FRIEND_SEND_MESSAGE_NULL:
+		return TranslateT("One of the arguments is missing");
+	case TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND:
+		return TranslateT("The friend number did not designate a valid friend");
+	case TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_CONNECTED:
+		return TranslateT("This client is currently not connected to the friend");
+	case TOX_ERR_FRIEND_SEND_MESSAGE_SENDQ:
+		return TranslateT("An allocation error occurred while increasing the send queue size");
+	case TOX_ERR_FRIEND_SEND_MESSAGE_TOO_LONG:
+		return TranslateT("Message length exceeded TOX_MAX_MESSAGE_LENGTH");
+	case TOX_ERR_FRIEND_SEND_MESSAGE_EMPTY:
+		return TranslateT("Attempted to send a zero-length message");
+	default:
+		return TranslateT("Unknown error");
+	}
+}
+
 void CToxProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())

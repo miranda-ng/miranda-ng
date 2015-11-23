@@ -278,6 +278,7 @@ private:
 	static int ToxToMirandaStatus(TOX_USER_STATUS userstatus);
 
 	static TCHAR* ToxErrorToString(TOX_ERR_NEW error);
+	static TCHAR* ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error);
 
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
