@@ -224,8 +224,6 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwnd);
 		CheckDlgButton(hwnd, IDC_INVIS_DISABLE, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CASE_INSENSITIVE, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED);
-		gbDosServiceExist ? EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION), 1) : EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION), 0);
-		CheckDlgButton(hwnd, ID_DOS_INTEGRATION, gbDosServiceIntegration ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hwnd, ID_SPECIALGROUPNAME, gbSpammersGroup.c_str());
 		CheckDlgButton(hwnd, ID_SPECIALGROUP, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, ID_EXCLUDE, gbExclude ? BST_CHECKED : BST_UNCHECKED);
@@ -250,7 +248,6 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case IDC_INVIS_DISABLE:
 		case IDC_CASE_INSENSITIVE:
-		case ID_DOS_INTEGRATION:
 		case ID_SPECIALGROUPNAME:
 		case ID_SPECIALGROUP:
 		case ID_EXCLUDE:
@@ -274,7 +271,6 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case PSN_APPLY:
 			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_CASE_INSENSITIVE));
 			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_INVIS_DISABLE));
-			db_set_b(NULL, pluginName, "DOSIntegration", gbDosServiceIntegration = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_DOS_INTEGRATION));
 			{
 				static tstring NewGroupName, CurrentGroupName;
 				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);

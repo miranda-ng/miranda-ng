@@ -81,8 +81,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,279,10
     CONTROL         "Disable question in invisible mode",IDC_INVIS_DISABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,287,10
-    CONTROL         "Enable integration with DOS plugin",ID_DOS_INTEGRATION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,89,287,8
     CONTROL         "Exclude contacts which we sending something from spam check",ID_EXCLUDE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,33,287,8
     CONTROL         "Remove Excluded contacts after restart",ID_REMOVE_TMP,
