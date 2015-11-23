@@ -471,7 +471,7 @@ void CPepGuiService::RebuildMenu()
 	mi.position = 200010;
 	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_HIDDEN;
 	mi.hIcolibItem = m_hIcolibItem;
-	mi.name.t = m_szText ? m_szText : _T("<advanced status slot>");
+	mi.name.t = m_szText ? m_szText : LPGENT("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
 }
 
@@ -492,7 +492,7 @@ void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
 	replaceStrT(m_szText, text);
 
 	if (m_hMenuItem)
-		Menu_ModifyItem(m_hMenuItem, m_szText ? m_szText : _T("<advanced status slot>"), m_hIcolibItem);
+		Menu_ModifyItem(m_hMenuItem, m_szText ? m_szText : TranslateT("<advanced status slot>"), m_hIcolibItem, CMIF_KEEPUNTRANSLATED);
 }
 
 int CPepGuiService::OnMenuItemClick(WPARAM, LPARAM)
@@ -1086,7 +1086,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 			hIcon = g_ActivityIcons.GetIcolibHandle(returnActivity(activity));
 		}
 		else {
-			mir_tstrcpy(title, LPGENT("Set activity..."));
+			mir_tstrcpy(title, TranslateT("Set activity..."));
 			hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 		}
  
