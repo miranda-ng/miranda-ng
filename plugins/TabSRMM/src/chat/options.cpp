@@ -412,7 +412,6 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			InitSetting(pszGroup, "AddToGroup", _T("Chat rooms"));
 			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
-			Utils::showDlgControl(hwndDlg, IDC_STATIC_MESSAGE, SW_HIDE);
 		}
 		break;
 
