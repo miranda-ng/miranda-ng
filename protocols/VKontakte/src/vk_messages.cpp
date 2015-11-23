@@ -42,38 +42,43 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	debugLogA("CVkProto::SendMsg");
 	if (!IsOnline())
 		return 0;
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER) {
+
+	bool bIsChat = isChatRoom(hContact);
+	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID" , -1);
+
+	if (iUserID == -1 || iUserID == VK_FEED_USER) {
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact));
 		return 0;
 	}
 
 	int StickerId = 0;
-	ptrA retMsg(GetStickerId(szMsg, StickerId));
+	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
 
-	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
-		<< INT_PARAM("user_id", userID)
-		<< INT_PARAM("guid", ((LONG) time(NULL)) * 100 + msgId % 100)
+	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, bIsChat? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
+		<< INT_PARAM(bIsChat ? "chat_id" : "user_id", iUserID)
+		<< INT_PARAM("guid", ((LONG) time(NULL)) * 100 + uMsgId % 100)
 		<< VER_API;
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-	if (StickerId != 0)
+	if (StickerId)
 		pReq << INT_PARAM("sticker_id", StickerId);
 	else
 		pReq << CHAR_PARAM("message", szMsg);
 
-	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId);
+	if (!bIsChat)
+		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
+	
 	Push(pReq);
 
-	if (!m_bServerDelivery)
-		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, msgId));
+	if (!m_bServerDelivery && !bIsChat)
+		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, uMsgId));
 
-	if (!IsEmpty(retMsg)) {
+	if (!IsEmpty(pszRetMsg)) {
 		Sleep(330);
-		SendMsg(hContact, 0, retMsg);
+		SendMsg(hContact, 0, pszRetMsg);
 	}
-	return msgId;
+	return uMsgId;
 }
 
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
