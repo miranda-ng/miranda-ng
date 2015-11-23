@@ -493,17 +493,13 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
 		if (IsOnline() && mir_tstrlen(gch->ptszText) > 0) {
-			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
-			rtrimt(buf);
-			UnEscapeChatTags(buf);
-			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
-				<< INT_PARAM("chat_id", cc->m_chatid) 
-				<< CHAR_PARAM("message", T2Utf(buf))
-				<< VER_API;
-			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			Push(pReq);
+			ptrT ptszBuf(mir_tstrdup(gch->ptszText));
+			rtrimt(ptszBuf);
+			UnEscapeChatTags(ptszBuf);
+			SendMsg(cc->m_hContact, 0, T2Utf(ptszBuf));
 		}
 		break;
+
 	case GC_USER_PRIVMESS:
 		{
 			MCONTACT hContact = FindUser(_ttoi(gch->ptszUID));
@@ -925,7 +921,6 @@ void CVkProto::ChatContactTypingThread(void * p)
 	StopChatContactTyping(iChatId, iUserId);
 }
 
-
 void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 {
 	debugLogA("CVkProto::StopChatContactTyping %d %d", iChatId, iUserId);
@@ -938,7 +933,7 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 		return;
 	
 	CVkChatUser* cu = cc->GetUserById(iUserId);
-	if (cu == NULL) 
+	if (cu == NULL)
 		return;
 	
 	mir_cslock lck(m_csChatTyping);
