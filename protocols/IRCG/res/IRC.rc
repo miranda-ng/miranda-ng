@@ -268,7 +268,7 @@ BEGIN
     EDITTEXT        IDC_HOST,120,91,89,12,ES_AUTOHSCROLL
     PUSHBUTTON      "&Save",IDC_BUTTON,159,107,50,14,WS_DISABLED
     LTEXT           "Nick",IDC_STATIC,12,83,40,8
-    LTEXT           "User",IDC_STATIC,66,83,40,8
+    LTEXT           "User",IDC_STATIC,66,83,52,8
     LTEXT           "Address",IDC_STATIC,120,83,89,8
     LTEXT           "@",IDC_STATIC,109,90,8,8
     GROUPBOX        "Hostmask",IDC_STATIC,6,73,209,52
@@ -276,7 +276,7 @@ BEGIN
     LTEXT           "!",IDC_STATIC,57,90,8,8
     PUSHBUTTON      "&Clear all",IDC_BUTTON2,96,107,50,14
     GROUPBOX        "Online detection mode",IDC_STATIC,6,7,209,66
-    CONTROL         "Basic",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,23,17,33,10
+    CONTROL         "Basic",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,23,17,44,10
     CONTROL         "Wildcard enabled network search",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,69,17,122,10
 END
 
