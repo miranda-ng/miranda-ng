@@ -6,7 +6,7 @@
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
-Отключает все звуки и всплывающие окна при старте Миранды на 10-300 секунд, затем возвращает их к заданному состоянию (Автоматически запоминает настройки для каждого компьютера).
+Отключает все звуки и всплывающие окна при старте Миранды на 10-300 секунд, затем возвращает их к заданному состоянию (автоматически запоминает настройки для каждого компьютера).
 [Silence at Startup]
 Тихий запуск
 [Settings for the next Computer Name:]
@@ -74,4 +74,4 @@
 [You have to install "TopToolBar" to use this option.]
 Для использования этой функции необходим установленный плагин TopToolBar.
 [You have to install "YAPP" or "Popup+" to use this option.]
-Для использования этой функции необходим установленный \"YAPP\" или \"Popup+\" модуль всплывающих окон.
+Для использования этой функции необходим установленный плагин YAPP или Popup+.

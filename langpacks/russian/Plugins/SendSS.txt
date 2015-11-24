@@ -104,7 +104,7 @@
 [File transfer]
 Передача файла
 [Could not start the HTTP Server plugin.]
-Не могу запустить плагин HTTP Сервер.
+Не могу запустить плагин HTTP Server.
 [Retry]
 Ещё раз
 [Yes]
@@ -152,7 +152,7 @@ HTTP подключение SendSS
 [Screenshots]
 Снимки экрана
 [Image services (AdvaImg) not found.\nSendSS disabled.]
-Не найдена служба изображений (AdvaImg).\nПлагин SendSS будет отключён.
+Не найдена служба изображений (плагин AdvaImg).\nПлагин SendSS будет отключён.
 [Buttons]
 Кнопки
 [Take a screenshot]

@@ -6,7 +6,7 @@
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
+Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
 [Load from file]
 Импорт из файла
 [Select existing]
@@ -164,13 +164,13 @@ ID ключа:
 [Warning]
 Предупреждение
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Выбранный вами exe не GnuPG!\nРекомендуется использовать GnuPG v1.x.x с этим плагином.
+Выбранный вами exe не GnuPG!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Ваша версия GnuPG не поддерживается и может работать не правильно!\nРекомендуется использовать GnuPG v1.x.x с этим плагином.
+Ваша версия GnuPG не поддерживается и может работать неправильно!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
 [Info]
 Инфо
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версия GPG поддерживается. Языковые файлы найдены.\nGPG Должен работать нормально.\nНажмите ОК.
+Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
 [Please choose GPG binary location]
 Выберите директорию c GnuPG
 [Please set keyring's home directory]

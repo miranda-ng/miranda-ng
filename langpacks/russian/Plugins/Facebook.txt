@@ -140,9 +140,9 @@
 [Login error, probably bad login credentials.]
 Ошибка входа, скорее всего неверный логин.
 [Could not load communication token. You should report this and wait for plugin update.]
-Невозможно загрузить токен авторизации. Оставьте отчёт о данной ошибке и ждите обновления плагина.
+Невозможно загрузить токен авторизации. Оставьте отчёт об ошибке и ждите обновления плагина.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Невозможно загрузить все требуемые данные. Возможна корректная работа плагина, тем не менее оставьте отчёт о данной ошибке и ждите обновления плагина.
+Невозможно загрузить все требуемые данные. Возможна корректная работа плагина, тем не менее оставьте отчёт об ошибке и ждите обновления плагина.
 [Contact doesn't have required data in database.]
 В базе отсутствуют необходимые данные контакта.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
@@ -200,7 +200,7 @@
 [Request for friendship was ignored.]
 Запрос дружбы был проигнорирован.
 [Error occurred when ignoring friendship request.]
-Произошла ошибка игнора запроса дружбы.
+Произошла ошибка игнорирования запроса дружбы.
 [Default]
 По умолчанию
 [<< Contacts]

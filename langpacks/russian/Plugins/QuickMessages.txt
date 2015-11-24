@@ -28,7 +28,7 @@
 [Consider as ServiceName]
 Внутренняя команда
 [You have changed the plugin settings via database.\nThis requires restart!]
-Вы изменили настройки плагина через базу данных. Требуется перезапуск Miranda!
+Вы изменили настройки плагина через базу данных. Требуется перезапуск программы!
 [Quick Messages Help]
 Помощь по быстрым сообщениям
 [- Selected text]

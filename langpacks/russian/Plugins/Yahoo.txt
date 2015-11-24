@@ -132,15 +132,15 @@ Yahoo подключения по HTTP
 [You need to be connected to Yahoo to add to Ignore List.]
 Вы должны быть в сети для добавление в список игнорирования.
 [Yahoo Ignore]
-Yahoo Игнор
+Игнорирование Yahoo
 [Please enter a valid buddy name to ignore.]
 Введите правильное имя контакта для игнорирования.
 [The buddy is already on your ignore list.]
-Этот контакт уже в вашем списке игнора.
+Этот контакт уже в вашем списке игнорирования.
 [You need to be connected to Yahoo to remove from the ignore list.]
 Вы должны быть в сети для удаления из списка игнорирования.
 [Please select a buddy on the ignore list to remove.]
-Выберите контакт для удаления из списка игнора.
+Выберите контакт для удаления из списка игнорирования.
 [Network]
 Сеть
 [Account]
@@ -224,7 +224,7 @@ Yahoo ошибка пинга
 [%s is already ignored]
 %s уже игнорируется
 [%s is not in the ignore list]
-%s не в игнор-списке
+%s не в списке игнорирования
 [%s is in buddy list - cannot ignore]
 %s в списке - не могу игнорировать
 [System Error: %s]

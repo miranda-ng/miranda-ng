@@ -72,9 +72,9 @@ WUMF: Текущие соединения
 [Error]
 Ошибка
 [Enable WUMF popups]
-Включить WUMF окна
+Включить окна WUMF
 [Disable WUMF popups]
-Выключить WUMF окна
+Выключить окна WUMF
 [Common Dialog Error 0x%lx]
 Ошибка диалога 0x%lx
 [Not implemented yet...]
