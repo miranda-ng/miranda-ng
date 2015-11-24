@@ -396,7 +396,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_DELAY2:
-			if (!ServiceExists(POPUPONOFF)) {
+			if (!ServiceExists(MS_POPUP_QUERY)) {
 				MessageBox(0, NEEDPOPUP, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_DELAY2, BST_UNCHECKED);
 				PopUp = (BYTE)db_set_b(NULL, MODULE_NAME, PopUpComp, 0);
