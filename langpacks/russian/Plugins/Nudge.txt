@@ -6,7 +6,7 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the contact list and chat window.]
-Плагин тряски списка контактов и окна сообщений.
+Трясёт список контактов и окно сообщений.
 [Protocol options]
 Настройки протокола
 [Specify options for each protocol]
@@ -28,7 +28,7 @@
 [Enable popup notification]
 Включить всплывающие окна
 [Respect ignore settings (status changes)]
-Учесть настройки игнора (смены статусов)
+Учесть настройки игнорирования (смены статусов)
 [Sending text]
 Текст отправки
 [Receiving text]

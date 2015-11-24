@@ -6,7 +6,7 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-Плагин управления сменой раскладки по горячим клавишам.
+Управление сменой раскладки по горячим клавишам.
 [Hotkeys]
 Горячие клавиши
 [Changing layout:]

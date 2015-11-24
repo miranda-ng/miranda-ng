@@ -6,7 +6,7 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-Плагин расширенной информации о пользователе. Позволяет редактировать всю информацию о контакте.
+Расширенная информация о пользователе с возможностью редактирования всей информации о контакте.
 [Edit contact information]
 Редактировать данные контакта
 [This list gives you some overview about all your contact's anniversaries.]
@@ -1184,7 +1184,7 @@ INI файл "%s"\nдля чтения контакта не может быть
 [The selected file is no valid XMLCard]
 Выбранный файл не является XML карточкой
 [The version of the XMLCard is not supported by UserInfoEx]
-Эта версия XML карточки не поддерживается модулем UserInfoEx
+Эта версия XML карточки не поддерживается плагином UserInfoEx
 [Complete]
 Готово
 [Owner contact successfully imported.]
