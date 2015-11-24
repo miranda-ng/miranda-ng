@@ -106,7 +106,7 @@
 [Remember last message used for a contact...]
 Запоминать последнее сообщение для контакта...
 [Store contact autoreply/ignore settings for each status separately]
-Хранить настройки автоответчика/игнорирования контакта для кажд. статуса отдельно
+Хранить настройки автоответчика/игнорирования контакта для каждого статуса отдельно
 [Enable contact menu items]
 Включить меню контакта
 [Use protocol specific nick for %nas_mynick%]

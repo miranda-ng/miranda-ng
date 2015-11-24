@@ -722,7 +722,7 @@ Nickserv убить фантома
 [Send &File]
 Передача &файла
 [Add to &ignore list]
-Добавить в список &игнорируемых
+&Игнорировать
 [&Add User]
 &Добавить в контакты
 [Connecting to]
