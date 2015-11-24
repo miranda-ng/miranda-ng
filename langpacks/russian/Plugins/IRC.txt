@@ -158,7 +158,7 @@ ID пользователя
 [Online detection mode]
 Режим определения в сети
 [Basic]
-Основные
+Основной
 [Wildcard enabled network search]
 Wildcard поиск по сети
 [Channel manager]
@@ -526,7 +526,7 @@ DCC-запрос на передачу файла послан %s [%s]
 [Add ignore]
 Добавление правила
 [Edit ignore]
-Изменить правило
+Изменить игнор
 [Account]
 Учётная запись
 [DCC and CTCP]
@@ -722,7 +722,7 @@ Nickserv убить фантома
 [Send &File]
 Передача &файла
 [Add to &ignore list]
-Добавить в список &игнорирования
+Добавить в &игнор
 [&Add User]
 &Добавить в контакты
 [Connecting to]
