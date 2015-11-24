@@ -34,7 +34,7 @@
 [Suppress error messages]
 Откл. сообщения об ошибках
 [Display using Popup or OSD plugin]
-Исп. плагин Popup или OSD
+Исп. всплывающие окна или OSD
 [Expert options]
 Расширенные настройки
 [(not recommended)]

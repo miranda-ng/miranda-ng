@@ -6,7 +6,7 @@
 ;  Authors: theMIROn, Art Fedorov
 ;============================================================
 [Easy, fast and feature complete history viewer.]
-Простой, быстрый и многофункциональный просмотр истории.
+Простой, быстрый и многофункциональный просмотрщик истории.
 [Voice calls]
 Звонки
 [Voice call]
@@ -484,7 +484,7 @@ HTML файл
 [Status request by %s (%d):%s]
 Запрос статуса от %s (%d):%s
 [Ignored status request by %s (%d):%s]
-Игнор запроса статуса от %s (%d):%s
+Игнорирование запроса статуса от %s (%d):%s
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
 Артист: %s\\r\\nНазвание: %s\\r\\nАльбом: %s
 [No "%s" items]

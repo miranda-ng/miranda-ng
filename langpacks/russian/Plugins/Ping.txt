@@ -114,7 +114,7 @@ TCP соединение
 [Hosts]
 Хосты
 [Ping Plugin]
-Плагин пинг
+Плагин Ping
 [Responding]
 Отвечает
 [Not Responding]

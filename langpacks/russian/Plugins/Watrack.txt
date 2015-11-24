@@ -18,7 +18,7 @@ xСтатус будет очищен перед изменением текст
 [If this option is "ON", xStatus doesn't depend on protocol status.]
 Если включена эта опция, xСтатус не будет зависеть от статуса протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-Использовать плагин "Variables" или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без этого плагина WATrack будет работать быстрее.
+Использовать плагин Variables или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без него WATrack будет работать быстрее.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
 Заменять "_" (подчёркивание) пробелами в тексте, иногда может быть полезно.
 [Check file date and time to tag updates while playing.]
