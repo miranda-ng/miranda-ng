@@ -943,7 +943,7 @@ static void TSAPI InitAPI()
 int LoadSendRecvMessageModule(void)
 {
 	if (FIF == 0) {
-		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
+		MessageBox(0, TranslateT("The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 

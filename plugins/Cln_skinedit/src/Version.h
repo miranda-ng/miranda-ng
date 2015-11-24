@@ -5,9 +5,9 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "Skin editor for clist nicer"
+#define __PLUGIN_NAME            "Skin editor for Clist nicer"
 #define __FILENAME               "Cln_skinedit.dll"
-#define __DESCRIPTION            "Allows inline skin item editing for clist nicer."
+#define __DESCRIPTION            "Allows inline skin item editing for Clist nicer."
 #define __AUTHOR                 "Nightwish, Pixel"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/Cln_skinedit/"
