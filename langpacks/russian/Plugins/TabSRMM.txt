@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
-Плагин личных и групповых чатов для Miranda NG.
+Личные и групповые чаты для Miranda NG.
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Добавьте пользователя по его имени или по ID. Рекомендуется использовать маски.
 [Cancel]
@@ -44,7 +44,7 @@
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Интегрированный чат выключен. Вы можете включить его, поставив галочку ниже. Для включения поддержки чата необходим перезапуск Miranda NG.\n\nСтандартный модуль chat должен быть отключён, если вы включаете поддержку групповых чатов здесь. Иначе чаты могут не работать.
+Интегрированный чат выключен. Вы можете включить его, поставив галочку ниже. Для включения поддержки чата необходим перезапуск Miranda NG.\n\nСтандартный модуль чата должен быть отключён, если вы включаете поддержку групповых чатов здесь. Иначе чаты могут не работать.
 [Log files]
 Файлы журнала
 [Enable logging to disk]
@@ -228,7 +228,7 @@
 [Use the message log color theme for group chat popups]
 Использовать цвета журнала сообщений для вспл. окон чатов
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
-Плагин всплывающих окон не найден. Уведомления недоступны.
+Не найден плагин всплывающих окон. Уведомления недоступны.
 [Dialog]
 Диалог
 [All modes]
@@ -1232,7 +1232,7 @@ TabSRMM: набирает
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Опция "Вставить и отправить" выключена. Включение: Настройки -> Беседы -> Общее, раздел "Отправка сообщений".
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
+Не установлен плагин тряски, либо протокол контакта не поддерживает отправку события тряски.
 ['(Unknown contact)']
 '(Неизвестный контакт)'
 [JPEG-compressed images]
@@ -1446,7 +1446,7 @@ TabSRMM: набирает
 [Feature enabled (used as overlay)]
 Возможность включена (используется как оверлей)
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключён.
+Не установлен плагин службы изображений (AdvaImg)\n\nTabSRMM отключён.
 [TabSRMM fatal error]
 Критическая ошибка TabSRMM
 [Message windows - IM]

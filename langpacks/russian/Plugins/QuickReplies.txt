@@ -6,7 +6,7 @@
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
-Плагин для быстрой вставки (или отправки) определённых сообщений в окно отправки.
+Быстрая вставка (или отправка) определённых сообщений в окно отправки.
 [Quick Replies]
 Быстрые ответы
 [Send replies immediately]

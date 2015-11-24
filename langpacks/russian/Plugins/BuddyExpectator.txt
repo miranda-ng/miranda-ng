@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-Плагин уведомляет о возвращении контакта или его длительном отсутствии.
+Уведомления о возвращении контакта или его длительном отсутствии.
 [When a contact returns after]
 При появлении контакта после
 [or comes online for the first time]

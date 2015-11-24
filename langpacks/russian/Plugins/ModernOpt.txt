@@ -6,7 +6,7 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 [Support for new options design.]
-Поддержка нового дизайна окна настроек Miranda NG.
+Новый дизайн окна настроек Miranda NG.
 [Visit official Miranda NG website]
 Официальный сайт Miranda NG
 [Sample page]

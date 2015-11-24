@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
-Предоставляет для различных плагинов сервис всплывающих окон на основе системной службы Toast Notification.
+Предоставляет другим плагинам сервис всплывающих окон на основе системной службы Toast Notification.
 [Preview]
 Тест
 [Add shortcut]

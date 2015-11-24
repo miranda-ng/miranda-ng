@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Плагин позволяет управлять Miranda через командную строку.
+Позволяет управлять Miranda NG через командную строку.
 [Error]
 Ошибка
 [Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.]
@@ -46,7 +46,7 @@
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
 Меняет ник пользователя на указанном протоколе.\nИспользование: setnickname <протокол> новый_ник.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
-Включение и отключение флага "игнорировать" для указанных контактов.\nИспользование:\n  ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда переключит (установит или удалит) игнорирование для указанных контактов.
+Включение и отключение флага "игнорировать" для указанных контактов.\nИспользование:\n  ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда переключит (установит или уберёт) игнорирование для указанных контактов.
 [Wrong number of parameters for command '%s'.]
 Неверное количество параметров для команды '%s'
 [Unknown parameter '%s' for command '%s'.]
