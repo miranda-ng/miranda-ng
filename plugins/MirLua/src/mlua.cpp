@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-LIST<void> CMLua::Hooks(1, PtrKeySortT);
-LIST<void> CMLua::Events(1, PtrKeySortT);
-LIST<void> CMLua::Services(1, PtrKeySortT);
+//LIST<void> CMLua::Hooks(1, PtrKeySortT);
+//LIST<void> CMLua::Events(1, PtrKeySortT);
+//LIST<void> CMLua::Services(1, PtrKeySortT);
 LIST<void> CMLua::HookRefs(1, HandleKeySortT);
 LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
 
@@ -73,30 +73,16 @@ void CMLua::Unload()
 	::KillModuleHotkeys(hScriptsLangpack);
 	::KillObjectEventHooks(L);
 	::KillObjectServices(L);
-	CMLua::KillModuleServices();
-	CMLua::KillModuleEventHooks();
 	//KillModuleSubclassing
+
+	//CMLua::KillLuaRefs();
 
 	if (L)
 		lua_close(L);
 }
 
-void CMLua::KillModuleEventHooks()
+void CMLua::KillLuaRefs()
 {
-	while (Hooks.getCount())
-	{
-		HANDLE hHook = Hooks[0];
-		Hooks.remove(0);
-		UnhookEvent(hHook);
-	}
-
-	while (Events.getCount())
-	{
-		HANDLE hEvent = Events[0];
-		Events.remove(hEvent);
-		DestroyHookableEvent(hEvent);
-	}
-
 	while (HookRefs.getCount())
 	{
 		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
@@ -106,16 +92,6 @@ void CMLua::KillModuleEventHooks()
 			HookRefs.remove(0);
 			delete param;
 		}
-	}
-}
-
-void CMLua::KillModuleServices()
-{
-	while (Services.getCount())
-	{
-		HANDLE hService = Services[0];
-		Services.remove(0);
-		DestroyServiceFunction(hService);
 	}
 
 	while (ServiceRefs.getCount())

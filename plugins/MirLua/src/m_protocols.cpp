@@ -246,7 +246,6 @@ static int lua_OnProtoAck(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_PROTO_ACK, ProtoAckHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	CMLua::Hooks.insert(res);
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
@@ -296,7 +295,6 @@ static int lua_OnReceiveMessage(lua_State *L)
 	HANDLE res = ::HookEventObjParam(MODULE PSR_MESSAGE, RecvMessageHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	CMLua::Hooks.insert(res);
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;

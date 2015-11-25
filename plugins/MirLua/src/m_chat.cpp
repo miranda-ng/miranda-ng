@@ -71,7 +71,6 @@ static int lua_OnReceiveEvent(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_GC_HOOK_EVENT, GCHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	CMLua::Hooks.insert(res);
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;

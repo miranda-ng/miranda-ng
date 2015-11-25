@@ -498,7 +498,6 @@ static int lua_OnSettingChanged(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_DB_CONTACT_SETTINGCHANGED, SettingsChangedHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	CMLua::Hooks.insert(res);
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;

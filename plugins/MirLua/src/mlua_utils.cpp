@@ -75,46 +75,39 @@ bool luaM_toboolean(lua_State *L, int idx)
 
 WPARAM luaM_towparam(lua_State *L, int idx)
 {
-	WPARAM wParam = NULL;
 	switch (lua_type(L, idx))
 	{
 	case LUA_TBOOLEAN:
-		wParam = lua_toboolean(L, idx);
-		break;
+		return lua_toboolean(L, idx);
 	case LUA_TNUMBER:
-		wParam = lua_tonumber(L, idx);
-		break;
+		return lua_tonumber(L, idx);
 	case LUA_TSTRING:
-		wParam = (WPARAM)lua_tostring(L, idx);
+		return (WPARAM)lua_tostring(L, idx);
 		break;
-	case LUA_TUSERDATA:
+	//case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
-		wParam = (WPARAM)lua_touserdata(L, idx);
-		break;
+		return (WPARAM)lua_touserdata(L, idx);
+	default:
+		return NULL;
 	}
-	return wParam;
 }
 
 LPARAM luaM_tolparam(lua_State *L, int idx)
 {
-	LPARAM lParam = NULL;
 	switch (lua_type(L, idx))
 	{
 	case LUA_TBOOLEAN:
-		lParam = lua_toboolean(L, idx);
-		break;
+		return lua_toboolean(L, idx);
 	case LUA_TNUMBER:
-		lParam = lua_tonumber(L, idx);
-		break;
+		return lua_tonumber(L, idx);
 	case LUA_TSTRING:
-		lParam = (LPARAM)lua_tostring(L, idx);
-		break;
-	case LUA_TUSERDATA:
+		return (LPARAM)lua_tostring(L, idx);
+	//case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
-		lParam = (LPARAM)lua_touserdata(L, idx);
-		break;
+		return (LPARAM)lua_touserdata(L, idx);
+	default:
+		return NULL;
 	}
-	return lParam;
 }
 
 int luaM_totable(lua_State *L)
