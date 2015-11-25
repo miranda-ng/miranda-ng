@@ -117,7 +117,6 @@ static int lua_OnMsgWindowEvent(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_MSG_WINDOWEVENT, MsgWindowEventHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	CMLua::Hooks.insert(res);
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;

@@ -15,13 +15,12 @@ class CMLua
 private:
 	lua_State *L;
 
-	static void KillModuleEventHooks();
-	static void KillModuleServices();
+	static void KillLuaRefs();
 
 public:
-	static LIST<void> Hooks;
-	static LIST<void> Events;
-	static LIST<void> Services;
+	//static LIST<void> Hooks;
+	//static LIST<void> Events;
+	//static LIST<void> Services;
 	static LIST<void> HookRefs;
 	static LIST<void> ServiceRefs;
 
