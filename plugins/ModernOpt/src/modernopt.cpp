@@ -77,7 +77,7 @@ struct ModernOptMainPageInfo g_ModernOptPages[MODERNOPT_PAGE_COUNT] =
 	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		LPGENT("Ignore"),		LPGENT("Ban those users and events, you are annoyed with.")},
 	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		LPGENT("Status"),		LPGENT("Set your status messages and idle reporting.")},
 	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	LPGENT("Advanced"),		LPGENT("")},
-	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	LPGENT("Addons"),		LPGENT("Miranda NG is all about plugins. Manage all the plugins you have here.")},
+	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	LPGENT("Plugins"),		LPGENT("Miranda NG is all about plugins. Manage all the plugins you have here.")},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
