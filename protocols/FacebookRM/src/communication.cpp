@@ -39,8 +39,10 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 	// Prepare the request
 	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
 
+	std::string server = choose_server(request_type);
+
 	// Set request URL
-	std::string url = HTTP_PROTO_SECURE + choose_server(request_type) + choose_action(request_type, get_data);
+	std::string url = HTTP_PROTO_SECURE + server + choose_action(request_type, get_data);
 	if (!parent->m_locale.empty())
 		url += "&locale=" + parent->m_locale;
 	
@@ -71,6 +73,10 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 
 	// Set flags
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
+
+	if (server == FACEBOOK_SERVER_MOBILE) {
+		nlhr.flags |= NLHRF_REDIRECT;
+	}
 
 #ifdef _DEBUG 
 	nlhr.flags |= NLHRF_DUMPASTEXT;
