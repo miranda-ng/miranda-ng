@@ -121,12 +121,16 @@ static int lua_FindIterator(lua_State *L)
 		return lua_FindIterator(L);
 	}
 
+	LARGE_INTEGER size;
+	size.HighPart = ffd.nFileSizeHigh;
+	size.LowPart = ffd.nFileSizeLow;
+
 	lua_newtable(L);
 	lua_pushliteral(L, "Name");
 	lua_pushstring(L, T2Utf(ffd.cFileName));
 	lua_settable(L, -3);
 	lua_pushliteral(L, "Size");
-	lua_pushinteger(L, (ffd.nFileSizeHigh * (MAXDWORD + 1)) + ffd.nFileSizeLow);
+	lua_pushinteger(L, size.QuadPart);
 	lua_settable(L, -3);
 	lua_pushliteral(L, "IsFile");
 	lua_pushboolean(L, !(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY));

@@ -36,7 +36,7 @@ private:
 	static int lua__new(lua_State *L)
 	{
 		T *obj = NULL;
-		T **udata = NULL;
+		T *udata = NULL;
 
 		int type = lua_type(L, 1);
 		switch (type)
@@ -45,9 +45,9 @@ private:
 			obj = (T*)MT::Load(L);
 			if (obj == NULL) break;
 		//case LUA_TNONE:
-			udata = (T**)lua_newuserdata(L, sizeof(T*));
-			*udata = MT::Init(obj);
-		//case LUA_TUSERDATA:
+			udata = (T*)lua_newuserdata(L, sizeof(T));
+			memcpy(udata, obj, sizeof(T));
+		case LUA_TUSERDATA:
 			luaL_setmetatable(L, MT::name);
 			return 1;
 		}
@@ -58,7 +58,7 @@ private:
 
 	static int lua__index(lua_State *L)
 	{
-		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
+		T *obj = (T*)luaL_checkudata(L, 1, MT::name);
 		const char *key = lua_tostring(L, 2);
 
 		auto it = fields.find(key);
@@ -104,13 +104,12 @@ private:
 
 	static int lua__gc(lua_State *L)
 	{
-		T** obj = (T**)luaL_checkudata(L, 1, MT::name);
-		MT::Free(obj);
+		T* obj = (T*)luaL_checkudata(L, 1, MT::name);
+		MT::Free(&obj);
 		return 0;
 	}
 
 	static T* Load(lua_State *L) { return (T*)lua_touserdata(L, 1); }
-	static T* Init(T *val) { return val; }
 	static void Free(T **obj) { *obj = NULL; }
 
 public:
@@ -135,6 +134,19 @@ public:
 		if (type != LUA_TNONE)
 			fields[name] = new MTField(offset, size, type);
 		return *this;
+	}
+
+	static void Set(lua_State *L, T* obj)
+	{
+		if (obj == NULL)
+		{
+			lua_pushnil(L);
+			return;
+		}
+
+		T *udata = (T*)lua_newuserdata(L, sizeof(T));
+		memcpy(udata, obj, sizeof(T));
+		luaL_setmetatable(L, MT::name);
 	}
 };
 
