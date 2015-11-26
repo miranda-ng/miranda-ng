@@ -151,8 +151,31 @@ static int lua_CreateServiceFunction(lua_State *L)
 	return 1;
 }
 
+static int lua_CallService(lua_State *L)
+{
+	const char *name = luaL_checkstring(L, 1);
+	WPARAM wParam = luaM_towparam(L, 2);
+	LPARAM lParam = luaM_tolparam(L, 3);
+
+	INT_PTR res = CallService(name, wParam, lParam);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_ServiceExists(lua_State *L)
+{
+	const char *name = luaL_checkstring(L, 1);
+
+	int res = ServiceExists(name);
+	lua_pushboolean(L, res);
+
+	return 1;
+}
+
 static int lua_DestroyServiceFunction(lua_State *L)
 {
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hService = lua_touserdata(L, 1);
 
 	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(hService);
@@ -163,32 +186,12 @@ static int lua_DestroyServiceFunction(lua_State *L)
 		delete param;
 	}
 
-	::DestroyServiceFunction(hService);
+	DestroyServiceFunction(hService);
 
 	return 0;
 }
 
-static int lua_ServiceExists(lua_State *L)
-{
-	const char *name = luaL_checkstring(L, 1);
-
-	int res = ::ServiceExists(name);
-	lua_pushboolean(L, res);
-
-	return 1;
-}
-
-static int lua_CallService(lua_State *L)
-{
-	const char *name = luaL_checkstring(L, 1);
-	WPARAM wParam = luaM_towparam(L, 2);
-	LPARAM lParam = luaM_tolparam(L, 3);
-
-	INT_PTR res = ::CallService(name, wParam, lParam);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
+/***********************************************/
 
 static int lua_IsPluginLoaded(lua_State *L)
 {
