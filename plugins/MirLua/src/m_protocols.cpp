@@ -19,7 +19,7 @@ static int lua_GetProto(lua_State *L)
 
 	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
 	if (pd)
-		lua_pushlightuserdata(L, pd);
+		MT<PROTOCOLDESCRIPTOR>::Set(L, pd);
 	else
 		lua_pushnil(L);
 
@@ -36,7 +36,7 @@ static int lua_ProtoIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		lua_pushlightuserdata(L, protos[i]);
+		MT<PROTOCOLDESCRIPTOR>::Set(L, protos[i]);
 	}
 	else
 		lua_pushnil(L);
@@ -121,7 +121,7 @@ static int lua_GetAccount(lua_State *L)
 
 	PROTOACCOUNT* pa = ::Proto_GetAccount(moduleName);
 	if (pa)
-		lua_pushlightuserdata(L, pa);
+		MT<PROTOACCOUNT>::Set(L, pa);
 	else
 		lua_pushnil(L);
 
@@ -138,7 +138,7 @@ static int lua_AccountIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		lua_pushlightuserdata(L, accounts[i]);
+		MT<PROTOACCOUNT>::Set(L, accounts[i]);
 	}
 	else
 		lua_pushnil(L);
