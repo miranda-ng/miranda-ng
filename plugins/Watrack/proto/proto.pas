@@ -31,9 +31,9 @@ const
   SendRequestText:PAnsiChar =
     'WATrack internal info - sorry!';
 {
-    'If you see this message, probably you have no "WATrack" plugin installed or uses old '+
-    'version. See http://miranda-im.org/download/details.php?action=viewfile&id=2345 or '+
-    'http://awkward.miranda.im/ (beta versions) for more information and download.';
+    'If you see this message, probably you have no WATrack plugin installed or uses old '+
+    'version. See http://wiki.miranda-ng.org/index.php?title=Plugin:Watrack for '+
+    'more information and download.';
 }
 const
   hmInRequest  = $0001;
