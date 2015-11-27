@@ -6,7 +6,7 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
-Уведомляет о различных событиях, инициируемых получением UDP-пакета.
+Уведомления о различных событиях, инициируемых получением UDP-пакета.
 [Security]
 Безопасность
 [Only listen to localhost]

@@ -514,7 +514,7 @@ HTML как откат
 [PNG, ignoring some settings]
 PNG с игнорированием некоторых настроек
 [An internal column configuration error occurred. Please contact the author of this plugin.]
-Внутрення ошибка настройки колонок. Пожалуйста, свяжитесь с автором плагина.
+Внутрення ошибка настройки колонок. Пожалуйста, отправьте сообщение об ошибке.
 [HistoryStats - Error]
 HistoryStats - Ошибка
 [HTML output unsupported.]
