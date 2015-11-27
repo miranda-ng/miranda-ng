@@ -28,7 +28,7 @@
 [Emit a sound]
 Играть звук
 [VirtualProtect failed. Code %d\nTry to call the author]
-Ошибка виртуальной защиты. Код %d\nСвяжитесь с автором
+Ошибка виртуальной защиты. Код %d\nОтправьте сообщение об ошибке
 [Error]
 Ошибка
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]

@@ -148,7 +148,7 @@
 [Status message...]
 Сообщение статуса...
 [%s (locked)]
-%s (заблокирован)
+%s (заблокирована)
 [External Applications]
 Внешние приложения
 [Miranda Related]
