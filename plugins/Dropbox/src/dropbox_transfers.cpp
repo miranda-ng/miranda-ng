@@ -144,30 +144,30 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			char *data = (char*)mir_alloc(chunkSize);
 			while (!feof(hFile) && fileSize != offset)
 			{
-				if (ferror(hFile))
-					throw TransferException("Error while file sending");
-
-				if (ftp->isTerminated)
-					throw TransferException("Transfer was terminated");
-
-				size_t size = fread(data, sizeof(char), chunkSize, hFile);
-
 				try
 				{
+					if (ferror(hFile))
+						throw TransferException("Error while file sending");
+
+					if (ftp->isTerminated)
+						throw TransferException("Transfer was terminated");
+
+					size_t size = fread(data, sizeof(char), chunkSize, hFile);
+
 					if (offset == 0)
 						instance->SendFileChunkedFirst(data, size, uploadId, offset);
 					else
 						instance->SendFileChunkedNext(data, size, uploadId, offset);
+
+					ftp->pfts.currentFileProgress += size;
+					ftp->pfts.totalProgress += size;
 				}
-				catch (TransferException)
+				catch (TransferException&)
 				{
 					mir_free(data);
 					fclose(hFile);
 					throw;
 				}
-
-				ftp->pfts.currentFileProgress += size;
-				ftp->pfts.totalProgress += size;
 
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 			}
