@@ -36,7 +36,7 @@
 [You need specify ICQ Corporate login server.]
 Необходимо указать сервер для подключения.
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
-Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> Сеть -> ICQCorp и попробуйте подключиться снова.
+Сервер не принял номер и пароль ICQ Corp. Исправьте их в разделе "Настройки -> Сеть -> ICQCorp" и попробуйте подключиться снова.
 [%d file]
 %d файл
 [%d files]
