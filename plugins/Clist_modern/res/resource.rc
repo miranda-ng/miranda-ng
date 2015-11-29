@@ -258,9 +258,9 @@ BEGIN
     RTEXT           "Accounts per line",IDC_STATIC,15,150,73,10
     EDITTEXT        IDC_MULTI_COUNT,93,148,48,12,ES_NUMBER
     CONTROL         "",IDC_MULTI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,148,11,12
-    LTEXT           "* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
-    LTEXT           "Hold [Shift] to inverse [Right Click] behavior.",IDC_STATIC,27,207,267,8,WS_DISABLED
-    LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.",IDC_STATIC,27,216,267,8,WS_DISABLED
+    LTEXT           "* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.",IDC_STATIC,17,163,133,42,WS_DISABLED
+    LTEXT           "Hold [Shift] to inverse [Right Click] behavior.",IDC_STATIC,17,207,277,8,WS_DISABLED
+    LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.",IDC_STATIC,17,216,277,8,WS_DISABLED
     CONTROL         "Set options per account",IDC_STATUSBAR_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,12,134,10
     COMBOBOX        IDC_STATUSBAR_PROTO_LIST,160,23,134,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Enable custom account settings",IDC_SBAR_USE_ACCOUNT_SETTINGS,
@@ -289,19 +289,19 @@ BEGIN
     CONTROL         "",IDC_OFFSETSPIN_RIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,261,201,10,12
 END
 
-IDD_DELETECONTACT DIALOGEX 0, 0, 284, 90
+IDD_DELETECONTACT DIALOGEX 0, 0, 294, 101
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Delete contact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "No",IDNO,162,38,65,14
+    DEFPUSHBUTTON   "No",IDNO,172,38,65,14
     PUSHBUTTON      "Yes",IDYES,54,38,65,14
     CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,270,9
-    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
-    CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
-    LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,14
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,280,9
+    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,16
+    CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,18,270,8
+    LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,16
 END
 
 IDD_OPT_CLIST DIALOGEX 0, 0, 302, 202
