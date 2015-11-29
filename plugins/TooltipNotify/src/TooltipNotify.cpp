@@ -138,12 +138,12 @@ int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(NULL, MODULENAME, "firstrun", 0);
 	}
 
-	// register fonts
-	SkinAddNewSound(SND_ONLINE, LPGEN("Tooltip Notify: Online"), "online.wav");
-	SkinAddNewSound(SND_OFFLINE, LPGEN("Tooltip Notify: Offline"), "offline.wav");
-	SkinAddNewSound(SND_OTHER, LPGEN("Tooltip Notify: Other"), "other.wav");
-	SkinAddNewSound(SND_TYPING, LPGEN("Tooltip Notify: Typing"), "typing.wav");
+	SkinAddNewSoundEx(SND_ONLINE, LPGEN("Online"), LPGEN("Tooltip Notify"), "online.wav");
+	SkinAddNewSoundEx(SND_OFFLINE, LPGEN("Offline"), LPGEN("Tooltip Notify"), "offline.wav");
+	SkinAddNewSoundEx(SND_OTHER, LPGEN("Other"), LPGEN("Tooltip Notify"), "other.wav");
+	SkinAddNewSoundEx(SND_TYPING, LPGEN("Typing"), LPGEN("Tooltip Notify"), "typing.wav");
 
+	// register fonts
 	RegisterFonts();
 
 	return 0;
@@ -834,10 +834,8 @@ TCHAR* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *
 	const TCHAR *szFormatString = m_sOptions.bPrefixProto ? _T("%s%s%s") : _T("%.0s%.0s%s");
 	const TCHAR* szIs = TranslateT("is");
 
-	const char* szProto =
-		hContact == 0 ? "Proto" : (char*)::GetContactProto(hContact);
-	const TCHAR* szContactName =
-		(TCHAR *)::pcli->pfnGetContactDisplayName(hContact, 0);
+	const char* szProto = hContact == 0 ? "Proto" : ::GetContactProto(hContact);
+	const TCHAR* szContactName = ::pcli->pfnGetContactDisplayName(hContact, 0);
 
 	memset(szString, 0, iBufSize*sizeof(TCHAR));
 

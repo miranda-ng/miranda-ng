@@ -209,8 +209,8 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	loadContactList();
 
 	// add new skin sound
-	SkinAddNewSound("IncomingSecureMessage", LPGEN("Incoming Secure Message"), "Sounds\\iSecureMessage.wav");
-	SkinAddNewSound("OutgoingSecureMessage", LPGEN("Outgoing Secure Message"), "Sounds\\oSecureMessage.wav");
+	SkinAddNewSoundEx("IncomingSecureMessage", LPGEN("Incoming Secure Message"), LPGEN("SecureIM"), "Sounds\\iSecureMessage.wav");
+	SkinAddNewSoundEx("OutgoingSecureMessage", LPGEN("Outgoing Secure Message"), LPGEN("SecureIM"), "Sounds\\oSecureMessage.wav");
 
 	// init extra icons
 	for (int i = 0; i < _countof(g_IEC); i++)
