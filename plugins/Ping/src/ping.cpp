@@ -144,8 +144,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadOptions();
 
-	SkinAddNewSound("PingTimeout", "Ping Timeout", 0);
-	SkinAddNewSound("PingReply", "Ping Reply", 0);
+	SkinAddNewSoundEx("PingTimeout", LPGEN("Timeout"), LPGEN("Ping"));
+	SkinAddNewSoundEx("PingReply", LPGEN("Reply"), LPGEN("Ping"));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

@@ -219,8 +219,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_CONTACTS_RECEIVE, ServiceReceiveCommand);
 
 	//define event sounds
-	SkinAddNewSound("RecvContacts", LPGEN("Incoming Contacts"), "contacts.wav");
-	SkinAddNewSound("SentContacts", LPGEN("Outgoing Contacts"), "ocontacts.wav");
+	SkinAddNewSoundEx("RecvContacts", LPGEN("Incoming Contacts"), LPGEN("Events"), "contacts.wav");
+	SkinAddNewSoundEx("SentContacts", LPGEN("Outgoing Contacts"), LPGEN("Events"), "ocontacts.wav");
 	return 0;
 }
 
