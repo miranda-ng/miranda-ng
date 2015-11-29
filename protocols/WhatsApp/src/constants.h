@@ -24,7 +24,7 @@
 
 // WhatsApp
 #define WHATSAPP_LOGIN_SERVER "c.whatsapp.net"
-#define ACCOUNT_USER_AGENT "WhatsApp/2.12.96 S40Version/14.26 Device/Nokia302"
+#define ACCOUNT_USER_AGENT "WhatsApp/2.13.5 S40Version/14.26 Device/Nokia302"
 #define ACCOUNT_URL_CODEREQUESTV2 "https://v.whatsapp.net/v2/code"
 #define ACCOUNT_URL_REGISTERREQUESTV2 "https://v.whatsapp.net/v2/register"
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
