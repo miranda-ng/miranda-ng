@@ -279,7 +279,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 		if (reason == "stale")
 			NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else {
-			CMString tmp(FORMAT, TranslateT("Registration failed. Reason: %s"), reason.c_str());
+			CMString tmp(FORMAT, TranslateT("Registration failed. Reason: %s"), _A2T(reason.c_str()));
 			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_CLIENT);
 		}
 
