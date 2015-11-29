@@ -30,7 +30,7 @@
 [Hotkey]
 Горячая клавиша
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
-Настройка в Тонкая настройка -> Горячие клавиши
+Перейти в раздел "Тонкая настройка -> Горячие клавиши"
 [Notifications]
 Уведомления
 [Message boxes]

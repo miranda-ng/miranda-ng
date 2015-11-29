@@ -98,11 +98,11 @@
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Обработка ещё не завершена; если вы перейдёте назад сейчас, то изменения не будут применены к исходной базе данных. Вы хотите перейти назад?
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Плагин проверки базы не может найти подходящего драйвера базы для открытия '%s'.
+Плагин проверки не может найти подходящий драйвер базы для открытия '%s'.
 [Error]
 Ошибка
 [Database driver '%s' doesn't support checking.]
-Драйвер БД '%s' не поддерживает проверку.
+Драйвер базы '%s' не поддерживает проверку.
 [Database]
 Профиль
 [Total size]

@@ -30,7 +30,7 @@
 [Browse...]
 Обзор...
 [Go to the "Options -> Customize -> Folders" to change settings]
-Откройте "Тонкая настройка -> Папки" для изменения настроек
+Перейти в раздел "Тонкая настройка -> Папки"
 [Compress backup to zip-archive]
 Сжать резервную копию в zip-архив
 [Disable progress bar]

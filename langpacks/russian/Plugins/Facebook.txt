@@ -142,7 +142,7 @@
 [Could not load communication token. You should report this and wait for plugin update.]
 Невозможно загрузить токен авторизации. Оставьте отчёт об ошибке и ждите обновления плагина.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Невозможно загрузить все требуемые данные. Возможна корректная работа плагина, тем не менее оставьте отчёт об ошибке и ждите обновления плагина.
+Невозможно загрузить все требуемые данные. Нормальная работа плагина возможна, тем не менее оставьте отчёт об ошибке и ждите обновления плагина.
 [Contact doesn't have required data in database.]
 В базе отсутствуют необходимые данные контакта.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]

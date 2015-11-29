@@ -148,7 +148,7 @@
 [Accounts per line]
 Уч. записей в строке
 [* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
-* Изменение высоты панели статусов: "Главное меню -> Фреймы -> Панель статусов -> Плавающий режим" и растяните панель.
+* Изменение высоты панели статусов: включите опцию "Главное меню -> Фреймы -> Панель статусов -> Плавающий режим" и растяните заголовок панели вверх или вниз.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift+Правый клик - Главное меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -194,7 +194,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скрыть из списка (останутся история и настройки видимости)
 [Use Options -> Contacts -> Ignore to unhide contacts.]
-Скрытые контакты: "Настройки -> Контакты -> Игнорировать".
+Управление отображением контактов осуществляется в разделе "Настройки -> Контакты -> Игнорировать".
 [Are you sure you want to delete %s?]
 Удалить %s из списка?
 [This will erase all history and settings for this contact!]
@@ -894,7 +894,7 @@ Angeli-Ka (графика), FYR (шаблон)
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Предпросмотр недоступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\nАВТОРЫ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+%s\n\n%s\n\nАВТОР(Ы):\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
 графика - Angeli-Ka\nшаблон - FYR
 [Select skin from list]
