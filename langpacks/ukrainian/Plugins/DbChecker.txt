@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-Плагін перевірки баз даних Miranda NG.
+Перевірка баз даних Miranda NG.
 [Welcome to the Miranda Database Wizard]
 Ласкаво просимо до майстра бази даних
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -98,11 +98,11 @@
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Обробка ще не завершена; якщо ви перейдете назад зараз, то зміни не будуть застосовані до оригінальної бази даних. Ви хочете перейти назад?
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Плагін перевірки не може знайти відповідного драйвера БД для відкриття "%s".
+Плагін перевірки не може знайти відповідного драйвера бази для відкриття "%s".
 [Error]
 Помилка
 [Database driver '%s' doesn't support checking.]
-Драйвер профілю "%s" не підтримує перевірку.
+Драйвер бази "%s" не підтримує перевірку.
 [Database]
 Профіль
 [Total size]

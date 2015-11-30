@@ -6,7 +6,7 @@
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
-Плагін вікна консолі журналу Miranda NG.
+Вікно консолі журналу Miranda NG.
 [Console]
 Консоль
 [Single window mode*]

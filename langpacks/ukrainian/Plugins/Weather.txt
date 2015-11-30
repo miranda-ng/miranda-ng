@@ -210,7 +210,7 @@ URL додаткової інформації
 [More...]
 Ще...
 [Weather Protocol INI Setup]
-Налаштування INI-файлу плагіна "Погода"
+Налаштування INI-файлу плагіна Weather
 [Install and load your weather ini file here]
 Встановлюйте і завантажуйте INI-файли погоди
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]

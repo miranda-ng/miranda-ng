@@ -106,17 +106,17 @@
 [Skipping contact with no protocol]
 Пропуск контактів без протоколу
 [Skipping contact, account %S cannot be mapped.]
-Пропуск контакта, неможливо імпортувати обліковий запис %S
+Пропуск контакту, неможливо імпортувати обліковий запис %S
 [Skipping contact, %S not installed.]
-Пропуск контакта, %S не встановлено.
+Пропуск контакту, %S не встановлено.
 [Skipping non-IM contact (%S)]
-Пропуск не-IM контакта (%S)
+Пропуск не-IM контакту (%S)
 [Skipping %S contact, ID not found]
-Пропуск контакта %S, ID не знайдений
+Пропуск контакту %S, ID не знайдений
 [Skipping duplicate %S contact %s]
 Пропуск дубліката %S контакт %s
 [Unknown error while adding %S contact %s]
-Невідома помилка додавання %S контакта %s
+Невідома помилка додавання %S контакту %s
 [Failed to add message]
 Не вдалося додати повідомлення
 [Error retrieving current profile, exiting.]

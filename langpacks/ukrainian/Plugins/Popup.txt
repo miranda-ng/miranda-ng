@@ -7,9 +7,9 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Надає службу спливаючих вікон для інших плагінів.
-[Content && Style]
+[Content and Style]
 Стиль вікон
-[Go to Customize > Fonts && Colors for fonts and colors options]
+[Go to Customize -> Fonts and Colors for fonts and colors options]
 Налаштування шрифтів і кольорів: Тонке налаштування -> Шрифти і кольори
 [Miscellaneous]
 Інше
@@ -149,7 +149,7 @@ History++ для історії вікон
 Вимкнути, коли глобальний статус...
 [Disable when relevant protocol's status is...]
 Вимкнути, коли статус відп. протоколу...
-[Colors can be configured in\r\nCustomize > Fonts and colors]
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
 Кольори налаштовуються в\r\nТонке налаштування -> Шрифти і кольори
 [More...]
 Ще...

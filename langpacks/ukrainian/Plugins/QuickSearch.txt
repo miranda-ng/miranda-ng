@@ -90,7 +90,7 @@ ID користувача
 [Service]
 Виклик служби
 [Contact info]
-Дані контакта
+Дані контакту
 [Other]
 Інше
 [Data type:]
@@ -248,9 +248,9 @@ ID користувача
 [Column content is contact property (see list). Can be empty.]
 Вміст - властивості контакту (див. список). Може бути порожнім.
 [Content is last online time.]
-Вміст - час останньої появи контакта
+Вміст - час останньої появи контакту
 [Content is time of last contact event.]
-Вміст - час останньої події контакта
+Вміст - час останньої події контакту
 [Content is metacontact info.]
 Вміст - інформація метаконтактів
 [Content is count of ALL contact events (not messages only)]

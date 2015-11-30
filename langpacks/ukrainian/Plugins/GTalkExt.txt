@@ -6,7 +6,7 @@
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
-Розширення протоколу Jabber для сповіщень про пошту GTalk.
+Розширення протоколу Jabber для сповіщень про пошту Gmail.
 [Popup notifications (needs popup plugin)]
 Спливаючі сповіщення (потрібен плагін спливаючих вікон)
 [Notify in fullscreen mode too]
@@ -16,7 +16,7 @@
 [Notify in contact list]
 Сповіщати в списку контактів
 [Clear pseudocontact history before adding new events]
-Очищати історію псевдоконтакта перед додаванням нових подій
+Очищати історію псевдоконтакту перед додаванням нових подій
 [Mark history event read when popup closed]
 Закриваючи спливаюче вікно, позначати подію прочитаною
 [Add message snip to notification]
@@ -24,7 +24,7 @@
 [Try to login before open mailbox]
 Намагатися ввійти перед переходом у поштову скриньку
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
-Опція працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта.
+Опція працює тільки якщо пароль збережений у базі. Не впливає на посилання в журналі повідомлень псевдоконтакту.
 [Choose GMail view you use in web interface]
 Виберіть вигляд Gmail, який використовується у веб-інтерфейсі
 [I don't know]

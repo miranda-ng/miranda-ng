@@ -146,7 +146,7 @@
 [Accounts per line]
 Обл. записів у рядку
 [* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
-* Зміна висоти панелі статусів: Головне меню -> Фрейми -> Панель статусів -> Плаваючий режим (розтягніть панель)
+* Зміна висоти панелі статусів: увімкніть "Плаваючий режим" (Головне меню -> Фрейми -> Панель статусів) і розтягніть панель
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift+правий клік - Головне меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]

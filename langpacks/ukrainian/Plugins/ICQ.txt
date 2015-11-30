@@ -1776,7 +1776,7 @@ xСтатус ICQ
 [Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
 Ваш проксі-сервер відкинув ім'я і пароль. Будь ласка, перевірте їх: Налаштування -> Мережа.
 [The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
-Сервер, до якого ви намагаєтеся підключитися, не існує. Перевірте сервер: Налаштування -> Мережа -> ICQ.
+Сервер, до якого ви намагаєтеся підключитися, не існує. Перевірте адресу сервера: Налаштування -> Мережа -> ICQ.
 [error]
 помилка
 [Enter a password for UIN %u:]

@@ -1176,7 +1176,7 @@ UIN, E-mail тощо
 [Show user information]
 Показувати дані користувача
 [Display subcontact nickname]
-Використовувати нік субконтакта
+Використовувати нік субконтакту
 [Display subcontact display name]
 Використовувати коротке ім'я
 [Lock name to first contact]

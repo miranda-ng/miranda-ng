@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
-Плагін особистих і групових чатів для Miranda NG.
+Особисті та групові чати для Miranda NG.
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Додайте користувача за його іменем або ID. Рекомендується використовувати маски.
 [Cancel]
@@ -1218,7 +1218,7 @@ TabSRMM: Набирає
 [Error creating destination directory]
 Помилка створення шляху призначення
 [Save contact picture]
-Зберегти зображення контакта
+Зберегти зображення контакту
 [Image files]
 Файли зображень
 [The file exists. Do you want to overwrite it?]
@@ -1226,7 +1226,7 @@ TabSRMM: Набирає
 [Set your avatar...]
 Змінити аватар...
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Функція "Вставити й надіслати" вимкнена. Щоб увімкнути: Налаштування -> Бесіди -> Загальне, розділ "Надсилання повідомлень".
+Функція "Вставити й надіслати" вимкнена. Увімкніть її в Налаштування -> Бесіди -> Загальне, розділ "Надсилання повідомлень".
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Плагін трясіння не встановлений або протокол контакту не підтримує відправку події трясіння.
 ['(Unknown contact)']
@@ -1320,7 +1320,7 @@ TabSRMM: Набирає
 [History++ plugin]
 Плагін History++
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Ви вибрали зовнішній плагін для відображення повідомлень у журналі. Більшість налаштувань на цій сторінці для журналу за замовчанням і не матимуть ефекту. Для зміни зовнішнього вигляду журналу повідомлень налаштовуйте IEView або History++.
+Ви вибрали зовнішній плагін для відображення повідомлень у журналі. Більшість налаштувань на цій сторінці стосуються журналу за замовчанням і не матимуть ефекту. Для зміни зовнішнього вигляду журналу повідомлень налаштовуйте IEView або History++.
 [** New contacts **]
 ** Нові контакти **
 [** Unknown contacts **]
@@ -1786,7 +1786,7 @@ TabSRMM: %s
 [%s disables '%s' status for %s]
 %s вимикає статус "%s" для %s
 [Add user to highlight list]
-Додати користувача до списку підсвічування
+Додати до списку підсвічування
 [Edit user highlight list]
 Редагувати список підсвічування
 [Input area background]

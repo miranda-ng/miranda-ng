@@ -106,7 +106,7 @@
 [Remember last message used for a contact...]
 Пам'ятати останнє повідомлення для контакту
 [Store contact autoreply/ignore settings for each status separately]
-Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу
+Зберігати налаштування автовідповідача/ігнорування контакту окремо для кожного статусу
 [Enable contact menu items]
 Увімкнути меню контакту
 [Use protocol specific nick for %nas_mynick%]
@@ -250,7 +250,7 @@
 [Settings]
 Налаштування
 [Set %s message for the contact]
-Вст. повідомлення %s для контакта
+Вст. повідомлення %s для контакту
 [Re&ad %s message]
 &Прочитати повідомлення "%s"
 [Toggle autoreply on/off]

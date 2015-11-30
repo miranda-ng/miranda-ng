@@ -244,15 +244,15 @@ URL (усі)
 [Totals]
 Разом
 [Column holding the contact's nick and first/last message time if selected.]
-Колонка містить нік контакта і час першого/останнього повідомлення (якщо вибрано).
+Колонка містить нік контакту і час першого/останнього повідомлення (якщо вибрано).
 [Protocol]
 Протокол
 [Column holding the contact's protocol.]
-Колонка містить назву протоколу контакта.
+Колонка містить назву протоколу контакту.
 [Rank]
 Ранг
 [Column holding the contact's placing according to your sorting criteria.]
-Колонка містить місце контакта згідно з вашими критеріями впорядкування.
+Колонка містить місце контакту згідно з вашими критеріями впорядкування.
 ["Split" type]
 Тип гістограми
 [Hours of day]

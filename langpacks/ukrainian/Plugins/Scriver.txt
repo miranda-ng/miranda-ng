@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-Плагін особистих і групових чатів для Miranda NG.
+Особисті та групові чати для Miranda NG.
 [Behavior]
 Поведінка
 [Automatically pop up the window when]
