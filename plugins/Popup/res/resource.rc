@@ -61,8 +61,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Content && Style",IDC_STATIC,3,3,143,151
-    LTEXT           "Go to Customize > Fonts && Colors for fonts and colors options",IDC_STATIC,28,60,113,18
+    GROUPBOX        "Content and Style",IDC_STATIC,3,3,143,151
+    LTEXT           "Go to Customize -> Fonts and Colors for fonts and colors options",IDC_STATIC,28,60,113,18
     GROUPBOX        "Miscellaneous",IDC_STATIC,3,159,143,38
     GROUPBOX        "Effects",IDC_STATIC,151,84,146,113
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
@@ -249,7 +249,7 @@ BEGIN
     CONTROL         "",IDC_SPHONE2,"MButtonClass",WS_TABSTOP,260,151,15,14
     CONTROL         "",IDC_SLUNCH2,"MButtonClass",WS_TABSTOP,276,151,16,14
     ICON            IDI_MB_INFO,IDC_ICO_INFO,112,170,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    LTEXT           "Colors can be configured in\r\nCustomize > Fonts and colors",IDC_TXT_COLORS,132,171,108,24
+    LTEXT           "Colors can be configured in\r\nCustomize -> Fonts and colors",IDC_TXT_COLORS,132,171,108,24
     PUSHBUTTON      "More...",IDC_MORE,242,176,50,14
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
     CONTROL         "Disable if message window is open",IDC_CHECKWINDOW,

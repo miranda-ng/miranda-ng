@@ -396,7 +396,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 		}
 
 		if (err)
-			mir_strncpy(errmsg, Translate("Please enter your Yahoo ID in Options/Network/Yahoo"), 80);
+			mir_strncpy(errmsg, Translate("Please enter your Yahoo ID in Options -> Network -> Yahoo"), 80);
 		else {
 			if (!getString(YAHOO_PASSWORD, &dbv)) {
 				if (mir_strlen(dbv.pszVal) > 0)
@@ -412,7 +412,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 			}
 
 			if (err)
-				mir_strncpy(errmsg, Translate("Please enter your Yahoo password in Options/Network/Yahoo"), 80);
+				mir_strncpy(errmsg, Translate("Please enter your Yahoo password in Options -> Network -> Yahoo"), 80);
 		}
 
 		if (err != 0) {
