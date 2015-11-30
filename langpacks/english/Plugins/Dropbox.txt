@@ -21,6 +21,7 @@
 [Paste download link into message input area]
 [Copy download link to clipboard]
 ;file \plugins\Dropbox\src\dropbox.cpp
+[Free %ld of %ld MB]
 [in process...]
 [server does not respond]
 [you have been authorized]
