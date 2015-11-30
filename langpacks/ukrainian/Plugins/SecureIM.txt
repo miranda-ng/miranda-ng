@@ -6,7 +6,7 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
-Плагін шифрування SecureIM для Miranda NG.
+Шифрування бесід для Miranda NG.
 [User List]
 Список
 [Enable Secure Offline messages]

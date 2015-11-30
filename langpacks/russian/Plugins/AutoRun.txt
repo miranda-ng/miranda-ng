@@ -10,7 +10,7 @@
 [Autorun]
 Автозагрузка
 [Launch Miranda NG at system startup]
-Запускать Miranda NG при входе в систему.
+Запускать Miranda NG при входе в систему
 [Note: At startup Miranda NG will use current profile]
 Примечание: При запуске будет использован текущий профиль
 [Services]

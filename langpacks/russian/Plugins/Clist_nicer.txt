@@ -417,8 +417,8 @@
 Другое
 [Hide this contact from the list]
 Скрыть контакт из списка
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Чтобы показать ранее скрытый контакт, откройте раздел "Настройки -> События -> Игнорировать", найдите контакт и поставьте галочку перед его именем.
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Чтобы показать ранее скрытый контакт, откройте раздел "Настройки -> Контакты -> Игнорировать", найдите контакт и поставьте галочку перед его именем.
 [Display options]
 Опции отображения
 [Show contact with priority]

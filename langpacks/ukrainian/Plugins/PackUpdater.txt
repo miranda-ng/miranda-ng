@@ -6,7 +6,7 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
-Простий плагін для оновлень збірок Miranda NG.
+Оновлення збірок Miranda NG.
 [Updates found!]
 Знайдені оновлення!
 [Update]

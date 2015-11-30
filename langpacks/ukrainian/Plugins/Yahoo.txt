@@ -132,7 +132,7 @@ HTTP-з'єднання Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Ви повинні бути в мережі, щоб додавати в список ігнорування.
 [Yahoo Ignore]
-Ігнор Yahoo
+Ігнорування Yahoo
 [Please enter a valid buddy name to ignore.]
 Введіть правильне ім'я контакту для ігнорування.
 [The buddy is already on your ignore list.]
@@ -153,9 +153,9 @@ HTTP-з'єднання Yahoo
 Нова пошта в папці "Вхідні"
 [%s plugin connections]
 З'єднання з сервером %s
-[Please enter your Yahoo ID in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Введіть свій Yahoo ID: Налаштування -> Мережа -> Yahoo
-[Please enter your Yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
 Введіть свій пароль Yahoo: Налаштування -> Мережа -> Yahoo
 [Yahoo Login Error]
 Помилка підключення Yahoo

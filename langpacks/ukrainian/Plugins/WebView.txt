@@ -43,6 +43,8 @@
 Помилки
 [Suppress error messages]
 Ігнорувати помилки
+[Display using popup or OSD plugin]
+Викор. сплив вікна або OSD
 [Expert options]
 Режим експерта
 [Disable download protection]

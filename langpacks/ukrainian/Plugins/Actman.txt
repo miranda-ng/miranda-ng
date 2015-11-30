@@ -476,7 +476,7 @@ UTF16+сигнатури
 [Main menu]
 Головне меню
 [Contact menu]
-Меню контакта
+Меню контакту
 [Tray menu]
 Меню трею
 [Protocol menus]
@@ -578,9 +578,9 @@ UTF16+сигнатури
 [System]
 система
 [Shows contact history or (wParam=0) system history]
-Відкриває історію контакта (або системну історію, якщо wParam=0)
+Відкриває історію контакту (або системну історію, якщо wParam=0)
 [Erases contact's history. hContact can be NULL(0) to empty system history]
-Видаляє історію контакта. Якщо hContact NULL(0), то буде видалено системну історію.
+Видаляє історію контакту. Якщо hContact NULL(0), то буде видалено системну історію.
 [Ignore all]
 ігнорувати все
 [Ignore messages]
@@ -640,7 +640,7 @@ YAPP або Popup
 [displays the Account Manager]
 Відкриває менеджер облікових записів
 [Show the dialog to select the contact]
-Відкриває вікно вибору контакта
+Відкриває вікно вибору контакту
 [wParam is unicode]
 wParam в Unicode
 [wParam is Ansi]

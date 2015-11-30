@@ -102,7 +102,7 @@
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
 [Force invisible status upon user activity]
-Змінювати статус контакта на "Невидимий" при його активності
+Змінювати статус контакту на "Невидимий" при його активності
 [Invisible interval timeout (min):]
 Інтервал переходу в "Невидимий" (хв):
 [Use non-standard urlEncode for sent messages (less traffic)]

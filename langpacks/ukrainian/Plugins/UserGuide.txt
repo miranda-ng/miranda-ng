@@ -6,6 +6,6 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [This plugin adds the main menu item used to view Miranda NG pack user guide.]
-Додає пункт у головне меню для перегляду посібника користувача по збірці Miranda NG.
+Додає у головне меню пункт для перегляду посібника користувача по збірці Miranda NG.
 [User Guide]
 Посібник

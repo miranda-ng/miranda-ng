@@ -56,4 +56,4 @@
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Управление вашими дополнительными плагинами.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-У вас есть не сохранённые изменения.\n Хотите ли вы их применить перед переключением?
+У вас есть несохранённые изменения.\n Хотите ли вы их применить перед переключением?

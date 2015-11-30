@@ -48,7 +48,7 @@
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
 Змiнює нiк користувача на вказаному протоколi.\nВикористання: setnickname <протокол> новий_нiк.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
-Встановлення або зняття прапора "iгнорувати" для вказаних контактiв.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або видалить) iгнорування для вказаних контактiв.
+Встановлення або зняття прапора "iгнорувати" для вказаних контактiв.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або зніме) iгнорування для вказаних контактiв.
 [Wrong number of parameters for command '%s'.]
 Неправильна кiлькiсть параметрiв для команди '%s'
 [Unknown parameter '%s' for command '%s'.]

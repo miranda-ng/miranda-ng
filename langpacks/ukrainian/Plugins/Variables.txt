@@ -152,7 +152,7 @@ X - Y - ...
 [Metacontacts]
 Метаконтакти
 [get parent metacontact of contact x]
-повертає батьківський метаконтакт субконтакта X
+повертає батьківський метаконтакт субконтакту X
 [get default subcontact x]
 повертає субконтакт за замовчанням метаконтакту X
 [get the 'most online' subcontact x]

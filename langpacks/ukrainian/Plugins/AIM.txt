@@ -205,7 +205,7 @@ AIM Встановити Instant Idle
 Протокол %s
 [%s server connection]
 З'єднання з сервером %s
-[%s Client-to-client connection]
+[%s client-to-client connections]
 З'єднання між користувачами %s
 [[Auto-Response]:]
 (Автовідповідь):

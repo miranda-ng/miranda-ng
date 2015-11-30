@@ -33,6 +33,8 @@
 Вставляти посилання в поле вводу
 [Copy download link to clipboard]
 Копіювати посилання в буфер обміну
+[Free %ld of %ld MB]
+Вільно %ld з %ld МБ
 [in process...]
 зачекайте...
 [server does not respond]

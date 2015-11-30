@@ -6,7 +6,7 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-Плагін розширеної інформації про користувача. Дозволяє редагувати всю інформацію про контакт.
+Розширене відображення інформації про користувача. Дозволяє редагувати і додавати (локально) будь-яку інформацію про контакт.
 [Edit contact information]
 Редагувати дані контакту
 [This list gives you some overview about all your contact's anniversaries.]
@@ -264,7 +264,7 @@
 [Export/import items]
 Експорт/Імпорт
 [Contact menu]
-Меню контакта
+Меню контакту
 [Group menu]
 Меню груп
 [Subgroup menu]
@@ -1120,7 +1120,7 @@ Web-дизайн
 [Reminder (uinfoex)]
 Нагадування (uinfoex)
 [contact identification]
-ідентифікація контакта
+ідентифікація контакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 У користувача %s(%s) немає унікального номера у vCard,\nале в списку контактів є контакт з таким самим ніком і протоколом.\nВикористати його номер для цього контакту?
 [Importing a new contact was aborted!]

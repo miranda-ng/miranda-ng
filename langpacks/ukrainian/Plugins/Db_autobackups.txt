@@ -6,7 +6,7 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
-Плагін авторезервування профілю.
+Авторезервування профілю.
 [Backup progress]
 Резервне копіювання
 [Cancel]

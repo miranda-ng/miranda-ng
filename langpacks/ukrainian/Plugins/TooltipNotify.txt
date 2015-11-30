@@ -71,14 +71,8 @@
 Спливаючі сповіщення
 [Other status]
 Інші статуси
-[Tooltip Notify: Online]
-Сповіщення: В мережі
-[Tooltip Notify: Offline]
-Сповіщення: Не в мережі
-[Tooltip Notify: Other]
-Сповіщення: Інше
-[Tooltip Notify: Typing]
-Сповіщення: Набирають
+[Other]
+Інше
 [Popups]
 Спливаючі вікна
 [** New contacts **]

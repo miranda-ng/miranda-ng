@@ -30,7 +30,7 @@
 [Typing and thinking time can be much longer]
 Час друку і обмірковування може збільшуватися
 [Typing time (for a message of 4 words):]
-Час набору (для 4-х слів):
+Час друку (для 4-х слів):
 [Thinking time:]
 Час обмірковування відповіді:
 [Engine]

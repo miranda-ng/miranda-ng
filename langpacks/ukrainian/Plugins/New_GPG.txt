@@ -172,7 +172,7 @@ ID ключа:
 [Info]
 Інфо
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
+Ваша версія GPG підтримується. Мовні файли знайдені.\nПлагін повинен працювати нормально.\nНатисніть ОК.
 [Please choose GPG binary location]
 Виберіть директорію з GnuPG
 [Please set keyring's home directory]
