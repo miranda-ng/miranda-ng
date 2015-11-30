@@ -51,8 +51,8 @@
 Статус
 [Set your status messages and idle reporting.]
 Усталюйце статусныя паведамленні і паведамленні адсутнасці.
-[Addons]
-Дадаткi
+[Plugins]
+Плагіны
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Кіраванне плагiнамі Miranda NG.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]

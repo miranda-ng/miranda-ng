@@ -53,7 +53,7 @@ Ignorieren Sie hier unerwünschte Personen und Ereignisse.
 Status
 [Set your status messages and idle reporting.]
 Stellen Sie hier Ihre Statusnachrichten und Inaktivität ein.
-[Addons]
+[Plugins]
 Plugins
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Hier können Sie einzelne Plugins ein- oder ausschalten.

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.15
+;  Version: 0.11.1.16
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -193,3 +193,7 @@ IPv6 адрес (необязательно)
 Некорректный формат данных
 [Unknown error]
 Неизвестная ошибка
+[Message length exceeded TOX_MAX_MESSAGE_LENGTH]
+Длина сообщения превышает TOX_MAX_MESSAGE_LENGTH
+[Attempted to send a zero-length message]
+Попытка отправить пустое сообщение

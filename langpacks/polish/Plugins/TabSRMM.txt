@@ -44,8 +44,6 @@ Zasobnik
 Opcje
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Integracja czatów jest wyłączona. Możesz ją włączyć tutaj, a po dokonaniu tej zmiany musisz zrestartować Mirandę.\n\nMusisz wyłączyć standardową wtyczkę Chat po włączeniu wsparcia dla czatów tutaj. W przeciwnym razie czaty grupowe mogą nie działać.
 [Log files]
 Dziennik plików
 [Enable logging to disk]
@@ -1464,8 +1462,8 @@ Symbol zegara (w panelu informacyjnym)
 Funkcja wyłączona (używany jako nakładka)
 [Feature enabled (used as overlay)]
 Funkcja włączona (używany jako nakładka)
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Usługa obrazków (advaimg.dll) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
+Usługa obrazków (AdvaImg) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
 [TabSRMM fatal error]
 Błąd TabSRMM
 ;file \plugins\TabSRMM\src\msgs.h

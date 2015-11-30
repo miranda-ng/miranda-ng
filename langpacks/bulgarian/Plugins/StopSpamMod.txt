@@ -43,8 +43,6 @@
 Проверяване на отговора за главни/малки букви
 [Disable question in invisible mode]
 Без задаване на въпрос при състояние "Невидим"
-[Enable integration with DOS plugin]
-Интегриране с приставката DOS
 [Exclude contacts which we sending something from spam check]
 Без тестване (пропускане) на контактите, от които са получени съобщения
 [Remove Excluded contacts after restart]

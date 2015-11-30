@@ -8,7 +8,7 @@
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 
 [When I press the hotkey:]
 

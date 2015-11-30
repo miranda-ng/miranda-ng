@@ -35,6 +35,8 @@
 [Copy download link to clipboard]
 
 ;file \plugins\Dropbox\src\dropbox.cpp
+[Free %ld of %ld MB]
+
 [in process...]
 
 [server does not respond]

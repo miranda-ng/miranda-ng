@@ -17,7 +17,6 @@
 [Log spam to file]
 [Case insensitive answer checking]
 [Disable question in invisible mode]
-[Enable integration with DOS plugin]
 [Exclude contacts which we sending something from spam check]
 [Remove Excluded contacts after restart]
 [Add contacts to specified group:]

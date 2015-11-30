@@ -166,7 +166,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнага сеціва.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.]
-Вашае імя ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Налады -> Сетка -> Gadu-Gadu і паспрабуйце яшчэ раз.
+Вашае імя ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць "Налады -> Сетка -> Gadu-Gadu" і паспрабуйце яшчэ раз.
 [Connecting to Gadu-Gadu hub failed.]
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]

@@ -35,6 +35,8 @@ Downloadlink im Nachrichteneingabebereich einfügen
 [Copy download link to clipboard]
 Downloadlink in Zwischenablage kopieren
 ;file \plugins\Dropbox\src\dropbox.cpp
+[Free %ld of %ld MB]
+
 [in process...]
 In Arbeit...
 [server does not respond]

@@ -44,8 +44,6 @@ Tray
 Einstellungen
 [Add new rooms to group:]
 Gruppe für neue Räume:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Unterstützung für Gruppenchats ist deaktiviert. Nachdem sie aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
 [Log files]
 Verlaufsdateien
 [Enable logging to disk]
@@ -1464,8 +1462,8 @@ Uhrsymbol (für die Uhr im Infopanel)
 Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Das Bilddiensteplugin (advaimg.dll) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
+Das Bilddiensteplugin (AdvaImg) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
 [TabSRMM fatal error]
 Schwerwiegender TabSRMM-Fehler
 ;file \plugins\TabSRMM\src\msgs.h

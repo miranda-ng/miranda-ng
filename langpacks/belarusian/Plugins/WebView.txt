@@ -45,7 +45,7 @@
 Памылкі
 [Suppress error messages]
 
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 
 [Expert options]
 Дадатковыя налады

@@ -28,7 +28,7 @@
 [Browse...]
 Преглед...
 [Go to the "Options -> Customize -> Folders" to change settings]
-Можете да промените настройките от Персонализиране>Папки
+Можете да промените настройките от "Персонализиране > Папки"
 [Compress backup to zip-archive]
 Компресиране в .zip архив
 [Disable progress bar]

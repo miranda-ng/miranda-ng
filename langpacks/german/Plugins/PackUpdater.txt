@@ -31,7 +31,7 @@ Erinnere mich an nicht-installierte Paket-Aktualisierungen
 [Hotkey]
 Hotkey
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
-Unter 'Einstellungen -> Customize -> Hotkeys' können Sie den Hotkey ändern
+Unter Einstellungen -> Customize -> Hotkeys können Sie den Hotkey ändern
 [Notifications]
 Benachrichtigungen
 [Message boxes]

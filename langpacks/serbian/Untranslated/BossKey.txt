@@ -1,5 +1,5 @@
 ﻿[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
-[Go to Customize -> Hotkeys to change the hotkey]
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
 [When I press the hotkey:]
 [Change status to]
 [Change only if current status is Online]

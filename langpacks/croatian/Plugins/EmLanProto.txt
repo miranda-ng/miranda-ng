@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.0.1.2
+;  Version: 0.1.0.1
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]

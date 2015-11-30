@@ -1898,6 +1898,8 @@ kopiraj
 [%s connection]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[<advanced status slot>]
+
 [Afraid]
 
 [Amazed]

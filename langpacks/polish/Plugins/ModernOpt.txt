@@ -53,7 +53,7 @@ Zablokuj tych użytkowników i zdarzenia, które cię denerwują.
 Status
 [Set your status messages and idle reporting.]
 Ustaw swój opis statusu i zachowanie podczas bezczynności.
-[Addons]
+[Plugins]
 Wtyczki
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Cała Miranda NG kręci się wokół wtyczek. Tutaj możesz nimi zarządzać.

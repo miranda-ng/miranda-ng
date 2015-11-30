@@ -11,7 +11,7 @@ Stellt Popup-Benachrichtigungen für verschiedene andere Plugins bereit.
 [Content && Style]
 Inhalt && Stil
 [Go to Customize > Fonts && Colors for fonts and colors options]
-Gehen Sie zu Customize->Schriften && Farben für Schrift- und Farbeinstellungen.
+Gehen Sie zu Customize -> Schriften && Farben für Schrift- und Farbeinstellungen.
 [Miscellaneous]
 Sonstiges
 [Effects]
@@ -151,7 +151,7 @@ Deaktivieren, wenn globaler Status...
 [Disable when relevant protocol's status is...]
 Deaktivieren, wenn Protokollstatus...
 [Colors can be configured in\r\nCustomize > Fonts and colors]
-Farbkonfiguration unter 'Customize -> Schriftarten'
+Farbkonfiguration unter Customize -> Schriftarten
 [More...]
 Mehr...
 [Disable if message window is open]

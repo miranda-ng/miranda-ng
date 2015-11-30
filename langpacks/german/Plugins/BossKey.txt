@@ -9,7 +9,7 @@
 Anti-Boss-plugin. Versteckt Miranda NG oder schützt es mit einem Passwort.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
-Unter 'Einstellungen -> Customize -> Hotkeys' können Sie den Hotkey ändern
+Unter Einstellungen -> Customize -> Hotkeys können Sie den Hotkey ändern
 [When I press the hotkey:]
 Wenn ich den Hotkey drücke:
 [Change status to]

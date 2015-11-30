@@ -46,7 +46,7 @@ Individuelle Fensterposition speichern
 Fehlermeldungen
 [Suppress error messages]
 Fehlermeldungen unterdrücken
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 Via Popup- oder OSD-Plugin
 [Expert options]
 Experten-Einstellungen

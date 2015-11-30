@@ -914,6 +914,7 @@
 [Contacts]
 [Note]
 [%s connection]
+[<advanced status slot>]
 [Afraid]
 [Amazed]
 [Amorous]

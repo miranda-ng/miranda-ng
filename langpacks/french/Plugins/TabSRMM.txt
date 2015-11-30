@@ -44,8 +44,6 @@ Tray
 Paramètres
 [Add new rooms to group:]
 Ajouter salons au groupe :
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vous DEVREZ RELANCER MIRANDA pour valider ce changement.\n\nVous DEVEZ également désactiver le plugin standard de Chat. Sinon, aucuns Chat ne fonctionnera.
 [Log files]
 
 [Enable logging to disk]
@@ -1464,7 +1462,7 @@ Historique récent
 
 [Feature enabled (used as overlay)]
 
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 
 [TabSRMM fatal error]
 

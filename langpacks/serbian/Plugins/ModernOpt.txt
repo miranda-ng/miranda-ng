@@ -53,8 +53,8 @@ Ignorisati
 Status
 [Set your status messages and idle reporting.]
 
-[Addons]
-
+[Plugins]
+Plug-inovi
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]

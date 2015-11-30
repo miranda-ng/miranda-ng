@@ -5,7 +5,7 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
-[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
+[Allows you to assign expanded multimedia keys (only for PS/2 keyboards).]
 
 [Close Miranda]
 Зачыніць Miranda

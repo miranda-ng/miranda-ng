@@ -33,7 +33,7 @@
 Ошибки
 [Suppress error messages]
 Откл. сообщения об ошибках
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 Исп. всплывающие окна или OSD
 [Expert options]
 Расширенные настройки

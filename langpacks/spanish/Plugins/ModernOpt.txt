@@ -23,3 +23,5 @@ Contactos
 Ignorar
 [Status]
 Estado
+[Plugins]
+Plugins

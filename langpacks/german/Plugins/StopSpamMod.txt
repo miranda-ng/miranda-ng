@@ -44,8 +44,6 @@ Spam in Datei schreiben
 Groß-/Kleinschreibung bei Antwort ignorieren
 [Disable question in invisible mode]
 Frage in Unsichtbar-Modus deaktivieren
-[Enable integration with DOS plugin]
-Integration mit DOS-Plugin aktivieren
 [Exclude contacts which we sending something from spam check]
 Kontakte, denen wir etwas senden, von Spamprüfung ausnehmen
 [Remove Excluded contacts after restart]

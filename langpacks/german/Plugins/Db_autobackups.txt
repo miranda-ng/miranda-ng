@@ -31,7 +31,7 @@ Ordner für Sicherungen:
 [Browse...]
 Durchsuchen...
 [Go to the "Options -> Customize -> Folders" to change settings]
-Gehen Sie zu "Customize->Verzeichnisse", um die Einstellungen zu ändern.
+Gehen Sie zu Customize -> Verzeichnisse, um die Einstellungen zu ändern.
 [Compress backup to zip-archive]
 Sicherungen in Zip-Archiven komprimieren
 [Disable progress bar]

@@ -25,7 +25,7 @@ Kei&ne auswählen
 [Hotkey]
 Hotkey
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
-Unter 'Einstellungen -> Customize -> Hotkeys' können Sie den Hotkey ändern
+Unter Einstellungen -> Customize -> Hotkeys können Sie den Hotkey ändern
 [Update options]
 Aktualisierungseinstellungen
 [On startup]

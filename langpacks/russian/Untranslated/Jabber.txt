@@ -11,6 +11,7 @@
 [Odnoklassniki]
 [Choose the group chats you want to leave]
 [Jabber vCard]
+[<advanced status slot>]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
 [One or more addresses for communication related to sales and marketing]

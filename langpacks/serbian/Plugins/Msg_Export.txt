@@ -269,3 +269,5 @@ Uopšteno
 
 [Failed to delete the file]
 
+[No_Nick]
+

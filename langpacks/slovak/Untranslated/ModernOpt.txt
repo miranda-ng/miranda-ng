@@ -12,6 +12,6 @@
 [Customize look&&feel of your chat windows here.]
 [Ban those users and events, you are annoyed with.]
 [Set your status messages and idle reporting.]
-[Addons]
+[Plugins]
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]

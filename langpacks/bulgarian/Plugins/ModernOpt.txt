@@ -51,7 +51,7 @@ Miranda NG настройки
 Състояние
 [Set your status messages and idle reporting.]
 Задайте текст за състоянията и информация при бездействие.
-[Addons]
+[Plugins]
 Приставки
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Управление на приставките.

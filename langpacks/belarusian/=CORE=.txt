@@ -196,7 +196,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захоўваецца гісторыя і налады бачнасці)
 [Use Options -> Contacts -> Ignore to unhide contacts.]
-Налады -> Кантакты -> Ігнараваць, каб адлюстраваць кантакты.
+"Налады -> Кантакты -> Ігнараваць", каб адлюстраваць кантакты.
 [Are you sure you want to delete %s?]
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
