@@ -487,7 +487,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,111,182,11
     GROUPBOX        "Other",IDC_STATIC,7,125,197,96
     CONTROL         "Hide this contact from the list",IDC_HIDECONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,132,182,14
-    LTEXT           "To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
+    LTEXT           "To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
     GROUPBOX        "Display options",IDC_STATIC,209,3,143,218
     CONTROL         "Show contact with priority",IDC_IGN_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,219,13,127,11
     LTEXT           "Show avatar:",IDC_STATIC,225,28,94,11
