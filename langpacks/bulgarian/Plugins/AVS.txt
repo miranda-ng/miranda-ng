@@ -14,7 +14,7 @@
 [Delete default picture]
 Изтриване на станд. картина
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
-ВНИМАНИЕ: Това НЕ са вашите аватари. За да зададете собствен аватар отидете\nв Главно меню(>Extentended UserInfo)>Преглед/Промяна на личните данни>Аватар.
+ВНИМАНИЕ: Това НЕ са вашите аватари. За да зададете собствен аватар отидете\nв "Главно меню > Преглед/Промяна на личните данни > Аватар".
 [Try to draw avatar background transparent (for images without transparency)]
 Прозрачен фон (за непрозрачни изображения), ако е възможно
 [Color difference allowed:]

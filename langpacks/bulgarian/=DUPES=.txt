@@ -28,8 +28,6 @@
 Не
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Може да бъде отменено от Настройки>Събития>Игнориране
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]

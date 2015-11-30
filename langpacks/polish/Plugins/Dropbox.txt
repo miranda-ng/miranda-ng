@@ -35,6 +35,8 @@ Wklej link do pobrania do pola wpisywania wiadomości
 [Copy download link to clipboard]
 Kopiuj link do pobrania do schowka
 ;file \plugins\Dropbox\src\dropbox.cpp
+[Free %ld of %ld MB]
+
 [in process...]
 w toku...
 [server does not respond]

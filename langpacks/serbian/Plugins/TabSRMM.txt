@@ -44,8 +44,6 @@ Tray
 Podešavanja
 [Add new rooms to group:]
 Dodaj nove sobe u grupu:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-
 [Log files]
 
 [Enable logging to disk]
@@ -1464,7 +1462,7 @@ Log poruke
 
 [Feature enabled (used as overlay)]
 
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 
 [TabSRMM fatal error]
 

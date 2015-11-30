@@ -1898,6 +1898,8 @@ Uwagi
 [%s connection]
 Połączenie %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[<advanced status slot>]
+
 [Afraid]
 Przestraszony
 [Amazed]

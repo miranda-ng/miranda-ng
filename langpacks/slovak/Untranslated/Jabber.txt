@@ -812,6 +812,7 @@
 [Jabber vCard: Edit Email Address]
 [Jabber vCard: Edit Phone Number]
 [%s connection]
+[<advanced status slot>]
 [Afraid]
 [Amazed]
 [Amorous]

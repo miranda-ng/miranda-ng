@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.15
+;  Version: 0.11.1.16
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -211,3 +211,13 @@ Das Profil ist verschlüsselt.
 Das Datenformat ist ungültig.
 [Unknown error]
 Unbekannter Fehler
+[The friend number did not designate a valid friend]
+
+[This client is currently not connected to the friend]
+
+[An allocation error occurred while increasing the send queue size]
+
+[Message length exceeded TOX_MAX_MESSAGE_LENGTH]
+
+[Attempted to send a zero-length message]
+

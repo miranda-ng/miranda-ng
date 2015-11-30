@@ -1523,8 +1523,8 @@ ID користувача
 Неможливо встановити SSL-з'єднання з сервером ICQ
 [Unable to connect to ICQ login server]
 Неможливо підключитися до сервера ICQ
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> <UIN> client-to-client connections -> Port range.]
-Не вдалося виділити порт для з'єднань між користувачами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), відкрийте в ньому кілька портів і вкажіть їх у налаштуваннях (Мережа -> З'єднання між користувачами <UIN> -> Порти).
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> ICQ client-to-client connections.]
+Не вдалося виділити порт для з'єднань між користувачами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), відкрийте в ньому кілька портів і вкажіть їх у налаштуваннях (Мережа -> З'єднання між користувачами ICQ).
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Невдале з'єднання.\nПослідовність входу не вдалася з невідомої причини.\nСпробуйте пізніше.
 [Your connection with the ICQ server was abortively closed]

@@ -219,7 +219,7 @@ Muško
 [Avatars: can't open file %s, error]
 
 ;file \protocols\MRA\src\MraChat.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 
 [invite sender]
 

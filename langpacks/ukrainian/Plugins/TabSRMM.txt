@@ -43,8 +43,6 @@
 Налаштування
 [Add new rooms to group:]
 Додавати кімнати до групи:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Вбудований чат вимкнено. Ви можете ввімкнути його, після чого необхідно буде перезапустити Miranda.\n\nСтандартний модуль Chat повинен бути відключений, якщо ви вмикаєте підтримку чатів тут. Інакше чати можуть не працювати зовсім.
 [Log files]
 Файли журналу
 [Enable logging to disk]
@@ -1443,8 +1441,8 @@ TabSRMM: Набирає
 Можливість вимкнена (використовується як оверлей)
 [Feature enabled (used as overlay)]
 Можливість увімкнена (використовується як оверлей)
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не встановлений плагін служби зображень (AdvaImg.dll)\n\nTabSRMM відключений.
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
+Не встановлений плагін служби зображень (AdvaImg)\n\nTabSRMM відключений.
 [TabSRMM fatal error]
 Критична помилка TabSRMM
 [Message windows - IM]

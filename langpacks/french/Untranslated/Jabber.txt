@@ -467,6 +467,7 @@
 [Set activity...]
 [Note]
 [%s connection]
+[<advanced status slot>]
 [Mood: %s]
 [Set Mood]
 [Doing chores]

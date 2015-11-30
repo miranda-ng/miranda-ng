@@ -5,8 +5,8 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
-[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
-Плагін Hardware HotKeys\r\nДозволяє використовувати як гарячі клавіші мультимедіа-клавіші PS/2-клавіатур
+[Allows you to assign expanded multimedia keys (only for PS/2 keyboards).]
+Дозволяє використовувати як гарячі клавіші мультимедіа-клавіші PS/2-клавіатур.
 [Close Miranda]
 Закрити програму
 [Assign]

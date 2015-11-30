@@ -292,7 +292,7 @@
 [Clock symbol (for the info panel clock)]
 [Feature disabled (used as overlay)]
 [Feature enabled (used as overlay)]
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 [TabSRMM fatal error]
 [Message windows - IM]
 [Message windows - all]

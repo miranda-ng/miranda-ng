@@ -114,3 +114,4 @@
 [Failed to write Unknown event to the file :\n]
 [User has been deleted. Do you want to delete the file?]
 [Failed to delete the file]
+[No_Nick]

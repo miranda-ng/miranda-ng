@@ -43,8 +43,6 @@
 Не ўлічваць рэгістр адказу
 [Disable question in invisible mode]
 Адключыць пытанне пры статусе "Нябачны"
-[Enable integration with DOS plugin]
-Уключыць інтэграцыю з DOS плагінам
 [Exclude contacts which we sending something from spam check]
 Адключаць антыспам для кантактаў, якім паслалі паведамленне
 [Remove Excluded contacts after restart]

@@ -80,7 +80,7 @@ Wyjdź
 Domyślny
 [TopToolBar background]
 Tło TopToolBar
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at http://wiki.miranda-ng.org/Download]
 Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę.\nLista kontaktów Modern\nnicer\nMożesz je pobrać na http://wiki.miranda-ng.org/Download
 [TopToolBar]
 Pasek narzędzi

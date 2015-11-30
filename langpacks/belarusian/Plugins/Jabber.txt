@@ -1863,6 +1863,8 @@ Jabber vCard: рэдагаванне тэлефона
 Нататка
 [%s connection]
 Злучэнне %s
+[<advanced status slot>]
+
 [Afraid]
 Спалоханы
 [Amazed]

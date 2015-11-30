@@ -53,7 +53,7 @@
 
 [Set your status messages and idle reporting.]
 
-[Addons]
+[Plugins]
 
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 

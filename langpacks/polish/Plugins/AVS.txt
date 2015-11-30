@@ -15,7 +15,7 @@ Wybierz domyślny obrazek
 [Delete default picture]
 Usuń domyślny obrazek
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
-Uwaga: te obrazy nie są twoimi awatarami.\nAby ustawić swojego awatara, przejdź do menu głównego -> Pokaż zmień moje dane -> Awatary.
+Uwaga: te obrazy nie są twoimi awatarami.\nAby ustawić swojego awatara, przejdź do Menu głównego -> Pokaż zmień moje dane -> Awatary.
 [Try to draw avatar background transparent (for images without transparency)]
 Próbuj rysować przezroczyste tło awataru (dla obrazku bez przezroczystości)
 [Number of points to define background:]

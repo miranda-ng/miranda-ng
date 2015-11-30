@@ -14,7 +14,7 @@
 [Save individual window positions]
 [Error messages]
 [Suppress error messages]
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 [Expert options]
 [Disable download protection]
 [(not recommended)]

@@ -137,8 +137,6 @@
 Водолей
 [Pisces]
 Риби
-[Chat plugin is required for conferences. Install it before chatting]
-
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]

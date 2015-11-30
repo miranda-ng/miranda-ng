@@ -14,7 +14,7 @@
 [Save individual window positions]
 [Error messages]
 [Suppress error messages]
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 [Disable download protection]
 [(not recommended)]
 [Display data in popup on alert]

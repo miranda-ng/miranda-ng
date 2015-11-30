@@ -37,6 +37,7 @@
 [Avatars' plugin connections]
 [Avatars: server return HTTP code: %lu]
 [Avatars: can't open file %s, error]
+[Chat plugin is required for conferences. Install it before chatting]
 [invite sender]
 [invite new members]
 [Your contact wakes you]

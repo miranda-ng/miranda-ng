@@ -51,7 +51,7 @@
 Статус
 [Set your status messages and idle reporting.]
 Встановіть статусні повідомлення та повідомлення відсутності.
-[Addons]
+[Plugins]
 Плагіни
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Керування додатковими плагінами.

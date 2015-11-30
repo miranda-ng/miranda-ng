@@ -6,3 +6,4 @@
 [Bytestream Proxy not available]
 [JID]
 [Jabber vCard]
+[<advanced status slot>]

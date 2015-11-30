@@ -44,8 +44,6 @@ Zapisuj dziennik do pliku
 Sprawdzaj wielkość liter w odpowiedzi
 [Disable question in invisible mode]
 Wyłącz pytanie w trybie niewidocznym
-[Enable integration with DOS plugin]
-Włącz integracje z wtyczką DOS
 [Exclude contacts which we sending something from spam check]
 Wyklucz ze sprawdzania kontakty, którym napiszesz wiadomość
 [Remove Excluded contacts after restart]

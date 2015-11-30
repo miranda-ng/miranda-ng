@@ -892,7 +892,7 @@ Jabber-Authentifizierung
 [Registration successful]
 Registrierung erfolgreich
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Passwort wurde geändert, bitte das entsprechende Feld unter Einstellungen->Protokolle->Jabber ebenfalls ändern.
+Passwort wurde geändert, bitte das entsprechende Feld unter Einstellungen -> Protokolle -> Jabber ebenfalls ändern.
 [Password cannot be changed.]
 Passwort kann nicht geändert werden
 [Jabber Bookmarks Error]
@@ -1898,6 +1898,8 @@ Hinweis
 [%s connection]
 %s-Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[<advanced status slot>]
+
 [Afraid]
 Ängstlich
 [Amazed]

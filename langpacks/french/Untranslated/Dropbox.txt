@@ -10,6 +10,7 @@
 [Check status of authorization]
 [Paste download link into message input area]
 [Copy download link to clipboard]
+[Free %ld of %ld MB]
 [in process...]
 [server does not respond]
 [you have been authorized]

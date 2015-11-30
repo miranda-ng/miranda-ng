@@ -43,8 +43,6 @@
 Настройки
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Интегрированный чат выключен. Вы можете включить его, поставив галочку ниже. Для включения поддержки чата необходим перезапуск Miranda NG.\n\nСтандартный модуль чата должен быть отключён, если вы включаете здесь поддержку групповых чатов. Иначе чаты могут не работать.
 [Log files]
 Файлы журнала
 [Enable logging to disk]
@@ -618,7 +616,7 @@ RTL по умолчанию
 [Revert to global options]
 Вернуть глобальные настройки
 [You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Options -> Message sessions -> Message log]
-Вы можете индивидуально настроить журнал сообщений для этого контакта. Заполненные значения взяты из глобальных настроек (раздел "Настройки -> Беседы -> Журнал")
+Вы можете индивидуально настроить журнал сообщений для этого контакта. Заполненные значения взяты из глобальных настроек раздела "Настройки -> Беседы -> Журнал"
 [Use normal templates (uncheck to use simple templates)]
 Обычные шаблоны (откл. для использования простых шаблонов)
 [Queued send jobs]
@@ -1445,8 +1443,8 @@ TabSRMM: набирает
 Возможность выключена (используется как оверлей)
 [Feature enabled (used as overlay)]
 Возможность включена (используется как оверлей)
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не установлен плагин службы изображений (AdvaImg)\n\nTabSRMM отключён.
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
+е установлен плагин службы изображений (AdvaImg)\n\nTabSRMM отключён.
 [TabSRMM fatal error]
 Критическая ошибка TabSRMM
 [Message windows - IM]

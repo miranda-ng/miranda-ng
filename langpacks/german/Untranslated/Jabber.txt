@@ -1,5 +1,6 @@
 ﻿[Can request advanced processing of message stanzas]
 [Supports generic publish-subscribe functionality]
+[<advanced status slot>]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
 [One or more addresses for communication related to sales and marketing]

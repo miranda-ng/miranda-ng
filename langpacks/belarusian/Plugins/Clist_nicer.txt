@@ -7,8 +7,8 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
 Паказвае кантакты, з'явы, статусы протоколаў.
-[Clist Nicer exception]
-Выключэнні Clist Nicer
+[Clist nicer exception]
+Выключэнні Clist nicer
 [Copy to clipboard]
 Капіяваць у буфер абмену
 [Continue]
@@ -17,10 +17,10 @@
 Выйсці з Міранды
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Было злоўлена выключэнне. Вы можаце і далей працаваць з праграмай, але пажадана перазапусціць Міранду як мага хутчэй. Магчыма, пашкоджаны ўнутраныя структуры дадзеных і гэта можа аказаць сур'ёзны ўплыў на стабільнасць.
-[About CList Nicer+]
-Пра Nicer+
-[Clist Nicer+]
-
+[About CList nicer]
+Пра CList nicer
+[Clist nicer]
+Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 Аўтарскія правы 2004-2010 Miranda IM, 2012-2015 Miranda NG. Падрабязней ў файле Readme.
 [Version]
@@ -36,7 +36,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
 [Use Options -> Contacts -> Ignore to unhide contacts.]
-Налады -> Кантакты -> Ігнараваць, каб адлюстраваць кантакты.
+"Налады -> Кантакты -> Ігнараваць", каб адлюстраваць кантакты.
 [Are you sure you want to delete %s?]
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
@@ -424,7 +424,7 @@
 [Hide this contact from the list]
 Схаваць кантакт са спісу
 [To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Каб паказаць раней схаваны кантакт, адкрыйце Налады -> Падзеі -> Ігнараваць, знайдзіце кантакт, і пастаўце галачку перад яго імем.
+Каб паказаць раней схаваны кантакт, адкрыйце "Налады -> Падзеі -> Ігнараваць", знайдзіце кантакт, і пастаўце галачку перад яго імем.
 [Display options]
 Опцыі адлюстравання
 [Show contact with priority]

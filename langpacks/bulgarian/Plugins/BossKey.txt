@@ -8,7 +8,7 @@
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Приставката позволява с едно натискане на клавиш (или комбинация) да скриете визуално Miranda NG от "любопитни" очи - например шефа!
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
-За промени отидете в Персонализиране>Клавишни комбинации
+За промени отидете в "Персонализиране > Клавишни комбинации"
 [When I press the hotkey:]
 При натискане на клавишната комбинация:
 [Change status to]
