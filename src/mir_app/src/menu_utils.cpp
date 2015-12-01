@@ -902,7 +902,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 		// if we have to check & apply database settings
 		if (!(mi->flags & CMIF_SYSTEM) && pmo->m_bUseUserDefinedItems) {
 			char szSetting[256], menuItemName[256];
-			int visible = 0, pos = 0;
+			int visible = true, pos = 0;
 			if (bOldMenuFormat) {
 				GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
 
@@ -937,8 +937,6 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 							replaceStrT(pmi->CustomName, tszCustomName);
 					}
 				}
-				else if (pmi->submenu.first != NULL)
-					visible = 1;
 			}
 			if (!visible)
 				continue;
