@@ -167,9 +167,8 @@ class CGenMenuOptionsPage : public CDlgBase
 				bin2hex(&p->mi.uid, sizeof(p->mi.uid), menuItemName);
 				ptrT tszSettings(db_get_tsa(NULL, pszModule, menuItemName));
 				if (tszSettings == NULL)
-					continue;
-
-				if (_stscanf(tszSettings, _T("%d;%d;%200s"), &visible, &pos, customName) < 2)
+					pos = p->mi.position;
+				else if (_stscanf(tszSettings, _T("%d;%d;%200s"), &visible, &pos, customName) < 2)
 					continue;
 			}
 
