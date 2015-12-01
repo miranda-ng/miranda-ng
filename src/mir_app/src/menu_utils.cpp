@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "genmenu.h"
+#include "plugins.h"
 
 static bool bIsGenMenuInited;
 bool bIconsDisabled;
@@ -851,12 +852,33 @@ void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSiz
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.name.t);
 }
 
+static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
+{
+	if (!equalUUID(pmi->mi.uid, MIID_LAST)) {
+		char menuItemName[200];
+		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
+
+		int visible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
+		TCHAR *ptszName = (pmi->CustomName != NULL) ? pmi->CustomName : _T("");
+
+		CMString szNewValue(FORMAT, _T("%d;%d;%s"), visible, pmi->mi.position, ptszName);
+		db_set_ts(NULL, (char*)szModule, menuItemName, szNewValue);
+		
+		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->UniqName, visible, pmi->mi.position);
+	}
+	return 0;
+}
+
 static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM wParam, LPARAM lParam)
 {
 	if (pRootMenu == NULL)
 		return NULL;
 
+	char szModule[256];
 	TIntMenuObject *pmo = pRootMenu->parent;
+	mir_snprintf(szModule, "%s_Items", pmo->pszName);
+
+	bool bOldMenuFormat = db_get_b(NULL, szModule, "MenuFormat", false) == 0;
 
 	if (pRootMenu->mi.root == NULL)
 		while (GetMenuItemCount(hMenu) > 0)
@@ -879,33 +901,47 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 
 		// if we have to check & apply database settings
 		if (!(mi->flags & CMIF_SYSTEM) && pmo->m_bUseUserDefinedItems) {
-			char szModule[256], szSetting[256];
-			mir_snprintf(szModule, "%s_Items", pmo->pszName);
+			char szSetting[256], menuItemName[256];
+			int visible = 0, pos = 0;
+			if (bOldMenuFormat) {
+				GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
 
-			char menuItemName[256];
-			GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
+				// check if it visible
+				mir_snprintf(szSetting, "%s_visible", menuItemName);
+				visible = db_get_b(NULL, szModule, szSetting, 1);
 
-			// check if it visible
-			mir_snprintf(szSetting, "%s_visible", menuItemName);
-			if (!db_get_b(NULL, szModule, szSetting, 1))
+				// mi.name.t
+				mir_snprintf(szSetting, "%s_name", menuItemName);
+				TCHAR *tszCustomName = db_get_tsa(NULL, szModule, szSetting);
+				if (tszCustomName != NULL) {
+					mir_free(pmi->CustomName);
+					pmi->CustomName = tszCustomName;
+				}
+
+				mir_snprintf(szSetting, "%s_pos", menuItemName);
+				pos = db_get_dw(NULL, szModule, szSetting, -1);
+				if (pos == -1) {
+					if (pmi->submenu.first)
+						mi->position = 0;
+				}
+				else mi->position = pos;
+			}
+			else {
+				if (!equalUUID(mi->uid, MIID_LAST)) {
+					bin2hex(&mi->uid, sizeof(mi->uid), menuItemName);
+					ptrT szValue(db_get_tsa(NULL, szModule, menuItemName));
+					if (szValue != NULL) {
+						TCHAR tszCustomName[201]; tszCustomName[0] = 0;
+						_stscanf(szValue, _T("%d;%d;%200s"), &visible, &pos, tszCustomName);
+						if (tszCustomName[0])
+							replaceStrT(pmi->CustomName, tszCustomName);
+					}
+				}
+				else if (pmi->submenu.first != NULL)
+					visible = 1;
+			}
+			if (!visible)
 				continue;
-
-			// mi.name.t
-			mir_snprintf(szSetting, "%s_name", menuItemName);
-			TCHAR *tszCustomName = db_get_tsa(NULL, szModule, szSetting);
-			if (tszCustomName != NULL) {
-				mir_free(pmi->CustomName);
-				pmi->CustomName = tszCustomName;
-			}
-
-			mir_snprintf(szSetting, "%s_pos", menuItemName);
-			int pos = db_get_dw(NULL, szModule, szSetting, -1);
-			if (pos == -1) {
-				db_set_dw(NULL, szModule, szSetting, mi->position);
-				if (pmi->submenu.first)
-					mi->position = 0;
-			}
-			else mi->position = pos;
 		}
 
 		int i = WhereToPlace(hMenu, mi);
@@ -965,6 +1001,14 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
 		}
+	}
+
+	if (bOldMenuFormat && pRootMenu->mi.root == NULL && pmo->m_bUseUserDefinedItems) {
+		// wipe out old trash, write new data & compatibility flag
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+		db_set_b(NULL, szModule, "MenuFormat", true);
+
+		MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
 	}
 
 	return hMenu;

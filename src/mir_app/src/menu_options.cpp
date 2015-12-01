@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "genmenu.h"
+#include "plugins.h"
 
 #define STR_SEPARATOR _T("-----------------------------------")
 
@@ -79,23 +80,23 @@ class CGenMenuOptionsPage : public CDlgBase
 		while (tvi.hItem != NULL) {
 			m_menuItems.GetItem(&tvi);
 			MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-			if (iod->pimi) {
-				char menuItemName[256], DBString[300];
-				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
+			if (TMO_IntMenuItem *pimi = iod->pimi) {
+				if (!equalUUID(pimi->mi.uid, MIID_LAST)) {
+					char menuItemName[256];
+					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
-				mir_snprintf(DBString, "%s_visible", menuItemName);
-				db_set_b(NULL, szModule, DBString, tvi.iImage != 0);
+					int visible = tvi.iImage != 0;
+					TCHAR *ptszCustomName;
+					if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
+						ptszCustomName = iod->name;
+					else
+						ptszCustomName = _T("");
 
-				mir_snprintf(DBString, "%s_pos", menuItemName);
-				db_set_dw(NULL, szModule, DBString, runtimepos);
+					CMString tszValue(FORMAT, _T("%d;%d;%s"), visible, pimi->mi.position, ptszCustomName);
+					db_set_ts(NULL, (char*)szModule, menuItemName, tszValue);
+				}
 
-				mir_snprintf(DBString, "%s_name", menuItemName);
-				if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
-					db_set_ts(NULL, szModule, DBString, iod->name);
-				else
-					db_unset(NULL, szModule, DBString);
-
-				if (iod->pimi->submenu.first != NULL)
+				if (pimi->submenu.first != NULL)
 					SaveTreeInternal(m_menuItems.GetChild(tvi.hItem), szModule);
 
 				runtimepos += 100;
@@ -123,6 +124,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		mir_snprintf(szModule, "%s_Items", pmo->pszName);
 		CallService(MS_DB_MODULE_DELETE, NULL, (LPARAM)szModule);
 		SaveTreeInternal(m_menuItems.GetRoot(), szModule);
+		db_set_b(NULL, szModule, "MenuFormat", 1);
 	}
 
 	void FreeTreeData()
@@ -158,30 +160,32 @@ class CGenMenuOptionsPage : public CDlgBase
 			if (p->mi.flags & CMIF_SYSTEM)
 				continue;
 
-			char menuItemName[256];
-			GetMenuItemName(p, menuItemName, _countof(menuItemName));
+			TCHAR customName[201]; customName[0] = 0;
+			int visible = 1, pos = 0;
+			if (!equalUUID(p->mi.uid, MIID_LAST)) {
+				char menuItemName[256];
+				bin2hex(&p->mi.uid, sizeof(p->mi.uid), menuItemName);
+				ptrT tszSettings(db_get_tsa(NULL, pszModule, menuItemName));
+				if (tszSettings == NULL)
+					continue;
+
+				if (_stscanf(tszSettings, _T("%d;%d;%200s"), &visible, &pos, customName) < 2)
+					continue;
+			}
 
 			MenuItemOptData *PD = new MenuItemOptData();
-
-			char buf[256];
-			mir_snprintf(buf, "%s_name", menuItemName);
-			ptrT tszName(db_get_tsa(NULL, pszModule, buf));
-			if (tszName != 0)
-				PD->name = tszName.detach();
+			if (customName[0] != 0)
+				PD->name = mir_tstrdup(customName);
 			else
 				PD->name = mir_tstrdup(GetMenuItemText(p));
 
 			PD->pimi = p;
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
-
-			mir_snprintf(buf, "%s_visible", menuItemName);
-			PD->bShow = db_get_b(NULL, pszModule, buf, 1) != 0;
-
-			if (bReread) {
-				mir_snprintf(buf, "%s_pos", menuItemName);
-				PD->pos = db_get_dw(NULL, pszModule, buf, 1);
-			}
-			else PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;
+			PD->bShow = visible != 0;
+			if (bReread)
+				PD->pos = pos;
+			else
+				PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;
 
 			PD->id = p->iCommand;
 
