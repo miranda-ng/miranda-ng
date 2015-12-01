@@ -15,8 +15,8 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pushliteral(L, "Uid");
 	lua_gettable(L, -2);
 	const char* uuid = (char*)lua_tostring(L, -1);
-	if (CLSIDFromString((LPCOLESTR)ptrT(mir_utf8decodeT(uuid)), (LPCLSID)&mi.uid) != NOERROR)
-		UNSET_UID(mi);
+	if (uuid == NULL || CLSIDFromString((LPCOLESTR)ptrT(mir_utf8decodeT(uuid)), (LPCLSID)&mi.uid) != NOERROR)
+		CoCreateGuid((LPCLSID)&mi.uid);
 	lua_pop(L, 1);
 
 	lua_pushliteral(L, "Name");
