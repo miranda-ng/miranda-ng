@@ -932,7 +932,8 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 					ptrT szValue(db_get_tsa(NULL, szModule, menuItemName));
 					if (szValue != NULL) {
 						TCHAR tszCustomName[201]; tszCustomName[0] = 0;
-						_stscanf(szValue, _T("%d;%d;%200s"), &visible, &pos, tszCustomName);
+						if (_stscanf(szValue, _T("%d;%d;%200s"), &visible, &pos, tszCustomName) >= 2)
+							mi->position = pos;
 						if (tszCustomName[0])
 							replaceStrT(pmi->CustomName, tszCustomName);
 					}
