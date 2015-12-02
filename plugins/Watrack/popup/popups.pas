@@ -472,6 +472,7 @@ begin
   HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
+  SET_UID(@mi, '225458FC-C423-4B20-A798-2DB423506F80');
   mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuInfoPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnInfo,0);
   mi.szName.a  :='Music Info';

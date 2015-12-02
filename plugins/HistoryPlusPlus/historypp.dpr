@@ -256,34 +256,39 @@ begin
   ZeroMemory(@menuitem,SizeOf(menuItem));
   menuItem.flags := CMIF_UNICODE;
 
+  SET_UID(@menuItem, '806B9223-0522-4B6B-AB2C-666D76C45D59');
   menuItem.Position := 1000090000;
   menuItem.szName.w := MenuHandles[miContact].Name;
   menuItem.pszService := MS_HISTORY_SHOWCONTACTHISTORY;
   menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
   MenuHandles[miContact].Handle := Menu_AddContactMenuItem(@menuItem);
 
-  //create empty item in contact menu
+  // create empty item in contact menu
+  SET_UID(@menuItem, 'BA23B260-0AF7-4336-9703-D47C9AD7B1B0');
   menuItem.Position := 1000090001;
   menuItem.szName.w := MenuHandles[miEmpty].Name;
   menuItem.pszService := MS_HPP_EMPTYHISTORY;
   menuItem.hIcon := hppIcons[HPP_ICON_TOOL_DELETEALL].handle;
   MenuHandles[miEmpty].Handle := Menu_AddContactMenuItem(@menuItem);
 
-  //create menu item in main menu for system history
+  // create menu item in main menu for system history
+  SET_UID(@menuItem, 'A08805DD-7402-472D-BB46-0C702D03423A');
   menuItem.Position:=500060000;
   menuItem.szName.w:=MenuHandles[miSystem].Name;
   menuItem.pszService := MS_HISTORY_SHOWCONTACTHISTORY;
   menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
   MenuHandles[miSystem].Handle := Menu_AddMainMenuItem(@menuitem);
 
-  //create menu item in main menu for history search
+  // create menu item in main menu for history search
+  SET_UID(@menuItem, 'A5FE6AE6-7674-4DC0-9F22-9F56AE71E2D7');
   menuItem.Position:=500060001;
   menuItem.szName.w:=MenuHandles[miSearch].Name;
   menuItem.pszService := MS_HPP_SHOWGLOBALSEARCH;
   menuItem.hIcon := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
   MenuHandles[miSearch].Handle := Menu_AddMainMenuItem(@menuItem);
 
-  //create menu item in main menu for empty system history
+  // create menu item in main menu for empty system history
+  SET_UID(@menuItem, '633AD23C-24B5-4914-B240-AD9FACB564ED');
   menuItem.Position:=500060002;
   menuItem.szName.w:=MenuHandles[miSysEmpty].Name;
   menuItem.pszService := MS_HPP_EMPTYHISTORY;

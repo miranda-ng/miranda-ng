@@ -812,6 +812,7 @@ begin
         FillChar(mi,SizeOf(mi),0);
         if mnuhandle=0 then
         begin
+          SET_UID(@mi, 'D384A798-5D4C-48B4-B3E2-30046ED6F481');
           mi.flags     :=CMIF_UNICODE;
           mi.szName.w  :='Change setting through QS';
           mi.pszService:='QS/dummy';
