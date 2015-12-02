@@ -81,7 +81,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			m_menuItems.GetItem(&tvi);
 			MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
 			if (TMO_IntMenuItem *pimi = iod->pimi) {
-				if (!equalUUID(pimi->mi.uid, MIID_LAST)) {
+				if (!equalUUID(pimi->mi.uid, miid_last)) {
 					char menuItemName[256];
 					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
@@ -162,7 +162,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 			TCHAR customName[201]; customName[0] = 0;
 			int visible = 1, pos = 0;
-			if (!equalUUID(p->mi.uid, MIID_LAST)) {
+			if (!equalUUID(p->mi.uid, miid_last)) {
 				char menuItemName[256];
 				bin2hex(&p->mi.uid, sizeof(p->mi.uid), menuItemName);
 				ptrT tszSettings(db_get_tsa(NULL, pszModule, menuItemName));
