@@ -157,6 +157,7 @@ type
     flags     :integer;
     hIcon     :HICON;   // or hIcolibItem:THANDLE;
     hLangpack :int;
+    uid       :MUUID;
   end;
 
 {

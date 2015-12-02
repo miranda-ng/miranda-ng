@@ -55,6 +55,8 @@ function Menu_AddStatusMenuItem      (mi:PMO_MenuItem):HGENMENU;
 function Menu_AddProtoMenuItem       (mi:PMO_MenuItem):HGENMENU;
 function Menu_AddTrayMenuItem        (mi:PMO_MenuItem):HGENMENU;
 
+procedure SET_UID(pmi:PMO_MenuItem; strguid:PAnsiChar);
+
 function UserInfo_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Options_AddPage (wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
@@ -530,6 +532,13 @@ end;
 function Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
 begin
 	result:=PCRYPTO_PROVIDER(CallService(MS_CRYPTO_GET_PROVIDER, 0, LPARAM(pszName)));
+end;
+
+function UuidFromStringA(StringUuid:PAnsiChar; var Uuid:TGUID) : integer; stdcall; external 'Rpcrt4.dll';
+
+procedure SET_UID(pmi:PMO_MenuItem; strguid:PAnsiChar);
+begin
+   UuidFromStringA(strguid, pmi.uid);
 end;
 
 initialization
