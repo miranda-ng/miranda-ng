@@ -1489,12 +1489,14 @@ static int CLUIFramesLoadMainMenu()
 
 	// create root menu
 	CMenuItem mi;
+	SET_UID(mi, 0x3931AC4, 0x7A32, 0x4D9C, 0x99, 0x92, 0x94, 0xD4, 0xB5, 0x9B, 0xD6, 0xB6);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.name.a = LPGEN("Frames");
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
+	memset(&mi.uid, 0, sizeof(mi.uid));
 	mi.root = cont.MainMenuItem;
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
