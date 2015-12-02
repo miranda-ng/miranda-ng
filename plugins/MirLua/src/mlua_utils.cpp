@@ -4,7 +4,7 @@ int luaM_print(lua_State *L)
 {
 	CMStringA data;
 	int nargs = lua_gettop(L);
-	for (int i = 1; i <= nargs; ++i)
+	for (int i = 1; i <= nargs; i++)
 	{
 		switch (lua_type(L, i))
 		{
@@ -26,7 +26,8 @@ int luaM_print(lua_State *L)
 			break;
 		}
 	}
-	data.Delete(data.GetLength() - 3, 3);
+	if (data.GetLength() >= 3)
+		data.Delete(data.GetLength() - 3, 3);
 
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)data.GetBuffer());
 
