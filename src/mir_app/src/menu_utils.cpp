@@ -854,7 +854,7 @@ void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSiz
 
 static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 {
-	if (!equalUUID(pmi->mi.uid, MIID_LAST)) {
+	if (!equalUUID(pmi->mi.uid, miid_last)) {
 		char menuItemName[200];
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
@@ -927,7 +927,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 				else mi->position = pos;
 			}
 			else {
-				if (!equalUUID(mi->uid, MIID_LAST)) {
+				if (!equalUUID(mi->uid, miid_last)) {
 					bin2hex(&mi->uid, sizeof(mi->uid), menuItemName);
 					ptrT szValue(db_get_tsa(NULL, szModule, menuItemName));
 					if (szValue != NULL) {
