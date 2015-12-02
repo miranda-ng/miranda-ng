@@ -4,6 +4,9 @@
 #include <map>
 #include <set>
 
+// {7649A9F5-E57F-4E5D-A715-7BD8B3496DBE}
+static MUUID menu_id = { 0x7649a9f5, 0xe57f, 0x4e5d, 0xa7, 0x15, 0x7b, 0xd8, 0xb3, 0x49, 0x6d, 0xbe };
+
 namespace mu
 {
 	/*
@@ -22,6 +25,7 @@ namespace mu
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
 			mi.root = hRoot;
+			mi.uid = menu_id; menu_id.d[7]++;
 			return Menu_AddMainMenuItem(&mi);
 		}
 
@@ -34,6 +38,7 @@ namespace mu
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
+			mi.uid = menu_id; menu_id.d[7]++;
 			return Menu_AddContactMenuItem(&mi);
 		}
 	}
