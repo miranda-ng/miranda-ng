@@ -727,8 +727,15 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	if (pRoot) {
 		p->owner = &pRoot->submenu;
 
+		// if parent menu has no icon, copy our icon there
 		if (pRoot->iconId == -1)
 			pRoot->iconId = p->iconId;
+		
+		// if parent menu has no uid, copy our id instead
+		if (!equalUUID(pmi->uid, miid_last) && equalUUID(pRoot->mi.uid, miid_last)) {
+			pRoot->mi.uid = pmi->uid;
+			pRoot->mi.uid.d[7]--; // and make it slightly different
+		}
 	}
 	else p->owner = &pmo->m_items;
 
