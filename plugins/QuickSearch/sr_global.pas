@@ -242,6 +242,7 @@ begin
   if MainMenuItem<>0 then exit;
 
   ZeroMemory(@mi,sizeof(mi));
+  SET_UID(@mi, '98C2A92A-D93D-43E8-91C3-3BB6BE4344F0');
   mi.szName.a    :=qs_name;
   mi.position    :=500050000;
   mi.pszService  :=QS_SHOWSERVICE;

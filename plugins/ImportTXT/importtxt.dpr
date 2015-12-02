@@ -117,6 +117,7 @@ var
   mi:TMO_MenuItem;
 begin
   cp := Langpack_GetDefaultCodePage;
+  SET_UID(@menuItem, '5FC2C67E-A16B-47B7-A6A1-40BE922CCD93');
   SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
   SrvIWiz := CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
   FillChar(mi, sizeof(mi), 0);
@@ -126,6 +127,7 @@ begin
   mi.pszService := IMPORT_TXT_SERVICE;
   Menu_AddContacTMenuItem(@mi);
 
+  SET_UID(@mi, '0610209E-5BE0-4D57-AAE8-E1CCF1FB78B8');
   mi.position := 500050010;
   mi.pszService := IMPORT_WIZ_SERVICE;
   Menu_AddMainMenuItem(@mi);

@@ -132,6 +132,7 @@ var
   ico:pAnsiChar;
 begin
   FillChar(mi, sizeof(mi), 0);
+  SET_UID(@mi, 'CF40B5D0-B21E-4B10-B943-F35FDD343B97');
   mi.flags   :=CMIF_UNICODE;
   mi.szName.w:=cPluginName;
   mi.hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
@@ -139,6 +140,7 @@ begin
 
   FillChar(mi, sizeof(mi), 0);
   mi.root:=trayradioparent;
+  SET_UID(@mi, '7375ED25-F6C5-41F3-8EC2-55162E85E59D');
 
   if PluginStatus=ID_STATUS_ONLINE then
   begin
@@ -170,6 +172,7 @@ begin
   mi.position  :=1;
   traymute:=Menu_AddTrayMenuItem(@mi);
 
+  SET_UID(@mi, '00041DD6-72DF-4F05-810F-C09CBA092C17');
   mi.hIcon:=0;
   mi.flags:=CMIF_UNICODE;
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then
@@ -186,18 +189,21 @@ begin
   mi.pszService:='mRadio/TrayPlayPause';
   trayplay:=Menu_AddTrayMenuItem(@mi);
 
+  SET_UID(@mi, '9AD92E78-38FA-4855-9B50-F96C590D54DA');
   mi.szName.w  :='Stop';
   mi.position  :=3;
   srvtraystop:=CreateServiceFunction('mRadio/TrayStop',@TrayStop);
   mi.pszService:='mRadio/TrayStop';
   Menu_AddTrayMenuItem(@mi);
 
+  SET_UID(@mi, 'AC6A4BFA-7A47-4B56-A914-9CBD137E64BC');
   mi.szName.w  :='Quick Open';
   mi.position  :=4;
   mi.pszService:=MS_RADIO_QUICKOPEN;
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnOpen,0);
   Menu_AddTrayMenuItem(@mi);
 
+  SET_UID(@mi, '4F9ED4D1-5264-4194-934A-21E2DC5116CA');
   mi.hIcon    :=0;
   mi.szName.w :='Play Station';
   mi.position :=1000;

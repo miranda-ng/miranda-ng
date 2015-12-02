@@ -582,6 +582,7 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
+  SET_UID(@mi, '40F4D15E-7D15-4E7B-A624-2F794586D960');
   mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuReportPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnReport,0);
   mi.szName.a  :='Create WATrack report';
