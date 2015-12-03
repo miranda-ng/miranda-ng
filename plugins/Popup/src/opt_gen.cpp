@@ -589,7 +589,7 @@ void Check_ReorderPopups(HWND hwnd) {
 	if (!PopupOptions.ReorderPopups && PopupOptions.ReorderPopupsWarning) {
 		int res = MessageBox(hwnd,
 			TranslateT("'Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n"),
-			TranslateT("Popup Plus Warning"), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
+			TranslateT("Popup plus warning"), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
 
 		switch (res) {
 		case IDYES:

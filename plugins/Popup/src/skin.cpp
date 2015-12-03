@@ -1157,7 +1157,7 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 
 	if (!any->skin->isCompatible())
 		MessageBox(NULL,
-		TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
+		TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
 		_T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 
 	return any->skin;

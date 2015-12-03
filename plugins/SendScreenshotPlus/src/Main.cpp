@@ -264,7 +264,7 @@ DLL_EXPORT int Load(void)
 
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 	if (FIP == NULL || result != S_OK) {
-		MessageBox(NULL, TranslateT("Image services (AdvaImg) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(NULL, TranslateT("Image services (AdvaImg plugin) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 1;
 	}
 	/// hook events
