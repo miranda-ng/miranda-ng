@@ -15,7 +15,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pushliteral(L, "Uid");
 	lua_gettable(L, -2);
 	const char* uuid = (char*)lua_tostring(L, -1);
-	if (uuid == NULL || CLSIDFromString((LPCOLESTR)ptrT(mir_utf8decodeT(uuid)), (LPCLSID)&mi.uid) != NOERROR)
+	if (UuidFromStringA((RPC_CSTR)uuid, (UUID*)&mi.uid))
 		UNSET_UID(mi);
 	lua_pop(L, 1);
 
@@ -142,12 +142,19 @@ static luaL_Reg genmenuApi[] =
 	{ "CheckMenuItem", lua_CheckMenuItem },
 	{ "RemoveMenuItem", lua_RemoveMenuItem },
 
+	{ "MO_MAIN", NULL },
+	{ "MO_CONTACT", NULL },
+
 	{ NULL, NULL }
 };
 
 LUAMOD_API int luaopen_m_genmenu(lua_State *L)
 {
 	luaL_newlib(L, genmenuApi);
+	lua_pushinteger(L, MO_MAIN);
+	lua_setfield(L, -2, "MO_MAIN");
+	lua_pushinteger(L, MO_CONTACT);
+	lua_setfield(L, -2, "MO_CONTACT");
 
 	return 1;
 }
