@@ -553,7 +553,7 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
 			hSelItem = NULL;
 		else
-			hSelItem = (MCONTACT)cli.pfnContactToHItem(selcontact);
+			hSelItem = (UINT_PTR)cli.pfnContactToHItem(selcontact);
 		group->scanIndex = 0;
 		SortGroup(dat, group, useInsertionSort);
 		for (;;) {

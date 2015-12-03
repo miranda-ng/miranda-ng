@@ -143,7 +143,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl GetInfo(MCONTACT hContact, int flags)
 	{
-		CCSDATA ccs = { hContact, PSS_GETINFO, flags, 0 };
+		CCSDATA ccs = { hContact, PSS_GETINFO, (WPARAM)flags, 0 };
 		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
 	}
 
@@ -239,13 +239,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl SendUrl(MCONTACT hContact, int flags, const char* url)
 	{
-		CCSDATA ccs = { hContact, PSS_URL, flags, (LPARAM)url };
+		CCSDATA ccs = { hContact, PSS_URL, (WPARAM)flags, (LPARAM)url };
 		return (int)ProtoCallService(m_szModuleName, PSS_URL, 0, (LPARAM)&ccs);
 	}
 
 	int __cdecl SetApparentMode(MCONTACT hContact, int mode)
 	{
-		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, mode, 0 };
+		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, (WPARAM)mode, 0 };
 		return (int)ProtoCallService(m_szModuleName, PSS_SETAPPARENTMODE, 0, (LPARAM)&ccs);
 	}
 
@@ -262,7 +262,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
 	{
-		CCSDATA ccs = { hContact, PSR_AWAYMSG, statusMode, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_AWAYMSG, (WPARAM)statusMode, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
 	}
 

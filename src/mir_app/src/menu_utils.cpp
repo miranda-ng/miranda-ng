@@ -849,16 +849,6 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 #define PUTPOSITIONSONMENU
 #endif
 
-void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSize)
-{
-	if (pMenuItem->UniqName)
-		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->UniqName);
-	else if (pMenuItem->mi.flags & CMIF_UNICODE)
-		mir_snprintf(pszDest, cbDestSize, "{%s}", (char*)_T2A(pMenuItem->mi.name.t));
-	else
-		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.name.t);
-}
-
 static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 {
 	if (!equalUUID(pmi->mi.uid, miid_last)) {
@@ -911,7 +901,12 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 			char szSetting[256], menuItemName[256];
 			int visible = true, pos = 0;
 			if (bOldMenuFormat) {
-				GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
+				if (pmi->UniqName)
+					mir_snprintf(menuItemName, "{%s}", pmi->UniqName);
+				else if (pmi->mi.flags & CMIF_UNICODE)
+					mir_snprintf(menuItemName, "{%s}", (char*)_T2A(pmi->mi.name.t));
+				else
+					mir_snprintf(menuItemName, "{%s}", pmi->mi.name.t);
 
 				// check if it visible
 				mir_snprintf(szSetting, "%s_visible", menuItemName);
@@ -1076,51 +1071,47 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
-	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName),
-		*descr = GetMenuItemText(pmi);
-
-	if (!uname && !descr)
+	TCHAR *descr = GetMenuItemText(pmi);
+	if (!descr || pmi->hIcolibItem != NULL || equalUUID(pmi->mi.uid, miid_last))
 		return FALSE;
 
-	if (!pmi->hIcolibItem) {
-		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
+	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
-		TCHAR sectionName[256];
-		mir_sntprintf(sectionName, LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
+	TCHAR sectionName[256];
+	mir_sntprintf(sectionName, LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
 
-		char iconame[256];
-		mir_snprintf(iconame, "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
+	char iconame[256], uname[100];
+	bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), uname);
+	mir_snprintf(iconame, "genmenu_%s_%s", pmi->parent->pszName, uname);
 
-		// remove '&'
-		if (descr) {
-			descr = NEWTSTR_ALLOCA(descr);
+	// remove '&'
+	if (descr) {
+		descr = NEWTSTR_ALLOCA(descr);
 
-			for (TCHAR *p = descr; *p; p++) {
-				if ((p = _tcschr(p, '&')) == NULL)
-					break;
+		for (TCHAR *p = descr; *p; p++) {
+			if ((p = _tcschr(p, '&')) == NULL)
+				break;
 
-				memmove(p, p + 1, sizeof(TCHAR)*(mir_tstrlen(p + 1) + 1));
-				if (*p == '\0')
-					p++;
-			}
-		}
-
-		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_TCHAR;
-		sid.section.t = sectionName;
-		sid.pszName = iconame;
-		sid.description.t = descr;
-		sid.hDefaultIcon = hIcon;
-		pmi->hIcolibItem = IcoLib_AddIcon(&sid, 0);
-
-		Safe_DestroyIcon(hIcon);
-		if (hIcon = IcoLib_GetIcon(iconame)) {
-			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
-			IcoLib_ReleaseIcon(hIcon);
+			memmove(p, p + 1, sizeof(TCHAR)*(mir_tstrlen(p + 1) + 1));
+			if (*p == '\0')
+				p++;
 		}
 	}
 
-	mir_free(uname);
+	SKINICONDESC sid = { 0 };
+	sid.flags = SIDF_TCHAR;
+	sid.section.t = sectionName;
+	sid.pszName = iconame;
+	sid.description.t = descr;
+	sid.hDefaultIcon = hIcon;
+	pmi->hIcolibItem = IcoLib_AddIcon(&sid, 0);
+
+	Safe_DestroyIcon(hIcon);
+	if (hIcon = IcoLib_GetIcon(iconame)) {
+		ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
+		IcoLib_ReleaseIcon(hIcon);
+	}
+
 	return FALSE;
 }
 
