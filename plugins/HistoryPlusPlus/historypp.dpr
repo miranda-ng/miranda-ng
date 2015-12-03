@@ -171,7 +171,7 @@ begin
   begin
     hppMessagebox(hppMainWindow, FormatCString( // single line to translation script
       TranslateW
-      ('History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.')
+      ('History++ module could not be loaded, Rich Edit 2.0+ module is missing.\nPress OK to continue loading Miranda.')
       ), hppName + ' Information', MB_OK or MB_ICONINFORMATION);
     Result := 1;
     exit;

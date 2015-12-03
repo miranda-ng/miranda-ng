@@ -203,7 +203,7 @@ int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 
 	if (nSrcLen > nLen)
 	{
-		MessageBox(NULL, TranslateT("Failed to write to the RichEdit the buffer was to small."), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to write to the Rich Edit the buffer was to small."), MSG_BOX_TITEL, MB_OK);
 		return 0; // target buffer to small
 	}
 
@@ -525,10 +525,10 @@ bool bUseInternalViewer(bool bNew)
 	bUseIntViewer = bNew;
 	if (bUseIntViewer && !hRichEditDll)
 	{
-		hRichEditDll = LoadLibraryA("Msftedit.DLL");
+		hRichEditDll = LoadLibraryA("Msftedit.dll");
 		if (!hRichEditDll)
 		{
-			DisplayLastError(LPGENT("Failed to load Rich Edit ( Msftedit.DLL )"));
+			DisplayLastError(LPGENT("Failed to load Rich Edit (Msftedit.dll)"));
 			return false;
 		}
 	}
@@ -609,7 +609,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 
 	HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
 	if (!hRichEdit) {
-		MessageBox(hwndDlg, TranslateT("Failed to get handle to RichEdit!"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(hwndDlg, TranslateT("Failed to get handle to Rich Edit!"), MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
