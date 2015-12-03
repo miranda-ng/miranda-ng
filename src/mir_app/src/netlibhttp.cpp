@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "../libs/zlib/src/zlib.h"
 #include "netlib.h"
+#include "m_version.h"
 
 #define HTTPRECVHEADERSTIMEOUT   30000  //in ms
 #define HTTPRECVDATATIMEOUT      20000
@@ -39,8 +40,6 @@ struct ProxyAuth
 {
 	char *szServer;
 	char *szMethod;
-//	char *szUserName;
-//	char *szPassword;
 
 	ProxyAuth(const char *pszServer, const char *pszMethod)
 	{
@@ -53,12 +52,14 @@ struct ProxyAuth
 		mir_free(szMethod);
 	}
 	static int Compare(const ProxyAuth *p1, const ProxyAuth *p2)
-	{ return mir_strcmpi(p1->szServer, p2->szServer); }
+	{
+		return mir_strcmpi(p1->szServer, p2->szServer);
+	}
 };
 
 struct ProxyAuthList : OBJLIST<ProxyAuth>
 {
-	ProxyAuthList() :  OBJLIST<ProxyAuth>(2, ProxyAuth::Compare) {}
+	ProxyAuthList() : OBJLIST<ProxyAuth>(2, ProxyAuth::Compare) {}
 
 	void add(const char *szServer, const char *szMethod)
 	{
@@ -96,7 +97,7 @@ static void AppendToCharBuffer(struct ResizableCharBuffer *rcb, const char *fmt,
 	}
 	va_start(va, fmt);
 	while (true) {
-		charsDone = mir_vsnprintf(rcb->sz + rcb->iEnd, rcb->cbAlloced-rcb->iEnd, fmt, va);
+		charsDone = mir_vsnprintf(rcb->sz + rcb->iEnd, rcb->cbAlloced - rcb->iEnd, fmt, va);
 		if (charsDone >= 0) break;
 		rcb->cbAlloced += 512;
 		rcb->sz = (char*)mir_realloc(rcb->sz, rcb->cbAlloced);
@@ -315,7 +316,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	char buffer[2048];
 	char *peol;
 
-	while(true) {
+	while (true) {
 		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK | recvFlags);
 
 		if (bytesPeeked == 0) {
@@ -381,15 +382,15 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, struct ResizableCharBuf
 
 	DWORD hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 		(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND | NLHRF_NODUMPHEADERS) ?
-			MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
+	MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
+					 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
 	int bytesSent = NLSend(nlc, httpRequest->sz, httpRequest->iEnd, hflags);
 	if (bytesSent != SOCKET_ERROR && sendData && nlhr->dataLength) {
 		DWORD sflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 			(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ?
-				MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
+		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
+						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
 		int sendResult = NLSend(nlc, nlhr->pData, nlhr->dataLength, sflags);
 
@@ -408,7 +409,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
 
-	struct ResizableCharBuffer httpRequest = {0};
+	struct ResizableCharBuffer httpRequest = { 0 };
 	char *szHost = NULL, *szNewUrl = NULL;
 	char *pszProxyAuthHdr = NULL, *pszAuthHdr = NULL;
 	int i, doneHostHeader, doneContentLengthHeader, doneProxyAuthHeader, doneAuthHeader;
@@ -429,7 +430,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	int hdrTimeout = (nlhr->timeout) ? nlhr->timeout : HTTPRECVHEADERSTIMEOUT;
 
 	const char *pszRequest;
-	switch(nlhr->requestType) {
+	switch (nlhr->requestType) {
 	case REQUEST_GET:     pszRequest = "GET";     break;
 	case REQUEST_POST:    pszRequest = "POST";    break;
 	case REQUEST_CONNECT: pszRequest = "CONNECT"; break;
@@ -571,16 +572,16 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			lastFirstLineFail = true;
 			continue;
 		}
-		
+
 		int resultCode = nlhr->resultCode;
 		lastFirstLineFail = false;
 
-		DWORD hflags = (nlhr->flags & (NLHRF_NODUMP|NLHRF_NODUMPHEADERS|NLHRF_NODUMPSEND) ?
-					MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-					(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
+		DWORD hflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPHEADERS | NLHRF_NODUMPSEND) ?
+		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
+						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
 		DWORD dflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ? MSG_NODUMP : MSG_DUMPASTEXT | MSG_DUMPPROXY) |
-				 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
+			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
 
 		if (resultCode == 100)
 			nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
@@ -736,7 +737,7 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	if (nlhr->headers) {
-		for (int i=0; i < nlhr->headersCount; i++) {
+		for (int i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
 			mir_free(p.szName);
 			mir_free(p.szValue);
@@ -784,7 +785,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 
 	// Make sure all headers arrived
 	bytesPeeked = 0;
-	for (bool headersCompleted = false; !headersCompleted; ) {
+	for (bool headersCompleted = false; !headersCompleted;) {
 		if (bytesPeeked >= bufferSize) {
 			bufferSize += 8192;
 			mir_free(buffer);
@@ -893,10 +894,14 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		++nlhrSend.headersCount;
 
 		char szMirandaVer[64];
-		CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(szMirandaVer), (LPARAM)szMirandaVer);
+		strncpy_s(szMirandaVer, MIRANDA_VERSION_STRING, _TRUNCATE);
+		#if defined(_WIN64)
+			strncat_s(szMirandaVer, " x64", _TRUNCATE);
+		#endif
+
 		char *pspace = strchr(szMirandaVer, ' ');
 		if (pspace) {
-			*pspace++='\0';
+			*pspace++ = '\0';
 			mir_snprintf(szUserAgent, "Miranda/%s (%s)", szMirandaVer, pspace);
 		}
 		else mir_snprintf(szUserAgent, "Miranda/%s", szMirandaVer);
@@ -949,7 +954,7 @@ void NetlibHttpSetLastErrorUsingHttpResult(int result)
 		SetLastError(ERROR_SUCCESS);
 		return;
 	}
-	switch(result) {
+	switch (result) {
 		case 400: SetLastError(ERROR_BAD_FORMAT); break;
 		case 401:
 		case 402:
@@ -990,8 +995,7 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 		inflateEnd(&zstr);
 		gzip_len *= 2;
-	}
-	while (gzip_err == Z_BUF_ERROR);
+	} while (gzip_err == Z_BUF_ERROR);
 
 	gzip_len = gzip_err == Z_STREAM_END ? zstr.total_out : -1;
 
@@ -1052,7 +1056,7 @@ next:
 		goto next;
 	}
 
-	for (i=0; i<nlhrReply->headersCount; i++) {
+	for (i = 0; i < nlhrReply->headersCount; i++) {
 		NETLIBHTTPHEADER &p = nlhrReply->headers[i];
 		if (!mir_strcmpi(p.szName, "Content-Length"))
 			dataLen = atoi(p.szValue);
@@ -1068,9 +1072,7 @@ next:
 		if (!mir_strcmpi(p.szName, "Connection"))
 			close = !mir_strcmpi(p.szValue, "close");
 
-		if (!mir_strcmpi(p.szName, "Transfer-Encoding") &&
-			!mir_strcmpi(p.szValue, "chunked"))
-		{
+		if (!mir_strcmpi(p.szName, "Transfer-Encoding") && !mir_strcmpi(p.szValue, "chunked")) {
 			chunked = true;
 			chunkhdr = i;
 			dataLen = -1;
@@ -1093,7 +1095,7 @@ next:
 		nlhrReply->pData = (char*)mir_realloc(nlhrReply->pData, dataBufferAlloced);
 
 		while (chunksz != 0) {
-			while(true) {
+			while (true) {
 				recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT,
 					nlhrReply->pData + nlhrReply->dataLength,
 					dataBufferAlloced - nlhrReply->dataLength - 1,
@@ -1106,8 +1108,7 @@ next:
 				}
 				nlhrReply->dataLength += recvResult;
 
-				if (dataLen >= 0)
-				{
+				if (dataLen >= 0) {
 					if (nlhrReply->dataLength >= dataLen)
 						break;
 				}
@@ -1159,8 +1160,7 @@ next:
 
 		case 2:
 			szData = gzip_decode(nlhrReply->pData, &bufsz, -MAX_WBITS);
-			if (bufsz < 0)
-			{
+			if (bufsz < 0) {
 				bufsz = nlhrReply->dataLength;
 				szData = gzip_decode(nlhrReply->pData, &bufsz, MAX_WBITS);
 			}
