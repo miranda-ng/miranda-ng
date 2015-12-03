@@ -178,6 +178,7 @@ static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
 			continue;
 		
 		chatApi.UM_RemoveAll(&si->pUsers);
+		si->pMe = NULL;
 		si->nUsersInNicklist = 0;
 		if (si->iType != GCW_SERVER)
 			si->bInitDone = FALSE;
@@ -316,6 +317,8 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR
 			if (chatApi.OnRemoveUser)
 				chatApi.OnRemoveUser(si, ui);
 
+			if (si->pMe == ui)
+				si->pMe = NULL;
 			chatApi.UM_RemoveUser(&si->pUsers, pszUID);
 
 			if (si->hWnd)
