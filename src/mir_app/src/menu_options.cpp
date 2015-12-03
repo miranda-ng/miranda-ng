@@ -204,7 +204,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		for (int i = 0; i < arItems.getCount(); i++) {
 			MenuItemOptData *PD = arItems[i];
-			if (PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
+			if (i > 0 && PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
 				MenuItemOptData *sep = new MenuItemOptData();
 				sep->id = -1;
 				sep->name = mir_tstrdup(STR_SEPARATOR);
