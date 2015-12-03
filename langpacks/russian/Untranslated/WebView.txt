@@ -65,7 +65,6 @@
 [Medium level of whitespace removal]
 [Large level of whitespace removal]
 [Remove all whitespace]
-[Use OSD plugin]
 [A string is present]
 [The web page changes]
 [A specific part of web page changes]

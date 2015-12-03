@@ -57,3 +57,5 @@
 Невозможно удалить ключ реестра, отвечающий за встраивание в контекстное меню папок, возможно он уже удалён или необходимы права администратора.
 [Shell context menus requires your permission to register with Windows Explorer (one time only).]
 Для встраивания в контекстное меню оболочки операционной системы требуется ваше разрешение (однократно).
+[Miranda NG - Shell context menus (shellext.dll)]
+Miranda NG - Контекстное меню оболочки ОС (shellext.dll)
