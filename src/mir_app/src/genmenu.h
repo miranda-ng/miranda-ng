@@ -100,8 +100,6 @@ extern LIST<TIntMenuObject> g_menus;
 #define SEPARATORPOSITIONINTERVAL	100000
 
 // internal usage
-void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSize);
-
 TMO_IntMenuItem* MO_GetIntMenuItem(HGENMENU);
 
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);

@@ -42,7 +42,6 @@ struct MenuItemOptData : public MZeroedObject
 
 	ptrT   name;
 	ptrT   defname;
-	ptrA   uniqname;
 	
 	bool   bShow;
 	int    id;
@@ -187,10 +186,6 @@ class CGenMenuOptionsPage : public CDlgBase
 				PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;
 
 			PD->id = p->iCommand;
-
-			if (p->UniqName)
-				PD->uniqname = mir_strdup(p->UniqName);
-
 			arItems.insert(PD);
 		}
 
@@ -511,8 +506,11 @@ public:
 
 		m_customName.SetText(iod->name);
 
-		if (iod->pimi->submenu.first == NULL && iod->uniqname)
-			m_service.SetTextA(iod->uniqname);
+		if (iod->pimi->submenu.first == NULL && !equalUUID(iod->pimi->mi.uid, miid_last)) {
+			char szText[100];
+			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
+			m_service.SetTextA(szText);
+		}
 
 		m_btnDefault.Enable(mir_tstrcmp(iod->name, iod->defname) != 0);
 		m_btnSet.Enable(true);
