@@ -3,6 +3,5 @@
 [BL&OB]
 [[UNLOADED]]
 [Delete resident settings from database?]
-[%d orphaned items deleted.]
 [*** buggy resident ***]
 [*** resident ***]

@@ -10,8 +10,6 @@
 [Show Global history search window. If already opened, bring it to front.]
 [wParam is Handle]
 [Starting or stopping radio station]
-[Stop cycle]
-[Start cycle]
 [Start/stops the cycling through protocols]
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
 [Shows the next protocol in the frame]

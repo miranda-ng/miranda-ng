@@ -177,6 +177,8 @@
 Сайт уже загружается, попробуйте позже.
 [Popup plugin]
 Вспл. окна
+[Use OSD plugin]
+Использовать плагин OSD
 [This is a preview popup.]
 Это всплывающее окно предпросмотра.
 [Invalid symbol present in contact name.]

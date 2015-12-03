@@ -617,6 +617,10 @@ UTF16+сигнатура
 wParam содержит имя станции в кодировке Ansi
 [wParam is Unicode station name]
 wParam содержит имя станции в кодировке Unicode
+[Stop cycle]
+Останавливает цикл
+[Start cycle]
+Запускает цикл
 [All protocols]
 Все протоколы
 [Protocol]
