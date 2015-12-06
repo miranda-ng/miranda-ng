@@ -22,6 +22,7 @@
 #include <m_clist.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
+#include <m_skin.h>
 #include <m_message.h>
 #include <m_chat.h>
 #include <m_protocols.h>
@@ -72,8 +73,6 @@ extern HANDLE hNetlib;
 #define MLUA_CORE	"m_core"
 LUAMOD_API int (luaopen_m_core)(lua_State *L);
 
-#include "m_schedule.h"
-
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);
 
@@ -97,6 +96,11 @@ LUAMOD_API int (luaopen_m_message)(lua_State *L);
 LUAMOD_API int (luaopen_m_popup)(lua_State *L);
 
 #include "m_protocols.h"
+
+#include "m_schedule.h"
+
+#define MLUA_SOUND	"m_sound"
+LUAMOD_API int (luaopen_m_sound)(lua_State *L);
 
 #include "m_toptoolbar.h"
 

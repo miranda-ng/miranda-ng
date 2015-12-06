@@ -2,7 +2,7 @@
 
 static int lua_AddIcon(lua_State *L)
 {
-	const char* name = luaL_checkstring(L, 1);
+	const char *name = luaL_checkstring(L, 1);
 	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
 
@@ -25,7 +25,7 @@ static int lua_AddIcon(lua_State *L)
 
 static int lua_GetIcon(lua_State *L)
 {
-	const char* name = luaL_checkstring(L, 1);
+	const char *name = luaL_checkstring(L, 1);
 
 	HANDLE res = ::IcoLib_GetIconHandle(name);
 	lua_pushlightuserdata(L, res);
@@ -52,8 +52,11 @@ static int lua_RemoveIcon(lua_State *L)
 static luaL_Reg icolibApi[] =
 {
 	{ "AddIcon", lua_AddIcon },
+	{ "Add", lua_AddIcon },
 	{ "GetIcon", lua_GetIcon },
+	{ "Get", lua_GetIcon },
 	{ "RemoveIcon", lua_RemoveIcon },
+	{ "Remove", lua_RemoveIcon },
 
 	{ NULL, NULL }
 };
