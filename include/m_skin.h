@@ -154,7 +154,7 @@ typedef struct {
 }
 	SKINSOUNDDESCEX;
 
-__forceinline INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description = NULL, const char *defaultFile = NULL)
+__forceinline INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description, const char *defaultFile = NULL)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
@@ -165,7 +165,7 @@ __forceinline INT_PTR SkinAddNewSoundEx(const char *name, const char *section, c
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__forceinline INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description = NULL, const TCHAR *defaultFile = NULL)
+__forceinline INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description, const TCHAR *defaultFile = NULL)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
