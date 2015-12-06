@@ -46,7 +46,7 @@
 [Interval for notification updates (min):]
 Интервал обновлений уведомлений (мин):
 [Mark notification as viewed on receive]
-Помечать уведомления, как просмотренные при получении
+Помечать уведомления как просмотренные при получении
 [Special contact always enabled]
 Псевдоконтакт всегда включён
 [Autoclear news and notification history]

@@ -238,7 +238,7 @@
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт послал неподдерживаемое вложение. Для просмотра перейдите на сайт.
 [This message is no longer available, because it was marked as abusive or spam.]
-Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
+Сообщение недоступно, поскольку было отмечено как оскорбительное или спам.
 [%s is typing a message...]
 %s набирает сообщение...
 [You cannot send messages when you are offline.]

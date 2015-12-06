@@ -38,7 +38,7 @@
 [Setting]
 Параметр
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
-Маркер %extratext% будет принят, как специальная строка, которая зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать строку, которая будет подставляться в %extratext%
+Маркер %extratext% будет принят как специальная строка, которая зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать строку, которая будет подставляться в %extratext%
 [Close]
 Закрыть
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]

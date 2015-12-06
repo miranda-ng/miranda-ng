@@ -2084,7 +2084,7 @@ Miranda не может распознать этот профиль
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 Система безопасности для предотвращения нежелательных изменений выключена. Вы не получите дальнейших предупреждений.
 [This change is known to be safe.]
-Это изменение известно, как безопасное.
+Это изменение известно как безопасное.
 [This change is known to be potentially hazardous.]
 Это изменение потенциально опасно.
 [This change is not known to be safe.]
