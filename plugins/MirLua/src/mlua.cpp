@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-//LIST<void> CMLua::Hooks(1, PtrKeySortT);
-//LIST<void> CMLua::Events(1, PtrKeySortT);
-//LIST<void> CMLua::Services(1, PtrKeySortT);
 LIST<void> CMLua::HookRefs(1, HandleKeySortT);
 LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
 
@@ -65,6 +62,7 @@ void CMLua::Unload()
 		delete script;
 	}
 
+	::KillModuleScheduleTasks();
 	::KillModuleMBButtons();
 	::KillModuleTTBButton();
 
@@ -73,12 +71,8 @@ void CMLua::Unload()
 	::KillModuleHotkeys(hScriptsLangpack);
 	::KillObjectEventHooks(L);
 	::KillObjectServices(L);
-	//KillModuleSubclassing
 
-	//CMLua::KillLuaRefs();
-
-	if (L)
-		lua_close(L);
+	lua_close(L);
 }
 
 void CMLua::KillLuaRefs()

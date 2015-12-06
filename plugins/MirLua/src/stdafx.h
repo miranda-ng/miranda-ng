@@ -6,6 +6,9 @@
 #include <malloc.h>
 #include <time.h>
 
+#include <map>
+#include <string>
+
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>
@@ -69,6 +72,8 @@ extern HANDLE hNetlib;
 #define MLUA_CORE	"m_core"
 LUAMOD_API int (luaopen_m_core)(lua_State *L);
 
+#include "m_schedule.h"
+
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);
 
@@ -120,7 +125,5 @@ HANDLE GetIconHandle(int iconId);
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact);
 
 void ObsoleteMethod(lua_State *L, const char *message);
-
-#include <typeinfo>
 
 #endif //_COMMON_H_

@@ -1,9 +1,6 @@
 #ifndef _LUA_METATABLE_H_
 #define _LUA_METATABLE_H_
 
-#include <map>
-#include <string>
-
 #define LUA_TINTEGER LUA_NUMTAGS + 1
 #define LUA_TSTRINGA LUA_NUMTAGS + 2
 #define LUA_TSTRINGW LUA_NUMTAGS + 3
