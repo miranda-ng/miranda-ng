@@ -24,7 +24,7 @@
 [Append group name to contact name]
 Добавлять группу для имени контакта
 [But show it as a column...]
-Но показывать её, как колонку...
+Но показывать её как колонку...
 [...on left side of name]
 ...слева от имени
 [Hide subcontacts]
