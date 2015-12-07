@@ -169,6 +169,7 @@ void InitMenuItems(void)
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
 	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 500010000, IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0));
+	Menu_ConfigureItem(hMenuRoot, MCI_OPT_UID, "043A641A-2767-4C57-AA57-9233D6F9DC54");
 
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;

@@ -80,6 +80,7 @@ void InitMenu()
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 
 	SET_UID(mi, 0x9de6716, 0x3591, 0x48c4, 0x9f, 0x64, 0x1b, 0xfd, 0xc6, 0xd1, 0x34, 0x97);
 	mi.name.t = LPGENT("Enable/Disable Auto Update");
@@ -124,8 +125,10 @@ void InitMenu()
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
-	SET_UID(mi, 0xb9812194, 0x3235, 0x4e76, 0xa3, 0xa4, 0x73, 0x32, 0x96, 0x1c, 0x1c, 0xf4);
 	mi.root = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "C259BE01-642C-461E-997D-0E756B2A3AD6");
+
+	SET_UID(mi, 0xb9812194, 0x3235, 0x4e76, 0xa3, 0xa4, 0x73, 0x32, 0x96, 0x1c, 0x1c, 0xf4);
 	mi.name.t = LPGENT("Refresh");
 	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "Quotes/RefreshContact";

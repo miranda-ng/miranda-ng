@@ -458,6 +458,8 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma comment(lib, "Rpcrt4.lib")
+
 MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 {
 	if (!bIsGenMenuInited)
@@ -479,6 +481,10 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 
 	case MCI_OPT_EXECPARAM:
 		pimi->execParam = value;
+		return 0;
+
+	case MCI_OPT_UID:
+		UuidFromStringA((RPC_CSTR)value, (UUID*)&pimi->mi.uid);
 		return 0;
 	}
 
@@ -733,6 +739,10 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 		
 		// if parent menu has no uid, copy our id instead
 		if (!equalUUID(pmi->uid, miid_last) && equalUUID(pRoot->mi.uid, miid_last)) {
+			char szUid[100];
+			bin2hex(&pmi->uid, sizeof(pmi->uid), szUid);
+			Netlib_Logf("[MENU]: fake UUID added to menu item %s", szUid);
+
 			pRoot->mi.uid = pmi->uid;
 			pRoot->mi.uid.d[7]--; // and make it slightly different
 		}

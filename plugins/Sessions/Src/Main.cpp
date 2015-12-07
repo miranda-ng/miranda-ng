@@ -795,6 +795,7 @@ static int PluginInit(WPARAM, LPARAM)
 	CMenuItem mi;
 	mi.position = 1000000000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Sessions Manager"), 1000000000);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D77B9AB4-AF7E-43DB-A487-BD581704D635");
 
 	SET_UID(mi, 0xd35302fa, 0x8326, 0x4323, 0xa3, 0xe5, 0xb4, 0x41, 0xff, 0xfb, 0xaa, 0x2d);
 	mi.name.a = LPGEN("Save session...");

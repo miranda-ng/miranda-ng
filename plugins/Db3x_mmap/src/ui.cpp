@@ -313,17 +313,12 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	CMenuItem mi;
 
 	// main menu item
-	SET_UID(mi, 0x3a93aa5e, 0xe731, 0x445e, 0x8d, 0x3b, 0x6d, 0x2c, 0xdd, 0xde, 0xde, 0xe7);
-	mi.name.t = LPGENT("Database");
-	mi.position = 500000000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcolibItem = iconList[0].hIcolib;
-	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500000000, iconList[0].hIcolib);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.t = db->GetMenuTitle();
-	mi.root = hMenuRoot;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;

@@ -175,10 +175,12 @@ extern "C" int __declspec(dllexport) Load()
 		//value is 0 if menu is enabled
 		db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 0);
 
+		mi.root = Menu_CreateRoot(MO_MAIN, _T(MODULENAME), 20200001);
+		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
+
 		/*DISABLE WEBVIEW*/
 		SET_UID(mi, 0xdedeb697, 0xfc10, 0x4622, 0x8b, 0x97, 0x74, 0x39, 0x32, 0x68, 0xa7, 0x7b);
 		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
-		mi.root = Menu_CreateRoot(MO_MAIN, _T(MODULENAME), 20200001);
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 			mi.name.t = LPGENT("Auto update disabled");

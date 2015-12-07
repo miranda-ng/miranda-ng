@@ -102,8 +102,10 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 		if (!db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
-		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
+		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1)) {
 			mi.root = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
+			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
+		}
 
 		mi.name.t = profilename;
 		mi.position = 2000100000 + mcount;

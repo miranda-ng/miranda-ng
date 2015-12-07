@@ -61,7 +61,7 @@ struct TMO_MenuItem
 	#define UNSET_UID(M) { MUUID tmp = MIID_LAST; M.uid = tmp; }
 #else
 	#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { M.uid = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; }
-#define UNSET_UID(M) { M.uid = MIID_LAST; }
+	#define UNSET_UID(M) { M.uid = MIID_LAST; }
 #endif
 
 #ifdef __cplusplus
@@ -250,6 +250,7 @@ __forceinline int Menu_ConfigureObject(int hMenuObject, int iSetting, LPCSTR psz
 #define MCI_OPT_UNIQUENAME 1 // a unique name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
 #define MCI_OPT_HOTKEY     2 // DWORD value = MAKELONG(VK_*, VK_SHIFT)
 #define MCI_OPT_EXECPARAM  3 // INT_PTR or void*, associated with this item
+#define MCI_OPT_UID        4 // TMenuItem::uid as string like "2E407C55-5E89-4E83-9B79-15A803E7EE90"
 
 EXTERN_C MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value);
 

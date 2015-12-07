@@ -327,6 +327,7 @@ void AddMenuItems(void)
 
 	// adding main menu items
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
 
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);

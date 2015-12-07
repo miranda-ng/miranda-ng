@@ -354,13 +354,15 @@ begin
   RegisterIcons;
 
   FillChar(mi, sizeof(mi), 0);
+  mi.root := Menu_CreateRoot(MO_CONTACT, 'Watrack', 0, 0, 0);
+  Menu_ConfigureItem(mi.root, MCI_OPT_UID, 'CAEA4B95-A873-429F-A083-BB2DF51E2E45');
+
   SET_UID(@mi, '47D372B2-AA27-42B3-A3CB-85D3CE5F6A95');
-  mi.root         :=Menu_CreateRoot(MO_CONTACT, 'Watrack', 0, 0, 0);
-  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
-  mi.hIcon        :=IcoLib_GetIcon(IcoBtnContext,0);
-  mi.szName.a     :='Get user''s Music Info';
-  mi.pszService   :=MS_WAT_GETCONTACTINFO;
-  hContactMenuItem:=Menu_AddContactMenuItem(@mi);
+  mi.flags         := CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
+  mi.hIcon         := IcoLib_GetIcon(IcoBtnContext,0);
+  mi.szName.a      := 'Get user''s Music Info';
+  mi.pszService    := MS_WAT_GETCONTACTINFO;
+  hContactMenuItem := Menu_AddContactMenuItem(@mi);
 
   SetProtocol;
   RegisterContacts;
