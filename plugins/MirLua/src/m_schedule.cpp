@@ -23,10 +23,37 @@ static int TaskCompare(const ScheduleTask *p1, const ScheduleTask *p2)
 
 static LIST<ScheduleTask> tasks(1, TaskCompare);
 
-void DestroyScheduleTask(ScheduleTask *task)
+void DestroyTask(ScheduleTask *task)
 {
 	luaL_unref(task->L, LUA_REGISTRYINDEX, task->threadRef);
 	delete task;
+}
+
+void ExecuteTaskThread(void *arg)
+{
+	ScheduleTask *task = (ScheduleTask*)arg;
+
+	lua_rawgeti(task->T, LUA_REGISTRYINDEX, task->callbackRef);
+	if (lua_pcall(task->T, 0, 2, 0))
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(task->T, -1));
+
+	if (task->interval == 0)
+	{
+		DestroyTask(task);
+		return;
+	}
+
+	{
+		mir_cslock lock(threadLock);
+
+		time_t timestamp = time(NULL);
+		if(task->startTime + task->interval >= timestamp)
+			task->startTime += task->interval;
+		else
+			task->startTime = timestamp + task->interval;
+		tasks.insert(task);
+	}
+	SetEvent(hScheduleEvent);
 }
 
 void ScheduleThread(void*)
@@ -52,22 +79,11 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 
 			if (task->endTime > 0 && task->endTime < timestamp)
 			{
-				DestroyScheduleTask(task);
+				DestroyTask(task);
 				continue;
 			}
 
-			lua_rawgeti(task->T, LUA_REGISTRYINDEX, task->callbackRef);
-			if (lua_pcall(task->T, 0, 2, 0))
-				CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(task->T, -1));
-
-			if (task->interval == 0)
-			{
-				DestroyScheduleTask(task);
-				continue;
-			}
-
-			task->startTime += task->interval;
-			tasks.insert(task);
+			mir_forkthread(ExecuteTaskThread, task);
 		}
 
 		waitTime = INFINITE;
@@ -81,7 +97,7 @@ void KillModuleScheduleTasks()
 	while (ScheduleTask *task = tasks[0])
 	{
 		tasks.remove(task);
-		DestroyScheduleTask(task);
+		DestroyTask(task);
 	}
 }
 
