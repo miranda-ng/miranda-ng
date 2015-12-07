@@ -75,6 +75,7 @@ int LoadHelpModule(void)
 
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8824ECA5-6942-46D7-9D07-1BA600E0D02E");
 
 	SET_UID(mi, 0xf3ebf1fa, 0x587c, 0x494d, 0xbd, 0x33, 0x7f, 0x88, 0xb3, 0x61, 0x1e, 0xd3);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);

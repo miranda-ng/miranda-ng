@@ -180,11 +180,11 @@ void InitMenuItems(void)
 	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
 
 	// Build main menu
-	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT(MODULNAME_PLU), -1000000000, hIcon);
+	hMenuRoot = mi.root = Menu_CreateRoot(MO_MAIN, LPGENT(MODULNAME_PLU), -1000000000, hIcon);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "3F5B5AB5-46D8-469E-8951-50B287C59037");
 
 	// Add item to main menu
 	SET_UID(mi, 0x4353d44e, 0x177, 0x4843, 0x88, 0x30, 0x25, 0x5d, 0x91, 0xad, 0xdf, 0x3f);
-	mi.root = (HGENMENU)hMenuRoot;
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
 	mi.name.t = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");

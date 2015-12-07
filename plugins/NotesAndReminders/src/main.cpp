@@ -196,6 +196,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	// register menus
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "A5E140BC-D697-4689-B75B-8ECFB6FE5931");
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = 1600000000;

@@ -208,16 +208,14 @@ type
   result hMenu
 }
 
-function Menu_Build(parent:HMENU; menuObject:integer; wParam:WPARAM; lParam:LPARAM) : HMENU; stdcall;
-              external AppDLL name 'Menu_Build';
+function Menu_Build(parent:HMENU; menuObject:integer; wParam:WPARAM; lParam:LPARAM) : HMENU; stdcall; external AppDLL;
 
 {
   Passes custom lParam to the ExecMenuService for the specified menu item
   returns true if command is processed, false otherwise
 }
 
-function Menu_ProcessCommand(hMenuItem:HGENMENU; lParam:LPARAM) : integer; stdcall;
-              external AppDLL name 'Menu_ProcessCommand';
+function Menu_ProcessCommand(hMenuItem:HGENMENU; lParam:LPARAM) : integer; stdcall; external AppDLL;
 
 {
   if menu not known call this
@@ -226,23 +224,20 @@ function Menu_ProcessCommand(hMenuItem:HGENMENU; lParam:LPARAM) : integer; stdca
   returns true if command is processed, false otherwise
 }
 
-function Menu_ProcessCommandById(iCommand:integer; lParam:LPARAM) : integer; stdcall;
-              external AppDLL name 'Menu_ProcessCommandById';
+function Menu_ProcessCommandById(iCommand:integer; lParam:LPARAM) : integer; stdcall; external AppDLL;
 
 {
   creates a submenu
   returns=MenuObjectHandle on success,-1 on failure
 }
 
-function Menu_CreateRoot(menuObject:integer; const name:PWideChar; position:integer; icon:THANDLE; lang:integer) : THANDLE; stdcall;
-              external AppDLL name 'Menu_CreateRoot';
+function Menu_CreateRoot(menuObject:integer; const name:PWideChar; position:integer; icon:THANDLE; lang:integer) : THANDLE; stdcall; external AppDLL;
 
 {
   returns=MenuObjectHandle on success,-1 on failure
 }
 
-function Menu_AddObject(const name, displayName, checkService, execService:PAnsiChar) : THANDLE; stdcall;
-              external AppDLL name 'Menu_AddObject';
+function Menu_AddObject(const name, displayName, checkService, execService:PAnsiChar) : THANDLE; stdcall; external AppDLL;
 
 {
   returns 0 on success,-1 on failure
@@ -250,8 +245,7 @@ function Menu_AddObject(const name, displayName, checkService, execService:PAnsi
   call this service.MO_REMOVEMENUOBJECT NOT free it.
 }
 
-function Menu_RemoveObject(hMenuObject:integer) : integer; stdcall;
-              external AppDLL name 'Menu_RemoveObject';
+function Menu_RemoveObject(hMenuObject:integer) : integer; stdcall; external AppDLL;
 
 {
   returns 0 on success,-1 on failure.
@@ -259,36 +253,31 @@ function Menu_RemoveObject(hMenuObject:integer) : integer; stdcall;
   If MenuItemHandle is root all child will be removed too.
 }
 
-function Menu_RemoveItem(hMenuItem:HGENMENU) : integer; stdcall;
-              external AppDLL name 'Menu_RemoveItem';
+function Menu_RemoveItem(hMenuItem:HGENMENU) : integer; stdcall; external AppDLL;
 
 {
   return MenuItemHandle on success,-1 on failure
 }
 
-function Menu_AddItem(hMenuObject:integer; var tmi:TMO_MenuItem; pUserData:pointer) : HGENMENU; stdcall;
-              external AppDLL name 'Menu_AddItem';
+function Menu_AddItem(hMenuObject:integer; var tmi:TMO_MenuItem; pUserData:pointer) : HGENMENU; stdcall; external AppDLL;
 
 {
   Useful to get and free ownerdata before delete menu item.
 }
 
-function Menu_GetItemData(hMenuItem:HGENMENU) : pointer; stdcall;
-              external AppDLL name 'Menu_GetItemData';
+function Menu_GetItemData(hMenuItem:HGENMENU) : pointer; stdcall; external AppDLL;
 
 {
   returns 0 on success,-1 on failure
 }
 
-function Menu_GetItemInfo(hMenuItem:HGENMENU; var mi:TMO_MenuItem) : integer; stdcall;
-              external AppDLL name 'Menu_GetItemInfo';
+function Menu_GetItemInfo(hMenuItem:HGENMENU; var mi:TMO_MenuItem) : integer; stdcall; external AppDLL;
 
 {
   returns a menu handle on success or NULL on failure
 }
 
-function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall;
-              external AppDLL name 'Menu_GetDefaultItem';
+function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall; external AppDLL;
 
 {
   wparam=MenuObjectHandle
@@ -297,8 +286,7 @@ function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall;
   this should be called in WM_KEYDOWN
 }
 
-function Menu_ProcessHotKey(hMenuObject:integer; vKey:DWORD) : integer; stdcall;
-              external AppDLL name 'Menu_ProcessHotKey';
+function Menu_ProcessHotKey(hMenuObject:integer; vKey:DWORD) : integer; stdcall; external AppDLL;
 
 {
   sets an option for the whole menu object
@@ -311,8 +299,7 @@ const
   MCO_OPT_ONADD_SERVICE = 3; // sets onAddService for menuobject.
   MCO_OPT_CHECK_SERVICE = 4;
 
-function Menu_ConfigureObject(menu:THANDLE; option:integer; value:PAnsiChar) : integer; stdcall;
-              external AppDLL name 'Menu_ConfigureObject';
+function Menu_ConfigureObject(menu:THANDLE; option:integer; value:PAnsiChar) : integer; stdcall; external AppDLL;
 
 {
   wparam=0
@@ -321,11 +308,11 @@ function Menu_ConfigureObject(menu:THANDLE; option:integer; value:PAnsiChar) : i
 }
 
 const 
-  OPT_USERDEFINEDITEMS = 1; // enables ability user to edit menuitems via options page.
   OPT_HOTKEY = 2;
+  MCI_OPT_EXECPARAM = 3; // INT_PTR or void*, associated with this item
+  MCI_OPT_UID = 4;
 
-function Menu_ConfigureItem(menu:THANDLE; option:integer; value:int_ptr) : integer; stdcall;
-              external AppDLL name 'Menu_ConfigureItem';
+function Menu_ConfigureItem(menu:THANDLE; option:integer; value:PAnsiChar) : integer; stdcall; external AppDLL;
 
 {
   wparam=char* szProtoName
@@ -333,7 +320,6 @@ function Menu_ConfigureItem(menu:THANDLE; option:integer; value:int_ptr) : integ
   returns HGENMENU of the root item or NULL
 }
 
-function Menu_GetProtocolRoot(const proto:PAnsiChar) : integer; stdcall;
-              external AppDLL name 'Menu_GetProtocolRoot';
+function Menu_GetProtocolRoot(const proto:PAnsiChar) : integer; stdcall; external AppDLL;
 
 {$ENDIF}

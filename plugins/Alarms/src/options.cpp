@@ -575,13 +575,16 @@ void AddMenuItem()
 	if (hMainMenuItem) return;
 
 	CMenuItem mi;
+	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
+		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "24F03563-01BE-4118-8297-E94375A783E7");
+	}
+
 	SET_UID(mi, 0xd50b94e4, 0x8edd, 0x4083, 0x91, 0x93, 0x7c, 0x6a, 0xb8, 0x1, 0x41, 0xb9);
 	mi.hIcolibItem = IcoLib_GetIconHandle("alarms_menu_set");
 	mi.name.a = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;
-	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

@@ -30,13 +30,15 @@ var
   mi:TMO_MenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
+  mi.root := Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
+  Menu_ConfigureItem(mi.root, MCI_OPT_UID, 'CAEA4B95-A873-429F-A083-BB2DF51E2E45');
+
   SET_UID(@mi, '85F2D289-04D2-4C7F-A223-A629CED253F0');
-  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
-  mi.hIcon     :=IcoLib_GetIcon(IcoBtnEnable,0);
-  mi.szName.a  :='Disable WATrack';
-  mi.pszService:=MS_WAT_PLUGINSTATUS;
-  mi.position  :=MenuDisablePos;
-  hMenuDisable:=Menu_AddMainMenuItem(@mi);
+  mi.hIcon     := IcoLib_GetIcon(IcoBtnEnable,0);
+  mi.szName.a  := 'Disable WATrack';
+  mi.pszService:= MS_WAT_PLUGINSTATUS;
+  mi.position  := MenuDisablePos;
+  hMenuDisable := Menu_AddMainMenuItem(@mi);
 end;
 
 procedure ChangeMenuIcons(f1:cardinal);

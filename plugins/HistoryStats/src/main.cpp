@@ -157,6 +157,7 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
 	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENT("Statistics"), 1910000000) : NULL;
+	Menu_ConfigureItem(hRoot, MCI_OPT_UID, "7F116B24-9D84-4D04-B6AA-EED95051A184");
 
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(
 		LPGENT("Create statistics"), 0, 1910000000, IconLib::getIcon(IconLib::iiMenuCreateStatistics), con::SvcCreateStatistics, hRoot);

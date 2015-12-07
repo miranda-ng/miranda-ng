@@ -542,11 +542,13 @@ int CreateFrame()
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
 		CMenuItem mi;
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
+		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8A3C1906-4809-4EE8-A32A-858003A2AAA7");
+
 		SET_UID(mi, 0x27556ea9, 0xfa19, 0x4c2e, 0xb0, 0xc9, 0x48, 0x2, 0x5c, 0x17, 0xba, 0x5);
 		mi.hIcolibItem = hIconMenuShowHide;
 		mi.name.a = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
 		mi.position = 500010000;
 		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////

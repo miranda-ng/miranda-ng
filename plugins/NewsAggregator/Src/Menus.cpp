@@ -26,6 +26,7 @@ void InitMenu()
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D9733E4F-1946-4390-8EB3-591E8687222E");
 
 	SET_UID(mi, 0x3ec91864, 0xefa7, 0x4994, 0xb7, 0x75, 0x6c, 0x96, 0xcb, 0x29, 0x2f, 0x93);
 	mi.position = 10100001;
