@@ -221,40 +221,6 @@ static int lua_AllEventsFromEnd(lua_State *L)
 
 /***********************************************/
 
-static int lua_WriteSetting(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-	LPCSTR szSetting = luaL_checkstring(L, 3);
-
-	DBVARIANT dbv = { 0 };
-	int type = lua_type(L, 4);
-	switch (type)
-	{
-	case LUA_TBOOLEAN:
-		dbv.bVal = lua_toboolean(L, 4);
-		dbv.type = DBVT_BYTE;
-		break;
-	case LUA_TNUMBER:
-		dbv.dVal = lua_tonumber(L, 4);
-		dbv.type = DBVT_DWORD;
-		break;
-	case LUA_TSTRING:
-		dbv.pszVal = (char*)lua_tostring(L, 4);
-		dbv.type = DBVT_UTF8;
-		break;
-
-	default:
-		lua_pushinteger(L, 1);
-		return 1;
-	}
-
-	INT_PTR res = db_set(hContact, szModule, szSetting, &dbv);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
-
 static int lua_GetSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -407,6 +373,40 @@ static int lua_EnumSettings(lua_State *L)
 	return 1;
 }
 
+static int lua_WriteSetting(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+	LPCSTR szSetting = luaL_checkstring(L, 3);
+
+	DBVARIANT dbv = { 0 };
+	int type = lua_type(L, 4);
+	switch (type)
+	{
+	case LUA_TBOOLEAN:
+		dbv.bVal = lua_toboolean(L, 4);
+		dbv.type = DBVT_BYTE;
+		break;
+	case LUA_TNUMBER:
+		dbv.dVal = lua_tonumber(L, 4);
+		dbv.type = DBVT_DWORD;
+		break;
+	case LUA_TSTRING:
+		dbv.pszVal = (char*)lua_tostring(L, 4);
+		dbv.type = DBVT_UTF8;
+		break;
+
+	default:
+		lua_pushinteger(L, 1);
+		return 1;
+	}
+
+	INT_PTR res = db_set(hContact, szModule, szSetting, &dbv);
+	lua_pushboolean(L, !res);
+
+	return 1;
+}
+
 static int lua_DeleteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -414,7 +414,7 @@ static int lua_DeleteSetting(lua_State *L)
 	LPCSTR szSetting = luaL_checkstring(L, 3);
 
 	INT_PTR res = db_unset(hContact, szModule, szSetting);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, !res);
 
 	return 1;
 }
@@ -425,7 +425,7 @@ static int lua_DeleteModule(lua_State *L)
 	LPCSTR szModule = luaL_checkstring(L, 2);
 
 	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, !res);
 
 	return 1;
 }
@@ -559,7 +559,7 @@ static luaL_Reg databaseApi[] =
 	{ "GetNextEvent", lua_GetNextEvent },
 	{ "GetLastEvent", lua_GetLastEvent },
 	{ "AllEvents", lua_AllEvents },
-	{ "GetEventsFromEnd", lua_AllEventsFromEnd },
+	{ "AllEventsFromEnd", lua_AllEventsFromEnd },
 
 	{ "GetEvent", lua_GetEvent },
 
