@@ -845,10 +845,6 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
-#define PUTPOSITIONSONMENU
-#endif
-
 static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 {
 	if (!equalUUID(pmi->mi.uid, miid_last)) {
@@ -865,6 +861,46 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 	}
 	return 0;
 }
+
+#define MS_MENU_UPDATE "System/Genmenu/Update"
+
+static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
+{
+	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
+	CloseHandle((HANDLE)wParam);
+
+	for (int i = 0; i < g_menus.getCount(); i++) {						 
+		TIntMenuObject *pmo = g_menus[i];
+		if (!pmo->m_bUseUserDefinedItems)
+			continue;
+		
+		char szModule[256];
+		mir_snprintf(szModule, "%s_Items", pmo->pszName);
+
+		// wipe out old trash, write new data & compatibility flag
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+		db_set_b(NULL, szModule, "MenuFormat", true);
+
+		MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
+	}
+	return 0;
+}
+
+void ScheduleMenuUpdate()
+{
+	// already converted
+	if (db_get_b(NULL, "MainMenu_Items", "MenuFormat", 0) == 0) {
+		HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+		CreateServiceFunction(MS_MENU_UPDATE, sttUpdateMenuService);
+		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_MENU_UPDATE);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+#define PUTPOSITIONSONMENU
+#endif
 
 static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM wParam, LPARAM lParam)
 {
@@ -1002,14 +1038,6 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
 		}
-	}
-
-	if (bOldMenuFormat && pRootMenu->mi.root == NULL && pmo->m_bUseUserDefinedItems) {
-		// wipe out old trash, write new data & compatibility flag
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
-		db_set_b(NULL, szModule, "MenuFormat", true);
-
-		MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
 	}
 
 	return hMenu;
