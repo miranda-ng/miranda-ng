@@ -38,6 +38,7 @@ void LoadCluiServices();
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 int LoadCLUIModule(void);
 int InitClistHotKeys(void);
+void ScheduleMenuUpdate(void);
 
 HANDLE hContactDoubleClicked, hContactIconChangedEvent;
 HIMAGELIST hCListImages;
@@ -192,6 +193,8 @@ static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 
 static int ContactListModulesLoaded(WPARAM, LPARAM)
 {
+	ScheduleMenuUpdate();
+
 	RebuildMenuOrder();
 	for (int i = 0; i < accounts.getCount(); i++)
 		AddProtoIconIndex(accounts[i]);
