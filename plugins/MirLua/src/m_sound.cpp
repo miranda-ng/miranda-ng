@@ -32,10 +32,22 @@ static int lua_Play(lua_State *L)
 	return 1;
 }
 
+static int lua_PlayFile(lua_State *L)
+{
+	const char *path = luaL_checkstring(L, 1);
+
+	INT_PTR res = SkinPlaySoundFile(ptrT(mir_utf8decodeT(path)));
+	lua_pushnumber(L, res);
+
+	return 1;
+}
+
 static luaL_Reg soundApi[] =
 {
 	{ "Add", lua_Add },
 	{ "Play", lua_Play },
+
+	{ "PlayFile", lua_PlayFile },
 
 	{ NULL, NULL }
 };
