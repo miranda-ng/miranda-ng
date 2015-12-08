@@ -73,7 +73,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
 		tvi.pszText = idstr;
 
-		int count = 0;
+		int count = 0, customOrder = 0;
 		int runtimepos = 100;
 
 		while (tvi.hItem != NULL) {
@@ -91,8 +91,11 @@ class CGenMenuOptionsPage : public CDlgBase
 					else
 						ptszCustomName = _T("");
 
-					CMString tszValue(FORMAT, _T("%d;%d;%s"), visible, pimi->mi.position, ptszCustomName);
-					db_set_ts(NULL, (char*)szModule, menuItemName, tszValue);
+					CMString tszValue(FORMAT, _T("%d;%d;%s"), visible, runtimepos, ptszCustomName);
+					db_set_ts(NULL, szModule, menuItemName, tszValue);
+
+					if (pimi->mi.flags & CMIF_CUSTOM)
+						db_set_s(NULL, szModule, CMStringA(FORMAT, "Custom%d", customOrder++), menuItemName);						
 				}
 
 				if (pimi->submenu.first != NULL)
@@ -401,10 +404,20 @@ public:
 		if (!m_menuItems.GetItem(&tvi))
 			return;
 
+		MenuItemOptData *curData = (MenuItemOptData*)tvi.lParam;
+
+		TMO_MenuItem mi = {};
+		UuidCreate((UUID*)&mi.uid);
+		mi.flags = CMIF_CUSTOM;
+		mi.name.a = LPGEN("New submenu");
+		mi.position = curData->pos - 1;
+		TMO_IntMenuItem *pimi = Menu_AddItem(curData->pimi->parent->id, &mi, NULL);
+
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
-		PD->name = TranslateT("New submenu");
-		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
+		PD->name = mir_tstrdup(pimi->mi.name.t);
+		PD->pos = pimi->mi.position;
+		PD->pimi = pimi;
 
 		TVINSERTSTRUCT tvis = { 0 };
 		tvis.item.lParam = (LPARAM)PD;

@@ -39,6 +39,7 @@
 #endif
 
 #define CMIF_KEEPUNTRANSLATED  0x0400 // don't translate a menu item
+#define CMIF_CUSTOM            0x0800 // custom menu item. doesn't exist in a code
 #define CMIF_DEFAULT           0x1000 // this menu item is the default one
 
 struct TMO_MenuItem
