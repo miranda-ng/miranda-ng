@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Tipper"
 #define __FILENAME                 "Tipper.dll"
-#define __DESCRIPTION              "Tool Tip notification windows."
+#define __DESCRIPTION              "Tooltip notification windows."
 #define __AUTHOR                   "Scott Ellis, yaho"
 #define __AUTHOREMAIL              "yaho@miranda-easy.net"
 #define __AUTHORWEB                "http://miranda-ng.org/p/Tipper/"
