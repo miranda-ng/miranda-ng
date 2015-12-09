@@ -86,7 +86,7 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func, void* param)
 {
 	if (parent == NULL)
-		return FALSE;
+		return NULL;
 
 	TMO_IntMenuItem *pnext;
 	for (TMO_IntMenuItem *pimi = parent; pimi != NULL; pimi = pnext) {
@@ -102,7 +102,7 @@ TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func,
 		}
 	}
 
-	return FALSE;
+	return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -749,11 +749,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	}
 	else p->owner = &pmo->m_items;
 
-	if (!p->owner->first)
-		p->owner->first = p;
-	if (p->owner->last)
-		p->owner->last->next = p;
-	p->owner->last = p;
+	p->owner->insert(p);
 	return p;
 }
 
@@ -896,8 +892,14 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 
 		int visible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
 		TCHAR *ptszName = (pmi->CustomName != NULL) ? pmi->CustomName : _T("");
+		
+		char szRootUid[33];
+		if (pmi->mi.root == NULL)
+			szRootUid[0] = 0;
+		else
+			bin2hex(&pmi->mi.root->mi.uid, sizeof(MUUID), szRootUid);
 
-		CMString szNewValue(FORMAT, _T("%d;%d;%s"), visible, pmi->mi.position, ptszName);
+		CMString szNewValue(FORMAT, _T("%d;%d;%S;%s"), visible, pmi->mi.position, szRootUid, ptszName);
 		db_set_ts(NULL, (char*)szModule, menuItemName, szNewValue);
 
 		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->UniqName, visible, pmi->mi.position);
@@ -918,14 +920,36 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 		char szModule[256];
 		mir_snprintf(szModule, "%s_Items", pmo->pszName);
 
-		// read old settings first
-		MO_RecursiveWalkMenu(pmo->m_items.first, sttReadOldItem, szModule);
+		// was a menu converted?
+		if (db_get_b(NULL, szModule, "MenuFormat", 0) == 0) { // no
+			// read old settings
+			MO_RecursiveWalkMenu(pmo->m_items.first, sttReadOldItem, szModule);
 
-		// wipe out old trash, write new data & compatibility flag
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
-		db_set_b(NULL, szModule, "MenuFormat", true);
+			// wipe out old trash, write new data & compatibility flag
+			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+			db_set_b(NULL, szModule, "MenuFormat", true);
+			MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
+		}
+		else { // yes, menu is already converted, simply load its data
+			for (int i = 0;; i++) {
+				char szSetting[100];
+				mir_snprintf(szSetting, "Custom%d", i);
+				ptrA szCustomMenu(db_get_sa(NULL, szModule, szSetting));
+				if (mir_strlen(szCustomMenu) != 32)
+					break;
 
-		MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
+				TMO_MenuItem mi = {};
+				mi.flags = CMIF_CUSTOM;
+				mi.name.a = LPGEN("New submenu");
+				mi.position = 500050000;
+				BYTE *p = (BYTE*)&mi.uid;
+				for (int i = 0; i < 16; i++)
+					sscanf(&szCustomMenu[i*2], "%02x", &p[i]);
+				Menu_AddItem(pmo->id, &mi, NULL);
+			}
+
+			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
+		}
 	}
 	return 0;
 }
@@ -934,12 +958,87 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 
 void ScheduleMenuUpdate()
 {
-	// already converted
-	if (db_get_b(NULL, "MainMenu_Items", "MenuFormat", 0) == 0) {
-		HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-		CreateServiceFunction(MS_MENU_UPDATE, sttUpdateMenuService);
-		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_MENU_UPDATE);
+	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+	CreateServiceFunction(MS_MENU_UPDATE, sttUpdateMenuService);
+	CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_MENU_UPDATE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int sttFindMenuItemByUid(TMO_IntMenuItem *pimi, void *pUid)
+{
+	return memcmp(&pimi->mi.uid, pUid, sizeof(MUUID)) == 0;
+}
+
+int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
+{
+	if ((pimi->mi.flags & CMIF_SYSTEM) || equalUUID(pimi->mi.uid, miid_last))
+		return 0;
+
+	char menuItemName[256];
+	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
+
+	TIntMenuObject *pmo = pimi->parent;
+	ptrT szValue(db_get_tsa(NULL, (char*)szModule, menuItemName));
+	if (szValue == NULL)
+		return 0;
+
+	TCHAR *ptszToken = szValue, *pDelim = _tcschr(szValue, ';');
+	int visible = true, pos = 0;
+	TCHAR tszCustomName[201]; tszCustomName[0] = 0;
+	char szCustomRoot[33]; szCustomRoot[0] = 0;
+	for (int i = 0; i < 4; i++) {
+		if (pDelim)
+			*pDelim = 0;
+		
+		switch (i) {
+			case 0: visible = _ttoi(ptszToken); break;
+			case 1: pos = _ttoi(ptszToken); break;
+			case 2: strncpy_s(szCustomRoot, _T2A(ptszToken), _TRUNCATE); break;
+		}
+
+		ptszToken = pDelim + 1;
+		if ((pDelim = _tcschr(ptszToken, ';')) == NULL) {
+			if (i == 2 && *ptszToken != 0)
+				_tcsncpy_s(tszCustomName, ptszToken, _TRUNCATE); break;
+			break;
+		}
 	}
+
+	pimi->mi.position = pos;
+	if (visible)
+		pimi->mi.flags &= ~CMIF_HIDDEN;
+	else
+		pimi->mi.flags |= CMIF_HIDDEN;
+	
+	if (tszCustomName[0])
+		replaceStrT(pimi->CustomName, tszCustomName);
+
+	if (szCustomRoot[0]) {
+		char szCurrentUid[33];
+		if (pimi->mi.root == NULL)
+			szCurrentUid[0] = 0;
+		else
+			bin2hex(&pimi->mi.root->mi.uid, sizeof(pimi->mi.root->mi.uid), szCurrentUid);
+		
+		if (0 != strcmp(szCurrentUid, szCustomRoot)) { // need to move menu item to another root
+			TMO_LinkedList *pNew;
+			if (szCustomRoot[0] != 0) {
+				TMO_IntMenuItem *p = MO_RecursiveWalkMenu(pmo->m_items.first, sttFindMenuItemByUid, &szCustomRoot);
+				if (p == NULL)
+					return NULL;
+
+				pNew = &p->submenu;
+			}
+			else pNew = &pmo->m_items;			
+
+			// relink menu item
+			pimi->owner->remove(pimi);
+			pNew->insert(pimi);
+		}
+	}
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -973,26 +1072,6 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 			CheckParam.MenuItemOwnerData = pmi->pUserData;
 			CheckParam.MenuItemHandle = pmi;
 			if (CallService(pmo->CheckService, (WPARAM)&CheckParam, 0) == false)
-				continue;
-		}
-
-		// if we have to check & apply database settings
-		if (!(mi->flags & CMIF_SYSTEM) && pmo->m_bUseUserDefinedItems) {
-			char menuItemName[256];
-			int visible = true, pos = 0;
-
-			if (!equalUUID(mi->uid, miid_last)) {
-				bin2hex(&mi->uid, sizeof(mi->uid), menuItemName);
-				ptrT szValue(db_get_tsa(NULL, szModule, menuItemName));
-				if (szValue != NULL) {
-					TCHAR tszCustomName[201]; tszCustomName[0] = 0;
-					if (_stscanf(szValue, _T("%d;%d;%200s"), &visible, &pos, tszCustomName) >= 2)
-						mi->position = pos;
-					if (tszCustomName[0])
-						replaceStrT(pmi->CustomName, tszCustomName);
-				}
-			}
-			if (!visible)
 				continue;
 		}
 
@@ -1256,4 +1335,30 @@ void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 	mir_free(p->CustomName);
 	if (p->hBmp) DeleteObject(p->hBmp);
 	mir_free(p);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void TMO_LinkedList::insert(TMO_IntMenuItem *pItem)
+{
+	pItem->owner = this;
+	if (!first)
+		first = pItem;
+	if (last)
+		last->next = pItem;
+	last = pItem;
+}
+
+void TMO_LinkedList::remove(TMO_IntMenuItem *pItem)
+{
+	TMO_IntMenuItem *pPrev = NULL;
+	for (TMO_IntMenuItem *p = first; p != NULL; p = p->next) {
+		if (p == pItem) {
+			if (first == pItem) first = pItem->next;
+			if (last == pItem) last = pPrev;
+			pItem->next = NULL;
+			return;
+		}
+		pPrev = p;
+	}
 }

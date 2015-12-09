@@ -37,6 +37,9 @@ struct TMO_LinkedList
 	TMO_IntMenuItem
 		*first, // first element of submenu, or NULL
 		*last;  // last element of submenu, or NULL
+
+	void insert(TMO_IntMenuItem*);
+	void remove(TMO_IntMenuItem*);
 };
 
 struct TMO_IntMenuItem
@@ -116,6 +119,8 @@ TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void*);
 //general stuff
 int InitGenMenu();
 int UninitGenMenu();
+
+int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
 
 TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
