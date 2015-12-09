@@ -91,7 +91,13 @@ class CGenMenuOptionsPage : public CDlgBase
 					else
 						ptszCustomName = _T("");
 
-					CMString tszValue(FORMAT, _T("%d;%d;%s"), visible, runtimepos, ptszCustomName);
+					char pszParent[33];
+					if (pimi->mi.root == NULL)
+						pszParent[0] = 0;
+					else
+						bin2hex(&pimi->mi.root->mi.uid, sizeof(MUUID), pszParent);
+
+					CMString tszValue(FORMAT, _T("%d;%d;%S;%s"), visible, runtimepos, pszParent, ptszCustomName);
 					db_set_ts(NULL, szModule, menuItemName, tszValue);
 
 					if (pimi->mi.flags & CMIF_CUSTOM)
@@ -153,7 +159,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			BuildTree(MenuObjectID, true);
 	}
 
-	void BuildTreeInternal(const char *pszModule, bool bReread, HGENMENU pFirst, HTREEITEM hRoot)
+	void BuildTreeInternal(const char *pszModule, bool bReread, TMO_IntMenuItem *pFirst, HTREEITEM hRoot)
 	{
 		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 
@@ -162,32 +168,12 @@ class CGenMenuOptionsPage : public CDlgBase
 			if (p->mi.flags & CMIF_SYSTEM)
 				continue;
 
-			TCHAR customName[201]; customName[0] = 0;
-			int visible = 1, pos = 0;
-			if (!equalUUID(p->mi.uid, miid_last)) {
-				char menuItemName[256];
-				bin2hex(&p->mi.uid, sizeof(p->mi.uid), menuItemName);
-				ptrT tszSettings(db_get_tsa(NULL, pszModule, menuItemName));
-				if (tszSettings == NULL)
-					pos = p->mi.position;
-				else if (_stscanf(tszSettings, _T("%d;%d;%200s"), &visible, &pos, customName) < 2)
-					continue;
-			}
-
 			MenuItemOptData *PD = new MenuItemOptData();
-			if (customName[0] != 0)
-				PD->name = mir_tstrdup(customName);
-			else
-				PD->name = mir_tstrdup(GetMenuItemText(p));
-
 			PD->pimi = p;
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
-			PD->bShow = visible != 0;
-			if (bReread)
-				PD->pos = pos;
-			else
-				PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;
-
+			PD->name = mir_tstrdup((p->CustomName != NULL) ? p->CustomName : PD->defname);
+			PD->bShow = (p->mi.flags & CMIF_HIDDEN) == 0;
+			PD->pos = (bReread) ? p->mi.position : p->originalPosition;
 			PD->id = p->iCommand;
 			arItems.insert(PD);
 		}
@@ -246,6 +232,9 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		char szModule[256];
 		mir_snprintf(szModule, "%s_Items", pmo->pszName);
+
+		if (bReread) // no need to reread database on reset
+			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
 
 		bRebuild = true;
 		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
