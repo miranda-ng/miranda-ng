@@ -1411,7 +1411,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 
 	tvis.itemex.stateMask = tvis.itemex.state;
 	tvis.itemex.lParam = saveOldData;
-	tvis.hParent = NULL;
+	tvis.hParent = GetParent(hInsertAfter);
 	tvis.hInsertAfter = hInsertAfter;
 	return InsertItem(&tvis);
 }
@@ -1446,7 +1446,7 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONUP:
 		if (m_bDragging) {
 			SetInsertMark(NULL, 0);
-			m_bDragging = 0;
+			m_bDragging = false;
 			ReleaseCapture();
 
 			hti.pt.x = (short)LOWORD(lParam);

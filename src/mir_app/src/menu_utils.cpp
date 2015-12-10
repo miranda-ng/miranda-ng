@@ -967,7 +967,9 @@ void ScheduleMenuUpdate()
 
 static int sttFindMenuItemByUid(TMO_IntMenuItem *pimi, void *pUid)
 {
-	return memcmp(&pimi->mi.uid, pUid, sizeof(MUUID)) == 0;
+	char szUid[33];
+	bin2hex(&pimi->mi.uid, sizeof(MUUID), szUid);
+	return !strcmp(szUid, (char*)pUid);
 }
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
@@ -1356,6 +1358,8 @@ void TMO_LinkedList::remove(TMO_IntMenuItem *pItem)
 		if (p == pItem) {
 			if (first == pItem) first = pItem->next;
 			if (last == pItem) last = pPrev;
+			if (pPrev)
+				pPrev->next = pItem->next;
 			pItem->next = NULL;
 			return;
 		}
