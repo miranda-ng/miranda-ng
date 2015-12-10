@@ -65,7 +65,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 	TCHAR idstr[100];
 
-	void SaveTreeInternal(HTREEITEM hRootItem, const char *szModule)
+	void SaveTreeInternal(MenuItemOptData *pParent, HTREEITEM hRootItem, const char *szModule)
 	{
 		TVITEMEX tvi;
 		tvi.hItem = hRootItem;
@@ -75,6 +75,12 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		int count = 0, customOrder = 0;
 		int runtimepos = 100;
+
+		char pszParent[33];
+		if (pParent == NULL)
+			pszParent[0] = 0;
+		else
+			bin2hex(&pParent->pimi->mi.uid, sizeof(MUUID), pszParent);
 
 		while (tvi.hItem != NULL) {
 			m_menuItems.GetItem(&tvi);
@@ -91,12 +97,6 @@ class CGenMenuOptionsPage : public CDlgBase
 					else
 						ptszCustomName = _T("");
 
-					char pszParent[33];
-					if (pimi->mi.root == NULL)
-						pszParent[0] = 0;
-					else
-						bin2hex(&pimi->mi.root->mi.uid, sizeof(MUUID), pszParent);
-
 					CMString tszValue(FORMAT, _T("%d;%d;%S;%s"), visible, runtimepos, pszParent, ptszCustomName);
 					db_set_ts(NULL, szModule, menuItemName, tszValue);
 
@@ -104,8 +104,9 @@ class CGenMenuOptionsPage : public CDlgBase
 						db_set_s(NULL, szModule, CMStringA(FORMAT, "Custom%d", customOrder++), menuItemName);						
 				}
 
-				if (pimi->submenu.first != NULL)
-					SaveTreeInternal(m_menuItems.GetChild(tvi.hItem), szModule);
+				HTREEITEM hChild = m_menuItems.GetChild(tvi.hItem);
+				if (hChild != NULL)
+					SaveTreeInternal(iod, hChild, szModule);
 
 				runtimepos += 100;
 			}
@@ -131,7 +132,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		char szModule[256];
 		mir_snprintf(szModule, "%s_Items", pmo->pszName);
 		CallService(MS_DB_MODULE_DELETE, NULL, (LPARAM)szModule);
-		SaveTreeInternal(m_menuItems.GetRoot(), szModule);
+		SaveTreeInternal(NULL, m_menuItems.GetRoot(), szModule);
 		db_set_b(NULL, szModule, "MenuFormat", 1);
 	}
 
@@ -295,7 +296,7 @@ public:
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
-		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND | MTREE_MULTISELECT);
+		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND /*| MTREE_MULTISELECT*/);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
 		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 
