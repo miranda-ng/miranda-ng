@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_SERVER_REGULAR					"www.facebook.com"
 #define FACEBOOK_SERVER_MOBILE					"mbasic.facebook.com"
 #define FACEBOOK_SERVER_CHAT					"%s-%s.facebook.com"
-#define FACEBOOK_SERVER_LOGIN					"login.facebook.com"
+#define FACEBOOK_SERVER_LOGIN					"www.facebook.com"
 #define FACEBOOK_SERVER_APPS					"apps.facebook.com"
 #define FACEBOOK_SERVER_DOMAIN					"facebook.com"
 
