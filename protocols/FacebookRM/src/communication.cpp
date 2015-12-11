@@ -584,9 +584,9 @@ char* facebook_client::load_cookies()
 {
 	ScopedLock s(cookies_lock_);
 
-	std::string cookieString = "isfbe=false;";
+	std::string cookieString;
 
-	if (!cookies.empty())
+	if (!cookies.empty()) {
 		for (std::map< std::string, std::string >::iterator iter = cookies.begin(); iter != cookies.end(); ++iter)
 		{
 			cookieString.append(iter->first);
@@ -594,6 +594,7 @@ char* facebook_client::load_cookies()
 			cookieString.append(iter->second);
 			cookieString.append(1, ';');
 		}
+	}
 
 	return mir_strdup(cookieString.c_str());
 }
@@ -607,8 +608,9 @@ void facebook_client::store_headers(http::response* resp, NETLIBHTTPHEADER* head
 		std::string header_value = headers[i].szValue;
 
 		if (header_name == "Set-Cookie") {
-			std::string cookie_name = header_value.substr(0, header_value.find("="));
-			std::string cookie_value = header_value.substr(header_value.find("=") + 1, header_value.find(";") - header_value.find("=") - 1);
+			std::string::size_type pos = header_value.find("=");
+			std::string cookie_name = header_value.substr(0, pos);
+			std::string cookie_value = header_value.substr(pos + 1, header_value.find(";", pos) - pos - 1);
 
 			if (cookie_value == "deleted")
 				cookies.erase(cookie_name);
@@ -738,7 +740,27 @@ bool facebook_client::login(const char *username, const char *password)
 			cookies["datr"] = device;
 
 		// Get initial cookies
-		flap(REQUEST_HOME);
+		http::response resp = flap(REQUEST_LOGIN);
+
+		// Also parse deferred cookies set by JavaScript
+		std::string::size_type pos = 0;
+		while ((pos = resp.data.find("[\"DeferredCookie\",\"addToQueue\",[],[\"", pos)) != std::string::npos) {
+			pos += 36;
+
+			std::string::size_type pos2 = resp.data.find("\",\"", pos);
+			if (pos2 == std::string::npos)
+				continue;
+
+			std::string name = resp.data.substr(pos, pos2 - pos);
+
+			pos = pos2 + 3;
+			pos2 = resp.data.find("\"", pos);
+			if (pos2 == std::string::npos)
+				continue;
+
+			std::string value = resp.data.substr(pos, pos2 - pos);
+			cookies[name] = utils::text::html_entities_decode(value);
+		}
 	}
 
 	// Prepare login data
