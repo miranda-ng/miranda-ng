@@ -53,6 +53,9 @@ public:
 
 	inline int IdleSeconds()
 	{
+		if (m_iStatus == ID_STATUS_AWAY && m_awayTS)
+			return time(0) - m_awayTS;
+
 		return m_idleTS ? time(0) - m_idleTS : 0;
 	}
 
@@ -60,6 +63,7 @@ public:
 	bool m_enableChat;
 	bool m_signingOut;
 	time_t m_idleTS;
+	time_t m_awayTS;
 	time_t m_pingTS;
 	std::string m_locale;
 

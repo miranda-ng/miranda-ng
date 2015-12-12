@@ -152,7 +152,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 			return flags |= PF1_MODEMSGRECV;
 	}
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE; // | PF2_SHORTAWAY;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
 	case PFLAGNUM_3:
 		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
 			return PF2_ONLINE; // | PF2_SHORTAWAY;
@@ -181,6 +181,7 @@ int FacebookProto::SetStatus(int new_status)
 	// Routing statuses not supported by Facebook
 	switch (new_status)
 	{
+	case ID_STATUS_AWAY:
 	case ID_STATUS_INVISIBLE:
 	case ID_STATUS_OFFLINE:
 		m_iDesiredStatus = new_status;
