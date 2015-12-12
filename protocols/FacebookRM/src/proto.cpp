@@ -181,19 +181,20 @@ int FacebookProto::SetStatus(int new_status)
 	// Routing statuses not supported by Facebook
 	switch (new_status)
 	{
+	case ID_STATUS_ONLINE:
 	case ID_STATUS_AWAY:
 	case ID_STATUS_INVISIBLE:
 	case ID_STATUS_OFFLINE:
 		m_iDesiredStatus = new_status;
 		break;
-
-	default:
-		m_iDesiredStatus = ID_STATUS_INVISIBLE;
-		if (getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
-			break;
-	case ID_STATUS_ONLINE:
+	case ID_STATUS_NA:
+		m_iDesiredStatus = ID_STATUS_AWAY;
+		break;
 	case ID_STATUS_FREECHAT:
 		m_iDesiredStatus = ID_STATUS_ONLINE;
+		break;
+	default:
+		m_iDesiredStatus = getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES) ? ID_STATUS_INVISIBLE : ID_STATUS_AWAY;
 		break;
 	}
 
