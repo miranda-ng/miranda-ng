@@ -160,6 +160,9 @@ void FacebookProto::ChangeStatus(void*)
 
 	m_invisible = (new_status == ID_STATUS_INVISIBLE);
 
+	// Remember time of switching to away (and if we are idle already, use the idle time)
+	m_awayTS = (new_status == ID_STATUS_AWAY ? (m_idleTS > 0 ? m_idleTS : ::time(NULL)) : 0);
+
 	facy.chat_state(!m_invisible);
 
 	ForkThread(&FacebookProto::ProcessBuddyList, NULL);
