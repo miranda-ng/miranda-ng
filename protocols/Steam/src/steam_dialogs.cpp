@@ -27,7 +27,7 @@ void CSteamPasswordEditor::OnOk(CCtrlButton*)
 	if (m_savePermanently.Enabled())
 		m_proto->setTString("Password", m_proto->password);
 
-	EndDialog(m_hwnd, 1);
+	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
 void CSteamPasswordEditor::OnClose()
@@ -63,7 +63,7 @@ void CSteamGuardDialog::OnInitDialog()
 void CSteamGuardDialog::OnOk(CCtrlButton*)
 {
 	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode));
-	EndDialog(m_hwnd, 1);
+	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
 void CSteamGuardDialog::OnClose()
@@ -111,7 +111,7 @@ void CSteamCaptchaDialog::OnInitDialog()
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 {
 	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText));
-	EndDialog(m_hwnd, 1);
+	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
 void CSteamCaptchaDialog::OnClose()
