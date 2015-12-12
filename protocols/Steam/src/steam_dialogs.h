@@ -3,6 +3,8 @@
 
 typedef CProtoDlgBase<CSteamProto> CSteamDlgBase;
 
+#define DIALOG_RESULT_OK 1
+
 /////////////////////////////////////////////////////////////////////////////////
 
 class CSteamPasswordEditor : public CSteamDlgBase

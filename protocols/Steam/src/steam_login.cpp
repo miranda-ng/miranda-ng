@@ -136,7 +136,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		std::string domain = node["emaildomain"].as_string();
 
 		CSteamGuardDialog guardDialog(this, domain.c_str());
-		if (!guardDialog.DoModal())
+		if (guardDialog.DoModal() != DIALOG_RESULT_OK)
 		{
 			delSetting("GuardId");
 			delSetting("GuardCode");
@@ -165,7 +165,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 
 		CSteamCaptchaDialog captchaDialog(this, (BYTE*)response->pData, response->dataLength);
 		delete response;
-		if (!captchaDialog.DoModal())
+		if (captchaDialog.DoModal() != DIALOG_RESULT_OK)
 		{
 			delSetting("CaptchaId");
 			delSetting("CaptchaText");
