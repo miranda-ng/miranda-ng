@@ -103,7 +103,6 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 		// Set contacts that were last active more than 1 minute ago as away
 		if (current->status_id == ID_STATUS_ONLINE && current->last_active > 0 && (now - current->last_active) > 60) {
 			current->status_id = ID_STATUS_AWAY;
-			current->idle = true;
 		}
 
 		// Facebook is not sending this info anymore, it should be removed
