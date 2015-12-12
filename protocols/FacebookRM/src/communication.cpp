@@ -450,7 +450,8 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		*/
 
 		int idleSeconds = parent->IdleSeconds();
-		action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
+		if (idleSeconds > 0 && !parent->isInvisible())
+			action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
 		action += "&cap=0"; // TODO: what's this item? Sometimes it's 0, sometimes 8
 		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
 
@@ -1207,6 +1208,10 @@ bool facebook_client::channel()
 
 bool facebook_client::activity_ping()
 {
+	// Don't send ping when we are not online
+	if (parent->m_iStatus != ID_STATUS_ONLINE)
+		return true;
+
 	handle_entry("activity_ping");
 
 	http::response resp = flap(REQUEST_ACTIVE_PING);

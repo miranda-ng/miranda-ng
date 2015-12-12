@@ -72,6 +72,8 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 		current->client = CLIENT_MOBILE;
 	}
 
+	time_t now = ::time(NULL);
+
 	// Find now available contacts
 	const JSONNode &nowAvailable = list["nowAvailableList"];
 	for (auto it = nowAvailable.begin(); it != nowAvailable.end(); ++it) {
@@ -97,6 +99,12 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 		}
 
 		current->status_id = (current->client == CLIENT_MOBILE || current->client == CLIENT_MESSENGER) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
+
+		// Set contacts that were last active more than 1 minute ago as away
+		if (current->status_id == ID_STATUS_ONLINE && current->last_active > 0 && (now - current->last_active) > 60) {
+			current->status_id = ID_STATUS_AWAY;
+			current->idle = true;
+		}
 
 		// Facebook is not sending this info anymore, it should be removed
 		const JSONNode &p = (*it)["p"];
@@ -729,7 +737,10 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 
 				bool isVisible = visibility && visibility.as_bool();
 				proto->debugLogA("    Requested chat switch to %s", isVisible ? "Online" : "Offline");
-				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
+
+				// If actual status is not what server says, change it (handle also local away status, which means online)
+				if (isVisible != (proto->m_iStatus != ID_STATUS_INVISIBLE))
+					proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
 		}
 		else if (t == "buddylist_overlay") {
