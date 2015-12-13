@@ -867,7 +867,10 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 
 	// check if it visible
 	mir_snprintf(szSetting, "%s_visible", menuItemName);
-	if (!db_get_b(NULL, (char*)szModule, szSetting, 1))
+	pmi->customVisible = db_get_b(NULL, (char*)szModule, szSetting, 1) != 0;
+	if (pmi->customVisible)
+		pmi->mi.flags &= ~CMIF_HIDDEN;
+	else
 		pmi->mi.flags |= CMIF_HIDDEN;
 
 	// mi.name.t
