@@ -45,7 +45,7 @@ MIR_APP_DLL(HMENU) Menu_BuildTrayMenu(void)
 MIR_APP_DLL(HGENMENU) Menu_AddTrayMenuItem(TMO_MenuItem *pmi)
 {
 	HGENMENU pimi = Menu_AddItem(hTrayMenuObject, pmi, mir_strdup(pmi->pszService));
-	replaceStr(pimi->UniqName, pmi->pszService);
+	replaceStr(pimi->pszUniqName, pmi->pszService);
 	return pimi;
 }
 

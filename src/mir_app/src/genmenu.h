@@ -46,13 +46,15 @@ struct TMO_IntMenuItem
 {
 	DWORD        signature;
 	int          iCommand;
-	int          iconId;          // icon index in the section's image list
-	TMO_MenuItem mi;              // user-defined data
-	char*        UniqName;        // unique name
-	TCHAR*       CustomName;
-	HANDLE       hIcolibItem;     // handle of iconlib item
+	int          iconId;           // icon index in the section's image list
+	TMO_MenuItem mi;               // user-defined data
+	char*        pszUniqName;      // unique name
+	TCHAR*       ptszCustomName;
+	HANDLE       hIcolibItem;      // handle of iconlib item
 	HBITMAP      hBmp;
-	int          originalPosition;
+	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
+	bool         customVisible;
+
 	DWORD        hotKey;
 	WPARAM       execParam;
 	void*        pUserData;

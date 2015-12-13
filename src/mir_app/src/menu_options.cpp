@@ -172,7 +172,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			MenuItemOptData *PD = new MenuItemOptData();
 			PD->pimi = p;
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
-			PD->name = mir_tstrdup((p->CustomName != NULL) ? p->CustomName : PD->defname);
+			PD->name = mir_tstrdup((p->ptszCustomName != NULL) ? p->ptszCustomName : PD->defname);
 			PD->bShow = (p->mi.flags & CMIF_HIDDEN) == 0;
 			PD->pos = (bReread) ? p->mi.position : p->originalPosition;
 			PD->id = p->iCommand;
