@@ -665,23 +665,20 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.name.t = LPGENT("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
 		mi.root = g_hToggleSOEContactMenuItem;
 		mi.position = 1000020000;
 
-		SET_UID(mi, 0x1054c863, 0xfb0c, 0x4e90, 0xb9, 0xe5, 0x89, 0x95, 0x25, 0xb3, 0x5b, 0x6d);
 		mi.hIcolibItem = iconList[1].hIcolib;
 		mi.name.t = LPGENT("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
 		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		SET_UID(mi, 0xdb66409, 0x8d44, 0x43e7, 0x99, 0xa1, 0x1c, 0x48, 0xab, 0x73, 0x4d, 0xe8);
 		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.name.t = LPGENT("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
 		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		SET_UID(mi, 0x101471b9, 0x4309, 0x4062, 0xa8, 0x5e, 0xa2, 0xae, 0x14, 0x7e, 0x4a, 0xb3);
 		mi.hIcolibItem = iconList[5].hIcolib;
 		mi.name.t = LPGENT("Use the default setting");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
