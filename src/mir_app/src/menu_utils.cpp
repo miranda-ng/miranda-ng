@@ -234,7 +234,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 
 	mir_cslock lck(csMenuHook);
 	for (TMO_IntMenuItem *p = pmo->m_items.first; p != NULL; p = p->next)
-		if (!mir_strcmp(p->UniqName, pThis->m_szModuleName))
+		if (!mir_strcmp(p->pszUniqName, pThis->m_szModuleName))
 			return p;
 
 	// create protocol root in the main menu
@@ -295,6 +295,9 @@ static void Menu_SetItemFlags(HGENMENU hMenuItem, bool bSet, int mask)
 		flags |= mask;
 	else
 		flags &= ~mask;
+
+	if (!pimi->customVisible)
+		flags |= CMIF_HIDDEN;
 
 	// we allow to set only first 3 bits
 	mir_cslock lck(csMenuHook);
@@ -472,7 +475,7 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 
 	switch (iOption) {
 	case MCI_OPT_UNIQUENAME:
-		replaceStr(pimi->UniqName, (char*)value);
+		replaceStr(pimi->pszUniqName, (char*)value);
 		return 0;
 
 	case MCI_OPT_HOTKEY:
@@ -843,7 +846,7 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 		mii.fType |= MFT_MENUBARBREAK;
 	}
 
-	if (!pimi->CustomName)
+	if (!pimi->ptszCustomName)
 		mii.dwTypeData = GetMenuItemText(pimi);
 
 	InsertMenuItem(hMenu, uItem, TRUE, &mii);
@@ -854,8 +857,8 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 {
 	char menuItemName[200], szSetting[256];
-	if (pmi->UniqName)
-		mir_snprintf(menuItemName, "{%s}", pmi->UniqName);
+	if (pmi->pszUniqName)
+		mir_snprintf(menuItemName, "{%s}", pmi->pszUniqName);
 	else if (pmi->mi.flags & CMIF_UNICODE)
 		mir_snprintf(menuItemName, "{%s}", (char*)_T2A(pmi->mi.name.t));
 	else
@@ -870,8 +873,8 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 	mir_snprintf(szSetting, "%s_name", menuItemName);
 	TCHAR *tszCustomName = db_get_tsa(NULL, (char*)szModule, szSetting);
 	if (tszCustomName != NULL) {
-		mir_free(pmi->CustomName);
-		pmi->CustomName = tszCustomName;
+		mir_free(pmi->ptszCustomName);
+		pmi->ptszCustomName = tszCustomName;
 	}
 
 	mir_snprintf(szSetting, "%s_pos", menuItemName);
@@ -890,8 +893,8 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		char menuItemName[200];
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
-		int visible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
-		TCHAR *ptszName = (pmi->CustomName != NULL) ? pmi->CustomName : _T("");
+		int bVisible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
+		TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : _T("");
 		
 		char szRootUid[33];
 		if (pmi->mi.root == NULL)
@@ -899,10 +902,10 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		else
 			bin2hex(&pmi->mi.root->mi.uid, sizeof(MUUID), szRootUid);
 
-		CMString szNewValue(FORMAT, _T("%d;%d;%S;%s"), visible, pmi->mi.position, szRootUid, ptszName);
+		CMString szNewValue(FORMAT, _T("%d;%d;%S;%s"), bVisible, pmi->mi.position, szRootUid, ptszName);
 		db_set_ts(NULL, (char*)szModule, menuItemName, szNewValue);
 
-		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->UniqName, visible, pmi->mi.position);
+		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->pszUniqName, bVisible, pmi->mi.position);
 	}
 	return 0;
 }
@@ -986,7 +989,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 		return 0;
 
 	TCHAR *ptszToken = szValue, *pDelim = _tcschr(szValue, ';');
-	int visible = true, pos = 0;
+	int bVisible = true, pos = 0;
 	TCHAR tszCustomName[201]; tszCustomName[0] = 0;
 	char szCustomRoot[33]; szCustomRoot[0] = 0;
 	for (int i = 0; i < 4; i++) {
@@ -994,7 +997,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 			*pDelim = 0;
 		
 		switch (i) {
-			case 0: visible = _ttoi(ptszToken); break;
+			case 0: bVisible = _ttoi(ptszToken); break;
 			case 1: pos = _ttoi(ptszToken); break;
 			case 2: strncpy_s(szCustomRoot, _T2A(ptszToken), _TRUNCATE); break;
 		}
@@ -1008,13 +1011,14 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	}
 
 	pimi->mi.position = pos;
-	if (visible)
+	pimi->customVisible = bVisible != 0;
+	if (bVisible)
 		pimi->mi.flags &= ~CMIF_HIDDEN;
 	else
 		pimi->mi.flags |= CMIF_HIDDEN;
 	
 	if (tszCustomName[0])
-		replaceStrT(pimi->CustomName, tszCustomName);
+		replaceStrT(pimi->ptszCustomName, tszCustomName);
 
 	if (szCustomRoot[0]) {
 		char szCurrentUid[33];
@@ -1099,7 +1103,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 		if (pmi->mi.flags & CMIF_DEFAULT)
 			mii.fState |= MFS_DEFAULT;
 
-		mii.dwTypeData = (pmi->CustomName) ? pmi->CustomName : mi->name.t;
+		mii.dwTypeData = (pmi->ptszCustomName) ? pmi->ptszCustomName : mi->name.t;
 
 		// it's a submenu
 		if (pmi->submenu.first) {
@@ -1333,8 +1337,8 @@ void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 
 	p->signature = 0;
 	mir_free(p->mi.name.t);
-	mir_free(p->UniqName);
-	mir_free(p->CustomName);
+	mir_free(p->pszUniqName);
+	mir_free(p->ptszCustomName);
 	if (p->hBmp) DeleteObject(p->hBmp);
 	mir_free(p);
 }
