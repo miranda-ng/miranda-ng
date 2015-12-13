@@ -299,8 +299,8 @@ void g_MenuInit(void)
 	mi.position = -1999901011;
 	mi.hIcolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
-
 	UNSET_UID(mi);
+
 	mi.flags |= CMIF_TCHAR | CMIF_SYSTEM;
 	mi.root = g_hMenuDirectPresence[0];
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
@@ -324,6 +324,7 @@ void g_MenuInit(void)
 	mi.position = -1999901011;
 	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
+	UNSET_UID(mi);
 
 	mi.flags |= CMIF_SYSTEM; // these menu items aren't tunable
 	mi.root = g_hMenuResourcesRoot;

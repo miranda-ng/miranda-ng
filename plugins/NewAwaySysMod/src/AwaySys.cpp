@@ -664,6 +664,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.position = 1000020000;
 		mi.name.t = LPGENT("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
+		UNSET_UID(mi);
 
 		mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
 		mi.root = g_hToggleSOEContactMenuItem;
