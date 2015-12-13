@@ -91,66 +91,17 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	if (bContactRate > _countof(rates) - 1)
 		bContactRate = _countof(rates) - 1;
 
-	BOOL bModifyMenu = FALSE;
-
-	CMenuItem mi;
-
-	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
-	mi.hIcolibItem = iconList[bContactRate].hIcolib;
-	mi.flags = CMIF_TCHAR;
+	CMString tszName;
 	if (!bContactRate)
-		mi.name.t = FAVMENUROOTNAME;
-	else {
-		TCHAR *str1 = TranslateTS(FAVMENUROOTNAME), *str2 = TranslateTS(rates[bContactRate]);
-		size_t bufsize = (mir_tstrlen(str1) + mir_tstrlen(str2) + 15) * sizeof(TCHAR);
-		TCHAR *name = (TCHAR *)_alloca(bufsize);
-		mir_sntprintf(name, (bufsize / sizeof(TCHAR)), _T("%s (%s)"), str1, str2);
-		mi.name.t = name;
-		mi.flags |= CMIF_KEEPUNTRANSLATED;
-	}
-	if (!hFavoriteContactMenu)
-		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
-	else {
-		Menu_ModifyItem(hFavoriteContactMenu, mi.name.t);
-		bModifyMenu = TRUE;
-	}
+		tszName = FAVMENUROOTNAME;
+	else
+		tszName.Format(_T("%s (%s)"), TranslateTS(FAVMENUROOTNAME), TranslateTS(rates[bContactRate]));
+	Menu_ModifyItem(hFavoriteContactMenu, tszName);
 
-	Menu_ConfigureItem(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
+	for (int i = 0; i < _countof(rates); i++)
+		Menu_SetChecked(hFavoriteContactMenuItems[i], bContactRate == i);
 
-	mi.root = hFavoriteContactMenu;
-	if (!hFavoriteContactMenuItems) {
-		hFavoriteContactMenuItems = (HGENMENU *)malloc(sizeof(HANDLE) * _countof(rates));
-		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE) * _countof(rates));
-	}
-
-	int i;
-	UNSET_UID(mi);
-	for (i = 0; i < _countof(rates); i++) {
-		mi.flags = CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
-		if (bModifyMenu && hFavoriteContactMenuItems[i])
-			Menu_ModifyItem(hFavoriteContactMenuItems[i], NULL, iconList[i].hIcolib, mi.flags);
-		else {
-			mi.hIcolibItem = iconList[i].hIcolib;
-			mi.name.t = rates[i];
-			mi.pszService = CLUI_FAVSETRATE;
-			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
-			Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
-		}
-	}
-
-	mi.hIcolibItem = NULL;
-	mi.flags = CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
-	if (bModifyMenu && hShowIfOflineItem)
-		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
-	else {
-		SET_UID(mi, 0xbb78b0d3, 0xb56, 0x4d4c, 0xb5, 0x4d, 0x7c, 0x12, 0xc9, 0x6c, 0x5e, 0xe8);
-		mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
-		mi.position = -100000000;
-		mi.name.t = LPGENT("Show even if offline");
-		hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
-		Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, i + 100000000);
-	}
-
+	Menu_SetChecked(hShowIfOflineItem, db_get_b(hContact, "CList", "noOffline", 0) != 0);
 	return 0;
 }
 
@@ -177,6 +128,34 @@ int LoadFavoriteContactMenu()
 	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);
 	hOnContactMenuBuild_FAV = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, FAV_OnContactMenuBuild);
+
+	hFavoriteContactMenuItems = (HGENMENU*)calloc(_countof(rates), sizeof(HANDLE));
+
+	CMenuItem mi;
+	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
+	mi.name.t = FAVMENUROOTNAME;
+	mi.flags = CMIF_TCHAR;
+	hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
+
+	UNSET_UID(mi);
+	mi.root = hFavoriteContactMenu;
+	mi.flags = CMIF_TCHAR | CMIF_SYSTEM; // not included into new menu settings
+	mi.pszService = CLUI_FAVSETRATE;
+	for (int i = 0; i < _countof(rates); i++) {
+		mi.hIcolibItem = iconList[i].hIcolib;
+		mi.name.t = rates[i];
+		hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
+		Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
+	}
+
+	mi.hIcolibItem = NULL;
+	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
+	mi.position = -100000000;
+	mi.name.t = LPGENT("Show even if offline");
+	hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, _countof(rates) + 100000000);
+
 	return 0;
 }
 
