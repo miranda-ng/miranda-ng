@@ -301,7 +301,7 @@ void g_MenuInit(void)
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	UNSET_UID(mi);
-	mi.flags |= CMIF_TCHAR;
+	mi.flags |= CMIF_TCHAR | CMIF_SYSTEM;
 	mi.root = g_hMenuDirectPresence[0];
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
@@ -325,16 +325,15 @@ void g_MenuInit(void)
 	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
-	SET_UID(mi, 0xb8059d69, 0xa927, 0x4d68, 0xb4, 0x88, 0xf7, 0x32, 0x85, 0x50, 0xde, 0x6f);
+	mi.flags |= CMIF_SYSTEM; // these menu items aren't tunable
+	mi.root = g_hMenuResourcesRoot;
 	mi.pszService = "Jabber/UseResource_last";
 	mi.name.a = LPGEN("Last Active");
 	mi.position = -1999901000;
-	mi.root = g_hMenuResourcesRoot;
 	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN);
 
-	SET_UID(mi,0xf44812ea, 0x4f37, 0x4a57, 0x86, 0xa8, 0x40, 0x51, 0x22, 0x9f, 0xd5, 0xa8);
 	mi.pszService = "Jabber/UseResource_server";
 	mi.name.a = LPGEN("Server's Choice");
 	mi.position = -1999901000;
@@ -435,6 +434,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	char text[256];
 	CMenuItem mi;
+	mi.flags = CMIF_SYSTEM;
 	mi.pszService = text;
 
 	CMString szTmp;
