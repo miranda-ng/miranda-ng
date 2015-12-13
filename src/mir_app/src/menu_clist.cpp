@@ -41,7 +41,6 @@ void InitTrayMenus(void);
 
 // new menu sys
 int hMainMenuObject = 0, hContactMenuObject = 0, hStatusMenuObject = 0;
-int UnloadMoveToGroup(void);
 
 int statustopos(int status);
 void Proto_SetStatus(const char *szProto, unsigned status);
@@ -1187,7 +1186,6 @@ void UninitCustomMenus(void)
 	Menu_RemoveObject(hMainMenuObject);
 	Menu_RemoveObject(hStatusMenuObject);
 
-	UnloadMoveToGroup();
 	FreeMenuProtos();
 
 	DestroyMenu(hMainMenu);

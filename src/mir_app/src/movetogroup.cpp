@@ -24,13 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HGENMENU hMoveToGroupItem = 0, hPriorityItem = 0, hFloatingItem = 0;
-
-LIST<HANDLE> lphGroupsItems(5);
-
-//service
-//wparam - hcontact
-//lparam .popupposition from TMO_MenuItem
+static HGENMENU hMoveToGroupItem = 0, hPriorityItem = 0, hFloatingItem = 0;
+static LIST<HANDLE> lphGroupsItems(5);
 
 #define MTG_MOVE "MoveToGroup/Move"
 
@@ -40,12 +35,16 @@ struct GroupItemSort
 	int position;
 
 	GroupItemSort(TCHAR* pname, int pos)
-		: name(mir_tstrdup(pname)), position(pos) {}
+		: name(mir_tstrdup(pname)), position(pos)
+	{
+	}
 
 	~GroupItemSort() { mir_free(name); }
 
 	static int compare(const GroupItemSort* d1, const GroupItemSort* d2)
-	{ return _tcscoll(d1->name, d2->name); }
+	{
+		return _tcscoll(d1->name, d2->name);
+	}
 };
 
 static TCHAR* PrepareGroupName(TCHAR* str)
@@ -54,14 +53,14 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 	if (p == NULL)
 		return mir_tstrdup(str);
 
-	d = p = (TCHAR*)mir_alloc(sizeof(TCHAR)*(2*mir_tstrlen(str)+1));
+	d = p = (TCHAR*)mir_alloc(sizeof(TCHAR)*(2 * mir_tstrlen(str) + 1));
 	while (*str) {
 		if (*str == '&')
-			*d++='&';
-		*d++=*str++;
+			*d++ = '&';
+		*d++ = *str++;
 	}
 
-	*d++=0;
+	*d++ = 0;
 	return p;
 }
 
@@ -82,22 +81,14 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	mir_free(mi.name.t);
 }
 
+// service
+// wparam - hcontact
+// lparam .popupposition from TMO_MenuItem
+
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
-	int i;
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
-
-	if (!hMoveToGroupItem) {
-		CMenuItem mi;
-		SET_UID(mi, 0x403c548, 0x4ac6, 0x4ced, 0xa7, 0x6c, 0x4e, 0xb9, 0xc8, 0xba, 0x94, 0x5);
-		mi.position = 100000;
-		mi.name.a = LPGEN("&Move to group");
-		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
-
-		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
-	}
-
-	for (i=0; i < lphGroupsItems.getCount(); i++)
+	for (int i = 0; i < lphGroupsItems.getCount(); i++)
 		Menu_RemoveItem((HGENMENU)lphGroupsItems[i]);
 	lphGroupsItems.destroy();
 
@@ -109,7 +100,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
-	for (i=0; ; i++) {
+	for (int i = 0;; i++) {
 		char intname[20];
 		_itoa(i, intname, 10);
 
@@ -123,7 +114,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		mir_free(dbv.ptszVal);
 	}
 
-	for (i=0; i < groups.getCount(); i++) {
+	for (int i = 0; i < groups.getCount(); i++) {
 		bool checked = szContactGroup && !mir_tstrcmp(szContactGroup, groups[i].name);
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
@@ -141,9 +132,11 @@ void MTG_OnmodulesLoad()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
 	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);
-}
 
-int UnloadMoveToGroup(void)
-{
-	return 0;
+	CMenuItem mi;
+	SET_UID(mi, 0x403c548, 0x4ac6, 0x4ced, 0xa7, 0x6c, 0x4e, 0xb9, 0xc8, 0xba, 0x94, 0x5);
+	mi.position = 100000;
+	mi.name.a = LPGEN("&Move to group");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
+	hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
 }
