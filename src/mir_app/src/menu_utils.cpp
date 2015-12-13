@@ -712,6 +712,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->signature = MENUITEM_SIGNATURE;
 	p->iCommand = GetNextObjectMenuItemId();
 	p->mi = *pmi;
+	p->customVisible = true;
 	p->iconId = -1;
 	p->originalPosition = pmi->position;
 	p->pUserData = pUserData;
