@@ -488,6 +488,7 @@ public:
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
 
+		m_btnInsMenu.Enable(false);
 		m_btnDefault.Enable(false);
 		m_btnSet.Enable(false);
 		m_customName.Enable(false);
@@ -515,6 +516,7 @@ public:
 			m_service.SetTextA(szText);
 		}
 
+		m_btnInsMenu.Enable(iod->pimi->mi.root == NULL);
 		m_btnDefault.Enable(mir_tstrcmp(iod->name, iod->defname) != 0);
 		m_btnSet.Enable(true);
 		m_customName.Enable(true);
