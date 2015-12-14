@@ -292,8 +292,10 @@ void g_MenuInit(void)
 	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuSendNote);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Direct Presence
-	SET_UID(mi,  0x89803943, 0xa87e, 0x4ae9, 0xbf, 0x79, 0xe3, 0xf3, 0xd6, 0x86, 0xf8, 0x3d);
+
+	SET_UID(mi, 0x89803943, 0xa87e, 0x4ae9, 0xbf, 0x79, 0xe3, 0xf3, 0xd6, 0x86, 0xf8, 0x3d);
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.name.a = LPGEN("Send Presence");
 	mi.position = -1999901011;
@@ -314,11 +316,12 @@ void g_MenuInit(void)
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
 
-	mi.flags &= ~(CMIF_TCHAR);
-	mi.root = NULL;
-
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Resource selector
+
 	SET_UID(mi, 0x32a7bb9d, 0x4d9, 0x49b3, 0xac, 0x8f, 0x83, 0xb5, 0x6b, 0xff, 0x4f, 0x5);
+	mi.flags = 0;
+	mi.root = NULL;
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.name.a = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
