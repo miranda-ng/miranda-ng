@@ -43,7 +43,6 @@ ClcContact *CreateClcContact(void);
 CListEvent *fnCreateEvent(void);
 void ReloadThemedOptions();
 int TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
-void RegisterCLUIFrameClasses();
 void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
@@ -130,7 +129,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	coreCli = *pcli;
 
 	API::onInit();
-	RegisterCLUIFrameClasses();
 
 	memset(&cfg::dat, 0, sizeof(cfg::dat));
 
