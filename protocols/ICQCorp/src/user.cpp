@@ -150,7 +150,7 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = (DLGPROC)icqUserInfoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
 	odp.hInstance = hInstance;
-	Options_AddPage(wParam, &odp);
+	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }
 
