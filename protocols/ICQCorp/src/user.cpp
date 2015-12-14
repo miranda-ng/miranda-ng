@@ -92,7 +92,7 @@ static void setTextValue(HWND hWnd, int id, char *value)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static BOOL CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LPNMHDR hdr;
 
@@ -146,8 +146,8 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -1900000000;
-	odp.pszTitle = Translate(protoName);
-	odp.pfnDlgProc = (DLGPROC)icqUserInfoDlgProc;
+	odp.pszTitle = protoName;
+	odp.pfnDlgProc = icqUserInfoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
 	odp.hInstance = hInstance;
 	UserInfo_AddPage(wParam, &odp);

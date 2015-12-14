@@ -23,7 +23,7 @@ std::vector <ICQEvent *> icqEvents;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void WINAPI eventTimerProc(HWND hWnd, UINT Msg, UINT_PTR hTimer, DWORD Time)
+static void WINAPI eventTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
     unsigned int i;
 
@@ -73,7 +73,7 @@ bool ICQEvent::start()
     // send the packet
     if (!socket->sendPacket(*packet)) return false;
 
-    if (cmd != ICQ_CMDxTCP_START) hTimer = SetTimer(NULL, 0, MAX_WAIT_ACK, (TIMERPROC)eventTimerProc);
+    if (cmd != ICQ_CMDxTCP_START) hTimer = SetTimer(NULL, 0, MAX_WAIT_ACK, eventTimerProc);
     return true;
 }
 

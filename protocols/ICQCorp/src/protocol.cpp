@@ -143,7 +143,7 @@ LRESULT WINAPI messageWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void WINAPI pingTimerProc(HWND hWnd, UINT Msg, UINT_PTR hTimer, DWORD Time)
+void WINAPI pingTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
     icq.ping();
 }
@@ -230,7 +230,7 @@ bool ICQ::logon(unsigned short logonStatus)
         udpSocket.openConnection();
     }
 
-    if (pingTimer == NULL) pingTimer = SetTimer(NULL, 0, PING_FREQUENCY, (TIMERPROC)pingTimerProc);
+    if (pingTimer == NULL) pingTimer = SetTimer(NULL, 0, PING_FREQUENCY, pingTimerProc);
 
     updateContactList();
 

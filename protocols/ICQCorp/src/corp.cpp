@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo =
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID)
 {
     hInstance = hModule;
     if (reason == DLL_PROCESS_ATTACH) DisableThreadLibraryCalls(hModule);
@@ -80,7 +80,7 @@ extern "C" __declspec(dllexport) int Load()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD Version)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
     return &pluginInfo;
 }
