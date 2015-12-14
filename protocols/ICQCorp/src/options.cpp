@@ -21,7 +21,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static BOOL CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     DBVARIANT dbv;
     char str[128];
@@ -69,18 +69,17 @@ static BOOL CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int icqOptionsInitialise(WPARAM wParam, LPARAM lParam)
+int icqOptionsInitialise(WPARAM wParam, LPARAM)
 {
     OPTIONSDIALOGPAGE odp = { 0 };
 
     odp.position = -800000000;
-    odp.pszTitle = Translate(protoName);
-    odp.pfnDlgProc = (DLGPROC)icqOptionsDlgProc;
+    odp.pszTitle = protoName;
+    odp.pfnDlgProc = icqOptionsDlgProc;
     odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_ICQCORP);
     odp.hInstance = hInstance;
-	odp.pszGroup = Translate("Network");
+	odp.pszGroup = LPGEN("Network");
     odp.flags = ODPF_BOLDGROUPS;
-//    odp.nIDBottomSimpleControl = IDC_STICQGROUP;
 	Options_AddPage(wParam, &odp);
 
     return 0;

@@ -23,7 +23,7 @@ std::vector <ICQTransfer *> icqTransfers;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void WINAPI transferTimerProc(HWND hWnd, UINT Msg, UINT_PTR hTimer, DWORD Time)
+void WINAPI transferTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
     unsigned int i;
 
@@ -374,7 +374,7 @@ void ICQTransfer::process()
     while (fileProgress < fileSize && GetTickCount() < startTime+100) sendPacket0x06();
     ack(ACKRESULT_DATA);
 
-    if (fileProgress < fileSize) hTimer = SetTimer(NULL, 0, 1, (TIMERPROC)transferTimerProc);
+    if (fileProgress < fileSize) hTimer = SetTimer(NULL, 0, 1, transferTimerProc);
     else if (current < count-1) sendPacket0x02();
 }
 

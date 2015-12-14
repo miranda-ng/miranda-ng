@@ -21,7 +21,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetCaps(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqGetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case PFLAGNUM_1:
@@ -52,7 +52,7 @@ static INT_PTR icqGetName(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM)
 {
 	int id;
 
@@ -65,7 +65,7 @@ static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSetStatus(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSetStatus(WPARAM wParam, LPARAM)
 {
 	unsigned short desiredStatus = (unsigned short)wParam;
 
@@ -88,28 +88,28 @@ static INT_PTR icqSetStatus(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetStatus(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqGetStatus(WPARAM, LPARAM)
 {
 	return icq.statusVal;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqAuthAllow(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqAuthAllow(WPARAM, LPARAM)
 {
 	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqAuthDeny(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqAuthDeny(WPARAM, LPARAM)
 {
 	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqBasicSearch(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqBasicSearch(WPARAM, LPARAM lParam)
 {
 	T("[   ] basic search\n");
 	icq.startSearch(0, 0, (char*)lParam, 0);
@@ -118,7 +118,7 @@ static INT_PTR icqBasicSearch(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSearchByEmail(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSearchByEmail(WPARAM, LPARAM lParam)
 {
 	T("[   ] search by e-mail\n");
 	icq.startSearch(4, 0, (char*)lParam, 0);
@@ -127,7 +127,7 @@ static INT_PTR icqSearchByEmail(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSearchByName(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 {
 	PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
 
@@ -150,7 +150,7 @@ static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetInfo(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u;
@@ -166,7 +166,7 @@ static INT_PTR icqGetInfo(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSendMessage(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u;
@@ -184,7 +184,7 @@ static INT_PTR icqSendMessage(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqRecvMessage(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA*)lParam;
@@ -207,7 +207,7 @@ static INT_PTR icqRecvMessage(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSendUrl(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u;
@@ -225,7 +225,7 @@ static INT_PTR icqSendUrl(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqRecvUrl(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA*)lParam;
@@ -250,7 +250,7 @@ static INT_PTR icqRecvUrl(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSetAwayMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSetAwayMsg(WPARAM, LPARAM lParam)
 {
 	T("[   ] set away msg\n");
 
@@ -265,7 +265,7 @@ static INT_PTR icqSetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetAwayMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u;
@@ -282,7 +282,7 @@ static INT_PTR icqGetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqRecvAwayMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
@@ -295,7 +295,7 @@ static INT_PTR icqRecvAwayMsg(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSendFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	char **files = (char **)ccs->lParam;
@@ -335,7 +335,7 @@ static INT_PTR icqSendFile(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqFileAllow(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
@@ -354,7 +354,7 @@ static INT_PTR icqFileAllow(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqFileDeny(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
@@ -381,7 +381,7 @@ static INT_PTR icqFileDeny(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqFileCancel(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
@@ -408,7 +408,7 @@ static INT_PTR icqFileCancel(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqRecvFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA *)lParam;
@@ -450,7 +450,7 @@ static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSetApparentMode(WPARAM wParam, LPARAM lParam)
+static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
 {
 	/*
 	CCSDATA *ccs = (CCSDATA *)lParam;
@@ -478,7 +478,7 @@ static INT_PTR icqSetApparentMode(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int icqContactDeleted(WPARAM wParam, LPARAM lParam)
+static int icqContactDeleted(WPARAM wParam, LPARAM)
 {
 	ICQUser *u;
 
@@ -490,7 +490,7 @@ static int icqContactDeleted(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int icqModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int icqModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_USERINFO_INITIALISE, icqUserInfoInitialise);
 	return 0;
