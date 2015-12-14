@@ -336,8 +336,10 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 		replaceStrT(pimi->mi.name.t, ptszName);
 
 	if (iFlags != -1) {
-		// we allow to set only first 3 bits
+		Menu_SetItemFlags(hMenuItem, true, iFlags);
 		int oldflags = (pimi->mi.flags & 0xFFFFFFF8);
+		if (!pimi->customVisible)
+			oldflags |= CMIF_HIDDEN;
 		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
 
