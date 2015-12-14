@@ -26,7 +26,7 @@ void CLuaModuleLoader::LoadModules()
 	PreloadModule(MLUA_POPUP, luaopen_m_popup);
 	PreloadModule(MLUA_PROTOCOLS, luaopen_m_protocols);
 	PreloadModule(MLUA_SCHEDULE, luaopen_m_schedule);
-	PreloadModule(MLUA_SOUND, luaopen_m_sound);
+	PreloadModule(MLUA_SOUNDS, luaopen_m_sounds);
 	PreloadModule(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 	PreloadModule(MLUA_VARIABLES, luaopen_m_variables);
 	PreloadModule(MLUA_WINDOWS, luaopen_m_windows);

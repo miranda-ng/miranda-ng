@@ -147,11 +147,21 @@ static int lua_FindIterator(lua_State *L)
 
 static int lua_Find(lua_State *L)
 {
-	TCHAR* path = mir_utf8decodeT(luaL_checkstring(L, 1));
+	TCHAR *path = mir_utf8decodeT(luaL_checkstring(L, 1));
 
 	lua_pushlightuserdata(L, NULL);
 	lua_pushlightuserdata(L, path);
 	lua_pushcclosure(L, lua_FindIterator, 2);
+
+	return 1;
+}
+
+static int lua_GetKeyState(lua_State *L)
+{
+	int vKey = luaL_checkinteger(L, 1);
+
+	int res = GetKeyState(vKey);
+	lua_pushinteger(L, res);
 
 	return 1;
 }
@@ -357,6 +367,8 @@ static luaL_Reg winApi[] =
 	{ "ShellExecute", lua_ShellExecute },
 
 	{ "Find", lua_Find },
+
+	{ "GetKeyState", lua_GetKeyState },
 
 	{ "GetIniValue", lua_GetIniValue },
 	{ "SetIniValue", lua_SetIniValue },

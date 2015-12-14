@@ -35,18 +35,12 @@ static int lua_GetIcon(lua_State *L)
 
 static int lua_RemoveIcon(lua_State *L)
 {
-	INT_PTR res = 0;
-	
 	if (lua_isuserdata(L, 1))
 		::IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
 	else if (lua_isstring(L, 1))
 		::IcoLib_RemoveIcon(luaL_checkstring(L, 1));
-	else
-		res = 1;
 
-	lua_pushinteger(L, res);
-
-	return 1;
+	return 0;
 }
 
 static luaL_Reg icolibApi[] =
