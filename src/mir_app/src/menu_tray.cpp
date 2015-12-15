@@ -85,7 +85,7 @@ static INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
 
 	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = hMainMenu;
+		mii->hSubMenu = hMainMenu = Menu_GetMainMenu();
 	}
 
 	if (hTrayStatusMenuItemProxy == (HGENMENU)lParam) {
