@@ -2984,23 +2984,27 @@ int LoadCLUIFramesModule(void)
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 	UNSET_UID(mi);
 
-	// create "show all frames" menu
 	mi.root = cont.MainMenuItem;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.flags = CMIF_UNMOVABLE;
+
+	// create "show all frames" menu
+	mi.uid.d[7]++;
 	mi.position = 4000090000;
 	mi.name.a = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
 
 	// create "show all titlebars" menu
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
+	mi.uid.d[7]++;
 	mi.position++;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.name.a = LPGEN("Show all title bars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 
 	// create "hide all titlebars" menu
+	mi.uid.d[7]++;
 	mi.position++;
 	mi.name.a = LPGEN("Hide all title bars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
