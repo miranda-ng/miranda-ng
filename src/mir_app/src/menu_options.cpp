@@ -510,7 +510,7 @@ public:
 
 		m_customName.SetText(iod->name);
 
-		if (iod->pimi->submenu.first == NULL && !equalUUID(iod->pimi->mi.uid, miid_last)) {
+		if (!equalUUID(iod->pimi->mi.uid, miid_last)) {
 			char szText[100];
 			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
 			m_service.SetTextA(szText);
