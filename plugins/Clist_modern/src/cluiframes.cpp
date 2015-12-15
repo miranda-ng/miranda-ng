@@ -3395,7 +3395,7 @@ int LoadCLUIFramesModule(void)
 		// create "show all frames" menu
 		mi.root = cont.MainMenuItem;
 		mi.hIcolibItem = NULL;
-		mi.flags = CMIF_SYSTEM;
+		mi.flags = CMIF_UNMOVABLE;
 		mi.position = 4000090000;
 		mi.name.a = LPGEN("Show all frames");
 		mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
