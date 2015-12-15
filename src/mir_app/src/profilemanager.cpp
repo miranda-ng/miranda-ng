@@ -127,6 +127,7 @@ class CCreateProfileDlg : public CDlgBase
 		return 1;
 	}
 
+	bool       m_bFocused;
 	CCtrlCombo m_driverList;
 	CCtrlEdit  m_profileName;
 	CCtrlBase  m_warning;
@@ -136,6 +137,7 @@ public:
 		CDlgBase(g_hInst, IDD_PROFILE_NEW),
 		m_btnOk(_btn),
 		m_pd(_pd),
+		m_bFocused(false),
 		m_driverList(this, IDC_PROFILEDRIVERS),
 		m_profileName(this, IDC_PROFILENAME),
 		m_warning(this, IDC_NODBDRIVERS)
@@ -196,7 +198,9 @@ public:
 			if (wParam) {
 				m_btnOk.SetText(TranslateT("&Create"));
 				SendMessage(m_hwnd, WM_INPUTCHANGED, 0, 0);
+				m_bFocused = true;
 			}
+			else m_bFocused = false;
 			break;
 		}
 		return CDlgBase::DlgProc(msg, wParam, lParam);
@@ -205,11 +209,11 @@ public:
 	virtual void OnApply()
 	{
 		LRESULT curSel = m_driverList.GetCurSel();
-		if (curSel == -1)
+		if (curSel == -1 || !m_bFocused)
 			return; // should never happen
 
 		ptrT szName(m_profileName.GetText());
-		if (szName == 0)
+		if (mir_tstrlen(szName) == 0)
 			return;
 
 		// profile placed in "profile_name" subfolder
