@@ -1342,11 +1342,11 @@ static int CLUIFramesLoadMainMenu()
 	// create frames menu
 	CMenuItem mi;
 	mi.root = cont.MainMenuItem;
+	mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
 	int separator = (int)3000200000;
 	for (int i = 0; i < nFramescount; i++) {
 		FRAMEWND &F = Frames[i];
 		mi.hIcolibItem = F.TitleBar.hicon;
-		mi.flags = CMIF_TCHAR;
 		mi.position = separator;
 		mi.name.t = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
 		mi.pszService = 0;
