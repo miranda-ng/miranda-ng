@@ -10,7 +10,7 @@ typedef struct
 {
 	char *szServiceName;
 }
-MirOTRMenuExecParam,*lpMirOTRMenuExecParam;
+MirOTRMenuExecParam, *lpMirOTRMenuExecParam;
 
 ////////////////////////////////////////////
 // MirOTR MENU
@@ -19,7 +19,7 @@ MirOTRMenuExecParam,*lpMirOTRMenuExecParam;
 static HGENMENU AddMirOTRMenuItem(TMO_MenuItem *pmi, const char *pszService)
 {
 	// add owner data
-	lpMirOTRMenuExecParam cmep = ( lpMirOTRMenuExecParam )mir_calloc(sizeof(MirOTRMenuExecParam));
+	lpMirOTRMenuExecParam cmep = (lpMirOTRMenuExecParam)mir_calloc(sizeof(MirOTRMenuExecParam));
 	cmep->szServiceName = mir_strdup(pszService);
 	return Menu_AddItem(hMirOTRMenuObject, pmi, cmep);
 }
@@ -27,12 +27,12 @@ static HGENMENU AddMirOTRMenuItem(TMO_MenuItem *pmi, const char *pszService)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR MirOTRMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR MirOTRMenuExecService(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam!=0) {
-		lpMirOTRMenuExecParam cmep=(lpMirOTRMenuExecParam)wParam;
+	if (wParam != 0) {
+		lpMirOTRMenuExecParam cmep = (lpMirOTRMenuExecParam)wParam;
 		//call with wParam=(MCONTACT)hContact
-		CallService(cmep->szServiceName,lParam,0);
+		CallService(cmep->szServiceName, lParam, 0);
 	}
 	return 0;
 }
@@ -85,7 +85,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
 			}
 		}
-		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem) 
+		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem)
 			Menu_SetChecked(hHTMLConvMenuItem, db_get_b(hContact, MODULENAME, "HTMLConv", 0) != 0);
 	}
 	return TRUE;
@@ -209,7 +209,7 @@ void UninitMirOTRMenu(void)
 	hDummyPaintWin = 0;
 
 	UnregisterClass(_T("MirOTRPopupMenuProcessor"), hInst);
-	
+
 	Menu_RemoveObject(hMirOTRMenuObject);
 	hMirOTRMenuObject = 0;
 }
