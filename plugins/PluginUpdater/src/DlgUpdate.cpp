@@ -309,13 +309,15 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				return TRUE;
 
 			case IDC_DETAILS:
-				if (bShowDetails = !bShowDetails) {
-					ResizeVert(hDlg, 242);
-					SetDlgItemText(hDlg, IDC_DETAILS, TranslateT("<< Details"));
-				}
-				else {
+				if (bShowDetails) {
 					ResizeVert(hDlg, 60);
 					SetDlgItemText(hDlg, IDC_DETAILS, TranslateT("Details >>"));
+					bShowDetails = false;
+				}
+				else {
+					ResizeVert(hDlg, 242);
+					SetDlgItemText(hDlg, IDC_DETAILS, TranslateT("<< Details"));
+					bShowDetails = true;
 				}
 				break;
 
@@ -580,7 +582,7 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
+// We only update ".dll", ".exe" and ".ico"
 static bool isValidExtension(const TCHAR *ptszFileName)
 {
 	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
@@ -588,18 +590,15 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 	return (pExt != NULL) && (!_tcsicmp(pExt, _T(".dll")) || !_tcsicmp(pExt, _T(".exe")) || !_tcsicmp(pExt, _T(".txt")));
 }
 
-static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
+// We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
+static bool isValidDirectory(const TCHAR *ptszDirName)
 {
-	// skip updater's own folder
-	if (!_tcsicmp(tszFolder, g_tszRoot))
-		return 0;
+	return !_tcscmp(ptszDirName, _T("Plugins")) || !_tcscmp(ptszDirName, _T("Icons")) || !_tcscmp(ptszDirName, _T("Languages")) || !_tcscmp(ptszDirName, _T("Libs")) || !_tcscmp(ptszDirName, _T("Core"));
+}
 
-	// skip profile folder
-	TCHAR tszProfilePath[MAX_PATH];
-	CallService(MS_DB_GETPROFILEPATHT, _countof(tszProfilePath), (LPARAM)tszProfilePath);
-	if (!_tcsicmp(tszFolder, tszProfilePath))
-		return 0;
-
+// Scans folders recursively
+static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
+{
 	TCHAR tszBuf[MAX_PATH];
 	mir_sntprintf(tszBuf, _T("%s\\*"), tszFolder);
 
@@ -614,9 +613,9 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 	do {
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			// Scan recursively all subfolders
-			if (_tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T(".."))) {
+			if (isValidDirectory(ffd.cFileName)) {
 				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
-				count += ScanFolder(tszBuf, cbBaseLen, level + 1, tszBaseUrl, hashes, UpdateFiles);
+				count += ScanFolder(tszBuf, cbBaseLen, tszBaseUrl, hashes, UpdateFiles, level + 1);
 			}
 		}
 		else if (isValidExtension(ffd.cFileName)) {
@@ -722,6 +721,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
 
+			// If we are in the silent mode, only count enabled plugins, otherwise count all
 			if (!opts.bSilent || FileInfo->bEnabled)
 				count++;
 		}
@@ -732,6 +732,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 	return count;
 }
 
+// Thread checks for updates
 static void CheckUpdates(void *)
 {
 	Netlib_LogfT(hNetlibUser, _T("Checking for updates"));
@@ -749,7 +750,7 @@ static void CheckUpdates(void *)
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
 		VARST dirname(_T("%miranda_path%"));
-		int count = ScanFolder(dirname, lstrlen(dirname) + 1, 0, baseUrl, hashes, UpdateFiles);
+		int count = ScanFolder(dirname, lstrlen(dirname) + 1, baseUrl, hashes, UpdateFiles);
 
 		// Show dialog
 		if (count == 0) {
@@ -766,7 +767,7 @@ static void CheckUpdates(void *)
 	hCheckThread = NULL;
 }
 
-static void DoCheck(bool bSilent)
+static void DoCheck(bool bSilent = true)
 {
 	if (hCheckThread)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
@@ -780,7 +781,7 @@ static void DoCheck(bool bSilent)
 #if MIRANDA_VER >= 0x0A00
 		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
 #endif
-		hCheckThread = mir_forkthread(CheckUpdates, 0);
+		hCheckThread = mir_forkthread(CheckUpdates);
 	}
 }
 
@@ -822,7 +823,7 @@ void CheckUpdateOnStartup()
 				return;
 		}
 		Netlib_LogfT(hNetlibUser, _T("Update on startup started!"));
-		DoCheck(true);
+		DoCheck();
 	}
 }
 
@@ -830,7 +831,7 @@ void CheckUpdateOnStartup()
 
 static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 {
-	DoCheck(true);
+	DoCheck();
 }
 
 static LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
@@ -894,5 +895,5 @@ void InitTimer(void *type)
 
 void CreateTimer() {
 	hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer, 0);
+	mir_forkthread(InitTimer);
 }
