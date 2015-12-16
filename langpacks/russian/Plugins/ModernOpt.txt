@@ -38,11 +38,11 @@
 [Contacts]
 Контакты
 [Configure behavior of your contact list.]
-Настройте поведение вашего списка контактов.
+Настройте поведение своего списка контактов.
 [Chats]
 Чаты
 [Customize look&&feel of your chat windows here.]
-Настройте внешний вид вашего окна беседы.
+Настройте внешний вид своего окна беседы.
 [Ignore]
 Игнорировать
 [Ban those users and events, you are annoyed with.]
@@ -54,6 +54,6 @@
 [Plugins]
 Плагины
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Управление вашими дополнительными плагинами.
+Управление дополнительными плагинами.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас есть несохранённые изменения.\n Хотите ли вы их применить перед переключением?

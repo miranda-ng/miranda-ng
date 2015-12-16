@@ -582,7 +582,7 @@ WallOps от %s:\s
 [Authenticate nick]
 Аутентифицировать
 [Are you sure you want to unregister your current nick?]
-Вы уверены, что хотите удалить ваш ник?
+Вы уверены, что хотите удалить свой ник?
 [Delete nick]
 Удалить ник
 [Identify nick]
@@ -598,15 +598,15 @@ WallOps от %s:\s
 [Change language of NickServ messages]
 Сменить язык сообщений Nickserv
 [Please enter URL that will be linked to your nick]
-Введите ссылку на ваш ник
+Введите ссылку на свой ник
 [Set URL, linked to nick]
 Ссылка на ник
 [Please enter your e-mail, that will be linked to your nick]
-Введите e-mail вашего ника
+Введите e-mail своего ника
 [Set e-mail, linked to nick]
 Установить e-mail, ссылающийся на ник
 [Please enter some information about your nick]
-Введите информацию о вашем нике
+Введите информацию о своём нике
 [Set information for nick]
 Установить инфо о нике
 [Please enter nick you want to link to your current nick]

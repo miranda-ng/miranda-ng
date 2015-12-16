@@ -1,3 +1,0 @@
-﻿[Content and Style]
-[Go to Customize -> Fonts and Colors for fonts and colors options]
-[Colors can be configured in\r\nCustomize -> Fonts and colors]

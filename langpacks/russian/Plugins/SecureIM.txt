@@ -118,7 +118,7 @@
 [Show a popup on each secure receive]
 Приём зашифрованного сообщения
 [Please type in your password]
-Введите ваш пароль
+Введите свой пароль
 [Username:]
 Пользователь:
 [Password:]

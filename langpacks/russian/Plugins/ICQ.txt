@@ -266,7 +266,7 @@ xСтатус "%s"
 [Confirm Password Change]
 Подтвердить смену пароля
 [Please re-type your new password:]
-Повторите ваш новый пароль:
+Повторите свой новый пароль:
 [Enter your current password:]
 Введите текущий пароль:
 [Please authorize me to add you to my contact list.]

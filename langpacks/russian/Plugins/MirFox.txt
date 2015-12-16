@@ -74,4 +74,4 @@ MirFox/Ошибка
 [MirFox (Miranda) - Error]
 MirFox (Miranda) - Ошибка
 [This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
-Плагин MirFox (Miranda) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите ваше дополнение MirFox.
+Плагин MirFox (Miranda) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите своё дополнение MirFox.

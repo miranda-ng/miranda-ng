@@ -19,6 +19,5 @@
 [Edit on]
 [BBC]
 [BBC link]
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
 [Could not register Miranda service.]
 [Fill description textbox.]

@@ -37,7 +37,6 @@
 [Over Limit.]
 [Email Host Fail.]
 [Open mail account?]
-[%s client-to-client connections]
 [Contact tried to open an audio/video conference (not currently supported)]
 [Item you want to delete not found in list.]
 [Failed to add buddy to list: Item already exist.]
