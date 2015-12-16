@@ -41,7 +41,7 @@ BEGIN
     CONTROL         "",IDC_STOP,"MButtonClass",WS_TABSTOP,25,44,16,14
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 241, 181
+IDD_OPTIONS DIALOGEX 0, 0, 241, 189
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -57,7 +57,7 @@ BEGIN
                     WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "bytes",IDC_STATIC,170,41,28,8
     GROUPBOX        "Transfer settings",IDC_STATIC,5,5,230,67
-    GROUPBOX        "Appearance",IDC_STATIC,5,75,230,100
+    GROUPBOX        "Appearance",IDC_STATIC,5,75,230,108
     CONTROL         "",IDC_SENT,"ColourPicker",WS_GROUP | WS_TABSTOP,124,124,
                     39,12,WS_EX_NOPARENTNOTIFY
     CONTROL         "",IDC_TOSEND,"ColourPicker",WS_GROUP | WS_TABSTOP,124,
@@ -71,8 +71,8 @@ BEGIN
     CONTROL         "Use only alphanumeric encoding on transfer",
                     IDC_ALPHANUM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,57,
                     217,10
-    LTEXT           "Extra options: Events -> File Transfers, ""Receiving files"" group",
-                    IDC_STATIC,10,160,220,8
+    CTEXT           "Go to Options -> Events -> File Transfers, ""Receiving files"" group for extra settings",
+                    IDC_STATIC,10,160,220,16
 END
 
 
