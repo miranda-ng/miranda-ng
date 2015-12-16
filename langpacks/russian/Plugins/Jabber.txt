@@ -860,7 +860,7 @@ Jabber ошибка
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успешно изменён. Не забудьте обновить ваш пароль в настройках учётной записи Jabber.
+Пароль успешно изменён. Не забудьте обновить свой пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
 Пароль не может быть изменён
 [Jabber Bookmarks Error]

@@ -30,7 +30,7 @@
 [Hotkey]
 Горячая клавиша
 [Miranda NG is locked.\nEnter password to unlock it.]
-Miranda NG заблокирована.\nВведите ваш пароль для разблокировки.
+Miranda NG заблокирована.\nВведите свой пароль для разблокировки.
 [Password:]
 Пароль:
 [Cancel]

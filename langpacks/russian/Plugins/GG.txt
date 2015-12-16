@@ -224,7 +224,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 [Message with [img] BBCode]
 Сообщение с тегом [img]
 [You need to specify your registration e-mail first.]
-Необходимо указать ваш e-mail.
+Необходимо указать свой e-mail.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]

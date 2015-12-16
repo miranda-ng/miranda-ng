@@ -153,6 +153,10 @@ Yahoo подключения по HTTP
 Новая почта в папке "Входящие"
 [%s plugin connections]
 %s подключение к серверу
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
+Введите свой Yahoo ID в разделе "Настройки -> Сеть -> Yahoo"
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
+Введите свой пароль Yahoo в разделе "Настройки -> Сеть -> Yahoo"
 [Yahoo Login Error]
 Ошибка подключения Yahoo
 [You need to be connected to set the custom message]
