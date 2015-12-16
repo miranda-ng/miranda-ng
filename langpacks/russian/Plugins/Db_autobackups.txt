@@ -6,13 +6,13 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
-Авторезервирование профиля.
+Авторезервирование базы данных.
 [Backup progress]
 Процесс резервного копирования
 [Cancel]
 Отменить
 [Automatic backups]
-Авторезервирование профиля
+Авторезервирование базы данных
 [Backup NOW]
 Сохранить СЕЙЧАС
 [Disabled]
@@ -40,7 +40,7 @@
 [Use Dropbox]
 Использовать Dropbox
 [Miranda NG database]
-Резервная копия профиля Miranda NG
+Резервная копия базы данных Miranda NG
 [Created by:]
 Создана:
 [Backup in progress]
@@ -50,7 +50,7 @@
 [Database backed up]
 Профиль зарезервирован
 [Database back up in process...]
-Производится резервирование профиля...
+Производится резервирование базы данных...
 [Error]
 Ошибка
 [Miranda NG databases]
@@ -60,13 +60,13 @@
 [All files]
 Все файлы
 [Database]
-Профиль
+База данных
 [Backup profile]
-Резервировать профиль
+Резервировать базу данных
 [Save profile as...]
 Сохранить профиль как...
 [Database backups]
-Резервирование профиля
+Резервирование базы данных
 [Backup folder]
 Папка резервирования
 [path to Miranda root folder]

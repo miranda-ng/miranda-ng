@@ -204,7 +204,7 @@ Yahoo ошибка пинга
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Не могу авторизоваться в Yahoo - пароль неверен. Проверьте ваши имя пользователя и пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
-Не могу авторизоваться в Yahoo. Ваша учётная запись заблокирована.\nПосетите %s.
+Не удалось авторизоваться в Yahoo. Ваша учётная запись заблокирована.\nПосетите %s.
 [You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Вы были отключены от сервиса Yahoo, возможно из-за второго подключения.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]

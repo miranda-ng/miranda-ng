@@ -6,17 +6,17 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-Проверяет базу Miranda NG.
+Проверяет базу данных Miranda NG.
 [Welcome to the Miranda Database Wizard]
 Добро пожаловать в мастер базы данных
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Используя этот мастер, вы можете уменьшить размер профиля удалением "мёртвого" пространства.
+Используя этот мастер, вы можете уменьшить размер базы данных профиля удалением "мёртвого" пространства.
 [To continue, click Next.]
 Нажмите "Далее" для продолжения.
 [This program is licensed under the terms of the GNU General Public License.]
 Программа лицензирована под условиями GNU General Public License.
 [Miranda Database Tool]
-Инструмент базы Miranda NG
+Инструмент базы данных Miranda NG
 [< &Back]
 < &Назад
 [&Next >]
@@ -26,7 +26,7 @@
 [Select Miranda Profile]
 Выбор профиля Miranda NG
 [You can choose the Miranda profile database to compact or repair.]
-Выберите профиль Miranda NG для сжатия или восстановления.
+Выберите базу данных Miranda NG для сжатия или восстановления.
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
 Выберите &профиль базы в списке. Если его нет в списке, нажмите "Ещё..." для поиска на компьютере.
 [&File:]

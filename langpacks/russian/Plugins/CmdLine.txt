@@ -150,7 +150,7 @@
 [wide string]
 юникод
 [Wrote '%s:%s' to database entry '%s/%s'.]
-Записано '%s:%s' в запись '%s/%s' базы данных.
+Записано '%s:%s' в ключ '%s/%s' базы данных.
 [Could not retrieve setting '%s/%s': %s.]
 Невозможно прочитать настройку '%s/%s': %s.
 [Setting '%s/%s' was not found.]
