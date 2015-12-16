@@ -150,7 +150,7 @@
 [Open mail account?]
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
-[%s Client-to-client connection]
+[%s client-to-client connections]
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 [Contact tried to open an audio/video conference (not currently supported)]

@@ -51,6 +51,8 @@
 Приняты контакты от
 [Contacts]
 Контакты
+[Events]
+События
 [Incoming Contacts]
 Входящие контакты
 [Outgoing Contacts]

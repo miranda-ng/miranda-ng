@@ -5,8 +5,6 @@
 ;  Version: 2.1.0.7
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Tool Tip notification windows.]
-Всплывающие подсказки для списка контактов.
 [Layout]
 Размещение
 [Text indent:]

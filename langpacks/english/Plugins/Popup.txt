@@ -7,8 +7,8 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 ;file \plugins\Popup\res\resource.rc
-[Content && Style]
-[Go to Customize > Fonts && Colors for fonts and colors options]
+[Content and Style]
+[Go to Customize -> Fonts and Colors for fonts and colors options]
 [Miscellaneous]
 [Effects]
 [Live Preview]
@@ -78,7 +78,7 @@
 [Right click action:]
 [Disable when global status is...]
 [Disable when relevant protocol's status is...]
-[Colors can be configured in\r\nCustomize > Fonts and colors]
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
 [More...]
 [Disable if message window is open]
 [Sec]
@@ -164,7 +164,7 @@
 [Toggle Popups]
 [Enable Popups]
 [Disable Popups]
-[Popup Plus]
+[Popup plus]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
@@ -194,7 +194,7 @@
 [Protocol Status]
 [You cannot specify a value lower than %d and higher than %d.]
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-[Popup Plus Warning]
+[Popup plus warning]
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 [Skin preview]
@@ -214,7 +214,7 @@
 ;file \plugins\Popup\src\services.cpp
 [Notify]
 ;file \plugins\Popup\src\skin.cpp
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 [Favorite]

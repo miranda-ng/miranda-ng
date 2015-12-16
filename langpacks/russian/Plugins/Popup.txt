@@ -7,10 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Предоставляет сервис всплывающих окон для различных плагинов.
-[Content && Style]
-Стиль окон
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Настройки шрифтов и цвета: Тонкая настройка>Шрифты и цвета
 [Miscellaneous]
 Прочее
 [Effects]
@@ -149,8 +145,6 @@ History++ для истории окон
 Отключить, когда глобальный статус...
 [Disable when relevant protocol's status is...]
 Отключить, когда статус соотв. протокола...
-[Colors can be configured in\r\nCustomize > Fonts and colors]
-Цвета настраиваются в\r\nТонкая настройка > Шрифты и цвета
 [More...]
 Ещё...
 [Disable if message window is open]
@@ -307,7 +301,7 @@ History++ для истории окон
 Включить всплывающие окна
 [Disable Popups]
 Отключить всплывающие окна
-[Popup Plus]
+[Popup plus]
 Всплывающие окна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Ошибка: Не удалось зарегистрировать класс Popup Window.\r\nПлагин не будет работать.
@@ -361,7 +355,7 @@ History++ для истории окон
 Значение меньшее %d или большее %d не допускается.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Настройка 'Упорядочивать (сдвигать) окна' отключена.\r\nЭто может привести к перекосу при использовании с\r\nаватарами и заменой текста (с плагином NewXstatusNotify).\r\n\r\nВключить упорядочивание (сдвигание) окон?\r\n
-[Popup Plus Warning]
+[Popup plus warning]
 Предупреждение Popup Plus
 [Failed to register %s class.]
 Не удалось зарегистрировать класс %s.
@@ -391,7 +385,7 @@ History++ для истории окон
 Не удалось зарегистрировать класс custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
 [Notify]
 Уведомление
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Скин, который вы пытаетесь загрузить, разработан\r\nдля более новой версии плагина Popup Plus и не будет\r\nправильно отображаться.\r\n\r\nПожалуйста, выберите другой скин.
 [Auto]
 Авто

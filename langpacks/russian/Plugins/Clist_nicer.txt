@@ -17,7 +17,7 @@
 Выход из Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Несмотря на то, что программа продолжает работать, её нужно перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьёзные проблемы.
-[About CList nicer]
+[About Clist nicer]
 О плагине CList nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 Авторские права © 2004-2010 проект Miranda IM, 2012-2015 проект Miranda NG. Более подробная информация об авторских правах содержится в файле README.
@@ -679,14 +679,6 @@
 &Вверх
 [&Down]
 В&низ
-[Frames]
-Фреймы
-[Show all frames]
-Показать все фреймы
-[Show all title bars]
-Показывать названия
-[Hide all title bars]
-Скрыть названия
 [Lock frame]
 Закрепить фрейм
 [Visible]
@@ -697,6 +689,14 @@
 Применять скин к фрейму
 [Floating]
 Плавающее
+[Frames]
+Фреймы
+[Show all frames]
+Показать все фреймы
+[Show all title bars]
+Показывать названия
+[Hide all title bars]
+Скрыть названия
 [Title bar]
 Заголовок
 [Tool Window]
