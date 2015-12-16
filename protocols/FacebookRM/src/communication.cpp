@@ -727,6 +727,27 @@ void loginError(FacebookProto *proto, std::string error_str) {
 	proto->facy.client_notify(buf);
 }
 
+void parseJsCookies(const std::string &search, const std::string &data, std::map<std::string, std::string> &cookies) {
+	std::string::size_type pos = 0;
+	while ((pos = data.find(search, pos)) != std::string::npos) {
+		pos += search.length();
+
+		std::string::size_type pos2 = data.find("\",\"", pos);
+		if (pos2 == std::string::npos)
+			continue;
+
+		std::string name = data.substr(pos, pos2 - pos);
+
+		pos = pos2 + 3;
+		pos2 = data.find("\"", pos);
+		if (pos2 == std::string::npos)
+			continue;
+
+		std::string value = data.substr(pos, pos2 - pos);
+		cookies[name] = utils::text::html_entities_decode(value);
+	}
+}
+
 bool facebook_client::login(const char *username, const char *password)
 {
 	handle_entry("login");
@@ -743,25 +764,9 @@ bool facebook_client::login(const char *username, const char *password)
 		// Get initial cookies
 		http::response resp = flap(REQUEST_LOGIN);
 
-		// Also parse deferred cookies set by JavaScript
-		std::string::size_type pos = 0;
-		while ((pos = resp.data.find("[\"DeferredCookie\",\"addToQueue\",[],[\"", pos)) != std::string::npos) {
-			pos += 36;
-
-			std::string::size_type pos2 = resp.data.find("\",\"", pos);
-			if (pos2 == std::string::npos)
-				continue;
-
-			std::string name = resp.data.substr(pos, pos2 - pos);
-
-			pos = pos2 + 3;
-			pos2 = resp.data.find("\"", pos);
-			if (pos2 == std::string::npos)
-				continue;
-
-			std::string value = resp.data.substr(pos, pos2 - pos);
-			cookies[name] = utils::text::html_entities_decode(value);
-		}
+		// Also parse cookies set by JavaScript (more variant exists in time, so check all known now)
+		parseJsCookies("[\"DeferredCookie\",\"addToQueue\",[],[\"", resp.data, cookies);
+		parseJsCookies("[\"Cookie\",\"setIfFirstPartyContext\",[],[[\"", resp.data, cookies);
 	}
 
 	// Prepare login data
