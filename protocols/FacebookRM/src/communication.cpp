@@ -766,7 +766,7 @@ bool facebook_client::login(const char *username, const char *password)
 
 		// Also parse cookies set by JavaScript (more variant exists in time, so check all known now)
 		parseJsCookies("[\"DeferredCookie\",\"addToQueue\",[],[\"", resp.data, cookies);
-		parseJsCookies("[\"Cookie\",\"setIfFirstPartyContext\",[],[[\"", resp.data, cookies);
+		parseJsCookies("[\"Cookie\",\"setIfFirstPartyContext\",[],[\"", resp.data, cookies);
 	}
 
 	// Prepare login data
