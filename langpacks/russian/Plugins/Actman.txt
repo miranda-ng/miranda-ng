@@ -356,7 +356,7 @@ UTF16+сигнатура
 [Retry, Cancel]
 Повтор, Отмена
 [Database]
-Профиль
+База данных
 [Contact type]
 Тип контакта
 [Own settings]
@@ -770,9 +770,9 @@ wParam в ANSI
 [Double click on the contact list]
 Двойной щелчок по списку контактов
 [database driver]
-драйвер базы
+драйвер базы данных
 [New contact added to database]
-Добавление нового контакта в базу
+Добавление нового контакта в базу данных
 [Contact deleting]
 Удаление контакта
 [Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]

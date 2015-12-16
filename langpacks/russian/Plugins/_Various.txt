@@ -53,7 +53,7 @@ Cвернуть
 [Coordinates]
 Координаты
 [Import from database]
-Импорт из профиля
+Импорт из базы данных
 [Current = %r\\nPrevious = %p]
 Текущий = %r\\nПредыдущий = %p
 [Langpack reload]

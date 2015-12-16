@@ -840,7 +840,7 @@
 [Database setting change]
 Изменение настроек базы данных
 [Database settings are being imported from]
-Настройки импортируются из
+Настройки базы данных импортируются из
 [This file wishes to change the setting]
 Этот файл изменяет настройку
 [to the value]
@@ -852,7 +852,7 @@
 [Cancel import]
 Отменить импорт
 [Database import complete]
-Импорт базы завершён
+Импорт базы данных завершён
 [The import has completed from]
 Импорт завершён из
 [What do you want to do with the file now?]
@@ -2070,7 +2070,7 @@ Miranda NG не может открыть '%s', профиль в неизвес
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda NG не может открыть '%s'\nОн недоступен, занят другим приложением или другой копией Miranda NG
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
-Miranda NG не может открыть '%s'\nНе установлен подходящий драйвер базы
+Miranda NG не может открыть '%s'\nНе установлен подходящий драйвер базы данных
 [No profile support installed!]
 Нет установленных плагинов базы!
 [Miranda can't open that profile]
@@ -2238,7 +2238,7 @@ xСтатус
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Вы собираетесь удалить все субконтакты из метаконтакта.\nЭто приведёт к удалению метаконтакта.\n\nПродолжить?
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-В базе не найдено ни одного метаконтакта (в этом случае нужно сначала преобразовать один обычный контакт в метаконтакт).\nНапример, можно преобразовать этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
+В базе данных не найдено ни одного метаконтакта (в этом случае нужно сначала преобразовать один обычный контакт в метаконтакт).\nНапример, можно преобразовать этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
 Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите другой контакт.
 [Metacontact conflict]
