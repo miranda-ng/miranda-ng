@@ -30,6 +30,7 @@
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 [Contacts]
+[Events]
 [Incoming Contacts]
 [Outgoing Contacts]
 ;file \plugins\ContactsPlus\src\receive.cpp

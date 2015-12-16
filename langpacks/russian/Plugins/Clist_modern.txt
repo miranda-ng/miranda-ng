@@ -617,14 +617,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 &Вверх
 [&Down]
 В&низ
+[Lock frame]
+Закрепить фрейм
 [Show all frames]
 Показать все фреймы
 [Show all title bars]
 Показывать названия
 [Hide all title bars]
 Скрыть названия
-[Lock frame]
-Закрепить фрейм
 [&Hide/show]
 С&крыть/Показать
 [&Find/add contacts...]

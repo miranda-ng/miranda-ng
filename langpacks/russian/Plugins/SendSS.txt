@@ -151,8 +151,6 @@ HTTP подключение SendSS
 Отправить скриншот
 [Screenshots]
 Снимки экрана
-[Image services (AdvaImg) not found.\nSendSS disabled.]
-Не найдена служба изображений (плагин AdvaImg).\nПлагин SendSS будет отключён.
 [Buttons]
 Кнопки
 [Take a screenshot]

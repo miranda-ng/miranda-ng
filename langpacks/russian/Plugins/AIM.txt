@@ -203,8 +203,6 @@ AIM Установить Instant Idle
 Протокол %s
 [%s server connection]
 %s подключение к серверу
-[%s Client-to-client connection]
-%s подключения между пользователями
 [[Auto-Response]:]
 (Автоответ):
 [No information has been provided by the server.]

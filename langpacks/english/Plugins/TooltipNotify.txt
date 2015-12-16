@@ -40,10 +40,7 @@
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 [Other status]
-[Tooltip Notify: Online]
-[Tooltip Notify: Offline]
-[Tooltip Notify: Other]
-[Tooltip Notify: Typing]
+[Other]
 [Popups]
 [** New contacts **]
 [** Unknown contacts **]

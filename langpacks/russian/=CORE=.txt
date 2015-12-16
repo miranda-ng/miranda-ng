@@ -2329,10 +2329,10 @@ xСтатус
 Ошибка записи уникального ID контакта в метаконтакт
 [Could not write nickname of contact to metacontact]
 Не могу записать ник контакта в метаконтакт
-[&Move to group]
-&Группа
 [<Root group>]
 <Корневая группа>
+[&Move to group]
+&Группа
 [Standard Netlib log]
 Стандартный журнал Netlib
 [No times]

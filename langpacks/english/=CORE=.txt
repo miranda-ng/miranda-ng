@@ -1276,8 +1276,8 @@
 [Could not write unique ID of contact to metacontact]
 [Could not write nickname of contact to metacontact]
 ;file \src\mir_app\src\movetogroup.cpp
-[&Move to group]
 [<Root group>]
+[&Move to group]
 ;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 [No times]
