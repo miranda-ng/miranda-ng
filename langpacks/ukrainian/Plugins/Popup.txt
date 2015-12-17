@@ -307,7 +307,7 @@ History++ для історії вікон
 Увімкнути спливаючі вікна
 [Disable Popups]
 Вимкнути спливаючі вікна
-[Popup Plus]
+[Popup plus]
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
@@ -361,8 +361,8 @@ History++ для історії вікон
 Значення менше %d або більше %d не допускається.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nУвімкнути впорядкування (зсув) вікон?\r\n
-[Popup Plus Warning]
-Попередження Popup Plus
+[Popup plus warning]
+Попередження Popup plus
 [Failed to register %s class.]
 Не вдалося зареєструвати клас %s.
 [Skin preview]
@@ -391,8 +391,8 @@ History++ для історії вікон
 Не вдалося зареєструвати клас custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
 [Notify]
 Сповіщення
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-Скін, який ви намагаєтеся завантажити, зроблений\r\nдля новішої версії плагіна Popup Plus.\r\nВін не працюватиме коректно.\r\n\r\nБудь ласка, виберіть інший скін.
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+Скін, який ви намагаєтеся завантажити, зроблений\r\nдля новішої версії плагіна Popup plus.\r\nВін не працюватиме коректно.\r\n\r\nБудь ласка, виберіть інший скін.
 [Auto]
 Авто
 [Favorite]

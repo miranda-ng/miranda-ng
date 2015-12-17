@@ -167,8 +167,8 @@ HTTP-з'єднання SendSS
 Надіслати скріншот
 [Screenshots]
 Знімки екрану
-[Image services (AdvaImg) not found.\nSendSS disabled.]
-Відсутня служба зображень (AdvaImg).\nПлагін SendSS буде відключено.
+[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
+Відсутня служба зображень (плагін AdvaImg).\nПлагін SendSS буде відключено.
 [Buttons]
 Кнопки
 [Could not register Miranda service.]

@@ -12,7 +12,7 @@
 [Send replies immediately]
 Надсилати відповіді негайно
 [- Add your replies, one per line.]
-- Додайте ваші відповіді, по одній у рядку.
+- Додайте свої відповіді, по одній у рядку.
 [Variables]
 Змінні
 [Hints:]

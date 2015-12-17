@@ -51,6 +51,8 @@
 Отримано контакти від
 [Contacts]
 Контакти
+[Events]
+Події
 [Incoming Contacts]
 Вхідні контакти
 [Events]
