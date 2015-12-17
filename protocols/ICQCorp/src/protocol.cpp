@@ -1615,7 +1615,7 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
     transfer->count = i;
     transfer->totalSize = size;
 
-    transfer->path = mir_strdup(transfer->files[0]);
+    transfer->path = _strdup(transfer->files[0]);
 	char *s = strrchr(transfer->path, '\\');
 	if (s != NULL) *s = 0;
 
