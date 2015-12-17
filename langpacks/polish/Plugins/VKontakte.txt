@@ -109,7 +109,7 @@ Czas wygasania niewidoczności (min):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Niestandardowe kodowanie linków dla wysyłanych wiadomości (mniejsze obciążenie)
 [Use non-standard popups for news and event notifications]
-
+Użyj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -222,7 +222,7 @@ Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
 Błąd
 [You must validate your account before use VK in Miranda NG]
-
+Musisz aktywować swoje konto zanim użyjesz VK w Mirandzie NG
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
 [One of the parameters specified was missing or invalid]
@@ -351,9 +351,9 @@ Odwiedź profil
 %s pisze wiadomość...
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
-
+Nowe aktualności
 [New notifications]
-
+Nowe powiadomienia
 [User was tagged in these photos:]
 Użytkownik został oznaczony na tych zdjęciach:
 [(photos)]
@@ -439,7 +439,7 @@ Wyślij posta na moją tablicę
 [Load news from VK]
 Załaduj aktualności z VK
 [Wipe contacts missing in friend list]
-
+Usuń kontakty spoza listy znajomych
 [Send message to user\'s wall]
 Wyślij posta na tablicę użytkownika
 [Add as friend]
@@ -485,7 +485,7 @@ Wprowadź nowy opis
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to wipe local contacts missing in your friend list?]
-
+Czy na pewno chcesz usunąć lokalne kontakty nie będące na Twojej liście znajomych?
 [Are you sure to delete %s from your friend list?]
 Czy na pewno chcesz usunąć %s ze znajomych?
 [User %s was deleted from your friend list]

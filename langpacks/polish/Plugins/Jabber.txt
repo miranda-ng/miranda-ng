@@ -985,7 +985,7 @@ Opis
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [Chat plugin is required for conferences. Install it before chatting]
-
+Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę do czatowania
 [To]
 Do
 [From]
@@ -1899,7 +1899,7 @@ Uwagi
 Połączenie %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
-
+<mijesce zaawansowanego statusu>
 [Afraid]
 Przestraszony
 [Amazed]

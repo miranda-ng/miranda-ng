@@ -1,1 +1,0 @@
-﻿[Map unsupported statuses to Invisible (instead of Away)]

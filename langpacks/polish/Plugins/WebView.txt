@@ -47,7 +47,7 @@ Komunikaty o błędach
 [Suppress error messages]
 Ignoruj komunikaty o błędach
 [Display using popup or OSD plugin]
-
+Wyświetlaj używając wtyczek popup lub OSD
 [Expert options]
 Opcje zaawansowane
 [Disable download protection]

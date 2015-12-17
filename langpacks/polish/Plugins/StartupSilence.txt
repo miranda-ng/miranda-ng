@@ -77,4 +77,4 @@ Przełącz cichy start
 [You have to install TopToolBar plugin to use this option.]
 Musisz zainstalować TopToolbar, aby używać tej opcji.
 [You have to install popup plugin to use this option.]
-
+Musisz zainstalować wtyczkę od popupów, aby użyć tej opcji.

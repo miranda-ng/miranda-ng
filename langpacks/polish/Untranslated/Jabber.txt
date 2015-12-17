@@ -1,2 +1,0 @@
-﻿[Chat plugin is required for conferences. Install it before chatting]
-[<advanced status slot>]

@@ -270,4 +270,4 @@ Użytkownik został usunięty. Czy chcesz usunąć plik?
 [Failed to delete the file]
 Błąd usuwania pliku
 [No_Nick]
-
+Brak nicku
