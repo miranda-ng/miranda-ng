@@ -18,8 +18,8 @@ Wiederholen
 Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Obwohl die Ausnahme abgefangen wurde und Sie mit Miranda weiterarbeiten können, sollten Sie das Programm baldestmöglich neu starten. Die Ausnahme könnte interne Datenstrukturen beschädigt haben und einen nennenswerten Einfluss auf die Stabilität ausüben.
-[About CList nicer]
-Über CList nicer
+[About Clist nicer]
+Über Clist nicer
 [Clist nicer]
 Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -424,8 +424,8 @@ Immer offline erscheinen bzw. Kontakt blockieren
 Sonstige
 [Hide this contact from the list]
 Kontakt nicht in der Kontaktliste anzeigen
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen -> Ereignisse -> Ignorieren einen Haken neben seinem Namen setzen.
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen -> Kontakte -> Ignorieren einen Haken neben seinem Namen setzen.
 [Display options]
 Anzeigeoptionen
 [Show contact with priority]
@@ -693,14 +693,6 @@ Unten
 A&uf
 [&Down]
 Ab
-[Frames]
-Frames
-[Show all frames]
-Alle Frames anzeigen
-[Show all title bars]
-Alle Titelleisten anzeigen
-[Hide all title bars]
-Alle Titelleisten verstecken
 [Lock frame]
 Keine Größenänderung
 [Visible]
@@ -711,6 +703,14 @@ Titelzeile anzeigen
 Skinnbarer Frame
 [Floating]
 Frei bewegend
+[Frames]
+Frames
+[Show all frames]
+Alle Frames anzeigen
+[Show all title bars]
+Alle Titelleisten anzeigen
+[Hide all title bars]
+Alle Titelleisten verstecken
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Titelleiste

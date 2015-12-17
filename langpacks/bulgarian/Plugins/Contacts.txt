@@ -39,6 +39,8 @@
 Изпращане на съобщение
 [Contacts]
 Контакти
+[Events]
+Събития
 [Incoming Contacts]
 Входящи контакти
 [Outgoing Contacts]

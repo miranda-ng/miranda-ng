@@ -6,6 +6,7 @@
 [Tree gray out]
 [Sticky contacts]
 [Editing view mode]
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 [Setup accounts]
 [Overlay icons]
 [Connecting icons]

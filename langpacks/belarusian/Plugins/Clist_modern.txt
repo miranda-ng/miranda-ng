@@ -617,14 +617,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 &Уверх
 [&Down]
 У&ніз
+[Lock frame]
+Замацаваць фрэйм
 [Show all frames]
 Паказаць усе
 [Show all title bars]
 Паказваць назвы
 [Hide all title bars]
 Схаваць назвы
-[Lock frame]
-Замацаваць фрэйм
 [&Hide/show]
 С&хаваць/паказаць
 [&Find/add contacts...]

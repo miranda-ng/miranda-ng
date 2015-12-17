@@ -53,6 +53,8 @@ Nachricht senden
 Kontakte empfangen von
 [Contacts]
 Kontakte
+[Events]
+Ereignisse
 [Incoming Contacts]
 Eingehende Kontakte
 [Outgoing Contacts]

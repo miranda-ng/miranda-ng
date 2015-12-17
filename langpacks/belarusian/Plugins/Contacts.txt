@@ -51,6 +51,8 @@
 Атрыманы кантакты ад
 [Contacts]
 Кантакты
+[Events]
+Падзеі
 [Incoming Contacts]
 Уваходныя кантакты
 [Outgoing Contacts]

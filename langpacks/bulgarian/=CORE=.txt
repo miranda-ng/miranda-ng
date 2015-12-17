@@ -2273,10 +2273,10 @@ Win +\s
 Изберете метакнтакт
 [Sender]
 Изпращач
-[&Move to group]
-Преместване в друга група
 [<Root group>]
 <Главна група>
+[&Move to group]
+Преместване в друга група
 [No times]
 Без час
 [Standard hh:mm:ss times]

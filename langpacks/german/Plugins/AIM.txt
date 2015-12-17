@@ -288,8 +288,8 @@ Mailkonto öffnen?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 %s Serververbindung
-[%s Client-to-client connection]
-%s Client-to-Client-Verbindung
+[%s client-to-client connections]
+%s Client-to-Client-Verbindungen
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 \[Automatische Antwort]:

@@ -7,10 +7,10 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Услуга за уведомяване чрез popup за останалите приставки.
-[Content && Style]
+[Content and Style]
 Съдържание и стил
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Персонализиране>Шрифтове за избор на шрифтове и цветове
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+"Персонализиране > Шрифтове и цветове" за избор на шрифтове и цветове
 [Miscellaneous]
 Разни
 [Effects]
@@ -143,8 +143,8 @@ Popup действията са малките бутони под текста.
 Десен бутон:
 [Disable when global status is...]
 Изключване, когато общото състояние е...
-[Colors can be configured in\r\nCustomize > Fonts and colors]
-Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Цветовете се настройват от\r\n"Персонализиране > Шрифтове и цветове"
 [More...]
 Още...
 [Disable if message window is open]
@@ -287,7 +287,7 @@ Popup група
 Включване на Popups
 [Disable Popups]
 Изключване на Popups
-[Popup Plus]
+[Popup plus]
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.
@@ -339,7 +339,7 @@ Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 Състояния на протоколите
 [You cannot specify a value lower than %d and higher than %d.]
 Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
-[Popup Plus Warning]
+[Popup plus warning]
 Popup Plus Предупреждение
 [Failed to register %s class.]
 Неуспешно регистриране на %s class.
@@ -357,7 +357,7 @@ Popup Plus Предупреждение
 Обновяване на списъка
 [Notify]
 Уведомяване
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Обликът който се опитвате да заредите е разработен\r\nза по-нова версия на Popup Plus. Затова\r\nняма да работи нормално.\r\n\r\nМоля, изберете друг облик.
 [Auto]
 Авто

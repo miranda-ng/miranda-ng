@@ -159,10 +159,10 @@ Yahoo Ігнор
 %s злучэнне з серверам
 [ID]
 
-[Please enter your Yahoo ID in Options/Network/Yahoo]
-Увядзіце ваш Yahoo ID - Налады/Сеціва/Yahoo
-[Please enter your Yahoo password in Options/Network/Yahoo]
-Увядзіце ваш Yahoo пароль - Налады/Сеціва/Yahoo
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
+Увядзіце ваш Yahoo ID ("Налады -> Сеціва -> Yahoo")
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
+Увядзіце ваш Yahoo пароль ("Налады -> Сеціва -> Yahoo")
 [Yahoo Login Error]
 Памылка далучэння Yahoo
 [You need to be connected to set the custom message]

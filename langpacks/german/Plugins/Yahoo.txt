@@ -167,9 +167,9 @@ Neue E-Mail im Posteingang
 %s Pluginverbindungen
 [ID]
 ID
-[Please enter your Yahoo ID in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Bitte die Yahoo-ID unter Einstellungen -> Netzwerk -> Yahoo eintragen!
-[Please enter your Yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
 Bitte das Yahoo-Passwort unter Einstellungen -> Netzwerk -> Yahoo eintragen!
 [Yahoo Login Error]
 Yahoo-Anmeldefehler

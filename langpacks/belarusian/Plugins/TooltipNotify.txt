@@ -71,14 +71,8 @@
 Абветскі
 [Other status]
 Іншы статус
-[Tooltip Notify: Online]
-Абвесткі: Далучаны
-[Tooltip Notify: Offline]
-Абвесткі: Адключыўся
-[Tooltip Notify: Other]
-Абвесткі: Іншае
-[Tooltip Notify: Typing]
-Абвесткі: Друкуе
+[Other]
+Іншае
 [Popups]
 Усплывальныя вокны
 [** New contacts **]

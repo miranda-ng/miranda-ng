@@ -73,7 +73,7 @@ Ustaw domyślną nazwę pliku
 [Copy]
 Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the RichEdit the buffer was to small.]
+[Failed to write to the Rich Edit the buffer was to small.]
 Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
 [Error: Optimal buffer size decreased to a too low size!]
 Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
@@ -81,9 +81,9 @@ Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 Błąd wewnętrzny! (lExtraRead >= 0)
 [Failed to execute external file view]
 Nie udało się wykonać zewnętrznego widoku pliku
-[Failed to load Rich Edit ( Msftedit.DLL )]
-Nie udało się załadować pola edycji z formatowaniem ( Msftedit.dll )
-[Failed to get handle to RichEdit!]
+[Failed to load Rich Edit (Msftedit.dll)]
+Nie udało się załadować pola edycji z formatowaniem (Msftedit.dll)
+[Failed to get handle to Rich Edit!]
 Nie udało się otrzymać identyfikatora do pola edycji z formatowaniem!
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
 Nie udało się otworzyć pliku\r\n%s\r\n\r\nIdentyfikator kontaktu jest nieprawidłowy

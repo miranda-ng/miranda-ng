@@ -2461,10 +2461,10 @@ Nie udało się zapisać unikalnego ID kontaktu do metakontaktu
 [Could not write nickname of contact to metacontact]
 Nie udało się zapisać nicka kontaktu do metakontaktu
 ;file \src\mir_app\src\movetogroup.cpp
-[&Move to group]
-&Przenieś do grupy
 [<Root group>]
 <Grupa główna>
+[&Move to group]
+&Przenieś do grupy
 ;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 Standardowy log Netlib

@@ -2,7 +2,7 @@
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 [Set default picture]
 [Delete default picture]
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
 [Try to draw avatar background transparent (for images without transparency)]
 [Number of points to define background:]
 [Color difference allowed:]

@@ -577,14 +577,14 @@ ms между две мигания
 Нагоре
 [&Down]
 Надолу
+[Lock frame]
+Заключване на рамката
 [Show all frames]
 Показване на всички рамки
 [Show all title bars]
 Показване на всички заглавни ленти
 [Hide all title bars]
 Скриване на всички заглавни ленти
-[Lock frame]
-Заключване на рамката
 [&Hide/show]
 Показване/Скриване
 [&Find/add contacts...]

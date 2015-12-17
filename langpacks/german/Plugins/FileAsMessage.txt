@@ -36,7 +36,7 @@ Zu Senden
 Empfangen
 [Use only alphanumeric encoding on transfer]
 Nur alphanumerische Kodierung in Übertragungen verwenden
-[Extra options: Events > File Transfers, "Receiving files" group]
+[Extra options: Events -> File Transfers, "Receiving files" group]
 Weitere Einstellungen: Ereignisse -> Dateiübertragungen, Gruppe "Dateien empfangen"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]

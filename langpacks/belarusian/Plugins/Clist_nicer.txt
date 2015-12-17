@@ -17,8 +17,8 @@
 Выйсці з Міранды
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Было злоўлена выключэнне. Вы можаце і далей працаваць з праграмай, але пажадана перазапусціць Міранду як мага хутчэй. Магчыма, пашкоджаны ўнутраныя структуры дадзеных і гэта можа аказаць сур'ёзны ўплыў на стабільнасць.
-[About CList nicer]
-Пра CList nicer
+[About Clist nicer]
+Пра Clist nicer
 [Clist nicer]
 Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -423,8 +423,8 @@ Clist nicer
 Іншае
 [Hide this contact from the list]
 Схаваць кантакт са спісу
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Каб паказаць раней схаваны кантакт, адкрыйце "Налады -> Падзеі -> Ігнараваць", знайдзіце кантакт, і пастаўце галачку перад яго імем.
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+Каб паказаць раней схаваны кантакт, адкрыйце "Налады -> Кантакты -> Ігнараваць", знайдзіце кантакт, і пастаўце галачку перад яго імем.
 [Display options]
 Опцыі адлюстравання
 [Show contact with priority]
@@ -685,14 +685,6 @@ Clist nicer
 &Уверх
 [&Down]
 У&ніз
-[Frames]
-Фрэймы
-[Show all frames]
-Паказаць усе фрэймы
-[Show all title bars]
-Паказваць назвы
-[Hide all title bars]
-Схаваць назвы
 [Lock frame]
 Замацаваць фрэйм
 [Visible]
@@ -703,6 +695,14 @@ Clist nicer
 Ужываць скін да фрэйма
 [Floating]
 Плывучае
+[Frames]
+Фрэймы
+[Show all frames]
+Паказаць усе фрэймы
+[Show all title bars]
+Паказваць назвы
+[Hide all title bars]
+Схаваць назвы
 [Title bar]
 Загаловак
 [Tool Window]

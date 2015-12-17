@@ -8,10 +8,10 @@
 [Provides popup notification services for different plugins.]
 Stellt Popup-Benachrichtigungen für verschiedene andere Plugins bereit.
 ;file \plugins\Popup\res\resource.rc
-[Content && Style]
-Inhalt && Stil
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Gehen Sie zu Customize -> Schriften && Farben für Schrift- und Farbeinstellungen.
+[Content and Style]
+Inhalt und Stil
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Gehen Sie zu Customize -> Schriften und Farben für Schrift- und Farbeinstellungen.
 [Miscellaneous]
 Sonstiges
 [Effects]
@@ -150,8 +150,8 @@ Rechtsklick-Aktion:
 Deaktivieren, wenn globaler Status...
 [Disable when relevant protocol's status is...]
 Deaktivieren, wenn Protokollstatus...
-[Colors can be configured in\r\nCustomize > Fonts and colors]
-Farbkonfiguration unter Customize -> Schriftarten
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Farbkonfiguration unter Customize -> Schriften und Farben
 [More...]
 Mehr...
 [Disable if message window is open]
@@ -315,8 +315,8 @@ Popups ein-/ausschalten
 Popups aktivieren
 [Disable Popups]
 Popups deaktivieren
-[Popup Plus]
-Popup Plus
+[Popup plus]
+Popup plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -372,8 +372,8 @@ Protokoll Status
 Werte kleiner als %d und größer als %d sind nicht zulässig.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 'Popups neu ordnen' ist momentan deaktiviert.\r\nDies kann Popups falsch darstellen, wenn Avatare\r\nund Textersetzungen verwendet werden (hauptsächlich NewXstatusNotify).\r\nWollen Sie die Popup Neuanordnung jetzt aktivieren?
-[Popup Plus Warning]
-Popup Plus Warnung
+[Popup plus warning]
+Popup plus Warnung
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 Fehler beim Registrieren %s dieser Klasse.
@@ -407,7 +407,7 @@ Liste aktualisieren
 [Notify]
 Benachrichtigung
 ;file \plugins\Popup\src\skin.cpp
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Der Skin, den Sie zu laden versuchen, wurde für\r\neine neuere Popup+-Version entwickelt und wird\r\nnicht korrekt angezeigt werden.\r\n\r\nBitte wählen Sie einen anderen Skin aus.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]

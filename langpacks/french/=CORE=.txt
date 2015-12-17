@@ -2461,10 +2461,10 @@ Impossible d'écrire l'ID du contact au metacontact
 [Could not write nickname of contact to metacontact]
 Impossible d'écrire le pseudo du contact au metacontact
 ;file \src\mir_app\src\movetogroup.cpp
-[&Move to group]
-&Déplacer vers le groupe
 [<Root group>]
 <sans groupe>
+[&Move to group]
+&Déplacer vers le groupe
 ;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 

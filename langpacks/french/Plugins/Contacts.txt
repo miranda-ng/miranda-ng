@@ -53,6 +53,8 @@ Détails du contact
 
 [Contacts]
 Contacts
+[Events]
+Évènements
 [Incoming Contacts]
 Contacts entrants
 [Outgoing Contacts]

@@ -288,7 +288,7 @@ Otworzyć pocztę?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[%s Client-to-client connection]
+[%s client-to-client connections]
 Połączenie Klient-do-Klienta %s
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]

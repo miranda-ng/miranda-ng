@@ -17,8 +17,8 @@ CList nicer изключение
 Изход от Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Въпреки проблемът ви можете да продължите работата си с Miranda, но е наложително да рестарти-\nрате програмата възможно най-скоро. Има вероятност грешката да е повредила вътрешната струк-\nтура на данните, което може да се отрази сериозно на стабилността.
-[About CList nicer]
-Относно CList nicer
+[About Clist nicer]
+Относно Clist nicer
 [Clist nicer]
 Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -387,8 +387,8 @@ URL събития
 Друго
 [Hide this contact from the list]
 Скриване на контакта от списъка
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-За да покажете скрит контакт отидете в "Настройки > Събития > Игнориране". Потърсете контакта в списъка и отметнете полето за отметка до него.
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+За да покажете скрит контакт отидете в "Настройки > Контакти > Игнориране". Потърсете контакта в списъка и отметнете полето за отметка до него.
 [Display options]
 Настройки за изобразяване
 [Show contact with priority]
@@ -643,14 +643,6 @@ URL събития
 Нагоре
 [&Down]
 Надолу
-[Frames]
-Рамки
-[Show all frames]
-Показване на всички рамки
-[Show all title bars]
-Показване на всички заглавни ленти
-[Hide all title bars]
-Скриване на всички заглавни ленти
 [Lock frame]
 Заключване на рамката
 [Visible]
@@ -661,6 +653,14 @@ URL събития
 Облицована рамка
 [Floating]
 Плаващо
+[Frames]
+Рамки
+[Show all frames]
+Показване на всички рамки
+[Show all title bars]
+Показване на всички заглавни ленти
+[Hide all title bars]
+Скриване на всички заглавни ленти
 [Title bar]
 Заглавна лента
 [Thin border]

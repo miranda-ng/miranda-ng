@@ -155,10 +155,10 @@ Yahoo игнориране
 Връзки на приставката "%s"
 [ID]
 Идентификатор
-[Please enter your Yahoo ID in Options/Network/Yahoo]
-Въведете Yahoo ID в Настройки/Мрежа/Yahoo
-[Please enter your Yahoo password in Options/Network/Yahoo]
-Моля, въведете паролата си в Настройки>Мрежа>Yahoo
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
+Въведете Yahoo ID в "Настройки > Мрежа > Yahoo"
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
+Въведете паролата си в "Настройки > Мрежа > Yahoo"
 [Yahoo Login Error]
 Yahoo грешка при вписването
 [You need to be connected to set the custom message]

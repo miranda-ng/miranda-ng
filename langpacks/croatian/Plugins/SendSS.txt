@@ -206,7 +206,7 @@ Strelica dolje
 
 [Screenshots]
 
-[Image services (AdvaImg) not found.\nSendSS disabled.]
+[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
 
 [Buttons]
 

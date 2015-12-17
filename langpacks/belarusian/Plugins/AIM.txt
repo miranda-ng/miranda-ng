@@ -281,8 +281,8 @@ AIM Усталяваць Instant Idle
 Адчыніць скрыню конта?
 [%s server connection]
 Далучэнне да сервера %s
-[%s Client-to-client connection]
-%s  злучэнне кліент-кліент
+[%s client-to-client connections]
+Злучэнні паміж кліентамі %s
 [[Auto-Response]:]
 (Аўтаадказ):
 [Contact tried to open an audio/video conference (not currently supported)]
