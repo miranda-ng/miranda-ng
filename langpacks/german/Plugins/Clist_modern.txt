@@ -619,14 +619,14 @@ Mitte, &Kontakte
 A&uf
 [&Down]
 &Ab
+[Lock frame]
+Keine Größenänderung
 [Show all frames]
 Alle Frames anzeigen
 [Show all title bars]
 Alle Titelleisten anzeigen
 [Hide all title bars]
 Alle Titelleisten verstecken
-[Lock frame]
-Keine Größenänderung
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 Zeigen/&Ausblenden

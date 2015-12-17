@@ -209,8 +209,8 @@ AIM настройки
 Отваряне на пощенския акаунт?
 [%s server connection]
 %s връзка със сървъра
-[%s Client-to-client connection]
-%s връзки клиент-с-клиент
+[%s client-to-client connections]
+%s връзки client-to-client
 [[Auto-Response]:]
 (Автоотговор):
 [No information has been provided by the server.]

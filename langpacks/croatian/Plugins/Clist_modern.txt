@@ -619,13 +619,13 @@ opcije
 
 [&Down]
 
+[Lock frame]
+
 [Show all frames]
 
 [Show all title bars]
 
 [Hide all title bars]
-
-[Lock frame]
 
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]

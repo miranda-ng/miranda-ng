@@ -619,14 +619,14 @@ Tryb &pływający
 &Góra
 [&Down]
 &Dół
+[Lock frame]
+Zablokuj ramkę
 [Show all frames]
 Pokaż wszystkie ramki
 [Show all title bars]
 Pokaż wszystkie paski tytułów
 [Hide all title bars]
 Ukryj wszystkie paski tytułów
-[Lock frame]
-Zablokuj ramkę
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 &Ukryj/pokaż

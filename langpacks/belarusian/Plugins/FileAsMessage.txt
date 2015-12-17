@@ -35,8 +35,8 @@
 прынята
 [Use only alphanumeric encoding on transfer]
 Толькі літарна-цыфравая кадоўка для перадачы
-[Extra options: Events > File Transfers, "Receiving files" group]
-Дад. налады: Падзеі> Перадача файлаў, "Прыём файлаў"
+[Extra options: Events -> File Transfers, "Receiving files" group]
+Дад. налады: "Падзеі -> Перадача файлаў", "Прыём файлаў"
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
 [Couldn't open a file]

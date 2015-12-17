@@ -288,8 +288,8 @@ Raccourci du protocole AIM
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 %s serveur connexion
-[%s Client-to-client connection]
-
+[%s client-to-client connections]
+%s client-to-client connexions
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 {Auto-Response} :

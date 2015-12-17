@@ -73,7 +73,7 @@ Setze Standard-Dateiname
 [Copy]
 Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the RichEdit the buffer was to small.]
+[Failed to write to the Rich Edit the buffer was to small.]
 
 [Error: Optimal buffer size decreased to a too low size!]
 
@@ -81,9 +81,9 @@ Kopieren
 Interner Fehler! (lExtraRead >= 0)
 [Failed to execute external file view]
 
-[Failed to load Rich Edit ( Msftedit.DLL )]
+[Failed to load Rich Edit (Msftedit.dll)]
 
-[Failed to get handle to RichEdit!]
+[Failed to get handle to Rich Edit!]
 
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
 

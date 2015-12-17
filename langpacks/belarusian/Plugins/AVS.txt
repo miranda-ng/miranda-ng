@@ -13,7 +13,7 @@
 Усталяваць стандартнае
 [Delete default picture]
 Выдаліць стандартнае
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
 ПАПЯРЭДЖАННЕ: Гэтыя выявы НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
 [Try to draw avatar background transparent (for images without transparency)]
 Выводзіць фон аватара празрыстым (для аватараў без празрыстасці)

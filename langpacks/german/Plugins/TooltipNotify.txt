@@ -73,14 +73,8 @@ Untätigkeit
 Tooltip-Benachrichtigung
 [Other status]
 Andere Status
-[Tooltip Notify: Online]
-Tooltip Notify: Online
-[Tooltip Notify: Offline]
-Tooltip Notify: Offline
-[Tooltip Notify: Other]
-Tooltip Notify: Andere
-[Tooltip Notify: Typing]
-Tooltip Notify: Tippen
+[Other]
+Sonstige
 [Popups]
 Popups
 [** New contacts **]

@@ -167,9 +167,9 @@ Nowy e-mail w skrzynce
 Połączenie %s
 [ID]
 ID
-[Please enter your Yahoo ID in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
-[Please enter your Yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
 Podaj swoje hasło Yahoo w Opcje -> Protokoły -> Yahoo
 [Yahoo Login Error]
 Błąd logowania Yahoo

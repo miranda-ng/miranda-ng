@@ -14,7 +14,7 @@
 Changer d'image par défaut
 [Delete default picture]
 Effacer l'image
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
 
 [Try to draw avatar background transparent (for images without transparency)]
 Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)

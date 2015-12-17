@@ -71,17 +71,17 @@ UTF8 у новых файлах
 Імя файла па змаўчанні
 [Copy]
 Капіяваць
-[Failed to write to the RichEdit the buffer was to small.]
-Не атрымалася запісаць у RichEdit.
+[Failed to write to the Rich Edit the buffer was to small.]
+Не атрымалася запісаць у Rich Edit.
 [Error: Optimal buffer size decreased to a too low size!]
 
 [Internal error! (lExtraRead >= 0)]
 
 [Failed to execute external file view]
 
-[Failed to load Rich Edit ( Msftedit.DLL )]
+[Failed to load Rich Edit (Msftedit.dll)]
 
-[Failed to get handle to RichEdit!]
+[Failed to get handle to Rich Edit!]
 
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
 

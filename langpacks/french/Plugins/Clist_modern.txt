@@ -619,14 +619,14 @@ Parti &manger\tCtrl+9
 &Vers le Haut
 [&Down]
 &Vers le Bas
+[Lock frame]
+Cadre vérouillé
 [Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock frame]
-Cadre vérouillé
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 &Afficher/Cacher

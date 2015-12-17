@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.4
+;  Version: 0.2.11.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -79,7 +79,7 @@ URL:
 Публікаваць статусы Miranda на сцяну
 [Turn off chat on Facebook when going to offline in Miranda]
 Адключаць чат на сайце пры адключэнні
-[Map unsupported statuses to Invisible (instead of Online)]
+[Map unsupported statuses to Invisible (instead of Away)]
 
 [Allow posting statuses to my pages (may slow down login)]
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)

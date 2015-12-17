@@ -33,6 +33,8 @@ ms
 Контакти
 [Idle]
 Бездействие
+[Other]
+Друго
 [Popups]
 Рopups
 [** New contacts **]

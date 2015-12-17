@@ -72,7 +72,6 @@
 [DNS Fail.]
 [Failed to open file: %s : %s]
 [Open mail account?]
-[%s Client-to-client connection]
 [Contact tried to open an audio/video conference (not currently supported)]
 [Error adding buddy (invalid ID or already in list?)]
 [Unknown error when adding buddy to list. Error code %#x]

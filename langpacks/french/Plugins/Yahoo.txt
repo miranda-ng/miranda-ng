@@ -167,10 +167,10 @@ Compte
 
 [ID]
 ID
-[Please enter your Yahoo ID in Options/Network/Yahoo]
-Veuillez entrer votre ID Yahoo dans Options/Réseaux/Yahoo
-[Please enter your Yahoo password in Options/Network/Yahoo]
-Veuillez entrer votre passe Yahoo dans Options/Réseaux/Yahoo
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
+Veuillez entrer votre ID Yahoo dans Options -> Réseaux -> Yahoo
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
+Veuillez entrer votre passe Yahoo dans Options -> Réseaux -> Yahoo
 [Yahoo Login Error]
 Erreur de login Yahoo
 ;file \protocols\Yahoo\src\services.cpp

@@ -18,8 +18,8 @@ Kontynuuj
 Wyłącz Mirandę
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Mimo, że wyjątek został wyłapany i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
-[About CList nicer]
-O CList nicer
+[About Clist nicer]
+O Clist nicer
 [Clist nicer]
 Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -424,7 +424,7 @@ Zawsze rozłączony (kontakt zablokowany)
 Inne
 [Hide this contact from the list]
 Ukryj kontakt na liście kontaktów
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 Aby wyświetlić wcześniej ukryty kontakt, przejdź do Opcje -> Kontakty -> Ignorowanie, wyszukaj kontakt na liście i zaznacz pole wyboru obok jego nazwy.
 [Display options]
 Opcje wyświetlania
@@ -693,14 +693,6 @@ W&yrównanie
 &Góra
 [&Down]
 &Dół
-[Frames]
-Ramki
-[Show all frames]
-Pokaż wszystkie ramki
-[Show all title bars]
-Pokaż wszystkie paski tytułów
-[Hide all title bars]
-Ukryj wszystkie paski tytułów
 [Lock frame]
 Zablokuj ramkę
 [Visible]
@@ -711,6 +703,14 @@ Pokaż pasek tytułu
 Skórkowalna ramka
 [Floating]
 Pływający
+[Frames]
+Ramki
+[Show all frames]
+Pokaż wszystkie ramki
+[Show all title bars]
+Pokaż wszystkie paski tytułów
+[Hide all title bars]
+Ukryj wszystkie paski tytułów
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Nagłówek okna

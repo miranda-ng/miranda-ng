@@ -14,7 +14,7 @@
 [Use logging notifications into special chatroom]
 [Statuses]
 [Turn off chat on Facebook when going to offline in Miranda]
-[Map unsupported statuses to Invisible (instead of Online)]
+[Map unsupported statuses to Invisible (instead of Away)]
 [Allow posting statuses to my pages (may slow down login)]
 [Bots challenge test]
 [Show stickers as custom smileys (EXPERIMENTAL)]

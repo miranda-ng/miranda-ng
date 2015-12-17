@@ -14,7 +14,7 @@
 
 [Delete default picture]
 
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatars.]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
 
 [Try to draw avatar background transparent (for images without transparency)]
 

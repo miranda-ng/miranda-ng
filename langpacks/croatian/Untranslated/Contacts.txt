@@ -16,6 +16,7 @@
 [Send Message]
 [Contacts received from]
 [Contacts]
+[Events]
 [Incoming Contacts]
 [Outgoing Contacts]
 [Nick]

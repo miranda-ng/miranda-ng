@@ -53,6 +53,8 @@ Wyślij wiadomość
 Otrzymano kontakty od
 [Contacts]
 Kontakty
+[Events]
+Zdarzenia
 [Incoming Contacts]
 Przychodzący kontakt
 [Outgoing Contacts]

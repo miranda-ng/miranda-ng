@@ -73,14 +73,8 @@ Bezczynność
 Powiadomienia
 [Other status]
 Inny status
-[Tooltip Notify: Online]
-Powiadomienia: Dostępny
-[Tooltip Notify: Offline]
-Powiadomienia: Rozłączony
-[Tooltip Notify: Other]
-Powiadomienia: Inne
-[Tooltip Notify: Typing]
-Powiadomienia: Pisanie
+[Other]
+Inne
 [Popups]
 Popupy
 [** New contacts **]

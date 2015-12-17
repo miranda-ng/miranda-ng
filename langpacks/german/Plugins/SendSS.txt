@@ -206,8 +206,8 @@ SendSS-HTTP-Verbindungen
 SendSS
 [Screenshots]
 Screenshots
-[Image services (AdvaImg) not found.\nSendSS disabled.]
-Bilderdienste (AdvaImg) nicht gefunden.\nSendSS deaktiviert.
+[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
+Bilderdienste (AdvaImg-Plugin) nicht gefunden.\nSendSS deaktiviert.
 [Buttons]
 Schaltflächen
 [Could not register Miranda service.]

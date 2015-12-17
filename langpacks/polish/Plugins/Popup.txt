@@ -8,10 +8,10 @@
 [Provides popup notification services for different plugins.]
 Dostarcza usługi powiadomień popup dla innych wtyczek.
 ;file \plugins\Popup\res\resource.rc
-[Content && Style]
+[Content and Style]
 Zawartość i wygląd
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Przejdź do Dostosuj -> Czcionki żeby ustawić czcionki i kolory
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Przejdź do Dostosuj -> Czcionki i kolory żeby ustawić czcionki i kolory
 [Miscellaneous]
 Różne
 [Effects]
@@ -150,8 +150,8 @@ Akcja PPM:
 Wyłącz, kiedy globalny status to...
 [Disable when relevant protocol's status is...]
 Wyłącz, jeśli stosowany status protokołu to...
-[Colors can be configured in\r\nCustomize > Fonts and colors]
-Kolory mogą zostać skonfigurowane w\r\nPersonalizacja > Czcionki i kolory
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Kolory mogą zostać skonfigurowane w\r\nPersonalizacja -> Czcionki i kolory
 [More...]
 Więcej...
 [Disable if message window is open]
@@ -315,7 +315,7 @@ Włącz/Wyłącz popupy
 Włącz popupy
 [Disable Popups]
 Wyłącz popupy
-[Popup Plus]
+[Popup plus]
 Popupy
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
@@ -372,8 +372,8 @@ Status protokołu
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Opcja "Zmień kolejność popupów" jest obecnie wyłączona.\r\nTo może spowodować nieprawidłowo wyrównane Popupy w połączeniu z\r\nawatarami and zamianą tekstu\ngłównie NewXstatusNotify).\r\n\r\nCzy chcesz teraz włączyć zmianę kolejności popupów?\r\n
-[Popup Plus Warning]
-Ostrzeżenie Popup Plus
+[Popup plus warning]
+Ostrzeżenie Popup plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 Nie udało się zarejestrować klasy %s.
@@ -407,8 +407,8 @@ Nie udało się zarejestrować własnej klasy okna pola edycji.\r\n\r\nMIN %hd m
 [Notify]
 Powiadomienia
 ;file \plugins\Popup\src\skin.cpp
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-Skórka, którą próbujesz załadować jest zaprojektowana\r\ndla nowszej wersji Popup+. I nie będzie\r\nwyświetlać się poprawnie.\r\n\r\nProszę wybrać inną skórkę.
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+Skórka, którą próbujesz załadować jest zaprojektowana\r\ndla nowszej wersji Popup plus. I nie będzie\r\nwyświetlać się poprawnie.\r\n\r\nProszę wybrać inną skórkę.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Automatyczny

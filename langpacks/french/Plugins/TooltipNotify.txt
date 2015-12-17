@@ -73,14 +73,8 @@ Inactif
 
 [Other status]
 
-[Tooltip Notify: Online]
-
-[Tooltip Notify: Offline]
-
-[Tooltip Notify: Other]
-
-[Tooltip Notify: Typing]
-
+[Other]
+Autre
 [Popups]
 Popups
 [** New contacts **]
