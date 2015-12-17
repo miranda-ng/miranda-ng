@@ -336,39 +336,35 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM)
 
 static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
-	TCHAR str[128];
-	char *szProto = GetContactProto(hContact);
-	int iHidden = szProto ? db_get_b(hContact, szProto, "ChatRoom", 0) : 0;
-	int iStatus;
+	Menu_ShowItem(hCopyMsgMenuItem, false);
+	Menu_ShowItem(hGoToURLMenuItem, false);
+	Menu_ShowItem(hAwayMsgMenuItem, false);
 
-	if (!iHidden) {
-		iHidden = 1;
-		iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
-				iHidden = 0;
-				HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
-				mir_sntprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-				Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
-				IcoLib_ReleaseIcon(hIcon);
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0))
+		return 0;
+
+	TCHAR str[128];
+	int iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
+			HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
+			mir_sntprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+			Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon);
+
+			ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
+			if (szMsg != NULL) {
+				mir_sntprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+				Menu_ModifyItem(hCopyMsgMenuItem, str);
+
+				if (StrFindURL(szMsg) != NULL) {
+					mir_sntprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+					Menu_ModifyItem(hGoToURLMenuItem, str);
+				}
 			}
 		}
 	}
-	else Menu_ShowItem(hAwayMsgMenuItem, false);
-
-	ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
-
-	if (!iHidden && szMsg != NULL) {
-		mir_sntprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-		Menu_ModifyItem(hCopyMsgMenuItem, str);
-	}
-	else Menu_ShowItem(hCopyMsgMenuItem, false);
-
-	if (!iHidden && szMsg != NULL && StrFindURL(szMsg) != NULL) {
-		mir_sntprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-		Menu_ModifyItem(hGoToURLMenuItem, str);
-	}
-	else Menu_ShowItem(hGoToURLMenuItem, false);
 
 	return 0;
 }
