@@ -271,7 +271,12 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						str.append(toUTF16(tmp));
 						delete[] tmp;
 						f.close();
-						boost::filesystem::remove(tszDecPath);
+						boost::system::error_code ec;
+						boost::filesystem::remove(tszDecPath, ec);
+						if(ec)
+						{
+							//TODO: handle error
+						}
 					}
 				}
 				if (str.empty())
@@ -608,15 +613,29 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	}
 	path += L"\\tmp\\";
 	path += file;
+	const int timeout = 5000, step = 100;
+	int count = 0;
 	{
 		fstream f(path.c_str(), std::ios::out);
 		while (!f.is_open()) {
-			boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+			boost::this_thread::sleep(boost::posix_time::milliseconds(step));
+			count += step;
+			if(count >= timeout)
+			{
+				db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0); //disable encryption
+				setSrmmIcon(hContact);
+				setClistIcon(hContact);
+				debuglog << std::string(time_str() + ": info: failed to create temporary file for encryption, disabling encryption to avoid deadlock");
+				break;
+			}
 			f.open(path.c_str(), std::ios::out);
 		}
-		std::string tmp = toUTF8(str);
-		f.write(tmp.c_str(), tmp.size());
-		f.close();
+		if(count < timeout)
+		{
+			std::string tmp = toUTF8(str);
+			f.write(tmp.c_str(), tmp.size());
+			f.close();
+		}
 	}
 	pxResult result;
 	{
@@ -676,8 +695,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	boost::filesystem::remove(path);
 	path.append(_T(".asc"));
 	wfstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
-	const int timeout = 5000, step = 100;
-	int count = 0;
+	count = 0;
 	while (!f.is_open()) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(step));
 		f.open(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
