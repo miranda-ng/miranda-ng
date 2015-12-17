@@ -220,7 +220,7 @@ Awatary: serwer zwrócił kod HTTP: %lu
 Awatary: nie można otworzyć pliku %s, błąd
 ;file \protocols\MRA\src\MraChat.cpp
 [Chat plugin is required for conferences. Install it before chatting]
-
+Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę do czatowania
 [invite sender]
 zaproś nadawcę
 [invite new members]

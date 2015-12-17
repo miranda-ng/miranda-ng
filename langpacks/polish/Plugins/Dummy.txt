@@ -9,7 +9,7 @@
 
 ;file \protocols\Dummy\res\resource.rc
 [Protocol template:]
-
+Szablon protokołu:
 [Unique ID setting:]
 Ustawienie unikalnego ID:
 [Name of setting that holds unique identifier of contacts]
@@ -21,7 +21,7 @@ Widoczna nazwa unikalnego identyfikatora kontaktów
 [Restart is required to apply these changes.]
 Do zastosowania tych zmian wymagany jest restart.
 [Allow sending messages to contacts]
-
+Zezwól wysyłać wiadomości do kontaktów
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Niestandardowe
@@ -30,13 +30,13 @@ Wyświetlana nazwa
 [User name]
 Nazwa użytkownika
 [Facebook ID]
-
+Facebook ID
 [Gadu-Gadu Number]
 Numer Gadu-Gadu
 [User ID]
 ID użytkownika
 [ICQ number]
-
+Numer ICQ
 [Nickname]
 Nick
 [JID]
@@ -46,23 +46,23 @@ Widoczna nazwa
 [E-mail address]
 Adres e-mail
 [Live ID]
-Identyfikator Live
+Live ID
 [ID]
 ID
 [Skype name]
-
+Nazwa Skype
 [Steam ID]
-
+Steam ID
 [Tlen login]
 Logowanie Tlen
 [Tox ID]
-
+Tox ID
 [Username]
 Użytkownik
 [VK ID]
-
+VK ID
 [WhatsApp ID]
-
+WhatsApp ID
 ;file \protocols\Dummy\src\dummy_proto.cpp
 [This Dummy account has disabled sending messages. Enable it in account options.]
 
