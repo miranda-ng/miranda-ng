@@ -178,7 +178,7 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 	//  uin = db_get_dw(ccs->hContact, ICQCORP_PROTONAME, "UIN", 0);
 	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE) return 0;
 
-	icqEvent = icq.sendMessage(u, (char*)ccs->lParam);
+	icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
