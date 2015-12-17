@@ -613,14 +613,14 @@ xСтатус: xПовідомлення
 &Вгору
 [&Down]
 В&низ
+[Lock frame]
+Закріпити фрейм
 [Show all frames]
 Показати всі фрейми
 [Show all title bars]
 Показати назви
 [Hide all title bars]
 Сховати назви
-[Lock frame]
-Закріпити фрейм
 [&Hide/show]
 С&ховати/Показати
 [&Find/add contacts...]

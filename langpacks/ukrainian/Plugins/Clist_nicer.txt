@@ -677,14 +677,6 @@
 &Вгору
 [&Down]
 В&низ
-[Frames]
-Фрейми
-[Show all frames]
-Показати всі фрейми
-[Show all title bars]
-Показати назви
-[Hide all title bars]
-Сховати назви
 [Lock frame]
 Закріпити фрейм
 [Visible]
@@ -695,6 +687,14 @@
 Застосовувати скін до фрейму
 [Floating]
 Плаваюче
+[Frames]
+Фрейми
+[Show all frames]
+Показати всі фрейми
+[Show all title bars]
+Показати назви
+[Hide all title bars]
+Сховати назви
 [Title bar]
 Заголовок
 [Tool Window]

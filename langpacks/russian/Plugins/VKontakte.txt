@@ -104,7 +104,7 @@ E-mail или номер телефона:
 [Force invisible status upon user activity]
 Переводить статус контакта в невидимый при его активности
 [Invisible interval timeout (min):]
-Интервал перевода в "невидимый" (мин):
+Интервал перевода в "Невидимый" (мин):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Использовать нестандартный urlEncode для сообщений (экономия трафика)
 [Use non-standard popups for news and event notifications]
