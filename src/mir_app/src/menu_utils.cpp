@@ -575,11 +575,6 @@ static int FreeMenuItem(TMO_IntMenuItem* pimi, void*)
 	return FALSE;
 }
 
-static int FindParent(TMO_IntMenuItem* pimi, void* p)
-{
-	return pimi->next == p;
-}
-
 MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 {
 	mir_cslock lck(csMenuHook);
@@ -592,14 +587,7 @@ MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 		pimi->submenu.first = NULL;
 	}
 
-	TMO_IntMenuItem *prev = MO_RecursiveWalkMenu(pimi->owner->first, FindParent, pimi);
-	if (prev)
-		prev->next = pimi->next;
-	if (pimi->owner->first == pimi)
-		pimi->owner->first = pimi->next;
-	if (pimi->owner->last == pimi)
-		pimi->owner->last = prev;
-
+	pimi->owner->remove(pimi);
 	pimi->signature = 0; // invalidate all future calls to that object
 	pimi->parent->freeItem(pimi);
 	return 0;
@@ -1040,9 +1028,13 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 				if (p == NULL)
 					return NULL;
 
+				pimi->mi.root = p;
 				pNew = &p->submenu;
 			}
-			else pNew = &pmo->m_items;			
+			else {
+				pimi->mi.root = NULL;
+				pNew = &pmo->m_items;
+			}
 
 			// relink menu item
 			pimi->owner->remove(pimi);
