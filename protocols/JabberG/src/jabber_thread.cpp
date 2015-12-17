@@ -1202,11 +1202,27 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			if (ptszText == NULL)
 				return;
 
-			TCHAR *prolog = _T("-----BEGIN PGP MESSAGE-----\r\n\r\n");
+			//XEP-0027 is not strict enough, different clients have different implementations
+			//additional validation is required
+			TCHAR *prolog = _T("-----BEGIN PGP MESSAGE-----");
+			TCHAR *prolog_newline = _T("\r\n\r\n");
 			TCHAR *epilog = _T("\r\n-----END PGP MESSAGE-----\r\n");
-			size_t len = mir_tstrlen(prolog) + mir_tstrlen(ptszText) + mir_tstrlen(epilog) + 3;
-			TCHAR *tempstring = (TCHAR*)_alloca(sizeof(TCHAR)*len);
-			mir_sntprintf(tempstring, len, _T("%s%s%s"), prolog, ptszText, epilog);
+
+			size_t len = 0;
+			TCHAR *tempstring = nullptr;
+			if(!_tcsstr(ptszText, prolog))
+			{
+				len = mir_tstrlen(prolog) + mir_tstrlen(prolog_newline) + mir_tstrlen(ptszText) + mir_tstrlen(epilog) + 3;
+				tempstring = (TCHAR*)_alloca(sizeof(TCHAR)*len);
+				mir_sntprintf(tempstring, len, _T("%s%s%s%s"), prolog, prolog_newline, ptszText, epilog);
+			}
+			else
+			{
+				len = mir_tstrlen(ptszText) + 3;
+				tempstring = (TCHAR*)_alloca(sizeof(TCHAR)*len);
+				mir_sntprintf(tempstring, len, _T("%s"), ptszText);
+			}
+			
 			szMessage = tempstring;
 		}
 		else if (!mir_tstrcmp(ptszXmlns, JABBER_FEAT_DELAY) && msgTime == 0) {
