@@ -940,8 +940,11 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 				mi.name.a = LPGEN("New submenu");
 				mi.position = 500050000;
 				BYTE *p = (BYTE*)&mi.uid;
-				for (int i = 0; i < 16; i++)
-					sscanf(&szCustomMenu[i*2], "%02x", &p[i]);
+				for (int i = 0; i < sizeof(MUUID); i++) {
+					int tmp;
+					sscanf(&szCustomMenu[i*2], "%02x", &tmp);
+					p[i] = tmp;
+				}
 				Menu_AddItem(pmo->id, &mi, NULL);
 			}
 
