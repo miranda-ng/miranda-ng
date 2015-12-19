@@ -132,6 +132,7 @@ void RebuildContact()
 	mi.root = mhExIm;
 
 	// Export
+	SET_UID(mi, 0xD88AF855, 0x4C85, 0x4D84, 0x9D, 0xAB, 0x8C, 0xEC, 0x5E, 0x8E, 0xED, 0xC2);
 	mi.pszService = MS_USERINFO_VCARD_EXPORT;
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export user details");
 	mi.position = 1000050200;
@@ -139,6 +140,7 @@ void RebuildContact()
 	hMenuItem[2] = Menu_AddContactMenuItem(&mi);
 
 	// Import
+	SET_UID(mi, 0x3DD52244, 0x0AD8, 0x4A0E, 0xB2, 0x6B, 0xB4, 0xB8, 0x4B, 0x1C, 0x33, 0x7C);
 	mi.pszService = MS_USERINFO_VCARD_IMPORT;
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import user details");
 	mi.position = 1000050300;
