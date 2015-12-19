@@ -211,6 +211,8 @@ protected:
 	static void CSteamProto::ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
+	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
+
 	// helpers
 	inline int IdleSeconds() {
 		// Based on idle time we report Steam server will mark us as online/away/snooze
