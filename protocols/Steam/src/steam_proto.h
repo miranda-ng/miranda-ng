@@ -72,7 +72,6 @@ public:
 
 protected:
 	TCHAR *password;
-	bool isTerminated;
 	bool isLoginAgain;
 	time_t m_idleTS;
 	HANDLE m_evRequestsQueue, m_hQueueThread;
