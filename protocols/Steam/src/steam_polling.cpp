@@ -227,7 +227,8 @@ void CSteamProto::PollingThread(void*)
 						// need to relogin
 						debugLog(_T("CSteamProto::PollingThread: Not Logged On"));
 
-						if (Relogin())
+						// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
+						if (IsOnline() && Relogin())
 						{
 							// load umqId and messageId again
 							umqId = getStringA("UMQID"); // it's ptrA so we can assign it without fearing a memory leak
