@@ -300,7 +300,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 	{
-		if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
+		if (response && response->resultCode == HTTP_CODE_UNAUTHORIZED)
 		{
 			// Probably expired TokenSecret
 			HandleTokenExpired();
