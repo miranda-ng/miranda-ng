@@ -34,7 +34,7 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char* message)
 	return hMessage;
 }
 
-void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 

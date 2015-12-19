@@ -358,7 +358,7 @@ void CSteamProto::ProcessContact(std::map<std::string, JSONNode*>::iterator *it,
 	}
 }
 
-void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnGotFriendList(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 		return;
@@ -443,7 +443,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 	}
 }
 
-void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnGotBlockList(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 		return;
@@ -487,7 +487,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response)
 	}
 }
 
-void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnGotUserSummaries(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 		return;
@@ -522,7 +522,7 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 	}
 }
 
-void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = (UINT_PTR)arg;
@@ -551,7 +551,7 @@ void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnFriendAdded(const HttpResponse *response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam*)arg;
 
@@ -572,7 +572,7 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
 }
 
-void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnFriendBlocked(const HttpResponse *response, void *arg)
 {
 	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
@@ -581,7 +581,7 @@ void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnFriendRemoved(const HttpResponse *response, void *arg)
 {
 	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
@@ -593,7 +593,7 @@ void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
 {
 	if (!ResponseHttpOk(response))
 	{
@@ -661,7 +661,7 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 	json_delete(nodes);
 }
 
-void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnPendingApproved(const HttpResponse *response, void *arg)
 {
 	if (!ResponseHttpOk(response))
 	{
@@ -681,7 +681,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 	}
 }
 
-void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
 {
 	if (!ResponseHttpOk(response))
 	{
@@ -701,7 +701,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 	}
 }
 
-void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnSearchByIdEnded(const HttpResponse *response, void *arg)
 {
 	if (!ResponseHttpOk(response))
 	{
@@ -756,7 +756,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 	json_delete(nodes);
 }
 
-void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *, void *)
+void CSteamProto::OnSearchByNameStarted(const HttpResponse *, void *)
 {
 }
 

@@ -14,7 +14,7 @@ bool CSteamProto::IsMe(const char *steamId)
 	return false;
 }
 
-void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 		return;
@@ -73,7 +73,7 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 		&CSteamProto::OnAuthorization);
 }
 
-void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnAuthorization(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 	{
@@ -227,7 +227,7 @@ void CSteamProto::OnAuthorizationSuccess(const JSONNode &node)
 		&CSteamProto::OnLoggedOn);
 }
 
-void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnGotSession(const HttpResponse *response)
 {
 	if(!response)
 		return;
@@ -258,7 +258,7 @@ void CSteamProto::HandleTokenExpired()
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response)
+void CSteamProto::OnLoggedOn(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 	{

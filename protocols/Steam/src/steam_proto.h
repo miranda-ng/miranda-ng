@@ -28,8 +28,8 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
-typedef void(CSteamProto::*SteamResponseCallback)(const NETLIBHTTPREQUEST *response);
-typedef void(CSteamProto::*SteamResponseWithArgCallback)(const NETLIBHTTPREQUEST *response, void *arg);
+typedef void(CSteamProto::*SteamResponseCallback)(const HttpResponse *response);
+typedef void(CSteamProto::*SteamResponseWithArgCallback)(const HttpResponse *response, void *arg);
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -107,14 +107,14 @@ protected:
 	bool IsOnline();
 	bool IsMe(const char *steamId);
 
-	void OnGotRsaKey(const NETLIBHTTPREQUEST *response);
+	void OnGotRsaKey(const HttpResponse *response);
 	
-	void OnAuthorization(const NETLIBHTTPREQUEST *response);
+	void OnAuthorization(const HttpResponse *response);
 	void OnAuthorizationError(const JSONNode &node);
 	void OnAuthorizationSuccess(const JSONNode &node);
-	void OnGotSession(const NETLIBHTTPREQUEST *response);
+	void OnGotSession(const HttpResponse *response);
 
-	void OnLoggedOn(const NETLIBHTTPREQUEST *response);
+	void OnLoggedOn(const HttpResponse *response);
 
 	void HandleTokenExpired();
 
@@ -134,28 +134,28 @@ protected:
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
 
-	void OnGotFriendList(const NETLIBHTTPREQUEST *response);
-	void OnGotBlockList(const NETLIBHTTPREQUEST *response);
-	void OnGotUserSummaries(const NETLIBHTTPREQUEST *response);
-	void OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGotFriendList(const HttpResponse *response);
+	void OnGotBlockList(const HttpResponse *response);
+	void OnGotUserSummaries(const HttpResponse *response);
+	void OnGotAvatar(const HttpResponse *response, void *arg);
 
-	void OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg);
-	void OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg);
-	void OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnFriendAdded(const HttpResponse *response, void *arg);
+	void OnFriendBlocked(const HttpResponse *response, void *arg);
+	void OnFriendRemoved(const HttpResponse *response, void *arg);
 
-	void OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnAuthRequested(const HttpResponse *response, void *arg);
 
-	void OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg);
-	void OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnPendingApproved(const HttpResponse *response, void *arg);
+	void OnPendingIgnoreded(const HttpResponse *response, void *arg);
 
-	void OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnSearchByIdEnded(const HttpResponse *response, void *arg);
 
-	void OnSearchByNameStarted(const NETLIBHTTPREQUEST *response, void *arg);
-	void OnSearchByNameFinished(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnSearchByNameStarted(const HttpResponse *response, void *arg);
+	void OnSearchByNameFinished(const HttpResponse *response, void *arg);
 
 	// messages
 	int OnSendMessage(MCONTACT hContact, const char* message);
-	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnMessageSent(const HttpResponse *response, void *arg);
 
 	// menus
 	static int hChooserMenu;
