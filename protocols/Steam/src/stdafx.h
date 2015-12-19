@@ -53,6 +53,11 @@ extern HANDLE hExtraXStatus;
 #define STEAM_API_URL "https://api.steampowered.com"
 #define STEAM_WEB_URL "https://steamcommunity.com"
 
+// registered db event types
+#define EVENTTYPE_STEAM_CHATSTATES          2000
+#define STEAM_DB_GETEVENTTEXT_CHATSTATES    "/GetEventText2000"
+#define STEAM_DB_EVENT_CHATSTATES_GONE      1
+
 #include "steam_dialogs.h"
 #include "steam_options.h"
 #include "http_request.h"

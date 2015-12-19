@@ -6,6 +6,14 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
+
+	// Register custom db event
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = m_szModuleName;
+	dbEventType.eventType = EVENTTYPE_STEAM_CHATSTATES;
+	dbEventType.descr = "Chat state notifications";
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
 	return 0;
 }
 

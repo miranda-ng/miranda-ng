@@ -60,6 +60,9 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
 	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::OnRequestAdvStatusIconIdx);
 
+	// custom db events API
+	CreateProtoService(STEAM_DB_GETEVENTTEXT_CHATSTATES, &CSteamProto::OnGetEventTextChatStates);
+
 	// netlib support
 	TCHAR name[128];
 	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);

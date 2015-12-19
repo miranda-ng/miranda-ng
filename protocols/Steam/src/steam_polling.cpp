@@ -143,9 +143,23 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			default: continue;
 			}
 		}
-		/*else if (!lstrcmpi(type, _T("leftconversation")))
+		else if (!lstrcmpi(type, _T("leftconversation")))
 		{
-		}*/
+			// chatstates gone event
+			MCONTACT hContact = FindContact(steamId);
+			if (hContact)
+			{
+				BYTE bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.pBlob = &bEventType;
+				dbei.cbBlob = 1;
+				dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;
+				dbei.flags = DBEF_READ;
+				dbei.timestamp = time(NULL);
+				dbei.szModule = m_szModuleName;
+				db_event_add(hContact, &dbei);
+			}
+		}
 		else
 		{
 			continue;

@@ -183,3 +183,20 @@ void CSteamProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hCo
 {
 	ShowNotification(TranslateT(MODULE), message, flags, hContact);
 }
+
+INT_PTR __cdecl CSteamProto::OnGetEventTextChatStates(WPARAM, LPARAM lParam)
+{
+	// Retrieves a chat state description from an event
+
+	DBEVENTGETTEXT *pdbEvent = (DBEVENTGETTEXT *)lParam;
+	if (pdbEvent->dbei->cbBlob > 0) {
+		if (pdbEvent->dbei->pBlob[0] == STEAM_DB_EVENT_CHATSTATES_GONE) {
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				return (INT_PTR)mir_tstrdup(TranslateT("closed chat session"));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				return (INT_PTR)mir_strdup(Translate("closed chat session"));
+		}
+	}
+
+	return NULL;
+}
