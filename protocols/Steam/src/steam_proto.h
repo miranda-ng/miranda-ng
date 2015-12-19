@@ -81,6 +81,7 @@ protected:
 	mir_cs contact_search_lock;
 	mir_cs requests_queue_lock;
 	mir_cs set_status_lock;
+	std::map<HANDLE, time_t> m_mpOutMessages;
 
 	// instances
 	static LIST<CSteamProto> InstanceList;
@@ -158,6 +159,7 @@ protected:
 	// messages
 	int OnSendMessage(MCONTACT hContact, const char* message);
 	void OnMessageSent(const HttpResponse *response, void *arg);
+	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// menus
 	static int hChooserMenu;

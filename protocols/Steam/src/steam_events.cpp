@@ -4,6 +4,7 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_OPT_INITIALISE, &CSteamProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSteamProto::OnPreCreateMessage);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
 
