@@ -256,13 +256,24 @@ void CSteamProto::HandleTokenExpired()
 
 	// Set status to offline
 	SetStatus(ID_STATUS_OFFLINE);
+
+	// TODO: Try to login again acutomatically (at least once)
 }
 
 void CSteamProto::OnLoggedOn(const HttpResponse *response)
 {
 	if (!CheckResponse(response))
 	{
+		if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
+		{
+			// Probably expired TokenSecret
+			HandleTokenExpired();
+			return;
+		}
+
 		// Probably timeout or no connection, we can do nothing here
+		ShowNotification(_T("Steam"), TranslateT("Unknown login error."));
+
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
@@ -271,7 +282,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 
 	JSONNode *node = json_get(root, "error");
 	ptrT error(json_as_string(node));
-	if (mir_tstrcmpi(error, _T("OK")) || response->resultCode == HTTP_CODE_UNAUTHORIZED)
+	if (mir_tstrcmpi(error, _T("OK")))
 	{
 		// Probably expired TokenSecret
 		HandleTokenExpired();
