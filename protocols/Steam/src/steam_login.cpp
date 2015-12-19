@@ -14,6 +14,42 @@ bool CSteamProto::IsMe(const char *steamId)
 	return false;
 }
 
+bool CSteamProto::Relogin()
+{
+	ptrA token(getStringA("TokenSecret"));
+	if (mir_strlen(token) <= 0)
+		return false;
+
+	HttpRequest *request = new LogonRequest(token);
+	HttpResponse *response = request->Send(m_hNetlibUser);
+
+	bool success = false;
+	if (CheckResponse(response))
+	{
+		JSONROOT root(response->pData);
+		if (root != NULL) {
+			JSONNode *node = json_get(root, "error");
+
+			ptrT error(json_as_string(node));
+			if (!mir_tstrcmpi(error, _T("OK")))
+			{
+				node = json_get(root, "umqid");
+				setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
+
+				node = json_get(root, "message");
+				setDword("MessageID", json_as_int(node));
+
+				success = true;
+			}
+		}
+	}
+
+	delete request;
+	delete response;
+
+	return success;
+}
+
 void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 {
 	if (!CheckResponse(response))

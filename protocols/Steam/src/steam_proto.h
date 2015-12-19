@@ -106,6 +106,8 @@ protected:
 	// account
 	bool IsOnline();
 	bool IsMe(const char *steamId);
+	
+	bool Relogin();
 
 	void OnGotRsaKey(const HttpResponse *response);
 	
