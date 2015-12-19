@@ -217,6 +217,10 @@ void CSteamProto::PollingThread(void*)
 
 						// m_pollingConnection = response->nlc;
 					}
+					else if (!lstrcmpi(error, _T("Timeout")))
+					{
+						// Do nothing as this is not necessarily an error
+					}
 					/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
 					{
 						if (!IsOnline())
@@ -229,7 +233,7 @@ void CSteamProto::PollingThread(void*)
 
 						breaked = true;
 					}*/
-					else if (lstrcmpi(error, _T("Timeout")))
+					else
 					{
 						// something wrong
 						debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
