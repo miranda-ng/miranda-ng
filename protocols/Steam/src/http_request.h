@@ -34,6 +34,11 @@ public:
 			nlc = response->nlc;
 			timeout = response->timeout;
 		}
+		else if (request != NULL)
+		{
+			// when response is null, we must get resultCode from the request object
+			resultCode = request->resultCode;
+		}
 	}
 
 	bool const operator !() const
