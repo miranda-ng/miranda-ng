@@ -132,14 +132,12 @@ void InitSubGroupMenus(void)
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU, OnBuildSubGroupMenu);
 
 	// add exit command to menu
-	GroupMenuParam gmp;
+	GroupMenuParam gmp = { POPUP_GROUPSHOWOFFLINE, 0 };
 
 	CMenuItem mi;
+	SET_UID(mi, 0x7E081A28, 0x19B3, 0x407F, 0x80, 0x6B, 0x70, 0xC3, 0xC3, 0xA9, 0xD2, 0xA4);
 	mi.position = 1002;
-	mi.hIcolibItem = NULL;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 	mi.name.a = LPGEN("&Show offline users in here");
-	gmp.lParam = 0;
-	gmp.wParam = POPUP_GROUPSHOWOFFLINE;
 	hShowOfflineUsersHereMenuItem = Menu_AddSubGroupMenuItem(&mi, &gmp);
 }
