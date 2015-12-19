@@ -222,19 +222,23 @@ void CSteamProto::PollingThread(void*)
 					{
 						// Do nothing as this is not necessarily an error
 					}
-					/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
+					else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
 					{
-						if (!IsOnline())
+						// need to relogin
+						debugLog(_T("CSteamProto::PollingThread: Not Logged On"));
+
+						if (Relogin())
 						{
-							// need to relogin
-							debugLog(_T("CSteamProto::PollingThread: not logged on"));
-
-							SetStatus(ID_STATUS_OFFLINE);
+							// load umqId and messageId again
+							umqId = getStringA("UMQID"); // it's ptrA so we can assign it without fearing a memory leak
+							messageId = getDword("MessageID", 0);
 						}
-
-						// let it jump out of further processing
-						errors = errorsLimit;
-					}*/
+						else
+						{
+							// let it jump out of further processing
+							errors = errorsLimit;
+						}
+					}
 					else
 					{
 						// something wrong
