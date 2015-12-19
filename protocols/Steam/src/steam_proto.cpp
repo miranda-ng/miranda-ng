@@ -7,7 +7,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	m_idleTS = 0;
-	isTerminated = false;
 	isLoginAgain = false;
 	m_hQueueThread = NULL;
 	m_pollingConnection = NULL;

@@ -173,7 +173,7 @@ void CSteamProto::PollingThread(void*)
 
 	int errors = 0;
 	int errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
-	while (!isTerminated && errors < errorsLimit)
+	while (IsOnline() && errors < errorsLimit)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
 		// request->nlc = m_pollingConnection;
@@ -270,7 +270,7 @@ void CSteamProto::PollingThread(void*)
 	m_hPollingThread = NULL;
 	debugLog(_T("CSteamProto::PollingThread: leaving"));
 
-	if (!isTerminated)
+	if (IsOnline())
 	{
 		debugLog(_T("CSteamProto::PollingThread: unexpected termination; switching protocol to offline"));
 		SetStatus(ID_STATUS_OFFLINE);
