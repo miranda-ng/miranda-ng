@@ -173,8 +173,7 @@ void CSteamProto::PollingThread(void*)
 
 	int errors = 0;
 	int errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
-	bool breaked = false;
-	while (!isTerminated && !breaked && errors < errorsLimit)
+	while (!isTerminated && errors < errorsLimit)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
 		// request->nlc = m_pollingConnection;
@@ -196,7 +195,6 @@ void CSteamProto::PollingThread(void*)
 			}
 			else
 			{
-				errors = 0;
 				JSONNode *node = json_get(root, "error");
 				if (node) {
 					ptrT error(json_as_string(node));
@@ -215,6 +213,9 @@ void CSteamProto::PollingThread(void*)
 							json_delete(nroot);
 						}
 
+						// Reset error counter only when we've got OK
+						errors = 0;
+
 						// m_pollingConnection = response->nlc;
 					}
 					else if (!lstrcmpi(error, _T("Timeout")))
@@ -231,7 +232,8 @@ void CSteamProto::PollingThread(void*)
 							SetStatus(ID_STATUS_OFFLINE);
 						}
 
-						breaked = true;
+						// let it jump out of further processing
+						errors = errorsLimit;
 					}*/
 					else
 					{
@@ -248,7 +250,8 @@ void CSteamProto::PollingThread(void*)
 						if (timeout < STEAM_API_TIMEOUT)
 							debugLog(_T("CSteamProto::PollingThread: Timeout is too low (%d)"), timeout);
 
-						breaked = true;
+						// let it jump out of further processing
+						errors = errorsLimit;
 					}
 				}
 			}
