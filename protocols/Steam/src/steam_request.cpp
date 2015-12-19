@@ -18,7 +18,7 @@ public:
 	SteamResponseDelegate(CSteamProto *proto, SteamResponseWithArgCallback responseCallback, void *arg, HttpFinallyCallback httpFinallyCallback)
 		: proto(proto), responseCallback(NULL), responseWithArgCallback(responseCallback), arg(arg), httpFinallyCallback(httpFinallyCallback), hasArg(true) { }
 
-	void Invoke(const NETLIBHTTPREQUEST *response)
+	void Invoke(const HttpResponse *response)
 	{
 		if (hasArg)
 		{
