@@ -284,16 +284,31 @@ void CSteamProto::OnGotSession(const HttpResponse *response)
 
 void CSteamProto::HandleTokenExpired()
 {
-	// Notify error to user
-	ShowNotification(_T("Steam"), TranslateT("Connection token expired. Please login again."));
-
 	// Delete expired token
 	delSetting("TokenSecret");
 
-	// Set status to offline
-	SetStatus(ID_STATUS_OFFLINE);
+	// Try to relogin automatically (but only once)
+	if (isLoginAgain) {
+		// Notify error to user
+		ShowNotification(_T("Steam"), TranslateT("Cannot obtain connection token."));
 
-	// TODO: Try to login again acutomatically (at least once)
+		// Just go offline; it also resets the isLoginAgain to false
+		SetStatus(ID_STATUS_OFFLINE);
+	}
+	else
+	{
+		// Remember we are trying to relogin
+		isLoginAgain = true;
+
+		// Remember status user wanted
+		int desiredStatus = m_iDesiredStatus;
+
+		// Set status to offline
+		SetStatus(ID_STATUS_OFFLINE);
+
+		// Try to login again automatically
+		SetStatus(desiredStatus);
+	}
 }
 
 void CSteamProto::OnLoggedOn(const HttpResponse *response)

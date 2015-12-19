@@ -8,6 +8,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 
 	m_idleTS = 0;
 	isTerminated = false;
+	isLoginAgain = false;
 	m_hQueueThread = NULL;
 	m_pollingConnection = NULL;
 	m_hPollingThread = NULL;
@@ -282,6 +283,9 @@ int CSteamProto::SetStatus(int new_status)
 
 	if (new_status == ID_STATUS_OFFLINE)
 	{
+		// Reset relogin flag
+		isLoginAgain = false;
+
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
