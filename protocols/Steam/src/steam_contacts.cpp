@@ -110,18 +110,18 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 	node = json_get(data, "realname");
 	if (node != NULL)
 	{
-		std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
+		std::tstring realname = (TCHAR*)ptrT(json_as_string(node));
 		if (!realname.empty())
 		{
 			size_t pos = realname.find(L' ', 1);
-			if (pos != std::wstring::npos)
+			if (pos != std::tstring::npos)
 			{
-				setWString(hContact, "FirstName", realname.substr(0, pos).c_str());
-				setWString(hContact, "LastName", realname.substr(pos + 1).c_str());
+				setTString(hContact, "FirstName", realname.substr(0, pos).c_str());
+				setTString(hContact, "LastName", realname.substr(pos + 1).c_str());
 			}
 			else
 			{
-				setWString(hContact, "FirstName", realname.c_str());
+				setTString(hContact, "FirstName", realname.c_str());
 				delSetting(hContact, "LastName");
 			}
 		}
@@ -315,7 +315,7 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 
 		// move to default group
 		DBVARIANT dbv;
-		if (!getWString("DefaultGroup", &dbv))
+		if (!getTString("DefaultGroup", &dbv))
 		{
 			if(Clist_GroupExists(dbv.ptszVal))
 				db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
@@ -742,17 +742,17 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 			node = json_get(child, "realname");
 			if (node != NULL)
 			{
-				std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
+				std::tstring realname = (TCHAR*)ptrT(json_as_string(node));
 				if (!realname.empty())
 				{
 					size_t pos = realname.find(' ', 1);
-					if (pos != std::wstring::npos)
+					if (pos != std::tstring::npos)
 					{
-						ssr.hdr.firstName.t = mir_wstrdup(realname.substr(0, pos).c_str());
-						ssr.hdr.lastName.t = mir_wstrdup(realname.substr(pos + 1).c_str());
+						ssr.hdr.firstName.t = mir_tstrdup(realname.substr(0, pos).c_str());
+						ssr.hdr.lastName.t = mir_tstrdup(realname.substr(pos + 1).c_str());
 					}
 					else
-						ssr.hdr.firstName.t = mir_wstrdup(realname.c_str());
+						ssr.hdr.firstName.t = mir_tstrdup(realname.c_str());
 				}
 			}
 
