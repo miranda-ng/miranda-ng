@@ -247,9 +247,11 @@ int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 
 	MCONTACT hContact = MCONTACT(wp);
 	if (NULL == hContact)
-	{
 		return 0;
-	}
+
+	char *szProto = GetContactProto(hContact);
+	if (mir_strcmp(szProto, QUOTES_MODULE_NAME))
+		return 0;
 
 	Menu_EnableItem(g_hMenuEditSettings, true);
 
