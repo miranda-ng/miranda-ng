@@ -706,13 +706,16 @@ void CSteamProto::OnSearchByIdEnded(const HttpResponse *response, void *arg)
 	if (!ResponseHttpOk(response))
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
-		debugLogA("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s", (char*)arg);
+		debugLog(_T("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s"), (TCHAR*)arg);
 		return;
 	}
 
 	JSONROOT root(response->pData);
 	if (root == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
 		return;
+	}
 
 	JSONNode *node = json_get(root, "players");
 	JSONNode *nodes = json_as_array(node);
@@ -750,8 +753,9 @@ void CSteamProto::OnSearchByIdEnded(const HttpResponse *response, void *arg)
 		ssr.data = json_copy(nroot);
 
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)STEAM_SEARCH_BYID, (LPARAM)&ssr);
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYID, 0);
 	}
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYID, 0);
 
 	json_delete(nodes);
 }

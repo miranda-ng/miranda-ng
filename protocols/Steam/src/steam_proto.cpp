@@ -226,8 +226,6 @@ HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 	if (!this->IsOnline())
 		return 0;
 
-	//ForkThread(&CSteamProto::SearchByIdThread, mir_wstrdup(id));
-
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(mir_t2a(id));
 
