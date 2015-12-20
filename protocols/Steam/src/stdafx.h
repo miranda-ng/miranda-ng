@@ -6,6 +6,11 @@
 #include <malloc.h>
 #include <time.h>
 
+#include <map>
+#include <vector>
+#include <string>
+#include <algorithm>
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
@@ -30,11 +35,7 @@
 #include <m_extraicons.h>
 #include <m_gui.h>
 #include <m_http.h>
-
-#include <map>
-#include <vector>
-#include <string>
-#include <algorithm>
+#include <m_system_cpp.h>
 
 #include "resource.h"
 #include "version.h"
