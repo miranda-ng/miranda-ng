@@ -359,6 +359,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	mi.name.a = LPGEN("Services...");
 	mi.hIcolibItem = g_hMainIcon;
 	hRootMenu = fnAddFunc(&mi, m_szModuleName);
+	UNSET_UID(mi);
 
 	mi.flags = CMIF_SYSTEM;
 	mi.root = hRootMenu;
