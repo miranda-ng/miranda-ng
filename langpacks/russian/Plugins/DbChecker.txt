@@ -72,7 +72,7 @@
 [Convert old Unicode messages to UTF8]
 Конвертировать старые Unicode сообщения в UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Конвертирует историю сообщений из <0.7 формата (ANSI+UCS2) в новый UTF8 формат. В большинстве случаев помогает сохранить место на диске (рекомендуется).
+Конвертирует историю сообщений из <0.7 формата (ANSI+UCS2) в новый UTF8 формат. В большинстве случаев экономит место на диске (рекомендуется).
 [Working...]
 Выполнение...
 [Please wait while the requested operations are being performed.]
@@ -104,11 +104,11 @@
 [Database driver '%s' doesn't support checking.]
 Драйвер базы '%s' не поддерживает проверку.
 [Database]
-Профиль
+База данных
 [Total size]
 Размер
 [Miranda Databases (*.dat)]
-Базы Miranda NG (*.dat)
+Базы данных Miranda NG (*.dat)
 [All Files]
 Все файлы
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]

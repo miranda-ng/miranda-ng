@@ -162,7 +162,7 @@ Miranda нашла следующие профили. Выберите проф�
 [Miranda Import]
 Импорт Miranda NG
 [Miranda NG database]
-База Miranda NG
+База данных Miranda NG
 [All Files]
 Все файлы
 [Skipping duplicate group %s.]
