@@ -61,9 +61,7 @@ LPCSTR sim228 = "ANSI";
 LPCSTR sim229 = "UTF8";
 LPCSTR sim230 = LPGEN("Mode");
 LPCSTR sim231[] = { LPGEN("Native"), "PGP", "GPG", "RSA/AES", "RSA" };
-LPCWSTR sim231W[] = { LPGENW("Native"), L"PGP", L"GPG", L"RSA/AES", L"RSA" };
 LPCSTR sim232[] = { LPGEN("Disabled"), LPGEN("Enabled"), LPGEN("Always try") };
-LPCWSTR sim232W[] = { LPGENW("Disabled"), LPGENW("Enabled"), LPGENW("Always try") };
 LPCSTR sim233 = "PUB";
 LPCSTR sim234 = "SHA1";
 

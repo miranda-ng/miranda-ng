@@ -37,7 +37,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic events: onModuleLoad, onModulesLoad, onShutdown
 
-static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
+static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
 	CMenuItem mi;
 	mi.flags = flags | CMIF_HIDDEN | CMIF_UNICODE;
@@ -45,13 +45,15 @@ static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, HICON hicon, LPCSTR service
 	mi.hIcolibItem = hicon;
 	mi.name.t = (TCHAR*)name;
 	mi.pszService = (char*)service;
-	return Menu_AddContactMenuItem(&mi);
+	HGENMENU res = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(res, MCI_OPT_UID, szUid);
+	return res;
 }
 
 static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
 	CMenuItem mi;
-	mi.flags = CMIF_HIDDEN;
+	mi.flags = CMIF_HIDDEN | CMIF_SYSTEM;
 	mi.position = pos;
 	mi.name.a = (char*)name;
 	mi.root = hRoot;
@@ -231,25 +233,25 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, onSendMsg);
 
 	// create a menu item for creating a secure im connection to the user.
-	g_hMenu[0] = MyAddMenuItem(sim301, 110000, g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
-	g_hMenu[1] = MyAddMenuItem(sim302, 110001, g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
+	g_hMenu[0] = MyAddMenuItem(sim301, 110000, "5A8C2F35-4699-43A4-A820-516DEB83FCA1", g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
+	g_hMenu[1] = MyAddMenuItem(sim302, 110001, "0B092254-DA91-42D6-A89D-365981BB3D91", g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
-	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, NULL, NULL);
+	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, "635576BB-A927-4F64-B205-DD464F57CC99", NULL, NULL);
 	g_hMenu[3] = MyAddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
 	g_hMenu[4] = MyAddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
 	g_hMenu[5] = MyAddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
 
 	if (bPGPloaded) {
-		g_hMenu[6] = MyAddMenuItem(sim306, 110006, mode2icon(MODE_PGP | SECURED, 2), MODULENAME"/PGP_SET", 0);
-		g_hMenu[7] = MyAddMenuItem(sim307, 110007, mode2icon(MODE_PGP, 2), MODULENAME"/PGP_DEL", 0);
+		g_hMenu[6] = MyAddMenuItem(sim306, 110006, "33829541-85B9-499E-9605-4DDADE1A4B33", mode2icon(MODE_PGP | SECURED, 2), MODULENAME"/PGP_SET", 0);
+		g_hMenu[7] = MyAddMenuItem(sim307, 110007, "25530E70-8349-419D-9F4F-FA748E485E2B", mode2icon(MODE_PGP, 2), MODULENAME"/PGP_DEL", 0);
 	}
 
 	if (bGPGloaded) {
-		g_hMenu[8] = MyAddMenuItem(sim308, 110008, mode2icon(MODE_GPG | SECURED, 2), MODULENAME"/GPG_SET", 0);
-		g_hMenu[9] = MyAddMenuItem(sim309, 110009, mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
+		g_hMenu[8] = MyAddMenuItem(sim308, 110008, "D8BD7B70-3E6C-4A09-9612-4E4E2FCBBB8A", mode2icon(MODE_GPG | SECURED, 2), MODULENAME"/GPG_SET", 0);
+		g_hMenu[9] = MyAddMenuItem(sim309, 110009, "5C60AD6F-6B1B-4758-BB68-C008168BF32B", mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
 	}
 
-	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, NULL, NULL);
+	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, "D56DD118-863B-4069-9A6A-C0057BA99CC6", NULL, NULL);
 	g_hMenu[11] = MyAddSubItem(g_hMenu[10], sim231[0], 110011, 110010, MODULENAME"/MODE_NAT");
 	g_hMenu[12] = MyAddSubItem(g_hMenu[10], sim231[1], 110012, 110010, MODULENAME"/MODE_PGP");
 	g_hMenu[13] = MyAddSubItem(g_hMenu[10], sim231[2], 110013, 110010, MODULENAME"/MODE_GPG");
