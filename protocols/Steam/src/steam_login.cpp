@@ -171,6 +171,10 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 
 		std::string domain = node["emaildomain"].as_string();
 
+		// Make absolute link
+		if (domain.find("://") == std::string::npos)
+			domain = "http://" + domain;
+
 		CSteamGuardDialog guardDialog(this, domain.c_str());
 		if (guardDialog.DoModal() != DIALOG_RESULT_OK)
 		{
