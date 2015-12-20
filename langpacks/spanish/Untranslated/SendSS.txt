@@ -68,7 +68,7 @@
 [SendSS HTTP connections]
 [SendSS]
 [Screenshots]
-[Image services (AdvaImg) not found.\nSendSS disabled.]
+[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
 [Buttons]
 [Could not register Miranda service.]
 [Take a screenshot]

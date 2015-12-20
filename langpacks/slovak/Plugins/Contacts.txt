@@ -23,6 +23,8 @@ Pridať do zoznamu
 Odoslať správu
 [Contacts]
 Kontakty
+[Events]
+Udalosti
 [Nick]
 Prezívka
 [First Name]

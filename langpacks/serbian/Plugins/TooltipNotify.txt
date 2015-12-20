@@ -73,14 +73,8 @@ Pasivni režim
 
 [Other status]
 
-[Tooltip Notify: Online]
-
-[Tooltip Notify: Offline]
-
-[Tooltip Notify: Other]
-
-[Tooltip Notify: Typing]
-
+[Other]
+Ostalo
 [Popups]
 Balončići
 [** New contacts **]

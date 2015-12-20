@@ -18,7 +18,7 @@
 
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 
-[About CList nicer]
+[About Clist nicer]
 
 [Clist nicer]
 
@@ -424,7 +424,7 @@ Vidljivost
 Ostalo
 [Hide this contact from the list]
 
-[To show a previously hidden contact, navigate to Options -> Events -> Ignore, search the contact in the list and tick the checkbox next to its name.]
+[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 
 [Display options]
 
@@ -693,14 +693,6 @@ Brzo pretraži tekst
 
 [&Down]
 
-[Frames]
-Okviri
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
 [Lock frame]
 
 [Visible]
@@ -710,6 +702,14 @@ Prikaz naslovne trake
 [Skinned frame]
 
 [Floating]
+
+[Frames]
+Okviri
+[Show all frames]
+
+[Show all title bars]
+
+[Hide all title bars]
 
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
