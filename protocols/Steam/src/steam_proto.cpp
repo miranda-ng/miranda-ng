@@ -325,7 +325,8 @@ int CSteamProto::SetStatus(int new_status)
 		requestQueue->Start();
 
 		ptrA token(getStringA("TokenSecret"));
-		if (mir_strlen(token) > 0)
+		ptrA sessionId(getStringA("SessionID"));
+		if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0)
 		{
 			PushRequest(
 				new LogonRequest(token),

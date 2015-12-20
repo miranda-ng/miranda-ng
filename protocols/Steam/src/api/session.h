@@ -21,4 +21,14 @@ public:
 	}
 };
 
+class GetSessionRequest2 : public HttpRequest
+{
+public:
+	GetSessionRequest2() :
+		HttpRequest(REQUEST_GET, STEAM_WEB_URL)
+	{
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
+	}
+};
+
 #endif //_STEAM_REQUEST_SESSION_H_
