@@ -11,7 +11,7 @@ public:
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
 		char data[MAX_PATH];
 		mir_snprintf(data, "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
@@ -32,7 +32,7 @@ public:
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
 		char data[MAX_PATH];
 		mir_snprintf(data, "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
@@ -53,7 +53,7 @@ public:
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
 		char data[MAX_PATH];
 		mir_snprintf(data, "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
