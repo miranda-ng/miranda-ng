@@ -46,17 +46,17 @@
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
-Копирование файла профиля...
+Копирование файла базы данных...
 [Database backed up]
-Профиль зарезервирован
+База данных зарезервирована
 [Database back up in process...]
 Производится резервирование базы данных...
 [Error]
 Ошибка
 [Miranda NG databases]
-Профили Miranda NG
+Базы данных Miranda NG
 [Compressed Miranda NG databases]
-Сжатые профили Miranda NG
+Сжатые базы данных Miranda NG
 [All files]
 Все файлы
 [Database]

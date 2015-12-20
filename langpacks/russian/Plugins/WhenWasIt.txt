@@ -228,7 +228,7 @@
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Этот файл был создан Unicode-версией WhenWasIt. Пожалуйста, используйте только Unicode-версию плагина для импорта дней рождения.\n
 [Could not find UID '%s [%S]' in current database, skipping]
-Не удалось найти UID '%s [%S]' в текущем профиле, пропускаю
+Не удалось найти UID '%s [%S]' в текущей базе, пропускаю
 [Birthdays (When Was It)]
 Дни рождения
 [Add/change user &birthday]

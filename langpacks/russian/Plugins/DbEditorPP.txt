@@ -6,7 +6,7 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
-Расширенный редактор базы.
+Расширенный редактор базы данных.
 [Search and replace]
 Найти и заменить
 [Search for]
@@ -274,7 +274,7 @@ ID пользователя
 [Open Database Editor]
 Открыть редактор базы
 [Database]
-Профиль
+База данных
 [Open user tree in DBE++]
 Открыть в редакторе базы
 [<UNKNOWN>]
