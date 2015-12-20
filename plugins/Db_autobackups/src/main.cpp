@@ -86,6 +86,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}
+	options.use_dropbox = (BOOL)(db_get_b(0, "AutoBackups", "UseDropbox", 0) && ServiceExists(MS_DROPBOX_SEND_FILE));
 
 	if (options.backup_types & BT_START)
 		BackupStart(NULL);

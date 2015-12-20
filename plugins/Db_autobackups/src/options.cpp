@@ -60,7 +60,7 @@ int LoadOptions(void)
 	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
 	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
 	options.use_zip = (BOOL)db_get_b(0, "AutoBackups", "UseZip", 0);
-	options.use_dropbox = (BOOL)db_get_b(0, "AutoBackups", "UseDropbox", 0);
+	options.use_dropbox = (BOOL)(db_get_b(0, "AutoBackups", "UseDropbox", 0) && ServiceExists(MS_DROPBOX_SEND_FILE));
 
 	SetBackupTimer();
 	return 0;
