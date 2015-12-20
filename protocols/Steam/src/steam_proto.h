@@ -58,6 +58,8 @@ public:
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	// instances
