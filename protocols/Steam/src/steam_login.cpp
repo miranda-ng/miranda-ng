@@ -262,6 +262,11 @@ void CSteamProto::OnAuthorizationSuccess(const JSONNode &node)
 		new GetSessionRequest(token.c_str(), steamId.c_str(), cookie.c_str()),
 		&CSteamProto::OnGotSession);
 
+	// We need to load homepage to get sessionid cookie
+	PushRequest(
+		new GetSessionRequest2(),
+		&CSteamProto::OnGotSession);
+
 	PushRequest(
 		new LogonRequest(token.c_str()),
 		&CSteamProto::OnLoggedOn);
@@ -269,7 +274,7 @@ void CSteamProto::OnAuthorizationSuccess(const JSONNode &node)
 
 void CSteamProto::OnGotSession(const HttpResponse *response)
 {
-	if(!response)
+	if (!response)
 		return;
 
 	for (int i = 0; i < response->headersCount; i++)
