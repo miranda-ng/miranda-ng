@@ -2461,10 +2461,10 @@ Neuspešan upis protokola kontakta u metakontakt
 [Could not write nickname of contact to metacontact]
 Neuspešan upis nadimka kontakta u metakontakt
 ;file \src\mir_app\src\movetogroup.cpp
-[&Move to group]
-&Stavi u grupu
 [<Root group>]
 <Glavna grupa (root)>
+[&Move to group]
+&Stavi u grupu
 ;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 Tipičan Netlib log

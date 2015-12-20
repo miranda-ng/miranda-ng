@@ -2167,10 +2167,10 @@ Protocolo
 Editar
 [Sender]
 Remitente
-[&Move to group]
-&Mover a grupo
 [<Root group>]
 <Grupo raíz>
+[&Move to group]
+&Mover a grupo
 [Standard Netlib log]
 Registro Netlib estándar
 [No times]

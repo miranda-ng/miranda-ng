@@ -329,10 +329,10 @@ Texto seleccionado
 Texto rondado
 [Quicksearch text]
 Búsqueda rápida de texto
-[Frames]
-Marcos
 [Show title bar]
 Mostrar barra de título
+[Frames]
+Marcos
 [&Hide/show]
 &Mostrar/Ocultar
 [&Find/add contacts...]

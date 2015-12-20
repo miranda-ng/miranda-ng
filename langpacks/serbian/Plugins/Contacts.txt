@@ -53,6 +53,8 @@ O korisniku
 
 [Contacts]
 Kontakti
+[Events]
+Događaji
 [Incoming Contacts]
 
 [Outgoing Contacts]

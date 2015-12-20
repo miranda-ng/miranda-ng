@@ -11,7 +11,7 @@
 [To send]
 [Received]
 [Use only alphanumeric encoding on transfer]
-[Extra options: Events > File Transfers, "Receiving files" group]
+[Extra options: Events -> File Transfers, "Receiving files" group]
 [File already exists. Overwrite?]
 [Couldn't open a file]
 [Size: %d bytes]

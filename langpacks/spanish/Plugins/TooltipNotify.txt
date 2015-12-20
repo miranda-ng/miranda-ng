@@ -29,6 +29,8 @@ Opciones de translucidez
 Contactos
 [Idle]
 Inactivo
+[Other]
+Otro
 [Popups]
 Ventanas emergentes
 [** New contacts **]

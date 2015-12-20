@@ -51,6 +51,8 @@ Enviar mensaje
 Contactos recibidos de
 [Contacts]
 Contactos
+[Events]
+Eventos
 [Incoming Contacts]
 Contactos entrantes
 [Outgoing Contacts]

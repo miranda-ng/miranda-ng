@@ -126,7 +126,7 @@
 [%s Protocol]
 [Open mail account?]
 [%s server connection]
-[%s Client-to-client connection]
+[%s client-to-client connections]
 [[Auto-Response]:]
 [Contact tried to open an audio/video conference (not currently supported)]
 [No information has been provided by the server.]
