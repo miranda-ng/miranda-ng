@@ -701,123 +701,129 @@ void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
 	}
 }
 
-void CSteamProto::OnSearchByIdEnded(const HttpResponse *response, void *arg)
+void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 {
+	HANDLE searchType = (HANDLE)arg;
+
 	if (!ResponseHttpOk(response))
 	{
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
-		debugLog(_T("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s"), (TCHAR*)arg);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
+		debugLogA("CSteamProto::AddSearchResults: failed to get summaries");
 		return;
 	}
 
 	JSONROOT root(response->pData);
 	if (root == NULL)
 	{
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		return;
 	}
 
 	JSONNode *node = json_get(root, "players");
-	JSONNode *nodes = json_as_array(node);
-	JSONNode *nroot = json_at(nodes, 0);
-
+	JSONNode *nroot = json_as_array(node);
 	if (nroot != NULL)
 	{
-		STEAM_SEARCH_RESULT ssr = { 0 };
-		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
-		ssr.hdr.flags = PSR_TCHAR;
-	
-		ssr.hdr.id.t = (TCHAR*)arg;
-
-		node = json_get(nroot, "personaname");
-		ssr.hdr.nick.t  = mir_wstrdup(ptrT(json_as_string(node)));
-
-		node = json_get(nroot, "realname");
-		if (node != NULL)
+		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
-			if (!realname.empty())
-			{
-				size_t pos = realname.find(' ', 1);
-				if (pos != std::string::npos)
-				{
-					ssr.hdr.firstName.t = mir_wstrdup(realname.substr(0, pos).c_str());
-					ssr.hdr.lastName.t = mir_wstrdup(realname.substr(pos + 1).c_str());
-				}
-				else
-					ssr.hdr.firstName.t = mir_wstrdup(realname.c_str());
-			}
-		}
-	
-		//ssr.contact = contact;
-		ssr.data = json_copy(nroot);
+			JSONNode *child = json_at(nroot, i);
+			if (child == NULL)
+				break;
 
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)STEAM_SEARCH_BYID, (LPARAM)&ssr);
+			STEAM_SEARCH_RESULT ssr = { 0 };
+			ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
+			ssr.hdr.flags = PSR_TCHAR;
+
+			node = json_get(child, "steamid");
+			ssr.hdr.id.t = mir_tstrdup(ptrT(json_as_string(node)));
+
+			node = json_get(child, "personaname");
+			ssr.hdr.nick.t = mir_tstrdup(ptrT(json_as_string(node)));
+
+			node = json_get(child, "realname");
+			if (node != NULL)
+			{
+				std::wstring realname = (TCHAR*)ptrT(json_as_string(node));
+				if (!realname.empty())
+				{
+					size_t pos = realname.find(' ', 1);
+					if (pos != std::wstring::npos)
+					{
+						ssr.hdr.firstName.t = mir_wstrdup(realname.substr(0, pos).c_str());
+						ssr.hdr.lastName.t = mir_wstrdup(realname.substr(pos + 1).c_str());
+					}
+					else
+						ssr.hdr.firstName.t = mir_wstrdup(realname.c_str());
+				}
+			}
+
+			//ssr.contact = contact;
+			ssr.data = json_copy(child); // FIXME: is this needed and safe (no memleak) to be here?
+
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, searchType, (LPARAM)&ssr);
+		}
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYID, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, searchType, 0);
 
-	json_delete(nodes);
+	json_delete(nroot);
 }
 
-void CSteamProto::OnSearchByNameStarted(const HttpResponse *, void *)
+void CSteamProto::OnSearchByNameStarted(const HttpResponse *response, void *arg)
 {
-}
+	if (!ResponseHttpOk(response))
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
+		debugLogA("CSteamProto::OnSearchByNameEnded: failed to get results");
+		return;
+	}
 
-//void CSteamProto::SearchByNameThread(void* arg)
-//{
-//	ptrW keywordsW((wchar_t*)arg);
-//	ptrA keywords(mir_utf8encodeW(keywordsW));
-//
-//	ptrA token(getStringA("TokenSecret"));
-//
-//	SearchApi::SearchResult searchResult;
-//	debugLogA("CSteamProto::SearchByNameThread: call SearchApi::Search");
-//	SearchApi::Search(m_hNetlibUser, token, keywords, &searchResult);
-//
-//	if (!searchResult.IsSuccess())
-//	{
-//		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYNAME, 0);
-//		return;
-//	}
-//	
-//	CMStringA steamIds;
-//	for (int i = 0; i < searchResult.GetItemCount(); i++)
-//	{
-//		const SearchApi::SearchItem *item = searchResult.GetAt(i);
-//		if (steamIds.IsEmpty())
-//			steamIds.Append(item->GetSteamId());
-//		else
-//			steamIds.AppendFormat(",%s", item->GetSteamId());
-//	}
-//
-//	FriendApi::Summaries summarues;
-//	debugLogA("CSteamProto::SearchByNameThread: call FriendApi::LoadSummaries");
-//	FriendApi::LoadSummaries(m_hNetlibUser, token, steamIds, &summarues);
-//
-//	if (!summarues.IsSuccess())
-//	{
-//		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYNAME, 0);
-//		return;
-//	}
-//
-//	for (size_t i = 0; i < summarues.GetItemCount(); i++)
-//	{
-//		const FriendApi::Summary *contact = summarues.GetAt(i);
-//
-//		STEAM_SEARCH_RESULT ssr = { 0 };
-//		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
-//		ssr.hdr.flags = PSR_TCHAR;
-//
-//		ssr.hdr.id = mir_a2u(contact->GetSteamId());
-//		ssr.hdr.nick  = mir_wstrdup(contact->GetNickName());
-//		ssr.hdr.firstName = mir_wstrdup(contact->GetFirstName());
-//		ssr.hdr.lastName = mir_wstrdup(contact->GetLastName());
-//
-//		ssr.contact = contact;
-//
-//		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)STEAM_SEARCH_BYNAME, (LPARAM)&ssr);
-//	}
-//
-//	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYNAME, 0);
-//}
+	JSONROOT root(response->pData);
+	if (root == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
+		return;
+	}
+
+	// JSONNode *count = json_get(root, "count"); // number of results given in this request
+	// JSONNode *total = json_get(root, "total"); // number of all search results
+	// TODO: may need to load all remaining results, but we need to remember our previous offset and then increment it and cycle with results
+
+	std::string steamIds;
+
+	JSONNode *node = json_get(root, "results");
+	JSONNode *nroot = json_as_array(node);
+	if (nroot != NULL)
+	{
+		for (size_t i = 0; i < json_size(nroot); i++)
+		{
+			JSONNode *child = json_at(nroot, i);
+			if (child == NULL)
+				break;
+
+			node = json_get(child, "steamid");
+			if (node == NULL)
+				continue;
+
+			std::string steamId = (char*)_T2A(ptrT(json_as_string(node)));
+			steamIds.append(steamId).append(",");
+		}
+		json_delete(nroot);
+	}
+
+	if (!steamIds.empty())
+	{
+		// remove trailing ","
+		steamIds.pop_back();
+
+		ptrA token(getStringA("TokenSecret"));
+
+		PushRequest(
+			new GetUserSummariesRequest(token, steamIds.c_str()),
+			&CSteamProto::OnSearchResults,
+			(HANDLE)arg);
+	}
+	else
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)arg, 0);
+	}
+}
