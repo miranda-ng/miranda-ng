@@ -6,7 +6,7 @@ extern HGENMENU g_hMenuOpenLogFile;
 #ifdef CHART_IMPLEMENT
 extern HGENMENU g_hMenuChart;
 #endif
-extern HGENMENU g_hMenuRefresh;
+extern HGENMENU g_hMenuRefresh, g_hMenuRoot;
 
 
 #define WINDOW_PREFIX_INFO "Quote Info"
@@ -246,13 +246,13 @@ int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 	Menu_EnableItem(g_hMenuRefresh, false);
 
 	MCONTACT hContact = MCONTACT(wp);
-	if (NULL == hContact)
-		return 0;
-
 	char *szProto = GetContactProto(hContact);
-	if (mir_strcmp(szProto, QUOTES_MODULE_NAME))
+	if (mir_strcmp(szProto, QUOTES_MODULE_NAME)) {
+		Menu_ShowItem(g_hMenuRoot, false);
 		return 0;
+	}
 
+	Menu_ShowItem(g_hMenuRoot, true);
 	Menu_EnableItem(g_hMenuEditSettings, true);
 
 	Menu_EnableItem(g_hMenuRefresh, true);
