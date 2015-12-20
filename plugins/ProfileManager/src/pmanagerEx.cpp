@@ -65,7 +65,7 @@ static INT_PTR LoadPM(WPARAM, LPARAM)
 
 static INT_PTR CheckDb(WPARAM, LPARAM)
 {
-	if (MessageBox(0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check Database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+	if (MessageBox(0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		TCHAR mirandaPath[MAX_PATH], cmdLine[100];
 		PROCESS_INFORMATION pi;
 		STARTUPINFO si = { 0 };
