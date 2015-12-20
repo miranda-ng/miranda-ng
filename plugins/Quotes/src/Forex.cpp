@@ -13,7 +13,7 @@ HGENMENU g_hMenuOpenLogFile = NULL;
 #ifdef CHART_IMPLEMENT
 HGENMENU g_hMenuChart = NULL;
 #endif
-HGENMENU g_hMenuRefresh = NULL;
+HGENMENU g_hMenuRefresh = NULL, g_hMenuRoot = NULL;
 
 #define DB_STR_AUTO_UPDATE "AutoUpdate"
 
@@ -125,7 +125,7 @@ void InitMenu()
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
-	mi.root = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
+	g_hMenuRoot = mi.root = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "C259BE01-642C-461E-997D-0E756B2A3AD6");
 
 	SET_UID(mi, 0xb9812194, 0x3235, 0x4e76, 0xa3, 0xa4, 0x73, 0x32, 0x96, 0x1c, 0x1c, 0xf4);
