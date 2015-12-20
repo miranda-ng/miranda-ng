@@ -62,9 +62,7 @@ extern LPCSTR sim228;
 extern LPCSTR sim229;
 extern LPCSTR sim230;
 extern LPCSTR sim231[];
-extern LPCWSTR sim231W[];
 extern LPCSTR sim232[];
-extern LPCWSTR sim232W[];
 extern LPCSTR sim233;
 extern LPCSTR sim234;
 
