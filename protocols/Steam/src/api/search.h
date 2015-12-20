@@ -4,13 +4,14 @@
 class SearchRequest : public HttpRequest
 {
 public:
-	SearchRequest(const char *token, const char *text) :
+	SearchRequest(const char *token, const char *text, int offset = 0, int count = 30) :
 		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001")
 	{
 		AddParameter("access_token", token);
 		AddParameter("keywords", ptrA(mir_urlEncode(text)));
-		// todo: may need to load all results (15 first at now)
-		AddParameter("offset=0&count=15&targets=users&fields=all");
+		AddParameter("offset=%d", offset);
+		AddParameter("count=%d", count);
+		AddParameter("targets=users&fields=all");
 	}
 };
 

@@ -52,6 +52,7 @@ public:
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual HANDLE    __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName);
 
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
@@ -151,10 +152,8 @@ protected:
 	void OnPendingApproved(const HttpResponse *response, void *arg);
 	void OnPendingIgnoreded(const HttpResponse *response, void *arg);
 
-	void OnSearchByIdEnded(const HttpResponse *response, void *arg);
-
+	void OnSearchResults(const HttpResponse *response, void *arg);
 	void OnSearchByNameStarted(const HttpResponse *response, void *arg);
-	void OnSearchByNameFinished(const HttpResponse *response, void *arg);
 
 	// messages
 	int OnSendMessage(MCONTACT hContact, const char* message);

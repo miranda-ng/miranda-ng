@@ -231,11 +231,30 @@ HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 
 	PushRequest(
 		new GetUserSummariesRequest(token, steamId),
-		&CSteamProto::OnSearchByIdEnded,
-		mir_tstrdup(id),
-		MirFreeArg);
+		&CSteamProto::OnSearchResults,
+		(HANDLE)STEAM_SEARCH_BYID);
 
 	return (HANDLE)STEAM_SEARCH_BYID;
+}
+
+HANDLE CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
+{
+	if (!this->IsOnline())
+		return 0;
+
+	// Combine all fields to single text
+	TCHAR keywordsT[200];
+	mir_sntprintf(keywordsT, _T("%s %s %s"), nick, firstName, lastName);
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA keywords(mir_utf8encodeW(keywordsT));
+
+	PushRequest(
+		new SearchRequest(token, keywords),
+		&CSteamProto::OnSearchByNameStarted,
+		(HANDLE)STEAM_SEARCH_BYNAME);
+
+	return (HANDLE)STEAM_SEARCH_BYNAME;
 }
 
 int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
