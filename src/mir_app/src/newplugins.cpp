@@ -74,18 +74,13 @@ static pluginEntry *plugin_freeimg, *plugin_crshdmp, *serviceModePlugin, *plugin
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic functions
 
-int equalUUID(const MUUID& u1, const MUUID& u2)
-{
-	return memcmp(&u1, &u2, sizeof(MUUID)) ? 0 : 1;
-}
-
 bool hasMuuid(const MUUID* p, const MUUID& uuid)
 {
 	if (p == NULL)
 		return false;
 
-	for (int i = 0; !equalUUID(miid_last, p[i]); i++)
-		if (equalUUID(uuid, p[i]))
+	for (int i = 0; p[i] != miid_last; i++)
+		if (p[i] == uuid)
 			return true;
 
 	return false;
@@ -121,7 +116,7 @@ static const MUUID pluginBannedList[] =
 static bool isPluginBanned(const MUUID& u1)
 {
 	for (int i = 0; i < _countof(pluginBannedList); i++)
-		if (equalUUID(pluginBannedList[i], u1))
+		if (pluginBannedList[i] == u1)
 			return true;
 
 	return false;
@@ -150,7 +145,7 @@ static MuuidReplacement pluginDefault[] =
 int getDefaultPluginIdx(const MUUID &muuid)
 {
 	for (int i = 0; i < _countof(pluginDefault); i++)
-		if (equalUUID(muuid, pluginDefault[i].uuid))
+		if (muuid == pluginDefault[i].uuid)
 			return i;
 
 	return -1;
@@ -203,7 +198,7 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 {
-	if (equalUUID(uuid, miid_last))
+	if (uuid == miid_last)
 		return --sttFakeID;
 
 	for (int i = 0; i < pluginList.getCount(); i++) {
@@ -211,7 +206,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 		if (!p->bpi.hInst)
 			continue;
 
-		if (equalUUID(p->bpi.pluginInfo->uuid, uuid))
+		if (p->bpi.pluginInfo->uuid == uuid)
 			return p->hLangpack = (_hLang) ? _hLang : --sttFakeID;
 	}
 
@@ -225,7 +220,7 @@ MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 		if (!p->bpi.hInst)
 			continue;
 
-		if (equalUUID(p->bpi.pluginInfo->uuid, uuid))
+		if (p->bpi.pluginInfo->uuid == uuid)
 			return true;
 	}
 
@@ -237,7 +232,7 @@ static bool validInterfaceList(MUUID *piface)
 	if (piface == NULL)
 		return true;
 
-	if (equalUUID(miid_last, piface[0]))
+	if (miid_last == piface[0])
 		return false;
 
 	return true;
@@ -523,7 +518,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 		if (p->bpi.Interfaces) {
 			MUUID *piface = p->bpi.Interfaces;
-			for (int i = 0; !equalUUID(miid_last, piface[i]); i++) {
+			for (int i = 0; piface[i] != miid_last; i++) {
 				int idx = getDefaultPluginIdx(piface[i]);
 				if (idx != -1 && pluginDefault[idx].pImpl) {
 					if (!bDynamic) { // this place is already occupied, skip & disable
@@ -545,7 +540,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		p->pclass |= PCLASS_LOADED;
 		if (p->bpi.Interfaces) {
 			MUUID *piface = p->bpi.Interfaces;
-			for (int i = 0; !equalUUID(miid_last, piface[i]); i++) {
+			for (int i = 0; piface[i] != miid_last; i++) {
 				int idx = getDefaultPluginIdx(piface[i]);
 				if (idx != -1)
 					pluginDefault[idx].pImpl = p;

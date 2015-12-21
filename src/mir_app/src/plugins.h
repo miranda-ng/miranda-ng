@@ -57,11 +57,10 @@ void UnloadPluginOptions();
 int isPluginOnWhiteList(const TCHAR* pluginname);
 void SetPluginOnWhiteList(const TCHAR* pluginname, int allow);
 
-int getDefaultPluginIdx(const MUUID& muuid);
+int  getDefaultPluginIdx(const MUUID& muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 bool hasMuuid(const MUUID* pFirst, const MUUID&);
-int equalUUID(const MUUID& u1, const MUUID& u2);
-int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
+int  checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
 
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path);
 

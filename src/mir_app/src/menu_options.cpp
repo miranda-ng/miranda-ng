@@ -86,7 +86,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			m_menuItems.GetItem(&tvi);
 			MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
 			if (TMO_IntMenuItem *pimi = iod->pimi) {
-				if (!equalUUID(pimi->mi.uid, miid_last)) {
+				if (pimi->mi.uid != miid_last) {
 					char menuItemName[256];
 					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
@@ -510,7 +510,7 @@ public:
 
 		m_customName.SetText(iod->name);
 
-		if (!equalUUID(iod->pimi->mi.uid, miid_last)) {
+		if (iod->pimi->mi.uid != miid_last) {
 			char szText[100];
 			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
 			m_service.SetTextA(szText);
