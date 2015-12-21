@@ -138,7 +138,7 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 				__leave;
 
 			int nLength = 1; // one for MIID_LAST
-			for (MUUID* p = pIds; !equalUUID(*p, miid_last); p++)
+			for (MUUID* p = pIds; *p != miid_last; p++)
 				nLength++;
 
 			pResult = (MUUID*)mir_alloc( sizeof(MUUID)*nLength);

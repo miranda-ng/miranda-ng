@@ -732,7 +732,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 			pRoot->iconId = p->iconId;
 		
 		// if parent menu has no uid, copy our id instead
-		if (!equalUUID(pmi->uid, miid_last) && equalUUID(pRoot->mi.uid, miid_last)) {
+		if (pmi->uid != miid_last && pRoot->mi.uid == miid_last) {
 			char szUid[100];
 			bin2hex(&pmi->uid, sizeof(pmi->uid), szUid);
 			Netlib_Logf("[MENU]: fake UUID added to menu item %s", szUid);
@@ -883,7 +883,7 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 
 static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 {
-	if (!equalUUID(pmi->mi.uid, miid_last)) {
+	if (pmi->mi.uid != miid_last) {
 		char menuItemName[200];
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
@@ -972,7 +972,7 @@ static int sttFindMenuItemByUid(TMO_IntMenuItem *pimi, void *pUid)
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 {
-	if ((pimi->mi.flags & CMIF_SYSTEM) || equalUUID(pimi->mi.uid, miid_last))
+	if ((pimi->mi.flags & CMIF_SYSTEM) || pimi->mi.uid == miid_last)
 		return 0;
 
 	char menuItemName[256];
@@ -1201,7 +1201,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
 	TCHAR *descr = GetMenuItemText(pmi);
-	if (!descr || pmi->hIcolibItem != NULL || equalUUID(pmi->mi.uid, miid_last))
+	if (!descr || pmi->hIcolibItem != NULL || pmi->mi.uid == miid_last)
 		return FALSE;
 
 	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);

@@ -75,7 +75,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	dat->stdPlugin = 0;
 	if (pi.Interfaces) {
 		MUUID *piface = pi.Interfaces;
-		for (int i = 0; !equalUUID(miid_last, piface[i]); i++) {
+		for (int i = 0; piface[i] != miid_last; i++) {
 			int idx = getDefaultPluginIdx(piface[i]);
 			if (idx != -1) {
 				dat->stdPlugin |= (1 << idx);
@@ -442,7 +442,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ptrT tszUrl(latin2t(sel ? dat->homepage : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINURL, tszUrl);
 
-						if (!equalUUID(miid_last, dat->uuid)) {
+						if (dat->uuid != miid_last) {
 							char szUID[128];
 							uuidToString(dat->uuid, szUID, sizeof(szUID));
 							SetDlgItemTextA(hwndDlg, IDC_PLUGINPID, sel ? szUID : "");
