@@ -282,6 +282,56 @@ MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest)
 	return dest;
 }
 
+static int hex2dec(int iHex)
+{
+	if (iHex >= '0' && iHex <= '9')
+		return iHex - '0';
+	if (iHex >= 'a' && iHex <= 'f')
+		return iHex - 'a' + 10;
+	if (iHex >= 'A' && iHex <= 'F')
+		return iHex - 'A' + 10;
+	return 0;
+}
+
+MIR_CORE_DLL(bool) hex2bin(const char *pSrc, void *pData, size_t len)
+{
+	if (pSrc == NULL || pData == NULL || len == 0)
+		return false;
+
+	size_t bufLen = strlen(pSrc)/2;
+	if (pSrc[bufLen*2] != 0 || bufLen > len)
+		return false;
+
+	BYTE *pDest = (BYTE*)pData;
+	const char *p = (const char *)pSrc;
+	for (size_t i = 0; i < bufLen; i++, p += 2)
+		pDest[i] = hex2dec(p[0]) * 16 + hex2dec(p[1]);
+
+	if (bufLen < len)
+		memset(pDest + bufLen, 0, len - bufLen);
+	return true;
+}
+
+MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len)
+{
+	if (pSrc == NULL || pData == NULL || len == 0)
+		return false;
+
+	size_t bufLen = wcslen(pSrc);
+	if (pSrc[bufLen * 2] != 0 || bufLen > len)
+		return false;
+
+	BYTE *pDest = (BYTE*)pData;
+	const wchar_t *p = (const wchar_t *)pSrc;
+	for (size_t i = 0; i < bufLen; i++, p += 2)
+		pDest[i] = hex2dec(p[0]) * 16 + hex2dec(p[1]);
+
+	if (bufLen < len)
+		memset(pDest+bufLen, 0, len - bufLen);
+	return true;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma intrinsic(strlen, strcpy, strcat, strcmp, wcslen, wcscpy, wcscat, wcscmp)

@@ -988,3 +988,5 @@ mir_sha256_hash @1145
 mir_sha256_init @1146
 mir_sha256_write @1147
 mir_forkthreadowner @1148
+hex2bin @1149
+hex2binW @1150

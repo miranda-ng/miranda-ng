@@ -408,6 +408,9 @@ MIR_CORE_DLL(int) wildcmpiw(const wchar_t *name, const wchar_t *mask);
 MIR_CORE_DLL(char*)  bin2hex(const void *pData, size_t len, char *dest);
 MIR_CORE_DLL(wchar_t*) bin2hexW(const void *pData, size_t len, wchar_t *dest);
 
+MIR_CORE_DLL(bool) hex2bin(const char *pSrc, void *pData, size_t len);
+MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len);
+
 __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
@@ -459,6 +462,7 @@ typedef union {
 
 	#define replaceStrT replaceStrW
 	#define bin2hexT    bin2hexW
+	#define hex2binT    hex2binW
 
 	#define rtrimt  rtrimw
 	#define ltrimt  ltrimw
@@ -499,6 +503,7 @@ typedef union {
 
 	#define replaceStrT replaceStr
 	#define bin2hexT    bin2hex
+	#define hex2binT    hex2bin
 
 	#define rtrimt rtrim
 	#define ltrimt ltrim
