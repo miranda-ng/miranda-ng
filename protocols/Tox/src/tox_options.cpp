@@ -167,7 +167,7 @@ void CToxOptionsMain::OnApply()
 		// todo: add checkbox
 		m_proto->setTString("Password", pass_ptrT(m_password.GetText()));
 
-		m_proto->SaveToxProfile();
+		m_proto->SaveToxProfile(m_proto->toxThread);
 	}
 }
 

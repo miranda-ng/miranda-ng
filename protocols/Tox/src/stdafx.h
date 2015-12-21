@@ -17,7 +17,6 @@ DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0
 #include <vector>
 #include <regex>
 #include <map>
-#include <algorithm>
 
 #include <newpluginapi.h>
 

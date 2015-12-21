@@ -5,9 +5,7 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 	std::smatch match;
 	std::regex regex("^v=tox1;id=([A-Fa-f0-9]{76})(;sign=(\\S+))?$");
 	if (std::regex_search(dnsRecord, match, regex))
-	{
 		return ToxHexAddress(match[1]);
-	}
 	return ToxHexAddress::Empty();
 }
 

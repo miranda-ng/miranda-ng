@@ -97,7 +97,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	return false;
 }
 
-void CToxProto::SaveToxProfile()
+void CToxProto::SaveToxProfile(CToxThread *toxThread)
 {
 	mir_cslock locker(profileLock);
 

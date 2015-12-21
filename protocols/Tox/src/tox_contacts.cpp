@@ -196,7 +196,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
 
-	SaveToxProfile();
+	SaveToxProfile(toxThread);
 
 	return 0;
 }
@@ -215,7 +215,7 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 			logger->Log(__FUNCTION__": failed to delete friend (%d)", error);
 			return error;
 		}
-		SaveToxProfile();
+		SaveToxProfile(toxThread);
 	}
 	/*else
 	{
