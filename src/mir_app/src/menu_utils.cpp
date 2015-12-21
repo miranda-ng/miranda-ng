@@ -967,9 +967,7 @@ void ScheduleMenuUpdate()
 
 static int sttFindMenuItemByUid(TMO_IntMenuItem *pimi, void *pUid)
 {
-	char szUid[33];
-	bin2hex(&pimi->mi.uid, sizeof(MUUID), szUid);
-	return !strcmp(szUid, (char*)pUid);
+	return 0 == memcmp(&pimi->mi.uid, pUid, sizeof(MUUID));
 }
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
@@ -988,21 +986,25 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	TCHAR *ptszToken = szValue, *pDelim = _tcschr(szValue, ';');
 	int bVisible = true, pos = 0;
 	TCHAR tszCustomName[201]; tszCustomName[0] = 0;
-	char szCustomRoot[33]; szCustomRoot[0] = 0;
+	MUUID customRoot = {};
 	for (int i = 0; i < 4; i++) {
 		if (pDelim)
 			*pDelim = 0;
 		
 		switch (i) {
-			case 0: bVisible = _ttoi(ptszToken); break;
-			case 1: pos = _ttoi(ptszToken); break;
-			case 2: strncpy_s(szCustomRoot, _T2A(ptszToken), _TRUNCATE); break;
+		case 0: bVisible = _ttoi(ptszToken); break;
+		case 1: pos = _ttoi(ptszToken); break;
+		case 2:
+			hex2binT(ptszToken, &customRoot, sizeof(customRoot));
+			if (customRoot == pimi->mi.uid) // prevent a loop
+				memset(&customRoot, 0, sizeof(customRoot));
+			break;
 		}
 
 		ptszToken = pDelim + 1;
 		if ((pDelim = _tcschr(ptszToken, ';')) == NULL) {
 			if (i == 2 && *ptszToken != 0)
-				_tcsncpy_s(tszCustomName, ptszToken, _TRUNCATE); break;
+				_tcsncpy_s(tszCustomName, ptszToken, _TRUNCATE);
 			break;
 		}
 	}
@@ -1017,32 +1019,30 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	if (tszCustomName[0])
 		replaceStrT(pimi->ptszCustomName, tszCustomName);
 
-	if (szCustomRoot[0]) {
-		char szCurrentUid[33];
-		if (pimi->mi.root == NULL)
-			szCurrentUid[0] = 0;
-		else
-			bin2hex(&pimi->mi.root->mi.uid, sizeof(pimi->mi.root->mi.uid), szCurrentUid);
+	MUUID currentUid;
+	if (pimi->mi.root == NULL)
+		memset(&currentUid, 0, sizeof(currentUid));
+	else
+		memcpy(&currentUid, &pimi->mi.root->mi.uid, sizeof(currentUid));
 		
-		if (0 != strcmp(szCurrentUid, szCustomRoot)) { // need to move menu item to another root
-			TMO_LinkedList *pNew;
-			if (szCustomRoot[0] != 0) {
-				TMO_IntMenuItem *p = MO_RecursiveWalkMenu(pmo->m_items.first, sttFindMenuItemByUid, &szCustomRoot);
-				if (p == NULL)
-					return NULL;
+	if (currentUid != customRoot) { // need to move menu item to another root
+		TMO_LinkedList *pNew;
+		if (customRoot != miid_last) {
+			TMO_IntMenuItem *p = MO_RecursiveWalkMenu(pmo->m_items.first, sttFindMenuItemByUid, &customRoot);
+			if (p == NULL)
+				return 0;
 
-				pimi->mi.root = p;
-				pNew = &p->submenu;
-			}
-			else {
-				pimi->mi.root = NULL;
-				pNew = &pmo->m_items;
-			}
-
-			// relink menu item
-			pimi->owner->remove(pimi);
-			pNew->insert(pimi);
+			pimi->mi.root = p;
+			pNew = &p->submenu;
 		}
+		else {
+			pimi->mi.root = NULL;
+			pNew = &pmo->m_items;
+		}
+
+		// relink menu item
+		pimi->owner->remove(pimi);
+		pNew->insert(pimi);
 	}
 
 	return 0;

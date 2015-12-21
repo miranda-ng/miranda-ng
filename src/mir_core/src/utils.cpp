@@ -317,7 +317,7 @@ MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len)
 	if (pSrc == NULL || pData == NULL || len == 0)
 		return false;
 
-	size_t bufLen = wcslen(pSrc);
+	size_t bufLen = wcslen(pSrc)/2;
 	if (pSrc[bufLen * 2] != 0 || bufLen > len)
 		return false;
 
