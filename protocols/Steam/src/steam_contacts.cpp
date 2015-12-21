@@ -432,15 +432,21 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 	// We need to delete nroot here at the end, because we had references to JSONNode objects stored in friends map
 	json_delete(nroot);
 
+	ptrA token(getStringA("TokenSecret"));
+
 	if (!steamIds.empty())
 	{
 		//steamIds.pop_back();
-		ptrA token(getStringA("TokenSecret"));
 
 		PushRequest(
 			new GetUserSummariesRequest(token, steamIds.c_str()),
 			&CSteamProto::OnGotUserSummaries);
 	}
+
+	// Download last messages
+	PushRequest(
+		new GetConversationsRequest(token),
+		&CSteamProto::OnGotConversations);
 }
 
 void CSteamProto::OnGotBlockList(const HttpResponse *response)

@@ -86,6 +86,12 @@ protected:
 	mir_cs set_status_lock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
+	/**
+	 * Used only to compare in steam_history.cpp, others should write such value directly to db profile, because PollingThread
+	 * may start sooner than steam_history requests so it could possibly break getting history messages from server
+	 */
+	time_t m_lastMessageTS;
+
 	// instances
 	static LIST<CSteamProto> InstanceList;
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
@@ -162,6 +168,10 @@ protected:
 	void OnMessageSent(const HttpResponse *response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
+	// history
+	void OnGotConversations(const HttpResponse *response);
+	void OnGotHistoryMessages(const HttpResponse *response, void *arg);
+
 	// menus
 	static int hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
@@ -230,6 +240,13 @@ protected:
 
 		// ... or we can report real idle info
 		// return m_idleTS ? time(0) - m_idleTS : 0;
+	}
+
+	inline const char *AccountIdToSteamId(long long accountId)
+	{
+		static char steamId[20];
+		mir_snprintf(steamId, "%llu", accountId + 76561197960265728ll);
+		return steamId;
 	}
 };
 

@@ -215,6 +215,12 @@ void CSteamProto::PollingThread(void*)
 
 					if (!lstrcmpi(error, _T("OK")))
 					{
+						// Remember last message timestamp
+						node = json_get(root, "timestamp");
+						time_t lastMessageTS = _ttoi64(ptrT(json_as_string(node)));
+						if (lastMessageTS > getDword("LastMessageTS", 0))
+							setDword("LastMessageTS", lastMessageTS);
+
 						node = json_get(root, "messagelast");
 						messageId = json_as_int(node);
 

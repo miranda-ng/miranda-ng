@@ -69,6 +69,7 @@ extern HANDLE hExtraXStatus;
 #include "api\captcha.h"
 #include "api\friend.h"
 #include "api\friend_list.h"
+#include "api\history.h"
 #include "api\login.h"
 #include "api\message.h"
 #include "api\pending.h"

@@ -7,6 +7,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	m_idleTS = 0;
+	m_lastMessageTS = 0;
 	isLoginAgain = false;
 	m_hQueueThread = NULL;
 	m_pollingConnection = NULL;
@@ -319,6 +320,9 @@ int CSteamProto::SetStatus(int new_status)
 	}
 	else if (old_status == ID_STATUS_OFFLINE)
 	{
+		// Load last message timestamp for correct loading of messages history
+		m_lastMessageTS = getDword("LastMessageTS", 0);
+
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
