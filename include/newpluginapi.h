@@ -49,6 +49,13 @@ struct MUUID
 	unsigned char d[8];
 };
 
+__forceinline bool operator==(const MUUID &p1, const MUUID &p2)
+{	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
+}
+__forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
+{	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
+}
+
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack);
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid);
 
