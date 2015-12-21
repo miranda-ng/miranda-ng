@@ -81,7 +81,7 @@ private:
 	static TCHAR* GetToxProfilePath(const TCHAR *accountName);
 
 	bool LoadToxProfile(Tox_Options *options);
-	void SaveToxProfile();
+	void SaveToxProfile(CToxThread *toxThread);
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 

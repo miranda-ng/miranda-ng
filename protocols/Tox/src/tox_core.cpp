@@ -126,7 +126,7 @@ void CToxProto::UninitToxCore(CToxThread *toxThread)
 		{
 			CancelAllTransfers();
 
-			SaveToxProfile();
+			SaveToxProfile(toxThread);
 
 			if (toxThread->tox != NULL)
 			{
