@@ -20,7 +20,8 @@ public:
 		AddParameter("access_token", token);
 		AddParameter("steamid1", steamId);
 		AddParameter("steamid2", who);
-		AddParameter("rtime32_start_time=%d", since);
+		// Steam somehow doesn't respect too precise start time parameter, so we better request older time and then do own filtering again
+		AddParameter("rtime32_start_time=%d", since - 1500);
 	}
 };
 

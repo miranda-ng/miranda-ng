@@ -2,6 +2,10 @@
 
 void CSteamProto::OnGotConversations(const HttpResponse *response)
 {
+	// Don't load any messages when we don't have lastMessageTS, as it may cause duplicates
+	if (m_lastMessageTS <= 0)
+		return;
+
 	if (!ResponseHttpOk(response))
 		return;
 
@@ -10,18 +14,6 @@ void CSteamProto::OnGotConversations(const HttpResponse *response)
 		return;
 
 	JSONNode *node = json_get(root, "response");
-
-	if (m_lastMessageTS <= 0)
-	{
-		// Remember and save actual timestamp (as it is first we've got)
-		JSONNode *timestampNode = json_get(node, "timestamp");
-		m_lastMessageTS = _ttoi64(ptrT(json_as_string(timestampNode)));
-		setDword("LastMessageTS", m_lastMessageTS);
-
-		// And don't load any messages as it may cause duplicates
-		return;
-	}
-
 	JSONNode *sessions = json_get(node, "message_sessions");
 	JSONNode *nsessions = json_as_array(sessions);
 
@@ -96,6 +88,10 @@ void CSteamProto::OnGotHistoryMessages(const HttpResponse *response, void *arg)
 		node = json_get(message, "timestamp");
 		time_t timestamp = _ttoi64(ptrT(json_as_string(node)));
 
+		// Ignore already existing messages
+		if (timestamp <= m_lastMessageTS)
+			continue;
+
 		PROTORECVEVENT recv = { 0 };
 		recv.timestamp = timestamp;
 		recv.szMessage = szMessage;
@@ -111,10 +107,6 @@ void CSteamProto::OnGotHistoryMessages(const HttpResponse *response, void *arg)
 			recv.flags = PREF_SENT;
 			Proto_RecvMessage(hContact, &recv);
 		}
-
-		// Update last message timestamp
-		if (timestamp > getDword("LastMessageTS", 0))
-			setDword("LastMessageTS", timestamp);
 	}
 
 	json_delete(nmessages);
