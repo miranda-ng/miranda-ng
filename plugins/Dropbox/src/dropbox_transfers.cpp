@@ -35,7 +35,7 @@ void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *up
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleHttpResponseError(response);
-	
+
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
 		return;
@@ -76,7 +76,7 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
 		return;
-	
+
 	JSONNode node = root.at("url");
 	mir_strcpy(url, node.as_string().c_str());
 }
@@ -88,20 +88,16 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
-	try
-	{
-		if (ftp->ptszFolders)
-		{
-			for (int i = 0; ftp->ptszFolders[i]; i++)
-			{
-				if(ftp->isTerminated)
+	try {
+		if (ftp->ptszFolders) {
+			for (int i = 0; ftp->ptszFolders[i]; i++) {
+				if (ftp->isTerminated)
 					throw TransferException("Transfer was terminated");
 
 				ptrA utf8_folderName(mir_utf8encodeW(ftp->ptszFolders[i]));
 
 				instance->CreateFolder(utf8_folderName);
-				if (!strchr(utf8_folderName, '\\'))
-				{
+				if (!strchr(utf8_folderName, '\\')) {
 					char url[MAX_PATH];
 					instance->CreateDownloadUrl(utf8_folderName, url);
 					ftp->AddUrl(url);
@@ -109,8 +105,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			}
 		}
 
-		for (int i = 0; ftp->pfts.ptszFiles[i]; i++)
-		{
+		for (int i = 0; ftp->pfts.ptszFiles[i]; i++) {
 			if (ftp->isTerminated)
 				throw TransferException("Transfer was terminated");
 
@@ -142,10 +137,8 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				chunkSize = DROPBOX_FILE_CHUNK_SIZE;
 
 			char *data = (char*)mir_alloc(chunkSize);
-			while (!feof(hFile) && fileSize != offset)
-			{
-				try
-				{
+			while (!feof(hFile) && fileSize != offset) {
+				try {
 					if (ferror(hFile))
 						throw TransferException("Error while file sending");
 
@@ -162,8 +155,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					ftp->pfts.currentFileProgress += size;
 					ftp->pfts.totalProgress += size;
 				}
-				catch (TransferException&)
-				{
+				catch (TransferException&) {
 					mir_free(data);
 					fclose(hFile);
 					throw;
@@ -181,8 +173,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 			instance->SendFileChunkedLast(utf8_fileName, uploadId);
 
-			if (!_tcschr(fileName, L'\\'))
-			{
+			if (!_tcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
 				instance->CreateDownloadUrl(utf8_fileName, url);
 				ftp->AddUrl(url);
@@ -194,8 +185,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
 		}
 	}
-	catch (TransferException &ex)
-	{
+	catch (TransferException &ex) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
 		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
 		return ACKRESULT_FAILED;
@@ -214,8 +204,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	int res = SendFilesAsync(owner, arg);
-	if (res)
-	{
+	if (res) {
 		instance->transfers.remove(ftp);
 		delete ftp;
 		return res;

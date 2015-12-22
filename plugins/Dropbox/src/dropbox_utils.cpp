@@ -2,8 +2,7 @@
 
 char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case HTTP_STATUS_ERROR:
 		return "Server does not respond";
 	case HTTP_STATUS_OK:
@@ -53,16 +52,14 @@ MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD c
 
 void CDropbox::SendToContact(MCONTACT hContact, const char* data)
 {
-	if (hContact == GetDefaultContact())
-	{
+	if (hContact == GetDefaultContact()) {
 		char *message = mir_utf8encode(data);
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF, mir_strlen(message), (PBYTE)message);
 		return;
 	}
 
 	const char *szProto = GetContactProto(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
-	{
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
 		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
 		GCEVENT gce = { sizeof(gce), &gcd };
@@ -75,8 +72,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const char* data)
 		return;
 	}
 
-	if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED)
-	{
+	if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED) {
 		char *message = mir_utf8encode(data);
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, mir_strlen(message), (PBYTE)message);
 	}
@@ -89,8 +85,7 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
-	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd))
-	{
+	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd)) {
 		HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
 		if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
 
@@ -101,16 +96,13 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
 
 void CDropbox::PasteToClipboard(const char* data)
 {
-	if (OpenClipboard(NULL))
-	{
+	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 		size_t size = sizeof(TCHAR) * (mir_strlen(data) + 1);
 		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-		if (hClipboardData)
-		{
+		if (hClipboardData) {
 			TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
-			if (pchData)
-			{
+			if (pchData) {
 				memcpy(pchData, (TCHAR*)data, size);
 				GlobalUnlock(hClipboardData);
 				SetClipboardData(CF_TEXT, hClipboardData);
