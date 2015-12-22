@@ -377,7 +377,8 @@ static int lua__From(lua_State *L)
 		lua_gettable(L, 1);
 		int interval = luaL_optinteger(L, -1, 1);
 		lua_pop(L, 1);
-		startTime += (((timestamp - startTime) / interval) + 1) * interval;
+		if (interval > 0)
+			startTime += (((timestamp - startTime) / interval) + 1) * interval;
 	}
 
 	lua_pushvalue(L, 1);
