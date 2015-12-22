@@ -278,7 +278,6 @@ void Mind::Load(tstring filename)
 	}
 	catch (...) {
 		throw CorruptedMind(line);
-		delete co;
 	}
 }
 
