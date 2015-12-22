@@ -22,8 +22,7 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	WORD status = ProtoGetStatus(0, 0);
 	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, status);
 
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
@@ -42,8 +41,7 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 
 int CDropbox::OnPreShutdown(WPARAM, LPARAM)
 {
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
@@ -56,8 +54,7 @@ int CDropbox::OnPreShutdown(WPARAM, LPARAM)
 
 int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM)
 {
-	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0)
-	{
+	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0) {
 		if (HasAccessToken())
 			DestroyAccessToken();
 		hDefaultContact = NULL;
@@ -68,8 +65,7 @@ int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM)
 int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
-	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact)
-	{
+	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) {
 		char *proto = GetContactProto(ev->hContact);
 		bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
 		WORD status = db_get_w(ev->hContact, proto, "Status", ID_STATUS_OFFLINE);
@@ -93,8 +89,7 @@ int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 int CDropbox::OnTabSrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
-	{
+	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact) {
 		hTransferContact = cbc->hContact;
 		hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
 
@@ -125,8 +120,7 @@ void __stdcall EnableTabSrmmButtonSync(void *arg)
 int CDropbox::OnFileDialogCancelled(WPARAM, LPARAM lParam)
 {
 	HWND hwnd = (HWND)lParam;
-	if (hTransferWindow == hwnd)
-	{
+	if (hTransferWindow == hwnd) {
 		CallFunctionAsync(EnableTabSrmmButtonSync, (void*)hTransferContact);
 		hTransferContact = 0;
 		hTransferWindow = 0;
@@ -138,8 +132,7 @@ int CDropbox::OnFileDialogCancelled(WPARAM, LPARAM lParam)
 int CDropbox::OnFileDialogSuccessed(WPARAM, LPARAM lParam)
 {
 	HWND hwnd = (HWND)lParam;
-	if (hTransferWindow == hwnd)
-	{
+	if (hTransferWindow == hwnd) {
 		CallFunctionAsync(EnableTabSrmmButtonSync, (void*)hTransferContact);
 		hTransferWindow = 0;
 	}
@@ -154,23 +147,20 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 	if (!mir_strcmp(ack->szModule, MODULE))
 		return 0; // don't rebroadcast our own acks
 
-	if (ack->type == ACKTYPE_STATUS)
-	{
+	if (ack->type == ACKTYPE_STATUS) {
 		WORD status = ack->lParam;
 		bool canSendOffline = (CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
 		MessageWindowInputData msgwi = { sizeof(msgwi) };
 		msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
-		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule))
-		{
+		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule)) {
 			msgwi.hContact = hContact;
 
 			MessageWindowData msgw;
 			msgw.cbSize = sizeof(msgw);
 
-			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS)
-			{
+			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = { sizeof(bbd) };
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

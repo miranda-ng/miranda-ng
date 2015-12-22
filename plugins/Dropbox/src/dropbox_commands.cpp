@@ -29,15 +29,13 @@ void CDropbox::CommandContent(void *arg)
 	GetMetadataRequest request(token, encodedPath);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
-	{
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-	{
+	if (root.empty()) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
@@ -46,14 +44,11 @@ void CDropbox::CommandContent(void *arg)
 	bool isDir = root.at("is_dir").as_bool();
 	if (!isDir)
 		message.AppendFormat("\"%s\" %s", encodedPath, T2Utf(TranslateT("is file")));
-	else
-	{
+	else {
 		JSONNode content = root.at("contents").as_array();
-		for (size_t i = 0; i < content.size(); i++)
-		{
+		for (size_t i = 0; i < content.size(); i++) {
 			JSONNode item = content[i];
-			if (item.empty())
-			{
+			if (item.empty()) {
 				if (i == 0)
 					message.AppendFormat("\"%s\" %s", encodedPath, T2Utf(TranslateT("is empty")));
 				break;
@@ -73,8 +68,7 @@ void CDropbox::CommandShare(void *arg)
 	CommandParam *param = (CommandParam*)arg;
 
 	char *path = (char*)param->data;
-	if (path == NULL)
-	{
+	if (path == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
@@ -88,15 +82,13 @@ void CDropbox::CommandShare(void *arg)
 	ShareRequest request(token, encodedPath, useShortUrl);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
-	{
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-	{
+	if (root.empty()) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
@@ -111,8 +103,7 @@ void CDropbox::CommandDelete(void *arg)
 	CommandParam *param = (CommandParam*)arg;
 
 	char *path = (char*)param->data;
-	if (path == NULL)
-	{
+	if (path == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/delete");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
@@ -124,15 +115,13 @@ void CDropbox::CommandDelete(void *arg)
 	DeleteRequest request(token, encodedPath);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
-	{
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-	{
+	if (root.empty()) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}

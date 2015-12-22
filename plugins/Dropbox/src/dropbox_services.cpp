@@ -10,8 +10,7 @@ HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASER
 
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILESEND;
 	case PFLAGNUM_2:
@@ -25,8 +24,7 @@ INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 
 INT_PTR CDropbox::ProtoGetName(WPARAM wParam, LPARAM lParam)
 {
-	if (lParam)
-	{
+	if (lParam) {
 		mir_strncpy((char *)lParam, MODULE, wParam);
 		return 0;
 	}
@@ -48,8 +46,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	if (!HasAccessToken())
-	{
+	if (!HasAccessToken()) {
 		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send files when you are not authorized.");
 		return 0;
 	}
@@ -62,8 +59,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 	TCHAR **paths = (TCHAR**)pccsd->lParam;
 
-	for (int i = 0; paths[i]; i++)
-	{
+	for (int i = 0; paths[i]; i++) {
 		if (PathIsDirectory(paths[i]))
 			ftp->totalFolders++;
 		else
@@ -76,12 +72,9 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	ftp->pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->pfts.totalFiles + 1));
 	ftp->pfts.ptszFiles[ftp->pfts.totalFiles] = NULL;
 
-	for (int i = 0, j = 0, k = 0; paths[i]; i++)
-	{
-		if (PathIsDirectory(paths[i]))
-		{
-			if (!ftp->relativePathStart)
-			{
+	for (int i = 0, j = 0, k = 0; paths[i]; i++) {
+		if (PathIsDirectory(paths[i])) {
+			if (!ftp->relativePathStart) {
 				TCHAR *rootFolder = paths[j];
 				TCHAR *relativePath = _tcsrchr(rootFolder, '\\') + 1;
 				ftp->relativePathStart = relativePath - rootFolder;
@@ -91,10 +84,8 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 			j++;
 		}
-		else
-		{
-			if (!ftp->pfts.tszWorkingDir)
-			{
+		else {
+			if (!ftp->pfts.tszWorkingDir) {
 				TCHAR *path = paths[j];
 				int length = _tcsrchr(path, '\\') - path;
 				ftp->pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
@@ -143,15 +134,13 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	if (!HasAccessToken())
-	{
+	if (!HasAccessToken()) {
 		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send messages when you are not authorized.");
 		return 0;
 	}
 
 	char *szMessage = (char*)pccsd->lParam;
-	if (*szMessage == '/')
-	{
+	if (*szMessage == '/') {
 		// parse commands
 		char *sep = strchr(szMessage, ' ');
 		if (sep != NULL) *sep = 0;
@@ -169,10 +158,8 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 			{ "delete", &CDropbox::CommandDelete }
 		};
 
-		for (int i = 0; i < _countof(commands); i++)
-		{
-			if (!mir_strcmp(szMessage+1, commands[i].szCommand))
-			{
+		for (int i = 0; i < _countof(commands); i++) {
+			if (!mir_strcmp(szMessage + 1, commands[i].szCommand)) {
 				ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
 				CommandParam *param = new CommandParam();
