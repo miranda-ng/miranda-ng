@@ -82,9 +82,9 @@ void CSteamProto::OnGotHistoryMessages(const HttpResponse *response, void *arg)
 	// Self SteamID
 	ptrA steamId(getStringA("SteamID"));
 
-	for (size_t i = json_size(nmessages) - 1; i >= 0; i--)
+	for (size_t i = json_size(nmessages); i > 0; i--)
 	{
-		JSONNode *message = json_at(nmessages, i);
+		JSONNode *message = json_at(nmessages, i - 1);
 
 		node = json_get(message, "accountid");
 		const char *authorSteamId = AccountIdToSteamId(_ttoi64(ptrT(json_as_string(node))));
