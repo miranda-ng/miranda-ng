@@ -354,6 +354,12 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
+	
+	if (m_lastMessageTS <= 0) {
+		node = json_get(root, "utc_timestamp");
+		time_t timestamp = _ttoi64(ptrT(json_as_string(node)));
+		setDword("LastMessageTS", timestamp);
+	}
 
 	// load contact list
 	ptrA token(getStringA("TokenSecret"));

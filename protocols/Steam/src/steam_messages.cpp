@@ -51,7 +51,11 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 
 		node = json_get(root, "utc_timestamp");
 		if (node)
+		{
 			timestamp = atol(ptrA(mir_t2a(ptrT(json_as_string(node)))));
+			if (timestamp > getDword("LastMessageTS", 0))
+				setDword("LastMessageTS", timestamp);
+		}
 	}
 
 	if (mir_tstrcmpi(error, _T("OK")) != 0)
