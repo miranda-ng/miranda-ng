@@ -342,9 +342,9 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 	bool bToggled = !db_mc_isEnabled();
 	db_set_b(0, META_PROTO, "Enabled", bToggled);
 	if (bToggled)
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts off"), GetIconHandle(I_MENUOFF));
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts off"), GetIconHandle(I_MENU));
 	else
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENU));
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENUOFF));
 
 	db_mc_enable(bToggled);
 	Meta_HideMetaContacts(!bToggled);
@@ -360,7 +360,7 @@ void InitMenus()
 
 	// main menu item
 	SET_UID(mi, 0x8999a6ca, 0x9c66, 0x49c1, 0xad, 0xe1, 0x48, 0x17, 0x28, 0xb, 0x94, 0x86);
-	mi.hIcolibItem = GetIconHandle(I_MENUOFF);
+	mi.hIcolibItem = GetIconHandle(I_MENU);
 	mi.name.a = LPGEN("Toggle metacontacts off");
 	mi.pszService = "MetaContacts/OnOff";
 	mi.position = 500010000;
@@ -427,7 +427,7 @@ void InitMenus()
 
 	if (!db_mc_isEnabled()) {
 		// modify main menu item
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENU));
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENUOFF));
 		Meta_HideMetaContacts(true);
 	}
 	else {
