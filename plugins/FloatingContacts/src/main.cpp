@@ -26,7 +26,6 @@ static void LoadContact(MCONTACT hContact);
 
 // Internal funcs
 static void	RepaintWindow(HWND hwnd, HDC hdc);
-static void	LoadMenus();
 static void	CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY);
 static void	RegisterWindowClass(void);
 static void	UnregisterWindowClass(void);
@@ -678,6 +677,12 @@ static void LoadContacts()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menus
 
+static IconItemT g_iconList[] =
+{
+	{ LPGENT("Show all thumbs"), "flt_show", IDI_HIDE },
+	{ LPGENT("Hide all thumbs"), "flt_hide", IDI_SHOW }
+};
+
 static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
@@ -685,9 +690,8 @@ static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
 
 	OnStatusChanged();
 
-	Menu_ModifyItem(hMainMenuItemHideAll,
-		fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs"),
-		LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE)));
+	int i = (fcOpt.bHideAll) ? 0 : 1;
+	Menu_ModifyItem(hMainMenuItemHideAll, g_iconList[i].tszDescr, g_iconList[i].hIcolib);
 	return 0;
 }
 
@@ -728,10 +732,11 @@ static void LoadMenus()
 	// Hide all thumbs main menu item
 	CreateServiceFunction(MODULE "/MainHideAllThumbs", OnMainMenu_HideAll);
 	SET_UID(mi, 0x9ce9983f, 0x782a, 0x4ec1, 0xb5, 0x9b, 0x41, 0x4e, 0x9d, 0x92, 0x8e, 0xcb);
-	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
-	mi.name.t = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	mi.pszService = MODULE "/MainHideAllThumbs";	
-	Menu_AddMainMenuItem(&mi);
+	mi.pszService = MODULE "/MainHideAllThumbs";
+	int i = (fcOpt.bHideAll) ? 0 : 1;
+	mi.hIcolibItem = g_iconList[i].hIcolib;
+	mi.name.t = g_iconList[i].tszDescr;
+	hMainMenuItemHideAll = Menu_AddMainMenuItem(&mi);
 
 	// Register hotkeys
 	HOTKEYDESC hkd = { sizeof(hkd) };
@@ -884,7 +889,6 @@ static int OnModulesLoded(WPARAM, LPARAM)
 	CreateBackgroundBrush();
 	CreateThumbsFont();
 	LoadContacts();
-	LoadMenus();
 
 	if (fcOpt.bToTop) {
 		fcOpt.ToTopTime = (fcOpt.ToTopTime < 1) ? 1 : fcOpt.ToTopTime;
@@ -906,6 +910,8 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
+	Icon_RegisterT(hInst, _T(MODULE), g_iconList, _countof(g_iconList));
+	LoadMenus();
 	InitOptions();
 
 	for (int i = 0; i < _countof(s_fonts); i++) {
