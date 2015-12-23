@@ -92,21 +92,13 @@ static IconItem iconList[] =
 	{ LPGEN("Restart"), SRV_RESTART_ME, IDI_Restart }
 };
 
-static int OnModulesLoaded(WPARAM, LPARAM)
+static MUUID uids[_countof(iconList)] = 
 {
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
-
-	for (int i = 0; i < _countof(iconList); i++) {
-		mi.name.a = iconList[i].szDescr;
-		mi.pszService = iconList[i].szName;
-		mi.hIcolibItem = iconList[i].hIcolib;
-		if (i == 3)
-			mi.root = NULL;
-		Menu_AddMainMenuItem(&mi);
-	}
-	return 0;
-}
+	{ 0xF57779C7, 0xB593, 0x4851, 0x94, 0x3A, 0xEB, 0x90, 0x95, 0x40, 0x0D, 0x2A },
+	{ 0x701BFC6C, 0x6963, 0x4A4C, 0xA6, 0x39, 0x9B, 0xC0, 0x97, 0x64, 0xFD, 0xCE },
+	{ 0x3C4409EC, 0xF733, 0x4C33, 0x94, 0x0C, 0x35, 0xAF, 0x36, 0xC6, 0x64, 0x32 },
+	{ 0x5A2EDCCD, 0xB43B, 0x48FA, 0x8A, 0xE8, 0xB5, 0x8B, 0xD7, 0xA5, 0x5A, 0x13 }
+};
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -119,7 +111,19 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);
 	CreateServiceFunction(SRV_RESTART_ME, RestartMe);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	CMenuItem mi;
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
+
+	for (int i = 0; i < _countof(iconList); i++) {
+		mi.name.a = iconList[i].szDescr;
+		mi.pszService = iconList[i].szName;
+		mi.hIcolibItem = iconList[i].hIcolib;
+		mi.uid = uids[i];
+		if (i == 3)
+			mi.root = NULL;
+
+		Menu_AddMainMenuItem(&mi);
+	}
 	return 0;
 }
 
