@@ -354,7 +354,7 @@ UTF16+сигнатури
 [Retry, Cancel]
 Повтор, Скасувати
 [Database]
-Профіль
+База даних
 [Contact type]
 Тип контакту
 [Own settings]

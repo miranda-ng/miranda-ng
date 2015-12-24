@@ -60,7 +60,7 @@
 [Cleaning Options]
 Опции очистки
 [You can choose to remove information from the database while it is being processed.]
-Вы можете удалить информацию из базы во время процесса.
+Вы можете удалить информацию из базы во время обработки.
 [Erase all histories]
 Удалить всю историю
 [Removes all the saved history for all contacts in the database.]

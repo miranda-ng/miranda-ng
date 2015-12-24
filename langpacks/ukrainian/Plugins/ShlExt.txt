@@ -38,7 +38,7 @@
 [Approved]
 Дозволено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Ви впевнені? Ця дія видалить усі налаштування даного плагіна у вашому профілі та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
+Ви впевнені? Ця дія видалить усі налаштування цього плагіна з вашої бази та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
 [Disable/Remove shlext]
 Вимкнути/Видалити ShlExt
 [Services]

@@ -36,7 +36,7 @@
 [Silent mode]
 Тихе оновлення
 [Backup database before update (requires Db_autobackups)]
-Резервувати профіль перед оновленням (потрібен плагін Db_autobackups)
+Резервувати базу перед оновленням (потрібен плагін Db_autobackups)
 [Files source]
 Джерело оновлень
 [Stable version]
@@ -156,7 +156,7 @@
 [Do nothing]
 Нічого не робити
 [Backup database before update]
-Резервувати профіль перед оновленням
+Резервувати базу перед оновленням
 [Stable version (incompatible with current development version)]
 Стабільна версія (несумісна з версією в розробці)
 [hours]

@@ -154,7 +154,7 @@
 [wide string]
 юнiкод
 [Wrote '%s:%s' to database entry '%s/%s'.]
-Записано '%s:%s' у запис '%s/%s' бази даних.
+Записано '%s:%s' у ключ '%s/%s' бази даних.
 [Could not retrieve setting '%s/%s': %s.]
 Неможливо прочитати налаштування '%s/%s': %s.
 [Setting '%s/%s' was not found.]
