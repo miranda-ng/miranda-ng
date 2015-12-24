@@ -48,9 +48,9 @@
 [Database Panic]
 Проблема з базою
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-Формат вашого профілю застарів. Для оновлення за допомогою PluginUpdater необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
+Формат вашої бази застарів. Для оновлення за допомогою PluginUpdater необхідно спочатку конвертувати базу в сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
 [Obsolete database format]
-Застарілий формат профілю
+Застарілий формат бази
 [Change/remove password]
 Змінити/видалити пароль
 [Logo]
@@ -70,7 +70,7 @@
 [Passwords do not match!]
 Паролі не збігаються!
 [Database]
-Профіль
+База даних
 [Performing aggressive pass]
 Виконання агресивного проходу
 [Aggressive: random junk at %08X: skipping]
@@ -124,7 +124,7 @@
 [Database version doesn't match this driver's one. Convert a database first]
 Версія бази даних несумісна з версією драйвера бази. Будь ласка, конвертуйте базу в новий формат.
 [Database is newly created and has no data to process]
-База даних нова, і не має даних для обробки
+База даних нова і не має даних для обробки
 [Processing completed successfully]
 Обробка завершена успішно
 [Can't create map view of file (%u)]

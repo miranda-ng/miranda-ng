@@ -484,7 +484,7 @@
 [Upload failed]
 Завантаження не вдалося
 [Your details were not uploaded successfully.\nThey were written to database only.]
-Ваші дані не завантажено.\nВони збережені локально.
+Ваші дані не завантажено.\nВони збережені в локальній базі даних.
 [updating]
 оновлення
 [Fatal error, image services not found. Flags module will be disabled.]

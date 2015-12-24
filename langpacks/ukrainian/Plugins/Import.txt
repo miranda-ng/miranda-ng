@@ -162,7 +162,7 @@
 [Miranda Import]
 Імпорт Miranda NG
 [Miranda NG database]
-База Miranda NG
+База даних Miranda NG
 [All Files]
 Усі файли
 [Skipping duplicate group %s.]

@@ -96,7 +96,7 @@ UTF8 у нових файлах
 [Failed to export at least one contact]
 Не вдалося експортувати як мінімум 1 контакт
 [Sorting and writing database information (Phase 2 of 2)]
-Крок 2: Сортування і запис інформації
+Крок 2: Сортування і запис інформації в базу даних
 [Max line width must be at least %d]
 Макс. ширина рядка повинна бути не менше %d
 [You need to restart Miranda to change the history function]

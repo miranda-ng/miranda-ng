@@ -20,7 +20,7 @@
 [Clicking on the icon in the status bar will change settings]
 Клацання по значкові на панелі статусів змінює налаштування
 [Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
-Режим НЕБЕЗПЕЧНИЙ (швидший, але є ризик пошкодження профілю)
+Режим НЕБЕЗПЕЧНИЙ (швидший, але є ризик пошкодження бази даних)
 [Keep all events]
 Усі події зберігаються в історії
 [Delete all events]

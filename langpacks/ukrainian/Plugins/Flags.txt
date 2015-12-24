@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Service offering misc country utilities as flag icons and an IP-to-Country database.]
-Служба, яка додає значки національних прапорів з бази даних IP = країну.
+Служба, яка додає значки національних прапорів і базу даних IP-to-Country.
 [Country Flags]
 Прапори країн
 [Show country flag as &status icon on message window]
