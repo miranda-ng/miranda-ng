@@ -101,7 +101,7 @@ private:
 
 	static int lua__gc(lua_State *L)
 	{
-		T* obj = (T*)luaL_checkudata(L, 1, MT::name);
+		T *obj = (T*)luaL_checkudata(L, 1, MT::name);
 		MT::Free(&obj);
 		return 0;
 	}
