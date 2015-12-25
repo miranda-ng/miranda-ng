@@ -5,9 +5,13 @@ static int lua_AddIcon(lua_State *L)
 	const char *name = luaL_checkstring(L, 1);
 	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
+	ptrT filePath(mir_utf8decodeT(lua_tostring(L, 4)));
 
-	TCHAR filePath[MAX_PATH];
-	GetModuleFileName(g_hInstance, filePath, _countof(filePath));
+	if (filePath == NULL)
+	{
+		filePath = (TCHAR*)mir_calloc(MAX_PATH + 1);
+		GetModuleFileName(g_hInstance, filePath, MAX_PATH);
+	}
 
 	SKINICONDESC si = { 0 };
 	si.flags = SIDF_ALL_TCHAR;

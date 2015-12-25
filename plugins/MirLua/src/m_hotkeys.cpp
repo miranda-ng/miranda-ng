@@ -55,19 +55,18 @@ static int lua_Register(lua_State *L)
 	MakeHotkey(L, hk);
 
 	INT_PTR res = ::CallService("CoreHotkeys/Register", (WPARAM)hScriptsLangpack, (LPARAM)&hk);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, res);
 
 	return 1;
 }
 
 static int lua_Unregister(lua_State *L)
 {
-	const char* name = luaL_checkstring(L, 1);
+	const char *name = luaL_checkstring(L, 1);
 
-	INT_PTR res = ::CallService("CoreHotkeys/Unregister", 0, (LPARAM)name);
-	lua_pushinteger(L, res);
+	::CallService("CoreHotkeys/Unregister", 0, (LPARAM)name);
 
-	return 1;
+	return 0;
 }
 
 static int lua_MakeHotkey(lua_State *L)
@@ -83,10 +82,9 @@ static int lua_MakeHotkey(lua_State *L)
 
 static luaL_Reg hotkeysApi[] =
 {
+	{ "MakeHotkey", lua_MakeHotkey },
 	{ "Register", lua_Register },
 	{ "Unregister", lua_Unregister },
-
-	{ "MakeHotkey", lua_MakeHotkey },
 
 	{ NULL, NULL }
 };

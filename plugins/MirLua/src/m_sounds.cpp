@@ -5,9 +5,7 @@ static int lua_AddSound(lua_State *L)
 	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
 	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
-
-	TCHAR filePath[MAX_PATH];
-	GetModuleFileName(g_hInstance, filePath, _countof(filePath));
+	ptrT filePath(mir_utf8decodeT(lua_tostring(L, 4)));
 
 	SKINSOUNDDESCEX ssd = { sizeof(SKINSOUNDDESCEX) };
 	ssd.pszName = name;
@@ -17,7 +15,7 @@ static int lua_AddSound(lua_State *L)
 	ssd.ptszDefaultFile = filePath;
 
 	INT_PTR res = ::CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
-	lua_pushnumber(L, res);
+	lua_pushboolean(L, res == 0);
 
 	return 1;
 }
@@ -26,18 +24,18 @@ static int lua_PlaySound(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
-	INT_PTR res = SkinPlaySound(name);
-	lua_pushnumber(L, res);
+	INT_PTR res = ::SkinPlaySound(name);
+	lua_pushboolean(L, res == 0);
 
 	return 1;
 }
 
 static int lua_PlayFile(lua_State *L)
 {
-	const char *path = luaL_checkstring(L, 1);
+	ptrT filePath(mir_utf8decodeT(luaL_checkstring(L, 1)));
 
-	INT_PTR res = SkinPlaySoundFile(ptrT(mir_utf8decodeT(path)));
-	lua_pushnumber(L, res);
+	INT_PTR res = ::SkinPlaySoundFile(filePath);
+	lua_pushboolean(L, res == 0);
 
 	return 1;
 }
