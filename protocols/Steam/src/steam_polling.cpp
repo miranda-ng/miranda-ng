@@ -287,12 +287,12 @@ void CSteamProto::PollingThread(void*)
 
 	setDword("MessageID", messageId);
 
-	m_hPollingThread = NULL;
-	debugLog(_T("CSteamProto::PollingThread: leaving"));
-
 	if (IsOnline())
 	{
 		debugLog(_T("CSteamProto::PollingThread: unexpected termination; switching protocol to offline"));
 		SetStatus(ID_STATUS_OFFLINE);
 	}
+
+	m_hPollingThread = NULL;
+	debugLog(_T("CSteamProto::PollingThread: leaving"));
 }
