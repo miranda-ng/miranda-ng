@@ -9,17 +9,15 @@
 Добавляет пункты меню, для смены или загрузки другого профиля Miranda NG, перезагрузки и проверки базы.
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG будет закрыта.\n\nВы уверены, что хотите начать проверку базы?
-[Check Database]
+[Check database]
 Проверить базу
 [Load profile]
 Загрузить профиль
 [Change profile]
 Сменить профиль
-[Check database]
-Проверить базу
 [Restart]
 Перезапуск
-[Database]
-База данных
 [Profile manager]
 Менеджер профилей
+[Database]
+База данных

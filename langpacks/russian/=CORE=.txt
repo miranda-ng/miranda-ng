@@ -1001,7 +1001,7 @@
 Профиль
 [e.g., Workplace]
 например, "Рабочий"
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Выбор драйвера базы данных. Если вы не уверены, какой выбрать - используйте драйвер по умолчанию.
 [e.g., dbx mmap]
 например, dbx mmap
