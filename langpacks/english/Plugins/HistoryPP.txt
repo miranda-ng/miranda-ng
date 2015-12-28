@@ -359,3 +359,5 @@
 [View &History]
 [User Menu]
 [Prev]
+[Incoming events]
+[Outgoing events]
