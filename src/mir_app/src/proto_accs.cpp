@@ -45,21 +45,19 @@ LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
 
 static int EnumDbModules(const char *szModuleName, DWORD, LPARAM)
 {
-	char *szProtoName = db_get_sa(NULL, szModuleName, "AM_BaseProto");
+	ptrA szProtoName(db_get_sa(NULL, szModuleName, "AM_BaseProto"));
 	if (szProtoName) {
 		if (!Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
-			pa->szProtoName = szProtoName;
+			pa->szProtoName = szProtoName.detach();
 			pa->tszAccountName = mir_a2t(szModuleName);
 			pa->bIsVisible = TRUE;
 			pa->bIsEnabled = FALSE;
 			pa->iOrder = accounts.getCount();
 			accounts.insert(pa);
 		}
-		else
-			mir_free(szProtoName);
 	}
 	return 0;
 }
