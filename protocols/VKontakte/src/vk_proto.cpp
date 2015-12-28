@@ -134,7 +134,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_ReturnChatMessage = getTStringA("ReturnChatMessage");
 	if (m_ReturnChatMessage == NULL)
-		m_ReturnChatMessage = TranslateT("I'm back");
+		m_ReturnChatMessage = mir_tstrdup(TranslateT("I'm back"));
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
