@@ -212,7 +212,7 @@ void AddHotkey()
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "AutoShutdown_Toggle";
-	hkd.ptszDescription = LPGENT("Toggle Automatic Shutdown");
+	hkd.ptszDescription = LPGENT("Toggle automatic shutdown");
 	hkd.ptszSection = LPGENT("Main");
 	hkd.pszService = "AutoShutdown/MenuCommand";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
