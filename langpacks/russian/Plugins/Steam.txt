@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.4.2
+;  Version: 0.11.5.0
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -61,8 +61,10 @@
 Сеть
 [Blocked contacts]
 Заблокированные контакты
-[Connection token expired. Please login again.]
-Токен соединения устарел. Пожалуйста, войдите заново.
+[Cannot obtain connection token.]
+Не удалось получить токен соединения.
+[Unknown login error.]
+Неизвестная ошибка при входе.
 [Steam menu chooser]
 Выбор меню Steam
 [Request authorization]

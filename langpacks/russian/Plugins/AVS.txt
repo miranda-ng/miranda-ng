@@ -89,8 +89,8 @@
 Мой глобальный кэш аватаров
 [Fatal error, image services not found. Avatar services will be disabled.]
 Фатальная ошибка, служба изображений не найдена. Служба аватаров будет отключена.
-[Avatar Service]
-Служба аватар
+[Avatar service]
+Служба аватаров
 [Set avatar options for %s]
 Настройки аватара для %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
@@ -111,8 +111,6 @@
 Без аватара
 [Are you sure you want to remove your avatar?]
 Вы хотите удалить свой аватар?
-[Global Avatar]
-Глобальный аватар
 [Avatar]
 Аватар
 [All files]
@@ -131,7 +129,7 @@ Flash анимация
 XML файлы
 [Grow avatar to fit max allowed protocol size]
 Увеличивать аватар до максимального размера
-[Set My Avatar]
+[Set my avatar]
 Установить мой аватар
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Сменить мой аватар для %s

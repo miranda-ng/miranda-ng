@@ -15,19 +15,19 @@
 &Обратный отсчёт начнётся:
 [seconds]
 секунд(ы)
-[Shutdown Events]
+[Shutdown events]
 События автовыключения
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 &Снова активировать автовыключение с теми же настройками, если Miranda NG была закрыта с включённым автовыключением.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Игнорировать скрытые и временные контакты при наблюдении за всеми контактами не в сети
-[Critical Shutdown Events]
+[Critical shutdown events]
 Критические события автовыключения
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматически выключать компьютер при следующих событиях:
 [&Thunderstorm warning is issued (Weather)]
 &Штормовое предупреждение (плагин Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Автовыключение
 [Select the automatic shutdown event]
 Выбор событий для автовыключения
@@ -67,19 +67,19 @@
 Осталось времени:
 [Paused]
 Пауза
-[&Unpause Countdown]
+[&Unpause countdown]
 &Возобновить отсчёт
-[&Pause Countdown]
+[&Pause countdown]
 &Приостановить отсчёт
-[&Cancel Countdown]
+[&Cancel countdown]
 &Отменить отсчёт
 [AutoShutdown]
 Автовыключение
-[Countdown on Frame]
+[Countdown on frame]
 Обратный отсчёт
 [Background]
 Фон
-[Progress Bar]
+[Progress bar]
 Строка состояния
 [Header]
 Заголовок
@@ -127,17 +127,17 @@ Miranda NG автоматически закроется через %u секу�
 Компьютер перейдёт в режим гибернации через %u секунд(ы).
 [The workstation will automatically get locked in %u second(s).]
 Компьютер заблокируется через %u секунд(ы).
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Все телефонные подключения разорвутся через %u секунд(ы).
 [The computer will automatically be shut down in %u second(s).]
 Компьютер выключится через %u секунд(ы).
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Ошибка автоотключения
 [The shutdown process failed!\nReason: %s]
 Ошибка процесса автоотключения!\nПричина: %s
 [Unknown]
 Неизвестно
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Ошибка запуска процесса выключения!\nПричина: %s
 [Close Miranda NG]
 Закрыть Miranda NG
@@ -155,7 +155,7 @@ Miranda NG автоматически закроется через %u секу�
 Режим гибернации
 [Lock workstation]
 Заблокировать компьютер
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Отключить телефонные соединения
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Отключить от сети все протоколы и закрыть Miranda NG.
@@ -177,9 +177,9 @@ Miranda NG автоматически закроется через %u секу�
 Отключить все протоколы от сети и разорвать все телефонные соединения.
 [Alerts]
 Уведомления
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Обратный отсчёт автовыключения
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Переключить автовыключение
 [Main]
 Главный
