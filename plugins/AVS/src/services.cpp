@@ -685,10 +685,10 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 
 		TCHAR title[256];
 		if (protocol == NULL)
-			mir_sntprintf(title, TranslateT("Set My Avatar"));
+			mir_sntprintf(title, TranslateT("Set my avatar"));
 		else {
 			TCHAR* prototmp = mir_a2t(protocol);
-			mir_sntprintf(title, TranslateT("Set My Avatar for %s"), prototmp);
+			mir_sntprintf(title, TranslateT("Set my avatar for %s"), prototmp);
 			mir_free(prototmp);
 		}
 		ofn.lpstrTitle = title;
