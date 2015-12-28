@@ -307,7 +307,7 @@ History++ для історії вікон
 Увімкнути спливаючі вікна
 [Disable Popups]
 Вимкнути спливаючі вікна
-[Popup plus]
+[Popup Plus]
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.

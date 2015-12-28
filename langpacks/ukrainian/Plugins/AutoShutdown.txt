@@ -15,19 +15,19 @@
 Зворотний відлік почнеться:
 [seconds]
 секунд
-[Shutdown Events]
+[Shutdown events]
 Події автовимкнення
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 Знову активувати автовимкнення з тими ж налаштуваннями, якщо Miranda NG була закрита з увімкненим автовимкненням
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Ігнорувати приховані і тимчасові контакти при спостереженні за всіма контактами не в мережі
-[Critical Shutdown Events]
+[Critical shutdown events]
 Критичні події автовимкнення
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматично вимикати комп'ютер при таких подіях:
 [&Thunderstorm warning is issued (Weather)]
 Штормове попередження (плагін Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Автовимкнення
 [Select the automatic shutdown event]
 Вибір подій для автовимкнення
@@ -67,19 +67,19 @@
 Залишилось часу:
 [Paused]
 Пауза
-[&Unpause Countdown]
+[&Unpause countdown]
 Відновити відлік
-[&Pause Countdown]
+[&Pause countdown]
 Призупинити відлік
-[&Cancel Countdown]
+[&Cancel countdown]
 Скасувати відлік
 [AutoShutdown]
 Автовимикання
-[Countdown on Frame]
+[Countdown on frame]
 Зворотний відлік
 [Background]
 Фон
-[Progress Bar]
+[Progress bar]
 Рядок стану
 [Header]
 Заголовок
@@ -127,17 +127,17 @@ Miranda NG автоматично закриється через %u секун�
 Комп'ютер перейде у режим сну через %u секунд(и).
 [The workstation will automatically get locked in %u second(s).]
 Комп'ютер заблокується через %u секунд(и).
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Усі телефонні підключення розриваються через %u секунд(и).
 [The computer will automatically be shut down in %u second(s).]
 Комп'ютер вимкнеться через %u секунд(и).
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Помилка автовимкнення
 [The shutdown process failed!\nReason: %s]
 Помилка процесу автовимкнення!\nПричина: %s
 [Unknown]
 Невідомо
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Помилка запуску процесу вимикання!\nПричина: %s
 [Close Miranda NG]
 Закрити Miranda NG
@@ -155,7 +155,7 @@ Miranda NG автоматично закриється через %u секун�
 Режим гібернації
 [Lock workstation]
 Заблокувати комп'ютер
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Відключити телефонні з'єднання
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Відключити від мережі всі протоколи і закрити Miranda NG.
@@ -177,9 +177,9 @@ Miranda NG автоматично закриється через %u секун�
 Відключити всі протоколи від мережі і розірвати всі телефонні з'єднання.
 [Alerts]
 Сповіщення
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Зворотний відлік автовимкнення
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Перемкнути автовимкнення
 [Main]
 Головний

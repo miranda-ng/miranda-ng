@@ -100,7 +100,7 @@
 [Reset per-protocol messages when changing global status]
 Перевстановити повідомл. для кожного протоколу при зміні глоб. статусу
 [Store protocol messages for each status separately]
-Зберігати повідомл. протоколу окремо для кожного статусу
+Зберігати повідомлення протоколу окремо для кожного статусу
 [Store protocol autoreply settings for each status separately]
 Зберігати налаштування автовідповідача окремо для кожного статусу
 [Remember last message used for a contact...]
@@ -191,6 +191,10 @@
 Передустановлені повідомлення
 [Recent messages]
 Останнє повідомлення
+[Gone fragging]
+Зайнятий
+[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
+Копичу фраги з %nas_awaysince_time%. Відповім пізніше, коли адреналін скінчицця.
 [Creepy]
 (за замовчанням)
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
@@ -325,10 +329,14 @@ NewAwaySys: Вхідний запит статусного повідомлен�
 Застосувати
 [Do you want to apply the message?]
 Прийняти повідомлення?
+[Set message for]
+Встановити повідомлення для статусу
 [Statuses]
 Статуси
+[message for]
+повідомлення для статусу
 [for]
-протягом
+для
 [all accounts]
 усі облікові записи
 [Closing in %d]
