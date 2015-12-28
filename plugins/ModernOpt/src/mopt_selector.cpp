@@ -219,16 +219,15 @@ static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
 	TSelectorData *sd = (TSelectorData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	MODERNOPTOBJECT *obj = sd->obj;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		sd = new TSelectorData;
-		sd->obj = obj = (MODERNOPTOBJECT*)lParam;
-		sd->active = sttGetActiveSkin(obj);
+		sd->obj = (MODERNOPTOBJECT*)lParam;
+		sd->active = sttGetActiveSkin(sd->obj);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)sd);
 
-		BuildSkinList(GetDlgItem(hwndDlg, IDC_SKINLIST), _A2T(obj->lpzThemeExtension));
+		BuildSkinList(GetDlgItem(hwndDlg, IDC_SKINLIST), _A2T(sd->obj->lpzThemeExtension));
 		return FALSE;
 
 	case WM_COMMAND:
@@ -244,9 +243,9 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 				int idx = SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0);
 				if (idx >= 0) {
 					TSkinListItem *dat = (TSkinListItem *)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETITEMDATA, idx, 0);
-					sttApplySkin(obj, dat->filename);
+					sttApplySkin(sd->obj, dat->filename);
 					mir_free(sd->active);
-					sd->active = sttGetActiveSkin(obj);
+					sd->active = sttGetActiveSkin(sd->obj);
 					RedrawWindow(GetDlgItem(hwndDlg, IDC_SKINLIST), NULL, NULL, RDW_INVALIDATE);
 				}
 				break;
