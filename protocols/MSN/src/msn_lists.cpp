@@ -66,10 +66,15 @@ MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 
 MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 {
-	mir_cslock lck(m_csLists);
-
 	char *szEmail, *szInst;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, &szInst);
+
+	return Lists_GetPlace(szEmail, szInst);
+}
+
+MsnPlace* CMsnProto::Lists_GetPlace(const char* szEmail, const char *szInst)
+{
+	mir_cslock lck(m_csLists);
 
 	if (szInst == NULL)
 		szInst = (char*)sttVoidUid;
@@ -95,6 +100,8 @@ MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned 
 		pl->id = mir_strdup(id);
 		pl->cap1 = cap1;
 		pl->cap2 = cap2;
+		pl->client = 11;
+		*pl->szClientVer = 0;
 		pl->p2pMsgId = 0;
 		pl->p2pPktNum = 0;
 		p->places.insert(pl);

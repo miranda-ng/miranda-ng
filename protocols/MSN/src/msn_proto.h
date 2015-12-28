@@ -225,7 +225,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void		MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli);
 	void        MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
 	void        MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
+#ifdef OBSOLETE
 	void        MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always);
+#endif
+	void		MSN_SetMirVer(MCONTACT hContact, MsnPlace *place);
 
 	void        LoadOptions(void);
 
@@ -449,6 +452,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	MsnContact* Lists_GetNext(int& i);
 
 	MsnPlace* Lists_GetPlace(const char* wlid);
+	MsnPlace* Lists_GetPlace(const char* szEmail, const char *szInst);
 	MsnPlace* Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2);
 
 	void     Lists_Uninit(void);
