@@ -20,7 +20,7 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	Netlib_CloseHandle(this->m_hNetlibUser);
+	Netlib_Shutdown(this->m_hNetlibUser);
 	this->m_hNetlibUser = NULL;
 	return 0;
 }
@@ -75,7 +75,7 @@ int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		// User started being idle
 		MIRANDA_IDLE_INFO mii = { sizeof(mii) };
 		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
-		
+
 		// Compute time when user really became idle
 		m_idleTS = time(0) - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
