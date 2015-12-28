@@ -1072,7 +1072,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_DELETE:
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
-				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global Avatar"), MB_YESNO) == IDYES)
+				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
 					avSetMyAvatar(NULL, _T(""));
 			}
 			else {

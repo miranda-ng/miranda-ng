@@ -407,7 +407,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
 	if (fei == NULL || result != S_OK) {
-		MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
+		MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar service"), MB_OK);
 		return 1;
 	}
 	LoadACC();
