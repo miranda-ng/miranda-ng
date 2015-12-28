@@ -997,7 +997,7 @@
 Профіль
 [e.g., Workplace]
 наприклад, "Робочий"
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Виберіть драйвер бази даних. Інший драйвер може мати більше функцій та можливостей. Якщо не впевнені, користуйтеся стандартним драйвером.
 [e.g., dbx mmap]
 наприклад, dbx_mmap

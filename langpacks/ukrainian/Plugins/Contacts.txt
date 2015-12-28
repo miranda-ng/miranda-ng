@@ -55,8 +55,6 @@
 Події
 [Incoming Contacts]
 Вхідні контакти
-[Events]
-Події
 [Outgoing Contacts]
 Вихідні контакти
 [Nick]

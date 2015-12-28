@@ -8,7 +8,7 @@
 [E-mage LAN protocol support for Miranda NG.]
 Підтримка протоколу E-mage LAN у Miranda NG.
 [Select your IP address]
-Виберіть вашу IP-адресу
+Виберіть IP-адресу
 [LAN Settings]
 Налаштування мережі
 [Use computer name]
@@ -16,7 +16,7 @@
 [Your name]
 Ваше ім'я
 [Select your name]
-Виберіть ваше ім'я
+Виберіть ім'я
 [User name or '*']
 Ім'я користувача або '*'
 [E-mage LAN protocol]

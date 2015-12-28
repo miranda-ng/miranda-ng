@@ -35,7 +35,7 @@
 Кожні
 [Silent mode]
 Тихе оновлення
-[Backup database before update (requires Db_autobackups)]
+[Backup database before update (requires Db_autobackups plugin)]
 Резервувати базу перед оновленням (потрібен плагін Db_autobackups)
 [Files source]
 Джерело оновлень

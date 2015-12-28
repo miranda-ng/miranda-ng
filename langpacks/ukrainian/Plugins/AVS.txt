@@ -89,7 +89,7 @@
 Мій глобальний кеш аватарів
 [Fatal error, image services not found. Avatar services will be disabled.]
 Фатальна помилка, службу зображень не знайдено. Служба аватарів буде вимкнена.
-[Avatar Service]
+[Avatar service]
 Служба аватарів
 [Set avatar options for %s]
 Налаштування аватара для %s
@@ -111,8 +111,6 @@
 Без аватару
 [Are you sure you want to remove your avatar?]
 Ви хочете видалити свій аватар?
-[Global Avatar]
-Глобальний аватар
 [Avatar]
 Аватар
 [All files]
@@ -131,7 +129,7 @@ Flash-анімація
 XML файли
 [Grow avatar to fit max allowed protocol size]
 Збільшувати аватар до максимального розміру
-[Set My Avatar]
+[Set my avatar]
 Встановити мій аватар
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Змінити мій аватар для %s
