@@ -11,8 +11,8 @@ struct ScheduleTask
 	time_t interval;
 
 	lua_State *L;
-	lua_State *T;
-	int threadRef;
+	//lua_State *T;
+	//int threadRef;
 	int callbackRef;
 };
 
@@ -25,7 +25,7 @@ static LIST<ScheduleTask> tasks(1, TaskCompare);
 
 void DestroyTask(ScheduleTask *task)
 {
-	luaL_unref(task->L, LUA_REGISTRYINDEX, task->threadRef);
+	//luaL_unref(task->L, LUA_REGISTRYINDEX, task->threadRef);
 	delete task;
 }
 
@@ -33,9 +33,9 @@ void ExecuteTaskThread(void *arg)
 {
 	ScheduleTask *task = (ScheduleTask*)arg;
 
-	lua_rawgeti(task->T, LUA_REGISTRYINDEX, task->callbackRef);
-	if (lua_pcall(task->T, 0, 2, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(task->T, -1));
+	lua_State *L = lua_newthread(task->L);
+	lua_rawgeti(L, LUA_REGISTRYINDEX, task->callbackRef);
+	luaM_pcall(L, 0, 2);
 
 	if (task->interval == 0)
 	{
@@ -66,6 +66,9 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 
 		while (ScheduleTask *task = tasks[0])
 		{
+			if (Miranda_Terminated())
+				return;
+
 			mir_cslock lock(threadLock);
 
 			time_t timestamp = time(NULL);
@@ -99,6 +102,31 @@ void KillModuleScheduleTasks()
 		tasks.remove(task);
 		DestroyTask(task);
 	}
+}
+
+/***********************************************/
+
+static time_t luaM_opttimestamp(lua_State *L, int idx, time_t def = 0)
+{
+	switch (lua_type(L, idx))
+	{
+	case LUA_TNUMBER:
+		return luaL_optinteger(L, idx, def);
+
+	case LUA_TSTRING:
+	{
+		const char *strtime = luaL_optstring(L, idx, "00:00:00");
+
+		int hour = 0, min = 0, sec = 0;
+		sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec);
+		struct tm *ti = localtime(&def);
+		ti->tm_hour = hour;
+		ti->tm_min = min;
+		ti->tm_sec = sec;
+		return mktime(ti);
+	}
+	}
+	return def;
 }
 
 /***********************************************/
@@ -345,31 +373,8 @@ static int lua__From(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	time_t startTime, timestamp = time(NULL);
-	switch (lua_type(L, 2))
-	{
-	case LUA_TNUMBER:
-		startTime = luaL_optinteger(L, 2, timestamp);
-		break;
-
-	case LUA_TSTRING:
-	{
-		const char *strtime = luaL_optstring(L, 2, "00:00:00");
-
-		int hour = 0, min = 0, sec = 0;
-		sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec);
-		struct tm *ti = localtime(&timestamp);
-		ti->tm_hour = hour;
-		ti->tm_min = min;
-		ti->tm_sec = sec;
-		startTime = mktime(ti);
-		break;
-	}
-
-	default:
-		startTime = timestamp;
-		break;
-	}
+	time_t timestamp = time(NULL);
+	time_t startTime = luaM_opttimestamp(L, 2, timestamp);
 
 	if (startTime < timestamp)
 	{
@@ -388,32 +393,11 @@ static int lua__From(lua_State *L)
 	return 1;
 }
 
-static int lua__Untill(lua_State *L)
+static int lua__Until(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	time_t endTime = 0;
-	switch (lua_type(L, 2))
-	{
-	case LUA_TNUMBER:
-		endTime = luaL_optinteger(L, 2, 0);
-		break;
-
-	case LUA_TSTRING:
-	{
-		const char *strtime = luaL_optstring(L, 2, "00:00:00");
-
-		int hour = 0, min = 0, sec = 0;
-		sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec);
-		time_t timestamp = time(NULL);
-		struct tm *ti = localtime(&timestamp);
-		ti->tm_hour = hour;
-		ti->tm_min = min;
-		ti->tm_sec = sec;
-		endTime = mktime(ti);
-		break;
-	}
-	}
+	time_t endTime = luaM_opttimestamp(L, 2);
 
 	lua_pushvalue(L, 1);
 	lua_pushinteger(L, endTime);
@@ -469,8 +453,8 @@ static int lua__Do(lua_State *L)
 	task->L = L;
 	lua_pushvalue(L, 2);
 	task->callbackRef = luaL_ref(L, LUA_REGISTRYINDEX);
-	task->T = lua_newthread(L);
-	task->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	//task->T = lua_newthread(L);
+	//task->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	{
 		mir_cslock lock(threadLock);
 		tasks.insert(task);
@@ -500,7 +484,7 @@ static const luaL_Reg schedule[] =
 	{ "Saturday", lua__Saturday },
 	{ "Sunday", lua__Sunday },
 	{ "From", lua__From },
-	{ "Untill", lua__Untill },
+	{ "Until", lua__Until },
 	{ "Do", lua__Do },
 
 	{ NULL, NULL }
@@ -510,35 +494,12 @@ static const luaL_Reg schedule[] =
 
 static int lua__At(lua_State *L)
 {
-	time_t startTime, timestamp = time(NULL);
-	switch (lua_type(L, 1))
-	{
-	case LUA_TNUMBER:
-		startTime = luaL_optinteger(L, 1, timestamp);
-		break;
-
-	case LUA_TSTRING:
-	{
-		const char *strtime = luaL_optstring(L, 1, "00:00:00");
-
-		int hour = 0, min = 0, sec = 0;
-		sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec);
-		struct tm *ti = localtime(&timestamp);
-		ti->tm_hour = hour;
-		ti->tm_min = min;
-		ti->tm_sec = sec;
-		startTime = mktime(ti);
-		break;
-	}
-
-	default:
-		startTime = timestamp;
-		break;
-	}
+	time_t timestamp = time(NULL);
+	time_t startTime = luaM_opttimestamp(L, 1, timestamp);
 
 	lua_newtable(L);
-	lua_pushcclosure(L, lua__Untill, 0);
-	lua_setfield(L, -2, "Untill");
+	lua_pushcclosure(L, lua__Until, 0);
+	lua_setfield(L, -2, "Until");
 	lua_pushcclosure(L, lua__Do, 0);
 	lua_setfield(L, -2, "Do");
 	lua_pushinteger(L, startTime);
@@ -562,6 +523,7 @@ static const luaL_Reg scheduleApi[] =
 {
 	{ "At", lua__At },
 	{ "Every", lua__Every },
+	{ "Do", lua__Do },
 
 	{ NULL, NULL }
 };

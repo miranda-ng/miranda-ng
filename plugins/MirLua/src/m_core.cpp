@@ -33,8 +33,7 @@ int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	else
 		lua_pushnil(L);
 
-	if (lua_pcall(L, 2, 1, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	return lua_tointeger(L, 1);
 }
@@ -119,8 +118,7 @@ INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, L
 
 	lua_pushlightuserdata(L, (void*)wParam);
 	lua_pushlightuserdata(L, (void*)lParam);
-	if (lua_pcall(L, 2, 1, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	INT_PTR res = lua_tointeger(L, 1);
 	lua_pushinteger(L, res);
