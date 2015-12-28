@@ -98,7 +98,10 @@ void parseWLID(char* wlid, char** net, char** email, char** inst)
 	col = strchr(wlid, ';');
 	if (col) {
 		*col = 0;
-		if (inst) *inst = col + 1;
+		if (inst) {
+			*inst = col + 1;
+			if (strncmp(*inst, "epid=", 5)==0) *inst+=5;
+		}
 	}
 	else if (inst)
 		*inst = NULL;

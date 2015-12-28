@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
+#ifdef OBSOLETE
 void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 {
 	static const char* MirVerStr[] =
@@ -66,6 +67,40 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 	else
 		return;
 
+	setString(hContact, "MirVer", szVersion);
+	setByte(hContact, "StdMirVer", 1);
+}
+#endif
+
+void CMsnProto::MSN_SetMirVer(MCONTACT hContact, MsnPlace *place)
+{
+	static const char* MirVerStr[] =
+	{
+		"Windows Messenger",
+		"Web",
+		"Windows Phone",
+		"Xbox",
+		"Zune",
+		"iPhone Messenger",
+		"Mac Messenger",
+		"SMS Messenger",
+		"Modern Messenger",
+		"Skype",
+		"Windows Skype",
+		"Windows 8 Skype",
+		"Mac Skype",
+		"Linux Skype",
+		"Windows Phone Skype",
+		"iOS Skype",
+		"Android Skype",
+		"Skype"
+	};
+
+	char szVersion[64];
+
+	if (!place) return;
+	mir_snprintf(szVersion, sizeof(szVersion), "%s (%s)", 
+		MirVerStr[place->client>=sizeof(MirVerStr)/sizeof(MirVerStr[0])?9:place->client-1], place->szClientVer);
 	setString(hContact, "MirVer", szVersion);
 	setByte(hContact, "StdMirVer", 1);
 }
@@ -205,8 +240,8 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	else if (!ubmMsg && !sdgMsg && !nfyMsg && !info->firstMsgRecv) {
 		info->firstMsgRecv = true;
 		MsnContact *cont = Lists_Get(email);
-		if (cont && cont->hContact != NULL)
-			MSN_SetMirVer(cont->hContact, cont->cap1, true);
+		if (cont && cont->hContact != NULL && cont->places.getCount() > 0)
+			MSN_SetMirVer(cont->hContact, &cont->places[0]);
 	}
 
 	if (!_strnicmp(tContentType, "text/plain", 10) ||
@@ -580,8 +615,8 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 	}
 
 	bool isMe = false;
-	char* szEmail, *szNet;
-	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, NULL);
+	char* szEmail, *szNet, *szInst;
+	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, &szInst);
 	if (!mir_strcmpi(szEmail, GetMyUsername(atoi(szNet)))) {
 		if (!*userStatus) return;
 		isMe = true;
@@ -622,12 +657,8 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 			cont->cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
 		}
 
-		if (lastStatus == ID_STATUS_OFFLINE) {
-			DBVARIANT dbv;
-			bool always = getString(hContact, "MirVer", &dbv) != 0;
-			if (!always) db_free(&dbv);
-			MSN_SetMirVer(hContact, cont->cap1, always);
-		}
+		if (lastStatus == ID_STATUS_OFFLINE)
+			MSN_SetMirVer(hContact, cont->places.find((MsnPlace*)&szInst));
 
 		char *pszUrl, *pszAvatarHash;
 		if (cmdstring && *cmdstring && mir_strcmp(cmdstring, "0") &&
@@ -675,8 +706,8 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 	MCONTACT hContact = MSN_HContactFromEmail(wlid);
 	if (hContact == NULL) return;
 
-	char* szEmail, *szNetId;
-	parseWLID(NEWSTR_ALLOCA(wlid), &szNetId, &szEmail, NULL);
+	char* szEmail, *szNetId, *szInst;
+	parseWLID(NEWSTR_ALLOCA(wlid), &szNetId, &szEmail, &szInst);
 
 	bool bHasPSM=false;
 	char* szStatMsg = NULL;
@@ -710,11 +741,23 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 			unsigned cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
 
 			Lists_AddPlace(szEmail, id, cap1, cap2);
+		} else if (!mir_strcmp(n, "PE")) {
+			MsnPlace *place = Lists_GetPlace(szEmail, ezxml_attr(endp, "epid"));
+			if (place)
+			{
+				place->client = atoi(ezxml_txt(ezxml_child(endp, "TYP")));
+				mir_strncpy(place->szClientVer, ezxml_txt(ezxml_child(endp, "VER")), sizeof(place->szClientVer));
+			}
 		}
 	}
 
 	{
 		ptrT tszStatus(mir_utf8decodeT(szStatMsg));
+		if (szInst) MSN_SetMirVer(hContact, Lists_GetPlace(szEmail, szInst));
+		else {
+			MsnContact *cont = Lists_Get(hContact);
+			if (cont->places.getCount() > 0) MSN_SetMirVer(hContact, &cont->places[0]);
+		}
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
 	}
 

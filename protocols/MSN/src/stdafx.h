@@ -759,6 +759,8 @@ struct MsnPlace
 	char *id;
 	unsigned cap1;
 	unsigned cap2;
+	unsigned client;
+	char szClientVer[32];
 	unsigned p2pMsgId;
 	unsigned short p2pPktNum;
 
