@@ -39,7 +39,7 @@ TCHAR *desc[] =
 	LPGENT("The computer will automatically be set to standby mode in %u second(s)."),
 	LPGENT("The computer will automatically be set to hibernate mode in %u second(s)."),
 	LPGENT("The workstation will automatically get locked in %u second(s)."),
-	LPGENT("All dialup connections will be closed in %u second(s)."),
+	LPGENT("All dial-up connections will be closed in %u second(s)."),
 	LPGENT("The computer will automatically be shut down in %u second(s).")
 };
 
@@ -361,7 +361,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			DWORD dwErrCode = ShutdownNow(shutdownType);
 			if (dwErrCode != ERROR_SUCCESS) {
 				char *pszErr = GetWinErrorDescription(dwErrCode);
-				ShowInfoMessage(NIIF_ERROR, Translate("Automatic Shutdown Error"), Translate("The shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
+				ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("The shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
 				if (pszErr != NULL) LocalFree(pszErr);
 			}
 			DestroyWindow(hwndDlg);
@@ -437,7 +437,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	DWORD dwErrCode = ShutdownNow((BYTE)wParam);
 	if (dwErrCode != ERROR_SUCCESS) {
 		char *pszErr = GetWinErrorDescription(dwErrCode);
-		ShowInfoMessage(NIIF_ERROR, Translate("Automatic Shutdown Error"), Translate("Inititiating the shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
+		ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("Initiating the shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
 		if (pszErr != NULL)
 			LocalFree(pszErr);
 		return 4;
@@ -454,9 +454,9 @@ INT_PTR ServiceIsTypeEnabled(WPARAM wParam, LPARAM)
 const TCHAR *apszShort[] = {
 	LPGENT("Close Miranda NG"),LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),
 	LPGENT("Restart computer"),LPGENT("Shutdown computer"),LPGENT("Standby mode"),LPGENT("Hibernate mode"),
-	LPGENT("Lock workstation"),LPGENT("Hang up dialup connections"),LPGENT("Close Miranda NG"),
+	LPGENT("Lock workstation"),LPGENT("Hang up dial-up connections"),LPGENT("Close Miranda NG"),
 	LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),LPGENT("Restart computer"),LPGENT("Shutdown computer"),
-	LPGENT("Standby mode"),LPGENT("Hibernate mode"),LPGENT("Lock workstation"),LPGENT("Hang up dialup connections")
+	LPGENT("Standby mode"),LPGENT("Hibernate mode"),LPGENT("Lock workstation"),LPGENT("Hang up dial-up connections")
 };
 
 const TCHAR *apszLong[] = {
@@ -496,7 +496,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg = NULL;
-	SkinAddNewSoundExT("AutoShutdown_Countdown", LPGENT("Alerts"), LPGENT("Automatic Shutdown Countdown"));
+	SkinAddNewSoundExT("AutoShutdown_Countdown", LPGENT("Alerts"), LPGENT("Automatic shutdown countdown"));
 
 	/* Events */
 	hEventOkToShutdown = CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);

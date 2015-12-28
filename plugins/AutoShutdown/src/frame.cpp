@@ -383,9 +383,9 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 			}
 			HMENU hContextMenu = CreatePopupMenu();
 			if (hContextMenu != NULL) {
-				AppendMenu(hContextMenu, MF_STRING, MENUITEM_PAUSECOUNTDOWN, (dat->flags&FWPDF_PAUSED) ? TranslateT("&Unpause Countdown") : TranslateT("&Pause Countdown"));
+				AppendMenu(hContextMenu, MF_STRING, MENUITEM_PAUSECOUNTDOWN, (dat->flags&FWPDF_PAUSED) ? TranslateT("&Unpause countdown") : TranslateT("&Pause countdown"));
 				SetMenuDefaultItem(hContextMenu, MENUITEM_PAUSECOUNTDOWN, FALSE);
-				AppendMenu(hContextMenu, MF_STRING, MENUITEM_STOPCOUNTDOWN, TranslateT("&Cancel Countdown"));
+				AppendMenu(hContextMenu, MF_STRING, MENUITEM_STOPCOUNTDOWN, TranslateT("&Cancel countdown"));
 				TrackPopupMenuEx(hContextMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION | TPM_RIGHTBUTTON, pt.x, pt.y, hwndFrame, NULL);
 				DestroyMenu(hContextMenu);
 			}
@@ -462,7 +462,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 							ttdi->lpszText = ttdi->szText;
 					}
 					else if ((HWND)wParam == dat->hwndIcon)
-						ttdi->lpszText = TranslateT("Automatic Shutdown");
+						ttdi->lpszText = TranslateT("Automatic shutdown");
 					else {
 						TCHAR szTime[_countof(ttdi->szText)];
 						if (dat->fTimeFlags&SDWTF_ST_TIME)
@@ -503,7 +503,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 		clf.height = GetSystemMetrics(SM_CYICON);
 		clf.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
 		clf.name = Translate("AutoShutdown");
-		clf.TBname = Translate("Automatic Shutdown");
+		clf.TBname = Translate("Automatic shutdown");
 		clf.hWnd = hwndCountdownFrame;
 		hFrame = (WORD)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&clf, 0);
 		if (hFrame) {
@@ -556,13 +556,13 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 		LOGFONT lf;
 		/* built-in font module is not available before this hook */
 		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
-		FontService_RegisterFont("AutoShutdown", "CountdownFont", LPGENT("Automatic Shutdown"), LPGENT("Countdown on Frame"), LPGENT("Automatic Shutdown"), LPGENT("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
+		FontService_RegisterFont("AutoShutdown", "CountdownFont", LPGENT("Automatic shutdown"), LPGENT("Countdown on frame"), LPGENT("Automatic shutdown"), LPGENT("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
 		clr = GetDefaultColor(FRAMEELEMENT_BKGRND);
-		FontService_RegisterColor("AutoShutdown", "BkgColor", LPGENT("Automatic Shutdown"), LPGENT("Background"), clr);
+		FontService_RegisterColor("AutoShutdown", "BkgColor", LPGENT("Automatic shutdown"), LPGENT("Background"), clr);
 		if (!IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
 			clr = GetDefaultColor(FRAMEELEMENT_BAR);
-			FontService_RegisterColor("AutoShutdown", "ProgressColor", TranslateT("Automatic Shutdown"), TranslateT("Progress Bar"), clr);
+			FontService_RegisterColor("AutoShutdown", "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
 		}
 	}
 	return 0;

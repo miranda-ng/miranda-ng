@@ -111,8 +111,8 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
 	odp.position = 900000002;
 	odp.ptszGroup = LPGENT("Events"); /* autotranslated */
-	odp.ptszTitle = LPGENT("Automatic Shutdown"); /* autotranslated */
-	odp.ptszTab = LPGENT("Automatic Shutdown");  /* autotranslated, can be made a tab */
+	odp.ptszTitle = LPGENT("Automatic shutdown"); /* autotranslated */
+	odp.ptszTab = LPGENT("Automatic shutdown");  /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = ShutdownOptDlgProc;
 	Options_AddPage(wParam, &odp);
