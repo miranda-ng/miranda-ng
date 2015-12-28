@@ -52,7 +52,7 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 			if (hHttpsConnection && (clock() - mHttpsTS) > 60 * CLOCKS_PER_SEC) {
 				HANDLE hConn = hHttpsConnection;
 				hHttpsConnection = NULL;
-				Netlib_CloseHandle(hConn);
+				Netlib_Shutdown(hConn);
 			}
 			if (mStatusMsgTS && (clock() - mStatusMsgTS) > 60 * CLOCKS_PER_SEC) {
 				mStatusMsgTS = 0;
