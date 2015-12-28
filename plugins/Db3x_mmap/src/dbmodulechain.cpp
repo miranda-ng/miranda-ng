@@ -96,9 +96,9 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	dbmn.cbName = nameLen;
 	dbmn.ofsNext = m_dbHeader.ofsModuleNames;
 	m_dbHeader.ofsModuleNames = ofsNew;
-	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	DBWrite(ofsNew, &dbmn, offsetof(struct DBModuleName, name));
 	DBWrite(ofsNew + offsetof(struct DBModuleName, name), (PVOID)szName, nameLen);
+	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	DBFlush(0);
 
 	// add to cache
