@@ -110,8 +110,10 @@ LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 #define MLUA_WINDOWS	"m_windows"
 LUAMOD_API int (luaopen_m_windows)(lua_State *L);
 
-int luaM_print(lua_State *L);
 int luaM_atpanic(lua_State *L);
+int luaM_pcall(lua_State *L, int n = 0, int r = 0);
+
+int luaM_print(lua_State *L);
 
 int luaM_toansi(lua_State *L);
 int luaM_toucs2(lua_State *L);

@@ -149,8 +149,7 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 	lua_pushinteger(L, bcd->flags);
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 

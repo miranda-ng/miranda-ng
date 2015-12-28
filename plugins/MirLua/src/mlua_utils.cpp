@@ -1,5 +1,35 @@
 #include "stdafx.h"
 
+int luaM_atpanic(lua_State *L)
+{
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+
+	return 0;
+}
+
+int luaM_trace(lua_State *L)
+{
+	lua_getglobal(L, "debug");
+	lua_getfield(L, -1, "traceback");
+	lua_pushvalue(L, 1);
+	lua_pushinteger(L, 2);
+	lua_call(L, 2, 1);
+
+	return 1;
+}
+
+int luaM_pcall(lua_State *L, int n, int r)
+{
+	/*lua_pushcfunction(L, luaM_trace);
+	lua_insert(L, f);
+	const int f = -(n + 2);*/
+	const int f = 0;
+	int res = lua_pcall(L, n, r, f);
+	if (res != LUA_OK)
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	return res;
+}
+
 int luaM_print(lua_State *L)
 {
 	CMStringA data;
@@ -34,13 +64,6 @@ int luaM_print(lua_State *L)
 	return 0;
 }
 
-int luaM_atpanic(lua_State *L)
-{
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
-
-	return 0;
-}
-
 int luaM_toansi(lua_State *L)
 {
 	const char* value = luaL_checkstring(L, 1);
@@ -70,7 +93,7 @@ int luaM_toucs2(lua_State *L)
 bool luaM_toboolean(lua_State *L, int idx)
 {
 	if (lua_type(L, idx) == LUA_TNUMBER)
-		return lua_tonumber(L, idx) != 0;
+		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
 }
 
@@ -119,8 +142,7 @@ int luaM_totable(lua_State *L)
 	//lua_getfield(L, -1, "__init");
 	lua_getglobal(L, tname);
 	lua_pushvalue(L, 1);
-	if (lua_pcall(L, 1, 1, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	luaM_pcall(L, 1, 1);
 
 	return 1;
 }

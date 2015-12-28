@@ -93,8 +93,7 @@ int MsgWindowEventHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPA
 	lua_pushinteger(L, ev->uFlags);
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 

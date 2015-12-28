@@ -110,8 +110,7 @@ int CMLua::HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 
 	lua_pushlightuserdata(L, (void*)wParam);
 	lua_pushlightuserdata(L, (void*)lParam);
-	if (lua_pcall(L, 2, 1, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 

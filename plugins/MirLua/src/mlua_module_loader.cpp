@@ -35,10 +35,8 @@ void CLuaModuleLoader::LoadModules()
 	lua_pushglobaltable(L);
 	lua_getfield(L, -1, "require");
 	lua_pushstring(L, "m_core");
-	if (lua_pcall(L, 1, 1, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
-	lua_pop(L, 1);
-	lua_pop(L, 1);
+	luaM_pcall(L, 1, 1);
+	lua_pop(L, 2);
 }
 
 void CLuaModuleLoader::Load(lua_State *L)

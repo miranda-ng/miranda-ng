@@ -47,8 +47,7 @@ int GCHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	lua_pushstring(L, ptrA(mir_utf8encodeT(gce->pDest->ptszID)));
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 

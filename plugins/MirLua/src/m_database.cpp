@@ -360,8 +360,7 @@ static int lua_EnumSettings(lua_State *L)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 		lua_pushstring(L, mir_utf8encode(param.pszSettingName[i]));
-		if (lua_pcall(L, 1, 0, 0))
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		luaM_pcall(L, 1, 0);
 
 		mir_free(param.pszSettingName[i]);
 	}
@@ -474,8 +473,7 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 	}
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 

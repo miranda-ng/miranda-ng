@@ -13,11 +13,11 @@ static void MapToTable(lua_State *L, const PROTOCOLDESCRIPTOR* pd)
 	lua_settable(L, -3);
 }
 
-static int lua_GetProto(lua_State *L)
+static int lua_GetProtocol(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
-	PROTOCOLDESCRIPTOR* pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
+	PROTOCOLDESCRIPTOR *pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
 	if (pd)
 		MT<PROTOCOLDESCRIPTOR>::Set(L, pd);
 	else
@@ -26,11 +26,11 @@ static int lua_GetProto(lua_State *L)
 	return 1;
 }
 
-static int lua_ProtoIterator(lua_State *L)
+static int lua_ProtocolIterator(lua_State *L)
 {
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	int count = lua_tointeger(L, lua_upvalueindex(2));
-	PROTOCOLDESCRIPTOR** protos = (PROTOCOLDESCRIPTOR**)lua_touserdata(L, lua_upvalueindex(3));
+	PROTOCOLDESCRIPTOR **protos = (PROTOCOLDESCRIPTOR**)lua_touserdata(L, lua_upvalueindex(3));
 
 	if (i < count)
 	{
@@ -44,7 +44,7 @@ static int lua_ProtoIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllProtos(lua_State *L)
+static int lua_AllProtocols(lua_State *L)
 {
 	int count;
 	PROTOCOLDESCRIPTOR** protos;
@@ -53,7 +53,7 @@ static int lua_AllProtos(lua_State *L)
 	lua_pushinteger(L, 0);
 	lua_pushinteger(L, count);
 	lua_pushlightuserdata(L, protos);
-	lua_pushcclosure(L, lua_ProtoIterator, 3);
+	lua_pushcclosure(L, lua_ProtocolIterator, 3);
 
 	return 1;
 }
@@ -79,8 +79,7 @@ static int lua_EnumProtos(lua_State *L)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 		MapToTable(L, protos[i]);
-		if (lua_pcall(L, 1, 0, 0))
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		luaM_pcall(L, 1, 0);
 	}
 
 	luaL_unref(L, LUA_REGISTRYINDEX, ref);
@@ -181,8 +180,7 @@ static int lua_EnumAccounts(lua_State *L)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 		MapToTable(L, accounts[i]);
-		if (lua_pcall(L, 1, 0, 0))
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		luaM_pcall(L, 1, 0);
 	}
 
 	luaL_unref(L, LUA_REGISTRYINDEX, ref);
@@ -222,8 +220,7 @@ int ProtoAckHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM pa
 	lua_pushnumber(L, ack->lParam);
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 
@@ -271,8 +268,7 @@ int RecvMessageHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM
 	lua_pushstring(L, pre->szMessage);
 	lua_settable(L, -3);
 
-	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+	luaM_pcall(L, 2, 1);
 
 	int res = (int)lua_tointeger(L, 1);
 
@@ -309,8 +305,10 @@ INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 
 static luaL_Reg protocolsApi[] =
 {
-	{ "GetProto", lua_GetProto },
-	{ "AllProtos", lua_AllProtos },
+	{ "GetProto", lua_GetProtocol },
+	{ "GetProtocol", lua_GetProtocol },
+	{ "AllProtos", lua_AllProtocols },
+	{ "AllProtocols", lua_AllProtocols },
 	{ "EnumProtos", lua_EnumProtos },
 
 	{ "GetAccount", lua_GetAccount },

@@ -42,11 +42,8 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	if (lua_pcall(L, 0, 1, 0))
-	{
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	if (luaM_pcall(L))
 		return false;
-	}
 
 	isLoaded = true;
 
@@ -56,10 +53,7 @@ bool CMLuaScript::Load()
 	lua_pushliteral(L, "Load");
 	lua_gettable(L, -2);
 	if (lua_isfunction(L, -1))
-	{
-		if (lua_pcall(L, 0, 0, 0))
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
-	}
+		luaM_pcall(L);
 	else
 		lua_pop(L, 1);
 
@@ -80,8 +74,8 @@ void CMLuaScript::Unload()
 	if (isLoaded && unloadRef)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
-		if (lua_isfunction(L, -1) && lua_pcall(L, 0, 0, 0))
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		if (lua_isfunction(L, -1))
+			luaM_pcall(L);
 		luaL_unref(L, LUA_REGISTRYINDEX, unloadRef);
 		isLoaded = false;
 	}
