@@ -243,6 +243,16 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 	mi.position = 500090000;
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hIcolibItem = pThis->m_hProtoIcon;
+
+	char szUid[33];
+	if (db_get_static(NULL, pThis->m_szModuleName, "AM_MenuId", szUid, _countof(szUid))) {
+		UUID id;
+		UuidCreate(&id);
+		bin2hex(&id, sizeof(id), szUid);
+		db_set_s(NULL, pThis->m_szModuleName, "AM_MenuId", szUid);
+	}
+	hex2bin(szUid, &mi.uid, sizeof(mi.uid));
+
 	return pThis->m_hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 
