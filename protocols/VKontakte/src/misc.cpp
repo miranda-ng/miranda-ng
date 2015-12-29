@@ -847,6 +847,9 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 		{ vkbbcU, bbcNo, _T("%s") },
 		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
 		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
+		{ vkbbcCode, bbcNo, _T("%s") },
+		{ vkbbcCode, bbcBasic, _T("%s") },
+		{ vkbbcCode, bbcAdvanced, _T("[code]%s[/code]") },
 		{ vkbbcImg, bbcNo, _T("%s") },
 		{ vkbbcImg, bbcBasic, _T("[img]%s[/img]") },
 		{ vkbbcImg, bbcAdvanced, _T("[img]%s[/img]") },
@@ -1139,7 +1142,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 			tcSplit,
 			SetBBCString(TranslateT("at"), iBBC, vkbbcB),
 			ttime,
-			tszBody);
+			SetBBCString(tszBody, iBBC, vkbbcCode));
 
 		if (!res.IsEmpty())
 			res.AppendChar(_T('\n'));

@@ -220,7 +220,7 @@ struct CVKNewsItem : public MZeroedObject {
 	bool bIsRepost;
 };
 
-enum VKBBCType { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
+enum VKBBCType { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
 enum BBCSupport { bbcNo, bbcBasic, bbcAdvanced };
 
 struct CVKBBCItem {
