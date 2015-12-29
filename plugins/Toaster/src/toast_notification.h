@@ -46,19 +46,15 @@ public:
 	HRESULT OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
 	HRESULT OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
 
-
 	inline void* GetPluginData()
-	{
-		return _pvPopupData;
+	{	return _pvPopupData;
 	}
 	inline MCONTACT GetContact()
-	{
-		return _hContact;
+	{	return _hContact;
 	}
 
 	inline LRESULT ToastNotification::CallPopupProc(UINT uMsg)
-	{
-		return (_pfnPopupProc ? _pfnPopupProc((HWND)this, uMsg, 0, 0) : 0);
+	{	return (_pfnPopupProc ? _pfnPopupProc((HWND)this, uMsg, 0, 0) : 0);
 	}
 
 };

@@ -181,9 +181,7 @@ static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
 void CleanupClasses()
 {
 	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); ++it)
-	{
 		delete it->second;
-	}
 	mp_Classes.clear();
 }
 
@@ -246,9 +244,7 @@ static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
 	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
 	if (lstNotifications.getIndex(pNotification) != -1)
-	{
 		lstNotifications.remove(pNotification);
-	}
 	return 0;
 }
 void __stdcall HideAllToasts(void*)

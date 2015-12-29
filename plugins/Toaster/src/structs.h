@@ -51,13 +51,3 @@ struct ClassData : public MZeroedObject
 	{
 	}
 };
-
-struct ToastHandlerData : public MZeroedObject
-{
-	MCONTACT hContact;
-
-	WNDPROC pPopupProc;
-	void *vPopupData;
-
-	ToastNotification *tstNotification;
-};
