@@ -243,6 +243,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
 	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
+	mir_cslock lck(csNotifications);
 	if (lstNotifications.getIndex(pNotification) != -1)
 		lstNotifications.remove(pNotification);
 	return 0;

@@ -1,6 +1,7 @@
 #ifndef _ADD_TOSTART_MENU_H_
 #define _ADD_TOSTART_MENU_H_
 
+DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0, 0xE1, 0xD4, 0x2D, 0xE1, 0xD5, 0xF3, 5);
 HRESULT TryCreateShortcut();
 
 #endif //_ADD_TOSTART_MENU_H_
