@@ -23,7 +23,6 @@ ToastNotification::ToastNotification(
 	notification->add_Dismissed(Callback<ToastDismissHandler>(this, &ToastNotification::OnDismiss).Get(), &_ertDismissed);
 	notification->add_Failed(Callback<ToastFailHandler>(this, &ToastNotification::OnFail).Get(), &_ertFailed);
 	notifier->Show(notification.Get());
-
 }
 
 ToastNotification::~ToastNotification()
@@ -62,7 +61,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	}
 
 	int nLength;
-	TCHAR *xtmp = xmlToString(xmlToast, &nLength);
+	ptrT xtmp(xmlToString(xmlToast, &nLength));
 	xmlDestroyNode(xmlToast);
 
 	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, nLength).Get()));

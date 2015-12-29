@@ -165,7 +165,6 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 
 static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
 {
-
 	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
 	{
 		if (it->second == (void*)lParam)

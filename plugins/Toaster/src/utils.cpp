@@ -31,17 +31,22 @@ HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
 	HRESULT hr = InitPropVariantFromString(AppUserModelID, &appIdPropVar);
 	if (SUCCEEDED(hr))
 	{
-		CHECKHR(propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar));
-
-		CHECKHR(propertyStore->Commit());
-
-		ComPtr<IPersistFile> persistFile;
-		CHECKHR(hr = shellLink.As(&persistFile))
-
-		hr = persistFile->Save(shortcutPath, TRUE);
+		hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
+		if (SUCCEEDED(hr))
+		{
+			hr = propertyStore->Commit();
+			if (SUCCEEDED(hr))
+			{
+				ComPtr<IPersistFile> persistFile;
+				hr = shellLink.As(&persistFile);
+				if (SUCCEEDED(hr))
+				{
+					hr = persistFile->Save(shortcutPath, TRUE);
+				}
+			}
+		}
+		PropVariantClear(&appIdPropVar);
 	}
-	PropVariantClear(&appIdPropVar);
-
 	return hr;
 }
 
