@@ -1,11 +1,22 @@
-#ifndef _TOAST_NOTIFICATION_H_
-#define _TOAST_NOTIFICATION_H_
+#pragma once
+typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ::IInspectable *> DesktopToastActivatedEventHandler;
+typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastDismissedEventArgs *> DesktopToastDismissedEventHandler;
+typedef ABI::Windows::Foundation::ITypedEventHandler<ABI::Windows::UI::Notifications::ToastNotification *, ABI::Windows::UI::Notifications::ToastFailedEventArgs *> DesktopToastFailedEventHandler;
 
-struct ToastHandlerData;
+typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_IInspectable ToastActivationHandler;
+typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_Windows__CUI__CNotifications__CToastDismissedEventArgs ToastDismissHandler;
+typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_Windows__CUI__CNotifications__CToastFailedEventArgs ToastFailHandler;
 
 class ToastNotification
 {
 private:
+
+	MCONTACT _hContact;
+
+	WNDPROC _pfnPopupProc;
+	void *_pvPopupData;
+
+
 	wchar_t* _text;
 	wchar_t* _caption;
 	wchar_t* _imagePath;
@@ -22,12 +33,32 @@ private:
 	HRESULT Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** notification);
 
 public:
-	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr);
-	~ToastNotification();
+	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr, MCONTACT hContact = 0, WNDPROC pWndProc = nullptr, void *pData = nullptr);
+	ToastNotification::~ToastNotification();
 
-	HRESULT Initialize();
-	HRESULT Show(_In_ ToastHandlerData*);
-	HRESULT Hide();
+	inline void Destroy()
+	{
+		extern OBJLIST<ToastNotification> lstNotifications;
+		lstNotifications.remove(this);
+	}
+
+	HRESULT OnActivate(_In_ ABI::Windows::UI::Notifications::IToastNotification*, IInspectable* aInspectable);
+	HRESULT OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
+	HRESULT OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
+
+
+	inline void* GetPluginData()
+	{
+		return _pvPopupData;
+	}
+	inline MCONTACT GetContact()
+	{
+		return _hContact;
+	}
+
+	inline LRESULT ToastNotification::CallPopupProc(UINT uMsg)
+	{
+		return (_pfnPopupProc ? _pfnPopupProc((HWND)this, uMsg, 0, 0) : 0);
+	}
+
 };
-
-#endif //_TOAST_NOTIFICATION_H_

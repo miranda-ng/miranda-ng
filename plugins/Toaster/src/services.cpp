@@ -53,34 +53,17 @@ void __stdcall ShowToastNotification(void* p)
 		}
 	}
 
-	ToastNotification *notification = new ToastNotification(td->tszText, td->tszTitle, imagePath);
-		
-	HRESULT hr = notification->Initialize();
-	if (SUCCEEDED(hr))
-	{
-		ToastHandlerData *thd = new ToastHandlerData();
-		thd->hContact   = td->hContact;
-		thd->vPopupData = td->vPopupData;
-		thd->pPopupProc = td->pPopupProc;
-		thd->tstNotification = notification;
-
-		notification->Show(thd);
-		lstNotifications.insert(notification);
-	}
-	else
-	{
-		delete notification;
-	}
+	new ToastNotification(td->tszText, td->tszTitle, imagePath, td->hContact, td->pPopupProc, td->vPopupData);
 }
 
 static INT_PTR GetPopupData(WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)((ToastEventHandler*)wParam)->GetPluginData();
+	return (INT_PTR)((ToastNotification*)wParam)->GetPluginData();
 }
 
 static INT_PTR GetPopupContact(WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)((ToastEventHandler*)wParam)->GetContact();
+	return (INT_PTR)((ToastNotification*)wParam)->GetContact();
 }
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
@@ -261,23 +244,18 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
-	extern LIST<ToastEventHandler> lstHandlers;
-	ToastEventHandler* handler = reinterpret_cast<ToastEventHandler*>(lParam);
-	if (lstHandlers.getIndex(handler) != -1)
+	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
+	if (lstNotifications.getIndex(pNotification) != -1)
 	{
-		ToastNotification* notification = static_cast<ToastNotification*>(handler->GetToastNotification());
-		if (lstNotifications.getIndex(notification) != -1)
-		{
-			notification->Hide();
-		}
+		lstNotifications.remove(pNotification);
 	}
 	return 0;
 }
 void __stdcall HideAllToasts(void*)
 {
 	mir_cslock lck(csNotifications);
-	for (int i = 0; i < lstNotifications.getCount(); i++)
-		lstNotifications[i].Hide();
+	while(lstNotifications.getCount())
+		lstNotifications.remove(0);
 }
 
 void InitServices()

@@ -1,21 +1,33 @@
 #include "stdafx.h"
-
+#include <wrl.h>
 using namespace Microsoft::WRL;
 
-ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath)
-	: _text(text), _caption(caption), _imagePath(imagePath)
-{}
+ToastNotification::ToastNotification(
+	_In_ wchar_t* text,
+	_In_ wchar_t* caption, 
+	_In_ wchar_t* imagePath,
+	MCONTACT hContact,
+	WNDPROC pWndProc,
+	void *pData )
+	: _text(text), _caption(caption), _imagePath(imagePath), _hContact(hContact), _pfnPopupProc(pWndProc), _pvPopupData(pData)
+{
+	lstNotifications.insert(this);
+	Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
+	notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
+	Create(&notification);
+
+	notification->add_Activated(Callback<ToastActivationHandler>(this, &ToastNotification::OnActivate).Get(), &_ertActivated);
+	notification->add_Dismissed(Callback<ToastDismissHandler>(this, &ToastNotification::OnDismiss).Get(), &_ertDismissed);
+	notification->add_Failed(Callback<ToastFailHandler>(this, &ToastNotification::OnFail).Get(), &_ertFailed);
+	notifier->Show(notification.Get());
+
+}
 
 ToastNotification::~ToastNotification()
 {
+	notifier->Hide(notification.Get());
 }
 
-HRESULT ToastNotification::Initialize()
-{
-	CHECKHR(Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager));
-	CHECKHR(notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier))
-	return Create(&notification);
-}
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
 {
@@ -66,19 +78,25 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	return factory->CreateToastNotification(xml.Get(), _notification);
 }
 
-HRESULT ToastNotification::Show(_In_ ToastHandlerData* thd)
+HRESULT ToastNotification::OnActivate(_In_ ABI::Windows::UI::Notifications::IToastNotification*, IInspectable*)
 {
-	ComPtr<ToastEventHandler> eventHandler(new ToastEventHandler(thd));
-
-	CHECKHR(notification->add_Activated(eventHandler.Get(), &_ertActivated));
-	CHECKHR(notification->add_Dismissed(eventHandler.Get(), &_ertDismissed));
-	CHECKHR(notification->add_Failed(eventHandler.Get(), &_ertFailed));
-
-	return notifier->Show(notification.Get());
+	CallPopupProc(WM_COMMAND);
+	Destroy();
+	return S_OK;
 }
 
-HRESULT ToastNotification::Hide()
+HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs *e)
 {
-	return notifier->Hide(notification.Get());
+	ABI::Windows::UI::Notifications::ToastDismissalReason tdr;
+	CHECKHR(e->get_Reason(&tdr));
+	if (tdr == ABI::Windows::UI::Notifications::ToastDismissalReason_UserCanceled)
+		CallPopupProc(WM_CONTEXTMENU);
+	Destroy();
+	return S_OK;
 }
 
+HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*)
+{
+	Destroy();
+	return S_OK;
+}
