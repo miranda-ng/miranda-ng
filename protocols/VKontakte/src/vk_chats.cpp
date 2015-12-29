@@ -104,16 +104,17 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
 
 	CMStringA tszQuery(FORMAT, "var ChatId=%d;", cc->m_chatid);
-	tszQuery += "var Info=API.messages.getChat({\"chat_id\":ChatId});";
-	tszQuery += "var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});";
+	tszQuery += "var Info=API.messages.getChat({\"chat_id\":ChatId});"
+		"var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});";
 
 	if (!cc->m_bHistoryRead) {
-		tszQuery += "var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});";
-		tszQuery += "var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
+		tszQuery += "var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});var UR=parseInt(ChatMsg.unread);"
+			"if(UR>20){if(UR>200)UR=200;ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":UR,\"rev\":0});};"
+			"var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
 			"var Jdx = 0;var CFMsgs = parseInt(FMsgs[Idx].length);while (Jdx < CFMsgs){"
 			"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx = Jdx + 1;};Idx = Idx + 1;};"
-			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});";
-		tszQuery += "var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});";
+			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});"
+			"var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});";
 	}
 
 	tszQuery += "return {\"info\":Info,\"users\":ChatUsers";
