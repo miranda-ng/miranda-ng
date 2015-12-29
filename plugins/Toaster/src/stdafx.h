@@ -19,7 +19,6 @@
 #include <m_chat.h>
 #include <m_skin.h>
 #include <m_imgsrvc.h>
-#include <m_netlib.h>
 #include <m_xml.h>
 #include <m_options.h>
 #include <m_gui.h>
@@ -27,22 +26,22 @@
 #include "version.h"
 #include "resource.h"
 
-const wchar_t AppUserModelID[] = _T("MirandaNG");
+const wchar_t AppUserModelID[] = L"MirandaNG";
 
 #define MODULE "Toaster"
 #define CHECKHR(x) if (FAILED(x)) return x;
 
-#include "string_reference_wrapper.h"
-#include "toast_notification.h"
-#include "add_to_start_menu.h"
-#include "options.h"
-#include "structs.h"
-#include "images.h"
-
+class ToastNotification;
 extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
-extern OBJLIST<ToastNotification> lstNotifications;
 extern wchar_t wszTempDir[MAX_PATH];
+extern OBJLIST<ToastNotification> lstNotifications;
+
+#include "string_reference_wrapper.h"
+#include "utils.h"
+#include "options.h"
+#include "structs.h"
+#include "toast_notification.h"
 
 void CleanupClasses();
 void InitServices();
