@@ -223,9 +223,9 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 
 	case M_REFRESH_COLORS:
 		COLORREF clrBar;
-		if (FontService_GetColor(_T("Automatic Shutdown"), _T("Progress Bar"), &clrBar))
+		if (FontService_GetColor(_T("Automatic shutdown"), _T("Progress bar"), &clrBar))
 			clrBar = GetDefaultColor(FRAMEELEMENT_BAR);
-		if (FontService_GetColor(_T("Automatic Shutdown"), _T("Background"), &dat->clrBackground))
+		if (FontService_GetColor(_T("Automatic shutdown"), _T("Background"), &dat->clrBackground))
 			dat->clrBackground = GetDefaultColor(FRAMEELEMENT_BKGRND);
 		if (dat->hbrBackground != NULL) DeleteObject(dat->hbrBackground);
 		dat->hbrBackground = CreateSolidBrush(dat->clrBackground);
@@ -240,7 +240,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 	case M_REFRESH_FONTS:
 		{
 			LOGFONT lf;
-			if (!FontService_GetFont(_T("Automatic Shutdown"), _T("Countdown on Frame"), &dat->clrText, &lf)) {
+			if (!FontService_GetFont(_T("Automatic shutdown"), _T("Countdown on frame"), &dat->clrText, &lf)) {
 				if (dat->hFont != NULL) DeleteObject(dat->hFont);
 				dat->hFont = CreateFontIndirect(&lf);
 			}
