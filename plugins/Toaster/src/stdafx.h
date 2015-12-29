@@ -27,9 +27,7 @@
 #include "version.h"
 #include "resource.h"
 
-typedef void(__cdecl *pEventHandler)(void*);
 const wchar_t AppUserModelID[] = _T("MirandaNG");
-DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0, 0xE1, 0xD4, 0x2D, 0xE1, 0xD5, 0xF3, 5);
 
 #define MODULE "Toaster"
 #define CHECKHR(x) if (FAILED(x)) return x;

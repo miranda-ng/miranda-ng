@@ -11,7 +11,10 @@ ToastNotification::ToastNotification(
 	void *pData )
 	: _text(text), _caption(caption), _imagePath(imagePath), _hContact(hContact), _pfnPopupProc(pWndProc), _pvPopupData(pData)
 {
-	lstNotifications.insert(this);
+	{
+		mir_cslock lck(csNotifications);
+		lstNotifications.insert(this);
+	}
 	Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
 	notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
 	Create(&notification);
