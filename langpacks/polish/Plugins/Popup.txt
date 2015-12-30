@@ -315,7 +315,7 @@ Włącz/Wyłącz popupy
 Włącz popupy
 [Disable Popups]
 Wyłącz popupy
-[Popup plus]
+[Popup Plus]
 Popupy
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.

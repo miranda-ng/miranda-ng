@@ -131,7 +131,7 @@ Tylko jako zwykły status
 [Group chats]
 Rozmowy grupowe
 [Message for return to group chat:]
-
+Wiadomość po powrocie do czatu grupowego:
 [Login settings]
 Opcje logowania
 [Local settings]

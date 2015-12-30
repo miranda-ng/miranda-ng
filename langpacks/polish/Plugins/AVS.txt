@@ -92,7 +92,7 @@ Moje awatary
 Cache mojego głównego awataru
 [Fatal error, image services not found. Avatar services will be disabled.]
 Błąd, nie znaleziono wtyczki "advaimg.dll". Usługa awatarów zostanie wyłączona.
-[Avatar Service]
+[Avatar service]
 Usługa awatarów
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
@@ -115,8 +115,6 @@ Twoje awatary
 Brak awatara
 [Are you sure you want to remove your avatar?]
 Czy na pewno chcesz usunąć swój awatar?
-[Global Avatar]
-Globalny Awatar
 [Avatar]
 Awatar
 ;file \plugins\AVS\src\services.cpp
@@ -136,7 +134,7 @@ Animacja Flash
 Pliki XML
 [Grow avatar to fit max allowed protocol size]
 Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu
-[Set My Avatar]
+[Set my avatar]
 Ustaw mój awatar
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Ustaw mój awatar dla %s

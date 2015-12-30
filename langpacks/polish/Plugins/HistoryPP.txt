@@ -713,3 +713,7 @@ Zobacz &historię
 Menu użytkownika
 [Prev]
 Poprzedni
+[Incoming events]
+Przychodzące zdarzenia
+[Outgoing events]
+Wychodzące zdarzenia

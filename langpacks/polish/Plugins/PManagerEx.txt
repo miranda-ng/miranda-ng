@@ -10,17 +10,15 @@ Dodaje do menu głównego wpis umożliwiający zmianę profilu, restart lub uruc
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG zostanie zamknięta i uruchomi DbCheker.\n\nCzy chcesz to zrobić?
-[Check Database]
-Sprawdź bazę danych
+[Check database]
+Sprawdź profil
 [Load profile]
 Uruchom profil
 [Change profile]
 Zmień profil
-[Check database]
-Sprawdź profil
 [Restart]
 Restart
-[Database]
-Profil
 [Profile manager]
 Menedżer profili
+[Database]
+Profil
