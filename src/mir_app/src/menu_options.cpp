@@ -468,8 +468,9 @@ public:
 
 		iod->name = m_customName.GetText();
 
-		SaveTree();
-		RebuildCurrent();
+		tvi.mask = TVIF_TEXT;
+		tvi.pszText = iod->name;
+		m_menuItems.SetItem(&tvi);
 		NotifyChange();
 	}
 
