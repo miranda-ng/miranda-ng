@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define MTEXT_GUI_MASK (MTEXT_BIDI_MASK|MTEXT_FANCY_SMILEYS|MTEXT_FANCY_BBCODES|MTEXT_FANCY_MATHMOD)
 
-struct TextUser
+struct TextUser : public MZeroedObject
 {
 	char *name;
 	DWORD options;

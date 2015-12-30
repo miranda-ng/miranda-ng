@@ -145,7 +145,11 @@ void bbCodeParse(IFormattedTextDraw *ftd)
 				fBBCode = bbCodes + i;
 				found = true;
 
-				if (fText) delete[] fText;
+				if (fText)
+				{
+					delete[] fText;
+					fText = nullptr;
+				}
 				if (bbCodes[i].end) {
 					TEXTRANGE trg;
 					trg.chrg.cpMin = fte.chrg.cpMin;
