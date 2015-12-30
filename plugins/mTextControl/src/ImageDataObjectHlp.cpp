@@ -149,6 +149,7 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	{
 		lpLockBytes->Release();
 		pOleClientSite->Release();
+		pods->Release();
 		return false;
 	}
 

@@ -162,6 +162,7 @@ MTI_MTextCreateEx(HANDLE userHandle, void *text, DWORD flags)
 	if (flags & MTEXT_FLG_WCHAR) result->ftd->putTextW((WCHAR *)text);
 	else result->ftd->putTextA((char *)text);
 	MText_InitFormatting1(result);
+	delete result;
 
 	return 0;
 }
