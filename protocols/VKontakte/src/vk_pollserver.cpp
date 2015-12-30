@@ -194,7 +194,8 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST *reply;
 	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
-	NETLIBHTTPREQUEST req = { sizeof(req) };
+	NETLIBHTTPREQUEST req = {};
+	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_GET;
 	req.szUrl = mir_strdup(szReqUrl);
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
