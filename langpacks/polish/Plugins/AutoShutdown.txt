@@ -16,19 +16,19 @@ Wyłączanie
 &Odliczanie rozpoczyna się od:
 [seconds]
 s
-[Shutdown Events]
+[Shutdown events]
 Opcje zdarzeń
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 &Aktywuj automatyczne wyłączanie z tymi samymi opcjami jeśli Miranda NG zostanie ponownie uruchomiona
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Ignoruj ukryte lub tymczasowe kontakty
-[Critical Shutdown Events]
+[Critical shutdown events]
 Krytyczne zdarzenia wyłączania
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued (Weather)]
 Ostrzeżenia o &burzy z piorunami (Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Autowyłączanie
 [Select the automatic shutdown event]
 Wybierz zdarzenie automatycznego zamykania
@@ -69,19 +69,19 @@ Wyłącz o:
 Pozostało:
 [Paused]
 Zatrzymano
-[&Unpause Countdown]
+[&Unpause countdown]
 &Wznów odliczanie
-[&Pause Countdown]
+[&Pause countdown]
 &Wstrzymaj odliczanie
-[&Cancel Countdown]
+[&Cancel countdown]
 &Anuluj odliczanie
 [AutoShutdown]
 Autowyłączanie
-[Countdown on Frame]
+[Countdown on frame]
 Odliczanie w ramce
 [Background]
 Tło
-[Progress Bar]
+[Progress bar]
 Pasek postępu
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -133,17 +133,17 @@ Komputer zostanie uśpiony za %u sek.
 Komputer zostanie zahibernowany za %u sek.
 [The workstation will automatically get locked in %u second(s).]
 Komputer zostanie zablokowany za %u sek.
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Wszystkie połączenia zostaną zamknięte za %u sek.
 [The computer will automatically be shut down in %u second(s).]
 Komputer zostanie wyłączony za %u sek.
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Błąd autowyłączania
 [The shutdown process failed!\nReason: %s]
 Nieudane autowyłączanie!\nPowód: %s
 [Unknown]
 Nieznany
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Nieudane zainicjowanie procesu zamykania!\nPowód: %s
 [Close Miranda NG]
 Wyłącz Mirandę NG
@@ -161,7 +161,7 @@ Uśpij
 Hibernuj
 [Lock workstation]
 Zablokuj komputer
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Zawieś aktywne połączenia
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Ustawia status wszystkich protokołów na Rozłączony i zamyka Mirandę NG.
@@ -183,10 +183,10 @@ Blokuje komputer. Aby go odblokować, należy się zalogować.
 Ustawia status wszystkich protokołów na Rozłączony i zamyka połączenia RAS.
 [Alerts]
 Alarmy
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Odliczanie autowyłączania
 ;file \plugins\AutoShutdown\src\utils.cpp
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Przełącznik autowyłączania
 [Main]
 Ogólne

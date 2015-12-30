@@ -36,8 +36,8 @@ Przy starcie
 Co
 [Silent mode]
 Tryb cichy
-[Backup database before update (requires Db_autobackups)]
-Rób kopię bazy danych przed aktualizacją (wymaga Db_autobackups)
+[Backup database before update (requires Db_autobackups plugin)]
+Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
 [Files source]
 Źródło plików
 [Stable version]
