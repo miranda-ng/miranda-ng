@@ -1240,7 +1240,6 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				if (hContact) {
 					// already in list, remove the duplicate
 					if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == NO_ERROR && dwTemp != -1) {
-						dwTemp = dwTemp;
 						_CrtDbgBreak();
 					}
 					else {
