@@ -76,23 +76,23 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, MsnPlace *place)
 {
 	static const char* MirVerStr[] =
 	{
-		"Windows Messenger",
+		"Messenger (Windows)",
 		"Web",
 		"Windows Phone",
 		"Xbox",
 		"Zune",
-		"iPhone Messenger",
-		"Mac Messenger",
-		"SMS Messenger",
-		"Modern Messenger",
+		"Messenger (iPhone) ",
+		"Messenger (Mac)",
+		"Messenger (SMS)",
+		"Messenger (Modern)",
 		"Skype",
-		"Windows Skype",
-		"Windows 8 Skype",
-		"Mac Skype",
-		"Linux Skype",
-		"Windows Phone Skype",
-		"iOS Skype",
-		"Android Skype",
+		"Skype (Windows)",
+		"Skype (Windows 8)",
+		"Skype (Mac)",
+		"Skype (Linux)",
+		"Skype (Windows Phone)",
+		"Skype (iOS)",
+		"Skype (Android)",
 		"Skype"
 	};
 
@@ -109,8 +109,6 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, MsnPlace *place)
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN_ReceiveMessage - receives message or a file from the server
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
 void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params)
 {
 	union {
