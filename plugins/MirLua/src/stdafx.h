@@ -26,6 +26,7 @@
 #include <m_message.h>
 #include <m_chat.h>
 #include <m_protocols.h>
+#include <m_contacts.h>
 
 #include <m_folders.h>
 #include <m_msg_buttonsbar.h>

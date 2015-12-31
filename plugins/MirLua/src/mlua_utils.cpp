@@ -138,9 +138,12 @@ int luaM_totable(lua_State *L)
 {
 	const char *tname = luaL_checkstring(L, 2);
 
-	//luaL_getmetatable(L, tname);
-	//lua_getfield(L, -1, "__init");
 	lua_getglobal(L, tname);
+	if (lua_type(L, -1) == LUA_TNIL)
+	{
+		luaL_getmetatable(L, tname);
+		lua_getfield(L, -1, "__init");
+	}
 	lua_pushvalue(L, 1);
 	luaM_pcall(L, 1, 1);
 

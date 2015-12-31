@@ -23,8 +23,8 @@ static int lua_FindNextContact(lua_State *L)
 
 static int lua_ContactIterator(lua_State *L)
 {
-	const char *szProto = lua_tostring(L, lua_upvalueindex(1));
-	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(2));
+	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(1));
+	const char *szProto = lua_tostring(L, lua_upvalueindex(2));
 
 	hContact = hContact == NULL
 		? db_find_first(szProto)
@@ -46,7 +46,7 @@ static int lua_Contacts(lua_State *L)
 {
 	const char *szProto = lua_tostring(L, 1);
 
-	lua_pushinteger(L, NULL);
+	lua_pushinteger(L, 0);
 	lua_pushstring(L, szProto);
 	lua_pushcclosure(L, lua_ContactIterator, 2);
 
@@ -308,7 +308,7 @@ static int lua_SettingIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllSettings(lua_State *L)
+static int lua_Settings(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	const char* szModule = luaL_checkstring(L, 2);
@@ -517,27 +517,27 @@ static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
 	lua_pushliteral(L, "Value");
 	switch (pDBCWS->value.type)
 	{
-		case DBVT_BYTE:
-			lua_pushinteger(L, pDBCWS->value.bVal);
-			break;
-		case DBVT_WORD:
-			lua_pushinteger(L, pDBCWS->value.wVal);
-			break;
-		case DBVT_DWORD:
-			lua_pushnumber(L, pDBCWS->value.dVal);
-			break;
-		case DBVT_ASCIIZ:
-			lua_pushstring(L, ptrA(mir_utf8encode(pDBCWS->value.pszVal)));
-			break;
-		case DBVT_UTF8:
-			lua_pushstring(L, pDBCWS->value.pszVal);
-			break;
-		case DBVT_WCHAR:
-			lua_pushstring(L, ptrA(mir_utf8encodeW(pDBCWS->value.pwszVal)));
-			break;
-		default:
-			lua_pushvalue(L, 4);
-			return 1;
+	case DBVT_BYTE:
+		lua_pushinteger(L, pDBCWS->value.bVal);
+		break;
+	case DBVT_WORD:
+		lua_pushinteger(L, pDBCWS->value.wVal);
+		break;
+	case DBVT_DWORD:
+		lua_pushnumber(L, pDBCWS->value.dVal);
+		break;
+	case DBVT_ASCIIZ:
+		lua_pushstring(L, ptrA(mir_utf8encode(pDBCWS->value.pszVal)));
+		break;
+	case DBVT_UTF8:
+		lua_pushstring(L, pDBCWS->value.pszVal);
+		break;
+	case DBVT_WCHAR:
+		lua_pushstring(L, ptrA(mir_utf8encodeW(pDBCWS->value.pwszVal)));
+		break;
+	default:
+		lua_pushvalue(L, 4);
+		return 1;
 	}
 	lua_settable(L, -3);
 
@@ -566,10 +566,11 @@ static luaL_Reg databaseApi[] =
 
 	{ "WriteContactSetting", lua_WriteSetting },
 	{ "WriteSetting", lua_WriteSetting },
-	
+
 	{ "GetContactSetting", lua_GetSetting },
 	{ "GetSetting", lua_GetSetting },
-	{ "AllSettings", lua_AllSettings },
+	{ "AllSettings", lua_Settings },
+	{ "Settings", lua_Settings },
 	{ "EnumSettings", lua_EnumSettings },
 
 	{ "DeleteContactSetting", lua_DeleteSetting },
@@ -582,6 +583,8 @@ static luaL_Reg databaseApi[] =
 
 	{ NULL, NULL }
 };
+
+/***********************************************/
 
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
@@ -645,10 +648,12 @@ static int dbcw__index(lua_State *L)
 
 static const luaL_Reg dbcwMeta[] =
 {
-	{ MT_DBCONTACTWRITESETTING, dbcw__init },
+	{ "__init", dbcw__init },
 	{ "__index", dbcw__index },
 	{ NULL, NULL }
 };
+
+/***********************************************/
 
 DBEVENTINFO* MT<DBEVENTINFO>::Load(lua_State *L)
 {
@@ -668,6 +673,133 @@ void MT<DBEVENTINFO>::Free(DBEVENTINFO **dbei)
 	mir_free(*dbei);
 }
 
+/***********************************************/
+
+#define MT_CONTACTINFO "CONTACTINFO"
+
+static int ci__init(lua_State *L)
+{
+	MCONTACT udata = 0;
+	switch(lua_type(L, 1))
+	{
+	case LUA_TNUMBER:
+		udata = lua_tointeger(L, 1);
+		break;
+	case LUA_TLIGHTUSERDATA:
+		udata = (MCONTACT)lua_touserdata(L, 1);
+		break;
+	default:
+		const char *msg = lua_pushfstring(L, "hContact expected, got %s", lua_typename(L, lua_type(L, 1)));
+		luaL_argerror(L, 1, msg);
+	}
+
+	MCONTACT *hContact = (MCONTACT*)lua_newuserdata(L, sizeof(MCONTACT));
+	*hContact = udata;
+
+	luaL_setmetatable(L, MT_CONTACTINFO);
+
+	return 1;
+}
+
+static int ci__index(lua_State *L)
+{
+	MCONTACT *hContact = (MCONTACT*)luaL_checkudata(L, 1, MT_CONTACTINFO);
+
+	mir_ptr<CONTACTINFO> ci((CONTACTINFO*)mir_calloc(sizeof(CONTACTINFO)));
+	ci->cbSize = sizeof(CONTACTINFO);
+	ci->hContact = *hContact;
+
+	if (lua_type(L, 2) == LUA_TNUMBER)
+		ci->dwFlag = lua_tointeger(L, 2);
+	else if (lua_type(L, 2) == LUA_TSTRING)
+	{
+		const char *key = luaL_checkstring(L, 2);
+
+		if (mir_strcmpi(key, "Handle") == 0)
+		{
+			lua_pushinteger(L, *hContact);
+			return 1;
+		}
+
+		if (mir_strcmpi(key, "FirstName") == 0)
+			ci->dwFlag = CNF_FIRSTNAME;
+		else if (mir_strcmpi(key, "LastName") == 0)
+			ci->dwFlag = CNF_LASTNAME;
+		else if (mir_strcmpi(key, "Nick") == 0)
+			ci->dwFlag = CNF_NICK;
+		else if (mir_strcmpi(key, "FullName") == 0)
+			ci->dwFlag = CNF_FIRSTLAST;
+		else if (mir_strcmpi(key, "DisplayName") == 0)
+			ci->dwFlag = CNF_DISPLAY;
+		else if (mir_strcmpi(key, "Uid") == 0)
+			ci->dwFlag = CNF_UNIQUEID;
+		else if (mir_strcmpi(key, "Email") == 0)
+			ci->dwFlag = CNF_EMAIL;
+		else if (mir_strcmpi(key, "City") == 0)
+			ci->dwFlag = CNF_CITY;
+		else if (mir_strcmpi(key, "State") == 0)
+			ci->dwFlag = CNF_STATE;
+		else if (mir_strcmpi(key, "Country") == 0)
+			ci->dwFlag = CNF_COUNTRY;
+		else if (mir_strcmpi(key, "Phone") == 0)
+			ci->dwFlag = CNF_PHONE;
+		else if (mir_strcmpi(key, "Homepage") == 0)
+			ci->dwFlag = CNF_HOMEPAGE;
+		else if (mir_strcmpi(key, "About") == 0)
+			ci->dwFlag = CNF_ABOUT;
+		else if (mir_strcmpi(key, "Age") == 0)
+			ci->dwFlag = CNF_AGE;
+		else if (mir_strcmpi(key, "Gender") == 0)
+			ci->dwFlag = CNF_GENDER;
+		else
+		{
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+	else
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	ci->dwFlag |= CNF_TCHAR;
+	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)(CONTACTINFO*)ci))
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	switch (ci->type)
+	{
+	case CNFT_BYTE:
+		lua_pushinteger(L, ci->bVal);
+		break;
+	case CNFT_WORD:
+		lua_pushinteger(L, ci->wVal);
+		break;
+	case CNFT_DWORD:
+		lua_pushnumber(L, ci->dVal);
+		break;
+	case CNFT_ASCIIZ:
+		lua_pushstring(L, ptrA(mir_utf8encodeT(ci->pszVal)));
+		break;
+	default:
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static const luaL_Reg ciMeta[] =
+{
+	{ "__init", ci__init },
+	{ "__index", ci__index },
+	{ NULL, NULL }
+};
+
+/***********************************************/
+
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
@@ -683,6 +815,10 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 
 	luaL_newmetatable(L, MT_DBCONTACTWRITESETTING);
 	luaL_setfuncs(L, dbcwMeta, 0);
+	lua_pop(L, 1);
+
+	luaL_newmetatable(L, MT_CONTACTINFO);
+	luaL_setfuncs(L, ciMeta, 0);
 	lua_pop(L, 1);
 
 	return 1;
