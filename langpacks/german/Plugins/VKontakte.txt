@@ -23,7 +23,7 @@ BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
 [basic ([b], [i], [u], [s])]
 Basis ([b], [i], [u], [s])
 [advanced (+[url], [size], [color], [code])]
-
+Erweitert (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 Diese Einstellung auch für Anhänge in Neuigkeiten und Benachrichtigungen anwenden
 [Other]

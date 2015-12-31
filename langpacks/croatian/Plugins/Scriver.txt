@@ -261,7 +261,7 @@ tekst
 [Background]
 Pozadina
 [Timeout (s)]
-vrijeme nestanka (s))
+vrijeme nestanka (s)
 [(0 means default setting, -1 means indefinite time)]
 
 [Log]

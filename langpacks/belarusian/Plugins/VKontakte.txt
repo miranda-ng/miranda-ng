@@ -22,7 +22,7 @@
 [basic ([b], [i], [u], [s])]
 базавая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color], [code])]
-пашыраная (+[url], [size], [color], [code]))
+пашыраная (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 
 [Other]
