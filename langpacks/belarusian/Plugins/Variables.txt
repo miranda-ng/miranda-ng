@@ -322,7 +322,7 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 [strips y directories from x]
 выразае y тэчак са шляху x
 [number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
-колькасць секунд паміж датамі x і y (x і y у фармаце: М/д/гг Г:м:с))
+колькасць секунд паміж датамі x і y (x і y у фармаце: М/д/гг Г:м:с)
 [TRUE if directory x exists]
 ПРАЎДА, калі тэчка x існуе
 [TRUE if file x exists]

@@ -22,7 +22,7 @@
 [basic ([b], [i], [u], [s])]
 базовая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color], [code])]
-продвинутая (+[url], [size], [color], [code]))
+продвинутая (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 Использовать эту настройку также для вложений в новостях и уведомлениях
 [Other]

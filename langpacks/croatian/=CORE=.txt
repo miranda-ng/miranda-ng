@@ -137,7 +137,7 @@ koristi prilagođene boje
 [Popups for the Chat plugin]
 skočni prozori za dodatak čavrljanja
 [Timeout (s)]
-vrijeme nestanka (s))
+vrijeme nestanka (s)
 [Text]
 tekst
 [Background]
