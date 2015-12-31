@@ -16,19 +16,19 @@ Arrêt Système
 &Compte à rebours à :
 [seconds]
 secondes
-[Shutdown Events]
+[Shutdown events]
 Évènements d'extinction
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 &Activer la fermeture automatique avec les mêmes options de la dernière fermeture automatique.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Ignorer les contacts cachés ou provisoires lors de la recherche de contacts hors ligne
-[Critical Shutdown Events]
+[Critical shutdown events]
 Évènements d'extinction critque
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Éteindre automatiquement l'ordinateur si :
 [&Thunderstorm warning is issued (Weather)]
 Un &orage est annoncé (plugin Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Extinction Automatique
 [Select the automatic shutdown event]
 Sélectionner l'évènement qui fermera Miranda-IM
@@ -69,19 +69,19 @@ Heure d'extinction :
 Temps restant :
 [Paused]
 EN PAUSE
-[&Unpause Countdown]
+[&Unpause countdown]
 &Relancer le comte à rebours
-[&Pause Countdown]
+[&Pause countdown]
 Figer le compte à rebours
-[&Cancel Countdown]
+[&Cancel countdown]
 &Annuler le compte à rebours
 [AutoShutdown]
 
-[Countdown on Frame]
+[Countdown on frame]
 Compte à rebours en image
 [Background]
 Arrière-plan
-[Progress Bar]
+[Progress bar]
 Progression
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -133,17 +133,17 @@ L'ordinateur se mettra automatiquement en veille dans %u seconde(s).
 L'ordinateur se mettra automatiquement en veille prolongée dans %u seconde(s).
 [The workstation will automatically get locked in %u second(s).]
 L'ordinateur se verrouillera automatiquement dans %u seconde(s).
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Toutes les connexions seront désactivées dans %u seconde(s).
 [The computer will automatically be shut down in %u second(s).]
 L'ordinateur s'éteindra automatiquement dans %u seconde(s).
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Erreur de Automatic Shutdown
 [The shutdown process failed!\nReason: %s]
 La procédure d'extinction a échouée !\nMotif : %s
 [Unknown]
 Inconnu
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Échec de l'initialisation d'extinction !\nMotif : %s
 [Close Miranda NG]
 Fermer Miranda NG
@@ -161,7 +161,7 @@ Mettre en veille
 Mettre en veille prolongée
 [Lock workstation]
 
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Couper Internet
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Déconnecte les protocoles et ferme Miranda.
@@ -183,10 +183,10 @@ Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devr
 Vous déconnecte de tous vos protocoles et coupe votre connexion Internet.
 [Alerts]
 Notifications
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Compte à rebours de Automatic Shutdown
 ;file \plugins\AutoShutdown\src\utils.cpp
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Automatic Shutdown
 [Main]
 Principales

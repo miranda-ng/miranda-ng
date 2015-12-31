@@ -1,6 +1,6 @@
 ﻿[File transfer by using the messaging services - as plain text.]
 [fileAsMessage]
-[Extra options: Events -> File Transfers, "Receiving files" group]
+[Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
 [File already exists. Overwrite?]
 [Unknown command for "File As Message" was received]
 [Play]

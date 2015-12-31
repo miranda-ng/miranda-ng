@@ -713,3 +713,7 @@ Voir l'&historique
 Menu Contact
 [Prev]
 Préc
+[Incoming events]
+Éléments reçus
+[Outgoing events]
+Élements envoyés

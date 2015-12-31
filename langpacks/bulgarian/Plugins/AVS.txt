@@ -73,7 +73,7 @@
 Аватари
 [My Avatars]
 Моите аватари
-[Avatar Service]
+[Avatar service]
 Услуга за аватари
 [Set avatar options for %s]
 Конфигуриране на аватар за %s
@@ -95,8 +95,6 @@
 Няма аватар
 [Are you sure you want to remove your avatar?]
 Желаете ли аватарът Ви да бъде премахнат?
-[Global Avatar]
-Общ аватар
 [Avatar]
 Аватар
 [All files]
@@ -115,7 +113,7 @@ Flash анимации
 XML файлове
 [Grow avatar to fit max allowed protocol size]
 Увеличаване на аватара до максималния размер за протокола
-[Set My Avatar]
+[Set my avatar]
 Задаване на мой аватар
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Задаване на мой аватар за %s

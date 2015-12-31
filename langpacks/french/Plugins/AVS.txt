@@ -92,7 +92,7 @@ Mon avatar
 Cache de l'avatar général
 [Fatal error, image services not found. Avatar services will be disabled.]
 Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
-[Avatar Service]
+[Avatar service]
 
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
@@ -115,8 +115,6 @@ Protocoles
 
 [Are you sure you want to remove your avatar?]
 Êtes-vous sûr de vouloir effacer cet avatar ?
-[Global Avatar]
-Avatar général
 [Avatar]
 Avatar
 ;file \plugins\AVS\src\services.cpp
@@ -136,7 +134,7 @@ Animations Flash
 Fichiers XML
 [Grow avatar to fit max allowed protocol size]
 
-[Set My Avatar]
+[Set my avatar]
 Changer mon avatar
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Changer mon avatar pour %s

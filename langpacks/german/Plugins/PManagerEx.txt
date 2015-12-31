@@ -10,17 +10,15 @@ Fügt einen Hauptmenüeintrag hinzu, um ein neues Profil zu laden, neuzustarten 
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG wird beendet und DatabaseChecker wird gestartet.\n\nSind Sie sich sicher, dass Sie dies wollen?
-[Check Database]
-Datenbank prüfen
+[Check database]
+Datenbank überprüfen
 [Load profile]
 Profil laden
 [Change profile]
 Profil ändern
-[Check database]
-Datenbank überprüfen
 [Restart]
 Neustart
-[Database]
-Datenbank
 [Profile manager]
 Profilmanager
+[Database]
+Datenbank

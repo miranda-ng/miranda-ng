@@ -1001,7 +1001,7 @@ Por favor, complete el siguiente formulario para crear un nuevo perfil de usuari
 Perfil
 [e.g., Workplace]
 Ejemplo: Trabajo
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
 [e.g., dbx mmap]
 Ejemplo: dbx mmap

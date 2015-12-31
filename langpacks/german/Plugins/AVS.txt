@@ -92,7 +92,7 @@ Meine Avatare
 Mein globaler Avatar-Cache
 [Fatal error, image services not found. Avatar services will be disabled.]
 Schwerwiegender Fehler, Bilddienste-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
-[Avatar Service]
+[Avatar service]
 Avatardienst
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
@@ -115,8 +115,6 @@ Eigene Avatare
 Kein Avatar
 [Are you sure you want to remove your avatar?]
 Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
-[Global Avatar]
-Globaler Avatar
 [Avatar]
 Avatar
 ;file \plugins\AVS\src\services.cpp
@@ -136,7 +134,7 @@ Flash-Animationen
 XML-Dateien
 [Grow avatar to fit max allowed protocol size]
 Avatargröße an maximale Protokollgröße anpassen
-[Set My Avatar]
+[Set my avatar]
 Meinen Avatar setzen
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Meinen Avatar für %s setzen

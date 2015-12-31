@@ -16,19 +16,19 @@ Herunterfahren
 Countdown beginnt bei:
 [seconds]
 Sekunden
-[Shutdown Events]
+[Shutdown events]
 Ereignisse beim Herunterfahren
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 &Automatisches Beenden mit den gleichen Einstellungen erneut aktivieren, wenn Miranda NG beendet wurde, während dieser aktiviert war
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Ignoriere versteckte und temporäre Kontakte bei der Beobachtung, ob alle Kontakte offline sind
-[Critical Shutdown Events]
+[Critical shutdown events]
 Kritische Ereignisse
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
 [&Thunderstorm warning is issued (Weather)]
 &Gewitterwarnung ist aktiv (Wetterplugin)
-[Automatic Shutdown]
+[Automatic shutdown]
 Automatisch beenden
 [Select the automatic shutdown event]
 Ein Ereignis zum automatischen Beenden wählen
@@ -69,19 +69,19 @@ Beenden um:
 Verbleibende Zeit:
 [Paused]
 Pause
-[&Unpause Countdown]
+[&Unpause countdown]
 Countdown &fortsetzen
-[&Pause Countdown]
+[&Pause countdown]
 Countdown &pausieren
-[&Cancel Countdown]
+[&Cancel countdown]
 Countdown &abbrechen
 [AutoShutdown]
 Automatisches Beenden
-[Countdown on Frame]
+[Countdown on frame]
 Countdown in Frame
 [Background]
 Hintergrund
-[Progress Bar]
+[Progress bar]
 Fortschrittsanzeige
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -133,17 +133,17 @@ Dieser Computer wird in %u Sekunde(n) automatisch in den Standby-Modus gesetzt.
 Dieser Computer wird in %u Sekunde(n) automatisch in den Energiesparmodus gesetzt.
 [The workstation will automatically get locked in %u second(s).]
 Diese Arbeitsstation wird in %u Sekunde(n) automatisch gesperrt.
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Alle Einwahlverbindungen werden in %u Sekunde(n) automatisch geschlossen.
 [The computer will automatically be shut down in %u second(s).]
 Dieser Computer wird in %u Sekunde(n) automatisch heruntergefahren.
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 AutoBeenden-Fehler
 [The shutdown process failed!\nReason: %s]
 Herunterfahren fehlgeschlagen!\nGrund: %s
 [Unknown]
 Unbekannt
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Einleitung des Herunterfahrens fehlgeschlagen!\nGrund: %s
 [Close Miranda NG]
 Miranda NG schließen
@@ -161,7 +161,7 @@ Standbymodus
 Ruhezustand
 [Lock workstation]
 Arbeitsstation sperren
-[Hang up dialup connections]
+[Hang up dial-up connections]
 DFÜ-Verbindungen trennen
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Setzt alle Netzwerkprotokolle auf "Offline" und beendet Miranda NG.
@@ -183,10 +183,10 @@ Sperrt den Computer. Um den Computer wieder zu entsperren müssen Sie sich erneu
 Setzt alle Protokolle auf "offline" und trennt alle aktiven DFÜ-Netzwerkverbindungen.
 [Alerts]
 Hinweise
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 AutoBeenden-Countdown
 ;file \plugins\AutoShutdown\src\utils.cpp
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Automatisches Beenden ein-/ausschalten
 [Main]
 Allgemein

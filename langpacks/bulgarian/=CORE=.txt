@@ -975,8 +975,8 @@ URL адреси
 Профил
 [e.g., Workplace]
 напр. raboten
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Можете да изберете драйвер за профила, който предлага повече функции. Ако имате съмнения използвайте стандартния.
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Можете да изберете драйвър за базата данни, който предлага повече функции. Ако имате съмнения използвайте стандартния.
 [e.g., dbx mmap]
 напр. dbx mmap driver
 [Driver]

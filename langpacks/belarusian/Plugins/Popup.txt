@@ -307,7 +307,7 @@ History++ для гісторыі вокнаў
 Уключыць Вокны
 [Disable Popups]
 Адключыць Вокны
-[Popup plus]
+[Popup Plus]
 Вокны
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 

@@ -713,3 +713,7 @@ Pregledaj %istoriju
 Korisnički meni
 [Prev]
 
+[Incoming events]
+
+[Outgoing events]
+

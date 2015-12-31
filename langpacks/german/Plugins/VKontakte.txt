@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.19
+;  Version: 0.1.1.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -22,8 +22,8 @@ Für Vorschau, max. 604x604px
 BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
 [basic ([b], [i], [u], [s])]
 Basis ([b], [i], [u], [s])
-[advanced (+[url], [size], [color])]
-Erweitert (+[url], [size], [color])
+[advanced (+[url], [size], [color], [code])]
+
 [Use this setting also for attachments on news and notifications]
 Diese Einstellung auch für Anhänge in Neuigkeiten und Benachrichtigungen anwenden
 [Other]

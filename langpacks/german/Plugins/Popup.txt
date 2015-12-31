@@ -315,8 +315,8 @@ Popups ein-/ausschalten
 Popups aktivieren
 [Disable Popups]
 Popups deaktivieren
-[Popup plus]
-Popup plus
+[Popup Plus]
+Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
 ;file \plugins\Popup\src\opt_adv.cpp
