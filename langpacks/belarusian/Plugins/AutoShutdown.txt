@@ -15,19 +15,19 @@
 Адлік пачнецца:
 [seconds]
 секунд(ы)
-[Shutdown Events]
+[Shutdown events]
 З'ява аўтавыключэння
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 Ізноў акцівіраваць аўтавыключэнне з тымі ж наладамі, калі Міранда была зачынена з аўтавыключэннем.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Ігнараваць схаваныя і часовыя кантакты пры назіранні за ўсімі адключанымі кантактамі
-[Critical Shutdown Events]
+[Critical shutdown events]
 Крытычныя падзеі аўтавыключэння
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Аўтаматычна выключаць камп'ютар пры наступных з'явах:
 [&Thunderstorm warning is issued (Weather)]
 Штармавое папярэджанне (Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Аўтавыключэнне
 [Select the automatic shutdown event]
 Выбар з'яў для аўтавыключэння
@@ -67,19 +67,19 @@
 Засталося часу:
 [Paused]
 Паўза
-[&Unpause Countdown]
+[&Unpause countdown]
 Узнавіць адлік
-[&Pause Countdown]
+[&Pause countdown]
 Спыніць адлік
-[&Cancel Countdown]
+[&Cancel countdown]
 Адмяніць адлік
 [AutoShutdown]
 Аўтавыключэнне
-[Countdown on Frame]
+[Countdown on frame]
 Адлік
 [Background]
 Фон
-[Progress Bar]
+[Progress bar]
 Радок стана
 [Header]
 Загаловак
@@ -127,17 +127,17 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Камп'ютэр перайдзе ў рэжым гібернацыі праз %u секунд(ы).
 [The workstation will automatically get locked in %u second(s).]
 Камп'ютэр заблакуецца праз %u секунд(ы).
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Усе далучэнні разарвуцца праз %u секунд(ы).
 [The computer will automatically be shut down in %u second(s).]
 Кампутар выключыцца праз %u секунд(ы).
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Памылка аўтавыключэння
 [The shutdown process failed!\nReason: %s]
 Памылка працэсу аўтавыключэння!\nЧыннік: %s
 [Unknown]
 Невядома
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Памылка запуску працэса выключэння!\nЧыннік: %s
 [Close Miranda NG]
 Зачыніць Miranda NG
@@ -155,7 +155,7 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Рэжым гібернацыі
 [Lock workstation]
 Заблакаваць кампутар
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Адключыць тэлефонныя злучэнні
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Адключыць усе пратаколы і зачыніць Miranda NG.
@@ -177,9 +177,9 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Адключыць усе пратаколы і разарваць усе тэлефонныя злучэнні.
 [Alerts]
 Абвесткі
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Зваротны адлік аўтавыключэння
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Пераключыць аўтавыключэнне
 [Main]
 Галоўны

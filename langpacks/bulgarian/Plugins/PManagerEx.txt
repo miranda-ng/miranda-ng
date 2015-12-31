@@ -5,8 +5,6 @@
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
-[Check Database]
-Проверка на базата данни
 [Check database]
 Проверка на базата данни
 [Restart]

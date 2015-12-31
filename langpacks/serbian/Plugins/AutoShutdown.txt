@@ -16,19 +16,19 @@
 
 [seconds]
 sekundi
-[Shutdown Events]
+[Shutdown events]
 
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 
-[Critical Shutdown Events]
+[Critical shutdown events]
 
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 
 [&Thunderstorm warning is issued (Weather)]
 
-[Automatic Shutdown]
+[Automatic shutdown]
 
 [Select the automatic shutdown event]
 
@@ -69,19 +69,19 @@ Otkazivanje
 
 [Paused]
 
-[&Unpause Countdown]
+[&Unpause countdown]
 
-[&Pause Countdown]
+[&Pause countdown]
 
-[&Cancel Countdown]
+[&Cancel countdown]
 
 [AutoShutdown]
 
-[Countdown on Frame]
+[Countdown on frame]
 
 [Background]
 Pozadina
-[Progress Bar]
+[Progress bar]
 
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -133,17 +133,17 @@ minut(a)
 
 [The workstation will automatically get locked in %u second(s).]
 
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 
 [The computer will automatically be shut down in %u second(s).]
 
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 
 [The shutdown process failed!\nReason: %s]
 
 [Unknown]
 Nepoznati
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 
 [Close Miranda NG]
 
@@ -161,7 +161,7 @@ Nepoznati
 
 [Lock workstation]
 
-[Hang up dialup connections]
+[Hang up dial-up connections]
 
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 
@@ -183,10 +183,10 @@ Nepoznati
 
 [Alerts]
 Upozorenja
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 
 ;file \plugins\AutoShutdown\src\utils.cpp
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 
 [Main]
 

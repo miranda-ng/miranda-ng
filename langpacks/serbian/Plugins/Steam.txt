@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.4.2
+;  Version: 0.11.5.0
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -69,7 +69,9 @@ Mreža
 [Blocked contacts]
 
 ;file \protocols\Steam\src\steam_login.cpp
-[Connection token expired. Please login again.]
+[Cannot obtain connection token.]
+
+[Unknown login error.]
 
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
@@ -96,5 +98,8 @@ Naziv
 [SteamID]
 
 [You cannot send messages when you are offline.]
+
+;file \protocols\Steam\src\steam_utils.cpp
+[closed chat session]
 
 ;file \protocols\Steam\src\steam_xstatus.cpp

@@ -1012,8 +1012,8 @@ Bitte füllen Sie den folgenden Dialog aus, um ein neues Profil zu erstellen.
 Profil
 [e.g., Workplace]
 z. B. Arbeitsplatz
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Sie können auch einen anderen Treiber für Ihr Profil verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standard-Treiber.
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
+
 [e.g., dbx mmap]
 z. B. dbx mmap
 [Driver]

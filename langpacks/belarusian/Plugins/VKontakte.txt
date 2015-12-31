@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.19
+;  Version: 0.1.1.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -21,8 +21,8 @@
 Падтрымка BBCode для навін і паведамленняў
 [basic ([b], [i], [u], [s])]
 базавая ([b], [i], [u], [s])
-[advanced (+[url], [size], [color])]
-пашыраная (+[url], [size], [color])
+[advanced (+[url], [size], [color], [code])]
+пашыраная (+[url], [size], [color], [code]))
 [Use this setting also for attachments on news and notifications]
 
 [Other]

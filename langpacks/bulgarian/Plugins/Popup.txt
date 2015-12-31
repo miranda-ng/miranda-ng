@@ -287,7 +287,7 @@ Popup група
 Включване на Popups
 [Disable Popups]
 Изключване на Popups
-[Popup plus]
+[Popup Plus]
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.

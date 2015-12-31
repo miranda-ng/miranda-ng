@@ -3,5 +3,5 @@
 [Load profile]
 [Change profile]
 [Restart]
-[Database]
 [Profile manager]
+[Database]

@@ -5,7 +5,7 @@
 [This uses the same additional options as in "Contact avatars" tab]
 [Change]
 [Global avatar for %s accounts]
-[Avatar Service]
+[Avatar service]
 [Contact avatars]
 [Own avatars]
 [No avatar]

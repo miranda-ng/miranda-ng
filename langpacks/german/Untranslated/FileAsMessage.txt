@@ -1,0 +1,1 @@
+﻿[Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]

@@ -5,7 +5,7 @@
 [for preview max 604px*604px]
 [BBCode support on news and event notifications]
 [basic ([b], [i], [u], [s])]
-[advanced (+[url], [size], [color])]
+[advanced (+[url], [size], [color], [code])]
 [Use this setting also for attachments on news and notifications]
 [BBCode support on attachments]
 [Process stickers as smileys]

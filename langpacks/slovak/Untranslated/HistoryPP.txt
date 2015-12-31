@@ -338,3 +338,5 @@
 [Always LTR]
 [Show event icons]
 [Prev]
+[Incoming events]
+[Outgoing events]

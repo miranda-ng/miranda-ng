@@ -713,3 +713,7 @@ Verlauf anzeigen
 Kontaktmenü
 [Prev]
 Zurück
+[Incoming events]
+Eingehende Ereignisse
+[Outgoing events]
+Ausgehende Ereignisse

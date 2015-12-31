@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.19
+;  Version: 0.1.1.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -22,7 +22,7 @@ Isklj.
 
 [basic ([b], [i], [u], [s])]
 
-[advanced (+[url], [size], [color])]
+[advanced (+[url], [size], [color], [code])]
 
 [Use this setting also for attachments on news and notifications]
 

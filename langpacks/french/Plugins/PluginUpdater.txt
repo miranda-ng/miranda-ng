@@ -36,7 +36,7 @@ Au démarrage
 Tous les
 [Silent mode]
 
-[Backup database before update (requires Db_autobackups)]
+[Backup database before update (requires Db_autobackups plugin)]
 
 [Files source]
 Source du fichier

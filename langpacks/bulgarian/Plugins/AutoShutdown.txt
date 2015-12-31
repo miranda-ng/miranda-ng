@@ -15,19 +15,19 @@
 Отброяване от:
 [seconds]
 секунди
-[Shutdown Events]
+[Shutdown events]
 Събития
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 Активиране на автоматично изключване със същите настройки отново ако Miranda NG е затворено с включено автоматично изключване
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Игнориране на скрити или временни контакти когато се чака всички контакти да са "Извън линия"[Critical Shutdown Events]
-[Critical Shutdown Events]
+[Critical shutdown events]
 Критични събития
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматично изключване на компютъра когато:
 [&Thunderstorm warning is issued (Weather)]
 Прогнозата показва буреносна буря (Weather)
-[Automatic Shutdown]
+[Automatic shutdown]
 Автоматично изключване
 [Select the automatic shutdown event]
 Изберете събитие стартиращо изключване
@@ -67,15 +67,15 @@
 Оставащо време:
 [Paused]
 На пауза
-[&Unpause Countdown]
+[&Unpause countdown]
 Продължаване на отброяването
-[&Pause Countdown]
+[&Pause countdown]
 Пауза на отброяването
-[&Cancel Countdown]
+[&Cancel countdown]
 Отказ от изключване
 [AutoShutdown]
 AutoShutdown
-[Countdown on Frame]
+[Countdown on frame]
 Отброяване в рамка
 [Background]
 Фон
@@ -123,13 +123,13 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Компютърът ще бъде заключен след %u секунда(и).
 [The computer will automatically be shut down in %u second(s).]
 Компютърът ще се изключи автоматично след %u секунда(и).
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Грешка при автоматичното изключване
 [The shutdown process failed!\nReason: %s]
 Процеса за изключване се провали!\nПричина: %s
 [Unknown]
 Неизвестно
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Инициализирането на процеса за изключване се провали!\nПричина: %s
 [Close Miranda NG]
 Затваряне на Miranda NG
@@ -165,9 +165,9 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Задаване на "Извън линия" за всеки протокол и затваряне на RAS връзките.
 [Alerts]
 Уведомявания
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Брояч за автоматично изключване
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Вкл./Изкл. автоматичното изключване
 [Main]
 Основна
