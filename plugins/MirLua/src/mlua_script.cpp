@@ -42,7 +42,7 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	if (luaM_pcall(L))
+	if (luaM_pcall(L, 0, 1))
 		return false;
 
 	isLoaded = true;
