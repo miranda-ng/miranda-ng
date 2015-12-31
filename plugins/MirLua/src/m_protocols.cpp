@@ -362,7 +362,7 @@ static int ccs__index(lua_State *L)
 
 static luaL_Reg ccsMeta[] =
 {
-	{ MT_CCSDATA, ccs__init },
+	{ "__init", ccs__init },
 	{ "__index", ccs__index },
 	{ NULL, NULL }
 };
