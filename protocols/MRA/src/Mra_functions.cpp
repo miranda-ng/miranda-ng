@@ -656,7 +656,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		else _tcsncpy_s(szStatusText, szMailBoxStatus, _TRUNCATE);
 
 		if (bTrayIconNewMailNotify) {
-			char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
+			char szServiceFunction[MAX_PATH] = { 0 }, *pszServiceFunctionName;
 			CLISTEVENT cle = { 0 };
 
 			cle.cbSize = sizeof(cle);
@@ -669,7 +669,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			cle.ptszTooltip = szStatusText;
 
 			if (getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX)) {
-				strncpy(szServiceFunction, m_szModuleName, MAX_PATH);
+				strncpy(szServiceFunction, m_szModuleName, MAX_PATH - 1);
 				pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 				memcpy(pszServiceFunctionName, MRA_GOTO_INBOX, sizeof(MRA_GOTO_INBOX));
 				cle.pszService = szServiceFunction;
