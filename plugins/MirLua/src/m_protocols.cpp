@@ -44,7 +44,7 @@ static int lua_ProtocolIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllProtocols(lua_State *L)
+static int lua_Protocols(lua_State *L)
 {
 	int count;
 	PROTOCOLDESCRIPTOR** protos;
@@ -145,7 +145,7 @@ static int lua_AccountIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllAccounts(lua_State *L)
+static int lua_Accounts(lua_State *L)
 {
 	int count;
 	PROTOACCOUNT** accounts;
@@ -307,12 +307,14 @@ static luaL_Reg protocolsApi[] =
 {
 	{ "GetProto", lua_GetProtocol },
 	{ "GetProtocol", lua_GetProtocol },
-	{ "AllProtos", lua_AllProtocols },
-	{ "AllProtocols", lua_AllProtocols },
+	{ "AllProtos", lua_Protocols },
+	{ "AllProtocols", lua_Protocols },
+	{ "Protocols", lua_Protocols },
 	{ "EnumProtos", lua_EnumProtos },
 
 	{ "GetAccount", lua_GetAccount },
-	{ "AllAccounts", lua_AllAccounts },
+	{ "AllAccounts", lua_Accounts },
+	{ "Accounts", lua_Accounts },
 	{ "EnumAccounts", lua_EnumAccounts },
 
 	{ "OnProtoAck", lua_OnProtoAck },

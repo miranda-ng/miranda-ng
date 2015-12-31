@@ -42,7 +42,7 @@ static int lua_ContactIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllContacts(lua_State *L)
+static int lua_Contacts(lua_State *L)
 {
 	const char *szProto = lua_tostring(L, 1);
 
@@ -176,7 +176,7 @@ static int lua_EventIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllEvents(lua_State *L)
+static int lua_Events(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
@@ -208,7 +208,7 @@ static int lua_EventReverseIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_AllEventsFromEnd(lua_State *L)
+static int lua_EventsFromEnd(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
@@ -548,7 +548,8 @@ static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
 	{ "FindNextContact", lua_FindNextContact },
-	{ "AllContacts", lua_AllContacts },
+	{ "AllContacts", lua_Contacts },
+	{ "Contacts", lua_Contacts },
 
 	{ "GetEventCount", lua_GetEventCount },
 
@@ -556,8 +557,10 @@ static luaL_Reg databaseApi[] =
 	{ "GetPrevEvent", lua_GetPrevEvent },
 	{ "GetNextEvent", lua_GetNextEvent },
 	{ "GetLastEvent", lua_GetLastEvent },
-	{ "AllEvents", lua_AllEvents },
-	{ "AllEventsFromEnd", lua_AllEventsFromEnd },
+	{ "AllEvents", lua_Events },
+	{ "Events", lua_Events },
+	{ "AllEventsFromEnd", lua_EventsFromEnd },
+	{ "EventsFromEnd", lua_EventsFromEnd },
 
 	{ "GetEvent", lua_GetEvent },
 
