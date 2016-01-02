@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Robert P\xf6" "sel"
 #define __AUTHOREMAIL              "robyer@seznam.cz"
 #define __AUTHORWEB                "http://miranda-ng.org/p/MinecraftDynmap/"
-#define __COPYRIGHT                "© 2015 Robert P\xf6" "sel"
+#define __COPYRIGHT                "© 2015-16 Robert P\xf6" "sel"

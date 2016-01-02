@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda-NG project"
 #define __AUTHOREMAIL            "ghazan@miranda.im"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Dbx_kyoto/"
-#define __COPYRIGHT              "© 2015 Miranda NG project"
+#define __COPYRIGHT              "© 2015-16 Miranda NG project"

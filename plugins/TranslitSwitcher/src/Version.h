@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Mataes, tico-tico, Tim"
 #define __AUTHOREMAIL            "mataes2007@gmail.com"
 #define __AUTHORWEB              "http://miranda-ng.org/p/TranslitSwitcher/"
-#define __COPYRIGHT              "© 2011-2015 Mataes, tico-tico, 2007 Dmitry Titkov"
+#define __COPYRIGHT              "© 2011-16 Mataes, tico-tico, 2007 Dmitry Titkov"
