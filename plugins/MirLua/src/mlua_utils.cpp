@@ -16,7 +16,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 			return;
 	}
 
-	::MessageBoxA(NULL, message, caption, MB_OK | flags);
+	MessageBoxA(NULL, message, caption, MB_OK | flags);
 }
 
 void ReportError(const char *message)
@@ -33,27 +33,9 @@ int luaM_atpanic(lua_State *L)
 	return 0;
 }
 
-int luaM_trace(lua_State *L)
-{
-	lua_getglobal(L, "debug");
-	lua_getfield(L, -1, "traceback");
-	lua_pushvalue(L, 1);
-	lua_pushinteger(L, 2);
-	lua_call(L, 2, 1);
-
-	return 1;
-}
-
 int luaM_pcall(lua_State *L, int n, int r)
 {
-	int f = 0;
-	/*if (db_get_b(NULL, MODULE, "AddTaraceback", 0))
-	{
-		f = -(n + 2);
-		lua_pushcfunction(L, luaM_trace);
-		lua_insert(L, f);
-	}*/
-	int res = lua_pcall(L, n, r, f);
+	int res = lua_pcall(L, n, r, 0);
 	if (res != LUA_OK)
 		ReportError(lua_tostring(L, -1));
 	return res;

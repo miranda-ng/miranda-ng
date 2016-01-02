@@ -24,11 +24,11 @@ void CMLua::SetPaths()
 	lua_getglobal(L, "package");
 
 	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_CPATHT));
-	lua_pushfstring(L, "%s\\?.dll", ptrA(mir_utf8encodeT(path)));
+	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
 	lua_setfield(L, -2, "cpath");
 
 	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_PATHT));
-	lua_pushfstring(L, "%s\\?.lua", ptrA(mir_utf8encodeT(path)));
+	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
 	lua_setfield(L, -2, "path");
 
 	lua_pop(L, 1);
