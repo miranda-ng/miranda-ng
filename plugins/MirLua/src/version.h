@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/MirLua/"
-#define __COPYRIGHT                "© 2015 Miranda NG project"
+#define __COPYRIGHT                "© 2015-16 Miranda NG project"

@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/SkypeWeb/"
-#define __COPYRIGHT                "© 2015 Miranda NG Team"
+#define __COPYRIGHT                "© 2015-16 Miranda NG Team"
