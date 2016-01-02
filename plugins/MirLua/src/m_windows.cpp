@@ -72,6 +72,8 @@ static int lua_MessageBox(lua_State *L)
 	return 1;
 }
 
+/***********************************************/
+
 static int lua_ShellExecute(lua_State *L)
 {
 	ptrT command(mir_utf8decodeT(lua_tostring(L, 1)));
@@ -83,6 +85,8 @@ static int lua_ShellExecute(lua_State *L)
 
 	return 0;
 }
+
+/***********************************************/
 
 static int lua_FindIterator(lua_State *L)
 {
@@ -166,6 +170,8 @@ static int lua_GetKeyState(lua_State *L)
 	return 1;
 }
 
+/***********************************************/
+
 static int lua_GetIniValue(lua_State *L)
 {
 	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
@@ -220,6 +226,8 @@ static int lua_DeleteIniValue(lua_State *L)
 
 	return 1;
 }
+
+/***********************************************/
 
 static int lua_GetRegValue(lua_State *L)
 {
@@ -359,6 +367,8 @@ static int lua_DeleteRegValue(lua_State *L)
 
 	return 1;
 }
+
+/***********************************************/
 
 static luaL_Reg winApi[] =
 {

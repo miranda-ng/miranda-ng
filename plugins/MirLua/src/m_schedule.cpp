@@ -464,7 +464,18 @@ static int lua__Do(lua_State *L)
 	return 0;
 }
 
-static const luaL_Reg schedule[] =
+static int lua__index(lua_State *L)
+{
+	int t1 = lua_type(L, 1);
+	int t2 = lua_type(L, 2);
+
+	//lua_pushvalue(L, 1);
+	lua_getmetatable(L, 1);
+
+	return 1;
+}
+
+static const luaL_Reg scheduleMeta[] =
 {
 	{ "Second", lua__Second },
 	{ "Seconds", lua__Seconds },
@@ -487,10 +498,14 @@ static const luaL_Reg schedule[] =
 	{ "Until", lua__Until },
 	{ "Do", lua__Do },
 
+	//{ "__index", lua__index },
+
 	{ NULL, NULL }
 };
 
 /***********************************************/
+
+#define MT_SCHEDULETASK "SCHEDULETASK"
 
 static int lua__At(lua_State *L)
 {
@@ -512,9 +527,21 @@ static int lua__Every(lua_State *L)
 {
 	int interval = luaL_optinteger(L, 1, 0);
 
-	luaL_newlib(L, schedule);
+	int top = lua_gettop(L);
+	luaL_newlib(L, scheduleMeta);
+	//lua_newtable(L);
 	lua_pushinteger(L, interval);
 	lua_setfield(L, -2, "Interval");
+	top = lua_gettop(L);
+
+	lua_createtable(L, 0, 1);
+	//lua_pushcfunction(L, lua__index);
+	lua_pushvalue(L, -2);
+	lua_setfield(L, -2, "__index");
+	lua_setmetatable(L, -2);
+	top = lua_gettop(L);
+
+	//luaL_setmetatable(L, MT_SCHEDULETASK);
 
 	return 1;
 }
@@ -531,6 +558,12 @@ static const luaL_Reg scheduleApi[] =
 LUAMOD_API int luaopen_m_schedule(lua_State *L)
 {
 	luaL_newlib(L, scheduleApi);
+
+	//luaL_newmetatable(L, MT_SCHEDULETASK);
+	/*lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");*/
+	//luaL_setfuncs(L, scheduleMeta, 0);
+	//lua_pop(L, 1);
 
 	if (hScheduleEvent == NULL)
 		hScheduleEvent = CreateEvent(NULL, FALSE, FALSE, NULL);

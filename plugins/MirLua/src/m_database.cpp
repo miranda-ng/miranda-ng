@@ -428,23 +428,6 @@ static luaL_Reg databaseApi[] =
 
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
-static int dbcw__init(lua_State *L)
-{
-	DBCONTACTWRITESETTING *udata = (DBCONTACTWRITESETTING*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	DBCONTACTWRITESETTING **dbcw = (DBCONTACTWRITESETTING**)lua_newuserdata(L, sizeof(DBCONTACTWRITESETTING*));
-	*dbcw = udata;
-
-	luaL_setmetatable(L, MT_DBCONTACTWRITESETTING);
-
-	return 1;
-}
-
 static int dbcw__index(lua_State *L)
 {
 	DBCONTACTWRITESETTING *dbcw = (DBCONTACTWRITESETTING*)luaL_checkudata(L, 1, MT_DBCONTACTWRITESETTING);
@@ -486,68 +469,52 @@ static int dbcw__index(lua_State *L)
 	return 1;
 }
 
-static const luaL_Reg dbcwMeta[] =
-{
-	{ "__init", dbcw__init },
-	{ "__index", dbcw__index },
-	{ NULL, NULL }
-};
-
 /***********************************************/
 
-DBEVENTINFO* MT<DBEVENTINFO>::Load(lua_State *L)
+#define MT_DBEVENTINFO "DBEVENTINFO"
+
+void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 {
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
 
-	DBEVENTINFO *dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
-	dbei->cbSize = sizeof(DBEVENTINFO);
-	dbei->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
-	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
-	db_event_get((MEVENT)hDbEvent, dbei);
-	return dbei;
+	(*dbei)->cbSize = sizeof(DBEVENTINFO);
+	(*dbei)->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
+	(*dbei)->pBlob = (PBYTE)mir_calloc((*dbei)->cbBlob);
+	db_event_get((MEVENT)hDbEvent, (*dbei));
 }
 
 void MT<DBEVENTINFO>::Free(DBEVENTINFO **dbei)
 {
 	mir_free((*dbei)->pBlob);
-	mir_free(*dbei);
 }
 
 /***********************************************/
 
 #define MT_CONTACTINFO "CONTACTINFO"
 
-static int ci__init(lua_State *L)
+void MT<CONTACTINFO>::Init(lua_State *L, CONTACTINFO **ci)
 {
-	MCONTACT udata = 0;
-	switch(lua_type(L, 1))
+	MCONTACT hContact = 0;
+	switch (lua_type(L, 1))
 	{
 	case LUA_TNUMBER:
-		udata = lua_tointeger(L, 1);
+		hContact = lua_tointeger(L, 1);
 		break;
 	case LUA_TLIGHTUSERDATA:
-		udata = (MCONTACT)lua_touserdata(L, 1);
+		hContact = (MCONTACT)lua_touserdata(L, 1);
 		break;
 	default:
 		const char *msg = lua_pushfstring(L, "hContact expected, got %s", lua_typename(L, lua_type(L, 1)));
 		luaL_argerror(L, 1, msg);
 	}
 
-	MCONTACT *hContact = (MCONTACT*)lua_newuserdata(L, sizeof(MCONTACT));
-	*hContact = udata;
-
-	luaL_setmetatable(L, MT_CONTACTINFO);
-
-	return 1;
+	(*ci)->cbSize = sizeof(CONTACTINFO);
+	(*ci)->hContact = hContact;
 }
 
 static int ci__index(lua_State *L)
 {
-	MCONTACT *hContact = (MCONTACT*)luaL_checkudata(L, 1, MT_CONTACTINFO);
-
-	mir_ptr<CONTACTINFO> ci((CONTACTINFO*)mir_calloc(sizeof(CONTACTINFO)));
-	ci->cbSize = sizeof(CONTACTINFO);
-	ci->hContact = *hContact;
+	CONTACTINFO *ci = (CONTACTINFO*)luaL_checkudata(L, 1, MT_CONTACTINFO);
 
 	if (lua_type(L, 2) == LUA_TNUMBER)
 		ci->dwFlag = lua_tointeger(L, 2);
@@ -557,7 +524,7 @@ static int ci__index(lua_State *L)
 
 		if (mir_strcmpi(key, "Handle") == 0)
 		{
-			lua_pushinteger(L, *hContact);
+			lua_pushinteger(L, ci->hContact);
 			return 1;
 		}
 
@@ -631,20 +598,24 @@ static int ci__index(lua_State *L)
 	return 1;
 }
 
-static const luaL_Reg ciMeta[] =
-{
-	{ "__init", ci__init },
-	{ "__index", ci__index },
-	{ NULL, NULL }
-};
-
 /***********************************************/
+
+static int dbei__test(lua_State *L)
+{
+	int type = lua_type(L, 1);
+
+	return 0;
+}
 
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
 
-	MT<DBEVENTINFO>(L, "DBEVENTINFO")
+	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
+		.Method(dbcw__index, "__index");
+	lua_pop(L, 1);
+
+	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
 		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
 		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
@@ -653,12 +624,9 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
-	luaL_newmetatable(L, MT_DBCONTACTWRITESETTING);
-	luaL_setfuncs(L, dbcwMeta, 0);
-	lua_pop(L, 1);
-
-	luaL_newmetatable(L, MT_CONTACTINFO);
-	luaL_setfuncs(L, ciMeta, 0);
+	MT<CONTACTINFO>(L, "CONTACTINFO")
+		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER)
+		.Method(ci__index, "__index");
 	lua_pop(L, 1);
 
 	return 1;

@@ -19,6 +19,8 @@ template<typename T>
 class MT
 {
 private:
+	lua_State *L;
+
 	static const char *name;
 	static std::map<std::string, MTField*> fields;
 
@@ -30,25 +32,29 @@ private:
 		return res;
 	}
 
+	static void Init(lua_State *L, T **obj)
+	{
+		luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+		T *udata = (T*)lua_touserdata(L, 1);
+		memcpy(*obj, udata, sizeof(T));
+	}
+	
+	static void Free(T **obj)
+	{
+		*obj = NULL;
+	}
+
 	static int lua__new(lua_State *L)
 	{
-		T *obj = NULL;
-		T *udata = NULL;
-
-		int type = lua_type(L, 1);
-		switch (type)
+		T *udata = (T*)lua_newuserdata(L, sizeof(T));
+		memset(udata, 0, sizeof(T));
+		Init(L, &udata);
+		if (udata == NULL)
 		{
-		case LUA_TLIGHTUSERDATA:
-			obj = (T*)MT::Load(L);
-			if (obj == NULL) break;
-		//case LUA_TNONE:
-			udata = (T*)lua_newuserdata(L, sizeof(T));
-			memcpy(udata, obj, sizeof(T));
-		case LUA_TUSERDATA:
-			luaL_setmetatable(L, MT::name);
+			lua_pushnil(L);
 			return 1;
 		}
-		lua_pushnil(L);
+		luaL_setmetatable(L, MT::name);
 
 		return 1;
 	}
@@ -106,11 +112,8 @@ private:
 		return 0;
 	}
 
-	static T* Load(lua_State *L) { return (T*)lua_touserdata(L, 1); }
-	static void Free(T **obj) { *obj = NULL; }
-
 public:
-	MT(lua_State *L, const char *tname)
+	MT(lua_State *L, const char *tname) : L(L)
 	{
 		MT::name = tname;
 
@@ -133,7 +136,16 @@ public:
 		return *this;
 	}
 
-	static void Set(lua_State *L, T* obj)
+	MT& Method(lua_CFunction func, const char *name)
+	{
+		luaL_getmetatable(L, MT::name);
+		lua_pushcfunction(L, func);
+		lua_setfield(L, -2, name);
+		lua_pop(L, 1);
+		return *this;
+	}
+
+	static void Set(lua_State *L, T *obj)
 	{
 		if (obj == NULL)
 		{

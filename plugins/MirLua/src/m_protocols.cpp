@@ -158,23 +158,6 @@ static luaL_Reg protocolsApi[] =
 
 #define MT_CCSDATA "CCSDATA"
 
-static int ccs__init(lua_State *L)
-{
-	CCSDATA *udata = (CCSDATA*)lua_touserdata(L, 1);
-	if (udata == NULL)
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	CCSDATA **ccs = (CCSDATA**)lua_newuserdata(L, sizeof(CCSDATA*));
-	*ccs = udata;
-
-	luaL_setmetatable(L, MT_CCSDATA);
-
-	return 1;
-}
-
 static int ccs__index(lua_State *L)
 {
 	CCSDATA *ccs = *(CCSDATA**)luaL_checkudata(L, 1, MT_CCSDATA);
@@ -192,13 +175,6 @@ static int ccs__index(lua_State *L)
 
 	return 1;
 }
-
-static luaL_Reg ccsMeta[] =
-{
-	{ "__init", ccs__init },
-	{ "__index", ccs__index },
-	{ NULL, NULL }
-};
 
 /***********************************************/
 
@@ -230,8 +206,8 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&ACKDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
-	luaL_newmetatable(L, MT_CCSDATA);
-	luaL_setfuncs(L, ccsMeta, 0);
+	MT<CCSDATA>(L, MT_CCSDATA)
+		.Method(ccs__index, "__index");
 	lua_pop(L, 1);
 
 	return 1;
