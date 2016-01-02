@@ -17,6 +17,9 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectReference Include="..\..\libs\liblua\liblua.vcxproj">
+      <Project>{bd291bf0-d804-4818-8311-de871e6bceaa}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MirLua</ProjectName>
@@ -31,13 +34,10 @@
     </Link>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\liblua\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\lua\*.h" />
-    <ClCompile Include="src\lua\*.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <None Include="res\*.ico" />
   </ItemGroup>
 </Project>

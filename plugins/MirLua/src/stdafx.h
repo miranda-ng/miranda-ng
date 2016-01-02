@@ -34,12 +34,7 @@
 #include <m_toptoolbar.h>
 #include <m_variables.h>
 
-extern "C"
-{
-	#include "lua\lua.h"
-	#include "lua\lualib.h"
-	#include "lua\lauxlib.h"
-}
+#include <lua.hpp>
 
 #include "version.h"
 #include "resource.h"
@@ -129,7 +124,7 @@ void InitIcons();
 HICON GetIcon(int iconId);
 HANDLE GetIconHandle(int iconId);
 
-void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact);
+void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
 
 void ObsoleteMethod(lua_State *L, const char *message);
 
