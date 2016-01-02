@@ -1,4 +1,3 @@
 ﻿[Clist nicer]
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Tree hide offline]
 [Tree gray out]

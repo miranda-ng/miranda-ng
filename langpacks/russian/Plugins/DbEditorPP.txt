@@ -99,6 +99,8 @@
 &Действия
 [&Search and replace]
 &Найти и заменить
+[Delete &resident settings]
+Удалить &резидентные настройки
 [&Delete module]
 &Удалить модуль
 [&Watches]
@@ -137,6 +139,8 @@
 &Слова в шестнадцатеричном виде
 [Edit &Dwords in Hex]
 &Двойные слова в шестнадцатеричном виде
+[&Inline edit]
+&Быстрое редактирование двойным щелчком
 [&Restore position]
 В&осстанавливать положение
 [&Open options]
@@ -281,8 +285,10 @@ ID пользователя
 <НЕИЗВЕСТНО>
 [Are you sure you want to delete contact "%s"?]
 Удалить контакт "%s"?
-[%d orphaned items deleted.]
-Удалено потерянных элементов: %d
+[Delete resident settings from database?]
+Удалить резидентные настройки из базы?
+[%d items deleted.]
+Удалено элементов: %d
 [Error loading module list]
 Ошибка при загрузке списка модулей
 [Error loading setting list]
