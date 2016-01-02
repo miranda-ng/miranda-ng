@@ -27,9 +27,8 @@
   </ImportGroup>
     <ItemDefinitionGroup>
     <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">LUA_BUILD_AS_DLL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">LUA_BUILD_AS_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUA_BUILD_AS_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4244;4310;4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>
