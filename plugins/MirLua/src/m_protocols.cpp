@@ -57,6 +57,19 @@ static int lua_Protocols(lua_State *L)
 	return 1;
 }
 
+static int lua_CallService(lua_State *L)
+{
+	const char *module = luaL_checkstring(L, 1);
+	const char *service = luaL_checkstring(L, 2);
+	WPARAM wParam = luaM_towparam(L, 3);
+	LPARAM lParam = luaM_tolparam(L, 4);
+
+	INT_PTR res = CallProtoService(module, service, wParam, lParam);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 /***********************************************/
 
 static int lua_GetAccount(lua_State *L)
@@ -132,6 +145,7 @@ static luaL_Reg protocolsApi[] =
 	{ "AllProtos", lua_Protocols },
 	{ "AllProtocols", lua_Protocols },
 	{ "Protocols", lua_Protocols },
+	{ "CallService", lua_CallService },
 
 	{ "GetAccount", lua_GetAccount },
 	{ "AllAccounts", lua_Accounts },
