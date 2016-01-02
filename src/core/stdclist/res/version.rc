@@ -38,7 +38,7 @@ BEGIN
             VALUE "FileDescription", "Standard contact list\0"
             VALUE "FileVersion", __VERSION_STRING "\0"
             VALUE "InternalName", "StdClist\0"
-            VALUE "LegalCopyright", "Copyright ( c) 2002-15 Miranda team\0"
+            VALUE "LegalCopyright", "Copyright © 2002-16 Miranda team\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "StdClist.dll\0"
             VALUE "PrivateBuild", "\0"

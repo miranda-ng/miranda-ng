@@ -38,7 +38,7 @@ BEGIN
             VALUE "FileDescription", "Send and receive instant messages\0"
             VALUE "FileVersion", __VERSION_STRING "\0"
             VALUE "InternalName", "StdMsg\0"
-            VALUE "LegalCopyright", "Copyright ( c) 2002-15 Miranda team\0"
+            VALUE "LegalCopyright", "Copyright © 2002-16 Miranda team\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "StdMsg.dll\0"
             VALUE "PrivateBuild", "\0"
