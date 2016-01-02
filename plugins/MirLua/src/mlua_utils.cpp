@@ -119,7 +119,7 @@ WPARAM luaM_towparam(lua_State *L, int idx)
 	case LUA_TSTRING:
 		return (WPARAM)lua_tostring(L, idx);
 		break;
-	//case LUA_TUSERDATA:
+	case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
 		return (WPARAM)lua_touserdata(L, idx);
 	default:
@@ -137,7 +137,7 @@ LPARAM luaM_tolparam(lua_State *L, int idx)
 		return lua_tonumber(L, idx);
 	case LUA_TSTRING:
 		return (LPARAM)lua_tostring(L, idx);
-	//case LUA_TUSERDATA:
+	case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
 		return (LPARAM)lua_touserdata(L, idx);
 	default:
