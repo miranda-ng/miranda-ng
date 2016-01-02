@@ -246,7 +246,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 	case REQUEST_LOAD_FRIENDSHIPS:
 	case REQUEST_SEARCH:
 	case REQUEST_USER_INFO_MOBILE:
-		return FACEBOOK_SERVER_MBASIC;
+		return this->mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE;
 
 		//	case REQUEST_LOGOUT:
 		//	case REQUEST_BUDDY_LIST:
