@@ -13,6 +13,10 @@
 Скрипты
 [General]
 Общее
+[C libs folder]
+Папка с библиотеками C
+[Scripts folder]
+Папка со скриптами
 [Script]
 Скрипт
 [Open]

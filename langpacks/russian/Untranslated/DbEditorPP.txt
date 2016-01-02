@@ -1,7 +1,4 @@
-﻿[&Fix resident settings]
-[&Inline edit]
-[BL&OB]
+﻿[BL&OB]
 [[UNLOADED]]
-[Delete resident settings from database?]
 [*** buggy resident ***]
 [*** resident ***]
