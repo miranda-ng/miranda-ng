@@ -443,7 +443,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case MENU_FIX_RESIDENT:
 			if (dlg(TranslateT("Delete resident settings from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 				int cnt = fixResidentSettings();
-				mir_sntprintf(text, TranslateT("%d orphaned items deleted."), cnt);
+				mir_sntprintf(text, TranslateT("%d items deleted."), cnt);
 				msg(text);
 			}
 			break;
