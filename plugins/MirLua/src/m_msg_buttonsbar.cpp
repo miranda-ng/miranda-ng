@@ -124,88 +124,11 @@ static int lua_RemoveButton(lua_State *L)
 	return 1;
 }
 
-int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	lua_State *L = (lua_State*)obj;
-
-	int ref = param;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushnumber(L, wParam);
-
-	CustomButtonClickData *bcd = (CustomButtonClickData*)lParam;
-
-	lua_newtable(L);
-	lua_pushliteral(L, "Module");
-	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "ButtonID");
-	lua_pushinteger(L, bcd->dwButtonId);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "hContact");
-	lua_pushinteger(L, bcd->hContact);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Flags");
-	lua_pushinteger(L, bcd->flags);
-	lua_settable(L, -3);
-
-	luaM_pcall(L, 2, 1);
-
-	int res = (int)lua_tointeger(L, 1);
-
-	return res;
-}
-
-static int lua_OnMsgToolBarButtonPressed(lua_State *L)
-{
-	ObsoleteMethod(L, "Use m.HookEvent instead");
-
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam(ME_MSG_BUTTONPRESSED, ButtonPressedHookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
-static int lua_DecodeCustomButtonClickData(lua_State *L)
-{
-	CustomButtonClickData *bcd = (CustomButtonClickData*)lua_tointeger(L, 1);
-
-	lua_newtable(L);
-	lua_pushliteral(L, "Module");
-	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "ButtonID");
-	lua_pushinteger(L, bcd->dwButtonId);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "hContact");
-	lua_pushinteger(L, bcd->hContact);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Flags");
-	lua_pushinteger(L, bcd->flags);
-	lua_settable(L, -3);
-
-	return 1;
-}
-
 static luaL_Reg msgbuttinsbarApi[] =
 {
 	{ "AddButton", lua_AddButton },
 	{ "ModifyButton", lua_ModifyButton },
 	{ "RemoveButton", lua_RemoveButton },
-
-	{ "OnMsgToolBarButtonPressed", lua_OnMsgToolBarButtonPressed },
-	{ "DecodeCustomButtonClickData", lua_DecodeCustomButtonClickData },
 
 	{ NULL, NULL }
 };
