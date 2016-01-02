@@ -1,6 +1,6 @@
 /*
 Fingerprint NG (client version) icons module for Miranda NG
-Copyright © 2006-15 ghazan, Mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
+Copyright © 2006-16 ghazan, Mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,4 +30,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define __AUTHOR                  "faith_healer, ghazan, Mataes"
 #define __AUTHOREMAIL             "faith_healer@miranda.im"
 #define __AUTHORWEB               "http://miranda-ng.org/p/Fingerprint/"
-#define __COPYRIGHT               "© 2006-15 ghazan, Mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."
+#define __COPYRIGHT               "© 2006-16 ghazan, Mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."

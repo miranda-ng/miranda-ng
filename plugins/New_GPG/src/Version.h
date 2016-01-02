@@ -11,4 +11,4 @@
 #define __AUTHOR                 "sss"
 #define __AUTHOREMAIL            "sss123next@list.ru"
 #define __AUTHORWEB              "http://miranda-ng.org/p/New_GPG/"
-#define __COPYRIGHT              "© 2010-15 sss"
+#define __COPYRIGHT              "© 2010-16 sss"

@@ -20,4 +20,4 @@
 #define __AUTHOR                 "P Boon"
 #define __AUTHOREMAIL            "unregistered@users.sourceforge.net"
 #define __AUTHORWEB              "http://miranda-ng.org/p/StartupStatus/"
-#define __COPYRIGHT              "© 2003-08 P. Boon, 2008-15 George Hazan"
+#define __COPYRIGHT              "© 2003-08 P. Boon, 2008-16 George Hazan"
