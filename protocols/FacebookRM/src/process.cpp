@@ -1391,7 +1391,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 		http::response resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
-			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
+			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr", true);
 			resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
 		}
 

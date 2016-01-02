@@ -74,7 +74,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 	// Set flags
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
 
-	if (server == FACEBOOK_SERVER_MOBILE) {
+	if (server == FACEBOOK_SERVER_MBASIC || server == FACEBOOK_SERVER_MOBILE) {
 		nlhr.flags |= NLHRF_REDIRECT;
 	}
 
@@ -241,10 +241,12 @@ std::string facebook_client::choose_server(RequestType request_type)
 
 	case REQUEST_HOME:
 	case REQUEST_DTSG:
+		return FACEBOOK_SERVER_MOBILE;
+
 	case REQUEST_LOAD_FRIENDSHIPS:
 	case REQUEST_SEARCH:
 	case REQUEST_USER_INFO_MOBILE:
-		return FACEBOOK_SERVER_MOBILE;
+		return FACEBOOK_SERVER_MBASIC;
 
 		//	case REQUEST_LOGOUT:
 		//	case REQUEST_BUDDY_LIST:
@@ -987,8 +989,16 @@ bool facebook_client::home()
 	{
 	case HTTP_CODE_OK:
 	{
-		// Get real name
-		this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
+		std::string touchSearch = "{\"id\":" + this->self_.user_id;
+		std::string touchData = utils::text::source_get_value(&resp.data, 2, touchSearch.c_str(), "}");
+
+		// Get real name (from touch version)
+		if (!touchData.empty())
+			this->self_.real_name = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"name\":\"", "\"")));
+
+		// Another attempt to get real name (from mbasic version)
+		if (this->self_.real_name.empty())
+			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
 
 		// Try to get name again, if we've got some some weird version of Facebook
 		if (this->self_.real_name.empty())
@@ -1006,13 +1016,22 @@ bool facebook_client::home()
 
 			this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
 		}
+		
+		// Another attempt to get optional nickname
+		if (this->self_.nick.empty())
+			this->self_.nick = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "class=\\\"alternate_name\\\"", ">(", ")\\u003C\\/")));
 
 		this->self_.real_name = utils::text::remove_html(this->self_.real_name);
-		parent->debugLogA("    Got self real name: %s", this->self_.real_name.c_str());
+		parent->debugLogA("    Got self real name (nickname): %s (%s)", this->self_.real_name.c_str(), this->self_.nick.c_str());
 		parent->SaveName(NULL, &this->self_);
 
-		// Get avatar
-		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
+		// Get avatar (from touch version)
+		if (!touchData.empty())
+			this->self_.image_url = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"pic\":\"", "\"")));
+
+		// Another attempt to get avatar(from mbasic version)
+		if (this->self_.image_url.empty())
+			this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
 		
 		// Another attempt to get avatar
 		if (this->self_.image_url.empty()) {
