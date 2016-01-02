@@ -45,6 +45,8 @@ public:
 		fcb_conn_lock_ = NULL;
 		handle_ = NULL;
 		parent = NULL;
+
+		mbasicWorks = true;
 	}
 
 	HANDLE hMsgCon;
@@ -84,6 +86,8 @@ public:
 	volatile unsigned int msgid_;
 	int chat_msgs_recv_;
 	volatile unsigned int chat_req_;
+
+	bool mbasicWorks;
 
 	////////////////////////////////////////////////////////////
 

@@ -105,6 +105,9 @@ void FacebookProto::ChangeStatus(void*)
 
 		ResetEvent(update_loop_lock_);
 
+		// Workaround for not working "mbasic." for some users - reset this flag at every login
+		facy.mbasicWorks = true;
+
 		if (NegotiateConnection() && facy.home() && facy.reconnect())
 		{
 			// Load all friends

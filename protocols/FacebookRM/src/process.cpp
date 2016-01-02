@@ -1139,6 +1139,13 @@ void FacebookProto::ProcessFriendRequests(void*)
 	// Get notifications
 	http::response resp = facy.flap(REQUEST_LOAD_FRIENDSHIPS);
 
+	// Workaround not working "mbasic." website for some people
+	if (!resp.isValid()) {
+		// Remember it didn't worked and try it again (internally it will try "m." this time)
+		facy.mbasicWorks = false;
+		resp = facy.flap(REQUEST_LOAD_FRIENDSHIPS);
+	}
+
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("friendRequests");
 		return;
