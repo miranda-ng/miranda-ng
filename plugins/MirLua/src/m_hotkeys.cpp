@@ -4,41 +4,34 @@ void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 {
 	hk.cbSize = sizeof(HOTKEYDESC);
 
-	lua_pushliteral(L, "Flags");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Flags");
 	hk.dwFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	if (!(hk.dwFlags & HKD_TCHAR))
 		hk.dwFlags |= HKD_TCHAR;
 
-	lua_pushliteral(L, "Name");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Name");
 	hk.pszName = mir_utf8decodeA(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Description");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Description");
 	hk.ptszDescription = mir_utf8decodeT((char*)lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Section");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Section");
 	hk.ptszSection = mir_utf8decodeT(luaL_optstring(L, -1, MODULE));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Hotkey");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Hotkey");
 	hk.DefHotKey = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Service");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Service");
 	hk.pszService = mir_utf8decodeA(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "lParam");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "lParam");
 	hk.lParam = (LPARAM)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 }

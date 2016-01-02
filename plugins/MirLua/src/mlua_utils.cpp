@@ -50,7 +50,7 @@ int luaM_print(lua_State *L)
 		switch (lua_type(L, i))
 		{
 		case LUA_TNIL:
-			data.AppendFormat("%s   ", "nil");
+			data.Append("nil   ");
 			break;
 		case LUA_TBOOLEAN:
 			data.AppendFormat("%s   ", lua_toboolean(L, i) ? "true" : "false");
@@ -60,10 +60,10 @@ int luaM_print(lua_State *L)
 			data.AppendFormat("%s   ", lua_tostring(L, i));
 			break;
 		case LUA_TTABLE:
-			data.AppendFormat("%s   ", "table");
+			data.AppendFormat("table(0x%p)   ", lua_topointer(L, i));
 			break;
 		default:
-			data.AppendFormat("0x%p   ", lua_topointer(L, i));
+			data.AppendFormat("%s(0x%p)   ", luaL_typename(L, i), lua_topointer(L, i));
 			break;
 		}
 	}
@@ -149,12 +149,8 @@ int luaM_totable(lua_State *L)
 {
 	const char *tname = luaL_checkstring(L, 2);
 
-	lua_getglobal(L, tname);
-	if (lua_type(L, -1) == LUA_TNIL)
-	{
-		luaL_getmetatable(L, tname);
-		lua_getfield(L, -1, "__init");
-	}
+	luaL_getmetatable(L, tname);
+	lua_getfield(L, -1, "__call");
 	lua_pushvalue(L, 1);
 	luaM_pcall(L, 1, 1);
 

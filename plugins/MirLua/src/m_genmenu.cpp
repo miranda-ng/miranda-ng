@@ -4,43 +4,36 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
 	mi.hLangpack = hScriptsLangpack;
 
-	lua_pushliteral(L, "Flags");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Flags");
 	mi.flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	if (!(mi.flags & CMIF_TCHAR))
 		mi.flags |= CMIF_TCHAR;
 
-	lua_pushliteral(L, "Uid");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Uid");
 	const char* uuid = (char*)lua_tostring(L, -1);
 	if (UuidFromStringA((RPC_CSTR)uuid, (UUID*)&mi.uid))
 		UNSET_UID(mi);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Name");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Name");
 	mi.name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Position");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Position");
 	mi.position = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Icon");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Icon");
 	mi.hIcolibItem = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Service");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Service");
 	mi.pszService = (char*)lua_tostring(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Parent");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Parent");
 	mi.root = (HGENMENU)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 }

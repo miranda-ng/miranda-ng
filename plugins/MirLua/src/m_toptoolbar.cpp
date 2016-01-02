@@ -17,60 +17,49 @@ static TTBButton* MakeTBButton(lua_State *L)
 	TTBButton *tbb = (TTBButton*)mir_calloc(sizeof(TTBButton));
 	tbb->dwFlags = TTBBF_ISLBUTTON;
 
-	lua_pushliteral(L, "Name");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Name");
 	tbb->name = mir_utf8decodeA(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Service");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Service");
 	tbb->pszService = (char*)lua_tostring(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Flags");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Flags");
 	tbb->dwFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	// up state
-	lua_pushliteral(L, "IconUp");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "IconUp");
 	tbb->hIconHandleUp = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "TooltipUp");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "TooltipUp");
 	tbb->pszTooltipUp = mir_utf8decodeA(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "wParamUp");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "wParamUp");
 	tbb->wParamUp = luaM_towparam(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "lParamUp");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "lParamUp");
 	tbb->lParamUp = luaM_tolparam(L, -1);
 	lua_pop(L, 1);
 
 	// dn state
-	lua_pushliteral(L, "IconDown");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "IconDown");
 	tbb->hIconHandleDn = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "TooltipDown");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "TooltipDown");
 	tbb->pszTooltipDn = mir_utf8decodeA(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "wParamDown");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "wParamDown");
 	tbb->wParamDown = luaM_towparam(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "lParamDown");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "lParamDown");
 	tbb->lParamDown = luaM_tolparam(L, -1);
 	lua_pop(L, 1);
 
