@@ -128,18 +128,6 @@ static time_t luaM_opttimestamp(lua_State *L, int idx, time_t def = 0)
 
 /***********************************************/
 
-enum DayOfWeek
-{
-	None = -1,
-	Sunday = 0,
-	Monday = 1,
-	Tuesday = 2,
-	Wednesday = 3,
-	Thursday = 4,
-	Friday = 5,
-	Saturday = 6
-};
-
 static int lua__Second(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
@@ -148,8 +136,6 @@ static int lua__Second(lua_State *L)
 	lua_setfield(L, -2, "Interval");
 	lua_pushinteger(L, time(NULL));
 	lua_setfield(L, -2, "Timestamp");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -163,8 +149,6 @@ static int lua__Seconds(lua_State *L)
 	lua_pop(L, 1);
 	lua_pushinteger(L, seconds);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -175,8 +159,6 @@ static int lua__Minute(lua_State *L)
 
 	lua_pushinteger(L, 60);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -190,8 +172,6 @@ static int lua__Minutes(lua_State *L)
 	lua_pop(L, 1);
 	lua_pushinteger(L, interval * 60);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -202,8 +182,6 @@ static int lua__Hour(lua_State *L)
 
 	lua_pushinteger(L, 60 * 60);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -217,8 +195,6 @@ static int lua__Hours(lua_State *L)
 	lua_pop(L, 1);
 	lua_pushinteger(L, interval * 60 * 60);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -229,8 +205,6 @@ static int lua__Day(lua_State *L)
 
 	lua_pushinteger(L, 60 * 60 * 24);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -244,8 +218,6 @@ static int lua__Days(lua_State *L)
 	lua_pop(L, 1);
 	lua_pushinteger(L, interval * 60 * 60 * 24);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -256,23 +228,6 @@ static int lua__Week(lua_State *L)
 
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
-
-	return 1;
-}
-
-static int lua__Weeks(lua_State *L)
-{
-	luaL_checktype(L, 1, LUA_TTABLE);
-
-	lua_getfield(L, 1, "Interval");
-	int interval = luaL_optinteger(L, -1, 1);
-	lua_pop(L, 1);
-	lua_pushinteger(L, interval * 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, DayOfWeek::None);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -281,10 +236,13 @@ static int lua__Monday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(1 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Monday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -293,10 +251,13 @@ static int lua__Tuesday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(2 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Tuesday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -305,10 +266,13 @@ static int lua__Wednesday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(3 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Wednesday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -317,10 +281,13 @@ static int lua__Thursday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(4 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Thursday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -329,10 +296,13 @@ static int lua__Friday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(5 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Friday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -341,10 +311,13 @@ static int lua__Saturday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(6 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Saturday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -353,10 +326,13 @@ static int lua__Sunday(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(-ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "StartTime");
 	lua_pushinteger(L, 60 * 60 * 24 * 7);
 	lua_setfield(L, -2, "Interval");
-	lua_pushinteger(L, Sunday);
-	lua_setfield(L, -2, "DayOfWeek");
 
 	return 1;
 }
@@ -384,7 +360,7 @@ static int lua__From(lua_State *L)
 	return 1;
 }
 
-static int lua__Until(lua_State *L)
+static int lua__To(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
@@ -414,17 +390,6 @@ static int lua__Do(lua_State *L)
 
 	if (startTime < timestamp && interval == 0)
 		return 0;
-
-	lua_getfield(L, 1, "DayOfWeek");
-	DayOfWeek dayOfWeek = (DayOfWeek)luaL_optinteger(L, -1, DayOfWeek::None);
-	lua_pop(L, 1);
-
-	if (dayOfWeek > DayOfWeek::None && dayOfWeek <= DayOfWeek::Saturday)
-	{
-		struct tm *ti = localtime(&startTime);
-		ti->tm_mday += abs((int)dayOfWeek - ti->tm_wday);
-		startTime = mktime(ti);
-	}
 
 	lua_getfield(L, 1, "EndTime");
 	time_t endTime = luaL_optinteger(L, -1, 0);
@@ -460,8 +425,7 @@ static const luaL_Reg scheduleMeta[] =
 	{ "Day", lua__Day },
 	{ "Days", lua__Days },
 	{ "Week", lua__Week },
-	{ "Weeks", lua__Weeks },
-	{ "Monday", lua__Week },
+	{ "Monday", lua__Monday },
 	{ "Tuesday", lua__Tuesday },
 	{ "Wednesday", lua__Wednesday },
 	{ "Thursday", lua__Thursday },
@@ -469,7 +433,7 @@ static const luaL_Reg scheduleMeta[] =
 	{ "Saturday", lua__Saturday },
 	{ "Sunday", lua__Sunday },
 	{ "From", lua__From },
-	{ "Until", lua__Until },
+	{ "To", lua__To },
 	{ "Do", lua__Do },
 
 	{ NULL, NULL }
@@ -489,8 +453,8 @@ static int lua__At(lua_State *L)
 	lua_newtable(L);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
-	lua_pushcfunction(L, lua__Until);
-	lua_setfield(L, -2, "Until");
+	lua_pushcfunction(L, lua__To);
+	lua_setfield(L, -2, "To");
 	lua_pushcfunction(L, lua__Do);
 	lua_setfield(L, -2, "Do");
 	lua_setmetatable(L, -2);
@@ -511,7 +475,6 @@ static int lua__Every(lua_State *L)
 	lua_setfield(L, -2, "__index");
 	luaL_setfuncs(L, scheduleMeta, 0);
 	lua_setmetatable(L, -2);
-	lua_getmetatable(L, -1);
 
 	return 1;
 }
