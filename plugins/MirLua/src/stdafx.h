@@ -73,6 +73,8 @@ extern HANDLE hNetlib;
 	#define MIRLUA_PATHT MIRANDA_PATH "\\Scripts"
 #endif
 
+/* modules */
+
 #define MLUA_CORE	"m_core"
 LUAMOD_API int (luaopen_m_core)(lua_State *L);
 
@@ -113,6 +115,10 @@ LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 #define MLUA_WINDOWS	"m_windows"
 LUAMOD_API int (luaopen_m_windows)(lua_State *L);
 
+/* utils */
+
+void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
+
 int luaM_atpanic(lua_State *L);
 int luaM_pcall(lua_State *L, int n = 0, int r = 0);
 
@@ -130,8 +136,6 @@ LPARAM luaM_tolparam(lua_State *L, int idx);
 void InitIcons();
 HICON GetIcon(int iconId);
 HANDLE GetIconHandle(int iconId);
-
-void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
 
 void ObsoleteMethod(lua_State *L, const char *message);
 

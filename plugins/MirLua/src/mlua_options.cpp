@@ -18,10 +18,16 @@ BOOL CCtrlScriptList::OnNotify(int idCtrl, NMHDR *pnmh)
 
 /****************************************/
 
-CLuaOptions::CLuaOptions(int idDialog) : CDlgBase(g_hInstance, idDialog),
-	m_scripts(this, IDC_SCRIPTS), isScriptListInit(false),
+CLuaOptions::CLuaOptions(int idDialog)
+	: CDlgBase(g_hInstance, idDialog),
+	m_popupOnError(this, IDC_POPUPONERROR),
+	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
+	isScriptListInit(false), m_scripts(this, IDC_SCRIPTS),
 	m_reload(this, IDC_RELOAD)
 {
+	CreateLink(m_popupOnError, "PopupOnError", DBVT_BYTE, 1);
+	CreateLink(m_popupOnObsolete, "PopupOnObsolete", DBVT_BYTE, 1);
+
 	m_scripts.OnClick = Callback(this, &CLuaOptions::OnScriptListClick);
 	m_reload.OnClick = Callback(this, &CLuaOptions::OnReload);
 }
@@ -59,9 +65,6 @@ void CLuaOptions::LoadScripts()
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
 		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 0);
-//#ifdef DEBUG
-		m_scripts.SetItem(iItem, 2, _T(""), 1);
-//#endif
 	}
 }
 
@@ -73,20 +76,14 @@ void CLuaOptions::OnInitDialog()
 
 	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
 
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
-	FoldersGetCustomPathT(g_hCommonScriptFolder, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
-	//m_scripts.AddGroup(0, header);
-	//m_scripts.EnableGroupView(TRUE);
 
 	m_scripts.AddColumn(0, _T("Script"), 420);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-//#ifdef DEBUG
-	//m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-//#endif
 
 	LoadScripts();
 
@@ -145,13 +142,7 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 
 	if (lvi.iSubItem == 1)
 		ShellExecute(m_hwnd, _T("Open"), script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
-//#ifdef DEBUG
-	else if (lvi.iSubItem == 2)
-	{
-		script->Unload();
-		script->Load();
-	}
-//#endif
+
 	mir_free(lvi.pszText);
 }
 

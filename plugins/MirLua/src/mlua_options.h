@@ -19,6 +19,9 @@ public:
 class CLuaOptions : public CDlgBase
 {
 private:
+	CCtrlCheck m_popupOnError;
+	CCtrlCheck m_popupOnObsolete;
+
 	bool isScriptListInit;
 	CCtrlScriptList m_scripts;
 	CCtrlButton m_reload;
