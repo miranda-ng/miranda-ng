@@ -50,15 +50,13 @@ bool CMLuaScript::Load()
 	if (!lua_istable(L, -1))
 		return true;
 
-	lua_pushliteral(L, "Load");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Load");
 	if (lua_isfunction(L, -1))
 		luaM_pcall(L);
 	else
 		lua_pop(L, 1);
 
-	lua_pushliteral(L, "Unload");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Unload");
 	if (lua_isfunction(L, -1))
 	{
 		lua_pushvalue(L, -1);

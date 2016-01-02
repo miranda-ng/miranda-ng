@@ -121,6 +121,8 @@ public:
 		lua_setglobal(L, MT::name);
 
 		luaL_newmetatable(L, MT::name);
+		lua_pushcfunction(L, lua__new);
+		lua_setfield(L, -2, "__call");
 		lua_pushcfunction(L, lua__index);
 		lua_setfield(L, -2, "__index");
 		lua_pushcfunction(L, lua__gc);

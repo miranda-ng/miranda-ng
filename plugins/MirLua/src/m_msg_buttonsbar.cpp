@@ -28,31 +28,26 @@ static BBButton* MakeBBButton(lua_State *L)
 	bbb->cbSize = sizeof(BBButton);
 	bbb->dwDefPos = 100;
 
-	lua_pushliteral(L, "Module");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Module");
 	bbb->pszModuleName = mir_utf8decodeA(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "ButtonID");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "ButtonID");
 	bbb->dwButtonID = luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Flags");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Flags");
 	bbb->bbbFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	if ((bbb->bbbFlags & BBBF_ANSITOOLTIP))
 		bbb->bbbFlags &= ~BBBF_ANSITOOLTIP;
 
-	lua_pushliteral(L, "Tooltip");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Tooltip");
 	bbb->ptszTooltip = mir_utf8decodeT(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushliteral(L, "Icon");
-	lua_gettable(L, -2);
+	lua_getfield(L, -1, "Icon");
 	bbb->hIcon = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 

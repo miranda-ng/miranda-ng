@@ -62,9 +62,9 @@ extern HANDLE g_hScriptsFolder;
 extern HANDLE hNetlib;
 
 #ifdef _UNICODE
-#define MIRLUA_CPATHT MIRANDA_PATHW L""
+#define MIRLUA_CPATHT L""
 #else
-#define MIRLUA_CPATHT MIRANDA_PATH ""
+#define MIRLUA_CPATHT ""
 #endif
 
 #ifdef _UNICODE
