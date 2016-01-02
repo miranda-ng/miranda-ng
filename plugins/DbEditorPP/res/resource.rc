@@ -306,7 +306,7 @@ BEGIN
     BEGIN
         MENUITEM "&Search and replace",         MENU_FINDANDREPLACE
         MENUITEM SEPARATOR
-        MENUITEM "&Fix resident settings",      MENU_FIX_RESIDENT
+        MENUITEM "Delete &resident settings",      MENU_FIX_RESIDENT
         MENUITEM SEPARATOR
         MENUITEM "&Delete module",              MENU_DELETE
     END
