@@ -63,8 +63,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SCRIPT              ICON                    "script.ico"
+
 IDI_OPEN                ICON                    "open.ico"
-IDI_RELOAD              ICON                    "reload.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -76,8 +77,12 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_SCRIPTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,0,0,310,220
-    PUSHBUTTON      "Reload all",IDC_RELOAD,234,224,76,14
+    CONTROL         "",IDC_SCRIPTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,8,57,294,169
+    PUSHBUTTON      "Reload all",IDC_RELOAD,226,228,76,14
+    GROUPBOX        "Scripts",IDC_STATIC,0,46,309,203
+    CONTROL         "Popup on script error",IDC_POPUPONERROR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,83,10
+    GROUPBOX        "General",IDC_STATIC,1,0,308,44
+    CONTROL         "Popup on obsolete methods",IDC_POPUPONOBSOLETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,21,105,10
 END
 
 
@@ -91,9 +96,23 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
+        VERTGUIDE, 8
+        VERTGUIDE, 302
+        HORZGUIDE, 242
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English resources
 /////////////////////////////////////////////////////////////////////////////

@@ -1,8 +1,34 @@
 #include "stdafx.h"
 
+void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
+{
+	if (Miranda_Terminated())
+		return;
+
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	{
+		POPUPDATA ppd = { 0 };
+		ppd.lchContact = hContact;
+		mir_strncpy(ppd.lpzContactName, caption, MAX_CONTACTNAME);
+		mir_strncpy(ppd.lpzText, message, MAX_SECONDLINE);
+
+		if (!PUAddPopup(&ppd))
+			return;
+	}
+
+	::MessageBoxA(NULL, message, caption, MB_OK | flags);
+}
+
+void ReportError(const char *message)
+{
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)message);
+	if (db_get_b(NULL, MODULE, "PopupOnError", 0))
+		ShowNotification(MODULE, message, MB_OK | MB_ICONERROR);
+}
+
 int luaM_atpanic(lua_State *L)
 {
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	ReportError(lua_tostring(L, -1));
 
 	return 0;
 }
@@ -20,13 +46,16 @@ int luaM_trace(lua_State *L)
 
 int luaM_pcall(lua_State *L, int n, int r)
 {
-	/*lua_pushcfunction(L, luaM_trace);
-	lua_insert(L, f);
-	const int f = -(n + 2);*/
-	const int f = 0;
+	int f = 0;
+	/*if (db_get_b(NULL, MODULE, "AddTaraceback", 0))
+	{
+		f = -(n + 2);
+		lua_pushcfunction(L, luaM_trace);
+		lua_insert(L, f);
+	}*/
 	int res = lua_pcall(L, n, r, f);
 	if (res != LUA_OK)
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		ReportError(lua_tostring(L, -1));
 	return res;
 }
 
@@ -150,25 +179,6 @@ int luaM_totable(lua_State *L)
 	return 1;
 }
 
-void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
-{
-	if (Miranda_Terminated())
-		return;
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
-	{
-		POPUPDATA ppd = { 0 };
-		ppd.lchContact = hContact;
-		mir_strncpy(ppd.lpzContactName, caption, MAX_CONTACTNAME);
-		mir_strncpy(ppd.lpzText, message, MAX_SECONDLINE);
-
-		if (!PUAddPopup(&ppd))
-			return;
-	}
-
-	::MessageBoxA(NULL, message, caption, MB_OK | flags);
-}
-
 void ObsoleteMethod(lua_State *L, const char *message)
 {
 	lua_Debug info;
@@ -178,5 +188,6 @@ void ObsoleteMethod(lua_State *L, const char *message)
 	char text[512];
 	mir_snprintf(text, "%s is obsolete. %s", info.name, message);
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)text);
-	ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
+		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
 }

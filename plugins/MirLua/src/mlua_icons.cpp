@@ -4,7 +4,6 @@ IconItemT Icons[] =
 {
 	{ LPGENT("Script"),			"script",			IDI_SCRIPT		},
 	{ LPGENT("Open"),			"open",				IDI_OPEN		},
-	{ LPGENT("Reload")	,		"reload",			IDI_RELOAD		},
 };
 
 void InitIcons()
