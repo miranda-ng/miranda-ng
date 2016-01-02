@@ -15,6 +15,8 @@ class CMLua
 private:
 	lua_State *L;
 
+	void SetPaths();
+
 	static void KillLuaRefs();
 
 public:

@@ -17,6 +17,23 @@ CMLua::~CMLua()
 	Unload();
 }
 
+void CMLua::SetPaths()
+{
+	TCHAR path[MAX_PATH];
+
+	lua_getglobal(L, "package");
+
+	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_CPATHT));
+	lua_pushfstring(L, "%s\\?.dll", ptrA(mir_utf8encodeT(path)));
+	lua_setfield(L, -2, "cpath");
+
+	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_PATHT));
+	lua_pushfstring(L, "%s\\?.lua", ptrA(mir_utf8encodeT(path)));
+	lua_setfield(L, -2, "path");
+
+	lua_pop(L, 1);
+}
+
 void CMLua::Load()
 {
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading lua engine");
@@ -24,12 +41,7 @@ void CMLua::Load()
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading std modules");
 	luaL_openlibs(L);
 
-	lua_getglobal(L, "package");
-	lua_pushliteral(L, "");
-	lua_setfield(L, -2, "path");
-	lua_pushliteral(L, "");
-	lua_setfield(L, -2, "cpath");
-	lua_pop(L, 1);
+	SetPaths();
 
 	lua_pushcclosure(L, luaM_print, 0);
 	lua_setglobal(L, "print");

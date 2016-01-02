@@ -56,14 +56,21 @@ extern int hScriptsLangpack;
 
 extern HINSTANCE g_hInstance;
 
-extern HANDLE g_hCommonScriptFolder;
+extern HANDLE g_hCLibsFolder;
+extern HANDLE g_hScriptsFolder;
 
 extern HANDLE hNetlib;
 
 #ifdef _UNICODE
-	#define COMMON_SCRIPTS_PATHT MIRANDA_PATHW L"\\Scripts"
+#define MIRLUA_CPATHT MIRANDA_PATHW L""
 #else
-	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
+#define MIRLUA_CPATHT MIRANDA_PATH ""
+#endif
+
+#ifdef _UNICODE
+	#define MIRLUA_PATHT MIRANDA_PATHW L"\\Scripts"
+#else
+	#define MIRLUA_PATHT MIRANDA_PATH "\\Scripts"
 #endif
 
 #define MLUA_CORE	"m_core"

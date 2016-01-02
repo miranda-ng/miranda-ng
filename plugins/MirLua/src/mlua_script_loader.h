@@ -8,10 +8,8 @@ private:
 
 	CLuaScriptLoader(lua_State *L);
 
-	void RegisterScriptsFolder(const char *path);
-
 	void LoadScript(const TCHAR *scriptDir, const TCHAR *file);
-	void LoadScripts(const TCHAR *scriptDir);
+	void LoadScripts();
 
 public:
 	static void Load(lua_State *L);
