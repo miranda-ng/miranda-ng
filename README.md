@@ -13,16 +13,18 @@ fast.
 - ICQ
 - IRC (Internet Relay Chat)
 - Jabber
+- MinecraftDynmap
 - MRA
 - MSN
 - Omegle
 - Sametime
 - Skype
+- Steam
 - Tlen
+- Tox
 - Twitter
 - VKontakte
 - WhatsApp
-- Xfire
 - Yahoo
 
 ## Supported Operating Systems ##
