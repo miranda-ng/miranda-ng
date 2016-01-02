@@ -2,22 +2,21 @@
 
 HANDLE hRecvMessage = NULL;
 
-static void MapToTable(lua_State *L, const PROTOCOLDESCRIPTOR* pd)
-{
-	lua_newtable(L);
-	lua_pushliteral(L, "Name");
-	lua_pushstring(L, ptrA(mir_utf8encode(pd->szName)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Type");
-	lua_pushinteger(L, pd->type);
-	lua_settable(L, -3);
-}
-
 static int lua_GetProtocol(lua_State *L)
 {
-	const char *name = luaL_checkstring(L, 1);
+	const char *name = NULL;
 
-	PROTOCOLDESCRIPTOR *pd = ::Proto_IsProtocolLoaded(ptrA(mir_utf8decodeA(name)));
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNUMBER:
+		name = GetContactProto(lua_tonumber(L, 1));
+		break;
+	case LUA_TSTRING:
+		name = lua_tostring(L, 1);
+		break;
+	}
+
+	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(name);
 	if (pd)
 		MT<PROTOCOLDESCRIPTOR>::Set(L, pd);
 	else
@@ -58,67 +57,23 @@ static int lua_Protocols(lua_State *L)
 	return 1;
 }
 
-static int lua_EnumProtos(lua_State *L)
-{
-	ObsoleteMethod(L, "Use \"for x in protos.AllProtos \" instead");
-
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	int count;
-	PROTOCOLDESCRIPTOR** protos;
-	Proto_EnumProtocols(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-	{
-		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-		MapToTable(L, protos[i]);
-		luaM_pcall(L, 1, 0);
-	}
-
-	luaL_unref(L, LUA_REGISTRYINDEX, ref);
-	lua_pushinteger(L, count);
-
-	return 1;
-}
-
-static void MapToTable(lua_State *L, const PROTOACCOUNT* pa)
-{
-	lua_newtable(L);
-	lua_pushliteral(L, "ModuleName");
-	lua_pushstring(L, ptrA(mir_utf8encode(pa->szModuleName)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "AccountName");
-	lua_pushstring(L, ptrA(mir_utf8encodeT(pa->tszAccountName)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "ProtoName");
-	lua_pushstring(L, ptrA(mir_utf8encode(pa->szProtoName)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "IsEnabled");
-	lua_pushboolean(L, pa->bIsEnabled);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "IsVisible");
-	lua_pushboolean(L, pa->bIsVisible);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "IsVirtual");
-	lua_pushboolean(L, pa->bIsVirtual);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "IsOldProto");
-	lua_pushboolean(L, pa->bOldProto);
-	lua_settable(L, -3);
-}
+/***********************************************/
 
 static int lua_GetAccount(lua_State *L)
 {
-	ptrA moduleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
+	const char *name = NULL;
 
-	PROTOACCOUNT* pa = ::Proto_GetAccount(moduleName);
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNUMBER:
+		name = GetContactProto(lua_tonumber(L, 1));
+		break;
+	case LUA_TSTRING:
+		name = lua_tostring(L, 1);
+		break;
+	}
+
+	PROTOACCOUNT* pa = Proto_GetAccount(name);
 	if (pa)
 		MT<PROTOACCOUNT>::Set(L, pa);
 	else
@@ -159,142 +114,7 @@ static int lua_Accounts(lua_State *L)
 	return 1;
 }
 
-static int lua_EnumAccounts(lua_State *L)
-{
-	ObsoleteMethod(L, "Use \"for x in protos.AllAccounts \" instead");
-
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	int count;
-	PROTOACCOUNT** accounts;
-	Proto_EnumAccounts(&count, &accounts);
-
-	for (int i = 0; i < count; i++)
-	{
-		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-		MapToTable(L, accounts[i]);
-		luaM_pcall(L, 1, 0);
-	}
-
-	luaL_unref(L, LUA_REGISTRYINDEX, ref);
-	lua_pushinteger(L, count);
-
-	return 1;
-}
-
-int ProtoAckHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	lua_State *L = (lua_State*)obj;
-
-	int ref = param;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushnumber(L, wParam);
-
-	ACKDATA *ack = (ACKDATA*)lParam;
-
-	lua_newtable(L);
-	lua_pushliteral(L, "Module");
-	lua_pushstring(L, ptrA(mir_utf8encode(ack->szModule)));
-	lua_settable(L, -3);
-	lua_pushliteral(L, "hContact");
-	lua_pushinteger(L, ack->hContact);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Type");
-	lua_pushinteger(L, ack->type);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Result");
-	lua_pushinteger(L, ack->result);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "hProcess");
-	lua_pushlightuserdata(L, ack->hProcess);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "lParam");
-	lua_pushnumber(L, ack->lParam);
-	lua_settable(L, -3);
-
-	luaM_pcall(L, 2, 1);
-
-	int res = (int)lua_tointeger(L, 1);
-
-	return res;
-}
-
-static int lua_OnProtoAck(lua_State *L)
-{
-	ObsoleteMethod(L, "Use m.HookEvent instead");
-
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam(ME_PROTO_ACK, ProtoAckHookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
-int RecvMessageHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	lua_State *L = (lua_State*)obj;
-
-	int ref = param;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushnumber(L, wParam);
-
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-
-	lua_newtable(L);
-	lua_pushliteral(L, "hContact");
-	lua_pushinteger(L, ccs->hContact);
-	lua_settable(L, -3);
-	lua_pushliteral(L, "Message");
-	lua_pushstring(L, pre->szMessage);
-	lua_settable(L, -3);
-
-	luaM_pcall(L, 2, 1);
-
-	int res = (int)lua_tointeger(L, 1);
-
-	return res;
-}
-
-static int lua_OnReceiveMessage(lua_State *L)
-{
-	ObsoleteMethod(L, "Use m.HookEvent instead");
-
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam(MODULE PSR_MESSAGE, RecvMessageHookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
+/***********************************************/
 
 INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 {
@@ -303,6 +123,8 @@ INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 	return Proto_ChainRecv(wParam, (CCSDATA*)lParam);
 }
 
+/***********************************************/
+
 static luaL_Reg protocolsApi[] =
 {
 	{ "GetProto", lua_GetProtocol },
@@ -310,18 +132,15 @@ static luaL_Reg protocolsApi[] =
 	{ "AllProtos", lua_Protocols },
 	{ "AllProtocols", lua_Protocols },
 	{ "Protocols", lua_Protocols },
-	{ "EnumProtos", lua_EnumProtos },
 
 	{ "GetAccount", lua_GetAccount },
 	{ "AllAccounts", lua_Accounts },
 	{ "Accounts", lua_Accounts },
-	{ "EnumAccounts", lua_EnumAccounts },
-
-	{ "OnProtoAck", lua_OnProtoAck },
-	{ "OnReceiveMessage", lua_OnReceiveMessage },
 
 	{ NULL, NULL }
 };
+
+/***********************************************/
 
 #define MT_CCSDATA "CCSDATA"
 
@@ -366,6 +185,8 @@ static luaL_Reg ccsMeta[] =
 	{ "__index", ccs__index },
 	{ NULL, NULL }
 };
+
+/***********************************************/
 
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
