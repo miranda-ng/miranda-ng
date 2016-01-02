@@ -593,7 +593,7 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
 static bool isValidDirectory(const TCHAR *ptszDirName)
 {
-	return !_tcscmp(ptszDirName, _T("Plugins")) || !_tcscmp(ptszDirName, _T("Icons")) || !_tcscmp(ptszDirName, _T("Languages")) || !_tcscmp(ptszDirName, _T("Libs")) || !_tcscmp(ptszDirName, _T("Core"));
+	return !_tcsicmp(ptszDirName, _T("Plugins")) || !_tcsicmp(ptszDirName, _T("Icons")) || !_tcsicmp(ptszDirName, _T("Languages")) || !_tcsicmp(ptszDirName, _T("Libs")) || !_tcsicmp(ptszDirName, _T("Core"));
 }
 
 // Scans folders recursively
