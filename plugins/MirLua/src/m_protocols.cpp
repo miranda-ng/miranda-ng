@@ -140,15 +140,11 @@ INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 
 static luaL_Reg protocolsApi[] =
 {
-	{ "GetProto", lua_GetProtocol },
 	{ "GetProtocol", lua_GetProtocol },
-	{ "AllProtos", lua_Protocols },
-	{ "AllProtocols", lua_Protocols },
 	{ "Protocols", lua_Protocols },
 	{ "CallService", lua_CallService },
 
 	{ "GetAccount", lua_GetAccount },
-	{ "AllAccounts", lua_Accounts },
 	{ "Accounts", lua_Accounts },
 
 	{ NULL, NULL }
