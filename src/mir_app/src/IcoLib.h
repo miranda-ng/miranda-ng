@@ -28,12 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SECTIONPARAM_FLAGS(lparam) HIBYTE(HIWORD(lparam))
 #define SECTIONPARAM_HAVEPAGE	0x0001
 
-struct SectionItem
+struct SectionItem : public MZeroedObject
 {
-	TCHAR* name;
-	int    flags;
-	int    maxOrder;
-	int    ref_count;
+	ptrT name;
+	int  flags, maxOrder, ref_count;
 };
 
 struct IconSourceFile
@@ -42,8 +40,12 @@ struct IconSourceFile
 	TCHAR file[MAX_PATH];
 };
 
-struct IconSourceItem
+struct IconSourceItem : public MZeroedObject
 {
+	__inline IconSourceItem(IconSourceFile *_file, int _indx, int _cxIcon, int _cyIcon) :
+		file(_file), indx(_indx), cx(_cxIcon), cy(_cyIcon), ref_count(1)
+		{}
+
 	IconSourceFile* file;
 	int          indx;
 	int          cx, cy;
@@ -57,7 +59,7 @@ struct IconSourceItem
 	int          icon_size;
 };
 
-struct IcolibItem
+struct IcolibItem : public MZeroedObject
 {
 	char*           name;
 	SectionItem*    section;
@@ -76,7 +78,10 @@ struct IcolibItem
 	HICON           temp_icon;
 	BOOL            temp_reset;
 
+	__inline ~IcolibItem() { clear(); }
 	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, description); }
+
+	void clear();
 };
 
 // extracticon.c
