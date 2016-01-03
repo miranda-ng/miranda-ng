@@ -395,7 +395,6 @@ static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
 	{ "FindNextContact", lua_FindNextContact },
-	{ "AllContacts", lua_Contacts },
 	{ "Contacts", lua_Contacts },
 
 	{ "GetEventCount", lua_GetEventCount },
@@ -404,20 +403,14 @@ static luaL_Reg databaseApi[] =
 	{ "GetPrevEvent", lua_GetPrevEvent },
 	{ "GetNextEvent", lua_GetNextEvent },
 	{ "GetLastEvent", lua_GetLastEvent },
-	{ "AllEvents", lua_Events },
 	{ "Events", lua_Events },
-	{ "AllEventsFromEnd", lua_EventsFromEnd },
 	{ "EventsFromEnd", lua_EventsFromEnd },
 
-	{ "WriteContactSetting", lua_WriteSetting },
 	{ "WriteSetting", lua_WriteSetting },
 
-	{ "GetContactSetting", lua_GetSetting },
 	{ "GetSetting", lua_GetSetting },
-	{ "AllSettings", lua_Settings },
 	{ "Settings", lua_Settings },
 
-	{ "DeleteContactSetting", lua_DeleteSetting },
 	{ "DeleteSetting", lua_DeleteSetting },
 	{ "DeleteModule", lua_DeleteModule },
 
