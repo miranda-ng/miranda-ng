@@ -70,9 +70,9 @@ Netzwerk
 Blockierte Kontakte
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
-
+Kann Verbindungstoken nicht erhalten.
 [Unknown login error.]
-
+Unbekannter Anmeldefehler.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Steam-Menüauswahl

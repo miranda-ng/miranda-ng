@@ -351,9 +351,9 @@ Profil ansehen
 %s tippt eine Nachricht...
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
-
+Neue Neuigkeiten
 [New notifications]
-
+Neue Benachrichtigungen
 [User was tagged in these photos:]
 Benutzer wurde in diesen Fotos markiert:
 [(photos)]
@@ -439,7 +439,7 @@ Nachricht auf meine Pinnwand senden
 [Load news from VK]
 Neuigkeiten von VK laden
 [Wipe contacts missing in friend list]
-
+Kontakte außerhalb der Freundesliste löschen
 [Send message to user\'s wall]
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]
@@ -485,7 +485,7 @@ Neue Statusnachricht eingeben
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to wipe local contacts missing in your friend list?]
-
+Sind Sie sich sicher dass Sie lokale Kontakte außerhalb Ihrer Freundesliste löschen wollen?
 [Are you sure to delete %s from your friend list?]
 Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
 [User %s was deleted from your friend list]
