@@ -71,12 +71,12 @@ static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 {
 	if (msg == WM_HOTKEY) {
 		for (int i = 0; i < hotkeys.getCount(); i++) {
-			THotkeyItem *item = hotkeys[i];
-			if (item->type != HKT_GLOBAL || !item->Enabled)
+			THotkeyItem *p = hotkeys[i];
+			if (p->type != HKT_GLOBAL || !p->Enabled)
 				continue;
 
-			if (item->pszService && (wParam == item->idHotkey)) {
-				CallService(item->pszService, 0, item->lParam);
+			if (p->pszService && (wParam == p->idHotkey)) {
+				CallService(p->pszService, 0, p->lParam);
 				break;
 			}
 		}
@@ -99,15 +99,15 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
 			for (int i = 0; i < hotkeys.getCount(); i++) {
-				THotkeyItem *item = hotkeys[i];
-				if (item->type != HKT_LOCAL || !item->Enabled)
+				THotkeyItem *p = hotkeys[i];
+				if (p->type != HKT_LOCAL || !p->Enabled)
 					continue;
 
 				BYTE hkMod, hkVk;
-				sttWordToModAndVk(item->Hotkey, &hkMod, &hkVk);
+				sttWordToModAndVk(p->Hotkey, &hkMod, &hkVk);
 				if (!hkVk) continue;
-				if (item->pszService && vk == hkVk && mod == hkMod) {
-					CallService(item->pszService, 0, item->lParam);
+				if (p->pszService && vk == hkVk && mod == hkMod) {
+					CallService(p->pszService, 0, p->lParam);
 					return TRUE;
 				}
 			}
@@ -135,100 +135,100 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	if (desc->cbSize != sizeof(HOTKEYDESC))
 		return 0;
 
-	THotkeyItem *item = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));
+	THotkeyItem *p = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));
 	DWORD dwFlags = (desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
 	if (dwFlags & HKD_UNICODE) {
-		item->ptszSection = mir_tstrdup(desc->ptszSection);
-		item->ptszDescription = mir_tstrdup(desc->ptszDescription);
+		p->ptszSection = mir_tstrdup(desc->ptszSection);
+		p->ptszDescription = mir_tstrdup(desc->ptszDescription);
 	}
 	else {
-		item->ptszSection = mir_a2u(desc->pszSection);
-		item->ptszDescription = mir_a2u(desc->pszDescription);
+		p->ptszSection = mir_a2u(desc->pszSection);
+		p->ptszDescription = mir_a2u(desc->pszDescription);
 	}
 
-	item->hLangpack = (int)wParam;
-	item->allowSubHotkeys = TRUE;
-	item->rootHotkey = NULL;
-	item->nSubHotkeys = 0;
+	p->hLangpack = (int)wParam;
+	p->allowSubHotkeys = TRUE;
+	p->rootHotkey = NULL;
+	p->nSubHotkeys = 0;
 
-	if (item->rootHotkey = hotkeys.find(item)) {
-		if (item->rootHotkey->allowSubHotkeys) {
+	if (p->rootHotkey = hotkeys.find(p)) {
+		if (p->rootHotkey->allowSubHotkeys) {
 			char nameBuf[MAXMODULELABELLENGTH];
-			mir_snprintf(nameBuf, "%s$%d", item->rootHotkey->pszName, item->rootHotkey->nSubHotkeys);
-			item->pszName = mir_strdup(nameBuf);
-			item->Enabled = TRUE;
+			mir_snprintf(nameBuf, "%s$%d", p->rootHotkey->pszName, p->rootHotkey->nSubHotkeys);
+			p->pszName = mir_strdup(nameBuf);
+			p->Enabled = TRUE;
 
-			item->rootHotkey->nSubHotkeys++;
+			p->rootHotkey->nSubHotkeys++;
 		}
 		else {
-			mir_free(item->ptszSection);
-			mir_free(item->ptszDescription);
-			mir_free(item);
+			mir_free(p->ptszSection);
+			mir_free(p->ptszDescription);
+			mir_free(p);
 			return 0;
 		}
 	}
 	else {
-		item->pszName = mir_strdup(desc->pszName);
-		item->Enabled = !db_get_b(NULL, DBMODULENAME "Off", item->pszName, 0);
+		p->pszName = mir_strdup(desc->pszName);
+		p->Enabled = !db_get_b(NULL, DBMODULENAME "Off", p->pszName, 0);
 	}
 
-	item->pszService = desc->pszService ? mir_strdup(desc->pszService) : 0;
-	item->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
-	item->Hotkey = db_get_w(NULL, DBMODULENAME, item->pszName, item->DefHotkey);
-	item->type = item->pszService ?
-		(THotkeyType)db_get_b(NULL, DBMODULENAME "Types", item->pszName,
+	p->pszService = desc->pszService ? mir_strdup(desc->pszService) : 0;
+	p->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
+	p->Hotkey = db_get_w(NULL, DBMODULENAME, p->pszName, p->DefHotkey);
+	p->type = p->pszService ?
+		(THotkeyType)db_get_b(NULL, DBMODULENAME "Types", p->pszName,
 		(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
-	item->lParam = desc->lParam;
+	p->lParam = desc->lParam;
 
 	char buf[256];
 	mir_snprintf(buf, "mir_hotkey_%d_%d", g_pid, g_hkid++);
-	item->idHotkey = GlobalAddAtomA(buf);
-	if (item->type == HKT_GLOBAL) {
-		if (item->Enabled) {
+	p->idHotkey = GlobalAddAtomA(buf);
+	if (p->type == HKT_GLOBAL) {
+		if (p->Enabled) {
 			BYTE mod, vk;
-			sttWordToModAndVk(item->Hotkey, &mod, &vk);
-			if (vk) RegisterHotKey(g_hwndHotkeyHost, item->idHotkey, mod, vk);
+			sttWordToModAndVk(p->Hotkey, &mod, &vk);
+			if (vk) RegisterHotKey(g_hwndHotkeyHost, p->idHotkey, mod, vk);
 		}
 	}
 
-	hotkeys.insert(item);
+	hotkeys.insert(p);
 
-	if (!item->rootHotkey) {
+	if (!p->rootHotkey) {
 		/* try to load alternatives from db */
 		int count, i;
-		mir_snprintf(buf, "%s$count", item->pszName);
+		mir_snprintf(buf, "%s$count", p->pszName);
 		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
 		for (i = 0; i < count; i++) {
-			mir_snprintf(buf, "%s$%d", item->pszName, i);
+			mir_snprintf(buf, "%s$%d", p->pszName, i);
 			if (!db_get_w(NULL, DBMODULENAME, buf, 0))
 				continue;
 
 			svcHotkeyRegister(wParam, lParam);
 		}
-		item->allowSubHotkeys = count < 0;
+		p->allowSubHotkeys = count < 0;
 	}
 	else {
-		mir_free(item->pszName);
-		item->pszName = NULL;
+		mir_free(p->pszName);
+		p->pszName = NULL;
 	}
 
-	return item->idHotkey;
+	return p->idHotkey;
 }
 
 static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 {
-	int i;
 	char *pszName = (char *)lParam;
 	char pszNamePrefix[MAXMODULELABELLENGTH];
 	size_t cbNamePrefix;
 	mir_snprintf(pszNamePrefix, "%s$", pszName);
 	cbNamePrefix = mir_strlen(pszNamePrefix);
 
-	for (i = 0; i < hotkeys.getCount(); i++) {
+	for (int i = 0; i < hotkeys.getCount(); i++) {
 		char *pszCurrentName = hotkeys[i]->rootHotkey ?
 			hotkeys[i]->rootHotkey->pszName :
 			hotkeys[i]->pszName;
-		if (!pszCurrentName) continue;
+		if (!pszCurrentName)
+			continue;
 
 		hotkeys[i]->UnregisterHotkey =
 			!mir_strcmp(pszCurrentName, pszName) ||
@@ -238,11 +238,10 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	if (g_hwndHkOptions)
 		SendMessage(g_hwndHkOptions, WM_HOTKEYUNREGISTERED, 0, 0);
 
-	for (i = 0; i < hotkeys.getCount(); i++)
+	for (int i = hotkeys.getCount()-1; i >= 0; i++)
 		if (hotkeys[i]->UnregisterHotkey) {
 			FreeHotkey(hotkeys[i]);
-			List_Remove((SortedList *)&hotkeys, i);
-			--i;
+			hotkeys.remove(i);
 		}
 
 	return 0;
@@ -264,15 +263,17 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
 			for (i = 0; i < hotkeys.getCount(); i++) {
-				THotkeyItem *item = hotkeys[i];
+				THotkeyItem *p = hotkeys[i];
+				if ((p->type != HKT_MANUAL) || mir_tstrcmp(pszSection, p->ptszSection))
+					continue;
+
 				BYTE hkMod, hkVk;
-				if ((item->type != HKT_MANUAL) || mir_tstrcmp(pszSection, item->ptszSection)) continue;
-				sttWordToModAndVk(item->Hotkey, &hkMod, &hkVk);
+				sttWordToModAndVk(p->Hotkey, &hkMod, &hkVk);
 				if (!hkVk) continue;
-				if (!item->Enabled) continue;
+				if (!p->Enabled) continue;
 				if ((vk == hkVk) && (mod == hkMod)) {
 					mir_free(pszSection);
-					return item->lParam;
+					return p->lParam;
 				}
 			}
 		}
@@ -282,38 +283,39 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void FreeHotkey(THotkeyItem *item)
+void FreeHotkey(THotkeyItem *p)
 {
-	if (item->type == HKT_GLOBAL && item->Enabled)
-		UnregisterHotKey(g_hwndHotkeyHost, item->idHotkey);
-	GlobalDeleteAtom(item->idHotkey);
-	mir_free(item->pszName);
-	mir_free(item->pszService);
-	mir_free(item->ptszDescription);
-	mir_free(item->ptszSection);
-	mir_free(item);
+	if (p->type == HKT_GLOBAL && p->Enabled)
+		UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
+	GlobalDeleteAtom(p->idHotkey);
+	mir_free(p->pszName);
+	mir_free(p->pszService);
+	mir_free(p->ptszDescription);
+	mir_free(p->ptszSection);
+	mir_free(p);
 }
 
 void RegisterHotkeys()
 {
 	for (int i = 0; i < hotkeys.getCount(); i++) {
-		THotkeyItem *item = hotkeys[i];
-		UnregisterHotKey(g_hwndHotkeyHost, item->idHotkey);
-		if (item->type != HKT_GLOBAL) continue;
-		if (item->Enabled) {
+		THotkeyItem *p = hotkeys[i];
+		UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
+		if (p->type != HKT_GLOBAL) continue;
+		if (p->Enabled) {
 			BYTE mod, vk;
-			sttWordToModAndVk(item->Hotkey, &mod, &vk);
-			if (vk) RegisterHotKey(g_hwndHotkeyHost, item->idHotkey, mod, vk);
+			sttWordToModAndVk(p->Hotkey, &mod, &vk);
+			if (vk)
+				RegisterHotKey(g_hwndHotkeyHost, p->idHotkey, mod, vk);
 		}
 	}
 }
 
 MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 {
-	for (int i = hotkeys.getCount() - 1; i >= 0; i--) {
-		THotkeyItem *item = hotkeys[i];
-		if (item->hLangpack == _hLang) {
-			FreeHotkey(item);
+	for (int i = hotkeys.getCount()-1; i >= 0; i--) {
+		THotkeyItem *p = hotkeys[i];
+		if (p->hLangpack == _hLang) {
+			FreeHotkey(p);
 			hotkeys.remove(i);
 		}
 	}
@@ -322,9 +324,9 @@ MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 void UnregisterHotkeys()
 {
 	for (int i = 0; i < hotkeys.getCount(); i++) {
-		THotkeyItem *item = hotkeys[i];
-		if (item->type == HKT_GLOBAL && item->Enabled)
-			UnregisterHotKey(g_hwndHotkeyHost, item->idHotkey);
+		THotkeyItem *p = hotkeys[i];
+		if (p->type == HKT_GLOBAL && p->Enabled)
+			UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
 	}
 }
 
@@ -342,10 +344,9 @@ static const char* newSettings[] = { "ShowHide", "ReadMessage", "SearchInWeb", "
 
 int LoadSkinHotkeys(void)
 {
-	WNDCLASSEX wcl = { 0 };
-
 	bModuleInitialized = TRUE;
 
+	WNDCLASSEX wcl = { 0 };
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = sttHotkeyHostWndProc;
 	wcl.style = 0;
