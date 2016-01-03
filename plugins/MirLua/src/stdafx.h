@@ -50,23 +50,12 @@ class CMLuaScript;
 
 #define MODULE "MirLua"
 
-extern CMLua *g_mLua;
-
 extern int hScriptsLangpack;
-
 extern HINSTANCE g_hInstance;
 
-extern HANDLE g_hCLibsFolder;
+extern CMLua *g_mLua;
+
 extern HANDLE g_hScriptsFolder;
-
-extern HANDLE hNetlib;
-
-#ifdef _UNICODE
-#define MIRLUA_CPATHT L""
-#else
-#define MIRLUA_CPATHT ""
-#endif
-
 #ifdef _UNICODE
 	#define MIRLUA_PATHT MIRANDA_PATHW L"\\Scripts"
 #else
@@ -116,6 +105,10 @@ LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 LUAMOD_API int (luaopen_m_windows)(lua_State *L);
 
 /* utils */
+
+extern HANDLE hNetlib;
+void Log(const char *format, ...);
+void Log(const wchar_t *format, ...);
 
 void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
 

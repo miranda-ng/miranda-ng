@@ -7,7 +7,6 @@ HINSTANCE g_hInstance;
 
 CMLua *g_mLua;
 
-HANDLE g_hCLibsFolder;
 HANDLE g_hScriptsFolder;
 
 HANDLE hNetlib = NULL;
@@ -42,7 +41,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULE, Translate("C libs folder"), MIRLUA_CPATHT);
 	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, Translate("Scripts folder"), MIRLUA_PATHT);
 
 	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
