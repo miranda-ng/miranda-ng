@@ -20,15 +20,14 @@ CMLua::~CMLua()
 void CMLua::SetPaths()
 {
 	TCHAR path[MAX_PATH];
+	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_PATHT));
 
 	lua_getglobal(L, "package");
 
-	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_CPATHT));
-	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
+	lua_pushfstring(L, "%s\\?.dll", ptrA(mir_utf8encodeT(path)));
 	lua_setfield(L, -2, "cpath");
 
-	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARST(MIRLUA_PATHT));
-	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
+	lua_pushfstring(L, "%s\\?.lua", ptrA(mir_utf8encodeT(path)));
 	lua_setfield(L, -2, "path");
 
 	lua_pop(L, 1);
@@ -36,9 +35,9 @@ void CMLua::SetPaths()
 
 void CMLua::Load()
 {
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading lua engine");
+	Log("Loading lua engine");
 	L = luaL_newstate();
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading std modules");
+	Log("Loading std modules");
 	luaL_openlibs(L);
 
 	SetPaths();
@@ -57,14 +56,14 @@ void CMLua::Load()
 	MUUID muidLast = MIID_LAST;
 	hScriptsLangpack = GetPluginLangId(muidLast, 0);
 
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading miranda modules");
+	Log("Loading miranda modules");
 	CLuaModuleLoader::Load(L);
 	CLuaScriptLoader::Load(L);
 }
 
 void CMLua::Unload()
 {
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Unloading lua engine");
+	Log("Unloading lua engine");
 
 	while (int last = Scripts.getCount())
 	{

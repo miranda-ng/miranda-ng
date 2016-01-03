@@ -38,7 +38,7 @@ bool CMLuaScript::Load()
 {
 	if (luaL_loadfile(L, T2Utf(filePath)))
 	{
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		Log(lua_tostring(L, -1));
 		return false;
 	}
 

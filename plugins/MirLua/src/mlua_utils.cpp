@@ -1,5 +1,21 @@
 #include "stdafx.h"
 
+void Log(const char *format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)(CMStringA().FormatV(format, args)));
+	va_end(args);
+}
+
+void Log(const wchar_t *format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)(CMStringW().FormatV(format, args)));
+	va_end(args);
+}
+
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())
@@ -21,7 +37,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 
 void ReportError(const char *message)
 {
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)message);
+	Log(message);
 	if (db_get_b(NULL, MODULE, "PopupOnError", 0))
 		ShowNotification(MODULE, message, MB_OK | MB_ICONERROR);
 }
@@ -59,9 +75,6 @@ int luaM_print(lua_State *L)
 		case LUA_TSTRING:
 			data.AppendFormat("%s   ", lua_tostring(L, i));
 			break;
-		case LUA_TTABLE:
-			data.AppendFormat("table(0x%p)   ", lua_topointer(L, i));
-			break;
 		default:
 			data.AppendFormat("%s(0x%p)   ", luaL_typename(L, i), lua_topointer(L, i));
 			break;
@@ -70,7 +83,7 @@ int luaM_print(lua_State *L)
 	if (data.GetLength() >= 3)
 		data.Delete(data.GetLength() - 3, 3);
 
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)data.GetBuffer());
+	Log(data.GetBuffer());
 
 	return 0;
 }
@@ -165,7 +178,7 @@ void ObsoleteMethod(lua_State *L, const char *message)
 
 	char text[512];
 	mir_snprintf(text, "%s is obsolete. %s", info.name, message);
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)text);
+	Log(text);
 	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
 		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
 }
