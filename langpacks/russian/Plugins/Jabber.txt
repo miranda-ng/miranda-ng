@@ -681,6 +681,8 @@ xHTML формат чат сообщений
 Невозможно отправить - не в сети.
 [Jabber Error]
 Jabber ошибка
+[Outgoing XML parsing error]
+Ошибка при разборе исходящего XML
 [request timeout.]
 таймаут запроса.
 [Node hierarchy]
@@ -2177,7 +2179,35 @@ Jabber vCard: редактирование телефона
 Я использую Miranda NG (http://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]
 /me шарахнул %s веслом по голове
+[The number of seconds to delay before applying a change]
+Задержка (в секундах) перед применением изменений
+[The password for an account]
+Пароль учётной записи
 [First Name]
 Имя
 [Last Name]
 Фамилия
+[Full list of room admins]
+Полный список администраторов комнаты чата
+[Short description of room]
+Краткое описание комнаты чата
+[Natural-language room name]
+Название комнаты чата на родном языке
+[Full list of room owners]
+Польный список владельцев комнаты чата
+[The room password]
+Пароль комнаты чата
+[A list of pending file transfers]
+Список отложенных передач файлов
+[The status message text]
+Текст статусного сообщения
+[The new priority for the client]
+Новый приоритет клиента
+[Account name associated with the user]
+Имя учётной записи пользователя
+[Full name of the user]
+Полное имя пользователя
+[Email address of the user]
+Адрес электронной почты пользователя
+[Minimum security level]
+Минимальный уровень безопасности

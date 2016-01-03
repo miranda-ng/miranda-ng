@@ -11,8 +11,12 @@
 Перезагрузить всё
 [Scripts]
 Скрипты
+[Popup on script error]
+Показать всплывающее окно при ошибке скрипта
 [General]
 Общее
+[Popup on obsolete methods]
+Показать всплывающее окно при вызове устаревших методов
 [C libs folder]
 Папка с библиотеками C
 [Scripts folder]
