@@ -100,7 +100,7 @@ Actualiser les réglages
 
 [&Search and replace]
 &Rechercher et remplacer...
-[&Fix resident settings]
+[Delete &resident settings]
 
 [&Delete module]
 &Supprimer un module
@@ -299,7 +299,7 @@ Ouvrir dans DataBase Editor
 Voulez-vous vraiment supprimer le contact "%s" ?
 [Delete resident settings from database?]
 
-[%d orphaned items deleted.]
+[%d items deleted.]
 
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]

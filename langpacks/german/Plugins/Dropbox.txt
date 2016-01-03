@@ -34,6 +34,9 @@ Downloadlink automatisch an Kontakt senden
 Downloadlink im Nachrichteneingabebereich einfügen
 [Copy download link to clipboard]
 Downloadlink in Zwischenablage kopieren
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Error loading module list]
+Fehler beim Laden der Modulliste
 ;file \plugins\Dropbox\src\dropbox.cpp
 [Free %ld of %ld MB]
 

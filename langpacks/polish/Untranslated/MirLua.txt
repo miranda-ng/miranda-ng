@@ -1,0 +1,4 @@
+﻿[Popup on script error]
+[Popup on obsolete methods]
+[C libs folder]
+[Scripts folder]

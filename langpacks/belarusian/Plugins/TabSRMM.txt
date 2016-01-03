@@ -547,8 +547,8 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Налады выгляду ўкладак
 [About TabSRMM]
 Пра TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Аўтарскія правы 2004-2011 Miranda IM, 2012-2015 Miranda NG. Падрабязней ў файле Readme.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Аўтарскія правы 2004-2011 Miranda IM, 2012-2016 Miranda NG. Падрабязней ў файле README.
 [Support and latest version information]
 Падтрымка і інфармацыя пра апошнюю версію
 [Selected skin]
@@ -879,6 +879,8 @@ Esc зачыняе сесію (інакш - згортвае)
 &Гутаркі
 [&Container]
 Кантэйнер
+[Event popups]
+
 [Disable all event popups]
 Выключыць усё вокны
 [Show popups if window is minimized]

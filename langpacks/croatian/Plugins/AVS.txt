@@ -92,7 +92,7 @@ Pozadina
 
 [Fatal error, image services not found. Avatar services will be disabled.]
 
-[Avatar Service]
+[Avatar service]
 
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
@@ -115,8 +115,6 @@ Pozadina
 
 [Are you sure you want to remove your avatar?]
 
-[Global Avatar]
-
 [Avatar]
 
 ;file \plugins\AVS\src\services.cpp
@@ -136,7 +134,7 @@ png bitmapovi
 
 [Grow avatar to fit max allowed protocol size]
 
-[Set My Avatar]
+[Set my avatar]
 
-[Set My Avatar for %s]
+[Set my avatar for %s]
 

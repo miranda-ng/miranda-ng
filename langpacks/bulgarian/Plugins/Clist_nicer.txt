@@ -21,8 +21,8 @@ CList nicer изключение
 Относно Clist nicer
 [Clist nicer]
 Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Авторско право © 2004-2010 на проекта Miranda IM, 2012-2015 на проекта Miranda NG.\nПодробности относно правата можете да откриете във включения README файл.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Авторско право © 2004-2010 на проекта Miranda IM, 2012-2016 на проекта Miranda NG.\nПодробности относно правата можете да откриете във включения README файл.
 [Version]
 Версия
 [Support and latest version information]

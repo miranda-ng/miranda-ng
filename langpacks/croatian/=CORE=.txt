@@ -1012,7 +1012,7 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [e.g., Workplace]
 
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 
 [e.g., dbx mmap]
 

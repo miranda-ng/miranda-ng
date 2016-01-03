@@ -14,6 +14,7 @@
 [Force off]
 [Dummy]
 [dummy]
+[Event popups]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 [Rich Edit file]
 [Data path]

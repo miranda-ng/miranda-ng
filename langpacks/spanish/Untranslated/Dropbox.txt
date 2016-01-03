@@ -11,6 +11,7 @@
 [Autosend download link to contact]
 [Paste download link into message input area]
 [Copy download link to clipboard]
+[Error loading module list]
 [Free %ld of %ld MB]
 [in process...]
 [server does not respond]
