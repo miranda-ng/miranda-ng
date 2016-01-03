@@ -20,6 +20,8 @@
 [Autosend download link to contact]
 [Paste download link into message input area]
 [Copy download link to clipboard]
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Error loading module list]
 ;file \plugins\Dropbox\src\dropbox.cpp
 [Free %ld of %ld MB]
 [in process...]
