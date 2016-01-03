@@ -39,7 +39,7 @@ Downloadlink in Zwischenablage kopieren
 Fehler beim Laden der Modulliste
 ;file \plugins\Dropbox\src\dropbox.cpp
 [Free %ld of %ld MB]
-
+%ld von %ld MB frei
 [in process...]
 In Arbeit...
 [server does not respond]

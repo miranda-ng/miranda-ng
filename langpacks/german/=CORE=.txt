@@ -1013,13 +1013,13 @@ Profil
 [e.g., Workplace]
 z. B. Arbeitsplatz
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
-
+Sie können einen anderen Datenbanktreiber mit mehr Funktionen und Möglichkeiten als der Standardtreiber verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standardtreiber.
 [e.g., dbx mmap]
 z. B. dbx mmap
 [Driver]
 Treiber
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problem: Kann keinen Datenbank-Treiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_mmap.dll
+Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_mmap.dll
 [Download more plugins]
 Weitere Plugins herunterladen
 [Author(s):]

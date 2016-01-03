@@ -13,16 +13,16 @@ Alle neu laden
 [Scripts]
 Skripte
 [Popup on script error]
-
+Popup bei Skriptfehlern
 [General]
 Allgemein
 [Popup on obsolete methods]
-
+Popup bei veralteten Methoden
 ;file \plugins\MirLua\src\main.cpp
 [C libs folder]
-
+C-Bibliotheken-Verzeichnis
 [Scripts folder]
-
+Skriptverzeichnis
 ;file \plugins\MirLua\src\mlua_icons.cpp
 [Script]
 Skript

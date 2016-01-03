@@ -39,7 +39,7 @@ Ein neues ICQ-Konto über die ICQ-Webseite erstellen
 [Connection settings]
 Verbindungseinstellungen
 [Login Server:]
-Loginserver:
+Anmeldeserver:
 [Port:]
 Port:
 [Default]
@@ -275,15 +275,15 @@ Aktuelles Passwort hier eingeben:
 Bitte autorisieren Sie mich, Sie meiner Kontaktliste hinzuzufügen.
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
-Es konnte keine Verbindung zum ICQ-Loginserver migriert werden.
+Es konnte keine Verbindung zum ICQ-Anmeldeserver migriert werden.
 [Unable to connect to ICQ communication server]
-Es konnte keine Verbindung zum ICQ-Loginserver hergestellt werden.
+Es konnte keine Verbindung zum ICQ-Anmeldeserver hergestellt werden.
 [You could not sign on because the server returned invalid data. Try again.]
 Anmeldung war nicht möglich, da der Server ungültige Daten sendete. Versuchen Sie es später noch einmal.
 [You have been disconnected from the ICQ network because the current server shut down.]
 Verbindung zum ICQ-Netzwerk wurde getrennt, da der aktuelle Server nicht erreichbar ist.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
+Verbindung fehlgeschlagen.\nICQ-Nummer oder -Passwort wurden abgelehnt (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
@@ -586,9 +586,9 @@ Australien, Antarktisches Territorium
 [Australia, Christmas Island]
 Australien, Weihnachtsinsel
 [Australia, Cocos (Keeling) Islands]
-Australien, Kokos-(Keeling)-Inseln
+Australien, Kokos-(Keeling-)Inseln
 [Australia, Norfolk Island]
-Australien, Norfolk-Insen
+Australien, Norfolk-Inseln
 [Austria]
 Österreich
 [Azerbaijan]
@@ -602,7 +602,7 @@ Bangladesch
 [Barbados]
 Barbados
 [Belarus]
-Weissrussland
+Weißrussland
 [Belgium]
 Belgien
 [Belize]
@@ -656,9 +656,9 @@ Kolumbien
 [Comoros]
 Comoren
 [Congo, Democratic Republic of the]
-Demokratische Republik Kongo
+Kongo, Demokratische Republik
 [Congo, Republic of the]
-Republik Kongo
+Kongo, Republik
 [Cook Islands]
 Cook-Inseln
 [Costa Rica]
@@ -736,7 +736,7 @@ Grenada
 [Guadeloupe]
 Guadeloupe
 [Guam, US Territory of]
-Guam, US Territorium
+Guam, US-Territorium
 [Guatemala]
 Guatemala
 [Guinea]
@@ -782,9 +782,9 @@ Kenia
 [Kiribati]
 Kiribati
 [Korea, North]
-Korea, Nordkorea
+Nordkorea
 [Korea, South]
-Republik Korea, Südkorea
+Südkorea
 [Kuwait]
 Kuwait
 [Kyrgyzstan]
@@ -1134,7 +1134,7 @@ Religion
 [Retail Stores]
 Kaufhäuser
 [Science]
-Forschung
+Wissenschaft
 [Skills]
 Fähigkeiten
 [Social science]
@@ -1541,13 +1541,13 @@ Nutzer-ID
 Sie haben keine ICQ-Nummer angegeben.\nDiese bitte unter Einstellungen -> Netzwerk -> ICQ eintragen und neu versuchen.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
-Die Verbindung zum ICQ-Loginserver konnte nicht hergestellt werden, SSL konnte nicht ausgehandelt werden.
+Die Verbindung zum ICQ-Anmeldeserver konnte nicht hergestellt werden, SSL konnte nicht ausgehandelt werden.
 [Unable to connect to ICQ login server]
-Konnte sich nicht mit dem ICQ-Loginserver verbinden.
+Konnte sich nicht mit dem ICQ-Anmeldeserver verbinden.
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> ICQ client-to-client connections.]
-
+Miranda konnte keinen Port für die direkten P2P-Verbindungen zwischen den Clients zuweisen. Sie können die meißten Funktionen des ICQ-Netzwerks ohne Probleme benutzen, allerdings können keine Dateien gesendet oder empfangen werden.\n\nFalls Sie eine Firewall haben, blockt diese evtl. Miranda NG. Geben Sie einige Ports für Miranda frei und weisen Sie Miranda NG Ports zu unter Einstellungen -> Netzwerk -> ICQ Client-to-Client-Verbindungen -> Portbereich:
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-Verbindungsversuch aus unbekannter Ursache fehlgeschlagen.\nBitte in 30 Minuten noch einmal versuchen.
+Verbindungsversuch aus unbekannter Ursache fehlgeschlagen.\nBitte später noch einmal versuchen.
 [Your connection with the ICQ server was abortively closed]
 Ihre Verbindung mit dem ICQ-Server wurde vorzeitig abgebrochen.
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
