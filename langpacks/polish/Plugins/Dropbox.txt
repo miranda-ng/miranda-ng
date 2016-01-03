@@ -34,6 +34,9 @@ Automatycznie wyślij link do pobrana do kontaktu
 Wklej link do pobrania do pola wpisywania wiadomości
 [Copy download link to clipboard]
 Kopiuj link do pobrania do schowka
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Error loading module list]
+Błąd ładowania listy modułów
 ;file \plugins\Dropbox\src\dropbox.cpp
 [Free %ld of %ld MB]
 Wolne %ld z %ld MB

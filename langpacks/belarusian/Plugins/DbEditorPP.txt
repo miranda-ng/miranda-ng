@@ -99,7 +99,7 @@
 Дзеянні
 [&Search and replace]
 Знайсці і замяніць...
-[&Fix resident settings]
+[Delete &resident settings]
 
 [&Delete module]
 Выдаліць плагін...
@@ -291,7 +291,7 @@ INI файлы
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
 [Delete resident settings from database?]
 
-[%d orphaned items deleted.]
+[%d items deleted.]
 
 [Error loading module list]
 Памылка загрузкі спісу плагінаў

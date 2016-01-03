@@ -36,7 +36,7 @@
 
 [Use only alphanumeric encoding on transfer]
 
-[Extra options: Events -> File Transfers, "Receiving files" group]
+[Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
 
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]

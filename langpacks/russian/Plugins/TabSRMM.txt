@@ -879,6 +879,8 @@ BBCode ([b][i][u])
 &Беседы
 [&Container]
 &Контейнер
+[Event popups]
+Всплывающие окна при событиях
 [Disable all event popups]
 Выключить все вспл.окна
 [Show popups if window is minimized]

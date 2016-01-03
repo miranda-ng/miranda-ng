@@ -21,8 +21,8 @@
 Пра Clist nicer
 [Clist nicer]
 Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Аўтарскія правы 2004-2010 Miranda IM, 2012-2015 Miranda NG. Падрабязней ў файле Readme.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Аўтарскія правы 2004-2010 Miranda IM, 2012-2016 Miranda NG. Падрабязней ў файле README.
 [Version]
 Версія
 [Support and latest version information]

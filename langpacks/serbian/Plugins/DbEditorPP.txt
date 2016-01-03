@@ -100,7 +100,7 @@ Naziv
 
 [&Search and replace]
 
-[&Fix resident settings]
+[Delete &resident settings]
 
 [&Delete module]
 
@@ -299,7 +299,7 @@ Koristeći
 
 [Delete resident settings from database?]
 
-[%d orphaned items deleted.]
+[%d items deleted.]
 
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]

@@ -100,8 +100,8 @@ W&yjdź
 &Akcje
 [&Search and replace]
 &Znajdź i zamień
-[&Fix resident settings]
-&Napraw ustawienia rezydentne
+[Delete &resident settings]
+
 [&Delete module]
 &Usuń moduł
 [&Watches]
@@ -299,8 +299,8 @@ Otwórz w edytorze profilu
 Na pewno chcesz usunąć kontakt "%s"?
 [Delete resident settings from database?]
 Usunąć ustawienia rezydentne z bazy danych?
-[%d orphaned items deleted.]
-Usunięto %d porzuconych elementów.
+[%d items deleted.]
+Usunięto %d elementów.
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Błąd ładowania listy modułów

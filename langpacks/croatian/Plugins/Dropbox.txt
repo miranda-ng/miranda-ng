@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.12.0.7
+;  Version: 0.12.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
@@ -33,6 +33,9 @@
 [Paste download link into message input area]
 
 [Copy download link to clipboard]
+
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Error loading module list]
 
 ;file \plugins\Dropbox\src\dropbox.cpp
 [Free %ld of %ld MB]
