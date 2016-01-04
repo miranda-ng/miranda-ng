@@ -238,7 +238,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	if (g_hwndHkOptions)
 		SendMessage(g_hwndHkOptions, WM_HOTKEYUNREGISTERED, 0, 0);
 
-	for (int i = hotkeys.getCount()-1; i >= 0; i++)
+	for (int i = hotkeys.getCount()-1; i >= 0; i--)
 		if (hotkeys[i]->UnregisterHotkey) {
 			FreeHotkey(hotkeys[i]);
 			hotkeys.remove(i);
