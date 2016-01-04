@@ -50,8 +50,8 @@ const
     (typ:SST_DWORD ; short:'dword' ; full:'DWord'),
     (typ:SST_QWORD ; short:'qword' ; full:'QWord'),
     (typ:SST_NATIVE; short:'native'; full:'NativeInt'),
-    (typ:SST_BARR  ; short:'b.arr' ; full:'Byte Array'),
-    (typ:SST_WARR  ; short:'w.arr' ; full:'Word Array'),
+    (typ:SST_BARR  ; short:'b.arr' ; full:'Byte array'),
+    (typ:SST_WARR  ; short:'w.arr' ; full:'Word array'),
     (typ:SST_BPTR  ; short:'b.ptr' ; full:'Pointer to bytes'),
     (typ:SST_WPTR  ; short:'w.ptr' ; full:'Pointer to words'),
 {$IFDEF Miranda}

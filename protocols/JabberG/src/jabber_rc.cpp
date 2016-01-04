@@ -303,8 +303,8 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Free for chat")) << XCHILD(_T("value"), _T("chat"));
 		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Online")) << XCHILD(_T("value"), _T("online"));
 		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Away")) << XCHILD(_T("value"), _T("away"));
-		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Extended Away (N/A)")) << XCHILD(_T("value"), _T("xa"));
-		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Do Not Disturb")) << XCHILD(_T("value"), _T("dnd"));
+		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Extended away (N/A)")) << XCHILD(_T("value"), _T("xa"));
+		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Do not disturb (DND)")) << XCHILD(_T("value"), _T("dnd"));
 		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Invisible")) << XCHILD(_T("value"), _T("invisible"));
 		fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), TranslateT("Offline")) << XCHILD(_T("value"), _T("offline"));
 

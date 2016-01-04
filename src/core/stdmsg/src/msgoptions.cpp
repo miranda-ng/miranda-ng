@@ -141,7 +141,7 @@ statusValues[] =
 	{ MODEF_OFFLINE, LPGENT("Offline") },
 	{ PF2_ONLINE, LPGENT("Online") },
 	{ PF2_SHORTAWAY, LPGENT("Away") },
-	{ PF2_LONGAWAY, LPGENT("NA") },
+	{ PF2_LONGAWAY, LPGENT("N/A") },
 	{ PF2_LIGHTDND, LPGENT("Occupied") },
 	{ PF2_HEAVYDND, LPGENT("DND") },
 	{ PF2_FREECHAT, LPGENT("Free for chat") },

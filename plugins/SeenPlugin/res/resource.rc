@@ -93,7 +93,7 @@ BEGIN
     RTEXT           "Away",IDC_STATIC,10,103,60,10
     CONTROL         "",ID_STATUS_AWAY,"ColourPicker",WS_TABSTOP,80,100,20,14
     CONTROL         "",40093,"ColourPicker",WS_TABSTOP,105,100,20,14
-    RTEXT           "NA",IDC_STATIC,10,123,60,10
+    RTEXT           "N/A",IDC_STATIC,10,123,60,10
     CONTROL         "",ID_STATUS_NA,"ColourPicker",WS_TABSTOP,80,120,20,14
     CONTROL         "",40095,"ColourPicker",WS_TABSTOP,105,120,20,14
     RTEXT           "Occupied",IDC_STATIC,10,143,60,10

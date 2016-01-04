@@ -135,13 +135,13 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("Any"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("Online"));
 			SetDlgItemText(hwnd, IDC_CHECK3, TranslateT("Away"));
-			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("NA"));
+			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("N/A"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("DND"));
-			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free For Chat"));
+			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free For chat"));
 			SetDlgItemText(hwnd, IDC_CHECK8, TranslateT("Invisible"));
-			SetDlgItemText(hwnd, IDC_CHECK9, TranslateT("On The Phone"));
-			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("Out To Lunch"));
+			SetDlgItemText(hwnd, IDC_CHECK9, TranslateT("On the phone"));
+			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("Out to lunch"));
 		}
 	}
 	else {
@@ -156,13 +156,13 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("From Offline"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("To Online"));
 			SetDlgItemText(hwnd, IDC_CHECK3, TranslateT("To Away"));
-			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("To NA"));
+			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("To N/A"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("To Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("To DND"));
-			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("To Free For Chat"));
+			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("To Free for chat"));
 			SetDlgItemText(hwnd, IDC_CHECK8, TranslateT("To Invisible"));
-			SetDlgItemText(hwnd, IDC_CHECK9, TranslateT("To On The Phone"));
-			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("To Out To Lunch"));
+			SetDlgItemText(hwnd, IDC_CHECK9, TranslateT("To On the phone"));
+			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("To Out to lunch"));
 		}
 	}
 	CheckDlgButton(hwnd, IDC_CHECK1, statusFlag&ANY ? BST_CHECKED : BST_UNCHECKED);

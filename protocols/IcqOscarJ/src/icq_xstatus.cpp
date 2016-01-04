@@ -290,7 +290,7 @@ const char *nameXStatus[XSTATUS_COUNT] = {
 	LPGEN("Kitty"),         //58
 	LPGEN("Sumo"),          //59
 	LPGEN("Broken hearted"),//60
-	LPGEN("Free for Chat"), //62
+	LPGEN("Free for chat"), //62
 	LPGEN("@home"),         //63
 	LPGEN("@work"),         //64
 	LPGEN("Strawberry"),    //65

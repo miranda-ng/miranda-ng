@@ -75,7 +75,7 @@ const
 const
   StatNames:array [0..NumStatus-1] of PWideChar=(
   'Default'{'Offline'},'Online','Invisible','Away','N/A','Occupied','DND',
-  'Free for chat','Out to lunch','On the Phone');
+  'Free for chat','Out to lunch','On the phone');
 
 type
   pMyProto = ^tMyProto;

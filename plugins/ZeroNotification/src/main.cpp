@@ -26,7 +26,7 @@ struct CheckBoxValues_t
 static const struct CheckBoxValues_t statusValues[] = {
 	{ PF2_ONLINE, TEXT("Online") },
 	{ PF2_SHORTAWAY, TEXT("Away") },
-	{ PF2_LONGAWAY, TEXT("NA") },
+	{ PF2_LONGAWAY, TEXT("N/A") },
 	{ PF2_LIGHTDND, TEXT("Occupied") },
 	{ PF2_HEAVYDND, TEXT("DND") },
 	{ PF2_FREECHAT, TEXT("Free for chat") },

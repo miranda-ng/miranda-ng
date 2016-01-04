@@ -1289,7 +1289,7 @@ void InitOptions()
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_AWAY, StatusToDBSetting(ID_STATUS_AWAY, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Away"), ParentID1, ID++, 0, TranslateT("Been gone since %nas_awaysince_time%, will be back later.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_NA, StatusToDBSetting(ID_STATUS_NA, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
-	DefMsgTree.AddElem(CTreeItem(TranslateT("NA"), ParentID1, ID++, 0, TranslateT("Give it up, I'm not in!")));
+	DefMsgTree.AddElem(CTreeItem(TranslateT("N/A"), ParentID1, ID++, 0, TranslateT("Give it up, I'm not in!")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_OCC, StatusToDBSetting(ID_STATUS_OCCUPIED, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Occupied"), ParentID1, ID++, 0, TranslateT("Not right now.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_DND, StatusToDBSetting(ID_STATUS_DND, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
