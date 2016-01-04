@@ -57,7 +57,7 @@ static int lua_Unregister(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
-	::CallService("CoreHotkeys/Unregister", 0, (LPARAM)name);
+	::CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)name);
 
 	return 0;
 }

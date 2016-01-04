@@ -140,8 +140,8 @@ static luaL_Reg genmenuApi[] =
 	{ "CheckMenuItem", lua_CheckMenuItem },
 	{ "RemoveMenuItem", lua_RemoveMenuItem },
 
-	{ "MO_MAIN", NULL },
-	{ "MO_CONTACT", NULL },
+	//{ "MO_MAIN", NULL },
+	//{ "MO_CONTACT", NULL },
 
 	{ NULL, NULL }
 };
@@ -149,10 +149,10 @@ static luaL_Reg genmenuApi[] =
 LUAMOD_API int luaopen_m_genmenu(lua_State *L)
 {
 	luaL_newlib(L, genmenuApi);
-	lua_pushinteger(L, MO_MAIN);
+	/*lua_pushinteger(L, MO_MAIN);
 	lua_setfield(L, -2, "MO_MAIN");
 	lua_pushinteger(L, MO_CONTACT);
-	lua_setfield(L, -2, "MO_CONTACT");
+	lua_setfield(L, -2, "MO_CONTACT");*/
 
 	return 1;
 }
