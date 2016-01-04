@@ -138,7 +138,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("N/A"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("DND"));
-			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free For chat"));
+			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free for chat"));
 			SetDlgItemText(hwnd, IDC_CHECK8, TranslateT("Invisible"));
 			SetDlgItemText(hwnd, IDC_CHECK9, TranslateT("On the phone"));
 			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("Out to lunch"));
