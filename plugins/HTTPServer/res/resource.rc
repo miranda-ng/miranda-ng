@@ -88,7 +88,7 @@ BEGIN
     PUSHBUTTON      "Test",IDC_TEST_EXTERNALIP,224,126,51,14
     EDITTEXT        IDC_MAX_SPEED,35,181,24,12,ES_AUTOHSCROLL
     LTEXT           "Transfer limit (Kb/s)",IDC_STATIC,62,183,91,8
-    CONTROL         "No control when Away/NA",IDC_LIMIT_ONLY_WHEN_ONLINE,
+    CONTROL         "No control when Away or N/A",IDC_LIMIT_ONLY_WHEN_ONLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,224,114,10
     GROUPBOX        "Connection control",IDC_STATIC,30,155,127,81
     GROUPBOX        "Index creation",IDC_STATIC,162,155,122,56

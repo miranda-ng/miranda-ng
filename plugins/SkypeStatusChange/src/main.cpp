@@ -50,7 +50,7 @@ LPCTSTR g_pszSkypeWndClassName = _T("SkypeHelperWindow{155198f0-8749-47b7-ac53-5
 const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
 {
 	{ID_STATUS_AWAY, "AWAY",_T("Away")},
-	{ID_STATUS_NA, "AWAY",_T("NA")}, // removed in Skype 5
+	{ID_STATUS_NA, "AWAY",_T("N/A")}, // removed in Skype 5
 	{ID_STATUS_DND, "DND",_T("DND")},
 	{ID_STATUS_ONLINE, "ONLINE",_T("Online")},
 	{ID_STATUS_FREECHAT, "ONLINE",_T("Free for chat")},	// SKYPEME status doesn't work in Skype 4!

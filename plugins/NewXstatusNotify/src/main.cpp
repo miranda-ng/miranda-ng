@@ -914,7 +914,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) isn't there anymore!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) isn't there anymore!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) isn't there anymore!"), MAX_STATUSTEXT);
-	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("NA"), MAX_STANDARDTEXT);
+	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("N/A"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Not available"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, _T("na.wav"), MAX_PATH);

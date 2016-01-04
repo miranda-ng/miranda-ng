@@ -595,19 +595,19 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 				else if (icon == ID_STATUS_AWAY)
 					mir_snprintf(tmp, "Icon: Away\r\n");
 				else if (icon == ID_STATUS_NA)
-					mir_snprintf(tmp, "Icon: NA\r\n");
+					mir_snprintf(tmp, "Icon: N/A\r\n");
 				else if (icon == ID_STATUS_DND)
 					mir_snprintf(tmp, "Icon: DND\r\n");
 				else if (icon == ID_STATUS_OCCUPIED)
 					mir_snprintf(tmp, "Icon: Occupied\r\n");
 				else if (icon == ID_STATUS_FREECHAT)
-					mir_snprintf(tmp, "Icon: Free For Chat\r\n");
+					mir_snprintf(tmp, "Icon: Free for chat\r\n");
 				else if (icon == ID_STATUS_INVISIBLE)
 					mir_snprintf(tmp, "Icon: Invisible\r\n");
 				else if (icon == ID_STATUS_ONTHEPHONE)
-					mir_snprintf(tmp, "Icon: On The Phone\r\n");
+					mir_snprintf(tmp, "Icon: On the phone\r\n");
 				else if (icon == ID_STATUS_OUTTOLUNCH)
-					mir_snprintf(tmp, "Icon: Out To Lunch\r\n");
+					mir_snprintf(tmp, "Icon: Out to lunch\r\n");
 				else {
 					free(msg);
 					continue;
