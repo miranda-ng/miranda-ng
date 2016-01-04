@@ -180,10 +180,8 @@ end;
 function Unload:integer;cdecl;
 begin
   result:=0;
-  removetoolbar; //??
+  removetoolbar;
   DestroyFrame;
-
-//  unreghotkeys;
 
   CloseSrWindow;
 
