@@ -2194,7 +2194,7 @@ Jabber vCard: редактирование телефона
 [Natural-language room name]
 Название комнаты чата на родном языке
 [Full list of room owners]
-Польный список владельцев комнаты чата
+Полный список владельцев комнаты чата
 [The room password]
 Пароль комнаты чата
 [A list of pending file transfers]

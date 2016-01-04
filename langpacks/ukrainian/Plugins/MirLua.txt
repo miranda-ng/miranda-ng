@@ -11,8 +11,16 @@
 Перезавантажити
 [Scripts]
 Скрипти
+[Popup on script error]
+Спливаючі вікна при помилках скрипта
 [General]
 Загальне
+[Popup on obsolete methods]
+Спливаючі вікна при виклику застарілих методів
+[C libs folder]
+Папка з бібліотеками C
+[Scripts folder]
+Папка зі скриптами
 [Script]
 Скрипт
 [Open]
