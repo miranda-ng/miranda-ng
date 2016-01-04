@@ -69,8 +69,6 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 
 	KillTimer(NULL, timerId);
 	NetlibUnInit();
-
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"NewsAggregator/CheckAllFeeds");
 	return 0;
 }
 

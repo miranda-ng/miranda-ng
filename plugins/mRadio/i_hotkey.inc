@@ -61,10 +61,5 @@ end;
 
 procedure UnregisterHotKey;
 begin
-  CallService(MS_HOTKEY_UNREGISTER,0,lparam(HKN_PLAYPAUSE));
-  CallService(MS_HOTKEY_UNREGISTER,0,lparam(HKN_STOP));
-  CallService(MS_HOTKEY_UNREGISTER,0,lparam(HKN_MUTE));
-  CallService(MS_HOTKEY_UNREGISTER,0,lparam(HKN_RECORD));
-
   DestroyServiceFunction(hRadioHotkey);
 end;

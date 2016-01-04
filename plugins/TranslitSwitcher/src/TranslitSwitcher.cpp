@@ -136,16 +136,10 @@ int OnPreShutdown(WPARAM, LPARAM)
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 50;
 		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-
 	}
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/ConvertAllOrSelected");
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/ConvertLastOrSelected");
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/TranslitAllOrSelected");
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/TranslitLastOrSelected");
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/InvertCaseAllOrSelected");
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"TranslitSwitcher/InvertCaseLastOrSelected");
 	return 0;
 }
+
 //-------------------------------------------------------------------------------------------------------
 
 extern "C" __declspec(dllexport) int Load(void)

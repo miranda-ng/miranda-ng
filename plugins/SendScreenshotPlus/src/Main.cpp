@@ -223,8 +223,6 @@ DLL_EXPORT PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return const_cast<PLUGININFOEX*>(&pluginInfo);
 }
 /// hooks
-static HANDLE m_hookModulesLoaded = 0;
-static HANDLE m_hookSystemPreShutdown = 0;
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
 	g_myGlobals.PopupExist = ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -268,11 +266,13 @@ DLL_EXPORT int Load(void)
 		return 1;
 	}
 	/// hook events
-	m_hookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
-	m_hookSystemPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
+	
 	/// icons
 	Icon_Register(g_hSendSS, SZ_SENDSS, ICONS, sizeof(ICONS) / sizeof(IconItem), SZ_SENDSS);
 	Icon_Register(g_hSendSS, SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, sizeof(ICONS_BTN) / sizeof(IconItem), SZ_SENDSS);
+	
 	/// services
 #define srv_reg(name) do{\
 		m_h##name=CreateServiceFunction(SZ_SENDSS "/" #name, service_##name);\
@@ -327,16 +327,8 @@ DLL_EXPORT int Load(void)
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
 DLL_EXPORT int Unload(void)
-{//as "ghazan" says, it's useless to unregister services or unhook events, let's still do it for now :P
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)"Open SendSS+");
-	/// deregister services
-#define srv_dereg(name) do{ if(m_h##name) DestroyServiceFunction(m_h##name),m_h##name=0; }while(0)
-	srv_dereg(OpenCaptureDialog);
-	srv_dereg(SendDesktop);
-	srv_dereg(EditBitmap);
-	srv_dereg(Send2ImageShack);
-	if (m_hookModulesLoaded) UnhookEvent(m_hookModulesLoaded), m_hookModulesLoaded = 0;
-	if (m_hookSystemPreShutdown) UnhookEvent(m_hookSystemPreShutdown), m_hookSystemPreShutdown = 0;
-	if (g_clsTargetHighlighter) UnregisterClass((TCHAR*)g_clsTargetHighlighter, g_hSendSS), g_clsTargetHighlighter = 0;
+{
+	if (g_clsTargetHighlighter)
+		UnregisterClass((TCHAR*)g_clsTargetHighlighter, g_hSendSS), g_clsTargetHighlighter = 0;
 	return 0;
 }

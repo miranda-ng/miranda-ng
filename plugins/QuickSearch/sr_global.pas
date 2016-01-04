@@ -113,7 +113,6 @@ type
 
 
 procedure reghotkeys;
-procedure unreghotkeys;
 
 procedure saveopt_wnd;
 procedure loadopt_wnd;
@@ -196,11 +195,6 @@ begin
     DefHotKey       :=(HOTKEYF_ALT shl 8) or VK_F3;
   end;
   CallService(MS_HOTKEY_REGISTER,0,lparam(@hkrec));
-end;
-
-procedure unreghotkeys;
-begin
-  CallService(MS_HOTKEY_UNREGISTER,0,lparam(HKN_GLOBAL));
 end;
 
 procedure removetoolbar;

@@ -231,9 +231,7 @@ end;
 
 procedure DeleteCoreHotkey(var ActionItem:tMyActionItem);
 begin
-  if // bCoreHotkeyPresents and
-     // (ServiceExists(MS_HOTKEY_UNREGISTER)<>0) and
-     ((ActionItem.flags and UAF_HKREGGED)<>0) then
+  if ((ActionItem.flags and UAF_HKREGGED)<>0) then
   begin
     CallService(MS_HOTKEY_UNREGISTER,0,LParam(ActionItem.szNameID));
     ActionItem.flags:=ActionItem.flags and not UAF_HKREGGED;
