@@ -23,6 +23,7 @@ ToastNotification::ToastNotification(
 	notification->add_Dismissed(Callback<ToastDismissHandler>(this, &ToastNotification::OnDismiss).Get(), &_ertDismissed);
 	notification->add_Failed(Callback<ToastFailHandler>(this, &ToastNotification::OnFail).Get(), &_ertFailed);
 	notifier->Show(notification.Get());
+	CallPopupProc(UM_INITPOPUP);
 }
 
 ToastNotification::~ToastNotification()
@@ -101,4 +102,11 @@ HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNo
 {
 	Destroy();
 	return S_OK;
+}
+
+void ToastNotification::Destroy()
+{
+	CallPopupProc(UM_FREEPLUGINDATA);
+	mir_cslock lck(csNotifications);
+	lstNotifications.remove(this);
 }

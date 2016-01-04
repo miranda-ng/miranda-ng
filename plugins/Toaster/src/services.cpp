@@ -16,7 +16,6 @@ void __stdcall ShowToastNotification(void* p)
 	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID)
 	{
 		const char* szProto = GetContactProto(td->hContact);
-
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
 			PROTO_AVATAR_INFORMATION pai = { td->hContact };
@@ -28,20 +27,11 @@ void __stdcall ShowToastNotification(void* p)
 
 		if (imagePath == NULL)
 		{
-			if (szProto)
-			{
-				imagePath = ToasterImage(szProto);
-			}
+			if (szProto)	imagePath = ToasterImage(szProto);
 			else
 			{
-				if (td->iType == 1 && td->hBitmap)
-				{
-					imagePath = ToasterImage(td->hBitmap);
-				}
-				else if (td->iType == 2 && td->hIcon)
-				{
-					imagePath = ToasterImage(td->hIcon);
-				}
+				if (td->iType == 1 && td->hBitmap)		imagePath = ToasterImage(td->hBitmap);
+				else if (td->iType == 2 && td->hIcon)	imagePath = ToasterImage(td->hIcon);
 			}
 		}
 	}
@@ -53,7 +43,7 @@ void __stdcall ShowToastNotification(void* p)
 		}
 	}
 
-	new ToastNotification(td->tszText, td->tszTitle, imagePath, td->hContact, td->pPopupProc, td->vPopupData);
+	new (std::nothrow) ToastNotification(td->tszText, td->tszTitle, imagePath, td->hContact, td->pPopupProc, td->vPopupData);
 }
 
 static INT_PTR GetPopupData(WPARAM wParam, LPARAM)
@@ -89,7 +79,7 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 	td->vPopupData = ppd->PluginData;
 	td->pPopupProc = ppd->PluginWindowProc;
 
-	CallFunctionAsync(&ShowToastNotification, td);
+	CallFunctionAsync(ShowToastNotification, td);
 	return 0;
 }
 
@@ -119,12 +109,11 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 	td->vPopupData = ppd->PluginData;
 	td->pPopupProc = ppd->PluginWindowProc;
 
-	CallFunctionAsync(&ShowToastNotification, td);
-
+	CallFunctionAsync(ShowToastNotification, td);
 	return 0;
 }
 
-static INT_PTR RegisterClass(WPARAM, LPARAM lParam)
+static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPCLASS *pc = (POPUPCLASS*)lParam;
 
@@ -157,13 +146,13 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 		td->vPopupData = ppc->PluginData;
 		td->pPopupProc = it->second->pPopupProc;
 
-		CallFunctionAsync(&ShowToastNotification, td);
+		CallFunctionAsync(ShowToastNotification, td);
 	}
 
 	return 0;
 }
 
-static INT_PTR UnRegisterClass(WPARAM, LPARAM lParam)
+static INT_PTR UnRegisterPopupClass(WPARAM, LPARAM lParam)
 {
 	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
 	{
@@ -186,26 +175,23 @@ void CleanupClasses()
 
 static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 {
-	switch (wParam) {
+	switch (wParam) 
+	{
 	case PUQS_ENABLEPOPUPS:
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (!enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 1);
 		return !enabled;
 	}
-	break;
 	case PUQS_DISABLEPOPUPS:
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-		CallFunctionAsync(&HideAllToasts, NULL);
+		CallFunctionAsync(HideAllToasts, NULL);
 		return enabled;
 	}
-	break;
-
 	case PUQS_GETSTATUS:
 		return db_get_b(0, "Popup", "ModuleIsEnabled", 1);
-
 	default:
 		return 1;
 	}
@@ -228,7 +214,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 	}
 
 	ToastData *td = new ToastData(NULL, NULL, (wchar_t*)wParam, hIcon);
-	CallFunctionAsync(&ShowToastNotification, td);
+	CallFunctionAsync(ShowToastNotification, td);
 
 	return 0;
 }
@@ -242,16 +228,14 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
 	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
-	mir_cslock lck(csNotifications);
 	if (lstNotifications.getIndex(pNotification) != -1)
-		lstNotifications.remove(pNotification);
+		pNotification->Destroy();
 	return 0;
 }
 void __stdcall HideAllToasts(void*)
 {
-	mir_cslock lck(csNotifications);
-	while(lstNotifications.getCount())
-		lstNotifications.remove(0);
+	while (lstNotifications.getCount())
+		lstNotifications[0].Destroy();
 }
 
 void InitServices()
@@ -266,8 +250,8 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
-	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterClass);
-	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnRegisterClass);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnRegisterPopupClass);
 
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetPopupData);
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetPopupContact);
