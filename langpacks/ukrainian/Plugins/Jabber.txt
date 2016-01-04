@@ -682,7 +682,7 @@ xHTML-формат повідомлень чату
 [Jabber Error]
 Помилка Jabber
 [Outgoing XML parsing error]
-Помилка синтаксичного аналізу вихідного XML
+Помилка аналізу вихідного XML
 [request timeout.]
 таймаут запиту.
 [Node hierarchy]
@@ -2202,7 +2202,7 @@ JID особи, до якої застосовується операція
 [The Jabber ID of one or more entities to which an operation applies]
 JID однієї або декількох осіб, до яких застосовується операція
 [The Jabber IDs associated with active sessions]
-JID, пов'язані з активною сесією
+JID активних сесій
 [The number of online entities that are active]
 Кількість осіб онлайн, які є активними
 [A list of entities with administrative privileges]
@@ -2212,7 +2212,7 @@ JID, пов'язані з активною сесією
 [A list of entities with whom communication is blocked]
 Список осіб, спілкування з якими блокується
 [The number of seconds to delay before applying a change]
-Кількість секунд затримки перед тим, як застосувати зміни
+Затримка (у секундах) перед застосуванням змін
 [The Jabber IDs that have been disabled]
 JID, які були відключені
 [The number of disabled entities]
@@ -2240,7 +2240,7 @@ JID користувачів онлайн
 [The number of online entities]
 Кількість осіб онлайн
 [The password for an account]
-Пароль
+Пароль облікового запису
 [Password verification]
 Перевірка пароля
 [A list of registered entities]
@@ -2292,13 +2292,13 @@ JID користувачів онлайн
 [Whether to allow public searching for room]
 Дозволити публічний пошук чат-кімнати
 [Full list of room admins]
-Список адміністраторів чат-кімнати
+Повний список адміністраторів чат-кімнати
 [Short description of room]
 Короткий опис чат-кімнати
 [Natural-language room name]
 Назва чат-кімнати мовою, встановленою для спілкування
 [Full list of room owners]
-Список власників чат-кімнати
+Повний список власників чат-кімнати
 [The room password]
 Пароль чат-кімнати
 [Affiliations that may discover real JIDs of occupants]
@@ -2408,7 +2408,7 @@ JID видавців
 [Whether to play sounds]
 Грати звуки
 [A list of pending file transfers]
-Список файлів, які очікують прийому
+Список незавершених передач файлів
 [A list of joined group chat rooms]
 Список тих, хто приєднався до чату
 [A presence or availability status]
@@ -2416,21 +2416,21 @@ JID видавців
 [The status message text]
 Текст статусного повідомлення
 [The new priority for the client]
-Новий пріоритет
+Новий пріоритет клієнта
 [Account name associated with the user]
-Ім'я облікового запису, пов'язаного з цим користувачем
+Ім'я облікового запису користувача
 [Familiar name of the user]
 Близький друг
 [Password or secret for the user]
 Пароль або ключ користувача
 [Full name of the user]
-Повне ім'я
+Повне ім'я користувача
 [First name or given name of the user]
 Ім'я
 [Last name, surname, or family name of the user]
 Прізвище
 [Email address of the user]
-Пошта
+Адреса електронної пошти користувача
 [Street portion of a physical or mailing address]
 Вулиця
 [Locality portion of a physical or mailing address]

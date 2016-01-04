@@ -328,7 +328,7 @@ DCC: Запит на продовження закачування файлу в
 [Unknown]
 Невідомо
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Введіть маску (nick!user@host)\nУвага! Контакти у вашому списку не будуть ігноруватися
+Введіть маску (nick!user@host)\nУвага: користувачі зі списку контактів не будуть ігноруватися!
 [Ignore]
 Ігнорувати
 [Please enter the reason]
@@ -567,8 +567,6 @@ WallOps від %s:\s
 &Додати в чорний список
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запитує з'єднання на СТСР-чат
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Введіть маску (nick!user@host)\nУвага! Користувачі зі списку контактів не будуть ігноруватися!
 [Join channel]
 Зайти в чат-кімнату
 [Please enter a channel to join]
@@ -730,13 +728,13 @@ Nickserv вбити фантома
 [Offline]
 Не в мережі
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-Швидше! Шукає в мережі точний збіг ніку. Хостмаска є опціональною і забезпечує додаткову безпеку при використанні. Дозволені символи підстановки (? і *).
+Швидше: шукає в мережі нік, який точно збігається із вказаним. Маска вузла необов'язкова, але додає безпеки при використанні. Дозволені символи підстановки (? і *).
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-Повільніше! Шукає в мережі ніки відповідно до шаблону. Хостмаска є обов'язковою, а поле "Нік" має містити не менше 4-х символів. Дозволені символи підстановки (? і *).
+Повільніше: шукає в мережі ніки відповідно до шаблону. Обов'язково вказуйте маску вузла, а в поле "Нік" вводьте щонайменше 4 символи. Дозволені символи підстановки (? і *).
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири символи (включаючи маски) і збігатися з ніком за замовчанням для цього контакту.
+Налаштування не збережені.\n\nПоле "Нік" має містити щонайменше чотири символи (включаючи маски) і збігатися з ніком за замовчанням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна хостмаска.
+Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна маска вузла.
 [Please wait...]
 Будь ласка, зачекайте...
 [Channel]
