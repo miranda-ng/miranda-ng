@@ -76,27 +76,27 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 		HICON hRefIcon = IcoLib_GetIconByHandle((HANDLE)item, false);
 		hIcon = CopyIcon(hRefIcon);
 		if (item->source_small && item->source_small->icon == hRefIcon)
-			IconSourceItem_ReleaseIcon(item->source_small);
+			item->source_small->releaseIcon();
 	}
 	else {
 		if (item->default_icon) {
-			HICON hRefIcon = IconSourceItem_GetIcon(item->default_icon);
+			HICON hRefIcon = item->default_icon->getIcon();
 			if (hRefIcon) {
 				hIcon = CopyIcon(hRefIcon);
 				if (item->default_icon->icon == hRefIcon)
-					IconSourceItem_ReleaseIcon(item->default_icon);
+					item->default_icon->releaseIcon();
 			}
 		}
 
 		if (!hIcon && item->default_file) {
-			IconSourceItem_Release(item->default_icon);
+			item->default_icon->release();
 			item->default_icon = GetIconSourceItem(item->default_file->file, item->default_indx, item->cx, item->cy);
 			if (item->default_icon) {
-				HICON hRefIcon = IconSourceItem_GetIcon(item->default_icon);
+				HICON hRefIcon = item->default_icon->getIcon();
 				if (hRefIcon) {
 					hIcon = CopyIcon(hRefIcon);
 					if (item->default_icon->icon == hRefIcon)
-						IconSourceItem_ReleaseIcon(item->default_icon);
+						item->default_icon->releaseIcon();
 				}
 			}
 		}
@@ -293,11 +293,11 @@ void DoIconsChanged(HWND hwndDlg)
 		IcolibItem *item = iconList[indx];
 		if (item->source_small && !item->source_small->icon_ref_count) {
 			item->source_small->icon_ref_count++;
-			IconSourceItem_ReleaseIcon(item->source_small);
+			item->source_small->releaseIcon();
 		}
 		if (item->source_big && !item->source_big->icon_ref_count) {
 			item->source_big->icon_ref_count++;
-			IconSourceItem_ReleaseIcon(item->source_big);
+			item->source_big->releaseIcon();
 		}
 	}
 }
@@ -903,12 +903,14 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						if (item->temp_reset) {
 							db_unset(NULL, "SkinIcons", item->name);
 							if (item->source_small != item->default_icon) {
-								IconSourceItem_Release(item->source_small);
+								item->source_small->release();
+								item->source_small = NULL;
 							}
 						}
 						else if (item->temp_file) {
 							db_set_ts(NULL, "SkinIcons", item->name, item->temp_file);
-							IconSourceItem_Release(item->source_small);
+							item->source_small->release();
+							item->source_small = NULL;
 							SafeDestroyIcon(item->temp_icon);
 						}
 					}

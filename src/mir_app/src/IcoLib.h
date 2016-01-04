@@ -40,23 +40,40 @@ struct IconSourceFile
 	TCHAR file[MAX_PATH];
 };
 
-struct IconSourceItem : public MZeroedObject
+struct IconSourceItemKey
 {
-	__inline IconSourceItem(IconSourceFile *_file, int _indx, int _cxIcon, int _cyIcon) :
-		file(_file), indx(_indx), cx(_cxIcon), cy(_cyIcon), ref_count(1)
-		{}
-
 	IconSourceFile* file;
-	int          indx;
-	int          cx, cy;
+	int   indx;
+	int   cx, cy;
+};
 
-	int          ref_count;
+class IconSourceItem : public MZeroedObject, public IconSourceItemKey
+{
+	int   ref_count;
 
-	HICON        icon;
-	int          icon_ref_count;
+	BYTE* icon_data;
+	int   icon_size;
 
-	BYTE*        icon_data;
-	int          icon_size;
+public:
+	__inline IconSourceItem(IconSourceFile *_file, int _indx, int _cxIcon, int _cyIcon) :
+		ref_count(1)
+		{
+			file = _file; indx = _indx; cx = _cxIcon; cy = _cyIcon;
+		}
+	~IconSourceItem();
+
+	__inline void addRef() { ref_count++; }
+	int release();
+
+	HICON getIcon();
+	int   getIconData(HICON icon);
+	int   releaseIcon();
+
+	static int compare(const IconSourceItem *p1, const IconSourceItem *p2);
+
+public:
+	HICON icon;
+	int   icon_ref_count;
 };
 
 struct IcolibItem : public MZeroedObject
@@ -90,9 +107,6 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 
 void __fastcall SafeDestroyIcon(HICON &icon);
 
-int   IconSourceItem_Release(IconSourceItem* &pitem);
-int   IconSourceItem_ReleaseIcon(IconSourceItem *item);
-HICON IconSourceItem_GetIcon(IconSourceItem *item);
 IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int cyIcon);
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
