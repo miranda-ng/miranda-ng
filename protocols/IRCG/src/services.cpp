@@ -317,7 +317,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 				else
 					S = "+qnidc";
 				PostIrcMessage(_T("/IGNORE %%question=\"%s\",\"%s\",\"*!*@%S\" %s"),
-					TranslateT("Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored"),
+					TranslateT("Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored"),
 					TranslateT("Ignore"), host, S.c_str());
 				db_free(&dbv1);
 			}
