@@ -548,7 +548,7 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 	
 	if (getStatistic()->newFilePNG(canvas, strFinalFile))
 	{
-		tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
+		tos << _T("<img src=\"") << strFinalFile << _T("\" alt=\"\" />");
 	}
 
 	tos << _T("</td>") << ext::endl;
@@ -631,7 +631,7 @@ void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& co
 
 	if (getStatistic()->newFilePNG(canvas, strFinalFile))
 	{
-		tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
+		tos << _T("<img src=\"") << strFinalFile << _T("\" alt=\"\" />");
 	}
 
 	tos << _T("</td>") << ext::endl;

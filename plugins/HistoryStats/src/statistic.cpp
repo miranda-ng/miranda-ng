@@ -1155,7 +1155,7 @@ bool Statistic::stepWriteHTML()
 
 		tos << _T("<div class=\"footer\">")
 			<< ext::kformat(TranslateT("Created with #{plugin} #{version} on #{date} at #{time}"))
-			% _T("#{plugin}") * _T("<a href=\"http://miranda.dark-passage.de/\">HistoryStats</a>")
+			% _T("#{plugin}") * _T("<a href=\"http://miranda-ng.org/p/HistoryStats\">HistoryStats</a>")
 			% _T("#{version}") * utils::versionToDotted(m_Settings.m_VersionCurrent)
 			% _T("#{date}") * utils::htmlEscape(utils::timestampToDate(getTimeStarted()))
 			% _T("#{time}") * utils::htmlEscape(utils::timestampToTime(getTimeStarted()))
