@@ -89,7 +89,7 @@ void ColChatDuration::impl_outputRenderHeader(ext::ostream& tos, int row, int ro
 	if (row == 1)
 	{
 		ext::string szLong = TranslateTS(szVisModeDesc[m_nVisMode]);
-		writeRowspanTD(tos, getCustomTitle(TranslateT("Chat duration"), szLong + (m_bGraph ? _T("<div style=\"width: 70px;\"></div>") : _T(""))), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateT("Chat duration"), szLong) + (m_bGraph ? _T("<div style=\"width: 70px;\"></div>") : _T("")), row, 1, rowSpan);
 	}
 }
 
@@ -226,7 +226,7 @@ void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& con
 				
 				if (getStatistic()->newFilePNG(canvas, strFinalFile))
 				{
-					tos << _T("<br/><img src=\"") << strFinalFile << _T("\"/>");
+					tos << _T("<br/><img src=\"") << strFinalFile << _T("\" alt=\"\" />");
 				}
 			}
 			else
