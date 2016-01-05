@@ -47,19 +47,16 @@ struct IconSourceItemKey
 	int   cx, cy;
 };
 
-class IconSourceItem : public MZeroedObject, public IconSourceItemKey
+class IconSourceItem : public MZeroedObject
 {
+	IconSourceItemKey key;
 	int   ref_count;
 
 	BYTE* icon_data;
 	int   icon_size;
 
 public:
-	__inline IconSourceItem(IconSourceFile *_file, int _indx, int _cxIcon, int _cyIcon) :
-		ref_count(1)
-		{
-			file = _file; indx = _indx; cx = _cxIcon; cy = _cyIcon;
-		}
+	IconSourceItem(const IconSourceItemKey&);
 	~IconSourceItem();
 
 	__inline void addRef() { ref_count++; }
