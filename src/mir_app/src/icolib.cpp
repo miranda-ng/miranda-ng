@@ -189,9 +189,15 @@ static int InternalGetDIB(HBITMAP bitmap, HPALETTE palette, void *bitmapInfo, vo
 
 #define VER30 0x00030000
 
+IconSourceItem::IconSourceItem(const IconSourceItemKey &_key)
+	: key(_key),
+	ref_count(1)
+{
+}
+
 IconSourceItem::~IconSourceItem()
 {
-	IconSourceFile_Release(file);
+	IconSourceFile_Release(key.file);
 	SafeDestroyIcon(icon);
 	mir_free(icon_data);
 }
@@ -204,15 +210,14 @@ HICON IconSourceItem::getIcon()
 	}
 
 	if (icon_size) {
-		icon = CreateIconFromResourceEx(icon_data, icon_size, TRUE, VER30, cx, cy, LR_COLOR);
+		icon = CreateIconFromResourceEx(icon_data, icon_size, TRUE, VER30, key.cx, key.cy, LR_COLOR);
 		if (icon) {
 			icon_ref_count++;
 			return icon;
 		}
 	}
-	//SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
-	_ExtractIconEx(file->file, indx, cx, cy, &icon, LR_COLOR);
 
+	_ExtractIconEx(key.file->file, key.indx, key.cx, key.cy, &icon, LR_COLOR);
 	if (icon)
 		icon_ref_count++;
 
@@ -283,28 +288,28 @@ int IconSourceItem::releaseIcon()
 
 int IconSourceItem::compare(const IconSourceItem *p1, const IconSourceItem *p2)
 {
-	if (p1->indx < p2->indx)
+	if (p1->key.indx < p2->key.indx)
 		return -1;
 
-	if (p1->indx > p2->indx)
+	if (p1->key.indx > p2->key.indx)
 		return 1;
 
-	if (p1->cx < p2->cx)
+	if (p1->key.cx < p2->key.cx)
 		return -1;
 
-	if (p1->cx > p2->cx)
+	if (p1->key.cx > p2->key.cx)
 		return 1;
 
-	if (p1->cy < p2->cy)
+	if (p1->key.cy < p2->key.cy)
 		return -1;
 
-	if (p1->cy > p2->cy)
+	if (p1->key.cy > p2->key.cy)
 		return 1;
 
-	if (p1->file == p2->file)
+	if (p1->key.file == p2->key.file)
 		return 0;
 
-	return (p1->file > p2->file) ? 1 : -1;
+	return (p1->key.file > p2->key.file) ? 1 : -1;
 }
 
 IconSourceItem* GetIconSourceItem(const TCHAR *file, int indx, int cxIcon, int cyIcon)
@@ -321,7 +326,7 @@ IconSourceItem* GetIconSourceItem(const TCHAR *file, int indx, int cxIcon, int c
 		return iconSourceList[ix];
 	}
 
-	IconSourceItem *newItem = new IconSourceItem(r_file, indx, cxIcon, cyIcon);
+	IconSourceItem *newItem = new IconSourceItem(key);
 	iconSourceList.insert(newItem);
 	return newItem;
 }
@@ -350,7 +355,8 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 	TCHAR tszName[100];
 	mir_sntprintf(tszName, _T("*StaticIcon_%d"), iStaticCount++);
 
-	IconSourceItem *newItem = new IconSourceItem(IconSourceFile_Get(tszName, false), 0, cxIcon, cyIcon);
+	IconSourceItemKey key = { IconSourceFile_Get(tszName, false), 0, cxIcon, cyIcon };
+	IconSourceItem *newItem = new IconSourceItem(key);
 	iconSourceList.insert(newItem);
 	return newItem;
 }
