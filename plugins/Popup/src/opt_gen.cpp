@@ -59,7 +59,7 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	case PF2_ONLINE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
 	case PF2_INVISIBLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
 	case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
-	case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("N/A")); break;
+	case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
 	case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
 	case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
 	case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
