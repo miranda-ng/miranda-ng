@@ -45,6 +45,7 @@ static int IconsChanged(WPARAM, LPARAM)
 static int OnShutdown(WPARAM, LPARAM)
 {
 	WindowList_Destroy(g_dat.hMessageWindowList);
+	g_dat.hMessageWindowList = NULL;
 	return 0;
 }
 
