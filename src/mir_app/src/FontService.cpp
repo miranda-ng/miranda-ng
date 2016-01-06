@@ -49,6 +49,9 @@ INT_PTR RegisterEffectW(WPARAM wParam, LPARAM lParam);
 INT_PTR GetEffect(WPARAM wParam, LPARAM lParam);
 INT_PTR GetEffectW(WPARAM wParam, LPARAM lParam);
 
+INT_PTR ReloadFonts(WPARAM, LPARAM);
+INT_PTR ReloadColours(WPARAM, LPARAM);
+
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, OptInit);
@@ -84,6 +87,9 @@ int LoadFontserviceModule(void)
 	CreateServiceFunction("Effect/RegisterW", RegisterEffectW);
 	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
 	CreateServiceFunction(MS_EFFECT_GETW, GetEffectW);
+
+	CreateServiceFunction(MS_FONT_RELOAD, ReloadFonts);
+	CreateServiceFunction(MS_COLOUR_RELOAD, ReloadColours);
 
 	hFontReloadEvent = CreateHookableEvent(ME_FONT_RELOAD);
 	hColourReloadEvent = CreateHookableEvent(ME_COLOUR_RELOAD);
