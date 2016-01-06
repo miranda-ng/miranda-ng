@@ -1259,6 +1259,14 @@ static int global_WriteFile(lua_State *L) {
 }
 /***/
 
+static int global_DeleteFile(lua_State *L)
+{
+	const char *path = luaL_checkstring(L, 1);
+	BOOL result = DeleteFileA(path);
+	lua_pushboolean(L, result);
+	return 1;
+}
+
 static int global_WaitForSingleObject(lua_State *L) {
 	long h = MYP2HCAST luaL_checknumber(L, 1);
 	DWORD t = (DWORD)luaL_checknumber(L, 2);
@@ -2122,6 +2130,7 @@ static luaL_Reg winApi[] =
 	{ "CreateFile", global_CreateFile },
 	{ "ReadFile", global_ReadFile },
 	{ "WriteFile", global_WriteFile },
+	{ "DeleteFile", global_DeleteFile },
 	{ "TerminateProcess", global_TerminateProcess },
 	{ "GetExitCodeProcess", global_GetExitCodeProcess },
 	{ "WaitForSingleObject", global_WaitForSingleObject },
