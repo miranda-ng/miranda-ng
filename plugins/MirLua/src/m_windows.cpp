@@ -489,7 +489,7 @@ static void HotKeyThread( void *v) {
 static int global_RegisterHotKey(lua_State *L) {
     struct S_HKT *s;
 
-    s = (S_HKT*)malloc( sizeof( struct S_HKT));
+    s = (S_HKT*)mir_alloc( sizeof( struct S_HKT));
     if( s == NULL)
         lua_pushnumber( L, -1);
     else {
@@ -961,9 +961,9 @@ static int global_CreateProcess(lua_State *L) {
     brc = CreateProcessA( an, ( char *) cl, &psa, &tsa, ih, cf, env, cd, &si, &pi);
 
     if( si.lpDesktop != NULL)
-        free( si.lpDesktop);
+        mir_free( si.lpDesktop);
     if( si.lpTitle != NULL)
-        free( si.lpTitle);
+        mir_free( si.lpTitle);
 
     lua_pushnumber( L, brc);
     if( brc) {
@@ -1122,12 +1122,12 @@ static int global_ReadFile(lua_State *L) {
     long h = MYP2HCAST luaL_checknumber( L, 1);
     DWORD btoread = ( DWORD) luaL_checknumber( L, 2);
 
-    buf = (char*)malloc( btoread);
+    buf = (char*)mir_alloc( btoread);
     if( buf != NULL) {
         brc = ReadFile( ( HANDLE) h, buf, btoread, &bread, NULL);
         lua_pushboolean( L, TRUE);
         lua_pushlstring( L, buf, bread);
-        free( buf);
+        mir_free( buf);
     } else {
         lua_pushboolean( L, FALSE);
         lua_pushnil( L);
@@ -1263,7 +1263,7 @@ static int global_RegQueryValueEx(lua_State *L) {
             case REG_MULTI_SZ:
             case REG_SZ:
                 if( rv == ERROR_MORE_DATA) {
-                    szdata = (char*)malloc( len);
+                    szdata = (char*)mir_alloc( len);
                     if( szdata == NULL) {
                         lua_pushnil( L);
                     } else {
@@ -1272,7 +1272,7 @@ static int global_RegQueryValueEx(lua_State *L) {
                             lua_pushlstring( L, szdata, len);
                         else
                             lua_pushnil( L);
-                        free( szdata);
+                        mir_free( szdata);
                     }
                 } else
                     lua_pushlstring( L, ( const char *) &dwdata, len);
@@ -1294,7 +1294,7 @@ static int global_RegSetValueEx(lua_State *L) {
     HKEY hsk;
     DWORD type;
     DWORD dwdata;
-    DWORD len;
+    DWORD len(0);
     char *szdata = NULL;
     long hkey = MYP2HCAST luaL_checknumber( L, 1);
     const char *subkey = luaL_checkstring( L, 2);
@@ -1547,12 +1547,7 @@ static int global_FindClose(lua_State *L) {
 }
 
 static void FreePIDL( LPITEMIDLIST idl) {
-/*    IMalloc *m;
-    SHGetMalloc( &m);
-    if( m != NULL)
-        m->Free( m, idl);
-    m->Release( m);
-*/
+
 }
 
 static int global_SHGetSpecialFolderLocation(lua_State *L) {
@@ -1998,17 +1993,6 @@ static luaL_Reg winApi[] =
 LUAMOD_API int luaopen_m_windows(lua_State *L)
 {
 	luaL_newlib(L, winApi);
-	lua_pushlightuserdata(L, HKEY_CLASSES_ROOT);
-	lua_setfield(L, -2, "HKEY_CLASSES_ROOT");
-	lua_pushlightuserdata(L, HKEY_CURRENT_USER);
-	lua_setfield(L, -2, "HKEY_CURRENT_USER");
-	lua_pushlightuserdata(L, HKEY_LOCAL_MACHINE);
-	lua_setfield(L, -2, "HKEY_LOCAL_MACHINE");
-	lua_pushlightuserdata(L, HKEY_USERS);
-	lua_setfield(L, -2, "HKEY_USERS");
-	lua_pushlightuserdata(L, HKEY_CURRENT_CONFIG);
-	lua_setfield(L, -2, "HKEY_CURRENT_CONFIG");
-	
 	
 	for (size_t i = 0; consts[i].name != NULL; i++)
 	{
