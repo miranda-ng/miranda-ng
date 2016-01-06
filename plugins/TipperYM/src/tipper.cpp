@@ -293,6 +293,14 @@ int Shutdown(WPARAM, LPARAM)
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
+static INT_PTR ReloadSkin(WPARAM, LPARAM)
+{
+	ParseSkinFile(opt.szSkinName, false, false);
+	ReloadFont(0, 0);
+	SaveOptions();
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
@@ -311,6 +319,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	hShowTipWService = CreateServiceFunction("mToolTip/ShowTipW", ShowTipW);
 
 	hHideTipService = CreateServiceFunction("mToolTip/HideTip", HideTip);
+
+	CreateServiceFunction("mToolTip/ReloadSkin", ReloadSkin);
 
 	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
 	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
