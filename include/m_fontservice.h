@@ -148,6 +148,9 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 // wparam = lparam = 0
 #define ME_FONT_RELOAD        "Font/Reload"
 
+// service for reload fonts
+#define MS_FONT_RELOAD		"Font/ReloadSvc"
+
 //////////////////////////////////////////////////////////////////////////
 //
 //  COLOURS
@@ -226,6 +229,9 @@ __forceinline void ColourRegisterW(ColourIDW* pColorID)
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
 #define ME_COLOUR_RELOAD      "Colour/Reload"
+
+// service for colors reload
+#define MS_COLOUR_RELOAD      "Colour/ReloadSvc"
 
 //////////////////////////////////////////////////////////////////////////
 //
