@@ -28,6 +28,8 @@ ToastNotification::ToastNotification(
 
 ToastNotification::~ToastNotification()
 {
+	if (_pvPopupData != nullptr)
+		CallPopupProc(UM_FREEPLUGINDATA);
 	notifier->Hide(notification.Get());
 }
 
@@ -106,7 +108,6 @@ HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNo
 
 void ToastNotification::Destroy()
 {
-	CallPopupProc(UM_FREEPLUGINDATA);
 	mir_cslock lck(csNotifications);
 	lstNotifications.remove(this);
 }

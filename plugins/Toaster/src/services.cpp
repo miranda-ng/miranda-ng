@@ -228,14 +228,16 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
 	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
+	mir_cslock lck(csNotifications);
 	if (lstNotifications.getIndex(pNotification) != -1)
-		pNotification->Destroy();
+		lstNotifications.remove(pNotification);
 	return 0;
 }
 void __stdcall HideAllToasts(void*)
 {
+	mir_cslock lck(csNotifications);
 	while (lstNotifications.getCount())
-		lstNotifications[0].Destroy();
+		lstNotifications.remove(0);
 }
 
 void InitServices()
