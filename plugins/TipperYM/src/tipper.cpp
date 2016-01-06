@@ -293,11 +293,20 @@ int Shutdown(WPARAM, LPARAM)
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-static INT_PTR ReloadSkin(WPARAM, LPARAM)
+static INT_PTR ReloadSkin(WPARAM, LPARAM lParam)
 {
+	opt.skinMode = SM_IMAGE;
+	if (lParam != 0)
+		_tcscpy_s(opt.szSkinName, _A2T((char*)(lParam)));
 	ParseSkinFile(opt.szSkinName, false, false);
 	ReloadFont(0, 0);
 	SaveOptions();
+
+	db_set_b(0, MODULE, "SkinEngine", opt.skinMode);
+	db_set_ts(0, MODULE, "SkinName", opt.szSkinName);
+
+	DestroySkinBitmap();
+
 	return 0;
 }
 
