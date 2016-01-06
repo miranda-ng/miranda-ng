@@ -201,6 +201,13 @@ static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
 }
 
+
+static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
+{
+	M.BroadcastMessage((UINT)lParam, 0, 0);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function finds a message session
 // wParam = contact handle for which we want the window handle
@@ -930,6 +937,8 @@ static void TSAPI InitAPI()
 
 	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
 	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
+
+	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
 
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
