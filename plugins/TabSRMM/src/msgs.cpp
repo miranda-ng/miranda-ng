@@ -208,6 +208,13 @@ static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR ReloadSkin(WPARAM, LPARAM)
+{
+	Skin->setFileName();
+	Skin->Load();
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function finds a message session
 // wParam = contact handle for which we want the window handle
@@ -939,6 +946,7 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
 
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
+	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
 
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
