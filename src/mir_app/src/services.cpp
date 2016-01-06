@@ -323,6 +323,12 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 	return ret;
 }
 
+INT_PTR ReloadFonts(WPARAM, LPARAM)
+{
+	NotifyEventHooks(hFontReloadEvent, 0, 0);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(void) KillModuleFonts(int _hLang)
@@ -396,6 +402,12 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 	ColourIDW temp;
 	if (!ConvertColourID((ColourID*)wParam, &temp)) return -1;
 	return sttGetColourWorker(&temp);
+}
+
+INT_PTR ReloadColours(WPARAM, LPARAM)
+{
+	NotifyEventHooks(hColourReloadEvent, 0, 0);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
