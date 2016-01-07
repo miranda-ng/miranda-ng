@@ -100,8 +100,6 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 #define MLUA_VARIABLES	"m_variables"
 LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 
-#define MLUA_WINDOWS	"m_windows"
-LUAMOD_API int (luaopen_m_windows)(lua_State *L);
 
 /* utils */
 
