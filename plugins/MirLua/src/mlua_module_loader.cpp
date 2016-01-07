@@ -7,15 +7,10 @@ CLuaModuleLoader::CLuaModuleLoader(lua_State *L) : L(L)
 void CLuaModuleLoader::Load(const char *name, lua_CFunction loader)
 {
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
-	lua_getfield(L, -1, name);
-	if (lua_toboolean(L, -1))
-		Log("Module %s will be replaced with new one");
-	lua_pop(L, 1);
 	lua_pushcfunction(L, loader);
 	lua_pushstring(L, name);
 	luaM_pcall(L, 1, 1);
 	lua_setfield(L, -2, name);
-	lua_pop(L, 1);
 	lua_pop(L, 1);
 }
 

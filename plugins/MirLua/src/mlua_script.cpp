@@ -8,7 +8,7 @@ CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
 	fileName = _tcsrchr(filePath, '\\') + 1;
 	TCHAR *dot = _tcsrchr(fileName, '.');
 
-	size_t length = mir_tstrlen(fileName) - mir_tstrlen(dot);
+	size_t length = mir_tstrlen(fileName) - mir_tstrlen(dot) + 1;
 
 	ptrT name((TCHAR*)mir_calloc(sizeof(TCHAR) * (length + 1)));
 	mir_tstrncpy(name, fileName, length);
@@ -57,12 +57,13 @@ bool CMLuaScript::Load()
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
 	lua_getfield(L, -1, moduleName);
-	if (lua_toboolean(L, -1))
-		Log("Module %s will be replaced with new one");
-	lua_pop(L, 1);
-	lua_pushvalue(L, -2);
-	lua_setfield(L, -2, moduleName);
-	lua_pop(L, 1);
+	if (!lua_toboolean(L, -1))
+	{
+		lua_pop(L, 1);
+		lua_pushvalue(L, -2);
+		lua_setfield(L, -2, moduleName);
+	}
+	lua_remove(L, -2);
 
 	if (!lua_istable(L, -1))
 		return true;
