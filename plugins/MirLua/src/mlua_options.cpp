@@ -59,8 +59,8 @@ void CLuaOptions::LoadScripts()
 {
 	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
 	{
-		CMLuaScript* script = g_mLua->Scripts[i];
-		TCHAR* fileName = NEWTSTR_ALLOCA(script->GetFileName());
+		CMLuaScript *script = g_mLua->Scripts[i];
+		TCHAR *fileName = NEWTSTR_ALLOCA(script->GetFileName());
 		int iItem = m_scripts.AddItem(fileName, -1, (LPARAM)script);
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);

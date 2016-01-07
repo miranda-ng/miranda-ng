@@ -1,15 +1,17 @@
 #include "stdafx.h"
 
-CMLuaScript::CMLuaScript(lua_State *L, const TCHAR* path)
-	: L(L), unloadRef(0)
+CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
+	: L(L), status(None), unloadRef(0)
 {
 	mir_tstrcpy(filePath, path);
 
 	fileName = _tcsrchr(filePath, '\\') + 1;
-	size_t length = mir_tstrlen(fileName) - 3;
+	TCHAR *dot = _tcsrchr(fileName, '.');
 
-	ptrT name((TCHAR*)mir_calloc(sizeof(TCHAR) * length));
-	mir_tstrncpy(name, fileName, mir_tstrlen(fileName) - 3);
+	size_t length = mir_tstrlen(fileName) - mir_tstrlen(dot);
+
+	ptrT name((TCHAR*)mir_calloc(sizeof(TCHAR) * (length + 1)));
+	mir_tstrncpy(name, fileName, length);
 
 	moduleName = mir_utf8encodeT(name);
 }
@@ -34,6 +36,11 @@ const TCHAR* CMLuaScript::GetFileName() const
 	return fileName;
 }
 
+const CMLuaScript::Status CMLuaScript::GetStatus() const
+{
+	return status;
+}
+
 bool CMLuaScript::Load()
 {
 	if (luaL_loadfile(L, T2Utf(filePath)))
@@ -45,7 +52,17 @@ bool CMLuaScript::Load()
 	if (luaM_pcall(L, 0, 1))
 		return false;
 
-	isLoaded = true;
+	if (lua_isnoneornil(L, -1))
+		return true;
+
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
+	lua_getfield(L, -1, moduleName);
+	if (lua_toboolean(L, -1))
+		Log("Module %s will be replaced with new one");
+	lua_pop(L, 1);
+	lua_pushvalue(L, -2);
+	lua_setfield(L, -2, moduleName);
+	lua_pop(L, 1);
 
 	if (!lua_istable(L, -1))
 		return true;
@@ -64,18 +81,20 @@ bool CMLuaScript::Load()
 	}
 	lua_pop(L, 1);
 
+	lua_pop(L, 1);
+
 	return true;
 }
 
 void CMLuaScript::Unload()
 {
-	if (isLoaded && unloadRef)
+	if (status == Loaded && unloadRef)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
 		if (lua_isfunction(L, -1))
 			luaM_pcall(L);
 		luaL_unref(L, LUA_REGISTRYINDEX, unloadRef);
-		isLoaded = false;
+		status == None;
 	}
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");

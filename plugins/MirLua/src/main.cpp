@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 int hLangpack;
-int hScriptsLangpack;
 
 HINSTANCE g_hInstance;
 

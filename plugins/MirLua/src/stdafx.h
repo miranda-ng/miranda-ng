@@ -50,7 +50,6 @@ class CMLuaScript;
 
 #define MODULE "MirLua"
 
-extern int hScriptsLangpack;
 extern HINSTANCE g_hInstance;
 
 extern CMLua *g_mLua;

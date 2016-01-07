@@ -3,24 +3,33 @@
 
 class CMLuaScript
 {
+public:
+	enum Status
+	{
+		None,
+		Loaded,
+		Failed
+	};
+
 private:
 	lua_State *L;
 
-	char* moduleName;
-	TCHAR* fileName;
+	char *moduleName;
+	TCHAR *fileName;
 	TCHAR filePath[MAX_PATH];
-	bool isLoaded;
+	Status status;
 	int unloadRef;
 
 public:
-	CMLuaScript(lua_State *L, const TCHAR* path);
+	CMLuaScript(lua_State *L, const TCHAR *path);
 	~CMLuaScript();
 
 	const char* GetModuleName() const;
 
 	const TCHAR* GetFilePath() const;
 	const TCHAR* GetFileName() const;
-	const int GetGroup() const;
+
+	const Status GetStatus() const;
 
 	bool Load();
 	void Unload();

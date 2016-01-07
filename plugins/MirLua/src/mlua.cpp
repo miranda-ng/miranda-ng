@@ -10,11 +10,18 @@ static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 
 CMLua::CMLua() : L(NULL), Scripts(10, CompareScripts)
 {
+	MUUID muidLast = MIID_LAST;
+	hLangpack = GetPluginLangId(muidLast, 0);
 }
 
 CMLua::~CMLua()
 {
 	Unload();
+}
+
+const int CMLua::GetHLangpack() const
+{
+	return hLangpack;
 }
 
 void CMLua::SetPaths()
@@ -53,9 +60,6 @@ void CMLua::Load()
 
 	lua_atpanic(L, luaM_atpanic);
 
-	MUUID muidLast = MIID_LAST;
-	hScriptsLangpack = GetPluginLangId(muidLast, 0);
-
 	Log("Loading miranda modules");
 	CLuaModuleLoader::Load(L);
 	CLuaScriptLoader::Load(L);
@@ -77,10 +81,10 @@ void CMLua::Unload()
 	::KillModuleMBButtons();
 	::KillModuleTTBButton();
 
-	::KillModuleIcons(hScriptsLangpack);
-	::KillModuleSounds(hScriptsLangpack);
-	::KillModuleMenus(hScriptsLangpack);
-	::KillModuleHotkeys(hScriptsLangpack);
+	::KillModuleIcons(hLangpack);
+	::KillModuleSounds(hLangpack);
+	::KillModuleMenus(hLangpack);
+	::KillModuleHotkeys(hLangpack);
 	::KillObjectEventHooks(L);
 	::KillObjectServices(L);
 
