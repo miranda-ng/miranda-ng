@@ -433,8 +433,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toaster", "..\plugins\Toast
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblua", "..\libs\liblua\liblua.vcxproj", "{BD291BF0-D804-4818-8311-DE871E6BCEAA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI", "..\plugins\MirLua\Modules\WinAPI\WinAPI.vcxproj", "{045BAC91-34D1-4B43-B52B-566801BE7F85}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1959,14 +1957,6 @@ Global
 		{BD291BF0-D804-4818-8311-DE871E6BCEAA}.Release|Win32.Build.0 = Release|Win32
 		{BD291BF0-D804-4818-8311-DE871E6BCEAA}.Release|x64.ActiveCfg = Release|x64
 		{BD291BF0-D804-4818-8311-DE871E6BCEAA}.Release|x64.Build.0 = Release|x64
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Debug|Win32.ActiveCfg = Debug|Win32
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Debug|Win32.Build.0 = Debug|Win32
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Debug|x64.ActiveCfg = Debug|x64
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Debug|x64.Build.0 = Debug|x64
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Release|Win32.ActiveCfg = Release|Win32
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Release|Win32.Build.0 = Release|Win32
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Release|x64.ActiveCfg = Release|x64
-		{045BAC91-34D1-4B43-B52B-566801BE7F85}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
