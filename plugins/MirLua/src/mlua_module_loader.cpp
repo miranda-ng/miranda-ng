@@ -4,7 +4,22 @@ CLuaModuleLoader::CLuaModuleLoader(lua_State *L) : L(L)
 {
 }
 
-void CLuaModuleLoader::PreloadModule(const char *name, lua_CFunction loader)
+void CLuaModuleLoader::Load(const char *name, lua_CFunction loader)
+{
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
+	lua_getfield(L, -1, name);
+	if (lua_toboolean(L, -1))
+		Log("Module %s will be replaced with new one");
+	lua_pop(L, 1);
+	lua_pushcfunction(L, loader);
+	lua_pushstring(L, name);
+	luaM_pcall(L, 1, 1);
+	lua_setfield(L, -2, name);
+	lua_pop(L, 1);
+	lua_pop(L, 1);
+}
+
+void CLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
 {
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
 	lua_pushcfunction(L, loader);
@@ -14,29 +29,24 @@ void CLuaModuleLoader::PreloadModule(const char *name, lua_CFunction loader)
 
 void CLuaModuleLoader::LoadModules()
 {
-	// regirter delay loading of miranda modules
-	PreloadModule(MLUA_CORE, luaopen_m_core);
-	PreloadModule(MLUA_CLIST, luaopen_m_clist);
-	PreloadModule(MLUA_DATABASE, luaopen_m_database);
-	PreloadModule(MLUA_ICOLIB, luaopen_m_icolib);
-	PreloadModule(MLUA_GENMENU, luaopen_m_genmenu);
-	PreloadModule(MLUA_HOTKEYS, luaopen_m_hotkeys);
-	PreloadModule(MLUA_MESSAGE, luaopen_m_message);
-	PreloadModule(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
-	PreloadModule(MLUA_POPUP, luaopen_m_popup);
-	PreloadModule(MLUA_PROTOCOLS, luaopen_m_protocols);
-	PreloadModule(MLUA_SCHEDULE, luaopen_m_schedule);
-	PreloadModule(MLUA_SOUNDS, luaopen_m_sounds);
-	PreloadModule(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
-	PreloadModule(MLUA_VARIABLES, luaopen_m_variables);
-	PreloadModule(MLUA_WINDOWS, luaopen_m_windows);
-
 	// load m_core module
-	lua_pushglobaltable(L);
-	lua_getfield(L, -1, "require");
-	lua_pushstring(L, "m_core");
-	luaM_pcall(L, 1, 1);
-	lua_pop(L, 2);
+	Load(MLUA_CORE, luaopen_m_core);
+	// load all internal modules
+	Preload(MLUA_CLIST, luaopen_m_clist);
+	Preload(MLUA_DATABASE, luaopen_m_database);
+	Preload(MLUA_ICOLIB, luaopen_m_icolib);
+	Preload(MLUA_GENMENU, luaopen_m_genmenu);
+	Preload(MLUA_HOTKEYS, luaopen_m_hotkeys);
+	Preload(MLUA_MESSAGE, luaopen_m_message);
+	Preload(MLUA_PROTOCOLS, luaopen_m_protocols);
+	Preload(MLUA_SCHEDULE, luaopen_m_schedule);
+	Preload(MLUA_SOUNDS, luaopen_m_sounds);
+	// regirter delay loading of other modules
+	Preload(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
+	Preload(MLUA_POPUP, luaopen_m_popup);
+	Preload(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
+	Preload(MLUA_VARIABLES, luaopen_m_variables);
+	Preload(MLUA_WINDOWS, luaopen_m_windows);
 }
 
 void CLuaModuleLoader::Load(lua_State *L)

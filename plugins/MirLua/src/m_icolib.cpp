@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_AddIcon(lua_State *L)
+static int icolib_AddIcon(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
@@ -21,40 +21,37 @@ static int lua_AddIcon(lua_State *L)
 	si.defaultFile.t = filePath;
 	si.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
-	HANDLE res = ::IcoLib_AddIcon(&si, hScriptsLangpack);
+	HANDLE res = IcoLib_AddIcon(&si, g_mLua->GetHLangpack());
 	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
 
-static int lua_GetIcon(lua_State *L)
+static int icolib_GetIcon(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
-	HANDLE res = ::IcoLib_GetIconHandle(name);
+	HANDLE res = IcoLib_GetIconHandle(name);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
 
-static int lua_RemoveIcon(lua_State *L)
+static int icolib_RemoveIcon(lua_State *L)
 {
 	if (lua_isuserdata(L, 1))
-		::IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
+		IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
 	else if (lua_isstring(L, 1))
-		::IcoLib_RemoveIcon(luaL_checkstring(L, 1));
+		IcoLib_RemoveIcon(luaL_checkstring(L, 1));
 
 	return 0;
 }
 
 static luaL_Reg icolibApi[] =
 {
-	{ "AddIcon", lua_AddIcon },
-	{ "Add", lua_AddIcon },
-	{ "GetIcon", lua_GetIcon },
-	{ "Get", lua_GetIcon },
-	{ "RemoveIcon", lua_RemoveIcon },
-	{ "Remove", lua_RemoveIcon },
+	{ "AddIcon", icolib_AddIcon },
+	{ "GetIcon", icolib_GetIcon },
+	{ "RemoveIcon", icolib_RemoveIcon },
 
 	{ NULL, NULL }
 };

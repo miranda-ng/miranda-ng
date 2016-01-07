@@ -8,7 +8,9 @@ private:
 
 	CLuaModuleLoader(lua_State *L);
 
-	void PreloadModule(const char *name, lua_CFunction loader);
+	void Load(const char *name, lua_CFunction loader);
+	void Preload(const char *name, lua_CFunction loader);
+
 	void LoadModules();
 
 public:

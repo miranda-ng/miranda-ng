@@ -14,15 +14,13 @@ class CMLua
 {
 private:
 	lua_State *L;
+	int hLangpack;
 
 	void SetPaths();
 
 	static void KillLuaRefs();
 
 public:
-	//static LIST<void> Hooks;
-	//static LIST<void> Events;
-	//static LIST<void> Services;
 	static LIST<void> HookRefs;
 	static LIST<void> ServiceRefs;
 
@@ -30,6 +28,8 @@ public:
 
 	CMLua();
 	~CMLua();
+
+	const int GetHLangpack() const;
 
 	void Load();
 	void Unload();

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_CreateHookableEvent(lua_State *L)
+static int core_CreateHookableEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
@@ -38,7 +38,7 @@ int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	return lua_tointeger(L, 1);
 }
 
-static int lua_HookEvent(lua_State *L)
+static int core_HookEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 	luaL_checktype(L, 2, LUA_TFUNCTION);
@@ -62,7 +62,7 @@ static int lua_HookEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_UnhookEvent(lua_State *L)
+static int core_UnhookEvent(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hEvent = lua_touserdata(L, 1);
@@ -83,7 +83,7 @@ static int lua_UnhookEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_NotifyEventHooks(lua_State *L)
+static int core_NotifyEventHooks(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hEvent = lua_touserdata(L, 1);
@@ -96,7 +96,7 @@ static int lua_NotifyEventHooks(lua_State *L)
 	return 1;
 }
 
-static int lua_DestroyHookableEvent(lua_State *L)
+static int core_DestroyHookableEvent(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hEvent = lua_touserdata(L, 1);
@@ -126,7 +126,7 @@ INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, L
 	return res;
 }
 
-static int lua_CreateServiceFunction(lua_State *L)
+static int core_CreateServiceFunction(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 	luaL_checktype(L, 2, LUA_TFUNCTION);
@@ -149,7 +149,7 @@ static int lua_CreateServiceFunction(lua_State *L)
 	return 1;
 }
 
-static int lua_CallService(lua_State *L)
+static int core_CallService(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 	WPARAM wParam = luaM_towparam(L, 2);
@@ -161,7 +161,7 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
-static int lua_ServiceExists(lua_State *L)
+static int core_ServiceExists(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
@@ -171,7 +171,7 @@ static int lua_ServiceExists(lua_State *L)
 	return 1;
 }
 
-static int lua_DestroyServiceFunction(lua_State *L)
+static int core_DestroyServiceFunction(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hService = lua_touserdata(L, 1);
@@ -191,7 +191,7 @@ static int lua_DestroyServiceFunction(lua_State *L)
 
 /***********************************************/
 
-static int lua_IsPluginLoaded(lua_State *L)
+static int core_IsPluginLoaded(lua_State *L)
 {
 	const char *value = lua_tostring(L, 1);
 
@@ -204,17 +204,17 @@ static int lua_IsPluginLoaded(lua_State *L)
 	return 1;
 }
 
-static int lua_Utf8DecodeA(lua_State *L)
+static int core_Utf8DecodeA(lua_State *L)
 {
 	return luaM_toansi(L);
 }
 
-static int lua_Utf8DecodeW(lua_State *L)
+static int core_Utf8DecodeW(lua_State *L)
 {
 	return luaM_toucs2(L);
 }
 
-static int lua_Free(lua_State *L)
+static int core_Free(lua_State *L)
 {
 	if (lua_type(L, 1) == LUA_TLIGHTUSERDATA)
 	{
@@ -225,17 +225,17 @@ static int lua_Free(lua_State *L)
 	return 0;
 }
 
-static int lua_Translate(lua_State *L)
+static int core_Translate(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
 	ptrT value(mir_utf8decodeT(what));
-	lua_pushstring(L, T2Utf(TranslateW_LP(value, hScriptsLangpack)));
+	lua_pushstring(L, T2Utf(TranslateW_LP(value, hLangpack)));
 
 	return 1;
 }
 
-static int lua_ReplaceVariables(lua_State *L)
+static int core_ReplaceVariables(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
@@ -245,7 +245,7 @@ static int lua_ReplaceVariables(lua_State *L)
 	return 1;
 }
 
-static int lua_GetFullPath(lua_State *L)
+static int core_GetFullPath(lua_State *L)
 {
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -257,31 +257,31 @@ static int lua_GetFullPath(lua_State *L)
 
 luaL_Reg coreApi[] =
 {
-	{ "CreateHookableEvent", lua_CreateHookableEvent },
-	{ "DestroyHookableEvent", lua_DestroyHookableEvent },
+	{ "CreateHookableEvent", core_CreateHookableEvent },
+	{ "DestroyHookableEvent", core_DestroyHookableEvent },
 
-	{ "NotifyEventHooks", lua_NotifyEventHooks },
+	{ "NotifyEventHooks", core_NotifyEventHooks },
 
-	{ "HookEvent", lua_HookEvent },
-	{ "UnhookEvent", lua_UnhookEvent },
+	{ "HookEvent", core_HookEvent },
+	{ "UnhookEvent", core_UnhookEvent },
 
-	{ "CreateServiceFunction", lua_CreateServiceFunction },
-	//{ "DestroyServiceFunction", lua_DestroyServiceFunction },
+	{ "CreateServiceFunction", core_CreateServiceFunction },
+	//{ "DestroyServiceFunction", core_DestroyServiceFunction },
 
-	{ "ServiceExists", lua_ServiceExists },
-	{ "CallService", lua_CallService },
+	{ "ServiceExists", core_ServiceExists },
+	{ "CallService", core_CallService },
 
-	{ "IsPluginLoaded", lua_IsPluginLoaded },
+	{ "IsPluginLoaded", core_IsPluginLoaded },
 
-	{ "Utf8DecodeA", lua_Utf8DecodeA },
-	{ "Utf8DecodeW", lua_Utf8DecodeW },
+	{ "Utf8DecodeA", core_Utf8DecodeA },
+	{ "Utf8DecodeW", core_Utf8DecodeW },
 
-	{ "Free", lua_Free },
+	{ "Free", core_Free },
 
-	{ "Translate", lua_Translate },
-	{ "ReplaceVariables", lua_ReplaceVariables },
+	{ "Translate", core_Translate },
+	{ "ReplaceVariables", core_ReplaceVariables },
 
-	{ "GetFullPath", lua_GetFullPath },
+	{ "GetFullPath", core_GetFullPath },
 
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },

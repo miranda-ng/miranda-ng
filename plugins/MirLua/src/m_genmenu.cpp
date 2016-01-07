@@ -2,7 +2,7 @@
 
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
-	mi.hLangpack = hScriptsLangpack;
+	mi.hLangpack = g_mLua->GetHLangpack();
 
 	lua_getfield(L, -1, "Flags");
 	mi.flags = lua_tointeger(L, -1);
@@ -38,8 +38,10 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 }
 
-static int lua_CreateRoot(lua_State *L)
+static int genmenu_CreateRoot(lua_State *L)
 {
+	ObsoleteMethod(L, "use m_clist module instead");
+
 	int hMenuObject = luaL_checkinteger(L, 1);
 	const char *name = luaL_checkstring(L, 2);
 	int position = lua_tointeger(L, 3);
@@ -51,8 +53,10 @@ static int lua_CreateRoot(lua_State *L)
 	return 1;
 }
 
-static int lua_AddMenuItem(lua_State *L)
+static int genmenu_AddMenuItem(lua_State *L)
 {
+	ObsoleteMethod(L, "use m_clist module instead");
+
 	int hMenuObject = luaL_checkinteger(L, 1);
 
 	if (lua_type(L, 2) != LUA_TTABLE)
@@ -70,7 +74,7 @@ static int lua_AddMenuItem(lua_State *L)
 	return 1;
 }
 
-static int lua_ModifyMenuItem(lua_State *L)
+static int genmenu_ModifyMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -86,7 +90,7 @@ static int lua_ModifyMenuItem(lua_State *L)
 	return 1;
 }
 
-static int lua_ShowMenuItem(lua_State *L)
+static int genmenu_ShowMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -97,7 +101,7 @@ static int lua_ShowMenuItem(lua_State *L)
 	return 0;
 }
 
-static int lua_EnableMenuItem(lua_State *L)
+static int genmenu_EnableMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -108,7 +112,7 @@ static int lua_EnableMenuItem(lua_State *L)
 	return 0;
 }
 
-static int lua_CheckMenuItem(lua_State *L)
+static int genmenu_CheckMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -119,7 +123,7 @@ static int lua_CheckMenuItem(lua_State *L)
 	return 0;
 }
 
-static int lua_RemoveMenuItem(lua_State *L)
+static int genmenu_RemoveMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -132,13 +136,13 @@ static int lua_RemoveMenuItem(lua_State *L)
 
 static luaL_Reg genmenuApi[] =
 {
-	{ "CreateRoot", lua_CreateRoot },
-	{ "AddMenuItem", lua_AddMenuItem },
-	{ "ModifyMenuItem", lua_ModifyMenuItem },
-	{ "ShowMenuItem", lua_ShowMenuItem },
-	{ "EnableMenuItem", lua_EnableMenuItem },
-	{ "CheckMenuItem", lua_CheckMenuItem },
-	{ "RemoveMenuItem", lua_RemoveMenuItem },
+	{ "CreateRoot", genmenu_CreateRoot },
+	{ "AddMenuItem", genmenu_AddMenuItem },
+	{ "ModifyMenuItem", genmenu_ModifyMenuItem },
+	{ "ShowMenuItem", genmenu_ShowMenuItem },
+	{ "EnableMenuItem", genmenu_EnableMenuItem },
+	{ "CheckMenuItem", genmenu_CheckMenuItem },
+	{ "RemoveMenuItem", genmenu_RemoveMenuItem },
 
 	//{ "MO_MAIN", NULL },
 	//{ "MO_CONTACT", NULL },
