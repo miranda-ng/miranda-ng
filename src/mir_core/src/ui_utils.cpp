@@ -1411,7 +1411,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 
 	tvis.itemex.stateMask = tvis.itemex.state;
 	tvis.itemex.lParam = saveOldData;
-	tvis.hParent = GetParent(hInsertAfter);
+	tvis.hParent = (hInsertAfter == TVI_FIRST) ? NULL : GetParent(hInsertAfter);
 	tvis.hInsertAfter = hInsertAfter;
 	return InsertItem(&tvis);
 }
