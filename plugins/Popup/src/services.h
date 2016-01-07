@@ -53,4 +53,6 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam);
 INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam);
 INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam);
 
+INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam);
+
 #endif // __services_h__

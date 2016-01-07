@@ -475,3 +475,20 @@ INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)SendMessage((HWND)lParam, UM_DESTROYPOPUP, 0, 0);
 }
+
+INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
+{
+	if (lParam)
+	{
+		mir_free(PopupOptions.SkinPack);
+		PopupOptions.SkinPack = mir_a2t((char*)lParam);
+	}
+
+	const PopupSkin *skin = 0;
+	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
+		mir_free(PopupOptions.SkinPack);
+		PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+	}
+
+	return 1;
+}
