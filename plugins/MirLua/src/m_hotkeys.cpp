@@ -46,8 +46,7 @@ static int lua_Register(lua_State *L)
 
 	HOTKEYDESC hk;
 	MakeHotkey(L, hk);
-
-	INT_PTR res = ::CallService("CoreHotkeys/Register", (WPARAM)hScriptsLangpack, (LPARAM)&hk);
+	INT_PTR res = ::CallService("CoreHotkeys/Register", (WPARAM)hLangpack, (LPARAM)&hk);
 	lua_pushboolean(L, res);
 
 	return 1;
