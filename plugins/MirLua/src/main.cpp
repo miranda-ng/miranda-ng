@@ -40,7 +40,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, LPGEN("Scripts folder"), MIRLUA_PATHT);
+	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
 
 	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
 
