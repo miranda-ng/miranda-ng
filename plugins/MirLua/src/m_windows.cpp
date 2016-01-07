@@ -1135,6 +1135,22 @@ static int global_GetTempPath(lua_State *L) {
 }
 /***/
 
+static int global_CreateNamedPipe(lua_State *L)
+{
+	LPCSTR lpName = luaL_checkstring(L, 1);
+	DWORD dwOpenMode = luaL_checknumber(L, 2);
+	DWORD dwPipeMode = luaL_checknumber(L, 3);
+	DWORD nMaxInstances = luaL_checknumber(L, 4);
+	DWORD nOutBufferSize = luaL_checknumber(L, 5);
+	DWORD nInBufferSize = luaL_checknumber(L, 6);
+	DWORD nDefaultTimeOut = luaL_checknumber(L, 7);
+	SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, false };
+
+	HANDLE hPipe = CreateNamedPipeA(lpName, dwOpenMode, dwPipeMode, nMaxInstances, nOutBufferSize, nInBufferSize, nDefaultTimeOut, &sa);
+	lua_pushnumber(L, (long)hPipe);
+	return 1;
+}
+
 /****if* luaw32/global_CreateFile
 * NAME
 *  global_CreateFile
@@ -2007,6 +2023,7 @@ static struct {
 	{ "FILE_ATTRIBUTE_READONLY", FILE_ATTRIBUTE_READONLY },
 	{ "FILE_ATTRIBUTE_SYSTEM", FILE_ATTRIBUTE_SYSTEM },
 	{ "FILE_ATTRIBUTE_TEMPORARY", FILE_ATTRIBUTE_TEMPORARY },
+	{ "FILE_FLAG_FIRST_PIPE_INSTANCE", FILE_FLAG_FIRST_PIPE_INSTANCE },
 	{ "FILE_FLAG_WRITE_THROUGH", FILE_FLAG_WRITE_THROUGH },
 	{ "FILE_FLAG_OVERLAPPED", FILE_FLAG_OVERLAPPED },
 	{ "FILE_FLAG_NO_BUFFERING", FILE_FLAG_NO_BUFFERING },
@@ -2024,6 +2041,23 @@ static struct {
 	{ "SECURITY_EFFECTIVE_ONLY", SECURITY_EFFECTIVE_ONLY },
 	{ "PM_REMOVE", PM_REMOVE },
 	{ "PM_NOREMOVE", PM_NOREMOVE },
+
+	{ "PIPE_ACCESS_DUPLEX", PIPE_ACCESS_DUPLEX },
+	{ "PIPE_ACCESS_INBOUND", PIPE_ACCESS_INBOUND },
+	{ "PIPE_ACCESS_OUTBOUND", PIPE_ACCESS_OUTBOUND },
+	{ "PIPE_TYPE_BYTE", PIPE_TYPE_BYTE },
+	{ "PIPE_TYPE_MESSAGE", PIPE_TYPE_MESSAGE },
+	{ "PIPE_READMODE_BYTE", PIPE_READMODE_BYTE },
+	{ "PIPE_READMODE_MESSAGE", PIPE_READMODE_MESSAGE },
+	{ "PIPE_WAIT", PIPE_WAIT },
+	{ "PIPE_NOWAIT", PIPE_NOWAIT },
+	{ "PIPE_ACCEPT_REMOTE_CLIENTS", PIPE_ACCEPT_REMOTE_CLIENTS },
+	{ "PIPE_REJECT_REMOTE_CLIENTS", PIPE_REJECT_REMOTE_CLIENTS },
+	{ "WRITE_DAC", WRITE_DAC },
+	{ "WRITE_OWNER", WRITE_OWNER },
+	{ "ACCESS_SYSTEM_SECURITY", ACCESS_SYSTEM_SECURITY },
+
+
 	{ "HKEY_CLASSES_ROOT", (unsigned long)HKEY_CLASSES_ROOT },
 	{ "HKEY_CURRENT_CONFIG", (unsigned long)HKEY_CURRENT_CONFIG },
 	{ "HKEY_CURRENT_USER", (unsigned long)HKEY_CURRENT_USER },
