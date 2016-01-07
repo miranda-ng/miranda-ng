@@ -526,10 +526,9 @@ public:
 	void onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
 	{
 		MenuItemOptData *p = (MenuItemOptData*)evt->nmtv->itemNew.lParam;
-		if (p->pimi == NULL)
-			evt->nmhdr->code = 0; // reject an attempt to move a separator
-		else if (p->pimi->mi.flags & CMIF_UNMOVABLE)
-			evt->nmhdr->code = 0; // reject an attempt to change item's position
+		if (p->pimi != NULL)
+			if (p->pimi->mi.flags & CMIF_UNMOVABLE)
+				evt->nmhdr->code = 0; // reject an attempt to change item's position
 	}
 };
 
