@@ -2161,6 +2161,7 @@ static luaL_Reg winApi[] =
 	{ "CreateProcess", global_CreateProcess },
 	{ "GetTempFileName", global_GetTempFileName },
 	{ "GetTempPath", global_GetTempPath },
+	{ "CreateNamedPipe", global_CreateNamedPipe },
 	{ "CreateFile", global_CreateFile },
 	{ "ReadFile", global_ReadFile },
 	{ "WriteFile", global_WriteFile },
