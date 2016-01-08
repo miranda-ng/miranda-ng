@@ -469,7 +469,7 @@ static void MarkInitialized(int i)
 	initialized |= i;
 }
 
-static void ApplyChanges(int i)
+void ApplyChanges(int i)
 {
 	changed &= ~i;
 	initialized &= ~i;
@@ -1746,4 +1746,15 @@ void Options::saveProtocolSettings()
 		PathToRelative(proto->getHistoryTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 	}
+}
+
+void Options::Reload()
+{
+	ProtocolSettings *p, *p1;
+	for (p = Options::protocolList; p != NULL; p = p1) {
+		p1 = p->getNext();
+		delete p;
+	}
+	isInited = false;
+	init();
 }
