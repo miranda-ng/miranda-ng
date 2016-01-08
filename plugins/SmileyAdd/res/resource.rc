@@ -62,7 +62,6 @@ BEGIN
     CONTROL         "",IDC_MINSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,182,145,11,12
     LTEXT           "Minimum smiley height",IDC_STATIC,198,148,115,8
     GROUPBOX        "Smiley selector",IDC_STATIC,6,160,310,52
-    CONTROL         "",IDC_SELCLR,"ColourPicker",WS_TABSTOP,257,185,41,11
     CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,200,85,10
     GROUPBOX        "Input area",IDC_STATIC,6,213,145,36
     CONTROL         "Enable smileys",IDC_INPUTSMILEYS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,226,130,8
@@ -71,7 +70,6 @@ BEGIN
     CONTROL         "Disable",IDC_PLUGENABLED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,240,222,69,12
     COMBOBOX        IDC_SMLBUT,159,233,60,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Smiley button",IDC_STATIC,161,223,72,8
-    CTEXT           "Background\ncolor",IDC_STATIC,243,167,70,16
     CONTROL         "Surround inserted smiley with spaces",IDC_APPENDSPACES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,170,220,11
     CONTROL         "Use first smiley for selection size",IDC_SCALEALLSMILEYS,
