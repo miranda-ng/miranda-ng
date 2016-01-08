@@ -361,15 +361,6 @@ INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ReloadOptions(WPARAM, LPARAM)
-{
-	g_SmileyCategories.ClearAll();
-	g_SmileyCategories.AddAllProtocolsAsCategory();
-	g_SmileyCategories.ClearAndLoadAll();
-	opt.Load();
-	return 0;
-}
-
 INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 {
 	if  (opt.DisableCustom) return 0;
