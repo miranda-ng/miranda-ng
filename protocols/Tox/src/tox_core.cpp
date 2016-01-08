@@ -37,7 +37,7 @@ Tox_Options* CToxProto::GetToxOptions()
 			}
 		}
 	}
-	
+
 	return options;
 }
 
@@ -118,22 +118,18 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 
 void CToxProto::UninitToxCore(CToxThread *toxThread)
 {
-	if (toxThread) {
-		if (toxThread->toxAV)
-			toxav_kill(toxThread->toxAV);
+	if (toxThread == NULL)
+		return;
 
-		if (toxThread->tox)
-		{
-			CancelAllTransfers();
+	if (toxThread->toxAV)
+		toxav_kill(toxThread->toxAV);
 
-			SaveToxProfile(toxThread);
+	if (toxThread->tox == NULL)
+		return;
+	
+	CancelAllTransfers();
+	SaveToxProfile(toxThread);
 
-			if (toxThread->tox != NULL)
-			{
-				tox_kill(toxThread->tox);
-				toxThread->tox = NULL;
-			}
-		}
-		toxThread = NULL;
-	}
+	tox_kill(toxThread->tox);
+	toxThread->tox = NULL;
 }
