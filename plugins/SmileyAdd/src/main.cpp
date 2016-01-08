@@ -67,8 +67,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	ColourID cid = { sizeof(cid) };
 	strcpy_s(cid.dbSettingsGroup, "SmileyAdd");
-	strcpy_s(cid.group, "SmileyAdd");
-	strcpy_s(cid.name, "Background color");
+	strcpy_s(cid.group, LPGEN("SmileyAdd"));
+	strcpy_s(cid.name, LPGEN("Background color"));
 	strcpy_s(cid.setting, "SelWndBkgClr");
 	cid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegister(&cid);
