@@ -103,3 +103,11 @@ INT_PTR HandleIENavigate(WPARAM, LPARAM lParam)
 	}
 	return 0;
 }
+
+void ApplyChanges(int i);
+
+INT_PTR ReloadOptions(WPARAM, LPARAM)
+{
+	Options::Reload();
+	return 0;
+}

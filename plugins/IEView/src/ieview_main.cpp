@@ -75,6 +75,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_IEVIEW_WINDOW, HandleIEWindow);
 	CreateServiceFunction(MS_IEVIEW_EVENT, HandleIEEvent);
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
+	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
 	return 0;
 }

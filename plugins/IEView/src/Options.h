@@ -240,6 +240,7 @@ public:
 	static void				resetProtocolSettings();
 	static ProtocolSettings*getProtocolSettings();
 	static ProtocolSettings*getProtocolSettings(const char *protocolName);
+	static void             Reload();
 };
 
 #endif
