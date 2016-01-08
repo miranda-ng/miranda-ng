@@ -7,7 +7,8 @@
   </ItemGroup>
   <PropertyGroup>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <OutDir>$(SolutionDir)$(Configuration)\Scripts\</OutDir>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Scripts\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Scripts\</OutDir>
   </PropertyGroup>
   <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.props"/>
   <ItemDefinitionGroup>
