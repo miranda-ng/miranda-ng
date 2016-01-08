@@ -469,7 +469,7 @@ static void MarkInitialized(int i)
 	initialized |= i;
 }
 
-void ApplyChanges(int i)
+static void ApplyChanges(int i)
 {
 	changed &= ~i;
 	initialized &= ~i;
