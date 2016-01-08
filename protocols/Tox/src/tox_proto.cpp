@@ -206,7 +206,7 @@ int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 	{
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
-		if (tox_self_set_status_message(toxThread->tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
+		if (!tox_self_set_status_message(toxThread->tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
 			logger->Log("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
 	}
 

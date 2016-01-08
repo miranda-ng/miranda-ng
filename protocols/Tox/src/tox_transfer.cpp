@@ -198,7 +198,6 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 	if (friendNumber == UINT32_MAX)
 		return NULL;
 
-
 	FILE *hFile = _tfopen(ppszFiles[0], _T("rb"));
 	if (hFile == NULL)
 	{

@@ -5,7 +5,7 @@ int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 	CToxProto::InitIcons();
 	CToxProto::InitMenus();
 
-	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", Translate("Profiles folder"), MIRANDA_USERDATAT);
+	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", "ProfilesFolder", MIRANDA_USERDATAT, TranslateT("Profiles folder"));
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
