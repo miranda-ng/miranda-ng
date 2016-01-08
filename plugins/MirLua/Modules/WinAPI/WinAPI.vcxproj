@@ -17,20 +17,12 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectReference Include="..\..\..\..\libs\liblua\liblua.vcxproj">
-      <Project>{bd291bf0-d804-4818-8311-de871e6bceaa}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>WinAPI</ProjectName>
+    <ProjectName>winapi</ProjectName>
     <ProjectGuid>{045bac91-34d1-4b43-b52b-566801be7f85}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\module.props" />
   </ImportGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\libs\liblua\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
 </Project>
