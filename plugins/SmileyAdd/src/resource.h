@@ -24,7 +24,6 @@
 #define IDC_DISABLECUSTOM               1052
 #define IDC_DISABLECUSTOM2              1053
 #define IDC_HQSCALING                   1053
-#define IDC_SELCLR                      1055
 #define IDC_NEWCATEGORY                 1058
 #define IDC_ADDCATEGORY                 1059
 #define IDC_DELETECATEGORY              1060
