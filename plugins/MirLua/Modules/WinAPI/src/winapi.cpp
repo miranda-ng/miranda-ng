@@ -2142,14 +2142,14 @@ static luaL_Reg winApi[] =
 	{ NULL, NULL }
 };
 
-LUA_WINAPI_LIB luaopen_WinAPI(lua_State *L)
+LUA_WINAPI_LIB luaopen_winapi(lua_State *L)
 {
 	luaL_newlib(L, winApi);
 	
 	for (size_t i = 0; consts[i].name != NULL; i++)
 	{
 		lua_pushstring(L, consts[i].name);
-        lua_pushnumber(L, consts[i].value);
+		lua_pushnumber(L, consts[i].value);
 		lua_settable(L, -3);
 	}
 

@@ -43,6 +43,7 @@
 * NOTES
 *
 ***/
+
 #define LUA_WINAPI_LIB extern "C" int __declspec(dllexport)
 
 #include <lua.hpp>
@@ -61,7 +62,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/utime.h>
-
 
 #include <m_core.h>
 #include <m_utils.h>
