@@ -351,9 +351,22 @@ INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 		if (smc != NULL) smc->Load();
 	}
 	else
+	{
+		g_SmileyCategories.ClearAll();
+		g_SmileyCategories.AddAllProtocolsAsCategory();
 		g_SmileyCategories.ClearAndLoadAll();
+	}
 
 	NotifyEventHooks(hEvent1, 0, 0);
+	return 0;
+}
+
+INT_PTR ReloadOptions(WPARAM, LPARAM)
+{
+	g_SmileyCategories.ClearAll();
+	g_SmileyCategories.AddAllProtocolsAsCategory();
+	g_SmileyCategories.ClearAndLoadAll();
+	opt.Load();
 	return 0;
 }
 
@@ -443,5 +456,12 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (smc != NULL)
 			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());
 	}
+	return 0;
+}
+
+
+int ReloadColour(WPARAM, LPARAM)
+{
+	opt.SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
 	return 0;
 }

@@ -182,11 +182,6 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 				SetChanged();
 			break;
 
-		case IDC_SELCLR:
-			if (HIWORD(wParam) == CPN_COLOURCHANGED)
-				SetChanged();
-			break;
-
 		case IDC_MAXCUSTSMSZ:
 		case IDC_MINSMSZ:
 			if (HIWORD(wParam) == EN_CHANGE && GetFocus() == (HWND)lParam)
@@ -429,9 +424,6 @@ void OptionsDialogType::InitDialog(void)
 	SendDlgItemMessage(m_hwndDialog, IDC_MINSPIN, UDM_SETPOS, 0, opt.MinSmileySize);
 	SendDlgItemMessage(m_hwndDialog, IDC_MINSMSZ, EM_LIMITTEXT, 2, 0);
 
-	SendDlgItemMessage(m_hwndDialog, IDC_SELCLR, CPM_SETCOLOUR, 0, opt.SelWndBkgClr);
-	SendDlgItemMessage(m_hwndDialog, IDC_SELCLR, CPM_SETDEFAULTCOLOUR, 0, GetSysColor(COLOR_WINDOW));
-
 	// Create and populate image list
 	HIMAGELIST hImList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
 		ILC_MASK | ILC_COLOR32, g_SmileyCategories.NumberOfSmileyCategories(), 0);
@@ -489,7 +481,6 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.HorizontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
 	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);  
-	opt.SelWndBkgClr = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SELCLR, CPM_GETCOLOUR, 0, 0);
 	opt.MaxCustomSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MAXCUSTSMSZ, NULL, FALSE);
 	opt.MinSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MINSMSZ, NULL, FALSE);
 
@@ -613,7 +604,6 @@ void OptionsType::Save(void)
 	db_set_b(NULL, "SmileyAdd", "DisableCustom", DisableCustom);
 	db_set_b(NULL, "SmileyAdd", "HQScaling", HQScaling);
 	db_set_b(NULL, "SmileyAdd", "ButtonStatus", (BYTE)ButtonStatus);
-	db_set_dw(NULL, "SmileyAdd", "SelWndBkgClr", SelWndBkgClr);
 	db_set_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", MaxCustomSmileySize);
 	db_set_dw(NULL, "SmileyAdd", "MinSmileySize", MinSmileySize);
 	db_set_b(NULL, "SmileyAdd", "HorizontalSorting", HorizontalSorting);
