@@ -293,6 +293,27 @@ static int lua_Settings(lua_State *L)
 	return 1;
 }
 
+static size_t luaM_table_to_bytearray(lua_State *L, int index, BYTE **res)
+{
+	size_t result = 0;
+	lua_pushvalue(L, index);
+	lua_pushnil(L);
+	
+	while (lua_next(L, -2))
+	{
+		result++;
+		if (*res == nullptr) *res = (BYTE*)mir_alloc(1);
+		else *res = (BYTE*)mir_realloc(*res, result);
+
+		lua_pushvalue(L, -2);
+		char val = lua_tonumber(L, -2);
+		(*res)[result - 1] = val;
+		lua_pop(L, 2);
+	}
+	lua_pop(L, 1);
+	return result;
+}
+
 static int lua_WriteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -316,7 +337,10 @@ static int lua_WriteSetting(lua_State *L)
 		dbv.type = DBVT_UTF8;
 		break;
 	case LUA_TTABLE:
-		//this is blob, should be converted to BYTE* 
+		{
+			dbv.type = DBVT_BLOB;
+			dbv.cpbVal = luaM_table_to_bytearray(L, 4, &(dbv.pbVal));
+		}
 		break;
 	default:
 		lua_pushinteger(L, 1);
