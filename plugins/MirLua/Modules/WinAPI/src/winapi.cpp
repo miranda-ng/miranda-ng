@@ -1,18 +1,6 @@
 #include "stdafx.h"
 
 typedef int(__stdcall *MSGBOXAAPI)(IN HWND hWnd, IN LPCSTR lpText, IN LPCSTR lpCaption, IN UINT uType, IN WORD wLanguageId, IN DWORD dwMilliseconds);
-typedef int(__stdcall *MSGBOXWAPI)(IN HWND hWnd, IN LPCWSTR lpText, IN LPCWSTR lpCaption, IN UINT uType, IN WORD wLanguageId, IN DWORD dwMilliseconds);
-
-int MessageBoxTimeoutA(IN HWND hWnd, IN LPCSTR lpText, IN LPCSTR lpCaption, IN UINT uType, IN WORD wLanguageId, IN DWORD dwMilliseconds);
-int MessageBoxTimeoutW(IN HWND hWnd, IN LPCWSTR lpText, IN LPCWSTR lpCaption, IN UINT uType, IN WORD wLanguageId, IN DWORD dwMilliseconds);
-
-#ifdef UNICODE
-	#define MessageBoxTimeout MessageBoxTimeoutW
-#else
-	#define MessageBoxTimeout MessageBoxTimeoutA
-#endif
-
-#define MB_TIMEDOUT 32000
 
 int MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds)
 {
@@ -23,7 +11,6 @@ int MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, W
 		if (HMODULE hUser32 = GetModuleHandle(_T("user32.dll")))
 		{
 			MsgBoxTOA = (MSGBOXAAPI)GetProcAddress(hUser32, "MessageBoxTimeoutA");
-			FreeLibrary(hUser32);
 		}
 	}
 
@@ -31,42 +18,21 @@ int MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, W
 	{
 		return MsgBoxTOA(hWnd, lpText, lpCaption, uType, wLanguageId, dwMilliseconds);
 	}
-
 	return MessageBoxA(hWnd, lpText, lpCaption, uType);
 }
 
-int MessageBoxTimeoutW(HWND hWnd, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds)
-{
-	static MSGBOXWAPI MsgBoxTOW = NULL;
-
-	if (!MsgBoxTOW)
-	{
-		if (HMODULE hUser32 = GetModuleHandle(_T("user32.dll")))
-		{
-			MsgBoxTOW = (MSGBOXWAPI)GetProcAddress(hUser32, "MessageBoxTimeoutW");
-			FreeLibrary(hUser32);
-		}
-		
-	}
-
-	if (MsgBoxTOW)
-	{
-		return MsgBoxTOW(hWnd, lpText, lpCaption, uType, wLanguageId, dwMilliseconds);
-	}
-
-	return MessageBoxW(hWnd, lpText, lpCaption, uType);
-}
+#define MB_TIMEDOUT 32000
 
 static int lua_MessageBox(lua_State *L)
 {
 	HWND hwnd = (HWND)lua_touserdata(L, 1);
-	ptrT text(mir_utf8decodeT(lua_tostring(L, 2)));
-	ptrT caption(mir_utf8decodeT(lua_tostring(L, 3)));
+	const char *text = lua_tostring(L, 2);
+	const char *caption = lua_tostring(L, 3);
 	UINT flags = lua_tointeger(L, 4);
 	LANGID langId = GetUserDefaultUILanguage();
 	DWORD timeout = luaL_optinteger(L, 5, 0xFFFFFFFF);
 
-	int res = ::MessageBoxTimeout(hwnd, text, caption, flags, langId, timeout);
+	int res = ::MessageBoxTimeoutA(hwnd, text, caption, flags, langId, timeout);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -370,36 +336,18 @@ static int lua_DeleteRegValue(lua_State *L)
 
 /* Registered functions */
 
-static int global_ShellOpen(lua_State *L) {
-	long lrc;
-	const char *fileref = luaL_checkstring(L, 1);
-
-	lrc = (long)ShellExecuteA(NULL, "open", fileref, NULL, NULL, SW_SHOW);
-
-	if (lrc > 32)
-		lrc = 0;
-
-	lua_pushnumber(L, lrc);
-
-	return(1);
-}
-
-static int global_FindWindow(lua_State *L) {
-	long lrc;
+static int global_FindWindow(lua_State *L) 
+{
 	const char *cname = luaL_checkstring(L, 1);
 	const char *wname = luaL_checkstring(L, 2);
-
-	lrc = (long)FindWindowA(cname[0] ? cname : NULL,
-		wname[0] ? wname : NULL);
-
-	lua_pushnumber(L, lrc);
-
+	lua_pushnumber(L, (intptr_t)FindWindowA(cname[0] ? cname : NULL, wname[0] ? wname : NULL));
 	return(1);
 }
 
-static int global_FindWindowEx(lua_State *L) {
-	const HWND parent = (HWND)(int)luaL_checknumber(L, 1);
-	const HWND childaft = (HWND)(int)luaL_checknumber(L, 2);
+static int global_FindWindowEx(lua_State *L) 
+{
+	const HWND parent = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	const HWND childaft = (HWND)(intptr_t)luaL_checknumber(L, 2);
 	const char *cname = luaL_checkstring(L, 3);
 	const char *wname = luaL_checkstring(L, 4);
 
@@ -412,47 +360,42 @@ static int global_FindWindowEx(lua_State *L) {
 	return(1);
 }
 
-static int global_SetWindowText(lua_State *L) {
-	const HWND hwnd = (HWND)(int)luaL_checknumber(L, 1);
+static int global_SetWindowText(lua_State *L) 
+{
+	const HWND hwnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
 	const char *text = luaL_checkstring(L, 2);
-
-	BOOL rc = SetWindowTextA(hwnd, text);
-
-	lua_pushnumber(L, rc);
-
+	lua_pushboolean(L, SetWindowTextA(hwnd, text));
 	return(1);
 }
 
-static int global_SetFocus(lua_State *L) {
-	const HWND hwnd = (HWND)(int)luaL_checknumber(L, 1);
-	HWND rc = SetFocus(hwnd);
-	lua_pushinteger(L, (int)rc);
-
-	return(1);
+static int global_SetFocus(lua_State *L) 
+{
+	const HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushinteger(L, (intptr_t)SetFocus(hWnd));
+	return 1;
 }
 
 // Lua:  returns nil when error occurred
-static int global_GetWindowText(lua_State *L) {
-	const HWND hwnd = (HWND)(int)luaL_checknumber(L, 1);
-	char buf[2048];
+static int global_GetWindowText(lua_State *L) 
+{
+	const HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	char buf[2048] = { 0 };
 
-	int rc = GetWindowTextA(hwnd, buf, sizeof(buf));
+	int rc = GetWindowTextA(hWnd, buf, sizeof(buf));
 
-	if (rc > 0)
+	if (rc > 0 || GetLastError() == ERROR_SUCCESS)
 		lua_pushstring(L, buf);
-	else if (GetLastError() == ERROR_SUCCESS)
-		lua_pushstring(L, "");
 	else
 		lua_pushnil(L);
 
-	return(1);
+	return 1;
 }
 
 // Lua:  returns left,top,right,bottom when successfully
 //         or
 //       returns nil when error occurred
 static int global_GetWindowRect(lua_State *L) {
-	const HWND hwnd = (HWND)(int)luaL_checknumber(L, 1);
+	const HWND hwnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
 	RECT rect;
 
 	BOOL rc = GetWindowRect(hwnd, &rect);
@@ -470,100 +413,49 @@ static int global_GetWindowRect(lua_State *L) {
 	}
 }
 
-struct S_HKT {
-	HWND hwnd;
-	int id;
-	UINT mdfs;
-	UINT vk;
-	UINT umsg;
-	WPARAM wparam;
-	LPARAM lparam;
-};
-
-static void HotKeyThread(void *v) {
-	struct S_HKT *s = (struct S_HKT *) v;
-	MSG msg;
-
-	RegisterHotKey(NULL, s->id, s->mdfs, s->vk);
-
-	while (GetMessage(&msg, NULL, 0, 0) > 0)
-	if (msg.message == WM_HOTKEY)
-		PostMessage(s->hwnd, s->umsg, s->wparam, s->lparam);
-}
-
-static int global_RegisterHotKey(lua_State *L) {
-	struct S_HKT *s;
-
-	s = (S_HKT*)mir_alloc(sizeof(struct S_HKT));
-	if (s == NULL)
-		lua_pushnumber(L, -1);
-	else {
-		long hwnd = MYP2HCAST luaL_checknumber(L, 1);
-		s->hwnd = (HWND)hwnd;
-		s->id = (int)luaL_checknumber(L, 2);
-		s->mdfs = (UINT)luaL_checknumber(L, 3);
-		s->vk = (UINT)luaL_checknumber(L, 4);
-		s->umsg = (UINT)luaL_checknumber(L, 5);
-		s->wparam = (WPARAM)luaL_checknumber(L, 6);
-		s->lparam = (LPARAM)luaL_checknumber(L, 7);
-
-		if (_beginthread(HotKeyThread, 0, s) < 0)
-			lua_pushnumber(L, -2);
-		else
-			lua_pushnumber(L, 0);
-	}
-
+static int global_SetForegroundWindow(lua_State *L) 
+{
+	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, SetForegroundWindow(hWnd));
 	return(1);
 }
 
-static int global_SetForegroundWindow(lua_State *L) {
-	long hwnd = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushnumber(L, SetForegroundWindow((HWND)hwnd));
-
-	return(1);
-}
-
-static int global_PostMessage(lua_State *L) {
-	BOOL rc;
-	long hwnd = MYP2HCAST luaL_checknumber(L, 1);
+static int global_PostMessage(lua_State *L) 
+{
+	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
 	UINT msg = (UINT)luaL_checknumber(L, 2);
 	WPARAM wparam = (WPARAM)luaL_checknumber(L, 3);
 	LPARAM lparam = (LPARAM)luaL_checknumber(L, 4);
 
-	rc = PostMessage((HWND)hwnd, msg, wparam, lparam);
-
-	lua_pushnumber(L, rc);
+	lua_pushboolean(L, PostMessage(hWnd, msg, wparam, lparam));
 
 	return(1);
 }
 
-static int global_PostThreadMessage(lua_State *L) {
-	BOOL rc;
+static int global_PostThreadMessage(lua_State *L) 
+{
 	DWORD tid = (DWORD)luaL_checknumber(L, 1);
 	UINT msg = (UINT)luaL_checknumber(L, 2);
 	WPARAM wparam = (WPARAM)luaL_checknumber(L, 3);
 	LPARAM lparam = (LPARAM)luaL_checknumber(L, 4);
 
-	rc = PostThreadMessage(tid, msg, wparam, lparam);
-
-	lua_pushnumber(L, rc);
+	lua_pushboolean(L, PostThreadMessage(tid, msg, wparam, lparam));
 
 	return(1);
 }
 
-static int global_GetMessage(lua_State *L) {
+static int global_GetMessage(lua_State *L) 
+{
 	MSG msg;
-	BOOL rc;
-	long lwnd = MYP2HCAST luaL_optinteger(L, 1, 0);
+	HWND hWnd = (HWND)(intptr_t)luaL_optinteger(L, 1, 0);
 	UINT mfmin = (UINT)luaL_optinteger(L, 2, 0);
 	UINT mfmax = (UINT)luaL_optinteger(L, 3, 0);
 
-	rc = GetMessage(&msg, (HWND)lwnd, mfmin, mfmax);
-
-	lua_pushnumber(L, rc);
-	if (rc) {
-		lua_pushnumber(L, (long)msg.hwnd);
+	BOOL rc = GetMessage(&msg, hWnd, mfmin, mfmax);
+	lua_pushboolean(L, rc);
+	if (rc) 
+	{
+		lua_pushnumber(L, (intptr_t)msg.hwnd);
 		lua_pushnumber(L, msg.message);
 		lua_pushnumber(L, msg.wParam);
 		lua_pushnumber(L, msg.lParam);
@@ -571,7 +463,8 @@ static int global_GetMessage(lua_State *L) {
 		lua_pushnumber(L, msg.pt.x);
 		lua_pushnumber(L, msg.pt.y);
 	}
-	else {
+	else 
+	{
 		lua_pushnil(L);
 		lua_pushnil(L);
 		lua_pushnil(L);
@@ -584,18 +477,20 @@ static int global_GetMessage(lua_State *L) {
 	return(8);
 }
 
-static int global_PeekMessage(lua_State *L) {
+static int global_PeekMessage(lua_State *L) 
+{
 	MSG msg;
 	BOOL rc;
-	long lwnd = MYP2HCAST luaL_optinteger(L, 1, 0);
+	HWND hWnd = (HWND)(intptr_t)luaL_optinteger(L, 1, 0);
 	UINT mfmin = (UINT)luaL_optinteger(L, 2, 0);
 	UINT mfmax = (UINT)luaL_optinteger(L, 3, 0);
 	UINT rmmsg = (UINT)luaL_optinteger(L, 4, PM_NOREMOVE);
 
-	rc = PeekMessage(&msg, (HWND)lwnd, mfmin, mfmax, rmmsg);
+	rc = PeekMessage(&msg, hWnd, mfmin, mfmax, rmmsg);
 
-	lua_pushnumber(L, rc);
-	if (rc) {
+	lua_pushboolean(L, rc);
+	if (rc) 
+	{
 		lua_pushnumber(L, (long)msg.hwnd);
 		lua_pushnumber(L, msg.message);
 		lua_pushnumber(L, msg.wParam);
@@ -604,7 +499,8 @@ static int global_PeekMessage(lua_State *L) {
 		lua_pushnumber(L, msg.pt.x);
 		lua_pushnumber(L, msg.pt.y);
 	}
-	else {
+	else 
+	{
 		lua_pushnil(L);
 		lua_pushnil(L);
 		lua_pushnil(L);
@@ -617,13 +513,10 @@ static int global_PeekMessage(lua_State *L) {
 	return(8);
 }
 
-static int global_ReplyMessage(lua_State *L) {
-	BOOL rc;
+static int global_ReplyMessage(lua_State *L) 
+{
 	LRESULT result = (LRESULT)luaL_checknumber(L, 1);
-
-	rc = ReplyMessage(result);
-
-	lua_pushboolean(L, rc);
+	lua_pushboolean(L, ReplyMessage(result));
 
 	return(1);
 }
@@ -631,9 +524,9 @@ static int global_ReplyMessage(lua_State *L) {
 static int global_DispatchMessage(lua_State *L) {
 	MSG msg;
 	LRESULT rc;
-	long hwnd = MYP2HCAST luaL_checknumber(L, 1);
+	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
 
-	msg.hwnd = (HWND)hwnd;
+	msg.hwnd = hWnd;
 	msg.message = (UINT)luaL_checknumber(L, 2);
 	msg.wParam = (WPARAM)luaL_checknumber(L, 3);
 	msg.lParam = (LPARAM)luaL_checknumber(L, 4);
@@ -648,14 +541,10 @@ static int global_DispatchMessage(lua_State *L) {
 	return(1);
 }
 
-static int global_SetTopmost(lua_State *L) {
-	BOOL rc;
-	long hwnd = MYP2HCAST luaL_checknumber(L, 1);
-
-	rc = SetWindowPos((HWND)hwnd, HWND_TOPMOST, 0, 0, 0, 0,
-		SWP_NOMOVE | SWP_NOSIZE);
-
-	lua_pushnumber(L, rc);
+static int global_SetTopmost(lua_State *L) 
+{
+	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushnumber(L, SetWindowPos((HWND)hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE));
 
 	return(1);
 }
@@ -670,10 +559,9 @@ static int global_SetTopmost(lua_State *L) {
 * SOURCE
 */
 
-static int global_GetLastError(lua_State *L) {
-
+static int global_GetLastError(lua_State *L) 
+{
 	lua_pushnumber(L, GetLastError());
-
 	return(1);
 }
 /***/
@@ -691,21 +579,19 @@ static int global_GetLastError(lua_State *L) {
 * SOURCE
 */
 
-static int global_CloseHandle(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushboolean(L, CloseHandle((HANDLE)h));
-
+static int global_CloseHandle(lua_State *L) 
+{
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, CloseHandle(h));
 	return(1);
 }
-/***/
 
-static int global_CreateEvent(lua_State *L) {
+static int global_CreateEvent(lua_State *L) 
+{
 	SECURITY_ATTRIBUTES sa;
 	BOOL mr = (BOOL)luaL_checknumber(L, 2);
 	BOOL is = (BOOL)luaL_checknumber(L, 3);
 	const char *name;
-	long h;
 
 	sa.nLength = sizeof(sa);
 	sa.lpSecurityDescriptor = NULL;
@@ -720,13 +606,7 @@ static int global_CreateEvent(lua_State *L) {
 	}
 	name = lua_tostring(L, 4);
 
-	h = (long)CreateEventA(&sa, mr, is, name);
-
-	if (h)
-		lua_pushnumber(L, h);
-	else
-		lua_pushnil(L);
-
+	luaM_CheckPushNumber(L, CreateEventA(&sa, mr, is, name));
 	return(1);
 }
 
@@ -746,35 +626,32 @@ static int global_OpenEvent(lua_State *L) {
 	return(1);
 }
 
-static int global_PulseEvent(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushnumber(L, PulseEvent((HANDLE)h));
-
+static int global_PulseEvent(lua_State *L) 
+{
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, PulseEvent(h));
 	return(1);
 }
 
-static int global_ResetEvent(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushnumber(L, ResetEvent((HANDLE)h));
-
+static int global_ResetEvent(lua_State *L) 
+{
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, ResetEvent(h));
 	return(1);
 }
 
-static int global_SetEvent(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushnumber(L, SetEvent((HANDLE)h));
-
+static int global_SetEvent(lua_State *L) 
+{
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, SetEvent(h));
 	return(1);
 }
 
-static int global_CreateMutex(lua_State *L) {
+static int global_CreateMutex(lua_State *L) 
+{
 	SECURITY_ATTRIBUTES sa;
 	BOOL io = (BOOL)luaL_checknumber(L, 2);
 	const char *name;
-	long h;
 
 	sa.nLength = sizeof(sa);
 	sa.lpSecurityDescriptor = NULL;
@@ -788,47 +665,34 @@ static int global_CreateMutex(lua_State *L) {
 		lua_pop(L, 1);
 	}
 	name = lua_tostring(L, 3);
-
-	h = (long)CreateMutexA(&sa, io, name);
-
-	if (h)
-		lua_pushnumber(L, h);
-	else
-		lua_pushnil(L);
-
+	HANDLE h = (HANDLE)(intptr_t)CreateMutexA(&sa, io, name);
+	luaM_CheckPushNumber(L, h);
 	return(1);
 }
 
-static int global_OpenMutex(lua_State *L) {
-	long h;
+static int global_OpenMutex(lua_State *L) 
+{
 	DWORD da = (DWORD)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
 	const char *name = luaL_checkstring(L, 3);
 
-	h = (long)OpenMutexA(da, ih, name);
-
-	if (h)
-		lua_pushnumber(L, h);
-	else
-		lua_pushnil(L);
-
+	HANDLE h = (HANDLE)(intptr_t)OpenMutexA(da, ih, name);
+	luaM_CheckPushNumber(L, h);
 	return(1);
 }
 
 static int global_ReleaseMutex(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushnumber(L, ReleaseMutex((HANDLE)h));
-
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushnumber(L, ReleaseMutex(h));
 	return(1);
 }
 
-static int global_CreateSemaphore(lua_State *L) {
+static int global_CreateSemaphore(lua_State *L) 
+{
 	SECURITY_ATTRIBUTES sa;
 	long ic = (long)luaL_checknumber(L, 2);
 	long mc = (long)luaL_checknumber(L, 3);
 	const char *name;
-	long h;
 
 	sa.nLength = sizeof(sa);
 	sa.lpSecurityDescriptor = NULL;
@@ -843,49 +707,37 @@ static int global_CreateSemaphore(lua_State *L) {
 	}
 	name = lua_tostring(L, 4);
 
-	h = (long)CreateSemaphoreA(&sa, ic, mc, name);
-
-	if (h)
-		lua_pushnumber(L, h);
-	else
-		lua_pushnil(L);
-
+	HANDLE h = (HANDLE)(intptr_t)CreateSemaphoreA(&sa, ic, mc, name);
+	luaM_CheckPushNumber(L, h);
 	return(1);
 }
 
-static int global_OpenSemaphore(lua_State *L) {
-	long h;
+static int global_OpenSemaphore(lua_State *L) 
+{
 	DWORD da = (DWORD)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
 	const char *name = luaL_checkstring(L, 3);
 
-	h = (long)OpenSemaphoreA(da, ih, name);
-
-	if (h)
-		lua_pushnumber(L, h);
-	else
-		lua_pushnil(L);
-
+	HANDLE h = (HANDLE)(intptr_t)OpenSemaphoreA(da, ih, name);
+	luaM_CheckPushNumber(L, h);
 	return(1);
 }
 
-static int global_ReleaseSemaphore(lua_State *L) {
+static int global_ReleaseSemaphore(lua_State *L)
+{
 	long pc;
 	BOOL brc;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	long rc = (long)luaL_checknumber(L, 2);
 
-	brc = ReleaseSemaphore((HANDLE)h, rc, &pc);
+	brc = ReleaseSemaphore(h, rc, &pc);
 	lua_pushnumber(L, brc);
-	if (brc)
-		lua_pushnumber(L, pc);
-	else
-		lua_pushnil(L);
-
+	luaM_PushNumberIf(L, brc, rc);
 	return(2);
 }
 
-static int global_CreateProcess(lua_State *L) {
+static int global_CreateProcess(lua_State *L) 
+{
 	SECURITY_ATTRIBUTES psa;
 	SECURITY_ATTRIBUTES tsa;
 	PROCESS_INFORMATION pi;
@@ -986,19 +838,20 @@ static int global_CreateProcess(lua_State *L) {
 		mir_free(si.lpTitle);
 
 	lua_pushnumber(L, brc);
-	if (brc) {
-		lua_pushnumber(L, (long)(pi.hProcess));
-		lua_pushnumber(L, (long)(pi.hThread));
+	if (brc) 
+	{
+		lua_pushnumber(L, (intptr_t)(pi.hProcess));
+		lua_pushnumber(L, (intptr_t)(pi.hThread));
 		lua_pushnumber(L, pi.dwProcessId);
 		lua_pushnumber(L, pi.dwThreadId);
 	}
-	else {
+	else 
+	{
 		lua_pushnil(L);
 		lua_pushnil(L);
 		lua_pushnil(L);
 		lua_pushnil(L);
 	}
-
 	return(5);
 }
 
@@ -1020,21 +873,16 @@ static int global_CreateProcess(lua_State *L) {
 * SOURCE
 */
 
-static int global_GetTempFileName(lua_State *L) {
-	UINT rc;
+static int global_GetTempFileName(lua_State *L) 
+{
 	char tfn[MAX_PATH];
 	const char *path = luaL_checkstring(L, 1);
 	const char *pfx = luaL_checkstring(L, 2);
 	UINT unique = (UINT)luaL_checknumber(L, 3);
-
-	rc = GetTempFileNameA(path, pfx, unique, tfn);
+	UINT rc = GetTempFileNameA(path, pfx, unique, tfn);
 
 	lua_pushnumber(L, rc);
-	if (rc)
-		lua_pushstring(L, tfn);
-	else
-		lua_pushnil(L);
-
+	luaM_PushStringIf(L, tfn, rc);
 	return(2);
 }
 /***/
@@ -1052,18 +900,12 @@ static int global_GetTempFileName(lua_State *L) {
 * SOURCE
 */
 
-static int global_GetTempPath(lua_State *L) {
-	DWORD rc;
+static int global_GetTempPath(lua_State *L) 
+{
 	char tfn[MAX_PATH];
-
-	rc = GetTempPathA(MAX_PATH, tfn);
-
+	DWORD rc = GetTempPathA(MAX_PATH, tfn);
 	lua_pushnumber(L, rc);
-	if (rc)
-		lua_pushstring(L, tfn);
-	else
-		lua_pushnil(L);
-
+	luaM_PushStringIf(L, tfn, rc);
 	return(2);
 }
 /***/
@@ -1080,7 +922,7 @@ static int global_CreateNamedPipe(lua_State *L)
 	SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, false };
 
 	HANDLE hPipe = CreateNamedPipeA(lpName, dwOpenMode, dwPipeMode, nMaxInstances, nOutBufferSize, nInBufferSize, nDefaultTimeOut, &sa);
-	lua_pushnumber(L, (long)hPipe);
+	lua_pushnumber(L, (intptr_t)hPipe);
 	return 1;
 }
 
@@ -1106,15 +948,16 @@ static int global_CreateNamedPipe(lua_State *L)
 * SOURCE
 */
 
-static int global_CreateFile(lua_State *L) {
+static int global_CreateFile(lua_State *L) 
+{
 	SECURITY_ATTRIBUTES sa;
-	long h;
+	HANDLE hFile;
 	const char *name = luaL_checkstring(L, 1);
 	DWORD da = (DWORD)luaL_checknumber(L, 2);
 	DWORD sm = (DWORD)luaL_checknumber(L, 3);
 	DWORD cd = (DWORD)luaL_checknumber(L, 5);
 	DWORD fa = (DWORD)luaL_checknumber(L, 6);
-	long th = 0;
+	intptr_t th = 0;
 
 	sa.nLength = sizeof(sa);
 	sa.lpSecurityDescriptor = NULL;
@@ -1127,11 +970,10 @@ static int global_CreateFile(lua_State *L) {
 		lua_pop(L, 1);
 	}
 	if (!lua_isnil(L, 7))
-		th = (long)luaL_checknumber(L, 7);
+		th = luaL_checknumber(L, 7);
 
-	h = (long)CreateFileA(name, da, sm, &sa, cd, fa, (HANDLE)th);
-
-	lua_pushnumber(L, h);
+	hFile = CreateFileA(name, da, sm, &sa, cd, fa, (HANDLE)th);
+	lua_pushnumber(L, (intptr_t)hFile);
 
 	return(1);
 }
@@ -1156,17 +998,19 @@ static int global_ReadFile(lua_State *L) {
 	DWORD bread;
 	char *buf;
 	BOOL brc = FALSE;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	DWORD btoread = (DWORD)luaL_checknumber(L, 2);
 
 	buf = (char*)mir_alloc(btoread);
-	if (buf != NULL) {
-		brc = ReadFile((HANDLE)h, buf, btoread, &bread, NULL);
+	if (buf != NULL) 
+	{
+		brc = ReadFile(h, buf, btoread, &bread, NULL);
 		lua_pushboolean(L, TRUE);
 		lua_pushlstring(L, buf, bread);
 		mir_free(buf);
 	}
-	else {
+	else 
+	{
 		lua_pushboolean(L, FALSE);
 		lua_pushnil(L);
 	}
@@ -1194,16 +1038,12 @@ static int global_WriteFile(lua_State *L) {
 	DWORD bwrite;
 	DWORD btowrite;
 	BOOL brc;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	const char *buf = luaL_checklstring(L, 2, (size_t*)&btowrite);
 
-	brc = WriteFile((HANDLE)h, buf, btowrite, &bwrite, NULL);
+	brc = WriteFile(h, buf, btowrite, &bwrite, NULL);
 	lua_pushboolean(L, brc);
-	if (brc)
-		lua_pushnumber(L, bwrite);
-	else
-		lua_pushnil(L);
-
+	luaM_PushNumberIf(L, bwrite, brc);
 	return(2);
 }
 /***/
@@ -1217,84 +1057,83 @@ static int global_DeleteFile(lua_State *L)
 }
 
 static int global_WaitForSingleObject(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	DWORD t = (DWORD)luaL_checknumber(L, 2);
 
-	lua_pushnumber(L, WaitForSingleObject((HANDLE)h, t));
-
+	lua_pushnumber(L, WaitForSingleObject(h, t));
 	return(1);
 }
 
-static int global_WaitForMultipleObjects(lua_State *L) {
+static int global_WaitForMultipleObjects(lua_State *L) 
+{
 	HANDLE ha[64];
 	DWORD c = 0;
 	BOOL wa = (BOOL)luaL_checknumber(L, 2);
 	DWORD t = (DWORD)luaL_checknumber(L, 3);
 
-	if (lua_istable(L, 1)) {
-		for (; c < 64; c++) {
-			long h;
+	if (lua_istable(L, 1)) 
+	{
+		for (; c < 64; c++) 
+		{
 			lua_pushnumber(L, c + 1);
 			lua_gettable(L, 1);
 			if (lua_isnil(L, -1))
 				break;
-			h = (long)luaL_checknumber(L, -1);
-			ha[c] = (HANDLE)h;
+			HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, -1);
+			ha[c] = h;
 		}
 	}
-
 	lua_pushnumber(L, WaitForMultipleObjects(c, ha, wa, t));
-
 	return(1);
 }
 
 static int global_TerminateProcess(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	DWORD ec = (DWORD)luaL_checknumber(L, 2);
 
-	lua_pushnumber(L, TerminateProcess((HANDLE)h, ec));
-
+	lua_pushboolean(L, TerminateProcess(h, ec));
 	return(1);
 }
 
-static int global_GetExitCodeProcess(lua_State *L) {
+static int global_GetExitCodeProcess(lua_State *L) 
+{
 	BOOL ok;
 	DWORD ec;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 
-	ok = GetExitCodeProcess((HANDLE)h, &ec);
+	ok = GetExitCodeProcess(h, &ec);
 	lua_pushnumber(L, ok);
 	lua_pushnumber(L, ec);
 
 	return(2);
 }
 
-static int global_GetCurrentThreadId(lua_State *L) {
+static int global_GetCurrentThreadId(lua_State *L) 
+{
 	lua_pushnumber(L, GetCurrentThreadId());
-
 	return(1);
 }
 
-static int global_RegisterWindowMessage(lua_State *L) {
+static int global_RegisterWindowMessage(lua_State *L) 
+{
 	const char *msg = luaL_checkstring(L, 1);
-
 	lua_pushnumber(L, RegisterWindowMessageA(msg));
-
 	return(1);
 }
 
-static int global_RegQueryValueEx(lua_State *L) {
+static int global_RegQueryValueEx(lua_State *L) 
+{
 	long rv;
 	HKEY hsk;
 	DWORD type;
 	DWORD dwdata;
 	DWORD len;
 	char *szdata;
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 	const char *valuename = luaL_checkstring(L, 3);
 
-	rv = RegOpenKeyExA((HKEY)hkey, subkey, 0, KEY_QUERY_VALUE, &hsk);
+	rv = RegOpenKeyExA(hkey, subkey, 0, KEY_QUERY_VALUE, &hsk);
 	if (rv == ERROR_SUCCESS) {
 		len = sizeof(dwdata);
 		rv = RegQueryValueExA(hsk, valuename, NULL, &type, (LPBYTE)&dwdata, &len);
@@ -1346,7 +1185,7 @@ static int global_RegSetValueEx(lua_State *L) {
 	DWORD dwdata;
 	DWORD len = 0;
 	char *szdata = NULL;
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 	const char *valuename = luaL_checkstring(L, 3);
 
@@ -1359,7 +1198,7 @@ static int global_RegSetValueEx(lua_State *L) {
 		type = (DWORD)luaL_optnumber(L, 5, REG_SZ);
 	}
 
-	rv = RegCreateKeyExA((HKEY)hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hsk, NULL);
+	rv = RegCreateKeyExA(hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hsk, NULL);
 	if (rv == ERROR_SUCCESS) {
 		if (szdata == NULL)
 			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST BYTE *) &dwdata, sizeof(dwdata));
@@ -1377,12 +1216,13 @@ static int global_RegSetValueEx(lua_State *L) {
 static int global_RegDeleteValue(lua_State *L) {
 	long rv;
 	HKEY hsk;
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 	const char *valuename = luaL_checkstring(L, 3);
 
-	rv = RegOpenKeyExA((HKEY)hkey, subkey, 0, KEY_SET_VALUE, &hsk);
-	if (rv == ERROR_SUCCESS) {
+	rv = RegOpenKeyExA(hkey, subkey, 0, KEY_SET_VALUE, &hsk);
+	if (rv == ERROR_SUCCESS) 
+	{
 		rv = RegDeleteValueA(hsk, valuename);
 		lua_pushboolean(L, rv == ERROR_SUCCESS);
 		RegCloseKey(hsk);
@@ -1394,28 +1234,29 @@ static int global_RegDeleteValue(lua_State *L) {
 }
 
 static int global_RegDeleteKey(lua_State *L) {
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
-
-	lua_pushboolean(L, RegDeleteKeyA((HKEY)hkey, subkey) == ERROR_SUCCESS);
-
+	lua_pushboolean(L, RegDeleteKeyA(hkey, subkey) == ERROR_SUCCESS);
 	return 1;
 }
 
-static int global_RegEnumKeyEx(lua_State *L) {
+static int global_RegEnumKeyEx(lua_State *L) 
+{
 	long rv;
 	HKEY hsk;
 	DWORD len;
 	DWORD index;
 	char name[256];
 	FILETIME ft;
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 
-	rv = RegOpenKeyExA((HKEY)hkey, subkey, 0, KEY_ENUMERATE_SUB_KEYS, &hsk);
-	if (rv == ERROR_SUCCESS) {
+	rv = RegOpenKeyExA(hkey, subkey, 0, KEY_ENUMERATE_SUB_KEYS, &hsk);
+	if (rv == ERROR_SUCCESS) 
+	{
 		lua_newtable(L);
-		for (index = 0;; index++) {
+		for (index = 0 ; ; index++) 
+		{
 			len = sizeof(name);
 			if (RegEnumKeyExA(hsk, index, name, &len,
 				NULL, NULL, NULL, &ft) != ERROR_SUCCESS)
@@ -1438,13 +1279,15 @@ static int global_RegEnumValue(lua_State *L) {
 	DWORD len;
 	DWORD index;
 	char name[256];
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 
-	rv = RegOpenKeyExA((HKEY)hkey, subkey, 0, KEY_QUERY_VALUE, &hsk);
-	if (rv == ERROR_SUCCESS) {
+	rv = RegOpenKeyExA(hkey, subkey, 0, KEY_QUERY_VALUE, &hsk);
+	if (rv == ERROR_SUCCESS) 
+	{
 		lua_newtable(L);
-		for (index = 0;; index++) {
+		for (index = 0;; index++) 
+		{
 			len = sizeof(name);
 			if (RegEnumValueA(hsk, index, name, &len,
 				NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
@@ -1461,7 +1304,8 @@ static int global_RegEnumValue(lua_State *L) {
 	return 1;
 }
 
-static int global_SetCurrentDirectory(lua_State *L) {
+static int global_SetCurrentDirectory(lua_State *L) 
+{
 	DWORD le;
 	BOOL ok;
 	const char *pname = luaL_checkstring(L, 1);
@@ -1481,30 +1325,27 @@ static int global_SetCurrentDirectory(lua_State *L) {
 }
 
 static int global_SHDeleteKey(lua_State *L) {
-	long hkey = MYP2HCAST luaL_checknumber(L, 1);
+	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
-
-	lua_pushboolean(L, SHDeleteKeyA((HKEY)hkey, subkey) == ERROR_SUCCESS);
-
+	lua_pushboolean(L, SHDeleteKeyA(hkey, subkey) == ERROR_SUCCESS);
 	return 1;
 }
 
-static int global_Sleep(lua_State *L) {
+static int global_Sleep(lua_State *L) 
+{
 	DWORD tosleep = (DWORD)luaL_checknumber(L, 1);
-
 	Sleep(tosleep);
-
 	return 0;
 }
 
-static int global_GetVersion(lua_State *L) {
-
+static int global_GetVersion(lua_State *L) 
+{
 	lua_pushnumber(L, GetVersion());
-
 	return 1;
 }
 
-static void pushFFTime(lua_State *L, FILETIME *ft) {
+static void pushFFTime(lua_State *L, FILETIME *ft) 
+{
 	SYSTEMTIME st;
 	FileTimeToSystemTime(ft, &st);
 	lua_newtable(L);
@@ -1533,7 +1374,8 @@ static void pushFFTime(lua_State *L, FILETIME *ft) {
 	lua_pushnumber(L, st.wMilliseconds);
 	lua_rawset(L, -3);
 }
-static void pushFFData(lua_State *L, WIN32_FIND_DATAA *wfd) {
+static void pushFFData(lua_State *L, WIN32_FIND_DATAA *wfd) 
+{
 	lua_newtable(L);
 	lua_pushstring(L, "FileAttributes");
 	lua_pushnumber(L, wfd->dwFileAttributes);
@@ -1561,7 +1403,8 @@ static void pushFFData(lua_State *L, WIN32_FIND_DATAA *wfd) {
 	lua_rawset(L, -3);
 }
 
-static int global_FindFirstFile(lua_State *L) {
+static int global_FindFirstFile(lua_State *L) 
+{
 	WIN32_FIND_DATAA wfd;
 	HANDLE hfd;
 	const char *fname = luaL_checkstring(L, 1);
@@ -1579,42 +1422,42 @@ static int global_FindFirstFile(lua_State *L) {
 	return(2);
 }
 
-static int global_FindNextFile(lua_State *L) {
+static int global_FindNextFile(lua_State *L) 
+{
 	WIN32_FIND_DATAA wfd;
 	BOOL ok;
-	long lfd = MYP2HCAST luaL_checknumber(L, 1);
+	HANDLE lfd = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 
-	ok = FindNextFileA((HANDLE)lfd, &wfd);
+	ok = FindNextFileA(lfd, &wfd);
 	lua_pushboolean(L, ok);
-	if (!ok) {
+
+	if (!ok) 
 		lua_pushnil(L);
-	}
-	else {
+	else 
 		pushFFData(L, &wfd);
+	return(2);
+}
+
+static int global_FindClose(lua_State *L) 
+{
+	HANDLE lfd = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, FindClose(lfd));
+	return(2);
+}
+
+static void FreePIDL(LPITEMIDLIST idl) 
+{
+	IMalloc *m = nullptr;
+	SHGetMalloc(&m);
+	if (m != nullptr)
+	{
+		m->Free(idl);
+		m->Release();
 	}
-
-	return(2);
 }
 
-static int global_FindClose(lua_State *L) {
-	long lfd = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushboolean(L, FindClose((HANDLE)lfd));
-
-	return(2);
-}
-
-static void FreePIDL(LPITEMIDLIST idl) {
-/*	
-	Imalloc *m;
-	SHGetmalloc(&m);
-	if (m != NULL)
-		m->lpVtbl->Free(m, idl);
-	m->lpVtbl->Release(m);
-*/
-}
-
-static int global_SHGetSpecialFolderLocation(lua_State *L) {
+static int global_SHGetSpecialFolderLocation(lua_State *L) 
+{
 	LPITEMIDLIST idl;
 	char out[MAX_PATH];
 	int ifolder = (int)luaL_checknumber(L, 1);
@@ -1642,13 +1485,15 @@ static int global_GetFullPathName(lua_State *L) {
 	const char *pname = luaL_checkstring(L, 1);
 
 	rc = GetFullPathNameA(pname, sizeof(fpname), fpname, &fpart);
-	if (!rc) {
+	if (!rc) 
+	{
 		le = GetLastError();
 		lua_pushnumber(L, 0);
 		lua_pushnil(L);
 		lua_pushnumber(L, le);
 	}
-	else {
+	else 
+	{
 		lua_pushnumber(L, rc);
 		lua_pushstring(L, fpname);
 		lua_pushnil(L);
@@ -1657,9 +1502,8 @@ static int global_GetFullPathName(lua_State *L) {
 	return 3;
 }
 
-BOOL __declspec(dllimport) __stdcall
-CheckTokenMembership(HANDLE TokenHandle, PSID SidToCheck, PBOOL IsMember);
-static int global_IsUserAdmin(lua_State *L) {
+static int global_IsUserAdmin(lua_State *L) 
+{
 	BOOL b;
 	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
 	PSID AdministratorsGroup;
@@ -1671,14 +1515,13 @@ static int global_IsUserAdmin(lua_State *L) {
 		DOMAIN_ALIAS_RID_ADMINS,
 		0, 0, 0, 0, 0, 0,
 		&AdministratorsGroup);
-	if (b) {
+	if (b) 
+	{
 		if (!CheckTokenMembership(NULL, AdministratorsGroup, &b))
 			b = FALSE;
 		FreeSid(AdministratorsGroup);
 	}
-
 	lua_pushboolean(L, b);
-
 	return 1;
 }
 
@@ -1714,60 +1557,56 @@ static int global_IsRunning(lua_State *L) {
 	return 1;
 }
 
-static int global_GetWindowThreadProcessId(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+static int global_GetWindowThreadProcessId(lua_State *L) 
+{
+	HWND h = (HWND)(intptr_t)luaL_checknumber(L, 1);
 	DWORD tid, pid;
 
-	tid = GetWindowThreadProcessId((HWND)h, &pid);
-	lua_pushnumber(L, (long)tid);
-	lua_pushnumber(L, (long)pid);
-
+	tid = GetWindowThreadProcessId(h, &pid);
+	lua_pushnumber(L, tid);
+	lua_pushnumber(L, pid);
 	return 2;
 }
 
-static int global_OpenSCManager(lua_State *L) {
-	SC_HANDLE h;
-
-	h = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-	lua_pushnumber(L, (long)h);
-
+static int global_OpenSCManager(lua_State *L) 
+{
+	lua_pushnumber(L, (intptr_t)OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS));
 	return 1;
 }
 
 static int global_OpenService(lua_State *L) {
 	SC_HANDLE h;
-	long scm = MYP2HCAST luaL_checknumber(L, 1);
+	SC_HANDLE scm = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	const char *sname = luaL_checkstring(L, 2);
 
-	h = OpenServiceA((SC_HANDLE)scm, sname, SERVICE_ALL_ACCESS);
-	lua_pushnumber(L, (long)h);
+	h = OpenServiceA(scm, sname, SERVICE_ALL_ACCESS);
+	lua_pushnumber(L, (intptr_t)h);
 
 	return 1;
 }
 
 static int global_CloseServiceHandle(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushboolean(L, CloseServiceHandle((SC_HANDLE)h));
-
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, CloseServiceHandle(h));
 	return 1;
 }
 
 static int global_QueryServiceStatus(lua_State *L) {
 	SERVICE_STATUS ss;
 	BOOL brc;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
 
-	brc = QueryServiceStatus((SC_HANDLE)h, &ss);
+	brc = QueryServiceStatus(h, &ss);
 	lua_pushboolean(L, brc);
-	if (brc) {
-		lua_pushnumber(L, (long)(ss.dwServiceType));
-		lua_pushnumber(L, (long)(ss.dwCurrentState));
-		lua_pushnumber(L, (long)(ss.dwControlsAccepted));
-		lua_pushnumber(L, (long)(ss.dwWin32ExitCode));
-		lua_pushnumber(L, (long)(ss.dwServiceSpecificExitCode));
-		lua_pushnumber(L, (long)(ss.dwCheckPoint));
-		lua_pushnumber(L, (long)(ss.dwWaitHint));
+	if (brc) 
+	{
+		lua_pushnumber(L, (ss.dwServiceType));
+		lua_pushnumber(L, (ss.dwCurrentState));
+		lua_pushnumber(L, (ss.dwControlsAccepted));
+		lua_pushnumber(L, (ss.dwWin32ExitCode));
+		lua_pushnumber(L, (ss.dwServiceSpecificExitCode));
+		lua_pushnumber(L, (ss.dwCheckPoint));
+		lua_pushnumber(L, (ss.dwWaitHint));
 		return 8;
 	}
 	else
@@ -1781,9 +1620,9 @@ static int global_QueryServiceConfig(lua_State *L) {
 	} storage;
 	BOOL brc;
 	DWORD needed = 0, errcode = 0;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
 
-	brc = QueryServiceConfig((SC_HANDLE)h, (LPQUERY_SERVICE_CONFIG)&storage, sizeof(storage), &needed);
+	brc = QueryServiceConfig(h, (LPQUERY_SERVICE_CONFIG)&storage, sizeof(storage), &needed);
 	if (!brc) {
 		errcode = GetLastError();
 	}
@@ -1807,83 +1646,70 @@ static int global_QueryServiceConfig(lua_State *L) {
 static int global_ControlService(lua_State *L) {
 	SERVICE_STATUS ss;
 	BOOL brc;
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	DWORD c = (DWORD)luaL_checknumber(L, 2);
 
-	brc = ControlService((SC_HANDLE)h, c, &ss);
+	brc = ControlService(h, c, &ss);
 	lua_pushboolean(L, brc);
 
 	return 1;
 }
 
-static int global_DeleteService(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
+static int global_DeleteService(lua_State *L) 
+{
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, DeleteService(h));
+	return 1;
+}
 
-	lua_pushboolean(L, DeleteService((SC_HANDLE)h));
+static int global_StartService(lua_State *L) 
+{
+	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	lua_pushboolean(L, StartService(h, 0, NULL));
 
 	return 1;
 }
 
-static int global_StartService(lua_State *L) {
-	long h = MYP2HCAST luaL_checknumber(L, 1);
-
-	lua_pushboolean(L, StartService((SC_HANDLE)h, 0, NULL));
-
-	return 1;
-}
-
-static int global_mciSendString(lua_State *L) {
+static int global_mciSendString(lua_State *L) 
+{
 	const char *cmd = luaL_checkstring(L, 1);  // only one string parameter is used
-
-	long lrc = (long)mciSendStringA(cmd, NULL, 0, NULL);
-
+	DWORD lrc = mciSendStringA(cmd, NULL, 0, NULL);
 	lua_pushnumber(L, lrc);
-
 	return(1);
 }
 
 static int global_MessageBeep(lua_State *L) {
 	const UINT uType = luaL_checkinteger(L, 1);
-
-	BOOL rc = MessageBeep(uType);
-
-	lua_pushboolean(L, rc);
-
-	return(1);
+	lua_pushboolean(L, MessageBeep(uType));
+	return 1;
 }
 
-static int global_Beep(lua_State *L) {
+static int global_Beep(lua_State *L) 
+{
 	const DWORD dwFreq = luaL_checkinteger(L, 1);
 	const DWORD dwDuration = luaL_checkinteger(L, 2);
-
-	BOOL rc = Beep(dwFreq, dwDuration);
-
-	lua_pushboolean(L, rc);
-
-	return(1);
+	lua_pushboolean(L, Beep(dwFreq, dwDuration));
+	return 1;
 }
 
-static int global_CoInitialize(lua_State *L) {
-	long lrc = (long)CoInitialize(NULL);
+static int global_CoInitialize(lua_State *L) 
+{
+	HRESULT lrc = CoInitialize(NULL);
 	lua_pushinteger(L, lrc);
 	return(1);
 }
 
-static int global_CoUninitialize(lua_State *L) {
+static int global_CoUninitialize(lua_State *) 
+{
 	CoUninitialize();
 	return(0);
 }
 
-
-/* Module exported function */
-
-static struct {
-	char    *name;
-	DWORD   value;
-} consts[] = {
+static luaM_consts consts[] = 
+{
 	{ "TRUE", TRUE },
 	{ "FALSE", FALSE },
-	{ "INVALID_HANDLE_VALUE", (unsigned long)INVALID_HANDLE_VALUE },
+	{ "INVALID_HANDLE_VALUE", (intptr_t)INVALID_HANDLE_VALUE },
 	{ "INFINITE", INFINITE },
 	{ "EVENT_ALL_ACCESS", EVENT_ALL_ACCESS },
 	{ "EVENT_MODIFY_STATE", EVENT_MODIFY_STATE },
@@ -1990,12 +1816,11 @@ static struct {
 	{ "WRITE_OWNER", WRITE_OWNER },
 	{ "ACCESS_SYSTEM_SECURITY", ACCESS_SYSTEM_SECURITY },
 
-
-	{ "HKEY_CLASSES_ROOT", (unsigned long)HKEY_CLASSES_ROOT },
-	{ "HKEY_CURRENT_CONFIG", (unsigned long)HKEY_CURRENT_CONFIG },
-	{ "HKEY_CURRENT_USER", (unsigned long)HKEY_CURRENT_USER },
-	{ "HKEY_LOCAL_MACHINE", (unsigned long)HKEY_LOCAL_MACHINE },
-	{ "HKEY_USERS", (unsigned long)HKEY_USERS },
+	{ "HKEY_CLASSES_ROOT", (intptr_t)HKEY_CLASSES_ROOT },
+	{ "HKEY_CURRENT_CONFIG", (intptr_t)HKEY_CURRENT_CONFIG },
+	{ "HKEY_CURRENT_USER", (intptr_t)HKEY_CURRENT_USER },
+	{ "HKEY_LOCAL_MACHINE", (intptr_t)HKEY_LOCAL_MACHINE },
+	{ "HKEY_USERS", (intptr_t)HKEY_USERS },
 	{ "REG_BINARY", REG_BINARY },
 	{ "REG_DWORD", REG_DWORD },
 	{ "REG_DWORD_BIG_ENDIAN", REG_DWORD_BIG_ENDIAN },
@@ -2062,14 +1887,12 @@ static luaL_Reg winApi[] =
 	{ "SetRegValue", lua_SetRegValue },
 	{ "DeleteRegValue", lua_DeleteRegValue },
 
-	{ "ShellOpen", global_ShellOpen },
 	{ "FindWindow", global_FindWindow },
 	{ "FindWindowEx", global_FindWindowEx },
 	{ "SetFocus", global_SetFocus },
 	{ "GetWindowText", global_GetWindowText },
 	{ "SetWindowText", global_SetWindowText },
 	{ "GetWindowRect", global_GetWindowRect },
-	{ "RegisterHotKey", global_RegisterHotKey },
 	{ "SetForegroundWindow", global_SetForegroundWindow },
 	{ "PostMessage", global_PostMessage },
 	{ "PostThreadMessage", global_PostThreadMessage },
@@ -2138,7 +1961,6 @@ static luaL_Reg winApi[] =
 	{ "CoInitialize", global_CoInitialize },
 	{ "CoUninitialize", global_CoUninitialize },
 	
-
 	{ NULL, NULL }
 };
 

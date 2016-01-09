@@ -66,4 +66,13 @@
 #include <m_core.h>
 #include <m_utils.h>
 
-#define MYP2HCAST	(long)
+struct luaM_consts
+{
+	char    *name;
+	intptr_t   value;
+};
+
+
+#define luaM_PushNumberIf(L, a, b) if (b) lua_pushnumber(L, (intptr_t)a); else lua_pushnil(L);
+#define luaM_PushStringIf(L, a, b) if (b) lua_pushstring(L, a); else lua_pushnil(L);
+#define luaM_CheckPushNumber(L, a) luaM_PushNumberIf(L, a, a)
