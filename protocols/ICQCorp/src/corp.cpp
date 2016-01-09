@@ -62,12 +62,12 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfo);
 
 	char fileName[MAX_PATH];
-	WIN32_FIND_DATA findData;
+	GetModuleFileNameA(hInstance, fileName, MAX_PATH);
 
-	GetModuleFileName(hInstance, fileName, MAX_PATH);
-	FindClose(FindFirstFile(fileName, &findData));
-	findData.cFileName[mir_strlen(findData.cFileName) - 4] = 0;
-	mir_strcpy(protoName, findData.cFileName);
+	WIN32_FIND_DATAA findData;
+	FindClose(FindFirstFileA(fileName, &findData));
+	findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+	strncpy_s(protoName, findData.cFileName, _TRUNCATE);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = protoName;
