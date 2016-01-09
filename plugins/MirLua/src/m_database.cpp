@@ -206,7 +206,17 @@ static int lua_GetSetting(lua_State *L)
 	case DBVT_WCHAR:
 		lua_pushstring(L, ptrA(mir_utf8encodeW(dbv.pwszVal)));
 		break;
-
+	case DBVT_BLOB:
+		{
+			lua_newtable(L);
+			for (size_t i = 0; i < dbv.cpbVal; i++)
+			{
+				lua_pushnumber(L, i + 1);
+				lua_pushnumber(L, dbv.pbVal[i]);
+				lua_settable(L, -3);
+			}
+		}
+	break;
 	default:
 		db_free(&dbv);
 		lua_pushvalue(L, 4);
@@ -305,7 +315,9 @@ static int lua_WriteSetting(lua_State *L)
 		dbv.pszVal = (char*)lua_tostring(L, 4);
 		dbv.type = DBVT_UTF8;
 		break;
-
+	case LUA_TTABLE:
+		//this is blob, should be converted to BYTE* 
+		break;
 	default:
 		lua_pushinteger(L, 1);
 		return 1;
