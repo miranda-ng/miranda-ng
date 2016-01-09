@@ -230,9 +230,8 @@ decode_string(lua_State *L, char **s)
 				break;
 			case 'u':
 				code2utf8(L, (unsigned char *)(*s) + 2, utfbuf);
-				size_t tmplen = strlen(utfbuf);
 				strcpy(newc, utfbuf);
-				newc += tmplen;
+				newc += strlen(utfbuf);
 				(*s) += 6;
 				break;
 			default:
