@@ -230,14 +230,14 @@ decode_string(lua_State *L, char **s)
 				break;
 			case 'u':
 				code2utf8(L, (unsigned char *)(*s) + 2, utfbuf);
-				size_t len = strlen(utfbuf);
+				size_t tmplen = strlen(utfbuf);
 				strcpy(newc, utfbuf);
-				newc += len;
+				newc += tmplen;
 				(*s) += 6;
 				break;
-/*			default:
+			default:
 				json_error(L, "invalid escape character");
-				break;*/
+				break;
 			}
 		}
 		else if (nextEscape != NULL) {
