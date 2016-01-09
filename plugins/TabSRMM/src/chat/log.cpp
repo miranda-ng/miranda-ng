@@ -805,6 +805,9 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 						str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
 				}
 
+				if (db_get_b(0, CHAT_MODULE, "NewlineAfterNames"))
+					pszTemp.AppendChar('\n');
+
 				Log_AppendRTF(streamData, TRUE, str, pszTemp, lin->ptszNick);
 				str.AppendChar(' ');
 			}
