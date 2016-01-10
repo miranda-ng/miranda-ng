@@ -62,8 +62,10 @@ bool CMLuaScript::Load()
 		lua_pop(L, 1);
 		lua_pushvalue(L, -2);
 		lua_setfield(L, -2, moduleName);
+		lua_pop(L, 1);
 	}
-	lua_remove(L, -2);
+	else
+		lua_remove(L, -2);
 
 	if (!lua_istable(L, -1))
 		return true;
