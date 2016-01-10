@@ -197,7 +197,7 @@ static int lua_DeleteIniValue(lua_State *L)
 
 static int lua_GetRegValue(lua_State *L)
 {
-	HKEY hRootKey = (HKEY)lua_touserdata(L, 1);
+	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
 	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
 
@@ -258,7 +258,7 @@ static int lua_GetRegValue(lua_State *L)
 
 static int lua_SetRegValue(lua_State *L)
 {
-	HKEY hRootKey = (HKEY)lua_touserdata(L, 1);
+	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
 	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
 
@@ -314,7 +314,7 @@ static int lua_SetRegValue(lua_State *L)
 
 static int lua_DeleteRegValue(lua_State *L)
 {
-	HKEY hRootKey = (HKEY)lua_touserdata(L, 1);
+	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
 	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
 
@@ -1883,9 +1883,9 @@ static luaL_Reg winApi[] =
 	{ "SetIniValue", lua_SetIniValue },
 	{ "DeleteIniValue", lua_DeleteIniValue },
 
-	{ "GetRegValue", lua_GetRegValue },
-	{ "SetRegValue", lua_SetRegValue },
-	{ "DeleteRegValue", lua_DeleteRegValue },
+	//{ "GetRegValue", lua_GetRegValue },
+	//{ "SetRegValue", lua_SetRegValue },
+	//{ "DeleteRegValue", lua_DeleteRegValue },
 
 	{ "FindWindow", global_FindWindow },
 	{ "FindWindowEx", global_FindWindowEx },
