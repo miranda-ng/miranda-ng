@@ -130,7 +130,7 @@ static time_t luaM_opttimestamp(lua_State *L, int idx, time_t def = 0)
 
 /***********************************************/
 
-static int schedule_Second(lua_State *L)
+static int fluent_Second(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -140,7 +140,7 @@ static int schedule_Second(lua_State *L)
 	return 1;
 }
 
-static int schedule_Seconds(lua_State *L)
+static int fluent_Seconds(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -153,7 +153,7 @@ static int schedule_Seconds(lua_State *L)
 	return 1;
 }
 
-static int schedule_Minute(lua_State *L)
+static int fluent_Minute(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -163,7 +163,7 @@ static int schedule_Minute(lua_State *L)
 	return 1;
 }
 
-static int schedule_Minutes(lua_State *L)
+static int fluent_Minutes(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -176,7 +176,7 @@ static int schedule_Minutes(lua_State *L)
 	return 1;
 }
 
-static int schedule_Hour(lua_State *L)
+static int fluent_Hour(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -186,7 +186,7 @@ static int schedule_Hour(lua_State *L)
 	return 1;
 }
 
-static int schedule_Hours(lua_State *L)
+static int fluent_Hours(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -199,7 +199,7 @@ static int schedule_Hours(lua_State *L)
 	return 1;
 }
 
-static int schedule_Day(lua_State *L)
+static int fluent_Day(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -209,7 +209,7 @@ static int schedule_Day(lua_State *L)
 	return 1;
 }
 
-static int schedule_Days(lua_State *L)
+static int fluent_Days(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -222,7 +222,7 @@ static int schedule_Days(lua_State *L)
 	return 1;
 }
 
-static int schedule_Week(lua_State *L)
+static int fluent_Week(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -232,7 +232,7 @@ static int schedule_Week(lua_State *L)
 	return 1;
 }
 
-static int schedule_Monday(lua_State *L)
+static int fluent_Monday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -247,7 +247,7 @@ static int schedule_Monday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Tuesday(lua_State *L)
+static int fluent_Tuesday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -262,7 +262,7 @@ static int schedule_Tuesday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Wednesday(lua_State *L)
+static int fluent_Wednesday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -277,7 +277,7 @@ static int schedule_Wednesday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Thursday(lua_State *L)
+static int fluent_Thursday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -292,7 +292,7 @@ static int schedule_Thursday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Friday(lua_State *L)
+static int fluent_Friday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -307,7 +307,7 @@ static int schedule_Friday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Saturday(lua_State *L)
+static int fluent_Saturday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -322,7 +322,7 @@ static int schedule_Saturday(lua_State *L)
 	return 1;
 }
 
-static int schedule_Sunday(lua_State *L)
+static int fluent_Sunday(lua_State *L)
 {
 	lua_pushvalue(L, lua_upvalueindex(1));
 
@@ -337,7 +337,7 @@ static int schedule_Sunday(lua_State *L)
 	return 1;
 }
 
-static int schedule_From(lua_State *L)
+static int fluent_From(lua_State *L)
 {
 	time_t timestamp = time(NULL);
 	time_t startTime = luaM_opttimestamp(L, 1, timestamp);
@@ -359,7 +359,7 @@ static int schedule_From(lua_State *L)
 	return 1;
 }
 
-static int schedule_To(lua_State *L)
+static int fluent_To(lua_State *L)
 {
 	time_t endTime = luaM_opttimestamp(L, 1);
 
@@ -370,7 +370,7 @@ static int schedule_To(lua_State *L)
 	return 1;
 }
 
-static int schedule_Do(lua_State *L)
+static int fluent_Do(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TFUNCTION);
 
@@ -420,25 +420,25 @@ static int schedule_Do(lua_State *L)
 
 static const luaL_Reg scheduleFluentApi[] =
 {
-	{ "Second", schedule_Second },
-	{ "Seconds", schedule_Seconds },
-	{ "Minute", schedule_Minute },
-	{ "Minutes", schedule_Minutes },
-	{ "Hour", schedule_Hour },
-	{ "Hours", schedule_Hours },
-	{ "Day", schedule_Day },
-	{ "Days", schedule_Days },
-	{ "Week", schedule_Week },
-	{ "Monday", schedule_Monday },
-	{ "Tuesday", schedule_Tuesday },
-	{ "Wednesday", schedule_Wednesday },
-	{ "Thursday", schedule_Thursday },
-	{ "Friday", schedule_Friday },
-	{ "Saturday", schedule_Saturday },
-	{ "Sunday", schedule_Sunday },
-	{ "From", schedule_From },
-	{ "To", schedule_To },
-	{ "Do", schedule_Do },
+	{ "Second", fluent_Second },
+	{ "Seconds", fluent_Seconds },
+	{ "Minute", fluent_Minute },
+	{ "Minutes", fluent_Minutes },
+	{ "Hour", fluent_Hour },
+	{ "Hours", fluent_Hours },
+	{ "Day", fluent_Day },
+	{ "Days", fluent_Days },
+	{ "Week", fluent_Week },
+	{ "Monday", fluent_Monday },
+	{ "Tuesday", fluent_Tuesday },
+	{ "Wednesday", fluent_Wednesday },
+	{ "Thursday", fluent_Thursday },
+	{ "Friday", fluent_Friday },
+	{ "Saturday", fluent_Saturday },
+	{ "Sunday", fluent_Sunday },
+	{ "From", fluent_From },
+	{ "To", fluent_To },
+	{ "Do", fluent_Do },
 
 	{ NULL, NULL }
 };
@@ -455,11 +455,11 @@ static int schedule_At(lua_State *L)
 	lua_setfield(L, -2, "StartTime");
 
 	lua_pushvalue(L, -1);
-	lua_pushcclosure(L, schedule_To, 1);
-	lua_setfield(L, -3, "To");
+	lua_pushcclosure(L, fluent_To, 1);
+	lua_setfield(L, -2, "To");
 	lua_pushvalue(L, -1);
-	lua_pushcclosure(L, schedule_Do, 1);
-	lua_setfield(L, -3, "Do");
+	lua_pushcclosure(L, fluent_Do, 1);
+	lua_setfield(L, -2, "Do");
 
 	return 1;
 }
@@ -477,10 +477,24 @@ static int schedule_Every(lua_State *L)
 	return 1;
 }
 
+static int schedule_Do(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TTABLE);
+	luaL_checktype(L, 2, LUA_TFUNCTION);
+
+	lua_pushvalue(L, 1);
+	lua_pushcclosure(L, fluent_Do, 1);
+	lua_pushvalue(L, 2);
+	luaM_pcall(L, 1);
+
+	return 0;
+}
+
 static const luaL_Reg scheduleApi[] =
 {
 	{ "At", schedule_At },
 	{ "Every", schedule_Every },
+	{ "Do", schedule_Do },
 
 	{ NULL, NULL }
 };
