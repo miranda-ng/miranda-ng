@@ -215,6 +215,12 @@ static INT_PTR ReloadSkin(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
+{
+	PluginConfig.reloadSettings(lParam);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function finds a message session
 // wParam = contact handle for which we want the window handle
@@ -947,6 +953,7 @@ static void TSAPI InitAPI()
 
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
 	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
+	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
 
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
