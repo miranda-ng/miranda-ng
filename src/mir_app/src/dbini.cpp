@@ -523,10 +523,17 @@ static INT_PTR CheckIniImportNow(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR ImportINI(WPARAM wParam, LPARAM)
+{
+	ptrT tszIniPath(mir_utf8decodeT((char*)wParam));
+	ProcessIniFile(tszIniPath, "", "", 0, 0);
+	return 0;
+}
+
 int InitIni(void)
 {
 	bModuleInitialized = true;
-
+	CreateServiceFunction("DB/Ini/ImportFile", ImportINI);
 	DoAutoExec();
 
 	TCHAR szMirandaDir[MAX_PATH];
