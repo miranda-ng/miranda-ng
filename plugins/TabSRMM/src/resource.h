@@ -416,7 +416,6 @@
 #define IDC_SAVETEMPLATE                1344
 #define IDC_SELECTICONDLL               1345
 #define IDC_RTLDEFAULT                  1346
-#define IDC_MATHMODSUPPORT              1348
 #define IDC_MESSAGEPREVIEWLIMIT         1349
 #define IDC_MESSAGEPREVIEWLIMITSPIN     1350
 #define IDC_DELAY_MESSAGE_SPIN          1351
