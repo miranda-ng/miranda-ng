@@ -241,6 +241,8 @@
 Выключить
 [Toggle On]
 Включить
+[Dot]
+Точка
 [Ignore]
 Игнорировать
 [Set status message]

@@ -215,6 +215,16 @@ AIM Встановити Instant Idle
 Невідома помилка при додаванні до списку. Код %#x
 [Unknown error when attempting to modify a group. Error code %#x]
 Невідома помилка при спробі модифікувати групу. Код %#x
+[Error uploading avatar. (Too small)]
+Не вдалося завантажити аватар. (Замалий)
+[Error uploading avatar. (Too big)]
+Не вдалося завантажити аватар. (Завеликий)
+[Error uploading avatar. (Wrong type)]
+Не вдалося завантажити аватар. (Недопустимий тип)
+[Error uploading avatar. (Is banned)]
+Не вдалося завантажити аватар. (Забанений)
+[Error uploading avatar. (Unknown error)]
+Не вдалося завантажити аватар. (Невідома помилка)
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
 Лист з підтвердженням відправлено на нову адресу електронної пошти. Дотримуйтесь інструкцій у ньому.
 [A confirmation message has been sent to your email address. Please follow its instructions.]

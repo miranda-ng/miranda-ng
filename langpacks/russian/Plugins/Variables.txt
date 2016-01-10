@@ -88,9 +88,9 @@
 [converts each hex value into non-html character]
 переводит каждое шестнадцатеричное значение в не-HTML символ
 [converts a 32-bit number to IPv4 dotted notation]
-переводит 32битное число в формат IPv4 (4 числа разделены точками)
+переводит 32-битное число в формат IPv4 (4 числа разделены точками)
 [converts a 32-bit number (in host byte order) to IPv4 dotted notation]
-переводит 32битное число (в порядке хоста) в формат IPv4 (4 числа разделены точками)
+переводит 32-битное число (в порядке хоста) в формат IPv4 (4 числа разделены точками)
 [Logical Expressions]
 Логические выражения
 [performs logical AND (x && y && ...)]

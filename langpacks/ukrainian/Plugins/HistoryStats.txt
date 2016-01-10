@@ -418,7 +418,7 @@ wday3:Ндл
 [(multiple)]
 (декілька)
 [You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
-Неможливо відкрити окреме вікно налаштувань HistoryStats, оскільки відкрито вікно налаштувань Miranda NG. Закрийте його і спробуйте знову.\r\n\r\nПримітка. Опції в обох діалогах однакові.
+Неможливо відкрити окреме вікно налаштувань HistoryStats, оскільки відкрито вікно налаштувань Miranda NG. Закрийте його і спробуйте знову.\r\n\r\nПримітка: опції в обох діалогах однакові.
 [HistoryStats - Warning]
 Попередження HistoryStats
 [Add set]
@@ -470,7 +470,7 @@ wday3:Ндл
 [Create statistics (there are warnings)]
 Створити статистику (є попередження)
 [You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
-Неможливо відкрити налаштування HistoryStats тут, оскільки відкрито окреме вікно налаштувань. Закрийте його і спробуйте знову.\r\n\r\nПримітка. Опції в обох діалогах однакові.
+Неможливо відкрити налаштування HistoryStats тут, оскільки відкрито окреме вікно налаштувань. Закрийте його і спробуйте знову.\r\n\r\nПримітка: опції в обох діалогах однакові.
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 Ви не зберегли налаштування.\nЗберегти їх перед запуском HistoryStats?
 [HistoryStats]
