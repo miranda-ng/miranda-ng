@@ -1155,7 +1155,7 @@ static int global_RegQueryValueEx(lua_State *L)
 					else {
 						rv = RegQueryValueExA(hsk, valuename, NULL, &type, (LPBYTE)szdata, &len);
 						if (rv == ERROR_SUCCESS)
-							lua_pushlstring(L, szdata, len);
+							lua_pushlstring(L, szdata, mir_strlen(szdata));
 						else
 							lua_pushnil(L);
 						mir_free(szdata);
