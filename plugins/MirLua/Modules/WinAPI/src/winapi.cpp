@@ -26,8 +26,8 @@ int MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, W
 static int lua_MessageBox(lua_State *L)
 {
 	HWND hwnd = (HWND)lua_touserdata(L, 1);
-	const char *text = lua_tostring(L, 2);
-	const char *caption = lua_tostring(L, 3);
+	ptrA text(mir_utf8decodeA(lua_tostring(L, 2)));
+	ptrA caption(mir_utf8decodeA(lua_tostring(L, 3)));
 	UINT flags = lua_tointeger(L, 4);
 	LANGID langId = GetUserDefaultUILanguage();
 	DWORD timeout = luaL_optinteger(L, 5, 0xFFFFFFFF);
