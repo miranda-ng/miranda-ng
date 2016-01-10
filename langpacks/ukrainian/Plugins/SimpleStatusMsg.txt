@@ -64,7 +64,7 @@
 [Enable status messages parsing by Variables plugin]
 Дозволити обробку статусного повідомлення плагіном Variables
 [Exclude %date% token from parsing (restart required)]
-Виключити маркер %date% для обробки (потрібен перезапуск)
+Виключити маркер %date% з обробки (потрібен перезапуск)
 [Layout]
 Розміщення
 [Show status list]

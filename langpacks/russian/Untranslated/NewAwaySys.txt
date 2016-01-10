@@ -1,4 +1,3 @@
 ﻿[Configure autoaway]
-[Dot]
 [Indefinite]
 [available autoreply only]

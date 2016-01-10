@@ -141,6 +141,8 @@ UTF8 у нових файлах
 \nПовідомлення не збережено!\n
 [Do you wish to save debug information?]
 Зберегти інформацію налагодження?
+[All\0*.*\0Text\0*.TXT\0\0]
+Усі файли\0*.*\0Текстові файли\0*.txt\0\0
 [Failed to open or create file :\n]
 Не вдалося відкрити або створити файл:\n
 [Failed to move to the end of the file :\n]

@@ -328,7 +328,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [Unknown]
 Неизвестно
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Введите маску узла (псевдоним!пользователь@узел)\nВНИМАНИЕ! Контакты в вашем списке никогда не игнорируются
+Введите маску (nick!user@host)\nВнимание: пользователи из списка контактов не будут игнорироваться
 [Ignore]
 Игнорировать
 [Please enter the reason]
@@ -567,8 +567,6 @@ WallOps от %s:\s
 &Добавить в чёрный список
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запрашивает соединение на СТСР-чат
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Введите маску (nick!user@host) \nВнимание! Пользователи из списка контакта не будут игнорироваться!
 [Join channel]
 Зайти в комнату чата
 [Please enter a channel to join]

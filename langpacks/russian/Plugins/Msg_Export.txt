@@ -141,6 +141,8 @@ UTF8 в новых файлах
 \nСообщение не сохранено!\n
 [Do you wish to save debug information?]
 Сохранить отладочную информацию?
+[All\0*.*\0Text\0*.TXT\0\0]
+Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
 [Failed to open or create file :\n]
 Не удалось открыть или создать файл :\n
 [Failed to move to the end of the file :\n]
