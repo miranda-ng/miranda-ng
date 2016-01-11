@@ -941,7 +941,7 @@ const char* CIcqProto::detectUserClient(
 		capId = MatchCapability(caps, wLen, &capMimPack, 4);
 		if (capId) {
 			char szPack[16];
-			mir_snprintf(szPack, " [%.12s]", (*capId) + 4);
+			mir_snprintf(szPack, sizeof(szPack), " [%.12s]", (*capId) + 4);
 
 			// make sure client string is not constant
 			if (szClient != szClientBuf) {
