@@ -333,8 +333,8 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 			continue;
 
 		NotifyEventHooks(hEventExtraImageApplying, hContact, 0);
-		if (hcontgiven) break;
-		Sleep(0);
+		if (hcontgiven)
+			break;
 	}
 
 	g_mutex_bSetAllExtraIconsCycle = 0;
