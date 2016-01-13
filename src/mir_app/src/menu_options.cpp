@@ -61,7 +61,6 @@ static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
 class CGenMenuOptionsPage : public CDlgBase
 {
 	int iInitMenuValue;
-	bool bRebuild;
 
 	TCHAR idstr[100];
 
@@ -237,14 +236,12 @@ class CGenMenuOptionsPage : public CDlgBase
 		if (bReread) // no need to reread database on reset
 			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
 
-		bRebuild = true;
 		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
 		m_menuItems.DeleteAllItems();
 
 		BuildTreeInternal(szModule, bReread, pmo->m_items.first, NULL);
 
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
-		bRebuild = false;
 
 		ShowWindow(m_warning.GetHwnd(), (pmo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
@@ -285,8 +282,7 @@ public:
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
 		m_service(this, IDC_GENMENU_SERVICE),
-		m_warning(this, IDC_NOTSUPPORTWARNING),
-		bRebuild(false)
+		m_warning(this, IDC_NOTSUPPORTWARNING)
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
@@ -445,9 +441,11 @@ public:
 			return;
 
 		iod->name = mir_tstrdup(iod->defname);
+		m_customName.SetText(iod->defname);
 
-		SaveTree();
-		RebuildCurrent();
+		tvi.mask = TVIF_TEXT;
+		tvi.pszText = iod->name;
+		m_menuItems.SetItem(&tvi);
 		NotifyChange();
 	}
 
@@ -483,9 +481,6 @@ public:
 
 	void onMenuItemChanged(void*)
 	{
-		if (bRebuild)
-			return;
-
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
 
