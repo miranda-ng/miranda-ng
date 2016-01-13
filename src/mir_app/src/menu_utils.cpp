@@ -1026,8 +1026,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	else
 		pimi->mi.flags |= CMIF_HIDDEN;
 	
-	if (tszCustomName[0])
-		replaceStrT(pimi->ptszCustomName, tszCustomName);
+	replaceStrT(pimi->ptszCustomName, tszCustomName[0] ? tszCustomName : NULL);
 
 	MUUID currentUid;
 	if (pimi->mi.root == NULL)
