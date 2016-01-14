@@ -97,7 +97,7 @@ void CMLuaScript::Unload()
 		if (lua_isfunction(L, -1))
 			luaM_pcall(L);
 		luaL_unref(L, LUA_REGISTRYINDEX, unloadRef);
-		status == None;
+		status = None;
 	}
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
