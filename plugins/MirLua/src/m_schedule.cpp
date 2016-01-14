@@ -4,10 +4,11 @@ static mir_cs threadLock;
 static HANDLE hScheduleEvent = NULL;
 static HANDLE hScheduleThread = NULL;
 
+#define STOP ((void *) -1)
+
 struct ScheduleTask
 {
-	time_t startTime;
-	time_t endTime;
+	time_t timestamp;
 	time_t interval;
 
 	lua_State *L;
@@ -17,7 +18,7 @@ struct ScheduleTask
 
 static int TaskCompare(const ScheduleTask *p1, const ScheduleTask *p2)
 {
-	return p1->startTime - p2->startTime;
+	return p1->timestamp - p2->timestamp;
 }
 
 static LIST<ScheduleTask> tasks(1, TaskCompare);
@@ -34,9 +35,11 @@ void ExecuteTaskThread(void *arg)
 	ScheduleTask *task = (ScheduleTask*)arg;
 
 	lua_rawgeti(task->L, LUA_REGISTRYINDEX, task->callbackRef);
-	luaM_pcall(task->L);
+	luaM_pcall(task->L, 0, 1);
 
-	if (task->interval == 0)
+	void* res = lua_touserdata(task->L, -1);
+
+	if (res == STOP || task->interval == 0)
 	{
 		DestroyTask(task);
 		return;
@@ -46,10 +49,10 @@ void ExecuteTaskThread(void *arg)
 		mir_cslock lock(threadLock);
 
 		time_t timestamp = time(NULL);
-		if(task->startTime + task->interval >= timestamp)
-			task->startTime += task->interval;
+		if(task->timestamp + task->interval >= timestamp)
+			task->timestamp += task->interval;
 		else
-			task->startTime = timestamp + task->interval;
+			task->timestamp = timestamp + task->interval;
 		tasks.insert(task);
 	}
 	SetEvent(hScheduleEvent);
@@ -71,19 +74,13 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 			mir_cslock lock(threadLock);
 
 			time_t timestamp = time(NULL);
-			if (task->startTime > timestamp)
+			if (task->timestamp > timestamp)
 			{
-				waitTime = (task->startTime - timestamp - 1) * 1000;
+				waitTime = (task->timestamp - timestamp - 1) * 1000;
 				goto wait;
 			}
 
 			tasks.remove(task);
-
-			if (task->endTime > 0 && task->endTime < timestamp)
-			{
-				DestroyTask(task);
-				continue;
-			}
 
 			mir_forkthread(ExecuteTaskThread, task);
 		}
@@ -117,258 +114,20 @@ static time_t luaM_opttimestamp(lua_State *L, int idx, time_t def = 0)
 		const char *strtime = luaL_optstring(L, idx, "00:00:00");
 
 		int hour = 0, min = 0, sec = 0;
-		sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec);
-		struct tm *ti = localtime(&def);
-		ti->tm_hour = hour;
-		ti->tm_min = min;
-		ti->tm_sec = sec;
-		return mktime(ti);
+		if (sscanf_s(strtime, "%02d:%02d:%02d", &hour, &min, &sec) >= 2)
+		{
+			struct tm *ti = localtime(&def);
+			ti->tm_hour = hour;
+			ti->tm_min = min;
+			ti->tm_sec = sec;
+			return mktime(ti);
+		}
 	}
 	}
 	return def;
 }
 
 /***********************************************/
-
-static int fluent_Second(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_pushinteger(L, 1);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Seconds(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_getfield(L, -1, "Interval");
-	int seconds = luaL_optinteger(L, -1, 1);
-	lua_pop(L, 1);
-	lua_pushinteger(L, seconds);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Minute(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_pushinteger(L, 60);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Minutes(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_getfield(L, -1, "Interval");
-	int interval = luaL_optinteger(L, -1, 1);
-	lua_pop(L, 1);
-	lua_pushinteger(L, interval * 60);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Hour(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_pushinteger(L, 60 * 60);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Hours(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_getfield(L, -1, "Interval");
-	int interval = luaL_optinteger(L, -1, 1);
-	lua_pop(L, 1);
-	lua_pushinteger(L, interval * 60 * 60);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Day(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_pushinteger(L, 60 * 60 * 24);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Days(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_getfield(L, -1, "Interval");
-	int interval = luaL_optinteger(L, -1, 1);
-	lua_pop(L, 1);
-	lua_pushinteger(L, interval * 60 * 60 * 24);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Week(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Monday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(1 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Tuesday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(2 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Wednesday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(3 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Thursday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(4 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Friday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(5 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Saturday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(6 - ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_Sunday(lua_State *L)
-{
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	time_t timestamp = time(NULL);
-	struct tm *ti = localtime(&timestamp);
-	ti->tm_mday += abs(-ti->tm_wday);
-	lua_pushinteger(L, mktime(ti));
-	lua_setfield(L, -2, "StartTime");
-	lua_pushinteger(L, 60 * 60 * 24 * 7);
-	lua_setfield(L, -2, "Interval");
-
-	return 1;
-}
-
-static int fluent_From(lua_State *L)
-{
-	time_t timestamp = time(NULL);
-	time_t startTime = luaM_opttimestamp(L, 1, timestamp);
-
-	lua_pushvalue(L, lua_upvalueindex(1));
-
-	if (startTime < timestamp)
-	{
-		lua_getfield(L, -1, "Interval");
-		int interval = luaL_optinteger(L, -1, 1);
-		lua_pop(L, 1);
-		if (interval > 0)
-			startTime += (((timestamp - startTime) / interval) + 1) * interval;
-	}
-
-	lua_pushinteger(L, startTime);
-	lua_setfield(L, -2, "StartTime");
-
-	return 1;
-}
-
-static int fluent_To(lua_State *L)
-{
-	time_t endTime = luaM_opttimestamp(L, 1);
-
-	lua_pushvalue(L, lua_upvalueindex(1));
-	lua_pushinteger(L, endTime);
-	lua_setfield(L, -2, "EndTime");
-
-	return 1;
-}
 
 static int fluent_Do(lua_State *L)
 {
@@ -378,32 +137,23 @@ static int fluent_Do(lua_State *L)
 	int interval = luaL_optinteger(L, -1, 0);
 	lua_pop(L, 1);
 
-	time_t timestamp = time(NULL);
-
-	lua_getfield(L, lua_upvalueindex(1), "EndTime");
-	time_t endTime = luaL_optinteger(L, -1, 0);
+	lua_getfield(L, lua_upvalueindex(1), "Timestamp");
+	time_t timestamp = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (endTime > 0 && endTime < timestamp)
-		return 0;
-
-	lua_getfield(L, lua_upvalueindex(1), "StartTime");
-	time_t startTime = luaL_optinteger(L, -1, timestamp);
-	lua_pop(L, 1);
-
-	if (startTime < timestamp)
+	time_t now = time(NULL);
+	if (timestamp < now)
 	{
 		if (interval == 0)
 			return 0;
-		startTime += (((timestamp - startTime) / interval) + 1) * interval;
+		timestamp += (((now - timestamp) / interval) + 1) * interval;
 	}
 
 	lua_pushnil(L);
 	lua_replace(L, lua_upvalueindex(1));
 
 	ScheduleTask *task = new ScheduleTask();
-	task->startTime = startTime;
-	task->endTime = endTime;
+	task->timestamp = timestamp;
 	task->interval = interval;
 	task->L = lua_newthread(L);
 	task->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -418,16 +168,379 @@ static int fluent_Do(lua_State *L)
 	return 0;
 }
 
-static const luaL_Reg scheduleFluentApi[] =
+static int fluent_At(lua_State *L)
+{
+	time_t timestamp = luaM_opttimestamp(L, 1, 0);
+
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t now = time(NULL);
+	if (timestamp < now)
+	{
+		lua_getfield(L, -1, "Interval");
+		int interval = luaL_optinteger(L, -1, 0);
+		lua_pop(L, 1);
+		if (interval > 0)
+			timestamp += (((now - timestamp) / interval) + 1) * interval;
+	}
+
+	lua_pushinteger(L, timestamp);
+	lua_setfield(L, -2, "Timestamp");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	lua_pushcclosure(L, fluent_Do, 1);
+	lua_setfield(L, -2, "Do");
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static const luaL_Reg scheduleEvery3Api[] =
+{
+	{ "At", fluent_At },
+	{ "Do", fluent_Do },
+
+	{ NULL, NULL }
+};
+
+static int fluent_Second(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_pushinteger(L, 1);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Seconds(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_getfield(L, -1, "Interval");
+	int seconds = luaL_optinteger(L, -1, 1);
+	lua_pop(L, 1);
+	lua_pushinteger(L, seconds);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Minute(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_pushinteger(L, 60);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Minutes(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_getfield(L, -1, "Interval");
+	int interval = luaL_optinteger(L, -1, 1);
+	lua_pop(L, 1);
+	lua_pushinteger(L, interval * 60);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Hour(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_pushinteger(L, 60 * 60);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Hours(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_getfield(L, -1, "Interval");
+	int interval = luaL_optinteger(L, -1, 1);
+	lua_pop(L, 1);
+	lua_pushinteger(L, interval * 60 * 60);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Day(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_pushinteger(L, 60 * 60 * 24);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Days(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_getfield(L, -1, "Interval");
+	int interval = luaL_optinteger(L, -1, 1);
+	lua_pop(L, 1);
+	lua_pushinteger(L, interval * 60 * 60 * 24);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Week(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Monday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(1 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Tuesday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(2 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Wednesday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(3 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Thursday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(4 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Friday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(5 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Saturday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(6 - ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static int fluent_Sunday(lua_State *L)
+{
+	lua_pushvalue(L, lua_upvalueindex(1));
+
+	time_t timestamp = time(NULL);
+	struct tm *ti = localtime(&timestamp);
+	ti->tm_mday += abs(-ti->tm_wday);
+	lua_pushinteger(L, mktime(ti));
+	lua_setfield(L, -2, "Timestamp");
+	lua_pushinteger(L, 60 * 60 * 24 * 7);
+	lua_setfield(L, -2, "Interval");
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	luaL_setfuncs(L, scheduleEvery3Api, 1);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+static const luaL_Reg scheduleEvery2Api[] =
+{
+	{ "Seconds", fluent_Seconds },
+	{ "Minutes", fluent_Minutes },
+	{ "Hours", fluent_Hours },
+	{ "Days", fluent_Days },
+
+	{ NULL, NULL }
+};
+
+static const luaL_Reg scheduleEvery1Api[] =
 {
 	{ "Second", fluent_Second },
-	{ "Seconds", fluent_Seconds },
 	{ "Minute", fluent_Minute },
-	{ "Minutes", fluent_Minutes },
 	{ "Hour", fluent_Hour },
-	{ "Hours", fluent_Hours },
 	{ "Day", fluent_Day },
-	{ "Days", fluent_Days },
 	{ "Week", fluent_Week },
 	{ "Monday", fluent_Monday },
 	{ "Tuesday", fluent_Tuesday },
@@ -436,9 +549,6 @@ static const luaL_Reg scheduleFluentApi[] =
 	{ "Friday", fluent_Friday },
 	{ "Saturday", fluent_Saturday },
 	{ "Sunday", fluent_Sunday },
-	{ "From", fluent_From },
-	{ "To", fluent_To },
-	{ "Do", fluent_Do },
 
 	{ NULL, NULL }
 };
@@ -452,14 +562,15 @@ static int schedule_At(lua_State *L)
 
 	lua_newtable(L);
 	lua_pushinteger(L, startTime);
-	lua_setfield(L, -2, "StartTime");
+	lua_setfield(L, -2, "Timestamp");
 
+	lua_newtable(L);
 	lua_pushvalue(L, -1);
-	lua_pushcclosure(L, fluent_To, 1);
-	lua_setfield(L, -2, "To");
-	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
 	lua_pushcclosure(L, fluent_Do, 1);
 	lua_setfield(L, -2, "Do");
+	lua_setmetatable(L, -2);
 
 	return 1;
 }
@@ -469,10 +580,18 @@ static int schedule_Every(lua_State *L)
 	int interval = luaL_optinteger(L, 1, 0);
 
 	lua_newtable(L);
-	lua_pushvalue(L, -1);
 	lua_pushinteger(L, interval);
 	lua_setfield(L, -2, "Interval");
-	luaL_setfuncs(L, scheduleFluentApi, 1);
+
+	lua_newtable(L);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -2);
+	const luaL_Reg *funcs = lua_isnoneornil(L, 1)
+		? scheduleEvery1Api
+		: scheduleEvery2Api;
+	luaL_setfuncs(L, funcs, 1);
+	lua_setmetatable(L, -2);
 
 	return 1;
 }
@@ -496,12 +615,18 @@ static const luaL_Reg scheduleApi[] =
 	{ "Every", schedule_Every },
 	{ "Do", schedule_Do },
 
+	{ "STOP", NULL },
+
 	{ NULL, NULL }
 };
+
+/***********************************************/
 
 LUAMOD_API int luaopen_m_schedule(lua_State *L)
 {
 	luaL_newlib(L, scheduleApi);
+	lua_pushlightuserdata(L, STOP);
+	lua_setfield(L, -2, "STOP");
 
 	if (hScheduleEvent == NULL)
 		hScheduleEvent = CreateEvent(NULL, FALSE, FALSE, NULL);

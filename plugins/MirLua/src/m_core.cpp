@@ -283,6 +283,8 @@ luaL_Reg coreApi[] =
 
 	{ "GetFullPath", core_GetFullPath },
 
+	{ "Version", NULL },
+
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },
 	{ "CALLSERVICE_NOTFOUND", NULL },
@@ -299,6 +301,12 @@ LUAMOD_API int luaopen_m_core(lua_State *L)
 	lua_setfield(L, -2, "INVALID_HANDLE_VALUE");
 	lua_pushinteger(L, CALLSERVICE_NOTFOUND);
 	lua_setfield(L, -2, "CALLSERVICE_NOTFOUND");
+
+	char version[128];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(version), (LPARAM)version);
+	lua_pushstring(L, ptrA(mir_utf8encode(version)));
+	lua_setfield(L, -2, "Version");
+
 	// set copy to global variable m
 	lua_pushvalue(L, -1);
 	lua_setglobal(L, "m");
