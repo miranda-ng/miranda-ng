@@ -1041,6 +1041,11 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 			if (p == NULL)
 				return 0;
 
+			if (p == pimi) { // prevent a loop
+				Netlib_Logf(NULL, "MENU: preventing endless loop in %s", menuItemName);
+				return 0;
+			}
+
 			pimi->mi.root = p;
 			pNew = &p->submenu;
 		}
