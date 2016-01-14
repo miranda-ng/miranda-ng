@@ -321,29 +321,56 @@ static int lua_WriteSetting(lua_State *L)
 	LPCSTR szSetting = luaL_checkstring(L, 3);
 
 	DBVARIANT dbv = { 0 };
-	int type = lua_type(L, 4);
-	switch (type)
+	if (lua_isnoneornil(L, 5))
 	{
-	case LUA_TBOOLEAN:
-		dbv.bVal = lua_toboolean(L, 4);
-		dbv.type = DBVT_BYTE;
-		break;
-	case LUA_TNUMBER:
-		dbv.dVal = lua_tonumber(L, 4);
-		dbv.type = DBVT_DWORD;
-		break;
-	case LUA_TSTRING:
-		dbv.pszVal = (char*)lua_tostring(L, 4);
-		dbv.type = DBVT_UTF8;
-		break;
-	case LUA_TTABLE:
+		int type = lua_type(L, 4);
+		switch (type)
 		{
+		case LUA_TBOOLEAN:
+			dbv.type = DBVT_BYTE;
+			break;
+		case LUA_TNUMBER:
+			dbv.type = DBVT_DWORD;
+			break;
+		case LUA_TSTRING:
+			dbv.type = DBVT_UTF8;
+			break;
+		case LUA_TTABLE:
 			dbv.type = DBVT_BLOB;
-			dbv.cpbVal = luaM_table_to_bytearray(L, 4, &(dbv.pbVal));
+			break;
+		default:
+			lua_pushboolean(L, false);
+			return 1;
 		}
+	}
+	else
+		dbv.type = luaL_checkinteger(L, 5);
+
+	switch (dbv.type)
+	{
+	case DBVT_BYTE:
+		dbv.bVal = lua_isboolean(L, 4)
+			? lua_toboolean(L, 4)
+			: luaL_checknumber(L, 4);
+		break;
+	case DBVT_WORD:
+		dbv.wVal = luaL_checknumber(L, 4);
+		break;
+	case DBVT_DWORD:
+		dbv.dVal = luaL_checknumber(L, 4);
+		break;
+	case DBVT_UTF8:
+		dbv.pszVal = mir_strdup(luaL_checkstring(L, 4));
+	case DBVT_ASCIIZ:
+		dbv.pszVal = mir_utf8decodeA(luaL_checkstring(L, 4));
+	case DBVT_WCHAR:
+		dbv.pwszVal = mir_utf8decodeW(luaL_checkstring(L, 4));
+		break;
+	case DBVT_BLOB:
+		dbv.cpbVal = (WORD)luaM_table_to_bytearray(L, 4, &(dbv.pbVal));
 		break;
 	default:
-		lua_pushinteger(L, 1);
+		lua_pushboolean(L, false);
 		return 1;
 	}
 
@@ -533,7 +560,7 @@ void MT<CONTACTINFO>::Init(lua_State *L, CONTACTINFO **ci)
 		hContact = (MCONTACT)lua_touserdata(L, 1);
 		break;
 	default:
-		const char *msg = lua_pushfstring(L, "hContact expected, got %s", lua_typename(L, lua_type(L, 1)));
+		const char *msg = lua_pushfstring(L, "hContact expected, got %s", luaL_typename(L, 1));
 		luaL_argerror(L, 1, msg);
 	}
 
@@ -628,13 +655,6 @@ static int ci__index(lua_State *L)
 }
 
 /***********************************************/
-
-static int dbei__test(lua_State *L)
-{
-	int type = lua_type(L, 1);
-
-	return 0;
-}
 
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
