@@ -101,7 +101,7 @@ W&yjdź
 [&Search and replace]
 &Znajdź i zamień
 [Delete &resident settings]
-
+Usuń ustawienia &rezydentne
 [&Delete module]
 &Usuń moduł
 [&Watches]
