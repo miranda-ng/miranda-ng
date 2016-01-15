@@ -51,8 +51,6 @@
 Вимкнути
 [Smiley button]
 Кнопка смайла
-[Background\ncolor]
-Колір\nфону
 [Surround inserted smiley with spaces]
 Вставити смайл з пробілами
 [Use first smiley for selection size]
@@ -73,6 +71,8 @@ HTTP-з'єднання SmileyAdd
 Кнопка смайла
 [Assign smiley category]
 Категорія смайлів
+[Background color]
+Колір фону
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Може бути запущена тільки одна копія SmileyAdd.\nВидаліть дублікат з папки Plugins.
 [Smileys]

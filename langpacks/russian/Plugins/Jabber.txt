@@ -605,7 +605,7 @@ xHTML формат чат сообщений
 В сети
 [Away]
 Отсутствую
-[NA]
+[N/A]
 Недоступен
 [DND]
 Не беспокоить
@@ -1621,9 +1621,9 @@ XML для MS Excel (кодировка UTF-8)
 Установить статус и статусное сообщение
 [Status]
 Статус
-[Extended Away (N/A)]
+[Extended away (N/A)]
 Недоступен (Н/Д)
-[Do Not Disturb]
+[Do not disturb (DND)]
 Не беспокоить
 [Invisible]
 Невидимый

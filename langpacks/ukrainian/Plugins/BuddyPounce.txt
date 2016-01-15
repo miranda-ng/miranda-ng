@@ -69,19 +69,19 @@
 В мережі
 [Away]
 Відсутній
-[NA]
+[N/A]
 Недоступний
 [Occupied]
 Зайнятий
 [DND]
 Не турбувати
-[Free For Chat]
+[Free for chat]
 Готовий до чату
 [Invisible]
 Невидимий
-[On The Phone]
+[On the phone]
 Телефоную
-[Out To Lunch]
+[Out to lunch]
 Обідаю
 [Send If Their Status changes]
 Надсилати, якщо контакт змінює статус
@@ -91,19 +91,19 @@
 -> В мережі
 [To Away]
 -> Відсутній
-[To NA]
+[To N/A]
 -> Недоступний
 [To Occupied]
 -> Зайнятий
 [To DND]
 -> Не турбувати
-[To Free For Chat]
+[To Free for chat]
 -> Готовий до чату
 [To Invisible]
 -> Невидимий
-[To On The Phone]
+[To On the phone]
 -> Телефоную
-[To Out To Lunch]
+[To Out to lunch]
 -> Обідаю
 [The Message    (%d Characters)]
 Повідомлення (%d символів)

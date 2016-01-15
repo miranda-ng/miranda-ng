@@ -69,19 +69,19 @@
 В сети
 [Away]
 Отсутствую
-[NA]
+[N/A]
 Недоступен
 [Occupied]
 Занят
 [DND]
 Не беспокоить
-[Free For Chat]
+[Free for chat]
 Готов болтать
 [Invisible]
 Невидимый
-[On The Phone]
+[On the phone]
 На телефоне
-[Out To Lunch]
+[Out to lunch]
 Обедаю
 [Send If Their Status changes]
 Отправлять, если они изменяют статус
@@ -91,19 +91,19 @@
 -> В сети
 [To Away]
 -> Отошёл
-[To NA]
+[To N/A]
 -> Недоступен
 [To Occupied]
 -> Занят
 [To DND]
 -> Не беспокоить
-[To Free For Chat]
+[To Free for chat]
 -> Готов болтать
 [To Invisible]
 -> Невидимый
-[To On The Phone]
+[To On the phone]
 -> На телефоне
-[To Out To Lunch]
+[To Out to lunch]
 -> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)

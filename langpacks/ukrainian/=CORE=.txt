@@ -403,7 +403,7 @@
 В &мережі\tCtrl+1
 [&Away\tCtrl+2]
 &Відсутній\tCtrl+2
-[&NA\tCtrl+3]
+[&N/A\tCtrl+3]
 Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
@@ -1627,7 +1627,7 @@ UIN, E-mail тощо
 В мережі
 [Away]
 Відсутній
-[NA]
+[N/A]
 Недоступний
 [Occupied]
 Зайнятий

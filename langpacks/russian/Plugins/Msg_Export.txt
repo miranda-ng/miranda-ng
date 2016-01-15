@@ -73,6 +73,8 @@ UTF8 в новых файлах
 Копировать
 [Internal error! (lExtraRead >= 0)]
 Внутренняя ошибка! (lExtraRead >= 0)
+[Failed to load Rich Edit (Msftedit.dll)]
+Не удалось загрузить Rich Edit (Msftedit.dll)
 [Search string was not found!]
 Строка не найдена!
 [Save as RTF]

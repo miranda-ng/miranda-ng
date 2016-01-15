@@ -33,7 +33,7 @@
 В с&ети
 [&Away]
 &Отсутствую
-[&NA]
+[&N/A]
 &Недоступен
 [Occ&upied]
 Зан&ят
@@ -209,7 +209,7 @@
 Отсутствую
 [Been gone since %nas_awaysince_time%, will be back later.]
 Отошёл в %nas_awaysince_time%, буду позже.
-[NA]
+[N/A]
 Недоступен
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...

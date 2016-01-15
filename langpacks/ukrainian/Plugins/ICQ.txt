@@ -1715,8 +1715,8 @@ ID користувача
 Сумо
 [Broken hearted]
 Розбите серце
-[Free for Chat]
-Хочу спілкуватися
+[Free for chat]
+Готовий до чату
 [@home]
 Вдома
 [@work]
