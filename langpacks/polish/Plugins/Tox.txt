@@ -212,12 +212,12 @@ Format danych jest nieprawidłowy
 [Unknown error]
 Nieznany błąd
 [The friend number did not designate a valid friend]
-
+Numer przyjaciela nie wskazał rzeczywistego przyjaciela
 [This client is currently not connected to the friend]
-
+Ten klient nie jest aktualnie połączony z przyjacielem
 [An allocation error occurred while increasing the send queue size]
-
+Wystąpił błąd przyporządkwania podczas zwiększania rozmiaru kolejki wysyłania
 [Message length exceeded TOX_MAX_MESSAGE_LENGTH]
-
+Długość wiadomości przekroczyła TOX_MAX_MESSAGE_LENGTH
 [Attempted to send a zero-length message]
-
+Próbowano wysłać pustą wiadomość

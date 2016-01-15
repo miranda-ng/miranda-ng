@@ -883,7 +883,7 @@ Pozostań na wierzchu
 [&Container]
 &Kontener
 [Event popups]
-
+Popupy zdarzeń
 [Disable all event popups]
 Wyłącz wszystkie popupy o zdarzeniach
 [Show popups if window is minimized]
