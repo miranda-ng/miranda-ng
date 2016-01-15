@@ -113,6 +113,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void InitSessionMenu();
 	int LogIn(int status, HANDLE hNetlibUser);
 	int LogOut();
+	int OnLogInRedirect(char* newHost);
 	int SetSessionStatus(int status);
 	void UpdateSelfStatus();
 	int SetIdle(bool idle);

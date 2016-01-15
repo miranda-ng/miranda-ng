@@ -113,14 +113,10 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 		break;
 
 	case mwSession_STOPPED:
-		break;
+		
 
 	case mwSession_LOGIN_REDIR:
-		proto->debugLog(_T("SessionStateChange()  mwSession_LOGIN_REDIR  info=[%s]"), _A2T((char*)info));
-		//options.server_name = str((char*)info);
-		mir_strcpy(proto->options.server_name, (char*)info);
-		proto->LogOut();
-		proto->LogIn(proto->login_status, proto->m_hNetlibUser);
+		proto->OnLogInRedirect((char*)info);
 		break;
 
 	case mwSession_LOGIN_CONT:
@@ -519,6 +515,25 @@ int CSametimeProto::LogOut()
 	}
 
 	return 0;
+}
+
+int CSametimeProto::OnLogInRedirect(char* newHost)
+{
+	debugLog(_T("OnLogInRedirect() mwSession_LOGIN_REDIR  newHost=[%s]"), _A2T(newHost));
+
+	if (!newHost || !mir_strcmp(newHost, options.server_name) || db_get_b(0, m_szModuleName, "ForceLogin", 0) == 1) {
+		debugLog(_T("OnLogInRedirect() forceLogin"));
+		mwSession_forceLogin(session);
+		return 0;
+	}
+
+	debugLog(_T("OnLogInRedirect() redirect"));
+	mir_strcpy(options.server_name, newHost);
+	LogOut();
+	Sleep(50);  //wait for SessionThread end
+	LogIn(login_status, m_hNetlibUser);
+	return 0;
+
 }
 
 void CSametimeProto::InitAwayMsg()
