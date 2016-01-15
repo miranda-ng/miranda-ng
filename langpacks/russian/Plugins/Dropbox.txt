@@ -33,8 +33,6 @@
 Вставить сылку в поле ввода
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
-[Error loading module list]
-Ошибка при загрузке списка модулей
 [Free %ld of %ld MB]
 Свободно %ld из %ld МБ
 [in process...]

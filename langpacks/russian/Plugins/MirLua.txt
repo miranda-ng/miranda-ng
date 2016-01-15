@@ -17,8 +17,6 @@
 Общее
 [Popup on obsolete methods]
 Показать всплывающее окно при вызове устаревших методов
-[C libs folder]
-Папка с библиотеками C
 [Scripts folder]
 Папка со скриптами
 [Script]

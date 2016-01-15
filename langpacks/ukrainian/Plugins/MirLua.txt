@@ -17,8 +17,6 @@
 Загальне
 [Popup on obsolete methods]
 Спливаючі вікна при виклику застарілих методів
-[C libs folder]
-Папка з бібліотеками C
 [Scripts folder]
 Папка зі скриптами
 [Script]
