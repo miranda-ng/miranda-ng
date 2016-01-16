@@ -116,7 +116,7 @@ int luaM_toucs2(lua_State *L)
 
 bool luaM_toboolean(lua_State *L, int idx)
 {
-	if (lua_type(L, idx) == LUA_TNUMBER)
+	if (lua_isnumber(L, idx))
 		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
 }

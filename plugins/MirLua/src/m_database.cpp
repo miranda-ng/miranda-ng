@@ -456,17 +456,6 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 	return res;
 }
 
-static luaM_const consts[] = 
-{
-	{ "DBVT_BYTE", DBVT_BYTE },
-	{ "DBVT_WORD", DBVT_WORD },
-	{ "DBVT_DWORD", DBVT_DWORD },
-	{ "DBVT_ASCIIZ", DBVT_ASCIIZ },
-	{ "DBVT_UTF8", DBVT_UTF8 },
-	{ "DBVT_WCHAR", DBVT_WCHAR },
-	{ NULL, NULL }
-};
-
 static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
@@ -489,6 +478,13 @@ static luaL_Reg databaseApi[] =
 
 	{ "DeleteSetting", lua_DeleteSetting },
 	{ "DeleteModule", lua_DeleteModule },
+
+	{ "DBVT_BYTE", NULL },
+	{ "DBVT_WORD", NULL },
+	{ "DBVT_DWORD", NULL },
+	{ "DBVT_ASCIIZ", NULL },
+	{ "DBVT_UTF8", NULL },
+	{ "DBVT_WCHAR", NULL },
 
 	{ NULL, NULL }
 };
@@ -585,9 +581,9 @@ static int ci__index(lua_State *L)
 {
 	CONTACTINFO *ci = (CONTACTINFO*)luaL_checkudata(L, 1, MT_CONTACTINFO);
 
-	if (lua_type(L, 2) == LUA_TNUMBER)
+	if (lua_isnumber(L, 2))
 		ci->dwFlag = lua_tointeger(L, 2);
-	else if (lua_type(L, 2) == LUA_TSTRING)
+	else if (lua_isstring(L, 2))
 	{
 		const char *key = luaL_checkstring(L, 2);
 
@@ -672,25 +668,37 @@ static int ci__index(lua_State *L)
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
-	luaM_loadConsts(L, consts);
+
+	lua_pushnumber(L, DBVT_BYTE);
+	lua_setfield(L, -2, "DBVT_BYTE");
+	lua_pushnumber(L, DBVT_WORD);
+	lua_setfield(L, -2, "DBVT_WORD");
+	lua_pushnumber(L, DBVT_DWORD);
+	lua_setfield(L, -2, "DBVT_DWORD");
+	lua_pushnumber(L, DBVT_ASCIIZ);
+	lua_setfield(L, -2, "DBVT_ASCIIZ");
+	lua_pushnumber(L, DBVT_UTF8);
+	lua_setfield(L, -2, "DBVT_UTF8");
+	lua_pushnumber(L, DBVT_WCHAR);
+	lua_setfield(L, -2, "DBVT_WCHAR");
+
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
-		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szModule; }), "Module", LUA_TSTRINGA)
-		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szSetting; }), "Setting", LUA_TSTRINGA)
+		.Field(&DBCONTACTWRITESETTING::szModule, "Module", LUA_TSTRINGA)
+		.Field(&DBCONTACTWRITESETTING::szSetting, "Setting", LUA_TSTRINGA)
 		.Method(dbcw__index, "__index");
 	lua_pop(L, 1);
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return p->szModule; }), "Module", LUA_TSTRINGA)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->timestamp; }), "Timestamp", LUA_TINTEGER)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->eventType; }), "Type", LUA_TINTEGER)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->flags; }), "Flags", LUA_TINTEGER)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->cbBlob; }), "Length", LUA_TINTEGER)
-		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return p->pBlob; }), "Blob", LUA_TLIGHTUSERDATA);
-
+		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
+		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
 	MT<CONTACTINFO>(L, "CONTACTINFO")
-		.Field(LFUNC(CONTACTINFO, [](CONTACTINFO* p) { return (void*)p->hContact; }), "hContact", LUA_TINTEGER)
+		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER)
 		.Method(ci__index, "__index");
 	lua_pop(L, 1);
 
