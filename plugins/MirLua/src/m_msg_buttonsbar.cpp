@@ -133,10 +133,10 @@ LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 	luaL_newlib(L, msgbuttinsbarApi);
 
 	MT<CustomButtonClickData>(L, "CustomButtonClickData")
-		.Field(LFUNC(CustomButtonClickData, [](CustomButtonClickData *p) { return p->pszModule; }), "Module", LUA_TSTRINGA)
-		.Field(LFUNC(CustomButtonClickData, [](CustomButtonClickData *p) { return (void*)p->dwButtonId; }), "ButtonID", LUA_TINTEGER)
-		.Field(LFUNC(CustomButtonClickData, [](CustomButtonClickData *p) { return (void*)p->hContact; }), "hContact", LUA_TINTEGER)
-		.Field(LFUNC(CustomButtonClickData, [](CustomButtonClickData *p) { return (void*)p->flags; }), "Flags", LUA_TINTEGER);
+		.Field(&CustomButtonClickData::pszModule, "Module", LUA_TSTRINGA)
+		.Field(&CustomButtonClickData::dwButtonId, "ButtonID", LUA_TINTEGER)
+		.Field(&CustomButtonClickData::hContact, "hContact", LUA_TINTEGER)
+		.Field(&CustomButtonClickData::flags, "Flags", LUA_TINTEGER);
 	lua_pop(L, 1);
 
 	return 1;

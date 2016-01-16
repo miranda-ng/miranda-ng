@@ -216,7 +216,7 @@ static int core_Utf8DecodeW(lua_State *L)
 
 static int core_Free(lua_State *L)
 {
-	if (lua_type(L, 1) == LUA_TLIGHTUSERDATA)
+	if (lua_islightuserdata(L, 1))
 	{
 		void *ptr = lua_touserdata(L, 1);
 		mir_free(ptr);
