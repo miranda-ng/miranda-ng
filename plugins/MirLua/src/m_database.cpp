@@ -361,8 +361,10 @@ static int lua_WriteSetting(lua_State *L)
 		break;
 	case DBVT_UTF8:
 		dbv.pszVal = mir_strdup(luaL_checkstring(L, 4));
+		break;
 	case DBVT_ASCIIZ:
 		dbv.pszVal = mir_utf8decodeA(luaL_checkstring(L, 4));
+		break;
 	case DBVT_WCHAR:
 		dbv.pwszVal = mir_utf8decodeW(luaL_checkstring(L, 4));
 		break;
