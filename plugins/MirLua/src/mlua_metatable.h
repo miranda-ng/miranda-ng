@@ -30,7 +30,7 @@ struct MTField : public MZeroedObject
 	MTField(std::function<void*(T*)> f, int type)
 		: lambda(f), type(type), getType(MTFGT_LAMBDA) { }
 
-	template<typename R = void*>
+	template<typename R>
 	R GetValue(T *obj) const
 	{
 		if (getType == MTFGT_LAMBDA) return (R)lambda(obj);
@@ -115,7 +115,7 @@ private:
 			lua_pushstring(L, ptrA(mir_utf8encodeW(field->GetValue<wchar_t*>(obj))));
 			break;
 		case LUA_TLIGHTUSERDATA:
-			lua_pushlightuserdata(L, field->GetValue(obj));
+			lua_pushlightuserdata(L, field->GetValue<void*>(obj));
 			break;
 		default:
 			lua_pushnil(L);
