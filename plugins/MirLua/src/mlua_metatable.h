@@ -1,18 +1,47 @@
 #ifndef _LUA_METATABLE_H_
 #define _LUA_METATABLE_H_
 
+#include <functional>
+
+#define LFUNC(T, L) std::function<void*(T*)>(L)
+
 #define LUA_TINTEGER LUA_NUMTAGS + 1
 #define LUA_TSTRINGA LUA_NUMTAGS + 2
 #define LUA_TSTRINGW LUA_NUMTAGS + 3
 
-struct MTField
+enum MTFieldGetType
+{
+	MTFGT_LAMBDA = 1,
+	MTFGT_OFFSET = 2
+};
+
+template<typename T>
+struct MTField : public MZeroedObject
 {
 	size_t offset;
 	size_t size;
 	int type;
+	int getType;
+	std::function<void*(T*)> lambda;
 
 	MTField(size_t offset, size_t size, int type)
-		: offset(offset), size(size), type(type) { }
+		: offset(offset), size(size), type(type), getType(MTFGT_OFFSET) { }
+
+	MTField(std::function<void*(T*)> f, int type)
+		: lambda(f), type(type), getType(MTFGT_LAMBDA) { }
+
+	template<typename R = void*>
+	R GetValue(T *obj) const
+	{
+		if (getType == MTFGT_LAMBDA) return (R)lambda(obj);
+		else
+		{
+			R res = NULL;
+			memcpy(&res, ((char*)obj) + offset, size);
+			return res;
+		}
+	}
+
 };
 
 template<typename T>
@@ -22,15 +51,7 @@ private:
 	lua_State *L;
 
 	static const char *name;
-	static std::map<std::string, MTField*> fields;
-
-	template<typename R>
-	static R GetValue(const T *obj, size_t offset, size_t size)
-	{
-		R res = NULL;
-		memcpy(&res, ((char*)obj) + offset, size);
-		return res;
-	}
+	static std::map<std::string, MTField<T>*> fields;
 
 	static void Init(lua_State *L, T **obj)
 	{
@@ -71,32 +92,30 @@ private:
 			return 1;
 		}
 
-		MTField *field = it->second;
-		size_t offset = field->offset;
-		size_t size = field->size;
+		MTField<T> *field = it->second;
 		
 		switch (field->type)
 		{
 		case LUA_TBOOLEAN:
-			lua_pushboolean(L, GetValue<bool>(obj, offset, size));
+			lua_pushboolean(L, field->GetValue<BOOL>(obj));
 			break;
 		case LUA_TINTEGER:
-			lua_pushinteger(L, GetValue<long long>(obj, offset, size));
+			lua_pushinteger(L, field->GetValue<long>(obj));
 			break;
 		case LUA_TNUMBER:
-			lua_pushnumber(L, GetValue<double>(obj, offset, size));
+			lua_pushnumber(L, field->GetValue<intptr_t>(obj));
 			break;
 		case LUA_TSTRING:
-			lua_pushstring(L, GetValue<char*>(obj, offset, size));
+			lua_pushstring(L, field->GetValue<char*>(obj));
 			break;
 		case LUA_TSTRINGA:
-			lua_pushstring(L, ptrA(mir_utf8encode(GetValue<char*>(obj, offset, size))));
+			lua_pushstring(L, ptrA(mir_utf8encode(field->GetValue<char*>(obj))));
 			break;
 		case LUA_TSTRINGW:
-			lua_pushstring(L, ptrA(mir_utf8encodeW(GetValue<wchar_t*>(obj, offset, size))));
+			lua_pushstring(L, ptrA(mir_utf8encodeW(field->GetValue<wchar_t*>(obj))));
 			break;
 		case LUA_TLIGHTUSERDATA:
-			lua_pushlightuserdata(L, GetValue<void*>(obj, offset, size));
+			lua_pushlightuserdata(L, field->GetValue(obj));
 			break;
 		default:
 			lua_pushnil(L);
@@ -134,7 +153,15 @@ public:
 	{
 		size_t offset = reinterpret_cast<size_t>(&(((T*)0)->*M));
 		if (type != LUA_TNONE)
-			fields[name] = new MTField(offset, size, type);
+			fields[name] = new MTField<T>(offset, size, type);
+		return *this;
+	}
+
+	template<typename R>
+	MT& Field(std::function<R(T*)> f, const char *name, int type)
+	{
+		if (type != LUA_TNONE)
+			fields[name] = new MTField<T>(f, type);
 		return *this;
 	}
 
@@ -165,6 +192,6 @@ template<typename T>
 const char *MT<T>::name;
 
 template<typename T>
-std::map<std::string, MTField*> MT<T>::fields;
+std::map<std::string, MTField<T>*> MT<T>::fields;
 
 #endif //_LUA_METATABLE_H_

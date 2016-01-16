@@ -665,16 +665,17 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 	lua_pop(L, 1);
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
-		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
-		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return p->szModule; }), "Module", LUA_TSTRINGA)
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->timestamp; }), "Timestamp", LUA_TINTEGER)
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->eventType; }), "Type", LUA_TINTEGER)
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->flags; }), "Flags", LUA_TINTEGER)
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->cbBlob; }), "Length", LUA_TINTEGER)
+		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return p->pBlob; }), "Blob", LUA_TLIGHTUSERDATA);
+
 	lua_pop(L, 1);
 
 	MT<CONTACTINFO>(L, "CONTACTINFO")
-		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER)
+		.Field(std::function<void*(CONTACTINFO*)>([](CONTACTINFO* p) { return (void*)p->hContact; }), "hContact", LUA_TINTEGER)
 		.Method(ci__index, "__index");
 	lua_pop(L, 1);
 
