@@ -463,7 +463,8 @@ static luaM_const consts[] =
 	{ "DBVT_DWORD", DBVT_DWORD },
 	{ "DBVT_ASCIIZ", DBVT_ASCIIZ },
 	{ "DBVT_UTF8", DBVT_UTF8 },
-	{ "DBVT_WCHAR", DBVT_WCHAR }
+	{ "DBVT_WCHAR", DBVT_WCHAR },
+	{ NULL, NULL }
 };
 
 static luaL_Reg databaseApi[] =
