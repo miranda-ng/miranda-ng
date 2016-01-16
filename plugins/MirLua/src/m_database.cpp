@@ -472,6 +472,7 @@ static luaL_Reg databaseApi[] =
 	{ "EventsFromEnd", lua_EventsFromEnd },
 
 	{ "WriteSetting", lua_WriteSetting },
+	{ "SetSetting", lua_WriteSetting },
 
 	{ "GetSetting", lua_GetSetting },
 	{ "Settings", lua_Settings },
