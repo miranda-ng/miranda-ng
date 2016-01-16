@@ -1,25 +1,6 @@
 #include "stdafx.h"
 
-typedef int(__stdcall *MSGBOXAAPI)(IN HWND hWnd, IN LPCSTR lpText, IN LPCSTR lpCaption, IN UINT uType, IN WORD wLanguageId, IN DWORD dwMilliseconds);
-
-int MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds)
-{
-	static MSGBOXAAPI MsgBoxTOA = NULL;
-
-	if (!MsgBoxTOA)
-	{
-		if (HMODULE hUser32 = GetModuleHandle(_T("user32.dll")))
-		{
-			MsgBoxTOA = (MSGBOXAAPI)GetProcAddress(hUser32, "MessageBoxTimeoutA");
-		}
-	}
-
-	if (MsgBoxTOA)
-	{
-		return MsgBoxTOA(hWnd, lpText, lpCaption, uType, wLanguageId, dwMilliseconds);
-	}
-	return MessageBoxA(hWnd, lpText, lpCaption, uType);
-}
+EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds);
 
 #define MB_TIMEDOUT 32000
 
