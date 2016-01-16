@@ -41,7 +41,6 @@ struct MTField : public MZeroedObject
 			return res;
 		}
 	}
-
 };
 
 template<typename T>
@@ -100,7 +99,7 @@ private:
 			lua_pushboolean(L, field->GetValue<BOOL>(obj));
 			break;
 		case LUA_TINTEGER:
-			lua_pushinteger(L, field->GetValue<long>(obj));
+			lua_pushinteger(L, field->GetValue<long long>(obj));
 			break;
 		case LUA_TNUMBER:
 			lua_pushnumber(L, field->GetValue<intptr_t>(obj));

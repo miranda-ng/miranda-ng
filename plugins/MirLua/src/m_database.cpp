@@ -661,21 +661,23 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 	luaL_newlib(L, databaseApi);
 
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
+		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szModule; }), "Module", LUA_TSTRINGA)
+		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szSetting; }), "Setting", LUA_TSTRINGA)
 		.Method(dbcw__index, "__index");
 	lua_pop(L, 1);
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return p->szModule; }), "Module", LUA_TSTRINGA)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->timestamp; }), "Timestamp", LUA_TINTEGER)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->eventType; }), "Type", LUA_TINTEGER)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->flags; }), "Flags", LUA_TINTEGER)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return (void*)p->cbBlob; }), "Length", LUA_TINTEGER)
-		.Field(std::function<void*(DBEVENTINFO*)>([](DBEVENTINFO* p) { return p->pBlob; }), "Blob", LUA_TLIGHTUSERDATA);
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return p->szModule; }), "Module", LUA_TSTRINGA)
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->timestamp; }), "Timestamp", LUA_TINTEGER)
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->eventType; }), "Type", LUA_TINTEGER)
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->flags; }), "Flags", LUA_TINTEGER)
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return (void*)p->cbBlob; }), "Length", LUA_TINTEGER)
+		.Field(LFUNC(DBEVENTINFO, [](DBEVENTINFO* p) { return p->pBlob; }), "Blob", LUA_TLIGHTUSERDATA);
 
 	lua_pop(L, 1);
 
 	MT<CONTACTINFO>(L, "CONTACTINFO")
-		.Field(std::function<void*(CONTACTINFO*)>([](CONTACTINFO* p) { return (void*)p->hContact; }), "hContact", LUA_TINTEGER)
+		.Field(LFUNC(CONTACTINFO, [](CONTACTINFO* p) { return (void*)p->hContact; }), "hContact", LUA_TINTEGER)
 		.Method(ci__index, "__index");
 	lua_pop(L, 1);
 
