@@ -38,7 +38,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 }
 
-static int genmenu_CreateRoot(lua_State *L)
+/*static int genmenu_CreateRoot(lua_State *L)
 {
 	ObsoleteMethod(L, "use m_clist module instead");
 
@@ -72,15 +72,15 @@ static int genmenu_AddMenuItem(lua_State *L)
 	lua_pushlightuserdata(L, res);
 
 	return 1;
-}
+}*/
 
 static int genmenu_ModifyMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
 	ptrT name(mir_utf8decodeT(lua_tostring(L, 2)));
-	HANDLE hIcolibItem = lua_touserdata(L, 3);
-	int flags = lua_tointeger(L, 4);
+	HANDLE hIcolibItem = luaL_opt(L, lua_touserdata, 3, INVALID_HANDLE_VALUE);
+	int flags = luaL_optinteger(L, 4, -1);
 
 	if (!(flags & CMIF_UNICODE))
 		flags |= CMIF_UNICODE;
@@ -136,8 +136,8 @@ static int genmenu_RemoveMenuItem(lua_State *L)
 
 static luaL_Reg genmenuApi[] =
 {
-	{ "CreateRoot", genmenu_CreateRoot },
-	{ "AddMenuItem", genmenu_AddMenuItem },
+	//{ "CreateRoot", genmenu_CreateRoot },
+	//{ "AddMenuItem", genmenu_AddMenuItem },
 	{ "ModifyMenuItem", genmenu_ModifyMenuItem },
 	{ "ShowMenuItem", genmenu_ShowMenuItem },
 	{ "EnableMenuItem", genmenu_EnableMenuItem },
