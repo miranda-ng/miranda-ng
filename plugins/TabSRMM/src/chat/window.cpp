@@ -497,7 +497,7 @@ LBL_SkipEnd:
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(TCHAR));
 				mir_wstrcpy(szReplace, pszName);
-				mir_wstrcat(szReplace, db_get_b(NULL, CHAT_MODULE, "UseCommaAsColon") ? L", " : L": ");
+				mir_wstrcat(szReplace, g_Settings.bUseCommaAsColon ? L", " : L": ");
 				pszName = szReplace;
 			}
 			SendMessage(hwnd, EM_SETSEL, start, end);

@@ -88,7 +88,7 @@ struct TMUCSettings : public GlobalLogSettingsBase
 
 	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
 	bool        bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
-	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig;
+	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig, bUseCommaAsColon, bNewLineAfterNames;
 
 	CMUCHighlight* Highlight;
 };
