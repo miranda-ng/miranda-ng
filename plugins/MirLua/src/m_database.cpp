@@ -456,6 +456,16 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 	return res;
 }
 
+static luaM_const consts[] = 
+{
+	{ "DBVT_BYTE", DBVT_BYTE },
+	{ "DBVT_WORD", DBVT_WORD },
+	{ "DBVT_DWORD", DBVT_DWORD },
+	{ "DBVT_ASCIIZ", DBVT_ASCIIZ },
+	{ "DBVT_UTF8", DBVT_UTF8 },
+	{ "DBVT_WCHAR", DBVT_WCHAR }
+};
+
 static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
@@ -661,7 +671,7 @@ static int ci__index(lua_State *L)
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
-
+	luaM_loadConsts(L, consts);
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
 		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szModule; }), "Module", LUA_TSTRINGA)
 		//.Field(LFUNC(DBCONTACTWRITESETTING, [](DBCONTACTWRITESETTING *p) { return p->szSetting; }), "Setting", LUA_TSTRINGA)

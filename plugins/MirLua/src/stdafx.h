@@ -41,6 +41,12 @@
 
 class CMLuaScript;
 
+struct luaM_const
+{
+	char    *name;
+	intptr_t   value;
+};
+
 #include "mlua.h"
 #include "mlua_script.h"
 #include "mlua_module_loader.h"
@@ -102,6 +108,16 @@ LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 
 
 /* utils */
+
+__forceinline void luaM_loadConsts(lua_State *L, luaM_const consts[])
+{
+	for (size_t i = 0; consts[i].name != NULL; i++)
+	{
+		lua_pushstring(L, consts[i].name);
+		lua_pushnumber(L, consts[i].value);
+		lua_settable(L, -3);
+	}
+}
 
 extern HANDLE hNetlib;
 void Log(const char *format, ...);
