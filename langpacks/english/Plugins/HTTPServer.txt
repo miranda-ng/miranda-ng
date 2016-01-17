@@ -31,7 +31,7 @@
 [%ExternalIP% variable]
 [Test]
 [Transfer limit (Kb/s)]
-[No control when Away/NA]
+[No control when Away or N/A]
 [Connection control]
 [Index creation]
 [Disable]
