@@ -1944,7 +1944,9 @@ IRC-стиль (текстовый) индикаторов ролей участ
 [Limit user names in the message log to 20 characters]
 Ограничить имена в журнале 20-ю символами
 [Add a colon (:) to auto-completed user names]
-Добавлять ":" к именам пользователей
+Добавлять к именам пользователей двоеточие (:) при автозавершении
+[Add a comma instead of a colon to auto-completed user names]
+Добавлять к именам пользователей запятую вместо двоеточия при автозавершении
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Приват при двойном щелчке в списке ников (иначе вставлять ник)
 [Strip colors from messages in the log]
@@ -1955,6 +1957,8 @@ IRC-стиль (текстовый) индикаторов ролей участ
 IRC-стиль (текстовый) индикаторов ролей в журнале чата
 [Allow clickable user names in the message log]
 Ники кликабельны как гиперссылки
+[Add new line after names]
+Добавлять перевод строки после имён пользователей
 [Colorize user names in message log]
 Цветные ники в чате
 [Scale down icons to 10x10 pixels in the chat log]
