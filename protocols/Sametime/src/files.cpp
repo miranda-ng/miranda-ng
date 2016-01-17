@@ -128,7 +128,7 @@ void mwFileTransfer_opened(mwFileTransfer* ft)
 
 	if (ftcd->sending) {
 		// create a thread to send chunks - since it seems not all clients send acks for each of our chunks!
-		mir_forkthread(SendThread, (void*)ft);
+		mir_forkthread(SendThread, ft);
 	}
 }
 
@@ -161,24 +161,28 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt, 0);
 
 			if (ftcd->sending) {
-				FileTransferClientData* ftcd_next = ftcd->next, *ftcd_temp;
+				FileTransferClientData* ftcd_next = ftcd->next;
 				while(ftcd_next) {
 					mwFileTransfer_free((mwFileTransfer*)ftcd_next->ft);
-					ftcd_temp = ftcd_next->next;
+					FileTransferClientData *ftcd_temp = ftcd_next->next;
 
 					if (ftcd_next->hFile != INVALID_HANDLE_VALUE)
 						CloseHandle(ftcd->hFile);
 
-					if (ftcd_next->save_path) free(ftcd_next->save_path);
-					if (ftcd_next->buffer) delete[] ftcd_next->buffer;
+					if (ftcd_next->save_path)
+						free(ftcd_next->save_path);
+					if (ftcd_next->buffer)
+						delete[] ftcd_next->buffer;
 					delete ftcd_next;
 					ftcd_next = ftcd_temp;
 				}
 			}
 			else {
 				mwFileTransfer_removeClientData(ft);
-				if (ftcd->save_path) free(ftcd->save_path);
-				if (ftcd->buffer) delete[] ftcd->buffer;
+				if (ftcd->save_path)
+					free(ftcd->save_path);
+				if (ftcd->buffer)
+					delete[] ftcd->buffer;
 				delete ftcd;
 
 				mwFileTransfer_free(ft);
@@ -196,8 +200,10 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt, 0);
 
 				mwFileTransfer_removeClientData(ft);
-				if (ftcd->save_path) free(ftcd->save_path);
-				if (ftcd->buffer) delete[] ftcd->buffer;
+				if (ftcd->save_path)
+					free(ftcd->save_path);
+				if (ftcd->buffer)
+					delete[] ftcd->buffer;
 				delete ftcd;
 
 				mwFileTransfer_free(ft);
@@ -303,7 +309,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, TCHAR** files, const T
 				ft = mwFileTransfer_new(service_files, &idb, T2Utf(ptszDesc), T2Utf(fn), filesize);
 
 				ftcd = new FileTransferClientData;
-				memset((void*)ftcd, 0, sizeof(FileTransferClientData));
+				memset(ftcd, 0, sizeof(FileTransferClientData));
 
 				ftcd->ft = ft;
 				ftcd->hContact = hContact;
@@ -356,7 +362,7 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 	debugLog(_T("CSametimeProto::AcceptFileTransfer() start"));
 
 	FileTransferClientData* ftcd = new FileTransferClientData;
-	memset((void*)ftcd, 0, sizeof(FileTransferClientData));
+	memset(ftcd, 0, sizeof(FileTransferClientData));
 	ftcd->ft = ft;
 	ftcd->sending = false;
 	ftcd->hFt = hFt;

@@ -5,8 +5,6 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 {
 	SessionAnnounceDialogProc_arg* arg = (SessionAnnounceDialogProc_arg*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CSametimeProto *proto;
-	if (arg != NULL)
-		proto = arg->proto;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -14,7 +12,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		{
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			SessionAnnounceDialogProc_arg* arg = (SessionAnnounceDialogProc_arg*)lParam;
+			arg = (SessionAnnounceDialogProc_arg*)lParam;
 			proto = arg->proto;
 			proto->debugLog(_T("SessionAnnounceDialogProc WM_INITDIALOG"));
 
@@ -56,12 +54,14 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		return 0;
 
 	case WM_CLOSE:
+		proto = arg->proto;
 		proto->debugLog(_T("SessionAnnounceDialogProc WM_CLOSE"));
 		mir_free(arg);
 		DestroyWindow(hwndDlg);
 		break;
 
 	case WM_COMMAND:
+		proto = arg->proto;
 		if (HIWORD(wParam) == BN_CLICKED) {
 			int size;
 			switch (LOWORD(wParam)) {
@@ -126,6 +126,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 						}
 						g_list_free(safArg->recipients);
 					}
+					mir_free(safArg);
 
 					DestroyWindow(hwndDlg);
 				}

@@ -511,7 +511,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 			db_free(&dbv);
 		}
 
-		GList* query = g_list_prepend(0, (void*)aware->id.user);
+		GList* query = g_list_prepend(0, aware->id.user);
 		mwServiceResolve_resolve(proto->service_resolve, query, mwResolveFlag_USERS, mwResolve_handler_dyngroup_callback, (gpointer)stgroup, 0);
 		g_list_free(query);
 
@@ -682,14 +682,12 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	mcsr.psr.cbSize = sizeof(MYPROTOSEARCHRESULT);
 
 	if (code == mwResolveCode_SUCCESS) {
-		GList *ri = results, *mri;
-		for (; ri; ri = ri->next) {
-			mri = ((mwResolveResult *)ri->data)->matches;
-			for (; mri; mri = mri->next) {
+		for (GList *ri = results; ri; ri = ri->next) {
+			for (GList *mri = ((mwResolveResult *)ri->data)->matches; mri; mri = mri->next) {
 				strncpy_s(mcsr.stid, ((mwResolveMatch *)mri->data)->id, _TRUNCATE);
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.stid, -1, mcsr.pszFields[0], 512);
 
-				strncpy(mcsr.name, ((mwResolveMatch *)mri->data)->name, _TRUNCATE);
+				strncpy_s(mcsr.name, ((mwResolveMatch *)mri->data)->name, _TRUNCATE);
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.name, -1, mcsr.pszFields[1], 512);
 
 				if (((mwResolveMatch *)mri->data)->desc)
@@ -742,7 +740,7 @@ void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guin
 int CSametimeProto::SearchForUser(const char* name, BOOLEAN advanced)
 {
 	if (m_iStatus != ID_STATUS_OFFLINE && service_resolve) {
-		GList *query = g_list_prepend(0, (void*)name);
+		GList *query = g_list_prepend(0, (gpointer) name);
 		guint32 id = mwServiceResolve_resolve(service_resolve, query, (mwResolveFlag)(mwResolveFlag_USERS | mwResolveFlag_GROUPS), &mwResolve_handler_callback, (gpointer)advanced, 0);
 		g_list_free(query);
 		return id; // search handle

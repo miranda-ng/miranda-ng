@@ -23,7 +23,6 @@ CSametimeProto* getProtoFromMwConference(mwConference* conf)
   @param inviter  the indentity of the user who sent the invitation
   @param invite   the invitation text
 */
-
 void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const char* invite)
 {
 	GList *members, *mem;
@@ -340,12 +339,10 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 
 	if (strcmp(gch->pDest->pszModule, m_szModuleName) != 0) return 0;
 
-	GList *conferences, *conf;
-	conferences = conf = mwServiceConference_getConferences(service_conference);
-	for (;conf;conf = conf->next) {
+	GList *conferences = mwServiceConference_getConferences(service_conference);
+	for (GList *conf = conferences;conf;conf = conf->next) {
 		TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName((mwConference*)conf->data));
 		if (mir_tstrcmp(gch->pDest->ptszID, tszConfId) == 0) {
-			
 			switch(gch->pDest->iType) {
 			case GC_USER_MESSAGE:
 				{
@@ -365,7 +362,7 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 				}
 				break;
 			}
-
+			mir_free(tszConfId);
 			break;
 		}
 		mir_free(tszConfId);
