@@ -73,14 +73,8 @@ Nečinnost
 Změna stavu
 [Other status]
 Ostatní stavy
-[Tooltip Notify: Online]
-Změna stavu (přechod online)
-[Tooltip Notify: Offline]
-Změna stavu (přechod offline)
-[Tooltip Notify: Other]
-Změna stavu (ostatní)
-[Tooltip Notify: Typing]
-Změna stavu (psaní zprávy)
+[Other]
+Ostatní
 [Popups]
 Oznámení
 [** New contacts **]

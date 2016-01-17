@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.4
+;  Version: 0.2.11.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -80,8 +80,8 @@ Stavy
 Odesílat stav Mirandy na zeď Facebooku
 [Turn off chat on Facebook when going to offline in Miranda]
 Vypnout chat na Facebooku při odpojení v Mirandě
-[Map unsupported statuses to Invisible (instead of Online)]
-Pro nepodporované stavy použít Neviditelný (nikoli Online)
+[Map unsupported statuses to Invisible (instead of Away)]
+Pro nepodporované stavy použít Neviditelný (nikoli Na chvíli pryč)
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
 [Bots challenge test]

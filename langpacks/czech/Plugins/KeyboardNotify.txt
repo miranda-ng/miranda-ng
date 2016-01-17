@@ -60,7 +60,7 @@ Online
 Na chvíli pryč
 [Occupied]
 Nemám čas
-[NA]
+[N/A]
 Nejsem tady
 [DND]
 Nerušit!
@@ -190,10 +190,18 @@ zleva doprava
 zprava doleva
 [left <-> right]
 Knight Rider
-[Keyboard Flash]
-Blikání klávesnicí
-[Events]
-Události
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n; Automaticky generovaný soubor s tématem pro upozornění klávesnicí\n\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Konec automaticky generovaného souboru s tématem pro upozornění klávesnicí\n
+[None]
+---
+[Protocol]
+Protokol
+[Keyboard Notify Theme]
+Sekvence blikání klávesnicí
+[All Files]
+Všechny soubory
 [Accounts]
 Účty
 [Rules]
@@ -202,15 +210,7 @@ Pravidla
 Blikání
 [Themes]
 Vlastní sekvence
-[Protocol]
-Protokol
-[Keyboard Notify Theme]
-Sekvence blikání klávesnicí
-[All Files]
-Všechny soubory
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n; Automaticky generovaný soubor s tématem pro upozornění klávesnicí\n\n\n
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Konec automaticky generovaného souboru s tématem pro upozornění klávesnicí\n
-[None]
----
+[Keyboard Flash]
+Blikání klávesnicí
+[Events]
+Události

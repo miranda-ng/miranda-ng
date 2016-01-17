@@ -6,8 +6,8 @@
 ;  Authors: Eugene f2065
 ;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
-[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
-Hardwarové klávesové zkratky.\r\nUmožňuje přiřadit rozšířené multimediální klávesy (pouze pro PS/2 klávesnice)
+[Allows you to assign expanded multimedia keys (only for PS/2 keyboards).]
+Umožňuje přiřadit rozšířené multimediální klávesy (pouze pro PS/2 klávesnice)
 [Close Miranda]
 Zavřít Mirandu
 [Assign]

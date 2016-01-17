@@ -5,7 +5,7 @@
 ;  Version: 2.1.0.7
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Tool Tip notification windows.]
+[Tooltip notification windows.]
 Informační bubliny.
 ;file \plugins\TipperYM\res\resource.rc
 [Layout]

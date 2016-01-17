@@ -10,17 +10,15 @@ Přidá položky do hlavního menu pro načtení jiného profilu, restart a kont
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG bude ukončena a bude spuštěna kontrola databáze.\n\nPřejete si pokračovat?
-[Check Database]
+[Check database]
 Zkontrolovat databázi
 [Load profile]
 Načíst profil
 [Change profile]
 Změnit profil
-[Check database]
-Zkontrolovat databázi
 [Restart]
 Restart
-[Database]
-Databáze
 [Profile manager]
 Správce profilů
+[Database]
+Databáze

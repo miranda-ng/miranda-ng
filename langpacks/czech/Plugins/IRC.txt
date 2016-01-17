@@ -584,8 +584,6 @@ Odpo&jit
 Přid&at mezi ignorované
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) žádá o privátní diskusi (DCC Chat).
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživatele uvedené v seznamu kontaktů
 [Join channel]
 Přijít na kanál
 [Please enter a channel to join]

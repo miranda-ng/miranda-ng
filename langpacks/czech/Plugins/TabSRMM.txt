@@ -44,8 +44,6 @@ Oznamovací oblast
 Možnosti
 [Add new rooms to group:]
 Nové místnosti do skupiny:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Integrace chatu je nyní vypnutá, zde jí můžete zapnout (poté je NUTNÉ RESTARTOVAT Mirandu, aby nastavení vešlo v platnost).\n\nTaké prosím vypněte standardní modul pro chat, pokud se rozhodnete používat integrovaný. Pokud tak neučiníte, chat nejspíš nebude fungovat vůbec.
 [Log files]
 Soubory záznamů
 [Enable logging to disk]
@@ -552,8 +550,8 @@ Pozn.: Některá nastavení hned neovlivní otevřené kontejnery.
 Rozvržení záložek
 [About TabSRMM]
 O TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright © 2004-2011 Miranda IM projekt, 2012-2015 Miranda NG projekt. Detailnější informace týkající se copyrightu naleznete v přiloženém README souboru.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Copyright © 2004-2011 Miranda IM projekt, 2012-2016 Miranda NG projekt. Detailnější informace týkající se copyrightu naleznete v přiloženém README souboru.
 [Support and latest version information]
 Podpora, hlášení chyb a informace o nových verzích
 [Selected skin]
@@ -884,6 +882,8 @@ Vždy navrchu
 Záz&nam hovoru
 [&Container]
 &Kontejner
+[Event popups]
+Oznámení událostí
 [Disable all event popups]
 Zakázat oznámení všech událostí
 [Show popups if window is minimized]
@@ -1464,8 +1464,8 @@ Symbol hodin (pro hodiny informačního panelu)
 Funkce zakázána (použito jako překrytí)
 [Feature enabled (used as overlay)]
 Funkce povolena (použito jako překrytí)
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Doplněk pro práci s obrázky (advaimg.dll) není nainstalován.\n\nTabSRMM je zakázáno.
+[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
+Doplněk pro práci s obrázky (AdvaImg) není nainstalován.\n\nTabSRMM je zakázáno.
 [TabSRMM fatal error]
 TabSRMM kritická chyba
 ;file \plugins\TabSRMM\src\msgs.h
@@ -1983,6 +1983,8 @@ Odsadit druhý řádek dlouhé zprávy
 Omezit délku jmen v záznamu na 20 znaků
 [Add a colon (:) to auto-completed user names]
 Přidat dvojtečku za automaticky doplněné jméno
+[Add a comma instead of a colon to auto-completed user names]
+Přidat čárku místo dvojtečky za automaticky doplněné jméno
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
 [Strip colors from messages in the log]
@@ -1993,6 +1995,8 @@ Aktivovat filtr událostí pro nové místnosti
 Použít IRC indikátory stavu v záznamu
 [Allow clickable user names in the message log]
 Povolit klikatelné uživatelské jména v záznamu komunikace
+[Add new line after names]
+Přidat nový řádek za jména
 [Colorize user names in message log]
 Obarvit uživatelské jména v záznamu komunikace
 [Scale down icons to 10x10 pixels in the chat log]

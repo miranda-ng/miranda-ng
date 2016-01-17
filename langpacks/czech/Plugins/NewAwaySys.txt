@@ -34,7 +34,7 @@ Neposílat automatickou odpověď ve stavu:
 On&line
 [&Away]
 N&a chvíli pryč
-[&NA]
+[&N/A]
 &Nejsem tady
 [Occ&upied]
 N&emám čas
@@ -213,7 +213,7 @@ Jasně, jsem tu.
 Na chvíli pryč
 [Been gone since %nas_awaysince_time%, will be back later.]
 Jsem pryč od %nas_awaysince_time%, vrátím se později.
-[NA]
+[N/A]
 Nejsem tady
 [Give it up, I'm not in!]
 Vzdejte to, nejsem tu!

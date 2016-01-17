@@ -36,8 +36,8 @@ K odeslání
 Přijato
 [Use only alphanumeric encoding on transfer]
 Při přenosu použít jen alfanum. kódování
-[Extra options: Events > File Transfers, "Receiving files" group]
-Další možnosti: Události > Přenos souborů, skupina "Příjem souborů"
+[Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
+Pro další volby použijte Možnosti -> Události -> Přenos souborů, skupina "Příjem souborů"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Soubor již existuje. Přepsat?

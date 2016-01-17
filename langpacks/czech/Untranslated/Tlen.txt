@@ -14,7 +14,6 @@
 [%S mail]
 [Image sent file://%s]
 [Image received file://%s]
-[Tlen login]
 [You need to be connected to Tlen account to set avatar.]
 [%s Web Messages]
 [Web message]

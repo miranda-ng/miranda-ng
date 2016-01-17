@@ -578,7 +578,7 @@ U&končit
 On&line\tCtrl+1
 [&Away\tCtrl+2]
 N&a chvíli pryč\tCtrl+2
-[&NA\tCtrl+3]
+[&N/A\tCtrl+3]
 &Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
 Nemám ča&s\tCtrl+4
@@ -619,14 +619,14 @@ U&místění
 Nahor&u
 [&Down]
 &Dolů
+[Lock frame]
+Zamknout rámeček
 [Show all frames]
 Zobrazit všechny rámečky
 [Show all title bars]
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-[Lock frame]
-Zamknout rámeček
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 Skrýt/Zo&brazit
@@ -696,7 +696,7 @@ Standardní kontakty
 Kontakty ve stavu 'Na chvíli pryč'
 [DND contacts]
 Kontakty ve stavu 'Nerušit'
-[NA contacts]
+[N/A contacts]
 Kontakty ve stavu 'Nejsem tady'
 [Occupied contacts]
 Kontakty ve stavu 'Nemám čas'
@@ -760,7 +760,7 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[NA]
+[N/A]
 Nejsem tady
 [Occupied]
 Nemám čas

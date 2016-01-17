@@ -16,19 +16,19 @@ Ukončení
 &Začátek odpočítávání:
 [seconds]
 sek.
-[Shutdown Events]
+[Shutdown events]
 Události pro ukončení
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 &Aktivovat znovu stejné nastavení v případě, že program Miranda NG byl už předtím automaticky ukončen
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Ignorovat skryté nebo dočasné kontakty při sledování přechodu do stavu offline
-[Critical Shutdown Events]
+[Critical shutdown events]
 Závažné události pro ukončení
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automaticky ukončit operační systém a vypnout počítač, nastane-li jedna z následujících variant:
 [&Thunderstorm warning is issued (Weather)]
 Varování před bouřkou (Wea&ther)
-[Automatic Shutdown]
+[Automatic shutdown]
 Automatické ukončení
 [Select the automatic shutdown event]
 Vyberte požadovanou událost pro ukončení
@@ -69,19 +69,19 @@ Ukončit v:
 Zbývající čas:
 [Paused]
 Pauza
-[&Unpause Countdown]
+[&Unpause countdown]
 &Pokračovat v odpočítávání
-[&Pause Countdown]
+[&Pause countdown]
 &Pozastavit odpočítávání
-[&Cancel Countdown]
+[&Cancel countdown]
 &Zrušit odpočítávání
 [AutoShutdown]
 Automatické ukončení
-[Countdown on Frame]
+[Countdown on frame]
 Rámeček: Odpočítávání
 [Background]
 Pozadí
-[Progress Bar]
+[Progress bar]
 Ukazatel průběhu
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -133,17 +133,17 @@ Tento počítač bude za %u sek. automaticky přepnut do úsporného režimu.
 Tento počítač bude za %u sek. automaticky přepnut do režimu spánku.
 [The workstation will automatically get locked in %u second(s).]
 Tento počítač bude za %u sek. automaticky zamknut.
-[All dialup connections will be closed in %u second(s).]
+[All dial-up connections will be closed in %u second(s).]
 Všechna modemová připojení budou za %u sek. automaticky ukončena.
 [The computer will automatically be shut down in %u second(s).]
 Tento počítač bude za %u sek. automaticky vypnut.
-[Automatic Shutdown Error]
+[Automatic shutdown error]
 Chyba při automatickém ukončení
 [The shutdown process failed!\nReason: %s]
 Chyba při pokusu o automatické ukončení!\nDůvod: %s
 [Unknown]
 neznámý
-[Inititiating the shutdown process failed!\nReason: %s]
+[Initiating the shutdown process failed!\nReason: %s]
 Inicializace ukončovací procedury selhala!\nDůvod: %s
 [Close Miranda NG]
 Ukončit program Miranda NG
@@ -161,7 +161,7 @@ Vypnout počítač
 Režim spánku
 [Lock workstation]
 Zamknout počítač
-[Hang up dialup connections]
+[Hang up dial-up connections]
 Odpojit modem od sítě
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Přepne všechny protokoly do stavu offline a ukončí program Miranda NG.
@@ -183,10 +183,10 @@ Zamkne počítač. Odemknete ho pouze tak, že se znovu přihlásíte.
 Přepne všechny protokoly do stavu offline a ukončí vzdálená připojení.
 [Alerts]
 Upozornění
-[Automatic Shutdown Countdown]
+[Automatic shutdown countdown]
 Automatické ukončení (odpočítávání)
 ;file \plugins\AutoShutdown\src\utils.cpp
-[Toggle Automatic Shutdown]
+[Toggle automatic shutdown]
 Aktivovat automatické ukončení
 [Main]
 Hlavní

@@ -7,7 +7,7 @@
 [Only update window on alert]
 [Window appearance]
 [Save individual window positions]
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 [Disable download protection]
 [(not recommended)]
 [Display data in popup on alert]

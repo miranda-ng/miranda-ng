@@ -288,7 +288,7 @@ Otevřít poštovní účet?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
-[%s Client-to-client connection]
+[%s client-to-client connections]
 %s - přímé spojení mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]

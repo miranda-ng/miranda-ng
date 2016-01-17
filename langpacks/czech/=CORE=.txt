@@ -409,7 +409,7 @@ U&končit
 On&line\tCtrl+1
 [&Away\tCtrl+2]
 N&a chvíli pryč\tCtrl+2
-[&NA\tCtrl+3]
+[&N/A\tCtrl+3]
 &Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
 Nemám ča&s\tCtrl+4
@@ -1012,7 +1012,7 @@ Po vyplnění následujících položek bude vytvořen nový profil
 Profil
 [e.g., Workplace]
 např. Práce
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+[You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
 [e.g., dbx mmap]
 např. dbx mmap
@@ -1652,7 +1652,7 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[NA]
+[N/A]
 Nejsem tady
 [Occupied]
 Nemám čas
@@ -2461,10 +2461,10 @@ Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to metacontact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
 ;file \src\mir_app\src\movetogroup.cpp
-[&Move to group]
-Přesunout do s&kupiny
 [<Root group>]
 <kořenová skupina>
+[&Move to group]
+Přesunout do s&kupiny
 ;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 Výchozí záznam pro Netlib

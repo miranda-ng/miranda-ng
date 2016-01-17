@@ -84,7 +84,7 @@ Zpráva stavu:
 On&line
 [&Away]
 N&a chvíli pryč
-[&NA]
+[&N/A]
 &Nejsem tady
 [Occ&upied]
 N&emám čas

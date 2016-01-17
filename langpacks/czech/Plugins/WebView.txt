@@ -46,7 +46,7 @@ Podtržené
 Chybové zprávy
 [Suppress error messages]
 Potlačit chybová hlášení
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 
 [Expert options]
 Pokročilé možnosti

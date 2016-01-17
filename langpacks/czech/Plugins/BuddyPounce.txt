@@ -71,19 +71,19 @@ Jakýkoli
 Online
 [Away]
 Na chvíli pryč
-[NA]
+[N/A]
 Nejsem tady
 [Occupied]
 Nemám čas
 [DND]
 Nerušit!
-[Free For Chat]
+[Free for chat]
 Mám volno
 [Invisible]
 Neviditelný
-[On The Phone]
+[On the phone]
 Mám telefon
-[Out To Lunch]
+[Out to lunch]
 Jsem na obědě
 [Send If Their Status changes]
 Odeslat po změně stavu
@@ -93,19 +93,19 @@ Z 'Offline'
 Do 'Online'
 [To Away]
 Do 'Na chvíli pryč'
-[To NA]
+[To N/A]
 Do 'Nejsem tady'
 [To Occupied]
 Do 'Nemám čas'
 [To DND]
 Do 'Nerušit'
-[To Free For Chat]
+[To Free for chat]
 Do 'Mám volno'
 [To Invisible]
 Do 'Neviditelný'
-[To On The Phone]
+[To On the phone]
 Do 'Mám telefon'
-[To Out To Lunch]
+[To Out to lunch]
 Do 'Jsem na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
