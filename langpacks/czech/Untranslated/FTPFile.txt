@@ -26,7 +26,6 @@
 [FTP Server 4]
 [FTP Server 5]
 [FTP Server %d]
-[Upload file(s)]
 [Zip and upload file(s)]
 [Zip and upload folder]
 [FTP File manager]

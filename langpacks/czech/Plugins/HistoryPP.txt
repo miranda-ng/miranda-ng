@@ -713,3 +713,7 @@ Zobrazit &historii
 Uživatelské menu
 [Prev]
 Předchozí
+[Incoming events]
+Příchozí události
+[Outgoing events]
+Odchozí události

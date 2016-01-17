@@ -52,8 +52,6 @@ Vestavěná podpora
 Vypnout
 [Smiley button]
 Tlačítko se smajlíky
-[Background\ncolor]
-Barva pozadí
 [Surround inserted smiley with spaces]
 Přidat mezeru z každé strany smajlíku
 [Use first smiley for selection size]
@@ -77,6 +75,8 @@ SmileyAdd - spojení pomocí protokolu HTTP
 Tlačítko smajlíků
 [Assign smiley category]
 Přiřazení kategorie smajlíků
+[Background color]
+Barva pozadí
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Pouze jedna instance doplňku SmileyAdd může běžet.\nOdstraňte duplicitní instance ze složky 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp

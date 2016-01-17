@@ -53,6 +53,8 @@ Odeslat zprávu
 Kontakty přijaty od
 [Contacts]
 Kontakty
+[Events]
+Události
 [Incoming Contacts]
 Kontakty (příchozí)
 [Outgoing Contacts]

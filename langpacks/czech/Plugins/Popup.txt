@@ -8,10 +8,10 @@
 [Provides popup notification services for different plugins.]
 Poskytuje služby oznámení pro různé doplňky.
 ;file \plugins\Popup\res\resource.rc
-[Content && Style]
+[Content and Style]
 Chování a vzhled
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Nastavení změníte v sekci Vlastní úpravy -> Písma a barvy
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Nastavení změníte v Možnosti -> Vlastní úpravy -> Písma a barvy
 [Miscellaneous]
 Ostatní
 [Effects]
@@ -150,7 +150,7 @@ Pravým tlačítkem:
 Zakázat, je-li globální stav
 [Disable when relevant protocol's status is...]
 Zakázat, je-li příslušný protokol ve stavu
-[Colors can be configured in\r\nCustomize > Fonts and colors]
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
 Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy
 [More...]
 Více...
@@ -372,7 +372,7 @@ Stav protokolu
 Nelze zadat hodnotu nižší než %d a vyšší než %d.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt může způsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveň s doplňkem NewXStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení pořadí?\r\n
-[Popup Plus Warning]
+[Popup plus warning]
 Varování doplňku Oznámení plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
@@ -407,7 +407,7 @@ Nelze zaregistrovat třídu vlastního edit boxu.\r\n\r\ncbSize: %i\r\nstyle: %p
 [Notify]
 Oznámení
 ;file \plugins\Popup\src\skin.cpp
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Pokoušíte se načíst skin, který je navržen pro\r\nnovější verzi doplňku Popup Plus a nebude proto\r\nsprávně zobrazen.\r\n\r\nZvolte prosím jiný skin.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]

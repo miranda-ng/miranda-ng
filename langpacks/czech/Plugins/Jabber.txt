@@ -626,7 +626,7 @@ Zkopírovat téma místnosti
 Online
 [Away]
 Na chvíli pryč
-[NA]
+[N/A]
 Nejsem tady
 [DND]
 Nerušit!
@@ -984,7 +984,7 @@ Nejvyšší priorita (dle serveru)
 Zpráva stavu
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
+[Chat plugin is required for conferences. Install it before chatting]
 Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 [To]
 Do
@@ -1668,9 +1668,9 @@ Změnit stav
 Vyberte požadovaný stav a zadejte zprávu
 [Status]
 Stavy
-[Extended Away (N/A)]
-
-[Do Not Disturb]
+[Extended away (N/A)]
+Nejsem tady
+[Do not disturb (DND)]
 Nerušit
 [Invisible]
 Neviditelný
@@ -1898,6 +1898,8 @@ Poznámka
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[<advanced status slot>]
+<slot rozšířeného stavu>
 [Afraid]
 obavy
 [Amazed]

@@ -46,7 +46,7 @@ Barvy oznámení
 Online
 [Away]
 Na chvíli pryč
-[NA]
+[N/A]
 Nejsem tady
 [Occupied]
 Nemám čas

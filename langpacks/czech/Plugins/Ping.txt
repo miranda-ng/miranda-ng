@@ -36,8 +36,8 @@ Procházet...
 Rozhraní
 [Do not change icon when testing]
 Neměnit ikonu během testování
-[Use Options -> Customize -> Fonts to change text size and color.]
-Změnu písma a barev provedete v sekci Vlastní úpravy -> Písma a barvy.
+[Use Options -> Customize -> Fonts and colors to change text size and color.]
+Změnu písma a barev provedete v Možnosti -> Vlastní úpravy -> Písma a barvy.
 [Indent:]
 Odstup:
 [Row height:]

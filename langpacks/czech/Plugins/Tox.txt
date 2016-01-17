@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.14
+;  Version: 0.11.1.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -139,18 +139,6 @@ Nemůžete odesílat zprávy ve stavu offline.
 Příchozí hovor (%s)
 [Outgoing call to %s]
 Odchozí hovor (%s)
-[Unable to find input audio device]
-Nelze najít vstupní audio zařízení
-[Video call is unsupported]
-Video hovor není podporován
-[Call canceled]
-Hovor přerušen
-[Unable to find output audio device]
-Nelze najít výstupní audio zařízení
-[Call started]
-Hovor začal
-[Call ended]
-Hovor skončil
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
@@ -223,3 +211,13 @@ Profil je zašifrovaný
 Formát dat není platný
 [Unknown error]
 Neznámá chyba
+[The friend number did not designate a valid friend]
+Číslo kontaktu nereprezentuje platný kontakt
+[This client is currently not connected to the friend]
+Tento klient aktuálně není připojen ke kontaktu
+[An allocation error occurred while increasing the send queue size]
+Nastal problém s alokací během zvyšování velikosti odesílací fronty
+[Message length exceeded TOX_MAX_MESSAGE_LENGTH]
+Délka zprávy překročila TOX_MAX_MESSAGE_LENGTH
+[Attempted to send a zero-length message]
+Pokus o odeslání prázdné zprávy

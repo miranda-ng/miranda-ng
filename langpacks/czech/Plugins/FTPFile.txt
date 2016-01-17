@@ -159,7 +159,7 @@ Soubory přes FTP
 [FTP Server %d]
 
 [Upload file(s)]
-
+Nahrát soubor(y)
 [Zip and upload file(s)]
 
 [Zip and upload folder]

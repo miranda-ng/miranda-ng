@@ -14,7 +14,7 @@ Definuje obrázky pro kontakty bez avataru. Zaškrtnutím zobrazení\nvýchozíh
 Nastavit výchozí obrázek
 [Delete default picture]
 Odstranit výchozí obrázek
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
 Upozornění: Váš vlastní avatar určíte pomocí funkce Nastavit\navatar ze sekce Informace o sobě v hlavní nabídce.
 [Try to draw avatar background transparent (for images without transparency)]
 Pokusit se zprůhlednit pozadí avataru (platí pro obrázky bez transparence)
@@ -92,7 +92,7 @@ Osobní avatary
 Úložiště avatarů
 [Fatal error, image services not found. Avatar services will be disabled.]
 Závažná chyba, nebyly nalezeny služby pro obrázky. Avatary budou vypnuty.
-[Avatar Service]
+[Avatar service]
 Avatary
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
@@ -115,8 +115,6 @@ Vlastní avatary
 Bez avataru
 [Are you sure you want to remove your avatar?]
 Opravdu chcete odstranit svůj avatar?
-[Global Avatar]
-Globální avatar
 [Avatar]
 Avatar
 ;file \plugins\AVS\src\services.cpp
@@ -136,7 +134,7 @@ animace typu Flash
 soubory typu XML
 [Grow avatar to fit max allowed protocol size]
 Upravit rozměry na max. velikost danou protokolem
-[Set My Avatar]
+[Set my avatar]
 Nastavit avatar
-[Set My Avatar for %s]
+[Set my avatar for %s]
 Nastavit avatar pro %s

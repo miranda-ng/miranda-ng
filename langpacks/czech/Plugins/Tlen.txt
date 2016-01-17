@@ -274,7 +274,7 @@ Přeposílání
 
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
-
+Tlen login
 [You need to be connected to Tlen account to set avatar.]
 
 ;file \protocols\Tlen\src\tlen_thread.cpp

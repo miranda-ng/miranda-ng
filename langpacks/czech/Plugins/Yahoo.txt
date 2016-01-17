@@ -167,10 +167,10 @@ Nová pošta
 %s - spojení se serverem
 [ID]
 ID
-[Please enter your Yahoo ID in Options/Network/Yahoo]
-Zadejte prosím svůj identifikátor v nastavení protokolu.
-[Please enter your Yahoo password in Options/Network/Yahoo]
-Zadejte prosím své heslo v nastavení protokolu.
+[Please enter your Yahoo ID in Options -> Network -> Yahoo]
+Zadejte prosím svůj identifikátor v Možnosti -> Sítě -> Yahoo
+[Please enter your Yahoo password in Options -> Network -> Yahoo]
+Zadejte prosím své heslo v Možnosti -> Sítě -> Yahoo
 [Yahoo Login Error]
 Chyba přihlášení na Yahoo
 ;file \protocols\Yahoo\src\services.cpp

@@ -2,12 +2,14 @@
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
-[Dummy protocol for Miranda NG.]
-Dummy protokol pro Mirandu NG.
+[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
+Dummy protokol pro Mirandu NG. Může být použit pro udržování kontaktů a historie ze zrušených protokolů nebo pro vytváření virtuálních kontaktů.
 ;file \protocols\Dummy\res\resource.rc
+[Protocol template:]
+Šablona protokolu:
 [Unique ID setting:]
 Unikátní ID nastavení:
 [Name of setting that holds unique identifier of contacts]
@@ -18,6 +20,49 @@ Unikátní ID text:
 Viditelný název unikátního identifikátoru kontaktů
 [Restart is required to apply these changes.]
 Je vyžadován restart pro uvedení změn v platnost.
+[Allow sending messages to contacts]
+Umožnit odesílání zpráv kontaktům
+;file \protocols\Dummy\src\dummy.h
+[Custom]
+Vlastní
+[Screen Name]
+Identifikátor
+[User name]
+Uživatelské jméno
+[Facebook ID]
+Facebook ID
+[Gadu-Gadu Number]
+Identifikátor
+[User ID]
+Identifikátor
+[ICQ number]
+ICQ číslo
+[Nickname]
+Přezdívka
+[JID]
+Identifikátor
+[Visible name]
+Zobrazované jméno
+[E-mail address]
+E-mail
+[Live ID]
+Identifikátor
+[ID]
+ID
+[Skype name]
+Skype jméno
+[Steam ID]
+Steam ID
+[Tlen login]
+Tlen login
+[Tox ID]
+Tox ID
+[Username]
+Uživatel
+[VK ID]
+VK ID
+[WhatsApp ID]
+WhatsApp ID
 ;file \protocols\Dummy\src\dummy_proto.cpp
-[Dummy protocol is too dumb to send messages.]
-Dummy protokol je příliš hloupý pro odesílání zpráv.
+[This Dummy account has disabled sending messages. Enable it in account options.]
+Tento Dummy účet neumožňuje odesílání zpráv. Můžete to povolit v nastavení účtu.

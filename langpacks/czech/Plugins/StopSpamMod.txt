@@ -44,8 +44,6 @@ Povolit blokování žádostí o autorizaci
 
 [Disable question in invisible mode]
 
-[Enable integration with DOS plugin]
-
 [Exclude contacts which we sending something from spam check]
 
 [Remove Excluded contacts after restart]

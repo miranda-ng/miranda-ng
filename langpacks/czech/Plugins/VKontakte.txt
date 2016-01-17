@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.17
+;  Version: 0.1.1.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -22,7 +22,7 @@ vyp
 
 [basic ([b], [i], [u], [s])]
 
-[advanced (+[url], [size], [color])]
+[advanced (+[url], [size], [color], [code])]
 
 [Use this setting also for attachments on news and notifications]
 
@@ -108,6 +108,8 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 
 [Use non-standard urlEncode for sent messages (less traffic)]
 
+[Use non-standard popups for news and event notifications]
+
 [When I ban user...]
 
 [Report abuse]
@@ -125,6 +127,10 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [as audio status only]
 
 [as regular status only]
+
+[Group chats]
+Skupinové rozhovory
+[Message for return to group chat:]
 
 [Login settings]
 
@@ -215,6 +221,8 @@ Protokoly
 
 [Error]
 Chyba
+[You must validate your account before use VK in Miranda NG]
+
 [Error %d. Data will not be sent or received.]
 
 [One of the parameters specified was missing or invalid]
@@ -323,8 +331,6 @@ neznámý
 Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
 Upozornění
-[I'm back]
-
 [You've been kicked by ]
 
 [Chat]
@@ -341,13 +347,13 @@ Informace o &uživateli
 Zobrazit profil
 [&Kick]
 Vy&kopnout
+[%s is typing a message...]
+%s píše zprávu...
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[New %s]
-
-[news]
-novinky
-[notifications]
-upozornění
+[New news]
+Nové novinky
+[New notifications]
+Nová upozornění
 [User was tagged in these photos:]
 
 [(photos)]
@@ -409,6 +415,8 @@ Protokol je offline
 [Attention!]
 
 ;file \protocols\VKontakte\src\vk_options.cpp
+[I'm back]
+
 [Network]
 Sítě
 [Account]
@@ -429,6 +437,8 @@ Zpráva stavu
 [Send message to my wall]
 
 [Load news from VK]
+
+[Wipe contacts missing in friend list]
 
 [Send message to user\'s wall]
 
@@ -473,6 +483,8 @@ Oznámení
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
+
+[Are you sure to wipe local contacts missing in your friend list?]
 
 [Are you sure to delete %s from your friend list?]
 

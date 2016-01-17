@@ -53,7 +53,7 @@ Obtěžuje vás někdo nebo něco při komunikaci? Vyzkoušejte náš filtr.
 Stavy
 [Set your status messages and idle reporting.]
 Definice stavových zpráv, nálady, automatických odpovědí apod.
-[Addons]
+[Plugins]
 Doplňky
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Miranda NG je postavena na možnosti vše měnit a rozšiřovat pomocí doplňků.

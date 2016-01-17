@@ -30,8 +30,8 @@ Po spuštění
 
 [Hotkey]
 Klávesy
-[Go to Customize -> Hotkeys to change the hotkey]
-Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Zkratky změníte v Možnosti -> Vlastní úpravy -> Klávesové zkratky
 [Notifications]
 Upozornění
 [Message boxes]

@@ -30,8 +30,8 @@ Počet uložených kopií:
 Složka pro zálohování profilů:
 [Browse...]
 Procházet...
-[Go to the "Customize -> Folders" to change settings]
-Nastavení změníte v sekci Vlastní úpravy -> Složky
+[Go to the "Options -> Customize -> Folders" to change settings]
+Nastavení změníte v Možnosti -> Vlastní úpravy -> Složky
 [Compress backup to zip-archive]
 Komprimovat zálohu do zip-archivu
 [Disable progress bar]

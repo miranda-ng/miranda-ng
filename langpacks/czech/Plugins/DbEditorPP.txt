@@ -100,8 +100,8 @@ U&končit
 &Akce
 [&Search and replace]
 Najít a nah&radit...
-[&Fix resident settings]
-Opravit rezidentní nastavení
+[Delete &resident settings]
+Smazat rezidentní nastavení
 [&Delete module]
 &Smazat modul...
 [&Watches]
@@ -299,8 +299,8 @@ Upravit položky v DBE++
 Opravdu chcete smazat kontakt '%s'?
 [Delete resident settings from database?]
 Odstranit rezidentní nastavení z databáze?
-[%d orphaned items deleted.]
-Smazáno %d osamocených položek.
+[%d items deleted.]
+Smazáno %d položek.
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Chyba při načítání seznamu modulů

@@ -155,7 +155,6 @@
 [Protocol is offline or no JID]
 [Command completed successfully]
 [Leave group chats]
-[Extended Away (N/A)]
 [Disable remote controlling (check twice what you are doing)]
 [Forward options]
 [Mark messages as read]
