@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for Clist nicer.]
-Umožňuje úpravu skinu pro clist nicer.
+Umožňuje úpravu skinu pro Clist nicer.
 ;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Položky skinu
