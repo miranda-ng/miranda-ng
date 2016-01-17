@@ -207,7 +207,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	// IcoLib support
-	Icon_Register(g_hInst, "Auth State", iconList, _countof(iconList));
+	Icon_Register(g_hInst, LPGEN("Auth State"), iconList, _countof(iconList));
 
 	// extra icons
 	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth State"), "authgrant_icon");
