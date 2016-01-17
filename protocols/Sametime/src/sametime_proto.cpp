@@ -115,31 +115,24 @@ int CSametimeProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFi
 
 DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 {
-	int ret = 0;
 	switch (type) {
 	case PFLAGNUM_1:
-		ret = PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCHUI | PF1_ADDSEARCHRES | PF1_MODEMSG | PF1_FILE | PF1_CHAT;
-		break;
+		return PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCHUI | PF1_ADDSEARCHRES | PF1_MODEMSG | PF1_FILE | PF1_CHAT;
 	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
-		break;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
 	case PFLAGNUM_3:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
-		break;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		ret = PF4_SUPPORTTYPING;
-		break;
+		return PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
-		ret = (DWORD_PTR)Translate("ID");
-		break;
+		return (DWORD_PTR)Translate("ID");
 	case PFLAG_MAXLENOFMESSAGE:
-		ret = MAX_MESSAGE_SIZE;
-		break;
+		return MAX_MESSAGE_SIZE;
 	case PFLAG_UNIQUEIDSETTING:
-		ret = (DWORD_PTR) "stid";
-		break;
+		return (DWORD_PTR) "stid";
+	default:
+		return 0;
 	}
-	return ret;
 }
 
 int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
@@ -159,7 +152,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 	tfap->proto = this;
 	tfap->hContact = hContact;
 	tfap->lParam = NULL;
-	mir_forkthread(sttFakeAckInfoSuccessThread, (void*)tfap);
+	mir_forkthread(sttFakeAckInfoSuccessThread, tfap);
 
 	return 0;
 }
@@ -175,7 +168,7 @@ HWND CSametimeProto::SearchAdvanced(HWND owner)
 {
 	TCHAR buf[512];
 	if (GetDlgItemText(owner, IDC_EDIT1, buf, _countof(buf))) {
-		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : mir_tstrlen(buf));
+		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), mir_tstrlen(buf));
 		return (HWND)SearchForUser(T2Utf(buf), TRUE);
 	}
 	return NULL;
@@ -231,7 +224,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 		tfap->proto = this;
 		tfap->hContact = hContact;
 		tfap->lParam = 0;
-		mir_forkthread(sttFakeAckMessageFailedThread, (void*)tfap);
+		mir_forkthread(sttFakeAckMessageFailedThread, tfap);
 		return 0;
 	}
 
@@ -244,7 +237,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 	tfap->proto = this;
 	tfap->hContact = hContact;
 	tfap->lParam = (LPARAM)ret;
-	mir_forkthread(sttFakeAckMessageSuccessThread, (void*)tfap);
+	mir_forkthread(sttFakeAckMessageSuccessThread, tfap);
 
 	return ret;
 }
@@ -274,7 +267,7 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 		tfap = (TFakeAckParams*)malloc(sizeof(TFakeAckParams));
 		tfap->proto = this;
 		tfap->hContact = hContact;
-		mir_forkthread(sttRecvAwayThread, (void*)tfap);
+		mir_forkthread(sttRecvAwayThread, tfap);
 		return (HANDLE)1;
 	}
 	return NULL;
