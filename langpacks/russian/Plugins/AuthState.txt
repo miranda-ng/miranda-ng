@@ -22,7 +22,7 @@
 [Enable AuthState icons]
 Вкл. значки состояния авторизации
 [Auth]
-Авторизация
+Запрос
 [Grant]
 Разрешить
 [Auth & Grant]
