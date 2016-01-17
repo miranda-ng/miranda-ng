@@ -1362,7 +1362,7 @@ UIN, E-mail тощо
 [Limit user names in the message log to 20 characters]
 Обмежити імена в журналі до 20 символів
 [Add ':' to auto-completed user names]
-Додавати ":" до імен користувачів
+Додавати двокрапку (:) до імен користувачів при автозавершенні
 [Strip colors from messages in the log]
 Заборонити кольори в журналі
 [Enable the 'event filter' for new rooms]

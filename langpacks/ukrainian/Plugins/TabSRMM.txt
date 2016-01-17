@@ -1942,7 +1942,9 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 [Limit user names in the message log to 20 characters]
 Обмежити імена в журналі до 20 символів
 [Add a colon (:) to auto-completed user names]
-Додавати ":" до імен користувачів
+Додавати двокрапку (:) до імен користувачів при автозавершенні
+[Add a comma instead of a colon to auto-completed user names]
+Додавати кому (,) до імен користувачів при автозавершенні
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Приват при подвійному кліку в списку ніків (інакше вставляти нік)
 [Strip colors from messages in the log]
@@ -1953,6 +1955,8 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 IRC-стиль (текстовий) індикаторів ролей у журналі чату
 [Allow clickable user names in the message log]
 Ніки клікабельні як гіперпосилання
+[Add new line after names]
+Текст повідомлення з нового рядка
 [Colorize user names in message log]
 Кольорові ніки в журналі чату
 [Scale down icons to 10x10 pixels in the chat log]

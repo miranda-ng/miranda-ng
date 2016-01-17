@@ -425,7 +425,7 @@ Ostatní
 [Hide this contact from the list]
 Nezobrazovat v seznamu kontaktů
 [To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Chcete-li zobrazit z dřívějška skrytý kontakt, zatrhněte zaškrtávací pole vedle požadovaného kontaktu (Možnosti -> kontakty -> Filtrování kontaktů).
+Chcete-li zobrazit z dřívějška skrytý kontakt, zatrhněte zaškrtávací pole vedle požadovaného kontaktu (Možnosti -> Kontakty -> Filtrování kontaktů).
 [Display options]
 Možnosti zobrazení
 [Show contact with priority]

@@ -638,7 +638,7 @@
 [Display contact status icon before role icon]
 Показувати значок статусу перед значком ролі
 [Add ':' to auto-completed names]
-Додавати ":" до імен користувачів
+Додавати двокрапку (:) до імен користувачів при автозавершенні
 [Prefix all events with a timestamp]
 Показувати час для всіх подій
 [Only prefix with timestamp if it has changed]
