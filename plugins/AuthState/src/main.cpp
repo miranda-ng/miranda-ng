@@ -155,9 +155,9 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Auth"), "auth_icon", IDI_AUTH },
+	{ LPGEN("Request"), "auth_icon", IDI_AUTH },
 	{ LPGEN("Grant"), "grant_icon", IDI_GRANT },
-	{ LPGEN("Auth & Grant"), "authgrant_icon", IDI_AUTHGRANT }
+	{ LPGEN("Request & Grant"), "authgrant_icon", IDI_AUTHGRANT }
 };
 
 int onModulesLoaded(WPARAM, LPARAM)
@@ -207,10 +207,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	// IcoLib support
-	Icon_Register(g_hInst, LPGEN("Auth State"), iconList, _countof(iconList));
+	Icon_Register(g_hInst, LPGEN("Auth state"), iconList, _countof(iconList));
 
 	// extra icons
-	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth State"), "authgrant_icon");
+	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth state"), "authgrant_icon");
 
 	return 0;
 }

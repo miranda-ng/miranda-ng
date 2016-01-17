@@ -75,7 +75,7 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AUTHSTATE_OPT);
-	odp.pszTitle = LPGEN("Auth State");
+	odp.pszTitle = LPGEN("Auth state");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
