@@ -19,7 +19,6 @@
 #define IDI_DELETE                      175
 #define IDC_DROP                        183
 #define IDI_SENDEMAIL                   193
-#define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDD_OPT_ICONS                   207
 #define IDI_FILE                        207
@@ -488,7 +487,6 @@
 #define IDC_SELECTMODE                  19126
 #define IDC_CONFIGUREMODES              19127
 #define IDC_USEGROUPS                   19128
-#define ID_ICQ_EXIT                     40001
 #define POPUP_HIDEEMPTYGROUPS           40003
 #define POPUP_NEWSUBGROUP               40004
 #define POPUP_HIDEOFFLINE               40005
