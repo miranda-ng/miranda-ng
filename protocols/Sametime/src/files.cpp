@@ -167,7 +167,7 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 					FileTransferClientData *ftcd_temp = ftcd_next->next;
 
 					if (ftcd_next->hFile != INVALID_HANDLE_VALUE)
-						CloseHandle(ftcd->hFile);
+						CloseHandle(ftcd_next->hFile);
 
 					if (ftcd_next->save_path)
 						free(ftcd_next->save_path);
