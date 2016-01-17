@@ -14,7 +14,7 @@
 [Offline]
 [Online]
 [Away]
-[NA]
+[N/A]
 [Occupied]
 [DND]
 [Free for chat]

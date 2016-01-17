@@ -29,7 +29,6 @@
 [Built-in message dialog support]
 [Disable]
 [Smiley button]
-[Background\ncolor]
 [Surround inserted smiley with spaces]
 [Use first smiley for selection size]
 [IEView style window]
@@ -43,6 +42,7 @@
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 [Assign smiley category]
+[Background color]
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
