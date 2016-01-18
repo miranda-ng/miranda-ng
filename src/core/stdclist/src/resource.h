@@ -135,18 +135,6 @@
 #define IDC_WINCOLOUR                   1659
 #define IDC_ICONBLINK                   1660
 #define IDC_STMSDELAY                   1661
-#define POPUP_HIDEEMPTYGROUPS           40003
-#define POPUP_NEWSUBGROUP               40004
-#define POPUP_HIDEOFFLINE               40005
-#define POPUP_GROUPHIDEOFFLINE          40006
-#define POPUP_HIDEOFFLINEROOT           40007
-#define POPUP_DISABLEGROUPS             40008
-#define POPUP_HIDEMIRANDA               40017
-#define ID_TRAY_HIDE                    40038
-#define ID_TRAY_EXIT                    40040
-#define POPUP_NEWGROUP                  40050
-#define POPUP_RENAMEGROUP               40052
-#define POPUP_DELETEGROUP               40053
 
 // Next default values for new objects
 // 

@@ -122,10 +122,8 @@
 #define ID_CLOSE                        40022
 #define ID_CLOSEOTHER                   40023
 #define ID_LOCKPOSITION                 40024
-#define ID_Menu                         40026
 #define ID_SEARCH_GOOGLE                40027
 #define ID_SEARCH_WIKIPEDIA             40028
-#define ID_WIKIPEDIA_                   40029
 
 // Next default values for new objects
 // 
