@@ -70,13 +70,11 @@ static void __stdcall UrlActionAsync(void *param)
 // returns an empty string if the string does not have enough arguments
 static TCHAR* GetExecuteParam(TCHAR **ppszString)
 {
-	TCHAR *pszParam, *p;
-	BOOL fQuoted;
-
-	fQuoted = (**ppszString == _T('"'));
-	pszParam = *ppszString;
-	if (fQuoted) pszParam++;
-	p = _tcschr(pszParam, (TCHAR)(fQuoted ? _T('"') : _T(',')));
+	bool fQuoted = (**ppszString == _T('"'));
+	TCHAR *pszParam = *ppszString;
+	if (fQuoted)
+		pszParam++;
+	TCHAR *p = _tcschr(pszParam, (TCHAR)(fQuoted ? _T('"') : _T(',')));
 	if (p != NULL) {
 		*(p++) = 0;
 		if (fQuoted && *p == _T(',')) p++;
@@ -102,38 +100,36 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 				if (hSzApp) GlobalDeleteAtom(hSzApp);
 				if (hSzTopic) GlobalDeleteAtom(hSzTopic);
 			}
-			return 0;
 		}
+		return 0;
+
 	case WM_DDE_EXECUTE: /* posted message */
-		{
-			HGLOBAL hCommand;
-			TCHAR *pszCommand;
+		HGLOBAL hCommand;
+		if (UnpackDDElParam(msg, lParam, NULL, (PUINT_PTR)&hCommand)) {
+			/* ANSI execute command can't happen for shell */
+			if (IsWindowUnicode((HWND)wParam)) {
+				TCHAR *pszCommand = (TCHAR*)GlobalLock(hCommand);
+				if (pszCommand != NULL) {
+					TCHAR *pszAction = GetExecuteParam(&pszCommand);
+					TCHAR *pszArg = GetExecuteParam(&pszCommand);
+					if (pszArg != NULL) {
+						/* we are inside miranda here, we make it async so the shell does
+							* not timeout regardless what the plugins try to do. */
+						if (!mir_tstrcmpi(pszAction, _T("file")))
+							CallFunctionAsync(FileActionAsync, mir_tstrdup(pszArg));
+						else if (!mir_tstrcmpi(pszAction, _T("url")))
+							CallFunctionAsync(UrlActionAsync, mir_tstrdup(pszArg));
+					}
+					GlobalUnlock(hCommand);
+				}
+			}
+
 			DDEACK ack;
 			memset(&ack, 0, sizeof(ack));
-			if (UnpackDDElParam(msg, lParam, NULL, (PUINT_PTR)&hCommand)) {
-				/* ANSI execute command can't happen for shell */
-				if (IsWindowUnicode((HWND)wParam)) {
-					pszCommand = (TCHAR*)GlobalLock(hCommand);
-					if (pszCommand != NULL) {
-						TCHAR *pszAction = GetExecuteParam(&pszCommand);
-						TCHAR *pszArg = GetExecuteParam(&pszCommand);
-						if (pszArg != NULL) {
-							/* we are inside miranda here, we make it async so the shell does
-							 * not timeout regardless what the plugins try to do. */
-							if (!mir_tstrcmpi(pszAction, _T("file")))
-								CallFunctionAsync(FileActionAsync, pszArg);
-							else if (!mir_tstrcmpi(pszAction, _T("url")))
-								CallFunctionAsync(UrlActionAsync, pszArg);
-						}
-						GlobalUnlock(hCommand);
-					}
-				}
-
-				lParam = ReuseDDElParam(lParam, msg, WM_DDE_ACK, *(PUINT)&ack, (UINT_PTR)hCommand);
-				if (!PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, lParam)) {
-					GlobalFree(hCommand);
-					FreeDDElParam(WM_DDE_ACK, lParam);
-				}
+			lParam = ReuseDDElParam(lParam, msg, WM_DDE_ACK, *(PUINT)&ack, (UINT_PTR)hCommand);
+			if (!PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, lParam)) {
+				GlobalFree(hCommand);
+				FreeDDElParam(WM_DDE_ACK, lParam);
 			}
 		}
 		return 0;
