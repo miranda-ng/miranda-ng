@@ -48,7 +48,6 @@
 #define IDI_SENDEMAIL                   193
 #define IDD_FILERECV                    194
 #define IDD_PROFILEMANAGER              197
-#define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDD_FINDADD                     201
 #define IDI_USERONLINE                  201
@@ -420,30 +419,6 @@
 #define IDC_BUTTON_CLEAR                1730
 #define IDC_EDIT_SPACE                  21660
 #define IDC_EDIT_SPACE2                 21661
-#define IDI_SEARCHALL                   32548
-#define ID_ICQ_EXIT                     40001
-#define IDM_COPY                        40001
-#define ID_RESET                        40002
-#define POPUP_HIDEEMPTYGROUPS           40003
-#define POPUP_NEWSUBGROUP               40004
-#define POPUP_HIDEOFFLINE               40005
-#define POPUP_GROUPHIDEOFFLINE          40006
-#define POPUP_HIDEOFFLINEROOT           40007
-#define POPUP_DISABLEGROUPS             40008
-#define IDC_SENDMESSAGE                 40009
-#define IDM_COPYALL                     40011
-#define IDM_SELECTALL                   40012
-#define IDM_CLEAR                       40013
-#define IDM_OPENNEW                     40014
-#define IDM_OPENEXISTING                40015
-#define IDM_COPYLINK                    40016
-#define POPUP_HIDEMIRANDA               40017
-#define ID_CANCELCHANGE                 40018
-#define ID_TRAY_HIDE                    40038
-#define ID_TRAY_EXIT                    40040
-#define POPUP_NEWGROUP                  40050
-#define POPUP_RENAMEGROUP               40052
-#define POPUP_DELETEGROUP               40053
 
 // Next default values for new objects
 // 

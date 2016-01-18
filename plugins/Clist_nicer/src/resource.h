@@ -292,7 +292,6 @@
 #define ID_ICQ_EXIT                     40001
 #define IDC_STATIC7                     40002
 #define POPUP_HIDEEMPTYGROUPS           40003
-#define POPUP_NEWSUBGROUP               40004
 #define POPUP_HIDEOFFLINE               40005
 #define POPUP_GROUPHIDEOFFLINE          40006
 #define POPUP_HIDEOFFLINEROOT           40007
@@ -318,7 +317,6 @@
 #define POPUP_FRAME                     40029
 #define IDC_STATIC10                    40029
 #define IDC_PROTOGROUPOP                40030
-#define POPUP_MOVEMARKEDHERE            40031
 #define IDC_GROUPSTATUSOP               40031
 #define IDC_LASTMESSAGEOP               40032
 #define ID_BUTTONS_ONLINE               40033
@@ -330,50 +328,18 @@
 #define IDC_FLT_EXTRAICONS              40038
 #define ID_TRAY_HIDE                    40038
 #define ID_TRAY_EXIT                    40039
-#define IDC_FLT_SYNCED                  40039
 #define POPUP_SHOWMETAICONS             40040
-#define IDC_FLT_AUTOHIDE                40040
-#define IDC_FLT_FILLSTD                 40041
-#define IDC_FLT_PADRIGHT                40043
 #define IDC_LASTMSGVALUE                40043
-#define IDC_FLT_PADRIGHTSPIN            40044
-#define IDC_FLT_PADTOP                  40045
 #define IDC_SKINFILENAME                40045
-#define IDC_FLT_PADTOPSPIN              40046
 #define IDC_SELECTSKINFILE              40046
-#define IDC_FLT_PADBOTTOM               40047
 #define IDC_RELOADSKIN                  40047
-#define IDC_FLT_PADBOTTOMSPIN           40048
 #define IDC_UNLOAD                      40048
 #define POPUP_NEWGROUP                  40050
 #define IDC_SECONDLINEMODE              40050
 #define POPUP_SHOWSTATUSICONS           40051
 #define IDC_OVERLAYICON                 40051
 #define IDC_SHOWLOCALTIME1              40052
-#define POPUP_RENAMEGROUP               40052
-#define POPUP_DELETEGROUP               40053
-#define IDC_DSP_ADD                     -25483
-#define IDC_DSP_DELETE                  40054
-#define IDC_FLT_ENABLED                 40054
-#define IDC_DSP_RENAME                  40055
-#define IDC_FLT_OPACITY                 40055
-#define IDC_DSP_APPLY                   40056
-#define IDC_FLT_ACTIVEOPACITY           40056
-#define IDC_FLT_WIDTH                   40058
 #define IDC_AVATARDISPMODE              40059
-#define IDC_FLT_WIDTHSPIN               40059
-#define IDC_FLT_SNAP                    40060
-#define IDC_FLT_ACTIVEOPACITYVALUE      40061
-#define IDC_FLT_BORDER                  40062
-#define IDC_FLT_ROUNDED                 40063
-#define IDC_FLT_RADIUS                  40065
-#define IDC_FLT_RADIUSSPIN              40066
-#define IDC_FLT_HOVERTIME               40067
-#define IDC_RESETXICONS                 40067
-#define IDC_FLT_SHOWTOOLTIPS            40068
-#define IDC_FLT_HOVERTIMESPIN           40069
-#define IDC_FLT_OPACITYVALUE            40070
-#define IDC_FLT_BORDERCOLOUR            40072
 
 // Next default values for new objects
 // 
