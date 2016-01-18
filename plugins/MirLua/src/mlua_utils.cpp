@@ -170,6 +170,13 @@ int luaM_totable(lua_State *L)
 	return 1;
 }
 
+int luaM_ptr2number(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	lua_pushnumber(L, (intptr_t)lua_touserdata(L, 1));
+	return 1;
+}
+
 void ObsoleteMethod(lua_State *L, const char *message)
 {
 	lua_Debug info;

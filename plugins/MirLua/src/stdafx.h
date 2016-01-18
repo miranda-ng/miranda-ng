@@ -132,7 +132,7 @@ int luaM_print(lua_State *L);
 
 int luaM_toansi(lua_State *L);
 int luaM_toucs2(lua_State *L);
-
+int luaM_ptr2number(lua_State *L);
 int luaM_totable(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
