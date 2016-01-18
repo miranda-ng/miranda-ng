@@ -275,11 +275,13 @@ luaL_Reg coreApi[] =
 
 	{ "Utf8DecodeA", core_Utf8DecodeA },
 	{ "Utf8DecodeW", core_Utf8DecodeW },
-
+	
 	{ "Free", core_Free },
 
 	{ "Translate", core_Translate },
 	{ "ReplaceVariables", core_ReplaceVariables },
+
+	{ "PointerToNumber", luaM_ptr2number },
 
 	{ "GetFullPath", core_GetFullPath },
 
