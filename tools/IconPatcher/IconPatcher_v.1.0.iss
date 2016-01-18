@@ -12,7 +12,7 @@
 ;    Х /VERYSILENT = automated setup mode. Nothing is displayed at all.
 ;    Х /LOG="log.txt" = creates a log-file" log.txt" near IconPatcher.exe. The parameter is used for tracking errors.
 ; Х The relative folders structure in archives (for example, Icons\Proto_ICQ\*.ico) means that the folder specified via /BIN must have the subfolder Icons with the file Proto_ICQ.dll in it (possible extensions .exe, .dll, .mir).
-; Х The 'root' folder is for beautyfulness only and doesn't repeat the original program's structure, it contains the .exe resources only.
+; Х The 'root' folder is for beautifulness only and doesn't repeat the original program's structure, it contains the .exe resources only.
 
 ; ¬озможности патчера:
 ; Х «амена значков в библиотеках и исполн€емых файлах.
@@ -20,13 +20,13 @@
 ; Х 7z-архивы значков должны лежать в одной папке р€дом с IconPatcher.exe.
 ; Х »меет английский и русский интерфейс (определ€етс€ автоматически)
 ; Х »нтуитивно пон€тный графический интерфейс пользовател€.
-; Х ѕоддержка комстроки. ѕараметры комстроки:
+; Х ѕоддержка командной строки. ѕараметры командной строки:
 ;    Х /BIN = "путь к Miranda32/64.exe". ѕуть к exe-файлу, относительно которого будут сопоставл€тьс€ 'файлы из архива с ресурсами' с 'файлами Miranda'.
 ;    Х /ARC = им€ архива без расширени€, например, /ARC=Nova.
 ;    Х /RES = список папок из архива дл€ обработки, например, /RES=icons,plugins,root. Ёто то, что будет отмечено в интерфейсе патчера. ≈сли нужно отметить все, то параметр /RES можно либо опустить, либо /RES=*.
 ;    Х /SILENT = ”становка в ускоренном режиме. ќтображаетс€ диалог прогресса.
 ;    Х /VERYSILENT = ”становка в ускоренном режиме. Ќичего не отображаетс€.
-;    Х /LOG="log.txt" = —оздает log-файл "log.txt" р€дом с IconPatcher.exe. ѕараметр примен€етс€ при отслеживании ошибок.
+;    Х /LOG="log.txt" = —оздаЄт log-файл "log.txt" р€дом с IconPatcher.exe. ѕараметр примен€етс€ при отслеживании ошибок.
 ; Х —труктура папок в архивах, например, Icons\Proto_ICQ\*.ico, означает, что по пути, указанному в /BIN должна быть папка Icons, в ней файл Proto_ICQ (возможных расширений .exe, .dll, .mir).
 ; Х ѕапка root дл€ красоты и не повтор€ет оригинальную структуру программы, в ней только ресурсы дл€ exe.
 
