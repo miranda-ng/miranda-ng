@@ -16,6 +16,7 @@
 #define IDI_CLVM_OPTIONS                176
 #define IDI_CLVM_SELECT                 177
 #define IDC_DROP                        183
+#define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDI_ADDCONTACT                  210
 #define IDC_HYPERLINKHAND               214

@@ -5,6 +5,7 @@
 #define IDD_OPT_CLIST                   126
 #define IDC_DROP                        183
 #define IDD_OPT_HOTKEY                  184
+#define IDR_CLISTMENU                   199
 #define IDC_HYPERLINKHAND               214
 #define IDC_DROPUSER                    215
 #define IDD_OPT_CLUI                    218
@@ -133,6 +134,7 @@
 #define IDC_T_GROUP                     1663
 #define IDC_T_DIVIDER                   1664
 #define IDC_T_INFO                      1665
+#define ID_ICQ_EXIT                     40001
 
 // Next default values for new objects
 // 
