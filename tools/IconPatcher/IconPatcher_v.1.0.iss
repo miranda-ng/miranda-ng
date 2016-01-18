@@ -1,9 +1,34 @@
-; Параметры комстроки:
-; /BIN = "путь к Miranda32/64.exe". Путь к exe-файлу миранды, относительно него будут сопоставляться файлы из архива с ресурсами с файлами миранды.
-; /ARC = имя архива без расширения, например, /ARC=nova
-; /RES = список папок из архива для обработки, например, /RES=icons,plugins,root. Это то, что будет отмечено в интерфейсе патчера. Если нужно все отметить, то /RES либо опустить, либо /RES=*.
-; Структура папок в архивах, например, icons\Proto_ICQ\*.ico, означает, что по пути, указанному в /BIN должна быть папка icons, в ней файл Proto_ICQ (возможных расширений .exe, .dll, .mir).
-; Папка root для красоты и не повторяет оригинальную структуру программы, в ней только ресурсы для exe миранды.
+; Patcher's features:
+; • Icons' replacement in libraries and executables.
+; • Sets of icons should be packed to the 7z archive.
+; • 7z-archives icons should be in the same folder next to IconPatcher.exe.
+; • It has English and Russian interface (automatically detected)
+; • Intuitive graphical user interface.
+; • Command line support. Command line parameters:
+;    • /BIN = "path to Miranda32/64.exe". The exe-file path, related to which all archived files' paths would be calculated with respect to 'files from the archive to the resources' from the 'files Miranda'.
+;    • /ARC = archive name without extension, for example, /ARC=Nova.
+;    • /RES = list of archive folders to process, they will be marked in the patcher's UI. If you want to mark all folders, you can simply omit /RES parameter, or use /RES=* either.
+;    • /SILENT = simplified setup mode. only the progress indicator will be displayed.
+;    • /VERYSILENT = automated setup mode. Nothing is displayed at all.
+;    • /LOG="log.txt" = creates a log-file" log.txt" near IconPatcher.exe. The parameter is used for tracking errors.
+; • The relative folders structure in archives (for example, Icons\Proto_ICQ\*.ico) means that the folder specified via /BIN must have the subfolder Icons with the file Proto_ICQ.dll in it (possible extensions .exe, .dll, .mir).
+; • The 'root' folder is for beautyfulness only and doesn't repeat the original program's structure, it contains the .exe resources only.
+
+; Возможности патчера:
+; • Замена значков в библиотеках и исполняемых файлах.
+; • Наборы значков должны быть запакованы в архив 7z.
+; • 7z-архивы значков должны лежать в одной папке рядом с IconPatcher.exe.
+; • Имеет английский и русский интерфейс (определяется автоматически)
+; • Интуитивно понятный графический интерфейс пользователя.
+; • Поддержка комстроки. Параметры комстроки:
+;    • /BIN = "путь к Miranda32/64.exe". Путь к exe-файлу, относительно которого будут сопоставляться 'файлы из архива с ресурсами' с 'файлами Miranda'.
+;    • /ARC = имя архива без расширения, например, /ARC=Nova.
+;    • /RES = список папок из архива для обработки, например, /RES=icons,plugins,root. Это то, что будет отмечено в интерфейсе патчера. Если нужно отметить все, то параметр /RES можно либо опустить, либо /RES=*.
+;    • /SILENT = Установка в ускоренном режиме. Отображается диалог прогресса.
+;    • /VERYSILENT = Установка в ускоренном режиме. Ничего не отображается.
+;    • /LOG="log.txt" = Создает log-файл "log.txt" рядом с IconPatcher.exe. Параметр применяется при отслеживании ошибок.
+; • Структура папок в архивах, например, Icons\Proto_ICQ\*.ico, означает, что по пути, указанному в /BIN должна быть папка Icons, в ней файл Proto_ICQ (возможных расширений .exe, .dll, .mir).
+; • Папка root для красоты и не повторяет оригинальную структуру программы, в ней только ресурсы для exe.
 
 #define AppName "IconPatcher"
 #define AppFullName "Miranda icon patcher"
