@@ -600,6 +600,8 @@ static int ci__index(lua_State *L)
 			ci->dwFlag = CNF_LASTNAME;
 		else if (mir_strcmpi(key, "Nick") == 0)
 			ci->dwFlag = CNF_NICK;
+		else if (mir_strcmpi(key, "CustomNick") == 0)
+			ci->dwFlag = CNF_CUSTOMNICK;
 		else if (mir_strcmpi(key, "FullName") == 0)
 			ci->dwFlag = CNF_FIRSTLAST;
 		else if (mir_strcmpi(key, "DisplayName") == 0)
