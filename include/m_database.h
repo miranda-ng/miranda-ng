@@ -58,7 +58,7 @@ extern "C"
 #define DBVT_ASCIIZ 255	  // pszVal is valid
 #define DBVT_BLOB   254	  // cpbVal and pbVal are valid
 #define DBVT_UTF8   253   // pszVal is valid
-#define DBVT_WCHAR  252   // pszVal is valid
+#define DBVT_WCHAR  252   // pwszVal is valid
 #if defined(_UNICODE)
 #define DBVT_TCHAR DBVT_WCHAR
 #else
