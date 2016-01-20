@@ -374,11 +374,6 @@ extern "C" {
 
 #endif
 
-enum JS_FUNCTIONS
-{
-	DISPID_JS_DB_GET = 652
-};
-
 class IEViewSink :public  DWebBrowserEvents2 {
 private:
 	int		m_cRef;
