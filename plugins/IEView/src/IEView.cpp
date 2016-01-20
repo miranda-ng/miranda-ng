@@ -421,13 +421,13 @@ STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*)
 { 
 	return S_OK; 
 }
-STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, OLECHAR **rgszNames, size_t cNames, LCID lcid, DISPID *rgDispId)
+STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames, LCID lcid, DISPID *rgDispId)
 { 
 	HRESULT retval = S_OK;
 	for (size_t i = 0; i < cNames; i++)
 	{
 		if (!wcscmp(L"db_get", rgszNames[i]))
-			rgDispId[i] = DISPID_JS_DB_GET;
+			rgDispId[i] = DISPID_EXTERNAL_DB_GET;
 		else
 		{
 			rgDispId[i] = NULL;
@@ -449,7 +449,7 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 
 	switch (dispIdMember)
 	{
-	case DISPID_JS_DB_GET:
+	case DISPID_EXTERNAL_DB_GET:
 		return External::db_get(pDispParams, pVarResult);
 	}
 
