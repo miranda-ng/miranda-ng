@@ -433,9 +433,9 @@ void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
 DWORD StatusColors15bits[] = {
 	0x63180000, // 0x00C0C0C0, 0x00000000, Offline - LightGray
 	0x7B350000, // 0x00F0C8A8, 0x00000000, Online  - LightBlue
-	0x33fe0000, // 0x0070E0E0, 0x00000000, Away -LightOrange
-	0x295C0000, // 0x005050E0, 0x00000000, DND  -DarkRed
-	0x5EFD0000, // 0x00B8B8E8, 0x00000000, NA   -LightRed
+	0x33fe0000, // 0x0070E0E0, 0x00000000, Away - LightOrange
+	0x295C0000, // 0x005050E0, 0x00000000, DND - DarkRed
+	0x5EFD0000, // 0x00B8B8E8, 0x00000000, Not available - LightRed
 	0x295C0000, // 0x005050E0, 0x00000000, Occupied
 	0x43900000, // 0x0080E080, 0x00000000, Free for chat - LightGreen
 	0x76AF0000, // 0x00E8A878, 0x00000000, Invisible

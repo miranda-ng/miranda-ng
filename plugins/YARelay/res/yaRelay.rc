@@ -47,7 +47,7 @@ BEGIN
                     WS_TABSTOP,8,75,67,10
     CONTROL         "Away",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     8,86,67,10
-    CONTROL         "N/A",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,
+    CONTROL         "Not available",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,
                     97,67,10
     CONTROL         "Occupied",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,64,67,10

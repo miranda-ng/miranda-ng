@@ -135,7 +135,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("Any"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("Online"));
 			SetDlgItemText(hwnd, IDC_CHECK3, TranslateT("Away"));
-			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("N/A"));
+			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("Not available"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("DND"));
 			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free for chat"));
@@ -156,7 +156,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("From Offline"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("To Online"));
 			SetDlgItemText(hwnd, IDC_CHECK3, TranslateT("To Away"));
-			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("To N/A"));
+			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("To Not available"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("To Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("To DND"));
 			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("To Free for chat"));
