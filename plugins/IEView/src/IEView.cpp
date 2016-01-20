@@ -388,6 +388,8 @@ STDMETHODIMP IEView::QueryInterface(REFIID riid, PVOID *ppv)
 		*ppv = (IInternetSecurityManager*)this;
 	if (IID_IServiceProvider == riid)
 		*ppv = (IServiceProvider*)this;
+	if (IID_IDispatch == riid)
+		*ppv = (IDispatch*)this;
 
 	if (NULL != *ppv) {
 		((LPUNKNOWN)*ppv)->AddRef();
@@ -409,16 +411,89 @@ STDMETHODIMP_(ULONG) IEView::Release(void)
 }
 
 // IDispatch
-STDMETHODIMP IEView::GetTypeInfoCount(UINT *) { return E_NOTIMPL; }
-STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*) { return S_OK; }
-STDMETHODIMP IEView::GetIDsOfNames(REFIID, LPOLESTR*, UINT, LCID, DISPID*) { return S_OK; }
-
-STDMETHODIMP IEView::Invoke(DISPID dispIdMember, REFIID, LCID, WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*)
+STDMETHODIMP IEView::GetTypeInfoCount(UINT *pctinfo)
 {
-	switch (dispIdMember) {
-	case  DISPID_AMBIENT_DLCONTROL:
-		break;
+	if (pctinfo == NULL) return E_INVALIDARG;
+	*pctinfo = 1;
+	return S_OK;
+}
+STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*) 
+{ 
+	return S_OK; 
+}
+STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, OLECHAR **rgszNames, size_t cNames, LCID lcid, DISPID *rgDispId)
+{ 
+	HRESULT retval = S_OK;
+	for (size_t i = 0; i < cNames; i++)
+	{
+		if (!wcscmp(L"db_get", rgszNames[i]))
+			rgDispId[i] = DISPID_JS_DB_GET;
+		else
+		{
+			rgDispId[i] = NULL;
+			retval = DISP_E_UNKNOWNNAME;
+		}
 	}
+	return S_OK; 
+}
+
+HRESULT IE_db_get(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+{
+	if (pDispParams->cArgs == 3 && pDispParams && pVarResult)
+	{
+		MCONTACT hContact = pDispParams->rgvarg[2].vt == VT_INT ? pDispParams->rgvarg[2].intVal : NULL;
+		BSTR szModule = pDispParams->rgvarg[1].vt == VT_BSTR ? pDispParams->rgvarg[1].bstrVal : NULL;
+		BSTR szSetting = pDispParams->rgvarg[0].vt == VT_BSTR ? pDispParams->rgvarg[0].bstrVal : NULL;
+
+		DBVARIANT dbv = { 0 };
+
+		db_get(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv);
+
+		switch (dbv.type)
+		{
+		case DBVT_BYTE:
+			pVarResult->bVal = dbv.bVal;
+			pVarResult->vt = VT_BOOL;
+			break;
+		case DBVT_WCHAR:
+			pVarResult->vt = VT_BSTR;
+			pVarResult->bstrVal = ::SysAllocString(dbv.pwszVal);
+			break;
+		case DBVT_UTF8:
+			pVarResult->vt = VT_BSTR;
+			pVarResult->bstrVal = ::SysAllocString(ptrW(mir_utf8decodeW(dbv.pszVal)));
+			break;
+		case DBVT_ASCIIZ:
+			pVarResult->vt = VT_BSTR;
+			pVarResult->bstrVal = ::SysAllocString(_A2T(dbv.pszVal));
+			break;
+		case DBVT_DWORD:
+			pVarResult->vt = VT_INT;
+			pVarResult->intVal = dbv.dVal;
+		}
+
+
+		return S_OK;
+	}
+	return E_INVALIDARG;
+}
+
+STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
+							REFIID riid,
+							LCID lcid, 
+							WORD wFlags, 
+							DISPPARAMS *pDispParams,
+							VARIANT *pVarResult, 
+							EXCEPINFO *pExcepInfo,
+							UINT *puArgErr)
+{
+
+	switch (dispIdMember)
+	{
+	case DISPID_JS_DB_GET:
+		return IE_db_get(pDispParams, pVarResult);
+	}
+
 	return DISP_E_MEMBERNOTFOUND;
 }
 
@@ -619,8 +694,8 @@ STDMETHODIMP IEView::GetDropTarget(IDropTarget *, IDropTarget **ppDropTarget)
 
 STDMETHODIMP IEView::GetExternal(IDispatch **ppDispatch)
 {
-	*ppDispatch = NULL;
-	return S_FALSE;
+	*ppDispatch = this;
+	return S_OK;
 }
 STDMETHODIMP IEView::TranslateUrl(DWORD, OLECHAR *, OLECHAR **) { return E_NOTIMPL; }
 STDMETHODIMP IEView::FilterDataObject(IDataObject *, IDataObject **) { return E_NOTIMPL; }
@@ -709,6 +784,12 @@ STDMETHODIMP IEView::SetZoneMapping(DWORD, LPCWSTR, DWORD)
 STDMETHODIMP IEView::GetZoneMappings(DWORD, IEnumString **, DWORD)
 {
 	return INET_E_DEFAULT_ACTION;
+}
+
+STDMETHODIMP IEView::SayHello()
+{
+	MessageBox(NULL, L"Hello", L"Hello", MB_YESNO);
+	return S_OK;
 }
 
 IHTMLDocument2* IEView::getDocument()

@@ -374,6 +374,11 @@ extern "C" {
 
 #endif
 
+enum JS_FUNCTIONS
+{
+	DISPID_JS_DB_GET = 652
+};
+
 class IEViewSink :public  DWebBrowserEvents2 {
 private:
 	int		m_cRef;
@@ -507,6 +512,8 @@ private:
 	STDMETHOD(QueryCustomPolicy)(LPCWSTR pwszUrl, REFGUID guidKey, BYTE **ppPolicy, DWORD *pcbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwReserved);
 	STDMETHOD(SetZoneMapping)(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags);
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
+
+	STDMETHOD(SayHello)();
 
 	IHTMLDocument2 *getDocument();
 	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
