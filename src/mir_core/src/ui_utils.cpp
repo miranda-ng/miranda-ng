@@ -1467,9 +1467,12 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				// Proceed moving
 				HTREEITEM insertAfter = hti.hItem;
+				HTREEITEM hParent = GetParent(hti.hItem);
 				for (int i = 0; i < arItems.getCount(); i++) {
 					if (!insertAfter)
 						break;
+					if (GetParent(arItems[i]) != hParent) // prevent subitems from being inserted at the same level
+						continue;
 
 					insertAfter = MoveItemAbove(arItems[i], insertAfter);
 					if (!i)
