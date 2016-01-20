@@ -74,7 +74,7 @@ const
     ID_STATUS_ONTHEPHONE);
 const
   StatNames:array [0..NumStatus-1] of PWideChar=(
-  'Default'{'Offline'},'Online','Invisible','Away','N/A','Occupied','DND',
+  'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','DND',
   'Free for chat','Out to lunch','On the phone');
 
 type

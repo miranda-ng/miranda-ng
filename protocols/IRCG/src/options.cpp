@@ -954,7 +954,7 @@ static TDbSetting OtherSettings[] =
 static char* sttPerformEvents[] = {
 	LPGEN("Event: Available"),
 	LPGEN("Event: Away"),
-	LPGEN("Event: N/A"),
+	LPGEN("Event: Not available"),
 	LPGEN("Event: Occupied"),
 	LPGEN("Event: DND"),
 	LPGEN("Event: Free for chat"),

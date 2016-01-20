@@ -193,7 +193,7 @@ BEGIN
         MENUITEM "&Offline",                    ID_STATUS_OFFLINE
         MENUITEM "On&line",                     ID_STATUS_ONLINE
         MENUITEM "&Away",                       ID_STATUS_AWAY
-        MENUITEM "&N/A",                         ID_STATUS_NA
+        MENUITEM "&Not available",              ID_STATUS_NA
         MENUITEM "Occ&upied",                   ID_STATUS_OCCUPIED
         MENUITEM "&DND",                        ID_STATUS_DND
         MENUITEM "&Free for chat",              ID_STATUS_FREECHAT

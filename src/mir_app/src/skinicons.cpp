@@ -103,7 +103,7 @@ static struct StandardIconDescription statusIcons[] =
 	{ ID_STATUS_OFFLINE,         LPGEN("Offline"),          -IDI_OFFLINE,       0xFFFFFFFF     },
 	{ ID_STATUS_ONLINE,          LPGEN("Online"),           -IDI_ONLINE,        PF2_ONLINE     },
 	{ ID_STATUS_AWAY,            LPGEN("Away"),             -IDI_AWAY,          PF2_SHORTAWAY  },
-	{ ID_STATUS_NA,              LPGEN("N/A"),               -IDI_NA,            PF2_LONGAWAY   },
+	{ ID_STATUS_NA,              LPGEN("Not available"),    -IDI_NA,            PF2_LONGAWAY   },
 	{ ID_STATUS_OCCUPIED,        LPGEN("Occupied"),         -IDI_OCCUPIED,      PF2_LIGHTDND   },
 	{ ID_STATUS_DND,             LPGEN("DND"),              -IDI_DND,           PF2_HEAVYDND   },
 	{ ID_STATUS_FREECHAT,        LPGEN("Free for chat"),    -IDI_FREE4CHAT,     PF2_FREECHAT   },
