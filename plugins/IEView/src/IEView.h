@@ -513,8 +513,6 @@ private:
 	STDMETHOD(SetZoneMapping)(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags);
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
-	STDMETHOD(SayHello)();
-
 	IHTMLDocument2 *getDocument();
 	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	WCHAR*  getSelection();

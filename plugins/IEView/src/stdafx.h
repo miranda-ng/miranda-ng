@@ -70,6 +70,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "MUCCHTMLBuilder.h"
 #include "Template.h"
 #include "TextToken.h"
+#include "external_funcs.h"
 
 #define ieviewModuleName	"IEVIEW"
 
