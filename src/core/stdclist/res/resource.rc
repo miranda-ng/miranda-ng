@@ -476,7 +476,7 @@ BEGIN
 		MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED 
 		MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE 
 		MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY 
-		MENUITEM "&N/A\tCtrl+3",                ID_STATUS_NA 
+		MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA 
 		MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED 
 		MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND 
 		MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT 

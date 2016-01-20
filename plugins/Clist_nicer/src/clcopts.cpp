@@ -67,11 +67,11 @@ struct CheckBoxValues_t {
 
 static const struct CheckBoxValues_t greyoutValues[] = {
 	{ GREYF_UNFOCUS, LPGENT("Not focused") }, { MODEF_OFFLINE, LPGENT("Offline") }, { PF2_ONLINE, LPGENT("Online") }, { PF2_SHORTAWAY, LPGENT("Away") },
-	{ PF2_LONGAWAY, LPGENT("N/A") }, { PF2_LIGHTDND, LPGENT("Occupied") }, { PF2_HEAVYDND, LPGENT("DND") }, { PF2_FREECHAT, LPGENT("Free for chat") },
+	{ PF2_LONGAWAY, LPGENT("Not available") }, { PF2_LIGHTDND, LPGENT("Occupied") }, { PF2_HEAVYDND, LPGENT("DND") }, { PF2_FREECHAT, LPGENT("Free for chat") },
 	{ PF2_INVISIBLE, LPGENT("Invisible") }, { PF2_OUTTOLUNCH, LPGENT("Out to lunch") }, { PF2_ONTHEPHONE, LPGENT("On the phone") }
 };
 static const struct CheckBoxValues_t offlineValues[] = {
-	{ MODEF_OFFLINE, LPGENT("Offline") }, { PF2_ONLINE, LPGENT("Online") }, { PF2_SHORTAWAY, LPGENT("Away") }, { PF2_LONGAWAY, LPGENT("N/A") },
+	{ MODEF_OFFLINE, LPGENT("Offline") }, { PF2_ONLINE, LPGENT("Online") }, { PF2_SHORTAWAY, LPGENT("Away") }, { PF2_LONGAWAY, LPGENT("Not available") },
 	{ PF2_LIGHTDND, LPGENT("Occupied") }, { PF2_HEAVYDND, LPGENT("DND") }, { PF2_FREECHAT, LPGENT("Free for chat") }, { PF2_INVISIBLE, LPGENT("Invisible") },
 	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch") }, { PF2_ONTHEPHONE, LPGENT("On the phone") }
 };
