@@ -42,8 +42,19 @@ namespace External
 		return S_OK;
 	}
 
-	HRESULT ShellExec(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	HRESULT win32_ShellExecute(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
+		if (pDispParams->cArgs < 5 || pDispParams == nullptr)
+			return E_INVALIDARG;
+
+		HINSTANCE res = ShellExecuteW(NULL, pDispParams->rgvarg[4].bstrVal, pDispParams->rgvarg[3].bstrVal, pDispParams->rgvarg[2].bstrVal, pDispParams->rgvarg[1].bstrVal, pDispParams->rgvarg[0].intVal);
+
+		if (pVarResult != nullptr)
+		{
+			pVarResult->vt = VT_HANDLE;
+			pVarResult->ullVal = (ULONGLONG)res;
+		}
+
 		return S_OK;
 	}
 
