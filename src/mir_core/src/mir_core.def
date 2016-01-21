@@ -933,7 +933,7 @@ mir_wstrcmpi                  @280
 ?SelectRange@CCtrlTreeView@@QAEXPAU_TREEITEM@@0@Z @1091 NONAME
 ?Unselect@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1092 NONAME
 ?UnselectAll@CCtrlTreeView@@QAEXXZ @1093 NONAME
-?MoveItemAbove@CCtrlTreeView@@AAEPAU_TREEITEM@@PAU2@0@Z @1094 NONAME
+?MoveItemAbove@CCtrlTreeView@@AAEPAU_TREEITEM@@PAU2@00@Z @1094 NONAME
 ?GetCurrPage@CCtrlPages@@AAEPAUTPageInfo@1@XZ @1095 NONAME
 ?Fail@CDlgBase@@QAEXXZ @1096 NONAME
 ?OnApply@CCtrlPages@@MAEXXZ @1097 NONAME

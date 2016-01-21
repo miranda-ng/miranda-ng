@@ -1383,7 +1383,7 @@ void CCtrlTreeView::OnInit()
 		Subclass();
 }
 
-HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
+HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, HTREEITEM hParent)
 {
 	if (hItem == NULL || hInsertAfter == NULL)
 		return NULL;
@@ -1411,7 +1411,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 
 	tvis.itemex.stateMask = tvis.itemex.state;
 	tvis.itemex.lParam = saveOldData;
-	tvis.hParent = (hInsertAfter == TVI_FIRST) ? NULL : GetParent(hInsertAfter);
+	tvis.hParent = hParent;
 	tvis.hInsertAfter = hInsertAfter;
 	return InsertItem(&tvis);
 }
@@ -1460,26 +1460,31 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (hti.flags & TVHT_BELOW)
 				hti.hItem = TVI_LAST;
 
+			HTREEITEM insertAfter = hti.hItem;
+			HTREEITEM hParent = (insertAfter == TVI_FIRST) ? NULL : GetParent(insertAfter);
+			if (GetChild(insertAfter) != NULL) {
+				hParent = insertAfter;
+				insertAfter = TVI_FIRST;
+			}
+
 			HTREEITEM FirstItem = NULL;
 			if (m_bMultiSelect) {
 				LIST<_TREEITEM> arItems(10);
 				GetSelected(arItems);
 
 				// Proceed moving
-				HTREEITEM insertAfter = hti.hItem;
-				HTREEITEM hParent = GetParent(hti.hItem);
 				for (int i = 0; i < arItems.getCount(); i++) {
 					if (!insertAfter)
 						break;
 					if (GetParent(arItems[i]) != hParent) // prevent subitems from being inserted at the same level
 						continue;
 
-					insertAfter = MoveItemAbove(arItems[i], insertAfter);
+					insertAfter = MoveItemAbove(arItems[i], insertAfter, hParent);
 					if (!i)
 						FirstItem = insertAfter;
 				}
 			}
-			else FirstItem = MoveItemAbove(m_hDragItem, hti.hItem);
+			else FirstItem = MoveItemAbove(m_hDragItem, insertAfter, hParent);
 			if (FirstItem)
 				SelectItem(FirstItem);
 
