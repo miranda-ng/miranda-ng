@@ -31,7 +31,7 @@
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
 // WhatsApp Samsung Galaxy S3
-#define ACCOUNT_RESOURCE  "S40"
+#define ACCOUNT_RESOURCE  "iOS-2.12.12"
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2
