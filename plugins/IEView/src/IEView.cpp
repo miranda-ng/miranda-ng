@@ -414,7 +414,7 @@ STDMETHODIMP_(ULONG) IEView::Release(void)
 STDMETHODIMP IEView::GetTypeInfoCount(UINT *pctinfo)
 {
 	if (pctinfo == NULL) return E_INVALIDARG;
-	*pctinfo = 2;
+	*pctinfo = 3;
 	return S_OK;
 }
 STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*) 
@@ -428,6 +428,8 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames
 	{
 		if (!wcscmp(L"db_get", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_DB_GET;
+		else if (!wcscmp(L"db_set", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_DB_SET;
 		else if (!wcscmp(L"win32_ShellExecute", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_WIN32_SHELL_EXECUTE;
 
@@ -437,7 +439,7 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames
 			retval = DISP_E_UNKNOWNNAME;
 		}
 	}
-	return S_OK; 
+	return retval; 
 }
 
 STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
@@ -454,6 +456,8 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 	{
 	case DISPID_EXTERNAL_DB_GET:
 		return External::db_get(pDispParams, pVarResult);
+	case DISPID_EXTERNAL_DB_SET:
+		return External::db_set(pDispParams, pVarResult);
 	case DISPID_EXTERNAL_WIN32_SHELL_EXECUTE:
 		return External::win32_ShellExecute(pDispParams, pVarResult);
 	}
