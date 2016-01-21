@@ -5,40 +5,48 @@ namespace External
 	HRESULT db_get(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
 		if (pDispParams->cArgs < 3)
-			return TYPE_E_OUTOFBOUNDS;
+			return E_INVALIDARG;
 
-		if (!pDispParams || !pVarResult)
-			return S_OK;
-
-		MCONTACT hContact = pDispParams->rgvarg[2].vt == VT_INT ? pDispParams->rgvarg[2].intVal : NULL;
-		BSTR szModule = pDispParams->rgvarg[1].vt == VT_BSTR ? pDispParams->rgvarg[1].bstrVal : NULL;
-		BSTR szSetting = pDispParams->rgvarg[0].vt == VT_BSTR ? pDispParams->rgvarg[0].bstrVal : NULL;
+		MCONTACT hContact = pDispParams->rgvarg[2].intVal;
+		BSTR szModule = pDispParams->rgvarg[1].bstrVal;
+		BSTR szSetting = pDispParams->rgvarg[0].bstrVal;
 
 		DBVARIANT dbv = { 0 };
-		db_get(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv);
 
-		switch (dbv.type)
+		if (db_get(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv)) 
+			return E_FAIL;
+
+		if (pVarResult != nullptr)
 		{
-		case DBVT_BYTE:
-			pVarResult->bVal = dbv.bVal;
-			pVarResult->vt = VT_BOOL;
-			break;
-		case DBVT_WCHAR:
-			pVarResult->vt = VT_BSTR;
-			pVarResult->bstrVal = ::SysAllocString(dbv.pwszVal);
-			break;
-		case DBVT_UTF8:
-			pVarResult->vt = VT_BSTR;
-			pVarResult->bstrVal = ::SysAllocString(ptrW(mir_utf8decodeW(dbv.pszVal)));
-			break;
-		case DBVT_ASCIIZ:
-			pVarResult->vt = VT_BSTR;
-			pVarResult->bstrVal = ::SysAllocString(_A2T(dbv.pszVal));
-			break;
-		case DBVT_DWORD:
-			pVarResult->vt = VT_INT;
-			pVarResult->intVal = dbv.dVal;
+			switch (dbv.type)
+			{
+			case DBVT_BYTE:
+				pVarResult->bVal = dbv.bVal;
+				pVarResult->vt = VT_BOOL;
+				break;
+			case DBVT_WCHAR:
+				pVarResult->vt = VT_BSTR;
+				pVarResult->bstrVal = ::SysAllocString(dbv.pwszVal);
+				break;
+			case DBVT_UTF8:
+				pVarResult->vt = VT_BSTR;
+				pVarResult->bstrVal = ::SysAllocString(ptrW(mir_utf8decodeW(dbv.pszVal)));
+				break;
+			case DBVT_ASCIIZ:
+				pVarResult->vt = VT_BSTR;
+				pVarResult->bstrVal = ::SysAllocString(_A2T(dbv.pszVal));
+				break;
+			case DBVT_DWORD:
+				pVarResult->vt = VT_INT;
+				pVarResult->intVal = dbv.dVal;
+				break;
+			case DBVT_WORD:
+				pVarResult->vt = VT_I2;
+				pVarResult->iVal = dbv.dVal;
+				break;
+			}
 		}
+		db_free(&dbv);
 		return S_OK;
 	}
 
@@ -72,6 +80,9 @@ namespace External
 		case VT_BOOL:
 			dbv.type = DBVT_BYTE;
 			dbv.bVal = pVal.boolVal;
+			break;
+		default: 
+			return E_INVALIDARG;
 		}
 
 		INT_PTR res = ::db_set(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv);
