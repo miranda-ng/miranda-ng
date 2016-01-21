@@ -514,7 +514,7 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 }
 
 
-#define NA TranslateT("Not available")
+#define NA TranslateT("N/A")
 
 TCHAR* GetBirthdayModule(int module, MCONTACT)
 {
