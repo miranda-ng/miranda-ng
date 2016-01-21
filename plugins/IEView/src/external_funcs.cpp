@@ -14,7 +14,7 @@ namespace External
 		DBVARIANT dbv = { 0 };
 
 		if (db_get(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv)) 
-			return E_FAIL;
+			return S_OK;
 
 		if (pVarResult != nullptr)
 		{
