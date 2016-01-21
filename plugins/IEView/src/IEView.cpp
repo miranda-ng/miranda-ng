@@ -421,7 +421,7 @@ STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*)
 { 
 	return S_OK; 
 }
-STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames, LCID lcid, DISPID *rgDispId)
+STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cNames, LCID /*lcid*/, DISPID *rgDispId)
 { 
 	HRESULT retval = S_OK;
 	for (size_t i = 0; i < cNames; i++)
@@ -443,13 +443,13 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames
 }
 
 STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
-							REFIID riid,
-							LCID lcid, 
-							WORD wFlags, 
+							REFIID /*riid*/,
+							LCID /*lcid*/, 
+							WORD /*wFlags*/, 
 							DISPPARAMS *pDispParams,
 							VARIANT *pVarResult, 
-							EXCEPINFO *pExcepInfo,
-							UINT *puArgErr)
+							EXCEPINFO * /*pExcepInfo*/,
+							UINT * /*puArgErr*/)
 {
 
 	switch (dispIdMember)

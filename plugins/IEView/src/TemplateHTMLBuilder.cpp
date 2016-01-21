@@ -55,7 +55,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	}
 	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) > 0) {
-			TCHAR *ext = _tcsrchr(dbv.ptszVal, '.');
+			//TCHAR *ext = _tcsrchr(dbv.ptszVal, '.');
 			if (result == NULL) {
 				/* relative -> absolute */
 				mir_tstrcpy(tmpPath, dbv.ptszVal);
