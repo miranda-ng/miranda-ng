@@ -42,6 +42,48 @@ namespace External
 		return S_OK;
 	}
 
+	HRESULT db_set(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pDispParams->cArgs < 4 || pDispParams == nullptr)
+			return E_INVALIDARG;
+
+		MCONTACT hContact = pDispParams->rgvarg[3].intVal;
+		BSTR szModule = pDispParams->rgvarg[2].bstrVal;
+		BSTR szSetting = pDispParams->rgvarg[1].bstrVal;
+
+		DBVARIANT dbv = { 0 };
+
+		VARIANT& pVal = pDispParams->rgvarg[0];
+
+		switch (pVal.vt)
+		{
+		case VT_BSTR:
+			dbv.type = DBVT_WCHAR;
+			dbv.pwszVal = mir_wstrdup(pVal.bstrVal);
+			break;
+		case VT_INT:
+		case VT_I1:
+		case VT_I2:
+		case VT_I4:
+		case VT_I8:
+			dbv.type = DBVT_DWORD;
+			dbv.dVal = pVal.intVal;
+			break;
+		case VT_BOOL:
+			dbv.type = DBVT_BYTE;
+			dbv.bVal = pVal.boolVal;
+		}
+
+		INT_PTR res = ::db_set(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv);
+
+		if (pVarResult != nullptr)
+		{
+			pVarResult->vt = VT_INT_PTR;
+			pVarResult->ullVal = (ULONGLONG)res;
+		}
+		return S_OK;
+	}
+
 	HRESULT win32_ShellExecute(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
 		if (pDispParams->cArgs < 5 || pDispParams == nullptr)
