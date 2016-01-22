@@ -634,7 +634,7 @@ void TextToken::toString(CMStringW &str)
 				break;
 			case BB_SIZE:
 				eText = htmlEncode(wtext);
-				str.AppendFormat(L"<span style=\"font-size: %s;\">", eText);
+				str.AppendFormat(L"<span style=\"font-size: %spt;\">", eText);
 				break;
 			}
 		}
