@@ -33,7 +33,7 @@
 В &мережі
 [&Away]
 &Відсутній
-[&N/A]
+[&Not available]
 Не&доступний
 [Occ&upied]
 &Зайнятий
@@ -209,7 +209,7 @@
 Відсутній
 [Been gone since %nas_awaysince_time%, will be back later.]
 Відійшов о %nas_awaysince_time%. Скоро повернуся.
-[N/A]
+[Not available]
 Недоступний
 [Give it up, I'm not in!]
 Мене немає.

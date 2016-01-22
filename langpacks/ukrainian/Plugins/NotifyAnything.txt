@@ -31,10 +31,10 @@
 Запис у файл
 [Message debugging]
 Налагодження повідомлень
-[N/A: Failed to format error message]
-N/A: Помилка у форматі повідомлення з помилкою
-[N/A: FormatMessage failed, error code was 0x]
-N/A: Помилка формату повідомлення, код помилки: 0x
+[NotifyAnything: Failed to format error message]
+NotifyAnything: Помилка у форматі повідомлення про помилку
+[NotifyAnything: FormatMessage failed, error code was 0x]
+NotifyAnything: Помилка FormatMessage, код: 0x
 [Error]
 Помилка
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]

@@ -573,7 +573,7 @@ xСтатус: xПовідомлення
 В &мережі\tCtrl+1
 [&Away\tCtrl+2]
 &Відсутній\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
@@ -687,7 +687,7 @@ xСтатус: xПовідомлення
 Контакт "відійшов"
 [DND contacts]
 Контакт "не турбувати"
-[N/A contacts]
+[Not available contacts]
 Контакт "недоступний"
 [Occupied contacts]
 Контакт "зайнятий"
@@ -751,7 +751,7 @@ xСтатус: xПовідомлення
 В мережі
 [Away]
 Відсутній
-[N/A]
+[Not available]
 Недоступний
 [Occupied]
 Зайнятий

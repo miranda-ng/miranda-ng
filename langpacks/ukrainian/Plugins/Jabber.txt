@@ -605,7 +605,7 @@ xHTML-формат повідомлень чату
 В мережі
 [Away]
 Відсутній
-[N/A]
+[Not available]
 Недоступний
 [DND]
 Не турбувати
@@ -1627,9 +1627,9 @@ Google Hangouts
 Встановити статус і статусне повідомлення
 [Status]
 Статус
-[Extended away (N/A)]
-Недоступний (Н/Д)
-[Do not disturb (DND)]
+[Extended away (Not available)]
+Недоступний
+[Do not disturb]
 Не турбувати
 [Invisible]
 Невидимий

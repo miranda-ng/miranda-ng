@@ -7,8 +7,8 @@
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Показує значок навпроти імені, якщо контакт авторизував вас, або ви не авторизували його.
-[Show Auth icon]
-Показувати значок "Запит"
+[Show Request icon]
+Показувати значок "Запитати"
 [Show Grant icon]
 Показувати значок "Дозволити"
 [Plugin settings]
@@ -21,13 +21,13 @@
 Вимк. значки стану авторизації
 [Enable AuthState icons]
 Увімк. значки стану авторизації
-[Auth]
-Авторизація
+[Request]
+Запитати
 [Grant]
 Дозволити
-[Auth & Grant]
-Запит & Дозволити
-[Auth State]
+[Request & Grant]
+Запитати & Дозволити
+[Auth state]
 Стан авторизації
 [Icons]
 Значки

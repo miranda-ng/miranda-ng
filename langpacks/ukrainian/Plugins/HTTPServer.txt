@@ -55,7 +55,7 @@ IP-адреса 2
 Тест
 [Transfer limit (Kb/s)]
 Ліміт швидкості (Кб/с)
-[No control when Away or N/A]
+[No control when Away or Not available]
 Вимк., якщо Відсутній/Недоступний
 [Connection control]
 Контроль з'єднань

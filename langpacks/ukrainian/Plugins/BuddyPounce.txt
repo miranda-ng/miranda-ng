@@ -69,7 +69,7 @@
 В мережі
 [Away]
 Відсутній
-[N/A]
+[Not available]
 Недоступний
 [Occupied]
 Зайнятий
@@ -91,7 +91,7 @@
 -> В мережі
 [To Away]
 -> Відсутній
-[To N/A]
+[To Not available]
 -> Недоступний
 [To Occupied]
 -> Зайнятий

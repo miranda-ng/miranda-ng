@@ -441,7 +441,7 @@
 В &мережі\tCtrl+1
 [&Away\tCtrl+2]
 &Відсутній\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
@@ -487,7 +487,7 @@
 В мережі
 [Away]
 Відсутній
-[N/A]
+[Not available]
 Недоступний
 [Occupied]
 Зайнятий
