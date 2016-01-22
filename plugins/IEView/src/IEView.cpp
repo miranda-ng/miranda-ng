@@ -433,6 +433,8 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 
 		else if (!wcscmp(L"win32_ShellExecute", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_WIN32_SHELL_EXECUTE;
+		else if (!wcscmp(L"win32_CopyToClipboard", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_WIN32_COPY_TO_CLIPBOARD;
 
 		else if (!wcscmp(L"IEView_SetContextMenuHandler", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER;
@@ -473,6 +475,8 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 
 	case DISPID_EXTERNAL_WIN32_SHELL_EXECUTE:
 		return External::win32_ShellExecute(pDispParams, pVarResult);
+	case DISPID_EXTERNAL_WIN32_COPY_TO_CLIPBOARD:
+		return External::win32_CopyToClipboard(pDispParams, pVarResult);
 
 	case DISPID_EXTERNAL_GET_CURRENTCONTACT:
 		return External::IEView_GetCurrentContact(this, pDispParams, pVarResult);

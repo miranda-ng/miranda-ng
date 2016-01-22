@@ -40,8 +40,8 @@ namespace External
 
 		if (pVarResult != nullptr)
 		{
-			pVarResult->vt = VT_INT_PTR;
-			pVarResult->ullVal = (ULONGLONG)res;
+			pVarResult->vt = VT_UINT;
+			pVarResult->uintVal = (UINT)res;
 		}
 		return S_OK;
 	}
@@ -151,8 +151,8 @@ namespace External
 
 		if (pVarResult != nullptr)
 		{
-			pVarResult->vt = VT_INT_PTR;
-			pVarResult->ullVal = (ULONGLONG)res;
+			pVarResult->vt = VT_INT;
+			pVarResult->intVal = (int)res;
 		}
 		return S_OK;
 	}
@@ -170,6 +170,32 @@ namespace External
 			pVarResult->ullVal = (ULONGLONG)res;
 		}
 
+		return S_OK;
+	}
+
+	HRESULT win32_CopyToClipboard(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pDispParams == nullptr || pDispParams->cArgs < 1)
+			return E_INVALIDARG;
+
+		BSTR data = pDispParams->rgvarg[0].bstrVal;
+		if (OpenClipboard(NULL)) 
+		{
+			EmptyClipboard();
+			size_t size = sizeof(TCHAR)* (mir_wstrlen(data) + 1);
+			HGLOBAL hClipboardData = GlobalAlloc(0, size);
+			if (hClipboardData) 
+			{
+				TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
+				if (pchData) 
+				{
+					memcpy(pchData, (TCHAR*)data, size);
+					GlobalUnlock(hClipboardData);
+					SetClipboardData(CF_UNICODETEXT, hClipboardData);
+				}
+			}
+			CloseClipboard();
+		}
 		return S_OK;
 	}
 
