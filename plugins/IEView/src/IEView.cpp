@@ -430,10 +430,18 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 			rgDispId[i] = DISPID_EXTERNAL_DB_GET;
 		else if (!wcscmp(L"db_set", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_DB_SET;
+
 		else if (!wcscmp(L"win32_ShellExecute", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_WIN32_SHELL_EXECUTE;
+
 		else if (!wcscmp(L"IEView_SetContextMenuHandler", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER;
+		else if (!wcscmp(L"IEView_GetCurrentContact", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_GET_CURRENTCONTACT;
+
+		else if (!wcscmp(L"mir_CallService", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_CALLSERVICE;
+
 		else
 		{
 			rgDispId[i] = NULL;
@@ -455,12 +463,19 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 
 	switch (dispIdMember)
 	{
+	case DISPID_EXTERNAL_CALLSERVICE:
+		return External::mir_CallService(pDispParams, pVarResult);
+
 	case DISPID_EXTERNAL_DB_GET:
 		return External::db_get(pDispParams, pVarResult);
 	case DISPID_EXTERNAL_DB_SET:
 		return External::db_set(pDispParams, pVarResult);
+
 	case DISPID_EXTERNAL_WIN32_SHELL_EXECUTE:
 		return External::win32_ShellExecute(pDispParams, pVarResult);
+
+	case DISPID_EXTERNAL_GET_CURRENTCONTACT:
+		return External::IEView_GetCurrentContact(this, pDispParams, pVarResult);
 	case DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER:
 		return External::IEView_SetContextMenuHandler(this, pDispParams, pVarResult);
 	}

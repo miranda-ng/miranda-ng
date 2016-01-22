@@ -3,11 +3,64 @@
 namespace External
 {
 
+	HRESULT mir_CallService(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pDispParams == nullptr || pDispParams->cArgs < 3)
+			return E_INVALIDARG;
+
+		BSTR szName = pDispParams->rgvarg[2].bstrVal;
+		WPARAM wParam = 0;
+		LPARAM lParam = 0;
+
+		switch (pDispParams->rgvarg[1].vt)
+		{
+		case VT_BSTR:
+			wParam = (WPARAM)pDispParams->rgvarg[1].bstrVal;
+		case VT_INT:
+		case VT_I1:
+		case VT_I2:
+		case VT_I4:
+		case VT_I8:
+			wParam = (WPARAM)pDispParams->rgvarg[1].intVal;
+		}
+
+		switch (pDispParams->rgvarg[0].vt)
+		{
+		case VT_BSTR:
+			lParam = (LPARAM)pDispParams->rgvarg[0].bstrVal;
+		case VT_INT:
+		case VT_I1:
+		case VT_I2:
+		case VT_I4:
+		case VT_I8:
+			lParam = (LPARAM)pDispParams->rgvarg[0].intVal;
+		}
+
+		INT_PTR res = CallService(_T2A((TCHAR*)szName), wParam, lParam);
+
+		if (pVarResult != nullptr)
+		{
+			pVarResult->vt = VT_INT_PTR;
+			pVarResult->ullVal = (ULONGLONG)res;
+		}
+		return S_OK;
+	}
+
 	HRESULT IEView_SetContextMenuHandler(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
-		if (pDispParams->cArgs < 1 || pDispParams == nullptr)
+		if (pDispParams == nullptr || pDispParams->cArgs < 1)
 			return E_INVALIDARG;
 		self->Set_ContextMenuHandler(mir_wstrdup(pDispParams->rgvarg[0].bstrVal));
+		return S_OK;
+	}
+
+	HRESULT IEView_GetCurrentContact(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pVarResult != nullptr)
+		{
+			pVarResult->vt = VT_UINT;
+			pVarResult->uintVal = self->Get_CurrentContact();
+		}
 		return S_OK;
 	}
 
@@ -61,7 +114,7 @@ namespace External
 
 	HRESULT db_set(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
-		if (pDispParams->cArgs < 4 || pDispParams == nullptr)
+		if (pDispParams == nullptr || pDispParams->cArgs < 4)
 			return E_INVALIDARG;
 
 		MCONTACT hContact = pDispParams->rgvarg[3].intVal;
@@ -106,7 +159,7 @@ namespace External
 
 	HRESULT win32_ShellExecute(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
-		if (pDispParams->cArgs < 5 || pDispParams == nullptr)
+		if (pDispParams == nullptr || pDispParams->cArgs < 5)
 			return E_INVALIDARG;
 
 		HINSTANCE res = ShellExecuteW(NULL, pDispParams->rgvarg[4].bstrVal, pDispParams->rgvarg[3].bstrVal, pDispParams->rgvarg[2].bstrVal, pDispParams->rgvarg[1].bstrVal, pDispParams->rgvarg[0].intVal);

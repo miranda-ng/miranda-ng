@@ -87,6 +87,8 @@ INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 			view->saveDocument();
 		else if (event->iType == IEE_LOG_MEM_EVENTS)
 			view->appendEvent(event);
+
+		view->setContact(event->hContact);
 	}
 	return 0;
 }
@@ -103,8 +105,6 @@ INT_PTR HandleIENavigate(WPARAM, LPARAM lParam)
 	}
 	return 0;
 }
-
-void ApplyChanges(int i);
 
 INT_PTR ReloadOptions(WPARAM, LPARAM)
 {

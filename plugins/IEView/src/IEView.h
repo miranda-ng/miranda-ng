@@ -566,5 +566,10 @@ public:
 		replaceStrW(wszContextMenuHandler, handler);
 	}
 
+	inline MCONTACT Get_CurrentContact()
+	{
+		return hContact;
+	}
+
 };
 #endif
