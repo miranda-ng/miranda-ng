@@ -177,7 +177,7 @@
 В &мережі\tCtrl+1
 [&Away\tCtrl+2]
 &Відсутній\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
@@ -191,34 +191,6 @@
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-С&ховати/Показати
-[Nowhere]
-Ніде
-[&New group]
-&Створити групу
-[&Hide offline users]
-С&ховати відключених
-[Hide &offline users out here]
-Сховати &відключених поза групою
-[Hide &empty groups]
-Сховати порожні групи
-[Disable &groups]
-Вимкнути &групи
-[Hide Miranda]
-Сховати список контактів
-[Group]
-Група
-[&New subgroup]
-С&творити підгрупу
-[&Hide offline users in here]
-Сховати &відключених у групі
-[&Rename group]
-&Перейменувати групу
-[&Delete group]
-&Видалити групу
 [Not focused]
 Список неактивний
 [Offline]
@@ -227,7 +199,7 @@
 В мережі
 [Away]
 Відсутній
-[N/A]
+[Not available]
 Недоступний
 [Occupied]
 Зайнятий
