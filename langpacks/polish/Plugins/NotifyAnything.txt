@@ -36,9 +36,9 @@ Debugowanie wiadomości
 [Notify Anything]
 Notify Anything
 [NotifyAnything: Failed to format error message]
-[NotifyAnything: Nie udało się sformatować komunikatu błędu
+NotifyAnything: Nie udało się sformatować komunikatu błędu
 [NotifyAnything: FormatMessage failed, error code was 0x]
-[NotifyAnything: Formatowanie wiadomości nie powiodło się. Kod błędu 0x
+NotifyAnything: Formatowanie wiadomości nie powiodło się. Kod błędu 0x
 [Error]
 Błąd
 ;file \plugins\NotifyAnything\src\options.cpp
