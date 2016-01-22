@@ -13,7 +13,7 @@
 [Invisible]
 [Free for chat]
 [Away]
-[N/A]
+[Not available]
 [Occupied]
 [DND]
 [Out to lunch]

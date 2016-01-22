@@ -26,7 +26,7 @@
 [Popup Colors]
 [Online]
 [Away]
-[N/A]
+[Not available]
 [Occupied]
 [DND]
 [On the phone]
