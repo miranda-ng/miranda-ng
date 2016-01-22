@@ -443,6 +443,7 @@ private:
 	WCHAR*   selectedText;
 	bool     isContactSet;
 	MCONTACT hContact;
+	wchar_t *wszContextMenuHandler;
 
 	// IUnknown
 	STDMETHODIMP QueryInterface(REFIID riid, PVOID *ppv);
@@ -508,6 +509,8 @@ private:
 	STDMETHOD(SetZoneMapping)(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags);
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
+	VARIANT IEView::CallJScript(const CMString strFunc, size_t nPCount, const CMString strArgs, ...);
+
 	IHTMLDocument2 *getDocument();
 	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	WCHAR*  getSelection();
@@ -557,6 +560,11 @@ public:
 	static IEView*	get(HWND);
 	static void		release();
 	static void		setOptions();
+
+	inline void Set_ContextMenuHandler(const wchar_t* handler)
+	{
+		replaceStrW(wszContextMenuHandler, handler);
+	}
 
 };
 #endif
