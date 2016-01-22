@@ -71,19 +71,19 @@
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 
 [DND]
 
-[Free For Chat]
+[Free for chat]
 
 [Invisible]
 
-[On The Phone]
+[On the phone]
 
-[Out To Lunch]
+[Out to lunch]
 
 [Send If Their Status changes]
 
@@ -93,19 +93,19 @@
 
 [To Away]
 
-[To NA]
+[To Not available]
 
 [To Occupied]
 
 [To DND]
 
-[To Free For Chat]
+[To Free for chat]
 
 [To Invisible]
 
-[To On The Phone]
+[To On the phone]
 
-[To Out To Lunch]
+[To Out to lunch]
 
 [The Message    (%d Characters)]
 

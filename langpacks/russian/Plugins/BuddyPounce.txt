@@ -69,7 +69,7 @@
 В сети
 [Away]
 Отсутствую
-[N/A]
+[Not available]
 Недоступен
 [Occupied]
 Занят
@@ -91,7 +91,7 @@
 -> В сети
 [To Away]
 -> Отошёл
-[To N/A]
+[To not available]
 -> Недоступен
 [To Occupied]
 -> Занят

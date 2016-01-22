@@ -71,19 +71,19 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé
 [DND]
 Ne pas déranger
-[Free For Chat]
+[Free for chat]
 OK pour un chat
 [Invisible]
 Invisible
-[On The Phone]
+[On the phone]
 Au téléphone
-[Out To Lunch]
+[Out to lunch]
 Parti manger
 [Send If Their Status changes]
 Envoi si leur état change vers
@@ -93,19 +93,19 @@ Hors ligne
 En ligne
 [To Away]
 Absent
-[To NA]
+[To Not available]
 Indisponible
 [To Occupied]
 Occupé
 [To DND]
 Ne pas déranger
-[To Free For Chat]
+[To Free for chat]
 OK pour un chat
 [To Invisible]
 Invisible
-[To On The Phone]
+[To On the phone]
 Au téléphone
-[To Out To Lunch]
+[To Out to lunch]
 Parti manger
 [The Message    (%d Characters)]
 Message :    (%d caractères)

@@ -355,7 +355,7 @@ TopToolBar
 Отсъстващ
 [DND]
 Не безпокойте
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает

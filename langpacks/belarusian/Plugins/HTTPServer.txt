@@ -55,8 +55,8 @@ IP адрас 2
 Прагляд
 [Transfer limit (Kb/s)]
 Ліміт хуткасці (Kb/s)
-[No control when Away/NA]
-Адкл. калі недасяжны/заняты
+[No control when Away or Not available]
+Адкл. калі Адышоў або Недасяжны
 [Connection control]
 Кантроль злучэнняў
 [Index creation]

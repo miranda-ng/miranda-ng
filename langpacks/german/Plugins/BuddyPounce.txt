@@ -71,19 +71,19 @@ Beliebig
 Online
 [Away]
 Abwesend
-[NA]
+[Not available]
 Außer Haus
 [Occupied]
 Beschäftigt
 [DND]
 Bitte nicht stören
-[Free For Chat]
-Für Chat Bereit
+[Free for chat]
+Für Chat bereit
 [Invisible]
 Unsichtbar
-[On The Phone]
+[On the phone]
 Am Telefon
-[Out To Lunch]
+[Out to lunch]
 Zum Essen
 [Send If Their Status changes]
 Senden wenn ihr Status ändert
@@ -92,20 +92,20 @@ Von Offline
 [To Online]
 Zu Online
 [To Away]
-Zu Away
-[To NA]
+Zu Abwesend
+[To Not available]
 Zu Außer Haus
 [To Occupied]
-Zu beschäftigt
+Zu Beschäftigt
 [To DND]
 Zu Bitte nicht Stören
-[To Free For Chat]
+[To Free for chat]
 Zu Zum Chat Bereit
 [To Invisible]
 Zu Unsichtbar
-[To On The Phone]
+[To On the phone]
 Zu Am Telefon
-[To Out To Lunch]
+[To Out to lunch]
 Zu Zum Essen
 [The Message    (%d Characters)]
 Die Nachricht   (%d Zeichen)

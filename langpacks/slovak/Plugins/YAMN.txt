@@ -31,6 +31,8 @@ Odpojený
 Pripojený
 [Away]
 Preč
+[Not available]
+Nedostupný
 [Occupied]
 Zaneprázdnený
 [DND]

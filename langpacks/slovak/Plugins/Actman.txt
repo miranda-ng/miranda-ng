@@ -63,7 +63,7 @@ Pripojený
 Preč
 [DND]
 Nerušiť
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

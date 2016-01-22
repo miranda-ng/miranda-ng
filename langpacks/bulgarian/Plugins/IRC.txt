@@ -411,7 +411,7 @@ Latin I
 Събитие: Наличен
 [Event: Away]
 Събитие: Отсъстващ
-[Event: N/A]
+[Event: Not available]
 Събитие: Недостъпен
 [Event: Occupied]
 Събитие: Зает

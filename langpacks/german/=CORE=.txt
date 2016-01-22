@@ -409,7 +409,7 @@ B&eenden
 On&line\tStrg+1
 [&Away\tCtrl+2]
 &Abwesend\tStrg+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
 Besch&äftigt\tStrg+4
@@ -1652,7 +1652,7 @@ Offline
 Online
 [Away]
 Abwesend
-[NA]
+[Not available]
 Außer Haus
 [Occupied]
 Beschäftigt

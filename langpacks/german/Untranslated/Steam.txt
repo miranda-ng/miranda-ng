@@ -1,2 +1,0 @@
-﻿[Cannot obtain connection token.]
-[Unknown login error.]

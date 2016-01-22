@@ -71,19 +71,19 @@ Jakikolwiek
 Dostępny
 [Away]
 Zaraz wracam
-[NA]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty
 [DND]
 Nie przeszkadzać
-[Free For Chat]
+[Free for chat]
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On The Phone]
+[On the phone]
 Przy telefonie
-[Out To Lunch]
+[Out to lunch]
 Na obiedzie
 [Send If Their Status changes]
 Wysyłaj, gdy ich status zmieni się
@@ -93,19 +93,19 @@ Z Rozłączonego
 Na Dostępny
 [To Away]
 Na Zaraz wracam
-[To NA]
+[To Not available]
 Na Wrócę później
 [To Occupied]
 Na Zajęty
 [To DND]
 Na Nie przeszkadzać
-[To Free For Chat]
+[To Free for chat]
 Na Porozmawiajmy
 [To Invisible]
 Na Niewidoczny
-[To On The Phone]
+[To On the phone]
 Na Przy telefonie
-[To Out To Lunch]
+[To Out to lunch]
 Na Na obiedzie
 [The Message    (%d Characters)]
 Wiadomość (%d znaków)

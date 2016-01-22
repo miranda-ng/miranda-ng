@@ -14,6 +14,7 @@
 [Use popups]
 [Title]
 [Popup Colors]
+[Not available]
 [Reset colors]
 [Last seen plugin]
 [You missed following contacts:]

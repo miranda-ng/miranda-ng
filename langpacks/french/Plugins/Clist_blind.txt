@@ -178,7 +178,7 @@ Poignée de redimension
 En &ligne\tCtrl+1
 [&Away\tCtrl+2]
 &Absent\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &Indisponible\tCtrl+3
 [Occ&upied\tCtrl+4]
 Occ&upé\tCtrl+4
@@ -192,34 +192,6 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
-&Afficher/Cacher
-[Nowhere]
-Autre
-[&New group]
-&Nouveau groupe
-[&Hide offline users]
-&Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes &vides
-[Disable &groups]
-Désactiver les &groupes
-[Hide Miranda]
-Cacher Miranda
-[Group]
-Groupe
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-&Cacher les Hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-&Effacer le groupe
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Fenêtre inactive
@@ -229,7 +201,7 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

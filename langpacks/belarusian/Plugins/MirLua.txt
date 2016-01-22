@@ -17,8 +17,6 @@
 Агульнае
 [Popup on obsolete methods]
 
-[C libs folder]
-
 [Scripts folder]
 Каталог скыптоў
 [Script]

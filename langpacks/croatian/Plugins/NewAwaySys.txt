@@ -34,7 +34,7 @@
 
 [&Away]
 
-[&NA]
+[&Not available]
 
 [Occ&upied]
 
@@ -213,7 +213,7 @@ Statusne poruke
 
 [Been gone since %nas_awaysince_time%, will be back later.]
 
-[NA]
+[Not available]
 
 [Give it up, I'm not in!]
 

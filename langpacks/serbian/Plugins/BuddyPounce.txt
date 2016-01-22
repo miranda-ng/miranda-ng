@@ -71,19 +71,19 @@ Status
 Prisutan
 [Away]
 Neaktivan
-[NA]
+[Not available]
 Nedostupan
 [Occupied]
 Zauzet
 [DND]
 Ne uznemiravaj
-[Free For Chat]
+[Free for chat]
 Spreman za razgovor
 [Invisible]
 Nevidljiv
-[On The Phone]
+[On the phone]
 Telefoniram
-[Out To Lunch]
+[Out to lunch]
 Na ručku
 [Send If Their Status changes]
 
@@ -93,19 +93,19 @@ Na ručku
 
 [To Away]
 
-[To NA]
+[To Not available]
 
 [To Occupied]
 
 [To DND]
 
-[To Free For Chat]
+[To Free for chat]
 
 [To Invisible]
 
-[To On The Phone]
+[To On the phone]
 
-[To Out To Lunch]
+[To Out to lunch]
 
 [The Message    (%d Characters)]
 

@@ -547,7 +547,7 @@ Cerrar
 En el teléfono
 [Typing]
 Escribiendo
-[Free for Chat]
+[Free for chat]
 Libre para el chat	
 [None]
 Ninguno

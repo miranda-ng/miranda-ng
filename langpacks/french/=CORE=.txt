@@ -409,7 +409,7 @@ Arrière-plan de la liste de contacts :
 En &ligne\tCtrl+1
 [&Away\tCtrl+2]
 &Absent\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &Indisponible\tCtrl+3
 [Occ&upied\tCtrl+4]
 Occ&upé\tCtrl+4
@@ -1652,7 +1652,7 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

@@ -12,7 +12,7 @@
 [Online]
 [Away]
 [DND]
-[NA]
+[Not available]
 [Occupied]
 [Free for chat]
 [Invisible]

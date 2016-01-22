@@ -338,7 +338,7 @@ En ligne
 Invisible
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

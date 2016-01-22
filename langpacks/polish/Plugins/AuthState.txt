@@ -8,8 +8,8 @@
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Pokazuje status autoryzacji obok nazwy kontaktu.
 ;file \plugins\AuthState\res\authstate.rc
-[Show Auth icon]
-Pokaz ikonę autoryzacji
+[Show Request icon]
+
 [Show Grant icon]
 Pokaż ikonę przyznania
 [Plugin settings]
@@ -23,13 +23,13 @@ Pokazuj ikony tylko dla nowo dodanych kontaktów
 Wyłącz ikonę autoryzacji
 [Enable AuthState icons]
 Włącz ikonę autoryzacji
-[Auth]
-Autoryzacja
+[Request]
+
 [Grant]
 Udziel
-[Auth & Grant]
-Autoryzuj i Przyznaj
-[Auth State]
+[Request & Grant]
+
+[Auth state]
 Status autoryzacji
 ;file \plugins\AuthState\src\options.cpp
 [Icons]

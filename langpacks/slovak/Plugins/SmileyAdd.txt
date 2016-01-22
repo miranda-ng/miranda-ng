@@ -11,5 +11,7 @@ Podpora smajlíkov pre Mirandu NG.
 Autor:
 [Version:]
 Verzia:
+[Background color]
+Farba pozadia
 [All files]
 Všetky súbory

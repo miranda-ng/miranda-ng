@@ -143,7 +143,7 @@
 [Special colors]
 [Away contacts]
 [DND contacts]
-[NA contacts]
+[Not available contacts]
 [Occupied contacts]
 [Free for chat contacts]
 [Invisible contacts]

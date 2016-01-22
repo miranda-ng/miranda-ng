@@ -33,7 +33,7 @@
 &Далучаны
 [&Away]
 &Адсутнічаю
-[&NA]
+[&Not available]
 Недасяжны
 [Occ&upied]
 Зан&яты
@@ -211,7 +211,7 @@
 Адсутнічаю
 [Been gone since %nas_awaysince_time%, will be back later.]
 Сышоў з %nas_awaysince_time%, буду пазней.
-[NA]
+[Not available]
 Недасяжны
 [Give it up, I'm not in!]
 Мяне няма

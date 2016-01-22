@@ -57,8 +57,8 @@ APOP
 На линия
 [Away]
 Отсъстващ
-[N/A]
-НД
+[Not available]
+Недостъпен
 [Occupied]
 Зает
 [DND]

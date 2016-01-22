@@ -53,7 +53,7 @@ Pripojený
 Neviditelný
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

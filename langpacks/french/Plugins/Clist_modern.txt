@@ -578,7 +578,7 @@ PAGE D'OPTION EN CONSTRUCTION Veuillez ne poser aucune question en rapport\nà c
 En &ligne\tCtrl+1
 [&Away\tCtrl+2]
 &Absent\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &Indisponible\tCtrl+3
 [Occ&upied\tCtrl+4]
 Occ&upé\tCtrl+4
@@ -696,7 +696,7 @@ Contacts standards
 Contacts absents
 [DND contacts]
 Contacts à ne pas déranger
-[NA contacts]
+[Not available contacts]
 Contacts indisponibles
 [Occupied contacts]
 Contacts occupés
@@ -760,7 +760,7 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

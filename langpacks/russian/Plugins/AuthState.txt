@@ -27,7 +27,7 @@
 Разрешить
 [Request & Grant]
 Запросить & Разрешить
-[Auth State]
+[Auth state]
 Состояние авторизации
 [Icons]
 Значки

@@ -4,7 +4,6 @@
 [Popup on script error]
 [General]
 [Popup on obsolete methods]
-[C libs folder]
 [Scripts folder]
 [Script]
 [Open]

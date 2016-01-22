@@ -19,7 +19,7 @@ Neviditelný
 Voľný k rozhovoru
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

@@ -177,7 +177,7 @@ E&stado
 &En línea
 [&Away\tCtrl+2]
 Fuer&a
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &No disponible
 [Occ&upied\tCtrl+4]
 Oc&upado
@@ -191,34 +191,6 @@ No molestar
 En el &teléfono
 [Out to &lunch\tCtrl+9]
 Salí a comer
-[Tray]
-Bandeja
-[&Hide/Show]
-&Mostrar/Ocultar
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo Grupo
-[&Hide offline users]
-&Ocultar usuarios fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar grupos
-[Hide Miranda]
-Ocultar Miranda
-[Group]
-Grupo
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar grupo
 [Not focused]
 No enfocado
 [Offline]
@@ -227,7 +199,7 @@ Fuera de línea
 En línea
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Occupied]
 Ocupado

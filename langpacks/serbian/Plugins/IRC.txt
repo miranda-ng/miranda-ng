@@ -506,7 +506,7 @@ Otkazivanje
 
 [Event: Away]
 
-[Event: N/A]
+[Event: Not available]
 
 [Event: Occupied]
 
@@ -583,8 +583,6 @@ Napredno
 [&Add to ignore list]
 
 [%s (%s) is requesting a client-to-client chat connection.]
-
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 
 [Join channel]
 

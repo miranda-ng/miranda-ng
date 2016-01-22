@@ -499,7 +499,7 @@ WhoIs
 
 [Event: Away]
 
-[Event: N/A]
+[Event: Not available]
 
 [Event: Occupied]
 
@@ -575,8 +575,6 @@ CTCP %s адказ пасланы для %s: %s
 Дадаць у чорны спіс
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запытвае злучэнне на CTCP-чат
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Увядзіце маску (nick!user@host) \nУвага! Кантакты са спісу кантакту не будуць ігнаравацца!
 [Join channel]
 Зайсці на канал
 [Please enter a channel to join]

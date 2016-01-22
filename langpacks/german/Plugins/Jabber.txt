@@ -626,7 +626,7 @@ Chatstatus &setzen
 Online
 [Away]
 Abwesend
-[NA]
+[Not available]
 Außer Haus
 [DND]
 Bitte nicht stören
@@ -1668,9 +1668,9 @@ Status wechseln
 Bitte wählen Sie den Status und die Statusnachricht aus
 [Status]
 Status
-[Extended Away (N/A)]
-Erweiterte Abwesenheit (n.v.)
-[Do Not Disturb]
+[Extended away (Not available)]
+Erweiterte Abwesenheit (Außer Haus)
+[Do not disturb]
 Bitte nicht stören
 [Invisible]
 Unsichtbar

@@ -506,7 +506,7 @@ Edytuj serwer
 Zdarzenie: dostępny
 [Event: Away]
 Zdarzenie: zaraz wracam
-[Event: N/A]
+[Event: Not available]
 Zdarzenie: wrócę później
 [Event: Occupied]
 Zdarzenie: zajęty
@@ -584,8 +584,6 @@ Ro&złącz
 &Dodaj do ignorowanych
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) żąda rozmowy za pomocą połączenia Klient-do-Klienta
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Proszę podać maskę hosta (nazwa!użytkownik@host)\nUWAGA! Kontakty z twojej listy nigdy nie są ignorowane
 [Join channel]
 Dołącz do kanału
 [Please enter a channel to join]

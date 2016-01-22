@@ -34,7 +34,7 @@ Wyłącz autodpowiedź, gdy...
 &Dostępny
 [&Away]
 &Zaraz wracam
-[&NA]
+[&Not available]
 &Wrócę później
 [Occ&upied]
 Za&jęty
@@ -213,8 +213,8 @@ Tak, jestem tu.
 Zaraz wracam
 [Been gone since %nas_awaysince_time%, will be back later.]
 Nie ma mnie od %nas_awaysince_time%, będę potem.
-[NA]
-Wrócę później
+[Not available]
+
 [Give it up, I'm not in!]
 Daj spokój, nie ma mnie!
 [Occupied]

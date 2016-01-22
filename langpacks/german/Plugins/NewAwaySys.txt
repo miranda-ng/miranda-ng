@@ -34,7 +34,7 @@ Autoantwort deaktivieren wenn...
 On&line
 [&Away]
 &Abwesend
-[&NA]
+[&Not available]
 Außer Haus
 [Occ&upied]
 Beschäftigt
@@ -213,7 +213,7 @@ Ja, ich bin da.
 Abwesend
 [Been gone since %nas_awaysince_time%, will be back later.]
 Ich bin seit %nas_awaysince_time% nicht da. Ich bin später wieder da.
-[NA]
+[Not available]
 Außer Haus
 [Give it up, I'm not in!]
 Gib's auf! Ich bin nicht da!

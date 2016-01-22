@@ -151,7 +151,7 @@
 [Online]
 [Invisible]
 [Away]
-[NA]
+[Not available]
 [Occupied]
 [DND]
 [Free for chat]

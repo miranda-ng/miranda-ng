@@ -100,8 +100,8 @@ Odsutan
 Prisutan
 [Away]
 Neaktivan
-[N/A]
-
+[Not available]
+Nedostupan
 [Occupied]
 Zauzet
 [DND]

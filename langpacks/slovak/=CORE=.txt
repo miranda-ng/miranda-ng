@@ -211,7 +211,7 @@ Odpojený\tCtrl+0
 Pripojený
 [&Away\tCtrl+2]
 Preč
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Nedostupný
 [Occ&upied\tCtrl+4]
 Zaneprázdnený
@@ -673,7 +673,7 @@ Odpojený
 Pripojený
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

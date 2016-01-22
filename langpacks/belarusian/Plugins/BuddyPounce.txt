@@ -69,42 +69,42 @@
 Далучаны
 [Away]
 Адсутнічаю
-[NA]
+[Not available]
 Недасяжны
 [Occupied]
 Заняты
 [DND]
 Не турбаваць
-[Free For Chat]
+[Free for chat]
 Вольны
 [Invisible]
 Нябачны
-[On The Phone]
+[On the phone]
 На тэлефоне
-[Out To Lunch]
-За абедам
+[Out to lunch]
+Абедаю
 [Send If Their Status changes]
 Адправіць калі яны змяняюць статус
 [From Offline]
 Пры далучэнні
 [To Online]
-На "Далучаны"
+На Далучаны
 [To Away]
 На Адсутнічаю
-[To NA]
+[To Not available]
 На Недасяжны
 [To Occupied]
 На Заняты
 [To DND]
 На Не турбаваць
-[To Free For Chat]
+[To Free for chat]
 На Вольны
 [To Invisible]
 На Нябачны
-[To On The Phone]
+[To On the phone]
 На Тэлефон
-[To Out To Lunch]
-На За ежай
+[To Out to lunch]
+На Абедаю
 [The Message    (%d Characters)]
 Паведамленне (%d сімвалаў)
 [error......]

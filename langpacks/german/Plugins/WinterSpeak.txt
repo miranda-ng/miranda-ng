@@ -36,7 +36,7 @@ Online
 Abwesend
 [DND]
 Bitte nicht stören
-[NA]
+[Not available]
 Außer Haus
 [Occupied]
 Beschäftigt
@@ -130,4 +130,4 @@ Ansagen
 [%u is occupied]
 %u ist beschäftigt
 [%u is free for chat]
-%u ist für Chat bererit
+%u ist für Chat bereit

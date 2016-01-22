@@ -93,7 +93,7 @@
 В сети
 [Away]
 Отсутствую
-[N/A]
+[Not available]
 Недоступен
 [Occupied]
 Занят

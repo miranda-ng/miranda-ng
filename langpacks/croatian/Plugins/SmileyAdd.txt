@@ -52,8 +52,6 @@
 
 [Smiley button]
 
-[Background\ncolor]
-
 [Surround inserted smiley with spaces]
 
 [Use first smiley for selection size]
@@ -76,6 +74,8 @@
 [Button smiley]
 
 [Assign smiley category]
+
+[Background color]
 
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 

@@ -115,7 +115,7 @@ Prezívka
 Pripojený
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [DND]
 Nerušiť

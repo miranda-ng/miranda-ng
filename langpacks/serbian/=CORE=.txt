@@ -409,7 +409,7 @@ Glavni &meni
 &Prisutan\tCtrl+1
 [&Away\tCtrl+2]
 &Neaktivan\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 N&edostupan\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Zauzet\tCtrl+4
@@ -1652,7 +1652,7 @@ Odsutan
 Prisutan
 [Away]
 Neaktivan
-[NA]
+[Not available]
 Nedostupan
 [Occupied]
 Zauzet

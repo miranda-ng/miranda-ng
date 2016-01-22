@@ -34,8 +34,8 @@
 
 [&Away]
 
-[&NA]
-
+[&Not available]
+&Nedostupan
 [Occ&upied]
 
 [&DND]
@@ -213,8 +213,8 @@ Da, tu sam.
 Neaktivan
 [Been gone since %nas_awaysince_time%, will be back later.]
 
-[NA]
-Nedostupan
+[Not available]
+
 [Give it up, I'm not in!]
 Nema svrhe, nisam tu!
 [Occupied]

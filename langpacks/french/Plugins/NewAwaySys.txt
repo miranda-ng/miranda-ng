@@ -34,7 +34,7 @@
 &En ligne
 [&Away]
 &Absent
-[&NA]
+[&Not available]
 &Indisponible
 [Occ&upied]
 &Occupé
@@ -213,7 +213,7 @@ Oui, je suis là.
 Absent
 [Been gone since %nas_awaysince_time%, will be back later.]
 
-[NA]
+[Not available]
 Indisponible
 [Give it up, I'm not in!]
 Laisse tomber, je suis sorti !

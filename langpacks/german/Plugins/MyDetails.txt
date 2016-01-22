@@ -84,7 +84,7 @@ Statusnachricht:
 On&line
 [&Away]
 &Abwesend
-[&NA]
+[&Not available]
 Außer Haus
 [Occ&upied]
 Beschäftigt

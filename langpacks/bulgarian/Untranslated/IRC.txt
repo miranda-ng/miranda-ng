@@ -47,7 +47,6 @@
 [CTCP %s reply sent to %s]
 [CTCP %s reply sent to %s: %s]
 [%s (%s) is requesting a client-to-client chat connection.]
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 [Kill unauthorized: off]
 [Kill unauthorized: on]
 [Kill unauthorized: quick]

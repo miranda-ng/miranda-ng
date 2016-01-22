@@ -8,7 +8,7 @@
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 
 ;file \plugins\AuthState\res\authstate.rc
-[Show Auth icon]
+[Show Request icon]
 
 [Show Grant icon]
 
@@ -23,13 +23,13 @@
 
 [Enable AuthState icons]
 
-[Auth]
+[Request]
 
 [Grant]
 
-[Auth & Grant]
+[Request & Grant]
 
-[Auth State]
+[Auth state]
 
 ;file \plugins\AuthState\src\options.cpp
 [Icons]

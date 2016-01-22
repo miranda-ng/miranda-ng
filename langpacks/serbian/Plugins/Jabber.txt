@@ -626,7 +626,7 @@ Vlasnik
 Prisutan
 [Away]
 Neaktivan
-[NA]
+[Not available]
 Nedostupan
 [DND]
 Ne uznemiravaj
@@ -1668,9 +1668,9 @@ Poruke
 
 [Status]
 Status
-[Extended Away (N/A)]
+[Extended away (Not available)]
 
-[Do Not Disturb]
+[Do not disturb (DND)]
 
 [Invisible]
 Nevidljiv

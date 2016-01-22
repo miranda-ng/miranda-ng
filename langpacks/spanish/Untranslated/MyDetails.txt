@@ -29,7 +29,7 @@
 [&Offline]
 [On&line]
 [&Away]
-[&NA]
+[&Not available]
 [Occ&upied]
 [&DND]
 [&Free for chat]

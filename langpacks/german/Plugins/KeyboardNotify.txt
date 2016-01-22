@@ -60,7 +60,7 @@ Online
 Abwesend
 [Occupied]
 Beschäftigt
-[NA]
+[Not available]
 Außer Haus
 [DND]
 Bitte nicht stören

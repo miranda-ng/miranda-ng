@@ -177,7 +177,7 @@
 Далучаны
 [&Away\tCtrl+2]
 Адышоў
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Недасяжны
 [Occ&upied\tCtrl+4]
 Заняты
@@ -191,34 +191,6 @@
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-[Tray]
-Трэй
-[&Hide/Show]
-С&хаваць/паказаць
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртом
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[Group]
-Гурт
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -227,7 +199,7 @@
 Далучаны
 [Away]
 Адсутнічаю
-[NA]
+[Not available]
 Недасяжны
 [Occupied]
 Заняты

@@ -100,7 +100,7 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[N/A]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty

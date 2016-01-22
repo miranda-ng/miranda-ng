@@ -175,7 +175,7 @@ URL:
 На линия\tCtrl+1
 [&Away\tCtrl+2]
 Отсъстващ\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Недостъпен\tCtrl+3
 [Occ&upied\tCtrl+4]
 Зает\tCtrl+4
@@ -189,34 +189,6 @@ URL:
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-Показване/Скриване
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[Group]
-Група
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
 [Not focused]
 Дефокусирано
 [Offline]
@@ -225,7 +197,7 @@ URL:
 На линия
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает

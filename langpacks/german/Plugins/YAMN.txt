@@ -100,8 +100,8 @@ Offline
 Online
 [Away]
 Abwesend
-[N/A]
-N/A
+[Not available]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]

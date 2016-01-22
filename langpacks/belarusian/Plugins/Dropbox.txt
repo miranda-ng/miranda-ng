@@ -33,8 +33,6 @@
 
 [Copy download link to clipboard]
 
-[Error loading module list]
-
 [Free %ld of %ld MB]
 
 [in process...]

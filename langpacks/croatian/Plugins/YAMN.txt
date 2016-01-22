@@ -100,7 +100,7 @@ Poruka
 
 [Away]
 
-[N/A]
+[Not available]
 
 [Occupied]
 

@@ -33,10 +33,10 @@
 Адладка паведамленняў
 [Notify Anything]
 
-[N/A: Failed to format error message]
-N/A: Памылка фармату паведамлення, з памылкай
-[N/A: FormatMessage failed, error code was 0x]
-N/A: Памылка фармату паведамлення, код памылкі:0x
+[NotifyAnything: Failed to format error message]
+NotifyAnything: Памылка фармату паведамлення, з памылкай
+[NotifyAnything: FormatMessage failed, error code was 0x]
+NotifyAnything: Памылка фармату паведамлення, код памылкі: 0x
 [Error]
 Памылка
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]

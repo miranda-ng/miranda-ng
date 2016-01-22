@@ -56,8 +56,8 @@ Variable %ExternalIP%
 Test
 [Transfer limit (Kb/s)]
 Limite de transfert (Kb/s)
-[No control when Away/NA]
-Sans contrôle si Absent/indisponible
+[No control when Away or Not available]
+Sans contrôle si Absent ou Indisponible
 [Connection control]
 
 [Index creation]

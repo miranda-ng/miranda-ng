@@ -35,10 +35,10 @@ Nachrichtendebugging
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 Notify Anything
-[N/A: Failed to format error message]
-N/A: Formatieren der Fehlernachricht fehlgeschlagen
-[N/A: FormatMessage failed, error code was 0x]
-N/A: FormatMessage fehlgeschlagen, Fehlercode war 0x
+[NotifyAnything: Failed to format error message]
+[NotifyAnything: Formatieren der Fehlernachricht fehlgeschlagen
+[NotifyAnything: FormatMessage failed, error code was 0x]
+[NotifyAnything: FormatMessage fehlgeschlagen, Fehlercode war 0x
 [Error]
 Fehler
 ;file \plugins\NotifyAnything\src\options.cpp

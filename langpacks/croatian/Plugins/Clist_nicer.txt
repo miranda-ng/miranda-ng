@@ -450,7 +450,7 @@ drugo
 
 [&Away\tCtrl+2]
 
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 
 [Occ&upied\tCtrl+4]
 
@@ -498,7 +498,7 @@ drugo
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 

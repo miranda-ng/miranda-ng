@@ -5,6 +5,8 @@
 ;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Background color]
+Background colour
 [Customize]
 Customise
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]

@@ -11,7 +11,7 @@ Texto
 En línea
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Occupied]
 Ocupado

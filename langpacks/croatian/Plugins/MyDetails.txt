@@ -84,7 +84,7 @@ sekundi
 
 [&Away]
 
-[&NA]
+[&Not available]
 
 [Occ&upied]
 

@@ -17,17 +17,17 @@ Stav
 Pripojený
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený
 [DND]
 Nerušiť
-[Free For Chat]
+[Free for chat]
 Voľný k rozhovoru
 [Invisible]
 Neviditelný
-[On The Phone]
+[On the phone]
 Telefonuje
-[Out To Lunch]
+[Out to lunch]
 Na obede

@@ -32,7 +32,6 @@
 [Reset counter]
 [Check while...]
 [Choose modes]
-[N/A]
 [YAMN General Options]
 [TopToolBar button "Check mail"]
 [Enable YAMN Main Menu]

@@ -307,7 +307,7 @@ Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 Невидим
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает

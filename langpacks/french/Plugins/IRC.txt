@@ -506,7 +506,7 @@ Effacer le serveur
 
 [Event: Away]
 
-[Event: N/A]
+[Event: Not available]
 
 [Event: Occupied]
 
@@ -584,8 +584,6 @@ Info &WhoIs
 &Ajouter à la liste des ignorés
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) demande un chat client-à-client
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Veuillez entrer le masque d'hôte (pseudo@hôte) \nNote ! Les contacts de votre liste ne sont jamais ignorés
 [Join channel]
 Rejoindre canal
 [Please enter a channel to join]

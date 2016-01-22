@@ -1661,7 +1661,7 @@ Popup заглавие
 Сумо
 [Broken hearted]
 С разбито сърце
-[Free for Chat]
+[Free for chat]
 Готов за чат
 [@home]
 У дома

@@ -405,7 +405,7 @@
 Далучаны
 [&Away\tCtrl+2]
 Адышоў
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Недасяжны
 [Occ&upied\tCtrl+4]
 Заняты
@@ -1631,7 +1631,7 @@ UIN, E-mail і г.д.
 Далучаны
 [Away]
 Адсутнічаю
-[NA]
+[Not available]
 Недасяжны
 [Occupied]
 Заняты

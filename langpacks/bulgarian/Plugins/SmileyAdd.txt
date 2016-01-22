@@ -63,6 +63,8 @@ HTTP връзки на SmileyAdd
 Бутон "Усмивки"
 [Assign smiley category]
 Задаване на категория усмивки
+[Background color]
+Цвят на фона
 [Smileys]
 Усмивки
 [Customize]

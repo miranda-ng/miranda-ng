@@ -36,7 +36,7 @@ Dostępny
 Zaraz wracam
 [DND]
 Nie przeszkadzać
-[NA]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty

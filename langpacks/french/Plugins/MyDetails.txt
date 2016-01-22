@@ -84,7 +84,7 @@ Message d'état :
 &En ligne
 [&Away]
 &Absent
-[&NA]
+[&Not available]
 &Indisponible
 [Occ&upied]
 &Occupé

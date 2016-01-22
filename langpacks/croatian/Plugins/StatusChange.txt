@@ -14,7 +14,7 @@
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 
