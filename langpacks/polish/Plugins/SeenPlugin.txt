@@ -46,7 +46,7 @@ Kolory
 Dostępny
 [Away]
 Zaraz wracam
-[NA]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty

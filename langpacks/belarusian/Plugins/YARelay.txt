@@ -21,7 +21,7 @@
 Далучаны
 [Away]
 Адсутнічаю
-[NA]
+[Not available]
 Недасяжны
 [Occupied]
 Заняты

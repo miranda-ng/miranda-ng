@@ -21,19 +21,19 @@ Estado
 En línea
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Occupied]
 Ocupado
 [DND]
 No molestar
-[Free For Chat]
+[Free for chat]
 Libre para el chat	
 [Invisible]
 Invisible
-[On The Phone]
+[On the phone]
 En el teléfono
-[Out To Lunch]
+[Out to lunch]
 Salí a comer
 [Days]
 Días

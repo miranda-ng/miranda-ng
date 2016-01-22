@@ -405,7 +405,7 @@
 В &сети\tCtrl+1
 [&Away\tCtrl+2]
 &Отсутствую\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 Не&доступен\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Занят\tCtrl+4
@@ -1631,7 +1631,7 @@ UIN, E-mail и т.д.
 В сети
 [Away]
 Отсутствую
-[N/A]
+[Not available]
 Недоступен
 [Occupied]
 Занят

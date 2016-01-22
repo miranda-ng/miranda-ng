@@ -191,7 +191,7 @@ Zavrieť
 ** Všetky kontakty **
 [On the phone]
 Telefonuje
-[Free for Chat]
+[Free for chat]
 Voľný k rozhovoru
 [None]
 Žiadne

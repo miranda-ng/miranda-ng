@@ -9,7 +9,6 @@
 [Tray Icon]
 [Execute Application]
 [Choose modes]
-[N/A]
 [Enable YAMN Main Menu]
 [MailBrowser Options]
 [Mail Notifications]

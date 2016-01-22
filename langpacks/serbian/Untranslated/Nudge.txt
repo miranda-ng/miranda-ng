@@ -18,6 +18,7 @@
 [* Nudge sending delay is hardcoded and cannot be changed.]
 [Preview]
 [Allow nudges when you're:]
+[Not available]
 [Shaking contact list options]
 [Number of moves]
 [Width of move]

@@ -18,7 +18,6 @@
 [Built-in message dialog support]
 [Disable]
 [Smiley button]
-[Background\ncolor]
 [Surround inserted smiley with spaces]
 [Use first smiley for selection size]
 [IEView style window]

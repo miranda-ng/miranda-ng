@@ -413,7 +413,7 @@ URL събития
 На линия\tCtrl+1
 [&Away\tCtrl+2]
 Отсъстващ\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Недостъпен\tCtrl+3
 [Occ&upied\tCtrl+4]
 Зает\tCtrl+4
@@ -459,7 +459,7 @@ URL събития
 На линия
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает

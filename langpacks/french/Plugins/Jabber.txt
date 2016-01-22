@@ -626,7 +626,7 @@ Modérateurs
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [DND]
 Ne pas déranger
@@ -1668,9 +1668,9 @@ Changerl'état
 
 [Status]
 État
-[Extended Away (N/A)]
+[Extended away (Not available)]
 
-[Do Not Disturb]
+[Do not disturb]
 Ne pas déranger
 [Invisible]
 Invisible

@@ -19,7 +19,6 @@
 [Don't replace at cursor]
 [Built-in message dialog support]
 [Disable]
-[Background\ncolor]
 [Surround inserted smiley with spaces]
 [Use first smiley for selection size]
 [IEView style window]

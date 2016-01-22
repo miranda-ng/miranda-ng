@@ -46,7 +46,7 @@ Couleurs des popups
 En ligne
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

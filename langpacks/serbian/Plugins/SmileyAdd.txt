@@ -52,8 +52,6 @@ Ime:
 
 [Smiley button]
 Smeško-dugme
-[Background\ncolor]
-
 [Surround inserted smiley with spaces]
 
 [Use first smiley for selection size]
@@ -77,6 +75,8 @@ Smeško-dugme
 
 [Assign smiley category]
 
+[Background color]
+Boja pozadine
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 
 ;file \plugins\SmileyAdd\src\options.cpp

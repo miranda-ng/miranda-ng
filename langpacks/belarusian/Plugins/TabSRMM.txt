@@ -1945,6 +1945,8 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 Абмежаваць імёны ў логе 20-ю знакамі
 [Add a colon (:) to auto-completed user names]
 Дадаваць ":" да імёнаў карыстачоў
+[Add a comma instead of a colon to auto-completed user names]
+
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Прыват пры падвойнай пстрычцы ў спісе мямнушак (інакш устаўляць мянушку)
 [Strip colors from messages in the log]
@@ -1955,6 +1957,8 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 IRC-стыль(тэкставы) індыкатараў роляў у логе чата
 [Allow clickable user names in the message log]
 Мянушкі клікабельныя як гіперспасылкі
+[Add new line after names]
+
 [Colorize user names in message log]
 Каляровыя мянушкі ў чаце
 [Scale down icons to 10x10 pixels in the chat log]

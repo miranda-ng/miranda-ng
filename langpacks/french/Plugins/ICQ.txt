@@ -1739,7 +1739,7 @@ Chien
 
 [Broken hearted]
 
-[Free for Chat]
+[Free for chat]
 OK pour un chat
 [@home]
 

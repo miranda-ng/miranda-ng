@@ -617,7 +617,7 @@ xHTML фармат чат-паведамленняў
 Далучаны
 [Away]
 Адсутнічаю
-[NA]
+[Not available]
 Недасяжны
 [DND]
 Не турбаваць
@@ -1641,9 +1641,9 @@ Odnoklassniki
 Усталяваць статус і статуснае паведамленне
 [Status]
 Статус
-[Extended Away (N/A)]
-Недаступны (N/A)
-[Do Not Disturb]
+[Extended away (Not available)]
+Недаступны (Недасяжны)
+[Do not disturb]
 Не турбаваць
 [Invisible]
 Нябачны

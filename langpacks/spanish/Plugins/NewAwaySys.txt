@@ -41,7 +41,7 @@ En línea
 Sí, estoy aquí.
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Give it up, I'm not in!]
 ¡Dejenme, no estoy!

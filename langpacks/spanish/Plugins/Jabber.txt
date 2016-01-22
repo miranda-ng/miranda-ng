@@ -237,7 +237,7 @@ Propietario
 En línea
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [DND]
 No molestar

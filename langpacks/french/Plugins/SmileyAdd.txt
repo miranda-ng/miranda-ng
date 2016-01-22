@@ -52,8 +52,6 @@ Zone de saisie
 
 [Smiley button]
 Position du bouton
-[Background\ncolor]
-
 [Surround inserted smiley with spaces]
 Espace de chaque côté des smileys
 [Use first smiley for selection size]
@@ -77,6 +75,8 @@ Connexions HTTP de SmileyAdd
 Bouton Smiley
 [Assign smiley category]
 Assigner à une catégorie de smileys
+[Background color]
+Couleur de fond
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp

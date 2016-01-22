@@ -626,7 +626,7 @@ Zahtjev za prihvaćanje
 
 [Away]
 
-[NA]
+[Not available]
 
 [DND]
 
@@ -1668,9 +1668,9 @@ poruke
 
 [Status]
 
-[Extended Away (N/A)]
+[Extended away (Not available)]
 
-[Do Not Disturb]
+[Do not disturb]
 
 [Invisible]
 

@@ -17,7 +17,7 @@
 Готов за чат
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает

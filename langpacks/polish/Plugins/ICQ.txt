@@ -1739,7 +1739,7 @@ Kot
 Sumo
 [Broken hearted]
 Złamane serce
-[Free for Chat]
+[Free for chat]
 Chętny do rozmowy
 [@home]
 @dom

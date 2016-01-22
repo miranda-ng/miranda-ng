@@ -60,7 +60,7 @@ Dostępny
 Zaraz wracam
 [Occupied]
 Zajęty
-[NA]
+[Not available]
 Wrócę później
 [DND]
 Nie przeszkadzać

@@ -626,7 +626,7 @@ Kopiuj temat pokoju
 Dostępny
 [Away]
 Zaraz wracam
-[NA]
+[Not available]
 Wrócę później
 [DND]
 Nie przeszkadzać
@@ -1668,9 +1668,9 @@ Zmień status
 Zmień status i opis
 [Status]
 Status
-[Extended Away (N/A)]
+[Extended away (Not available)]
 Wrócę później
-[Do Not Disturb]
+[Do not disturb (DND)]
 Nie przeszkadzać
 [Invisible]
 Niewidoczny

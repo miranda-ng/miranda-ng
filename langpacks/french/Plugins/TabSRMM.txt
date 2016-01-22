@@ -1983,6 +1983,8 @@ Mettre la deuxième ligne d'un message en retrait
 Limiter les noms à 20 caractères dans la fenêtre de discussion
 [Add a colon (:) to auto-completed user names]
 
+[Add a comma instead of a colon to auto-completed user names]
+
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Démarrer une conversation sur double-clic dans la liste des noms (insère le nom si décoché)
 [Strip colors from messages in the log]
@@ -1992,6 +1994,8 @@ Retirer la couleur des messages dans le journal
 [Use IRC style status indicators in the log]
 
 [Allow clickable user names in the message log]
+
+[Add new line after names]
 
 [Colorize user names in message log]
 

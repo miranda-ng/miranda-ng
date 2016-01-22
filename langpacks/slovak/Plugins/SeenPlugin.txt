@@ -13,7 +13,7 @@ Text
 Pripojený
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

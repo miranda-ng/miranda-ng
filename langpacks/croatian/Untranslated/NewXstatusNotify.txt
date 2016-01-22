@@ -5,7 +5,7 @@
 [Invisible]
 [Free for chat]
 [Away]
-[NA]
+[Not available]
 [Occupied]
 [DND]
 [Out to lunch]

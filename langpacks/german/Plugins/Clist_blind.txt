@@ -178,7 +178,7 @@ B&eenden
 On&line\tStrg+1
 [&Away\tCtrl+2]
 &Abwesend\tStrg+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
 Besch&äftigt\tStrg+4
@@ -192,34 +192,6 @@ Uns&ichtbar\tStrg+7
 Am Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
-[Tray]
-Tray
-[&Hide/Show]
-Zeigen/Ausblenden
-[Nowhere]
-Nirgends
-[&New group]
-&Neue Gruppe
-[&Hide offline users]
-Offline-Kontakte ausblenden
-[Hide &offline users out here]
-&Offline-Kontakte außerhalb ausblenden
-[Hide &empty groups]
-L&eere Gruppen ausblenden
-[Disable &groups]
-&Gruppenfunktion ausschalten
-[Hide Miranda]
-Miranda NG ausblenden
-[Group]
-Gruppe
-[&New subgroup]
-&Neue Untergruppe
-[&Hide offline users in here]
-Offline-Kontakte &hier ausblenden
-[&Rename group]
-G&ruppe umbenennen
-[&Delete group]
-Gruppe löschen
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 nicht fokussiert
@@ -229,7 +201,7 @@ Offline
 Online
 [Away]
 Abwesend
-[NA]
+[Not available]
 Außer Haus
 [Occupied]
 Beschäftigt

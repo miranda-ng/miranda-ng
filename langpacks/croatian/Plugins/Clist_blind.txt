@@ -178,7 +178,7 @@ stavaka
 
 [&Away\tCtrl+2]
 
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 
 [Occ&upied\tCtrl+4]
 
@@ -192,34 +192,6 @@ stavaka
 
 [Out to &lunch\tCtrl+9]
 
-[Tray]
-
-[&Hide/Show]
-
-[Nowhere]
-
-[&New group]
-
-[&Hide offline users]
-
-[Hide &offline users out here]
-
-[Hide &empty groups]
-
-[Disable &groups]
-
-[Hide Miranda]
-
-[Group]
-
-[&New subgroup]
-
-[&Hide offline users in here]
-
-[&Rename group]
-
-[&Delete group]
-
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 
@@ -229,7 +201,7 @@ stavaka
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 

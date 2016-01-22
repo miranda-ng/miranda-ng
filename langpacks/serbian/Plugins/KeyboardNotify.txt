@@ -60,7 +60,7 @@ Prisutan
 Neaktivan
 [Occupied]
 Zauzet
-[NA]
+[Not available]
 Nedostupan
 [DND]
 Ne uznemiravaj

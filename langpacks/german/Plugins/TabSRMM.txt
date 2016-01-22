@@ -1983,6 +1983,8 @@ Zweite Zeile einer Nachricht einziehen
 Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
 [Add a colon (:) to auto-completed user names]
 Doppelpunkt (:) zu automatisch vervollständigten Benutzernamen hinzufügen
+[Add a comma instead of a colon to auto-completed user names]
+
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
 [Strip colors from messages in the log]
@@ -1993,6 +1995,8 @@ Farben aus Nachrichten im Verlauf entfernen
 IRC-ähnliche Statusanzeigen im Verlauf verwenden
 [Allow clickable user names in the message log]
 Nicknamen im Nachrichtenverlauf in anklickbare Hyperlinks umwandeln
+[Add new line after names]
+
 [Colorize user names in message log]
 Nutzernamen im Nachrichtenverlauf färben
 [Scale down icons to 10x10 pixels in the chat log]

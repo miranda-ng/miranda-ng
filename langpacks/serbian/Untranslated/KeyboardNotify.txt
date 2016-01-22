@@ -20,6 +20,7 @@
 [Defined programs are running]
 [All other situations]
 [Only notify if status is]
+[Not available]
 [Pending Events]
 [Remind me every]
 [minutes]

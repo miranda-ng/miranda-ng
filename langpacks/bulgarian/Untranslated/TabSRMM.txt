@@ -45,6 +45,8 @@
 [Generic text color (only when fill color is set)]
 [Window caption (skinned mode)]
 [Sync splitter position with standard IM sessions]
+[Add a comma instead of a colon to auto-completed user names]
+[Add new line after names]
 [Incremental search highlight]
 [user-defined account name of current contact (if defined).]
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]

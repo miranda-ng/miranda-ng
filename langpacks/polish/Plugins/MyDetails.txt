@@ -84,7 +84,7 @@ Opis:
 &Dostępny
 [&Away]
 &Zaraz wracam
-[&NA]
+[&Not available]
 &Wrócę później
 [Occ&upied]
 Za&jęty

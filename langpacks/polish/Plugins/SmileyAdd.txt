@@ -52,8 +52,6 @@ Wbudowane wsparcie dla okna rozmowy
 Wyłącz
 [Smiley button]
 Przycisk emotikon
-[Background\ncolor]
-Kolor\ntła
 [Surround inserted smiley with spaces]
 Oddzielaj wstawione emotikony spacjami
 [Use first smiley for selection size]
@@ -77,6 +75,8 @@ Połączenie HTTP SmileyAdd
 Przycisk emotikon
 [Assign smiley category]
 Przypisz kategorię emotikon
+[Background color]
+Kolor tła
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu "Plugins"
 ;file \plugins\SmileyAdd\src\options.cpp

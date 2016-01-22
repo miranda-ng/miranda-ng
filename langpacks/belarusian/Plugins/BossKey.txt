@@ -14,7 +14,7 @@
 [Change status to]
 Змяніць статус на
 [Change only if current status is Online]
-Змяняць толькі пры статусе 'Далучаны'
+Змяняць толькі пры статусе "Далучаны"
 [Use default status message]
 Статуснае паведамленне па змаўчанні
 [Disable Sounds]

@@ -15,7 +15,7 @@ Invisible
 Libre para el chat	
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Occupied]
 Ocupado

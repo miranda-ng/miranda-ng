@@ -45,8 +45,8 @@ URL адрес
 Тест
 [Transfer limit (Kb/s)]
 Лимит на трансфер (Kb/s)
-[No control when Away/NA]
-Не и при състояние Отсъстващ
+[No control when Away or Not available]
+Не и при състояние Отсъстващ или Недостъпен
 [Connection control]
 Контрол на връзките
 [Index creation]

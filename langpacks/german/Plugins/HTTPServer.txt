@@ -56,8 +56,8 @@ URL-Adresse
 Testen
 [Transfer limit (Kb/s)]
 Verbindungsrate (kB/Sek)
-[No control when Away/NA]
-Keine Kontrolle, wenn abwesend
+[No control when Away or Not available]
+
 [Connection control]
 Verbindungskontrolle
 [Index creation]

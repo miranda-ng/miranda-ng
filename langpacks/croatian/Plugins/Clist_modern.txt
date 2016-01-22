@@ -578,7 +578,7 @@ opcije
 
 [&Away\tCtrl+2]
 
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 
 [Occ&upied\tCtrl+4]
 
@@ -696,7 +696,7 @@ opcije
 
 [DND contacts]
 
-[NA contacts]
+[Not available contacts]
 
 [Occupied contacts]
 
@@ -760,7 +760,7 @@ Pozadina
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 

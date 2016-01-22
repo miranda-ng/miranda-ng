@@ -60,7 +60,7 @@ En ligne
 Absent
 [Occupied]
 Occupé
-[NA]
+[Not available]
 Indisponible
 [DND]
 Ne pas déranger

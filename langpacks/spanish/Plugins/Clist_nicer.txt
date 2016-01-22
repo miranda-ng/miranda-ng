@@ -237,7 +237,7 @@ E&stado
 &En línea
 [&Away\tCtrl+2]
 Fuer&a
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &No disponible
 [Occ&upied\tCtrl+4]
 Oc&upado
@@ -271,7 +271,7 @@ Fuera de línea
 En línea
 [Away]
 Fuera
-[NA]
+[Not available]
 No disponible
 [Occupied]
 Ocupado

@@ -1,5 +1,6 @@
 ﻿[IPAddress1]
 [IPAddress2]
+[No control when Away or Not available]
 [Miranda NG HTTP-Server]
 [Failed to share new file]
 [Agent]

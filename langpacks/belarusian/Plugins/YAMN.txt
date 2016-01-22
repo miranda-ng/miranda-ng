@@ -99,7 +99,7 @@
 Далучаны
 [Away]
 Адсутнічаю
-[N/A]
+[Not available]
 Недасяжны
 [Occupied]
 Заняты

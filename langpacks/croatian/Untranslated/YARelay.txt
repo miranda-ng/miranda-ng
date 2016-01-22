@@ -6,7 +6,7 @@
 [Offline]
 [Online]
 [Away]
-[NA]
+[Not available]
 [Occupied]
 [DND]
 [Free for chat]

@@ -424,7 +424,7 @@
 [Leave group chats]
 [Lock workstation]
 [Choose the status and status message]
-[Extended Away (N/A)]
+[Extended away (Not available)]
 [Priority]
 [Status message]
 [Change global status]

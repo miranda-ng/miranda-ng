@@ -20,7 +20,7 @@ Invisible
 OK pour un chat
 [Away]
 Absent
-[NA]
+[Not available]
 Indisponible
 [Occupied]
 Occupé

@@ -1739,8 +1739,8 @@ Kätzchen
 Sumo
 [Broken hearted]
 Gebrochenen Herzens
-[Free for Chat]
-Frei zum Chat
+[Free for chat]
+Für Chat bereit
 [@home]
 @Zuhause
 [@work]

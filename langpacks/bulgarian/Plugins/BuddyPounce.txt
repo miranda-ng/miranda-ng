@@ -23,19 +23,19 @@
 На линия
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Occupied]
 Зает
 [DND]
 Не безпокойте
-[Free For Chat]
+[Free for chat]
 Готов за чат
 [Invisible]
 Невидим
-[On The Phone]
+[On the phone]
 На телефона
-[Out To Lunch]
+[Out to lunch]
 На обяд
 [From Offline]
 От "Извън линия"

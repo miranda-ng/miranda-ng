@@ -450,7 +450,7 @@ W&yjdź
 &Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 &Zaraz wracam\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &Wrócę później
 [Occ&upied\tCtrl+4]
 Za&jęty
@@ -498,7 +498,7 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[NA]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty

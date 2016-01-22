@@ -100,8 +100,8 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[N/A]
-
+[Not available]
+Indisponible
 [Occupied]
 Occupé
 [DND]

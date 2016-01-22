@@ -54,7 +54,7 @@ tekst
 
 [Away]
 
-[NA]
+[Not available]
 
 [Occupied]
 

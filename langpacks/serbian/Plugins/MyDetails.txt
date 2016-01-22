@@ -84,8 +84,8 @@ pikseli
 
 [&Away]
 
-[&NA]
-
+[&Not available]
+&Nedostupan
 [Occ&upied]
 
 [&DND]

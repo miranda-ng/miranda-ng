@@ -18,7 +18,6 @@
 [Kick &user]
 [Set &role]
 [&Admin]
-[&User]
 [Enter new chatroom topic]
 [Edited message]
 [Action]

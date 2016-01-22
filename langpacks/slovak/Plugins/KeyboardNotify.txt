@@ -15,7 +15,7 @@ Pripojený
 Preč
 [Occupied]
 Zaneprázdnený
-[NA]
+[Not available]
 Nedostupný
 [DND]
 Nerušiť

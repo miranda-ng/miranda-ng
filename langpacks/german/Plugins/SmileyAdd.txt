@@ -52,8 +52,6 @@ Nachrichtenfensterunterstützung
 Deaktivieren
 [Smiley button]
 Smileybutton
-[Background\ncolor]
-Hintergrund-\nfarbe
 [Surround inserted smiley with spaces]
 Eingefügte Smileys mit Leerzeichen umgeben
 [Use first smiley for selection size]
@@ -77,6 +75,8 @@ SmileyAdd-Plugin HTTP-Verbindungen
 Smiley-Button
 [Assign smiley category]
 Smileykategorie zuweisen
+[Background color]
+Hintergrundfarbe
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
 ;file \plugins\SmileyAdd\src\options.cpp

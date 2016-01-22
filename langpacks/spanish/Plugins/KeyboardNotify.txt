@@ -17,7 +17,7 @@ En línea
 Fuera
 [Occupied]
 Ocupado
-[NA]
+[Not available]
 No disponible
 [DND]
 No molestar

@@ -123,7 +123,7 @@ Odpojený\tCtrl+0
 Pripojený
 [&Away\tCtrl+2]
 Preč
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 Nedostupný
 [Occ&upied\tCtrl+4]
 Zaneprázdnený
@@ -137,26 +137,6 @@ Neviditelný
 Telefonujem
 [Out to &lunch\tCtrl+9]
 Na obede
-[&Hide/Show]
-Skryť/Zobraziť
-[&New group]
-Nová skupina
-[&Hide offline users]
-Skryť nepripojených užívatelov
-[Hide &offline users out here]
-Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &empty groups]
-Skryť prázdne skupiny
-[Disable &groups]
-Skryť názvy skupín
-[&New subgroup]
-Nová podskupina
-[&Hide offline users in here]
-Skryť nepripojených užívatelov v tejto skupine
-[&Rename group]
-Premenovať skupinu
-[&Delete group]
-Zmazať skupinu
 [Not focused]
 Neoznačené
 [Offline]
@@ -165,7 +145,7 @@ Odpojený
 Pripojený
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

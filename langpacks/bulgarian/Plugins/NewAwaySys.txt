@@ -9,7 +9,7 @@
 На линия
 [&Away]
 Отсъстващ
-[&NA]
+[&Not available]
 Недостъпен
 [Occ&upied]
 Зает
@@ -65,7 +65,7 @@ URL
 Да, тук съм.
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [Give it up, I'm not in!]
 Няма ме, откажете се!!

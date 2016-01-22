@@ -583,7 +583,7 @@ Jabber настроение
 На линия
 [Away]
 Отсъстващ
-[NA]
+[Not available]
 Недостъпен
 [DND]
 Не безпокойте
@@ -1495,7 +1495,7 @@ LiveJournal Talk
 Изберете състояние и текст
 [Status]
 Състояние
-[Do Not Disturb]
+[Do not disturb]
 Не безпокойте
 [Invisible]
 Невидим

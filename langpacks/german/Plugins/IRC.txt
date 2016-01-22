@@ -506,7 +506,7 @@ Server bearbeiten
 Ereignis: Verfügbar
 [Event: Away]
 Ereignis: Abwesend
-[Event: N/A]
+[Event: Not available]
 Ereignis: Außer Haus
 [Event: Occupied]
 Ereignis: Beschäftigt
@@ -584,8 +584,6 @@ Unterbrochen
 Benutzer &ignorieren
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) bittet um eine Client-to-Client-Chatverbindung.
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Bitte geben Sie eine Hostmaske (nick!user@host) ein.\nHinweis: Kontakte in Ihrer Kontaktliste werden niemals ignoriert!
 [Join channel]
 Channel betreten
 [Please enter a channel to join]

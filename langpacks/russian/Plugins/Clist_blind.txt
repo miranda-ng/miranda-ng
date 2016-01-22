@@ -175,7 +175,7 @@
 В &сети\tCtrl+1
 [&Away\tCtrl+2]
 &Отсутствую\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 Не&доступен\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Занят\tCtrl+4
@@ -189,34 +189,6 @@
 На &телефоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-С&крыть/Показать
-[Nowhere]
-Нигде
-[&New group]
-Со&здать группу
-[&Hide offline users]
-&Скрыть отключённых
-[Hide &offline users out here]
-Скрыть &отключённых вне группы
-[Hide &empty groups]
-Скрыть &пустые группы
-[Disable &groups]
-Отключить &группы
-[Hide Miranda]
-Скрыть список контактов
-[Group]
-Группа
-[&New subgroup]
-&Создать подгруппу
-[&Hide offline users in here]
-&Скрыть отключённых в группе
-[&Rename group]
-&Переименовать группу
-[&Delete group]
-&Удалить группу
 [Not focused]
 Не в фокусе
 [Offline]
@@ -225,9 +197,8 @@
 В сети
 [Away]
 Отсутствую
-[N/A]
-Недоступен
-[Occupied]
+[Not available]
+Недоступен[Occupied]
 Занят
 [DND]
 Не беспокоить

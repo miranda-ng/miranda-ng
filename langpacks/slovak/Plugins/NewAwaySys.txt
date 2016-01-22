@@ -29,7 +29,7 @@ Pripojený
 Je tu.
 [Away]
 Preč
-[NA]
+[Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený

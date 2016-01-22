@@ -36,7 +36,7 @@ promjene statusa
 
 [DND]
 
-[NA]
+[Not available]
 
 [Occupied]
 

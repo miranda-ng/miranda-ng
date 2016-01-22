@@ -20,7 +20,7 @@ Unsichtbar
 Für Chat bereit
 [Away]
 Abwesend
-[NA]
+[Not available]
 Außer Haus
 [Occupied]
 Beschäftigt

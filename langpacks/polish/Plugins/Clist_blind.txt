@@ -178,7 +178,7 @@ W&yjdź
 &Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 &Zaraz wracam\tCtrl+2
-[&NA\tCtrl+3]
+[&Not available\tCtrl+3]
 &Wrócę później
 [Occ&upied\tCtrl+4]
 Za&jęty
@@ -192,34 +192,6 @@ N&iewidoczny\tCtrl+7
 Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Na &Obiedzie\tCtrl+9
-[Tray]
-Zasobnik
-[&Hide/Show]
-&Pokaż/Ukryj
-[Nowhere]
-Nigdzie
-[&New group]
-&Nowa grupa
-[&Hide offline users]
-&Ukryj rozłączonych
-[Hide &offline users out here]
-Ukryj &rozłączonych poza grupą
-[Hide &empty groups]
-Ukryj &puste grupy
-[Disable &groups]
-Wyłącz &grupy
-[Hide Miranda]
-Ukryj Mirandę
-[Group]
-Grupa
-[&New subgroup]
-&Nowa podgrupa
-[&Hide offline users in here]
-&Ukryj rozłączonych tutaj
-[&Rename group]
-&Zmień nazwę grupy
-[&Delete group]
-&Usuń grupę
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Nieaktywne
@@ -229,7 +201,7 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[NA]
+[Not available]
 Wrócę później
 [Occupied]
 Zajęty

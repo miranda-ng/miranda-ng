@@ -8,6 +8,7 @@
 [Test]
 [Lexicon]
 [Welcome Message]
+[Not available]
 [Occurring Events]
 [Added to contact list]
 [Announce status changes on connect]

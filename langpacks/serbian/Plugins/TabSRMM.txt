@@ -1983,6 +1983,8 @@ Indentacija druge linije poruke
 Korisnička imena u log-u imaju do 20 znakova
 [Add a colon (:) to auto-completed user names]
 
+[Add a comma instead of a colon to auto-completed user names]
+
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 
 [Strip colors from messages in the log]
@@ -1992,6 +1994,8 @@ Događaji u novim sobama za razgovor imaju filtere
 [Use IRC style status indicators in the log]
 
 [Allow clickable user names in the message log]
+
+[Add new line after names]
 
 [Colorize user names in message log]
 

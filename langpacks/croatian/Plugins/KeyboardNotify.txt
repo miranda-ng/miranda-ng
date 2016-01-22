@@ -60,7 +60,7 @@ sekundi
 
 [Occupied]
 
-[NA]
+[Not available]
 
 [DND]
 
