@@ -2,6 +2,15 @@
 
 namespace External
 {
+
+	HRESULT IEView_SetContextMenuHandler(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pDispParams->cArgs < 1 || pDispParams == nullptr)
+			return E_INVALIDARG;
+		self->Set_ContextMenuHandler(mir_wstrdup(pDispParams->rgvarg[0].bstrVal));
+		return S_OK;
+	}
+
 	HRESULT db_get(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
 		if (pDispParams->cArgs < 3)

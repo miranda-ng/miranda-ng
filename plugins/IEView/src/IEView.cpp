@@ -414,7 +414,7 @@ STDMETHODIMP_(ULONG) IEView::Release(void)
 STDMETHODIMP IEView::GetTypeInfoCount(UINT *pctinfo)
 {
 	if (pctinfo == NULL) return E_INVALIDARG;
-	*pctinfo = 3;
+	*pctinfo = 4;
 	return S_OK;
 }
 STDMETHODIMP IEView::GetTypeInfo(UINT, LCID, LPTYPEINFO*) 
@@ -432,7 +432,8 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 			rgDispId[i] = DISPID_EXTERNAL_DB_SET;
 		else if (!wcscmp(L"win32_ShellExecute", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_WIN32_SHELL_EXECUTE;
-
+		else if (!wcscmp(L"IEView_SetContextMenuHandler", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER;
 		else
 		{
 			rgDispId[i] = NULL;
@@ -460,6 +461,8 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 		return External::db_set(pDispParams, pVarResult);
 	case DISPID_EXTERNAL_WIN32_SHELL_EXECUTE:
 		return External::win32_ShellExecute(pDispParams, pVarResult);
+	case DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER:
+		return External::IEView_SetContextMenuHandler(this, pDispParams, pVarResult);
 	}
 
 	return DISP_E_MEMBERNOTFOUND;
@@ -598,34 +601,41 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				*/
 	}
 #else
-	CComPtr<IOleCommandTarget> pOleCommandTarget;
-	if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
-		CComPtr<IOleWindow> pOleWindow;
-		if (SUCCEEDED(pOleCommandTarget.QueryInterface(&pOleWindow))) {
-			HWND hSPWnd;
-			pOleWindow->GetWindow(&hSPWnd);
+	if (wszContextMenuHandler != nullptr)
+	{
+		CallJScript(wszContextMenuHandler, 1, CMStringW(FORMAT, L"%d", dwID));
+	}
+	else
+	{
+		CComPtr<IOleCommandTarget> pOleCommandTarget;
+		if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
+			CComPtr<IOleWindow> pOleWindow;
+			if (SUCCEEDED(pOleCommandTarget.QueryInterface(&pOleWindow))) {
+				HWND hSPWnd;
+				pOleWindow->GetWindow(&hSPWnd);
 
-			HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)), 0);
-			TranslateMenu(hMenu);
-			if (dwID == 5) // anchor
-				EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
-			else if (dwID == 4) // text select
-				EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
-			else if (dwID == 1) // control (image)
-				EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
+				HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)), 0);
+				TranslateMenu(hMenu);
+				if (dwID == 5) // anchor
+					EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
+				else if (dwID == 4) // text select
+					EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
+				else if (dwID == 1) // control (image)
+					EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
 
-			int iSelection = TrackPopupMenu(hMenu,
-				TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
-				ppt->x,
-				ppt->y,
-				0,
-				hwnd,
-				(RECT*)NULL);
-			DestroyMenu(hMenu);
-			if (iSelection == ID_MENU_CLEARLOG)
-				clear(NULL);
-			else
-				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
+				int iSelection = TrackPopupMenu(hMenu,
+					TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
+					ppt->x,
+					ppt->y,
+					0,
+					hwnd,
+					(RECT*)NULL);
+				DestroyMenu(hMenu);
+				if (iSelection == ID_MENU_CLEARLOG)
+					clear(NULL);
+				else
+					SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
+			}
 		}
 	}
 #endif
@@ -1119,4 +1129,43 @@ void IEView::navigate(IEVIEWNAVIGATE *nav)
 		navigate(nav->urlW);
 	else
 		navigate(nav->url);
+}
+
+VARIANT IEView::CallJScript(const CMString strFunc, size_t nPCount, const CMString strArgs, ...)
+{
+	VARIANT vaResult = { 0 };
+	CComPtr<IDispatch> spScript;
+	if (FAILED(getDocument()->get_Script(&spScript))) return vaResult;
+	
+	BSTR bstrMember(SysAllocString(strFunc));
+	DISPID dispid = NULL;
+
+	HRESULT hr = spScript->GetIDsOfNames(IID_NULL, &bstrMember, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
+	if (FAILED(hr)) return vaResult;
+
+	va_list(args);
+	va_start(args, strArgs);
+	
+	DISPPARAMS dispparams;
+	memset(&dispparams, 0, sizeof dispparams);
+	dispparams.cArgs = nPCount;
+	dispparams.rgvarg = new VARIANT[dispparams.cArgs];
+	dispparams.cNamedArgs = 0;
+
+	for (size_t i = 0; i < nPCount; i++)
+	{
+		dispparams.rgvarg[i].bstrVal = SysAllocString(va_arg(args, CMString));
+		dispparams.rgvarg[i].vt = VT_BSTR;
+	}
+
+	EXCEPINFO excepInfo = { 0 };
+	
+	UINT nArgErr = (UINT)-1;
+
+	hr = spScript->Invoke(dispid, IID_NULL, 0, DISPATCH_METHOD, &dispparams, &vaResult, &excepInfo, &nArgErr);
+
+	for (size_t i = 0; i < nPCount; i++) SysFreeString(dispparams.rgvarg[i].bstrVal);
+
+	delete[] dispparams.rgvarg;
+	return vaResult;
 }
