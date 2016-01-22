@@ -259,7 +259,7 @@
 [<Local IP: ]
 [Event: Available]
 [Event: Away]
-[Event: N/A]
+[Event: Not available]
 [Event: Occupied]
 [Event: DND]
 [Event: Free for chat]

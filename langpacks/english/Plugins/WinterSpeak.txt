@@ -21,7 +21,7 @@
 [Online]
 [Away]
 [DND]
-[N/A]
+[Not available]
 [Occupied]
 [Free for chat]
 [Invisible]

@@ -299,7 +299,7 @@
 [Offline]
 [Online]
 [Away]
-[N/A]
+[Not available]
 [Occupied]
 [DND]
 [Free for chat]

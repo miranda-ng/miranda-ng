@@ -45,7 +45,7 @@
 [&Offline]
 [On&line]
 [&Away]
-[&N/A]
+[&Not available]
 [Occ&upied]
 [&DND]
 [&Free for chat]

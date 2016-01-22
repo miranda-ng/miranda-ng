@@ -33,7 +33,7 @@
 [Online]
 [Away]
 [Occupied]
-[N/A]
+[Not available]
 [DND]
 [Free for chat]
 [Invisible]
