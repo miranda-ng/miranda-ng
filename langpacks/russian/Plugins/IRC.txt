@@ -302,7 +302,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [%u second]
 %u секунда
 [%u seconds]
-%u секунд
+%u секунд(ы)
 [CTCP PING reply from %s: %u sec(s)]
 СТСP PING ответ от %s: %u сек (с)
 [CTCP %s reply from %s: %s]
