@@ -8,9 +8,9 @@
 [HTTP Web Server plugin for Miranda.]
 HTTP веб-сервер для Miranda.
 [IPAddress1]
-IP адрес 1
+IP-адрес 1
 [IPAddress2]
-IP адрес 2
+IP-адрес 2
 [Max downloads]
 Макс. закачки
 [Address]
@@ -32,9 +32,9 @@ IP адрес 2
 [This is the link pasted to the message window]
 Это ссылка, вставленная в окно сообщений
 [Write log file]
-Записывать логфайл
+Записывать лог
 [Enable / Disable HTTP server]
-Вкл/Выкл HTTP Сервер
+Вкл HTTP сервер
 [Main menu items]
 Элементы главного меню
 [Open log]
@@ -42,7 +42,7 @@ IP адрес 2
 [Show popups]
 Показывать всплывающие окна
 [Page keyword]
-Ключевые слова
+Ключ. слова
 [URL address]
 Адрес URL
 [%ExternalIP% variable]
@@ -52,7 +52,7 @@ IP адрес 2
 [Transfer limit (Kb/s)]
 Ограничение скорости (Кб/с)
 [No control when Away or Not available]
-Откл., если Отсутствую или Недоступен
+Откл., если Отсутствую/Недоступен
 [Connection control]
 Контроль соединений
 [Index creation]
@@ -114,7 +114,7 @@ IP-адрес:\s
 [You need to restart Miranda to change the main menu]
 Изменения в меню вступят в силу после перезапуска программы.
 [HTTP Server]
-HTTP Сервер
+HTTP сервер
 [Network]
 Сеть
 [HTTP Share new file]
@@ -124,4 +124,4 @@ HTTP Новый общий файл
 [Disable HTTP server]
 Отключить HTTP сервер
 [Enable HTTP server]
-Вкл. HTTP Сервер
+Вкл. HTTP сервер
