@@ -179,7 +179,7 @@
 Не&доступен\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Занят\tCtrl+4
-[&DND\tCtrl+5]
+[&Do not disturb\tCtrl+5]
 Не &беспокоить\tCtrl+5
 [&Free for chat\tCtrl+6]
 &Готов болтать\tCtrl+6
@@ -198,9 +198,10 @@
 [Away]
 Отсутствую
 [Not available]
-Недоступен[Occupied]
+Недоступен
+[Occupied]
 Занят
-[DND]
+[Do not disturb]
 Не беспокоить
 [Free for chat]
 Готов болтать

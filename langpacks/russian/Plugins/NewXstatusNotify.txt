@@ -23,7 +23,7 @@
 Недоступен
 [Occupied]
 Занят
-[DND]
+[Do not disturb]
 Не беспокоить
 [Out to lunch]
 Обедаю

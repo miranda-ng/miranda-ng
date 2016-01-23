@@ -299,6 +299,10 @@ DCC: Запрос на реверсную передачу файла от %s о
 DCC: Запрос на продолжение закачки файла от %s отклонён
 [CTCP %s requested by %s]
 СТСР %s запрос от %s
+[%u second]
+%u секунда
+[%u seconds]
+%u секунд
 [CTCP PING reply from %s: %u sec(s)]
 СТСP PING ответ от %s: %u сек (с)
 [CTCP %s reply from %s: %s]
@@ -495,7 +499,7 @@ DCC-запрос на передачу файла послан %s [%s]
 Событие: Недоступен
 [Event: Occupied]
 Событие: Занят
-[Event: DND]
+[Event: Do not disturb]
 Событие: Не беспокоить
 [Event: Free for chat]
 Событие: Готов болтать

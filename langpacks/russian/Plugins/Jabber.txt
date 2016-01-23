@@ -607,7 +607,7 @@ xHTML формат чат сообщений
 Отсутствую
 [Not available]
 Недоступен
-[DND]
+[Do not disturb]
 Не беспокоить
 [Free for chat]
 Готов болтать
@@ -1623,8 +1623,6 @@ XML для MS Excel (кодировка UTF-8)
 Статус
 [Extended away (Not available)]
 Недоступен
-[Do not disturb]
-Не беспокоить
 [Invisible]
 Невидимый
 [Offline]

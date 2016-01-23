@@ -73,7 +73,7 @@
 Недоступен
 [Occupied]
 Занят
-[DND]
+[Do not disturb]
 Не беспокоить
 [Free for chat]
 Готов болтать
@@ -91,11 +91,11 @@
 -> В сети
 [To Away]
 -> Отошёл
-[To not available]
+[To Not available]
 -> Недоступен
 [To Occupied]
 -> Занят
-[To DND]
+[To Do not disturb]
 -> Не беспокоить
 [To Free for chat]
 -> Готов болтать

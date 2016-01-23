@@ -33,7 +33,7 @@
 В сети
 [Away]
 Отсутствую
-[DND]
+[Do not disturb]
 Не беспокоить
 [Not available]
 Недоступен

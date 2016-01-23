@@ -37,7 +37,7 @@
 &Недоступен
 [Occ&upied]
 Зан&ят
-[&DND]
+[&Do not disturb]
 Не &беспокоить
 [&Free for chat]
 &Готов болтать
@@ -209,14 +209,16 @@
 Отсутствую
 [Been gone since %nas_awaysince_time%, will be back later.]
 Отошёл в %nas_awaysince_time%, буду позже.
+[Not available]
+Недоступен
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Occupied]
 Занят
 [Not right now.]
 Не сейчас.
-[DND]
-Не беспокоить
+[Do not disturb]
+Не &беспокоить
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
 [Free for chat]

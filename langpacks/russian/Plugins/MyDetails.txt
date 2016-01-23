@@ -87,8 +87,8 @@
 &Недоступен
 [Occ&upied]
 Зан&ят
-[&DND]
-&Не беспокоить
+[&Do not disturb]
+Не &беспокоить
 [&Free for chat]
 &Готов болтать
 [&Invisible]
