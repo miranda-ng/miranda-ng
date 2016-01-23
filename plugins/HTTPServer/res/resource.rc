@@ -74,12 +74,12 @@ BEGIN
     PUSHBUTTON      "Set to default",IDC_EXTERNAL_SRV_DEFAULT,244,55,56,14
     GROUPBOX        "External server name",IDC_STATIC,10,47,294,106
     LTEXT           "This is the link pasted to the message window",IDC_STATIC,15,61,206,8
-    CONTROL         "Write log file",IDC_WRITE_LOG_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,31,66,10
-    CONTROL         "Enable / Disable HTTP server",IDC_ACCEPT_COM_MENU_ITEM,
+    CONTROL         "Write log file",IDC_WRITE_LOG_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,31,86,10
+    CONTROL         "Enable HTTP server",IDC_ACCEPT_COM_MENU_ITEM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,15,135,10
     GROUPBOX        "Main menu items",IDC_STATIC,10,3,141,42
     PUSHBUTTON      "Open log",IDC_OPEN_LOG,250,27,50,14
-    CONTROL         "Show popups",IDC_SHOW_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,15,112,10
+    CONTROL         "Show popups",IDC_SHOW_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,15,137,10
     LTEXT           "Page keyword",IDC_STATIC,20,129,46,8
     LTEXT           "URL address",IDC_STATIC,20,110,42,8
     GROUPBOX        "%ExternalIP% variable",IDC_STATIC,15,96,284,51
