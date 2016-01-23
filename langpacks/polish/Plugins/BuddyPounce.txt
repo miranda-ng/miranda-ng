@@ -82,7 +82,7 @@ Porozmawiajmy
 [Invisible]
 Niewidoczny
 [On the phone]
-Przy telefonie
+Pod telefonem
 [Out to lunch]
 Na obiedzie
 [Send If Their Status changes]
@@ -104,7 +104,7 @@ Na Porozmawiajmy
 [To Invisible]
 Na Niewidoczny
 [To On the phone]
-Na Przy telefonie
+Na Pod telefonem
 [To Out to lunch]
 Na Na obiedzie
 [The Message    (%d Characters)]

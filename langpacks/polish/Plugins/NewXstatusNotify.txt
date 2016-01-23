@@ -330,7 +330,7 @@ musi odebrać telefon
 [(U) had to answer the phone]
 musi odebrać telefon
 [User: On the phone]
-Status: Przy telefonie
+Status: Pod telefonem
 [User: from offline (has priority!)]
 Status: Z rozłączonego (ma priorytet!)
 [Status message removed]
@@ -344,7 +344,7 @@ xStatus: Zmiana opisu
 [Extra status changed]
 xStatus: Zmiana statusu
 [Extra status message removed]
-usunięto xstatus
+usunięto xStatus
 [Enable status notification]
 Włącz powiadomienie o statusie
 [Disable status notification]

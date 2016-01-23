@@ -416,13 +416,13 @@ Za&jęty
 [&DND\tCtrl+5]
 &Nie przeszkadzać
 [&Free for chat\tCtrl+6]
-&Chętny do rozmowy\tCtrl+6
+&Porozmawiajmy\tCtrl+6
 [&Invisible\tCtrl+7]
 N&iewidoczny\tCtrl+7
 [On the &phone\tCtrl+8]
-Przy &telefonie\tCtrl+8
+Pod &telefonem\tCtrl+8
 [Out to &lunch\tCtrl+9]
-Poszedłem na &obiad\tCtrl+9
+Na &obiedzie\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Wyślij plik(i)

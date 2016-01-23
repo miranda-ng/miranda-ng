@@ -1670,7 +1670,7 @@ Zmień status i opis
 Status
 [Extended away (Not available)]
 Wrócę później
-[Do not disturb (DND)]
+[Do not disturb]
 Nie przeszkadzać
 [Invisible]
 Niewidoczny
