@@ -195,7 +195,7 @@ BEGIN
         MENUITEM "&Away",                       ID_STATUS_AWAY
         MENUITEM "&Not available",              ID_STATUS_NA
         MENUITEM "Occ&upied",                   ID_STATUS_OCCUPIED
-        MENUITEM "&DND",                        ID_STATUS_DND
+        MENUITEM "&Do not disturb",             ID_STATUS_DND
         MENUITEM "&Free for chat",              ID_STATUS_FREECHAT
         MENUITEM "&Invisible",                  ID_STATUS_INVISIBLE
         MENUITEM "On the &phone",               ID_STATUS_ONTHEPHONE

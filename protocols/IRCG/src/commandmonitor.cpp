@@ -330,7 +330,7 @@ bool CIrcProto::OnIrc_SETAWAY(const CIrcMessage* pmsg)
 				DoPerform("Event: Not available");
 				break;
 			case ID_STATUS_DND:
-				DoPerform("Event: DND");
+				DoPerform("Event: Do not disturb");
 				break;
 			case ID_STATUS_OCCUPIED:
 				DoPerform("Event: Occupied");

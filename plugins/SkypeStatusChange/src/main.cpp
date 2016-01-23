@@ -51,7 +51,7 @@ const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
 {
 	{ID_STATUS_AWAY, "AWAY",_T("Away")},
 	{ID_STATUS_NA, "AWAY",_T("Not available")}, // removed in Skype 5
-	{ID_STATUS_DND, "DND",_T("DND")},
+	{ID_STATUS_DND, "DND",_T("Do not disturb")},
 	{ID_STATUS_ONLINE, "ONLINE",_T("Online")},
 	{ID_STATUS_FREECHAT, "ONLINE",_T("Free for chat")},	// SKYPEME status doesn't work in Skype 4!
 	{ID_STATUS_OFFLINE, "OFFLINE",_T("Offline")},

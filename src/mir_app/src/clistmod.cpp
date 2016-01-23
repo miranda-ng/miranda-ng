@@ -75,7 +75,7 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 		descr = LPGENT("Away");
 		break;
 	case ID_STATUS_DND:
-		descr = LPGENT("DND");
+		descr = LPGENT("Do not disturb");
 		break;
 	case ID_STATUS_NA:
 		descr = LPGENT("Not available");
