@@ -200,9 +200,9 @@
 [Event notify options]
 Настройки уведомлений
 [Limit message preview to]
-Лимит предпросмотра
+Ограничить предпросмотр
 [characters]
-символов
+символами
 [Only show event notifications when my status is...]
 Показывать уведомления о событиях, когда мой статус...
 [Popup options]

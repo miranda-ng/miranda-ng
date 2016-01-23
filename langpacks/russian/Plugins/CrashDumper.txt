@@ -92,7 +92,7 @@ Miranda NG была завершена аварийно. Отчёт сохран
 [Cannot upload Version Info. User is banned]
 Нельзя загрузить информацию о версиях. Пользователь забанен
 [Cannot upload Version Info. Daily upload limit exceeded]
-Нельзя загрузить информацию о версиях. Дневной лимит загрузок исчерпан
+Нельзя загрузить информацию о версиях. Исчерпано дневное ограничение количества загрузок
 [Cannot upload Version Info. Unknown error]
 Нельзя загрузить информацию о версиях. Неизвестная ошибка
 [Cannot upload Version Info. Host unreachable.]
