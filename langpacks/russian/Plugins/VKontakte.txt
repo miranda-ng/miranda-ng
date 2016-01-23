@@ -224,7 +224,7 @@ Cоздать комнату чата
 [One of the parameters specified was missing or invalid]
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
-Превышен лимит на число публикаций в сутки
+Превышено ограничение на число публикаций в сутки
 [Enter confirmation code]
 Введите код подтверждения
 [Message read: %s]

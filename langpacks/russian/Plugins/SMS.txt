@@ -44,7 +44,7 @@ SMS сообщение не отправлено
 [&Cancel]
 О&тмена
 [The SMS message send timed out]
-Лимит времени отправки SMS
+Ограничение времени отправки SMS
 [SMS Plugin]
 Плагин SMS
 [Beginning]

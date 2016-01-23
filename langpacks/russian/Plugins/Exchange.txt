@@ -46,7 +46,7 @@ ID записи
 [Sender]
 Отправитель
 [Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
-Лимит попыток исчерпан.\nПлагин прекратит попытки подключиться автоматически.
+Исчерпано ограничение количества попыток.\nПлагин прекратит попытки подключиться автоматически.
 [Server not available]
 Сервер недоступен
 [Server is not configured...]
