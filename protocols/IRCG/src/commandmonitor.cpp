@@ -322,7 +322,7 @@ bool CIrcProto::OnIrc_SETAWAY(const CIrcMessage* pmsg)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_AWAY);
 
 		if (m_perform) {
-			switch (m_iStatus) {
+			switch (Temp) {
 			case ID_STATUS_AWAY:
 				DoPerform("Event: Away");
 				break;
@@ -2344,7 +2344,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		DoPerform("ALL NETWORKS");
 		if (IsConnected()) {
 			DoPerform(_T2A(m_info.sNetwork.c_str()));
-			switch (m_iStatus) {
+			switch (Temp) {
 				case ID_STATUS_FREECHAT:   DoPerform("Event: Free for chat");   break;
 				case ID_STATUS_ONLINE:     DoPerform("Event: Available");       break;
 			}
