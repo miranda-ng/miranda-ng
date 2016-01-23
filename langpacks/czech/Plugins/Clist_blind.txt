@@ -178,7 +178,7 @@ U&končit
 On&line\tCtrl+1
 [&Away\tCtrl+2]
 N&a chvíli pryč\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 &Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
 Nemám ča&s\tCtrl+4
@@ -192,34 +192,6 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
-[Tray]
-Oznamovací oblast
-[&Hide/Show]
-Skrýt/Zo&brazit
-[Nowhere]
-Nikde
-[&New group]
-&Nová skupina
-[&Hide offline users]
-&Skrýt uživatele offline
-[Hide &offline users out here]
-Skrýt uživatele &offline mimo skupiny
-[Hide &empty groups]
-S&krýt prázdné skupiny
-[Disable &groups]
-Vypnout zobrazení s&kupin
-[Hide Miranda]
-Skrýt Mirandu
-[Group]
-Skupina
-[&New subgroup]
-&Nová podskupina
-[&Hide offline users in here]
-Skrýt uživatele o&ffline
-[&Rename group]
-Př&ejmenovat skupinu
-[&Delete group]
-&Smazat skupinu
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Neaktivní
@@ -229,7 +201,7 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[N/A]
+[Not available]
 Nejsem tady
 [Occupied]
 Nemám čas

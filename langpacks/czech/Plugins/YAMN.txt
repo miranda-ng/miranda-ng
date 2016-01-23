@@ -100,8 +100,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[N/A]
-<neuvedeno>
+[Not available]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]

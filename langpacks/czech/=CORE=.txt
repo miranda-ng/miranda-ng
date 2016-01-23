@@ -409,7 +409,7 @@ U&končit
 On&line\tCtrl+1
 [&Away\tCtrl+2]
 N&a chvíli pryč\tCtrl+2
-[&N/A\tCtrl+3]
+[&Not available\tCtrl+3]
 &Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
 Nemám ča&s\tCtrl+4
@@ -1652,7 +1652,7 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[N/A]
+[Not available]
 Nejsem tady
 [Occupied]
 Nemám čas

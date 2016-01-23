@@ -8,10 +8,10 @@
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Tento doplněk zobrazí ikonu vedle jména kontaktu s informací o stavu jeho autorizace.
 ;file \plugins\AuthState\res\authstate.rc
-[Show Auth icon]
-Zobrazit ikonu
+[Show Request icon]
+Zobrazit ikony požadavků
 [Show Grant icon]
-Zobrazit ikony udělení
+Zobrazit ikony schválení
 [Plugin settings]
 Nastavení doplňku
 [Enable menu item (restart required)]
@@ -23,13 +23,13 @@ Zobrazit ikony jen pro nedávno přidané kontakty
 Zakázat ikony Stavu autorizace
 [Enable AuthState icons]
 Povolit ikony Stavu autorizace
-[Auth]
-Ověření
+[Request]
+Požadavek
 [Grant]
 Schválení
-[Auth & Grant]
-Autorizace & Schválení
-[Auth State]
+[Request & Grant]
+Požadavek a schválení
+[Auth state]
 Stav autorizace
 ;file \plugins\AuthState\src\options.cpp
 [Icons]

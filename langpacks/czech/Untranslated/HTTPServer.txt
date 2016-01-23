@@ -18,7 +18,7 @@
 [URL address]
 [%ExternalIP% variable]
 [Transfer limit (Kb/s)]
-[No control when Away or N/A]
+[No control when Away or Not available]
 [Connection control]
 [Index creation]
 [Create HTML (compatibility)]

@@ -20,7 +20,7 @@ Neviditelný
 Mám volno
 [Away]
 Na chvíli pryč
-[N/A]
+[Not available]
 Nejsem tady
 [Occupied]
 Nemám čas
