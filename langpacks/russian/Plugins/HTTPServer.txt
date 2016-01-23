@@ -33,8 +33,8 @@ IP-адрес 2
 Это ссылка, вставленная в окно сообщений
 [Write log file]
 Записывать лог
-[Enable / Disable HTTP server]
-Вкл HTTP сервер
+[Enable HTTP server]
+Вкл. HTTP сервер
 [Main menu items]
 Элементы главного меню
 [Open log]
@@ -123,5 +123,3 @@ HTTP Новый общий файл
 Общее удалено
 [Disable HTTP server]
 Отключить HTTP сервер
-[Enable HTTP server]
-Вкл. HTTP сервер
