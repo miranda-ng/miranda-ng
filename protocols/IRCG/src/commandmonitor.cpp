@@ -327,7 +327,7 @@ bool CIrcProto::OnIrc_SETAWAY(const CIrcMessage* pmsg)
 				DoPerform("Event: Away");
 				break;
 			case ID_STATUS_NA:
-				DoPerform("Event: N/A");
+				DoPerform("Event: Not available");
 				break;
 			case ID_STATUS_DND:
 				DoPerform("Event: DND");
@@ -1207,9 +1207,9 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					int s = (int)time(0) - (int)_ttol(GetWordAddress(mess.c_str(), 1));
 					TCHAR szTmp[30];
 					if (s == 1)
-						mir_sntprintf(szTmp, _T("%u second"), s);
+						mir_sntprintf(szTmp, TranslateT("%u second"), s);
 					else
-						mir_sntprintf(szTmp, _T("%u seconds"), s);
+						mir_sntprintf(szTmp, TranslateT("%u seconds"), s);
 
 					m_whoisDlg->m_Reply.SetText(DoColorCodes(szTmp, TRUE, FALSE));
 					return true;
