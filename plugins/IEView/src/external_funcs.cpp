@@ -46,15 +46,7 @@ namespace External
 		return S_OK;
 	}
 
-	HRESULT IEView_SetContextMenuHandler(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult)
-	{
-		if (pDispParams == nullptr || pDispParams->cArgs < 1)
-			return E_INVALIDARG;
-		self->Set_ContextMenuHandler(mir_wstrdup(pDispParams->rgvarg[0].bstrVal));
-		return S_OK;
-	}
-
-	HRESULT IEView_GetCurrentContact(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	HRESULT IEView_GetCurrentContact(IEView *self, DISPPARAMS*, VARIANT *pVarResult)
 	{
 		if (pVarResult != nullptr)
 		{
@@ -173,7 +165,7 @@ namespace External
 		return S_OK;
 	}
 
-	HRESULT win32_CopyToClipboard(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	HRESULT win32_CopyToClipboard(DISPPARAMS *pDispParams, VARIANT*)
 	{
 		if (pDispParams == nullptr || pDispParams->cArgs < 1)
 			return E_INVALIDARG;

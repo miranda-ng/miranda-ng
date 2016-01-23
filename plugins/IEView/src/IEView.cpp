@@ -436,8 +436,6 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 		else if (!wcscmp(L"win32_CopyToClipboard", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_WIN32_COPY_TO_CLIPBOARD;
 
-		else if (!wcscmp(L"IEView_SetContextMenuHandler", rgszNames[i]))
-			rgDispId[i] = DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER;
 		else if (!wcscmp(L"IEView_GetCurrentContact", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_GET_CURRENTCONTACT;
 
@@ -480,8 +478,6 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 
 	case DISPID_EXTERNAL_GET_CURRENTCONTACT:
 		return External::IEView_GetCurrentContact(this, pDispParams, pVarResult);
-	case DISPID_EXTERNAL_SET_CONTEXTMENUHANDLER:
-		return External::IEView_SetContextMenuHandler(this, pDispParams, pVarResult);
 	}
 
 	return DISP_E_MEMBERNOTFOUND;
@@ -620,41 +616,35 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				*/
 	}
 #else
-	if (wszContextMenuHandler != nullptr)
-	{
-		CallJScript(wszContextMenuHandler, 1, CMStringW(FORMAT, L"%d", dwID));
-	}
-	else
-	{
-		CComPtr<IOleCommandTarget> pOleCommandTarget;
-		if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
-			CComPtr<IOleWindow> pOleWindow;
-			if (SUCCEEDED(pOleCommandTarget.QueryInterface(&pOleWindow))) {
-				HWND hSPWnd;
-				pOleWindow->GetWindow(&hSPWnd);
 
-				HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)), 0);
-				TranslateMenu(hMenu);
-				if (dwID == 5) // anchor
-					EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
-				else if (dwID == 4) // text select
-					EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
-				else if (dwID == 1) // control (image)
-					EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
+	CComPtr<IOleCommandTarget> pOleCommandTarget;
+	if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
+		CComPtr<IOleWindow> pOleWindow;
+		if (SUCCEEDED(pOleCommandTarget.QueryInterface(&pOleWindow))) {
+			HWND hSPWnd;
+			pOleWindow->GetWindow(&hSPWnd);
 
-				int iSelection = TrackPopupMenu(hMenu,
-					TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
-					ppt->x,
-					ppt->y,
-					0,
-					hwnd,
-					(RECT*)NULL);
-				DestroyMenu(hMenu);
-				if (iSelection == ID_MENU_CLEARLOG)
-					clear(NULL);
-				else
-					SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
-			}
+			HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)), 0);
+			TranslateMenu(hMenu);
+			if (dwID == 5) // anchor
+				EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
+			else if (dwID == 4) // text select
+				EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
+			else if (dwID == 1) // control (image)
+				EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
+
+			int iSelection = TrackPopupMenu(hMenu,
+				TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
+				ppt->x,
+				ppt->y,
+				0,
+				hwnd,
+				(RECT*)NULL);
+			DestroyMenu(hMenu);
+			if (iSelection == ID_MENU_CLEARLOG)
+				clear(NULL);
+			else
+				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
 		}
 	}
 #endif
