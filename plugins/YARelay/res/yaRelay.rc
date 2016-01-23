@@ -51,7 +51,7 @@ BEGIN
                     97,67,10
     CONTROL         "Occupied",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,64,67,10
-    CONTROL         "DND",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+    CONTROL         "Do not disturb",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     78,75,67,10
     CONTROL         "Free for chat",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,86,67,10

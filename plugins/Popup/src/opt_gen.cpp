@@ -61,7 +61,7 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
 	case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Not available")); break;
 	case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
-	case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
+	case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Do not disturb")); break;
 	case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
 	case PF2_OUTTOLUNCH: mir_tstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
 	case PF2_ONTHEPHONE: mir_tstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;

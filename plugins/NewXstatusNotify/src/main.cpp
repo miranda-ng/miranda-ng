@@ -933,12 +933,12 @@ void InitStatusList()
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
 
-	//DND
+	//Do not disturb
 	index = Index(ID_STATUS_DND);
 	mir_tstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) doesn't want to be disturbed!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) doesn't want to be disturbed!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) doesn't want to be disturbed!"), MAX_STATUSTEXT);
-	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("DND"), MAX_STANDARDTEXT);
+	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Do not disturb"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Do not disturb"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, _T("dnd.wav"), MAX_PATH);

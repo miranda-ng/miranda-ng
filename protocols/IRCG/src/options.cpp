@@ -956,7 +956,7 @@ static char* sttPerformEvents[] = {
 	LPGEN("Event: Away"),
 	LPGEN("Event: Not available"),
 	LPGEN("Event: Occupied"),
-	LPGEN("Event: DND"),
+	LPGEN("Event: Do not disturb"),
 	LPGEN("Event: Free for chat"),
 	LPGEN("Event: On the phone"),
 	LPGEN("Event: Out for lunch"),

@@ -99,7 +99,7 @@ BEGIN
     RTEXT           "Occupied",IDC_STATIC,10,143,60,10
     CONTROL         "",ID_STATUS_OCCUPIED,"ColourPicker",WS_TABSTOP,80,140,20,14
     CONTROL         "",40096,"ColourPicker",WS_TABSTOP,105,140,20,14
-    RTEXT           "DND",IDC_STATIC,10,163,60,10
+    RTEXT           "Do not disturb",IDC_STATIC,10,163,60,10
     CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,80,160,20,14
     CONTROL         "",40094,"ColourPicker",WS_TABSTOP,105,160,20,14
     RTEXT           "On the phone",IDC_STATIC,140,83,60,10

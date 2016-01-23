@@ -812,7 +812,7 @@ BEGIN
 		MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY 
 		MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA 
 		MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED 
-		MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND 
+		MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND 
 		MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT 
 		MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE 
 		MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE 
