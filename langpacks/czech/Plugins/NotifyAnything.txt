@@ -35,9 +35,9 @@ Uložit záznam
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 
-[N/A: Failed to format error message]
+[NotifyAnything: Failed to format error message]
 
-[N/A: FormatMessage failed, error code was 0x]
+[NotifyAnything: FormatMessage failed, error code was 0x]
 
 [Error]
 Chyba

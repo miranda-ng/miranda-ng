@@ -506,7 +506,7 @@ Upravit server
 
 [Event: Away]
 
-[Event: N/A]
+[Event: Not available]
 
 [Event: Occupied]
 

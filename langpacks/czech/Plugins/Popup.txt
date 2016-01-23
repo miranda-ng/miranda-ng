@@ -338,7 +338,7 @@ Online
 Neviditelný
 [Away]
 Na chvíli pryč
-[NA]
+[Not available]
 Nejsem tady
 [Occupied]
 Nemám čas

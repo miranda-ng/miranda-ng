@@ -5,7 +5,7 @@
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 [Event: Available]
 [Event: Away]
-[Event: N/A]
+[Event: Not available]
 [Event: Occupied]
 [Event: DND]
 [Event: Free for chat]

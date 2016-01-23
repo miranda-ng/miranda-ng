@@ -60,7 +60,7 @@ Online
 Na chvíli pryč
 [Occupied]
 Nemám čas
-[N/A]
+[Not available]
 Nejsem tady
 [DND]
 Nerušit!

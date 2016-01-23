@@ -71,7 +71,7 @@ Jakýkoli
 Online
 [Away]
 Na chvíli pryč
-[N/A]
+[Not available]
 Nejsem tady
 [Occupied]
 Nemám čas
@@ -93,7 +93,7 @@ Z 'Offline'
 Do 'Online'
 [To Away]
 Do 'Na chvíli pryč'
-[To N/A]
+[To Not available]
 Do 'Nejsem tady'
 [To Occupied]
 Do 'Nemám čas'

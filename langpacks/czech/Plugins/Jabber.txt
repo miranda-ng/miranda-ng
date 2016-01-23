@@ -626,7 +626,7 @@ Zkopírovat téma místnosti
 Online
 [Away]
 Na chvíli pryč
-[N/A]
+[Not available]
 Nejsem tady
 [DND]
 Nerušit!
@@ -1668,9 +1668,9 @@ Změnit stav
 Vyberte požadovaný stav a zadejte zprávu
 [Status]
 Stavy
-[Extended away (N/A)]
+[Extended away (Not available)]
 Nejsem tady
-[Do not disturb (DND)]
+[Do not disturb]
 Nerušit
 [Invisible]
 Neviditelný
