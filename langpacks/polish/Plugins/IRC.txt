@@ -503,23 +503,23 @@ Edytuj serwer
 [<Local IP: ]
 <Lokalne IP:\s
 [Event: Available]
-Zdarzenie: dostępny
+Zdarzenie: Dostępny
 [Event: Away]
-Zdarzenie: zaraz wracam
+Zdarzenie: Zaraz wracam
 [Event: Not available]
-Zdarzenie: wrócę później
+Zdarzenie: Wrócę później
 [Event: Occupied]
-Zdarzenie: zajęty
+Zdarzenie: Zajęty
 [Event: DND]
-Zdarzenie: nie przeszkadzać
+Zdarzenie: Nie przeszkadzać
 [Event: Free for chat]
-Zdarzenie: porozmawiajmy
+Zdarzenie: Porozmawiajmy
 [Event: On the phone]
-Zdarzenie: przy telefonie
+Zdarzenie: Pod telefonem
 [Event: Out for lunch]
-Zdarzenie: na obiedzie
+Zdarzenie: Na obiedzie
 [Event: Disconnect]
-Zdarzenie: rozłączony
+Zdarzenie: Rozłączony
 [ALL NETWORKS]
 Wszystkie sieci
 [Click to set commands that will be performed for this event]

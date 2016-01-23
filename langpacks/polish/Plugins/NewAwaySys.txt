@@ -214,7 +214,7 @@ Zaraz wracam
 [Been gone since %nas_awaysince_time%, will be back later.]
 Nie ma mnie od %nas_awaysince_time%, będę potem.
 [Not available]
-
+Wrócę później
 [Give it up, I'm not in!]
 Daj spokój, nie ma mnie!
 [Occupied]

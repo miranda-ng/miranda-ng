@@ -705,7 +705,7 @@ Kontakty "Chętne do rozmowy"
 [Invisible contacts]
 Kontakty "Niewidoczne"
 [On the phone contacts]
-Kontakty "Przy telefonie"
+Kontakty "Pod telefonem"
 [Out to lunch contacts]
 Kontakty "Na obiedzie"
 [Offline contacts]
