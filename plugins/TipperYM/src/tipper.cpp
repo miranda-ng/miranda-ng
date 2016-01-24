@@ -293,9 +293,10 @@ int Shutdown(WPARAM, LPARAM)
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-static INT_PTR ReloadSkin(WPARAM, LPARAM lParam)
+static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 {
-	opt.skinMode = SM_IMAGE;
+	LoadOptions();
+	opt.skinMode = (SkinMode)wParam;
 	if (lParam != 0)
 		_tcscpy_s(opt.szSkinName, _A2T((char*)(lParam)));
 	ParseSkinFile(opt.szSkinName, false, false);
