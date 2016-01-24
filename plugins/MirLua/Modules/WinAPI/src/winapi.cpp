@@ -1686,6 +1686,13 @@ static int global_CoUninitialize(lua_State *)
 	return(0);
 }
 
+static int global_GetCurrentProcessId(lua_State *L)
+{
+	DWORD pid = GetCurrentProcessId();
+	lua_pushnumber(L, pid);
+	return 1;
+}
+
 static luaM_consts consts[] = 
 {
 	{ "TRUE", TRUE },
@@ -1941,6 +1948,7 @@ static luaL_Reg winApi[] =
 	{ "Beep", global_Beep },
 	{ "CoInitialize", global_CoInitialize },
 	{ "CoUninitialize", global_CoUninitialize },
+	{ "GetCurrentProcessId", global_GetCurrentProcessId },
 	
 	{ NULL, NULL }
 };
