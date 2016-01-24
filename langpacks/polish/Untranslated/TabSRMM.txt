@@ -1,2 +1,0 @@
-﻿[Add a comma instead of a colon to auto-completed user names]
-[Add new line after names]

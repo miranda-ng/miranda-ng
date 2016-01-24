@@ -1982,9 +1982,9 @@ Wcinaj drugą linię wiadomości
 [Limit user names in the message log to 20 characters]
 Ogranicz nazwy użytkowników do 20 znaków w dzienniku
 [Add a colon (:) to auto-completed user names]
-Dodaj (:) na końcu automatycznie dopełnianych nicków
+Dodaj (:) na końcu automatycznie uzupełnianych nicków
 [Add a comma instead of a colon to auto-completed user names]
-
+Dodaj przecinek zamiast dwukropka do automatycznie uzupełnianych nicków
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Rozpocznij rozmowę prywatną przez podwójne kliknięcie na liście nicków (wstaw nick, jeśli niezaznaczone)
 [Strip colors from messages in the log]
@@ -1996,7 +1996,7 @@ Używaj ircowych wskaźników w dzienniku wiadomości
 [Allow clickable user names in the message log]
 Dwuklik na nick z listy otwiera okno rozmowy
 [Add new line after names]
-
+Dodawaj nową linię po nazwie autora wiadomości
 [Colorize user names in message log]
 Koloruj nicki w dzienniku wiadomości
 [Scale down icons to 10x10 pixels in the chat log]
