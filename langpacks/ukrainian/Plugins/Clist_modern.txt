@@ -577,7 +577,7 @@ xСтатус: xПовідомлення
 Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
-[&DND\tCtrl+5]
+[&Do not disturb\tCtrl+5]
 Не т&урбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
 &Готовий до чату\tCtrl+6
@@ -685,7 +685,7 @@ xСтатус: xПовідомлення
 Звичайні контакти
 [Away contacts]
 Контакт "відійшов"
-[DND contacts]
+[Do not disturb contacts]
 Контакт "не турбувати"
 [Not available contacts]
 Контакт "недоступний"
@@ -755,7 +755,7 @@ xСтатус: xПовідомлення
 Недоступний
 [Occupied]
 Зайнятий
-[DND]
+[Do not disturb]
 Не турбувати
 [Free for chat]
 Готовий до чату

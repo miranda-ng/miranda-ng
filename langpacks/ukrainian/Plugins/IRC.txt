@@ -180,7 +180,7 @@ Wildcard пошук по мережі
 [Key:]
 Ключ:
 [User limit:]
-Ліміт:
+К-ть користувачів:
 [Private]
 Приватний
 [Secret]
@@ -299,6 +299,10 @@ DCC: Запит на реверсну передачу файлу від %s ві
 DCC: Запит на продовження закачування файлу від %s відхилено
 [CTCP %s requested by %s]
 СТСР %s запит від %s
+[%u second]
+%u секунда
+[%u seconds]
+%u секунд
 [CTCP PING reply from %s: %u sec(s)]
 СТСР PING відповідь від %s: %u с (с)
 [CTCP %s reply from %s: %s]
@@ -495,7 +499,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Подія: Недоступний
 [Event: Occupied]
 Подія: Зайнятий
-[Event: DND]
+[Event: Do not disturb]
 Подія: Не турбувати
 [Event: Free for chat]
 Подія: Готовий до чату

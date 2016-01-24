@@ -37,7 +37,7 @@
 Не&доступний
 [Occ&upied]
 &Зайнятий
-[&DND]
+[&Do not disturb]
 Не т&урбувати
 [&Free for chat]
 &Готовий до чату
@@ -217,7 +217,7 @@
 Зайнятий
 [Not right now.]
 Не зараз.
-[DND]
+[Do not disturb]
 Не турбувати
 [Give a guy some peace, would ya?]
 Дайте спокій, я зайнятий.

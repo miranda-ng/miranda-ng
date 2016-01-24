@@ -533,19 +533,19 @@ UTF16+сигнатури
 В мережі
 [Away]
 Відсутній
-[DND]
+[Do not disturb]
 Не турбувати
 [Not available]
 Недоступний
 [Occupied]
 Зайнятий
-[Free for Chat]
+[Free for chat]
 Готовий до чату
 [Invisible]
 Невидимий
-[On the Phone]
+[On the phone]
 Телефоную
-[Out to Lunch]
+[Out to lunch]
 Обідаю
 [Set global status]
 Встановлює глобальний статус

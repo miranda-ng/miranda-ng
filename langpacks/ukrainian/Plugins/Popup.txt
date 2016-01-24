@@ -331,7 +331,7 @@ History++ для історії вікон
 Недоступний
 [Occupied]
 Зайнятий
-[DND]
+[Do not disturb]
 Не турбувати
 [Free for chat]
 Готовий до чату
