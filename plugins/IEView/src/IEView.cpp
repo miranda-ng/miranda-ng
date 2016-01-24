@@ -1097,7 +1097,7 @@ bool IEView::mouseClick(POINT pt)
 			if ((GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
 				SendMessage(GetParent(hwnd), WM_COMMAND, IDCANCEL, 0);
 
-			Utils_OpenUrlT(url);
+			Utils_OpenUrlW(url);
 			return true;
 		}
 	}

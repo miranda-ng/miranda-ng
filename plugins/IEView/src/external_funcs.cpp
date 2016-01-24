@@ -2,7 +2,6 @@
 
 namespace External
 {
-
 	HRESULT mir_CallService(DISPPARAMS *pDispParams, VARIANT *pVarResult)
 	{
 		if (pDispParams == nullptr || pDispParams->cArgs < 3)
@@ -75,8 +74,10 @@ namespace External
 			switch (dbv.type)
 			{
 			case DBVT_BYTE:
+				//pVarResult->bVal = dbv.bVal != 0;
+				//pVarResult->vt = VT_BOOL;
+				pVarResult->vt = VT_UI1;
 				pVarResult->bVal = dbv.bVal;
-				pVarResult->vt = VT_BOOL;
 				break;
 			case DBVT_WCHAR:
 				pVarResult->vt = VT_BSTR;
@@ -96,7 +97,7 @@ namespace External
 				break;
 			case DBVT_WORD:
 				pVarResult->vt = VT_I2;
-				pVarResult->iVal = dbv.dVal;
+				pVarResult->iVal = dbv.wVal;
 				break;
 			}
 		}
