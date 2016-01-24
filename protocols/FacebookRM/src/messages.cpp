@@ -228,7 +228,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	cont.cbSize = sizeof(SMADD_CONT);
 	cont.hContact = hContact;
 	cont.type = 1;
-	cont.path = ptrT(_tcsdup(filename.c_str()));
+	cont.path = ptrT(mir_tstrdup(filename.c_str()));
 
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 }
