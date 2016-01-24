@@ -61,7 +61,7 @@
 Зайнятий
 [Not available]
 Недоступний
-[DND]
+[Do not disturb]
 Не турбувати
 [Free for chat]
 Готовий до чату

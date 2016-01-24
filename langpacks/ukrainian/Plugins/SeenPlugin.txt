@@ -49,7 +49,7 @@
 Недоступний
 [Occupied]
 Зайнятий
-[DND]
+[Do not disturb]
 Не турбувати
 [On the phone]
 Телефоную

@@ -73,7 +73,7 @@
 Недоступний
 [Occupied]
 Зайнятий
-[DND]
+[Do not disturb]
 Не турбувати
 [Free for chat]
 Готовий до чату
@@ -95,7 +95,7 @@
 -> Недоступний
 [To Occupied]
 -> Зайнятий
-[To DND]
+[To Do not disturb]
 -> Не турбувати
 [To Free for chat]
 -> Готовий до чату

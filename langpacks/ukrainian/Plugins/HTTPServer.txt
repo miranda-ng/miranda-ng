@@ -37,16 +37,16 @@ IP-адреса 2
 Це посилання, вставлене у вікно повідомлень
 [Write log file]
 Записувати журнал
-[Enable / Disable HTTP server]
-Увімк./вимк. HTTP-сервер
+[Enable HTTP server]
+Увімк. HTTP-сервер
 [Main menu items]
 Елементи головного меню
 [Open log]
-Відкрити журнал
+Відкрити
 [Show popups]
 Показувати спливаючі вікна
 [Page keyword]
-Ключові слова
+Ключ. слова
 [URL address]
 Адреса URL
 [%ExternalIP% variable]
@@ -54,7 +54,7 @@ IP-адреса 2
 [Test]
 Тест
 [Transfer limit (Kb/s)]
-Ліміт швидкості (Кб/с)
+Обмеження швидкості (Кб/с)
 [No control when Away or Not available]
 Вимк., якщо Відсутній/Недоступний
 [Connection control]
@@ -72,9 +72,9 @@ IP-адреса 2
 [Total connection limit]
 Максимально з'єднань
 [Connections per user limit]
-Ліміт на користувача
+Обмеження на користувача
 [Default download limit]
-Ліміт завантажень
+Обмеження завантажень
 [&Edit share]
 &Редаг. шару
 [&Remove share]
@@ -118,7 +118,7 @@ IP-адреса 2
 [IP Address: ]
 IP-адреса:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s
+Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nза: %s
 [You need to restart Miranda to change the main menu]
 Зміни в меню набудуть чинності після перезапуску програми.
 [HTTP Server]
@@ -141,5 +141,3 @@ HTTP Новий розшарений файл
 Помилка запису в XML файл\s
 [Disable HTTP server]
 Вимкнути HTTP-сервер
-[Enable HTTP server]
-Увімкнути HTTP-сервер

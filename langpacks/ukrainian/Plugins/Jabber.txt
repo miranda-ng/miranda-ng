@@ -607,7 +607,7 @@ xHTML-формат повідомлень чату
 Відсутній
 [Not available]
 Недоступний
-[DND]
+[Do not disturb]
 Не турбувати
 [Free for chat]
 Готовий до чату
@@ -1629,8 +1629,6 @@ Google Hangouts
 Статус
 [Extended away (Not available)]
 Недоступний
-[Do not disturb]
-Не турбувати
 [Invisible]
 Невидимий
 [Offline]

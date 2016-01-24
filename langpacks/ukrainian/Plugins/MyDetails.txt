@@ -78,17 +78,17 @@
 [Status message:]
 Статусне повідомл.:
 [&Offline]
-Не в &мережі
+Не в м&ережі
 [On&line]
-В м&ережі
+В &мережі
 [&Away]
 &Відсутній
 [&Not available]
-&Недоступний
+Не&доступний
 [Occ&upied]
-Зайн&ятий
-[&DND]
-&Не турбувати
+&Зайнятий
+[&Do not disturb]
+Не т&урбувати
 [&Free for chat]
 &Готовий до чату
 [&Invisible]
@@ -96,7 +96,7 @@
 [On the &phone]
 &Телефоную
 [Out to &lunch]
-&Обідаю
+Обід&аю
 [Set my avatar...]
 Змінити мій аватар...
 [Set my nickname...]
