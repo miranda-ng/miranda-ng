@@ -1037,6 +1037,17 @@ static int global_DeleteFile(lua_State *L)
 	return 1;
 }
 
+static int global_CopyFile(lua_State *L)
+{
+	LPCSTR szFrom = luaL_checkstring(L, 1);
+	LPCSTR szTo   = luaL_checkstring(L, 2);
+	BOOL   bError = luaL_optnumber(L, 3, 0);
+
+	BOOL res = CopyFileA(szFrom, szTo, bError);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
 static int global_WaitForSingleObject(lua_State *L) {
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	DWORD t = (DWORD)luaL_checknumber(L, 2);
@@ -1910,6 +1921,7 @@ static luaL_Reg winApi[] =
 	{ "ReadFile", global_ReadFile },
 	{ "WriteFile", global_WriteFile },
 	{ "DeleteFile", global_DeleteFile },
+	{ "CopyFile", global_CopyFile },
 	{ "TerminateProcess", global_TerminateProcess },
 	{ "GetExitCodeProcess", global_GetExitCodeProcess },
 	{ "WaitForSingleObject", global_WaitForSingleObject },
