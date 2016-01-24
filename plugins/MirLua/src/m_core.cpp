@@ -255,6 +255,46 @@ static int core_GetFullPath(lua_State *L)
 	return 1;
 }
 
+
+struct core_ForkThreadParam
+{
+	lua_State *L;
+	int threadRef;
+	int functionRef;
+};
+
+void __cdecl ThreadFunc(void *p)
+{
+	core_ForkThreadParam *ftp = (core_ForkThreadParam*)p;
+
+	lua_rawgeti(ftp->L, LUA_REGISTRYINDEX, ftp->functionRef);
+	luaM_pcall(ftp->L, 0, 1);
+
+	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->functionRef);
+	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->threadRef);
+	delete ftp;
+}
+
+static int core_ForkThread(lua_State *L)
+{
+	core_ForkThreadParam *p = new core_ForkThreadParam();
+	p->L = lua_newthread(L);
+	p->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	lua_pushvalue(L, 1);
+	p->functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	HANDLE hThread = mir_forkthread(ThreadFunc, p);
+	lua_pushnumber(L, (intptr_t)hThread);
+	return 1;
+}
+
+static int core_TerminateThread(lua_State *L)
+{
+	HANDLE hThread = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	BOOL res = TerminateThread(hThread, 0);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", core_CreateHookableEvent },
@@ -280,6 +320,9 @@ luaL_Reg coreApi[] =
 
 	{ "Translate", core_Translate },
 	{ "ReplaceVariables", core_ReplaceVariables },
+
+	{ "ForkThread", core_ForkThread },
+	{ "TerminateThread", core_TerminateThread },
 
 	{ "PointerToNumber", luaM_ptr2number },
 
