@@ -48,10 +48,14 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 		ciphered.insert(0, (LPSTR)&dataflag, 1);
 
 	clen = (unsigned)ciphered.length();
+	mir_free(ptr->tmp);
 	if (ptr->features & FEATURES_BASE64)
-		replaceStr(ptr->tmp, mir_base64_encode((PBYTE)ciphered.data(), clen));
-	else
-		replaceStr(ptr->tmp, base16encode(ciphered.data(), clen));
+		ptr->tmp =  mir_base64_encode((PBYTE)ciphered.data(), clen);
+	else {
+		char *base16 = base16encode(ciphered.data(), clen);
+		ptr->tmp = mir_strdup(base16);
+		free(base16);
+	}
 
 	return ptr->tmp;
 }
@@ -116,13 +120,16 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		cbcDecryptor.Put((PBYTE)bciphered, clen);
 		cbcDecryptor.MessageEnd();
 
+		mir_free(ptr->tmp);
+
 		if (dataflag & DATA_GZIP) {
 			size_t clen2 = clen;
 			LPSTR res = (LPSTR)cpp_gunzip((PBYTE)unciphered.data(), unciphered.length(), clen2);
-			replaceStr(ptr->tmp, mir_strndup(res, clen2));
+			ptr->tmp = mir_strndup(res, clen2);
 			free(res);
 		}
-		else replaceStr(ptr->tmp, mir_strdup(unciphered.c_str()));
+		else
+			ptr->tmp = mir_strdup(unciphered.c_str());
 
 		ptr->error = ERROR_NONE;
 		return ptr->tmp;
@@ -249,15 +256,17 @@ LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg)
 			memcpy(szNewMsg + slen, wstring, slen*sizeof(WCHAR));
 		}
 	}
-	replaceStr(ptr->tmp, szNewMsg);
-	return szNewMsg;
+	mir_free(ptr->tmp);
+	return ptr->tmp = szNewMsg;
 }
 
 // decode message return UTF8z
 LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr)
+		return NULL;
+	mir_free(ptr->tmp);
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
 	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
@@ -277,8 +286,7 @@ LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg)
 			szNewMsg = mir_strdup(utf8encode(wstring));
 		}
 	}
-	replaceStr(ptr->tmp, szNewMsg);
-	return szNewMsg;
+	return ptr->tmp = szNewMsg;
 }
 
 int __cdecl cpp_encrypt_file(HANDLE context, LPCSTR file_in, LPCSTR file_out)

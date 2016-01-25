@@ -65,16 +65,16 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	ptr->error = ERROR_NONE;
 	pGPGDATA p = (pGPGDATA)ptr->pdata;
 
-	LPSTR szEncMsg;
-	szEncMsg = _gpg_encrypt(szPlainMsg, (LPCSTR)p->gpgKeyID);
+	LPSTR szEncMsg = _gpg_encrypt(szPlainMsg, (LPCSTR)p->gpgKeyID);
+	mir_free(ptr->tmp);
 	if (!szEncMsg) {
-		replaceStr(ptr->tmp, 0);
-		return 0;
+		return ptr->tmp = 0;
 	}
-
-	replaceStr(ptr->tmp, mir_strdup(szEncMsg));
-	LocalFree((LPVOID)szEncMsg);
-	return ptr->tmp;
+	else {
+		ptr->tmp =  mir_strdup(szEncMsg);
+		LocalFree((LPVOID)szEncMsg);
+		return ptr->tmp;
+	}
 }
 
 LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
@@ -82,7 +82,8 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 	ptr->error = ERROR_NONE;
 
 	LPSTR szPlainMsg = _gpg_decrypt(szEncMsg);
-	replaceStr(ptr->tmp, mir_strdup(szPlainMsg));
+	mir_free(ptr->tmp);
+	ptr->tmp = mir_strdup(szPlainMsg);
 	LocalFree((LPVOID)szPlainMsg);
 
 	return ptr->tmp;
@@ -90,9 +91,14 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 
 LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context);
+	if (!ptr)
+		return NULL;
 	pGPGDATA p = (pGPGDATA)cpp_alloc_pdata(ptr);
-	if (!p->gpgKeyID) { ptr->error = ERROR_NO_GPG_KEY; return NULL; }
+	if (!p->gpgKeyID) {
+		ptr->error = ERROR_NO_GPG_KEY;
+		return NULL;
+	}
 
 	// utf8 message: encrypt.
 	LPSTR szUtfMsg;
@@ -112,24 +118,22 @@ LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr)
+		return NULL;
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = gpg_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {
 		if (!is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg)) {
-			int slen = (int)strlen(szOldMsg) + 1;
-			LPWSTR wszMsg = (LPWSTR)alloca(slen*sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
-			szNewMsg = _strdup(utf8encode(wszMsg));
+			szNewMsg = mir_utf8encode(szOldMsg);
 		}
 		else {
-			szNewMsg = _strdup(szOldMsg);
+			szNewMsg = mir_strdup(szOldMsg);
 		}
 	}
-	replaceStr(ptr->tmp, szNewMsg);
-	return szNewMsg;
+	mir_free(ptr->tmp);
+	return ptr->tmp = szNewMsg;
 }
 
 int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
@@ -152,7 +156,9 @@ int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
 
 int __cdecl gpg_set_keyid(HANDLE context, LPCSTR RemoteKeyID)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);
+	if (!ptr)
+		return 0;
 	pGPGDATA p = (pGPGDATA)cpp_alloc_pdata(ptr);
 	ptr->error = ERROR_NONE;
 

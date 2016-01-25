@@ -408,27 +408,27 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 
 	case 0x70: // получили AES сообщение, декодируем
 	{
+		mir_free(ptr->tmp);
 		string msg = decode_msg(p, data);
 		if (msg.length())
-			replaceStr(ptr->tmp, mir_strdup(msg.c_str()));
+			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
 			imp->rsa_notify(context, -5); // ошибка декодирования AES сообщения
-			replaceStr(ptr->tmp, NULL);
+			return ptr->tmp = NULL;
 		}
 	}
-		return ptr->tmp;
 
 	case 0xE0: // получили RSA сообщение, декодируем
 	{
+		mir_free(ptr->tmp);
 		string msg = decode_rsa(p, r, data);
 		if (msg.length())
-			replaceStr(ptr->tmp, mir_strdup(msg.c_str()));
+			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
 			imp->rsa_notify(context, -6); // ошибка декодирования RSA сообщения
-			replaceStr(ptr->tmp, NULL);
+			return ptr->tmp = NULL;
 		}
 	}
-		return ptr->tmp;
 
 	case 0xF0: // разрыв соединения вручную
 	{
