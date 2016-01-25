@@ -56,10 +56,14 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features)
 	}
 	memcpy((PVOID)&publ1[KEYSIZE], (PVOID)&send_features, 2);
 
+	mir_free(ptr->tmp);
 	if (ptr->mode & MODE_BASE64 || features & FEATURES_NEWPG)
-		replaceStr(ptr->tmp, mir_base64_encode(publ1, KEYSIZE + 2));
-	else
-		replaceStr(ptr->tmp, base16encode((LPSTR)&publ1, KEYSIZE + 2));
+		ptr->tmp = mir_base64_encode(publ1, KEYSIZE + 2);
+	else {
+		char *base16 = base16encode((LPSTR)&publ1, KEYSIZE + 2);
+		ptr->tmp = mir_strdup(base16);
+		free(base16);
+	}
 
 	return ptr->tmp;
 }

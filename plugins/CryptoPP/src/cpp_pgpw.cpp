@@ -135,27 +135,26 @@ LPSTR __cdecl pgp_get_error()
 LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 {
 	ptr->error = ERROR_NONE;
+	mir_free(ptr->tmp);
 	pPGPDATA p = (pPGPDATA)ptr->pdata;
 
-	LPSTR szEncMsg;
-	if (p->pgpKey)
-		szEncMsg = p_pgp_encrypt_key(szPlainMsg, (LPCSTR)p->pgpKey);
-	else
-		szEncMsg = p_pgp_encrypt_keydb(szPlainMsg, p->pgpKeyID);
+	LPSTR szEncMsg = (p->pgpKey ? p_pgp_encrypt_key(szPlainMsg, (LPCSTR)p->pgpKey) : p_pgp_encrypt_keydb(szPlainMsg, p->pgpKeyID));
 	if (!szEncMsg) {
-		replaceStr(ptr->tmp, NULL);
-		return 0;
+		return ptr->tmp = 0;
 	}
+	else {
+		ptr->tmp = mir_strdup(szEncMsg);
+		LocalFree((LPVOID)szEncMsg);
 
-	replaceStr(ptr->tmp, mir_strdup(szEncMsg));
-	LocalFree((LPVOID)szEncMsg);
-
-	return ptr->tmp;
+		return ptr->tmp;
+	}
 }
 
 LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 {
 	ptr->error = ERROR_NONE;
+	mir_free(ptr->tmp);
+	ptr->tmp = NULL;
 
 	LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
 	if (!szPlainMsg) {
@@ -166,12 +165,11 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 				szPlainMsg = p_pgp_decrypt_key(szEncMsg, (LPCSTR)p->pgpKey);
 		}
 		if (!szPlainMsg) {
-			replaceStr(ptr->tmp, NULL);
 			return NULL;
 		}
 	}
 
-	replaceStr(ptr->tmp, mir_strdup(szPlainMsg));
+	ptr->tmp = mir_strdup(szPlainMsg);
 	LocalFree((LPVOID)szPlainMsg);
 	return ptr->tmp;
 }
@@ -192,22 +190,21 @@ LPSTR __cdecl pgp_encode(HANDLE context, LPCSTR szPlainMsg)
 LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr)
+		return NULL;
+	mir_free(ptr->tmp);
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = pgp_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {
 		if (!is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg)) {
-			int slen = (int)strlen(szOldMsg) + 1;
-			LPWSTR wszMsg = (LPWSTR)alloca(slen*sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
-			szNewMsg = _strdup(utf8encode(wszMsg));
+			szNewMsg = mir_utf8encode(szOldMsg);
 		}
-		else szNewMsg = _strdup(szOldMsg);
+		else
+			szNewMsg = mir_strdup(szOldMsg);
 	}
-	replaceStr(ptr->tmp, szNewMsg);
-	return szNewMsg;
+	return ptr->tmp = szNewMsg;
 }
 
 int __cdecl pgp_set_priv_key(LPCSTR LocalKey)
@@ -217,7 +214,9 @@ int __cdecl pgp_set_priv_key(LPCSTR LocalKey)
 
 int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);
+	if (!ptr)
+		return 0;
 	pPGPDATA p = (pPGPDATA)cpp_alloc_pdata(ptr);
 	ptr->error = ERROR_NONE;
 
@@ -229,7 +228,9 @@ int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 
 int __cdecl pgp_set_keyid(HANDLE context, PVOID RemoteKeyID)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);
+	if (!ptr)
+		return 0;
 	pPGPDATA p = (pPGPDATA)cpp_alloc_pdata(ptr);
 	ptr->error = ERROR_NONE;
 
