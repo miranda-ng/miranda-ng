@@ -243,6 +243,7 @@ static unsigned int CALLBACK regen_key_thread(void* param)
 	if (IDYES == MessageBox(opts->refresh, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO)) {
 		char* proto = mir_t2a(opts->proto);
 		otr_gui_create_privkey(0, proto, proto);
+		mir_free(proto);
 		SendMessage(opts->refresh, WMU_REFRESHPROTOLIST, 0, 0);
 	}
 	EnableWindow(opts->refresh, TRUE);
