@@ -72,7 +72,6 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_DESTROY:
 		SetClassLongPtr(hWndDlg, GCLP_HICON, 0);
 		IcoLib_Release(ICON_OTR, 1);
-		mir_free((char*)lParam);
 	}
 	return FALSE;
 }
@@ -105,8 +104,7 @@ extern "C" {
 	void otr_gui_create_privkey(void *opdata, const char *account_name, const char *protocol) {
 		DEBUGOUT_T("OTR_GUI_CREATE_PRIVKEY\n");
 		if (opdata) {
-			mir_free((char*)protocol);
-			protocol = mir_strdup(GetContactProto((UINT_PTR)opdata));
+			protocol = GetContactProto((UINT_PTR)opdata);
 		}
 		if (!protocol) return;
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), 0, GenKeyDlgBoxProc, (LPARAM)protocol);
