@@ -31,6 +31,9 @@
       <AdditionalIncludeDirectories>.\;src\curve25519\ed25519;src\curve25519\ed25519\nacl_includes;src\curve25519\ed25519\additions\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4005;4127;4200;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
+    <Link>
+      <ModuleDefinitionFile>src/axolotl.def</ModuleDefinitionFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\protobuf-c\*.c">
