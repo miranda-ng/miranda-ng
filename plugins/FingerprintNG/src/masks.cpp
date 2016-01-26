@@ -657,7 +657,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Final_pack", _T("*[Final*Pack]*"), _T("Final pack"), IDI_MIRANDA_FINAL, MIRANDA_PACKS_CASE },
 	{ "client_Freize_pack", _T("*Freize*"), _T("Freize"), IDI_MIRANDA_FREIZE, MIRANDA_PACKS_CASE },
 	{ "client_Ghost_pack", _T("*Ghost's*"), _T("Ghost's pack"), IDI_MIRANDA_GHOST, MIRANDA_PACKS_CASE },
-	{ "client_HCoffee_pack", _T("*[HotCoffee]*"), _T("HotCoffee"), IDI_MIRANDA_CAPPUCCINO, MIRANDA_PACKS_CASE },
+	{ "client_HotCoffee_pack", _T("*HotCoffee*"), _T("HotCoffee"), IDI_MIRANDA_CAPPUCCINO, MIRANDA_PACKS_CASE },
 	{ "client_HierOS_pack", _T("*HierOS*"), _T("HierOS"), IDI_MIRANDA_HIEROS, MIRANDA_PACKS_CASE },
 	{ "client_ICE_pack", _T("|*miranda*[ice*]|*induction*"), _T("iCE / Induction"), IDI_MIRANDA_INDUCTION, MIRANDA_PACKS_CASE },
 	{ "client_KDL_pack", _T("|*KDL*|*КДЛ*"), _T("KDL"), IDI_MIRANDA_KDL, MIRANDA_PACKS_CASE },
