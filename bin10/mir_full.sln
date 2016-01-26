@@ -433,6 +433,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winapi", "..\plugins\MirLua
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "..\plugins\MirLua\Modules\JSON\JSON.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libaxolotl\libaxolotl.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1965,6 +1967,14 @@ Global
 		{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}.Release|Win32.Build.0 = Release|Win32
 		{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}.Release|x64.ActiveCfg = Release|x64
 		{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}.Release|x64.Build.0 = Release|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|Win32.Build.0 = Debug|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|x64.ActiveCfg = Debug|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|x64.Build.0 = Debug|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.ActiveCfg = Release|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.Build.0 = Release|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.ActiveCfg = Release|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
