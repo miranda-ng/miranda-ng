@@ -441,6 +441,8 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 
 		else if (!wcscmp(L"mir_CallService", rgszNames[i]))
 			rgDispId[i] = DISPID_EXTERNAL_CALLSERVICE;
+		else if (!wcscmp(L"mir_CallContactService", rgszNames[i]))
+			rgDispId[i] = DISPID_EXTERNAL_CALLCONTACTSERVICE;
 
 		else
 		{
@@ -465,6 +467,8 @@ STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 	{
 	case DISPID_EXTERNAL_CALLSERVICE:
 		return External::mir_CallService(pDispParams, pVarResult);
+	case DISPID_EXTERNAL_CALLCONTACTSERVICE:
+		return External::mir_CallContactService(pDispParams, pVarResult);
 
 	case DISPID_EXTERNAL_DB_GET:
 		return External::db_get(pDispParams, pVarResult);

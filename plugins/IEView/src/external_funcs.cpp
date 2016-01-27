@@ -1,5 +1,30 @@
 #include "stdafx.h"
 
+template<typename T>
+T Var_To(VARIANTARG &pVar, char strType = 'W')
+{
+	T retVal = NULL;
+	switch (pVar.vt)
+	{
+	case VT_BSTR:
+		if (strType == 'U')
+			retVal = (T)mir_utf8encodeW(pVar.bstrVal);
+		else if (strType == 'A')
+			retVal = (T)mir_u2a(pVar.bstrVal);
+		else
+			retVal = (T)pVar.bstrVal;
+		break;
+	case VT_INT:
+	case VT_I1:
+	case VT_I2:
+	case VT_I4:
+	case VT_I8:
+		retVal = (T)pVar.intVal;
+		break;
+	}
+	return retVal;
+}
+
 namespace External
 {
 	HRESULT mir_CallService(DISPPARAMS *pDispParams, VARIANT *pVarResult)
@@ -7,35 +32,45 @@ namespace External
 		if (pDispParams == nullptr || pDispParams->cArgs < 3)
 			return E_INVALIDARG;
 
+		wchar_t wType = 'W', lType = 'W';
+		if (pDispParams->cArgs >= 5) lType = pDispParams->rgvarg[4].bstrVal[0];
+		if (pDispParams->cArgs >= 4) wType = pDispParams->rgvarg[3].bstrVal[0];
+
 		BSTR szName = pDispParams->rgvarg[2].bstrVal;
-		WPARAM wParam = 0;
-		LPARAM lParam = 0;
-
-		switch (pDispParams->rgvarg[1].vt)
-		{
-		case VT_BSTR:
-			wParam = (WPARAM)pDispParams->rgvarg[1].bstrVal;
-		case VT_INT:
-		case VT_I1:
-		case VT_I2:
-		case VT_I4:
-		case VT_I8:
-			wParam = (WPARAM)pDispParams->rgvarg[1].intVal;
-		}
-
-		switch (pDispParams->rgvarg[0].vt)
-		{
-		case VT_BSTR:
-			lParam = (LPARAM)pDispParams->rgvarg[0].bstrVal;
-		case VT_INT:
-		case VT_I1:
-		case VT_I2:
-		case VT_I4:
-		case VT_I8:
-			lParam = (LPARAM)pDispParams->rgvarg[0].intVal;
-		}
+		WPARAM wParam = Var_To<WPARAM>(pDispParams->rgvarg[1], wType);
+		LPARAM lParam = Var_To<LPARAM>(pDispParams->rgvarg[0], lType);
 
 		INT_PTR res = CallService(_T2A((TCHAR*)szName), wParam, lParam);
+
+		if (wType == 'A' || wType == 'U') mir_free((void*)wParam);
+		if (lType == 'A' || lType == 'U') mir_free((void*)lParam);
+
+		if (pVarResult != nullptr)
+		{
+			pVarResult->vt = VT_UINT;
+			pVarResult->uintVal = (UINT)res;
+		}
+		return S_OK;
+	}
+
+	HRESULT mir_CallContactService(DISPPARAMS *pDispParams, VARIANT *pVarResult)
+	{
+		if (pDispParams == nullptr || pDispParams->cArgs < 4)
+			return E_INVALIDARG;
+
+		wchar_t wType = 'W', lType = 'W';
+		if (pDispParams->cArgs >= 6) lType = pDispParams->rgvarg[5].bstrVal[0];
+		if (pDispParams->cArgs >= 5) wType = pDispParams->rgvarg[4].bstrVal[0];
+
+		MCONTACT hContact = pDispParams->rgvarg[3].intVal;
+		BSTR szName = pDispParams->rgvarg[2].bstrVal;
+		WPARAM wParam = Var_To<WPARAM>(pDispParams->rgvarg[1], wType);
+		LPARAM lParam = Var_To<LPARAM>(pDispParams->rgvarg[0], lType);
+
+		INT_PTR res = CallContactService(hContact, _T2A((TCHAR*)szName), wParam, lParam);
+
+		if (wType == 'A' || wType == 'U') mir_free((void*)wParam);
+		if (lType == 'A' || lType == 'U') mir_free((void*)lParam);
 
 		if (pVarResult != nullptr)
 		{
@@ -191,5 +226,4 @@ namespace External
 		}
 		return S_OK;
 	}
-
 }

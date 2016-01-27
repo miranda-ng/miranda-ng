@@ -1,6 +1,7 @@
 enum EXTERNAL_FUNCTIONS
 {
 	DISPID_EXTERNAL_CALLSERVICE = 600,
+	DISPID_EXTERNAL_CALLCONTACTSERVICE,
 
 	DISPID_EXTERNAL_GET_CURRENTCONTACT = 630,
 
@@ -14,6 +15,7 @@ enum EXTERNAL_FUNCTIONS
 namespace External
 {
 	HRESULT mir_CallService(DISPPARAMS *pDispParams, VARIANT *pVarResult);
+	HRESULT mir_CallContactService(DISPPARAMS *pDispParams, VARIANT *pVarResult);
 
 	HRESULT IEView_GetCurrentContact(IEView *self, DISPPARAMS *pDispParams, VARIANT *pVarResult);
 
