@@ -123,7 +123,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		TCHAR *contactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
 		TCHAR toolTip[256];
 
-		CLISTEVENT cle = { sizeof(cle) };
+		CLISTEVENT cle = {};
 		cle.flags = CLEF_TCHAR;
 		cle.hContact = hContact;
 		cle.hDbEvent = hDbEvent;
@@ -223,7 +223,6 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
-			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
@@ -297,7 +296,6 @@ static void RestoreUnreadMessageAlerts(void)
 	TCHAR toolTip[256];
 
 	CLISTEVENT cle = {};
-	cle.cbSize = sizeof(cle);
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;

@@ -1006,11 +1006,10 @@ retry:
 					}
 					else
 					{
-						CLISTEVENT cle = {0};
 						char service[128];
 						mir_snprintf(service, GGS_RECVIMAGE, m_szModuleName);
 
-						cle.cbSize = sizeof(cle);
+						CLISTEVENT cle = { 0 };
 						cle.hContact = hContact;
 						cle.hIcon = LoadIconEx("image", FALSE);
 						cle.flags = CLEF_URGENT;

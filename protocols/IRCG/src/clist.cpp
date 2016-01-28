@@ -62,7 +62,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), name.c_str());
 	}
 	else {
-		CLISTEVENT cle = { sizeof(cle) };
+		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = -100;
 		cle.flags = CLEF_TCHAR;

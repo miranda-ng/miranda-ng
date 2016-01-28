@@ -54,7 +54,7 @@ int fnGetImlIconIndex(HICON hIcon)
 	return imlIcon[i].index;
 }
 
-static char * GetEventProtocol(int idx)
+static char* GetEventProtocol(int idx)
 {
 	if (!cli.events.count || idx < 0 && idx >= cli.events.count)
 		return NULL;
@@ -132,11 +132,10 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 CListEvent* fnAddEvent(CLISTEVENT *cle)
 {
-	int i;
-
-	if (cle == NULL || cle->cbSize != sizeof(CLISTEVENT))
+	if (cle == NULL)
 		return NULL;
 
+	int i;
 	if (cle->flags & CLEF_URGENT) {
 		for (i=0; i < cli.events.count; i++)
 			if (!(cli.events.items[i]->flags & CLEF_URGENT))

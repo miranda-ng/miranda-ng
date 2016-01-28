@@ -49,8 +49,8 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 int ShowHide(WPARAM wParam, LPARAM lParam);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
-CListEvent *AddEvent(CLISTEVENT *cle);
-ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+CListEvent* AddEvent(CLISTEVENT *cle);
+ClcGroup* AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
 int     AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 int     AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);

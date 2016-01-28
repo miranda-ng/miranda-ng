@@ -87,7 +87,7 @@ void NotifyUser(Account *curAcc)
 			}
 		}
 		if (opt.notifierOnTray&&newMails > 0) {
-			CLISTEVENT cle = { sizeof(cle) };
+			CLISTEVENT cle = {};
 			cle.hContact = curAcc->hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT;

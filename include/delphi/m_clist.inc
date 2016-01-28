@@ -107,10 +107,9 @@ const
 type
   PCLISTEVENT = ^TCLISTEVENT;
   TCLISTEVENT = record
-    cbSize    : int;       // size in bytes
     hContact  : TMCONTACT; // handle to the contact to put the icon by
-    hIcon     : HICON;     // icon to flash!
     flags     : dword;
+    hIcon     : HICON;     // icon to flash!
     hDBEvent  : TMEVENT;   // caller defined, but should be unique for hContact
                            // or pszProtocol:PAnsiChar
     lParam    : LPARAM;

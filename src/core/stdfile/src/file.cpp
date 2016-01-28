@@ -111,8 +111,7 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 
 void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 {
-	CLISTEVENT cle = { 0 };
-	cle.cbSize = sizeof(cle);
+	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;

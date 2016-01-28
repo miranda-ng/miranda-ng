@@ -310,7 +310,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 
 	TCHAR szMsg[MAX_PATH];
 
-	CLISTEVENT cle = { sizeof(cle) };
+	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.flags = CLEF_URGENT|CLEF_TCHAR;
 	cle.hDbEvent = NULL;

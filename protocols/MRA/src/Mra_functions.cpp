@@ -657,11 +657,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 
 		if (bTrayIconNewMailNotify) {
 			char szServiceFunction[MAX_PATH] = { 0 }, *pszServiceFunctionName;
-			CLISTEVENT cle = { 0 };
-
-			cle.cbSize = sizeof(cle);
-			//cle.hContact;
-			//cle.hDbEvent;
+			CLISTEVENT cle = {};
 			cle.lpszProtocol = m_szModuleName;
 			cle.hIcon = IconLibGetIcon(gdiMenuItems[0].hIcolib);
 			cle.flags = (CLEF_UNICODE | CLEF_PROTOCOLGLOBAL);

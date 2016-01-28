@@ -314,7 +314,6 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
-			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
@@ -545,7 +544,7 @@ nowindowcreate:
 		if (!nen_options.bTraySupport) {
 			TCHAR toolTip[256], *contactName;
 
-			CLISTEVENT cle = { sizeof(cle) };
+			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = hDbEvent;
 			cle.flags = CLEF_TCHAR;

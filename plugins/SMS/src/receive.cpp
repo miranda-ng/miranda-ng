@@ -234,7 +234,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				memcpy(pszServiceFunctionName, SMS_READ, sizeof(SMS_READ));
 				mir_sntprintf(szToolTip, TranslateT("SMS Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-				CLISTEVENT cle = { sizeof(cle) };
+				CLISTEVENT cle = {};
 				cle.flags = CLEF_TCHAR;
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
@@ -257,7 +257,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				memcpy(pszServiceFunctionName, SMS_READ_ACK, sizeof(SMS_READ_ACK));
 				mir_sntprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-				CLISTEVENT cle = { sizeof(cle) };
+				CLISTEVENT cle = {};
 				cle.flags = CLEF_TCHAR;
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;

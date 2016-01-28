@@ -76,7 +76,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		TCHAR caToolTip[128];
 		mir_sntprintf(caToolTip, _T("%s %s"), TranslateT("Contacts received from"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-		CLISTEVENT cle = { sizeof(cle) };
+		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hDbEvent;
 		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));

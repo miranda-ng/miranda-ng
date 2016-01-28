@@ -59,15 +59,14 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 
-	CLISTEVENT cli = { 0 };
-	cli.cbSize = sizeof(cli);
+	CLISTEVENT cli = {};
 	cli.hContact = hContact;
 	cli.ptszTooltip = szTooltip;
 	cli.flags = CLEF_TCHAR;
 	cli.lParam = lParam;
 	cli.hDbEvent = hDbEvent;
 
-	CONTACTINFO ci = { 0 };
+	CONTACTINFO ci = {};
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
 	ci.szProto = GetContactProto(hContact);

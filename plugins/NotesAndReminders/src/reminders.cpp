@@ -186,9 +186,7 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 
 		for (i=0; ; i++)
 		{
-			CLISTEVENT *pev;
-
-			pev = (CLISTEVENT*) CallService(MS_CLIST_GETEVENT,(WPARAM)INVALID_HANDLE_VALUE,i);
+			CLISTEVENT *pev = (CLISTEVENT*) CallService(MS_CLIST_GETEVENT,(WPARAM)INVALID_HANDLE_VALUE,i);
 			if (!pev)
 				break;
 
@@ -685,23 +683,18 @@ static void UpdateReminderEvent(REMINDERDATA *pReminder, UINT nElapsedSeconds, B
 
 static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 {
-	DWORD dwSoundMask;
-
 	if (pReminder->SystemEventQueued)
 		return;
 
 	// add a system event
 	{
-	CLISTEVENT ev = { 0 };
-
-	ev.cbSize = sizeof(ev);
-	ev.hIcon = g_hReminderIcon;
-	ev.flags = CLEF_URGENT;
-	ev.lParam = (LPARAM)pReminder->uid;
-	ev.pszService = MODULENAME"/OpenTriggeredReminder";
-	ev.pszTooltip = Translate("Reminder");
-
-	CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&ev);
+		CLISTEVENT ev = {};
+		ev.hIcon = g_hReminderIcon;
+		ev.flags = CLEF_URGENT;
+		ev.lParam = (LPARAM)pReminder->uid;
+		ev.pszService = MODULENAME"/OpenTriggeredReminder";
+		ev.pszTooltip = Translate("Reminder");
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&ev);
 	}
 
 	pReminder->SystemEventQueued = TRUE;
@@ -713,7 +706,7 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 		return;
 	}
 
-	dwSoundMask = 1 << pReminder->SoundSel;
+	DWORD dwSoundMask = 1 << pReminder->SoundSel;
 
 	pReminder->RepeatSoundTTL = pReminder->RepeatSound;
 

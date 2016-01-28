@@ -776,10 +776,10 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 		return false;
 	}
 
-	CLISTEVENT cle = { 0 };
 	char szService[256];
 	mir_snprintf(szService, "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
-	cle.cbSize = sizeof(CLISTEVENT);
+
+	CLISTEVENT cle = {};
 	cle.hIcon = (HICON)LoadIconEx("notes");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
 	cle.hDbEvent = -99;

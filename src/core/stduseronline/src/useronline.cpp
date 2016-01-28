@@ -57,17 +57,15 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 			DWORD ticked = db_get_dw(NULL, "UserOnline", cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 			if (GetTickCount() - ticked > (1000*10)) {
-				CLISTEVENT cle;
 				TCHAR tooltip[256];
+				mir_sntprintf(tooltip, TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-				memset(&cle, 0, sizeof(cle));
-				cle.cbSize = sizeof(cle);
+				CLISTEVENT cle = {};
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hContact = hContact;
 				cle.hDbEvent = uniqueEventId++;
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
-				mir_sntprintf(tooltip, TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);

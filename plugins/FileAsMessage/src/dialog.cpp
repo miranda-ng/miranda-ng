@@ -463,9 +463,7 @@ void FILEECHO::incomeRequest(char *param)
 	//	else
 	if (!IsWindowVisible(hDlg) && !AutoMin)
 	{
-		CLISTEVENT cle;
-		memset(&cle, 0, sizeof(cle));
-		cle.cbSize = sizeof(cle);
+		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
 		cle.flags = CLEF_URGENT;

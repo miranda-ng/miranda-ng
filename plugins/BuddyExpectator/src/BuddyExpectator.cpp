@@ -278,7 +278,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 	}
 
 	if (options.iShowEvent > 0) {
-		CLISTEVENT cle = { sizeof(cle) };
+		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hIcon = hIcon;
 		cle.pszService = "BuddyExpectator/actionReturned";
@@ -317,7 +317,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 	}
 
 	if (options.iShowEvent2 > 0) {
-		CLISTEVENT cle = { sizeof(cle) };
+		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hIcon = hIcon;
 		cle.pszService = "BuddyExpectator/actionStillAbsent";

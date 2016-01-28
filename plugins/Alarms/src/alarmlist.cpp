@@ -555,7 +555,7 @@ void DoAlarm(ALARM *alarm)
 
 		if (alarm->action & AAF_SYSTRAY)
 		{
-			CLISTEVENT cle = { sizeof(cle) };
+			CLISTEVENT cle = {};
 			cle.hIcon = hIconSystray;
 			cle.ptszTooltip = alarm->szTitle;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;

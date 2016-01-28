@@ -311,8 +311,7 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stz
 
 void BlinkIcon(MCONTACT hContact, HICON hIcon, TCHAR *stzText)
 {
-	CLISTEVENT cle = { 0 };
-	cle.cbSize = sizeof(cle);
+	CLISTEVENT cle = {};
 	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = hContact;
