@@ -83,12 +83,6 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 }
 
 
-CListEvent* cliCreateEvent(void)
-{
-	CListEvent *p = (CListEvent *)mir_calloc(sizeof(CListEvent));
-	return p;
-}
-
 CListEvent* cli_AddEvent(CLISTEVENT *cle)
 {
 	CListEvent* p = corecli.pfnAddEvent(cle);

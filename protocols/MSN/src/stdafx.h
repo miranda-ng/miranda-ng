@@ -705,7 +705,7 @@ public:
 	__forceinline void Init(CMsnProto* proto) { m_proto = proto; }
 	bool Load();
 	void Save();
-	virtual bool Refresh(bool bForce = false) { return false; }
+	virtual bool Refresh(bool = false) { return false; }
 	bool Expired(time_t t = time(NULL));
 	void Clear();
 	const char *Token();

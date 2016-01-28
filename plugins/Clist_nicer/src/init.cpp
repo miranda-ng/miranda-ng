@@ -40,7 +40,6 @@ extern int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
 ClcContact *CreateClcContact(void);
-CListEvent *fnCreateEvent(void);
 void ReloadThemedOptions();
 int TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
 void LoadButtonModule();
@@ -194,7 +193,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;
 	pcli->pfnCreateClcContact = CreateClcContact;
-	pcli->pfnCreateEvent = fnCreateEvent;
 	pcli->pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	pcli->pfnGetDefaultFontSetting = GetDefaultFontSetting;
 	pcli->pfnGetRowBottomY = RowHeight::getItemBottomY;

@@ -270,7 +270,6 @@ TCHAR*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 void    cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add);
 void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-CListEvent* cliCreateEvent(void);
 CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int     cliShowHide(WPARAM wParam, LPARAM lParam);

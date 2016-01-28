@@ -144,7 +144,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	}
 	else i = cli.events.count;
 
-	CListEvent *p = cli.pfnCreateEvent();
+	CListEvent *p = (CListEvent*)mir_calloc(sizeof(CListEvent));
 	if (p == NULL)
 		return NULL;
 
@@ -175,6 +175,13 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	return p;
 }
 
+static void fnFreeEvent(CListEvent *p)
+{
+	mir_free(p->pszService);
+	mir_free(p->pszTooltip);
+	mir_free(p);
+}
+
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
 int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
@@ -197,7 +204,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->hContact, 1), 0);
 
 	// Free any memory allocated to the event
-	cli.pfnFreeEvent(cli.events.items[i]);
+	fnFreeEvent(cli.events.items[i]);
 	List_Remove((SortedList*)&cli.events, i);
 
 	// count same protocoled events
@@ -391,25 +398,14 @@ int InitCListEvents(void)
 	return 0;
 }
 
-CListEvent* fnCreateEvent(void)
-{
-	return (CListEvent*)mir_calloc(sizeof(CListEvent));
-}
-
-void fnFreeEvent(CListEvent *p)
-{
-	mir_free(p->pszService);
-	mir_free(p->pszTooltip);
-	mir_free(p);
-}
-
 void UninitCListEvents(void)
 {
 	if (cli.events.count)
 		KillTimer(NULL, flashTimerId);
 
-	for (int i=0; i < cli.events.count; i++)
-		cli.pfnFreeEvent((CListEvent*)cli.events.items[i]);
+	for (int i = 0; i < cli.events.count; i++)
+		fnFreeEvent(cli.events.items[i]);
+		
 	List_Destroy((SortedList*)&cli.events);
 
 	if (imlIcon != NULL)
