@@ -1198,7 +1198,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				db_event_get(hDbEvent, &dbei);
 				if (!(dbei.flags & DBEF_SENT) && (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_URL))
-					CallService(MS_CLIST_REMOVEEVENT, dat->hContact, (LPARAM)hDbEvent);
+					pcli->pfnRemoveEvent(dat->hContact, hDbEvent);
 				hDbEvent = db_event_next(dat->hContact, hDbEvent);
 			}
 		}

@@ -201,9 +201,6 @@ typedef struct {
 #define MS_CLIST_INVALIDATEDISPLAYNAME  "CList/InvalidateDiplayName"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// adds an event to the contact list's queue
-// wParam = 0
-// lParam = (LPARAM)(CLISTEVENT*)cle
 // The contact list will flash hIcon next to the contact hContact (use NULL for
 // a system message). szServiceName will be called when the user double clicks
 // the icon, at which point the event will be removed from the contact list's
@@ -245,27 +242,6 @@ typedef struct {
 #else
 	#define CLEF_TCHAR       0      //will return char*, as usual
 #endif
-
-#define MS_CLIST_ADDEVENT     "CList/AddEvent"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// removes an event from the contact list's queue
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(HANDLE)hDbEvent
-// returns 0 if the event was successfully removed, or nonzero if the event
-// was not found
-#define MS_CLIST_REMOVEEVENT  "Clist/RemoveEvent"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// gets the details of an event in the queue
-// wParam = (MCONTACT)hContact
-// lParam = iEvent
-// returns a CLISTEVENT* on success, NULL on failure
-// Returns the iEvent-th event from the queue for hContact, so iEvent = 0 will
-// get the event that will be got when the user clicks on that contact.
-// Use hContact = INVALID_HANDLE_VALUE to search over all contacts, so iEvent = 0
-// will get the event that will be got if the user clicks the systray icon.
-#define MS_CLIST_GETEVENT     "CList/GetEvent"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the image list with all the useful icons in it

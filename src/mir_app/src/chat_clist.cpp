@@ -121,7 +121,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->hWnd != NULL &&
 			 db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 &&
-			 !CallService(MS_CLIST_GETEVENT, hContact, 0) &&
+			 !cli.pfnGetEvent(hContact, 0) &&
 			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 		{
 			if (chatApi.OnDblClickSession)
@@ -220,13 +220,13 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fm
 	cle.pszService = "GChat/DblClickEvent" ;
 	cle.ptszTooltip = TranslateTS(szBuf);
 	if (type) {
-		if (!CallService(MS_CLIST_GETEVENT, hContact, 0))
-			CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
+		if (!cli.pfnGetEvent(hContact, 0))
+			cli.pfnAddEvent(&cle);
 	}
 	else {
-		if (CallService(MS_CLIST_GETEVENT, hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)GC_FAKE_EVENT);
-		CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
+		if (cli.pfnGetEvent(hContact, 0))
+			cli.pfnRemoveEvent(hContact, GC_FAKE_EVENT);
+		cli.pfnAddEvent(&cle);
 	}
 	return TRUE;
 }

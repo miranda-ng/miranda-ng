@@ -10,6 +10,7 @@ There is no warranty.
 #include "stdafx.h"
 #include "version.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 UINT hTimer;
@@ -88,6 +89,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	SkinAddNewSoundEx("Gmail", LPGEN("Other"), LPGEN("Gmail: New thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);

@@ -451,7 +451,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(hContact, hDbEvent);
-		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)hDbEvent);
+		pcli->pfnRemoveEvent(hContact, hDbEvent);
 	}
 
 	g_groupBreak = TRUE;

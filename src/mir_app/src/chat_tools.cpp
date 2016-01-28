@@ -151,8 +151,8 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		SESSION_INFO *si = (SESSION_INFO*)PUGetPluginData(hWnd);
 		if (si->hContact)
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (cli.pfnGetEvent(si->hContact, 0))
+				cli.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 		if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 			FlashWindow(si->hWnd, FALSE);

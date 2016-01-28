@@ -318,7 +318,7 @@ void BlinkIcon(MCONTACT hContact, HICON hIcon, TCHAR *stzText)
 	cle.hIcon = hIcon;
 	cle.pszService = "UserOnline/Description";
 	cle.ptszTooltip = stzText;
-	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+	pcli->pfnAddEvent(&cle);
 }
 
 void PlayChangeSound(MCONTACT hContact, const char *name)

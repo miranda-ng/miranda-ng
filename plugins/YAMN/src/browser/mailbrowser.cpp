@@ -645,7 +645,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			evt.lParam = ActualAccount->hContact;
 			evt.pszService = MS_YAMN_CLISTDBLCLICK;
 			evt.pszTooltip = sMsg;
-			CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&evt);
+			pcli->pfnAddEvent(&evt);
 		}
 		db_set_s(ActualAccount->hContact, "CList", "StatusMsg", sMsg);
 
@@ -687,9 +687,8 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 	}
 
 	//and remove the event
-	if ((nflags & YAMN_ACC_CONT) && (!(nflags & YAMN_ACC_CONTNOEVENT)) && (MN->Real.UnSeen + MN->Virtual.UnSeen == 0)) {
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ActualAccount->hContact, (LPARAM)ActualAccount->hContact);
-	}
+	if ((nflags & YAMN_ACC_CONT) && (!(nflags & YAMN_ACC_CONTNOEVENT)) && (MN->Real.UnSeen + MN->Virtual.UnSeen == 0))
+		pcli->pfnRemoveEvent(ActualAccount->hContact, ActualAccount->hContact);
 
 	if ((MN->Real.BrowserUC + MN->Virtual.BrowserUC == 0) && (hDlg != NULL)) {
 		if (!IsWindowVisible(hDlg) && !(nflags & YAMN_ACC_MSG))
@@ -864,9 +863,8 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 					DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 			#endif
 			}
-			if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)) {
-				CallService(MS_CLIST_REMOVEEVENT, hContact, hContact);
-			}
+			if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT))
+				pcli->pfnRemoveEvent(hContact, hContact);
 		}
 		// fall through
 	case WM_CONTEXTMENU:
@@ -1709,7 +1707,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			SetTimer(hDlg, TIMER_FLASHING, 500, NULL);
 
 			if (ActualAccount->hContact != NULL)
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ActualAccount->hContact, (LPARAM)"yamn new mail message");
+				pcli->pfnRemoveEvent(ActualAccount->hContact, (LPARAM)"yamn new mail message");
 
 			mir_subclassWindow(GetDlgItem(hDlg, IDC_LISTMAILS), ListViewSubclassProc);
 		}

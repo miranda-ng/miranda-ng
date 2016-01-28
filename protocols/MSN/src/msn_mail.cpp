@@ -282,21 +282,21 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact) {
-		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+		pcli->pfnRemoveEvent(hContact, 1);
 		displayEmailCount(hContact);
 
 		if (ShowPopup && !getByte("DisableHotmailTray", 1)) {
+			char buf[64];
+			mir_snprintf(buf, "%s%s", m_szModuleName, MS_GOTO_INBOX);
+
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT | CLEF_TCHAR;
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.ptszTooltip = tBuffer2;
-			char buf[64];
-			mir_snprintf(buf, "%s%s", m_szModuleName, MS_GOTO_INBOX);
 			cle.pszService = buf;
-
-			CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
+			pcli->pfnAddEvent(&cle);
 		}
 	}
 

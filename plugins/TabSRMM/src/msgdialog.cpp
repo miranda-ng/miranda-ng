@@ -295,7 +295,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 	if (dat->dwFlagsEx & MWF_SHOW_FLASHCLIST) {
 		dat->dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
 		if (dat->hFlashingEvent != 0)
-			CallService(MS_CLIST_REMOVEEVENT, dat->hContact, (LPARAM)dat->hFlashingEvent);
+			pcli->pfnRemoveEvent(dat->hContact, dat->hFlashingEvent);
 		dat->hFlashingEvent = 0;
 	}
 	dat->pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;

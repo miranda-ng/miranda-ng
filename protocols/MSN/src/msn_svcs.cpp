@@ -393,7 +393,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 	else {
 		char szEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(hContact, szEmail))
-			CallService(MS_CLIST_REMOVEEVENT, hContact, 1);
+			pcli->pfnRemoveEvent(hContact, 1);
 
 		if (szEmail[0]) {
 			debugLogA("Deleted Handler Email");

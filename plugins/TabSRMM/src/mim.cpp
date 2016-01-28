@@ -425,7 +425,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
+	pcli->pfnRemoveEvent(hContact, 1);
 
 	bool bAllowAutoCreate = false;
 	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);

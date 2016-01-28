@@ -166,14 +166,14 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
-			CallServiceSync("BuddyExpectator/actionReturned", (WPARAM)PUGetContact(hWnd), 0);
+			pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
+			CallServiceSync("BuddyExpectator/actionReturned", PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
+		pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
 		setLastSeen(PUGetContact(hWnd));
 		PUDeletePopup(hWnd);
 		break;
@@ -191,14 +191,14 @@ LRESULT CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
+			pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionStillAbsent", (WPARAM)PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)PUGetContact(hWnd), 0);
+		pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -288,8 +288,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 		TCHAR tmpMsg[512];
 		mir_sntprintf(tmpMsg, _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
-
-		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
 	}
 }
 
@@ -327,8 +326,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 		mir_sntprintf(tmpMsg, _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
 		cle.flags = CLEF_TCHAR;
-
-		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
 	}
 }
 

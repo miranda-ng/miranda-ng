@@ -202,8 +202,8 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	if (dat->iTabID >= 0) {
 		if (db_get_w(si->hContact, si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
-		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (pcli->pfnGetEvent(si->hContact, 0))
+			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 		SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
 		dat->dwTickLastEvent = 0;
@@ -2265,8 +2265,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case SESSION_TERMINATE:
-			if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(si->hContact, 0))
+				pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 			si->wState &= ~STATE_TALK;
 			dat->bWasDeleted = 1;
@@ -3422,8 +3422,9 @@ LABEL_SHOWWINDOW:
 	case WM_DESTROY:
 		if (si == NULL)
 			break;
-		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, si->hContact, GC_FAKE_EVENT);
+
+		if (pcli->pfnGetEvent(si->hContact, 0))
+			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 		si->wState &= ~STATE_TALK;
 		si->hWnd = NULL;
 		si->dat = NULL;

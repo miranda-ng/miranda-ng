@@ -28,6 +28,7 @@
 #include "Version.h"
 #include "inbox.h"
 
+CLIST_INTERFACE *pcli;
 int   hLangpack;
 HICON g_hPopupIcon = 0;
 
@@ -79,6 +80,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	WNDCLASS cls = { 0 };
 	cls.lpfnWndProc = WndProc;

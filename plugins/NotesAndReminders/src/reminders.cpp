@@ -180,21 +180,14 @@ static REMINDERDATA* FindReminder(DWORD uid)
 
 static void RemoveReminderSystemEvent(REMINDERDATA *p)
 {
-	if (p->SystemEventQueued)
-	{
-		int i;
-
-		for (i=0; ; i++)
-		{
-			CLISTEVENT *pev = (CLISTEVENT*) CallService(MS_CLIST_GETEVENT,(WPARAM)INVALID_HANDLE_VALUE,i);
+	if (p->SystemEventQueued) {
+		for (int i = 0; ; i++) {
+			CLISTEVENT *pev = pcli->pfnGetEvent(-1, i);
 			if (!pev)
 				break;
 
-			if ((ULONG)pev->lParam == p->uid && !pev->hContact
-				&& pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder"))
-			{
-				if ( !CallService(MS_CLIST_REMOVEEVENT,(WPARAM)pev->hContact,(LPARAM)pev->hDbEvent) )
-				{
+			if ((ULONG)pev->lParam == p->uid && !pev->hContact && pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder")) {
+				if (!pcli->pfnRemoveEvent(pev->hContact, pev->hDbEvent)) {
 					p->SystemEventQueued = FALSE;
 					if (QueuedReminderCount)
 						QueuedReminderCount--;
@@ -694,7 +687,7 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 		ev.lParam = (LPARAM)pReminder->uid;
 		ev.pszService = MODULENAME"/OpenTriggeredReminder";
 		ev.pszTooltip = Translate("Reminder");
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&ev);
+		pcli->pfnAddEvent(&ev);
 	}
 
 	pReminder->SystemEventQueued = TRUE;

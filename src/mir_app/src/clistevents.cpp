@@ -376,11 +376,6 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 
 /***************************************************************************************/
 
-INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC", wParam, lParam); }
-INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam) == NULL; }
-INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent(wParam, lParam); }
-INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent(wParam, (int)lParam); }
-
 int InitCListEvents(void)
 {
 	memset(&cli.events, 0, sizeof(cli.events));
@@ -388,10 +383,6 @@ int InitCListEvents(void)
 
 	disableTrayFlash = db_get_b(NULL, "CList", "DisableTrayFlash", 0);
 	disableIconFlash = db_get_b(NULL, "CList", "NoIconBlink", 0);
-	CreateServiceFunction(MS_CLIST_ADDEVENT, AddEventSyncStub); //need to be called through sync to keep flash timer workable
-	CreateServiceFunction(MS_CLIST_ADDEVENT"_SYNC", AddEventStub);
-	CreateServiceFunction(MS_CLIST_REMOVEEVENT, RemoveEventStub);
-	CreateServiceFunction(MS_CLIST_GETEVENT, GetEventStub);
 	HookEvent(ME_DB_CONTACT_DELETED, RemoveEventsForContact);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	return 0;

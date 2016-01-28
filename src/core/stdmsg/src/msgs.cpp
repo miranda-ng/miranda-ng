@@ -58,7 +58,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
+	pcli->pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (hwnd) {

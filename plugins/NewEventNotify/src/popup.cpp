@@ -85,7 +85,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 					return 0;
 
 				for (int idx = 0;; idx++) {
-					CLISTEVENT *cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, (WPARAM)pdata->hContact, idx);
+					CLISTEVENT *cle = pcli->pfnGetEvent(pdata->hContact, idx);
 					if (cle == NULL)
 						break;
 
@@ -104,7 +104,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 			EVENT_DATA_EX *eventData = pdata->firstEventData;
 			pdata->iLock = 1;
 			while (eventData) {
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)pdata->hContact, (LPARAM)eventData->hEvent);
+				pcli->pfnRemoveEvent(pdata->hContact, eventData->hEvent);
 				db_event_markRead(pdata->hContact, eventData->hEvent);			
 				eventData = eventData->next;
 			}		

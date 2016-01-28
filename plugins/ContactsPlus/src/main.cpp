@@ -83,7 +83,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		cle.pszService = MS_CONTACTS_RECEIVE;
 		cle.ptszTooltip = caToolTip;
 		cle.flags |= CLEF_UNICODE;
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
 	}
 	return 0; //continue processing by other hooks
 }

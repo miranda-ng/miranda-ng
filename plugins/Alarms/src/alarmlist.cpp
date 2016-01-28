@@ -559,7 +559,7 @@ void DoAlarm(ALARM *alarm)
 			cle.hIcon = hIconSystray;
 			cle.ptszTooltip = alarm->szTitle;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+			pcli->pfnAddEvent(&cle);
 		}
 	}
 }

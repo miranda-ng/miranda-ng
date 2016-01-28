@@ -71,7 +71,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_COMMAND:
 	{
 		PUDeletePopup(hWnd);
-		CallService(MS_CLIST_REMOVEEVENT, hContact, 0);
+		pcli->pfnRemoveEvent(hContact, 0);
 
 		if (IsWindow(hDlg))
 		{
@@ -469,7 +469,7 @@ void FILEECHO::incomeRequest(char *param)
 		cle.flags = CLEF_URGENT;
 		cle.hDbEvent = 0;
 		cle.pszService = SERVICE_NAME "/FERecvFile";
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
 
 		MakePopupMsg(hDlg, hContact, "Incoming file...");
 	}
@@ -546,7 +546,7 @@ void FILEECHO::onRecvTimer()
 		if (db_get_b(NULL, "SRFile", "AutoClose", 0))
 		{
 			PostMessage(hDlg, WM_CLOSE, 0, 0);
-			CallService(MS_CLIST_REMOVEEVENT, hContact, 0);
+			pcli->pfnRemoveEvent(hContact, 0);
 		}
 		SkinPlaySound("FileDone");
 		destroyTransfer();
