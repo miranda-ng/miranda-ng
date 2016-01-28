@@ -241,7 +241,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 				cle.pszService = szServiceFunction;
 				cle.ptszTooltip = szToolTip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				pcli->pfnAddEvent(&cle);
 			}
 		}
 	}
@@ -264,7 +264,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				cle.hIcon = (HICON)LoadImage(ssSMSSettings.hInstance, MAKEINTRESOURCE(iIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 				cle.pszService = szServiceFunction;
 				cle.ptszTooltip = szToolTip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				pcli->pfnAddEvent(&cle);
 			}
 		}
 	}

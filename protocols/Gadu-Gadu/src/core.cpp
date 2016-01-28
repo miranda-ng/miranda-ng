@@ -1017,7 +1017,7 @@ retry:
 						cle.lParam = (LPARAM)img;
 						cle.pszService = service;
 						cle.pszTooltip = Translate("Incoming image");
-						CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+						pcli->pfnAddEvent(&cle);
 						ReleaseIconEx("image", FALSE);
 					}
 				}

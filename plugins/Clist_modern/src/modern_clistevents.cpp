@@ -497,7 +497,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
 						if (cle1 != NULL)
-							CallService(MS_CLIST_REMOVEEVENT, (WPARAM)cle->hContact, (LPARAM)cle->hDbEvent);
+							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
 			}

@@ -358,8 +358,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	char szService[MAX_PATH];
 	mir_snprintf(szService, "%s/Audio/Ring", GetContactProto(hContact));
 	cle.pszService = szService;
-
-	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+	pcli->pfnAddEvent(&cle);
 
 	return hEvent;
 }

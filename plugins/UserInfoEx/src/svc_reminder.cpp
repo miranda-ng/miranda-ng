@@ -335,8 +335,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	// pszService = "dummy" get 'service not fount' and continue;
 	cle.pszService = "dummy";
 	cle.lParam = NULL;
-
-	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+	pcli->pfnAddEvent(&cle);
 }
 
 /**

@@ -683,10 +683,10 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	MCONTACT hMContact = db_mc_tryMeta(hContact);
 	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL) {
 		db_event_markRead(hContact, hDBEvent);
-		int res1 = CallService(MS_CLIST_REMOVEEVENT, hMContact, hDBEvent);
+		int res1 = pcli->pfnRemoveEvent(hMContact, hDBEvent);
 		int res2 = 2;
 		if (hContact != hMContact)
-			res2 = CallService(MS_CLIST_REMOVEEVENT, hContact, hDBEvent);
+			res2 = pcli->pfnRemoveEvent(hContact, hDBEvent);
 		debugLogA("CVkProto::MarkDialogAsRead [1] result = (%d, %d), hDbEvent = %d", res1, res2, (int)hDBEvent);
 	}
 }

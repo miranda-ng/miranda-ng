@@ -125,49 +125,6 @@ const
   CLEF_UNICODE        = 4; // set pszTooltip as unicode
   CLEF_PROTOCOLGLOBAL = 8; // set event globally for protocol, hContact has to
                            // be NULL, lpszProtocol the protocol ID name to be set
-  {
-    wParam : 0
-    lParam : Pointer to a TCLISTEVENT
-    Affect : Add's an event to the list
-    Notes  : The service will flash TCLISTEVENT.hIcon, next to the
-             contact, TCLISTEVENT.hContact
-             -
-             pszService is called is called wParam=hwndContactList,
-             lParam=pointer to a TCLISTEVENT.
-             -
-             the TCLISTEVENT data is invalidated after this service returns
-             so copy anything from it if required.
-             -
-             TCLISTEVENT.pszService will also be called if the user
-             double clicks on the icon, at which point it will be removed
-             from the contact lists queue automatically.
-             -
-             TCLISTEVENT.hContact and TCLISTEVENT.hDBEvent should be unique.
-  }
-  MS_CLIST_ADDEVENT:PAnsiChar = 'CList/AddEvent';
-
-  {
-    wParam : TMCONTACT
-    lParam : TMEVENT
-    Affect : Remove an event from the contact list queue
-    Returns: 0 on success, [non zero] on failure
-  }
-  MS_CLIST_REMOVEEVENT:PAnsiChar = 'Clist/RemoveEvent';
-
-  {
-    wParam : TMCONTACT
-    lParam : iEvent
-    Affect : Get the details of an event in the queue, see notes
-    Returns: A CLISTEVENT* or NULL(0) on failure
-    Notes  : Returns the iEvent'1st/2nd/3rd/nth elemented queried,
-             e.g. iEvent=0 will get the event that will be returned if the
-             user double clicks on that TMCONTACT
-             -
-             Use TMCONTACT=NULL, iEvent=0 for example to get the event
-             the user will get if they double click on the tray.
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_GETEVENT:PAnsiChar = 'CList/GetEvent';
 
   {
     wParam : ControlID

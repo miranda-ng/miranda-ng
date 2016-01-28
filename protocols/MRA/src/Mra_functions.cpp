@@ -670,7 +670,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 				memcpy(pszServiceFunctionName, MRA_GOTO_INBOX, sizeof(MRA_GOTO_INBOX));
 				cle.pszService = szServiceFunction;
 			}
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+			pcli->pfnAddEvent(&cle);
 		}
 
 		SkinPlaySound(szNewMailSound);
@@ -683,7 +683,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 	else {
 		if ( !force_display && getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY)) {
 			if (bTrayIconNewMailNotify)
-				CallService(MS_CLIST_REMOVEEVENT, 0, (LPARAM)m_szModuleName);
+				pcli->pfnRemoveEvent(0, (LPARAM)m_szModuleName);
 			PUDeletePopup(hWndEMailPopupStatus);
 			hWndEMailPopupStatus = NULL;
 		}

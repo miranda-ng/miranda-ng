@@ -1,5 +1,6 @@
 #include "globals.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hinstance = NULL;
 HINSTANCE hmiranda = NULL;
 int hLangpack;
@@ -299,6 +300,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 	hmiranda = GetModuleHandle(NULL);
 
 	INITCOMMONCONTROLSEX ctrls = {0};

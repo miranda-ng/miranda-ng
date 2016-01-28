@@ -27,9 +27,9 @@ HANDLE hAccountFolder;
 HINSTANCE *hDllPlugins;
 static int iDllPlugins = 0;
 
-
 YAMN_VARIABLES YAMNVar;
 
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -369,6 +369,9 @@ static void UnloadPlugins()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 #ifdef _DEBUG
 	UnInitDebug();
 #endif

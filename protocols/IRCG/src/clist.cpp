@@ -73,9 +73,9 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.ptszTooltip = szNick;
 		cle.lParam = (LPARAM)pdci;
 
-		if (CallService(MS_CLIST_GETEVENT, hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, hContact, -100);
-		CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
+		if (pcli->pfnGetEvent(hContact, 0))
+			pcli->pfnRemoveEvent(hContact, -100);
+		pcli->pfnAddEvent(&cle);
 	}
 	return TRUE;
 }

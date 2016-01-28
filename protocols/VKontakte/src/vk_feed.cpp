@@ -87,8 +87,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	TCHAR toolTip[255];
 	mir_sntprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.ptszTooltip = toolTip;
-
-	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+	pcli->pfnAddEvent(&cle);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

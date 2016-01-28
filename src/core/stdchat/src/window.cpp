@@ -1734,8 +1734,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (s->wState & GC_EVENT_HIGHLIGHT) {
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 
-						if (CallService(MS_CLIST_GETEVENT, (WPARAM)s->hContact, 0))
-							CallService(MS_CLIST_REMOVEEVENT, (WPARAM)s->hContact, (LPARAM)GC_FAKE_EVENT);
+						if (pcli->pfnGetEvent(s->hContact, 0))
+							pcli->pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
 					}
 
 					SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s);
@@ -1914,8 +1914,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				db_set_dw(si->hContact, CHAT_MODULE, "roomwidth", si->iWidth);
 				db_set_dw(si->hContact, CHAT_MODULE, "roomheight", si->iHeight);
 			}
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(si->hContact, 0))
+				pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 			si->wState &= ~STATE_TALK;
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
@@ -2087,8 +2087,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				FlashWindow(hwndDlg, FALSE);
 			if (db_get_w(si->hContact, si->pszModule, "ApparentMode", 0) != 0)
 				db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)0);
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(si->hContact, 0))
+				pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 		}
 		break;
 

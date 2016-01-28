@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadSendRecvAuthModule(void);
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -56,6 +57,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAUTH
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	LoadSendRecvAuthModule();
 	return 0;

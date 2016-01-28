@@ -1336,8 +1336,8 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		if (si->wState & GC_EVENT_HIGHLIGHT) {
 			si->wState &= ~GC_EVENT_HIGHLIGHT;
 
-			if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(si->hContact, 0))
+				pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 		}
 
 		SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
@@ -1464,8 +1464,8 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			return TRUE;
 
 		case SESSION_TERMINATE:
-			if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(si->hContact, 0))
+				pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 			si->wState &= ~STATE_TALK;
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
@@ -1584,8 +1584,8 @@ LABEL_SHOWWINDOW:
 
 		if (db_get_w(si->hContact, si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
-		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (pcli->pfnGetEvent(si->hContact, 0))
+			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 		break;
 
 	case WM_NOTIFY:

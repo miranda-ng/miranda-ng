@@ -161,7 +161,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_HOTKEY:
 		{
-			CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
+			CLISTEVENT *cli = pcli->pfnGetEvent(-1, 0);
 			if (cli != NULL) {
 				if (strncmp(cli->pszService, "SRMsg/TypingMessage", mir_strlen(cli->pszService))) {
 					CallService(cli->pszService, 0, (LPARAM)cli);
@@ -355,11 +355,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (lParam == 0)
 			HandleMenuEntryFromhContact(wParam);
 		else {
-			CLISTEVENT *cle = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, wParam, 0);
+			CLISTEVENT *cle = pcli->pfnGetEvent(wParam, 0);
 			if (cle) {
 				if (ServiceExists(cle->pszService)) {
 					CallService(cle->pszService, 0, (LPARAM)cle);
-					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)cle->hContact, (LPARAM)cle->hDbEvent);
+					pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 				}
 			}
 			// still, we got that message posted.. the event may be waiting in tabSRMMs tray...
@@ -419,7 +419,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		// sent from the popup to "dismiss" the event. we should do this in the main thread
 	case DM_REMOVECLISTEVENT:
-		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
+		pcli->pfnRemoveEvent(wParam, lParam);
 		db_event_markRead(wParam, lParam);
 		return 0;
 

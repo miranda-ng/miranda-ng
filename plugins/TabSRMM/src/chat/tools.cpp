@@ -46,8 +46,8 @@ static void __stdcall Chat_DismissPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
 	if (si->hContact)
-		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
-			CallServiceSync(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (pcli->pfnGetEvent(si->hContact, 0))
+			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 		FlashWindow(si->hWnd, FALSE);

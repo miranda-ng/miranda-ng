@@ -47,7 +47,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		 int lastEvent = (int)db_get_dw(hContact, "UserOnline", "LastEvent", 0);
 
        if (lastEvent) {
-           CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)lastEvent);
+			 pcli->pfnRemoveEvent(hContact, lastEvent);
 			  db_set_dw(hContact, "UserOnline", "LastEvent", 0);
        }
     }
@@ -67,7 +67,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
 				cle.ptszTooltip = tooltip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				pcli->pfnAddEvent(&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
                 db_set_dw(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
 				SkinPlaySound("UserOnline");

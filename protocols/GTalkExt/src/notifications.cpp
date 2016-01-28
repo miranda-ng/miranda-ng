@@ -70,13 +70,13 @@ void MarkEventRead(MCONTACT hCnt, MEVENT hEvt)
 		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
 		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
 		db_event_markRead(hCnt, hEvt) != -1)
-		CallService(MS_CLIST_REMOVEEVENT, hCnt, hEvt);
+		pcli->pfnRemoveEvent(hCnt, hEvt);
 }
 
 int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
 {
 	if (db_get_b((MCONTACT)hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-		CallService(MS_CLIST_REMOVEEVENT, hContact, hDbEvent);
+		pcli->pfnRemoveEvent(hContact, hDbEvent);
 		PostMessage((HWND)wnd, EVENT_DELETED_MSG, hContact, hDbEvent);
 	}
 
@@ -116,7 +116,7 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
 			ReadNotificationSettings(acc);
 			MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
+			pcli->pfnRemoveEvent(ppdh->hContact, ppdh->hDbEvent);
 		}
 		RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
 		free(ppdh);
