@@ -48,15 +48,6 @@ void EventArea_ConfigureEventArea();
 
 HWND g_hwndEventArea = 0;
 
-struct CListEvent {
-	int imlIconIndex;
-	int flashesDone;
-	CLISTEVENT cle;
-
-	int menuId;
-	int imlIconOverlayIndex;
-};
-
 static CListEvent *event;
 static int eventCount;
 static int disableTrayFlash;
@@ -86,7 +77,7 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 	for (int i = 0; i < pcli->events.count; i++) {
 		CListEvent *p = pcli->events.items[i];
 		if (p->menuId == iSelection)
-			return &p->cle;
+			return p;
 	}
 	return NULL;
 }
@@ -104,31 +95,31 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 	if (p == NULL)
 		return NULL;
 
-	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+	if (p->hContact != 0 && p->hDbEvent != 1 && !(p->flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
-		if (p->cle.pszService &&
-			(!strncmp("SRMsg/ReadMessage", p->cle.pszService, _countof("SRMsg/ReadMessage")) ||
-			!strncmp("GChat/DblClickEvent", p->cle.pszService, _countof("GChat/DblClickEvent"))))
+		if (p->pszService &&
+			(!strncmp("SRMsg/ReadMessage", p->pszService, _countof("SRMsg/ReadMessage")) ||
+			!strncmp("GChat/DblClickEvent", p->pszService, _countof("GChat/DblClickEvent"))))
 		{
 			// dup check only for msg events
 			for (int j = 0; j < GetMenuItemCount(g_CluiData.hMenuNotify); j++) {
 				if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) != 0) {
 					NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->cle.hContact && nmi->iIcon == p->imlIconIndex)
+					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
 						return p;
 				}
 			}
 		}
 
-		char *szProto = GetContactProto(p->cle.hContact);
-		TCHAR *szName = pcli->pfnGetContactDisplayName(p->cle.hContact, 0);
+		char *szProto = GetContactProto(p->hContact);
+		TCHAR *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
 			if (nmi) {
 				TCHAR szBuffer[128];
-				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 				TCHAR szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
@@ -136,10 +127,10 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 				szBuffer[127] = 0;
 				AppendMenu(g_CluiData.hMenuNotify, MF_BYCOMMAND | MF_STRING, g_CluiData.wNextMenuID, szBuffer);
 				mii.hbmpItem = HBMMENU_CALLBACK;
-				nmi->hContact = p->cle.hContact;
+				nmi->hContact = p->hContact;
 				nmi->iIcon = p->imlIconIndex;
-				nmi->hIcon = p->cle.hIcon;
-				nmi->hDbEvent = p->cle.hDbEvent;
+				nmi->hIcon = p->hIcon;
+				nmi->hDbEvent = p->hDbEvent;
 				mii.dwItemData = (ULONG_PTR)nmi;
 				mii.wID = g_CluiData.wNextMenuID;
 				SetMenuItemInfo(g_CluiData.hMenuNotify, g_CluiData.wNextMenuID, FALSE, &mii);
@@ -151,9 +142,9 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			}
 		}
 	}
-	else if (p->cle.hContact != 0 && (p->cle.flags & CLEF_ONLYAFEW)) {
+	else if (p->hContact != 0 && (p->flags & CLEF_ONLYAFEW)) {
 		g_CluiData.iIconNotify = p->imlIconIndex;
-		g_CluiData.hUpdateContact = p->cle.hContact;
+		g_CluiData.hUpdateContact = p->hContact;
 	}
 
 	if (pcli->events.count > 0) {
@@ -174,7 +165,7 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	// Find the event that should be removed
 	int i;
 	for (i = 0; i < pcli->events.count; i++)
-		if ((pcli->events.items[i]->cle.hContact == hContact) && (pcli->events.items[i]->cle.hDbEvent == hDbEvent))
+		if ((pcli->events.items[i]->hContact == hContact) && (pcli->events.items[i]->hDbEvent == hDbEvent))
 			break;
 
 	// Event was not found

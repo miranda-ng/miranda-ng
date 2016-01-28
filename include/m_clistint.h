@@ -165,9 +165,17 @@ struct ClcDataBase
 	int filterSearch;
 };
 
+struct CListEvent : public CLISTEVENT
+{
+	int imlIconIndex;
+	int flashesDone;
+
+	int menuId;
+	int imlIconOverlayIndex;
+};
+
 struct ClcContact;
 struct ClcData;
-struct CListEvent;
 struct ClcCacheEntry;
 
 struct trayIconInfo_t
