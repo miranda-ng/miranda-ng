@@ -527,12 +527,20 @@ int CGlobals::OkToExit(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // used on startup to restore flashing tray icon if one or more messages are still "unread"
 
+struct MSavedEvent
+{
+	MSavedEvent(MCONTACT _hContact, MEVENT _hEvent) :
+		hContact(_hContact),
+		hEvent(_hEvent)
+	{}
+
+	MEVENT   hEvent;
+	MCONTACT hContact;
+};
+
 void CGlobals::RestoreUnreadMessageAlerts(void)
 {
-	CLISTEVENT cle = { sizeof(cle) };
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = "SRMsg/ReadMessage";
-	cle.flags = CLEF_TCHAR;
+	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, "SendLater", "count", 0))
@@ -545,15 +553,25 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				if (M.FindWindow(hContact) != NULL)
 					continue;
 
-				cle.hContact = hContact;
-				cle.hDbEvent = hDbEvent;
-
-				TCHAR toolTip[256];
-				mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-				cle.ptszTooltip = toolTip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}
 		}
+	}
+	TCHAR toolTip[256];
+
+	CLISTEVENT cle = {};
+	cle.cbSize = sizeof(cle);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	cle.pszService = "SRMsg/ReadMessage";
+	cle.flags = CLEF_TCHAR;
+	cle.ptszTooltip = toolTip;
+
+	for (int i = 0; i < arEvents.getCount(); i++) {
+		MSavedEvent &e = arEvents[i];
+		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
+		cle.hContact = e.hContact;
+		cle.hDbEvent = e.hEvent;
+		pcli->pfnAddEvent(&cle);
 	}
 }
 

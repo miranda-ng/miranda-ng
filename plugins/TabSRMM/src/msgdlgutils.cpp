@@ -772,13 +772,14 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 		return;
 
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
-		CLISTEVENT cle = { 0 };
+		CLISTEVENT cle = {};
 		cle.cbSize = sizeof(cle);
 		cle.hContact = (MCONTACT)dat->hContact;
 		cle.hDbEvent = hEvent;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
+
 		dat->dwFlagsEx |= MWF_SHOW_FLASHCLIST;
 		dat->hFlashingEvent = hEvent;
 	}
