@@ -255,13 +255,24 @@ static int core_GetFullPath(lua_State *L)
 	return 1;
 }
 
-
 struct core_ForkThreadParam
 {
 	lua_State *L;
 	int threadRef;
 	int functionRef;
+	HANDLE hThread;
 };
+
+std::map<HANDLE, core_ForkThreadParam*> lstThreads;
+
+void DestroyThread(core_ForkThreadParam *ftp)
+{
+	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->functionRef);
+	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->threadRef);
+	lstThreads.erase(ftp->hThread);
+
+	delete ftp;
+}
 
 void __cdecl ThreadFunc(void *p)
 {
@@ -269,29 +280,34 @@ void __cdecl ThreadFunc(void *p)
 
 	lua_rawgeti(ftp->L, LUA_REGISTRYINDEX, ftp->functionRef);
 	luaM_pcall(ftp->L, 0, 1);
-
-	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->functionRef);
-	luaL_unref(ftp->L, LUA_REGISTRYINDEX, ftp->threadRef);
-	delete ftp;
+	DestroyThread(ftp);
 }
 
 static int core_ForkThread(lua_State *L)
 {
 	core_ForkThreadParam *p = new core_ForkThreadParam();
+
 	p->L = lua_newthread(L);
 	p->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	lua_pushvalue(L, 1);
 	p->functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
-	HANDLE hThread = mir_forkthread(ThreadFunc, p);
-	lua_pushnumber(L, (intptr_t)hThread);
+
+	p->hThread = mir_forkthread(ThreadFunc, p);
+	lstThreads[p->hThread] = p;
+	lua_pushnumber(L, (intptr_t)p->hThread);
 	return 1;
 }
 
 static int core_TerminateThread(lua_State *L)
 {
 	HANDLE hThread = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	BOOL res = TerminateThread(hThread, 0);
-	lua_pushboolean(L, res);
+	auto it = lstThreads.find(hThread);
+	if (it != lstThreads.end())
+	{
+		DestroyThread(it->second);
+		lua_pushboolean(L, TerminateThread(hThread, 0));
+	}
+	else lua_pushboolean(L, 0);
 	return 1;
 }
 
