@@ -171,7 +171,6 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnGetRowByIndex = cliGetRowByIndex;
 	pcli->pfnGetRowsPriorTo = cliGetRowsPriorTo;
 	pcli->pfnGetGroupContentsCount = cliGetGroupContentsCount;
-	pcli->pfnCreateEvent = cliCreateEvent;
 	pcli->pfnFindRowByText = cliFindRowByText;
 
 	//partialy overloaded - call default handlers from inside

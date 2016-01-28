@@ -45,15 +45,6 @@ extern HIMAGELIST hCListImages;
 
 HANDLE hNotifyFrame = (HANDLE)-1;
 
-CListEvent* fnCreateEvent(void)
-{
-	CListEvent *p = reinterpret_cast<CListEvent *>(mir_alloc(sizeof(CListEvent)));
-	if (p)
-		memset(p, 0, sizeof(CListEvent));
-
-	return p;
-}
-
 void HideShowNotifyFrame()
 {
 	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;

@@ -135,10 +135,8 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnRowHitTest                      = fnRowHitTest;
 
 		cli.pfnAddEvent                        = fnAddEvent;
-		cli.pfnCreateEvent                     = fnCreateEvent;
 		cli.pfnEventsProcessContactDoubleClick = fnEventsProcessContactDoubleClick;
 		cli.pfnEventsProcessTrayDoubleClick	   = fnEventsProcessTrayDoubleClick;
-		cli.pfnFreeEvent                       = fnFreeEvent;
 		cli.pfnGetEvent                        = fnGetEvent;
 		cli.pfnGetImlIconIndex                 = fnGetImlIconIndex;
 		cli.pfnRemoveEvent                     = fnRemoveEvent;

@@ -412,9 +412,6 @@ struct CLIST_INTERFACE
 
 	EventList events;
 
-	struct CListEvent* (*pfnCreateEvent)(void);
-	void  (*pfnFreeEvent)(struct CListEvent*);
-
 	struct CListEvent* (*pfnAddEvent)(CLISTEVENT*);
 	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);
 

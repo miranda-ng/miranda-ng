@@ -454,9 +454,6 @@ type
 
     events : TEventList;
 
-    pfnCreateEvent : function :PCListEvent; cdecl;
-    pfnFreeEvent   : procedure (_para1:PCListEvent); cdecl;
-
     pfnAddEvent : function (_para1:PCLISTEVENT):PCListEvent; cdecl;
     pfnGetEvent : function (hContact:TMCONTACT; idx:int):PCLISTEVENT; cdecl;
 
