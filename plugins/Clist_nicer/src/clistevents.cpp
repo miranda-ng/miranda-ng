@@ -34,16 +34,6 @@ extern HPEN g_hPenCLUIFrames;
 
 HWND g_hwndEventArea = 0;
 
-struct CListEvent
-{
-	int imlIconIndex;
-	int flashesDone;
-	CLISTEVENT cle;
-
-	int menuId;
-	int imlIconOverlayIndex;
-};
-
 struct CListImlIcon
 {
 	int index;
@@ -86,12 +76,10 @@ void HideShowNotifyFrame()
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	int i;
-
-	for (i = 0; i < pcli->events.count; i++) {
+	for (int i = 0; i < pcli->events.count; i++) {
 		CListEvent* p = pcli->events.items[i];
 		if (p->menuId == iSelection)
-			return &p->cle;
+			return p;
 	}
 	return NULL;
 }
@@ -260,28 +248,28 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 	if (p == NULL)
 		return NULL;
 
-	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+	if (p->hContact != 0 && p->hDbEvent != 1 && !(p->flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
-		if (p->cle.pszService && !strncmp("SRMsg/ReadMessage", p->cle.pszService, 17)) {
+		if (p->pszService && !strncmp("SRMsg/ReadMessage", p->pszService, 17)) {
 			// dup check only for msg events
 			for (int j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
 				if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {
 					NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)mii.dwItemData;
-					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->cle.hContact && nmi->iIcon == p->imlIconIndex)
+					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
 						return p;
 				}
 			}
 		}
 
-		char *szProto = GetContactProto(p->cle.hContact);
-		TCHAR *szName = pcli->pfnGetContactDisplayName(p->cle.hContact, 0);
+		char *szProto = GetContactProto(p->hContact);
+		TCHAR *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)malloc(sizeof(NotifyMenuItemExData));
 			if (nmi) {
 				TCHAR szBuffer[128];
-				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(cfg::getWord(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(cfg::getWord(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 				TCHAR szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
@@ -291,10 +279,10 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 				szBuffer[127] = 0;
 				AppendMenu(cfg::dat.hMenuNotify, MF_BYCOMMAND | MF_STRING, cfg::dat.wNextMenuID, szBuffer);
 				mii.hbmpItem = HBMMENU_CALLBACK;
-				nmi->hContact = p->cle.hContact;
+				nmi->hContact = p->hContact;
 				nmi->iIcon = p->imlIconIndex;
-				nmi->hIcon = p->cle.hIcon;
-				nmi->hDbEvent = p->cle.hDbEvent;
+				nmi->hIcon = p->hIcon;
+				nmi->hDbEvent = p->hDbEvent;
 				mii.dwItemData = (ULONG_PTR)nmi;
 				mii.wID = cfg::dat.wNextMenuID;
 				SetMenuItemInfo(cfg::dat.hMenuNotify, cfg::dat.wNextMenuID, FALSE, &mii);
@@ -306,16 +294,16 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 			}
 		}
 	}
-	else if (p->cle.hContact != 0 && (p->cle.flags & CLEF_ONLYAFEW)) {
+	else if (p->hContact != 0 && (p->flags & CLEF_ONLYAFEW)) {
 		cfg::dat.hIconNotify = p->imlIconIndex;
-		cfg::dat.hUpdateContact = p->cle.hContact;
+		cfg::dat.hUpdateContact = p->hContact;
 	}
 
 	if (cfg::dat.dwFlags & CLUI_STICKYEVENTS) {
-		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)p->cle.hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)p->hContact, 0);
 		if (hItem) {
 			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 1);
-			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM)p->cle.hContact, 0);
+			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM)p->hContact, 0);
 		}
 	}
 
@@ -340,7 +328,7 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	// Find the event that should be removed
 	int i;
 	for (i = 0; i < pcli->events.count; i++)
-		if ((pcli->events.items[i]->cle.hContact == hContact) && (pcli->events.items[i]->cle.hDbEvent == hDbEvent))
+		if ((pcli->events.items[i]->hContact == hContact) && (pcli->events.items[i]->hDbEvent == hDbEvent))
 			break;
 
 	// Event was not found
