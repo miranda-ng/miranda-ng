@@ -557,6 +557,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			}
 		}
 	}
+
 	TCHAR toolTip[256];
 
 	CLISTEVENT cle = {};

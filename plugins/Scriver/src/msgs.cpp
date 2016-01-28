@@ -131,7 +131,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		cle.pszService = "SRMsg/ReadMessage";
 		mir_sntprintf(toolTip, TranslateT("Message from %s"), contactName);
 		cle.ptszTooltip = toolTip;
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+		pcli->pfnAddEvent(&cle);
 	}
 	return 0;
 }
@@ -220,15 +220,17 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
 		}
 		else {
-			CLISTEVENT cle = { sizeof(cle) };
+			pcli->pfnRemoveEvent(hContact, 1);
+
+			CLISTEVENT cle = {};
+			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = GetCachedIcon("scriver_TYPING");
 			cle.pszService = "SRMsg/TypingMessage";
 			cle.ptszTooltip = szTip;
-			CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
-			CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
+			pcli->pfnAddEvent(&cle);
 		}
 	}
 	return 0;
@@ -251,42 +253,62 @@ static int ContactDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MSavedEvent
+{
+	MSavedEvent(MCONTACT _hContact, MEVENT _hEvent) :
+		hContact(_hContact),
+		hEvent(_hEvent)
+	{
+	}
+
+	MEVENT   hEvent;
+	MCONTACT hContact;
+};
+
 static void RestoreUnreadMessageAlerts(void)
 {
+	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
+
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = 0;
+			db_event_get(hDbEvent, &dbei);
+			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) || !DbEventIsMessageOrCustom(&dbei))
+				continue;
+
+			int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
+			if (windowAlreadyExists)
+				continue;
+
+			if (IsAutoPopup(hContact) && !windowAlreadyExists) {
+				NewMessageWindowLParam newData = { 0 };
+				newData.hContact = hContact;
+				newData.flags = NMWLP_INCOMING;
+				HWND hParent = GetParentWindow(newData.hContact, FALSE);
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
+			}
+			else arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+		}
+	}
+
 	TCHAR toolTip[256];
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
-
-	CLISTEVENT cle = { sizeof(cle) };
+	CLISTEVENT cle = {};
+	cle.cbSize = sizeof(cle);
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 	cle.ptszTooltip = toolTip;
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			dbei.cbBlob = 0;
-			db_event_get(hDbEvent, &dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && DbEventIsMessageOrCustom(&dbei)) {
-				int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
-				if (windowAlreadyExists)
-					continue;
-
-				if (IsAutoPopup(hContact) && !windowAlreadyExists) {
-					NewMessageWindowLParam newData = { 0 };
-					newData.hContact = hContact;
-					newData.flags = NMWLP_INCOMING;
-					HWND hParent = GetParentWindow(newData.hContact, FALSE);
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
-				}
-				else {
-					cle.hContact = hContact;
-					cle.hDbEvent = hDbEvent;
-					mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-				}
-			}
-		}
+	for (int i = 0; i < arEvents.getCount(); i++) {
+		MSavedEvent &e = arEvents[i];
+		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
+		cle.hContact = e.hContact;
+		cle.hDbEvent = e.hEvent;
+		pcli->pfnAddEvent(&cle);
 	}
 }
 
