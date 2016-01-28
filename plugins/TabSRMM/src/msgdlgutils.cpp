@@ -773,7 +773,6 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		CLISTEVENT cle = {};
-		cle.cbSize = sizeof(cle);
 		cle.hContact = (MCONTACT)dat->hContact;
 		cle.hDbEvent = hEvent;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);

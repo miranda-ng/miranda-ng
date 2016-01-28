@@ -561,7 +561,6 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	TCHAR toolTip[256];
 
 	CLISTEVENT cle = {};
-	cle.cbSize = sizeof(cle);
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;

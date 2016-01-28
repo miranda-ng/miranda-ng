@@ -88,14 +88,15 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	CLISTEVENT cle = { sizeof(cle) };
+	TCHAR toolTip[256];
+	mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+
+	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.hDbEvent = lParam;
 	cle.flags = CLEF_TCHAR;
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	TCHAR toolTip[256];
-	mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = toolTip;
 	pcli->pfnAddEvent(&cle);
 	return 0;
@@ -181,7 +182,6 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
-			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
@@ -274,7 +274,6 @@ static void RestoreUnreadMessageAlerts(void)
 	TCHAR toolTip[256];
 
 	CLISTEVENT cle = {};
-	cle.cbSize = sizeof(cle);
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;

@@ -344,8 +344,8 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 
 	MEVENT hEvent = AddEventToDb(hContact, DB_EVENT_CALL, pre->timestamp, DBEF_UTF, (PBYTE)pre->szMessage, mir_strlen(pre->szMessage));
 
-	CLISTEVENT cle = { sizeof(cle) };
-	cle.flags |= CLEF_TCHAR;
+	CLISTEVENT cle = {};
+	cle.flags = CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
 	cle.lParam = DB_EVENT_CALL;

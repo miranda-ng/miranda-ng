@@ -638,16 +638,14 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		char sMsg[250];
 		mir_snprintf(sMsg, Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
-			CLISTEVENT cEvent;
-			cEvent.cbSize = sizeof(CLISTEVENT);
-			cEvent.hContact = ActualAccount->hContact;
-			cEvent.hIcon = g_LoadIconEx(2);
-			cEvent.hDbEvent = ActualAccount->hContact;
-			cEvent.lParam = ActualAccount->hContact;
-			cEvent.pszService = MS_YAMN_CLISTDBLCLICK;
-			cEvent.pszTooltip = sMsg;
-			cEvent.flags = 0;
-			CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&cEvent);
+			CLISTEVENT evt = {};
+			evt.hContact = ActualAccount->hContact;
+			evt.hIcon = g_LoadIconEx(2);
+			evt.hDbEvent = ActualAccount->hContact;
+			evt.lParam = ActualAccount->hContact;
+			evt.pszService = MS_YAMN_CLISTDBLCLICK;
+			evt.pszTooltip = sMsg;
+			CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&evt);
 		}
 		db_set_s(ActualAccount->hContact, "CList", "StatusMsg", sMsg);
 

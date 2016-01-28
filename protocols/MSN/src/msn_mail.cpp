@@ -286,9 +286,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		displayEmailCount(hContact);
 
 		if (ShowPopup && !getByte("DisableHotmailTray", 1)) {
-			CLISTEVENT cle = { 0 };
-
-			cle.cbSize = sizeof(cle);
+			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT | CLEF_TCHAR;
