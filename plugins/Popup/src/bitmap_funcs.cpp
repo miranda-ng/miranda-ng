@@ -762,6 +762,11 @@ void MyBitmap::allocate(int w, int h)
 	width = w;
 	height = h;
 
+	if (dcBmp) {
+		DeleteObject(SelectObject(dcBmp, hBmpSave));
+		DeleteDC(dcBmp);
+	}
+
 	BITMAPINFO bi;
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = w;
@@ -769,11 +774,7 @@ void MyBitmap::allocate(int w, int h)
 	bi.bmiHeader.biPlanes = 1;
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
-
-	if (dcBmp) {
-		DeleteObject(SelectObject(dcBmp, hBmpSave));
-		DeleteDC(dcBmp);
-	}
+	bi.bmiColors[0].rgbRed = bi.bmiColors[0].rgbGreen =  bi.bmiColors[0].rgbBlue = bi.bmiColors[0].rgbReserved = 0;
 
 	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&bits, 0, 0);
 	dcBmp = CreateCompatibleDC(0);
