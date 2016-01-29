@@ -80,7 +80,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_INVALID_URL			10106	// Upload server returned empty URL
 #define VKERR_INVALID_USER			10107	// Invalid or unknown recipient user ID
 
-#define VK_API_VER "5.42"
+#define VK_API_VER "5.44"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 #define VK_FEED_USER 2147483647L
