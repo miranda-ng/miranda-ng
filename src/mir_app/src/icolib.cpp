@@ -232,8 +232,7 @@ int IconSourceItem::getIconData(HICON icon)
 	if (!GetIconInfo(icon, &iconInfo))
 		return 1; // Failure
 
-	int MonoInfoSize, ColorInfoSize;
-	int MonoBitsSize, ColorBitsSize;
+	int MonoInfoSize, ColorInfoSize, MonoBitsSize, ColorBitsSize;
 	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize)
 		|| InternalGetDIBSizes(iconInfo.hbmColor, &ColorInfoSize, &ColorBitsSize)) {
 		DeleteObject(iconInfo.hbmColor);
@@ -242,10 +241,10 @@ int IconSourceItem::getIconData(HICON icon)
 	}
 
 	mir_ptr<BYTE>
-		MonoInfo((BYTE*)mir_alloc(MonoInfoSize)),
-		MonoBits((BYTE*)mir_alloc(MonoBitsSize)),
-		ColorInfo((BYTE*)mir_alloc(ColorInfoSize)),
-		ColorBits((BYTE*)mir_alloc(ColorBitsSize));
+		MonoInfo((BYTE*)mir_calloc(MonoInfoSize)),
+		MonoBits((BYTE*)mir_calloc(MonoBitsSize)),
+		ColorInfo((BYTE*)mir_calloc(ColorInfoSize)),
+		ColorBits((BYTE*)mir_calloc(ColorBitsSize));
 
 	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits)
 		|| InternalGetDIB(iconInfo.hbmColor, 0, ColorInfo, ColorBits)) {
