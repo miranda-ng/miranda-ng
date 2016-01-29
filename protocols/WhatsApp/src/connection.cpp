@@ -64,9 +64,9 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			std::string password(passBin, passLen), resource = ACCOUNT_RESOURCE;
 			int portNumber;
 			if (getByte(WHATSAPP_KEY_SSL, 0))
-				portNumber = 443, resource += "-443";
+				portNumber = 443, resource += "";
 			else
-				portNumber = 5222, resource += "-5222";
+				portNumber = 5222, resource += "";
 
 			m_pSocket = new WASocketConnection("c.whatsapp.net", portNumber);
 			m_pConnection = new WAConnection(m_szPhoneNumber, resource, &connMutex, &writerMutex, m_pSocket, this, this);

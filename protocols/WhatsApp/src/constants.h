@@ -30,8 +30,8 @@
 #define ACCOUNT_URL_REGISTERREQUESTV2 "https://v.whatsapp.net/v2/register"
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
-// WhatsApp Samsung Galaxy S3
-#define ACCOUNT_RESOURCE  "iOS-2.12.12"
+// Empty resource as a workaround for not working login and to avoid encrypted messages
+#define ACCOUNT_RESOURCE  ""
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2
