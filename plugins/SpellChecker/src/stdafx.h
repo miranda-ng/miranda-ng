@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #define OEMRESOURCE
 
 #include <windows.h>
@@ -58,21 +58,7 @@ using namespace std;
 #include <../../utils/utf8_helpers.h>
 #include <../../utils/scope.h>
 
-#include "hunspell/affentry.hxx"
-#include "hunspell/config.h"
-#include "hunspell/hunspell.hxx"
-#include "hunspell/csutil.hxx"
-#include "hunspell/affixmgr.hxx"
-#include "hunspell/langnum.hxx"
-#include "hunspell/atypes.hxx"
-#include "hunspell/dictmgr.hxx"
-#include "hunspell/filemgr.hxx"
-#include "hunspell/hashmgr.hxx"
-#include "hunspell/hunspell.h"
-#include "hunspell/hunzip.hxx"
-#include "hunspell/phonet.hxx"
-#include "hunspell/replist.hxx"
-#include "hunspell/suggestmgr.hxx"
+#include <hunspell.hpp>
 
 #include "resource.h"
 #include "Version.h"
@@ -145,7 +131,10 @@ struct Dialog
 static BOOL CenterParent(HWND hwnd);
 TCHAR *lstrtrim(TCHAR *str);
 BOOL lstreq(TCHAR *a, TCHAR *b, size_t len = -1);
-BOOL IsNumber(TCHAR c);
+inline BOOL IsNumber(TCHAR c)
+{
+	return c >= _T('0') && c <= _T('9');
+}
 
 int MsgWindowEvent(WPARAM wParam, LPARAM lParam);
 int MsgWindowPopup(WPARAM wParam, LPARAM lParam);

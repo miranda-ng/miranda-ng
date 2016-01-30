@@ -1,4 +1,4 @@
-#include "commons.h"
+#include "stdafx.h"
 
 #define DEFINE_GUIDXXX(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
         const GUID CDECL name \
