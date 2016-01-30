@@ -10,4 +10,337 @@
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\affentry.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\affixmgr.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\csutil.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dictmgr.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hashmgr.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hunspell.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\suggestmgr.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filemgr.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\phonet.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hunzip.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\replist.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="src\affentry.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\dictmgr.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Hunspell.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>

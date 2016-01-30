@@ -180,7 +180,7 @@
 #define HAVE___ARGZ_STRINGIFY 1
 
 /* "Define if you use exterimental functions" */
-#undef HUNSPELL_EXPERIMENTAL
+//#define HUNSPELL_EXPERIMENTAL 1
 
 /* "Define if you need warning messages" */
 #define HUNSPELL_WARNING_ON
