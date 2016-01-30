@@ -1372,7 +1372,7 @@ void MakeHover(HWND hwnd, bool draw, bool *hover, POINT *p, RECT *r)
 
 			InvalidateRect(hwnd, NULL, FALSE);
 
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.dwFlags = TME_LEAVE;
 			tme.hwndTrack = hwnd;
@@ -1546,7 +1546,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		SetCycleTime(hwnd);
 		SetStatusMessageRefreshTime(hwnd);
 		{
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.dwFlags = TME_HOVER | TME_LEAVE;
 			tme.hwndTrack = hwnd;
@@ -2050,7 +2050,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_NCMOUSELEAVE:
 	case WM_MOUSELEAVE:
 		{
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.dwFlags = TME_HOVER;
 			tme.hwndTrack = hwnd;
@@ -2068,7 +2068,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_MOUSEHOVER:
 		{
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.dwFlags = TME_LEAVE;
 			tme.hwndTrack = hwnd;

@@ -280,7 +280,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (pwd && !pwd->mouse_in) {
 			pwd->mouse_in = true;
 			global_mouse_in++;
-			TRACKMOUSEEVENT tme = { sizeof(tme) };
+			TRACKMOUSEEVENT tme = { 0 };
+			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.hwndTrack = hwnd;
 			TrackMouseEvent(&tme);
