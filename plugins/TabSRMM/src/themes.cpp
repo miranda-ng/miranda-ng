@@ -2154,7 +2154,7 @@ HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
 	dib.bmiHeader.biBitCount = 32;
 	dib.bmiHeader.biCompression = BI_RGB;
 
-	return(CreateDIBSection(dc, &dib, DIB_RGB_COLORS, NULL, NULL, 0));
+	return CreateDIBSection(dc, &dib, DIB_RGB_COLORS, NULL, NULL, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -114,9 +114,7 @@ void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 {
-	BITMAPINFO RGB32BitsBITMAPINFO;
 	BYTE * ptPixels;
-	HBITMAP hDirectBitmap;
 
 	BITMAP bmp;
 	DWORD dwLen;
@@ -130,6 +128,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 		return NULL;
 
 	// Create bitmap
+	BITMAPINFO RGB32BitsBITMAPINFO;
 	memset(&RGB32BitsBITMAPINFO, 0, sizeof(BITMAPINFO));
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = bmp.bmWidth;
@@ -137,7 +136,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
-	hDirectBitmap = CreateDIBSection(NULL,
+	HBITMAP hDirectBitmap = CreateDIBSection(NULL,
 		(BITMAPINFO *)&RGB32BitsBITMAPINFO,
 		DIB_RGB_COLORS,
 		(void **)&ptPixels,
