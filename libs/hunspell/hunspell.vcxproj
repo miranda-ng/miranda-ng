@@ -116,13 +116,17 @@
     <ClCompile Include="src\hashmgr.cxx" />
     <ClCompile Include="src\hunspell.cxx" />
     <ClCompile Include="src\suggestmgr.cxx" />
-	<ClCompile Include="src\filemgr.cxx" />
-	<ClCompile Include="src\phonet.cxx" />
-	<ClCompile Include="src\hunzip.cxx" />
-	<ClCompile Include="src\replist.cxx" />
+    <ClCompile Include="src\filemgr.cxx" />
+    <ClCompile Include="src\phonet.cxx" />
+    <ClCompile Include="src\hunzip.cxx" />
+    <ClCompile Include="src\replist.cxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\*.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Hunspell.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

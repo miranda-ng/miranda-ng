@@ -117,7 +117,6 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
    * long path names (without the long path prefix Hunspell will use fopen()
    * with system-dependent character encoding instead of _wfopen()).
    */
-
   Hunspell(const char* affpath, const char* dpath, const char* key = NULL);
   ~Hunspell();
 
@@ -226,6 +225,10 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
   /* need for putdic */
   int input_conv(const char* word, char* dest, size_t destsize);
 
+  inline char *get_try_string()
+  {
+	  return pAMgr->get_try_string();
+  }
 /* experimental and deprecated functions */
 
 #ifdef HUNSPELL_EXPERIMENTAL

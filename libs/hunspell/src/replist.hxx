@@ -96,6 +96,7 @@ class LIBHUNSPELL_DLL_EXPORTED RepList {
   int get_pos();
   int add(char* pat1, char* pat2);
   replentry* item(int n);
+#undef near
   int near(const char* word);
   int match(const char* word, int n);
   int conv(const char* word, char* dest, size_t destsize);
