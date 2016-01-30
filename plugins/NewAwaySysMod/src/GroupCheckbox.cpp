@@ -191,7 +191,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 	case WM_MOUSEMOVE:
 		{
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.dwHoverTime = HOVER_DEFAULT;

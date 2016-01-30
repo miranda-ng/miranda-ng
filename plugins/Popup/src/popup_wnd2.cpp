@@ -1185,7 +1185,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					animate();
 
 			if (m_bIsHovered) break;
-			TRACKMOUSEEVENT tme;
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.dwHoverTime = HOVER_DEFAULT;
