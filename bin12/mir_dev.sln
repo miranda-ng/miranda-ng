@@ -136,7 +136,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTalkExt", "..\protocols\GT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Facebook", "..\protocols\FacebookRM\facebook.vcxproj", "{DADE9455-DC28-465A-9604-2CA28052B9FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker", "..\plugins\SpellChecker\spellchecker_12.vcxproj", "{5DB86086-10E9-42E7-AC90-503D2678C2A2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker", "..\plugins\SpellChecker\spellchecker.vcxproj", "{5DB86086-10E9-42E7-AC90-503D2678C2A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alarms", "..\plugins\Alarms\alarms.vcxproj", "{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}"
 EndProject
@@ -440,6 +440,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "..\plugins\MirLua\Modules\JSON\JSON.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libaxolotl\libaxolotl.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hunspell", "..\libs\hunspell\hunspell.vcxproj", "{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2007,6 +2009,14 @@ Global
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.Build.0 = Release|Win32
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.ActiveCfg = Release|x64
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.Build.0 = Release|x64
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Debug|Win32.Build.0 = Debug|Win32
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Debug|x64.ActiveCfg = Debug|x64
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Debug|x64.Build.0 = Debug|x64
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|Win32.ActiveCfg = Release|Win32
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|Win32.Build.0 = Release|Win32
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|x64.ActiveCfg = Release|x64
+		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
