@@ -17,7 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-#include "commons.h"
+#include "stdafx.h"
 
 typedef void(*FoundWrongWordCallback)(TCHAR *word, CHARRANGE pos, void *param);
 
@@ -93,11 +93,6 @@ void SetNoUnderline(Dialog *dlg)
 	SetNoUnderline(dlg->re, 0, dlg->re->GetTextLength());
 	dlg->markedSomeWord = FALSE;
 	dlg->re->Start();
-}
-
-inline BOOL IsNumber(TCHAR c)
-{
-	return c >= _T('0') && c <= _T('9');
 }
 
 inline BOOL IsURL(TCHAR c)

@@ -17,7 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-#include "commons.h"
+#include "stdafx.h"
 
 #define APPPATH  _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\%s")
 #define MUICACHE _T("Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache")
@@ -626,7 +626,7 @@ public:
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
 		char ** words;
-		int count = hunspell->suggest_auto(&words, hunspell_word);
+		int count = hunspell->suggest(&words, hunspell_word);
 
 		if (count <= 0)
 			return ret;
@@ -655,7 +655,7 @@ public:
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
 		char ** words;
-		int count = hunspell->suggest_auto(&words, hunspell_word);
+		int count = hunspell->suggest(&words, hunspell_word);
 
 		if (count <= 0)
 			return NULL;
