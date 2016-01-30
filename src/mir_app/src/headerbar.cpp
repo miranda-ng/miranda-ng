@@ -150,6 +150,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiColors[0].rgbRed = bmi.bmiColors[0].rgbGreen = bmi.bmiColors[0].rgbBlue = bmi.bmiColors[0].rgbReserved = 0;
 	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
 
 	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
