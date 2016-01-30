@@ -393,6 +393,7 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, UINT msg, LPARAM lpFlags)
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiColors[0].rgbRed = bmi.bmiColors[0].rgbGreen = bmi.bmiColors[0].rgbBlue = bmi.bmiColors[0].rgbReserved = 0;
 
 	BYTE *pBits;
 	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, (void **)&pBits, NULL, 0);
