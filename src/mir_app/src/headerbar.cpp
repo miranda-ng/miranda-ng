@@ -130,7 +130,6 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 {
 	int iTopSpace = IsAeroMode() ? 0 : 3;
 	PAINTSTRUCT ps;
-	HBITMAP hBmp, hOldBmp;
 
 	int titleLength = GetWindowTextLength(hwndDlg) + 1;
 	TCHAR *szTitle = (TCHAR *)mir_alloc(sizeof(TCHAR) * titleLength);
@@ -143,17 +142,16 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	HDC hdc = BeginPaint(hwndDlg, &ps);
 	HDC tempDC = CreateCompatibleDC(hdc);
 
-	BITMAPINFO bmi;
+	BITMAPINFO bmi = { 0 };
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biWidth = mit->width;
 	bmi.bmiHeader.biHeight = -mit->height; // we need this for DrawThemeTextEx
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
-	bmi.bmiColors[0].rgbRed = bmi.bmiColors[0].rgbGreen = bmi.bmiColors[0].rgbBlue = bmi.bmiColors[0].rgbReserved = 0;
-	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
+	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
 
-	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
+	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
 	if (IsAeroMode()) {
 		RECT temprc = { 0, 0, mit->width, mit->width };

@@ -262,7 +262,7 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit)
 	HDC hdc = BeginPaint(hwndDlg, &ps);
 	HDC tempDC = CreateCompatibleDC(hdc);
 
-	BITMAPINFO bmi;
+	BITMAPINFO bmi = { 0 };
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biWidth = mit->width;
 	bmi.bmiHeader.biHeight = -mit->height; // we need this for DrawThemeTextEx

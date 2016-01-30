@@ -28,7 +28,7 @@ typedef DWORD ARGB;
 
 HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 {
-	BITMAPINFO bmi = {};
+	BITMAPINFO bmi = { 0 };
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biCompression = BI_RGB;

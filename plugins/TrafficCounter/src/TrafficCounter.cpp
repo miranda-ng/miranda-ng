@@ -411,7 +411,6 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	HBRUSH		b, t;
 	HDC			hdc;
 	HBITMAP		hbmp, oldbmp;
-	BITMAPINFO  RGB32BitsBITMAPINFO = { 0 };
 	BLENDFUNCTION aga = { AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA };
 	DWORD SummarySession, SummaryTotal;
 
@@ -426,6 +425,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	// Свой контекст устройства.
 	hdc = CreateCompatibleDC(hDC);
 	//
+	BITMAPINFO RGB32BitsBITMAPINFO = { 0 };
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = width;
 	RGB32BitsBITMAPINFO.bmiHeader.biHeight = height;

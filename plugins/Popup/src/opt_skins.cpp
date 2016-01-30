@@ -94,7 +94,7 @@ static void updatePreviewImage(HWND hwndBox)
 
 static void DrawPreview(HWND hwnd, HDC hdc)
 {
-	BITMAPINFO bi;
+	BITMAPINFO bi = { 0 };
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = 8;
 	bi.bmiHeader.biHeight = -8;

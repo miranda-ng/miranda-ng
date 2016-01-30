@@ -166,7 +166,7 @@ void MyBitmap::allocate(int w, int h)
 	width = w;
 	height = h;
 
-	BITMAPINFO bi;
+	BITMAPINFO bi = { 0 };
 
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = w;

@@ -1003,6 +1003,7 @@ HBITMAP CreateBitmap32(int cx, int cy)
 		DIB_RGB_COLORS,
 		(void **)&ptPixels,
 		NULL, 0);
+
 	return DirectBitmap;
 }
 

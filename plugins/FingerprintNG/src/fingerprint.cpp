@@ -438,18 +438,17 @@ HBITMAP __inline CreateBitmap32(int cx, int cy)
 */
 HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 {
-	BITMAPINFO bmpi = { 0 };
 	LPVOID ptPixels = NULL;
-	HBITMAP DirectBitmap;
 
 	if (cx < 0 || cy < 0) return NULL;
 
+	BITMAPINFO bmpi = { 0 };
 	bmpi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmpi.bmiHeader.biWidth = cx;
 	bmpi.bmiHeader.biHeight = cy;
 	bmpi.bmiHeader.biPlanes = 1;
 	bmpi.bmiHeader.biBitCount = 32;
-	DirectBitmap = CreateDIBSection(NULL, &bmpi, DIB_RGB_COLORS, &ptPixels, NULL, 0);
+	HBITMAP DirectBitmap = CreateDIBSection(NULL, &bmpi, DIB_RGB_COLORS, &ptPixels, NULL, 0);
 
 	GdiFlush();
 	if (ptPixels) memset(ptPixels, 0, cx * cy * 4);

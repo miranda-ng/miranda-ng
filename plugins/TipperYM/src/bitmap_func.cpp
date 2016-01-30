@@ -358,7 +358,7 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 	skin.iHeight = iHeight;
 	skin.bNeedLayerUpdate = false;
 
-	BITMAPINFO bi;
+	BITMAPINFO bi = { 0 };
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = skin.iWidth;
 	bi.bmiHeader.biHeight = -skin.iHeight;
