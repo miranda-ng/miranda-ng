@@ -183,7 +183,7 @@ static int array__call(lua_State *L)
 	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 	blob->cbSize = size;
 	blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-	memcpy(blob->pBlobData, udata, sizeof(BYTE));
+	memcpy(blob->pBlobData, udata, sizeof(BYTE)* blob->cbSize);
 	luaL_setmetatable(L, MT_BLOB);
 
 	return 1;
@@ -194,7 +194,7 @@ static int array__index(lua_State *L)
 	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
 	int idx = luaL_checkinteger(L, 2);
 
-	lua_pushinteger(L, (char)&blob->pBlobData[idx - 1]);
+	lua_pushinteger(L, (uint8_t)blob->pBlobData[idx - 1]);
 
 	return 1;
 }
@@ -203,7 +203,7 @@ static int array__newindex(lua_State *L)
 {
 	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
 	int idx = luaL_checkinteger(L, 2);
-	char val = (char)luaL_checkinteger(L, 3);
+	uint8_t val = (uint8_t)luaL_checkinteger(L, 3);
 
 	blob->pBlobData[idx - 1] = val;
 
@@ -223,7 +223,7 @@ static int array__tostring(lua_State *L)
 {
 	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
 
-	ptrA res((char*)mir_alloc(blob->cbSize * 2 + 1));
+	char *res = (char*)alloca(blob->cbSize * 2 + 1);
 	bin2hex(blob->pBlobData, blob->cbSize, res);
 
 	lua_pushstring(L, res);
@@ -292,7 +292,7 @@ static int lua_GetSetting(lua_State *L)
 			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 			blob->cbSize = dbv.cpbVal;
 			blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-			memcpy(blob->pBlobData, dbv.pbVal, sizeof(BYTE));
+			memcpy(blob->pBlobData, dbv.pbVal, sizeof(BYTE) * blob->cbSize);
 			luaL_setmetatable(L, MT_BLOB);
 		}
 		break;
@@ -543,7 +543,7 @@ static int dbcw__index(lua_State *L)
 			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 			blob->cbSize = dbcw->value.cpbVal;
 			blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-			memcpy(blob->pBlobData, dbcw->value.pbVal, sizeof(BYTE));
+			memcpy(blob->pBlobData, dbcw->value.pbVal, sizeof(BYTE) * blob->cbSize);
 			luaL_setmetatable(L, MT_BLOB);
 		}
 			break;
