@@ -111,7 +111,7 @@ private:
 			lua_pushstring(L, ptrA(mir_utf8encode(field->GetValue<char*>(obj))));
 			break;
 		case LUA_TSTRINGW:
-			lua_pushstring(L, ptrA(mir_utf8encodeW(field->GetValue<wchar_t*>(obj))));
+			lua_pushstring(L, T2Utf(field->GetValue<wchar_t*>(obj)));
 			break;
 		case LUA_TLIGHTUSERDATA:
 			lua_pushlightuserdata(L, field->GetValue<void*>(obj));
@@ -150,7 +150,7 @@ public:
 	template<typename R>
 	MT& Field(R T::*M, const char *name, int type, size_t size = sizeof(R))
 	{
-		size_t offset = reinterpret_cast<size_t>(&(((T*)0)->*M));
+		size_t offset = offsetof(T, *M);
 		if (type != LUA_TNONE)
 			fields[name] = new MTField<T>(offset, size, type);
 		return *this;
