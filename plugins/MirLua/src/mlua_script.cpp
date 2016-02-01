@@ -50,12 +50,12 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	if (false) // under construction
-	{
-		// setting other enviroment to script
-		lua_newtable(L);
-		lua_setupvalue(L, -2, 1);
-	}
+	lua_newtable(L);
+	lua_getglobal(L, "_G");
+	lua_setfield(L, -2, "__index");
+	lua_pushvalue(L, -1);
+	lua_setmetatable(L, -2);
+	lua_setupvalue(L, -2, 1);
 
 	if (luaM_pcall(L, 0, 1))
 		return false;
