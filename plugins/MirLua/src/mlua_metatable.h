@@ -135,8 +135,7 @@ public:
 	{
 		MT::name = tname;
 
-		lua_pushcfunction(L, lua__new);
-		lua_setglobal(L, MT::name);
+		lua_register(L, MT::name, lua__new);
 
 		luaL_newmetatable(L, MT::name);
 		lua_pushcfunction(L, lua__new);

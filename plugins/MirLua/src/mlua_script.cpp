@@ -18,7 +18,8 @@ CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
 
 CMLuaScript::~CMLuaScript()
 {
-	mir_free(this->moduleName);
+	mir_free(moduleName);
+	mir_free(filePath);
 }
 
 const char* CMLuaScript::GetModuleName() const
@@ -47,6 +48,13 @@ bool CMLuaScript::Load()
 	{
 		Log(lua_tostring(L, -1));
 		return false;
+	}
+
+	if (false) // under construction
+	{
+		// setting other enviroment to script
+		lua_newtable(L);
+		lua_setupvalue(L, -2, 1);
 	}
 
 	if (luaM_pcall(L, 0, 1))

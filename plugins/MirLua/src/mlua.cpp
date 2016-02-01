@@ -49,14 +49,10 @@ void CMLua::Load()
 
 	SetPaths();
 
-	lua_pushcclosure(L, luaM_print, 0);
-	lua_setglobal(L, "print");
-	lua_pushcclosure(L, luaM_toansi, 0);
-	lua_setglobal(L,"a");
-	lua_pushcclosure(L, luaM_toucs2, 0);
-	lua_setglobal(L, "u");
-	lua_pushcclosure(L, luaM_totable, 0);
-	lua_setglobal(L, "totable");
+	lua_register(L, "print", luaM_print);
+	lua_register(L, "a", luaM_toansi);
+	lua_register(L, "u", luaM_toucs2);
+	lua_register(L, "totable", luaM_totable);
 
 	lua_atpanic(L, luaM_atpanic);
 
