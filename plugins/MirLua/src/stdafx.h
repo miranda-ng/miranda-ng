@@ -47,6 +47,14 @@ struct luaM_const
 	intptr_t   value;
 };
 
+template<typename T>
+T *mir_memdup(T* ptr, size_t size = sizeof(T), bool bCalloc = false)
+{
+	void *newptr = (bCalloc ? mir_calloc : mir_alloc)(size);
+	memcpy(newptr, ptr, size);
+	return (T*)newptr;
+}
+
 #include "mlua.h"
 #include "mlua_script.h"
 #include "mlua_module_loader.h"

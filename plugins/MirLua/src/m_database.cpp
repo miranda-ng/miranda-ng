@@ -182,8 +182,7 @@ static int array__call(lua_State *L)
 
 	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 	blob->cbSize = size;
-	blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-	memcpy(blob->pBlobData, udata, sizeof(BYTE)* blob->cbSize);
+	blob->pBlobData = mir_memdup(udata, size);
 	luaL_setmetatable(L, MT_BLOB);
 
 	return 1;
@@ -291,8 +290,7 @@ static int lua_GetSetting(lua_State *L)
 		{
 			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 			blob->cbSize = dbv.cpbVal;
-			blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-			memcpy(blob->pBlobData, dbv.pbVal, sizeof(BYTE) * blob->cbSize);
+			blob->pBlobData = mir_memdup(dbv.pbVal, dbv.cpbVal);
 			luaL_setmetatable(L, MT_BLOB);
 		}
 		break;
@@ -542,8 +540,7 @@ static int dbcw__index(lua_State *L)
 		{
 			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 			blob->cbSize = dbcw->value.cpbVal;
-			blob->pBlobData = (BYTE*)mir_alloc(sizeof(BYTE) * blob->cbSize);
-			memcpy(blob->pBlobData, dbcw->value.pbVal, sizeof(BYTE) * blob->cbSize);
+			blob->pBlobData = mir_memdup(dbcw->value.pbVal, blob->cbSize);
 			luaL_setmetatable(L, MT_BLOB);
 		}
 			break;
