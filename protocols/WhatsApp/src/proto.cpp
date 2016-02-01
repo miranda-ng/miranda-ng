@@ -67,7 +67,12 @@ WhatsAppProto::~WhatsAppProto()
 
 int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 {
-	if (evType == EV_PROTO_ONLOAD) {
+	switch (evType) {
+	case EV_PROTO_ONMENU:
+		InitMenu();
+		break;
+
+	case EV_PROTO_ONLOAD:
 		// Register group chat
 		GCREGISTER gcr = { sizeof(gcr) };
 		gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
@@ -78,6 +83,7 @@ int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 		HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::onGroupChatEvent);
 		HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::OnChatMenu);
 		HookProtoEvent(ME_USERINFO_INITIALISE, &WhatsAppProto::OnUserInfo);
+		break;
 	}
 	return TRUE;
 }

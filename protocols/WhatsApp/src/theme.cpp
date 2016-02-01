@@ -45,7 +45,7 @@ static WhatsAppProto* GetInstanceByHContact(MCONTACT hContact)
 	return 0;
 }
 
-int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
+void WhatsAppProto::InitMenu()
 {
 	CMenuItem mi;
 	mi.flags = (isOnline() ? 0 : CMIF_GRAYED);
@@ -57,6 +57,11 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mi.name.a = LPGEN("Create group");
 	mi.hIcolibItem = GetIconHandle("createGroup");
 	m_hMenuCreateGroup = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+}
+
+int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
+{
+	ToggleStatusMenuItems(isOnline());
 	return 0;
 }
 

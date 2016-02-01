@@ -143,6 +143,7 @@ private:
 
 	// Private data //////////////////////////////////////////////////////////////////////
 	
+	void InitMenu();
 	HGENMENU m_hMenuCreateGroup;
 
 	HANDLE  update_loop_lock_;
