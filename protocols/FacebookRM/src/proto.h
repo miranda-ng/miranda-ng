@@ -133,10 +133,11 @@ public:
 
 	INT_PTR __cdecl OnMind(WPARAM,LPARAM);
 
-	// Initialiation
+	// Initialization
 	void InitPopups();
 	void InitHotkeys();
 	void InitSounds();
+	void InitMenu();
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);

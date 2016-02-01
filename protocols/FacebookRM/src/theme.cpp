@@ -217,7 +217,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
+void FacebookProto::InitMenu()
 {
 	CMenuItem mi;
 	mi.position = 201001;
@@ -263,7 +263,10 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.name.a = LPGEN("Check Newsfeeds");
 	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+}
 
+int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
+{
 	ToggleStatusMenuItems(this->isOnline());
 	return 0;
 }

@@ -444,6 +444,10 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
+
+	case EV_PROTO_ONMENU:
+		InitMenu();
+		break;
 	}
 
 	return 1;
