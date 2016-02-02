@@ -1,8 +1,4 @@
-﻿;============================================================
-;  File: wundergrnd_intl.ini
-;  Module: weather
-;============================================================
-[Alert]
+﻿[Alert]
 [Blowing Snow]
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 [Chance Of Rain 20% Chance Of Precipitation]
@@ -248,6 +244,7 @@
 [Snow Showers 60% Chance Of Precipitation]
 [Snow Showers 70% Chance Of Precipitation]
 [Snow Showers 80% Chance Of Precipitation]
+[Snow Showers]
 [Snow]
 [South]
 [Southeast]
