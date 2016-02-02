@@ -146,6 +146,13 @@ int CVkProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	return 0;
 }
 
+INT_PTR CVkProto::SvcMarkMessagesAsRead(WPARAM hContact, LPARAM)
+{
+	MarkDialogAsRead(hContact);
+	MarkMessagesRead(hContact);
+	return 0;
+}
+
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
 	debugLogA("CVkProto::MarkMessagesRead (mids)");

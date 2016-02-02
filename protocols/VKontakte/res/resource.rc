@@ -37,6 +37,7 @@ IDI_KEYS                ICON                    "key.ico"
 IDI_BROADCAST           ICON                    "broadcast.ico"
 IDI_STATUS              ICON                    "status.ico"
 IDI_WALL                ICON                    "wall.ico"
+IDI_MARKMESSAGESASREAD  ICON                    "markread.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -22,6 +22,7 @@
 #define IDI_STATUS                      119
 #define IDD_WALLPOST                    120
 #define IDI_WALL                        121
+#define IDI_MARKMESSAGESASREAD          122
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002

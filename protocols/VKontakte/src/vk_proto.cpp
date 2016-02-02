@@ -212,6 +212,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
+	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
 
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
@@ -268,6 +269,13 @@ void CVkProto::InitMenus()
 	mi.name.t = LPGENT("Visit profile");
 	SET_UID(mi, 0x828cc50e, 0x398d, 0x43a2, 0xbf, 0xd3, 0xa9, 0x96, 0x47, 0x9d, 0x52, 0xff);
 	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+		
+	mi.pszService = PS_MARKMESSAGESASREAD;
+	mi.position = -200001000 + CMI_MARKMESSAGESASREAD;
+	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_MARKMESSAGESASREAD));
+	mi.name.t = LPGENT("Mark messages as read");
+	SET_UID(mi, 0x2587a649, 0xe5d5, 0x4e90, 0x8b, 0x35, 0x81, 0x4c, 0xb1, 0x5, 0x94, 0x7);
+	g_hContactMenuItems[CMI_MARKMESSAGESASREAD] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_WALLPOST;
 	mi.position = -200001000 + CMI_WALLPOST;
@@ -384,6 +392,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
+	Menu_ShowItem(g_hContactMenuItems[CMI_MARKMESSAGESASREAD], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
