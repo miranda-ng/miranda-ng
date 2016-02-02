@@ -74,10 +74,10 @@ struct NotifyMenuItemExData {
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (int i = 0; i < pcli->events.count; i++) {
-		CListEvent *p = pcli->events.items[i];
-		if (p->menuId == iSelection)
-			return p;
+	for (int i = 0; i < pcli->events->getCount(); i++) {
+		CListEvent &p = (*pcli->events)[i];
+		if (p.menuId == iSelection)
+			return &p;
 	}
 	return NULL;
 }
@@ -141,7 +141,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		g_CluiData.hUpdateContact = p->hContact;
 	}
 
-	if (pcli->events.count > 0) {
+	if (pcli->events->getCount() > 0) {
 		g_CluiData.bEventAreaEnabled = TRUE;
 		if (g_CluiData.bNotifyActive == FALSE) {
 			g_CluiData.bNotifyActive = TRUE;
@@ -158,31 +158,34 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	int i;
-	for (i = 0; i < pcli->events.count; i++)
-		if ((pcli->events.items[i]->hContact == hContact) && (pcli->events.items[i]->hDbEvent == hDbEvent))
+	for (i = 0; i < pcli->events->getCount(); i++) {
+		CListEvent &e = (*pcli->events)[i];
+		if (e.hContact == hContact && e.hDbEvent == hDbEvent)
 			break;
+	}
 
 	// Event was not found
-	if (i == pcli->events.count)
+	if (i == pcli->events->getCount())
 		return 1;
 
 	// remove event from the notify menu
-	if (pcli->events.items[i]->menuId > 0) {
+	int iMenuId = (*pcli->events)[i].menuId;
+	if (iMenuId > 0) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
-		if (GetMenuItemInfo(g_CluiData.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) != 0) {
+		if (GetMenuItemInfo(g_CluiData.hMenuNotify, iMenuId, FALSE, &mii) != 0) {
 			struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 			if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) {
 				free(nmi);
-				DeleteMenu(g_CluiData.hMenuNotify, pcli->events.items[i]->menuId, MF_BYCOMMAND);
+				DeleteMenu(g_CluiData.hMenuNotify, iMenuId, MF_BYCOMMAND);
 			}
 		}
 	}
 
 	int res = corecli.pfnRemoveEvent(hContact, hDbEvent);
 
-	if (pcli->events.count == 0) {
+	if (pcli->events->getCount() == 0) {
 		g_CluiData.bNotifyActive = FALSE;
 		EventArea_HideShowNotifyFrame();
 	}
@@ -263,7 +266,7 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 
 void EventArea_ConfigureEventArea()
 {
-	int iCount = pcli->events.count;
+	int iCount = pcli->events->getCount();
 
 	g_CluiData.dwFlags &= ~(CLUI_FRAME_AUTOHIDENOTIFY | CLUI_FRAME_SHOWALWAYS);
 	if (db_get_b(NULL, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
