@@ -260,6 +260,7 @@ static void LoadPlugins()
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
@@ -369,9 +370,6 @@ static void UnloadPlugins()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	mir_getLP(&pluginInfo);
-	mir_getCLI();
-
 #ifdef _DEBUG
 	UnInitDebug();
 #endif
