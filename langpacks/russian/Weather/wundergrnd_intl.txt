@@ -494,6 +494,8 @@
 Снег, 70% вероятность осадков
 [Snow Showers 80% Chance Of Precipitation]
 Снег, 80% вероятность осадков
+[Snow Showers]
+Снег
 [Snow]
 Снег
 [South]
