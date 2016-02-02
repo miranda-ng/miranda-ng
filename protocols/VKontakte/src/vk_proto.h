@@ -37,6 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
 #define PS_WALLPOST "/WallPost"
+#define PS_MARKMESSAGESASREAD "/MarkMessagesAsRead"
 #define MAXHISTORYMIDSPERONE 100
 #define MAX_RETRIES 10
 
@@ -102,6 +103,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcWallPost(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcMarkMessagesAsRead(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcSetStatusMsg(WPARAM, LPARAM);
 
 	//==== History Menus ==================================================================
@@ -287,6 +289,7 @@ private:
 
 	enum CLMenuIndexes {
 		CMI_VISITPROFILE,
+		CMI_MARKMESSAGESASREAD,
 		CMI_WALLPOST,
 		CMI_ADDASFRIEND,
 		CMI_DELETEFRIEND,

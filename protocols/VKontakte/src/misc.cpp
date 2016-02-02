@@ -69,7 +69,8 @@ static IconItem iconList[] =
 	{ LPGEN("Ban user icon"), "ban", IDI_BAN },
 	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST },
 	{ LPGEN("Status icon"), "status", IDI_STATUS },
-	{ LPGEN("Wall message icon"), "wall", IDI_WALL }
+	{ LPGEN("Wall message icon"), "wall", IDI_WALL },
+	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD }
 };
 
 void InitIcons()
@@ -981,6 +982,28 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl),
 				tszText.IsEmpty() ? _T(" ") : tszText);
+			
+			const JSONNode &jnCopyHystory = jnWall["copy_history"];
+			for (auto aCHit = jnCopyHystory.begin(); aCHit != jnCopyHystory.end(); ++aCHit) {
+				const JSONNode &jnCopyHystoryItem = (*aCHit);
+
+				CMString tszCHText(jnCopyHystoryItem["text"].as_mstring());
+				int iCHid = jnCopyHystoryItem["id"].as_int();
+				int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
+				CMString tszCHUrl(FORMAT, _T("http://vk.com/wall%d_%d"), iCHfromID, iCHid);
+				tszCHText.Replace(_T("\n"), _T("\n\t\t"));
+				res.AppendFormat(_T("\n\t\t%s: %s"),
+					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszCHUrl),
+					tszCHText.IsEmpty() ? _T(" ") : tszCHText);
+
+				const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
+				if (jnSubAttachments) {
+					debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
+					CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+					tszAttachmentDescr.Replace(_T("\n"), _T("\n\t\t"));
+					res += _T("\n\t\t") + tszAttachmentDescr;
+				}
+			}
 
 			const JSONNode &jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
