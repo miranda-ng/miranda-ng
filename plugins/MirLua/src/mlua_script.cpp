@@ -51,9 +51,9 @@ bool CMLuaScript::Load()
 	}
 
 	lua_newtable(L);
+	lua_createtable(L, 0, 1);
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
-	lua_pushvalue(L, -1);
 	lua_setmetatable(L, -2);
 	lua_setupvalue(L, -2, 1);
 
