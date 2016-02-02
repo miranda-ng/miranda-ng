@@ -452,7 +452,7 @@ type
   * version 2 - events processing
   *************************************************************************************)
 
-    events : TEventList;
+    events : PEventList;
 
     pfnAddEvent : function (_para1:PCLISTEVENT):PCListEvent; cdecl;
     pfnGetEvent : function (hContact:TMCONTACT; idx:int):PCLISTEVENT; cdecl;

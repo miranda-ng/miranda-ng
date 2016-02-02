@@ -67,10 +67,10 @@ void HideShowNotifyFrame()
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (int i = 0; i < pcli->events.count; i++) {
-		CListEvent* p = pcli->events.items[i];
-		if (p->menuId == iSelection)
-			return p;
+	for (int i = 0; i < pcli->events->getCount(); i++) {
+		CListEvent &p = (*pcli->events)[i];
+		if (p.menuId == iSelection)
+			return &p;
 	}
 	return NULL;
 }
@@ -298,7 +298,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		}
 	}
 
-	if (pcli->events.count > 0) {
+	if (pcli->events->getCount() > 0) {
 		cfg::dat.bEventAreaEnabled = TRUE;
 		if (cfg::dat.notifyActive == 0) {
 			cfg::dat.notifyActive = 1;
@@ -318,31 +318,34 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	int i;
-	for (i = 0; i < pcli->events.count; i++)
-		if ((pcli->events.items[i]->hContact == hContact) && (pcli->events.items[i]->hDbEvent == hDbEvent))
+	for (i = 0; i < pcli->events->getCount(); i++) {
+		CListEvent &e = (*pcli->events)[i];
+		if (e.hContact == hContact && e.hDbEvent == hDbEvent)
 			break;
+	}
 
 	// Event was not found
-	if (i == pcli->events.count)
+	if (i == pcli->events->getCount())
 		return 1;
 
 	// remove event from the notify menu
-	if (pcli->events.items[i]->menuId > 0) {
+	int iMenuId = (*pcli->events)[i].menuId;
+	if (iMenuId > 0) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
-		if (GetMenuItemInfo(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) != 0) {
+		if (GetMenuItemInfo(cfg::dat.hMenuNotify, iMenuId, FALSE, &mii) != 0) {
 			struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 			if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) {
 				free(nmi);
-				DeleteMenu(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, MF_BYCOMMAND);
+				DeleteMenu(cfg::dat.hMenuNotify, iMenuId, MF_BYCOMMAND);
 			}
 		}
 	}
 
-	coreCli.pfnRemoveEvent(hContact, hDbEvent);
+	int res = coreCli.pfnRemoveEvent(hContact, hDbEvent);
 
-	if (pcli->events.count == 0) {
+	if (pcli->events->getCount() == 0) {
 		cfg::dat.bEventAreaEnabled = FALSE;
 		if (cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY) {
 			cfg::dat.notifyActive = 0;
@@ -363,5 +366,5 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (cfg::dat.notifyActive)
 		InvalidateRect(hwndEventFrame, NULL, FALSE);
 
-	return 0;
+	return res;
 }

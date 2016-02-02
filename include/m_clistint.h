@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clist.h>
 #endif 
 
+#include <m_system_cpp.h>
 #include <m_protocols.h>
 #include <m_clc.h>
 
@@ -76,13 +77,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct ContactList
 {
 	struct ClcContact** items;
-	int count, limit, increment;
-	void* sortFunc;
-};
-
-struct EventList
-{
-	struct CListEvent** items;
 	int count, limit, increment;
 	void* sortFunc;
 };
@@ -165,8 +159,14 @@ struct ClcDataBase
 	int filterSearch;
 };
 
-struct CListEvent : public CLISTEVENT
+struct CListEvent : public CLISTEVENT, public MZeroedObject
 {
+	~CListEvent()
+	{
+		mir_free(pszService);
+		mir_free(pszTooltip);
+	}
+
 	int imlIconIndex;
 	int flashesDone;
 
@@ -410,7 +410,7 @@ struct CLIST_INTERFACE
 	 * version 2 - events processing
 	 *************************************************************************************/
 
-	EventList events;
+	OBJLIST<CListEvent> *events;
 
 	struct CListEvent* (*pfnAddEvent)(CLISTEVENT*);
 	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);

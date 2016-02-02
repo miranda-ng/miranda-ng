@@ -121,6 +121,8 @@ extern const int statusModeList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
+extern OBJLIST<CListEvent> g_cliEvents;
+
 int TryProcessDoubleClick(MCONTACT hContact);
 
 /**** protocols.cpp *********************************************************************/
