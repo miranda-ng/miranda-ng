@@ -19,7 +19,6 @@ CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
 CMLuaScript::~CMLuaScript()
 {
 	mir_free(moduleName);
-	mir_free(filePath);
 }
 
 const char* CMLuaScript::GetModuleName() const
