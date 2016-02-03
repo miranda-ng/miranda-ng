@@ -388,7 +388,7 @@ public:
 		m_btnUnregister(this, IDC_UNREGISTER),
 		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD),
 		m_gotservers(false),
-		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "http://xmpp.org/services/")
+		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "https://xmpp.net/directory.php")
 	{
 		CreateLink(m_txtUsername, "LoginName", _T(""));
 		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0);
