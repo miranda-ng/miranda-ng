@@ -3,16 +3,21 @@
 static int lua_decode(lua_State *L)
 {
 	const char *string = luaL_checkstring(L, 1);
-	MT *udata = (MT*)lua_newuserdata(L, sizeof(MT));
-	udata->node = json_parse(string);
-	udata->bDelete = true;
+	new (L) MT(json_parse(string));
 	luaL_setmetatable(L, MT_JSON);
 	return 1;
+}
+
+int json__call(lua_State *L);
+static int lua_encode(lua_State *L)
+{
+	return json__call(L);
 }
 
 static const luaL_Reg methods[] = 
 {
 	{ "decode", lua_decode },
+	{ "encode", lua_encode },
 	{ NULL, NULL }
 };
 
