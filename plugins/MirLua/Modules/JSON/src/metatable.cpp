@@ -5,7 +5,8 @@ void table2json(lua_State *L, int idx, JSONNode &node)
 	lua_pushnil(L);
 	while (lua_next(L, idx) != 0) 
 	{
-		JSONNode &nnode = (lua_type(L, -2) == LUA_TNUMBER ? (node)[(size_t)lua_tonumber(L, -2) - 1] : (node)[lua_tostring(L, -2)]);
+		JSONNode nnode;
+		if (lua_type(L, -2) == LUA_TSTRING) nnode.set_name(lua_tostring(L, -2));
 
 		switch (lua_type(L, -1))
 		{
@@ -21,11 +22,10 @@ void table2json(lua_State *L, int idx, JSONNode &node)
 		case LUA_TNIL:
 			nnode.nullify();
 			break;
-		case LUA_TTABLE:
-			nnode = JSONNode(nnode.name(), NULL);
-			table2json(L, -1, nnode);
+		//case LUA_TTABLE:
+		//	table2json(L, -1, nnode);
 		}
-		
+		node << nnode;
 		lua_pop(L, 1);
 	}
 }
@@ -48,49 +48,20 @@ int json_pushvalue(lua_State *L, JSONNode &node)
 		break;
 	case JSON_ARRAY:
 	case JSON_NODE:
-		MT *udata = (MT*)lua_newuserdata(L, sizeof(MT));
-		udata->node = &node;
-		udata->bDelete = false;
+		new (L) MT(node);
 		luaL_setmetatable(L, MT_JSON);
 	}
 	return 1;
 }
 
-int json_setvalue(lua_State *L, JSONNode &node)
-{
-	switch (lua_type(L, 3))
-	{
-	case LUA_TSTRING:
-		node = lua_tostring(L, 3);
-		break;
-	case LUA_TBOOLEAN:
-		node = lua_toboolean(L, 3) != 0;
-		break;
-	case LUA_TNUMBER:
-		node = lua_tonumber(L, 3);
-		break;
-	case LUA_TNIL:
-		node.nullify();
-		break;
-	//case LUA_TTABLE:
-		//node = JSONNode(node.name(), JSONNode());
-		//table2json(L, 3, node);
-	}
-
-	return 0;
-}
-
-static int json__call(lua_State *L)
+int json__call(lua_State *L)
 {
 	if (lua_istable(L, 1))
 	{
-/*		MT *udata = (MT*)lua_newuserdata(L, sizeof(MT));
-		udata->node = json_new(JSON_NODE);
-		table2json(L, 1, *udata->node);
-		udata->bDelete = true;
+		MT *mt = new (L) MT(json_new(JSON_NODE));
+		table2json(L, 1, *mt->node);
 		luaL_setmetatable(L, MT_JSON);
 		return 1;
-*/
 	}
 	return 0;
 }
@@ -110,41 +81,49 @@ static int json__index(lua_State *L)
 
 static int json__newindex(lua_State *L)
 {
-	JSONNode *node = ((MT*)luaL_checkudata(L, 1, MT_JSON))->node;
-	switch (lua_type(L, 2))
+	JSONNode &node = *((MT*)luaL_checkudata(L, 1, MT_JSON))->node;
+
+	JSONNode &jNode = lua_type(L, 2) == LUA_TNUMBER ? node[(size_t)lua_tonumber(L, 2) - 1] : node[lua_tostring(L, 2)];
+
+	switch (lua_type(L, 3))
 	{
-	case LUA_TNUMBER:
-		json_setvalue(L, (*node)[(size_t)lua_tonumber(L, 2) - 1]);
-		break;
 	case LUA_TSTRING:
-		json_setvalue(L, (*node)[lua_tostring(L, 2)]);
+		jNode = lua_tostring(L, 3);
 		break;
+	case LUA_TBOOLEAN:
+		jNode = lua_toboolean(L, 3) != 0;
+		break;
+	case LUA_TNUMBER:
+		jNode = lua_tonumber(L, 3);
+		break;
+	case LUA_TNIL:
+		jNode.nullify();
+		break;
+	case LUA_TTABLE:
+		JSONNode tmpNode(JSON_NODE);
+		tmpNode.set_name(lua_tostring(L, 2));
+		table2json(L, 3, tmpNode);
+		node[lua_tostring(L, 2)] = tmpNode;
 	}
+
 	return 0;
 }
 
 static int json__len(lua_State *L)
 {
-	JSONNode *node = ((MT*)luaL_checkudata(L, 1, MT_JSON))->node;
-	lua_pushnumber(L, (*node).size());
+	lua_pushnumber(L, ((MT*)luaL_checkudata(L, 1, MT_JSON))->node->size());
 	return 1;
 }
 
 static int json__tostring(lua_State *L)
 {
-	JSONNode *node = ((MT*)luaL_checkudata(L, 1, MT_JSON))->node;
-	lua_pushstring(L, (*node).write().c_str());
+	lua_pushstring(L, ((MT*)luaL_checkudata(L, 1, MT_JSON))->node->write().c_str());
 	return 1;
 }
 
 static int json__gc(lua_State *L)
 {
-	MT *mt = (MT*)luaL_checkudata(L, 1, MT_JSON);
-	if (mt->bDelete)
-	{
-		json_delete(mt->node);
-		mt->node = nullptr;
-	}
+	((MT*)luaL_checkudata(L, 1, MT_JSON))->~MT();
 	return 0;
 }
 
