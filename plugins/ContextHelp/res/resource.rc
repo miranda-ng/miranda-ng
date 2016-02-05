@@ -79,7 +79,7 @@ STYLE DS_FIXEDSYS | DS_NOFAILCREATE | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Context Help",IDC_STATIC,0,0,191,48
+    GROUPBOX        "Context help",IDC_STATIC,0,0,191,48
     CONTROL         "&Automatically show help when hovered",
                     IDC_AUTOTIPSENABLED,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     WS_GROUP | WS_TABSTOP,10,13,174,9
@@ -121,10 +121,10 @@ END
 IDD_UPDATENOTIFY DIALOG DISCARDABLE  0, 0, 259, 115
 STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
     WS_CAPTION | WS_SYSMENU
-CAPTION "Help Pack Update Now Available"
+CAPTION "Help pack update now available"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "A new version of a Help Pack is now available. Click the install button to download and install this new update.",
+    LTEXT           "A new version of a help pack is now available. Click the install button to download and install this new update.",
                     IDC_STATIC,8,7,243,21,SS_NOPREFIX
     CONTROL         "Language:",IDC_LANGUAGELABEL,"Static",SS_SIMPLE | 
                     SS_NOPREFIX | WS_GROUP,8,29,65,8
@@ -138,7 +138,7 @@ BEGIN
                     SS_NOPREFIX | WS_GROUP,8,58,65,8
     EDITTEXT        IDC_NEWVERSION,78,58,173,8,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_BORDER
-    PUSHBUTTON      "&Install Now",IDOK,7,73,66,15,WS_GROUP
+    PUSHBUTTON      "&Install now",IDOK,7,73,66,15,WS_GROUP
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,92,245,1
     DEFPUSHBUTTON   "Close",IDCANCEL,202,96,50,15
 END
@@ -172,7 +172,7 @@ BEGIN
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
                     WS_BORDER | WS_GROUP | WS_TABSTOP,2,3,299,61
     GROUPBOX        "",IDC_LANGINFOFRAME,2,68,298,119,WS_GROUP
-    CTEXT           "No Help Pack installed!",IDC_NOPACK,5,75,289,108,
+    CTEXT           "No help pack installed!",IDC_NOPACK,5,75,289,108,
                     SS_NOPREFIX | SS_CENTERIMAGE | NOT WS_VISIBLE
     RTEXT           "Author(s):",IDC_LANGAUTHORSLABEL,5,78,66,9,SS_NOPREFIX
     EDITTEXT        IDC_LANGAUTHORS,74,78,220,18,ES_MULTILINE | 
@@ -199,12 +199,12 @@ BEGIN
                     LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | 
                     LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT 
                     WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
-    CONTROL         "Download more Help Packs",IDC_MORELANG,"Hyperlink",
+    CONTROL         "Download more help packs",IDC_MORELANG,"Hyperlink",
                     WS_GROUP | WS_TABSTOP | 0x1,2,191,299,10
-    CONTROL         "Check for new &versions of Help Packs periodically",
+    CONTROL         "Check for new &versions of help packs periodically",
                     IDC_ENABLEHELPUPDATES,"Button",BS_AUTOCHECKBOX | 
                     WS_GROUP | WS_TABSTOP,2,214,209,10
-    PUSHBUTTON      "&Download Language",IDC_DOWNLOADLANG,213,213,86,14,
+    PUSHBUTTON      "&Download language",IDC_DOWNLOADLANG,213,213,86,14,
                     WS_GROUP
 END
 
@@ -279,7 +279,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Englisch (GB) resources
+#endif    // English (GB) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

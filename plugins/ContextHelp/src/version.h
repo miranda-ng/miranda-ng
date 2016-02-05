@@ -50,4 +50,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                 "Richard Hughes, H. Herkenrath, Miranda NG Team"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/ContextHelp/"
-#define __COPYRIGHT              "© 2002 Richard Hughes, 2005-2007 H. Herkenrath, 2016-16 Miranda NG Team"
+#define __COPYRIGHT              "© 2002 Richard Hughes, 2005-2007 H. Herkenrath, 2016 Miranda NG Team"

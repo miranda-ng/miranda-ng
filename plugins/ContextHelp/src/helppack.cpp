@@ -171,7 +171,7 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 	Plugins-included: (multiple tags allowed)
 	X-FLName: name as used on the file listing (non-standard extension)
 	X-Version: 1.2.3.4 (non-standard extension)
-	see 'Help-Translation.txt' for some header quidelines
+	see 'Help-Translation.txt' for some header guidelines
 	*/
 	if (!GetPackPath(szFileName, sizeof(szFileName), fEnabledPacks, pack->szFileName))
 		return FALSE;

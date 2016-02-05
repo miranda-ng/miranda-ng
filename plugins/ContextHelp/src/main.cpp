@@ -97,7 +97,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (LoadLibrary(_T("riched20.dll")) == NULL) /* richedit v2.0 (Win98/NT4), v3.0 (WinXP/2000/Me+) */
 		if (IDYES != MessageBoxEx(NULL,
 			TranslateT("The Help Plugin can not be loaded, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed.\n\nPress 'Yes' to continue loading Miranda NG."),
-			TranslateT("Help Plugin"), MB_YESNO | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID(Langpack_GetDefaultLocale())))
+			TranslateT("Help plugin"), MB_YESNO | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID(Langpack_GetDefaultLocale())))
 			return 1;
 
 	if (InstallDialogBoxHook())

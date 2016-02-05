@@ -769,7 +769,7 @@ static int HelpOptInit(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 #ifdef EDITOR
-	odp.ptszTab = _T("Help Editor"); /* autotranslated */
+	odp.ptszTab = _T("Help editor"); /* autotranslated */
 #else
 	odp.ptszTab = _T("Advanced");    /* autotranslated */
 #endif

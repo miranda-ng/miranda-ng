@@ -580,7 +580,7 @@ static void DialogCacheSaveThread(void *unused)
 		dialogCache[i].timeLoaded = GetTickCount();
 	}
 	*/
-	MessageBoxEx(NULL, success ? TranslateT("Help saving complete.") : TranslateT("Help saving failed!"), TranslateT("Help Editor"), (success ? MB_ICONINFORMATION : MB_ICONERROR) | MB_OK | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID(Langpack_GetDefaultLocale()));
+	MessageBoxEx(NULL, success ? TranslateT("Help saving complete.") : TranslateT("Help saving failed!"), TranslateT("Help editor"), (success ? MB_ICONINFORMATION : MB_ICONERROR) | MB_OK | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID(Langpack_GetDefaultLocale()));
 }
 
 void SaveDialogCache(void)
