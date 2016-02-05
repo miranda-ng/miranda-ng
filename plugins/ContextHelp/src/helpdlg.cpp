@@ -386,7 +386,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SetDlgItemText(hwndDlg, IDC_CTLTEXT, text);
 		}
 #else
-		SetDlgItemText(hwndDlg, IDC_CTLTEXT, TranslateT("No Help Pack installed!"));
+		SetDlgItemText(hwndDlg, IDC_CTLTEXT, TranslateT("No help pack installed!"));
 #endif
 		SetDlgItemText(hwndDlg, IDC_TEXT, NULL);
 		MessageBeep(MB_ICONERROR);

@@ -250,7 +250,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		idMouseMoveTimer = 0;
 		break;
 	case WM_SYSCOMMAND:
-		if ((UINT)wParam == SC_CONTEXTHELP_DIALOG) { // alt. "What's this Dialog?"
+		if ((UINT)wParam == SC_CONTEXTHELP_DIALOG) { // alt. "What's this dialog?"
 			if (idMouseMoveTimer)
 				KillTimer(NULL, idMouseMoveTimer);
 			idMouseMoveTimer = 0;
@@ -305,7 +305,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 			if (IsRealChild(hwndDlg, hwndCtl)) {
 				HMENU hMenu = CreatePopupMenu();
-				AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP, (hwndCtl == hwndDlg) ? TranslateT("&What's this Dialog?") : TranslateT("&What's this?"));
+				AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP, (hwndCtl == hwndDlg) ? TranslateT("&What's this dialog?") : TranslateT("&What's this?"));
 				if (TrackPopupMenuEx(hMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, hwndDlg, NULL)) {
 					if (hwndHelpDlg == NULL) {
 						hwndHelpDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_HELP), NULL, HelpDlgProc);
@@ -411,7 +411,7 @@ static LRESULT CALLBACK HelpSendMessageHookProc(int code, WPARAM wParam, LPARAM 
 					hMenu = GetSystemMenu(msg->hwnd, FALSE);
 					if (hMenu != NULL && AppendMenu(hMenu, MF_SEPARATOR, SC_CONTEXTHELP_SEPARATOR, NULL)) {
 						AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP, TranslateT("&What's this?"));
-						AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP_DIALOG, TranslateT("&What's this Dialog?"));
+						AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP_DIALOG, TranslateT("&What's this dialog?"));
 					}
 				}
 				{
