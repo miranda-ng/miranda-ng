@@ -506,7 +506,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
-		<< INT_PARAM("count", 1000) 
+		<< INT_PARAM("count", m_iMaxFriendsCount > 5000 ? 1000 : m_iMaxFriendsCount)
 		<< CHAR_PARAM("fields", fieldsName)
 		<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
 }

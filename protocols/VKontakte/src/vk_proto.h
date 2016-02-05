@@ -407,7 +407,8 @@ private:
 		m_iNotificationsInterval, 
 		m_iNewsAutoClearHistoryInterval,
 		m_iMaxLoadNewsPhoto,
-		m_iInvisibleInterval;
+		m_iInvisibleInterval,
+		m_iMaxFriendsCount;
 
 	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
 	MarkMsgReadOn m_iMarkMessageReadOn;
