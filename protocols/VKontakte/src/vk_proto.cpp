@@ -136,6 +136,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	if (m_ReturnChatMessage == NULL)
 		m_ReturnChatMessage = mir_tstrdup(TranslateT("I'm back"));
 
+	m_iMaxFriendsCount = getDword("MaxFriendsCount", 1000);
+
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	{
