@@ -1,0 +1,296 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Englisch (GB) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+"..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+"#include ""afxres.h""\r\n"
+"\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+"\r\n"
+"\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+#if defined(APSTUDIO_INVOKED) || !defined(EDITOR)
+IDD_HELP DIALOGEX 0, 0, 203, 75
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_NOFAILCREATE | WS_POPUP | 
+    WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "",IDC_CARETSUCKER,227,47,50,14
+    EDITTEXT        IDC_CTLTEXT,3,3,197,10,ES_MULTILINE | ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_TEXT,"RichEdit20A",WS_VSCROLL | WS_TABSTOP | 
+                    0x1844,3,13,197,59
+END
+#endif
+
+IDD_SHADOW DIALOGEX 0, 0, 203, 75
+STYLE WS_POPUP
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+END
+
+IDD_OPT_ADV DIALOGEX 0, 0, 191, 48
+STYLE DS_FIXEDSYS | DS_NOFAILCREATE | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Context Help",IDC_STATIC,0,0,191,48
+    CONTROL         "&Automatically show help when hovered",
+                    IDC_AUTOTIPSENABLED,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    WS_GROUP | WS_TABSTOP,10,13,174,9
+    CONTROL         "&Delay:",IDC_AUTOTIPDELAYLABEL,"Static",
+                    SS_LEFTNOWORDWRAP,24,28,60,8
+    EDITTEXT        IDC_AUTOTIPDELAY,84,26,41,13,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_AUTOTIPDELAYSPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | WS_TABSTOP,124,26,11,
+                    14
+    CONTROL         "milliseconds",IDC_AUTOTIPDELAYMS,"Static",
+                    SS_LEFTNOWORDWRAP | SS_NOPREFIX,136,28,48,8
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(EDITOR)
+#if defined(APSTUDIO_INVOKED)
+IDD_HELP$(EDITOR) DIALOGEX 0, 0, 326, 144
+#else
+IDD_HELP DIALOGEX 0, 0, 326, 144
+#endif
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_NOFAILCREATE | DS_CENTER | 
+    WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Help"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Ctl ID: %d",IDC_CTLID,"Static",SS_LEFTNOWORDWRAP | 
+                    WS_GROUP,5,5,76,8
+    RTEXT           "Dialog ID: %s",IDC_DLGID,82,5,239,8,SS_NOPREFIX
+    CONTROL         "Type: %s",IDC_CTLTYPE,"Static",SS_LEFTNOWORDWRAP | 
+                    WS_GROUP,5,15,76,8
+    RTEXT           "Module: %s",IDC_MODULE,82,15,239,8,SS_NOPREFIX
+    EDITTEXT        IDC_CTLTEXT,5,26,316,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_TEXT,"RichEdit20A",WS_VSCROLL | WS_TABSTOP | 
+                    0x1044,5,40,316,99,WS_EX_CLIENTEDGE
+END
+#endif
+
+IDD_UPDATENOTIFY DIALOG DISCARDABLE  0, 0, 259, 115
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Help Pack Update Now Available"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "A new version of a Help Pack is now available. Click the install button to download and install this new update.",
+                    IDC_STATIC,8,7,243,21,SS_NOPREFIX
+    CONTROL         "Language:",IDC_LANGUAGELABEL,"Static",SS_SIMPLE | 
+                    SS_NOPREFIX | WS_GROUP,8,29,65,8
+    EDITTEXT        IDC_LANGUAGE,78,29,173,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    CONTROL         "Current:",IDC_STATIC,"Static",SS_SIMPLE | SS_NOPREFIX | 
+                    WS_GROUP,8,43,65,8
+    EDITTEXT        IDC_CURRENTVERSION,78,43,173,8,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER
+    CONTROL         "New:",IDC_NEWVERSIONLABEL,"Static",SS_SIMPLE | 
+                    SS_NOPREFIX | WS_GROUP,8,58,65,8
+    EDITTEXT        IDC_NEWVERSION,78,58,173,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    PUSHBUTTON      "&Install Now",IDOK,7,73,66,15,WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,92,245,1
+    DEFPUSHBUTTON   "Close",IDCANCEL,202,96,50,15
+END
+
+IDD_DOWNLOADLANG DIALOG DISCARDABLE  0, 0, 200, 126
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Select your help language"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Help is available in different languages.\nHere is a list of all available languages of the file listing, please select your native &language:",
+                    IDC_STATIC,5,5,189,26
+    COMBOBOX        IDC_LANGCOMBO,46,36,106,126,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Download &all languages",IDC_DOWNLOADALL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,46,53,148,10
+    LTEXT           "Note: This will download and install the newest help pack available for the selected language. There might be help packs from other authors available on the file listing.",
+                    IDC_STATIC,5,69,189,34,SS_NOPREFIX | WS_DISABLED
+    CTEXT           "",IDC_LOADING,1,109,86,8,SS_NOPREFIX | SS_CENTERIMAGE | 
+                    NOT WS_VISIBLE
+    PUSHBUTTON      "OK",IDOK,89,106,50,14,WS_DISABLED
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,144,106,50,15
+END
+
+IDD_OPT_LANG DIALOGEX 0, 0, 301, 227
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_LANGLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_GROUP | WS_TABSTOP,2,3,299,61
+    GROUPBOX        "",IDC_LANGINFOFRAME,2,68,298,119,WS_GROUP
+    CTEXT           "No Help Pack installed!",IDC_NOPACK,5,75,289,108,
+                    SS_NOPREFIX | SS_CENTERIMAGE | NOT WS_VISIBLE
+    RTEXT           "Author(s):",IDC_LANGAUTHORSLABEL,5,78,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGAUTHORS,74,78,220,18,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | 
+                    WS_VSCROLL
+    RTEXT           "E-mail:",IDC_LANGEMAILLABEL,5,99,66,8,SS_NOPREFIX
+    CONTROL         "",IDC_LANGEMAIL,"Hyperlink",WS_TABSTOP,76,99,207,10
+    RTEXT           "Last modified using:",IDC_LANGMODUSINGLABEL,5,112,66,9,
+                    SS_NOPREFIX
+    EDITTEXT        IDC_LANGMODUSING,75,112,207,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER
+    RTEXT           "Date:",IDC_LANGDATELABEL,5,125,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGDATE,75,125,66,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    RTEXT           "Version:",IDC_LANGVERSIONLABEL,150,125,39,9,SS_NOPREFIX | 
+                    NOT WS_VISIBLE
+    EDITTEXT        IDC_LANGVERSION,194,125,88,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_VISIBLE | NOT WS_BORDER
+    RTEXT           "Locale:",IDC_LANGLOCALELABEL,5,137,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGLOCALE,75,137,207,12,ES_READONLY | NOT WS_BORDER
+    RTEXT           "Not included:",IDC_LANGNOTINCLUDEDLABEL,5,150,66,10,
+                    SS_NOPREFIX
+    LISTBOX         IDC_LANGNOTINCLUDED,75,150,219,33,NOT LBS_NOTIFY | 
+                    LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Download more Help Packs",IDC_MORELANG,"Hyperlink",
+                    WS_GROUP | WS_TABSTOP | 0x1,2,191,299,10
+    CONTROL         "Check for new &versions of Help Packs periodically",
+                    IDC_ENABLEHELPUPDATES,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,2,214,209,10
+    PUSHBUTTON      "&Download Language",IDC_DOWNLOADLANG,213,213,86,14,
+                    WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 200
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_SHADOW, DIALOG
+    BEGIN
+        RIGHTMARGIN, 201
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_OPT_ADV, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 24
+        VERTGUIDE, 84
+        VERTGUIDE, 126
+        VERTGUIDE, 184
+    END
+
+    "IDD_HELP$(EDITOR)", DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 321
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 139
+        HORZGUIDE, 15
+    END
+
+    IDD_UPDATENOTIFY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 252
+        VERTGUIDE, 74
+        TOPMARGIN, 7
+    END
+
+    IDD_DOWNLOADLANG, DIALOG
+    BEGIN
+        VERTGUIDE, 5
+        VERTGUIDE, 46
+        VERTGUIDE, 194
+        HORZGUIDE, 106
+        HORZGUIDE, 121
+    END
+
+    IDD_OPT_LANG, DIALOG
+    BEGIN
+        VERTGUIDE, 2
+        VERTGUIDE, 5
+        VERTGUIDE, 70
+        VERTGUIDE, 75
+        VERTGUIDE, 282
+        VERTGUIDE, 294
+        HORZGUIDE, 160
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Englisch (GB) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

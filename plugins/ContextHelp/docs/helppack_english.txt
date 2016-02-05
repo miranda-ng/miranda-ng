@@ -1,0 +1,193 @@
+Miranda Help Pack Version 1
+Language: English (default)
+Locale: 0809
+Last-Modified-Using: Miranda IM 0.6
+Authors: hrathh, -pv-
+Author-email: hrathh at users.sourceforge.net
+Plugins-included: clist_classic,clist_nicer
+
+; options dialog
+[miranda32:0@AgEAAgIAAgMAD6IEA0IF]
+Options=In this window you can view and modify all settings relevant for Miranda IM, its Protocols and all other enabled plugins.
+[miranda32:1377@AgEAAgIAAgMAD6IEA0IF]
+Select a subentry from the list=When you see this you have not selected any option page in the list on the left or the selected item does not have any options to set.
+[miranda32:1@AgEAAgIAAgMAD6IEA0IF]
+OK=Saves all the changes you have made on the various opened option pages and closes the options window.
+[miranda32:2@AgEAAgIAAgMAD6IEA0IF]
+Cancel=Discards changes you have made and closes the options window.
+[miranda32:3@AgEAAgIAAgMAD6IEA0IF]
+Apply=Saves all the changes you have made on the various opened option pages without closing the options window.
+[miranda32:1346@AgEAAgIAAgMAD6IEA0IF]
+Show expert options=Enable this to get more option possibilities shown which are normally not interesting for average users.
+[miranda32:1186@AgEAAgIAAgMAD6IEA0IF]
+List with option pages=Shows all available option categories. Pick one category to get its options shown on the right side of the list. 
+
+; sounds options
+[miranda32:0@AowEAo0EE7AED3kG]
+Sounds=On this options page you can view and modify all audible events of Miranda IM and its plugins.
+[miranda32:-2@AowEAo0EE7AED3kG]
+[miranda32:1657@AowEAo0EE7AED3kG]
+List of all sounds=Shows all available audible events to which sounds can be associated.<br>To specify a sound file select an item in the list. A checkmark means playing the sound is enabled for this event.
+[miranda32:1660@AowEAo0EE7AED3kG]
+Sound Information=View or modify the sound file associated with the event selected in the list above. 
+[miranda32:1009@AowEAo0EE7AED3kG]
+[miranda32:1010@AowEAo0EE7AED3kG]
+Name=The name of the sound event as also shown in the list above. Summarizes section name and event name.
+[miranda32:1661@AowEAo0EE7AED3kG]
+[miranda32:1659@AowEAo0EE7AED3kG]
+Location=Shows the path of the sound file selected by clicking the <b>Change...</b> button. When no sound file was yet selected <i>&lt;not specified&gt;</i> is shown instead.
+[miranda32:1165@AowEAo0EE7AED3kG]
+Preview=Plays the sound file specified at <b>Location</b>.
+[miranda32:1164@AowEAo0EE7AED3kG]
+Change...=Opens up a window where you can select a sound file to be played when the sound event occurs.
+[miranda32:1200@AowEAo0EE7AED3kG]
+Download more sounds=Opens up your default browser pointing it to the <i>Sounds</i> download section at Miranda IM's website.
+
+; plugins options
+[miranda32:0@DowGB40GB48GB5EGE5IGE5QG]
+Plugins=On this options page you can view and modify the state of the modules installed for Miranda IM. 
+[miranda32:1676@DowGB40GB48GB5EGE5IGE5QG]
+List of plugins=In the list you find all installed modules whether they are running or disabled. This list includes protocols, the database driver and contact list interfaces. You can enable or disable any module you like by ticking or unticking its list item.<br><i>You need to restart Miranda IM after enabling or disabling a module for the changes to take effect!</i>
+[miranda32:1680@DowGB40GB48GB5EGE5IGE5QG]
+Plugin Information=Shows all a descriptive information about the plugin you have selected in the list above. When nothing is selected this part is empty.
+[miranda32:-2@DowGB40GB48GB5EGE5IGE5QG]
+[miranda32:1677@DowGB40GB48GB5EGE5IGE5QG]
+Description=A description of the plugin you selected in the list above.
+[miranda32:-3@DowGB40GB48GB5EGE5IGE5QG]
+[miranda32:1679@DowGB40GB48GB5EGE5IGE5QG]
+Author(s)=Shows all people involved in developing the selected plugin.
+[miranda32:-5@DowGB40GB48GB5EGE5IGE5QG]
+[miranda32:1684@DowGB40GB48GB5EGE5IGE5QG]
+E-mail=Shows the E-mail address of the plugin maintainer. 
+[miranda32:-6@DowGB40GB48GB5EGE5IGE5QG]
+[miranda32:1682@DowGB40GB48GB5EGE5IGE5QG]
+Homepage=The homepage of the plugin. This usually refers to a page belonging to the addons section at the website of Miranda IM.
+[miranda32:1692@DowGB40GB48GB5EGE5IGE5QG]
+Please restart Miranda IM=You need to restart Miranda IM for your changes to take effect. This occurs when you enabled or disabled a plugin in the list above.
+
+; ignore options
+[miranda32:0@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-10@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore=On this options page you can ignore or un-ignore events of all protocols in Miranda IM.
+[miranda32:-2@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:1079@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+List of events being ignored=List of all contacts in your database you can toggle any ignore settings for each use by clicking the small icons on their right.<br>Icon slots not being enabled for contacts are not appropriate for them.<p><b>*** All contacts ***</b> helps you to set ignore settings for all the contact in the list.<br>To do this just for contact belonging to a group, set the settings for their group item instead.</p><p><b>*** Unknown contacts ***</b> refers to all contact to added by you to your contact list, but who are trying to contact you though.
+[miranda32:1375@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-3@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore messages=When this icon is displayed on the right side of a contact, all incoming messages sent by him/her will be dropped. You will not be notified. 
+[miranda32:1376@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-4@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore URLs=When this icon is displayed on the right side of a contact, all incoming URL messages sent by him/her will be dropped. You will not be notified. 
+[miranda32:1206@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-5@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore files=When this icon is displayed on the right side of a contact, all file transfers initiated by him/her will be automatically denied.
+[miranda32:1@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-6@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Suppress auth requests=When this icon is displayed on the right side of a contact, all requests for authorisation to add you to his/her contact list will be suppressed.
+[miranda32:1207@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-7@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Suppress online notification=When this icon is displayed on the right side of a contact, you will never be notified when the contact goes online.
+[miranda32:1542@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-11@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Suppress added notification=When this icon is displayed on the right side of a contact, you will not be notified when the contact added you to his/her contact list sending you a notification.
+[miranda32:1208@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-8@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore all=Clicking this icon next to a contact will set all possible ignorable events to being ignored.
+[miranda32:1209@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+[miranda32:-9@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Ignore none=Clicking this icon next to a contact will un-ignore all events for it. No event will be ignored or be suppressed in the future.
+[miranda32:1380@Bl8FBmAFBrYEBgEABrcEBrgEBrkEFDcEBgYG]
+Only ticked contacts will be shown=The list above also shows some checkboxes in front of the contacts and groups.<br>Only contacts with a checkmark in front of them will actually be shown on your contact list interface. All un-ticked ones will be hidden.
+
+; contact display options
+[miranda32:0@D9IE]
+[miranda32:-2@D9IE]
+Contact Display=On this options page you can set how the contact names on your list will be displayed.
+[miranda32:-3@D9IE]
+[miranda32:1234@D9IE]
+Name display order=Normally contacts are displayed by their nickname of the contact list. However, this behaviour can be adjusted.<br>The list you see display the order in which the contact lists tried to get a name for a contact. If the first element in the shown list does not provide a name the next list item below is queried.<p><b>My custom name</b> is not movable. The customized name of a contact you entered by hand will always be shown regardless what you set here.</p><p>When all ways to get a name for a contact do fail it will be displayed as <b>'(Unknown Contact)'. That item is not movable, too.</p>
+
+
+; ### contribution by -pv-, thanks a lot!!! ###
+; [x] checked for typos
+; [x] added dialog tooltip
+; [x] added some unhandled context-identifiers
+
+; file transfers options
+[miranda32:0@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+File Transfers=On this options page you can view and modify all settings regarding to file transfers that can be initiated by most of the protocols of Miranda IM.
+[miranda32:-2@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Receiving files=These options control the file receiving process itself.
+[miranda32:-3@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1213@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Received files folder=Type in a path where received files will be stored in or use the button on the right labeled with '<b>...</b>'.
+[miranda32:-7@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Variables Allowed=You do not need to provide a fixed path where all received files go in. Instead, you can enrich your path specification by using some variables refering to the user the file is received from.<br><br>Allowed variables are:<br><b>%userid%</b> gets replaced by the contact's UID specify to the protocol.<br><b>%nick%</b> represents the nickname of the contact.<br><b>%proto%</b> stands for the protocol name associated withe the contact.
+[miranda32:1475@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Browse for folder=Opens a window where you can choose a folder to store received files into.
+[miranda32:1484@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Auto-accept files from people on my contact list=When this is ticked and someone from your contact list is trying to send you a file, the transfer will be accepted automatically.
+[miranda32:1005@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Minimize the file transfer window=Enable this to have the transfer window minimized each time you accept the transfer or when it got accepted automatically according to the <b>Auto-accept incoming files from people on my contact list</b> option.	
+[miranda32:1004@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Close window when transfer completes=After a file or the group of files is successfully transferred, enabling this will close the window automatically
+[miranda32:1520@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Virus scanner=Using these options you can have your preferred anti-virus software scan downloaded files as soon as they are downloaded.
+[miranda32:-4@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1489@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1490@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1491@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Scan files=You can have your preferred anti-virus software scan downloaded files as soon as they are downloaded. If you choose <b>When all files have been downloaded</b> or <b>As each file finishes downloading</b> you have to specify a command-line to your scanner application. Some well-known command-lines will be predefined for you.
+[miranda32:1492@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1485@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1493@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Command line=Enter a file-system path to your anti-virus scanner including parameters to scan the files or folders here.<br>When a well-known scanner is found on your system some, a command-line will be predefined for you. Pick the one you like to use.<br>Use <i>%f</i> as filename parameter. The variable gets replaced by the actual file path to be checked.
+[miranda32:1488@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Warn me before opening a file that has not been scanned=Displays a warning if some of the received files were not scanned.
+[miranda32:1476@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Browse for files=Brings up a window where you can easily browse the file-system to search for your anti-virus command-line application.
+[miranda32:-5@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:1516@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+[miranda32:-6@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+If incoming files already exists=Choose how to treat a file that has the same location and filename as the file which is going to be received. When you choose <b>Ask me</b> you need to make this decision every time such a conflict occurs.<br>You will <u>always</u> be asked when a file already exists for a contact not added to your contact list.
+[miranda32:1501@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Overwrite=When this is enabled conflicting files will be overwritten silently.
+[miranda32:1497@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Resume=The protocol will try to resume file transfer assuming the already existing file was caused by a dropped file transfer. It will be tried to download the previous file correctly.
+[miranda32:1519@B70EAsMFA8wFA+0DA+wDBNMFBNIFBNEFCc0FAsQFA9AFBOwFBNkFBN0FBO8F]
+Rename=The new file being downloaded will get renamed so it no longer has the same name as an already existing file. The file will have <i>(1)</i> etc. appended to its name.
+
+; hotkeys options (clist_classic, clist_nicer)
+; [x] checked for typos
+; [x] added dialog tooltip
+; [x] added some unhandled context-identifiers
+
+[clist_classic:0@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:-2@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_nicer:0@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:-2@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+Hotkeys=On this options page you can set some basic global hotkeys for Miranda IM.
+[clist_classic:1100@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1162@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_nicer:1170@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:1162@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+Show/Hide=Hotkey to show or hide the main contact list window as when clicking the tray icon.<br>To enable check the box. Enable the edit box on the right and assign a hotkey by pressing the desired combination.<br>The default combination is <b>Ctrl + Shift + A</b>.
+[clist_classic:1102@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1163@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_nicer:1119@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:1083@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+Read Message=Hotkey to open the message window when a incoming message is notified in the system tray.<br>To enable check the box. Enable the edit box on the right and assign a hotkey by pressing the desired combination.<br>The default combination is <b>Ctrl + Shift + I</b>.
+[clist_classic:1104@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1164@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1106@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1188@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_nicer:1101@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:1084@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:1106@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+[clist_nicer:1139@A5IEF4oEA18EFzsEA00EFzwEB1IEA3MEA5YEFz4E]
+Net Search=You can make Miranda IM work together with your favourite search engine. Check the <B>Net Search</b> box, enter a keystroke into the hotkey box and put the URL to your search engine into the <b>URL</b> box. Alternatively, you can use the given default search engine. You can fine-tune the behaviour by checking  <b>Open in new browser window.</b> in which case a new and not an existing browser window will be used.<br>The default browser will be used for this action.<br>The default combination is <b>Ctrl + Shift + S</b>.
+[clist_classic:1105@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+[clist_classic:1165@A0wEF4oEA04EF4sEA1AEF4wEB1IEA6QEA1EEF40E]
+Show Options=Hotkey to open the options window of Miranda IM just as opening it via the main menu.<br>To enable check the box. Enable the edit box on the right and assign a hotkey by pressing the desired combination.<br>The default combination is <b>Ctrl + Shift + O</b>.
+
+

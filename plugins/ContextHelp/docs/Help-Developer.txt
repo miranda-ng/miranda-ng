@@ -1,0 +1,93 @@
+ 
+Help Plugin 0.2.1.2 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Developer Information
+
+	Contents: -------------------------------
+	| Help Packs, Translation, Debug Symbols,
+	| Coding Language, Rebase Info
+
+Help Packs
+-----------------
+	Help texts are stored in a file named 'helppack_*.txt'
+	To use the file, place it in the same directory as miranda32.exe, and call it
+	helppack_*.txt where * can be anything, however it is recommended that it
+	be the language.
+
+	An entry in the help file looks like this:
+
+	[context_identifier]
+	Some text shown as title=Some text<br>that might contain simple html code
+
+	IMPORTANT HINT:
+	When you press the 'Ctrl' key while opening up the context help tooltip
+	it will display the help identifier used in the help file, instead of
+	the help text. This is helpful when writing your help file.
+	When you press 'Ctrl'-C while a helptip is opened, its text will get
+	copied to clipboard.
+
+	A list of available HTML tags that might be helpful when writing
+	help texts:
+	styles:     <i>italic</i>, <b>bold</b>, <u>underlined</u>
+	linebreak:  <br>
+	sizes:      <big>large text</big>, <small>tiny text</small>
+	hyperlinks: <a href="url">link title</a>
+	paragraph:  <p>text</p>
+	colors:	    <font color="#colorcode">colmred text</font>
+	 instead of #hexcode you can also use the following 16 default color names:
+	 black, maroon, green, olive, navy, purple, teal, silver,
+	 gray, red, lime, yellow, blue, fuchsia, aqua, white
+
+	Be careful when using those html tags.
+	Do not use them massively, instead pick them when appropriate to
+	guide the reader. Keep in mind that it is still a *help* text.
+
+	Some special symbols must be specified differently:
+	instead of < use &lt;
+	instead of > use &gt;
+	instead of & use &amp;
+	instead of " use &quot; 
+	A space can be also specified as &nbsp;
+
+	To specify a specific Unicode character
+	you can use a special numeric representation:
+	&#[x][Number];
+	Examples: &#945; and &#x3B1;
+	When you place an x in in front the number needs to be hexadecimal.
+
+	Please refer to 'helppack_sample.txt' for an example help file.
+
+Translation
+-----------------
+	Translation strings for language pack maintainers can be found in
+	'Help-Translation.txt'.
+
+Debug Symbols
+-----------------
+	Debug symbols are also available for debugging purposes.
+	Copy the PDB-files into the same directory as the
+	corresponding DLL-files.
+	To debug crashes the supplied MAP-file file might be helpful.
+
+Coding Language
+-----------------
+	Help Plugin was written using Microsoft Visual C++ 6.0 SP6
+	and the Microsoft Platform SDK shipped along with it.
+
+	The project files for VS 7 and 8 (*.vcproj and *.vspscc) are not
+	kept up-to-date.
+	The working project files are the ones of VS 6 (*.dsw and *.dsp).
+
+Rebase Info
+-----------------
+	Help Plugin has set its base address to:
+	0x20100000
+
+	Please avoid using this base address for your plugins because it will
+	slow down the start of Miranda IM.
+	Try to choose a unique base address for each plugin you create.
+
+	Using Microsoft Visual C++, the base address can be configured at:
+	'Project' -> 'Settings' -> 'Linker' -> 'Output' -> 'Base Address'
+
+H. Herkenrath (hrathh at users.sourceforge.net)

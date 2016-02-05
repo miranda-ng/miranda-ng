@@ -1,0 +1,217 @@
+ 
+Help Plugin 0.2.1.2 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Translator Information
+
+	Contents: -------------------------------
+	| Help Texts, Plugin Texts, String Listing
+
+Help Texts
+-----------------------------
+	The help texts can be translated using the help pack files.
+	To get an explanation on how such a file needs to be formated
+	please refer to 'helppack_sample.txt'.
+
+Plugin Texts
+-----------------------------
+	The Help Plugin can be translated with the Miranda IM
+	language files.
+
+	Put the following strings in a file called 'langpack_<language>.txt'
+	in the Miranda IM directory and translate them into your
+	language.
+	If you need more info on Miranda IM language files visit:
+	http://miranda.svn.sourceforge.net/viewvc/*checkout*/miranda/trunk/miranda/i18n/readme.txt
+
+String Listing
+-----------------------------
+
+; --- Plugin: Help Plugin 0.2.1.2 (German) ---
+
+; Translation by hrathh
+; Please report any mistakes or missing strings in here.
+
+[Help]
+Hilfe
+[Provides context sensitive help in the Miranda IM dialog boxes.]
+Bietet kontextsensitive Hilfe in allen Dialogen von Miranda IM.
+
+; Errors
+[Help Plugin]
+Hilfe-Plugin
+[The Help Plugin can not be loaded. It requires Miranda IM %hs or later.]
+Das Hilfe-Plugin kann nicht geladen werden. Es benötigt Miranda IM %hs oder neuer.
+[The Help Plugin can not be loaded, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed.\n\nPress 'Yes' to continue loading the Help Plugin.]
+Das Hilfe-Plugin kann nicht geladen werden, da riched20.dll fehlt. Sofern Windows 95 oder WINE verwendet wird stellen Sie bitte sicher, dass riched20.dll installiert ist.\n\nKlicken Sie auf "Ja" um das Hilfe-Plugin trotzdem zu laden.
+
+; Context Menu
+[&What's this?]
+Direkt&hilfe
+[&What's this Dialog?]
+Direkt&hilfe zum Dialog
+
+; Tooltip
+[Loading...]
+Bitte warten...
+[No Help Pack installed!]
+Keine Hilfe-Datei installiert!
+[No help available for this item.]
+Diesem Eintrag ist kein Hilfethema zugeordnet.
+[&Copy]
+&Kopieren
+
+; Advanced Options
+;[Customize]
+[Help]
+Hilfe
+[Advanced]
+Erweitert
+[Context Help]
+Context-Sensitive Hilfe
+[&Automatically show help when hovered]
+&Automatisch Hilfe anbieten bei Stillstand der Maus
+[&Delay:]
+&Verzögerung:
+[milliseconds]
+Millisekunden
+
+; Language Options
+;[Customize]
+;[Help]
+[Language]
+Sprachen
+[&Remove...]
+&Entfernen...
+[Installed Languages]
+Installierte Sprachen
+[File]
+Datei
+[built-in]
+enthalten
+[Author(s):]
+Autor(en):
+[E-mail:]
+E-Mail:
+[Last modified using:]
+Verwendung von:
+[Date:]
+Datum:
+;[Version:]
+;[Locale:]
+[(incompatible)]
+(inkompatibel)
+[Unknown]
+Unbekannt
+[Current]
+Aktuell
+[Not included:]
+Nicht enthalten:
+;[%hs (%s)]
+[All installed plugins are included.]
+Alle installierten Plugins sind enthalten.
+;[No Help Pack installed!]
+[Download more Help Packs]
+Weitere Hilfedateien herunterladen
+[Check for new &versions of Help Packs periodically]
+Regelmäßig auf neue Hilfedatei-&Versionen überprüfen
+[&Download Language]
+Sprache &herunterladen
+
+; All names of the language packs can be translated
+[English (default)]
+Englisch (Standard)
+
+; Update Notify
+[Help Pack Update Now Available]
+Update für Hilfedatei ist jetzt verfügbar
+[A new version of a Help Pack is now available. Click the install button to download and install this new update.]
+Eine neue Version einer Hilfedatei ist verfügbar. Klicken Sie auf "Jetzt installieren" um das neue Update herunterzuladen und zu installieren.
+[Language:]
+Sprache:
+[Current:]
+Aktuell:
+[New:]
+Neu:
+[&Install Now]
+Jetzt &installieren
+;[Close]
+[Help Pack Update succeeded]
+Hilfedatei-Update erfolgreich
+[The help pack "%s" has been sucessfully downloaded and installed.]
+Die Hilfedatei "%s" wurde erfolgreich heruntergeladen und aktualisiert.
+[Help Pack Update failed]
+Hilfedatei-Update fehlgeschlagen
+[The help pack "%s" could not be downloaded or extracted.]
+Die Hilfedatei "%s" konnte nicht heruntergeladen oder extrahiert werden.
+
+; Download Language
+[Select your help language]
+Sprache der Hilfetexte wählen
+[Help is available in different languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Hilfe is in vielen Sprachen verfügbar.\nEs folgt eine Liste aller verfügbaren Sprachen auf der Website. Bitte wählen Sie Ihre gewünschte &Sprache aus:
+[Download &all languages]
+&Alle Sprachen herunterladen
+[Note: This will download and install the newest help pack available for the selected language. There might be help packs from other authors available on the file listing.]
+Hinweis: Es wird die jeweils neueste Hilfedatei für die gewählte Sprache heruntergeladen. Es könnten noch weitere Hilfedateien von anderen Autoren auf der Website verfügbar sein.
+[downloading]
+downloaden
+;[OK]
+;[Cancel]
+[Help Pack Download finished]
+Hilfedatei-Download beendet
+[The download succeeded!]
+Der Download war erfolgreich!
+[The download failed!\n\nThe help pack could not be downloaded or extracted.]
+Der Download schlug fehl!\n\nDie Hilfedatei konnte nicht heruntergeladen oder extrahiert werden.
+
+; All language subcategory names on the website can be translated
+;[English (default)]
+[Chinese]
+Chinesisch
+[Portuguese]
+Portugiesisch
+[French]
+Französisch
+[Hebrew]
+Hebräisch
+[Hungarian]
+Ungarisch
+[Italian]
+Italienisch
+[Spanish]
+Spanisch
+[Ukrainian]
+Ukrainisch
+[Russian]
+Russisch
+[German]
+Deutsch
+[Dutch]
+Holländisch
+[Bulgarian]
+Bulgarisch
+[Czech]
+Tschechisch
+[Korean]
+Koreanisch
+[Polish]
+Polnisch
+[Turkish]
+Türkisch
+[Swedish]
+Schwedisch
+[Japanese]
+Japanisch
+[Belarusian]
+Weißrussisch
+[Danish]
+Dänisch
+[Finnish]
+Finnisch
+[Croatian]
+Kroatisch
+
+; ---
+
+
+H. Herkenrath (hrathh at users.sourceforge.net)

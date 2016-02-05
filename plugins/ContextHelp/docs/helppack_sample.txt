@@ -1,0 +1,256 @@
+Miranda Help Pack Version 1
+Language: English (sample)
+Locale: 0809
+Last-Modified-Using: Miranda IM 0.6
+Authors: hrathh
+Author-email: hrathh at users.sourceforge.net
+Plugins-included: help
+
+; This is a sample help package, documenting the file format.
+; For some example help text look at the end of the file.
+
+
+; *** GENERAL ***
+; Blank lines and lines starting with ; are ignored.
+; You cannot use "[identifier]   ;this is a comment"
+; The first line must be maintained as-is, or the file will not be recognised
+; Subsequent lines are in HTTP header format. Do not translate anything before
+; the :
+;
+; You normally do not need to restart Miranda IM for changes in this file to take effect.
+; When you add a new context identifier to this file it will be loaded on next request.
+; However, when you update an existing context identifier and you opened up the
+; associated dialog before, you might need to wait until the cache period has elapsed.
+; The chache can be configured in the help options.
+;
+; Spaces are trimmed from the beginning and end of all strings before parsing.
+; Context identifiers that cannot be found in this file will show "No help available".
+;
+; If a context identifier is duplicated, the first occurence in the file will be used.
+
+
+
+; *** HELP TEXTS ***
+; Help texts are formated using regular text which also can contain
+; some simple HTML code.
+;
+; An entry in the help file looks like this:
+;
+; [context_identifier]
+; Some text shown as title=Some text<br>that might contain simple html code
+;
+; A list of available HTML tags that might be helpful when writing
+; help texts:
+; styles:     <i>italic</i>, <b>bold</b>, <u>underlined</u>
+; linebreak:  <br>
+; sizes:      <big>large text</big>, <small>tiny text</small>
+; hyperlinks: <a href="url">link title</a>
+; paragraph:  <p>text</p>
+; colors:     <font color="#hexcode">colored text</font>
+;  instead of #hexcode you can also use the following 16 default color names:
+;  black, maroon, green, olive, navy, purple, teal, silver,
+;  gray, red, lime, yellow, blue, fuchsia, aqua, white
+
+; Be careful when using those html tags.
+; Do not use them massively, instead pick them when appropriate to
+; guide the reader. Keep in mind that it is still a *help* text.
+;	
+; Some special symbols must be specified differently:
+; instead of < use &lt;
+; instead of > use &gt;
+; instead of & use &amp;
+; instead of " use &quot; 
+; A space can be also specified as &nbsp;
+;
+; To specify a specific Unicode character
+; you can use a special numeric representation:
+; &#[x][Number];
+; Examples: &#945; &#x3B1;
+; When you place an x in in front the number needs to be hexadecimal.
+ 
+; If you maintain a help package and want to find out for which element you can write a help text
+; just do the following:
+; When you press the 'ctrl' key while opening up the context help tooltip
+; it will display the help identifier used in the help file instead of
+; the help text. You can use this identifier to add your help text to the text file.
+; When you press 'ctrl'+C when a helptip is already opened, its text will get
+; copied to clipboard.
+;
+
+; If you would like to assign one single help text to multiple context identifiers just group the
+; identifiers together. The following shows for both identifiers the same text:
+; [identifier1]
+; [identifier2]
+; title=text
+
+
+
+; *** GUIDELINES ***
+; (Subject to change)
+; * Avoid the words 'This is...' or 'This shows...' or something like that at the beginning of
+;   a help tip. It is a bit annoying when every tip begins with the same words.
+;   Example: A tip could begin immediately by 'Shows... or 'Allows you...')
+; * Try to use efficient language to express everything is a quick manner.
+; * Use correct language ;) I know this is difficult.
+;   Hint: MS Word helps a lot for language checking the whole helppack ;)
+;   Use English (GB) for the default english helppack.
+; * Bundle together logically individable cuntext-identifiers.
+;   Radio buttons should not show a different text for each. Instead, create one single helptext
+;   for all grouped together radio buttons. However, this is not a 'fixed' quideline. Let's see when it is appropriate.
+; * Always use the term 'Miranda IM' (not just 'Miranda') when you refer to
+;   the whole application. We have to keep this consistent somehow.
+; * Please try to avoid refering to 'Miranda IM' as a whole.
+;   Try to reformulate the sentence when you would like to use that term.
+;   When reformulating is not possible, its usage is all right.
+
+; Some guidelines about links in the help texts:
+; Those <a href> tags should be used _very_ rarely.
+; I think a good rule is: No use of href tags in general. Use them only in exceptional and reasonable situations.
+; Do not set links just because it is possible.
+; Ah...and only link to offical sources as help.miranda-im.org (at least for the default helppack)
+; Linking to following pages is general no good idea:
+; - inofficial pages
+: - (wiki) pages being still empty or almost empty
+; - forum threads (forums do not provide instant help, summarize important points instead)
+; The help yearning user wan't to work with the window and not dig through some webpage.
+; If he would like to visit the forum he would not do so directly.
+; Acceptable links are (for example):
+; - wiki links to help.miranda-im.org
+; Warning: A link to http://help.miranda-im.org/Plugin:SmileyAdd is not a good idea.
+; The user does not need general info about the plugin anymore because he already installed it!
+; Another Warning: Just a link in the helptip is not very helpful.
+; Links can only be an enrichment and not sole purpose on the tip.
+;
+; A very good academic ;) example for a link would be the following:
+; http://help.miranda-im.org/Installing_smileys_in_Miranda
+; Which could be placed on the tooltip of the '...' button of the 'Events'->'Smileys' page.
+; Of course, with additional text describing it.
+
+
+
+; *** HEADER ***
+; The used Help Pack file can be selected using the Language Pack Manager plugin.
+;
+; The information that is shown in the options about your
+; Help Pack file is taken from the header provided in that file.
+; If you are the author of a langpack file, please make sure the information
+; you give there accurate and does follow the offical rules.
+;
+; The information that is shown in the options about your
+; Help Pack file is taken from the header provided in that file.
+; If you are the author of a langpack file, please make sure the information
+; you give there accurate and does follow the offical rules.
+;
+; The official names of the header tags and what they specify are described here:
+; http://svn.sourceforge.net/viewcvs.cgi/*checkout*/miranda/trunk/miranda/i18n/readme.txt
+; They are exactly the same as the ones for a Language Pack file.
+;
+; Following, I provide a summary of the available tags and
+; I also provide some ideas on how those data should/could be formated.
+; You do not need to follow those suggestions, but I think it would
+; make the provided information more comfortable to read and more informative.
+
+; 'Language' header:
+; A full description of the language in the file, in English, e.g.
+; "English (UK)", "English (US) humorous" or "German".
+; This field should really be in in English so everybody knows what is is about.
+; The string is translated using the current langpack before is is displayed.
+;
+; Just provide a country abbreviation in brackets if it is useful.
+; A value of "French (fr-FR)" is not very senseful. "German (AT)" would be a useful example. 
+; Just be a bit smart to find out when those brackets are necessary and when not.
+; Several langpack files for the same language are possible using this field, e.g.
+; "German" pack using "Sie" and "German (informal)" using "Du".
+
+; 'Locale' header:
+; The Windows language code. A complete list is available at
+; http://msdn.microsoft.com/library/default.asp?url=/library/en-us/intl/nls_238z.asp
+; Please make sure this is a correct value and not the english one!
+
+; 'Last-Modified-Using' header:
+; Please keep this line up-to-date, containing the last version of Miranda IM
+; you made changes with, so people can compare files containing the same
+; language to see which is the most up-to-date. The formatting of the value is
+; unimportant, as long as it's human-readable.
+; However, it is more comfortable to read when all Language Packs use
+; the same format.
+; I think we could agree upon the following format: "Miranda IM 0.5"
+; When you used an alpha build the following format fits well:
+; "Miranda IM 0.5 alpha build #60" (as shown in About dialog).
+
+; 'Authors' header:
+; A list of people who have worked on this file. When you do something, add (or
+; move) your name to the front, and put a comma (", ") between each name, e.g.
+; "Hari Seldon, Gaal Dornick"
+; By the nature of the options dialog the place to display this value is very limited.
+; Important and actively developing people should be listed first.
+; Real names should be prefered instead of just nicknames. 
+
+; 'Author-email' header:
+; Should contain the e-mail of the person that last changed the file only, on the
+; assumption that that person is qualified to manage the file.
+; It is enough when the user knows one single email address he can write to. 
+; If you would like that email address to be obfuscated and not to be retrievable by
+; spambots or viruses scanning harddrives, you can use " at " instead of "@", e.g.
+; "joe.farmer at miranda-im.org". This will be recognized by the plugin.
+
+; 'Plugins-included' header:
+; Contains a list of the plugins that are also translated in this file. It
+; should be a comma-delimited list of the plugin DLL filenames!, e.g.:
+; Plugins-included: splitmsgdialogs,import,historyp
+; As stated in the official specification!
+; You really should follow standards here.
+; The Language Pack Manager uses this list to display a list of installed plugins
+; that are not included in this package.
+; "miranda32" or something like that does not really need to be listed here.
+; The list is case-insensitive, but it is a good idea to use exactly the same
+; case of the DLL file.
+; Just use filenames of the plugin DLLs here, e.g.
+; the plugin named "AimOSCAR.dll" should be listed as "AimOSCAR".
+; It is a good idea to even include plugins into this list that do not have any dialogs
+; where help can be shown, as "png2dib.dll".
+; The inclusion list states which plugins are fully covered by context help texts.
+; "png2dib" is, so it should be listed in the header.
+
+
+
+; ** FILENAME ***
+; Something about the 'helppack_*.txt' file name:
+; To use the file, place it in the same directory as miranda32.exe, and call it
+; helppack_*.txt where * can be anything, however it is recommended that it
+; be the language.
+; It makes sense when the * part of the file name is in English and lower case, e.g.
+; "langpack_chineset.txt" for the "Chinese (Traditional)" package. 
+; The file name is never displayed so there should be no problems with it being english.
+; Please avoid using any other character than a-z, 0-9 in this name to keep it portable. 
+; Important: Do not include a version number in the file name!
+; It is very hard to update the file when the file name changes all the time.
+; This might also result in multiple files of the same language
+; listed in the options.
+
+
+
+; *** EXAMPLES ***
+; The rest of the file are some example help texts.
+; All identifiers of the help plugin's option page are listed.
+
+; Note: I used nonsense text, no productive helptexts...
+
+[help:0@C+kDC+oD]
+dialog help=this is the option pane with the help options
+
+[help:-2@C+kDC+oD]
+[help:-3@C+kDC+oD]
+Cache Expiry together with context help group=some description here and a <a href="http://forums.miranda-im.org">link</a>.
+
+;[help:1001@C+kDC+oD]
+;editbox example=here you can <i>input</i> some value.
+
+[help:1002@C+kDC+oD]
+spin example=here you can press up to move <font color="red">one up</font>, down to move down.
+
+[help:-4@C+kDC+oD]
+static example=the value is stored in seconds, etc.
+
+[help:-5@C+kDC+oD]
+another example=text here
