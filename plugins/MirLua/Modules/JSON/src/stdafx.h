@@ -17,7 +17,7 @@ struct MT
 	JSONNode *node;
 	bool bDelete;
 
-	MT(JSONNode &refNode, bool bCopy = false) : node(bCopy ? json_copy(&refNode) : &refNode), bDelete(!bCopy) {}
+	MT(JSONNode &refNode, bool bCopy = false) : node(bCopy ? json_copy(&refNode) : &refNode), bDelete(bCopy) {}
 	MT(JSONNode *n, bool bD = true) : node(n), bDelete(bD) {}
 	~MT()
 	{
