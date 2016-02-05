@@ -208,6 +208,7 @@ void CVkProto::RetrieveUnreadMessages()
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getDialogs.json", true, &CVkProto::OnReceiveDlgs)
+		<< INT_PARAM ("count", 200)
 		<< VER_API);
 }
 
