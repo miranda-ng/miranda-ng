@@ -372,10 +372,10 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 
 			JabberShaStrBuf buf;
 			JabberSha1(szAuthString, buf);
-			for (i=0; i<40 && buffer[i+5]==buf[i]; i++);
+			for (i = 0; i < 40 && buffer[i + 5] == buf[i]; i++);
 
 			memset(data, 0, sizeof(data));
-			data[1] = (i>=20)?0:2;
+			data[1] = (i >= 20) ? 0 : 2;
 			data[0] = 5;
 			data[3] = 1;
 			Netlib_Send(hConn, (char*)data, 10, 0);
@@ -386,7 +386,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			if (jbt->state == JBT_ERROR)
 				break;
 
-			if (i>=20 && (this->*jbt->pfnSend)(hConn, jbt->ft)==TRUE)
+			if (i >= 20 && (this->*jbt->pfnSend)(hConn, jbt->ft) == TRUE)
 				jbt->state = JBT_DONE;
 			else
 				jbt->state = JBT_ERROR;
@@ -520,7 +520,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;
-			strncpy_s((char*)(data + 5), 40, JabberSha1(szAuthString, buf), _TRUNCATE);
+			strncpy_s((char*)(data + 5), 40 + 1, JabberSha1(szAuthString, buf), _TRUNCATE);
 
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
@@ -714,7 +714,7 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;
-			strncpy_s((char*)(data + 5), 40, JabberSha1(szAuthString, buf), _TRUNCATE);
+			strncpy_s((char*)(data + 5), 40 + 1, JabberSha1(szAuthString, buf), _TRUNCATE);
 
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
