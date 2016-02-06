@@ -6,7 +6,6 @@
 #define IDD_SHADOW                      102
 #define IDD_OPT_LANG                    103
 #define IDD_OPT_ADV                     104
-#define IDD_UPDATENOTIFY                105
 #define IDD_DOWNLOADLANG                106
 #define IDC_CTLTEXT                     1001
 #define IDC_TEXT                        1002
@@ -33,16 +32,6 @@
 #define IDC_LANGNOTINCLUDED             1023
 #define IDC_MORELANG                    1024
 #define IDC_NOPACK                      1025
-#define IDC_ENABLEHELPUPDATES           1026
-#define IDC_DOWNLOADLANG                1027
-#define IDC_LANGCOMBO                   1028
-#define IDC_DOWNLOADALL                 1029
-#define IDC_LOADING                     1030
-#define IDC_LANGUAGELABEL               1031
-#define IDC_LANGUAGE                    1032
-#define IDC_CURRENTVERSION              1033
-#define IDC_NEWVERSION                  1034
-#define IDC_NEWVERSIONLABEL             1035
 #define IDC_AUTOTIPSENABLED             1036
 #define IDC_AUTOTIPDELAY                1037
 #define IDC_AUTOTIPDELAYSPIN            1038

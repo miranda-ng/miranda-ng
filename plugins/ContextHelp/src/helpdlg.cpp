@@ -208,14 +208,6 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			return TRUE;
 	case WM_SIZE:
 		{
-			/* UTILRESIZEDIALOG urd;
-			ZeroMemory(&urd,sizeof(urd));
-			urd.cbSize=sizeof(urd);
-			urd.hInstance=hInst;
-			urd.hwndDlg=hwndDlg;
-			urd.lpTemplate=MAKEINTRESOURCEA(IDD_HELP);
-			urd.pfnResizer=HelpDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd); */
 			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HELP), HelpDialogResize);
 			InvalidateRect(hwndDlg, NULL, TRUE);
 #ifdef EDITOR

@@ -52,17 +52,21 @@ int RemoveDialogBoxHook(void);
 #define CTLTYPE_COLOUR     25
 #define CTLTYPE_TOOLBAR    26
 #define CTLTYPE_SIZEGRIP   27
+
 extern const TCHAR *szControlTypeNames[];
+
 int GetControlType(HWND hwndCtl);
 HWND GetControlDialog(HWND hwndCtl);
 int GetControlTitle(HWND hwndCtl, TCHAR *pszTitle, int cchTitle);
 char *GetControlModuleName(HWND hwndCtl);
 int GetControlID(HWND hwndCtl);
 char *CreateDialogIdString(HWND hwndDlg);
+
 struct ResizableCharBuffer {
 	char *sz;
 	int iEnd, cbAlloced;
 };
+
 void AppendCharToCharBuffer(struct ResizableCharBuffer *rcb, char c);
 void AppendToCharBuffer(struct ResizableCharBuffer *rcb, const char *fmt, ...);
 
@@ -114,6 +118,7 @@ void UninitOptions(void);
 void TrimStringSimple(char *str);
 void TrimString(char *str);
 BOOL IsEmpty(const char *str);
+
 typedef struct {
 	TCHAR szLanguage[64];
 	LCID Locale;
@@ -128,9 +133,11 @@ typedef struct {
 	TCHAR szFileName[MAX_PATH]; /* just the file name itself */
 	BYTE flags; /* see HPIF_* flags */
 } HELPPACK_INFO;
+
 #define HPF_ENABLED   0x01  // pack is enabled
 #define HPF_NOLOCALE  0x02  // pack has no valid locale
-#define HPF_DEFAULT   0x04  // pack is english default  
+#define HPF_DEFAULT   0x04  // pack is english default
+
 BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *pszFile);
 typedef INT_PTR(CALLBACK *ENUM_PACKS_CALLBACK)(HELPPACK_INFO *pack, WPARAM wParam, LPARAM lParam);
 BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const char *pszFileVersionHeader, WPARAM wParam, LPARAM lParam);
@@ -138,9 +145,5 @@ BOOL IsPluginIncluded(const HELPPACK_INFO *pack, char *pszFileBaseName);
 BOOL EnablePack(const HELPPACK_INFO *pack, const TCHAR *pszFilePattern);
 void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL fDisableAll);
 
-/* update.c 
-INT_PTR ServiceShowLangDialog(WPARAM wParam, LPARAM lPARAM);
-void InitUpdate(void);
-void UninitUpdate(void);*/
 
 #endif  // __CONTEXTHELP_HELP_H__
