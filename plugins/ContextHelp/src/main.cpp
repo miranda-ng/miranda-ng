@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 HINSTANCE hInst;
+HMODULE hMsftEdit;
+
 extern HWND hwndHelpDlg;
 
 int hLangpack;
@@ -94,11 +96,14 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!InitCommonControlsEx(&icc))
 		return 1;
 
-	if (LoadLibrary(_T("Msftedit.dll")) == NULL)
+	hMsftEdit = LoadLibrary(_T("Msftedit.dll"));
+	if (hMsftEdit == NULL) {
 		if (IDYES != MessageBoxEx(NULL,
 			TranslateT("The Context help plugin can not be loaded, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Context help plugin"), MB_YESNO | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID(Langpack_GetDefaultLocale())))
 			return 1;
+		return 0;
+	}
 
 	if (InstallDialogBoxHook())
 		return 1;
@@ -122,7 +127,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	if (hwndHelpDlg != NULL)
 		DestroyWindow(hwndHelpDlg);
+
 	FreeDialogCache();
+	FreeLibrary(hMsftEdit);
 
 	return 0;
 }
