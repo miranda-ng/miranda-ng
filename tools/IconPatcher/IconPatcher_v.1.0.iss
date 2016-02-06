@@ -5,6 +5,7 @@
 ; • It has English and Russian interface (automatically detected)
 ; • Intuitive graphical user interface.
 ; • Command line support. Command line parameters:
+;    • /PID = "PID of Miranda procees for wait closing it".
 ;    • /BIN = "path to Miranda32/64.exe". The exe-file path, related to which all archived files' paths would be calculated with respect to 'files from the archive to the resources' from the 'files Miranda'.
 ;    • /ARC = archive name without extension, for example, /ARC=Nova.
 ;    • /RES = list of archive folders to process, they will be marked in the patcher's UI. If you want to mark all folders, you can simply omit /RES parameter, or use /RES=* either.
@@ -196,6 +197,10 @@ type
     Items: array of TUpdateResItem;
     IconList: TStringList;
   end;
+
+function WaitForSingleObject(hHandle : THandle; dwMilliseconds : DWORD) : DWORD; external 'WaitForSingleObject@kernel32.dll stdcall';
+function OpenProcess(dwDesiredAccess: DWORD; bInheritHandle: BOOL; dwProcessId: Longint): THandle; external 'OpenProcess@kernel32.dll stdcall';
+function TerminateProcess(hProcess:THandle; exitCode: DWORD): BOOL; external 'TerminateProcess@kernel32.dll stdcall';
 
 function SevenZipOpenArchive(const hwnd: HWND; szFileName: AnsiString; const dwMode: DWORD): THandle; external 'SevenZipOpenArchive@files:7-zip32.dll stdcall';
 function SevenZipCloseArchive(harc: THandle): Integer; external 'SevenZipCloseArchive@files:7-zip32.dll stdcall';
@@ -533,7 +538,24 @@ var
   RootPath, RootDir, DirName, FileName, OutputDir, AddParam: AnsiString;
   ItemText: AnsiString;
   i, ResultCode: Integer;
+  handle: THandle;
+  PID: Longint;
 begin
+
+  PID := StrToIntDef(ExpandConstant('{param:PID}'), 0);
+  if PID <> 0 then
+  begin
+    handle := OpenProcess(1048576 or 1, false, PID);
+    if handle <> 0 then
+    begin
+      StatusBar.Panels[0].Text := FmtMessage(CustomMessage('cmStatusLabelCaption1a'), ['Waiting...']);
+      StatusBar.Refresh;
+      if WaitForSingleObject(handle, 15000) = 258 then
+        TerminateProcess(handle, 9);
+      CloseHandle(handle);
+    end
+  end;
+
   { ResHelper }
   Log(CustomMessage('cmLogUpdateResources1a'));
   ResHelper.IconList := TStringList.Create;
