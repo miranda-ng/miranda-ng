@@ -425,13 +425,12 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				LVCOLUMN lvc;
 				lvc.mask = LVCF_TEXT;
-				lvc.pszText = TranslateT("Installed Languages");
+				lvc.pszText = TranslateT("Installed languages");
 				ListView_InsertColumn(hwndList, 0, &lvc);
 			}
 			if (ServiceExists(MS_FLAGS_LOADFLAGICON))
 				ListView_SetImageList(hwndList, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR24, 8, 8), LVSIL_SMALL);
 			CorrectPacks(_T("helppack_*.txt"), _T("helppack_english.txt"), FALSE);
-			CheckDlgButton(hwndDlg, IDC_ENABLEHELPUPDATES, db_get_b(NULL, "HelpPlugin", "EnableHelpUpdates", SETTING_ENABLEHELPUPDATES_DEFAULT) != 0);
 			SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
 			SendMessage(hwndDlg, M_SHOWFILECOL, 0, 1);
 			return TRUE;
@@ -451,7 +450,6 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					DisplayPackInfo(hwndDlg, NULL);
 				/* make it use current langpack locale for sort */
 				ListView_SortItems(hwndList, CompareListItem, Langpack_GetDefaultLocale());
-				CheckDlgButton(hwndDlg, IDC_ENABLEHELPUPDATES, db_get_b(NULL, "HelpPlugin", "EnableHelpUpdates", SETTING_ENABLEHELPUPDATES_DEFAULT) != 0);
 				/* show selection */
 				int iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED);
 				if (iItem != -1)
@@ -501,22 +499,14 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_LANGEMAIL:
 			{
 				char buf[512];
-				lstrcpyA(buf, "mailto:");
-				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], sizeof(buf) - 7))
-					// CallService(MS_UTILS_OPENURL,FALSE,(LPARAM)buf); // look at !!
-					return TRUE;
+				mir_strcpy(buf, "mailto:");
+				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], _countof(buf) - 7))
+					Utils_OpenUrl(buf);
+				return TRUE;
 			}
 
 		case IDC_MORELANG:
-			// CallService(MS_UTILS_OPENURL,TRUE,(LPARAM)"http://miranda-ng.org/"); //look at !!
-			return TRUE;
-
-		case IDC_ENABLEHELPUPDATES:
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0); /* enable apply */
-			return TRUE;
-
-		case IDC_DOWNLOADLANG:
-			// ServiceShowLangDialog(0, 0);
+			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Download");
 			return TRUE;
 		}
 		break;
@@ -653,7 +643,6 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						pack->flags &= ~HPF_ENABLED;
 				}
-				db_set_b(NULL, "HelpPlugin", "EnableAutoUpdates", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEHELPUPDATES) != 0));
 				return TRUE;
 			}
 		} /* switch nmhdr->idFrom */

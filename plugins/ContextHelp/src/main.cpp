@@ -110,11 +110,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitOptions();
 	InitDialogCache();
-	// InitUpdate();
-
-	//	InstallFile(_T("Help-Readme.txt"),_T("Docs\\"));
-	//	InstallFile(_T("Help-License.txt"),_T("Docs\\"));
-	//	InstallFile(_T("Help-SDK.zip"),_T("Docs\\"));
 
 	return 0;
 }
@@ -122,7 +117,6 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
-	// UninitUpdate();
 	RemoveDialogBoxHook();
 
 	if (hwndHelpDlg != NULL)
