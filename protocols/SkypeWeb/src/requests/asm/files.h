@@ -3,18 +3,20 @@
 class ASMObjectCreateRequest : public HttpRequest
 {
 public:
-	ASMObjectCreateRequest(LoginInfo &li, const char *szContact) :
+	ASMObjectCreateRequest(LoginInfo &li, const char *szContact, const char *szFileName) :
 		HttpRequest(REQUEST_POST, "api.asm.skype.com/v1/objects")
 	{
+		flags &= (~NLHRF_DUMPASTEXT);
 		Headers
-			<< CHAR_VALUE("Authorization:", CMStringA(::FORMAT, "skype_token %s", li.api.szToken));
+			<< CHAR_VALUE("Authorization", CMStringA(::FORMAT, "skype_token %s", li.api.szToken))
+			<< CHAR_VALUE("Content-Type", "text/json");
 
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
 		jPermissions.set_name("permissions");
 		jPermission.set_name(szContact);
-		jPermission << JSONNode("read", (char*)NULL);
+		//jPermission << JSONNode("read");
 		jPermissions << jPermission;
-		node << JSONNode("type", "pish/image") << jPermissions;
+		node << JSONNode("type", "sharing/file") << JSONNode("filename", szFileName) << jPermissions;
 
 		Body << VALUE(node.write().c_str());
 
@@ -25,10 +27,11 @@ class ASMObjectUploadRequest : public HttpRequest
 {
 public:
 	ASMObjectUploadRequest(LoginInfo &li, const char *szObject, const PBYTE data, const size_t size) :
-		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/imgpsh", szObject)
+		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/original", szObject)
 	{
 		Headers
-			<< CHAR_VALUE("Authorization:", CMStringA(::FORMAT, "skype_token %s", li.api.szToken));
+			<< CHAR_VALUE("Authorization", CMStringA(::FORMAT, "skype_token %s", li.api.szToken))
+			<< CHAR_VALUE("Content-Type", "application/octet-stream");
 
 		pData = (char*)mir_alloc(size);
 		memcpy(pData, data, size);

@@ -68,7 +68,8 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 	mir_cslock lck(m_AppendMessageLock);
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = db_event_getBlobSize(hEvent);
-	dbei.pBlob = mir_ptr<BYTE>((PBYTE)mir_alloc(dbei.cbBlob));
+	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+	dbei.pBlob = blob;
 	db_event_get(hEvent, &dbei);
 
 	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);

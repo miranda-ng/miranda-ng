@@ -324,8 +324,8 @@ private:
 			mir_free(lst[i]);
 	}
 
-	__forceinline bool IsOnline()
-	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
+	__forceinline bool IsOnline() const
+	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
 
 	__forceinline bool IsMe(const char *szSkypename)

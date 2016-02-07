@@ -93,6 +93,8 @@ struct CFileUploadParam : public MZeroedObject {
 	ptrT tszDesc;
 	char* atr;
 	char* fname;
+	char *uid;
+	size_t size;
 	MCONTACT hContact;
 
 	__forceinline CFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) : hContact(_hContact), tszDesc(mir_tstrdup(_desc)), tszFileName(mir_tstrdup(_files[0])) {};
