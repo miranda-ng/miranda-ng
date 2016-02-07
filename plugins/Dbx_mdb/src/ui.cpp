@@ -160,7 +160,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, true));
+		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib, true));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, 1);
-		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 	}
 
 	return FALSE;
@@ -300,11 +300,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 void CDbxMdb::UpdateMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME;
-	mi.icolibItem = iconList[1].hIcolib;
-	mi.pszName = GetMenuTitle();
-	Menu_ModifyItem(hSetPwdMenu, &mi);
+	Menu_ModifyItem(hSetPwdMenu, _A2T(GetMenuTitle()), iconList[1].hIcolib);
 }
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
@@ -316,16 +312,18 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
 	// main menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.pszName = LPGEN("Database");
-	mi.position = 500000000;
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.icolibItem = iconList[0].hIcolib;
-	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
+	// main menu item
+	CMenuItem mi;
 
-	mi.icolibItem = iconList[1].hIcolib;
-	mi.pszName = db->GetMenuTitle();
-	mi.hParentMenu = hMenuRoot;
+	// main menu item
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500000000, iconList[0].hIcolib);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
+
+	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
+	mi.flags = CMIF_TCHAR;
+	mi.hIcolibItem = iconList[1].hIcolib;
+	_A2T tszTitle(db->GetMenuTitle());
+	mi.name.t = tszTitle;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
