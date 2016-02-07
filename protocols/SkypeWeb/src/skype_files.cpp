@@ -68,14 +68,19 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 	CFileUploadParam *fup = (CFileUploadParam*)arg;
 	if (response == nullptr) return;
 	CMStringA url(response->szUrl);
-	
+
+	TCHAR *tszFile = fup->tszFileName;
+
 	HXML xml = xmlCreateNode(L"URIObject", nullptr, 0);
-	HXML xmlTitle = xmlAddChild(xml, L"Title", fup->tszFileName);
+	HXML xmlTitle = xmlAddChild(xml, L"Title", tszFile);
 	HXML xmlDescr = xmlAddChild(xml, L"Description", fup->tszDesc);
 	HXML xmlA = xmlAddChild(xml, L"a", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
-	HXML xmlOrigName = xmlAddChild(xml, L"OriginalName", fup->tszFileName);
-	HXML xmlSize = xmlAddChild(xml, L"FileSize", CMStringW(FORMAT, L"%d", fup->size));
-
+	xmlAddAttr(xmlA, L"href", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
+	HXML xmlOrigName = xmlAddChild(xml, L"OriginalName", nullptr);
+	xmlAddAttr(xmlOrigName, L"v", tszFile);
+	HXML xmlSize = xmlAddChild(xml, L"FileSize", nullptr);
+	xmlAddAttr(xmlSize, L"v", CMStringW(FORMAT, L"%d", fup->size));
+	
 	xmlAddAttr(xml, L"Type", L"File.1");
 	xmlAddAttr(xml, L"uri", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s", _A2T(fup->uid)));
 	xmlAddAttr(xml, L"url_thumbnail", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s/views/thumbnail", _A2T(fup->uid)));
