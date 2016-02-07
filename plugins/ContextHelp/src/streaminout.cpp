@@ -273,8 +273,6 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 								mir_free(szColour);
 #ifndef EDITOR
 							if (colour != clrBkgrnd) { // ensure color is visible
-#else
-							UNREFERENCED_PARAMETER(clrBkgrnd);
 #endif // !defined EDITOR
 								for (i = 0; i < colourTblCount; i++)
 									if (colourTbl[i] == colour)
@@ -362,7 +360,7 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 		AppendToCharBuffer(&header, "%s}", body.sz ? body.sz : "");
 		esd.pbBuff = (PBYTE)header.sz;
 		esd.cbBuff = header.iEnd;
-		stream.dwCookie = (DWORD)&esd;
+		stream.dwCookie = (DWORD_PTR)&esd;
 		stream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInRtf;
 		SendMessage(hwndEdit, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
 		mir_free(header.sz);

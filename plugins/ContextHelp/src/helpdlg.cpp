@@ -22,10 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 HWND hwndHelpDlg;
 
-static int HelpDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int HelpDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	UNREFERENCED_PARAMETER(hwndDlg);
-	UNREFERENCED_PARAMETER(lParam);
 	switch (urc->wId) {
 	case IDC_CTLTEXT:
 #ifdef EDITOR
@@ -40,9 +38,8 @@ static int HelpDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 }
 
 #ifndef EDITOR
-INT_PTR CALLBACK ShadowDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ShadowDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
@@ -186,12 +183,12 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				rc.right = rcBuf.right;
 				SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETRECTNP, 0, (LPARAM)&rc);
 			}
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CTLTEXT), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_CTLTEXT), GWLP_WNDPROC, (LONG)HelpSubclassProc));
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CARETSUCKER), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_CARETSUCKER), GWLP_WNDPROC, (LONG)HelpSubclassProc));
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CTLTEXT), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_CTLTEXT), GWLP_WNDPROC, (LONG_PTR)HelpSubclassProc));
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CARETSUCKER), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_CARETSUCKER), GWLP_WNDPROC, (LONG_PTR)HelpSubclassProc));
 			SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETEVENTMASK, 0, ENM_KEYEVENTS | ENM_MOUSEEVENTS | ENM_REQUESTRESIZE);
 			SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETBKGNDCOLOR, 0, GetSysColor(COLOR_INFOBK));
 			SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_TEXT), GWLP_WNDPROC, (LONG)HelpSubclassProc));
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT), GWLP_USERDATA, SetWindowLong(GetDlgItem(hwndDlg, IDC_TEXT), GWLP_WNDPROC, (LONG_PTR)HelpSubclassProc));
 			hwndShadowDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHADOW), hwndDlg, ShadowDlgProc, (LPARAM)&hwndShadowDlg);
 			hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_ALWAYSTIP | TTS_NOPREFIX, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, NULL, hInst, NULL);
 			if (hwndToolTip != NULL) {
@@ -248,10 +245,9 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 	case WM_CONTEXTMENU:
 		{
-			HMENU hMenu;
 			POINT pt;
 			POINTSTOPOINT(pt, MAKEPOINTS(lParam));
-			hMenu = CreatePopupMenu();
+			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, WM_COPY, TranslateT("&Copy"));
 			if (TrackPopupMenuEx(hMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, hwndDlg, NULL))
 				SendMessage(hwndDlg, M_CLIPBOARDCOPY, 0, 0);
@@ -314,7 +310,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_CTLCOLORSTATIC:
 		SetTextColor((HDC)wParam, GetSysColor(COLOR_INFOTEXT));
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_INFOBK));
-		return (BOOL)GetSysColorBrush(COLOR_INFOBK);
+		return GetSysColorBrush(COLOR_INFOBK) != 0;
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_INACTIVE)
 			break;
@@ -404,10 +400,8 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 #ifndef EDITOR
 			// show id string instead of help text when 'ctrl' key pressed
 			if (msg == M_LOADHELP && GetAsyncKeyState(VK_CONTROL) & 0x8000) {
-				char *buf;
-				HWND hwnd;
-				buf = CreateControlIdentifier(szDlgId ? szDlgId : "unknown", szModule ? szModule : "unknown", id, hwndCtl);
-				hwnd = GetDlgItem(hwndDlg, IDC_CTLTEXT);
+				char *buf = CreateControlIdentifier(szDlgId ? szDlgId : "unknown", szModule ? szModule : "unknown", id, hwndCtl);
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_CTLTEXT);
 				SetWindowTextA(hwnd, buf); // accepts NULL
 				SetDlgItemText(hwndDlg, IDC_TEXT, NULL);
 				mir_free(buf); // does NULL check

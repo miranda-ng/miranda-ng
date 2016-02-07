@@ -341,7 +341,7 @@ struct CreateDialogIdBinaryData {
 	HWND hwndParent;
 };
 
-static INT_PTR CALLBACK CreateDlgIdBinEnumProc(HWND hwnd, LPARAM lParam)
+static BOOL CALLBACK CreateDlgIdBinEnumProc(HWND hwnd, LPARAM lParam)
 {
 	struct CreateDialogIdBinaryData *cdib = (struct CreateDialogIdBinaryData*)lParam;
 	int type;
@@ -376,7 +376,7 @@ char *CreateDialogIdString(HWND hwndDlg)
 	if (hwndDlg == NULL)
 		return NULL;
 	cdib.hwndParent = hwndDlg;
-	EnumChildWindows(hwndDlg, (WNDENUMPROC)CreateDlgIdBinEnumProc, (LPARAM)&cdib);
+	EnumChildWindows(hwndDlg, CreateDlgIdBinEnumProc, (LPARAM)&cdib);
 	if (cdib.buf == NULL)
 		return NULL;
 	szRet = Base64Encode(cdib.buf, cdib.count);
