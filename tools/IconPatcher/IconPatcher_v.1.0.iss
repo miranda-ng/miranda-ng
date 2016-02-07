@@ -58,6 +58,7 @@ IconResource=plugin:{res}\plugin.ico|done:{res}\done.ico|skip:{res}\skip.ico|err
 [Languages]
 Name: en; MessagesFile: compiler:default.isl,{res}\iconpatcher_en.isl
 Name: ru; MessagesFile: compiler:Languages\russian.isl,{res}\iconpatcher_ru.isl
+Name: de; MessagesFile: compiler:Languages\german.isl,{res}\iconpatcher_de.isl
 
 [Files]
 Source: {res}\7-zip32.dll; Flags: dontcopy
@@ -548,7 +549,7 @@ begin
     handle := OpenProcess(1048576 or 1, false, PID);
     if handle <> 0 then
     begin
-      StatusBar.Panels[0].Text := CustomMessage('cmWaititng');
+      StatusBar.Panels[0].Text := CustomMessage('cmWaiting');
       StatusBar.Refresh;
       if WaitForSingleObject(handle, 15000) = 258 then
         TerminateProcess(handle, 9);
