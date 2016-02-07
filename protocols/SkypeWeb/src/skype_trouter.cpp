@@ -142,6 +142,7 @@ void CSkypeProto::TRouterThread(void*)
 		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE)
 		{
 			TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
+			request->nlc = m_TrouterConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
 			delete request;
 			if (response == NULL)
@@ -171,7 +172,7 @@ void CSkypeProto::TRouterThread(void*)
 				m_hTrouterHealthEvent.Wait();
 			}
 			m_TrouterConnection = response->nlc;
-		} // fallthrough 
+		}
 	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;

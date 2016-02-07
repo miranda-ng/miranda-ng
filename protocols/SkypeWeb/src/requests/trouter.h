@@ -132,6 +132,7 @@ public:
 		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/xhr-polling/%s", socketio.c_str(), sessId.c_str())
 	{
 		timeout = 60000;
+		flags |= NLHRF_PERSISTENT;
 		Url
 			<< CHAR_VALUE("sr", sr.c_str())
 			<< CHAR_VALUE("issuer", "edf")

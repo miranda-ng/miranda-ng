@@ -16,7 +16,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#define INVALID_DATA Translate("Invalid data!")
+#define INVALID_DATA Translate("SkypeWeb error: Invalid data!")
 
 INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 {
@@ -135,13 +135,14 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			}
 			break;
 		}
+	case SKYPE_DB_EVENT_TYPE_FILE:
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
 			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("URIObject"));
 			if (xml != NULL)
 			{
-				szText.Append(_T2A(xmlGetText(xml)));
+				//szText.Append(_T2A(xmlGetText(xml)));
 				HXML xmlA = xmlGetChildByPath(xml, _T("a"), 0);
 				if (xmlA != NULL)
 				{
