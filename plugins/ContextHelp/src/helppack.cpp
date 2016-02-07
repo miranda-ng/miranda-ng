@@ -157,7 +157,6 @@ static void CleanupLastModifiedUsing(char *szLastModifiedUsing, int nSize)
 // pack->szFileName needs to be filled in before call
 static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *pszFileVersionHeader)
 {
-	FILE *fp;
 	TCHAR szFileName[MAX_PATH];
 	char line[4096], *pszColon, *buf;
 	char szLanguageA[64]; /* same size as pack->szLanguage */
@@ -175,7 +174,7 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 	*/
 	if (!GetPackPath(szFileName, sizeof(szFileName), fEnabledPacks, pack->szFileName))
 		return FALSE;
-	fp = _tfopen(szFileName, _T("rt"));
+	FILE *fp = _tfopen(szFileName, _T("rt"));
 	if (fp == NULL)
 		return FALSE;
 	fgets(line, sizeof(line), fp);
@@ -376,8 +375,6 @@ BOOL IsPluginIncluded(const HELPPACK_INFO *pack, char *pszFileBaseName)
 		else
 			p += lstrlenA(pszFileBaseName) + 1;
 	}
-
-	return FALSE;
 }
 
 /**************************** SWITCH PACKS ************************/
@@ -424,8 +421,6 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 {
 	TCHAR szFrom[MAX_PATH], szDest[MAX_PATH], szDir[MAX_PATH], *pszFile;
 	BOOL fDirCreated = FALSE, fOneEnabled = FALSE;
-	HANDLE hFind;
-	WIN32_FIND_DATA wfd;
 
 	/* main path */
 	if (!GetModuleFileName(NULL, szDir, sizeof(szDir)))
@@ -436,7 +431,8 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 
 	/* move wrongly placed packs from 'Plugins' to 'Language' */
 	mir_sntprintf(szFrom, sizeof(szFrom), _T("%s\\Plugins\\%s"), szDir, pszFilePattern);
-	hFind = FindFirstFile(szFrom, &wfd);
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = FindFirstFile(szFrom, &wfd);
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
 			if (wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)

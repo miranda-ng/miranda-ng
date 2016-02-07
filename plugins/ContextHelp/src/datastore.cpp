@@ -47,10 +47,8 @@ static HANDLE hServiceFileChange, hFileChange;
 
 #define DIALOGCACHEEXPIRY 10*60*1000 // delete from cache after those milliseconds
 
-static INT_PTR ServiceFileChanged(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceFileChanged(WPARAM wParam, LPARAM)
 {
-	UNREFERENCED_PARAMETER(lParam);
-
 	EnterCriticalSection(&csDialogCache);
 	for (int i = 0; i < dialogCacheCount; i++)
 		dialogCache[i].timeLastUsed = 0;
@@ -542,7 +540,6 @@ void SetControlHelp(const char *pszDlgId, const char *pszModule, int ctrlId, TCH
 static void DialogCacheSaveThread(void *unused)
 {
 	int success = 0;
-	UNREFERENCED_PARAMETER(unused);
 
 	// TODO: port the following code to write to the helppack file instead
 	// (netlib code already removed)

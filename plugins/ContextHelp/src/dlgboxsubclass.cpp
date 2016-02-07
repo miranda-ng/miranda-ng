@@ -52,7 +52,7 @@ struct FindChildAtPointData {
 };
 
 // ChildWindowFromPoint() messes up with group boxes
-static INT_PTR CALLBACK FindChildAtPointEnumProc(HWND hwnd, LPARAM lParam)
+static BOOL CALLBACK FindChildAtPointEnumProc(HWND hwnd, LPARAM lParam)
 {
 	if (IsWindowVisible(hwnd)) {
 		struct FindChildAtPointData *fcap = (struct FindChildAtPointData*)lParam;
@@ -97,13 +97,11 @@ static UINT idMouseMoveTimer = 0;
 static LONG cursorPos = MAKELONG(-1, -1);
 static int openedAutoTip = 0;
 
-static void CALLBACK NoMouseMoveForDelayTimerProc(HWND hwnd, UINT msg, UINT idTimer, DWORD time)
+static void CALLBACK NoMouseMoveForDelayTimerProc(HWND hwnd, UINT, UINT_PTR idTimer, DWORD)
 {
 	POINT pt;
 	HWND hwndCtl;
 	struct FindChildAtPointData fcap;
-	UNREFERENCED_PARAMETER(msg);
-	UNREFERENCED_PARAMETER(time);
 
 	KillTimer(hwnd, idTimer);
 	if (idMouseMoveTimer != idTimer)
@@ -118,7 +116,7 @@ static void CALLBACK NoMouseMoveForDelayTimerProc(HWND hwnd, UINT msg, UINT idTi
 	// ChildWindowFromPoint() messes up with group boxes
 	fcap.hwnd = NULL;
 	fcap.pt = pt;
-	EnumChildWindows(hwndMouseMoveDlg, (WNDENUMPROC)FindChildAtPointEnumProc, (LPARAM)&fcap);
+	EnumChildWindows(hwndMouseMoveDlg, FindChildAtPointEnumProc, (LPARAM)&fcap);
 	hwndCtl = fcap.hwnd;
 	if (hwndCtl == NULL) {
 		ScreenToClient(hwndMouseMoveDlg, &pt);
@@ -127,7 +125,7 @@ static void CALLBACK NoMouseMoveForDelayTimerProc(HWND hwnd, UINT msg, UINT idTi
 			return;
 	}
 
-	LONG flags = (LONG)GetProp(hwndCtl, PROP_CONTEXTSTATE);
+	LONG_PTR flags = (LONG_PTR)GetProp(hwndCtl, PROP_CONTEXTSTATE);
 	if (flags&PROPF_AUTOTIPDISABLED)
 		return;
 	flags = SendMessage(hwndCtl, WM_GETDLGCODE, (WPARAM)VK_RETURN, (LPARAM)NULL);
@@ -173,8 +171,6 @@ static LRESULT CALLBACK EatNextMouseButtonUpHookProc(int code, WPARAM wParam, LP
 
 static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC pfnWndProc;
-	DWORD flags;
 	int i;
 
 	EnterCriticalSection(&csDlgBoxSubclass);
@@ -185,8 +181,8 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		LeaveCriticalSection(&csDlgBoxSubclass);
 		return 0;
 	}
-	pfnWndProc = dlgBoxSubclass[i].pfnOldWndProc;
-	flags = dlgBoxSubclass[i].flags;
+	WNDPROC pfnWndProc = dlgBoxSubclass[i].pfnOldWndProc;
+	DWORD flags = dlgBoxSubclass[i].flags;
 	if (msg == WM_NCDESTROY) {
 		struct DlgBoxSubclassData *buf;
 		MoveMemory(dlgBoxSubclass + i, dlgBoxSubclass + i + 1, sizeof(struct DlgBoxSubclassData)*(dlgBoxSubclassCount - i - 1));
@@ -231,7 +227,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		openedAutoTip = 0;
 		hwndMouseMoveDlg = hwndDlg;
 		if (hwndHelpDlg == NULL)
-			idMouseMoveTimer = SetTimer(NULL, idMouseMoveTimer, settingAutoTipDelay, (TIMERPROC)NoMouseMoveForDelayTimerProc);
+			idMouseMoveTimer = SetTimer(NULL, idMouseMoveTimer, settingAutoTipDelay, NoMouseMoveForDelayTimerProc);
 		break;
 	case WM_CAPTURECHANGED:
 		if ((HWND)lParam == hwndDlg)
@@ -266,7 +262,6 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_CONTEXTMENU:
 		{
 			POINT pt;
-			HWND hwndCtl;
 			struct FindChildAtPointData fcap;
 
 			// workaround for badly coded plugins that do display a context menu
@@ -283,8 +278,8 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			// ChildWindowFromPoint() messes up with group boxes
 			fcap.hwnd = NULL;
 			fcap.pt = pt;
-			EnumChildWindows(hwndDlg, (WNDENUMPROC)FindChildAtPointEnumProc, (LPARAM)&fcap);
-			hwndCtl = fcap.hwnd;
+			EnumChildWindows(hwndDlg, FindChildAtPointEnumProc, (LPARAM)&fcap);
+			HWND hwndCtl = fcap.hwnd;
 			if (hwndCtl == NULL) {
 				ScreenToClient(hwndDlg, &pt);
 				hwndCtl = ChildWindowFromPointEx(hwndDlg, pt, CWP_SKIPINVISIBLE);
@@ -293,7 +288,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				POINTSTOPOINT(pt, MAKEPOINTS(lParam));
 			}
 			{
-				LONG flags = (LONG)GetProp(hwndCtl, PROP_CONTEXTSTATE);
+				LONG_PTR flags = (LONG_PTR)GetProp(hwndCtl, PROP_CONTEXTSTATE);
 				if (flags&PROPF_MENUDISABLED)
 					break;
 				else if (!(flags&PROPF_MENUFORCED)) {
@@ -407,8 +402,7 @@ static LRESULT CALLBACK HelpSendMessageHookProc(int code, WPARAM wParam, LPARAM 
 				LeaveCriticalSection(&csDlgBoxSubclass);
 			}
 				{
-					HMENU hMenu;
-					hMenu = GetSystemMenu(msg->hwnd, FALSE);
+					HMENU hMenu = GetSystemMenu(msg->hwnd, FALSE);
 					if (hMenu != NULL && AppendMenu(hMenu, MF_SEPARATOR, SC_CONTEXTHELP_SEPARATOR, NULL)) {
 						AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP, TranslateT("&What's this?"));
 						AppendMenu(hMenu, MF_STRING, SC_CONTEXTHELP_DIALOG, TranslateT("&What's this dialog?"));
@@ -425,9 +419,8 @@ static LRESULT CALLBACK HelpSendMessageHookProc(int code, WPARAM wParam, LPARAM 
 	return CallNextHookEx(hMessageHook, code, wParam, lParam);
 }
 
-static INT_PTR ServiceShowHelp(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceShowHelp(WPARAM wParam, LPARAM)
 {
-	UNREFERENCED_PARAMETER(lParam);
 	if (!IsWindow((HWND)wParam))
 		return 1;
 	if (idMouseMoveTimer)

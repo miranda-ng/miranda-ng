@@ -355,8 +355,6 @@ static void DeletePackFile(HWND hwndDlg, HWND hwndList, int iItem, HELPPACK_INFO
 
 static INT_PTR CALLBACK InsertPackItemEnumProc(HELPPACK_INFO *pack, WPARAM wParam, LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(lParam);
-
 	HELPPACK_INFO *pack2 = (HELPPACK_INFO*)mir_alloc(sizeof(HELPPACK_INFO));
 	if (pack2 == NULL)
 		return FALSE;
@@ -760,7 +758,7 @@ static int HelpOptInit(WPARAM wParam, LPARAM)
 #ifdef EDITOR
 	odp.ptszTab = _T("Help editor"); /* autotranslated */
 #else
-	odp.ptszTab = _T("Advanced");    /* autotranslated */
+	odp.ptszTab = LPGENT("Advanced");    /* autotranslated */
 #endif
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADV);
 	odp.pfnDlgProc = AdvOptDlgProc;
