@@ -1,4 +1,8 @@
-﻿[Alert]
+﻿;============================================================
+;  File: wundergrnd_intl.ini
+;  Module: weather
+;============================================================
+[Alert]
 [Blowing Snow]
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 [Chance Of Rain 20% Chance Of Precipitation]
