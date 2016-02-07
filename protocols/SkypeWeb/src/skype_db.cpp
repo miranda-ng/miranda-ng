@@ -163,6 +163,14 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.descr = Translate("URI object");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_MOJI;
+	dbEventType.descr = Translate("Moji");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_FILE;
+	dbEventType.descr = Translate("File");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 	dbEventType.descr = Translate("Unknown event");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);

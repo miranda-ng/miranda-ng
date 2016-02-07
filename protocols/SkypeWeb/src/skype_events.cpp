@@ -73,11 +73,8 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 						if (xmlDuration != NULL)
 						{
 							callDuration = _ttol(xmlGetText(xmlDuration));
-							xmlDestroyNode(xmlDuration);
-							xmlDestroyNode(xmlPart);
 							break;
 						}
-						xmlDestroyNode(xmlPart);
 					}
 				}
 
@@ -124,7 +121,6 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 							szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
 						}
 
-						xmlDestroyNode(xmlNode);
 					}
 				}
 				xmlDestroyNode(xml);
@@ -146,8 +142,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 				HXML xmlA = xmlGetChildByPath(xml, _T("a"), 0);
 				if (xmlA != NULL)
 				{
-					szText += _T2A(xmlGetAttrValue(xmlA, _T("href")));
-					xmlDestroyNode(xmlA);
+					szText += T2Utf(xmlGetAttrValue(xmlA, _T("href")));
 				}
 				xmlDestroyNode(xml);
 			}
