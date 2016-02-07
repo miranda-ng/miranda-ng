@@ -53,7 +53,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	mdb_env_create(&m_pMdbEnv);
 	mdb_env_set_maxdbs(m_pMdbEnv, 10);
 
-	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	m_codePage = Langpack_GetDefaultCodePage();
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
