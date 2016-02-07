@@ -5,6 +5,7 @@ LanguageCodePage=1251
 
 [CustomMessages]
 ; *** "UpdateForm form"
+cmWaiting=ќжидание...
 cmFileNotFound=јрхивы не найдены.
 cmBinariesPath=”кажите путь к исполн€емому файлу Miranda32/64.exe:
 cmFilter=‘айл Miranda??.exe (Miranda??.exe)|Miranda??.exe

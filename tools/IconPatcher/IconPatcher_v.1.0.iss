@@ -548,7 +548,7 @@ begin
     handle := OpenProcess(1048576 or 1, false, PID);
     if handle <> 0 then
     begin
-      StatusBar.Panels[0].Text := FmtMessage(CustomMessage('cmStatusLabelCaption1a'), ['Waiting...']);
+      StatusBar.Panels[0].Text := CustomMessage('cmWaititng');
       StatusBar.Refresh;
       if WaitForSingleObject(handle, 15000) = 258 then
         TerminateProcess(handle, 9);

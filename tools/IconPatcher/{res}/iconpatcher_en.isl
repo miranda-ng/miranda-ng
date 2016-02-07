@@ -5,6 +5,7 @@ LanguageCodePage=0
 
 [CustomMessages]
 ; *** "UpdateForm form"
+cmWaiting=Waititng...
 cmFileNotFound=Archives not found.
 cmBinariesPath=Enter path to executable file Miranda32/64.exe:
 cmFilter=Miranda??.exe file (Miranda??.exe)|Miranda??.exe
