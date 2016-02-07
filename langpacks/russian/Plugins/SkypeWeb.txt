@@ -83,12 +83,16 @@
 Информация о передаче файла
 [URI object]
 URI объект
+[Moji]
+Модзи
+[File]
+Файл
 [Unknown event]
 Неизвестное событие
 [Incoming call]
 Входящий звонок
-[Invalid data!]
-Неверные данные!
+[SkypeWeb error: Invalid data!]
+Ошибка SkypeWeb: Неверные данные!
 [[b]Original message:[/b]\n%s\n]
 \[b]Исходное сообщение:[/b]\n%s\n
 [Original message:\n%s\n]

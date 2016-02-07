@@ -743,6 +743,8 @@ Nickserv убить фантома
 Комната чата
 [Mode]
 Режим
+[%s - Filtered - %d items]
+%s - отфильтровано - %d объектов 
 [---- Not listed server ----]
 ----Сервер вне списка---
 [Type new server address here]
