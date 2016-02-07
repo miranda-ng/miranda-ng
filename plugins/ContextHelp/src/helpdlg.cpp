@@ -310,7 +310,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_CTLCOLORSTATIC:
 		SetTextColor((HDC)wParam, GetSysColor(COLOR_INFOTEXT));
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_INFOBK));
-		return GetSysColorBrush(COLOR_INFOBK) != 0;
+		return (INT_PTR)GetSysColorBrush(COLOR_INFOBK);
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_INACTIVE)
 			break;
