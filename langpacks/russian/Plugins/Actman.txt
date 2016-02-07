@@ -541,13 +541,13 @@ UTF16+сигнатура
 Недоступен
 [Occupied]
 Занят
-[Free for Chat]
+[Free for chat]
 Готов болтать
 [Invisible]
 Невидимый
-[On the Phone]
+[On the phone]
 На телефоне
-[Out to Lunch]
+[Out to lunch]
 Обедаю
 [Set global status]
 Устанавливает глобальный статус
