@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.20
+;  Version: 0.1.1.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -110,6 +110,7 @@
 [Broadcast icon]
 [Status icon]
 [Wall message icon]
+[Mark messages as read icon]
 [Protocols]
 [VKontakte]
 [Access denied! Data will not be sent or received.]
@@ -227,6 +228,7 @@
 [Send message to my wall]
 [Load news from VK]
 [Wipe contacts missing in friend list]
+[Mark messages as read]
 [Send message to user\'s wall]
 [Add as friend]
 [Delete from friend list]

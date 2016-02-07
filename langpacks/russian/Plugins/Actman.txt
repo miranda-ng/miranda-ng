@@ -537,19 +537,17 @@ UTF16+сигнатура
 В сети
 [Away]
 Отсутствую
-[Do not disturb]
-Не беспокоить
 [Not available]
 Недоступен
 [Occupied]
 Занят
-[Free for chat]
+[Free for Chat]
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
+[On the Phone]
 На телефоне
-[Out to lunch]
+[Out to Lunch]
 Обедаю
 [Set global status]
 Устанавливает глобальный статус

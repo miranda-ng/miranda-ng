@@ -1,0 +1,1 @@
+﻿[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
