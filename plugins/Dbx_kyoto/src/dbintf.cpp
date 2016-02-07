@@ -91,7 +91,7 @@ CDbxKyoto::CDbxKyoto(const TCHAR *tszFileName, int iMode) :
 	m_tszProfileName = mir_tstrdup(tszFileName);
 	InitDbInstance(this);
 
-	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	m_codePage = Langpack_GetDefaultCodePage();
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
