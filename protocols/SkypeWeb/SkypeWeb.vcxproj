@@ -31,7 +31,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-	<ClInclude Include="res\Icons\*" />
+    <ClInclude Include="res\Icons\*" />
     <ClInclude Include="src\requests\avatars.h" />
     <ClInclude Include="src\requests\capabilities.h" />
     <ClInclude Include="src\requests\chatrooms.h" />
@@ -46,7 +46,7 @@
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\requests\trouter.h" />
-	<ClInclude Include="src\requests\mslogin.h" />
-	<ClInclude Include="src\requests\asm\images.h" />
+    <ClInclude Include="src\requests\mslogin.h" />
+	<ClInclude Include="src\requests\asm\files.h" />
   </ItemGroup>
 </Project>

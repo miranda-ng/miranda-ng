@@ -59,7 +59,7 @@
 	<ClInclude Include="src\requests\mslogin.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-	<ClInclude Include="src\requests\asm\images.h">
+	<ClInclude Include="src\requests\asm\files.h">
       <Filter>Header Files\requests\ASM</Filter>
     </ClInclude>
   </ItemGroup>
