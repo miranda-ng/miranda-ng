@@ -40,6 +40,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_MARKMESSAGESASREAD "/MarkMessagesAsRead"
 #define MAXHISTORYMIDSPERONE 100
 #define MAX_RETRIES 10
+#define MAX_CONTACTS_PER_REQUEST 1000
 
 
 struct CVkProto : public PROTO<CVkProto>

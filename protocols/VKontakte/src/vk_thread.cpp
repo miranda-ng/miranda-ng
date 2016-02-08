@@ -392,6 +392,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 		return;
 
 	CMString userIDs, code;
+	int i = 0;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG userID = getDword(hContact, "ID", -1);
 		if (userID == -1 || userID == VK_FEED_USER)
@@ -399,6 +400,10 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
 		userIDs.AppendFormat(_T("%i"), userID);
+		
+		if (i == MAX_CONTACTS_PER_REQUEST)
+			break;
+		i++;
 	}
 
 	CMString codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
