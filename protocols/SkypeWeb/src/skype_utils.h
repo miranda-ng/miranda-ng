@@ -36,11 +36,11 @@ class DB_AUTH_BLOB
 		*((PDWORD)pCurBlob) = (DWORD)hContact;
 		pCurBlob += sizeof(DWORD);
 		
-		if (szNick)     { mir_strcpy((char*)pCurBlob, szNick     ); pCurBlob += mir_strlen(szNick     ); } pCurBlob += 1;	
-		if (szFirstName){ mir_strcpy((char*)pCurBlob, szFirstName); pCurBlob += mir_strlen(szFirstName); } pCurBlob += 1;
-		if (szLastName) { mir_strcpy((char*)pCurBlob, szLastName ); pCurBlob += mir_strlen(szLastName ); } pCurBlob += 1;
-		if (szId)       { mir_strcpy((char*)pCurBlob, szId       ); pCurBlob += mir_strlen(szId       ); } pCurBlob += 1;
-		if (szReason)   { mir_strcpy((char*)pCurBlob, szReason   ); pCurBlob += mir_strlen(szReason   ); } pCurBlob += 1;
+		if (szNick)     { mir_strcpy((char*)pCurBlob, szNick     ); pCurBlob += mir_strlen(szNick     ); } pCurBlob++;	
+		if (szFirstName){ mir_strcpy((char*)pCurBlob, szFirstName); pCurBlob += mir_strlen(szFirstName); } pCurBlob++;
+		if (szLastName) { mir_strcpy((char*)pCurBlob, szLastName ); pCurBlob += mir_strlen(szLastName ); } pCurBlob++;
+		if (szId)       { mir_strcpy((char*)pCurBlob, szId       ); pCurBlob += mir_strlen(szId       ); } pCurBlob++;
+		if (szReason)   { mir_strcpy((char*)pCurBlob, szReason   ); pCurBlob += mir_strlen(szReason   ); } pCurBlob++;
 		
 		return pBlob;
 	}
