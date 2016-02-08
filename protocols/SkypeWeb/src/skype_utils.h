@@ -91,9 +91,9 @@ public:
 struct CFileUploadParam : public MZeroedObject {
 	ptrT tszFileName;
 	ptrT tszDesc;
-	char* atr;
-	char* fname;
-	char *uid;
+	ptrA atr;
+	ptrA fname;
+	ptrA uid;
 	size_t size;
 	MCONTACT hContact;
 
