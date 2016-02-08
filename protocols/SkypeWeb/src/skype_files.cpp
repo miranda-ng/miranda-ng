@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#define FILETRANSFER_FAILED(fup) { ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup); delete fup; fup = nullptr;} 
+
 HANDLE CSkypeProto::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {
 	if (IsOnline())
@@ -15,13 +17,13 @@ void CSkypeProto::SendFileThread(void *p)
 {
 	CFileUploadParam *fup = (CFileUploadParam *)p;
 	if (!IsOnline()) {
-		//SendFileFiled(fup, VKERR_OFFLINE);
+		FILETRANSFER_FAILED(fup);
 		return;
 	}
-//	if (!fup->IsAccess()) {
-//		//SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
-//		return;
-//	}
+	if (!fup->IsAccess()) {
+		FILETRANSFER_FAILED(fup);
+		return;
+	}
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
 
@@ -55,6 +57,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		if (lBytes != lFileLen) {
 			fclose(pFile);
 			mir_free(pData);
+			FILETRANSFER_FAILED(fup);
 			return;
 		}
 		fup->size = lBytes;
@@ -66,14 +69,17 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	CFileUploadParam *fup = (CFileUploadParam*)arg;
-	if (response == nullptr) return;
-	CMStringA url(response->szUrl);
+	if (response == nullptr)
+	{
+		FILETRANSFER_FAILED(fup);
+		return;
+	}
 
 	TCHAR *tszFile = fup->tszFileName;
 
 	HXML xml = xmlCreateNode(L"URIObject", nullptr, 0);
-	HXML xmlTitle = xmlAddChild(xml, L"Title", tszFile);
-	HXML xmlDescr = xmlAddChild(xml, L"Description", fup->tszDesc);
+	xmlAddChild(xml, L"Title", tszFile);
+	xmlAddChild(xml, L"Description", fup->tszDesc);
 	HXML xmlA = xmlAddChild(xml, L"a", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
 	xmlAddAttr(xmlA, L"href", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
 	HXML xmlOrigName = xmlAddChild(xml, L"OriginalName", nullptr);
@@ -88,4 +94,5 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 	SendRequest(new SendMessageRequest(ptrA(getStringA(fup->hContact, SKYPE_SETTINGS_ID)), time(NULL), T2Utf(xmlToString(xml, nullptr)), li, "RichText/Media_GenericFile"));
 	xmlDestroyNode(xml);
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
+	delete fup;
 }
