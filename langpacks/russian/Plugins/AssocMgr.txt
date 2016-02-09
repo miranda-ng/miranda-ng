@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
+[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
+Ассоциация расширений файлов и URL-ссылок с протоколами: aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr. 
 [Registered associations for Miranda NG:]
 Зарегистрированные ассоциации для Miranda NG:
 [Miscellaneous]
@@ -69,5 +71,3 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 Протокол Gadu-Gadu
 [Jabber link protocol]
 Протокол Jabber
-[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
-Ассоциация расширений файлов и URL-ссылок с протоколами: aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr. 
