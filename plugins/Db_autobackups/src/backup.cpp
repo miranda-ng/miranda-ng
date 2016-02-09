@@ -78,11 +78,10 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 	return ret;
 }
 
-bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR szDbName, HWND progress_dialog)
+bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progress_dialog)
 {
 	zipFile hZip = zipOpen2_64(szDest, APPEND_STATUS_CREATE, NULL, NULL);
 	zip_fileinfo fi = { 0 };
-	std::vector<std::string> files;
 	auto folder = fs::path(szDir);
 	auto it = fs::recursive_directory_iterator(folder);
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
@@ -93,7 +92,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR szDbName, HWND progress_di
 		if (!fs::is_directory(file) && !strstr(std::string(file).c_str(), _T2A(szDest)))
 		{
 			std::string filepath = file;
-			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir));
+			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
 			HANDLE hSrc;
 			if (hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
@@ -107,6 +106,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR szDbName, HWND progress_di
 						if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)
 							break;
 					}
+					zipCloseFileInZip(hZip);
 				}
 				i++;
 				SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(i % 100), 0);
