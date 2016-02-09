@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{13E796AD-BEA4-4213-A1B8-E18E2397E544}</ProjectGuid>
+    <ProjectName>WhatsApp</ProjectName>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\OpenSSL\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\*.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\WhatsAPI++\*.h" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

@@ -5,7 +5,7 @@
  *      Author: Antonio
  */
 
-#include "../common.h" // #TODO Remove Miranda-dependency
+#include "../stdafx.h" // #TODO Remove Miranda-dependency
 
 #include "ByteArray.h"
 #include "WAException.h"

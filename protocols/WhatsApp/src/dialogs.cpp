@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 #define szAskSendSms  LPGEN("An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
 #define szAskCall  LPGEN("A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")

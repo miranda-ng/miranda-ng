@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new_name)
 {

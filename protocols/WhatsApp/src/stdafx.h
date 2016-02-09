@@ -66,6 +66,8 @@ Copyright © 2013-14 Uli Hecht
 #include <m_json.h>
 #include <m_gui.h>
 
+#include "..\..\libs\libaxolotl\src\axolotl.h"
+
 #include "constants.h"
 #include "utils.h"
 #include "db.h"

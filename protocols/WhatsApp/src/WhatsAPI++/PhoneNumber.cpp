@@ -3,7 +3,7 @@
  *
  */
 
-#include "../common.h" // #TODO Remove Miranda-dependency
+#include "../stdafx.h" // #TODO Remove Miranda-dependency
 
 #include "PhoneNumber.h"
 
