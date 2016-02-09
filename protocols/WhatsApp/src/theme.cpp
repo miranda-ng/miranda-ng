@@ -1,4 +1,4 @@
-	#include "common.h"
+#include "stdafx.h"
 
 extern OBJLIST<WhatsAppProto> g_Instances;
 

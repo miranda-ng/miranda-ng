@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {

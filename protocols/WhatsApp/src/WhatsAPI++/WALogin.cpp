@@ -13,7 +13,7 @@
 #include <map>
 #include <stdlib.h>
 
-#include "../common.h" // #TODO Remove Miranda-dependency
+#include "../stdafx.h" // #TODO Remove Miranda-dependency
 
 using namespace Utilities;
 

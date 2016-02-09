@@ -1,4 +1,4 @@
-#include "../common.h"
+#include "../stdafx.h"
 #include "MediaUploader.h"
 
 // TODO get rid of unneeded headers added by NETLIBHTTPREQUEST. it sould look like this:
@@ -74,10 +74,7 @@ namespace MediaUploader
 	{
 		string filePath = message->media_url;
 		string to = message->key.remote_jid;
-		long fileSize = message->media_size;
 		string extension = split(filePath, '.')[1];
-
-		const BYTE *path = (const BYTE*)filePath.c_str();
 
 		uint8_t digest[16];
 		md5_string(filePath, digest);
@@ -99,8 +96,6 @@ namespace MediaUploader
 		hBAOS += "Content-Type: " + getMimeFromExtension(extension) + "\r\n\r\n";
 
 		string fBAOS = "\r\n--" + boundary + "--\r\n";
-		long contentlength = sizeof(hBAOS) + sizeof(fBAOS) + fileSize;
-
 		return sendData(url, hBAOS, filePath, fBAOS);
 	}
 

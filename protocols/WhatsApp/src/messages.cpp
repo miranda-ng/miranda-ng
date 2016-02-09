@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int WhatsAppProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {

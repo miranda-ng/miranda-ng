@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **ppszFiles) {
 	if (!isOnline())

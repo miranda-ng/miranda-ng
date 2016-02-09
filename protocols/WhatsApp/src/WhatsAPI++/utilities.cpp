@@ -1,4 +1,4 @@
-#include "../common.h" // #TODO Remove Miranda-dependency
+#include "../stdafx.h" // #TODO Remove Miranda-dependency
 
 #include "utilities.h"
 #include "WAException.h"
@@ -166,7 +166,6 @@ string bytesToHex(unsigned char* bytes, int length)
 {
 	string ret(length * 2, ' ');
 	string::iterator p = ret.begin();
-	int i = 0;
 	for (int c = 0; c < length; c++) {
 		int ub = bytes[c];
 		*p++ = forDigit(ub >> 4);
@@ -283,11 +282,9 @@ bool saveChallengeData(const std::vector<unsigned char>& data, const std::string
 std::string utf8_to_utf16(const std::string &utf8)
 {
 	std::vector<unsigned long> unicode;
-	size_t i = 0;
-	while (i < utf8.size()) {
+	for (size_t i = 0; i < utf8.size();) {
 		unsigned long uni;
 		size_t todo;
-		bool error = false;
 		unsigned char ch = utf8[i++];
 		if (ch <= 0x7F) {
 			uni = ch;
@@ -314,7 +311,7 @@ std::string utf8_to_utf16(const std::string &utf8)
 		for (size_t j = 0; j < todo; ++j) {
 			if (i == utf8.size())
 				throw std::logic_error("not a UTF-8 string");
-			unsigned char ch = utf8[i++];
+			ch = utf8[i++];
 			if (ch < 0x80 || ch > 0xBF)
 				throw std::logic_error("not a UTF-8 string");
 			uni <<= 6;

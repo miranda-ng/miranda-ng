@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "WASocketConnection.h"
 
 HANDLE WASocketConnection::hNetlibUser = NULL;

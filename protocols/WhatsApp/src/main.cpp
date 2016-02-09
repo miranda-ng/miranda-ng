@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
