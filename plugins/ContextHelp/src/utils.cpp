@@ -39,12 +39,12 @@ int GetControlType(HWND hwndCtl)
 
 	if (GetClassLong(hwndCtl, GCW_ATOM) == 32770)
 		return CTLTYPE_DIALOG;
-	if (!GetClassName(hwndCtl, szClassName, sizeof(szClassName)))
+	if (!GetClassName(hwndCtl, szClassName, _countof(szClassName)))
 		return CTLTYPE_UNKNOWN;
 	if (!lstrcmpi(szClassName, _T("MDIClient")))
 		return CTLTYPE_DIALOG;
 	else if (!lstrcmpi(szClassName, _T("Static"))) {
-		if (GetClassName(GetParent(hwndCtl), szClassName, sizeof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")) || !lstrcmpi(szClassName, WC_COMBOBOXEX))
+		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")) || !lstrcmpi(szClassName, WC_COMBOBOXEX))
 			return CTLTYPE_COMBO;
 		style = GetWindowLongPtr(hwndCtl, GWL_STYLE);
 		switch (style&SS_TYPEMASK) {
@@ -90,9 +90,9 @@ int GetControlType(HWND hwndCtl)
 	else if (!lstrcmpi(szClassName, MIRANDABUTTONCLASS))
 		return CTLTYPE_BUTTON;
 	else if (!lstrcmpi(szClassName, _T("Edit"))) {
-		if (GetClassName(GetParent(hwndCtl), szClassName, sizeof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")))
+		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")))
 			return CTLTYPE_COMBO;
-		if (GetClassName(GetWindow(hwndCtl, GW_HWNDNEXT), szClassName, sizeof(szClassName)) && !lstrcmpi(szClassName, UPDOWN_CLASS))
+		if (GetClassName(GetWindow(hwndCtl, GW_HWNDNEXT), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, UPDOWN_CLASS))
 			if ((HWND)SendMessage(GetWindow(hwndCtl, GW_HWNDNEXT), UDM_GETBUDDY, 0, 0) == hwndCtl)
 				return CTLTYPE_SPINEDIT;
 		return CTLTYPE_EDIT;
@@ -116,7 +116,7 @@ int GetControlType(HWND hwndCtl)
 	else if (!lstrcmpi(szClassName, WC_PAGESCROLLER))
 		return CTLTYPE_SCROLL;
 	else if (!lstrcmpi(szClassName, UPDOWN_CLASS)) {
-		if (GetClassName((HWND)SendMessage(hwndCtl, UDM_GETBUDDY, 0, 0), szClassName, sizeof(szClassName)) && !lstrcmpi(szClassName, _T("Edit")))
+		if (GetClassName((HWND)SendMessage(hwndCtl, UDM_GETBUDDY, 0, 0), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("Edit")))
 			return CTLTYPE_SPINEDIT;
 		return CTLTYPE_SCROLL;
 	}
@@ -169,7 +169,7 @@ HWND GetControlDialog(HWND hwndCtl)
 	while (hwndCtl != NULL) {
 		if (GetClassLong(hwndCtl, GCW_ATOM) == 32770)
 			return hwndCtl;
-		if (GetClassName(hwndCtl, szClassName, sizeof(szClassName)))
+		if (GetClassName(hwndCtl, szClassName, _countof(szClassName)))
 			if (!lstrcmpi(szClassName, _T("MDIClient")))
 				return hwndCtl;
 		hwndCtl = GetParent(hwndCtl);
@@ -272,7 +272,7 @@ static BOOL CALLBACK CreateCtlIdEnumProc(HWND hwnd, LPARAM lParam)
 	TCHAR szClassName[32];
 	if (GetClassLong(hwnd, GCW_ATOM) == 32770) // class="#32770"
 		return TRUE;
-	if (GetClassName(hwnd, szClassName, sizeof(szClassName)))
+	if (GetClassName(hwnd, szClassName, _countof(szClassName)))
 		if (!lstrcmpi(szClassName, _T("MDIClient")))
 			return TRUE;
 	if (GetWindowLongPtr(hwnd, GWL_ID) <= 0 || GetWindowLongPtr(hwnd, GWL_ID) == 0xFFFF)
@@ -293,7 +293,7 @@ int GetControlID(HWND hwndCtl)
 	if (ccid.id != 0)
 		return ccid.id;
 
-	if (GetClassName(hwndCtl, szClassName, sizeof(szClassName))) {
+	if (GetClassName(hwndCtl, szClassName, _countof(szClassName))) {
 		if (!lstrcmpi(szClassName, UPDOWN_CLASS)) { //  handle spinner controls as a whole
 			DWORD style;
 			HWND hwndBuddy;

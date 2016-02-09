@@ -52,7 +52,7 @@ static void InstallFile(const TCHAR *pszFileName, const TCHAR *pszDestSubDir)
 	TCHAR szFileFrom[MAX_PATH + 1], szFileTo[MAX_PATH + 1], *p;
 	HANDLE hFile;
 
-	if (!GetModuleFileName(hInst, szFileFrom, sizeof(szFileFrom) - lstrlen(pszFileName)))
+	if (!GetModuleFileName(hInst, szFileFrom, _countof(szFileFrom) - lstrlen(pszFileName)))
 		return;
 	p = _tcsrchr(szFileFrom, _T('\\'));
 	if (p != NULL)
@@ -64,7 +64,7 @@ static void InstallFile(const TCHAR *pszFileName, const TCHAR *pszDestSubDir)
 		return;
 	CloseHandle(hFile);
 
-	if (!GetModuleFileName(NULL, szFileTo, sizeof(szFileTo) - lstrlen(pszDestSubDir) - lstrlen(pszFileName)))
+	if (!GetModuleFileName(NULL, szFileTo, _countof(szFileTo) - lstrlen(pszDestSubDir) - lstrlen(pszFileName)))
 		return;
 	p = _tcsrchr(szFileTo, _T('\\'));
 	if (p != NULL)
