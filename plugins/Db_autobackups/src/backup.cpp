@@ -78,6 +78,47 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 	return ret;
 }
 
+bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR szDbName, HWND progress_dialog)
+{
+	zipFile hZip = zipOpen2_64(szDest, APPEND_STATUS_CREATE, NULL, NULL);
+	zip_fileinfo fi = { 0 };
+	std::vector<std::string> files;
+	auto folder = fs::path(szDir);
+	auto it = fs::recursive_directory_iterator(folder);
+	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
+	size_t i = 0;
+	for (it; it != fs::recursive_directory_iterator(); ++it)
+	{
+		const auto& file = it->path();
+		if (!fs::is_directory(file) && !strstr(std::string(file).c_str(), _T2A(szDest)))
+		{
+			std::string filepath = file;
+			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir));
+
+			HANDLE hSrc;
+			if (hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
+			{
+				if (zipOpenNewFileInZip(hZip, rpath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK)
+				{
+					DWORD dwRead;
+					uint8_t buf[(256 * 1024)];
+					while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead)
+					{
+						if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)
+							break;
+					}
+				}
+				i++;
+				SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(i % 100), 0);
+			}
+		}
+	}
+	zipClose(hZip, CMStringA(FORMAT, "%s\r\n%s %s %d.%d.%d.%d\r\n",
+		Translate("Miranda NG database"), Translate("Created by:"),
+		__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+	return true;
+}
+
 bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dialog)
 {
 	bool ret = false;
@@ -257,7 +298,11 @@ int Backup(TCHAR *backup_filename)
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
 	if (bZip)
-		res = MakeZip(pathtmp, dest_file, dbname, progress_dialog);
+	{
+		res = options.backup_profile 
+			? MakeZip_Dir(_T2A(profilePath), dest_file, _T2A(dbname), progress_dialog) 
+			: MakeZip(pathtmp, dest_file, dbname, progress_dialog);
+	}
 	else
 		res = CopyFile(pathtmp, dest_file, 0);
 	if (res) {

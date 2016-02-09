@@ -35,6 +35,7 @@ typedef struct Options_tag {
 	BOOL	disable_popups;
 	BOOL	use_zip;
 	BOOL    use_dropbox;
+	BOOL	backup_profile;
 } Options;
 
 extern Options options;
