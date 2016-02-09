@@ -81,12 +81,13 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progress_dialog)
 {
 	zipFile hZip = zipOpen2_64(szDest, APPEND_STATUS_CREATE, NULL, NULL);
+	if (!hZip) 
+		return false;
+
 	zip_fileinfo fi = { 0 };
-	auto folder = fs::path(szDir);
-	auto it = fs::recursive_directory_iterator(folder);
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 	size_t i = 0;
-	for (it; it != fs::recursive_directory_iterator(); ++it)
+	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it)
 	{
 		const auto& file = it->path();
 		if (!fs::is_directory(file) && !strstr(std::string(file).c_str(), _T2A(szDest)))
@@ -101,15 +102,12 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 				{
 					DWORD dwRead;
 					uint8_t buf[(256 * 1024)];
-					while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead)
-					{
-						if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)
-							break;
-					}
+					while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead && !zipWriteInFileInZip(hZip, buf, dwRead));
 					zipCloseFileInZip(hZip);
 				}
 				i++;
 				SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(i % 100), 0);
+				CloseHandle(hSrc);
 			}
 		}
 	}
