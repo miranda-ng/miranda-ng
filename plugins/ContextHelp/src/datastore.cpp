@@ -68,7 +68,7 @@ void InitDialogCache(void)
 
 	hServiceFileChange = CreateServiceFunction("Help/HelpPackChanged", ServiceFileChanged);
 	hFileChange = INVALID_HANDLE_VALUE;
-	if (GetModuleFileName(NULL, szFilePath, sizeof(szFilePath))) {
+	if (GetModuleFileName(NULL, szFilePath, _countof(szFilePath))) {
 		p = _tcsrchr(szFilePath, _T('\\'));
 		if (p != NULL)
 			*(p + 1) = _T('\0');
@@ -135,7 +135,7 @@ static void LoaderThread(void *arg)
 	void *buf;
 	ZeroMemory(&dialog, sizeof(dialog));
 
-	if (GetModuleFileName(NULL, szDir, sizeof(szDir))) {
+	if (GetModuleFileName(NULL, szDir, _countof(szDir))) {
 		p = _tcsrchr(szDir, _T('\\'));
 		if (p)
 			*p = _T('\0');
@@ -146,7 +146,7 @@ static void LoaderThread(void *arg)
 			do {
 				if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 					continue;
-				if (lstrlen(wfd.cFileName)<4 || wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))
+				if (lstrlen(wfd.cFileName) < 4 || wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))
 					continue;
 				mir_sntprintf(szSearch, _T("%s\\%s"), szDir, wfd.cFileName);
 				success = 1;
@@ -167,7 +167,7 @@ static void LoaderThread(void *arg)
 			PostMessage(hwndHelpDlg, M_HELPLOADFAILED, 0, (LPARAM)dtsp->hwndCtl);
 		return;
 	}
-	fgets(line, sizeof(line), fp);
+	fgets(line, _countof(line), fp);
 	TrimString(line);
 	if (lstrcmpA(line, "Miranda Help Pack Version 1")) {
 		fclose(fp);
@@ -181,7 +181,7 @@ static void LoaderThread(void *arg)
 	dialog.defaultCodePage = CP_ACP;
 	while (!feof(fp)) {
 		startOfLine = ftell(fp);
-		if (fgets(line, sizeof(line), fp) == NULL)
+		if (fgets(line, _countof(line), fp) == NULL)
 			break;
 		TrimString(line);
 		if (IsEmpty(line) || line[0] == ';' || line[0] == '\0')
@@ -230,7 +230,7 @@ static void LoaderThread(void *arg)
 	success = 1;
 	control = NULL;
 	while (!feof(fp)) {
-		if (fgets(line, sizeof(line), fp) == NULL)
+		if (fgets(line, _countof(line), fp) == NULL)
 			break;
 		if (IsEmpty(line) || line[0] == ';' || line[0] == '\0')
 			continue;
@@ -372,8 +372,8 @@ char *CreateControlIdentifier(const char *pszDlgId, const char *pszModule, int c
 	int size;
 	char *szId;
 	TCHAR szDefCtlText[128];
-	GetControlTitle(hwndCtl, szDefCtlText, sizeof(szDefCtlText));
-	size = lstrlenA(pszModule) + lstrlenA(pszDlgId) + sizeof(szDefCtlText) + 22;
+	GetControlTitle(hwndCtl, szDefCtlText, _countof(szDefCtlText));
+	size = lstrlenA(pszModule) + lstrlenA(pszDlgId) + _countof(szDefCtlText) + 22;
 	szId = (char*)mir_alloc(size);
 	mir_snprintf(szId, size, "[%s:%i@%s]\r\n%S%s", pszModule, ctrlId, pszDlgId, szDefCtlText, szDefCtlText[0] ? "=" : "");
 

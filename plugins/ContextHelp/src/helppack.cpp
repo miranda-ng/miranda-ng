@@ -172,7 +172,7 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 	X-Version: 1.2.3.4 (non-standard extension)
 	see 'Help-Translation.txt' for some header guidelines
 	*/
-	if (!GetPackPath(szFileName, sizeof(szFileName), fEnabledPacks, pack->szFileName))
+	if (!GetPackPath(szFileName, _countof(szFileName), fEnabledPacks, pack->szFileName))
 		return FALSE;
 	FILE *fp = _tfopen(szFileName, _T("rt"));
 	if (fp == NULL)
@@ -237,11 +237,11 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 		if (GetLocaleInfoA(pack->Locale, LOCALE_IDEFAULTANSICODEPAGE, line, 6))
 			pack->codepage = (WORD)atoi(line); /* CP_ACP on error */
 	/* language */
-	MultiByteToWideChar(pack->codepage, 0, szLanguageA, -1, pack->szLanguage, sizeof(pack->szLanguage));
+	MultiByteToWideChar(pack->codepage, 0, szLanguageA, -1, pack->szLanguage, _countof(pack->szLanguage));
 	/* ensure the pack always has a language name */
-	if (!pack->szLanguage[0] && !GetLocaleInfo(pack->Locale, LOCALE_SENGLANGUAGE, pack->szLanguage, sizeof(pack->szLanguage))) {
+	if (!pack->szLanguage[0] && !GetLocaleInfo(pack->Locale, LOCALE_SENGLANGUAGE, pack->szLanguage, _countof(pack->szLanguage))) {
 		TCHAR *p;
-		lstrcpyn(pack->szLanguage, pack->szFileName, sizeof(pack->szLanguage)); /* buffer safe */
+		lstrcpyn(pack->szLanguage, pack->szFileName, _countof(pack->szLanguage)); /* buffer safe */
 		p = _tcsrchr(pack->szLanguage, _T('.'));
 		if (p != NULL)
 			*p = '\0';
@@ -292,7 +292,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 	HANDLE hFind;
 
 	/* enabled packs */
-	if (GetPackPath(pack.szFileName, sizeof(pack.szFileName), TRUE, pszFilePattern)) {
+	if (GetPackPath(pack.szFileName, _countof(pack.szFileName), TRUE, pszFilePattern)) {
 		hFind = FindFirstFile(pack.szFileName, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
@@ -326,7 +326,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 	}
 
 	/* disabled packs */
-	if (GetPackPath(pack.szFileName, sizeof(pack.szFileName), FALSE, pszFilePattern)) {
+	if (GetPackPath(pack.szFileName, _countof(pack.szFileName), FALSE, pszFilePattern)) {
 		hFind = FindFirstFile(pack.szFileName, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
@@ -384,7 +384,7 @@ BOOL EnablePack(const HELPPACK_INFO *pack, const TCHAR *pszFilePattern)
 	TCHAR szFrom[MAX_PATH], szDest[MAX_PATH];
 
 	/* disable previous pack */
-	if (GetPackPath(szFrom, sizeof(szFrom), TRUE, pszFilePattern)) {
+	if (GetPackPath(szFrom, _countof(szFrom), TRUE, pszFilePattern)) {
 		WIN32_FIND_DATA wfd;
 		HANDLE hFind = FindFirstFile(szFrom, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -394,11 +394,11 @@ BOOL EnablePack(const HELPPACK_INFO *pack, const TCHAR *pszFilePattern)
 				if (lstrlen(wfd.cFileName) < 4 || wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))
 					continue;
 				/* ensure dir exists */
-				if (GetPackPath(szFrom, sizeof(szFrom), FALSE, NULL))
+				if (GetPackPath(szFrom, _countof(szFrom), FALSE, NULL))
 					CreateDirectory(szFrom, NULL);
 				/* move file */
-				if (GetPackPath(szFrom, sizeof(szFrom), TRUE, wfd.cFileName))
-					if (GetPackPath(szDest, sizeof(szDest), FALSE, wfd.cFileName))
+				if (GetPackPath(szFrom, _countof(szFrom), TRUE, wfd.cFileName))
+					if (GetPackPath(szDest, _countof(szDest), FALSE, wfd.cFileName))
 						if (!MoveFile(szFrom, szDest) && GetLastError() == ERROR_ALREADY_EXISTS) {
 							DeleteFile(szDest);
 							MoveFile(szFrom, szDest);
@@ -410,8 +410,8 @@ BOOL EnablePack(const HELPPACK_INFO *pack, const TCHAR *pszFilePattern)
 	}
 
 	/* enable current pack */
-	if (GetPackPath(szFrom, sizeof(szFrom), FALSE, pack->szFileName))
-		if (GetPackPath(szDest, sizeof(szDest), TRUE, pack->szFileName))
+	if (GetPackPath(szFrom, _countof(szFrom), FALSE, pack->szFileName))
+		if (GetPackPath(szDest, _countof(szDest), TRUE, pack->szFileName))
 			return MoveFile(szFrom, szDest);
 
 	return FALSE;
@@ -430,7 +430,7 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 		*pszFile = _T('\0');
 
 	/* move wrongly placed packs from 'Plugins' to 'Language' */
-	mir_sntprintf(szFrom, sizeof(szFrom), _T("%s\\Plugins\\%s"), szDir, pszFilePattern);
+	mir_sntprintf(szFrom, _T("%s\\Plugins\\%s"), szDir, pszFilePattern);
 	WIN32_FIND_DATA wfd;
 	HANDLE hFind = FindFirstFile(szFrom, &wfd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -441,12 +441,12 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 				continue;
 
 			/* ensure dir exists */
-			if (!fDirCreated && GetPackPath(szFrom, sizeof(szFrom), FALSE, NULL))
+			if (!fDirCreated && GetPackPath(szFrom, _countof(szFrom), FALSE, NULL))
 				fDirCreated = CreateDirectory(szFrom, NULL);
 
 			/* move file */
-			if (GetPackPath(szDest, sizeof(szDest), FALSE, wfd.cFileName)) {
-				mir_sntprintf(szFrom, sizeof(szFrom), _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
+			if (GetPackPath(szDest, _countof(szDest), FALSE, wfd.cFileName)) {
+				mir_sntprintf(szFrom, _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
 				if (!MoveFile(szFrom, szDest) && GetLastError() == ERROR_ALREADY_EXISTS) {
 					DeleteFile(szDest);
 					MoveFile(szFrom, szDest);
@@ -457,7 +457,7 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 	}
 
 	/* disable all packs except one */
-	if (GetPackPath(szFrom, sizeof(szFrom), TRUE, pszFilePattern)) {
+	if (GetPackPath(szFrom, _countof(szFrom), TRUE, pszFilePattern)) {
 		hFind = FindFirstFile(szFrom, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
@@ -472,11 +472,11 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 					continue;
 				}
 				/* ensure dir exists */
-				if (!fDirCreated && GetPackPath(szFrom, sizeof(szFrom), FALSE, NULL))
+				if (!fDirCreated && GetPackPath(szFrom, _countof(szFrom), FALSE, NULL))
 					fDirCreated = CreateDirectory(szFrom, NULL);
 				/* move file */
-				if (GetPackPath(szFrom, sizeof(szFrom), TRUE, wfd.cFileName))
-					if (GetPackPath(szDest, sizeof(szDest), FALSE, wfd.cFileName)) {
+				if (GetPackPath(szFrom, _countof(szFrom), TRUE, wfd.cFileName))
+					if (GetPackPath(szDest, _countof(szDest), FALSE, wfd.cFileName)) {
 						if (!MoveFile(szFrom, szDest) && GetLastError() == ERROR_ALREADY_EXISTS) {
 							DeleteFile(szDest);
 							MoveFile(szFrom, szDest);
@@ -490,12 +490,12 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 	/* ensure one is enabled if installed */
 	if (!fOneEnabled) {
 		/* try to move english */
-		if (GetPackPath(szFrom, sizeof(szFrom), FALSE, pszDefaultFile))
-			if (GetPackPath(szDest, sizeof(szDest), TRUE, pszDefaultFile))
+		if (GetPackPath(szFrom, _countof(szFrom), FALSE, pszDefaultFile))
+			if (GetPackPath(szDest, _countof(szDest), TRUE, pszDefaultFile))
 				fOneEnabled = MoveFile(szFrom, szDest);
 		/* fallback on other one */
 		if (!fOneEnabled)
-			if (GetPackPath(szFrom, sizeof(szFrom), FALSE, pszFilePattern)) {
+			if (GetPackPath(szFrom, _countof(szFrom), FALSE, pszFilePattern)) {
 				hFind = FindFirstFile(szFrom, &wfd);
 				if (hFind != INVALID_HANDLE_VALUE) {
 					do {
@@ -504,8 +504,8 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 						if (lstrlen(wfd.cFileName) < 4 || wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))
 							continue;
 						/* move first file */
-						if (GetPackPath(szFrom, sizeof(szFrom), FALSE, wfd.cFileName))
-							if (GetPackPath(szDest, sizeof(szDest), TRUE, wfd.cFileName))
+						if (GetPackPath(szFrom, _countof(szFrom), FALSE, wfd.cFileName))
+							if (GetPackPath(szDest, _countof(szDest), TRUE, wfd.cFileName))
 								MoveFile(szFrom, szDest);
 						break;
 					} while (FindNextFile(hFind, &wfd));

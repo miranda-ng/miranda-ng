@@ -194,13 +194,13 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 			CopyMemory(szTagName, pszHtml + 1, min(sizeof(szTagName), iNameEnd));
 			szTagName[min(sizeof(szTagName), iNameEnd) - 1] = '\0';
 
-			for (i = 0; i < sizeof(simpleHtmlRtfConversions); i++) {
+			for (i = 0; i < _countof(simpleHtmlRtfConversions); i++) {
 				if (!lstrcmpiA(szTagName, simpleHtmlRtfConversions[i].szHtml)) {
 					AppendToCharBuffer(&body, "\\%s ", simpleHtmlRtfConversions[i].szRtf);
 					break;
 				}
 			}
-			if (i == sizeof(simpleHtmlRtfConversions)) {
+			if (i == _countof(simpleHtmlRtfConversions)) {
 				if (!lstrcmpiA(szTagName, "br")) {
 					AppendToCharBuffer(&body, "\\par ");
 					charCount++; // linebreaks are characters
@@ -251,7 +251,7 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 					if (szColour != NULL) {
 						int i, freeColour = 1;
 						if (szColour[0] != '#' || lstrlenA(szColour) != 7) {
-							for (i = 0; i < sizeof(htmlColourNames); i++) {
+							for (i = 0; i < _countof(htmlColourNames); i++) {
 								if (!lstrcmpiA(szColour, htmlColourNames[i].szName)) {
 									mir_free(szColour);
 									szColour = (char*)htmlColourNames[i].szClr;
@@ -303,7 +303,7 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 			pszTagEnd = strchr(pszHtml + 1, ';');
 			if (pszTagEnd == NULL)
 				break;
-			CopyMemory(szTag, pszHtml + 1, min(sizeof(szTag), pszTagEnd - pszHtml));
+			CopyMemory(szTag, pszHtml + 1, min(_countof(szTag), pszTagEnd - pszHtml));
 			szTag[min(sizeof(szTag), pszTagEnd - pszHtml) - 1] = '\0';
 			if (szTag[0] == '#') {
 				int ch;
@@ -317,7 +317,7 @@ void StreamInHtml(HWND hwndEdit, const char *szHtml, UINT codepage, COLORREF clr
 					AppendToCharBuffer(&body, "\\'%02x ", ch);
 			}
 			else {
-				for (i = 0; i < sizeof(htmlSymbolChars); i++) {
+				for (i = 0; i < _countof(htmlSymbolChars); i++) {
 					if (!lstrcmpiA(szTag, htmlSymbolChars[i].szSym)) {
 						AppendCharToCharBuffer(&body, htmlSymbolChars[i].ch);
 						charCount++;
@@ -610,13 +610,13 @@ char *StreamOutHtml(HWND hwndEdit)
 						int i;
 						char szColour[7];
 						wsprintfA(szColour, "%02x%02x%02x", GetRValue(colourTbl[param]), GetGValue(colourTbl[param]), GetBValue(colourTbl[param]));
-						for (i = 0; i < sizeof(htmlColourNames); i++) {
+						for (i = 0; i < _countof(htmlColourNames); i++) {
 							if (!lstrcmpiA(szColour, htmlColourNames[i].szClr)) {
 								AppendToCharBuffer(output, "<font color=\"%s\">", htmlColourNames[i].szName);
 								break;
 							}
 						}
-						if (i == sizeof(htmlColourNames))
+						if (i == _countof(htmlColourNames))
 							AppendToCharBuffer(output, "<font color=\"#%s\">", szColour);
 						inFontTag = 1;
 						groupStack[groupLevel].colour = param;
@@ -734,13 +734,13 @@ char *StreamOutHtml(HWND hwndEdit)
 					if (*pszRtf == ' ')
 						AppendCharToCharBuffer(output, *pszRtf);
 					else {
-						for (i = 0; i < sizeof(htmlSymbolChars); i++) {
+						for (i = 0; i < _countof(htmlSymbolChars); i++) {
 							if (*pszRtf == htmlSymbolChars[i].ch) {
 								AppendToCharBuffer(output, "&%s;", htmlSymbolChars[i].szSym);
 								break;
 							}
 						}
-						if (i == sizeof(htmlSymbolChars))
+						if (i == _countof(htmlSymbolChars))
 							AppendCharToCharBuffer(output, *pszRtf);
 					}
 				}

@@ -30,8 +30,8 @@ static HWND hwndLangOpt;
 
 /* these are only there for a short time to
 * debug those radio buttons an Win9x */
-#define BOX(str)        BOX2("%s (err:%i)",str,GetLastError())
-#define BOX2(fmt,p1,p2) { char str[256]; mir_snprintf(str,fmt,p1,p2); MessageBoxA(NULL,str,"dbg",0); }
+#define BOX(str)        BOX2("%s (err:%i)", str, GetLastError())
+#define BOX2(fmt,p1,p2) { char str[256]; mir_snprintf(str, fmt, p1, p2); MessageBoxA(NULL, str, "dbg", 0); }
 
 // ImageList_Destroy() the return value
 // refresh on WM_THEMECHANGED
@@ -169,12 +169,12 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 {
 	/* enum plugins */
 	TCHAR szDir[MAX_PATH];
-	if (GetModuleFileName(NULL, szDir, sizeof(szDir))) {
+	if (GetModuleFileName(NULL, szDir, _countof(szDir))) {
 		TCHAR *p = _tcsrchr(szDir, _T('\\'));
 		if (p != NULL)
 			*p = _T('\0');
 		TCHAR szSearch[MAX_PATH];
-		mir_sntprintf(szSearch, sizeof(szSearch), _T("%s\\Plugins\\*.dll"), szDir);
+		mir_sntprintf(szSearch, _T("%s\\Plugins\\*.dll"), szDir);
 		WIN32_FIND_DATA wfd;
 		HANDLE hFind = FindFirstFile(szSearch, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -184,7 +184,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 			do {
 				if (wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
 					continue;
-				if ((lstrlen(wfd.cFileName)<4) || (wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.')))
+				if ((lstrlen(wfd.cFileName) < 4) || (wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.')))
 					continue;
 				/* file name */
 				lstrcpy(szSearch, wfd.cFileName); /* buffer safe */
@@ -198,7 +198,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 					continue;
 
 				/* friendly name of the plugin */
-				mir_sntprintf(szSearch, sizeof(szSearch), _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
+				mir_sntprintf(szSearch, _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
 				HMODULE hModule = GetModuleHandle(szSearch);
 				BOOL fNeedsFree = (hModule == NULL);
 				if (hModule == NULL) {
@@ -217,7 +217,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 						CleanupPluginName(buf);
 
 						TCHAR buf2[128];
-						mir_sntprintf(buf2, sizeof(buf2), _T("%hs (%s)"), buf, CharLower(wfd.cFileName));
+						mir_sntprintf(buf2, _T("%hs (%s)"), buf, CharLower(wfd.cFileName));
 						SendMessage(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buf2);
 					}
 				}
@@ -241,13 +241,14 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 			IDC_LANGLOCALELABEL, IDC_LANGLOCALE, IDC_LANGVERSIONLABEL, IDC_LANGVERSION,
 			IDC_LANGMODUSINGLABEL, IDC_LANGMODUSING, IDC_LANGAUTHORSLABEL, IDC_LANGAUTHORS,
 			IDC_LANGEMAILLABEL, IDC_LANGEMAIL };
-		for (int i = 0; i < sizeof(controls); i++)
+		for (int i = 0; i < _countof(controls); i++)
 			ShowWindow(GetDlgItem(hwndDlg, controls[i]), (pack != NULL) ? SW_SHOW : SW_HIDE);
 		ShowWindow(GetDlgItem(hwndDlg, IDC_NOPACK), (pack != NULL) ? SW_HIDE : SW_SHOW);
 		SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, NULL);
 	}
 	if (pack == NULL)
 		return;
+
 	/* compute not-included from included list */
 	SendDlgItemMessage(hwndDlg, IDC_LANGNOTINCLUDED, LB_RESETCONTENT, 0, 0);
 	DisplayNotIncludedPlugins(GetDlgItem(hwndDlg, IDC_LANGNOTINCLUDED), pack);
@@ -256,12 +257,12 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 		TCHAR szLocaleName[128];
 		szLocaleName[0] = _T('\0');
 		/* can't use LOCALE_SNAME as it is not present on pre WinVista */
-		if (!GetLocaleInfo(pack->Locale, LOCALE_SISO639LANGNAME, szLocaleName, sizeof(szLocaleName))) { /* Win98/NT4+ */
-			if (!GetLocaleInfo(pack->Locale, LOCALE_SLANGUAGE, szLocaleName, sizeof(szLocaleName))) /* not unique! */
+		if (!GetLocaleInfo(pack->Locale, LOCALE_SISO639LANGNAME, szLocaleName, _countof(szLocaleName))) { /* Win98/NT4+ */
+			if (!GetLocaleInfo(pack->Locale, LOCALE_SLANGUAGE, szLocaleName, _countof(szLocaleName))) /* not unique! */
 				szLocaleName[0] = _T('\0');
 		}
 		else {
-			if (GetLocaleInfo(pack->Locale, LOCALE_SISO3166CTRYNAME, &szLocaleName[3], sizeof(szLocaleName) - 3)) /* Win98/NT4+ */
+			if (GetLocaleInfo(pack->Locale, LOCALE_SISO3166CTRYNAME, &szLocaleName[3], _countof(szLocaleName) - 3)) /* Win98/NT4+ */
 				szLocaleName[2] = _T('-');
 		}
 		/* add some note if its incompatible */
@@ -269,7 +270,7 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				TCHAR *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
-				szLocaleName[sizeof(szLocaleName) - lstrlen(pszIncompat) - 1] = 0;
+				szLocaleName[_countof(szLocaleName) - lstrlen(pszIncompat) - 1] = 0;
 				lstrcat(lstrcat(szLocaleName, _T(" ")), pszIncompat); /* buffer safe */
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
@@ -286,7 +287,7 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 		TCHAR szDate[128];
 		szDate[0] = _T('\0');
 		if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
-			GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, sizeof(szDate));
+			GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, _countof(szDate));
 		SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	}
 
@@ -321,7 +322,7 @@ static void DeletePackFile(HWND hwndDlg, HWND hwndList, int iItem, HELPPACK_INFO
 	sfo.fFlags = FOF_SIMPLEPROGRESS | FOF_SILENT; /* silent = no progress */
 	/* double zero terminated */
 	TCHAR szFileName[MAX_PATH];
-	if (GetPackPath(szFileName, sizeof(szFileName) - 1, pack->flags&HPF_ENABLED, pack->szFileName)) {
+	if (GetPackPath(szFileName, _countof(szFileName) - 1, pack->flags&HPF_ENABLED, pack->szFileName)) {
 		szFileName[lstrlen(szFileName) + 1] = _T('\0');
 		sfo.pFrom = szFileName;
 		/* ask to delete file */
@@ -372,7 +373,7 @@ static INT_PTR CALLBACK InsertPackItemEnumProc(HELPPACK_INFO *pack, WPARAM wPara
 			TCHAR szBuf[6];
 			/* get country id from locale */
 			if (!(pack->flags&HPF_NOLOCALE))
-				if (GetLocaleInfo(pack->Locale, LOCALE_ICOUNTRY, szBuf, sizeof(szBuf)))
+				if (GetLocaleInfo(pack->Locale, LOCALE_ICOUNTRY, szBuf, _countof(szBuf)))
 					countryId = _ttoi(szBuf);
 			hIcon = (HICON)CallService(MS_FLAGS_LOADFLAGICON, countryId, 0);
 		}

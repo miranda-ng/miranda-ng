@@ -333,7 +333,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			TCHAR text[1024];
 			char *szModule, *szDlgId;
 
-			GetControlTitle(hwndCtl, text, sizeof(text));
+			GetControlTitle(hwndCtl, text, _countof(text));
 			SetDlgItemText(hwndDlg, IDC_CTLTEXT, text);
 			mir_sntprintf(text, sizeof(text), TranslateT("Control ID: %d"), GetControlID(hwndCtl));
 			SetDlgItemText(hwndDlg, IDC_CTLID, text);
@@ -368,7 +368,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT), TRUE);
 		{
 			TCHAR text[2024];
-			GetControlTitle(hwndCtl, text, sizeof(text));
+			GetControlTitle(hwndCtl, text, _countof(text));
 			SetDlgItemText(hwndDlg, IDC_CTLTEXT, text);
 		}
 #else
@@ -568,7 +568,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							{
 								TCHAR szTitle[1024];
 								char *szText, *szDlgId, *szModule;
-								if (!GetDlgItemText(hwndDlg, IDC_CTLTEXT, szTitle, sizeof(szTitle)))
+								if (!GetDlgItemText(hwndDlg, IDC_CTLTEXT, szTitle, _countof(szTitle)))
 									break;
 								szDlgId = CreateDialogIdString(GetControlDialog(hwndCtl));
 								if (szDlgId == NULL)
