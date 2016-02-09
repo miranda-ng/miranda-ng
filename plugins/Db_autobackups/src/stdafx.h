@@ -6,6 +6,13 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <time.h>
+#include <filesystem>
+#include <vector>
+#if defined(_MSC_VER) && (_MSC_VER >= 1800)
+namespace fs = std::tr2::sys;
+#else
+namespace fs = std::experimental::filesystem;
+#endif
 
 #include <newpluginapi.h>
 #include <m_clist.h>

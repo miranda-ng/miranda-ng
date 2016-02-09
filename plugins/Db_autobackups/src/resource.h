@@ -23,6 +23,8 @@
 #define IDC_CHK_USEZIP                  1673
 #define IDC_CHECK1                      1674
 #define IDC_DROPBOX                     1674
+#define IDC_CHECK2                      1675
+#define IDC_BACKUPPROFILE               1675
 #define IDC_PROGRESSMESSAGE             0xDAED
 #define IDC_PROGRESS                    0xDEAD
 
@@ -32,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        272
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1675
+#define _APS_NEXT_CONTROL_VALUE         1676
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
