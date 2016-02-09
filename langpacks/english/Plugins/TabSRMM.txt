@@ -445,7 +445,6 @@
 [Stay on top]
 [Message &log]
 [&Container]
-[Event popups]
 [Disable all event popups]
 [Show popups if window is minimized]
 [Show popups if window is unfocused]
