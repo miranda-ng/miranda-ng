@@ -59,7 +59,7 @@ void WhatsAppProto::InitMenu()
 	m_hMenuCreateGroup = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
-int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
+int WhatsAppProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
 	ToggleStatusMenuItems(isOnline());
 	return 0;

@@ -122,7 +122,7 @@ public:
 	}
 };
 
-INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	COptionsDlg *pDlg = new COptionsDlg(this, IDD_ACCMGRUI);
 	pDlg->SetParent((HWND)lParam);

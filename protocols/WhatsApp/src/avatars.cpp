@@ -128,7 +128,7 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 	return 0;
 }
 
-INT_PTR WhatsAppProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	return InternalSetAvatar(NULL, m_szJid.c_str(), (const TCHAR*)lParam);
 }

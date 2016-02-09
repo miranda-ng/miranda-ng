@@ -3,7 +3,7 @@
 
 struct send_direct
 {
-	send_direct(MCONTACT hContact, const std::string &msg, HANDLE msgid, bool isChat = false) :
+	send_direct(MCONTACT hContact, const std::string &msg, HANDLE msgid) :
 		hContact(hContact), msg(msg), msgid(msgid)
 		{}
 

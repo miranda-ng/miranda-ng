@@ -28,7 +28,6 @@ public:
 	virtual void write(const std::vector<unsigned char>& b, int length);
 	// virtual void write(const std::vector<unsigned char>& bytes, int offset, int length);
 	virtual void makeNonBlock();
-	virtual int waitForRead();
 	virtual void forceShutdown();
 	
 	virtual void log(const char *prefix, const char *str);

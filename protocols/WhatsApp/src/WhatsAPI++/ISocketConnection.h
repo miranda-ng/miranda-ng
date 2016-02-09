@@ -16,7 +16,6 @@ public:
 	virtual int read(unsigned char*, int length) = 0;
 	virtual int read(std::vector<unsigned char>& b, int off, int length) = 0;
 	virtual void makeNonBlock() = 0;
-	virtual int waitForRead() = 0;
 	virtual void forceShutdown() = 0;
 
 	virtual void log(const char *prefix, const char *str) = 0;

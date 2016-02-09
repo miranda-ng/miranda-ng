@@ -111,12 +111,12 @@ class WAConnection
 	class IqResultPingHandler: public IqResultHandler {
 	public:
 		IqResultPingHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode*, const std::string&) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL)
 				this->con->m_pEventHandler->onPingResponseReceived();
 		}
 
-		void error(ProtocolTreeNode* node) throw (WAException) {
+		void error(ProtocolTreeNode*) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL)
 				this->con->m_pEventHandler->onPingResponseReceived();
 		}
@@ -127,7 +127,7 @@ class WAConnection
 		std::string type;
 	public:
 		IqResultGetGroupsHandler(WAConnection* con, const std::string &type ):IqResultHandler(con) {this->type = type;}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			std::vector<std::string> groups;
 			this->con->readGroupList(node, groups);
 		}
@@ -136,7 +136,7 @@ class WAConnection
 	class IqResultServerPropertiesHandler: public IqResultHandler {
 	public:
 		IqResultServerPropertiesHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			std::vector<ProtocolTreeNode*> nodes(node->getAllChildren("prop"));
 			std::map<std::string,std::string> nameValueMap;
 			for (size_t i = 0; i < nodes.size();i++) {
@@ -154,7 +154,7 @@ class WAConnection
 	class IqResultPrivayListHandler: public IqResultHandler {
 	public:
 		IqResultPrivayListHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			ProtocolTreeNode* queryNode = node->getChild(0);
 			ProtocolTreeNode::require(queryNode, "query");
 			ProtocolTreeNode* listNode = queryNode->getChild(0);
@@ -227,7 +227,7 @@ class WAConnection
 		IqResultGetPhotoHandler(WAConnection* con, const std::string &jid):IqResultHandler(con) {
 			this->jid = jid;
 		}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			const string &attributeValue = node->getAttributeValue("type");
 
 			if (!attributeValue.empty() && attributeValue == "result" && this->con->m_pEventHandler != NULL) {
@@ -243,7 +243,7 @@ class WAConnection
 				}
 			}
 		}
-		void error(ProtocolTreeNode* node) throw (WAException) {
+		void error(ProtocolTreeNode*) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL) {
 				std::vector<unsigned char> v;
 				this->con->m_pEventHandler->onSendGetPicture("error", v, "");
@@ -256,7 +256,7 @@ class WAConnection
 		std::string jid;
 	public:
 		IqResultSetPhotoHandler(WAConnection* con, const std::string &jid):IqResultHandler(con) {this->jid = jid;}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL) {
 				ProtocolTreeNode* child = node->getChild("picture");
 				if (child != NULL)
@@ -270,12 +270,12 @@ class WAConnection
 	class IqResultSendDeleteAccount: public IqResultHandler {
 	public:
 		IqResultSendDeleteAccount(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode*, const std::string&) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL)
 				this->con->m_pEventHandler->onDeleteAccount(true);
 		}
 
-		void error(ProtocolTreeNode* node) throw (WAException) {
+		void error(ProtocolTreeNode*) throw (WAException) {
 			if (this->con->m_pEventHandler != NULL)
 				this->con->m_pEventHandler->onDeleteAccount(false);
 		}
@@ -284,14 +284,14 @@ class WAConnection
 	class IqResultClearDirtyHandler: public IqResultHandler {
 	public:
 		IqResultClearDirtyHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode*, const std::string&) throw (WAException) {
 		}
 	};
 
 	class IqSendClientConfigHandler: public IqResultHandler {
 	public:
 		IqSendClientConfigHandler(WAConnection* con):IqResultHandler(con) {}
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			con->logData("Clientconfig response %s", node->toString().c_str());
 		}
 
@@ -305,7 +305,7 @@ class WAConnection
 		FMessage message;
 	public:
 		MediaUploadResponseHandler(WAConnection* con, const FMessage &message) :IqResultHandler(con) { this->message = message; }
-		virtual void parse(ProtocolTreeNode* node, const std::string &from) throw (WAException) {
+		virtual void parse(ProtocolTreeNode* node, const std::string&) throw (WAException) {
 			this->con->processUploadResponse(node, &message);
 		}
 		void error(ProtocolTreeNode* node) throw (WAException) {
