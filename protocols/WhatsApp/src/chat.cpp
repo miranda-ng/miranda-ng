@@ -16,7 +16,7 @@ enum
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol menu handler - create a new group
 
-INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM, LPARAM)
 {
 	ENTER_STRING es = { 0 };
 	es.cbSize = sizeof(es);
@@ -37,7 +37,7 @@ INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // handler to pass events from SRMM to WAConnection
 
-int WhatsAppProto::onGroupChatEvent(WPARAM wParam, LPARAM lParam)
+int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
 	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName))
@@ -216,7 +216,7 @@ void WhatsAppProto::NickListMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 	}
 }
 
-void WhatsAppProto::AddChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
+void WhatsAppProto::AddChatUser(WAChatInfo*, const TCHAR *ptszJid)
 {
 	std::string jid((char*)_T2A(ptszJid));
 	MCONTACT hContact = ContactIDToHContact(jid);
@@ -250,7 +250,7 @@ void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Leave groupchat emulator for contact's deletion
 
-int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM lParam)
+int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM)
 {
 	if (isChatRoom(hContact) && isOnline()) {
 		ptrT tszID(getTStringA(hContact, WHATSAPP_KEY_ID));
@@ -264,7 +264,7 @@ int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // handler to customize chat menus
 
-int WhatsAppProto::OnChatMenu(WPARAM wParam, LPARAM lParam)
+int WhatsAppProto::OnChatMenu(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (gcmi == NULL)
@@ -351,7 +351,7 @@ WAChatInfo* WhatsAppProto::SafeGetChat(const std::string &jid)
 ///////////////////////////////////////////////////////////////////////////////
 // WAGroupListener members
 
-void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner, const std::string &subject, const std::string &subject_owner, int time_subject, int time_created)
+void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner, const std::string &subject, const std::string &subject_owner, int time_subject, int)
 {
 	WAChatInfo *pInfo = SafeGetChat(jid);
 	if (pInfo == NULL) {

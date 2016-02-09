@@ -65,7 +65,7 @@ WhatsAppProto::~WhatsAppProto()
 	CloseHandle(update_loop_lock_);
 }
 
-int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
+int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM, LPARAM)
 {
 	switch (evType) {
 	case EV_PROTO_ONMENU:
@@ -88,7 +88,7 @@ int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-DWORD_PTR WhatsAppProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -377,7 +377,8 @@ void WhatsAppProto::NotifyEvent(const string& title, const string& info, MCONTAC
 
 void WhatsAppProto::NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT contact, DWORD flags, TCHAR* szUrl)
 {
-	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
+	int ret, timeout = 0;
+	COLORREF colorBack = 0, colorText = 0;
 
 	switch (flags) {
 	case WHATSAPP_EVENT_CLIENT:

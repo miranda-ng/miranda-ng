@@ -76,8 +76,8 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 	if (!existingChallenge.empty())
 		data = getAuthBlob(existingChallenge);
 
-	m_pConnection->out.write(ProtocolTreeNode("auth", data) << 
-		XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user));
+	ProtocolTreeNode n("auth", data);
+	m_pConnection->out.write(n << XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user));
 }
 
 std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char>& nonce)

@@ -47,29 +47,6 @@ void WASocketConnection::makeNonBlock()
 	throw WAException("Error setting socket nonblocking!", WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 }
 
-int WASocketConnection::waitForRead()
-{
-	// #TODO Is this called at all?
-	return 0;
-
-	fd_set rfds;
-	struct timeval tv;
-	struct timeval* tvp;
-	int fd = 0;
-
-	FD_ZERO(&rfds);
-	FD_SET(fd, &rfds);
-	tv.tv_sec = 600; //ApplicationData::SELECT_TIMEOUT;
-	tv.tv_usec = 0; // 5000000;
-	tvp = &tv;
-
-	int retval = select(/*fd + 1*/ 0, &rfds, NULL, NULL, tvp);
-	if (!FD_ISSET(fd, &rfds))
-		retval = 0;
-
-	return retval;
-}
-
 void WASocketConnection::flush() {}
 
 void WASocketConnection::write(const std::vector<unsigned char> &bytes, int length)

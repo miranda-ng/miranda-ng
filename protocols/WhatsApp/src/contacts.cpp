@@ -145,11 +145,11 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 	db_set_ws(hContact, "CList", "StatusMsg", ss.str().c_str());
 }
 
-void WhatsAppProto::onContactChanged(const std::string &jid, bool added)
+void WhatsAppProto::onContactChanged(const std::string&, bool)
 {
 }
 
-void WhatsAppProto::onPictureChanged(const std::string &jid, const std::string &id, bool set)
+void WhatsAppProto::onPictureChanged(const std::string &jid, const std::string&, bool)
 {
 	if (isOnline())
 		m_pConnection->sendGetPicture(jid.c_str(), "image");
