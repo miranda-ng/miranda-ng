@@ -23,7 +23,6 @@
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_icolib.h>
-#include <win2k.h>
 #include <m_autobackups.h>
 
 #include <m_folders.h>
