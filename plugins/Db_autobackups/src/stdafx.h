@@ -36,7 +36,6 @@
 #define SUB_DIR L"\\AutoBackups"
 #define DIR L"%miranda_userdata%"
 
-
 int	SetBackupTimer(void);
 int	OptionsInit(WPARAM wParam, LPARAM lParam);
 int	LoadOptions(void);
