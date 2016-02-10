@@ -327,10 +327,10 @@ int Backup(TCHAR *backup_filename)
 
 			if (dest_file_len > 50) {
 				size_t i;
+				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
 				for (i = (dest_file_len - 1); dest_file[i] != _T('\\'); i--)
 					;
 				//_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-
 				mir_tstrncpy(puText, dest_file, (i + 2));
 				mir_tstrcat(puText, _T("\n"));
 				mir_tstrcat(puText, (dest_file + i + 1));
