@@ -2,6 +2,7 @@
 
 void table2json(lua_State *L, int idx, JSONNode &node)
 {
+	idx = lua_absindex(L, idx);
 	lua_pushnil(L);
 	while (lua_next(L, idx) != 0) 
 	{
@@ -22,8 +23,8 @@ void table2json(lua_State *L, int idx, JSONNode &node)
 		case LUA_TNIL:
 			nnode.nullify();
 			break;
-		//case LUA_TTABLE:
-		//	table2json(L, -1, nnode);
+		case LUA_TTABLE:
+			table2json(L, -1, nnode);
 		}
 		node << nnode;
 		lua_pop(L, 1);
