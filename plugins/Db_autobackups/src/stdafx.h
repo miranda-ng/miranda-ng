@@ -9,9 +9,9 @@
 #include <filesystem>
 #include <vector>
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
-namespace fs = std::tr2::sys;
+	namespace fs = std::tr2::sys;
 #else
-namespace fs = std::experimental::filesystem;
+	namespace fs = std::experimental::filesystem;
 #endif
 
 #include <newpluginapi.h>
