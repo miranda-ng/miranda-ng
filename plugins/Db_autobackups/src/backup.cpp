@@ -92,8 +92,8 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 		const auto& file = it->path();
 		if (!fs::is_directory(file) && !strstr(file.file_string().c_str(), _T2A(szDest)))
 		{
-			std::string filepath = file.file_string();
-			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
+			const std::string &filepath = file.file_string();
+			const std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
 			HANDLE hSrc;
 
