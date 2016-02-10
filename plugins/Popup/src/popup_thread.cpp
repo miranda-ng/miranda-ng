@@ -46,7 +46,8 @@ enum
 	UTM_REQUEST_IDLE,
 	UTM_LOCK_QUEUE,
 	UTM_UNLOCK_QUEUE,
-	UTM_REQUEST_REMOVE
+	UTM_REQUEST_REMOVE,
+	UTM_AVATAR_CHANGED
 };
 
 bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
@@ -196,6 +197,13 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 			gLockCount = 0;
 		break;
 
+	case UTM_AVATAR_CHANGED:
+		for (int i = 0; i < popupList.getCount(); i++) {
+			PopupWnd2 *p = popupList[i];
+			if (p->getContact() == wParam)
+				SendMessage(p->getHwnd(), UM_AVATARCHANGED, 0, 0);
+		}
+		break;
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
@@ -242,10 +250,18 @@ static unsigned __stdcall PopupThread(void *)
 /////////////////////////////////////////////////////////////////////////////////////////
 // interface
 
+static int sttAvatarChanged(WPARAM wParam, LPARAM)
+{
+	PostMessage(gHwndManager, UTM_AVATAR_CHANGED, wParam, 0);
+	return 0;
+}
+
 void LoadPopupThread()
 {
 	unsigned threadId;
 	hThread = mir_forkthreadex(PopupThread, NULL, &threadId);
+
+	HookEvent(ME_AV_AVATARCHANGED, sttAvatarChanged);
 }
 
 void StopPopupThread()
