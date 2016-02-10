@@ -68,6 +68,7 @@ extern HINSTANCE g_hInstance;
 
 extern CMLua *g_mLua;
 
+extern HANDLE g_hCLibsFolder;
 extern HANDLE g_hScriptsFolder;
 #ifdef _UNICODE
 	#define MIRLUA_PATHT MIRANDA_PATHW L"\\Scripts"
@@ -146,6 +147,9 @@ int luaM_totable(lua_State *L);
 bool luaM_toboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
+
+CMLuaScript* GetScriptFromEnviroment(lua_State *L, int n = 1);
+int GetScriptHLangpackFromEnviroment(lua_State *L, int n = 1);
 
 void InitIcons();
 HICON GetIcon(int iconId);
