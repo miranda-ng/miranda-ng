@@ -12,8 +12,8 @@
 #	include <filesystem>
 	namespace fs = std::tr2::sys;
 #else
-#	include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
+#	include <boost/filesystem.hpp>
+	namespace fs = boost::filesystem;
 #endif
 
 #include <newpluginapi.h>
