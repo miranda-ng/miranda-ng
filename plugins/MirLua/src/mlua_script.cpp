@@ -49,7 +49,9 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	lua_newtable(L);
+	lua_createtable(L, 0, 1);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "_G");
 	lua_createtable(L, 0, 1);
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
