@@ -83,29 +83,28 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	zipFile hZip = zipOpen2_64(szDest, APPEND_STATUS_CREATE, NULL, NULL);
 	if (!hZip) 
 		return false;
-
 	zip_fileinfo fi = { 0 };
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 	size_t i = 0;
-	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it)
+	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator() && GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1; ++it)
 	{
 		const auto& file = it->path();
-		if (!fs::is_directory(file) && !strstr((LPCSTR)file.string().c_str(), _T2A(szDest)))
+		if (!fs::is_directory(file) && file.string().find(_T2A(fs::wpath(szDest).string().c_str())) == std::string::npos)
 		{
 			const std::string &filepath = file.string();
 			const std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
 			HANDLE hSrc;
 
-			if (hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
+			if ((hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
+				&& zipOpenNewFileInZip(hZip, rpath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK)
 			{
-				if (zipOpenNewFileInZip(hZip, rpath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK)
-				{
-					DWORD dwRead;
-					uint8_t buf[(256 * 1024)];
-					while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead && (zipWriteInFileInZip(hZip, buf, dwRead) == ZIP_OK));
-					zipCloseFileInZip(hZip);
-				}
+				DWORD dwRead;
+				uint8_t buf[(256 * 1024)];
+
+				while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead && (zipWriteInFileInZip(hZip, buf, dwRead) == ZIP_OK));
+				zipCloseFileInZip(hZip);
+
 				i++;
 				SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(i % 100), 0);
 				CloseHandle(hSrc);
@@ -115,7 +114,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	zipClose(hZip, CMStringA(FORMAT, "%s\r\n%s %s %d.%d.%d.%d\r\n",
 		Translate("Miranda NG database"), Translate("Created by:"),
 		__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
-	return true;
+	return 1;
 }
 
 bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dialog)
@@ -325,12 +324,13 @@ int Backup(TCHAR *backup_filename)
 		if (!options.disable_popups) {
 			size_t dest_file_len = mir_tstrlen(dest_file);
 			TCHAR *puText;
+
 			if (dest_file_len > 50) {
 				size_t i;
-				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
 				for (i = (dest_file_len - 1); dest_file[i] != _T('\\'); i--)
 					;
 				//_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
+
 				mir_tstrncpy(puText, dest_file, (i + 2));
 				mir_tstrcat(puText, _T("\n"));
 				mir_tstrcat(puText, (dest_file + i + 1));
