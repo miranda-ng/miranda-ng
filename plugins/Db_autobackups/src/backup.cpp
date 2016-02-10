@@ -92,10 +92,11 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 		const auto& file = it->path();
 		if (!fs::is_directory(file) && !strstr(file.file_string().c_str(), _T2A(szDest)))
 		{
-			std::string filepath = file;
+			std::string filepath = file.file_string();
 			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
 			HANDLE hSrc;
+
 			if (hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
 			{
 				if (zipOpenNewFileInZip(hZip, rpath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK)
