@@ -90,7 +90,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it)
 	{
 		const auto& file = it->path();
-		if (!fs::is_directory(file) && !strstr(std::string(file).c_str(), _T2A(szDest)))
+		if (!fs::is_directory(file) && !strstr(file.file_string().c_str(), _T2A(szDest)))
 		{
 			std::string filepath = file;
 			std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
