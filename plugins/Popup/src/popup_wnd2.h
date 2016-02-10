@@ -82,7 +82,6 @@ private:
 	PopupAvatar*m_avatar;
 	int         m_avatarFrameDelay;
 	bool        m_bReshapeWindow;
-	HANDLE      m_hhkAvatarChanged;
 	bool        m_bIsPinned;
 
 	// show & hide

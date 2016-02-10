@@ -38,10 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define AVATAR_TIMER  1608
 #define CURSOR_TIMER  1609
 
-#define UM_AVATARCHANGED (WM_USER+0x300)
-#define UM_MENUDONE      (WM_USER+0x301)
-#define UM_SHOWMENU      (WM_USER+0x302)
-
 HWND	ghwndMenuHost = NULL;
 
 void	WindowThread(void *arg);
@@ -81,19 +77,8 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupEditBox) {
 		TCHAR msg[2048];
 		mir_sntprintf(msg, TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
-			wclw.cbSize,		// UINT        cbSize;
-			wclw.style,			// UINT        style;
-			wclw.lpfnWndProc,	// WNDPROC     lpfnWndProc;
-			wclw.cbClsExtra,	// int         cbClsExtra;
-			wclw.cbWndExtra,	// int         cbWndExtra;
-			wclw.hInstance,		// HINSTANCE   hInstance;
-			wclw.hIcon,			// HICON       hIcon;
-			wclw.hCursor,		// HCURSOR     hCursor;
-			wclw.hbrBackground,	// HBRUSH      hbrBackground;
-			wclw.lpszMenuName,	// LPCWSTR     lpszMenuName;
-			wclw.lpszClassName,	// LPCWSTR     lpszClassName;
-			wclw.hIconSm		// HICON       hIconSm;
-			);
+			wclw.cbSize, wclw.style, wclw.lpfnWndProc, wclw.cbClsExtra, wclw.cbWndExtra, wclw.hInstance, wclw.hIcon, wclw.hCursor,
+			wclw.hbrBackground, wclw.lpszMenuName, wclw.lpszClassName, wclw.hIconSm);
 
 		MSGERROR(msg);
 	}
@@ -399,9 +384,9 @@ void PopupWnd2::show()
 			}
 			if (m_bSlide)
 				SetWindowPos(m_hwnd, 0,
-				(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
-				(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
-				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+					(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
+					(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
+					0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 			UpdateWindow(m_hwnd);
 			Sleep(1);
 		}
@@ -480,9 +465,9 @@ void PopupWnd2::hide()
 			}
 			if (m_bSlide)
 				SetWindowPos(m_hwnd, 0,
-				(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
-				(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
-				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+					(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
+					(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
+					0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 			UpdateWindow(m_hwnd);
 			Sleep(1);
 		}
@@ -893,16 +878,17 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		return DefWindowProc(m_hwnd, message, wParam, lParam);
 
 	case UM_INITPOPUP:
-		if (!m_customPopup) PopupThreadAddWindow(this);
-		if (m_iTimeout > 0) SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, 0);
-		if (m_hContact && !m_hbmAvatar && PopupOptions.EnableAvatarUpdates)
-			m_hhkAvatarChanged = HookEventMessage(ME_AV_AVATARCHANGED, m_hwnd, UM_AVATARCHANGED);
-		if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
+		if (!m_customPopup)
+			PopupThreadAddWindow(this);
+		if (m_iTimeout > 0)
+			SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, 0);
+		
+		if (m_avatar->activeFrameDelay() > 0)
+			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
 
 		// prevent unwanted clicks, but allow wanted :)
 		GetCursorPos(&m_ptPrevCursor);
 		SetTimer(m_hwnd, CURSOR_TIMER, 500, NULL);
-
 		break;
 
 	case UM_POPUPSHOW:
@@ -912,11 +898,10 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 	case UM_AVATARCHANGED:
-		if (wParam == m_hContact) {
-			m_avatar->invalidate();
-			update();
-			if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
-		}
+		m_avatar->invalidate();
+		update();
+		if (m_avatar->activeFrameDelay() > 0)
+			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
 		break;
 
 	case UM_POPUPACTION:
@@ -1226,8 +1211,6 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			if (!m_customPopup) PopupThreadUnlock();
 			m_bIsHovered = false;
 		}
-		if (m_hhkAvatarChanged)
-			Popup_UnhookEventAsync((WPARAM)m_hwnd, (LPARAM)m_hhkAvatarChanged);
 		SendMessage(m_hwnd, UM_FREEPLUGINDATA, 0, 0);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 		m_hwnd = 0;

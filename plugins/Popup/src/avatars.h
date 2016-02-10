@@ -24,6 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __avatars_h__
 #define __avatars_h__
 
+#define UM_AVATARCHANGED (WM_USER+0x300)
+#define UM_MENUDONE      (WM_USER+0x301)
+#define UM_SHOWMENU      (WM_USER+0x302)
+
 class PopupAvatar
 {
 protected:
