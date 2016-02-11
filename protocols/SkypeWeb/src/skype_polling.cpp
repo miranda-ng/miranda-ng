@@ -37,6 +37,7 @@ void CSkypeProto::PollingThread(void*)
 			if (response == NULL)
 			{
 				nErrors++;
+				m_pollingConnection = nullptr;
 				continue;
 			}
 

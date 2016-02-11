@@ -147,6 +147,7 @@ void CSkypeProto::TRouterThread(void*)
 			delete request;
 			if (response == NULL)
 			{
+				m_TrouterConnection = nullptr;
 				errors++;
 				continue;
 			}
