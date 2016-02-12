@@ -38,7 +38,8 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 	// Set all contacts in map to offline (and reset client)
 	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
 		i->data->status_id = ID_STATUS_OFFLINE;
-		i->data->client = CLIENT_WEB;
+		if (i->data->client == 0)
+			i->data->client = CLIENT_WEB;
 	}
 
 	// Load last active times
@@ -86,55 +87,11 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 			current->user_id = id;
 		}
 
-		if (proto->getByte(FACEBOOK_KEY_FETCH_MOBILE, 0) == 2) {
-			// a=1 && c=8 means web for my test contact
-			// a=1 && c=0 means miranda (i.e. web) for one contact
-
-			const JSONNode &a = (*it)["a"]; // usually "2" (active less than 15 minutes ago?), sometimes "1" (active more than 15 minutes ago?)
-			const JSONNode &c = (*it)["c"]; // sometimes "0", sometimes "8", sometimes "10"
-			// const JSONNode &i = (*it)["i"]; // it's always "false" for my contacts
-
-			current->idle = (a.as_int() == 1);
-			current->client = (c.as_int() == 8 ? CLIENT_WEB : (c.as_int() == 0 ? CLIENT_OTHER : (c.as_int() == 10 ? CLIENT_MOBILE : CLIENT_MESSENGER)));
-		}
-
 		current->status_id = (current->client == CLIENT_MOBILE || current->client == CLIENT_MESSENGER) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
 
 		// Set contacts that were last active more than 1 minute ago as away
 		if (current->status_id == ID_STATUS_ONLINE && current->last_active > 0 && (now - current->last_active) > 60) {
 			current->status_id = ID_STATUS_AWAY;
-		}
-
-		// Facebook is not sending this info anymore, it should be removed
-		// TODO: It is now supported to get via /ajax/mercury/tabs_presence.php request, and it is also getting through classic pull as special type of event
-		const JSONNode &p = (*it)["p"];
-		if (p) {
-			std::string status = p["status"].as_string(); // this seems to be "active" or "invisible" or null
-			std::string webStatus = p["webStatus"].as_string(); // "active", "idle" or "offline"
-			std::string fbAppStatus = p["fbAppStatus"].as_string(); // "offline" or "active" or "invisible" or null
-			std::string messengerStatus = p["messengerStatus"].as_string(); // "offline" or "active" or "invisible" or null
-			std::string otherStatus = p["otherStatus"].as_string(); // "offline" or "active" or "invisible" or null - this seems to be "active" when webStatus is "idle" or "active" only
-
-			// this may never happen
-			if (status != "active")
-				current->status_id = ID_STATUS_OFFLINE;
-
-			bool b;
-
-			// "webStatus" and "otherStatus" are marked as "WEB" on FB website
-			if ((b = (webStatus == "active")) || otherStatus == "active") {
-				current->status_id = ID_STATUS_ONLINE;
-				current->client = b ? CLIENT_WEB : CLIENT_OTHER;
-			}
-
-			// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
-			if ((b = (fbAppStatus == "active")) || messengerStatus == "active") {
-				current->status_id = ID_STATUS_ONTHEPHONE;
-				current->client = b ? CLIENT_APP : CLIENT_MESSENGER;
-			}
-
-			// this is not marked anyhow on website (yet?)
-			current->idle = webStatus == "idle" || otherStatus == "idle" || fbAppStatus == "idle" || messengerStatus == "idle";
 		}
 	}
 
@@ -744,8 +701,53 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			}
 		}
 		else if (t == "buddylist_overlay") {
-			// we opened/closed chat window - pretty useless info for us
-			continue;
+			// additional info about user status (used client) - probably fired when we open/close user window on website?
+			const JSONNode &overlay = (*it)["overlay"];
+			if (!overlay)
+				continue;
+
+			for (auto itNodes = overlay.begin(); itNodes != overlay.end(); ++itNodes) {
+				std::string id = (*itNodes).as_string();
+
+				const JSONNode &p_ = (*itNodes)["p"];
+				if (!p_)
+					continue;
+
+				// TODO: This is now supported also via /ajax/mercury/tabs_presence.php request
+				const JSONNode &p = (*it)["p"];
+				if (p) {
+					facebook_user* current = proto->facy.buddies.find(id); // HACKISH-WAY to get buddies...
+					if (current == NULL)
+						continue;
+
+					std::string status = p["status"].as_string(); // this seems to be "active" or "invisible" or null
+					std::string webStatus = p["webStatus"].as_string(); // "active", "idle" or "offline"
+					std::string fbAppStatus = p["fbAppStatus"].as_string(); // "offline" or "active" or "invisible" or null
+					std::string messengerStatus = p["messengerStatus"].as_string(); // "offline" or "active" or "invisible" or null
+					std::string otherStatus = p["otherStatus"].as_string(); // "offline" or "active" or "invisible" or null - this seems to be "active" when webStatus is "idle" or "active" only
+
+					// this may never happen
+					if (status != "active")
+						current->status_id = ID_STATUS_OFFLINE;
+
+					bool b;
+
+					// "webStatus" and "otherStatus" are marked as "WEB" on FB website
+					if ((b = (webStatus == "active")) || otherStatus == "active") {
+						current->status_id = ID_STATUS_ONLINE;
+						current->client = b ? CLIENT_WEB : CLIENT_OTHER;
+					}
+
+					// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
+					if ((b = (fbAppStatus == "active")) || messengerStatus == "active") {
+						current->status_id = ID_STATUS_ONTHEPHONE;
+						current->client = b ? CLIENT_APP : CLIENT_MESSENGER;
+					}
+
+					// this is not marked anyhow on website (yet?)
+					current->idle = webStatus == "idle" || otherStatus == "idle" || fbAppStatus == "idle" || messengerStatus == "idle";
+				}
+			}
 		} else if (t == "ticker_update:home") {
 			const JSONNode &actor_ = (*it)["actor"];
 			const JSONNode &story_ = (*it)["story_xhp"];
