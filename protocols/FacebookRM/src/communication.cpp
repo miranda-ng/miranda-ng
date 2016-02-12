@@ -498,7 +498,13 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/mercury/change_read_status.php?__a=1";
 
 	case REQUEST_NOTIFICATIONS_READ:
-		return "/ajax/notifications/mark_read.php?__a=1";
+	{
+		std::string action = "/ajax/notifications/mark_read.php?__a=1";
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
+	}
 
 	case REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
