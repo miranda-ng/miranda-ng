@@ -392,6 +392,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		utils::text::replace_first(&action, "%s", this->chat_reconnect_reason_);
 		utils::text::replace_first(&action, "%s", this->dtsg_);
 		utils::text::replace_first(&action, "%s", this->self_.user_id);
+
+		action += "&__dyn=" + __dyn();
+		action += "&__req=" + __req();
+		action += "&__rev=" + __rev();
+
 		return action;
 	}
 
@@ -454,11 +459,16 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		int idleSeconds = parent->IdleSeconds();
 		if (idleSeconds > 0 && !parent->isInvisible())
 			action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
-		action += "&cap=0"; // TODO: what's this item? Sometimes it's 0, sometimes 8
-		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
 
-		action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
+		if (!isPing) {
+			action += "&qp=y"; // TODO: what's this item?
+			action += "&pws=fresh"; // TODO: what's this item?
+			action += "&isq=449655"; // TODO: what's this item?
+			action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
+			// TODO: sometimes there is &tur=1697 and &qpmade=<some actual timestamp>
+		}
 
+		action += "&cap=8"; // TODO: what's this item? Sometimes it's 0, sometimes 8
 		action += "&uid=" + self_.user_id;
 		action += "&viewer_uid=" + self_.user_id;
 
@@ -488,13 +498,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/mercury/change_read_status.php?__a=1";
 
 	case REQUEST_NOTIFICATIONS_READ:
-	{
-		std::string action = "/ajax/notifications/mark_read.php?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
+		return "/ajax/notifications/mark_read.php?__a=1";
 
 	case REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
@@ -1075,7 +1079,11 @@ bool facebook_client::chat_state(bool online)
 	data += "&window_id=0";
 	data += "&fb_dtsg=" + dtsg_;
 	data += "&__user=" + self_.user_id;
-	http::response resp = flap(REQUEST_VISIBILITY, &data);
+	data += "&__dyn=" + __dyn();
+	data += "&__req=" + __req();
+	data += "&ttstamp=" + ttstamp_;
+	data += "&__rev=" + __rev();
+	http::response resp = flap(REQUEST_VISIBILITY, &data); // NOTE: Request revised 11.2.2016
 
 	if (!resp.error_title.empty())
 		return handle_error("chat_state");
@@ -1287,6 +1295,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		data += "&message_batch[0][specific_to_list][0]=fbid:" + std::string(userId);
 		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
 		data += "&message_batch[0][client_thread_id]=user:" + std::string(userId);
+		data += "&message_batch[0][other_user_fbid]=" + std::string(userId);
 	}
 
 	data += "&message_batch[0][thread_fbid]";
@@ -1303,22 +1312,37 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&message_batch[0][is_spoof_warning]=false";
 	data += "&message_batch[0][source]=source:chat:web";
 	data += "&message_batch[0][source_tags][0]=source:chat";
-	data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+
+	// Experimental sticker sending support
+	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]") {
+		data += "&message_batch[0][body]=";
+		data += "&message_batch[0][sticker_id]=" + utils::url::encode(message_text.substr(10, message_text.length()-10-2));
+	}
+	else {
+		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+	}
+
 	data += "&message_batch[0][has_attachment]=false";
 	data += "&message_batch[0][html_body]=false";
 	data += "&message_batch[0][signatureID]";
 	data += "&message_batch[0][ui_push_phase]";
 	data += "&message_batch[0][status]=0";
+	data += "&message_batch[0][offline_threading_id]";
 	data += "&message_batch[0][message_id]";
 	data += "&message_batch[0][manual_retry_cnt]";
-	data += "&client=mercury&__a=1&__dyn&__req&__rev";
+	data += "&message_batch[0][ephemeral_ttl_mode]=0";
+	data += "&message_batch[0][manual_retry_cnt]=0";
+	data += "&client=mercury&__a=1";
 	data += "&fb_dtsg=" + this->dtsg_;
 	data += "&__user=" + this->self_.user_id;
 	data += "&ttstamp=" + ttstamp_;
+	data += "&__dyn=" + __dyn();
+	data += "&__req=" + __req();
+	data += "&__rev=" + __rev();
 
 	{
 		ScopedLock s(send_message_lock_);
-		resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
+		resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data); // NOTE: Request revised 11.2.2016
 
 		*error_text = resp.error_text;
 
@@ -1373,7 +1397,10 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 			parent->debugLogA("    Got captchaPersistData (first): %s", captchaPersistData.c_str());
 
 			std::string capStr = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
-			capStr += "&__dyn=&__req=&__rev=&__user=" + this->self_.user_id;
+			capStr += "&__dyn=" + __dyn();
+			capStr += "&__req=" + __req();
+			capStr += "&__rev=" + __rev();
+			capStr += "&__user=" + this->self_.user_id;
 			http::response capResp = flap(REQUEST_CAPTCHA_REFRESH, NULL, &capStr);
 
 			if (capResp.code == HTTP_CODE_OK) {

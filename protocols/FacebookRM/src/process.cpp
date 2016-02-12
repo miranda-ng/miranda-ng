@@ -176,7 +176,7 @@ void FacebookProto::ProcessFriendList(void*)
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
 
-	http::response resp = facy.flap(REQUEST_USER_INFO_ALL, &data); // NOTE: Request revised 1.9.2015
+	http::response resp = facy.flap(REQUEST_USER_INFO_ALL, &data); // NOTE: Request revised 11.2.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_friends");
@@ -616,7 +616,7 @@ void FacebookProto::SyncThreads(void*)
 
 	debugLogA("    Facebook's milli timestamp for sync: %s", time.c_str());
 
-	http::response resp = facy.flap(REQUEST_THREAD_SYNC, &data); // NOTE: Request revised 1.9.2015
+	http::response resp = facy.flap(REQUEST_THREAD_SYNC, &data); // NOTE: Request revised 11.2.2016
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadLastMessages");
@@ -1092,16 +1092,18 @@ void FacebookProto::ProcessNotifications(void*)
 
 	int count = FACEBOOK_NOTIFICATIONS_LOAD_COUNT;
 
-	std::string data = "__dyn=&__req=&__rev=";
-	data += "&__user=" + facy.self_.user_id;
+	std::string data = "__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&cursor="; // when loading more
 	data += "&length=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER); // number of items to load
 	data += "&businessID="; // probably for pages?
 	data += "&ttstamp=" + facy.ttstamp_;
+	data += "&__dyn=" + facy.__dyn();
+	data += "&__req=" + facy.__req();
+	data += "&__rev=" + facy.__rev();
 
 	// Get notifications
-	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data);
+	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data); // NOTE: Request revised 11.2.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("notifications");
