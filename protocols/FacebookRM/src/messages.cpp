@@ -165,7 +165,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&ttsamp=" + facy.ttstamp_;
 		data += "&__rev=" + facy.__rev();
 
-		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data); // NOTE: Request revised 1.9.2015
+		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data); // NOTE: Request revised 11.2.2016
 	}
 
 	delete typing;
@@ -215,7 +215,11 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	std::string b64 = ptrA(mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
 	b64 = utils::url::encode(b64);
 
-	std::tstring filename = GetAvatarFolder() + _T("\\stickers\\") + (TCHAR*)_A2T(b64.c_str()) + _T(".png");
+	std::tstring filename = GetAvatarFolder() + _T("\\stickers\\");
+	ptrT dir(mir_tstrdup(filename.c_str()));
+
+	filename += (TCHAR*)_A2T(b64.c_str());
+	filename += _T(".png");
 
 	// Check if we have this sticker already and download it it not
 	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
@@ -227,8 +231,8 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	SMADD_CONT cont;
 	cont.cbSize = sizeof(SMADD_CONT);
 	cont.hContact = hContact;
-	cont.type = 1;
-	cont.path = ptrT(mir_tstrdup(filename.c_str()));
+	cont.type = 0;
+	cont.path = dir;
 
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 }

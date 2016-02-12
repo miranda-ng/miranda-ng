@@ -106,13 +106,14 @@ int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebo
 		}
 
 		// Facebook is not sending this info anymore, it should be removed
+		// TODO: It is now supported to get via /ajax/mercury/tabs_presence.php request, and it is also getting through classic pull as special type of event
 		const JSONNode &p = (*it)["p"];
 		if (p) {
-			std::string status = p["status"].as_string(); // this seems to be "active" everytime
+			std::string status = p["status"].as_string(); // this seems to be "active" or "invisible" or null
 			std::string webStatus = p["webStatus"].as_string(); // "active", "idle" or "offline"
-			std::string fbAppStatus = p["fbAppStatus"].as_string(); // "offline" or "active"
-			std::string messengerStatus = p["messengerStatus"].as_string(); // "offline" or "active"
-			std::string otherStatus = p["otherStatus"].as_string(); // "offline" or "active" - this seems to be "active" when webStatus is "idle" or "active" only
+			std::string fbAppStatus = p["fbAppStatus"].as_string(); // "offline" or "active" or "invisible" or null
+			std::string messengerStatus = p["messengerStatus"].as_string(); // "offline" or "active" or "invisible" or null
+			std::string otherStatus = p["otherStatus"].as_string(); // "offline" or "active" or "invisible" or null - this seems to be "active" when webStatus is "idle" or "active" only
 
 			// this may never happen
 			if (status != "active")
@@ -369,18 +370,18 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				attachments_text += "\n" + absolutizeUrl(link) + "\n";
 			}
 
-			// Stickers as smileys
-			if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
-				const JSONNode &metadata = (*itAttachment)["metadata"];
-				if (metadata) {
-					const JSONNode &stickerId_ = metadata["stickerID"];
-					if (stickerId_) {
-						std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]\n";
-						attachments_text += sticker;
+			const JSONNode &metadata = (*itAttachment)["metadata"];
+			if (metadata) {
+				const JSONNode &stickerId_ = metadata["stickerID"];
+				if (stickerId_) {
+					std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]\n";
+					attachments_text += sticker;
 
-						if (other_user_fbid.empty() && !thread_id.empty())
-							other_user_fbid = proto->ThreadIDToContactID(thread_id);
+					if (other_user_fbid.empty() && !thread_id.empty())
+						other_user_fbid = proto->ThreadIDToContactID(thread_id);
 
+					// Stickers as smileys
+					if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
 						// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
 						if (!other_user_fbid.empty()) {
 							MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);

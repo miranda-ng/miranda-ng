@@ -223,7 +223,7 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
 
-	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 1.9.2015
+	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 11.2.2016
 
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
@@ -288,7 +288,12 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	// request info about thread
 	data += "&threads[thread_ids][0]=" + thread_id;
 
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 1.9.2015
+	// TODO: ABILITY TO DEFINE TIMESTAMP! (way to load history since specific moment? ... offset seems to does nothing at all)
+	/* messages[user_ids][<<userid>>][offset]=11
+	messages[user_ids][<<userid>>][timestamp]=1446369866009 // most recent message has this timestamp (included)
+	messages[user_ids][<<userid>>][limit]=20 */
+
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 12.2.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("LoadChatInfo");
