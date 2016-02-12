@@ -72,7 +72,7 @@ namespace utils
 		std::string trim(const std::string &data, bool rtrim = false);
 		std::string source_get_value(std::string* data, unsigned int argument_count, ...);
 		std::string source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString = false);
-		std::string source_get_form_data(std::string* data);
+		std::string source_get_form_data(std::string* data, boolean hiddenOnly = false);
 		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = NULL);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
