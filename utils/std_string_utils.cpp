@@ -428,12 +428,13 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 	return ret;
 }
 
-std::string utils::text::source_get_form_data(std::string* data)
+std::string utils::text::source_get_form_data(std::string* data, boolean hiddenOnly)
 {
+	const char *search = hiddenOnly ? "<input type=\"hidden\"" : "<input";
 	std::string values;
 
 	std::string::size_type start = 0;
-	start = data->find("<input", start);
+	start = data->find(search, start);
 	while (start != std::string::npos) {
 		start++;
 		std::string attr, value;
@@ -461,7 +462,7 @@ std::string utils::text::source_get_form_data(std::string* data)
 				values += "&";
 			values += attr + "=" + value;
 		}
-		start = data->find("<input", start);
+		start = data->find(search, start);
 	}
 
 	return values;

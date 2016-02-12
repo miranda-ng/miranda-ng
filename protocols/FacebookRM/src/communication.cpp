@@ -286,7 +286,13 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	switch (request_type)
 	{
 	case REQUEST_LOGIN:
-		return "/login.php?login_attempt=1";
+	{
+		std::string action = "/login.php?login_attempt=1";
+		if (get_data != NULL) {
+			action += *get_data;
+		}
+		return action;
+	}
 
 	case REQUEST_SETUP_MACHINE:
 		return "/checkpoint/?next";
@@ -767,6 +773,13 @@ bool facebook_client::login(const char *username, const char *password)
 	username_ = username;
 	password_ = password;
 
+	// Prepare login data
+	std::string data = "persistent=1";
+	data += "&email=" + utils::url::encode(username);
+	data += "&pass=" + utils::url::encode(password);
+
+	std::string get_data = "";
+
 	if (cookies.empty()) {
 		// Set device ID
 		ptrA device(parent->getStringA(FACEBOOK_KEY_DEVICE_ID));
@@ -779,15 +792,17 @@ bool facebook_client::login(const char *username, const char *password)
 		// Also parse cookies set by JavaScript (more variant exists in time, so check all known now)
 		parseJsCookies("[\"DeferredCookie\",\"addToQueue\",[],[\"", resp.data, cookies);
 		parseJsCookies("[\"Cookie\",\"setIfFirstPartyContext\",[],[\"", resp.data, cookies);
+
+		// Parse hidden inputs and other data
+		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");
+		utils::text::replace_all(&form, "\\\"", "\"");
+
+		data += "&" + utils::text::source_get_form_data(&form, true);
+		get_data += "&" + utils::text::source_get_value(&form, 2, "login.php?login_attempt=1&amp;", "\"");
 	}
 
-	// Prepare login data
-	std::string data = "persistent=1";
-	data += "&email=" + utils::url::encode(username);
-	data += "&pass=" + utils::url::encode(password);
-
 	// Send validation
-	http::response resp = flap(REQUEST_LOGIN, &data);
+	http::response resp = flap(REQUEST_LOGIN, &data, &get_data);
 
 	// Save Device ID
 	if (!cookies["datr"].empty())
@@ -900,10 +915,7 @@ bool facebook_client::login(const char *username, const char *password)
 		}
 
 		// Get and notify error message
-		std::string error = utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>");
-		if (error.empty())
-			error = utils::text::source_get_value(&resp.data, 4, "<form", "<strong", ">", "</strong>");
-
+		std::string error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "[\"LoginFormError\"", "\"__html\":\"", "\"}"));
 		loginError(parent, error);
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
