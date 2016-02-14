@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 struct DlgChangePassParam
 {
@@ -100,7 +100,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			break;
 
 		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, SIZEOF(param->newPass));
+			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, _countof(param->newPass));
 			EndDialog(hwndDlg, IDOK);
 		}
 		break;
@@ -142,7 +142,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDbxMdb *db)
 {
 	if (db->usesPassword()) {
 		TCHAR buf[100];
-		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, SIZEOF(buf));
+		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
 		ptrA oldPass(mir_utf8encodeT(buf));
 		if (!db->m_crypto->checkPassword(oldPass)) {
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
@@ -201,13 +201,13 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		case IDOK:
 			TCHAR buf2[100];
-			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, SIZEOF(buf2));
+			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
 			if (_tcslen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
 				goto LBL_Error;
 			}
 
-			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, SIZEOF(buf));
+			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, _countof(buf));
 			if (_tcscmp(buf2, buf)) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
 				goto LBL_Error;
@@ -307,7 +307,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDbxMdb *db = (CDbxMdb*)obj;
 
-	Icon_Register(g_hInst, LPGEN("Database"), iconList, SIZEOF(iconList), "mmap");
+	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "mmap");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
