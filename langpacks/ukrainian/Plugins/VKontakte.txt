@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.20
+;  Version: 0.1.1.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -211,6 +211,8 @@
 Значок статусу
 [Wall message icon]
 Повідомлення на стіні
+[Mark messages as read icon]
+Позначити як прочитані
 [Protocols]
 Протоколи
 [VKontakte]
@@ -431,6 +433,8 @@ ID отримувача помилковий або невідомий
 Завантажити новини з сайту
 [Wipe contacts missing in friend list]
 Видалити контакти поза списком друзів
+[Mark messages as read]
+Позначити повідомлення як прочитані
 [Send message to user\'s wall]
 Повідомлення на стіні користувача
 [Add as friend]

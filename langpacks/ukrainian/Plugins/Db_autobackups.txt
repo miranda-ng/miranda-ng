@@ -39,6 +39,8 @@
 Вимкнути сплив. вікна
 [Use Dropbox]
 Використовувати Dropbox
+[Backup profile folder]
+Резервувати папку профілю
 [Miranda NG database]
 База даних Miranda NG
 [Created by:]

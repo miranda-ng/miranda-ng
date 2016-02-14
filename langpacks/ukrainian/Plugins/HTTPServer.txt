@@ -38,7 +38,7 @@ IP-адреса 2
 [Write log file]
 Записувати журнал
 [Enable HTTP server]
-Увімк. HTTP-сервер
+Увімкнути HTTP-сервер
 [Main menu items]
 Елементи головного меню
 [Open log]

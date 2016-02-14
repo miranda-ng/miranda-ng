@@ -39,6 +39,8 @@
 Отключить всплывающие окна
 [Use Dropbox]
 Использовать Dropbox
+[Backup profile folder]
+Резервировать папку профиля
 [Miranda NG database]
 Резервная копия базы данных Miranda NG
 [Created by:]
