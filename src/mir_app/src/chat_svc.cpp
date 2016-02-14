@@ -418,7 +418,8 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
 
-	NotifyEventHooks(hHookEvent, wParam, lParam);
+	if (NotifyEventHooks(hHookEvent, wParam, lParam))
+		return 1;
 
 	mir_cslock lck(cs);
 
