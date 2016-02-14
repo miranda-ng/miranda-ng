@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 struct DBSettingKey
 {
@@ -593,7 +593,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
-	memset(keySearch.szSettingName, 0, SIZEOF(keySearch.szSettingName));
+	memset(keySearch.szSettingName, 0, _countof(keySearch.szSettingName));
 
 	LIST<char> arSettings(50);
 	{

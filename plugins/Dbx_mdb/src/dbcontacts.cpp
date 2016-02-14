@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int CDbxMdb::CheckProto(DBCachedContact *cc, const char *proto)
 {
@@ -283,7 +283,7 @@ void CDbxMdb::FillContacts()
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
-				mir_snprintf(setting, SIZEOF(setting), "Handle%d", i);
+				mir_snprintf(setting, _countof(setting), "Handle%d", i);
 				cc->pSubs[i] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}

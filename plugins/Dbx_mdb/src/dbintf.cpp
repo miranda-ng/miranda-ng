@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
@@ -187,11 +187,11 @@ bool CDbxMdb::Remap()
 	m_dwFileSize += 0x100000;
 	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
 
-	int mode = MDB_NOSYNC | MDB_NOSUBDIR;
+	int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK; // nolock - miranda using m_csDbAccess lock
 	if (m_bReadOnly)
-		mode += MDB_RDONLY;
+		mode |= MDB_RDONLY;
 	else
-		mode += MDB_WRITEMAP;
+		mode |= MDB_WRITEMAP;
 	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) == MDB_SUCCESS;
 }
 
@@ -209,7 +209,7 @@ void __cdecl dbpanic(void *)
 			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
 		TCHAR err[256];
-		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
+		mir_sntprintf(err, _countof(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}

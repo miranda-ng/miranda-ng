@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 STDMETHODIMP_(LONG) CDbxMdb::GetEventCount(MCONTACT contactID)
 {
@@ -38,11 +38,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	dbe.dwSignature = DBEVENT_SIGNATURE;
 	dbe.contactID = contactID; // store native or subcontact's id
 	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
-	dbe.timestamp = dbei->timestamp;
-	dbe.flags = dbei->flags;
-	dbe.wEventType = dbei->eventType;
-	dbe.cbBlob = dbei->cbBlob;
-	BYTE *pBlob = dbei->pBlob;
+
 
 	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *cc, *ccSub = NULL;
@@ -65,6 +61,12 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (m_safetyMode)
 		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
 			return NULL;
+
+	dbe.timestamp = dbei->timestamp;
+	dbe.flags = dbei->flags;
+	dbe.wEventType = dbei->eventType;
+	dbe.cbBlob = dbei->cbBlob;
+	BYTE *pBlob = dbei->pBlob;
 
 	mir_ptr<BYTE> pCryptBlob;
 	if (m_bEncrypted) {
