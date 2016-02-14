@@ -34,7 +34,7 @@ IP-адрес 2
 [Write log file]
 Записывать лог
 [Enable HTTP server]
-Вкл. HTTP сервер
+Включить HTTP сервер
 [Main menu items]
 Элементы главного меню
 [Open log]

@@ -494,6 +494,8 @@
 Сніг, 70% імовірність опадів
 [Snow Showers 80% Chance Of Precipitation]
 Сніг, 80% імовірність опадів
+[Snow Showers]
+Сніг
 [Snow]
 Сніг
 [South]
