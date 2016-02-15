@@ -16,7 +16,7 @@ static int core_CreateHookableEvent(lua_State *L)
 	return 1;
 }
 
-int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+int HookEventLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
 
@@ -38,6 +38,28 @@ int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	return lua_tointeger(L, 1);
 }
 
+int HookEventScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+{
+	CMLuaScript *script = (CMLuaScript*)obj;
+
+	int ref = param;
+	lua_rawgeti(script->L, LUA_REGISTRYINDEX, ref);
+
+	if (wParam)
+		lua_pushlightuserdata(script->L, (void*)wParam);
+	else
+		lua_pushnil(script->L);
+
+	if (lParam)
+		lua_pushlightuserdata(script->L, (void*)lParam);
+	else
+		lua_pushnil(script->L);
+
+	luaM_pcall(script->L, 2, 1);
+
+	return lua_tointeger(script->L, 1);
+}
+
 static int core_HookEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -46,7 +68,12 @@ static int core_HookEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = ::HookEventObjParam(name, HookEventObjParam, L, ref);
+	HANDLE res = NULL;
+	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
+	if (script)
+		res = HookEventObjParam(name, HookEventScriptParam, script, ref);
+	else
+		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
 	if (res == NULL)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
@@ -109,7 +136,7 @@ static int core_DestroyHookableEvent(lua_State *L)
 
 /***********************************************/
 
-INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+INT_PTR CreateServiceFunctionLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
 
@@ -126,6 +153,23 @@ INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, L
 	return res;
 }
 
+INT_PTR CreateServiceFunctionScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+{
+	CMLuaScript *script = (CMLuaScript*)obj;
+
+	int ref = param;
+	lua_rawgeti(script->L, LUA_REGISTRYINDEX, ref);
+
+	lua_pushlightuserdata(script->L, (void*)wParam);
+	lua_pushlightuserdata(script->L, (void*)lParam);
+	luaM_pcall(script->L, 2, 1);
+
+	INT_PTR res = lua_tointeger(script->L, 1);
+	lua_pushinteger(script->L, res);
+
+	return res;
+}
+
 static int core_CreateServiceFunction(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -134,7 +178,12 @@ static int core_CreateServiceFunction(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = ::CreateServiceFunctionObjParam(name, CreateServiceFunctionObjParam, L, ref);
+	HANDLE res = NULL;
+	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
+	if (script)
+		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionScriptParam, script, ref);
+	else
+		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionLuaStateParam, L, ref);
 	if (!res)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);

@@ -63,9 +63,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SCRIPT              ICON                    "script.ico"
-
 IDI_OPEN                ICON                    "open.ico"
-
+IDI_RELOAD              ICON                    "reload.ico"
+IDI_FAILED              ICON                    "failed.ico"
+IDI_LOADED              ICON                    "loaded.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -109,9 +110,9 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_OPTIONS AFX_DIALOG_LAYOUT
+IDD_OPTIONS AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
 #endif    // English resources

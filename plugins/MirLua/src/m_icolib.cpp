@@ -21,7 +21,9 @@ static int icolib_AddIcon(lua_State *L)
 	si.defaultFile.t = filePath;
 	si.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
-	HANDLE res = IcoLib_AddIcon(&si, g_mLua->GetHLangpack());
+	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
+
+	HANDLE res = IcoLib_AddIcon(&si, hScriptLangpack);
 	lua_pushlightuserdata(L, res);
 
 	return 1;

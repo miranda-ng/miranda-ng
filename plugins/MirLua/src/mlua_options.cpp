@@ -61,10 +61,12 @@ void CLuaOptions::LoadScripts()
 	{
 		CMLuaScript *script = g_mLua->Scripts[i];
 		TCHAR *fileName = NEWTSTR_ALLOCA(script->GetFileName());
-		int iItem = m_scripts.AddItem(fileName, -1, (LPARAM)script);
+		int iIcon = script->GetStatus() == CMLuaScript::Loaded ? 0 : 1;
+		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
-		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 0);
+		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 2);
+		m_scripts.SetItem(iItem, 2, TranslateT("Reload"), 3);
 	}
 }
 
@@ -75,15 +77,19 @@ void CLuaOptions::OnInitDialog()
 	m_scripts.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
+	ImageList_AddIcon(hImageList, GetIcon(IDI_LOADED));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_FAILED));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
 
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
 
-	m_scripts.AddColumn(0, _T("Script"), 420);
+	m_scripts.AddColumn(0, _T("Script"), 380);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
 
@@ -140,8 +146,23 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 
 	CMLuaScript* script = (CMLuaScript*)lvi.lParam;
 
-	if (lvi.iSubItem == 1)
+	switch (lvi.iSubItem)
+	{
+	case 1:
 		ShellExecute(m_hwnd, _T("Open"), script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
+		break;
+
+	case 2:
+		//m_scripts.DeleteItem(evt->nmlvia->iItem);
+		script->Unload();
+		script->Load();
+		lvi.mask = LVIF_IMAGE;
+		lvi.iSubItem = 0;
+		lvi.iImage = script->GetStatus() == CMLuaScript::Loaded ? 0 : 1;
+		ListView_SetItem(m_scripts.GetHwnd(), &lvi);
+		m_scripts.Update(evt->nmlvia->iItem);
+		break;
+	}
 
 	mir_free(lvi.pszText);
 }

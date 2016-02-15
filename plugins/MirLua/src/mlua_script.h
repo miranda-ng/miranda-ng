@@ -4,6 +4,8 @@
 class CMLuaScript
 {
 public:
+	lua_State *L;
+
 	enum Status
 	{
 		None,
@@ -12,17 +14,20 @@ public:
 	};
 
 private:
-	lua_State *L;
-
+	int id;
 	char *moduleName;
 	TCHAR *fileName;
 	TCHAR filePath[MAX_PATH];
 	Status status;
-	int unloadRef;
 
 public:
 	CMLuaScript(lua_State *L, const TCHAR *path);
 	~CMLuaScript();
+
+	//const int GetId() const;
+
+	static CMLuaScript* GetScriptFromEnviroment(lua_State *L, int n = 1);
+	static int GetScriptIdFromEnviroment(lua_State *L, int n = 1);
 
 	const char* GetModuleName() const;
 

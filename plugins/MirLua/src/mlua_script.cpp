@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
+#define SCRIPT "Script"
+
 CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
-	: L(L), status(None), unloadRef(0)
+	: L(L), status(None)
 {
 	mir_tstrcpy(filePath, path);
 
@@ -14,11 +16,57 @@ CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
 	mir_tstrncpy(name, fileName, length);
 
 	moduleName = mir_utf8encodeT(name);
+
+	MUUID muidLast = MIID_LAST;
+	id = GetPluginLangId(muidLast, 0);
 }
 
 CMLuaScript::~CMLuaScript()
 {
 	mir_free(moduleName);
+}
+
+/*const int CMLuaScript::GetId() const
+{
+	return id;
+}*/
+
+CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L, int n)
+{
+	CMLuaScript *script = NULL;
+
+	int top = lua_gettop(L);
+
+	lua_Debug ar;
+	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
+	{
+		top = lua_gettop(L);
+		lua_pop(L, 1);
+		return script;
+	}
+
+	const char *env = lua_getupvalue(L, n, 1);
+	if (!env || mir_strcmp(env, "_ENV") != 0)
+	{
+		top = lua_gettop(L);
+		lua_pop(L, 1);
+		return script;
+	}
+
+	lua_getfield(L, -1, SCRIPT);
+	script = (CMLuaScript*)lua_touserdata(L, -1);
+	lua_pop(L, 3);
+
+	return script;
+}
+
+int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L, int n)
+{
+	CMLuaScript *script = GetScriptFromEnviroment(L, n);
+	if (script != NULL)
+		return script->id;
+
+	return hLangpack;
 }
 
 const char* CMLuaScript::GetModuleName() const
@@ -43,16 +91,20 @@ const CMLuaScript::Status CMLuaScript::GetStatus() const
 
 bool CMLuaScript::Load()
 {
+	status = Failed;
+
 	if (luaL_loadfile(L, T2Utf(filePath)))
 	{
 		Log(lua_tostring(L, -1));
 		return false;
 	}
 
-	lua_createtable(L, 0, 1);
+	lua_createtable(L, 0, 2);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "_G");
-	lua_createtable(L, 0, 1);
+	lua_pushlightuserdata(L, this);
+	lua_setfield(L, -2, "Script");
+	lua_createtable(L, 0, 2);
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
 	lua_setmetatable(L, -2);
@@ -60,6 +112,8 @@ bool CMLuaScript::Load()
 
 	if (luaM_pcall(L, 0, 1))
 		return false;
+
+	status = Loaded;
 
 	if (lua_isnoneornil(L, -1))
 		return true;
@@ -89,7 +143,8 @@ bool CMLuaScript::Load()
 	if (lua_isfunction(L, -1))
 	{
 		lua_pushvalue(L, -1);
-		unloadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
+		//unloadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 	lua_pop(L, 1);
 
@@ -100,12 +155,14 @@ bool CMLuaScript::Load()
 
 void CMLuaScript::Unload()
 {
-	if (status == Loaded && unloadRef)
+	if (status == Loaded)
 	{
-		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
+		lua_rawgetp(L, LUA_REGISTRYINDEX, this);
+		//lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
 		if (lua_isfunction(L, -1))
 			luaM_pcall(L);
-		luaL_unref(L, LUA_REGISTRYINDEX, unloadRef);
+		lua_pushnil(L);
+		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
 		status = None;
 	}
 
@@ -116,4 +173,12 @@ void CMLuaScript::Unload()
 
 	lua_pushnil(L);
 	lua_setglobal(L, moduleName);
+
+	KillModuleIcons(id);
+	KillModuleSounds(id);
+	KillModuleMenus(id);
+	KillModuleHotkeys(id);
+
+	KillObjectEventHooks(this);
+	KillObjectServices(this);
 }
