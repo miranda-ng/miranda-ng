@@ -149,7 +149,7 @@ WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
 
 CMLuaScript* GetScriptFromEnviroment(lua_State *L, int n = 1);
-int GetScriptHLangpackFromEnviroment(lua_State *L, int n = 1);
+int GetScriptIdFromEnviroment(lua_State *L, int n = 1);
 
 void InitIcons();
 HICON GetIcon(int iconId);

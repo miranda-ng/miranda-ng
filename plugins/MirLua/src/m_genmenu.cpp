@@ -2,7 +2,7 @@
 
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
-	mi.hLangpack = g_mLua->GetHLangpack();
+	mi.hLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 
 	lua_getfield(L, -1, "Flags");
 	mi.flags = lua_tointeger(L, -1);

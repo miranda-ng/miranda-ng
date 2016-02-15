@@ -10,18 +10,11 @@ static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 
 CMLua::CMLua() : L(NULL), Scripts(10, CompareScripts)
 {
-	MUUID muidLast = MIID_LAST;
-	hLangpack = GetPluginLangId(muidLast, 0);
 }
 
 CMLua::~CMLua()
 {
 	Unload();
-}
-
-const int CMLua::GetHLangpack() const
-{
-	return hLangpack;
 }
 
 void CMLua::SetPaths()
@@ -74,16 +67,17 @@ void CMLua::Unload()
 		delete script;
 	}
 
-	::KillModuleScheduleTasks();
-	::KillModuleMBButtons();
-	::KillModuleTTBButton();
+	KillModuleScheduleTasks();
+	KillModuleMBButtons();
+	KillModuleTTBButton();
 
-	::KillModuleIcons(hLangpack);
-	::KillModuleSounds(hLangpack);
-	::KillModuleMenus(hLangpack);
-	::KillModuleHotkeys(hLangpack);
-	::KillObjectEventHooks(L);
-	::KillObjectServices(L);
+	KillModuleIcons(hLangpack);
+	KillModuleSounds(hLangpack);
+	KillModuleMenus(hLangpack);
+	KillModuleHotkeys(hLangpack);
+
+	KillObjectEventHooks(L);
+	KillObjectServices(L);
 
 	lua_close(L);
 }

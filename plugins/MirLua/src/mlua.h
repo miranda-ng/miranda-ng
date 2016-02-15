@@ -14,7 +14,6 @@ class CMLua
 {
 private:
 	lua_State *L;
-	int hLangpack;
 
 	void SetPaths();
 
@@ -28,8 +27,6 @@ public:
 
 	CMLua();
 	~CMLua();
-
-	const int GetHLangpack() const;
 
 	void Load();
 	void Unload();

@@ -12,8 +12,8 @@ struct ScheduleTask
 	time_t interval;
 
 	lua_State *L;
-	int threadRef;
-	int callbackRef;
+	//int threadRef;
+	//int callbackRef;
 };
 
 static int TaskCompare(const ScheduleTask *p1, const ScheduleTask *p2)
@@ -25,8 +25,12 @@ static LIST<ScheduleTask> tasks(1, TaskCompare);
 
 void DestroyTask(ScheduleTask *task)
 {
-	luaL_unref(task->L, LUA_REGISTRYINDEX, task->callbackRef);
-	luaL_unref(task->L, LUA_REGISTRYINDEX, task->threadRef);
+	//luaL_unref(task->L, LUA_REGISTRYINDEX, task->callbackRef);
+	//luaL_unref(task->L, LUA_REGISTRYINDEX, task->threadRef);
+	lua_pushnil(task->L);
+	lua_rawsetp(task->L, LUA_REGISTRYINDEX, task->L);
+	lua_pushnil(task->L);
+	lua_rawsetp(task->L, LUA_REGISTRYINDEX, task);
 	delete task;
 }
 
@@ -34,7 +38,8 @@ void ExecuteTaskThread(void *arg)
 {
 	ScheduleTask *task = (ScheduleTask*)arg;
 
-	lua_rawgeti(task->L, LUA_REGISTRYINDEX, task->callbackRef);
+	//lua_rawgeti(task->L, LUA_REGISTRYINDEX, task->callbackRef);
+	lua_rawgetp(task->L, LUA_REGISTRYINDEX, task->L);
 	luaM_pcall(task->L, 0, 1);
 
 	void* res = lua_touserdata(task->L, -1);
@@ -156,9 +161,11 @@ static int fluent_Do(lua_State *L)
 	task->timestamp = timestamp;
 	task->interval = interval;
 	task->L = lua_newthread(L);
-	task->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	lua_rawsetp(L, LUA_REGISTRYINDEX, task);
+	//task->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	lua_pushvalue(L, 1);
-	task->callbackRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	//task->callbackRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	lua_rawsetp(L, LUA_REGISTRYINDEX, task->L);
 	{
 		mir_cslock lock(threadLock);
 		tasks.insert(task);
