@@ -21,21 +21,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include <windows.h>
-
-#include <malloc.h>
 #include <stdio.h>
-#include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <limits.h>
-#include <string.h>
-#include <locale.h>
-#include <direct.h>
-
-#include <m_system.h>
-#include <m_system_cpp.h>
-
-#include <m_string.h>
-#include <m_json.h>
