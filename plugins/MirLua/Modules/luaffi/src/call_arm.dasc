@@ -1,0 +1,639 @@
+/* vim: ts=4 sw=4 sts=4 et tw=78
+ * Copyright (c) 2011 James R. McKaskill. See license in ffi.h
+ */
+|.arch arm
+|.actionlist build_actionlist
+|.globalnames globnames
+|.externnames extnames
+
+#define JUMP_SIZE 8
+#define MIN_BRANCH ((INT32_MIN) >> 8)
+#define MAX_BRANCH ((INT32_MAX) >> 8)
+#define BRANCH_OFF 4
+
+static void compile_extern_jump(struct jit* jit, lua_State* L, function_t func, uint8_t* code)
+{
+    /* The jump code is the function pointer followed by a stub to call the
+     * function pointer. The stub exists so we can jump to functions with an
+     * offset greater than 32MB.
+     *
+     * Note we have to manually set this up since there are commands buffered
+     * in the jit state.
+     */
+    *(function_t*) code = func;
+    /* ldr pc, [pc - 12] */
+    *(uint32_t*) &code[4] = 0xE51FF00CU;
+}
+
+|.define TOP, r4
+|.define L_ARG, r5
+|.define DATA, r6
+|.define DATA2, r7
+
+|.macro load32, reg, val
+| ldr reg, [pc]
+| b >5
+|.long val
+|5:
+|.endmacro
+
+|.macro lcall, func
+| mov r0, L_ARG
+| bl func
+|.endmacro
+
+void compile_globals(struct jit* jit, lua_State* L)
+{
+    (void) jit;
+}
+
+function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, const struct ctype* ct)
+{
+    struct jit* Dst = jit;
+    int i, nargs, num_upvals, ref;
+    const struct ctype* mt;
+
+    int top = lua_gettop(L);
+
+    ct_usr = lua_absindex(L, ct_usr);
+    fidx = lua_absindex(L, fidx);
+    nargs = (int) lua_rawlen(L, ct_usr);
+
+    dasm_setup(Dst, build_actionlist);
+
+    lua_newtable(L);
+    lua_pushvalue(L, -1);
+    ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    num_upvals = 0;
+
+    if (ct->has_var_arg) {
+        luaL_error(L, "can't create callbacks with varargs");
+    }
+
+    /* prolog and get the upval table */
+    | mov r12, sp
+    | push {r0, r1, r2, r3} // do this first so that r0-r3 is right before stack bound arguments
+    | push {TOP, L_ARG, DATA, DATA2, r12, lr}
+    | sub DATA, r12, #16 // points to r0 on stack
+    | ldr L_ARG, [pc, #8]
+    | ldr r2, [pc, #8]
+    | ldr r1, [pc, #8]
+    | b >1
+    |.long L, ref, LUA_REGISTRYINDEX
+    |1:
+    | lcall extern lua_rawgeti
+
+    /* get the lua function */
+    lua_pushvalue(L, fidx);
+    lua_rawseti(L, -2, ++num_upvals);
+    | mov r2, #num_upvals
+    | mvn r1, #0 // -1
+    | lcall extern lua_rawgeti
+
+    for (i = 1; i <= nargs; i++) {
+        lua_rawgeti(L, ct_usr, i);
+        mt = (const struct ctype*) lua_touserdata(L, -1);
+
+        if (mt->pointers) {
+            lua_getuservalue(L, -1);
+            lua_rawseti(L, -3, ++num_upvals); /* usr value */
+            lua_rawseti(L, -2, ++num_upvals); /* mt */
+
+            | mov r2, #num_upvals-1 // usr value
+            | mvn r1, #i // -i-1, stack is upval table, func, i-1 args
+            | lcall extern lua_rawgeti
+            | load32 r2, mt
+            | mvn r1, #0 // -1
+            | lcall extern push_cdata
+            | ldr r2, [DATA], #4
+            | str r2, [r0]
+            | mvn r1, #1 // -2
+            | lcall extern lua_remove // remove the usr value
+
+        } else {
+            switch (mt->type) {
+            case INT64_TYPE:
+            case UINT64_TYPE:
+                lua_rawseti(L, -2, ++num_upvals); /* mt */
+                | lcall extern lua_pushnil
+                | load32 r2, mt
+                | mvn r1, #0 // -1
+                | lcall extern push_cdata
+                | ldr r2, [DATA], #4
+                | ldr r3, [DATA], #4
+                | str r2, [r0]
+                | str r3, [r0, #4]
+                | mvn r1, #1 // -2
+                | lcall extern lua_remove // remove the nil usr
+                break;
+
+            case UINTPTR_TYPE:
+                lua_rawseti(L, -2, ++num_upvals); /* mt */
+                | lcall extern lua_pushnil
+                | load32 r2, mt
+                | mvn r1, #0 // -1
+                | lcall extern push_cdata
+                | ldr r2, [DATA], #4
+                | str r2, [r0]
+                | mvn r1, #1 // -2
+                | lcall extern lua_remove // remove the nil usr
+                break;
+
+            case BOOL_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | lcall extern lua_pushboolean
+                break;
+
+            case INT8_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | mov r1, r1, lsl #24
+                | mov r1, r1, asr #24
+                | lcall extern push_int
+                break;
+
+            case UINT8_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | and r1, r1, #0xFF
+                | lcall extern push_uint
+                break;
+
+            case INT16_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | mov r1, r1, lsl #16
+                | mov r1, r1, asr #16
+                | lcall extern push_int
+                break;
+
+            case UINT16_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | mov r1, r1, lsl #16
+                | mov r1, r1, lsr #16
+                | lcall extern push_uint
+                break;
+
+            case ENUM_TYPE:
+            case INT32_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | lcall extern push_int
+                break;
+
+            case UINT32_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | lcall extern push_uint
+                break;
+
+            case FLOAT_TYPE:
+                lua_pop(L, 1);
+                | ldr r1, [DATA], #4
+                | lcall extern push_float
+                break;
+
+            case DOUBLE_TYPE:
+                lua_pop(L, 1);
+                | ldmia DATA!, {r1, r2}
+                | lcall extern lua_pushnumber
+                break;
+
+            default:
+                luaL_error(L, "NYI: callback arg type");
+            }
+        }
+    }
+
+    lua_rawgeti(L, ct_usr, 0);
+    mt = (const struct ctype*) lua_touserdata(L, -1);
+
+    | mov r3, #0
+    | mov r2, #((mt->pointers || mt->type != VOID_TYPE) ? 1 : 0)
+    | mov r1, #nargs
+    | lcall extern lua_callk
+
+    if (mt->pointers) {
+        lua_getuservalue(L, -1);
+        lua_rawseti(L, -3, ++num_upvals); /* usr value */
+        lua_rawseti(L, -2, ++num_upvals); /* mt */
+
+        | mov r2, #num_upvals-1 // usr value
+        | mvn r1, #1 // -2 stack is (upval table, ret val)
+        | lcall extern lua_rawgeti
+        | load32 r3, mt
+        | mov r2, #0 // -1 - ct_usr
+        | mvn r1, #1 // -2 - val
+        | lcall extern to_typed_pointer
+        | mov DATA, r0
+        | mvn r1, #3 // -4 - remove 3 (upval table, ret val, usr value)
+        | lcall extern lua_settop
+        | mov r0, DATA
+    } else {
+        switch (mt->type) {
+        case ENUM_TYPE:
+            lua_getuservalue(L, -1);
+            lua_rawseti(L, -3, ++num_upvals); /* usr value */
+            lua_rawseti(L, -2, ++num_upvals); /* mt */
+
+            | mov r2, #num_upvals-1 // usr value
+            | mvn r1, #1 // -2 stack is (upval table, ret val)
+            | lcall extern lua_rawgeti
+            | load32 r3, mt
+            | mvn r2, #0 // -1 - ct_usr
+            | mvn r1, #1 // -2 - val
+            | lcall extern to_enum
+            | mov DATA, r0
+            | mvn r1, #3 // -4 - remove 3 (upval table, ret val, usr value)
+            | lcall extern lua_settop
+            | mov r0, DATA
+            break;
+
+        case VOID_TYPE:
+            | mvn r1, #1 // -2
+            | lcall extern lua_settop
+            lua_pop(L, 1);
+            break;
+
+        case BOOL_TYPE:
+        case INT8_TYPE:
+        case INT16_TYPE:
+        case INT32_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_int32
+            goto single;
+
+        case UINT8_TYPE:
+        case UINT16_TYPE:
+        case UINT32_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_uint32
+            goto single;
+
+        case INT64_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_int64
+            goto dual;
+
+        case UINT64_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_uint64
+            goto dual;
+
+        case UINTPTR_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_uintptr
+            goto single;
+
+        case FLOAT_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_float
+            goto single;
+
+        case DOUBLE_TYPE:
+            | mvn r1, #0 // -1
+            | lcall extern to_double
+            goto dual;
+
+        single:
+            | mov DATA, r0
+            | mvn r1, #2 // -3
+            | lcall extern lua_settop
+            | mov r0, DATA
+            lua_pop(L, 1);
+            break;
+
+        dual:
+            | mov DATA, r0
+            | mov DATA2, r1
+            | mvn r1, #2 // -3
+            | lcall extern lua_settop
+            | mov r0, DATA
+            | mov r1, DATA2
+            lua_pop(L, 1);
+            break;
+
+        default:
+            luaL_error(L, "NYI: callback return type");
+        }
+    }
+
+    | ldmia sp, {TOP, L_ARG, DATA, DATA2, sp, pc}
+
+    lua_pop(L, 1); /* upval table - already in registry */
+    assert(lua_gettop(L) == top);
+
+    {
+        void* p;
+        struct ctype ft;
+        function_t func;
+
+        func = compile(jit, L, NULL, ref);
+
+        ft = *ct;
+        ft.is_jitted = 1;
+        p = push_cdata(L, ct_usr, &ft);
+        *(function_t*) p = func;
+
+        assert(lua_gettop(L) == top + 1);
+
+        return func;
+    }
+}
+
+void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, const struct ctype* ct)
+{
+    struct jit* Dst = jit;
+    int i, nargs, num_upvals;
+    const struct ctype* mt;
+    void* p;
+
+    int top = lua_gettop(L);
+
+    ct_usr = lua_absindex(L, ct_usr);
+    nargs = (int) lua_rawlen(L, ct_usr);
+
+    p = push_cdata(L, ct_usr, ct);
+    *(function_t*) p = func;
+    num_upvals = 1;
+
+    dasm_setup(Dst, build_actionlist);
+
+    | mov r12, sp
+    | push {r0}
+    | push {TOP, L_ARG, DATA, DATA2, r11, r12, lr}
+    | sub r11, r12, #4
+    | mov L_ARG, r0
+    | lcall extern lua_gettop
+    | mov TOP, r0
+    | cmp TOP, #nargs
+    | // these should really be in globals - but for some reason dynasm breaks when you do that
+    if (ct->has_var_arg) {
+        | bge >1
+        | load32 r1, "too few arguments"
+        | lcall extern luaL_error
+        |1:
+    } else {
+        | beq >1
+        | load32 r1, "incorrect number of arguments"
+        | lcall extern luaL_error
+        |1:
+    }
+
+    /* reserve enough stack space for all of the arguments (8 bytes per
+     * argument for double and maintains alignment). Add an extra 16 bytes so
+     * that the pop {r0, r1, r2, r3} doesn't clean out our stack frame */
+    | sub sp, sp, TOP, lsl #3
+    | sub sp, sp, #16
+    | mov DATA, sp
+
+    for (i = 1; i <= nargs; i++) {
+        lua_rawgeti(L, ct_usr, i);
+        mt = (const struct ctype*) lua_touserdata(L, -1);
+
+        if (mt->pointers || mt->type == FUNCTION_PTR_TYPE || mt->type == ENUM_TYPE) {
+            lua_getuservalue(L, -1);
+            num_upvals += 2;
+
+            | ldr r3, [pc, #4]
+            | ldr r2, [pc, #4]
+            | b >1
+            |.long mt, lua_upvalueindex(num_upvals)
+            |1:
+            | mov r1, #i
+            | mov r0, L_ARG
+
+            if (mt->pointers) {
+                | bl extern to_typed_pointer
+            } else if (mt->type == FUNCTION_PTR_TYPE) {
+                | bl extern to_typed_function
+            } else if (mt->type == ENUM_TYPE) {
+                | bl extern to_enum
+            }
+
+            | str r0, [DATA], #4
+
+        } else {
+            lua_pop(L, 1);
+            | mov r1, #i
+
+            switch (mt->type) {
+            case INT8_TYPE:
+                | lcall extern to_int32
+                | mov r0, r0, lsl #24
+                | mov r0, r0, asr #24
+                | str r0, [DATA], #4
+                break;
+
+            case INT16_TYPE:
+                | lcall extern to_int32
+                | mov r0, r0, lsl #16
+                | mov r0, r0, asr #16
+                | str r0, [DATA], #4
+                break;
+
+            case INT32_TYPE:
+                | lcall extern to_int32
+                | str r0, [DATA], #4
+                break;
+
+            case UINT8_TYPE:
+                | lcall extern to_uint32
+                | and r0, r0, #0xFF
+                | str r0, [DATA], #4
+                break;
+
+            case UINT16_TYPE:
+                | lcall extern to_uint32
+                | mov r0, r0, lsl #16
+                | mov r0, r0, lsr #16
+                | str r0, [DATA], #4
+                break;
+
+            case UINT32_TYPE:
+                | lcall extern to_uint32
+                | str r0, [DATA], #4
+                break;
+
+            case INT64_TYPE:
+                | lcall extern to_int64
+                | str r0, [DATA], #4
+                | str r1, [DATA], #4
+                break;
+
+            case UINT64_TYPE:
+                | lcall extern to_uint64
+                | str r0, [DATA], #4
+                | str r1, [DATA], #4
+                break;
+
+            case DOUBLE_TYPE:
+                | lcall extern to_double
+                | str r0, [DATA], #4
+                | str r1, [DATA], #4
+                break;
+
+            case UINTPTR_TYPE:
+                | lcall extern to_uintptr
+                | str r0, [DATA], #4
+                break;
+
+            case FLOAT_TYPE:
+                | lcall extern to_float
+                | str r0, [DATA], #4
+                break;
+
+            default:
+                luaL_error(L, "NYI: call arg type");
+            }
+        }
+    }
+
+    if (ct->has_var_arg) {
+        | mov r3, DATA
+        | mov r2, TOP
+        | mov r1, #nargs+1
+        | lcall extern unpack_varargs_stack
+    }
+
+    | load32 r0, &jit->last_errno
+    | ldr r0, [r0]
+    | bl extern SetLastError
+
+    | pop {r0, r1, r2, r3} // this pop is balanced with the sub sp, #16
+    | bl extern FUNCTION
+
+    |.macro get_errno
+    | bl extern GetLastError
+    | load32 r1, &jit->last_errno
+    | str r0, [r1]
+    |.endmacro
+
+    |.macro return
+    | ldmdb r11, {TOP, L_ARG, DATA, r11, sp, pc}
+    |.endmacro
+
+    lua_rawgeti(L, ct_usr, 0);
+    mt = (const struct ctype*) lua_touserdata(L, -1);
+
+    if (mt->pointers) {
+        lua_getuservalue(L, -1);
+        num_upvals += 2;
+        | mov DATA, r0
+        | get_errno
+        | ldr r2, [pc, #4]
+        | ldr r1, [pc, #4]
+        | b >1
+        |.long mt, lua_upvalueindex(num_upvals)
+        |1:
+        | lcall extern push_cdata
+        | str DATA, [r0]
+        | mov r0, #1
+        | return
+
+    } else {
+        switch (mt->type) {
+        case INT64_TYPE:
+        case UINT64_TYPE:
+            num_upvals++;
+            | mov DATA, r0
+            | mov DATA2, r1
+            | get_errno
+            | lcall extern lua_pushnil
+            | load32 r2, mt
+            | mvn r1, #0 // -1
+            | lcall extern push_cdata
+            | str DATA, [r0]
+            | str DATA2, [r0, #4]
+            | mov r0, #1
+            | return
+            break;
+
+        case UINTPTR_TYPE:
+            num_upvals++;
+            | mov DATA, r0
+            | get_errno
+            | lcall extern lua_pushnil
+            | load32 r2, mt
+            | mvn r1, #0 // -1
+            | lcall extern push_cdata
+            | str DATA, [r0]
+            | mov r0, #1
+            | return
+            break;
+
+        case VOID_TYPE:
+            lua_pop(L, 1);
+            | get_errno
+            | mov r0, #0
+            | return
+            break;
+
+        case BOOL_TYPE:
+            lua_pop(L, 1);
+            | mov DATA, r0
+            | get_errno
+            | mov r1, DATA
+            | lcall extern lua_pushboolean
+            | mov r0, #1
+            | return
+            break;
+
+        case INT8_TYPE:
+        case INT16_TYPE:
+        case INT32_TYPE:
+        case ENUM_TYPE:
+            lua_pop(L, 1);
+            | mov DATA, r0
+            | get_errno
+            | mov r1, DATA
+            | lcall extern push_int
+            | mov r0, #1
+            | return
+            break;
+
+        case UINT8_TYPE:
+        case UINT16_TYPE:
+        case UINT32_TYPE:
+            lua_pop(L, 1);
+            | mov DATA, r0
+            | get_errno
+            | mov r1, DATA
+            | lcall extern push_uint
+            | mov r0, #1
+            | return
+            break;
+
+        case FLOAT_TYPE:
+            lua_pop(L, 1);
+            | mov DATA, r0
+            | get_errno
+            | mov r1, DATA
+            | lcall extern push_float
+            | mov r0, #1
+            | return
+            break;
+
+        case DOUBLE_TYPE:
+            lua_pop(L, 1);
+            | mov DATA, r0
+            | mov DATA2, r1
+            | get_errno
+            | mov r2, DATA2
+            | mov r1, DATA
+            | lcall extern lua_pushnumber
+            | mov r0, #1
+            | return
+            break;
+
+        default:
+            luaL_error(L, "NYI: call return type");
+        }
+    }
+
+    assert(lua_gettop(L) == top + num_upvals);
+    lua_pushcclosure(L, (lua_CFunction) compile(jit, L, func, LUA_NOREF), num_upvals);
+}
+
