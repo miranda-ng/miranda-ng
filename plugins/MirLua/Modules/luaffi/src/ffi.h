@@ -31,6 +31,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
+#define LUA_FFI_BUILD_AS_DLL
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
