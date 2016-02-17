@@ -25,7 +25,7 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\module.props" />
   </ImportGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeaderFile>ffi.h</PrecompiledHeaderFile>
     </ClCompile>
