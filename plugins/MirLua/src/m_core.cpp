@@ -35,7 +35,7 @@ int HookEventLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param
 
 	luaM_pcall(L, 2, 1);
 
-	return lua_tointeger(L, 1);
+	return lua_tointeger(L, -1);
 }
 
 int HookEventScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
@@ -57,7 +57,7 @@ int HookEventScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 
 	luaM_pcall(script->L, 2, 1);
 
-	return lua_tointeger(script->L, 1);
+	return lua_tointeger(script->L, -1);
 }
 
 static int core_HookEvent(lua_State *L)
