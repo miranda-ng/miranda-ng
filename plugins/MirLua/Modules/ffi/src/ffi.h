@@ -9,30 +9,35 @@
 
 #pragma once
 
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #define LUA_FFI_BUILD_AS_DLL
 
 #include <stdint.h>
-#include <stdbool.h>
+
+#if _MSC_VER < 1800
+#	include "msvc/stdbool.h"
+#	include "msvc/inttypes.h"
+#else
+#	include <stdbool.h>
+#	include <inttypes.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
 #ifdef __cplusplus
-extern "C" {
-# include "..\..\..\..\..\libs\liblua\src\lua.h"
-# include "..\..\..\..\..\libs\liblua\src\lauxlib.h"
-# include "..\..\..\..\..\libs\liblua\src\lualib.h"
-}
 # define EXTERN_C extern "C"
+extern "C"
+{
 #else
+# define EXTERN_C extern
+#endif
 # include "..\..\..\..\..\libs\liblua\src\lua.h"
 # include "..\..\..\..\..\libs\liblua\src\lauxlib.h"
 # include "..\..\..\..\..\libs\liblua\src\lualib.h"
-# define EXTERN_C extern
+
+#ifdef __cplusplus
+}
 #endif
 
 #ifdef _WIN32
