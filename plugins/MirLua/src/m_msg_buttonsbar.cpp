@@ -137,7 +137,7 @@ LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 		.Field(&CustomButtonClickData::dwButtonId, "ButtonID", LUA_TINTEGER)
 		.Field(&CustomButtonClickData::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CustomButtonClickData::flags, "Flags", LUA_TINTEGER);
-	lua_pop(L, 1);
+		lua_pop(L, 1);
 
 	return 1;
 }

@@ -18,7 +18,7 @@ BOOL CCtrlScriptList::OnNotify(int idCtrl, NMHDR *pnmh)
 
 /****************************************/
 
-CLuaOptions::CLuaOptions(int idDialog)
+CMLuaOptions::CMLuaOptions(int idDialog)
 	: CDlgBase(g_hInstance, idDialog),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
@@ -28,40 +28,40 @@ CLuaOptions::CLuaOptions(int idDialog)
 	CreateLink(m_popupOnError, "PopupOnError", DBVT_BYTE, 1);
 	CreateLink(m_popupOnObsolete, "PopupOnObsolete", DBVT_BYTE, 1);
 
-	m_scripts.OnClick = Callback(this, &CLuaOptions::OnScriptListClick);
-	m_reload.OnClick = Callback(this, &CLuaOptions::OnReload);
+	m_scripts.OnClick = Callback(this, &CMLuaOptions::OnScriptListClick);
+	m_reload.OnClick = Callback(this, &CMLuaOptions::OnReload);
 }
 
-void CLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
+void CMLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
 {
 	ctrl.CreateDbLink(MODULE, szSetting, type, iValue);
 }
 
-void CLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
+void CMLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
 {
 	ctrl.CreateDbLink(MODULE, szSetting, szValue);
 }
 
-int CLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
+int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTitle = _T(MODULE);
 	odp.ptszTab = LPGENT("Scripts");
-	odp.pDialog = CLuaOptions::CreateOptionsPage();
+	odp.pDialog = CMLuaOptions::CreateOptionsPage();
 	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
 
-void CLuaOptions::LoadScripts()
+void CMLuaOptions::LoadScripts()
 {
 	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
 	{
 		CMLuaScript *script = g_mLua->Scripts[i];
 		TCHAR *fileName = NEWTSTR_ALLOCA(script->GetFileName());
-		int iIcon = script->GetStatus() == CMLuaScript::Loaded ? 0 : 1;
+		int iIcon = script->GetStatus() - 1;
 		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
@@ -70,7 +70,7 @@ void CLuaOptions::LoadScripts()
 	}
 }
 
-void CLuaOptions::OnInitDialog()
+void CMLuaOptions::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
@@ -96,7 +96,7 @@ void CLuaOptions::OnInitDialog()
 	isScriptListInit = true;
 }
 
-void CLuaOptions::OnApply()
+void CMLuaOptions::OnApply()
 {
 	int count = m_scripts.GetItemCount();
 	for (int iItem = 0; iItem < count; iItem++)
@@ -110,7 +110,7 @@ void CLuaOptions::OnApply()
 	}
 }
 
-INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CMLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -133,7 +133,7 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
-void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
+void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 {
 	LVITEM lvi = { 0 };
 	lvi.iItem = evt->nmlvia->iItem;
@@ -158,7 +158,7 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		script->Load();
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
-		lvi.iImage = script->GetStatus() == CMLuaScript::Loaded ? 0 : 1;
+		lvi.iImage = script->GetStatus() - 1;
 		ListView_SetItem(m_scripts.GetHwnd(), &lvi);
 		m_scripts.Update(evt->nmlvia->iItem);
 		break;
@@ -167,7 +167,7 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	mir_free(lvi.pszText);
 }
 
-void CLuaOptions::OnReload(CCtrlBase*)
+void CMLuaOptions::OnReload(CCtrlBase*)
 {
 	isScriptListInit = false;
 	m_scripts.DeleteAllItems();

@@ -41,20 +41,6 @@
 
 class CMLuaScript;
 
-struct luaM_const
-{
-	char    *name;
-	intptr_t   value;
-};
-
-template<typename T>
-T *mir_memdup(T* ptr, size_t size = sizeof(T), bool bCalloc = false)
-{
-	void *newptr = (bCalloc ? mir_calloc : mir_alloc)(size);
-	memcpy(newptr, ptr, size);
-	return (T*)newptr;
-}
-
 #include "mlua.h"
 #include "mlua_script.h"
 #include "mlua_module_loader.h"
@@ -80,6 +66,9 @@ extern HANDLE g_hScriptsFolder;
 
 #define MLUA_CORE	"m_core"
 LUAMOD_API int (luaopen_m_core)(lua_State *L);
+
+#define MLUA_CHAT	"m_chat"
+LUAMOD_API int (luaopen_m_chat)(lua_State *L);
 
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);
@@ -118,16 +107,6 @@ LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 
 /* utils */
 
-__forceinline void luaM_loadConsts(lua_State *L, luaM_const consts[])
-{
-	for (size_t i = 0; consts[i].name != NULL; i++)
-	{
-		lua_pushstring(L, consts[i].name);
-		lua_pushnumber(L, consts[i].value);
-		lua_settable(L, -3);
-	}
-}
-
 extern HANDLE hNetlib;
 void Log(const char *format, ...);
 void Log(const wchar_t *format, ...);
@@ -147,9 +126,6 @@ int luaM_totable(lua_State *L);
 bool luaM_toboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
-
-CMLuaScript* GetScriptFromEnviroment(lua_State *L, int n = 1);
-int GetScriptIdFromEnviroment(lua_State *L, int n = 1);
 
 void InitIcons();
 HICON GetIcon(int iconId);

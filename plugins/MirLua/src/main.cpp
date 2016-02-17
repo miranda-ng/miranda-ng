@@ -44,7 +44,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULE, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
 	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
 
-	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
+	HookEvent(ME_OPT_INITIALISE, CMLuaOptions::OnOptionsInit);
 
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);

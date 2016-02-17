@@ -16,7 +16,7 @@ public:
 };
 
 
-class CLuaOptions : public CDlgBase
+class CMLuaOptions : public CDlgBase
 {
 private:
 	CCtrlCheck m_popupOnError;
@@ -38,7 +38,7 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-	CLuaOptions(int idDialog);
+	CMLuaOptions(int idDialog);
 
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
@@ -51,7 +51,7 @@ public:
 		ctrl.CreateDbLink(new CMOptionLink<T>(option));
 	}
 
-	static CDlgBase *CreateOptionsPage() { return new CLuaOptions(IDD_OPTIONS); }
+	static CDlgBase *CreateOptionsPage() { return new CMLuaOptions(IDD_OPTIONS); }
 };
 
 #endif //_LUA_OPTIONS_H_

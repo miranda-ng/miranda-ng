@@ -9,34 +9,38 @@
 #define LUA_TSTRINGA LUA_NUMTAGS + 2
 #define LUA_TSTRINGW LUA_NUMTAGS + 3
 
-enum MTFieldGetType
-{
-	MTFGT_LAMBDA = 1,
-	MTFGT_OFFSET = 2
-};
-
 template<typename T>
-struct MTField : public MZeroedObject
+class MTField : public MZeroedObject
 {
+private:
+	enum MTFieldGetter
+	{
+		MTFG_LAMBDA = 1,
+		MTFG_OFFSET = 2
+	};
+
 	size_t offset;
-	size_t size;
 	int type;
 	int getType;
 	std::function<void*(T*)> lambda;
 
-	MTField(size_t offset, size_t size, int type)
-		: offset(offset), size(size), type(type), getType(MTFGT_OFFSET) { }
+public:
+	MTField(size_t offset, int type)
+		: offset(offset), type(type), getType(MTFG_OFFSET) { }
 
 	MTField(std::function<void*(T*)> f, int type)
-		: lambda(f), type(type), getType(MTFGT_LAMBDA) { }
+		: lambda(f), type(type), getType(MTFG_LAMBDA) { }
+
+	int GetType() const { return type; }
 
 	template<typename R>
 	R GetValue(T *obj) const
 	{
-		if (getType == MTFGT_LAMBDA) return (R)lambda(obj);
+		if (getType == MTFG_LAMBDA) return (R)lambda(obj);
 		else
 		{
 			R res = NULL;
+			size_t size = sizeof(R);
 			memcpy(&res, ((char*)obj) + offset, size);
 			return res;
 		}
@@ -93,7 +97,7 @@ private:
 
 		MTField<T> *field = it->second;
 		
-		switch (field->type)
+		switch (field->GetType())
 		{
 		case LUA_TBOOLEAN:
 			lua_pushboolean(L, field->GetValue<BOOL>(obj));
@@ -147,16 +151,16 @@ public:
 	}
 
 	template<typename R>
-	MT& Field(R T::*M, const char *name, int type, size_t size = sizeof(R))
+	MT& Field(R T::*M, const char *name, int type)
 	{
 		size_t offset = offsetof(T, *M);
 		if (type != LUA_TNONE)
-			fields[name] = new MTField<T>(offset, size, type);
+			fields[name] = new MTField<T>(offset, type);
 		return *this;
 	}
 
-	template<typename R>
-	MT& Field(std::function<R(T*)> f, const char *name, int type)
+	template<typename L>
+	MT& Field(L &f, const char *name, int type)
 	{
 		if (type != LUA_TNONE)
 			fields[name] = new MTField<T>(f, type);

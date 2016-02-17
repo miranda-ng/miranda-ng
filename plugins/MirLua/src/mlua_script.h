@@ -24,8 +24,7 @@ public:
 	CMLuaScript(lua_State *L, const TCHAR *path);
 	~CMLuaScript();
 
-	//const int GetId() const;
-
+	static bool GetScriptEnviroment(lua_State *L, int n = 1);
 	static CMLuaScript* GetScriptFromEnviroment(lua_State *L, int n = 1);
 	static int GetScriptIdFromEnviroment(lua_State *L, int n = 1);
 
