@@ -10,9 +10,14 @@
 #endif
 
 /* vim: ts=4 sw=4 sts=4 et tw=78
- * Copyright (c) 2011 James R. McKaskill. See license in ffi.h
+ * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+ * Portions copyright (c) 2011 James R. McKaskill.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
-static const unsigned int build_actionlist[571] = {
+static const unsigned int build_actionlist[546] = {
 0xe1a0c00d,
 0xe92d000f,
 0xe92d50f0,
@@ -107,30 +112,25 @@ static const unsigned int build_actionlist[571] = {
 0x00000000,
 0xe4961004,
 0xe1a01c01,
+0x00000000,
+0xe1a01c21,
+0x00000000,
 0xe1a01c41,
-0xe1a00005,
-0xeb000000,
-0x00030005,
 0x00000000,
-0xe4961004,
-0xe20110ff,
-0xe1a00005,
-0xeb000000,
-0x00030006,
-0x00000000,
-0xe4961004,
-0xe1a01801,
-0xe1a01841,
 0xe1a00005,
 0xeb000000,
 0x00030005,
 0x00000000,
 0xe4961004,
 0xe1a01801,
+0x00000000,
 0xe1a01821,
+0x00000000,
+0xe1a01841,
+0x00000000,
 0xe1a00005,
 0xeb000000,
-0x00030006,
+0x00030005,
 0x00000000,
 0xe4961004,
 0xe1a00005,
@@ -141,16 +141,11 @@ static const unsigned int build_actionlist[571] = {
 0xe1a00005,
 0xeb000000,
 0x00030006,
-0x00000000,
-0xe4961004,
-0xe1a00005,
-0xeb000000,
-0x00030007,
 0x00000000,
 0xe8b60006,
 0xe1a00005,
 0xeb000000,
-0x00030008,
+0x00030007,
 0x00000000,
 0xe3a03000,
 0xe3a02000,
@@ -159,7 +154,7 @@ static const unsigned int build_actionlist[571] = {
 0x000b0000,
 0xe1a00005,
 0xeb000000,
-0x00030009,
+0x00030008,
 0x00000000,
 0xe3a02000,
 0x000b0000,
@@ -176,12 +171,12 @@ static const unsigned int build_actionlist[571] = {
 0xe3e01001,
 0xe1a00005,
 0xeb000000,
-0x0003000a,
+0x00030009,
 0xe1a06000,
 0xe3e01003,
 0xe1a00005,
 0xeb000000,
-0x0003000b,
+0x0003000a,
 0xe1a00006,
 0x00000000,
 0xe3a02000,
@@ -199,30 +194,35 @@ static const unsigned int build_actionlist[571] = {
 0xe3e01001,
 0xe1a00005,
 0xeb000000,
-0x0003000c,
+0x0003000b,
 0xe1a06000,
 0xe3e01003,
 0xe1a00005,
 0xeb000000,
-0x0003000b,
+0x0003000a,
 0xe1a00006,
 0x00000000,
 0xe3e01001,
 0xe1a00005,
 0xeb000000,
-0x0003000b,
+0x0003000a,
 0x00000000,
 0xe3e01000,
+0x00000000,
+0xe1a00005,
+0xeb000000,
+0x0003000c,
+0x00000000,
 0xe1a00005,
 0xeb000000,
 0x0003000d,
 0x00000000,
 0xe3e01000,
+0x00000000,
 0xe1a00005,
 0xeb000000,
 0x0003000e,
 0x00000000,
-0xe3e01000,
 0xe1a00005,
 0xeb000000,
 0x0003000f,
@@ -242,16 +242,11 @@ static const unsigned int build_actionlist[571] = {
 0xeb000000,
 0x00030012,
 0x00000000,
-0xe3e01000,
-0xe1a00005,
-0xeb000000,
-0x00030013,
-0x00000000,
 0xe1a06000,
 0xe3e01002,
 0xe1a00005,
 0xeb000000,
-0x0003000b,
+0x0003000a,
 0xe1a00006,
 0x00000000,
 0xe1a06000,
@@ -259,7 +254,7 @@ static const unsigned int build_actionlist[571] = {
 0xe3e01002,
 0xe1a00005,
 0xeb000000,
-0x0003000b,
+0x0003000a,
 0xe1a00006,
 0xe1a01007,
 0x00000000,
@@ -272,7 +267,7 @@ static const unsigned int build_actionlist[571] = {
 0xe1a05000,
 0xe1a00005,
 0xeb000000,
-0x00030014,
+0x00030013,
 0xe1a04000,
 0xe3540000,
 0x000b0000,
@@ -286,7 +281,7 @@ static const unsigned int build_actionlist[571] = {
 0x0006000f,
 0xe1a00005,
 0xeb000000,
-0x00030015,
+0x00030014,
 0x0006000b,
 0x00000000,
 0x0a000000,
@@ -298,7 +293,7 @@ static const unsigned int build_actionlist[571] = {
 0x0006000f,
 0xe1a00005,
 0xeb000000,
-0x00030015,
+0x00030014,
 0x0006000b,
 0x00000000,
 0xe04dd184,
@@ -317,13 +312,13 @@ static const unsigned int build_actionlist[571] = {
 0xe1a00005,
 0x00000000,
 0xeb000000,
-0x0003000a,
+0x00030009,
 0x00000000,
 0xeb000000,
-0x00030016,
+0x00030015,
 0x00000000,
 0xeb000000,
-0x0003000c,
+0x0003000b,
 0x00000000,
 0xe4860004,
 0x00000000,
@@ -333,43 +328,50 @@ static const unsigned int build_actionlist[571] = {
 0xe1a00005,
 0xeb000000,
 0x0003000d,
+0x00000000,
+0xe20000ff,
+0x00000000,
 0xe1a00c00,
 0xe1a00c40,
+0x00000000,
 0xe4860004,
 0x00000000,
 0xe1a00005,
 0xeb000000,
 0x0003000d,
-0xe1a00800,
-0xe1a00840,
-0xe4860004,
 0x00000000,
-0xe1a00005,
-0xeb000000,
-0x0003000d,
-0xe4860004,
-0x00000000,
-0xe1a00005,
-0xeb000000,
-0x0003000e,
-0xe20000ff,
-0xe4860004,
-0x00000000,
-0xe1a00005,
-0xeb000000,
-0x0003000e,
 0xe1a00800,
 0xe1a00820,
+0x00000000,
+0xe1a00800,
+0xe1a00840,
+0x00000000,
+0xe4860004,
+0x00000000,
+0xe1a00005,
+0xeb000000,
+0x0003000c,
+0x00000000,
+0xe1a00005,
+0xeb000000,
+0x0003000d,
+0x00000000,
 0xe4860004,
 0x00000000,
 0xe1a00005,
 0xeb000000,
 0x0003000e,
-0xe4860004,
 0x00000000,
 0xe1a00005,
 0xeb000000,
 0x0003000f,
+0x00000000,
+0xe4860004,
+0xe4861004,
+0x00000000,
+0xe1a00005,
+0xeb000000,
+0x00030012,
 0xe4860004,
 0xe4861004,
 0x00000000,
@@ -377,22 +379,10 @@ static const unsigned int build_actionlist[571] = {
 0xeb000000,
 0x00030010,
 0xe4860004,
-0xe4861004,
-0x00000000,
-0xe1a00005,
-0xeb000000,
-0x00030013,
-0xe4860004,
-0xe4861004,
 0x00000000,
 0xe1a00005,
 0xeb000000,
 0x00030011,
-0xe4860004,
-0x00000000,
-0xe1a00005,
-0xeb000000,
-0x00030012,
 0xe4860004,
 0x00000000,
 0xe1a03006,
@@ -401,7 +391,7 @@ static const unsigned int build_actionlist[571] = {
 0x000b0000,
 0xe1a00005,
 0xeb000000,
-0x00030017,
+0x00030016,
 0x00000000,
 0xe59f0000,
 0xea000000,
@@ -410,15 +400,15 @@ static const unsigned int build_actionlist[571] = {
 0x0006000f,
 0xe5900000,
 0xeb000000,
-0x00030018,
+0x00030017,
 0x00000000,
 0xe8bd000f,
 0xeb000000,
-0x00030019,
+0x00030018,
 0x00000000,
 0xe1a06000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -442,7 +432,7 @@ static const unsigned int build_actionlist[571] = {
 0xe1a06000,
 0xe1a07001,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -468,7 +458,7 @@ static const unsigned int build_actionlist[571] = {
 0x00000000,
 0xe1a06000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -492,7 +482,7 @@ static const unsigned int build_actionlist[571] = {
 0xe91ba870,
 0x00000000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -504,7 +494,7 @@ static const unsigned int build_actionlist[571] = {
 0x00000000,
 0xe1a06000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -520,7 +510,7 @@ static const unsigned int build_actionlist[571] = {
 0x00000000,
 0xe1a06000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -528,15 +518,21 @@ static const unsigned int build_actionlist[571] = {
 0x0006000f,
 0xe5810000,
 0xe1a01006,
+0x00000000,
+0xe1a00005,
+0xeb000000,
+0x0003001a,
+0x00000000,
 0xe1a00005,
 0xeb000000,
 0x00030005,
+0x00000000,
 0xe3a00001,
 0xe91ba870,
 0x00000000,
 0xe1a06000,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -551,25 +547,9 @@ static const unsigned int build_actionlist[571] = {
 0xe91ba870,
 0x00000000,
 0xe1a06000,
-0xeb000000,
-0x0003001a,
-0xe59f1000,
-0xea000000,
-0x00050005,
-0x00090000,
-0x0006000f,
-0xe5810000,
-0xe1a01006,
-0xe1a00005,
-0xeb000000,
-0x00030007,
-0xe3a00001,
-0xe91ba870,
-0x00000000,
-0xe1a06000,
 0xe1a07001,
 0xeb000000,
-0x0003001a,
+0x00030019,
 0xe59f1000,
 0xea000000,
 0x00050005,
@@ -580,7 +560,7 @@ static const unsigned int build_actionlist[571] = {
 0xe1a01006,
 0xe1a00005,
 0xeb000000,
-0x00030008,
+0x00030007,
 0xe3a00001,
 0xe91ba870,
 0x00000000
@@ -596,20 +576,19 @@ static const char *const extnames[] = {
   "lua_pushnil",
   "lua_pushboolean",
   "push_int",
-  "push_uint",
   "push_float",
   "lua_pushnumber",
   "lua_callk",
   "to_typed_pointer",
   "lua_settop",
   "to_enum",
-  "to_int32",
-  "to_uint32",
-  "to_int64",
-  "to_uint64",
-  "to_uintptr",
-  "to_float",
-  "to_double",
+  "check_uint32",
+  "check_int32",
+  "check_uint64",
+  "check_int64",
+  "check_intptr",
+  "check_float",
+  "check_double",
   "lua_gettop",
   "luaL_error",
   "to_typed_function",
@@ -617,6 +596,7 @@ static const char *const extnames[] = {
   "SetLastError",
   "FUNCTION",
   "GetLastError",
+  "push_uint",
   (const char *)0
 };
 
@@ -625,7 +605,7 @@ static const char *const extnames[] = {
 #define MAX_BRANCH ((INT32_MAX) >> 8)
 #define BRANCH_OFF 4
 
-static void compile_extern_jump(struct jit* jit, lua_State* L, function_t func, uint8_t* code)
+static void compile_extern_jump(struct jit* jit, lua_State* L, cfunction func, uint8_t* code)
 {
     /* The jump code is the function pointer followed by a stub to call the
      * function pointer. The stub exists so we can jump to functions with an
@@ -634,7 +614,7 @@ static void compile_extern_jump(struct jit* jit, lua_State* L, function_t func, 
      * Note we have to manually set this up since there are commands buffered
      * in the jit state.
      */
-    *(function_t*) code = func;
+    *(cfunction*) code = func;
     /* ldr pc, [pc - 12] */
     *(uint32_t*) &code[4] = 0xE51FF00CU;
 }
@@ -647,9 +627,9 @@ void compile_globals(struct jit* jit, lua_State* L)
     (void) jit;
 }
 
-function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, const struct ctype* ct)
+cfunction compile_callback(lua_State* L, int fidx, int ct_usr, const struct ctype* ct)
 {
-    struct jit* Dst = jit;
+    struct jit* Dst = get_jit(L);;
     int i, nargs, num_upvals, ref;
     const struct ctype* mt;
 
@@ -682,7 +662,7 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
         lua_rawgeti(L, ct_usr, i);
         mt = (const struct ctype*) lua_touserdata(L, -1);
 
-        if (mt->pointers) {
+        if (mt->pointers || mt->is_reference) {
             lua_getuservalue(L, -1);
             lua_rawseti(L, -3, ++num_upvals); /* usr value */
             lua_rawseti(L, -2, ++num_upvals); /* mt */
@@ -692,12 +672,11 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
         } else {
             switch (mt->type) {
             case INT64_TYPE:
-            case UINT64_TYPE:
                 lua_rawseti(L, -2, ++num_upvals); /* mt */
                 dasm_put(Dst, 47, (uintptr_t)(mt));
                 break;
 
-            case UINTPTR_TYPE:
+            case INTPTR_TYPE:
                 lua_rawseti(L, -2, ++num_upvals); /* mt */
                 dasm_put(Dst, 68, (uintptr_t)(mt));
                 break;
@@ -710,42 +689,39 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
             case INT8_TYPE:
                 lua_pop(L, 1);
                 dasm_put(Dst, 92);
-                break;
-
-            case UINT8_TYPE:
-                lua_pop(L, 1);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 95);
+                } else {
+                    dasm_put(Dst, 97);
+                }
                 dasm_put(Dst, 99);
                 break;
 
             case INT16_TYPE:
                 lua_pop(L, 1);
-                dasm_put(Dst, 105);
-                break;
-
-            case UINT16_TYPE:
-                lua_pop(L, 1);
-                dasm_put(Dst, 112);
+                dasm_put(Dst, 103);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 106);
+                } else {
+                    dasm_put(Dst, 108);
+                }
+                dasm_put(Dst, 110);
                 break;
 
             case ENUM_TYPE:
             case INT32_TYPE:
                 lua_pop(L, 1);
-                dasm_put(Dst, 119);
-                break;
-
-            case UINT32_TYPE:
-                lua_pop(L, 1);
-                dasm_put(Dst, 124);
+                dasm_put(Dst, 114);
                 break;
 
             case FLOAT_TYPE:
                 lua_pop(L, 1);
-                dasm_put(Dst, 129);
+                dasm_put(Dst, 119);
                 break;
 
             case DOUBLE_TYPE:
                 lua_pop(L, 1);
-                dasm_put(Dst, 134);
+                dasm_put(Dst, 124);
                 break;
 
             default:
@@ -757,14 +733,14 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
     lua_rawgeti(L, ct_usr, 0);
     mt = (const struct ctype*) lua_touserdata(L, -1);
 
-    dasm_put(Dst, 139, ((mt->pointers || mt->type != VOID_TYPE) ? 1 : 0), nargs);
+    dasm_put(Dst, 129, ((mt->pointers || mt->is_reference || mt->type != VOID_TYPE) ? 1 : 0), nargs);
 
-    if (mt->pointers) {
+    if (mt->pointers || mt->is_reference) {
         lua_getuservalue(L, -1);
         lua_rawseti(L, -3, ++num_upvals); /* usr value */
         lua_rawseti(L, -2, ++num_upvals); /* mt */
 
-        dasm_put(Dst, 148, num_upvals-1, (uintptr_t)(mt));
+        dasm_put(Dst, 138, num_upvals-1, (uintptr_t)(mt));
     } else {
         switch (mt->type) {
         case ENUM_TYPE:
@@ -772,11 +748,11 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
             lua_rawseti(L, -3, ++num_upvals); /* usr value */
             lua_rawseti(L, -2, ++num_upvals); /* mt */
 
-            dasm_put(Dst, 171, num_upvals-1, (uintptr_t)(mt));
+            dasm_put(Dst, 161, num_upvals-1, (uintptr_t)(mt));
             break;
 
         case VOID_TYPE:
-            dasm_put(Dst, 194);
+            dasm_put(Dst, 184);
             lua_pop(L, 1);
             break;
 
@@ -784,42 +760,42 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
         case INT8_TYPE:
         case INT16_TYPE:
         case INT32_TYPE:
-            dasm_put(Dst, 199);
-            goto single;
-
-        case UINT8_TYPE:
-        case UINT16_TYPE:
-        case UINT32_TYPE:
-            dasm_put(Dst, 204);
+            dasm_put(Dst, 189);
+            if (mt->is_unsigned) {
+                dasm_put(Dst, 191);
+            } else {
+                dasm_put(Dst, 195);
+            }
             goto single;
 
         case INT64_TYPE:
+            dasm_put(Dst, 199);
+            if (mt->is_unsigned) {
+                dasm_put(Dst, 201);
+            } else {
+                dasm_put(Dst, 205);
+            }
+            goto dual;
+
+        case INTPTR_TYPE:
             dasm_put(Dst, 209);
-            goto dual;
-
-        case UINT64_TYPE:
-            dasm_put(Dst, 214);
-            goto dual;
-
-        case UINTPTR_TYPE:
-            dasm_put(Dst, 219);
             goto single;
 
         case FLOAT_TYPE:
-            dasm_put(Dst, 224);
+            dasm_put(Dst, 214);
             goto single;
 
         case DOUBLE_TYPE:
-            dasm_put(Dst, 229);
+            dasm_put(Dst, 219);
             goto dual;
 
         single:
-            dasm_put(Dst, 234);
+            dasm_put(Dst, 224);
             lua_pop(L, 1);
             break;
 
         dual:
-            dasm_put(Dst, 241);
+            dasm_put(Dst, 231);
             lua_pop(L, 1);
             break;
 
@@ -828,7 +804,7 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
         }
     }
 
-    dasm_put(Dst, 250);
+    dasm_put(Dst, 240);
 
     lua_pop(L, 1); /* upval table - already in registry */
     assert(lua_gettop(L) == top);
@@ -836,14 +812,14 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
     {
         void* p;
         struct ctype ft;
-        function_t func;
+        cfunction func;
 
-        func = compile(jit, L, NULL, ref);
+        func = compile(Dst, L, NULL, ref);
 
         ft = *ct;
         ft.is_jitted = 1;
         p = push_cdata(L, ct_usr, &ft);
-        *(function_t*) p = func;
+        *(cfunction*) p = func;
 
         assert(lua_gettop(L) == top + 1);
 
@@ -851,9 +827,9 @@ function_t push_callback(struct jit* jit, lua_State* L, int fidx, int ct_usr, co
     }
 }
 
-void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, const struct ctype* ct)
+void compile_function(lua_State* L, cfunction func, int ct_usr, const struct ctype* ct)
 {
-    struct jit* Dst = jit;
+    struct jit* Dst = get_jit(L);;
     int i, nargs, num_upvals;
     const struct ctype* mt;
     void* p;
@@ -864,90 +840,96 @@ void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, c
     nargs = (int) lua_rawlen(L, ct_usr);
 
     p = push_cdata(L, ct_usr, ct);
-    *(function_t*) p = func;
+    *(cfunction*) p = func;
     num_upvals = 1;
 
     dasm_setup(Dst, build_actionlist);
 
-    dasm_put(Dst, 252, nargs);
+    dasm_put(Dst, 242, nargs);
     if (ct->has_var_arg) {
-        dasm_put(Dst, 264, (uintptr_t)("too few arguments"));
+        dasm_put(Dst, 254, (uintptr_t)("too few arguments"));
     } else {
-        dasm_put(Dst, 276, (uintptr_t)("incorrect number of arguments"));
+        dasm_put(Dst, 266, (uintptr_t)("incorrect number of arguments"));
     }
 
     /* reserve enough stack space for all of the arguments (8 bytes per
      * argument for double and maintains alignment). Add an extra 16 bytes so
      * that the pop {r0, r1, r2, r3} doesn't clean out our stack frame */
-    dasm_put(Dst, 288);
+    dasm_put(Dst, 278);
 
     for (i = 1; i <= nargs; i++) {
         lua_rawgeti(L, ct_usr, i);
         mt = (const struct ctype*) lua_touserdata(L, -1);
 
-        if (mt->pointers || mt->type == FUNCTION_PTR_TYPE || mt->type == ENUM_TYPE) {
+        if (mt->pointers || mt->is_reference || mt->type == FUNCTION_PTR_TYPE || mt->type == ENUM_TYPE) {
             lua_getuservalue(L, -1);
             num_upvals += 2;
 
-            dasm_put(Dst, 292, (uintptr_t)(mt), (uintptr_t)(lua_upvalueindex(num_upvals)), i);
+            dasm_put(Dst, 282, (uintptr_t)(mt), (uintptr_t)(lua_upvalueindex(num_upvals)), i);
 
-            if (mt->pointers) {
-                dasm_put(Dst, 303);
+            if (mt->pointers || mt->is_reference) {
+                dasm_put(Dst, 293);
             } else if (mt->type == FUNCTION_PTR_TYPE) {
-                dasm_put(Dst, 306);
+                dasm_put(Dst, 296);
             } else if (mt->type == ENUM_TYPE) {
-                dasm_put(Dst, 309);
+                dasm_put(Dst, 299);
             }
 
-            dasm_put(Dst, 312);
+            dasm_put(Dst, 302);
 
         } else {
             lua_pop(L, 1);
-            dasm_put(Dst, 314, i);
+            dasm_put(Dst, 304, i);
 
             switch (mt->type) {
             case INT8_TYPE:
-                dasm_put(Dst, 317);
+                dasm_put(Dst, 307);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 311);
+                } else {
+                    dasm_put(Dst, 313);
+                }
+                dasm_put(Dst, 316);
                 break;
 
             case INT16_TYPE:
-                dasm_put(Dst, 324);
+                dasm_put(Dst, 318);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 322);
+                } else {
+                    dasm_put(Dst, 325);
+                }
+                dasm_put(Dst, 328);
                 break;
 
             case INT32_TYPE:
-                dasm_put(Dst, 331);
-                break;
-
-            case UINT8_TYPE:
-                dasm_put(Dst, 336);
-                break;
-
-            case UINT16_TYPE:
-                dasm_put(Dst, 342);
-                break;
-
-            case UINT32_TYPE:
-                dasm_put(Dst, 349);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 330);
+                } else {
+                    dasm_put(Dst, 334);
+                }
+                dasm_put(Dst, 338);
                 break;
 
             case INT64_TYPE:
-                dasm_put(Dst, 354);
-                break;
-
-            case UINT64_TYPE:
-                dasm_put(Dst, 360);
+                if (mt->is_unsigned) {
+                    dasm_put(Dst, 340);
+                } else {
+                    dasm_put(Dst, 344);
+                }
+                dasm_put(Dst, 348);
                 break;
 
             case DOUBLE_TYPE:
-                dasm_put(Dst, 366);
+                dasm_put(Dst, 351);
                 break;
 
-            case UINTPTR_TYPE:
-                dasm_put(Dst, 372);
+            case INTPTR_TYPE:
+                dasm_put(Dst, 357);
                 break;
 
             case FLOAT_TYPE:
-                dasm_put(Dst, 377);
+                dasm_put(Dst, 362);
                 break;
 
             default:
@@ -957,44 +939,43 @@ void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, c
     }
 
     if (ct->has_var_arg) {
-        dasm_put(Dst, 382, nargs+1);
+        dasm_put(Dst, 367, nargs+1);
     }
 
-    dasm_put(Dst, 390, (uintptr_t)(&jit->last_errno));
+    dasm_put(Dst, 375, (uintptr_t)(&Dst->last_errno));
 
-    dasm_put(Dst, 399);
+    dasm_put(Dst, 384);
 
 
 
     lua_rawgeti(L, ct_usr, 0);
     mt = (const struct ctype*) lua_touserdata(L, -1);
 
-    if (mt->pointers) {
+    if (mt->pointers || mt->is_reference) {
         lua_getuservalue(L, -1);
         num_upvals += 2;
-        dasm_put(Dst, 403, (uintptr_t)(&jit->last_errno), (uintptr_t)(mt), (uintptr_t)(lua_upvalueindex(num_upvals)));
+        dasm_put(Dst, 388, (uintptr_t)(&Dst->last_errno), (uintptr_t)(mt), (uintptr_t)(lua_upvalueindex(num_upvals)));
 
     } else {
         switch (mt->type) {
         case INT64_TYPE:
-        case UINT64_TYPE:
             num_upvals++;
-            dasm_put(Dst, 426, (uintptr_t)(&jit->last_errno), (uintptr_t)(mt));
+            dasm_put(Dst, 411, (uintptr_t)(&Dst->last_errno), (uintptr_t)(mt));
             break;
 
-        case UINTPTR_TYPE:
+        case INTPTR_TYPE:
             num_upvals++;
-            dasm_put(Dst, 453, (uintptr_t)(&jit->last_errno), (uintptr_t)(mt));
+            dasm_put(Dst, 438, (uintptr_t)(&Dst->last_errno), (uintptr_t)(mt));
             break;
 
         case VOID_TYPE:
             lua_pop(L, 1);
-            dasm_put(Dst, 478, (uintptr_t)(&jit->last_errno));
+            dasm_put(Dst, 463, (uintptr_t)(&Dst->last_errno));
             break;
 
         case BOOL_TYPE:
             lua_pop(L, 1);
-            dasm_put(Dst, 489, (uintptr_t)(&jit->last_errno));
+            dasm_put(Dst, 474, (uintptr_t)(&Dst->last_errno));
             break;
 
         case INT8_TYPE:
@@ -1002,24 +983,23 @@ void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, c
         case INT32_TYPE:
         case ENUM_TYPE:
             lua_pop(L, 1);
-            dasm_put(Dst, 505, (uintptr_t)(&jit->last_errno));
-            break;
-
-        case UINT8_TYPE:
-        case UINT16_TYPE:
-        case UINT32_TYPE:
-            lua_pop(L, 1);
-            dasm_put(Dst, 521, (uintptr_t)(&jit->last_errno));
+            dasm_put(Dst, 490, (uintptr_t)(&Dst->last_errno));
+            if (mt->is_unsigned) {
+                dasm_put(Dst, 501);
+            } else {
+                dasm_put(Dst, 505);
+            }
+            dasm_put(Dst, 509);
             break;
 
         case FLOAT_TYPE:
             lua_pop(L, 1);
-            dasm_put(Dst, 537, (uintptr_t)(&jit->last_errno));
+            dasm_put(Dst, 512, (uintptr_t)(&Dst->last_errno));
             break;
 
         case DOUBLE_TYPE:
             lua_pop(L, 1);
-            dasm_put(Dst, 553, (uintptr_t)(&jit->last_errno));
+            dasm_put(Dst, 528, (uintptr_t)(&Dst->last_errno));
             break;
 
         default:
@@ -1028,6 +1008,6 @@ void push_function(struct jit* jit, lua_State* L, function_t func, int ct_usr, c
     }
 
     assert(lua_gettop(L) == top + num_upvals);
-    lua_pushcclosure(L, (lua_CFunction) compile(jit, L, func, LUA_NOREF), num_upvals);
+    lua_pushcclosure(L, (lua_CFunction) compile(Dst, L, func, LUA_NOREF), num_upvals);
 }
 

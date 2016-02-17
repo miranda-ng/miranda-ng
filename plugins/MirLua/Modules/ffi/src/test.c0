@@ -1,5 +1,10 @@
 /* vim: ts=4 sw=4 sts=4 et tw=78
- * Copyright (c) 2011 James R. McKaskill. See license in ffi.h
+ * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+ * Portions copyright (c) 2011 James R. McKaskill.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
 #include <stdio.h>
 #include <stdint.h>
@@ -14,10 +19,8 @@
 #include <errno.h>
 #endif
 
-#if __STDC_VERSION__+0 >= 199901L
 #include <complex.h>
 #define HAVE_COMPLEX
-#endif
 
 #ifdef __cplusplus
 # define EXTERN_C extern "C"
@@ -125,10 +128,10 @@ PRINT(enum e16, print_e16, "d")
 PRINT(enum e32, print_e32, "d")
 
 #ifdef HAVE_COMPLEX
-EXPORT int print_dc(char* buf, double complex val);
+/*EXPORT int print_dc(char* buf, double complex val);
 EXPORT int print_fc(char* buf, float complex val);
 int print_dc(char* buf, double complex val) {return sprintf(buf, "%g+%gi", creal(val), cimag(val));}
-int print_fc(char* buf, float complex val) {return sprintf(buf, "%g+%gi", creal(val), cimag(val));}
+int print_fc(char* buf, float complex val) {return sprintf(buf, "%g+%gi", creal(val), cimag(val));}*/
 #endif
 
 EXPORT int print_b(char* buf, _Bool val);
@@ -674,4 +677,44 @@ int get_errno(void) {
 EXPORT int va_list_size, va_list_align;
 int va_list_size = sizeof(va_list);
 int va_list_align = alignof(va_list);
+
+
+EXPORT char buf[512];
+char buf[512];
+
+EXPORT void test_call_echo(char* c);
+void test_call_echo(char* c)
+{
+    sprintf(buf, "%s", c);
+}
+
+EXPORT void test_call_pppppii(void* a, void* b, void* c, void* d, void* e, int f, int g);
+void test_call_pppppii(void* a, void* b, void* c, void* d, void* e, int f, int g)
+{
+    sprintf(buf, "%p %p %p %p %p %d %d", a, b, c, d, e, f, g);
+}
+
+EXPORT void test_call_pppppiiiiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, int i4, int i5, int i6);
+void test_call_pppppiiiiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, int i4, int i5, int i6)
+{
+    sprintf(buf, "%p %p %p %p %p %d %d %d %d %d %d", p1, p2, p3, p4, p5, i1, i2, i3, i4, i5, i6);
+}
+
+EXPORT void test_call_pppppffffff(void* p1, void* p2, void* p3, void* p4, void* p5, float f1, float f2, float f3, float f4, float f5, float f6);
+void test_call_pppppffffff(void* p1, void* p2, void* p3, void* p4, void* p5, float f1, float f2, float f3, float f4, float f5, float f6)
+{
+    sprintf(buf, "%p %p %p %p %p %0.1f %0.1f %0.1f %0.1f %0.1f %0.1f", p1, p2, p3, p4, p5, f1, f2, f3, f4, f5, f6);
+}
+
+EXPORT void test_call_pppppiifiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, float f3, int i4, int i5, int i6);
+void test_call_pppppiifiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, float f3, int i4, int i5, int i6)
+{
+    sprintf(buf, "%p %p %p %p %p %d %d %0.1f %d %d %d", p1, p2, p3, p4, p5, i1, i2, f3, i4, i5, i6);
+}
+
+EXPORT void test_call_pppppiiifii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, float f4, int i5, int i6);
+void test_call_pppppiiifii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, float f4, int i5, int i6)
+{
+    sprintf(buf, "%p %p %p %p %p %d %d %d %0.1f %d %d", p1, p2, p3, p4, p5, i1, i2, i3, f4, i5, i6);
+}
 

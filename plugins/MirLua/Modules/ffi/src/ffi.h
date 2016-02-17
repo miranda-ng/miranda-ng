@@ -1,28 +1,10 @@
 /* vim: ts=4 sw=4 sts=4 et tw=78
+ * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+ * Portions copyright (c) 2011 James R. McKaskill.
  *
- * Copyright (c) 2011 James R. McKaskill
- *
- * This software is licensed under the stock MIT license:
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- *
- * ----------------------------------------------------------------------------
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
 
 #pragma once
@@ -41,11 +23,15 @@
 
 #ifdef __cplusplus
 extern "C" {
-# include <lua.h>
+# include "..\..\..\..\..\libs\liblua\src\lua.h"
+# include "..\..\..\..\..\libs\liblua\src\lauxlib.h"
+# include "..\..\..\..\..\libs\liblua\src\lualib.h"
 }
 # define EXTERN_C extern "C"
 #else
-# include <lua.h>
+# include "..\..\..\..\..\libs\liblua\src\lua.h"
+# include "..\..\..\..\..\libs\liblua\src\lauxlib.h"
+# include "..\..\..\..\..\libs\liblua\src\lualib.h"
 # define EXTERN_C extern
 #endif
 
@@ -58,11 +44,9 @@ extern "C" {
 #include <sys/mman.h>
 #endif
 
-#if __STDC_VERSION__+0 >= 199901L
-#include <complex.h>
-#define HAVE_COMPLEX
+//#include <complex.h>
+//#define HAVE_COMPLEX
 #define HAVE_LONG_DOUBLE
-#endif
 
 #ifndef NDEBUG
 #define DASM_CHECKS
@@ -123,6 +107,10 @@ static char* luaL_prepbuffsize(luaL_Buffer* B, size_t sz) {
     }
     return luaL_prepbuffer(B);
 }
+#elif LUA_VERSION_NUM == 503
+static void (lua_remove)(lua_State *L, int idx) {
+    lua_remove(L, idx);
+}
 #endif
 
 /* architectures */
@@ -177,8 +165,13 @@ static char* luaL_prepbuffsize(luaL_Buffer* B, size_t sz) {
 #   define EnableWrite(data, size) do {DWORD old; VirtualProtect(data, size, PAGE_READWRITE, &old);} while (0)
 
 #else
+#ifdef OS_OSX
+#   define LIB_FORMAT_1 "%s.dylib"
+#   define LIB_FORMAT_2 "lib%s.dylib"
+#else
 #   define LIB_FORMAT_1 "%s.so"
 #   define LIB_FORMAT_2 "lib%s.so"
+#endif
 #   define LoadLibraryA(name) dlopen(name, RTLD_LAZY | RTLD_GLOBAL)
 #   define GetProcAddressA(lib, name) dlsym(lib, name)
 #   define AllocPage(size) mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0)
@@ -369,6 +362,12 @@ typedef void (*cfunction)(void);
 #ifdef HAVE_COMPLEX
 typedef double complex complex_double;
 typedef float complex complex_float;
+static complex_double mk_complex_double(double real, double imag) {
+    return real + imag * 1i;
+}
+static complex_double mk_complex_float(double real, double imag) {
+    return real + imag * 1i;
+}
 #else
 typedef struct {
     double real, imag;
@@ -378,6 +377,14 @@ typedef struct {
     float real, imag;
 } complex_float;
 
+static complex_double mk_complex_double(double real, double imag) {
+    complex_double ret = { real, imag };
+    return ret;
+}
+static complex_float mk_complex_float(double real, double imag) {
+    complex_float ret = { real, imag };
+    return ret;
+}
 static double creal(complex_double c) {
     return c.real;
 }
@@ -398,7 +405,7 @@ static float cimagf(complex_float c) {
 void set_defined(lua_State* L, int ct_usr, struct ctype* ct);
 struct ctype* push_ctype(lua_State* L, int ct_usr, const struct ctype* ct);
 void* push_cdata(lua_State* L, int ct_usr, const struct ctype* ct); /* called from asm */
-void push_callback(lua_State* L, cfunction f);
+void push_callback(lua_State* L, cfunction luafunc, cfunction cfunc);
 void check_ctype(lua_State* L, int idx, struct ctype* ct);
 void* to_cdata(lua_State* L, int idx, struct ctype* ct);
 void* check_cdata(lua_State* L, int idx, struct ctype* ct);

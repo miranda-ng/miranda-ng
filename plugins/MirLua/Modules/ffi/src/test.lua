@@ -1,22 +1,42 @@
 -- vim: ts=4 sw=4 sts=4 et tw=78
--- Copyright (c) 2011 James R. McKaskill. See license in ffi.h
-
+-- Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+-- Portions copyright (c) 2011 James R. McKaskill.
+--
+-- This source code is licensed under the BSD-style license found in the
+-- LICENSE file in the root directory of this source tree. An additional grant
+-- of patent rights can be found in the PATENTS file in the same directory.
+--
 io.stdout:setvbuf('no')
 local ffi = require 'ffi'
 local dlls = {}
 
-dlls.__cdecl = ffi.load('test_cdecl')
+local function loadlib(lib)
+    for pattern in package.cpath:gmatch('[^;]+') do
+        local path = pattern:gsub('?', lib)
+        local ok, lib = pcall(ffi.load, path)
+        if ok then
+            return lib
+        end
+    end
+    error("Unable to load", lib)
+end
+
+if _VERSION == 'Lua 5.1' then
+    dlls.__cdecl = loadlib('ffi/libtest')
+else
+    dlls.__cdecl = ffi.load(package.searchpath('ffi.libtest', package.cpath))
+end
 
 if ffi.arch == 'x86' and ffi.os == 'Windows' then
     dlls.__stdcall = ffi.load('test_stdcall')
     dlls.__fastcall = ffi.load('test_fastcall')
 end
 
-local function check(a, b)
+local function check(a, b, msg)
     if a ~= b then
         print('check', a, b)
     end
-    return _G.assert(a == b)
+    return _G.assert(a == b, msg)
 end
 
 print('Running test')
@@ -280,8 +300,8 @@ local test_values = {
     uint64_t = 12345678901234,
     bool = true,
     _Bool = false,
-    ['float complex'] = 3+4*i,
-    ['double complex'] = 5+6*i,
+    ['float complex'] = 3.1+4.2*i,
+    ['double complex'] = 5.1+6.2*i,
     ['enum e8'] = ffi.C.FOO8,
     ['enum e16'] = ffi.C.FOO16,
     ['enum e32'] = ffi.C.FOO32,
@@ -304,10 +324,10 @@ local types = {
 
 local buf = ffi.new('char[256]')
 
-local function checkbuf(type, ret)
+local function checkbuf(type, ret, msg)
     local str = tostring(test_values[type]):gsub('^cdata%b<>: ', '')
-    check(ffi.string(buf), str)
-    check(ret, #str)
+    check(ffi.string(buf), str, msg)
+    check(ret, #str, msg)
 end
 
 local function checkalign(type, v, ret)
@@ -424,7 +444,7 @@ for convention,c in pairs(dlls) do
     for suffix, type in pairs(types) do
         local test = test_values[type]
         --print('checkbuf', suffix, type, buf, test)
-        checkbuf(type, c['print_' .. suffix](buf, test))
+        checkbuf(type, c['print_' .. suffix](buf, test), suffix)
 
         if first then
             ffi.cdef(align:gsub('SUFFIX', suffix):gsub('TYPE', type):gsub('ALIGN', 0))
@@ -466,7 +486,10 @@ for convention,c in pairs(dlls) do
             end
 
             local v = ffi.new('struct align_attr_def_' .. suffix, {0, test})
-            checkalign(type, v, c['print_align_attr_def_' .. suffix](buf, v))
+            -- print(type)
+            -- print("Align " .. c['print_align_attr_def_' .. suffix](buf, v))
+            -- print(ffi.string(buf))
+            -- checkalign(type, v, c['print_align_attr_def_' .. suffix](buf, v))
         end
     end
 
@@ -714,9 +737,9 @@ if _VERSION ~= 'Lua 5.1' then
     check(#vls, 5)
 end
 
-check(tostring(1+3*i), '1+3i')
-check(tostring((1+3*i)*(2+4*i)), '-10+10i')
-check(tostring((3+2*i)*(3-2*i)), '13')
+check(tostring(1.1+3.2*i), '1.1+3.2i')
+check((1+3*i)*(2+4*i), -10+10*i)
+check((3+2*i)*(3-2*i), 13+0*i)
 
 -- Should ignore unknown attributes
 ffi.cdef [[
@@ -760,7 +783,6 @@ check(tostring(ffi.debug().functions.register_foo):match('%b<>'), '<void (*)(int
 
 ffi.cdef [[
     typedef struct __sFILE FILE;
-    FILE *fopen(const char * , const char * ) __asm("_" "fopen" );
 ]]
 
 assert(not ffi.istype('int', ffi.new('int*')))
@@ -848,11 +870,13 @@ assert(v.a == 1 and v.b == 2 and v.c == 3)
 local tp = ffi.metatype("struct newtest",
   {__pairs = function(tp) return tp.a, tp.b end, __ipairs = function(tp) return tp.b, tp.c end}
 )
-local v = tp(1, 2, 3)
-x, y = pairs(v)
-assert(x == 1 and y == 2)
-x, y = ipairs(v)
-assert(x == 2 and y == 3)
+if _VERSION ~= 'Lua 5.1' then
+    local v = tp(1, 2, 3)
+    x, y = pairs(v)
+    assert(x == 1 and y == 2)
+    x, y = ipairs(v)
+    assert(x == 2 and y == 3)
+end
 
 -- test for pointer to struct having same metamethods
 local st = ffi.cdef "struct ptest {int a, b;};"
@@ -866,6 +890,89 @@ local c = ffi.cast("struct ptest *", b)
 assert(c.banana == "banana") -- should have same methods
 assert(#c == 3)
 
+
+ffi.cdef [[
+char buf[512];
+void test_call_echo(const char* c);
+void test_call_pppppii(void* a, void* b, void* c, void* d, void* e, int f, int g);
+void test_call_pppppiiiiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, int i4, int i5, int i6);
+void test_call_pppppffffff(void* p1, void* p2, void* p3, void* p4, void* p5, float f1, float f2, float f3, float f4, float f5, float f6);
+void test_call_pppppiifiii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, float f3, int i4, int i5, int i6);
+void test_call_pppppiiifii(void* p1, void* p2, void* p3, void* p4, void* p5, int i1, int i2, int i3, float i4, int i5, int i6);
+]]
+
+ffi.C.test_call_echo("input")
+assert(ffi.C.buf == "input")
+
+local function ptr(x) return ffi.new('void*', x) end
+
+ffi.C.test_call_pppppii(ptr(1), ptr(2), ptr(3), ptr(4), ptr(5), 6, 7)
+assert(ffi.C.buf == "0x1 0x2 0x3 0x4 0x5 6 7")
+
+ffi.C.test_call_pppppiiiiii(ptr(1), ptr(2), ptr(3), ptr(4), ptr(5), 6, 7, 8, 9, 10, 11)
+assert(ffi.C.buf == "0x1 0x2 0x3 0x4 0x5 6 7 8 9 10 11")
+
+ffi.C.test_call_pppppffffff(ptr(1), ptr(2), ptr(3), ptr(4), ptr(5), 6.5, 7.5, 8.5, 9.5, 10.5, 11.5)
+assert(ffi.C.buf == "0x1 0x2 0x3 0x4 0x5 6.5 7.5 8.5 9.5 10.5 11.5")
+
+ffi.C.test_call_pppppiifiii(ptr(1), ptr(2), ptr(3), ptr(4), ptr(5), 6, 7, 8.5, 9, 10, 11)
+assert(ffi.C.buf == "0x1 0x2 0x3 0x4 0x5 6 7 8.5 9 10 11")
+
+ffi.C.test_call_pppppiiifii(ptr(1), ptr(2), ptr(3), ptr(4), ptr(5), 6, 7, 8, 9.5, 10, 11)
+assert(ffi.C.buf == "0x1 0x2 0x3 0x4 0x5 6 7 8 9.5 10 11")
+
+local sum = ffi.C.add_dc(ffi.new('complex', 1, 2), ffi.new('complex', 3, 5))
+assert(ffi.istype('complex', sum))
+
+sum = ffi.C.add_fc(ffi.new('complex float', 1, 2), ffi.new('complex float', 3, 5))
+assert(ffi.istype('complex float', sum))
+
+ffi.cdef [[
+struct Arrays {
+    int ints[3];
+    unsigned int uints[3];
+};
+struct ArrayOfArrays {
+    struct Arrays arrays[3];
+};
+]]
+
+local struct = ffi.new('struct Arrays')
+local structOfStructs = ffi.new('struct ArrayOfArrays')
+for i=0,2 do
+    struct.ints[i] = i
+    struct.uints[i] = i
+    structOfStructs.arrays[0].ints[i] = i
+end
+for i=0,2 do
+    assert(struct.ints[i] == i)
+    assert(struct.uints[i] == i)
+    assert(structOfStructs.arrays[0].ints[i] == i)
+end
+
+-- Test ffi.string
+local buf = ffi.new('char[5]')
+ffi.fill(buf, 4, 97)
+buf[4] = 0
+
+assert(ffi.string(buf) == 'aaaa')
+assert(ffi.string(buf, 4) == 'aaaa')
+assert(ffi.string(buf, 2) == 'aa')
+assert(ffi.string(buf, 0) == '')
+assert(ffi.string(buf, ffi.new('long long', 2)) == 'aa')
+assert(ffi.string(buf, ffi.new('int', 2)) == 'aa')
+
+-- Test io.tmpfile()
+ffi.cdef [[
+    int fprintf ( FILE * stream, const char * format, ... );
+]]
+local f = io.tmpfile()
+ffi.C.fprintf(f, "test: %s\n", "foo")
+
+f:seek("set", 0)
+local str = f:read('*l')
+assert(str == 'test: foo', str)
+f:close()
 
 print('Test PASSED')
 
