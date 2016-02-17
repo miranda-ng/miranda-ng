@@ -39,7 +39,6 @@ void CLuaModuleLoader::LoadModules()
 	Preload(MLUA_SOUNDS, luaopen_m_sounds);
 	// regirter delay loading of other modules
 	Preload(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
-	Preload(MLUA_POPUP, luaopen_m_popup);
 	Preload(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 }
 
