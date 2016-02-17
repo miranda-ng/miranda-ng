@@ -439,6 +439,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libax
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hunspell", "..\libs\hunspell\hunspell.vcxproj", "{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffi", "..\plugins\MirLua\Modules\ffi\ffi.vcxproj", "{817D2806-9EC5-4607-A404-F031C98A1872}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2006,6 +2008,14 @@ Global
 		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|Win32.Build.0 = Release|Win32
 		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|x64.ActiveCfg = Release|x64
 		{B80C2C8D-B987-48B6-AFE2-8DA2D17F2F6A}.Release|x64.Build.0 = Release|x64
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Debug|Win32.ActiveCfg = Debug|Win32
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Debug|Win32.Build.0 = Debug|Win32
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Debug|x64.ActiveCfg = Debug|x64
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Debug|x64.Build.0 = Debug|x64
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|Win32.ActiveCfg = Release|Win32
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|Win32.Build.0 = Release|Win32
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|x64.ActiveCfg = Release|x64
+		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
