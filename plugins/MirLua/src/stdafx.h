@@ -32,7 +32,6 @@
 #include <m_msg_buttonsbar.h>
 #include <m_popup.h>
 #include <m_toptoolbar.h>
-#include <m_variables.h>
 
 #include <lua.hpp>
 
@@ -100,10 +99,6 @@ LUAMOD_API int (luaopen_m_popup)(lua_State *L);
 LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
 #include "m_toptoolbar.h"
-
-#define MLUA_VARIABLES	"m_variables"
-LUAMOD_API int (luaopen_m_variables)(lua_State *L);
-
 
 /* utils */
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_FormatString(lua_State *L)
+static int lua_Parse(lua_State *L)
 {
 	if (!ServiceExists(MS_VARS_FORMATSTRING))
 	{
@@ -11,7 +11,7 @@ static int lua_FormatString(lua_State *L)
 	ptrT format(mir_utf8decodeT(luaL_checkstring(L, 1)));
 	MCONTACT hContact = lua_tointeger(L, 2);
 
-	TCHAR *res = variables_parse(format, NULL, hContact);
+	TCHAR *res = variables_parse_ex(format, NULL, hContact, NULL, 0);
 	lua_pushstring(L, T2Utf(res));
 
 	return 1;
@@ -19,7 +19,7 @@ static int lua_FormatString(lua_State *L)
 
 static luaL_Reg variablesApi[] =
 {
-	{ "FormatString", lua_FormatString },
+	{ "Parse", lua_Parse },
 
 	{ NULL, NULL }
 };

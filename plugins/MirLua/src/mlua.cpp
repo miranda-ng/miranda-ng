@@ -106,19 +106,3 @@ void CMLua::KillLuaRefs()
 		}
 	}
 }
-
-int CMLua::HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	lua_State *L = (lua_State*)obj;
-
-	int ref = param;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushlightuserdata(L, (void*)wParam);
-	lua_pushlightuserdata(L, (void*)lParam);
-	luaM_pcall(L, 2, 1);
-
-	int res = (int)lua_tointeger(L, 1);
-
-	return res;
-}
