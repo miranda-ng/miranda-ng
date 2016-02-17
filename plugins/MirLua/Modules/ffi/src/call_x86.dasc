@@ -1,5 +1,10 @@
 /* vim: ts=4 sw=4 sts=4 et tw=78
- * Copyright (c) 2011 James R. McKaskill. See license in ffi.h
+ * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+ * Portions copyright (c) 2011 James R. McKaskill.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
 |.if X64
 |.arch x64
@@ -367,7 +372,7 @@ int x86_return_size(lua_State* L, int usr, const struct ctype* ct)
             lua_rawgeti(L, usr, (int) i);
             mt = (const struct ctype*) lua_touserdata(L, -1);
 
-            if (mt->pointers) {
+            if (mt->pointers || mt->is_reference) {
                 ret += sizeof(void*);
             } else {
                 switch (mt->type) {
@@ -405,7 +410,7 @@ int x86_return_size(lua_State* L, int usr, const struct ctype* ct)
 #if !defined _WIN64 && !defined __amd64__
     lua_rawgeti(L, usr, 0);
     mt = (const struct ctype*) lua_touserdata(L, -1);
-    if (!mt->pointers && mt->type == COMPLEX_DOUBLE_TYPE) {
+    if (!mt->pointers && !mt->is_reference && mt->type == COMPLEX_DOUBLE_TYPE) {
         ret += sizeof(void*);
     }
     lua_pop(L, 1);
@@ -506,18 +511,24 @@ static void add_int(Dst_DECL, const struct ctype* ct, struct reg_alloc* reg, int
         reg->ints++;
     }
 #endif
-
-    else if (is_int64) {
-        |.if X64
-        | mov [rsp + reg->off], rax
-        |.else
-        | mov [rsp + reg->off], RET_L
-        | mov [rsp + reg->off + 4], RET_H
-        |.endif
-        reg->off += 8;
-    } else {
-        | mov [rsp+reg->off], eax
-        reg->off += 4;
+    else {
+#if defined _WIN64 || defined __amd64__
+        if (reg->off % 8 != 0) {
+            reg->off += 8 - (reg->off % 8);
+        }
+#endif
+        if (is_int64) {
+            |.if X64
+            | mov [rsp + reg->off], rax
+            |.else
+            | mov [rsp + reg->off], RET_L
+            | mov [rsp + reg->off + 4], RET_H
+            |.endif
+            reg->off += 8;
+        } else {
+            | mov [rsp+reg->off], eax
+            reg->off += 4;
+        }
     }
 }
 
@@ -686,7 +697,7 @@ cfunction compile_callback(lua_State* L, int fidx, int ct_usr, const struct ctyp
 #if !defined _WIN64 && !defined __amd64__
     lua_rawgeti(L, ct_usr, 0);
     mt = (const struct ctype*) lua_touserdata(L, -1);
-    if (!mt->pointers && mt->type == COMPLEX_DOUBLE_TYPE) {
+    if (!mt->pointers && !mt->is_reference && mt->type == COMPLEX_DOUBLE_TYPE) {
         hidden_arg_off = reg.off;
         reg.off += sizeof(void*);
     }
@@ -699,7 +710,7 @@ cfunction compile_callback(lua_State* L, int fidx, int ct_usr, const struct ctyp
         lua_rawgeti(L, ct_usr, i);
         mt = (const struct ctype*) lua_touserdata(L, -1);
 
-        if (mt->pointers) {
+        if (mt->pointers || mt->is_reference) {
             lua_getuservalue(L, -1);
             lua_rawseti(L, -3, ++num_upvals); /* usr value */
             lua_rawseti(L, -2, ++num_upvals); /* mt */
@@ -838,12 +849,12 @@ cfunction compile_callback(lua_State* L, int fidx, int ct_usr, const struct ctyp
     lua_rawgeti(L, ct_usr, 0);
     mt = (const struct ctype*) lua_touserdata(L, -1);
 
-    | call_rrrp extern lua_callk, L_ARG, nargs, (mt->pointers || mt->type != VOID_TYPE) ? 1 : 0, 0
+    | call_rrrp extern lua_callk, L_ARG, nargs, (mt->pointers || mt->is_reference || mt->type != VOID_TYPE) ? 1 : 0, 0
 
     // Unpack the return argument if not "void", also clean-up the lua stack
     // to remove the return argument and bind table. Use lua_settop rather
     // than lua_pop as lua_pop is implemented as a macro.
-    if (mt->pointers) {
+    if (mt->pointers || mt->is_reference) {
         lua_getuservalue(L, -1);
         lua_rawseti(L, -3, ++num_upvals); /* usr value */
         lua_rawseti(L, -2, ++num_upvals); /* mt */
@@ -1078,7 +1089,7 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
      * data is stored, which is popped by the calling code. */
     lua_rawgeti(L, ct_usr, 0);
     mbr_ct = (const struct ctype*) lua_touserdata(L, -1);
-    if (!mbr_ct->pointers && mbr_ct->type == COMPLEX_DOUBLE_TYPE) {
+    if (!mbr_ct->pointers && !mbr_ct->is_reference && mbr_ct->type == COMPLEX_DOUBLE_TYPE) {
         /* we can allocate more space for arguments as long as no add_*
          * function has been called yet, mbr_ct will be added as an upvalue in
          * the return processing later */
@@ -1093,7 +1104,7 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
         lua_rawgeti(L, ct_usr, (int) i);
         mbr_ct = (const struct ctype*) lua_touserdata(L, -1);
 
-        if (mbr_ct->pointers) {
+        if (mbr_ct->pointers || mbr_ct->is_reference) {
             lua_getuservalue(L, -1);
             num_upvals += 2;
             | call_rrrp extern check_typed_pointer, L_ARG, i, lua_upvalueindex(num_upvals), mbr_ct
@@ -1417,7 +1428,7 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
     lua_rawgeti(L, ct_usr, 0);
     mbr_ct = (const struct ctype*) lua_touserdata(L, -1);
 
-    if (mbr_ct->pointers || mbr_ct->type == INTPTR_TYPE) {
+    if (mbr_ct->pointers || mbr_ct->is_reference || mbr_ct->type == INTPTR_TYPE) {
         lua_getuservalue(L, -1);
         num_upvals += 2;
         | mov [rsp+32], rax // save the pointer
@@ -1468,7 +1479,8 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
             break;
 
         case COMPLEX_FLOAT_TYPE:
-            num_upvals++;
+            lua_getuservalue(L, -1);
+            num_upvals += 2;
             |.if X64
             | // complex floats are returned as two floats packed into xmm0
             | movq qword [rsp+32], xmm0
@@ -1479,7 +1491,7 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
             |.endif
             |
             | get_errno
-            | call_rrp extern push_cdata, L_ARG, 0, mbr_ct
+            | call_rrp extern push_cdata, L_ARG, lua_upvalueindex(num_upvals), mbr_ct
             |
             | // ((complex_float*) cdata) = val
             |.if X64
@@ -1496,14 +1508,15 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
             break;
 
         case COMPLEX_DOUBLE_TYPE:
-            num_upvals++;
+            lua_getuservalue(L, -1);
+            num_upvals += 2;
             |.if X64
             | // complex doubles are returned as xmm0 and xmm1
             | movq qword [rsp+40], xmm1
             | movq qword [rsp+32], xmm0
             |
             | get_errno
-            | call_rrp extern push_cdata, L_ARG, 0, mbr_ct
+            | call_rrp extern push_cdata, L_ARG, lua_upvalueindex(num_upvals), mbr_ct
             |
             | // ((complex_double*) cdata)->real = val0
             | // ((complex_double*) cdata)->imag = val1
@@ -1587,7 +1600,7 @@ void compile_function(lua_State* L, cfunction func, int ct_usr, const struct cty
         cfunction f = compile(Dst, L, func, LUA_NOREF);
         /* add a callback as an upval so that the jitted code gets cleaned up when
          * the function gets gc'd */
-        push_callback(L, f);
+        push_callback(L, f, func);
         lua_pushcclosure(L, (lua_CFunction) f, num_upvals+1);
     }
 }

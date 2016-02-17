@@ -1,11 +1,17 @@
 /* vim: ts=4 sw=4 sts=4 et tw=78
- * Copyright (c) 2011 James R. McKaskill. See license in ffi.h
+ * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
+ * Portions copyright (c) 2011 James R. McKaskill.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
 #include "ffi.h"
 
 #define IS_CONST(tok) (IS_LITERAL(tok, "const") || IS_LITERAL(tok, "__const") || IS_LITERAL(tok, "__const__"))
 #define IS_VOLATILE(tok) (IS_LITERAL(tok, "volatile") || IS_LITERAL(tok, "__volatile") || IS_LITERAL(tok, "__volatile__"))
 #define IS_RESTRICT(tok) (IS_LITERAL(tok, "restrict") || IS_LITERAL(tok, "__restrict") || IS_LITERAL(tok, "__restrict__"))
+#define IS_INLINE(tok) (IS_LITERAL(tok, "inline") || IS_LITERAL(tok, "__inline") || IS_LITERAL(tok, "__inline__"))
 
 enum etoken {
     TOK_NIL,
@@ -210,10 +216,12 @@ end:
     return 1;
 }
 
-static void require_token(lua_State* L, struct parser* P, struct token* tok)
+#define require_token(L, P, tok) require_token_line(L, P, tok, __FILE__, __LINE__)
+
+static void require_token_line(lua_State* L, struct parser* P, struct token* tok, const char* file, int line)
 {
     if (!next_token(L, P, tok)) {
-        luaL_error(L, "unexpected end");
+        luaL_error(L, "unexpected end on line %s:%d", file, line);
     }
 }
 
@@ -288,14 +296,14 @@ static int parse_enum(lua_State* L, struct parser* P, struct ctype* type)
         /* add the enum value to the constants table */
         push_upval(L, &constants_key);
         lua_pushvalue(L, -2);
-        lua_pushnumber(L, value);
+        lua_pushinteger(L, value);
         lua_rawset(L, -3);
         lua_pop(L, 1);
 
         assert(lua_gettop(L) == ct_usr + 1);
 
         /* add the enum value to the enum usr value table */
-        lua_pushnumber(L, value);
+        lua_pushinteger(L, value);
         lua_rawset(L, ct_usr);
 
         if (tok.type == TOK_CLOSE_CURLY) {
@@ -378,26 +386,26 @@ static void calculate_member_position(lua_State* L, struct parser* P, struct cty
         *pbitfield_type = mt->align_mask;
         bit_offset += mt->bit_size;
 
-#elif defined OS_OSX
-        /* OSX doesn't use containers and bitfields are not aligned. So
-         * bitfields never add any padding, except for :0 which still forces
-         * an alignment based off the type used with the :0 */
-        if (mt->bit_size) {
-            mt->offset = ct->base_size;
-            mt->bit_offset = bit_offset;
-            bit_offset += mt->bit_size;
-            ct->base_size += bit_offset / CHAR_BIT;
-            bit_offset = bit_offset % CHAR_BIT;
-        } else {
-            ct->base_size += (bit_offset + CHAR_BIT - 1) / CHAR_BIT;
-            ct->base_size = ALIGN_UP(ct->base_size, mt->align_mask);
-            bit_offset = 0;
-        }
+// #elif defined OS_OSX
+//         /* OSX doesn't use containers and bitfields are not aligned. So
+//          * bitfields never add any padding, except for :0 which still forces
+//          * an alignment based off the type used with the :0 */
+//         if (mt->bit_size) {
+//             mt->offset = ct->base_size;
+//             mt->bit_offset = bit_offset;
+//             bit_offset += mt->bit_size;
+//             ct->base_size += bit_offset / CHAR_BIT;
+//             bit_offset = bit_offset % CHAR_BIT;
+//         } else {
+//             ct->base_size += (bit_offset + CHAR_BIT - 1) / CHAR_BIT;
+//             ct->base_size = ALIGN_UP(ct->base_size, mt->align_mask);
+//             bit_offset = 0;
+//         }
 
-        if (!mt->has_member_name) {
-            /* unnamed bitfields don't update the struct alignment */
-            mt->align_mask = 0;
-        }
+//         if (!mt->has_member_name) {
+//             /* unnamed bitfields don't update the struct alignment */
+//             mt->align_mask = 0;
+//         }
 
 #elif defined __GNUC__
         /* GCC tries to pack bitfields in as close as much as possible, but
@@ -1178,11 +1186,6 @@ int parse_type(lua_State* L, struct parser* P, struct ctype* ct)
 
     require_token(L, P, &tok);
 
-    /* get function attributes before the return type */
-    while (parse_attribute(L, P, &tok, ct, NULL)) {
-        require_token(L, P, &tok);
-    }
-
     /* get const/volatile before the base type */
     for (;;) {
         if (tok.type != TOK_TOKEN) {
@@ -1192,8 +1195,14 @@ int parse_type(lua_State* L, struct parser* P, struct ctype* ct)
             ct->const_mask = 1;
             require_token(L, P, &tok);
 
-        } else if (IS_VOLATILE(tok) || IS_RESTRICT(tok)) {
+        } else if (IS_VOLATILE(tok) ||
+                   IS_RESTRICT(tok) ||
+                   IS_LITERAL(tok, "static") ||
+                   IS_INLINE(tok)) {
             /* ignored for now */
+            require_token(L, P, &tok);
+        } else if (parse_attribute(L, P, &tok, ct, NULL)) {
+            /* get function attributes before the return type */
             require_token(L, P, &tok);
 
         } else {
@@ -1365,7 +1374,7 @@ static void append_type_name(luaL_Buffer* B, int usr, const struct ctype* ct, en
 
     if (type == BOTH || type == BACK) {
         if (ct->is_reference) {
-            luaL_addstring(B, "(&)");
+            luaL_addstring(B, " &");
         }
 
         if (ct->is_variable_array && !ct->variable_size_known) {
@@ -1660,7 +1669,7 @@ static struct ctype* parse_argument2(lua_State* L, struct parser* P, int ct_usr,
             }
 
         } else if (tok.type == TOK_REFERENCE) {
-            luaL_error(L, "NYI: c++ reference types");
+            ct->is_reference = 1;
 
         } else if (parse_attribute(L, P, &tok, ct, asmname)) {
             /* parse attribute has filled out appropriate fields in type */
@@ -1998,6 +2007,36 @@ static void push_strings(lua_State* L, struct parser* P)
     luaL_pushresult(&B);
 }
 
+static void parse_constant_assignemnt(lua_State* L,
+                                      struct parser* P,
+                                      const struct ctype* type,
+                                      const struct token* name)
+{
+    int64_t val = calculate_constant(L, P);
+
+    check_token(L, P, TOK_SEMICOLON, "", "expected ; after constant definition on line %d", P->line);
+
+    push_upval(L, &constants_key);
+    lua_pushlstring(L, name->str, name->size);
+
+    switch (type->type) {
+        case INT8_TYPE:
+        case INT16_TYPE:
+        case INT32_TYPE:
+            if (type->is_unsigned)
+                lua_pushinteger(L, (unsigned int) val);
+            else
+                lua_pushinteger(L, (int) val);
+            break;
+
+        default:
+            luaL_error(L, "expected a valid 8-, 16-, or 32-bit signed or unsigned integer type after 'static const' on line %d", P->line);
+    }
+
+    lua_rawset(L, -3);
+    lua_pop(L, 2); /*constants and type*/
+}
+
 #define END 0
 #define PRAGMA_POP 1
 
@@ -2073,48 +2112,6 @@ static int parse_root(lua_State* L, struct parser* P)
         } else if (IS_LITERAL(tok, "typedef")) {
             parse_typedef(L, P);
 
-        } else if (IS_LITERAL(tok, "static")) {
-            struct ctype at;
-
-            int64_t val;
-            require_token(L, P, &tok);
-            if (!IS_CONST(tok)) {
-                luaL_error(L, "expected 'static const int' on line %d", P->line);
-            }
-
-            parse_type(L, P, &at);
-
-            require_token(L, P, &tok);
-            if (tok.type != TOK_TOKEN) {
-                luaL_error(L, "expected constant name after 'static const int' on line %d", P->line);
-            }
-
-            check_token(L, P, TOK_ASSIGN, "", "expected = after 'static const int <name>' on line %d", P->line);
-
-            val = calculate_constant(L, P);
-
-            check_token(L, P, TOK_SEMICOLON, "", "expected ; after 'static const int' definition on line %d", P->line);
-
-            push_upval(L, &constants_key);
-            lua_pushlstring(L, tok.str, tok.size);
-
-            switch (at.type) {
-                case INT8_TYPE:
-                case INT16_TYPE:
-                case INT32_TYPE:
-                    if (at.is_unsigned)
-                        lua_pushnumber(L, (unsigned int) val);
-                    else
-                        lua_pushnumber(L, (int) val);
-                    break;
-
-                default:
-                    luaL_error(L, "expected a valid 8-, 16-, or 32-bit signed or unsigned integer type after 'static const' on line %d", P->line);
-            }
-
-            lua_rawset(L, -3);
-            lua_pop(L, 2); /*constants and type*/
-
         } else {
             /* type declaration, type definition, or function declaration */
             struct ctype type;
@@ -2153,13 +2150,33 @@ static int parse_root(lua_State* L, struct parser* P)
 
                 lua_pop(L, 1);
 
-                require_token(L, P, &tok);
-
-                if (tok.type == TOK_SEMICOLON) {
+                if (!next_token(L, P, &tok)) {
                     break;
-                } else if (tok.type != TOK_COMMA) {
+                }
+
+                if (tok.type == TOK_COMMA) {
+                    continue;
+                }
+
+                if (tok.type == TOK_OPEN_CURLY) {
+                    int line = P->line;
+                    int remaining = 1;
+                    while (remaining > 0 && next_token(L, P, &tok)) {
+                        if (tok.type == TOK_CLOSE_CURLY) {
+                            remaining--;
+                        } else if (tok.type == TOK_OPEN_CURLY) {
+                            remaining++;
+                        }
+                    }
+                    if (remaining > 0) {
+                        luaL_error(L, "missing closing bracket for line %d", line);
+                    }
+                } else if (tok.type == TOK_ASSIGN) {
+                    parse_constant_assignemnt(L, P, &type, &name);
+                } else if (tok.type != TOK_SEMICOLON) {
                     luaL_error(L, "missing semicolon on line %d", P->line);
                 }
+                break;
             }
 
             lua_pop(L, 1);
@@ -2189,6 +2206,49 @@ int ffi_cdef(lua_State* L)
  * precedence and above. calculate_constant1 is the highest precedence
  */
 
+static int64_t string_to_int(const char* str, size_t size)
+{
+    const char* end = str + size;
+    char c = *str++;
+    if (str < end)
+    {
+        if (c == '\\') {
+            c = *str++;
+            switch (c) {
+            case '\'': c = '\''; break;
+            case '\"': c = '\"'; break;
+            case '\?': c = '\?'; break;
+            case '\\': c = '\\'; break;
+            case 'a': c = '\a'; break;
+            case 'b': c = '\b'; break;
+            case 'f': c = '\f'; break;
+            case 'n': c = '\n'; break;
+            case 'r': c = '\r'; break;
+            case 't': c = '\t'; break;
+            case 'v': c = '\v'; break;
+            case 'e': c = 27; break;
+            case 'x':
+                c = 0;
+                while (str < end) {
+                    char d = *str++;
+                    c *= 16;
+                    if (d >= '0' && d <= '9') c += (d - '0');
+                    else c += (d - 'a' + 10);
+                }
+                break;
+            default:
+                c = c - '0';
+                while (str < end) {
+                    char d = *str++;
+                    c = c*8 + (d - '0');
+                }
+                break;
+            }
+        }
+    }
+    return c;
+}
+
 static int try_cast(lua_State* L)
 {
     struct parser* P = (struct parser*) lua_touserdata(L, 1);
@@ -2204,7 +2264,7 @@ static int try_cast(lua_State* L)
         return luaL_error(L, "invalid cast");
     }
 
-    if (ct.pointers || ct.type != INT32_TYPE) {
+    if (ct.pointers/* || ct.type != INT32_TYPE*/) {
         return luaL_error(L, "unsupported cast on line %d", P->line);
     }
 
@@ -2260,6 +2320,12 @@ static int64_t calculate_constant1(lua_State* L, struct parser* P, struct token*
         if (tok->type != TOK_CLOSE_PAREN) {
             luaL_error(L, "error whilst parsing constant at line %d", P->line);
         }
+
+        next_token(L, P, tok);
+        return ret;
+
+    } else if (tok->type == TOK_STRING) {
+        ret = string_to_int(tok->str, tok->size);
 
         next_token(L, P, tok);
         return ret;

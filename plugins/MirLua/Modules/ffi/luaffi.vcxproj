@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>luaffi</ProjectName>
+    <ProjectName>ffi</ProjectName>
     <ProjectGuid>{817D2806-9EC5-4607-A404-F031C98A1872}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
