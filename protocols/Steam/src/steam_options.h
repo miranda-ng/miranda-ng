@@ -9,6 +9,7 @@ private:
 	CCtrlEdit m_group;
 
 	CCtrlCheck m_biggerAvatars;
+	CCtrlCheck m_showChatEvents;
 
 protected:
 	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL);

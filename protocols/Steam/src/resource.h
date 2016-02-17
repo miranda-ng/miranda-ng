@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Steam\res\Resource.rc
+// Used by D:\Development\Miranda NG\Miranda NG\protocols\Steam\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -25,6 +25,7 @@
 #define IDC_DEFAULT_GROUP               1020
 #define IDC_GROUP                       1021
 #define IDC_BIGGER_AVATARS              1030
+#define IDC_SHOW_CHAT_EVENTS            1031
 #define IDC_CONTACTS                    1050
 #define IDC_BLOCK                       1059
 #define IDC_BM_LIST                     1064

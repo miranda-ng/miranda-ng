@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -107,6 +107,9 @@ BEGIN
     LTEXT           "Default group:",IDC_STATIC,15,71,69,8
     EDITTEXT        IDC_GROUP,90,69,201,14,ES_AUTOHSCROLL
     CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,90,271,10
+    GROUPBOX        "Message sessions",IDC_STATIC,7,115,291,32
+    CONTROL         "Show chat state events (i.e., user closed chat session)",IDC_SHOW_CHAT_EVENTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,129,271,10
 END
 
 IDD_CAPTCHA DIALOGEX 0, 0, 143, 81
