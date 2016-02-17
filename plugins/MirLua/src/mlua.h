@@ -30,8 +30,6 @@ public:
 
 	void Load();
 	void Unload();
-
-	static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param);
 };
 
 #endif //_LUA_CORE_H_

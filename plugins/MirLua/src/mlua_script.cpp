@@ -29,7 +29,7 @@ CMLuaScript::~CMLuaScript()
 bool CMLuaScript::GetScriptEnviroment(lua_State *L)
 {
 	lua_Debug ar;
-	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "Sf", &ar) == 0 || lua_iscfunction(L, -1))
+	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
 	{
 		lua_pop(L, 1);
 		return false;
@@ -105,7 +105,7 @@ bool CMLuaScript::Load()
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
 	lua_setmetatable(L, -2);
-	const char *env = lua_setupvalue(L, -2, 1);
+	lua_setupvalue(L, -2, 1);
 
 	if (luaM_pcall(L, 0, 1))
 		return false;

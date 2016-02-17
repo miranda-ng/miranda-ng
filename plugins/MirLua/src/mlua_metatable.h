@@ -160,7 +160,7 @@ public:
 	}
 
 	template<typename L>
-	MT& Field(L &f, const char *name, int type)
+	MT& Field(const L &f, const char *name, int type)
 	{
 		if (type != LUA_TNONE)
 			fields[name] = new MTField<T>(f, type);
