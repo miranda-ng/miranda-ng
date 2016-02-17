@@ -439,6 +439,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hunspell", "..\libs\hunspel
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffi", "..\plugins\MirLua\Modules\ffi\ffi.vcxproj", "{817D2806-9EC5-4607-A404-F031C98A1872}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_popup", "..\plugins\MirLua\Modules\m_popup\m_popup.vcxproj", "{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_variables", "..\plugins\MirLua\Modules\m_variables\m_variables.vcxproj", "{E604CD58-4579-4F69-9D6A-2605FD7CF716}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1995,6 +1999,22 @@ Global
 		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|Win32.Build.0 = Release|Win32
 		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|x64.ActiveCfg = Release|x64
 		{817D2806-9EC5-4607-A404-F031C98A1872}.Release|x64.Build.0 = Release|x64
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Debug|Win32.Build.0 = Debug|Win32
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Debug|x64.ActiveCfg = Debug|x64
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Debug|x64.Build.0 = Debug|x64
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Release|Win32.ActiveCfg = Release|Win32
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Release|Win32.Build.0 = Release|Win32
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Release|x64.ActiveCfg = Release|x64
+		{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}.Release|x64.Build.0 = Release|x64
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Debug|Win32.Build.0 = Debug|Win32
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Debug|x64.ActiveCfg = Debug|x64
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Debug|x64.Build.0 = Debug|x64
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|Win32.ActiveCfg = Release|Win32
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|Win32.Build.0 = Release|Win32
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.ActiveCfg = Release|x64
+		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
