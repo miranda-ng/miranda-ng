@@ -152,28 +152,6 @@ static luaL_Reg protocolsApi[] =
 
 /***********************************************/
 
-#define MT_CCSDATA "CCSDATA"
-
-static int ccs__index(lua_State *L)
-{
-	CCSDATA *ccs = *(CCSDATA**)luaL_checkudata(L, 1, MT_CCSDATA);
-	const char *key = lua_tostring(L, 2);
-
-	if (mir_strcmpi(key, "hContact") == 0)
-		lua_pushinteger(L, ccs->hContact);
-	else if (mir_strcmpi(key, "Message") == 0)
-	{
-		PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-		lua_pushstring(L, pre->szMessage);
-	}
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-/***********************************************/
-
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	luaL_newlib(L, protocolsApi);
@@ -202,8 +180,9 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&ACKDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
 	lua_pop(L, 1);
 
-	MT<CCSDATA>(L, MT_CCSDATA)
-		.Method(ccs__index, "__index");
+	MT<CCSDATA>(L, "CCSDATA")
+		.Field(&CCSDATA::hContact, "hContact", LUA_TINTEGER)
+		.Field([](CCSDATA *ccs) { return ((PROTORECVEVENT*)ccs->lParam)->szMessage; }, "Message", LUA_TSTRING);
 	lua_pop(L, 1);
 
 	return 1;

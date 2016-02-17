@@ -27,6 +27,7 @@ void CLuaModuleLoader::LoadModules()
 	// load m_core module
 	Load(MLUA_CORE, luaopen_m_core);
 	// load all internal modules
+	Preload(MLUA_CHAT, luaopen_m_chat);
 	Preload(MLUA_CLIST, luaopen_m_clist);
 	Preload(MLUA_DATABASE, luaopen_m_database);
 	Preload(MLUA_ICOLIB, luaopen_m_icolib);

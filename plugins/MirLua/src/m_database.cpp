@@ -177,12 +177,13 @@ static int lua_EventsFromEnd(lua_State *L)
 
 static int array__call(lua_State *L)
 {
-	BYTE *udata = (BYTE *)luaL_opt(L, lua_touserdata, 1, NULL);
+	BYTE *data = (BYTE*)lua_touserdata(L, 1);
 	size_t size = luaL_checkinteger(L, 2);
 
-	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
+	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB*));
 	blob->cbSize = size;
-	blob->pBlobData = mir_memdup(udata, size);
+	blob->pBlobData = (BYTE*)mir_calloc(size);
+	memcpy(blob->pBlobData, data, size);
 	luaL_setmetatable(L, MT_BLOB);
 
 	return 1;
@@ -191,9 +192,9 @@ static int array__call(lua_State *L)
 static int array__index(lua_State *L)
 {
 	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int idx = luaL_checkinteger(L, 2);
+	int i = luaL_checkinteger(L, 2);
 
-	lua_pushinteger(L, (uint8_t)blob->pBlobData[idx - 1]);
+	lua_pushinteger(L, (uint8_t)blob->pBlobData[i - 1]);
 
 	return 1;
 }
@@ -201,10 +202,9 @@ static int array__index(lua_State *L)
 static int array__newindex(lua_State *L)
 {
 	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int idx = luaL_checkinteger(L, 2);
-	uint8_t val = (uint8_t)luaL_checkinteger(L, 3);
+	int i = luaL_checkinteger(L, 2);
 
-	blob->pBlobData[idx - 1] = val;
+	blob->pBlobData[i - 1] = (BYTE)luaL_checkinteger(L, 3);
 
 	return 0;
 }
@@ -288,10 +288,11 @@ static int lua_GetSetting(lua_State *L)
 		break;
 	case DBVT_BLOB:
 		{
-			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
-			blob->cbSize = dbv.cpbVal;
-			blob->pBlobData = mir_memdup(dbv.pbVal, dbv.cpbVal);
-			luaL_setmetatable(L, MT_BLOB);
+			luaL_getmetatable(L, MT_BLOB);
+			lua_getfield(L, -1, "__call");
+			lua_pushlightuserdata(L, dbv.pbVal);
+			lua_pushnumber(L, dbv.cpbVal);
+			luaM_pcall(L, 2, 1);
 		}
 		break;
 	default:
@@ -538,10 +539,11 @@ static int dbcw__index(lua_State *L)
 			break;
 		case DBVT_BLOB:
 		{
-			BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
-			blob->cbSize = dbcw->value.cpbVal;
-			blob->pBlobData = mir_memdup(dbcw->value.pbVal, blob->cbSize);
-			luaL_setmetatable(L, MT_BLOB);
+			luaL_getmetatable(L, MT_BLOB);
+			lua_getfield(L, -1, "__call");
+			lua_pushlightuserdata(L, dbcw->value.pbVal);
+			lua_pushnumber(L, dbcw->value.cpbVal);
+			luaM_pcall(L, 2, 1);
 		}
 			break;
 		default:

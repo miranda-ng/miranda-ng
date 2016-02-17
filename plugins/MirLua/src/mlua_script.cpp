@@ -26,35 +26,32 @@ CMLuaScript::~CMLuaScript()
 	mir_free(moduleName);
 }
 
-/*const int CMLuaScript::GetId() const
+bool CMLuaScript::GetScriptEnviroment(lua_State *L, int n)
 {
-	return id;
-}*/
-
-CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L, int n)
-{
-	CMLuaScript *script = NULL;
-
-	int top = lua_gettop(L);
-
 	lua_Debug ar;
 	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
 	{
-		top = lua_gettop(L);
 		lua_pop(L, 1);
-		return script;
+		return false;
 	}
 
 	const char *env = lua_getupvalue(L, n, 1);
 	if (!env || mir_strcmp(env, "_ENV") != 0)
 	{
-		top = lua_gettop(L);
 		lua_pop(L, 1);
-		return script;
+		return false;
 	}
 
+	return true;
+}
+
+CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L, int n)
+{
+	if (!GetScriptEnviroment(L, n))
+		return NULL;
+
 	lua_getfield(L, -1, SCRIPT);
-	script = (CMLuaScript*)lua_touserdata(L, -1);
+	CMLuaScript *script = (CMLuaScript*)lua_touserdata(L, -1);
 	lua_pop(L, 3);
 
 	return script;
@@ -171,8 +168,8 @@ void CMLuaScript::Unload()
 	lua_setfield(L, -2, moduleName);
 	lua_pop(L, 1);
 
-	lua_pushnil(L);
-	lua_setglobal(L, moduleName);
+	//lua_pushnil(L);
+	//lua_setglobal(L, moduleName);
 
 	KillModuleIcons(id);
 	KillModuleSounds(id);
