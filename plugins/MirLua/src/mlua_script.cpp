@@ -26,16 +26,16 @@ CMLuaScript::~CMLuaScript()
 	mir_free(moduleName);
 }
 
-bool CMLuaScript::GetScriptEnviroment(lua_State *L, int n)
+bool CMLuaScript::GetScriptEnviroment(lua_State *L)
 {
 	lua_Debug ar;
-	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
+	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "Sf", &ar) == 0 || lua_iscfunction(L, -1))
 	{
 		lua_pop(L, 1);
 		return false;
 	}
 
-	const char *env = lua_getupvalue(L, n, 1);
+	const char *env = lua_getupvalue(L, -1, 1);
 	if (!env || mir_strcmp(env, "_ENV") != 0)
 	{
 		lua_pop(L, 1);
@@ -45,9 +45,9 @@ bool CMLuaScript::GetScriptEnviroment(lua_State *L, int n)
 	return true;
 }
 
-CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L, int n)
+CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L)
 {
-	if (!GetScriptEnviroment(L, n))
+	if (!GetScriptEnviroment(L))
 		return NULL;
 
 	lua_getfield(L, -1, SCRIPT);
@@ -57,9 +57,9 @@ CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L, int n)
 	return script;
 }
 
-int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L, int n)
+int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L)
 {
-	CMLuaScript *script = GetScriptFromEnviroment(L, n);
+	CMLuaScript *script = GetScriptFromEnviroment(L);
 	if (script != NULL)
 		return script->id;
 
@@ -105,7 +105,7 @@ bool CMLuaScript::Load()
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
 	lua_setmetatable(L, -2);
-	lua_setupvalue(L, -2, 1);
+	const char *env = lua_setupvalue(L, -2, 1);
 
 	if (luaM_pcall(L, 0, 1))
 		return false;
