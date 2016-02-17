@@ -145,6 +145,9 @@ void CSteamProto::ParsePollData(JSONNode *data)
 		}
 		else if (!lstrcmpi(type, _T("leftconversation")))
 		{
+			if (!getBool("ShowChatEvents", true))
+				continue;
+
 			// chatstates gone event
 			MCONTACT hContact = FindContact(steamId);
 			if (hContact)

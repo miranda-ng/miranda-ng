@@ -3,7 +3,7 @@
 CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
 	: CSteamDlgBase(proto, idDialog, false),
 	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
-	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS)
+	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS), m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS)
 {
 	SetParent(hwndParent);
 
@@ -11,6 +11,7 @@ CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwnd
 	CreateLink(m_password, "Password", _T(""));
 	CreateLink(m_group, "DefaultGroup", _T("Steam"));
 	CreateLink(m_biggerAvatars, "UseBigAvatars", DBVT_BYTE, FALSE);
+	CreateLink(m_showChatEvents, "ShowChatEvents", DBVT_BYTE, TRUE);
 }
 
 void CSteamOptionsMain::OnInitDialog()
