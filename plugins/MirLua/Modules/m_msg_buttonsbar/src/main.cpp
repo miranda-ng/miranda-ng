@@ -1,27 +1,5 @@
 #include "stdafx.h"
 
-static int CompareMBButtons(const BBButton* p1, const BBButton* p2)
-{
-	if (int res = mir_strcmpi(p1->pszModuleName, p2->pszModuleName))
-		return res;
-	return p1->dwButtonID - p2->dwButtonID;
-}
-
-static LIST<BBButton> MBButtons(1, CompareMBButtons);
-
-void KillModuleMBButtons()
-{
-	while (MBButtons.getCount())
-	{
-		BBButton* bbb = MBButtons[0];
-		::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)bbb);
-		MBButtons.remove(0);
-		mir_free(bbb->pszModuleName);
-		mir_free(bbb->ptszTooltip);
-		mir_free(bbb);
-	}
-}
-
 static BBButton* MakeBBButton(lua_State *L)
 {
 	BBButton *bbb = (BBButton*)mir_calloc(sizeof(BBButton));
@@ -64,11 +42,8 @@ static int lua_AddButton(lua_State *L)
 
 	BBButton* bbb = MakeBBButton(L);
 
-	INT_PTR res = ::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
+	INT_PTR res = CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
-
-	if (!res)
-		MBButtons.insert(bbb);
 
 	return 1;
 }
@@ -83,7 +58,7 @@ static int lua_ModifyButton(lua_State *L)
 
 	BBButton* bbb = MakeBBButton(L);
 
-	INT_PTR res = ::CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
+	INT_PTR res = CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
 	mir_free(bbb->pszModuleName);
@@ -104,18 +79,6 @@ static int lua_RemoveButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&mbb);
 	lua_pushinteger(L, res);
 
-	if (!res)
-	{
-		BBButton* bbb = MBButtons.find(&mbb);
-		if (bbb)
-		{
-			MBButtons.remove(bbb);
-			mir_free(bbb->pszModuleName);
-			mir_free(bbb->ptszTooltip);
-			mir_free(bbb);
-		}
-	}
-
 	return 1;
 }
 
@@ -128,16 +91,73 @@ static luaL_Reg msgbuttinsbarApi[] =
 	{ NULL, NULL }
 };
 
-LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
+/***********************************************/
+
+#define MT_CUSTOMBUTTONCLICKDATA "CustomButtonClickData"
+
+static int bcd__call(lua_State *L)
+{
+	CustomButtonClickData *bcd = (CustomButtonClickData*)lua_touserdata(L, 1);
+	if (bcd == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	CustomButtonClickData **udata = (CustomButtonClickData**)lua_newuserdata(L, sizeof(CustomButtonClickData*));
+	*udata = bcd;
+
+	luaL_setmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
+
+	return 1;
+}
+
+static int bcd__index(lua_State *L)
+{
+	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
+	const char *key = lua_tostring(L, 2);
+
+	if (mir_strcmpi(key, "Module") == 0)
+		lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
+	else if (mir_strcmpi(key, "ButtonID") == 0)
+		lua_pushinteger(L, bcd->dwButtonId);
+	else if (mir_strcmpi(key, "hContact") == 0)
+		lua_pushinteger(L, bcd->hContact);
+	else if (mir_strcmpi(key, "Flags") == 0)
+		lua_pushinteger(L, bcd->flags);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int bcd_topointer(lua_State *L)
+{
+	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
+
+	lua_pushlightuserdata(L, bcd);
+
+	return 1;
+}
+
+static luaL_Reg bcdMeta[] =
+{
+	{ "__call", bcd__call },
+	{ "__index", bcd__index },
+	{ "topointer", bcd_topointer },
+
+	{ NULL, NULL }
+};
+
+/***********************************************/
+
+extern "C" LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 {
 	luaL_newlib(L, msgbuttinsbarApi);
 
-	MT<CustomButtonClickData>(L, "CustomButtonClickData")
-		.Field(&CustomButtonClickData::pszModule, "Module", LUA_TSTRINGA)
-		.Field(&CustomButtonClickData::dwButtonId, "ButtonID", LUA_TINTEGER)
-		.Field(&CustomButtonClickData::hContact, "hContact", LUA_TINTEGER)
-		.Field(&CustomButtonClickData::flags, "Flags", LUA_TINTEGER);
-		lua_pop(L, 1);
+	luaL_newmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
+	luaL_setfuncs(L, bcdMeta, 0);
+	lua_pop(L, 1);
 
 	return 1;
 }

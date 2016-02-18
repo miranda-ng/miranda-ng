@@ -402,6 +402,47 @@ luaL_Reg coreApi[] =
 	{ NULL, NULL }
 };
 
+/***********************************************/
+
+#define MT_WPARAM "WPARAM"
+#define MT_LPARAM "LPARAM"
+
+/*static int mp__call(lua_State *L)
+{
+	switch (lua_type(L, idx))
+	{
+	case LUA_TBOOLEAN:
+		return lua_toboolean(L, idx);
+	case LUA_TNUMBER:
+		return lua_tonumber(L, idx);
+	case LUA_TSTRING:
+		return (LPARAM)lua_tostring(L, idx);
+	case LUA_TUSERDATA:
+	case LUA_TLIGHTUSERDATA:
+		return (LPARAM)lua_touserdata(L, idx);
+	default:
+		return NULL;
+	}
+}
+
+static int mp__toboolean(lua_State *L)
+{
+}
+
+static int mp__tonumber(lua_State *L)
+{
+}
+
+static int mp__tostring(lua_State *L)
+{
+}
+
+static int mp__topointer(lua_State *L)
+{
+}*/
+
+/***********************************************/
+
 LUAMOD_API int luaopen_m_core(lua_State *L)
 {
 	luaL_newlib(L, coreApi);

@@ -86,8 +86,6 @@ LUAMOD_API int (luaopen_m_hotkeys)(lua_State *L);
 #define MLUA_MESSAGE	"m_message"
 LUAMOD_API int (luaopen_m_message)(lua_State *L);
 
-#include "m_msg_buttonsbar.h"
-
 #include "m_protocols.h"
 
 #include "m_schedule.h"

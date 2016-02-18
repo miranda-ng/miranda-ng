@@ -121,7 +121,7 @@ static luaL_Reg popupApi[] =
 	{ NULL, NULL }
 };
 
-LUAMOD_API int luaopen_m_popup(lua_State *L)
+extern "C" LUAMOD_API int luaopen_m_popup(lua_State *L)
 {
 	luaL_newlib(L, popupApi);
 
