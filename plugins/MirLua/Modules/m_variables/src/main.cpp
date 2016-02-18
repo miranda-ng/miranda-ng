@@ -24,7 +24,7 @@ static luaL_Reg variablesApi[] =
 	{ NULL, NULL }
 };
 
-LUAMOD_API int luaopen_m_variables(lua_State *L)
+extern "C" LUAMOD_API int luaopen_m_variables(lua_State *L)
 {
 	luaL_newlib(L, variablesApi);
 

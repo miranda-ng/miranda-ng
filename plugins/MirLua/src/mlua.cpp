@@ -68,7 +68,6 @@ void CMLua::Unload()
 	}
 
 	KillModuleScheduleTasks();
-	KillModuleMBButtons();
 	KillModuleTTBButton();
 
 	KillModuleIcons(hLangpack);
