@@ -144,7 +144,13 @@ int CDb3Mmap::InitCrypt()
 		if (iNumProvs == 0)
 			return 1;
 
-		pProvider = ppProvs[0];  //!!!!!!!!!!!!!!!!!!
+		if (iNumProvs > 1)
+		{
+			CSelectCryptoDialog dlg(ppProvs, iNumProvs);
+			dlg.DoModal();
+			pProvider = dlg.GetSelected();
+		}
+		else pProvider = ppProvs[0];
 
 		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
 		dbcws.value.type = DBVT_BLOB;
