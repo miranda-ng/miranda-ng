@@ -121,7 +121,7 @@ LBL_Seek:
 
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
-	txn_ptr trnlck(m_pMdbEnv);
+	txn_ptr_ro trnlck(m_pMdbEnv);
 	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 	DBSettingKey keySearch;
@@ -597,7 +597,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 	LIST<char> arSettings(50);
 	{
-		txn_ptr trnlck(m_pMdbEnv, true);
+		txn_ptr_ro trnlck(m_pMdbEnv);
 		cursor_ptr cursor(trnlck, m_dbSettings);
 
 		MDB_val key = { sizeof(keySearch), &keySearch }, data;

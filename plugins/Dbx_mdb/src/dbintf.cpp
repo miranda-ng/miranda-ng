@@ -23,6 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#define CMP_UINT32(A,B) if (A != B) return (A < B) ? -1 : 1;
+
+static int MDB_CompareEvents(const MDB_val *v1, const MDB_val *v2)
+{
+	DBEventSortingKey *k1 = static_cast<DBEventSortingKey*>(v1->mv_data);
+	DBEventSortingKey *k2 = static_cast<DBEventSortingKey*>(v2->mv_data);
+	CMP_UINT32(k1->dwContactId, k2->dwContactId);
+	CMP_UINT32(k1->ts, k2->ts);
+	CMP_UINT32(k1->dwEventId, k2->dwEventId);
+	return 0;
+}
+
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
 	return strcmp(mn1->name, mn2->name);
@@ -85,17 +97,20 @@ CDbxMdb::~CDbxMdb()
 
 int CDbxMdb::Load(bool bSkipInit)
 {
-	if (!Remap())
+	if (!Map())
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
+
 		mdb_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
 		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
 		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
 		mdb_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
 		mdb_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
 		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
+
+		//mdb_set_compare(trnlck, m_dbEventsSort, MDB_CompareEvents);
 
 		DWORD keyVal = 1;
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
@@ -146,7 +161,7 @@ int CDbxMdb::Load(bool bSkipInit)
 int CDbxMdb::Create(void)
 {
 	m_dwFileSize = 0;
-	return (Remap()) ? 0 : EGROKPRF_CANTREAD;
+	return (Map()) ? 0 : EGROKPRF_CANTREAD;
 }
 
 int CDbxMdb::Check(void)
@@ -182,7 +197,7 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 	m_safetyMode = bIsSet != 0;
 }
 
-bool CDbxMdb::Remap()
+bool CDbxMdb::Map()
 {
 	m_dwFileSize += 0x100000;
 	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
@@ -193,6 +208,13 @@ bool CDbxMdb::Remap()
 	else
 		mode |= MDB_WRITEMAP;
 	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) == MDB_SUCCESS;
+}
+
+bool CDbxMdb::Remap()
+{
+	mir_cslock lck(m_csDbAccess);
+	m_dwFileSize += 0x100000;
+	return mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize) == MDB_SUCCESS;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

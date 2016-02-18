@@ -21,13 +21,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define _CRT_SECURE_NO_WARNINGS
-#define _WIN32_WINNT 0x0501
-
-#pragma warning(disable:4509)
-
-//#define SIZEOF(x) _countof(x) 
-
 #include <windows.h>
 #include <time.h>
 #include <process.h>
@@ -83,12 +76,34 @@ public:
 	}
 };
 
+class txn_ptr_ro
+{
+	static MDB_txn *m_txn;
+
+public:
+	__forceinline txn_ptr_ro(MDB_env *pEnv)
+	{
+		if (!m_txn)
+			mdb_txn_begin(pEnv, NULL, MDB_RDONLY, &m_txn);
+		else
+			mdb_txn_renew(m_txn);
+	}
+
+	__forceinline ~txn_ptr_ro()
+	{
+		if (m_txn)
+			mdb_txn_reset(m_txn);
+	}
+
+	__forceinline operator MDB_txn*() const { return m_txn; }
+};
+
 class cursor_ptr
 {
 	MDB_cursor *m_cursor;
 
 public:
-	__forceinline cursor_ptr(const txn_ptr &_txn, MDB_dbi _dbi)
+	__forceinline cursor_ptr(MDB_txn *_txn, MDB_dbi _dbi)
 	{
 		if (mdb_cursor_open(_txn, _dbi, &m_cursor) != MDB_SUCCESS)
 			m_cursor = NULL;
