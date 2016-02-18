@@ -205,7 +205,7 @@ protected:
 	void  FillContacts(void);
 
 	bool  Remap();
-
+	bool  Map();
 public:  // Check functions
 	int WorkInitialChecks(int);
 	int WorkModuleChain(int);
@@ -248,7 +248,6 @@ protected:
 	MDB_dbi	m_dbContacts;
 	int      m_contactCount, m_dwMaxContactId;
 
-	int      WipeContactHistory(DBContact *dbc);
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
 
 	////////////////////////////////////////////////////////////////////////////
