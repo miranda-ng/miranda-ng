@@ -131,20 +131,10 @@ static int bcd__index(lua_State *L)
 	return 1;
 }
 
-static int bcd_topointer(lua_State *L)
-{
-	CustomButtonClickData *bcd = *(CustomButtonClickData**)luaL_checkudata(L, 1, MT_CUSTOMBUTTONCLICKDATA);
-
-	lua_pushlightuserdata(L, bcd);
-
-	return 1;
-}
-
 static luaL_Reg bcdMeta[] =
 {
 	{ "__call", bcd__call },
 	{ "__index", bcd__index },
-	{ "topointer", bcd_topointer },
 
 	{ NULL, NULL }
 };
