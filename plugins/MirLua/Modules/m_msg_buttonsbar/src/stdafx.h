@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-#include <m_lua.h>
+#include <lua.hpp>
 
 #include <m_core.h>
 #include <m_utils.h>

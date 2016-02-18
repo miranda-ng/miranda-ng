@@ -162,6 +162,10 @@ int luaM_totable(lua_State *L)
 {
 	const char *tname = luaL_checkstring(L, 2);
 
+	char message[256];
+	mir_snprintf(message, "Use %s(...) instead", tname);
+	ObsoleteMethod(L, message);
+
 	luaL_getmetatable(L, tname);
 	lua_getfield(L, -1, "__call");
 	lua_pushvalue(L, 1);
@@ -179,12 +183,12 @@ int luaM_ptr2number(lua_State *L)
 
 void ObsoleteMethod(lua_State *L, const char *message)
 {
-	lua_Debug info;
-	lua_getstack(L, 0, &info);
-	lua_getinfo(L, "n", &info);
+	lua_Debug ar;
+	if (lua_getstack(L, 0, &ar) == 0 || lua_getinfo(L, "n", &ar) == 0)
+		return;
 
 	char text[512];
-	mir_snprintf(text, "%s is obsolete. %s", info.name, message);
+	mir_snprintf(text, "%s is obsolete. %s", ar.name, message);
 	Log(text);
 	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
 		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
