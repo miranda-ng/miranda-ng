@@ -348,10 +348,9 @@ int TrafficRecv(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBNOTIFY *nln = (NETLIBNOTIFY*)wParam;
 	NETLIBUSER *nlu = (NETLIBUSER*)lParam;
-	int i;
 
 	if (nln->result > 0)
-		for (i = 0; i < NumberOfAccounts; i++)
+		for (int i = 0; i < NumberOfAccounts; i++)
 			if (!mir_strcmp(ProtoList[i].name, nlu->szSettingsModule))
 				InterlockedExchangeAdd(&ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Incoming, nln->result);
 	return 0;
@@ -361,10 +360,9 @@ int TrafficSend(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBNOTIFY *nln = (NETLIBNOTIFY*)wParam;
 	NETLIBUSER *nlu = (NETLIBUSER*)lParam;
-	int i;
 
 	if (nln->result > 0)
-		for (i = 0; i < NumberOfAccounts; i++)
+		for (int i = 0; i < NumberOfAccounts; i++)
 			if (!mir_strcmp(ProtoList[i].name, nlu->szSettingsModule))
 				InterlockedExchangeAdd(&ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Outgoing, nln->result);
 	return 0;
@@ -406,11 +404,6 @@ static void TC_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, HBRUSH hbrF
 int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 {
 	RECT        rect, rect2;
-	HFONT		old_font;
-	int			i, dx, height, width;
-	HBRUSH		b, t;
-	HDC			hdc;
-	HBITMAP		hbmp, oldbmp;
 	BLENDFUNCTION aga = { AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA };
 	DWORD SummarySession, SummaryTotal;
 
@@ -419,12 +412,12 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		&& db_get_b(NULL, "ModernData", "EnableLayering", 1);
 
 	GetClientRect(hwnd, &rect);
-	height = rect.bottom - rect.top;
-	width = rect.right - rect.left;
+	int height = rect.bottom - rect.top;
+	int width = rect.right - rect.left;
 
 	// Свой контекст устройства.
-	hdc = CreateCompatibleDC(hDC);
-	//
+	HDC hdc = CreateCompatibleDC(hDC);
+
 	BITMAPINFO RGB32BitsBITMAPINFO = { 0 };
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = width;
@@ -432,15 +425,12 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 	RGB32BitsBITMAPINFO.bmiHeader.biCompression = BI_RGB;
-	hbmp = CreateDIBSection(NULL,
-		&RGB32BitsBITMAPINFO,
-		DIB_RGB_COLORS,
-		NULL,
-		NULL, 0);
-	oldbmp = (HBITMAP)SelectObject(hdc, hbmp);
+	
+	HBITMAP hbmp = CreateDIBSection(NULL, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, NULL, NULL, 0);
+	HBITMAP oldbmp = (HBITMAP)SelectObject(hdc, hbmp);
 
-	b = CreateSolidBrush(Traffic_BkColor);
-	t = CreateSolidBrush(KeyColor);
+	HBRUSH b = CreateSolidBrush(Traffic_BkColor);
+	HBRUSH t = CreateSolidBrush(KeyColor);
 
 	if (ClistModernPresent
 		&& unOptions.DrawFrmAsSkin) {
@@ -462,7 +452,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		AlphaBlend(hdc, 0, 0, width, height, hdc, 0, 0, width, height, aga);
 	}
 
-	old_font = (HFONT)SelectObject(hdc, Traffic_h_font);
+	HFONT old_font = (HFONT)SelectObject(hdc, Traffic_h_font);
 
 	// Ограничиваем область рисования
 	rect.top += 2;
@@ -476,10 +466,10 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	if (!bVariablesExists) {
 		SummarySession = SummaryTotal = 0;
 		// Для каждого аккаунта
-		for (i = 0; i < NumberOfAccounts; i++) {
+		for (int i = 0; i < NumberOfAccounts; i++) {
 			// Только если разрешено его отображение.
 			if (ProtoList[i].Visible && ProtoList[i].Enabled) {
-				dx = 0;
+				int dx = 0;
 				// Изображаем иконку аккаунта.
 				if (unOptions.DrawProtoIcon) {
 					TC_DrawIconEx(hdc, rect.left, rect.top,
@@ -540,7 +530,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		// Рисуем суммарный трафик выбранных аккаунтов.
 		if (unOptions.ShowSummary) {
 			// Изображаем иконку.
-			dx = 0;
+			int dx = 0;
 			if (unOptions.DrawProtoIcon) {
 				TC_DrawIconEx(hdc, rect.left, rect.top,
 					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
@@ -595,7 +585,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		// Рисуем всеобщий трафик.
 		if (unOptions.ShowOverall) {
 			// Изображаем иконку.
-			dx = 0;
+			int dx = 0;
 			if (unOptions.DrawProtoIcon) {
 				TC_DrawIconEx(hdc, rect.left, rect.top,
 					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
@@ -632,11 +622,10 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			}
 		}
 	}
-	else
+	else {
 		//-------------
 		// Если есть Variables - рисуем по-новому
 		//-------------
-	{
 		RowItemInfo *ItemsList;
 		WORD ItemsNumber, RowsNumber;
 
@@ -645,7 +634,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		HICON *ahIcon = (HICON*)mir_alloc(sizeof(HICON));
 		RowsNumber = 0;
 		// Цикл по аккаунтам.
-		for (i = 0; i < NumberOfAccounts; i++) {
+		for (int i = 0; i < NumberOfAccounts; i++) {
 			if (ProtoList[i].Visible && ProtoList[i].Enabled) {
 				ExtraText = (TCHAR**)mir_realloc(ExtraText, sizeof(TCHAR*) * (RowsNumber + 1));
 				ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
@@ -671,11 +660,11 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		}
 
 		// Рисуем свой счётчик для каждого из выбранных протоколов
-		for (i = 0; i < RowsNumber; i++) {
+		for (int i = 0; i < RowsNumber; i++) {
 			TCHAR *buf = variables_parse(Traffic_CounterFormat, ExtraText[i], NULL);
 			if (ItemsNumber = GetRowItems(buf, &ItemsList)) {
 				// Рисуем текст.
-				for (dx = 0; dx < ItemsNumber; dx++) {
+				for (int dx = 0; dx < ItemsNumber; dx++) {
 					// Делаем копию прямоугольника для рисования.
 					memcpy(&rect2, &rect, sizeof(RECT));
 					rect2.bottom = rect2.top + Traffic_LineHeight;
@@ -1110,16 +1099,14 @@ void CreateProtocolList(void)
 	ProtoList = (PROTOLIST*)mir_alloc(sizeof(PROTOLIST)*(NumberOfAccounts));
 	//
 	for (i = 0; i < NumberOfAccounts; i++) {
-		ProtoList[i].name = (char*)mir_alloc(mir_strlen(acc[i]->szModuleName) + 1);
-		mir_strcpy(ProtoList[i].name, acc[i]->szModuleName);
-		ProtoList[i].tszAccountName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + mir_tstrlen(acc[i]->tszAccountName)));
-		mir_tstrcpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);
-		//
+		ProtoList[i].name = mir_strdup(acc[i]->szModuleName);
+		ProtoList[i].tszAccountName = mir_tstrdup(acc[i]->tszAccountName);
+
 		ProtoList[i].Flags = db_get_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
 		ProtoList[i].CurrentRecvTraffic =
 			ProtoList[i].CurrentSentTraffic =
 			ProtoList[i].Session.Timer = 0;
-		//
+
 		ProtoList[i].Enabled = acc[i]->bIsEnabled;
 		ProtoList[i].State = 0;
 
