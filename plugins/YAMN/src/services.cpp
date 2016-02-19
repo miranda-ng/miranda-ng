@@ -134,7 +134,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
 
-		EnterCriticalSection(&PluginRegCS);
+		mir_cslock lck(PluginRegCS);
 		#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "AccountCheck:ActualAccountSO-read wait\n");
 		#endif
@@ -160,7 +160,6 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 			}
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		LeaveCriticalSection(&PluginRegCS);
 		CloseHandle(ThreadRunningEV);
 	}
 	return 0;
@@ -185,7 +184,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
-		EnterCriticalSection(&PluginRegCS);
+		mir_cslock lck(PluginRegCS);
 		#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
 		#endif
@@ -214,7 +213,6 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			}
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		LeaveCriticalSection(&PluginRegCS);
 		CloseHandle(ThreadRunningEV);
 	}
 	db_free(&dbv);
@@ -338,131 +336,100 @@ int Shutdown(WPARAM, LPARAM)
 }
 
 int SystemModulesLoaded(WPARAM, LPARAM); //in main.cpp
-typedef struct { HANDLE hookHandle;	const char *hookName; MIRANDAHOOK mirandaFunction;} HookDataType;
-static HookDataType hookData[] = {
-	{0, ME_SYSTEM_MODULESLOADED, SystemModulesLoaded}, //pop3 plugin must be included after all miranda modules are loaded
-	{0, ME_TTB_MODULELOADED,     AddTopToolbarIcon},
-	{0, ME_OPT_INITIALISE,       YAMNOptInitSvc}, 
-	{0, ME_SYSTEM_PRESHUTDOWN,   Shutdown}, 
-	{0, ME_CLIST_DOUBLECLICKED,  Service_ContactDoubleclicked}, 
-	{0, 0, 0}//end marker
-};
 
 void HookEvents(void)
 {
-	//We set function which registers needed POP3 accounts. This is a part of internal POP3 plugin.
-	//Your plugin should do the same task in your Load fcn. Why we call it in MODULESLOADED? Because netlib
-	//user can be registered after all modules are loaded (see m_netlib.h in Miranda)
-	for (int i = 0;hookData[i].hookName;i++) {
-		hookData[i].hookHandle = HookEvent(hookData[i].hookName, hookData[i].mirandaFunction);
-	}
+	HookEvent(ME_SYSTEM_MODULESLOADED, SystemModulesLoaded);
+	HookEvent(ME_TTB_MODULELOADED, AddTopToolbarIcon);
+	HookEvent(ME_OPT_INITIALISE, YAMNOptInitSvc);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
+	HookEvent(ME_CLIST_DOUBLECLICKED, Service_ContactDoubleclicked);
 }
-void UnhookEvents(void)
-{
-	for (int i = 0;i<(sizeof(hookData)/sizeof(hookData[0]));i++)
-		if (hookData[i].hookHandle)
-			UnhookEvent(hookData[i].hookHandle);
-}
-
-typedef struct { HANDLE serviceHandle;	const char *serviceName; MIRANDASERVICE serviceFunction;} ServiceDataType;
-static ServiceDataType serviceData[] = {
-	{0, YAMN_DBMODULE PS_GETCAPS, Service_GetCaps}, 
-	{0, YAMN_DBMODULE PS_GETSTATUS, Service_GetStatus}, 
-	{0, YAMN_DBMODULE PS_SETSTATUS, Service_SetStatus}, 
-	{0, YAMN_DBMODULE PS_GETNAME, Service_GetName}, 
-	{0, YAMN_DBMODULE PS_LOADICON, Service_LoadIcon}, 
-
-	//Function with which protocol plugin can register
-	{0, MS_YAMN_GETFCNPTR, GetFcnPtrSvc}, 
-	
-	//Function returns pointer to YAMN variables
-	{0, MS_YAMN_GETVARIABLES, GetVariablesSvc}, 
-	
-	//Function with which protocol plugin can register
-	{0, MS_YAMN_REGISTERPROTOPLUGIN, RegisterProtocolPluginSvc}, 
-	
-	//Function with which protocol plugin can unregister
-	{0, MS_YAMN_UNREGISTERPROTOPLUGIN, UnregisterProtocolPluginSvc}, 
-	
-	//Function creates an account for plugin
-	{0, MS_YAMN_CREATEPLUGINACCOUNT, CreatePluginAccountSvc}, 
-	
-	//Function deletes plugin account 
-	{0, MS_YAMN_DELETEPLUGINACCOUNT, DeletePluginAccountSvc}, 
-	
-	//Finds account for plugin by name
-	{0, MS_YAMN_FINDACCOUNTBYNAME, FindAccountByNameSvc}, 
-	
-	//Creates next account for plugin
-	{0, MS_YAMN_GETNEXTFREEACCOUNT, GetNextFreeAccountSvc}, 
-	
-	//Function removes account from YAMN queue. Does not delete it from memory
-	{0, MS_YAMN_DELETEACCOUNT, DeleteAccountSvc}, 
-	
-	//Function finds accounts for specified plugin
-	{0, MS_YAMN_READACCOUNTS, AddAccountsFromFileSvc}, 
-	
-	//Function that stores all plugin mails to one file 
-	{0, MS_YAMN_WRITEACCOUNTS, WriteAccountsToFileSvc}, 
-	
-	//Function that returns user's filename
-	{0, MS_YAMN_GETFILENAME, GetFileNameSvc}, 
-	
-	//Releases unicode string from memory
-	{0, MS_YAMN_DELETEFILENAME, DeleteFileNameSvc}, 
-	
-	//Checks mail
-	{0, MS_YAMN_FORCECHECK, ForceCheckSvc}, 
-	
-	//Runs YAMN's mail browser
-	{0, MS_YAMN_MAILBROWSER, RunMailBrowserSvc}, 
-	
-	//Runs YAMN's bad conenction window
-	{0, MS_YAMN_BADCONNECTION, RunBadConnectionSvc}, 
-	
-	//Function creates new mail for plugin
-	{0, MS_YAMN_CREATEACCOUNTMAIL, CreateAccountMailSvc}, 
-	
-	//Function deletes plugin account 
-	{0, MS_YAMN_DELETEACCOUNTMAIL, DeleteAccountMailSvc}, 
-	
-	//Function with which filter plugin can register
-	{0, MS_YAMN_REGISTERFILTERPLUGIN, RegisterFilterPluginSvc}, 
-	
-	//Function with which filter plugin can unregister
-	{0, MS_YAMN_UNREGISTERFILTERPLUGIN, UnregisterFilterPluginSvc}, 
-	
-	//Function filters mail
-	{0, MS_YAMN_FILTERMAIL, FilterMailSvc}, 
-
-	//Function contact list double click
-	{0, MS_YAMN_CLISTDBLCLICK, ClistContactDoubleclicked}, 
-
-	//Function to check individual account
-	{0, MS_YAMN_ACCOUNTCHECK, AccountMailCheck}, 
-
-	//Function contact list context menu click
-	{0, MS_YAMN_CLISTCONTEXT, ContactMailCheck}, 
-
-	//Function contact list context menu click
-	{0, MS_YAMN_CLISTCONTEXTAPP, ContactApplication}, 
-
-	{0, 0, 0}//end marker
-};
 
 void CreateServiceFunctions(void)
 {
-	for (int i = 0;serviceData[i].serviceName;i++) {
-		serviceData[i].serviceHandle = CreateServiceFunction(serviceData[i].serviceName, serviceData[i].serviceFunction);
-	}
-};
+	// Standard 'protocol' services
+	CreateServiceFunction(YAMN_DBMODULE PS_GETCAPS, Service_GetCaps);
+	CreateServiceFunction(YAMN_DBMODULE PS_GETSTATUS, Service_GetStatus);
+	CreateServiceFunction(YAMN_DBMODULE PS_SETSTATUS, Service_SetStatus);
+	CreateServiceFunction(YAMN_DBMODULE PS_GETNAME, Service_GetName);
+	CreateServiceFunction(YAMN_DBMODULE PS_LOADICON, Service_LoadIcon);
 
-void DestroyServiceFunctions(void)
-{
-	for (int i = 0;serviceData[i].serviceName;i++) {
-		if (serviceData[i].serviceHandle) DestroyServiceFunction(serviceData[i].serviceHandle);
-	}
-};
+	// Function with which protocol plugin can register
+	CreateServiceFunction(MS_YAMN_GETFCNPTR, GetFcnPtrSvc);
+
+	// Function returns pointer to YAMN variables
+	CreateServiceFunction(MS_YAMN_GETVARIABLES, GetVariablesSvc);
+
+	// Function with which protocol plugin can register
+	CreateServiceFunction(MS_YAMN_REGISTERPROTOPLUGIN, RegisterProtocolPluginSvc);
+
+	// Function with which protocol plugin can unregister
+	CreateServiceFunction(MS_YAMN_UNREGISTERPROTOPLUGIN, UnregisterProtocolPluginSvc);
+
+	// Function creates an account for plugin
+	CreateServiceFunction(MS_YAMN_CREATEPLUGINACCOUNT, CreatePluginAccountSvc);
+
+	// Function deletes plugin account 
+	CreateServiceFunction(MS_YAMN_DELETEPLUGINACCOUNT, DeletePluginAccountSvc);
+
+	// Finds account for plugin by name
+	CreateServiceFunction(MS_YAMN_FINDACCOUNTBYNAME, FindAccountByNameSvc);
+
+	// Creates next account for plugin
+	CreateServiceFunction(MS_YAMN_GETNEXTFREEACCOUNT, GetNextFreeAccountSvc);
+
+	// Function removes account from YAMN queue. Does not delete it from memory
+	CreateServiceFunction(MS_YAMN_DELETEACCOUNT, DeleteAccountSvc);
+
+	// Function finds accounts for specified plugin
+	CreateServiceFunction(MS_YAMN_READACCOUNTS, AddAccountsFromFileSvc);
+
+	// Function that stores all plugin mails to one file 
+	CreateServiceFunction(MS_YAMN_WRITEACCOUNTS, WriteAccountsToFileSvc);
+
+	// Function that returns user's filename
+	CreateServiceFunction(MS_YAMN_GETFILENAME, GetFileNameSvc);
+
+	// Releases unicode string from memory
+	CreateServiceFunction(MS_YAMN_DELETEFILENAME, DeleteFileNameSvc);
+
+	// Checks mail
+	CreateServiceFunction(MS_YAMN_FORCECHECK, ForceCheckSvc);
+
+	// Runs YAMN's mail browser
+	CreateServiceFunction(MS_YAMN_MAILBROWSER, RunMailBrowserSvc);
+
+	// Runs YAMN's bad conenction window
+	CreateServiceFunction(MS_YAMN_BADCONNECTION, RunBadConnectionSvc);
+
+	// Function creates new mail for plugin
+	CreateServiceFunction(MS_YAMN_CREATEACCOUNTMAIL, CreateAccountMailSvc);
+
+	// Function deletes plugin account 
+	CreateServiceFunction(MS_YAMN_DELETEACCOUNTMAIL, DeleteAccountMailSvc);
+
+	// Function with which filter plugin can register
+	CreateServiceFunction(MS_YAMN_REGISTERFILTERPLUGIN, RegisterFilterPluginSvc);
+
+	// Function with which filter plugin can unregister
+	CreateServiceFunction(MS_YAMN_UNREGISTERFILTERPLUGIN, UnregisterFilterPluginSvc);
+
+	// Function filters mail
+	CreateServiceFunction(MS_YAMN_FILTERMAIL, FilterMailSvc);
+
+	// Function contact list double click
+	CreateServiceFunction(MS_YAMN_CLISTDBLCLICK, ClistContactDoubleclicked);
+
+	// Function to check individual account
+	CreateServiceFunction(MS_YAMN_ACCOUNTCHECK, AccountMailCheck);
+
+	// Function contact list context menu click
+	CreateServiceFunction(MS_YAMN_CLISTCONTEXT, ContactMailCheck);
+
+	// Function contact list context menu click
+	CreateServiceFunction(MS_YAMN_CLISTCONTEXTAPP, ContactApplication);
+}
 
 //Function to put all enabled contact to the Online status
 void RefreshContact(void)

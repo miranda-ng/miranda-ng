@@ -90,7 +90,8 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 					if (CB_ERR == (index = SendMessage(hCombo, CB_GETCURSEL, 0, 0)))
 						break;
 					id = SendMessage(hCombo, CB_GETITEMDATA, (WPARAM)index, 0);
-					EnterCriticalSection(&PluginRegCS);
+
+					mir_cslock lck(PluginRegCS);
 					for (PParser = FirstProtoPlugin; PParser != NULL; PParser = PParser->Next)
 						if (id == (INT_PTR)PParser->Plugin) {
 							SetDlgItemTextA(hDlg, IDC_STVER, PParser->Plugin->PluginInfo->Ver);
@@ -109,7 +110,6 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 							SetDlgItemTextA(hDlg, IDC_STWWW, FParser->Plugin->PluginInfo->WWW == NULL ? "" : FParser->Plugin->PluginInfo->WWW);
 							break;
 						}
-					LeaveCriticalSection(&PluginRegCS);
 				}
 				break;
 			case IDC_STWWW:
@@ -125,21 +125,18 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 		}
 	case WM_SHOWWINDOW:
 		if (TRUE == (BOOL)wParam) {
-			PYAMN_PROTOPLUGINQUEUE PParser;
-			PYAMN_FILTERPLUGINQUEUE FParser;
-			int index;
-
-			EnterCriticalSection(&PluginRegCS);
-			for (PParser = FirstProtoPlugin; PParser != NULL; PParser = PParser->Next) {
-				index = SendDlgItemMessageA(hDlg, IDC_COMBOPLUGINS, CB_ADDSTRING, 0, (LPARAM)PParser->Plugin->PluginInfo->Name);
-				index = SendDlgItemMessage(hDlg, IDC_COMBOPLUGINS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)PParser->Plugin);
-			}
-			for (FParser = FirstFilterPlugin; FParser != NULL; FParser = FParser->Next) {
-				index = SendDlgItemMessageA(hDlg, IDC_COMBOPLUGINS, CB_ADDSTRING, 0, (LPARAM)FParser->Plugin->PluginInfo->Name);
-				index = SendDlgItemMessage(hDlg, IDC_COMBOPLUGINS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)FParser->Plugin);
+			{
+				mir_cslock lck(PluginRegCS);
+				for (PYAMN_PROTOPLUGINQUEUE PParser = FirstProtoPlugin; PParser != NULL; PParser = PParser->Next) {
+					int index = SendDlgItemMessageA(hDlg, IDC_COMBOPLUGINS, CB_ADDSTRING, 0, (LPARAM)PParser->Plugin->PluginInfo->Name);
+					SendDlgItemMessage(hDlg, IDC_COMBOPLUGINS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)PParser->Plugin);
+				}
+				for (PYAMN_FILTERPLUGINQUEUE FParser = FirstFilterPlugin; FParser != NULL; FParser = FParser->Next) {
+					int index = SendDlgItemMessageA(hDlg, IDC_COMBOPLUGINS, CB_ADDSTRING, 0, (LPARAM)FParser->Plugin->PluginInfo->Name);
+					SendDlgItemMessage(hDlg, IDC_COMBOPLUGINS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)FParser->Plugin);
+				}
 			}
 
-			LeaveCriticalSection(&PluginRegCS);
 			SendDlgItemMessage(hDlg, IDC_COMBOPLUGINS, CB_SETCURSEL, 0, 0);
 			SendMessage(hDlg, WM_COMMAND, MAKELONG(IDC_COMBOPLUGINS, CBN_SELCHANGE), 0);
 			break;

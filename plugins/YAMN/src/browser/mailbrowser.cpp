@@ -622,36 +622,35 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 
 void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags)
 {
-	char *NotIconText = Translate("- new mail message(s)");
-	NOTIFYICONDATA nid;
-
-	memset(&nid, 0, sizeof(nid));
+	NOTIFYICONDATA nid = {};
+	nid.cbSize = sizeof(nid);
+	nid.hWnd = hDlg;
 
 	if (MN->Real.EventNC + MN->Virtual.EventNC)
 		NotifyEventHooks(hNewMailHook, 0, 0);
 
-	if ((nflags & YAMN_ACC_KBN) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
+	if ((nflags & YAMN_ACC_KBN) && (MN->Real.PopupRun + MN->Virtual.PopupRun))
 		CallService(MS_KBDNOTIFY_STARTBLINK, (WPARAM)MN->Real.PopupNC + MN->Virtual.PopupNC, NULL);
-	}
 
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
-		char sMsg[250];
-		mir_snprintf(sMsg, Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		TCHAR tszMsg[250];
+		mir_sntprintf(tszMsg, TranslateT("%s : %d new mail message(s), %d total"), _A2T(ActualAccount->Name), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT evt = {};
+			evt.flags = CLEF_TCHAR;
 			evt.hContact = ActualAccount->hContact;
 			evt.hIcon = g_LoadIconEx(2);
 			evt.hDbEvent = ActualAccount->hContact;
 			evt.lParam = ActualAccount->hContact;
 			evt.pszService = MS_YAMN_CLISTDBLCLICK;
-			evt.pszTooltip = sMsg;
+			evt.ptszTooltip = tszMsg;
 			pcli->pfnAddEvent(&evt);
 		}
-		db_set_s(ActualAccount->hContact, "CList", "StatusMsg", sMsg);
+		db_set_ts(ActualAccount->hContact, "CList", "StatusMsg", tszMsg);
 
-		if (nflags & YAMN_ACC_CONTNICK) {
-			db_set_s(ActualAccount->hContact, YAMN_DBMODULE, "Nick", sMsg);
-		}
+		if (nflags & YAMN_ACC_CONTNICK)
+			db_set_ts(ActualAccount->hContact, YAMN_DBMODULE, "Nick", tszMsg);
 	}
 
 	if ((nflags & YAMN_ACC_POP) &&
@@ -679,14 +678,11 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		PUAddPopupT(&NewMailPopup);
 	}
 
-	//destroy tray icon if no new mail
-	if ((MN->Real.SysTrayUC + MN->Virtual.SysTrayUC == 0) && (hDlg != NULL)) {
-		nid.hWnd = hDlg;
-		nid.uID = 0;
+	// destroy tray icon if no new mail
+	if ((MN->Real.SysTrayUC + MN->Virtual.SysTrayUC == 0) && (hDlg != NULL))
 		Shell_NotifyIcon(NIM_DELETE, &nid);
-	}
 
-	//and remove the event
+	// and remove the event
 	if ((nflags & YAMN_ACC_CONT) && (!(nflags & YAMN_ACC_CONTNOEVENT)) && (MN->Real.UnSeen + MN->Virtual.UnSeen == 0))
 		pcli->pfnRemoveEvent(ActualAccount->hContact, ActualAccount->hContact);
 
@@ -705,19 +701,10 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_SCROLL, 0, (LPARAM)0x7ffffff);
 
 			if ((nflags & YAMN_ACC_ICO) && (MN->Real.SysTrayUC + MN->Virtual.SysTrayUC)) {
-				char* src;
-				TCHAR *dest;
-				int i;
-
-				for (src = ActualAccount->Name, dest = nid.szTip, i = 0; (*src != (TCHAR)0) && (i + 1 < sizeof(nid.szTip)); *dest++ = *src++);
-				for (src = NotIconText; (*src != (TCHAR)0) && (i + 1 < sizeof(nid.szTip)); *dest++ = *src++);
-				*dest = (TCHAR)0;
-				nid.cbSize = sizeof(NOTIFYICONDATA);
-				nid.hWnd = hDlg;
 				nid.hIcon = g_LoadIconEx(2);
-				nid.uID = 0;
 				nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 				nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
+				mir_sntprintf(nid.szTip, _T("%S %s"), ActualAccount->Name, TranslateT("- new mail message(s)"));
 				Shell_NotifyIcon(NIM_ADD, &nid);
 				SetTimer(hDlg, TIMER_FLASHING, 500, NULL);
 			}

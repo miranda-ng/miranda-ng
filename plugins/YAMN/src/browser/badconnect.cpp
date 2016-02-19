@@ -216,10 +216,6 @@ void __cdecl BadConnection(void *Param)
 	MSG msg;
 	HWND hBadConnect;
 	HACCOUNT ActualAccount;
-	NOTIFYICONDATA nid;
-	char *NotIconText = Translate(" - connection error"), *src;
-	TCHAR *dest;
-	int i;
 
 	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
 	ActualAccount = MyParam.account;
@@ -237,19 +233,10 @@ void __cdecl BadConnection(void *Param)
 		SendMessage(hBadConnect, WM_SETICON, ICON_BIG, (LPARAM)g_LoadIconEx(3));
 		SendMessage(hBadConnect, WM_SETICON, ICON_SMALL, (LPARAM)g_LoadIconEx(3));
 
-		memset(&nid, 0, sizeof(nid));
-		nid.cbSize = sizeof(NOTIFYICONDATA);
-		nid.hWnd = hBadConnect;
-		nid.hIcon = g_LoadIconEx(3);
-		nid.uID = 0;
-		nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-		nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
-
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");
 #endif
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-		{
+		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait failed\n");
 #endif
@@ -258,16 +245,23 @@ void __cdecl BadConnection(void *Param)
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
-		for (src = ActualAccount->Name, dest = nid.szTip, i = 0; (*src != (TCHAR)0) && (i + 1 < sizeof(nid.szTip)); *dest++ = *src++);
-		for (src = NotIconText; (*src != (TCHAR)0) && (i + 1 < sizeof(nid.szTip)); *dest++ = *src++);
-		*dest = (TCHAR)0;
-
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
 			CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)YAMN_CONNECTFAILSOUND);
+
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG)
 			ShowWindow(hBadConnect, SW_SHOWNORMAL);
-		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO)
+
+		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) {
+			NOTIFYICONDATA nid = {};
+			nid.cbSize = sizeof(nid);
+			nid.hWnd = hBadConnect;
+			nid.hIcon = g_LoadIconEx(3);
+			nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+			nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
+			mir_sntprintf(nid.szTip, _T("%S%s"), ActualAccount->Name, TranslateT(" - connection error"));
 			Shell_NotifyIcon(NIM_ADD, &nid);
+		}
+
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read done\n");
 #endif
