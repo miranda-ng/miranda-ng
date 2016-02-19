@@ -98,7 +98,6 @@ bool CCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 	if (tmp.m_crc32 != crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength()))
 		return false;
 
-	m_valid = true;
 	memcpy(m_key, &tmp.m_key, KEY_LENGTH);
 	init_ecb_14(m_key, m_ctx);
 
@@ -164,7 +163,7 @@ BYTE* CCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen)
 
 	BYTE *result = (BYTE*)mir_alloc(cbLen);
 
-	if (encrypt_ecb(m_ctx, tmpBuf, LPBYTE(result), cbLen)) {
+	if (encrypt_ecb(m_ctx, tmpBuf, result, cbLen)) {
 		mir_free(result);
 		return NULL;
 	}
