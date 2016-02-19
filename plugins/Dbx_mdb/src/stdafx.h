@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_protocols.h>
 #include <m_netlib.h>
+#include <m_gui.h>
 
 extern "C"
 {
@@ -91,8 +92,7 @@ public:
 
 	__forceinline ~txn_ptr_ro()
 	{
-		if (m_txn)
-			mdb_txn_reset(m_txn);
+		mdb_txn_reset(m_txn);
 	}
 
 	__forceinline operator MDB_txn*() const { return m_txn; }
@@ -131,8 +131,4 @@ public:
 extern HINSTANCE g_hInst;
 extern LIST<CDbxMdb> g_Dbs;
 
-#ifdef __GNUC__
-#define mir_i64(x) (x##LL)
-#else
-#define mir_i64(x) (x##i64)
-#endif
+#include "ui.h"

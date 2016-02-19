@@ -23,13 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-struct DBSettingKey
-{
-	DWORD dwContactID;
-	DWORD dwOfsModule;
-	char  szSettingName[100];
-};
-
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
 BOOL CDbxMdb::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
@@ -372,23 +365,13 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
 	int settingNameLen = (int)strlen(dbcws->szSetting);
 	int moduleNameLen = (int)strlen(dbcws->szModule);
-	if (settingNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("WriteContactSetting() got a > 255 setting name length. \n");
-#endif
-		return 1;
-	}
-	if (moduleNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("WriteContactSetting() got a > 255 module name length. \n");
-#endif
-		return 1;
-	}
 
 	// used for notifications
 	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
-	if (dbcwNotif.value.type == DBVT_WCHAR) {
-		if (dbcwNotif.value.pszVal != NULL) {
+	if (dbcwNotif.value.type == DBVT_WCHAR) 
+	{
+		if (dbcwNotif.value.pszVal != NULL) 
+		{
 			char* val = mir_utf8encodeW(dbcwNotif.value.pwszVal);
 			if (val == NULL)
 				return 1;
@@ -418,10 +401,12 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		if (dbcwWork.value.pszVal == NULL)
 			return 1;
 		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
-		if (bIsEncrypted) {
+		if (bIsEncrypted) 
+		{
 			size_t len;
 			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
-			if (pResult != NULL) {
+			if (pResult != NULL) 
+			{
 				pEncoded = dbcwWork.value.pbVal = pResult;
 				dbcwWork.value.cpbVal = (WORD)len;
 				dbcwWork.value.type = DBVT_ENCRYPTED;
@@ -446,11 +431,14 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 
 	// we don't cache blobs and passwords
-	if (dbcwWork.value.type != DBVT_BLOB && dbcwWork.value.type != DBVT_ENCRYPTED && !bIsEncrypted) {
+	if (dbcwWork.value.type != DBVT_BLOB && dbcwWork.value.type != DBVT_ENCRYPTED && !bIsEncrypted) 
+	{
 		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
-		if (pCachedValue != NULL) {
+		if (pCachedValue != NULL) 
+		{
 			bool bIsIdentical = false;
-			if (pCachedValue->type == dbcwWork.value.type) {
+			if (pCachedValue->type == dbcwWork.value.type) 
+			{
 				switch (dbcwWork.value.type) {
 				case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
 				case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
@@ -463,7 +451,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 			}
 			m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
 		}
-		if (szCachedSettingName[-1] != 0) {
+		if (szCachedSettingName[-1] != 0) 
+		{
 			lck.unlock();
 			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
 			return 0;

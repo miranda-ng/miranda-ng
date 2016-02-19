@@ -141,7 +141,13 @@ int CDbxMdb::InitCrypt()
 		if (iNumProvs == 0)
 			return 1;
 
-		pProvider = ppProvs[0];  //!!!!!!!!!!!!!!!!!!
+		if (iNumProvs > 1)
+		{
+			CSelectCryptoDialog dlg(ppProvs, iNumProvs);
+			dlg.DoModal();
+			pProvider = dlg.GetSelected();
+		}
+		else pProvider = ppProvs[0];
 
 		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
 		dbcws.value.type = DBVT_BLOB;
@@ -149,7 +155,8 @@ int CDbxMdb::InitCrypt()
 		dbcws.value.cpbVal = (int)strlen(pProvider->pszName) + 1;
 		WriteContactSetting(NULL, &dbcws);
 	}
-	else {
+	else 
+	{
 		if (dbv.type != DBVT_BLOB) { // old version, clean it up
 			bMissingKey = true;
 			goto LBL_CreateProvider;

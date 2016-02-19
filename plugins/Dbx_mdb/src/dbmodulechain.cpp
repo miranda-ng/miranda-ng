@@ -119,7 +119,7 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	AddToList(mod, newIdx);
 
 	// quit
-	return -1;
+	return newIdx;
 }
 
 char* CDbxMdb::GetModuleNameByOfs(DWORD ofs)

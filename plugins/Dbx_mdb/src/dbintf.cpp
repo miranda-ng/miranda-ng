@@ -23,18 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define CMP_UINT32(A,B) if (A != B) return (A < B) ? -1 : 1;
-
-static int MDB_CompareEvents(const MDB_val *v1, const MDB_val *v2)
-{
-	DBEventSortingKey *k1 = static_cast<DBEventSortingKey*>(v1->mv_data);
-	DBEventSortingKey *k2 = static_cast<DBEventSortingKey*>(v2->mv_data);
-	CMP_UINT32(k1->dwContactId, k2->dwContactId);
-	CMP_UINT32(k1->ts, k2->ts);
-	CMP_UINT32(k1->dwEventId, k2->dwEventId);
-	return 0;
-}
-
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
 	return strcmp(mn1->name, mn2->name);
@@ -110,7 +98,6 @@ int CDbxMdb::Load(bool bSkipInit)
 		mdb_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
 		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
 
-		//mdb_set_compare(trnlck, m_dbEventsSort, MDB_CompareEvents);
 
 		DWORD keyVal = 1;
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;

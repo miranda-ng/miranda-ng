@@ -103,18 +103,27 @@ struct DBEvent
 	}
 };
 
-#include <poppack.h>
-
 struct DBEventSortingKey
 {
 	DWORD dwEventId, ts, dwContactId;
 };
 
+struct DBSettingKey
+{
+	DWORD dwContactID;
+	DWORD dwOfsModule;
+	char  szSettingName[100];
+};
+
+
+#include <poppack.h>
+
 struct DBCachedContact : public DBCachedContactBase
 {
 	void Advance(DWORD id, DBEvent &dbe);
-
-	DBContact dbc;
+	void Snapshot();
+	void Revert();
+	DBContact dbc, tmp_dbc;
 };
 
 struct EventItem

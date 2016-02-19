@@ -258,6 +258,17 @@ void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
 	}
 }
 
+void DBCachedContact::Snapshot()
+{
+	memcpy(&tmp_dbc, &dbc, sizeof(dbc));
+}
+
+void DBCachedContact::Revert()
+{
+	memcpy(&dbc, &tmp_dbc, sizeof(dbc));
+	memset(&tmp_dbc, 0, sizeof(dbc));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // initial cycle to fill the contacts' cache
 
@@ -266,7 +277,7 @@ void CDbxMdb::FillContacts()
 	LIST<DBCachedContact> arContacts(10);
 
 	txn_ptr trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
+	//mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
 	{
 		cursor_ptr cursor(trnlck, m_dbContacts);
 
