@@ -50,9 +50,9 @@ class txn_ptr
 	MDB_txn *m_txn;
 
 public:
-	__forceinline txn_ptr(MDB_env *pEnv, bool bReadOnly = false)
+	__forceinline txn_ptr(MDB_env *pEnv)
 	{
-		mdb_txn_begin(pEnv, NULL, (bReadOnly) ? MDB_RDONLY : 0, &m_txn);
+		mdb_txn_begin(pEnv, NULL,  0, &m_txn);
 	}
 
 	__forceinline ~txn_ptr()
@@ -113,6 +113,24 @@ public:
 	{
 		if (m_cursor)
 			mdb_cursor_close(m_cursor);
+	}
+
+	__forceinline operator MDB_cursor*() const { return m_cursor; }
+};
+
+class cursor_ptr_ro
+{
+	static MDB_cursor *m_cursor;
+
+public:
+	__forceinline cursor_ptr_ro(MDB_txn *_txn, MDB_dbi _dbi)
+	{
+		if (!m_cursor)
+			mdb_cursor_open(_txn, _dbi, &m_cursor);
+	}
+
+	__forceinline ~cursor_ptr_ro()
+	{
 	}
 
 	__forceinline operator MDB_cursor*() const { return m_cursor; }

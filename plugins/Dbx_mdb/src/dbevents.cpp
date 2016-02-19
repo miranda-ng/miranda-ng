@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 MDB_txn* txn_ptr_ro::m_txn;
+MDB_cursor* cursor_ptr_ro::m_cursor;
 
 STDMETHODIMP_(LONG) CDbxMdb::GetEventCount(MCONTACT contactID)
 {
@@ -246,7 +247,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSortingKey &key2)
 {
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(txn, m_dbEventsSort);
 
 	MDB_val key = { sizeof(key2), &key2 }, data;
 	key2.dwEventId++;
@@ -325,7 +326,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr_ro txn(m_pMdbEnv);
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(txn, m_dbEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
 		return m_evLast = 0;
@@ -349,7 +350,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr_ro txn(m_pMdbEnv);
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(txn, m_dbEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
@@ -380,7 +381,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(txn, m_dbEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
 		return m_evLast = 0;
 
@@ -413,7 +414,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(txn, m_dbEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
 		return m_evLast = 0;
 
