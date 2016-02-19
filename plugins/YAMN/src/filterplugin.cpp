@@ -107,19 +107,18 @@ INT_PTR UnregisterFilterPluginSvc(WPARAM wParam,LPARAM)
 {
 	HYAMNFILTERPLUGIN Plugin=(HYAMNFILTERPLUGIN)wParam;
 
-	EnterCriticalSection(&PluginRegCS);
+	mir_cslock lck(PluginRegCS);
 	UnregisterFilterPlugin(Plugin);
-	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
 INT_PTR UnregisterFilterPlugins()
 {
-	EnterCriticalSection(&PluginRegCS);
-//We remove protocols from the protocol list
+	mir_cslock lck(PluginRegCS);
+	
+	// We remove protocols from the protocol list
 	while(FirstFilterPlugin != NULL)
 		UnregisterFilterPlugin(FirstFilterPlugin->Plugin);
-	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -138,9 +137,9 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 	Plugin->Importance=Importance;
 	Plugin->FilterFcn=YAMNFilterFcn;
 
-	EnterCriticalSection(&PluginRegCS);
-//We add protocol to the protocol list
-	for (Previous=NULL,Parser=FirstFilterPlugin;Parser != NULL && Parser->Next != NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
+	mir_cslock lck(PluginRegCS);
+	// We add protocol to the protocol list
+	for (Previous = NULL, Parser = FirstFilterPlugin; Parser != NULL && Parser->Next != NULL && Parser->Plugin->Importance <= Importance; Previous = Parser, Parser = Parser->Next);
 	if (Previous==NULL)	//insert to the beginnig of queue
 	{
 		FirstFilterPlugin=new YAMN_FILTERPLUGINQUEUE;
@@ -154,8 +153,6 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 		Previous->Plugin=Plugin;
 		Previous->Next=Parser;				//and in actual plugin set, that next plugin is the one we insert in front of
 	}
-
-	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -165,7 +162,7 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL Mail=(HYAMNMAIL)lParam;
 	PYAMN_FILTERPLUGINQUEUE ActualPlugin;
 
-	EnterCriticalSection(&PluginRegCS);
+	mir_cslock lck(PluginRegCS);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write wait\n");
 #endif
@@ -199,6 +196,5 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write done\n");
 #endif
 	WriteDoneFcn(Account->MessagesAccessSO);
-	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }

@@ -188,7 +188,7 @@ YAMN: сбой подключения
 [%s - %d new mail messages, %d total]
 %s - %d новых писем (%d всего)
 [- new mail message(s)]
-- новых писем
+- есть новые сообщения
 [%s : %d new mail message(s), %d total]
 %s : %d новых писем (%d всего)
 [%d new mail message(s), %d total]

@@ -11,7 +11,7 @@
 
 //Plugin registration CS
 //Used if we add (register) plugin to YAMN plugins and when we browse through registered plugins
-CRITICAL_SECTION PluginRegCS;
+mir_cs PluginRegCS;
 
 //AccountWriterCS
 //We want to store number of writers of Accounts (number of Accounts used for writing)
@@ -109,9 +109,8 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 //	Get actual status of current user in Miranda
 		Status=CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
-	EnterCriticalSection(&PluginRegCS);
-	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
-	{
+	mir_cslock lck(PluginRegCS);
+	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != NULL; ActualPlugin = ActualPlugin->Next) {
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read wait\n");
 #endif
@@ -120,7 +119,6 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read enter failed\n");
 #endif
-			LeaveCriticalSection(&PluginRegCS);
 			return;
 		}
 #ifdef DEBUG_SYNCHRO
@@ -249,7 +247,6 @@ ChangeIsCountingStatusLabel:
 #endif
 		SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
 	}
-	LeaveCriticalSection(&PluginRegCS);
 	CloseHandle(ThreadRunningEV);
 }
 
@@ -263,62 +260,61 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	if (ThreadRunningEV == NULL)
 		return 0;
 	//if we want to close miranda, we get event and do not run pop3 checking anymore
-	if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV, 0))
+	if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 		return 0;
-	EnterCriticalSection(&PluginRegCS);
-	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != NULL; ActualPlugin=ActualPlugin->Next)
-	{
-		#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read wait\n");
-		#endif
-		SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, INFINITE);
-		#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read enter\n");
-		#endif
-		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=ActualAccount->Next)
-		{
-			if (ActualAccount->Plugin->Fcn==NULL)		//account not inited
-				continue;
-			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
-			#endif
-			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-			{
-				#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
-				#endif
-				continue;
-			}
-			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
-			#endif
-			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
-			{
-				if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr==NULL)
-				{
-					ReadDoneFcn(ActualAccount->AccountAccessSO);
-					continue;
-				}
-				struct CheckParam ParamToPlugin={YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)0, NULL};
 
-				if (NULL==CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
-				{
-					ReadDoneFcn(ActualAccount->AccountAccessSO);
+	{
+		mir_cslock lck(PluginRegCS);
+		for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != NULL; ActualPlugin = ActualPlugin->Next) {
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read wait\n");
+#endif
+			SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, INFINITE);
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read enter\n");
+#endif
+			for (ActualAccount = ActualPlugin->Plugin->FirstAccount; ActualAccount != NULL; ActualAccount = ActualAccount->Next) {
+				if (ActualAccount->Plugin->Fcn == NULL)		//account not inited
+					continue;
+#ifdef DEBUG_SYNCHRO
+				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
+#endif
+				if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
+#ifdef DEBUG_SYNCHRO
+					DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
+#endif
 					continue;
 				}
-				else
-					WaitForSingleObject(ThreadRunningEV, INFINITE);
-			}
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
-		}
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read done\n");
+				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
 #endif
-		SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
+				if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
+				{
+					if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == NULL) {
+						ReadDoneFcn(ActualAccount->AccountAccessSO);
+						continue;
+					}
+					struct CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)0, NULL };
+
+					if (NULL == CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid)) {
+						ReadDoneFcn(ActualAccount->AccountAccessSO);
+						continue;
+					}
+					else
+						WaitForSingleObject(ThreadRunningEV, INFINITE);
+				}
+				ReadDoneFcn(ActualAccount->AccountAccessSO);
+			}
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read done\n");
+#endif
+			SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
+		}
 	}
-	LeaveCriticalSection(&PluginRegCS);
+
 	CloseHandle(ThreadRunningEV);
 
-	if (hTTButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, 0);
+	if (hTTButton)
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, 0);
 	return 1;
 }

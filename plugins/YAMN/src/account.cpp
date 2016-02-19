@@ -8,14 +8,14 @@
 
 #include "stdafx.h"
 
-//Account status CS
-//When we check some account, thread should change status of account to idle, connecting etc.
-//So if we want to read status, we have to successfully write and then read.
-CRITICAL_SECTION AccountStatusCS;
+// Account status CS
+// When we check some account, thread should change status of account to idle, connecting etc.
+// So if we want to read status, we have to successfully write and then read.
+static mir_cs csAccountStatusCS;
 
-//File Writing CS
-//When 2 threads want to write to file...
-CRITICAL_SECTION FileWritingCS;
+// File Writing CS
+// When 2 threads want to write to file...
+static mir_cs csFileWritingCS;
 
 struct CExportedFunctions AccountExportedFcn[] =
 {
@@ -970,23 +970,17 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 	return 0;
 }
 
-//Writes accounts to file
+// Writes accounts to file
 INT_PTR WriteAccountsToFileSvc(WPARAM wParam, LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
-	TCHAR* tszFileName = (TCHAR*)lParam;
 
-	EnterCriticalSection(&FileWritingCS);
-	HANDLE hFile = CreateFile(tszFileName, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE) {
-		LeaveCriticalSection(&FileWritingCS);
+	mir_cslock lck(csFileWritingCS);
+	HANDLE hFile = CreateFile((TCHAR*)lParam, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
 		return EACC_SYSTEM;
-	}
 
-	INT_PTR rv = PerformAccountWriting(Plugin, hFile);
-	LeaveCriticalSection(&FileWritingCS);
-
-	return rv;
+	return PerformAccountWriting(Plugin, hFile);
 }
 
 INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam)
@@ -1229,7 +1223,6 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 	DebugLog(SynchroFile,"DeleteAccounts:AccountBrowserSO-write done\n");
 #endif
 	SWMRGDoneWriting(Plugin->AccountBrowserSO);
-
 	return 1;
 }
 
@@ -1238,59 +1231,16 @@ void WINAPI GetStatusFcn(HACCOUNT Which, TCHAR *Value)
 	if (Which == NULL)
 		return;
 
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tGetStatus:AccountStatusCS-cs wait\n");
-#endif
-	EnterCriticalSection(&AccountStatusCS);
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tGetStatus:AccountStatusCS-cs enter\n");
-#endif
+	mir_cslock lck(csAccountStatusCS);
 	mir_tstrcpy(Value, Which->Status);
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tGetStatus:AccountStatusCS-cs done\n");
-#endif
-	LeaveCriticalSection(&AccountStatusCS);
-	return;
 }
 
 void WINAPI SetStatusFcn(HACCOUNT Which, TCHAR *Value)
 {
-	if (Which == NULL)
-		return;
+	if (Which != NULL) {
+		mir_cslock lck(csAccountStatusCS);
+		mir_tstrcpy(Which->Status, Value);
+	}
 
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs wait\n");
-#endif
-	EnterCriticalSection(&AccountStatusCS);
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs enter\n");
-#endif
-	mir_tstrcpy(Which->Status, Value);
 	WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUS, (WPARAM)Which, 0);
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs done\n");
-#endif
-	LeaveCriticalSection(&AccountStatusCS);
 }
-
-/*
-#ifdef DEBUG_ACCOUNTS
-int GetAccounts()
-{
-HACCOUNT Finder;
-int cnt=0;
-
-for (Finder=Account;Finder != NULL;Finder=Finder->Next)
-cnt++;
-return cnt;
-}
-
-void WriteAccounts()
-{
-HACCOUNT Finder;
-
-for (Finder=Account;Finder != NULL;Finder=Finder->Next)
-MessageBoxA(NULL,Finder->Name,"Browsing account",MB_OK);
-}
-#endif
-*/

@@ -45,28 +45,23 @@
 
 //From services.cpp
 void CreateServiceFunctions(void);
-void DestroyServiceFunctions(void);
 void HookEvents(void);
-void UnhookEvents(void);
 void RefreshContact(void);
 void ContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 INT_PTR ClistContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 
-extern CRITICAL_SECTION PluginRegCS;
+extern mir_cs PluginRegCS;
 extern SCOUNTER *AccountWriterSO;
 extern HANDLE ExitEV;
 extern HANDLE WriteToFileEV;
 
-//From debug.cpp
+// From debug.cpp
 #ifdef _DEBUG
 void InitDebug();
 void UnInitDebug();
 #endif
 
-//From synchro.cpp
-//struct CExportedFunctions SynchroExported[];
-
-//From yamn.cpp
+// From yamn.cpp
 INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR GetVariablesSvc(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
@@ -74,10 +69,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 
 extern struct YAMNExportedFcns *pYAMNFcn;
 
-//From account.cpp
-extern CRITICAL_SECTION AccountStatusCS;
-extern CRITICAL_SECTION FileWritingCS;
-
+// From account.cpp
 INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM);
 int InitAccount(HACCOUNT Which);

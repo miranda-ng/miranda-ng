@@ -290,10 +290,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
 
-	InitializeCriticalSection(&AccountStatusCS);
-	InitializeCriticalSection(&FileWritingCS);
-	InitializeCriticalSection(&PluginRegCS);
-
 	if (NULL == (NoWriterEV = CreateEvent(NULL, TRUE, TRUE, NULL)))
 		return 1;
 	if (NULL == (WriteToFileEV = CreateEvent(NULL, FALSE, FALSE, NULL)))
@@ -383,13 +379,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	CloseHandle(NoWriterEV);
 	CloseHandle(WriteToFileEV);
 	CloseHandle(ExitEV);
-
-	DeleteCriticalSection(&AccountStatusCS);
-	DeleteCriticalSection(&FileWritingCS);
-	DeleteCriticalSection(&PluginRegCS);
-
-	UnhookEvents();
-	DestroyServiceFunctions();
 
 	UnloadPlugins();
 
