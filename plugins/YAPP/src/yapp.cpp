@@ -210,7 +210,6 @@ int PreShutdown(WPARAM, LPARAM)
 {
 	bShutdown = true;
 	DeinitMessagePump();
-	DeinitNotify();
 	return 0;
 }
 
@@ -233,7 +232,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	DeinitNotify();
 	DeleteObject(hFontFirstLine);
 	DeleteObject(hFontSecondLine);
 	DeleteObject(hFontTime);

@@ -2,6 +2,5 @@
 #define _NOTIFY_IMP_INC
 
 void InitNotify();
-void DeinitNotify();
 
 #endif
