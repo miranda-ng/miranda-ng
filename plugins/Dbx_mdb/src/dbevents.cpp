@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MDB_txn* txn_ptr_ro::m_txn;
-
 STDMETHODIMP_(LONG) CDbxMdb::GetEventCount(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
@@ -188,7 +186,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
@@ -207,7 +205,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
@@ -307,7 +305,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 	if (hDbEvent == 0) return INVALID_CONTACT_ID;
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
@@ -323,9 +321,9 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
 		return m_evLast = 0;
@@ -347,9 +345,9 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
@@ -367,7 +365,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 	DWORD ts;
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
 	if (m_evLast != hDbEvent) {
 		MDB_val key = { sizeof(MEVENT), &hDbEvent };
@@ -380,7 +378,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(m_curEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
 		return m_evLast = 0;
 
@@ -400,7 +398,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	DWORD ts;
 
 	mir_cslock lck(m_csDbAccess);
-	txn_ptr_ro txn(m_pMdbEnv);
+	txn_ptr_ro txn(m_txn);
 
 	if (m_evLast != hDbEvent) {
 		MDB_val key = { sizeof(MEVENT), &hDbEvent };
@@ -413,7 +411,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
-	cursor_ptr cursor(txn, m_dbEventsSort);
+	cursor_ptr_ro cursor(m_curEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
 		return m_evLast = 0;
 

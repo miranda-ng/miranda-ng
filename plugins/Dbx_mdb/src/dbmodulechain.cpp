@@ -42,7 +42,7 @@ int CDbxMdb::InitModuleNames(void)
 {
 	m_maxModuleID = 0;
 
-	txn_ptr_ro trnlck(m_pMdbEnv);
+	txn_ptr_ro trnlck(m_txn);
 	//mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
 
 	cursor_ptr cursor(trnlck, m_dbModules);
