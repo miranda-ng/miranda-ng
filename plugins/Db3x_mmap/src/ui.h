@@ -4,7 +4,6 @@ class CSelectCryptoDialog : public CDlgBase
 {
 	CCtrlCombo m_combo;
 	CCtrlData m_descr;
-	//CCtrlCustom m_descr;
 	CRYPTO_PROVIDER **m_provs;
 	size_t m_provscount;
 	CRYPTO_PROVIDER *m_selected;
