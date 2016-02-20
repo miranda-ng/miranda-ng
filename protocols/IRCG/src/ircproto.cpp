@@ -709,10 +709,13 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 {
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_network[0]) {
 		if (m_nick[0] && !m_disableDefaultServer) {
-			CQuickDlg* dlg = new CQuickDlg(this);
-			dlg->GetProto()->m_quickComboSelection = dlg->GetProto()->m_serverComboSelection + 1;
-			dlg->Show();
-			HWND hwnd = dlg->GetHwnd();
+			if (m_quickDlg == NULL) {
+				m_quickDlg = new CQuickDlg(this);
+				m_quickComboSelection = m_serverComboSelection + 1;
+				m_quickDlg->Show();
+			}
+			
+			HWND hwnd = m_quickDlg->GetHwnd();
 			SetWindowTextA(hwnd, "Miranda IRC");
 			SetDlgItemText(hwnd, IDC_TEXT, TranslateT("Please choose an IRC-network to go online. This network will be the default."));
 			SetDlgItemText(hwnd, IDC_CAPTION, TranslateT("Default network"));
