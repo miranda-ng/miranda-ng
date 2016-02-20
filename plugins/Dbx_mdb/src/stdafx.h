@@ -79,22 +79,16 @@ public:
 
 class txn_ptr_ro
 {
-	static MDB_txn *m_txn;
-
+	MDB_txn *m_txn;
 public:
-	__forceinline txn_ptr_ro(MDB_env *pEnv)
+	__forceinline txn_ptr_ro(MDB_txn *&txn) : m_txn(txn)
 	{
-		if (!m_txn)
-			mdb_txn_begin(pEnv, NULL, MDB_RDONLY, &m_txn);
-		else
-			mdb_txn_renew(m_txn);
+		mdb_txn_renew(m_txn);
 	}
-
 	__forceinline ~txn_ptr_ro()
 	{
 		mdb_txn_reset(m_txn);
 	}
-
 	__forceinline operator MDB_txn*() const { return m_txn; }
 };
 
@@ -115,6 +109,17 @@ public:
 			mdb_cursor_close(m_cursor);
 	}
 
+	__forceinline operator MDB_cursor*() const { return m_cursor; }
+};
+
+class cursor_ptr_ro
+{
+	MDB_cursor *m_cursor;
+public:
+	__forceinline cursor_ptr_ro(MDB_cursor *&cursor) : m_cursor(cursor)
+	{
+		mdb_cursor_renew(mdb_cursor_txn(m_cursor), m_cursor); //--
+	}
 	__forceinline operator MDB_cursor*() const { return m_cursor; }
 };
 

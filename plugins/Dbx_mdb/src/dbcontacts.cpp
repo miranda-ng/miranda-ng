@@ -175,8 +175,8 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 	DBEventSortingKey keyVal = { 0, 0, hContact };
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
-	txn_ptr_ro trnlck(m_pMdbEnv);
-	cursor_ptr cursor(trnlck, m_dbEventsSort);
+	txn_ptr_ro trnlck(m_txn);
+	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
 		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;

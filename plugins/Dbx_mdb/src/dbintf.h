@@ -234,6 +234,7 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
+	MDB_txn *m_txn;
 	DWORD    m_dwFileSize;
 	MDB_dbi  m_dbGlobal;
 	DBHeader m_header;
@@ -263,6 +264,7 @@ protected:
 	// events
 
 	MDB_dbi	m_dbEvents, m_dbEventsSort;
+	MDB_cursor *m_curEvents, *m_curEventsSort;
 	DWORD    m_dwMaxEventId, m_tsLast;
 	MEVENT   m_evLast;
 

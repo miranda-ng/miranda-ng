@@ -33,11 +33,6 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
 	return (mn1->ofs - mn2->ofs);
 }
 
-static int stringCompare2(const char *p1, const char *p2)
-{
-	return strcmp(p1, p2);
-}
-
 CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
@@ -45,7 +40,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_dwMaxContactId(1),
 	m_lMods(50, ModCompare),
 	m_lOfs(50, OfsCompare),
-	m_lResidentSettings(50, stringCompare2)
+	m_lResidentSettings(50, strcmp)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
 	InitDbInstance(this);
@@ -98,7 +93,6 @@ int CDbxMdb::Load(bool bSkipInit)
 		mdb_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
 		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
 
-
 		DWORD keyVal = 1;
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
 		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) {
@@ -120,6 +114,14 @@ int CDbxMdb::Load(bool bSkipInit)
 			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
 		}
 		trnlck.commit();
+
+		{
+			mdb_txn_begin(m_pMdbEnv, nullptr, MDB_RDONLY, &m_txn);
+			mdb_cursor_open(m_txn, m_dbEvents, &m_curEvents);
+			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
+			mdb_txn_reset(m_txn);
+		}
+
 
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
 		if (InitCrypt())       return EGROKPRF_CANTREAD;

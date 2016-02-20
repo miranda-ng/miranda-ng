@@ -36,6 +36,7 @@
 #define _GNU_SOURCE 1
 #endif
 #ifdef _WIN32
+#pragma warning(disable:4706)
 #include <malloc.h>
 #include <windows.h>
 /** getpid() returns int; MinGW defines pid_t but MinGW64 typedefs it
