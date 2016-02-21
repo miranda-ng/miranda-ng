@@ -4,21 +4,9 @@ class CSelectCryptoDialog : public CDlgBase
 {
 	CCtrlCombo m_combo;
 	CCtrlData m_descr;
-	//CCtrlCustom m_descr;
 	CRYPTO_PROVIDER **m_provs;
 	size_t m_provscount;
 	CRYPTO_PROVIDER *m_selected;
-public:
-	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) : 
-		CDlgBase(g_hInst, IDD_SELECT_CRYPTOPROVIDER), 
-		m_combo(this, IDC_SELECTCRYPT_COMBO), 
-		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
-		m_provs(provs), 
-		m_provscount(count),
-		m_selected(nullptr)
-	{
-		m_combo.OnChange = Callback(this, &CSelectCryptoDialog::OnComboChanged);
-	}
 
 	void OnInitDialog()
 	{
@@ -28,7 +16,7 @@ public:
 			m_combo.AddStringA(prov->pszName, i);
 		}
 		m_combo.SetCurSel(0);
-		SetDescr(m_provs[0]);
+		m_descr.SetText(m_provs[0]->ptszDescr);
 	}
 
 	void OnClose()
@@ -38,12 +26,19 @@ public:
 
 	void OnComboChanged(CCtrlCombo*)
 	{
-		SetDescr(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]);
+		m_descr.SetText(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]->ptszDescr);
 	}
 
-	void SetDescr(CRYPTO_PROVIDER *prov)
+public:
+	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) :
+		CDlgBase(g_hInst, IDD_SELECT_CRYPTOPROVIDER),
+		m_combo(this, IDC_SELECTCRYPT_COMBO),
+		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
+		m_provs(provs),
+		m_provscount(count),
+		m_selected(nullptr)
 	{
-		m_descr.SetText(prov->ptszDescr);
+		m_combo.OnChange = Callback(this, &CSelectCryptoDialog::OnComboChanged);
 	}
 
 	inline CRYPTO_PROVIDER* GetSelected()

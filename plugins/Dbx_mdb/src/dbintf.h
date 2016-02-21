@@ -249,6 +249,8 @@ protected:
 	// settings
 
 	MDB_dbi  m_dbSettings;
+	MDB_cursor *m_curSettings;
+
 	int      m_codePage;
 	HANDLE   hService, hHook;
 
@@ -256,6 +258,8 @@ protected:
 	// contacts
 
 	MDB_dbi	m_dbContacts;
+	MDB_cursor *m_curContacts;
+
 	int      m_contactCount, m_dwMaxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
@@ -274,6 +278,8 @@ protected:
 	// modules
 
 	MDB_dbi	m_dbModules;
+	MDB_cursor *m_curModules;
+
 	HANDLE   m_hModHeap;
 	LIST<ModuleName> m_lMods, m_lOfs;
 	LIST<char> m_lResidentSettings;

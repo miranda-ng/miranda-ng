@@ -117,8 +117,13 @@ int CDbxMdb::Load(bool bSkipInit)
 
 		{
 			mdb_txn_begin(m_pMdbEnv, nullptr, MDB_RDONLY, &m_txn);
+
 			mdb_cursor_open(m_txn, m_dbEvents, &m_curEvents);
 			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
+			mdb_cursor_open(m_txn, m_dbSettings, &m_curSettings);
+			mdb_cursor_open(m_txn, m_dbModules, &m_curModules);
+			mdb_cursor_open(m_txn, m_dbContacts, &m_curContacts);
+
 			mdb_txn_reset(m_txn);
 		}
 

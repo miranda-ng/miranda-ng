@@ -208,9 +208,14 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	}
 
 	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
-	txn_ptr trnlck(m_pMdbEnv);
-	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
-	trnlck.commit();
+
+	for (;; Remap())
+	{
+		txn_ptr trnlck(m_pMdbEnv);
+		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
+		if (trnlck.commit())
+			break;
+	}
 	return 0;
 }
 
@@ -237,9 +242,14 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	}
 
 	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
-	txn_ptr trnlck(m_pMdbEnv);
-	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
-	trnlck.commit();
+
+	for (;; Remap())
+	{
+		txn_ptr trnlck(m_pMdbEnv);
+		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
+		if (trnlck.commit())
+			break;
+	}
 	return 0;
 }
 
@@ -276,10 +286,11 @@ void CDbxMdb::FillContacts()
 {
 	LIST<DBCachedContact> arContacts(10);
 
-	txn_ptr trnlck(m_pMdbEnv);
-	//mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
 	{
-		cursor_ptr cursor(trnlck, m_dbContacts);
+		mir_cslock lck(m_csDbAccess);
+
+		txn_ptr_ro trnlck(m_txn);
+		cursor_ptr_ro cursor(m_curContacts);
 
 		MDB_val key, data;
 		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
@@ -297,7 +308,8 @@ void CDbxMdb::FillContacts()
 	}
 
 	m_contactCount = 0;
-	for (int i = 0; i < arContacts.getCount(); i++) {
+	for (int i = 0; i < arContacts.getCount(); i++) 
+	{
 		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
 
