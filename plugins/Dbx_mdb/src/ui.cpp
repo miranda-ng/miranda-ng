@@ -27,7 +27,7 @@ struct DlgChangePassParam
 {
 	CDbxMdb *db;
 	TCHAR newPass[100];
-	int wrongPass;
+	unsigned short wrongPass;
 };
 
 #define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
@@ -120,13 +120,15 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 bool CDbxMdb::EnterPassword(const BYTE *pKey, const size_t keyLen)
 {
 	DlgChangePassParam param = { this };
-	while (true) {
+	while (true) 
+	{
 		// Esc pressed
 		if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
 			return false;
 
-		m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
-		if (m_crypto->setKey(pKey, keyLen)) {
+		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
+		if (m_crypto->setKey(pKey, keyLen)) 
+		{
 			m_bUsesPassword = true;
 			SecureZeroMemory(&param, sizeof(param));
 			return true;
@@ -140,11 +142,13 @@ bool CDbxMdb::EnterPassword(const BYTE *pKey, const size_t keyLen)
 
 static bool CheckOldPassword(HWND hwndDlg, CDbxMdb *db)
 {
-	if (db->usesPassword()) {
+	if (db->usesPassword()) 
+	{
 		TCHAR buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
-		ptrA oldPass(mir_utf8encodeT(buf));
-		if (!db->m_crypto->checkPassword(oldPass)) {
+		pass_ptrA oldPass(mir_utf8encodeT(buf));
+		if (!db->m_crypto->checkPassword(oldPass)) 
+		{
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
 			return false;
 		}
@@ -311,8 +315,6 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
-	// main menu item
-	// main menu item
 	CMenuItem mi;
 
 	// main menu item
@@ -320,10 +322,8 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
-	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[1].hIcolib;
-	_A2T tszTitle(db->GetMenuTitle());
-	mi.name.t = tszTitle;
+	mi.name.a = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
