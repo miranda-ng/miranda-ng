@@ -25,106 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-//VERY VERY VERY BASIC ENCRYPTION FUNCTION
-
-static void Encrypt(char *msg, BOOL up)
-{
-	int jump = (up) ? 5 : -5;
-	for (int i = 0; msg[i]; i++)
-		msg[i] = msg[i] + jump;
-}
-
-__forceinline void DecodeString(LPSTR buf)
-{
-	Encrypt(buf, FALSE);
-}
-
-struct VarDescr
-{
-	VarDescr(LPCSTR var, LPCSTR value) :
-		szVar(mir_strdup(var)),
-		szValue(mir_strdup(value))
-	{}
-
-	VarDescr(LPCSTR var, LPSTR value) :
-		szVar(mir_strdup(var)),
-		szValue(value)
-	{}
-
-	VarDescr(LPCSTR var, PBYTE value, int len) :
-		szVar(mir_strdup(var)),
-		szValue((char*)memcpy(mir_alloc(len), value, len)),
-		iLen(len)
-	{}
-
-	ptrA szVar, szValue;
-	int  iLen;
-};
-
-struct SettingUgraderParam
-{
-	CDbxMdb *db;
-	LPCSTR    szModule;
-	MCONTACT  contactID;
-	OBJLIST<VarDescr>* pList;
-};
-
-int sttSettingUgrader(const char *szSetting, LPARAM lParam)
-{
-	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
-	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
-		DBVARIANT dbv = { DBVT_UTF8 };
-		if (!param->db->GetContactSettingStr(param->contactID, param->szModule, szSetting, &dbv)) {
-			if (dbv.type == DBVT_UTF8) {
-				DecodeString(dbv.pszVal);
-				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
-			}
-			param->db->FreeVariant(&dbv);
-		}
-	}
-	return 0;
-}
-
-void sttContactEnum(MCONTACT contactID, const char *szModule, CDbxMdb *db)
-{
-	OBJLIST<VarDescr> arSettings(1);
-	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = sttSettingUgrader;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)&param;
-	db->EnumContactSettings(NULL, &dbces);
-
-	for (int i = 0; i < arSettings.getCount(); i++) {
-		VarDescr &p = arSettings[i];
-
-		size_t len;
-		BYTE *pResult = db->m_crypto->encodeString(p.szValue, &len);
-		if (pResult != NULL) {
-			DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
-			dbcws.value.type = DBVT_ENCRYPTED;
-			dbcws.value.pbVal = pResult;
-			dbcws.value.cpbVal = (WORD)len;
-			db->WriteContactSetting(contactID, &dbcws);
-
-			mir_free(pResult);
-		}
-	}
-}
-
-int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
-{
-	CDbxMdb *db = (CDbxMdb*)lParam;
-	sttContactEnum(NULL, szModule, db);
-
-	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
-		sttContactEnum(contactID, szModule, db);
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 int CDbxMdb::InitCrypt()
 {
@@ -190,9 +90,6 @@ int CDbxMdb::InitCrypt()
 
 		FreeVariant(&dbv);
 	}
-
-	if (bMissingKey)
-		EnumModuleNames(sttModuleEnum, this);
 
 	dbv.type = DBVT_BYTE;
 	if (!GetContactSetting(NULL, "CryptoEngine", "DatabaseEncryption", &dbv))
