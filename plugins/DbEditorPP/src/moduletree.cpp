@@ -774,7 +774,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	case 4: // Contacts root
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
 		case MENU_EXPORTCONTACT:
-			exportDB(INVALID_CONTACT_ID, 0);
+			exportDB(INVALID_CONTACT_ID, "");
 			break;
 		case MENU_IMPORTFROMTEXT:
 			ImportSettingsMenuItem(NULL);
