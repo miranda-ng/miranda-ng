@@ -50,9 +50,9 @@ class txn_ptr
 	MDB_txn *m_txn;
 
 public:
-	__forceinline txn_ptr(MDB_env *pEnv, bool bReadOnly = false)
+	__forceinline txn_ptr(MDB_env *pEnv)
 	{
-		mdb_txn_begin(pEnv, NULL, (bReadOnly) ? MDB_RDONLY : 0, &m_txn);
+		mdb_txn_begin(pEnv, NULL, 0, &m_txn);
 	}
 
 	__forceinline ~txn_ptr()
