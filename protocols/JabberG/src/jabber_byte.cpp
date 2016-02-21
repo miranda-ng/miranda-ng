@@ -375,7 +375,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			for (i = 0; i < 40 && buffer[i + 5] == buf[i]; i++);
 
 			memset(data, 0, sizeof(data));
-			data[1] = (i >= 20) ? 0 : 2;
+			data[1] = (i >= 40) ? 0 : 2;
 			data[0] = 5;
 			data[3] = 1;
 			Netlib_Send(hConn, (char*)data, 10, 0);
@@ -386,7 +386,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			if (jbt->state == JBT_ERROR)
 				break;
 
-			if (i >= 20 && (this->*jbt->pfnSend)(hConn, jbt->ft) == TRUE)
+			if (i >= 40 && (this->*jbt->pfnSend)(hConn, jbt->ft) == TRUE)
 				jbt->state = JBT_DONE;
 			else
 				jbt->state = JBT_ERROR;
