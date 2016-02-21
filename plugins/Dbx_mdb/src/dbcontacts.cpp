@@ -106,7 +106,8 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	}
 
 	DBEventSortingKey keyVal = { 0, 0, contactID };
-	key = { sizeof(keyVal), &keyVal }; MDB_val data;
+	key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
+	MDB_val data;
 
 	txn_ptr trnlck(m_pMdbEnv, true);
 	cursor_ptr cursor(trnlck, m_dbEventsSort);

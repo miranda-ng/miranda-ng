@@ -136,7 +136,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	mir_cslockfull lck(m_csDbAccess);
 	
-	for (bool bContactDecremented = false; ; [=](){ if (bContactDecremented) cc->Revert(); }(), Remap())
+	for (cc->Snapshot();; cc->Revert(), Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
@@ -157,19 +157,17 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		}
 
 		// remove a event
-		key = { sizeof(MEVENT), &hDbEvent };
+		key.mv_size = sizeof(MEVENT); key.mv_data = &hDbEvent;
 		MDB_CHECK(mdb_del(txn, m_dbEvents, &key, &data), 1);
 
 		// update a contact
-		key.mv_size = sizeof(int); key.mv_data = &contactID;
+		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 
-		cc->Snapshot();
 		cc->dbc.dwEventCount--;
-		bContactDecremented = true;
 		if (cc->dbc.dwFirstUnread == hDbEvent)
 			FindNextUnread(txn, cc, key2);
 		
-		data = { sizeof(DBContact), &cc->dbc };
+		data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
 
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), 1);
 
