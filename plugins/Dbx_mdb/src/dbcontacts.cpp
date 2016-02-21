@@ -109,8 +109,8 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
 	MDB_val data;
 
-	txn_ptr trnlck(m_pMdbEnv, true);
-	cursor_ptr cursor(trnlck, m_dbEventsSort);
+	txn_ptr txn(m_pMdbEnv);
+	cursor_ptr cursor(txn, m_dbEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
 	{
@@ -120,6 +120,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		mdb_cursor_del(cursor, 0);
 	}
+	txn.commit();
 
 	return 0;
 }
@@ -242,7 +243,7 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		delete EI;
 	}
 
-	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	MDB_val keyc = { sizeof(MCONTACT), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
 
 	for (;; Remap())
 	{
@@ -294,7 +295,8 @@ void CDbxMdb::FillContacts()
 		cursor_ptr_ro cursor(m_curContacts);
 
 		MDB_val key, data;
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) 
+		{
 			DBContact *dbc = (DBContact*)data.mv_data;
 			if (dbc->dwSignature != DBCONTACT_SIGNATURE)
 				DatabaseCorruption(NULL);

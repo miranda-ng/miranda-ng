@@ -82,7 +82,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	mir_cslockfull lck(m_csDbAccess);
 	DWORD dwEventId = ++m_dwMaxEventId;
 
-	for (bool bContactIncremented = false; ;[=](){ if (bContactIncremented) cc->Revert(); }(), Remap()) {
+	for (cc->Snapshot();; cc->Revert(), Remap()) {
 		txn_ptr txn(m_pMdbEnv);
 
 		MDB_val key = { sizeof(int), &dwEventId }, data = { sizeof(DBEvent) + dbe.cbBlob, NULL };
@@ -98,9 +98,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		data.mv_size = 1; data.mv_data = "";
 		MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
-		cc->Snapshot();
 		cc->Advance(dwEventId, dbe);
-		bContactIncremented = true;
 		MDB_val keyc = { sizeof(int), &contactID }, datac = { sizeof(DBContact), &cc->dbc };
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
 
