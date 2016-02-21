@@ -61,18 +61,6 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
 	int settingNameLen = (int)strlen(szSetting);
 	int moduleNameLen = (int)strlen(szModule);
-	if (settingNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("GetContactSettingWorker() got a > 255 setting name length. \n");
-#endif
-		return 1;
-	}
-	if (moduleNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("GetContactSettingWorker() got a > 255 module name length. \n");
-#endif
-		return 1;
-	}
 
 	mir_cslock lck(m_csDbAccess);
 
@@ -524,18 +512,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
 	int settingNameLen = (int)strlen(szSetting);
 	int moduleNameLen = (int)strlen(szModule);
-	if (settingNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("DeleteContactSetting() got a > 255 setting name length. \n");
-#endif
-		return 1;
-	}
-	if (moduleNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("DeleteContactSetting() got a > 255 module name length. \n");
-#endif
-		return 1;
-	}
 
 	MCONTACT saveContact = contactID;
 	{
@@ -577,7 +553,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 		return -1;
 
 	int result = 0;
-	mir_cslock lck(m_csDbAccess);
 
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
@@ -586,8 +561,9 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 	LIST<char> arSettings(50);
 	{
+		mir_cslock lck(m_csDbAccess);
 		txn_ptr_ro trnlck(m_txn);
-		cursor_ptr cursor(trnlck, m_dbSettings);
+		cursor_ptr_ro cursor(m_curSettings);
 
 		MDB_val key = { sizeof(keySearch), &keySearch }, data;
 		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) {
