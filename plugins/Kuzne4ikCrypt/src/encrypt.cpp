@@ -25,9 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\..\libs\zlib\src\zlib.h"
 
+const BYTE iv0[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 struct ExternalKey
 {
 	BYTE  m_key[KEY_LENGTH];
+	BYTE  m_iv[KEY_LENGTH];
 	DWORD m_crc32;
 	BYTE  slack[BLOCK_SIZE - sizeof(DWORD)];
 };
@@ -62,16 +65,17 @@ bool CCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
 
 	ExternalKey tmp = { 0 };
 	memcpy(&tmp.m_key, m_key, KEY_LENGTH);
+	memcpy(&tmp.m_iv, m_iv, KEY_LENGTH);
 	tmp.m_crc32 = crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength());
 	getRandomBytes(tmp.slack, sizeof(tmp.slack));
 
 	BYTE tmpHash[32];
 	slow_hash(m_password, m_password.GetLength(), tmpHash);
 
-	BYTE ctx[kEcb14ContextLen];
-	init_ecb_14(tmpHash, ctx);
-	bool val = !encrypt_ecb(ctx, (BYTE*)&tmp, pKey, cbKeyLen);
-	free_ecb(ctx);
+	BYTE ctx[kCbc14ContextLen];
+	init_cbc_14(tmpHash, ctx, iv0, _countof(iv0));
+	bool val = !encrypt_cbc(ctx, (BYTE*)&tmp, pKey, cbKeyLen);
+	free_cbc(ctx);
 
 	return val;
 }
@@ -86,32 +90,37 @@ bool CCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 	slow_hash(m_password, m_password.GetLength(), tmpHash);
 
 
-	BYTE ctx[kEcb14ContextLen];
-	init_ecb_14(tmpHash, ctx);
+	BYTE ctx[kCbc14ContextLen];
+	init_cbc_14(tmpHash, ctx, iv0, _countof(iv0));
 
 	ExternalKey tmp = { 0 };
 
-	decrypt_ecb(ctx, (BYTE*)pKey, (BYTE*)&tmp, sizeof(tmp));
+	decrypt_cbc(ctx, (BYTE*)pKey, (BYTE*)&tmp, sizeof(tmp));
 
-	free_ecb(ctx);
+	free_cbc(ctx);
 
 	if (tmp.m_crc32 != crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength()))
 		return false;
 
 	memcpy(m_key, &tmp.m_key, KEY_LENGTH);
-	init_ecb_14(m_key, m_ctx);
+	memcpy(m_iv, &tmp.m_iv, KEY_LENGTH);
+	init_cbc_14(m_key, m_ctx, m_iv, KEY_LENGTH);
 
 	return m_valid = true;
 }
 
 bool CCrypt::generateKey(void)
 {
-	BYTE tmp[KEY_LENGTH];
-	if (!getRandomBytes(tmp, sizeof(tmp)))
+	BYTE tmp[KEY_LENGTH], tmpiv[KEY_LENGTH];
+	if (!getRandomBytes(tmp, sizeof(tmp)) || !getRandomBytes(tmpiv, sizeof(tmpiv)))
 		return false;
 
 	memcpy(m_key, tmp, KEY_LENGTH);
-	init_ecb_14(m_key, m_ctx);
+	memcpy(m_iv, tmpiv, KEY_LENGTH);
+	init_cbc_14(m_key, m_ctx, m_iv, _countof(m_iv));
+
+	SecureZeroMemory(tmp, _countof(tmp)); SecureZeroMemory(tmpiv, _countof(tmpiv));
+
 	return m_valid = true;
 }
 
@@ -163,7 +172,7 @@ BYTE* CCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen)
 
 	BYTE *result = (BYTE*)mir_alloc(cbLen);
 
-	if (encrypt_ecb(m_ctx, tmpBuf, result, cbLen)) {
+	if (encrypt_cbc(m_ctx, tmpBuf, result, cbLen)) {
 		mir_free(result);
 		return NULL;
 	}
@@ -199,7 +208,7 @@ void* CCrypt::decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen)
 
 	char *result = (char*)mir_alloc(bufLen + 1);
 
-	if (decrypt_ecb(m_ctx, LPBYTE(pBuf), (BYTE*)result, bufLen)) {
+	if (decrypt_cbc(m_ctx, LPBYTE(pBuf), (BYTE*)result, bufLen)) {
 		mir_free(result);
 		return NULL;
 	}

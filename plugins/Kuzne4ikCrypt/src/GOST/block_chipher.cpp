@@ -208,7 +208,7 @@ void DLL_IMPORT free_ecb(void* ctx)
      }
 }
 
-static int init_cbc_14_impl(unsigned char *key, void* ctx, unsigned char *iv, size_t ivLength)
+static int init_cbc_14_impl(unsigned char *key, void* ctx, const unsigned char *iv, size_t ivLength)
 {
      Context_cbc* context;
      INFOTECS_ASSERT(sizeof(Context_cbc)<=kCbc14ContextLen);
@@ -242,7 +242,7 @@ static int init_cbc_14_impl(unsigned char *key, void* ctx, unsigned char *iv, si
      return 0;
 }
 
-int DLL_IMPORT init_cbc_14(unsigned char *key, void* ctx, unsigned char *iv, size_t ivLength)
+int DLL_IMPORT init_cbc_14(unsigned char *key, void* ctx, const unsigned char *iv, size_t ivLength)
 {
      if(SelfTestGost14Cbc())
           return -1;
