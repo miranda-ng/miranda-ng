@@ -18,8 +18,8 @@ static HINSTANCE hBass = NULL;
 
 FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo)
 {
-	if (dliNotify == dliNotePreLoadLibrary)
-		return (FARPROC)hBass;
+	//if (dliNotify == dliNotePreLoadLibrary)
+	//	return (FARPROC)hBass;
 	return NULL;
 }
 
@@ -520,10 +520,6 @@ void LoadBassLibrary(const TCHAR *ptszPath)
 		hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 		CreateFrame();
 	}
-	else {
-		FreeLibrary(hBass);
-		hBass = NULL;
-	}
 }
 
 int OnFoldersChanged(WPARAM, LPARAM)
@@ -534,6 +530,7 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	if (hBass != NULL) {
 		BASS_Free();
 		FreeLibrary(hBass);
+		hBass = NULL;
 		UnhookEvent(hPlaySound);
 		DeleteFrame();
 	}
