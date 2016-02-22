@@ -95,7 +95,7 @@ static luaL_Reg msgbuttinsbarApi[] =
 
 #define MT_CUSTOMBUTTONCLICKDATA "CustomButtonClickData"
 
-static int bcd__call(lua_State *L)
+static int bcd_new(lua_State *L)
 {
 	CustomButtonClickData *bcd = (CustomButtonClickData*)lua_touserdata(L, 1);
 	if (bcd == NULL)
@@ -131,22 +131,17 @@ static int bcd__index(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg bcdMeta[] =
-{
-	{ "__call", bcd__call },
-	{ "__index", bcd__index },
-
-	{ NULL, NULL }
-};
-
 /***********************************************/
 
 extern "C" LUAMOD_API int luaopen_m_msg_buttonsbar(lua_State *L)
 {
 	luaL_newlib(L, msgbuttinsbarApi);
 
+	lua_register(L, MT_CUSTOMBUTTONCLICKDATA, bcd_new);
+
 	luaL_newmetatable(L, MT_CUSTOMBUTTONCLICKDATA);
-	luaL_setfuncs(L, bcdMeta, 0);
+	lua_pushcfunction(L, bcd__index);
+	lua_setfield(L, -2, "__index");
 	lua_pop(L, 1);
 
 	return 1;
