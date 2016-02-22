@@ -90,37 +90,65 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
 
-	// call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
-
 	// delete 
-	mir_cslock lck(m_csDbAccess);
+	mir_cslockfull lck(m_csDbAccess);
 
-	MDB_val key = { sizeof(MCONTACT), &contactID };
-
-	for (;; Remap()) {
+	MDB_val key = { sizeof(MCONTACT), &contactID }, data;
+	
+	for (;; Remap()) 
+	{
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, NULL), 0);
+		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, nullptr), 1);
 		if (trnlck.commit())
 			break;
 	}
 
-	DBEventSortingKey keyVal = { 0, 0, contactID };
-	key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
-	MDB_val data;
-
-	txn_ptr txn(m_pMdbEnv);
-	cursor_ptr cursor(txn, m_dbEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
 	{
-		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-		if (pKey->dwContactId != contactID)
-			return 0;
-
-		mdb_cursor_del(cursor, 0);
+		DBEventSortingKey keyVal = { 0, 0, contactID };
+		key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
+		txn_ptr txn(m_pMdbEnv);
+		cursor_ptr cursor(txn, m_dbEventsSort);
+		mdb_cursor_get(cursor, &key, &data, MDB_SET);
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+		{
+			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+			if (pKey->dwContactId != contactID)
+				break;
+			mdb_cursor_del(cursor, 0);
+		}
+		txn.commit();
 	}
-	txn.commit();
+	{
+		DBSettingKey keyS = { contactID, 0 };
+		memset(keyS.szSettingName, 0, sizeof(keyS.szSettingName));
+
+		txn_ptr txn(m_pMdbEnv);
+		cursor_ptr cursor(txn, m_dbSettings);
+
+		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
+
+		mdb_cursor_get(cursor, &key, &data, MDB_SET);
+
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+		{
+			DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
+			if (pKey->dwContactID != contactID)
+				break;
+			mdb_cursor_del(cursor, 0);
+		}
+		txn.commit();
+	}
+
+	m_contactCount--;
+
+	m_cache->FreeCachedContact(contactID);
+	if (contactID == m_hLastCachedContact)
+		m_hLastCachedContact = NULL;
+
+
+	lck.unlock();
+	// call notifier while outside mutex
+	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
 	return 0;
 }
@@ -278,7 +306,6 @@ void DBCachedContact::Snapshot()
 void DBCachedContact::Revert()
 {
 	memcpy(&dbc, &tmp_dbc, sizeof(dbc));
-	memset(&tmp_dbc, 0, sizeof(dbc));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
