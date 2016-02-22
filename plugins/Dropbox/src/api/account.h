@@ -5,30 +5,31 @@ class GetAccessTokenRequest : public HttpRequest
 {
 public:
 	GetAccessTokenRequest(const char *requestToken) :
-		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/oauth2/token")
+		HttpRequest(REQUEST_POST, DROPBOX_API_OLD "/oauth2/token")
 	{
-		AddBasicAuthHeader(DROPBOX_APP_KEY, DROPBOX_API_SECRET);
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "grant_type=authorization_code&code=%s", requestToken);
+		CMStringA data(CMStringDataFormat::FORMAT,
+			"client_id=%s&client_secret=%s&grant_type=authorization_code&code=%s",
+			DROPBOX_APP_KEY, DROPBOX_API_SECRET, requestToken);
 		SetData(data.GetBuffer(), data.GetLength());
 	}
 };
 
-class DisableAccessTokenRequest : public HttpRequest
+/*class DisableAccessTokenRequest : public HttpRequest
 {
 public:
 	DisableAccessTokenRequest() :
-		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/disable_access_token")
+		HttpRequest(REQUEST_POST, DROPBOX_API_OLD "/disable_access_token")
 	{
 	}
-};
+};*/
 
-class GetAccountInfoRequest : public HttpRequest
+class GetCurrentAccountRequest : public HttpRequest
 {
 public:
-	GetAccountInfoRequest(const char *token) :
-		HttpRequest(REQUEST_GET, DROPBOX_API_URL "/account/info")
+	GetCurrentAccountRequest(const char *token) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/users/get_current_account")
 	{
 		AddBearerAuthHeader(token);
 	}

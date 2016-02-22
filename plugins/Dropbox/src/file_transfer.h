@@ -1,22 +1,6 @@
 #ifndef _FILE_TRANSFER_H_
 #define _FILE_TRANSFER_H_
 
-class TransferException
-{
-	CMStringA message;
-
-public:
-	TransferException(const char *message) :
-		message(message)
-	{
-	}
-
-	const char* what() const throw()
-	{
-		return message.c_str();
-	}
-};
-
 struct FileTransferParam
 {
 	HANDLE hProcess;

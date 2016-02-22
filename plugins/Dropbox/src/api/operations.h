@@ -4,54 +4,88 @@
 class ShareRequest : public HttpRequest
 {
 public:
-	ShareRequest(const char *token, const char *path, bool useShortUrl, const char *root = "auto") :
-		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_API_URL "/shares/%s/%s", root, path)
+	ShareRequest(const char *token, const char *path, time_t expires = 0) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/sharing/create_shared_link_with_settings")
 	{
-		if (!useShortUrl)
-			AddUrlParameter("short_url=false");
-
 		AddBearerAuthHeader(token);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		if (expires)
+			root << JSONNode("expires", (unsigned int)expires);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
 	}
 };
 
 class DeleteRequest : public HttpRequest
 {
 public:
-	DeleteRequest(const char *token, const char *path, const char *root = "auto") :
-		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/fileops/delete")
+	DeleteRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/delete")
 	{
 		AddBearerAuthHeader(token);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/json");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "root=%s&path=%s", root, path);
-		data.Replace('\\', '/');
-		SetData(data.GetBuffer(), data.GetLength());
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
 	}
 };
 
 class CreateFolderRequest : public HttpRequest
 {
 public:
-	CreateFolderRequest(const char *token, const char *path, const char *root = "auto") :
-		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder")
+	CreateFolderRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/create_folder")
 	{
 		AddBearerAuthHeader(token);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/json");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "root=%s&path=%s", root, path);
-		data.Replace('\\', '/');
-		SetData(data.GetBuffer(), data.GetLength());
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
 	}
 };
 
 class GetMetadataRequest : public HttpRequest
 {
 public:
-	GetMetadataRequest(const char *token, const char *path, const char *root = "auto") :
-		HttpRequest(REQUEST_GET, FORMAT, DROPBOX_API_URL "/metadata/%s/%s", root, path)
+	GetMetadataRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/get_metadata")
 	{
 		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
+	}
+};
+
+class ListFolderRequest : public HttpRequest
+{
+public:
+	ListFolderRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/list_folder")
+	{
+		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
 	}
 };
 

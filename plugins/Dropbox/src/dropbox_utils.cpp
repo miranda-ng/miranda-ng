@@ -1,5 +1,21 @@
 #include "stdafx.h"
 
+CMStringA CDropbox::PreparePath(const char *path)
+{
+	CMStringA result("/");
+	result.Append(path);
+	result.Replace("\\", "/");
+	return result;
+}
+
+CMStringA CDropbox::PreparePath(const TCHAR *path)
+{
+	CMStringA result("/");
+	result.Append(ptrA(mir_utf8encodeW(path)));
+	result.Replace("\\", "/");
+	return result;
+}
+
 char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 {
 	switch (status) {
@@ -28,13 +44,23 @@ char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 	return "Unknown error";
 }
 
-void CDropbox::HandleHttpResponseError(NETLIBHTTPREQUEST *response)
+void CDropbox::HandleJsonResponseError(NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
-		throw TransferException(HttpStatusToText(HTTP_STATUS_ERROR));
+		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 
-	if (response->resultCode != HTTP_STATUS_OK)
-		throw TransferException(HttpStatusToText((HTTP_STATUS)response->resultCode));
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty()) {
+		if (response->dataLength)
+			throw DropboxException(response->pData);
+		throw DropboxException(HttpStatusToText((HTTP_STATUS)response->resultCode));
+	}
+
+	JSONNode error = root.at("error_summary");
+	if (error.empty())
+		return;
+
+	throw DropboxException(error.as_string().c_str());
 }
 
 MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob)

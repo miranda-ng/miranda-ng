@@ -84,10 +84,10 @@ private:
 	static void __cdecl RequestAccountInfo(void*);
 
 	// transfers
-	void SendFile(const char *path, const char *data, size_t size);
-	void SendFileChunkedFirst(const char *data, size_t size, char *uploadId, size_t &offset);
-	void SendFileChunkedNext(const char *data, size_t size, const char *uploadId, size_t &offset);
-	void SendFileChunkedLast(const char *path, const char *uploadId);
+	void UploadFile(const char *path, const char *data, size_t size);
+	void StartUploadSession(const char *data, size_t size, char *sessionId);
+	void AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t &offset);
+	void FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, const char *path);
 
 	void CreateFolder(const char *encodedPath);
 
@@ -110,8 +110,11 @@ private:
 	static void DisableSrmmButton(MCONTACT hContact);
 
 	// utils
+	static CMStringA PreparePath(const char *path);
+	static CMStringA PreparePath(const TCHAR *path);
+
 	static char* HttpStatusToText(HTTP_STATUS status);
-	static void HandleHttpResponseError(NETLIBHTTPREQUEST *response);
+	static void HandleJsonResponseError(NETLIBHTTPREQUEST *response);
 
 	static MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 

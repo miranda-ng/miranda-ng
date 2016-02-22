@@ -1,40 +1,38 @@
 #include "stdafx.h"
 
-void CDropbox::SendFile(const char *path, const char *data, size_t size)
+void CDropbox::UploadFile(const char *path, const char *data, size_t size)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	UploadFileRequest request(token, encodedPath, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
-	HandleHttpResponseError(response);
+
+	HandleJsonResponseError(response);
 }
 
-void CDropbox::SendFileChunkedFirst(const char *data, size_t size, char *uploadId, size_t &offset)
+void CDropbox::StartUploadSession(const char *data, size_t size, char *sessionId)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	UploadFileChunkRequest request(token, data, size);
+	StartUploadSessionRequest request(token, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleHttpResponseError(response);
+	HandleJsonResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
 		return;
 
-	JSONNode node = root.at("upload_id");
-	mir_strcpy(uploadId, node.as_string().c_str());
-
-	node = root.at("offset");
-	offset = node.as_int();
+	JSONNode node = root.at("session_id");
+	mir_strcpy(sessionId, node.as_string().c_str());
 }
 
-void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *uploadId, size_t &offset)
+void CDropbox::AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t &offset)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	UploadFileChunkRequest request(token, uploadId, offset, data, size);
+	AppendToUploadSessionRequest request(token, sessionId, offset, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleHttpResponseError(response);
+	HandleJsonResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
@@ -43,12 +41,13 @@ void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *up
 	offset = root.at("offset").as_int();
 }
 
-void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
+void CDropbox::FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, const char *path)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	UploadFileChunkRequest request(token, uploadId, path);
+	FinishUploadSessionRequest request(token, sessionId, offset, path, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
-	HandleHttpResponseError(response);
+
+	HandleJsonResponseError(response);
 }
 
 void CDropbox::CreateFolder(const char *path)
@@ -61,17 +60,17 @@ void CDropbox::CreateFolder(const char *path)
 	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
 		return;
 
-	HandleHttpResponseError(response);
+	HandleJsonResponseError(response);
 }
 
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
-	ShareRequest request(token, path, useShortUrl);
+	//bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
+	ShareRequest request(token, path);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleHttpResponseError(response);
+	HandleJsonResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
@@ -92,14 +91,13 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 		if (ftp->ptszFolders) {
 			for (int i = 0; ftp->ptszFolders[i]; i++) {
 				if (ftp->isTerminated)
-					throw TransferException("Transfer was terminated");
+					throw DropboxException("Transfer was terminated");
 
-				ptrA utf8_folderName(mir_utf8encodeW(ftp->ptszFolders[i]));
-
-				instance->CreateFolder(utf8_folderName);
-				if (!strchr(utf8_folderName, '\\')) {
+				CMStringA path = PreparePath(ftp->ptszFolders[i]);
+				instance->CreateFolder(path);
+				if (!strchr(path, '\\')) {
 					char url[MAX_PATH];
-					instance->CreateDownloadUrl(utf8_folderName, url);
+					instance->CreateDownloadUrl(path, url);
 					ftp->AddUrl(url);
 				}
 			}
@@ -107,11 +105,11 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 		for (int i = 0; ftp->pfts.ptszFiles[i]; i++) {
 			if (ftp->isTerminated)
-				throw TransferException("Transfer was terminated");
+				throw DropboxException("Transfer was terminated");
 
 			FILE *hFile = _tfopen(ftp->pfts.ptszFiles[i], _T("rb"));
 			if (hFile == NULL)
-				throw TransferException("Unable to open file");
+				throw DropboxException("Unable to open file");
 
 			const TCHAR *fileName = NULL;
 			if (!ftp->relativePathStart)
@@ -129,7 +127,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			ftp->pfts.tszCurrentFile = _tcsrchr(ftp->pfts.ptszFiles[i], '\\') + 1;
 
 			size_t offset = 0;
-			char uploadId[32];
+			char sessionId[32];
 			int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;
 			if (fileSize < 1024 * 1024)
 				chunkSize = DROPBOX_FILE_CHUNK_SIZE / 20;
@@ -140,22 +138,24 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			while (!feof(hFile) && fileSize != offset) {
 				try {
 					if (ferror(hFile))
-						throw TransferException("Error while file sending");
+						throw DropboxException("Error while file sending");
 
 					if (ftp->isTerminated)
-						throw TransferException("Transfer was terminated");
+						throw DropboxException("Transfer was terminated");
 
 					size_t size = fread(data, sizeof(char), chunkSize, hFile);
 
-					if (offset == 0)
-						instance->SendFileChunkedFirst(data, size, uploadId, offset);
+					if (offset == 0) {
+						instance->StartUploadSession(data, size, sessionId);
+						offset += size;
+					}
 					else
-						instance->SendFileChunkedNext(data, size, uploadId, offset);
+						instance->AppendToUploadSession(data, size, sessionId, offset);
 
 					ftp->pfts.currentFileProgress += size;
 					ftp->pfts.totalProgress += size;
 				}
-				catch (TransferException&) {
+				catch (DropboxException&) {
 					mir_free(data);
 					fclose(hFile);
 					throw;
@@ -167,15 +167,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			fclose(hFile);
 
 			if (ftp->pfts.currentFileProgress < ftp->pfts.currentFileSize)
-				throw TransferException("Transfer was terminated");
+				throw DropboxException("Transfer was terminated");
 
-			ptrA utf8_fileName(mir_utf8encodeW(fileName));
-
-			instance->SendFileChunkedLast(utf8_fileName, uploadId);
+			CMStringA path = PreparePath(fileName);
+			instance->FinishUploadSession(0, 0, sessionId, offset, path);
 
 			if (!_tcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
-				instance->CreateDownloadUrl(utf8_fileName, url);
+				instance->CreateDownloadUrl(path, url);
 				ftp->AddUrl(url);
 			}
 
@@ -185,7 +184,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
 		}
 	}
-	catch (TransferException &ex) {
+	catch (DropboxException &ex) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
 		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
 		return ACKRESULT_FAILED;

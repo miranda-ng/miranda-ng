@@ -153,7 +153,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 		static commands[] =
 		{
 			{ "help", &CDropbox::CommandHelp },
-			{ "content", &CDropbox::CommandContent },
+			{ "list", &CDropbox::CommandContent },
 			{ "share", &CDropbox::CommandShare },
 			{ "delete", &CDropbox::CommandDelete }
 		};

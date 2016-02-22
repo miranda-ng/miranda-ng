@@ -4,39 +4,84 @@
 class UploadFileRequest : public HttpRequest
 {
 public:
-	UploadFileRequest(const char *token, const char *fileName, const char *data, size_t size, const char *root = "auto") :
-		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/files_put/%s/%s", root, fileName)
+	UploadFileRequest(const char *token, const char *path, const char *data, size_t size) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload")
 	{
 		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/octet-stream");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string params = root.write();
+		AddHeader("Dropbox-API-Arg", params.c_str());
+
 		SetData(data, size);
 	}
 };
 
-class UploadFileChunkRequest : public HttpRequest
+class StartUploadSessionRequest : public HttpRequest
 {
 public:
-	UploadFileChunkRequest(const char *token, const char *data, size_t size) :
-		HttpRequest(REQUEST_PUT, DROPBOX_APICONTENT_URL "/chunked_upload")
+	StartUploadSessionRequest(const char *token, const char *data, size_t size) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/start")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
+
 		SetData(data, size);
 	}
+};
 
-	UploadFileChunkRequest(const char *token, const char *uploadId, size_t offset, const char *data, size_t size) :
-		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/chunked_upload?upload_id=%s&offset=%i", uploadId, offset)
+class AppendToUploadSessionRequest : public HttpRequest
+{
+public:
+	AppendToUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *data, size_t size) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/append")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
+
+		JSONNode root(JSON_NODE);
+		root
+			<< JSONNode("session_id", sessionId)
+			<< JSONNode("offset", offset);
+
+		json_string params = root.write();
+		AddHeader("Dropbox-API-Arg", params.c_str());
+
 		SetData(data, size);
 	}
+};
 
-	UploadFileChunkRequest(const char *token, const char *uploadId, const char *path, const char *root = "auto") :
-		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_APICONTENT_URL "/commit_chunked_upload/%s/%s", root, path)
+class FinishUploadSessionRequest : public HttpRequest
+{
+public:
+	FinishUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *path, const char *data, size_t size) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/finish")
 	{
 		AddBearerAuthHeader(token);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-		AddUrlParameter("upload_id=%s", uploadId);
+		AddHeader("Content-Type", "application/octet-stream");
+
+		JSONNode cursor(JSON_NODE);
+		cursor.set_name("cursor");
+		cursor
+			<< JSONNode("session_id", sessionId)
+			<< JSONNode("offset", offset);
+
+		JSONNode commit(JSON_NODE);
+		commit.set_name("commit");
+		commit << JSONNode("path", path);
+
+		JSONNode root(JSON_NODE);
+		root 
+			<< cursor
+			<< commit;
+
+		json_string params = root.write();
+		AddHeader("Dropbox-API-Arg", params.c_str());
+
+		SetData(data, size);
 	}
 };
 
