@@ -68,7 +68,7 @@ private:
 		*obj = NULL;
 	}
 
-	static int lua__new(lua_State *L)
+	static int lua_new(lua_State *L)
 	{
 		T *udata = (T*)lua_newuserdata(L, sizeof(T));
 		memset(udata, 0, sizeof(T));
@@ -139,11 +139,9 @@ public:
 	{
 		MT::name = tname;
 
-		lua_register(L, MT::name, lua__new);
+		lua_register(L, MT::name, lua_new);
 
 		luaL_newmetatable(L, MT::name);
-		lua_pushcfunction(L, lua__new);
-		lua_setfield(L, -2, "__call");
 		lua_pushcfunction(L, lua__index);
 		lua_setfield(L, -2, "__index");
 		lua_pushcfunction(L, lua__gc);
