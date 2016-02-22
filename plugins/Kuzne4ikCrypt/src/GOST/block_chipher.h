@@ -93,7 +93,7 @@ void DLL_IMPORT free_ecb(void* ctx);
  * @return 0 если все преобразование прошло успешно
  * @return -1 если произошла ошибка
  */
-int DLL_IMPORT  init_cbc_14(unsigned char *key, void* ctx, unsigned char *iv, size_t ivLength);
+int DLL_IMPORT  init_cbc_14(unsigned char *key, void* ctx, const unsigned char *iv, size_t ivLength);
 
 /** @brief Удаление контекста cbc
  *

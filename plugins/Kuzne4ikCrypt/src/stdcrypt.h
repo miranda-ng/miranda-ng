@@ -29,8 +29,9 @@ struct CCrypt : public MICryptoEngine, public MZeroedObject
 	CMStringA m_password;
 
 	BYTE      m_key[KEY_LENGTH];
+	BYTE      m_iv [KEY_LENGTH];
 
-	BYTE m_ctx[kEcb14ContextLen];
+	BYTE m_ctx[kCbc14ContextLen];
 
 	STDMETHODIMP_(void) destroy();
 
