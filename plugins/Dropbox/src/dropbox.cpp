@@ -65,9 +65,9 @@ void CDropbox::RequestAccountInfo(void *p)
 	MCONTACT hContact = self->GetDefaultContact();
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	GetAccountInfoRequest request(token);
+	GetCurrentAccountRequest request(token);
 	NLHR_PTR response(request.Send(self->hNetlibConnection));
-	HandleHttpResponseError(response);
+	HandleJsonResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())
@@ -77,18 +77,27 @@ void CDropbox::RequestAccountInfo(void *p)
 	if (!referral_link.empty())
 		db_set_s(hContact, MODULE, "Homepage", referral_link.as_string().c_str());
 
-	JSONNode display_name = root.at("display_name");
-	if (!display_name.empty()) {
-		CMString tszDisplayName(display_name.as_mstring());
-		int pos = tszDisplayName.ReverseFind(' ');
-		if (pos != -1) {
-			db_set_ts(hContact, MODULE, "LastName", tszDisplayName.Mid(pos + 1));
-			db_set_ts(hContact, MODULE, "FirstName", tszDisplayName.Left(pos));
-		}
-		else {
-			db_set_ts(hContact, MODULE, "FirstName", tszDisplayName);
-			db_unset(hContact, MODULE, "LastName");
-		}
+	JSONNode email = root.at("email");
+	if (!email.empty())
+		db_set_s(hContact, MODULE, "e-mail", email.as_string().c_str());
+
+	JSONNode name = root.at("name");
+	if (!name.empty()) {
+		db_set_s(hContact, MODULE, "FirstName", name.at("given_name").as_string().c_str());
+		db_set_s(hContact, MODULE, "LastName", name.at("surname").as_string().c_str());
+		/*JSONNode display_name = root.at("display_name");
+		if (!display_name.empty()) {
+			CMString tszDisplayName(display_name.as_mstring());
+			int pos = tszDisplayName.ReverseFind(' ');
+			if (pos != -1) {
+				db_set_ts(hContact, MODULE, "LastName", tszDisplayName.Mid(pos + 1));
+				db_set_ts(hContact, MODULE, "FirstName", tszDisplayName.Left(pos));
+			}
+			else {
+				db_set_ts(hContact, MODULE, "FirstName", tszDisplayName);
+				db_unset(hContact, MODULE, "LastName");
+			}
+		}*/
 	}
 
 	JSONNode country = root.at("country");
@@ -103,7 +112,7 @@ void CDropbox::RequestAccountInfo(void *p)
 		}
 	}
 
-	JSONNode quota_info = root.at("quota_info");
+	/*JSONNode quota_info = root.at("quota_info");
 	if (!quota_info.empty()) {
 		ULONG lTotalQuota = quota_info.at("quota").as_int();
 		ULONG lNormalQuota = quota_info.at("normal").as_int();
@@ -114,13 +123,13 @@ void CDropbox::RequestAccountInfo(void *p)
 		db_set_dw(hContact, MODULE, "TotalQuota", lTotalQuota);
 
 		db_set_s(hContact, "CList", "StatusMsg", CMStringA(FORMAT, Translate("Free %ld of %ld MB"), (lTotalQuota - lNormalQuota) / (1024 * 1024), lTotalQuota / (1024 * 1024)));
-	}
+	}*/
 }
 
 void CDropbox::DestroyAccessToken()
 {
-	DisableAccessTokenRequest request;
-	NLHR_PTR response(request.Send(hNetlibConnection));
+	//DisableAccessTokenRequest request;
+	//NLHR_PTR response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");
 	MCONTACT hContact = CDropbox::GetDefaultContact();
@@ -191,7 +200,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	try {
 		RequestAccountInfo(instance);
 	}
-	catch (TransferException &ex) {
+	catch (DropboxException &ex) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
 		return 0;
 	}

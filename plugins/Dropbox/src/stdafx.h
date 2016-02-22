@@ -36,14 +36,30 @@
 
 class CDropbox;
 
-#define DROPBOX_API_VER "1"
-#define DROPBOX_API_ROOT "sandbox"
-#define DROPBOX_WWW_URL "https://www.dropbox.com/"
-#define DROPBOX_API_URL "https://api.dropbox.com/" DROPBOX_API_VER
-#define DROPBOX_APICONTENT_URL "https://api-content.dropbox.com/" DROPBOX_API_VER
+#define DROPBOX_API_VER "2"
+#define DROPBOX_WWW_URL "https://www.dropbox.com/1"
+#define DROPBOX_API_OLD "https://api.dropboxapi.com/1"
+#define DROPBOX_API_RPC "https://api.dropboxapi.com/" DROPBOX_API_VER
+#define DROPBOX_API_CU "https://content.dropboxapi.com/" DROPBOX_API_VER
 
 #define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
 #include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
+
+class DropboxException
+{
+	CMStringA message;
+
+public:
+	DropboxException(const char *message) :
+		message(message)
+	{
+	}
+
+	const char* what() const throw()
+	{
+		return message.c_str();
+	}
+};
 
 #include "dropbox_dialogs.h"
 #include "dropbox_options.h"
