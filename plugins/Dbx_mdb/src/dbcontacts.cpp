@@ -106,25 +106,12 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 			break;
 	}
 	{
-		LIST<void> events(50, NumericKeySortT);
-		{
-			DBEventSortingKey keyVal = { 0, 0, contactID };
-			key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
-
-			txn_ptr_ro txn(m_txn);
-			cursor_ptr_ro cursor(m_curEventsSort);
-			mdb_cursor_get(cursor, &key, &data, MDB_SET);
-			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
-			{
-				DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-				if (pKey->dwContactId != contactID)
-					break;
-				events.insert((void*)pKey->dwEventId);
-			}
-		}
+		LIST<EventItem> events(50);
+		GatherContactHistory(contactID, events);
 		while (events.getCount())
 		{
-			DeleteEvent(contactID, (MEVENT)events[0]);
+			DeleteEvent(contactID, events[0]->eventId);
+			delete events[0];
 			events.remove(0);
 		}
 	}
