@@ -45,7 +45,7 @@ public:
 		JSONNode root(JSON_NODE);
 		root
 			<< JSONNode("session_id", sessionId)
-			<< JSONNode("offset", offset);
+			<< JSONNode("offset", (unsigned long)offset);
 
 		json_string params = root.write();
 		AddHeader("Dropbox-API-Arg", params.c_str());
@@ -67,7 +67,7 @@ public:
 		cursor.set_name("cursor");
 		cursor
 			<< JSONNode("session_id", sessionId)
-			<< JSONNode("offset", offset);
+			<< JSONNode("offset", (unsigned long)offset);
 
 		JSONNode commit(JSON_NODE);
 		commit.set_name("commit");
