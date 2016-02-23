@@ -91,6 +91,9 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		return 1;
 
 	// delete 
+	// call notifier while outside mutex
+	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
+	
 	mir_cslockfull lck(m_csDbAccess);
 
 	MDB_val key = { sizeof(MCONTACT), &contactID }, data;
@@ -102,23 +105,30 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		if (trnlck.commit())
 			break;
 	}
-
 	{
-		DBEventSortingKey keyVal = { 0, 0, contactID };
-		key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
-		txn_ptr txn(m_pMdbEnv);
-		cursor_ptr cursor(txn, m_dbEventsSort);
-		mdb_cursor_get(cursor, &key, &data, MDB_SET);
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+		LIST<void> events(50, NumericKeySortT);
 		{
-			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-			if (pKey->dwContactId != contactID)
-				break;
-			mdb_cursor_del(cursor, 0);
+			DBEventSortingKey keyVal = { 0, 0, contactID };
+			key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
+
+			txn_ptr_ro txn(m_txn);
+			cursor_ptr_ro cursor(m_curEventsSort);
+			mdb_cursor_get(cursor, &key, &data, MDB_SET);
+			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+			{
+				DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+				if (pKey->dwContactId != contactID)
+					break;
+				events.insert((void*)pKey->dwEventId);
+			}
 		}
-		txn.commit();
+		while (events.getCount())
+		{
+			DeleteEvent(contactID, (MEVENT)events[0]);
+			events.remove(0);
+		}
 	}
-	{
+	{// this code not delete all settings 
 		DBSettingKey keyS = { contactID, 0 };
 		memset(keyS.szSettingName, 0, sizeof(keyS.szSettingName));
 
@@ -147,8 +157,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 
 	lck.unlock();
-	// call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
 	return 0;
 }
