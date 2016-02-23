@@ -16,10 +16,13 @@ Copyright (C) 2010, 2011 tico-tico
 
 static HINSTANCE hBass = NULL;
 
-FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo)
+FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 {
-	//if (dliNotify == dliNotePreLoadLibrary)
-	//	return (FARPROC)hBass;
+	switch (dliNotify)
+	{
+	case dliNotePreGetProcAddress:
+		return GetProcAddress(hBass, dli->dlp.szProcName);
+	}
 	return NULL;
 }
 
