@@ -337,7 +337,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 
 				/* get data */
 				ZeroMemory(&pack, sizeof(pack));
-				lstrcpy(pack.szFileName, CharLower(wfd.cFileName)); /* buffer safe */
+				mir_tstrncpy(pack.szFileName, CharLower(wfd.cFileName), _countof(pack.szFileName)); /* buffer safe */
 				if (LoadPackData(&pack, FALSE, pszFileVersionHeader)) {
 					pack.ftFileDate = wfd.ftLastWriteTime;
 					fPackFound = TRUE;
@@ -423,7 +423,7 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 	BOOL fDirCreated = FALSE, fOneEnabled = FALSE;
 
 	/* main path */
-	if (!GetModuleFileName(NULL, szDir, sizeof(szDir)))
+	if (!GetModuleFileName(NULL, szDir, _countof(szDir)))
 		return;
 	pszFile = _tcsrchr(szDir, _T('\\'));
 	if (pszFile != NULL)

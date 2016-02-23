@@ -345,7 +345,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		EnumChildWindows(hwndDlg, RemovePropForAllChildsEnumProc, (LPARAM)PROP_CONTEXTSTATE);
 		{
 			TCHAR text[64];
-			mir_sntprintf(text, sizeof(text), _T("unhooked window 0x%X for context help\n"), hwndDlg);
+			mir_sntprintf(text, _countof(text), _T("unhooked window 0x%X for context help\n"), hwndDlg);
 			OutputDebugString(text);
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)pfnWndProc);
@@ -410,7 +410,7 @@ static LRESULT CALLBACK HelpSendMessageHookProc(int code, WPARAM wParam, LPARAM 
 				}
 				{
 					TCHAR text[64];
-					mir_sntprintf(text, sizeof(text), _T("hooked window 0x%X for context help\n"), msg->hwnd);
+					mir_sntprintf(text, _countof(text), _T("hooked window 0x%X for context help\n"), msg->hwnd);
 					OutputDebugString(text);
 				}
 				break;
