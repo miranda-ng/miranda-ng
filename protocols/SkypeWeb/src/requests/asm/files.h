@@ -11,11 +11,10 @@ public:
 			<< CHAR_VALUE("Authorization", CMStringA(::FORMAT, "skype_token %s", li.api.szToken))
 			<< CHAR_VALUE("Content-Type", "text/json");
 
-		JSONNode node, jPermissions, jPermission(JSON_ARRAY), jReadPerm(JSON_STRING);
+		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
 		jPermissions.set_name("permissions");
 		jPermission.set_name(szContact);
-		jReadPerm = "read";
-		jPermission << jReadPerm;
+		jPermission << JSONNode("", "read");
 		jPermissions << jPermission;
 		node << JSONNode("type", "sharing/file") << JSONNode("filename", szFileName) << jPermissions;
 
