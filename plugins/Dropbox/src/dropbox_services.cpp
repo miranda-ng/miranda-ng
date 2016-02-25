@@ -58,52 +58,11 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	hTransferContact = 0;
 
 	TCHAR **paths = (TCHAR**)pccsd->lParam;
-
+	ftp->SetWorkingDirectory(paths[0]);
 	for (int i = 0; paths[i]; i++) {
 		if (PathIsDirectory(paths[i]))
-			ftp->totalFolders++;
-		else
-			ftp->pfts.totalFiles++;
-	}
-
-	ftp->ptszFolders = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->totalFolders + 1));
-	ftp->ptszFolders[ftp->totalFolders] = NULL;
-
-	ftp->pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->pfts.totalFiles + 1));
-	ftp->pfts.ptszFiles[ftp->pfts.totalFiles] = NULL;
-
-	for (int i = 0, j = 0, k = 0; paths[i]; i++) {
-		if (PathIsDirectory(paths[i])) {
-			if (!ftp->relativePathStart) {
-				TCHAR *rootFolder = paths[j];
-				TCHAR *relativePath = _tcsrchr(rootFolder, '\\') + 1;
-				ftp->relativePathStart = relativePath - rootFolder;
-			}
-
-			ftp->ptszFolders[j] = mir_tstrdup(&paths[i][ftp->relativePathStart]);
-
-			j++;
-		}
-		else {
-			if (!ftp->pfts.tszWorkingDir) {
-				TCHAR *path = paths[j];
-				int length = _tcsrchr(path, '\\') - path;
-				ftp->pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
-				mir_tstrncpy(ftp->pfts.tszWorkingDir, paths[j], length + 1);
-				ftp->pfts.tszWorkingDir[length] = '\0';
-
-			}
-
-			ftp->pfts.ptszFiles[k] = mir_wstrdup(paths[i]);
-
-			FILE *hFile = _wfopen(paths[i], L"rb");
-			if (hFile != NULL) {
-				_fseeki64(hFile, 0, SEEK_END);
-				ftp->pfts.totalBytes += _ftelli64(hFile);
-				fclose(hFile);
-			}
-			k++;
-		}
+			continue;
+		ftp->AddFile(paths[i]);
 	}
 
 	ULONG fileId = InterlockedIncrement(&hFileProcess);

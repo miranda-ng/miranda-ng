@@ -96,26 +96,10 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	try {
-		if (ftp->ptszFolders) {
-			for (int i = 0; ftp->ptszFolders[i]; i++) {
-				if (ftp->isTerminated)
-					throw DropboxException("Transfer was terminated");
-
-				char path[MAX_PATH];
-				PreparePath(ftp->ptszFolders[i], path);
-				instance->CreateFolder(path);
-				if (!strchr(path, '\\')) {
-					char url[MAX_PATH];
-					instance->CreateDownloadUrl(path, url);
-					ftp->AddUrl(url);
-				}
-			}
-		}
-
-		ftp->First();
+		ftp->FirstFile();
 		do
 		{
-			const TCHAR *fileName = &ftp->GetCurrentFileName()[ftp->relativePathStart];
+			const TCHAR *fileName = &ftp->GetCurrentFilePath()[ftp->relativePathStart];
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
@@ -154,7 +138,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				instance->CreateDownloadUrl(path, url);
 				ftp->AddUrl(url);
 			}
-		} while (ftp->Next());
+		} while (ftp->NextFile());
 	}
 	catch (DropboxException &ex) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
@@ -175,8 +159,8 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	if (res == ACKRESULT_SUCCESS)
 	{
 		CMStringA urls;
-		for (int i = 0; i < ftp->urlList.getCount(); i++)
-			urls.AppendFormat("%s\r\n", ftp->urlList[i]);
+		for (int i = 0; i < ftp->urls.getCount(); i++)
+			urls.AppendFormat("%s\r\n", ftp->urls[i]);
 
 		instance->Report(ftp->hContact, urls.GetBuffer());
 	}
@@ -197,7 +181,7 @@ UINT CDropbox::SendFilesAndEventAsync(void *owner, void *arg)
 	TRANSFERINFO ti = { 0 };
 	ti.hProcess = ftp->hProcess;
 	ti.status = res;
-	ti.data = ftp->urlList.getArray();
+	ti.data = ftp->urls.getArray();
 
 	NotifyEventHooks(instance->hFileSentEventHook, ftp->hContact, (LPARAM)&ti);
 
