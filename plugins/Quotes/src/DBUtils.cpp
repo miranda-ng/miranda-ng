@@ -45,4 +45,3 @@ bool Quotes_DBReadDouble(MCONTACT hContact, const char* szModule, const char* sz
 	db_free(&dbv);
 	return bResult;
 }
-

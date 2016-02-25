@@ -26,5 +26,3 @@ void ShowComError(_com_error& e, const tstring& rsAdditionalInfo)
 	LogIt(sErrorMsg);
 	Quotes_MessageBox(NULL, sErrorMsg.c_str(), MB_OK | MB_ICONERROR);
 }
-
-

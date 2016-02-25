@@ -106,9 +106,9 @@ namespace
 		for (int i = 0; i < cItems; ++i) {
 			const CQuotesProviderBase::CQuote* pQuote = get_quote_ptr_from_lb_index(hwndList, i);
 			if ((nullptr != pQuote)
-				&& ((0 == quotes_stricmp(rsQuoteID.c_str(), pQuote->GetID().c_str()))
-					|| (0 == quotes_stricmp(rsQuoteID.c_str(), pQuote->GetName().c_str()))
-					|| (0 == quotes_stricmp(rsQuoteID.c_str(), pQuote->GetSymbol().c_str())))) {
+				&& ((0 == mir_tstrcmpi(rsQuoteID.c_str(), pQuote->GetID().c_str()))
+					|| (0 == mir_tstrcmpi(rsQuoteID.c_str(), pQuote->GetName().c_str()))
+					|| (0 == mir_tstrcmpi(rsQuoteID.c_str(), pQuote->GetSymbol().c_str())))) {
 				return i;
 			}
 		}
@@ -218,7 +218,7 @@ namespace
 							[&apCurrent, pProvider](const CQuotesProviderBase::CQuote& quote)
 						{
 							if (apCurrent.end() == std::find_if(apCurrent.begin(), apCurrent.end(),
-								[&quote](const CQuotesProviderBase::CQuote* pQuote) { return 0 == quotes_stricmp(pQuote->GetID().c_str(), quote.GetID().c_str()); })) {
+								[&quote](const CQuotesProviderBase::CQuote* pQuote) { return 0 == mir_tstrcmpi(pQuote->GetID().c_str(), quote.GetID().c_str()); })) {
 								pProvider->WatchForQuote(quote, false);
 							}
 						});
@@ -228,7 +228,7 @@ namespace
 						{
 							if (aTemp.end() ==
 								std::find_if(aTemp.begin(), aTemp.end(),
-									[pQuote](const CQuotesProviderBase::CQuote& quote) { return 0 == quotes_stricmp(pQuote->GetID().c_str(), quote.GetID().c_str()); })) {
+									[pQuote](const CQuotesProviderBase::CQuote& quote) { return 0 == mir_tstrcmpi(pQuote->GetID().c_str(), quote.GetID().c_str()); })) {
 								pProvider->WatchForQuote(*pQuote, true);
 							}
 

@@ -151,7 +151,7 @@ bool get_inline_data(const IHTMLNode::THTMLNodePtr& pNode, CGoogleInfo& rInfo)
 			IHTMLNode::THTMLNodePtr pName = pChild->GetChildPtr(0);
 
 			tstring sName = pName->GetText();
-			if (0 == quotes_stricmp(sName.c_str(), _T("Open"))) {
+			if (0 == mir_tstrcmpi(sName.c_str(), _T("Open"))) {
 				IHTMLNode::THTMLNodePtr pValue = pChild->GetChildPtr(1);
 				tstring sValue = pValue->GetText();
 				if (true == get_double_value(sValue, rInfo.m_dOpenValue)) {

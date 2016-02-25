@@ -21,8 +21,8 @@ inline bool is_rate_watched(MCONTACT hContact,
 {
 	tstring sFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
 	tstring sTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
-	return ((0 == quotes_stricmp(from.GetID().c_str(), sFrom.c_str()))
-		&& (0 == quotes_stricmp(to.GetID().c_str(), sTo.c_str())));
+	return ((0 == mir_tstrcmpi(from.GetID().c_str(), sFrom.c_str()))
+		&& (0 == mir_tstrcmpi(to.GetID().c_str(), sTo.c_str())));
 }
 
 bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
@@ -102,7 +102,7 @@ typedef IHTMLNode::THTMLNodePtr THTMLNodePtr;
 bool parse_html_node(const THTMLNodePtr& pNode, double& rdRate)
 {
 	tstring sID = pNode->GetAttribute(_T("id"));
-	if ((false == sID.empty()) && (0 == quotes_stricmp(sID.c_str(), _T("currency_converter_result")))) {
+	if ((false == sID.empty()) && (0 == mir_tstrcmpi(sID.c_str(), _T("currency_converter_result")))) {
 		size_t cChild = pNode->GetChildCount();
 		// 			assert(1 == cChild);
 		if (cChild > 0) {
@@ -218,8 +218,8 @@ TWatchedRates g_aWatchedRates;
 
 bool is_equal_rate(const CQuotesProviderGoogle::CRateInfo& riL, const CQuotesProviderGoogle::CRateInfo& riR)
 {
-	return ((0 == quotes_stricmp(riL.m_from.GetID().c_str(), riR.m_from.GetID().c_str()))
-		&& ((0 == quotes_stricmp(riL.m_to.GetID().c_str(), riR.m_to.GetID().c_str()))));
+	return ((0 == mir_tstrcmpi(riL.m_from.GetID().c_str(), riR.m_from.GetID().c_str()))
+		&& ((0 == mir_tstrcmpi(riL.m_to.GetID().c_str(), riR.m_to.GetID().c_str()))));
 }
 
 INT_PTR CALLBACK GoogleOptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -419,8 +419,8 @@ namespace
 	{
 		tstring sFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
 		tstring sTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
-		return ((0 == quotes_stricmp(rsFromID.c_str(), sFrom.c_str()))
-			&& (0 == quotes_stricmp(rsToID.c_str(), sTo.c_str())));
+		return ((0 == mir_tstrcmpi(rsFromID.c_str(), sFrom.c_str()))
+			&& (0 == mir_tstrcmpi(rsToID.c_str(), sTo.c_str())));
 	}
 }
 
