@@ -82,7 +82,7 @@ CQuotesProviders::TQuotesProviderPtr CQuotesProviders::FindProvider(const tstrin
 	for (TQuotesProviders::const_iterator i = m_apProviders.begin(); i != m_apProviders.end(); ++i) {
 		const TQuotesProviderPtr& pProvider = *i;
 		const IQuotesProvider::CProviderInfo& rInfo = pProvider->GetInfo();
-		if (0 == ::quotes_stricmp(rsName.c_str(), rInfo.m_sName.c_str())) {
+		if (0 == ::mir_tstrcmpi(rsName.c_str(), rInfo.m_sName.c_str())) {
 			pResult = pProvider;
 			break;
 		}

@@ -114,13 +114,13 @@ void parse_row(const THTMLNodePtr& pRow, TEconomicRates& raRates)
 			if (pCol) {
 				tstring sColID = pCol->GetAttribute(_T("id"));
 				if (false == sColID.empty()) {
-					if (0 == quotes_stricmp(sColID.c_str(), _T("stock"))) {
+					if (0 == mir_tstrcmpi(sColID.c_str(), _T("stock"))) {
 						ri.m_sName = pCol->GetText();
 						if (false == ri.m_sName.empty()) {
 							++cColsHandled;
 						}
 					}
-					else if (0 == quotes_stricmp(sSidID.str().c_str(), sColID.c_str())) {
+					else if (0 == mir_tstrcmpi(sSidID.str().c_str(), sColID.c_str())) {
 						tstring sRate = pCol->GetText();
 						if ((false == sRate.empty()) && (true == string2double(sRate.c_str(), ri.m_dCurRate))) {
 							ri.m_dPrevRate = ri.m_dCurRate;

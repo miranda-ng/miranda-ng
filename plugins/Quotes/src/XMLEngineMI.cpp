@@ -77,9 +77,9 @@ public:
 
 	virtual void Write(tostream& o)const
 	{
-		safe_string<TCHAR> ss(xmlToString(m_hXML, NULL));
-		if (ss.m_p)
-			o << (char*)T2Utf(ss.m_p);
+		ptrT ss(xmlToString(m_hXML, NULL));
+		if (ss != NULL)
+			o << (char*)T2Utf(ss);
 	}
 
 private:
@@ -98,7 +98,7 @@ CXMLEngineMI::~CXMLEngineMI()
 IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 {
 	IXMLNode::TXMLNodePtr pResult;
-	FILE* stream;
+	FILE *stream;
 	if (0 == ::_tfopen_s(&stream, rsFileName.c_str(), _T("r"))) {
 		struct _stat st;
 		if (-1 != ::_fstat(::_fileno(stream), &st)) {
@@ -109,9 +109,9 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 				pBuffer[cBytes] = '\0';
 
 				int nLen = (int)cBytes;
-				mir_safe_string<TCHAR> ss(mir_utf8decodeT(pBuffer));
-				if (ss.m_p) {
-					HXML h = xmlParseString(ss.m_p, &nLen, NULL);
+				ptrT ss(mir_utf8decodeT(pBuffer));
+				if (ss) {
+					HXML h = xmlParseString(ss, &nLen, NULL);
 					if (h)
 						pResult = IXMLNode::TXMLNodePtr(new CXMLNodeMI(h, true));
 				}

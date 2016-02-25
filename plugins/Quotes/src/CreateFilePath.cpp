@@ -2,7 +2,7 @@
 
 static TCHAR InvalidSymbols[] = { _T('\\'), _T('/'), _T(':'), _T('*'), _T('?'), _T('"'), _T('<'), _T('>'), _T('|') };
 
-TCHAR replace_invalid_symbol(TCHAR chr)
+static TCHAR replace_invalid_symbol(TCHAR chr)
 {
 	for (int i = 0; i < _countof(InvalidSymbols); ++i)
 		if (chr == InvalidSymbols[i])
