@@ -26,8 +26,8 @@ void CSkypeProto::SendFileThread(void *p)
 	}
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
-
-	SendRequest(new ASMObjectCreateRequest(li, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, ptrA(getStringA(fup->hContact, SKYPE_SETTINGS_ID))), T2Utf(fup->tszFileName)), &CSkypeProto::OnASMObjectCreated, fup);
+	T2Utf uszFileName(fup->tszFileName);
+	SendRequest(new ASMObjectCreateRequest(li, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, ptrA(getStringA(fup->hContact, SKYPE_SETTINGS_ID))), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
 }
 
 void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
@@ -63,6 +63,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		fup->size = lBytes;
 		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
 		SendRequest(new ASMObjectUploadRequest(li, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
+		fclose(pFile);
 	}
 }
 
@@ -75,7 +76,7 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 		return;
 	}
 
-	TCHAR *tszFile = fup->tszFileName;
+	TCHAR *tszFile = _tcsrchr(fup->tszFileName, L'\\') + 1;
 
 	HXML xml = xmlCreateNode(L"URIObject", nullptr, 0);
 	xmlAddChild(xml, L"Title", tszFile);
