@@ -81,7 +81,6 @@ inline int quotes_stricmp(LPCTSTR p1, LPCTSTR p2)
 
 #include "resource.h"
 #include "version.h"
-#include "WorkingThread.h"
 #include "IconLib.h"
 #include "QuoteInfoDlg.h"
 #include "ModuleInfo.h"

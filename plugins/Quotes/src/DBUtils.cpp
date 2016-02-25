@@ -4,15 +4,12 @@ std::string Quotes_DBGetStringA(MCONTACT hContact, const char* szModule, const c
 {
 	std::string sResult;
 	char* pszSymbol = db_get_sa(hContact, szModule, szSetting);
-	if (NULL != pszSymbol)
-	{
+	if (NULL != pszSymbol) {
 		sResult = pszSymbol;
 		mir_free(pszSymbol);
 	}
 	else if (NULL != pszDefValue)
-	{
 		sResult = pszDefValue;
-	}
 
 	return sResult;
 }
@@ -21,15 +18,12 @@ std::wstring Quotes_DBGetStringW(MCONTACT hContact, const char* szModule, const 
 {
 	std::wstring sResult;
 	wchar_t* pszSymbol = db_get_wsa(hContact, szModule, szSetting);
-	if (NULL != pszSymbol)
-	{
+	if (NULL != pszSymbol) {
 		sResult = pszSymbol;
 		mir_free(pszSymbol);
 	}
 	else if (NULL != pszDefValue)
-	{
 		sResult = pszDefValue;
-	}
 
 	return sResult;
 }

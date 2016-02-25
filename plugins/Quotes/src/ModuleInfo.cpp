@@ -1,11 +1,8 @@
 #include "StdAfx.h"
 
-namespace
-{
-	CModuleInfo::TXMLEnginePtr g_pXMLEngine;
-	CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
-	mir_cs g_lmParsers;
-}
+static CModuleInfo::TXMLEnginePtr g_pXMLEngine;
+static CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
+static mir_cs g_lmParsers;
 
 CModuleInfo::CModuleInfo()
 	: m_bExtendedStatusInfo(1 == db_get_b(NULL, QUOTES_MODULE_NAME, "ExtendedStatus", false))
@@ -26,12 +23,10 @@ MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateI
 {
 	MWindowList hResult = NULL;
 	THandles::const_iterator i = m_ahWindowLists.find(rsKey);
-	if (i != m_ahWindowLists.end())
-	{
+	if (i != m_ahWindowLists.end()) {
 		hResult = i->second;
 	}
-	else if (bAllocateIfNonExist)
-	{
+	else if (bAllocateIfNonExist) {
 		hResult = WindowList_Create();
 		if (hResult)
 			m_ahWindowLists.insert(std::make_pair(rsKey, hResult));
@@ -56,8 +51,7 @@ CModuleInfo::TQuotesProvidersPtr CModuleInfo::GetQuoteProvidersPtr()
 
 CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 {
-	if (!g_pXMLEngine)
-	{
+	if (!g_pXMLEngine) {
 		mir_cslock lck(g_lmParsers);
 		if (!g_pXMLEngine)
 			g_pXMLEngine = TXMLEnginePtr(new CXMLEngineMI);
@@ -66,20 +60,12 @@ CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 	return g_pXMLEngine;
 }
 
-// void CModuleInfo::SetXMLEnginePtr(TXMLEnginePtr pEngine)
-// {
-// 	g_pXMLEngine = pEngine;
-// }
-
 CModuleInfo::THTMLEnginePtr CModuleInfo::GetHTMLEngine()
 {
-	if (!g_pHTMLEngine)
-	{
+	if (!g_pHTMLEngine) {
 		mir_cslock lck(g_lmParsers);
 		if (!g_pHTMLEngine)
-		{
 			g_pHTMLEngine = THTMLEnginePtr(new CHTMLEngineMS);
-		}
 	}
 
 	return g_pHTMLEngine;
@@ -96,18 +82,14 @@ bool CModuleInfo::Verify()
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_WIN95_CLASSES | ICC_LINK_CLASS;
 	if (FALSE == ::InitCommonControlsEx(&icc))
-	{
 		return false;
-	}
 
-	if (!GetXMLEnginePtr())
-	{
+	if (!GetXMLEnginePtr()) {
 		Quotes_MessageBox(NULL, TranslateT("Miranda could not load Quotes plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
 		return false;
 	}
 
-	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled()))
-	{
+	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled())) {
 		Quotes_MessageBox(NULL,
 			TranslateT("Miranda could not load Quotes plugin. Microsoft HTML parser is missing."),
 			MB_YESNO | MB_ICONQUESTION);

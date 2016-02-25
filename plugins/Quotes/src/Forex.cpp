@@ -66,9 +66,8 @@ INT_PTR QuotesMenu_EnableDisable(WPARAM, LPARAM)
 	const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
 	std::for_each(std::begin(rapProviders), std::end(rapProviders), [](const CQuotesProviders::TQuotesProviderPtr& pProvider) {
 		pProvider->RefreshSettings();
-		if (g_bAutoUpdate) {
+		if (g_bAutoUpdate)
 			pProvider->RefreshAllContacts();
-		}
 	});
 	UpdateMenu(g_bAutoUpdate);
 
@@ -191,11 +190,18 @@ int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static void WorkingThread(void *pParam)
+{
+	IQuotesProvider *pProvider = reinterpret_cast<IQuotesProvider*>(pParam);
+	assert(pProvider);
+
+	if (pProvider)
+		pProvider->Run();
+}
+
 int QuotesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 {
 	CHTTPSession::Init();
-
-	// 		HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
 
 	g_hEventWorkThreadStop = ::CreateEvent(NULL, TRUE, FALSE, NULL);
 	HookEvent(ME_USERINFO_INITIALISE, QuotesEventFunc_OnUserInfoInit);
@@ -227,10 +233,8 @@ int QuotesEventFunc_OnContactDeleted(WPARAM wParam, LPARAM)
 
 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
-	if (pProvider) {
+	if (pProvider)
 		pProvider->DeleteContact(hContact);
-	}
-
 	return 0;
 }
 
@@ -267,7 +271,7 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	odp.hInstance = g_hInstance;
 	odp.ptszTitle = _T(QUOTES_PROTOCOL_NAME);
 	odp.ptszGroup = LPGENT("Network");
-	odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
+	odp.hIcon = Quotes_LoadIconEx(IDI_ICON_MAIN);
 	odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
 
 	std::for_each(rapProviders.begin(), rapProviders.end(), boost::bind(&IQuotesProvider::ShowPropertyPage, _1, wp, boost::ref(odp)));

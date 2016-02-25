@@ -1,14 +1,11 @@
 #include "stdafx.h"
 
-namespace
+static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
-	{
-		switch (msg)
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
 		{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hWnd);
 			const IQuotesProvider* pProvider = reinterpret_cast<const IQuotesProvider*>(lp);
 			CQuotesProviderVisitorFormatSpecificator visitor;
 			pProvider->Accept(visitor);
@@ -23,16 +20,14 @@ namespace
 			::SetDlgItemText(hWnd, IDC_EDIT_VARIABLE, o.str().c_str());
 		}
 		break;
-		case WM_COMMAND:
-			if (BN_CLICKED == HIWORD(wp) && (IDOK == LOWORD(wp) || IDCANCEL == LOWORD(wp)))
-			{
-				::EndDialog(hWnd, IDOK);
-			}
-			break;
-		}
 
-		return FALSE;
+	case WM_COMMAND:
+		if (BN_CLICKED == HIWORD(wp) && (IDOK == LOWORD(wp) || IDCANCEL == LOWORD(wp)))
+			::EndDialog(hWnd, IDOK);
+		break;
 	}
+
+	return FALSE;
 }
 
 void show_variable_list(HWND hwndParent, const IQuotesProvider* pProvider)

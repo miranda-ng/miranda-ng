@@ -4,7 +4,7 @@ static HANDLE hExtraIcon;
 
 void Quotes_InitExtraIcons()
 {
-	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_QUOTE, QUOTES_PROTOCOL_NAME, Quotes_MakeIconName(ICON_STR_MAIN).c_str());
+	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_QUOTE, QUOTES_PROTOCOL_NAME, QUOTES_PROTOCOL_NAME "_" ICON_STR_MAIN);
 }
 
 bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
