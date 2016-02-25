@@ -10,24 +10,19 @@ struct FileTransferParam
 
 	bool isTerminated;
 
-	int totalFolders;
-	TCHAR **ptszFolders;
 	int relativePathStart;
 
-	LIST<char> urlList;
+	LIST<char> urls;
 
-	FileTransferParam() : urlList(1)
+	FileTransferParam() : urls(1)
 	{
 		hFile = NULL;
-
-		totalFolders = 0;
-		ptszFolders = NULL;
-		relativePathStart = 0;
-
 		hProcess = NULL;
 		hContact = NULL;
 
 		isTerminated = false;
+
+		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
@@ -39,7 +34,8 @@ struct FileTransferParam
 		pfts.totalBytes = 0;
 		pfts.totalFiles = 0;
 		pfts.totalProgress = 0;
-		pfts.pszFiles = NULL;
+		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (pfts.totalFiles + 1));
+		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
 
@@ -62,18 +58,36 @@ struct FileTransferParam
 			mir_free(pfts.pszFiles);
 		}
 
-		if (ptszFolders)
-		{
-			for (int i = 0; ptszFolders[i]; i++)
-			{
-				if (ptszFolders[i]) mir_free(ptszFolders[i]);
-			}
-			mir_free(ptszFolders);
-		}
+		for (int i = 0; i < urls.getCount(); i++)
+			mir_free(urls[i]);
+		urls.destroy();
+	}
 
-		for (int i = 0; i < urlList.getCount(); i++)
-			mir_free(urlList[i]);
-		urlList.destroy();
+	void SetWorkingDirectory(const TCHAR *path)
+	{
+		relativePathStart = _tcsrchr(path, '\\') - path + 1;
+		pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * relativePathStart);
+		mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
+		pfts.tszWorkingDir[relativePathStart - 1] = '\0';
+	}
+
+	void AddFile(const TCHAR *path)
+	{
+		pfts.ptszFiles = (TCHAR**)mir_realloc(pfts.ptszFiles, sizeof(TCHAR*) * (pfts.totalFiles + 2));
+		pfts.ptszFiles[pfts.totalFiles++] = mir_tstrdup(path);
+		pfts.ptszFiles[pfts.totalFiles] = NULL;
+
+		FILE *hFile = _tfopen(path, L"rb");
+		if (hFile != NULL) {
+			_fseeki64(hFile, 0, SEEK_END);
+			pfts.totalBytes += _ftelli64(hFile);
+			fclose(hFile);
+		}
+	}
+
+	void AddUrl(const char *url)
+	{
+		urls.insert(mir_strdup(url));
 	}
 
 	const TCHAR* GetCurrentFilePath() const
@@ -141,7 +155,7 @@ struct FileTransferParam
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, hProcess, (LPARAM)&pfts);
 	}
 
-	void First()
+	void FirstFile()
 	{
 		CloseCurrentFile();
 
@@ -154,7 +168,7 @@ struct FileTransferParam
 		CheckCurrentFile();
 	}
 
-	bool Next()
+	bool NextFile()
 	{
 		CloseCurrentFile();
 
@@ -174,11 +188,6 @@ struct FileTransferParam
 	void SetStatus(int status, LPARAM param = 0)
 	{
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, hProcess, param);
-	}
-
-	void AddUrl(const char *url)
-	{
-		urlList.insert(mir_strdup(url));
 	}
 };
 
