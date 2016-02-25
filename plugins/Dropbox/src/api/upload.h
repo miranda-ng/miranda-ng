@@ -10,11 +10,12 @@ public:
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
 
-		JSONNode root(JSON_NODE);
-		root << JSONNode("path", path);
+		JSONNode params(JSON_NODE);
+		params
+			<< JSONNode("path", path)
+			<< JSONNode("mode", "overwrite");
 
-		json_string params = root.write();
-		AddHeader("Dropbox-API-Arg", params.c_str());
+		AddHeader("Dropbox-API-Arg", params.write().c_str());
 
 		SetData(data, size);
 	}
@@ -42,13 +43,12 @@ public:
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
 
-		JSONNode root(JSON_NODE);
-		root
+		JSONNode params(JSON_NODE);
+		params
 			<< JSONNode("session_id", sessionId)
 			<< JSONNode("offset", (unsigned long)offset);
 
-		json_string params = root.write();
-		AddHeader("Dropbox-API-Arg", params.c_str());
+		AddHeader("Dropbox-API-Arg", params.write().c_str());
 
 		SetData(data, size);
 	}
@@ -71,15 +71,16 @@ public:
 
 		JSONNode commit(JSON_NODE);
 		commit.set_name("commit");
-		commit << JSONNode("path", path);
+		commit
+			<< JSONNode("path", path)
+			<< JSONNode("mode", "overwrite");
 
-		JSONNode root(JSON_NODE);
-		root 
+		JSONNode params(JSON_NODE);
+		params
 			<< cursor
 			<< commit;
 
-		json_string params = root.write();
-		AddHeader("Dropbox-API-Arg", params.c_str());
+		AddHeader("Dropbox-API-Arg", params.write().c_str());
 
 		SetData(data, size);
 	}

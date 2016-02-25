@@ -1,19 +1,17 @@
 #include "stdafx.h"
 
-CMStringA CDropbox::PreparePath(const char *path)
+char* CDropbox::PreparePath(const char *oldPath, char *newPath)
 {
 	CMStringA result("/");
-	result.Append(path);
+	result.Append(oldPath);
 	result.Replace("\\", "/");
-	return result;
+	mir_strcpy(newPath, result);
+	return newPath;
 }
 
-CMStringA CDropbox::PreparePath(const TCHAR *path)
+char* CDropbox::PreparePath(const TCHAR *oldPath, char *newPath)
 {
-	CMStringA result("/");
-	result.Append(ptrA(mir_utf8encodeW(path)));
-	result.Replace("\\", "/");
-	return result;
+	return PreparePath(ptrA(mir_utf8encodeW(oldPath)), newPath);
 }
 
 char* CDropbox::HttpStatusToText(HTTP_STATUS status)
@@ -49,12 +47,18 @@ void CDropbox::HandleJsonResponseError(NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty()) {
+	if (response->resultCode == HTTP_STATUS_OK)
+		return;
+
+	if (response->resultCode != HTTP_STATUS_CONFLICT) {
 		if (response->dataLength)
 			throw DropboxException(response->pData);
 		throw DropboxException(HttpStatusToText((HTTP_STATUS)response->resultCode));
 	}
+
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
+		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 
 	JSONNode error = root.at("error_summary");
 	if (error.empty())

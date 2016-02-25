@@ -3,6 +3,7 @@
 
 struct FileTransferParam
 {
+	FILE *hFile;
 	HANDLE hProcess;
 	MCONTACT hContact;
 	PROTOFILETRANSFERSTATUS pfts;
@@ -17,6 +18,8 @@ struct FileTransferParam
 
 	FileTransferParam() : urlList(1)
 	{
+		hFile = NULL;
+
 		totalFolders = 0;
 		ptszFolders = NULL;
 		relativePathStart = 0;
@@ -29,7 +32,7 @@ struct FileTransferParam
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
 		pfts.hContact = NULL;
-		pfts.currentFileNumber = 0;
+		pfts.currentFileNumber = -1;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
 		pfts.currentFileTime = 0;
@@ -39,10 +42,14 @@ struct FileTransferParam
 		pfts.pszFiles = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
+
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, hProcess, 0);
 	}
 
 	~FileTransferParam()
 	{
+		CloseCurrentFile();
+
 		if (pfts.tszWorkingDir)
 			mir_free(pfts.tszWorkingDir);
 
@@ -67,6 +74,106 @@ struct FileTransferParam
 		for (int i = 0; i < urlList.getCount(); i++)
 			mir_free(urlList[i]);
 		urlList.destroy();
+	}
+
+	const TCHAR* GetCurrentFilePath() const
+	{
+		return pfts.ptszFiles[pfts.currentFileNumber];
+	}
+
+	const TCHAR* GetCurrentFileName() const
+	{
+		return _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+	}
+
+	void OpenCurrentFile()
+	{
+		hFile = _tfopen(GetCurrentFilePath(), _T("rb"));
+		if (!hFile)
+			throw DropboxException("Unable to open file");
+		_fseeki64(hFile, 0, SEEK_END);
+		pfts.currentFileSize = _ftelli64(hFile);
+		rewind(hFile);
+	}
+
+	size_t ReadCurrentFile(void *data, size_t count)
+	{
+		return fread(data, sizeof(char), count, hFile);
+	}
+	
+	void CheckCurrentFile()
+	{
+		if (ferror(hFile))
+			throw DropboxException("Error while file sending");
+
+		if (isTerminated)
+			throw DropboxException("Transfer was terminated");
+	}
+
+	void CloseCurrentFile()
+	{
+		if (hFile != NULL)
+		{
+			fclose(hFile);
+			hFile = NULL;
+		}
+	}
+
+	const uint64_t GetCurrentFileSize() const
+	{
+		return pfts.currentFileSize;
+	}
+
+	const uint64_t GetCurrentFileChunkSize() const
+	{
+		int chunkSize = 1024 * 1024;
+		if (pfts.currentFileSize < chunkSize)
+			chunkSize = min(pfts.currentFileSize, chunkSize / 4);
+		else if (pfts.currentFileSize > 20 * chunkSize)
+			chunkSize = chunkSize * 4;
+		return chunkSize;
+	}
+
+	void Progress(size_t count)
+	{
+		pfts.currentFileProgress += count;
+		pfts.totalProgress += count;
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, hProcess, (LPARAM)&pfts);
+	}
+
+	void First()
+	{
+		CloseCurrentFile();
+
+		pfts.currentFileNumber = 0;
+		pfts.currentFileProgress = 0;
+		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, hProcess, (LPARAM)&pfts);
+
+		OpenCurrentFile();
+		CheckCurrentFile();
+	}
+
+	bool Next()
+	{
+		CloseCurrentFile();
+
+		if (++pfts.currentFileNumber == pfts.totalFiles)
+			return false;
+
+		pfts.currentFileProgress = 0;
+		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, hProcess, 0);
+
+		OpenCurrentFile();
+		CheckCurrentFile();
+
+		return true;
+	}
+
+	void SetStatus(int status, LPARAM param = 0)
+	{
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, hProcess, param);
 	}
 
 	void AddUrl(const char *url)

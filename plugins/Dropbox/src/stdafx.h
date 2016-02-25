@@ -61,6 +61,8 @@ public:
 	}
 };
 
+#define MODULE "Dropbox"
+
 #include "dropbox_dialogs.h"
 #include "dropbox_options.h"
 #include "http_request.h"
@@ -70,11 +72,9 @@ public:
 #include "file_transfer.h"
 #include "dropbox.h"
 
-#define MODULE "Dropbox"
-
 extern HINSTANCE g_hInstance;
 
-#define DROPBOX_FILE_CHUNK_SIZE 4 * 1024 * 1024 //4 MB
+#define DROPBOX_FILE_CHUNK_SIZE 1024 * 1024 //1 MB
 
 #define BBB_ID_FILE_SEND 10001
 
