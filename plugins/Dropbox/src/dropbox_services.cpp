@@ -96,12 +96,11 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 			ftp->pfts.ptszFiles[k] = mir_wstrdup(paths[i]);
 
-			FILE *file = _wfopen(paths[i], L"rb");
-			if (file != NULL) {
-				fseek(file, 0, SEEK_END);
-				ftp->pfts.totalBytes += ftell(file);
-				fseek(file, 0, SEEK_SET);
-				fclose(file);
+			FILE *hFile = _wfopen(paths[i], L"rb");
+			if (hFile != NULL) {
+				_fseeki64(hFile, 0, SEEK_END);
+				ftp->pfts.totalBytes += _ftelli64(hFile);
+				fclose(hFile);
 			}
 			k++;
 		}

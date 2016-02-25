@@ -20,8 +20,9 @@ void CDropbox::CommandContent(void *arg)
 {
 	CommandParam *param = (CommandParam*)arg;
 
-	CMStringA path = PreparePath((char*)param->data);
-	if (path.IsEmpty()) {
+	char path[MAX_PATH];
+	PreparePath((char*)param->data, path);
+	if (path == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
@@ -66,8 +67,9 @@ void CDropbox::CommandShare(void *arg)
 {
 	CommandParam *param = (CommandParam*)arg;
 
-	CMStringA path = PreparePath((char*)param->data);
-	if (path.IsEmpty()) {
+	char path[MAX_PATH];
+	PreparePath((char*)param->data, path);
+	if (path == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
@@ -100,8 +102,9 @@ void CDropbox::CommandDelete(void *arg)
 {
 	CommandParam *param = (CommandParam*)arg;
 
-	CMStringA path = PreparePath((char*)param->data);
-	if (path.IsEmpty()) {
+	char path[MAX_PATH];
+	PreparePath((char*)param->data, path);
+	if (path == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/delete");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());

@@ -84,10 +84,10 @@ private:
 	static void __cdecl RequestAccountInfo(void*);
 
 	// transfers
-	void UploadFile(const char *path, const char *data, size_t size);
+	char* UploadFile(const char *data, size_t size, char *path);
 	void StartUploadSession(const char *data, size_t size, char *sessionId);
-	void AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t &offset);
-	void FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, const char *path);
+	void AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t offset);
+	char* FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path);
 
 	void CreateFolder(const char *encodedPath);
 
@@ -110,8 +110,8 @@ private:
 	static void DisableSrmmButton(MCONTACT hContact);
 
 	// utils
-	static CMStringA PreparePath(const char *path);
-	static CMStringA PreparePath(const TCHAR *path);
+	static char* PreparePath(const char *oldPath, char *newPath);
+	static char* PreparePath(const TCHAR *oldPath, char *newPath);
 
 	static char* HttpStatusToText(HTTP_STATUS status);
 	static void HandleJsonResponseError(NETLIBHTTPREQUEST *response);
