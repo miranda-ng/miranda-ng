@@ -2,158 +2,153 @@
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 
-namespace
+LPCTSTR g_pszVariableQuoteName = _T("%quotename%");
+LPCTSTR g_pszVariableUserProfile = _T("%miranda_userdata%");
+
+void update_file_controls(HWND hDlg)
 {
-	LPCTSTR g_pszVariableQuoteName = _T("%quotename%");
-	LPCTSTR g_pszVariableUserProfile = _T("%miranda_userdata%");
+	bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_EXTERNAL_FILE));
 
-	void update_file_controls(HWND hDlg)
-	{
-		bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_EXTERNAL_FILE));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_FILE_NAME), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_SELECT_FILE), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_BROWSE), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_LOG_FILE_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_LOG_FILE_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_LOG_FILE_DESCRIPTION), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_LOG_FILE_CONDITION), bEnable);
+}
 
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_FILE_NAME), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_SELECT_FILE), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_BROWSE), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_LOG_FILE_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_LOG_FILE_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_LOG_FILE_DESCRIPTION), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_LOG_FILE_CONDITION), bEnable);
-	}
+void update_history_controls(HWND hDlg)
+{
+	bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_INTERNAL_HISTORY));
 
-	void update_history_controls(HWND hDlg)
-	{
-		bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_INTERNAL_HISTORY));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_HISTORY_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_HISTORY_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_HISTORY_DESCRIPTION), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_HISTORY_CONDITION), bEnable);
+}
 
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_HISTORY_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_HISTORY_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_HISTORY_DESCRIPTION), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_HISTORY_CONDITION), bEnable);
-	}
+void update_popup_controls(HWND hDlg)
+{
+	bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), bEnable);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), bEnable);
+}
 
-	void update_popup_controls(HWND hDlg)
-	{
-		bool bEnable = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), bEnable);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), bEnable);
-	}
+bool enable_popup_controls(HWND hDlg)
+{
+	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), bIsPopupServiceEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), bIsPopupServiceEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bIsPopupServiceEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), bIsPopupServiceEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), bIsPopupServiceEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), bIsPopupServiceEnabled);
 
-	bool enable_popup_controls(HWND hDlg)
-	{
-		bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), bIsPopupServiceEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), bIsPopupServiceEnabled);
+	return bIsPopupServiceEnabled;
+}
 
-		return bIsPopupServiceEnabled;
-	}
+void update_all_controls(HWND hDlg)
+{
+	bool bIsCheckedContactSpec = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_CONTACT_SPECIFIC));
+	bool bIsCheckedExternal = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_EXTERNAL_FILE));
 
-	void update_all_controls(HWND hDlg)
-	{
-		bool bIsCheckedContactSpec = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_CONTACT_SPECIFIC));
-		bool bIsCheckedExternal = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_EXTERNAL_FILE));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_EXTERNAL_FILE), bIsCheckedContactSpec);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_FILE_NAME), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_SELECT_FILE), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_BROWSE), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_LOG_FILE_FORMAT), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_LOG_FILE_FORMAT), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_LOG_FILE_DESCRIPTION), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_LOG_FILE_CONDITION), (bIsCheckedContactSpec&&bIsCheckedExternal));
 
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_EXTERNAL_FILE), bIsCheckedContactSpec);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_FILE_NAME), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_SELECT_FILE), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_BROWSE), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_LOG_FILE_FORMAT), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_LOG_FILE_FORMAT), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_LOG_FILE_DESCRIPTION), (bIsCheckedContactSpec&&bIsCheckedExternal));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_LOG_FILE_CONDITION), (bIsCheckedContactSpec&&bIsCheckedExternal));
+	bool bIsCheckedHistory = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_INTERNAL_HISTORY));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_INTERNAL_HISTORY), bIsCheckedContactSpec);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_HISTORY_FORMAT), (bIsCheckedContactSpec&&bIsCheckedHistory));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_HISTORY_FORMAT), (bIsCheckedContactSpec&&bIsCheckedHistory));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_HISTORY_DESCRIPTION), (bIsCheckedContactSpec&&bIsCheckedHistory));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_HISTORY_CONDITION), (bIsCheckedContactSpec&&bIsCheckedHistory));
 
-		bool bIsCheckedHistory = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_INTERNAL_HISTORY));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_INTERNAL_HISTORY), bIsCheckedContactSpec);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_HISTORY_FORMAT), (bIsCheckedContactSpec&&bIsCheckedHistory));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_HISTORY_FORMAT), (bIsCheckedContactSpec&&bIsCheckedHistory));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_HISTORY_DESCRIPTION), (bIsCheckedContactSpec&&bIsCheckedHistory));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_HISTORY_CONDITION), (bIsCheckedContactSpec&&bIsCheckedHistory));
+	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
+	bool bIsCheckedShowPopup = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
+}
 
-		bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
-		bool bIsCheckedShowPopup = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
-	}
-
-	std::vector<TCHAR> get_filter()
-	{
-		std::vector<TCHAR> aFilter;
-		LPCTSTR pszFilterParts[] = { LPGENT("Log Files (*.txt,*.log)"), _T("*.txt;*.log"), LPGENT("All files (*.*)"), _T("*.*") };
-		for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i)
-		{
-			tstring sPart = TranslateTS(pszFilterParts[i]);
-			std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
-			aFilter.push_back(_T('\0'));
-
-		}
+std::vector<TCHAR> get_filter()
+{
+	std::vector<TCHAR> aFilter;
+	LPCTSTR pszFilterParts[] = { LPGENT("Log Files (*.txt,*.log)"), _T("*.txt;*.log"), LPGENT("All files (*.*)"), _T("*.*") };
+	for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i) {
+		tstring sPart = TranslateTS(pszFilterParts[i]);
+		std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
 		aFilter.push_back(_T('\0'));
-		return aFilter;
-	}
-	void select_log_file(HWND hDlg)
-	{
-		std::vector<TCHAR> aFileBuffer(_MAX_PATH * 2, _T('\0'));
-		LPTSTR pszFile = &*aFileBuffer.begin();
-
-		std::vector<TCHAR> aFilterBuffer = get_filter();
-		LPCTSTR pszFilter = &*aFilterBuffer.begin();
-
-		OPENFILENAME ofn = { 0 };
-		ofn.lStructSize = sizeof(OPENFILENAME);
-		ofn.hwndOwner = hDlg;
-		ofn.lpstrFile = pszFile;
-		ofn.nMaxFile = (DWORD)aFileBuffer.size();
-		ofn.lpstrFilter = pszFilter;
-		ofn.nFilterIndex = 1;
-		ofn.hInstance = g_hInstance;
-		ofn.lpstrDefExt = _T("log");
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
-
-		BOOL b = GetOpenFileName(&ofn);
-		if (TRUE == b)
-		{
-			SetDlgItemText(hDlg, IDC_EDIT_FILE_NAME, ofn.lpstrFile);
-		}
-	}
-
-	struct CSettingWindowParam
-	{
-		CSettingWindowParam(MCONTACT hContact) : m_hContact(hContact), m_pPopupSettings(NULL){}
-		~CSettingWindowParam(){ delete m_pPopupSettings; }
-
-		MCONTACT m_hContact;
-		CPopupSettings* m_pPopupSettings;
-	};
-
-	inline CSettingWindowParam* get_param(HWND hWnd)
-	{
-		return reinterpret_cast<CSettingWindowParam*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-	}
-
-	void update_popup_controls_settings(HWND hDlg)
-	{
-		bool bIsColoursEnabled = 1 == IsDlgButtonChecked(hDlg, IDC_RADIO_USER_DEFINED_COLOURS);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_BGCOLOR), bIsColoursEnabled);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_TEXTCOLOR), bIsColoursEnabled);
-
-		bool bIsDelayEnabled = 1 == IsDlgButtonChecked(hDlg, IDC_DELAYCUSTOM);
-		::EnableWindow(::GetDlgItem(hDlg, IDC_DELAY), bIsDelayEnabled);
 
 	}
+	aFilter.push_back(_T('\0'));
+	return aFilter;
+}
+void select_log_file(HWND hDlg)
+{
+	std::vector<TCHAR> aFileBuffer(_MAX_PATH * 2, _T('\0'));
+	LPTSTR pszFile = &*aFileBuffer.begin();
 
-	INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
-	{
-		switch (msg)
-		{
-		case WM_INITDIALOG:
+	std::vector<TCHAR> aFilterBuffer = get_filter();
+	LPCTSTR pszFilter = &*aFilterBuffer.begin();
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hDlg;
+	ofn.lpstrFile = pszFile;
+	ofn.nMaxFile = (DWORD)aFileBuffer.size();
+	ofn.lpstrFilter = pszFilter;
+	ofn.nFilterIndex = 1;
+	ofn.hInstance = g_hInstance;
+	ofn.lpstrDefExt = _T("log");
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
+
+	BOOL b = GetOpenFileName(&ofn);
+	if (TRUE == b) {
+		SetDlgItemText(hDlg, IDC_EDIT_FILE_NAME, ofn.lpstrFile);
+	}
+}
+
+struct CSettingWindowParam
+{
+	CSettingWindowParam(MCONTACT hContact) : m_hContact(hContact), m_pPopupSettings(NULL) {}
+	~CSettingWindowParam() { delete m_pPopupSettings; }
+
+	MCONTACT m_hContact;
+	CPopupSettings* m_pPopupSettings;
+};
+
+inline CSettingWindowParam* get_param(HWND hWnd)
+{
+	return reinterpret_cast<CSettingWindowParam*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+}
+
+void update_popup_controls_settings(HWND hDlg)
+{
+	bool bIsColoursEnabled = 1 == IsDlgButtonChecked(hDlg, IDC_RADIO_USER_DEFINED_COLOURS);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_BGCOLOR), bIsColoursEnabled);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_TEXTCOLOR), bIsColoursEnabled);
+
+	bool bIsDelayEnabled = 1 == IsDlgButtonChecked(hDlg, IDC_DELAYCUSTOM);
+	::EnableWindow(::GetDlgItem(hDlg, IDC_DELAY), bIsDelayEnabled);
+
+}
+
+INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			CPopupSettings* pSettings = reinterpret_cast<CPopupSettings*>(lp);
 			TranslateDialogDefault(hWnd);
@@ -164,8 +159,7 @@ namespace
 
 			::CheckRadioButton(hWnd, IDC_RADIO_DEFAULT_COLOURS, IDC_RADIO_USER_DEFINED_COLOURS, (CPopupSettings::colourDefault == pSettings->GetColourMode()) ? IDC_RADIO_DEFAULT_COLOURS : IDC_RADIO_USER_DEFINED_COLOURS);
 			UINT n;
-			switch (pSettings->GetDelayMode())
-			{
+			switch (pSettings->GetDelayMode()) {
 			default:
 				assert(!"Unknown delay mode. Please, fix it");
 			case CPopupSettings::delayFromPopup:
@@ -187,21 +181,22 @@ namespace
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pSettings));
 		}
 		return TRUE;
-		case WM_COMMAND:
-			switch (LOWORD(wp))
-			{
-			case IDC_RADIO_DEFAULT_COLOURS:
-			case IDC_RADIO_USER_DEFINED_COLOURS:
-			case IDC_DELAYFROMPU:
-			case IDC_DELAYCUSTOM:
-			case IDC_DELAYPERMANENT:
-				update_popup_controls_settings(hWnd);
-				break;
 
-			case IDCANCEL:
-				::EndDialog(hWnd, IDCANCEL);
-				break;
-			case IDOK:
+	case WM_COMMAND:
+		switch (LOWORD(wp)) {
+		case IDC_RADIO_DEFAULT_COLOURS:
+		case IDC_RADIO_USER_DEFINED_COLOURS:
+		case IDC_DELAYFROMPU:
+		case IDC_DELAYCUSTOM:
+		case IDC_DELAYPERMANENT:
+			update_popup_controls_settings(hWnd);
+			break;
+
+		case IDCANCEL:
+			::EndDialog(hWnd, IDCANCEL);
+			break;
+
+		case IDOK:
 			{
 				CPopupSettings* pSettings = reinterpret_cast<CPopupSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
@@ -210,43 +205,30 @@ namespace
 				UINT nDelay = ::GetDlgItemInt(hWnd, IDC_DELAY, &bOk, FALSE);
 				CPopupSettings::EDelayMode nModeDelay = pSettings->GetDelayMode();
 				if (1 == ::IsDlgButtonChecked(hWnd, IDC_DELAYFROMPU))
-				{
 					nModeDelay = CPopupSettings::delayFromPopup;
-				}
-				else if (1 == ::IsDlgButtonChecked(hWnd, IDC_DELAYCUSTOM))
-				{
+				else if (1 == ::IsDlgButtonChecked(hWnd, IDC_DELAYCUSTOM)) {
 					if (TRUE == bOk)
-					{
 						nModeDelay = CPopupSettings::delayCustom;
-					}
-					else
-					{
+					else {
 						prepare_edit_ctrl_for_error(::GetDlgItem(hWnd, IDC_DELAY));
 						Quotes_MessageBox(hWnd, TranslateT("Enter integer value"), MB_OK | MB_ICONERROR);
 						bError = true;
 					}
 				}
 				else if (1 == ::IsDlgButtonChecked(hWnd, IDC_DELAYPERMANENT))
-				{
 					nModeDelay = CPopupSettings::delayPermanent;
-				}
-				if (false == bError)
-				{
+
+				if (false == bError) {
 					pSettings->SetDelayMode(nModeDelay);
 					if (TRUE == bOk)
-					{
 						pSettings->SetDelayTimeout(nDelay);
-					}
+
 					pSettings->SetHistoryFlag((1 == IsDlgButtonChecked(hWnd, IDC_CHECK_DONT_USE_POPUPHISTORY)));
 
 					if (1 == ::IsDlgButtonChecked(hWnd, IDC_RADIO_DEFAULT_COLOURS))
-					{
 						pSettings->SetColourMode(CPopupSettings::colourDefault);
-					}
 					else if (1 == ::IsDlgButtonChecked(hWnd, IDC_RADIO_USER_DEFINED_COLOURS))
-					{
 						pSettings->SetColourMode(CPopupSettings::colourUserDefined);
-					}
 
 					pSettings->SetColourBk(static_cast<COLORREF>(::SendDlgItemMessage(hWnd, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0)));
 					pSettings->SetColourText(static_cast<COLORREF>(::SendDlgItemMessage(hWnd, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0)));
@@ -255,21 +237,20 @@ namespace
 				}
 			}
 			break;
-			}
-			break;
 		}
-
-		return FALSE;
+		break;
 	}
 
-	INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
-	{
-		switch (msg)
-		{
-		case WM_INITDIALOG:
+	return FALSE;
+}
+
+INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
 		{
 			MCONTACT hContact = MCONTACT(lp);
-			TranslateDialogDefault(hWnd);
 
 			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 			assert(hWL);
@@ -300,8 +281,7 @@ namespace
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
 			tstring sLogFileName = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE);
-			if (true == sLogFileName.empty())
-			{
+			if (true == sLogFileName.empty()) {
 				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL), glfnResolveQuoteName);
 			}
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, sLogFileName.c_str());
@@ -328,69 +308,57 @@ namespace
 			::ShowWindow(hWnd, SW_SHOW);
 		}
 		break;
-		case WM_COMMAND:
-			switch (LOWORD(wp))
-			{
-			case IDC_BUTTON_HISTORY_DESCRIPTION:
-			case IDC_BUTTON_LOG_FILE_DESCRIPTION:
-			case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(get_param(hWnd)->m_hContact);
-					show_variable_list(hWnd, pProvider.get());
-				}
-				break;
 
-			case IDC_CHECK_CONTACT_SPECIFIC:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_all_controls(hWnd);
-				}
-				break;
-			case IDC_CHECK_EXTERNAL_FILE:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_file_controls(hWnd);
-				}
-				break;
-			case IDC_CHECK_INTERNAL_HISTORY:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_history_controls(hWnd);
-				}
-				break;
-			case IDC_CHECK_SHOW_POPUP:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_popup_controls(hWnd);
-				}
-				break;
-			case IDC_BUTTON_BROWSE:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					select_log_file(hWnd);
-				}
-				break;
-			case IDC_BUTTON_POPUP_SETTINGS:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					CSettingWindowParam* pParam = get_param(hWnd);
-					if (!pParam->m_pPopupSettings)
-					{
-						CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
+	case WM_COMMAND:
+		switch (LOWORD(wp)) {
+		case IDC_BUTTON_HISTORY_DESCRIPTION:
+		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
+		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
+			if (BN_CLICKED == HIWORD(wp)) {
+				CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(get_param(hWnd)->m_hContact);
+				show_variable_list(hWnd, pProvider.get());
+			}
+			break;
 
-						pParam->m_pPopupSettings = new CPopupSettings(pProvider.get());
-						pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
-					}
+		case IDC_CHECK_CONTACT_SPECIFIC:
+			if (BN_CLICKED == HIWORD(wp))
+				update_all_controls(hWnd);
+			break;
+		case IDC_CHECK_EXTERNAL_FILE:
+			if (BN_CLICKED == HIWORD(wp))
+				update_file_controls(hWnd);
+			break;
+		case IDC_CHECK_INTERNAL_HISTORY:
+			if (BN_CLICKED == HIWORD(wp))
+				update_history_controls(hWnd);
+			break;
+		case IDC_CHECK_SHOW_POPUP:
+			if (BN_CLICKED == HIWORD(wp))
+				update_popup_controls(hWnd);
+			break;
+		case IDC_BUTTON_BROWSE:
+			if (BN_CLICKED == HIWORD(wp))
+				select_log_file(hWnd);
+			break;
 
-					DialogBoxParam(g_hInstance,
-						MAKEINTRESOURCE(IDD_DIALOG_POPUP),
-						hWnd,
-						EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pParam->m_pPopupSettings));
+		case IDC_BUTTON_POPUP_SETTINGS:
+			if (BN_CLICKED == HIWORD(wp)) {
+				CSettingWindowParam* pParam = get_param(hWnd);
+				if (!pParam->m_pPopupSettings) {
+					CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
+
+					pParam->m_pPopupSettings = new CPopupSettings(pProvider.get());
+					pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
 				}
-				break;
 
-			case IDOK:
+				DialogBoxParam(g_hInstance,
+					MAKEINTRESOURCE(IDD_DIALOG_POPUP),
+					hWnd,
+					EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pParam->m_pPopupSettings));
+			}
+			break;
+
+		case IDOK:
 			{
 				CSettingWindowParam* pParam = get_param(hWnd);
 				MCONTACT hContact = pParam->m_hContact;
@@ -400,21 +368,15 @@ namespace
 				WORD nLogMode = lmDisabled;
 				UINT nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_EXTERNAL_FILE);
 				if (1 == nCheck)
-				{
 					nLogMode |= lmExternalFile;
-				}
 
 				nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_INTERNAL_HISTORY);
 				if (1 == nCheck)
-				{
 					nLogMode |= lmInternalHistory;
-				}
 
 				nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_SHOW_POPUP);
 				if (1 == nCheck)
-				{
 					nLogMode |= lmPopup;
-				}
 
 				bool bOk = true;
 				HWND hwndLogFile = ::GetDlgItem(hWnd, IDC_EDIT_FILE_NAME);
@@ -423,24 +385,20 @@ namespace
 				tstring sLogFile = get_window_text(hwndLogFile);
 				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-				if ((nLogMode&lmExternalFile))
-				{
-					if (true == sLogFile.empty())
-					{
+				if ((nLogMode&lmExternalFile)) {
+					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
 						Quotes_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
-					else if (true == sLogFileFormat.empty())
-					{
+					else if (true == sLogFileFormat.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFileFrmt);
 						Quotes_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
 				}
 
-				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
-				{
+				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 					Quotes_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
@@ -448,15 +406,13 @@ namespace
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
-				{
+				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					Quotes_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
-				if (true == bOk)
-				{
+				if (true == bOk) {
 					UINT nIfChangedHistory = IsDlgButtonChecked(hWnd, IDC_CHECK_HISTORY_CONDITION);
 					UINT nIfChangedFile = IsDlgButtonChecked(hWnd, IDC_CHECK_LOG_FILE_CONDITION);
 					bool bIfChangedPopup = (1 == IsDlgButtonChecked(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED));
@@ -471,8 +427,7 @@ namespace
 					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, sHistoryFormat.c_str());
 					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, sPopupFormat.c_str());
 
-					if (pParam->m_pPopupSettings)
-					{
+					if (pParam->m_pPopupSettings) {
 						pParam->m_pPopupSettings->SaveForContact(hContact);
 					}
 
@@ -480,58 +435,50 @@ namespace
 				}
 			}
 			break;
-			case IDCANCEL:
-				DestroyWindow(hWnd);
-				break;
-			}
-			break;
-		case WM_CLOSE:
+
+		case IDCANCEL:
 			DestroyWindow(hWnd);
 			break;
-		case WM_DESTROY:
-		{
-			CSettingWindowParam* pParam = get_param(hWnd);
-			SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
-
-			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
-			assert(hWL);
-			WindowList_Remove(hWL, hWnd);
-			Utils_SaveWindowPosition(hWnd, pParam->m_hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
-			delete pParam;
 		}
 		break;
-		}
 
-		return FALSE;
+	case WM_CLOSE:
+		DestroyWindow(hWnd);
+		break;
+
+	case WM_DESTROY:
+		CSettingWindowParam* pParam = get_param(hWnd);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
+
+		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
+		assert(hWL);
+		WindowList_Remove(hWL, hWnd);
+		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
+		delete pParam;
+		break;
 	}
-}
 
+	return FALSE;
+}
 
 void ShowSettingsDlg(MCONTACT hContact)
 {
 	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL, hContact);
-	if (NULL != hWnd)
-	{
+	if (NULL != hWnd) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 	}
-	else
-	{
-		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), NULL, EditSettingsPerContactDlgProc, LPARAM(hContact));
-	}
+	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), NULL, EditSettingsPerContactDlgProc, LPARAM(hContact));
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-namespace
+INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
-	{
-		switch (msg)
-		{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hWnd);
 			CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(lp);
@@ -562,34 +509,29 @@ namespace
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (pAdvSettings->GetShowPopupIfValueChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (true == enable_popup_controls(hWnd))
-			{
 				update_popup_controls(hWnd);
-			}
-
+	
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pAdvSettings));
 		}
 		return TRUE;
-		case WM_COMMAND:
-			switch (LOWORD(wp))
-			{
-			case IDOK:
+	
+	case WM_COMMAND:
+		switch (LOWORD(wp)) {
+		case IDOK:
 			{
 				WORD nLogMode = lmDisabled;
 				UINT nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_EXTERNAL_FILE);
-				if (1 == nCheck)
-				{
+				if (1 == nCheck) {
 					nLogMode |= lmExternalFile;
 				}
 
 				nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_INTERNAL_HISTORY);
-				if (1 == nCheck)
-				{
+				if (1 == nCheck) {
 					nLogMode |= lmInternalHistory;
 				}
 
 				nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_SHOW_POPUP);
-				if (1 == nCheck)
-				{
+				if (1 == nCheck) {
 					nLogMode |= lmPopup;
 				}
 
@@ -600,16 +542,13 @@ namespace
 				tstring sLogFile = get_window_text(hwndLogFile);
 				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 
-				if ((nLogMode&lmExternalFile))
-				{
-					if (true == sLogFile.empty())
-					{
+				if ((nLogMode&lmExternalFile)) {
+					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
 						Quotes_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
-					else if (true == sLogFileFormat.empty())
-					{
+					else if (true == sLogFileFormat.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFileFrmt);
 						Quotes_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
 						bOk = false;
@@ -618,8 +557,7 @@ namespace
 
 				HWND hwndHistoryFrmt = ::GetDlgItem(hWnd, IDC_EDIT_HISTORY_FORMAT);
 				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
-				{
+				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 					Quotes_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
@@ -627,15 +565,13 @@ namespace
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
-				{
+				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					Quotes_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
-				if (true == bOk)
-				{
+				if (true == bOk) {
 					CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 					pAdvSettings->SetLogMode(nLogMode);
@@ -651,57 +587,51 @@ namespace
 				}
 			}
 			break;
-			case IDCANCEL:
-				::EndDialog(hWnd, IDCANCEL);
-				break;
-			case IDC_BUTTON_HISTORY_DESCRIPTION:
-			case IDC_BUTTON_LOG_FILE_DESCRIPTION:
-			case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-					show_variable_list(hWnd, pAdvSettings->GetProviderPtr());
-				}
-				break;
-			case IDC_CHECK_EXTERNAL_FILE:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_file_controls(hWnd);
-				}
-				break;
-			case IDC_CHECK_INTERNAL_HISTORY:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_history_controls(hWnd);
-				}
-				break;
-			case IDC_CHECK_SHOW_POPUP:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					update_popup_controls(hWnd);
-				}
-				break;
-			case IDC_BUTTON_BROWSE:
-				if (BN_CLICKED == HIWORD(wp))
-				{
-					select_log_file(hWnd);
-				}
-				break;
-			case IDC_BUTTON_POPUP_SETTINGS:
-			{
+		
+		case IDCANCEL:
+			::EndDialog(hWnd, IDCANCEL);
+			break;
+		
+		case IDC_BUTTON_HISTORY_DESCRIPTION:
+		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
+		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
+			if (BN_CLICKED == HIWORD(wp)) {
 				const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-				DialogBoxParam(g_hInstance,
-					MAKEINTRESOURCE(IDD_DIALOG_POPUP),
-					hWnd,
-					EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pAdvSettings->GetPopupSettingsPtr()));
-
+				show_variable_list(hWnd, pAdvSettings->GetProviderPtr());
 			}
 			break;
-			}
+		
+		case IDC_CHECK_EXTERNAL_FILE:
+			if (BN_CLICKED == HIWORD(wp))
+				update_file_controls(hWnd);
+			break;
+
+		case IDC_CHECK_INTERNAL_HISTORY:
+			if (BN_CLICKED == HIWORD(wp))
+				update_history_controls(hWnd);
+			break;
+
+		case IDC_CHECK_SHOW_POPUP:
+			if (BN_CLICKED == HIWORD(wp))
+				update_popup_controls(hWnd);
+			break;
+
+		case IDC_BUTTON_BROWSE:
+			if (BN_CLICKED == HIWORD(wp))
+				select_log_file(hWnd);
+			break;
+		
+		case IDC_BUTTON_POPUP_SETTINGS:
+			const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+			DialogBoxParam(g_hInstance,
+				MAKEINTRESOURCE(IDD_DIALOG_POPUP),
+				hWnd,
+				EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pAdvSettings->GetPopupSettingsPtr()));
 			break;
 		}
-		return FALSE;
+		break;
 	}
+	return FALSE;
 }
 
 CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvider)
@@ -731,8 +661,7 @@ CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvide
 	m_bIsOnlyChangedHistory = 1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryCondition, 0);
 
 	m_sLogFileName = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile);
-	if (true == m_sLogFileName.empty())
-	{
+	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
 		m_sLogFileName += _T("\\Quotes\\");
 		m_sLogFileName += g_pszVariableQuoteName;
@@ -783,8 +712,7 @@ void CAdvProviderSettings::SaveToDb()const
 	db_set_ts(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
 	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupCondition, m_bShowPopupIfValueChanged);
 
-	if (nullptr != m_pPopupSettings)
-	{
+	if (nullptr != m_pPopupSettings) {
 		db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
 		db_set_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupBkColour, m_pPopupSettings->GetColourBk());
 		db_set_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupTextColour, m_pPopupSettings->GetColourText());
@@ -877,9 +805,7 @@ void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr()const
 {
 	if (nullptr == m_pPopupSettings)
-	{
 		m_pPopupSettings = new CPopupSettings(m_pQuotesProvider);
-	}
 
 	return m_pPopupSettings;
 }
@@ -905,16 +831,13 @@ CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
 
 	BYTE m = db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_modeColour));
 	if (m >= colourDefault && m <= colourUserDefined)
-	{
 		m_modeColour = static_cast<EColourMode>(m);
-	}
 
 	m_rgbBkg = db_get_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupBkColour, m_rgbBkg);
 	m_rgbText = db_get_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupTextColour, m_rgbText);
 
 	m = db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_modeDelay));
-	if (m >= delayFromPopup && m <= delayPermanent)
-	{
+	if (m >= delayFromPopup && m <= delayPermanent) {
 		m_modeDelay = static_cast<EDelayMode>(m);
 	}
 	m_wDelay = db_get_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayTimeout, m_wDelay);
@@ -936,8 +859,7 @@ COLORREF CPopupSettings::GetDefColourText()
 void CPopupSettings::InitForContact(MCONTACT hContact)
 {
 	BYTE m = db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
-	if (m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined)
-	{
+	if (m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined) {
 		m_modeColour = static_cast<CPopupSettings::EColourMode>(m);
 	}
 
@@ -945,8 +867,7 @@ void CPopupSettings::InitForContact(MCONTACT hContact)
 	m_rgbText = db_get_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_TEXT, m_rgbText);
 
 	m = db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
-	if (m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent)
-	{
+	if (m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent) {
 		m_modeDelay = static_cast<CPopupSettings::EDelayMode>(m);
 	}
 	m_wDelay = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_TIMEOUT, m_wDelay);
@@ -1034,47 +955,35 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
 		reinterpret_cast<LPARAM>(pAdvSettings)));
 }
 
-namespace
+static void replace_invalid_char(tstring::value_type& rChar, tstring::value_type repl)
 {
-	void replace_invalid_char(tstring::value_type& rChar, tstring::value_type repl)
-	{
-		static const TCHAR charInvalidSigns[] = { _T('\\'), _T('/'), _T(':'), _T('*'), _T('?'), _T('\"'), _T('<'), _T('>'), _T('|') };
+	static const TCHAR charInvalidSigns[] = { _T('\\'), _T('/'), _T(':'), _T('*'), _T('?'), _T('\"'), _T('<'), _T('>'), _T('|') };
 
-		for (int i = 0; i < sizeof(charInvalidSigns) / sizeof(charInvalidSigns[0]); ++i)
-		{
-			if (rChar == charInvalidSigns[i])
-			{
-				rChar = repl;
-				break;
-			}
+	for (int i = 0; i < sizeof(charInvalidSigns) / sizeof(charInvalidSigns[0]); ++i) {
+		if (rChar == charInvalidSigns[i]) {
+			rChar = repl;
+			break;
 		}
 	}
-
 }
 
-tstring GenerateLogFileName(const tstring& rsLogFilePattern,
-	const tstring& rsQuoteSymbol,
-	int nFlags/* = glfnResolveAll*/)
+tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsQuoteSymbol, int nFlags)
 {
 	tstring sPath = rsLogFilePattern;
-	if (nFlags&glfnResolveQuoteName)
-	{
+	if (nFlags&glfnResolveQuoteName) {
 		assert(false == rsQuoteSymbol.empty());
 
 		tstring::size_type n = sPath.find(g_pszVariableQuoteName);
-		if (tstring::npos != n)
-		{
+		if (tstring::npos != n) {
 			tstring s = rsQuoteSymbol;
 			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, _T('_')));
 			sPath.replace(n, mir_tstrlen(g_pszVariableQuoteName), s.c_str());
 		}
 	}
 
-	if (nFlags & glfnResolveUserProfile)
-	{
-		TCHAR* ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
-		if (ptszParsedName)
-		{
+	if (nFlags & glfnResolveUserProfile) {
+		TCHAR *ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
+		if (ptszParsedName) {
 			sPath = ptszParsedName;
 			mir_free(ptszParsedName);
 		}
@@ -1088,16 +997,12 @@ tstring GetContactLogFileName(MCONTACT hContact)
 	tstring result;
 
 	const CQuotesProviders::TQuotesProviderPtr& pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
-	if (pProvider)
-	{
+	if (pProvider) {
 		tstring sPattern;
 		bool bUseContactSpecific = (db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
-		{
 			sPattern = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE);
-		}
-		else
-		{
+		else {
 			CAdvProviderSettings global_settings(pProvider.get());
 			sPattern = global_settings.GetLogFileName();
 		}
@@ -1112,8 +1017,7 @@ tstring GetContactName(MCONTACT hContact)
 {
 	tstring sDescription = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_DESCRIPTION);
 	if (sDescription.empty())
-	{
 		sDescription = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
-	}
+
 	return sDescription;
 }

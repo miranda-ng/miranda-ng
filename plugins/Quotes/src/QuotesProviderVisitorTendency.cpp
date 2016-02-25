@@ -7,8 +7,7 @@ CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(MCONTACT hContact
 
 void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderBase&)
 {
-	switch (m_chr)
-	{
+	switch (m_chr) {
 	case _T('r'):
 	case _T('R'):
 		GetValue(DB_STR_QUOTE_CURR_VALUE);
@@ -21,8 +20,7 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderBase&)
 
 void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderGoogleFinance&)
 {
-	switch (m_chr)
-	{
+	switch (m_chr) {
 	case _T('o'):
 		GetValue(DB_STR_GOOGLE_FINANCE_OPEN_VALUE);
 		break;
@@ -37,8 +35,7 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderGoogleFinance&)
 
 void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderYahoo&)
 {
-	switch (m_chr)
-	{
+	switch (m_chr) {
 	case _T('o'):
 		GetValue(DB_STR_YAHOO_OPEN_VALUE);
 		break;
@@ -55,9 +52,7 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderYahoo&)
 		GetValue(DB_STR_YAHOO_DAY_LOW);
 		break;
 	}
-
 }
-
 
 void CQuotesProviderVisitorTendency::GetValue(LPCSTR pszDbKeyName)
 {

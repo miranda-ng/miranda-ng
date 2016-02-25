@@ -25,19 +25,8 @@ namespace
 		if (file.good())
 		{
 			TCHAR szTime[20];
-			// 			TCHAR sz[10000+1];
 			_tstrtime_s(szTime);
 			file << szTime << _T(" ================================>\n") << rsMsg << _T("\n\n");
-
-			// 			size_t cBytes = rsMsg.size();
-			// 			const TCHAR* p = rsMsg.c_str();
-			// 			for(size_t c = 0;c < cBytes;c += 10000,p+=10000)
-			// 			{
-			// 				_tcsncpy_s(sz,p,10000);
-			// 				file << sz;
-			// 			}
-			// 			
-			// 			file << "\n\n";
 		}
 	}
 }
