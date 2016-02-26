@@ -64,6 +64,8 @@ private:
 	INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoReceiveMessage(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam);
+
 	INT_PTR SendFileToDropbox(WPARAM wParam, LPARAM lParam);
 
 	// commands

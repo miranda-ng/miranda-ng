@@ -60,33 +60,42 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_OPTIONS_MAIN DIALOGEX 0, 0, 323, 256
+IDD_OPTIONS_MAIN DIALOGEX 0, 0, 307, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Authorization",IDC_STATIC,5,5,313,103
+    GROUPBOX        "Authorization",IDC_STATIC,5,5,297,103
     LTEXT           "To allow Miranda NG access in your Dropbox account:",IDC_STATIC,15,18,270,10
-    CONTROL         "Go to this link",IDC_GETAUTH,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,144,35,169,8
+    CONTROL         "Go to this link",IDC_GETAUTH,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,144,35,153,8
     LTEXT           "1.",IDC_STATIC,21,35,8,8
     LTEXT           "Allow access to app folder",IDC_STATIC,29,35,109,16
     LTEXT           "2.",IDC_STATIC,21,53,8,8
     LTEXT           "Enter authorization code",IDC_STATIC,29,53,109,16
-    EDITTEXT        IDC_REQUEST_CODE,144,51,169,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_REQUEST_CODE,144,51,153,13,ES_AUTOHSCROLL
     LTEXT           "3.",IDC_STATIC,21,71,8,8
     LTEXT           "Initiate authorization",IDC_STATIC,29,71,109,16
-    PUSHBUTTON      "Authorize",IDC_AUTHORIZE,144,68,169,14,BS_CENTER | WS_DISABLED
-    GROUPBOX        "Download link",IDC_STATIC,5,111,313,70
-    CONTROL         "Use shortened download links",IDC_URL_USE_SHORT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,15,125,298,10
+    PUSHBUTTON      "Authorize",IDC_AUTHORIZE,144,68,153,14,BS_CENTER | WS_DISABLED
+    GROUPBOX        "Download link",IDC_STATIC,5,111,297,70
+    CONTROL         "Use shortened download links",IDC_URL_USE_SHORT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,15,125,282,10
     LTEXT           "4.",IDC_STATIC,22,89,8,8
-    LTEXT           "Check status of authorization",IDC_STATIC,30,89,109,17
-    CTEXT           "",IDC_AUTH_STATUS,145,89,169,8
+    LTEXT           "Check status of authorization",IDC_STATIC,30,89,108,17
+    CTEXT           "",IDC_AUTH_STATUS,144,89,153,8
     CONTROL         "Autosend download link to contact",IDC_URL_AUTOSEND,
-                    "Button",BS_AUTORADIOBUTTON,15,138,298,10
+                    "Button",BS_AUTORADIOBUTTON,15,138,282,10
     CONTROL         "Paste download link into message input area",IDC_URL_COPYTOMIA,
-                    "Button",BS_AUTORADIOBUTTON,15,151,298,10
+                    "Button",BS_AUTORADIOBUTTON,15,151,282,10
     CONTROL         "Copy download link to clipboard",IDC_URL_COPYTOCB,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,298,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,282,10
+END
+
+IDD_OPTIONS_INTERCEPTION DIALOGEX 0, 0, 308, 234
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_ACCOUNTS,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,34,298,195
+    LTEXT           "Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.",IDC_STATIC,5,5,298,24
 END
 
 
@@ -101,7 +110,7 @@ BEGIN
     IDD_OPTIONS_MAIN, DIALOG
     BEGIN
         LEFTMARGIN, 5
-        RIGHTMARGIN, 318
+        RIGHTMARGIN, 302
         VERTGUIDE, 15
         VERTGUIDE, 21
         VERTGUIDE, 29
@@ -109,9 +118,19 @@ BEGIN
         VERTGUIDE, 96
         VERTGUIDE, 138
         VERTGUIDE, 144
-        VERTGUIDE, 313
+        VERTGUIDE, 297
         TOPMARGIN, 5
-        BOTTOMMARGIN, 251
+        BOTTOMMARGIN, 229
+    END
+
+    IDD_OPTIONS_INTERCEPTION, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 303
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 229
+        HORZGUIDE, 29
+        HORZGUIDE, 34
     END
 END
 #endif    // APSTUDIO_INVOKED
