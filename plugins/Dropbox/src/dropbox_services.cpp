@@ -57,6 +57,8 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	ftp->hContact = (hTransferContact) ? hTransferContact : pccsd->hContact;
 	hTransferContact = 0;
 
+	ftp->SetDescription((TCHAR*)pccsd->wParam);
+
 	TCHAR **paths = (TCHAR**)pccsd->lParam;
 	ftp->SetWorkingDirectory(paths[0]);
 	for (int i = 0; paths[i]; i++) {

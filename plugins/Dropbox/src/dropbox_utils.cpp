@@ -80,7 +80,7 @@ MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD c
 	return db_event_add(hContact, &dbei);
 }
 
-void CDropbox::SendToContact(MCONTACT hContact, const char* data)
+void CDropbox::SendToContact(MCONTACT hContact, const char *data, const TCHAR *description)
 {
 	if (hContact == GetDefaultContact()) {
 		char *message = mir_utf8encode(data);
@@ -102,13 +102,17 @@ void CDropbox::SendToContact(MCONTACT hContact, const char* data)
 		return;
 	}
 
+	if (description != NULL && CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)T2Utf(description)) != ACKRESULT_FAILED) {
+		char *message = mir_utf8encodeT(description);
+		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
+	}
 	if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED) {
 		char *message = mir_utf8encode(data);
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
 	}
 }
 
-void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
+void CDropbox::PasteToInputArea(MCONTACT hContact, const char *data, const TCHAR *description)
 {
 	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
 	mwid.hContact = hContact;
@@ -119,21 +123,26 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const char* data)
 		HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
 		if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
 
-		ptrT text(mir_utf8decodeT(data));
+		TCHAR text[4096] = {0};
+		mir_sntprintf(text, _T("%s%s%s"), description, description == NULL ? _T("") : _T("\r\n"), ptrT(mir_utf8decodeT(data)));
 		SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)text);
 	}
 }
 
-void CDropbox::PasteToClipboard(const char* data)
+void CDropbox::PasteToClipboard(const char *data, const TCHAR *description)
 {
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
-		size_t size = sizeof(TCHAR) * (mir_strlen(data) + 1);
+
+		TCHAR text[4096] = { 0 };
+		mir_sntprintf(text, _T("%s%s%s"), description, description == NULL ? _T("") : _T("\r\n"), _A2T(data));
+
+		size_t size = sizeof(TCHAR) * (mir_tstrlen(text) + 1);
 		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
 		if (hClipboardData) {
 			TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
 			if (pchData) {
-				memcpy(pchData, (TCHAR*)data, size);
+				memcpy(pchData, (TCHAR*)text, size);
 				GlobalUnlock(hClipboardData);
 				SetClipboardData(CF_TEXT, hClipboardData);
 			}
@@ -142,14 +151,14 @@ void CDropbox::PasteToClipboard(const char* data)
 	}
 }
 
-void CDropbox::Report(MCONTACT hContact, const char* data)
+void CDropbox::Report(MCONTACT hContact, const char *data, const TCHAR *description)
 {
 	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-		SendToContact(hContact, data);
+		SendToContact(hContact, data, description);
 
 	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
-		PasteToInputArea(hContact, data);
+		PasteToInputArea(hContact, data, description);
 
 	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-		PasteToClipboard(data);
+		PasteToClipboard(data, description);
 }
