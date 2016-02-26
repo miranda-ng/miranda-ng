@@ -22,9 +22,26 @@ protected:
 	void Authorize_OnClick(CCtrlBase*);
 
 public:
-	CDropboxOptionsMain(CDropbox *instance, int idDialog);
+	CDropboxOptionsMain(CDropbox *instance);
 
-	static CDlgBase *CreateOptionsPage(void *param) { return new CDropboxOptionsMain((CDropbox*)param, IDD_OPTIONS_MAIN); }
+	static CDlgBase *CreateOptionsPage(void *param) { return new CDropboxOptionsMain((CDropbox*)param); }
+};
+
+class CDropboxOptionsInterception : public CDropboxDlgBase
+{
+private:
+	bool isAccountListInit;
+	CCtrlListView m_accounts;
+
+protected:
+	void OnInitDialog();
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	void OnApply();
+
+public:
+	CDropboxOptionsInterception(CDropbox *instance);
+
+	static CDlgBase *CreateOptionsPage(void *param) { return new CDropboxOptionsInterception((CDropbox*)param); }
 };
 
 #endif //_DROPBOX_OPTIONS_H_

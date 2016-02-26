@@ -74,6 +74,18 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	return fileId;
 }
 
+INT_PTR CDropbox::ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam)
+{
+	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	const char *proto = GetContactProto(pccsd->hContact);
+	const char *interceptedProtos = db_get_sa(NULL, MODULE, "InterceptedProtos");
+	if (interceptedProtos == NULL || strstr(interceptedProtos, proto) == NULL)
+		return CALLSERVICE_NOTFOUND;
+	
+	return ProtoSendFile(wParam, lParam);
+}
+
 INT_PTR CDropbox::ProtoCancelFile(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;

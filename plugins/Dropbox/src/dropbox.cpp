@@ -2,12 +2,6 @@
 
 CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 {
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULE;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
-
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEventObj(ME_SYSTEM_MODULESLOADED, GlobalEvent<&CDropbox::OnModulesLoaded>, this);
@@ -15,6 +9,12 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	hFileSentEventHook = CreateHookableEvent(ME_DROPBOX_SENT);
 
 	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, GlobalService<&CDropbox::SendFileToDropbox>, this);
+
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
+	pd.szName = MODULE;
+	pd.type = PROTOTYPE_VIRTUAL;
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
@@ -24,6 +24,12 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	CreateProtoServiceFunctionObj(PSS_FILECANCEL, GlobalService<&CDropbox::ProtoCancelFile>, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, GlobalService<&CDropbox::ProtoSendMessage>, this);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, ProtoReceiveMessage);
+
+	pd.szName = MODULE"Inteceptor";
+	pd.type = PROTOTYPE_FILTER;
+	Proto_RegisterModule(&pd);
+
+	CreateServiceFunctionObj(MODULE"Inteceptor"PSS_FILE, GlobalService<&CDropbox::ProtoSendFileInterceptor>, this);
 
 	InitializeMenus();
 
