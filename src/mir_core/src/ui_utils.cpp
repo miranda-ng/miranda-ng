@@ -1460,12 +1460,15 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (hti.flags & TVHT_BELOW)
 				hti.hItem = TVI_LAST;
 
-			HTREEITEM insertAfter = hti.hItem;
-			HTREEITEM hParent = (insertAfter == TVI_FIRST) ? NULL : GetParent(insertAfter);
-			if (GetChild(insertAfter) != NULL) {
-				hParent = insertAfter;
-				insertAfter = TVI_FIRST;
+			HTREEITEM insertAfter = hti.hItem, hParent;
+			if (insertAfter != TVI_FIRST) {
+				hParent = GetParent(insertAfter);
+				if (GetChild(insertAfter) != NULL) {
+					hParent = insertAfter;
+					insertAfter = TVI_FIRST;
+				}
 			}
+			else hParent = NULL;
 
 			HTREEITEM FirstItem = NULL;
 			if (m_bMultiSelect) {
