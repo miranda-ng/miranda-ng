@@ -113,7 +113,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			offset += size;
 			ftp->Progress(size);
 
-			for (size_t chunk = 0, size = 0; chunk < (fileSize / chunkSize) - 1; chunk++, size = 0)
+			for (size_t chunk = 0; chunk < (fileSize / chunkSize) - 1; chunk++)
 			{
 				ftp->CheckCurrentFile();
 
