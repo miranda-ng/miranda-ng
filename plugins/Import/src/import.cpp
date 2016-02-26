@@ -512,6 +512,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 	if (bImportSysAll) {
 		arSkippedModules.insert(newStr(META_PROTO));
 		arSkippedModules.insert(newStr("Protocols"));
+		arSkippedModules.insert(newStr("CryptoEngine"));
 	}
 	return true;
 }
