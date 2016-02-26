@@ -21,6 +21,12 @@
 [Paste download link into message input area]
 [Copy download link to clipboard]
 [Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Contact]
+[Module]
+[Setting]
+[Value]
+[Type]
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 [server does not respond]

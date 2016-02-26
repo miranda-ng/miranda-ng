@@ -33,6 +33,8 @@
 Вставить сылку в поле ввода
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
+[Contact]
+Контакт
 [in process...]
 в процессе...
 [server does not respond]
