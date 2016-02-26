@@ -96,6 +96,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	try {
+		if (ftp->directoryName) {
+			char path[MAX_PATH], url[MAX_PATH];
+			PreparePath(ftp->directoryName, path);
+			instance->CreateFolder(path);
+			instance->CreateDownloadUrl(path, url);
+			ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
+		}
+
 		ftp->FirstFile();
 		do
 		{
@@ -138,7 +146,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			if (!_tcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
 				instance->CreateDownloadUrl(path, url);
-				ftp->AddUrl(url);
+				ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
 			}
 		} while (ftp->NextFile());
 	}
@@ -159,13 +167,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 
 	int res = SendFilesAsync(owner, arg);
 	if (res == ACKRESULT_SUCCESS)
-	{
-		CMStringA urls;
-		for (int i = 0; i < ftp->urls.getCount(); i++)
-			urls.AppendFormat("%s\r\n", ftp->urls[i]);
-
-		instance->Report(ftp->hContact, urls.GetBuffer(), ftp->description);
-	}
+		instance->Report(ftp->hContact, ftp->data);
 
 	instance->transfers.remove(ftp);
 	delete ftp;
@@ -183,7 +185,7 @@ UINT CDropbox::SendFilesAndEventAsync(void *owner, void *arg)
 	TRANSFERINFO ti = { 0 };
 	ti.hProcess = ftp->hProcess;
 	ti.status = res;
-	ti.data = ftp->urls.getArray();
+	//ti.data = T2Utf(data);
 
 	NotifyEventHooks(instance->hFileSentEventHook, ftp->hContact, (LPARAM)&ti);
 

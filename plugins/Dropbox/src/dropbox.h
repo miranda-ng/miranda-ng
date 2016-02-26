@@ -120,10 +120,10 @@ private:
 
 	static MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
-	void SendToContact(MCONTACT hContact, const char *data, const TCHAR *description = NULL);
-	void PasteToInputArea(MCONTACT hContact, const char *data, const TCHAR *description = NULL);
-	void PasteToClipboard(const char *data, const TCHAR *description = NULL);
-	void Report(MCONTACT hContact, const char *data, const TCHAR *description = NULL);
+	void SendToContact(MCONTACT hContact, const TCHAR *data);
+	void PasteToInputArea(MCONTACT hContact, const TCHAR *data);
+	void PasteToClipboard(const TCHAR *data);
+	void Report(MCONTACT hContact, const TCHAR *data);
 
 	template<int(CDropbox::*Event)(WPARAM, LPARAM)>
 	static int GlobalEvent(void *obj, WPARAM wParam, LPARAM lParam)

@@ -10,13 +10,12 @@ struct FileTransferParam
 
 	bool isTerminated;
 
+	const TCHAR* directoryName;
 	int relativePathStart;
 
-	LIST<char> urls;
+	CMString data;
 
-	TCHAR *description;
-
-	FileTransferParam() : urls(1)
+	FileTransferParam()
 	{
 		hFile = NULL;
 		hProcess = NULL;
@@ -24,6 +23,7 @@ struct FileTransferParam
 
 		isTerminated = false;
 
+		directoryName = NULL;
 		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
@@ -40,8 +40,6 @@ struct FileTransferParam
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
-		
-		description = NULL;
 
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, hProcess, 0);
 	}
@@ -61,28 +59,23 @@ struct FileTransferParam
 			}
 			mir_free(pfts.pszFiles);
 		}
-
-		for (int i = 0; i < urls.getCount(); i++)
-			mir_free(urls[i]);
-		urls.destroy();
-
-		if (description)
-			mir_free(description);
-	}
-
-	void SetDescription(const TCHAR *text)
-	{
-		if (text[0] == 0)
-			return;
-		description = mir_tstrdup(text);
 	}
 
 	void SetWorkingDirectory(const TCHAR *path)
 	{
 		relativePathStart = _tcsrchr(path, '\\') - path + 1;
-		pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * relativePathStart);
-		mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
-		pfts.tszWorkingDir[relativePathStart - 1] = '\0';
+		if (PathIsDirectory(path))
+		{
+			size_t length = mir_tstrlen(path) + 1;
+			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * length);
+			mir_tstrncpy(pfts.tszWorkingDir, path, length);
+			directoryName = _tcsrchr(pfts.tszWorkingDir, '\\') + 1;
+		}
+		else
+		{
+			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * relativePathStart);
+			mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
+		}
 	}
 
 	void AddFile(const TCHAR *path)
@@ -99,9 +92,12 @@ struct FileTransferParam
 		}
 	}
 
-	void AddUrl(const char *url)
+	void AppendFormatData(const TCHAR *format, ...)
 	{
-		urls.insert(mir_strdup(url));
+		va_list args;
+		va_start(args, format);
+		data.AppendFormatV(format, args);
+		va_end(args);
 	}
 
 	const TCHAR* GetCurrentFilePath() const
