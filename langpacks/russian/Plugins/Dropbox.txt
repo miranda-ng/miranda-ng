@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.12.0.8
+;  Version: 0.12.1.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
@@ -33,8 +33,6 @@
 Вставить сылку в поле ввода
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
-[Free %ld of %ld MB]
-Свободно %ld из %ld МБ
 [in process...]
 в процессе...
 [server does not respond]
@@ -43,20 +41,14 @@
 авторизация прошла успешно
 [Dropbox supports the following commands:]
 Доступны следующие команды:
-[shows all files in folder "dir" ("dir" can be omitted for root folder)]
-отображает содержимое папки "dir" ("dir" можно опустить, если речь о корневой папке)
 [returns download link for file or folder with specified path ("path" is relative from root folder)]
 возвращает ссылку на файл или папку, расположенную по указанному пути (относительно корневой папки)
 [deletes file or folder with specified path ("path" is relative from root folder)]
 удаляет файл или папку по указанному пути (относительно корневой папки)
-[is file]
-это файл
-[is empty]
-пустая
 ["%s" command has invalid parameter.\nUse "/help" for more info.]
 неверный параметр команды "%s".\nИспользуйте "/help" для получения справки.
-[is not deleted]
-не удалён
+[is empty]
+пустая
 [is deleted]
 удалён
 [Upload files to Dropbox]
