@@ -126,6 +126,8 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 			if (offset < fileSize)
 				size = ftp->ReadCurrentFile(data, fileSize - offset);
+			else
+				size = 0;
 
 			char path[MAX_PATH];
 			PreparePath(fileName, path);
