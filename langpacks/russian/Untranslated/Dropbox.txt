@@ -1,2 +1,6 @@
 ﻿[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+[Module]
+[Setting]
+[Value]
+[Type]
 [shows all files in folder "path" ("path" is relative from root folder)]
