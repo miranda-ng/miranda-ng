@@ -29,7 +29,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	pd.type = PROTOTYPE_FILTER;
 	Proto_RegisterModule(&pd);
 
-	CreateServiceFunctionObj(MODULE"Inteceptor"PSS_FILE, GlobalService<&CDropbox::ProtoSendFileInterceptor>, this);
+	CreateServiceFunctionObj(MODULE "Inteceptor" PSS_FILE, GlobalService<&CDropbox::ProtoSendFileInterceptor>, this);
 
 	InitializeMenus();
 
