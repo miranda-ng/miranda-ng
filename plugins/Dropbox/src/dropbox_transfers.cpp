@@ -164,7 +164,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 		for (int i = 0; i < ftp->urls.getCount(); i++)
 			urls.AppendFormat("%s\r\n", ftp->urls[i]);
 
-		instance->Report(ftp->hContact, urls.GetBuffer());
+		instance->Report(ftp->hContact, urls.GetBuffer(), ftp->description);
 	}
 
 	instance->transfers.remove(ftp);

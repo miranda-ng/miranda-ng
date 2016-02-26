@@ -14,6 +14,8 @@ struct FileTransferParam
 
 	LIST<char> urls;
 
+	TCHAR *description;
+
 	FileTransferParam() : urls(1)
 	{
 		hFile = NULL;
@@ -38,6 +40,8 @@ struct FileTransferParam
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
+		
+		description = NULL;
 
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, hProcess, 0);
 	}
@@ -61,6 +65,16 @@ struct FileTransferParam
 		for (int i = 0; i < urls.getCount(); i++)
 			mir_free(urls[i]);
 		urls.destroy();
+
+		if (description)
+			mir_free(description);
+	}
+
+	void SetDescription(const TCHAR *text)
+	{
+		if (text[0] == 0)
+			return;
+		description = mir_tstrdup(text);
 	}
 
 	void SetWorkingDirectory(const TCHAR *path)
