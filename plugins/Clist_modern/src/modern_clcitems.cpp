@@ -272,15 +272,21 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 		_LoadDataToContact(cont, group, dat, hContact);
 }
 
-void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
+void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hContact)
 {
 	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
 	ClearRowByIndexCache();
-	corecli.pfnDeleteItemFromTree(hwnd, hItem);
+	corecli.pfnDeleteItemFromTree(hwnd, hContact);
 
 	// check here contacts are not resorting
-	if (hwnd == pcli->hwndContactTree)
-		pcli->pfnFreeCacheItem(pcli->pfnGetCacheEntry(hItem));
+	if (hwnd == pcli->hwndContactTree) {
+		int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
+		if (idx != -1) {
+			pcli->pfnFreeCacheItem(clistCache[idx]);
+			clistCache.remove(idx);
+		}
+	}
+
 	dat->needsResort = 1;
 	ClearRowByIndexCache();
 }
