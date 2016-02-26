@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.5.0
+;  Version: 0.11.5.1
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -19,6 +19,8 @@
 Контакты
 [Use bigger avatars]
 Большие аватары
+[Message sessions]
+Беседы
 [Captcha]
 Проверочный код
 [Cancel]
