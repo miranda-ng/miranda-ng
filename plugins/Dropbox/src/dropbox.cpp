@@ -16,14 +16,14 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
 
-	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
-	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
-	CreateProtoServiceFunction(MODULE, PS_LOADICON, ProtoLoadIcon);
-	CreateProtoServiceFunctionObj(PS_GETSTATUS, GlobalService<&CDropbox::ProtoGetStatus>, this);
-	CreateProtoServiceFunctionObj(PSS_FILE, GlobalService<&CDropbox::ProtoSendFile>, this);
-	CreateProtoServiceFunctionObj(PSS_FILECANCEL, GlobalService<&CDropbox::ProtoCancelFile>, this);
-	CreateProtoServiceFunctionObj(PSS_MESSAGE, GlobalService<&CDropbox::ProtoSendMessage>, this);
-	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, ProtoReceiveMessage);
+	CreateServiceFunction(MODULE PS_GETCAPS, ProtoGetCaps);
+	CreateServiceFunction(MODULE PS_GETNAME, ProtoGetName);
+	CreateServiceFunction(MODULE PS_LOADICON, ProtoLoadIcon);
+	CreateServiceFunctionObj(MODULE PS_GETSTATUS, GlobalService<&CDropbox::ProtoGetStatus>, this);
+	CreateServiceFunctionObj(MODULE PSS_FILE, GlobalService<&CDropbox::ProtoSendFile>, this);
+	CreateServiceFunctionObj(MODULE PSS_FILECANCEL, GlobalService<&CDropbox::ProtoCancelFile>, this);
+	CreateServiceFunctionObj(MODULE PSS_MESSAGE, GlobalService<&CDropbox::ProtoSendMessage>, this);
+	CreateServiceFunction(MODULE PSR_MESSAGE, ProtoReceiveMessage);
 
 	pd.szName = MODULE"Inteceptor";
 	pd.type = PROTOTYPE_FILTER;

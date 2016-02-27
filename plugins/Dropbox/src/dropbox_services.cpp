@@ -1,13 +1,5 @@
 #include "stdafx.h"
 
-HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, "%s%s", MODULE, szService);
-	str[MAXMODULELABELLENGTH - 1] = 0;
-	return CreateServiceFunctionObj(str, serviceProc, obj);
-}
-
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
@@ -117,7 +109,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	if (*szMessage == '/') {
 		// parse commands
 		char *sep = strchr(szMessage, ' ');
-		if (sep != NULL) *sep = 0;
+		//if (sep != NULL) *sep = 0;
 
 		struct
 		{
@@ -127,13 +119,16 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 		static commands[] =
 		{
 			{ "help", &CDropbox::CommandHelp },
-			{ "list", &CDropbox::CommandContent },
+			{ "list", &CDropbox::CommandList },
 			{ "share", &CDropbox::CommandShare },
+			{ "search", &CDropbox::CommandSearch },
 			{ "delete", &CDropbox::CommandDelete }
 		};
 
+		char command[16] = {0};
+		mir_strncpy(command, szMessage + 1, sep ? sep - szMessage : mir_strlen(szMessage));
 		for (int i = 0; i < _countof(commands); i++) {
-			if (!mir_strcmp(szMessage + 1, commands[i].szCommand)) {
+			if (!mir_strcmp(command, commands[i].szCommand)) {
 				ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
 				CommandParam *param = new CommandParam();
