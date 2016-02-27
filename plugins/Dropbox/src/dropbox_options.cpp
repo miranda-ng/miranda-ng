@@ -63,8 +63,8 @@ void CDropboxOptionsInterception::OnInitDialog()
 
 	m_accounts.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
-	m_accounts.AddColumn(0, _T("Account name"), 50);
-	m_accounts.AddColumn(1, _T("Protocol"), 50);
+	m_accounts.AddColumn(0, TranslateT("Account name"), 50);
+	m_accounts.AddColumn(1, TranslateT("Protocol"), 50);
 
 	int count;
 	PROTOACCOUNT** accounts;
@@ -133,11 +133,11 @@ int CDropbox::OnOptionsInitialized(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Network");
 
-	odp.ptszTab = _T("General");
+	odp.ptszTab = LPGENT("General");
 	odp.pDialog = CDropboxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = _T("Interception");
+	odp.ptszTab = LPGENT("Interception");
 	odp.pDialog = CDropboxOptionsInterception::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
