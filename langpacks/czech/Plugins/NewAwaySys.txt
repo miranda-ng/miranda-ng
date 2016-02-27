@@ -38,7 +38,7 @@ N&a chvíli pryč
 &Nejsem tady
 [Occ&upied]
 N&emám čas
-[&DND]
+[&Do not disturb]
 Ne&rušit!
 [&Free for chat]
 &Mám volno
@@ -47,7 +47,7 @@ Nev&iditelný
 [On the &phone]
 Na &telefonu
 [Out to &lunch]
-Na &obědě
+Na o&bědě
 [Autoreply format:]
 Formát automatické odpovědi:
 [V]
@@ -221,7 +221,7 @@ Vzdejte to, nejsem tu!
 Nemám čas
 [Not right now.]
 Teď ne, prosím.
-[DND]
+[Do not disturb]
 Nerušit!
 [Give a guy some peace, would ya?]
 Nechte mě prosím chvíli o samotě, ano?
@@ -238,7 +238,7 @@ Na telefonu
 [I've been on the phone since %nas_awaysince_time%, give me a sec!]
 Telefonuji od %nas_awaysince_time%, dejte mi vteřinku!
 [Out to lunch]
-Jsem na obědě
+Na obědě
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Od %nas_awaysince_time% ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,obědvám,večeřím),snídám),obědvám).
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp

@@ -22,6 +22,8 @@
 [DCC: Reverse file transfer request from %s denied [No local IP]]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
 [CTCP %s requested by %s]
+[%u second]
+[%u seconds]
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 [Jerk]
 [*Disconnected*]

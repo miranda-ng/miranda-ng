@@ -86,7 +86,7 @@
 [ requested authorization]
  запытаў(ла) аўтарызацыю
 [This is a sample message event :-)]
-Гэта прыклад паведамлення  :-)\n
+Гэта прыклад паведамлення :-)\n
 [This is a sample URL event ;-)]
 Гэта прыклад URL ;-)
 [This is a sample file event :-D]

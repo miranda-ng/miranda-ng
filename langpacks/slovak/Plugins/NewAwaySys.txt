@@ -31,11 +31,29 @@ Je tu.
 Preč
 [Not available]
 Nedostupný
+[On&line]
+&Pripojený
+[&Away]
+Pr&eč
+[&Not available]
+&Nedostupný
+[Occ&upied]
+&Zaneprázdnený
+[&Do not disturb]
+Ne&rušiť
+[&Free for chat]
+&Voľný k rozhovoru
+[&Invisible]
+Nevi&ditelný
+[On the &phone]
+&Telefonujem
+[Out to &lunch]
+Na o&bede
 [Occupied]
 Zaneprázdnený
 [Not right now.]
 Prepáč, teraz nemám čas.
-[DND]
+[Do not disturb]
 Nerušiť
 [Free for chat]
 Voľný k rozhovoru

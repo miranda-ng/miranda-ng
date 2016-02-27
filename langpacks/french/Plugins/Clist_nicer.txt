@@ -447,23 +447,23 @@ Afficher l'heure locale
 [&Offline\tCtrl+0]
 &Hors ligne\tCtrl+0
 [On&line\tCtrl+1]
-En &ligne\tCtrl+1
+&En ligne\tCtrl+1
 [&Away\tCtrl+2]
 &Absent\tCtrl+2
 [&Not available\tCtrl+3]
 &Indisponible\tCtrl+3
 [Occ&upied\tCtrl+4]
-Occ&upé\tCtrl+4
-[&DND\tCtrl+5]
+&Occupé\tCtrl+4
+[&Do not disturb\tCtrl+5]
 &Ne pas déranger\tCtrl+5
 [&Free for chat\tCtrl+6]
-Ok pour un &chat\tCtrl+6
+OK pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
-&Invisible\tCtrl+7
+In&visible\tCtrl+7
 [On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
-Parti &manger\tCtrl+9
+&Parti manger\tCtrl+9
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Afficher le menu
@@ -502,7 +502,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Free for chat]
 OK pour un chat

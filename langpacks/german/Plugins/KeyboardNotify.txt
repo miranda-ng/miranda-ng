@@ -62,7 +62,7 @@ Abwesend
 Beschäftigt
 [Not available]
 Außer Haus
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Free for chat]
 Für Chat bereit

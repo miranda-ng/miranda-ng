@@ -256,7 +256,7 @@
 [To default]
 Па змаўчанні
 [N/A]
-Недасяжны
+Недаступны
 [Invalid ID format, missing "/" (10)]
 Няслушны фармат ID, не "/" (10)
 [Invalid service (11)]

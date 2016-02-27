@@ -71,7 +71,7 @@ Avertissement
 [&Admin]
 
 [&User]
-
+&Contact
 [Enter new chatroom topic]
 
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
@@ -88,12 +88,16 @@ Etes-vous sûr?
 
 [URI object]
 
+[Moji]
+
+[File]
+Fichier
 [Unknown event]
 Évènement inconnu
 [Incoming call]
 
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Invalid data!]
+[SkypeWeb error: Invalid data!]
 
 [[b]Original message:[/b]\n%s\n]
 

@@ -582,14 +582,14 @@ Glavni &meni
 N&edostupan\tCtrl+3
 [Occ&upied\tCtrl+4]
 &Zauzet\tCtrl+4
-[&DND\tCtrl+5]
-Ne &Uznemiravati\tCtrl+5
+[&Do not disturb\tCtrl+5]
+Ne &uznemiravaj\tCtrl+5
 [&Free for chat\tCtrl+6]
-Spreman za &razgovor\tCtrl+7
+Spreman za &razgovor\tCtrl+6
 [&Invisible\tCtrl+7]
 Ne&vidljiv\tCtrl+7
 [On the &phone\tCtrl+8]
-Na &telefonu\tCtrl+8
+&Telefoniram\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
 ;file \plugins\Clist_modern\src\cluiframes.cpp
@@ -694,7 +694,7 @@ Kontakti
 Klasični kontakti
 [Away contacts]
 
-[DND contacts]
+[Do not disturb contacts]
 
 [Not available contacts]
 
@@ -764,7 +764,7 @@ Neaktivan
 Nedostupan
 [Occupied]
 Zauzet
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Free for chat]
 Spreman za razgovor

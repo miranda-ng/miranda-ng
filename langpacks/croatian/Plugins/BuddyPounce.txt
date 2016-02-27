@@ -75,7 +75,7 @@
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [Free for chat]
 
@@ -97,7 +97,7 @@
 
 [To Occupied]
 
-[To DND]
+[To Do not disturb]
 
 [To Free for chat]
 

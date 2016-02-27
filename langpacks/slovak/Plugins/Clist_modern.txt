@@ -150,25 +150,25 @@ Koniec
 [&Status]
 Stav
 [&Offline\tCtrl+0]
-Odpojený\tCtrl+0
+&Odpojený\tCtrl+0
 [On&line\tCtrl+1]
-Pripojený
+&Pripojený\tCtrl+1
 [&Away\tCtrl+2]
-Preč
+Pr&eč\tCtrl+2
 [&Not available\tCtrl+3]
-Nedostupný
+&Nedostupný\tCtrl+3
 [Occ&upied\tCtrl+4]
-Zaneprázdnený
-[&DND\tCtrl+5]
-Nerušiť
+&Zaneprázdnený\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Ne&rušiť\tCtrl+5
 [&Free for chat\tCtrl+6]
-Prístupný k rozhovoru
+&Voľný k rozhovoru\tCtrl+6
 [&Invisible\tCtrl+7]
-Neviditelný
+Nevi&ditelný\tCtrl+7
 [On the &phone\tCtrl+8]
-Telefonujem
+&Telefonujem\tCtrl+8
 [Out to &lunch\tCtrl+9]
-Na obede
+Na o&bede\tCtrl+9
 [&Hide/show]
 Skryť/Zobraziť
 [&Find/add contacts...]
@@ -203,7 +203,7 @@ Preč
 Nedostupný
 [Occupied]
 Zaneprázdnený
-[DND]
+[Do not disturb]
 Nerušiť
 [Free for chat]
 Voľný k rozhovoru

@@ -8,7 +8,6 @@
 [Show account cycle button]
 [Cycle through accounts every:]
 [Frame options]
-[&Invisible]
 [Show next account]
 [Show previous account]
 [Cycle through accounts]

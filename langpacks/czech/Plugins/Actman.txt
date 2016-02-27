@@ -547,20 +547,20 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[DND]
+[Do not disturb]
 Nerušit!
 [Not available]
 Nejsem tady
 [Occupied]
 Nemám čas
-[Free for Chat]
+[Free for chat]
 Mám volno
 [Invisible]
 Neviditelný
-[On the Phone]
-Mám telefon
-[Out to Lunch]
-Jsem na obědě
+[On the phone]
+Na telefonu
+[Out to lunch]
+Na obědě
 [Set global status]
 
 [Switch contact list status]
@@ -795,8 +795,6 @@ Za obchodem
 fotím
 [Having fun]
 bavím se
-[On the phone]
-Na telefonu
 [Gaming]
 hraju hry
 [Studying]

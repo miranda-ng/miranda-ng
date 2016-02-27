@@ -369,7 +369,7 @@ Poissons
 [Rename Item]
 Renommer l'élément
 [Hide Item]
-Cacher  l'élément
+Cacher l'élément
 [Show Items:]
 Voir les éléments :
 [Reset to defaults]

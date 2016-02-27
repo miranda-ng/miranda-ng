@@ -377,7 +377,7 @@
 [Overcast]
 Суцэльная воблачнасць
 [Partial Fog]
-
+Месцамі туман
 [Partly Cloudy]
 Месцамі хмарна
 [Partly Sunny]
@@ -449,7 +449,7 @@
 [Smoke]
 Дым
 [Snow 100% Chance Of Precipitation]
-
+Снег, 100% верагоднасць ападкаў
 [Snow 20% Chance Of Precipitation]
 Снег, 20% верагоднасць ападкаў
 [Snow 30% Chance Of Precipitation]
@@ -493,7 +493,9 @@
 [Snow Showers 70% Chance Of Precipitation]
 Снег, 70% верагоднасць ападкаў
 [Snow Showers 80% Chance Of Precipitation]
-
+Снег, 80% верагоднасць ападкаў
+[Snow Showers]
+Снег
 [Snow]
 Снег
 [South]

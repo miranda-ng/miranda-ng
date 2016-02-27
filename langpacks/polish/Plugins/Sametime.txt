@@ -302,7 +302,7 @@ Użytkownik jest w trybie nie przeszkadzać
 [Already logged in elsewhere]
 Zalogowano już gdzie indziej
 [Cannot register a reserved type]
-Nie można  zarejestrować zarezerwowanego typu
+Nie można zarejestrować zarezerwowanego typu
 [Requested type is already registered]
 Żądany typ jest już zarejestrowany
 [Requested type is not registered]
@@ -396,7 +396,7 @@ Host uległ awarii
 [TCP/IP protocol error]
 Błąd protokołu TCP/IP
 [The message is too large]
-Wiadomość jest  zbyt wielka
+Wiadomość jest zbyt wielka
 [Server is full]
 Serwer jest pełny
 [Server is not responding]
@@ -458,7 +458,7 @@ Nie udało się zalogować ponieważ jesteś już zalogowany z innego komputera
 [Unable to log in because the server is either unreachable, or not configured properly.]
 Nie udało się zalogować, ponieważ serwer jest nieosiągalny lub niepoprawnie skonfigurowany
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
-Nie udało się zalogować do serwera domowego Sametime przez żądany serwer, ponieważ  twój serwer domowy Sametime musi zostać zaktualizowany
+Nie udało się zalogować do serwera domowego Sametime przez żądany serwer, ponieważ twój serwer domowy Sametime musi zostać zaktualizowany
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
 Applet został wylogowany z tym powodem. Dokonaj ponownego logowania, a powrócisz do wcześniejszego stanu
 [The user is not online]

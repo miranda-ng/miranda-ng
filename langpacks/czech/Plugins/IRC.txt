@@ -308,6 +308,10 @@ Chyba DCC: Poškozená žádost CTCP od %s [%s]
 DCC: Žádost o navázání přenosu souborů od %s odmítnuta
 [CTCP %s requested by %s]
 Žádost CTCP %s od %s
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 Odpověď na žádost CTCP PING od %s: %u sek.
 [CTCP %s reply from %s: %s]
@@ -510,7 +514,7 @@ Upravit server
 
 [Event: Occupied]
 
-[Event: DND]
+[Event: Do not disturb]
 
 [Event: Free for chat]
 

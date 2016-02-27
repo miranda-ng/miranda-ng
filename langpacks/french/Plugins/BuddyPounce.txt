@@ -75,7 +75,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Free for chat]
 OK pour un chat
@@ -97,7 +97,7 @@ Absent
 Indisponible
 [To Occupied]
 Occupé
-[To DND]
+[To Do not disturb]
 Ne pas déranger
 [To Free for chat]
 OK pour un chat

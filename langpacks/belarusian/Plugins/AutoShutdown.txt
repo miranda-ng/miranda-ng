@@ -168,7 +168,7 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
 Зачыніць усе запушчаныя праграмы і завяршыць працу Windows, каб можна было адключыць сілкаванне.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
-Захаваць бягучы стан  Windows ў памяці і перавесці сістэму ў рэжым чакання.
+Захаваць бягучы стан Windows ў памяці і перавесці сістэму ў рэжым чакання.
 [Saves the current Windows session on hard drive, so that the power can be turned off.]
 Захаваць бягучы стан Windows на цвёрдым дыску, так што сілкаванне можна выключыць.
 [Locks the computer. To unlock the computer, you must log in.]

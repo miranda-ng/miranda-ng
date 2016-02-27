@@ -34,7 +34,7 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Not available]
 Indisponible

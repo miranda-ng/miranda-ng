@@ -96,7 +96,7 @@ Zkouška události Odkaz ;-)
 [This is a sample file event :-D]
 Zkouška události Soubor :-D
 [This is a sample other event ;-D]
-Zkouška  jiné události ;-D
+Zkouška jiné události ;-D
 [Plugin Test]
 Zkouška doplňku
 [[b]Number of new message(s): %d[/b]\n]

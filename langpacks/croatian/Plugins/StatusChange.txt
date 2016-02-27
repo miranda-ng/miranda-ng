@@ -18,7 +18,7 @@
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [Free for chat]
 

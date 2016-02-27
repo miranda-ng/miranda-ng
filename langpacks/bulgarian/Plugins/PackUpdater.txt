@@ -124,7 +124,7 @@ Pack Updater
 [Pack Updater HTTP connection]
 HTTP връзки на Pack Updater
 [URL for checking updates not found.]
-Не е  открит URL за актуализиране.
+Не е открит URL за актуализиране.
 [Downloading version info...]
 Сваляне на инф. за версията...
 [Name of Update's file is not supported.]

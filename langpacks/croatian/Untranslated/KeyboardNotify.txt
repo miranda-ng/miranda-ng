@@ -25,7 +25,7 @@
 [Away]
 [Occupied]
 [Not available]
-[DND]
+[Do not disturb]
 [Free for chat]
 [Invisible]
 [On the phone]

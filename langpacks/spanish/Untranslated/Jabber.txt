@@ -669,7 +669,6 @@
 [Change Status]
 [Choose the status and status message]
 [Extended away (Not available)]
-[Do not disturb]
 [Priority]
 [Status message]
 [Change global status]

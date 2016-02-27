@@ -34,19 +34,19 @@
 [&Away]
 &Адсутнічаю
 [&Not available]
-Недасяжны
+Неда&ступны
 [Occ&upied]
 Зан&яты
-[&DND]
-&Не турбаваць
+[&Do not disturb]
+Не &турбаваць
 [&Free for chat]
 &Вольны
 [&Invisible]
-Нябачны
+&Нябачны
 [On the &phone]
-На &тэлефоне
+На тэле&фоне
 [Out to &lunch]
-Абедаю
+А&бедаю
 [Autoreply format:]
 Фармат аўтаадказу:
 [V]
@@ -212,14 +212,14 @@
 [Been gone since %nas_awaysince_time%, will be back later.]
 Сышоў з %nas_awaysince_time%, буду пазней.
 [Not available]
-Недасяжны
+Недаступны
 [Give it up, I'm not in!]
 Мяне няма
 [Occupied]
 Заняты
 [Not right now.]
 Не зараз.
-[DND]
+[Do not disturb]
 Не турбаваць
 [Give a guy some peace, would ya?]
 Не чапайце пакуль, га?
@@ -308,7 +308,7 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы змянілі некалькі дрэў адразу.\r\n Вы жадаеце захаваць змены ў "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
-" дыялог?\r\b\n"Ды" для захавання, "Няма" для  адмены змен.
+" дыялог?\r\b\n"Ды" для захавання, "Няма" для адмены змен.
 [Do you really want to delete this category with its messages?]
 
 [Do you really want to delete this message?]

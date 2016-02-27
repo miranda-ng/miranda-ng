@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Spravuje asociace souborů a URL jako jsou aim, ymsgr, xmpp, wpmsg, gg, tlen.
+[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
+Spravuje asociace souborů a URL jako jsou aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Asociace registrované pro Mirandu NG:

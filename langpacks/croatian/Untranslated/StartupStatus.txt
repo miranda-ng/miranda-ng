@@ -139,7 +139,6 @@
 [At least one profile must exist]
 [StartupStatus]
 [Your default profile will be changed]
-[There is a maximum of 6 menu items]
 [Pressed toolbar icon]
 [Released toolbar icon]
 [I've been away since %time%.]

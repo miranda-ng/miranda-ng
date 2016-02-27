@@ -1906,7 +1906,7 @@ tabSRMM: %s
 [Flash window when someone speaks]
 Міргаць вакном, пры новым паведамленні
 [Flash window when a word is highlighted]
-Міргаць вакном, пры падсветленым  паведамленні
+Міргаць вакном, пры падсветленым паведамленні
 [Create tabs or windows for highlight events]
 Ствараць укладку ці вакно пры падсветленай падзеі
 [Activate chat window on highlight]

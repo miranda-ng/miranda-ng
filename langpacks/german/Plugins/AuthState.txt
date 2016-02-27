@@ -24,7 +24,7 @@ Authstate-Icon deaktivieren
 [Enable AuthState icons]
 Authstate-Icon aktivieren
 [Request]
-
+Anfrage
 [Grant]
 Kontakt ist nicht autorisiert
 [Request & Grant]

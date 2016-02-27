@@ -62,7 +62,7 @@ Neaktivan
 Zauzet
 [Not available]
 Nedostupan
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Free for chat]
 Spreman za razgovor

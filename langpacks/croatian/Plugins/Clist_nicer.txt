@@ -454,7 +454,7 @@ drugo
 
 [Occ&upied\tCtrl+4]
 
-[&DND\tCtrl+5]
+[&Do not disturb\tCtrl+5]
 
 [&Free for chat\tCtrl+6]
 
@@ -502,7 +502,7 @@ drugo
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [Free for chat]
 

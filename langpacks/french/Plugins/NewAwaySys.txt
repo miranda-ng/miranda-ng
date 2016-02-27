@@ -38,14 +38,14 @@
 &Indisponible
 [Occ&upied]
 &Occupé
-[&DND]
+[&Do not disturb]
 &Ne pas déranger
 [&Free for chat]
-&OK pour un chat
+OK pour un &chat
 [&Invisible]
-
+In&visible
 [On the &phone]
-&Au téléphone
+Au &téléphone
 [Out to &lunch]
 &Parti manger
 [Autoreply format:]
@@ -221,7 +221,7 @@ Laisse tomber, je suis sorti !
 Occupé
 [Not right now.]
 Pas maintenant, merci.
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Give a guy some peace, would ya?]
 Tu veux bien me laisser en paix ?

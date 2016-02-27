@@ -547,19 +547,19 @@ lista kontakata
 
 [Away]
 
-[DND]
+[Do not disturb]
 
 [Not available]
 
 [Occupied]
 
-[Free for Chat]
+[Free for chat]
 
 [Invisible]
 
-[On the Phone]
+[On the phone]
 
-[Out to Lunch]
+[Out to lunch]
 
 [Set global status]
 
@@ -794,8 +794,6 @@ tekst
 [Shooting]
 
 [Having fun]
-
-[On the phone]
 
 [Gaming]
 

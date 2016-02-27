@@ -1,5 +1,4 @@
 ﻿[Change status when you send/receive an event.]
-[Not available]
 [On events...]
 [Send]
 [Receive]

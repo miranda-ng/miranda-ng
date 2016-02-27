@@ -311,7 +311,7 @@ Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [Free for chat]
 Готов за чат

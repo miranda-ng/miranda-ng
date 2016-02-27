@@ -464,7 +464,7 @@ Název rozšířeného stavu
 [Winamp Track]
 Sledování hudby
 [Pause Pushed]
-Pozastasvit  (stisknuto)
+Pozastasvit (stisknuto)
 [-default-]
 
 [Global WATrack hotkey]

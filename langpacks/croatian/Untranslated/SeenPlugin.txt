@@ -19,7 +19,7 @@
 [Away]
 [Not available]
 [Occupied]
-[DND]
+[Do not disturb]
 [On the phone]
 [Out to lunch]
 [Free for chat]

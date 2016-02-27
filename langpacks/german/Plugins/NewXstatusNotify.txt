@@ -24,7 +24,7 @@ Abwesend
 Außer Haus
 [Occupied]
 Beschäftigt
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Out to lunch]
 Zum Essen

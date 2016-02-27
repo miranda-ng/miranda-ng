@@ -33,10 +33,10 @@
 Далучаны
 [Away]
 Адсутнічаю
-[DND]
+[Do not disturb]
 Не турбаваць
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
 [Free for chat]
@@ -118,7 +118,7 @@
 [%u is invisible]
 %u схаваўся.
 [%u is not available]
-%u недасяжны.
+%u недаступны.
 [%u does not want to be disturbed]
 %u прасіў яго не турбаваць.
 [%u is occupied]

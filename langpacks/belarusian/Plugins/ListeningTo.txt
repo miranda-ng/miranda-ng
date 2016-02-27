@@ -92,7 +92,7 @@ mRadio
 [Other Variables:]
 Астатнія зменныя:
 [%listening% - Listening to info (as set above)]
-%listening% -  наладжаная вышэй інфармацыя
+%listening% - наладжаная вышэй інфармацыя
 [When nothing is playing, replace %listening% with:]
 Калі нічога не грае, пісаць:
 [Listening to (enabled)]

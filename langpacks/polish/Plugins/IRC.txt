@@ -308,6 +308,10 @@ BŁĄD DCC: Niewłaściwe sformowane żądanie CTCP od %s [%s]
 DCC: Żądanie wznowienia transferu plików od %s odrzucono
 [CTCP %s requested by %s]
 CTCP %s zażądane przez %s
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 CTCP PING odpowiedź od %s: %u s
 [CTCP %s reply from %s: %s]
@@ -510,7 +514,7 @@ Zdarzenie: Zaraz wracam
 Zdarzenie: Wrócę później
 [Event: Occupied]
 Zdarzenie: Zajęty
-[Event: DND]
+[Event: Do not disturb]
 Zdarzenie: Nie przeszkadzać
 [Event: Free for chat]
 Zdarzenie: Porozmawiajmy

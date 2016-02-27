@@ -38,8 +38,8 @@ Nazwa serwera zewnętrznego
 To jest link wklejany do okna rozmowy
 [Write log file]
 Utwórz dziennik
-[Enable / Disable HTTP server]
-Włącz/Wyłącz serwer HTTP
+[Enable HTTP server]
+Włącz serwer HTTP
 [Main menu items]
 Element głównego menu
 [Open log]
@@ -162,5 +162,3 @@ Nie udało się zapisać znaku XML do pliku\s
 Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usługa używa tego portu.
 [Disable HTTP server]
 Wyłącz serwer HTTP
-[Enable HTTP server]
-Włącz serwer HTTP

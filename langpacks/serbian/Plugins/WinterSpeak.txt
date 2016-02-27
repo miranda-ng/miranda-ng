@@ -34,7 +34,7 @@ Odsutan
 Prisutan
 [Away]
 Neaktivan
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Not available]
 Nedostupan

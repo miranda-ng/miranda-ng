@@ -547,19 +547,19 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Not available]
 Wrócę później
 [Occupied]
 Zajęty
-[Free for Chat]
+[Free for chat]
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the Phone]
+[On the phone]
 Pod telefonem
-[Out to Lunch]
+[Out to lunch]
 Na obiedzie
 [Set global status]
 Ustaw globalny status
@@ -795,8 +795,6 @@ Sprawy biznesowe
 Strzelam
 [Having fun]
 Bawię się
-[On the phone]
-Pod telefonem
 [Gaming]
 Gram
 [Studying]

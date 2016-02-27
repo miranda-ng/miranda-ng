@@ -83,11 +83,15 @@
 Інфармацыя пра перадачу файла
 [URI object]
 URI аб'ект
+[Moji]
+
+[File]
+Файл
 [Unknown event]
 Невядомая з'ява
 [Incoming call]
 
-[Invalid data!]
+[SkypeWeb error: Invalid data!]
 
 [[b]Original message:[/b]\n%s\n]
 

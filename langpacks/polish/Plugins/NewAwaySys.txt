@@ -38,7 +38,7 @@ Wyłącz autodpowiedź, gdy...
 &Wrócę później
 [Occ&upied]
 Za&jęty
-[&DND]
+[&Do not disturb]
 &Nie przeszkadzać
 [&Free for chat]
 &Chętny do rozmowy
@@ -221,7 +221,7 @@ Daj spokój, nie ma mnie!
 Zajęty
 [Not right now.]
 Nie teraz.
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Give a guy some peace, would ya?]
 Proszę, daj mi spokój!

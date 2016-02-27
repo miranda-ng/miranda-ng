@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.7
+;  Version: 0.2.11.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -56,7 +56,7 @@ Notificaciones cliente
 [Use this server for opening links:]
 Abrir enlaces con este servidor:
 [Use balloon notifications in system tray instead of popups]
-Globos de aviso en la  bandeja en vez de ventanas emergentes
+Globos de aviso en la bandeja en vez de ventanas emergentes
 [Preview]
 Previsualizar
 [Post Miranda statuses to Wall]

@@ -10,7 +10,6 @@
 [times (-1=infinite)]
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
 [Disable autoreply when...]
-[&Invisible]
 [Autoreply format:]
 [V]
 [%extratext% is your status message]

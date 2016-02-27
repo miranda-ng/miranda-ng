@@ -136,7 +136,7 @@
 [Contact tried to open an audio conference (not currently supported)]
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
 [Accept NetMeeting request from %s?]
-Прымеце запыт NetMeeting ад  %s?
+Прымеце запыт NetMeeting ад %s?
 [MSN Protocol]
 Пратакол MSN
 [Chat session established by my request]
@@ -280,7 +280,7 @@ MSN Чат
 [You cannot send message to yourself]
 Вы не можаце пасылаць паведамленні самому сабе
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Занадта вялікае паведамленне, максімум 133  знака UTF8
+Занадта вялікае паведамленне, максімум 133 знака UTF8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Паведамленні MSN абмежаваны 1202 знакамі UTF-8
 [Offline messaging is not allowed for LCS contacts]

@@ -308,6 +308,10 @@ Erreur DCC : Requête CTCP de s% mal formulée
 DCC : Rejet de la requête de reprise de transfert de s%
 [CTCP %s requested by %s]
 %s CTCP requis par %s
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 Réponse PING CTCP de %s : %u sec (s)
 [CTCP %s reply from %s: %s]
@@ -510,7 +514,7 @@ Effacer le serveur
 
 [Event: Occupied]
 
-[Event: DND]
+[Event: Do not disturb]
 
 [Event: Free for chat]
 

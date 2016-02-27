@@ -280,7 +280,7 @@ JID / URL:
 [Simple Mode]
 Просты рэжым
 [Advanced Mode]
-Пашыраны  рэжым
+Пашыраны рэжым
 [Add list... (Ins)]
 Дадаць спіс... (Ins)
 [Activate (Space)]
@@ -618,8 +618,8 @@ xHTML фармат чат-паведамленняў
 [Away]
 Адсутнічаю
 [Not available]
-Недасяжны
-[DND]
+Недаступны
+[Do not disturb]
 Не турбаваць
 [Free for chat]
 Вольны
@@ -1426,7 +1426,7 @@ Jabber Рэсурс
 [Accept only in band incoming filetransfers (don't disclose own IP)]
 Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
-Прымаць запыты аўтэнтыфікацыі HTTP  (XEP-0070)
+Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
 [General]
 Агульнае
 [Autoaccept multiuser chat invitations]
@@ -1580,13 +1580,13 @@ Odnoklassniki
 [Else ]
 Інакш\s
 [If Jabber ID is ']
-Калі JID  '
+Калі JID '
 [ (nickname: ]
  (мянушка:\s
 [If group is ']
 Калі гурт '
 [If subscription is ']
-Калі падпіска  '
+Калі падпіска '
 [then ]
 то\s
 [ (act., def.)]
@@ -1642,9 +1642,7 @@ Odnoklassniki
 [Status]
 Статус
 [Extended away (Not available)]
-Недаступны (Недасяжны)
-[Do not disturb]
-Не турбаваць
+Недаступны
 [Invisible]
 Нябачны
 [Offline]

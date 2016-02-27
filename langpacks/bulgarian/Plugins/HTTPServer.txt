@@ -29,8 +29,8 @@ IP адрес 2
 Външно име на сървъра
 [This is the link pasted to the message window]
 Следната връзка ще бъде поставяна с прозореца за съобщения
-[Enable / Disable HTTP server]
-Вкл / Изкл на HTTP сървъра
+[Enable HTTP server]
+Включване на HTTP сървъра
 [Main menu items]
 Елементи в главното меню
 [Open log]
@@ -111,5 +111,3 @@ HTTP сървър
 HTTP споделяне на нов файл
 [Disable HTTP server]
 Изключване на HTTP сървъра
-[Enable HTTP server]
-Включване на HTTP сървъра

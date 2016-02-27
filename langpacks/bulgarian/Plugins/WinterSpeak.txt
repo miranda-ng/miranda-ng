@@ -21,7 +21,7 @@
 На линия
 [Away]
 Отсъстващ
-[DND]
+[Do not disturb]
 Не безпокойте
 [Not available]
 Недостъпен

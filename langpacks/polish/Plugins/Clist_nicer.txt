@@ -451,11 +451,11 @@ W&yjdź
 [&Away\tCtrl+2]
 &Zaraz wracam\tCtrl+2
 [&Not available\tCtrl+3]
-&Wrócę później
+&Wrócę później\tCtrl+3
 [Occ&upied\tCtrl+4]
-Za&jęty
-[&DND\tCtrl+5]
-&Nie przeszkadzać
+Za&jęty\tCtrl+4
+[&Do not disturb\tCtrl+5]
+&Nie przeszkadzać\tCtrl+5
 [&Free for chat\tCtrl+6]
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
@@ -502,7 +502,7 @@ Zaraz wracam
 Wrócę później
 [Occupied]
 Zajęty
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Free for chat]
 Porozmawiajmy

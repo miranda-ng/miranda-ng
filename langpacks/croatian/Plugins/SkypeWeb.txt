@@ -88,12 +88,16 @@ Upozorenje
 
 [URI object]
 
+[Moji]
+
+[File]
+
 [Unknown event]
 
 [Incoming call]
 
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Invalid data!]
+[SkypeWeb error: Invalid data!]
 
 [[b]Original message:[/b]\n%s\n]
 

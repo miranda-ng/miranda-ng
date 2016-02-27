@@ -43,7 +43,7 @@ Popup цветове
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [On the phone]
 На телефона

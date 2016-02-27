@@ -19,7 +19,7 @@
 Абвестка (толькі колеры)
 [Warning (colors only)]
 Папярэджанне (толькі колеры)
-;  Various actions and tipper items not included in source code.
+; Various actions and tipper items not included in source code.
 [Last seen:]
 Апошняе з'яўленне:
 [Online since:]
@@ -27,7 +27,7 @@
 [Away since:]
 Адсутнічае з:
 [NA since:]
-Недасяжны з:
+Недаступны з:
 [Registered:]
 Зарэгістраваны:
 [Idle ago:]

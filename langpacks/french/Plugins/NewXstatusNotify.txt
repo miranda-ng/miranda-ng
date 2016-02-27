@@ -24,7 +24,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Out to lunch]
 Parti manger
@@ -298,7 +298,7 @@ n'est plus là.
 [(U) isn't there anymore!]
 n'est plus là.
 [User: Not available]
-Contact : Pas disponible
+Contact : Indisponible
 [(M) has something else to do]
 a autre chose à faire
 [(F) has something else to do]

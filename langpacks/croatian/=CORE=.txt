@@ -413,7 +413,7 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Occ&upied\tCtrl+4]
 
-[&DND\tCtrl+5]
+[&Do not disturb\tCtrl+5]
 
 [&Free for chat\tCtrl+6]
 
@@ -1656,7 +1656,7 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [Free for chat]
 

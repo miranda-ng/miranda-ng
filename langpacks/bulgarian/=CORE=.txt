@@ -402,19 +402,19 @@ Wikipedia
 [&Away\tCtrl+2]
 Отсъстващ\tCtrl+2
 [&Not available\tCtrl+3]
-Недостъпен\tCtrl+3
+&Недостъпен\tCtrl+3
 [Occ&upied\tCtrl+4]
 Зает\tCtrl+4
-[&DND\tCtrl+5]
-Не безпокойте\tCtrl+5
+[&Do not disturb\tCtrl+5]
+Не &безпокойте\tCtrl+5
 [&Free for chat\tCtrl+6]
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
 [On the &phone\tCtrl+8]
-На телефона\tCtrl+8
+На &телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
-На обяд\tCtrl+9
+На обя&д\tCtrl+9
 [Send file(s)]
 Изпрати файл(ове)
 [Cancel]
@@ -1591,7 +1591,7 @@ Popups за изобразяване
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [Free for chat]
 Готов за чат

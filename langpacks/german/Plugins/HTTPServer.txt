@@ -38,8 +38,8 @@ Externer Servername
 Füge folgenden Link im Nachrichtenfenster ein
 [Write log file]
 Logdatei schreib.
-[Enable / Disable HTTP server]
-Server aktivieren / deaktivieren
+[Enable HTTP server]
+HTTP-Server aktivieren
 [Main menu items]
 Einträge im Hauptmenü
 [Open log]
@@ -162,5 +162,3 @@ Freigabe entfernt
 
 [Disable HTTP server]
 HTTP-Server deaktivieren
-[Enable HTTP server]
-HTTP-Server aktivieren

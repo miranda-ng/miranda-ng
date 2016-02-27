@@ -104,7 +104,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Free for chat]
 OK pour un chat
@@ -271,7 +271,7 @@ Recherche de nouveaux e-mail
 [Reading body %s]
 Lecture du message %s
 [Reading new mail messages (%d%% done)]
-Lecture des nouveaux e-mail  (%d%%)
+Lecture des nouveaux e-mail (%d%%)
 [Deleting requested mails]
 Suppression des messages demandés
 [Deleting spam]

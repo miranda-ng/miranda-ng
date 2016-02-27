@@ -18,7 +18,7 @@
 [Select your name]
 Абярыце ваша імя
 [User name or '*']
-Імя кантакта ці  '*'
+Імя кантакта ці '*'
 [E-mage LAN protocol]
 Пратакол E-mage LAN
 [Network]

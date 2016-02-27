@@ -88,7 +88,7 @@ Opis:
 &Wrócę później
 [Occ&upied]
 Za&jęty
-[&DND]
+[&Do not disturb]
 &Nie przeszkadzać
 [&Free for chat]
 &Chętny do rozmowy

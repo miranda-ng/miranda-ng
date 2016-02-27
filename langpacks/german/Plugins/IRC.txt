@@ -308,6 +308,10 @@ DCC-FEHLER: Fehlerhafte CTCP-Anfrage von %s [%s]
 DCC: Anfrage Dateiübertragungsbericht von %s abgelehnt
 [CTCP %s requested by %s]
 CTCP %s Anfrage von %s
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 CTCP-PING-Antwort von %s: %u Sekunde(n)
 [CTCP %s reply from %s: %s]
@@ -510,7 +514,7 @@ Ereignis: Abwesend
 Ereignis: Außer Haus
 [Event: Occupied]
 Ereignis: Beschäftigt
-[Event: DND]
+[Event: Do not disturb]
 Ereignis: Bitte nicht stören
 [Event: Free for chat]
 Ereignis: Für Chat bereit

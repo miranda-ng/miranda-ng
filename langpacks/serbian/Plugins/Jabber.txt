@@ -628,7 +628,7 @@ Prisutan
 Neaktivan
 [Not available]
 Nedostupan
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Free for chat]
 Spreman za razgovor
@@ -1669,9 +1669,7 @@ Poruke
 [Status]
 Status
 [Extended away (Not available)]
-
-[Do not disturb (DND)]
-
+Nedostupan
 [Invisible]
 Nevidljiv
 [Offline]

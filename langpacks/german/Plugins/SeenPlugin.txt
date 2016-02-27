@@ -50,7 +50,7 @@ Abwesend
 Außer Haus
 [Occupied]
 Beschäftigt
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [On the phone]
 Am Telefon

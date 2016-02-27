@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.20
+;  Version: 0.1.1.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -213,6 +213,8 @@ Benutzer-bannen-Icon
 Statusicon
 [Wall message icon]
 Pinnwandicon
+[Mark messages as read icon]
+
 [Protocols]
 Protokolle
 [VKontakte]
@@ -440,6 +442,8 @@ Nachricht auf meine Pinnwand senden
 Neuigkeiten von VK laden
 [Wipe contacts missing in friend list]
 Kontakte außerhalb der Freundesliste löschen
+[Mark messages as read]
+Nachrichten als gelesen markieren
 [Send message to user\'s wall]
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]

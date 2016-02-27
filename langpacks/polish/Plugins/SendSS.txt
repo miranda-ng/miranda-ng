@@ -27,7 +27,7 @@ Czas (s):
 [&Format:]
 &Format:
 [Send b&y:]
-Wyślij  &przez:
+Wyślij &przez:
 [E&xplore]
 P&rzeglądaj
 [&Fill description textbox.]

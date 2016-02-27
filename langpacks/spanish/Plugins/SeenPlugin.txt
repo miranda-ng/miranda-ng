@@ -15,14 +15,14 @@ Fuera
 No disponible
 [Occupied]
 Ocupado
-[DND]
+[Do not disturb]
 No molestar
 [On the phone]
 En el teléfono
 [Out to lunch]
 Salí a comer
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [Invisible]
 Invisible
 [Offline]

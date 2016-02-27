@@ -142,7 +142,7 @@
 [Frame texts]
 [Special colors]
 [Away contacts]
-[DND contacts]
+[Do not disturb contacts]
 [Not available contacts]
 [Occupied contacts]
 [Free for chat contacts]

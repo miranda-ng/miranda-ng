@@ -38,7 +38,7 @@
 
 [Occ&upied]
 
-[&DND]
+[&Do not disturb]
 
 [&Free for chat]
 
@@ -221,7 +221,7 @@ Statusne poruke
 
 [Not right now.]
 
-[DND]
+[Do not disturb]
 
 [Give a guy some peace, would ya?]
 

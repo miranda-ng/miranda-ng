@@ -21,6 +21,26 @@ píxeles
 Dibujar borde
 [Round corners]
 Esquinas redondeadas
+[&Offline]
+&Fuera de línea
+[On&line]
+&En línea
+[&Away]
+Fuer&a
+[&Not available]
+&No disponible
+[Occ&upied]
+Oc&upado
+[&Do not disturb]
+No &molestar
+[&Free for chat]
+&Libre para el chat
+[&Invisible]
+&Invisible
+[On the &phone]
+En el &teléfono
+[Out to &lunch]
+Salí a &comer
 [Nickname]
 Apodo
 [Status]

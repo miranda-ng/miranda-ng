@@ -129,7 +129,7 @@ Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
 [Show typing notification switch in the status bar]
-Afficher le commutateur de notification de  frappe dans la barre d'état
+Afficher le commutateur de notification de frappe dans la barre d'état
 [Show typing notifications when a user is typing a message]
 Afficher des notifications quand un contact tape un message
 [Update message window icons when a user is typing]
@@ -591,7 +591,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Free for chat]
 OK pour un chat

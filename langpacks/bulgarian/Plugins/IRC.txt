@@ -292,7 +292,7 @@ IRC грешка
 [Ban'n Kick]
 Бан и изгонване
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Употребата на /AWAY в буфера за изпълнение  е ограничена,\n защото IRC изпраща командата автоматично.
+Употребата на /AWAY в буфера за изпълнение е ограничена,\n защото IRC изпраща командата автоматично.
 [IRC Error]
 IRC грешка
 [Ignore system is enabled]
@@ -415,7 +415,7 @@ Latin I
 Събитие: Недостъпен
 [Event: Occupied]
 Събитие: Зает
-[Event: DND]
+[Event: Do not disturb]
 Събитие: Не безпокойте
 [Event: Free for chat]
 Събитие: Готов за чат

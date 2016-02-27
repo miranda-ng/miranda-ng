@@ -24,7 +24,7 @@
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [Out to lunch]
 

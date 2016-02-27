@@ -281,19 +281,19 @@ Fuera de línea
 En línea
 [Away]
 Fuera
-[DND]
+[Do not disturb]
 No molestar
 [Not available]
 No disponible
 [Occupied]
 Ocupado
-[Free for Chat]
+[Free for chat]
 Libre para el chat
 [Invisible]
 Invisible
-[On the Phone]
+[On the phone]
 En el teléfono
-[Out to Lunch]
+[Out to lunch]
 Salí a comer
 [System]
 Sistema
@@ -311,8 +311,6 @@ texto
 Establecer mensaje de estado
 [None]
 Ninguno
-[On the phone]
-En el teléfono
 [Typing]
 Escribiendo
 [Action group list was changed: some was added or deleted]

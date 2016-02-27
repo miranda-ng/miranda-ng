@@ -43,6 +43,8 @@
 Сигурни ли сте?
 [Action]
 Действие
+[File]
+Файл
 [Unknown event]
 Неизвестно събитие
 [Incoming call]

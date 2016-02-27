@@ -547,19 +547,19 @@ Odsutan
 Prisutan
 [Away]
 Neaktivan
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Not available]
 Nedostupan
 [Occupied]
 Zauzet
-[Free for Chat]
+[Free for chat]
 Spreman za razgovor
 [Invisible]
 Nevidljiv
-[On the Phone]
+[On the phone]
 Telefoniram
-[Out to Lunch]
+[Out to lunch]
 Na ručku
 [Set global status]
 
@@ -795,8 +795,6 @@ Nema
 
 [Having fun]
 
-[On the phone]
-Telefoniram
 [Gaming]
 
 [Studying]

@@ -547,19 +547,19 @@ Hors ligne
 En ligne
 [Away]
 Absent
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Not available]
 Indisponible
 [Occupied]
 Occupé
-[Free for Chat]
+[Free for chat]
 OK pour un chat
 [Invisible]
 Invisible
-[On the Phone]
+[On the phone]
 Au téléphone
-[Out to Lunch]
+[Out to lunch]
 Parti manger
 [Set global status]
 
@@ -795,8 +795,6 @@ Collègues
 Prend des photos
 [Having fun]
 Prend du bon temps
-[On the phone]
-Au téléphone
 [Gaming]
 Joue
 [Studying]

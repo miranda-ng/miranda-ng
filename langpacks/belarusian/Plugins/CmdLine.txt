@@ -62,7 +62,7 @@
 ['%s' doesn't seem to be a valid account.]
 '%s' не мае быць дапушчальным контам.
 [Failed to change status for account '%s' to '%s'.]
-Не атрымалася змяніць статус конту  '%s' на '%s'.
+Не атрымалася змяніць статус конту '%s' на '%s'.
 [Failed to set '%S' status message to '%s' (status is '%s').]
 Не атрымалася ўсталяваць паведамленне статусу '%S' для '%S' (статус '%S').
 [Successfully set '%S' status message to '%s' (status is '%s').]

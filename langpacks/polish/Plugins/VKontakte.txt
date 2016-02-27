@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.20
+;  Version: 0.1.1.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -17,7 +17,7 @@ dla obrazków w oryginalnym rozmiarze
 [for preview max 130px*130px]
 do podglądu maks. 130px*130px
 [for preview max 604px*604px]
-do podglądu maks.  604px*604px
+do podglądu maks. 604px*604px
 [BBCode support on news and event notifications]
 Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
 [basic ([b], [i], [u], [s])]
@@ -213,6 +213,8 @@ Ikona transmisji
 Ikona Statusu
 [Wall message icon]
 Ikona posta na tablicy
+[Mark messages as read icon]
+
 [Protocols]
 Protokoły
 [VKontakte]
@@ -262,7 +264,7 @@ polubił/a twoje zdjęcie
 [liked your video]
 polubił/a twój film
 [liked your comment to photo]
-polubił/a twój komentarz pod  zdjęciem
+polubił/a twój komentarz pod zdjęciem
 [liked your comment to video]
 polubił/a twój komentarz pod filmem
 [liked your comment to topic]
@@ -440,6 +442,8 @@ Wyślij posta na moją tablicę
 Załaduj aktualności z VK
 [Wipe contacts missing in friend list]
 Usuń kontakty spoza listy znajomych
+[Mark messages as read]
+Oznacz wiadomości jako przeczytane
 [Send message to user\'s wall]
 Wyślij posta na tablicę użytkownika
 [Add as friend]
