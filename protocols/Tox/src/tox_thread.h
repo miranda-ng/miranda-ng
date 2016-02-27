@@ -23,6 +23,7 @@ public:
 			//	toxav_iterate(toxAV);
 		}
 		uint32_t interval = tox_iteration_interval(tox);
+		interval ++; /* Prevent zero sleep interval. */
 		Sleep(interval);
 	}
 
