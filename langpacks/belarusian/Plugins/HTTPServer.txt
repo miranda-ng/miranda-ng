@@ -37,8 +37,8 @@ IP адрас 2
 Гэта спасылка, устаўленая ў вакно гутаркі
 [Write log file]
 Весьці лог
-[Enable / Disable HTTP server]
-Укл/Выкл HTTP Сервер
+[Enable HTTP server]
+Укл. HTTP сервер
 [Main menu items]
 Элементы галоўнага меню
 [Open log]
@@ -56,7 +56,7 @@ IP адрас 2
 [Transfer limit (Kb/s)]
 Ліміт хуткасці (Kb/s)
 [No control when Away or Not available]
-Адкл. калі Адышоў або Недасяжны
+Адкл. калі Адсутнічаю або Недаступны
 [Connection control]
 Кантроль злучэнняў
 [Index creation]
@@ -132,7 +132,7 @@ Miranda NG HTTP-сервер
 [You need to restart Miranda to change the main menu]
 Змены ў меню адбудуцца пасля перазапуску
 [HTTP Server]
-HTTP Сервер
+HTTP сервер
 [Network]
 Сеціва
 [HTTP Share new file]
@@ -157,5 +157,3 @@ HTTP Новы агульны файл
 
 [Disable HTTP server]
 Адключыць HTTP сервер
-[Enable HTTP server]
-Укл. HTTP Сервер

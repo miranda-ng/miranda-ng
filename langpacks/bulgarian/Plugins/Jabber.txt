@@ -585,7 +585,7 @@ Jabber настроение
 Отсъстващ
 [Not available]
 Недостъпен
-[DND]
+[Do not disturb]
 Не безпокойте
 [Free for chat]
 Готов за чат
@@ -886,7 +886,7 @@ Jabber източник
 [Increase priority by %d]
 Увеличаване на предимството с %d
 [Decrease priority by %d]
-Намаляване на предимството с  %d
+Намаляване на предимството с %d
 [Resource priority [%d]]
 Предимство на източника [%d]
 [Join conference]
@@ -1495,8 +1495,6 @@ LiveJournal Talk
 Изберете състояние и текст
 [Status]
 Състояние
-[Do not disturb]
-Не безпокойте
 [Invisible]
 Невидим
 [Offline]

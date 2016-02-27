@@ -88,7 +88,7 @@ N&a chvíli pryč
 &Nejsem tady
 [Occ&upied]
 N&emám čas
-[&DND]
+[&Do not disturb]
 Ne&rušit!
 [&Free for chat]
 &Mám volno
@@ -97,7 +97,7 @@ Nev&iditelný
 [On the &phone]
 Na &telefonu
 [Out to &lunch]
-Na &obědě
+Na o&bědě
 [Set my avatar...]
 Nastavit avatar...
 [Set my nickname...]

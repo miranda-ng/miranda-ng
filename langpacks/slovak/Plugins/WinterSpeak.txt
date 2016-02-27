@@ -11,7 +11,7 @@ Odpojený
 Pripojený
 [Away]
 Preč
-[DND]
+[Do not disturb]
 Nerušiť
 [Not available]
 Nedostupný

@@ -46,10 +46,10 @@
 [Away]
 Адсутнічаю
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
-[DND]
+[Do not disturb]
 Не турбаваць
 [On the phone]
 На тэлефоне

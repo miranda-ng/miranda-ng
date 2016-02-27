@@ -50,7 +50,7 @@ Zaraz wracam
 Wrócę później
 [Occupied]
 Zajęty
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [On the phone]
 Pod telefonem

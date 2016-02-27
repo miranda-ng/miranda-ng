@@ -34,7 +34,7 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[DND]
+[Do not disturb]
 Nerušit!
 [Not available]
 Nejsem tady

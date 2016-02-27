@@ -11,7 +11,7 @@
 [Offline]
 [Online]
 [Away]
-[DND]
+[Do not disturb]
 [Not available]
 [Occupied]
 [Free for chat]

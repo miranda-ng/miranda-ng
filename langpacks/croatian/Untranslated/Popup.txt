@@ -153,7 +153,7 @@
 [Away]
 [Not available]
 [Occupied]
-[DND]
+[Do not disturb]
 [Free for chat]
 [Out to lunch]
 [On the phone]

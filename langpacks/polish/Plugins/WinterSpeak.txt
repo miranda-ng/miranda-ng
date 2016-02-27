@@ -34,7 +34,7 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Not available]
 Wrócę później

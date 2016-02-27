@@ -239,10 +239,10 @@ En línea
 Fuera
 [Not available]
 No disponible
-[DND]
+[Do not disturb]
 No molestar
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [&Leave chat session]
 &Abandonar sesión de charla
 [User &details]

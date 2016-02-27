@@ -26,7 +26,7 @@ Absent
 Indisponible
 [Occupied]
 Occupé
-[DND]
+[Do not disturb]
 Ne pas déranger
 [Free for chat]
 OK pour un chat

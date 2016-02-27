@@ -548,7 +548,7 @@ En el teléfono
 [Typing]
 Escribiendo
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [None]
 Ninguno
 [Custom Status]

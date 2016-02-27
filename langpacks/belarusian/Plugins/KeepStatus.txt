@@ -180,7 +180,7 @@ Dial-up (эксперыментальна)
 [Confirm dialog timeout (secs)]
 Інтэрвал пацверджання (сек)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Вы ўключылі функцыю змены статусу ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
+Вы ўключылі функцыю змены статусу ў частцы налад "Рэжым чакання", налады AdvancedAutoAway будуць ігнаравацца.
 [Monitor keyboard activity]
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]

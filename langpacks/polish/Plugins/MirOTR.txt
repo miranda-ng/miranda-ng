@@ -253,7 +253,7 @@ Wystąpił błąd podczas szyfrowania twojej wiadomości.\nWiadomość nie zosta
 ['%s' has already closed his/her private connection to you; you should do the same]
 "%s" zamknął już prywatne połączenie z Tobą; powinieneś zrobić to samo
 [Error setting up private conversation: %s]
-Błąd ustanawiania rozmowy prywatnej:  %s
+Błąd ustanawiania rozmowy prywatnej: %s
 [Malformed message received]
 Otrzymano zniekształconą wiadomość
 [We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]

@@ -22,7 +22,7 @@
 [Message Delivery Confirmation]
 Пацверджанне прыёму
 [Do Not Autoreply When Away]
-Выключыць аўтаадказ калі  Адсутнічаю
+Выключыць аўтаадказ калі Адсутнічаю
 [Convert Incoming Messages to BBCode]
 Перакладаць ув. паведамлення ў BBCode
 [Convert Outgoing Messages to HTML]

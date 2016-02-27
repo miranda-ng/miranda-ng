@@ -116,7 +116,7 @@
 [%S protocol]
 %S пратакол
 [N/A]
-Недасяжны
+Недаступны
 [Unknown]
 Невядома
 [Birthday list (%d)]

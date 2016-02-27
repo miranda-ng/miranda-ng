@@ -104,7 +104,7 @@ Zaraz wracam
 Wrócę później
 [Occupied]
 Zajęty
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Free for chat]
 Porozmawiajmy

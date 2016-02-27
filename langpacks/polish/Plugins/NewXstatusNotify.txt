@@ -24,7 +24,7 @@ Zaraz wracam
 Wrócę później
 [Occupied]
 Zajęty
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Out to lunch]
 Na obiedzie
@@ -169,7 +169,7 @@ Anuluj
 [Log extra status changes]
 Zapisuj zmiany xstatusu
 [Log extra status changes to file]
-Zapisuj  zmiany xstatusu do pliku
+Zapisuj zmiany xstatusu do pliku
 [Log extra status changes to history]
 Zapisuj zmiany xstatusu w historii
 [Only when message window is open]

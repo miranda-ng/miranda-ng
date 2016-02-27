@@ -110,7 +110,7 @@ OTR шифрованата сесия с "%s" бе обновена успешн
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 OTR шифрованата сесия бе прекратена от "%s". Вие трябва да направите същото!
 [OTR encrypted session with '%s' could not be started]
-Не е възможно започването на OTR шифрована  сесия "%s"
+Не е възможно започването на OTR шифрована сесия "%s"
 [OTR could not encrypt when sending message]
 Криптирането по време на изпращане не е възможно
 [OTR Information]

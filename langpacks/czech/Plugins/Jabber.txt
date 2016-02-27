@@ -628,7 +628,7 @@ Online
 Na chvíli pryč
 [Not available]
 Nejsem tady
-[DND]
+[Do not disturb]
 Nerušit!
 [Free for chat]
 Mám volno
@@ -1670,8 +1670,6 @@ Vyberte požadovaný stav a zadejte zprávu
 Stavy
 [Extended away (Not available)]
 Nejsem tady
-[Do not disturb]
-Nerušit
 [Invisible]
 Neviditelný
 [Offline]

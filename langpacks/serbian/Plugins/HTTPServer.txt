@@ -38,7 +38,7 @@ Vrati na standardno
 
 [Write log file]
 
-[Enable / Disable HTTP server]
+[Enable HTTP server]
 
 [Main menu items]
 
@@ -161,6 +161,4 @@ Mreža
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 
 [Disable HTTP server]
-
-[Enable HTTP server]
 

@@ -444,25 +444,25 @@ Clist nicer
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Адключаны
+Ад&ключаныtCtrl+0
 [On&line\tCtrl+1]
-Далучаны
+&Далучаны\tCtrl+1
 [&Away\tCtrl+2]
-Адышоў
+&Адсутнічаю\tCtrl+2
 [&Not available\tCtrl+3]
-Недасяжны
+Неда&ступны\tCtrl+3
 [Occ&upied\tCtrl+4]
-Заняты
-[&DND\tCtrl+5]
-Не турбаваць
+Зан&яты\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не &турбаваць\tCtrl+5
 [&Free for chat\tCtrl+6]
-Вольны
+&Вольны\tCtrl+6
 [&Invisible\tCtrl+7]
-Нябачны
+&Нябачны\tCtrl+7
 [On the &phone\tCtrl+8]
-Тэлефон
+На тэле&фоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
-За ежай
+А&бедаю\tCtrl+9
 [Show menu]
 Меню
 [Show/Hide offline contacts]
@@ -496,10 +496,10 @@ Clist nicer
 [Away]
 Адсутнічаю
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
-[DND]
+[Do not disturb]
 Не турбаваць
 [Free for chat]
 Вольны

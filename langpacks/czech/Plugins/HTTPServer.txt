@@ -38,8 +38,8 @@ Nastavit jako výchozí
 
 [Write log file]
 
-[Enable / Disable HTTP server]
-
+[Enable HTTP server]
+Aktivovat HTTP server
 [Main menu items]
 
 [Open log]
@@ -162,5 +162,3 @@ Sítě
 
 [Disable HTTP server]
 Deaktivovat HTTP server
-[Enable HTTP server]
-Aktivovat HTTP server

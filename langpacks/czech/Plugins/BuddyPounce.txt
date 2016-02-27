@@ -75,16 +75,16 @@ Na chvíli pryč
 Nejsem tady
 [Occupied]
 Nemám čas
-[DND]
+[Do not disturb]
 Nerušit!
 [Free for chat]
 Mám volno
 [Invisible]
 Neviditelný
 [On the phone]
-Mám telefon
+Na telefonu
 [Out to lunch]
-Jsem na obědě
+Na obědě
 [Send If Their Status changes]
 Odeslat po změně stavu
 [From Offline]
@@ -97,16 +97,16 @@ Do 'Na chvíli pryč'
 Do 'Nejsem tady'
 [To Occupied]
 Do 'Nemám čas'
-[To DND]
+[To Do not disturb]
 Do 'Nerušit'
 [To Free for chat]
 Do 'Mám volno'
 [To Invisible]
 Do 'Neviditelný'
 [To On the phone]
-Do 'Mám telefon'
+Do 'Na telefonu'
 [To Out to lunch]
-Do 'Jsem na obědě'
+Do 'Na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
 [error......]

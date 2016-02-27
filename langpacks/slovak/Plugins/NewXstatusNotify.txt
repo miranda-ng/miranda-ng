@@ -23,7 +23,7 @@ Preč
 Nedostupný
 [Occupied]
 Zaneprázdnený
-[DND]
+[Do not disturb]
 Nerušiť
 [Out to lunch]
 Na obede
@@ -88,7 +88,7 @@ je odpojený! :(
 [User: Offline]
 Užívateľ: odpojený
 [User: Invisible]
-Užívateľ: neviditeľný
+Užívateľ: neviditelný
 [(M) feels talkative!]
 je voľný pre rozhovor!
 [(F) feels talkative!]
@@ -96,7 +96,7 @@ je voľná pre rozhovor!
 [(U) feels talkative!]
 je voľný pre rozhovor!
 [User: Free for chat]
-Užívateľ: voľný na rozhovor
+Užívateľ: voľný k rozhovoru
 [(M) went away]
 je preč
 [(F) went away]
@@ -104,7 +104,7 @@ je preč
 [(U) went away]
 je preč
 [User: Away]
-Užívateľ: vonku
+Užívateľ: preč
 [(M) isn't there anymore!]
 je nedostupný!
 [(F) isn't there anymore!]

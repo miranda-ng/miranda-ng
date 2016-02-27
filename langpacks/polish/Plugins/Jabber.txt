@@ -628,7 +628,7 @@ Dostępny
 Zaraz wracam
 [Not available]
 Wrócę później
-[DND]
+[Do not disturb]
 Nie przeszkadzać
 [Free for chat]
 Porozmawiajmy
@@ -1670,8 +1670,6 @@ Zmień status i opis
 Status
 [Extended away (Not available)]
 Wrócę później
-[Do not disturb]
-Nie przeszkadzać
 [Invisible]
 Niewidoczny
 [Offline]

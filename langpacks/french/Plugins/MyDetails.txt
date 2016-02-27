@@ -88,14 +88,14 @@ Message d'état :
 &Indisponible
 [Occ&upied]
 &Occupé
-[&DND]
+[&Do not disturb]
 &Ne pas déranger
 [&Free for chat]
-&OK pour un chat
+OK pour un &chat
 [&Invisible]
-
+In&visible
 [On the &phone]
-&Au téléphone
+Au &téléphone
 [Out to &lunch]
 &Parti manger
 [Set my avatar...]

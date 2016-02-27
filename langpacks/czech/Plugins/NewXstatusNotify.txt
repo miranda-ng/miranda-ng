@@ -24,12 +24,12 @@ Na chvíli pryč
 Nejsem tady
 [Occupied]
 Nemám čas
-[DND]
+[Do not disturb]
 Nerušit!
 [Out to lunch]
-Jsem na obědě
+Na obědě
 [On the phone]
-Mám telefon
+Na telefonu
 [Always when changing from offline]
 Vždy při přechodu ze stavu offline
 [Notify when contact changes]
@@ -330,7 +330,7 @@ telefonuje
 [(U) had to answer the phone]
 telefonuje
 [User: On the phone]
-Stav (mám telefon)
+Stav (na telefonu)
 [User: from offline (has priority!)]
 Uživatel: z offline (má prioritu!)
 [Status message removed]

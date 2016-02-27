@@ -17,10 +17,10 @@ Fuera
 No disponible
 [Occupied]
 Ocupado
-[DND]
+[Do not disturb]
 No molestar
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [Invisible]
 Invisible
 [On the phone]

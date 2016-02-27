@@ -17,14 +17,14 @@ Fuera de línea
 En línea
 [Away]
 Fuera
-[DND]
+[Do not disturb]
 No molestar
 [Not available]
 No disponible
 [Occupied]
 Ocupado
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [Invisible]
 Invisible
 [Incoming message]

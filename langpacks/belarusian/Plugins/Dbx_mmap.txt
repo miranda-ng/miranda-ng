@@ -128,7 +128,7 @@
 [Processing completed successfully]
 Апрацоўка завершана паспяхова
 [Can't create map view of file (%u)]
-Не магу стварыць карту файла  (%u)
+Не магу стварыць карту файла (%u)
 [Processing module name chain]
 Апрацоўка ланцужка імёнаў плагінаў
 [Module chain corrupted, further entries ignored]

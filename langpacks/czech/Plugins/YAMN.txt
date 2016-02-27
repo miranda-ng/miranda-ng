@@ -104,16 +104,16 @@ Na chvíli pryč
 Nejsem tady
 [Occupied]
 Nemám čas
-[DND]
+[Do not disturb]
 Nerušit!
 [Free for chat]
 Mám volno
 [Invisible]
 Neviditelný
 [On the phone]
-Mám telefon
+Na telefonu
 [Out to lunch]
-Jsem na obědě
+Na obědě
 [YAMN General Options]
 Obecné možnosti
 [TopToolBar button "Check mail"]

@@ -13,5 +13,7 @@ Heslo:
 Uložiť heslo
 [Warning]
 Varovanie
+[File]
+Súbor
 [Network]
 Sieť

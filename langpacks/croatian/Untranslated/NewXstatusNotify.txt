@@ -7,7 +7,7 @@
 [Away]
 [Not available]
 [Occupied]
-[DND]
+[Do not disturb]
 [Out to lunch]
 [On the phone]
 [Always when changing from offline]

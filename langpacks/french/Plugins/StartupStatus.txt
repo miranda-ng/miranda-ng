@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
-;  Version: 0.8.0.47
+;  Version: 0.8.0.48
 ;  Authors: P Boon
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -300,8 +300,6 @@ Startup Status
 [Your default profile will be changed]
 Votre profil par défaut a été modifié
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-[There is a maximum of 6 menu items]
-Il y a un maximum de 6 entrées
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 

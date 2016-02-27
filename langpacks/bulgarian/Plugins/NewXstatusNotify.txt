@@ -21,7 +21,7 @@
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [Out to lunch]
 На обяд
@@ -230,9 +230,9 @@
 [(M) is eating something]
 (M) в момента яде нещо
 [(F) is eating something]
-(F)  в момента яде нещо
+(F) в момента яде нещо
 [(U) is eating something]
-(U)  в момента яде нещо
+(U) в момента яде нещо
 [User: Out to lunch]
 Потребител: "На обяд"
 [(M) had to answer the phone]

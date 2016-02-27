@@ -6,7 +6,7 @@
 ;  Authors: Martin Kleinhans
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
-Плагін дадае магчымасць выкарыстання  Miranda NG на ВК-экране разнастайных прылад Logitech.
+Плагін дадае магчымасць выкарыстання Miranda NG на ВК-экране разнастайных прылад Logitech.
 [General settings]
 Агульныя налады
 [Show softkey labels]

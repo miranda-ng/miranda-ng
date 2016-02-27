@@ -305,6 +305,10 @@ DCC: Запыт на рэверсную перадачу файла ад %s ад
 DCC: Запыт на працяг запампоўкі файла ад %s адхілены
 [CTCP %s requested by %s]
 CTCP %s запыт ад %s
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 CTCP PING адказ ад %s: %u сек (з)
 [CTCP %s reply from %s: %s]
@@ -503,7 +507,7 @@ WhoIs
 
 [Event: Occupied]
 
-[Event: DND]
+[Event: Do not disturb]
 
 [Event: Free for chat]
 

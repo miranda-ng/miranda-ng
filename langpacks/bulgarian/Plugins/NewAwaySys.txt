@@ -6,23 +6,23 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [On&line]
-На линия
+На &линия
 [&Away]
-Отсъстващ
+&Отсъстващ
 [&Not available]
-Недостъпен
+&Недостъпен
 [Occ&upied]
-Зает
-[&DND]
-Не безпокойте
+&Зает
+[&Do not disturb]
+Не &безпокойте
 [&Free for chat]
-Готов за чат
+Готов за &чат
 [&Invisible]
-Невидим
+Не&видим
 [On the &phone]
-На телефона
+На &телефона
 [Out to &lunch]
-На обяд
+На обя&д
 [&Variables]
 Променливи
 [Se&ttings]
@@ -73,7 +73,7 @@ URL
 Зает
 [Not right now.]
 Не точно сега.
-[DND]
+[Do not disturb]
 Не безпокойте
 [Give a guy some peace, would ya?]
 Дайте на човека малко спокойствие!

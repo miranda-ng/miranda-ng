@@ -26,7 +26,7 @@
 [To Away]
 [To Not available]
 [To Occupied]
-[To DND]
+[To Do not disturb]
 [To Free for chat]
 [To Invisible]
 [To On the phone]

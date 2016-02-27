@@ -88,13 +88,17 @@ Anrufinformation
 Dateiübertragungsinformation
 [URI object]
 URI-Objekt
+[Moji]
+
+[File]
+Datei
 [Unknown event]
 Unbekanntes Ereignis
 [Incoming call]
 Eingehender Anruf
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Invalid data!]
-Ungültige Daten!
+[SkypeWeb error: Invalid data!]
+
 [[b]Original message:[/b]\n%s\n]
 \[b]Originalnachricht:[/b]\n%s\n
 [Original message:\n%s\n]

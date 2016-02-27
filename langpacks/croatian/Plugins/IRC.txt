@@ -308,6 +308,10 @@ obavještava
 
 [CTCP %s requested by %s]
 
+[%u second]
+
+[%u seconds]
+
 [CTCP PING reply from %s: %u sec(s)]
 
 [CTCP %s reply from %s: %s]
@@ -510,7 +514,7 @@ obavještava
 
 [Event: Occupied]
 
-[Event: DND]
+[Event: Do not disturb]
 
 [Event: Free for chat]
 

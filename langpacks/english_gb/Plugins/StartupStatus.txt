@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
-;  Version: 0.8.0.47
+;  Version: 0.8.0.48
 ;  Authors: P Boon
 ;============================================================
 [Background color]

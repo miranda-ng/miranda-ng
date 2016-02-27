@@ -50,7 +50,7 @@
 [Secure (MD5) login]
 Бяспечны ўваход (MD5)
 [Legacy fix (for ICQ Groupware or IServerD only)]
-Альтэрнатыўныя серверы (толькі  ICQ Groupware і IServerD)
+Альтэрнатыўныя серверы (толькі ICQ Groupware і IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Падтрымліваць далучэнне (калі вы выкарыстоўваеце проксі-сервер і часта раз'ядноўваецеся)
 [Ignore concurrent error messages]

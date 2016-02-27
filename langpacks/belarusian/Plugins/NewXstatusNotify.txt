@@ -20,10 +20,10 @@
 [Away]
 Адсутнічаю
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
-[DND]
+[Do not disturb]
 Не турбаваць
 [Out to lunch]
 Абедаю
@@ -294,7 +294,7 @@
 [(U) isn't there anymore!]
 адсутнічае!
 [User: Not available]
-Кантакт: Недасяжны
+Кантакт: Недаступны
 [(M) has something else to do]
 заняты чымсьці іншым
 [(F) has something else to do]
@@ -326,9 +326,9 @@
 [(U) had to answer the phone]
 теэлефануе
 [User: On the phone]
-Кантакт: Тэлефануе
+Кантакт: на тэлефоне
 [User: from offline (has priority!)]
-Кантакт:  далучаецца (мае прыярытэт!)
+Кантакт: далучаецца (мае прыярытэт!)
 [Status message removed]
 
 [Status message changed]

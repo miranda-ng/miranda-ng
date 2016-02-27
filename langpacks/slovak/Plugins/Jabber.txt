@@ -11,6 +11,8 @@ Podpora Jabber (XMPP) protokolu pre Mirandu NG.
 Storno
 [Type:]
 Typ:
+[Extended away (Not available)]
+Nedostupný
 [Password:]
 Heslo:
 [Save password]
@@ -117,7 +119,7 @@ Pripojený
 Preč
 [Not available]
 Nedostupný
-[DND]
+[Do not disturb]
 Nerušiť
 [Free for chat]
 Voľný k rozhovoru

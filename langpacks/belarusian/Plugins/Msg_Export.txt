@@ -42,7 +42,7 @@ UTF8 у новых файлах
 [Exporting old messages]
 Экспарт старых паведамленняў
 [History file for %s (%s format %s)]
-Файл гісторыі для  %s (%s фармат %s)
+Файл гісторыі для %s (%s фармат %s)
 [&Find...]
 &Знайсці
 [&External]
@@ -92,7 +92,7 @@ UTF8 у новых файлах
 [Search string was not found!]
 Радок не знойдзена!
 [Save as RTF]
-Захаваць у  RTF
+Захаваць у RTF
 [Color...]
 Колер...
 [Font...]

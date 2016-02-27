@@ -628,7 +628,7 @@ Online
 Abwesend
 [Not available]
 Außer Haus
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Free for chat]
 Für Chat bereit
@@ -1670,8 +1670,6 @@ Bitte wählen Sie den Status und die Statusnachricht aus
 Status
 [Extended away (Not available)]
 Erweiterte Abwesenheit (Außer Haus)
-[Do not disturb]
-Bitte nicht stören
 [Invisible]
 Unsichtbar
 [Offline]

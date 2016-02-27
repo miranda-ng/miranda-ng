@@ -342,14 +342,14 @@ Na chvíli pryč
 Nejsem tady
 [Occupied]
 Nemám čas
-[DND]
+[Do not disturb]
 Nerušit!
 [Free for chat]
 Mám volno
 [Out to lunch]
-Jsem na obědě
+Na obědě
 [On the phone]
-Mám telefon
+Na telefonu
 [Width]
 Šířka
 [Upper left corner]

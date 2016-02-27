@@ -334,7 +334,7 @@ Odchozí kontakty: %s
 [Incoming contacts: %s]
 Příchozí kontakty: %s
 [Webpager message from %s (%s): %s]
-Zpráva přes webpager od  %s (%s): %s
+Zpráva přes webpager od %s (%s): %s
 [Email express from %s (%s): %s]
 Zpráva přes Email Express od %s (%s): %s
 [Status change: %s]
@@ -488,9 +488,9 @@ Neznámá kódová stránka %u
 [User %s (%d) changed ICQ client: %s]
 Uživatel %s (%d) změnil ICQ klienta na %s
 [Status request by %s (%d):%s]
-Požadavek na zjištění stavu od  %s (%d):%s
+Požadavek na zjištění stavu od %s (%d):%s
 [Ignored status request by %s (%d):%s]
-Ignorovaný požadavek na zjištění stavu od  %s (%d):%s
+Ignorovaný požadavek na zjištění stavu od %s (%d):%s
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
 Umělec: %s\\r\\nNázev: %s\\r\\nAlbum: %s
 [No "%s" items]

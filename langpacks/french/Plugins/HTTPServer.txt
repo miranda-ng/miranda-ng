@@ -38,8 +38,8 @@ Par défaut
 
 [Write log file]
 Journaliser
-[Enable / Disable HTTP server]
-Activer/désactiver HTTP server
+[Enable HTTP server]
+Activer HTTP server
 [Main menu items]
 Éléments du menu
 [Open log]
@@ -162,5 +162,3 @@ Réseau
 
 [Disable HTTP server]
 Désactiver HTTP server
-[Enable HTTP server]
-Activer HTTP server

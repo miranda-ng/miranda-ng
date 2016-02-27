@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към aim, ymsgr, xmpp, wpmsg, gg, tlen.
+[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
+Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.
 [Registered associations for Miranda NG:]
 Регистрирани асоциации с Miranda NG:
 [Miscellaneous]

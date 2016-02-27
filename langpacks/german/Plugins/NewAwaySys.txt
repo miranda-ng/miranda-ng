@@ -35,19 +35,19 @@ On&line
 [&Away]
 &Abwesend
 [&Not available]
-Außer Haus
+Au&ßer Haus
 [Occ&upied]
-Beschäftigt
-[&DND]
-Bitte nicht stören
+Besch&äftigt
+[&Do not disturb]
+Bitte nicht st&ören
 [&Free for chat]
 &Für Chat bereit
 [&Invisible]
 Uns&ichtbar
 [On the &phone]
-Am Telefon
+Am &Telefon
 [Out to &lunch]
-Zum Essen
+&Zum Essen
 [Autoreply format:]
 Format der Autoantwort:
 [V]
@@ -221,7 +221,7 @@ Gib's auf! Ich bin nicht da!
 Beschäftigt
 [Not right now.]
 Im Moment nicht!
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Give a guy some peace, would ya?]
 Lass' mich im Moment mal in Ruhe!

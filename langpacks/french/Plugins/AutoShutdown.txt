@@ -178,7 +178,7 @@ Sauvegarde la session actuelle de Windows en mémoire et met le système en veil
 [Saves the current Windows session on hard drive, so that the power can be turned off.]
 Sauvegarde la session actuelle de Windows sur le disque dur, de sorte que le courant puisse être coupé (Veille Prolongée).
 [Locks the computer. To unlock the computer, you must log in.]
-Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).
+Verrouille l'ordinateur (ou plutôt Windows). Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).
 [Sets all protocols to offline and closes all RAS connections.]
 Vous déconnecte de tous vos protocoles et coupe votre connexion Internet.
 [Alerts]

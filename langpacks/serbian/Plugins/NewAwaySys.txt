@@ -31,23 +31,23 @@
 [Disable autoreply when...]
 
 [On&line]
-
+&Prisutan
 [&Away]
-
+&Neaktivan
 [&Not available]
-&Nedostupan
+N&edostupan
 [Occ&upied]
-
-[&DND]
-
+&Zauzet
+[&Do not disturb]
+Ne &uznemiravaj
 [&Free for chat]
-
+Spreman za &razgovor
 [&Invisible]
-
+Ne&vidljiv
 [On the &phone]
-
+&Telefoniram
 [Out to &lunch]
-
+N&a ručku
 [Autoreply format:]
 
 [V]
@@ -214,14 +214,14 @@ Neaktivan
 [Been gone since %nas_awaysince_time%, will be back later.]
 
 [Not available]
-
+Nedostupan
 [Give it up, I'm not in!]
 Nema svrhe, nisam tu!
 [Occupied]
 Zauzet
 [Not right now.]
 Ne sad.
-[DND]
+[Do not disturb]
 Ne uznemiravaj
 [Give a guy some peace, would ya?]
 Iskuliraj, važi?

@@ -348,7 +348,7 @@ Wählen Sie ein Bild zum übersenden
 [Cannot create image cache directory. ERROR: %d: %s\n%s]
 Kann Bilder-Cache_Verzeichnis nicht erstellen. FEHLER: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-Kann empfangenes Bild  nicht in Datei speichern. FEHLER: %d: %s\n%s
+Kann empfangenes Bild nicht in Datei speichern. FEHLER: %d: %s\n%s
 [Cannot open image file. ERROR: %d: %s\n%s]
 Kann Bilddatei nicht öffnen. FEHLER: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]

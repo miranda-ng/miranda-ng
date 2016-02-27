@@ -23,7 +23,7 @@
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [Free for chat]
 Готов за чат

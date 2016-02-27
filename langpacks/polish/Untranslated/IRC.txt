@@ -1,0 +1,2 @@
+﻿[%u second]
+[%u seconds]

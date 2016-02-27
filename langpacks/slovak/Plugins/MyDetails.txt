@@ -7,6 +7,24 @@
 ;============================================================
 [Nickname:]
 Prezívka:
+[&Offline]
+&Odpojený
+[&Away]
+Pr&eč
+[&Not available]
+&Nedostupný
+[Occ&upied]
+&Zaneprázdnený
+[&Do not disturb]
+Ne&rušiť
+[&Free for chat]
+&Voľný k rozhovoru
+[&Invisible]
+Nevi&ditelný
+[On the &phone]
+&Telefonujem
+[Out to &lunch]
+Na o&bede
 [Cancel]
 Storno
 [seconds]

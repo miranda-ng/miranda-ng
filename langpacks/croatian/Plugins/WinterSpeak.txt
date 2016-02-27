@@ -34,7 +34,7 @@ promjene statusa
 
 [Away]
 
-[DND]
+[Do not disturb]
 
 [Not available]
 

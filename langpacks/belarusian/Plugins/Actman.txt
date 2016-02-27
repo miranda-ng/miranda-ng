@@ -547,19 +547,19 @@ UTF16+сігнатура
 Далучаны
 [Away]
 Адсутнічаю
-[DND]
+[Do not disturb]
 Не турбаваць
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
-[Free for Chat]
+[Free for chat]
 Вольны
 [Invisible]
 Нябачны
-[On the Phone]
+[On the phone]
 На тэлефоне
-[Out to Lunch]
+[Out to lunch]
 Абедаю
 [Set global status]
 
@@ -795,8 +795,6 @@ UTF16+сігнатура
 Фатаграфую
 [Having fun]
 Весялюся
-[On the phone]
-На тэлефоне
 [Gaming]
 Гуляю
 [Studying]

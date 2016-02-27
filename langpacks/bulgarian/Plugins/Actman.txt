@@ -38,7 +38,7 @@
 [Registered actions]
 Регистрирани действия
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия  на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
+Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
 [Actman settings converted to new version]
 Настройките на Actman са надградени
 [Actions]
@@ -353,19 +353,19 @@ TopToolBar
 На линия
 [Away]
 Отсъстващ
-[DND]
+[Do not disturb]
 Не безпокойте
 [Not available]
 Недостъпен
 [Occupied]
 Зает
-[Free for Chat]
+[Free for chat]
 Готов за чат
 [Invisible]
 Невидим
-[On the Phone]
+[On the phone]
 На телефона
-[Out to Lunch]
+[Out to lunch]
 На обяд
 [Set global status]
 Задаване на глобално състояние
@@ -493,8 +493,6 @@ Unicode текст
 Снима
 [Having fun]
 Забавлява се
-[On the phone]
-На телефона
 [Gaming]
 Играе
 [Studying]

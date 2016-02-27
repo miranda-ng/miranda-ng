@@ -79,25 +79,25 @@ pikseli
 [Status message:]
 
 [&Offline]
-
+&Odsutan
 [On&line]
-
+&Prisutan
 [&Away]
-
+&Neaktivan
 [&Not available]
-&Nedostupan
+N&edostupan
 [Occ&upied]
-
-[&DND]
-
+&Zauzet
+[&Do not disturb]
+Ne &uznemiravaj
 [&Free for chat]
-
+Spreman za &razgovor
 [&Invisible]
-
+Ne&vidljiv
 [On the &phone]
-
+&Telefoniram
 [Out to &lunch]
-
+N&a ručku
 [Set my avatar...]
 
 [Set my nickname...]

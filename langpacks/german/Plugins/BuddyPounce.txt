@@ -75,7 +75,7 @@ Abwesend
 Außer Haus
 [Occupied]
 Beschäftigt
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Free for chat]
 Für Chat bereit
@@ -97,7 +97,7 @@ Zu Abwesend
 Zu Außer Haus
 [To Occupied]
 Zu Beschäftigt
-[To DND]
+[To Do not disturb]
 Zu Bitte nicht Stören
 [To Free for chat]
 Zu Zum Chat Bereit

@@ -61,19 +61,19 @@ Odpojený
 Pripojený
 [Away]
 Preč
-[DND]
+[Do not disturb]
 Nerušiť
 [Not available]
 Nedostupný
 [Occupied]
 Zaneprázdnený
-[Free for Chat]
+[Free for chat]
 Voľný k rozhovoru
 [Invisible]
 Neviditelný
-[On the Phone]
+[On the phone]
 Telefonuje
-[Out to Lunch]
+[Out to lunch]
 Na obede
 [Ignore all]
 Všetko ignorovať
@@ -91,7 +91,5 @@ Meno súboru
 text
 [None]
 Žiadne
-[On the phone]
-Telefonuje
 [contact list]
 zoznam kontaktov

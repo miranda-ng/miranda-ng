@@ -78,25 +78,25 @@
 [Status message:]
 Паведамленне статусу:
 [&Offline]
-Адключаны
+Ад&ключаны
 [On&line]
-У с&еціве
+&Далучаны
 [&Away]
 &Адсутнічаю
 [&Not available]
-Недасяжны
+Неда&ступны
 [Occ&upied]
-Зан&ят
-[&DND]
-&Не турбаваць
+Зан&яты
+[&Do not disturb]
+Не &турбаваць
 [&Free for chat]
-&Свабодны
+&Вольны
 [&Invisible]
 &Нябачны
 [On the &phone]
-Тэлефаную
+На тэле&фоне
 [Out to &lunch]
-Абедаю
+А&бедаю
 [Set my avatar...]
 Змяніць мой аватар...
 [Set my nickname...]

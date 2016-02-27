@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Супастаўленне пашырэнняў файлаў і спасылак з пратаколамі: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
+[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
+Супастаўленне пашырэнняў файлаў і спасылак з пратаколамі: AIM, Gadu-Gadu, Jabber, MSN, PluginUpdater, Tlen, Yahoo.
 [Registered associations for Miranda NG:]
 Зарэгістраваныя супастаўленні для Miranda NG:
 [Miscellaneous]

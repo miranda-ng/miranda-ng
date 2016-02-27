@@ -12,14 +12,14 @@ Fuera de línea
 [Invisible]
 Invisible
 [Free for chat]
-Libre para el chat	
+Libre para el chat
 [Away]
 Fuera
 [Not available]
 No disponible
 [Occupied]
 Ocupado
-[DND]
+[Do not disturb]
 No molestar
 [Out to lunch]
 Salí a comer

@@ -70,10 +70,10 @@
 [Away]
 Адсутнічаю
 [Not available]
-Недасяжны
+Недаступны
 [Occupied]
 Заняты
-[DND]
+[Do not disturb]
 Не турбаваць
 [Free for chat]
 Вольны
@@ -92,17 +92,17 @@
 [To Away]
 На Адсутнічаю
 [To Not available]
-На Недасяжны
+На Недаступны
 [To Occupied]
 На Заняты
-[To DND]
+[To Do not disturb]
 На Не турбаваць
 [To Free for chat]
 На Вольны
 [To Invisible]
 На Нябачны
 [To On the phone]
-На Тэлефон
+На На тэлефоне
 [To Out to lunch]
 На Абедаю
 [The Message    (%d Characters)]

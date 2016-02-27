@@ -170,25 +170,25 @@ URL:
 [&Status]
 Състояние
 [&Offline\tCtrl+0]
-Извън линия\tCtrl+0
+&Извън линия\tCtrl+0
 [On&line\tCtrl+1]
-На линия\tCtrl+1
+На &линия\tCtrl+1
 [&Away\tCtrl+2]
-Отсъстващ\tCtrl+2
+&Отсъстващ\tCtrl+2
 [&Not available\tCtrl+3]
-Недостъпен\tCtrl+3
+&Недостъпен\tCtrl+3
 [Occ&upied\tCtrl+4]
-Зает\tCtrl+4
-[&DND\tCtrl+5]
-Не безпокойте\tCtrl+5
+&Зает\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не &безпокойте\tCtrl+5
 [&Free for chat\tCtrl+6]
-Готов за чат\tCtrl+6
+Готов за &чат\tCtrl+6
 [&Invisible\tCtrl+7]
-Невидим\tCtrl+7
+Не&видим\tCtrl+7
 [On the &phone\tCtrl+8]
-На телефона\tCtrl+8
+На &телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
-На обяд\tCtrl+9
+На обя&д\tCtrl+9
 [Not focused]
 Дефокусирано
 [Offline]
@@ -201,7 +201,7 @@ URL:
 Недостъпен
 [Occupied]
 Зает
-[DND]
+[Do not disturb]
 Не безпокойте
 [Free for chat]
 Готов за чат

@@ -628,7 +628,7 @@ Zahtjev za prihvaćanje
 
 [Not available]
 
-[DND]
+[Do not disturb]
 
 [Free for chat]
 
@@ -1669,8 +1669,6 @@ poruke
 [Status]
 
 [Extended away (Not available)]
-
-[Do not disturb]
 
 [Invisible]
 

@@ -6,7 +6,7 @@
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
-Плагін антыспама для  Miranda NG.
+Плагін антыспама для Miranda NG.
 [Question (Ctrl+Enter for carriage return):]
 Пытанне (Ctrl+Enter для пачатку новага радка):
 [Restore defaults]

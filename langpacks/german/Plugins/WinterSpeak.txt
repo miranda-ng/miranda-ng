@@ -34,7 +34,7 @@ Offline
 Online
 [Away]
 Abwesend
-[DND]
+[Do not disturb]
 Bitte nicht stören
 [Not available]
 Außer Haus

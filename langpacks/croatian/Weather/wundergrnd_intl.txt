@@ -494,6 +494,8 @@ očisti
 
 [Snow Showers 80% Chance Of Precipitation]
 
+[Snow Showers]
+
 [Snow]
 
 [South]

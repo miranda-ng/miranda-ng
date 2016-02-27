@@ -47,11 +47,11 @@ Wahrscheinlichkeit von Gewittern, 50% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 60% Chance Of Precipitation]
 Wahrscheinlichkeit von Gewittern, 60% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 70% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 70% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 80% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 80% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 90% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 90% Niederschlagswahrscheinlichkeit
 [Chance Rain 40% Chance Of Precipitation]
 Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
 [Chance Rain 50% Chance Of Precipitation]
@@ -59,7 +59,7 @@ Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
 [Chance Rain 80% Chance Of Precipitation]
 Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
 [Chance Rain 90% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 90% Niederschlagswahrscheinlichkeit
 [Clear]
 Klar
 [Cloudy]
@@ -165,7 +165,7 @@ Vorhersage Tag 5
 [Freezing Drizzle Mist]
 
 [Freezing Drizzle]
-gefrierender Niesel
+Gefrierender Niesel
 [Freezing Fog]
 Gefrierender Nebel
 [Freezing Rain Mist]
@@ -207,9 +207,9 @@ Eisgraupel, 30% Niederschlagswahrscheinlichkeit
 [Ice Pellets 40% Chance Of Precipitation]
 Eisgraupel, 40% Niederschlagswahrscheinlichkeit
 [Ice Pellets 50% Chance Of Precipitation]
-
+Eisgraupel, 50% Niederschlagswahrscheinlichkeit
 [Ice Pellets 60% Chance Of Precipitation]
-
+Eisgraupel, 60% Niederschlagswahrscheinlichkeit
 [Ice Pellets 70% Chance Of Precipitation]
 Eisgraupel, 70% Niederschlagswahrscheinlichkeit
 [Ice Pellets 80% Chance Of Precipitation]
@@ -449,7 +449,7 @@ Schneeschauer
 [Smoke]
 Smog
 [Snow 100% Chance Of Precipitation]
-
+Schnee, 100% Niederschlagswahrscheinlichkeit
 [Snow 20% Chance Of Precipitation]
 Schnee, 20% Niederschlagswahrscheinlichkeit
 [Snow 30% Chance Of Precipitation]
@@ -459,7 +459,7 @@ Schnee, 40% Niederschlagswahrscheinlichkeit
 [Snow 50% Chance Of Precipitation]
 Schnee, 50% Niederschlagswahrscheinlichkeit
 [Snow 60% Chance Of Precipitation]
-
+Schnee, 60% Niederschlagswahrscheinlichkeit
 [Snow 70% Chance Of Precipitation]
 Schnee, 70% Niederschlagswahrscheinlichkeit
 [Snow 80% Chance Of Precipitation]
@@ -493,7 +493,9 @@ Schneeschauer, 60% Niederschlagswahrscheinlichkeit
 [Snow Showers 70% Chance Of Precipitation]
 Schneeschauer, 70% Niederschlagswahrscheinlichkeit
 [Snow Showers 80% Chance Of Precipitation]
-
+Schneeschauer, 80% Niederschlagswahrscheinlichkeit
+[Snow Showers]
+Schneeschauer
 [Snow]
 Schnee
 [South]
@@ -511,7 +513,7 @@ Sonntag
 [T-Storms 100% Chance Of Precipitation]
 Gewitter, 100% Niederschlagswahrscheinlichkeit
 [T-Storms 30% Chance Of Precipitation]
-
+Gewitter, 30% Niederschlagswahrscheinlichkeit
 [T-Storms 40% Chance Of Precipitation]
 Gewitter, 40% Niederschlagswahrscheinlichkeit
 [T-Storms 50% Chance Of Precipitation]

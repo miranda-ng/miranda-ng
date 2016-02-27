@@ -440,7 +440,7 @@ Pracuju
 [Relaxing]
 Odpočinek
 [On the phone]
-Mám telefon
+Na telefonu
 [In institute]
 
 [At school]

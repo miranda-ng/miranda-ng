@@ -85,19 +85,19 @@ On&line
 [&Away]
 &Abwesend
 [&Not available]
-Außer Haus
+Au&ßer Haus
 [Occ&upied]
-Beschäftigt
-[&DND]
-Bitte nicht stören
+Besch&äftigt
+[&Do not disturb]
+Bitte nicht st&ören
 [&Free for chat]
 &Für Chat bereit
 [&Invisible]
 Uns&ichtbar
 [On the &phone]
-Am Telefon
+Am &Telefon
 [Out to &lunch]
-Zum Essen
+&Zum Essen
 [Set my avatar...]
 Meinen Avatar setzen...
 [Set my nickname...]

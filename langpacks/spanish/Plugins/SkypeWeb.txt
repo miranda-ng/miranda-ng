@@ -25,6 +25,8 @@ Advertencia
 &Invitar usuario...
 [&Leave chat session]
 &Abandonar sesión de charla
+[File]
+Archivo
 [Protocols]
 Protocolos
 [Request authorization]

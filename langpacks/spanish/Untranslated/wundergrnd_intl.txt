@@ -219,6 +219,7 @@
 [Snow Showers 60% Chance Of Precipitation]
 [Snow Showers 70% Chance Of Precipitation]
 [Snow Showers 80% Chance Of Precipitation]
+[Snow Showers]
 [Snow]
 [Stable]
 [Steady]

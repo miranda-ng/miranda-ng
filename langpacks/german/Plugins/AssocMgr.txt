@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Verwaltet Verknüpfungen mit Dateien und URLs wie aim, ymsgr, xmpp, wpmsg, gg, tlen.
+[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
+Verwaltet Verknüpfungen mit Dateien und URLs wie aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Mit Miranda NG registrierte Verknüpfungen:

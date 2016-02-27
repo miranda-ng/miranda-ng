@@ -50,7 +50,7 @@ tekst
 
 [Occupied]
 
-[DND]
+[Do not disturb]
 
 [On the phone]
 

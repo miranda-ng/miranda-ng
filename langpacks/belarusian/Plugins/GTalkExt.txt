@@ -6,7 +6,7 @@
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
-Пашырэнне пратакола  Jabber для абвестках аб пошце GTalk.
+Пашырэнне пратакола Jabber для абвестках аб пошце GTalk.
 [Popup notifications (needs popup plugin)]
 Абвесткі вакном (патрабуецца плагiн ўсплывальных вокнаў)
 [Notify in fullscreen mode too]

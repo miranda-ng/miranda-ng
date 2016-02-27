@@ -17,7 +17,7 @@ Preč
 Nedostupný
 [Occupied]
 Zaneprázdnený
-[DND]
+[Do not disturb]
 Nerušiť
 [On the phone]
 Telefonuje
