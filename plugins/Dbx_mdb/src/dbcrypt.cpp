@@ -25,75 +25,86 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#define DBKEY_PROVIDER "Provider"
+#define DBKEY_KEY      "Key"
+#define DBKEY_IS_ENCRYPTED "EncryptedDB"
+
+CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
+{
+	CRYPTO_PROVIDER **ppProvs, *pProv;
+	int iNumProvs;
+	Crypto_EnumProviders(&iNumProvs, &ppProvs);
+	if (iNumProvs == 0)
+		return nullptr;
+
+	if (iNumProvs > 1)
+	{
+		CSelectCryptoDialog dlg(ppProvs, iNumProvs);
+		dlg.DoModal();
+		pProv = dlg.GetSelected();
+	}
+	else pProv = ppProvs[0];
+
+	txn_ptr txn(m_pMdbEnv);
+	MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
+	mdb_put(txn, m_dbCrypto, &key, &value, 0);
+	txn.commit();
+
+	return pProv;
+}
 
 int CDbxMdb::InitCrypt()
 {
 	CRYPTO_PROVIDER *pProvider;
-	bool bMissingKey = false;
 
-	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(NULL, "CryptoEngine", "Provider", &dbv)) {
-	LBL_CreateProvider:
-		CRYPTO_PROVIDER **ppProvs;
-		int iNumProvs;
-		Crypto_EnumProviders(&iNumProvs, &ppProvs);
-		if (iNumProvs == 0)
-			return 1;
+	txn_ptr_ro txn(m_txn);
 
-		if (iNumProvs > 1)
-		{
-			CSelectCryptoDialog dlg(ppProvs, iNumProvs);
-			dlg.DoModal();
-			pProvider = dlg.GetSelected();
-		}
-		else pProvider = ppProvs[0];
-
-		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
-		dbcws.value.type = DBVT_BLOB;
-		dbcws.value.pbVal = (PBYTE)pProvider->pszName;
-		dbcws.value.cpbVal = (int)strlen(pProvider->pszName) + 1;
-		WriteContactSetting(NULL, &dbcws);
-	}
-	else 
+	MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value;
+	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
 	{
-		if (dbv.type != DBVT_BLOB) { // old version, clean it up
-			bMissingKey = true;
-			goto LBL_CreateProvider;
-		}
-
-		pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
-		FreeVariant(&dbv);
-		if (pProvider == NULL)
-			goto LBL_CreateProvider;
+		pProvider = Crypto_GetProvider((const char*)value.mv_data);
+		if (pProvider == nullptr)
+			pProvider = SelectProvider();
 	}
+	else
+	{
+		pProvider = SelectProvider();
+	}
+	if (pProvider == nullptr) 
+		return 1;
 
-	if ((m_crypto = pProvider->pFactory()) == NULL)
+	if ((m_crypto = pProvider->pFactory()) == nullptr)
 		return 3;
 
-	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(NULL, "CryptoEngine", "StoredKey", &dbv)) {
-		bMissingKey = true;
-
-	LBL_SetNewKey:
-		m_crypto->generateKey(); // unencrypted key
+	key.mv_size = sizeof(DBKEY_KEY); key.mv_data = DBKEY_KEY;
+	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
+	{
+		if (value.mv_size != m_crypto->getKeyLength())
+		{
+			if (!m_crypto->generateKey())
+				return 6;
+			StoreKey();
+		}
+		else
+		{
+			if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
+				if (!EnterPassword((const BYTE*)value.mv_data, value.mv_size))  // password protected?
+					return 4;
+		}
+	}
+	else
+	{
+		if (!m_crypto->generateKey())
+			return 6;
 		StoreKey();
 	}
-	else {
-		size_t iKeyLength = m_crypto->getKeyLength();
-		if (dbv.cpbVal != (WORD)iKeyLength)
-			goto LBL_SetNewKey;
 
-		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
-			if (!EnterPassword(dbv.pbVal, iKeyLength))  // password protected?
-				return 4;
-
-		FreeVariant(&dbv);
-	}
-
-	dbv.type = DBVT_BYTE;
-	if (!GetContactSetting(NULL, "CryptoEngine", "DatabaseEncryption", &dbv))
-		m_bEncrypted = dbv.bVal != 0;
+	key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = DBKEY_IS_ENCRYPTED;
+	
+	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
+		m_bEncrypted = *(const BYTE*)value.mv_data != 0;
+	else 
+		m_bEncrypted = false;
 
 	InitDialogs();
 	return 0;
@@ -105,11 +116,10 @@ void CDbxMdb::StoreKey()
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
-	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "StoredKey" };
-	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.cpbVal = (WORD)iKeyLength;
-	dbcws.value.pbVal = pKey;
-	WriteContactSetting(NULL, &dbcws);
+	txn_ptr txn(m_pMdbEnv);
+	MDB_val key = { sizeof(DBKEY_KEY), DBKEY_KEY }, value = { iKeyLength, pKey };
+	mdb_put(txn, m_dbCrypto, &key, &value, 0);
+	txn.commit();
 
 	SecureZeroMemory(pKey, iKeyLength);
 }
@@ -122,7 +132,7 @@ void CDbxMdb::SetPassword(LPCTSTR ptszPassword)
 	}
 	else {
 		m_bUsesPassword = true;
-		m_crypto->setPassword(ptrA(mir_utf8encodeT(ptszPassword)));
+		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(ptszPassword)));
 	}
 	UpdateMenuItem();
 }
@@ -147,10 +157,10 @@ void CDbxMdb::ToggleEncryption()
 
 	m_bEncrypted = !m_bEncrypted;
 
-	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "DatabaseEncryption" };
-	dbcws.value.type = DBVT_BYTE;
-	dbcws.value.bVal = m_bEncrypted;
-	WriteContactSetting(NULL, &dbcws);
+	txn_ptr txn(m_pMdbEnv);
+	MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), DBKEY_IS_ENCRYPTED }, value = { sizeof(BYTE), &m_bEncrypted };
+	mdb_put(txn, m_dbCrypto, &key, &value, 0);
+	txn.commit();
 
 	hSettingChangeEvent = hSave1;
 	hEventAddedEvent = hSave2;

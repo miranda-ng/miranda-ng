@@ -322,9 +322,15 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
+	MDB_dbi m_dbCrypto;
+
+
 	int      InitCrypt(void);
 	void     ToggleEventsEncryption(MCONTACT contactID);
 	void     ToggleSettingsEncryption(MCONTACT contactID);
+
+	CRYPTO_PROVIDER* SelectProvider();
+	void     GenerateNewKey();
 
 	void     InitDialogs();
 	bool     EnterPassword(const BYTE *pKey, const size_t keyLen);

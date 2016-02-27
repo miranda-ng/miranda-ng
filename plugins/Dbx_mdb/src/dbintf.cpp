@@ -86,6 +86,7 @@ int CDbxMdb::Load(bool bSkipInit)
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
 
+		mdb_open(trnlck, "crypto", MDB_CREATE, &m_dbCrypto);
 		mdb_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
 		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
 		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
