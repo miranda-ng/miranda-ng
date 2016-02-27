@@ -115,7 +115,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 			events.remove(0);
 		}
 	}
-	{// this code not delete all settings 
+	{
 		DBSettingKey keyS = { contactID, 0 };
 		memset(keyS.szSettingName, 0, sizeof(keyS.szSettingName));
 
@@ -124,15 +124,16 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
 
-		mdb_cursor_get(cursor, &key, &data, MDB_SET);
+		mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
 
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+		do
 		{
 			DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
 			if (pKey->dwContactID != contactID)
 				break;
 			mdb_cursor_del(cursor, 0);
-		}
+		} 
+			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
 		txn.commit();
 	}
 
@@ -202,14 +203,14 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
+	do {
 		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
 		if (pKey->dwContactId != hContact)
 			return;
 
 		list.insert(new EventItem(pKey->ts, pKey->dwEventId));
-	}
+	} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
 }
 
 BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
