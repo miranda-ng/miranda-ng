@@ -45,10 +45,14 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	}
 	else pProv = ppProvs[0];
 
-	txn_ptr txn(m_pMdbEnv);
-	MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
-	mdb_put(txn, m_dbCrypto, &key, &value, 0);
-	txn.commit();
+	for (;; Remap())
+	{
+		txn_ptr txn(m_pMdbEnv);
+		MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
+		mdb_put(txn, m_dbCrypto, &key, &value, 0);
+		if (txn.commit())
+			break;
+	}
 
 	return pProv;
 }
@@ -102,7 +106,7 @@ int CDbxMdb::InitCrypt()
 	key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = DBKEY_IS_ENCRYPTED;
 	
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
-		m_bEncrypted = *(const BYTE*)value.mv_data != 0;
+		m_bEncrypted = *(const bool*)value.mv_data;
 	else 
 		m_bEncrypted = false;
 
@@ -116,11 +120,14 @@ void CDbxMdb::StoreKey()
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
-	txn_ptr txn(m_pMdbEnv);
-	MDB_val key = { sizeof(DBKEY_KEY), DBKEY_KEY }, value = { iKeyLength, pKey };
-	mdb_put(txn, m_dbCrypto, &key, &value, 0);
-	txn.commit();
-
+	for (;; Remap())
+	{
+		txn_ptr txn(m_pMdbEnv);
+		MDB_val key = { sizeof(DBKEY_KEY), DBKEY_KEY }, value = { iKeyLength, pKey };
+		mdb_put(txn, m_dbCrypto, &key, &value, 0);
+		if (txn.commit())
+			break;
+	}
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
@@ -139,39 +146,31 @@ void CDbxMdb::SetPassword(LPCTSTR ptszPassword)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxMdb::ToggleEncryption()
+int CDbxMdb::EnableEncryption(bool bEncrypted)
 {
-	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = NULL;
-	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = NULL;
-	HANDLE hSave3 = hEventDeletedEvent;     hEventDeletedEvent = NULL;
-	HANDLE hSave4 = hEventFilterAddedEvent; hEventFilterAddedEvent = NULL;
+	if (m_bEncrypted == bEncrypted)
+		return 0;
 
 	mir_cslock lck(m_csDbAccess);
-	ToggleSettingsEncryption(NULL);
-	ToggleEventsEncryption(NULL);
-
-	for (MCONTACT contactID = FindFirstContact(); contactID; contactID = FindNextContact(contactID)) {
-		ToggleSettingsEncryption(contactID);
-		ToggleEventsEncryption(contactID);
+	for (MCONTACT contactID = FindFirstContact(); contactID; contactID = FindNextContact(contactID)) 
+	{
+		EnableContactEncryption(contactID, bEncrypted);
 	}
 
-	m_bEncrypted = !m_bEncrypted;
-
-	txn_ptr txn(m_pMdbEnv);
-	MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), DBKEY_IS_ENCRYPTED }, value = { sizeof(BYTE), &m_bEncrypted };
-	mdb_put(txn, m_dbCrypto, &key, &value, 0);
-	txn.commit();
-
-	hSettingChangeEvent = hSave1;
-	hEventAddedEvent = hSave2;
-	hEventDeletedEvent = hSave3;
-	hEventFilterAddedEvent = hSave4;
+	for (;; Remap())
+	{
+		txn_ptr txn(m_pMdbEnv);
+		MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), DBKEY_IS_ENCRYPTED }, value = { sizeof(bool), &bEncrypted };
+		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), 1);
+		if (txn.commit())
+			break;
+	}
+	m_bEncrypted = bEncrypted;
+	return 0;
 }
 
-void CDbxMdb::ToggleSettingsEncryption(MCONTACT /*contactID*/)
+int CDbxMdb::EnableContactEncryption(MCONTACT hContact, bool bEncrypted)
 {
-}
-
-void CDbxMdb::ToggleEventsEncryption(MCONTACT /*contactID*/)
-{
+	//TODO: encrypt/decrypt all contact events and settings
+	return 0;
 }

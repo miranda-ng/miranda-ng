@@ -1,4 +1,48 @@
+static IconItem iconList[] =
+{
+	{ LPGEN("Logo"), "logo", IDI_LOGO },
+	{ LPGEN("Password"), "password", IDI_ICONPASS }
+};
 
+#define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
+
+class COptionsDialog : public CDlgBase
+{
+	CCtrlCheck m_chkStandart;
+	CCtrlCheck m_chkTotal;
+	CCtrlButton m_btnChangePass;
+	CDbxMdb *m_db;
+
+	void OnInitDialog()
+	{
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+		m_btnChangePass.SetTextA(Translate(m_db->GetMenuTitle()));
+	}
+
+	void OnApply()
+	{
+		m_db->EnableEncryption(m_chkTotal.GetState() != 0);
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+	}
+
+	void ChangePass(CCtrlButton*)
+	{
+		CallService(MS_DB_CHANGEPASSWORD, 0, 0);
+	}
+
+public:
+	COptionsDialog(CDbxMdb *db) :
+		CDlgBase(g_hInst, IDD_OPTIONS),
+		m_chkStandart(this, IDC_STANDARD),
+		m_chkTotal(this, IDC_TOTAL),
+		m_btnChangePass(this, IDC_USERPASS),
+		m_db(db)
+	{
+		m_btnChangePass.OnClick = Callback(this, &COptionsDialog::ChangePass);
+	}
+};
 
 class CSelectCryptoDialog : public CDlgBase
 {
@@ -45,4 +89,91 @@ public:
 	{
 		return m_selected;
 	}
+};
+
+struct DlgChangePassParam
+{
+	CDbxMdb *db;
+	TCHAR newPass[100];
+	unsigned short wrongPass;
+};
+
+class CEnterPasswordDialog : public CDlgBase
+{
+	CCtrlData m_header;
+	CCtrlData m_language;
+	CCtrlEdit m_passwordEdit;
+	CCtrlButton m_buttonOK;
+
+	DlgChangePassParam *m_param;
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		if (msg == WM_TIMER)
+		{
+			UINT LangID = (UINT)GetKeyboardLayout(0);
+			char Lang[3] = { 0 };
+			GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
+			Lang[0] = toupper(Lang[0]);
+			Lang[1] = tolower(Lang[1]);
+			m_language.SetTextA(Lang);
+			return FALSE;
+		}
+		else if (msg == WM_CTLCOLORSTATIC)
+		{
+			if ((HWND)lParam == m_language.GetHwnd()) {
+				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+				SetBkMode((HDC)wParam, TRANSPARENT);
+				return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
+			}
+		}
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void OnInitDialog()
+	{
+		m_header.SendMsg(WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(iconList[0].defIconID)));
+		if (m_param->wrongPass)
+		{
+			if (m_param->wrongPass > 2)
+			{
+				m_passwordEdit.Disable();
+				m_buttonOK.Disable();
+				m_header.SetText(TranslateT("Too many errors!"));
+			}
+			else
+			{
+				m_header.SetText(TranslateT("Password is not correct!"));
+			}
+		}
+		else
+		{
+			m_header.SetText(TranslateT("Please type in your password"));
+		}
+		SetTimer(m_hwnd, 1, 200, NULL);
+	}
+
+	void OnOK(CCtrlButton*)
+	{
+		m_passwordEdit.GetText(m_param->newPass, _countof(m_param->newPass));
+		EndDialog(m_hwnd, -128);
+	}
+
+	void OnDestroy()
+	{
+		KillTimer(m_hwnd, 1);
+	}
+
+public:
+	CEnterPasswordDialog(DlgChangePassParam *param) :
+		CDlgBase(g_hInst, IDD_LOGIN),
+		m_header(this, IDC_HEADERBAR),
+		m_language(this, IDC_LANG),
+		m_passwordEdit(this, IDC_USERPASS),
+		m_buttonOK(this, IDOK),
+		m_param(param)
+	{
+		m_buttonOK.OnClick = Callback(this, &CEnterPasswordDialog::OnOK);
+	}
+
 };

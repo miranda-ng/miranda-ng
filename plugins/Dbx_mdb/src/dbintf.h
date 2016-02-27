@@ -147,7 +147,6 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 
 	void DatabaseCorruption(const TCHAR *ptszText);
 
-	void ToggleEncryption(void);
 	void StoreKey(void);
 	void SetPassword(const TCHAR *ptszPassword);
 	void UpdateMenuItem(void);
@@ -158,7 +157,7 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
-
+	int      EnableEncryption(bool bEnable);
 public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) { return TRUE; }
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
@@ -324,11 +323,9 @@ protected:
 
 	MDB_dbi m_dbCrypto;
 
-
 	int      InitCrypt(void);
-	void     ToggleEventsEncryption(MCONTACT contactID);
-	void     ToggleSettingsEncryption(MCONTACT contactID);
 
+	int      EnableContactEncryption(MCONTACT, bool bEnable);
 	CRYPTO_PROVIDER* SelectProvider();
 	void     GenerateNewKey();
 
