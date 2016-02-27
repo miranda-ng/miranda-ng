@@ -42,6 +42,10 @@
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]
 [you are not authorized yet]
+[Account name]
+[Protocol]
 [Network]
+[General]
+[Interception]
 ;file \plugins\Dropbox\src\dropbox_services.cpp
 ["%s" is not valid.\nUse "/help" for more info.]

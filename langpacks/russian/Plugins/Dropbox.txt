@@ -33,8 +33,8 @@
 Вставить сылку в поле ввода
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
-[Contact]
-Контакт
+[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемый этим протоколом.
 [in process...]
 в процессе...
 [server does not respond]
@@ -43,6 +43,8 @@
 авторизация прошла успешно
 [Dropbox supports the following commands:]
 Доступны следующие команды:
+[shows all files in folder "path" ("path" is relative from root folder)]
+показывает все файлы в папке "path" ("path" относительно корневой папки)
 [returns download link for file or folder with specified path ("path" is relative from root folder)]
 возвращает ссылку на файл или папку, расположенную по указанному пути (относительно корневой папки)
 [deletes file or folder with specified path ("path" is relative from root folder)]
@@ -63,25 +65,15 @@
 вы уже авторизованы
 [you are not authorized yet]
 вы ещё не авторизованы
-[Network]
-Сеть
-["%s" is not valid.\nUse "/help" for more info.]
-"%s" не действительна.\nИспользуйте "/help" для получения справки.
-[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
-Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемый этим протоколом.
-[Interception]
-Перехват
-[Module]
-Модуль
-[Setting]
-Параметр
-[Value]
-Значение
-[Type]
-Тип
-[shows all files in folder "path" ("path" is relative from root folder)]
-показывает все файлы в папке "path" ("path" относительно корневой папки)
-[Protocol]
-Протокол
 [Account name]
 Учётная запись
+[Protocol]
+Протокол
+[Network]
+Сеть
+[General]
+Общее
+[Interception]
+Перехват
+["%s" is not valid.\nUse "/help" for more info.]
+"%s" не действительна.\nИспользуйте "/help" для получения справки.
