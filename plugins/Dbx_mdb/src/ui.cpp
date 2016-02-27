@@ -23,21 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-struct DlgChangePassParam
-{
-	CDbxMdb *db;
-	TCHAR newPass[100];
-	unsigned short wrongPass;
-};
-
-#define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Logo"), "logo", IDI_LOGO },
-	{ LPGEN("Password"), "password", IDI_ICONPASS }
-};
-
 static HGENMENU hSetPwdMenu;
 
 static UINT oldLangID;
@@ -56,74 +41,13 @@ void LanguageChanged(HWND hwndDlg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(iconList[0].defIconID)));
-
-		param = (DlgChangePassParam*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		if (param->wrongPass) {
-			if (param->wrongPass > 2) {
-				HWND hwndCtrl = GetDlgItem(hwndDlg, IDC_USERPASS);
-				EnableWindow(hwndCtrl, FALSE);
-				hwndCtrl = GetDlgItem(hwndDlg, IDOK);
-				EnableWindow(hwndCtrl, FALSE);
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Too many errors!"));
-			}
-			else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is not correct!"));
-		}
-		else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Please type in your password"));
-
-		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, NULL);
-		LanguageChanged(hwndDlg);
-		return TRUE;
-
-	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
-			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-			SetBkMode((HDC)wParam, TRANSPARENT);
-			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
-		}
-		return FALSE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, IDCANCEL);
-			break;
-
-		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, _countof(param->newPass));
-			EndDialog(hwndDlg, IDOK);
-		}
-		break;
-
-	case WM_TIMER:
-		LanguageChanged(hwndDlg);
-		return FALSE;
-
-	case WM_DESTROY:
-		KillTimer(hwndDlg, 1);
-		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-	}
-
-	return FALSE;
-}
-
 bool CDbxMdb::EnterPassword(const BYTE *pKey, const size_t keyLen)
 {
 	DlgChangePassParam param = { this };
+	CEnterPasswordDialog dlg(&param);
 	while (true) 
 	{
-		// Esc pressed
-		if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
+		if (-128 != dlg.DoModal())
 			return false;
 
 		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
@@ -250,52 +174,14 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CDbxMdb *db = (CDbxMdb *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		db = (CDbxMdb*)lParam;
-		CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
-		return TRUE;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()) {
-			if (LOWORD(wParam) == IDC_USERPASS)
-				CallService(MS_DB_CHANGEPASSWORD, 0, 0);
-			else
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) != (UINT)db->isEncrypted()) {
-				db->ToggleEncryption();
-				CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
-			}
-			break;
-		}
-		break;
-	}
-
-	return FALSE;
-}
 
 static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -790000000;
-	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTitle = LPGEN("Database");
-	odp.pfnDlgProc = DlgProcOptions;
-	odp.dwInitParam = (LPARAM)obj;
+	odp.pDialog = new COptionsDialog((CDbxMdb*)obj);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -311,7 +197,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDbxMdb *db = (CDbxMdb*)obj;
 
-	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "mmap");
+	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "lmdb");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
