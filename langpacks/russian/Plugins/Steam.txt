@@ -21,6 +21,8 @@
 Большие аватары
 [Message sessions]
 Беседы
+[Show chat state events (i.e., user closed chat session)]
+Отображать изменения состояния чата (напр., пользователь закрыл окно)
 [Captcha]
 Проверочный код
 [Cancel]

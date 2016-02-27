@@ -7,10 +7,10 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
-[Login to Miranda NG]
-Вхід у Miranda NG
 [Cancel]
 Скасувати
+[Login to Miranda NG]
+Вхід у Miranda NG
 [New password]
 Новий пароль
 [Please enter your new password]

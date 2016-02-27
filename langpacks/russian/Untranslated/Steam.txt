@@ -1,4 +1,3 @@
-﻿[Show chat state events (i.e., user closed chat session)]
-[Steam Guard]
+﻿[Steam Guard]
 [SteamID]
 [closed chat session]
