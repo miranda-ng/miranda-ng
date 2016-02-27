@@ -1,10 +1,8 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by D:\Myranda\plugins\Db3x_mmap\res\db3x_mmap.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\Others\SVN\MirandaNG\trunk\plugins\Dbx_mdb\res\dbx_mdb.rc
 //
-
 #define IDREMOVE                        3
-
 #define IDI_ICONPASS                    100
 #define IDI_LOGO                        101
 #define IDD_LOGIN                       102
@@ -22,13 +20,16 @@
 #define IDC_TOTAL                       1008
 #define IDC_SELECTCRYPT_COMBO           1010
 #define IDC_CRYPTOPROVIDER_DESCR        1011
+#define IDC_CHECK1                      1012
+#define IDC_CHECK_TOTALCRYPT            1012
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1012
+#define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
