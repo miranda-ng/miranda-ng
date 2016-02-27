@@ -67,3 +67,21 @@
 Сеть
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" не действительна.\nИспользуйте "/help" для получения справки.
+[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемый этим протоколом.
+[Interception]
+Перехват
+[Module]
+Модуль
+[Setting]
+Параметр
+[Value]
+Значение
+[Type]
+Тип
+[shows all files in folder "path" ("path" is relative from root folder)]
+показывает все файлы в папке "path" ("path" относительно корневой папки)
+[Protocol]
+Протокол
+[Account name]
+Учётная запись
