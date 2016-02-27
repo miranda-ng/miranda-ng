@@ -75,8 +75,10 @@ INT_PTR CDropbox::ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam)
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	const char *proto = GetContactProto(pccsd->hContact);
-	const char *interceptedProtos = db_get_sa(NULL, MODULE, "InterceptedProtos");
-	if (interceptedProtos == NULL || strstr(interceptedProtos, proto) == NULL)
+	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
+	if (interceptedAccounts == NULL)
+		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
+	if (interceptedAccounts == NULL || strstr(interceptedAccounts, proto) == NULL)
 		return CALLSERVICE_NOTFOUND;
 	
 	return ProtoSendFile(wParam, lParam);
