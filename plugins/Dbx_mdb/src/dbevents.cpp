@@ -244,6 +244,7 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 
 	MDB_val key = { sizeof(key2), &key2 }, data;
 	key2.dwEventId++;
+
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBEvent *dbe = (DBEvent*)data.mv_data;
