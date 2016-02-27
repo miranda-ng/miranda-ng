@@ -298,7 +298,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 {
-	if (hDbEvent == 0) return INVALID_CONTACT_ID;
+	if (hDbEvent == 0) 
+		return INVALID_CONTACT_ID;
 
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr_ro txn(m_txn);
@@ -355,7 +356,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	if (hDbEvent == 0) return m_evLast = 0;
+	if (hDbEvent == 0) 
+		return m_evLast = 0;
 
 	MDB_val data;
 	DWORD ts;
@@ -388,7 +390,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	if (hDbEvent == 0) return m_evLast = 0;
+	if (hDbEvent == 0) 
+		return m_evLast = 0;
 
 	MDB_val data;
 	DWORD ts;
