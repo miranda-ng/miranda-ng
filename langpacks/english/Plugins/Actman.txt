@@ -400,7 +400,6 @@
 [Business]
 [Shooting]
 [Having fun]
-[On the phone]
 [Gaming]
 [Studying]
 [Shopping]
