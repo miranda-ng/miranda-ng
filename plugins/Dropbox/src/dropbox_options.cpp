@@ -69,14 +69,16 @@ void CDropboxOptionsInterception::OnInitDialog()
 	int count;
 	PROTOACCOUNT** accounts;
 	Proto_EnumAccounts(&count, &accounts);
-	const char* interceptedProtos = db_get_sa(NULL, MODULE, "InterceptedProtos");
+	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
+	if (interceptedAccounts == NULL)
+		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT *acc = accounts[i];
 		if (strstr(acc->szProtoName, MODULE) || strstr(acc->szProtoName, "Meta"))
 			continue;
 		int iItem = m_accounts.AddItem(mir_tstrdup(acc->tszAccountName), -1, (LPARAM)acc);
 		m_accounts.SetItem(iItem, 1, mir_a2t(acc->szProtoName));
-		if (interceptedProtos && strstr(interceptedProtos, acc->szModuleName))
+		if (interceptedAccounts && strstr(interceptedAccounts, acc->szModuleName))
 			m_accounts.SetCheckState(iItem, TRUE);
 	}
 
@@ -121,7 +123,8 @@ void CDropboxOptionsInterception::OnApply()
 			interceptedProtos.AppendFormat("%s\t", acc->szModuleName);
 		interceptedProtos.TrimRight();
 	}
-	db_set_s(NULL, MODULE, "InterceptedProtos", interceptedProtos);
+	db_set_s(NULL, MODULE, "InterceptedAccounts", interceptedProtos);
+	db_unset(NULL, MODULE, "InterceptedProtos");
 }
 
 /////////////////////////////////////////////////////////////////////////////////
