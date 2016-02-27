@@ -135,7 +135,7 @@ void CDropbox::PasteToClipboard(const TCHAR *data)
 			if (pchData) {
 				memcpy(pchData, (TCHAR*)data, size);
 				GlobalUnlock(hClipboardData);
-				SetClipboardData(CF_TEXT, hClipboardData);
+				SetClipboardData(CF_UNICODETEXT, hClipboardData);
 			}
 		}
 		CloseClipboard();
