@@ -53,8 +53,6 @@ private:
 	int OnFileDialogSuccessed(WPARAM wParam, LPARAM lParam);
 
 	// services
-	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
-
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoGetName(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoLoadIcon(WPARAM wParam, LPARAM lParam);
@@ -70,8 +68,9 @@ private:
 
 	// commands
 	static void CommandHelp(void *arg);
-	static void CommandContent(void *arg);
+	static void CommandList(void *arg);
 	static void CommandShare(void *arg);
+	static void CommandSearch(void *arg);
 	static void CommandDelete(void *arg);
 
 	// access token

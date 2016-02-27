@@ -21,6 +21,26 @@ public:
 	}
 };
 
+class SearchRequest : public HttpRequest
+{
+public:
+	SearchRequest(const char *token, const char *query) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/search")
+	{
+		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode params(JSON_NODE);
+		params
+			<< JSONNode("path", "")
+			<< JSONNode("query", query)
+			<< JSONNode("max_results", 10);
+
+		json_string data = params.write();
+		SetData(data.c_str(), data.length());
+	}
+};
+
 class DeleteRequest : public HttpRequest
 {
 public:
@@ -82,7 +102,7 @@ public:
 		AddHeader("Content-Type", "application/json");
 
 		JSONNode root(JSON_NODE);
-		root << JSONNode("path", path);
+		root << JSONNode("path", "");
 
 		json_string data = root.write();
 		SetData(data.c_str(), data.length());

@@ -2,10 +2,17 @@
 
 char* CDropbox::PreparePath(const char *oldPath, char *newPath)
 {
-	CMStringA result("/");
-	result.Append(oldPath);
-	result.Replace("\\", "/");
-	mir_strcpy(newPath, result);
+	if (oldPath == NULL)
+		mir_strcpy(newPath, "");
+	else if (*oldPath != '/')
+	{
+		CMStringA result("/");
+		result.Append(oldPath);
+		result.Replace("\\", "/");
+		mir_strcpy(newPath, result);
+	}
+	else
+		mir_strcpy(newPath, oldPath);
 	return newPath;
 }
 
