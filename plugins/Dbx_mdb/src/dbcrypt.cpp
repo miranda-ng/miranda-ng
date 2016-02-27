@@ -34,22 +34,31 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	CRYPTO_PROVIDER **ppProvs, *pProv;
 	int iNumProvs;
 	Crypto_EnumProviders(&iNumProvs, &ppProvs);
+
 	if (iNumProvs == 0)
 		return nullptr;
+
+	bool bTotalCrypt = false;
 
 	if (iNumProvs > 1)
 	{
 		CSelectCryptoDialog dlg(ppProvs, iNumProvs);
 		dlg.DoModal();
 		pProv = dlg.GetSelected();
+		bTotalCrypt = dlg.TotalSelected();
 	}
 	else pProv = ppProvs[0];
 
 	for (;; Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
+
 		MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
-		mdb_put(txn, m_dbCrypto, &key, &value, 0);
+		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
+
+		key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = DBKEY_IS_ENCRYPTED; value.mv_size = sizeof(bool); value.mv_data = &bTotalCrypt;
+		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
+
 		if (txn.commit())
 			break;
 	}
