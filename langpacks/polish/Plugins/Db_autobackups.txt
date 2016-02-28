@@ -40,6 +40,8 @@ Wyłącz okienko ze wskaźnikiem postępu kopiowania
 Wyłącz popupy
 [Use Dropbox]
 Używaj Dropbox
+[Backup profile folder]
+Kopia zapasowa folderu z profilem
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
 Baza danych Mirandy NG
