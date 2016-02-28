@@ -496,13 +496,13 @@ HTML файл
 [No "%s" items]
 Не "%s"
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
-Не магу загрузіць набор значкоў (%s) з\\r\\n%s\\r\\nЗначкi не будуць адлюстроўвацца.
+Не магу загрузіць набор значкоў (%s) з\\r\\n%s\\r\\nЗначкі не будуць адлюстроўвацца.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 У вас стары набор значкоў:\\r\\n%s\\r\\nМагчымы праблемы са значкамі, абновіце набор.
 [Next message]
 Наступнае
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Немагчыма загрузіць History++, адсутнічае riched20.dll.\\nНажмiце "ОК" для працягу.
+Немагчыма загрузіць History++, адсутнічае riched20.dll.\\nНажміце "ОК" для працягу.
 [&Empty System History]
 Сцерці сістэмную гісторыю
 [&Empty History]

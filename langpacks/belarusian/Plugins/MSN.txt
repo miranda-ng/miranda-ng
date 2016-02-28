@@ -172,7 +172,7 @@ MSN Чат
 [MSN Link Protocol]
 Спасылка MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Кантакт %s быў выдалены з сервера.\nЦi хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
+Кантакт %s быў выдалены з сервера.\nЦі хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
 [%s protocol]
 %s конт
 [Subject: %s]

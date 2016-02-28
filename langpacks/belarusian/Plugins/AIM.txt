@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-Плагiн пратаколу AOL Instant Messenger (AIM).
+Плагін пратаколу AOL Instant Messenger (AIM).
 [AIM User Details]
 Пра кантакт AIM
 [Screen Name:]

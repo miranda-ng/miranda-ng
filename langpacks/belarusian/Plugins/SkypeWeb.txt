@@ -34,7 +34,7 @@
 [Place:]
 Месца:
 [Use hostname]
-Выкарыстоўваць имя хоста
+Выкарыстоўваць імя хоста
 [Use BBCode]
 Выкарыстоўваць BBCode
 [Change password]

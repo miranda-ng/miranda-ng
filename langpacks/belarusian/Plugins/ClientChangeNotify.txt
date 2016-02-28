@@ -10,7 +10,7 @@
 [ClientChangeNotify error]
 Памылка ClientChangeNotify
 [Fingerprint plugin not found.]
-Плагiн Fingerprint не знойдзены.
+Плагін Fingerprint не знойдзены.
 [ClientChangeNotify requires it to work properly.]
 Ён неабходны для працы ClientChangeNotify.
 [Don't remind me anymore]

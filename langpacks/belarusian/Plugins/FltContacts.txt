@@ -6,7 +6,7 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
-Плагiн плывучых кантактаў для Miranda
+Плагін плывучых кантактаў для Miranda
 [Hiding contacts]
 Утойванне кантактаў
 [Hide offline contacts]

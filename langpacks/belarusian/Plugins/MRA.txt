@@ -332,7 +332,7 @@ Mail.ru дадаткова
 [From: %S\r\nSubject: %S\r\n%s]
 Ад: %S\r\nТэма: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-Непрачытанай пошты няма\r\nУсiх паведамленняў: %lu
+Непрачытанай пошты няма\r\nУсіх паведамленняў: %lu
 [Closing in %ld]
 Зачынена %ld
 [Reply to %s blog status]

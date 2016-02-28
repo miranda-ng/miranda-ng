@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
-Загружае і кіруе аватарамі для іншых плагiнаў.
+Загружае і кіруе аватарамі для іншых плагінаў.
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Усталяваныя тут выявы з'яўляюцца аватарамі для кантактаў, у якіх няма свайго аватара. Галачка ўключае/выключае адлюстраванне стандартнага аватара для пратаколаў.
 [Set default picture]

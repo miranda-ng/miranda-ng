@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-Плагiн абвяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
+Плагін абвяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
 [When a contact returns after]
 Пры з'яўленні кантакту пасля
 [or comes online for the first time]
