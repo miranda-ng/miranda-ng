@@ -330,5 +330,4 @@ protected:
 	void     GenerateNewKey();
 
 	void     InitDialogs();
-	bool     EnterPassword(const BYTE *pKey, const size_t keyLen);
 };

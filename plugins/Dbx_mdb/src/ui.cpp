@@ -39,28 +39,6 @@ void LanguageChanged(HWND hwndDlg)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-bool CDbxMdb::EnterPassword(const BYTE *pKey, const size_t keyLen)
-{
-	DlgChangePassParam param = { this };
-	CEnterPasswordDialog dlg(&param);
-	while (true) 
-	{
-		if (-128 != dlg.DoModal())
-			return false;
-
-		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
-		if (m_crypto->setKey(pKey, keyLen)) 
-		{
-			m_bUsesPassword = true;
-			SecureZeroMemory(&param, sizeof(param));
-			return true;
-		}
-
-		param.wrongPass++;
-	}
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

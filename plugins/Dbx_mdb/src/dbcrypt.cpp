@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define DBKEY_PROVIDER "Provider"
-#define DBKEY_KEY      "Key"
-#define DBKEY_IS_ENCRYPTED "EncryptedDB"
+#define DBKEY_PROVIDER       "Provider"
+#define DBKEY_KEY            "Key"
+#define DBKEY_IS_ENCRYPTED   "EncryptedDB"
 
 CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 {
@@ -101,8 +101,25 @@ int CDbxMdb::InitCrypt()
 		else
 		{
 			if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
-				if (!EnterPassword((const BYTE*)value.mv_data, value.mv_size))  // password protected?
-					return 4;
+			{
+				DlgChangePassParam param = { this };
+				CEnterPasswordDialog dlg(&param);
+				while (true)
+				{
+					if (-128 != dlg.DoModal())
+						return 4;
+
+					m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
+					if (m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
+					{
+						m_bUsesPassword = true;
+						SecureZeroMemory(&param, sizeof(param));
+						break;
+					}
+
+					param.wrongPass++;
+				}
+			}
 		}
 	}
 	else

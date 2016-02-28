@@ -86,13 +86,13 @@ int CDbxMdb::Load(bool bSkipInit)
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
 
-		mdb_open(trnlck, "crypto", MDB_CREATE, &m_dbCrypto);
-		mdb_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
-		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
-		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
-		mdb_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
-		mdb_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
-		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
+		mdb_dbi_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
+		mdb_dbi_open(trnlck, "crypto", MDB_CREATE, &m_dbCrypto);
+		mdb_dbi_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
+		mdb_dbi_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+		mdb_dbi_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+		mdb_dbi_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
+		mdb_dbi_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
 
 		DWORD keyVal = 1;
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
