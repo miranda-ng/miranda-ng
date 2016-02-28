@@ -214,9 +214,9 @@ ID ключа:
 [Wrong GPG binary location found in system.\nPlease choose another location]
 
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
+Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 
 [Info]

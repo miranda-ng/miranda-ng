@@ -54,6 +54,6 @@
 [Plugins]
 Плагіны
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Кіраванне плагiнамі Miranda NG.
+Кіраванне плагінамі Miranda NG.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас ёсць не захаваныя змены.\n Ці жадаеце вы іх ужыць перад пераключэннем?

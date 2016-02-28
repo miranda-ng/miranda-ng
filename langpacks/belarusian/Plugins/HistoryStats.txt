@@ -222,7 +222,7 @@ URL (усё)
 [Incoming]
 Уваходныя
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
-(Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
+(Ісх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
 [[Out] #{out_amount} / [In] #{in_amount}]
 
 [In/out graph]
@@ -350,11 +350,11 @@ URL (усё)
 [Calculate maximum per column (not per graph)]
 Лічыць найвялікае па калонцы (не па графіку)
 [Characters (in/out ratio)]
-Знакі (вх/исх рэйтынг)
+Знакі (вх/ісх рэйтынг)
 [Messages (in/out ratio)]
-Паведамленні (суадносіны вх/исх)
+Паведамленні (суадносіны вх/ісх)
 [Chats (in/out ratio)]
-Гутаркі (суадносіны вх/исх)
+Гутаркі (суадносіны вх/ісх)
 [Hours of day timeline]
 Часавая шкала па гадзінах дня
 [Days of week timeline]
@@ -362,11 +362,11 @@ URL (усё)
 ["Split" timeline]
 "Разбіўка" графіка часу
 [in/out ratio of characters]
-вх/исх суадносіны знакаў
+вх/ісх суадносіны знакаў
 [in/out ratio of messages]
 Увах/зых суадносіны паведамленняў
 [in/out ratio of chats]
-вх/исх суадносіны чатаў
+вх/ісх суадносіны чатаў
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга. Інфармацыя размяшчаецца па восі X- і Y-, і значэнні афарбоўваюцца ў колеры. Рознае вымярэнне статыстыкі чатаў даступна.
 [Timeline for #{data}]
@@ -424,7 +424,7 @@ URL (усё)
 [Show separate counts for incoming/outgoing]
 Паказаць асобныя лічыльнікі для ўваходных/выходных
 [Color words according to in/out ratio]
-Вылучаць колерам слова ў адпаведнасці з рэйтынгам вх/исх
+Вылучаць колерам слова ў адпаведнасці з рэйтынгам вх/ісх
 [[Out] #{out_words} / [In] #{in_words}]
 (Выходнае) #{out_words} / (Уваходнае) #{in_words}
 [Words]

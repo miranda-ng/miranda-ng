@@ -228,7 +228,7 @@ INI файлы
 [Contact]
 Кантакт
 [Module]
-Плагiн
+Плагін
 [Setting]
 Налада
 [Enter a string to search the database for]

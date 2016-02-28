@@ -14,7 +14,7 @@
 [Account:]
 Конт:
 [Contact ID:]
-ID Кантакта:
+ID кантакта:
 [Custom name:]
 Зададзенае імя:
 [Group:]

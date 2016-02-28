@@ -38,7 +38,7 @@
 [Align to the right]
 Выраўноўванне па правым краі
 [Dim idle contact icons]
-Зацямніць idle кантакты
+Прыцьміць неактыўных
 [Show]
 Паказаць
 [recent contacts]

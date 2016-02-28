@@ -8,7 +8,7 @@
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Абвесткі і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 [Installed plugins]
-Усталяваныя плагiны
+Усталяваныя плагіны
 [Version:]
 Версія:
 [Description:]
@@ -192,13 +192,13 @@ YAMN: збой далучэння
 [ - connection error]
  - памылка далучэння
 [%s - %d new mail messages, %d total]
-%s - %d новых лістоў (%d усяго)
+%s - %d новых лістоў, %d усяго
 [%s : %d new mail message(s), %d total]
 %s : %d новых лістоў, %d усяго
 [%d new mail message(s), %d total]
 %d новых лістоў (%d усяго)
 [- new mail message(s)]
-- новых лістоў
+- маюцца новыя лісты
 [No new mail message, %d spam(s)]
 Няма новых лістоў,%d спаму
 [Invalid]

@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
-Дазваляе іншым плагiнам захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
+Дазваляе іншым плагінам захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
 [Custom folders]
 Тэчкі
 [Preview]

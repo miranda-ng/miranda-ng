@@ -8,7 +8,7 @@
 [GTalk extensions for Jabber protocol]
 Пашырэнне пратакола Jabber для абвестках аб пошце GTalk.
 [Popup notifications (needs popup plugin)]
-Абвесткі вакном (патрабуецца плагiн ўсплывальных вокнаў)
+Абвесткі вакном (патрабуецца плагін ўсплывальных вокнаў)
 [Notify in fullscreen mode too]
 Таксама абвяшчаць у поўнаэкранным рэжыме
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]

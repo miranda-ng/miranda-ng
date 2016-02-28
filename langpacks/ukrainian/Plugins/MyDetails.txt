@@ -74,7 +74,7 @@
 [Right:]
 Право:
 [Set my status message for all status]
-Статусне повідомлення для всix статусів
+Статусне повідомлення для всіх статусів
 [Status message:]
 Статусне повідомл.:
 [&Offline]

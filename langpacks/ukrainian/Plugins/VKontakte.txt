@@ -92,7 +92,7 @@
 [Password:]
 Пароль:
 [Open VKontakte site]
-Відкрити сторінку ВКонтактi
+Відкрити сторінку ВКонтакті
 [Advanced]
 Додатково
 [Hide chats on startup]

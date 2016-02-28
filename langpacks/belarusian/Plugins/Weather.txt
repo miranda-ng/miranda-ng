@@ -266,7 +266,7 @@
 [Weather service ini for this station is not found (20)]
 INI файл надвор'я для гэтай станцыі не знойдзены (20)
 [Netlib error - check your internet connection (30)]
-Памылка netlib - праверце злучэнне з інтэрнэтам (30)
+Памылка Netlib - праверце злучэнне з інтэрнэтам (30)
 [Empty data is retrieved (40)]
 Атрыманы пустыя дадзеныя (40)
 [Document not found (42)]
@@ -420,7 +420,7 @@ HTTP падлучэнне Weather
 [File Version]
 Версія файла
 [INI Version]
-Версія ini
+Версія INI
 [Items]
 Элементы
 [Display Name]

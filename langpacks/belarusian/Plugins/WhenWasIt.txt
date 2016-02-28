@@ -132,7 +132,7 @@
 [Age]
 Узрост
 [Module]
-Плагiн
+Плагін
 [Closing in %d seconds]
 Закрыецца праз %d секунд...
 [Closing in %d second]

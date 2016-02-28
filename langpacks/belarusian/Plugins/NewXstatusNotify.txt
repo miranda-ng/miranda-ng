@@ -38,7 +38,7 @@
 [Status message]
 Паведамленне статусу
 [Plugin activation]
-Актывізацыя плагiна
+Актывізацыя плагіна
 [Automatically turn off Popups and Sounds on status change]
 Выключаць успл. вакна і гукі пры змене статусу
 [Configure]
