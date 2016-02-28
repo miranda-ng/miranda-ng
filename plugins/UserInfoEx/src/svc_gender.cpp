@@ -117,7 +117,7 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (g_eiGender) { // Gender checked or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (UInfoEx)"), ICO_COMMON_MALE);
 
 		// hook events
 		if (hChangedHook == NULL) 
