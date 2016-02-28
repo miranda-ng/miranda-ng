@@ -473,7 +473,7 @@ int RemoveDialogBoxHook(void)
 	DestroyServiceFunction(hServiceSetContext); // does NULL check
 	UnhookWindowsHookEx(hMessageHook);
 	if (hKeyboardHook)
-		UnhookWindowsHookEx(hMessageHook);
+		UnhookWindowsHookEx(hKeyboardHook);
 	if (hEatNextMouseHook)
 		UnhookWindowsHookEx(hEatNextMouseHook);
 	DeleteCriticalSection(&csDlgBoxSubclass);
