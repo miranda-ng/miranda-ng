@@ -214,7 +214,7 @@ Ikona Statusu
 [Wall message icon]
 Ikona posta na tablicy
 [Mark messages as read icon]
-
+Ikona odczytania wiadomości
 [Protocols]
 Protokoły
 [VKontakte]

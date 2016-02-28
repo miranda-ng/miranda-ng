@@ -89,7 +89,7 @@ Informacje o transferze pliku
 [URI object]
 Obiekt URI
 [Moji]
-
+Moji
 [File]
 Plik
 [Unknown event]
@@ -98,7 +98,7 @@ Nieznane zdarzenie
 Połączenie przychodzące
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
-
+Błąd SkypeWeb: Nieprawidłowe dane!
 [[b]Original message:[/b]\n%s\n]
 \[b]Wiadomość oryginalna:[/b]\n%s\n
 [Original message:\n%s\n]

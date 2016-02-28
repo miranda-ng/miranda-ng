@@ -8,10 +8,12 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Login to Miranda NG]
-Logowanie do Mirandy NG
+[Select crypto provider]
+Wybierz dostawcę kryptograficznego
 [Cancel]
 Anuluj
+[Login to Miranda NG]
+Logowanie do Mirandy NG
 [New password]
 Nowe hasło do profilu:
 [Please enter your new password]

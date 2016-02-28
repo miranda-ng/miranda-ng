@@ -309,9 +309,9 @@ DCC: Żądanie wznowienia transferu plików od %s odrzucono
 [CTCP %s requested by %s]
 CTCP %s zażądane przez %s
 [%u second]
-
+%u sekunda
 [%u seconds]
-
+%u sekund
 [CTCP PING reply from %s: %u sec(s)]
 CTCP PING odpowiedź od %s: %u s
 [CTCP %s reply from %s: %s]
