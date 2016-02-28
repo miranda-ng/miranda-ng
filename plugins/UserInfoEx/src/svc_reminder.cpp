@@ -926,7 +926,7 @@ void SvcReminderLoadModule(void)
 	Hotkey_Register(&hk);
 
 	if (db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
-		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (uinfoex)"), ICO_COMMON_ANNIVERSARY);
+		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), ICO_COMMON_ANNIVERSARY);
 
 }
 

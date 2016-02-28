@@ -146,7 +146,7 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("sms", LPGEN("Phone (uinfoex)"), ICO_BTN_CELLULAR);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("sms", LPGEN("Phone (UInfoEx)"), ICO_BTN_CELLULAR);
 	}
 	else {
 		if (hChangedHook) {

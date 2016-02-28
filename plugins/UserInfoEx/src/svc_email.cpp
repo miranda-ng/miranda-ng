@@ -229,7 +229,7 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("email", LPGEN("E-mail (uinfoex)"), ICO_BTN_EMAIL);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("email", LPGEN("E-mail (UInfoEx)"), ICO_BTN_EMAIL);
 	}
 	else { // E-mail uncheckt
 		if (hChangedHook) {
