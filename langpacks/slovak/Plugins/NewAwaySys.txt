@@ -5,6 +5,24 @@
 ;  Version: 0.4.0.4
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
+[On&line]
+&Pripojený
+[&Away]
+Pr&eč
+[&Not available]
+&Nedostupný
+[Occ&upied]
+&Zaneprázdnený
+[&Do not disturb]
+Ne&rušiť
+[&Free for chat]
+&Voľný k rozhovoru
+[&Invisible]
+Nevi&ditelný
+[On the &phone]
+&Telefonujem
+[Out to &lunch]
+Na o&bede
 [&Delete]
 Vymazať
 [Title:]
@@ -31,24 +49,6 @@ Je tu.
 Preč
 [Not available]
 Nedostupný
-[On&line]
-&Pripojený
-[&Away]
-Pr&eč
-[&Not available]
-&Nedostupný
-[Occ&upied]
-&Zaneprázdnený
-[&Do not disturb]
-Ne&rušiť
-[&Free for chat]
-&Voľný k rozhovoru
-[&Invisible]
-Nevi&ditelný
-[On the &phone]
-&Telefonujem
-[Out to &lunch]
-Na o&bede
 [Occupied]
 Zaneprázdnený
 [Not right now.]

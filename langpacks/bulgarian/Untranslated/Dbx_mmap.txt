@@ -1,4 +1,5 @@
-﻿[Logo]
+﻿[Select crypto provider]
+[Logo]
 [Performing aggressive pass]
 [Aggressive: random junk at %08X: skipping]
 [Aggressive: unlinked data at %08X: can't automatically place]

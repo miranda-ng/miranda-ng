@@ -5,6 +5,7 @@
 [Compress backup to zip-archive]
 [Disable popups]
 [Use Dropbox]
+[Backup profile folder]
 [Created by:]
 [Database backed up]
 [Database back up in process...]

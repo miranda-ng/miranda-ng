@@ -7,6 +7,12 @@
 ;============================================================
 [Nickname:]
 Prezívka:
+[Cancel]
+Storno
+[seconds]
+sekúnd
+[pixels]
+pixelov
 [&Offline]
 &Odpojený
 [&Away]
@@ -25,12 +31,6 @@ Nevi&ditelný
 &Telefonujem
 [Out to &lunch]
 Na o&bede
-[Cancel]
-Storno
-[seconds]
-sekúnd
-[pixels]
-pixelov
 [Nickname]
 Prezívka
 [Status]

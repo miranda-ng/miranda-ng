@@ -7,10 +7,12 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Падтрымка базы Miranda NG.
-[Login to Miranda NG]
-Уваход у Miranda NG
+[Select crypto provider]
+
 [Cancel]
 Скасаваць
+[Login to Miranda NG]
+Уваход у Miranda NG
 [New password]
 Новы пароль
 [Please enter your new password]

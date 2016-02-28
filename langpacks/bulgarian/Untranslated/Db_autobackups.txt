@@ -1,5 +1,6 @@
 ﻿[Database autobackuper plugin.]
 [Use Dropbox]
+[Backup profile folder]
 [Database backups]
 [Backup folder]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

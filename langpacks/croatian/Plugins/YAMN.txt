@@ -199,11 +199,11 @@ Poruka
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 
-[- new mail message(s)]
-
 [%s : %d new mail message(s), %d total]
 
 [%d new mail message(s), %d total]
+
+[- new mail message(s)]
 
 [No new mail message, %d spam(s)]
 
