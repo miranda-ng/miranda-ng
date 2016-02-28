@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
@@ -105,12 +105,18 @@ static int OnExit(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR ServiceMode(WPARAM, LPARAM)
+{
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc, 1);
+	return SERVICE_ONLYDB;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
-
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	RegisterIcons();
 
 	// menu item
