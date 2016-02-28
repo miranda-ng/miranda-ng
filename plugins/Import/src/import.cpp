@@ -548,6 +548,21 @@ static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id,
 	return hContact;
 }
 
+struct ImportContactData
+{
+	MCONTACT from, to;
+	const char *szBaseProto;
+};
+
+int ModulesEnumProc(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam)
+{
+	ImportContactData *icd = (ImportContactData*)lParam;
+	if (!mir_strcmp(icd->szBaseProto, szModuleName))
+		return 0;
+	CopySettings(icd->from, szModuleName, icd->to, szModuleName);
+	return 0;
+}
+
 void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 {
 	if (pda->pa == NULL)
@@ -555,7 +570,11 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 
 	char *szDstAcc = pda->pa->szModuleName;
 
-	// Hidden?
+	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc };
+
+	CallService(MS_DB_MODULES_ENUM, (WPARAM)&icd, (LPARAM)ModulesEnumProc);
+
+	/*// Hidden?
 	DBVARIANT dbv;
 	if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
 		db_set(hDst, "CList", "Hidden", &dbv);
@@ -602,7 +621,7 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 	if (!myGet(hSrc, pda->szSrcAcc, "About", &dbv)) {
 		db_set(hDst, szDstAcc, "About", &dbv);
 		srcDb->FreeVariant(&dbv);
-	}
+	}*/
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
