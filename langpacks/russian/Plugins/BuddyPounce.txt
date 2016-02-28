@@ -86,11 +86,11 @@
 [Send If Their Status changes]
 Отправлять, если они изменяют статус
 [From Offline]
-Из оффлайна
+Из "Не в сети"
 [To Online]
 -> В сети
 [To Away]
--> Отошёл
+-> Отсутствую
 [To Not available]
 -> Недоступен
 [To Occupied]

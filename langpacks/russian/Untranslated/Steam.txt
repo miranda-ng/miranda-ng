@@ -1,3 +1,2 @@
 ﻿[Steam Guard]
 [SteamID]
-[closed chat session]

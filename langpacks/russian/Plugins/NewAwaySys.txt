@@ -30,13 +30,13 @@
 [Disable autoreply when...]
 Отключить автоответчик когда...
 [On&line]
-В с&ети
+В &сети
 [&Away]
 &Отсутствую
 [&Not available]
-&Недоступен
+Не&доступен
 [Occ&upied]
-Зан&ят
+&Занят
 [&Do not disturb]
 Не &беспокоить
 [&Free for chat]
@@ -44,9 +44,9 @@
 [&Invisible]
 &Невидимый
 [On the &phone]
-На телефоне
+На &телефоне
 [Out to &lunch]
-Обедаю
+Обед&аю
 [Autoreply format:]
 Формат автоответа:
 [V]
@@ -208,7 +208,7 @@
 [Away]
 Отсутствую
 [Been gone since %nas_awaysince_time%, will be back later.]
-Отошёл в %nas_awaysince_time%, буду позже.
+Отсутствую с %nas_awaysince_time%, буду позже.
 [Not available]
 Недоступен
 [Give it up, I'm not in!]
@@ -266,9 +266,9 @@
 [New Away System]
 Система сообщений
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
-"отошёл в" (время в формате по умолчанию); ?nas_awaysince_time(x) в формате x
+"отсутствую с" (время в формате по умолчанию); ?nas_awaysince_time(x) в формате x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
-"отошёл в" (дата в формате по умолчанию); ?nas_awaysince_date(x) в формате x
+"отсутствую с" (дата в формате по умолчанию); ?nas_awaysince_date(x) в формате x
 [Status description]
 описание статуса
 [Your nick for current protocol]

@@ -1278,7 +1278,7 @@ UIN, E-mail и т.д.
 [Re&ad status message]
 Пр&очитать статусное сообщение
 [I've been away since %time%.]
-Отошёл в %time%.
+Отсутствую с %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]
@@ -1824,9 +1824,9 @@ Miranda не смогла загрузить встроенную систему
 [Message send error]
 Ошибка отправки сообщения
 [Contact started typing]
-Контакт начал набор сообщения
+Контакт начал набор текста
 [Contact stopped typing]
-Контакт закончил набор сообщения
+Контакт закончил набор текста
 [An unknown error has occurred.]
 Неизвестная ошибка.
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]

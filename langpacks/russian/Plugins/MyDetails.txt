@@ -78,15 +78,15 @@
 [Status message:]
 Сообщение статуса:
 [&Offline]
-&Отключён
+Не в с&ети
 [On&line]
-В с&ети
+В &сети
 [&Away]
 &Отсутствую
 [&Not available]
-&Недоступен
+Не&доступен
 [Occ&upied]
-Зан&ят
+&Занят
 [&Do not disturb]
 Не &беспокоить
 [&Free for chat]
@@ -96,7 +96,7 @@
 [On the &phone]
 На &телефоне
 [Out to &lunch]
-&Обедаю
+Обед&аю
 [Set my avatar...]
 Сменить мой аватар...
 [Set my nickname...]

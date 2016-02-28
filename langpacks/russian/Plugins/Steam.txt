@@ -89,3 +89,5 @@
 %s подключение
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
+[closed chat session]
+закрыл(а) окно беседы

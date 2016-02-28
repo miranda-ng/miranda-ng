@@ -24,7 +24,7 @@
 [All other]
 Другое
 [Typing]
-Печатает
+Набирает текст
 [Protocols]
 Протоколы
 [Suppress notifications upon connection for]

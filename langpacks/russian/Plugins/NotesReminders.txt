@@ -212,7 +212,7 @@
 [&Bring All to Front]
 &Переместить на передний план
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить плагин Notes & Reminders из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена  библиотека Msftedit.dll. Нажмите "Да" для продолжения запуска программы.
+Miranda не смогла загрузить плагин Notes & Reminders из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена библиотека Msftedit.dll. Нажмите "Да" для продолжения запуска программы.
 [Black]
 Чёрный
 [Maroon]

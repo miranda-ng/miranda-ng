@@ -172,7 +172,7 @@
 [Handle tray tooltips by Tipper]
 Перехватывать подсказки в трее
 [Hide offline protocols]
-Прятать отключённые протоколы
+Прятать протоколы, находящиеся не в сети
 [Expand to second level after:]
 Второй уровень подсказки через:
 [ms]

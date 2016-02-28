@@ -719,8 +719,6 @@ wParam в ANSI
 Фотографирую
 [Having fun]
 Веселюсь
-[On the phone]
-На телефоне
 [Gaming]
 Играю
 [Studying]

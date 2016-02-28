@@ -130,7 +130,7 @@
 [Misc Settings]
 Прочие настройки
 [Allow others to view my Online / Offline status from the web (Web Aware)]
-Показывать мой статус на сайтах (Web Aware)
+Показывать мой статус ("В сети" / "Не в сети") на сайтах (Web Aware)
 [Allow others to view my primary e-mail address]
 Показать другим мой основной почтовый адрес
 [Only reply to status message requests from users on my contact list]
