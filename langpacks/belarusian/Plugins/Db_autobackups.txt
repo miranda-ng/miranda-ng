@@ -39,6 +39,8 @@
 Адключыць усплывальныя вокны
 [Use Dropbox]
 
+[Backup profile folder]
+
 [Miranda NG database]
 Рэзервовая копія профіля
 [Created by:]

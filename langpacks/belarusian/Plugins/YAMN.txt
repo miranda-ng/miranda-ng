@@ -193,12 +193,12 @@ YAMN: збой далучэння
  - памылка далучэння
 [%s - %d new mail messages, %d total]
 %s - %d новых лістоў (%d усяго)
-[- new mail message(s)]
-- новых лістоў
 [%s : %d new mail message(s), %d total]
 %s : %d новых лістоў, %d усяго
 [%d new mail message(s), %d total]
 %d новых лістоў (%d усяго)
+[- new mail message(s)]
+- новых лістоў
 [No new mail message, %d spam(s)]
 Няма новых лістоў,%d спаму
 [Invalid]

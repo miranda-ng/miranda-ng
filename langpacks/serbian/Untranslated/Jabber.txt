@@ -756,7 +756,6 @@
 [Quit Miranda NG]
 [Change Status]
 [Choose the status and status message]
-[Extended away (Not available)]
 [Priority]
 [Status message]
 [Change global status]

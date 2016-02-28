@@ -8,10 +8,12 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Login to Miranda NG]
+[Select crypto provider]
 
 [Cancel]
 Otkazivanje
+[Login to Miranda NG]
+
 [New password]
 
 [Please enter your new password]

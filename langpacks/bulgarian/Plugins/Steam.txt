@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.5.0
+;  Version: 0.11.5.1
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Username:]
@@ -17,6 +17,8 @@
 Контакти
 [Use bigger avatars]
 Ползване на по-големи аватари
+[Message sessions]
+Разговори
 [Cancel]
 Отказ
 [Block]

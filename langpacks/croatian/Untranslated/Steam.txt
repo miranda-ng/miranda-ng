@@ -5,6 +5,8 @@
 [Account]
 [Contacts]
 [Use bigger avatars]
+[Message sessions]
+[Show chat state events (i.e., user closed chat session)]
 [Captcha]
 [Cancel]
 [Steam Guard]

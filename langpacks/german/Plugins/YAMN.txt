@@ -199,12 +199,12 @@ Unbekannter Fehler
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d neue E-Mails, %d gesamt
-[- new mail message(s)]
-- neue E-Mail(s)
 [%s : %d new mail message(s), %d total]
 %s : %d neue E-Mail(s), %d gesamt
 [%d new mail message(s), %d total]
 %d neue E-Mail(s), %d gesamt
+[- new mail message(s)]
+- neue E-Mail(s)
 [No new mail message, %d spam(s)]
 Keine neue E-Mail, %d Spam-Mail(s)
 [Invalid]

@@ -2,6 +2,7 @@
 [Default group:]
 [Account]
 [Use bigger avatars]
+[Show chat state events (i.e., user closed chat session)]
 [Captcha]
 [Steam Guard]
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]

@@ -1,4 +1,5 @@
 ﻿[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+[Select crypto provider]
 [Login to Miranda NG]
 [New password]
 [Please enter your new password]

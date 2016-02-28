@@ -1,0 +1,3 @@
+﻿[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+[shows all files in folder "path" ("path" is relative from root folder)]
+[Interception]

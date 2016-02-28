@@ -15,6 +15,7 @@
 [Disable progress bar]
 [Disable popups]
 [Use Dropbox]
+[Backup profile folder]
 [Miranda NG database]
 [Created by:]
 [Backup in progress]
