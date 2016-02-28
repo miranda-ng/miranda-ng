@@ -245,7 +245,7 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 	MDB_val key = { sizeof(key2), &key2 }, data;
 	key2.dwEventId++;
 
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
+	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBEvent *dbe = (DBEvent*)data.mv_data;
 		if (!dbe->markedRead()) {
@@ -286,7 +286,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	mdb_put(txn, m_dbEvents, &key, &data, 0);
 
 	FindNextUnread(txn, cc, key2);
-	key.mv_data = &contactID;
+	key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 	data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
 	mdb_put(txn, m_dbContacts, &key, &data, 0);
 
@@ -322,9 +322,9 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	txn_ptr_ro txn(m_txn);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
-		return m_evLast = 0;
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
+//	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
+//		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
@@ -346,7 +346,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	txn_ptr_ro txn(m_txn);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
 
@@ -412,7 +412,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
 		return m_evLast = 0;
 
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
