@@ -110,18 +110,18 @@
 [Announce]
 Уведомление
 [%u is now offline]
-%u сейчас не в сети.
+%u не в сети.
 [%u is now online]
-%u сейчас в сети.
+%u в сети.
 [%u is away]
 %u отсутствует.
 [%u is invisible]
-%u в режиме "Невидимость".
+%u невидимый.
 [%u is not available]
-%u вне доступности.
+%u недоступен.
 [%u does not want to be disturbed]
 %u не хочет, чтобы его беспокоили.
 [%u is occupied]
-%u в режиме "Занят".
+%u занят.
 [%u is free for chat]
-%u не прочь поболтать.
+%u готов болтать.

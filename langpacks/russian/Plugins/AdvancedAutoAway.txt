@@ -82,7 +82,7 @@
 [Show dialog]
 Показывать диалог
 [Set status to offline before exit]
-"Отключён" при выходе
+"Не в сети" при выходе
 [Show CMDL]
 Ком. строка
 [Activate status profile]
@@ -230,7 +230,7 @@
 [seconds]
 секунд
 [Set account offline before a connection attempt]
-Отключать учётную запись перед подключением
+Перед подключением перейти в режим "Не в сети"
 [Max. account connecting time (secs)]
 Макс. время подключения (сек)
 [Timers]
@@ -256,7 +256,7 @@
 [Auto Away]
 Отсутствие
 [I've been away since %time%.]
-Отошёл в %time%. Скоро вернусь.
+Отсутствую с %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

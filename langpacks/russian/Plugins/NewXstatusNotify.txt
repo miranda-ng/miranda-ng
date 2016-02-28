@@ -30,7 +30,7 @@
 [On the phone]
 На телефоне
 [Always when changing from offline]
-Из статуса "Отключён"
+Из статуса "Не в сети"
 [Notify when contact changes]
 Уведомлять, когда контакт меняет
 [Extra status]
@@ -254,7 +254,7 @@ xСтатус
 [(U) is back online!]
 снова в сети!
 [User: Online]
-Пользователь: в сети
+Пользователь: В сети
 [(M) went offline! :(]
 ушёл из сети! :(
 [(F) went offline! :(]
@@ -262,23 +262,23 @@ xСтатус
 [(U) went offline! :(]
 ушёл из сети! :(
 [User: Offline]
-Пользователь: не в сети
+Пользователь: Не в сети
 [(M) hides in shadows...]
-спрятался в тени...
+прячется в тени...
 [(F) hides in shadows...]
-спряталась в тени...
+прячется в тени...
 [(U) hides in shadows...]
-спрятался в тени...
+прячется в тени...
 [User: Invisible]
-Пользователь: невидимый
+Пользователь: Невидимый
 [(M) feels talkative!]
-готов поболтать!
+готов болтать!
 [(F) feels talkative!]
-готова поболтать!
+готова болтать!
 [(U) feels talkative!]
-готов(а) поболтать!
+готов(а) болтать!
 [User: Free for chat]
-Пользователь: готов болтать
+Пользователь: Готов болтать
 [(M) went away]
 отошёл
 [(F) went away]
@@ -286,15 +286,15 @@ xСтатус
 [(U) went away]
 отошёл
 [User: Away]
-Пользователь: отсутствует
+Пользователь: Отсутствует
 [(M) isn't there anymore!]
-отсутствует!
+недоступен!
 [(F) isn't there anymore!]
-отсутствует!
+недоступна!
 [(U) isn't there anymore!]
-отсутствует!
+недоступен!
 [User: Not available]
-Пользователь: недоступен
+Пользователь: Недоступен
 [(M) has something else to do]
 занят чем-то другим
 [(F) has something else to do]
@@ -302,7 +302,7 @@ xСтатус
 [(U) has something else to do]
 занят(а) чем-то другим
 [User: Occupied]
-Пользователь: занят
+Пользователь: Занят
 [(M) doesn't want to be disturbed!]
 не хотел бы, чтобы его беспокоили!
 [(F) doesn't want to be disturbed!]
@@ -310,7 +310,7 @@ xСтатус
 [(U) doesn't want to be disturbed!]
 не хотел бы, чтобы его беспокоили!
 [User: Do not disturb]
-Пользователь: не беспокоить
+Пользователь: Не беспокоить
 [(M) is eating something]
 что-то ест
 [(F) is eating something]
@@ -318,7 +318,7 @@ xСтатус
 [(U) is eating something]
 что-то ест
 [User: Out to lunch]
-Пользователь: обедает
+Пользователь: Обедает
 [(M) had to answer the phone]
 говорит по телефону
 [(F) had to answer the phone]
@@ -326,9 +326,9 @@ xСтатус
 [(U) had to answer the phone]
 говорит по телефону
 [User: On the phone]
-Пользователь: на телефоне
+Пользователь: На телефоне
 [User: from offline (has priority!)]
-Пользователь:  из оффлайна (имеет приоритет!)
+Пользователь: из оффлайна (имеет приоритет!)
 [Status message removed]
 Удалено сообщение статуса
 [Status message changed]

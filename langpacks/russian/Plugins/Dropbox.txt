@@ -34,7 +34,7 @@
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
 [Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
-Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемый этим протоколом.
+Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемой этим протоколом.
 [in process...]
 в процессе...
 [server does not respond]

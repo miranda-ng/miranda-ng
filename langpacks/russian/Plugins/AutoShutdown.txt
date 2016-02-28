@@ -48,7 +48,7 @@
 [(current: 0%)]
 (сейчас 0%)
 [Shutdown when all contacts are &offline]
-Выключить, если все контакты &не в сети
+Выключить, если все контакты не в с&ети
 [Shutdown when all &file transfers are finished]
 Выключить, когда все &передачи файлов завершились
 [&Action:]

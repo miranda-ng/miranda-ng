@@ -2134,7 +2134,7 @@ Jabber vCard: редактирование телефона
 [on the phone]
 по телефону
 [on video phone]
-по видео телефону
+по видеотелефону
 [Traveling]
 В дороге
 [commuting]
