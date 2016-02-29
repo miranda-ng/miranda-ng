@@ -554,7 +554,7 @@ struct ImportContactData
 	const char *szBaseProto;
 };
 
-int ModulesEnumProc(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam)
+int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
 {
 	ImportContactData *icd = (ImportContactData*)lParam;
 	if (!mir_strcmp(icd->szBaseProto, szModuleName))
@@ -567,8 +567,6 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 {
 	if (pda->pa == NULL)
 		return;
-
-	char *szDstAcc = pda->pa->szModuleName;
 
 	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc };
 

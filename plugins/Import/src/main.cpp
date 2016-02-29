@@ -29,6 +29,7 @@ static HANDLE hImportService = NULL;
 HINSTANCE hInst;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
+bool g_bServiceMode = false;
 HWND hwndWizard, hwndAccMerge;
 int hLangpack;
 
@@ -75,7 +76,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
@@ -107,13 +108,14 @@ static int OnExit(WPARAM, LPARAM)
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc, 1);
+	g_bServiceMode = true;
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
 	return SERVICE_ONLYDB;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
