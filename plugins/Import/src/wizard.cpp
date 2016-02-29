@@ -94,7 +94,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 
 	switch (message) {
 	case WM_INITDIALOG:
-		SetWindowLong(hdlg, GWL_USERDATA, lParam);
 		TranslateDialogDefault(hdlg);
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARDINTRO), hdlg, WizardIntroPageProc);
 		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
@@ -160,7 +159,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		DestroyWindow(hdlg);
 		break;
 	case WM_DESTROY:
-		if (GetWindowLong(hdlg, GWL_USERDATA))
+		if (g_bServiceMode)
 			PostQuitMessage(0);
 	}
 

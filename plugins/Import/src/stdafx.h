@@ -103,6 +103,7 @@ extern HWND hwndAccMerge;
 extern int nImportOptions;
 extern TCHAR importFile[];
 extern time_t dwSinceDate;
+extern bool g_bServiceMode;
 
 HICON  GetIcon(int iIconId, bool size = false);
 HANDLE GetIconHandle(int iIconId);
