@@ -551,15 +551,18 @@ static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id,
 struct ImportContactData
 {
 	MCONTACT from, to;
-	const char *szBaseProto;
+	const char *szSrcProto, *szDstProto;
 };
 
 int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
 {
 	ImportContactData *icd = (ImportContactData*)lParam;
-	if (!mir_strcmp(icd->szBaseProto, szModuleName))
+	if (!mir_strcmp(icd->szSrcProto, szModuleName))
+		CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
+	else if (!mir_strcmp(szModuleName, "Protocol"))
 		return 0;
-	CopySettings(icd->from, szModuleName, icd->to, szModuleName);
+	else
+		CopySettings(icd->from, szModuleName, icd->to, szModuleName);
 	return 0;
 }
 
@@ -568,58 +571,9 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 	if (pda->pa == NULL)
 		return;
 
-	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc };
+	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName };
 
 	CallService(MS_DB_MODULES_ENUM, (WPARAM)&icd, (LPARAM)ModulesEnumProc);
-
-	/*// Hidden?
-	DBVARIANT dbv;
-	if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
-		db_set(hDst, "CList", "Hidden", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// Ignore settings
-	if (!myGet(hSrc, "Ignore", "Mask1", &dbv)) {
-		db_set(hDst, "Ignore", "Mask1", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// Apparent mode
-	if (!myGet(hSrc, pda->szSrcAcc, "ApparentMode", &dbv)) {
-		db_set(hDst, szDstAcc, "ApparentMode", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// Nick
-	if (!myGet(hSrc, pda->szSrcAcc, "Nick", &dbv)) {
-		db_set(hDst, szDstAcc, "Nick", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// Myhandle
-	if (!myGet(hSrc, pda->szSrcAcc, "MyHandle", &dbv)) {
-		db_set(hDst, szDstAcc, "MyHandle", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// First name
-	if (!myGet(hSrc, pda->szSrcAcc, "FirstName", &dbv)) {
-		db_set(hDst, szDstAcc, "FirstName", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// Last name
-	if (!myGet(hSrc, pda->szSrcAcc, "LastName", &dbv)) {
-		db_set(hDst, szDstAcc, "LastName", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}
-
-	// About
-	if (!myGet(hSrc, pda->szSrcAcc, "About", &dbv)) {
-		db_set(hDst, szDstAcc, "About", &dbv);
-		srcDb->FreeVariant(&dbv);
-	}*/
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
