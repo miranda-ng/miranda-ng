@@ -21,6 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <windows.h>
 
+#include <iostream>
+#include <io.h>
+#include <fcntl.h>
+
 #define NO_MIMCMD_COMMANDS
 
 #include <newpluginapi.h>
