@@ -39,6 +39,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	dbe.contactID = contactID; // store native or subcontact's id
 	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
 
+	mir_cslockfull lck(m_csDbAccess);
 
 	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *cc, *ccSub = NULL;
@@ -57,6 +58,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		if (db_mc_isEnabled())
 			contactNotifyID = contactID;
 	}
+
+	lck.unlock();
 
 	if (m_safetyMode)
 		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
@@ -79,7 +82,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		}
 	}
 
-	mir_cslockfull lck(m_csDbAccess);
+	lck.lock();
+
 	DWORD dwEventId = ++m_dwMaxEventId;
 
 	for (cc->Snapshot();; cc->Revert(), Remap()) {
@@ -243,12 +247,12 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 	cursor_ptr cursor(txn, m_dbEventsSort);
 
 	MDB_val key = { sizeof(key2), &key2 }, data;
-	key2.dwEventId++;
+	//key2.dwEventId++;
 
 	mdb_cursor_get(cursor, &key, &data, MDB_SET);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBEvent *dbe = (DBEvent*)data.mv_data;
-		if (!dbe->markedRead()) {
+		if (dbe->contactID == cc->contactID && !dbe->markedRead()) {
 			cc->dbc.dwFirstUnread = key2.dwEventId;
 			cc->dbc.tsFirstUnread = key2.ts;
 			return;
@@ -323,8 +327,6 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 
 	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
-//	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
-//		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
@@ -412,7 +414,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) != MDB_SUCCESS)
 		return m_evLast = 0;
 
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
