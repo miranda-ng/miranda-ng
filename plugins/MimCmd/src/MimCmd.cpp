@@ -30,8 +30,7 @@ int lpprintf(const char *format, ...)
 	char buffer[MAX_SIZE] = { 0 };
 	int len = _vsnprintf(buffer, MAX_SIZE, format, va);
 	va_end(va);
-	CharToOemBuffA(buffer, buffer, len);
-	printf("%s", buffer);
+	std::wcout << (wchar_t*)_A2T(buffer);
 	return len;
 }
 
@@ -71,6 +70,7 @@ void ShowVersion()
 
 int main(int argc, char *argv[])
 {
+	_setmode(_fileno(stdout), _O_U16TEXT);
 	if (argc == 2 && !strcmp(argv[1], "-v")) {
 		ShowVersion();
 		return 0;
