@@ -131,7 +131,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyHookableEvent(hEvent1);
 
 	RichEditData_Destroy();
-	DestroyAniSmileys();
 
 	g_SmileyCategories.ClearAll();
 	g_SmileyPackCStore.ClearAndFreeAll();

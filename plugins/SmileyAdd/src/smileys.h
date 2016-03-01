@@ -31,6 +31,8 @@ const unsigned SoundSmiley   = 16;
 
 class SmileyType
 {
+	LIST<ISmileyBase> m_arSmileys;
+
 protected:
 	unsigned m_flags;
 	int m_index;
@@ -51,7 +53,7 @@ public:
 	CMString m_ToolText;
 	CMString m_InsertText;
 
-	SmileyType(void);
+	SmileyType();
 	~SmileyType();
 
 	const CMString& GetTriggerText(void) const { return m_TriggerText; }
@@ -71,11 +73,16 @@ public:
 	ImageBase* CreateCachedImage(void);
 
 	void GetSize(SIZE& size);
-	int GetStaticFrame(void) const { return m_index; }
 
 	HICON GetIcon(void);
 	HICON GetIconDup(void);
 	HBITMAP GetBitmap(COLORREF bkgClr, int sizeX, int sizeY);
+
+	void SetFrameDelay(void);
+	void MoveToNextFrame(void);
+
+	void AddObject(ISmileyBase *pObject);
+	void RemoveObject(ISmileyBase *pObject);
 
 	void CallSmileyService(MCONTACT hContact);
 

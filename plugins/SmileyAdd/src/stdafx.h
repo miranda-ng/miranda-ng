@@ -77,13 +77,13 @@ typedef WCMatcher _TMatcher;
 #include "resource.h"
 #include "version.h"
 #include "imagecache.h"
+#include "SmileyBase.h"
 #include "smileys.h"
 #include "customsmiley.h"
 #include "services.h"
 #include "options.h"
 #include "download.h"
 #include "anim.h"
-#include "SmileyBase.h"
 #include "smileyroutines.h"
 #include "smltool.h"
 
@@ -185,7 +185,6 @@ void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);
 
 void CloseSmileys(void);
-void DestroyAniSmileys(void);
 
 void UrlDecode(char* str);
 
