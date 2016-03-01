@@ -109,11 +109,16 @@ struct CVkProto : public PROTO<CVkProto>
 
 	//==== History Menus ==================================================================
 
-	INT_PTR __cdecl SvcGetServerHistoryLast1Day(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcGetServerHistoryLast3Day(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcGetServerHistoryLast7Day(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcGetServerHistoryLast30Day(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcGetServerHistoryLast90Day(WPARAM hContact, LPARAM);
+	template <unsigned short Days>
+	INT_PTR __cdecl SvcGetServerHistoryLastNDay(WPARAM hContact, LPARAM)
+	{
+		debugLogA("CVkProto::SvcGetServerHistoryLast%dDay", Days);
+		if (!IsOnline())
+			return 0;
+		GetServerHistoryLastNDay(hContact, Days);
+		return 1;
+	}
+
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();

@@ -196,11 +196,11 @@ void CVkProto::InitMenus()
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
 
 	//Contact Menu Services
-	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLast1Day);
-	CreateProtoService(PS_GETSERVERHISTORYLAST3DAY, &CVkProto::SvcGetServerHistoryLast3Day);
-	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLast7Day);
-	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLast30Day);
-	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLast90Day);
+	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLastNDay<1>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST3DAY, &CVkProto::SvcGetServerHistoryLastNDay<3>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLastNDay<7>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLastNDay<30>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLastNDay<90>);
 	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);

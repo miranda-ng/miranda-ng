@@ -44,56 +44,6 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 	return 1;
 }
 
-INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast1Day(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcGetServerHistoryLast1Day");
-	if (!IsOnline())
-		return 0;
-
-	GetServerHistoryLastNDay(hContact, 1);
-	return 1;
-}
-
-INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast3Day(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcGetServerHistoryLast3Day");
-	if (!IsOnline())
-		return 0;
-
-	GetServerHistoryLastNDay(hContact, 3);
-	return 1;
-}
-
-INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast7Day(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcGetServerHistoryLast7Day");
-	if (!IsOnline())
-		return 0;
-
-	GetServerHistoryLastNDay(hContact, 7);
-	return 1;
-}
-
-INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast30Day(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcGetServerHistoryLast30Day");
-	if (!IsOnline())
-		return 0;
-
-	GetServerHistoryLastNDay(hContact, 30);
-	return 1;
-}
-
-INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast90Day(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcGetServerHistoryLast90Day");
-	if (!IsOnline())
-		return 0;
-
-	GetServerHistoryLastNDay(hContact, 90);
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
