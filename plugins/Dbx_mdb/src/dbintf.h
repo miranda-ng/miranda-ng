@@ -259,7 +259,7 @@ protected:
 	MDB_dbi	m_dbContacts;
 	MDB_cursor *m_curContacts;
 
-	int      m_contactCount, m_dwMaxContactId;
+	DWORD      m_contactCount, m_dwMaxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
 
