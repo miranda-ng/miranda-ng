@@ -276,34 +276,41 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		return -1;
 
 	mir_cslockfull lck(m_csDbAccess);
-	txn_ptr txn(m_pMdbEnv);
+	DWORD wRetVal = 0;
 
-	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
-	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
-		return 0;
+	for (;; Remap())
+	{
+		txn_ptr txn(m_pMdbEnv);
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
-	if (dbe->dwSignature != DBEVENT_SIGNATURE)
-		return -1;
+		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+		MDB_CHECK(mdb_get(txn, m_dbEvents, &key, &data), 0);
 
-	if (dbe->markedRead())
-		return dbe->flags;
+		DBEvent *dbe = (DBEvent*)data.mv_data;
+		if (dbe->dwSignature != DBEVENT_SIGNATURE)
+			return -1;
 
-	DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
+		if (dbe->markedRead())
+			return dbe->flags;
 
-	dbe->flags |= DBEF_READ;
-	mdb_put(txn, m_dbEvents, &key, &data, 0);
+		DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
 
-	FindNextUnread(txn, cc, key2);
-	key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
-	data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
-	mdb_put(txn, m_dbContacts, &key, &data, 0);
+		dbe->flags |= DBEF_READ;
+		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, 0), -1);
 
-	txn.commit();
+		FindNextUnread(txn, cc, key2);
+		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
+		data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
+		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), -1);
+		wRetVal = dbe->flags;
+
+
+		if (txn.commit())
+			break;;
+	}
 
 	lck.unlock();
 	NotifyEventHooks(hEventMarkedRead, contactID, (LPARAM)hDbEvent);
-	return dbe->flags;
+	return wRetVal;
 }
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
