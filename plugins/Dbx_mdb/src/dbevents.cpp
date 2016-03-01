@@ -305,7 +305,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 
 		if (txn.commit())
-			break;;
+			break;
 	}
 
 	lck.unlock();
