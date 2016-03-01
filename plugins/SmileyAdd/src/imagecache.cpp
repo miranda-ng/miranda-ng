@@ -38,12 +38,12 @@ static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 		lastdllname.Empty();
 	}
 
-	for (int i=g_imagecache.getCount()-1; i >= 0; i--)
+	for (int i = g_imagecache.getCount() - 1; i >= 0; i--)
 		g_imagecache[i].ProcessTimerTick(ts);
 
 	if (g_imagecache.getCount() == 0) {
 		g_imagecache.destroy();
-		if (timerId && (timerId+1) && lastmodule == NULL) {
+		if (timerId && (timerId + 1) && lastmodule == NULL) {
 			KillTimer(NULL, timerId);
 			timerId = 0;
 		}
@@ -383,7 +383,7 @@ void ImageType::DrawInternal(HDC hdc, int x, int y, int sizeX, int sizeY)
 	ReleaseMutex(g_hMutexIm);
 }
 
-int  ImageType::GetFrameDelay(void) const
+int ImageType::GetFrameDelay(void) const
 {
 	return ((long*)m_pPropertyItem->value)[m_nCurrentFrame];
 }
@@ -543,7 +543,7 @@ ImageBase* AddCacheImage(const CMString& file, int index)
 		if (ind == -1)
 			return NULL;
 
-		CMString ext = file.Mid(ind+1);
+		CMString ext = file.Mid(ind + 1);
 		ext.MakeLower();
 		if (ext == _T("dll") || ext == _T("exe"))
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoDll) : (ImageBase*)new IconType(id, file, index, icoDll);

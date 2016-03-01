@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //***************************************************//
 //              DISCLAIMER!!!
 // we are not supposed to use this object, so be aware
-typedef struct NewMessageWindowLParam 
+typedef struct NewMessageWindowLParam
 {
 	MCONTACT hContact;
 	int isSend;
 	const char *szInitialText;
-} 
+}
 msgData;
 // this is an undocumented object!!!!!!!
 // subject to change in miranda versions...!!!!!!
@@ -40,9 +40,9 @@ static HANDLE g_hHookMsgWnd = NULL;
 
 static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+// type definitions 
 
-//type definitions 
-class MsgWndData 
+class MsgWndData
 {
 public:
 	HWND hwnd;
@@ -85,9 +85,9 @@ public:
 
 	MsgWndData(const MsgWndData &dsb)
 	{
-		*this = dsb; 
-		dsb.hSmlBmp = NULL; 
-		dsb.hSmlIco = NULL; 
+		*this = dsb;
+		dsb.hSmlBmp = NULL;
+		dsb.hSmlIco = NULL;
 		dsb.hSmlButton = NULL;
 	}
 
@@ -135,8 +135,8 @@ public:
 		}
 
 		ScreenToClient(GetParent(LButton), &pt);
-		rect.bottom += pt.y - rect.top; 
-		rect.right  += pt.x - rect.left; 
+		rect.bottom += pt.y - rect.top;
+		rect.right += pt.x - rect.left;
 		rect.top = pt.y;
 		rect.left = pt.x;
 
@@ -151,24 +151,24 @@ public:
 
 		GetClassName(hwndDlg, szClassName, _countof(szClassName));
 		if (mir_tstrcmp(szClassName, _T("#32770")))
-			return false;  
+			return false;
 
 		if ((REdit = GetDlgItem(hwndDlg, MI_IDC_LOG)) != NULL) {
 			GetClassName(REdit, szClassName, _countof(szClassName));
-			if (mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
-				 mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
-				 mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
-				return false; 
+			if (mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 &&
+				mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
+				mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
+				return false;
 		}
-		else return false; 
+		else return false;
 
 		if ((MEdit = GetDlgItem(hwndDlg, MI_IDC_MESSAGE)) != NULL) {
 			GetClassName(MEdit, szClassName, _countof(szClassName));
-			if (mir_tstrcmp(szClassName, _T("Edit")) != 0 &&  
-				 mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
-				 mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
-				 mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
-				return false; 
+			if (mir_tstrcmp(szClassName, _T("Edit")) != 0 &&
+				mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 &&
+				mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
+				mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
+				return false;
 		}
 		else return false;
 
@@ -177,9 +177,9 @@ public:
 		if ((LButton = GetDlgItem(hwndDlg, MI_IDC_ADD)) == NULL)
 			return false;
 
-		if (GetDlgItem(hwndDlg, MI_IDC_NAME) == NULL) 
+		if (GetDlgItem(hwndDlg, MI_IDC_NAME) == NULL)
 			return false;
-		if ((MOK = GetDlgItem(hwndDlg, IDOK)) == NULL) 
+		if ((MOK = GetDlgItem(hwndDlg, IDOK)) == NULL)
 			return false;
 
 		return true;
@@ -195,10 +195,10 @@ public:
 
 		bool showButtonLine;
 		if (IsOldSrmm()) {
-			isSplit = db_get_b(NULL,"SRMsg","Split", TRUE) != 0;
+			isSplit = db_get_b(NULL, "SRMsg", "Split", TRUE) != 0;
 
 			doSmileyReplace = (isSplit || !isSend);
-			doSmileyButton &= isSplit ||  isSend;
+			doSmileyButton &= isSplit || isSend;
 			showButtonLine = db_get_b(NULL, "SRMsg", "ShowButtonLine", TRUE) != 0;
 		}
 		else {
@@ -211,7 +211,7 @@ public:
 
 		if (ProtocolName[0] != 0) {
 			INT_PTR cap = CallProtoService(ProtocolName, PS_GETCAPS, PFLAGNUM_1, 0);
-			doSmileyButton  &= ((cap & (PF1_IMSEND | PF1_CHAT)) != 0);
+			doSmileyButton &= ((cap & (PF1_IMSEND | PF1_CHAT)) != 0);
 			doSmileyReplace &= ((cap & (PF1_IMRECV | PF1_CHAT)) != 0);
 		}
 
@@ -223,13 +223,13 @@ public:
 				WS_EX_LEFT | WS_EX_NOPARENTNOTIFY | WS_EX_TOPMOST,
 				MIRANDABUTTONCLASS,
 				_T("S"),
-				WS_CHILD|WS_VISIBLE|WS_TABSTOP, // window style
+				WS_CHILD | WS_VISIBLE | WS_TABSTOP, // window style
 				rect.left,                      // horizontal position of window
 				rect.top,                       // vertical position of window
 				rect.bottom - rect.top + 1,     // window width
 				rect.bottom - rect.top + 1,     // window height
 				GetParent(LButton),             // handle to parent or owner window
-				(HMENU) IDC_SMLBUTTON,          // menu handle or child identifier
+				(HMENU)IDC_SMLBUTTON,          // menu handle or child identifier
 				NULL,                           // handle to application instance
 				NULL);                          // window-creation data
 
@@ -240,7 +240,7 @@ public:
 				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hSmlBmp);
 			}
 			else {
-				hSmlIco = GetDefaultIcon(); 
+				hSmlIco = GetDefaultIcon();
 				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSmlIco);
 			}
 
@@ -266,7 +266,7 @@ bool IsOldSrmm(void)
 int UpdateSrmmDlg(WPARAM wParam, LPARAM /* lParam */)
 {
 	WaitForSingleObject(g_hMutex, 2000);
-	for (int i=0; i < g_MsgWndList.getCount(); ++i) {
+	for (int i = 0; i < g_MsgWndList.getCount(); ++i) {
 		if (wParam == 0 || g_MsgWndList[i]->hContact == wParam) {
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, FALSE, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, DM_OPTIONSAPPLIED, 0, 0);
@@ -276,7 +276,7 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM /* lParam */)
 	ReleaseMutex(g_hMutex);
 
 	return 0;
-}	
+}
 
 
 //find the dialog info in the stored list
@@ -306,7 +306,7 @@ static void MsgWndDetect(HWND hwndDlg, MCONTACT hContact, msgData* datm)
 		char *protonam = GetContactProto(DecodeMetaContact(dat.hContact));
 		if (protonam) {
 			strncpy(dat.ProtocolName, protonam, sizeof(dat.ProtocolName));
-			dat.ProtocolName[sizeof(dat.ProtocolName)-1] = 0;
+			dat.ProtocolName[sizeof(dat.ProtocolName) - 1] = 0;
 		}
 
 		WaitForSingleObject(g_hMutex, 2000);
@@ -316,7 +316,7 @@ static void MsgWndDetect(HWND hwndDlg, MCONTACT hContact, msgData* datm)
 			msgwnd = new MsgWndData(dat);
 			g_MsgWndList.insert(msgwnd);
 		}
-		else 
+		else
 			msgwnd = NULL;
 		ReleaseMutex(g_hMutex);
 
@@ -337,7 +337,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 	if (dat == NULL)
 		return 0;
 
-	switch(uMsg) {
+	switch (uMsg) {
 	case DM_OPTIONSAPPLIED:
 		dat->clear();
 		dat->CreateSmileyButton();
@@ -349,21 +349,21 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			GETTEXTLENGTHEX gtl;
 			gtl.codepage = 1200;
 			gtl.flags = GTL_PRECISE | GTL_NUMCHARS;
-			dat->idxLastChar = (int)SendMessage(dat->REdit, EM_GETTEXTLENGTHEX, (WPARAM) &gtl, 0);
+			dat->idxLastChar = (int)SendMessage(dat->REdit, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 		}
 		break;
 	}
 
-	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam); 
+	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam);
 	if (!opt.PluginSupportEnabled)
 		return result;
 
-	switch(uMsg) {
+	switch (uMsg) {
 	case WM_DESTROY:
 		WaitForSingleObject(g_hMutex, 2000);
 		{
 			int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
-			if ( ind != -1 ) {
+			if (ind != -1) {
 				delete g_MsgWndList[ind];
 				g_MsgWndList.remove(ind);
 			}
@@ -374,7 +374,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 	case WM_SIZE:
 		if (dat->doSmileyButton) {
 			RECT rect = dat->CalcSmileyButtonPos();
-			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top, 
+			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top,
 				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 		}
 		break;
@@ -430,7 +430,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 		if (LOWORD(wParam) == MI_IDC_ADD && HIWORD(wParam) == BN_CLICKED && dat->doSmileyButton) {
 			RECT rect = dat->CalcSmileyButtonPos();
-			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top, 
+			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top,
 				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 		}
 		break;
@@ -442,7 +442,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 static int MsgDlgHook(WPARAM, LPARAM lParam)
 {
 	const MessageWindowEventData *wndEvtData = (MessageWindowEventData*)lParam;
-	switch(wndEvtData->uType) {
+	switch (wndEvtData->uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		MsgWndDetect(wndEvtData->hwndWindow, wndEvtData->hContact, NULL);
 		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData)) {
@@ -483,7 +483,7 @@ static LRESULT CALLBACK MsgDlgHookProcPre(int code, WPARAM wParam, LPARAM lParam
 {
 	const CWPSTRUCT *msg = (CWPSTRUCT*)lParam;
 
-	if (code == HC_ACTION && msg->message == WM_INITDIALOG) 
+	if (code == HC_ACTION && msg->message == WM_INITDIALOG)
 		MsgWndDetect(msg->hwnd, NULL, (msgData*)msg->lParam);
 
 	return CallNextHookEx(g_hMessageHookPre, code, wParam, lParam);
@@ -493,12 +493,11 @@ static LRESULT CALLBACK MsgDlgHookProcPre(int code, WPARAM wParam, LPARAM lParam
 void InstallDialogBoxHook(void)
 {
 	g_hMutex = CreateMutex(NULL, FALSE, NULL);
-
 	g_hHookMsgWnd = HookEvent(ME_MSG_WINDOWEVENT, MsgDlgHook);
 
 	// Hook message API
 	if (g_hHookMsgWnd == NULL)
-		g_hMessageHookPre = SetWindowsHookEx(WH_CALLWNDPROC, MsgDlgHookProcPre, 
+		g_hMessageHookPre = SetWindowsHookEx(WH_CALLWNDPROC, MsgDlgHookProcPre,
 			NULL, GetCurrentThreadId());
 }
 
@@ -509,7 +508,7 @@ void RemoveDialogBoxHook(void)
 	if (g_hMessageHookPre) UnhookWindowsHookEx(g_hMessageHookPre);
 
 	WaitForSingleObject(g_hMutex, 2000);
-	for (int i=0; i<g_MsgWndList.getCount(); i++) 
+	for (int i = 0; i < g_MsgWndList.getCount(); i++)
 		delete g_MsgWndList[i];
 	g_MsgWndList.destroy();
 	ReleaseMutex(g_hMutex);

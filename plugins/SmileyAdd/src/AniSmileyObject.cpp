@@ -20,24 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CAniSmileyObject;
 
-static int CompareAniSmiley(const CAniSmileyObject* p1, const CAniSmileyObject* p2)
-{
-	return (int)((char*)p2 - (char*)p1);
-}
-
-static LIST<CAniSmileyObject> regAniSmileys(10, CompareAniSmiley);
-
-static UINT_PTR timerId;
-static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD);
-
-static void CALLBACK sttMainThreadCallback(PVOID)
-{
-	if (timerId == 0xffffffff)
-		timerId = SetTimer(NULL, 0, 100, (TIMERPROC)timerProc);
-}
-
-
-class CAniSmileyObject : public ISmileyBase
+class CAniSmileyObject : public ISmileyBase, public MZeroedObject
 {
 private:
 	typedef enum { animStdOle, animDrctRichEd, animHpp } AnimType;
@@ -49,7 +32,6 @@ private:
 
 	SmileyType *m_sml;
 	ImageBase  *m_img;
-	unsigned	   m_nFramePosition;
 
 	long        m_counter;
 	unsigned    m_richFlags;
@@ -59,64 +41,43 @@ private:
 	bool        m_allowAni;
 
 public:
-	CAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
+	CAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp)
 	{
-		m_allowAni = false;
 		m_animtype = ishpp ? animHpp : animStdOle;
 		m_bkg = clr;
-
-		m_rectOrig.x = 0;
-		m_rectOrig.y = 0;
-		m_rectExt.cx = 0;
-		m_rectExt.cy = 0;
-
-		m_richFlags = 0;
-		m_lastObjNum = 0;
-
 		m_sml = sml;
-		m_img = NULL;
-		m_nFramePosition = 0;
-		m_counter = 0;
 	}
 
-	~CAniSmileyObject(void)
+	~CAniSmileyObject()
 	{
 		UnloadSmiley();
 	}
 
-	void LoadSmiley(void)
+	void LoadSmiley()
 	{
 		if (m_img != NULL) return;
 
 		m_img = m_sml->CreateCachedImage();
 		if (m_img && m_img->IsAnimated() && opt.AnimateDlg) {
-			m_nFramePosition = 0;
-			m_img->SelectFrame(m_nFramePosition);
+			m_img->SelectFrame(0);
 			long frtm = m_img->GetFrameDelay();
 			m_counter = frtm / 10 + ((frtm % 10) >= 5);
 
-			regAniSmileys.insert(this);
-			if (timerId == 0) {
-				timerId = 0xffffffff;
-				CallFunctionAsync(sttMainThreadCallback, NULL);
-			}
+			m_sml->AddObject(this);
 		}
-		else m_nFramePosition = m_sml->GetStaticFrame();
 	}
 
-	void UnloadSmiley(void)
+	void UnloadSmiley()
 	{
-		regAniSmileys.remove(this);
+		m_sml->RemoveObject(this);
 
-		if (timerId && (timerId + 1) && regAniSmileys.getCount() == 0) {
-			KillTimer(NULL, timerId);
-			timerId = 0;
+		if (m_img) {
+			m_img->Release();
+			m_img = NULL;
 		}
-		if (m_img) m_img->Release();
-		m_img = NULL;
 	}
 
-	void GetDrawingProp(void)
+	void GetDrawingProp()
 	{
 		if (m_hwnd == NULL) return;
 
@@ -190,7 +151,7 @@ public:
 		DeleteDC(hdcMem);
 	}
 
-	void DrawOnRichEdit(void)
+	void DrawOnRichEdit()
 	{
 		HDC hdc = GetDC(m_hwnd);
 		if (RectVisible(hdc, &m_orect)) {
@@ -217,7 +178,7 @@ public:
 		ReleaseDC(m_hwnd, hdc);
 	}
 
-	void DrawOnHPP(void)
+	void DrawOnHPP()
 	{
 		FVCNDATA_NMHDR nmh = { 0 };
 		nmh.code = NM_FIREVIEWCHANGE;
@@ -260,35 +221,34 @@ public:
 		}
 	}
 
-	void ProcessTimerTick(void)
+	virtual void Draw()
 	{
-		if (m_visible && m_img && --m_counter <= 0) {
-			m_nFramePosition = m_img->SelectNextFrame(m_nFramePosition);
-			long frtm = m_img->GetFrameDelay();
-			m_counter = frtm / 10 + ((frtm % 10) >= 5);
+		if (!m_visible || !m_img)
+			return;
 
-			switch (m_animtype) {
-			case animStdOle:
-				if (m_allowAni) SendOnViewChange();
-				else {
-					m_visible = false;
-					UnloadSmiley();
-				}
-				m_allowAni = false;
-				break;
-
-			case animDrctRichEd:
-				DrawOnRichEdit();
-				break;
-
-			case animHpp:
-				DrawOnHPP();
-				break;
+		switch (m_animtype) {
+		case animStdOle:
+			if (!m_allowAni) {
+				m_visible = false;
+				UnloadSmiley();
 			}
+			else {
+				SendOnViewChange();
+				m_allowAni = false;
+			}
+			break;
+
+		case animDrctRichEd:
+			DrawOnRichEdit();
+			break;
+
+		case animHpp:
+			DrawOnHPP();
+			break;
 		}
 	}
 
-	void SetPosition(HWND hwnd, LPCRECT lpRect)
+	virtual void SetPosition(HWND hwnd, LPCRECT lpRect)
 	{
 		ISmileyBase::SetPosition(hwnd, lpRect);
 
@@ -383,7 +343,7 @@ public:
 		return S_OK;
 	}
 
-	STDMETHOD(SetExtent)(DWORD dwDrawAspect, SIZEL* psizel)
+	STDMETHOD(SetExtent)(DWORD dwDrawAspect, SIZEL *psizel)
 	{
 		HRESULT hr = ISmileyBase::SetExtent(dwDrawAspect, psizel);
 		if (hr == S_OK) m_rectExt = m_sizeExtent;
@@ -397,21 +357,4 @@ ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
 
 	CAniSmileyObject *obj = new CAniSmileyObject(sml, clr, ishpp);
 	return obj;
-}
-
-static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
-{
-	for (int i = 0; i < regAniSmileys.getCount(); i++)
-		regAniSmileys[i]->ProcessTimerTick();
-}
-
-void DestroyAniSmileys(void)
-{
-	if (timerId && (timerId + 1)) {
-		KillTimer(NULL, timerId);
-		timerId = 0;
-	}
-
-	for (int i = 0; i < regAniSmileys.getCount(); i++)
-		delete regAniSmileys[i];
 }

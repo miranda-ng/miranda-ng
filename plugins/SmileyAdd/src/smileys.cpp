@@ -23,11 +23,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SmileyPackListType g_SmileyPacks;
 SmileyCategoryListType g_SmileyCategories;
 
+static HWND hwndHidden = NULL;
+
+static void CALLBACK timerProc(HWND, UINT, UINT_PTR param, DWORD)
+{
+	SmileyType *pType = (SmileyType*)param;
+	pType->MoveToNextFrame();
+}
+
+// these two functions must be called from the main thread
+static void CALLBACK sttStartTimer(PVOID obj)
+{
+	if (hwndHidden == NULL)
+		hwndHidden = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+
+	SmileyType *pType = (SmileyType*)obj;
+	pType->SetFrameDelay();
+}
+
+static void CALLBACK sttStopTimer(PVOID obj)
+{
+	KillTimer(hwndHidden, (DWORD_PTR)obj);
+}
+
 //
 // SmileyType
 //
 
-SmileyType::SmileyType(void)
+SmileyType::SmileyType(void) :
+	m_arSmileys(10, PtrKeySortT)
 {
 	m_SmileyIcon = NULL;
 	m_xepimg = NULL;
@@ -39,19 +63,65 @@ SmileyType::SmileyType(void)
 
 SmileyType::~SmileyType()
 {
-	if (m_xepimg) m_xepimg->Release();
-	m_xepimg = NULL;
+	if (m_xepimg) {
+		m_xepimg->Release();
+		m_xepimg = NULL;
+	}
 
-	if (m_SmileyIcon != NULL) DestroyIcon(m_SmileyIcon);
-	m_SmileyIcon = NULL;
+	if (m_SmileyIcon != NULL) {
+		DestroyIcon(m_SmileyIcon);
+		m_SmileyIcon = NULL;
+	}
 }
 
+void SmileyType::AddObject(ISmileyBase *pObject)
+{
+	if (m_arSmileys.getCount() == 0) {
+		if (m_xepimg == NULL)
+			m_xepimg = AddCacheImage(m_filepath, m_index);
+		CallFunctionAsync(sttStartTimer, this);
+	}
+
+	m_arSmileys.insert(pObject);
+}
+
+void SmileyType::RemoveObject(ISmileyBase *pObject)
+{
+	int idx = m_arSmileys.getIndex(pObject);
+	if (idx == -1)
+		return;
+
+	m_arSmileys.remove(idx);
+	if (m_arSmileys.getCount() == 0)
+		CallFunctionAsync(sttStopTimer, this);
+}
+
+void SmileyType::SetFrameDelay()
+{
+	int iFrameDelay = (m_xepimg == NULL) ? 0 : m_xepimg->GetFrameDelay();
+	if (iFrameDelay <= 0)
+		KillTimer(hwndHidden, (DWORD_PTR)this);
+	else
+		SetTimer(hwndHidden, (DWORD_PTR)this, iFrameDelay*10, timerProc);
+}
+
+void SmileyType::MoveToNextFrame()
+{
+	m_index = m_xepimg->SelectNextFrame(m_index);
+
+	for (int i = 0; i < m_arSmileys.getCount(); i++)
+		m_arSmileys[i]->Draw();
+
+	SetFrameDelay(); // reset timer
+}
 
 HICON SmileyType::GetIcon(void)
 {
 	if (m_SmileyIcon == NULL) {
-		ImageBase* img = CreateCachedImage();
-		if (!img) return NULL;
+		ImageBase *img = CreateCachedImage();
+		if (!img)
+			return NULL;
+		
 		img->SelectFrame(m_index);
 		m_SmileyIcon = img->GetIcon();
 		img->Release();
@@ -59,38 +129,33 @@ HICON SmileyType::GetIcon(void)
 	return m_SmileyIcon;
 }
 
-
 HICON SmileyType::GetIconDup(void)
 {
-	ImageBase* img = CreateCachedImage();
+	ImageBase *img = CreateCachedImage();
 	img->SelectFrame(m_index);
 	HICON hIcon = img->GetIcon();
 	img->Release();
 	return hIcon;
 }
 
-
-bool SmileyType::LoadFromImage(IStream* pStream)
+bool SmileyType::LoadFromImage(IStream *pStream)
 {
-	if (m_xepimg) m_xepimg->Release();
+	if (m_xepimg)
+		m_xepimg->Release();
 
 	CMString name;
 	m_xepimg = new ImageType(0, name, pStream);
-
 	return true;
 }
 
-
-bool SmileyType::LoadFromResource(const CMString& file, const int index)
+bool SmileyType::LoadFromResource(const CMString &file, const int index)
 {
 	m_index = index;
 	m_filepath = file;
-
 	return true;
 }
 
-
-void SmileyType::GetSize(SIZE& size)
+void SmileyType::GetSize(SIZE &size)
 {
 	if (m_size.cy == 0) {
 		ImageBase* img = CreateCachedImage();
@@ -102,7 +167,6 @@ void SmileyType::GetSize(SIZE& size)
 	size = m_size;
 }
 
-
 ImageBase* SmileyType::CreateCachedImage(void)
 {
 	if (m_xepimg) {
@@ -112,13 +176,11 @@ ImageBase* SmileyType::CreateCachedImage(void)
 	return AddCacheImage(m_filepath, m_index);
 }
 
-
 void SmileyType::SetImList(HIMAGELIST hImLst, long i)
 {
 	if (m_xepimg) m_xepimg->Release();
 	m_xepimg = new ImageListItemType(0, hImLst, i);
 }
-
 
 HBITMAP SmileyType::GetBitmap(COLORREF bkgClr, int sizeX, int sizeY)
 {
@@ -130,7 +192,6 @@ HBITMAP SmileyType::GetBitmap(COLORREF bkgClr, int sizeX, int sizeY)
 
 	return hBmp;
 }
-
 
 //
 // SmileyPackType
@@ -147,22 +208,17 @@ SmileyType* SmileyPackType::GetSmiley(unsigned index)
 	return (index < (unsigned)m_SmileyList.getCount()) ? &m_SmileyList[index] : NULL;
 }
 
-
 static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const TCHAR *param)
 {
-	DWORD_PTR ret;
 	if (param == NULL)
-		ret = 0;
-	else if (mir_tstrcmpi(_T("hContact"), param) == 0)
-		ret = (DWORD_PTR)hContact;
-	else if (_istdigit(*param))
-		ret = _ttoi(param);
-	else
-		ret = (DWORD_PTR)param;
+		return 0;
+	if (mir_tstrcmpi(_T("hContact"), param) == 0)
+		return hContact;
+	if (_istdigit(*param))
+		return _ttoi(param);
 
-	return ret;
+	return (DWORD_PTR)param;
 }
-
 
 void SmileyType::CallSmileyService(MCONTACT hContact)
 {
