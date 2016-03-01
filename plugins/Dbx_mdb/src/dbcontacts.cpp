@@ -339,8 +339,10 @@ void CDbxMdb::FillContacts()
 		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
 
-		m_dwMaxContactId = cc->contactID+1;
+		m_dwMaxContactId = max(m_dwMaxContactId, cc->contactID+1);
 		m_contactCount++;
+
+		m_dwMaxEventId = max(m_dwMaxEventId, FindLastEvent(cc->contactID) + 1);
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
