@@ -18,11 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Dbx_lmdb</ProjectName>
     <ProjectGuid>{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}</ProjectGuid>
@@ -35,4 +30,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
 </Project>
