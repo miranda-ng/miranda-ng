@@ -43,7 +43,6 @@ private:
 public:
 
 	Animate(SmileyType *sml, RECT &rect, HDC hdcMem, HBRUSH hbr, bool clip);
-	Animate(const Animate& an); 
 	~Animate();
 
 	void Draw(HDC hdc);
@@ -67,8 +66,6 @@ private:
 	HBITMAP m_hBmp;
 	HDC		m_hdcMem;
 	HBITMAP	m_hOld;
-
-	static unsigned CALLBACK AnimateThreadFunc ( void* arg );
 
 public:
 	AnimatedPack(HWND hwnd, int wsize, SIZE& sel, COLORREF bkg);

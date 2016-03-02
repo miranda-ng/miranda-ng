@@ -62,7 +62,7 @@ SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
 SmileyCType::SmileyCType(const CMString& fullpath, const TCHAR* filepath)
 {
 	LoadFromResource(fullpath, 0);
-	CreateTriggerText(T2A_SM(filepath));
+	CreateTriggerText(_T2A(filepath));
 }
 
 bool SmileyCType::CreateTriggerText(char* text)
@@ -123,7 +123,7 @@ bool SmileyPackCType::LoadSmileyDir(TCHAR* dir)
 	return false;
 }
 
-bool SmileyPackCType::LoadSmiley(TCHAR* path)
+bool SmileyPackCType::LoadSmiley(TCHAR *path)
 {
 	CMString dirs = path;
 	int slash = dirs.ReverseFind('\\');

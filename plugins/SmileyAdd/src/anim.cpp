@@ -28,13 +28,11 @@ Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip)
 	m_cliprect = rect;
 }
 
-
 Animate::~Animate()
 {
 	if (m_img)
 		m_img->Release();
 }
-
 
 void Animate::StartAnimation(void)
 {
@@ -62,10 +60,9 @@ void Animate::ProcessTimerTick(HWND hwnd)
 	}
 }
 
-
 void Animate::DrawFrame(HDC hdc)
 {
-	long width  = m_cliprect.right  - m_cliprect.left;
+	long width = m_cliprect.right - m_cliprect.left;
 	long height = m_cliprect.bottom - m_cliprect.top;
 
 	RECT frc = { 0, 0, width, height };
@@ -79,9 +76,8 @@ void Animate::DrawFrame(HDC hdc)
 		DrawFocusRect(hdc, &m_cliprect);
 }
 
-
-void Animate::Draw(HDC hdc) 
-{ 
+void Animate::Draw(HDC hdc)
+{
 	if (m_running) {
 		m_img->Draw(hdc, m_cliprect, m_clip);
 
@@ -90,15 +86,14 @@ void Animate::Draw(HDC hdc)
 	}
 }
 
-
-void Animate::SetOffset(int off, int wsize) 
-{ 
+void Animate::SetOffset(int off, int wsize)
+{
 	const int dy = m_offset - off;
 
 	m_cliprect.top += dy;
 	m_cliprect.bottom += dy;
 
-	m_offset = off; 
+	m_offset = off;
 
 	m_running = m_cliprect.top >= 0 && m_cliprect.top < wsize;
 	if (m_running) {
@@ -114,15 +109,13 @@ void Animate::SetOffset(int off, int wsize)
 	}
 }
 
-
 void Animate::SetSel(int x, int y)
 {
 	m_sel = x >= m_cliprect.left && x < m_cliprect.right && y >= m_cliprect.top && y < m_cliprect.bottom;
 }
 
-
 AnimatedPack::AnimatedPack(HWND hwnd, int wsize, SIZE& sel, COLORREF bkg)
-	: m_AniList(40), m_hwnd(hwnd), m_wsize(wsize) 
+	: m_AniList(40), m_hwnd(hwnd), m_wsize(wsize)
 {
 	HDC hdc = GetDC(hwnd);
 
@@ -134,44 +127,39 @@ AnimatedPack::AnimatedPack(HWND hwnd, int wsize, SIZE& sel, COLORREF bkg)
 	ReleaseDC(hwnd, hdc);
 }
 
-
 AnimatedPack::~AnimatedPack()
 {
 	DeleteObject(m_hbr);
-	SelectObject(m_hdcMem, m_hOld);    
-	DeleteObject(m_hBmp);	
+	SelectObject(m_hdcMem, m_hOld);
+	DeleteObject(m_hBmp);
 	DeleteDC(m_hdcMem);
 }
-
 
 void AnimatedPack::Add(SmileyType *sml, RECT rect, bool clip)
 {
 	m_AniList.insert(new Animate(sml, rect, m_hdcMem, m_hbr, clip));
 }
 
-
 void AnimatedPack::Draw(HDC hdc)
 {
-	for (int i=0; i < m_AniList.getCount(); i++) 
+	for (int i = 0; i < m_AniList.getCount(); i++)
 		m_AniList[i].Draw(hdc);
 }
 
-
 void AnimatedPack::SetOffset(int off)
 {
-	for (int i=0; i < m_AniList.getCount(); i++) 
+	for (int i = 0; i < m_AniList.getCount(); i++)
 		m_AniList[i].SetOffset(off, m_wsize);
 }
 
-
 void AnimatedPack::SetSel(RECT& rect)
 {
-	for (int i=0; i < m_AniList.getCount(); i++) 
+	for (int i = 0; i < m_AniList.getCount(); i++)
 		m_AniList[i].SetSel(rect.left, rect.top);
 }
 
 void AnimatedPack::ProcessTimerTick(HWND hwnd)
 {
-	for (int i=0; i < m_AniList.getCount(); i++) 
+	for (int i = 0; i < m_AniList.getCount(); i++)
 		m_AniList[i].ProcessTimerTick(hwnd);
 }

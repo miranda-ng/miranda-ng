@@ -19,10 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-//globals
+// globals
 HINSTANCE g_hInst;
 HANDLE    hEvent1;
 HGENMENU  hContactMenuItem;
+
+FI_INTERFACE *fei;
 
 int hLangpack;
 
@@ -87,9 +89,10 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
-
 		return 1;
 	}
+
+	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
 	InitImageCache();
 
@@ -144,7 +147,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
 {
-	switch(fdwReason) {
+	switch (fdwReason) {
 	case DLL_PROCESS_ATTACH:
 		g_hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);

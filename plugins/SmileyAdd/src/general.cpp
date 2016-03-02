@@ -30,7 +30,7 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
 	HDC hcdc = CreateCompatibleDC(hdc);
 
 	int logPixelsY = GetDeviceCaps(hdc, LOGPIXELSY);
-	HFONT hFont = CreateFont(-(chf->yHeight * logPixelsY / 1440), 0, 0, 0, 
+	HFONT hFont = CreateFont(-(chf->yHeight * logPixelsY / 1440), 0, 0, 0,
 		chf->wWeight, chf->dwEffects & CFE_ITALIC ? 1 : 0, 0, 0,
 		chf->bCharSet, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
@@ -49,7 +49,7 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
 HICON GetDefaultIcon(bool copy)
 {
 	HICON resIco = IcoLib_GetIcon("SmileyAdd_ButtonSmiley");
-	if (resIco == NULL) 
+	if (resIco == NULL)
 		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
 	else if (copy) {
 		resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
@@ -69,13 +69,13 @@ const TCHAR* GetImageExt(CMString &fname)
 
 		int bytes = _read(fileId, buf, sizeof(buf));
 		if (bytes > 4) {
-			if ( *(unsigned short*)buf == 0xd8ff )
+			if (*(unsigned short*)buf == 0xd8ff)
 				ext = _T("jpg");
-			else if ( *(unsigned short*)buf == 0x4d42 )
+			else if (*(unsigned short*)buf == 0x4d42)
 				ext = _T("bmp");
-			else if ( *(unsigned*)buf == 0x474e5089 )
+			else if (*(unsigned*)buf == 0x474e5089)
 				ext = _T("png");
-			else if ( *(unsigned*)buf == 0x38464947 )
+			else if (*(unsigned*)buf == 0x38464947)
 				ext = _T("gif");
 		}
 		_close(fileId);
@@ -83,7 +83,7 @@ const TCHAR* GetImageExt(CMString &fname)
 	return ext;
 }
 
-HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
+HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 {
 	ICONINFO ii;
 	HICON hIcon;
@@ -100,15 +100,15 @@ HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
 	ii.yHotspot = 0;
 
 	/* draw mask*/
-	ii.hbmMask = CreateBitmap (cx, cy, 1, 1, NULL);
-	hOldDstBitmap = (HBITMAP)SelectObject (hdcDst, ii.hbmMask);
+	ii.hbmMask = CreateBitmap(cx, cy, 1, 1, NULL);
+	hOldDstBitmap = (HBITMAP)SelectObject(hdcDst, ii.hbmMask);
 	PatBlt(hdcDst, 0, 0, cx, cy, WHITENESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_MASK);
 
 	/* draw image*/
-	ii.hbmColor = CreateBitmap (cx, cy, 1, 32, NULL);
-	SelectObject (hdcDst, ii.hbmColor);
-	PatBlt (hdcDst, 0, 0, cx, cy, BLACKNESS);
+	ii.hbmColor = CreateBitmap(cx, cy, 1, 32, NULL);
+	SelectObject(hdcDst, ii.hbmColor);
+	PatBlt(hdcDst, 0, 0, cx, cy, BLACKNESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_TRANSPARENT);
 
 	/*
@@ -117,11 +117,11 @@ HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
 	*/
 	SelectObject(hdcDst, hOldDstBitmap);
 
-	hIcon = CreateIconIndirect (&ii);
+	hIcon = CreateIconIndirect(&ii);
 
-	DeleteObject (ii.hbmMask);
-	DeleteObject (ii.hbmColor);
-	DeleteDC (hdcDst);
+	DeleteObject(ii.hbmMask);
+	DeleteObject(ii.hbmColor);
+	DeleteDC(hdcDst);
 
 	return hIcon;
 }
@@ -133,7 +133,7 @@ void pathToRelative(const CMString& pSrc, CMString& pOut)
 	pOut = szOutPath;
 }
 
-void pathToAbsolute(const CMString& pSrc, CMString& pOut) 
+void pathToAbsolute(const CMString& pSrc, CMString& pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
 
@@ -155,9 +155,9 @@ void pathToAbsolute(const CMString& pSrc, CMString& pOut)
 
 static int __fastcall SingleHexToDecimal(char c)
 {
-	if (c >= '0' && c <= '9') return c-'0';
-	if (c >= 'a' && c <= 'f') return c-'a'+10;
-	if (c >= 'A' && c <= 'F') return c-'A'+10;
+	if (c >= '0' && c <= '9') return c - '0';
+	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
 	return -1;
 }
 
@@ -165,7 +165,7 @@ void  UrlDecode(char* str)
 {
 	char* s = str, *d = str;
 
-	while(*s) {
+	while (*s) {
 		if (*s == '%') {
 			int digit1 = SingleHexToDecimal(s[1]);
 			if (digit1 != -1) {
@@ -174,8 +174,8 @@ void  UrlDecode(char* str)
 					s += 3;
 					*d++ = (char)((digit1 << 4) | digit2);
 					continue;
-				}	
-			}	
+				}
+			}
 		}
 		*d++ = *s++;
 	}
@@ -195,7 +195,8 @@ bool InitGdiPlus(void)
 		if (g_gdiplusToken == 0 && !gdiPlusFail)
 			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER) {
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
 		gdiPlusFail = true;
 		ReportError(errmsg);
 	}
@@ -215,7 +216,7 @@ MCONTACT DecodeMetaContact(MCONTACT hContact)
 {
 	if (hContact == NULL)
 		return NULL;
-	
+
 	MCONTACT hReal = db_mc_getMostOnline(hContact);
 	if (hReal == NULL || (INT_PTR)hReal == CALLSERVICE_NOTFOUND)
 		hReal = hContact;
@@ -232,7 +233,7 @@ void ReportError(const TCHAR *errmsg)
 {
 	static const TCHAR title[] = _T("Miranda SmileyAdd");
 
-	POPUPDATAT pd = {0};
+	POPUPDATAT pd = { 0 };
 	mir_tstrcpy(pd.lpwzContactName, title);
 	mir_tstrcpy(pd.lpwzText, errmsg);
 	pd.iSeconds = -1;

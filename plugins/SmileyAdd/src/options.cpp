@@ -50,52 +50,12 @@ public:
 	BOOL DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
-static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-//Init and de-init functions, called from main
-int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.position = 910000000;
-	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
-	odp.pszTitle = LPGEN("Smileys");
-	odp.pszGroup = LPGEN("Customize");
-	odp.pfnDlgProc = DlgProcSmileysOptions;
-	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(addInfo, &odp);
-	return 0;
-}
-
-
-//
-// dialog procedure for the options dialog. creates or 
-// retrieves the options class and calls it
-//
-static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	OptionsDialogType *pOD = (OptionsDialogType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (pOD == NULL) {
-		pOD = new OptionsDialogType(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pOD);
-	}
-
-	INT_PTR Result = pOD->DialogProcedure(msg, wParam, lParam);
-	SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, Result); 
-
-	if (msg == WM_NCDESTROY)
-		delete pOD;
-
-	return Result;
-}
-
-
 //OptionsDialog class functions
 BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL Result = FALSE;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		InitDialog();
 		Result = TRUE;
@@ -108,7 +68,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_FILENAME:
-			switch(HIWORD(wParam)) {
+			switch (HIWORD(wParam)) {
 			case EN_KILLFOCUS:
 				FilenameChanged();
 				break;
@@ -122,7 +82,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_BROWSE:
 			if (HIWORD(wParam) == BN_CLICKED)
 				if (BrowseForSmileyPacks(GetSelProto())) {
-					UpdateControls(true); 
+					UpdateControls(true);
 					SetChanged();
 				}
 			break;
@@ -139,7 +99,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			} // no break!
 		case IDC_USEPHYSPROTO:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				PopulateSmPackList(); 
+				PopulateSmPackList();
 				SetChanged();
 			}
 			break;
@@ -195,7 +155,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
@@ -208,7 +168,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
 				{
-					TVHITTESTINFO ht = {0};
+					TVHITTESTINFO ht = { 0 };
 
 					DWORD dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
@@ -222,13 +182,13 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 
 			case TVN_KEYDOWN:
-				if (((LPNMTVKEYDOWN) lParam)->wVKey == VK_SPACE)
-					PostMessage(m_hwndDialog, UM_CHECKSTATECHANGE, 0, 
-					(LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
+				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
+					PostMessage(m_hwndDialog, UM_CHECKSTATECHANGE, 0,
+						(LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
 				break;
 
 			case TVN_SELCHANGED:
-				LPNMTREEVIEW pnmtv = (LPNMTREEVIEW) lParam;
+				LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
 				if (pnmtv->itemNew.state & TVIS_SELECTED)
 					UpdateControls();
 			}
@@ -242,8 +202,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 void OptionsDialogType::AddCategory(void)
 {
 	TCHAR cat[30];
-
-	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, _countof(cat)); 
+	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, _countof(cat));
 	CMString catd = cat;
 
 	if (!catd.IsEmpty()) {
@@ -262,8 +221,8 @@ void OptionsDialogType::UserAction(HTREEITEM hItem)
 		if (!BrowseForSmileyPacks(GetSelProto(hItem)))
 			TreeView_SetCheckState(hLstView, hItem, TRUE)
 	}
-	else 
-		tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();	
+	else
+		tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
 
 	if (hItem == TreeView_GetSelection(hLstView))
 		UpdateControls();
@@ -280,18 +239,17 @@ void OptionsDialogType::SetChanged(void)
 	SendMessage(GetParent(m_hwndDialog), PSM_CHANGED, 0, 0);
 }
 
-
 void OptionsDialogType::UpdateControls(bool force)
 {
-	const SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto());
-	if (smc == NULL) return;
+	const SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(GetSelProto());
+	if (smc == NULL)
+		return;
 
-	const CMString& smf = smc->GetFilename();
-
-	SetDlgItemText(m_hwndDialog, IDC_FILENAME, smf.c_str());
+	const CMString &smf = smc->GetFilename();
+	SetDlgItemText(m_hwndDialog, IDC_FILENAME, smf);
 
 	if (smPack.GetFilename() != smf || force)
-		smPack.LoadSmileyFile(smf, smPack.GetName() , false, true);
+		smPack.LoadSmileyFile(smf, smPack.GetName(), false, true);
 
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
 	TreeView_SetCheckState(hLstView, TreeView_GetSelection(hLstView), smPack.SmileyCount() != 0);
@@ -301,11 +259,10 @@ void OptionsDialogType::UpdateControls(bool force)
 	SetDlgItemText(m_hwndDialog, IDC_LIBNAME, TranslateTS(smPack.GetName().c_str()));
 }
 
-
 long OptionsDialogType::GetSelProto(HTREEITEM hItem)
 {
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
-	TVITEM tvi = {0};
+	TVITEM tvi = { 0 };
 
 	tvi.mask = TVIF_PARAM;
 	tvi.hItem = hItem == NULL ? TreeView_GetSelection(hLstView) : hItem;
@@ -324,12 +281,12 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 	for (int i = 0; i < smc.getCount(); i++) {
 		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
 		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
-		
+
 		if (!visible && smc[i].IsAcc() && !useOne) {
 			CMString PhysProtoName = _T("AllProto");
 			CMString ProtoName = smc[i].GetName();
-			DBVARIANT dbv;	
-			if (db_get_ts(NULL, T2A_SM(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0){
+			DBVARIANT dbv;
+			if (db_get_ts(NULL, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
 				ProtoName = dbv.ptszVal;
 				db_free(&dbv);
 			}
@@ -338,15 +295,15 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 
 			CMString FileName;
 			if (!ProtoName.IsEmpty()) {
-				PhysProtoName += ProtoName;		
+				PhysProtoName += ProtoName;
 				SmileyCategoryType* scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
 				if (scm == NULL)
 					visible = false;
 				else if (scm->GetFilename().IsEmpty())
-					visible = true;			
+					visible = true;
 			}
 		}
-		
+
 		smc[i].SetVisible(visible);
 	}
 }
@@ -358,14 +315,14 @@ void OptionsDialogType::PopulateSmPackList(void)
 	TreeView_SelectItem(hLstView, NULL);
 	TreeView_DeleteAllItems(hLstView);
 
-	TVINSERTSTRUCT tvi = {0};
+	TVINSERTSTRUCT tvi = { 0 };
 	tvi.hParent = TVI_ROOT;
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
 	UpdateVisibleSmPackList();
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
-	for (int i=0; i < smc.getCount(); i++) {				
+	for (int i = 0; i < smc.getCount(); i++) {
 		if (smc[i].IsVisible()) {
 			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
 			if (!smc[i].IsProto()) {
@@ -406,13 +363,13 @@ void OptionsDialogType::InitDialog(void)
 	CheckDlgButton(m_hwndDialog, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
 
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM) TranslateT("Off"));  
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM) TranslateT("Top"));  
+	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Off"));
+	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
 
 	if (IsOldSrmm())
-		SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM) TranslateT("Bottom"));  
+		SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
 
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);  
+	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), opt.PluginSupportEnabled);
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_USEPHYSPROTO), !opt.UseOneForAll);
 
@@ -431,14 +388,14 @@ void OptionsDialogType::InitDialog(void)
 	tmpsmcat = g_SmileyCategories;
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i=0; i < smc.getCount(); i++) {
+	for (int i = 0; i < smc.getCount(); i++) {
 		HICON hIcon = NULL;
 		if (smc[i].IsProto()) {
-			hIcon = (HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			if (hIcon == NULL || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND) 
-				hIcon = (HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
-		} 
-		if (hIcon == NULL || hIcon == (HICON)CALLSERVICE_NOTFOUND) 
+			hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+			if (hIcon == NULL || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
+				hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
+		}
+		if (hIcon == NULL || hIcon == (HICON)CALLSERVICE_NOTFOUND)
 			hIcon = GetDefaultIcon();
 
 		ImageList_AddIcon(hImList, hIcon);
@@ -457,7 +414,6 @@ void OptionsDialogType::DestroyDialog(void)
 	HIMAGELIST hImList = TreeView_SetImageList(hLstView, NULL, TVSIL_NORMAL);
 	ImageList_Destroy(hImList);
 }
-
 
 void OptionsDialogType::ApplyChanges(void)
 {
@@ -480,26 +436,24 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.HQScaling = IsDlgButtonChecked(m_hwndDialog, IDC_HQSCALING) == BST_CHECKED;
 	opt.HorizontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
-	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);  
+	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);
 	opt.MaxCustomSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MAXCUSTSMSZ, NULL, FALSE);
 	opt.MinSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MINSMSZ, NULL, FALSE);
 
 	opt.Save();
 
 	// Cleanup database
-	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i=0; i < smc.getCount(); i++) {
-		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL) {
-			CMString empty;
+	CMString empty;
+	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
+	for (int i = 0; i < smc.getCount(); i++)
+		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL)
 			opt.WritePackFileName(empty, smc[i].GetName());
-		}
-	}
 
 	g_SmileyCategories = tmpsmcat;
 	g_SmileyCategories.SaveSettings();
 	g_SmileyCategories.ClearAndLoadAll();
 
-	smPack.LoadSmileyFile(tmpsmcat.GetSmileyCategory(GetSelProto())->GetFilename(), tmpsmcat.GetSmileyCategory(GetSelProto())->GetDisplayName(),false, true);
+	smPack.LoadSmileyFile(tmpsmcat.GetSmileyCategory(GetSelProto())->GetFilename(), tmpsmcat.GetSmileyCategory(GetSelProto())->GetDisplayName(), false, true);
 
 	NotifyEventHooks(hEvent1, 0, 0);
 	ProcessAllInputAreas(false);
@@ -507,14 +461,14 @@ void OptionsDialogType::ApplyChanges(void)
 
 bool OptionsDialogType::BrowseForSmileyPacks(int item)
 {
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 
 	TCHAR filename[MAX_PATH] = _T("");
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = _countof(filename);
 
 	CMString inidir;
-	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item); 
+	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item);
 	if (smc->GetFilename().IsEmpty())
 		pathToAbsolute(_T("Smileys"), inidir);
 	else {
@@ -537,7 +491,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	mir_tstrcpy(pfilter, _T("*.*"));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	*pfilter = '\0';  
+	*pfilter = '\0';
 	ofn.lpstrFilter = filter;
 
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_READONLY |
@@ -560,7 +514,7 @@ void OptionsDialogType::FilenameChanged(void)
 	TCHAR str[MAX_PATH];
 	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, _countof(str));
 
-	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto()); 
+	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto());
 	if (smc->GetFilename() != str) {
 		CMString temp(str);
 		smc->SetFilename(temp);
@@ -616,7 +570,7 @@ void OptionsType::Load(void)
 	ScaleToTextheight = db_get_b(NULL, "SmileyAdd", "ScaleToTextheight", FALSE) != 0;
 	UseOneForAll = db_get_b(NULL, "SmileyAdd", "UseOneForAll", TRUE) != 0;
 	UsePhysProto = db_get_b(NULL, "SmileyAdd", "UsePhysProto", FALSE) != 0;
-	SurroundSmileyWithSpaces = 
+	SurroundSmileyWithSpaces =
 		db_get_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", FALSE) != 0;
 	ScaleAllSmileys = db_get_b(NULL, "SmileyAdd", "ScaleAllSmileys", FALSE) != 0;
 	IEViewStyle = db_get_b(NULL, "SmileyAdd", "IEViewStyle", FALSE) != 0;
@@ -634,61 +588,80 @@ void OptionsType::Load(void)
 	HorizontalSorting = db_get_b(NULL, "SmileyAdd", "HorizontalSorting", 1) != 0;
 }
 
-
-void OptionsType::ReadPackFileName(CMString& filename, const CMString& name, const CMString& defaultFilename)
+void OptionsType::ReadPackFileName(CMString &filename, const CMString &name, const CMString &defaultFilename)
 {
 	CMString settingKey = name + _T("-filename");
 
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), &dbv)) {
-		filename = dbv.ptszVal;
-		db_free(&dbv);
-	}
-	else filename = defaultFilename;
+	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
+	filename = (tszValue != NULL) ? (TCHAR*)tszValue : defaultFilename;
 }
 
-void OptionsType::WritePackFileName(const CMString& filename, const CMString& name)
+void OptionsType::WritePackFileName(const CMString &filename, const CMString &name)
 {
 	CMString settingKey = name + _T("-filename");
-	db_set_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), filename.c_str());
+	db_set_ts(NULL, "SmileyAdd", _T2A(settingKey.c_str()), filename.c_str());
 }
 
-
-void OptionsType::ReadCustomCategories(CMString& cats)
+void OptionsType::ReadCustomCategories(CMString &cats)
 {
-	DBVARIANT dbv;
-	INT_PTR res = db_get_ts(NULL, "SmileyAdd", "CustomCategories", &dbv);
-	if (res == 0) {
-		cats = dbv.ptszVal;
-		db_free(&dbv);
-	}
+	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", "CustomCategories"));
+	if (tszValue != NULL)
+		cats = tszValue;
 }
 
-
-void OptionsType::WriteCustomCategories(const CMString& cats)
+void OptionsType::WriteCustomCategories(const CMString &cats)
 {
 	if (cats.IsEmpty())
 		db_unset(NULL, "SmileyAdd", "CustomCategories");
 	else
-		db_set_ts(NULL, "SmileyAdd", "CustomCategories",	cats.c_str());
+		db_set_ts(NULL, "SmileyAdd", "CustomCategories", cats.c_str());
 }
 
-
-void OptionsType::ReadContactCategory(MCONTACT hContact, CMString& cats)
+void OptionsType::ReadContactCategory(MCONTACT hContact, CMString &cats)
 {
-	DBVARIANT dbv;
-	INT_PTR res = db_get_ts(hContact, "SmileyAdd", "CustomCategory", &dbv);
-	if (res == 0) {
-		cats = dbv.ptszVal;
-		db_free(&dbv);
-	}
+	ptrT tszValue(db_get_tsa(hContact, "SmileyAdd", "CustomCategory"));
+	if (tszValue != NULL)
+		cats = tszValue;
 }
 
-
-void OptionsType::WriteContactCategory(MCONTACT hContact, const CMString& cats)
+void OptionsType::WriteContactCategory(MCONTACT hContact, const CMString &cats)
 {
 	if (cats.IsEmpty())
 		db_unset(hContact, "SmileyAdd", "CustomCategory");
 	else
-		db_set_ts(hContact, "SmileyAdd", "CustomCategory",	cats.c_str());
+		db_set_ts(hContact, "SmileyAdd", "CustomCategory", cats.c_str());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Init and de-init functions, called from main
+
+static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	OptionsDialogType *pOD = (OptionsDialogType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	if (pOD == NULL) {
+		pOD = new OptionsDialogType(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)pOD);
+	}
+
+	INT_PTR Result = pOD->DialogProcedure(msg, wParam, lParam);
+	SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, Result);
+
+	if (msg == WM_NCDESTROY)
+		delete pOD;
+
+	return Result;
+}
+
+int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.position = 910000000;
+	odp.hInstance = g_hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
+	odp.pszTitle = LPGEN("Smileys");
+	odp.pszGroup = LPGEN("Customize");
+	odp.pfnDlgProc = DlgProcSmileysOptions;
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(addInfo, &odp);
+	return 0;
 }
