@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static FI_INTERFACE *fei;
-
 static HANDLE g_hMutexIm;
 static OBJLIST<ImageBase> g_imagecache(25, ImageType::CompareImg);
 
@@ -294,7 +292,7 @@ ImageType::ImageType(const unsigned id, const CMString& file, IStream* pStream)
 	if (pStream)
 		m_bmp = new Gdiplus::Bitmap(pStream);
 	else
-		m_bmp = new Gdiplus::Bitmap(T2W_SM(file.c_str()));
+		m_bmp = new Gdiplus::Bitmap(file.c_str());
 
 	if (m_bmp->GetLastStatus() != Gdiplus::Ok) {
 		delete m_bmp;
@@ -335,7 +333,7 @@ ImageType::ImageType(const unsigned id, const CMString& file, const int index, c
 		break;
 
 	case icoFile:
-		m_bmp = new Gdiplus::Bitmap(T2W_SM(file.c_str()));
+		m_bmp = new Gdiplus::Bitmap(file.c_str());
 		break;
 
 	default:
@@ -513,7 +511,6 @@ void ImageFType::GetSize(SIZE& size)
 void InitImageCache(void)
 {
 	g_hMutexIm = CreateMutex(NULL, FALSE, NULL);
-	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 }
 
 void DestroyImageCache(void)

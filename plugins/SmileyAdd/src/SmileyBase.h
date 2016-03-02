@@ -30,8 +30,7 @@ public:
 
 EXTERN_C const IID IID_ISmileyAddSmiley;
 
-class ISmileyBase :
-	public IOleObject, public IViewObject2, public ITooltipData
+class ISmileyBase : public IOleObject, public IViewObject2, public ITooltipData
 {
 protected:
 	IOleAdviseHolder* m_spAdviseHolder;
@@ -54,7 +53,7 @@ public:
 	ISmileyBase(void);
 	virtual ~ISmileyBase(void);
 
-	void OnClose(void);
+	virtual void OnClose(void);
 	void SendOnViewChange(void);
 
 	bool QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR** smltxt);
@@ -117,7 +116,4 @@ public:
 	STDMETHOD(SetTooltip)(BSTR bstrHint);
 	STDMETHOD(GetTooltip)(BSTR *bstrHint); 
 };
-
-int CheckForTip(int x, int y, HWND hwnd, TCHAR** smltxt);
-void CloseSmileys(void);
 

@@ -226,7 +226,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 	TextRange->Release();
 
 	SmileysQueueType smllist;
-	LookupAllSmileys(smp, smcp, W2T_SM(btxt), smllist, false);
+	LookupAllSmileys(smp, smcp, btxt, smllist, false);
 
 	SysFreeString(btxt);
 
@@ -315,7 +315,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 			BSTR bstrText = NULL;
 
 			if (smlc == NULL && sml->IsText()) {
-				bstrText = SysAllocString(T2W_SM(sml->GetToolText().c_str()));
+				bstrText = SysAllocString(sml->GetToolText().c_str());
 				TextSelection->SetText(bstrText);
 			}
 			else {
@@ -400,11 +400,12 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 				}
 				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(bstrText)+1);
 
-				ISmileyBase* smileyBase = CreateAniSmileyObject(smlc ? smlc : sml, chf.crBackColor, ishpp);
-				if (smileyBase == NULL) continue;
+				ISmileyBase *smileyBase = CreateAniSmileyObject(smlc ? smlc : sml, chf.crBackColor, ishpp);
+				if (smileyBase == NULL)
+					continue;
 
 				smileyBase->SetExtent(DVASPECT_CONTENT, &sizehm);
-				smileyBase->SetHint(W2T_SM(bstrText));
+				smileyBase->SetHint(bstrText);
 
 				smileyBase->SetPosition(hwnd, NULL);
 

@@ -33,12 +33,12 @@ private:
 	SmileyType *m_sml;
 	ImageBase  *m_img;
 
-	long        m_counter;
 	unsigned    m_richFlags;
 	long        m_lastObjNum;
 
 	AnimType    m_animtype;
 	bool        m_allowAni;
+	bool        m_bRegistered;
 
 public:
 	CAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp)
@@ -48,7 +48,12 @@ public:
 		m_sml = sml;
 	}
 
-	~CAniSmileyObject()
+	virtual ~CAniSmileyObject()
+	{
+		UnloadSmiley();
+	}
+
+	virtual void OnClose(void)
 	{
 		UnloadSmiley();
 	}
@@ -59,19 +64,17 @@ public:
 
 		m_img = m_sml->CreateCachedImage();
 		if (m_img && m_img->IsAnimated() && opt.AnimateDlg) {
-			m_img->SelectFrame(0);
-			long frtm = m_img->GetFrameDelay();
-			m_counter = frtm / 10 + ((frtm % 10) >= 5);
-
 			m_sml->AddObject(this);
+			m_bRegistered = true;
 		}
 	}
 
 	void UnloadSmiley()
 	{
-		m_sml->RemoveObject(this);
+		if (m_bRegistered)
+			m_sml->RemoveObject(this);
 
-		if (m_img) {
+		if (m_img != NULL) {
 			m_img->Release();
 			m_img = NULL;
 		}
@@ -287,9 +290,7 @@ public:
 		return ISmileyBase::Close(dwSaveOption);
 	}
 
-	STDMETHOD(Draw)(DWORD dwAspect, LONG, void*, DVTARGETDEVICE*, HDC,
-		HDC hdc, LPCRECTL pRectBounds, LPCRECTL /* pRectWBounds */,
-		BOOL(__stdcall *)(ULONG_PTR), ULONG_PTR)
+	STDMETHOD(Draw)(DWORD dwAspect, LONG, void*, DVTARGETDEVICE*, HDC, HDC hdc, LPCRECTL pRectBounds, LPCRECTL, BOOL(__stdcall *)(ULONG_PTR), ULONG_PTR)
 	{
 		if (dwAspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
 		if (pRectBounds == NULL) return E_INVALIDARG;
@@ -332,8 +333,7 @@ public:
 			m_orect = *(LPRECT)pRectBounds;
 
 		default:
-			m_img->DrawInternal(hdc, pRectBounds->left, pRectBounds->top,
-				m_sizeExtent.cx - 1, m_sizeExtent.cy - 1);
+			m_img->DrawInternal(hdc, pRectBounds->left, pRectBounds->top, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1);
 			break;
 		}
 
@@ -351,10 +351,10 @@ public:
 	}
 };
 
-ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
+ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp)
 {
-	if (!sml->IsValid()) return NULL;
+	if (!sml->IsValid())
+		return NULL;
 
-	CAniSmileyObject *obj = new CAniSmileyObject(sml, clr, ishpp);
-	return obj;
+	return new CAniSmileyObject(sml, clr, ishpp);
 }

@@ -28,7 +28,9 @@ struct QueueElem
 	bool needext;
 
 	QueueElem(CMString& purl, CMString& pfname, bool ne)
-		: url(purl), fname(pfname), needext(ne) {}
+		: url(purl), fname(pfname), needext(ne)
+	{
+	}
 };
 
 static HANDLE g_hDlMutex;
@@ -40,27 +42,27 @@ static bool threadRunning;
 bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 {
 	int result = 0xBADBAD;
-	char *szRedirUrl  = NULL;
-	NETLIBHTTPREQUEST nlhr = {0};
+	char *szRedirUrl = NULL;
+	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags =  NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	nlhr.szUrl = (char*)szUrl;
 	nlhr.nlc = hHttpDwnl;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount = 2;
-	nlhr.headers=(NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers = (NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName  = "Connection";
+	nlhr.headers[1].szName = "Connection";
 	nlhr.headers[1].szValue = "close";
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 		if (nlhrReply) {
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK
@@ -85,7 +87,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 			else if (nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 307) { // page moved
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (int i=0; i<nlhrReply->headersCount; i++) {
+				for (int i = 0; i < nlhrReply->headersCount; i++) {
 					if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/') {
@@ -96,10 +98,10 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + mir_strlen(nlhrReply->headers[i].szValue)*3 + 1);
+						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
-						mir_strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue);
+						mir_strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
 
 						nlhr.szUrl = szRedirUrl;
 						break;
@@ -113,7 +115,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 			result = 1;
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 
 	mir_free(szRedirUrl);
@@ -129,7 +131,7 @@ void __cdecl SmileyDownloadThread(void*)
 	while (!Miranda_Terminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);
 		if (_taccess(dlQueue[0].fname.c_str(), 0) != 0) {
-			InternetDownloadFile(T2A_SM(dlQueue[0].url.c_str()), T2A_SM(dlQueue[0].fname.c_str()), hHttpDwnl);
+			InternetDownloadFile(_T2A(dlQueue[0].url.c_str()), _T2A(dlQueue[0].fname.c_str()), hHttpDwnl);
 			WaitForSingleObject(g_hDlMutex, 3000);
 
 			CMString fname(dlQueue[0].fname);
@@ -210,7 +212,7 @@ void GetSmileyCacheFolder(void)
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else mir_tstrncpy(cachepath, VARST( _T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
+	else mir_tstrncpy(cachepath, VARST(_T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
 }
 
 void DownloadInit(void)

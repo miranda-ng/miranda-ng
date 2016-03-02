@@ -87,6 +87,7 @@ typedef WCMatcher _TMatcher;
 #include "smileyroutines.h"
 #include "smltool.h"
 
+extern FI_INTERFACE *fei;
 extern HINSTANCE g_hInst;
 extern HANDLE hNetlibUser;
 extern HANDLE hEvent1;
@@ -117,42 +118,6 @@ extern LIST<void> menuHandleArray;
 
 #define MAX_SMILEY_LENGTH    96
 
-class A2W_SM
-{
-public:
-	wchar_t* m_psz;
-
-	A2W_SM(const char* psz, unsigned nCodePage = CP_ACP)
-	{
-		const int nLength = MultiByteToWideChar(nCodePage, 0, psz, -1, NULL, 0);
-		m_psz = new wchar_t[nLength];
-		MultiByteToWideChar(nCodePage, 0, psz, -1, m_psz, nLength);
-	}
-	~A2W_SM() { delete [] m_psz; }
-	operator wchar_t*() const { return m_psz; }
-};
-
-
-class W2A_SM
-{
-public:
-	char* m_psz;
-
-	W2A_SM(const wchar_t* psz, unsigned nCodePage = CP_ACP)
-	{
-		const int nLength = WideCharToMultiByte(nCodePage, 0, psz, -1, NULL, 0, NULL, NULL);
-		m_psz = new char[nLength];
-		WideCharToMultiByte(nCodePage, 0, psz, -1, m_psz, nLength, NULL, NULL);
-	}
-	~W2A_SM() { delete [] m_psz; }
-	operator char*() const { return m_psz; }
-};
-
-#define T2A_SM     (char*)W2A_SM
-#define T2W_SM(p1) (wchar_t*)p1
-#define A2T_SM     (wchar_t*)A2W_SM
-#define W2T_SM(p1) (TCHAR*)p1
-
 // init functions
 void InstallDialogBoxHook(void);
 void RemoveDialogBoxHook(void);
@@ -168,13 +133,13 @@ bool IsSmileyProto(char* proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
 
-void pathToRelative(const CMString& pSrc, CMString& pOut);
-void pathToAbsolute(const CMString& pSrc, CMString& pOut);
+void pathToRelative(const CMString &pSrc, CMString &pOut);
+void pathToAbsolute(const CMString &pSrc, CMString &pOut);
 
 bool InitGdiPlus(void);
 void DestroyGdiPlus(void);
 
-void ReportError(const TCHAR* errmsg);
+void ReportError(const TCHAR *errmsg);
 HICON GetDefaultIcon(bool copy = true);
 
 void CloseRichCallback(HWND hwnd);
@@ -185,6 +150,7 @@ void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);
 
 void CloseSmileys(void);
+int CheckForTip(int x, int y, HWND hwnd, TCHAR **smltxt);
 
 void UrlDecode(char* str);
 

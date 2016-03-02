@@ -240,7 +240,7 @@ void SmileyType::CallSmileyService(MCONTACT hContact)
 		proto = (const char*)GetContactProto(hContact);
 		if (proto == NULL) return;
 	}
-	mir_snprintf(str, "%s%s", proto, T2A_SM(name.c_str()));
+	mir_snprintf(str, "%s%s", proto, _T2A(name.c_str()));
 	CallService(str,
 		ConvertServiceParam(hContact, par1.c_str()),
 		ConvertServiceParam(hContact, par2.c_str()));
@@ -385,11 +385,11 @@ bool SmileyPackType::LoadSmileyFile(const CMString& filename, const CMString& pa
 	CMString tbuf;
 
 	if (len > 2 && *(wchar_t*)buf == 0xfeff)
-		tbuf = W2T_SM((wchar_t*)buf + 1);
+		tbuf = ((wchar_t*)buf + 1);
 	else if (len > 3 && buf[0] == '\xef' && buf[1] == '\xbb' && buf[2] == '\xbf')
-		tbuf = W2T_SM(A2W_SM(buf + 3, CP_UTF8));
+		tbuf = _A2T(buf + 3, CP_UTF8);
 	else
-		tbuf = A2T_SM(buf);
+		tbuf = _A2T(buf);
 
 	delete[] buf;
 
@@ -626,7 +626,7 @@ bool SmileyPackType::LoadSmileyFileXEP(CMString& tbuf, bool onlyInfo, CMString&)
 
 			m1 = imagedt_re->createTMatcher(images);
 			if (m1->findFirstMatch()) {
-				IStream* pStream = DecodeBase64Data(T2A_SM(m1->getGroup(1).c_str()));
+				IStream* pStream = DecodeBase64Data(_T2A(m1->getGroup(1).c_str()));
 				if (pStream != NULL) {
 					if (m_hSmList != NULL) ImageList_Destroy(m_hSmList);
 					m_hSmList = ImageList_Read(pStream);
@@ -669,7 +669,7 @@ bool SmileyPackType::LoadSmileyFileXEP(CMString& tbuf, bool onlyInfo, CMString&)
 
 				m2 = imagedt_re->createTMatcher(images);
 				if (m2->findFirstMatch()) {
-					IStream* pStream = DecodeBase64Data(T2A_SM(m2->getGroup(1).c_str()));
+					IStream* pStream = DecodeBase64Data(_T2A(m2->getGroup(1).c_str()));
 					if (pStream != NULL) {
 						dat->LoadFromImage(pStream);
 						pStream->Release();
@@ -873,7 +873,7 @@ bool SmileyCategoryListType::DeleteCustomCategory(int index)
 void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile)
 {
 	if (Proto_IsAccountEnabled(acc) && acc->szProtoName && IsSmileyProto(acc->szModuleName)) {
-		CMString displayName(acc->tszAccountName ? acc->tszAccountName : A2T_SM(acc->szModuleName));
+		CMString displayName(acc->tszAccountName ? acc->tszAccountName : _A2T(acc->szModuleName));
 		CMString PhysProtoName, paths;
 		DBVARIANT dbv;
 
@@ -896,7 +896,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			char path[MAX_PATH];
 			mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
-			paths = A2T_SM(path);
+			paths = _A2T(path);
 			CMString patha;
 			pathToAbsolute(paths, patha);
 
@@ -904,7 +904,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 				paths = defaultFile;
 		}
 
-		CMString tname(A2T_SM(acc->szModuleName));
+		CMString tname(_A2T(acc->szModuleName));
 		AddCategory(tname, displayName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
 	}
 }
@@ -923,7 +923,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defau
 	char path[MAX_PATH];
 	mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
-	CMString paths = A2T_SM(path), patha;
+	CMString paths = _A2T(path), patha;
 	pathToAbsolute(paths, patha);
 
 	if (_taccess(patha.c_str(), 0) != 0)
@@ -931,13 +931,13 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defau
 	CMString dName(acc), displayName;
 	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.GetBuffer());
 	CMString tname("AllProto");
-	tname += A2T_SM(acc);
+	tname += _A2T(acc);
 	AddCategory(tname, displayName, smcPhysProto, paths);
 }
 
 void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
-	CMString tname(A2T_SM(acc->szModuleName));
+	CMString tname(_A2T(acc->szModuleName));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char* proto = GetContactProto(hContact);
@@ -972,7 +972,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 			db_free(&dbv);
 			return;
 		}
-		char* trsp = mir_strdup(T2A_SM(dbv.ptszVal));
+		char* trsp = mir_strdup(_T2A(dbv.ptszVal));
 		_strlwr(trsp);
 
 		const char *packname = NULL;
@@ -994,7 +994,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 			char path[MAX_PATH];
 			mir_snprintf(path, "Smileys\\nova\\%s.msl", packname);
 
-			CMString paths = A2T_SM(path), patha;
+			CMString paths = _A2T(path), patha;
 			pathToAbsolute(paths, patha);
 
 			if (_taccess(patha.c_str(), 0) != 0)
