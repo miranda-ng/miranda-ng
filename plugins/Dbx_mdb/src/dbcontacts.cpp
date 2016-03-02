@@ -348,10 +348,10 @@ void CDbxMdb::FillContacts()
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
-			for (int i = 0; i < cc->nSubs; i++) {
+			for (int k = 0; k < cc->nSubs; k++) {
 				char setting[100];
-				mir_snprintf(setting, _countof(setting), "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
+				mir_snprintf(setting, _countof(setting), "Handle%d", k);
+				cc->pSubs[k] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
 		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
