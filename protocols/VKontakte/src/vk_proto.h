@@ -27,6 +27,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_GETSERVERHISTORYLAST7DAY "/GetServerHystoryLast7Day"
 #define PS_GETSERVERHISTORYLAST30DAY "/GetServerHystoryLast30Day"
 #define PS_GETSERVERHISTORYLAST90DAY "/GetServerHystoryLast90Day"
+#define PS_GETALLSERVERHISTORYFORCONTACT "/GetAllServerHystoryForContact"
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
 #define PS_VISITPROFILE "/VisitProfile"
 #define PS_ADDASFRIEND "/AddAsFriend"
@@ -119,7 +120,9 @@ struct CVkProto : public PROTO<CVkProto>
 		return 1;
 	}
 
-	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetAllServerHistoryForContact(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM, LPARAM);
+
 	void InitMenus();
 	void UnInitMenus();
 	int __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
@@ -283,6 +286,11 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void ClearAccessToken();
 
+	mir_cs m_csLoadHistoryTask;
+	int m_iLoadHistoryTask;
+	bool m_bNotifyForEndLoadingHistory;
+	bool m_bNotifyForEndLoadingHistoryAllContact;
+
 private:
 	friend struct AsyncHttpRequest;
 
@@ -314,7 +322,7 @@ private:
 		CHMI_GETSERVERHISTORYLAST7DAY,
 		CHMI_GETSERVERHISTORYLAST30DAY,
 		CHMI_GETSERVERHISTORYLAST90DAY,
-		CHMI_GETALLSERVERHISTORY,
+		CHMI_GETALLSERVERHISTORYFORCONTACT,
 		CHMI_COUNT
 	};
 	enum ProtoMenuIndexes {
@@ -322,6 +330,7 @@ private:
 		PMI_SETSTATUSMSG,
 		PMI_WALLPOST,
 		PMI_LOADVKNEWS,
+		PMI_GETALLSERVERHISTORY,
 		PMI_WIPENONFRIENDS,
 		PMI_VISITPROFILE,
 		PMI_COUNT
