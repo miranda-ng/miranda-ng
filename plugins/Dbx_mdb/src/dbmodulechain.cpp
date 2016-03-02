@@ -96,12 +96,12 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 
 	// need to create the module name
 	int newIdx = ++m_maxModuleID;
-	DBModuleName *pmod = (DBModuleName*)_alloca(sizeof(DBModuleName) + nameLen);
+	DBModuleName *pmod = (DBModuleName*)_alloca(sizeof(DBModuleName) + nameLen + 1);
 	pmod->dwSignature = DBMODULENAME_SIGNATURE;
 	pmod->cbName = (char)nameLen;
 	strcpy(pmod->name, szName);
 	
-	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen, pmod };
+	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen + 1, pmod };
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
