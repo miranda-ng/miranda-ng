@@ -190,7 +190,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			debugLog(_T("CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
 
 			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-				MsgPopup(param->hContact, TranslateT("Loading messages for all contacts was completed"), TranslateT("Loading history"));
+				MsgPopup(param->hContact, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
 				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 			}
 
@@ -276,14 +276,14 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			m_iLoadHistoryTask--;
 
 		ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
-		CMString str(FORMAT, TranslateT("Loading messages for %s was completed"), ptszNick);
+		CMString str(FORMAT, TranslateT("Loading messages for %s is completed"), ptszNick);
 		debugLog(_T("CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
 
 		if (m_bNotifyForEndLoadingHistory)
 			MsgPopup(param->hContact, str, TranslateT("Loading history"));
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-			MsgPopup(param->hContact, TranslateT("Loading messages for all contacts was completed"), TranslateT("Loading history"));
+			MsgPopup(param->hContact, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;		
 		}
 	}
