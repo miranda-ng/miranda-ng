@@ -247,7 +247,6 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 	cursor_ptr cursor(txn, m_dbEventsSort);
 
 	MDB_val key = { sizeof(key2), &key2 }, data;
-	//key2.dwEventId++;
 
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) == MDB_SUCCESS)
 	{
@@ -278,7 +277,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	mir_cslockfull lck(m_csDbAccess);
 	DWORD wRetVal = 0;
 
-	for (;; Remap())
+	for (cc->Snapshot();; cc->Revert(), Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
 
@@ -302,7 +301,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), -1);
 		wRetVal = dbe->flags;
-
 
 		if (txn.commit())
 			break;
