@@ -19,9 +19,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////// History services ///////////////////////////////////////////
 
-INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
+INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPARAM)
 {
-	debugLogA("CVkProto::SvcGetAllServerHistory");
+	debugLogA("CVkProto::SvcGetAllServerHistoryForContact");
 	if (!IsOnline())
 		return 0;
 	LPCTSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
@@ -39,8 +39,47 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 		hDBEvent = hDBEventNext;
 	}
 
+	m_bNotifyForEndLoadingHistory = true;
+
 	db_unset(hContact, m_szModuleName, "lastmsgid");
 	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, 0);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetAllServerHistory start");
+	if (!IsOnline())
+		return 0;
+	LPCTSTR str = TranslateT("Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?");
+	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		return 0;
+
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		LONG userID = getDword(hContact, "ID", -1);
+		if (userID == -1 || userID == VK_FEED_USER)
+			continue;
+
+		
+		MEVENT hDBEvent = db_event_first(hContact);
+		while (hDBEvent) {
+			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
+			db_event_delete(hContact, hDBEvent);
+			hDBEvent = hDBEventNext;
+		}
+
+		{
+			mir_cslock lck(m_csLoadHistoryTask);
+			m_iLoadHistoryTask++;
+			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = true;
+			debugLogA("CVkProto::SvcGetAllServerHistory for ID=%d m_iLoadHistoryTask=%d", userID, m_iLoadHistoryTask);
+		}
+		
+		db_unset(hContact, m_szModuleName, "lastmsgid");
+		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, 0);
+	
+	}
+
 	return 1;
 }
 
@@ -60,6 +99,13 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 		if (dbei.timestamp > tTime)
 			db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
+	}
+
+	{
+		mir_cslock lck(m_csLoadHistoryTask);
+		m_iLoadHistoryTask++;
+		if (NDay > 3)
+			m_bNotifyForEndLoadingHistory = true;
 	}
 
 	db_unset(hContact, m_szModuleName, "lastmsgid");
@@ -104,6 +150,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 			setDword(hContact, "lastmsgid", iLastMsg);
 			return;
 		}
+		m_bNotifyForEndLoadingHistory = false;
 		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, lastmsgid);
 		break;
 	case sync1Days:
@@ -118,14 +165,35 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveHistoryMessages %d", reply->resultCode);
-	if (reply->resultCode != 200 || !pReq->pUserInfo)
+	if (reply->resultCode != 200 || !pReq->pUserInfo) {
+		mir_cslock lck(m_csLoadHistoryTask);
+		if (m_iLoadHistoryTask > 0)
+			m_iLoadHistoryTask--;
+		debugLog(_T("CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d"), m_iLoadHistoryTask);
+		MsgPopup(NULL, TranslateT("Error loading history message from server"), TranslateT("Error"), true);
 		return;
+	}
 
 	JSONNode jnRoot;
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse) {
 		if (!pReq->bNeedsRestart || m_bTerminated) {
+			mir_cslock lck(m_csLoadHistoryTask);
+			if (m_iLoadHistoryTask > 0) 
+				m_iLoadHistoryTask--;
+			
+			ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
+			CMString str(FORMAT, _T("%s for %s"), TranslateT("Error loading history message from server"), ptszNick);
+
+			MsgPopup(param->hContact, str, TranslateT("Error"), true);
+			debugLog(_T("CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
+
+			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
+				MsgPopup(param->hContact, TranslateT("Loading messages for all contacts was complited"), TranslateT("Loading history"));
+				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
+			}
+
 			delete param;
 			pReq->pUserInfo = NULL;
 		}
@@ -202,6 +270,23 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	int iRCount = jnResponse["rcount"].as_int();
 	if (count == iRCount && once == 0)
 		GetServerHistory(param->hContact, param->iCount + count, iRCount, iTime, param->iMsgID);
+	else {
+		mir_cslock lck(m_csLoadHistoryTask);
+		if (m_iLoadHistoryTask > 0)
+			m_iLoadHistoryTask--;
+
+		ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
+		CMString str(FORMAT, TranslateT("Loading messages for %s was complited"), ptszNick);
+		debugLog(_T("CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
+
+		if (m_bNotifyForEndLoadingHistory)
+			MsgPopup(param->hContact, str, TranslateT("Loading history"));
+
+		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
+			MsgPopup(param->hContact, TranslateT("Loading messages for all contacts was complited"), TranslateT("Loading history"));
+			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;		
+		}
+	}
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;

@@ -41,7 +41,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_cookies(5),
 	m_msgId(1),
 	m_chats(1, NumericKeySortT),
-	m_ChatsTyping (1, NumericKeySortT)
+	m_ChatsTyping(1, NumericKeySortT),
+	m_iLoadHistoryTask(0),
+	m_bNotifyForEndLoadingHistory(false),
+	m_bNotifyForEndLoadingHistoryAllContact(false)
 {
 	InitQueue();
 
@@ -201,6 +204,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLastNDay<7>);
 	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLastNDay<30>);
 	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLastNDay<90>);
+	CreateProtoService(PS_GETALLSERVERHISTORYFORCONTACT, &CVkProto::SvcGetAllServerHistoryForContact);
 	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
@@ -247,6 +251,13 @@ void CVkProto::InitMenus()
 	mi.name.a = LPGEN("Load news from VK");
 	SET_UID(mi, 0x7c449456, 0xb731, 0x48cc, 0x9c, 0x4e, 0x20, 0xe4, 0x66, 0x7a, 0x16, 0x23);
 	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = PS_GETALLSERVERHISTORY;
+	mi.position = 10009 + PMI_GETALLSERVERHISTORY;
+	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.name.a = LPGEN("Load history for all contacts from VK");
+	SET_UID(mi, 0xe5028605, 0x92eb, 0x4956, 0xa0, 0xd0, 0x53, 0xb, 0x11, 0x44, 0x8f, 0x14);
+	g_hProtoMenuItems[PMI_GETALLSERVERHISTORY] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_WIPENONFRIENDS;
 	mi.position = 10009 + PMI_WIPENONFRIENDS;
@@ -380,12 +391,12 @@ void CVkProto::InitMenus()
 	SET_UID(mi, 0xd8e30530, 0xa585, 0x4672, 0xa6, 0x39, 0x18, 0xc9, 0xc9, 0xcb, 0xc7, 0x7d);
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST90DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = PS_GETALLSERVERHISTORY;
-	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETALLSERVERHISTORY;
+	mi.pszService = PS_GETALLSERVERHISTORYFORCONTACT;
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETALLSERVERHISTORYFORCONTACT;
 	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.name.t = LPGENT("for all time");
 	SET_UID(mi, 0xaee3d02b, 0x3667, 0x47c8, 0x9f, 0x43, 0x14, 0xb7, 0xab, 0x52, 0x14, 0x94);
-	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORYFORCONTACT] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
