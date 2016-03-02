@@ -1863,7 +1863,6 @@ private:
 	void setupSecureSSL();
 	void setupGoogle();
 	void setupLJ();
-	void setupVK();
 	void setupOK();
 	void setupSMS();
 	void RefreshServers(HXML node);
