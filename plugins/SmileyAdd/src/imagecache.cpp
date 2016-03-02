@@ -347,7 +347,6 @@ ImageType::ImageType(const unsigned id, const CMString& file, const int index, c
 	if (m_bmp->GetLastStatus() != Gdiplus::Ok) {
 		delete m_bmp;
 		m_bmp = NULL;
-		return;
 	}
 }
 
