@@ -25,26 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_db_int.h>
 
-/* tree diagram
-
-DBHeader
-|-->end of file (plain offset)
-|-->first contact (DBContact)
-|   |-->next contact (DBContact)
-|   |   \--> ...
-|   |-->first settings (DBContactSettings)
-|   |	 |-->next settings (DBContactSettings)
-|   |   |   \--> ...
-|   |   \-->module name (DBModuleName)
-|   \-->first/last/firstunread event
-|-->user contact (DBContact)
-|   |-->next contact = NULL
-|   |-->first settings	as above
-|   \-->first/last/firstunread event as above
-\-->first module name (DBModuleName)
-\-->next module name (DBModuleName)
-\--> ...
-*/
+#pragma warning (disable: 4200)
 
 #define DBMODE_SHARED    0x0001
 #define DBMODE_READONLY  0x0002
@@ -83,7 +64,7 @@ struct DBModuleName
 {
 	DWORD dwSignature;
 	BYTE cbName;            // number of characters in this module name
-	char name[1];           // name, no nul terminator
+	char name[];           // name, no nul terminator
 };
 
 #define DBEVENT_SIGNATURE  0x45DECADEu
@@ -214,13 +195,6 @@ protected:
 
 	bool  Remap();
 	bool  Map();
-public:  // Check functions
-	int WorkInitialChecks(int);
-	int WorkModuleChain(int);
-	int WorkUser(int);
-	int WorkContactChain(int);
-	int WorkAggressive(int);
-	int WorkFinalTasks(int);
 
 protected:
 	TCHAR*   m_tszProfileName;
@@ -259,7 +233,7 @@ protected:
 	MDB_dbi	m_dbContacts;
 	MDB_cursor *m_curContacts;
 
-	DWORD      m_contactCount, m_dwMaxContactId;
+	DWORD    m_contactCount, m_dwMaxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
 
@@ -293,30 +267,11 @@ protected:
 	DWORD    GetModuleNameOfs(const char *szName);
 	char*    GetModuleNameByOfs(DWORD ofs);
 
-	////////////////////////////////////////////////////////////////////////////
-	// checker
 
-	int      PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      SignatureValid(DWORD ofs, DWORD dwSignature);
-	void     FreeModuleChain();
+	int GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 
-	DWORD    ConvertModuleNameOfs(DWORD ofsOld);
-	void     ConvertOldEvent(DBEvent*& dbei);
-
-	int      GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
-	int      WorkSettingsChain(DBContact *dbc, int firstTime);
-	int      WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
-
-	DWORD    WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
-	DWORD    WriteEvent(DBEvent *dbe);
-	DWORD    PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent &dbe);
-	void     WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
-	void     FinishUp(DWORD ofsLast, DBContact *dbc);
 
 	DBCHeckCallback *cb;
-	DWORD    sourceFileSize, ofsAggrCur;
 
 	////////////////////////////////////////////////////////////////////////////
 	// encryption

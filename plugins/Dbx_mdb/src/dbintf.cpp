@@ -287,8 +287,6 @@ int CDbxMdb::Start(DBCHeckCallback *callback)
 int CDbxMdb::CheckDb(int, int)
 {
 	return ERROR_OUT_OF_PAPER;
-
-	// return (this->*Workers[phase])(firstTime);
 }
 
 void CDbxMdb::Destroy()
