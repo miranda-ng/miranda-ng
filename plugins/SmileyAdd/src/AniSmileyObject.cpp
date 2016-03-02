@@ -71,8 +71,10 @@ public:
 
 	void UnloadSmiley()
 	{
-		if (m_bRegistered)
+		if (m_bRegistered) {
 			m_sml->RemoveObject(this);
+			m_bRegistered = false;
+		}
 
 		if (m_img != NULL) {
 			m_img->Release();
