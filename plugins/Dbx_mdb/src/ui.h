@@ -119,7 +119,7 @@ class CEnterPasswordDialog : public CDlgBase
 	{
 		if (msg == WM_TIMER)
 		{
-			UINT LangID = (UINT)GetKeyboardLayout(0);
+			UINT_PTR LangID = (UINT_PTR)GetKeyboardLayout(0);
 			char Lang[3] = { 0 };
 			GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
 			Lang[0] = toupper(Lang[0]);
@@ -132,7 +132,7 @@ class CEnterPasswordDialog : public CDlgBase
 			if ((HWND)lParam == m_language.GetHwnd()) {
 				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
 				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
+				return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 			}
 		}
 		return CDlgBase::DlgProc(msg, wParam, lParam);

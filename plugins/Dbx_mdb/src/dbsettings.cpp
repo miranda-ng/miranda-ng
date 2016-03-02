@@ -205,7 +205,7 @@ LBL_Seek:
 
 	/**** add to cache **********************/
 	if (iType != DBVT_BLOB && iType != DBVT_ENCRYPTED) {
-		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
+		pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
 		if (pCachedValue != NULL)
 			m_cache->SetCachedVariant(dbv, pCachedValue);
 	}

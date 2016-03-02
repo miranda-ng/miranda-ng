@@ -195,7 +195,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 	return 0;
 }
 
-int CDbxMdb::EnableContactEncryption(MCONTACT hContact, bool bEncrypted)
+int CDbxMdb::EnableContactEncryption(MCONTACT /*hContact*/, bool /*bEncrypted*/)
 {
 	//TODO: encrypt/decrypt all contact events and settings
 	return 0;
