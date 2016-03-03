@@ -98,13 +98,15 @@ int CDbxMdb::Load(bool bSkipInit)
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
 
-		mdb_dbi_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
-		mdb_dbi_open(trnlck, "crypto", MDB_CREATE, &m_dbCrypto);
-		mdb_dbi_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
-		mdb_dbi_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
-		mdb_dbi_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
-		mdb_dbi_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
-		mdb_dbi_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
+		unsigned int defFlags = MDB_CREATE;
+
+		mdb_dbi_open(trnlck, "global", defFlags | MDB_INTEGERKEY, &m_dbGlobal);
+		mdb_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
+		mdb_dbi_open(trnlck, "contacts", defFlags | MDB_INTEGERKEY, &m_dbContacts);
+		mdb_dbi_open(trnlck, "modules", defFlags | MDB_INTEGERKEY, &m_dbModules);
+		mdb_dbi_open(trnlck, "events", defFlags | MDB_INTEGERKEY, &m_dbEvents);
+		mdb_dbi_open(trnlck, "eventsrt", defFlags | MDB_INTEGERKEY, &m_dbEventsSort);
+		mdb_dbi_open(trnlck, "settings", defFlags, &m_dbSettings);
 
 		//mdb_set_compare(trnlck, m_dbEventsSort, EventsComparator);
 
@@ -212,9 +214,9 @@ bool CDbxMdb::Map()
 	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
 
 	int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK; // nolock - miranda using m_csDbAccess lock
-	if (m_bReadOnly)
-		mode |= MDB_RDONLY;
-	else
+//	if (m_bReadOnly)
+//		mode |= MDB_RDONLY;
+//	else
 		mode |= MDB_WRITEMAP;
 	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) == MDB_SUCCESS;
 }
