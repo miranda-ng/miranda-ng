@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-ISmileyBase* CreateSmileyObject(SmileyType* sml);
-ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp);
+ISmileyBase* CreateSmileyObject(SmileyType *sml);
+ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp);
 
 bool g_HiddenTextSupported = true;
 
@@ -29,13 +29,12 @@ bool g_HiddenTextSupported = true;
 const GUID IID_ITextDocument = 
 { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D } };
 
-void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, const TCHAR* lpstrText,
-	SmileysQueueType& smllist, const bool firstOnly)
+void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const TCHAR *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
 {
 	if (lpstrText == NULL || *lpstrText == 0) return;
 
-	SmileyPackType::SmileyLookupType*  sml  = smileyPack ? smileyPack->GetSmileyLookup() : NULL;
-	SmileyPackCType::SmileyLookupType* smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : NULL;
+	SmileyPackType::SmileyLookupType *sml  = smileyPack ? smileyPack->GetSmileyLookup() : NULL;
+	SmileyPackCType::SmileyLookupType *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : NULL;
 
 	// Precompute number of smileys
 	int smlszo = sml  ? sml->getCount()  : 0;
@@ -45,7 +44,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	if (smlsz == 0) return;
 
 	// All possible smileys
-	SmileyLookup::SmileyLocVecType* smileys = new SmileyLookup::SmileyLocVecType [smlsz];
+	SmileyLookup::SmileyLocVecType *smileys = new SmileyLookup::SmileyLocVecType [smlsz];
 
 	// Find all possible smileys
 	CMString tmpstr(lpstrText);
@@ -72,10 +71,10 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	while (true) {
 		int firstSml = -1;
 		int firstSmlRef = -1;
-		SmileyLookup::SmileyLocVecType* smlf = NULL;
+		SmileyLookup::SmileyLocVecType *smlf = NULL;
 
 		for (int csml=0; csml < smlsz; csml++) {
-			SmileyLookup::SmileyLocVecType& smlv = smileys[csml];
+			SmileyLookup::SmileyLocVecType &smlv = smileys[csml];
 
 			int tsml;
 			for (tsml = csmlit[csml]; tsml < smlv.getCount(); tsml++) {
@@ -99,12 +98,12 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 
 		ReplaceSmileyType *dat = new ReplaceSmileyType;
 
-		const TCHAR* textToSearch = lpstrText + smloff;
-		const TCHAR* textSmlStart = lpstrText + (*smlf)[firstSmlRef].pos;
-		const TCHAR* textSmlEnd   = textSmlStart + (*smlf)[firstSmlRef].len;
+		const TCHAR *textToSearch = lpstrText + smloff;
+		const TCHAR *textSmlStart = lpstrText + (*smlf)[firstSmlRef].pos;
+		const TCHAR *textSmlEnd   = textSmlStart + (*smlf)[firstSmlRef].len;
 
 		// check if leading space exist
-		const TCHAR* prech = _tcsdec(textToSearch, textSmlStart);
+		const TCHAR *prech = _tcsdec(textToSearch, textSmlStart);
 		dat->ldspace = prech != NULL ? _istspace(*prech) != 0 : smloff == 0;
 
 		// check if trailing space exist
@@ -144,8 +143,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 }
 
 
-void FindSmileyInText(SmileyPackType* smp, const TCHAR* str, 
-	unsigned& first, unsigned& size, SmileyType** sml)
+void FindSmileyInText(SmileyPackType *smp, const TCHAR *str, unsigned &first, unsigned &size, SmileyType **sml)
 {
 	SmileysQueueType smllist;
 	LookupAllSmileys(smp, NULL, str, smllist, true);
@@ -161,15 +159,15 @@ void FindSmileyInText(SmileyPackType* smp, const TCHAR* str,
 }
 
 
-SmileyType* FindButtonSmiley(SmileyPackType* smp)
+SmileyType* FindButtonSmiley(SmileyPackType *smp)
 {
 	unsigned start, size;
-	SmileyType* sml;
+	SmileyType *sml;
 	FindSmileyInText(smp, smp->GetButtonSmiley(), start, size, &sml);
 	return sml;
 }
 
-void UpdateSelection(CHARRANGE& sel, int pos, int dif)
+void UpdateSelection(CHARRANGE &sel, int pos, int dif)
 {
 	if (sel.cpMax == sel.cpMin) {
 		if (sel.cpMax < LONG_MAX && sel.cpMax > pos) {
@@ -178,12 +176,14 @@ void UpdateSelection(CHARRANGE& sel, int pos, int dif)
 		}
 	}
 	else {
-		if (sel.cpMax >= pos && sel.cpMax < LONG_MAX) sel.cpMax += dif; 
-		if (sel.cpMin > pos) sel.cpMin += dif; 
+		if (sel.cpMax >= pos && sel.cpMax < LONG_MAX)
+			sel.cpMax += dif; 
+		if (sel.cpMin > pos)
+			sel.cpMin += dif; 
 	}
 }
 
-void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel,  bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
+void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const CHARRANGE &sel,  bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
 {
 	CComPtr<IRichEditOle> RichEditOle;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
@@ -265,7 +265,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 		// Replace smileys specified in the list in RichEdit 
 		for (int j = smllist.getCount()-1; j >= 0; j--) {
-			CHARRANGE& smlpos = smllist[j].loc;
+			CHARRANGE &smlpos = smllist[j].loc;
 			if (ignoreLast && oldSel.cpMax == smlpos.cpMax)
 				continue;
 

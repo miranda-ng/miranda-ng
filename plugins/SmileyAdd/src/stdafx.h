@@ -101,15 +101,7 @@ extern LIST<void> menuHandleArray;
 
 #define IDC_SMLBUTTON        (WM_USER + 33)
 
-///////////////////////////////////////////////////
-//
-//defines from miranda im sources (undocumented!)
-//
-#define MI_IDC_LOG           1001  //rich edit
-#define MI_IDC_MESSAGE       1002  //edit control
-#define MI_IDC_QUOTE         1034  //button control
-#define MI_IDC_NAME          1009  //text control
-#define MI_IDC_ADD           1070  //Add button.
+#define MI_IDC_ADD           1070     // Add button
 
 #define DM_REMAKELOG         (WM_USER + 11)
 #define DM_OPTIONSAPPLIED    (WM_USER + 14)
@@ -125,14 +117,13 @@ extern LIST<void> menuHandleArray;
 void InstallDialogBoxHook(void);
 void RemoveDialogBoxHook(void);
 int UpdateSrmmDlg(WPARAM wParam, LPARAM lParam);
-bool IsOldSrmm(void);
 
 //functions for general use (defined in general.cpp)
-int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf);
+int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
 const TCHAR* GetImageExt(CMString &fname);
 
 MCONTACT DecodeMetaContact(MCONTACT hContact);
-bool IsSmileyProto(char* proto);
+bool IsSmileyProto(char *proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
 
@@ -155,6 +146,6 @@ void RichEditData_Destroy(void);
 void CloseSmileys(void);
 int CheckForTip(int x, int y, HWND hwnd, TCHAR **smltxt);
 
-void UrlDecode(char* str);
+void UrlDecode(char *str);
 
 #endif

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SmileyPackCListType g_SmileyPackCStore;
 
-bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, TCHAR* dir)
+bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, TCHAR *dir)
 {
 	bool res = true;
 	if (GetSmileyPack(hContact) == NULL) {
@@ -36,7 +36,7 @@ bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, TCHAR* dir)
 	return res;
 }
 
-bool SmileyPackCListType::AddSmiley(MCONTACT hContact, TCHAR* path)
+bool SmileyPackCListType::AddSmiley(MCONTACT hContact, TCHAR *path)
 {
 	SmileyPackCType *smpack = GetSmileyPack(hContact);
 	if (smpack == NULL) {
@@ -59,13 +59,13 @@ SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
 }
 
 
-SmileyCType::SmileyCType(const CMString& fullpath, const TCHAR* filepath)
+SmileyCType::SmileyCType(const CMString &fullpath, const TCHAR *filepath)
 {
 	LoadFromResource(fullpath, 0);
 	CreateTriggerText(_T2A(filepath));
 }
 
-bool SmileyCType::CreateTriggerText(char* text)
+bool SmileyCType::CreateTriggerText(char *text)
 {
 	UrlDecode(text);
 
@@ -93,7 +93,7 @@ bool SmileyCType::CreateTriggerText(char* text)
 // SmileyPackCType
 //
 
-bool SmileyPackCType::LoadSmileyDir(TCHAR* dir)
+bool SmileyPackCType::LoadSmileyDir(TCHAR *dir)
 {
 	CMString dirs = dir;
 	dirs += _T("\\*.*");
@@ -105,7 +105,7 @@ bool SmileyPackCType::LoadSmileyDir(TCHAR* dir)
 			if (c_file.name[0] != '.') {
 				CMString fullpath = dir;
 				fullpath = fullpath + _T("\\") + c_file.name;
-				TCHAR* div = _tcsrchr(c_file.name, '.');
+				TCHAR *div = _tcsrchr(c_file.name, '.');
 				if (div) {
 					*div = 0;
 					SmileyCType *smlc = new SmileyCType(fullpath, c_file.name);

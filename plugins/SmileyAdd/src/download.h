@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SMILEYADD_DOWNLOAD_H_
 #define SMILEYADD_DOWNLOAD_H_
 
-bool GetSmileyFile(CMString& url, const CMString& packstr);
+bool GetSmileyFile(CMString &url, const CMString &packstr);
 void DownloadInit(void);
 void DownloadClose(void);
 

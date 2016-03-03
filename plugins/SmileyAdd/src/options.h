@@ -48,13 +48,12 @@ public:
 
 	void Load(void);
 	void Save(void);
-	static void ReadPackFileName(CMString& filename, const CMString& name, 
-		const CMString& defaultFilename);
-	static void ReadCustomCategories(CMString& cats);
-	static void ReadContactCategory(MCONTACT hContact, CMString& cats);
-	static void WritePackFileName(const CMString& filename, const CMString& name);
-	static void WriteCustomCategories(const CMString& cats);
-	static void WriteContactCategory(MCONTACT hContact, const CMString& cats);
+	static void ReadPackFileName(CMString &filename, const CMString &name, const CMString &defaultFilename);
+	static void ReadCustomCategories(CMString &cats);
+	static void ReadContactCategory(MCONTACT hContact, CMString &cats);
+	static void WritePackFileName(const CMString &filename, const CMString &name);
+	static void WriteCustomCategories(const CMString &cats);
+	static void WriteContactCategory(MCONTACT hContact, const CMString &cats);
 };
 
 extern OptionsType opt;

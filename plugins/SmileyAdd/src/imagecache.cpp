@@ -58,7 +58,7 @@ static void CALLBACK sttMainThreadCallback(PVOID)
 }
 
 
-static HMODULE LoadDll(const CMString& file)
+static HMODULE LoadDll(const CMString &file)
 {
 	WaitForSingleObject(g_hMutexIm, 3000);
 
@@ -114,7 +114,7 @@ void ImageBase::ProcessTimerTick(time_t ts)
 	ReleaseMutex(g_hMutexIm);
 }
 
-int ImageBase::CompareImg(const ImageBase* p1, const ImageBase* p2)
+int ImageBase::CompareImg(const ImageBase *p1, const ImageBase *p2)
 {
 	unsigned id1 = p1->m_id;
 	unsigned id2 = p2->m_id;
@@ -123,7 +123,7 @@ int ImageBase::CompareImg(const ImageBase* p1, const ImageBase* p2)
 	else return id1 < id2 ? -1 : 1;
 }
 
-void ImageBase::Draw(HDC hdc, RECT& rc, bool clip)
+void ImageBase::Draw(HDC hdc, RECT &rc, bool clip)
 {
 	HRGN hrgn = NULL;
 	if (clip) {
@@ -190,7 +190,7 @@ int ImageBase::SelectNextFrame(const int frame)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-IconType::IconType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type)
+IconType::IconType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_SmileyIcon = NULL;
@@ -230,7 +230,7 @@ HICON IconType::GetIcon(void)
 	return (HICON)CopyImage(m_SmileyIcon, IMAGE_ICON, 0, 0, 0);
 }
 
-void IconType::GetSize(SIZE& size)
+void IconType::GetSize(SIZE &size)
 {
 	if (m_SmileyIcon == NULL)
 		return;
@@ -274,12 +274,12 @@ HICON ImageListItemType::GetIcon(void)
 	return ImageList_GetIconFixed(m_hImList, m_index, ILD_TRANSPARENT);
 }
 
-void ImageListItemType::GetSize(SIZE& size)
+void ImageListItemType::GetSize(SIZE &size)
 {
 	ImageList_GetIconSize(m_hImList, (int*)&size.cx, (int*)&size.cy);
 }
 
-ImageType::ImageType(const unsigned id, const CMString& file, IStream* pStream)
+ImageType::ImageType(const unsigned id, const CMString &file, IStream *pStream)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -310,7 +310,7 @@ ImageType::ImageType(const unsigned id, const CMString& file, IStream* pStream)
 	}
 }
 
-ImageType::ImageType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type)
+ImageType::ImageType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -399,7 +399,7 @@ HICON ImageType::GetIcon(void)
 }
 
 
-void ImageType::GetSize(SIZE& size)
+void ImageType::GetSize(SIZE &size)
 {
 	if (m_bmp) {
 		size.cx = m_bmp->GetWidth();
@@ -415,7 +415,7 @@ ImageFType::ImageFType(const unsigned id)
 	m_bmp = NULL;
 }
 
-ImageFType::ImageFType(const unsigned id, const CMString& file)
+ImageFType::ImageFType(const unsigned id, const CMString &file)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -496,7 +496,7 @@ HICON ImageFType::GetIcon(void)
 	return hIcon;
 }
 
-void ImageFType::GetSize(SIZE& size)
+void ImageFType::GetSize(SIZE &size)
 {
 	if (m_bmp) {
 		BITMAP bm;
@@ -525,7 +525,7 @@ void DestroyImageCache(void)
 	CloseHandle(g_hMutexIm);
 }
 
-ImageBase* AddCacheImage(const CMString& file, int index)
+ImageBase* AddCacheImage(const CMString &file, int index)
 {
 	CMString tmpfile(file); tmpfile.AppendFormat(_T("#%d"), index);
 	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(TCHAR));

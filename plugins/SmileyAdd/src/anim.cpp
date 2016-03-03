@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip) :
+Animate::Animate(SmileyType *sml, RECT &rect, HDC hdcMem, HBRUSH hbr, bool clip) :
 	m_sml(sml),
 	m_img(NULL),
 	m_nFramePosition(0), m_sel(false), m_clip(clip),
@@ -114,7 +114,7 @@ void Animate::SetSel(int x, int y)
 	m_sel = x >= m_cliprect.left && x < m_cliprect.right && y >= m_cliprect.top && y < m_cliprect.bottom;
 }
 
-AnimatedPack::AnimatedPack(HWND hwnd, int wsize, SIZE& sel, COLORREF bkg)
+AnimatedPack::AnimatedPack(HWND hwnd, int wsize, SIZE &sel, COLORREF bkg)
 	: m_AniList(40), m_hwnd(hwnd), m_wsize(wsize)
 {
 	HDC hdc = GetDC(hwnd);
@@ -152,7 +152,7 @@ void AnimatedPack::SetOffset(int off)
 		m_AniList[i].SetOffset(off, m_wsize);
 }
 
-void AnimatedPack::SetSel(RECT& rect)
+void AnimatedPack::SetSel(RECT &rect)
 {
 	for (int i = 0; i < m_AniList.getCount(); i++)
 		m_AniList[i].SetSel(rect.left, rect.top);

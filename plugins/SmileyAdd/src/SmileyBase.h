@@ -24,7 +24,7 @@ class ITooltipData : public IUnknown
 {
 public:
 	STDMETHOD(SetTooltip) (BSTR bstrHint)   PURE;
-	STDMETHOD(GetTooltip) (BSTR * bstrHint) PURE; 
+	STDMETHOD(GetTooltip) (BSTR *bstrHint) PURE; 
 };
 
 
@@ -56,8 +56,8 @@ public:
 	virtual void OnClose(void);
 	void SendOnViewChange(void);
 
-	bool QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR** smltxt);
-	void SetHint(TCHAR* smltxt);
+	bool QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR **smltxt);
+	void SetHint(TCHAR *smltxt);
 
 	virtual void Draw() PURE;
 	virtual void SetPosition(HWND hwnd, LPCRECT lpRect);
@@ -67,7 +67,7 @@ public:
 	//
 	STDMETHOD_(ULONG, AddRef)(void);
 	STDMETHOD_(ULONG, Release)(void);
-	STDMETHOD(QueryInterface)(REFIID iid, void ** ppvObject);
+	STDMETHOD(QueryInterface)(REFIID iid, void **ppvObject);
 
 	//
 	// IOleObject members
@@ -106,7 +106,7 @@ public:
 	//
 	// IViewObject2 members
 	//
-	STDMETHOD(GetExtent)(DWORD aspect, long, DVTARGETDEVICE*, SIZEL* pSize);
+	STDMETHOD(GetExtent)(DWORD aspect, long, DVTARGETDEVICE*, SIZEL *pSize);
 
 	//
 	// ITooltipData members

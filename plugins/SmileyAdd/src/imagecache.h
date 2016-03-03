@@ -35,19 +35,19 @@ public:
 
 	void ProcessTimerTick(time_t ts);
 
-	virtual void GetSize(SIZE& /* size */) {};
+	virtual void GetSize(SIZE&) {};
 	virtual int  GetFrameCount(void) const { return 0; }
 	virtual int  GetFrameDelay(void) const { return 0; }
 	virtual HICON GetIcon(void) { return NULL; };
-	virtual void DrawInternal(HDC /* dc */, int /* x */, int /* y */, int /* sizeX */, int /* sizeY */) {};
-	virtual void SelectFrame(int /* frame */) {}
+	virtual void DrawInternal(HDC, int, int, int, int) {};
+	virtual void SelectFrame(int) {}
 
 	bool IsAnimated(void) const { return GetFrameCount() > 1; }
 	HBITMAP GetBitmap(COLORREF bkgClr, int sizeX, int sizeY);
 	void Draw(HDC dc, RECT &rc, bool clip);
 	int SelectNextFrame(const int frame);
 
-	static int CompareImg(const ImageBase* p1, const ImageBase* p2);
+	static int CompareImg(const ImageBase *p1, const ImageBase *p2);
 };
 
 
@@ -66,12 +66,12 @@ private:
 	HICON m_SmileyIcon;
 
 public:
-	IconType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type);
+	IconType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type);
 	~IconType();
 
 	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
 	HICON GetIcon(void);
-	void GetSize(SIZE& size);
+	void GetSize(SIZE &size);
 };
 
 
@@ -86,7 +86,7 @@ public:
 
 	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
 	HICON GetIcon(void);
-	void GetSize(SIZE& size);
+	void GetSize(SIZE &size);
 };
 
 
@@ -101,18 +101,18 @@ private:
 
 public:
 
-	ImageType(const unsigned id, const CMString& file, IStream* pStream);
-	ImageType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type);
+	ImageType(const unsigned id, const CMString &file, IStream *pStream);
+	ImageType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type);
 	~ImageType();
 
-	void SelectFrame(int frame);
+	void  SelectFrame(int frame);
 
-	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
+	void  DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
 	HICON GetIcon(void);
-	void GetSize(SIZE& size);
+	void  GetSize(SIZE &size);
 
-	int  GetFrameDelay(void) const;
-	int  GetFrameCount(void) const { return m_nFrameCount; }
+	int   GetFrameDelay(void) const;
+	int   GetFrameCount(void) const { return m_nFrameCount; }
 };
 
 class ImageFType : public ImageBase
@@ -123,15 +123,15 @@ protected:
 public:
 
 	ImageFType(const unsigned id);
-	ImageFType(const unsigned id, const CMString& file);
+	ImageFType(const unsigned id, const CMString &file);
 	~ImageFType();
 
-	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
+	void  DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
 	HICON GetIcon(void);
-	void GetSize(SIZE& size);
+	void  GetSize(SIZE &size);
 };
 
-ImageBase* AddCacheImage(const CMString& file, int index);
+ImageBase* AddCacheImage(const CMString &file, int index);
 
 void InitImageCache(void);
 void DestroyImageCache(void);

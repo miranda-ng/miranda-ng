@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class SmileyCType : public SmileyType
 {
 public:
-	SmileyCType(const CMString& fullpath, const TCHAR* filepath);
+	SmileyCType(const CMString &fullpath, const TCHAR *filepath);
 
-	bool CreateTriggerText(char* text);
+	bool CreateTriggerText(char *text);
 };
 
 class SmileyPackCType
@@ -39,7 +39,6 @@ private:
 
 	MCONTACT m_id;
 
-	void InsertLookup(SmileyCType& sml, CMString& lk, bool first);
 	void AddTriggersToSmileyLookup(void);
 
 public:
@@ -53,8 +52,8 @@ public:
 	MCONTACT GetId(void) { return m_id; }
 	void SetId(MCONTACT id) { m_id = id; }
 
-	bool LoadSmileyDir(TCHAR* dir);
-	bool LoadSmiley(TCHAR* path);
+	bool LoadSmiley(TCHAR *path);
+	bool LoadSmileyDir(TCHAR *dir);
 };
 
 
@@ -69,8 +68,8 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmileyPack(MCONTACT hContact, TCHAR* dir);
-	bool AddSmiley(MCONTACT hContact, TCHAR* path);
+	bool AddSmiley(MCONTACT hContact, TCHAR *path);
+	bool AddSmileyPack(MCONTACT hContact, TCHAR *dir);
 
 	void ClearAndFreeAll(void) { 	m_SmileyPacks.destroy(); }
 

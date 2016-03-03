@@ -25,7 +25,7 @@ static bool gdiPlusFail = false;
 //
 // General functions
 //
-int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
+int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf)
 {
 	HDC hcdc = CreateCompatibleDC(hdc);
 
@@ -61,7 +61,7 @@ HICON GetDefaultIcon(bool copy)
 
 const TCHAR* GetImageExt(CMString &fname)
 {
-	const TCHAR* ext = _T("");
+	const TCHAR *ext = _T("");
 
 	int fileId = _topen(fname.c_str(), O_RDONLY | _O_BINARY);
 	if (fileId != -1) {
@@ -99,22 +99,20 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 	ii.xHotspot = 0;
 	ii.yHotspot = 0;
 
-	/* draw mask*/
+	// draw mask
 	ii.hbmMask = CreateBitmap(cx, cy, 1, 1, NULL);
 	hOldDstBitmap = (HBITMAP)SelectObject(hdcDst, ii.hbmMask);
 	PatBlt(hdcDst, 0, 0, cx, cy, WHITENESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_MASK);
 
-	/* draw image*/
+	// draw image
 	ii.hbmColor = CreateBitmap(cx, cy, 1, 32, NULL);
 	SelectObject(hdcDst, ii.hbmColor);
 	PatBlt(hdcDst, 0, 0, cx, cy, BLACKNESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_TRANSPARENT);
 
-	/*
-	* CreateIconIndirect requires us to deselect the bitmaps from
-	* the DCs before calling
-	*/
+	// CreateIconIndirect requires us to deselect the bitmaps from
+	// the DCs before calling
 	SelectObject(hdcDst, hOldDstBitmap);
 
 	hIcon = CreateIconIndirect(&ii);
@@ -126,14 +124,14 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 	return hIcon;
 }
 
-void pathToRelative(const CMString& pSrc, CMString& pOut)
+void pathToRelative(const CMString &pSrc, CMString &pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
 	PathToRelativeT(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 
-void pathToAbsolute(const CMString& pSrc, CMString& pOut)
+void pathToAbsolute(const CMString &pSrc, CMString &pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
 
@@ -161,9 +159,9 @@ static int __fastcall SingleHexToDecimal(char c)
 	return -1;
 }
 
-void  UrlDecode(char* str)
+void  UrlDecode(char *str)
 {
-	char* s = str, *d = str;
+	char *s = str, *d = str;
 
 	while (*s) {
 		if (*s == '%') {
