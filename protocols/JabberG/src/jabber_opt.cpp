@@ -1603,8 +1603,8 @@ protected:
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
-		m_cbType.AddString(TranslateT("Yandex"), ACC_YANDEX);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
+		m_cbType.AddString(TranslateT("Yandex"), ACC_YANDEX);
 
 		char server[256], manualServer[256]={0};
 		m_cbServer.GetTextA(server, _countof(server));
@@ -1625,12 +1625,12 @@ protected:
 			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
-			else if (!mir_strcmp(server, "ya.ru")) {
-			m_cbType.SetCurSel(ACC_YANDEX);
-			m_canregister = false;
-		}
 		else if (!mir_strcmp(server, "S.ms")) {
 			m_cbType.SetCurSel(ACC_SMS);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "ya.ru")) {
+			m_cbType.SetCurSel(ACC_YANDEX);
 			m_canregister = false;
 		}
 		else if (m_proto->m_options.UseSSL)
@@ -1728,8 +1728,8 @@ protected:
 
 		case ACC_TLS:
 		case ACC_LJTALK:
-		case ACC_YANDEX:
 		case ACC_SMS:
+		case ACC_YANDEX:
 			m_proto->m_options.UseSSL = FALSE;
 			m_proto->m_options.UseTLS = TRUE;
 			break;
@@ -1870,8 +1870,8 @@ private:
 	void setupGoogle();
 	void setupLJ();
 	void setupOK();
-	void setupYA();
 	void setupSMS();
+	void setupYA();
 	void RefreshServers(HXML node);
 	static void QueryServerListThread(void *arg);
 };
@@ -1908,8 +1908,8 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
 		case ACC_OK: setupOK(); break;
-		case ACC_YANDEX: setupYA(); break;
 		case ACC_SMS: setupSMS(); break;
+		case ACC_YANDEX: setupYA(); break;
 	}
 }
 
@@ -2013,24 +2013,6 @@ void CJabberDlgAccMgrUI::setupOK()
 	m_btnRegister.Disable();
 }
 
-void CJabberDlgAccMgrUI::setupYA()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("ya.ru");
-	m_cbServer.AddStringA("ya.ru");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("xmpp.yandex.ru");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
 void CJabberDlgAccMgrUI::setupSMS()
 {
 	m_canregister = false;
@@ -2040,6 +2022,24 @@ void CJabberDlgAccMgrUI::setupSMS()
 	m_cbServer.AddStringA("S.ms");
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
+	m_txtPort.SetInt(5222);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupYA()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("ya.ru");
+	m_cbServer.AddStringA("ya.ru");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("xmpp.yandex.ru");
 	m_txtPort.SetInt(5222);
 
 	m_cbServer.Disable();
