@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MS_SMILEYADD_CUSTOMCATMENU  "SmileyAdd/CustomCatMenu"
 
-const unsigned HiddenSmiley  =  1;
-const unsigned RegExSmiley   =  2;
-const unsigned ServiceSmiley =  4;
-const unsigned TextSmiley    =  8;
-const unsigned SoundSmiley   = 16;
+const unsigned HiddenSmiley = 1;
+const unsigned RegExSmiley = 2;
+const unsigned ServiceSmiley = 4;
+const unsigned TextSmiley = 8;
+const unsigned SoundSmiley = 16;
 
 class SmileyType
 {
@@ -40,12 +40,14 @@ protected:
 	SIZE m_size;
 
 	HICON m_SmileyIcon;
-	ImageBase* m_xepimg;
+	ImageBase *m_xepimg;
 
 	CMString m_filepath;
 
 	void SetFlagsBit(unsigned flag, bool set)
-	{ if (set) m_flags |= flag; else m_flags &= ~flag; } 
+	{
+		if (set) m_flags |= flag; else m_flags &= ~flag;
+	}
 
 public:
 
@@ -72,7 +74,7 @@ public:
 
 	ImageBase* CreateCachedImage(void);
 
-	void GetSize(SIZE& size);
+	void GetSize(SIZE &size);
 
 	HICON GetIcon(void);
 	HICON GetIconDup(void);
@@ -94,8 +96,8 @@ public:
 
 	void SetImList(HIMAGELIST hImLst, long i);
 
-	bool LoadFromResource(const CMString& file, const int index);
-	bool LoadFromImage(IStream* pStream);
+	bool LoadFromResource(const CMString &file, const int index);
+	bool LoadFromImage(IStream *pStream);
 };
 
 template<class T> struct SMOBJLIST : public OBJLIST<T>
@@ -103,23 +105,23 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 	SMOBJLIST() : OBJLIST<T>(5) {};
 
 	SMOBJLIST<T>& operator = (const SMOBJLIST<T>& lst)
-	{ 
+	{
 		OBJLIST<T>::destroy();
-		return operator += (lst); 
+		return operator += (lst);
 	}
 
 	SMOBJLIST<T>& operator += (const SMOBJLIST<T>& lst)
-	{ 		
-		for (int i=0; i < lst.getCount(); i++) {
-			T *p = new T(lst[i]); 
+	{
+		for (int i = 0; i < lst.getCount(); i++) {
+			T *p = new T(lst[i]);
 			insert(p);
 		}
-		return *this; 
+		return *this;
 	}
 
-	void splice(SMOBJLIST<T>& lst)
+	void splice(SMOBJLIST<T> &lst)
 	{
-		for (int i=0; i < lst.getCount(); i++)
+		for (int i = 0; i < lst.getCount(); i++)
 			insert(&lst[i]);
 		lst.LIST<T>::destroy();
 	}
@@ -128,7 +130,7 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 class SmileyLookup
 {
 private:
-	_TPattern* m_pattern;
+	_TPattern *m_pattern;
 
 	int m_ind;
 	CMString m_text;
@@ -136,18 +138,18 @@ private:
 
 public:
 	struct SmileyLocType
-	{ 
-		size_t pos, len; 
+	{
+		size_t pos, len;
 		SmileyLocType(size_t p, size_t l) : pos(p), len(l) {}
 		SmileyLocType() {}
 	};
 	typedef SMOBJLIST<SmileyLocType> SmileyLocVecType;
 
 	SmileyLookup() { m_ind = 0; m_valid = false; m_pattern = NULL; };
-	SmileyLookup(const CMString& str, const bool regexs, const int ind, const CMString& smpt);
+	SmileyLookup(const CMString &str, const bool regexs, const int ind, const CMString &smpt);
 	~SmileyLookup();
 
-	void Find(const CMString& str, SmileyLocVecType& smlcur, bool firstOnly) const;
+	void Find(const CMString &str, SmileyLocVecType &smlcur, bool firstOnly) const;
 	int GetIndex(void) const { return m_ind; }
 	bool IsValid(void) const { return m_valid; }
 };
@@ -171,18 +173,17 @@ private:
 
 	HIMAGELIST m_hSmList;
 
-	int m_VisibleCount; 
+	int m_VisibleCount;
 
 	SmileyVectorType m_SmileyList;
 	SmileyLookupType m_SmileyLookup;
 
 	bool errorFound;
 
-	void InsertLookup(SmileyType& sml, CMString& lk, bool first);
 	void AddTriggersToSmileyLookup(void);
-	void ReplaceAllSpecials(const CMString& Input, CMString& Output);
-	bool LoadSmileyFileMSL(CMString& tbuf, bool onlyInfo, CMString& modpath);
-	bool LoadSmileyFileXEP(CMString& tbuf, bool onlyInfo, CMString& modpath);
+	void ReplaceAllSpecials(const CMString &Input, CMString &Output);
+	bool LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &modpath);
+	bool LoadSmileyFileXEP(CMString &tbuf, bool onlyInfo, CMString &modpath);
 
 public:
 	SmileyPackType();
@@ -204,13 +205,13 @@ public:
 
 	const TCHAR* GetButtonSmiley(void) const { return m_ButtonSmiley.c_str(); }
 
-	bool LoadSmileyFile(const CMString& filename, const CMString& packname, bool onlyInfo, bool noerr = false);
+	bool LoadSmileyFile(const CMString &filename, const CMString &packname, bool onlyInfo, bool noerr = false);
 
 	void Clear(void);
 };
 
 
-class SmileyPackListType 
+class SmileyPackListType
 {
 public:
 	typedef SMOBJLIST<SmileyPackType> SmileyPackVectorType;
@@ -221,7 +222,7 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmileyPack(CMString& filename, CMString& packname );
+	bool AddSmileyPack(CMString &filename, CMString &packname);
 	void ClearAndFreeAll(void);
 	SmileyPackType* GetSmileyPack(CMString& filename);
 };
@@ -254,21 +255,20 @@ private:
 	bool visible;
 
 public:
-	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = NULL; visible = true;  };
-	SmileyCategoryType(SmileyPackListType* pSPS, const CMString& name, 
-		const CMString& displayName, const CMString& defaultFilename, SmcType typ);
+	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = NULL; visible = true; };
+	SmileyCategoryType(SmileyPackListType *pSPS, const CMString &name, const CMString &displayName, const CMString &defaultFilename, SmcType typ);
 
 	const CMString& GetDisplayName(void) const { return m_DisplayName; }
 	const CMString& GetName(void) const { return m_Name; }
 	const CMString& GetFilename(void) const { return m_Filename; }
 
 	bool IsCustom(void) { return type == smcCustom; }
-	bool IsProto(void)  { return type == smcProto || type == smcPhysProto || type == smcTransportProto || type == smcVirtualProto; }
-	bool IsAcc(void)  { return type == smcProto; }
-	bool IsVirtual(void)  { return type == smcVirtualProto; }
-	bool IsPhysProto(void)  { return type == smcPhysProto; }
-	bool IsTransportProto(void)  { return type == smcTransportProto; }
-	bool IsExt(void)    { return type == smcExt;  }
+	bool IsProto(void) { return type == smcProto || type == smcPhysProto || type == smcTransportProto || type == smcVirtualProto; }
+	bool IsAcc(void) { return type == smcProto; }
+	bool IsVirtual(void) { return type == smcVirtualProto; }
+	bool IsPhysProto(void) { return type == smcPhysProto; }
+	bool IsTransportProto(void) { return type == smcTransportProto; }
+	bool IsExt(void) { return type == smcExt; }
 	bool IsVisible(void) { return visible; }
 
 	SmcType GetType(void) { return type; }
@@ -293,10 +293,10 @@ public:
 
 private:
 	SmileyCategoryVectorType m_SmileyCategories;
-	SmileyPackListType* m_pSmileyPackStore;
+	SmileyPackListType *m_pSmileyPackStore;
 
-public:  
-	void SetSmileyPackStore(SmileyPackListType* pSPS)  { m_pSmileyPackStore = pSPS; }
+public:
+	void SetSmileyPackStore(SmileyPackListType *pSPS) { m_pSmileyPackStore = pSPS; }
 
 	SmileyCategoryType* GetSmileyCategory(const CMString& name);
 	SmileyCategoryType* GetSmileyCategory(unsigned index);
@@ -308,14 +308,16 @@ public:
 	void AddCategory(const CMString& name, const CMString& displayName, SmcType typ,
 		const CMString& defaultFilename = CMString(_T("Smileys\\nova\\default.msl")));
 	void AddAndLoad(const CMString& name, const CMString& displayName);
-	void AddAllProtocolsAsCategory(void); 
+	void AddAllProtocolsAsCategory(void);
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile);
 	void AddProtoAsCategory(char *acc, const CMString& defaultFile);
 	void AddContactTransportAsCategory(MCONTACT hContact, const CMString& defaultFile);
 
 	void ClearAndLoadAll(void);
-	void ClearAll(void) 
-	{ m_pSmileyPackStore->ClearAndFreeAll(); m_SmileyCategories.destroy(); }
+	void ClearAll(void)
+	{
+		m_pSmileyPackStore->ClearAndFreeAll(); m_SmileyCategories.destroy();
+	}
 
 	bool DeleteCustomCategory(int index);
 	void DeleteAccountAsCategory(PROTOACCOUNT *acc);

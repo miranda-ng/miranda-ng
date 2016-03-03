@@ -95,7 +95,7 @@ static void SetPosition(HWND hwnd)
 	}
 }
 
-static void SetTooltip(long x, long y, HWND hwnd, RichEditData* rdt)
+static void SetTooltip(long x, long y, HWND hwnd, RichEditData *rdt)
 {
 	TCHAR *smltxt;
 	int needtip = CheckForTip(x, y, hwnd, &smltxt);
@@ -134,7 +134,7 @@ static void ReplaceContactSmileys(RichEditData *rdt, const CHARRANGE &sel, bool 
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
 	SmileyPackCType *smcp = NULL;
-	SmileyPackType* SmileyPack = GetSmileyPack(NULL, rdt->hContact, rdt->inputarea ? NULL : &smcp);
+	SmileyPackType *SmileyPack = GetSmileyPack(NULL, rdt->hContact, rdt->inputarea ? NULL : &smcp);
 	ReplaceSmileys(rdt->hwnd, SmileyPack, smcp, sel, false, ignoreLast, unFreeze);
 }
 
@@ -144,7 +144,7 @@ static void ReplaceContactSmileysWithText(RichEditData *rdt, CHARRANGE &sel, boo
 	ReplaceSmileysWithText(rdt->hwnd, sel, freeze);
 }
 
-static void SmileyToTextCutPrep(RichEditData* rdt)
+static void SmileyToTextCutPrep(RichEditData *rdt)
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace)
 		return;
@@ -155,7 +155,7 @@ static void SmileyToTextCutPrep(RichEditData* rdt)
 	ReplaceContactSmileysWithText(rdt, sel, true);
 }
 
-static void SmileyToTextCutRest(RichEditData* rdt)
+static void SmileyToTextCutRest(RichEditData *rdt)
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace)
 		return;
@@ -169,7 +169,7 @@ static void SmileyToTextCutRest(RichEditData* rdt)
 
 static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	RichEditData* rdt = g_RichEditList.find((RichEditData*)&hwnd);
+	RichEditData *rdt = g_RichEditList.find((RichEditData*)&hwnd);
 	if (rdt == NULL)
 		return 0;
 
@@ -330,7 +330,7 @@ void CloseRichCallback(HWND hwnd)
 	if (ind == -1)
 		return;
 
-	RichEditData* rdt = g_RichEditList[ind];
+	RichEditData *rdt = g_RichEditList[ind];
 	if (rdt->hToolTip)
 		DestroyWindow(rdt->hToolTip);
 	delete rdt;
@@ -342,14 +342,14 @@ void CloseRichCallback(HWND hwnd)
 
 static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	RichEditOwnerData* rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
+	RichEditOwnerData *rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
 	if (rdto == NULL)
 		return 0;
 
 	switch (uMsg) {
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
-			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
+			RichEditData *rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
 			if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
 				rdt->dontReplace = true;
 				CHARRANGE sel = allsel;
@@ -359,7 +359,7 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 		break;
 
 	case WM_DESTROY:
-		RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
+		RichEditData *rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
 		if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
 			CHARRANGE sel = allsel;
 			rdt->dontReplace = true;
@@ -373,7 +373,7 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 	switch (uMsg) {
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
-			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
+			RichEditData *rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
 			if (rdt) {
 				CHARRANGE sel = allsel;
 				if (!result) ReplaceContactSmileys(rdt, sel, false, false);
@@ -414,7 +414,7 @@ void CloseRichOwnerCallback(HWND hwnd)
 	if (ind == -1)
 		return;
 
-	RichEditOwnerData* rdto = g_RichEditOwnerList[ind];
+	RichEditOwnerData *rdto = g_RichEditOwnerList[ind];
 	CloseRichCallback(rdto->hwndInput);
 	CloseRichCallback(rdto->hwndLog);
 	delete rdto;
@@ -427,7 +427,7 @@ void CloseRichOwnerCallback(HWND hwnd)
 void ProcessAllInputAreas(bool restoreText)
 {
 	for (int i = g_RichEditList.getCount() - 1; i >= 0; i--) {
-		RichEditData* rdt = g_RichEditList[i];
+		RichEditData *rdt = g_RichEditList[i];
 		if (rdt->inputarea) {
 			if (restoreText) {
 				CHARRANGE sel = allsel;

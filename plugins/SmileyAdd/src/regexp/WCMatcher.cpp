@@ -10,7 +10,7 @@ const int WCMatcher::MATCH_ENTIRE_STRING = 0x01;
   @version  1.07.00
   */
 
-WCMatcher::WCMatcher(WCPattern * pattern, const CMString & text)
+WCMatcher::WCMatcher(WCPattern *pattern, const CMString &text)
 {
 	pat = pattern;
 	str = &text;

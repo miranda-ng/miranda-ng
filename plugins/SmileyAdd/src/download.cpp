@@ -27,7 +27,7 @@ struct QueueElem
 	CMString fname;
 	bool needext;
 
-	QueueElem(CMString& purl, CMString& pfname, bool ne)
+	QueueElem(CMString &purl, CMString &pfname, bool ne)
 		: url(purl), fname(pfname), needext(ne)
 	{
 	}
@@ -39,7 +39,7 @@ static OBJLIST<QueueElem> dlQueue(10);
 static TCHAR cachepath[MAX_PATH];
 static bool threadRunning;
 
-bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
+bool InternetDownloadFile(const char *szUrl, char *szDest, HANDLE &hHttpDwnl)
 {
 	int result = 0xBADBAD;
 	char *szRedirUrl = NULL;
@@ -91,10 +91,9 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 					if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/') {
-							const char* szPath;
-							const char* szPref = strstr(szUrl, "://");
+							const char *szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
-							szPath = strchr(szPref, '/');
+							const char *szPath = strchr(szPref, '/');
 							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
@@ -155,7 +154,7 @@ void __cdecl SmileyDownloadThread(void*)
 	}
 }
 
-bool GetSmileyFile(CMString& url, const CMString& packstr)
+bool GetSmileyFile(CMString &url, const CMString &packstr)
 {
 	_TPattern *urlsplit = _TPattern::compile(_T(".*/(.*)"));
 	_TMatcher *m0 = urlsplit->createTMatcher(url);

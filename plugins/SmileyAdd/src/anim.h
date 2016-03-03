@@ -68,13 +68,13 @@ private:
 	HBITMAP	m_hOld;
 
 public:
-	AnimatedPack(HWND hwnd, int wsize, SIZE& sel, COLORREF bkg);
+	AnimatedPack(HWND hwnd, int wsize, SIZE &sel, COLORREF bkg);
 	~AnimatedPack();
 
 	void Add(SmileyType *sml, RECT rect, bool clip);
 	void Draw(HDC hdc);
 	void SetOffset(int off);
-	void SetSel(RECT& rect);
+	void SetSel(RECT &rect);
 
 	void ProcessTimerTick(HWND hwnd);
 };

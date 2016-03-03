@@ -24,7 +24,7 @@ class SmileyPackType;
 
 struct SmileyToolWindowParam
 {
-	SmileyPackType* pSmileyPack;
+	SmileyPackType *pSmileyPack;
 	int xPosition;
 	int yPosition;
 	int direction;

@@ -38,7 +38,7 @@ private:
 	HWND m_hwndDialog;
 	HWND m_hToolTip;
 	HWND m_hWndTarget;
-	SmileyPackType* m_pSmileyPack;
+	SmileyPackType *m_pSmileyPack;
 	int m_CurrentHotTrack;
 	int m_XPosition;
 	int m_YPosition;
@@ -49,7 +49,7 @@ private:
 	int rowSel;
 	bool m_Choosing;
 
-	AnimatedPack* m_AniPack;
+	AnimatedPack *m_AniPack;
 
 	void InitDialog(LPARAM lParam);
 	void PaintWindow(void);
@@ -179,9 +179,9 @@ struct smlsrvstruct
 	MCONTACT hContact;
 };
 
-void CALLBACK smileyServiceCallback(void* arg)
+void CALLBACK smileyServiceCallback(void *arg)
 {
-	smlsrvstruct* p = (smlsrvstruct*)arg;
+	smlsrvstruct *p = (smlsrvstruct*)arg;
 	p->sml->CallSmileyService(p->hContact);
 	delete p;
 }
@@ -192,7 +192,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 		SmileyType *sml = m_pSmileyPack->GetSmiley(m_CurrentHotTrack);
 
 		if (sml->IsService()) {
-			smlsrvstruct* p = new smlsrvstruct(sml, m_hContact);
+			smlsrvstruct *p = new smlsrvstruct(sml, m_hContact);
 			CallFunctionAsync(smileyServiceCallback, p);
 		}
 		else {
@@ -235,7 +235,7 @@ void SmileyToolWindowType::SmileySel(int but)
 			ti.hwnd = m_hwndDialog;
 			ti.uId = (UINT_PTR)m_hwndDialog;
 
-			const CMString& toolText = m_pSmileyPack->GetSmiley(m_CurrentHotTrack)->GetToolText();
+			const CMString &toolText = m_pSmileyPack->GetSmiley(m_CurrentHotTrack)->GetToolText();
 			ti.lpszText = const_cast<TCHAR*>(toolText.c_str());
 			SendMessage(m_hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
 			SendMessage(m_hToolTip, TTM_ACTIVATE, TRUE, 0);
@@ -435,7 +435,7 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 void SmileyToolWindowType::InitDialog(LPARAM lParam)
 {
 	LPCREATESTRUCT createStruct = (LPCREATESTRUCT)lParam;
-	SmileyToolWindowParam* stwp = (SmileyToolWindowParam*)createStruct->lpCreateParams;
+	SmileyToolWindowParam *stwp = (SmileyToolWindowParam*)createStruct->lpCreateParams;
 
 	m_pSmileyPack = stwp->pSmileyPack;
 	m_XPosition = stwp->xPosition;

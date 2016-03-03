@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static void HiMetricToPixel(const SIZEL * lpSizeInHiMetric, LPSIZEL lpSizeInPix)
+static void HiMetricToPixel(const SIZEL *lpSizeInHiMetric, LPSIZEL lpSizeInPix)
 {
 	HDC hDCScreen = GetDC(NULL);
 	const int nPixelsPerInchX = GetDeviceCaps(hDCScreen, LOGPIXELSX);
@@ -91,18 +91,17 @@ void ISmileyBase::SendOnViewChange(void)
 	}
 }
 
-bool ISmileyBase::QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR** smltxt)
+bool ISmileyBase::QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR **smltxt)
 {
 	bool result = m_visible && m_hwnd == hwnd;
-	if (result) {
-		result = x >= m_orect.left && x <= m_orect.right &&
-			y >= m_orect.top && y <= m_orect.bottom;
-	}
-	if (result) *smltxt = m_smltxt;
+	if (result)
+		result = (x >= m_orect.left && x <= m_orect.right && y >= m_orect.top && y <= m_orect.bottom);
+	if (result)
+		*smltxt = m_smltxt;
 	return result;
 }
 
-void ISmileyBase::SetHint(TCHAR* smltxt)
+void ISmileyBase::SetHint(TCHAR *smltxt)
 {
 	m_smltxt = _tcsdup(smltxt);
 }
@@ -152,7 +151,7 @@ ULONG ISmileyBase::Release(void)
 }
 
 
-HRESULT ISmileyBase::QueryInterface(REFIID iid, void ** ppvObject)
+HRESULT ISmileyBase::QueryInterface(REFIID iid, void **ppvObject)
 {
 	// check to see what interface has been requested
 	if (ppvObject == NULL) return E_POINTER;
@@ -195,12 +194,12 @@ HRESULT ISmileyBase::GetClientSite(IOleClientSite **ppClientSite)
 	return S_OK;
 }
 
-HRESULT ISmileyBase::SetHostNames(LPCOLESTR /* szContainerApp */, LPCOLESTR /* szContainerObj */)
+HRESULT ISmileyBase::SetHostNames(LPCOLESTR, LPCOLESTR)
 {
 	return S_OK;
 }
 
-HRESULT ISmileyBase::Close(DWORD /* dwSaveOption */)
+HRESULT ISmileyBase::Close(DWORD)
 {
 	regSmileys.remove(this);
 
@@ -212,33 +211,32 @@ HRESULT ISmileyBase::Close(DWORD /* dwSaveOption */)
 	return S_OK;
 }
 
-HRESULT ISmileyBase::SetMoniker(DWORD /* dwWhichMoniker */, IMoniker* /* pmk */)
+HRESULT ISmileyBase::SetMoniker(DWORD, IMoniker*)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::GetMoniker(DWORD /* dwAssign */, DWORD /* dwWhichMoniker */, IMoniker** /* ppmk */)
+HRESULT ISmileyBase::GetMoniker(DWORD, DWORD, IMoniker**)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::InitFromData(IDataObject* /* pDataObject */, BOOL /* fCreation */, DWORD /* dwReserved */)
+HRESULT ISmileyBase::InitFromData(IDataObject*, BOOL, DWORD)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::GetClipboardData(DWORD /* dwReserved */, IDataObject** /* ppDataObject */)
+HRESULT ISmileyBase::GetClipboardData(DWORD, IDataObject**)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::DoVerb(LONG /* iVerb */, LPMSG /* pMsg */, IOleClientSite* /* pActiveSite */, LONG /* lindex */,
-	HWND /* hwndParent */, LPCRECT /* lprcPosRect */)
+HRESULT ISmileyBase::DoVerb(LONG, LPMSG, IOleClientSite*, LONG, HWND, LPCRECT)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::EnumVerbs(IEnumOLEVERB** /*ppEnumOleVerb*/) { return E_NOTIMPL; }
+HRESULT ISmileyBase::EnumVerbs(IEnumOLEVERB**) { return E_NOTIMPL; }
 HRESULT ISmileyBase::Update(void) { return S_OK; }
 HRESULT ISmileyBase::IsUpToDate(void) { return S_OK; }
 
@@ -249,12 +247,12 @@ HRESULT ISmileyBase::GetUserClassID(CLSID *pClsid)
 	return S_OK;
 }
 
-HRESULT ISmileyBase::GetUserType(DWORD /*dwFormOfType*/, LPOLESTR* /*pszUserType*/)
+HRESULT ISmileyBase::GetUserType(DWORD, LPOLESTR*)
 {
 	return E_NOTIMPL;
 }
 
-HRESULT ISmileyBase::SetExtent(DWORD dwDrawAspect, SIZEL* psizel)
+HRESULT ISmileyBase::SetExtent(DWORD dwDrawAspect, SIZEL *psizel)
 {
 	if (dwDrawAspect != DVASPECT_CONTENT) return E_FAIL;
 	if (psizel == NULL) return E_POINTER;
@@ -310,7 +308,7 @@ HRESULT ISmileyBase::GetMiscStatus(DWORD dwAspect, DWORD *pdwStatus)
 	}
 }
 
-HRESULT ISmileyBase::SetColorScheme(LOGPALETTE* /* pLogpal */)
+HRESULT ISmileyBase::SetColorScheme(LOGPALETTE*)
 {
 	return E_NOTIMPL;
 }
@@ -318,16 +316,17 @@ HRESULT ISmileyBase::SetColorScheme(LOGPALETTE* /* pLogpal */)
 //
 // IViewObject members
 //
-HRESULT ISmileyBase::SetAdvise(DWORD aspect, DWORD advf, IAdviseSink* pAdvSink)
+HRESULT ISmileyBase::SetAdvise(DWORD aspect, DWORD advf, IAdviseSink *pAdvSink)
 {
 	if (aspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
 	m_advf = advf;
 	if (m_spAdviseSink) m_spAdviseSink->Release();
 	m_spAdviseSink = pAdvSink;
-	if (advf & ADVF_PRIMEFIRST) SendOnViewChange();
+	if (advf & ADVF_PRIMEFIRST)
+		SendOnViewChange();
 	return S_OK;
 }
-HRESULT ISmileyBase::GetAdvise(DWORD* /*pAspects*/, DWORD* /*pAdvf*/, IAdviseSink** ppAdvSink)
+HRESULT ISmileyBase::GetAdvise(DWORD*, DWORD*, IAdviseSink **ppAdvSink)
 {
 	if (!ppAdvSink) return E_POINTER;
 	*ppAdvSink = m_spAdviseSink;
@@ -342,7 +341,7 @@ HRESULT ISmileyBase::GetColorSet(DWORD, long, void*, DVTARGETDEVICE*, HDC, LOGPA
 //
 // IViewObject2 members
 //
-HRESULT ISmileyBase::GetExtent(DWORD aspect, long, DVTARGETDEVICE*, SIZEL* pSize)
+HRESULT ISmileyBase::GetExtent(DWORD aspect, long, DVTARGETDEVICE*, SIZEL *pSize)
 {
 	if (pSize == NULL) return E_POINTER;
 	if (aspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
@@ -354,7 +353,7 @@ HRESULT ISmileyBase::GetExtent(DWORD aspect, long, DVTARGETDEVICE*, SIZEL* pSize
 //
 // ITooltipData members
 //
-HRESULT ISmileyBase::SetTooltip(BSTR /* bstrHint */)
+HRESULT ISmileyBase::SetTooltip(BSTR)
 {
 	return S_OK;
 }
@@ -375,7 +374,7 @@ void CloseSmileys(void)
 	}
 }
 
-int CheckForTip(int x, int y, HWND hwnd, TCHAR** smltxt)
+int CheckForTip(int x, int y, HWND hwnd, TCHAR **smltxt)
 {
 	for (int i = 0; i < regSmileys.getCount(); i++)
 		if (regSmileys[i]->QueryHitPointSpecial(x, y, hwnd, smltxt))

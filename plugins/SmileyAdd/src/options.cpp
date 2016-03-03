@@ -277,7 +277,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 	bool useOne = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
 	bool usePhysProto = IsDlgButtonChecked(m_hwndDialog, IDC_USEPHYSPROTO) == BST_CHECKED;
 
-	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
+	SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++) {
 		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
 		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
@@ -296,7 +296,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 			CMString FileName;
 			if (!ProtoName.IsEmpty()) {
 				PhysProtoName += ProtoName;
-				SmileyCategoryType* scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
+				SmileyCategoryType *scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
 				if (scm == NULL)
 					visible = false;
 				else if (scm->GetFilename().IsEmpty())
@@ -321,7 +321,7 @@ void OptionsDialogType::PopulateSmPackList(void)
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
 	UpdateVisibleSmPackList();
-	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
+	SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++) {
 		if (smc[i].IsVisible()) {
 			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
@@ -364,10 +364,7 @@ void OptionsDialogType::InitDialog(void)
 	CheckDlgButton(m_hwndDialog, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
 
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Off"));
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
-
-	if (IsOldSrmm())
-		SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
+	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("On"));
 
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), opt.PluginSupportEnabled);
@@ -387,7 +384,7 @@ void OptionsDialogType::InitDialog(void)
 
 	tmpsmcat = g_SmileyCategories;
 
-	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
+	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++) {
 		HICON hIcon = NULL;
 		if (smc[i].IsProto()) {
@@ -468,7 +465,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.nMaxFile = _countof(filename);
 
 	CMString inidir;
-	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item);
+	SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(item);
 	if (smc->GetFilename().IsEmpty())
 		pathToAbsolute(_T("Smileys"), inidir);
 	else {
@@ -514,7 +511,7 @@ void OptionsDialogType::FilenameChanged(void)
 	TCHAR str[MAX_PATH];
 	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, _countof(str));
 
-	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto());
+	SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(GetSelProto());
 	if (smc->GetFilename() != str) {
 		CMString temp(str);
 		smc->SetFilename(temp);
