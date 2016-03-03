@@ -16,14 +16,14 @@ public:
 	}
 };
 
-/*class DisableAccessTokenRequest : public HttpRequest
+class DisableAccessTokenRequest : public HttpRequest
 {
 public:
 	DisableAccessTokenRequest() :
 		HttpRequest(REQUEST_POST, DROPBOX_API_OLD "/disable_access_token")
 	{
 	}
-};*/
+};
 
 class GetCurrentAccountRequest : public HttpRequest
 {

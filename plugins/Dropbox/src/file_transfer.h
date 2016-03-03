@@ -1,11 +1,13 @@
 #ifndef _FILE_TRANSFER_H_
 #define _FILE_TRANSFER_H_
 
-struct FileTransferParam
+class FileTransferParam
 {
+private:
+	static ULONG hFileProcess;
+
+	ULONG id;
 	FILE *hFile;
-	HANDLE hProcess;
-	MCONTACT hContact;
 	PROTOFILETRANSFERSTATUS pfts;
 
 	bool isTerminated;
@@ -13,13 +15,15 @@ struct FileTransferParam
 	const TCHAR* directoryName;
 	int relativePathStart;
 
+	CMString serverPath;
+
 	CMString data;
 
-	FileTransferParam()
+public:
+	FileTransferParam(MCONTACT hContact)
 	{
 		hFile = NULL;
-		hProcess = NULL;
-		hContact = NULL;
+		id = InterlockedIncrement(&hFileProcess);
 
 		isTerminated = false;
 
@@ -28,7 +32,7 @@ struct FileTransferParam
 
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
-		pfts.hContact = NULL;
+		pfts.hContact = hContact;
 		pfts.currentFileNumber = -1;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
@@ -41,7 +45,7 @@ struct FileTransferParam
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
 
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, hProcess, 0);
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)id, 0);
 	}
 
 	~FileTransferParam()
@@ -61,10 +65,32 @@ struct FileTransferParam
 		}
 	}
 
+	ULONG GetId() const
+	{
+		return id;
+	}
+
+	MCONTACT GetHContact() const
+	{
+		return pfts.hContact;
+	}
+
+	const TCHAR* GetData() const
+	{
+		if (data.IsEmpty())
+			return NULL;
+		return data;
+	}
+
+	void Terminate()
+	{
+		isTerminated = true;
+	}
+
 	void SetWorkingDirectory(const TCHAR *path)
 	{
 		relativePathStart = _tcsrchr(path, '\\') - path + 1;
-		if (PathIsDirectory(path))
+		/*if (PathIsDirectory(path))
 		{
 			size_t length = mir_tstrlen(path) + 1;
 			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * length);
@@ -72,10 +98,23 @@ struct FileTransferParam
 			directoryName = _tcsrchr(pfts.tszWorkingDir, '\\') + 1;
 		}
 		else
-		{
+		{*/
 			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * relativePathStart);
 			mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
-		}
+		//}
+	}
+
+	void SetServerPath(const TCHAR *path)
+	{
+		if (path)
+			serverPath = path;
+	}
+
+	const TCHAR* GetServerPath() const
+	{
+		if (serverPath.IsEmpty())
+			return NULL;
+		return serverPath;
 	}
 
 	void AddFile(const TCHAR *path)
@@ -103,6 +142,11 @@ struct FileTransferParam
 	const TCHAR* GetCurrentFilePath() const
 	{
 		return pfts.ptszFiles[pfts.currentFileNumber];
+	}
+
+	const TCHAR* GetCurrentRelativeFilePath() const
+	{
+		return &GetCurrentFilePath()[relativePathStart];
 	}
 
 	const TCHAR* GetCurrentFileName() const
@@ -162,7 +206,7 @@ struct FileTransferParam
 	{
 		pfts.currentFileProgress += count;
 		pfts.totalProgress += count;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, hProcess, (LPARAM)&pfts);
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 	}
 
 	void FirstFile()
@@ -172,7 +216,7 @@ struct FileTransferParam
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, hProcess, (LPARAM)&pfts);
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 
 		OpenCurrentFile();
 		CheckCurrentFile();
@@ -187,7 +231,7 @@ struct FileTransferParam
 
 		pfts.currentFileProgress = 0;
 		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, hProcess, 0);
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
 
 		OpenCurrentFile();
 		CheckCurrentFile();
@@ -197,7 +241,7 @@ struct FileTransferParam
 
 	void SetStatus(int status, LPARAM param = 0)
 	{
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, hProcess, param);
+		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, (HANDLE)id, param);
 	}
 };
 

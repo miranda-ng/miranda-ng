@@ -102,7 +102,7 @@ public:
 		AddHeader("Content-Type", "application/json");
 
 		JSONNode root(JSON_NODE);
-		root << JSONNode("path", "");
+		root << JSONNode("path", path);
 
 		json_string data = root.write();
 		SetData(data.c_str(), data.length());

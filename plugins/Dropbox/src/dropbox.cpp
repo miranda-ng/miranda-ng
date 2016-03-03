@@ -7,8 +7,11 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	HookEventObj(ME_SYSTEM_MODULESLOADED, GlobalEvent<&CDropbox::OnModulesLoaded>, this);
 
 	hFileSentEventHook = CreateHookableEvent(ME_DROPBOX_SENT);
+	hUploadedEventHook = CreateHookableEvent(ME_DROPBOX_UPLOADED);
 
 	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, GlobalService<&CDropbox::SendFileToDropbox>, this);
+	CreateServiceFunctionObj(MS_DROPBOX_UPLOAD, GlobalService<&CDropbox::UploadToDropbox>, this);
+	CreateServiceFunctionObj(MS_DROPBOX_UPLOADASYNC, GlobalService<&CDropbox::UploadToDropboxAsync>, this);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
@@ -33,7 +36,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 
 	InitializeMenus();
 
-	hFileProcess = hMessageProcess = 1;
+	hMessageProcess = 1;
 }
 
 CDropbox::~CDropbox()
@@ -134,8 +137,8 @@ void CDropbox::RequestAccountInfo(void *p)
 
 void CDropbox::DestroyAccessToken()
 {
-	//DisableAccessTokenRequest request;
-	//NLHR_PTR response(request.Send(hNetlibConnection));
+	DisableAccessTokenRequest request;
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");
 	MCONTACT hContact = CDropbox::GetDefaultContact();

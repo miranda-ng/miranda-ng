@@ -60,19 +60,6 @@ char* CDropbox::FinishUploadSession(const char *data, size_t size, const char *s
 	return path;
 }
 
-void CDropbox::CreateFolder(const char *path)
-{
-	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	CreateFolderRequest request(token, path);
-	NLHR_PTR response(request.Send(hNetlibConnection));
-
-	// forder exists on server
-	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
-		return;
-
-	HandleJsonResponseError(response);
-}
-
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -90,24 +77,16 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	mir_strcpy(url, node.as_string().c_str());
 }
 
-UINT CDropbox::SendFilesAsync(void *owner, void *arg)
+UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 {
 	CDropbox *instance = (CDropbox*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	try {
-		if (ftp->directoryName) {
-			char path[MAX_PATH], url[MAX_PATH];
-			PreparePath(ftp->directoryName, path);
-			instance->CreateFolder(path);
-			instance->CreateDownloadUrl(path, url);
-			ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
-		}
-
 		ftp->FirstFile();
 		do
 		{
-			const TCHAR *fileName = &ftp->GetCurrentFilePath()[ftp->relativePathStart];
+			const TCHAR *fileName = ftp->GetCurrentRelativeFilePath();
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
@@ -138,7 +117,11 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				size = 0;
 
 			char path[MAX_PATH];
-			PreparePath(fileName, path);
+			const TCHAR *serverPath = ftp->GetServerPath();
+			if (serverPath)
+				PreparePath(serverPath, path);
+			else
+				PreparePath(fileName, path);
 			instance->FinishUploadSession(data, size, sessionId, offset, path);
 
 			ftp->Progress(size);
@@ -165,9 +148,9 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	CDropbox *instance = (CDropbox*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
-	int res = SendFilesAsync(owner, arg);
+	int res = UploadToDropbox(owner, arg);
 	if (res == ACKRESULT_SUCCESS)
-		instance->Report(ftp->hContact, ftp->data);
+		instance->Report(ftp->GetHContact(), ftp->GetData());
 
 	instance->transfers.remove(ftp);
 	delete ftp;
@@ -180,14 +163,52 @@ UINT CDropbox::SendFilesAndEventAsync(void *owner, void *arg)
 	CDropbox *instance = (CDropbox*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
-	int res = SendFilesAsync(owner, arg);
+	int res = UploadToDropbox(owner, arg);
+
+	T2Utf data(ftp->GetData());
+	char *pdata = data;
 
 	TRANSFERINFO ti = { 0 };
-	ti.hProcess = ftp->hProcess;
+	ti.hProcess = (HANDLE)ftp->GetId();
 	ti.status = res;
-	//ti.data = T2Utf(data);
+	ti.data = &pdata;
 
-	NotifyEventHooks(instance->hFileSentEventHook, ftp->hContact, (LPARAM)&ti);
+	NotifyEventHooks(instance->hFileSentEventHook, ftp->GetHContact(), (LPARAM)&ti);
+
+	instance->transfers.remove(ftp);
+	delete ftp;
+
+	return res;
+}
+
+UINT CDropbox::UploadAndReportProgress(void *owner, void *arg)
+{
+	CDropbox *instance = (CDropbox*)owner;
+	FileTransferParam *ftp = (FileTransferParam*)arg;
+
+	int res = UploadToDropbox(owner, arg);
+	if (res == ACKRESULT_SUCCESS)
+		instance->Report(ftp->GetHContact(), ftp->GetData());
+
+	instance->transfers.remove(ftp);
+	delete ftp;
+
+	return res;
+}
+
+UINT CDropbox::UploadAndRaiseEvent(void *owner, void *arg)
+{
+	CDropbox *instance = (CDropbox*)owner;
+	FileTransferParam *ftp = (FileTransferParam*)arg;
+
+	int res = UploadToDropbox(owner, arg);
+
+	DropboxUploadResult ur = { 0 };
+	ur.hProcess = (HANDLE)ftp->GetId();
+	ur.status = res;
+	ur.data = T2Utf(ftp->GetData());
+
+	NotifyEventHooks(instance->hUploadedEventHook, ftp->GetHContact(), (LPARAM)&ur);
 
 	instance->transfers.remove(ftp);
 	delete ftp;
