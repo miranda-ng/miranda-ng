@@ -79,9 +79,14 @@ void CDropbox::CommandShare(void *arg)
 	}
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	//bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
-	ShareRequest request(token, path);
-	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
+	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
+	HttpRequest *request;
+	if (useShortUrl)
+		request = new ShareOldRequest(token, path);
+	else
+		request = new ShareRequest(token, path);
+	NLHR_PTR response(request->Send(param->instance->hNetlibConnection));
+	delete request;
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);

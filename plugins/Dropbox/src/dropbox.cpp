@@ -94,19 +94,6 @@ void CDropbox::RequestAccountInfo(void *p)
 	if (!name.empty()) {
 		db_set_s(hContact, MODULE, "FirstName", name.at("given_name").as_string().c_str());
 		db_set_s(hContact, MODULE, "LastName", name.at("surname").as_string().c_str());
-		/*JSONNode display_name = root.at("display_name");
-		if (!display_name.empty()) {
-			CMString tszDisplayName(display_name.as_mstring());
-			int pos = tszDisplayName.ReverseFind(' ');
-			if (pos != -1) {
-				db_set_ts(hContact, MODULE, "LastName", tszDisplayName.Mid(pos + 1));
-				db_set_ts(hContact, MODULE, "FirstName", tszDisplayName.Left(pos));
-			}
-			else {
-				db_set_ts(hContact, MODULE, "FirstName", tszDisplayName);
-				db_unset(hContact, MODULE, "LastName");
-			}
-		}*/
 	}
 
 	JSONNode country = root.at("country");
