@@ -1603,6 +1603,7 @@ protected:
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
+		m_cbType.AddString(TranslateT("Yandex"), ACC_YANDEX;
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		char server[256], manualServer[256]={0};
@@ -1622,6 +1623,10 @@ protected:
 		}
 		else if (!mir_strcmp(server, "xmpp.odnoklassniki.ru")) {
 			m_cbType.SetCurSel(ACC_OK);
+			m_canregister = false;
+		}
+			else if (!mir_strcmp(server, "ya.ru")) {
+			m_cbType.SetCurSel(ACC_YANDEX);
 			m_canregister = false;
 		}
 		else if (!mir_strcmp(server, "S.ms")) {
