@@ -43,10 +43,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	FileTransferParam *ftp = new FileTransferParam();
-	ftp->pfts.flags |= PFTS_SENDING;
-	ftp->pfts.hContact = pccsd->hContact;
-	ftp->hContact = (hTransferContact) ? hTransferContact : pccsd->hContact;
+	FileTransferParam *ftp = new FileTransferParam(pccsd->hContact);
 	hTransferContact = 0;
 
 	const TCHAR *description = (TCHAR*)pccsd->wParam;
@@ -61,13 +58,11 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 		ftp->AddFile(paths[i]);
 	}
 
-	ULONG fileId = InterlockedIncrement(&hFileProcess);
-	ftp->hProcess = (HANDLE)fileId;
 	transfers.insert(ftp);
 
-	mir_forkthreadowner(CDropbox::SendFilesAndReportAsync, this, ftp, 0);
+	mir_forkthreadowner(CDropbox::UploadAndReportProgress, this, ftp, 0);
 
-	return fileId;
+	return ftp->GetId();
 }
 
 INT_PTR CDropbox::ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam)
@@ -93,7 +88,7 @@ INT_PTR CDropbox::ProtoCancelFile(WPARAM, LPARAM lParam)
 	if (ftp == NULL)
 		return 0;
 
-	ftp->isTerminated = true;
+	ftp->Terminate();
 
 	return 0;
 }
@@ -111,7 +106,6 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	if (*szMessage == '/') {
 		// parse commands
 		char *sep = strchr(szMessage, ' ');
-		//if (sep != NULL) *sep = 0;
 
 		struct
 		{
@@ -181,25 +175,53 @@ INT_PTR CDropbox::SendFileToDropbox(WPARAM hContact, LPARAM lParam)
 
 	TCHAR *filePath = (TCHAR*)lParam;
 
-	FileTransferParam *ftp = new FileTransferParam();
-	ftp->pfts.hContact = hContact;
-	ftp->pfts.totalFiles = 1;
-	ftp->hContact = (hTransferContact) ? hTransferContact : hContact;
-	hTransferContact = 0;
+	FileTransferParam *ftp = new FileTransferParam(hContact);
+	ftp->SetWorkingDirectory(filePath);
+	ftp->AddFile(filePath);
 
-	int length = _tcsrchr(filePath, '\\') - filePath;
-	ftp->pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
-	mir_tstrncpy(ftp->pfts.tszWorkingDir, filePath, length + 1);
-	ftp->pfts.tszWorkingDir[length] = '\0';
+	mir_forkthreadowner(CDropbox::SendFilesAndEventAsync, this, 0, 0);
 
-	ftp->pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->pfts.totalFiles + 1));
-	ftp->pfts.ptszFiles[0] = mir_wstrdup(filePath);
-	ftp->pfts.ptszFiles[ftp->pfts.totalFiles] = NULL;
+	return ftp->GetId();
+}
 
-	ULONG fileId = InterlockedIncrement(&hFileProcess);
-	ftp->hProcess = (HANDLE)fileId;
+INT_PTR CDropbox::UploadToDropbox(WPARAM, LPARAM lParam)
+{
+	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
 
-	mir_forkthreadowner(CDropbox::SendFilesAndEventAsync, this, ftp, 0);
+	FileTransferParam *ftp = new FileTransferParam(GetDefaultContact());
 
-	return fileId;
+	ftp->SetWorkingDirectory(uploadInfo->localPath);
+	ftp->SetServerPath(uploadInfo->serverPath);
+
+	if (PathIsDirectory(uploadInfo->localPath))
+	{
+		// temporary unsupported
+		return NULL;
+	}
+	else
+		ftp->AddFile(uploadInfo->localPath);
+
+	return CDropbox::UploadAndRaiseEvent(this, ftp);
+}
+
+INT_PTR CDropbox::UploadToDropboxAsync(WPARAM, LPARAM lParam)
+{
+	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
+
+	FileTransferParam *ftp = new FileTransferParam(GetDefaultContact());
+
+	ftp->SetWorkingDirectory(uploadInfo->localPath);
+	ftp->SetServerPath(uploadInfo->serverPath);
+
+	if (PathIsDirectory(uploadInfo->localPath))
+	{
+		// temporary unsupported
+		return NULL;
+	}
+	else
+		ftp->AddFile(uploadInfo->localPath);
+
+	mir_forkthreadowner(CDropbox::UploadAndRaiseEvent, this, ftp, 0);
+
+	return ftp->GetId();
 }

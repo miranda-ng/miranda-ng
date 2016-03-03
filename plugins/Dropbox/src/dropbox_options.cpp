@@ -117,7 +117,6 @@ void CDropboxOptionsInterception::OnApply()
 	int count = m_accounts.GetItemCount();
 	for (int iItem = 0; iItem < count; iItem++)
 	{
-		TCHAR proto[MAX_PATH];
 		PROTOACCOUNT *acc = (PROTOACCOUNT*)m_accounts.GetItemData(iItem);
 		if (m_accounts.GetCheckState(iItem))
 			interceptedProtos.AppendFormat("%s\t", acc->szModuleName);

@@ -27,10 +27,10 @@ public:
 
 private:
 	HANDLE hNetlibConnection;
-	ULONG  hFileProcess;
 	ULONG  hMessageProcess;
 
 	HANDLE hFileSentEventHook;
+	HANDLE hUploadedEventHook;
 
 	MCONTACT hDefaultContact;
 	MCONTACT hTransferContact;
@@ -66,6 +66,9 @@ private:
 
 	INT_PTR SendFileToDropbox(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR UploadToDropbox(WPARAM wParam, LPARAM lParam);
+	INT_PTR UploadToDropboxAsync(WPARAM wParam, LPARAM lParam);
+
 	// commands
 	static void CommandHelp(void *arg);
 	static void CommandList(void *arg);
@@ -90,13 +93,15 @@ private:
 	void AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t offset);
 	char* FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path);
 
-	void CreateFolder(const char *encodedPath);
-
 	void CreateDownloadUrl(const char *path, char *url);
 
-	static UINT SendFilesAsync(void *owner, void *arg);
+	static UINT UploadToDropbox(void *owner, void *arg);
+
 	static UINT SendFilesAndEventAsync(void *owner, void *arg);
 	static UINT SendFilesAndReportAsync(void *owner, void *arg);
+
+	static UINT UploadAndRaiseEvent(void *owner, void *arg);
+	static UINT UploadAndReportProgress(void *owner, void *arg);
 
 	// contacts
 	MCONTACT GetDefaultContact();
