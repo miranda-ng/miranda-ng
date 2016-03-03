@@ -1728,6 +1728,7 @@ protected:
 
 		case ACC_TLS:
 		case ACC_LJTALK:
+		case ACC_YANDEX:
 		case ACC_SMS:
 			m_proto->m_options.UseSSL = FALSE;
 			m_proto->m_options.UseTLS = TRUE;
@@ -1869,6 +1870,7 @@ private:
 	void setupGoogle();
 	void setupLJ();
 	void setupOK();
+	void setupYA();
 	void setupSMS();
 	void RefreshServers(HXML node);
 	static void QueryServerListThread(void *arg);
@@ -1906,6 +1908,7 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
 		case ACC_OK: setupOK(); break;
+		case ACC_YANDEX: setupYA(); break;
 		case ACC_SMS: setupSMS(); break;
 	}
 }
@@ -2001,6 +2004,24 @@ void CJabberDlgAccMgrUI::setupOK()
 	m_cbServer.AddStringA("xmpp.odnoklassniki.ru");
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
+	m_txtPort.SetInt(5222);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupYA()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("ya.ru");
+	m_cbServer.AddStringA("ya.ru");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("xmpp.yandex.ru");
 	m_txtPort.SetInt(5222);
 
 	m_cbServer.Disable();
