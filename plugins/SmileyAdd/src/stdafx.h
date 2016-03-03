@@ -30,17 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _CRTDBG_MAP_ALLOC
 
 #include <windows.h>
+#include <richedit.h>
+#include <richole.h>
+#include <commctrl.h>
+#include <gdiplus.h>
+#include <tom.h>
+#include <msapi\comptr.h>
+
 #include <io.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <gdiplus.h>
-#include <m_clist.h>
-#include <commctrl.h>
-#include <richedit.h>
 #include <delayimp.h>
-#include <richole.h>
-#include <tom.h>
+
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -49,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <win2k.h>
 #include <newpluginapi.h>
+#include <m_clist.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_protosvc.h>
