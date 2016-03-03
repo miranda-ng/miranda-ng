@@ -35,40 +35,23 @@ struct RichEditOwnerData
 	HWND hwndLog;
 };
 
-static int CompareRichEditData(const RichEditData* p1, const RichEditData* p2)
-{
-	return (int)((INT_PTR)p1->hwnd - (INT_PTR)p2->hwnd);
-}
-
-static LIST<RichEditData> g_RichEditList(10, CompareRichEditData);
-
-static int CompareRichEditData(const RichEditOwnerData* p1, const RichEditOwnerData* p2)
-{
-	return (int)((INT_PTR)p1->hwnd - (INT_PTR)p2->hwnd);
-}
-
-static LIST<RichEditOwnerData> g_RichEditOwnerList(5, CompareRichEditData);
+static LIST<RichEditData> g_RichEditList(10, HandleKeySortT);
+static LIST<RichEditOwnerData> g_RichEditOwnerList(5, HandleKeySortT);
 
 static void SetPosition(HWND hwnd)
 {
-	IRichEditOle* RichEditOle;
+	CComPtr<IRichEditOle> RichEditOle;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 		return;
 
-	ITextDocument* TextDocument;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) {
-		RichEditOle->Release();
+	CComPtr<ITextDocument> TextDocument;
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
 		return;
-	}
 
 	// retrieve text range
-	ITextRange* TextRange;
-	if (TextDocument->Range(0, 0, &TextRange) != S_OK) {
-		TextDocument->Release();
-		RichEditOle->Release();
+	CComPtr<ITextRange> TextRange;
+	if (TextDocument->Range(0, 0, &TextRange) != S_OK)
 		return;
-	}
-	TextDocument->Release();
 
 	int objectCount = RichEditOle->GetObjectCount();
 	for (int i = objectCount - 1; i >= 0; i--) {
@@ -76,14 +59,16 @@ static void SetPosition(HWND hwnd)
 		reObj.cbStruct = sizeof(REOBJECT);
 
 		HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_POLEOBJ);
-		if (FAILED(hr)) continue;
+		if (FAILED(hr))
+			continue;
 
-		ISmileyBase *igsc = NULL;
+		CComPtr<ISmileyBase> igsc;
 		if (reObj.clsid == CLSID_NULL)
 			reObj.poleobj->QueryInterface(IID_ISmileyAddSmiley, (void**)&igsc);
 
 		reObj.poleobj->Release();
-		if (igsc == NULL) continue;
+		if (igsc == NULL)
+			continue;
 
 		TextRange->SetRange(reObj.cp, reObj.cp);
 
@@ -107,15 +92,12 @@ static void SetPosition(HWND hwnd)
 		else rect.top = -1;
 
 		igsc->SetPosition(hwnd, &rect);
-		igsc->Release();
 	}
-	TextRange->Release();
-	RichEditOle->Release();
 }
 
 static void SetTooltip(long x, long y, HWND hwnd, RichEditData* rdt)
 {
-	TCHAR* smltxt;
+	TCHAR *smltxt;
 	int needtip = CheckForTip(x, y, hwnd, &smltxt);
 	if (needtip == rdt->tipActive)
 		return;
@@ -314,15 +296,13 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 {
-	RichEditData* rdt = g_RichEditList.find((RichEditData*)&hwnd);
+	RichEditData *rdt = g_RichEditList.find((RichEditData*)&hwnd);
 	if (rdt == NULL) {
-		IRichEditOle* RichEditOle;
+		CComPtr<IRichEditOle> RichEditOle;
 		if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 			return false;
-		RichEditOle->Release();
 
 		rdt = new RichEditData;
-
 		rdt->hwnd = hwnd;
 		rdt->hContact = hContact;
 		rdt->inputarea = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == 0;
@@ -407,7 +387,7 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 
 void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 {
-	RichEditOwnerData* rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
+	RichEditOwnerData *rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
 	if (rdto == NULL) {
 		rdto = new RichEditOwnerData;
 		rdto->hwnd = hwnd;
@@ -421,8 +401,10 @@ void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 		mir_subclassWindow(hwnd, RichEditOwnerSubclass);
 	}
 	else {
-		if (rdto->hwndInput == NULL) rdto->hwndInput = hwndInput;
-		if (rdto->hwndLog == NULL) rdto->hwndLog = hwndLog;
+		if (rdto->hwndInput == NULL)
+			rdto->hwndInput = hwndInput;
+		if (rdto->hwndLog == NULL)
+			rdto->hwndLog = hwndLog;
 	}
 }
 

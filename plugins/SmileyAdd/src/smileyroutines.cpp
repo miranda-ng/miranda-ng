@@ -183,47 +183,34 @@ void UpdateSelection(CHARRANGE& sel, int pos, int dif)
 	}
 }
 
-void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel, 
-	bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
+void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel,  bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
 {
-	IRichEditOle* RichEditOle = NULL;
+	CComPtr<IRichEditOle> RichEditOle;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 		return;
 	if (RichEditOle == NULL)
 		return;
 
-	ITextDocument* TextDocument = NULL;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) {
-		RichEditOle->Release();
+	CComPtr<ITextDocument> TextDocument;
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
 		return;
-	}
 
 	long cnt;
 	if (smp == NULL && smcp == NULL) {
-		if (unFreeze) TextDocument->Unfreeze(&cnt);
-		TextDocument->Release();
-		RichEditOle->Release();
+		if (unFreeze)
+			TextDocument->Unfreeze(&cnt);
 		return;
 	}
 
 	// retrieve text range
-	ITextRange* TextRange;
-	if (TextDocument->Range(sel.cpMin, sel.cpMax, &TextRange) != S_OK) {
-		TextDocument->Release();
-		RichEditOle->Release();
+	CComPtr<ITextRange> TextRange;
+	if (TextDocument->Range(sel.cpMin, sel.cpMax, &TextRange) != S_OK)
 		return;
-	}
 
 	// retrieve text to parse for smileys 
 	BSTR btxt = 0;
-	if (TextRange->GetText(&btxt) != S_OK) {
-		TextRange->Release();
-		TextDocument->Release();
-		RichEditOle->Release();
+	if (TextRange->GetText(&btxt) != S_OK)
 		return;
-	} // fallthrough  
-
-	TextRange->Release();
 
 	SmileysQueueType smllist;
 	LookupAllSmileys(smp, smcp, btxt, smllist, false);
@@ -243,10 +230,10 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 		bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
 		if (rdo) SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
 
-		ITextSelection* TextSelection;
+		CComPtr<ITextSelection> TextSelection;
 		TextDocument->GetSelection(&TextSelection);
 
-		ITextFont *TextFont;
+		CComPtr<ITextFont> TextFont;
 		TextSelection->GetFont(&TextFont);
 
 		//save selection
@@ -305,9 +292,10 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 				continue;
 			}
 
-			SmileyType* sml = smllist[j].sml;
-			SmileyCType* smlc = smllist[j].smlc;
-			if (sml == NULL && smlc == NULL) continue;
+			SmileyType *sml = smllist[j].sml;
+			SmileyCType *smlc = smllist[j].smlc;
+			if (sml == NULL && smlc == NULL)
+				continue;
 
 			// Select text analyze
 			TextSelection->SetRange(smlpos.cpMin, smlpos.cpMax);
@@ -439,53 +427,46 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 		SysFreeString(spaceb);
 
 		TextSelection->SetRange(oldSel.cpMin, oldSel.cpMax);
-		if (rdo) SendMessage(hwnd, EM_SETREADONLY, TRUE, 0);
-
-		TextFont->Release();
-		TextSelection->Release();
+		if (rdo)
+			SendMessage(hwnd, EM_SETREADONLY, TRUE, 0);
 
 		ReleaseDC(hwnd, hdc); 
 
 		TextDocument->Unfreeze(&cnt);
-		if (cnt == 0) UpdateWindow(hwnd);
+		if (cnt == 0)
+			UpdateWindow(hwnd);
 	}
 
 	if (unFreeze) {
 		TextDocument->Unfreeze(&cnt);
-		if (cnt == 0) UpdateWindow(hwnd);
+		if (cnt == 0)
+			UpdateWindow(hwnd);
 	}
-
-	TextDocument->Release();
-	RichEditOle->Release();
 }
 
-void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
+void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 {
-	IRichEditOle* RichEditOle = NULL;
+	CComPtr<IRichEditOle> RichEditOle = NULL;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 		return;
 	if (RichEditOle == NULL)
 		return;
 
-	ITextDocument* TextDocument;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) {
-		RichEditOle->Release();
+	CComPtr<ITextDocument> TextDocument;
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
 		return;
-	}
 
 	// retrieve text range
-	ITextRange* TextRange;
-	if (TextDocument->Range(0, 0, &TextRange) != S_OK) {
-		TextDocument->Release();
-		RichEditOle->Release();
+	CComPtr<ITextRange> TextRange;
+	if (TextDocument->Range(0, 0, &TextRange) != S_OK)
 		return;
-	}
 
 	long cnt;
 	TextDocument->Freeze(&cnt);
 
 	bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
-	if (rdo) SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
+	if (rdo)
+		SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
 
 	CHARRANGE oldSel;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&oldSel);
@@ -528,10 +509,8 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
 	}
 
 	SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	if (rdo) SendMessage(hwnd, EM_SETREADONLY, TRUE, 0);
-	if (!keepFrozen) TextDocument->Unfreeze(&cnt);
-
-	TextRange->Release();
-	TextDocument->Release();
-	RichEditOle->Release();
+	if (rdo)
+		SendMessage(hwnd, EM_SETREADONLY, TRUE, 0);
+	if (!keepFrozen)
+		TextDocument->Unfreeze(&cnt);
 }

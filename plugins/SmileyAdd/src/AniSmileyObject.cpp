@@ -84,32 +84,33 @@ public:
 
 	void GetDrawingProp()
 	{
-		if (m_hwnd == NULL) return;
-
-		IRichEditOle* RichEditOle;
-		if (SendMessage(m_hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
+		if (m_hwnd == NULL)
 			return;
 
 		REOBJECT reObj = { 0 };
-		reObj.cbStruct = sizeof(REOBJECT);
+		reObj.cbStruct = sizeof(reObj);
+		{
+			CComPtr<IRichEditOle> RichEditOle;
+			if (SendMessage(m_hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
+				return;
 
-		HRESULT hr = RichEditOle->GetObject(m_lastObjNum, &reObj, REO_GETOBJ_NO_INTERFACES);
-		if (hr == S_OK && reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL)
-			m_richFlags = reObj.dwFlags;
-		else {
-			long objectCount = RichEditOle->GetObjectCount();
-			for (long i = objectCount; i--; ) {
-				hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
-				if (FAILED(hr)) continue;
+			HRESULT hr = RichEditOle->GetObject(m_lastObjNum, &reObj, REO_GETOBJ_NO_INTERFACES);
+			if (SUCCEEDED(hr) && reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL)
+				m_richFlags = reObj.dwFlags;
+			else {
+				long objectCount = RichEditOle->GetObjectCount();
+				for (long i = objectCount; i--; ) {
+					hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
+					if (FAILED(hr)) continue;
 
-				if (reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL) {
-					m_lastObjNum = i;
-					m_richFlags = reObj.dwFlags;
-					break;
+					if (reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL) {
+						m_lastObjNum = i;
+						m_richFlags = reObj.dwFlags;
+						break;
+					}
 				}
 			}
 		}
-		RichEditOle->Release();
 
 		if ((m_richFlags & REO_SELECTED) == 0) {
 			CHARRANGE sel;
