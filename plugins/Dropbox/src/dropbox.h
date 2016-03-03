@@ -33,8 +33,6 @@ private:
 	HANDLE hUploadedEventHook;
 
 	MCONTACT hDefaultContact;
-	MCONTACT hTransferContact;
-	HWND     hTransferWindow;
 
 	HGENMENU contactMenuItems[CMI_MAX];
 
@@ -49,8 +47,6 @@ private:
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnSrmmWindowOpened(WPARAM wParam, LPARAM lParam);
 	int OnTabSrmmButtonPressed(WPARAM wParam, LPARAM lParam);
-	int OnFileDialogCancelled(WPARAM wParam, LPARAM lParam);
-	int OnFileDialogSuccessed(WPARAM wParam, LPARAM lParam);
 
 	// services
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
@@ -93,6 +89,8 @@ private:
 	void AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t offset);
 	char* FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path);
 
+	void CreateFolder(const char *path);
+
 	void CreateDownloadUrl(const char *path, char *url);
 
 	static UINT UploadToDropbox(void *owner, void *arg);
@@ -118,6 +116,8 @@ private:
 	// utils
 	static char* PreparePath(const char *oldPath, char *newPath);
 	static char* PreparePath(const TCHAR *oldPath, char *newPath);
+
+	static bool IsAccountIntercepted(const char *module);
 
 	static char* HttpStatusToText(HTTP_STATUS status);
 	static void HandleJsonResponseError(NETLIBHTTPREQUEST *response);
