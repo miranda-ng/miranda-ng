@@ -680,15 +680,20 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	if (userID == -1 || userID == VK_FEED_USER)
 		return;
 
-	MEVENT hDBEvent;
+	MEVENT hDBEvent = NULL;
 	MCONTACT hMContact = db_mc_tryMeta(hContact);
-	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL) {
-		db_event_markRead(hContact, hDBEvent);
-		int res1 = pcli->pfnRemoveEvent(hMContact, hDBEvent);
-		int res2 = 2;
-		if (hContact != hMContact)
-			res2 = pcli->pfnRemoveEvent(hContact, hDBEvent);
-		debugLogA("CVkProto::MarkDialogAsRead [1] result = (%d, %d), hDbEvent = %d", res1, res2, (int)hDBEvent);
+	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL) 
+	{
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule))
+		{
+			db_event_markRead(hContact, hDBEvent);
+			int res1 = pcli->pfnRemoveEvent(hMContact, hDBEvent);
+			int res2 = 2;
+			if (hContact != hMContact)
+				res2 = pcli->pfnRemoveEvent(hContact, hDBEvent);
+			debugLogA("CVkProto::MarkDialogAsRead [1] result = (%d, %d), hDbEvent = %d", res1, res2, (int)hDBEvent);
+		}
 	}
 }
 
