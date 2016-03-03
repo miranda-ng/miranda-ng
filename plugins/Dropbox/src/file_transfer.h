@@ -12,7 +12,7 @@ private:
 
 	bool isTerminated;
 
-	const TCHAR* directoryName;
+	const TCHAR* folderName;
 	int relativePathStart;
 
 	CMString serverPath;
@@ -27,7 +27,7 @@ public:
 
 		isTerminated = false;
 
-		directoryName = NULL;
+		folderName = NULL;
 		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
@@ -90,18 +90,10 @@ public:
 	void SetWorkingDirectory(const TCHAR *path)
 	{
 		relativePathStart = _tcsrchr(path, '\\') - path + 1;
-		/*if (PathIsDirectory(path))
-		{
-			size_t length = mir_tstrlen(path) + 1;
-			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * length);
-			mir_tstrncpy(pfts.tszWorkingDir, path, length);
-			directoryName = _tcsrchr(pfts.tszWorkingDir, '\\') + 1;
-		}
-		else
-		{*/
-			pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * relativePathStart);
-			mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
-		//}
+		pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * relativePathStart);
+		mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
+		if (PathIsDirectory(path))
+			folderName = _tcsrchr(path, '\\') + 1;
 	}
 
 	void SetServerPath(const TCHAR *path)
@@ -115,6 +107,11 @@ public:
 		if (serverPath.IsEmpty())
 			return NULL;
 		return serverPath;
+	}
+
+	const TCHAR* GetFolderName() const
+	{
+		return folderName;
 	}
 
 	void AddFile(const TCHAR *path)

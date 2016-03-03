@@ -120,8 +120,28 @@ void CDropboxOptionsInterception::OnApply()
 		PROTOACCOUNT *acc = (PROTOACCOUNT*)m_accounts.GetItemData(iItem);
 		if (m_accounts.GetCheckState(iItem))
 			interceptedProtos.AppendFormat("%s\t", acc->szModuleName);
-		interceptedProtos.TrimRight();
+
+		// hide tabsrmm button for intercepted accounts
+		MessageWindowInputData msgwi = { sizeof(msgwi) };
+		msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+
+		for (MCONTACT hContact = db_find_first(acc->szModuleName); hContact; hContact = db_find_next(hContact, acc->szModuleName)) {
+			msgwi.hContact = hContact;
+
+			MessageWindowData msgw;
+			msgw.cbSize = sizeof(msgw);
+
+			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+				BBButton bbd = { sizeof(bbd) };
+				bbd.pszModuleName = MODULE;
+				bbd.dwButtonID = BBB_ID_FILE_SEND;
+				bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+
+				CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+			}
+		}
 	}
+	interceptedProtos.TrimRight();
 	db_set_s(NULL, MODULE, "InterceptedAccounts", interceptedProtos);
 	db_unset(NULL, MODULE, "InterceptedProtos");
 }

@@ -60,6 +60,19 @@ char* CDropbox::FinishUploadSession(const char *data, size_t size, const char *s
 	return path;
 }
 
+void CDropbox::CreateFolder(const char *path)
+{
+	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
+	CreateFolderRequest request(token, path);
+	NLHR_PTR response(request.Send(hNetlibConnection));
+
+	// forder exists on server 
+	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
+		return;
+
+	HandleJsonResponseError(response);
+}
+
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -83,6 +96,15 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	try {
+		const TCHAR *folderName = ftp->GetFolderName();
+		if (folderName) {
+			char path[MAX_PATH], url[MAX_PATH];
+			PreparePath(folderName, path);
+			instance->CreateFolder(path);
+			instance->CreateDownloadUrl(path, url);
+			ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
+		}
+
 		ftp->FirstFile();
 		do
 		{

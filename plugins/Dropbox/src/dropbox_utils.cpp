@@ -21,6 +21,14 @@ char* CDropbox::PreparePath(const TCHAR *oldPath, char *newPath)
 	return PreparePath(ptrA(mir_utf8encodeW(oldPath)), newPath);
 }
 
+bool CDropbox::IsAccountIntercepted(const char *module)
+{
+	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
+	if (interceptedAccounts == NULL)
+		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
+	return interceptedAccounts && strstr(interceptedAccounts, module);
+}
+
 char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 {
 	switch (status) {

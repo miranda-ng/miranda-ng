@@ -44,7 +44,6 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	}
 
 	FileTransferParam *ftp = new FileTransferParam(pccsd->hContact);
-	hTransferContact = 0;
 
 	const TCHAR *description = (TCHAR*)pccsd->wParam;
 	if (description && description[0])
@@ -70,10 +69,7 @@ INT_PTR CDropbox::ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam)
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	const char *proto = GetContactProto(pccsd->hContact);
-	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
-	if (interceptedAccounts == NULL)
-		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
-	if (interceptedAccounts == NULL || strstr(interceptedAccounts, proto) == NULL)
+	if (!IsAccountIntercepted(proto))
 		return CALLSERVICE_NOTFOUND;
 	
 	return ProtoSendFile(wParam, lParam);

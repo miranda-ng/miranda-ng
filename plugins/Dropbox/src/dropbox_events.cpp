@@ -7,8 +7,6 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, GlobalEvent<&CDropbox::OnPrebuildContactMenu>, this);
 
 	HookEventObj(ME_MSG_WINDOWEVENT, GlobalEvent<&CDropbox::OnSrmmWindowOpened>, this);
-	HookEventObj(ME_FILEDLG_CANCELED, GlobalEvent<&CDropbox::OnFileDialogCancelled>, this);
-	HookEventObj(ME_FILEDLG_SUCCEEDED, GlobalEvent<&CDropbox::OnFileDialogSuccessed>, this);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -75,7 +73,7 @@ int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 		bbd.pszModuleName = MODULE;
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.bbbFlags = BBSF_RELEASED;
-		if (!HasAccessToken() || ev->hContact == GetDefaultContact())
+		if (!HasAccessToken() || ev->hContact == GetDefaultContact() || IsAccountIntercepted(proto))
 			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
 		else if (!isProtoOnline || (status == ID_STATUS_OFFLINE && !canSendOffline))
 			bbd.bbbFlags = BBSF_DISABLED;
@@ -90,10 +88,7 @@ int CDropbox::OnTabSrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact) {
-		hTransferContact = cbc->hContact;
-		hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
-
-		DisableSrmmButton(cbc->hContact);
+		CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
 	}
 
 	return 0;
@@ -115,29 +110,6 @@ void __stdcall EnableTabSrmmButtonSync(void *arg)
 	bbd.dwButtonID = BBB_ID_FILE_SEND;
 	bbd.bbbFlags = BBSF_RELEASED;
 	CallService(MS_BB_SETBUTTONSTATE, (UINT_PTR)arg, (LPARAM)&bbd);
-}
-
-int CDropbox::OnFileDialogCancelled(WPARAM, LPARAM lParam)
-{
-	HWND hwnd = (HWND)lParam;
-	if (hTransferWindow == hwnd) {
-		CallFunctionAsync(EnableTabSrmmButtonSync, (void*)hTransferContact);
-		hTransferContact = 0;
-		hTransferWindow = 0;
-	}
-
-	return 0;
-}
-
-int CDropbox::OnFileDialogSuccessed(WPARAM, LPARAM lParam)
-{
-	HWND hwnd = (HWND)lParam;
-	if (hTransferWindow == hwnd) {
-		CallFunctionAsync(EnableTabSrmmButtonSync, (void*)hTransferContact);
-		hTransferWindow = 0;
-	}
-
-	return 0;
 }
 
 int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
