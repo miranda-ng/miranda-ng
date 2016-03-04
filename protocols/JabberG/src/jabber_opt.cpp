@@ -391,7 +391,7 @@ public:
 		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "https://xmpp.net/directory.php")
 	{
 		CreateLink(m_txtUsername, "LoginName", _T(""));
-		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0);
+		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
 		CreateLink(m_cbResource, "Resource", _T("Miranda"));
 		CreateLink(m_chkUseHostnameAsResource, proto->m_options.HostNameAsResource);
@@ -1709,7 +1709,7 @@ protected:
 			break;
 
 		case ACC_GTALK:
-			m_proto->setWord("Priority", 24);
+			m_proto->setDword("Priority", 24);
 			{
 				int port = m_txtPort.GetInt();
 				if (port == 443 || port == 5223) {

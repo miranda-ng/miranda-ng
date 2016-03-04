@@ -738,7 +738,7 @@ void CJabberProto::MenuInit()
 		Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	}
 
-	UpdatePriorityMenu((short)getWord("Priority", 0));
+	UpdatePriorityMenu(getDword("Priority", 0));
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// finalize status menu
@@ -755,19 +755,19 @@ void CJabberProto::MenuInit()
 INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
 {
 	int iDelta = (int)dwDelta;
-	int priority = getWord("Priority", 0) + iDelta;
+	int priority = getDword("Priority", 0) + iDelta;
 	if (priority > 127)
 		priority = 127;
 	else if (priority < -128)
 		priority = -128;
-	setWord("Priority", priority);
+	setDword("Priority", priority);
 	SendPresence(m_iStatus, true);
 	return 0;
 }
 
-void CJabberProto::UpdatePriorityMenu(short priority)
+void CJabberProto::UpdatePriorityMenu(int priority)
 {
-	if (!m_hMenuPriorityRoot || m_priorityMenuValSet && (priority == m_priorityMenuVal))
+	if (!m_hMenuPriorityRoot || (m_priorityMenuValSet && priority == m_priorityMenuVal))
 		return;
 
 	TCHAR szName[128];
