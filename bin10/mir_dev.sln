@@ -445,6 +445,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_popup", "..\plugins\MirLu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_variables", "..\plugins\MirLua\Modules\m_variables\m_variables.vcxproj", "{E604CD58-4579-4F69-9D6A-2605FD7CF716}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_msg_buttonsbar", "..\plugins\MirLua\Modules\m_msg_buttonsbar\m_msg_buttonsbar.vcxproj", "{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2036,6 +2038,14 @@ Global
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|Win32.Build.0 = Release|Win32
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.ActiveCfg = Release|x64
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.Build.0 = Release|x64
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Debug|Win32.Build.0 = Debug|Win32
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Debug|x64.ActiveCfg = Debug|x64
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Debug|x64.Build.0 = Debug|x64
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|Win32.ActiveCfg = Release|Win32
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|Win32.Build.0 = Release|Win32
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|x64.ActiveCfg = Release|x64
+		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
