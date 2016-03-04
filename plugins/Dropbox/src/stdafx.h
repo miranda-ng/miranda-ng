@@ -43,8 +43,7 @@ class CDropbox;
 #define DROPBOX_API_CU "https://content.dropboxapi.com/" DROPBOX_API_VER
 
 #define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
-#define DROPBOX_API_SECRET "bb8zirh7nnk8fow" 
-//#include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
+#include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
 
 class DropboxException
 {

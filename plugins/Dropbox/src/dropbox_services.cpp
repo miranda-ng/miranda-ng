@@ -161,33 +161,13 @@ INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CDropbox::SendFileToDropbox(WPARAM hContact, LPARAM lParam)
-{
-	if (!HasAccessToken())
-		return 0;
-
-	if (hContact == NULL)
-		hContact = GetDefaultContact();
-
-	TCHAR *filePath = (TCHAR*)lParam;
-
-	FileTransferParam *ftp = new FileTransferParam(hContact);
-	ftp->SetWorkingDirectory(filePath);
-	ftp->AddFile(filePath);
-
-	mir_forkthreadowner(CDropbox::SendFilesAndEventAsync, this, 0, 0);
-
-	return ftp->GetId();
-}
-
 INT_PTR CDropbox::UploadToDropbox(WPARAM, LPARAM lParam)
 {
 	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
 
 	FileTransferParam *ftp = new FileTransferParam(GetDefaultContact());
-
 	ftp->SetWorkingDirectory(uploadInfo->localPath);
-	ftp->SetServerPath(uploadInfo->serverPath);
+	ftp->SetServerFolder(uploadInfo->serverFolder);
 
 	if (PathIsDirectory(uploadInfo->localPath))
 	{
@@ -205,9 +185,8 @@ INT_PTR CDropbox::UploadToDropboxAsync(WPARAM, LPARAM lParam)
 	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
 
 	FileTransferParam *ftp = new FileTransferParam(GetDefaultContact());
-
 	ftp->SetWorkingDirectory(uploadInfo->localPath);
-	ftp->SetServerPath(uploadInfo->serverPath);
+	ftp->SetServerFolder(uploadInfo->serverFolder);
 
 	if (PathIsDirectory(uploadInfo->localPath))
 	{

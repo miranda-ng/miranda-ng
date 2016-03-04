@@ -15,7 +15,7 @@ private:
 	const TCHAR* folderName;
 	int relativePathStart;
 
-	CMString serverPath;
+	CMString serverFolder;
 
 	CMString data;
 
@@ -96,17 +96,17 @@ public:
 			folderName = _tcsrchr(path, '\\') + 1;
 	}
 
-	void SetServerPath(const TCHAR *path)
+	void SetServerFolder(const TCHAR *path)
 	{
 		if (path)
-			serverPath = path;
+			serverFolder = path;
 	}
 
-	const TCHAR* GetServerPath() const
+	const TCHAR* GetServerFolder() const
 	{
-		if (serverPath.IsEmpty())
+		if (serverFolder.IsEmpty())
 			return NULL;
-		return serverPath;
+		return serverFolder;
 	}
 
 	const TCHAR* GetFolderName() const
@@ -120,11 +120,11 @@ public:
 		pfts.ptszFiles[pfts.totalFiles++] = mir_tstrdup(path);
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 
-		FILE *hFile = _tfopen(path, L"rb");
-		if (hFile != NULL) {
-			_fseeki64(hFile, 0, SEEK_END);
-			pfts.totalBytes += _ftelli64(hFile);
-			fclose(hFile);
+		FILE *file = _tfopen(path, L"rb");
+		if (file != NULL) {
+			_fseeki64(file, 0, SEEK_END);
+			pfts.totalBytes += _ftelli64(file);
+			fclose(file);
 		}
 	}
 
@@ -161,9 +161,9 @@ public:
 		rewind(hFile);
 	}
 
-	size_t ReadCurrentFile(void *data, size_t count)
+	size_t ReadCurrentFile(void *buffer, size_t count)
 	{
-		return fread(data, sizeof(char), count, hFile);
+		return fread(buffer, sizeof(char), count, hFile);
 	}
 	
 	void CheckCurrentFile()
