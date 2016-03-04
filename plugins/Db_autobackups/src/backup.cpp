@@ -58,6 +58,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 	}
 	return FALSE;
 }
+
 TCHAR* DoubleSlash(TCHAR *sorce)
 {
 	TCHAR *ret, *r, *s;
@@ -318,7 +319,10 @@ int Backup(TCHAR *backup_filename)
 
 		if (options.use_dropbox)
 		{
-			CallService(MS_DROPBOX_SEND_FILE, NULL, (LPARAM)&dest_file);
+			CMString s_path(FORMAT, L"/Backups/%s", _tcsrchr(dest_file, '\\') + 1);
+			DropboxUploadInfo dui = { dest_file, s_path.GetString() };
+			if (CallService(MS_DROPBOX_UPLOAD, NULL, (LPARAM)&dui))
+				ShowPopup(TranslateT("Uploading to Dropbox failed"), TranslateT("Error"), nullptr);
 		}
 
 		if (!options.disable_popups) {
