@@ -95,8 +95,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 	
 	mir_cslockfull lck(m_csDbAccess);
-
-	MDB_val key = { sizeof(MCONTACT), &contactID }, data;
 	
 	{
 		LIST<EventItem> events(50);
@@ -109,6 +107,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		}
 	}
 	{
+		MDB_val key, data;
 		DBSettingKey keyS = { contactID, 0 };
 		memset(keyS.szSettingName, 0, sizeof(keyS.szSettingName));
 
@@ -130,6 +129,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		txn.commit();
 	}
 
+	MDB_val key = { sizeof(MCONTACT), &contactID };
 	for (;; Remap())
 	{
 		txn_ptr trnlck(m_pMdbEnv);
