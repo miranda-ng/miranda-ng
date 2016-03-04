@@ -98,13 +98,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 	MDB_val key = { sizeof(MCONTACT), &contactID }, data;
 	
-	for (;; Remap()) 
-	{
-		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, nullptr), 1);
-		if (trnlck.commit())
-			break;
-	}
 	{
 		LIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
@@ -135,6 +128,14 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		} 
 			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
 		txn.commit();
+	}
+
+	for (;; Remap())
+	{
+		txn_ptr trnlck(m_pMdbEnv);
+		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, nullptr), 1);
+		if (trnlck.commit())
+			break;
 	}
 
 	m_contactCount--;
@@ -168,6 +169,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 			if (trnlck.commit())
 				break;
 		}
+		m_contactCount++;
 	}
 
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
