@@ -396,7 +396,7 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 	if (!m_bJabberOnline) return;
 
 	// Send <presence/> update for status (we won't handle ID_STATUS_OFFLINE here)
-	short iPriority = (short)getWord("Priority", 0);
+	int iPriority = getDword("Priority", 0);
 	UpdatePriorityMenu(iPriority);
 
 	TCHAR szPriority[40];

@@ -573,10 +573,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   AuthWorker(MCONTACT hContact, char* authReqType);
 
-	void   UpdatePriorityMenu(short priority);
+	void   UpdatePriorityMenu(int priority);
 
 	HGENMENU m_hMenuPriorityRoot;
-	short  m_priorityMenuVal;
+	int    m_priorityMenuVal;
 	bool   m_priorityMenuValSet;
 
 	//---- jabber_misc.c -----------------------------------------------------------------

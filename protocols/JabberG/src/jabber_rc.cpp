@@ -310,7 +310,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 
 		// priority
 		TCHAR szPriority[ 256 ];
-		mir_sntprintf(szPriority, _T("%d"), (short)getWord("Priority", 5));
+		mir_sntprintf(szPriority, _T("%d"), (int)getDword("Priority", 5));
 		xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Priority")) << XATTR(_T("type"), _T("text-single"))
 			<< XATTR(_T("var"), _T("status-priority")) << XCHILD(_T("value"), szPriority);
 
@@ -364,7 +364,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 				priority = _ttoi(ptszValue);
 
 		if (priority >= -128 && priority <= 127)
-			setWord("Priority", (WORD)priority);
+			setDword("Priority", priority);
 
 		const TCHAR *szStatusMessage = NULL;
 		fieldNode = XmlGetChildByTag(xNode, "field", "var", _T("status-message"));
