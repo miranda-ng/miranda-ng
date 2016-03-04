@@ -53,6 +53,8 @@ extern HINSTANCE g_hInstance;
 
 extern CMLua *g_mLua;
 
+extern int hMLuaLangpack;
+
 extern HANDLE g_hCLibsFolder;
 extern HANDLE g_hScriptsFolder;
 #ifdef _UNICODE
