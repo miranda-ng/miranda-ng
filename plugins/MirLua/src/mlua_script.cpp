@@ -63,7 +63,7 @@ int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L)
 	if (script != NULL)
 		return script->id;
 
-	return hLangpack;
+	return hMLuaLangpack;
 }
 
 const char* CMLuaScript::GetModuleName() const

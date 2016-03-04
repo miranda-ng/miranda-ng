@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+int hMLuaLangpack;
+
 LIST<void> CMLua::HookRefs(1, HandleKeySortT);
 LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
 
@@ -10,6 +12,8 @@ static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 
 CMLua::CMLua() : L(NULL), Scripts(10, CompareScripts)
 {
+	MUUID muidLast = MIID_LAST;
+	hMLuaLangpack = GetPluginLangId(muidLast, 0);
 }
 
 CMLua::~CMLua()
@@ -70,10 +74,10 @@ void CMLua::Unload()
 	KillModuleScheduleTasks();
 	KillModuleTTBButton();
 
-	KillModuleIcons(hLangpack);
-	KillModuleSounds(hLangpack);
-	KillModuleMenus(hLangpack);
-	KillModuleHotkeys(hLangpack);
+	KillModuleIcons(hMLuaLangpack);
+	KillModuleSounds(hMLuaLangpack);
+	KillModuleMenus(hMLuaLangpack);
+	KillModuleHotkeys(hMLuaLangpack);
 
 	KillObjectEventHooks(L);
 	KillObjectServices(L);
