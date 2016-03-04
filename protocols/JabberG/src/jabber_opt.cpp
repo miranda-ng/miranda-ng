@@ -823,8 +823,10 @@ public:
 
 	void OnApply()
 	{
-		if (m_proto->m_options.DisableFrame != m_oldFrameValue)
-			m_proto->InitInfoFrame();
+		if (m_proto->m_options.DisableFrame != m_oldFrameValue) {
+			m_proto->InitInfoFrame(); // create or destroy a frame
+			m_oldFrameValue = m_proto->m_options.DisableFrame;
+		}
 
 		BOOL bChecked = m_proto->m_options.ShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
