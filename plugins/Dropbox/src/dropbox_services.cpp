@@ -172,7 +172,7 @@ INT_PTR CDropbox::UploadToDropbox(WPARAM, LPARAM lParam)
 	if (PathIsDirectory(uploadInfo->localPath))
 	{
 		// temporary unsupported
-		return NULL;
+		return ACKRESULT_FAILED;
 	}
 	else
 		ftp->AddFile(uploadInfo->localPath);
