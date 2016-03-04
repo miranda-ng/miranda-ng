@@ -29,7 +29,6 @@ private:
 	HANDLE hNetlibConnection;
 	ULONG  hMessageProcess;
 
-	HANDLE hFileSentEventHook;
 	HANDLE hUploadedEventHook;
 
 	MCONTACT hDefaultContact;
@@ -59,8 +58,6 @@ private:
 	static INT_PTR ProtoReceiveMessage(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam);
-
-	INT_PTR SendFileToDropbox(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR UploadToDropbox(WPARAM wParam, LPARAM lParam);
 	INT_PTR UploadToDropboxAsync(WPARAM wParam, LPARAM lParam);
@@ -94,9 +91,6 @@ private:
 	void CreateDownloadUrl(const char *path, char *url);
 
 	static UINT UploadToDropbox(void *owner, void *arg);
-
-	static UINT SendFilesAndEventAsync(void *owner, void *arg);
-	static UINT SendFilesAndReportAsync(void *owner, void *arg);
 
 	static UINT UploadAndRaiseEvent(void *owner, void *arg);
 	static UINT UploadAndReportProgress(void *owner, void *arg);

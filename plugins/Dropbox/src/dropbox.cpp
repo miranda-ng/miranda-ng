@@ -6,10 +6,8 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEventObj(ME_SYSTEM_MODULESLOADED, GlobalEvent<&CDropbox::OnModulesLoaded>, this);
 
-	hFileSentEventHook = CreateHookableEvent(ME_DROPBOX_SENT);
 	hUploadedEventHook = CreateHookableEvent(ME_DROPBOX_UPLOADED);
 
-	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, GlobalService<&CDropbox::SendFileToDropbox>, this);
 	CreateServiceFunctionObj(MS_DROPBOX_UPLOAD, GlobalService<&CDropbox::UploadToDropbox>, this);
 	CreateServiceFunctionObj(MS_DROPBOX_UPLOADASYNC, GlobalService<&CDropbox::UploadToDropboxAsync>, this);
 
@@ -41,7 +39,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 
 CDropbox::~CDropbox()
 {
-	DestroyHookableEvent(hFileSentEventHook);
+	DestroyHookableEvent(hUploadedEventHook);
 }
 
 MCONTACT CDropbox::GetDefaultContact()
