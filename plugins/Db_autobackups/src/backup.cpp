@@ -319,9 +319,8 @@ int Backup(TCHAR *backup_filename)
 
 		if (options.use_dropbox)
 		{
-			CMString s_path(FORMAT, L"/Backups/%s", _tcsrchr(dest_file, '\\') + 1);
-			DropboxUploadInfo dui = { dest_file, s_path.GetString() };
-			if (CallService(MS_DROPBOX_UPLOAD, NULL, (LPARAM)&dui))
+			DropboxUploadInfo ui = { dest_file, _T("Backups") };
+			if (CallService(MS_DROPBOX_UPLOAD, NULL, (LPARAM)&ui))
 				ShowPopup(TranslateT("Uploading to Dropbox failed"), TranslateT("Error"), nullptr);
 		}
 
