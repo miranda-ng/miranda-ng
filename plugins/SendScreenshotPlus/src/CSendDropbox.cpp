@@ -56,13 +56,15 @@ void CSendDropbox::SendThread()
 {
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
-	m_hDropHook = HookEventObj(ME_DROPBOX_SENT, OnDropSend, this);
+	DropboxUploadInfo ui = { m_pszFile, _T("SendSS") };
 
-	if ((m_hDropSend = (HANDLE)CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile)) == NULL)
+	if (CallService(MS_DROPBOX_UPLOAD, 0, (LPARAM)&ui))
 	{
 		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), (INT_PTR)m_hDropSend);
 		Exit(ACKRESULT_FAILED); return;
 	}
+
+	m_hDropHook = HookEventObj(ME_DROPBOX_UPLOADED, OnDropSend, this);
 
 	m_hEvent.Wait();
 	UnhookEvent(m_hDropHook);
@@ -76,12 +78,12 @@ void CSendDropbox::SendThread()
 int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
 {
 	CSendDropbox *self = (CSendDropbox*)obj;
-	TRANSFERINFO *info = (TRANSFERINFO*)lParam;
-	if (info->hProcess == self->m_hDropSend)
+	DropboxUploadResult *ur = (DropboxUploadResult*)lParam;
+	if (ur->hProcess == self->m_hDropSend)
 	{
-		if (!info->status)
+		if (!ur->status)
 		{
-			self->m_URL = mir_strdup(info->data[0]);
+			self->m_URL = mir_strdup(ur->data);
 		}
 		self->m_hEvent.Set();
 	}
