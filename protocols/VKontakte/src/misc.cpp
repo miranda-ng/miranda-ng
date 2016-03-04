@@ -688,11 +688,9 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule))
 		{
 			db_event_markRead(hContact, hDBEvent);
-			int res1 = pcli->pfnRemoveEvent(hMContact, hDBEvent);
-			int res2 = 2;
+			pcli->pfnRemoveEvent(hMContact, hDBEvent);
 			if (hContact != hMContact)
-				res2 = pcli->pfnRemoveEvent(hContact, hDBEvent);
-			debugLogA("CVkProto::MarkDialogAsRead [1] result = (%d, %d), hDbEvent = %d", res1, res2, (int)hDBEvent);
+				pcli->pfnRemoveEvent(hContact, hDBEvent);
 		}
 	}
 }
