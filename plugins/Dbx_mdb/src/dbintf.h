@@ -72,7 +72,7 @@ struct DBEvent
 {
 	DWORD dwSignature;
 	MCONTACT contactID;     // a contact this event belongs to
-	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
+	DWORD ofsModuleName;	// offset to a DBModuleName struct of the name of
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
