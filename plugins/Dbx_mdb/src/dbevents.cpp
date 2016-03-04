@@ -158,20 +158,18 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1);
 		}
 
-		// remove a event
-		key.mv_size = sizeof(MEVENT); key.mv_data = &hDbEvent;
-		MDB_CHECK(mdb_del(txn, m_dbEvents, &key, &data), 1);
-
 		// update a contact
 		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
-
 		cc->dbc.dwEventCount--;
 		if (cc->dbc.dwFirstUnread == hDbEvent)
 			FindNextUnread(txn, cc, key2);
-		
-		data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
 
+		data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), 1);
+
+		// remove a event
+		key.mv_size = sizeof(MEVENT); key.mv_data = &hDbEvent;
+		MDB_CHECK(mdb_del(txn, m_dbEvents, &key, &data), 1);
 
 		if (txn.commit())
 			break;
@@ -211,7 +209,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 		return 1;
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
+	const DBEvent *dbe = (const DBEvent*)data.mv_data;
 	if (dbe->dwSignature != DBEVENT_SIGNATURE)
 		return 1;
 
@@ -252,7 +250,7 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 	{
 		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
 		{
-			DBEvent *dbe = (DBEvent*)data.mv_data;
+			const DBEvent *dbe = (const DBEvent*)data.mv_data;
 			if (dbe->contactID != cc->contactID)
 				break;
 			if (!dbe->markedRead()) {
@@ -284,23 +282,24 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 		MDB_CHECK(mdb_get(txn, m_dbEvents, &key, &data), 0);
 
-		DBEvent *dbe = (DBEvent*)data.mv_data;
-		if (dbe->dwSignature != DBEVENT_SIGNATURE)
+		const DBEvent *cdbe = (const DBEvent*)data.mv_data;
+		const size_t ncdbe = data.mv_size;
+		if (cdbe->dwSignature != DBEVENT_SIGNATURE)
 			return -1;
+		if (cdbe->markedRead())
+			return cdbe->flags;
 
-		if (dbe->markedRead())
-			return dbe->flags;
+		DBEventSortingKey key2 = { hDbEvent, cdbe->timestamp, contactID };
 
-		DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
+		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), -1);
+		memcpy(data.mv_data, cdbe, ncdbe);
 
-		dbe->flags |= DBEF_READ;
-		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, 0), -1);
+		wRetVal = (((DBEvent*)data.mv_data)->flags |= DBEF_READ);
 
 		FindNextUnread(txn, cc, key2);
 		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 		data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), -1);
-		wRetVal = dbe->flags;
 
 		if (txn.commit())
 			break;
