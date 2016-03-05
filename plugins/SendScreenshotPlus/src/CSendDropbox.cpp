@@ -58,36 +58,17 @@ void CSendDropbox::SendThread()
 
 	DropboxUploadInfo ui = { m_pszFile, _T("SendSS") };
 
-	if (CallService(MS_DROPBOX_UPLOAD, 0, (LPARAM)&ui))
+	char **test = &m_URL;
+	if (CallService(MS_DROPBOX_UPLOAD, (WPARAM)&m_URL, (LPARAM)&ui))
 	{
-		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), (INT_PTR)m_hDropSend);
+		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), 0);
 		Exit(ACKRESULT_FAILED); return;
 	}
-
-	m_hDropHook = HookEventObj(ME_DROPBOX_UPLOADED, OnDropSend, this);
-
-	m_hEvent.Wait();
-	UnhookEvent(m_hDropHook);
 
 	if (m_URL)
 		svcSendMsgExit(m_URL);
 	else
 		Exit(ACKRESULT_FAILED);
-}
-
-int CSendDropbox::OnDropSend(void *obj, WPARAM, LPARAM lParam)
-{
-	CSendDropbox *self = (CSendDropbox*)obj;
-	DropboxUploadResult *ur = (DropboxUploadResult*)lParam;
-	if (ur->hProcess == self->m_hDropSend)
-	{
-		if (!ur->status)
-		{
-			self->m_URL = mir_strdup(ur->data);
-		}
-		self->m_hEvent.Set();
-	}
-	return 0;
 }
 
 void CSendDropbox::SendThreadWrapper(void * Obj)
