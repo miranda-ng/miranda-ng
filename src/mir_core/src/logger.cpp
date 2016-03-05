@@ -155,6 +155,7 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 	va_list args;
 	va_start(args, format);
 	vfprintf(p->m_out, format, args);
+	va_end(args);
 
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
@@ -176,6 +177,7 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 	va_list args;
 	va_start(args, format);
 	vfwprintf(p->m_out, format, args);
+	va_end(args);
 
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
