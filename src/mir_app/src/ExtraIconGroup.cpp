@@ -78,7 +78,7 @@ int ExtraIconGroup::getPosition() const
 {
 	int pos = INT_MAX;
 	for (int i = 0; i < m_items.getCount(); i++)
-		pos = MIN(pos, m_items[i]->getPosition());
+		pos = min(pos, m_items[i]->getPosition());
 	return pos;
 }
 
