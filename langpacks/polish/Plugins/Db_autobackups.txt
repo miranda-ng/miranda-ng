@@ -51,12 +51,14 @@ Utworzona przez:
 Tworzenie kopii zapasowej...
 [Copying database file...]
 Kopiowanie pliku profilu...
+[Uploading to Dropbox failed]
+
+[Error]
+Błąd
 [Database backed up]
 Kopia zapasowa utworzona
 [Database back up in process...]
 Tworzenie kopii zapasowej bazy danych w toku...
-[Error]
-Błąd
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 Bazy danych Mirandy NG

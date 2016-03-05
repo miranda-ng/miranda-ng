@@ -1,1 +1,2 @@
 ﻿[Backup profile folder]
+[Uploading to Dropbox failed]

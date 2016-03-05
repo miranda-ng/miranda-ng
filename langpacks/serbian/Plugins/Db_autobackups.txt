@@ -51,12 +51,14 @@ Otkazivanje
 
 [Copying database file...]
 
+[Uploading to Dropbox failed]
+
+[Error]
+Greška
 [Database backed up]
 
 [Database back up in process...]
 
-[Error]
-Greška
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 

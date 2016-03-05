@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -75,20 +75,18 @@ HTTP далучэнне SmileyAdd
 Колер фону
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Толькі адна копія SmileyAdd можа быць запушчана.\nУдаліце дублікат з тэчкі "Plugins"
-[Smileys]
-Смайлы
-[Customize]
-Тонкая налада
 [Off]
 Адкл.
-[Top]
-Угару
-[Bottom]
-Ніз
+[On]
+Укл.
 [Smiley packs]
 Набор смайлаў
 [All files]
 Усе файлы
+[Smileys]
+Смайлы
+[Customize]
+Тонкая налада
 [Protocol specific]
 У адпаведнасці з пратаколам
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]

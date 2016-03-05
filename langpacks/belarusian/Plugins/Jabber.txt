@@ -1484,7 +1484,9 @@ Google Talk!
 [LiveJournal Talk]
 Чат LiveJournal
 [Odnoklassniki]
-Odnoklassniki
+Аднакласнікі
+[Yandex]
+Яндэкс
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некаторыя змены ўступяць у сілу пасля наступнага далучэння.
 [Set New Password for %s@%S]

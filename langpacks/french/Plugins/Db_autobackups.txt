@@ -51,12 +51,14 @@ Profil Miranda-IM
 Sauvegarde en cours
 [Copying database file...]
 Copie de la base de données...
+[Uploading to Dropbox failed]
+
+[Error]
+Erreur
 [Database backed up]
 
 [Database back up in process...]
 
-[Error]
-Erreur
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 

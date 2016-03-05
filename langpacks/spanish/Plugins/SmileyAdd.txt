@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Name:]
@@ -17,11 +17,11 @@ Deshabilitar
 Botón de emoticono
 [Background color]
 Color de fondo
-[Customize]
-Personalizar
 [Off]
 Apagado
-[Top]
-Superior
+[On]
+Encendido
 [All files]
 Todos los archivos
+[Customize]
+Personalizar
