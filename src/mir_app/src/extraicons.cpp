@@ -56,10 +56,6 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam);
 // Called when all the modules are loaded
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	// add our modules to the KnownModules list
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME "Groups", 0);
-
 	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 	return 0;
 }

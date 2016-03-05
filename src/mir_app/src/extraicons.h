@@ -26,8 +26,6 @@ Boston, MA 02111-1307, USA.
 
 // Global Variables
 
-#define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
-
 #define ICON_SIZE 16
 
 #include "Extraicon.h"
@@ -52,20 +50,6 @@ void fnSetAllExtraIcons(MCONTACT hContact);
 static inline BOOL IsEmpty(const char *str)
 {
 	return str == NULL || str[0] == 0;
-}
-
-static inline int MIN(int a, int b)
-{
-	if (a <= b)
-		return a;
-	return b;
-}
-
-static inline int MAX(int a, int b)
-{
-	if (a >= b)
-		return a;
-	return b;
 }
 
 #endif // __COMMONS_H__
