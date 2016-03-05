@@ -8,11 +8,11 @@ struct DropboxUploadInfo
 };
 
 // upload file on Dropbox
-// wParam = 0
+// wParam = (WPARAM)(char**) '\r\n' separated download links (can be NULL, otherwise should be manually free)
 // lParam = (LPARAM)(const DropboxUploadInfo*)
 // returns status of transfer.
 // 0 on success otherwise fail
-#define MS_DROPBOX_UPLOAD     "Dropbox/Upload"
+#define MS_DROPBOX_UPLOAD "Dropbox/Upload"
 
 // upload file on Dropbox
 // wParam = 0
@@ -20,7 +20,7 @@ struct DropboxUploadInfo
 // returns file htansfer handle or NULL on failure
 // returns immediately, without waiting for the send
 // note, that you can track progress by using ME_PROTO_ACK
-#define MS_DROPBOX_UPLOADASYNC     "Dropbox/UploadAsync"
+#define MS_DROPBOX_UPLOADASYNC "Dropbox/UploadAsync"
 
 // if you want to get download links after upload
 // use ME_DROPBOX_UPLOADED hook. you'll get:
@@ -28,7 +28,7 @@ struct DropboxUploadResult
 {
 	HANDLE hProcess;	// hProcess
 	int status;			// status of transfer. 0 on success otherwise fail
-	const char* data;	// data
+	const char* data;	// '\r\n' separated download links
 };
 
 // notifies a caller that upload has been finished
