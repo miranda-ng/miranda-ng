@@ -170,7 +170,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
 		debugLog(_T("CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d"), m_iLoadHistoryTask);
-		MsgPopup(NULL, TranslateT("Error loading history message from server"), TranslateT("Error"), true);
+		MsgPopup(NULL, TranslateT("Error loading message history from server"), TranslateT("Error"), true);
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
 			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
