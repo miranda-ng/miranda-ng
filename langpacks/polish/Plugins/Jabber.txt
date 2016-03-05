@@ -1508,6 +1508,8 @@ Google Talk
 LiveJournal Talk
 [Odnoklassniki]
 Odnoklassniki
+[Yandex]
+Yandex
 [Some changes will take effect the next time you connect to the Jabber network.]
 Niektóre zmiany przyniosą efekt po następnym połączeniu z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp

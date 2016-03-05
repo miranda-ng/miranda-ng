@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -65,20 +65,18 @@ HTTP връзки на SmileyAdd
 Задаване на категория усмивки
 [Background color]
 Цвят на фона
-[Smileys]
-Усмивки
-[Customize]
-Персонализиране
 [Off]
 Изкл.
-[Top]
-Горе
-[Bottom]
-Долу
+[On]
+Включено
 [Smiley packs]
 Пакети усмивки
 [All files]
 Всички файлове
+[Smileys]
+Усмивки
+[Customize]
+Персонализиране
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
 [Standard]

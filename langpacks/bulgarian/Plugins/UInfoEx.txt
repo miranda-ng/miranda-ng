@@ -1001,20 +1001,20 @@ Web дизайн
 Изпращане на е-писмо
 [Memory allocation error!]
 Грешка при заделянето на памет!
-[E-mail (uinfoex)]
-Имейл (uinfoex)
-[Gender (uinfoex)]
-Пол (uinfoex)
+[E-mail (UInfoEx)]
+Имейл (UInfoEx)
+[Gender (UInfoEx)]
+Пол (UInfoEx)
 [User has no valid homepage]
 Потребителят няма валидна домашна страница
 [View Homepage]
 Домашна страница
 [&Homepage]
 Домашна страница
-[Homepage (uinfoex)]
-Страница (uinfoex)
-[Phone (uinfoex)]
-Телефон (uinfoex)
+[Homepage (UInfoEx)]
+Страница (UInfoEx)
+[Phone (UInfoEx)]
+Телефон (UInfoEx)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d оставащи контакта
 [Abort Refreshing Contact Details]
@@ -1061,8 +1061,8 @@ Web дизайн
 Напомняне за рожден ден: предстои
 [Anniversary Reminder]
 Напомняне за годишнина
-[Reminder (uinfoex)]
-Напомняне / (uinfoex)
+[Reminder (UInfoEx)]
+Напомняне (UInfoEx)
 [contact identification]
 идентификация на контакта
 [Importing a new contact was aborted!]
@@ -1113,5 +1113,5 @@ Web дизайн
 Внасянето отне %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 %u добавени контакта / %u\n%u добавени настройки / %u\n%u добавени събития / %u\n%u повтарящи се събития
-[Flags (uinfoex)]
-Знамена (uinfoex)
+[Flags (UInfoEx)]
+Знамена (UInfoEx)

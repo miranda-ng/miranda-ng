@@ -1083,10 +1083,10 @@ Sen.
 E-Mail senden
 [Memory allocation error!]
 Speicher konnte nicht bereitgestellt werden!
-[E-mail (uinfoex)]
+[E-mail (UInfoEx)]
 E-Mail (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (uinfoex)]
+[Gender (UInfoEx)]
 Geschlecht (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
@@ -1095,10 +1095,10 @@ Der Kontakt hat keine gültige Homepage
 Homepage ansehen
 [&Homepage]
 &Homepage
-[Homepage (uinfoex)]
+[Homepage (UInfoEx)]
 Homepage (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (uinfoex)]
+[Phone (UInfoEx)]
 Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
@@ -1150,7 +1150,7 @@ Geburtstags-Erinnerung
 Kommende Geburtstage
 [Anniversary Reminder]
 Jahrestagserinnerung
-[Reminder (uinfoex)]
+[Reminder (UInfoEx)]
 Erinnern (UInfoEx)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
@@ -1238,6 +1238,6 @@ Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte E
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der XMLCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-[Flags (uinfoex)]
+[Flags (UInfoEx)]
 Flaggen (UInfoEx)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

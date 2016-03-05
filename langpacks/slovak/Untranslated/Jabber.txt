@@ -664,6 +664,7 @@
 [Google Talk!]
 [LiveJournal Talk]
 [Odnoklassniki]
+[Yandex]
 [Some changes will take effect the next time you connect to the Jabber network.]
 [Set New Password for %s@%S]
 [New password does not match.]

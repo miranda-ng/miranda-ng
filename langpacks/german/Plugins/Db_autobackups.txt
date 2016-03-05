@@ -51,12 +51,14 @@ Erstellt von:
 Sicherheitskopie wird erstellt
 [Copying database file...]
 Kopiere Datenbank...
+[Uploading to Dropbox failed]
+
+[Error]
+Fehler
 [Database backed up]
 Datenbank gesichert
 [Database back up in process...]
 Datenbank wird gerade gesichert...
-[Error]
-Fehler
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 Miranda-NG-Datenbanken

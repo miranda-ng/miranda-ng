@@ -19,6 +19,7 @@
 [Created by:]
 [Backup in progress]
 [Copying database file...]
+[Uploading to Dropbox failed]
 [Database backed up]
 [Database back up in process...]
 [Miranda NG databases]

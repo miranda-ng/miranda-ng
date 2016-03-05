@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -80,20 +80,18 @@ Boja pozadine
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 
 ;file \plugins\SmileyAdd\src\options.cpp
-[Smileys]
-
-[Customize]
-Podešavanja
 [Off]
 Isklj.
-[Top]
-
-[Bottom]
-
+[On]
+Uklj.
 [Smiley packs]
 
 [All files]
 Sve datoteke
+[Smileys]
+
+[Customize]
+Podešavanja
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 

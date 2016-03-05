@@ -1083,11 +1083,11 @@ Senior
 Wyślij e-mail
 [Memory allocation error!]
 Błąd alokacji pamięci!
-[E-mail (uinfoex)]
-E-mail (uinfoex)
+[E-mail (UInfoEx)]
+E-mail (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (uinfoex)]
-Płeć (uinfoex)
+[Gender (UInfoEx)]
+Płeć (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Użytkownik nie podał strony domowej
@@ -1095,11 +1095,11 @@ Użytkownik nie podał strony domowej
 Pokaż stronę domową
 [&Homepage]
 &Strona domowa
-[Homepage (uinfoex)]
-Strona domowa (uinfoex)
+[Homepage (UInfoEx)]
+Strona domowa (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (uinfoex)]
-Telefon (uinfoex)
+[Phone (UInfoEx)]
+Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\nPozostało %d kontaktów
@@ -1150,8 +1150,8 @@ Przypominanie o urodzinach
 Przypominanie o rocznicach: nadchodzących
 [Anniversary Reminder]
 Przypominanie o rocznicach
-[Reminder (uinfoex)]
-Rocznice (uinfoex)
+[Reminder (UInfoEx)]
+Rocznice (UInfoEx)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 identyfikacja kontaktu
@@ -1238,6 +1238,6 @@ Dodano kontaktów: %u / %u\nDodano ustawień: %u / %u\nDodano zdarzeń: %u / %u\
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Krytyczny: wyjątek został zwrócony podczas importowania kontaktów z wizytówki XML!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-[Flags (uinfoex)]
-Flagi (uinfoex)
+[Flags (UInfoEx)]
+Flagi (UInfoEx)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

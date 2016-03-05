@@ -276,7 +276,7 @@ KB
 [Bing]
 
 [Yandex]
-
+Яндэкс
 [Wikipedia (en)]
 
 [Google Maps]

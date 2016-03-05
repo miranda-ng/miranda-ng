@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -80,20 +80,18 @@ Couleur de fond
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
-[Smileys]
-
-[Customize]
-Apparence
 [Off]
 
-[Top]
-Haut
-[Bottom]
-Bas
+[On]
+
 [Smiley packs]
 Pack de Smiley
 [All files]
 Tous les fichiers
+[Smileys]
+
+[Customize]
+Apparence
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 

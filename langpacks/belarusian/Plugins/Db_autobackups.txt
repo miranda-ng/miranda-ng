@@ -49,12 +49,14 @@
 Рэзерваванне падчас
 [Copying database file...]
 Капіяванне файла базы...
+[Uploading to Dropbox failed]
+
+[Error]
+Памылка
 [Database backed up]
 Профіль зарэзерваваны
 [Database back up in process...]
 Рэзерваванне профілю...
-[Error]
-Памылка
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]

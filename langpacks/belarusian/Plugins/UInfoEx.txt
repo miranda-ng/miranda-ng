@@ -1061,19 +1061,19 @@ Web Дызайн
 Адправіць e-mail
 [Memory allocation error!]
 Памылка выдзялення памяці!
-[E-mail (uinfoex)]
+[E-mail (UInfoEx)]
 
-[Gender (uinfoex)]
-Род (uinfoex)
+[Gender (UInfoEx)]
+Род (UInfoEx)
 [User has no valid homepage]
 У кантакта няма хатняй старонкі
 [View Homepage]
 Сайт
 [&Homepage]
 Сайт
-[Homepage (uinfoex)]
-Сайт (uinfoex)
-[Phone (uinfoex)]
+[Homepage (UInfoEx)]
+Сайт (UInfoEx)
+[Phone (UInfoEx)]
 
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d кантактаў засталося
@@ -1123,8 +1123,8 @@ Web Дызайн
 Напамінак пра надыходзячы дзень нараджэння
 [Anniversary Reminder]
 Напамінак пра свята
-[Reminder (uinfoex)]
-Напамінак (uinfoex)
+[Reminder (UInfoEx)]
+Напамінак (UInfoEx)
 [contact identification]
 ідэнтыфікацыя кантакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
@@ -1203,5 +1203,5 @@ INI файл "%s"\nнельга адчыніць для чытання.
 Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Фатальна: Памылка пры імпартаванні кантактаў з xml карткі!
-[Flags (uinfoex)]
-Сцягі (uinfoex)
+[Flags (UInfoEx)]
+Сцягі (UInfoEx)

@@ -71,6 +71,7 @@
 [Enable server-side history]
 [Accept only in band incoming filetransfers (don't disclose own IP)]
 [Odnoklassniki]
+[Yandex]
 [Extended away (Not available)]
 [Play sounds]
 [Workstation successfully locked]
