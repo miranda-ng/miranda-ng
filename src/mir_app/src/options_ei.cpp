@@ -311,7 +311,7 @@ public:
 				oldSlots[i] = -1;
 			lastUsedSlot = max(lastUsedSlot, registeredExtraIcons[i]->getSlot());
 		}
-		lastUsedSlot = max(lastUsedSlot, GetNumberOfSlots());
+		lastUsedSlot = min(lastUsedSlot, GetNumberOfSlots());
 
 		// Get user data and create new groups
 		LIST<ExtraIconGroup> groups(1);
