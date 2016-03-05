@@ -1670,7 +1670,7 @@ XML для MS Excel (кодировка UTF-8)
 [There is no group chats to leave]
 Нет чатов для отключения
 [Choose the group chats you want to leave]
-Выберите чаты которые желаете покинуть
+Выберите чаты, которые желаете покинуть
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -2190,7 +2190,7 @@ Jabber vCard: редактирование телефона
 [A list of entities with administrative privileges]
 Список пользователей с правами администратора
 [A list of entities with whom communication is blocked]
-Список пользователей чьи подключения блокируются
+Список пользователей, чьи подключения блокируются
 [The number of seconds to delay before applying a change]
 Задержка (в секундах) перед применением изменений
 [The number of disabled entities]
@@ -2218,7 +2218,7 @@ Jabber vCard: редактирование телефона
 [The text of a welcome message]
 Текст приветственного сообщения
 [A list of entities with whom communication is allowed]
-Список пользователей связь с которыми разрешена
+Список пользователей, связь с которыми разрешена
 [First Name]
 Имя
 [Last Name]

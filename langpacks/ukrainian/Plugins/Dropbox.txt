@@ -33,7 +33,7 @@
 Вставляти посилання в поле вводу
 [Copy download link to clipboard]
 Копіювати посилання в буфер обміну
-[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+[Here you can choose the protocols in which Dropbox will be used instead of regular file transfers (sending), used by this protocol.]
 Виберіть протоколи, для яких Dropbox використовуватиметься замість звичайної передачі файлів (надсилання).
 [in process...]
 зачекайте...
@@ -43,8 +43,8 @@
 авторизація пройшла успішно
 [Dropbox supports the following commands:]
 Доступні команди:
-[shows all files in folder "path" ("path" is relative from root folder)]
-показує всі файли в папці "path" (відносно кореневої папки)
+[shows all files in folder "path" ("path" is relative from root and can be omitted for root folder)]
+показує всі файли в папці "path" (відносно кореневої папки; для кореневої папки "path" можна пропустити)
 [returns download link for file or folder with specified path ("path" is relative from root folder)]
 повертає посилання на файл або папку за вказаним шляхом "path" (відносно кореневої папки)
 [deletes file or folder with specified path ("path" is relative from root folder)]
@@ -53,6 +53,8 @@
 Неправильний параметр команди "%s".\nНаберіть "/help" для довідки.
 [is empty]
 порожня
+[is not found]
+не знайдено
 [is deleted]
 видалений
 [Upload files to Dropbox]

@@ -684,7 +684,7 @@ xСтатус: xПовідомлення
 [Standard contacts]
 Звичайні контакти
 [Away contacts]
-Контакт "відійшов"
+Контакт "відсутній"
 [Do not disturb contacts]
 Контакт "не турбувати"
 [Not available contacts]

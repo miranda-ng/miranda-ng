@@ -49,12 +49,12 @@
 Резервування в процесі
 [Copying database file...]
 Копіювання файлу бази даних...
+[Error]
+Помилка
 [Database backed up]
 Базу даних зарезервовано
 [Database back up in process...]
 Резервування бази...
-[Error]
-Помилка
 [Miranda NG databases]
 Бази даних Miranda NG
 [Compressed Miranda NG databases]

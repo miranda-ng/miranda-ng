@@ -230,7 +230,7 @@
 [seconds]
 секунд
 [Set account offline before a connection attempt]
-Перемикати обліковий запис в офлайн перед спробою з'єднання
+Перемикати у "Не в мережі" перед спробою з'єднання
 [Max. account connecting time (secs)]
 Макс. час підключення (с)
 [Timers]
