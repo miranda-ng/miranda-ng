@@ -58,9 +58,9 @@
 [Total traffic]
 Загальний трафік
 [Current online]
-Поточний онлайн
+Поточний час в мережі
 [Total online]
-Загальний онлайн
+Загальний час в мережі
 [General]
 Загальне
 [Draw frame as skin element]

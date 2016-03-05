@@ -30,7 +30,7 @@
 [On the phone]
 Телефоную
 [Always when changing from offline]
-Із статусу "Відключений"
+Із статусу "Не в мережі"
 [Notify when contact changes]
 Сповіщати, коли контакт змінює
 [Extra status]
@@ -288,11 +288,11 @@ xСтатуси
 [User: Away]
 Користувач: відсутній
 [(M) isn't there anymore!]
-відсутній!
+недоступний!
 [(F) isn't there anymore!]
-відсутня!
+недоступна!
 [(U) isn't there anymore!]
-відсутній!
+недоступний!
 [User: Not available]
 Користувач: недоступний
 [(M) has something else to do]

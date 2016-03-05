@@ -1055,20 +1055,20 @@ Web-дизайн
 Надіслати E-mail
 [Memory allocation error!]
 Помилка розподілу пам'яті.
-[E-mail (uinfoex)]
-Пошта (uinfoex)
-[Gender (uinfoex)]
-Стать (uinfoex)
+[E-mail (UInfoEx)]
+Пошта (UInfoEx)
+[Gender (UInfoEx)]
+Стать (UInfoEx)
 [User has no valid homepage]
 У користувача немає правильної домашньої сторінки
 [View Homepage]
 Сайт
 [&Homepage]
 &Сайт
-[Homepage (uinfoex)]
-Сайт (uinfoex)
-[Phone (uinfoex)]
-Телефон (uinfoex)
+[Homepage (UInfoEx)]
+Сайт (UInfoEx)
+[Phone (UInfoEx)]
+Телефон (UInfoEx)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d контактів залишилось
 [Abort Refreshing Contact Details]
@@ -1117,8 +1117,8 @@ Web-дизайн
 Нагадування про день народження, що наближається
 [Anniversary Reminder]
 Нагадування про свято
-[Reminder (uinfoex)]
-Нагадування (uinfoex)
+[Reminder (UInfoEx)]
+Нагадування (UInfoEx)
 [contact identification]
 ідентифікація контакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
@@ -1197,5 +1197,5 @@ SaveFileDialog повернув помилку: %d
 Додано контактів: %u / %u\nДодано налаштувань: %u / %u\nДодано подій %u / %u\nПродубльовано подій: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Фатальна помилка при імпорті контактів з XML-картки!
-[Flags (uinfoex)]
-Прапори (uinfoex)
+[Flags (UInfoEx)]
+Прапори (UInfoEx)

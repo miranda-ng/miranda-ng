@@ -433,6 +433,8 @@ XML-консоль
 Чат-кімнати
 [Links]
 Посилання
+[Bytestream Proxy not available]
+Bytestream Proxy недоступний
 [Supports Service Discovery info]
 Інформація про служби
 [Supports Service Discovery items list]
@@ -1471,6 +1473,8 @@ Google Hangouts
 ЖЖ
 [Odnoklassniki]
 Однокласники
+[Yandex]
+Яндекс
 [Some changes will take effect the next time you connect to the Jabber network.]
 Деякі зміни наберуть чинності при наступному вході до мережі.
 [Set New Password for %s@%S]
@@ -1845,6 +1849,8 @@ Jabber vCard: редагування телефону
 Нотатка
 [%s connection]
 З'єднання %s
+[<advanced status slot>]
+<розширений статус>
 [Afraid]
 Переляканий
 [Amazed]
@@ -2196,31 +2202,31 @@ Jabber vCard: редагування телефону
 [One or more addresses for customer support]
 Одна або кілька адрес для підтримки користувачів
 [The Jabber ID of a single entity to which an operation applies]
-JID особи, до якої застосовується операція
+JID користувача, до якого застосовується операція
 [The Jabber ID of one or more entities to which an operation applies]
-JID однієї або декількох осіб, до яких застосовується операція
+JID одного або декількох користувачів, до яких застосовується операція
 [The Jabber IDs associated with active sessions]
 JID активних сесій
 [The number of online entities that are active]
-Кількість осіб онлайн, які є активними
+Кількість користувачів "В мережі", які є активними
 [A list of entities with administrative privileges]
-Список осіб з правами адміністратора
+Список користувачів з правами адміністратора
 [The text of an announcement to be sent to active users or all users]
 Текст повідомлення, яке буде відправлено активним користувачам або всім користувачам
 [A list of entities with whom communication is blocked]
-Список осіб, спілкування з якими блокується
+Список користувачів, підключення яких блокується
 [The number of seconds to delay before applying a change]
 Затримка (у секундах) перед застосуванням змін
 [The Jabber IDs that have been disabled]
 JID, які були відключені
 [The number of disabled entities]
-Кількість відключених осіб
+Кількість відключених користувачів
 [The email address for a user]
 Адреса E-mail користувача
 [The given (first) name of a user]
 Ім'я користувача
 [The number of online entities that are idle]
-Кількість осіб онлайн, які перебувають у режимі очікування
+Кількість користувачів "В мережі", які перебувають у режимі очікування
 [The IP addresses of an account's online sessions]
 IP-адреси онлайн-сесій облікового запису
 [The last login time (per XEP-0082) of a user]
@@ -2230,23 +2236,23 @@ IP-адреси онлайн-сесій облікового запису
 [The maximum number of items associated with a search or list]
 Максимальна кількість елементів, пов'язаних з пошуком або списком
 [The text of a message of the day]
-Текст повідомлення
+Текст повідомлення дня
 [The names of an account's online sessions]
 Імена онлайн-сесій облікового запису
 [The Jabber IDs associated with online users]
-JID користувачів онлайн
+JID користувачів "В мережі"
 [The number of online entities]
-Кількість осіб онлайн
+Кількість користувачів "В мережі"
 [The password for an account]
 Пароль облікового запису
 [Password verification]
 Перевірка пароля
 [A list of registered entities]
-Список зареєстрованих осіб
+Список зареєстрованих користувачів
 [The number of registered entities]
-Кількість зареєстрованих суб'єктів
+Кількість зареєстрованих користувачів
 [Number of roster items for an account]
-Кількість елементів ростеру для облікового запису
+Кількість елементів у ростері для облікового запису
 [The number of stanzas being sent per second by an account]
 Кількість подій, що відправляються з облікового запису за секунду
 [The family (last) name of a user]
@@ -2254,17 +2260,17 @@ JID користувачів онлайн
 [The text of a welcome message]
 Текст вітального повідомлення
 [A list of entities with whom communication is allowed]
-Список осіб, з якими дозволено спілкування
+Список користувачів, з якими дозволено спілкування
 [First Name]
 Ім'я
 [Last Name]
 Прізвище
 [Desired Nickname]
-Нік
+Бажаний нік
 [Your URL]
 Ваша сторінка
 [Email Address]
-Пошта
+Адреса E-mail
 [FAQ Entry]
 Запитання та відповіді
 [Whether to allow occupants to invite others]
@@ -2274,7 +2280,7 @@ JID користувачів онлайн
 [Whether to enable logging of room conversations]
 Включити запис журналу чат-кімнати
 [Natural language for room discussions]
-Мова спілкування в чат-кімнаті
+Основна мова спілкування в чат-кімнаті
 [Maximum number of room occupants]
 Максимальна кількість учасників чат-кімнати
 [Whether to make room members-only]
@@ -2312,17 +2318,17 @@ NodeID відповідного вузла
 [The address (JID) of the subscriber]
 JID абонента
 [Whether an entity wants to receive or disable notifications]
-Особа бажає отримувати або відключити сповіщення
+Користувач бажає отримувати або відключити сповіщення
 [Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-Особа бажає отримувати дайджест сповіщення або всі сповіщення індивідуально
+Користувач бажає отримувати дайджест сповіщення або всі сповіщення індивідуально
 [The minimum number of milliseconds between sending any two notification digests]
 Мінімальний час (мс) між відправленнями сповіщень або дайджестів
 [The date and time at which a leased subscription will end or has ended]
 Дата й час, коли обрана підписка закінчиться або закінчилась
 [Whether an entity wants to receive an XMPP message body in addition to the payload format]
-Особа бажає отримувати XMPP-повідомлення на додачу до формату корисного навантаження
+Користувач бажає отримувати XMPP-повідомлення на додачу до формату корисного навантаження
 [The presence states for which an entity wants to receive notifications]
-Стани присутності, для яких особа бажає отримувати сповіщення
+Стани присутності, для яких користувач бажає отримувати сповіщення
 [Who may subscribe and retrieve items]
 Хто може підписуватися і отримувати елементи
 [The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
@@ -2380,9 +2386,9 @@ JID для запитань
 [The date and time when the node was created]
 Дата і час створення вузла
 [The JID of the node creator]
-JID автора
+JID власника вузла
 [A description of the node]
-Опис
+Опис вузла
 [The default language of the node]
 Мова за замовчанням
 [The number of subscribers to the node]
@@ -2392,7 +2398,7 @@ JID власників
 [The JIDs of those with an affiliation of publisher]
 JID видавців
 [The name of the node]
-Ім'я
+Ім'я вузла
 [Payload type]
 Тип даних
 [Whether to automatically authorize subscription requests]

@@ -20,7 +20,7 @@
 [Show offline contacts on these protocols:]
 Показувати відкл. контакти для цих протоколів:
 [But hide them if protocol is offline]
-Але ховати їх, якщо протокол відключений
+Але ховати їх, якщо протокол не в мережі
 [Append group name to contact name]
 Додавати групу для імені контакту
 [But show it as a column...]

@@ -3,7 +3,5 @@
 [ISDN]
 [PCS]
 [JID:]
-[Bytestream Proxy not available]
 [JID]
 [Jabber vCard]
-[<advanced status slot>]

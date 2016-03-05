@@ -780,7 +780,7 @@
 [Miranda NG profile manager]
 Менеджер профілів
 [Manage your Miranda NG profile]
-Виберіть aбо створіть профіль користувача
+Виберіть або створіть профіль користувача
 [&Run]
 &Запуск
 [&Exit]
@@ -1052,7 +1052,7 @@
 [Default]
 Стандартний
 [Set]
-Вказати
+Встановити
 [Enable icons]
 Увімкнути значки
 [Show accounts in the following order,\ndrag to choose another order:]

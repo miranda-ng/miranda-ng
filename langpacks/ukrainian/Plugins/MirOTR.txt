@@ -24,7 +24,7 @@ OTR: Створення приватного ключа
 [End sessions on window close]
 Зупиняти сесію при закритті вікна
 [End sessions when contacts go offline]
-Зупиняти сесію, коли контакт переходить в офлайн
+Зупиняти сесію, коли контакт виходить з мережі
 [Prefix encrypted IMs:]
 Префікс шифрованих IM:
 [don't rely on the prefix, always check the OTR status icon]
