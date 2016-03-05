@@ -161,7 +161,7 @@ INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CDropbox::UploadToDropbox(WPARAM, LPARAM lParam)
+INT_PTR CDropbox::UploadToDropbox(WPARAM wParam, LPARAM lParam)
 {
 	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
 
@@ -177,7 +177,13 @@ INT_PTR CDropbox::UploadToDropbox(WPARAM, LPARAM lParam)
 	else
 		ftp->AddFile(uploadInfo->localPath);
 
-	return CDropbox::UploadAndRaiseEvent(this, ftp);
+	int res = UploadToDropbox(this, ftp);
+	if (res == ACKRESULT_SUCCESS && wParam) {
+		char **data = (char**)wParam;
+		*data = mir_utf8encodeT(ftp->GetData());
+	}
+
+	return res;
 }
 
 INT_PTR CDropbox::UploadToDropboxAsync(WPARAM, LPARAM lParam)
