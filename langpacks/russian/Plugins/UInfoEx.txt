@@ -1055,9 +1055,9 @@ Web Дизайн
 Отправить e-mail
 [Memory allocation error!]
 Ошибка выделения памяти!
-[E-mail (uinfoex)]
+[E-mail (UInfoEx)]
 Почта (uinfoex)
-[Gender (uinfoex)]
+[Gender (UInfoEx)]
 Пол (uinfoex)
 [User has no valid homepage]
 У пользователя нет правильной домашней страницы
@@ -1065,9 +1065,9 @@ Web Дизайн
 Сайт
 [&Homepage]
 &Сайт
-[Homepage (uinfoex)]
+[Homepage (UInfoEx)]
 Сайт (uinfoex)
-[Phone (uinfoex)]
+[Phone (UInfoEx)]
 Телефон (uinfoex)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d контактов осталось
@@ -1117,7 +1117,7 @@ Web Дизайн
 Напоминание о приближающемся дне рождения
 [Anniversary Reminder]
 Напоминание о празднике
-[Reminder (uinfoex)]
+[Reminder (UInfoEx)]
 Напоминание (uinfoex)
 [contact identification]
 идентификация контакта
@@ -1197,5 +1197,5 @@ INI файл "%s"\nдля чтения контакта не может быть
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ФАТАЛЬНО: Ошибка при импортировании контактов из xml карточки!
-[Flags (uinfoex)]
+[Flags (UInfoEx)]
 Флаги (uinfoex)
