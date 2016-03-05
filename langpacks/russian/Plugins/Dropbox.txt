@@ -33,7 +33,7 @@
 Вставить сылку в поле ввода
 [Copy download link to clipboard]
 Копировать ссылку в буфер обмена
-[Here you can choose the protocols in which dropbox will be used instead of regular file transfers (sending), used by this protocol.]
+[Here you can choose the protocols in which Dropbox will be used instead of regular file transfers (sending), used by this protocol.]
 Здесь вы можете выбрать протоколы, в которых Dropbox будет использоваться вместо обычной передачи файлов (отправка), используемой этим протоколом.
 [in process...]
 в процессе...
@@ -43,8 +43,8 @@
 авторизация прошла успешно
 [Dropbox supports the following commands:]
 Доступны следующие команды:
-[shows all files in folder "path" ("path" is relative from root folder)]
-показывает все файлы в папке "path" ("path" относительно корневой папки)
+[shows all files in folder "path" ("path" is relative from root and can be omitted for root folder)]
+показывает все файлы в папке "path" ("path" относительно корневой папки и может быть опущен для корневой папки)
 [returns download link for file or folder with specified path ("path" is relative from root folder)]
 возвращает ссылку на файл или папку, расположенную по указанному пути (относительно корневой папки)
 [deletes file or folder with specified path ("path" is relative from root folder)]
@@ -53,6 +53,8 @@
 неверный параметр команды "%s".\nИспользуйте "/help" для получения справки.
 [is empty]
 пустая
+[is not found]
+не найдено
 [is deleted]
 удалён
 [Upload files to Dropbox]

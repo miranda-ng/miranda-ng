@@ -29,9 +29,10 @@
 [Created by:]
 [Backup in progress]
 [Copying database file...]
+[Uploading to Dropbox failed]
+[Error]
 [Database backed up]
 [Database back up in process...]
-[Error]
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 [Compressed Miranda NG databases]

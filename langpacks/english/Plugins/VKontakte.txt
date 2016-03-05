@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.22
+;  Version: 0.1.1.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -214,6 +214,11 @@
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 [Attention!]
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
+[Error loading message history from server]
+[Loading messages for all contacts is completed]
+[Loading history]
+[Loading messages for %s is completed]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [I'm back]
 [Network]
@@ -227,6 +232,7 @@
 [Status message]
 [Send message to my wall]
 [Load news from VK]
+[Load history for all contacts from VK]
 [Wipe contacts missing in friend list]
 [Mark messages as read]
 [Send message to user\'s wall]

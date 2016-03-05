@@ -433,6 +433,8 @@ Jabber Ad-Hoc команды на %s
 Комнаты чата
 [Links]
 Ссылки
+[Bytestream Proxy not available]
+Bytestream Proxy недоступно
 [Supports Service Discovery info]
 Информация о службах
 [Supports Service Discovery items list]
@@ -1465,6 +1467,10 @@ XML для MS Excel (кодировка UTF-8)
 Защищённая сеть XMPP (старый стиль)
 [LiveJournal Talk]
 ЖЖ
+[Odnoklassniki]
+Одноклассники
+[Yandex]
+Яндекс
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некоторые изменения вступят в силу после следующего подключения к сети.
 [Set New Password for %s@%S]
@@ -1663,6 +1669,8 @@ XML для MS Excel (кодировка UTF-8)
 Подтвердите выключение программы
 [There is no group chats to leave]
 Нет чатов для отключения
+[Choose the group chats you want to leave]
+Выберите чаты которые желаете покинуть
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -1837,6 +1845,8 @@ Jabber vCard: редактирование телефона
 Заметка
 [%s connection]
 %s подключение
+[<advanced status slot>]
+<слот расширенного статуса>
 [Afraid]
 Испуганный
 [Amazed]
@@ -2177,14 +2187,54 @@ Jabber vCard: редактирование телефона
 Я использую Miranda NG (http://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]
 /me шарахнул %s веслом по голове
+[A list of entities with administrative privileges]
+Список пользователей с правами администратора
+[A list of entities with whom communication is blocked]
+Список пользователей чьи подключения блокируются
 [The number of seconds to delay before applying a change]
 Задержка (в секундах) перед применением изменений
+[The number of disabled entities]
+Количество отключённых пользователей
+[The email address for a user]
+Адрес электронной почты пользователя
+[The last login time (per XEP-0082) of a user]
+Время последнего входа пользователя (согласно XEP-0082)
+[The number of logins per minute for an account]
+Количество входов в минуту для учётной записи
+[The text of a message of the day]
+Текст сообщения дня
+[The number of online entities]
+Количество пользователей «В сети»
 [The password for an account]
 Пароль учётной записи
+[Password verification]
+Проверка пароля
+[A list of registered entities]
+Список зарегистрированных пользователей
+[The number of registered entities]
+Количество зарегистрированных пользователей
+[Number of roster items for an account]
+Количество объектов в ростере учётной записи
+[The text of a welcome message]
+Текст приветственного сообщения
+[A list of entities with whom communication is allowed]
+Список пользователей связь с которыми разрешена
 [First Name]
 Имя
 [Last Name]
 Фамилия
+[Desired Nickname]
+Желаемый ник
+[Your URL]
+Ваш сайт
+[Email Address]
+Адрес электронной почты
+[FAQ Entry]
+Часто задаваемые вопросы
+[Natural language for room discussions]
+Основной язык общения в комнате
+[Maximum number of room occupants]
+Максимальное количество учасников комнаты
 [Full list of room admins]
 Полный список администраторов комнаты чата
 [Short description of room]
@@ -2195,6 +2245,16 @@ Jabber vCard: редактирование телефона
 Полный список владельцев комнаты чата
 [The room password]
 Пароль комнаты чата
+[The date and time when the node was created]
+Дата и время создания узла
+[The JID of the node creator]
+JID владельца узла
+[A description of the node]
+Описание узла
+[The default language of the node]
+Язык узла по умолчанию
+[The name of the node]
+Имя узла
 [A list of pending file transfers]
 Список отложенных передач файлов
 [The status message text]
