@@ -235,7 +235,7 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		delete EI;
 	}
 
-	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	MDB_val keyc = { sizeof(MCONTACT), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
 
 	for (;; Remap())
 	{
