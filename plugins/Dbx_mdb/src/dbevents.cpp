@@ -86,7 +86,10 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	DWORD dwEventId = ++m_dwMaxEventId;
 
-	for (cc->Snapshot();; cc->Revert(), Remap()) {
+	const auto Snapshot = [&]() { cc->Snapshot(); if (ccSub) ccSub->Snapshot(); };
+	const auto Revert = [&]() { cc->Revert(); if (ccSub) ccSub->Revert(); };
+
+	for (Snapshot();; Revert(), Remap()) {
 		txn_ptr txn(m_pMdbEnv);
 
 		MDB_val key = { sizeof(int), &dwEventId }, data = { sizeof(DBEvent) + dbe.cbBlob, NULL };
@@ -132,40 +135,62 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+	DBCachedContact *cc = m_cache->GetCachedContact(contactID), *cc2 = nullptr;
 	if (cc == NULL || cc->dbc.dwEventCount == 0)
 		return 1;
 
 	mir_cslockfull lck(m_csDbAccess);
 	
-	for (cc->Snapshot();; cc->Revert(), Remap())
+	const DBEvent *dbe = nullptr;
 	{
-		txn_ptr txn(m_pMdbEnv);
+		txn_ptr_ro txn(m_txn);
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
-		MDB_CHECK(mdb_get(txn, m_dbEvents, &key, &data), 1);
+		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS || data.mv_data == nullptr)
+			return 1;
+		dbe = (const DBEvent*)data.mv_data;
+	}
 
-		DBEvent *dbe = (DBEvent*)data.mv_data;
-		DWORD dwSavedContact = dbe->contactID;
+	if (contactID != dbe->contactID)
+	{
+		cc2 = m_cache->GetCachedContact(dbe->contactID);
+	}
+
+	const auto Snapshot = [&]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
+	const auto Revert = [&]() { cc->Revert(); if (cc2) cc2->Revert(); };
+
+	for (Snapshot();; Revert(), Remap())
+	{
 		DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
 
-		// remove a sorting key
-		key.mv_size = sizeof(key2); key.mv_data = &key2;
+		txn_ptr txn(m_pMdbEnv);
+		MDB_val key = { sizeof(key2), &key2 }, data;
+
 		MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1)
 
-		// remove a sub's history entry too
-		if (contactID != dwSavedContact) {
-			key2.dwContactId = dwSavedContact;
-			MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1);
+		{
+			key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
+			cc->dbc.dwEventCount--;
+			if (cc->dbc.dwFirstUnread == hDbEvent)
+				FindNextUnread(txn, cc, key2);
+
+			data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
+			MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), 1);
 		}
 
-		// update a contact
-		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
-		cc->dbc.dwEventCount--;
-		if (cc->dbc.dwFirstUnread == hDbEvent)
-			FindNextUnread(txn, cc, key2);
+		if (cc2)
+		{
+			key2.dwContactId = dbe->contactID;
+			MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1);
 
-		data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
-		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), 1);
+			key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
+			cc2->dbc.dwEventCount--;
+			if (cc2->dbc.dwFirstUnread == hDbEvent)
+				FindNextUnread(txn, cc2, key2);
+
+			data.mv_size = sizeof(DBContact); data.mv_data = &cc2->dbc;
+			MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), 1);
+
+		}
 
 		// remove a event
 		key.mv_size = sizeof(MEVENT); key.mv_data = &hDbEvent;

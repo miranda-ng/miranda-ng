@@ -23,18 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/*#define CMP_DWORDS_K(x, y, f) { if(x->f != y->f) return (x->f<y->f)?-1:1; }
-
-static int EventsComparator(const MDB_val *v1, const MDB_val *v2)
-{
-	const DBEventSortingKey *k1 = (DBEventSortingKey *)v1->mv_data;
-	const DBEventSortingKey *k2 = (DBEventSortingKey *)v2->mv_data;
-	CMP_DWORDS_K(k1, k2, dwContactId);
-	CMP_DWORDS_K(k1, k2, ts);
-	CMP_DWORDS_K(k1, k2, dwEventId);
-	return 0;
-}*/
-
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
 	return strcmp(mn1->name, mn2->name);
@@ -108,18 +96,18 @@ int CDbxMdb::Load(bool bSkipInit)
 		mdb_dbi_open(trnlck, "eventsrt", defFlags | MDB_INTEGERKEY, &m_dbEventsSort);
 		mdb_dbi_open(trnlck, "settings", defFlags, &m_dbSettings);
 
-		//mdb_set_compare(trnlck, m_dbEventsSort, EventsComparator);
-
 		DWORD keyVal = 1;
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
-		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) {
+		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) 
+		{
 			DBHeader *hdr = (DBHeader*)data.mv_data;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				DatabaseCorruption(NULL);
 
 			memcpy(&m_header, data.mv_data, sizeof(m_header));
 		}
-		else {
+		else 
+		{
 			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = 1;
 			data.mv_data = &m_header; data.mv_size = sizeof(m_header);
