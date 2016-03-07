@@ -1,0 +1,25 @@
+﻿  adler32.c
+  compress.c
+  crc32.c
+  deflate.c
+  gzclose.c
+  gzlib.c
+  gzread.c
+  gzwrite.c
+  infback.c
+  inffast.c
+  inflate.c
+  inftrees.c
+  ioapi.c
+  iowin32.c
+  trees.c
+  uncompr.c
+  unzip.c
+  zip.c
+  zutil.c
+     Creating library x86\ZlibDllReleaseWithoutAsm\zlibwapi.lib and object x86\ZlibDllReleaseWithoutAsm\zlibwapi.exp
+  Generating code
+  All 255 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  zlibvc.vcxproj -> d:\Downloads\tgl-master\tgl-master\zlib\contrib\vstudio\vc11\x86\ZlibDllReleaseWithoutAsm\zlibwapi.dll
+  zlibvc.vcxproj -> x86\ZlibDllReleaseWithoutAsm\zlibwapi.pdb (Full PDB)

@@ -1,0 +1,11 @@
+type of errors that tgl can set:
+
+EPROTO: server returned error for query. Some kinds of error (such as FLOOD_WAIT) tgl can handle by itself, but others it can not. In most cases it means bug in tgl or invalid parameter supplied to method (such as message id).
+
+EINVAL: tgl detected invalid argument supplied before sending query to server. For example user instead of chat or bad msg id. 
+
+ENOENT: tgl received empty response from server. For example when user tried to get message by id
+
+EBADF: tgl can not open file on disk or file is empty
+
+E2BIG: supplied file is too big
