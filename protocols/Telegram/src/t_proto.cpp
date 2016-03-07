@@ -75,6 +75,11 @@ int CTelegramProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
+HANDLE CTelegramProto::SearchBasic(const TCHAR* id)
+{
+	return 0;
+}
+
 int CTelegramProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	return 0;
