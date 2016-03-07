@@ -172,6 +172,10 @@ INT_PTR CDropbox::UploadToDropbox(WPARAM wParam, LPARAM lParam)
 	if (PathIsDirectory(uploadInfo->localPath))
 	{
 		// temporary unsupported
+
+		transfers.remove(ftp);
+		delete ftp;
+
 		return ACKRESULT_FAILED;
 	}
 	else
@@ -182,6 +186,9 @@ INT_PTR CDropbox::UploadToDropbox(WPARAM wParam, LPARAM lParam)
 		char **data = (char**)wParam;
 		*data = mir_utf8encodeT(ftp->GetData());
 	}
+
+	transfers.remove(ftp);
+	delete ftp;
 
 	return res;
 }
@@ -197,6 +204,10 @@ INT_PTR CDropbox::UploadToDropboxAsync(WPARAM, LPARAM lParam)
 	if (PathIsDirectory(uploadInfo->localPath))
 	{
 		// temporary unsupported
+
+		transfers.remove(ftp);
+		delete ftp;
+
 		return NULL;
 	}
 	else
