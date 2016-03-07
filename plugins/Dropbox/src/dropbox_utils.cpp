@@ -117,7 +117,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const TCHAR *data)
 		return;
 	}
 
-	if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED) {
+	if (CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(data)) != ACKRESULT_FAILED) {
 		char *message = mir_utf8encodeT(data);
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
 	}
