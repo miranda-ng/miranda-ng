@@ -215,7 +215,7 @@ STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(MEVENT hDbEvent)
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 		return -1;
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
+	const DBEvent *dbe = (const DBEvent*)data.mv_data;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->cbBlob : 0;
 }
 
@@ -347,7 +347,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 		return INVALID_CONTACT_ID;
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
+	const DBEvent *dbe = (const DBEvent*)data.mv_data;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
 }
 
@@ -362,7 +362,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
 
-	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
 	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
@@ -386,7 +386,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
 
-	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
 	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
@@ -420,7 +420,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
 		return m_evLast = 0;
 
-	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
 	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
@@ -454,7 +454,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
 
-	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
 	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
