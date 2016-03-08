@@ -120,7 +120,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		do
 		{
-			DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
+			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
 			if (pKey->dwContactID != contactID)
 				break;
 			mdb_cursor_del(cursor, 0);
@@ -207,7 +207,7 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 	cursor_ptr_ro cursor(m_curEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
 	do {
-		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 		if (pKey->dwContactId != hContact)
 			return;
 
@@ -322,7 +322,7 @@ void CDbxMdb::FillContacts()
 		MDB_val key, data;
 		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) 
 		{
-			DBContact *dbc = (DBContact*)data.mv_data;
+			const DBContact *dbc = (const DBContact*)data.mv_data;
 			if (dbc->dwSignature != DBCONTACT_SIGNATURE)
 				DatabaseCorruption(NULL);
 

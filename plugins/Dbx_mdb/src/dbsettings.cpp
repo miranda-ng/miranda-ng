@@ -68,12 +68,15 @@ LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
-	if (pCachedValue != NULL) {
-		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
+	if (pCachedValue != NULL) 
+	{
+		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) 
+		{
 			int cbOrigLen = dbv->cchVal;
 			char *cbOrigPtr = dbv->pszVal;
 			memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
-			if (isStatic) {
+			if (isStatic) 
+			{
 				int cbLen = 0;
 				if (pCachedValue->pszVal != NULL)
 					cbLen = (int)strlen(pCachedValue->pszVal);
@@ -86,7 +89,8 @@ LBL_Seek:
 				dbv->pszVal[cbOrigLen] = 0;
 				dbv->cchVal = cbLen;
 			}
-			else {
+			else 
+			{
 				dbv->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal) + 1);
 				strcpy(dbv->pszVal, pCachedValue->pszVal);
 			}
@@ -103,19 +107,20 @@ LBL_Seek:
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
 	txn_ptr_ro trnlck(m_txn);
-	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
-	DBSettingKey keySearch;
-	keySearch.dwContactID = contactID;
-	keySearch.dwOfsModule = GetModuleNameOfs(szModule);
+	DBSettingKey keySearch = { contactID, GetModuleNameOfs(szModule) };
 	strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
 
 	MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
-	if (mdb_get(trnlck, m_dbSettings, &key, &data)) {
+	if (mdb_get(trnlck, m_dbSettings, &key, &data) != MDB_SUCCESS) 
+	{
 		// try to get the missing mc setting from the active sub
-		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
-			if (contactID = db_mc_getDefault(contactID)) {
-				if (szModule = GetContactProto(contactID)) {
+		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) 
+		{
+			if (contactID = db_mc_getDefault(contactID))
+			{
+				if (szModule = GetContactProto(contactID)) 
+				{
 					moduleNameLen = (int)strlen(szModule);
 					goto LBL_Seek;
 				}
@@ -124,7 +129,7 @@ LBL_Seek:
 		return 1;
 	}
 
-	BYTE *pBlob = (BYTE*)data.mv_data;
+	const BYTE *pBlob = (const BYTE*)data.mv_data;
 	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 		return 1;
 
@@ -143,17 +148,18 @@ LBL_Seek:
 	case DBVT_ASCIIZ:
 		varLen = *(WORD*)pBlob;
 		pBlob += 2;
-		if (isStatic) {
+		if (isStatic) 
+		{
 			dbv->cchVal--;
 			if (varLen < dbv->cchVal)
 				dbv->cchVal = varLen;
-			memmove(dbv->pszVal, pBlob, dbv->cchVal); // decode
+			memcpy(dbv->pszVal, pBlob, dbv->cchVal); // decode
 			dbv->pszVal[dbv->cchVal] = 0;
 			dbv->cchVal = varLen;
 		}
 		else {
 			dbv->pszVal = (char*)mir_alloc(1 + varLen);
-			memmove(dbv->pszVal, pBlob, varLen);
+			memcpy(dbv->pszVal, pBlob, varLen);
 			dbv->pszVal[varLen] = 0;
 		}
 		break;
@@ -161,14 +167,15 @@ LBL_Seek:
 	case DBVT_BLOB:
 		varLen = *(WORD*)pBlob;
 		pBlob += 2;
-		if (isStatic) {
+		if (isStatic) 
+		{
 			if (varLen < dbv->cpbVal)
 				dbv->cpbVal = varLen;
-			memmove(dbv->pbVal, pBlob, dbv->cpbVal);
+			memcpy(dbv->pbVal, pBlob, dbv->cpbVal);
 		}
 		else {
 			dbv->pbVal = (BYTE *)mir_alloc(varLen);
-			memmove(dbv->pbVal, pBlob, varLen);
+			memcpy(dbv->pbVal, pBlob, varLen);
 		}
 		dbv->cpbVal = varLen;
 		break;
@@ -187,17 +194,19 @@ LBL_Seek:
 
 		varLen = (WORD)realLen;
 		dbv->type = DBVT_UTF8;
-		if (isStatic) {
+		if (isStatic) 
+		{
 			dbv->cchVal--;
 			if (varLen < dbv->cchVal)
 				dbv->cchVal = varLen;
-			memmove(dbv->pszVal, decoded, dbv->cchVal);
+			memcpy(dbv->pszVal, decoded, dbv->cchVal);
 			dbv->pszVal[dbv->cchVal] = 0;
 			dbv->cchVal = varLen;
 		}
-		else {
+		else 
+		{
 			dbv->pszVal = (char*)mir_alloc(1 + varLen);
-			memmove(dbv->pszVal, decoded, varLen);
+			memcpy(dbv->pszVal, decoded, varLen);
 			dbv->pszVal[varLen] = 0;
 		}
 		break;
@@ -219,10 +228,12 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetContactSetting(MCONTACT contactID, LPCSTR szModu
 	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 0))
 		return 1;
 
-	if (dbv->type == DBVT_UTF8) {
+	if (dbv->type == DBVT_UTF8) 
+	{
 		WCHAR *tmp = NULL;
 		char *p = NEWSTR_ALLOCA(dbv->pszVal);
-		if (mir_utf8decode(p, &tmp) != NULL) {
+		if (mir_utf8decode(p, &tmp) != NULL) 
+		{
 			BOOL bUsed = FALSE;
 			int  result = WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, NULL, 0, NULL, &bUsed);
 
@@ -239,7 +250,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetContactSetting(MCONTACT contactID, LPCSTR szModu
 				mir_free(tmp);
 			}
 		}
-		else {
+		else 
+		{
 			dbv->type = DBVT_ASCIIZ;
 			mir_free(tmp);
 		}
@@ -509,7 +521,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	if (!szModule || !szSetting)
 		return 1;
 
-	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
 	int settingNameLen = (int)strlen(szSetting);
 	int moduleNameLen = (int)strlen(szModule);
 
@@ -525,11 +536,10 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 
 			MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
 
-			for (;; Remap()) {
+			for (;; Remap()) 
+			{
 				txn_ptr trnlck(m_pMdbEnv);
-				if (mdb_del(trnlck, m_dbSettings, &key, &data))
-					return 1;
-
+				MDB_CHECK(mdb_del(trnlck, m_dbSettings, &key, &data), 1);
 				if (trnlck.commit())
 					break;
 			}
@@ -559,33 +569,27 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
 	memset(keySearch.szSettingName, 0, _countof(keySearch.szSettingName));
 
-	LIST<char> arSettings(50);
+	mir_cslockfull lck(m_csDbAccess);
+	txn_ptr_ro trnlck(m_txn);
+	cursor_ptr_ro cursor(m_curSettings);
+
+	MDB_val key = { sizeof(keySearch), &keySearch }, data;
+
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) 
 	{
-		mir_cslock lck(m_csDbAccess);
-		txn_ptr_ro trnlck(m_txn);
-		cursor_ptr_ro cursor(m_curSettings);
+		size_t i = 0;
+		do 
+		{
+			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+			if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
+				return i == 0 ? -1 : result;
 
-		MDB_val key = { sizeof(keySearch), &keySearch }, data;
-		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) {
-			do {
-				DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
-				if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-					break;
-
-				char szSetting[256];
-				strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD) * 2);
-				arSettings.insert(mir_strdup(szSetting));
-			}
-				while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+			char szSetting[256];
+			strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD) * 2);
+			result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+			i++;
 		}
-	}
-
-	if (arSettings.getCount() == 0)
-		return -1;
-
-	for (int i = 0; i < arSettings.getCount(); i++) {
-		result = (dbces->pfnEnumProc)(arSettings[i], dbces->lParam);
-		mir_free(arSettings[i]);
+			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
 	}
 
 	return result;
