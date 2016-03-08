@@ -112,8 +112,10 @@ end;
 
 function OnPreShutdown(wParam: wParam; lParam: lParam): int; cdecl;
 begin
-  if (hwndWizard <> 0) then
+  if IsWindow(hwndWizard) then
     SendMessage(hwndWizard, WM_CLOSE, 0, 0);
+  if IsWindow(hwndDialog) then
+    SendMessage(hwndDialog, WM_CLOSE, 0, 0);
   result := 0;
 end;
 
