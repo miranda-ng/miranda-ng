@@ -25,7 +25,7 @@ uses
   Windows,
   Messages,
   SysUtils,
-  Inifiles,
+  IniFiles,
   m_api,// in '.\inc\m_api.pas',
 { используются в ImportThrd
   KOL in '.\kol\kol.pas',
@@ -48,8 +48,6 @@ const MIID_IMPORTTEXT:TGUID = '{6F376B33-D3F4-4c4f-A96B-77DA08043B06}';
 var
   hwndWizard:HWND;
   hwndDialog:HWND;
-  //Services
-  SrvITxt,SrvIWiz:THANDLE;
 
 function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
@@ -112,14 +110,23 @@ begin
   result := 0;
 end;
 
+function OnPreShutdown(wParam: wParam; lParam: lParam): int; cdecl;
+begin
+  if (hwndWizard <> 0) then
+    SendMessage(hwndWizard, WM_CLOSE, 0, 0);
+  result := 0;
+end;
+
 function Load(): int; cdecl;
 var
   mi:TMO_MenuItem;
 begin
   cp := Langpack_GetDefaultCodePage;
+
+  CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
+  CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
+
   SET_UID(@mi, '5FC2C67E-A16B-47B7-A6A1-40BE922CCD93');
-  SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
-  SrvIWiz := CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
   FillChar(mi, sizeof(mi), 0);
   mi.position := 1000090050;
   mi.hIcon := LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT));
@@ -133,14 +140,13 @@ begin
   Menu_AddMainMenuItem(@mi);
 
   HookEvent(ME_SYSTEM_MODULESLOADED, @OnModulesLoaded);
+  HookEvent(ME_SYSTEM_PRESHUTDOWN,   @OnPreShutdown);
   HookEvent(ME_PROTO_ACCLISTCHANGED, @OnAccountChanged);
   result := 0;
 end;
 
 function Unload: int; cdecl;
 begin
-  DestroyServiceFunction(SrvITxt);
-  DestroyServiceFunction(SrvIWiz);
   Result := 0;
 end;
 
