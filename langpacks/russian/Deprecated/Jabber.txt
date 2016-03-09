@@ -1,0 +1,82 @@
+[A list of entities with administrative privileges]
+Список пользователей с правами администратора
+[A list of entities with whom communication is blocked]
+Список пользователей, чьи подключения блокируются
+[The number of seconds to delay before applying a change]
+Задержка (в секундах) перед применением изменений
+[The number of disabled entities]
+Количество отключённых пользователей
+[The email address for a user]
+Адрес электронной почты пользователя
+[The last login time (per XEP-0082) of a user]
+Время последнего входа пользователя (согласно XEP-0082)
+[The number of logins per minute for an account]
+Количество входов в минуту для учётной записи
+[The text of a message of the day]
+Текст сообщения дня
+[The number of online entities]
+Количество пользователей «В сети»
+[The password for an account]
+Пароль учётной записи
+[Password verification]
+Проверка пароля
+[A list of registered entities]
+Список зарегистрированных пользователей
+[The number of registered entities]
+Количество зарегистрированных пользователей
+[Number of roster items for an account]
+Количество объектов в ростере учётной записи
+[The text of a welcome message]
+Текст приветственного сообщения
+[A list of entities with whom communication is allowed]
+Список пользователей, связь с которыми разрешена
+[First Name]
+Имя
+[Last Name]
+Фамилия
+[Desired Nickname]
+Желаемый ник
+[Your URL]
+Ваш сайт
+[Email Address]
+Адрес электронной почты
+[FAQ Entry]
+Часто задаваемые вопросы
+[Natural language for room discussions]
+Основной язык общения в комнате
+[Maximum number of room occupants]
+Максимальное количество учасников комнаты
+[Full list of room admins]
+Полный список администраторов комнаты чата
+[Short description of room]
+Краткое описание комнаты чата
+[Natural-language room name]
+Название комнаты чата на родном языке
+[Full list of room owners]
+Полный список владельцев комнаты чата
+[The room password]
+Пароль комнаты чата
+[The date and time when the node was created]
+Дата и время создания узла
+[The JID of the node creator]
+JID владельца узла
+[A description of the node]
+Описание узла
+[The default language of the node]
+Язык узла по умолчанию
+[The name of the node]
+Имя узла
+[A list of pending file transfers]
+Список отложенных передач файлов
+[The status message text]
+Текст статусного сообщения
+[The new priority for the client]
+Новый приоритет клиента
+[Account name associated with the user]
+Имя учётной записи пользователя
+[Full name of the user]
+Полное имя пользователя
+[Email address of the user]
+Адрес электронной почты пользователя
+[Minimum security level]
+Минимальный уровень безопасности

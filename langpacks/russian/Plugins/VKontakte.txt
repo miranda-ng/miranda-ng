@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.23
+;  Version: 0.1.1.24
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -485,6 +485,38 @@ ID получателя ошибочен или неизвестен
 Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
+[<not specified>]
+<не указано>
+[single]
+не женат/не замужем
+[in a relationship]
+встречается
+[engaged]
+помолвлен(а)
+[married]
+женат/замужем
+[it\'s complicated]
+всё сложно
+[actively searching]
+в активном поиске
+[in love]
+влюблён/влюблена
+[Interests]
+Интересы
+[Activities]
+Деятельность
+[Music]
+Музыка
+[Movies]
+Фильмы
+[TV]
+Телепередачи
+[Books]
+Книги
+[Games]
+Игры
+[Quotes]
+Цитаты
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to wipe local contacts missing in your friend list?]
