@@ -1187,9 +1187,12 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
+		db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", -1));
 	}
-	setDword(hContact, "InvisibleTS", time(NULL));
+	time_t now = time(NULL);
+	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)now);
+	setDword(hContact, "InvisibleTS", (DWORD)now);
 }
 
 CMString CVkProto::RemoveBBC(CMString& tszSrc) 

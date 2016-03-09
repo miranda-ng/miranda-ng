@@ -238,3 +238,8 @@ struct CVKChatContactTypingParam {
 	int m_ChatId;
 	int m_UserId;
 };
+
+struct CVKInteres {
+	const char *szField;
+	TCHAR *ptszTranslate;
+};
