@@ -267,8 +267,8 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			MsgWndData *msgwnd = new MsgWndData();
 			msgwnd->hwnd = wndEvtData->hwndWindow;
 			msgwnd->hContact = wndEvtData->hContact;
-			msgwnd->REdit = wndEvtData->hwndInput;
-			msgwnd->MEdit = wndEvtData->hwndLog;
+			msgwnd->REdit = wndEvtData->hwndLog;
+			msgwnd->MEdit = wndEvtData->hwndInput;
 			msgwnd->LButton = GetDlgItem(wndEvtData->hwndWindow, MI_IDC_ADD);
 
 			// Get the protocol for this contact to display correct smileys.
