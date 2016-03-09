@@ -323,7 +323,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
 		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
-		db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
+		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
 		int online_app = _ttoi(jnItem["online_app"].as_mstring());
 		int online_mobile = jnItem["online_mobile"].as_int();
@@ -393,7 +393,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		TranslateT("in a relationship"),
 		TranslateT("engaged"),
 		TranslateT("married"),
-		TranslateT("it's complicated"),
+		TranslateT("it\'s complicated"),
 		TranslateT("actively searching"),
 		TranslateT("in love")
 	};

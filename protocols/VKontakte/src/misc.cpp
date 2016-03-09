@@ -1187,7 +1187,7 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
-		db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
+		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", -1));
 	}
 	time_t now = time(NULL);
