@@ -23,7 +23,9 @@ mir_cs CVkProto::m_csTimer;
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
-static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
+static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, " 
+	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
+	"music, movies, tv, books, games, quotes, about,  domain";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -305,14 +307,27 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		ReloadAvatarInfo(hContact);
 	}
 
+	const JSONNode &jnLastSeen = jnItem["last_seen"];
+	if (jnLastSeen) {
+		int iLastSeen = jnLastSeen["time"].as_int();
+		int iOldLastSeen = db_get_dw(hContact, "BuddyExpectator", "LastSeen");
+		if (iLastSeen && iLastSeen > iOldLastSeen)  {
+			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)iLastSeen);
+			db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
+		}
+	}
+
 	int iNewStatus = (jnItem["online"].as_int() == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != iNewStatus)
 		setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
+		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
+		db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
+
 		int online_app = _ttoi(jnItem["online_app"].as_mstring());
 		int online_mobile = jnItem["online_mobile"].as_int();
-		
+
 		if (online_app == 0 && online_mobile == 0)
 			SetMirVer(hContact, 7); // vk.com
 		else if (online_app != 0)
@@ -355,6 +370,78 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	else {
 		db_unset(hContact, m_szModuleName, "ListeningTo");
 		db_unset(hContact, m_szModuleName, "AudioUrl");
+	}
+
+	const JSONNode &jnCountry = jnItem["country"];
+	if (jnCountry) {
+		tszValue = jnCountry["title"].as_mstring();
+		if (!tszValue.IsEmpty())
+			setTString(hContact, "Country", tszValue);
+	}
+
+	const JSONNode &jnCity = jnItem["city"];
+	if (jnCity) {
+		tszValue = jnCity["title"].as_mstring();
+		if (!tszValue.IsEmpty())
+			setTString(hContact, "City", tszValue);
+	}
+
+	// MaritalStatus
+	TCHAR * ptszMaritalStatus[] = { 
+		TranslateT("<not specified>"),
+		TranslateT("single"), 
+		TranslateT("in a relationship"),
+		TranslateT("engaged"),
+		TranslateT("married"),
+		TranslateT("it's complicated"),
+		TranslateT("actively searching"),
+		TranslateT("in love")
+	};
+
+	if (jnItem["relation"] && jnItem["relation"].as_int())
+		setTString(hContact, "MaritalStatus", ptszMaritalStatus[jnItem["relation"].as_int()]);
+
+	//  interests, activities, music, movies, tv, books, games, quotes
+	CVKInteres vkInteres[] = { 
+		{ "interests", TranslateT("Interests") }, 
+		{ "activities", TranslateT("Activities") }, 
+		{ "music", TranslateT("Music") }, 
+		{ "movies", TranslateT("Movies") }, 
+		{ "tv", TranslateT("TV") },
+		{ "books", TranslateT("Books") }, 
+		{ "games", TranslateT("Games") },
+		{ "quotes", TranslateT("Quotes") } 
+	};
+
+	int iInteres = 0;
+
+	for (int i = 0; i < _countof(vkInteres); i++) {
+		tszValue = jnItem[vkInteres[i].szField].as_mstring();
+		if (tszValue.IsEmpty())
+			continue;
+		
+		CMStringA InteresCat(FORMAT, "Interest%dCat", iInteres);
+		CMStringA InteresText(FORMAT, "Interest%dText", iInteres);
+
+		setTString(hContact, InteresCat, vkInteres[i].ptszTranslate);
+		setTString(hContact, InteresText, tszValue);
+
+		iInteres++;
+		
+	}
+
+	for (int i = iInteres; iInteres > 0; i++) {
+		CMStringA InteresCat(FORMAT, "Interest%dCat", iInteres);
+		ptrT ptszCat(db_get_tsa(hContact, m_szModuleName, InteresCat));
+		if (!ptszCat)
+			break;
+		db_unset(hContact, m_szModuleName, InteresCat);
+
+		CMStringA InteresText(FORMAT, "Interest%dText", iInteres);
+		ptrT ptszText(db_get_tsa(hContact, m_szModuleName, InteresText));
+		if (!ptszText)
+			break;
+		db_unset(hContact, m_szModuleName, InteresText);
 	}
 
 	tszValue = jnItem["about"].as_mstring();

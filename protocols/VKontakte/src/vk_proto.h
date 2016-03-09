@@ -443,6 +443,7 @@ private:
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;
 	ptrT	m_ReturnChatMessage;
+	ptrT	m_VKLang;
 
 	ptrA
 		m_pollingServer,
