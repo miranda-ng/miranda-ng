@@ -398,7 +398,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		TranslateT("in love")
 	};
 
-	if (jnItem["relation"] && jnItem["relation"].as_int())
+	if (jnItem["relation"] && jnItem["relation"].as_int() < _countof(ptszMaritalStatus))
 		setTString(hContact, "MaritalStatus", ptszMaritalStatus[jnItem["relation"].as_int()]);
 
 	//  interests, activities, music, movies, tv, books, games, quotes
