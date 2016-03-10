@@ -1,6 +1,6 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2012  Ian Goldberg, Rob Smits, Chris Alexander,
+ *  Copyright (C) 2004-2015  Ian Goldberg, Rob Smits, Chris Alexander,
  *  			      Willy Lew, Lisa Du, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
@@ -90,12 +90,11 @@ gcry_error_t otrl_instag_read(OtrlUserState us, const char *filename)
  * OtrlUserState. The FILE* must be open for reading. */
 gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 {
+    if (!instf) return gcry_error(GPG_ERR_NO_ERROR);
 
     OtrlInsTag *p;
     char storeline[1000];
     size_t maxsize = sizeof(storeline);
-    
-    if (!instf) return gcry_error(GPG_ERR_NO_ERROR);
 
     while(fgets(storeline, maxsize, instf)) {
 	char *prevpos;
@@ -118,23 +117,35 @@ gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 	*pos = '\0';
 	pos++;
 	p->accountname = malloc(pos - prevpos);
+	if (!(p->accountname)) {
+	    free(p);
+	    return gcry_error(GPG_ERR_ENOMEM);
+	}
 	memmove(p->accountname, prevpos, pos - prevpos);
 
 	prevpos = pos;
 	pos = strchr(prevpos, '\t');
 	if (!pos) {
+	    free(p->accountname);
 	    free(p);
 	    continue;
 	}
 	*pos = '\0';
 	pos++;
 	p->protocol = malloc(pos - prevpos);
+	if (!(p->protocol)) {
+	    free(p->accountname);
+	    free(p);
+	    return gcry_error(GPG_ERR_ENOMEM);
+	}
 	memmove(p->protocol, prevpos, pos - prevpos);
 
 	prevpos = pos;
 	pos = strchr(prevpos, '\r');
 	if (!pos) pos = strchr(prevpos, '\n');
 	if (!pos) {
+	    free(p->accountname);
+	    free(p->protocol);
 	    free(p);
 	    continue;
 	}
@@ -142,6 +153,8 @@ gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 	pos++;
 	/* hex str of length 8 */
 	if (strlen(prevpos) != 8) {
+	    free(p->accountname);
+	    free(p->protocol);
 	    free(p);
 	    continue;
 	}
@@ -149,6 +162,8 @@ gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 	sscanf(prevpos, "%08x", &instag);
 
 	if (instag < OTRL_MIN_VALID_INSTAG) {
+	    free(p->accountname);
+	    free(p->protocol);
 	    free(p);
 	    continue;
 	}
