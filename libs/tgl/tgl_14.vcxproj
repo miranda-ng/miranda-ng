@@ -127,7 +127,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\auto.h" />
-    <ClInclude Include="src\event-old.h" />
     <ClInclude Include="src\mtproto-client.h" />
     <ClInclude Include="src\mtproto-common.h" />
     <ClInclude Include="src\mtproto-utils.h" />
@@ -171,20 +170,6 @@
     <ClCompile Include="src\tgl.c" />
     <ClCompile Include="src\tools.c" />
     <ClCompile Include="src\updates.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\zlib\zlib.vcxproj">
-      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="generate_12.vcxproj">
-      <Project>{03A484BF-4CF0-4290-9BD2-D649F0797703}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="tl-parser\tl-parser_12.vcxproj">
-      <Project>{14022761-9F27-4A2D-B7EA-F41FB9B3274C}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

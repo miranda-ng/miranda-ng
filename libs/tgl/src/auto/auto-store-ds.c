@@ -3,7 +3,6 @@
 #include "auto-store-ds.h"
 #include "auto-skip.h"
 #include "auto-types.h"
-#include "..\auto-static-store-ds.c"
 #include "..\mtproto-common.h"
 #else
 #include "auto.h"
