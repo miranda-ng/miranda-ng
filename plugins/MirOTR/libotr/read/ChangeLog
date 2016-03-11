@@ -1,3 +1,63 @@
+2016-03-07
+
+	* tests/regression/client/Makefile.am:
+	* tests/unit/Makefile.am: Add LIBGCRYPT_CFLAGS to the test suite
+
+	* Makefile.am:
+	* configure.ac: Only build the test suite on Linux, since it
+	currently uses Linux-specific features such as epoll
+
+2016-03-06
+
+	* Makefile.am: Add bootstrap to the tarball
+
+2016-03-04
+
+	* README:
+	* configure.ac:
+	* src/version.h: Bump version number to 4.1.1
+
+2016-03-03
+
+	* src/proto.c (otrl_proto_accept_data):
+	* src/proto.c (otrl_proto_fragment_accumulate):
+	* src/proto.c (otrl_proto_fragment_create): Prevent integer
+	overflow on 64-bit architectures when receiving 4GB messages.
+	In several places in proto.c, the sizes of portions of incoming
+	messages were stored in variables of type int or unsigned int
+	instead of size_t.  If a message arrives with very large
+	sizes (for example unsigned int datalen = UINT_MAX), then
+	constructions like malloc(datalen+1) will turn into malloc(0),
+	which on some architectures returns a non-NULL pointer, but
+	UINT_MAX bytes will get written to that pointer.  Ensure all
+	calls to malloc or realloc cannot integer overflow like this.
+	Thanks to Markus Vervier of X41 D-Sec GmbH
+	<markus.vervier@x41-dsec.de> for the report.
+
+	* Protocol-v3.html: Clarify that instance tags and fragment
+	numbers in the OTR fragment format are allowed to have leading
+	0s.  Also fix that how to handle v2 versus v3 messages for the
+	Reveal Signature and Signature messages was missing.  Thanks to
+	Ola Bini <obini@thoughtworks.com> for the report.
+
+2015-12-25
+
+	* src/instag.c (otrl_instag_read_FILEp): Fix memory leak in
+	otrl_instag_read_FILEp if the tag file is malformed.  Thanks to
+	Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com> for the
+	report.
+
+2015-08-18
+
+	* src/message.c (otrl_message_receiving):
+	* src/proto.c (otrl_proto_create_data): Set to NULL the sendsmp
+	pointer when handling SMP to avoid a potential free() of an
+	uninitialized pointer.  Also ensure the message pointer is set
+	to NULL in otrl_proto_create_data for extra precaution and to
+	prevent future code paths from having the same error.  Thanks to
+	Nicolas Guigo <nicolas.guigo@nccgroup.trust> and Ben Hawkes
+	<hawkes@inertiawar.com> for the report.
+
 2015-02-08
 
 	* Protocol-v3.html: Typo fixes, thanks to Hannes Mehnert

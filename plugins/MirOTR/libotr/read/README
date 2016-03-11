@@ -1,5 +1,5 @@
 	      Off-the-Record Messaging Library and Toolkit
-			  v4.1.0, 21 Oct 2014
+			  v4.1.1, 9 Mar 2016
 
 This is a library and toolkit which implements Off-the-Record (OTR) Messaging.
 
@@ -309,7 +309,7 @@ The Off-the-Record Messaging library (in the src directory) is
 covered by the following (LGPL) license:
 
     Off-the-Record Messaging library
-    Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+    Copyright (C) 2004-2016  Ian Goldberg, David Goulet, Rob Smits,
                              Chris Alexander, Willy Lew, Lisa Du,
 			     Nikita Borisov
 			     <otr@cypherpunks.ca>

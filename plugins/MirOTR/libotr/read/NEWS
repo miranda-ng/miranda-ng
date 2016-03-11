@@ -1,3 +1,14 @@
+9 Mar 2016:
+- Release 4.1.1
+- Fix an integer overflow bug that can cause a heap buffer overflow (and
+  from there remote code execution) on 64-bit platforms
+- Fix possible free() of an uninitialized pointer
+- Be stricter about parsing v3 fragments
+- Add a testsuite ("make check" to run it), but only on Linux for now,
+  since it uses Linux-specific features such as epoll
+- Fix a memory leak when reading a malformed instance tag file
+- Protocol documentation clarifications
+
 21 Oct 2014:
 - Release 4.1.0
 - Modernized autoconf build system
