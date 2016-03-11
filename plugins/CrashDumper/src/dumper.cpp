@@ -482,7 +482,9 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	TCHAR profpn[MAX_PATH];
 	mir_sntprintf(profpn, TEXT("%s\\%s"), profpathfull, profname);
 
-	buffer.AppendFormat(TEXT("Profile: %s\r\n"), profpn);
+	DATABASELINK *db = FindDatabasePlugin(profpn);
+
+	buffer.AppendFormat(TEXT("Profile: %s (%s)\r\n"), profpn, db->szFullName);
 
 	if (flags & VI_FLAG_PRNVAR) {
 		WIN32_FIND_DATA FindFileData;
