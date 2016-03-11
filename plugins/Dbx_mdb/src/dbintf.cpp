@@ -100,7 +100,7 @@ int CDbxMdb::Load(bool bSkipInit)
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
 		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) 
 		{
-			DBHeader *hdr = (DBHeader*)data.mv_data;
+			const DBHeader *hdr = (const DBHeader*)data.mv_data;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				DatabaseCorruption(NULL);
 
@@ -154,7 +154,7 @@ int CDbxMdb::Load(bool bSkipInit)
 		FillContacts();
 	}
 
-	return ERROR_SUCCESS;
+	return EGROKPRF_NOERROR;
 }
 
 int CDbxMdb::Create(void)
@@ -223,7 +223,7 @@ static const TCHAR *msg = NULL;
 static DWORD dwErr = 0;
 static TCHAR tszPanic[] = LPGENT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
 
-void __cdecl dbpanic(void *)
+EXTERN_C void __cdecl dbpanic(void *)
 {
 	if (msg) {
 		if (dwErr == ERROR_DISK_FULL)
