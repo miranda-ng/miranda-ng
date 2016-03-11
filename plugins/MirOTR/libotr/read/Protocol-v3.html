@@ -1280,7 +1280,8 @@ fragmentation on outgoing messages is optional.</p>
 
     <li>Note that k and n are unsigned short ints (2 bytes), and each has
       a maximum value of 65535.  Also, each piece[k] must be
-      non-empty.</li>
+      non-empty.  The instance tags (if applicable) and the k and n
+      values may have leading zeroes.</li>
     </ul>
     <p>Note that fragments are not themselves messages that can be
     fragmented: you can't fragment a fragment.</p></dd>
@@ -1610,7 +1611,9 @@ AUTHSTATE_V1_SETUP:</dt>
 <dd>Ignore the message.</dd>
 </dl>
 <h4>Receiving a Reveal Signature Message</h4>
-<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<p>If the message is version 2 and ALLOW_V2 is not set, ignore this message.
+Similarly if the message is version 3 and ALLOW_V3 is not set, ignore the
+message. Otherwise:</p>
 <dl>
 <dt>If authstate is AUTHSTATE_AWAITING_REVEALSIG:</dt>
 <dd>Use the received value of r to decrypt the value of g<sup>x</sup>
@@ -1630,7 +1633,9 @@ AUTHSTATE_AWAITING_SIG, or AUTHSTATE_V1_SETUP:</dt>
 <dd>Ignore the message.</dd>
 </dl>
 <h4>Receiving a Signature Message</h4>
-<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<p>If the message is version 2 and ALLOW_V2 is not set, ignore this message.
+Similarly if the message is version 3 and ALLOW_V3 is not set, ignore the
+message. Otherwise:</p>
 <dl>
 <dt>If authstate is AUTHSTATE_AWAITING_SIG:</dt>
 <dd>Decrypt the encrypted signature, and verify the signature and the MACs.

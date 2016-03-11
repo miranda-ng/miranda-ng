@@ -467,9 +467,10 @@ static gcry_error_t send_or_error_auth(const OtrlMessageAppOps *ops,
     if (!err) {
 	const char *msg = context->auth.lastauthmsg;
 	if (msg && *msg) {
+		time_t now;
 	    fragment_and_send(ops, opdata, context, msg,
 		    OTRL_FRAGMENT_SEND_ALL, NULL);
-	    time_t now = time(NULL);
+	    now = time(NULL);
 	    /* Update the "last sent" fields, unless this is a version 3
 	     * message typing to update the master context (as happens
 	     * when sending a v3 COMMIT message, for example). */
