@@ -276,7 +276,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
-	MDB_dbi m_dbCrypto;
+	MDB_dbi  m_dbCrypto;
 
 	int      InitCrypt(void);
 

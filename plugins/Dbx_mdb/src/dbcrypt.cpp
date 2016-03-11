@@ -159,11 +159,13 @@ void CDbxMdb::StoreKey()
 
 void CDbxMdb::SetPassword(LPCTSTR ptszPassword)
 {
-	if (ptszPassword == NULL || *ptszPassword == 0) {
+	if (ptszPassword == NULL || *ptszPassword == 0) 
+	{
 		m_bUsesPassword = false;
 		m_crypto->setPassword(NULL);
 	}
-	else {
+	else 
+	{
 		m_bUsesPassword = true;
 		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(ptszPassword)));
 	}
@@ -178,10 +180,72 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 		return 0;
 
 	mir_cslock lck(m_csDbAccess);
-	for (MCONTACT contactID = FindFirstContact(); contactID; contactID = FindNextContact(contactID)) 
-	{
-		EnableContactEncryption(contactID, bEncrypted);
+
+/*	{ WTF ?!
+		txn_ptr_ro txn(m_txn);
+		std::vector<MEVENT> lstEvents;
+		{
+			cursor_ptr_ro cursor(m_curEvents);
+			MDB_val key, data;
+			if (mdb_cursor_get(cursor, &key, &data, MDB_FIRST) == MDB_SUCCESS)
+			{
+				do
+				{
+					const MEVENT hDbEvent = *(MEVENT*)key.mv_data;
+					lstEvents.push_back(hDbEvent);
+				} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+			}
+		}
+		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it)
+		{
+			MEVENT &hDbEvent = *it;
+			MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+			mdb_get(txn, m_dbEvents, &key, &data);
+
+			const DBEvent *dbEvent = (const DBEvent*)data.mv_data;
+			const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
+
+			if (((dbEvent->flags & DBEF_ENCRYPTED) != 0) != bEncrypted)
+			{
+				mir_ptr<BYTE> pNewBlob;
+				size_t nNewBlob;
+				DWORD dwNewFlags;
+
+				if (dbEvent->flags & DBEF_ENCRYPTED)
+				{
+					pNewBlob = (BYTE*)m_crypto->decodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
+					dwNewFlags = dbEvent->flags & (~DBEF_ENCRYPTED);
+				}
+				else
+				{
+					pNewBlob = m_crypto->encodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
+					dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
+				}
+
+				DBEvent *pNewEvent = (DBEvent*)_alloca(sizeof(DBEvent));
+				memcpy(pNewEvent, dbEvent, sizeof(DBEvent));
+				pNewEvent->cbBlob = nNewBlob;
+				pNewEvent->flags = dwNewFlags;
+
+
+				for (;; Remap())
+				{
+					txn_ptr txn(m_pMdbEnv);
+					data.mv_size = sizeof(DBEvent)+nNewBlob;
+					MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), 1);
+
+					BYTE *pNewDBEvent = (BYTE*)data.mv_data;
+					memcpy(pNewDBEvent, pNewEvent, sizeof(DBEvent));
+					memcpy(pNewDBEvent + sizeof(DBEvent), pNewBlob, nNewBlob);
+
+					if (txn.commit())
+						break;
+				}
+			}
+		}
 	}
+*/
+
 
 	for (;; Remap())
 	{
@@ -192,11 +256,5 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 			break;
 	}
 	m_bEncrypted = bEncrypted;
-	return 0;
-}
-
-int CDbxMdb::EnableContactEncryption(MCONTACT /*hContact*/, bool /*bEncrypted*/)
-{
-	//TODO: encrypt/decrypt all contact events and settings
 	return 0;
 }
