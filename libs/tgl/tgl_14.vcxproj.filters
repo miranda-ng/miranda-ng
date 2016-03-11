@@ -21,9 +21,6 @@
     <ClInclude Include="src\auto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\event-old.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\mtproto-client.h">
       <Filter>Header Files</Filter>
     </ClInclude>

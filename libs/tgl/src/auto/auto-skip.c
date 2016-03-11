@@ -1,7 +1,6 @@
 #ifdef _MSC_VER
 #include "..\auto.h"
 #include "auto-skip.h"
-#include "..\auto-static-skip.c"
 #include "..\mtproto-common.h"
 #else
 #include "auto.h"
