@@ -91,7 +91,7 @@ gcry_error_t otrl_instag_read(OtrlUserState us, const char *filename)
 gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 {
     
-	OtrlInsTag *p;
+    OtrlInsTag *p;
     char storeline[1000];
     size_t maxsize = sizeof(storeline);
 
