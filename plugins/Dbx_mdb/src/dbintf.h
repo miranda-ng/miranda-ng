@@ -279,8 +279,6 @@ protected:
 	MDB_dbi  m_dbCrypto;
 
 	int      InitCrypt(void);
-
-	int      EnableContactEncryption(MCONTACT, bool bEnable);
 	CRYPTO_PROVIDER* SelectProvider();
 	void     GenerateNewKey();
 
