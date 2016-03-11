@@ -39,6 +39,7 @@
 #define tasprintf tgl_asprintf
 #define tsnprintf tgl_snprintf
 
+#if(_MSC_VER < 1900)
 struct _timespec32
 {
 	__time32_t tv_sec;
@@ -57,6 +58,7 @@ struct timespec
 	time_t tv_sec;  // Seconds - >= 0
 	long   tv_nsec; // Nanoseconds - [0, 999999999]
 };
+#endif
 #endif
 
 extern struct tgl_allocator *tgl_allocator;
