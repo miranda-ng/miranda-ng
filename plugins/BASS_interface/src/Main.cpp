@@ -26,7 +26,7 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 	return NULL;
 }
 
-extern "C" PfnDliHook __pfnDliNotifyHook2 = &delayHook;
+extern "C" PfnDliHook __pfnDliNotifyHook2 = delayHook;
 
 HINSTANCE hInst;
 int hLangpack;
@@ -445,15 +445,9 @@ void CreateFrame()
 		return;
 
 	WNDCLASS wndclass = { 0 };
-	wndclass.style = 0;
 	wndclass.lpfnWndProc = FrameWindowProc;
-	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInst;
-	wndclass.hIcon = NULL;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.hbrBackground = 0;
-	wndclass.lpszMenuName = NULL;
 	wndclass.lpszClassName = _T("BassInterfaceFrame");
 	RegisterClass(&wndclass);
 
@@ -471,10 +465,12 @@ void CreateFrame()
 
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(ColourIDT);
-	mir_strcpy(colourid.dbSettingsGroup, ModuleName);
-	mir_strcpy(colourid.setting, "ColorFrame");
-	mir_tstrcpy(colourid.name, LPGENT("Frame background"));
-	mir_tstrcpy(colourid.group, _T(ModuleName));
+
+	strcpy_s(colourid.dbSettingsGroup, ModuleName);
+	strcpy_s(colourid.setting, "ColorFrame");
+	wcscpy_s(colourid.name, LPGENW("Frame background"));
+	wcscpy_s(colourid.group, _T(ModuleName));
+
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	ColourRegisterT(&colourid);
 
@@ -493,14 +489,16 @@ void DeleteFrame()
 void LoadBassLibrary(const TCHAR *ptszPath)
 {
 	hBass = LoadLibrary(ptszPath);
-	if (hBass != NULL) {
+
+	if (hBass != NULL) 
+	{
 		newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
 		DBVARIANT dbv = { 0 };
 
 		BASS_DEVICEINFO info;
 		if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
-			for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
+			for (size_t i = 1; BASS_GetDeviceInfo(i, &info); i++)
 				if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
 					device = i;
 
