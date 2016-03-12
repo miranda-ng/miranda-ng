@@ -1,4 +1,243 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\tgl\binlog.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\mime-types.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\mtproto-client.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\mtproto-common.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\mtproto-utils.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\queries.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\structures.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\tgl.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\tgl-net.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\tgl-timers.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\tg-mime-types.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\tools.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\updates.c">
+      <Filter>Source Files\tgl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-autocomplete.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-fetch.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-fetch-ds.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-free-ds.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-print-ds.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-skip.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-store.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-store-ds.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tgl\auto\auto-types.c">
+      <Filter>Source Files\tgl\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\tgl\auto.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\mtproto-client.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\mtproto-common.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\mtproto-utils.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\no-preview.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\queries.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-binlog.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-fetch.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-inner.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-layout.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-methods-in.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-net.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-net-inner.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-structures.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tgl-timers.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tg-mime-types.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tools.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\tree.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tgl\updates.h">
+      <Filter>Header Files\tgl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\*.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files\tgl">
+      <UniqueIdentifier>{0f259e4a-d103-4c0d-9961-50482af1310b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tgl">
+      <UniqueIdentifier>{1da43714-dece-44ab-81fd-fadb968be26c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tgl\auto">
+      <UniqueIdentifier>{0e669e36-12ed-48fb-ac6d-e317126f7380}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
