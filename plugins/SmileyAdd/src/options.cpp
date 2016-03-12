@@ -106,7 +106,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PLUGENABLED:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				BOOL en = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_UNCHECKED;
+				BOOL en = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_CHECKED;
 				EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), en);
 				SetChanged();
 			}
@@ -347,7 +347,7 @@ void OptionsDialogType::InitDialog(void)
 {
 	TranslateDialogDefault(m_hwndDialog);
 
-	CheckDlgButton(m_hwndDialog, IDC_PLUGENABLED, opt.PluginSupportEnabled ? BST_UNCHECKED : BST_CHECKED);
+	CheckDlgButton(m_hwndDialog, IDC_PLUGENABLED, opt.PluginSupportEnabled ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SPACES, opt.EnforceSpaces ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SCALETOTEXTHEIGHT, opt.ScaleToTextheight ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_USESTDPACK, opt.UseOneForAll ? BST_UNCHECKED : BST_CHECKED);
@@ -417,7 +417,7 @@ void OptionsDialogType::ApplyChanges(void)
 	ProcessAllInputAreas(true);
 	CloseSmileys();
 
-	opt.PluginSupportEnabled = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_UNCHECKED;
+	opt.PluginSupportEnabled = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_CHECKED;
 	opt.EnforceSpaces = IsDlgButtonChecked(m_hwndDialog, IDC_SPACES) == BST_CHECKED;
 	opt.ScaleToTextheight = IsDlgButtonChecked(m_hwndDialog, IDC_SCALETOTEXTHEIGHT) == BST_CHECKED;
 	opt.UseOneForAll = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
