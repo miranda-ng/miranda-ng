@@ -180,7 +180,7 @@ static int array__call(lua_State *L)
 	BYTE *data = (BYTE*)lua_touserdata(L, 1);
 	size_t size = luaL_checkinteger(L, 2);
 
-	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB*));
+	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
 	blob->cbSize = size;
 	blob->pBlobData = (BYTE*)mir_calloc(size);
 	memcpy(blob->pBlobData, data, size);
