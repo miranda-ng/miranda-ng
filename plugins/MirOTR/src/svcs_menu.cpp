@@ -48,7 +48,7 @@ int StartOTR(MCONTACT hContact) {
 	return 0;
 }
 
-INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
+INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM)
 {
 	TCHAR buff[512];
 
@@ -68,7 +68,7 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 	return StartOTR(hContact);
 }
 
-INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
+INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM)
 {
 	TCHAR buff[512];
 
@@ -108,7 +108,7 @@ int otr_disconnect_contact(MCONTACT hContact)
 	return 0;
 }
 
-INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
+INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM)
 {
 	// prevent this filter from acting on injeceted messages for metas, when they are passed though the subcontact's proto send chain
 	if (otr_disconnect_contact(hContact)) return 0;
@@ -121,7 +121,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
+INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM)
 {
 	MCONTACT hSub = db_mc_getMostOnline(hContact);
 	if(hSub != 0)
@@ -136,7 +136,7 @@ INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM lParam)
+INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM)
 {
 	MCONTACT hSub = db_mc_getMostOnline(hContact);
 	if (hSub != 0)
@@ -177,7 +177,7 @@ void InitMenu()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SVC_PrebuildContactMenu);
 }
 
-int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	const char *proto = GetContactProto(hContact);
 	DWORD pol = CONTACT_DEFAULT_POLICY;

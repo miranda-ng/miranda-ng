@@ -26,7 +26,7 @@ void SetFilenames(const TCHAR *path)
 	mir_sntprintf(g_instag_filename, _T("%s\\") _T(INSTAG_FILENAME), path);
 }
 
-int FoldersChanged(WPARAM wParam, LPARAM lParam)
+int FoldersChanged(WPARAM, LPARAM)
 {
 	TCHAR path[MAX_PATH];
 	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), _T("")))
@@ -112,7 +112,7 @@ void SaveOptions()
 	db_set_b(0, MODULENAME, "EndWindowClose", options.end_window_close ? 1 : 0);
 }
 
-extern "C" void set_context_contact(void *data, ConnContext *context)
+extern "C" void set_context_contact(void *, ConnContext *context)
 {
 	MCONTACT hContact = find_contact(context->username, context->protocol);
 	context->app_data = (void*)hContact;
@@ -382,7 +382,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			case IDC_CMB_PROTO_POLICY:
 				int proto = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS));
 				if (proto == -1) break;
-				int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_GETCURSEL, 0, 0);
+				sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_GETCURSEL, 0, 0);
 				if (sel == CB_ERR) break;
 				int len = SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_GETLBTEXTLEN, sel, 0);
 				if (len < 0) break;
@@ -815,7 +815,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OpenOptions(WPARAM wParam, LPARAM lParam)
+static int OpenOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100;

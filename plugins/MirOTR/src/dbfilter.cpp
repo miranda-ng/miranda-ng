@@ -16,7 +16,7 @@ struct DeleteEventHead {
 };
 static DeleteEventHead DeleteEvents = {0,0};
 
-VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
+void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 	if (!DeleteEvents.first) return;
 	mir_cslock lck(RemoveChainCS);
 	DeleteEventNode *prev =0, *current, *next;
@@ -163,7 +163,7 @@ void FinishSession(MCONTACT hContact)
 	return;
 }
 
-int WindowEvent(WPARAM wParam, LPARAM lParam)
+int WindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
 	if (mwd->uType == MSG_WINDOW_EVT_CLOSE && options.end_window_close) {
