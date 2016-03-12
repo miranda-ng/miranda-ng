@@ -133,6 +133,7 @@ static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				case IDOK:
 					smp_for_contact.erase(context->app_data);
 					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+					// fall through
 				case IDCANCEL:
 					DestroyWindow(hwndDlg);
 					break;
@@ -408,25 +409,24 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			{
 				ConnContext *context = (ConnContext*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				MCONTACT hContact = (UINT_PTR)context->app_data;
-				TCHAR msg[1024];
+				TCHAR szMsg[1024];
 				switch (LOWORD(wParam)) {
 				case IDCANCEL:
 					DestroyWindow(hwndDlg);
 					break;
 				case IDOK:
-					GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, msg, 255);
-					if (_tcsncmp(msg, TranslateT(LANG_SMPTYPE_QUESTION), 255) == 0) {
+					GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, szMsg, _countof(szMsg));
+					if (_tcsncmp(szMsg, TranslateT(LANG_SMPTYPE_QUESTION), _countof(szMsg)) == 0) {
 						if (smp_for_contact.find(context->app_data) != smp_for_contact.end()) {
-							TCHAR msg[512];
-							mir_sntprintf(msg, TranslateT(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
-							ShowError(msg);
+							mir_sntprintf(szMsg, TranslateT(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
+							ShowError(szMsg);
 						}
 						else {
 							int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, WM_GETTEXTLENGTH, 0, 0);
 							TCHAR *question = new TCHAR[len + 1];
 							GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, question, len + 1);
 							T2Utf quest(question);
-							delete question;
+							delete[] question;
 
 							len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
 							TCHAR *answer = new TCHAR[len + 1];
@@ -439,11 +439,10 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						}
 
 					}
-					else if (_tcsncmp(msg, TranslateT(LANG_SMPTYPE_PASSWORD), 255) == 0) {
+					else if (_tcsncmp(szMsg, TranslateT(LANG_SMPTYPE_PASSWORD), _countof(szMsg)) == 0) {
 						if (smp_for_contact.find(context->app_data) != smp_for_contact.end()) {
-							TCHAR msg[512];
-							mir_sntprintf(msg, TranslateT(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
-							ShowError(msg);
+							mir_sntprintf(szMsg, TranslateT(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
+							ShowError(szMsg);
 						}
 						else {
 							int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);

@@ -46,7 +46,7 @@ static unsigned int CALLBACK generate_key_thread(void* param)
 	return 0;
 }
 
-INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam) {
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
@@ -101,7 +101,8 @@ extern "C" {
 
 	/* Create a private key for the given accountname/protocol if
 	* desired. */
-	void otr_gui_create_privkey(void *opdata, const char *account_name, const char *protocol) {
+	// otr_gui_create_privkey(void *opdata, const char *account_name, const char *protocol) {
+	void otr_gui_create_privkey(void *opdata, const char *, const char *protocol) {
 		DEBUGOUT_T("OTR_GUI_CREATE_PRIVKEY\n");
 		if (opdata) {
 			protocol = GetContactProto((UINT_PTR)opdata);
@@ -117,7 +118,8 @@ extern "C" {
 	* If you return 1, messages such as heartbeats or other
 	* notifications may be sent to the user, which could result in "not
 	* logged in" errors if you're wrong. */
-	int otr_gui_is_logged_in(void *opdata, const char *accountname, const char *protocol, const char *recipient) {
+	//int otr_gui_is_logged_in(void *opdata, const char *accountname, const char *protocol, const char *recipient) {
+	int otr_gui_is_logged_in(void *opdata, const char *, const char *, const char *) {
 		DEBUGOUT_T("OTR_GUI_IS_LOGGED_IN\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (hContact) {
@@ -131,7 +133,8 @@ extern "C" {
 
 	/* Send the given IM to the given recipient from the given
 	* accountname/protocol. */
-	void otr_gui_inject_message(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message) {
+	//void otr_gui_inject_message(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message) {
+	void otr_gui_inject_message(void *opdata, const char *, const char *protocol, const char *, const char *message) {
 		DEBUGOUT_T("OTR_GUI_INJECT_MESSAGE\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
@@ -140,7 +143,8 @@ extern "C" {
 
 	/* When the list of ConnContexts changes (including a change in
 	* state), this is called so the UI can be updated. */
-	void otr_gui_update_context_list(void *opdata) {
+	//void otr_gui_update_context_list(void *opdata) {
+	void otr_gui_update_context_list(void *) {
 		//MessageBox(0, "Update Context List", "OTR Callback", MB_OK);
 		DEBUGOUT_T("OTR: Update Context List\n");
 	}
@@ -158,7 +162,8 @@ extern "C" {
 	}
 
 	/* The list of known fingerprints has changed.  Write them to disk. */
-	void otr_gui_write_fingerprints(void *opdata) {
+	//void otr_gui_write_fingerprints(void *opdata) {
+	void otr_gui_write_fingerprints(void *) {
 		DEBUGOUT_T("OTR_GUI_WRITE_FINGERPRINTS\n");
 		//if(MessageBox(0, Translate("Would you like to save the current fingerprint list?"), Translate(MODULE), MB_YESNO) == IDYES)
 		otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
@@ -256,21 +261,26 @@ extern "C" {
 		return CallProtoService(proto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)opdata);
 	}
 
-	const char *account_name(void *opdata, const char *account, const char *protocol) {
+	//const char *account_name(void *opdata, const char *account, const char *protocol) {
+	const char *account_name(void *, const char *account, const char *) {
 		return account;
 	}
 
-	void account_name_free(void *opdata, const char *account_name) {
+	//void account_name_free(void *opdata, const char *account_name) {
+	void account_name_free(void *, const char *) {
 	}
 
 	void add_appdata(void *data, ConnContext *context) {
 		if (context)	context->app_data = data;
 	}
 
-	const char* resent_msg_prefix(void *opdata, ConnContext *context){
+	//const char* resent_msg_prefix(void *opdata, ConnContext *context) {
+	const char* resent_msg_prefix(void *, ConnContext *){
 		return "[resent]";
 	}
-	void resent_msg_prefix_free(void *opdata, const char *prefix){
+
+	//void resent_msg_prefix_free(void *opdata, const char *prefix) {
+	void resent_msg_prefix_free(void *, const char *){
 		return;
 	}
 
@@ -286,6 +296,7 @@ extern "C" {
 			break;
 		case OTRL_SMPEVENT_CHEATED:
 			otrl_message_abort_smp(otr_user_state, &ops, opdata, context);
+			// fall through
 		case OTRL_SMPEVENT_IN_PROGRESS:
 		case OTRL_SMPEVENT_SUCCESS:
 		case OTRL_SMPEVENT_FAILURE:
@@ -298,7 +309,8 @@ extern "C" {
 		}
 	}
 
-	void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *context, const char *message, gcry_error_t err) {
+	//void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *context, const char *message, gcry_error_t err) {
+	void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *, const char *message, gcry_error_t err) {
 		DEBUGOUTA("HANDLE_MSG_EVENT\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		const TCHAR* contact = contact_get_nameT(hContact);
@@ -385,7 +397,8 @@ extern "C" {
 			msgfunc(hContact, msg);
 	}
 
-	void otr_create_instag(void *opdata, const char *accountname, const char *protocol){
+	//void otr_create_instag(void *opdata, const char *accountname, const char *protocol) {
+	void otr_create_instag(void *, const char *accountname, const char *protocol){
 		DEBUGOUT_T("OTR_CREATE_INSTAG\n");
 		FILE* instagf = _tfopen(g_instag_filename, _T("w+b"));
 		if (!instagf)

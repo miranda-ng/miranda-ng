@@ -21,18 +21,18 @@ PLUGININFOEX pluginInfo={
 	{0x12d8faad, 0x78ab, 0x4e3c, {0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f}}
 };
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD, LPVOID)
 {
 	hInst = hModule;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	lib_cs_lock();
 	otr_user_state = otrl_userstate_create();
