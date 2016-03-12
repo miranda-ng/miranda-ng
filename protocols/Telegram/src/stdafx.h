@@ -1,10 +1,10 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-#pragma comment(lib, "src/tgl.lib")
+//#pragma comment(lib, "$(SolutionDir)$(Configuration)\Obj\tgl\tgl.lib")
 
 #define TELEGRAM_APP_ID    17193
-#include "..\..\..\miranda-private-keys\Telegram\secret_key.h"
+#include "..\..\..\miranda-private-keys\Telegram\api.h"
 
 #include <windows.h>
 #include <time.h>
@@ -41,7 +41,9 @@
 #include <m_assocmgr.h>
 #include <m_file.h>
 
-#include "tgl/tgl.h"
+extern "C" {
+#include "tgl\tgl.h"
+}
 
 #include "version.h"
 #include "t_proto.h"

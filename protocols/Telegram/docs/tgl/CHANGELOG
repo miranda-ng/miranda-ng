@@ -1,0 +1,23 @@
+2.0.3
+* updated to layer 31 (bot support)
+* changed signature of contact_search method
+2.0.2
+* fixed small bugs
+* added block/unblock user method
+2.0.1
+* store error code for last operation in TLS->error/TLS->error_code
+* make interface more consitent
+* deleted outdated *_ex functions
+* fixed bugs 
+* support for layer 28:
+*   support for new pts system
+*   support for new read system
+*   support for passwords
+*   support replies
+*   support photo captions
+*   support group links
+1.2.1
+* fixed registration/login problem
+* added extension to downloads
+1.2.0
+* layer 22 support
