@@ -340,7 +340,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Sky_Messager", _T("*Sky*Messager*"), _T("Sky Messager"), IDI_SKYMESSAGER, JABBER_CASE, TRUE },
 
 	{ "client_xabber", _T("|*xabber*")
-	_T("|*bWG06mEjKFM5ygtd84Ov95P8VH0=*"), _T("xabber"), IDI_XABBER, JABBER_CASE, TRUE },
+	_T("|*GyIX*"), _T("xabber"), IDI_XABBER, JABBER_CASE, TRUE },
 	{ "client_Gabble", _T("*Gabble*"), _T("Gabble"), IDI_GABBLE, JABBER_CASE, TRUE },
 	{ "client_Smack", _T("|*igniterealtime.*smack*|*smack*"), _T("Smack"), IDI_SMACK, JABBER_CASE, TRUE },
 
