@@ -47,8 +47,8 @@
 Не заменять под курсором
 [Built-in message dialog support]
 Поддержка плагинов сообщений
-[Disable]
-Выключить
+[Enable]
+Включить
 [Smiley button]
 Кнопка смайла
 [Surround inserted smiley with spaces]

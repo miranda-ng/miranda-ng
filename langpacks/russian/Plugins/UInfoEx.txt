@@ -1045,6 +1045,12 @@ Web Дизайн
 Разведён(а)
 [Widowed]
 Вдовец/Вдова
+[Actively searching]
+в активном поиске
+[In love]
+Влюблён/влюблена
+[It\'s complicated]
+Всё сложно
 [jun.]
 мл.
 [sen.]

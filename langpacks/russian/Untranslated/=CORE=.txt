@@ -1,4 +1,5 @@
 ﻿[&E-mail]
+[separated]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]
