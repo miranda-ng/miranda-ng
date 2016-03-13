@@ -860,6 +860,7 @@ bool facebook_client::login(const char *username, const char *password)
 					// 2) Approve last unknown login
 					// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
 					inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
+					inner_data += "&submit[This is Okay]=This is Okay"; // I don't know whether it's with classic spaces now or not
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
@@ -887,9 +888,11 @@ bool facebook_client::login(const char *username, const char *password)
 				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
-			else if (resp.data.find("name=\"submit[Get%20Started]\"") != std::string::npos) {
+			else if (resp.data.find("name=\"submit[Get Started]\"") != std::string::npos) {
 				// Facebook things that computer was infected by malware and needs cleaning
-				parent->debugLogA("!!! Facebook requires computer scan.");
+				client_notify(TranslateT("Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check."));
+				parent->debugLogA("!!! Login error: Facebook requires computer scan.");
+				return handle_error("login", FORCE_QUIT);
 			}
 		}
 	}
@@ -916,6 +919,10 @@ bool facebook_client::login(const char *username, const char *password)
 
 		// Get and notify error message
 		std::string error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "[\"LoginFormError\"", "\"__html\":\"", "\"}"));
+		if (error.empty())
+			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "id=\"globalContainer\"", ">", "</div"));
+		if (error.empty())
+			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 2, "<strong>", "</strong"));
 		loginError(parent, error);
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
