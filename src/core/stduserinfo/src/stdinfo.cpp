@@ -121,7 +121,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					ptstr = TranslateT("separated");
 					break;
 				case 40: 
-					ptstr = TranslateT("Widowed");
+					ptstr = TranslateT("widowed");
 					break;
 				case 50:
 					ptstr = TranslateT("actively searching");
