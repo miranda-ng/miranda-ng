@@ -754,7 +754,7 @@ void parseJsCookies(const std::string &search, const std::string &data, std::map
 		if (pos2 == std::string::npos)
 			continue;
 
-		std::string name = data.substr(pos, pos2 - pos);
+		std::string name = utils::url::encode(data.substr(pos, pos2 - pos));
 
 		pos = pos2 + 3;
 		pos2 = data.find("\"", pos);
@@ -762,7 +762,7 @@ void parseJsCookies(const std::string &search, const std::string &data, std::map
 			continue;
 
 		std::string value = data.substr(pos, pos2 - pos);
-		cookies[name] = utils::text::html_entities_decode(value);
+		cookies[name] = utils::url::encode(utils::text::html_entities_decode(value));
 	}
 }
 
