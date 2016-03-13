@@ -3,7 +3,6 @@
 [ISDN]
 [PCS]
 [JID:]
-[Please specify group chat directory first.]
 [JID]
 [Google Talk!]
 [Jabber vCard]

@@ -1881,6 +1881,24 @@ Miranda не смогла загрузить встроенную систему
 Женский
 [<not specified>]
 <не указано>
+[single]
+не женат/не замужем
+[close relationships]
+встречается
+[engaged]
+помолвлен(а)
+[married]
+женат/замужем
+[divorced]
+разведён/разведена
+[widowed]
+вдовец/вдова
+[actively searching]
+в активном поиске
+[in love]
+влюблён/влюблена
+[it\'s complicated]
+всё сложно
 [Summary]
 Резюме
 [Contact]

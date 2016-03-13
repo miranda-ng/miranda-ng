@@ -765,6 +765,8 @@ Jabber ошибка
 Загрузка...
 [Please wait for room list to download.]
 Пожалуйста, подождите пока список комнат загрузится.
+[Please specify group chat directory first.]
+Сначала укажите директорию чата.
 [Bookmarks...]
 Закладки...
 [Change nickname in <%s>]
