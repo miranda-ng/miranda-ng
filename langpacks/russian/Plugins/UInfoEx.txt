@@ -1036,19 +1036,19 @@ Web Дизайн
 [Close relationships]
 В близких отношениях
 [Engaged]
-В помолвке
+Помолвлен(а)
 [Married]
 В браке
 [Divorced]
 В разводе
 [Separated]
-Разведён(а)
+Разошлись
 [Widowed]
 Вдовец/Вдова
 [Actively searching]
-в активном поиске
+В активном поиске
 [In love]
-Влюблён/влюблена
+Влюблённость
 [It\'s complicated]
 Всё сложно
 [jun.]

@@ -1432,13 +1432,13 @@ Web-службы
 [Close relationships]
 В близких отношениях
 [Engaged]
-В помолвке
+Помолвлен(а)
 [Married]
 В браке
 [Divorced]
-Разведён(а)
+В разводе
 [Separated]
-Проживаем раздельно
+Разошлись
 [Widowed]
 Вдовец/Вдова
 [Open relationship]
