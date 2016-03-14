@@ -34,7 +34,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 #define SVS_MONTH         5
 #define SVS_SIGNED        6
 #define SVS_TIMEZONE      7
-#define SVS_MARTITAL      8
+#define SVS_MARITAL    	  8
 
 static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType)
 {
@@ -97,40 +97,40 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					mir_snprintf(str, dbv.cVal ? "UTC%+d:%02d" : "UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			}
-			else if (special == SVS_MARTITAL) {
+			else if (special == SVS_MARITAL) {
 				switch (dbv.cVal) {
 				case 0: 
 					ptstr = TranslateT("<not specified>");
 					break;
 				case 10:
-					ptstr = TranslateT("single");
+					ptstr = TranslateT("Single");
 					break;
 				case 11: 
-					ptstr = TranslateT("close relationships");
+					ptstr = TranslateT("Close relationships");
 					break;
 				case 12: 
-					ptstr = TranslateT("engaged");
+					ptstr = TranslateT("Engaged");
 					break;
 				case 20: 
-					ptstr = TranslateT("married");
+					ptstr = TranslateT("Married");
 					break;
 				case 30: 
-					ptstr = TranslateT("divorced");
+					ptstr = TranslateT("Divorced");
 					break;
 				case 31: 
-					ptstr = TranslateT("separated");
+					ptstr = TranslateT("Separated");
 					break;
 				case 40: 
-					ptstr = TranslateT("widowed");
+					ptstr = TranslateT("Widowed");
 					break;
 				case 50:
-					ptstr = TranslateT("actively searching");
+					ptstr = TranslateT("Actively searching");
 					break;
 				case 60:
-					ptstr = TranslateT("in love");
+					ptstr = TranslateT("In love");
 					break;
 				case 70:
-					ptstr = TranslateT("it\'s complicated");
+					ptstr = TranslateT("It\'s complicated");
 					break;
 				default:
 					unspecified = 1;
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetValue(hwndDlg, IDC_DOBDAY, hContact, szProto, "BirthDay", 0);
 					SetValue(hwndDlg, IDC_DOBMONTH, hContact, szProto, "BirthMonth", SVS_MONTH);
 					SetValue(hwndDlg, IDC_DOBYEAR, hContact, szProto, "BirthYear", 0);
-					SetValue(hwndDlg, IDC_MARITAL, hContact, szProto, "MaritalStatus", SVS_MARTITAL);
+					SetValue(hwndDlg, IDC_MARITAL, hContact, szProto, "MaritalStatus", SVS_MARITAL);
 				}
 			}
 			break;
