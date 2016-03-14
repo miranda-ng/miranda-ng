@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.0
+;  Version: 0.2.12.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -137,6 +137,8 @@
 Помилка входу: деякі речі Facebook є обов'язковими.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
+Помилка входу: Facebook вважає, що ваш комп'ютер заражений. Зайдіть у свій обліковий запис за допомогою браузера в режимі приватного перегляду і запустіть перевірку на віруси.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Помилка входу: потрібно ввести капчу. Необхідно виконати підтвердження в браузері.
 [Login error, probably bad login credentials.]

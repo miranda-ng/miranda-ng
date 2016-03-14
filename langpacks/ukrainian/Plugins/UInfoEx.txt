@@ -1045,6 +1045,12 @@ Web-дизайн
 Проживаємо окремо
 [Widowed]
 Вдівець/Вдова
+[Actively searching]
+В активному пошуку
+[In love]
+Закоханий(а)
+[It\'s complicated]
+Усе складно
 [jun.]
 мол.
 [sen.]

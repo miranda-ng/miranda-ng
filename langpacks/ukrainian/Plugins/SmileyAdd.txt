@@ -47,8 +47,8 @@
 Не замінювати під курсором
 [Built-in message dialog support]
 Підтримка плагінів повідомлень
-[Disable]
-Вимкнути
+[Enable]
+Увімкнути
 [Smiley button]
 Кнопка смайла
 [Surround inserted smiley with spaces]
@@ -75,10 +75,10 @@ HTTP-з'єднання SmileyAdd
 Колір фону
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Може бути запущена тільки одна копія SmileyAdd.\nВидаліть дублікат з папки Plugins.
-[Off]
-Вимк.
-[On]
-Увімк.
+[Hide]
+Сховати
+[Show]
+Показати
 [Smiley packs]
 Набір смайлів
 [All files]

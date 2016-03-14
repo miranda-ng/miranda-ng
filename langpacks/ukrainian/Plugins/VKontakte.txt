@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.23
+;  Version: 0.1.1.25
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -487,6 +487,22 @@ ID отримувача помилковий або невідомий
 Очікування...
 [Enter new status message]
 Введіть нове статусне повідомлення
+[Interests]
+Інтереси
+[Activities]
+Діяльність
+[Music]
+Музика
+[Movies]
+Фільми
+[TV]
+Телепередачі
+[Books]
+Книги
+[Games]
+Ігри
+[Quotes]
+Цитати
 [Please authorize me to add you to my friend list.]
 Будь ласка, дозвольте додати вас до списку друзів.
 [Are you sure to wipe local contacts missing in your friend list?]
