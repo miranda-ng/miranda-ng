@@ -488,19 +488,19 @@ ID получателя ошибочен или неизвестен
 [<not specified>]
 <не указано>
 [single]
-не женат/не замужем
+в одиночестве
 [in a relationship]
-встречается
+в близких отношениях
 [engaged]
 помолвлен(а)
 [married]
-женат/замужем
+в браке
 [it\'s complicated]
 всё сложно
 [actively searching]
 в активном поиске
 [in love]
-влюблён/влюблена
+влюблённость
 [Interests]
 Интересы
 [Activities]
