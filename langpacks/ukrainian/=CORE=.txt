@@ -1879,6 +1879,26 @@ UIN, E-mail тощо
 Жіноча
 [<not specified>]
 <не вказано>
+[single]
+наодинці
+[close relationships]
+у близьких відносинах
+[engaged]
+заручений(а)
+[married]
+у шлюбі
+[divorced]
+розлучений(а)
+[separated]
+проживаємо окремо
+[widowed]
+вдівець/вдова
+[actively searching]
+в активному пошуку
+[in love]
+закоханий(а)
+[it\'s complicated]
+усе складно
 [Summary]
 Коротко
 [Contact]
