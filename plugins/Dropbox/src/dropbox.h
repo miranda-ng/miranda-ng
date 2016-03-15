@@ -35,6 +35,8 @@ private:
 
 	HGENMENU contactMenuItems[CMI_MAX];
 
+	std::map<MCONTACT, HWND> interceptedContacts;
+
 	LIST<FileTransferParam> transfers;
 
 	// hooks
@@ -46,6 +48,7 @@ private:
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnSrmmWindowOpened(WPARAM wParam, LPARAM lParam);
 	int OnTabSrmmButtonPressed(WPARAM wParam, LPARAM lParam);
+	int OnFileDialogCancelled(WPARAM wParam, LPARAM lParam);
 
 	// services
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
@@ -103,9 +106,6 @@ private:
 	static void Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable);
 
 	static INT_PTR SendFilesToDropboxCommand(void *obj, WPARAM wParam, LPARAM lParam);
-
-	// SRMM
-	static void DisableSrmmButton(MCONTACT hContact);
 
 	// utils
 	static char* PreparePath(const char *oldPath, char *newPath);
