@@ -8,6 +8,8 @@
 #include <malloc.h>
 #include <time.h>
 
+#include <map>
+
 #include <newpluginapi.h>
 
 #include <m_options.h>

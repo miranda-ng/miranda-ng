@@ -70,8 +70,16 @@ INT_PTR CDropbox::ProtoSendFileInterceptor(WPARAM wParam, LPARAM lParam)
 
 	const char *proto = GetContactProto(pccsd->hContact);
 	if (!IsAccountIntercepted(proto))
-		return CALLSERVICE_NOTFOUND;
+	{
+		auto it = interceptedContacts.find(pccsd->hContact);
+		if (it == interceptedContacts.end())
+			return CALLSERVICE_NOTFOUND;
+	}
 	
+	auto it = interceptedContacts.find(pccsd->hContact);
+	if (it != interceptedContacts.end())
+		interceptedContacts.erase(it);
+
 	return ProtoSendFile(wParam, lParam);
 }
 

@@ -7,6 +7,7 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, GlobalEvent<&CDropbox::OnPrebuildContactMenu>, this);
 
 	HookEventObj(ME_MSG_WINDOWEVENT, GlobalEvent<&CDropbox::OnSrmmWindowOpened>, this);
+	HookEventObj(ME_FILEDLG_CANCELED, GlobalEvent<&CDropbox::OnFileDialogCancelled>, this);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -88,28 +89,26 @@ int CDropbox::OnTabSrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact) {
-		CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
+		auto it = interceptedContacts.find(cbc->hContact);
+		if (it == interceptedContacts.end())
+		{
+			HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, cbc->hContact, 0);
+			interceptedContacts[cbc->hContact] = hwnd;
+		}
+		else
+			FlashWindow(it->second, FALSE);
 	}
 
 	return 0;
 }
 
-void CDropbox::DisableSrmmButton(MCONTACT hContact)
+int CDropbox::OnFileDialogCancelled(WPARAM hContact, LPARAM lParam)
 {
-	BBButton bbd = { sizeof(bbd) };
-	bbd.pszModuleName = MODULE;
-	bbd.dwButtonID = BBB_ID_FILE_SEND;
-	bbd.bbbFlags = BBSF_DISABLED;
-	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
-}
+	auto it = interceptedContacts.find(hContact);
+	if (it != interceptedContacts.end())
+		interceptedContacts.erase(it);
 
-void __stdcall EnableTabSrmmButtonSync(void *arg)
-{
-	BBButton bbd = { sizeof(bbd) };
-	bbd.pszModuleName = MODULE;
-	bbd.dwButtonID = BBB_ID_FILE_SEND;
-	bbd.bbbFlags = BBSF_RELEASED;
-	CallService(MS_BB_SETBUTTONSTATE, (UINT_PTR)arg, (LPARAM)&bbd);
+	return 0;
 }
 
 int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)

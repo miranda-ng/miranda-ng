@@ -1,12 +1,19 @@
 #include "stdafx.h"
 
-INT_PTR CDropbox::SendFilesToDropboxCommand(void *obj, WPARAM, LPARAM)
+INT_PTR CDropbox::SendFilesToDropboxCommand(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 	if (!instance->HasAccessToken())
 		return 1;
 
-	CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
+	auto it = instance->interceptedContacts.find(hContact);
+	if (it == instance->interceptedContacts.end())
+	{
+		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
+		instance->interceptedContacts[hContact] = hwnd;
+	}
+	else
+		SetActiveWindow(it->second);
 
 	return 0;
 }
