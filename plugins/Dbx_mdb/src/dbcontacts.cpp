@@ -91,11 +91,13 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		return 1;
 
 	// delete 
+	// call notifier while outside mutex
+	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 	
 	mir_cslockfull lck(m_csDbAccess);
 	
 	{
-		LIST<EventItem> events(25);
+		LIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
 		while (events.getCount())
 		{
@@ -142,10 +144,8 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	if (contactID == m_hLastCachedContact)
 		m_hLastCachedContact = NULL;
 
-	lck.unlock();
 
-	// call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
+	lck.unlock();
 
 	return 0;
 }
