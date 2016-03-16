@@ -72,12 +72,10 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	BYTE *pBlob = dbei->pBlob;
 
 	mir_ptr<BYTE> pCryptBlob;
-	if (m_bEncrypted) 
-	{
+	if (m_bEncrypted) {
 		size_t len;
 		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
-		if (pResult != nullptr) 
-		{
+		if (pResult != NULL) {
 			pCryptBlob = pBlob = pResult;
 			dbe.cbBlob = (DWORD)len;
 			dbe.flags |= DBEF_ENCRYPTED;
@@ -157,8 +155,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		cc2 = m_cache->GetCachedContact(dbe->contactID);
 	}
 
-	const auto Snapshot = [&cc, &cc2]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
-	const auto Revert = [&cc, &cc2]() { cc->Revert(); if (cc2) cc2->Revert(); };
+	const auto Snapshot = [&]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
+	const auto Revert = [&]() { cc->Revert(); if (cc2) cc2->Revert(); };
 
 	for (Snapshot();; Revert(), Remap())
 	{
@@ -248,18 +246,19 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) 
 	{
-		const BYTE *pSrc = (BYTE*)data.mv_data + sizeof(DBEvent);
+		BYTE *pSrc = (BYTE*)data.mv_data + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) 
 		{
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
-			mir_ptr<BYTE> pBlob((BYTE*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len));
-			if (pBlob == nullptr)
+			BYTE* pBlob = (BYTE*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len);
+			if (pBlob == NULL)
 				return 1;
 
 			memcpy(dbei->pBlob, pBlob, bytesToCopy);
 			if (bytesToCopy > len)
 				memset(dbei->pBlob + len, 0, bytesToCopy - len);
+			mir_free(pBlob);
 		}
 		else memcpy(dbei->pBlob, pSrc, bytesToCopy);
 	}
