@@ -562,7 +562,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	if (!dbces->szModule)
 		return -1;
 
-	int result = 0;
+	int result = -1;
 
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
@@ -577,17 +577,15 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) 
 	{
-		size_t i = 0;
 		do 
 		{
 			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
 			if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-				return i == 0 ? -1 : result;
+				return result;
 
 			char szSetting[256];
 			strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD) * 2);
 			result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
-			i++;
 		}
 			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
 	}

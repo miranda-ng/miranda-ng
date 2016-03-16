@@ -155,7 +155,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 	DWORD dwContactId;
 	{
 		mir_cslock lck(m_csDbAccess);
-		dwContactId = m_dwMaxContactId++;
+		dwContactId = ++m_dwMaxContactId;
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 		cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
@@ -205,14 +205,16 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
-	do {
-		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
-		if (pKey->dwContactId != hContact)
-			return;
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS)
+	{
+		do {
+			const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
+			if (pKey->dwContactId != hContact)
+				return;
 
-		list.insert(new EventItem(pKey->ts, pKey->dwEventId));
-	} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+			list.insert(new EventItem(pKey->ts, pKey->dwEventId));
+		} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+	}
 }
 
 BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
@@ -223,7 +225,8 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	for (int i = 0; i < list.getCount(); i++) {
 		EventItem *EI = list[i];
 
-		for (;; Remap()) {
+		for (;; Remap()) 
+		{
 			txn_ptr trnlck(m_pMdbEnv);
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
 			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
@@ -341,10 +344,7 @@ void CDbxMdb::FillContacts()
 		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
 
-		m_dwMaxContactId = max(m_dwMaxContactId, cc->contactID+1);
 		m_contactCount++;
-
-		m_dwMaxEventId = max(m_dwMaxEventId, FindLastEvent(cc->contactID) + 1);
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
