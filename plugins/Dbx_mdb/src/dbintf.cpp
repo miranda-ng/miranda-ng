@@ -126,16 +126,16 @@ int CDbxMdb::Load(bool bSkipInit)
 			mdb_txn_begin(m_pMdbEnv, nullptr, MDB_RDONLY, &m_txn);
 
 			mdb_cursor_open(m_txn, m_dbEvents, &m_curEvents);
-			mdb_cursor_get(m_curEvents, &key, &val, MDB_LAST);
-			m_dwMaxEventId = *(MEVENT*)key.mv_data + 1;
+			if (mdb_cursor_get(m_curEvents, &key, &val, MDB_LAST) == MDB_SUCCESS)
+				m_dwMaxEventId = *(MEVENT*)key.mv_data + 1;
 
 			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
 			mdb_cursor_open(m_txn, m_dbSettings, &m_curSettings);
 			mdb_cursor_open(m_txn, m_dbModules, &m_curModules);
 
 			mdb_cursor_open(m_txn, m_dbContacts, &m_curContacts);
-			mdb_cursor_get(m_curContacts, &key, &val, MDB_LAST);
-			m_dwMaxContactId = *(DWORD*)key.mv_data + 1;
+			if (mdb_cursor_get(m_curContacts, &key, &val, MDB_LAST))
+				m_dwMaxContactId = *(DWORD*)key.mv_data + 1;
 
 			mdb_txn_reset(m_txn);
 		}
