@@ -310,6 +310,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 			return -1;
 		dbe = (DBEvent*)mir_alloc(data.mv_size);
 		memcpy(dbe, data.mv_data, data.mv_size);
+		nDbe = data.mv_size;
 	}
 
 	if (dbe->markedRead())
