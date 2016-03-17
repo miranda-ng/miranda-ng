@@ -322,7 +322,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	{
 		txn_ptr txn(m_pMdbEnv);
 
-		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data = { nDbe, nullptr };
 
 		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), -1);
 		memcpy(data.mv_data, dbe, nDbe);
