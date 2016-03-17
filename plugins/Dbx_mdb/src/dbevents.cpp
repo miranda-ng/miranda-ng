@@ -106,7 +106,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
 		cc->Advance(dwEventId, dbe);
-		MDB_val keyc = { sizeof(int), &contactID }, datac = { sizeof(DBContact), &cc->dbc };
+		MDB_val keyc = { sizeof(MCONTACT), &contactID }, datac = { sizeof(DBContact), &cc->dbc };
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
 
 		// insert an event into a sub's history too
@@ -141,18 +141,18 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	mir_cslockfull lck(m_csDbAccess);
 	
-	const DBEvent *dbe = nullptr;
+	DBEvent dbe;
 	{
 		txn_ptr_ro txn(m_txn);
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
-		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS || data.mv_data == nullptr)
+		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 			return 1;
-		dbe = (const DBEvent*)data.mv_data;
+		memcpy(&dbe, data.mv_data, sizeof(dbe));
 	}
 
-	if (contactID != dbe->contactID)
+	if (contactID != dbe.contactID)
 	{
-		cc2 = m_cache->GetCachedContact(dbe->contactID);
+		cc2 = m_cache->GetCachedContact(dbe.contactID);
 	}
 
 	const auto Snapshot = [&]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
@@ -160,7 +160,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	for (Snapshot();; Revert(), Remap())
 	{
-		DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
+		DBEventSortingKey key2 = { hDbEvent, dbe.timestamp, contactID };
 
 		txn_ptr txn(m_pMdbEnv);
 		MDB_val key = { sizeof(key2), &key2 }, data;
@@ -179,7 +179,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 		if (cc2)
 		{
-			key2.dwContactId = dbe->contactID;
+			key2.dwContactId = dbe.contactID;
 			MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1);
 
 			key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
@@ -300,24 +300,31 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	mir_cslockfull lck(m_csDbAccess);
 	DWORD wRetVal = 0;
 
+	mir_ptr<DBEvent> dbe;
+	size_t nDbe = 0;
+
+	{
+		txn_ptr_ro txn(m_txn);
+		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
+			return -1;
+		dbe = (DBEvent*)mir_alloc(data.mv_size);
+		memcpy(dbe, data.mv_data, data.mv_size);
+	}
+
+	if (dbe->markedRead())
+		return dbe->flags;
+
+	DBEventSortingKey key2 = { hDbEvent, dbe->timestamp, contactID };
+
 	for (cc->Snapshot();; cc->Revert(), Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
 
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
-		MDB_CHECK(mdb_get(txn, m_dbEvents, &key, &data), 0);
-
-		const DBEvent *cdbe = (const DBEvent*)data.mv_data;
-		const size_t ncdbe = data.mv_size;
-		if (cdbe->dwSignature != DBEVENT_SIGNATURE)
-			return -1;
-		if (cdbe->markedRead())
-			return cdbe->flags;
-
-		DBEventSortingKey key2 = { hDbEvent, cdbe->timestamp, contactID };
 
 		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), -1);
-		memcpy(data.mv_data, cdbe, ncdbe);
+		memcpy(data.mv_data, dbe, nDbe);
 
 		wRetVal = (((DBEvent*)data.mv_data)->flags |= DBEF_READ);
 
@@ -360,7 +367,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	txn_ptr_ro txn(m_txn);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
+		return m_evLast = 0;
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
@@ -382,7 +390,9 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	txn_ptr_ro txn(m_txn);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
+		return m_evLast = 0;
+
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return m_evLast = 0;
 

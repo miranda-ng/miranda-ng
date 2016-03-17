@@ -209,7 +209,7 @@ bool CDbxMdb::Map()
 	m_dwFileSize += 0x100000;
 	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
 
-	int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK; // nolock - miranda using m_csDbAccess lock
+	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK; // nolock - miranda using m_csDbAccess lock
 //	if (m_bReadOnly)
 //		mode |= MDB_RDONLY;
 //	else
