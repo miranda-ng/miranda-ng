@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include "..\..\libs\zlib\src\zip.h"
-
 
 static UINT_PTR	timer_id = 0;
 volatile long m_state = 0;
@@ -116,9 +114,9 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 	ptrA szSourceName(mir_u2a(dbname));
 	ptrT tszDestPath(DoubleSlash(tszDest));
 	OBJLIST<ZipFile> lstFiles(15);
-	lstFiles.insert(new ZipFile((char*)_T2A(tszDest), (char*)szSourceName));
+	lstFiles.insert(new ZipFile((char*)_T2A(tszSource), (char*)szSourceName));
 
-	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t i)->bool{ SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
+	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t)->bool{ SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
 
 	return true;
 }
