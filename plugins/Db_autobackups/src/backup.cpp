@@ -3,7 +3,7 @@
 
 
 static UINT_PTR	timer_id = 0;
-static LONG	m_state = 0;
+volatile long m_state = 0;
 
 
 LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -81,13 +81,11 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 
 bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progress_dialog)
 {
-	zipFile hZip = zipOpen2_64(szDest, APPEND_STATUS_CREATE, NULL, NULL);
-	if (!hZip) 
-		return false;
-	zip_fileinfo fi = { 0 };
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-	size_t i = 0;
-	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator() && GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1; ++it)
+	size_t count = 0;
+	OBJLIST<ZipFile> lstFiles(15);
+
+	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it)
 	{
 		const auto& file = it->path();
 		if (!fs::is_directory(file) && file.string().find(fs::path((char*)_T2A(szDest)).string().c_str()) == std::string::npos)
@@ -95,102 +93,34 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 			const std::string &filepath = file.string();
 			const std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
-			HANDLE hSrc;
-
-			if ((hSrc = CreateFile(_A2T(filepath.c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL))
-				&& zipOpenNewFileInZip(hZip, rpath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK)
-			{
-				DWORD dwRead;
-				uint8_t buf[(256 * 1024)];
-
-				while (ReadFile(hSrc, buf, sizeof(buf), &dwRead, nullptr) && dwRead && (zipWriteInFileInZip(hZip, buf, dwRead) == ZIP_OK));
-				zipCloseFileInZip(hZip);
-
-				i++;
-				SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(i % 100), 0);
-				CloseHandle(hSrc);
-			}
+			lstFiles.insert(new ZipFile(filepath, rpath));
+			count++;
 		}
 	}
-	zipClose(hZip, CMStringA(FORMAT, "%s\r\n%s %s %d.%d.%d.%d\r\n",
-		Translate("Miranda NG database"), Translate("Created by:"),
-		__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+	if (count == 0) 
+		return 1;
+
+	CreateZipFile(_T2A(szDest), lstFiles, [&](size_t i)->bool
+	{ 
+		SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 * i / count), 0); 
+		return GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1;
+	});
+
 	return 1;
 }
 
 bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dialog)
 {
-	bool ret = false;
-	HANDLE hSrc;
-	zipFile hZip;
-	SYSTEMTIME st;
-	WIN32_FILE_ATTRIBUTE_DATA fad = { 0 };
-	zip_fileinfo fi = { 0 };
-	HWND hProgBar;
-	DWORD dwRead;
-	MSG msg;
-	char buf[(256 * 1024)];	// 256 KB
-	DWORDLONG dwSrcFileSize, dwTotalBytes = 0;
+	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 
 	ptrA szSourceName(mir_u2a(dbname));
 	ptrT tszDestPath(DoubleSlash(tszDest));
+	OBJLIST<ZipFile> lstFiles(15);
+	lstFiles.insert(new ZipFile((char*)_T2A(tszDest), (char*)szSourceName));
 
-	hSrc = CreateFile(tszSource, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hSrc == INVALID_HANDLE_VALUE)
-		return ret;
-	if (GetFileAttributesEx(tszSource, GetFileExInfoStandard, &fad) == FALSE)
-		goto err_out;
-	dwSrcFileSize = ((DWORDLONG)fad.nFileSizeLow | (((DWORDLONG)fad.nFileSizeHigh) << 32));
-	if (dwSrcFileSize == 0) /* Prevent division by zero error. */
-		goto err_out;
-	FileTimeToLocalFileTime(&fad.ftLastWriteTime, &fad.ftLastWriteTime);
-	FileTimeToSystemTime(&fad.ftLastWriteTime, &st);
-	hZip = zipOpen2_64(tszDestPath, APPEND_STATUS_CREATE, NULL, NULL);
-	if (hZip == NULL)
-		goto err_out;
-	fi.tmz_date.tm_sec = st.wSecond;
-	fi.tmz_date.tm_min = st.wMinute;
-	fi.tmz_date.tm_hour = st.wHour;
-	fi.tmz_date.tm_mday = st.wDay;
-	fi.tmz_date.tm_mon = (st.wMonth - 1);
-	fi.tmz_date.tm_year = st.wYear;
+	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t i)->bool{ SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
 
-	if (zipOpenNewFileInZip(hZip, szSourceName, &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK) {
-		hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-		while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1) {
-			if (!ReadFile(hSrc, buf, sizeof(buf), &dwRead, NULL))
-				break;
-			if (dwRead == 0) { // EOF
-				ret = true;
-				break;
-			}
-			if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)
-				break;
-			dwTotalBytes += dwRead;
-			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)((100 * dwTotalBytes) / dwSrcFileSize), 0);
-			while (PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0) {
-				if (progress_dialog == NULL || !IsDialogMessage(progress_dialog, &msg)) { /* Wine fix. */
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-			}
-		}
-		zipCloseFileInZip(hZip);
-	}
-	if (ret) {
-		mir_snprintf(buf, "%s\r\n%s %s %d.%d.%d.%d\r\n",
-			Translate("Miranda NG database"), Translate("Created by:"),
-			__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	}
-	else {
-		buf[0] = 0;
-	}
-	zipClose(hZip, buf);
-
-err_out:
-	CloseHandle(hSrc);
-
-	return ret;
+	return true;
 }
 
 
@@ -360,7 +290,7 @@ int Backup(TCHAR *backup_filename)
 void BackupThread(void *backup_filename)
 {
 	Backup((TCHAR*)backup_filename);
-	InterlockedExchange((volatile LONG*)&m_state, 0); /* Backup done. */
+	InterlockedExchange(&m_state, 0); /* Backup done. */
 	mir_free(backup_filename);
 }
 
@@ -369,7 +299,7 @@ void BackupStart(TCHAR *backup_filename)
 	TCHAR *tm = NULL;
 	LONG cur_state;
 
-	cur_state = InterlockedCompareExchange((volatile LONG*)&m_state, 1, 0);
+	cur_state = InterlockedCompareExchange(&m_state, 1, 0);
 	if (cur_state != 0) { /* Backup allready in process. */
 		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), NULL); /* Show error message :) */
 		return;
@@ -377,7 +307,7 @@ void BackupStart(TCHAR *backup_filename)
 	if (backup_filename != NULL)
 		tm = mir_tstrdup(backup_filename);
 	if (mir_forkthread(BackupThread, (void*)tm) == INVALID_HANDLE_VALUE) {
-		InterlockedExchange((volatile LONG*)&m_state, 0); /* Backup done. */
+		InterlockedExchange(&m_state, 0); /* Backup done. */
 		mir_free(tm);
 	}
 }

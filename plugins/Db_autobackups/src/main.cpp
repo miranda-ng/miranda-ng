@@ -4,6 +4,7 @@ int	hLangpack;
 HINSTANCE g_hInstance;
 TCHAR	*profilePath;
 HANDLE	hFolder;
+char g_szMirVer[100];
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -37,10 +38,10 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 	OPENFILENAME ofn = { 0 };
 	CallService(MS_DB_GETPROFILENAMET, _countof(fname_buff), (LPARAM)fname_buff);
 
-	mir_sntprintf(tszFilter, _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"),
-		TranslateT("Miranda NG databases"), 0, 0,
-		TranslateT("Compressed Miranda NG databases"), 0, 0,
-		TranslateT("All files"), 0, 0);
+	mir_sntprintf(tszFilter, _T("%s (*.dat)\0*.dat\0%s (*.zip)\0*.zip\0%s (*.*)\0*\0"), 
+		TranslateT("Miranda NG databases"),
+		TranslateT("Compressed Miranda NG databases"), 
+		TranslateT("All files"));
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = fname_buff;
@@ -112,6 +113,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+
+	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(g_szMirVer), LPARAM(g_szMirVer));
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
