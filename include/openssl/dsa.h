@@ -1,4 +1,3 @@
-/* crypto/dsa/dsa.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -58,9 +57,8 @@
 
 /*
  * The DSS routines are based on patches supplied by
- * Steven Schoch <schoch@sheba.arc.nasa.gov>.  He basically did the
- * work and I have just tweaked them a little to fit into my
- * stylistic vision for SSLeay :-) */
+ * Steven Schoch <schoch@sheba.arc.nasa.gov>.
+ */
 
 #ifndef HEADER_DSA_H
 # define HEADER_DSA_H
@@ -71,13 +69,12 @@
 #  error DSA is disabled.
 # endif
 
-# ifndef OPENSSL_NO_BIO
-#  include <openssl/bio.h>
-# endif
+# include <openssl/bio.h>
 # include <openssl/crypto.h>
 # include <openssl/ossl_typ.h>
+# include <openssl/opensslconf.h>
 
-# ifndef OPENSSL_NO_DEPRECATED
+# if OPENSSL_API_COMPAT < 0x10100000L
 #  include <openssl/bn.h>
 #  ifndef OPENSSL_NO_DH
 #   include <openssl/dh.h>
@@ -87,6 +84,8 @@
 # ifndef OPENSSL_DSA_MAX_MODULUS_BITS
 #  define OPENSSL_DSA_MAX_MODULUS_BITS   10000
 # endif
+
+# define OPENSSL_DSA_FIPS_MIN_MODULUS_BITS 1024
 
 # define DSA_FLAG_CACHE_MONT_P   0x01
 /*
@@ -112,6 +111,7 @@
  */
 
 # define DSA_FLAG_NON_FIPS_ALLOW                 0x0400
+# define DSA_FLAG_FIPS_CHECKED                   0x0800
 
 #ifdef  __cplusplus
 extern "C" {
@@ -121,10 +121,7 @@ extern "C" {
 /* typedef struct dsa_st DSA; */
 /* typedef struct dsa_method DSA_METHOD; */
 
-typedef struct DSA_SIG_st {
-    BIGNUM *r;
-    BIGNUM *s;
-} DSA_SIG;
+typedef struct DSA_SIG_st DSA_SIG;
 
 struct dsa_method {
     const char *name;
@@ -159,14 +156,11 @@ struct dsa_st {
      */
     int pad;
     long version;
-    int write_params;
     BIGNUM *p;
     BIGNUM *q;                  /* == 20 */
     BIGNUM *g;
     BIGNUM *pub_key;            /* y public key */
     BIGNUM *priv_key;           /* x private key */
-    BIGNUM *kinv;               /* Signing pre-calc */
-    BIGNUM *r;                  /* Signing pre-calc */
     int flags;
     /* Normally used to cache montgomery values */
     BN_MONT_CTX *method_mont_p;
@@ -175,6 +169,7 @@ struct dsa_st {
     const DSA_METHOD *meth;
     /* functional reference if 'meth' is ENGINE-provided */
     ENGINE *engine;
+    CRYPTO_RWLOCK *lock;
 };
 
 # define d2i_DSAparams_fp(fp,x) (DSA *)ASN1_d2i_fp((char *(*)())DSA_new, \
@@ -189,6 +184,7 @@ DSA_SIG *DSA_SIG_new(void);
 void DSA_SIG_free(DSA_SIG *a);
 int i2d_DSA_SIG(const DSA_SIG *a, unsigned char **pp);
 DSA_SIG *d2i_DSA_SIG(DSA_SIG **v, const unsigned char **pp, long length);
+void DSA_SIG_get0(BIGNUM **pr, BIGNUM **ps, DSA_SIG *sig);
 
 DSA_SIG *DSA_do_sign(const unsigned char *dgst, int dlen, DSA *dsa);
 int DSA_do_verify(const unsigned char *dgst, int dgst_len,
@@ -206,14 +202,15 @@ void DSA_free(DSA *r);
 /* "up" the DSA object's reference count */
 int DSA_up_ref(DSA *r);
 int DSA_size(const DSA *);
+int DSA_security_bits(const DSA *d);
         /* next 4 return -1 on error */
 int DSA_sign_setup(DSA *dsa, BN_CTX *ctx_in, BIGNUM **kinvp, BIGNUM **rp);
 int DSA_sign(int type, const unsigned char *dgst, int dlen,
              unsigned char *sig, unsigned int *siglen, DSA *dsa);
 int DSA_verify(int type, const unsigned char *dgst, int dgst_len,
                const unsigned char *sigbuf, int siglen, DSA *dsa);
-int DSA_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new *new_func,
-                         CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
+#define DSA_get_ex_new_index(l, p, newf, dupf, freef) \
+    CRYPTO_get_ex_new_index(CRYPTO_EX_INDEX_DSA, l, p, newf, dupf, freef)
 int DSA_set_ex_data(DSA *d, int idx, void *arg);
 void *DSA_get_ex_data(DSA *d, int idx);
 
@@ -222,12 +219,14 @@ DSA *d2i_DSAPrivateKey(DSA **a, const unsigned char **pp, long length);
 DSA *d2i_DSAparams(DSA **a, const unsigned char **pp, long length);
 
 /* Deprecated version */
-# ifndef OPENSSL_NO_DEPRECATED
-DSA *DSA_generate_parameters(int bits,
-                             unsigned char *seed, int seed_len,
-                             int *counter_ret, unsigned long *h_ret, void
-                              (*callback) (int, int, void *), void *cb_arg);
-# endif                         /* !defined(OPENSSL_NO_DEPRECATED) */
+DEPRECATEDIN_0_9_8(DSA *DSA_generate_parameters(int bits,
+                                                unsigned char *seed,
+                                                int seed_len,
+                                                int *counter_ret,
+                                                unsigned long *h_ret, void
+                                                 (*callback) (int, int,
+                                                              void *),
+                                                void *cb_arg))
 
 /* New version */
 int DSA_generate_parameters_ex(DSA *dsa, int bits,
@@ -240,11 +239,9 @@ int i2d_DSAPublicKey(const DSA *a, unsigned char **pp);
 int i2d_DSAPrivateKey(const DSA *a, unsigned char **pp);
 int i2d_DSAparams(const DSA *a, unsigned char **pp);
 
-# ifndef OPENSSL_NO_BIO
 int DSAparams_print(BIO *bp, const DSA *x);
 int DSA_print(BIO *bp, const DSA *x, int off);
-# endif
-# ifndef OPENSSL_NO_FP_API
+# ifndef OPENSSL_NO_STDIO
 int DSAparams_print_fp(FILE *fp, const DSA *x);
 int DSA_print_fp(FILE *bp, const DSA *x, int off);
 # endif
@@ -287,11 +284,11 @@ void ERR_load_DSA_strings(void);
 # define DSA_F_DO_DSA_PRINT                               104
 # define DSA_F_DSAPARAMS_PRINT                            100
 # define DSA_F_DSAPARAMS_PRINT_FP                         101
+# define DSA_F_DSA_BUILTIN_KEYGEN                         124
+# define DSA_F_DSA_BUILTIN_PARAMGEN                       125
 # define DSA_F_DSA_BUILTIN_PARAMGEN2                      126
 # define DSA_F_DSA_DO_SIGN                                112
 # define DSA_F_DSA_DO_VERIFY                              113
-# define DSA_F_DSA_GENERATE_KEY                           124
-# define DSA_F_DSA_GENERATE_PARAMETERS_EX                 123
 # define DSA_F_DSA_NEW_METHOD                             103
 # define DSA_F_DSA_PARAM_DECODE                           119
 # define DSA_F_DSA_PRINT_FP                               105
@@ -302,7 +299,7 @@ void ERR_load_DSA_strings(void);
 # define DSA_F_DSA_SIGN                                   106
 # define DSA_F_DSA_SIGN_SETUP                             107
 # define DSA_F_DSA_SIG_NEW                                109
-# define DSA_F_DSA_SIG_PRINT                              125
+# define DSA_F_DSA_SIG_PRINT                              123
 # define DSA_F_DSA_VERIFY                                 108
 # define DSA_F_I2D_DSA_SIG                                111
 # define DSA_F_OLD_DSA_PRIV_DECODE                        122
@@ -318,10 +315,10 @@ void ERR_load_DSA_strings(void);
 # define DSA_R_DECODE_ERROR                               104
 # define DSA_R_INVALID_DIGEST_TYPE                        106
 # define DSA_R_INVALID_PARAMETERS                         112
+# define DSA_R_KEY_SIZE_TOO_SMALL                         111
 # define DSA_R_MISSING_PARAMETERS                         101
 # define DSA_R_MODULUS_TOO_LARGE                          103
 # define DSA_R_NEED_NEW_SETUP_VALUES                      110
-# define DSA_R_NON_FIPS_DSA_METHOD                        111
 # define DSA_R_NO_PARAMETERS_SET                          107
 # define DSA_R_PARAMETER_ENCODING_ERROR                   105
 # define DSA_R_Q_NOT_PRIME                                113

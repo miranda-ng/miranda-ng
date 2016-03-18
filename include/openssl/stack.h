@@ -1,4 +1,3 @@
-/* crypto/stack/stack.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -63,16 +62,7 @@
 extern "C" {
 #endif
 
-typedef struct stack_st {
-    int num;
-    char **data;
-    int sorted;
-    int num_alloc;
-    int (*comp) (const void *, const void *);
-} _STACK;                       /* Use STACK_OF(...) instead */
-
-# define M_sk_num(sk)            ((sk) ? (sk)->num:-1)
-# define M_sk_value(sk,n)        ((sk) ? (sk)->data[n] : NULL)
+typedef struct stack_st _STACK; /* Use STACK_OF(...) instead */
 
 int sk_num(const _STACK *);
 void *sk_value(const _STACK *, int);

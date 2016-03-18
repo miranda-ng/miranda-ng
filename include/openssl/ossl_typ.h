@@ -1,5 +1,5 @@
 /* ====================================================================
- * Copyright (c) 1998-2001 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 1998-2015 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -55,6 +55,8 @@
 #ifndef HEADER_OPENSSL_TYPES_H
 # define HEADER_OPENSSL_TYPES_H
 
+#include <limits.h>
+
 #ifdef  __cplusplus
 extern "C" {
 #endif
@@ -104,11 +106,11 @@ typedef struct asn1_object_st ASN1_OBJECT;
 
 typedef struct ASN1_ITEM_st ASN1_ITEM;
 typedef struct asn1_pctx_st ASN1_PCTX;
+typedef struct asn1_sctx_st ASN1_SCTX;
 
 # ifdef OPENSSL_SYS_WIN32
 #  undef X509_NAME
 #  undef X509_EXTENSIONS
-#  undef X509_CERT_PAIR
 #  undef PKCS7_ISSUER_AND_SERIAL
 #  undef OCSP_REQUEST
 #  undef OCSP_RESPONSE
@@ -117,6 +119,7 @@ typedef struct asn1_pctx_st ASN1_PCTX;
 # ifdef BIGNUM
 #  undef BIGNUM
 # endif
+typedef struct bio_st BIO;
 typedef struct bignum_st BIGNUM;
 typedef struct bignum_ctx BN_CTX;
 typedef struct bn_blinding_st BN_BLINDING;
@@ -128,14 +131,18 @@ typedef struct buf_mem_st BUF_MEM;
 
 typedef struct evp_cipher_st EVP_CIPHER;
 typedef struct evp_cipher_ctx_st EVP_CIPHER_CTX;
-typedef struct env_md_st EVP_MD;
-typedef struct env_md_ctx_st EVP_MD_CTX;
+typedef struct evp_md_st EVP_MD;
+typedef struct evp_md_ctx_st EVP_MD_CTX;
 typedef struct evp_pkey_st EVP_PKEY;
 
 typedef struct evp_pkey_asn1_method_st EVP_PKEY_ASN1_METHOD;
 
 typedef struct evp_pkey_method_st EVP_PKEY_METHOD;
 typedef struct evp_pkey_ctx_st EVP_PKEY_CTX;
+
+typedef struct evp_Encode_Ctx_st EVP_ENCODE_CTX;
+
+typedef struct hmac_ctx_st HMAC_CTX;
 
 typedef struct dh_st DH;
 typedef struct dh_method DH_METHOD;
@@ -146,10 +153,10 @@ typedef struct dsa_method DSA_METHOD;
 typedef struct rsa_st RSA;
 typedef struct rsa_meth_st RSA_METHOD;
 
-typedef struct rand_meth_st RAND_METHOD;
+typedef struct ec_key_st EC_KEY;
+typedef struct ec_key_method_st EC_KEY_METHOD;
 
-typedef struct ecdh_method ECDH_METHOD;
-typedef struct ecdsa_method ECDSA_METHOD;
+typedef struct rand_meth_st RAND_METHOD;
 
 typedef struct x509_st X509;
 typedef struct X509_algor_st X509_ALGOR;
@@ -165,18 +172,17 @@ typedef struct pkcs8_priv_key_info_st PKCS8_PRIV_KEY_INFO;
 
 typedef struct v3_ext_ctx X509V3_CTX;
 typedef struct conf_st CONF;
-
-typedef struct store_st STORE;
-typedef struct store_method_st STORE_METHOD;
+typedef struct ossl_init_settings_st OPENSSL_INIT_SETTINGS;
 
 typedef struct ui_st UI;
 typedef struct ui_method_st UI_METHOD;
 
-typedef struct st_ERR_FNS ERR_FNS;
-
 typedef struct engine_st ENGINE;
 typedef struct ssl_st SSL;
 typedef struct ssl_ctx_st SSL_CTX;
+
+typedef struct comp_ctx_st COMP_CTX;
+typedef struct comp_method_st COMP_METHOD;
 
 typedef struct X509_POLICY_NODE_st X509_POLICY_NODE;
 typedef struct X509_POLICY_LEVEL_st X509_POLICY_LEVEL;
@@ -188,22 +194,32 @@ typedef struct DIST_POINT_st DIST_POINT;
 typedef struct ISSUING_DIST_POINT_st ISSUING_DIST_POINT;
 typedef struct NAME_CONSTRAINTS_st NAME_CONSTRAINTS;
 
-  /* If placed in pkcs12.h, we end up with a circular depency with pkcs7.h */
-# define DECLARE_PKCS12_STACK_OF(type)/* Nothing */
-# define IMPLEMENT_PKCS12_STACK_OF(type)/* Nothing */
-
 typedef struct crypto_ex_data_st CRYPTO_EX_DATA;
-/* Callback types for crypto.h */
-typedef int CRYPTO_EX_new (void *parent, void *ptr, CRYPTO_EX_DATA *ad,
-                           int idx, long argl, void *argp);
-typedef void CRYPTO_EX_free (void *parent, void *ptr, CRYPTO_EX_DATA *ad,
-                             int idx, long argl, void *argp);
-typedef int CRYPTO_EX_dup (CRYPTO_EX_DATA *to, CRYPTO_EX_DATA *from,
-                           void *from_d, int idx, long argl, void *argp);
 
 typedef struct ocsp_req_ctx_st OCSP_REQ_CTX;
 typedef struct ocsp_response_st OCSP_RESPONSE;
 typedef struct ocsp_responder_id_st OCSP_RESPID;
+
+typedef struct sct_st SCT;
+typedef struct sct_ctx_st SCT_CTX;
+typedef struct ctlog_st CTLOG;
+typedef struct ctlog_store_st CTLOG_STORE;
+typedef struct ct_policy_eval_ctx_st CT_POLICY_EVAL_CTX;
+
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L && \
+    defined(INTMAX_MAX) && defined(UINTMAX_MAX)
+typedef intmax_t ossl_intmax_t;
+typedef uintmax_t ossl_uintmax_t;
+#else
+/*
+ * Not long long, because the C-library can only be expected to provide
+ * strtoll(), strtoull() at the same time as intmax_t and strtoimax(),
+ * strtoumax().  Since we use these for parsing arguments, we need the
+ * conversion functions, not just the sizes.
+ */
+typedef long ossl_intmax_t;
+typedef unsigned long ossl_uintmax_t;
+#endif
 
 #ifdef  __cplusplus
 }

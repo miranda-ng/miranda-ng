@@ -1,4 +1,3 @@
-/* crypto/camellia/camellia.h */
 /* ====================================================================
  * Copyright (c) 2006 The OpenSSL Project.  All rights reserved.
  *
@@ -90,10 +89,6 @@ struct camellia_key_st {
 };
 typedef struct camellia_key_st CAMELLIA_KEY;
 
-# ifdef OPENSSL_FIPS
-int private_Camellia_set_key(const unsigned char *userKey, const int bits,
-                             CAMELLIA_KEY *key);
-# endif
 int Camellia_set_key(const unsigned char *userKey, const int bits,
                      CAMELLIA_KEY *key);
 

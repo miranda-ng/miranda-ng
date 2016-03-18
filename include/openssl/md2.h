@@ -1,4 +1,4 @@
-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+/* Copyright (C) 1995-1997 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
  * This package is an SSL implementation written
@@ -55,43 +55,36 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef HEADER_MD5_H
-# define HEADER_MD5_H
+#ifndef HEADER_MD2_H
+# define HEADER_MD2_H
 
-# include <openssl/e_os2.h>
+# include <openssl/opensslconf.h>
+# ifdef OPENSSL_NO_MD2
+#  error MD2 is disabled.
+# endif
 # include <stddef.h>
+
+typedef unsigned char MD2_INT;
+
+# define MD2_DIGEST_LENGTH       16
+# define MD2_BLOCK               16
 
 #ifdef  __cplusplus
 extern "C" {
 #endif
 
-# ifdef OPENSSL_NO_MD5
-#  error MD5 is disabled.
-# endif
-
-/*
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * ! MD5_LONG has to be at least 32 bits wide.                     !
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- */
-# define MD5_LONG unsigned int
-
-# define MD5_CBLOCK      64
-# define MD5_LBLOCK      (MD5_CBLOCK/4)
-# define MD5_DIGEST_LENGTH 16
-
-typedef struct MD5state_st {
-    MD5_LONG A, B, C, D;
-    MD5_LONG Nl, Nh;
-    MD5_LONG data[MD5_LBLOCK];
+typedef struct MD2state_st {
     unsigned int num;
-} MD5_CTX;
+    unsigned char data[MD2_BLOCK];
+    MD2_INT cksm[MD2_BLOCK];
+    MD2_INT state[MD2_BLOCK];
+} MD2_CTX;
 
-int MD5_Init(MD5_CTX *c);
-int MD5_Update(MD5_CTX *c, const void *data, size_t len);
-int MD5_Final(unsigned char *md, MD5_CTX *c);
-unsigned char *MD5(const unsigned char *d, size_t n, unsigned char *md);
-void MD5_Transform(MD5_CTX *c, const unsigned char *b);
+const char *MD2_options(void);
+int MD2_Init(MD2_CTX *c);
+int MD2_Update(MD2_CTX *c, const unsigned char *data, size_t len);
+int MD2_Final(unsigned char *md, MD2_CTX *c);
+unsigned char *MD2(const unsigned char *d, size_t n, unsigned char *md);
 #ifdef  __cplusplus
 }
 #endif
