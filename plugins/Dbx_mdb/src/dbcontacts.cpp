@@ -116,7 +116,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
 
-		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE))
+		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS)
 		{
 			do
 			{
