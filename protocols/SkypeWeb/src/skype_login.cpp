@@ -191,6 +191,13 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 			SendRequest(new LoginOAuthRequest(li.szSkypename, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
 		}
+		else if (response->resultCode == 400)
+		{
+			delSetting("TokenExpiresIn");
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+			SetStatus(ID_STATUS_OFFLINE);
+			return;
+		}
 		else //it should be rewritten
 		{
 			SendRequest(new CreateEndpointRequest(li), &CSkypeProto::OnEndpointCreated);
