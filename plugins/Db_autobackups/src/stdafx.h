@@ -7,6 +7,7 @@
 #include <shlobj.h>
 #include <time.h>
 #include <vector>
+#include <functional>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
 #	include <filesystem>
@@ -40,10 +41,18 @@ int	OptionsInit(WPARAM wParam, LPARAM lParam);
 int	LoadOptions(void);
 void BackupStart(TCHAR *backup_filename);
 
+struct ZipFile
+{
+	std::string sPath;
+	std::string sZipPath;
+	__forceinline ZipFile(const std::string &path, const std::string &zpath) : sPath(path), sZipPath(zpath) {}
+};
+
+int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern HINSTANCE g_hInstance;
 extern TCHAR *profilePath;
-
+extern char g_szMirVer[];
 
 static IconItem iconList[] = {
 	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
