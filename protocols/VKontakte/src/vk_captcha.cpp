@@ -26,6 +26,7 @@ struct CAPTCHA_FORM_PARAMS
 	HBITMAP bmp;
 	int w,h;
 	char Result[100];
+	CVkProto* proto;
 };
 
 static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -70,6 +71,9 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			DeleteDC(hdcMem);
 
 			EndPaint(hwndDlg, &ps);
+
+			if (params->proto->getBool("AlwaysOpenCaptchaInBrowser", false))
+				params->proto->ShowCaptchaInBrowser(params->bmp);		
 		}
 		break;
 
@@ -78,6 +82,10 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDCANCEL:
 			EndDialog(hwndDlg, 0);
 			return TRUE;
+		
+		case IDOPENBROWSER:
+			params->proto->ShowCaptchaInBrowser(params->bmp);
+			break;
 
 		case IDOK:
 			GetDlgItemTextA(hwndDlg, IDC_VALUE, params->Result, _countof(params->Result));
@@ -125,10 +133,11 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	memio.fif = FIF_UNKNOWN; /* detect */
 	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
 
-	BITMAP bmp = {0};
+	BITMAP bmp = { 0 };
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
+	param.proto = this;
 	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;
