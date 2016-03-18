@@ -1,4 +1,3 @@
-/* crypto/dh/dh.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -60,22 +59,24 @@
 # define HEADER_DH_H
 
 # include <openssl/e_os2.h>
+# include <openssl/opensslconf.h>
 
 # ifdef OPENSSL_NO_DH
 #  error DH is disabled.
 # endif
 
-# ifndef OPENSSL_NO_BIO
-#  include <openssl/bio.h>
-# endif
+# include <openssl/bio.h>
+# include <openssl/asn1.h>
 # include <openssl/ossl_typ.h>
-# ifndef OPENSSL_NO_DEPRECATED
+# if OPENSSL_API_COMPAT < 0x10100000L
 #  include <openssl/bn.h>
 # endif
 
 # ifndef OPENSSL_DH_MAX_MODULUS_BITS
 #  define OPENSSL_DH_MAX_MODULUS_BITS    10000
 # endif
+
+# define OPENSSL_DH_FIPS_MIN_MODULUS_BITS 1024
 
 # define DH_FLAG_CACHE_MONT_P     0x01
 
@@ -156,7 +157,10 @@ struct dh_st {
     CRYPTO_EX_DATA ex_data;
     const DH_METHOD *meth;
     ENGINE *engine;
+    CRYPTO_RWLOCK *lock;
 };
+
+DECLARE_ASN1_ITEM(DHparams)
 
 # define DH_GENERATOR_2          2
 /* #define DH_GENERATOR_3       3 */
@@ -174,7 +178,7 @@ struct dh_st {
 /* DH_check_pub_key error codes */
 # define DH_CHECK_PUBKEY_TOO_SMALL       0x01
 # define DH_CHECK_PUBKEY_TOO_LARGE       0x02
-# define DH_CHECK_PUBKEY_INVALID         0x03
+# define DH_CHECK_PUBKEY_INVALID         0x04
 
 /*
  * primes p where (p-1)/2 is prime too are called "safe"; we define this for
@@ -201,17 +205,19 @@ DH *DH_new_method(ENGINE *engine);
 DH *DH_new(void);
 void DH_free(DH *dh);
 int DH_up_ref(DH *dh);
+int DH_bits(const DH *dh);
 int DH_size(const DH *dh);
-int DH_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new *new_func,
-                        CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
+int DH_security_bits(const DH *dh);
+#define DH_get_ex_new_index(l, p, newf, dupf, freef) \
+    CRYPTO_get_ex_new_index(CRYPTO_EX_INDEX_DH, l, p, newf, dupf, freef)
 int DH_set_ex_data(DH *d, int idx, void *arg);
 void *DH_get_ex_data(DH *d, int idx);
 
 /* Deprecated version */
-# ifndef OPENSSL_NO_DEPRECATED
-DH *DH_generate_parameters(int prime_len, int generator,
-                           void (*callback) (int, int, void *), void *cb_arg);
-# endif                         /* !defined(OPENSSL_NO_DEPRECATED) */
+DEPRECATEDIN_0_9_8(DH *DH_generate_parameters(int prime_len, int generator,
+                                              void (*callback) (int, int,
+                                                                void *),
+                                              void *cb_arg))
 
 /* New version */
 int DH_generate_parameters_ex(DH *dh, int prime_len, int generator,
@@ -226,25 +232,23 @@ DH *d2i_DHparams(DH **a, const unsigned char **pp, long length);
 int i2d_DHparams(const DH *a, unsigned char **pp);
 DH *d2i_DHxparams(DH **a, const unsigned char **pp, long length);
 int i2d_DHxparams(const DH *a, unsigned char **pp);
-# ifndef OPENSSL_NO_FP_API
+# ifndef OPENSSL_NO_STDIO
 int DHparams_print_fp(FILE *fp, const DH *x);
 # endif
-# ifndef OPENSSL_NO_BIO
 int DHparams_print(BIO *bp, const DH *x);
-# else
-int DHparams_print(char *bp, const DH *x);
-# endif
 
 /* RFC 5114 parameters */
 DH *DH_get_1024_160(void);
 DH *DH_get_2048_224(void);
 DH *DH_get_2048_256(void);
 
+# ifndef OPENSSL_NO_CMS
 /* RFC2631 KDF */
 int DH_KDF_X9_42(unsigned char *out, size_t outlen,
                  const unsigned char *Z, size_t Zlen,
                  ASN1_OBJECT *key_oid,
                  const unsigned char *ukm, size_t ukmlen, const EVP_MD *md);
+# endif
 
 # define EVP_PKEY_CTX_set_dh_paramgen_prime_len(ctx, len) \
         EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_DH, EVP_PKEY_OP_PARAMGEN, \
@@ -337,7 +341,9 @@ int DH_KDF_X9_42(unsigned char *out, size_t outlen,
 
 /* KDF types */
 # define EVP_PKEY_DH_KDF_NONE                            1
+# ifndef OPENSSL_NO_CMS
 # define EVP_PKEY_DH_KDF_X9_42                           2
+# endif
 
 /* BEGIN ERROR CODES */
 /*
@@ -352,12 +358,9 @@ void ERR_load_DH_strings(void);
 # define DH_F_COMPUTE_KEY                                 102
 # define DH_F_DHPARAMS_PRINT_FP                           101
 # define DH_F_DH_BUILTIN_GENPARAMS                        106
-# define DH_F_DH_CMS_DECRYPT                              117
-# define DH_F_DH_CMS_SET_PEERKEY                          118
-# define DH_F_DH_CMS_SET_SHARED_INFO                      119
-# define DH_F_DH_COMPUTE_KEY                              114
-# define DH_F_DH_GENERATE_KEY                             115
-# define DH_F_DH_GENERATE_PARAMETERS_EX                   116
+# define DH_F_DH_CMS_DECRYPT                              114
+# define DH_F_DH_CMS_SET_PEERKEY                          115
+# define DH_F_DH_CMS_SET_SHARED_INFO                      116
 # define DH_F_DH_NEW_METHOD                               105
 # define DH_F_DH_PARAM_DECODE                             107
 # define DH_F_DH_PRIV_DECODE                              110
@@ -380,12 +383,11 @@ void ERR_load_DH_strings(void);
 # define DH_R_KEYS_NOT_SET                                108
 # define DH_R_KEY_SIZE_TOO_SMALL                          110
 # define DH_R_MODULUS_TOO_LARGE                           103
-# define DH_R_NON_FIPS_METHOD                             111
 # define DH_R_NO_PARAMETERS_SET                           107
 # define DH_R_NO_PRIVATE_VALUE                            100
 # define DH_R_PARAMETER_ENCODING_ERROR                    105
-# define DH_R_PEER_KEY_ERROR                              113
-# define DH_R_SHARED_INFO_ERROR                           114
+# define DH_R_PEER_KEY_ERROR                              111
+# define DH_R_SHARED_INFO_ERROR                           113
 
 #ifdef  __cplusplus
 }

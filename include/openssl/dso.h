@@ -1,4 +1,3 @@
-/* dso.h */
 /*
  * Written by Geoff Thorpe (geoff@geoffthorpe.net) for the OpenSSL project
  * 2000.
@@ -114,7 +113,7 @@ typedef struct dso_st DSO;
 /*
  * The function prototype used for method functions (or caller-provided
  * callbacks) that transform filenames. They are passed a DSO structure
- * pointer (or NULL if they are to be used independantly of a DSO object) and
+ * pointer (or NULL if they are to be used independently of a DSO object) and
  * a filename to transform. They should either return NULL (if there is an
  * error condition) or a newly allocated string containing the transformed
  * form that the caller will need to free with OPENSSL_free() when done.
@@ -123,7 +122,7 @@ typedef char *(*DSO_NAME_CONVERTER_FUNC)(DSO *, const char *);
 /*
  * The function prototype used for method functions (or caller-provided
  * callbacks) that merge two file specifications. They are passed a DSO
- * structure pointer (or NULL if they are to be used independantly of a DSO
+ * structure pointer (or NULL if they are to be used independently of a DSO
  * object) and two file specifications to merge. They should either return
  * NULL (if there is an error condition) or a newly allocated string
  * containing the result of merging that the caller will need to free with
@@ -157,13 +156,6 @@ typedef struct dso_meth_st {
      * libraries at all, let alone a DSO_METHOD implemented for them.
      */
     DSO_FUNC_TYPE (*dso_bind_func) (DSO *dso, const char *symname);
-/* I don't think this would actually be used in any circumstances. */
-# if 0
-    /* Unbinds a variable */
-    int (*dso_unbind_var) (DSO *dso, char *symname, void *symptr);
-    /* Unbinds a function */
-    int (*dso_unbind_func) (DSO *dso, char *symname, DSO_FUNC_TYPE symptr);
-# endif
     /*
      * The generic (yuck) "ctrl()" function. NB: Negative return values
      * (rather than zero) indicate errors.
@@ -220,7 +212,7 @@ struct dso_st {
      */
     DSO_MERGER_FUNC merger;
     /*
-     * This is populated with (a copy of) the platform-independant filename
+     * This is populated with (a copy of) the platform-independent filename
      * used for this DSO.
      */
     char *filename;
@@ -236,6 +228,7 @@ struct dso_st {
      * loaded.
      */
     char *loaded_filename;
+    CRYPTO_RWLOCK *lock;
 };
 
 DSO *DSO_new(void);
@@ -254,7 +247,7 @@ long DSO_ctrl(DSO *dso, int cmd, long larg, void *parg);
 int DSO_set_name_converter(DSO *dso, DSO_NAME_CONVERTER_FUNC cb,
                            DSO_NAME_CONVERTER_FUNC *oldcb);
 /*
- * These functions can be used to get/set the platform-independant filename
+ * These functions can be used to get/set the platform-independent filename
  * used for a DSO. NB: set will fail if the DSO is already loaded.
  */
 const char *DSO_get_filename(DSO *dso);
@@ -346,7 +339,7 @@ DSO_METHOD *DSO_METHOD_vms(void);
  * 'addr' into 'sz' large caller-provided 'path' and returns the number of
  * characters [including trailing zero] written to it. If 'sz' is 0 or
  * negative, 'path' is ignored and required amount of charachers [including
- * trailing zero] to accomodate pathname is returned. If 'addr' is NULL, then
+ * trailing zero] to accommodate pathname is returned. If 'addr' is NULL, then
  * pathname of cryptolib itself is returned. Negative or zero return value
  * denotes error.
  */
@@ -362,9 +355,6 @@ int DSO_pathbyaddr(void *addr, char *path, int sz);
  * reside: in libc itself or libsocket.
  */
 void *DSO_global_lookup(const char *name);
-
-/* If BeOS is defined, use shared images. If not, return NULL. */
-DSO_METHOD *DSO_METHOD_beos(void);
 
 /* BEGIN ERROR CODES */
 /*

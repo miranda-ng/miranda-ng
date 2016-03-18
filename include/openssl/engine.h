@@ -1,4 +1,3 @@
-/* openssl/engine.h */
 /*
  * Written by Geoff Thorpe (geoff@geoffthorpe.net) for the OpenSSL project
  * 2000.
@@ -71,7 +70,7 @@
 #  error ENGINE is disabled.
 # endif
 
-# ifndef OPENSSL_NO_DEPRECATED
+# if OPENSSL_API_COMPAT < 0x10100000L
 #  include <openssl/bn.h>
 #  ifndef OPENSSL_NO_RSA
 #   include <openssl/rsa.h>
@@ -82,11 +81,8 @@
 #  ifndef OPENSSL_NO_DH
 #   include <openssl/dh.h>
 #  endif
-#  ifndef OPENSSL_NO_ECDH
-#   include <openssl/ecdh.h>
-#  endif
-#  ifndef OPENSSL_NO_ECDSA
-#   include <openssl/ecdsa.h>
+#  ifndef OPENSSL_NO_EC
+#   include <openssl/ec.h>
 #  endif
 #  include <openssl/rand.h>
 #  include <openssl/ui.h>
@@ -110,13 +106,11 @@ extern "C" {
 # define ENGINE_METHOD_DSA               (unsigned int)0x0002
 # define ENGINE_METHOD_DH                (unsigned int)0x0004
 # define ENGINE_METHOD_RAND              (unsigned int)0x0008
-# define ENGINE_METHOD_ECDH              (unsigned int)0x0010
-# define ENGINE_METHOD_ECDSA             (unsigned int)0x0020
 # define ENGINE_METHOD_CIPHERS           (unsigned int)0x0040
 # define ENGINE_METHOD_DIGESTS           (unsigned int)0x0080
-# define ENGINE_METHOD_STORE             (unsigned int)0x0100
 # define ENGINE_METHOD_PKEY_METHS        (unsigned int)0x0200
 # define ENGINE_METHOD_PKEY_ASN1_METHS   (unsigned int)0x0400
+# define ENGINE_METHOD_EC                (unsigned int)0x0800
 /* Obvious all-or-nothing cases. */
 # define ENGINE_METHOD_ALL               (unsigned int)0xFFFF
 # define ENGINE_METHOD_NONE              (unsigned int)0x0000
@@ -391,29 +385,27 @@ int ENGINE_add(ENGINE *e);
 int ENGINE_remove(ENGINE *e);
 /* Retrieve an engine from the list by its unique "id" value. */
 ENGINE *ENGINE_by_id(const char *id);
-/* Add all the built-in engines. */
-void ENGINE_load_openssl(void);
-void ENGINE_load_dynamic(void);
+
+#if OPENSSL_API_COMPAT < 0x10100000L
+# define ENGINE_load_openssl() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_OPENSSL, NULL)
+# define ENGINE_load_dynamic() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_DYNAMIC, NULL)
 # ifndef OPENSSL_NO_STATIC_ENGINE
-void ENGINE_load_4758cca(void);
-void ENGINE_load_aep(void);
-void ENGINE_load_atalla(void);
-void ENGINE_load_chil(void);
-void ENGINE_load_cswift(void);
-void ENGINE_load_nuron(void);
-void ENGINE_load_sureware(void);
-void ENGINE_load_ubsec(void);
-void ENGINE_load_padlock(void);
-void ENGINE_load_capi(void);
-#  ifndef OPENSSL_NO_GMP
-void ENGINE_load_gmp(void);
-#  endif
-#  ifndef OPENSSL_NO_GOST
-void ENGINE_load_gost(void);
-#  endif
+#  define ENGINE_load_padlock() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_PADLOCK, NULL)
+#  define ENGINE_load_capi() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_CAPI, NULL)
+#  define ENGINE_load_dasync() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_DASYNC, NULL)
+#  define ENGINE_load_afalg() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_AFALG, NULL)
 # endif
-void ENGINE_load_cryptodev(void);
-void ENGINE_load_rdrand(void);
+# define ENGINE_load_cryptodev() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_CRYPTODEV, NULL)
+# define ENGINE_load_rdrand() \
+    OPENSSL_init_crypto(OPENSSL_INIT_ENGINE_RDRAND, NULL)
+#endif
 void ENGINE_load_builtin_engines(void);
 
 /*
@@ -440,13 +432,9 @@ int ENGINE_register_DSA(ENGINE *e);
 void ENGINE_unregister_DSA(ENGINE *e);
 void ENGINE_register_all_DSA(void);
 
-int ENGINE_register_ECDH(ENGINE *e);
-void ENGINE_unregister_ECDH(ENGINE *e);
-void ENGINE_register_all_ECDH(void);
-
-int ENGINE_register_ECDSA(ENGINE *e);
-void ENGINE_unregister_ECDSA(ENGINE *e);
-void ENGINE_register_all_ECDSA(void);
+int ENGINE_register_EC(ENGINE *e);
+void ENGINE_unregister_EC(ENGINE *e);
+void ENGINE_register_all_EC(void);
 
 int ENGINE_register_DH(ENGINE *e);
 void ENGINE_unregister_DH(ENGINE *e);
@@ -455,10 +443,6 @@ void ENGINE_register_all_DH(void);
 int ENGINE_register_RAND(ENGINE *e);
 void ENGINE_unregister_RAND(ENGINE *e);
 void ENGINE_register_all_RAND(void);
-
-int ENGINE_register_STORE(ENGINE *e);
-void ENGINE_unregister_STORE(ENGINE *e);
-void ENGINE_register_all_STORE(void);
 
 int ENGINE_register_ciphers(ENGINE *e);
 void ENGINE_unregister_ciphers(ENGINE *e);
@@ -554,11 +538,9 @@ int ENGINE_set_id(ENGINE *e, const char *id);
 int ENGINE_set_name(ENGINE *e, const char *name);
 int ENGINE_set_RSA(ENGINE *e, const RSA_METHOD *rsa_meth);
 int ENGINE_set_DSA(ENGINE *e, const DSA_METHOD *dsa_meth);
-int ENGINE_set_ECDH(ENGINE *e, const ECDH_METHOD *ecdh_meth);
-int ENGINE_set_ECDSA(ENGINE *e, const ECDSA_METHOD *ecdsa_meth);
+int ENGINE_set_EC(ENGINE *e, const EC_KEY_METHOD *ecdsa_meth);
 int ENGINE_set_DH(ENGINE *e, const DH_METHOD *dh_meth);
 int ENGINE_set_RAND(ENGINE *e, const RAND_METHOD *rand_meth);
-int ENGINE_set_STORE(ENGINE *e, const STORE_METHOD *store_meth);
 int ENGINE_set_destroy_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR destroy_f);
 int ENGINE_set_init_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR init_f);
 int ENGINE_set_finish_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR finish_f);
@@ -576,9 +558,8 @@ int ENGINE_set_pkey_asn1_meths(ENGINE *e, ENGINE_PKEY_ASN1_METHS_PTR f);
 int ENGINE_set_flags(ENGINE *e, int flags);
 int ENGINE_set_cmd_defns(ENGINE *e, const ENGINE_CMD_DEFN *defns);
 /* These functions allow control over any per-structure ENGINE data. */
-int ENGINE_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new *new_func,
-                            CRYPTO_EX_dup *dup_func,
-                            CRYPTO_EX_free *free_func);
+#define ENGINE_get_ex_new_index(l, p, newf, dupf, freef) \
+    CRYPTO_get_ex_new_index(CRYPTO_EX_INDEX_ENGINE, l, p, newf, dupf, freef)
 int ENGINE_set_ex_data(ENGINE *e, int idx, void *arg);
 void *ENGINE_get_ex_data(const ENGINE *e, int idx);
 
@@ -600,11 +581,9 @@ const char *ENGINE_get_id(const ENGINE *e);
 const char *ENGINE_get_name(const ENGINE *e);
 const RSA_METHOD *ENGINE_get_RSA(const ENGINE *e);
 const DSA_METHOD *ENGINE_get_DSA(const ENGINE *e);
-const ECDH_METHOD *ENGINE_get_ECDH(const ENGINE *e);
-const ECDSA_METHOD *ENGINE_get_ECDSA(const ENGINE *e);
+const EC_KEY_METHOD *ENGINE_get_EC(const ENGINE *e);
 const DH_METHOD *ENGINE_get_DH(const ENGINE *e);
 const RAND_METHOD *ENGINE_get_RAND(const ENGINE *e);
-const STORE_METHOD *ENGINE_get_STORE(const ENGINE *e);
 ENGINE_GEN_INT_FUNC_PTR ENGINE_get_destroy_function(const ENGINE *e);
 ENGINE_GEN_INT_FUNC_PTR ENGINE_get_init_function(const ENGINE *e);
 ENGINE_GEN_INT_FUNC_PTR ENGINE_get_finish_function(const ENGINE *e);
@@ -679,8 +658,7 @@ int ENGINE_load_ssl_client_cert(ENGINE *e, SSL *s,
 ENGINE *ENGINE_get_default_RSA(void);
 /* Same for the other "methods" */
 ENGINE *ENGINE_get_default_DSA(void);
-ENGINE *ENGINE_get_default_ECDH(void);
-ENGINE *ENGINE_get_default_ECDSA(void);
+ENGINE *ENGINE_get_default_EC(void);
 ENGINE *ENGINE_get_default_DH(void);
 ENGINE *ENGINE_get_default_RAND(void);
 /*
@@ -702,8 +680,7 @@ int ENGINE_set_default_RSA(ENGINE *e);
 int ENGINE_set_default_string(ENGINE *e, const char *def_list);
 /* Same for the other "methods" */
 int ENGINE_set_default_DSA(ENGINE *e);
-int ENGINE_set_default_ECDH(ENGINE *e);
-int ENGINE_set_default_ECDSA(ENGINE *e);
+int ENGINE_set_default_EC(ENGINE *e);
 int ENGINE_set_default_DH(ENGINE *e);
 int ENGINE_set_default_RAND(ENGINE *e);
 int ENGINE_set_default_ciphers(ENGINE *e);
@@ -730,12 +707,12 @@ void ENGINE_add_conf_module(void);
 /**************************/
 
 /* Binary/behaviour compatibility levels */
-# define OSSL_DYNAMIC_VERSION            (unsigned long)0x00020000
+# define OSSL_DYNAMIC_VERSION            (unsigned long)0x00030000
 /*
  * Binary versions older than this are too old for us (whether we're a loader
  * or a loadee)
  */
-# define OSSL_DYNAMIC_OLDEST             (unsigned long)0x00020000
+# define OSSL_DYNAMIC_OLDEST             (unsigned long)0x00030000
 
 /*
  * When compiling an ENGINE entirely as an external shared library, loadable
@@ -748,40 +725,22 @@ void ENGINE_add_conf_module(void);
  * same static data as the calling application (or library), and thus whether
  * these callbacks need to be set or not.
  */
-typedef void *(*dyn_MEM_malloc_cb) (size_t);
-typedef void *(*dyn_MEM_realloc_cb) (void *, size_t);
-typedef void (*dyn_MEM_free_cb) (void *);
+typedef void *(*dyn_MEM_malloc_fn) (size_t, const char *, int);
+typedef void *(*dyn_MEM_realloc_fn) (void *, size_t, const char *, int);
+typedef void (*dyn_MEM_free_fn) (void *, const char *, int);
 typedef struct st_dynamic_MEM_fns {
-    dyn_MEM_malloc_cb malloc_cb;
-    dyn_MEM_realloc_cb realloc_cb;
-    dyn_MEM_free_cb free_cb;
+    dyn_MEM_malloc_fn malloc_fn;
+    dyn_MEM_realloc_fn realloc_fn;
+    dyn_MEM_free_fn free_fn;
 } dynamic_MEM_fns;
 /*
  * FIXME: Perhaps the memory and locking code (crypto.h) should declare and
  * use these types so we (and any other dependant code) can simplify a bit??
  */
-typedef void (*dyn_lock_locking_cb) (int, int, const char *, int);
-typedef int (*dyn_lock_add_lock_cb) (int *, int, int, const char *, int);
-typedef struct CRYPTO_dynlock_value *(*dyn_dynlock_create_cb) (const char *,
-                                                               int);
-typedef void (*dyn_dynlock_lock_cb) (int, struct CRYPTO_dynlock_value *,
-                                     const char *, int);
-typedef void (*dyn_dynlock_destroy_cb) (struct CRYPTO_dynlock_value *,
-                                        const char *, int);
-typedef struct st_dynamic_LOCK_fns {
-    dyn_lock_locking_cb lock_locking_cb;
-    dyn_lock_add_lock_cb lock_add_lock_cb;
-    dyn_dynlock_create_cb dynlock_create_cb;
-    dyn_dynlock_lock_cb dynlock_lock_cb;
-    dyn_dynlock_destroy_cb dynlock_destroy_cb;
-} dynamic_LOCK_fns;
 /* The top-level structure */
 typedef struct st_dynamic_fns {
     void *static_state;
-    const ERR_FNS *err_fns;
-    const CRYPTO_EX_DATA_IMPL *ex_data_fns;
     dynamic_MEM_fns mem_fns;
-    dynamic_LOCK_fns lock_fns;
 } dynamic_fns;
 
 /*
@@ -829,17 +788,9 @@ typedef int (*dynamic_bind_engine) (ENGINE *e, const char *id,
         OPENSSL_EXPORT \
         int bind_engine(ENGINE *e, const char *id, const dynamic_fns *fns) { \
                 if(ENGINE_get_static_state() == fns->static_state) goto skip_cbs; \
-                if(!CRYPTO_set_mem_functions(fns->mem_fns.malloc_cb, \
-                        fns->mem_fns.realloc_cb, fns->mem_fns.free_cb)) \
-                        return 0; \
-                CRYPTO_set_locking_callback(fns->lock_fns.lock_locking_cb); \
-                CRYPTO_set_add_lock_callback(fns->lock_fns.lock_add_lock_cb); \
-                CRYPTO_set_dynlock_create_callback(fns->lock_fns.dynlock_create_cb); \
-                CRYPTO_set_dynlock_lock_callback(fns->lock_fns.dynlock_lock_cb); \
-                CRYPTO_set_dynlock_destroy_callback(fns->lock_fns.dynlock_destroy_cb); \
-                if(!CRYPTO_set_ex_data_implementation(fns->ex_data_fns)) \
-                        return 0; \
-                if(!ERR_set_implementation(fns->err_fns)) return 0; \
+                CRYPTO_set_mem_functions(fns->mem_fns.malloc_fn, \
+                                         fns->mem_fns.realloc_fn, \
+                                         fns->mem_fns.free_fn); \
         skip_cbs: \
                 if(!fn(e,id)) return 0; \
                 return 1; }

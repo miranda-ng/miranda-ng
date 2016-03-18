@@ -1,4 +1,3 @@
-/* crypto/ui/ui.h */
 /*
  * Written by Richard Levitte (richard@levitte.org) for the OpenSSL project
  * 2001.
@@ -60,11 +59,12 @@
 #ifndef HEADER_UI_H
 # define HEADER_UI_H
 
-# ifndef OPENSSL_NO_DEPRECATED
+# if OPENSSL_API_COMPAT < 0x10100000L
 #  include <openssl/crypto.h>
 # endif
 # include <openssl/safestack.h>
 # include <openssl/ossl_typ.h>
+# include <openssl/opensslconf.h>
 
 #ifdef  __cplusplus
 extern "C" {
@@ -128,7 +128,7 @@ void UI_free(UI *ui);
    added, so the result is *not* a string.
 
    On success, the all return an index of the added information.  That index
-   is usefull when retrieving results with UI_get0_result(). */
+   is useful when retrieving results with UI_get0_result(). */
 int UI_add_input_string(UI *ui, const char *prompt, int flags,
                         char *result_buf, int minsize, int maxsize);
 int UI_dup_input_string(UI *ui, const char *prompt, int flags,
@@ -240,8 +240,9 @@ int UI_ctrl(UI *ui, int cmd, long i, void *p, void (*f) (void));
 /* Some methods may use extra data */
 # define UI_set_app_data(s,arg)         UI_set_ex_data(s,0,arg)
 # define UI_get_app_data(s)             UI_get_ex_data(s,0)
-int UI_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new *new_func,
-                        CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
+
+#define UI_get_ex_new_index(l, p, newf, dupf, freef) \
+    CRYPTO_get_ex_new_index(CRYPTO_EX_INDEX_UI, l, p, newf, dupf, freef)
 int UI_set_ex_data(UI *r, int idx, void *arg);
 void *UI_get_ex_data(UI *r, int idx);
 
@@ -302,7 +303,7 @@ UI_METHOD *UI_OpenSSL(void);
  * about a string or a prompt, including test data for a verification prompt.
  */
 typedef struct ui_string_st UI_STRING;
-DECLARE_STACK_OF(UI_STRING)
+DEFINE_STACK_OF(UI_STRING)
 
 /*
  * The different types of strings that are currently supported. This is only
