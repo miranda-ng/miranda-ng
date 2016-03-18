@@ -116,16 +116,16 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
 
-		mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
-
-		do
+		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE))
 		{
-			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-			if (pKey->dwContactID != contactID)
-				break;
-			mdb_cursor_del(cursor, 0);
-		} 
-			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+			do
+			{
+				const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+				if (pKey->dwContactID != contactID)
+					break;
+				mdb_cursor_del(cursor, 0);
+			} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+		}
 		txn.commit();
 	}
 
