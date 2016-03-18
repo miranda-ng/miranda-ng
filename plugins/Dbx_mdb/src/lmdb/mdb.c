@@ -1404,6 +1404,8 @@ mdb_assert_fail(MDB_env *env, const char *expr_txt,
 	if (env->me_assert_func)
 		env->me_assert_func(env, buf);
 	fprintf(stderr, "%s\n", buf);
+	if (IsDebuggerPresent())
+		DebugBreak();
 	_beginthread(dbpanic, 0, 0);
 	Sleep(INFINITE);
 }
