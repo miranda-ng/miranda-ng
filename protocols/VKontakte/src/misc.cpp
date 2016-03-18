@@ -1274,3 +1274,47 @@ CMString CVkProto::RemoveBBC(CMString& tszSrc)
 
 	return tszRes;
 }
+
+CMString CVkProto::SaveImage(HBITMAP hBitmap)
+{
+	TCHAR tszTempDir[MAX_PATH];
+
+	if (!GetEnvironmentVariable(_T("TEMP"), tszTempDir, MAX_PATH))
+		return CMString();
+
+	CMString tszImgFileName(FORMAT, _T("%s\\miranda_captcha.png"), tszTempDir);
+
+	IMGSRVC_INFO isi = { sizeof(isi) };
+	isi.tszName = mir_tstrdup(tszImgFileName);
+	isi.hbm = hBitmap;
+	isi.dwMask = IMGI_HBITMAP;
+	isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
+	
+	if (CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_TCHAR))
+		return tszImgFileName;
+		
+	return CMString();
+}
+
+void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
+{
+	CMString tszFHTML = SaveImage(hBitmap);
+	
+	if (tszFHTML.IsEmpty())
+		return;
+		
+	tszFHTML.Replace(_T(".png"), _T(".html"));
+
+	if (!(GetFileAttributes(tszFHTML) < 0xFFFFFFF)) {
+		FILE *pFile = _tfopen(tszFHTML, _T("w"));
+		if (pFile == NULL)
+			return;
+
+		CMStringA szHTML("<html><body><img src=\"miranda_captcha.png\" /></body></html>");
+		fwrite(szHTML, 1, szHTML.GetLength(), pFile);
+		fclose(pFile);
+	}
+
+	tszFHTML = _T("file://") + tszFHTML;
+	Utils_OpenUrlT(tszFHTML);
+}

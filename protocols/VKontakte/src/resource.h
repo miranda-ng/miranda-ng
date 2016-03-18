@@ -2,6 +2,8 @@
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется d:\svn\protocols\VKontakte\res\resource.rc
 //
+
+#define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101
 #define IDD_CAPTCHAFORM                 102
 #define IDD_OPT_MAIN                    103
