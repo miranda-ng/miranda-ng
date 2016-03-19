@@ -29,5 +29,13 @@
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\skylogin\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
 </Project>
