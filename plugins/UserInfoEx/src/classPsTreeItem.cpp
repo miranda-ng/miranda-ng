@@ -44,23 +44,19 @@ BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hWnd, LPARAM lParam)
  *			odp			- optiondialogpage structure with the info about the item to add
  * return: nothing
  **/
-CPsTreeItem::CPsTreeItem()
+CPsTreeItem::CPsTreeItem() : _idDlg(NULL), _pTemplate(NULL), _hInst(NULL), _pfnDlgProc(NULL), _hWnd(NULL), _dwFlags(NULL),
+	_hItem(NULL), // handle to the treeview item
+	_iParent(-1), // index to the parent item
+	_iImage(-1), // index of treeview item's image
+	_bState(NULL), // initial state of this treeitem
+	_pszName(NULL), // original name, given by plugin (not customized)
+	_ptszLabel(NULL),
+	_pszProto(NULL),
+	_pszPrefix(NULL),
+	_hContact(NULL),
+	_iPosition(0),
+	_initParam(0)
 {
-	_idDlg = NULL;
-	_pTemplate = NULL;
-	_hInst = NULL;
-	_pfnDlgProc = NULL;
-	_hWnd = NULL;
-	_dwFlags = NULL;
-	_hItem = NULL;			// handle to the treeview item
-	_iParent = -1;			// index to the parent item
-	_iImage = -1;			// index of treeview item's image
-	_bState = NULL;			// initial state of this treeitem
-	_pszName = NULL;		// original name, given by plugin (not customized)
-	_ptszLabel = NULL;
-	_pszProto = NULL;
-	_pszPrefix = NULL;
-	_hContact = NULL;
 }
 
 /**
@@ -217,7 +213,9 @@ void CPsTreeItem::Rename(const LPTSTR pszLabel)
 	if (pszLabel && *pszLabel) {
 		LPTSTR pszDup = mir_tstrdup(pszLabel);
 		if (pszDup) {
-			replaceStrT(_ptszLabel, pszDup);
+			if (_ptszLabel)
+				mir_free(_ptszLabel);
+			_ptszLabel =  pszDup;
 			// convert disallowed characters
 			while(*pszDup) {
 				switch(*pszDup) {
