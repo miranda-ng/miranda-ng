@@ -27,10 +27,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		bInitializing = 1;
 
-		CheckDlgButton(hwndDlg, IDC_AUTHICON, bUseAuthIcon ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_GRANTICON, bUseGrantIcon ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ENABLEMENUITEM, bContactMenuItem ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ICONSFORRECENT, bIconsForRecentContacts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTHICON, Options.bUseAuthIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_GRANTICON, Options.bUseGrantIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ENABLEMENUITEM, Options.bContactMenuItem ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ICONSFORRECENT, Options.bIconsForRecentContacts ? BST_CHECKED : BST_UNCHECKED);
 
 		bInitializing = 0;
 		return TRUE;
@@ -50,19 +50,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (((LPNMHDR)lParam)->idFrom == 0)
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				bUseAuthIcon = IsDlgButtonChecked(hwndDlg, IDC_AUTHICON);
-				bUseGrantIcon = IsDlgButtonChecked(hwndDlg, IDC_GRANTICON);
-				bContactMenuItem = IsDlgButtonChecked(hwndDlg, IDC_ENABLEMENUITEM);
-				bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
+				Options.bUseAuthIcon = IsDlgButtonChecked(hwndDlg, IDC_AUTHICON);
+				Options.bUseGrantIcon = IsDlgButtonChecked(hwndDlg, IDC_GRANTICON);
+				Options.bContactMenuItem = IsDlgButtonChecked(hwndDlg, IDC_ENABLEMENUITEM);
+				Options.bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					onExtraImageApplying((WPARAM)hContact, 0);
 
-				//Store options values to DB
-				db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
-				db_set_b(NULL, MODULENAME, "EnableGrantIcon", bUseGrantIcon);
-				db_set_b(NULL, MODULENAME, "MenuItem", bContactMenuItem);
-				db_set_b(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
+				Options.Save();
 				return TRUE;
 		}
 	}

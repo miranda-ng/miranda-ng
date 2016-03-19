@@ -39,11 +39,37 @@
 
 #define MODULENAME "AuthState"
 
+struct Opts
+{
+	BYTE bUseAuthIcon;
+	BYTE bUseGrantIcon;
+	BYTE bContactMenuItem;
+	BYTE bIconsForRecentContacts;
+
+	void Load()
+	{
+		bUseAuthIcon = db_get_b(NULL, MODULENAME, "EnableAuthIcon", 1);
+		bUseGrantIcon = db_get_b(NULL, MODULENAME, "EnableGrantIcon", 1);
+		bContactMenuItem = db_get_b(NULL, MODULENAME, "MenuItem", 0);
+		bIconsForRecentContacts = db_get_b(NULL, MODULENAME, "EnableOnlyForRecent", 0);
+	}
+
+	void Save()
+	{
+		db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
+		db_set_b(NULL, MODULENAME, "EnableGrantIcon", bUseGrantIcon);
+		db_set_b(NULL, MODULENAME, "MenuItem", bContactMenuItem);
+		db_set_b(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
+	}
+
+};
+
+extern Opts Options;
+
 int onOptInitialise(WPARAM wParam, LPARAM lParam);
 int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
 
 extern HINSTANCE g_hInst;
-extern byte bUseAuthIcon, bUseGrantIcon, bContactMenuItem, bIconsForRecentContacts;
 extern HANDLE hExtraIcon;
 
 #endif //COMMHEADERS_H
