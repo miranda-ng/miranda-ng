@@ -382,18 +382,18 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 	txn_ptr_ro txn(m_txn);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (contactID != (m_dwMaxContactId - 1))
-	{
-		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
-			return m_evLast = 0;
-		if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
-			return m_evLast = 0;
-	}
-	else
+
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) != MDB_SUCCESS)
 	{
 		if (mdb_cursor_get(cursor, &key, &data, MDB_LAST) != MDB_SUCCESS)
 			return m_evLast = 0;
 	}
+	else
+	{
+		if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
+			return m_evLast = 0;
+	}
+
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	m_tsLast = pKey->ts;
 	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
