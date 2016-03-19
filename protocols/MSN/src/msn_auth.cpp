@@ -499,8 +499,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 			}
 		}
 	}
-	else
-		setString("MsnPassportHost", szPassportHost);
+	else setString("MsnPassportHost", szPassportHost);
 
 	mir_free(szPassportHost);
 	debugLogA("MSN_CheckRedirector exited with errorCode = %d", retVal);
@@ -654,6 +653,8 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 {
 	int iRet = -1;
+	if (g_hOpenssl == NULL)
+		return iRet;
 
 	// Perform login
 	SkyLogin hLogin = SkyLogin_Init();
@@ -685,6 +686,8 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 {
 	int iRet = -1;
+	if (g_hOpenssl == NULL)
+		return iRet;
 
 	// Perform login
 	SkyLogin hLogin = SkyLogin_Init();
