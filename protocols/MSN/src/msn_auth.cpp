@@ -24,6 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_ieembed.h"
 #include "des.h"
 
+extern "C"
+{
+	#include "skylogin\skylogin.h"
+};
+
 #define LOGIN_POST_PARAMS "client_id=00000000480BC46C&scope=service%3A%3Askype.com%3A%3AMBI_SSL&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf"
 #define AUTH_URL "https://login.live.com/oauth20_authorize.srf?"LOGIN_POST_PARAMS
 #define POST_URL "https://login.live.com/ppsecure/post.srf?"LOGIN_POST_PARAMS
@@ -32,18 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* WinINET delayloading */
 typedef BOOL (*pfnInternetGetCookieExA)(LPCSTR, LPCSTR, LPSTR, LPDWORD, DWORD, LPVOID);
 pfnInternetGetCookieExA fpInternetGetCookieExA = NULL;
-
-
-/* SkyLogin Prototypes */
-typedef void* SkyLogin;
-typedef SkyLogin (*pfnSkyLogin_Init)();
-typedef void (*pfnSkyLogin_Exit)(SkyLogin pInst);
-typedef int (*pfnSkyLogin_LoadCredentials)(SkyLogin pInst, char *pszUser);
-typedef int (*pfnSkyLogin_PerformLogin)(SkyLogin pInst, char *pszUser, char *pszPass);
-typedef int (*pfnSkyLogin_CreateUICString)(SkyLogin pInst, const char *pszNonce, char *pszOutUIC);
-typedef int (*pfnSkyLogin_PerformLoginOAuth)(SkyLogin pInst, const char *OAuth);
-typedef int (*pfnSkyLogin_GetCredentialsUIC)(SkyLogin pInst, char *pszOutUIC);
-typedef char *(*pfnSkyLogin_GetUser)(SkyLogin pInst);
 
 #define LOAD_FN(name) (##name = (pfn##name)GetProcAddress(hLibSkylogin, #name))
 
@@ -661,48 +654,25 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 {
 	int iRet = -1;
-	pfnSkyLogin_Init SkyLogin_Init;
-	pfnSkyLogin_Exit SkyLogin_Exit;
-	pfnSkyLogin_LoadCredentials SkyLogin_LoadCredentials;
-	pfnSkyLogin_PerformLogin SkyLogin_PerformLogin;
-	pfnSkyLogin_CreateUICString SkyLogin_CreateUICString;
 
-	HMODULE hLibSkylogin = LoadLibrary(_T("Plugins\\skylogin.dll"));
-	if (hLibSkylogin) {
+	// Perform login
+	SkyLogin hLogin = SkyLogin_Init();
+	if (hLogin) {
+		iRet = 0;
 
-		// load function pointers
-		if (!LOAD_FN(SkyLogin_Init) ||
-			!LOAD_FN(SkyLogin_Exit) ||
-			!LOAD_FN(SkyLogin_LoadCredentials) ||
-			!LOAD_FN(SkyLogin_PerformLogin) ||
-			!LOAD_FN(SkyLogin_CreateUICString))
-		{
-			FreeLibrary(hLibSkylogin);
-			return -2;
-		}
-
-		// Perform login
-		SkyLogin hLogin = SkyLogin_Init();
-		if (hLogin) {
-			char szPassword[100];
-			if (!db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
-				if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
-					SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
-				{
-					if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
-						iRet = 1;
-				}
-				else
-					iRet = 0;
-				SkyLogin_Exit(hLogin);
+		char szPassword[100];
+		if (!db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
+			if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
+				SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
+			{
+				if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
+					iRet = 1;
 			}
-			else
-				iRet = 0;
+
+			SkyLogin_Exit(hLogin);
 		}
-		else
-			iRet = -3;
-		FreeLibrary(hLibSkylogin);
 	}
+
 	return iRet;
 }
 
@@ -715,52 +685,29 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 {
 	int iRet = -1;
-	pfnSkyLogin_Init SkyLogin_Init;
-	pfnSkyLogin_Exit SkyLogin_Exit;
-	pfnSkyLogin_LoadCredentials SkyLogin_LoadCredentials;
-	pfnSkyLogin_PerformLoginOAuth SkyLogin_PerformLoginOAuth;
-	pfnSkyLogin_GetCredentialsUIC SkyLogin_GetCredentialsUIC;
-	pfnSkyLogin_GetUser SkyLogin_GetUser;
 
-	HMODULE hLibSkylogin = LoadLibrary(_T("Plugins\\skylogin.dll"));
-	if (hLibSkylogin) {
-		// load function pointers
-		if (!LOAD_FN(SkyLogin_Init) ||
-			!LOAD_FN(SkyLogin_Exit) ||
-			!LOAD_FN(SkyLogin_LoadCredentials) ||
-			!LOAD_FN(SkyLogin_PerformLoginOAuth) ||
-			!LOAD_FN(SkyLogin_GetCredentialsUIC) ||
-			!LOAD_FN(SkyLogin_GetUser))
+	// Perform login
+	SkyLogin hLogin = SkyLogin_Init();
+	if (hLogin) {
+		char szLoginToken[1024];
+		if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
+			SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
 		{
-			FreeLibrary(hLibSkylogin);
-			return -2;
-		}
+			char szUIC[1024];
+			if (SkyLogin_GetCredentialsUIC(hLogin, szUIC)) {
+				char *pszPartner;
 
-		// Perform login
-		SkyLogin hLogin = SkyLogin_Init();
-		if (hLogin) {
-			char szLoginToken[1024];
-			if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
-				SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
-			{
-				char szUIC[1024];
-				if (SkyLogin_GetCredentialsUIC(hLogin, szUIC)) {
-					char *pszPartner;
-
-					replaceStr(authUIC, szUIC);
-					iRet = 1;
-					if (pszPartner = SkyLogin_GetUser(hLogin)) 
-						setString("SkypePartner", pszPartner);
-				}
+				replaceStr(authUIC, szUIC);
+				iRet = 1;
+				if (pszPartner = SkyLogin_GetUser(hLogin)) 
+					setString("SkypePartner", pszPartner);
 			}
-			else
-				iRet = 0;
-			SkyLogin_Exit(hLogin);
-		} 
+		}
 		else
-			iRet = -3;
-		FreeLibrary(hLibSkylogin);
-	}
+			iRet = 0;
+		SkyLogin_Exit(hLogin);
+	} 
+
 	return iRet;
 }
 
