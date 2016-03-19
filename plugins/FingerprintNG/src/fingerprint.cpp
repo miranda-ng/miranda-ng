@@ -169,10 +169,6 @@ int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
 	if (arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
 		SetSrmmIcon(hContact, szMirVer);
 
-	MCONTACT hMeta = db_mc_getMeta(hContact);
-	if (hMeta && db_mc_getMostOnline(hMeta) == hContact)
-		db_set_ts(hMeta, META_PROTO, "MirVer", szMirVer);
-
 	return 0;
 }
 
@@ -854,27 +850,6 @@ int OnExtraImageApply(WPARAM hContact, LPARAM)
 }
 
 /****************************************************************************************
-*	 OnMetaDefaultChanged
-*	 update MC icon according to its default contact
-*/
-
-static int OnMetaDefaultChanged(WPARAM hMeta, LPARAM hSub)
-{
-	if (hSub != NULL) {
-		char *szProto = GetContactProto(hSub);
-		if (szProto != NULL) {
-			ptrT tszMirver(db_get_tsa(hSub, szProto, "MirVer"));
-			if (tszMirver)
-				db_set_ts(hMeta, META_PROTO, "MirVer", tszMirver);
-			else
-				db_unset(hMeta, META_PROTO, "MirVer");
-		}
-	}
-
-	return 0;
-}
-
-/****************************************************************************************
 *	 OnContactSettingChanged
 *	 if contact settings changed apply new image or remove it
 */
@@ -926,7 +901,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		arMonitoredWindows.insert((HANDLE)event->hContact);
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSE)
-		arMonitoredWindows.remove(event->hContact);
+		arMonitoredWindows.remove((HANDLE)event->hContact);
 
 	return 0;
 }
@@ -946,6 +921,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 
+	HookEvent(ME_MC_DEFAULTTCHANGED, OnExtraImageApply);
+
 	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
 
 	RegisterIcons();
@@ -964,7 +941,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 void InitFingerModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaDefaultChanged);
 
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
