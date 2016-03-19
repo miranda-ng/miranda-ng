@@ -53,7 +53,7 @@ Importuj tylko kontakty
 [Custom import]
 Importuj niestandardowe
 [Makes precise copy of the original profile, including all settings, contacts and history.]
-Tworzy dokładną kopię oryginau profilu uwzględniającą wszystkie ustawieni,a kontakty i historię rozmów.
+Tworzy dokładną kopię oryginału profilu uwzględniającą wszystkie ustawieni,a kontakty i historię rozmów.
 [Imports only contacts and history, and a few settings. Ideal for synchronizing.]
 Importuje jedynie kontakty, historię i niektóre ustawienia. Idealny do synchronizacji.
 [Imports contacts only, doesn't import any message history.]

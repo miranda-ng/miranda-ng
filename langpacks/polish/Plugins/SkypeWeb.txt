@@ -142,7 +142,7 @@ Protokoły
 [Authentication failed. Invalid username.]
 Autoryzacja nie powiodła się. Nieprawidłowa nazwa użytkownika.
 [Authentication failed. Bad username or password.]
-Autoryzacja nie powiodła sie. Błędna nazwa użytkownika lub hasło.
+Autoryzacja nie powiodła się. Błędna nazwa użytkownika lub hasło.
 [Too many failed authentication attempts with given username or IP.]
 Zbyt wiele nieudanych prób autoryzacji z podaną nazwą użytkownika lub IP.
 [Authentication failed. Unknown error.]

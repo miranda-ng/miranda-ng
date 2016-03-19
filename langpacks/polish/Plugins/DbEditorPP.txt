@@ -325,7 +325,7 @@ Rozmiar
 [Unable to store value in this data type!]
 Nie można zapisać wartości w tym typie danych!
 [Are you sure you want to delete setting(s): %d?]
-Czy napewno chcesz usunąć ustawienie(a): %d?
+Czy na pewno chcesz usunąć ustawienie(a): %d?
 [*** encrypted ***]
 *** zaszyfrowane ***
 [*** buggy resident ***]
