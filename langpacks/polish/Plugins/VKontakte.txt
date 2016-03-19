@@ -244,7 +244,7 @@ zaprasza Cię na wydarzenie
 [commented on your post]
 skomentował/a twój post
 [commented on your photo]
-skometował/a twoje zdjęcie
+skomentował/a twoje zdjęcie
 [commented on your video]
 skomentował/a twój film
 [replied to your comment]
@@ -527,7 +527,7 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%sKontynuować?
 [\nIt will also]
 \nTo także
 [Are you sure to report abuse on %s?]
-Czy napewno chcesz zgłosić nadużycie przez %s?
+Czy na pewno chcesz zgłosić nadużycie przez %s?
 ;file \protocols\VKontakte\src\vk_wallpost.cpp
 [Wall message for]
 Post na tablicy dla

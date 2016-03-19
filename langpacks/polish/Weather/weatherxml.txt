@@ -59,7 +59,7 @@ Nieliczne przelotne opady / Wiatr
 [Few Showers]
 Nieliczne, przelotne opady
 [Few Snow Showers]
-Mieliczne, przelotne opady śniegu
+Nieliczne, przelotne opady śniegu
 [First Quarter]
 Pierwsza kwadra
 [Fog / Windy]

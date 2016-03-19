@@ -202,7 +202,7 @@ Szyfrowanie zbyt słabe
 [Invalid encrypted data]
 Nieprawidłowe zaszyfrowane dane
 [No common encryption method]
-Brak wspólej metody szyfrowania
+Brak wspólnej metody szyfrowania
 [Channel destroyed]
 Kanał zniszczony
 [Channel redirected]

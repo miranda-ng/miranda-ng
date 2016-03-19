@@ -513,7 +513,7 @@ Szablony
 [Edit template]
 Edytuj szablon
 [Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
-Kliknij dwókrotnie na szablonie, by go edytować. Wybierz szablon z listy i kliknij "Uaktualnij podgląd", by pokazać przykładową wiadomość.
+Kliknij dwukrotnie na szablonie, by go edytować. Wybierz szablon z listy i kliknij "Uaktualnij podgląd", by pokazać przykładową wiadomość.
 [Get more help on variables]
 Zobacz więcej informacji o zmiennych
 [Define up to 5 colors which you can use with some variables]
@@ -527,7 +527,7 @@ Zapisz szablon
 [Forget]
 Porzuć
 [Revert to default]
-Przywrć do domyślnego
+Przywróć do domyślnego
 [Reset all templates...]
 Resetuj wszystkie szablony
 [Default width for fixed (single row) tabs]
@@ -891,7 +891,7 @@ Pokazuj popupy jeżeli okno jest zminimalizowane
 [Show popups if window is unfocused]
 Pokazuj popupy jeżeli okno jest nieaktywne
 [Show popups if window is focused]
-Pokazuj popupy jeżeli okno jest aktywe
+Pokazuj popupy jeżeli okno jest aktywne
 [Show popups for all inactive sessions]
 Pokazuj popupy dla wszystkich nieaktywnych sesji
 [Save current window position as default]

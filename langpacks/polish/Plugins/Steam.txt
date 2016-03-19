@@ -74,7 +74,7 @@ Sieć
 Kontakty zablokowane
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
-Nie można uzyskać tokenu połącznia.
+Nie można uzyskać tokenu połączenia.
 [Unknown login error.]
 Nieznany błąd logowania.
 ;file \protocols\Steam\src\steam_menus.cpp

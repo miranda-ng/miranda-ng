@@ -704,7 +704,7 @@ Dodaj adres e-mail
 [%s: user details]
 %s: dane kontaktu
 [View personal user details and more]
-Zobacz osobiste dane użytkownika %s.
+Zobacz osobiste dane użytkownika
 [Update now]
 Odśwież
 [Updating]

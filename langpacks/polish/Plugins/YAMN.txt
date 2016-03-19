@@ -204,7 +204,7 @@ Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [%d new mail message(s), %d total]
 Nowych wiadomości: %d, Łącznie: %d
 [- new mail message(s)]
-- nowa waidomość(ści) e-mail
+- nowa wiadomość(ści) e-mail
 [No new mail message, %d spam(s)]
 Brak nowych wiadomości, spamów: %d
 [Invalid]

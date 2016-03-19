@@ -73,7 +73,7 @@ Mżawka mgła
 [Drizzle Mist]
 Skropiona mżawka
 [Drizzle]
-Mrzawka
+Mżawka
 [ENE]
 wschodnio-północny wschód
 [ESE]
@@ -227,7 +227,7 @@ Delikatny podmuch wiatru ze śniegiem
 [Light Drizzle Fog]
 Lekka mżawka
 [Light Drizzle Mist Patches Fog]
-Delikatna Mrzawka Mgliście Mgła
+Delikatna Mżawka Mgliście Mgła
 [Light Drizzle Mist]
 Lekka mgła, mżawka
 [Light Drizzle]
