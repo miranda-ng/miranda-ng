@@ -100,6 +100,7 @@ INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			DestroyWindow(hdlg);
 			break;
 		}
+        break;
 
 	case WM_CLOSE:
 		DestroyWindow(hdlg);
