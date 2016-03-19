@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst;
+HINSTANCE g_hInst, g_hOpenssl;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +105,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
+	g_hOpenssl = LoadLibraryA("libeay32.dll");
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -123,6 +125,9 @@ extern "C" int __declspec(dllexport) Load(void)
 // Unload a plugin
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	if (g_hOpenssl)
+		FreeLibrary(g_hOpenssl);
+
 	MSN_RemoveContactMenus();
 	MsnLinks_Destroy();
 	return 0;
