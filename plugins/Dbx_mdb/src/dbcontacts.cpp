@@ -219,7 +219,9 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 
 BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	LIST<EventItem> list(10000);
+	mir_cslock lck(m_csDbAccess);
+
+	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (int i = 0; i < list.getCount(); i++) {
@@ -254,7 +256,9 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	LIST<EventItem> list(10000);
+	mir_cslock lck(m_csDbAccess);
+
+	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (int i = 0; i < list.getCount(); i++) {
