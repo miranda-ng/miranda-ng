@@ -583,38 +583,40 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		MirVer = _T("QIP 2012 VKontakte");
 		break;
 	case 1:
-		MirVer = _T("VKontakte (mobile)");
+		MirVer = _T("VKontakte (Mobile)");
 		break;
 	case 3087106: // iPhone
 	case 3140623:
 	case 2:
-		MirVer = _T("VKontakte (iphone)");
+		MirVer = _T("VKontakte (iPhone)");
 		break;
 	case 3682744: // iPad
 	case 3:
-		MirVer = _T("VKontakte (ipad)");
+		MirVer = _T("VKontakte (iPad)");
 		break;
 	case 2685278: // Android - Kate
+		MirVer = _T("Kate Mobile (Android)");
+		break;
 	case 2890984: // Android
 	case 2274003:
 	case 4:
-		MirVer = _T("VKontakte (android)");
+		MirVer = _T("VKontakte (Android)");
 		break;
 	case 3059453: // Windows Phone
 	case 2424737:
 	case 3502561:
 	case 5:
-		MirVer = _T("VKontakte (wphone)");
+		MirVer = _T("VKontakte (WPhone)");
 		break;
 	case 3584591: // Windows 8.x
 	case 6:
-		MirVer = _T("VKontakte (windows)");
+		MirVer = _T("VKontakte (Windows)");
 		break; 
 	case 7:
-		MirVer = _T("VKontakte (website)");
+		MirVer = _T("VKontakte (Website)");
 		break;
 	default:
-		MirVer = _T("VKontakte (other)");
+		MirVer = _T("VKontakte (Other)");
 		bSetFlag = OldMirVer.IsEmpty();
 	}
 
