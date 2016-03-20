@@ -213,8 +213,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 void CVkProto::RetrieveMyInfo()
 {
 	debugLogA("CVkProto::RetrieveMyInfo");
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo,AsyncHttpRequest::rpHigh)
-		<< VER_API);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo,AsyncHttpRequest::rpHigh));
 }
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -459,8 +458,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	CMString code(FORMAT, _T("var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};"),
 		userID, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
-		<< TCHAR_PARAM("code", code)
-		<< VER_API);
+		<< TCHAR_PARAM("code", code));
 }
 
 void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
@@ -502,8 +500,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	code.AppendFormat(codeformat, userIDs, CMString(bFreeOffline ? "online,status" : fieldsName), (int)bRepeat);
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
-		<< TCHAR_PARAM("code", code)
-		<< VER_API);
+		<< TCHAR_PARAM("code", code));
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -590,8 +587,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", m_iMaxFriendsCount > 5000 ? 1000 : m_iMaxFriendsCount)
-		<< CHAR_PARAM("fields", fieldsName)
-		<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
+		<< CHAR_PARAM("fields", fieldsName))->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -683,8 +679,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 			return 1;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
-		<< INT_PARAM("user_id", userID)
-		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact);
+		<< INT_PARAM("user_id", userID))->pUserInfo = new CVkSendMsgParam(hContact);
 
 	return 0;
 }
@@ -779,8 +774,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		return 1;
 	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("code", code)
-		<< VER_API);
+		<< CHAR_PARAM("code", code));
 
 	if (m_bRemoveFromClist)
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
@@ -802,8 +796,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)
 		<< INT_PARAM("user_id", userID)
-		<< CHAR_PARAM("type", "spam")
-		<< VER_API);
+		<< CHAR_PARAM("type", "spam"));
 
 	return 0;
 }

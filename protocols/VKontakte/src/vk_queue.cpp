@@ -80,8 +80,11 @@ AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 {
 	debugLogA("CVkProto::Push");
 	pReq->timeout = iTimeout;
-	if (pReq->m_bApiReq && m_VKLang)
-		pReq << TCHAR_PARAM("lang", m_VKLang);
+	if (pReq->m_bApiReq)
+	{
+		if (m_VKLang != nullptr) pReq << TCHAR_PARAM("lang", m_VKLang);
+		pReq << VER_API;
+	}
 	{
 		mir_cslock lck(m_csRequestsQueue);
 		m_arRequestsQueue.insert(pReq);

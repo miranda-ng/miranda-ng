@@ -77,16 +77,14 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		}
 		m_iStatus = ID_STATUS_OFFLINE;
 		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
-			<< VER_API);
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		m_bNeedSendOnline = true;
 		if (iOldStatus == ID_STATUS_ONLINE)
 			return;
 		m_iStatus = ID_STATUS_ONLINE;
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
-			<< VER_API);
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else {
 		m_bNeedSendOnline = false;
@@ -96,8 +94,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		}
 		m_iStatus = ID_STATUS_INVISIBLE;
 		if (iOldStatus == ID_STATUS_ONLINE)
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
-			<< VER_API);
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
@@ -113,8 +110,7 @@ INT_PTR __cdecl CVkProto::SvcSetStatusMsg(WPARAM, LPARAM)
 
 	MsgPopup(NULL, TranslateT("Loading status message from vk.com.\nThis may take some time."), TranslateT("Waiting..."));
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.get.json", true, &CVkProto::OnReceiveStatusMsg)
-		<< VER_API);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.get.json", true, &CVkProto::OnReceiveStatusMsg));
 
 	return 0;
 }
@@ -173,8 +169,7 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
-		<< TCHAR_PARAM("text", StatusMsg)
-		<< VER_API);
+		<< TCHAR_PARAM("text", StatusMsg));
 }
 
 void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
@@ -227,8 +222,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		m_bSetBroadcast = true;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
-		<< TCHAR_PARAM("code", code)
-		<< VER_API);
+		<< TCHAR_PARAM("code", code));
 }
 
 INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)

@@ -57,8 +57,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, bIsChat? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM(bIsChat ? "chat_id" : "user_id", iUserID)
-		<< INT_PARAM("random_id", ((LONG) time(NULL)) * 100 + uMsgId % 100)
-		<< VER_API;
+		<< INT_PARAM("random_id", ((LONG) time(NULL)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	if (StickerId)
@@ -160,8 +159,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
-		<< CHAR_PARAM("message_ids", mids)
-		<< VER_API);
+		<< CHAR_PARAM("message_ids", mids));
 }
 
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
@@ -174,8 +172,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
-		<< INT_PARAM("peer_id", userID)
-		<< VER_API);
+		<< INT_PARAM("peer_id", userID));
 }
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
@@ -198,8 +195,7 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 	);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
-		<< CHAR_PARAM("code", code)
-		<< VER_API);
+		<< CHAR_PARAM("code", code));
 }
 
 void CVkProto::RetrieveUnreadMessages()
@@ -208,8 +204,7 @@ void CVkProto::RetrieveUnreadMessages()
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getDialogs.json", true, &CVkProto::OnReceiveDlgs)
-		<< INT_PARAM ("count", 200)
-		<< VER_API);
+		<< INT_PARAM ("count", 200));
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

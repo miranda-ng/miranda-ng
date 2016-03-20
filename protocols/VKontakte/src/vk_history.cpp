@@ -135,8 +135,7 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 		"return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"fwd_users\":FUsers,\"once\":%d,\"rcount\":iReqCount};", 
 		iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages)
-		<< CHAR_PARAM("code", code)
-		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
+		<< CHAR_PARAM("code", code))->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
 }
 
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
