@@ -600,8 +600,7 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		<< INT_PARAM("max_photos", m_iMaxLoadNewsPhoto)
 		<< INT_PARAM("start_time", tLastNewsTime + 1)
 		<< CHAR_PARAM("filters", szFilter)
-		<< CHAR_PARAM("source_ids", szSource)
-		<< VER_API);
+		<< CHAR_PARAM("source_ids", szSource));
 
 	setDword("LastNewsReqTime", (DWORD)time(NULL));
 }
@@ -691,8 +690,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		m_bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
-		<< TCHAR_PARAM("code", code)		
-		<< VER_API);
+		<< TCHAR_PARAM("code", code)		);
 
 	setDword("LastNotificationsReqTime", (DWORD)time(NULL));
 }
@@ -726,8 +724,7 @@ void CVkProto::NotificationMarkAsViewed()
 	if (!IsOnline())
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.markAsViewed.json", true, &CVkProto::OnReceiveSmth)
-		<< VER_API);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.markAsViewed.json", true, &CVkProto::OnReceiveSmth));
 }
 
 void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

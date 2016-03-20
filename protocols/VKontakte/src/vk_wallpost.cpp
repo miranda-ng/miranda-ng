@@ -108,8 +108,7 @@ void CVkProto::WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool 
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/wall.post.json", true, &CVkProto::OnReceiveSmth)
 		<< INT_PARAM("owner_id", userID)
-		<< INT_PARAM("friends_only", bFriendsOnly ? 1 : 0)
-		<< VER_API;
+		<< INT_PARAM("friends_only", bFriendsOnly ? 1 : 0);
 
 	if (!IsEmpty(ptszMsg))
 		pReq << TCHAR_PARAM("message", ptszMsg);

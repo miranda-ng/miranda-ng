@@ -112,16 +112,13 @@ void CVkProto::SendFileThread(void *p)
 	AsyncHttpRequest *pReq;
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer)
-			<< VER_API;
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	case CVkFileUploadParam::typeAudio:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
-			<< VER_API;
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	case CVkFileUploadParam::typeDoc:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
-			<< VER_API;
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -273,8 +270,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
 			<< TCHAR_PARAM("server", server)
 			<< TCHAR_PARAM("photo", upload)
-			<< TCHAR_PARAM("hash", hash)
-			<< VER_API;
+			<< TCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
@@ -285,8 +281,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
 			<< TCHAR_PARAM("server", server)
 			<< TCHAR_PARAM("audio", upload)
-			<< TCHAR_PARAM("hash", hash)
-			<< VER_API;
+			<< TCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeDoc:
 		upload = jnRoot["file"].as_mstring();
@@ -296,8 +291,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
 			<< CHAR_PARAM("title", fup->fileName())
-			<< TCHAR_PARAM("file", upload)	
-			<< VER_API;
+			<< TCHAR_PARAM("file", upload)	;
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -387,7 +381,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		
 	}
 
-	pMsgReq << TCHAR_PARAM("message", fup->Desc) << TCHAR_PARAM("attachment", Attachment) << VER_API;
+	pMsgReq << TCHAR_PARAM("message", fup->Desc) << TCHAR_PARAM("attachment", Attachment);
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	Push(pMsgReq);

@@ -606,8 +606,7 @@ int CVkProto::AuthRequest(MCONTACT hContact,const TCHAR* message)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
 		<< INT_PARAM("user_id", userID)
-		<< TCHAR_PARAM("text", msg)
-		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact);
+		<< TCHAR_PARAM("text", msg))->pUserInfo = new CVkSendMsgParam(hContact);
 
 	return 0;
 }
@@ -689,8 +688,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 			<< INT_PARAM("user_id", userID) 
-			<< CHAR_PARAM("type", "typing")
-			<< VER_API);
+			<< CHAR_PARAM("type", "typing"));
 		return 0;
 	}
 	return 1;

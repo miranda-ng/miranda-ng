@@ -71,7 +71,6 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-
 	InitIcons();
 
 	// Register protocol module
