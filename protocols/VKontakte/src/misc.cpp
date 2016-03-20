@@ -583,40 +583,38 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		MirVer = _T("QIP 2012 VKontakte");
 		break;
 	case 1:
-		MirVer = _T("VKontakte (Mobile)");
+		MirVer = _T("VKontakte (mobile)");
 		break;
 	case 3087106: // iPhone
 	case 3140623:
 	case 2:
-		MirVer = _T("VKontakte (iPhone)");
+		MirVer = _T("VKontakte (iphone)");
 		break;
 	case 3682744: // iPad
 	case 3:
-		MirVer = _T("VKontakte (iPad)");
+		MirVer = _T("VKontakte (ipad)");
 		break;
 	case 2685278: // Android - Kate
-		MirVer = _T("Kate Mobile (Android)");
-		break;
 	case 2890984: // Android
 	case 2274003:
 	case 4:
-		MirVer = _T("VKontakte (Android)");
+		MirVer = _T("VKontakte (android)");
 		break;
 	case 3059453: // Windows Phone
 	case 2424737:
 	case 3502561:
 	case 5:
-		MirVer = _T("VKontakte (WPhone)");
+		MirVer = _T("VKontakte (wphone)");
 		break;
 	case 3584591: // Windows 8.x
 	case 6:
-		MirVer = _T("VKontakte (Windows)");
+		MirVer = _T("VKontakte (windows)");
 		break; 
 	case 7:
-		MirVer = _T("VKontakte (Website)");
+		MirVer = _T("VKontakte (website)");
 		break;
 	default:
-		MirVer = _T("VKontakte (Other)");
+		MirVer = _T("VKontakte (other)");
 		bSetFlag = OldMirVer.IsEmpty();
 	}
 
@@ -1277,36 +1275,46 @@ CMString CVkProto::RemoveBBC(CMString& tszSrc)
 	return tszRes;
 }
 
-void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
+CMString CVkProto::SaveImage(HBITMAP hBitmap)
 {
 	TCHAR tszTempDir[MAX_PATH];
+
 	if (!GetEnvironmentVariable(_T("TEMP"), tszTempDir, MAX_PATH))
-		return;
+		return CMString();
 
-	CMString tszHTMLPath(FORMAT, _T("%s\\miranda_captcha.html"), tszTempDir);
+	CMString tszImgFileName(FORMAT, _T("%s\\miranda_captcha.png"), tszTempDir);
+
+	IMGSRVC_INFO isi = { sizeof(isi) };
+	isi.tszName = mir_tstrdup(tszImgFileName);
+	isi.hbm = hBitmap;
+	isi.dwMask = IMGI_HBITMAP;
+	isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
+	
+	if (CallService(MS_IMG_SAVE, (WPARAM)&isi, IMGL_TCHAR))
+		return tszImgFileName;
 		
+	return CMString();
+}
 
-	if (!(GetFileAttributes(tszHTMLPath) < 0xFFFFFFF)) {
-		FILE *pFile = _tfopen(tszHTMLPath, _T("w"));
+void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
+{
+	CMString tszFHTML = SaveImage(hBitmap);
+	
+	if (tszFHTML.IsEmpty())
+		return;
+		
+	tszFHTML.Replace(_T(".png"), _T(".html"));
+
+	if (!(GetFileAttributes(tszFHTML) < 0xFFFFFFF)) {
+		FILE *pFile = _tfopen(tszFHTML, _T("w"));
 		if (pFile == NULL)
 			return;
 
-		FIBITMAP *dib = fii->FI_CreateDIBFromHBITMAP(hBitmap);
-		FIMEMORY *hMem = fii->FI_OpenMemory(nullptr, 0);
-		fii->FI_SaveToMemory(FIF_PNG, dib, hMem, 0);
-
-		BYTE *buf = nullptr;
-		DWORD bufLen;
-		fii->FI_AcquireMemory(hMem, &buf, &bufLen);
-		ptrA base64(mir_base64_encode(buf, bufLen));
-		fii->FI_CloseMemory(hMem);
-
-
-		CMStringA szHTML(FORMAT, "<html><body><img src=\"data:image/png;base64,%s\" /></body></html>", base64);
+		CMStringA szHTML("<html><body><img src=\"miranda_captcha.png\" /></body></html>");
 		fwrite(szHTML, 1, szHTML.GetLength(), pFile);
 		fclose(pFile);
 	}
 
-	tszHTMLPath = _T("file://") + tszHTMLPath;
-	Utils_OpenUrlT(tszHTMLPath);
+	tszFHTML = _T("file://") + tszFHTML;
+	Utils_OpenUrlT(tszFHTML);
 }
