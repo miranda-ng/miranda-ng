@@ -20,7 +20,7 @@
 
 static uchar	RandomSeed[SHA_DIGEST_LENGTH] = {0};
 
-static BOOL QueryRegValue(HKEY hKey, LPCTSTR lpSubKey, LPBYTE lpValue, LPDWORD pCbValue)
+static BOOL QueryRegValue(HKEY hKey, LPCSTR lpSubKey, LPBYTE lpValue, LPDWORD pCbValue)
 {
 	char *pSubKey, *pTok, szKey[256]={0};
 	DWORD dwIndex;
@@ -88,9 +88,9 @@ void	 InitNodeId(Skype_Inst *pInst)
 		"SOFTWARE\\FakeSkype\\NodeId",
 		(LPBYTE)&pInst->NodeID, &BufSz)) return;
 	*(int64_t *)&pInst->NodeID = BytesRandomI64();
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\FakeSkype", &hKey) == ERROR_SUCCESS)
+	if (RegCreateKeyA(HKEY_LOCAL_MACHINE, "SOFTWARE\\FakeSkype", &hKey) == ERROR_SUCCESS)
 	{
-		RegSetValueEx(hKey, "NodeId", 0, REG_BINARY, (LPBYTE)&pInst->NodeID, sizeof(pInst->NodeID));
+		RegSetValueExA(hKey, "NodeId", 0, REG_BINARY, (LPBYTE)&pInst->NodeID, sizeof(pInst->NodeID));
 		RegCloseKey(hKey);
 	}
 	
@@ -106,14 +106,14 @@ Memory_U Credentials_Load(char *pszUser)
 	char  szKey[MAX_PATH];
 
 	sprintf (szKey, "SOFTWARE\\FakeSkype\\%s", pszUser);
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, szKey, &hKey) == ERROR_SUCCESS)
+	if (RegCreateKeyA(HKEY_LOCAL_MACHINE, szKey, &hKey) == ERROR_SUCCESS)
 	{
-		if (RegQueryValueEx(hKey, "Credentials", NULL, NULL, NULL, &creds.MsZ) == ERROR_SUCCESS &&
+		if (RegQueryValueExA(hKey, "Credentials", NULL, NULL, NULL, &creds.MsZ) == ERROR_SUCCESS &&
 			creds.MsZ)
 		{
 			if (!(creds.Memory = malloc(creds.MsZ)))
 				creds.MsZ = 0;
-			if (creds.Memory && RegQueryValueEx(hKey, "Credentials", NULL, NULL, creds.Memory, &creds.MsZ) != ERROR_SUCCESS)
+			if (creds.Memory && RegQueryValueExA(hKey, "Credentials", NULL, NULL, creds.Memory, &creds.MsZ) != ERROR_SUCCESS)
 			{
 				free(creds.Memory);
 				ZeroMemory(&creds, sizeof(creds));
@@ -132,9 +132,9 @@ int Credentials_Save(Memory_U creds, char *pszUser)
 	char  szKey[MAX_PATH];
 
 	sprintf (szKey, "SOFTWARE\\FakeSkype\\%s", pszUser);
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, szKey, &hKey) == ERROR_SUCCESS)
+	if (RegCreateKeyA(HKEY_LOCAL_MACHINE, szKey, &hKey) == ERROR_SUCCESS)
 	{
-		iRet = RegSetValueEx(hKey, "Credentials", 0, REG_BINARY, creds.Memory, creds.MsZ) == ERROR_SUCCESS;
+		iRet = RegSetValueExA(hKey, "Credentials", 0, REG_BINARY, creds.Memory, creds.MsZ) == ERROR_SUCCESS;
 		RegCloseKey(hKey);
 	}
 	return iRet;

@@ -82,7 +82,7 @@ typedef  struct
 typedef struct
 {
 	uchar	*Memory;
-	int 	MsZ;
+	unsigned long MsZ;
 }	Memory_U;
 
 typedef struct
