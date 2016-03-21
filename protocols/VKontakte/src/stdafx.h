@@ -18,8 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <Windows.h>
-#include <Shlwapi.h>
-#include <Wincrypt.h>
 
 #include <stdio.h>
 #include <malloc.h>
@@ -35,13 +33,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_chat.h>
 #include <m_clist.h>
 #include <m_database.h>
-#include <m_extraicons.h>
 #include <m_file.h>
-#include <m_fontservice.h>
 #include <m_genmenu.h>
-#include <m_hotkeys.h>
 #include <m_icolib.h>
-#include <m_idle.h>
 #include <m_imgsrvc.h>
 #include <m_string.h>
 #include <m_json.h>
@@ -53,9 +47,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <m_timezones.h>
-#include <m_toptoolbar.h>
 #include <m_userinfo.h>
-#include <m_utils.h>
 #include <m_proto_listeningto.h>
 
 #include <m_messagestate.h>
