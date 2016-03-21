@@ -42,6 +42,9 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 
+		if (!params->proto)
+			EnableWindow(GetDlgItem(hwndDlg,IDOPENBROWSER), false);
+
 		return TRUE;
 	}
 	case WM_CTLCOLORSTATIC:
@@ -54,7 +57,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		return NULL;
 
 	case WM_PAINT:
-		if (params) {
+		if (params && params->proto) {
 			PAINTSTRUCT ps;
 			HDC hdc, hdcMem;
 			RECT rc;
@@ -84,7 +87,8 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			return TRUE;
 		
 		case IDOPENBROWSER:
-			params->proto->ShowCaptchaInBrowser(params->bmp);
+			if (params->proto)
+				params->proto->ShowCaptchaInBrowser(params->bmp);
 			break;
 
 		case IDOK:
@@ -111,33 +115,42 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	debugLogA("CVkProto::RunCaptchaForm: reading picture from %s", szUrl);
 	result.Empty();
 
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = REQUEST_GET;
-	req.szUrl = (LPSTR)szUrl;
-	req.flags = VK_NODUMPHEADERS;
+	CAPTCHA_FORM_PARAMS param = { 0 };
+	if (getBool("UseCaptchaAssistant", false)) {
+		CMStringA szCaptchaAssistant(FORMAT, "http://ca.tiflohelp.ru/?link=%s", ptrA(ExpUrlEncode(szUrl)));
+		Utils_OpenUrl(szCaptchaAssistant);
+		param.proto = NULL;
+	}
+	else {
+		NETLIBHTTPREQUEST req = { sizeof(req) };
+		req.requestType = REQUEST_GET;
+		req.szUrl = (LPSTR)szUrl;
+		req.flags = VK_NODUMPHEADERS;
 
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	if (reply == NULL)
-		return false;
+		NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		if (reply == NULL)
+			return false;
 
-	if (reply->resultCode != 200) {
-		debugLogA("CVkProto::RunCaptchaForm: failed with code %d", reply->resultCode);
-		return false;
+		if (reply->resultCode != 200) {
+			debugLogA("CVkProto::RunCaptchaForm: failed with code %d", reply->resultCode);
+			return false;
+		}
+
+
+		IMGSRVC_MEMIO memio = { 0 };
+		memio.iLen = reply->dataLength;
+		memio.pBuf = reply->pData;
+		memio.fif = FIF_UNKNOWN; /* detect */
+		param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
+
+		BITMAP bmp = { 0 };
+		GetObject(param.bmp, sizeof(bmp), &bmp);
+		param.w = bmp.bmWidth;
+		param.h = bmp.bmHeight;
+		param.proto = this;
+
 	}
 
-	CAPTCHA_FORM_PARAMS param = { 0 };
-
-	IMGSRVC_MEMIO memio = { 0 };
-	memio.iLen = reply->dataLength;
-	memio.pBuf = reply->pData;
-	memio.fif = FIF_UNKNOWN; /* detect */
-	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
-
-	BITMAP bmp = { 0 };
-	GetObject(param.bmp, sizeof(bmp), &bmp);
-	param.w = bmp.bmWidth;
-	param.h = bmp.bmHeight;
-	param.proto = this;
 	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;

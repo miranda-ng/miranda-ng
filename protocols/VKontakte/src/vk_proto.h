@@ -229,7 +229,6 @@ struct CVkProto : public PROTO<CVkProto>
 	void SetInvisible(MCONTACT hContact);
 	CMString RemoveBBC(CMString& tszSrc);
 
-	CMString SaveImage(HBITMAP hBitmap);
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
 
 	//====================================================================================
