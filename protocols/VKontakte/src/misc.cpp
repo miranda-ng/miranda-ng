@@ -1298,7 +1298,7 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	fii->FI_AcquireMemory(hMem, &buf, &bufLen);
 	ptrA base64(mir_base64_encode(buf, bufLen));
 	fii->FI_CloseMemory(hMem);
-
+	fii->FI_Unload(dib);
 
 	CMStringA szHTML(FORMAT, "<html><body><img src=\"data:image/png;base64,%s\" /></body></html>", base64);
 	fwrite(szHTML, 1, szHTML.GetLength(), pFile);
