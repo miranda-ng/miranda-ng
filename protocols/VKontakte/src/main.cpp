@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 HINSTANCE hInst;
 int hLangpack;
 CLIST_INTERFACE *pcli;
+FI_INTERFACE *fii;
 
 PLUGININFOEX pluginInfo =
 {
@@ -71,6 +72,7 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
+	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	InitIcons();
 
 	// Register protocol module
