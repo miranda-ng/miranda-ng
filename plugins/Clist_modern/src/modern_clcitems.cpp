@@ -174,7 +174,6 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 		cont->flags |= CONTACTF_ONLINE;
 
 	WORD apparentMode = szProto != NULL ? cacheEntry->ApparentMode : 0;
-
 	if (apparentMode)
 		switch (apparentMode) {
 		case ID_STATUS_OFFLINE:
@@ -618,6 +617,13 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 
 	p->hContact = hContact;
 	InvalidateDNCEbyPointer(hContact, p, 0);
+
+	p->bIsHidden = -1;
+	p->m_cache_nNoHiddenOffline = -1;
+	p->IdleTS = -1;
+	p->NotOnList = -1;
+	p->IsExpanded = -1;
+
 	p->szSecondLineText = NULL;
 	p->szThirdLineText = NULL;
 	p->ssSecondLine.plText = NULL;

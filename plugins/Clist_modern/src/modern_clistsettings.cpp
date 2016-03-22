@@ -290,15 +290,8 @@ void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int Settin
 	// in other cases clear all binary cache
 	else pdnce->dwLastMsgTime = -1;
 
-	pdnce->bIsHidden = -1;
 	pdnce->m_bIsSub = pdnce->m_bProtoNotExists = false;
 	pdnce->m_cache_nStatus = 0;
-	pdnce->IdleTS = -1;
-	pdnce->ApparentMode = -1;
-	pdnce->NotOnList = -1;
-	pdnce->isUnknown = FALSE;
-	pdnce->m_cache_nNoHiddenOffline = -1;
-	pdnce->IsExpanded = -1;
 }
 
 char *GetContactCachedProtocol(MCONTACT hContact)
@@ -399,9 +392,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		if (!strcmp(cws->szSetting, "IsSubcontact"))
-			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
-
 		if (!strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (!strcmp(cws->szModule, META_PROTO) && strcmp(cws->szSetting, "Status")) {
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
@@ -427,6 +417,12 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
 			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 		}
+		else if (!strcmp(cws->szSetting, "ApparentMode"))
+			pdnce->ApparentMode = cws->value.wVal;
+		else if (!strcmp(cws->szSetting, "IdleTS"))
+			pdnce->IdleTS = cws->value.dVal;
+		else if (!strcmp(cws->szSetting, "IsSubcontact"))
+			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 	}
 
 	if (!strcmp(cws->szModule, "CList")) {
@@ -440,8 +436,14 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!strcmp(cws->szSetting, "Group"))
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
+		else if (!strcmp(cws->szSetting, "NotOnList"))
+			pdnce->NotOnList = cws->value.bVal;
+
+		else if (!strcmp(cws->szSetting, "Expanded"))
+			pdnce->IsExpanded = cws->value.bVal;
+
 		else if (!strcmp(cws->szSetting, "Hidden")) {
-			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
+			pdnce->bIsHidden = cws->value.bVal;
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto(hContact);
 				cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
@@ -450,7 +452,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		else if (!strcmp(cws->szSetting, "noOffline")) {
-			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
+			pdnce->m_cache_nNoHiddenOffline = cws->value.bVal;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
