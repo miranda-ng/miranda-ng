@@ -188,8 +188,6 @@ protected:
 	STDMETHODIMP_(VOID)     Destroy();
 
 protected:
-	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
-	int   WorkInitialCheckHeaders(void);
 
 	void  FillContacts(void);
 

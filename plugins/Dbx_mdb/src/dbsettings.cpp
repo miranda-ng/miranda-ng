@@ -595,9 +595,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 STDMETHODIMP_(BOOL) CDbxMdb::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
-		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);
-		if (ret) return ret;
-	}
+	for (int i = 0; i < m_lResidentSettings.getCount(); i++)
+		if (int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam)) 
+			return ret;
 	return 0;
 }

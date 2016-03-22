@@ -94,6 +94,8 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 
 	int nameLen = (int)strlen(szName);
 
+	mir_cslock lck(m_csDbAccess);
+
 	// need to create the module name
 	int newIdx = ++m_maxModuleID;
 	DBModuleName *pmod = (DBModuleName*)_alloca(sizeof(DBModuleName) + nameLen + 1);
@@ -133,8 +135,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pPara
 {
 	for (int i = 0; i < m_lMods.getCount(); i++) {
 		ModuleName *pmn = m_lMods[i];
-		int ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
-		if (ret)
+		if (int ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam))
 			return ret;
 	}
 	return 0;

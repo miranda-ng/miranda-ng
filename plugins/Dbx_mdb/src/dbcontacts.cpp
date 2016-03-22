@@ -90,19 +90,16 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
 
-	// delete 
-	// call notifier while outside mutex
 	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 	
-	mir_cslockfull lck(m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	
 	{
-		LIST<EventItem> events(50);
+		OBJLIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
 		while (events.getCount())
 		{
-			DeleteEvent(contactID, events[0]->eventId);
-			delete events[0];
+			DeleteEvent(contactID, events[0].eventId);
 			events.remove(0);
 		}
 	}
@@ -143,9 +140,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	m_cache->FreeCachedContact(contactID);
 	if (contactID == m_hLastCachedContact)
 		m_hLastCachedContact = NULL;
-
-
-	lck.unlock();
 
 	return 0;
 }
