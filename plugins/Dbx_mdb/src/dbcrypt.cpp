@@ -90,35 +90,24 @@ int CDbxMdb::InitCrypt()
 		return 3;
 
 	key.mv_size = sizeof(DBKEY_KEY); key.mv_data = DBKEY_KEY;
-	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
+	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS && (value.mv_size == m_crypto->getKeyLength()))
 	{
-		if (value.mv_size != m_crypto->getKeyLength())
+		if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
 		{
-			if (!m_crypto->generateKey())
-				return 6;
-			StoreKey();
-		}
-		else
-		{
-			if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
+			DlgChangePassParam param = { this };
+			CEnterPasswordDialog dlg(&param);
+			while (true)
 			{
-				DlgChangePassParam param = { this };
-				CEnterPasswordDialog dlg(&param);
-				while (true)
+				if (-128 != dlg.DoModal())
+					return 4;
+				m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
+				if (m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
 				{
-					if (-128 != dlg.DoModal())
-						return 4;
-
-					m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
-					if (m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
-					{
-						m_bUsesPassword = true;
-						SecureZeroMemory(&param, sizeof(param));
-						break;
-					}
-
-					param.wrongPass++;
+					m_bUsesPassword = true;
+					SecureZeroMemory(&param, sizeof(param));
+					break;
 				}
+				param.wrongPass++;
 			}
 		}
 	}
@@ -181,24 +170,21 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 
 	mir_cslock lck(m_csDbAccess);
 
-/*	{ WTF ?!
+#ifdef DEBUG
+	{
 		txn_ptr_ro txn(m_txn);
 		std::vector<MEVENT> lstEvents;
 		{
 			cursor_ptr_ro cursor(m_curEvents);
 			MDB_val key, data;
-			if (mdb_cursor_get(cursor, &key, &data, MDB_FIRST) == MDB_SUCCESS)
+			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
 			{
-				do
-				{
-					const MEVENT hDbEvent = *(MEVENT*)key.mv_data;
-					lstEvents.push_back(hDbEvent);
-				} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+				const MEVENT hDbEvent = *(const MEVENT*)key.mv_data;
+				lstEvents.push_back(hDbEvent);
 			}
 		}
-		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it)
+		for (MEVENT &hDbEvent : lstEvents)
 		{
-			MEVENT &hDbEvent = *it;
 			MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 			mdb_get(txn, m_dbEvents, &key, &data);
 
@@ -244,8 +230,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 			}
 		}
 	}
-*/
-
+#endif
 
 	for (;; Remap())
 	{

@@ -1392,7 +1392,7 @@ mdb_strerror(int err)
 # define mdb_assert0(env, expr, expr_txt) ((expr) ? (void)0 : \
 		mdb_assert_fail(env, expr_txt, mdb_func_, __FILE__, __LINE__))
 
-extern void __cdecl dbpanic(void *);
+extern void __cdecl LMDB_FailAssert(void *, const char*);
 
 static void
 mdb_assert_fail(MDB_env *env, const char *expr_txt,
@@ -1406,8 +1406,8 @@ mdb_assert_fail(MDB_env *env, const char *expr_txt,
 	fprintf(stderr, "%s\n", buf);
 	if (IsDebuggerPresent())
 		DebugBreak();
-	_beginthread(dbpanic, 0, 0);
-	Sleep(INFINITE);
+	
+	LMDB_FailAssert(env->me_userctx, buf);
 }
 #else
 # define mdb_assert0(env, expr, expr_txt) ((void) 0)

@@ -47,6 +47,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 
 	mdb_env_create(&m_pMdbEnv);
 	mdb_env_set_maxdbs(m_pMdbEnv, 10);
+	mdb_env_set_userctx(m_pMdbEnv, this);
 
 	m_codePage = Langpack_GetDefaultCodePage();
 	m_hModHeap = HeapCreate(0, 0, 0);
@@ -209,7 +210,7 @@ bool CDbxMdb::Map()
 	m_dwFileSize += 0x100000;
 	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
 
-	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK; // nolock - miranda using m_csDbAccess lock
+	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK;
 //	if (m_bReadOnly)
 //		mode |= MDB_RDONLY;
 //	else
@@ -244,6 +245,12 @@ EXTERN_C void __cdecl dbpanic(void *)
 	}
 	else MessageBox(0, TranslateTS(tszPanic), TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	TerminateProcess(GetCurrentProcess(), 255);
+}
+
+
+EXTERN_C void LMDB_FailAssert(void *p, const char *text)
+{
+	((CDbxMdb*)p)->DatabaseCorruption(_A2T(text));
 }
 
 void CDbxMdb::DatabaseCorruption(const TCHAR *text)
