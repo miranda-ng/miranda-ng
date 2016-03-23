@@ -1563,8 +1563,8 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	if (wParam != 0) {
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(wParam);
-		if (pdnce && pdnce->m_cache_cszProto) {
-			pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_cache_cszProto);
+		if (pdnce && pdnce->m_pszProto) {
+			pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
 			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));

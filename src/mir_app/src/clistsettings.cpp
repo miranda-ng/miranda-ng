@@ -108,7 +108,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 		mode &= ~GCDNF_NOCACHE;
 	else if (mode != GCDNF_NOMYHANDLE) {
 		cacheEntry = cli.pfnGetCacheEntry(hContact);
-		if (cacheEntry->tszName)
+		if (cacheEntry && cacheEntry->tszName)
 			return cacheEntry->tszName;
 	}
 
