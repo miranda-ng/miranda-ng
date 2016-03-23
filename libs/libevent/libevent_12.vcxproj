@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{46D53888-E60E-32A7-91EB-6336DE0D84D8}</ProjectGUID>
+    <ProjectName>libevent</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Configuration)\Libs\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Configuration)64\Libs\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Configuration)\Obj\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Configuration)\Libs\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Configuration)64\Libs\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Configuration)\Obj\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary>true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetExt>.mir</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;src\compat;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\win32</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;src\compat;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\win32</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;src\compat;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\win64</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;src\compat;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\win64</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bufferevent-internal.h" />
+    <ClInclude Include="src\changelist-internal.h" />
+    <ClInclude Include="src\defer-internal.h" />
+    <ClInclude Include="src\epolltable-internal.h" />
+    <ClInclude Include="src\evbuffer-internal.h" />
+    <ClInclude Include="src\event-internal.h" />
+    <ClInclude Include="src\evmap-internal.h" />
+    <ClInclude Include="src\evrpc-internal.h" />
+    <ClInclude Include="src\evsignal-internal.h" />
+    <ClInclude Include="src\evthread-internal.h" />
+    <ClInclude Include="src\ht-internal.h" />
+    <ClInclude Include="src\http-internal.h" />
+    <ClInclude Include="src\iocp-internal.h" />
+    <ClInclude Include="src\ipv6-internal.h" />
+    <ClInclude Include="src\log-internal.h" />
+    <ClInclude Include="src\minheap-internal.h" />
+    <ClInclude Include="src\mm-internal.h" />
+    <ClInclude Include="src\ratelim-internal.h" />
+    <ClInclude Include="src\strlcpy-internal.h" />
+    <ClInclude Include="src\util-internal.h" />
+    <ClInclude Include="src\compat\sys\queue.h" />
+    <ClInclude Include="src\WIN32-Code\getopt.h" />
+    <ClInclude Include="include\evdns.h" />
+    <ClInclude Include="include\evrpc.h" />
+    <ClInclude Include="include\event.h" />
+    <ClInclude Include="include\evhttp.h" />
+    <ClInclude Include="include\evutil.h" />
+    <ClInclude Include="include\event2\buffer.h" />
+    <ClInclude Include="include\event2\bufferevent.h" />
+    <ClInclude Include="include\event2\bufferevent_compat.h" />
+    <ClInclude Include="include\event2\bufferevent_struct.h" />
+    <ClInclude Include="include\event2\buffer_compat.h" />
+    <ClInclude Include="include\event2\dns.h" />
+    <ClInclude Include="include\event2\dns_compat.h" />
+    <ClInclude Include="include\event2\dns_struct.h" />
+    <ClInclude Include="include\event2\event.h" />
+    <ClInclude Include="include\event2\event_compat.h" />
+    <ClInclude Include="include\event2\event_struct.h" />
+    <ClInclude Include="include\event2\http.h" />
+    <ClInclude Include="include\event2\http_compat.h" />
+    <ClInclude Include="include\event2\http_struct.h" />
+    <ClInclude Include="include\event2\keyvalq_struct.h" />
+    <ClInclude Include="include\event2\listener.h" />
+    <ClInclude Include="include\event2\rpc.h" />
+    <ClInclude Include="include\event2\rpc_compat.h" />
+    <ClInclude Include="include\event2\rpc_struct.h" />
+    <ClInclude Include="include\event2\tag.h" />
+    <ClInclude Include="include\event2\tag_compat.h" />
+    <ClInclude Include="include\event2\thread.h" />
+    <ClInclude Include="include\event2\util.h" />
+    <ClInclude Include="include\event2\visibility.h" />
+    <ClInclude Include="include\event2\event-config.h" />
+    <ClInclude Include="include\event2\bufferevent_ssl.h" />
+    <ClCompile Include="src\buffer.c" />
+    <ClCompile Include="src\bufferevent.c" />
+    <ClCompile Include="src\bufferevent_filter.c" />
+    <ClCompile Include="src\bufferevent_pair.c" />
+    <ClCompile Include="src\bufferevent_ratelim.c" />
+    <ClCompile Include="src\bufferevent_sock.c" />
+    <ClCompile Include="src\event.c" />
+    <ClCompile Include="src\evmap.c" />
+    <ClCompile Include="src\evthread.c" />
+    <ClCompile Include="src\evutil.c" />
+    <ClCompile Include="src\evutil_rand.c" />
+    <ClCompile Include="src\evutil_time.c" />
+    <ClCompile Include="src\listener.c" />
+    <ClCompile Include="src\log.c" />
+    <ClCompile Include="src\signal.c" />
+    <ClCompile Include="src\strlcpy.c" />
+    <ClCompile Include="src\bufferevent_openssl.c" />
+    <ClCompile Include="src\evthread_win32.c" />
+    <ClCompile Include="src\buffer_iocp.c" />
+    <ClCompile Include="src\bufferevent_async.c" />
+    <ClCompile Include="src\event_iocp.c" />
+    <ClCompile Include="src\win32select.c" />
+    <ClCompile Include="src\event_tagging.c" />
+    <ClCompile Include="src\http.c" />
+    <ClCompile Include="src\evdns.c" />
+    <ClCompile Include="src\evrpc.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -15,11 +15,6 @@
     </ClCompile>
     <ClCompile Include="src\t_accounts.cpp" />
     <ClCompile Include="src\t_proto.cpp" />
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\t_accounts.cpp" />
-    <ClCompile Include="src\t_proto.cpp" />
     <ClCompile Include="src\tgl\binlog.c">
       <Filter>Source Files\tgl</Filter>
     </ClCompile>
@@ -116,13 +111,23 @@
     </ClCompile>
     <ClCompile Include="src\t_accounts.cpp" />
     <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\t_accounts.cpp" />
+    <ClCompile Include="src\t_proto.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\t_proto.h" />
-    <ClInclude Include="src\version.h" />
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -193,6 +198,21 @@
     <ClInclude Include="src\tgl\updates.h">
       <Filter>Header Files\tgl</Filter>
     </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\t_proto.h" />
+    <ClInclude Include="src\version.h" />
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>

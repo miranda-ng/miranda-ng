@@ -52,7 +52,13 @@ extern "C" {
 
 /* If we need magic to say "inline", get it for free internally. */
 #ifdef EVENT__inline
+#if(_MSC_VER < 1900)
+#define inline __inline
+#else
 #define inline EVENT__inline
+#endif
+
+
 #endif
 #ifdef EVENT____func__
 #define __func__ EVENT____func__

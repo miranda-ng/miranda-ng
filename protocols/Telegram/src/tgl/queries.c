@@ -3733,7 +3733,7 @@ static int set_get_password_on_answer (struct tgl_state *TLS, struct query *q, v
     TLS->callback.get_values (TLS, tgl_new_password, "new password: ", 2, tgl_on_new_pwd, E);
   } else {
     static char s[512];
-    snprintf (s, 511, "old password (hint %.*s): ", DS_RSTR (DS_AP->hint));
+    _snprintf (s, 511, "old password (hint %.*s): ", DS_RSTR (DS_AP->hint));
     TLS->callback.get_values (TLS, tgl_cur_and_new_password, s, 3, tgl_on_old_pwd, E);
   }
   return 0;
@@ -3844,7 +3844,7 @@ static int check_get_password_on_answer (struct tgl_state *TLS, struct query *q,
     return 0;
   }
   static char s[512];
-  snprintf (s, 511, "type password (hint %.*s): ", DS_RSTR (DS_AP->hint));
+  _snprintf (s, 511, "type password (hint %.*s): ", DS_RSTR (DS_AP->hint));
 
   struct check_password_extra *E = talloc0 (sizeof (*E));
 
