@@ -223,7 +223,6 @@ void    Docking_GetMonitorRectFromWindow(HWND hWnd, RECT *rc);                  
 void    DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1, DWORD flag, BYTE alpha);   //gdiplus.cpp
 void    FreeRowCell();                                                      //RowHeight
 void    InitGdiPlus();                                                      //gdiplus.cpp
-void    InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int SettingType);  //clistsettings.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
 void    UnloadAvatarOverlayIcon();                                             //clc.c
 void    UnLoadContactListModule();                                             //clistmod.c

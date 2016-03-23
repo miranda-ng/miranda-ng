@@ -174,8 +174,8 @@ void MakeButtonSkinned(HWND hWnd);
 #define strsetA(a,b) {if (a) mir_free_and_nill(a); a=mir_strdup(b);}
 #define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_tstrdup(b);}
 
-extern void TRACE_ERROR();
-extern void IvalidateDisplayNameCache(DWORD mode);
+void TRACE_ERROR();
+void IvalidateDisplayNameCache();
 
 extern LIST<ClcCacheEntry> clistCache;
 
