@@ -616,18 +616,18 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 		return NULL;
 
 	p->hContact = hContact;
-	InvalidateDNCEbyPointer(hContact, p, 0);
+	p->m_cache_cszProto = GetContactProto(hContact);
+	if (p->m_cache_cszProto == NULL) {
+		mir_free(p);
+		return NULL;
+	}
 
+	p->dwLastMsgTime = -1;
 	p->bIsHidden = -1;
 	p->m_cache_nNoHiddenOffline = -1;
 	p->IdleTS = -1;
 	p->NotOnList = -1;
 	p->IsExpanded = -1;
-
-	p->szSecondLineText = NULL;
-	p->szThirdLineText = NULL;
-	p->ssSecondLine.plText = NULL;
-	p->ssThirdLine.plText = NULL;
 	return p;
 }
 

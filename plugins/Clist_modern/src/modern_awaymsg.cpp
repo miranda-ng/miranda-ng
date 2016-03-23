@@ -102,10 +102,7 @@ static void amThreadProc(void *)
 				ack.hContact = hContact;
 				ack.type = ACKTYPE_AWAYMSG;
 				ack.result = ACKRESULT_FAILED;
-				if (dnce.m_cache_cszProto)
-					ack.szModule = dnce.m_cache_cszProto;
-				else
-					ack.szModule = NULL;
+				ack.szModule = dnce.m_cache_cszProto;
 				ClcDoProtoAck(hContact, &ack);
 			}
 			CListSettings_FreeCacheItemData(&dnce);
