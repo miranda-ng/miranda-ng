@@ -290,7 +290,7 @@
 /* #undef EVENT__HAVE_STRTOK_R */
 
 /* Define to 1 if you have the `strtoll' function. */
-#define EVENT__HAVE_STRTOLL
+/* #define EVENT__HAVE_STRTOLL */
 
 /* Define to 1 if the system has the type `struct addrinfo'. */
 #define EVENT__HAVE_STRUCT_ADDRINFO

@@ -131,7 +131,7 @@ static void *arc4rand_lock;
 #define ARC4RANDOM_NORANDOM
 #define ARC4RANDOM_NOUNIFORM
 
-#include "./arc4random.c"
+#include "./arc4random.cxx"
 
 #ifndef EVENT__DISABLE_THREAD_SUPPORT
 int

@@ -52,8 +52,10 @@
 #ifndef ARC4RANDOM_NO_INCLUDES
 #include "evconfig-private.h"
 #ifdef _WIN32
+#include <Windows.h>
 #include <wincrypt.h>
 #include <process.h>
+#include <stdint.h>
 #else
 #include <fcntl.h>
 #include <unistd.h>
@@ -91,10 +93,9 @@ static pid_t arc4_stir_pid;
 static int arc4_count;
 static int arc4_seeded_ok;
 
-static inline unsigned char arc4_getbyte(void);
+static unsigned char arc4_getbyte(void);
 
-static inline void
-arc4_init(void)
+static void arc4_init(void)
 {
 	int     n;
 
@@ -104,8 +105,7 @@ arc4_init(void)
 	rs.j = 0;
 }
 
-static inline void
-arc4_addrandom(const unsigned char *dat, int datlen)
+static void arc4_addrandom(const unsigned char *dat, int datlen)
 {
 	int     n;
 	unsigned char si;
@@ -422,7 +422,7 @@ arc4_stir_if_needed(void)
 	}
 }
 
-static inline unsigned char
+static unsigned char
 arc4_getbyte(void)
 {
 	unsigned char si, sj;
@@ -436,7 +436,7 @@ arc4_getbyte(void)
 	return (rs.s[(si + sj) & 0xff]);
 }
 
-static inline unsigned int
+static unsigned int
 arc4_getword(void)
 {
 	unsigned int val;
