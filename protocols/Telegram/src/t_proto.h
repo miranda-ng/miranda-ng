@@ -63,6 +63,9 @@ public:
 	void InitPopups();
 	void UninitPopups();
 
+	void InitNetwork();
+	void InitCallbacks();
+
 	// languages
 	static void InitLanguages();
 
@@ -77,10 +80,18 @@ public:
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
 
+
+
+	void OnMessage(tgl_message*);
+
+
+
+
 private:
 
-	tgl_state tgl;
+	MirTLS *TLS;
 	static mir_cs accountsLock;
+
 
 	//---Accounts
 	static LIST<CTelegramProto> CTelegramProto::Accounts; 

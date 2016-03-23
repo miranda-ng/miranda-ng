@@ -19,15 +19,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CTelegramProto::CTelegramProto(const char* protoName, const TCHAR* userName) : PROTO<CTelegramProto>(protoName, userName)
 {
-	tgl_register_app_id(&tgl, TELEGRAM_APP_ID, TELEGRAM_API_HASH);
-	char version[64];
-	mir_snprintf(version, "Miranda Telegram %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	tgl_set_app_version(&tgl, version);
-	tgl_init(&tgl);
+	TLS = new MirTLS;
 
-	tgl_update_callback tgucb = {};
+	InitNetwork();
+	tgl_set_timer_methods(TLS, &tgl_libevent_timers);
 
+	tgl_set_rsa_key(TLS, TELEGRAM_PUBLIC_KEY);
 
+	tgl_register_app_id(TLS, TELEGRAM_API_ID, TELEGRAM_API_HASH);
+	tgl_set_app_version(TLS, g_szMirVer);
+
+	
+	tgl_init(TLS);
 }
 
 CTelegramProto::~CTelegramProto()

@@ -1,9 +1,6 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-//#pragma comment(lib, "$(SolutionDir)$(Configuration)\Obj\tgl\tgl.lib")
-
-#define TELEGRAM_APP_ID    17193
 #include "..\..\..\miranda-private-keys\Telegram\api.h"
 
 #include <windows.h>
@@ -41,12 +38,24 @@
 #include <m_assocmgr.h>
 #include <m_file.h>
 
-extern "C" {
-#include "tgl\tgl.h"
+extern "C" 
+{
+	#include "tgl\tgl.h"
+	#include "tgl\tgl-net.h"
+	#include "tgl\tgl-timers.h"
 }
+
+struct MirTLS : public tgl_state, public MZeroedObject
+{
+	struct CTelegramProto *m_proto;
+};
 
 #include "version.h"
 #include "t_proto.h"
+#include "t_network.h"
+#include "t_callback.h"
+
+extern char g_szMirVer[];
 
 #define MODULE "Telegram"
 
