@@ -27,10 +27,10 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-	  <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalIncludeDirectories>openssl\include;..\..\libs\libevent\include;..\..\libs\libevent\src\WIN32-Code\nmake;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	  <DisableSpecificWarnings>4995;4996;4312;4091;4702;4204;4221;4201;4706;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4995;4996;4312;4091;4702;4204;4221;4201;4706;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -135,8 +135,5 @@
       <Project>{46D53888-E60E-32A7-91EB-6336DE0D84D8}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="res\pubkey.txt" />
   </ItemGroup>
 </Project>
