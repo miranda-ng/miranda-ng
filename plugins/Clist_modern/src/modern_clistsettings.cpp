@@ -112,7 +112,7 @@ void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWOR
 
 	if (flag & CCI_GROUP)  pDst->tszGroup = mir_tstrdup(pSrc->tszGroup);
 	if (flag & CCI_PROTO)  pDst->m_pszProto = pSrc->m_pszProto;
-	if (flag & CCI_STATUS) pDst->m_cache_nStatus = pSrc->m_cache_nStatus;
+	if (flag & CCI_STATUS) pDst->m_iStatus = pSrc->m_iStatus;
 
 	if (flag & CCI_LINES) {
 		mir_free(pDst->szThirdLineText);
@@ -130,7 +130,7 @@ void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWOR
 
 	if (flag & CCI_OTHER) {
 		pDst->bIsHidden = pSrc->bIsHidden;
-		pDst->m_cache_nNoHiddenOffline = pSrc->m_cache_nNoHiddenOffline;
+		pDst->m_bNoHiddenOffline = pSrc->m_bNoHiddenOffline;
 
 		pDst->m_bIsSub = pSrc->m_bIsSub;
 		pDst->ApparentMode = pSrc->ApparentMode;
@@ -197,8 +197,8 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->tszName == NULL)
 		pdnce->getName();
 
-	if (pdnce->m_cache_nStatus == 0) //very strange look status sort is broken let always reread status
-		pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
+	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
+		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
 
 	if (pdnce->tszGroup == NULL) {
 		pdnce->tszGroup = db_get_tsa(pdnce->hContact, "CList", "Group");
@@ -211,8 +211,8 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	pdnce->m_bIsSub = db_mc_isSub(pdnce->hContact) != 0;
 
-	if (pdnce->m_cache_nNoHiddenOffline == -1)
-		pdnce->m_cache_nNoHiddenOffline = db_get_b(pdnce->hContact, "CList", "noOffline", 0);
+	if (pdnce->m_bNoHiddenOffline == -1)
+		pdnce->m_bNoHiddenOffline = db_get_b(pdnce->hContact, "CList", "noOffline", 0);
 
 	if (pdnce->IdleTS == -1)
 		pdnce->IdleTS = db_get_dw(pdnce->hContact, pdnce->m_pszProto, "IdleTS", 0);
@@ -299,7 +299,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *S
 	if (cacheEntry != NULL) {
 		if (Proto != NULL)  *Proto = cacheEntry->m_pszProto;
 		if (Name != NULL)   *Name = cacheEntry->tszName;
-		if (Status != NULL) *Status = cacheEntry->m_cache_nStatus;
+		if (Status != NULL) *Status = cacheEntry->m_iStatus;
 	}
 	return 0;
 }
@@ -381,7 +381,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (pdnce->bIsHidden)
 				return 0;
 
-			pdnce->m_cache_nStatus = cws->value.wVal;
+			pdnce->m_iStatus = cws->value.wVal;
 			if (cws->value.wVal == ID_STATUS_OFFLINE)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
 					db_set_s(hContact, "CList", "StatusMsg", "");
@@ -429,7 +429,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		else if (!strcmp(cws->szSetting, "noOffline")) {
-			pdnce->m_cache_nNoHiddenOffline = cws->value.bVal;
+			pdnce->m_bNoHiddenOffline = cws->value.bVal;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}

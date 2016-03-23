@@ -51,7 +51,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = pdnce___GetStatus(cacheEntry);
 
-		if (!showOfflineHereGroup && bHideOffline && !cacheEntry->m_cache_nNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
+		if (!showOfflineHereGroup && bHideOffline && !cacheEntry->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
 			continue;
 
 		ClcContact& p = cont->subcontacts[i];
@@ -384,10 +384,10 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (cacheEntry->m_pszProto == NULL) {
-						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat, group, cacheEntry);
 					}
-					else if (!pcli->pfnIsHiddenMode(dat, wStatus) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+					else if (!pcli->pfnIsHiddenMode(dat, wStatus) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 						cont = AddContactToGroup(dat, group, cacheEntry);
 				}
 				else cont = AddContactToGroup(dat, group, cacheEntry);
@@ -599,7 +599,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 WORD pdnce___GetStatus(ClcCacheEntry *pdnce)
 {
-	return (!pdnce) ? ID_STATUS_OFFLINE : pdnce->m_cache_nStatus;
+	return (!pdnce) ? ID_STATUS_OFFLINE : pdnce->m_iStatus;
 }
 
 ClcContact* cliCreateClcContact()
@@ -619,7 +619,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 	p->m_pszProto = GetContactProto(hContact);
 	p->dwLastMsgTime = -1;
 	p->bIsHidden = -1;
-	p->m_cache_nNoHiddenOffline = -1;
+	p->m_bNoHiddenOffline = -1;
 	p->IdleTS = -1;
 	p->NotOnList = -1;
 	p->IsExpanded = -1;
@@ -630,7 +630,11 @@ void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		corecli.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
-	// no need to destroy a cache item otherwise
+	else {
+		ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
+		if (p)
+			p->m_iStatus = 0;
+	}
 }
 
 void cli_SetContactCheckboxes(ClcContact *cc, int checked)
