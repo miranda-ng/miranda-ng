@@ -10,7 +10,7 @@ static int out_buf_pos;
 
 #define eprintf(...) \
   do { \
-    out_buf_pos += snprintf (out_buf + out_buf_pos, OUT_BUF_SIZE - out_buf_pos, __VA_ARGS__);\
+    out_buf_pos += _snprintf (out_buf + out_buf_pos, OUT_BUF_SIZE - out_buf_pos, __VA_ARGS__);\
     assert (out_buf_pos < OUT_BUF_SIZE);\
   } while (0)\
 

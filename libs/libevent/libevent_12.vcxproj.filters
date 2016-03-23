@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\buffer.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_filter.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_pair.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_ratelim.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_sock.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\event.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evmap.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evthread.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evutil.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evutil_rand.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evutil_time.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\listener.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\signal.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strlcpy.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_openssl.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evthread_win32.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buffer_iocp.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bufferevent_async.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\event_iocp.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32select.c">
+      <Filter>Source Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\event_tagging.c">
+      <Filter>Source Extra</Filter>
+    </ClCompile>
+    <ClCompile Include="src\http.c">
+      <Filter>Source Extra</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evdns.c">
+      <Filter>Source Extra</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evrpc.c">
+      <Filter>Source Extra</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bufferevent-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\changelist-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defer-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\epolltable-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\evbuffer-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\event-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\evmap-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\evrpc-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\evsignal-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\evthread-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ht-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\http-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\iocp-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ipv6-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\minheap-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mm-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ratelim-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\strlcpy-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util-internal.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\compat\sys\queue.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WIN32-Code\getopt.h">
+      <Filter>Headers Private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\evdns.h">
+      <Filter>Header Compat</Filter>
+    </ClInclude>
+    <ClInclude Include="include\evrpc.h">
+      <Filter>Header Compat</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event.h">
+      <Filter>Header Compat</Filter>
+    </ClInclude>
+    <ClInclude Include="include\evhttp.h">
+      <Filter>Header Compat</Filter>
+    </ClInclude>
+    <ClInclude Include="include\evutil.h">
+      <Filter>Header Compat</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\buffer.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\bufferevent.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\bufferevent_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\bufferevent_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\buffer_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\dns.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\dns_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\dns_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\event.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\event_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\event_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\http.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\http_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\http_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\keyvalq_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\listener.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\rpc.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\rpc_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\rpc_struct.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\tag.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\tag_compat.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\thread.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\util.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\visibility.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\event-config.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event2\bufferevent_ssl.h">
+      <Filter>Headers Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{918036C9-880E-383E-A0A0-E2F1133C4BF0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Private">
+      <UniqueIdentifier>{403FD3F2-243C-3501-846D-EC6DB43B0865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Compat">
+      <UniqueIdentifier>{6259BD7B-787D-3652-9A11-0698644E1128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Public">
+      <UniqueIdentifier>{D8BDFFA3-4BC2-3E42-BC8E-450D2147C8CA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Core">
+      <UniqueIdentifier>{70C5E5A7-1F69-39E0-8BF9-5F35EFB07481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Extra">
+      <UniqueIdentifier>{D7733A27-70AE-358A-911E-F7687E9FECFF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
