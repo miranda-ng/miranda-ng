@@ -289,7 +289,7 @@ static BOOL clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 	if (!contact) return FALSE;
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 	if (!pdnce) return FALSE;
-	if (pdnce->m_cache_nNoHiddenOffline) return TRUE;
+	if (pdnce->m_bNoHiddenOffline) return TRUE;
 
 	if (!group) return FALSE;
 	if (group->hideOffline) return FALSE;
@@ -1564,7 +1564,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	if (wParam != 0) {
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(wParam);
 		if (pdnce && pdnce->m_pszProto) {
-			pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
+			pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
 			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
