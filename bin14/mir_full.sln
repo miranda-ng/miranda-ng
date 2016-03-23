@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
+# Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
@@ -448,6 +448,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_variables", "..\plugins\MirLua\Modules\m_variables\m_variables.vcxproj", "{E604CD58-4579-4F69-9D6A-2605FD7CF716}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_msg_buttonsbar", "..\plugins\MirLua\Modules\m_msg_buttonsbar\m_msg_buttonsbar.vcxproj", "{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevent", "..\libs\libevent\libevent.vcxproj", "{46D53888-E60E-32A7-91EB-6336DE0D84D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2037,6 +2039,14 @@ Global
 		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|Win32.Build.0 = Release|Win32
 		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|x64.ActiveCfg = Release|x64
 		{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}.Release|x64.Build.0 = Release|x64
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|Win32.Build.0 = Debug|Win32
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|x64.ActiveCfg = Debug|x64
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|x64.Build.0 = Debug|x64
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|Win32.ActiveCfg = Release|Win32
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|Win32.Build.0 = Release|Win32
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.ActiveCfg = Release|x64
+		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
