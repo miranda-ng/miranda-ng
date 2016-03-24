@@ -43,11 +43,13 @@ extern "C"
 	#include "tgl\tgl.h"
 	#include "tgl\tgl-net.h"
 	#include "tgl\tgl-timers.h"
+	#include "tgl\tgl-binlog.h"
 }
 
 struct MirTLS : public tgl_state, public MZeroedObject
 {
 	struct CTelegramProto *m_proto;
+	MirTLS(CTelegramProto *p) : m_proto(p) {}
 };
 
 #include "version.h"
