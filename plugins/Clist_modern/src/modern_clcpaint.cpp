@@ -177,7 +177,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 			return (contact->flags & CONTACTF_ONLINE) ? FONTID_INVIS : FONTID_OFFINVIS;
 		}
 
-		switch (pdnce___GetStatus(pdnce)) {
+		switch (pdnce->getStatus()) {
 		case ID_STATUS_OFFLINE: return FONTID_OFFLINE;
 		case ID_STATUS_AWAY: return FONTID_AWAY;
 		case ID_STATUS_DND: return FONTID_DND;

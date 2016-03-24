@@ -1572,7 +1572,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 			ClcContact *contact;
 			if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, TRUE)) {
 				if (contact && contact->type == CLCIT_CONTACT) {
-					if (!contact->image_is_special && pdnce___GetStatus(pdnce) > ID_STATUS_OFFLINE)
+					if (!contact->image_is_special && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
 					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
 						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact

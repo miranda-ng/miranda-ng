@@ -306,8 +306,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *S
 
 int GetContactCachedStatus(MCONTACT hContact)
 {
-	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
-	return pdnce___GetStatus(cacheEntry);
+	return pcli->pfnGetCacheEntry(hContact)->getStatus();
 }
 
 int ContactAdded(WPARAM hContact, LPARAM)

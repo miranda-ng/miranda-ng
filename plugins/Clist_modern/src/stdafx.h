@@ -249,7 +249,6 @@ int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc);
 
 void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
-WORD pdnce___GetStatus(ClcCacheEntry *pdnce);
 
 /* move to list module */
 typedef void(*ItemDestuctor)(void*);
