@@ -71,7 +71,7 @@ int Credentials_Read(Skype_Inst *pInst, Memory_U creds, SResponse *LoginDatas)
 	if (*((uchar *)(&Crc) + 0) != *((uchar*)creds.Memory+creds.MsZ-2) ||
 		*((uchar *)(&Crc) + 1) != *((uchar*)creds.Memory+creds.MsZ-1))
 	{
-		DBGPRINT("Credentials: Bad CRC!");
+		pInst->pfLog(pInst->pLogStream, "Credentials: Bad CRC!");
 		return -2;
 	}
 #endif
@@ -94,7 +94,7 @@ int Credentials_Read(Skype_Inst *pInst, Memory_U creds, SResponse *LoginDatas)
 	memcpy(pInst->LoginD.SignedCredentials.Memory, Browser, pInst->LoginD.SignedCredentials.MsZ);
 
 	// Now credentials are read, but we need to finish LoginD.RSAKeys by unpacking Signed Credentials
-	if (Credentials_Parse(pInst->LoginD.SignedCredentials, LoginDatas)<0)
+	if (Credentials_Parse(pInst, pInst->LoginD.SignedCredentials, LoginDatas)<0)
 	{
 		RSA_free(Keys);
 		return -4;
@@ -116,7 +116,7 @@ int Credentials_Read(Skype_Inst *pInst, Memory_U creds, SResponse *LoginDatas)
 	return -5;
 }
 
-int Credentials_Parse(Memory_U Pcred, SResponse *LoginDatas)
+int Credentials_Parse(Skype_Inst *pInst, Memory_U Pcred, SResponse *LoginDatas)
 {
 	uchar	*PostProcessed, *Browser;
 	char	*Key;
@@ -138,16 +138,16 @@ int Credentials_Parse(Memory_U Pcred, SResponse *LoginDatas)
 	RSA_free(SkypeRSA);
 	if (PPsZ == -1)
 	{
-		DBGPRINT("Decryption failed..\n");
+		pInst->pfLog(pInst->pLogStream, "Credentials decryption failed..\n");
 		free(creds.Memory);
 		return -1;
 	}
 
-	PostProcessed = FinalizeLoginDatas(creds.Memory, &PPsZ, NULL, 0);
+	PostProcessed = FinalizeLoginDatas(pInst, creds.Memory, &PPsZ, NULL, 0);
 
 	if (PostProcessed == NULL)
 	{
-		DBGPRINT("Bad Datas Finalization..\n");
+		pInst->pfLog(pInst->pLogStream, "Bad Datas Finalization..\n");
 		free (creds.Memory);
 		return -1;
 	}

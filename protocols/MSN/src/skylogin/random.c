@@ -118,7 +118,7 @@ void		BuildUnFinalizedDatas(uchar *Datas, uint Size, uchar *Result)
 	Result[Idx] = 0xBC;
 }
 
-uchar		*FinalizeLoginDatas(uchar *Buffer, uint *Size, uchar *Suite, int SuiteSz)
+uchar		*FinalizeLoginDatas(Skype_Inst *pInst, uchar *Buffer, uint *Size, uchar *Suite, int SuiteSz)
 {
 	int		Idx;
 	uchar	*Result;
@@ -154,7 +154,7 @@ Copy:
 
 	if (strncmp((char *)SHARes, (char *)(Buffer + Idx + (*Size - SuiteSz)), SHA_DIGEST_LENGTH))
 	{
-		DBGPRINT("Bad SHA Digest for unencrypted Datas..\n");
+		pInst->pfLog(pInst->pLogStream, "Bad SHA Digest for unencrypted Datas..\n");
 		free(Result);
 		return (NULL);
 	}

@@ -13,6 +13,11 @@ EXPORT SkyLogin SkyLogin_Init();
 /* Uninitialize Skylogin Instance */
 EXPORT void SkyLogin_Exit(SkyLogin pInst);
 
+/* Optionally sets a function that receives debug logging for diagnosis. i.e. 
+ * you can use fprintf and stderr here
+ */
+EXPORT void SkyLogin_SetLogFunction(SkyLogin pPInst, int (__cdecl *pfLog)(void *stream, const char *format, ...), void *pLogStream);
+
 /* Load Credentials from cache, if they are available and valid
  * Returns:
  * 1 if credentials are successfully loaded, 

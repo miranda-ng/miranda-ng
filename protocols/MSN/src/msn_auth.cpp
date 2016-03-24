@@ -326,6 +326,19 @@ const char *SkypeToken::XSkypetoken()
 	}
 	return NULL;
 }
+
+
+int debugLogSkyLoginA(void *Pproto, LPCSTR szFormat, ...)
+{
+	CMsnProto *pProto = (CMsnProto *)Pproto;
+
+	va_list args;
+	va_start(args, szFormat);
+	ProtoLogA(pProto, szFormat, args);
+	va_end(args);
+	return 1;
+}
+
 // Performs the MSN Passport login via TLS
 int CMsnProto::MSN_GetPassportAuth(void)
 {
@@ -653,6 +666,8 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 {
 	int iRet = -1;
+
+	if (g_hOpenssl == NULL) g_hOpenssl = LoadLibraryA("libeay32.dll");
 	if (g_hOpenssl == NULL)
 		return iRet;
 
@@ -662,6 +677,7 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 		iRet = 0;
 
 		char szPassword[100];
+		SkyLogin_SetLogFunction(hLogin, debugLogSkyLoginA, this);
 		if (!db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
 			if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
 				SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
@@ -686,6 +702,7 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 {
 	int iRet = -1;
+	if (g_hOpenssl == NULL) g_hOpenssl = LoadLibraryA("libeay32.dll");
 	if (g_hOpenssl == NULL)
 		return iRet;
 
@@ -693,6 +710,7 @@ int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 	SkyLogin hLogin = SkyLogin_Init();
 	if (hLogin) {
 		char szLoginToken[1024];
+		SkyLogin_SetLogFunction(hLogin, debugLogSkyLoginA, this);
 		if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
 			SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
 		{

@@ -49,6 +49,14 @@ EXPORT void SkyLogin_Exit(SkyLogin pPInst)
 	free(pInst);
 }
 
+EXPORT void SkyLogin_SetLogFunction(SkyLogin pPInst, int (__cdecl *pfLog)(void *stream, const char *format, ...), void *pLogStream)
+{
+	Skype_Inst *pInst = (Skype_Inst*)pPInst;
+
+	pInst->pfLog = pfLog;
+	pInst->pLogStream = pLogStream;
+}
+
 EXPORT int SkyLogin_LoadCredentials(SkyLogin pPInst, char *User)
 {
 	Skype_Inst *pInst = (Skype_Inst*)pPInst;
@@ -74,9 +82,9 @@ EXPORT int SkyLogin_LoadCredentials(SkyLogin pPInst, char *User)
 				{
 				case OBJ_ID_LDUSER:
 					// Credentials for wrong user?
-					ret = !strcasecmp(LoginDatas.Objs[Idx].Value.Memory.Memory, User);
+					ret = !strcasecmp((char*)LoginDatas.Objs[Idx].Value.Memory.Memory, User);
 					if (pInst->LoginD.User) free(pInst->LoginD.User);
-					pInst->LoginD.User = strdup(LoginDatas.Objs[Idx].Value.Memory.Memory);
+					pInst->LoginD.User = strdup((char*)LoginDatas.Objs[Idx].Value.Memory.Memory);
 					break;
 				case OBJ_ID_LDEXPIRY:
 					// Credentials expired?
@@ -88,7 +96,7 @@ EXPORT int SkyLogin_LoadCredentials(SkyLogin pPInst, char *User)
 		}
 		free(creds.Memory);
 	}
-	return ret;
+	return ret; 
 }
 
 EXPORT int SkyLogin_PerformLogin(SkyLogin pPInst, char *User, char *Pass)
@@ -126,7 +134,7 @@ EXPORT int SkyLogin_PerformLoginOAuth(SkyLogin pPInst, const char *OAuth)
 			SResponse LoginDatas;
 
 			// We don't know user name, so read it from Credentials
-			if (Credentials_Parse(creds, &LoginDatas) == 0)
+			if (Credentials_Parse(pInst, creds, &LoginDatas) == 0)
 			{
 				uint Idx;
 
@@ -134,9 +142,9 @@ EXPORT int SkyLogin_PerformLoginOAuth(SkyLogin pPInst, const char *OAuth)
 				{ 
 					if (LoginDatas.Objs[Idx].Id == OBJ_ID_LDUSER)
 					{
-						Credentials_Save(creds, LoginDatas.Objs[Idx].Value.Memory.Memory);
+						Credentials_Save(creds, (char*)LoginDatas.Objs[Idx].Value.Memory.Memory);
 						if (pInst->LoginD.User) free(pInst->LoginD.User);
-						pInst->LoginD.User = strdup(LoginDatas.Objs[Idx].Value.Memory.Memory);
+						pInst->LoginD.User = (uchar*)strdup((char*)LoginDatas.Objs[Idx].Value.Memory.Memory);
 						break;
 					}
 				}
@@ -161,5 +169,5 @@ EXPORT int SkyLogin_GetCredentialsUIC(SkyLogin pInst, char *pszOutUIC)
 
 EXPORT char *SkyLogin_GetUser(SkyLogin pInst)
 {
-	return ((Skype_Inst*)pInst)->LoginD.User;
+	return (char*)((Skype_Inst*)pInst)->LoginD.User;
 }
