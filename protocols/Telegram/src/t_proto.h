@@ -80,11 +80,13 @@ public:
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
 
+	void TGLGetValue(tgl_value_type type, const char *prompt, int num_values, char **result);
+
 
 
 	void OnMessage(tgl_message*);
 
-
+	void OnUserTyping(tgl_user *U, tgl_typing_status status);
 
 
 private:
@@ -92,6 +94,11 @@ private:
 	MirTLS *TLS;
 	static mir_cs accountsLock;
 
+	void ReadState();
+	void SaveState();
+
+	void ReadAuth();
+	void SaveAuth();
 
 	//---Accounts
 	static LIST<CTelegramProto> CTelegramProto::Accounts; 

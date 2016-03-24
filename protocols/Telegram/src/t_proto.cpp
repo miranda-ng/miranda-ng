@@ -19,26 +19,56 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CTelegramProto::CTelegramProto(const char* protoName, const TCHAR* userName) : PROTO<CTelegramProto>(protoName, userName)
 {
-	TLS = new MirTLS;
+	TLS = new MirTLS(this);
+
+	tgl_set_verbosity(TLS, 4);
 
 	InitNetwork();
+	InitCallbacks();
+
 	tgl_set_timer_methods(TLS, &tgl_libevent_timers);
 
-	tgl_set_rsa_key(TLS, TELEGRAM_PUBLIC_KEY);
+	tgl_set_rsa_key(TLS, "tgl.pub");
 
-	tgl_register_app_id(TLS, TELEGRAM_API_ID, TELEGRAM_API_HASH);
-	tgl_set_app_version(TLS, g_szMirVer);
 
-	
+	TLS->base_path = Utils_ReplaceVars("%miranda_profilesdir%\\%miranda_profilename%\\TGL_Data\\");
+	CreateDirectoryTree(TLS->base_path);
+
+	tgl_set_download_directory(TLS, CMStringA(FORMAT, "%s\\Downloads\\", TLS->base_path));
+	CreateDirectoryTree(TLS->downloads_directory);
+
+
+//	tgl_register_app_id(TLS, TELEGRAM_API_ID, TELEGRAM_API_HASH);
+//	tgl_set_app_version(TLS, g_szMirVer);
+
 	tgl_init(TLS);
+
+	ReadState();
+	ReadAuth();
+
 }
 
 CTelegramProto::~CTelegramProto()
 {
+	SaveState();
 }
 
 DWORD_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 {
+	switch (type)
+	{
+	case PFLAGNUM_1:
+		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE;
+	case PFLAGNUM_2:
+		return PF2_ONLINE;
+	case PFLAGNUM_3:
+		return PF2_ONLINE;
+	case PFLAGNUM_4:
+		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
+	case PFLAG_UNIQUEIDTEXT:
+	case PFLAG_UNIQUEIDSETTING:
+		return (DWORD_PTR)"ID";
+	}
 	return 0;
 }
 
@@ -90,6 +120,7 @@ int CTelegramProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 
 int CTelegramProto::SetStatus(int iNewStatus)
 {
+	if (iNewStatus == ID_STATUS_ONLINE) tgl_login(TLS);
 	return 0;
 }
 
@@ -105,5 +136,16 @@ int CTelegramProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPa
 
 int CTelegramProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	SaveState();
 	return 0;
+}
+
+
+void CTelegramProto::TGLGetValue(tgl_value_type type, const char *prompt, int num_values, char **result)
+{
+	switch (type)
+	{
+	case  tgl_phone_number:
+		*result = getStringA("ID");
+	};
 }
