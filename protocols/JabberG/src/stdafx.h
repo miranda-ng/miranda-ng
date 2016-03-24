@@ -176,6 +176,7 @@ protected:
 
 #define JABBER_GC_MSG_QUIT				LPGENT("I'm happy Miranda NG user. Get it at http://miranda-ng.org/.")
 #define JABBER_GC_MSG_SLAP				LPGENT("/me slaps %s around a bit with a large trout")
+#define JABBER_SERVER_URL				"https://xmpp.net/services.php"
 
 // registered db event types
 #define EVENTTYPE_JABBER_CHATSTATES          2000
