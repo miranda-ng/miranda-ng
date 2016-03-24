@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-16 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2012-16 Miranda NG project (http://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -49,7 +49,7 @@ void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get time zone for contact
-
+//
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
@@ -64,7 +64,7 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get all lines of text
-
+//
 void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
 {
 	Cache_GetFirstLineText(dat, contact);
@@ -173,7 +173,7 @@ void CSmileyString::DestroySmileyList()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Parsing of text for smiley
-
+//
 void CSmileyString::ReplaceSmileys(SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
 {
 	int last_pos = 0;
@@ -273,7 +273,7 @@ void CSmileyString::ReplaceSmileys(SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR *
 /////////////////////////////////////////////////////////////////////////////////////////
 // Getting Status name
 // returns -1 for XStatus, 1 for Status
-
+//
 int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
 {
 	BOOL noAwayMsg = FALSE;
@@ -320,7 +320,7 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get Listening to information
-
+//
 void GetListeningTo(TCHAR *text, int text_size, ClcCacheEntry *pdnce)
 {
 	*text = _T('\0');
@@ -336,7 +336,7 @@ void GetListeningTo(TCHAR *text, int text_size, ClcCacheEntry *pdnce)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Getting Status message(Away message)
 // returns -1 for XStatus, 1 for Status
-
+//
 int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
 {
 	BOOL noAwayMsg = FALSE;
@@ -383,7 +383,7 @@ int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xsta
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Get the text for specified lines
-
+//
 int Cache_GetLineText(
 	ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority,
 	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
@@ -423,15 +423,16 @@ int Cache_GetLineText(
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
 				TCHAR *tmp = NEWTSTR_ALLOCA(text);
 				mir_sntprintf(text, text_size, _T("%s: %s"), tszXStatusName, tmp);
+				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
-			CopySkipUnprintableChars(text, text, text_size - 1);
 		}
 		else if (use_name_and_message_for_xstatus && xstatus_has_priority) {
 			// Try to get XStatusName
 			ptrT tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
-			if (tszXStatusName != NULL && tszXStatusName[0] != 0)
+			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
 				mir_tstrncpy(text, tszXStatusName, text_size);
-			CopySkipUnprintableChars(text, text, text_size - 1);
+				CopySkipUnprintableChars(text, text, text_size - 1);
+			}
 		}
 
 		if (text[0] == '\0') {
@@ -470,9 +471,9 @@ int Cache_GetLineText(
 	return TEXT_EMPTY;
 }
 
-/*
-*	Get the text for First Line
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+//	Get the text for First Line
+//
 void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 {
 	if (GetCurrentThreadId() != g_dwMainThreadID)
@@ -506,7 +507,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get the text for Second Line
-
+//
 void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
@@ -531,7 +532,7 @@ void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get the text for Third Line
-
+//
 void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
@@ -565,7 +566,7 @@ void RemoveTag(TCHAR *to, TCHAR *tag)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //Copy string with removing Escape chars from text and BBcodes
-
+//
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 {
 	DWORD i;
@@ -611,8 +612,10 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 	return i;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // If ExecuteOnAllContactsFuncPtr returns FALSE, stop loop
 // Return TRUE if finished, FALSE if was stoped
+//
 static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param)
 {
 	return ExecuteOnAllContactsOfGroup(&dat->list, func, param);
@@ -644,7 +647,7 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Avatar working routines
-
+//
 BOOL UpdateAllAvatarsProxy(ClcContact *contact, BOOL, void *param)
 {
 	Cache_GetAvatar((ClcData *)param, contact);

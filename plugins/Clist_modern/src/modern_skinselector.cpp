@@ -57,7 +57,7 @@ DWORD mod_CalcHash(const char *szStr)
 	return hash;
 }
 
-int AddModernMaskToList(MODERNMASK *mm, LISTMODERNMASK * mmTemplateList)
+static int AddModernMaskToList(MODERNMASK *mm, LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList || !mm) return -1;
 	mmTemplateList->pl_Masks = (MODERNMASK *)mir_realloc(mmTemplateList->pl_Masks, sizeof(MODERNMASK)*(mmTemplateList->dwMaskCnt + 1));
@@ -77,7 +77,7 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 	return 0;
 }
 
-int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
+static int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 {
 	if (!mmTemplateList) return -1;
 	if (mID >= mmTemplateList->dwMaskCnt) return -1;
@@ -103,7 +103,7 @@ int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 }
 
 
-int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
+static int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList) return 0;
 	if (mID1 >= mmTemplateList->dwMaskCnt) return 0;
@@ -232,7 +232,7 @@ static BOOL _GetParamValue(char *szText, unsigned int &start, unsigned int lengt
 	return (value || param);
 }
 
-int ParseToModernMask(MODERNMASK *mm, char *szText)
+static int ParseToModernMask(MODERNMASK *mm, char *szText)
 {
 	if (!mm || !szText) return -1;
 
@@ -279,7 +279,7 @@ int ParseToModernMask(MODERNMASK *mm, char *szText)
 	return 0;
 };
 
-BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
+static BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 {
 	//TODO
 	BOOL res = TRUE;

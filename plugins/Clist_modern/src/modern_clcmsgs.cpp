@@ -26,8 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_clc.h"
 #include "modern_commonprototypes.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
 //processing of all the CLM_ messages incoming
-
+//
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact = NULL;

@@ -553,8 +553,11 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	switch (Drawing->type) {
 	case CLCIT_GROUP:
 		_AddParamShort(mpModernMask, hi_Type, hi_Group);
-		_AddParamShort(mpModernMask, hi_Open, (Drawing->group && Drawing->group->expanded) ? hi_True : hi_False);
-		_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.count == 0) ? hi_True : hi_False);
+		if (Drawing->group)
+		{
+			_AddParamShort(mpModernMask, hi_Open, Drawing->group->expanded ? hi_True : hi_False);
+			_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.count == 0) ? hi_True : hi_False);
+		}
 		break;
 
 	case CLCIT_CONTACT:
@@ -1413,6 +1416,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						}
 					}
 				}
+				break;
 
 			case TC_TIME:
 				TCHAR szResult[80];

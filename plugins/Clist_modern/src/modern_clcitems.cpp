@@ -672,12 +672,11 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 	return count;
 }
 
-/*
-* checks the currently active view mode filter and returns true, if the contact should be hidden
-* if no view mode is active, it returns the CList/Hidden setting
-* also cares about sub contacts (if meta is active)
-*/
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// checks the currently active view mode filter and returns true, if the contact should be hidden
+// if no view mode is active, it returns the CList/Hidden setting
+// also cares about sub contacts (if meta is active)
+//
 int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
