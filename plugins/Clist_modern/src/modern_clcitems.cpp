@@ -49,7 +49,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
-		WORD wStatus = pdnce___GetStatus(cacheEntry);
+		WORD wStatus = cacheEntry->getStatus();
 
 		if (!showOfflineHereGroup && bHideOffline && !cacheEntry->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
 			continue;
@@ -170,7 +170,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	char *szProto = cacheEntry->m_pszProto;
 	cont->proto = szProto;
 
-	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, pdnce___GetStatus(cacheEntry)))
+	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, cacheEntry->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
 
 	WORD apparentMode = szProto != NULL ? cacheEntry->ApparentMode : 0;
@@ -184,7 +184,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 			break;
 		default:
 			cont->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-	}
+		}
 
 	if (cacheEntry->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
@@ -209,14 +209,15 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 
 static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, ClcCacheEntry *cacheEntry)
 {
-	if (cacheEntry == NULL) return NULL;
-	if (group == NULL) return NULL;
-	if (dat == NULL) return NULL;
+	if (cacheEntry == NULL || group == NULL || dat == NULL)
+		return NULL;
+	
 	MCONTACT hContact = cacheEntry->hContact;
 	dat->needsResort = 1;
 	int i;
 	for (i = group->cl.count - 1; i >= 0; i--)
-		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags&CLCIIF_BELOWCONTACTS)) break;
+		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
+			break;
 	i = cli_AddItemToGroup(group, i + 1);
 
 	_LoadDataToContact(group->cl.items[i], group, dat, hContact);
@@ -227,21 +228,18 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, ClcCacheEntr
 
 void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName)
 {
-	int i = 0;
-	int f = 0;
-	DWORD groupFlags;
-
 	if (wildcmp(_T2A(szName), "-@-HIDDEN-GROUP-@-"))
 		return NULL;
 
+	int i;
+	DWORD groupFlags;
 	for (i = 1;; i++) {
 		TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
-		if (szGroupName == NULL) break;
-		if (!mir_tstrcmpi(szGroupName, szName)) f = 1;
+		if (szGroupName == NULL)
+			break;
+		if (!mir_tstrcmpi(szGroupName, szName))
+			return NULL;
 	}
-
-	if (f)
-		return NULL;
 
 	char buf[20];
 	_itoa_s(i - 1, buf, 10);
@@ -249,7 +247,7 @@ void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName)
 	TCHAR b2[255];
 	mir_sntprintf(b2, _T("#%s"), szName);
 	b2[0] = 1 | GROUPF_EXPANDED;
-	db_set_ws(NULL, "CListGroups", buf, b2);
+	db_set_ts(NULL, "CListGroups", buf, b2);
 	pcli->pfnGetGroupName(i, &groupFlags);
 	return cli_AddGroup(hwnd, dat, szName, groupFlags, i, 0);
 }
@@ -376,8 +374,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 				group = cli_AddGroup(hwnd, dat, cacheEntry->tszGroup, (DWORD)-1, 0, 0);
 
 			if (group != NULL) {
-				WORD wStatus = pdnce___GetStatus(cacheEntry);
-				if (wStatus == ID_STATUS_OFFLINE && PlaceOfflineToRoot)
+				if (cacheEntry->m_iStatus == ID_STATUS_OFFLINE && PlaceOfflineToRoot)
 					group = &dat->list;
 
 				group->totalMembers++;
@@ -387,7 +384,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat, group, cacheEntry);
 					}
-					else if (!pcli->pfnIsHiddenMode(dat, wStatus) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+					else if (!pcli->pfnIsHiddenMode(dat, cacheEntry->m_iStatus) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 						cont = AddContactToGroup(dat, group, cacheEntry);
 				}
 				else cont = AddContactToGroup(dat, group, cacheEntry);
@@ -468,17 +465,20 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 	return lastcount;
 }
 
-struct SavedContactState_t {
+struct SavedContactState_t
+{
 	MCONTACT hContact;
 	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
 
-struct SavedGroupState_t {
+struct SavedGroupState_t
+{
 	int groupId, expanded;
 };
 
-struct SavedInfoState_t {
+struct SavedInfoState_t
+{
 	int parentId;
 	ClcContact contact;
 };
@@ -593,13 +593,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	nm.hdr.code = CLN_LISTREBUILT;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
-}
-
-
-WORD pdnce___GetStatus(ClcCacheEntry *pdnce)
-{
-	return (!pdnce) ? ID_STATUS_OFFLINE : pdnce->m_iStatus;
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
 ClcContact* cliCreateClcContact()
