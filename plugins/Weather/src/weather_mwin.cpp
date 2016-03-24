@@ -167,7 +167,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					fntc1 = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt1);
 				}
 
-				db_get_ts(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv);
+				if (db_get_ts(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv))
+					break;
 
 				GetClientRect(hwnd, &rc);
 
@@ -240,7 +241,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 static void addWindow(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	if (db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv))
+		return;
 
 	TCHAR winname[512];
 	mir_sntprintf(winname, _T("Weather: %s"), dbv.ptszVal);

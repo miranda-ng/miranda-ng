@@ -250,49 +250,10 @@ void SaveOptions(void)
 	// misc stuff
 	db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 }
-
-//============  OPTION INITIALIZATION  ============
-
-// register the weather option pages
-int OptInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
-
-	// plugin options
-	odp.position = 95600;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc = OptionsProc;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = _T(WEATHERPROTOTEXT);
-	odp.ptszTab = LPGENT("General");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	Options_AddPage(wParam, &odp);
-
-	// text options
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
-	odp.pfnDlgProc = DlgProcText;
-	odp.ptszTab = LPGENT("Display");
-	Options_AddPage(wParam, &odp);
-
-	// if popup service exists, load the weather popup options
-	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
-		odp.position = 100000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("Popups");
-		odp.groupPosition = 910000000;
-		odp.ptszTab = NULL;
-		odp.pfnDlgProc = DlgPopupOpts;
-		Options_AddPage(wParam, &odp);
-	}
-
-	return 0;
-}
-
 //============  MAIN OPTIONS  ============
 
 // weather options
-INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	TCHAR str[512];
 
@@ -377,7 +338,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			opt.UpdateTime = (WORD)_ttoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(NULL, timerId);
-			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, (TIMERPROC)timerProc);
+			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, timerProc);
 
 			// other general options
 			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, _countof(opt.DegreeSign));
@@ -458,7 +419,7 @@ static const char *varname[8] = { "C", "b", "B", "N", "X", "E", "H", "S" };
 static const int cname[8] = { IDC_CTEXT, IDC_BTITLE, IDC_BTEXT, IDC_NTEXT, IDC_XTEXT, IDC_ETEXT, IDC_HTEXT, IDC_BTITLE2 };
 static TCHAR* const *var[8] = { &opt.cText, &opt.bTitle, &opt.bText, &opt.nText, &opt.xText, &opt.eText, &opt.hText, &opt.sText };
 
-INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc, pos;
 	HWND button;
@@ -603,3 +564,41 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
+
+//============  OPTION INITIALIZATION  ============
+
+// register the weather option pages
+int OptInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.hInstance = hInst;
+
+	// plugin options
+	odp.position = 95600;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pfnDlgProc = OptionsProc;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTitle = _T(WEATHERPROTOTEXT);
+	odp.ptszTab = LPGENT("General");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	Options_AddPage(wParam, &odp);
+
+	// text options
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
+	odp.pfnDlgProc = DlgProcText;
+	odp.ptszTab = LPGENT("Display");
+	Options_AddPage(wParam, &odp);
+
+	// if popup service exists, load the weather popup options
+	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
+		odp.position = 100000000;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
+		odp.ptszGroup = LPGENT("Popups");
+		odp.groupPosition = 910000000;
+		odp.ptszTab = NULL;
+		odp.pfnDlgProc = DlgPopupOpts;
+		Options_AddPage(wParam, &odp);
+	}
+
+	return 0;
+}

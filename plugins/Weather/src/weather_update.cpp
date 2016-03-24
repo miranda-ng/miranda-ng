@@ -594,6 +594,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 		UpdateAll(TRUE, FALSE);
 }
 
+
 // temporary timer for first run
 // when this is run, it kill the old startup timer and create the permenant one above
 void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
@@ -606,5 +607,5 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 
 	if (opt.StartupUpdate && opt.NoProtoCondition)
 		UpdateAll(FALSE, FALSE);
-	timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime) * 60000, (TIMERPROC)timerProc);
+	timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime) * 60000, timerProc);
 }
