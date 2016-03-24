@@ -1564,7 +1564,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_OK, ACC_SMS, ACC_YANDEX };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS, ACC_YANDEX };
 
 	void OnInitDialog()
 	{
@@ -1604,6 +1604,10 @@ protected:
 		m_cbType.AddString(TranslateT("Secure XMPP Network (old style)"), ACC_SSL);
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
+		m_cbType.AddString(TranslateT("League Of Legends (EU Nordic)"), ACC_LOL_EN);
+		m_cbType.AddString(TranslateT("League Of Legends (EU West)"), ACC_LOL_EW);
+		m_cbType.AddString(TranslateT("League Of Legends (Oceania)"), ACC_LOL_OC);
+		m_cbType.AddString(TranslateT("League Of Legends (US)"), ACC_LOL_US);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 		m_cbType.AddString(TranslateT("Yandex"), ACC_YANDEX);
@@ -1621,6 +1625,22 @@ protected:
 		}
 		else if (!mir_strcmp(server, "livejournal.com")) {
 			m_cbType.SetCurSel(ACC_LJTALK);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "chat.eun1.lol.riotgames.com")) {
+			m_cbType.SetCurSel(ACC_LOL_EN);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "chat.euw1.lol.riotgames.com")) {
+			m_cbType.SetCurSel(ACC_LOL_EW);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "chat.oc1.lol.riotgames.com")) {
+			m_cbType.SetCurSel(ACC_LOL_OC);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "chat.na2.lol.riotgames.com")) {
+			m_cbType.SetCurSel(ACC_LOL_US);
 			m_canregister = false;
 		}
 		else if (!mir_strcmp(server, "xmpp.odnoklassniki.ru")) {
@@ -1734,6 +1754,15 @@ protected:
 		case ACC_YANDEX:
 			m_proto->m_options.UseSSL = FALSE;
 			m_proto->m_options.UseTLS = TRUE;
+			break;
+
+		case ACC_LOL_EN:
+		case ACC_LOL_EW:
+		case ACC_LOL_OC:
+		case ACC_LOL_US:
+			m_proto->setDword("Priority", -2);
+			m_proto->m_options.UseSSL = TRUE;
+			m_proto->m_options.UseTLS = FALSE;
 			break;
 
 		case ACC_SSL:
@@ -1871,6 +1900,10 @@ private:
 	void setupSecureSSL();
 	void setupGoogle();
 	void setupLJ();
+	void setupLOLEN();
+	void setupLOLEW();
+	void setupLOLOC();
+	void setupLOLUS();
 	void setupOK();
 	void setupSMS();
 	void setupYA();
@@ -1909,6 +1942,10 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_SSL: setupSecureSSL(); break;
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
+		case ACC_LOL_EN: setupLOLEN(); break;
+		case ACC_LOL_EW: setupLOLEW(); break;
+		case ACC_LOL_OC: setupLOLOC(); break;
+		case ACC_LOL_US: setupLOLUS(); break;
 		case ACC_OK: setupOK(); break;
 		case ACC_SMS: setupSMS(); break;
 		case ACC_YANDEX: setupYA(); break;
@@ -1989,6 +2026,78 @@ void CJabberDlgAccMgrUI::setupLJ()
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
 	m_txtPort.SetInt(5222);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupLOLEN()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("pvp.net");
+	m_cbServer.AddStringA("pvp.net");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
+	m_txtPort.SetInt(5223);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupLOLEW()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("pvp.net");
+	m_cbServer.AddStringA("pvp.net");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
+	m_txtPort.SetInt(5223);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupLOLOC()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("pvp.net");
+	m_cbServer.AddStringA("pvp.net");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
+	m_txtPort.SetInt(5223);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupLOLUS()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("pvp.net");
+	m_cbServer.AddStringA("pvp.net");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
+	m_txtPort.SetInt(5223);
 
 	m_cbServer.Disable();
 	m_chkManualHost.Disable();
