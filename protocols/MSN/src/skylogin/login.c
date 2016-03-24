@@ -18,6 +18,7 @@
 #include "crc.h"
 #ifdef _DEBUG
 #include <time.h>
+#include <stdio.h>
 #endif
 
 #ifdef USE_RC4
@@ -33,7 +34,7 @@ static Host LoginServers[] = {
 	{"91.190.218.40", 33033},
 };
 
-static BOOL SendHandShake2LS(LSConnection *pConn, Host *CurLS)
+static BOOL SendHandShake2LS(Skype_Inst *pInst, LSConnection *pConn, Host *CurLS)
 {
 	uchar				HandShakePkt[HANDSHAKE_SZ] = {0};
 	HttpsPacketHeader	*HSHeader, Response;
@@ -42,13 +43,13 @@ static BOOL SendHandShake2LS(LSConnection *pConn, Host *CurLS)
 	HSHeader = (HttpsPacketHeader *)HandShakePkt;
 	memcpy(HSHeader->MAGIC, HTTPS_HSR_MAGIC, sizeof(HSHeader->MAGIC));
 	HSHeader->ResponseLen = 0;
-	DBGPRINT("Sending Handshake to Login Server %s..\n", CurLS->ip);
+	pInst->pfLog(pInst->pLogStream, "Sending Handshake to Login Server %s..\n", CurLS->ip);
 	Sender.sin_family = AF_INET;
 	Sender.sin_port = htons((short)CurLS->port);
 	Sender.sin_addr.s_addr = inet_addr(CurLS->ip);
 	if (connect(pConn->LSSock, (struct sockaddr *)&Sender, sizeof(Sender)) < 0)
 	{
-		DBGPRINT("Connection refused..\n");
+		pInst->pfLog(pInst->pLogStream, "Connection refused..\n");
 		return FALSE;
 	}
 	if (RC4Comm_Init(pConn) < 0 ||
@@ -87,7 +88,7 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 	{
 		BIGNUM				*KeyExp;
 
-		DBGPRINT("Generating RSA Keys Pair (Size = %d Bits)..\n", KEYSZ);
+		pInst->pfLog(pInst->pLogStream, "Generating RSA Keys Pair (Size = %d Bits)..\n", KEYSZ);
 		pInst->LoginD.RSAKeys = RSA_new();
 		KeyExp = BN_new();
 		BN_set_word(KeyExp, RSA_F4);
@@ -95,7 +96,7 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 		BN_free(KeyExp);
 		if (Idx == -1)
 		{
-			DBGPRINT("Error generating Keys..\n\n");
+			pInst->pfLog(pInst->pLogStream, "Error generating Keys..\n\n");
 			RSA_free(pInst->LoginD.RSAKeys);
 			pInst->LoginD.RSAKeys = NULL;
 			return (0);
@@ -130,7 +131,7 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 	RSA_free(SkypeRSA);
 	if (Idx < 0)
 	{
-		DBGPRINT("RSA_public_encrypt failed..\n\n");
+		pInst->pfLog(pInst->pLogStream, "RSA_public_encrypt failed..\n\n");
 		return (0);
 	}
 
@@ -314,7 +315,7 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 
 	if (RC4Comm_Send(pConn, (const char *)AuthBlob, Size)<=0)
 	{
-		DBGPRINT("Sending to LS failed :'(..\n");
+		pInst->pfLog(pInst->pLogStream, "Sending to LS failed :'(..\n");
 		return (-1);
 	}
 
@@ -324,10 +325,10 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 		if (strncmp((const char *)HSHeader->MAGIC, HTTPS_HSRR_MAGIC, strlen(HTTPS_HSRR_MAGIC)) ||
 			RC4Comm_Recv(pConn, (char *)RecvBuf, (BSize=htons(HSHeader->ResponseLen)))<=0)
 		{
-			DBGPRINT("Bad Response..\n");
+			pInst->pfLog(pInst->pLogStream, "Bad Response..\n");
 			return (-2);
 		}
-		DBGPRINT("Auth Response Got..\n\n");
+		pInst->pfLog(pInst->pLogStream, "Auth Response Got..\n\n");
 
 		Idx = 0;
 		memset(ivec, 0, AES_BLOCK_SIZE);
@@ -351,11 +352,11 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 				switch (Response.Objs[Idx].Value.Nbr)
 				{
 				case LOGIN_OK:
-					DBGPRINT("Login Successful..\n");
+					pInst->pfLog(pInst->pLogStream, "Login Successful..\n");
 					ret = 1;
 					break;
 				default :
-					DBGPRINT("Login Failed.. Bad Credentials..\n");
+					pInst->pfLog(pInst->pLogStream, "Login Failed.. Bad Credentials..\n");
 					FreeResponse(&Response);
 					return 0;
 				}
@@ -391,15 +392,15 @@ int PerformLogin(Skype_Inst *pInst, const char *User, const char *Pass)
 		conn.LSSock = socket(AF_INET, SOCK_STREAM, 0);
 		setsockopt(conn.LSSock, SOL_SOCKET, SO_REUSEADDR, (const char *)&ReUse, sizeof(ReUse));
 
-		if (SendHandShake2LS(&conn, &LoginServers[i]))
+		if (SendHandShake2LS(pInst, &conn, &LoginServers[i]))
 		{
-			DBGPRINT("Login Server %s OK ! Let's authenticate..\n", LoginServers[i].ip);
+			pInst->pfLog(pInst->pLogStream, "Login Server %s OK ! Let's authenticate..\n", LoginServers[i].ip);
 			iRet = SendAuthentificationBlobLS(pInst, &conn, User, Pass);
 		}
 		closesocket(conn.LSSock);
 	}
 
-	if (!iRet) DBGPRINT("Login Failed..\n");
+	if (!iRet) pInst->pfLog(pInst->pLogStream, "Login Failed..\n");
 	return iRet;
 }
 
@@ -411,4 +412,8 @@ void InitInstance(Skype_Inst *pInst)
 	InitNodeId(pInst);
 	memcpy(pInst->Language, "en", 2);
 	pInst->PublicIP = 0x7F000001;	// 127.0.0.1, we could use hostscan to get real IP, but not necessary for just login
+#ifdef DEBUG
+	pInst->pfLog = (int (__cdecl *)(void *, const char *, ...))fprintf;
+	pInst->pLogStream = stdout;
+#endif
 }

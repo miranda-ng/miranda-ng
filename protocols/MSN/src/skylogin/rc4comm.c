@@ -49,7 +49,7 @@ int RC4Comm_Init(LSConnection *pConn)
 				{
 					/* Setup RC4 */
 					RC4_set_key(&pConn->rc4_send, 48, sec_key);
-					if (sec_key[0] == 0xFF) {DBGPRINT("First byte overflow, negotiation failed?");}
+					if (sec_key[0] == 0xFF) {pInst->pfLog(pInst->pLogStream, "First byte overflow, negotiation failed?");}
 					sec_key[0]++;
 					RC4_set_key(&pConn->rc4_recv, 48, sec_key);
 				} else

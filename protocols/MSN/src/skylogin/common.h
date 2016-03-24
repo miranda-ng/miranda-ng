@@ -102,6 +102,8 @@ typedef struct
 	uchar			Language[2];
 	uint			PublicIP;
 	SLoginDatas		LoginD; 
+	int (__cdecl *pfLog)(void *stream, const char *format, ...);
+	void *pLogStream;
 }	Skype_Inst;
 
 typedef struct 

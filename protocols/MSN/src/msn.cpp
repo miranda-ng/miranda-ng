@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst, g_hOpenssl;
+HINSTANCE g_hInst, g_hOpenssl = NULL;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +104,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-
-	g_hOpenssl = LoadLibraryA("libeay32.dll");
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
