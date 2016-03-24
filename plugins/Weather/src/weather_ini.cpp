@@ -557,8 +557,8 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (chop) {
 					*chop = '\0';
 					mir_tstrncat(szPath, _T("\\Plugins\\weather\\"), _countof(szPath) - mir_tstrlen(szPath));
-					_tmkdir(szPath);
-					ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
+					if (_tmkdir(szPath) == 0)
+						ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
 				}
 				break;
 			}
@@ -572,7 +572,7 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case IDC_STEP4:
 			WeatherAdd(0, 0);
-
+			// fall through
 		case IDCANCEL:
 			// close the info window
 			DestroyWindow(hwndDlg);

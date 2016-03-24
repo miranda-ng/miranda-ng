@@ -103,16 +103,20 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 					char* beg = strstr(end, "<meta");
 					if (beg == NULL) break;
 					else {
-						char* method, tmp;
 						end = strchr(beg, '>');
-						tmp = *end; *end = 0;
+						if (end)
+						{
+							char tmp = *end;
+							*end = 0;
 
-						method = strstr(beg, "http-equiv=\"");
-						if (method && _strnicmp(method + 12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
-							bIsUtf = true;
-							break;
+							char *method = strstr(beg, "http-equiv=\"");
+							if (method && _strnicmp(method + 12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
+								bIsUtf = true;
+								*end = tmp;
+								break;
+							}
+							else *end = tmp;
 						}
-						else *end = tmp;
 					}
 				}
 			}

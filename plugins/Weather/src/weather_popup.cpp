@@ -29,38 +29,12 @@ static HANDLE hPopupContact;
 
 //============  SHOW WEATHER POPUPS  ============
 
-// display weather popups
-// wParam = the contact to display popup
-// lParam = whether the weather data is changed or not
-int WeatherPopup(WPARAM hContact, LPARAM lParam)
-{
-	// determine if the popup should display or not
-	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0)) {
-		WEATHERINFO winfo = LoadWeatherInfo(hContact);
-
-		// setup the popup
-		POPUPDATAT ppd = { 0 };
-		ppd.lchContact = hContact;
-		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, winfo.status);
-		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
-		GetDisplay(&winfo, opt.pText, ppd.lptzText);
-		ppd.PluginWindowProc = PopupDlgProc;
-		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
-		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
-		ppd.iSeconds = opt.pDelay;
-		PUAddPopupT(&ppd);
-	}
-	return 0;
-}
-
 //============  WEATHER ERROR POPUPS  ============
 
 // display weather error or notices (not threaded)
 // wParam = error text
 // lParam = display type
 // Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
-
 int WeatherError(WPARAM wParam, LPARAM lParam)
 {
 	if (!opt.UsePopup)
@@ -107,7 +81,6 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-
 int WPShowMessage(TCHAR* lpzText, WORD kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
@@ -119,7 +92,7 @@ int WPShowMessage(TCHAR* lpzText, WORD kind)
 // popup dialog pocess
 // for selecting actions when click on the popup window
 // use for displaying contact menu
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	DWORD ID = 0;
 	MCONTACT hContact;
@@ -145,6 +118,32 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+
+// display weather popups
+// wParam = the contact to display popup
+// lParam = whether the weather data is changed or not
+int WeatherPopup(WPARAM hContact, LPARAM lParam)
+{
+	// determine if the popup should display or not
+	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
+		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0)) {
+		WEATHERINFO winfo = LoadWeatherInfo(hContact);
+
+		// setup the popup
+		POPUPDATAT ppd = { 0 };
+		ppd.lchContact = hContact;
+		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, winfo.status);
+		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
+		GetDisplay(&winfo, opt.pText, ppd.lptzText);
+		ppd.PluginWindowProc = PopupDlgProc;
+		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
+		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
+		ppd.iSeconds = opt.pDelay;
+		PUAddPopupT(&ppd);
+	}
+	return 0;
+}
+
 
 // process for the popup window
 // containing the code for popup actions

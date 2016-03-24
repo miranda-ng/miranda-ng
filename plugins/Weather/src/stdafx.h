@@ -397,15 +397,12 @@ INT_PTR LoadForecast(WPARAM wParam,LPARAM lParam);
 INT_PTR WeatherMap(WPARAM wParam,LPARAM lParam);
 
 INT_PTR EditSettings(WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int ContactDeleted(WPARAM wParam,LPARAM lParam);
 
 BOOL IsMyContact(MCONTACT hContact);
 
 // functions in weather_conv.c
-BOOL is_number(char *s);
-
 void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
 void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
 void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
@@ -462,6 +459,7 @@ bool LoadWIData(bool dial);
 void FreeWIData(WIDATA *Data);
 
 INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_info.c
 void GetINIInfo(TCHAR *pszSvc);
@@ -475,21 +473,12 @@ void SaveOptions();
 
 int OptInit(WPARAM wParam,LPARAM lParam);
 
-INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam);
-void SetIconDefault();
-void RemoveIconSettings();
-
-BOOL CALLBACK TextOptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam);
-BOOL CALLBACK AdvOptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam);
-INT_PTR CALLBACK DlgProcText(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_popup.c
 int WeatherPopup(WPARAM wParam, LPARAM lParam);
 int WeatherError(WPARAM wParam, LPARAM lParam);
 int WPShowMessage(TCHAR* lpzText, WORD kind);
 
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_svcs.c
@@ -508,8 +497,6 @@ void AvatarDownloaded(MCONTACT hContact);
 
 // functions in weather_update.c
 int UpdateWeather(MCONTACT hContact);
-
-int RetrieveWeather(MCONTACT hContact, WEATHERINFO *winfo);
 
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveOld);
 void UpdateThreadProc(LPVOID hWnd);
@@ -542,7 +529,6 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 int BriefInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
 void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact);
-INT_PTR CALLBACK DlgProcBrief(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void InitIcons(void);
 HICON  LoadIconEx(const char* name, bool big);

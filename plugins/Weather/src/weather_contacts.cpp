@@ -34,9 +34,9 @@ static void OpenUrl(TCHAR* format, TCHAR* id)
 }
 
 //============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
+
 // view weather log for the contact
 // wParam = current contact
-
 INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
@@ -54,7 +54,6 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 
 // read complete forecast
 // wParam = current contact
-
 INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 {
 	TCHAR id[256], loc2[256];
@@ -93,27 +92,6 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 
 //============ EDIT SETTINGS  ============
 
-// show edit settings dialog
-// wParam = current contact
-INT_PTR EditSettings(WPARAM wParam, LPARAM)
-{
-	HWND hEditDlg = WindowList_Find(hWindowList, wParam);
-
-	// search the dialog list to prevent multiple instance of dialog for the same contact
-	if (hEditDlg != NULL) {
-		// if the dialog box already opened, bring it to the front
-		SetForegroundWindow(hEditDlg);
-		SetFocus(hEditDlg);
-	}
-	else {
-		// if the dialog box is not opened, open a new one
-		if (IsMyContact(wParam))
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), NULL, DlgProcChange, (LPARAM)wParam);
-	}
-
-	return 0;
-}
-
 typedef struct
 {
 	MCONTACT hContact;
@@ -125,10 +103,10 @@ typedef struct
 
 // edit weather settings
 // lParam = current contact
-INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	TCHAR str[256], str2[256], city[256], filter[256], *pfilter, *chop;
+	TCHAR str[MAX_DATA_LEN], str2[256], city[256], filter[256], *pfilter, *chop;
 	char loc[512];
 	OPENFILENAME ofn;       // common dialog box structure
 	MCONTACT hContact;
@@ -282,8 +260,8 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
 			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_External))
 				return TRUE;
-
-		case IDC_BROWSE:	// fall through
+			// fall through
+		case IDC_BROWSE:
 			// browse for the external log file
 			GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 			// Initialize OPENFILENAME
@@ -396,8 +374,8 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// re-enable the protocol and update the data for the station
 			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
 			UpdateSingleStation(hContact, 0);
-
-		case IDCANCEL:		// fall through
+			// fall through
+		case IDCANCEL:
 			// remove the dialog from window list and close it
 			DestroyWindow(hwndDlg);
 			break;
@@ -423,6 +401,27 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 	}
 	return FALSE;
+}
+
+// show edit settings dialog
+// wParam = current contact
+INT_PTR EditSettings(WPARAM wParam, LPARAM)
+{
+	HWND hEditDlg = WindowList_Find(hWindowList, wParam);
+
+	// search the dialog list to prevent multiple instance of dialog for the same contact
+	if (hEditDlg != NULL) {
+		// if the dialog box already opened, bring it to the front
+		SetForegroundWindow(hEditDlg);
+		SetFocus(hEditDlg);
+	}
+	else {
+		// if the dialog box is not opened, open a new one
+		if (IsMyContact(wParam))
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), NULL, DlgProcChange, (LPARAM)wParam);
+	}
+
+	return 0;
 }
 
 //============ CONTACT DELETION  ============
