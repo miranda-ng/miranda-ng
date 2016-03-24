@@ -2439,14 +2439,7 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 			}
 			break;
 		case CLB_STRETCHH:
-			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
-				destw = clRect.right;
-				//desth = destw*bmp.bmHeight / bmp.bmWidth;
-			}
-			else {
-				destw = clRect.right;
-				//desth = bmp.bmHeight;
-			}
+			destw = clRect.right;
 			break;
 		case CLB_STRETCHV:
 			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
