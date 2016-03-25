@@ -12,7 +12,7 @@
  *
  */
 #ifdef _WIN32
-#define EXPORT __declspec(dllexport)
+#define EXPORT
 #define strcasecmp stricmp
 #endif
 #include <time.h>
