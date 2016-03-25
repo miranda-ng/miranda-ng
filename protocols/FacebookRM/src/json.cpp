@@ -411,7 +411,73 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			continue;
 
 		std::string t = type.as_string();
-		if (t == "messaging") {
+		if (t == "delta") {
+			// new messaging stuff
+
+			const JSONNode &delta_ = (*it)["delta"];
+			if (!delta_)
+				continue;
+
+			const JSONNode &cls_ = delta_["class"];
+			std::string cls = cls_.as_string();
+			if (cls == "NewMessage") {
+				// TODO: Support for "folders" was probably removed, we should remove the "inboxOnly" option too - but first check how does that "allow messages request" works
+
+				const JSONNode &meta_ = delta_["messageMetadata"];
+				if (!meta_) {
+					proto->debugLogA("json::parse_messages - No messageMetadata element");
+					continue;
+				}
+				
+				const JSONNode &sender_fbid = meta_["actorFbId"];
+				const JSONNode &body = delta_["body"];
+
+				const JSONNode &mid = meta_["messageId"];
+				const JSONNode &timestamp = meta_["timestamp"];
+				if (!sender_fbid || !body || !mid || !timestamp)
+					continue;
+
+				std::string id = sender_fbid.as_string();
+				std::string message_id = mid.as_string();
+				std::string message_text = body.as_string();
+
+				std::string other_user_id = meta_["threadKey"]["otherUserFbId"].as_string();
+
+				// Process attachements and stickers
+				parseAttachments(proto, &message_text, delta_, "", other_user_id); // FIXME: Rework and fix parsing attachments
+
+				// Ignore duplicits or messages sent from miranda
+				if (!body || ignore_duplicits(proto, message_id, message_text))
+					continue;
+
+				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
+				if (message_text.empty()) {
+					proto->debugLogA("json::parse_messages - Received empty message. Received only some attachment?");
+					// continue;
+				}
+
+				facebook_message* message = new facebook_message();
+				message->isUnread = true;
+				message->isIncoming = (id != proto->facy.self_.user_id);
+				message->message_text = message_text;
+				message->time = utils::time::from_string(timestamp.as_string());
+				message->user_id = id;
+				message->message_id = message_id;
+				// message->thread_id = tid.as_string(); // TODO: or if not incomming use my own id from facy.self_ ?
+				message->isChat = false; // FIXME: Determine whether this is chat or not
+
+				/* if (!message->isChat && !message->isIncoming) {
+					message->sender_name.clear();
+					message->user_id = !other_user_id.empty() ? other_user_id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
+				} */
+
+				messages->push_back(message);
+			}
+			else {
+				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
+			}
+		}
+		else if (t == "messaging") {
 			// various messaging stuff (received and sent messages, getting seen info)
 
 			const JSONNode &ev_ = (*it)["event"];
