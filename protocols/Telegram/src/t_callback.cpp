@@ -12,7 +12,7 @@ static void user_typing(tgl_state *TLS, tgl_user *U, enum tgl_typing_status stat
 
 static void on_login_success(tgl_state *TLS)
 {
-
+//	write_auth_file(TLS);
 }
 
 static void on_login_failed(tgl_state *TLS)
@@ -22,7 +22,7 @@ static void on_login_failed(tgl_state *TLS)
 
 static void on_ready(tgl_state *TLS)
 {
-
+	tgl_do_update_contact_list(TLS, 0, 0);
 }
 
 void request_value(struct tgl_state *TLS, enum tgl_value_type type, const char *prompt, int num_values,

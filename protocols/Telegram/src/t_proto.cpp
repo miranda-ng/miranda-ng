@@ -21,15 +21,18 @@ CTelegramProto::CTelegramProto(const char* protoName, const TCHAR* userName) : P
 {
 	TLS = new MirTLS(this);
 
-	tgl_set_verbosity(TLS, 4);
+	tgl_set_verbosity(TLS, 10);
+	tgl_set_ev_base(TLS, event_base_new());
+
 
 	InitNetwork();
 	InitCallbacks();
 
-	tgl_set_timer_methods(TLS, &tgl_libevent_timers);
+	extern struct tgl_timer_methods mtgl_libevent_timers;
+
+	tgl_set_timer_methods(TLS, &mtgl_libevent_timers);
 
 	tgl_set_rsa_key(TLS, "tgl.pub");
-
 
 	TLS->base_path = Utils_ReplaceVars("%miranda_profilesdir%\\%miranda_profilename%\\TGL_Data\\");
 	CreateDirectoryTree(TLS->base_path);
@@ -37,20 +40,18 @@ CTelegramProto::CTelegramProto(const char* protoName, const TCHAR* userName) : P
 	tgl_set_download_directory(TLS, CMStringA(FORMAT, "%s\\Downloads\\", TLS->base_path));
 	CreateDirectoryTree(TLS->downloads_directory);
 
-
-//	tgl_register_app_id(TLS, TELEGRAM_API_ID, TELEGRAM_API_HASH);
-//	tgl_set_app_version(TLS, g_szMirVer);
+	tgl_register_app_id(TLS, TELEGRAM_API_ID, TELEGRAM_API_HASH);
+	tgl_set_app_version(TLS, g_szMirVer);
 
 	tgl_init(TLS);
 
-	ReadState();
-	ReadAuth();
-
+	bl_do_dc_option(TLS, 1, "", 0, TELEGRAM_API_SERVER, strlen(TELEGRAM_API_SERVER), 443);
+	bl_do_set_working_dc(TLS, 1);
 }
 
 CTelegramProto::~CTelegramProto()
 {
-	SaveState();
+	tgl_free_all(TLS);
 }
 
 DWORD_PTR CTelegramProto::GetCaps(int type, MCONTACT)
@@ -118,9 +119,15 @@ int CTelegramProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	return 0;
 }
 
+void LoginThread(void* p)
+{
+	tgl_login(((CTelegramProto*)p)->TLS);
+}
+
 int CTelegramProto::SetStatus(int iNewStatus)
 {
-	if (iNewStatus == ID_STATUS_ONLINE) tgl_login(TLS);
+	if (iNewStatus == ID_STATUS_ONLINE) 
+		mir_forkthread(LoginThread, this);  
 	return 0;
 }
 
@@ -147,5 +154,14 @@ void CTelegramProto::TGLGetValue(tgl_value_type type, const char *prompt, int nu
 	{
 	case  tgl_phone_number:
 		*result = getStringA("ID");
+		if (*result)
+			break;
+	default:
+		ENTER_STRING es = { sizeof(es) };
+		es.type = ESF_MULTILINE;
+		es.caption = mir_a2t(prompt);
+		EnterString(&es);
+		*result = mir_t2a(es.ptszResult);
+		mir_free((void*)es.caption);
 	};
 }
