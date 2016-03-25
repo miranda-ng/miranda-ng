@@ -384,6 +384,130 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	}
 }
 
+void parseAttachments2(FacebookProto *proto, std::string *message_text, const JSONNode &it, std::string other_user_fbid)
+{
+	std::string attachments_text;
+	std::string type;
+
+	const JSONNode &attach_ = it["attachments"]["mercury"];
+
+	/* const JSONNode &attachments = it["attachments"];
+	for (auto itAttachment = attachments.begin(); itAttachment != attachments.end(); ++itAttachment) {
+		const JSONNode &attach_ = (*itAttachment)["mercury"];*/
+
+		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share"
+
+		if (type == "photo") {
+			std::string filename = attach_["name"].as_string();
+			std::string link = attach_["hires_url"].as_string();
+
+			const JSONNode &metadata = attach_["metadata"];
+			if (metadata) {
+				std::string id = metadata["fbid"].as_string();
+				const JSONNode &data = it["attachment_map"][id.c_str()];
+				filename = data["filename"].as_string();
+				link = data["image_data"]["url"].as_string();
+			}
+
+			if (!link.empty()) {
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+			}
+		}
+		else if (type == "file") {
+			std::string filename = attach_["name"].as_string();
+			std::string link = attach_["url"].as_string();
+
+			if (!link.empty()) {
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+			}
+		}
+		else if (type == "share") {
+			const JSONNode &share = attach_["share"];
+			if (share) {
+				std::string title = share["title"].as_string();
+				std::string description = share["description"].as_string();
+				std::string link = share["uri"].as_string();
+
+				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
+					// de-facebook this link
+					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
+				}
+
+				if (!link.empty()) {
+					attachments_text += "\n";
+					if (!title.empty())
+						attachments_text += title + "\n";
+					if (!description.empty())
+						attachments_text += description + "\n";
+					attachments_text += absolutizeUrl(link) + "\n";
+				}
+			}
+		}
+		else if (type == "sticker") {
+			std::string link = attach_["url"].as_string();
+			if (!link.empty()) {
+				attachments_text += "\n" + absolutizeUrl(link) + "\n";
+			}
+
+			const JSONNode &metadata = attach_["metadata"];
+			if (metadata) {
+				const JSONNode &stickerId_ = metadata["stickerID"];
+				if (stickerId_) {
+					std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]\n";
+					attachments_text += sticker;
+
+					// Stickers as smileys
+					if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+						// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
+						if (!other_user_fbid.empty()) {
+							MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
+							proto->StickerAsSmiley(sticker, link, hContact);
+						}
+					}
+				}
+			}
+		}
+		else {
+			proto->debugLogA("json::parseAttachments2 - Unknown attachment type '%s'", type.c_str());
+		}
+	// }
+
+	// TODO: have this as extra event, not replace or append message content
+	if (!message_text->empty())
+		*message_text += "\n\n";
+
+	if (!attachments_text.empty()) {
+		// we can't use this as offline messages doesn't have it
+		/* const JSONNode &admin_snippet = it["admin_snippet");
+		if (admin_snippet != NULL) {
+		*message_text += admin_snippet);
+		} */
+
+		std::tstring newText;
+		if (type == "sticker")
+			newText = TranslateT("a sticker");
+		else if (type == "share")
+			newText = TranslateT("a link");
+		else if (type == "file")
+			// newText = (attachments.size() > 1) ? TranslateT("files") : TranslateT("a file");
+			newText = TranslateT("a file");
+		else if (type == "photo")
+			// newText = (attachments.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
+			newText = TranslateT("a photo");
+		else
+			newText = _A2T(type.c_str());
+
+		TCHAR title[200];
+		mir_sntprintf(title, TranslateT("User sent %s:"), newText.c_str());
+
+		*message_text += T2Utf(title);
+		*message_text += attachments_text;
+	}
+	else {
+		*message_text += T2Utf(TranslateT("User sent an unsupported attachment. Open your browser to see it."));
+	}
+}
+
 int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications, bool inboxOnly)
 {
 	// remove old received messages from map		
@@ -444,7 +568,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				std::string other_user_id = meta_["threadKey"]["otherUserFbId"].as_string();
 
 				// Process attachements and stickers
-				parseAttachments(proto, &message_text, delta_, "", other_user_id); // FIXME: Rework and fix parsing attachments
+				parseAttachments2(proto, &message_text, delta_, other_user_id); // FIXME: Rework and fix parsing attachments
 
 				// Ignore duplicits or messages sent from miranda
 				if (!body || ignore_duplicits(proto, message_id, message_text))
