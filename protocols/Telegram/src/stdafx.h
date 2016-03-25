@@ -44,7 +44,25 @@ extern "C"
 	#include "tgl\tgl-net.h"
 	#include "tgl\tgl-timers.h"
 	#include "tgl\tgl-binlog.h"
+	#include "tgl\config.h"
+
+	struct event;
+	struct event_base;
+	event_base __declspec(dllimport) *event_base_new(void);
+	void *event_get_callback_arg(const void *ev);
+	struct event *event_new(void *, intptr_t, short, void(*)(intptr_t, short, void *), void *);
+	int event_del(void *);
+	int event_add(void *ev, const struct timeval *timeout);
+#define evtimer_new(b, cb, arg)	       event_new((b), -1, 0, (cb), (arg))
+	void event_free(void *);
+
+
+	void read_auth_file(struct tgl_state *TLS);
+	void read_state_file(struct tgl_state *TLS);
+	void write_auth_file(struct tgl_state *TLS);
+	void write_state_file(struct tgl_state *TLS);
 }
+
 
 struct MirTLS : public tgl_state, public MZeroedObject
 {

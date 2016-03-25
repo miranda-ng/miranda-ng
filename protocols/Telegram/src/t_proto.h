@@ -88,10 +88,10 @@ public:
 
 	void OnUserTyping(tgl_user *U, tgl_typing_status status);
 
-
+	MirTLS *TLS;
 private:
 
-	MirTLS *TLS;
+	
 	static mir_cs accountsLock;
 
 	void ReadState();
