@@ -196,7 +196,7 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST req = {};
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_GET;
-	req.szUrl = mir_strdup(szReqUrl);
+	req.szUrl = szReqUrl.GetBuffer();
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
@@ -211,13 +211,10 @@ int CVkProto::PollServer()
 		}
 		else {
 			debugLogA("CVkProto::PollServer => ShutdownSession");
-			mir_free(req.szUrl);
 			ShutdownSession();
 			return 0;
 		}
 	}
-
-	mir_free(req.szUrl);
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
