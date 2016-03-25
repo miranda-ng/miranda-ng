@@ -391,6 +391,9 @@ void parseAttachments2(FacebookProto *proto, std::string *message_text, const JS
 
 	const JSONNode &attach_ = it["attachments"]["mercury"];
 
+	if (!attach_)
+		return;
+
 	/* const JSONNode &attachments = it["attachments"];
 	for (auto itAttachment = attachments.begin(); itAttachment != attachments.end(); ++itAttachment) {
 		const JSONNode &attach_ = (*itAttachment)["mercury"];*/
