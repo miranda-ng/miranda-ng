@@ -979,7 +979,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			// Save TID if not exists already
 			ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
-			if (!tid || mir_strcmp(tid, messages[i]->thread_id.c_str()))
+			if ((!tid || mir_strcmp(tid, messages[i]->thread_id.c_str())) && !messages[i]->thread_id.empty())
 				setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
 
 			if (messages[i]->isIncoming && messages[i]->isUnread && messages[i]->type == MESSAGE) {
