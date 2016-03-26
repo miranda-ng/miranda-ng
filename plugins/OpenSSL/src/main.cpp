@@ -23,6 +23,27 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadSslModule(void);
 void UnloadSslModule(void);
 
+HMODULE g_hOpenSSL;
+HMODULE g_hOpenSSLCrypto;
+HMODULE g_hWinCrypt;
+
+FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
+{
+	switch (dliNotify)
+	{
+	case dliNotePreLoadLibrary:
+		if (!strcmpi(dli->szDll, "libeay32.dll"))
+			return (FARPROC)g_hOpenSSLCrypto;
+		else if (!strcmpi(dli->szDll, "ssleay32.dll"))
+			return (FARPROC)g_hOpenSSL;
+		else if (!strcmpi(dli->szDll, "crypt32.dll"))
+			return (FARPROC)g_hWinCrypt;
+	}
+	return NULL;
+}
+
+extern "C" PfnDliHook __pfnDliNotifyHook2 = delayHook;
+
 HINSTANCE hInst;
 int hLangpack;
 
