@@ -739,7 +739,8 @@ int LoadSslModule(void)
 		{
 			Plugin_Uninit(plugin_ssl);
 		}
-		bExtSSLLoaded = true;
+		else
+			bExtSSLLoaded = true;
 	}
 	if (!bExtSSLLoaded)
 	{
