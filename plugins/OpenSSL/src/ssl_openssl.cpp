@@ -38,10 +38,8 @@ enum SocketState
 struct SslHandle
 {
 	SOCKET s;
-
 	SSL_CTX *ctx;
 	SSL *session;
-
 	SocketState state;
 };
 
@@ -64,8 +62,12 @@ static void SSL_library_unload(void)
 
 	FreeLibrary(g_hOpenSSL);
 	g_hOpenSSL = NULL;
+
 	FreeLibrary(g_hOpenSSLCrypto);
 	g_hOpenSSLCrypto = NULL;
+	FreeLibrary(g_hWinCrypt);
+	g_hWinCrypt = NULL;
+
 	bSslInitDone = false;
 
 	ReleaseMutex(g_hSslMutex);
@@ -110,34 +112,34 @@ const char* SSL_GetCipherName(SslHandle *ssl)
 
 static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
-	TCHAR szMsgBuf[256];
+	CMStringW tszMsg(FORMAT, L"SSL connection failure(%x %u) :", scRet, line);
+
+
+	
 	switch (scRet) {
 	case 0:
 	case ERROR_NOT_READY:
 		return;
 
 	case SEC_E_INVALID_TOKEN:
-		_tcsncpy_s(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"), _TRUNCATE);
+		tszMsg += TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package");
 		break;
 
 	case CERT_E_CN_NO_MATCH:
 	case SEC_E_WRONG_PRINCIPAL:
-		_tcsncpy_s(szMsgBuf, TranslateT("Host we are connecting to is not the one certificate was issued for"), _TRUNCATE);
+		tszMsg += TranslateT("Host we are connecting to is not the one certificate was issued for");
 		break;
 
 	default:
+		TCHAR szMsgBuf[256];
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
+		tszMsg += szMsgBuf;
 	}
 
-	TCHAR szMsgBuf2[512];
-	mir_sntprintf(szMsgBuf2, _T("SSL connection failure (%x %u): %s"), scRet, line, szMsgBuf);
-
-	char* szMsg = Utf8EncodeT(szMsgBuf2);
-	SslLog(szMsg);
-	mir_free(szMsg);
+	SslLog(T2Utf(tszMsg));
 
 	SetLastError(scRet);
-	PUShowMessageT(szMsgBuf2, SM_WARNING);
+	PUShowMessageT(tszMsg.GetBuffer(), SM_WARNING);
 }
 
 void NetlibSslFree(SslHandle *ssl)
@@ -151,7 +153,7 @@ void NetlibSslFree(SslHandle *ssl)
 	mir_free(ssl);
 }
 
-BOOL NetlibSslPending(SslHandle *ssl)
+BOOL NetlibSslPending(HSSL ssl)
 {
 	/* return true if there is either unsend or buffered received data (ie. after peek) */
 	return ssl && ssl->session && (SSL_pending(ssl->session) > 0);
@@ -159,11 +161,10 @@ BOOL NetlibSslPending(SslHandle *ssl)
 
 static bool ClientConnect(SslHandle *ssl, const char*)
 {
-	SSL_METHOD * meth;
+	SSL_METHOD *meth = (SSL_METHOD*)SSLv23_client_method();
 
 	// contrary to what it's named, SSLv23 announces all supported ciphers/versions,
 	// generally TLS1.2 in a TLS1.0 Client Hello
-	meth = (SSL_METHOD*)SSLv23_client_method();
 	if (!meth) {
 		SslLog("SSL setup failure: client method");
 		return false;
@@ -445,6 +446,6 @@ int LoadSslModule(void)
 
 void UnloadSslModule(void)
 {
-	CloseHandle(g_hSslMutex);
 	SSL_library_unload();
+	CloseHandle(g_hSslMutex);
 }
