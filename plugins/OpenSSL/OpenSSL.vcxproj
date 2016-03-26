@@ -25,4 +25,13 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>delayimp.lib;libeay32.lib;ssleay32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>libeay32.dll;ssleay32.dll;crypt32.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

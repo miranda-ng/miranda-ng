@@ -22,53 +22,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define SECURITY_WIN32
+#define HSSL_DEFINED
+
+typedef struct SslHandle *HSSL;
+
 #include <tchar.h>
-#include <winsock2.h>
 #include <shlobj.h>
-#include <commctrl.h>
-#include <vssym32.h>
+#include <delayimp.h>
+#include <security.h>
 
-#include <stdio.h>
-#include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <limits.h>
-#include <string.h>
-#include <locale.h>
-#include <direct.h>
-#include <malloc.h>
-
-#include <win2k.h>
-
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_core.h>
 #include <newpluginapi.h>
-#include <m_utils.h>
 #include <m_netlib.h>
 #include <m_langpack.h>
-#include <m_button.h>
-#include <m_protosvc.h>
-#include <m_protocols.h>
-#include <m_options.h>
-#include <m_skin.h>
-#include <m_contacts.h>
-#include <m_message.h>
-#include <m_userinfo.h>
-#include <m_findadd.h>
-#include <m_ignore.h>
-#include <m_icolib.h>
-#include <m_modernopt.h>
-#include <m_timezones.h>
 #include <m_string.h>
+#include <m_ssl.h>
+
+#include <openssl\ssl.h>
+#include <openssl\rand.h>
 
 #include "version.h"
 
-#define HSSL_DEFINED
-typedef struct SslHandle *HSSL;
-
-#include "m_ssl.h"
-#include "m_netlib.h"
+extern HMODULE g_hOpenSSL;
+extern HMODULE g_hOpenSSLCrypto;
+extern HMODULE g_hWinCrypt;
 
 extern HINSTANCE hInst;
