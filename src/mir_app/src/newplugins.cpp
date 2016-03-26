@@ -731,18 +731,22 @@ void EnsureCheckerLoaded(bool bEnable)
 
 int LoadSslModule(void)
 {
-	if (plugin_ssl != NULL) {
-		if (!TryLoadPlugin(plugin_ssl, false)) {
+	bool bExtSSLLoaded = false;
+	
+	if (plugin_ssl != NULL) 
+	{
+		if (!TryLoadPlugin(plugin_ssl, false)) 
+		{
 			Plugin_Uninit(plugin_ssl);
-			return 1;
 		}
+		bExtSSLLoaded = true;
 	}
-	else {
+	if (!bExtSSLLoaded)
+	{
 		MuuidReplacement stdSsl = { MIID_SSL, _T("stdssl"), NULL };
 		if (!LoadCorePlugin(stdSsl))
 			return 1;
 	}
-
 	mir_getSI(&sslApi);
 	return 0;
 }
