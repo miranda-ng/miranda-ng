@@ -62,17 +62,8 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 	nlhr.pData = reqParams;
 	nlhr.dataLength = (int)mir_strlen(reqParams);
 
-	NETLIBHTTPREQUEST *pResp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hUser, (LPARAM)&nlhr);
-	if (!pResp) return NULL;
-	__try {
-		if (HTTP_OK == pResp->resultCode)
-			return mir_strdup(pResp->pData);
-		else
-			return NULL;
-	}
-	__finally {
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pResp);
-	}
+	NLHR_PTR pResp((NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hUser, (LPARAM)&nlhr));
+	return ((pResp && pResp->resultCode == HTTP_OK) ? mir_strdup(pResp->pData) : nullptr);
 }
 
 LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)

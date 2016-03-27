@@ -220,8 +220,7 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	if (!UsePopups())
 		return;
 
-	extern HICON g_hPopupIcon;
-	data->lchIcon = g_hPopupIcon;
+	data->lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	data->iSeconds = (int)db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0);
 	data->colorBack = (COLORREF)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0);
 	data->colorText = (COLORREF)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0);
