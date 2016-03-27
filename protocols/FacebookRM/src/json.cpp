@@ -556,7 +556,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 					continue;
 				}
 				
-				const JSONNode &sender_fbid = meta_["actorFbId"];
+				const JSONNode &sender_fbid = meta_["actorFbId"]; // who send the message
 				const JSONNode &body = delta_["body"];
 
 				const JSONNode &mid = meta_["messageId"];
@@ -568,13 +568,13 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				std::string message_id = mid.as_string();
 				std::string message_text = body.as_string();
 
-				std::string other_user_id = meta_["threadKey"]["otherUserFbId"].as_string();
+				std::string other_user_id = meta_["threadKey"]["otherUserFbId"].as_string(); // for whom the message is
 
 				// Process attachements and stickers
 				parseAttachments2(proto, &message_text, delta_, other_user_id); // FIXME: Rework and fix parsing attachments
 
 				// Ignore duplicits or messages sent from miranda
-				if (!body || ignore_duplicits(proto, message_id, message_text))
+				if (ignore_duplicits(proto, message_id, message_text))
 					continue;
 
 				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
@@ -588,7 +588,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				message->isIncoming = (id != proto->facy.self_.user_id);
 				message->message_text = message_text;
 				message->time = utils::time::from_string(timestamp.as_string());
-				message->user_id = id;
+				message->user_id = other_user_id;
 				message->message_id = message_id;
 				// message->thread_id = tid.as_string(); // TODO: or if not incomming use my own id from facy.self_ ?
 				message->isChat = false; // FIXME: Determine whether this is chat or not
@@ -894,7 +894,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			}
 		}
 		else if (t == "buddylist_overlay") {
-			// additional info about user status (used client) - probably fired when we open/close user window on website?
+			// additional info about user status (used client)
 			const JSONNode &overlay = (*it)["overlay"];
 			if (!overlay)
 				continue;
@@ -939,6 +939,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 
 					// this is not marked anyhow on website (yet?)
 					current->idle = webStatus == "idle" || otherStatus == "idle" || fbAppStatus == "idle" || messengerStatus == "idle";
+
+					// TODO: save that info to DB
 				}
 			}
 		} else if (t == "ticker_update:home") {
