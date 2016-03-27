@@ -27,8 +27,6 @@
 
 #define MS_GTALKEXT_OPENMAILBOX SHORT_PLUGIN_NAME "/OpenMailbox"
 
-extern HICON g_hPopupIcon;
-
 INT_PTR OpenMailboxMenuHandler(WPARAM, LPARAM, LPARAM param)
 {
 	OpenContactInbox((LPCSTR)param);
@@ -46,7 +44,7 @@ int InitMenus(WPARAM wParam, LPARAM lParam)
 
 		CMenuItem mi;
 		mi.root = HGENMENU(wParam);
-		mi.hIcolibItem = g_hPopupIcon;
+		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.position = 200101;
 		mi.name.a = LPGEN("Open mailbox");
 		mi.pszService = szServiceName;

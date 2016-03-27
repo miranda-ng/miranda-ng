@@ -60,6 +60,7 @@
 #include <m_clist.h>
 #include <m_avatars.h>
 #include <m_netlib.h>
+#include <m_icolib.h>
 #include <win2k.h>
 #pragma warning(pop)
 
@@ -67,6 +68,7 @@
 
 extern HINSTANCE g_hInst;
 extern LIST<GoogleTalkAcc> g_accs;
+extern IconItem iconList[];
 
 void SetAvatar(MCONTACT hContact);
 BOOL InitAvaUnit(BOOL init);

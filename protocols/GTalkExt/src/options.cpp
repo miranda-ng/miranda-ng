@@ -36,8 +36,6 @@
 #define TEST_LETTER_SENDER  LPGENT("    bems\n")
 #define TEST_LETTER_SNIP    LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
 
-extern HINSTANCE g_hInst;
-
 void CheckControlsEnabled(HWND wnd)
 {
 	BOOL PopupsEnabled = (SendDlgItemMessage(wnd, IDC_POPUPSENABLED, BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
@@ -161,17 +159,12 @@ void ShowTestPopup(HWND wnd)
 	mir_sntprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
 	int len = SendDlgItemMessage(wnd, IDC_TIMEOUTEDIT, WM_GETTEXTLENGTH, 0, 0) + 1;
-	LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
-	__try {
-		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
-		data.iSeconds = _ttoi(timeout);
-	}
-	__finally {
-		free(timeout);
-	}
+	LPTSTR timeout = (LPTSTR)_alloca(len * sizeof(TCHAR));
 
-	extern HICON g_hPopupIcon;
-	data.lchIcon = g_hPopupIcon;
+	GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
+	data.iSeconds = _ttoi(timeout);
+
+	data.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	data.colorBack = (COLORREF)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0);
 	data.colorText = (COLORREF)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0);
 	if (data.colorBack == data.colorText) {

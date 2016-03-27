@@ -30,9 +30,13 @@
 
 CLIST_INTERFACE *pcli;
 int   hLangpack;
-HICON g_hPopupIcon = 0;
 
 LIST<GoogleTalkAcc> g_accs(1, HandleKeySortT);
+
+IconItem iconList[] = 
+{
+	{ LPGEN("Popup icon"), "gtalk_popup_icon", IDI_POPUP }
+};
 
 PLUGININFOEX pluginInfo =
 {
@@ -87,7 +91,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	cls.lpszClassName = TEMP_WINDOW_CLASS_NAME;
 	RegisterClass(&cls);
 
-	g_hPopupIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_POPUP));
+	Icon_Register(g_hInst, LPGEN("Protocols") "/GTalkExt", iconList, _countof(iconList));
 
 	InitAvaUnit(TRUE);
 
