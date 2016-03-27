@@ -469,9 +469,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		if (!isPing) {
 			action += "&qp=y"; // TODO: what's this item?
 			action += "&pws=fresh"; // TODO: what's this item?
-			action += "&isq=449655"; // TODO: what's this item?
+			action += "&isq=487632"; // TODO: what's this item?
 			action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
-			// TODO: sometimes there is &tur=1697 and &qpmade=<some actual timestamp>
+			// TODO: sometimes there is &tur=1711 and &qpmade=<some actual timestamp> and &isq=487632
+			// action += "&request_batch=1"; // it somehow batches up more responses to one - then response has special "t=batched" type and "batches" array with the data
+			// action += "&msgr_region=LLA"; // it was here only for first pull, same as request_batch
 		}
 
 		action += "&cap=8"; // TODO: what's this item? Sometimes it's 0, sometimes 8
@@ -1331,14 +1333,11 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	} else {
 		data += "&message_batch[0][specific_to_list][0]=fbid:" + std::string(userId);
 		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][client_thread_id]=user:" + std::string(userId);
 		data += "&message_batch[0][other_user_fbid]=" + std::string(userId);
 	}
 
-	data += "&message_batch[0][thread_fbid]";
 	data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
 	data += "&message_batch[0][author_email]";
-	data += "&message_batch[0][coordinates]";
 	data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
 	data += "&message_batch[0][timestamp_absolute]";
 	data += "&message_batch[0][timestamp_relative]";
@@ -1346,6 +1345,10 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&message_batch[0][is_unread]=false";
 	data += "&message_batch[0][is_forward]=false";
 	data += "&message_batch[0][is_filtered_content]=false";
+	data += "&message_batch[0][is_filtered_content_bh]=false";
+	data += "&message_batch[0][is_filtered_content_account]=false";
+	data += "&message_batch[0][is_filtered_content_quasar]=false";
+	data += "&message_batch[0][is_filtered_content_invalid_app]=false";
 	data += "&message_batch[0][is_spoof_warning]=false";
 	data += "&message_batch[0][source]=source:chat:web";
 	data += "&message_batch[0][source_tags][0]=source:chat";
@@ -1366,10 +1369,9 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&message_batch[0][status]=0";
 	data += "&message_batch[0][offline_threading_id]";
 	data += "&message_batch[0][message_id]";
-	data += "&message_batch[0][manual_retry_cnt]";
 	data += "&message_batch[0][ephemeral_ttl_mode]=0";
 	data += "&message_batch[0][manual_retry_cnt]=0";
-	data += "&client=mercury&__a=1";
+	data += "&client=mercury&__a=1&__pc=EXP1:DEFAULT";
 	data += "&fb_dtsg=" + this->dtsg_;
 	data += "&__user=" + this->self_.user_id;
 	data += "&ttstamp=" + ttstamp_;
@@ -1388,7 +1390,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 			// Remember this message id
 			std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
 			if (mid.empty())
-				mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\"");
+				mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\""); // TODO: This is probably not used anymore
 
 			// For classic contacts remember last message id
 			if (!parent->isChatRoom(hContact))
