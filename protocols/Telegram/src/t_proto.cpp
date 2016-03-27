@@ -22,7 +22,6 @@ CTelegramProto::CTelegramProto(const char* protoName, const TCHAR* userName) : P
 	TLS = new MirTLS(this);
 
 	tgl_set_verbosity(TLS, 10);
-	tgl_set_ev_base(TLS, event_base_new());
 
 
 	InitNetwork();

@@ -11,10 +11,7 @@ struct tgl_timer
 	HANDLE hTimer;
 };
 
-VOID CALLBACK WaitOrTimerCallback(
-	_In_ PVOID   lpParameter,
-	_In_ BOOLEAN TimerOrWaitFired
-	)
+VOID CALLBACK WaitOrTimerCallback(_In_ PVOID lpParameter, _In_ BOOLEAN TimerOrWaitFired)
 {
 	tgl_timer *p = (tgl_timer*)lpParameter;
 	p->cb(p->TLS, p->arg);
@@ -24,7 +21,7 @@ VOID CALLBACK WaitOrTimerCallback(
 
 struct tgl_timer *mtgl_timer_alloc (struct tgl_state *TLS, void (*cb)(struct tgl_state *TLS, void *arg), void *arg) 
 {
-    tgl_timer *p = (tgl_timer *)calloc(sizeof (tgl_timer), 1);
+    tgl_timer *p = (tgl_timer *)mir_calloc(sizeof (tgl_timer));
     p->TLS = TLS;
     p->cb = cb;
     p->arg = arg;
@@ -38,7 +35,8 @@ void mtgl_timer_insert (struct tgl_timer *t, double p)
 	t->hTimer = hNewTimer;
 }
 
-void mtgl_timer_delete (struct tgl_timer *t) {
+void mtgl_timer_delete (struct tgl_timer *t)
+{
 	DeleteTimerQueueTimer(hQueue, t->hTimer, 0);
 	t->hTimer = 0;
 }
@@ -46,7 +44,7 @@ void mtgl_timer_delete (struct tgl_timer *t) {
 void mtgl_timer_free (struct tgl_timer *t)
 {
 	if (t->hTimer) mtgl_timer_delete(t);
-    free(t);
+    mir_free(t);
 }
 
 
