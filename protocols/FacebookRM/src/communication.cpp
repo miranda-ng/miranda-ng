@@ -801,6 +801,8 @@ bool facebook_client::login(const char *username, const char *password)
 		get_data += "&" + utils::text::source_get_value(&form, 2, "login.php?login_attempt=1&amp;", "\"");
 	}
 
+	data += "&lgndim=eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ=="; // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
+
 	// Send validation
 	http::response resp = flap(REQUEST_LOGIN, &data, &get_data);
 
@@ -889,10 +891,20 @@ bool facebook_client::login(const char *username, const char *password)
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
 			else if (resp.data.find("name=\"submit[Get Started]\"") != std::string::npos) {
-				// Facebook things that computer was infected by malware and needs cleaning
-				client_notify(TranslateT("Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check."));
-				parent->debugLogA("!!! Login error: Facebook requires computer scan.");
-				return handle_error("login", FORCE_QUIT);
+				if (!parent->getBool(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID)) {
+					// Try to remove DeviceID and login again
+					cookies["datr"] = "";
+					parent->delSetting(FACEBOOK_KEY_DEVICE_ID);
+					parent->setByte(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID, 1);
+					return login(username, password);
+				} else {
+					// Reset flag
+					parent->delSetting(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID);
+					// Facebook things that computer was infected by malware and needs cleaning
+					client_notify(TranslateT("Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check."));
+					parent->debugLogA("!!! Login error: Facebook requires computer scan.");
+					return handle_error("login", FORCE_QUIT);
+				}
 			}
 		}
 	}
