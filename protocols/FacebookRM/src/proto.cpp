@@ -72,6 +72,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_READ);
 	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_READERS);
+	db_set_resident(m_szModuleName, FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID);
 
 	InitHotkeys();
 	InitPopups();
