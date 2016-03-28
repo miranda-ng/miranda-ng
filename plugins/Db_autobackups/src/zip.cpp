@@ -38,6 +38,6 @@ int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std:
 		}
 	}
 
-	zipClose(hZip, CMStringA(FORMAT, Translate("Miranda NG [%s] Database Backup"), g_szMirVer));
+	zipClose(hZip, CMStringA(FORMAT, Translate("Miranda NG [%s] database backup"), g_szMirVer));
 	return ret;
 }
