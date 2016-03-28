@@ -1881,26 +1881,26 @@ Miranda не смогла загрузить встроенную систему
 Женский
 [<not specified>]
 <не указано>
-[single]
-в одиночестве
-[close relationships]
-в близких отношениях
-[engaged]
-помолвлен(а)
-[married]
-в браке
-[divorced]
-в разводе
-[separated]
-разошлись
-[widowed]
-вдовец/вдова
-[actively searching]
-в активном поиске
-[in love]
-влюблённость
-[it\'s complicated]
-всё сложно
+[Single]
+В одиночестве
+[Close relationships]
+В близких отношениях
+[Engaged]
+Помолвлен(а)
+[Married]
+В браке
+[Divorced]
+В разводе
+[Separated]
+Разошлись
+[Widowed]
+Вдовец/вдова
+[Actively searching]
+В активном поиске
+[In love]
+Влюблённость
+[It\'s complicated]
+Всё сложно
 [Summary]
 Резюме
 [Contact]

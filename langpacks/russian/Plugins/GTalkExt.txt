@@ -45,6 +45,8 @@
 0 = Умолчание,\n-1 = Бесконечно
 [Test]
 Тест
+[Protocols]
+Протоколы
 [Open mailbox]
 Открыть почтовый ящик
 [You've received an e-mail\n%s unread threads]
