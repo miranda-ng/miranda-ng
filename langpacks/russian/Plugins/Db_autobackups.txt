@@ -41,14 +41,12 @@
 Использовать Dropbox
 [Backup profile folder]
 Резервировать папку профиля
-[Miranda NG database]
-Резервная копия базы данных Miranda NG
-[Created by:]
-Создана:
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
 Копирование файла базы данных...
+[Uploading to Dropbox failed]
+Не удалось загрузить в Dropbox
 [Error]
 Ошибка
 [Database backed up]
@@ -101,3 +99,5 @@
 Выберите папку для хранения резервных копий
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
+[Miranda NG [%s] database backup]
+Резервная копия базы Miranda NG [%s]

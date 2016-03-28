@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.24
+;  Version: 0.1.1.25
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -169,6 +169,8 @@ E-mail или номер телефона:
 Принять
 [Cancel]
 Отмена
+[Open in browser]
+Открыть в браузере
 [Invite user to chat]
 Пригласить пользователя в чат
 [Choose one of your contacts to be invited:]
@@ -485,22 +487,6 @@ ID получателя ошибочен или неизвестен
 Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
-[<not specified>]
-<не указано>
-[single]
-в одиночестве
-[in a relationship]
-в близких отношениях
-[engaged]
-помолвлен(а)
-[married]
-в браке
-[it\'s complicated]
-всё сложно
-[actively searching]
-в активном поиске
-[in love]
-влюблённость
 [Interests]
 Интересы
 [Activities]

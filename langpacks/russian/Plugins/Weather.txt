@@ -459,6 +459,8 @@ HTTP подключение Weather
 Шрифт заголовка фрейма
 [Frame Background]
 Фон фрейма
+[Weather Protocol Text Preview]
+Просмотр протокола погоды
 [Network]
 Сеть
 [General]
@@ -467,8 +469,6 @@ HTTP подключение Weather
 Показывать
 [Popups]
 Всплывающие окна
-[Weather Protocol Text Preview]
-Просмотр протокола погоды
 [Station ID]
 ID города
 [Disable &weather notification]
