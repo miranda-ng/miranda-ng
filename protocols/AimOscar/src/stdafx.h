@@ -162,10 +162,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define AIM_KEY_NIL                 "IsNotInList"
 
 #define AIM_DEFAULT_SERVER          "slogin.oscar.aol.com"
-#define AIM_DEFAULT_SERVER_NS       "login.oscar.aol.com"
+#define AIM_DEFAULT_SERVER_NS       "slogin.oscar.aol.com"
 #define AIM_PROXY_SERVER            "ars.oscar.aol.com"
 #define AIM_DEFAULT_PORT            5190
-#define AIM_DEFAULT_SSL_PORT        443
+#define AIM_DEFAULT_SSL_PORT        5190
 
 //Some Defaults for various things
 #define DEFAULT_KEEPALIVE_TIMER     39 // secs
@@ -178,12 +178,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define MD5_HASH_LENGTH             16
 
 //Aim Version Stuff
-#define AIM_CLIENT_MAJOR_VERSION    5
-#define AIM_CLIENT_MINOR_VERSION    9
-#define AIM_CLIENT_LESSER_VERSION   0
-#define AIM_CLIENT_BUILD_NUMBER     0x1772
+#define AIM_CLIENT_MAJOR_VERSION    0x0005
+#define AIM_CLIENT_MINOR_VERSION    0x0001
+#define AIM_CLIENT_LESSER_VERSION   0x0000
+#define AIM_CLIENT_BUILD_NUMBER     0x0bdc
 #define AIM_CLIENT_ID_NUMBER        0x0109
-#define AIM_CLIENT_DISTRIBUTION_NUMBER 0x0150
+#define AIM_CLIENT_DISTRIBUTION_NUMBER 0x0611
 
 #define AIM_LANGUAGE "en"
 #define AIM_COUNTRY "us"
