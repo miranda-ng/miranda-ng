@@ -436,7 +436,7 @@ int LoadSslModule(void)
 {
 	if (!SSL_library_load())
 	{
-		MessageBoxW(NULL, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL Error"), MB_ICONERROR | MB_OK);
+		MessageBoxW(NULL, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL error"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
