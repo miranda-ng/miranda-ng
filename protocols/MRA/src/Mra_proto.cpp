@@ -13,7 +13,8 @@ DWORD CMraProto::StartConnect()
 		return 0;
 
 	CMStringA szEmail;
-	mraGetStringA(NULL, "e-mail", szEmail);
+	if (!mraGetStringA(NULL, "e-mail", szEmail))
+		return 0;
 
 	CMStringA szPass;
 	if (szEmail.GetLength() <= 5)
@@ -1647,7 +1648,8 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		InternetTimeGetCurrentTime(&itTime);
 		CMStringA szTime = InternetTimeGetString(&itTime);
 		CMStringA szPhone = CopyNumber(plpsFrom), szEmail;
-		mraGetStringA(NULL, "e-mail", szEmail);
+		if (!mraGetStringA(NULL, "e-mail", szEmail))
+			return 0;
 
 		CMStringW wszMessageXMLEncoded = EncodeXML(wszMessage);
 		ptrA lpszMessageUTF(mir_utf8encodeW(wszMessageXMLEncoded));

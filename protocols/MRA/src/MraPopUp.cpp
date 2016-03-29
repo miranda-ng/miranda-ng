@@ -67,10 +67,8 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_PREVIEW:
-			{
-				for (int i = 0; i < POPUPS_TYPES_COUNT; i++)
-					ppro->MraPopupShowFromAgentW(i, 0, TranslateTS(lpcwszPopupsTypes[i]));
-			}
+			for (int i = 0; i < POPUPS_TYPES_COUNT; i++)
+				ppro->MraPopupShowFromAgentW(i, 0, TranslateTS(lpcwszPopupsTypes[i]));
 			break;
 
 		case IDC_CHK_ENABLE:
@@ -84,6 +82,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hWndDlg, IDC_POPUP_TEXTCOLOR), (bEnabled && bUseWinColors == FALSE));
 				EnableWindow(GetDlgItem(hWndDlg, IDC_POPUP_TIMEOUT), bEnabled);
 			}
+			// fall through
 		default:
 			if ((LOWORD(wParam) == IDC_POPUP_TIMEOUT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 				return FALSE;

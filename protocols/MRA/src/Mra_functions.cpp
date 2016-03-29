@@ -115,7 +115,8 @@ DWORD MraAddrListGetFromBuff(const CMStringA &szAddresses, MRA_ADDR_LIST *pmalAd
 
 	while (TRUE) {
 		LPSTR lpszEndItem = strchr(lpszCurrentItem, ';');
-		if (lpszEndItem == NULL) lpszEndItem = buf + szAddresses.GetLength();
+		if (lpszEndItem == NULL)
+			lpszEndItem = buf + szAddresses.GetLength();
 		if (!lpszEndItem)
 			break;
 
@@ -414,7 +415,8 @@ DWORD CMraProto::GetContactBasicInfoW(MCONTACT hContact, DWORD *pdwID, DWORD *pd
 	if (pdwContactFlag)
 		*pdwContactFlag = GetContactFlags(hContact);
 	if (szEmail)
-		mraGetStringA(hContact, "e-mail", *szEmail);
+		if (!mraGetStringA(hContact, "e-mail", *szEmail))
+			return 0;
 	if (wszNick)
 		DB_GetStringW(hContact, "CList", "MyHandle", *wszNick);
 

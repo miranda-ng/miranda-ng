@@ -385,8 +385,11 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM 
 		size_t dwBuffSize;
 
 		CMStringA szEmail, szEmailMy;
-		mraGetStringA(NULL, "e-mail", szEmailMy); szEmailMy.MakeLower();
-		mraGetStringA(dat->hContact, "e-mail", szEmail); szEmail.MakeLower();
+		if (!mraGetStringA(NULL, "e-mail", szEmailMy) || !mraGetStringA(dat->hContact, "e-mail", szEmail))
+			return false;
+
+		szEmailMy.MakeLower();
+		szEmail.MakeLower();
 
 		if (dat->bSending == FALSE) {
 			// receiving
