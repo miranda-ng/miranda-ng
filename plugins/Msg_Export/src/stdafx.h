@@ -39,6 +39,7 @@ using namespace std;
 #include <m_protosvc.h>
 #include <m_timezones.h>
 #include <m_icq.h>
+#include <m_skin.h>
 #include <win2k.h>
 
 #include "utils.h"
