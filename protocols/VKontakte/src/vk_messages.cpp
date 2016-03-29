@@ -73,10 +73,9 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	if (!m_bServerDelivery && !bIsChat)
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, uMsgId));
 
-	if (!IsEmpty(pszRetMsg)) {
-		Sleep(330);
+	if (!IsEmpty(pszRetMsg)) 
 		SendMsg(hContact, 0, pszRetMsg);
-	}
+
 	return uMsgId;
 }
 
