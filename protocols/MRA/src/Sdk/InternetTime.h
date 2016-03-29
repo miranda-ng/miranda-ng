@@ -172,16 +172,16 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 	// = Thu, 21 May 1998 05:33:29 -0700 =
 	char sztmBuff[4096];
 	LPSTR lpszCurPos=sztmBuff,lpszTemp;
-	size_t i,dwCurSize=4096,dwTemp;
+	size_t dwCurSize=4096,dwTemp;
 
 	memset(&pitTime, 0, sizeof(INTERNET_TIME));
 	WSP2SP(lpszTime, lpszTime.GetLength(), lpszCurPos, &dwCurSize);
 
 	if (dwCurSize > 3) { // день недели
 		if (lpszCurPos[3] == ',') {
-			for (i=0; i < 8; i++) {
+			for (unsigned short i=0; i < 7; i++) {
 				if ( !_memicmp(lpcszenmDayOfWeakEnum[i], lpszCurPos, 3)) {
-					pitTime.stTime.wDayOfWeek=(unsigned short)i;
+					pitTime.stTime.wDayOfWeek = i;
 					break;
 				}
 			}
@@ -202,9 +202,9 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 				if (dwCurSize > 3) { // мес€ц
 					SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 
-					for (i=1; i < 14; i++)
+					for (unsigned short i=1; i < 13; i++)
 						if ( !_memicmp(lpcszenmMonthEnum[i], lpszCurPos, 3)) {
-							pitTime.stTime.wMonth=(unsigned short)i;
+							pitTime.stTime.wMonth = i;
 							break;
 						}
 

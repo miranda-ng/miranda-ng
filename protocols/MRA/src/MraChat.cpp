@@ -55,8 +55,8 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
-			mraGetStringA(hContact, "e-mail", szEmail);
-			MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, _T(""), (LPBYTE)&opcode, sizeof(opcode));
+			if (mraGetStringA(hContact, "e-mail", szEmail))
+				MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, _T(""), (LPBYTE)&opcode, sizeof(opcode));
 			return 0;
 		}
 	}
