@@ -9,6 +9,7 @@
 #include <vector>
 #include <regex>
 #include <map>
+#include <thread>
 
 #include <newpluginapi.h>
 
