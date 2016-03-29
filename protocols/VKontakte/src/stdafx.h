@@ -49,6 +49,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_timezones.h>
 #include <m_userinfo.h>
 #include <m_proto_listeningto.h>
+#include <m_gui.h>
 
 #include <m_messagestate.h>
 #include <m_popup.h>
@@ -56,9 +57,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_metacontacts.h>
 
 #include "win2k.h"
+
 extern FI_INTERFACE *fii;
+extern HINSTANCE hInst;
 
 #include "resource.h"
 #include "vk.h"
 #include "vk_struct.h"
 #include "vk_proto.h"
+#include "vk_dialogs.h"

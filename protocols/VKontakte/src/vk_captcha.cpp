@@ -21,94 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Captcha form
 
-struct CAPTCHA_FORM_PARAMS
-{
-	HBITMAP bmp;
-	int w,h;
-	char Result[100];
-	CVkProto* proto;
-};
-
-static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CAPTCHA_FORM_PARAMS *params = (CAPTCHA_FORM_PARAMS*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) {
-	case WM_INITDIALOG: {
-		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS), TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS)));
-		params = (CAPTCHA_FORM_PARAMS*)lParam;
-
-		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
-
-		if (!params->proto)
-			EnableWindow(GetDlgItem(hwndDlg,IDOPENBROWSER), false);
-
-		return TRUE;
-	}
-	case WM_CTLCOLORSTATIC:
-		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
-		case IDC_WHITERECT:
-		case IDC_INSTRUCTION:
-		case IDC_TITLE:
-			return (INT_PTR)GetStockObject(WHITE_BRUSH);
-		}
-		return NULL;
-
-	case WM_PAINT:
-		if (params && params->proto) {
-			PAINTSTRUCT ps;
-			HDC hdc, hdcMem;
-			RECT rc;
-
-			GetClientRect(hwndDlg, &rc);
-			hdc = BeginPaint(hwndDlg, &ps);
-			hdcMem = CreateCompatibleDC(hdc);
-			HGDIOBJ hOld = SelectObject(hdcMem, params->bmp);
-
-			int y = (rc.bottom + rc.top - params->h) / 2;
-			int x = (rc.right + rc.left - params->w) / 2;
-			BitBlt(hdc, x, y, params->w, params->h, hdcMem, 0,0, SRCCOPY);
-			SelectObject(hdcMem, hOld);
-			DeleteDC(hdcMem);
-
-			EndPaint(hwndDlg, &ps);
-
-			if (params->proto->getBool("AlwaysOpenCaptchaInBrowser", false))
-				params->proto->ShowCaptchaInBrowser(params->bmp);		
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-		
-		case IDOPENBROWSER:
-			if (params->proto)
-				params->proto->ShowCaptchaInBrowser(params->bmp);
-			break;
-
-		case IDOK:
-			GetDlgItemTextA(hwndDlg, IDC_VALUE, params->Result, _countof(params->Result));
-			EndDialog(hwndDlg, 1);
-			return TRUE;
-		}
-		break;
-
-	case WM_CLOSE:
-		EndDialog(hwndDlg, 0);
-		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
-		break;
-	}
-	return FALSE;
-}
 
 bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 {
@@ -119,7 +31,6 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	if (getBool("UseCaptchaAssistant", false)) {
 		CMStringA szCaptchaAssistant(FORMAT, "http://ca.tiflohelp.ru/?link=%s", ptrA(ExpUrlEncode(szUrl)));
 		Utils_OpenUrl(szCaptchaAssistant);
-		param.proto = NULL;
 	}
 	else {
 		NETLIBHTTPREQUEST req = { sizeof(req) };
@@ -136,7 +47,6 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 			return false;
 		}
 
-
 		IMGSRVC_MEMIO memio = { 0 };
 		memio.iLen = reply->dataLength;
 		memio.pBuf = reply->pData;
@@ -147,14 +57,12 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		GetObject(param.bmp, sizeof(bmp), &bmp);
 		param.w = bmp.bmWidth;
 		param.h = bmp.bmHeight;
-		param.proto = this;
-
 	}
 
-	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
-	if (res == 0)
+	CaptchaForm dlg(this, &param);
+	if (!dlg.DoModal())
 		return false;
-
+	
 	debugLogA("CVkProto::RunCaptchaForm: user entered text %s", param.Result);
 	result = param.Result;
 	return true;
