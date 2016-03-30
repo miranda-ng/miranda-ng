@@ -20,6 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 typedef CProtoDlgBase<CVkProto> CVkDlgBase;
 
+////////////////////////////////// IDD_CAPTCHAFORM ////////////////////////////////////////
+
 struct CAPTCHA_FORM_PARAMS
 {
 	HBITMAP bmp;
@@ -44,4 +46,45 @@ public:
 	void On_btnOk_Click(CCtrlButton*);
 	void On_edtValue_Change(CCtrlEdit*);
 	
+};
+
+////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
+
+struct WALLPOST_FORM_PARAMS
+{
+	TCHAR* ptszMsg;
+	TCHAR* ptszUrl;
+	TCHAR* ptszNick;
+	bool bFriendsOnly;
+
+	WALLPOST_FORM_PARAMS(TCHAR* nick) :
+		ptszNick(nick),
+		bFriendsOnly(false)
+	{
+		ptszMsg = ptszUrl = NULL;
+	}
+
+	~WALLPOST_FORM_PARAMS()
+	{
+		mir_free(ptszMsg);
+		mir_free(ptszUrl);
+		mir_free(ptszNick);
+	}
+};
+
+class WallPostForm : public CVkDlgBase
+{
+	CCtrlEdit m_edtMsg;
+	CCtrlEdit m_edtUrl;
+	CCtrlCheck m_cbOnlyForFriends;
+	CCtrlButton m_btnShare;
+
+	WALLPOST_FORM_PARAMS* m_param;
+
+public:
+	WallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS* param);
+	void OnInitDialog();
+	void OnDestroy();
+	void On_btnShare_Click(CCtrlButton*);
+	void On_edtValue_Change(CCtrlEdit*);
 };
