@@ -420,10 +420,10 @@ LBL_FatalError:
 				if (nSelRes == -1) // error
 					break;
 				else if (nSelRes == 0 && m_bSendKeepAlive) {
-					if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
+					if (info.jabberServerCaps & JABBER_CAPS_PING) {
 						CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
 						pInfo->SetTimeout(m_options.ConnectionKeepAliveTimeout);
-						info.send(XmlNodeIq(pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID) << XCHILDNS(_T("ping"), JABBER_FEAT_PING));
+						info.send(XmlNodeIq(pInfo) << XATTR(_T("from"), info.fullJID) << XCHILDNS(_T("ping"), JABBER_FEAT_PING));
 					}
 					else info.send(" \t ");
 					continue;
