@@ -17,8 +17,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+////////////////////////////////// IDD_CAPTCHAFORM ////////////////////////////////////////
+
 CaptchaForm::CaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param) :
-	CVkDlgBase(proto, IDD_CAPTCHAFORM),
+	CVkDlgBase(proto, IDD_CAPTCHAFORM, false),
 	m_instruction(this, IDC_INSTRUCTION),
 	m_edtValue(this, IDC_VALUE),
 	m_btnOpenInBrowser(this, IDOPENBROWSER),
@@ -98,5 +100,51 @@ void CaptchaForm::On_btnOk_Click(CCtrlButton*)
 
 void CaptchaForm::On_edtValue_Change(CCtrlEdit*)
 {
-	m_btnOk.Enable(mir_strlen(ptrA(m_edtValue.GetTextA())));
+	m_btnOk.Enable(!IsEmpty(ptrA(m_edtValue.GetTextA())));
+}
+
+////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
+
+WallPostForm::WallPostForm(CVkProto * proto, WALLPOST_FORM_PARAMS * param) :
+	CVkDlgBase(proto, IDD_WALLPOST, false),
+	m_edtMsg(this, IDC_ED_MSG),
+	m_edtUrl(this, IDC_ED_URL),
+	m_cbOnlyForFriends(this, IDC_ONLY_FRIENDS),
+	m_btnShare(this, IDOK),
+	m_param(param)
+{
+	m_btnShare.OnClick = Callback(this, &WallPostForm::On_btnShare_Click);
+	m_edtMsg.OnChange = Callback(this, &WallPostForm::On_edtValue_Change);
+	m_edtUrl.OnChange = Callback(this, &WallPostForm::On_edtValue_Change);
+}
+
+void WallPostForm::OnInitDialog()
+{
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL), TRUE));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL)));
+	
+	CMString tszTitle(FORMAT, _T("%s %s"), TranslateT("Wall message for"), m_param->ptszNick);
+	SetCaption(tszTitle);
+	
+	m_btnShare.Disable();
+}
+
+void WallPostForm::OnDestroy()
+{
+	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+}
+
+void WallPostForm::On_btnShare_Click(CCtrlButton *)
+{
+	m_param->ptszUrl = mir_tstrdup(m_edtUrl.GetText());
+	m_param->ptszMsg = mir_tstrdup(m_edtMsg.GetText());
+	m_param->bFriendsOnly = m_cbOnlyForFriends.GetState();
+
+	EndDialog(m_hwnd, 1);
+}
+
+void WallPostForm::On_edtValue_Change(CCtrlEdit *)
+{
+	m_btnShare.Enable(!IsEmpty(ptrT(m_edtMsg.GetText())) || !IsEmpty(ptrT(m_edtUrl.GetText())));
 }
