@@ -99,10 +99,12 @@ void CAimProto::start_connection(void*)
 			return;
 		}
 
-		bool use_ssl = !getByte(AIM_KEY_DSSL, 0);
+		//bool use_ssl = !getByte(AIM_KEY_DSSL, 0);
+		bool use_ssl = false;
 
 		char* login_url = getStringA(AIM_KEY_HN);
-		if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
+		//if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
+		if (login_url == NULL) login_url = mir_strdup(AIM_DEFAULT_SERVER);
 
 		m_hServerConn = aim_connect(login_url, get_default_port(), use_ssl, login_url);
 
@@ -145,7 +147,8 @@ bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
 
 unsigned short CAimProto::get_default_port(void)
 {
-	return getWord(AIM_KEY_PN, getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT);
+	//return getWord(AIM_KEY_PN, getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT);
+	return AIM_DEFAULT_PORT;
 }
 
 bool CAimProto::is_my_contact(MCONTACT hContact)

@@ -56,7 +56,7 @@ int CAimProto::aim_auth_request(HANDLE hServerConn, unsigned short &seqno, const
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
 	int client_id_len = mir_snprintf(client_id, "Miranda AIM, version %s", mirver);
 
-	char* buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 14 + MD5_HASH_LENGTH + mir_strlen(username) + client_id_len + 30 + mir_strlen(language) + mir_strlen(country));
+	char* buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 13 + MD5_HASH_LENGTH + mir_strlen(username) + client_id_len + 30 + mir_strlen(language) + mir_strlen(country));
 
 	aim_writesnac(0x17, 0x02, offset, buf);
 	aim_writetlv(0x01, (unsigned short)mir_strlen(username), username, offset, buf);
@@ -69,14 +69,13 @@ int CAimProto::aim_auth_request(HANDLE hServerConn, unsigned short &seqno, const
 	aim_writetlvshort(0x18, AIM_CLIENT_MINOR_VERSION, offset, buf);
 	aim_writetlvshort(0x19, AIM_CLIENT_LESSER_VERSION, offset, buf);
 	aim_writetlvshort(0x1A, AIM_CLIENT_BUILD_NUMBER, offset, buf);
-	//aim_writetlvshort(0x16, AIM_CLIENT_ID_NUMBER, offset, buf);
 	aim_writetlvlong(0x14, AIM_CLIENT_DISTRIBUTION_NUMBER, offset, buf);
 	aim_writetlv(0x0F, (unsigned short)mir_strlen(language), language, offset, buf);
 	aim_writetlv(0x0E, (unsigned short)mir_strlen(country), country, offset, buf);
 	aim_writetlvchar(0x4A, getByte(AIM_KEY_FSC, 0) ? 3 : 1, offset, buf);
 	//    aim_writetlvchar(0x94,0,offset,buf);
-	if (!getByte(AIM_KEY_DSSL, 0))
-		aim_writetlv(0x8c, 0, NULL, offset, buf);                       // Request SSL connection
+/*	if (!getByte(AIM_KEY_DSSL, 0))
+		aim_writetlv(0x8c, 0, NULL, offset, buf);                       // Request SSL connection */
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
@@ -115,8 +114,8 @@ int CAimProto::aim_new_service_request(HANDLE hServerConn, unsigned short &seqno
 	char buf[SNAC_SIZE + 2 + TLV_HEADER_SIZE];
 	aim_writesnac(0x01, 0x04, offset, buf);
 	aim_writeshort(service, offset, buf);
-	if (!getByte(AIM_KEY_DSSL, 0))
-		aim_writetlv(0x8c, 0, NULL, offset, buf);
+/*	if (!getByte(AIM_KEY_DSSL, 0))
+		aim_writetlv(0x8c, 0, NULL, offset, buf); */
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
@@ -838,8 +837,8 @@ int CAimProto::aim_chat_join_room(HANDLE hServerConn, unsigned short &seqno, cha
 	aim_writegeneric(cookie_len, chat_cookie, offset, buf);	        // Value - Cookie
 	aim_writeshort(instance, offset, buf);					        // Value - Instance
 
-	if (!getByte(AIM_KEY_DSSL, 0))
-		aim_writetlv(0x8c, 0, NULL, offset, buf);                       // Request SSL connection
+/*	if (!getByte(AIM_KEY_DSSL, 0))
+		aim_writetlv(0x8c, 0, NULL, offset, buf);                       // Request SSL connection */
 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
