@@ -318,14 +318,11 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 		rc2.left = 2 * rc.left - rc2.left;
 		rc2.bottom = 2 * rc.bottom - rc2.bottom;
 		rc2.right = 2 * rc.right - rc2.right;
-
 		DrawThemeBackground(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc2, &rc);
+
 		HFONT hFont = (HFONT)SendMessage(hWnd, WM_GETFONT, 0, 0);
 		HFONT oldFont = (HFONT)SelectObject(hdc, hFont);
-
-		wchar_t *bufW = mir_t2u(buf);
-		DrawThemeText(hTheme, hdc, EP_EDITTEXT, ETS_DISABLED, bufW, -1, 0, 0, &rc);
-		mir_free(bufW);
+		DrawThemeText(hTheme, hdc, EP_EDITTEXT, ETS_DISABLED, buf, -1, 0, 0, &rc);
 
 		SelectObject(hdc, oldFont);
 		CloseThemeData(hTheme);
