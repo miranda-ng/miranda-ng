@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ////////////////////////////////// IDD_CAPTCHAFORM ////////////////////////////////////////
 
-CaptchaForm::CaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param) :
+CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param) :
 	CVkDlgBase(proto, IDD_CAPTCHAFORM, false),
 	m_instruction(this, IDC_INSTRUCTION),
 	m_edtValue(this, IDC_VALUE),
@@ -27,12 +27,12 @@ CaptchaForm::CaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param) :
 	m_btnOk(this, IDOK),
 	m_param(param)
 {
-	m_btnOpenInBrowser.OnClick = Callback(this, &CaptchaForm::On_btnOpenInBrowser_Click);
-	m_btnOk.OnClick = Callback(this, &CaptchaForm::On_btnOk_Click);
-	m_edtValue.OnChange = Callback(this, &CaptchaForm::On_edtValue_Change);
+	m_btnOpenInBrowser.OnClick = Callback(this, &CVkCaptchaForm::On_btnOpenInBrowser_Click);
+	m_btnOk.OnClick = Callback(this, &CVkCaptchaForm::On_btnOk_Click);
+	m_edtValue.OnChange = Callback(this, &CVkCaptchaForm::On_edtValue_Change);
 }
 
-void CaptchaForm::OnInitDialog()
+void CVkCaptchaForm::OnInitDialog()
 {
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS), TRUE));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS)));
@@ -42,7 +42,7 @@ void CaptchaForm::OnInitDialog()
 	m_instruction.SetText(TranslateT("Enter the text you see"));
 }
 
-INT_PTR CaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CVkCaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_CTLCOLORSTATIC:
@@ -81,31 +81,31 @@ INT_PTR CaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
-void CaptchaForm::OnDestroy()
+void CVkCaptchaForm::OnDestroy()
 {
 	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
 	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 }
 
-void CaptchaForm::On_btnOpenInBrowser_Click(CCtrlButton*)
+void CVkCaptchaForm::On_btnOpenInBrowser_Click(CCtrlButton*)
 {
 	m_proto->ShowCaptchaInBrowser(m_param->bmp);
 }
 
-void CaptchaForm::On_btnOk_Click(CCtrlButton*)
+void CVkCaptchaForm::On_btnOk_Click(CCtrlButton*)
 {
 	m_edtValue.GetTextA(m_param->Result, _countof(m_param->Result));
 	EndDialog(m_hwnd, 1);
 }
 
-void CaptchaForm::On_edtValue_Change(CCtrlEdit*)
+void CVkCaptchaForm::On_edtValue_Change(CCtrlEdit*)
 {
 	m_btnOk.Enable(!IsEmpty(ptrA(m_edtValue.GetTextA())));
 }
 
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
 
-WallPostForm::WallPostForm(CVkProto * proto, WALLPOST_FORM_PARAMS * param) :
+CVkWallPostForm::CVkWallPostForm(CVkProto* proto, WALLPOST_FORM_PARAMS* param) :
 	CVkDlgBase(proto, IDD_WALLPOST, false),
 	m_edtMsg(this, IDC_ED_MSG),
 	m_edtUrl(this, IDC_ED_URL),
@@ -113,12 +113,12 @@ WallPostForm::WallPostForm(CVkProto * proto, WALLPOST_FORM_PARAMS * param) :
 	m_btnShare(this, IDOK),
 	m_param(param)
 {
-	m_btnShare.OnClick = Callback(this, &WallPostForm::On_btnShare_Click);
-	m_edtMsg.OnChange = Callback(this, &WallPostForm::On_edtValue_Change);
-	m_edtUrl.OnChange = Callback(this, &WallPostForm::On_edtValue_Change);
+	m_btnShare.OnClick = Callback(this, &CVkWallPostForm::On_btnShare_Click);
+	m_edtMsg.OnChange = Callback(this, &CVkWallPostForm::On_edtValue_Change);
+	m_edtUrl.OnChange = Callback(this, &CVkWallPostForm::On_edtValue_Change);
 }
 
-void WallPostForm::OnInitDialog()
+void CVkWallPostForm::OnInitDialog()
 {
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL), TRUE));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL)));
@@ -129,13 +129,13 @@ void WallPostForm::OnInitDialog()
 	m_btnShare.Disable();
 }
 
-void WallPostForm::OnDestroy()
+void CVkWallPostForm::OnDestroy()
 {
 	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
 	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 }
 
-void WallPostForm::On_btnShare_Click(CCtrlButton *)
+void CVkWallPostForm::On_btnShare_Click(CCtrlButton*)
 {
 	m_param->ptszUrl = mir_tstrdup(m_edtUrl.GetText());
 	m_param->ptszMsg = mir_tstrdup(m_edtMsg.GetText());
@@ -144,7 +144,109 @@ void WallPostForm::On_btnShare_Click(CCtrlButton *)
 	EndDialog(m_hwnd, 1);
 }
 
-void WallPostForm::On_edtValue_Change(CCtrlEdit *)
+void CVkWallPostForm::On_edtValue_Change(CCtrlEdit*)
 {
 	m_btnShare.Enable(!IsEmpty(ptrT(m_edtMsg.GetText())) || !IsEmpty(ptrT(m_edtUrl.GetText())));
+}
+
+////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
+
+CVkInviteChatForm::CVkInviteChatForm(CVkProto* proto) :
+	CVkDlgBase(proto, IDD_INVITE, false), 
+	m_btnOk(this, IDOK),  
+	m_cbxCombo(this, IDC_CONTACT), 
+	m_hContact(NULL)
+{
+	m_btnOk.OnClick = Callback(this, &CVkInviteChatForm::btnOk_OnOk);
+}
+
+void CVkInviteChatForm::OnInitDialog()
+{
+	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		if (!m_proto->isChatRoom(hContact)) {
+			TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			m_cbxCombo.AddString(ptszNick, hContact);
+		}	
+	}
+}
+
+void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
+{
+	m_hContact = m_cbxCombo.GetItemData(m_cbxCombo.GetCurSel());
+	EndDialog(m_hwnd, 1);
+}
+
+////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
+
+CVkGCCreateForm::CVkGCCreateForm(CVkProto* proto) :
+	CVkDlgBase(proto, IDD_GC_CREATE, false), 
+	m_btnOk(this, IDOK),  
+	m_clCList(this, IDC_CLIST), 
+	m_edtTitle(this, IDC_TITLE)
+{
+	m_btnOk.OnClick = Callback(this, &CVkGCCreateForm::btnOk_OnOk);
+}
+
+void CVkGCCreateForm::OnInitDialog()
+{
+	SetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE) 
+		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
+	m_clCList.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+
+	ResetListOptions(&m_clCList);
+	FilterList(&m_clCList);
+}
+
+void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
+{
+	CMStringA szUIds;
+	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		if (m_proto->isChatRoom(hContact))
+			continue;
+
+		HANDLE hItem = m_clCList.FindContact(hContact);
+		if (hItem && m_clCList.GetCheck(hItem)) {
+			int uid = m_proto->getDword(hContact, "ID");
+			if (uid != 0) {
+				if (!szUIds.IsEmpty())
+					szUIds.AppendChar(',');
+				szUIds.AppendFormat("%d", uid);
+			}
+		}
+	}
+
+	bool bRes = !szUIds.IsEmpty();
+	if (bRes)
+		m_proto->CreateNewChat(szUIds, m_edtTitle.GetText());
+
+	EndDialog(m_hwnd, bRes);
+}
+
+void CVkGCCreateForm::FilterList(CCtrlClc* clCList)
+{
+	if (!clCList)
+		return;
+
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *proto = GetContactProto(hContact);
+		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+			if (HANDLE hItem = clCList->FindContact(hContact))
+				clCList->DeleteItem(hItem);
+	}
+}
+
+void CVkGCCreateForm::ResetListOptions(CCtrlClc* clCList)
+{
+	if (!clCList)
+		return;
+
+	clCList->SetBkBitmap(0, NULL);
+	clCList->SetBkColor(GetSysColor(COLOR_WINDOW));
+	clCList->SetGreyoutFlags(0);
+	clCList->SetLeftMargin(4);
+	clCList->SetIndent(10);
+	clCList->SetHideEmptyGroups(true);
+	clCList->SetHideOfflineRoot(true);
+	for (int i = 0; i <= FONTID_MAX; i++)
+		clCList->SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
 }

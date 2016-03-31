@@ -59,7 +59,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		param.h = bmp.bmHeight;
 	}
 
-	CaptchaForm dlg(this, &param);
+	CVkCaptchaForm dlg(this, &param);
 	if (!dlg.DoModal())
 		return false;
 	
