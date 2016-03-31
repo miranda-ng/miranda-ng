@@ -29,7 +29,7 @@ struct CAPTCHA_FORM_PARAMS
 	char Result[100];
 };
 
-class CaptchaForm : public CVkDlgBase
+class CVkCaptchaForm : public CVkDlgBase
 {
 	CCtrlData m_instruction;
 	CCtrlEdit m_edtValue;
@@ -38,7 +38,7 @@ class CaptchaForm : public CVkDlgBase
 	CAPTCHA_FORM_PARAMS* m_param;
 
 public:
-	CaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param);
+	CVkCaptchaForm(CVkProto* proto, CAPTCHA_FORM_PARAMS* param);
 	void OnInitDialog();
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 	void OnDestroy();
@@ -72,7 +72,7 @@ struct WALLPOST_FORM_PARAMS
 	}
 };
 
-class WallPostForm : public CVkDlgBase
+class CVkWallPostForm : public CVkDlgBase
 {
 	CCtrlEdit m_edtMsg;
 	CCtrlEdit m_edtUrl;
@@ -82,9 +82,40 @@ class WallPostForm : public CVkDlgBase
 	WALLPOST_FORM_PARAMS* m_param;
 
 public:
-	WallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS* param);
+	CVkWallPostForm(CVkProto* proto, WALLPOST_FORM_PARAMS* param);
 	void OnInitDialog();
 	void OnDestroy();
 	void On_btnShare_Click(CCtrlButton*);
 	void On_edtValue_Change(CCtrlEdit*);
+};
+
+////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
+
+class CVkInviteChatForm : public CVkDlgBase
+{
+	CCtrlButton m_btnOk;
+	CCtrlCombo m_cbxCombo;
+
+public:
+	MCONTACT m_hContact;
+
+	CVkInviteChatForm(CVkProto* proto);
+	void OnInitDialog();
+	void btnOk_OnOk(CCtrlButton*);
+};
+
+////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
+
+class CVkGCCreateForm : public CVkDlgBase
+{
+	CCtrlButton m_btnOk;
+	CCtrlClc m_clCList;
+	CCtrlEdit m_edtTitle;
+
+public:
+	CVkGCCreateForm(CVkProto* proto);
+	void OnInitDialog();
+	void btnOk_OnOk(CCtrlButton*);
+	void FilterList(CCtrlClc*);
+	void ResetListOptions(CCtrlClc*);
 };

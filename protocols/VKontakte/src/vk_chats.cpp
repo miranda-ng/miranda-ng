@@ -547,42 +547,6 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			CVkProto *ppro = (CVkProto*)lParam;
-			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
-			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
-				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
-				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
-			}
-			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-
-		case IDOK:
-			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
-			if (idx != -1)
-				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
-			else
-				EndDialog(hwndDlg, 0);
-			return TRUE;
-		}
-	}
-
-	return 0;
-}
-
 LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
@@ -611,13 +575,15 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		break;
 
 	case IDM_INVITE:
-		hContact = (MCONTACT)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INVITE), NULL, InviteDlgProc, (LPARAM)this);
-		if (hContact != NULL) {
-			int uid = getDword(hContact, "ID", -1);
-			if (uid != -1)
-				Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
-					<< INT_PARAM("user_id", uid) 
-					<< INT_PARAM("chat_id", cc->m_chatid));
+		{
+			CVkInviteChatForm dlg(this);
+			if (dlg.DoModal() && dlg.m_hContact != NULL) {
+				int uid = getDword(dlg.m_hContact, "ID", -1);
+				if (uid != -1)
+					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
+						<< INT_PARAM("user_id", uid)
+						<< INT_PARAM("chat_id", cc->m_chatid));
+			}
 		}
 		break;
 
@@ -949,98 +915,17 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 		// After that I call standard cleaning procedure:
 
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
-
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
-{
-	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact);
-		if (mir_strcmp(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
-			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
-				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
-	}
-}
-
-static void ResetOptions(HWND hwndDlg)
-{
-	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
-}
-
-static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	NMCLISTCONTROL* nmc;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-
-		ppro = (CVkProto*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		{
-			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-			SetWindowLongPtr(hwndClist, GWL_STYLE,
-				GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
-			SendMessage(hwndClist, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
-
-			ResetOptions(hwndDlg);
-		}
-		return TRUE;
-
-	case WM_NOTIFY:
-		nmc = (NMCLISTCONTROL*)lParam;
-		if (nmc->hdr.idFrom == IDC_CLIST && nmc->hdr.code == CLN_LISTREBUILT)
-			FilterContacts(hwndDlg, ppro);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-
-		case IDOK:
-			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-			CMStringA uids;
-			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
-				if (ppro->isChatRoom(hContact))
-					continue;
-
-				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0)) {
-					if (SendMessage(hwndClist, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-						int uid = ppro->getDword(hContact, "ID");
-						if (uid != 0) {
-							if (!uids.IsEmpty())
-								uids.AppendChar(',');
-							uids.AppendFormat("%d", uid);
-						}
-					}
-				}
-			}
-
-			TCHAR tszTitle[1024];
-			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, _countof(tszTitle));
-			ppro->CreateNewChat(uids, tszTitle);
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
 INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 {
 	if (!IsOnline())
-		return 1;
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GC_CREATE), NULL, GcCreateDlgProc, (LPARAM)this);
-	return 0;
+		return (INT_PTR)1;
+	CVkGCCreateForm dlg(this);
+	return (INT_PTR)!dlg.DoModal();
 }
 
 void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
@@ -1048,7 +933,7 @@ void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.createChat.json", true, &CVkProto::OnCreateNewChat)
-		<< TCHAR_PARAM("title", ptszTitle) 
+		<< TCHAR_PARAM("title", ptszTitle ? ptszTitle : _T(""))
 		<< CHAR_PARAM("user_ids", uids));
 }
 

@@ -22,7 +22,7 @@ INT_PTR __cdecl CVkProto::SvcWallPost(WPARAM hContact, LPARAM)
 	debugLogA("CVkProto::SvcWallPost");
 
 	WALLPOST_FORM_PARAMS param(db_get_tsa(hContact, m_szModuleName, "Nick"));
-	WallPostForm dlg(this, &param);
+	CVkWallPostForm dlg(this, &param);
 	if (!dlg.DoModal())
 		return 1;
 
