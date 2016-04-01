@@ -110,7 +110,7 @@ static struct _tagPages {
 	{ LPGENT("Flashing"), NULL, IDC_O_FLASHDEFAULT, IDC_O_FLASHALWAYS, IDC_O_FLASHNEVER, 0, 0, 0, 0, 0, 0, 0 },
 	{ LPGENT("Title bar"), NULL, IDC_O_HIDETITLE, IDC_TITLEFORMAT, IDC_O_TITLEBARFORMAT, IDC_O_HELP_TITLEFORMAT, 0, 0, 0, 0, 0, 0 },
 	{ LPGENT("Window size and theme"), LPGENT("You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option."), IDC_THEME, IDC_SELECTTHEME, IDC_USEGLOBALSIZE, IDC_SAVESIZEASGLOBAL, IDC_LABEL_PRIVATETHEME, IDC_TSLABEL_EXPLAINTHEME, 0, 0, 0, 0 },
-	{ LPGENT("Transparency"), LPGENT("This feature requires Windows 2000 or later and may be unavailable when using a container skin."), IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE, 0, 0, 0, 0, 0 },
+	{ LPGENT("Transparency"), LPGENT("This feature may be unavailable when using a container skin."), IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE, 0, 0, 0, 0, 0 },
 	{ LPGENT("Contact avatars"), NULL, IDC_O_STATIC_AVATAR, IDC_O_STATIC_OWNAVATAR, IDC_AVATARMODE, IDC_OWNAVATARMODE, IDC_AVATARSONTASKBAR, 0, 0, 0, 0, 0 },
 	{ LPGENT("Sound notifications"), NULL, IDC_O_ENABLESOUNDS, IDC_O_SOUNDSMINIMIZED, IDC_O_SOUNDSUNFOCUSED, IDC_O_SOUNDSINACTIVE, IDC_O_SOUNDSFOCUSED, 0, 0, 0, 0, 0 },
 };
