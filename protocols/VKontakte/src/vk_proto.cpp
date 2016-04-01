@@ -44,7 +44,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_ChatsTyping(1, NumericKeySortT),
 	m_iLoadHistoryTask(0),
 	m_bNotifyForEndLoadingHistory(false),
-	m_bNotifyForEndLoadingHistoryAllContact(false)
+	m_bNotifyForEndLoadingHistoryAllContact(false),
+	m_hAPIConnection(NULL),
+	m_pollingConn(NULL)
 {
 	InitQueue();
 

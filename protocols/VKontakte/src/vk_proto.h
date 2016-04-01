@@ -454,6 +454,7 @@ private:
 	HANDLE 
 		m_pollingConn, 
 		m_hPollingThread, 
+		m_hAPIConnection,
 		m_hPopupClassError, 
 		m_hPopupClassNotification;
 

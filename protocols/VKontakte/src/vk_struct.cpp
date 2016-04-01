@@ -26,7 +26,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
+	AddHeader("Accept-Encoding", "gzip, deflate");
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
 	m_iErrorCode = 0;
@@ -45,7 +45,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	bIsMainConn = false;
 	bExpUrlEncode = ppro->m_bUseNonStandardUrlEncode;
 	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
+	AddHeader("Accept-Encoding", "gzip, deflate");
 
 	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure)
