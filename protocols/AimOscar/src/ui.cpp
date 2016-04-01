@@ -743,7 +743,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_free(&dbv);
 			}
 			//else SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
-			else SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
+			else SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
 
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 
