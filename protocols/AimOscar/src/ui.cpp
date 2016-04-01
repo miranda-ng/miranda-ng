@@ -772,7 +772,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 /*				bool dssl = IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0;
 				SetDlgItemTextA(hwndDlg, IDC_HN, dssl ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
 				SetDlgItemInt(hwndDlg, IDC_PN, dssl ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT, FALSE);*/
-				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
+				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
 				SetDlgItemInt(hwndDlg, IDC_PN, AIM_DEFAULT_PORT, FALSE);
 			}
 			break;
@@ -780,7 +780,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_SVRRESET:
 /*			SetDlgItemTextA(hwndDlg, IDC_HN,
 				IsDlgButtonChecked(hwndDlg, IDC_DSSL) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER); */
-			SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
+			SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 			break;
 
