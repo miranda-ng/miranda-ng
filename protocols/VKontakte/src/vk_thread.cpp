@@ -99,6 +99,9 @@ void CVkProto::OnLoggedOut()
 	debugLogA("CVkProto::OnLoggedOut");
 	m_bOnline = false;
 
+	if (m_hAPIConnection)
+		Netlib_CloseHandle(m_hAPIConnection);
+
 	if (m_pollingConn)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConn);
 

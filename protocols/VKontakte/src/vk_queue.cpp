@@ -48,11 +48,21 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				pReq->dataLength = pReq->m_szParam.GetLength();
 			}
 		}
+
+		if (pReq->m_bApiReq) {
+			pReq->flags |= NLHRF_PERSISTENT;
+			pReq->nlc = m_hAPIConnection;
+		}
+
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
 		NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 		if (reply != NULL) {
 			if (pReq->m_pFunc != NULL)
-				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 	
+				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 
+
+			if (pReq->m_bApiReq)
+				m_hAPIConnection = reply->nlc;
+
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 		}
 		else if (pReq->bIsMainConn) {
@@ -70,6 +80,10 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			}
 		}
 		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
+
+		if (!reply) 
+			m_hAPIConnection = NULL;
+
 	} while (pReq->bNeedsRestart && !m_bTerminated);
 	delete pReq;
 }
@@ -129,6 +143,8 @@ void CVkProto::WorkerThread(void*)
 		Push(pReq);
 	}
 
+	m_hAPIConnection = NULL;
+
 	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
@@ -156,6 +172,10 @@ void CVkProto::WorkerThread(void*)
 		}
 	}
 
+	if (m_hAPIConnection) 
+		Netlib_CloseHandle(m_hAPIConnection);
+
+	m_hAPIConnection = NULL;
 	m_hWorkerThread = 0;
 	debugLogA("CVkProto::WorkerThread: leaving");
 }
