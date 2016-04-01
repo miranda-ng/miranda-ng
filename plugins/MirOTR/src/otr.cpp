@@ -391,7 +391,7 @@ extern "C" {
 			break;
 		default:
 			//			title = TranslateT("OTR Error");
-			mir_tstrncpy(msg, TranslateT("unknown OTR message received, please report that to Miranda NG"), _countof(msg));
+			mir_tstrncpy(msg, TranslateT("unknown OTR message received, please report that to Miranda NG developers"), _countof(msg));
 		}
 		if (msg[0])
 			msgfunc(hContact, msg);
