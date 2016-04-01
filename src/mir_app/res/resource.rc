@@ -383,7 +383,7 @@ BEGIN
     EDITTEXT        IDC_PORTSRANGE,80,178,142,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Example: 1050-1070, 2000-2010, 2500",IDC_STATIC52,80,193,196,8,WS_DISABLED
     CONTROL         "Enable UPnP port mapping",IDC_ENABLEUPNP,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,204,299,9
-    CTEXT           "You will need to reconnect for the changes you have made on this page to take effect.",IDC_RECONNECTREQD,4,224,307,8,NOT WS_VISIBLE
+    CTEXT           "These changes will take effect the next time you connect to the network.",IDC_RECONNECTREQD,4,224,307,8,NOT WS_VISIBLE
 END
 
 IDD_PROFILE_SELECTION DIALOGEX 0, 0, 208, 122

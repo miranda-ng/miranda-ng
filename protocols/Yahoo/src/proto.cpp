@@ -723,7 +723,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (reconnectRequired) {
 				ppro->delSetting(YAHOO_PWTOKEN);
 				if (ppro->m_bLoggedIn)
-					MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Yahoo network."), TranslateT("Yahoo options"), MB_OK);
 			}
 			return TRUE;
 		}

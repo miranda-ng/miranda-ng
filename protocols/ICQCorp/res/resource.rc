@@ -98,7 +98,7 @@ BEGIN
     RTEXT           "Password:",IDC_STATIC,15,79,42,8
     EDITTEXT        IDC_OPT_PASSWORD,64,78,100,12,ES_PASSWORD | 
                     ES_AUTOHSCROLL
-    LTEXT           "You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.",
+    LTEXT           "These changes will take effect the next time you connect to the ICQ network.",
                     IDC_OPT_RECONNECT,14,119,237,16,NOT WS_VISIBLE
 END
 

@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,18,131,15
     CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,31,130,11
     CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,42,135,13
-    CTEXT           "*Aim must be reconnected for some option to take effect",IDC_MASQ,171,169,115,28,NOT WS_VISIBLE
+    CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,171,169,115,28,NOT WS_VISIBLE
     GROUPBOX        "Connection",IDC_STATIC,154,89,142,71
     EDITTEXT        IDC_PN,207,119,37,13,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC,158,121,44,12

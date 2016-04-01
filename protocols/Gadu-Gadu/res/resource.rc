@@ -69,7 +69,7 @@ BEGIN
     COMBOBOX        IDC_IMGMETHOD,190,133,104,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Show links from unknown contacts",IDC_SHOWLINKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,150,284,10
     CONTROL         "Enable avatars",IDC_ENABLEAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,284,10
-    CTEXT           "You will need to reconnect for the changes you have made on this page to take effect.",IDC_RELOADREQD,10,186,284,8,NOT WS_VISIBLE
+    CTEXT           "These changes will take effect the next time you connect to the GG network.",IDC_RELOADREQD,10,186,284,8,NOT WS_VISIBLE
 END
 
 IDD_OPT_GG_CONFERENCE DIALOGEX 0, 0, 304, 75

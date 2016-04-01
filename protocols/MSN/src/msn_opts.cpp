@@ -280,8 +280,8 @@ LBL_Continue:
 
 			if (reconnectRequired && proto->msnLoggedIn)
 				MessageBox(hwndDlg,
-				TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),
-				TranslateT("MSN Options"), MB_OK);
+				TranslateT("These changes will take effect the next time you connect to the MSN Messenger network."),
+				TranslateT("MSN options"), MB_OK);
 
 			proto->LoadOptions();
 			return TRUE;
