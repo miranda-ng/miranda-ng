@@ -137,9 +137,9 @@ void CVkWallPostForm::OnDestroy()
 
 void CVkWallPostForm::On_btnShare_Click(CCtrlButton*)
 {
-	m_param->ptszUrl = mir_tstrdup(m_edtUrl.GetText());
-	m_param->ptszMsg = mir_tstrdup(m_edtMsg.GetText());
-	m_param->bFriendsOnly = m_cbOnlyForFriends.GetState();
+	m_param->ptszUrl = m_edtUrl.GetText();
+	m_param->ptszMsg = m_edtMsg.GetText();
+	m_param->bFriendsOnly = m_cbOnlyForFriends.GetState() != 0;
 
 	EndDialog(m_hwnd, 1);
 }
@@ -217,7 +217,7 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 
 	bool bRes = !szUIds.IsEmpty();
 	if (bRes)
-		m_proto->CreateNewChat(szUIds, m_edtTitle.GetText());
+		m_proto->CreateNewChat(szUIds, ptrT(m_edtTitle.GetText()));
 
 	EndDialog(m_hwnd, bRes);
 }

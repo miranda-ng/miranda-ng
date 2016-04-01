@@ -560,7 +560,6 @@ LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
 
 void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
-	MCONTACT hContact;
 	if (!IsOnline())
 		return;
 
