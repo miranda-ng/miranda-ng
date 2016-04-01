@@ -137,7 +137,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (reconnectRequired) {
 				ppro->delSetting(YAHOO_PWTOKEN);
 				if (ppro->m_bLoggedIn)
-					MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Yahoo network."), TranslateT("Yahoo options"), MB_OK);
 
 			}
 
@@ -230,7 +230,7 @@ YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN));
 
 			if (reconnectRequired && ppro->m_bLoggedIn)
-				MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK);
+				MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Yahoo network."), TranslateT("Yahoo options"), MB_OK);
 
 			return TRUE;
 		}

@@ -121,7 +121,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,124,288,10
     CONTROL         "Load avatars automatically (like ICQ Lite)",IDC_AUTOLOADAVATARS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,138,288,10
-    LTEXT           "You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.",IDC_RECONNECTREQD,10,172,290,16,NOT WS_VISIBLE
+    LTEXT           "These changes will take effect the next time you connect to the ICQ network.",IDC_RECONNECTREQD,10,172,290,16,NOT WS_VISIBLE
     LTEXT           "You cannot enable/disable the server-side contact list while you are connected to the ICQ network.",IDC_OFFLINETOENABLE,10,192,290,16,NOT WS_VISIBLE
     CTEXT           "Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.",IDC_STATIC,10,212,290,16
 END

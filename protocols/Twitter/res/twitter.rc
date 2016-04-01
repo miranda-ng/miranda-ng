@@ -89,7 +89,7 @@ BEGIN
     LTEXT           "Once every",IDC_STATIC,72,60,40,8
     EDITTEXT        IDC_POLLRATE,113,58,30,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "sec",IDC_STATIC,148,60,19,8
-    LTEXT           "Please cycle your connection for these changes to take effect",IDC_RECONNECT,53,202,199,8,NOT WS_VISIBLE
+    LTEXT           "These changes will take effect the next time you connect to the Twitter network.",IDC_RECONNECT,53,202,199,8,NOT WS_VISIBLE
     CONTROL         "Treat tweets as messages",IDC_TWEET_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,76,139,10
 END
 
