@@ -24,10 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#pragma comment(lib, "secur32.lib")
-#pragma comment(lib, "crypt32.lib")
-#pragma comment(lib, "wsock32.lib")
-
 typedef BOOL (*SSL_EMPTY_CACHE_FN_M)(VOID);
 
 static HMODULE g_hSchannel;
@@ -764,12 +760,12 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 	if (si->cbSize != sizeof(SSL_API))
 		return FALSE;
 
-	si->connect = (HSSL(__cdecl *)(SOCKET, const char *, int))NetlibSslConnect;
-	si->pending = (BOOL(__cdecl *)(HSSL))NetlibSslPending;
-	si->read = (int(__cdecl *)(HSSL, char *, int, int))NetlibSslRead;
-	si->write = (int(__cdecl *)(HSSL, const char *, int))NetlibSslWrite;
-	si->shutdown = (void(__cdecl *)(HSSL))NetlibSslShutdown;
-	si->sfree = (void(__cdecl *)(HSSL))NetlibSslFree;
+	si->connect = NetlibSslConnect;
+	si->pending = NetlibSslPending;
+	si->read = NetlibSslRead;
+	si->write = NetlibSslWrite;
+	si->shutdown = NetlibSslShutdown;
+	si->sfree = NetlibSslFree;
 	return TRUE;
 }
 
