@@ -552,7 +552,7 @@ public:
 	__inline NETLIBHTTPREQUEST* operator->() const { return _p; }
 	__inline ~NLHR_PTR()
 	{
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)this);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)_p);
 	}
 };
 #endif
