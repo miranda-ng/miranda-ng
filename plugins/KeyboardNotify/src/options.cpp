@@ -46,9 +46,7 @@ static void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL over
 	int item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 	if (item == CB_ERR) {
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-		TCHAR *str = (TCHAR *)malloc((MAX_PATH + 1)*sizeof(TCHAR));
-		if (str)
-			mir_tstrcpy(str, custom);
+		TCHAR *str = mir_tstrdup(custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	}
 	else
@@ -121,7 +119,7 @@ void importThemes(const TCHAR *filename, BOOL overrideExisting)
 static void createProcessListAux(void)
 {
 	ProcessListAux.count = ProcessList.count;
-	ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(TCHAR *));
+	ProcessListAux.szFileName = (TCHAR **)mir_alloc(ProcessListAux.count * sizeof(TCHAR *));
 	if (!ProcessListAux.szFileName)
 		ProcessListAux.count = 0;
 	else
@@ -129,9 +127,7 @@ static void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(ProcessList.szFileName[i]) + 1)*sizeof(TCHAR));
-				if (ProcessListAux.szFileName[i])
-					mir_tstrcpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
+				ProcessListAux.szFileName[i] = mir_tstrdup(ProcessList.szFileName[i]);
 			}
 
 }
@@ -142,24 +138,24 @@ static void destroyProcessListAux(void)
 		return;
 	for (int i = 0; i < ProcessListAux.count; i++) {
 		if (ProcessListAux.szFileName[i]) {
-			free(ProcessListAux.szFileName[i]);
+			mir_free(ProcessListAux.szFileName[i]);
 		}
 	}
-	free(ProcessListAux.szFileName);
+	mir_free(ProcessListAux.szFileName);
 	ProcessListAux.count = 0;
 	ProcessListAux.szFileName = NULL;
 }
 
 static void createXstatusListAux(void)
 {
-	XstatusListAux = (XSTATUS_INFO *)malloc(ProtoList.protoCount * sizeof(XSTATUS_INFO));
+	XstatusListAux = (XSTATUS_INFO *)mir_alloc(ProtoList.protoCount * sizeof(XSTATUS_INFO));
 	if (XstatusListAux)
 		for (int i = 0; i < ProtoList.protoCount; i++) {
 			XstatusListAux[i].count = ProtoList.protoInfo[i].xstatus.count;
 			if (!XstatusListAux[i].count)
 				XstatusListAux[i].enabled = NULL;
 			else {
-				XstatusListAux[i].enabled = (BOOL *)malloc(XstatusListAux[i].count * sizeof(BOOL));
+				XstatusListAux[i].enabled = (BOOL *)mir_alloc(XstatusListAux[i].count * sizeof(BOOL));
 				if (!XstatusListAux[i].enabled)
 					XstatusListAux[i].count = 0;
 				else
@@ -175,8 +171,8 @@ static void destroyXstatusListAux(void)
 	if (XstatusListAux) {
 		for (int i = 0; i < ProtoList.protoCount; i++)
 			if (XstatusListAux[i].enabled)
-				free(XstatusListAux[i].enabled);
-		free(XstatusListAux);
+				mir_free(XstatusListAux[i].enabled);
+		mir_free(XstatusListAux);
 		XstatusListAux = NULL;
 	}
 
@@ -210,8 +206,6 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		switch (LOWORD(wParam)) {
 		case IDC_PROGRAMS:
 			switch (HIWORD(wParam)) {
-				int item;
-				TCHAR szFileName[MAX_PATH + 1];
 
 			case CBN_SELENDOK:
 			case CBN_SELCHANGE:
@@ -219,8 +213,10 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), TRUE);
 				break;
 			case CBN_EDITCHANGE:
+				TCHAR szFileName[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
-				if ((item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName)) == CB_ERR) {	//new program
+				int item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
+				if (item == CB_ERR) {	//new program
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDPGM), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
 				}
@@ -260,7 +256,7 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			destroyProcessListAux();
 
 			ProcessListAux.count = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0);
-			ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(TCHAR *));
+			ProcessListAux.szFileName = (TCHAR **)mir_alloc(ProcessListAux.count * sizeof(TCHAR *));
 			if (!ProcessListAux.szFileName)
 				ProcessListAux.count = 0;
 			else
@@ -268,9 +264,7 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					TCHAR szFileNameAux[MAX_PATH + 1];
 
 					SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-					ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(szFileNameAux) + 1)*sizeof(TCHAR));
-					if (ProcessListAux.szFileName[i])
-						mir_tstrcpy(ProcessListAux.szFileName[i], szFileNameAux);
+					ProcessListAux.szFileName[i] = mir_tstrdup(szFileNameAux);
 				}
 			// fallthrough
 
@@ -412,7 +406,7 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 					tvi.hItem = hItem;
 					TreeView_GetItem(hwndTree, &tvi);
 					j = (unsigned int)tvi.lParam;
-					XstatusListAux[i].enabled[j] = !!(TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK)&INDEXTOSTATEIMAGEMASK(2));
+					XstatusListAux[i].enabled[j] = (TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK)&INDEXTOSTATEIMAGEMASK(2));
 				}
 			}
 		} // fallthrough
@@ -486,7 +480,7 @@ static INT_PTR CALLBACK DlgProcEventLeds(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				trillianLedsOther |= 4;
 			if (IsDlgButtonChecked(hwndDlg, IDC_OTHERLEDSCROLL) == BST_CHECKED)
 				trillianLedsOther |= 1;
-
+			// fall through
 		case IDC_CANCEL:
 			EndDialog(hwndDlg, LOWORD(wParam));
 			break;
@@ -550,17 +544,16 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 				case PSN_APPLY:
 					// enabled protos
 					{
-						int i;
 						LVITEM lvItem;
 						HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 
 						memset(&lvItem, 0, sizeof(lvItem));
 						lvItem.mask = LVIF_PARAM;
 						lvItem.iSubItem = 0;
-						for (i = 0; i < ListView_GetItemCount(hList); i++) {
+						for (int i = 0; i < ListView_GetItemCount(hList); i++) {
 							lvItem.iItem = i;
 							ListView_GetItem(hList, &lvItem);
-							db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)!!ListView_GetCheckState(hList, lvItem.iItem));
+							db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 						}
 					}
 
@@ -1012,14 +1005,8 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)szTheme);
 			mir_free(szTheme);
 			if (index != CB_ERR && index != CB_ERRSPACE) {
-				TCHAR *str = (TCHAR *)malloc((MAX_PATH + 1)*sizeof(TCHAR));
+				TCHAR *str = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
 				if (str)
-					if (szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i))) {
-						mir_tstrcpy(str, szTheme);
-						mir_free(szTheme);
-					}
-					else
-						str[0] = _T('\0');
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
 			}
 		}
@@ -1044,9 +1031,6 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		switch (LOWORD(wParam)) {
 		case IDC_THEME:
 			switch (HIWORD(wParam)) {
-				int item;
-				TCHAR theme[MAX_PATH + 1];
-
 			case CBN_SELENDOK:
 			case CBN_SELCHANGE: {
 				TCHAR *str = (TCHAR *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
@@ -1060,8 +1044,11 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 				break;
 			case CBN_EDITCHANGE:
+				TCHAR theme[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-				if ((item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)theme)) == CB_ERR) {	//new theme
+				int item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+				if (item == CB_ERR) {
+					//new theme
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
@@ -1114,7 +1101,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				if (!theme[0])
 					return TRUE;
 				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-				TCHAR *str = (TCHAR *)malloc((MAX_PATH + 1)*sizeof(TCHAR));
+				TCHAR *str = (TCHAR *)mir_alloc((MAX_PATH + 1)*sizeof(TCHAR));
 				if (str) {
 					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
@@ -1149,7 +1136,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				TCHAR *str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
-					free(str);
+					mir_free(str);
 				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
 				if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
 					SetDlgItemText(hwndDlg, IDC_THEME, _T(""));
@@ -1289,7 +1276,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			for (int item = 0; item < count; item++) {
 				TCHAR *str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
-					free(str);
+					mir_free(str);
 			}
 			break;
 		}
