@@ -43,16 +43,6 @@ struct SslHandle
 	SocketState state;
 };
 
-void SslLog(const char *fmt, ...)
-{
-	va_list va;
-	va_start(va, fmt);
-	CMStringA msg;
-	msg.FormatV(fmt, va);
-	CallServiceSync(MS_NETLIB_LOG, (WPARAM)NULL, (LPARAM)msg.GetString());
-	va_end(va);
-}
-
 static void SSL_library_unload(void)
 {
 	/* Load Library Pointers */
@@ -114,8 +104,6 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
 	CMStringW tszMsg(FORMAT, L"SSL connection failure(%x %u) :", scRet, line);
 
-
-	
 	switch (scRet) {
 	case 0:
 	case ERROR_NOT_READY:
@@ -136,7 +124,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 		tszMsg += szMsgBuf;
 	}
 
-	SslLog(T2Utf(tszMsg));
+	Netlib_LogfW(0, tszMsg);
 
 	SetLastError(scRet);
 	PUShowMessageT(tszMsg.GetBuffer(), SM_WARNING);
@@ -147,9 +135,11 @@ void NetlibSslFree(SslHandle *ssl)
 	if (ssl == NULL) return;
 
 	/* Delete Context */
-	if (ssl->session) SSL_free(ssl->session);
-	if (ssl->ctx) SSL_CTX_free(ssl->ctx);
-	memset(ssl, 0, sizeof(SslHandle));
+	if (ssl->session) 
+		SSL_free(ssl->session);
+	if (ssl->ctx) 
+		SSL_CTX_free(ssl->ctx);
+
 	mir_free(ssl);
 }
 
@@ -166,12 +156,12 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 	// contrary to what it's named, SSLv23 announces all supported ciphers/versions,
 	// generally TLS1.2 in a TLS1.0 Client Hello
 	if (!meth) {
-		SslLog("SSL setup failure: client method");
+		Netlib_Logf(0, "SSL setup failure: client method");
 		return false;
 	}
 	ssl->ctx = SSL_CTX_new(meth);
 	if (!ssl->ctx) {
-		SslLog("SSL setup failure: context");
+		Netlib_Logf(0, "SSL setup failure: context");
 		return false;
 	}
 	// disable dangerous cipher suites
@@ -182,7 +172,7 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 	RAND_screen();
 	ssl->session = SSL_new(ssl->ctx);
 	if (!ssl->session) {
-		SslLog("SSL setup failure: session");
+		Netlib_Logf(0, "SSL setup failure: session");
 		return false;
 	}
 	SSL_set_fd(ssl->session, ssl->s);
@@ -191,13 +181,13 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 
 	if (err != 1) {
 		err = SSL_get_error(ssl->session, err);
-		SslLog("SSL negotiation failure (%d)", err);
+		Netlib_Logf(0, "SSL negotiation failure (%d)", err);
 		return false;
 	}
 
 	const char* suite = SSL_GetCipherName(ssl);
 	if (suite != NULL)
-		SslLog("SSL established with %s", suite);
+		Netlib_Logf(0, "SSL established with %s", suite);
 	return true;
 }
 
@@ -376,11 +366,11 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		int err2 = SSL_get_error(ssl->session, err);
 		switch (err2) {
 		case SSL_ERROR_ZERO_RETURN:
-			SslLog("SSL connection gracefully closed");
+			Netlib_Logf(0, "SSL connection gracefully closed");
 			ssl->state = sockClosed;
 			break;
 		default:
-			SslLog("SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
+			Netlib_Logf(0, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
 			ssl->state = sockError;
 			return SOCKET_ERROR;
 		}
@@ -403,11 +393,11 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	int err2 = SSL_get_error(ssl->session, err);
 	switch (err2) {
 	case SSL_ERROR_ZERO_RETURN:
-		SslLog("SSL connection gracefully closed");
+		Netlib_Logf(0, "SSL connection gracefully closed");
 		ssl->state = sockClosed;
 		break;
 	default:
-		SslLog("SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
+		Netlib_Logf(0, "SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
 		ssl->state = sockError;
 		return SOCKET_ERROR;
 	}
