@@ -290,7 +290,7 @@ bool TwitterProto::NegotiateConnection()
 	debugLogA("**NegotiateConnection - Setting Consumer Keys and verifying creds...");
 
 	if (screenName.empty()) {
-		ShowPopup(TranslateT("You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options"));
+		ShowPopup(TranslateT("You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account"));
 		debugLogA("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have");
 	}
 
