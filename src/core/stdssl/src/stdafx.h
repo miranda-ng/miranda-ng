@@ -18,49 +18,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+#define SECURITY_WIN32
+#define HSSL_DEFINED
+
+typedef struct SslHandle *HSSL;
 
 #include <windows.h>
-#include <windowsx.h>
-#include <ole2.h>
-#include <shellapi.h>
-#include <shlobj.h>
-#include <commctrl.h>
-#include <vssym32.h>
-#include <Uxtheme.h>
-
-#define SECURITY_WIN32
 #include <security.h>
 #include <schannel.h>
 
 #include <malloc.h>
-#include <time.h>
-
-#include <win2k.h>
-
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
-#include <m_clist.h>
-#include <m_clc.h>
-#include <m_clui.h>
-#include <m_options.h>
-#include <m_protosvc.h>
-#include <m_utils.h>
-#include <m_skin.h>
-#include <m_contacts.h>
-#include <m_userinfo.h>
-#include <m_history.h>
-#include <m_addcontact.h>
-#include <m_message.h>
-#include <m_file.h>
-#include <m_icolib.h>
-#include <m_fontservice.h>
-#include <m_timezones.h>
-#include <m_avatars.h>
 #include <m_netlib.h>
-#include <m_metacontacts.h>
 #include <m_popup.h>
 #include <m_ssl.h>
 
