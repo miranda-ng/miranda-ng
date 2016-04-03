@@ -743,7 +743,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_free(&dbv);
 			}
 			//else SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
-			else SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
+			else SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 
@@ -761,6 +761,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_DA, ppro->getByte(AIM_KEY_DA, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable Avatars
 			//CheckDlgButton(hwndDlg, IDC_DSSL, ppro->getByte(AIM_KEY_DSSL, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable SSL
 			CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);//Disable SSL
+			CheckDlgButton(hwndDlg, IDC_CLIENTLOGIN, ppro->getByte(AIM_KEY_CLIENTLOGIN, 0) ? BST_CHECKED : BST_UNCHECKED);//use clientlogin
 			CheckDlgButton(hwndDlg, IDC_FSC, ppro->getByte(AIM_KEY_FSC, 0) ? BST_CHECKED : BST_UNCHECKED);//Force Single Client
 		}
 		break;
@@ -772,7 +773,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 /*				bool dssl = IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0;
 				SetDlgItemTextA(hwndDlg, IDC_HN, dssl ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
 				SetDlgItemInt(hwndDlg, IDC_PN, dssl ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT, FALSE);*/
-				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
+				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 				SetDlgItemInt(hwndDlg, IDC_PN, AIM_DEFAULT_PORT, FALSE);
 			}
 			break;
@@ -780,7 +781,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_SVRRESET:
 /*			SetDlgItemTextA(hwndDlg, IDC_HN,
 				IsDlgButtonChecked(hwndDlg, IDC_DSSL) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER); */
-			SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER_NS);
+			SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 			break;
 
@@ -846,6 +847,10 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//ppro->setByte(AIM_KEY_DSSL, IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0);
 				ppro->setByte(AIM_KEY_DSSL, 1);
 				//Disable SSL
+
+				//use "clientlogin"
+				ppro->setByte(AIM_KEY_CLIENTLOGIN, IsDlgButtonChecked(hwndDlg, IDC_CLIENTLOGIN) != 0);
+				//use "clientlogin"
 
 				//Force Single Login
 				ppro->setByte(AIM_KEY_FSC, IsDlgButtonChecked(hwndDlg, IDC_FSC) != 0);

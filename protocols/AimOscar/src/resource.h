@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by aim.rc
+// Used by X:\install\git\miranda\miranda_ng_svn\protocols\AimOscar\res\aim.rc
 //
 #define IDC_SAVECHANGES                 3
 #define IDC_CONFIRM                     4
@@ -84,6 +84,8 @@
 #define IDC_EDITSCR                     174
 #define IDC_ADDSCR                      175
 #define IDC_ROOMNAME                    176
+#define IDC_CHECK1                      178
+#define IDC_CLIENTLOGIN                 178
 #define IDC_SN                          1030
 #define IDC_NK                          1040
 #define IDC_PW                          1050
@@ -117,7 +119,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        41
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         178
+#define _APS_NEXT_CONTROL_VALUE         179
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
