@@ -140,6 +140,107 @@ void CAimProto::aim_connection_authorization(void)
 	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
+void fill_post_request(char *buf)
+{
+	//TODO: fill post data
+	/*
+		devId=dev_key&f=xml&pwd=urlencoded_password&s=urlencoded_screenname
+	*/
+	//mir_urlEncode()
+}
+
+bool parse_clientlogin_response(char *buf, size_t len, char *token, char *secret, time_t &hosttime)
+{
+	//TODO: validate response
+	//TODO: return false on errors
+	//TODO: extract token, secret, hosttime from response
+	return true;
+}
+
+void fill_login_url(char *buf, char *token, char *secret, time_t &hosttime)
+{
+	//TODO: construct url for get request
+	/*
+		a=urlencoded_token&distId=0x00000611&f=xml&k=dev_key&ts=hosttime&useTLS=bool_encryption
+	*/
+
+}
+
+bool parse_start_socar_session_response(char *response, size_t response_len, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name)
+{
+	//TODO: extract bos_host, bos_port, cookie, tls_cert_name
+	return true;
+}
+
+void CAimProto::aim_connection_clientlogin(void)
+{
+	NETLIBHTTPREQUEST req = {0};
+	req.cbSize = sizeof(req);
+	req.flags = NLHRF_SSL;
+	req.requestType = REQUEST_POST;
+	req.szUrl = AIM_LOGIN_URL;
+	char buf[1024];
+	fill_post_request(buf);
+	req.pData = buf;
+	req.dataLength = (int)strlen(buf);
+
+	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	if(!resp)
+	{
+		//TODO: handle error
+		return;
+	}
+	if(!resp->dataLength)
+	{
+		//TODO: handle error
+		return;
+	}
+	char token[512], secret[512]; //TODO: find efficient buf size
+	time_t hosttime;
+	if(!parse_clientlogin_response(resp->pData, resp->dataLength, token, secret, hosttime))
+	{
+		//TODO: handle error
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+		return;
+	}
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+	//reuse NETLIBHTTPREQUEST
+	req.requestType = REQUEST_GET;
+	req.pData = NULL;
+	req.dataLength = 0;
+	char url[1024];
+	fill_login_url(url, token, secret, hosttime);
+	req.szUrl = url;
+	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	if(!resp)
+	{
+		//TODO: handle error
+		return;
+	}
+	if(!resp->dataLength)
+	{
+		//TODO: handle error
+		return;
+	}
+	char bos_host[128], cookie[1024], tls_cert_name[128]; //TODO: find efficient buf size
+	unsigned short bos_port = 0;
+	if(!parse_start_socar_session_response(resp->pData, resp->dataLength, bos_host, bos_port, cookie, tls_cert_name))
+	{
+		//TODO: handle error
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+		return;
+	}
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+
+	mir_free(COOKIE);
+	COOKIE = mir_strdup(cookie); //TODO: check if it's null terminated
+	COOKIE_LENGTH = (int)mir_strlen(cookie);
+
+	//TODO: connect to bos server
+	
+
+}
+
 void __cdecl CAimProto::aim_protocol_negotiation(void*)
 {
 	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hServerConn, 2048 * 8);

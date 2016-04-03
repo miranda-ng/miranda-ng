@@ -77,14 +77,16 @@ BEGIN
     CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,18,131,15
     CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,31,130,11
     CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,42,135,13
-    CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,171,169,115,28,NOT WS_VISIBLE
-    GROUPBOX        "Connection",IDC_STATIC,154,89,142,71
+    CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,166,174,115,28,NOT WS_VISIBLE
+    GROUPBOX        "Connection",IDC_STATIC,154,89,142,80
     EDITTEXT        IDC_PN,207,119,37,13,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC,158,121,44,12
     PUSHBUTTON      "Reset",IDC_SVRRESET,254,118,35,14
     CONTROL         "Disable SSL",IDC_DSSL,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,157,135,85,10
     CONTROL         "Manage Server Groups",IDC_MG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,138,13
-    CONTROL         "Force Single Client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,146,129,10
+    CONTROL         "Force Single Client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,155,129,10
+    CONTROL         "Use ""clientlogin"" (recommended)",IDC_CLIENTLOGIN,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,157,145,119,10
 END
 
 IDD_INFO DIALOGEX 0, 0, 227, 165

@@ -291,6 +291,7 @@ struct CAimProto : public PROTO<CAimProto>
 	// connection.cpp
 
 	void    aim_connection_authorization( void );
+	void    aim_connection_clientlogin( void );
 
 	void   __cdecl aim_protocol_negotiation( void* );
 	void   __cdecl aim_mail_negotiation( void* );
