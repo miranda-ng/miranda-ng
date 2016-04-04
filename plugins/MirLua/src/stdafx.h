@@ -33,7 +33,7 @@
 #include <m_popup.h>
 #include <m_toptoolbar.h>
 
-#include <lua.hpp>
+#include <m_lua.h>
 
 #include "version.h"
 #include "resource.h"
@@ -95,8 +95,6 @@ LUAMOD_API int (luaopen_m_message)(lua_State *L);
 #define MLUA_SOUNDS	"m_sounds"
 LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
-#include "m_toptoolbar.h"
-
 /* utils */
 
 extern HANDLE hNetlib;
@@ -116,8 +114,6 @@ int luaM_ptr2number(lua_State *L);
 int luaM_totable(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
-WPARAM luaM_towparam(lua_State *L, int idx);
-LPARAM luaM_tolparam(lua_State *L, int idx);
 
 void InitIcons();
 HICON GetIcon(int iconId);

@@ -121,43 +121,6 @@ bool luaM_toboolean(lua_State *L, int idx)
 	return lua_toboolean(L, idx) > 0;
 }
 
-WPARAM luaM_towparam(lua_State *L, int idx)
-{
-	switch (lua_type(L, idx))
-	{
-	case LUA_TBOOLEAN:
-		return lua_toboolean(L, idx);
-	case LUA_TNUMBER:
-		return lua_tonumber(L, idx);
-	case LUA_TSTRING:
-		return (WPARAM)lua_tostring(L, idx);
-		break;
-	case LUA_TUSERDATA:
-	case LUA_TLIGHTUSERDATA:
-		return (WPARAM)lua_touserdata(L, idx);
-	default:
-		return NULL;
-	}
-}
-
-LPARAM luaM_tolparam(lua_State *L, int idx)
-{
-	switch (lua_type(L, idx))
-	{
-	case LUA_TBOOLEAN:
-		return lua_toboolean(L, idx);
-	case LUA_TNUMBER:
-		return lua_tonumber(L, idx);
-	case LUA_TSTRING:
-		return (LPARAM)lua_tostring(L, idx);
-	case LUA_TUSERDATA:
-	case LUA_TLIGHTUSERDATA:
-		return (LPARAM)lua_touserdata(L, idx);
-	default:
-		return NULL;
-	}
-}
-
 int luaM_totable(lua_State *L)
 {
 	const char *tname = luaL_checkstring(L, 2);
