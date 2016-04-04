@@ -1,16 +1,6 @@
 #include "stdafx.h"
 
-static LIST<void> TBButtons(1, PtrKeySortT);
-
-void KillModuleTTBButton()
-{
-	while (TBButtons.getCount())
-	{
-		HANDLE hTTButton = TBButtons[0];
-		::CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
-		TBButtons.remove(0);
-	}
-}
+int hLangpack;
 
 static TTBButton* MakeTBButton(lua_State *L)
 {
@@ -79,9 +69,6 @@ static int lua_AddButton(lua_State *L)
 	HANDLE res = ::TopToolbar_AddButton(tbb);
 	lua_pushlightuserdata(L, res);
 
-	if (res != INVALID_HANDLE_VALUE)
-		TBButtons.insert(res);
-
 	mir_free(tbb->name);
 	mir_free(tbb->pszTooltipUp);
 	mir_free(tbb->pszTooltipDn);
@@ -96,9 +83,6 @@ static int lua_RemoveButton(lua_State *L)
 
 	INT_PTR res = ::CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 	lua_pushinteger(L, res);
-
-	if (!res)
-		TBButtons.remove(hTTButton);
 
 	return 1;
 }
