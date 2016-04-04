@@ -243,3 +243,8 @@ struct CVKInteres {
 	const char *szField;
 	TCHAR *ptszTranslate;
 };
+
+struct CVKLang { 
+	TCHAR *szCode; 
+	TCHAR *szDescription; 
+}; 

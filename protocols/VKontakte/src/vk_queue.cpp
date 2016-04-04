@@ -81,7 +81,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
 
-		if (!reply) 
+		if (!reply && pReq->m_bApiReq)
 			m_hAPIConnection = NULL;
 
 	} while (pReq->bNeedsRestart && !m_bTerminated);
@@ -94,11 +94,12 @@ AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 {
 	debugLogA("CVkProto::Push");
 	pReq->timeout = iTimeout;
-	if (pReq->m_bApiReq)
-	{
-		if (m_VKLang != nullptr) pReq << TCHAR_PARAM("lang", m_VKLang);
+	if (pReq->m_bApiReq) {
 		pReq << VER_API;
+		if (!IsEmpty(m_VKLang)) 
+			pReq << TCHAR_PARAM("lang", m_VKLang);
 	}
+
 	{
 		mir_cslock lck(m_csRequestsQueue);
 		m_arRequestsQueue.insert(pReq);
@@ -123,7 +124,6 @@ void CVkProto::WorkerThread(void*)
 		delSetting("AccessToken");
 		m_szAccessToken = NULL;
 	}
-
 
 	if (m_szAccessToken != NULL)
 		// try to receive a response from server
