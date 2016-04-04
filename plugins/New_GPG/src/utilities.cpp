@@ -272,6 +272,8 @@ int onProtoAck(WPARAM, LPARAM l)
 			break;
 		case ACKRESULT_SUCCESS:
 			{
+				if(!ack->hProcess)
+					break;
 				PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*)ack->hProcess;
 				if ((f->flags & PFTS_SENDING) != PFTS_SENDING) {
 					TCHAR *filename = NULL;
