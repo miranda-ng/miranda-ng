@@ -180,6 +180,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.requestType = REQUEST_POST;
 	req.szUrl = AIM_LOGIN_URL;
 	char buf[1024];
+	buf[0] = 0;
 	fill_post_request(buf);
 	req.pData = buf;
 	req.dataLength = (int)strlen(buf);
@@ -196,6 +197,8 @@ void CAimProto::aim_connection_clientlogin(void)
 		return;
 	}
 	char token[512], secret[512]; //TODO: find efficient buf size
+	token[0] = 0;
+	secret[0] = 0;
 	time_t hosttime;
 	if(!parse_clientlogin_response(resp->pData, resp->dataLength, token, secret, hosttime))
 	{
@@ -209,6 +212,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.pData = NULL;
 	req.dataLength = 0;
 	char url[1024];
+	url[0] = 0;
 	fill_login_url(url, token, secret, hosttime);
 	req.szUrl = url;
 	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
@@ -223,6 +227,9 @@ void CAimProto::aim_connection_clientlogin(void)
 		return;
 	}
 	char bos_host[128], cookie[1024], tls_cert_name[128]; //TODO: find efficient buf size
+	bos_host[0] = 0;
+	cookie[0] = 0;
+	tls_cert_name[0] = 0;
 	unsigned short bos_port = 0;
 	if(!parse_start_socar_session_response(resp->pData, resp->dataLength, bos_host, bos_port, cookie, tls_cert_name))
 	{
@@ -232,13 +239,20 @@ void CAimProto::aim_connection_clientlogin(void)
 	}
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 
+	m_hServerConn = aim_connect(bos_host, bos_port, tls_cert_name[0] ? true : false, bos_host);
+	if(!m_hServerConn)
+	{
+		//TODO: handle error
+		return;
+	}
+
 	mir_free(COOKIE);
 	COOKIE = mir_strdup(cookie); //TODO: check if it's null terminated
 	COOKIE_LENGTH = (int)mir_strlen(cookie);
 
-	//TODO: connect to bos server
-	
+	ForkThread(&CAimProto::aim_protocol_negotiation, 0);
 
+	
 }
 
 void __cdecl CAimProto::aim_protocol_negotiation(void*)
