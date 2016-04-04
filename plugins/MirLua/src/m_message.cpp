@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_Paste(lua_State *L)
+static int message_Paste(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	ptrT text(mir_utf8decodeT(luaL_checkstring(L, 2)));
@@ -24,7 +24,7 @@ static int lua_Paste(lua_State *L)
 	return 1;
 }
 
-static int lua_Send(lua_State *L)
+static int message_Send(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	const char *message = luaL_checkstring(L, 2);
@@ -70,8 +70,8 @@ static int lua_Send(lua_State *L)
 
 static luaL_Reg messageApi[] =
 {
-	{ "Paste", lua_Paste },
-	{ "Send", lua_Send },
+	{ "Paste", message_Paste },
+	{ "Send", message_Send },
 
 	{ NULL, NULL }
 };

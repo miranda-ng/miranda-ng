@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-CLuaScriptLoader::CLuaScriptLoader(lua_State *L) : L(L)
+CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L) : L(L)
 {
 }
 
-void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
+void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 {
 	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
 	mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, file);
@@ -23,7 +23,7 @@ void CLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 		Log(_T("%s:OK"), path);
 }
 
-void CLuaScriptLoader::LoadScripts()
+void CMLuaScriptLoader::LoadScripts()
 {
 	TCHAR scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
@@ -47,7 +47,7 @@ void CLuaScriptLoader::LoadScripts()
 	}
 }
 
-void CLuaScriptLoader::Load(lua_State *L)
+void CMLuaScriptLoader::Load(lua_State *L)
 {
-	CLuaScriptLoader(L).LoadScripts();
+	CMLuaScriptLoader(L).LoadScripts();
 }

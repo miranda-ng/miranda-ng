@@ -90,7 +90,7 @@ int luaM_print(lua_State *L)
 
 int luaM_toansi(lua_State *L)
 {
-	const char* value = luaL_checkstring(L, 1);
+	const char *value = luaL_checkstring(L, 1);
 	int codepage = luaL_optinteger(L, 2, Langpack_GetDefaultCodePage());
 
 	ptrA string(mir_strdup(value));
@@ -101,7 +101,7 @@ int luaM_toansi(lua_State *L)
 
 int luaM_toucs2(lua_State *L)
 {
-	const char* value = luaL_checkstring(L, 1);
+	const char *value = luaL_checkstring(L, 1);
 
 	ptrW unicode(mir_utf8decodeW(value));
 	size_t length = mir_wstrlen(unicode) * sizeof(wchar_t);
@@ -119,22 +119,6 @@ bool luaM_toboolean(lua_State *L, int idx)
 	if (lua_isnumber(L, idx))
 		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
-}
-
-int luaM_totable(lua_State *L)
-{
-	const char *tname = luaL_checkstring(L, 2);
-
-	char message[256];
-	mir_snprintf(message, "Use %s(...) instead", tname);
-	ObsoleteMethod(L, message);
-
-	luaL_getmetatable(L, tname);
-	lua_getfield(L, -1, "__call");
-	lua_pushvalue(L, 1);
-	luaM_pcall(L, 1, 1);
-
-	return 1;
 }
 
 int luaM_ptr2number(lua_State *L)

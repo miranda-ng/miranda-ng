@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_FindFirstContact(lua_State *L)
+static int db_FindFirstContact(lua_State *L)
 {
 	const char *szProto = lua_tostring(L, 1);
 
@@ -10,7 +10,7 @@ static int lua_FindFirstContact(lua_State *L)
 	return 1;
 }
 
-static int lua_FindNextContact(lua_State *L)
+static int db_FindNextContact(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	const char *szProto = lua_tostring(L, 2);
@@ -21,7 +21,7 @@ static int lua_FindNextContact(lua_State *L)
 	return 1;
 }
 
-static int lua_ContactIterator(lua_State *L)
+static int db_ContactIterator(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(1));
 	const char *szProto = lua_tostring(L, lua_upvalueindex(2));
@@ -42,20 +42,20 @@ static int lua_ContactIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_Contacts(lua_State *L)
+static int db_Contacts(lua_State *L)
 {
 	const char *szProto = lua_tostring(L, 1);
 
 	lua_pushinteger(L, 0);
 	lua_pushstring(L, szProto);
-	lua_pushcclosure(L, lua_ContactIterator, 2);
+	lua_pushcclosure(L, db_ContactIterator, 2);
 
 	return 1;
 }
 
 /***********************************************/
 
-static int lua_GetEventCount(lua_State *L)
+static int db_GetEventCount(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
@@ -65,7 +65,7 @@ static int lua_GetEventCount(lua_State *L)
 	return 1;
 }
 
-static int lua_GetFirstEvent(lua_State *L)
+static int db_GetFirstEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
@@ -75,7 +75,7 @@ static int lua_GetFirstEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_GetPrevEvent(lua_State *L)
+static int db_GetPrevEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	MEVENT hDbEvent = luaL_checkinteger(L, 2);
@@ -86,7 +86,7 @@ static int lua_GetPrevEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_GetNextEvent(lua_State *L)
+static int db_GetNextEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	MEVENT hDbEvent = luaL_checkinteger(L, 2);
@@ -97,7 +97,7 @@ static int lua_GetNextEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_GetLastEvent(lua_State *L)
+static int db_GetLastEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
@@ -107,7 +107,7 @@ static int lua_GetLastEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_EventIterator(lua_State *L)
+static int db_EventIterator(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, lua_upvalueindex(1));
 	MEVENT hDbEvent = luaL_checkinteger(L, lua_upvalueindex(2));
@@ -128,18 +128,18 @@ static int lua_EventIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_Events(lua_State *L)
+static int db_Events(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
 	lua_pushinteger(L, hContact);
 	lua_pushinteger(L, NULL);
-	lua_pushcclosure(L, lua_EventIterator, 2);
+	lua_pushcclosure(L, db_EventIterator, 2);
 
 	return 1;
 }
 
-static int lua_EventReverseIterator(lua_State *L)
+static int db_EventReverseIterator(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, lua_upvalueindex(1));
 	MEVENT hDbEvent = luaL_checkinteger(L, lua_upvalueindex(2));
@@ -160,13 +160,13 @@ static int lua_EventReverseIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_EventsFromEnd(lua_State *L)
+static int db_EventsFromEnd(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
 	lua_pushinteger(L, hContact);
 	lua_pushinteger(L, NULL);
-	lua_pushcclosure(L, lua_EventReverseIterator, 2);
+	lua_pushcclosure(L, db_EventReverseIterator, 2);
 
 	return 1;
 }
@@ -175,7 +175,7 @@ static int lua_EventsFromEnd(lua_State *L)
 
 #define MT_BLOB "BLOB"
 
-static int array__call(lua_State *L)
+static int array_create(lua_State *L)
 {
 	BYTE *data = (BYTE*)lua_touserdata(L, 1);
 	size_t size = luaL_checkinteger(L, 2);
@@ -241,7 +241,6 @@ static int array__gc(lua_State *L)
 
 static const struct luaL_Reg blobApi[] =
 {
-	{ "__call", array__call },
 	{ "__index", array__index },
 	{ "__newindex", array__newindex },
 	{ "__len", array__len },
@@ -253,7 +252,7 @@ static const struct luaL_Reg blobApi[] =
 
 /***********************************************/
 
-static int lua_GetSetting(lua_State *L)
+static int db_GetSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
@@ -288,8 +287,7 @@ static int lua_GetSetting(lua_State *L)
 		break;
 	case DBVT_BLOB:
 		{
-			luaL_getmetatable(L, MT_BLOB);
-			lua_getfield(L, -1, "__call");
+			lua_pushcfunction(L, array_create);
 			lua_pushlightuserdata(L, dbv.pbVal);
 			lua_pushnumber(L, dbv.cpbVal);
 			luaM_pcall(L, 2, 1);
@@ -326,7 +324,7 @@ static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
 	return 0;
 }
 
-static int lua_SettingIterator(lua_State *L)
+static int db_SettingIterator(lua_State *L)
 {
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	enumDBSettingsParam* param = (enumDBSettingsParam*)lua_touserdata(L, lua_upvalueindex(2));
@@ -348,7 +346,7 @@ static int lua_SettingIterator(lua_State *L)
 	return 1;
 }
 
-static int lua_Settings(lua_State *L)
+static int db_Settings(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	const char* szModule = luaL_checkstring(L, 2);
@@ -366,12 +364,12 @@ static int lua_Settings(lua_State *L)
 
 	lua_pushinteger(L, 0);
 	lua_pushlightuserdata(L, param);
-	lua_pushcclosure(L, lua_SettingIterator, 2);
+	lua_pushcclosure(L, db_SettingIterator, 2);
 
 	return 1;
 }
 
-static int lua_WriteSetting(lua_State *L)
+static int db_WriteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
@@ -443,7 +441,7 @@ static int lua_WriteSetting(lua_State *L)
 	return 1;
 }
 
-static int lua_DeleteSetting(lua_State *L)
+static int db_DeleteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
@@ -455,7 +453,7 @@ static int lua_DeleteSetting(lua_State *L)
 	return 1;
 }
 
-static int lua_DeleteModule(lua_State *L)
+static int db_DeleteModule(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
@@ -470,27 +468,27 @@ static int lua_DeleteModule(lua_State *L)
 
 static luaL_Reg databaseApi[] =
 {
-	{ "FindFirstContact", lua_FindFirstContact },
-	{ "FindNextContact", lua_FindNextContact },
-	{ "Contacts", lua_Contacts },
+	{ "FindFirstContact", db_FindFirstContact },
+	{ "FindNextContact", db_FindNextContact },
+	{ "Contacts", db_Contacts },
 
-	{ "GetEventCount", lua_GetEventCount },
+	{ "GetEventCount", db_GetEventCount },
 
-	{ "GetFirstEvent", lua_GetFirstEvent },
-	{ "GetPrevEvent", lua_GetPrevEvent },
-	{ "GetNextEvent", lua_GetNextEvent },
-	{ "GetLastEvent", lua_GetLastEvent },
-	{ "Events", lua_Events },
-	{ "EventsFromEnd", lua_EventsFromEnd },
+	{ "GetFirstEvent", db_GetFirstEvent },
+	{ "GetPrevEvent", db_GetPrevEvent },
+	{ "GetNextEvent", db_GetNextEvent },
+	{ "GetLastEvent", db_GetLastEvent },
+	{ "Events", db_Events },
+	{ "EventsFromEnd", db_EventsFromEnd },
 
-	{ "WriteSetting", lua_WriteSetting },
-	{ "SetSetting", lua_WriteSetting },
+	{ "WriteSetting", db_WriteSetting },
+	{ "SetSetting", db_WriteSetting },
 
-	{ "GetSetting", lua_GetSetting },
-	{ "Settings", lua_Settings },
+	{ "GetSetting", db_GetSetting },
+	{ "Settings", db_Settings },
 
-	{ "DeleteSetting", lua_DeleteSetting },
-	{ "DeleteModule", lua_DeleteModule },
+	{ "DeleteSetting", db_DeleteSetting },
+	{ "DeleteModule", db_DeleteModule },
 
 	{ "DBVT_BYTE", NULL },
 	{ "DBVT_WORD", NULL },
@@ -539,8 +537,7 @@ static int dbcw__index(lua_State *L)
 			break;
 		case DBVT_BLOB:
 		{
-			luaL_getmetatable(L, MT_BLOB);
-			lua_getfield(L, -1, "__call");
+			lua_pushcfunction(L, array_create);
 			lua_pushlightuserdata(L, dbcw->value.pbVal);
 			lua_pushnumber(L, dbcw->value.cpbVal);
 			luaM_pcall(L, 2, 1);

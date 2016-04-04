@@ -59,8 +59,9 @@ private:
 	static void Init(lua_State *L, T **obj)
 	{
 		luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-		T *udata = (T*)lua_touserdata(L, 1);
-		memcpy(*obj, udata, sizeof(T));
+		//T *udata = (T*)lua_touserdata(L, 1);
+		//memcpy(*obj, udata, sizeof(T));
+		*obj = (T*)lua_touserdata(L, 1);
 	}
 	
 	static void Free(T **obj)
@@ -70,10 +71,10 @@ private:
 
 	static int lua_new(lua_State *L)
 	{
-		T *udata = (T*)lua_newuserdata(L, sizeof(T));
-		memset(udata, 0, sizeof(T));
-		Init(L, &udata);
-		if (udata == NULL)
+		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
+		//memset(udata, 0, sizeof(T));
+		Init(L, udata);
+		if (*udata == NULL)
 		{
 			lua_pushnil(L);
 			return 1;
@@ -83,9 +84,17 @@ private:
 		return 1;
 	}
 
+	static int lua__call(lua_State *L)
+	{
+		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
+		lua_pushlightuserdata(L, obj);
+
+		return 1;
+	}
+
 	static int lua__index(lua_State *L)
 	{
-		T *obj = (T*)luaL_checkudata(L, 1, MT::name);
+		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
 		const char *key = lua_tostring(L, 2);
 
 		auto it = fields.find(key);
@@ -129,8 +138,8 @@ private:
 
 	static int lua__gc(lua_State *L)
 	{
-		T *obj = (T*)luaL_checkudata(L, 1, MT::name);
-		MT::Free(&obj);
+		T **obj = (T**)luaL_checkudata(L, 1, MT::name);
+		MT::Free(obj);
 		return 0;
 	}
 
@@ -144,6 +153,8 @@ public:
 		luaL_newmetatable(L, MT::name);
 		lua_pushcfunction(L, lua__index);
 		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, lua__call);
+		lua_setfield(L, -2, "__call");
 		lua_pushcfunction(L, lua__gc);
 		lua_setfield(L, -2, "__gc");
 	}

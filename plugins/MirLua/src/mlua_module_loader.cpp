@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-CLuaModuleLoader::CLuaModuleLoader(lua_State *L) : L(L)
+CMLuaModuleLoader::CMLuaModuleLoader(lua_State *L) : L(L)
 {
 }
 
-void CLuaModuleLoader::Load(const char *name, lua_CFunction loader)
+void CMLuaModuleLoader::Load(const char *name, lua_CFunction loader)
 {
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
 	lua_pushcfunction(L, loader);
@@ -14,7 +14,7 @@ void CLuaModuleLoader::Load(const char *name, lua_CFunction loader)
 	lua_pop(L, 1);
 }
 
-void CLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
+void CMLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
 {
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
 	lua_pushcfunction(L, loader);
@@ -22,7 +22,7 @@ void CLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
 	lua_pop(L, 1);
 }
 
-void CLuaModuleLoader::LoadModules()
+void CMLuaModuleLoader::LoadModules()
 {
 	// load m_core module
 	Load(MLUA_CORE, luaopen_m_core);
@@ -39,8 +39,8 @@ void CLuaModuleLoader::LoadModules()
 	Preload(MLUA_SOUNDS, luaopen_m_sounds);
 }
 
-void CLuaModuleLoader::Load(lua_State *L)
+void CMLuaModuleLoader::Load(lua_State *L)
 {
-	CLuaModuleLoader loader(L);
+	CMLuaModuleLoader loader(L);
 	loader.LoadModules();
 }
