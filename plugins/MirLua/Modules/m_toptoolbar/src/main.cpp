@@ -95,7 +95,7 @@ static luaL_Reg toptoolbarApi[] =
 	{ NULL, NULL }
 };
 
-LUAMOD_API int luaopen_m_toptoolbar(lua_State *L)
+extern "C" LUAMOD_API int luaopen_m_toptoolbar(lua_State *L)
 {
 	luaL_newlib(L, toptoolbarApi);
 

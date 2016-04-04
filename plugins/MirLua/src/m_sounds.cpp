@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static int lua_AddSound(lua_State *L)
+static int sounds_AddSound(lua_State *L)
 {
 	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
 	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
@@ -22,7 +22,7 @@ static int lua_AddSound(lua_State *L)
 	return 1;
 }
 
-static int lua_PlaySound(lua_State *L)
+static int sounds_PlaySound(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
@@ -32,7 +32,7 @@ static int lua_PlaySound(lua_State *L)
 	return 1;
 }
 
-static int lua_PlayFile(lua_State *L)
+static int sounds_PlayFile(lua_State *L)
 {
 	ptrT filePath(mir_utf8decodeT(luaL_checkstring(L, 1)));
 
@@ -44,10 +44,10 @@ static int lua_PlayFile(lua_State *L)
 
 static luaL_Reg soundApi[] =
 {
-	{ "AddSound", lua_AddSound },
-	{ "PlaySound", lua_PlaySound },
+	{ "AddSound", sounds_AddSound },
+	{ "PlaySound", sounds_PlaySound },
 
-	{ "PlayFile", lua_PlayFile },
+	{ "PlayFile", sounds_PlayFile },
 
 	{ NULL, NULL }
 };

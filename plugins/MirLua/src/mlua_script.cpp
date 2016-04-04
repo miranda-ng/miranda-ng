@@ -140,8 +140,7 @@ bool CMLuaScript::Load()
 	if (lua_isfunction(L, -1))
 	{
 		lua_pushvalue(L, -1);
-		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
-		//unloadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+		unloadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 	lua_pop(L, 1);
 
@@ -154,8 +153,7 @@ void CMLuaScript::Unload()
 {
 	if (status == Loaded)
 	{
-		lua_rawgetp(L, LUA_REGISTRYINDEX, this);
-		//lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
+		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
 		if (lua_isfunction(L, -1))
 			luaM_pcall(L);
 		lua_pushnil(L);
@@ -167,9 +165,6 @@ void CMLuaScript::Unload()
 	lua_pushnil(L);
 	lua_setfield(L, -2, moduleName);
 	lua_pop(L, 1);
-
-	//lua_pushnil(L);
-	//lua_setglobal(L, moduleName);
 
 	KillModuleIcons(id);
 	KillModuleSounds(id);

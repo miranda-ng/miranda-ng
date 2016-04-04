@@ -42,19 +42,6 @@ void CMLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szV
 	ctrl.CreateDbLink(MODULE, szSetting, szValue);
 }
 
-int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = _T(MODULE);
-	odp.ptszTab = LPGENT("Scripts");
-	odp.pDialog = CMLuaOptions::CreateOptionsPage();
-	Options_AddPage(wParam, &odp);
-
-	return 0;
-}
-
 void CMLuaOptions::LoadScripts()
 {
 	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
@@ -175,4 +162,19 @@ void CMLuaOptions::OnReload(CCtrlBase*)
 	g_mLua->Load();
 	LoadScripts();
 	isScriptListInit = true;
+}
+
+/****************************************/
+
+int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTitle = _T("Lua");
+	odp.ptszTab = LPGENT("Scripts");
+	odp.pDialog = CMLuaOptions::CreateOptionsPage();
+	Options_AddPage(wParam, &odp);
+
+	return 0;
 }

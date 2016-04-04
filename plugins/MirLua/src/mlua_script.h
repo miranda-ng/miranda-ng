@@ -15,6 +15,7 @@ public:
 
 private:
 	int id;
+	int unloadRef;
 	char *moduleName;
 	TCHAR *fileName;
 	TCHAR filePath[MAX_PATH];

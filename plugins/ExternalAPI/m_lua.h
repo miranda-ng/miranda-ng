@@ -10,7 +10,7 @@ static __inline WPARAM luaM_towparam(lua_State *L, int idx)
 	case LUA_TBOOLEAN:
 		return lua_toboolean(L, idx);
 	case LUA_TNUMBER:
-		return lua_tonumber(L, idx);
+		return (WPARAM)lua_tonumber(L, idx);
 	case LUA_TSTRING:
 		return (WPARAM)lua_tostring(L, idx);
 		break;
@@ -29,7 +29,7 @@ static __inline LPARAM luaM_tolparam(lua_State *L, int idx)
 	case LUA_TBOOLEAN:
 		return lua_toboolean(L, idx);
 	case LUA_TNUMBER:
-		return lua_tonumber(L, idx);
+		return (LPARAM)lua_tonumber(L, idx);
 	case LUA_TSTRING:
 		return (LPARAM)lua_tostring(L, idx);
 	case LUA_TUSERDATA:

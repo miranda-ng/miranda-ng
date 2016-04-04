@@ -50,13 +50,13 @@ void CMLua::Load()
 	lua_register(L, "print", luaM_print);
 	lua_register(L, "a", luaM_toansi);
 	lua_register(L, "u", luaM_toucs2);
-	lua_register(L, "totable", luaM_totable);
 
 	lua_atpanic(L, luaM_atpanic);
 
 	Log("Loading miranda modules");
-	CLuaModuleLoader::Load(L);
-	CLuaScriptLoader::Load(L);
+	CMLuaModuleLoader::Load(L);
+	Log("Loading scripts");
+	CMLuaScriptLoader::Load(L);
 }
 
 void CMLua::Unload()
