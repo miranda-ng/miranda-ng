@@ -287,7 +287,7 @@ BEGIN
     CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,195,138,10
     CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,184,133,10
     CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,195,133,10
-    CTEXT           "Options marked with an asterisk (*) will only take effect after Miranda has been restarted.",IDC_STATIC,12,213,276,10
+    CTEXT           "* These changes will take effect the next time you connect to the VKontakte network.",IDC_STATIC,12,213,276,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
