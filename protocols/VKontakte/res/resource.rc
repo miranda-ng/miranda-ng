@@ -26,18 +26,31 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_NOTIFICATION        ICON                    "notify.ico"
+
 IDI_FRIENDADD           ICON                    "add.ico"
+
 IDI_BAN                 ICON                    "ban.ico"
+
 IDI_FRIENDDEL           ICON                    "delete.ico"
+
 IDI_READMSG             ICON                    "read.ico"
+
 IDI_ABUSE               ICON                    "report.ico"
+
 IDI_VISITPROFILE        ICON                    "home.ico"
+
 IDI_HISTORY             ICON                    "history.ico"
+
 IDI_KEYS                ICON                    "key.ico"
+
 IDI_BROADCAST           ICON                    "broadcast.ico"
+
 IDI_STATUS              ICON                    "status.ico"
+
 IDI_WALL                ICON                    "wall.ico"
+
 IDI_MARKMESSAGESASREAD  ICON                    "markread.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -88,7 +101,8 @@ BEGIN
         VERTGUIDE, 167
         VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 228
+        HORZGUIDE, 223
     END
 
     IDD_INVITE, DIALOG
@@ -242,7 +256,7 @@ BEGIN
     EDITTEXT        IDC_RET_CHAT_MES,134,204,157,12,ES_AUTOHSCROLL
 END
 
-IDD_OPT_MAIN DIALOGEX 0, 0, 304, 213
+IDD_OPT_MAIN DIALOGEX 0, 0, 304, 233
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -250,27 +264,30 @@ BEGIN
     GROUPBOX        "Login settings",IDC_STATIC,4,8,293,50
     RTEXT           "E-mail or phone number:",IDC_STATIC,12,17,150,10
     EDITTEXT        IDC_LOGIN,167,16,121,12,ES_AUTOHSCROLL
-    RTEXT           "Password:",IDC_STATIC,12,29,150,10
-    EDITTEXT        IDC_PASSWORD,167,29,121,12,ES_PASSWORD | ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,12,30,150,10
+    EDITTEXT        IDC_PASSWORD,167,30,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,44,174,11
-    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,65
+    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,75
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
-    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,88,278,10
+    RTEXT           "Language for names and titles (*):",IDC_STATIC,12,86,148,10
+    COMBOBOX        IDC_COMBO_LANGUAGE,167,84,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,98,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,99,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,109,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,110,278,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,127,293,33,WS_GROUP
-    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,138,138,10
-    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,148,138,10
-    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,138,133,10
-    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,148,133,10
-    GROUPBOX        "Sync history on protocol online...",IDC_STATIC_SYNC_HISTORY,4,163,293,36,WS_GROUP
-    CONTROL         "off",IDC_SYNC_OFF,"Button",BS_AUTORADIOBUTTON,12,174,138,10
-    CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,185,138,10
-    CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,174,133,10
-    CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,185,133,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,278,10
+    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,137,293,33,WS_GROUP
+    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,148,138,10
+    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,158,138,10
+    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,148,133,10
+    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,158,133,10
+    GROUPBOX        "Sync history on protocol online...",IDC_STATIC_SYNC_HISTORY,4,173,293,36,WS_GROUP
+    CONTROL         "off",IDC_SYNC_OFF,"Button",BS_AUTORADIOBUTTON,12,184,138,10
+    CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,195,138,10
+    CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,184,133,10
+    CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,195,133,10
+    CTEXT           "Options marked with an asterisk (*) will only take effect after Miranda has been restarted.",IDC_STATIC,12,213,276,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224

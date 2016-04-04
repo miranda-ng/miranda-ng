@@ -44,20 +44,20 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	bIsMainConn = false;
 	bExpUrlEncode = ppro->m_bUseNonStandardUrlEncode;
 	AddHeader("Connection", "keep-alive");
-
-	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (bSecure)
-		flags |= NLHRF_SSL;
-
+		
 	if (*_url == '/') {	// relative url leads to a site
 		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
 		m_szUrl += _url;
 		bIsMainConn = true;
 	}
-	else m_szUrl = _url;
+	else 
+		m_szUrl = _url;
 
-	if (bSecure)
+	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	if (bSecure) {
+		flags |= NLHRF_SSL;
 		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
+	}
 
 	requestType = iRequestType;
 	m_pFunc = pFunc;

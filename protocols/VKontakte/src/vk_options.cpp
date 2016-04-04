@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+
+
 //////////////////////////////////////////////////////////////////////////////
 // Account manager dialog
 
@@ -31,8 +33,6 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		ppro = (CVkProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 		{
 			ptrT ptszLogin(ppro->getTStringA("Login"));
 			if (ptszLogin != NULL)
@@ -90,11 +90,6 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-		break;
 	}
 
 	return FALSE;
@@ -112,6 +107,20 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 {
 	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
+	CVKLang vkLangCodes[] = {
+		{ NULL, LPGENT("Account language") },
+		{ _T("en"), LPGENT("English") },
+		{ _T("ru"), LPGENT("Russian") },
+		{ _T("be"), LPGENT("Belarusian") },
+		{ _T("ua"), LPGENT("Ukrainian") },
+		{ _T("es"), LPGENT("Spanish") },
+		{ _T("fi"), LPGENT("Finnish") },
+		{ _T("de"), LPGENT("German") },
+		{ _T("it"), LPGENT("Italian") },
+	};
+
+	HWND hWndCombo = GetDlgItem(hwndDlg, IDC_COMBO_LANGUAGE);
+
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -119,8 +128,6 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		ppro = (CVkProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 		{
 			ptrT ptszLogin(ppro->getTStringA("Login"));
 			if (ptszLogin != NULL)
@@ -128,9 +135,16 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ptrT ptszPassw(ppro->GetUserStoredPassword());
 			if (ptszPassw != NULL)
-				SetDlgItemText(hwndDlg, IDC_PASSWORD, ptszPassw);
+				SetDlgItemText(hwndDlg, IDC_PASSWORD, ptszPassw);	
+		}
 
-			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
+		SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
+
+		for (size_t i = 0; i < _countof(vkLangCodes); i++) {
+			LRESULT iItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(vkLangCodes[i].szDescription));
+			SendMessage(hWndCombo, CB_SETITEMDATA, iItem, (LPARAM)vkLangCodes[i].szCode);
+			if (!mir_tstrcmpi(vkLangCodes[i].szCode, ppro->m_VKLang))
+				SendMessage(hWndCombo, CB_SETCURSEL, i, 0);
 		}
 
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery ? BST_CHECKED : BST_UNCHECKED);
@@ -161,6 +175,10 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+			
+		case IDC_COMBO_LANGUAGE:
+			if (HIWORD(wParam) == CBN_SELCHANGE && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);	
 
 		case IDC_DELIVERY: 
 		case IDC_USE_LOCAL_TIME:
@@ -207,7 +225,13 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}
-			
+
+			ppro->m_VKLang = mir_tstrdup((TCHAR*)SendMessage(hWndCombo, CB_GETITEMDATA, SendMessage(hWndCombo, CB_GETCURSEL, 0, 0), 0));
+			if (!IsEmpty(ppro->m_VKLang))
+				ppro->setTString("VKLang", ppro->m_VKLang);
+			else
+				ppro->delSetting("VKLang");
+
 			ppro->m_bServerDelivery = IsDlgButtonChecked(hwndDlg, IDC_DELIVERY) == BST_CHECKED;
 			ppro->setByte("ServerDelivery", ppro->m_bServerDelivery);
 
@@ -245,11 +269,6 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-		break;
 	}
 
 	return FALSE;
@@ -265,9 +284,6 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		ppro = (CVkProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SYNC_MSG_STATUS, ppro->m_bSyncReadMessageStatusFromServer ? BST_CHECKED : BST_UNCHECKED);
@@ -400,11 +416,6 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-		break;
 	}
 
 	return FALSE;
@@ -420,9 +431,6 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		ppro = (CVkProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 
 		CheckDlgButton(hwndDlg, IDC_NEWS_ENBL, ppro->m_bNewsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
@@ -568,11 +576,6 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-		break;
 	}
 
 	return FALSE;
@@ -588,9 +591,6 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 		ppro = (CVkProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, 1));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
 
 		CheckDlgButton(hwndDlg, IDC_IMG_OFF, (ppro->m_iIMGBBCSupport == imgNo) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IMG_FULLSIZE, (ppro->m_iIMGBBCSupport == imgFullSize) ? BST_CHECKED : BST_UNCHECKED);
@@ -674,11 +674,6 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
-		break;
-
-	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 		break;
 	}
 
