@@ -63,8 +63,13 @@ private:
 		//memcpy(*obj, udata, sizeof(T));
 		*obj = (T*)lua_touserdata(L, 1);
 	}
-	
-	static void Free(T **obj)
+
+	static int Index(lua_State *L, T */*obj*/)
+	{
+		lua_pushnil(L);
+	}
+
+	static void Free(lua_State */*L*/, T **obj)
 	{
 		*obj = NULL;
 	}
@@ -130,7 +135,7 @@ private:
 			lua_pushlightuserdata(L, field->GetValue<void*>(obj));
 			break;
 		default:
-			lua_pushnil(L);
+			return Index(L, obj);
 		}
 
 		return 1;
@@ -139,7 +144,8 @@ private:
 	static int lua__gc(lua_State *L)
 	{
 		T **obj = (T**)luaL_checkudata(L, 1, MT::name);
-		MT::Free(obj);
+		MT::Free(L, obj);
+
 		return 0;
 	}
 
@@ -173,15 +179,6 @@ public:
 	{
 		if (type != LUA_TNONE)
 			fields[name] = new MTField<T>(f, type);
-		return *this;
-	}
-
-	MT& Method(lua_CFunction func, const char *name)
-	{
-		luaL_getmetatable(L, MT::name);
-		lua_pushcfunction(L, func);
-		lua_setfield(L, -2, name);
-		lua_pop(L, 1);
 		return *this;
 	}
 

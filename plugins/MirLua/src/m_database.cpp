@@ -504,9 +504,8 @@ static luaL_Reg databaseApi[] =
 
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
-static int dbcw__index(lua_State *L)
+int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 {
-	DBCONTACTWRITESETTING *dbcw = (DBCONTACTWRITESETTING*)luaL_checkudata(L, 1, MT_DBCONTACTWRITESETTING);
 	const char *key = luaL_checkstring(L, 2);
 
 	if (mir_strcmpi(key, "Module") == 0)
@@ -542,7 +541,7 @@ static int dbcw__index(lua_State *L)
 			lua_pushnumber(L, dbcw->value.cpbVal);
 			luaM_pcall(L, 2, 1);
 		}
-			break;
+		break;
 		default:
 			lua_pushnil(L);
 		}
@@ -567,7 +566,7 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 	db_event_get((MEVENT)hDbEvent, (*dbei));
 }
 
-void MT<DBEVENTINFO>::Free(DBEVENTINFO **dbei)
+void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 {
 	mir_free((*dbei)->pBlob);
 }
@@ -596,10 +595,8 @@ void MT<CONTACTINFO>::Init(lua_State *L, CONTACTINFO **ci)
 	(*ci)->hContact = hContact;
 }
 
-static int ci__index(lua_State *L)
+int MT<CONTACTINFO>::Index(lua_State *L, CONTACTINFO *ci)
 {
-	CONTACTINFO *ci = (CONTACTINFO*)luaL_checkudata(L, 1, MT_CONTACTINFO);
-
 	if (lua_isnumber(L, 2))
 		ci->dwFlag = lua_tointeger(L, 2);
 	else if (lua_isstring(L, 2))
@@ -709,8 +706,7 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
 		.Field(&DBCONTACTWRITESETTING::szModule, "Module", LUA_TSTRINGA)
-		.Field(&DBCONTACTWRITESETTING::szSetting, "Setting", LUA_TSTRINGA)
-		.Method(dbcw__index, "__index");
+		.Field(&DBCONTACTWRITESETTING::szSetting, "Setting", LUA_TSTRINGA);
 	lua_pop(L, 1);
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
@@ -723,8 +719,7 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 	lua_pop(L, 1);
 
 	MT<CONTACTINFO>(L, "CONTACTINFO")
-		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER)
-		.Method(ci__index, "__index");
+		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER);
 	lua_pop(L, 1);
 
 	return 1;
