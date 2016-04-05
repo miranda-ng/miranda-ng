@@ -54,7 +54,7 @@ static unsigned long crc_table[256];
 
 //////////////////////////////////////////////////////////
 // Extra winsock function for error description
-
+//
 TCHAR* ws_strerror(int code)
 {
    static TCHAR err_desc[160];
@@ -133,8 +133,8 @@ const TCHAR *http_error_string(int h)
 
 //////////////////////////////////////////////////////////
 // Gets plugin info
-
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+//
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
    return &pluginInfo;
 }
@@ -143,7 +143,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 //////////////////////////////////////////////////////////
 // Cleanups from last plugin
-
+//
 void GGPROTO::cleanuplastplugin(DWORD version)
 {
 	// Store current plugin version
@@ -178,7 +178,8 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 
 //////////////////////////////////////////////////////////
 // When Miranda loaded its modules
-static int gg_modulesloaded(WPARAM wParam, LPARAM lParam)
+//
+static int gg_modulesloaded(WPARAM, LPARAM)
 {
    // Get SSL API
    mir_getSI(&sslApi);
@@ -191,6 +192,7 @@ static int gg_modulesloaded(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // Gets protocol instance associated with a contact
+//
 static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 {
    char* szProto = GetContactProto(hContact);
@@ -206,7 +208,8 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 
 //////////////////////////////////////////////////////////
 // Handles PrebuildContactMenu event
-static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM lParam)
+//
+static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
    GGPROTO* gg = gg_getprotoinstance(hContact);
    if (gg == NULL)
@@ -221,18 +224,19 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // Contact block service function
-INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
+//
+INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
 {
    setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
    notifyuser(hContact, 1);
    return 0;
 }
 
+#define GGS_BLOCKUSER "/BlockUser"
 
 //////////////////////////////////////////////////////////
 // Contact blocking initialization
-
-#define GGS_BLOCKUSER "/BlockUser"
+//
 void GGPROTO::block_init()
 {
    CMenuItem mi;
@@ -248,7 +252,7 @@ void GGPROTO::block_init()
 
 //////////////////////////////////////////////////////////
 // Contact blocking uninitialization
-
+//
 void GGPROTO::block_uninit()
 {
    Menu_RemoveItem(hBlockMenuItem);
@@ -256,6 +260,7 @@ void GGPROTO::block_uninit()
 
 //////////////////////////////////////////////////////////
 // Menus initialization
+//
 void GGPROTO::menus_init()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
@@ -281,7 +286,7 @@ void GGPROTO::menus_init()
 
 //////////////////////////////////////////////////////////
 // Module instance initialization
-
+//
 static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName)
 {
    GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
@@ -291,7 +296,7 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName
 
 //////////////////////////////////////////////////////////
 // Module instance uninitialization
-
+//
 static int gg_proto_uninit(PROTO_INTERFACE *proto)
 {
    GGPROTO *gg = (GGPROTO *)proto;
@@ -302,7 +307,7 @@ static int gg_proto_uninit(PROTO_INTERFACE *proto)
 
 //////////////////////////////////////////////////////////
 // When plugin is loaded
-
+//
 extern "C" int __declspec(dllexport) Load(void)
 {
    mir_getLP(&pluginInfo);
@@ -326,7 +331,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 //////////////////////////////////////////////////////////
 // When plugin is unloaded
-
+//
 extern "C" int __declspec(dllexport) Unload()
 {
    WSACleanup();
@@ -424,8 +429,8 @@ void gg_debughandler(int level, const char *format, va_list ap)
 
 //////////////////////////////////////////////////////////
 // main DLL function
-
-BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
+//
+BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD, LPVOID)
 {
    crc_gentable();
    hInstance = hInst;

@@ -85,14 +85,15 @@ void GGPROTO::dccconnect(uin_t uin)
 	gg_LeaveCriticalSection(&ft_mutex, "dccconnect", 36, 1, "ft_mutex", 1);
 }
 
-//////////////////////////////////////////////////////////
-// THREAD: File transfer fail
 struct ftfaildata
 {
 	MCONTACT hContact;
 	HANDLE hProcess;
 };
 
+//////////////////////////////////////////////////////////
+// THREAD: File transfer fail
+//
 void __cdecl GGPROTO::ftfailthread(void *param)
 {
 	struct ftfaildata *ft = (struct ftfaildata *)param;
@@ -119,12 +120,12 @@ HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
 	return ft->hProcess;
 }
 
-////////////////////////////////////////////////////////////
-// Main DCC connection session thread
-
 // Info refresh min time (msec) / half-sec
 #define GGSTATREFRESHEVERY	500
 
+////////////////////////////////////////////////////////////
+// Main DCC connection session thread
+//
 void __cdecl GGPROTO::dccmainthread(void*)
 {
 	uin_t uin;
@@ -848,8 +849,8 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 
 ////////////////////////////////////////////////////////////
 // File receiving allowed
-
-HANDLE GGPROTO::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
+//
+HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -864,8 +865,8 @@ HANDLE GGPROTO::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPa
 
 ////////////////////////////////////////////////////////////
 // File transfer canceled
-
-int GGPROTO::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+//
+int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -880,8 +881,8 @@ int GGPROTO::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 
 ////////////////////////////////////////////////////////////
 // File receiving denied
-
-int GGPROTO::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
+//
+int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR *)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -896,7 +897,7 @@ int GGPROTO::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason
 
 ////////////////////////////////////////////////////////////
 // Called when received an file
-
+//
 int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 {
 	return Proto_RecvFile(hContact, pre);
@@ -904,8 +905,8 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 
 ////////////////////////////////////////////////////////////
 // Called when user sends a file
-
-HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+//
+HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR *, TCHAR** ppszFiles)
 {
 	char *bslash, *filename;
 	DWORD ip, ver;

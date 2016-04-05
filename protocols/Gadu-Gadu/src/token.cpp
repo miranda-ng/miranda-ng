@@ -104,6 +104,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 ////////////////////////////////////////////////////////////////////////////////
 // Gets GG token
+//
 int GGPROTO::gettoken(GGTOKEN *token)
 {
 	// Zero tokens

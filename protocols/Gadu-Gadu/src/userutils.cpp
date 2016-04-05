@@ -22,7 +22,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Create New Account : Proc
-
+//
 void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 {
 	// Connection handles
@@ -67,11 +67,12 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Remove Account : Proc
+//
 void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 {
 	// Connection handles
 	struct gg_http *h;
-	struct gg_pubdir *s;
+	struct gg_pubdir *s = NULL;
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
@@ -109,14 +110,14 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Change Password Page : Proc
-
+//
 void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 {
 	// Readup email
 	char email[255] = "\0"; DBVARIANT dbv_email;
 	// Connection handles
 	struct gg_http *h;
-	struct gg_pubdir *s;
+	struct gg_pubdir *s = NULL;
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
@@ -160,7 +161,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Change E-mail Page : Proc
-
+//
 void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *newEmail)
 {
 #ifdef DEBUGMODE
@@ -174,7 +175,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 		return NULL;
 
 	// Connection handles
-	struct gg_pubdir *s;
+	struct gg_pubdir *s = NULL;
 	struct gg_http *h = gg_change_passwd4(uin, newEmail, password, password, token.id, token.val, 0);
 	if (!h || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
@@ -201,6 +202,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 
 ////////////////////////////////////////////////////////////////////////////////
 // User Util Dlg Page : Data
+//
 INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	GGUSERUTILDLGDATA *dat = (GGUSERUTILDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -246,10 +248,18 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (!dat) break;
 					switch (dat->mode)
 					{
-						case GG_USERUTIL_CREATE: gg_doregister(dat->gg, pass, email);				break;
-						case GG_USERUTIL_REMOVE: gg_dounregister(dat->gg, dat->uin, pass);			break;
-						case GG_USERUTIL_PASS:   gg_dochpass(dat->gg, dat->uin, dat->pass, pass);		break;
-						case GG_USERUTIL_EMAIL:  gg_dochemail(dat->gg, dat->uin, dat->pass, dat->email, email);	break;
+						case GG_USERUTIL_CREATE:
+							gg_doregister(dat->gg, pass, email);
+							break;
+						case GG_USERUTIL_REMOVE:
+							gg_dounregister(dat->gg, dat->uin, pass);
+							break;
+						case GG_USERUTIL_PASS:
+							gg_dochpass(dat->gg, dat->uin, dat->pass, pass);
+							break;
+						case GG_USERUTIL_EMAIL:
+							gg_dochemail(dat->gg, dat->uin, dat->pass, dat->email, email);
+							break;
 					}
 					break;
 				}
@@ -269,7 +279,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 //////////////////////////////////////////////////////////
 // Wait for thread to stop
-
+//
 void GGPROTO::threadwait(GGTHREAD *thread)
 {
 	if (!thread->hThread) return;

@@ -20,15 +20,15 @@
 
 #include "gg.h"
 
-//////////////////////////////////////////////////////////
-// remind password
-
 typedef struct
 {
 	uin_t uin;
 	const char *email;
 } GG_REMIND_PASS;
 
+//////////////////////////////////////////////////////////
+// remind password
+//
 void __cdecl GGPROTO::remindpasswordthread(void *param)
 {
 	// Connection handle

@@ -125,7 +125,7 @@ char *strndup(char *str, int c)
 
 void GGPROTO::parsecontacts(char *contacts)
 {
-	char *p = strchr(contacts, ':'), *n;
+	char *p = strchr(contacts, ':'), *n = NULL;
 	char *strFirstName, *strLastName, *strNickname, *strNick, *strPhone, *strGroup, *strUin, *strMail;
 	uin_t uin;
 
@@ -250,8 +250,8 @@ void GGPROTO::parsecontacts(char *contacts)
 
 //////////////////////////////////////////////////////////
 // import from server
-
-INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
+//
+INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
@@ -289,8 +289,8 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // remove from server
-
-INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
+//
+INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline()) {
@@ -328,7 +328,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 {
 	TCHAR str[MAX_PATH];
 	TCHAR filter[512], *pfilter;
@@ -399,7 +399,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 	}
 }
 
-INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 {
 	TCHAR str[MAX_PATH];
 	OPENFILENAME ofn = {0};
@@ -462,8 +462,8 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // export to server
-
-INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
+//
+INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
@@ -511,7 +511,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // Import menus and stuff
-
+//
 void GGPROTO::import_init(HGENMENU hRoot)
 {
 	CMenuItem mi;

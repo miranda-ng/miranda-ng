@@ -27,7 +27,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inits Gadu-Gadu groupchat module using chat.dll
-
+//
 int GGPROTO::gc_init()
 {
 	if (ServiceExists(MS_GC_REGISTER)) {
@@ -53,7 +53,7 @@ int GGPROTO::gc_init()
 
 ////////////////////////////////////////////////////////////////////////////////
 // Groupchat menus initialization
-
+//
 void GGPROTO::gc_menus_init(HGENMENU hRoot)
 {
 	if (gc_enabled) {
@@ -81,7 +81,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Releases Gadu-Gadu groupchat module using chat.dll
-
+//
 int GGPROTO::gc_destroy()
 {
 	list_t l;
@@ -109,7 +109,7 @@ GGGC* GGPROTO::gc_lookup(const TCHAR *id)
 	return NULL;
 }
 
-int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
+int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK *)lParam;
 	GGGC *chat = NULL;
@@ -206,13 +206,14 @@ typedef struct _gg_gc_echat
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is main groupchat initialization routine
-
+//
 TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 {
-	list_t l; int i;
+	list_t l;
 	GGGC *chat;
 	TCHAR id[32];
-	uin_t uin; DBVARIANT dbv;
+	uin_t uin;
+	DBVARIANT dbv;
 	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
@@ -222,18 +223,21 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	// Look for existing chat
 	for(l = chats; l; l = l->next)
 	{
-		GGGC *chat = (GGGC *)l->data;
+		chat = (GGGC *)l->data;
 		if (!chat) continue;
 
 		if (chat->recipients_count == recipients_count + (sender ? 1 : 0))
 		{
 			int i, j, found = 0, sok = (sender == 0);
-			if (!sok) for(i = 0; i < chat->recipients_count; i++)
-				if (sender == chat->recipients[i])
-				{
-					sok = 1;
-					break;
+			if (!sok) {
+				for (i = 0; i < chat->recipients_count; i++) {
+					if (sender == chat->recipients[i])
+					{
+						sok = 1;
+						break;
+					}
 				}
+			}
 			if (sok)
 				for(i = 0; i < chat->recipients_count; i++)
 					for(j = 0; j < recipients_count; j++)
@@ -260,7 +264,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	{
 		int unknown = (getcontact(sender, 0, 0, NULL) == NULL),
 			unknownSender = unknown;
-		for(i = 0; i < recipients_count; i++)
+		for(int i = 0; i < recipients_count; i++)
 			if (!getcontact(recipients[i], 0, 0, NULL))
 				unknown ++;
 		if ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
@@ -287,7 +291,8 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 			// Copy recipient list
 			chat->recipients_count = recipients_count + 1;
 			chat->recipients = (uin_t *)calloc(chat->recipients_count, sizeof(uin_t));
-			for(i = 0; i < recipients_count; i++)
+			int i = 0;
+			for(; i < recipients_count; i++)
 				chat->recipients[i] = recipients[i];
 			if (sender) chat->recipients[i] = sender;
 			debugLog(_T("gc_getchat(): Ignoring new chat %s, count %d."), chat->id, chat->recipients_count);
@@ -298,8 +303,17 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 
 	// Create new chat window
 	TCHAR status[256];
-	TCHAR *senderName = sender ? pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0) : NULL;
-	mir_sntprintf(status, (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
+	TCHAR *senderName;
+	if (sender)
+	{
+		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0);
+		mir_sntprintf(status, TranslateT("%s initiated the conference.") , senderName);
+	}
+	else
+	{
+		senderName = NULL;
+		mir_sntprintf(status, TranslateT("This is my own conference."));
+	}
 
 	GCSESSION gcwindow = { sizeof(gcwindow) };
 	gcwindow.iType = GCW_CHATROOM;
@@ -357,6 +371,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	// Copy recipient list
 	chat->recipients_count = recipients_count + (sender ? 1 : 0);
 	chat->recipients = (uin_t *)calloc(chat->recipients_count, sizeof(uin_t));
+	int i;
 	for(i = 0; i < recipients_count; i++)
 		chat->recipients[i] = recipients[i];
 	if (sender) chat->recipients[i] = sender;
@@ -561,7 +576,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 	return FALSE;
 }
 
-INT_PTR GGPROTO::gc_clearignored(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::gc_clearignored(WPARAM, LPARAM)
 {
 	list_t l = chats; BOOL cleared = FALSE;
 	while(l)
@@ -585,7 +600,7 @@ INT_PTR GGPROTO::gc_clearignored(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GGPROTO::gc_openconf(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::gc_openconf(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
