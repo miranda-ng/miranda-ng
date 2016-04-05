@@ -261,7 +261,11 @@ typedef struct
 } GGUSERUTILDLGDATA;
 
 
+#ifdef DEBUGMODE
 inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging)
+#else
+inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char*, int, char *, int)
+#endif
 {
 #ifdef DEBUGMODE
 	int logAfter = 0;
@@ -279,7 +283,11 @@ inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* call
 
 }
 
+#ifdef DEBUGMODE
 inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging) /*0-never, 1-debug, 2-all*/
+#else
+inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char *, int, int, char *, int) /*0-never, 1-debug, 2-all*/
+#endif
 {
 #ifdef DEBUGMODE
 	if(logging == 1 && extendedLogging == 1) debugLogA("%s(): %i.%i LeaveCriticalSection %s", callingFunction, sectionNumber, returnNumber, mutexName);
@@ -287,7 +295,11 @@ inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* call
 	LeaveCriticalSection(mutex);
 }
 
+#ifdef DEBUGMODE
 inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging){
+#else
+inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int, int) {
+#endif
 	SleepEx(miliseconds, alterable);
 #ifdef DEBUGMODE
 	if(logging == 1 && extendedLogging == 1) debugLogA("%s(): %i after SleepEx(%ld,%u)", callingFunction, sleepNumber, miliseconds, alterable);

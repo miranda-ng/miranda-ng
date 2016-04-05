@@ -892,7 +892,6 @@ retry:
 						TCHAR id[32];
 						UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
-						DBVARIANT dbv;
 						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 						GCEVENT gce = { sizeof(gce), &gcd };
 						gce.ptszUID = id;
@@ -1268,7 +1267,7 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 
 ////////////////////////////////////////////////////////////
 // When contact is deleted
-int GGPROTO::contactdeleted(WPARAM hContact, LPARAM lParam)
+int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
@@ -1324,7 +1323,6 @@ static TCHAR* sttSettingToTchar( DBVARIANT* value )
 int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	char *szProto = NULL;
 
 #ifdef DEBUGMODE
 	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
@@ -1403,7 +1401,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 
 ////////////////////////////////////////////////////////////
 // All users set offline
-
+//
 void GGPROTO::setalloffline()
 {
 	debugLogA("setalloffline(): started. Setting buddies offline");
@@ -1424,7 +1422,7 @@ void GGPROTO::setalloffline()
 
 ////////////////////////////////////////////////////////////
 // All users set offline
-
+//
 void GGPROTO::notifyuser(MCONTACT hContact, int refresh)
 {
 	uin_t uin;
@@ -1519,7 +1517,7 @@ void GGPROTO::notifyall()
 
 ////////////////////////////////////////////////////////////
 // Get contact by uin
-
+//
 MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 {
 #ifdef DEBUGMODE
@@ -1606,7 +1604,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 ////////////////////////////////////////////////////////////
 // Status conversion
-
+//
 int GGPROTO::status_m2gg(int status, int descr)
 {
 	// check frends only
@@ -1686,8 +1684,8 @@ int GGPROTO::status_gg2m(int status)
 
 ////////////////////////////////////////////////////////////
 // Called when contact status is changed
-
-void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
+//
+void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
 {
 #ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);

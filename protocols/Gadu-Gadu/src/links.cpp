@@ -36,7 +36,7 @@ static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
+static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 {
 	char *arg = (char*)lParam;
 	uin_t uin;

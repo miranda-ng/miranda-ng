@@ -107,7 +107,7 @@ static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SIGNOUTALL), ListView_GetItemCount(hList) > 0);
 }
 
-static int sttSessionsDlgResizer(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL* urc)
+static int sttSessionsDlgResizer(HWND, LPARAM, UTILRESIZECONTROL* urc)
 {
 	switch (urc->wId)
 	{
@@ -390,7 +390,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 	return FALSE;
 }
 
-INT_PTR GGPROTO::sessions_view(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::sessions_view(WPARAM, LPARAM)
 {
 	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg)) {
 		ShowWindow(hwndSessionsDlg, SW_SHOWNORMAL);

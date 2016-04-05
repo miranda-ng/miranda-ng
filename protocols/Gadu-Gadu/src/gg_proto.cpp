@@ -119,7 +119,7 @@ GGPROTO::~GGPROTO()
 
 //////////////////////////////////////////////////////////
 // when contact is added to list
-
+//
 MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 {
 #ifdef DEBUGMODE
@@ -138,8 +138,8 @@ MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 
 //////////////////////////////////////////////////////////
 // checks proto capabilities
-
-DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT hContact)
+//
+DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -164,7 +164,7 @@ DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT hContact)
 
 //////////////////////////////////////////////////////////
 // user info request
-
+//
 void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 {
 	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
@@ -173,7 +173,7 @@ void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 	debugLogA("cmdgetinfothread(): end.");
 }
 
-int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
+int GGPROTO::GetInfo(MCONTACT hContact, int)
 {
 	gg_pubdir50_t req;
 
@@ -227,6 +227,7 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 				debugLogA("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
 			#endif
 				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
+				gg_pubdir50_free(req);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 2, "sess_mutex", 1);
@@ -238,9 +239,6 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 	return 1;
 }
 
-//////////////////////////////////////////////////////////
-// when basic search
-
 void __cdecl GGPROTO::searchthread(void *)
 {
 	debugLogA("searchthread(): started. Failed search.");
@@ -251,6 +249,9 @@ void __cdecl GGPROTO::searchthread(void *)
 #endif
 }
 
+//////////////////////////////////////////////////////////
+// when basic search
+//
 HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 {
 	if (!isonline())
@@ -287,7 +288,7 @@ HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 
 //////////////////////////////////////////////////////////
 // search by details
-
+//
 HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
 {
 	// Check if connected and if there's a search data
@@ -344,10 +345,12 @@ HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TC
 		debugLogA("SearchByName(): ForkThread 13 GGPROTO::searchthread");
 	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
-		return (HANDLE)1;
 	}
-	gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 2, "sess_mutex", 1);
-	debugLogA("SearchByName(): Seq %d.", req->seq);
+	else
+	{
+		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 2, "sess_mutex", 1);
+		debugLogA("SearchByName(): Seq %d.", req->seq);
+	}
 	gg_pubdir50_free(req);
 
 	return (HANDLE)1;
@@ -355,7 +358,7 @@ HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TC
 
 //////////////////////////////////////////////////////////
 // search by advanced
-
+//
 HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 {
 	// Check if connected
@@ -455,8 +458,10 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 7 */ szQuery.AppendChar('.');
 
 	// No data entered
-	if (szQuery.GetLength() <= 7 || (szQuery.GetLength() == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED)))
+	if (szQuery.GetLength() <= 7 || (szQuery.GetLength() == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) {
+		gg_pubdir50_free(req);
 		return 0;
+	}
 
 	// Count crc & check if the data was equal if yes do same search with shift
 	unsigned long crc = crc_get(szQuery.GetBuffer());
@@ -488,8 +493,8 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 //////////////////////////////////////////////////////////
 // create adv search dialog
-
-static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+//
+static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPARAM, LPARAM)
 {
 	switch (message) {
 	case WM_INITDIALOG:
@@ -508,9 +513,6 @@ HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
 }
 
-//////////////////////////////////////////////////////////
-// when messsage sent
-
 typedef struct
 {
 	MCONTACT hContact;
@@ -525,6 +527,9 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 	mir_free(ack);
 }
 
+//////////////////////////////////////////////////////////
+// when messsage sent
+//
 int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
@@ -554,7 +559,7 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 
 //////////////////////////////////////////////////////////
 // visible lists
-
+//
 int GGPROTO::SetApparentMode(MCONTACT hContact, int mode)
 {
 	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
@@ -564,7 +569,7 @@ int GGPROTO::SetApparentMode(MCONTACT hContact, int mode)
 
 //////////////////////////////////////////////////////////
 // sets protocol status
-
+//
 int GGPROTO::SetStatus(int iNewStatus)
 {
 	int nNewStatus = gg_normalizestatus(iNewStatus);
@@ -582,9 +587,6 @@ int GGPROTO::SetStatus(int iNewStatus)
 
 	return 0;
 }
-
-//////////////////////////////////////////////////////////
-// when away message is requested
 
 void __cdecl GGPROTO::getawaymsgthread(void *arg)
 {
@@ -604,6 +606,9 @@ void __cdecl GGPROTO::getawaymsgthread(void *arg)
 	debugLogA("getawaymsgthread(): end");
 }
 
+//////////////////////////////////////////////////////////
+// when away message is requested
+//
 HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
 {
 #ifdef DEBUGMODE
@@ -616,7 +621,7 @@ HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
 //////////////////////////////////////////////////////////
 // when away message is being set
 // registered as ProtoService PS_SETAWAYMSGT
-
+//
 int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
@@ -675,7 +680,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
 
 //////////////////////////////////////////////////////////
 // sends a notification that the user is typing a message
-
+//
 int GGPROTO::UserIsTyping(MCONTACT hContact, int type)
 {
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
@@ -693,7 +698,7 @@ int GGPROTO::UserIsTyping(MCONTACT hContact, int type)
 
 //////////////////////////////////////////////////////////
 // Custom protocol event
-
+//
 int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {

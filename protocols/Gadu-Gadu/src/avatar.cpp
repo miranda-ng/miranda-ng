@@ -25,7 +25,7 @@
 
 //////////////////////////////////////////////////////////
 // Avatars support
-
+//
 void GGPROTO::getAvatarFilename(MCONTACT hContact, TCHAR *pszDest, int cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);

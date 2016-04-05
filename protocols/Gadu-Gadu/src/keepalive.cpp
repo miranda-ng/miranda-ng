@@ -26,7 +26,7 @@
 #define MAX_TIMERS 8
 GGPROTO *g_timers[MAX_TIMERS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
-static VOID CALLBACK gg_keepalive(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	int i;
 	

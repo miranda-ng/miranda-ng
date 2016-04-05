@@ -30,7 +30,7 @@ struct PopupData
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin window proc
-
+//
 LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) 
@@ -69,7 +69,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin class registration
-
+//
 void GGPROTO::initpopups()
 {
 	TCHAR szDescr[256];
@@ -102,7 +102,7 @@ void GGPROTO::initpopups()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Show popup - popup plugin support
-
+//
 void CALLBACK sttMainThreadCallback(PVOID dwParam)
 {
 	PopupData* puData = (PopupData*)dwParam;

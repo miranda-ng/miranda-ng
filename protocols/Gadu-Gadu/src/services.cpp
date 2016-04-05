@@ -48,7 +48,7 @@ char *gg_status2db(int status, const char *suffix)
 
 //////////////////////////////////////////////////////////
 // gets protocol status
-
+//
 TCHAR* GGPROTO::getstatusmsg(int status)
 {
 	switch(status) {
@@ -72,7 +72,7 @@ TCHAR* GGPROTO::getstatusmsg(int status)
 
 //////////////////////////////////////////////////////////
 // sets specified protocol status
-
+//
 int GGPROTO::refreshstatus(int status)
 {
 	if (status == ID_STATUS_OFFLINE)
@@ -127,7 +127,7 @@ int GGPROTO::refreshstatus(int status)
 
 //////////////////////////////////////////////////////////
 // normalize gg status
-
+//
 int gg_normalizestatus(int status)
 {
 	switch(status) {
@@ -143,7 +143,7 @@ int gg_normalizestatus(int status)
 //////////////////////////////////////////////////////////
 // gets avatar capabilities
 // registered as ProtoService PS_GETAVATARCAPS
-
+//
 INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
@@ -168,7 +168,7 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // gets avatar information
 // registered as ProtoService PS_GETAVATARINFO
-
+//
 INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
@@ -217,10 +217,12 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	ptrA AvatarTs( getStringA(pai->hContact, GG_KEY_AVATARTS));
 	if (AvatarURL != NULL && AvatarTs != NULL) {
 		char *AvatarName = strrchr(AvatarURL, '/');
-		AvatarName++;
-		char AvatarNameWithTS[128];
-		mir_snprintf(AvatarNameWithTS, "%s%s", AvatarName, AvatarTs);
-		AvatarHash = gg_avatarhash(AvatarNameWithTS);
+		if (AvatarName)
+		{
+			char AvatarNameWithTS[128];
+			mir_snprintf(AvatarNameWithTS, "%s%s", ++AvatarName, AvatarTs);
+			AvatarHash = gg_avatarhash(AvatarNameWithTS);
+		}
 	}
 
 	ptrA AvatarSavedHash( getStringA(pai->hContact, GG_KEY_AVATARHASH));
@@ -279,7 +281,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // gets avatar
 // registered as ProtoService PS_GETMYAVATAR
-
+//
 INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *szFilename = (TCHAR*)wParam;
@@ -309,8 +311,8 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // sets avatar
 // registered as ProtoService PS_SETMYAVATAR
-
-INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
+//
+INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
 {
 	TCHAR *szFilename = (TCHAR*)lParam;
 
@@ -347,7 +349,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // gets protocol status message
 // registered as ProtoService PS_GETMYAWAYMSG
-
+//
 INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR res = 0;
@@ -360,13 +362,13 @@ INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	return res;
 }
 
+extern INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 //////////////////////////////////////////////////////////
 // gets account manager GUI
 // registered as ProtoService PS_CREATEACCMGRUI
-
-extern INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM wParam, LPARAM lParam)
+//
+INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR) CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, gg_acc_mgr_guidlgproc, (LPARAM)this);
 }
@@ -374,8 +376,8 @@ INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////
 // leaves (terminates) conference
 // registered as ProtoService PS_LEAVECHAT
-
-INT_PTR GGPROTO::leavechat(WPARAM hContact, LPARAM lParam)
+//
+INT_PTR GGPROTO::leavechat(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
