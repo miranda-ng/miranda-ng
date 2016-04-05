@@ -30,7 +30,7 @@ regrading the loading of ini contents
 //============  INI INFORMATION  ============
 
 // List INI Information for all loaded INI files
-void INIInfo(HWND hwndDlg)
+static void INIInfo(HWND hwndDlg)
 {
 	TCHAR str[16];
 	size_t memused = 0;
@@ -202,7 +202,7 @@ void GetINIInfo(TCHAR *pszSvc)
 }
 
 //============  DISPLAY A LIST FOR CUSTOM VARIABLES  ============
-
+//
 // a message box for displaying the list of custom variables
 // can be found when click on "More" in text option dialog
 void MoreVarList(void)

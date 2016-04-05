@@ -26,12 +26,10 @@ menu items).
 
 #include "stdafx.h"
 
-UPDATELIST *UpdateListHead;
-UPDATELIST *UpdateListTail;
-
+UPDATELIST *UpdateListHead, *UpdateListTail;
 
 //============  RETRIEVE NEW WEATHER  ============
-
+//
 // retrieve weather info and display / log them
 // hContact = current contact
 int UpdateWeather(MCONTACT hContact)
@@ -219,7 +217,7 @@ int UpdateWeather(MCONTACT hContact)
 }
 
 //============  UPDATE LIST  ============
-
+//
 // a linked list queue for updating weather station
 // this function add a weather contact to the end of queue for update
 // hContact = current contact
@@ -279,66 +277,9 @@ void DestroyUpdateList(void)
 	ReleaseMutex(hUpdateMutex);
 }
 
-//============  UPDATE WEATHER  ============
-
-// update all weather station
-// AutoUpdate = true if it is from automatic update using timer
-//				false if it is from update by clicking the main menu
-void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
-{
-	// add all weather contact to the update queue list
-	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
-		if (!db_get_b(hContact, WEATHERPROTONAME, "AutoUpdate", FALSE) || !AutoUpdate) {
-			if (RemoveData)
-				DBDataManage((MCONTACT)hContact, WDBM_REMOVE, 0, 0);
-			UpdateListAdd(hContact);
-		}
-
-	// if it is not updating, then start the update thread process
-	// if it is updating, the stations just added to the queue will get updated by the already-running process
-	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, NULL);
-}
-
-// update a single station
-// wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM)
-{
-	if (IsMyContact(wParam)) {
-		// add the station to the end of the update queue	
-		UpdateListAdd(wParam);
-
-		// if it is not updating, then start the update thread process
-		// if it is updating, the stations just added to the queue will get 
-		// updated by the already-running process
-		if (!ThreadRunning)
-			mir_forkthread(UpdateThreadProc, NULL);
-	}
-
-	return 0;
-}
-
-// update a single station with removing the old data
-// wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM)
-{
-	if (IsMyContact(wParam)) {
-		// add the station to the end of the update queue, and also remove old data
-		DBDataManage(wParam, WDBM_REMOVE, 0, 0);
-		UpdateListAdd(wParam);
-
-		// if it is not updating, then start the update thread process
-		// if it is updating, the stations just added to the queue will get updated by the already-running process
-		if (!ThreadRunning)
-			mir_forkthread(UpdateThreadProc, NULL);
-	}
-
-	return 0;
-}
-
 // update all weather thread
 // this thread update each weather station from the queue
-void UpdateThreadProc(LPVOID)
+static void UpdateThreadProc(void *)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 	if (ThreadRunning) {
@@ -358,6 +299,63 @@ void UpdateThreadProc(LPVOID)
 	ThreadRunning = FALSE;
 }
 
+//============  UPDATE WEATHER  ============
+//
+// update all weather station
+// AutoUpdate = true if it is from automatic update using timer
+//				false if it is from update by clicking the main menu
+void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
+{
+	// add all weather contact to the update queue list
+	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
+		if (!db_get_b(hContact, WEATHERPROTONAME, "AutoUpdate", FALSE) || !AutoUpdate) {
+			if (RemoveData)
+				DBDataManage(hContact, WDBM_REMOVE, 0, 0);
+			UpdateListAdd(hContact);
+		}
+
+	// if it is not updating, then start the update thread process
+	// if it is updating, the stations just added to the queue will get updated by the already-running process
+	if (!ThreadRunning)
+		mir_forkthread(UpdateThreadProc);
+}
+
+// update a single station
+// wParam = handle for the weather station that is going to be updated
+INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM)
+{
+	if (IsMyContact(wParam)) {
+		// add the station to the end of the update queue	
+		UpdateListAdd(wParam);
+
+		// if it is not updating, then start the update thread process
+		// if it is updating, the stations just added to the queue will get 
+		// updated by the already-running process
+		if (!ThreadRunning)
+			mir_forkthread(UpdateThreadProc);
+	}
+
+	return 0;
+}
+
+// update a single station with removing the old data
+// wParam = handle for the weather station that is going to be updated
+INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM)
+{
+	if (IsMyContact(wParam)) {
+		// add the station to the end of the update queue, and also remove old data
+		DBDataManage(wParam, WDBM_REMOVE, 0, 0);
+		UpdateListAdd(wParam);
+
+		// if it is not updating, then start the update thread process
+		// if it is updating, the stations just added to the queue will get updated by the already-running process
+		if (!ThreadRunning)
+			mir_forkthread(UpdateThreadProc);
+	}
+
+	return 0;
+}
+
 // the "Update All" menu item in main menu
 INT_PTR UpdateAllInfo(WPARAM, LPARAM)
 {
@@ -375,12 +373,12 @@ INT_PTR UpdateAllRemove(WPARAM, LPARAM)
 }
 
 //============  GETTING WEATHER DATA  ============
-
+//
 // getting weather data and save them into the database
 // hContact = the contact to get the data
 int GetWeatherData(MCONTACT hContact)
 {
-	// get eacnh part of the id's
+	// get each part of the id's
 	TCHAR id[256];
 	GetStationID(hContact, id, _countof(id));
 
@@ -585,7 +583,7 @@ int GetWeatherData(MCONTACT hContact)
 }
 
 //============  UPDATE TIMERS  ============
-
+//
 // main auto-update timer
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {

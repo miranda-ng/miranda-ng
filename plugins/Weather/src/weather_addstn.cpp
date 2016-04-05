@@ -165,7 +165,7 @@ INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam)
 }
 
 // ============ NAME SEARCH  ============
-
+//
 // name search timer process (threaded)
 static void __cdecl NameSearchTimerProc(LPVOID)
 {
