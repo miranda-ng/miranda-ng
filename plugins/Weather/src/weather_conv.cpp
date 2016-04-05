@@ -403,19 +403,18 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 }
 
 //============  STRING CONVERSIONS  ============
-
+//
 // this function convert the string to the format with 1 upper case followed by lower case char
 void CaseConv(TCHAR *str)
 {
-	TCHAR *pstr;
 	BOOL nextUp = TRUE;
 
 	CharLowerBuff(str, (DWORD)mir_tstrlen(str));
-	for (pstr = str; *pstr; pstr++) {
+	for (TCHAR *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = TRUE;
 		else {
-			TCHAR ch = *(TCHAR*)pstr;
+			TCHAR ch = *pstr;
 			if (nextUp)
 				*pstr = (TCHAR)CharUpper((LPTSTR)ch);
 			nextUp = FALSE;
@@ -425,7 +424,7 @@ void CaseConv(TCHAR *str)
 
 // the next 2 functions are copied from miranda source
 // str = the string to modify
-
+//
 void TrimString(char *str)
 {
 	size_t len, start;
@@ -481,7 +480,7 @@ char *GetSearchStr(char *dis)
 }
 
 //============  ICON ASSIGNMENT  ============
-
+//
 // make display and history strings
 // w = WEATHERINFO data to be parsed
 // dis = the string to parse
@@ -575,7 +574,7 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 }
 
 //============  ID MANAGEMENT  ============
-
+//
 // get service data module internal name
 //   mod/id  <- the mod part
 // pszID = original 2-part id, return the service internal name
@@ -597,11 +596,11 @@ void GetID(TCHAR *pszID)
 }
 
 //============  WEATHER ERROR CODE  ============
-
+//
 // Get the text when an error code is specified
 // code = the error code obtained when updating weather
 // str = the string for the error
-
+//
 TCHAR *GetError(int code)
 {
 	TCHAR *str, str2[100];

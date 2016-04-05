@@ -27,25 +27,23 @@ from the web using netlib
 
 HANDLE hNetlibUser, hNetlibHttp;
 
-int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
+static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 {
-	int res = -1, i;
-	for (i = 0; i < nlhrReply->headersCount; i++) {
+	for (int i = 0; i < nlhrReply->headersCount; i++) {
 		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) {
-			res = i;
-			break;
+			return i;
 		}
 	}
-	return res;
+	return -1;
 }
 
 //============  DOWNLOAD NEW WEATHER  ============
-
+//
 // function to download webpage from the internet
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-
+//
 int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szData)
 {
 	if (userAgent == NULL || userAgent[0] == 0)
@@ -95,14 +93,17 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 
 			// allocate memory and save the retrieved data
 			int i = findHeader(nlhrReply, "Content-Type");
-			if (i != -1 && strstr(_strlwr((char*)nlhrReply->headers[i].szValue), "utf-8"))
+			// look for Content-Type=utf-8 in header
+			if (i != -1 && strstr(_strlwr(nlhrReply->headers[i].szValue), "utf-8"))
 				bIsUtf = true;
 			else {
-				char* end = nlhrReply->pData;
-				for (;;) {
+				char *end = nlhrReply->pData;
+				while (end) {
+					// look for
+					// <meta http-equiv="Content-Type" content="utf-8" />
 					char* beg = strstr(end, "<meta");
-					if (beg == NULL) break;
-					else {
+					if (beg)
+					{
 						end = strchr(beg, '>');
 						if (end)
 						{
@@ -118,6 +119,8 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 							else *end = tmp;
 						}
 					}
+					else
+						break;
 				}
 			}
 
@@ -135,7 +138,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 		*szData = (TCHAR*)mir_alloc(512);
 		// store the error code in szData
 		mir_sntprintf(*szData, 512, _T("Error occured! HTTP Error: %i\n"), nlhrReply->resultCode);
-		result = (int)nlhrReply->resultCode;
+		result = nlhrReply->resultCode;
 	}
 
 	hNetlibHttp = nlhrReply->nlc;
@@ -145,7 +148,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 }
 
 //============  NETLIB INITIALIZATION  ============
-
+//
 // initialize netlib support for weather protocol
 void NetlibInit(void)
 {

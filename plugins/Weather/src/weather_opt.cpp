@@ -28,7 +28,7 @@ static BOOL opt_startup;
 int RedrawFrame(WPARAM wParam, LPARAM lParam);
 
 //============  LOADING AND SAVING OPTIONS  ===========
-
+//
 // set a string to default
 // in = string to determine which field to set default "CBNEHXPp"
 void SetTextDefault(const char* in)
@@ -387,7 +387,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 //============  TEXT OPTION DIALOG  ============
 
-void LoadTextSettings(HWND hdlg)
+static void LoadTextSettings(HWND hdlg)
 {
 	// load text option settings from memory
 	SetDlgItemText(hdlg, IDC_CTEXT, opt.cText);
@@ -401,7 +401,7 @@ void LoadTextSettings(HWND hdlg)
 }
 
 // free the display text settings from memory
-void FreeTextVar(void)
+static void FreeTextVar(void)
 {
 	wfree(&opt.cText);
 	wfree(&opt.bText);
