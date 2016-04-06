@@ -50,6 +50,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <win2k.h>
 #include <m_extraicons.h>
 #include <m_protoint.h>
+#include <m_xml.h>
 
 #include <m_folders.h>
 #include <m_assocmgr.h>

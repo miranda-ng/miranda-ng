@@ -140,35 +140,234 @@ void CAimProto::aim_connection_authorization(void)
 	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
-void fill_post_request(char *buf)
+void fill_post_request(char *buf, const char*password, const char* login)
 {
 	//TODO: fill post data
 	/*
 		devId=dev_key&f=xml&pwd=urlencoded_password&s=urlencoded_screenname
 	*/
-	//mir_urlEncode()
+	char *_pas = mir_urlEncode(password);
+	char *_login = mir_urlEncode(login);
+	mir_snprintf(buf, 1023, "devId=%s&f=xml&pwd=%s&s=%s", AIM_DEFAULT_CLIENT_KEY, _pas, _login);
+	mir_free(_pas);
+	mir_free(_login);
 }
 
-bool parse_clientlogin_response(char *buf, size_t len, char *token, char *secret, time_t &hosttime)
+bool parse_clientlogin_response(const char *buf, char *token, char *secret, time_t &hosttime)
 {
 	//TODO: validate response
 	//TODO: return false on errors
 	//TODO: extract token, secret, hosttime from response
+	int datalen = 0;
+	wchar_t *buf_w =mir_utf8decodeW(buf);
+	HXML root = xmlParseString(buf_w, &datalen, _T(""));
+	if(!root)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	HXML status = xmlGetNthChild(root, _T("statusCode"), 0);
+	if(!status)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	LPCTSTR status_text = xmlGetText(status);
+	//TODO: check other than 200 codes and print some debug info on errors
+	if(wcscmp(status_text, L"200"))
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	HXML data = xmlGetNthChild(root, _T("data"), 0);
+	if(!data)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	HXML secret_node = xmlGetNthChild(data, _T("sessionSecret"), 0);
+	HXML hosttime_node = xmlGetNthChild(data, _T("hostTime"), 0);
+	HXML token_node = xmlGetNthChild(data, _T("token"), 0);
+	if(!secret_node || !hosttime_node || !token_node)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	token_node = xmlGetNthChild(token_node, _T("a"), 0);
+	if(!token_node)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	LPCTSTR secret_w = xmlGetText(secret_node), token_w = xmlGetText(token_node), hosttime_w = xmlGetText(hosttime_node);
+	if(!secret_w || !token_w || !hosttime_w)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	{
+		char *tmp_secret = mir_t2a(secret_w);
+		if(!tmp_secret)
+		{
+			mir_free(buf_w);
+			return false;
+		}
+		char *tmp_token = mir_t2a(token_w);
+		if(!tmp_token)
+		{
+			mir_free(tmp_secret);
+			mir_free(buf_w);
+			return false;
+		}
+		char *tmp_time = mir_t2a(hosttime_w);
+		if(!tmp_time)
+		{
+			mir_free(tmp_token);
+			mir_free(tmp_secret);
+			mir_free(buf_w);
+			return false;
+		}
+		mir_strcpy(secret, tmp_secret);
+		mir_strcpy(token, tmp_token);
+		hosttime = strtol(tmp_time, NULL, 10);
+		mir_free(tmp_token);
+		mir_free(tmp_secret);
+		mir_free(tmp_time);
+	}
+	mir_free(buf_w);
 	return true;
 }
 
-void fill_login_url(char *buf, char *token, char *secret, time_t &hosttime)
+void construct_query_string(char *buf, const char *token, time_t hosttime, bool encryption = true)
 {
-	//TODO: construct url for get request
+	//TODO: construct query string
 	/*
 		a=urlencoded_token&distId=0x00000611&f=xml&k=dev_key&ts=hosttime&useTLS=bool_encryption
 	*/
+	char *urlencoded_token = mir_urlEncode(token);
+	mir_snprintf(buf, 1023, "a=%s&distId=0x00000611&f=xml&k=%s&ts=%d&useTLS=%d", urlencoded_token, AIM_DEFAULT_CLIENT_KEY, hosttime, encryption);
+	mir_free(urlencoded_token);
 
 }
 
-bool parse_start_socar_session_response(char *response, size_t response_len, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name)
+void generate_signature(char *signature, const char *method, const char *url, const char *parameters, const char *session_key)
+{
+	char *encoded_url = mir_urlEncode(url);
+	char *encoded_parameters = mir_urlEncode(parameters);
+	char signature_base[1024];
+	mir_snprintf(signature_base, 1023, "%s%s%s", method, encoded_url, encoded_parameters);
+	mir_free(encoded_url);
+	mir_free(encoded_parameters);
+	//signature = hmac_sha256(session_key, signature_base);//TODO: need this to be implemented
+}
+
+void fill_session_url(char *buf, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
+{
+	//TODO: construct url for get request
+	/*
+		AIM_SESSION_URL?query_string?sig_sha256=signature
+	*/
+	char query_string[1024];
+	query_string[0] = 0;
+	construct_query_string(query_string, token, hosttime);
+	char signature[512];
+
+	char session_key[1024];
+
+	//session_key = hmac_sha256(password, secret); //TODO: need this to be implemented
+
+	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, session_key);
+
+	mir_snprintf(buf, 2023, "%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, signature);
+
+}
+
+bool parse_start_socar_session_response(char *response, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name, bool encryption = true)
 {
 	//TODO: extract bos_host, bos_port, cookie, tls_cert_name
+
+	int datalen = 0;
+	wchar_t *buf_w =mir_utf8decodeW(response);
+	HXML root = xmlParseString(buf_w, &datalen, _T(""));
+	if(!root)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	HXML status = xmlGetNthChild(root, _T("statusCode"), 0);
+	if(!status)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	LPCTSTR status_text = xmlGetText(status);
+	//TODO: check other than 200 codes and print some debug info on errors
+	if(wcscmp(status_text, L"200"))
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	HXML data = xmlGetNthChild(root, _T("data"), 0);
+	if(!data)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+
+	HXML host_node = xmlGetNthChild(data, _T("host"), 0);
+	HXML port_node = xmlGetNthChild(data, _T("port"), 0);
+	HXML cookie_node = xmlGetNthChild(data, _T("cookie"), 0);
+	if(!host_node || !port_node || !cookie_node)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	LPCTSTR host_w = xmlGetText(host_node), port_w = xmlGetText(port_node), cookie_w = xmlGetText(cookie_node);
+	if(!host_w || !port_w || !cookie_w)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	char *tmp_host = mir_t2a(host_w);
+	if(!tmp_host)
+	{
+		mir_free(buf_w);
+		return false;
+	}
+	char *tmp_port = mir_t2a(port_w);
+	if(!tmp_port)
+	{
+		mir_free(tmp_host);
+		mir_free(buf_w);
+		return false;
+	}
+	char *tmp_cookie = mir_t2a(cookie_w);
+	if(!tmp_cookie)
+	{
+		mir_free(tmp_port);
+		mir_free(tmp_host);
+		mir_free(buf_w);
+		return false;
+	}
+	mir_strcpy(bos_host, tmp_host);
+	bos_port = atoi(tmp_port);
+	mir_strcpy(cookie, tmp_cookie);
+	mir_free(tmp_host); mir_free(tmp_port); mir_free(tmp_cookie);
+	HXML tls_node = xmlGetNthChild(data, _T("tlsCertName"), 0); //tls is optional, so this is not fatal error
+	if(tls_node)
+	{
+		LPCTSTR certname_w = xmlGetText(tls_node);
+		if(certname_w)
+		{
+			char *tmp_certname = mir_t2a(certname_w);
+			if(tmp_certname)
+			{
+				mir_strcpy(tls_cert_name, tmp_certname);
+				mir_free(tmp_certname);
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -181,29 +380,35 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.szUrl = AIM_LOGIN_URL;
 	char buf[1024];
 	buf[0] = 0;
-	fill_post_request(buf);
+	char *password = getStringA(AIM_KEY_PW);
+	fill_post_request(buf, password, m_username);
 	req.pData = buf;
 	req.dataLength = (int)strlen(buf);
+
+	bool encryption = true; //TODO: make this configurable
 
 	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if(!resp)
 	{
 		//TODO: handle error
+		mir_free(password);
 		return;
 	}
 	if(!resp->dataLength)
 	{
 		//TODO: handle error
+		mir_free(password);
 		return;
 	}
 	char token[512], secret[512]; //TODO: find efficient buf size
 	token[0] = 0;
 	secret[0] = 0;
 	time_t hosttime;
-	if(!parse_clientlogin_response(resp->pData, resp->dataLength, token, secret, hosttime))
+	if(!parse_clientlogin_response(resp->pData, token, secret, hosttime)) //TODO: check if data nullterminated
 	{
 		//TODO: handle error
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+		mir_free(password);
 		return;
 	}
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
@@ -211,9 +416,10 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.requestType = REQUEST_GET;
 	req.pData = NULL;
 	req.dataLength = 0;
-	char url[1024];
+	char url[2048];
 	url[0] = 0;
-	fill_login_url(url, token, secret, hosttime);
+	fill_session_url(url, token, secret, hosttime, password, encryption);
+	mir_free(password);
 	req.szUrl = url;
 	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if(!resp)
@@ -231,7 +437,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	cookie[0] = 0;
 	tls_cert_name[0] = 0;
 	unsigned short bos_port = 0;
-	if(!parse_start_socar_session_response(resp->pData, resp->dataLength, bos_host, bos_port, cookie, tls_cert_name))
+	if(!parse_start_socar_session_response(resp->pData, bos_host, bos_port, cookie, tls_cert_name, encryption))
 	{
 		//TODO: handle error
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
@@ -239,7 +445,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	}
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 
-	m_hServerConn = aim_connect(bos_host, bos_port, tls_cert_name[0] ? true : false, bos_host);
+	m_hServerConn = aim_connect(bos_host, bos_port, (tls_cert_name[0] && encryption) ? true : false, bos_host);
 	if(!m_hServerConn)
 	{
 		//TODO: handle error
