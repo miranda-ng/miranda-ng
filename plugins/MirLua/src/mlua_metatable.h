@@ -64,12 +64,13 @@ private:
 		*obj = (T*)lua_touserdata(L, 1);
 	}
 
-	static int Index(lua_State *L, T */*obj*/)
+	static int Index(lua_State *L, T* /*obj*/)
 	{
 		lua_pushnil(L);
+		return 1;
 	}
 
-	static void Free(lua_State */*L*/, T **obj)
+	static void Free(lua_State * /*L*/, T **obj)
 	{
 		*obj = NULL;
 	}
