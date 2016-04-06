@@ -70,17 +70,17 @@ public:
 
 	enum { IT_UNKNOWN, IT_FILE, IT_RESOURCE };
 
-	typedef HRESULT(*ParserCallback_t)(const char * szSection, const char * szKey, const char * szValue, IniParser * This);
+	typedef HRESULT(*ParserCallback_t)(const char *szSection, const char *szKey, const char *szValue, IniParser *This);
 
-	IniParser(TCHAR * szFileName, BYTE flags = FLAG_WITH_SETTINGS);
+	IniParser(TCHAR *szFileName, BYTE flags = FLAG_WITH_SETTINGS);
 	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, BYTE flags = FLAG_ONLY_OBJECTS);
 	~IniParser();
 
 	bool CheckOK() { return _isValid; }
 	HRESULT Parse(ParserCallback_t pLineCallBackProc, LPARAM lParam);
 
-	static HRESULT WriteStrToDb(const char * szSection, const char * szKey, const char * szValue, IniParser * This);
-	static int GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderName);
+	static HRESULT WriteStrToDb(const char *szSection, const char *szKey, const char *szValue, IniParser *This);
+	static int GetSkinFolder(IN const TCHAR *szFileName, OUT TCHAR *pszFolderName);
 
 private:
 	// common
@@ -93,24 +93,22 @@ private:
 	int		_nLine;
 
 	void _DoInit();
-	BOOL _DoParseLine(char * szLine);
+	BOOL _DoParseLine(char *szLine);
 
 	// Processing File
 	HRESULT _DoParseFile();
-	FILE *	_hFile;
+	FILE*	_hFile;
 
 	// Processing resource
-	void _LoadResourceIni(HINSTANCE hInst, const char *  resourceName, const char * resourceType);
+	void _LoadResourceIni(HINSTANCE hInst, const char *resourceName, const char *resourceType);
 	HRESULT _DoParseResource();
-	const char * _RemoveTailings(const char * szLine, size_t& len);
+	const char* _RemoveTailings(const char *szLine, size_t &len);
 
 	HGLOBAL _hGlobalRes;
 	DWORD   _dwSizeOfRes;
-	char *	_pPosition;
+	char*	_pPosition;
 
 	BYTE _Flags;
-
-
 };
 
 

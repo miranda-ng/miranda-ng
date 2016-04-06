@@ -29,7 +29,7 @@ static LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
 void FreeDisplayNameCache(void)
 {
-	for (int i=0; i < clistCache.getCount(); i++) {
+	for (int i = 0; i < clistCache.getCount(); i++) {
 		cli.pfnFreeCacheItem(clistCache[i]);
 		mir_free(clistCache[i]);
 	}
@@ -41,7 +41,7 @@ void FreeDisplayNameCache(void)
 
 ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 {
-	ClcCacheEntry* p = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
+	ClcCacheEntry *p = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 	if (p == NULL)
 		return NULL;
 
@@ -51,13 +51,10 @@ ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 
 void fnCheckCacheItem(ClcCacheEntry *p)
 {
-	DBVARIANT dbv;
 	if (p->tszGroup == NULL) {
-		if (!db_get_ts(p->hContact, "CList", "Group", &dbv)) {
-			p->tszGroup = mir_tstrdup(dbv.ptszVal);
-			mir_free(dbv.ptszVal);
-		}
-		else p->tszGroup = mir_tstrdup(_T(""));
+		p->tszGroup = db_get_tsa(p->hContact, "CList", "Group");
+		if (p->tszGroup == NULL)
+			p->tszGroup = mir_tstrdup(_T(""));
 	}
 
 	if (p->bIsHidden == -1)
@@ -119,7 +116,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	if (ci.hContact == NULL)
 		ci.szProto = "ICQ";
 	ci.dwFlag = ((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (cacheEntry != NULL)
 				cacheEntry->tszName = ci.pszVal;
@@ -127,7 +124,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 		}
 
 		if (ci.type == CNFT_DWORD) {
-			TCHAR *buffer = (TCHAR*) mir_alloc(15 * sizeof(TCHAR));
+			TCHAR *buffer = (TCHAR*)mir_alloc(15 * sizeof(TCHAR));
 			_ltot(ci.dVal, buffer, 10);
 			if (cacheEntry != NULL)
 				cacheEntry->tszName = buffer;
@@ -158,44 +155,62 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, TCHAR* &pStr)
+{
+	mir_free(pStr);
+
+	switch (cws->value.type) {
+	case -1:
+	case DBVT_DELETED:
+		pStr = NULL;
+		break;
+
+	case DBVT_UTF8:
+		pStr = mir_utf8decodeT(cws->value.pszVal);
+		break;
+
+	case DBVT_ASCIIZ:
+		pStr = mir_a2t(cws->value.pszVal);
+		break;
+
+	case DBVT_WCHAR:
+		pStr = mir_u2t(cws->value.ptszVal);
+		break;
+	}
+}
+
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-
 	// Early exit
 	if (hContact == NULL)
 		return 0;
 
-	DBVARIANT dbv;
-	dbv.pszVal = NULL;
-	if (!db_get(hContact, "Protocol", "p", &dbv)) {
-		if (!mir_strcmp(cws->szModule, dbv.pszVal)) {
-			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
-			if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
-				 || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail"))
-			{
-				CallService(MS_CLUI_CONTACTRENAMED, hContact, 0);
-			}
-			else if (!strcmp(cws->szSetting, "Status")) {
-				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
-					if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
-						// User's state is changing, and we are hideOffline-ing
-						if (cws->value.wVal == ID_STATUS_OFFLINE) {
-							cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
-							CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
-							mir_free(dbv.pszVal);
-							return 0;
-						}
-						cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 1);
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	char *szProto = GetContactProto(hContact);
+	if (!mir_strcmp(cws->szModule, szProto)) {
+		if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
+			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			replaceStrT(pdnce->tszName, NULL);
+			cli.pfnCheckCacheItem(pdnce);
+		}
+		else if (!strcmp(cws->szSetting, "Status")) {
+			if (!db_get_b(hContact, "CList", "Hidden", 0)) {
+				if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
+					// User's state is changing, and we are hideOffline-ing
+					if (cws->value.wVal == ID_STATUS_OFFLINE) {
+						cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
+						CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
+						return 0;
 					}
-					cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
+					cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 1);
 				}
-			}
-			else {
-				mir_free(dbv.pszVal);
-				return 0;
+				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
 			}
 		}
+
+		return 0;
 	}
 
 	if (!strcmp(cws->szModule, "CList")) {
@@ -207,8 +222,15 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			else
 				CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 		}
-		if (!strcmp(cws->szSetting, "MyHandle"))
-			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
+		else if (!strcmp(cws->szSetting, "MyHandle")) {
+			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			replaceStrT(pdnce->tszName, NULL);
+			cli.pfnCheckCacheItem(pdnce);
+		}
+		else if (!strcmp(cws->szSetting, "Group")) {
+			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			Dbwcs2tstr(cws, pdnce->tszGroup);
+		}
 	}
 
 	if (!strcmp(cws->szModule, "Protocol")) {
@@ -219,15 +241,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			else
 				szProto = cws->value.pszVal;
 			cli.pfnChangeContactIcon(hContact,
-				cli.pfnIconFromStatusMode(szProto,
-					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status",
-					ID_STATUS_OFFLINE), hContact), 0);
+				cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 0);
 		}
 	}
-
-	// Clean up
-	if (dbv.pszVal)
-		mir_free(dbv.pszVal);
-
 	return 0;
 }

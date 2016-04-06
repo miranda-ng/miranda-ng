@@ -69,11 +69,11 @@ int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODE
 int SortMaskList(LISTMODERNMASK *mmList);
 int ClearMaskList(LISTMODERNMASK *mmTemplateList);
 
-BOOL CompareStrWithModernMask(char * szValue, MODERNMASK *mmTemplate);
-DWORD mod_CalcHash(const char * a);
-int RegisterObjectByParce(char * ObjectName, char *Params);
+BOOL CompareStrWithModernMask(char *szValue, MODERNMASK *mmTemplate);
+DWORD mod_CalcHash(const char *a);
+int RegisterObjectByParce(char *ObjectName, char *Params);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mmTemplateList);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList);
-TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
+TCHAR * GetParamNT(char *string, TCHAR *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
 int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMask);
 #endif

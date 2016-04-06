@@ -35,7 +35,7 @@ static int displayNameCacheSize;
 
 LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
-int    GetStatusForContact(MCONTACT hContact, char *szProto);
+int GetStatusForContact(MCONTACT hContact, char *szProto);
 TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InitDisplayNameCache(void)
@@ -81,7 +81,7 @@ void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag)
 		return;
 
 	if (flag & CCI_NAME)
-		pDst->freeName();
+		mir_free_and_nil(pDst->tszName);
 
 	if (flag & CCI_GROUP)
 		mir_free_and_nil(pDst->tszGroup);
@@ -102,14 +102,7 @@ void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWOR
 	if (!pDst || !pSrc) return;
 	CListSettings_FreeCacheItemDataOption(pDst, flag);
 
-	if (flag & CCI_NAME) {
-		pDst->m_bIsUnknown = pSrc->m_bIsUnknown;
-		if (pSrc->m_bIsUnknown)
-			pDst->tszName = pSrc->tszName;
-		else
-			pDst->tszName = mir_tstrdup(pSrc->tszName);
-	}
-
+	if (flag & CCI_NAME)   pDst->tszName = mir_tstrdup(pSrc->tszName);
 	if (flag & CCI_GROUP)  pDst->tszGroup = mir_tstrdup(pSrc->tszGroup);
 	if (flag & CCI_PROTO)  pDst->m_pszProto = pSrc->m_pszProto;
 	if (flag & CCI_STATUS) pDst->m_iStatus = pSrc->m_iStatus;
@@ -169,7 +162,7 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag)
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
-	p->freeName();
+	mir_free_and_nil(p->tszName);
 	mir_free_and_nil(p->tszGroup);
 	mir_free_and_nil(p->szSecondLineText);
 	mir_free_and_nil(p->szThirdLineText);
@@ -184,18 +177,20 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	if (pdnce->hContact == NULL) { //selfcontact
 		if (!pdnce->tszName)
-			pdnce->getName();
+			pdnce->tszName = pcli->pfnGetContactDisplayName(NULL, GCDNF_NOCACHE);
 		return;
 	}
 
 	if (pdnce->m_pszProto == NULL) {
 		pdnce->m_pszProto = GetContactProto(pdnce->hContact);
 		if (pdnce->m_pszProto && pdnce->tszName)
-			pdnce->freeName();
+			mir_free_and_nil(pdnce->tszName);
 	}
 
-	if (pdnce->tszName == NULL)
-		pdnce->getName();
+	if (pdnce->tszName == NULL) {
+		pdnce->tszName = pcli->pfnGetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE);
+		pdnce->m_bIsUnknown = mir_tstrcmp(pdnce->tszName, UnknownConctactTranslatedName);
+	}
 
 	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
 		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
@@ -263,35 +258,6 @@ int GetStatusForContact(MCONTACT hContact, char *szProto)
 	return (szProto) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE;
 }
 
-void ClcCacheEntry::freeName()
-{
-	if (!m_bIsUnknown)
-		mir_free(tszName);
-	else
-		m_bIsUnknown = false;
-	tszName = NULL;
-}
-
-void ClcCacheEntry::getName()
-{
-	freeName();
-
-	if (m_pszProto == NULL) {
-	LBL_Unknown:
-		tszName = UnknownConctactTranslatedName;
-		m_bIsUnknown = true;
-		return;
-	}
-
-	tszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOCACHE);
-	if (!mir_tstrcmp(tszName, UnknownConctactTranslatedName)) {
-		mir_free(tszName);
-		goto LBL_Unknown;
-	}
-
-	m_bIsUnknown = false;
-}
-
 int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *Status)
 {
 	ClcCacheEntry *cacheEntry = NULL;
@@ -324,30 +290,6 @@ int MetaStatusChanged(WPARAM hMeta, LPARAM)
 		pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hMeta, 0);
 
 	return 0;
-}
-
-static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, TCHAR* &pStr)
-{
-	mir_free(pStr);
-
-	switch (cws->value.type) {
-	case -1:
-	case DBVT_DELETED:
-		pStr = NULL;
-		break;
-
-	case DBVT_UTF8:
-		pStr = mir_utf8decodeT(cws->value.pszVal);
-		break;
-
-	case DBVT_ASCIIZ:
-		pStr = mir_a2t(cws->value.pszVal);
-		break;
-
-	case DBVT_WCHAR:
-		pStr = mir_u2t(cws->value.ptszVal);
-		break;
-	}
 }
 
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
@@ -402,15 +344,9 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (!strcmp(cws->szModule, "CList")) {
-		//name is null or (setting is myhandle)
+		// name is null or (setting is myhandle)
 		if (!strcmp(cws->szSetting, "Rate"))
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-
-		else if (!strcmp(cws->szSetting, "MyHandle"))
-			pdnce->getName();
-
-		else if (!strcmp(cws->szSetting, "Group"))
-			Dbwcs2tstr(cws, pdnce->tszGroup);
 
 		else if (!strcmp(cws->szSetting, "NotOnList"))
 			pdnce->NotOnList = cws->value.bVal;

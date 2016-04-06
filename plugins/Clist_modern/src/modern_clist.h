@@ -96,9 +96,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	HANDLE   hTimeZone;
 	DWORD    dwLastMsgTime;
 
-	void     getName(void);
-	void     freeName(void);
-
 	int __forceinline getStatus() const
 	{	return (this == NULL) ? ID_STATUS_OFFLINE : m_iStatus;
 	}

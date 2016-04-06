@@ -137,7 +137,7 @@ void cli_FreeContact(ClcContact *p)
 	corecli.pfnFreeContact(p);
 }
 
-void cli_FreeGroup(ClcGroup* group)
+void cli_FreeGroup(ClcGroup *group)
 {
 	corecli.pfnFreeGroup(group);
 	ClearRowByIndexCache();
@@ -622,13 +622,13 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 
 void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
-	if (hContact == INVALID_CONTACT_ID)
-		corecli.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
-	else {
+	if (hContact != INVALID_CONTACT_ID) {
 		ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
 		if (p)
 			p->m_iStatus = 0;
 	}
+
+	corecli.pfnInvalidateDisplayNameCacheEntry(hContact);
 }
 
 void cli_SetContactCheckboxes(ClcContact *cc, int checked)
@@ -687,12 +687,14 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 	TCHAR szGroupMask[256];
 	DWORD dwLocalMask;
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
-	// always hide subcontacts (but show them on embedded contact lists)
 
+	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != NULL && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
 		return -1; //subcontact
+
 	if (pdnce && pdnce->m_bIsUnknown && dat != NULL && !dat->force_in_dialog)
 		return 1; //'Unknown Contact'
+
 	if (dat != NULL && dat->filterSearch && pdnce && pdnce->tszName) {
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
