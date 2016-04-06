@@ -97,12 +97,6 @@ static INT_PTR ListEndRebuild(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR ContactRenamed(WPARAM, LPARAM)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
 static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
@@ -120,7 +114,6 @@ void LoadCluiServices(void)
 	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);
 	CreateServiceFunction(MS_CLUI_CONTACTADDED, ContactAdded);
 	CreateServiceFunction(MS_CLUI_CONTACTDELETED, ContactDeleted);
-	CreateServiceFunction(MS_CLUI_CONTACTRENAMED, ContactRenamed);
 	CreateServiceFunction(MS_CLUI_LISTBEGINREBUILD, ListBeginRebuild);
 	CreateServiceFunction(MS_CLUI_LISTENDREBUILD, ListEndRebuild);
 	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);

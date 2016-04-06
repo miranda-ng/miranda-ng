@@ -67,15 +67,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //iconid is an offset in the image list. see clist/geticonsimagelist
 #define MS_CLUI_CONTACTADDED    "CLUI/ContactAdded"
 
-//rename a contact in the list
-//wParam = (MCONTACT)hContact
-//lParam = 0
-//returns 0 on success, nonzero on failure
-//you should not re-sort the list on this call. A separate resort request will
-//be sent
-//you get the new name from clist/getcontactdisplayname
-#define MS_CLUI_CONTACTRENAMED  "CLUI/ContactRenamed"
-
 //start a rebuild of the contact list
 //wParam = lParam = 0
 //returns 0 on success, nonzero on failure
