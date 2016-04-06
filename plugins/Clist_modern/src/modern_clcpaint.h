@@ -92,7 +92,7 @@ private:
 		//ADD new item above here
 		hi_LastItem
 	} enumHASHINDEX;
-	static const char * HASHTEXT[hi_LastItem];
+	static const char* HASHTEXT[hi_LastItem];
 	static DWORD HASH[hi_LastItem];
 
 	void _FillQuickHash();
