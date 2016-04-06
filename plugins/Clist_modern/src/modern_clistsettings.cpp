@@ -307,18 +307,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (!strcmp(cws->szModule, pdnce->m_pszProto)) {
-		if (!strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
+		if (!strcmp(cws->szSetting, "Status")) {
 			pdnce->m_iStatus = cws->value.wVal;
-			if (!strcmp(cws->szModule, META_PROTO) && strcmp(cws->szSetting, "Status")) {
-				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
-					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
-
-				if ((db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
-					amRequestAwayMsg(hContact);
-
-				return 0;
-			}
-
 			if (pdnce->bIsHidden)
 				return 0;
 
@@ -331,6 +321,13 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
 			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
+		}
+		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
+			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
+				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+
+			if ((db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
+				amRequestAwayMsg(hContact);
 		}
 		else if (!strcmp(cws->szSetting, "ApparentMode"))
 			pdnce->ApparentMode = cws->value.wVal;
