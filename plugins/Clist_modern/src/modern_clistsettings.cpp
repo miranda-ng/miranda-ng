@@ -35,7 +35,6 @@ static int displayNameCacheSize;
 
 LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
-int GetStatusForContact(MCONTACT hContact, char *szProto);
 TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InitDisplayNameCache(void)
@@ -309,6 +308,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (!strcmp(cws->szModule, pdnce->m_pszProto)) {
 		if (!strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
+			pdnce->m_iStatus = cws->value.wVal;
 			if (!strcmp(cws->szModule, META_PROTO) && strcmp(cws->szSetting, "Status")) {
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
 					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
@@ -322,7 +322,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (pdnce->bIsHidden)
 				return 0;
 
-			pdnce->m_iStatus = cws->value.wVal;
 			if (cws->value.wVal == ID_STATUS_OFFLINE)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
 					db_set_s(hContact, "CList", "StatusMsg", "");
