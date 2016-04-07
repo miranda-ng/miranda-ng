@@ -541,6 +541,12 @@ protected:
 
 public:
 	__inline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
+	__inline explicit NLHR_PTR(INT_PTR i_p) : _p((NETLIBHTTPREQUEST*)i_p) {}
+	
+	__inline NETLIBHTTPREQUEST* operator=(INT_PTR i_p)
+	{
+		return operator=((NETLIBHTTPREQUEST*)i_p);
+	}
 	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
 	{
 		if (_p)
