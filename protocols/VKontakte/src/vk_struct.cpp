@@ -42,7 +42,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	bIsMainConn = false;
-	bExpUrlEncode = ppro->m_bUseNonStandardUrlEncode;
+	bExpUrlEncode = ppro->m_vkOptions.bUseNonStandardUrlEncode != 0 ? true : false;
 	AddHeader("Connection", "keep-alive");
 		
 	if (*_url == '/') {	// relative url leads to a site
@@ -98,7 +98,7 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) :
+CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR *_desc, TCHAR **_files) :
 	hContact(_hContact),
 	Desc(mir_tstrdup(_desc)),
 	FileName(mir_tstrdup(_files[0])),
@@ -165,3 +165,84 @@ CVkChatUser* CVkChatInfo::GetUserById(int user_id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
+	bAutoClean(proto, "AutoClean", false),
+	bServerDelivery(proto, "BsDirect", true),
+	bHideChats(proto, "HideChats", true),
+	bMesAsUnread(proto, "MesAsUnread", false),
+	bUseLocalTime(proto, "UseLocalTime", false),
+	bReportAbuse(proto, "ReportAbuseOnBanUser", false),
+	bClearServerHistory(proto, "ClearServerHistoryOnBanUser", false),
+	bRemoveFromFrendlist(proto, "RemoveFromFrendlistOnBanUser", false),
+	bRemoveFromCList(proto, "RemoveFromClistOnBanUser", false),
+	bPopUpSyncHistory(proto, "PopUpSyncHistory", false),
+	iMarkMessageReadOn(proto, "MarkMessageReadOn", MarkMsgReadOn::markOnRead),
+	bStikersAsSmyles(proto, "StikersAsSmyles", false),
+	bUserForceOnlineOnActivity(proto, "UserForceOnlineOnActivity", false),
+	bNewsEnabled(proto, "NewsEnabled", false),
+	iMaxLoadNewsPhoto(proto, "MaxLoadNewsPhoto", 5),
+	bNotificationsEnabled(proto, "NotificationsEnabled", false),
+	bNotificationsMarkAsViewed(proto, "NotificationsMarkAsViewed", true),
+	bSpecialContactAlwaysEnabled(proto, "SpecialContactAlwaysEnabled", false),
+	bUseBBCOnAttacmentsAsNews(proto, "UseBBCOnAttacmentsAsNews", true),
+	bNewsAutoClearHistory(proto, "NewsAutoClearHistory", false),
+	bNewsFilterPosts(proto, "NewsFilterPosts", true),
+	bNewsFilterPhotos(proto, "NewsFilterPhotos", true),
+	bNewsFilterTags(proto, "NewsFilterTags", true),
+	bNewsFilterWallPhotos(proto, "NewsFilterWallPhotos", true),
+	bNewsSourceFriends(proto, "NewsSourceFriends", true),
+	bNewsSourceGroups(proto, "NewsSourceGroups", true),
+	bNewsSourcePages(proto, "NewsSourcePages", true),
+	bNewsSourceFollowing(proto, "NewsSourceFollowing", true),
+	bNewsSourceIncludeBanned(proto, "NewsSourceIncludeBanned", false),
+	bNewsSourceNoReposts(proto, "NewsSourceNoReposts", false),
+	bNotificationFilterComments(proto, "NotificationFilterComments", true),
+	bNotificationFilterLikes(proto, "NotificationFilterLikes", true),
+	bNotificationFilterReposts(proto, "NotificationFilterReposts", true),
+	bNotificationFilterMentions(proto, "NotificationFilterMentions", true),
+	bNotificationFilterInvites(proto, "NotificationFilterInvites", true),
+	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
+	bUseNonStandardUrlEncode(proto, "UseNonStandardUrlEncode", true),
+	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
+	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),
+	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
+	bLoadFullCList(proto, "LoadFullCList", false),
+
+	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
+	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
+	iIMGBBCSupport(proto, "IMGBBCSupport", IMGBBCSypport::imgNo),
+	iBBCForNews(proto, "BBCForNews", BBCSupport::bbcBasic),
+	iBBCForAttachments(proto, "BBCForAttachments", BBCSupport::bbcBasic),
+
+	iNewsInterval(proto, "NewsInterval", 15),
+	iNotificationsInterval(proto, "NotificationsInterval", 1),
+	iNewsAutoClearHistoryInterval(proto, "NewsAutoClearHistoryInterval", 60 * 60 * 24 * 3),
+	iInvisibleInterval(proto, "InvisibleInterval", 10),
+	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
+
+	ptszDefaultGroup(NULL),
+	ptszReturnChatMessage(NULL),
+	ptszVKLang(NULL),
+
+	m_proto((CVkProto*)proto)
+
+{
+	ReloadStrings();
+}
+
+void CVKOptions::ReloadStrings()
+{
+	if (!m_proto)
+		return;
+
+	ptszDefaultGroup = m_proto->getTStringA("ProtoGroup");
+	ptszReturnChatMessage = m_proto->getTStringA("ReturnChatMessage");
+	ptszVKLang = m_proto->getTStringA("VKLang");
+
+	if (IsEmpty(ptszDefaultGroup))
+		ptszDefaultGroup = mir_tstrdup(_T("VKontakte"));
+
+	if (IsEmpty(ptszReturnChatMessage))
+		ptszReturnChatMessage = mir_tstrdup(TranslateT("I\'m back"));
+}

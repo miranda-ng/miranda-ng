@@ -66,3 +66,4 @@ extern HINSTANCE hInst;
 #include "vk_struct.h"
 #include "vk_proto.h"
 #include "vk_dialogs.h"
+#include "vk_options.h"

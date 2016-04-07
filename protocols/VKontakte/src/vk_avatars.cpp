@@ -17,13 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
+void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	if (reply->resultCode != 200 || !pReq->pUserInfo)
 		return;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	CVkSendMsgParam * param = (CVkSendMsgParam *)pReq->pUserInfo;
+	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
 	GetAvatarFileName(param->hContact, ai.filename, _countof(ai.filename));
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
@@ -79,7 +79,7 @@ void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 
 INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
 	ptrA szUrl(getStringA(pai->hContact, "AvatarUrl"));
 	if (szUrl == NULL)
@@ -119,7 +119,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (SvcGetAvatarInfo(0, (LPARAM)&ai) != GAIR_SUCCESS)
 		return 1;
 
-	TCHAR* buf = (TCHAR*)wParam;
+	TCHAR *buf = (TCHAR*)wParam;
 	int size = (int)lParam;
 
 	_tcsncpy(buf, ai.filename, size);
@@ -128,7 +128,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
+void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR *pszDest, size_t cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
@@ -138,7 +138,7 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen
 
 	pszDest[tPathLen++] = '\\';
 
-	const TCHAR* szFileType = _T(".jpg");
+	const TCHAR *szFileType = _T(".jpg");
 	ptrT szUrl(getTStringA(hContact, "AvatarUrl"));
 	if (szUrl) {
 		TCHAR *p = _tcsrchr(szUrl, '.');

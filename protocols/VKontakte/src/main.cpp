@@ -56,7 +56,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CVkProto* vkProtoInit(const char* pszProtoName, const TCHAR *tszUserName)
+static CVkProto* vkProtoInit(const char *pszProtoName, const TCHAR *tszUserName)
 {
 	CVkProto *ppro = new CVkProto(pszProtoName, tszUserName);
 	return ppro;

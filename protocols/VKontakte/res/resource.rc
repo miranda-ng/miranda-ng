@@ -153,13 +153,13 @@ BEGIN
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_NEWSBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,61,129,10
     CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
-    GROUPBOX        "Other",IDC_STATIC,4,138,293,36
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10    
     GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
     CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_ATTBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,110,129,10
+    GROUPBOX        "Other",IDC_STATIC,4,138,293,36
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
     CONTROL         "Shorten links for audio attachments",IDC_SHOTEN_LINKS_FOR_AUDIO,
@@ -270,7 +270,7 @@ BEGIN
     GROUPBOX        "Local settings",IDC_STATIC,4,59,293,75
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
-    RTEXT           "Language for names and titles (*):",IDC_STATIC,12,86,148,10
+    RTEXT           "Language for names and titles:",IDC_STATIC,12,86,148,10
     COMBOBOX        IDC_COMBO_LANGUAGE,167,84,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,98,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
@@ -287,7 +287,6 @@ BEGIN
     CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,195,138,10
     CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,184,133,10
     CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,195,133,10
-    CTEXT           "* These changes will take effect the next time you connect to the VKontakte network.",IDC_STATIC,12,213,276,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224

@@ -175,13 +175,13 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMusic");
-	if (!IsOnline() || m_iStatus == ID_STATUS_INVISIBLE || m_iMusicSendMetod == sendNone)
+	if (!IsOnline() || m_iStatus == ID_STATUS_INVISIBLE || m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone)
 		return;
 
 	CMString code;
 	CMString tszOldStatusMsg(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
-		if (m_iMusicSendMetod == sendBroadcastOnly)
+		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
@@ -190,7 +190,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		m_bSetBroadcast = false;
 	}
 	else {
-		if (m_iMusicSendMetod == sendBroadcastOnly) {
+		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly) {
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
 				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
 				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
@@ -201,13 +201,13 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 				"};return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
-		else if (m_iMusicSendMetod == sendStatusOnly) {
+		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly) {
 			CMString codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
 				"API.status.set({\"text\":StatusMsg});"
 				"return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
-		else if (m_iMusicSendMetod == sendBroadcastAndStatus) {
+		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastAndStatus) {
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
 				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
 				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
@@ -228,7 +228,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 {
 	debugLogA("CVkProto::SvcSetListeningTo");
-	if (m_iMusicSendMetod == sendNone)
+	if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone)
 		return 1;
 
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;

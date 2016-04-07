@@ -17,9 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static const char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" , "preview"};
+static const char *szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" , "preview"};
 
-static const char* szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
+static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 
 JSONNode nullNode(JSON_NULL);
 
@@ -42,7 +42,7 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 	return NULL;
 }
 
-bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
+bool tlstrstr(TCHAR *_s1, TCHAR *_s2)
 {
 	TCHAR s1[1024], s2[1024];
 
@@ -189,7 +189,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
-	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
+	db_set_ts(hNewContact, "CList", "Group", getGroup());
 	return hNewContact;
 }
 
@@ -455,7 +455,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 				}
 			}
 			if (k == m_cookies.getCount())
-				m_cookies.insert(new Cookie(szCookieName, szCookieVal, szDomain));
+				m_cookies.insert(new CVkCookie(szCookieName, szCookieVal, szDomain));
 		}
 	}
 }
@@ -697,14 +697,14 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	}
 }
 
-char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
+char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 {
 	stickerid = 0;
-	char* retMsg = NULL;
+	char *retMsg = NULL;
 
 	int iRes = 0;
 	char HeadMsg[32] = { 0 };
-	const char * tmpMsg = strstr(Msg, "[sticker:");
+	const char *tmpMsg = strstr(Msg, "[sticker:");
 	if (tmpMsg)
 		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
@@ -735,12 +735,12 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		MusicSendMetod iOldMusicSendMetod = (MusicSendMetod)getByte("OldMusicSendMetod", sendBroadcastAndStatus);
 		
 		if (cws->value.bVal == 0)
-			setByte("OldMusicSendMetod", m_iMusicSendMetod);
+			setByte("OldMusicSendMetod", m_vkOptions.iMusicSendMetod);
 		else
 			db_unset(0, m_szModuleName, "OldMusicSendMetod");
 		
-		m_iMusicSendMetod = cws->value.bVal == 0 ? sendNone : iOldMusicSendMetod;
-		setByte("MusicSendMetod", m_iMusicSendMetod);
+		m_vkOptions.iMusicSendMetod = cws->value.bVal == 0 ? sendNone : iOldMusicSendMetod;
+		setByte("MusicSendMetod", m_vkOptions.iMusicSendMetod);
 	}
 
 	return 0;
@@ -812,7 +812,7 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		}
 	}
 
-	switch (m_iIMGBBCSupport) {
+	switch (m_vkOptions.iIMGBBCSupport) {
 	case imgNo:
 		tszPreviewLink = _T("");
 		break;
@@ -821,7 +821,7 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		break;
 	case imgPreview130:
 	case imgPreview604:
-		tszPreviewLink = jnPhoto[ m_iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"].as_mstring();
+		tszPreviewLink = jnPhoto[m_vkOptions.iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"].as_mstring();
 		break;
 	}
 
@@ -829,7 +829,7 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 	int iHeight = jnPhoto["height"].as_int();
 
 	tszRes.AppendFormat(_T("%s (%dx%d)"), SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, tszLink), iWidth, iHeight);
-	if (m_iIMGBBCSupport && iBBC != bbcNo)
+	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 		tszRes.AppendFormat(_T("\n\t%s"), SetBBCString(!tszPreviewLink.IsEmpty() ? tszPreviewLink : (!tszLink.IsEmpty() ? tszLink : _T("")), bbcBasic, vkbbcImg));
 	CMString tszText(jnPhoto["text"].as_mstring());
 	if (!tszText.IsEmpty())
@@ -944,7 +944,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszAudio(FORMAT, _T("%s - %s"), tszArtist, tszTitle);
 
 			int iParamPos = tszUrl.Find(_T("?"));
-			if (m_bShortenLinksForAudio &&  iParamPos != -1)
+			if (m_vkOptions.bShortenLinksForAudio &&  iParamPos != -1)
 				tszUrl = tszUrl.Left(iParamPos);
 
 			res.AppendFormat(_T("%s: %s"),
@@ -1024,7 +1024,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				continue;
 			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
 
-			if (m_bStikersAsSmyles) {
+			if (m_vkOptions.bStikersAsSmyles) {
 				int id = jnSticker["id"].as_int();
 				res.AppendFormat(_T("[sticker:%d]"), id);
 			}
@@ -1039,7 +1039,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				}
 				res.AppendFormat(_T("%s"), tszLink);
 
-				if (m_iIMGBBCSupport && iBBC != bbcNo)
+				if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 					res += SetBBCString(tszLink, iBBC, vkbbcImg);
 			}
 		}
@@ -1083,7 +1083,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				continue;
 			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, tszLink);
 
-			if (m_iIMGBBCSupport && iBBC != bbcNo)
+			if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 				res.AppendFormat(_T("\n\t%s"), SetBBCString(tszLink, iBBC, vkbbcImg));
 		}
 		else
@@ -1113,7 +1113,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		CMString tszNick(FORMAT, _T("%s %s"), jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
 		CMString tszLink(FORMAT, _T("https://vk.com/id%d"), iUserId);
 		
-		CVkUserInfo * vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, tszNick, tszLink, FindUser(iUserId));
+		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, tszNick, tszLink, FindUser(iUserId));
 		vkUsers.insert(vkUser);
 	}
 
@@ -1122,7 +1122,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		const JSONNode &jnMsg = (*it);
 
 		UINT uid = jnMsg["user_id"].as_int();
-		CVkUserInfo * vkUser = vkUsers.find((CVkUserInfo *)&uid);
+		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
 		CMString tszNick, tszUrl;
 
 		if (vkUser) {
@@ -1148,7 +1148,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody += tszFwdMessages;
@@ -1156,14 +1156,14 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
+			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 			tszBody += tszAttachmentDescr;
 		}
 
 		tszBody.Replace(_T("\n"), _T("\n\t"));
-		TCHAR tcSplit = m_bSplitFormatFwdMsg ? '\n' : ' ';
+		TCHAR tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
 		CMString tszMes(FORMAT, _T("%s %s%c%s %s:\n\n%s\n"),
 			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB),
 			SetBBCString(tszNick, iBBC, vkbbcUrl, tszUrl),
@@ -1199,14 +1199,14 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 
 CMString CVkProto::RemoveBBC(CMString& tszSrc) 
 {
-	static const TCHAR* tszSimpleBBCodes[][2] = {
+	static const TCHAR *tszSimpleBBCodes[][2] = {
 		{ _T("[b]"), _T("[/b]") },
 		{ _T("[u]"), _T("[/u]") },
 		{ _T("[i]"), _T("[/i]") },
 		{ _T("[s]"), _T("[/s]") },
 	};
 
-	static const TCHAR* tszParamBBCodes[][2] = {
+	static const TCHAR *tszParamBBCodes[][2] = {
 		{ _T("[url="), _T("[/url]") },
 		{ _T("[img="), _T("[/img]") },
 		{ _T("[size="), _T("[/size]") },
