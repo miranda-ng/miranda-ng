@@ -29,8 +29,6 @@ class CVkAccMgrForm : public CVkDlgBase
 	CCtrlEdit m_edtLogin;
 	CCtrlEdit m_edtPassword;
 	CCtrlHyperlink m_hlLink;
-
-	CVkProto *m_proto;
 	
 	pass_ptrT m_ptszOldPass;
 	ptrT m_ptszOldLogin;
@@ -61,8 +59,6 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlCheck m_cbSyncHistoryAuto;
 	CCtrlCheck m_cbSyncHistoryForLast1Day;
 	CCtrlCheck m_cbSyncHistoryForLast3Day;
-
-	CVkProto *m_proto;
 
 	pass_ptrT m_ptszOldPass;
 	ptrT m_ptszOldLogin;
@@ -99,8 +95,6 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 	CCtrlCheck m_cbMusicSendStatus;
 
 	CCtrlEdit m_edtReturnChatMessage;
-
-	CVkProto *m_proto;
 
 public:
 	CVkOptionAdvancedForm(CVkProto  *proto);
@@ -174,8 +168,6 @@ class CVkOptionViewForm : public CVkDlgBase
 	CCtrlCheck m_cbStikersAsSmyles;
 	CCtrlCheck m_cbShortenLinksForAudio;
 	
-	CVkProto *m_proto;
-
 public:
 	CVkOptionViewForm(CVkProto *proto);
 	void OnInitDialog();
@@ -193,8 +185,6 @@ class CVkOptionMenuForm : public CVkDlgBase
 	CCtrlCheck m_cbMenuEnabled4;
 	CCtrlCheck m_cbMenuEnabled5;
 	CCtrlCheck m_cbMenuEnabled6;
-
-	CVkProto *m_proto;
 
 public:
 	CVkOptionMenuForm(CVkProto *proto);
