@@ -32,9 +32,7 @@ CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent):
 	CVkDlgBase(proto, IDD_ACCMGRUI, false),
 	m_edtLogin(this, IDC_LOGIN),
 	m_edtPassword(this, IDC_PASSWORD),
-	m_hlLink(this, IDC_URL, "https://vk.com/"),
-	m_proto(proto)
-
+	m_hlLink(this, IDC_URL, "https://vk.com/")
 {
 	SetParent(hwndParent);
 
@@ -140,9 +138,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbSyncHistoryOff(this, IDC_SYNC_OFF),
 	m_cbSyncHistoryAuto(this, IDC_SYNC_AUTO),
 	m_cbSyncHistoryForLast1Day(this, IDC_SYNC_LAST1DAY),
-	m_cbSyncHistoryForLast3Day(this, IDC_SYNC_LAST3DAY),
-	m_proto(proto)
-
+	m_cbSyncHistoryForLast3Day(this, IDC_SYNC_LAST3DAY)
 {
 	CreateLink(m_edtLogin, "Login", _T(""));
 	CreateLink(m_edtGroupName, "ProtoGroup", _T("VKontakte"));
@@ -248,8 +244,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	m_cbMusicSendBroadcastAndStatus(this, IDC_SEND_MUSIC_BROADCAST_AND_STATUS),
 	m_cbSendMetodBroadcast(this, IDC_SEND_MUSIC_BROADCAST),
 	m_cbMusicSendStatus(this, IDC_SEND_MUSIC_STATUS),
-	m_edtReturnChatMessage(this, IDC_RET_CHAT_MES),
-	m_proto(proto)
+	m_edtReturnChatMessage(this, IDC_RET_CHAT_MES)
 {
 	CreateLink(m_cbHideChats, m_proto->m_vkOptions.bHideChats);
 	CreateLink(m_cbSyncReadMessageStatusFromServer, m_proto->m_vkOptions.bSyncReadMessageStatusFromServer);
@@ -410,8 +405,7 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto):
 	m_cbBBCForAttachmentsBasic(this, IDC_ATTBBC_BASIC),
 	m_cbBBCForAttachmentsAdvanced(this, IDC_ATTBBC_ADV),
 	m_cbStikersAsSmyles(this, IDC_STICKERS_AS_SMYLES),
-	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO),
-	m_proto(proto)
+	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO)
 {
 	CreateLink(m_cbUseBBCOnAttacmentsAsNews, m_proto->m_vkOptions.bUseBBCOnAttacmentsAsNews);
 	CreateLink(m_cbStikersAsSmyles, m_proto->m_vkOptions.bStikersAsSmyles);
@@ -470,8 +464,7 @@ CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto):
 	m_cbMenuEnabled3(this, IDC_SHOW_MENU3),
 	m_cbMenuEnabled4(this, IDC_SHOW_MENU4),
 	m_cbMenuEnabled5(this, IDC_SHOW_MENU5),
-	m_cbMenuEnabled6(this, IDC_SHOW_MENU6),
-	m_proto(proto)
+	m_cbMenuEnabled6(this, IDC_SHOW_MENU6)
 {
 	CreateLink(m_cbMenuEnabled0, m_proto->m_vkOptions.bShowProtoMenuItem0);
 	CreateLink(m_cbMenuEnabled1, m_proto->m_vkOptions.bShowProtoMenuItem1);
