@@ -91,7 +91,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	}
 	gcd.iType = GC_EVENT_CONTROL;
 	gce.ptszStatus = 0;
-	CallServiceSync(MS_GC_EVENT, (m_bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, (m_vkOptions.bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
 	RetrieveChatInfo(c);
@@ -465,7 +465,7 @@ void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* UnEscapeChatTags(TCHAR* str_in)
+TCHAR* UnEscapeChatTags(TCHAR *str_in)
 {
 	TCHAR *s = str_in, *d = str_in;
 	while (*s) {
@@ -624,7 +624,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("chat_id", chat_id)
-		<< TCHAR_PARAM("message", m_ReturnChatMessage);
+		<< TCHAR_PARAM("message", m_vkOptions.ptszReturnChatMessage);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pReq);
 	db_unset(hContact, m_szModuleName, "off");
@@ -754,7 +754,7 @@ void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
-	CVkChatUser* cu = cc->GetUserById(gch->ptszUID);
+	CVkChatUser *cu = cc->GetUserById(gch->ptszUID);
 	MCONTACT hContact;
 	if (cu == NULL)
 		return;
@@ -814,7 +814,7 @@ static gc_item sttListItems[] =
 
 int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 {
-	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
+	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (gcmi == NULL)
 		return 0;
 
@@ -834,7 +834,7 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::ChatContactTypingThread(void * p)
+void CVkProto::ChatContactTypingThread(void *p)
 {
 	CVKChatContactTypingParam *param = (CVKChatContactTypingParam *)p;
 	if (!p)
@@ -855,7 +855,7 @@ void CVkProto::ChatContactTypingThread(void * p)
 		delete param;
 		return;
 	}
-	CVkChatUser* cu = cc->GetUserById(iUserId);
+	CVkChatUser *cu = cc->GetUserById(iUserId);
 	if (cu == NULL) {
 		delete param;
 		return;
@@ -890,7 +890,7 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 	if (cc == NULL)
 		return;
 	
-	CVkChatUser* cu = cc->GetUserById(iUserId);
+	CVkChatUser *cu = cc->GetUserById(iUserId);
 	if (cu == NULL)
 		return;
 	

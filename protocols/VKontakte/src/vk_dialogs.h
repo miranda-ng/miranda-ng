@@ -35,10 +35,10 @@ class CVkCaptchaForm : public CVkDlgBase
 	CCtrlEdit m_edtValue;
 	CCtrlButton m_btnOpenInBrowser;
 	CCtrlButton m_btnOk;
-	CAPTCHA_FORM_PARAMS* m_param;
+	CAPTCHA_FORM_PARAMS *m_param;
 
 public:
-	CVkCaptchaForm(CVkProto* proto, CAPTCHA_FORM_PARAMS* param);
+	CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param);
 	void OnInitDialog();
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 	void OnDestroy();
@@ -52,12 +52,12 @@ public:
 
 struct WALLPOST_FORM_PARAMS
 {
-	TCHAR* ptszMsg;
-	TCHAR* ptszUrl;
-	TCHAR* ptszNick;
+	TCHAR *ptszMsg;
+	TCHAR *ptszUrl;
+	TCHAR *ptszNick;
 	bool bFriendsOnly;
 
-	WALLPOST_FORM_PARAMS(TCHAR* nick) :
+	WALLPOST_FORM_PARAMS(TCHAR *nick) :
 		ptszNick(nick),
 		bFriendsOnly(false)
 	{
@@ -79,10 +79,10 @@ class CVkWallPostForm : public CVkDlgBase
 	CCtrlCheck m_cbOnlyForFriends;
 	CCtrlButton m_btnShare;
 
-	WALLPOST_FORM_PARAMS* m_param;
+	WALLPOST_FORM_PARAMS *m_param;
 
 public:
-	CVkWallPostForm(CVkProto* proto, WALLPOST_FORM_PARAMS* param);
+	CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param);
 	void OnInitDialog();
 	void OnDestroy();
 	void On_btnShare_Click(CCtrlButton*);
@@ -99,7 +99,7 @@ class CVkInviteChatForm : public CVkDlgBase
 public:
 	MCONTACT m_hContact;
 
-	CVkInviteChatForm(CVkProto* proto);
+	CVkInviteChatForm(CVkProto *proto);
 	void OnInitDialog();
 	void btnOk_OnOk(CCtrlButton*);
 };
@@ -113,7 +113,7 @@ class CVkGCCreateForm : public CVkDlgBase
 	CCtrlEdit m_edtTitle;
 
 public:
-	CVkGCCreateForm(CVkProto* proto);
+	CVkGCCreateForm(CVkProto *proto);
 	void OnInitDialog();
 	void btnOk_OnOk(CCtrlButton*);
 	void FilterList(CCtrlClc*);

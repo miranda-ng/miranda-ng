@@ -96,8 +96,8 @@ AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 	pReq->timeout = iTimeout;
 	if (pReq->m_bApiReq) {
 		pReq << VER_API;
-		if (!IsEmpty(m_VKLang)) 
-			pReq << TCHAR_PARAM("lang", m_VKLang);
+		if (!IsEmpty(m_vkOptions.ptszVKLang))
+			pReq << TCHAR_PARAM("lang", m_vkOptions.ptszVKLang);
 	}
 
 	{

@@ -105,7 +105,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (mid > getDword(param->hContact, "lastmsgid"))
 				setDword(param->hContact, "lastmsgid", mid);
 
-			if (m_iMarkMessageReadOn >= markOnReply)
+			if (m_vkOptions.iMarkMessageReadOn >= MarkMsgReadOn::markOnReply)
 				MarkMessagesRead(param->hContact);
 
 			iResult = ACKRESULT_SUCCESS;
@@ -139,7 +139,7 @@ int CVkProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 
-	if (m_iMarkMessageReadOn == markOnRead)
+	if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnRead)
 		MarkMessagesRead(hContact);
 	return 0;
 }
@@ -242,7 +242,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody +=  tszFwdMessages;
@@ -250,7 +250,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
+			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 			tszBody += tszAttachmentDescr;
@@ -263,7 +263,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-		if (m_iMarkMessageReadOn == markOnReceive || chat_id != 0) {
+		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive || chat_id != 0) {
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
 			mids.Append(szMid);
@@ -285,16 +285,16 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		PROTORECVEVENT recv = { 0 };
-		bool bUseServerReadFlag = m_bSyncReadMessageStatusFromServer ? true : !m_bMesAsUnread;
+		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
 		if (isRead && bUseServerReadFlag)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
-		else if (m_bUserForceOnlineOnActivity)
+		else if (m_vkOptions.bUserForceOnlineOnActivity)
 			SetInvisible(hContact);
 
 		T2Utf pszBody(tszBody);
-		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
+		recv.timestamp = m_vkOptions.bUseLocalTime ? time(NULL) : datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
@@ -366,7 +366,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
 				AppendChat(chatid, jnDlg);
 		}
-		else if (m_iSyncHistoryMetod) {
+		else if (m_vkOptions.iSyncHistoryMetod) {
 			int mid = jnDlg["id"].as_int();
 			m_bNotifyForEndLoadingHistory = false;
 
@@ -375,14 +375,14 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			else
 				GetHistoryDlg(hContact, mid);
 
-			if (m_iMarkMessageReadOn == markOnReceive && numUnread)
+			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive && numUnread)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
 			m_bNotifyForEndLoadingHistory = false;
 			GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 
-			if (m_iMarkMessageReadOn == markOnReceive)
+			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
 				MarkMessagesRead(hContact);
 		}
 	}

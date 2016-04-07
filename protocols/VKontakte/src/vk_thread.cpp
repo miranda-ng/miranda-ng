@@ -57,9 +57,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	for (int i = 0; i < vk_Instances.getCount(); i++)
 		if (vk_Instances[i]->IsOnline()) {
 			vk_Instances[i]->debugLogA("Tic timer for %i - %s", i, vk_Instances[i]->m_szModuleName);
-			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
-			vk_Instances[i]->RetrieveUsersInfo(true);
-			vk_Instances[i]->RetrieveUnreadEvents();
+			vk_Instances[i]->OnTimerTic();			
 		}
 }
 
@@ -80,6 +78,13 @@ static void CALLBACK VKUnsetTimer(void*)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::OnTimerTic()
+{
+	SetServerStatus(m_iDesiredStatus);
+	RetrieveUsersInfo(true);
+	RetrieveUnreadEvents();
+}
 
 void CVkProto::OnLoggedIn()
 {
@@ -490,7 +495,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	if (m_bNeedSendOnline)
 		codeformat += _T("API.account.setOnline();");
 
-	if (bFreeOffline && !m_bLoadFullCList)
+	if (bFreeOffline && !m_vkOptions.bLoadFullCList)
 		codeformat += CMString("var US=[];var res=[];var t=10;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"var index=US.length;while(index>0){"
@@ -550,7 +555,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60LL)) {
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				SetMirVer(hContact, -1);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
@@ -589,7 +594,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
-		<< INT_PARAM("count", m_iMaxFriendsCount > 5000 ? 1000 : m_iMaxFriendsCount)
+		<< INT_PARAM("count", m_vkOptions.iMaxFriendsCount > 5000 ? 1000 : m_vkOptions.iMaxFriendsCount)
 		<< CHAR_PARAM("fields", fieldsName))->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
 }
 
@@ -687,7 +692,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	return 0;
 }
 
-void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest* pReq)
+void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
@@ -737,27 +742,27 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
 	CMString tszVarWarning;
 
-	if (m_bReportAbuse) {
-		debugLogA("CVkProto::SvcBanUser m_bReportAbuse = true");
+	if (m_vkOptions.bReportAbuse) {
+		debugLogA("CVkProto::SvcBanUser m_vkOptions.bReportAbuse = true");
 		code += "API.users.report({\"user_id\":userID,type:\"spam\"});";
 		tszVarWarning = TranslateT(" report abuse on him/her");
 	}
-	if (m_bClearServerHistory) {
-		debugLogA("CVkProto::SvcBanUser m_bClearServerHistory = true");
+	if (m_vkOptions.bClearServerHistory) {
+		debugLogA("CVkProto::SvcBanUser m_vkOptions.bClearServerHistory = true");
 		code += "API.messages.deleteDialog({\"user_id\":userID,count:10000});";
 		if (!tszVarWarning.IsEmpty())
 			tszVarWarning.AppendChar(L',');
 		tszVarWarning += TranslateT(" clear server history with him/her");
 	}
-	if (m_bRemoveFromFrendlist) {
-		debugLogA("CVkProto::SvcBanUser m_bRemoveFromFrendlist = true");
+	if (m_vkOptions.bRemoveFromFrendlist) {
+		debugLogA("CVkProto::SvcBanUser m_vkOptions.bRemoveFromFrendlist = true");
 		code += "API.friends.delete({\"user_id\":userID});";
 		if (!tszVarWarning.IsEmpty())
 			tszVarWarning.AppendChar(L',');
 		tszVarWarning += TranslateT(" remove him/her from your friend list");
 	}
-	if (m_bRemoveFromClist) {
-		debugLogA("CVkProto::SvcBanUser m_bRemoveFromClist = true");
+	if (m_vkOptions.bRemoveFromCList) {
+		debugLogA("CVkProto::SvcBanUser m_vkOptions.bRemoveFromClist = true");
 		if (!tszVarWarning.IsEmpty())
 			tszVarWarning.AppendChar(L',');
 		tszVarWarning += TranslateT(" remove him/her from your contact list");
@@ -779,7 +784,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
 		<< CHAR_PARAM("code", code));
 
-	if (m_bRemoveFromClist)
+	if (m_vkOptions.bRemoveFromCList)
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
 
 	return 0;

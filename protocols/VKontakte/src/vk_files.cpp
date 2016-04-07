@@ -201,7 +201,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	// Body size
 	long dataLength = iFileLen + DataBegin.GetLength() + DataEnd.GetLength();
 	// Body {
-	char* pData = (char *)mir_alloc(dataLength);
+	char *pData = (char *)mir_alloc(dataLength);
 	memcpy(pData, (void *)DataBegin.GetBuffer(), DataBegin.GetLength());
 	pUploadReq->pData = pData;
 

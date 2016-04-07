@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ////////////////////////////////// IDD_CAPTCHAFORM ////////////////////////////////////////
 
-CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS* param) :
+CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param) :
 	CVkDlgBase(proto, IDD_CAPTCHAFORM, false),
 	m_instruction(this, IDC_INSTRUCTION),
 	m_edtValue(this, IDC_VALUE),
@@ -105,7 +105,7 @@ void CVkCaptchaForm::On_edtValue_Change(CCtrlEdit*)
 
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
 
-CVkWallPostForm::CVkWallPostForm(CVkProto* proto, WALLPOST_FORM_PARAMS* param) :
+CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
 	CVkDlgBase(proto, IDD_WALLPOST, false),
 	m_edtMsg(this, IDC_ED_MSG),
 	m_edtUrl(this, IDC_ED_URL),
@@ -151,7 +151,7 @@ void CVkWallPostForm::On_edtValue_Change(CCtrlEdit*)
 
 ////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
 
-CVkInviteChatForm::CVkInviteChatForm(CVkProto* proto) :
+CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_INVITE, false), 
 	m_btnOk(this, IDOK),  
 	m_cbxCombo(this, IDC_CONTACT), 
@@ -178,7 +178,7 @@ void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
 
 ////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
 
-CVkGCCreateForm::CVkGCCreateForm(CVkProto* proto) :
+CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_GC_CREATE, false), 
 	m_btnOk(this, IDOK),  
 	m_clCList(this, IDC_CLIST), 
@@ -222,7 +222,7 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, bRes);
 }
 
-void CVkGCCreateForm::FilterList(CCtrlClc* clCList)
+void CVkGCCreateForm::FilterList(CCtrlClc *clCList)
 {
 	if (!clCList)
 		return;
@@ -235,7 +235,7 @@ void CVkGCCreateForm::FilterList(CCtrlClc* clCList)
 	}
 }
 
-void CVkGCCreateForm::ResetListOptions(CCtrlClc* clCList)
+void CVkGCCreateForm::ResetListOptions(CCtrlClc *clCList)
 {
 	if (!clCList)
 		return;

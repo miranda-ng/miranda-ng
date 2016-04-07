@@ -17,21 +17,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::SearchBasic(const TCHAR* id)
+HANDLE CVkProto::SearchBasic(const TCHAR *id)
 {
 	ForkThread(&CVkProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByEmail(const TCHAR* email)
+HANDLE CVkProto::SearchByEmail(const TCHAR *email)
 {
 	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
+HANDLE CVkProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
 {
-	PROTOSEARCHBYNAME * psr = new (PROTOSEARCHBYNAME);
+	PROTOSEARCHBYNAME *psr = new (PROTOSEARCHBYNAME);
 
 	psr->pszFirstName = mir_tstrdup(firstName);
 	psr->pszLastName = mir_tstrdup(lastName);
@@ -41,7 +41,7 @@ HANDLE CVkProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const T
 	return (HANDLE)1;
 }
 
-void CVkProto::SearchBasicThread(void* id)
+void CVkProto::SearchBasicThread(void *id)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");
 	if (!IsOnline())
@@ -53,7 +53,7 @@ void CVkProto::SearchBasicThread(void* id)
 	Push(pReq);
 }
 
-void CVkProto::SearchByMailThread(void* email)
+void CVkProto::SearchByMailThread(void *email)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");
 	if (!IsOnline())
@@ -64,7 +64,7 @@ void CVkProto::SearchByMailThread(void* email)
 	Push(pReq);
 }
 
-void __cdecl CVkProto::SearchThread(void* p)
+void __cdecl CVkProto::SearchThread(void *p)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
 

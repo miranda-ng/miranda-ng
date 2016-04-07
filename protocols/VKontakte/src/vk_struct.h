@@ -81,14 +81,14 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
 struct CVkFileUploadParam : public MZeroedObject {
 	enum VKFileType { typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported };
-	TCHAR* FileName;
-	TCHAR* Desc;
-	char* atr;
-	char* fname;
+	TCHAR *FileName;
+	TCHAR *Desc;
+	char *atr;
+	char *fname;
 	MCONTACT hContact;
 	VKFileType filetype;
 
-	CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files);
+	CVkFileUploadParam(MCONTACT _hContact, const TCHAR *_desc, TCHAR **_files);
 	~CVkFileUploadParam();
 	VKFileType GetType();
 	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }
@@ -247,4 +247,88 @@ struct CVKInteres {
 struct CVKLang { 
 	TCHAR *szCode; 
 	TCHAR *szDescription; 
-}; 
+};
+
+enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
+enum SyncHistoryMetod { syncOff, syncAuto, sync1Days, sync3Days };
+enum MusicSendMetod { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
+enum IMGBBCSypport { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+
+struct CVkCookie
+{
+	CVkCookie(const CMStringA& name, const CMStringA& value, const CMStringA& domain) :
+		m_name(name),
+		m_value(value),
+		m_domain(domain)
+	{}
+
+	CMStringA m_name, m_value, m_domain;
+};
+
+struct CVKOptions {
+	CMOption<BYTE> bAutoClean;
+	CMOption<BYTE> bServerDelivery;
+	CMOption<BYTE> bHideChats;
+	CMOption<BYTE> bMesAsUnread;
+	CMOption<BYTE> bUseLocalTime;
+	CMOption<BYTE> bReportAbuse;
+	CMOption<BYTE> bClearServerHistory;
+	CMOption<BYTE> bRemoveFromFrendlist;
+	CMOption<BYTE> bRemoveFromCList;
+	CMOption<BYTE> bPopUpSyncHistory;
+	CMOption<BYTE> iMarkMessageReadOn;
+	CMOption<BYTE> bStikersAsSmyles;
+	CMOption<BYTE> bUserForceOnlineOnActivity;
+	CMOption<BYTE> iMusicSendMetod;
+	CMOption<BYTE> iSyncHistoryMetod;
+	CMOption<BYTE> bNewsEnabled;
+	CMOption<BYTE> iMaxLoadNewsPhoto;
+	CMOption<BYTE> bNotificationsEnabled;
+	CMOption<BYTE> bNotificationsMarkAsViewed;
+	CMOption<BYTE> bSpecialContactAlwaysEnabled;
+	CMOption<BYTE> iIMGBBCSupport;
+	CMOption<BYTE> iBBCForNews;
+	CMOption<BYTE> iBBCForAttachments;
+	CMOption<BYTE> bUseBBCOnAttacmentsAsNews;
+	CMOption<BYTE> bNewsAutoClearHistory;
+	CMOption<BYTE> bNewsFilterPosts;
+	CMOption<BYTE> bNewsFilterPhotos;
+	CMOption<BYTE> bNewsFilterTags;
+	CMOption<BYTE> bNewsFilterWallPhotos;
+	CMOption<BYTE> bNewsSourceFriends;
+	CMOption<BYTE> bNewsSourceGroups;
+	CMOption<BYTE> bNewsSourcePages;
+	CMOption<BYTE> bNewsSourceFollowing;
+	CMOption<BYTE> bNewsSourceIncludeBanned;
+	CMOption<BYTE> bNewsSourceNoReposts;
+	CMOption<BYTE> bNotificationFilterComments;
+	CMOption<BYTE> bNotificationFilterLikes;
+	CMOption<BYTE> bNotificationFilterReposts;
+	CMOption<BYTE> bNotificationFilterMentions;
+	CMOption<BYTE> bNotificationFilterInvites;
+	CMOption<BYTE> bUseNonStandardNotifications;
+	CMOption<BYTE> bUseNonStandardUrlEncode;
+	CMOption<BYTE> bShortenLinksForAudio;
+	CMOption<BYTE> bSplitFormatFwdMsg;
+	CMOption<BYTE> bSyncReadMessageStatusFromServer;
+	CMOption<BYTE> bLoadFullCList;
+
+	CMOption<DWORD> iNewsInterval;
+	CMOption<DWORD> iNotificationsInterval;
+	CMOption<DWORD> iNewsAutoClearHistoryInterval;
+	CMOption<DWORD> iInvisibleInterval;
+	CMOption<DWORD> iMaxFriendsCount;
+
+	ptrT ptszDefaultGroup;
+	ptrT ptszReturnChatMessage;
+	ptrT ptszVKLang;
+
+	CVkProto *m_proto;
+
+	CVKOptions(PROTO_INTERFACE *proto);
+	void ReloadStrings();
+
+	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(int)iBBCForNews; };
+	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(int)iBBCForAttachments; };
+
+};
