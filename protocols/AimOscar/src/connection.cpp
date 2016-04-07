@@ -258,7 +258,8 @@ void generate_signature(char *signature, const char *method, const char *url, co
 	mir_snprintf(signature_base, 1023, "%s%s%s", method, encoded_url, encoded_parameters);
 	mir_free(encoded_url);
 	mir_free(encoded_parameters);
-	//signature = hmac_sha256(session_key, signature_base);//TODO: need this to be implemented
+	hmac_sha256(session_key, signature_base, signature);
+
 }
 
 void fill_session_url(char *buf, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
@@ -269,12 +270,12 @@ void fill_session_url(char *buf, char *token, char *secret, time_t &hosttime, co
 	*/
 	char query_string[1024];
 	query_string[0] = 0;
-	construct_query_string(query_string, token, hosttime);
+	construct_query_string(query_string, token, hosttime, encryption);
 	char signature[512];
 
 	char session_key[1024];
 
-	//session_key = hmac_sha256(password, secret); //TODO: need this to be implemented
+	hmac_sha256(password, secret, session_key);
 
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, session_key);
 
@@ -353,17 +354,20 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 	bos_port = atoi(tmp_port);
 	mir_strcpy(cookie, tmp_cookie);
 	mir_free(tmp_host); mir_free(tmp_port); mir_free(tmp_cookie);
-	HXML tls_node = xmlGetNthChild(data, _T("tlsCertName"), 0); //tls is optional, so this is not fatal error
-	if(tls_node)
+	if (encryption)
 	{
-		LPCTSTR certname_w = xmlGetText(tls_node);
-		if(certname_w)
+		HXML tls_node = xmlGetNthChild(data, _T("tlsCertName"), 0); //tls is optional, so this is not fatal error
+		if (tls_node)
 		{
-			char *tmp_certname = mir_t2a(certname_w);
-			if(tmp_certname)
+			LPCTSTR certname_w = xmlGetText(tls_node);
+			if (certname_w)
 			{
-				mir_strcpy(tls_cert_name, tmp_certname);
-				mir_free(tmp_certname);
+				char *tmp_certname = mir_t2a(certname_w);
+				if (tmp_certname)
+				{
+					mir_strcpy(tls_cert_name, tmp_certname);
+					mir_free(tmp_certname);
+				}
 			}
 		}
 	}
