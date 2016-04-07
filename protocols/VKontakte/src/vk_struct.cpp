@@ -209,6 +209,14 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
 	bLoadFullCList(proto, "LoadFullCList", false),
 
+	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true), 
+	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),
+	bShowProtoMenuItem2(proto, "ShowProtoMenuItem2", true),
+	bShowProtoMenuItem3(proto, "ShowProtoMenuItem3", true),
+	bShowProtoMenuItem4(proto, "ShowProtoMenuItem4", true),
+	bShowProtoMenuItem5(proto, "ShowProtoMenuItem5", true),
+	bShowProtoMenuItem6(proto, "ShowProtoMenuItem6", true),
+
 	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
 	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
 	iIMGBBCSupport(proto, "IMGBBCSupport", IMGBBCSypport::imgNo),
@@ -230,6 +238,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 {
 	ReloadStrings();
 }
+
 
 void CVKOptions::ReloadStrings()
 {

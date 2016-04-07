@@ -2,7 +2,6 @@
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется d:\svn\protocols\VKontakte\res\resource.rc
 //
-
 #define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101
 #define IDD_CAPTCHAFORM                 102
@@ -25,6 +24,7 @@
 #define IDD_WALLPOST                    120
 #define IDI_WALL                        121
 #define IDI_MARKMESSAGESASREAD          122
+#define IDD_OPT_MENU                    122
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -114,15 +114,22 @@
 #define IDC_USENOSTDPOPUPS              1098
 #define IDC_RET_CHAT_MES                1099
 #define IDC_COMBO_LANGUAGE              1100
+#define IDC_SHOW_MENU0                  1101
+#define IDC_SHOW_MENU1                  1102
+#define IDC_SHOW_MENU2                  1103
+#define IDC_SHOW_MENU3                  1104
+#define IDC_SHOW_MENU4                  1105
+#define IDC_SHOW_MENU5                  1106
+#define IDC_SHOW_MENU6                  1107
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        122
+#define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1101
+#define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

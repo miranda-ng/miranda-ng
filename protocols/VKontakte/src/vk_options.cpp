@@ -101,6 +101,11 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pDialog = new CVkOptionViewForm(this);
 	Options_AddPage(wParam, &odp);
 
+	odp.ptszTab = LPGENT("Menu");
+	odp.position = 5;
+	odp.pDialog = new CVkOptionMenuForm(this);
+	Options_AddPage(wParam, &odp);
+
 	return 0;
 }
 
@@ -454,4 +459,35 @@ void CVkOptionViewForm::OnApply()
 	if (m_cbBBCForAttachmentsAdvanced.GetState())
 		m_proto->m_vkOptions.iBBCForAttachments = BBCSupport::bbcAdvanced;
 }
+
+////////////////////// Menu page /////////////////////////////////////////////
+
+CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto):
+	CVkDlgBase(proto, IDD_OPT_MENU, false),
+	m_cbMenuEnabled0(this, IDC_SHOW_MENU0),
+	m_cbMenuEnabled1(this, IDC_SHOW_MENU1),
+	m_cbMenuEnabled2(this, IDC_SHOW_MENU2),
+	m_cbMenuEnabled3(this, IDC_SHOW_MENU3),
+	m_cbMenuEnabled4(this, IDC_SHOW_MENU4),
+	m_cbMenuEnabled5(this, IDC_SHOW_MENU5),
+	m_cbMenuEnabled6(this, IDC_SHOW_MENU6),
+	m_proto(proto)
+{
+	CreateLink(m_cbMenuEnabled0, m_proto->m_vkOptions.bShowProtoMenuItem0);
+	CreateLink(m_cbMenuEnabled1, m_proto->m_vkOptions.bShowProtoMenuItem1);
+	CreateLink(m_cbMenuEnabled2, m_proto->m_vkOptions.bShowProtoMenuItem2);
+	CreateLink(m_cbMenuEnabled3, m_proto->m_vkOptions.bShowProtoMenuItem3);
+	CreateLink(m_cbMenuEnabled4, m_proto->m_vkOptions.bShowProtoMenuItem4);
+	CreateLink(m_cbMenuEnabled5, m_proto->m_vkOptions.bShowProtoMenuItem5);
+	CreateLink(m_cbMenuEnabled6, m_proto->m_vkOptions.bShowProtoMenuItem6);
+}
+
+void CVkOptionMenuForm::OnApply()
+{
+	if (MessageBox(NULL, 
+		TranslateT("These changes will take effect after Miranda NG restart.\nWould you like to restart it now?"),
+		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) 
+		CallServiceSync(MS_SYSTEM_RESTART, 1,  0);
+}
+
 

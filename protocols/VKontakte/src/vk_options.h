@@ -181,3 +181,22 @@ public:
 	void OnInitDialog();
 	void OnApply();
 };
+
+////////////////////// Menu page /////////////////////////////////////////////
+
+class CVkOptionMenuForm : public CVkDlgBase
+{
+	CCtrlCheck m_cbMenuEnabled0;
+	CCtrlCheck m_cbMenuEnabled1;
+	CCtrlCheck m_cbMenuEnabled2;
+	CCtrlCheck m_cbMenuEnabled3;
+	CCtrlCheck m_cbMenuEnabled4;
+	CCtrlCheck m_cbMenuEnabled5;
+	CCtrlCheck m_cbMenuEnabled6;
+
+	CVkProto *m_proto;
+
+public:
+	CVkOptionMenuForm(CVkProto *proto);
+	void OnApply();
+};

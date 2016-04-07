@@ -313,6 +313,14 @@ struct CVKOptions {
 	CMOption<BYTE> bSyncReadMessageStatusFromServer;
 	CMOption<BYTE> bLoadFullCList;
 
+	CMOption<BYTE> bShowProtoMenuItem0;
+	CMOption<BYTE> bShowProtoMenuItem1;
+	CMOption<BYTE> bShowProtoMenuItem2;
+	CMOption<BYTE> bShowProtoMenuItem3;
+	CMOption<BYTE> bShowProtoMenuItem4;
+	CMOption<BYTE> bShowProtoMenuItem5;
+	CMOption<BYTE> bShowProtoMenuItem6;
+
 	CMOption<DWORD> iNewsInterval;
 	CMOption<DWORD> iNotificationsInterval;
 	CMOption<DWORD> iNewsAutoClearHistoryInterval;
@@ -327,7 +335,7 @@ struct CVKOptions {
 
 	CVKOptions(PROTO_INTERFACE *proto);
 	void ReloadStrings();
-
+	
 	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(int)iBBCForNews; };
 	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(int)iBBCForAttachments; };
 
