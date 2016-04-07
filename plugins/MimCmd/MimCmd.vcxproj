@@ -34,5 +34,8 @@
       <DelayLoadDLLs>mir_core.mir</DelayLoadDLLs>
       <AdditionalDependencies>delayimp.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
   </ItemDefinitionGroup>
 </Project>
