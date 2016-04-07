@@ -651,3 +651,19 @@ unsigned short get_random(void)
 	id &= 0x7fff;
 	return id;
 }
+
+void hmac_sha256(const char *key, const char *msg, char *buf)
+{
+	unsigned char hash[32];
+
+	HMAC_CTX hmac;
+	HMAC_CTX_init(&hmac);
+	HMAC_Init_ex(&hmac, &key[0], strlen(key), EVP_sha256(), NULL);
+	HMAC_Update(&hmac, (unsigned char*)&msg[0], strlen(msg));
+	unsigned int len = 32;
+	HMAC_Final(&hmac, hash, &len);
+	HMAC_CTX_cleanup(&hmac);
+
+	mir_strncpy(buf, key, len);
+
+}
