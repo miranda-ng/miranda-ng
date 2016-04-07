@@ -60,7 +60,7 @@ void CVkAccMgrForm::OnApply()
 	if (bPassChanged) {
 		T2Utf szRawPasswd(ptszNewPass);
 		m_proto->setString("Password", szRawPasswd);
-		pass_ptrA pszPass(szRawPasswd);
+		pass_ptrA pszPass(szRawPasswd.detach());
 		m_ptszOldPass = ptszNewPass;
 	}
 
@@ -218,7 +218,7 @@ void CVkOptionAccountForm::OnApply()
 	if (bPassChanged) {
 		T2Utf szRawPasswd(ptszNewPass);
 		m_proto->setString("Password", szRawPasswd);
-		pass_ptrA pszPass(szRawPasswd);
+		pass_ptrA pszPass(szRawPasswd.detach());
 		m_ptszOldPass = ptszNewPass;
 	}
 
