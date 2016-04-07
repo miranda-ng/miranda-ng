@@ -95,7 +95,7 @@ public:
 	__inline explicit pass_ptrA() : mir_ptr(){}
 	__inline explicit pass_ptrA(char* _p) : mir_ptr(_p) {}
 	__inline ~pass_ptrA() { zero(); }
-	__inline char* operator = (char *_p){ zero(); mir_ptr::operator=(_p); }
+	__inline char* operator = (char *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
 	{ char *_data = mir_ptr::operator char *();
 	  if (_data) SecureZeroMemory(_data, mir_strlen(_data)); 
@@ -108,7 +108,7 @@ public:
 	__inline explicit pass_ptrW() : mir_ptr(){}
 	__inline explicit pass_ptrW(WCHAR* _p) : mir_ptr(_p) {}
 	__inline ~pass_ptrW() { zero(); }
-	__inline WCHAR* operator = (WCHAR *_p){ zero(); mir_ptr::operator=(_p); }
+	__inline WCHAR* operator = (WCHAR *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
 	{ WCHAR *_data = mir_ptr::operator WCHAR *();
 	  if (_data) SecureZeroMemory(_data, mir_wstrlen(_data)*sizeof(WCHAR));
