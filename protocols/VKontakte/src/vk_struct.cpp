@@ -239,7 +239,6 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	ReloadStrings();
 }
 
-
 void CVKOptions::ReloadStrings()
 {
 	if (!m_proto)
