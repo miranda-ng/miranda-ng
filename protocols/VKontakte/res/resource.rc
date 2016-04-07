@@ -60,6 +60,14 @@ IDI_MARKMESSAGESASREAD  ICON                    "markread.ico"
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_MENU, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 105
+    END
+
     IDD_OPT_VIEW, DIALOG
     BEGIN
         LEFTMARGIN, 4
@@ -137,6 +145,21 @@ END
 // Dialog
 //
 
+IDD_OPT_MENU DIALOGEX 0, 0, 309, 112
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Show in protocol menu ",IDC_STATIC,7,8,295,93
+    CONTROL         "Create new chat",IDC_SHOW_MENU0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,19,280,10
+    CONTROL         "Status message",IDC_SHOW_MENU1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,280,10
+    CONTROL         "Send message to my wall",IDC_SHOW_MENU2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,41,280,10
+    CONTROL         "Load news from VK",IDC_SHOW_MENU3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,52,280,10
+    CONTROL         "Load history for all contacts from VK",IDC_SHOW_MENU4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,63,280,10
+    CONTROL         "Wipe contacts missing in friend list",IDC_SHOW_MENU5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,74,280,10
+    CONTROL         "Visit profile",IDC_SHOW_MENU6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,85,280,10
+END
+
 IDD_OPT_VIEW DIALOGEX 0, 0, 304, 184
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
@@ -153,7 +176,7 @@ BEGIN
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_NEWSBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,61,129,10
     CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10    
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
     GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
     CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10

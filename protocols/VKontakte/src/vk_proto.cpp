@@ -156,65 +156,83 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
 
+	for (int i = 0; i < PMI_COUNT; i++)
+		m_hProtoMenuItems[i] = 0;
+
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
 
 	// Proto menu
-	mi.pszService = PS_CREATECHAT;
-	mi.position = 10009 + PMI_CREATECHAT;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
-	mi.name.a = LPGEN("Create new chat");
-	SET_UID(mi, 0xc217748d, 0x7218, 0x4a62, 0xab, 0x37, 0x9, 0x58, 0x6a, 0x88, 0x71, 0x3e);
-	m_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem0) {
+		mi.pszService = PS_CREATECHAT;
+		mi.position = 10009 + PMI_CREATECHAT;
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
+		mi.name.a = LPGEN("Create new chat");
+		SET_UID(mi, 0xc217748d, 0x7218, 0x4a62, 0xab, 0x37, 0x9, 0x58, 0x6a, 0x88, 0x71, 0x3e);
+		m_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_SETSTATUSMSG;
-	mi.position = 10009 + PMI_SETSTATUSMSG;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_STATUS));
-	mi.name.a = LPGEN("Status message");
-	SET_UID(mi, 0x696bd932, 0xeee4, 0x4c4c, 0xa6, 0xf8, 0xb3, 0x72, 0xdf, 0xc6, 0xfa, 0xd1);
-	m_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem1) {
+		mi.pszService = PS_SETSTATUSMSG;
+		mi.position = 10009 + PMI_SETSTATUSMSG;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_STATUS));
+		mi.name.a = LPGEN("Status message");
+		SET_UID(mi, 0x696bd932, 0xeee4, 0x4c4c, 0xa6, 0xf8, 0xb3, 0x72, 0xdf, 0xc6, 0xfa, 0xd1);
+		m_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_WALLPOST;
-	mi.position = 10009 + PMI_WALLPOST;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.name.a = LPGEN("Send message to my wall");
-	SET_UID(mi, 0x50a80044, 0xdddd, 0x47e6, 0x9e, 0x90, 0x32, 0x7b, 0x88, 0x13, 0x21, 0x4e);
-	m_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem2) {
+		mi.pszService = PS_WALLPOST;
+		mi.position = 10009 + PMI_WALLPOST;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
+		mi.name.a = LPGEN("Send message to my wall");
+		SET_UID(mi, 0x50a80044, 0xdddd, 0x47e6, 0x9e, 0x90, 0x32, 0x7b, 0x88, 0x13, 0x21, 0x4e);
+		m_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_LOADVKNEWS;
-	mi.position = 10009 + PMI_LOADVKNEWS;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
-	mi.name.a = LPGEN("Load news from VK");
-	SET_UID(mi, 0x7c449456, 0xb731, 0x48cc, 0x9c, 0x4e, 0x20, 0xe4, 0x66, 0x7a, 0x16, 0x23);
-	m_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem3) {
+		mi.pszService = PS_LOADVKNEWS;
+		mi.position = 10009 + PMI_LOADVKNEWS;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
+		mi.name.a = LPGEN("Load news from VK");
+		SET_UID(mi, 0x7c449456, 0xb731, 0x48cc, 0x9c, 0x4e, 0x20, 0xe4, 0x66, 0x7a, 0x16, 0x23);
+		m_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_GETALLSERVERHISTORY;
-	mi.position = 10009 + PMI_GETALLSERVERHISTORY;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.name.a = LPGEN("Load history for all contacts from VK");
-	SET_UID(mi, 0xe5028605, 0x92eb, 0x4956, 0xa0, 0xd0, 0x53, 0xb, 0x11, 0x44, 0x8f, 0x14);
-	m_hProtoMenuItems[PMI_GETALLSERVERHISTORY] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem4) {
+		mi.pszService = PS_GETALLSERVERHISTORY;
+		mi.position = 10009 + PMI_GETALLSERVERHISTORY;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+		mi.name.a = LPGEN("Load history for all contacts from VK");
+		SET_UID(mi, 0xe5028605, 0x92eb, 0x4956, 0xa0, 0xd0, 0x53, 0xb, 0x11, 0x44, 0x8f, 0x14);
+		m_hProtoMenuItems[PMI_GETALLSERVERHISTORY] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_WIPENONFRIENDS;
-	mi.position = 10009 + PMI_WIPENONFRIENDS;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
-	mi.name.a = LPGEN("Wipe contacts missing in friend list");
-	SET_UID(mi, 0xcfe99159, 0xf237, 0x4546, 0x80, 0x3e, 0x51, 0x88, 0x26, 0x55, 0xdc, 0x5f);
-	m_hProtoMenuItems[PMI_WIPENONFRIENDS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	if (m_vkOptions.bShowProtoMenuItem5) {
+		mi.pszService = PS_WIPENONFRIENDS;
+		mi.position = 10009 + PMI_WIPENONFRIENDS;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
+		mi.name.a = LPGEN("Wipe contacts missing in friend list");
+		SET_UID(mi, 0xcfe99159, 0xf237, 0x4546, 0x80, 0x3e, 0x51, 0x88, 0x26, 0x55, 0xdc, 0x5f);
+		m_hProtoMenuItems[PMI_WIPENONFRIENDS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 
-	mi.pszService = PS_VISITPROFILE;
-	mi.position = 10009 + PMI_VISITPROFILE;
-	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
-	mi.name.a = LPGEN("Visit profile");
-	SET_UID(mi, 0x9550515e, 0x2a45, 0x4913, 0x95, 0x1a, 0x1e, 0xfa, 0x7, 0xc6, 0x2d, 0x60);
-	m_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
+	if (m_vkOptions.bShowProtoMenuItem6) {
+		mi.pszService = PS_VISITPROFILE;
+		mi.position = 10009 + PMI_VISITPROFILE;
+		mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
+		mi.name.a = LPGEN("Visit profile");
+		SET_UID(mi, 0x9550515e, 0x2a45, 0x4913, 0x95, 0x1a, 0x1e, 0xfa, 0x7, 0xc6, 0x2d, 0x60);
+		m_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
+		
 	// Contact Menu Items
 	mi.root = NULL;
 	mi.flags = CMIF_TCHAR;
 
 	mi.pszService = PS_VISITPROFILE;
 	mi.position = -200001000 + CMI_VISITPROFILE;
+	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
 	mi.name.t = LPGENT("Visit profile");
 	SET_UID(mi, 0x828cc50e, 0x398d, 0x43a2, 0xbf, 0xd3, 0xa9, 0x96, 0x47, 0x9d, 0x52, 0xff);
 	m_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
@@ -360,7 +378,8 @@ void CVkProto::UnInitMenus()
 {
 	debugLogA("CVkProto::UnInitMenus");
 	for (int i = 0; i < PMI_COUNT; i++)
-		Menu_RemoveItem(m_hProtoMenuItems[i]);
+		if (m_hProtoMenuItems[i])
+			Menu_RemoveItem(m_hProtoMenuItems[i]);
 
 	for (int i = 0; i < CHMI_COUNT; i++)
 		Menu_RemoveItem(m_hContactHistoryMenuItems[i]);
