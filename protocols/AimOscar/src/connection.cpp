@@ -382,25 +382,34 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.flags = NLHRF_SSL;
 	req.requestType = REQUEST_POST;
 	req.szUrl = AIM_LOGIN_URL;
+	NETLIBHTTPHEADER headers[1];
+	headers[0].szName = "Content-Type";
+	headers[0].szValue = "application/x-www-form-urlencoded; charset=UTF-8";
+	req.headers = headers;
+	req.headersCount = 1;
 	char buf[1024];
 	buf[0] = 0;
 	char *password = getStringA(AIM_KEY_PW);
+	mir_free(m_username);
+	m_username = getStringA(AIM_KEY_SN);
 	fill_post_request(buf, password, m_username);
 	req.pData = buf;
 	req.dataLength = (int)strlen(buf);
 
-	bool encryption = true; //TODO: make this configurable
+	bool encryption = !getByte(AIM_KEY_DSSL, 0); //TODO: make this configurable
 
 	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if(!resp)
 	{
 		//TODO: handle error
+		broadcast_status(ID_STATUS_OFFLINE);
 		mir_free(password);
 		return;
 	}
 	if(!resp->dataLength)
 	{
 		//TODO: handle error
+		broadcast_status(ID_STATUS_OFFLINE);
 		mir_free(password);
 		return;
 	}
@@ -412,6 +421,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	{
 		//TODO: handle error
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+		broadcast_status(ID_STATUS_OFFLINE);
 		mir_free(password);
 		return;
 	}
@@ -429,11 +439,13 @@ void CAimProto::aim_connection_clientlogin(void)
 	if(!resp)
 	{
 		//TODO: handle error
+		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
 	if(!resp->dataLength)
 	{
 		//TODO: handle error
+		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
 	char bos_host[128], cookie[1024], tls_cert_name[128]; //TODO: find efficient buf size
@@ -445,6 +457,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	{
 		//TODO: handle error
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
@@ -453,6 +466,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	if(!m_hServerConn)
 	{
 		//TODO: handle error
+		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
 

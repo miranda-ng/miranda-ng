@@ -99,26 +99,39 @@ void CAimProto::start_connection(void*)
 			return;
 		}
 
-		//bool use_ssl = !getByte(AIM_KEY_DSSL, 0);
-		bool use_ssl = false;
 
-		char* login_url = getStringA(AIM_KEY_HN);
-		//if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
-		if (login_url == NULL) login_url = mir_strdup(AIM_DEFAULT_SERVER);
+		bool use_clientlogin = getByte(AIM_KEY_CLIENTLOGIN, 0);
 
-		m_hServerConn = aim_connect(login_url, get_default_port(), use_ssl, login_url);
+		if (!use_clientlogin)
+		{
 
-		mir_free(login_url);
+			char* login_url = getStringA(AIM_KEY_HN);
+			//if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
 
-		m_pref1_flags = 0x77ffff;
-		m_pref1_set_flags = 0x77ffff;
-		mir_free(m_pref2_flags); m_pref2_flags = NULL; m_pref2_len = 0;
-		mir_free(m_pref2_set_flags); m_pref2_set_flags = NULL; m_pref2_set_len = 0;
 
-		if (m_hServerConn)
-			aim_connection_authorization();
+			if (login_url == NULL) login_url = mir_strdup(AIM_DEFAULT_SERVER);
+
+
+
+			m_hServerConn = aim_connect(login_url, get_default_port(), false, login_url); //ssl does not work anymore with old authorization algo
+
+			mir_free(login_url);
+
+			m_pref1_flags = 0x77ffff;
+			m_pref1_set_flags = 0x77ffff;
+			mir_free(m_pref2_flags); m_pref2_flags = NULL; m_pref2_len = 0;
+			mir_free(m_pref2_set_flags); m_pref2_set_flags = NULL; m_pref2_set_len = 0;
+
+			if (m_hServerConn)
+				aim_connection_authorization();
+			else
+				broadcast_status(ID_STATUS_OFFLINE);
+		}
 		else
-			broadcast_status(ID_STATUS_OFFLINE);
+		{
+			aim_connection_clientlogin();
+
+		}
 	}
 }
 

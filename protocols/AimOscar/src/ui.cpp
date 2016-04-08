@@ -742,7 +742,6 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemTextA(hwndDlg, IDC_HN, dbv.pszVal);
 				db_free(&dbv);
 			}
-			//else SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
 			else SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
@@ -759,9 +758,14 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_CM, ppro->getByte(AIM_KEY_CM, 0) ? BST_CHECKED : BST_UNCHECKED);//Check Mail
 			CheckDlgButton(hwndDlg, IDC_MG, ppro->getByte(AIM_KEY_MG, 1) ? BST_CHECKED : BST_UNCHECKED);//Manage Groups
 			CheckDlgButton(hwndDlg, IDC_DA, ppro->getByte(AIM_KEY_DA, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable Avatars
-			//CheckDlgButton(hwndDlg, IDC_DSSL, ppro->getByte(AIM_KEY_DSSL, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable SSL
-			CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);//Disable SSL
-			CheckDlgButton(hwndDlg, IDC_CLIENTLOGIN, ppro->getByte(AIM_KEY_CLIENTLOGIN, 0) ? BST_CHECKED : BST_UNCHECKED);//use clientlogin
+			CheckDlgButton(hwndDlg, IDC_DSSL, ppro->getByte(AIM_KEY_DSSL, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable SSL
+			CheckDlgButton(hwndDlg, IDC_CLIENTLOGIN, ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) ? BST_CHECKED : BST_UNCHECKED);//use clientlogin
+			{
+				HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
+				EnableWindow(dssl, ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) ? true : false);
+				CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);
+				ppro->setByte(AIM_KEY_DSSL, IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0);
+			}
 			CheckDlgButton(hwndDlg, IDC_FSC, ppro->getByte(AIM_KEY_FSC, 0) ? BST_CHECKED : BST_UNCHECKED);//Force Single Client
 		}
 		break;
@@ -770,17 +774,13 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		switch (LOWORD(wParam)) {
 		case IDC_DSSL:
 			{
-/*				bool dssl = IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0;
-				SetDlgItemTextA(hwndDlg, IDC_HN, dssl ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
-				SetDlgItemInt(hwndDlg, IDC_PN, dssl ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT, FALSE);*/
 				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 				SetDlgItemInt(hwndDlg, IDC_PN, AIM_DEFAULT_PORT, FALSE);
 			}
 			break;
 
+
 		case IDC_SVRRESET:
-/*			SetDlgItemTextA(hwndDlg, IDC_HN,
-				IsDlgButtonChecked(hwndDlg, IDC_DSSL) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER); */
 			SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 			break;
@@ -793,6 +793,18 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return 0;
 			break;
+		}
+		if (IsDlgButtonChecked(hwndDlg, IDC_CLIENTLOGIN))
+		{
+			HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
+			EnableWindow(dssl, true);
+			CheckDlgButton(hwndDlg, IDC_DSSL, BST_UNCHECKED);
+		}
+		else
+		{
+			HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
+			EnableWindow(dssl, false);
+			CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
@@ -844,8 +856,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//Disable Avatar
 
 				//Disable SSL
-				//ppro->setByte(AIM_KEY_DSSL, IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0);
-				ppro->setByte(AIM_KEY_DSSL, 1);
+				ppro->setByte(AIM_KEY_DSSL, IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0);
 				//Disable SSL
 
 				//use "clientlogin"
@@ -862,7 +873,6 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//PN
 				int port = GetDlgItemInt(hwndDlg, IDC_PN, NULL, FALSE);
-				//if (port > 0 && port != (ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT))
 				if (port > 0 && port != AIM_DEFAULT_PORT)
 					ppro->setWord(AIM_KEY_PN, (WORD)port);
 				else
