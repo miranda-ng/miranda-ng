@@ -76,13 +76,8 @@ static builtinCnfs[] =
 /* contact cache entry */
 struct CONTACTCE
 {
-	~CONTACTCE()
-	{ 
-		mir_free(tszContact);
-	}
-
+	int flags;
 	TCHAR* tszContact;
-	int    flags;
 	MCONTACT hContact;
 }; 
 
@@ -98,9 +93,7 @@ static int SortContactCache(const CONTACTCE *p1, const CONTACTCE *p2)
 static OBJLIST<CONTACTCE> arContactCache(20, SortContactCache);
 static mir_cs csContactCache;
 
-/*
-	converts a string into a CNF_ type
-*/
+// converts a string into a CNF_ type
 BYTE getContactInfoType(TCHAR* type)
 {
 	if (type == NULL || mir_tstrlen(type) == 0)
@@ -113,9 +106,7 @@ BYTE getContactInfoType(TCHAR* type)
 	return 0;
 }
 
-/*
-	returns info about a contact as a string
-*/
+// returns info about a contact as a string
 TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 {
 	/* returns dynamic allocated buffer with info, or NULL if failed */
@@ -138,12 +129,10 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 		}
 
 	case CCNF_PROTOCOL:
-		{
-			char protoname[128];
-			if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
-				return NULL;
-			return mir_a2t(protoname);
-		}
+		char protoname[128];
+		if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
+			return NULL;
+		return mir_a2t(protoname);
 
 	case CCNF_STATUS:
 		return mir_tstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
@@ -152,13 +141,13 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	case CCNF_EXTERNALIP:
 		{
 			DWORD ip = db_get_dw(hContact, szProto, (type == CCNF_INTERNALIP) ? "RealIP" : "IP", 0);
-			if (ip == 0)
-				return NULL;
-
-			struct in_addr in;
-			in.s_addr = htonl(ip);
-			return mir_a2t(inet_ntoa(in));
+			if (ip != 0) {
+				struct in_addr in;
+				in.s_addr = htonl(ip);
+				return mir_a2t(inet_ntoa(in));
+			}
 		}
+		return NULL;
 
 	case CCNF_GROUP:
 		if ((res = db_get_tsa(hContact, "CList", "Group")) != NULL)
@@ -203,9 +192,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	return NULL;
 }
 
-/*
-	MS_VARS_GETCONTACTFROMSTRING
-*/
+// MS_VARS_GETCONTACTFROMSTRING
 MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch)
 {
 	/* service to retrieve a contact's HANDLE from a given string */
@@ -219,9 +206,9 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 	}
 	else bReturnCount = false;
 
-	/* search the cache */
+	// search the cache
 	{
-		CONTACTCE tmp = { (TCHAR*)tszContact, dwFlags, 0 };
+		CONTACTCE tmp = { dwFlags, (TCHAR*)tszContact, 0 };
 
 		mir_cslock lck(csContactCache);
 		CONTACTCE *p = arContactCache.find(&tmp);
@@ -229,11 +216,11 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 			return (bReturnCount) ? 1 : p->hContact; // found in cache
 	}
 
-	/* contact was not in cache, do a search */
+	// contact was not in cache, do a search
 	CMString tmp;
 	int count = 0;
 	MCONTACT hContact;
-	LIST<void> arResults(0);
+	LIST<void> arResults(1);
 
 	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// <_HANDLE_:hContact>
@@ -369,6 +356,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 			(isUid && (cce.flags & CI_UNIQUEID))) 
 		{
 			/* remove from cache */
+			mir_free(cce.tszContact);
 			arContactCache.remove(i);
 			break;
 		}
@@ -384,6 +372,8 @@ int initContactModule()
 
 int deinitContactModule()
 {
+	for (int i = 0; i < arContactCache.getCount(); i++)
+		mir_free(arContactCache[i].tszContact);
 	arContactCache.destroy();
 	return 0;
 }

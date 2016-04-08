@@ -30,7 +30,7 @@ struct ALIASREGISTER
 static LIST<ALIASREGISTER> arAliases(5);
 static mir_cs csAliasRegister;
 
-static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias)
+static ALIASREGISTER* searchAliasRegister(TCHAR *szAlias)
 {
 	if (szAlias == NULL || *szAlias == 0)
 		return NULL;
@@ -148,24 +148,24 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 
 	ptrT alias(mir_tstrndup(ai->targv[1], cur - ai->targv[1]));
 
-	int argc;
-	TCHAR **argv;
-	getArguments(cur, &argv, &argc);
+	TArgList argv;
+	getArguments(cur, argv);
+
 	deRegisterToken(alias);
-	addToAliasRegister(alias, argc, argv, ai->targv[2]);
+	addToAliasRegister(alias, argv.getCount(), argv.getArray(), ai->targv[2]);
 	TCHAR *szArgs = NULL;
-	for (int i = 0; i < argc; i++) {
+	for (int i = 0; i < argv.getCount(); i++) {
 		if (i == 0)
 			szArgs = (TCHAR*)mir_calloc((mir_tstrlen(argv[i]) + 2)*sizeof(TCHAR));
 		else
 			szArgs = (TCHAR*)mir_realloc(szArgs, (mir_tstrlen(szArgs) + mir_tstrlen(argv[i]) + 2)*sizeof(TCHAR));
 
 		mir_tstrcat(szArgs, argv[i]);
-		if (i != argc - 1)
+		if (i != argv.getCount() - 1)
 			mir_tstrcat(szArgs, _T(","));
 	}
 	int res;
-	if (szArgs != NULL && argc > 0) {
+	if (szArgs != NULL && argv.getCount() > 0) {
 		szArgsA = mir_t2a(szArgs);
 
 		size_t size = 32 + mir_strlen(szArgsA);
@@ -183,7 +183,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	}
 	mir_free(szArgs);
 	mir_free(szHelp);
-	mir_free(argv);
+	argv.destroy();
 	return (res == 0) ? mir_tstrdup(_T("")) : NULL;
 }
 

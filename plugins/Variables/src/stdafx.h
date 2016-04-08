@@ -152,7 +152,6 @@ extern struct ParseOptions gParseOpts;
 extern int hLangpack;
 
 // variables.c
-//TCHAR *getArguments(char *string, char ***aargv, int *aargc);
 //int isValidTokenChar(char c);
 TCHAR *formatString(FORMATINFO *fi);
 int  setParseOptions(struct ParseOptions *po);

@@ -20,4 +20,19 @@
 #define ADDALIAS		_T("alias")
 
 int isValidTokenChar(TCHAR tc);
-TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc);
+
+struct TArgList : public LIST<TCHAR>
+{
+	TArgList() :
+		LIST<TCHAR>(1)
+	{}
+
+	void destroy() 
+	{
+		for (int i = 0; i < count; i++)
+			mir_free(items[i]);
+		count = 0;
+	}
+};
+
+TCHAR* getArguments(TCHAR *string, TArgList &aargv);
