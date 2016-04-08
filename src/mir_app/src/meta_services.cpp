@@ -70,6 +70,9 @@ INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM)
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 2000;
+
+	case PFLAG_UNIQUEIDTEXT:
+		return (INT_PTR)"Metacontact";
 	}
 	return 0;
 }
