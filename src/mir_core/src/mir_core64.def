@@ -990,3 +990,4 @@ mir_sha256_write @1147
 mir_forkthreadowner @1148
 hex2bin @1149
 hex2binW @1150
+mir_hmac_sha256 @1151

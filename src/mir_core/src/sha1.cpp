@@ -94,7 +94,7 @@ MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx)
 		ctx->W[i] = 0;
 }
 
-MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, int len)
+MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, size_t len)
 {
 	/* Read the data into W and process blocks as they get full
 	*/
@@ -145,7 +145,7 @@ MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[20])
 	mir_sha1_init(ctx); 
 }
 
-MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, int len, BYTE hashout[20])
+MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, size_t len, BYTE hashout[20])
 {
 	mir_sha1_ctx ctx;
 
@@ -158,38 +158,29 @@ MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, int len, BYTE hashout[20])
 
 MIR_CORE_DLL(void) mir_hmac_sha1(BYTE hashout[MIR_SHA1_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen)
 {
-	const unsigned SHA_BLOCKSIZE = 64;
-
-	BYTE mdkey[MIR_SHA1_HASH_SIZE], k_ipad[SHA_BLOCKSIZE], k_opad[SHA_BLOCKSIZE];
 	mir_sha1_ctx ctx;
+	BYTE usedKey[MIR_SHA_BLOCKSIZE] = { 0 };
 
-	if (keylen > SHA_BLOCKSIZE) {
+	if (keylen > MIR_SHA_BLOCKSIZE) {
 		mir_sha1_init(&ctx);
 		mir_sha1_append(&ctx, key, (int)keylen);
-		mir_sha1_finish(&ctx, mdkey);
-		keylen = 20;
-		key = mdkey;
+		mir_sha1_finish(&ctx, usedKey);
 	}
+	else memcpy(usedKey, key, keylen);
 
-	memcpy(k_ipad, key, keylen);
-	memcpy(k_opad, key, keylen);
-	if (keylen < SHA_BLOCKSIZE) {
-		memset(k_ipad + keylen, 0x36, SHA_BLOCKSIZE - keylen);
-		memset(k_opad + keylen, 0x5c, SHA_BLOCKSIZE - keylen);
-	}
-
-	for (unsigned i = 0; i < keylen; i++) {
-		k_ipad[i] ^= 0x36;
-		k_opad[i] ^= 0x5c;
-	}
+	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
+		usedKey[i] ^= 0x36;
 
 	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_ipad, SHA_BLOCKSIZE);
+	mir_sha1_append(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
 	mir_sha1_append(&ctx, text, (int)textlen);
 	mir_sha1_finish(&ctx, hashout);
 
+	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
+		usedKey[i] ^= 0x5C ^ 0x36;
+
 	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_opad, SHA_BLOCKSIZE);
+	mir_sha1_append(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
 	mir_sha1_append(&ctx, hashout, MIR_SHA1_HASH_SIZE);
 	mir_sha1_finish(&ctx, hashout);
 }

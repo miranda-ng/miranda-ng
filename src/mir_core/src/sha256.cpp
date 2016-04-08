@@ -287,3 +287,34 @@ MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, BYTE hashout[
 	mir_sha256_write(&tmp, dataIn, len);
 	mir_sha256_final(&tmp, hashout);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) mir_hmac_sha256(BYTE hashout[MIR_SHA256_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen)
+{
+	SHA256_CONTEXT ctx;
+	BYTE usedKey[MIR_SHA_BLOCKSIZE] = { 0 };
+
+	if (keylen > MIR_SHA_BLOCKSIZE) {
+		mir_sha256_init(&ctx);
+		mir_sha256_write(&ctx, key, (int)keylen);
+		mir_sha256_final(&ctx, usedKey);
+	}
+	else memcpy(usedKey, key, keylen);
+
+	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
+		usedKey[i] ^= 0x36;
+
+	mir_sha256_init(&ctx);
+	mir_sha256_write(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
+	mir_sha256_write(&ctx, text, textlen);
+	mir_sha256_final(&ctx, hashout);
+
+	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
+		usedKey[i] ^= 0x5C ^ 0x36;
+
+	mir_sha256_init(&ctx);
+	mir_sha256_write(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
+	mir_sha256_write(&ctx, hashout, MIR_SHA1_HASH_SIZE);
+	mir_sha256_final(&ctx, hashout);
+}
