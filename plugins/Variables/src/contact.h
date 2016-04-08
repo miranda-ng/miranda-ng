@@ -89,6 +89,8 @@
                                     // (contact details).
 #define CI_UNIQUEID     0x00000040  // Search unique ids of the contac, e.g.
                                     // UIN.
+#define CI_ALLFLAGS		0x7FFFFFFF  // All possible combinations of previous flags
+
 #define CI_CNFINFO	   0x40000000  // Searches one of the CNF_* flags (set
                                     // flags to CI_CNFINFO|CNF_X), only one
                                     // CNF_ type possible

@@ -310,7 +310,7 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 		return (MCONTACT)arResults[rand() % arResults.getCount()];
 
 	// cache the found result
-	if (count == 1) {
+	if (count == 0) {
 		mir_cslock lck(csContactCache);
 
 		CONTACTCE *cce = new CONTACTCE();

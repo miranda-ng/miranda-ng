@@ -109,7 +109,7 @@ static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
@@ -183,7 +183,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 
 	MCONTACT hContact = NULL;
 	if (mir_tstrlen(ai->targv[1]) > 0) {
-		hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+		hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 		if (hContact == INVALID_CONTACT_ID)
 			return NULL;
 	}
@@ -211,7 +211,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
@@ -253,7 +253,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
@@ -296,7 +296,7 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
@@ -570,7 +570,7 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		break;
 	}
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 

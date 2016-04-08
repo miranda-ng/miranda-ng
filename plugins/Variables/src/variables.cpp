@@ -339,7 +339,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 	orgFormat = fi->tszFormat;
 	orgSource = fi->tszExtraText;
 
-	if (!(fi->flags&FIF_TCHAR)) {
+	if (!(fi->flags & FIF_TCHAR)) {
 		copied = TRUE;
 		log_debugA("mir_a2t (%s)", fi->szExtraText);
 		tszFormat = fi->szFormat != NULL ? mir_a2t(fi->szFormat) : NULL;
@@ -359,7 +359,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 
 	tRes = formatString(fi);
 
-	if (!(fi->flags&FIF_TCHAR)) {
+	if (!(fi->flags & FIF_TCHAR)) {
 		res = (INT_PTR)mir_u2a(tRes);
 		mir_free(tRes);
 	}
