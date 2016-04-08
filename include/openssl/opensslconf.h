@@ -16,7 +16,7 @@ extern "C" {
  */
 
 #ifndef OPENSSL_SYS_WIN32
-# define OPENSSL_SYS_WIN32 1
+# define OPENSSL_SYS_WIN32
 #endif
 #ifndef OPENSSL_NO_CRYPTO_MDEBUG
 # define OPENSSL_NO_CRYPTO_MDEBUG

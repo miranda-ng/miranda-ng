@@ -100,11 +100,9 @@ void CAimProto::start_connection(void*)
 		}
 
 
-		bool use_clientlogin = getByte(AIM_KEY_CLIENTLOGIN, 0);
-
+		bool use_clientlogin = getByte(AIM_KEY_CLIENTLOGIN, 0) != 0;
 		if (!use_clientlogin)
 		{
-
 			char* login_url = getStringA(AIM_KEY_HN);
 			//if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
 
@@ -663,20 +661,4 @@ unsigned short get_random(void)
 	Utils_GetRandom(&id, sizeof(id));
 	id &= 0x7fff;
 	return id;
-}
-
-void hmac_sha256(const char *key, const char *msg, char *buf)
-{
-	unsigned char hash[32];
-
-	HMAC_CTX hmac;
-	HMAC_CTX_init(&hmac);
-	HMAC_Init_ex(&hmac, &key[0], strlen(key), EVP_sha256(), NULL);
-	HMAC_Update(&hmac, (unsigned char*)&msg[0], strlen(msg));
-	unsigned int len = 32;
-	HMAC_Final(&hmac, hash, &len);
-	HMAC_CTX_cleanup(&hmac);
-
-	mir_strncpy(buf, key, len);
-
 }

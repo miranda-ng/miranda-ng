@@ -250,37 +250,33 @@ void construct_query_string(char *buf, const char *token, time_t hosttime, bool 
 
 }
 
-void generate_signature(char *signature, const char *method, const char *url, const char *parameters, const char *session_key)
+void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, const BYTE *session_key)
 {
 	char *encoded_url = mir_urlEncode(url);
 	char *encoded_parameters = mir_urlEncode(parameters);
 	char signature_base[1024];
-	mir_snprintf(signature_base, 1023, "%s%s%s", method, encoded_url, encoded_parameters);
+	mir_snprintf(signature_base, "%s%s%s", method, encoded_url, encoded_parameters);
 	mir_free(encoded_url);
 	mir_free(encoded_parameters);
-	hmac_sha256(session_key, signature_base, signature);
-
+	mir_hmac_sha256(signature, session_key, MIR_SHA256_HASH_SIZE, (BYTE*)signature_base, mir_strlen(signature_base));
 }
 
-void fill_session_url(char *buf, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
+void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
 {
-	//TODO: construct url for get request
 	/*
 		AIM_SESSION_URL?query_string?sig_sha256=signature
 	*/
+
 	char query_string[1024];
 	query_string[0] = 0;
 	construct_query_string(query_string, token, hosttime, encryption);
-	char signature[512];
 
-	char session_key[1024];
-
-	hmac_sha256(password, secret, session_key);
-
+	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
+	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret, mir_strlen(secret));
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, session_key);
 
-	mir_snprintf(buf, 2023, "%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, signature);
-
+	size_t cbLen = mir_snprintf(buf, bufSize, "%s?%s&sig_sha256=", AIM_SESSION_URL, query_string);
+	bin2hex(signature, sizeof(signature), buf + cbLen);
 }
 
 bool parse_start_socar_session_response(char *response, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name, bool encryption = true)
@@ -432,7 +428,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.dataLength = 0;
 	char url[2048];
 	url[0] = 0;
-	fill_session_url(url, token, secret, hosttime, password, encryption);
+	fill_session_url(url, sizeof(url), token, secret, hosttime, password, encryption);
 	mir_free(password);
 	req.szUrl = url;
 	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
