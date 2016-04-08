@@ -250,7 +250,7 @@ void construct_query_string(char *buf, const char *token, time_t hosttime, bool 
 
 }
 
-void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, const BYTE *session_key)
+void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, const char *session_key)
 {
 	char *encoded_url = mir_urlEncode(url);
 	char *encoded_parameters = mir_urlEncode(parameters);
@@ -258,7 +258,7 @@ void generate_signature(BYTE *signature, const char *method, const char *url, co
 	mir_snprintf(signature_base, "%s%s%s", method, encoded_url, encoded_parameters);
 	mir_free(encoded_url);
 	mir_free(encoded_parameters);
-	mir_hmac_sha256(signature, session_key, MIR_SHA256_HASH_SIZE, (BYTE*)signature_base, mir_strlen(signature_base));
+	mir_hmac_sha256(signature, (BYTE*)session_key, mir_strlen(session_key), (BYTE*)signature_base, mir_strlen(signature_base));
 }
 
 void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
@@ -273,7 +273,9 @@ void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time
 
 	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
 	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret, mir_strlen(secret));
-	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, session_key);
+	
+	ptrA szKey(mir_base64_encode(session_key, sizeof(session_key)));
+	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, szKey);
 
 	ptrA szEncoded(mir_base64_encode(signature, sizeof(signature)));
 	mir_snprintf(buf, bufSize, "%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, (char*)szEncoded);
