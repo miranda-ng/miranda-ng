@@ -70,7 +70,6 @@ static int getContactInfoFlags(TCHAR *tszDesc)
 		if (flags != 0)
 			flags |= CI_CNFINFO;
 	}
-	flags |= CI_TCHAR;
 
 	return flags;
 }
@@ -81,28 +80,18 @@ static TCHAR* parseContact(ARGUMENTSINFO *ai)
 		return NULL;
 
 	int n = 0;
-	if (ai->argc == 4 && *ai->targv[3] != 'r')
-		n = ttoi(ai->targv[3]) - 1;
-
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = getContactInfoFlags(ai->targv[2]);
-	int count = getContactFromString(&ci);
-	if (count == 0 || ci.hContacts == NULL)
-		return NULL;
-
-	if (ai->argc == 4 && *ai->targv[3] == 'r')
-		n = rand() % count;
-
-	if (count != 1 && ai->argc != 4) {
-		mir_free(ci.hContacts);
-		return NULL;
+	if (ai->argc == 4) {
+		if (*ai->targv[3] != 'r') // random contact
+			n = -1;
+		else
+			n = ttoi(ai->targv[3]) - 1;
 	}
-	MCONTACT hContact = ci.hContacts[n];
-	log_debugA("contact: %x", hContact);
-	mir_free(ci.hContacts);
 
+	MCONTACT hContact = getContactFromString(ai->targv[1], getContactInfoFlags(ai->targv[2]), n);
+	if (hContact == INVALID_CONTACT_ID)
+		return NULL;
+
+	log_debugA("contact: %x", hContact);
 	return encodeContactToString(hContact);
 }
 
@@ -111,14 +100,7 @@ static TCHAR* parseContactCount(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = getContactInfoFlags(ai->targv[2]);
-	int count = getContactFromString(&ci);
-	if (count != 0 && ci.hContacts != NULL)
-		mir_free(ci.hContacts);
-
+	int count = getContactFromString(ai->targv[1], CI_NEEDCOUNT | getContactInfoFlags(ai->targv[2]));
 	return itot(count);
 }
 
@@ -127,20 +109,10 @@ static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	MCONTACT hContact = NULL;
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString(&ci);
-	if (count == 1 && ci.hContacts != NULL) {
-		hContact = ci.hContacts[0];
-		mir_free(ci.hContacts);
-	}
-	else {
-		mir_free(ci.hContacts);
+	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
-	}
+
 	BYTE type = getContactInfoType(ai->targv[2]);
 	if (type == 0)
 		return NULL;
@@ -211,19 +183,9 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 
 	MCONTACT hContact = NULL;
 	if (mir_tstrlen(ai->targv[1]) > 0) {
-		CONTACTSINFO ci = { 0 };
-		ci.cbSize = sizeof(ci);
-		ci.tszContact = ai->targv[1];
-		ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-		int count = getContactFromString(&ci);
-		if (count == 1 && ci.hContacts != NULL) {
-			hContact = ci.hContacts[0];
-			mir_free(ci.hContacts);
-		}
-		else {
-			mir_free(ci.hContacts);
+		hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+		if (hContact == INVALID_CONTACT_ID)
 			return NULL;
-		}
 	}
 
 	char *szModule = mir_t2a(ai->targv[2]);
@@ -249,20 +211,9 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	MCONTACT hContact = NULL;
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString(&ci);
-	if (count == 1 && ci.hContacts != NULL) {
-		hContact = ci.hContacts[0];
-		mir_free(ci.hContacts);
-	}
-	else {
-		mir_free(ci.hContacts);
+	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
-	}
 
 	TCHAR *szFormat;
 	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
@@ -302,21 +253,9 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	MCONTACT hContact = NULL;
-
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString(&ci);
-	if (count == 1 && ci.hContacts != NULL) {
-		hContact = ci.hContacts[0];
-		mir_free(ci.hContacts);
-	}
-	else {
-		mir_free(ci.hContacts);
+	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
-	}
 
 	TCHAR *szFormat;
 	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
@@ -357,20 +296,10 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	MCONTACT hContact = NULL;
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString(&ci);
-	if ((count == 1) && (ci.hContacts != NULL)) {
-		hContact = ci.hContacts[0];
-		mir_free(ci.hContacts);
-	}
-	else {
-		mir_free(ci.hContacts);
+	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
-	}
+
 	char *szModule = SEEN_MODULE;
 	int status = db_get_w(hContact, szModule, "Status", 0);
 	if (status == 0)
@@ -641,19 +570,9 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		break;
 	}
 
-	MCONTACT hContact = NULL;
-
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString(&ci);
-	if ((count == 1) && (ci.hContacts != NULL)) {
-		hContact = ci.hContacts[0];
-		mir_free(ci.hContacts);
-	}
-	else if (ci.hContacts != NULL)
-		mir_free(ci.hContacts);
+	MCONTACT hContact = getContactFromString(ai->targv[1], 0xFFFFFFFF);
+	if (hContact == INVALID_CONTACT_ID)
+		return NULL;
 
 	MEVENT hDbEvent = findDbEvent(hContact, NULL, flags);
 	if (hDbEvent == NULL)

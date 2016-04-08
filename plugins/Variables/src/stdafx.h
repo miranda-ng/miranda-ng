@@ -173,7 +173,7 @@ int  deinitTokenRegister();
 // contact.c
 BYTE getContactInfoType(TCHAR* type);
 TCHAR* getContactInfoT(BYTE type, MCONTACT hContact);
-int  getContactFromString( CONTACTSINFO* );
+MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch = 0);
 int  initContactModule();
 int  deinitContactModule();
 // alias

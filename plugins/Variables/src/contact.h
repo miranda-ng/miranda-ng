@@ -74,20 +74,6 @@
 
 #define PROTOID_HANDLE	"_HANDLE_"
 
-// Note: The hContacts array needs to be freed after use using mir_free
-
-typedef struct {
-  int cbSize;  // Set this to sizeof(CONTACTSINFO).
-  union {
-    char *szContact;  // String to search for, e.g. last name (can't be NULL).
-    WCHAR *wszContact;
-    TCHAR *tszContact;
-  };
-  MCONTACT *hContacts;  // (output) Array of contacts found.
-  DWORD flags;  // Contact details that will be matched with the search
-                // string (flags can be combined).
-} CONTACTSINFO;
-
 // Possible flags:
 #define CI_PROTOID      0x00000001  // The contact in the string is encoded
                                     // in the format <PROTOID:UNIQUEID>, e.g.
@@ -103,17 +89,9 @@ typedef struct {
                                     // (contact details).
 #define CI_UNIQUEID     0x00000040  // Search unique ids of the contac, e.g.
                                     // UIN.
-#define CI_CNFINFO	    0x40000000  // Searches one of the CNF_* flags (set
+#define CI_CNFINFO	   0x40000000  // Searches one of the CNF_* flags (set
                                     // flags to CI_CNFINFO|CNF_X), only one
                                     // CNF_ type possible
-#define CI_UNICODE      0x80000000  // tszContact is a unicode string
-                                    // (WCHAR*).
-
-#if defined(UNICODE) || defined(_UNICODE)
-#define CI_TCHAR    CI_UNICODE  // Strings in structure are TCHAR*.
-#else
-#define CI_TCHAR    0
-#endif
+#define CI_NEEDCOUNT    0x80000000  // returns contacts count
 
 TCHAR *encodeContactToString(MCONTACT hContact);
-MCONTACT decodeContactFromString(TCHAR *tszContact);

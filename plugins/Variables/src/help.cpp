@@ -136,7 +136,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
 				log_debugA("VARM_SETSUBJECT: %s", tszContact);
 				if (tszContact != NULL) {
-					hContact = decodeContactFromString(tszContact);
+					hContact = getContactFromString(tszContact, CI_PROTOID);
 					log_debugA("VARM_SETSUBJECT decoded: %u", hContact);
 					mir_free(tszContact);
 			}	}
