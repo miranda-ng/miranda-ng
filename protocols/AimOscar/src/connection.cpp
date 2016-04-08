@@ -275,8 +275,8 @@ void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time
 	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret, mir_strlen(secret));
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, session_key);
 
-	size_t cbLen = mir_snprintf(buf, bufSize, "%s?%s&sig_sha256=", AIM_SESSION_URL, query_string);
-	bin2hex(signature, sizeof(signature), buf + cbLen);
+	ptrA szEncoded(mir_base64_encode(signature, sizeof(signature)));
+	mir_snprintf(buf, bufSize, "%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, (char*)szEncoded);
 }
 
 bool parse_start_socar_session_response(char *response, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name, bool encryption = true)
