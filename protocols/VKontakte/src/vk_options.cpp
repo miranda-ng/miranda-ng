@@ -232,6 +232,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	m_cbHideChats(this, IDC_HIDECHATS),
 	m_cbSyncReadMessageStatusFromServer(this, IDC_SYNC_MSG_STATUS),
 	m_cbMesAsUnread(this, IDC_MESASUREAD),
+	m_cbForceInvisibleStatus(this, IDC_FORCE_ONLINE_ON_ACT),
 	m_edtInvInterval(this, IDC_ED_INT_INVIS),
 	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
 	m_cbUseNonStandardNotifications(this, IDC_USENOSTDURLENCODE),
@@ -249,6 +250,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbHideChats, m_proto->m_vkOptions.bHideChats);
 	CreateLink(m_cbSyncReadMessageStatusFromServer, m_proto->m_vkOptions.bSyncReadMessageStatusFromServer);
 	CreateLink(m_cbMesAsUnread, m_proto->m_vkOptions.bMesAsUnread);
+	CreateLink(m_cbForceInvisibleStatus, m_proto->m_vkOptions.bUserForceInvisibleOnActivity);
 	CreateLink(m_edtInvInterval, m_proto->m_vkOptions.iInvisibleInterval);
 
 	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
@@ -259,6 +261,8 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
 
 	CreateLink(m_edtReturnChatMessage, "ReturnChatMessage", TranslateT("I\'m back"));
+
+	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 }
 
 void CVkOptionAdvancedForm::OnInitDialog()
@@ -271,6 +275,8 @@ void CVkOptionAdvancedForm::OnInitDialog()
 
 	m_spInvInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(60, 0));
 	m_spInvInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iInvisibleInterval);
+
+	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
 }
 
 void CVkOptionAdvancedForm::OnApply()
@@ -285,6 +291,14 @@ void CVkOptionAdvancedForm::OnApply()
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendStatusOnly;
 
 	m_proto->m_vkOptions.ptszReturnChatMessage = m_edtReturnChatMessage.GetText();
+}
+
+void CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange(CCtrlCheck *)
+{
+	bool bEnable = m_cbForceInvisibleStatus.GetState() != 0;
+
+	m_edtInvInterval.Enable(bEnable);
+	m_spInvInterval.Enable(bEnable);
 }
 
 ////////////////////// News and notifications ////////////////////////////////

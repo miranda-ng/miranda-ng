@@ -278,7 +278,7 @@ struct CVKOptions {
 	CMOption<BYTE> bPopUpSyncHistory;
 	CMOption<BYTE> iMarkMessageReadOn;
 	CMOption<BYTE> bStikersAsSmyles;
-	CMOption<BYTE> bUserForceOnlineOnActivity;
+	CMOption<BYTE> bUserForceInvisibleOnActivity;
 	CMOption<BYTE> iMusicSendMetod;
 	CMOption<BYTE> iSyncHistoryMetod;
 	CMOption<BYTE> bNewsEnabled;

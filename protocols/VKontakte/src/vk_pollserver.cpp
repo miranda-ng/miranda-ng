@@ -92,7 +92,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				}
 				else 
 					SetSrmmReadStatus(hContact);
-				if (m_vkOptions.bUserForceOnlineOnActivity)
+				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
 				if (m_vkOptions.bSyncReadMessageStatusFromServer)
 					MarkDialogAsRead(hContact);
@@ -123,7 +123,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				}
 				else
 					SetSrmmReadStatus(hContact);
-				if (m_vkOptions.bUserForceOnlineOnActivity)
+				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
 			}
 			break;
@@ -157,7 +157,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			hContact = FindUser(uid);
 			if (hContact != NULL) {
 				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
-				if (m_vkOptions.bUserForceOnlineOnActivity)
+				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
 			}
 			break;

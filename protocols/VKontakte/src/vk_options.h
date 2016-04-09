@@ -77,7 +77,8 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 	CCtrlCheck m_cbHideChats;
 	CCtrlCheck m_cbSyncReadMessageStatusFromServer;
 	CCtrlCheck m_cbMesAsUnread;
-	
+
+	CCtrlCheck m_cbForceInvisibleStatus;
 	CCtrlEdit m_edtInvInterval;
 	CCtrlButton m_spInvInterval;
 
@@ -100,6 +101,7 @@ public:
 	CVkOptionAdvancedForm(CVkProto  *proto);
 	void OnInitDialog();
 	void OnApply();
+	void On_cbForceInvisibleStatusChange(CCtrlCheck*);
 };
 
 ////////////////////// News and notifications ////////////////////////////////

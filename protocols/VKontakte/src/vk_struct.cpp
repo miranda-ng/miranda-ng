@@ -179,7 +179,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bPopUpSyncHistory(proto, "PopUpSyncHistory", false),
 	iMarkMessageReadOn(proto, "MarkMessageReadOn", MarkMsgReadOn::markOnRead),
 	bStikersAsSmyles(proto, "StikersAsSmyles", false),
-	bUserForceOnlineOnActivity(proto, "UserForceOnlineOnActivity", false),
+	bUserForceInvisibleOnActivity(proto, "UserForceOnlineOnActivity", false),
 	bNewsEnabled(proto, "NewsEnabled", false),
 	iMaxLoadNewsPhoto(proto, "MaxLoadNewsPhoto", 5),
 	bNotificationsEnabled(proto, "NotificationsEnabled", false),
