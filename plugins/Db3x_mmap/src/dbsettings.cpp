@@ -349,10 +349,11 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStatic(MCONTACT contactID, LPCSTR
 
 	if (bNeedsWchars) {
 		char *pBuf = NEWSTR_ALLOCA(dbv->pszVal);
-		if (Utf8toUcs2(pBuf, dbv->cchVal, dbv->pwszVal, cbSaved) < 0)
+		int cbLen = Utf8toUcs2(pBuf, dbv->cchVal, dbv->pwszVal, cbSaved);
+		if (cbLen < 0)
 			return 1;
 		
-		dbv->pwszVal[cbSaved] = 0;
+		dbv->pwszVal[cbLen] = 0;
 	}
 	else if (dbv->type == DBVT_UTF8) {
 		mir_utf8decode(dbv->pszVal, NULL);
