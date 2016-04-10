@@ -30,10 +30,10 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 //
-void GetStationID(MCONTACT hContact, TCHAR* id, size_t idlen)
+void GetStationID(MCONTACT hContact, TCHAR* id, int idlen)
 {
 	// accessing the database
-	if (DBGetStaticString(hContact, WEATHERPROTONAME, "ID", id, idlen))
+	if (db_get_tstatic(hContact, WEATHERPROTONAME, "ID", id, idlen))
 		id[0] = 0;
 }
 
@@ -49,35 +49,35 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	winfo.hContact = hContact;
 	GetStationID(hContact, winfo.id, _countof(winfo.id));
 
-	if (DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, _countof(winfo.city)))
+	if (db_get_tstatic(hContact, WEATHERPROTONAME, "Nick", winfo.city, _countof(winfo.city)))
 		_tcsncpy(winfo.city, NODATA, _countof(winfo.city) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, _countof(winfo.update)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Update", winfo.update, _countof(winfo.update)))
 		_tcsncpy(winfo.update, NODATA, _countof(winfo.update) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, _countof(winfo.cond)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Condition", winfo.cond, _countof(winfo.cond)))
 		_tcsncpy(winfo.cond, NODATA, _countof(winfo.cond) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, _countof(winfo.temp)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Temperature", winfo.temp, _countof(winfo.temp)))
 		_tcsncpy(winfo.temp, NODATA, _countof(winfo.temp) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, _countof(winfo.high)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "High", winfo.high, _countof(winfo.high)))
 		_tcsncpy(winfo.high, NODATA, _countof(winfo.high) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, _countof(winfo.low)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Low", winfo.low, _countof(winfo.low)))
 		_tcsncpy(winfo.low, NODATA, _countof(winfo.low) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, _countof(winfo.sunset)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, _countof(winfo.sunset)))
 		_tcsncpy(winfo.sunset, NODATA, _countof(winfo.sunset) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, _countof(winfo.sunrise)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, _countof(winfo.sunrise)))
 		_tcsncpy(winfo.sunrise, NODATA, _countof(winfo.sunrise) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, _countof(winfo.wind)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, _countof(winfo.wind)))
 		_tcsncpy(winfo.wind, NODATA, _countof(winfo.wind) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, _countof(winfo.winddir)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, _countof(winfo.winddir)))
 		_tcsncpy(winfo.winddir, NODATA, _countof(winfo.winddir) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, _countof(winfo.dewpoint)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, _countof(winfo.dewpoint)))
 		_tcsncpy(winfo.dewpoint, NODATA, _countof(winfo.dewpoint) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, _countof(winfo.pressure)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, _countof(winfo.pressure)))
 		_tcsncpy(winfo.pressure, NODATA, _countof(winfo.pressure) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, _countof(winfo.vis)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Visibility", winfo.vis, _countof(winfo.vis)))
 		_tcsncpy(winfo.vis, NODATA, _countof(winfo.vis) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, _countof(winfo.humid)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Humidity", winfo.humid, _countof(winfo.humid)))
 		_tcsncpy(winfo.humid, NODATA, _countof(winfo.humid) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, _countof(winfo.feel)))
+	if (db_get_tstatic(hContact, WEATHERCONDITION, "Feel", winfo.feel, _countof(winfo.feel)))
 		_tcsncpy(winfo.feel, NODATA, _countof(winfo.feel) - 1);
 
 	winfo.status = (WORD)db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
@@ -100,17 +100,6 @@ int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv)
 	return 0;
 }
 
-int DBGetStaticString(MCONTACT hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len)
-{
-	DBVARIANT dbv;
-	if (db_get_ts(hContact, szModule, valueName, &dbv))
-		return 1;
-
-	_tcsncpy(dest, dbv.ptszVal, dest_len);
-	dest[dest_len - 1] = 0;
-	db_free(&dbv);
-	return 0;
-}
 
 //============  ERASE OLD SETTINGS  ============
 //

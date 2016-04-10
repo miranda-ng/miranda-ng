@@ -325,7 +325,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM)
 {
 	if (IsMyContact(wParam)) {
-		// add the station to the end of the update queue
+		// add the station to the end of the update queue	
 		UpdateListAdd(wParam);
 
 		// if it is not updating, then start the update thread process

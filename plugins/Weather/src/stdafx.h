@@ -414,10 +414,9 @@ void GetID(TCHAR *pszID);
 TCHAR *GetError(int code);
 
 // functions in weather_data.c
-void GetStationID(MCONTACT hContact, TCHAR* id, size_t idlen);
+void GetStationID(MCONTACT hContact, TCHAR* id, int idlen);
 WEATHERINFO LoadWeatherInfo(MCONTACT Change);
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
-int DBGetStaticString(MCONTACT hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len);
 
 void EraseAllInfo(void);
 
