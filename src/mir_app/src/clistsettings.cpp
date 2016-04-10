@@ -209,14 +209,10 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
 			}
 		}
-
-		return 0;
 	}
-
-	if (!strcmp(cws->szModule, "CList")) {
+	else if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = GetContactProto(hContact);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
 			}
 			else
@@ -232,10 +228,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			Dbwcs2tstr(cws, pdnce->tszGroup);
 		}
 	}
-
-	if (!strcmp(cws->szModule, "Protocol")) {
+	else if (!strcmp(cws->szModule, "Protocol")) {
 		if (!strcmp(cws->szSetting, "p")) {
-			char *szProto;
 			if (cws->value.type == DBVT_DELETED)
 				szProto = NULL;
 			else

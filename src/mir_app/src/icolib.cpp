@@ -224,12 +224,12 @@ HICON IconSourceItem::getIcon()
 	return icon;
 }
 
-int IconSourceItem::getIconData(HICON icon)
+int IconSourceItem::getIconData(HICON hIcon)
 {
 	icon_size = 0;
 
 	ICONINFO iconInfo;
-	if (!GetIconInfo(icon, &iconInfo))
+	if (!GetIconInfo(hIcon, &iconInfo))
 		return 1; // Failure
 
 	int MonoInfoSize, ColorInfoSize, MonoBitsSize, ColorBitsSize;

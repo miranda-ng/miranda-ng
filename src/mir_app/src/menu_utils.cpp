@@ -938,9 +938,9 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 			MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
 		}
 		else { // yes, menu is already converted, simply load its data
-			for (int i = 0;; i++) {
+			for (int j = 0;; j++) {
 				char szSetting[100];
-				mir_snprintf(szSetting, "Custom%d", i);
+				mir_snprintf(szSetting, "Custom%d", j);
 				ptrA szCustomMenu(db_get_sa(NULL, szModule, szSetting));
 				if (mir_strlen(szCustomMenu) != 32)
 					break;
@@ -950,10 +950,10 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 				mi.name.a = LPGEN("New submenu");
 				mi.position = 500050000;
 				BYTE *p = (BYTE*)&mi.uid;
-				for (int i = 0; i < sizeof(MUUID); i++) {
+				for (int k = 0; k < sizeof(MUUID); k++) {
 					int tmp;
-					sscanf(&szCustomMenu[i*2], "%02x", &tmp);
-					p[i] = tmp;
+					sscanf(&szCustomMenu[k*2], "%02x", &tmp);
+					p[k] = tmp;
 				}
 				Menu_AddItem(pmo->id, &mi, NULL);
 			}
