@@ -207,7 +207,7 @@ static int Utf8toUcs2Len(const char *src, size_t srclen)
 MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_t dstlen)
 {
 	unsigned int res;
-	const char *srcend = src + srclen;
+	const char *srcend = src + srclen; // including trailing zero
 	wchar_t *dstend = dst + dstlen;
 
 	while ((dst < dstend) && (src < srcend)) {

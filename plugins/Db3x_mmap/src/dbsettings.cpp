@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#pragma warning(disable: 4701)
+
 DWORD GetModuleNameOfs(const char *szName);
 DBCachedContact* AddToCachedContactList(MCONTACT contactID, int index);
 
@@ -331,10 +333,28 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStr(MCONTACT contactID, LPCSTR sz
 
 STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
+	bool bNeedsWchars;
+	size_t cbSaved;
+
+	if (dbv->type == DBVT_WCHAR) { // there's no wchar_t strings in a database, we need conversion
+		cbSaved = dbv->cchVal-1;
+		dbv->cchVal *= sizeof(wchar_t); // extend a room for the utf8 string
+		dbv->type = DBVT_UTF8;
+		bNeedsWchars = true;
+	}
+	else bNeedsWchars = false;
+
 	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 1))
 		return 1;
 
-	if (dbv->type == DBVT_UTF8) {
+	if (bNeedsWchars) {
+		char *pBuf = NEWSTR_ALLOCA(dbv->pszVal);
+		if (Utf8toUcs2(pBuf, dbv->cchVal, dbv->pwszVal, cbSaved) < 0)
+			return 1;
+		
+		dbv->pwszVal[cbSaved] = 0;
+	}
+	else if (dbv->type == DBVT_UTF8) {
 		mir_utf8decode(dbv->pszVal, NULL);
 		dbv->type = DBVT_ASCIIZ;
 	}
@@ -835,7 +855,8 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void 
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
 		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);
-		if (ret) return ret;
+		if (ret)
+			return ret;
 	}
 	return 0;
 }
