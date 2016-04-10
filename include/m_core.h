@@ -593,6 +593,7 @@ MIR_CORE_DLL(void) KillObjectThreads(void* pObject);
 
 MIR_CORE_DLL(char*) Utf8Decode(char* str, wchar_t** ucs2);
 MIR_CORE_DLL(char*) Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
+MIR_CORE_DLL(int)   Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_t dstlen); // returns 0 on error
 
 MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char* str);
 

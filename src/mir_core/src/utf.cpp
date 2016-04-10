@@ -74,7 +74,7 @@ static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
 			len += 2;
 			continue;
 		}
-		if ( !(val = getSurrogateValue(src, srclen)))
+		if (!(val = getSurrogateValue(src, srclen)))
 			return -2;
 
 		if (val < 0x10000)  /* 0x800-0xffff: 3 bytes */
@@ -100,149 +100,139 @@ MIR_CORE_DLL(int) Ucs2toUtf8Len(const wchar_t *src)
 /* return -1 on dst buffer overflow, -2 on invalid input char */
 int Ucs2toUtf8(const wchar_t *src, int srclen, char *dst, int dstlen)
 {
-    int len;
+	int len;
 
-    for (len = dstlen; srclen; srclen--, src++)
-    {
-        WCHAR ch = *src;
-        unsigned int val;
+	for (len = dstlen; srclen; srclen--, src++) {
+		WCHAR ch = *src;
+		unsigned int val;
 
-        if (ch < 0x80)  /* 0x00-0x7f: 1 byte */
-        {
-            if ( !len--) return -1;  /* overflow */
-            *dst++ = ch;
-            continue;
-        }
+		if (ch < 0x80) { /* 0x00-0x7f: 1 byte */
+			if (!len--) return -1;  /* overflow */
+			*dst++ = ch;
+			continue;
+		}
 
-        if (ch < 0x800)  /* 0x80-0x7ff: 2 bytes */
-        {
-            if ((len -= 2) < 0) return -1;  /* overflow */
-            dst[1] = 0x80 | (ch & 0x3f);
-            ch >>= 6;
-            dst[0] = 0xc0 | ch;
-            dst += 2;
-            continue;
-        }
+		if (ch < 0x800) { /* 0x80-0x7ff: 2 bytes */
+			if ((len -= 2) < 0) return -1;  /* overflow */
+			dst[1] = 0x80 | (ch & 0x3f);
+			ch >>= 6;
+			dst[0] = 0xc0 | ch;
+			dst += 2;
+			continue;
+		}
 
-        if ( !(val = getSurrogateValue(src, srclen)))
-        {
-            return -2;
-        }
+		if (!(val = getSurrogateValue(src, srclen)))
+			return -2;
 
-        if (val < 0x10000)  /* 0x800-0xffff: 3 bytes */
-        {
-            if ((len -= 3) < 0) return -1;  /* overflow */
-            dst[2] = 0x80 | (val & 0x3f);
-            val >>= 6;
-            dst[1] = 0x80 | (val & 0x3f);
-            val >>= 6;
-            dst[0] = 0xe0 | val;
-            dst += 3;
-        }
-        else   /* 0x10000-0x10ffff: 4 bytes */
-        {
-            if ((len -= 4) < 0) return -1;  /* overflow */
-            dst[3] = 0x80 | (val & 0x3f);
-            val >>= 6;
-            dst[2] = 0x80 | (val & 0x3f);
-            val >>= 6;
-            dst[1] = 0x80 | (val & 0x3f);
-            val >>= 6;
-            dst[0] = 0xf0 | val;
-            dst += 4;
-            src++;
-            srclen--;
-        }
-    }
-    return dstlen - len;
+		if (val < 0x10000) { /* 0x800-0xffff: 3 bytes */
+			if ((len -= 3) < 0) return -1;  /* overflow */
+			dst[2] = 0x80 | (val & 0x3f);
+			val >>= 6;
+			dst[1] = 0x80 | (val & 0x3f);
+			val >>= 6;
+			dst[0] = 0xe0 | val;
+			dst += 3;
+		}
+		else { /* 0x10000-0x10ffff: 4 bytes */
+			if ((len -= 4) < 0) return -1;  /* overflow */
+			dst[3] = 0x80 | (val & 0x3f);
+			val >>= 6;
+			dst[2] = 0x80 | (val & 0x3f);
+			val >>= 6;
+			dst[1] = 0x80 | (val & 0x3f);
+			val >>= 6;
+			dst[0] = 0xf0 | val;
+			dst += 4;
+			src++;
+			srclen--;
+		}
+	}
+	return dstlen - len;
 }
 
 /* helper for the various utf8 mbstowcs functions */
 static unsigned int decodeUtf8Char(unsigned char ch, const char **str, const char *strend)
 {
-    unsigned int len = utf8_length[ch-0x80];
-    unsigned int res = ch & utf8_mask[len];
-    const char *end = *str + len;
+	unsigned int len = utf8_length[ch - 0x80];
+	unsigned int res = ch & utf8_mask[len];
+	const char *end = *str + len;
 
-    if (end > strend) return ~0;
-    switch(len)
-    {
-    case 3:
-        if ((ch = end[-3] ^ 0x80) >= 0x40) break;
-        res = (res << 6) | ch;
-        (*str)++;
-    case 2:
-        if ((ch = end[-2] ^ 0x80) >= 0x40) break;
-        res = (res << 6) | ch;
-        (*str)++;
-    case 1:
-        if ((ch = end[-1] ^ 0x80) >= 0x40) break;
-        res = (res << 6) | ch;
-        (*str)++;
-        if (res < utf8_minval[len]) break;
-        return res;
-    }
-    return ~0;
+	if (end > strend) return ~0;
+	switch (len) {
+	case 3:
+		if ((ch = end[-3] ^ 0x80) >= 0x40) break;
+		res = (res << 6) | ch;
+		(*str)++;
+
+	case 2:
+		if ((ch = end[-2] ^ 0x80) >= 0x40) break;
+		res = (res << 6) | ch;
+		(*str)++;
+
+	case 1:
+		if ((ch = end[-1] ^ 0x80) >= 0x40) break;
+		res = (res << 6) | ch;
+		(*str)++;
+		if (res < utf8_minval[len]) break;
+		return res;
+	}
+	return ~0;
 }
 
 /* query necessary dst length for src string */
-static inline int Utf8toUcs2Len(const char *src, int srclen)
+static int Utf8toUcs2Len(const char *src, size_t srclen)
 {
-    int ret = 0;
-    unsigned int res;
-    const char *srcend = src + srclen;
+	int ret = 0;
+	unsigned int res;
+	const char *srcend = src + srclen;
 
-    while (src < srcend)
-    {
-        unsigned char ch = *src++;
-        if (ch < 0x80)  /* special fast case for 7-bit ASCII */
-        {
-            ret++;
-            continue;
-        }
-        if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0x10ffff)
-        {
-            if (res > 0xffff) ret++;
-            ret++;
-        }
-        else return -2;  /* bad char */
-        /* otherwise ignore it */
-    }
-    return ret;
+	while (src < srcend) {
+		unsigned char ch = *src++;
+		if (ch < 0x80) { /* special fast case for 7-bit ASCII */
+			ret++;
+			continue;
+		}
+		if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0x10ffff) {
+			if (res > 0xffff) ret++;
+			ret++;
+		}
+		else return -2;  /* bad char */
+		/* otherwise ignore it */
+	}
+	return ret;
 }
 
 /* UTF-8 to wide char string conversion */
 /* return -1 on dst buffer overflow, -2 on invalid input char */
-int Utf8toUcs2(const char *src, int srclen, wchar_t *dst, int dstlen)
+MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_t dstlen)
 {
-    unsigned int res;
-    const char *srcend = src + srclen;
-    wchar_t *dstend = dst + dstlen;
+	unsigned int res;
+	const char *srcend = src + srclen;
+	wchar_t *dstend = dst + dstlen;
 
-    while ((dst < dstend) && (src < srcend))
-    {
-        unsigned char ch = *src++;
-        if (ch < 0x80)  /* special fast case for 7-bit ASCII */
-        {
-            *dst++ = ch;
-            continue;
-        }
-        if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0xffff)
-        {
-            *dst++ = res;
-        }
-        else if (res <= 0x10ffff)  /* we need surrogates */
-        {
-            if (dst == dstend - 1) return -1;  /* overflow */
-            res -= 0x10000;
-            *dst++ = 0xd800 | (res >> 10);
-            *dst++ = 0xdc00 | (res & 0x3ff);
-        }
-        else return -2;  /* bad char */
-        /* otherwise ignore it */
-    }
-    if (src < srcend) return -1;  /* overflow */
-    return dstlen - (dstend - dst);
+	while ((dst < dstend) && (src < srcend)) {
+		unsigned char ch = *src++;
+		if (ch < 0x80) { /* special fast case for 7-bit ASCII */
+			*dst++ = ch;
+			continue;
+		}
+
+		if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0xffff) 
+			*dst++ = res;
+		else if (res <= 0x10ffff) { /* we need surrogates */
+			if (dst == dstend - 1)
+				return -1;  /* overflow */
+			res -= 0x10000;
+			*dst++ = 0xd800 | (res >> 10);
+			*dst++ = 0xdc00 | (res & 0x3ff);
+		}
+		else return -2;  /* bad char */
+	}
+
+	if (src < srcend)
+		return -1;  /* overflow */
+	
+	return (int)(dstlen - (dstend - dst));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +240,6 @@ int Utf8toUcs2(const char *src, int srclen, wchar_t *dst, int dstlen)
 
 MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 {
-	int len;
 	bool needs_free = false;
 	wchar_t* tempBuf = NULL;
 	if (ucs2)
@@ -259,12 +248,11 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 	if (str == NULL)
 		return NULL;
 
-	len = (int)strlen(str);
-
+	size_t len = strlen(str);
 	if (len < 2) {
 		if (ucs2 != NULL) {
 			*ucs2 = tempBuf = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
-			MultiByteToWideChar(codepage, 0, str, len, tempBuf, len);
+			MultiByteToWideChar(codepage, 0, str, (int)len, tempBuf, (int)len);
 			tempBuf[len] = 0;
 		}
 		return str;
@@ -275,11 +263,10 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 		return NULL;
 
 	if (ucs2 == NULL) {
-		__try
-		{
+		__try {
 			tempBuf = (wchar_t*)alloca((destlen + 1) * sizeof(wchar_t));
 		}
-		__except(EXCEPTION_EXECUTE_HANDLER)
+		__except (EXCEPTION_EXECUTE_HANDLER)
 		{
 			tempBuf = NULL;
 			needs_free = true;
@@ -294,7 +281,7 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 
 	Utf8toUcs2(str, len, tempBuf, destlen);
 	tempBuf[destlen] = 0;
-	WideCharToMultiByte(codepage, 0, tempBuf, -1, str, len + 1, "?", NULL);
+	WideCharToMultiByte(codepage, 0, tempBuf, -1, str, (int)len + 1, "?", NULL);
 
 	if (ucs2)
 		*ucs2 = tempBuf;
@@ -314,16 +301,17 @@ MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 	if (str == NULL)
 		return NULL;
 
-	int len = (int)strlen(str);
+	size_t len = strlen(str);
 
 	int destlen = Utf8toUcs2Len(str, len);
-	if (destlen < 0) return NULL;
+	if (destlen < 0)
+		return NULL;
 
 	wchar_t* ucs2 = (wchar_t*)mir_alloc((destlen + 1) * sizeof(wchar_t));
-	if (ucs2 == NULL) return NULL;
+	if (ucs2 == NULL)
+		return NULL;
 
-	if (Utf8toUcs2(str, len, ucs2, destlen) >= 0)
-	{
+	if (Utf8toUcs2(str, len, ucs2, destlen) >= 0) {
 		ucs2[destlen] = 0;
 		return ucs2;
 	}
@@ -339,7 +327,7 @@ MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 {
 	int len;
-    bool needs_free = false;
+	bool needs_free = false;
 	char* result = NULL;
 	wchar_t* tempBuf;
 
@@ -348,11 +336,10 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 
 	len = (int)strlen(src);
 
-	__try
-	{
+	__try {
 		tempBuf = (wchar_t*)alloca((len + 1) * sizeof(wchar_t));
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		tempBuf = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 		if (tempBuf == NULL) return NULL;
@@ -362,11 +349,9 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 	len = MultiByteToWideChar(codepage, 0, src, -1, tempBuf, len + 1);
 
 	int destlen = Ucs2toUtf8Len(tempBuf, len);
-	if (destlen >= 0)
-	{
+	if (destlen >= 0) {
 		result = (char*)mir_alloc(destlen + 1);
-		if (result)
-		{
+		if (result) {
 			Ucs2toUtf8(tempBuf, len, result, destlen);
 			result[destlen] = 0;
 		}
