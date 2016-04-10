@@ -227,7 +227,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CDlgBase *wnd = NULL;
+	CDlgBase *wnd;
 	if (msg == WM_INITDIALOG) {
 		wnd = (CDlgBase*)lParam;
 		wnd->m_hwnd = hwnd;
@@ -242,7 +242,7 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
-	CDlgBase *wnd = wnd = CDlgBase::Find(hwnd);
+	CDlgBase *wnd = CDlgBase::Find(hwnd);
 	return (wnd == NULL) ? 0 : wnd->Resizer(urc);
 }
 
@@ -940,8 +940,8 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 // additional api
 HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 {
-	HIMAGELIST hIml;
-	if (hIml = GetImageList(iImageList))
+	HIMAGELIST hIml = GetImageList(iImageList);
+	if (hIml)
 		return hIml;
 
 	hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
