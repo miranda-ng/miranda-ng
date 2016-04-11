@@ -762,9 +762,10 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_CLIENTLOGIN, ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) ? BST_CHECKED : BST_UNCHECKED);//use clientlogin
 			{
 				HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
-				EnableWindow(dssl, ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) ? true : false);
-				CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);
-				ppro->setByte(AIM_KEY_DSSL, IsDlgButtonChecked(hwndDlg, IDC_DSSL) != 0);
+				bool clientlogin = ppro->getByte(AIM_KEY_CLIENTLOGIN, 1);
+				EnableWindow(dssl,  clientlogin);
+				if(!clientlogin)
+					CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);
 			}
 			CheckDlgButton(hwndDlg, IDC_FSC, ppro->getByte(AIM_KEY_FSC, 0) ? BST_CHECKED : BST_UNCHECKED);//Force Single Client
 		}
@@ -772,12 +773,6 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_DSSL:
-			{
-				SetDlgItemTextA(hwndDlg, IDC_HN, AIM_DEFAULT_SERVER);
-				SetDlgItemInt(hwndDlg, IDC_PN, AIM_DEFAULT_PORT, FALSE);
-			}
-			break;
 
 
 		case IDC_SVRRESET:
@@ -798,7 +793,6 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
 			EnableWindow(dssl, true);
-			CheckDlgButton(hwndDlg, IDC_DSSL, BST_UNCHECKED);
 		}
 		else
 		{

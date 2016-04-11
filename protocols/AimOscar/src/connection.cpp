@@ -242,14 +242,15 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 	return true;
 }
 
-void construct_query_string(char *buf, const char *token, time_t hosttime, bool encryption = true)
+void construct_query_string(char *buf, const char *token, time_t hosttime, bool encryption)
 {
 	//TODO: construct query string
 	/*
 		a=urlencoded_token&distId=0x00000611&f=xml&k=dev_key&ts=hosttime&useTLS=bool_encryption
 	*/
+
 	char *urlencoded_token = mir_urlEncode(token);
-	mir_snprintf(buf, 1023, "a=%s&distId=%d&f=xml&k=%s&ts=%d&useTLS=%d", urlencoded_token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, encryption ? 1 : 0);
+	snprintf(buf, 2023, "a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption); //mir_snprintf bugged
 	mir_free(urlencoded_token);
 
 }
@@ -258,21 +259,20 @@ void generate_signature(BYTE *signature, const char *method, const char *url, co
 {
 	char *encoded_url = mir_urlEncode(url);
 	char *encoded_parameters = mir_urlEncode(parameters);
-	char signature_base[1024];
-	mir_snprintf(signature_base, "%s%s%s", method, encoded_url, encoded_parameters);
+	char signature_base[1024] = {0};
+	mir_snprintf(signature_base, "%s&%s&%s", method, encoded_url, encoded_parameters);
 	mir_free(encoded_url);
 	mir_free(encoded_parameters);
 	mir_hmac_sha256(signature, (BYTE*)session_key, mir_strlen(session_key), (BYTE*)signature_base, mir_strlen(signature_base));
 }
 
-void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time_t &hosttime, const char *password, bool encryption = true)
+void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time_t &hosttime, const char *password, bool encryption)
 {
 	/*
 		AIM_SESSION_URL?query_string?sig_sha256=signature
 	*/
 
-	char query_string[1024];
-	query_string[0] = 0;
+	char query_string[1024] = {0};
 	construct_query_string(query_string, token, hosttime, encryption);
 
 	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
@@ -386,8 +386,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	mir_strcpy(headers[0].szValue, "application/x-www-form-urlencoded; charset=UTF-8");
 	req.headers = headers;
 	req.headersCount = 1;
-	char buf[1024];
-	buf[0] = 0;
+	char buf[1024] = {0};
 	char *password = getStringA(AIM_KEY_PW);
 	mir_free(m_username);
 	m_username = getStringA(AIM_KEY_SN);
@@ -414,9 +413,7 @@ void CAimProto::aim_connection_clientlogin(void)
 		mir_free(password);
 		return;
 	}
-	char token[512], secret[512]; //TODO: find efficient buf size
-	token[0] = 0;
-	secret[0] = 0;
+	char token[1024] = { 0 }, secret[512] = {0}; //TODO: find efficient buf size
 	time_t hosttime;
 	if(!parse_clientlogin_response(resp, headers, token, secret, hosttime))
 	{
@@ -435,8 +432,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.dataLength = 0;
 	//req.headersCount = 1;
 	req.headersCount = 0; //additional headers disabled
-	char url[2048];
-	url[0] = 0;
+	char url[2048] = {0};
 	fill_session_url(url, sizeof(url), token, secret, hosttime, password, encryption);
 	mir_free(password);
 	req.szUrl = url;
@@ -455,10 +451,7 @@ void CAimProto::aim_connection_clientlogin(void)
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
-	char bos_host[128], cookie[1024], tls_cert_name[128]; //TODO: find efficient buf size
-	bos_host[0] = 0;
-	cookie[0] = 0;
-	tls_cert_name[0] = 0;
+	char bos_host[128] = { 0 }, cookie[1024] = { 0 }, tls_cert_name[128] = {0}; //TODO: find efficient buf size
 	unsigned short bos_port = 0;
 	if(!parse_start_socar_session_response(resp->pData, bos_host, bos_port, cookie, tls_cert_name, encryption))
 	{
