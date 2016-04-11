@@ -250,7 +250,7 @@ void construct_query_string(char *buf, const char *token, time_t hosttime, bool 
 	*/
 
 	char *urlencoded_token = mir_urlEncode(token);
-	snprintf(buf, 2023, "a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption); //mir_snprintf bugged
+	mir_snprintf(buf, 2023, "a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption); //mir_snprintf bugged
 	mir_free(urlencoded_token);
 
 }
