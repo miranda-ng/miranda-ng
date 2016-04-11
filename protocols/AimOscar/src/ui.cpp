@@ -762,7 +762,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_CLIENTLOGIN, ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) ? BST_CHECKED : BST_UNCHECKED);//use clientlogin
 			{
 				HWND dssl = GetDlgItem(hwndDlg, IDC_DSSL);
-				bool clientlogin = ppro->getByte(AIM_KEY_CLIENTLOGIN, 1);
+				bool clientlogin = ppro->getByte(AIM_KEY_CLIENTLOGIN, 1) != 0;
 				EnableWindow(dssl,  clientlogin);
 				if(!clientlogin)
 					CheckDlgButton(hwndDlg, IDC_DSSL, BST_CHECKED);

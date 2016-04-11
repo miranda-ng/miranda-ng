@@ -140,53 +140,49 @@ void CAimProto::aim_connection_authorization(void)
 	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
-void fill_post_request(char *buf, const char*password, const char* login)
+void fill_post_request(CMStringA &buf, const char *password, const char *login)
 {
 	//TODO: fill post data
 	/*
 		devId=dev_key&f=xml&pwd=urlencoded_password&s=urlencoded_screenname
 	*/
-	char *_pas = mir_urlEncode(password);
-	char *_login = mir_urlEncode(login);
-	mir_snprintf(buf, 1023, "devId=%s&f=xml&pwd=%s&s=%s", AIM_DEFAULT_CLIENT_KEY, _pas, _login);
-	mir_free(_pas);
-	mir_free(_login);
+
+	buf.AppendFormat("devId=%s&f=xml&pwd=%s&s=%s", AIM_DEFAULT_CLIENT_KEY, ptrA(mir_urlEncode(password)), ptrA(mir_urlEncode(login)));
+
 }
 
-bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_headers, char *token, char *secret, time_t &hosttime)
+bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_headers, CMStringA &token, CMStringA &secret, time_t &hosttime)
 {
 	//TODO: validate response
 	//TODO: return false on errors
 	//TODO: extract token, secret, hosttime from response
+
 	int datalen = 0;
 	for(int i = 0; i < nlhr->headersCount; i++)
 	{
 		if (!mir_strcmp(nlhr->headers[i].szName, "Set-Cookie"))
 		{
-			my_headers[0].szName = (char*)mir_alloc(mir_strlen("Cookie") + 1);
-			mir_strcpy(my_headers[0].szName, "Cookie");
-			my_headers[0].szValue = (char*)mir_alloc(mir_strlen(nlhr->headers[i].szValue) + 1);
-			mir_strcpy(my_headers[0].szValue, nlhr->headers[i].szValue);
+			my_headers[0].szName = "Cookie";
+			my_headers[0].szValue = mir_strdup(nlhr->headers[i].szValue);
 		}
 	}
-	wchar_t *buf_w =mir_utf8decodeW(nlhr->pData);
+	ptrW buf_w(mir_utf8decodeW(nlhr->pData));
+
 	HXML root = xmlParseString(buf_w, &datalen, _T(""));
 	if(!root)
 	{
-		mir_free(buf_w);
 		return false;
 	}
+
 	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
 	if(!status)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	LPCTSTR status_text = xmlGetText(status);
 	//TODO: check other than 200 codes and print some debug info on errors
 	if(wcscmp(status_text, L"200"))
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	HXML secret_node = xmlGetChildByPath(root, _T("response/data/sessionSecret"), 0);
@@ -194,13 +190,11 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 
 	if (!secret_node || !hosttime_node)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	HXML token_node = xmlGetChildByPath(root, _T("response/data/token/a"), 0);
 	if(!token_node)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	LPCTSTR secret_w = xmlGetText(secret_node), token_w = xmlGetText(token_node), hosttime_w = xmlGetText(hosttime_node);
@@ -210,104 +204,73 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 		return false;
 	}
 	{
-		char *tmp_secret = mir_t2a(secret_w);
-		if(!tmp_secret)
-		{
-			mir_free(buf_w);
-			return false;
-		}
-		char *tmp_token = mir_t2a(token_w);
-		if(!tmp_token)
-		{
-			mir_free(tmp_secret);
-			mir_free(buf_w);
-			return false;
-		}
-		char *tmp_time = mir_t2a(hosttime_w);
-		if(!tmp_time)
-		{
-			mir_free(tmp_token);
-			mir_free(tmp_secret);
-			mir_free(buf_w);
-			return false;
-		}
-		mir_strcpy(secret, tmp_secret);
-		mir_strcpy(token, tmp_token);
-		hosttime = strtol(tmp_time, NULL, 10);
-		mir_free(tmp_token);
-		mir_free(tmp_secret);
-		mir_free(tmp_time);
+
+		secret = _T2A(secret_w);
+		token = _T2A(token_w);
+
+		hosttime = strtol(_T2A(hosttime_w), NULL, 10);
 	}
-	mir_free(buf_w);
 	return true;
 }
 
-void construct_query_string(char *buf, const char *token, time_t hosttime, bool encryption)
+void construct_query_string(CMStringA &buf, const char *token, time_t hosttime, bool encryption)
 {
 	//TODO: construct query string
 	/*
 		a=urlencoded_token&distId=0x00000611&f=xml&k=dev_key&ts=hosttime&useTLS=bool_encryption
 	*/
 
-	char *urlencoded_token = mir_urlEncode(token);
-	mir_snprintf(buf, 2023, "a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption); //mir_snprintf bugged
-	mir_free(urlencoded_token);
+//	char *urlencoded_token = mir_urlEncode(token);
+	buf.AppendFormat("a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption); //mir_snprintf bugged
 
 }
 
 void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, const char *session_key)
 {
-	char *encoded_url = mir_urlEncode(url);
-	char *encoded_parameters = mir_urlEncode(parameters);
-	char signature_base[1024] = {0};
-	mir_snprintf(signature_base, "%s&%s&%s", method, encoded_url, encoded_parameters);
-	mir_free(encoded_url);
-	mir_free(encoded_parameters);
-	mir_hmac_sha256(signature, (BYTE*)session_key, mir_strlen(session_key), (BYTE*)signature_base, mir_strlen(signature_base));
+	CMStringA sig_base(FORMAT, "%s&%s&%s", method, ptrA(mir_urlEncode(url)), ptrA(mir_urlEncode(parameters)));
+	mir_hmac_sha256(signature, (BYTE*)session_key, mir_strlen(session_key), (BYTE*)sig_base.GetString(), sig_base.GetLength());
 }
 
-void fill_session_url(char *buf, size_t bufSize, char *token, char *secret, time_t &hosttime, const char *password, bool encryption)
+void fill_session_url(CMStringA &buf, CMStringA &token, CMStringA &secret, time_t &hosttime, const char *password, bool encryption)
 {
 	/*
 		AIM_SESSION_URL?query_string?sig_sha256=signature
 	*/
 
-	char query_string[1024] = {0};
+	CMStringA query_string;
 	construct_query_string(query_string, token, hosttime, encryption);
 
 	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
-	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret, mir_strlen(secret));
+	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret.GetString(), secret.GetLength());
 	
 	ptrA szKey(mir_base64_encode(session_key, sizeof(session_key)));
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, szKey);
 
 	ptrA szEncoded(mir_base64_encode(signature, sizeof(signature)));
-	mir_snprintf(buf, bufSize, "%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, (char*)szEncoded);
+
+	buf.AppendFormat("%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, (char*)szEncoded);
 }
 
-bool parse_start_socar_session_response(char *response, char *bos_host, unsigned short bos_port, char *cookie, char *tls_cert_name, bool encryption = true)
+bool parse_start_socar_session_response(const char *response, CMStringA &bos_host, unsigned short &bos_port, CMStringA &cookie, CMStringA &tls_cert_name, bool encryption = true)
 {
 	//TODO: extract bos_host, bos_port, cookie, tls_cert_name
 
 	int datalen = 0;
-	wchar_t *buf_w =mir_utf8decodeW(response);
+	ptrW buf_w(mir_utf8decodeW(response));
 	HXML root = xmlParseString(buf_w, &datalen, _T(""));
 	if(!root)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
 	if(!status)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	LPCTSTR status_text = xmlGetText(status);
 	//TODO: check other than 200 codes and print some debug info on errors
 	if(wcscmp(status_text, L"200"))
 	{
-		mir_free(buf_w);
 		return false;
 	}
 
@@ -316,40 +279,18 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 	HXML cookie_node = xmlGetChildByPath(root, _T("response/data/cookie"), 0);
 	if(!host_node || !port_node || !cookie_node)
 	{
-		mir_free(buf_w);
 		return false;
 	}
 	LPCTSTR host_w = xmlGetText(host_node), port_w = xmlGetText(port_node), cookie_w = xmlGetText(cookie_node);
 	if(!host_w || !port_w || !cookie_w)
 	{
-		mir_free(buf_w);
 		return false;
 	}
-	char *tmp_host = mir_t2a(host_w);
-	if(!tmp_host)
-	{
-		mir_free(buf_w);
-		return false;
-	}
-	char *tmp_port = mir_t2a(port_w);
-	if(!tmp_port)
-	{
-		mir_free(tmp_host);
-		mir_free(buf_w);
-		return false;
-	}
-	char *tmp_cookie = mir_t2a(cookie_w);
-	if(!tmp_cookie)
-	{
-		mir_free(tmp_port);
-		mir_free(tmp_host);
-		mir_free(buf_w);
-		return false;
-	}
-	mir_strcpy(bos_host, tmp_host);
-	bos_port = atoi(tmp_port);
-	mir_strcpy(cookie, tmp_cookie);
-	mir_free(tmp_host); mir_free(tmp_port); mir_free(tmp_cookie);
+
+	bos_host = _T2A(host_w);
+	bos_port = atoi(_T2A(port_w));
+	cookie = _T2A(cookie_w);
+
 	if (encryption)
 	{
 		HXML tls_node = xmlGetChildByPath(root, _T("response/data/tlsCertName"), 0); //tls is optional, so this is not fatal error
@@ -358,12 +299,7 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 			LPCTSTR certname_w = xmlGetText(tls_node);
 			if (certname_w)
 			{
-				char *tmp_certname = mir_t2a(certname_w);
-				if (tmp_certname)
-				{
-					mir_strcpy(tls_cert_name, tmp_certname);
-					mir_free(tmp_certname);
-				}
+				tls_cert_name = _T2A(certname_w);
 			}
 		}
 	}
@@ -378,89 +314,69 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.flags = NLHRF_SSL;
 	req.requestType = REQUEST_POST;
 	req.szUrl = AIM_LOGIN_URL;
-	NETLIBHTTPHEADER headers[1];
-
-	headers[0].szName = (char*)mir_alloc(mir_strlen("Content-Type") + 1);
-	mir_strcpy(headers[0].szName, "Content-Type");
-	headers[0].szValue = (char*)mir_alloc(mir_strlen("application/x-www-form-urlencoded; charset=UTF-8") + 1);
-	mir_strcpy(headers[0].szValue, "application/x-www-form-urlencoded; charset=UTF-8");
-	req.headers = headers;
+	NETLIBHTTPHEADER headers = { "Content-Type", "application/x-www-form-urlencoded; charset=UTF-8" };
+	req.headers = &headers;
 	req.headersCount = 1;
-	char buf[1024] = {0};
-	char *password = getStringA(AIM_KEY_PW);
-	mir_free(m_username);
-	m_username = getStringA(AIM_KEY_SN);
+
+	CMStringA buf;
+	pass_ptrA password(getStringA(AIM_KEY_PW));
+	replaceStr(m_username, ptrA(getStringA(AIM_KEY_SN)));
+
 	fill_post_request(buf, password, m_username);
-	req.pData = buf;
-	req.dataLength = (int)strlen(buf);
+
+	req.pData = buf.GetBuffer();
+	req.dataLength = buf.GetLength();
 
 	bool encryption = !getByte(AIM_KEY_DSSL, 0);
 
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	mir_free(headers[0].szName);
-	mir_free(headers[0].szValue);
-	if(!resp)
+	NLHR_PTR resp(CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req));
+
+	if (!resp || !resp->dataLength)
 	{
-		//TODO: handle error
 		broadcast_status(ID_STATUS_OFFLINE);
-		mir_free(password);
 		return;
 	}
-	if(!resp->dataLength)
-	{
-		//TODO: handle error
-		broadcast_status(ID_STATUS_OFFLINE);
-		mir_free(password);
-		return;
-	}
-	char token[1024] = { 0 }, secret[512] = {0}; //TODO: find efficient buf size
+
+	CMStringA token, secret;
 	time_t hosttime;
-	if(!parse_clientlogin_response(resp, headers, token, secret, hosttime))
+
+
+	if(!parse_clientlogin_response(resp, &headers, token, secret, hosttime))
 	{
 		//TODO: handle error
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 		broadcast_status(ID_STATUS_OFFLINE);
-		mir_free(headers[0].szName);
-		mir_free(headers[0].szValue);
-		mir_free(password);
+		mir_free(headers.szValue);
 		return;
 	}
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
+
 	//reuse NETLIBHTTPREQUEST
 	req.requestType = REQUEST_GET;
 	req.pData = NULL;
 	req.dataLength = 0;
 	//req.headersCount = 1;
 	req.headersCount = 0; //additional headers disabled
-	char url[2048] = {0};
-	fill_session_url(url, sizeof(url), token, secret, hosttime, password, encryption);
-	mir_free(password);
-	req.szUrl = url;
-	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	mir_free(headers[0].szName);
-	mir_free(headers[0].szValue);
-	if(!resp)
+	
+	CMStringA url;
+
+	fill_session_url(url, token, secret, hosttime, password, encryption);
+	req.szUrl = url.GetBuffer();
+	resp = CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+
+	if (!resp || !resp->dataLength)
 	{
 		//TODO: handle error
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
-	if(!resp->dataLength)
-	{
-		//TODO: handle error
-		broadcast_status(ID_STATUS_OFFLINE);
-		return;
-	}
-	char bos_host[128] = { 0 }, cookie[1024] = { 0 }, tls_cert_name[128] = {0}; //TODO: find efficient buf size
+
+	CMStringA bos_host, cookie, tls_cert_name; //TODO: find efficient buf size
 	unsigned short bos_port = 0;
 	if(!parse_start_socar_session_response(resp->pData, bos_host, bos_port, cookie, tls_cert_name, encryption))
 	{
 		//TODO: handle error
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 
 	m_hServerConn = aim_connect(bos_host, bos_port, (tls_cert_name[0] && encryption) ? true : false, bos_host);
 	if(!m_hServerConn)
@@ -470,8 +386,7 @@ void CAimProto::aim_connection_clientlogin(void)
 		return;
 	}
 
-	mir_free(COOKIE);
-	COOKIE = mir_strdup(cookie); //TODO: check if it's null terminated
+	replaceStr(COOKIE, cookie);
 	COOKIE_LENGTH = (int)mir_strlen(cookie);
 
 	ForkThread(&CAimProto::aim_protocol_negotiation, 0);
