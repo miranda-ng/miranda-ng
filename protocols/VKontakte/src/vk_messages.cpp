@@ -290,7 +290,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
-		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(NULL) - datetime < 60 * 10)
+		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(NULL) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
 		T2Utf pszBody(tszBody);

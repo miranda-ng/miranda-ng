@@ -273,7 +273,7 @@ void CVkOptionAdvancedForm::OnInitDialog()
 	m_cbSendMetodBroadcast.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly);
 	m_cbMusicSendStatus.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly);
 
-	m_spInvInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(60, 0));
+	m_spInvInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(15, 0));
 	m_spInvInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iInvisibleInterval);
 
 	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
