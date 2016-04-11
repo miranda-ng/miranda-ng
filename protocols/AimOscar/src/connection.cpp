@@ -153,20 +153,30 @@ void fill_post_request(char *buf, const char*password, const char* login)
 	mir_free(_login);
 }
 
-bool parse_clientlogin_response(const char *buf, char *token, char *secret, time_t &hosttime)
+bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_headers, char *token, char *secret, time_t &hosttime)
 {
 	//TODO: validate response
 	//TODO: return false on errors
 	//TODO: extract token, secret, hosttime from response
 	int datalen = 0;
-	wchar_t *buf_w =mir_utf8decodeW(buf);
+	for(int i = 0; i < nlhr->headersCount; i++)
+	{
+		if (!mir_strcmp(nlhr->headers[i].szName, "Set-Cookie"))
+		{
+			my_headers[0].szName = (char*)mir_alloc(mir_strlen("Cookie") + 1);
+			mir_strcpy(my_headers[0].szName, "Cookie");
+			my_headers[0].szValue = (char*)mir_alloc(mir_strlen(nlhr->headers[i].szValue) + 1);
+			mir_strcpy(my_headers[0].szValue, nlhr->headers[i].szValue);
+		}
+	}
+	wchar_t *buf_w =mir_utf8decodeW(nlhr->pData);
 	HXML root = xmlParseString(buf_w, &datalen, _T(""));
 	if(!root)
 	{
 		mir_free(buf_w);
 		return false;
 	}
-	HXML status = xmlGetNthChild(root, _T("statusCode"), 0);
+	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
 	if(!status)
 	{
 		mir_free(buf_w);
@@ -179,21 +189,15 @@ bool parse_clientlogin_response(const char *buf, char *token, char *secret, time
 		mir_free(buf_w);
 		return false;
 	}
-	HXML data = xmlGetNthChild(root, _T("data"), 0);
-	if(!data)
+	HXML secret_node = xmlGetChildByPath(root, _T("response/data/sessionSecret"), 0);
+	HXML hosttime_node = xmlGetChildByPath(root, _T("response/data/hostTime"), 0);
+
+	if (!secret_node || !hosttime_node)
 	{
 		mir_free(buf_w);
 		return false;
 	}
-	HXML secret_node = xmlGetNthChild(data, _T("sessionSecret"), 0);
-	HXML hosttime_node = xmlGetNthChild(data, _T("hostTime"), 0);
-	HXML token_node = xmlGetNthChild(data, _T("token"), 0);
-	if(!secret_node || !hosttime_node || !token_node)
-	{
-		mir_free(buf_w);
-		return false;
-	}
-	token_node = xmlGetNthChild(token_node, _T("a"), 0);
+	HXML token_node = xmlGetChildByPath(root, _T("response/data/token/a"), 0);
 	if(!token_node)
 	{
 		mir_free(buf_w);
@@ -245,7 +249,7 @@ void construct_query_string(char *buf, const char *token, time_t hosttime, bool 
 		a=urlencoded_token&distId=0x00000611&f=xml&k=dev_key&ts=hosttime&useTLS=bool_encryption
 	*/
 	char *urlencoded_token = mir_urlEncode(token);
-	mir_snprintf(buf, 1023, "a=%s&distId=0x00000611&f=xml&k=%s&ts=%d&useTLS=%d", urlencoded_token, AIM_DEFAULT_CLIENT_KEY, hosttime, encryption);
+	mir_snprintf(buf, 1023, "a=%s&distId=%d&f=xml&k=%s&ts=%d&useTLS=%d", urlencoded_token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, encryption ? 1 : 0);
 	mir_free(urlencoded_token);
 
 }
@@ -293,7 +297,7 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 		mir_free(buf_w);
 		return false;
 	}
-	HXML status = xmlGetNthChild(root, _T("statusCode"), 0);
+	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
 	if(!status)
 	{
 		mir_free(buf_w);
@@ -306,16 +310,10 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 		mir_free(buf_w);
 		return false;
 	}
-	HXML data = xmlGetNthChild(root, _T("data"), 0);
-	if(!data)
-	{
-		mir_free(buf_w);
-		return false;
-	}
 
-	HXML host_node = xmlGetNthChild(data, _T("host"), 0);
-	HXML port_node = xmlGetNthChild(data, _T("port"), 0);
-	HXML cookie_node = xmlGetNthChild(data, _T("cookie"), 0);
+	HXML host_node = xmlGetChildByPath(root, _T("response/data/host"), 0);
+	HXML port_node = xmlGetChildByPath(root, _T("response/data/port"), 0);
+	HXML cookie_node = xmlGetChildByPath(root, _T("response/data/cookie"), 0);
 	if(!host_node || !port_node || !cookie_node)
 	{
 		mir_free(buf_w);
@@ -354,7 +352,7 @@ bool parse_start_socar_session_response(char *response, char *bos_host, unsigned
 	mir_free(tmp_host); mir_free(tmp_port); mir_free(tmp_cookie);
 	if (encryption)
 	{
-		HXML tls_node = xmlGetNthChild(data, _T("tlsCertName"), 0); //tls is optional, so this is not fatal error
+		HXML tls_node = xmlGetChildByPath(root, _T("response/data/tlsCertName"), 0); //tls is optional, so this is not fatal error
 		if (tls_node)
 		{
 			LPCTSTR certname_w = xmlGetText(tls_node);
@@ -381,8 +379,11 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.requestType = REQUEST_POST;
 	req.szUrl = AIM_LOGIN_URL;
 	NETLIBHTTPHEADER headers[1];
-	headers[0].szName = "Content-Type";
-	headers[0].szValue = "application/x-www-form-urlencoded; charset=UTF-8";
+
+	headers[0].szName = (char*)mir_alloc(mir_strlen("Content-Type") + 1);
+	mir_strcpy(headers[0].szName, "Content-Type");
+	headers[0].szValue = (char*)mir_alloc(mir_strlen("application/x-www-form-urlencoded; charset=UTF-8") + 1);
+	mir_strcpy(headers[0].szValue, "application/x-www-form-urlencoded; charset=UTF-8");
 	req.headers = headers;
 	req.headersCount = 1;
 	char buf[1024];
@@ -394,9 +395,11 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.pData = buf;
 	req.dataLength = (int)strlen(buf);
 
-	bool encryption = !getByte(AIM_KEY_DSSL, 0); //TODO: make this configurable
+	bool encryption = !getByte(AIM_KEY_DSSL, 0);
 
 	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	mir_free(headers[0].szName);
+	mir_free(headers[0].szValue);
 	if(!resp)
 	{
 		//TODO: handle error
@@ -415,11 +418,13 @@ void CAimProto::aim_connection_clientlogin(void)
 	token[0] = 0;
 	secret[0] = 0;
 	time_t hosttime;
-	if(!parse_clientlogin_response(resp->pData, token, secret, hosttime)) //TODO: check if data nullterminated
+	if(!parse_clientlogin_response(resp, headers, token, secret, hosttime))
 	{
 		//TODO: handle error
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)&resp);
 		broadcast_status(ID_STATUS_OFFLINE);
+		mir_free(headers[0].szName);
+		mir_free(headers[0].szValue);
 		mir_free(password);
 		return;
 	}
@@ -428,12 +433,16 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.requestType = REQUEST_GET;
 	req.pData = NULL;
 	req.dataLength = 0;
+	//req.headersCount = 1;
+	req.headersCount = 0; //additional headers disabled
 	char url[2048];
 	url[0] = 0;
 	fill_session_url(url, sizeof(url), token, secret, hosttime, password, encryption);
 	mir_free(password);
 	req.szUrl = url;
 	resp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	mir_free(headers[0].szName);
+	mir_free(headers[0].szValue);
 	if(!resp)
 	{
 		//TODO: handle error
