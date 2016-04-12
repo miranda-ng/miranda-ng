@@ -166,7 +166,7 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 	if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
 		pInfo->m_szFrom = pInfo->m_szReceiver;
 	if ((pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (pInfo->m_szFrom))
-		pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom , 3);
+		pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom);
 
 	ppro->debugLog(_T("Expiring iq id %d, sent to %s"), pInfo->m_nIqId, pInfo->m_szReceiver ? pInfo->m_szReceiver : _T("server"));
 
@@ -274,7 +274,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
 			pInfo->m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, _T("from"));
 		if (pInfo->m_szFrom && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT))
-			pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom, 3);
+			pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom);
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_ID_STR)
 			pInfo->m_szId = (TCHAR*)XmlGetAttrValue(pNode, _T("id"));
@@ -331,7 +331,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 				iqInfo.m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, _T("from"));
 
 			if ((pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
-				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom, 3);
+				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom);
 
 			ppro->debugLog(_T("Handling iq id %s, type %s, from %s"), iqInfo.m_szId, szType, iqInfo.m_szFrom);
 			if ((ppro->*(pInfo.m_pHandler))(pNode, &iqInfo))

@@ -260,7 +260,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					HXML groupNode = XmlGetChild(itemNode, "group");
 					replaceStrT(item->group, XmlGetText(groupNode));
 
-					if ((hContact = HContactFromJID(jid, 0)) == NULL) {
+					if ((hContact = HContactFromJID(jid, false)) == NULL) {
 						// Received roster has a new JID.
 						// Add the jid (with empty resource) to Miranda contact list.
 						hContact = DBCreateContact(jid, nick, FALSE, FALSE);

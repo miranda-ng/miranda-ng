@@ -740,7 +740,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const TCHAR *jid);
 
-	MCONTACT HContactFromJID(const TCHAR *jid, BOOL bStripResource = 3);
+	MCONTACT HContactFromJID(const TCHAR *jid, bool bStripResource = true);
 	MCONTACT ChatRoomHContactFromJID(const TCHAR *jid);
 	void   SendVisibleInvisiblePresence(BOOL invisible);
 	void   SendPresenceTo(int status, const TCHAR* to, HXML extra, const TCHAR *msg = NULL);
@@ -839,7 +839,6 @@ public:
 	int       STDMETHODCALLTYPE GetVersion() const;                  // Returns version of IJabberInterface.
 	DWORD     STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
 
-	int       STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
 	MCONTACT  STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
 	LPTSTR    STDMETHODCALLTYPE ContactToJID(MCONTACT hContact);           // Returns JID of hContact. You must free the result using mir_free().
 	LPTSTR    STDMETHODCALLTYPE GetBestResourceName(LPCTSTR jid);        // Returns best resource name for given JID. You must free the result using mir_free().

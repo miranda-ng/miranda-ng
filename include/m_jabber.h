@@ -101,9 +101,6 @@ struct IJabberInterface
 	// Returns Jabber plugin version.
 	virtual DWORD STDMETHODCALLTYPE GetJabberVersion() const = 0;
 
-	// Compares JIDs by their node@domain part (without resource name).
-	virtual int STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2) = 0;
-
 	// Returns contact handle for given JID, or NULL on error.
 	virtual MCONTACT STDMETHODCALLTYPE	ContactFromJID(LPCTSTR jid) = 0;
 

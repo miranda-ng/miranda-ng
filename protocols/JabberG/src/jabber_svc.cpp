@@ -402,7 +402,6 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 }
 
 // File Association Manager plugin support
-
 INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR *)lParam;
@@ -441,7 +440,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			return 1;
 
 		TCHAR *szMsgBody = NULL;
-		MCONTACT hContact = HContactFromJID(szJid, TRUE);
+		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)
@@ -508,7 +507,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	
 	// send file
 	if (!mir_tstrcmpi(szCommand, _T("sendfile"))) {
-		MCONTACT hContact = HContactFromJID(szJid, TRUE);
+		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)

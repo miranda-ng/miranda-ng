@@ -31,7 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable:4355)
 
 static int compareTransports(const TCHAR *p1, const TCHAR *p2)
-{	return mir_tstrcmpi(p1, p2);
+{
+	return mir_tstrcmpi(p1, p2);
 }
 
 static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *p2)
@@ -177,7 +178,7 @@ CJabberProto::~CJabberProto()
 
 	mir_free(m_transportProtoTableStartIndex);
 
-	for (int i=0; i < m_lstTransports.getCount(); i++)
+	for (int i = 0; i < m_lstTransports.getCount(); i++)
 		mir_free(m_lstTransports[i]);
 
 	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
@@ -191,7 +192,7 @@ CJabberProto::~CJabberProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
@@ -244,14 +245,15 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		if (!getByte(hContact, "IsTransport", 0))
 			continue;
 
-		ptrT jid( getTStringA(hContact, "jid"));
-		if (jid == NULL) continue;
+		ptrT jid(getTStringA(hContact, "jid"));
+		if (jid == NULL)
+			continue;
 
 		TCHAR *domain = NEWTSTR_ALLOCA(jid);
 		TCHAR *resourcepos = _tcschr(domain, '/');
 		if (resourcepos != NULL)
 			*resourcepos = '\0';
-		m_lstTransports.insert( mir_tstrdup(domain));
+		m_lstTransports.insert(mir_tstrdup(domain));
 	}
 
 	return 0;
@@ -346,20 +348,17 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
-	if ((dbei.pBlob=(PBYTE)alloca(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return NULL;
 
-/*
 	// EVENTTYPE_CONTACTS is when adding from when we receive contact list (not used in Jabber)
 	// EVENTTYPE_ADDED is when adding from when we receive "You are added" (also not used in Jabber)
 	// Jabber will only handle the case of EVENTTYPE_AUTHREQUEST
 	// EVENTTYPE_AUTHREQUEST is when adding from the authorization request dialog
-*/
-
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;
 
@@ -415,7 +414,9 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
 				db_unset(hContact, "CList", "NotOnList");
-	}	}	}
+			}
+		}
+	}
 
 	mir_free(newJid);
 	return 0;
@@ -435,7 +436,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 
-	mir_ptr<BYTE> pBlob((PBYTE) mir_alloc(dbei.cbBlob));
+	mir_ptr<BYTE> pBlob((PBYTE)mir_alloc(dbei.cbBlob));
 	if ((dbei.pBlob = pBlob) == NULL)
 		return 1;
 
@@ -456,7 +457,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	debugLogA("Send 'authorization denied' to %s", jid);
 
 	ptrT newJid(dbei.flags & DBEF_UTF ? mir_utf8decodeT(jid) : mir_a2t(jid));
-	m_ThreadInfo->send( XmlNode(_T("presence")) << XATTR(_T("to"), newJid) << XATTR(_T("type"), _T("unsubscribed")));
+	m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), newJid) << XATTR(_T("type"), _T("unsubscribed")));
 	return 0;
 }
 
@@ -535,9 +536,9 @@ int __cdecl CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR *)
 	case FT_IBB:
 		m_ThreadInfo->send(
 			XmlNodeIq(_T("error"), ft->szId, ft->jid)
-				<< XCHILD(_T("error"), _T("File transfer refused")) << XATTRI(_T("code"), 403) << XATTR(_T("type"), _T("cancel"))
-					<< XCHILDNS(_T("forbidden"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"))
-						<< XCHILD(_T("text"), _T("File transfer refused")) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
+			<< XCHILD(_T("error"), _T("File transfer refused")) << XATTRI(_T("code"), 403) << XATTR(_T("type"), _T("cancel"))
+			<< XCHILDNS(_T("forbidden"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"))
+			<< XCHILD(_T("text"), _T("File transfer refused")) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 		break;
 	}
 	delete ft;
@@ -633,7 +634,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 
 		if (item != NULL) {
 			if (item->arResources.getCount()) {
-				for (int i=0; i < item->arResources.getCount(); i++) {
+				for (int i = 0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
 					TCHAR tmp[JABBER_MAX_JID_LEN];
 					mir_sntprintf(tmp, _T("%s/%s"), szBareJid, r->m_tszResourceName);
@@ -942,9 +943,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 	TFakeAckParams *par = (TFakeAckParams*)param;
 	Sleep(100);
 	debugLogA("Broadcast ACK");
-	ProtoBroadcastAck(par->hContact, ACKTYPE_MESSAGE,
-							par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-							(HANDLE)par->msgid, (LPARAM)par->msg);
+	ProtoBroadcastAck(par->hContact, ACKTYPE_MESSAGE, par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS, (HANDLE)par->msgid, (LPARAM)par->msg);
 	debugLogA("Returning from thread");
 	delete par;
 }

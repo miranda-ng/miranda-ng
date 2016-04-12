@@ -97,7 +97,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 						messageInfo.m_szTo = XmlGetAttrValue(node, _T("to"));
 
 					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
-						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom, 3);
+						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);
 
 					if (messageInfo.m_szFrom)
 						ppro->debugLog(_T("Handling message from %s"), messageInfo.m_szFrom);

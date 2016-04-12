@@ -51,21 +51,6 @@ void JabberChatDllError()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// JabberCompareJids
-
-int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
-{
-	if (!mir_tstrcmpi(jid1, jid2))
-		return 0;
-
-	// match only node@domain part
-	TCHAR szTempJid1[JABBER_MAX_JID_LEN], szTempJid2[JABBER_MAX_JID_LEN];
-	return mir_tstrcmpi(
-		JabberStripJid(jid1, szTempJid1, _countof(szTempJid1)),
-		JabberStripJid(jid2, szTempJid2, _countof(szTempJid2)));
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // JabberDBAddAuthRequest()
 
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)

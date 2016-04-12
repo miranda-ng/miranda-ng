@@ -50,15 +50,8 @@ DWORD CJabberProto::GetJabberVersion() const
 	return PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 }
 
-int CJabberProto::CompareJIDs(LPCTSTR jid1, LPCTSTR jid2)
-{
-	if (!jid1 || !jid2) return 0;
-	return JabberCompareJids(jid1, jid2);
-}
-
 MCONTACT CJabberProto::ContactFromJID(LPCTSTR jid)
 {
-	if (jid == NULL) return NULL;
 	return HContactFromJID(jid);
 }
 
