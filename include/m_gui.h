@@ -133,6 +133,72 @@ private:
 	void operator= (const CMOption &) {}
 };
 
+#ifdef M_SYSTEM_CPP_H__
+
+template<>
+class CMOption<char*> : public CMOptionBase
+{
+public:
+	
+	typedef char Type;
+
+	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, const Type *defValue = nullptr) :
+		CMOptionBase(proto, szSetting), m_default(defValue)
+	{}
+
+	__forceinline operator Type*()
+	{
+		m_value = m_proto->getStringA(m_szSetting);
+		if (!m_value) m_value = mir_strdup(m_default);
+		return m_value;
+	}
+	__forceinline Type* operator= (Type *value)
+	{
+		m_proto->setString(m_szSetting, value);
+		return value;
+	}
+
+private:
+	const Type *m_default;
+	mir_ptr<Type> m_value;
+
+	CMOption(const CMOption &) : CMOptionBase(NULL, NULL) {}
+	void operator= (const CMOption &) {}
+};
+
+template<>
+class CMOption<wchar_t*> : public CMOptionBase
+{
+public:
+
+	typedef wchar_t Type;
+
+	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, const Type *defValue = nullptr) :
+		CMOptionBase(proto, szSetting), m_default(defValue)
+	{}
+
+	__forceinline operator Type*()
+	{
+		m_value = m_proto->getWStringA(m_szSetting);
+		if (!m_value) m_value = mir_wstrdup(m_default);
+		return m_value;
+	}
+
+	__forceinline const Type* operator= (const Type *value)
+	{
+		m_proto->setWString(m_szSetting, value);
+		return value;
+	}
+
+private:
+	const Type *m_default;
+	mir_ptr<Type> m_value;
+
+	CMOption(const CMOption &) : CMOptionBase(NULL, NULL) {}
+	void operator= (const CMOption &) {}
+};
+
+#endif
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callbacks
 
