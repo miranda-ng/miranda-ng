@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber_caps.h"
 
-typedef enum {
+enum JABBER_LIST
+{
 	LIST_ROSTER,        // Roster list
 	LIST_CHATROOM,      // Groupchat room currently joined
 	LIST_ROOM,          // Groupchat room list to show on the Jabber groupchat dialog
@@ -38,35 +39,39 @@ typedef enum {
 	LIST_BOOKMARK,
 	LIST_VCARD_TEMP,
 	LIST_FTIQID
-} JABBER_LIST;
+};
 
-typedef enum {
+enum JABBER_SUBSCRIPTION
+{
 	SUB_NONE,
 	SUB_TO,
 	SUB_FROM,
 	SUB_BOTH
-} JABBER_SUBSCRIPTION;
+};
 
-typedef enum {
+enum JABBER_GC_AFFILIATION
+{
 	AFFILIATION_NONE,
 	AFFILIATION_OUTCAST,
 	AFFILIATION_MEMBER,
 	AFFILIATION_ADMIN,
 	AFFILIATION_OWNER
-} JABBER_GC_AFFILIATION;
+};
 
-typedef enum {
+enum JABBER_GC_ROLE
+{
 	ROLE_NONE,
 	ROLE_VISITOR,
 	ROLE_PARTICIPANT,
 	ROLE_MODERATOR
-} JABBER_GC_ROLE;
+};
 
-typedef enum {			// initial default to RSMODE_LASTSEEN
+enum JABBER_RESOURCE_MODE // initial default to RSMODE_LASTSEEN
+{
 	RSMODE_SERVER,		// always let server decide (always send correspondence without resouce name)
 	RSMODE_LASTSEEN,	// use the last seen resource (or let server decide if haven't seen anything yet)
 	RSMODE_MANUAL		// specify resource manually (see the defaultResource field - must not be NULL)
-} JABBER_RESOURCE_MODE;
+};
 
 class JABBER_RESOURCE_STATUS : public MZeroedObject
 {
@@ -146,6 +151,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 	JABBER_LIST list;
 	TCHAR* jid;
+	MCONTACT hContact;
 
 	// LIST_ROSTER
 	// jid = jid of the contact
@@ -201,10 +207,10 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	//LIST_BOOKMARK
 	// jid = room JID
 	TCHAR* password;	// password for room
-	BOOL bAutoJoin;
+	bool bAutoJoin;
 
-	BOOL bUseResource;
-	BOOL bHistoryRead;
+	bool bUseResource;
+	bool bHistoryRead;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

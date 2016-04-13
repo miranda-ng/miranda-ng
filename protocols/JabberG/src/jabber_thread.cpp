@@ -1005,14 +1005,14 @@ DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
 MCONTACT CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem)
 {
 	if (chatItem == NULL)
-		return DBCreateContact(szJid, ptrT(JabberNickFromJID(szJid)), TRUE, TRUE);
+		return DBCreateContact(szJid, ptrT(JabberNickFromJID(szJid)), true, true);
 
 	const TCHAR *p = _tcschr(szJid, '/');
 	if (p != NULL && p[1] != '\0')
 		p++;
 	else
 		p = szJid;
-	MCONTACT hContact = DBCreateContact(szJid, p, TRUE, FALSE);
+	MCONTACT hContact = DBCreateContact(szJid, p, true, false);
 
 	pResourceStatus r(chatItem->findResource(p));
 	if (r)
@@ -1318,7 +1318,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				const TCHAR *group = XmlGetText(XmlGetChild(iNode, _T("group")));
 				if (action && jid && _tcsstr(jid, chkJID)) {
 					if (!mir_tstrcmp(action, _T("add"))) {
-						MCONTACT cc = DBCreateContact(jid, nick, FALSE, FALSE);
+						MCONTACT cc = DBCreateContact(jid, nick, false, false);
 						if (group)
 							db_set_ts(cc, "CList", "Group", group);
 					}
@@ -1531,11 +1531,11 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 				debugLog(_T("SKIP Receive presence online from %s (who is not in my roster and not in list - skiping)"), from);
 				return;
 			}
-			hContact = DBCreateContact(from, nick, TRUE, TRUE);
+			hContact = DBCreateContact(from, nick, true, true);
 		}
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
 			debugLog(_T("Receive presence online from %s (who is not in my roster)"), from);
-			ListAdd(LIST_ROSTER, from);
+			ListAdd(LIST_ROSTER, from, hContact);
 		}
 		DBCheckIsTransportedContact(from, hContact);
 		int status = ID_STATUS_ONLINE;
@@ -1664,7 +1664,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 
 		// automatically send authorization allowed to agent/transport
 		if (_tcschr(from, '@') == NULL || m_options.AutoAcceptAuthorization) {
-			ListAdd(LIST_ROSTER, from);
+			ListAdd(LIST_ROSTER, from, hContact);
 			info->send(XmlNode(_T("presence")) << XATTR(_T("to"), from) << XATTR(_T("type"), _T("subscribed")));
 
 			if (m_options.AutoAdd == TRUE) {
@@ -1672,6 +1672,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 				if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 					debugLog(_T("Try adding contact automatically jid = %s"), from);
 					if ((hContact = AddToListByJID(from, 0)) != NULL) {
+						if (item)
+							item->hContact = hContact;
 						setTString(hContact, "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
 					}

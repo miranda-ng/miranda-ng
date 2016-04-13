@@ -232,8 +232,6 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 	}
 
-	JABBER_LIST_ITEM *item;
-	MCONTACT hContact = NULL;
 	const TCHAR *jid, *str;
 
 	debugLogA("<iq/> Got roster push, query has %d children", XmlGetChildCount(queryNode));
@@ -254,53 +252,54 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			const TCHAR *name = XmlGetAttrValue(itemNode, _T("name"));
 			ptrT nick((name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid));
 			if (nick != NULL) {
-				if ((item = ListAdd(LIST_ROSTER, jid)) != NULL) {
-					replaceStrT(item->nick, nick);
+				MCONTACT hContact = HContactFromJID(jid, false);
+				if (hContact == NULL)
+					hContact = DBCreateContact(jid, nick, false, false);
+				else
+					setTString(hContact, "jid", jid);
 
-					HXML groupNode = XmlGetChild(itemNode, "group");
-					replaceStrT(item->group, XmlGetText(groupNode));
+				JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
+				replaceStrT(item->nick, nick);
 
-					if ((hContact = HContactFromJID(jid, false)) == NULL) {
-						// Received roster has a new JID.
-						// Add the jid (with empty resource) to Miranda contact list.
-						hContact = DBCreateContact(jid, nick, FALSE, FALSE);
+				HXML groupNode = XmlGetChild(itemNode, "group");
+				replaceStrT(item->group, XmlGetText(groupNode));
+
+				if (name != NULL) {
+					ptrT tszNick(getTStringA(hContact, "Nick"));
+					if (tszNick != NULL) {
+						if (mir_tstrcmp(nick, tszNick) != 0)
+							db_set_ts(hContact, "CList", "MyHandle", nick);
+						else
+							db_unset(hContact, "CList", "MyHandle");
 					}
-					else setTString(hContact, "jid", jid);
+					else db_set_ts(hContact, "CList", "MyHandle", nick);
+				}
+				else db_unset(hContact, "CList", "MyHandle");
 
-					if (name != NULL) {
-						ptrT tszNick(getTStringA(hContact, "Nick"));
-						if (tszNick != NULL) {
-							if (mir_tstrcmp(nick, tszNick) != 0)
-								db_set_ts(hContact, "CList", "MyHandle", nick);
-							else
-								db_unset(hContact, "CList", "MyHandle");
-						}
-						else db_set_ts(hContact, "CList", "MyHandle", nick);
+				if (!m_options.IgnoreRosterGroups) {
+					if (item->group != NULL) {
+						Clist_CreateGroup(0, item->group);
+						db_set_ts(hContact, "CList", "Group", item->group);
 					}
-					else db_unset(hContact, "CList", "MyHandle");
-
-					if (!m_options.IgnoreRosterGroups) {
-						if (item->group != NULL) {
-							Clist_CreateGroup(0, item->group);
-							db_set_ts(hContact, "CList", "Group", item->group);
-						}
-						else db_unset(hContact, "CList", "Group");
-					}
+					else db_unset(hContact, "CList", "Group");
 				}
 			}
 		}
 
-		if ((item = ListGetItemPtr(LIST_ROSTER, jid)) != NULL) {
+		if (JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid)) {
 			if (!mir_tstrcmp(str, _T("both"))) item->subscription = SUB_BOTH;
 			else if (!mir_tstrcmp(str, _T("to"))) item->subscription = SUB_TO;
 			else if (!mir_tstrcmp(str, _T("from"))) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
 			debugLog(_T("Roster push for jid=%s, set subscription to %s"), jid, str);
+
+			MCONTACT hContact = HContactFromJID(jid);
+
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
 			if (!mir_tstrcmp(str, _T("remove"))) {
-				if ((hContact = HContactFromJID(jid)) != NULL) {
+				if (hContact) {
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
 				}

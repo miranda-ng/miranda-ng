@@ -37,7 +37,7 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 	if (pItem->bHistoryRead)
 		return;
 
-	pItem->bHistoryRead = TRUE;
+	pItem->bHistoryRead = true;
 
 	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultGetCollectionList, JABBER_IQ_TYPE_GET));
 	HXML list = iq << XCHILDNS( _T("list"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), pItem->jid);

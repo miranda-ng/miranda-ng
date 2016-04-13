@@ -131,7 +131,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				GetDlgItemText(hwndDlg, IDC_NAME, text, _countof(text));
 				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
 
-				item->bAutoJoin = (IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED);
+				item->bAutoJoin = IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED;
 
 				XmlNodeIq iq( param->ppro->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
 				param->ppro->SetBookmarkRequest(iq);

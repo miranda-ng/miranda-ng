@@ -1394,9 +1394,9 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			MCONTACT hContact = HContactFromJID(pNode->GetJid());
 			if (!hContact) {
-				hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), TRUE, FALSE);
-				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
-				item->bUseResource = TRUE;
+				hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), true, false);
+				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid(), hContact);
+				item->bUseResource = true;
 			}
 			HMENU hContactMenu = Menu_BuildContactMenu(hContact);
 			GetCursorPos(&pt);
@@ -1413,8 +1413,8 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				hContact = AddToListByJID(jid, PALF_TEMPORARY);
 
 			if (ListGetItemPtr(LIST_VCARD_TEMP, pNode->GetJid()) == NULL) {
-				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
-				item->bUseResource = TRUE;
+				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid(), hContact);
+				item->bUseResource = true;
 				if (item->arResources.getCount() == 0)
 					ListAddResource(LIST_VCARD_TEMP, jid, ID_STATUS_OFFLINE, NULL, 0);
 			}
@@ -1424,10 +1424,10 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 	case SD_ACT_ROSTER:
 		{
-			MCONTACT hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), FALSE, FALSE);
+			MCONTACT hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), false, false);
 			db_unset(hContact, "CList", "NotOnList");
-			JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
-			item->bUseResource = TRUE;
+			JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid(), hContact);
+			item->bUseResource = true;
 		}
 		break;
 

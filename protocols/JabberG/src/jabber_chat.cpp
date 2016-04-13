@@ -1031,10 +1031,11 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		{
 			CMString jid(FORMAT, _T("%s/%s"), item->jid, him->m_tszResourceName);
 
-			ppro->ListAdd(LIST_VCARD_TEMP, jid);
+			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
+			ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			CallService(MS_USERINFO_SHOWDIALOG, ppro->AddToListByJID(jid, PALF_TEMPORARY), 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 
@@ -1199,10 +1200,11 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (TCHAR *tmp = _tcschr(jid, _T('/')))
 				*tmp = 0;
 
-			ppro->ListAdd(LIST_VCARD_TEMP, jid);
+			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
+			ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			CallService(MS_USERINFO_SHOWDIALOG, ppro->AddToListByJID(jid, PALF_TEMPORARY), 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 
@@ -1358,7 +1360,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 {
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
 	mir_sntprintf(szFullJid, _T("%s/%s"), item->jid, nick);
-	MCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
+	MCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, true, false);
 	if (hContact != NULL) {
 		pResourceStatus r(item->findResource(nick));
 		if (r)

@@ -36,18 +36,9 @@ int CJabberProto::SerialNext(void)
 
 MCONTACT CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 {
-	if (jid == NULL)
-		return NULL;
-
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrT dbJid(getTStringA(hContact, "ChatRoomID"));
-		if (dbJid == NULL)
-			if ((dbJid = getTStringA(hContact, "jid")) == NULL)
-				continue;
-
-		if (!mir_tstrcmpi(jid, dbJid) && isChatRoom(hContact))
-			return hContact;
-	}
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
+	if (item != NULL && item->hContact)
+		return item->hContact;
 
 	return NULL;
 }
@@ -60,31 +51,15 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, bool bStripResource)
 	if (jid == NULL)
 		return NULL;
 
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
-
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		bool bIsChat = isChatRoom(hContact);
-
-		ptrT dbJid(getTStringA(hContact, bIsChat ? "ChatRoomID" : "jid"));
-		if (dbJid != NULL) {
-			int result;
-			if (item != NULL)
-				result = mir_tstrcmpi(jid, dbJid);
-			else {
-				if (bStripResource) {
-					if (bIsChat)
-						result = mir_tstrcmpi(jid, dbJid);  // for chat room we have to have full contact matched
-					else
-						result = _tcsnicmp(jid, dbJid, mir_tstrlen(dbJid));
-				}
-				// most probably it should just look full matching contact
-				else result = mir_tstrcmpi(jid, dbJid);
-			}
-
-			if (result == 0)
-				return hContact;
-		}
-	}
+	TCHAR szJid[JABBER_MAX_JID_LEN];
+	if (bStripResource)
+		JabberStripJid(jid, szJid, _countof(szJid));
+	else
+		_tcsncpy_s(szJid, jid, _TRUNCATE);
+	
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szJid);
+	if (item != NULL && item->hContact)
+		return item->hContact;
 
 	return NULL;
 }
@@ -94,8 +69,8 @@ TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 	if (jid == NULL)
 		return mir_tstrdup(_T(""));
 
-	const TCHAR *p;
-	if ((p = _tcschr(jid, '@')) == NULL)
+	const TCHAR *p = _tcschr(jid, '@');
+	if (p == NULL)
 		p = _tcschr(jid, '/');
 
 	return (p != NULL) ? mir_tstrndup(jid, p - jid) : mir_tstrdup(jid);

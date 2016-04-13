@@ -390,7 +390,11 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		if (nick == NULL)
 			continue;
 
-		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid);
+		MCONTACT hContact = HContactFromJID(jid);
+		if (hContact == NULL) // Received roster has a new JID.
+			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to Miranda contact list.
+
+		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 		item->subscription = sub;
 
 		mir_free(item->nick); item->nick = nick;
@@ -400,8 +404,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		// check group delimiters:
 		if (item->group && szGroupDelimeter) {
-			TCHAR *szPos = NULL;
-			while (szPos = _tcsstr(item->group, szGroupDelimeter)) {
+			while (TCHAR *szPos = _tcsstr(item->group, szGroupDelimeter)) {
 				*szPos = 0;
 				szPos += mir_tstrlen(szGroupDelimeter);
 				TCHAR *szNewGroup = (TCHAR *)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(item->group) + mir_tstrlen(szPos) + 2));
@@ -411,13 +414,6 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 				mir_free(item->group);
 				item->group = szNewGroup;
 			}
-		}
-
-		MCONTACT hContact = HContactFromJID(jid);
-		if (hContact == NULL) {
-			// Received roster has a new JID.
-			// Add the jid (with empty resource) to Miranda contact list.
-			hContact = DBCreateContact(jid, nick, FALSE, FALSE);
 		}
 
 		if (name != NULL) {
@@ -617,7 +613,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 			if (item == NULL) {
 				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
 				if (item != NULL)
-					item->bUseResource = TRUE;
+					item->bUseResource = true;
 			}
 			if (item != NULL) {
 				hasPhoto = TRUE;
@@ -1465,17 +1461,17 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
 						item->name = mir_tstrdup(XmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("conference"));
-						item->bUseResource = TRUE;
+						item->bUseResource = true;
 						item->nick = mir_tstrdup(XPathT(itemNode, "nick"));
 						item->password = mir_tstrdup(XPathT(itemNode, "password"));
 
 						const TCHAR *autoJ = XmlGetAttrValue(itemNode, _T("autojoin"));
 						if (autoJ != NULL)
-							item->bAutoJoin = (!mir_tstrcmp(autoJ, _T("true")) || !mir_tstrcmp(autoJ, _T("1"))) ? true : false;
+							item->bAutoJoin = !mir_tstrcmp(autoJ, _T("true")) || !mir_tstrcmp(autoJ, _T("1"));
 					}
 					else if (!mir_tstrcmp(name, _T("url")) && (jid = XmlGetAttrValue(itemNode, _T("url")))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
-						item->bUseResource = TRUE;
+						item->bUseResource = true;
 						item->name = mir_tstrdup(XmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("url"));
 					}

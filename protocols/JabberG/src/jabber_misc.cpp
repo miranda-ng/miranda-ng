@@ -55,7 +55,7 @@ void JabberChatDllError()
 
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 {
-	MCONTACT hContact = DBCreateContact(jid, nick, TRUE, TRUE);
+	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
 	delSetting(hContact, "Hidden");
 
 	T2Utf szJid(jid);
@@ -85,7 +85,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberDBCreateContact()
 
-MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
+MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool temporary, bool stripResource)
 {
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;

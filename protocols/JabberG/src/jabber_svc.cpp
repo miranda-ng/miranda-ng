@@ -442,7 +442,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		TCHAR *szMsgBody = NULL;
 		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
-			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
+			hContact = DBCreateContact(szJid, szJid, true, true);
 		if (hContact == NULL)
 			return 1;
 
@@ -509,7 +509,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	if (!mir_tstrcmpi(szCommand, _T("sendfile"))) {
 		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
-			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
+			hContact = DBCreateContact(szJid, szJid, true, true);
 		if (hContact == NULL)
 			return 1;
 		CallService(MS_FILE_SENDFILE, hContact, NULL);

@@ -526,9 +526,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_list.cpp ---------------------------------------------------------------
 
-	JABBER_LIST_ITEM *ListAdd(JABBER_LIST list, const TCHAR *jid);
-	JABBER_LIST_ITEM *ListGetItemPtr(JABBER_LIST list, const TCHAR *jid);
-	JABBER_LIST_ITEM *ListGetItemPtrFromIndex(int index);
+	JABBER_LIST_ITEM* ListAdd(JABBER_LIST list, const TCHAR *jid, MCONTACT hContact = 0);
+	JABBER_LIST_ITEM* ListGetItemPtr(JABBER_LIST list, const TCHAR *jid);
+	JABBER_LIST_ITEM* ListGetItemPtrFromIndex(int index);
 
 	void   ListWipe(void);
 
@@ -587,7 +587,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const TCHAR *grpName);
 	void   DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick);
 	BOOL   AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType);
-	MCONTACT DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource);
+	MCONTACT DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool temporary, bool stripResource);
 	void   GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const TCHAR *jid);
 	void   SetServerStatus(int iNewStatus);

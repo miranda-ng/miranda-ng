@@ -245,6 +245,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		if (jid == NULL)
 			continue;
 
+		ListAdd(isChatRoom(hContact) ? LIST_CHATROOM : LIST_ROSTER, jid, hContact);
+
 		TCHAR *resourcepos = _tcschr(jid, '/');
 		if (resourcepos != NULL)
 			*resourcepos = '\0';
@@ -622,11 +624,11 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
 				pResourceStatus him(tmpItem->findResource(szBareJid+mir_tstrlen(szBareJid)+1));
 				if (him) {
-					item = ListAdd(LIST_VCARD_TEMP, jid);
+					item = ListAdd(LIST_VCARD_TEMP, jid, hContact);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 				}
 			}
-			else item = ListAdd(LIST_VCARD_TEMP, jid);
+			else item = ListAdd(LIST_VCARD_TEMP, jid, hContact);
 		}
 
 		if (item != NULL) {

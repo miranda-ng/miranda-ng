@@ -944,7 +944,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		ptrT jid(getTStringA(event->hContact, "jid"));
 		if (jid != NULL) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
-			if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
+			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
 				RetrieveMessageArchive(event->hContact, pItem);
 		}
 	}
