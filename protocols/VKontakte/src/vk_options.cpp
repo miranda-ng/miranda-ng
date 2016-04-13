@@ -151,7 +151,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
 	CreateLink(m_edtLogin, "Login", _T(""));
-	CreateLink(m_edtGroupName, "ProtoGroup", _T("VKontakte"));
+	CreateLink(m_edtGroupName, m_proto->m_vkOptions.ptszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbAutoClean, m_proto->m_vkOptions.bAutoClean);
