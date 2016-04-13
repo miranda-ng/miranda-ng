@@ -51,7 +51,7 @@ void LoadCListModule()
 	HookEvent(ME_SKIN_ICONSCHANGED, CLIconsChanged);
 }
 
-static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CCList *dat = CWndUserData(hWnd).GetCList();
 	switch (Msg) {
@@ -376,40 +376,18 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }
 
-struct sGroupEnumData
-{
-	HANDLE hGroup;
-	TCString GroupName;
-};
-
-int GroupEnum(const char *szSetting, LPARAM lParam)
-{
-	sGroupEnumData *GroupEnumData = (sGroupEnumData*)lParam;
-	TCString GroupName = db_get_s(NULL, "CListGroups", szSetting, _T(" "));
-	if (!mir_tstrcmp(GroupEnumData->GroupName, &GroupName[1]))
-		GroupEnumData->hGroup = (HANDLE)(atol(szSetting) | HCONTACT_ISGROUP);
-	return 0;
-}
-
 // adds a new group if it doesn't exist yet; returns its hItem
 HTREEITEM CCList::AddGroup(TCString GroupName)
 {
 	if (GroupName == _T(""))
 		return TVI_ROOT;
 
-	sGroupEnumData GroupEnumData;
-	GroupEnumData.GroupName = GroupName;
-	GroupEnumData.hGroup = NULL;
-	DBCONTACTENUMSETTINGS dbEnum;
-	memset(&dbEnum, 0, sizeof(dbEnum));
-	dbEnum.lParam = (LPARAM)&GroupEnumData;
-	dbEnum.pfnEnumProc = GroupEnum;
-	dbEnum.szModule = "CListGroups";
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
-	if (!GroupEnumData.hGroup) // means there is no such group in the groups list
+	HANDLE hGroupId = Clist_GroupExists(GroupName);
+	if (hGroupId == NULL)
 		return NULL;
 
-	HTREEITEM hGroupItem = FindContact((UINT_PTR)GroupEnumData.hGroup);
+	MCONTACT hContact = UINT_PTR(hGroupId) - 1 + HCONTACT_ISGROUP;
+	HTREEITEM hGroupItem = FindContact(hContact);
 	if (hGroupItem)
 		return hGroupItem; // exists already, just return its handle
 
@@ -427,7 +405,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	tvIns.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvIns.item.state = tvIns.item.stateMask = TVIS_BOLD | TVIS_EXPANDED;
 	tvIns.item.iImage = tvIns.item.iSelectedImage = IMAGE_GROUPOPEN;
-	tvIns.item.lParam = Items.AddElem(CCLItemData((UINT_PTR)GroupEnumData.hGroup));
+	tvIns.item.lParam = Items.AddElem(CCLItemData(hContact));
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }
 
