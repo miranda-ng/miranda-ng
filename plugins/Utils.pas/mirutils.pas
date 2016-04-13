@@ -334,11 +334,6 @@ end;
 
 // Import plugin function adaptation
 function CreateGroupW(name:PWideChar;hContact:TMCONTACT):integer;
-var
-  groupId:integer;
-  groupIdStr:array [0..10] of AnsiChar;
-  grbuf:array [0..127] of WideChar;
-  p:PWideChar;
 begin
   if (name=nil) or (name^=#0) then
   begin
@@ -346,41 +341,10 @@ begin
     exit;
   end;
 
-  StrCopyW(@grbuf[1],name);
-  grbuf[0]:=WideChar(1 or GROUPF_EXPANDED);
-
-  // Check for duplicate & find unused id
-  groupId:=0;
-  repeat
-    p:=DBReadUnicode(0,'CListGroups',IntToStr(groupIdStr,groupId));
-    if p=nil then
-      break;
-
-    if StrCmpW(p+1,@grbuf[1])=0 then
-    begin
-      if hContact<>0 then
-        DBWriteUnicode(hContact,strCList,clGroup,@grbuf[1]);
-
-      mFreeMem(p);
-      result:=0;
-      exit;
-    end;
-
-    mFreeMem(p);
-    inc(groupId);
-  until false;
-
-  DBWriteUnicode(0,'CListGroups',groupIdStr,grbuf);
+  CallService(MS_CLIST_GROUPCREATE,0,lparam(name));
 
   if hContact<>0 then
-    DBWriteUnicode(hContact,strCList,clGroup,@grbuf[1]);
-
-  p:=StrRScanW(grbuf,'\');
-  if p<>nil then
-  begin
-    p^:=#0;
-    CreateGroupW(grbuf+1,0);
-  end;
+    DBWriteUnicode(hContact,strCList,clGroup,name);
 
   result:=1;
 end;
