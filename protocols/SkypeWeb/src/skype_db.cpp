@@ -161,7 +161,7 @@ void CSkypeProto::InitDBEvents()
 		SkypeDBType &cur = g_SkypeDBTypes[i];
 
 		dbEventType.eventType = cur.type;
-		dbEventType.descr = cur.name;
+		dbEventType.descr = Translate(cur.name);
 		dbEventType.flags |= cur.flags;
 
 		CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
