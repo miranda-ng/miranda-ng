@@ -236,24 +236,21 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
-	ConvertPasswords();
 
 	// Set all contacts to offline
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		SetContactOfflineStatus(hContact);
 
-		if (!getByte(hContact, "IsTransport", 0))
-			continue;
-
 		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid == NULL)
 			continue;
 
-		TCHAR *domain = NEWTSTR_ALLOCA(jid);
-		TCHAR *resourcepos = _tcschr(domain, '/');
+		TCHAR *resourcepos = _tcschr(jid, '/');
 		if (resourcepos != NULL)
 			*resourcepos = '\0';
-		m_lstTransports.insert(mir_tstrdup(domain));
+
+		if (getByte(hContact, "IsTransport", 0))
+			m_lstTransports.insert(mir_tstrdup(jid));
 	}
 
 	return 0;
