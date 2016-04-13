@@ -249,7 +249,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
-	CreateLink(m_edtReturnChatMessage, "ReturnChatMessage", TranslateT("I\'m back"));
+	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.ptszReturnChatMessage);
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 }
