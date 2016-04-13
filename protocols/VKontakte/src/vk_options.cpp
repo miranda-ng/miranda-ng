@@ -151,7 +151,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
 	CreateLink(m_edtLogin, "Login", _T(""));
-	CreateLink(m_edtGroupName, m_proto->m_vkOptions.ptszDefaultGroup);
+	CreateLink(m_edtGroupName, "ProtoGroup", _T("VKontakte"));
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbAutoClean, m_proto->m_vkOptions.bAutoClean);
@@ -181,9 +181,9 @@ void CVkOptionAccountForm::OnInitDialog()
 	}
 	
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
-		m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
+		int cur = m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
 		if (!mir_tstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.ptszVKLang))
-			m_cbxVKLang.SetCurSel(i);
+			m_cbxVKLang.SetCurSel(cur);
 	}
 	
 }
