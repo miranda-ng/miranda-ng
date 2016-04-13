@@ -29,12 +29,12 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	m_usebb(this, IDC_BBCODES),
 	m_link(this, IDC_CHANGEPASS, "https://login.skype.com/recovery/password-change") // TODO : ...?username=%username%
 {
-	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
-	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);
-	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 1);
-	CreateLink(m_place, "Place", _T(""));
-	CreateLink(m_usehostname, "UseHostName", DBVT_BYTE, 0);
-	CreateLink(m_usebb, "UseBBCodes", DBVT_BYTE, 1);
+	CreateLink(m_group, proto->m_opts.wstrCListGroup);
+	CreateLink(m_autosync, proto->m_opts.bAutoHistorySync);
+	CreateLink(m_allasunread, proto->m_opts.bMarkAllAsUnread);
+	CreateLink(m_place, proto->m_opts.wstrPlace);
+	CreateLink(m_usehostname, proto->m_opts.bUseHostnameAsPlace);
+	CreateLink(m_usebb, proto->m_opts.bUseBBCodes);
 	m_usehostname.OnChange = Callback(this, &CSkypeOptionsMain::OnUsehostnameCheck);
 }
 
@@ -44,7 +44,7 @@ void CSkypeOptionsMain::OnInitDialog()
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
-	m_place.Enable(!m_proto->getBool("UseHostName", false));
+	m_place.Enable(!m_proto->m_opts.bUseHostnameAsPlace);
 	m_skypename.SendMsg(EM_LIMITTEXT, 32, 0);
 	m_password.SendMsg(EM_LIMITTEXT, 128, 0);
 	m_group.SendMsg(EM_LIMITTEXT, 64, 0);

@@ -113,11 +113,9 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	std::string token = json["skypetoken"].as_string();
-	setString("TokenSecret", token.c_str());
 
-	int expiresIn = json["expiresIn"].as_int();
-	setDword("TokenExpiresIn", time(NULL) + expiresIn);
+	setString("TokenSecret", json["skypetoken"].as_string().c_str());
+	setDword("TokenExpiresIn", time(NULL) + json["expiresIn"].as_int());
 
 	OnLoginSuccess();
 }
@@ -164,6 +162,12 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 				szCookieName = szToken.Tokenize("=", iStart2);
 				szCookieVal = szToken.Mid(iStart2);
 				setString(szCookieName, szCookieVal);
+
+				if (szCookieName == "registrationToken")
+					li.endpoint.szToken = szCookieVal.Detach();
+				else if (szCookieName == "endpointId")
+					li.endpoint.szId = szCookieVal.Detach();
+
 			}
 		}
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
@@ -205,8 +209,6 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	li.endpoint.szToken = getStringA("registrationToken");
-	li.endpoint.szId = getStringA("endpointId");
 
 	SendRequest(new CreateSubscriptionsRequest(li), &CSkypeProto::OnSubscriptionsCreated);
 }
@@ -230,9 +232,8 @@ void CSkypeProto::SendPresence(bool isLogin)
 {
 	ptrA epname;
 
-	ptrT place(getTStringA("Place"));
-	if (!getBool("UseHostName", false) && place && *place)
-		epname = mir_utf8encodeT(place);
+	if (!m_opts.bUseHostnameAsPlace && m_opts.wstrPlace && *m_opts.wstrPlace)
+		epname = mir_utf8encodeT(m_opts.wstrPlace);
 	else
 	{
 		TCHAR compName[MAX_COMPUTERNAME_LENGTH + 1];
@@ -277,7 +278,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	PushRequest(new GetContactListRequest(li, NULL), &CSkypeProto::LoadContactList);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	
-	if (getBool("AutoSync", true))
+	if (m_opts.bAutoHistorySync)
 		PushRequest(new SyncHistoryFirstRequest(100, li), &CSkypeProto::OnSyncHistory);
 
 	JSONNode root = JSONNode::parse(response->pData);

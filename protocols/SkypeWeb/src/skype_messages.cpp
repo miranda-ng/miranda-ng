@@ -264,14 +264,13 @@ int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
 	
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 	time_t timestamp = dbei.timestamp;
 
 	if(db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
-		PushRequest(new MarkMessageReadRequest(username, timestamp, timestamp, false, li));
+		PushRequest(new MarkMessageReadRequest(CID(this, hContact), timestamp, timestamp, false, li));
 }
 
 

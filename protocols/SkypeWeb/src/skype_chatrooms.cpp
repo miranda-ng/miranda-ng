@@ -148,7 +148,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	ptrA chat_id(mir_t2a(gch->pDest->ptszID));
+	_T2A chat_id(gch->pDest->ptszID);
 
 	switch (gch->pDest->iType)
 	{
@@ -200,7 +200,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 30:
 			CMString newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
-				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", ptrA(mir_utf8encodeT(newTopic.GetBuffer())), li));
+				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer()), li));
 			break;
 		}
 		break;

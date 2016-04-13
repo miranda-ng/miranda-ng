@@ -35,5 +35,41 @@ enum SKYPE_DB_EVENT_TYPE
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
+struct CSkypeOptions
+{
+	CMOption<BYTE> bAutoHistorySync;
+	CMOption<BYTE> bMarkAllAsUnread;
+
+	CMOption<BYTE> bUseHostnameAsPlace;
+	CMOption<TCHAR*> wstrPlace;
+
+	CMOption<BYTE> bUseBBCodes;
+
+	CMOption<TCHAR*> wstrCListGroup;
+
+	CSkypeOptions(PROTO_INTERFACE *proto) :
+
+		bAutoHistorySync(proto, "AutoSync", true),
+		bMarkAllAsUnread(proto, "MarkMesUnread", true),
+
+		wstrPlace(proto, "Place", _T("")),
+		bUseHostnameAsPlace(proto, "UseHostName", true),
+
+		bUseBBCodes(proto, "UseBBCodes", true),
+
+		wstrCListGroup(proto, SKYPE_SETTINGS_GROUP, _T("Skype"))
+	{
+	}
+
+};
+
+class CID
+{
+	ptrA m_value;
+public:
+	inline CID(PROTO_INTERFACE *ppro, const MCONTACT hContact) : m_value(ppro->getStringA(hContact, SKYPE_SETTINGS_ID)) {}
+	inline operator char *() { return m_value; }
+};
+
 
 #endif //_SKYPE_DB_H_

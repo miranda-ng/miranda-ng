@@ -17,6 +17,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct SkypeDBType { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
+{
+	{ SKYPE_DB_EVENT_TYPE_INCOMING_CALL, LPGEN("Incoming call"), DETF_NONOTIFY },
+	{ SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, LPGEN("Edited message"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_ACTION, LPGEN("Action"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_CALL_INFO, LPGEN("Call information"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, LPGEN("File transfer information"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_URIOBJ, LPGEN("URI object"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_MOJI, LPGEN("Moji"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_FILE, LPGEN("File"), 0 },
+	{ SKYPE_DB_EVENT_TYPE_UNKNOWN, LPGEN("Unknown event"), 0 },
+};
+
 MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
 {
 	if (messageId == NULL)
@@ -143,40 +156,16 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.iconService = MODULE "/GetEventIcon";
 	dbEventType.textService = MODULE "/GetEventText";
 
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE;
-	dbEventType.descr = Translate("Edited message");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+	for (size_t i = 0; i < _countof(g_SkypeDBTypes); i++)
+	{
+		SkypeDBType &cur = g_SkypeDBTypes[i];
 
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
-	dbEventType.descr = Translate("Action");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+		dbEventType.eventType = cur.type;
+		dbEventType.descr = cur.name;
+		dbEventType.flags |= cur.flags;
 
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL_INFO;
-	dbEventType.descr = Translate("Call information");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+		CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
-	dbEventType.descr = Translate("File transfer information");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
-	dbEventType.descr = Translate("URI object");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_MOJI;
-	dbEventType.descr = Translate("Moji");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_FILE;
-	dbEventType.descr = Translate("File");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
-	dbEventType.descr = Translate("Unknown event");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-	dbEventType.descr = Translate("Incoming call");
-	dbEventType.flags |= DETF_NONOTIFY;
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+		dbEventType.flags &= (~cur.flags);
+	}
 }

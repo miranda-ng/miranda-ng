@@ -83,9 +83,13 @@ public:
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
 
+	CSkypeOptions m_opts;
+
 private:
 
 	LoginInfo li;
+
+	
 
 	static UINT_PTR m_timer;
 

@@ -27,12 +27,12 @@ void CSkypeProto::PollingThread(void*)
 		m_hPollingEvent.Wait();
 		nErrors = 0;
 
+		PollRequest *request = new PollRequest(li);
+
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)
 		{
-			PollRequest *request = new PollRequest(li);
 			request->nlc = m_pollingConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
-			delete request;
 
 			if (response == NULL)
 			{
@@ -77,6 +77,7 @@ void CSkypeProto::PollingThread(void*)
 			}
 			m_pollingConnection = response->nlc;
 		}
+		delete request;
 
 		if (m_iStatus != ID_STATUS_OFFLINE)
 		{
@@ -172,7 +173,7 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 			break;
 		case 13:
 			MirVer.AppendFormat("Skype (OSX) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
-				break;
+			break;
 		case 11:
 			MirVer.AppendFormat("Skype (Windows) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;

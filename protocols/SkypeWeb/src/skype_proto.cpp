@@ -25,7 +25,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 		m_OutMessages(3, PtrKeySortT),
 		m_bThreadsTerminated(0),
 		m_TrouterConnection(0),
-		m_pollingConnection(0)
+		m_pollingConnection(0),
+		m_opts(this)
 {
 	InitNetwork();
 
@@ -105,7 +106,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)"Skypename";
+		return (DWORD_PTR)Translate("Skypename");
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_ID;
 	}
@@ -121,7 +122,7 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	MCONTACT hContact;
 	
 	if (psr->flags & PSR_UNICODE)
-		hContact = AddContact(mir_utf8encodeT(psr->id.t));
+		hContact = AddContact(T2Utf(psr->id.t));
 	else 
 		hContact = AddContact(psr->id.a);
 		
@@ -155,9 +156,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthAcceptRequest(li, skypename));
+	PushRequest(new AuthAcceptRequest(li, CID(this, hContact)));
 	return 0;
 }
 
@@ -167,9 +166,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthDeclineRequest(li, skypename));
+	PushRequest(new AuthDeclineRequest(li, CID(this, hContact)));
 	return 0;
 }
 
@@ -183,9 +180,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(li, skypename, T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(li, CID(this, hContact), T2Utf(szMessage)));
 	return 0;
 }
 
@@ -193,7 +188,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
 	if (!isChatRoom(hContact))
 		PushRequest(
-			new GetProfileRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
+			new GetProfileRequest(li, CID(this, hContact)),
 			&CSkypeProto::LoadProfile);
 	return 0;
 }
@@ -237,9 +232,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
 			SendRequest(new DeleteEndpointRequest(li));
-			delSetting("registrationRoken");
-			delSetting("endpointId");
-			delSetting("expires");
 		}
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
@@ -273,7 +265,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, li));
+	SendRequest(new SendTypingRequest(CID(this, hContact), type, li));
 	return 0;
 }
 

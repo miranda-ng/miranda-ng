@@ -153,7 +153,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 				MCONTACT hContact = FindContact(szSkypename);
 				if (hContact != NULL)
 				{
-					if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
+					if (getDword(hContact, "LastMsgTime", 0) < composeTime)
 					{
 						PushRequest(new GetHistoryRequest(szSkypename, 100, false, 0, li), &CSkypeProto::OnGetServerHistory);
 					}

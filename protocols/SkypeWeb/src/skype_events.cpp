@@ -23,6 +23,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
 
 	CMStringA szText; 
+
 	BOOL bUseBB = db_get_b(NULL, pEvent->dbei->szModule, "UseBBCodes", 1);
 	switch (pEvent->dbei->eventType)
 	{

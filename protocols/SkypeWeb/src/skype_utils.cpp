@@ -552,8 +552,8 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	}
 	if (!mir_tstrcmpi(szCommand, _T("sendfile")))
 	{
-		//CONTACT hContact = AddContact(_T2A(szJid), true);
-		//CallService(MS_FILE_SENDFILE, hContact, NULL);
+		MCONTACT hContact = AddContact(_T2A(szJid), true);
+		CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 1;
 	}
 	if (!mir_tstrcmpi(szCommand, _T("voicemail")))

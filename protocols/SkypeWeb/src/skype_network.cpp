@@ -19,12 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::InitNetwork()
 {
-	TCHAR name[128];
-	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
+	CMString name(FORMAT, TranslateT("%s connection"), m_tszUserName);
+
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = name;
+	nlu.ptszDescriptiveName = name.GetBuffer();
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
@@ -37,7 +37,9 @@ void CSkypeProto::UnInitNetwork()
 
 void CSkypeProto::ShutdownConnections()
 {
-	Netlib_Shutdown(m_pollingConnection);
-	Netlib_Shutdown(m_TrouterConnection);
+	Netlib_CloseHandle(m_pollingConnection);
+	Netlib_CloseHandle(m_TrouterConnection);
+
+	m_pollingConnection = m_TrouterConnection = 0;
 	//Netlib_Shutdown(m_hNetlibUser);
 }
