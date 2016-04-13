@@ -331,6 +331,25 @@ public:
 	__forceinline void   SaveText(TCHAR*) {}
 };
 
+template<>
+class CMOptionLink<TCHAR*> : public CDataLink
+{
+private:
+	typedef TCHAR *T;
+	CMOption<T> *m_option;
+
+public:
+	__forceinline CMOptionLink(CMOption<T> &option) :
+		CDataLink(DBVT_TCHAR), m_option(&option)
+	{}
+
+	__forceinline DWORD LoadInt() { return 0; }
+	__forceinline void  SaveInt(DWORD) { }
+
+	__forceinline TCHAR* LoadText() { return *m_option; }
+	__forceinline void   SaveText(TCHAR *value) { *m_option = value; }
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDlgBase - base dialog class
 
