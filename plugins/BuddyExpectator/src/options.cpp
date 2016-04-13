@@ -461,7 +461,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		if (tmpTime == -1)
 			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
 		else {
-			_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
+			_tcsftime(tmpBuf, 50, _T("%#x, %#X"), gmtime(&tmpTime));
 			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
 		}
 
@@ -469,7 +469,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		if (tmpTime == -1)
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
 		else {
-			_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
+			_tcsftime(tmpBuf, 50, _T("%#x, %#X"), gmtime(&tmpTime));
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 		}
 
