@@ -226,32 +226,6 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, ClcCacheEntr
 	return group->cl.items[i];
 }
 
-void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName)
-{
-	if (wildcmp(_T2A(szName), "-@-HIDDEN-GROUP-@-"))
-		return NULL;
-
-	int i;
-	DWORD groupFlags;
-	for (i = 1;; i++) {
-		TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
-		if (szGroupName == NULL)
-			break;
-		if (!mir_tstrcmpi(szGroupName, szName))
-			return NULL;
-	}
-
-	char buf[20];
-	_itoa_s(i - 1, buf, 10);
-
-	TCHAR b2[255];
-	mir_sntprintf(b2, _T("#%s"), szName);
-	b2[0] = 1 | GROUPF_EXPANDED;
-	db_set_ts(NULL, "CListGroups", buf, b2);
-	pcli->pfnGetGroupName(i, &groupFlags);
-	return cli_AddGroup(hwnd, dat, szName, groupFlags, i, 0);
-}
-
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);

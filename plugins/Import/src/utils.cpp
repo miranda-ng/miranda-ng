@@ -34,33 +34,17 @@ int CreateGroup(const TCHAR *group, MCONTACT hContact)
 	if (group == NULL)
 		return 0;
 
-	size_t cbName = mir_tstrlen(group);
-	TCHAR *tszGrpName = (TCHAR*)_alloca((cbName + 2)*sizeof(TCHAR));
-	tszGrpName[0] = 1 | GROUPF_EXPANDED;
-	mir_tstrcpy(tszGrpName + 1, group);
-
-	// Check for duplicate & find unused id
-	char groupIdStr[11];
-	for (int groupId = 0;; groupId++) {
-		itoa(groupId, groupIdStr, 10);
-		ptrT tszDbGroup(db_get_tsa(NULL, "CListGroups", groupIdStr));
-		if (tszDbGroup == NULL)
-			break;
-
-		if (!mir_tstrcmp((TCHAR*)tszDbGroup+1, tszGrpName+1)) {
-			if (hContact)
-				db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
-			else
-				AddMessage(LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
-			return 0;
-		}
+	if (Clist_GroupExists(group)) {
+		if (hContact)
+			db_set_ts(hContact, "CList", "Group", group);
+		else
+			AddMessage(LPGENT("Skipping duplicate group %s."), group);
+		return 0;
 	}
 
-	db_set_ts(NULL, "CListGroups", groupIdStr, tszGrpName);
-
+	Clist_CreateGroup(NULL, group);
 	if (hContact)
-		db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
-
+		db_set_ts(hContact, "CList", "Group", group);
 	return 1;
 }
 
