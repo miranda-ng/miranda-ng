@@ -121,6 +121,22 @@ static CVKLang vkLangCodes[] = {
 	{ _T("it"), LPGENT("Italian") },
 };
 
+static CVKSync vkHistorySyncMethods[] = 
+{
+	{ TranslateT("off"), SyncHistoryMetod::syncOff },
+	{ TranslateT("automatically"), SyncHistoryMetod::syncAuto },
+	{ TranslateT("for last 1 day"), SyncHistoryMetod::sync1Days },
+	{ TranslateT("for last 3 days"), SyncHistoryMetod::sync3Days }
+};
+
+static CVKMarkMsgRead vkMarkMsgAsReadMethods[] =
+{
+	{ TranslateT("on read"), MarkMsgReadOn::markOnRead },
+	{ TranslateT("on receive"), MarkMsgReadOn::markOnReceive },
+	{ TranslateT("on reply"), MarkMsgReadOn::markOnReply },
+	{ TranslateT("on typing"), MarkMsgReadOn::markOnTyping }
+};
+
 CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	CVkDlgBase(proto, IDD_OPT_MAIN, false),
 	m_edtLogin(this, IDC_LOGIN),
@@ -131,21 +147,14 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbDelivery(this, IDC_DELIVERY),
 	m_cbUseLocalTime(this, IDC_USE_LOCAL_TIME),
 	m_cbAutoClean(this, IDC_AUTOCLEAN),
-	m_cbMarkMessageOnRead(this, IDC_ONREAD),
-	m_cbMarkMessageOnReceive(this, IDC_ONRECEIVE),
-	m_cbMarkMessageOnReply(this, IDC_ONREPLY),
-	m_cbMarkMessageOnTyping(this, IDC_ONTYPING),
-	m_cbSyncHistoryOff(this, IDC_SYNC_OFF),
-	m_cbSyncHistoryAuto(this, IDC_SYNC_AUTO),
-	m_cbSyncHistoryForLast1Day(this, IDC_SYNC_LAST1DAY),
-	m_cbSyncHistoryForLast3Day(this, IDC_SYNC_LAST3DAY)
+	m_cbxMarkAsRead(this, IDC_COMBO_MARKASREAD),
+	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
 	CreateLink(m_edtLogin, "Login", _T(""));
-	CreateLink(m_edtGroupName, "ProtoGroup", _T("VKontakte"));
+	CreateLink(m_edtGroupName, m_proto->m_vkOptions.ptszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbAutoClean, m_proto->m_vkOptions.bAutoClean);
-
 }
 
 void CVkOptionAccountForm::OnInitDialog()
@@ -159,15 +168,17 @@ void CVkOptionAccountForm::OnInitDialog()
 
 	m_ptszOldGroup = m_edtGroupName.GetText();
 
-	m_cbMarkMessageOnRead.SetState(m_proto->m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnRead);
-	m_cbMarkMessageOnReceive.SetState(m_proto->m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive);
-	m_cbMarkMessageOnReply.SetState(m_proto->m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReply);
-	m_cbMarkMessageOnTyping.SetState(m_proto->m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnTyping);
+	for (size_t i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
+		int cur = m_cbxMarkAsRead.AddString(vkMarkMsgAsReadMethods[i].type, vkMarkMsgAsReadMethods[i].data);
+		if (vkMarkMsgAsReadMethods[i].data == m_proto->m_vkOptions.iMarkMessageReadOn)
+			m_cbxMarkAsRead.SetCurSel(cur);
+	}
 
-	m_cbSyncHistoryOff.SetState(m_proto->m_vkOptions.iSyncHistoryMetod == SyncHistoryMetod::syncOff);
-	m_cbSyncHistoryAuto.SetState(m_proto->m_vkOptions.iSyncHistoryMetod == SyncHistoryMetod::syncAuto);
-	m_cbSyncHistoryForLast1Day.SetState(m_proto->m_vkOptions.iSyncHistoryMetod == SyncHistoryMetod::sync1Days);
-	m_cbSyncHistoryForLast3Day.SetState(m_proto->m_vkOptions.iSyncHistoryMetod == SyncHistoryMetod::sync3Days);
+	for (size_t i = 0; i < _countof(vkHistorySyncMethods); i++)	{
+		int cur = m_cbxSyncHistory.AddString(vkHistorySyncMethods[i].type, vkHistorySyncMethods[i].data);
+		if (vkHistorySyncMethods[i].data == m_proto->m_vkOptions.iSyncHistoryMetod)
+			m_cbxSyncHistory.SetCurSel(cur);
+	}
 	
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
 		m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
@@ -179,33 +190,13 @@ void CVkOptionAccountForm::OnInitDialog()
 
 void CVkOptionAccountForm::OnApply()
 {
-	if (m_cbSyncHistoryOff.GetState())
-		m_proto->m_vkOptions.iSyncHistoryMetod = SyncHistoryMetod::syncOff;
-	if (m_cbSyncHistoryAuto.GetState())
-		m_proto->m_vkOptions.iSyncHistoryMetod = SyncHistoryMetod::syncAuto;
-	if (m_cbSyncHistoryForLast1Day.GetState())
-		m_proto->m_vkOptions.iSyncHistoryMetod = SyncHistoryMetod::sync1Days;
-	if (m_cbSyncHistoryForLast3Day.GetState())
-		m_proto->m_vkOptions.iSyncHistoryMetod = SyncHistoryMetod::sync3Days;
-
-	if (m_cbMarkMessageOnRead.GetState())
-		m_proto->m_vkOptions.iMarkMessageReadOn = MarkMsgReadOn::markOnRead;
-	if (m_cbMarkMessageOnReceive.GetState())
-		m_proto->m_vkOptions.iMarkMessageReadOn = MarkMsgReadOn::markOnReceive;
-	if (m_cbMarkMessageOnReply.GetState())
-		m_proto->m_vkOptions.iMarkMessageReadOn = MarkMsgReadOn::markOnReply;
-	if (m_cbMarkMessageOnTyping.GetState())
-		m_proto->m_vkOptions.iMarkMessageReadOn = MarkMsgReadOn::markOnTyping;
-
+	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
+	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
 	m_proto->m_vkOptions.ptszVKLang = (TCHAR *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
-	if (!IsEmpty(m_proto->m_vkOptions.ptszVKLang))
-		m_proto->setTString("VKLang", m_proto->m_vkOptions.ptszVKLang);
-	else
-		m_proto->delSetting("VKLang");
 	
 	ptrT ptszGroupName(m_edtGroupName.GetText());
 	if (mir_tstrcmp(m_ptszOldGroup, ptszGroupName)) {
-		m_proto->setGroup(ptszGroupName);
+		Clist_CreateGroup(NULL, ptszGroupName);
 		m_ptszOldGroup = ptszGroupName;
 	}
 
@@ -252,22 +243,19 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbMesAsUnread, m_proto->m_vkOptions.bMesAsUnread);
 	CreateLink(m_cbForceInvisibleStatus, m_proto->m_vkOptions.bUserForceInvisibleOnActivity);
 	CreateLink(m_edtInvInterval, m_proto->m_vkOptions.iInvisibleInterval);
-
 	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
 	CreateLink(m_cbUseNonStandardUrlEncode, m_proto->m_vkOptions.bUseNonStandardUrlEncode);
 	CreateLink(m_cbReportAbuse, m_proto->m_vkOptions.bReportAbuse);
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
-
-	CreateLink(m_edtReturnChatMessage, "ReturnChatMessage", TranslateT("I\'m back"));
+	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.ptszReturnChatMessage);
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 }
 
 void CVkOptionAdvancedForm::OnInitDialog()
 {
-
 	m_cbMusicSendOff.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone);
 	m_cbMusicSendBroadcastAndStatus.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastAndStatus);
 	m_cbSendMetodBroadcast.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly);
@@ -289,8 +277,6 @@ void CVkOptionAdvancedForm::OnApply()
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendBroadcastOnly;
 	if (m_cbMusicSendStatus.GetState())
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendStatusOnly;
-
-	m_proto->m_vkOptions.ptszReturnChatMessage = m_edtReturnChatMessage.GetText();
 }
 
 void CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange(CCtrlCheck *)

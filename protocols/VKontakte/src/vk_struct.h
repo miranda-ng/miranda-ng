@@ -220,8 +220,8 @@ struct CVKNewsItem : public MZeroedObject {
 	bool bIsRepost;
 };
 
-enum VKBBCType { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
-enum BBCSupport { bbcNo, bbcBasic, bbcAdvanced };
+enum VKBBCType : BYTE { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
+enum BBCSupport : BYTE { bbcNo, bbcBasic, bbcAdvanced };
 
 struct CVKBBCItem {
 	VKBBCType vkBBCType;
@@ -249,10 +249,20 @@ struct CVKLang {
 	TCHAR *szDescription; 
 };
 
-enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
-enum SyncHistoryMetod { syncOff, syncAuto, sync1Days, sync3Days };
-enum MusicSendMetod { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
-enum IMGBBCSypport { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+enum MarkMsgReadOn : BYTE { markOnRead, markOnReceive, markOnReply, markOnTyping };
+enum SyncHistoryMetod : BYTE { syncOff, syncAuto, sync1Days, sync3Days };
+enum MusicSendMetod : BYTE { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
+enum IMGBBCSypport : BYTE { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+
+struct CVKSync {
+	const TCHAR *type;
+	SyncHistoryMetod data;
+};
+
+struct CVKMarkMsgRead {
+	const TCHAR *type;
+	MarkMsgReadOn data;
+};
 
 struct CVkCookie
 {
@@ -327,16 +337,15 @@ struct CVKOptions {
 	CMOption<DWORD> iInvisibleInterval;
 	CMOption<DWORD> iMaxFriendsCount;
 
-	ptrT ptszDefaultGroup;
-	ptrT ptszReturnChatMessage;
-	ptrT ptszVKLang;
+	CMOption<TCHAR*> ptszDefaultGroup;
+	CMOption<TCHAR*> ptszReturnChatMessage;
+	CMOption<TCHAR*> ptszVKLang;
 
 	CVkProto *m_proto;
 
 	CVKOptions(PROTO_INTERFACE *proto);
-	void ReloadStrings();
 	
-	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(int)iBBCForNews; };
-	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(int)iBBCForAttachments; };
+	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(BYTE)iBBCForNews; };
+	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(BYTE)iBBCForAttachments; };
 
 };

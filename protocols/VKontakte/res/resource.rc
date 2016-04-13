@@ -107,10 +107,11 @@ BEGIN
         VERTGUIDE, 155
         VERTGUIDE, 162
         VERTGUIDE, 167
+        VERTGUIDE, 180
+        VERTGUIDE, 192
         VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 228
-        HORZGUIDE, 223
+        BOTTOMMARGIN, 177
     END
 
     IDD_INVITE, DIALOG
@@ -155,8 +156,10 @@ BEGIN
     CONTROL         "Status message",IDC_SHOW_MENU1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,280,10
     CONTROL         "Send message to my wall",IDC_SHOW_MENU2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,41,280,10
     CONTROL         "Load news from VK",IDC_SHOW_MENU3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,52,280,10
-    CONTROL         "Load history for all contacts from VK",IDC_SHOW_MENU4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,63,280,10
-    CONTROL         "Wipe contacts missing in friend list",IDC_SHOW_MENU5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,74,280,10
+    CONTROL         "Load history for all contacts from VK",IDC_SHOW_MENU4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,63,280,10
+    CONTROL         "Wipe contacts missing in friend list",IDC_SHOW_MENU5,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,74,280,10
     CONTROL         "Visit profile",IDC_SHOW_MENU6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,85,280,10
 END
 
@@ -279,7 +282,7 @@ BEGIN
     EDITTEXT        IDC_RET_CHAT_MES,134,204,157,12,ES_AUTOHSCROLL
 END
 
-IDD_OPT_MAIN DIALOGEX 0, 0, 304, 233
+IDD_OPT_MAIN DIALOGEX 0, 0, 304, 182
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -290,26 +293,20 @@ BEGIN
     RTEXT           "Password:",IDC_STATIC,12,30,150,10
     EDITTEXT        IDC_PASSWORD,167,30,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,44,174,11
-    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,75
+    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,115
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
     RTEXT           "Language for names and titles:",IDC_STATIC,12,86,148,10
     COMBOBOX        IDC_COMBO_LANGUAGE,167,84,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,98,278,10
+    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,109,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,137,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,278,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,137,293,33,WS_GROUP
-    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,148,138,10
-    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,158,138,10
-    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,148,133,10
-    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,158,133,10
-    GROUPBOX        "Sync history on protocol online...",IDC_STATIC_SYNC_HISTORY,4,173,293,36,WS_GROUP
-    CONTROL         "off",IDC_SYNC_OFF,"Button",BS_AUTORADIOBUTTON,12,184,138,10
-    CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,195,138,10
-    CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,184,133,10
-    CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,195,133,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,147,278,10
+    RTEXT           "Mark message as read:",IDC_STATIC,12,101,150,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_COMBO_MARKASREAD,167,101,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Sync history on protocol online:",IDC_STATIC,12,117,150,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_COMBO_SYNCHISTORY,167,117,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224

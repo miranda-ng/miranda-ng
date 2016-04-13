@@ -116,8 +116,6 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void CreateNewChat(LPCSTR uids, LPCTSTR ptrszTitle);
 	__forceinline bool IsOnline() const { return m_bOnline; }
-	__forceinline LPCTSTR getGroup() const { return m_vkOptions.ptszDefaultGroup; }
-	__forceinline void setGroup(LPCTSTR grp) { m_vkOptions.ptszDefaultGroup = mir_tstrdup(grp); }
 	void OnTimerTic();
 	void ClearAccessToken();
 	TCHAR* GetUserStoredPassword(void);

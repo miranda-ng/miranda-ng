@@ -51,14 +51,8 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlCheck m_cbDelivery;
 	CCtrlCheck m_cbUseLocalTime;
 	CCtrlCheck m_cbAutoClean;
-	CCtrlCheck m_cbMarkMessageOnRead;
-	CCtrlCheck m_cbMarkMessageOnReceive;
-	CCtrlCheck m_cbMarkMessageOnReply;
-	CCtrlCheck m_cbMarkMessageOnTyping;
-	CCtrlCheck m_cbSyncHistoryOff;
-	CCtrlCheck m_cbSyncHistoryAuto;
-	CCtrlCheck m_cbSyncHistoryForLast1Day;
-	CCtrlCheck m_cbSyncHistoryForLast3Day;
+	CCtrlCombo m_cbxSyncHistory;
+	CCtrlCombo m_cbxMarkAsRead;
 
 	pass_ptrT m_ptszOldPass;
 	ptrT m_ptszOldLogin;

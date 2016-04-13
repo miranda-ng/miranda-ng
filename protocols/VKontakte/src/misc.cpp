@@ -189,7 +189,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
-	db_set_ts(hNewContact, "CList", "Group", getGroup());
+	db_set_ts(hNewContact, "CList", "Group", m_vkOptions.ptszDefaultGroup);
 	return hNewContact;
 }
 

@@ -229,28 +229,9 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 
-	ptszDefaultGroup(NULL),
-	ptszReturnChatMessage(NULL),
-	ptszVKLang(NULL),
-
-	m_proto((CVkProto*)proto)
+	ptszDefaultGroup(proto, "ProtoGroup", _T("VKontakte")),
+	ptszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I\'m back")),
+	ptszVKLang(proto, "VKLang", NULL)
 
 {
-	ReloadStrings();
-}
-
-void CVKOptions::ReloadStrings()
-{
-	if (!m_proto)
-		return;
-
-	ptszDefaultGroup = m_proto->getTStringA("ProtoGroup");
-	ptszReturnChatMessage = m_proto->getTStringA("ReturnChatMessage");
-	ptszVKLang = m_proto->getTStringA("VKLang");
-
-	if (IsEmpty(ptszDefaultGroup))
-		ptszDefaultGroup = mir_tstrdup(_T("VKontakte"));
-
-	if (IsEmpty(ptszReturnChatMessage))
-		ptszReturnChatMessage = mir_tstrdup(TranslateT("I\'m back"));
 }
