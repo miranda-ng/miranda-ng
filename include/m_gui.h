@@ -87,6 +87,21 @@ struct CMDBTraits<4>
 	}
 };
 
+template<>
+struct CMDBTraits<8>
+{
+	typedef DWORD DBType;
+	enum { DBTypeId = DBVT_DWORD };
+	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		return pPro->getDword(szSetting, value);
+	}
+	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		pPro->setDword(szSetting, value);
+	}
+};
+
 class CMOptionBase
 {
 public:
