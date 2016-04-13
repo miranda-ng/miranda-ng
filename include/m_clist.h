@@ -411,17 +411,8 @@ __forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
 // & isExpanded can be NULL if you don't want to know if the group is expanded or not.
 #define MS_CLIST_GROUPGETNAME      "CList/GroupGetName"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// get the name of a group
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = (LPARAM)(DWORD*)&flags
-// returns a static buffer pointing to the name of the group
-// returns NULL if hGroup is invalid.
-// this buffer is only valid until the next call to this service
-// & flags can be NULL if you don't want any of that info.
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
-#define MS_CLIST_GROUPGETNAME2      "CList/GroupGetName2"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // move a group to directly before another group

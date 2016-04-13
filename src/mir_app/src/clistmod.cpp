@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam);
 int InitCListEvents(void);
 void UninitCListEvents(void);
+void UninitGroupServices(void);
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 int ContactAdded(WPARAM wParam, LPARAM lParam);
 int ContactDeleted(WPARAM wParam, LPARAM lParam);
@@ -474,5 +475,6 @@ void UnloadContactListModule()
 	}
 	ImageList_Destroy(hCListImages);
 	UninitCListEvents();
+	UninitGroupServices();
 	DestroyHookableEvent(hContactDoubleClicked);
 }
