@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_commonprototypes.h"
 
 #define CacheArrSize 255
-ClcGroup *CacheIndex[CacheArrSize] = { NULL };
+ClcGroup* CacheIndex[CacheArrSize] = { NULL };
 bool CacheIndexClear = TRUE;
 
 /* the CLC uses 3 different ways to identify elements in its list, this file

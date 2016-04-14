@@ -104,12 +104,6 @@ int cli_AddItemToGroup(ClcGroup *group, int iAboveItem)
 ClcGroup* cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	ClearRowByIndexCache();
-	if (!dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
-		if (!mir_tstrcmp(_T("-@-HIDDEN-GROUP-@-"), szName)) { //group is hidden
-			ClearRowByIndexCache();
-			return NULL;
-		}
-
 	ClcGroup *result = corecli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
 	ClearRowByIndexCache();
 	return result;

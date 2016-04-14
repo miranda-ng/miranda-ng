@@ -1243,38 +1243,41 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_INSERTION:
-		{
 			ClcContact *contact, *destcontact;
 			ClcGroup *group, *destgroup;
-			BOOL NeedRename = FALSE;
-			TCHAR newName[128] = { 0 };
-			pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-			int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
-			if (i != -1 && group->groupId != destgroup->groupId) {
-				TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
-				TCHAR *shortGroup = NULL;
-				TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
-				if (groupName) {
-					int len = (int)mir_tstrlen(groupName);
-					do { len--; } while (len >= 0 && groupName[len] != '\\');
-					if (len >= 0) shortGroup = groupName + len + 1;
-					else shortGroup = groupName;
+			{
+				BOOL NeedRename = FALSE;
+				TCHAR newName[128] = { 0 };
+				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
+				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
+				if (i != -1 && group->groupId != destgroup->groupId) {
+					TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
+					TCHAR *shortGroup = NULL;
+					TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
+					if (groupName) {
+						int len = (int)mir_tstrlen(groupName);
+						do { len--; } while (len >= 0 && groupName[len] != '\\');
+						if (len >= 0)
+							shortGroup = groupName + len + 1;
+						else
+							shortGroup = groupName;
+					}
+					if (shortGroup) {
+						NeedRename = TRUE;
+						if (sourceGrName)
+							mir_sntprintf(newName, _T("%s\\%s"), sourceGrName, shortGroup);
+						else
+							mir_tstrncpy(newName, shortGroup, _countof(newName));
+					}
+					mir_free(groupName);
+					mir_free(sourceGrName);
 				}
-				if (shortGroup) {
-					NeedRename = TRUE;
-					if (sourceGrName)
-						mir_sntprintf(newName, _T("%s\\%s"), sourceGrName, shortGroup);
-					else
-						mir_tstrncpy(newName, shortGroup, _countof(newName));
-				}
-				mir_free(groupName);
-				mir_free(sourceGrName);
+				int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
+				newIndex = newIndex ? newIndex : contact->groupId;
+				if (NeedRename)
+					pcli->pfnRenameGroup(newIndex, newName);
 			}
-			int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
-			newIndex = newIndex ? newIndex : contact->groupId;
-			if (NeedRename) pcli->pfnRenameGroup(newIndex, newName);
-		}
-		break;
+			break;
 
 		case DROPTARGET_OUTSIDE:
 			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
