@@ -341,7 +341,6 @@ struct CVKOptions {
 	CMOption<TCHAR*> ptszReturnChatMessage;
 	CMOption<TCHAR*> ptszVKLang;
 
-	CVkProto *m_proto;
 
 	CVKOptions(PROTO_INTERFACE *proto);
 	
