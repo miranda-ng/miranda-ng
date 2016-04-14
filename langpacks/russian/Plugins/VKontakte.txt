@@ -26,7 +26,7 @@
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
-отключена
+отключить
 [for original size images]
 для исходного размера
 [for preview max 130px*130px]
@@ -164,7 +164,7 @@ E-mail или номер телефона:
 [Mark message as read:]
 Помечать сообщения прочитанными:
 [Sync history on protocol online:]
-При входе синхронизировать историю за:
+При входе синхронизировать историю:
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
