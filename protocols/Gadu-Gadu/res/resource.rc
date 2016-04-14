@@ -117,7 +117,7 @@ BEGIN
     EDITTEXT        IDC_FORWARDHOST,62,191,90,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Port:",IDC_STATIC,161,192,21,8
     EDITTEXT        IDC_FORWARDPORT,186,191,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
-    CTEXT           "You will need to reconnect for the changes you have made on this page to take effect.",IDC_RELOADREQD,7,209,286,8,NOT WS_VISIBLE
+    CTEXT           "These changes will take effect the next time you connect to the GG network.",IDC_RELOADREQD,7,209,286,8,NOT WS_VISIBLE
 END
 
 IDD_INFO_GG DIALOGEX 0, 0, 222, 132
