@@ -125,9 +125,9 @@ Yahoo ошибка
 Протокол Yahoo
 [YAHOO plugin HTTP connections]
 Yahoo подключения по HTTP
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Изменения вступят при следующем входе в сеть Yahoo.
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Эти изменения вступят в силу при следующем подключении к сети Yahoo.
+[Yahoo options]
 Настройки Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Вы должны быть в сети для добавление в список игнорирования.

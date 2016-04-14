@@ -25,8 +25,6 @@
 [Use Dropbox]
 [Backup profile folder]
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda NG database]
-[Created by:]
 [Backup in progress]
 [Copying database file...]
 [Uploading to Dropbox failed]
@@ -59,3 +57,5 @@
 [Select backup folder]
 [Error creating backup folder]
 ;file \plugins\Db_autobackups\src\stdafx.h
+;file \plugins\Db_autobackups\src\zip.cpp
+[Miranda NG [%s] database backup]

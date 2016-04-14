@@ -43,8 +43,8 @@ AIM Опции
 Передачи файлов через прокси
 [Masquerade as a Sidekick/Hiptop User]
 Представляться как Sidekick/Hiptop
-[*Aim must be reconnected for some option to take effect]
-*AIM должен быть переподключён, чтобы изменения вступили в силу
+[* Some changes will take effect the next time you connect to the AIM network]
+* Некоторые изменения вступят в силу при следующем подключении к сети AIM
 [Connection]
 Подключение
 [Port:]

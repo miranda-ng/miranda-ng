@@ -447,12 +447,12 @@ HTTP подключение Weather
 байт
 [Description:]
 Описание:
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
-[Invalid ini format for: %s]
-Собственный формат ini для: %s
 [All update data has been reloaded.]
 Все обновлённые данные перезагружены.
+[Invalid ini format for: %s]
+Собственный формат ini для: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
 [Frame Font]
 Шрифт фрейма
 [Frame Title Font]
@@ -497,10 +497,6 @@ ID города
 Показывать во фрейме
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s
-[Current condition for %n]
-Текущее состояние для %n
-[Last update on:   %u]
-Последнее обновление: %u
 [Variable]
 Переменная
 [Information]
@@ -509,3 +505,7 @@ ID города
 Получаю новые данные. Подождите, пожалуйста...
 [More Info]
 Подробнее
+[Current condition for %n]
+Текущее состояние для %n
+[Last update on:   %u]
+Последнее обновление: %u

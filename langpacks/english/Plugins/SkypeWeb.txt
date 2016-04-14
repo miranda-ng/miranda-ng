@@ -44,6 +44,7 @@
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 ;file \protocols\SkypeWeb\src\skype_db.cpp
+[Incoming call]
 [Edited message]
 [Action]
 [Call information]
@@ -52,7 +53,6 @@
 [Moji]
 [File]
 [Unknown event]
-[Incoming call]
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 [[b]Original message:[/b]\n%s\n]
@@ -104,6 +104,7 @@
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [Incoming call sound]
 [Incoming call canceled sound]
+[Skypename]
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]
 [Incoming call from %s]

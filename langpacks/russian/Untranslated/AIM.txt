@@ -1,4 +1,5 @@
-﻿[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+﻿[Use "clientlogin" (recommended)]
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 [Invalid Screen Name or password.]
 [Invalid SNAC header.]
 [Server rate limit exceeded.]

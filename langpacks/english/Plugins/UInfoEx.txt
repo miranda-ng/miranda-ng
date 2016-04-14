@@ -547,6 +547,9 @@
 [Divorced]
 [Separated]
 [Widowed]
+[Actively searching]
+[In love]
+[It\'s complicated]
 [jun.]
 [sen.]
 ;file \plugins\UserInfoEx\src\svc_constants.h

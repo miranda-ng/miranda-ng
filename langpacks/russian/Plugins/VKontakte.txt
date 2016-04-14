@@ -2,11 +2,27 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.25
+;  Version: 0.1.1.27
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
+[Show in protocol menu ]
+Показывать в меню протокола\s
+[Create new chat]
+Создать новый чат
+[Status message]
+Сообщение статуса
+[Send message to my wall]
+Опубликовать на своей стене
+[Load news from VK]
+Загрузить новости с VK
+[Load history for all contacts from VK]
+Загрузить историю всех контактов из ВК
+[Wipe contacts missing in friend list]
+Удалить контакты, не являющиеся друзьями
+[Visit profile]
+Профиль на сайте
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
@@ -25,10 +41,10 @@
 продвинутая (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 Использовать эту настройку также для вложений в новостях и уведомлениях
-[Other]
-Другое
 [BBCode support on attachments]
 Поддержка BBCode для вложений
+[Other]
+Другое
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [Shorten links for audio attachments]
@@ -137,30 +153,18 @@ E-mail или номер телефона:
 Локальные настройки
 [Contact list group:]
 Группа в списке контактов:
+[Language for names and titles:]
+Язык для имен и названий:
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Use local time for received messages]
 Местное время для принятых сообщений
 [Automatically wipe local contacts missing in your friend list]
-Автоматически удалять локальные контакты, отсутствующие в списке друзей
-[Mark message as read...]
-Помечать сообщение прочитанным...
-[on read]
-при прочтении
-[on receive]
-при получении
-[on reply]
-при ответе
-[on typing]
-при наборе текста
-[Sync history on protocol online...]
-Синхронизация истории при подключении протокола к сети...
-[automatically]
-автоматически
-[for last 1 day]
-за последний день
-[for last 3 days]
-за последние 3 дня
+Автоматически удалять контакты, отсутствующие в списке друзей
+[Mark message as read:]
+Помечать сообщения прочитанными:
+[Sync history on protocol online:]
+При входе синхронизировать историю за:
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -185,8 +189,6 @@ Cоздать комнату чата
 Поделиться
 [Only for friends]
 Только друзьям
-[Attention]
-Внимание
 [Captcha form icon]
 Форма с капчей
 [Notification icon]
@@ -297,8 +299,6 @@ Cоздать комнату чата
 Сообщение от
 [at]
 в
-[Enter the text you see]
-Введите текст, который видите
 [Participants]
 Участники
 [Owners]
@@ -341,12 +341,14 @@ Cоздать комнату чата
 &Удалить комнату чата
 [&User details]
 Информация о &контакте
-[Visit profile]
-Профиль на сайте
 [&Kick]
 &Выкинуть
 [%s is typing a message...]
 %s набирает текст...
+[Enter the text you see]
+Введите текст, который видите
+[Wall message for]
+Сообщение на стене пользователя
 [New news]
 Новости
 [New notifications]
@@ -419,8 +421,6 @@ ID получателя ошибочен или неизвестен
 Загрузка истории
 [Loading messages for %s is completed]
 Загрузка сообщений для %s завершена
-[I'm back]
-Я вернулся
 [Network]
 Сеть
 [Account]
@@ -429,22 +429,48 @@ ID получателя ошибочен или неизвестен
 Новости и уведомления
 [View]
 Вид
+[Menu]
+Меню
+[Account language]
+Язык учётной записи
+[English]
+Английский
+[Russian]
+Русский
+[Belarusian]
+Белорусский
+[Ukrainian]
+Украинский
+[Spanish]
+Испанский
+[Finnish]
+Финский
+[German]
+Немецкий
+[Italian]
+Итальянский
+[automatically]
+автоматически
+[for last 1 day]
+за последний день
+[for last 3 days]
+за последние 3 дня
+[on read]
+при прочтении
+[on receive]
+при получении
+[on reply]
+при ответе
+[on typing]
+при наборе текста
+[These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
+Эти изменения вступят в силу после перезапуска.\nХотите перезапустить сейчас?
+[VKontakte protocol]
+Протокол Вконтакте
 [%s server connection]
 Подключение к серверу %s
 [VKontakte newsfeed & notification event]
 Новости и уведомления ВКонтакте
-[Create new chat]
-Создать новый чат
-[Status message]
-Сообщение статуса
-[Send message to my wall]
-Опубликовать на своей стене
-[Load news from VK]
-Загрузить новости с VK
-[Load history for all contacts from VK]
-Загрузить историю всех контактов из ВК
-[Wipe contacts missing in friend list]
-Удалить контакты, не являющиеся друзьями
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user\'s wall]
@@ -487,6 +513,8 @@ ID получателя ошибочен или неизвестен
 Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
+[I\'m back]
+Я вернулся
 [Interests]
 Интересы
 [Activities]
@@ -533,7 +561,3 @@ ID получателя ошибочен или неизвестен
 \nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
-[Wall message for]
-Сообщение на стене пользователя
-[Attention! Message body or url should not be empty!]
-Внимание! Текст сообщения или ссылка не могут быть пустыми!

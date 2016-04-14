@@ -37,8 +37,8 @@
 Показывать ссылки от неизвестных контактов
 [Enable avatars]
 Включить аватары
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Изменения вступят в силу при следующем входе в сеть.
+[These changes will take effect the next time you connect to the GG network.]
+Эти изменения вступят в силу при следующем подключении к сети GG.
 [Conference policy]
 Политика конференций
 [if total participant count greater than:]
@@ -73,6 +73,8 @@
 Использовать перенаправление
 [Host:]
 Хост:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Изменения вступят в силу при следующем входе в сеть.
 [Number:]
 Номер:
 [Internal IP:]
@@ -207,14 +209,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Женский
 [<not specified>]
 <не указано>
-[Network]
-Сеть
-[General]
-Общее
-[Conference]
-Комната чата
-[Advanced]
-Дополнительно
 [<Last Status>]
 <Последний статус>
 [System tray icon]
@@ -235,6 +229,14 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Спросить
 [Ignore]
 Игнорировать
+[Network]
+Сеть
+[General]
+Общее
+[Conference]
+Комната чата
+[Advanced]
+Дополнительно
 [HTTP failed connecting]
 HTTP ошибка подключения
 [HTTP failed resolving]

@@ -73,6 +73,8 @@
 Введите новую тему комнаты чата
 [Are you sure?]
 Вы уверены?
+[Incoming call]
+Входящий звонок
 [Edited message]
 Изменённое сообщение
 [Action]
@@ -89,8 +91,6 @@ URI объект
 Файл
 [Unknown event]
 Неизвестное событие
-[Incoming call]
-Входящий звонок
 [SkypeWeb error: Invalid data!]
 Ошибка SkypeWeb: Неверные данные!
 [[b]Original message:[/b]\n%s\n]
@@ -173,6 +173,8 @@ URI объект
 Звук входящего звонка
 [Incoming call canceled sound]
 Звук отмены входящего звонка
+[Skypename]
+Логин Skype
 [Failed to establish a TRouter connection.]
 Невозможно установить соединение для TRouter.
 [Incoming call from %s]

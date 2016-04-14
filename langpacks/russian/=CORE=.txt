@@ -993,8 +993,8 @@
 Входящие соединения
 [Enable UPnP port mapping]
 Включить перенаправление портов UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Изменения вступят в силу при следующем входе в сеть.
+[These changes will take effect the next time you connect to the network.]
+Эти изменения вступят в силу при следующем подключении к сети.
 [Please complete the following form to create a new user profile]
 Заполните форму для создания профиля пользователя
 [Profile]

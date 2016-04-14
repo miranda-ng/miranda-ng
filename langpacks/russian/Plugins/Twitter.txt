@@ -35,8 +35,8 @@ URL:
 каждые
 [sec]
 с
-[Please cycle your connection for these changes to take effect]
-Переподключитесь, чтобы изменения вступили в силу
+[These changes will take effect the next time you connect to the Twitter network.]
+Эти изменения вступят в силу при следующем подключении к сети Twitter.
 [Treat tweets as messages]
 Твиты в виде сообщений
 [Enable popup notifications for tweets]

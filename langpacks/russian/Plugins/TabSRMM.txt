@@ -961,8 +961,8 @@ BBCode ([b][i][u])
 Можно выбрать индивидуальную схему (файл .tabsrmm), которая заменит схему журнала сообщений в этом контейнере. При изменении опции необходимо закрыть и вновь открыть все окна сообщений.
 [Transparency]
 Прозрачность
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Эта опция требует Windows 2000 или новее и может быть недоступна при использовании скина контейнера.
+[This feature may be unavailable when using a container skin.]
+Эта функция может быть недоступна при использовании скина контейнера.
 [Contact avatars]
 Аватары контактов
 [Sound notifications]

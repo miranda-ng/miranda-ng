@@ -221,9 +221,9 @@ MSN Чат
 Локальный список
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Импорт групп с сервера может изменить расположение контактов после следующего входа. Загрузить группы на сервер?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Изменения вступят при следующем входе в сеть MSN
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Эти изменения вступят в силу при следующем подключении к сети MSN Messenger.
+[MSN options]
 Настройки MSN
 [Automatically obtain host/port]
 Автоматически получать хост/порт

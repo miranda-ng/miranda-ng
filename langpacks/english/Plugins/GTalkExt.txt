@@ -26,6 +26,9 @@
 [If both colors set to the same value, default colors will be used]
 [0 means default timeout,\n-1 means no timeout]
 [Test]
+;file \protocols\GTalkExt\src\GTalkExt.cpp
+[Popup icon]
+[Protocols]
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 ;file \protocols\GTalkExt\src\notifications.cpp
