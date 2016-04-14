@@ -40,7 +40,6 @@
 [Port:]
 [Use forwarding]
 [Host:]
-[You will need to reconnect for the changes you have made on this page to take effect.]
 [Number:]
 [Internal IP:]
 [First name:]
