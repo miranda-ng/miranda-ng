@@ -249,23 +249,20 @@ TCHAR *DayMonthYearToDate(MCONTACT hContact, const char *szModuleName, const cha
 					db_free(&dbv);
 					mir_snprintf(szSettingName, "%sYear", prefix);
 					int year = 0;
-					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
-					{
-						if (GetInt(dbv, &year) && year != 0)
-						{
-							db_free(&dbv);
+					db_get(hContact, szModuleName, szSettingName, &dbv);
 
-							SYSTEMTIME st = {0};
-							st.wDay = day;
-							st.wMonth = month;
-							st.wYear = year;
+					GetInt(dbv, &year);
+					db_free(&dbv);
 
-							GetDateFormat(LOCALE_USER_DEFAULT, 0, &st, 0, buff, bufflen); 
-							return buff;
-						} 
-						else 
-							db_free(&dbv);
-					}
+					tm time = { 0 };
+					time.tm_mday = day;
+					time.tm_mon = month - 1;
+					time.tm_year = year - 1900;
+
+					_tcsftime(buff, bufflen, _T("%x"), &time);
+
+					return buff;
+						
 				} 
 				else 
 					db_free(&dbv);
