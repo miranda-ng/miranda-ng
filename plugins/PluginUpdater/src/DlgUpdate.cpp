@@ -643,7 +643,10 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 
 			TCHAR *ptszUrl;
 			int MyCRC;
-			mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
+			if (opts.bChangePlatform)
+				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
+			else
+				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
