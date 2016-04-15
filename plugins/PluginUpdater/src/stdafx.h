@@ -108,12 +108,20 @@ extern struct PlugOptions
 #define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x%d"
 
+
+#define FILENAME_X64 _T("miranda64.exe")
+#define FILENAME_X32 _T("miranda32.exe")
+
 #ifdef _WIN64
     #define DEFAULT_BITS 64
     #define DEFAULT_OPP_BITS 32
+	#define OLD_FILENAME FILENAME_X64
+	#define NEW_FILENAME FILENAME_X32
 #else
     #define DEFAULT_BITS 32
     #define DEFAULT_OPP_BITS 64
+	#define OLD_FILENAME FILENAME_X32
+	#define NEW_FILENAME FILENAME_X64
 #endif
 
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")

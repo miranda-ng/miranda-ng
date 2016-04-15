@@ -567,6 +567,8 @@ static renameTable[] =
 	{ _T("WART-*.exe"),                     NULL },
 };
 
+// Checks if file needs to be renamed and copies it in pNewName
+// Returns true if smth. was copied
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 {
 	for (int i = 0; i < _countof(renameTable); i++) {
@@ -627,16 +629,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 		else if (isValidExtension(ffd.cFileName)) {
 			// calculate the current file's relative name and store it into tszNewName
 			TCHAR tszNewName[MAX_PATH];
-			if (!CheckFileRename(ffd.cFileName, tszNewName)) {
-				if (level == 0) {
-					if (opts.bChangePlatform) {
-						if (!mir_tstrcmpi(ffd.cFileName, _T("miranda32.exe")))
-							_tcsncpy_s(tszNewName, _T("miranda64.exe"), _TRUNCATE);
-						if (!mir_tstrcmpi(ffd.cFileName, _T("miranda64.exe")))
-							_tcsncpy_s(tszNewName, _T("miranda32.exe"), _TRUNCATE);
-					}
-					_tcsncpy_s(tszNewName, ffd.cFileName, _TRUNCATE);
-				}
+			if (CheckFileRename(ffd.cFileName, tszNewName))
+				Netlib_LogfT(hNetlibUser, _T("File %s will be renamed to %s."), ffd.cFileName, tszNewName);
+			else {
+				if (level == 0)
+					// Rename Miranda*.exe
+					_tcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmp(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
 				else
 					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
