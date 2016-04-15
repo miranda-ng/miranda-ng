@@ -185,11 +185,11 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
-	ptrT jid( getTStringA(hContact, "ChatRoomID"));
+	ptrT jid(getTStringA(hContact, "ChatRoomID"));
 	if (jid == NULL)
 		return 0;
 
-	ptrT nick( getTStringA(hContact, "MyNick"));
+	ptrT nick(getTStringA(hContact, "MyNick"));
 	if (nick == NULL)
 		if ((nick = getTStringA("Nick")) == NULL)
 			return 0;
@@ -340,7 +340,7 @@ void CJabberProto::OnIqResultDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 			_T(""));
 		mir_free(str);
 	}
-	else 
+	else
 		sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 			TranslateT("Jabber Error"),
 			TranslateT("Room list request timed out."),
@@ -379,7 +379,7 @@ static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
 	SetWindowPos(hwndDlg, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top + offset, SWP_NOMOVE | SWP_NOZORDER);
 }
 
-class CJabberDlgGcJoin: public CJabberDlgBase
+class CJabberDlgGcJoin : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
@@ -422,7 +422,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	JabberGcRecentInfo *pInfo = NULL;
 	if (m_jid)
 		pInfo = new JabberGcRecentInfo(m_proto, m_jid);
-	else if(OpenClipboard(m_hwnd)) {
+	else if (OpenClipboard(m_hwnd)) {
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 
 		if (hData) {
@@ -869,8 +869,8 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
 
 		if (pResourceStatus oldRes = ListFindResource(LIST_CHATROOM, from))
-		if ((oldRes->m_iStatus != status) || lstrcmp_null(oldRes->m_tszStatusMessage, str))
-			bStatusChanged = true;
+			if ((oldRes->m_iStatus != status) || lstrcmp_null(oldRes->m_tszStatusMessage, str))
+				bStatusChanged = true;
 
 		// Check additional MUC info for this user
 		if (itemNode != NULL) {
@@ -920,8 +920,8 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		// show status change if needed
 		if (bStatusChanged)
-		if (pResourceStatus res = ListFindResource(LIST_CHATROOM, from))
-			GcLogShowInformation(item, res, INFO_STATUS);
+			if (pResourceStatus res = ListFindResource(LIST_CHATROOM, from))
+				GcLogShowInformation(item, res, INFO_STATUS);
 
 		// Update groupchat log window
 		GcLogUpdateMemberStatus(item, resource, nick, str, newRes, NULL);

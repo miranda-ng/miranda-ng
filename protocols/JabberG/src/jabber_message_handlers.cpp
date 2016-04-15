@@ -48,7 +48,7 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			else
 				mir_sntprintf(buf, _T("%s:\n%s"), pInfo->GetFrom(), szErrText);
 
-			 MsgPopup(NULL, buf, TranslateT("Jabber Error"));
+			MsgPopup(NULL, buf, TranslateT("Jabber Error"));
 		}
 		mir_free(szErrText);
 	}

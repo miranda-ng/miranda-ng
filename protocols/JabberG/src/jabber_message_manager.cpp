@@ -139,7 +139,7 @@ CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 }
 
 bool CJabberMessageManager::DeletePermanentHandler(CJabberMessagePermanentInfo *pInfo)
-{ 
+{
 	mir_cslock lck(m_cs);
 	return m_arHandlers.remove(pInfo) == 1;
 }

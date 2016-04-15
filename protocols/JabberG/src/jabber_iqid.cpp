@@ -420,7 +420,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 
 		if (name != NULL) {
-			ptrT tszNick(getTStringA("Nick"));
+			ptrT tszNick(getTStringA(hContact, "Nick"));
 			if (tszNick != NULL) {
 				if (mir_tstrcmp(nick, tszNick) != 0)
 					db_set_ts(hContact, "CList", "MyHandle", nick);
