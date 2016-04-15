@@ -632,19 +632,19 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			if (CheckFileRename(ffd.cFileName, tszNewName))
 				Netlib_LogfT(hNetlibUser, _T("File %s will be renamed to %s."), ffd.cFileName, tszNewName);
 			else {
-				if (level == 0)
+				if (level == 0) {
 					// Rename Miranda*.exe
-					_tcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmp(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
-				else
+					_tcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
+					mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
+				}
+				else {
 					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
+					mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+				}
 			}
 
 			TCHAR *ptszUrl;
 			int MyCRC;
-			if (opts.bChangePlatform)
-				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
-			else
-				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
