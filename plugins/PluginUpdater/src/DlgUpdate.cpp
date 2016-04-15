@@ -131,6 +131,9 @@ static void ApplyUpdates(void *param)
 	opts.bForceRedownload = false;
 	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 
+	opts.bChangePlatform = false;
+	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 
 	if (opts.bBackup)
@@ -452,6 +455,9 @@ static void DlgUpdateSilent(void *param)
 	opts.bForceRedownload = false;
 	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 
+	opts.bChangePlatform = false;
+	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 1);
 
@@ -622,15 +628,21 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			// calculate the current file's relative name and store it into tszNewName
 			TCHAR tszNewName[MAX_PATH];
 			if (!CheckFileRename(ffd.cFileName, tszNewName)) {
-				if (level == 0)
-					_tcsncpy(tszNewName, ffd.cFileName, MAX_PATH);
+				if (level == 0) {
+					if (opts.bChangePlatform) {
+						if (!mir_tstrcmpi(ffd.cFileName, _T("miranda32.exe")))
+							_tcsncpy_s(tszNewName, _T("miranda64.exe"), _TRUNCATE);
+						if (!mir_tstrcmpi(ffd.cFileName, _T("miranda64.exe")))
+							_tcsncpy_s(tszNewName, _T("miranda32.exe"), _TRUNCATE);
+					}
+				}
 				else
 					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
 
 			TCHAR *ptszUrl;
 			int MyCRC;
-			mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+			mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion

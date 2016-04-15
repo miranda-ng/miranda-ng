@@ -86,7 +86,7 @@ typedef OBJLIST<FILEINFO> FILELIST;
 
 extern struct PlugOptions
 {
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup, bChangePlatform;
 	BOOL bSilent;
 
 	BYTE bPeriodMeasure;
@@ -104,14 +104,16 @@ extern struct PlugOptions
 	#define DEFAULT_ONLYONCEADAY      1
 #endif
 
+#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x%d"
+
 #ifdef _WIN64
-	#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x64"
-	#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x64"
-	#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x64"
+    #define DEFAULT_BITS 64
+    #define DEFAULT_OPP_BITS 32
 #else
-	#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x32"
-	#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x32"
-	#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x32"
+    #define DEFAULT_BITS 32
+    #define DEFAULT_OPP_BITS 64
 #endif
 
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")
@@ -133,6 +135,7 @@ extern struct PlugOptions
 #define DB_SETTING_RESTART_COUNT	"RestartCount"
 #define DB_SETTING_LAST_UPDATE		"LastUpdate"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE		"DontSwitchToStable"
+#define DB_SETTING_CHANGEPLATFORM	"ChangePlatform"
 #define DB_MODULE_FILES				MODNAME "Files"
 
 #define MAX_RETRIES			3

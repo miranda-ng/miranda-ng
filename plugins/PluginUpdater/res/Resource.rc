@@ -71,13 +71,16 @@ BEGIN
     CONTROL         "Backup database before update (requires Db_autobackups plugin)",IDC_BACKUP,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,11,86,272,10
     GROUPBOX        "Files source",IDC_STATIC,2,115,285,96
-    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,128,267,10
-    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,143,267,10
+    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,128,199,10
+    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,143,199,10
     CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,158,267,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,158,199,10
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,173,267,10
     EDITTEXT        IDC_CUSTOMURL,12,187,267,16,ES_AUTOHSCROLL | WS_DISABLED
     CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,213,267,15,NOT WS_VISIBLE
+    GROUPBOX        "",IDC_STATIC,212,122,58,40
+    CONTROL         "x86",IDC_X86,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,217,131,28,10
+    CONTROL         "x64",IDC_X64,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,217,146,28,10
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174

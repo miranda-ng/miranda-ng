@@ -30,7 +30,7 @@ int GetUpdateMode()
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
 		ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 		if (url == NULL || !_tcslen(url)) {
-			// No url for custom mode, reset that setting so it will be determined automatically			
+			// No url for custom mode, reset that setting so it will be determined automatically
 			db_unset(NULL, MODNAME, DB_SETTING_UPDATE_MODE);
 			UpdateMode = -1;
 		}
@@ -48,13 +48,26 @@ int GetUpdateMode()
 
 TCHAR* GetDefaultUrl()
 {
+	TCHAR url[MAX_PATH];
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
+		if (opts.bChangePlatform)
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), DEFAULT_OPP_BITS);
+		else
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), DEFAULT_BITS);
+		return mir_tstrdup(url);
 	case UPDATE_MODE_TRUNK:
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
+		if (opts.bChangePlatform)
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_OPP_BITS);
+		else
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_BITS);
+		return mir_tstrdup(url);
 	case UPDATE_MODE_TRUNK_SYMBOLS:
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+		if (opts.bChangePlatform)
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_OPP_BITS);
+		else
+			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_BITS);
+		return mir_tstrdup(url);
 	default:
 		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
 	}
@@ -105,17 +118,21 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
+		TCHAR url[MAX_PATH];
 		switch (GetUpdateMode()) {
 			case UPDATE_MODE_STABLE:
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
+				mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), DEFAULT_BITS);
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 				CheckDlgButton(hwndDlg, IDC_STABLE, BST_CHECKED);
 				break;
 			case UPDATE_MODE_TRUNK:
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK));
+				mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_BITS);
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 				CheckDlgButton(hwndDlg, IDC_TRUNK, BST_CHECKED);
 				break;
 			case UPDATE_MODE_TRUNK_SYMBOLS:
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+				mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_BITS);
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 				CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, BST_CHECKED);
 				break;
 			default:
@@ -127,10 +144,24 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					url = GetDefaultUrl();
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 		}
+
+		#ifdef _WIN64
+			CheckDlgButton(hwndDlg, IDC_X64, BST_CHECKED);
+		#else
+			CheckDlgButton(hwndDlg, IDC_X86, BST_CHECKED);
+		#endif
+		if (opts.bChangePlatform) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK_SYMBOLS), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOM), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
+		}
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
+		TCHAR defurl[MAX_PATH];
 		case IDC_UPDATEONSTARTUP:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
 			// fall through
@@ -152,17 +183,41 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		case IDC_TRUNK_SYMBOLS:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
-			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_BITS);
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			#ifdef _WIN64
+				CheckDlgButton(hwndDlg, IDC_X64, BST_CHECKED);
+			#else
+				CheckDlgButton(hwndDlg, IDC_X86, BST_CHECKED);
+			#endif
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X64), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X86), FALSE);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_TRUNK:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
-			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK));
+			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_BITS);
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			#ifdef _WIN64
+				CheckDlgButton(hwndDlg, IDC_X64, BST_CHECKED);
+			#else
+				CheckDlgButton(hwndDlg, IDC_X86, BST_CHECKED);
+			#endif
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X64), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X86), FALSE);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_STABLE:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
-			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
+			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL), DEFAULT_BITS);
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			#ifdef _WIN64
+				CheckDlgButton(hwndDlg, IDC_X64, BST_CHECKED);
+			#else
+				CheckDlgButton(hwndDlg, IDC_X86, BST_CHECKED);
+			#endif
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X64), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X86), FALSE);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CUSTOM:
@@ -173,6 +228,13 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					url = GetDefaultUrl();
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 			}
+			#ifdef _WIN64
+				CheckDlgButton(hwndDlg, IDC_X64, BST_CHECKED);
+			#else
+				CheckDlgButton(hwndDlg, IDC_X86, BST_CHECKED);
+			#endif
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X64), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_X86), FALSE);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -185,6 +247,70 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_PERIODMEASURE:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_X86:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK_SYMBOLS), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOM), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
+			db_set_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+			db_set_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 1);
+			switch (GetUpdateMode()) {
+				case UPDATE_MODE_STABLE:
+					CheckDlgButton(hwndDlg, IDC_STABLE, BST_CHECKED);
+					break;
+				case UPDATE_MODE_TRUNK:
+					CheckDlgButton(hwndDlg, IDC_TRUNK, BST_CHECKED);
+					break;
+				case UPDATE_MODE_TRUNK_SYMBOLS:
+					CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, BST_CHECKED);
+					break;
+				default:
+					CheckDlgButton(hwndDlg, IDC_CUSTOM, BST_CHECKED);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
+
+					ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+					if (url == NULL)
+						url = GetDefaultUrl();
+					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
+			}
+			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_OPP_BITS);
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_X64:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK_SYMBOLS), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRUNK), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOM), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
+			db_set_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+			db_set_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 1);
+			switch (GetUpdateMode()) {
+				case UPDATE_MODE_STABLE:
+					CheckDlgButton(hwndDlg, IDC_STABLE, BST_CHECKED);
+					break;
+				case UPDATE_MODE_TRUNK:
+					CheckDlgButton(hwndDlg, IDC_TRUNK, BST_CHECKED);
+					break;
+				case UPDATE_MODE_TRUNK_SYMBOLS:
+					CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, BST_CHECKED);
+					break;
+				default:
+					CheckDlgButton(hwndDlg, IDC_CUSTOM, BST_CHECKED);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
+
+					ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+					if (url == NULL)
+						url = GetDefaultUrl();
+					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
+			}
+			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_OPP_BITS);
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_LINK_HOTKEY:
@@ -220,12 +346,14 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
 					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-					opts.bForceRedownload = 0;
+					if (!opts.bChangePlatform)
+						opts.bForceRedownload = 0;
 					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
 					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-					opts.bForceRedownload = 0;
+					if (!opts.bChangePlatform)
+						opts.bForceRedownload = 0;
 					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
