@@ -807,7 +807,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 										if (item->group) mir_free(item->group);
 										if ((groupNode=TlenXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 											item->group = TlenGroupDecode(groupNode->text);
-											Clist_CreateGroup(0, _A2T(item->group));
+											Clist_GroupCreate(0, _A2T(item->group));
 											db_set_s(hContact, "CList", "Group", item->group);
 										}
 										else {

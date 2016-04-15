@@ -341,7 +341,7 @@ begin
     exit;
   end;
 
-  CallService(MS_CLIST_GROUPCREATE,0,lparam(name));
+  Clist_GroupCreate(0,name);
 
   if hContact<>0 then
     DBWriteUnicode(hContact,strCList,clGroup,name);

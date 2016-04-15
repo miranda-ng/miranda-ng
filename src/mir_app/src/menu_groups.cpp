@@ -131,7 +131,7 @@ INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 {
 	SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
 	SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
-	Clist_CreateGroup(0, 0);
+	Clist_GroupCreate(0, 0);
 	return 0;
 }
 

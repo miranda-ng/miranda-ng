@@ -451,7 +451,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		if (!m_options.IgnoreRosterGroups) {
 			if (item->group != NULL) {
-				Clist_CreateGroup(0, item->group);
+				Clist_GroupCreate(0, item->group);
 
 				// Don't set group again if already correct, or Miranda may show wrong group count in some case
 				ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));

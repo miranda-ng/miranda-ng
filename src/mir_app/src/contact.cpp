@@ -46,7 +46,7 @@ void fnLoadContactTree(void)
 {
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
 	for (int i = 1;; i++) {
-		if (cli.pfnGetGroupName(i, NULL) == NULL)
+		if (Clist_GroupGetName(i, NULL) == NULL)
 			break;
 		CallService(MS_CLUI_GROUPADDED, i, 0);
 	}
@@ -68,7 +68,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 	if ((HANDLE) lParam == NULL)
 		db_unset(wParam, "CList", "Group");
 	else {
-		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
+		grpChg.pszNewName = Clist_GroupGetName(lParam, NULL);
 		db_set_ts(wParam, "CList", "Group", grpChg.pszNewName);
 	}
 	CallService(MS_CLUI_CONTACTADDED, wParam,

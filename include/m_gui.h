@@ -540,6 +540,11 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlClc
+
+#if !defined(MGROUP)
+	typedef int MGROUP;
+#endif
+
 class MIR_CORE_EXPORT CCtrlClc : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
@@ -556,7 +561,7 @@ public:
 	void       EnsureVisible(HANDLE hItem, bool partialOk);
 	void       Expand(HANDLE hItem, DWORD flags);
 	HANDLE     FindContact(MCONTACT hContact);
-	HANDLE     FindGroup(HANDLE hGroup);
+	HANDLE     FindGroup(MGROUP hGroup);
 	COLORREF   GetBkColor();
 	bool       GetCheck(HANDLE hItem);
 	int        GetCount();

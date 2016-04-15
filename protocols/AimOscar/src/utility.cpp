@@ -364,7 +364,7 @@ void create_group(const char *group)
 	if (mir_strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
 
 	TCHAR* szGroupName = mir_utf8decodeT(group);
-	Clist_CreateGroup(0, szGroupName);
+	Clist_GroupCreate(0, szGroupName);
 	mir_free(szGroupName);
 }
 

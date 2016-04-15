@@ -65,11 +65,6 @@ void fnClcOptionsChanged(void)
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	if (hContact == NULL) {
-		if (!strcmp(cws->szModule, "CListGroups"))
-			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
-		return 0;
-	}
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
@@ -386,55 +381,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_GETFONT:
 		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
-
-	case INTM_GROUPSCHANGED:
-		{
-			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
-				int groupId = atoi(dbcws->szSetting) + 1;
-				TCHAR szFullName[512];
-				int i, eq;
-				//check name of group and ignore message if just being expanded/collapsed
-				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
-					mir_tstrcpy(szFullName, contact->szText);
-					while (group->parent) {
-						for (i = 0; i < group->parent->cl.count; i++)
-							if (group->parent->cl.items[i]->group == group)
-								break;
-						if (i == group->parent->cl.count) {
-							szFullName[0] = '\0';
-							break;
-						}
-						group = group->parent;
-						size_t nameLen = mir_tstrlen(group->cl.items[i]->szText);
-						if (mir_tstrlen(szFullName) + 1 + nameLen > _countof(szFullName)) {
-							szFullName[0] = '\0';
-							break;
-						}
-						memmove(szFullName + 1 + nameLen, szFullName, sizeof(TCHAR)*(mir_tstrlen(szFullName) + 1));
-						memcpy(szFullName, group->cl.items[i]->szText, sizeof(TCHAR)*nameLen);
-						szFullName[nameLen] = '\\';
-					}
-
-					if (dbcws->value.type == DBVT_ASCIIZ) {
-						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal + 1);
-						eq = !mir_tstrcmp(szFullName, wszGrpName);
-						mir_free(wszGrpName);
-					}
-					else {
-						char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal + 1);
-						WCHAR* wszGrpName;
-						Utf8Decode(szGrpName, &wszGrpName);
-						eq = !mir_tstrcmp(szFullName, wszGrpName);
-						mir_free(wszGrpName);
-					}
-					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
-						break;  //only expanded has changed: no action reqd
-				}
-			}
-			cli.pfnSaveStateAndRebuildList(hwnd, dat);
-		}
-		break;
 
 	case INTM_NAMEORDERCHANGED:
 		cli.pfnInitAutoRebuild(hwnd);
@@ -1130,8 +1076,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						TCHAR szNewName[120];
-						mir_sntprintf(szNewName, _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
-						cli.pfnRenameGroup(contacto->groupId, szNewName);
+						mir_sntprintf(szNewName, _T("%s\\%s"), Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
+						Clist_GroupRename(contacto->groupId, szNewName);
 					}
 				}
 				break;
@@ -1142,11 +1088,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					ClcContact *destcontact;
 					ClcGroup *destgroup;
 					if (cli.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup) == -1 || destgroup != contact->group->parent)
-						CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, 0);
+						Clist_GroupMoveBefore(contact->groupId, 0);
 					else {
 						if (destcontact->type == CLCIT_GROUP)
 							destgroup = destcontact->group;
-						CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, destgroup->groupId);
+						Clist_GroupMoveBefore(contact->groupId, destgroup->groupId);
 					}
 				}
 				break;
@@ -1170,7 +1116,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (contact->type == CLCIT_GROUP) { //dropee is a group
 					TCHAR szNewName[120];
 					mir_tstrncpy(szNewName, contact->szText, _countof(szNewName));
-					cli.pfnRenameGroup(contact->groupId, szNewName);
+					Clist_GroupRename(contact->groupId, szNewName);
 				}
 				else if (contact->type == CLCIT_CONTACT) //dropee is a contact
 					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contact->hContact, 0);
@@ -1270,18 +1216,18 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (contact->type != CLCIT_GROUP)
 					break;
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-				CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
+				Clist_GroupCreate(contact->groupId, 0);
 				break;
 			case POPUP_RENAMEGROUP:
 				cli.pfnBeginRenameSelection(hwnd, dat);
 				break;
 			case POPUP_DELETEGROUP:
 				if (contact->type == CLCIT_GROUP)
-					CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
+					Clist_GroupDelete(contact->groupId);
 				break;
 			case POPUP_GROUPHIDEOFFLINE:
 				if (contact->type == CLCIT_GROUP)
-					CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
+					Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 				break;
 			}
 

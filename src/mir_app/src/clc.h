@@ -191,8 +191,8 @@ int  fnSetHideOffline(WPARAM wParam, LPARAM lParam);
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 
 /* group.c */
-TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags);
-int    fnRenameGroup(int groupID, TCHAR* newName);
+TCHAR* fnGetGroupName(MGROUP idx, DWORD *pdwFlags);
+int    fnRenameGroup(MGROUP groupID, const TCHAR *newName);
 
 /* keyboard.c */
 int  fnHotKeysRegister(HWND hwnd);

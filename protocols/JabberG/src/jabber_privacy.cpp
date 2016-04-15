@@ -453,7 +453,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
 				TCHAR *grpName;
-				for (int i=1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+				for (int i=1; (grpName = Clist_GroupGetName(i, NULL)) != NULL; i++)
 					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)grpName);
 			}
 
@@ -1355,8 +1355,8 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 	CListResetIcons(hwndList, clc_info.hItemSubTo,   bHideIcons);
 
 	// group handles start with 1 (0 is "root")
-	for (int iGroup = 1; pcli->pfnGetGroupName(iGroup, NULL) != NULL; iGroup++) {
-		HANDLE hItem = m_clcClist.FindGroup((HANDLE)iGroup);
+	for (MGROUP iGroup = 1; Clist_GroupGetName(iGroup, NULL) != NULL; iGroup++) {
+		HANDLE hItem = m_clcClist.FindGroup(iGroup);
 		if (hItem)
 			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
@@ -1475,8 +1475,8 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 
 	// group handles start with 1 (0 is "root")
 	TCHAR *grpName;
-	for (int iGroup = 1; (grpName = pcli->pfnGetGroupName(iGroup, NULL)) != NULL; iGroup++) {
-		hItem = m_clcClist.FindGroup((HANDLE)iGroup);
+	for (MGROUP iGroup = 1; (grpName = Clist_GroupGetName(iGroup, NULL)) != NULL; iGroup++) {
+		hItem = m_clcClist.FindGroup(iGroup);
 		if (dwPackets = CListGetPackets(hwndList, hItem, true))
 			pList->AddRule(Group, grpName, TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hwndList, hItem, false))

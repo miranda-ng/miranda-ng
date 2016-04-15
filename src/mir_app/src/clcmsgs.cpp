@@ -43,7 +43,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	case CLM_ADDGROUP:
 		{
 			DWORD groupFlags;
-			TCHAR *szName = cli.pfnGetGroupName(wParam, &groupFlags);
+			TCHAR *szName = Clist_GroupGetName(wParam, &groupFlags);
 			if (szName == NULL)
 				break;
 			cli.pfnAddGroup(hwnd, dat, szName, groupFlags, wParam, 0);

@@ -200,7 +200,7 @@ static int FillDialog(HWND hwnd)
 	SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 	TCHAR *grpName;
-	for (i = 1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+	for (i = 1; (grpName = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 		item.pszText = grpName;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}

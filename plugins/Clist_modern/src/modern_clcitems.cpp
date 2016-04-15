@@ -262,7 +262,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 	if (group->hideOffline) return false;
 
 	DWORD groupFlags = 0;
-	pcli->pfnGetGroupName(group->groupId, &groupFlags);
+	Clist_GroupGetName(group->groupId, &groupFlags);
 	return (groupFlags & GROUPF_SHOWOFFLINE) != 0;
 }
 
@@ -324,7 +324,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	for (int i = 1;; i++) {
 		DWORD groupFlags;
-		TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags); //UNICODE
+		TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags); //UNICODE
 		if (szGroupName == NULL)
 			break;
 		cli_AddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);

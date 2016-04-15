@@ -243,7 +243,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 			}
 			if (checkHideOffline && cli.pfnIsHiddenMode(dat, status)) {
 				for (i = 1;; i++) {
-					szGroupName = cli.pfnGetGroupName(i, &groupFlags);
+					szGroupName = Clist_GroupGetName(i, &groupFlags);
 					if (szGroupName == NULL) {
 						mir_free(dbv.ptszVal);
 						return;
@@ -257,7 +257,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 				}
 			}
 			for (i = 1;; i++) {
-				szGroupName = cli.pfnGetGroupName(i, &groupFlags);
+				szGroupName = Clist_GroupGetName(i, &groupFlags);
 				if (szGroupName == NULL) {
 					mir_free(dbv.ptszVal);
 					return;
@@ -359,7 +359,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 	for (int i = 1;; i++) {
 		DWORD groupFlags;
-		TCHAR *szGroupName = cli.pfnGetGroupName(i, &groupFlags);
+		TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
 		if (szGroupName == NULL)
 			break;
 		cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);

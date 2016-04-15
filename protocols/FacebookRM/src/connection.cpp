@@ -203,7 +203,7 @@ bool FacebookProto::NegotiateConnection()
 
 	// Create default group for new contacts
 	if (m_tszDefaultGroup)
-		Clist_CreateGroup(0, m_tszDefaultGroup);
+		Clist_GroupCreate(0, m_tszDefaultGroup);
 
 	return facy.login(username, password);
 }

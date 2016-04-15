@@ -166,7 +166,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	{
 		for (int i = 1;; i++) {
 			DWORD groupFlags;
-			TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
+			TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
 			if (szGroupName == NULL)
 				break;
 			pcli->pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);

@@ -611,7 +611,7 @@ mir_wstrcmpi                  @280
 ?Expand@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@K@Z @753 NONAME
 ?FindContact@CCtrlClc@@QEAAPEAXI@Z @754 NONAME
 ?FindControl@CDlgBase@@AEAAPEAVCCtrlBase@@H@Z @755 NONAME
-?FindGroup@CCtrlClc@@QEAAPEAXPEAX@Z @756 NONAME
+?FindGroup@CCtrlClc@@QEAAPEAXH@Z @756 NONAME
 ?FindItem@CCtrlListView@@QEAAHHPEBUtagLVFINDINFOW@@@Z @757 NONAME
 ?FindNamedItem@CCtrlTreeView@@QEAAPEAU_TREEITEM@@PEAU2@PEB_W@Z @758 NONAME
 ?FindString@CCtrlCombo@@QEAAHPEB_WH_N@Z @759 NONAME

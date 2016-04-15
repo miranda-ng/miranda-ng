@@ -356,18 +356,13 @@ void importSettings(MCONTACT hContact, char *utf8)
 				// get the type
 				type = *(end + 1);
 				if (mir_strcmp(module, "CList") == 0 && mir_strcmp(setting, "Group") == 0) {
-					ptrA GroupName(mir_utf8decodeA(end + 2));
+					ptrT GroupName(mir_utf8decodeT(end + 2));
 					if (!GroupName)
 						continue;
 
-					HANDLE GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPEXISTS, 0, LPARAM(GroupName));
-					if (GroupHandle == 0) {
-						GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)GroupName);
-						if (GroupHandle) {
-							CallService(MS_CLUI_GROUPADDED, (WPARAM)GroupHandle, 0);
-							CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)GroupHandle, 1);
-						}
-					}
+					MGROUP GroupHandle = Clist_GroupCreate(0, GroupName);
+					CallService(MS_CLUI_GROUPADDED, GroupHandle, 0);
+					Clist_GroupSetExpanded(GroupHandle, true);
 				}
 
 				switch (type) {

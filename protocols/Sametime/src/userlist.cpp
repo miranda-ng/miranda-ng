@@ -48,15 +48,9 @@ void CSametimeProto::AddGroup(const char* name, bool expanded)
 	if (name && mir_strcmp(name, Translate("None")) == 0)
 		return;
 
-	ptrT ptszGroup(mir_utf8decodeT(name));
-	HANDLE hGroup = Clist_GroupExists(ptszGroup);
-	if (hGroup == NULL) {
-		hGroup = Clist_CreateGroup(NULL, ptszGroup);
-		if (hGroup) {
-			CallService(MS_CLUI_GROUPADDED, (WPARAM)hGroup, 0);
-			CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)hGroup, expanded ? 1 : 0);
-		}
-	}
+	MGROUP hGroup = Clist_GroupCreate(NULL, ptrT(mir_utf8decodeT(name)));
+	CallService(MS_CLUI_GROUPADDED, hGroup, 0);
+	Clist_GroupSetExpanded(hGroup, expanded);
 }
 
 MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
@@ -245,10 +239,10 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						//group_open = (db_get_b(0, szProtoGroups, buff, 0) == 1);
 
 						ptrT ptszGroup(mir_utf8decodeT(group_alias));
-						HANDLE hGroup = Clist_GroupExists(ptszGroup);
+						MGROUP hGroup = Clist_GroupExists(ptszGroup);
 						if (hGroup) {
-							int expanded;
-							CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, (LPARAM)&expanded);
+							DWORD expanded;
+							Clist_GroupGetName(hGroup, &expanded);
 							group_open = (expanded != 0);
 						}
 						else {

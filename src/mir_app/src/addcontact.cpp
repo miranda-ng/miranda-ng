@@ -122,7 +122,7 @@ public:
 		int groupSel = 0;
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		TCHAR *grpName;
-		for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
+		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, NULL)) != NULL; groupId++) {
 			int id = m_group.AddString(grpName, groupId);
 			if (!mir_tstrcmpi(tszGroup, grpName))
 				groupSel = id;

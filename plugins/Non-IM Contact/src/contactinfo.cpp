@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* group*/
 			TCHAR *szGroup;
-			for (int i = 1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
 			if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_GROUP))) {
 					TCHAR text[512];
 					GetDlgItemText(hwnd, IDC_GROUP, text, _countof(text));
-					Clist_CreateGroup(NULL, text);
+					Clist_GroupCreate(NULL, text);
 					db_set_ts(hContact, "CList", "Group", text);
 				}
 				else db_unset(hContact, "CList", "Group");

@@ -32,12 +32,12 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 		mir_tstrcpy(pszGroup, _T("Chat rooms"));
 
 	if (pszGroup[0])  {
-		HANDLE hGroup = Clist_GroupExists(pszGroup);
+		MGROUP hGroup = Clist_GroupExists(pszGroup);
 		if (hGroup == 0) {
-			hGroup = Clist_CreateGroup(0, pszGroup);
+			hGroup = Clist_GroupCreate(0, pszGroup);
 			if (hGroup) {
 				CallService(MS_CLUI_GROUPADDED, (WPARAM)hGroup, 0);
-				CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)hGroup, 1);
+				Clist_GroupSetExpanded(hGroup, 1);
 			}
 		}
 	}

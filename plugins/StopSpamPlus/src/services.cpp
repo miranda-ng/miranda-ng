@@ -47,15 +47,15 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 	}
 
 	int hGroup = 1;
-	char *group_name;
+	TCHAR *group_name;
 	do {
-		group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-		if (group_name != NULL && strstr(group_name, "Not In List")) {
+		group_name = Clist_GroupGetName(hGroup, 0);
+		if (group_name != NULL && _tcsstr(group_name, TranslateT("Not In List"))) {
 			BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 			if (ConfirmDelete)
 				db_set_b(NULL, "CList", "ConfirmDelete", 0);
 
-			CallService(MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0);
+			Clist_GroupDelete(hGroup);
 			if (ConfirmDelete)
 				db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);
 			break;

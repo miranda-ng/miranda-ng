@@ -217,7 +217,7 @@ void GGPROTO::parsecontacts(char *contacts)
 			// Write group
 			if (hContact && strGroup) {
 				ptrT tszGrpName( mir_a2t(strGroup));
-				Clist_CreateGroup(0, tszGrpName);
+				Clist_GroupCreate(0, tszGrpName);
 				db_set_ts(hContact, "CList", "Group", tszGrpName);
 			}
 

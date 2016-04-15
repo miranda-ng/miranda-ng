@@ -248,3 +248,12 @@ KillModuleFonts @246
 KillModuleHotkeys @247
 KillModuleSounds @248
 IsPluginLoaded @249
+Clist_GroupBuildMenu @250
+Clist_GroupCreate @251
+Clist_GroupDelete @252
+Clist_GroupExists @253
+Clist_GroupMoveBefore @254
+Clist_GroupSetExpanded @255
+Clist_GroupSetFlags @256
+Clist_GroupGetName @257
+Clist_GroupRename @258

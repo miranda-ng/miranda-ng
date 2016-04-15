@@ -139,12 +139,12 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										parent = xmlGetParent(parent);
 									}
 
-									TCHAR *utfgroup = NULL;
+									TCHAR *ptszGroup = NULL;
 									if (group) {
-										utfgroup = mir_utf8decodeT(_T2A(group));
-										if ( !utfgroup) {
+										ptszGroup = mir_utf8decodeT(_T2A(group));
+										if ( !ptszGroup) {
 											isGroupUTF = false;
-											utfgroup = group;
+											ptszGroup = group;
 										} else
 											isGroupUTF = 1;
 									}
@@ -158,26 +158,12 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
 									db_set_ts(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
 									db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
-									if (utfgroup) {
-										db_set_ts(hContact, "CList", "Group", utfgroup);
-										int hGroup = 1;
-										char *group_name;
-										BYTE GroupExist = 0;
-										do {
-											group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-											if (group_name != NULL && !mir_strcmp(group_name, _T2A(utfgroup))) {
-												GroupExist = 1;
-												break;
-											}
-											hGroup++;
-										}
-											while (group_name);
-
-										if(!GroupExist)
-											CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)utfgroup);
+									if (ptszGroup) {
+										db_set_ts(hContact, "CList", "Group", ptszGroup);
+										Clist_GroupCreate(0, ptszGroup);
 									}
 									if (isGroupUTF)
-										mir_free(utfgroup);
+										mir_free(ptszGroup);
 								}
 								if (isTextUTF)
 									mir_free(text);

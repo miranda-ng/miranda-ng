@@ -128,9 +128,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL) {
-		if (!strcmp(cws->szModule, "CListGroups"))
-			pcli->pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "XStatusId") || !strcmp(cws->szSetting, "XStatusName"))
+		if (!strcmp(cws->szSetting, "XStatusId") || !strcmp(cws->szSetting, "XStatusName"))
 			cliCluiProtocolStatusChanged(0, cws->szModule);
 		else if (!strcmp(cws->szModule, "CList")) {
 			if (!strcmp(cws->szSetting, "OnTop"))
@@ -352,13 +350,13 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			if (contact->type == CLCIT_GROUP) {
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
+				Clist_GroupCreate(contact->groupId, 0);
 			}
 			return 0;
 
 		case POPUP_GROUPSHOWOFFLINE:
 			if (contact->type == CLCIT_GROUP) {
-				CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
 				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 			}
 			return 0;
@@ -1251,9 +1249,9 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
 				if (i != -1 && group->groupId != destgroup->groupId) {
-					TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
+					TCHAR *groupName = mir_tstrdup(Clist_GroupGetName(contact->groupId, 0));
 					TCHAR *shortGroup = NULL;
-					TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
+					TCHAR *sourceGrName = mir_tstrdup(Clist_GroupGetName(destgroup->groupId, 0));
 					if (groupName) {
 						int len = (int)mir_tstrlen(groupName);
 						do { len--; } while (len >= 0 && groupName[len] != '\\');
@@ -1272,10 +1270,11 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					mir_free(groupName);
 					mir_free(sourceGrName);
 				}
-				int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
+
+				int newIndex = Clist_GroupMoveBefore(contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
 				newIndex = newIndex ? newIndex : contact->groupId;
 				if (NeedRename)
-					pcli->pfnRenameGroup(newIndex, newName);
+					Clist_GroupRename(newIndex, newName);
 			}
 			break;
 

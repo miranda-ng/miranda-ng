@@ -55,7 +55,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
 
 	if (m_tszDefaultGroup == NULL)
 		m_tszDefaultGroup = mir_tstrdup(_T("WhatsApp"));
-	Clist_CreateGroup(0, m_tszDefaultGroup);
+	Clist_GroupCreate(0, m_tszDefaultGroup);
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 }

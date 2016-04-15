@@ -349,7 +349,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 						}
 
 						if ((true == bCListModule) && (0 == mir_tstrcmpi(sName.c_str(), _T("Group"))))
-							CallService(MS_CLIST_GROUPCREATE, NULL, reinterpret_cast<LPARAM>(sValue.c_str()));
+							Clist_GroupCreate(NULL, sValue.c_str());
 					}
 				}
 			}

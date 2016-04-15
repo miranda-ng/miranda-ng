@@ -64,16 +64,6 @@ bool ProtoInList(std::string proto)
 	return std::string::npos != GetProtoList().find(proto + "\r\n");
 }
 
-int CreateCListGroup(TCHAR* szGroupName)
-{
-	int hGroup = CallService(MS_CLIST_GROUPCREATE, 0, 0);
-
-	TCHAR* usTmp = szGroupName;
-	pcli->pfnRenameGroup(hGroup, usTmp);
-
-	return hGroup;
-}
-
 void DeleteCListGroupsByName(TCHAR* szGroupName)
 {
 	BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
@@ -81,9 +71,9 @@ void DeleteCListGroupsByName(TCHAR* szGroupName)
 		db_set_b(NULL, "CList", "ConfirmDelete", 0);
 
 	TCHAR *szGroup;
-	for (int i = 1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+	for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
 		if (!mir_wstrcmp(szGroupName, szGroup))
-			CallService(MS_CLIST_GROUPDELETE, i, 0);
+			Clist_GroupDelete(i);
 
 	if (ConfirmDelete)
 		db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);

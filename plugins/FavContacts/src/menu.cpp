@@ -35,7 +35,7 @@ static TCHAR* sttGetGroupName(int id)
 		return TranslateT("Favorite Contacts");
 	}
 
-	return pcli->pfnGetGroupName(id - 1, NULL);
+	return Clist_GroupGetName(id - 1, NULL);
 }
 
 static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)

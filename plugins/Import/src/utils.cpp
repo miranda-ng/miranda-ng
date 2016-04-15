@@ -42,7 +42,7 @@ int CreateGroup(const TCHAR *group, MCONTACT hContact)
 		return 0;
 	}
 
-	Clist_CreateGroup(NULL, group);
+	Clist_GroupCreate(NULL, group);
 	if (hContact)
 		db_set_ts(hContact, "CList", "Group", group);
 	return 1;

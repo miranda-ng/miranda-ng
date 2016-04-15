@@ -382,7 +382,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	if (GroupName == _T(""))
 		return TVI_ROOT;
 
-	HANDLE hGroupId = Clist_GroupExists(GroupName);
+	MGROUP hGroupId = Clist_GroupExists(GroupName);
 	if (hGroupId == NULL)
 		return NULL;
 

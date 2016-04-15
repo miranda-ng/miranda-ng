@@ -271,7 +271,7 @@ typedef struct {
 /////////////////////////////////////////////////////////////////////////////////////////
 //processes a menu selection from a menu
 //wParam = MAKEWPARAM(LOWORD(wParam from WM_COMMAND), flags)
-//lParam = (LPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(MCONTACT)hContact
 //returns TRUE if it processed the command, FALSE otherwise
 //hContact is the currently selected contact. It it not used if this is a main
 //menu command. If this is NULL and the command is a contact menu one, the
@@ -293,9 +293,9 @@ typedef struct {
 // Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from youê internal menu and
 // DO NOT call MS_CLIST_MENUPROCESSCOMMAND for non clist menus.
 
-
 #define MPCF_CONTACTMENU   1	//test commands from a contact menu
 #define MPCF_MAINMENU      2	//test commands from the main menu
+
 #define MS_CLIST_MENUPROCESSCOMMAND "CList/MenuProcessCommand"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -343,94 +343,77 @@ typedef struct {
 // lParam = pointer to CLISTGROUPCHANGE
 
 typedef struct {
-	int cbSize;	            //size in bytes of this structure
-	TCHAR*  pszOldName;     //old group name
-	TCHAR*  pszNewName;     //new group name
+	int cbSize;	        // size in bytes of this structure
+	TCHAR *pszOldName;  // old group name, NULL if a new group was created
+	TCHAR *pszNewName;  // new group name, NULL if an old group was deleted
 } CLISTGROUPCHANGE;
 
 #define ME_CLIST_GROUPCHANGE       "CList/GroupChange"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // checks that a group exists
-// wParam = 0 (unused)
-// lParam = (TCHAR*)groupName
 // returns 0 if a group is not found or group handle on success
-#define MS_CLIST_GROUPEXISTS       "CList/GroupExists"
 
-__forceinline HANDLE Clist_GroupExists(LPCTSTR ptszGroupName)
-{	return (HANDLE)CallService(MS_CLIST_GROUPEXISTS, 0, (LPARAM)ptszGroupName);
-}
+typedef int MGROUP;
+
+EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates a new group and calls CLUI to display it
-// wParam = hParentGroup
-// lParam = groupName
 // returns a handle to the new group
 // hParentGroup is NULL to create the new group at the root, or can be the
 // handle of the group of which the new group should be a subgroup.
 // groupName is a TCHAR* pointing to the group name to create or NULL for
 // API to create unique name by itself
-#define MS_CLIST_GROUPCREATE   "CList/GroupCreate"
 
-__forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
-{	return (HANDLE)CallService(MS_CLIST_GROUPCREATE, (WPARAM)hParent, (LPARAM)ptszGroupName);
-}
+EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const TCHAR *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // deletes a group and calls CLUI to display the change
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = 0
 // returns 0 on success, nonzero on failure
-#define MS_CLIST_GROUPDELETE   "CList/GroupDelete"
+
+EXTERN_C MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// change the expanded state flag for a group internally
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = newState
+// renames a group
 // returns 0 on success, nonzero on failure
-// newState is nonzero if the group is expanded, 0 if it's collapsed
-// CLUI is not called when this change is made
-#define MS_CLIST_GROUPSETEXPANDED  "CList/GroupSetExpanded"
+
+EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const TCHAR *ptszNewName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// changes the flags for a group
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = MAKELPARAM(flags, flagsMask)
-// returns 0 on success, nonzero on failure
-// Only the flags given in flagsMask are altered.
-// CLUI is called on changes to GROUPF_HIDEOFFLINE.
-#define MS_CLIST_GROUPSETFLAGS   "CList/GroupSetFlags"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// get the name of a group
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = (LPARAM)(int*)&isExpanded
-// returns a static buffer pointing to the name of the group
-// returns NULL if hGroup is invalid.
-// this buffer is only valid until the next call to this service
-// & isExpanded can be NULL if you don't want to know if the group is expanded or not.
-#define MS_CLIST_GROUPGETNAME      "CList/GroupGetName"
+// retrieves a group's name
+// returns a TCHAR* on success, NULL on failure
+// if pdwFlags is not NULL, also stores group flags into it (one of GROUPF_* constants
 
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
 
+EXTERN_C MIR_APP_DLL(TCHAR*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags = NULL);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// change the expanded state flag for a group internally
+// returns 0 on success, nonzero on failure
+// newState is nonzero if the group is expanded, 0 if it's collapsed
+// CLUI is not called when this change is made
+
+EXTERN_C MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// changes the flags for a group
+// iNewFlags = MAKELPARAM(flags, flagsMask)
+// returns 0 on success, nonzero on failure
+// Only the flags given in flagsMask are altered.
+// CLUI is called on changes to GROUPF_HIDEOFFLINE.
+
+EXTERN_C MIR_APP_DLL(int) Clist_GroupSetFlags(MGROUP hGroup, LPARAM iNewFlags);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // move a group to directly before another group
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = (LPARAM)(HANDLE)hBeforeGroup
 // returns the new handle of the group on success, NULL on failure
 // The order is represented by the order in which MS_CLUI_GROUPADDED is called,
 // however UIs are free to ignore this order and sort alphabetically if they wish.
-#define MS_CLIST_GROUPMOVEBEFORE   "CList/GroupMoveBefore"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// rename a group internally
-// wParam = (WPARAM)(HANDLE)hGroup
-// lParam = (LPARAM)(char*)szNewName
-// returns 0 on success, nonzero on failure
-// this will fail if the group name is a duplicate of an existing name
-// CLUI is not called when this change is made
-#define MS_CLIST_GROUPRENAME       "CList/GroupRename"
+EXTERN_C MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // build a menu of the group tree
@@ -439,7 +422,8 @@ __forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
 // NULL will be returned if the user doesn't have any groups
 // The dwItemData of every menu item is the handle to that group.
 // Menu item IDs are assigned starting at 100, in no particular order.
-#define MS_CLIST_GROUPBUILDMENU    "CList/GroupBuildMenu"
+
+EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // changes the 'hide offline contacts' flag and call CLUI
@@ -468,7 +452,7 @@ __forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // change the group a contact belongs to
 // wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(HANDLE)hGroup
+// lParam = (LPARAM)(MGROUP)hGroup
 // returns 0 on success, nonzero on failure
 // use hGroup = NULL to put the contact in no group
 #define MS_CLIST_CONTACTCHANGEGROUP   "CList/ContactChangeGroup"

@@ -51,7 +51,6 @@ const
   INTM_NAMECHANGED         = WM_USER+10;
   INTM_ICONCHANGED         = WM_USER+11;
   INTM_GROUPCHANGED        = WM_USER+12;
-  INTM_GROUPSCHANGED       = WM_USER+13;
   INTM_CONTACTADDED        = WM_USER+14;
   INTM_CONTACTDELETED      = WM_USER+15;
   INTM_HIDDENCHANGED       = WM_USER+16;
@@ -437,10 +436,6 @@ type
 
   (* docking.c *)
     pfnDocking_ProcessWindowMessage : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
-
-  (* group.c *)
-    pfnGetGroupName : function (idx:int; var pdwFlags:dword):TChar; cdecl;
-    pfnRenameGroup  : function (groupID:int; newName:TChar):int; cdecl;
 
   (* keyboard.c *)
     pfnHotKeysRegister       : function (hwnd:HWND):int; cdecl;

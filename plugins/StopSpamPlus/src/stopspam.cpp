@@ -21,7 +21,7 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
 };
 
-
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
@@ -38,6 +38,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	plSets = new Settings;
 

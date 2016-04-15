@@ -407,7 +407,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			{
 				proto->m_tszDefaultGroup = mir_tstrdup(tstr);
 				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);
-				Clist_CreateGroup(0, tstr);
+				Clist_GroupCreate(0, tstr);
 			}
 			else {
 				proto->delSetting(FACEBOOK_KEY_DEF_GROUP);

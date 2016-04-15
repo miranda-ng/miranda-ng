@@ -751,8 +751,8 @@ HANDLE CCtrlClc::FindContact(MCONTACT hContact)
 {	return (HANDLE)SendMessage(m_hwnd, CLM_FINDCONTACT, hContact, 0);
 }
 
-HANDLE CCtrlClc::FindGroup(HANDLE hGroup)
-{	return (HANDLE)SendMessage(m_hwnd, CLM_FINDGROUP, (WPARAM)hGroup, 0);
+HANDLE CCtrlClc::FindGroup(MGROUP hGroup)
+{	return (HANDLE)SendMessage(m_hwnd, CLM_FINDGROUP, hGroup, 0);
 }
 
 COLORREF CCtrlClc::GetBkColor()

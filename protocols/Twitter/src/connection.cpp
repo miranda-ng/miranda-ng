@@ -176,7 +176,7 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 	if (!getTString(TWITTER_KEY_GROUP, &dbv)) {
-		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
+		Clist_GroupCreate(0, dbv.ptszVal);
 		db_free(&dbv);
 	}
 
@@ -193,7 +193,7 @@ bool TwitterProto::NegotiateConnection()
 			realAccessTok = true;
 			//debugLogW("**NegotiateConnection - we have an oauthAccessToken already in the db - %s", oauthAccessToken); 
 		}
-		else { debugLogA("**NegotiateConnection - oauthAccesToken too small? this is.. weird."); }
+		else debugLogA("**NegotiateConnection - oauthAccesToken too small? this is.. weird.");
 	}
 
 	dbTOKSec = getWString(TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET, &dbv);

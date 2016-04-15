@@ -131,7 +131,7 @@ void LoadContactTree(void)
 
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
 	for (i = 1;; i++) {
-		if (pcli->pfnGetGroupName(i, NULL) == NULL)
+		if (Clist_GroupGetName(i, NULL) == NULL)
 			break;
 		CallService(MS_CLUI_GROUPADDED, i, 0);
 	}

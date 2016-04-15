@@ -1089,7 +1089,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if (dwControlParam > 1) { // все параметры правильно инициализированны!
 				if (!(dwGroupFlags & CONTACT_FLAG_REMOVED)) {
 					m_groups.insert(new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
-					Clist_CreateGroup(0, wszGroupName);
+					Clist_GroupCreate(0, wszGroupName);
 				}
 
 				debugLogW(L"'%s', flags: %lu (", wszGroupName, dwGroupFlags);

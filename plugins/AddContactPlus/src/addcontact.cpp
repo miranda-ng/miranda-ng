@@ -170,7 +170,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
 		{
 			TCHAR *szGroup;
-			for (int i = 1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)szGroup);
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)i);
 			}

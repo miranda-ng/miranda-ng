@@ -50,7 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define INTM_NAMECHANGED     (WM_USER+10)
 #define INTM_ICONCHANGED     (WM_USER+11)
 #define INTM_GROUPCHANGED    (WM_USER+12)
-#define INTM_GROUPSCHANGED   (WM_USER+13)
 #define INTM_CONTACTADDED    (WM_USER+14)
 #define INTM_CONTACTDELETED  (WM_USER+15)
 #define INTM_HIDDENCHANGED   (WM_USER+16)
@@ -397,8 +396,8 @@ struct CLIST_INTERFACE
 	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
 	/* group.c */
-	WCHAR* (*pfnGetGroupName)(int idx, DWORD* pdwFlags);
-	int    (*pfnRenameGroup)(int groupID, WCHAR* newName);
+	WCHAR* (*tobedeleted)(int idx, DWORD* pdwFlags);
+	int    (*tobedeleted2)(int groupID, const WCHAR *newName);
 
 	/* keyboard.c */
 	int   (*pfnHotKeysRegister)(HWND hwnd);

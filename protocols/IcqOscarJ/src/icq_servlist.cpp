@@ -1380,7 +1380,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 
 	if (utf8_to_tchar_static(szGroup, tszGroup, size))
 		for (int i = 1; TRUE; i++) {
-			TCHAR *tszGroupName = (TCHAR*)pcli->pfnGetGroupName(i, NULL);
+			TCHAR *tszGroupName = (TCHAR*)Clist_GroupGetName(i, NULL);
 			if (!tszGroupName)
 				break;
 
@@ -1395,12 +1395,8 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 
 int CIcqProto::moveContactToCListGroup(MCONTACT hContact, const char *szGroup)
 {
-	HANDLE hGroup = Clist_CreateGroup(0, ptrT(mir_utf8decodeT(szGroup)));
-
-	if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
-		return CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, (LPARAM)hGroup);
-	else /// TODO: is this neccessary ?
-		return db_set_utf(hContact, "CList", "Group", szGroup);
+	MGROUP hGroup = Clist_GroupCreate(0, ptrT(mir_utf8decodeT(szGroup)));
+	return CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, hGroup);
 }
 
 

@@ -189,9 +189,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnShowHide                        = fnShowHide;
 		cli.pfnGetStatusModeDescription        = fnGetStatusModeDescription;
 
-		cli.pfnGetGroupName                    = fnGetGroupName;
-		cli.pfnRenameGroup                     = fnRenameGroup;
-
 		cli.pfnHotKeysRegister                 = fnHotKeysRegister;
 		cli.pfnHotKeysUnregister               = fnHotKeysUnregister;
 		cli.pfnHotKeysProcess                  = fnHotKeysProcess;

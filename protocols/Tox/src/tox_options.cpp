@@ -80,7 +80,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	{
 		ptrT group(m_group.GetText());
 		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
-			Clist_CreateGroup(0, group);
+			Clist_GroupCreate(0, group);
 
 		m_proto->UninitToxCore(&toxThread);
 
@@ -158,7 +158,7 @@ void CToxOptionsMain::OnApply()
 {
 	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
-		Clist_CreateGroup(0, group);
+		Clist_GroupCreate(0, group);
 
 	if (m_proto->IsOnline())
 	{

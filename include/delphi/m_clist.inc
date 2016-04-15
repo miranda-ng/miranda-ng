@@ -33,23 +33,20 @@ const
   }
   MS_CLIST_GETSTATUSMODE:PAnsiChar = 'CList/GetStatusMode';
 
-function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall;
-             external AppDll name 'Menu_BuildContactMenu';
+function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall; external AppDll;
 
 {
   Affect : Modify an existing menu item, see notes
   Returns: 0 on success, [non zero] on failure
 }
 
-function Menu_ModifyItem(hMenu:HGENMENU; const name:PWideChar; icon:THANDLE=INVALID_HANDLE_VALUE; flags:int=-1) : int; stdcall;
-             external AppDll name 'Menu_ModifyItem';
+function Menu_ModifyItem(hMenu:HGENMENU; const name:PWideChar; icon:THANDLE=INVALID_HANDLE_VALUE; flags:int=-1) : int; stdcall; external AppDll;
 
 {
   Notes  : changes menu item's visibility
 }
 
-procedure Menu_ShowItem(hMenu:HGENMENU; bShow:BYTE); stdcall;
-             external AppDll name 'Menu_ShowItem';
+procedure Menu_ShowItem(hMenu:HGENMENU; bShow:BYTE); stdcall; external AppDll;
 
   {
     wParam : TMCONTACT
@@ -276,128 +273,12 @@ type
 const
   ME_CLIST_GROUPCHANGE:PAnsiChar = 'CList/GroupChange';
 
-  {
-    checks that a group exists
-    wParam : 0 (unused)
-    lParam : (PWideChar)groupName
-    returns 0 if a group is not found or group handle on success
-  }
-  MS_CLIST_GROUPEXISTS:PAnsiChar = 'CList/GroupExists';
-
-  {
-    wParam : HPARENTGROUP
-    lParam : 0 or Pointer to new group name
-    Affect : Create a new group and calls CLUI to display it, see notes
-    Returns: A handle to the new group.
-    Notes  : If HPARENTGROUP is NULL(0) it will create a group at the root.
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GROUPCREATE:PAnsiChar = 'CList/GroupCreate';
-
-  {
-    wParam : HGROUP
-    lParam : 0
-    Affect : Delete a group and call CLUI to display the change
-    Returns: 0 on success, [non zero] on failure
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GROUPDELETE:PAnsiChar = 'CList/GroupDelete';
-
-  {
-    wParam : HGROUP
-    lParam : newState
-    Affect : Change the expanded state flag for a group internally, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : if newState is non zero then the group is expanded, 0 it's collapsed
-             CLUI IS *NOT* called when the change is made.
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GROUPSETEXPANDED:PAnsiChar = 'CList/GroupSetExpanded';
-
-  {
-    wParam : HGROUP
-    lParam : MAKELPARAM(flags, flagsMask)
-    Affect : Change the flag for a group, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : only if flags given in flagsmask are altered,
-             CLUI is called on change to GROUPF_HIDEOFFLINE
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_GROUPSETFLAGS:PAnsiChar = 'CList/GroupSetFlags';
-
-  {
-    wParam : HGROUP
-    lParam : Pointer to a integer to be filled with expanded state
-    Affect : get the name of a group, see notes
-    Returns: a static buffer pointing to the name of the group
-             returns NULL(0) if HGROUP is invalid.
-    Notes  : the returned buffer is only valid til the next call
-             to this service, lParam can be NULL(0) if you don't
-             want to know if the group is expanded
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GROUPGETNAME:PAnsiChar = 'CList/GroupGetName';
-
-  {
-    wParam : HGROUP
-    lParam : Pointer to flags
-    Affect : Get the name of the group, see notes
-    Returns: A static buffer pointing to the name of the group
-             returns NULL(0) if HGROUP is invalid
-    Note   : this buffer is only valid til the next call to this service
-             flags can be NULL(0), otherwise it'll return GROUPF_* constants
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_GROUPGETNAME2:PAnsiChar = 'CList/GroupGetName2';
-
   GROUPF_EXPANDED    = $04;
   GROUPF_HIDEOFFLINE = $08;
-  {
-    wParam : HGROUP
-    lParam : HBEFOREGROUP
-    Affect : Move a group directly before another group
-    Returns: the new handle of the group on success, NULL(0) on failure
-    Notes  : the order is represented by the order in which MS_CLUI_GROUPADDED
-             is called, however UI's are free to ignore this order and sort
-             if they wish.
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_GROUPMOVEBEFORE:PAnsiChar = 'CList/GroupMoveBefore';
 
-  {
-    wParam : HGROUP
-    lParam : Pointer to a null terminated string containing the new name
-    Affect : Rename a group internally, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : this will fail if the group name is a duplicate of an existing
-             a name, CLUI is not called when this change is made.
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GROUPRENAME:PAnsiChar = 'CList/GroupRename';
+function Clist_GroupCreate(hParentGroup:integer; groupName:PWideChar) : integer; stdcall; external AppDll;
 
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Build a menu of the group tree, see notes
-    Returns: Handle to the menu, NULL(0) on failure
-    Notes  : NULL be returned if the user doesn't have any groups
-             the dwItemData of every menu item is the handle to that group.
-             Menu item ID's are assigned starting at 100 in no particular order
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_GROUPBUILDMENU:PAnsiChar = 'CList/GroupBuildMenu';
-
-  {
-    wParam : newValue
-    lParam : 0
-    Affect : Changes the 'hide offline contacts' flag and calls CLUI, see notes
-    Returns: 0 success, [non zero] on failure
-    Notes  : newValue is 0 to show all contacts, 1 to show only online contacts
-             -1 to toggle the value
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_SETHIDEOFFLINE:PAnsiChar = 'CList/SetHideOffline';
-
+const
   {
     wParam : TMCONTACT
     lParam : 0

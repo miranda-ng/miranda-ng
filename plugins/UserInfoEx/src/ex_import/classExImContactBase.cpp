@@ -256,16 +256,9 @@ MCONTACT CExImContactBase::toDB()
 
 		// add group
 		if (_pszGroup) {
-			ptrT ptszGroup( mir_utf8decodeT(_pszGroup));
+			ptrT ptszGroup(mir_utf8decodeT(_pszGroup));
 			db_set_ts(_hContact, MOD_CLIST, "Group", ptszGroup);
-			if ( Clist_GroupExists(ptszGroup) == NULL) {
-				HANDLE hGroup = Clist_CreateGroup(NULL, NULL);
-				if (hGroup) {
-					// renaming twice is stupid but the only way to avoid error dialog telling shit like
-					// a group with that name does exist
-					CallService(MS_CLIST_GROUPRENAME, (WPARAM)hGroup, (LPARAM)ptszGroup);
-				}
-			}
+			Clist_GroupCreate(NULL, ptszGroup);
 		}
 	}
 	return _hContact;

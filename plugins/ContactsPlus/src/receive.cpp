@@ -103,7 +103,7 @@ static void EnableGroupCombo(HWND hwndDlg)
 
 static void RebuildGroupCombo(HWND hwndDlg)
 {
-	int bHasGroups = pcli->pfnGetGroupName(0, NULL) != 0;
+	int bHasGroups = Clist_GroupGetName(0, NULL) != 0;
 	HWND hGroupsCombo = GetDlgItem(hwndDlg, IDC_GROUPS);
 
 	if (bHasGroups) {
@@ -120,7 +120,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 		SendMessage(hGroupsCombo, CB_RESETCONTENT, 0, 0);
 
 		TCHAR *szGroup;
-		for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+		for (int i=1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 			int nIndex = SendMessage(hGroupsCombo, CB_ADDSTRING, 0, (LPARAM)szGroup);
 			SendMessage(hGroupsCombo, CB_SETITEMDATA, nIndex, i);
 		}

@@ -196,7 +196,7 @@ void CVkOptionAccountForm::OnApply()
 	
 	ptrT ptszGroupName(m_edtGroupName.GetText());
 	if (mir_tstrcmp(m_ptszOldGroup, ptszGroupName)) {
-		Clist_CreateGroup(NULL, ptszGroupName);
+		Clist_GroupCreate(NULL, ptszGroupName);
 		m_ptszOldGroup = ptszGroupName;
 	}
 

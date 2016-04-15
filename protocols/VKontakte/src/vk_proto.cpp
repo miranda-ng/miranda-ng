@@ -70,7 +70,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	Clist_CreateGroup(NULL, m_vkOptions.ptszDefaultGroup);
+	Clist_GroupCreate(NULL, m_vkOptions.ptszDefaultGroup);
 
 	CMStringA szListeningTo(FORMAT, "%sEnabled", m_szModuleName);
 	db_set_b(NULL, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);

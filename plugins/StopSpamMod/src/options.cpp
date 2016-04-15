@@ -17,8 +17,6 @@
 
 #include "stdafx.h"
 
-int CreateCListGroup(TCHAR* szGroupName);
-
 char *pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
 TCHAR const *defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
 
@@ -280,7 +278,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					db_set_ws(NULL, pluginName, "SpammersGroup", NewGroupName.c_str());
 					gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("Spammers"));
 					if (!GroupExist && gbSpecialGroup)
-						CreateCListGroup((TCHAR*)gbSpammersGroup.c_str());
+						Clist_GroupCreate(0, gbSpammersGroup.c_str());
 				}
 			}
 			db_set_b(NULL, pluginName, "SpecialGroup", gbSpecialGroup = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_SPECIALGROUP));
@@ -304,7 +302,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					db_set_ws(NULL, pluginName, "AutoAuthGroup", NewAGroupName.c_str());
 					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("Not Spammers"));
 					if (!GroupExist && gbAutoAddToServerList)
-						CreateCListGroup((TCHAR*)gbAutoAuthGroup.c_str());
+						Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
 				}
 			}
 			return TRUE;
@@ -317,6 +315,8 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 HINSTANCE hInst;
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
+	UNREFERENCED_PARAMETER(l);
+
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = LPGENT("StopSpam");

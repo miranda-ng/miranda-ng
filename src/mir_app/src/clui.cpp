@@ -700,7 +700,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 
 		case POPUP_NEWGROUP:
 			SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
-			CallService(MS_CLIST_GROUPCREATE, 0, 0);
+			Clist_GroupCreate(0, 0);
 			break;
 
 		case POPUP_HIDEOFFLINE:
@@ -764,7 +764,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 			NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;
 			switch (((LPNMHDR)lParam)->code) {
 			case CLN_EXPANDED:
-				CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)nmc->hItem, nmc->action);
+				Clist_GroupSetExpanded((MGROUP)nmc->hItem, nmc->action);
 				return FALSE;
 
 			case CLN_DRAGGING:

@@ -411,11 +411,11 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
 						mir_sntprintf(szFullName, _T("%s\\%s"),
-							cli.pfnGetGroupName(contact->group->parent->groupId, NULL), text);
-						cli.pfnRenameGroup(contact->groupId, szFullName);
+							Clist_GroupGetName(contact->group->parent->groupId, NULL), text);
+						Clist_GroupRename(contact->groupId, szFullName);
 					}
 					else
-						cli.pfnRenameGroup(contact->groupId, text);
+						Clist_GroupRename(contact->groupId, text);
 				}
 				else if (contact->type == CLCIT_CONTACT) {
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
@@ -442,7 +442,7 @@ void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat)
 		return;
 	switch (contact->type) {
 	case CLCIT_GROUP:
-		CallService(MS_CLIST_GROUPDELETE, (WPARAM)contact->groupId, 0);
+		Clist_GroupDelete(contact->groupId);
 		break;
 	case CLCIT_CONTACT:
 		CallService("CList/DeleteContactCommand", (WPARAM)contact->hContact, (LPARAM)hwnd);
