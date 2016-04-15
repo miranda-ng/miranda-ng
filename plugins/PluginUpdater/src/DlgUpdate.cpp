@@ -635,6 +635,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 						if (!mir_tstrcmpi(ffd.cFileName, _T("miranda64.exe")))
 							_tcsncpy_s(tszNewName, _T("miranda32.exe"), _TRUNCATE);
 					}
+					_tcsncpy_s(tszNewName, ffd.cFileName, _TRUNCATE);
 				}
 				else
 					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
