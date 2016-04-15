@@ -395,10 +395,6 @@ struct CLIST_INTERFACE
 	/* docking.c */
 	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
-	/* group.c */
-	WCHAR* (*tobedeleted)(int idx, DWORD* pdwFlags);
-	int    (*tobedeleted2)(int groupID, const WCHAR *newName);
-
 	/* keyboard.c */
 	int   (*pfnHotKeysRegister)(HWND hwnd);
 	void  (*pfnHotKeysUnregister)(HWND hwnd);
