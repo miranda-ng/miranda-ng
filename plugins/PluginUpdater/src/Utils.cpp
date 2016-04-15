@@ -37,7 +37,7 @@ void LoadOptions()
 	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
 	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
 	opts.bBackup = db_get_b(NULL, MODNAME, "Backup", 0);
-	opts.bChangePlatform = db_get_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, 0);
+	opts.bChangePlatform = false; // db_get_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, 0);
 }
 
 #if MIRANDA_VER >= 0x0A00

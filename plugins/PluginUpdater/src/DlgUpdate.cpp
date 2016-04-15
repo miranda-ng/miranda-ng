@@ -629,8 +629,11 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 		else if (isValidExtension(ffd.cFileName)) {
 			// calculate the current file's relative name and store it into tszNewName
 			TCHAR tszNewName[MAX_PATH];
-			if (CheckFileRename(ffd.cFileName, tszNewName))
+			if (CheckFileRename(ffd.cFileName, tszNewName)) {
 				Netlib_LogfT(hNetlibUser, _T("File %s will be renamed to %s."), ffd.cFileName, tszNewName);
+				// Yes, we need the old file name, because this will be hashed later
+				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+			}
 			else {
 				if (level == 0) {
 					// Rename Miranda*.exe
