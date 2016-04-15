@@ -296,22 +296,13 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 
 	{
-
 		RECT rectW;
-		int h2;
 		GetWindowRect(hwnd, &rectW);
-		//       w = contact->pos_full_first_row.right-contact->pos_full_first_row.left;
-		//       h = contact->pos_full_first_row.bottom-contact->pos_full_first_row.top;
-		//w = clRect.right-x;
-		//w = clRect.right-x;
-		//x += rectW.left;//+contact->pos_full_first_row.left;
-		//y += rectW.top;//+contact->pos_full_first_row.top;
+
 		x = contact->pos_rename_rect.left + rectW.left;
 		y = contact->pos_label.top + rectW.top;
 		w = contact->pos_rename_rect.right - contact->pos_rename_rect.left;
-		h2 = contact->pos_label.bottom - contact->pos_label.top + 4;
-		h = h2;//max(h,h2);
-
+		h = contact->pos_label.bottom - contact->pos_label.top + 4;
 	}
 
 	{

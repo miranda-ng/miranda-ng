@@ -126,7 +126,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 	return max_height;
 }
 
-// Calc and store row height for all itens in the list
+// Calc and store row height for all items in the list
 void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 {
 	int indent, subindex, line_num;
@@ -159,7 +159,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		// Calc row height
 		getRowHeight(dat, Drawing, line_num, dwStyle);
 
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && /*!IsBadCodePtr((FARPROC)group->cl.items[group->scanIndex]->group) && */ (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
+		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
 			group = group->cl.items[group->scanIndex]->group;
 			indent++;
 			group->scanIndex = 0;

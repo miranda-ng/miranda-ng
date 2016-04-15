@@ -397,13 +397,12 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 
 void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 {
-	SCROLLINFO si = { 0 };
-	RECT clRect;
-	NMCLISTCONTROL nm;
-
 	RowHeight::calcRowHeights(dat, hwnd);
 
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
+
+	SCROLLINFO si = { 0 };
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
@@ -426,12 +425,13 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	}
 	ScrollTo(hwnd, dat, dat->yScroll, 1);
+
+	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTSIZECHANGE;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.pt.y = si.nMax;
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
-	//saveRecalcScrollBar(hwnd, dat);
 }
 
 void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)

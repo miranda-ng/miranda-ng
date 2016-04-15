@@ -110,7 +110,8 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 			contact->group->parent->groupId == 0 &&
 			contact->group->parent->cl.items[0] != contact)
 			tmp += dat->row_before_group_space;
-		if (item != -1) dat->row_heights[item] = tmp;
+		if (item != -1)
+			dat->row_heights[item] = tmp;
 		return tmp;
 	}
 
@@ -314,7 +315,8 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 	height = cppCalculateRowHeight(gl_RowRoot);
 	height += dat->row_border * 2;
 	height = max(height, dat->row_min_heigh);
-	if (item != -1) dat->row_heights[item] = height;
+	if (item != -1)
+		dat->row_heights[item] = height;
 	return height;
 }
 
@@ -324,7 +326,6 @@ BOOL RowHeights_Initialize(struct ClcData *dat)
 	dat->row_heights_size = 0;
 	dat->row_heights_allocated = 0;
 	dat->row_heights = NULL;
-
 	return TRUE;
 }
 

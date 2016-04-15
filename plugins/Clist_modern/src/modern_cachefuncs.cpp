@@ -707,8 +707,9 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		}
 
 		// Create objs
-		void * pt;
 		HDC hdc = CreateCompatibleDC(dat->avatar_cache.hdc);
+
+		void *pt;
 		HBITMAP hDrawBmp = ske_CreateDIB32Point(width_clip, height_clip, &pt);
 		HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
 

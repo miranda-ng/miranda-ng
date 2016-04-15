@@ -1500,7 +1500,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	if (contact) {
 		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 		Cache_GetText(dat, contact, 1);
-		cliRecalcScrollBar(hwnd, dat);
+		// cliRecalcScrollBar(hwnd, dat);
 	}
 
 	dat->needsResort = 1;
@@ -1523,7 +1523,7 @@ static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 
 	if (contact) {
 		Cache_GetText(dat, contact, 1);
-		cliRecalcScrollBar(hwnd, dat);
+		// cliRecalcScrollBar(hwnd, dat);
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
 	}
 	return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);

@@ -45,6 +45,8 @@ static statusModeOrder[] =
 	{ ID_STATUS_OUTTOLUNCH, 425 }
 };
 
+static int LocaleId = -1;
+
 static int GetContactStatus(MCONTACT hContact)
 {
 	return (GetContactCachedStatus(hContact));
@@ -94,68 +96,62 @@ int GetProtoIndex(char * szName)
 	return -1;
 }
 
-int CompareContacts2(const ClcContact *contact1, const ClcContact *contact2, int by)
-{
-	TCHAR *namea, *nameb;
-	int statusa, statusb;
-	char *szProto1, *szProto2;
-
-	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100) return 0;
-
-	MCONTACT a = contact1->hContact;
-	MCONTACT b = contact2->hContact;
-
-	namea = (TCHAR *)contact1->szText;
-	statusa = GetContactCachedStatus(contact1->hContact);
-	szProto1 = contact1->proto;
-
-	nameb = (TCHAR *)contact2->szText;
-	statusb = GetContactCachedStatus(contact2->hContact);
-	szProto2 = contact2->proto;
-
-	if (by == SORTBY_STATUS) { //status
-		int ordera, orderb;
-		ordera = GetStatusModeOrdering(statusa);
-		orderb = GetStatusModeOrdering(statusb);
-		return (ordera != orderb) ? ordera - orderb : 0;
-	}
-
-	//one is offline: offline goes below online
-	if (g_CluiData.fSortNoOfflineBottom == 0 && (statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
-		return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
-
-	if (by == SORTBY_NAME) //name
-		return mir_tstrcmpi(namea, nameb);
-
-	if (by == SORTBY_NAME_LOCALE) {
-		//name
-		static int LocaleId = -1;
-		if (LocaleId == -1) LocaleId = Langpack_GetDefaultLocale();
-		return (CompareString(LocaleId, NORM_IGNORECASE, SAFETSTRING(namea), -1, SAFETSTRING(nameb), -1)) - 2;
-	}
-	if (by == SORTBY_LASTMSG) {
-		//last message
-		DWORD ta = CompareContacts2_getLMTime(a);
-		DWORD tb = CompareContacts2_getLMTime(b);
-		return tb - ta;
-	}
-	if (by == SORTBY_PROTO) {
-		int rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
-		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
-			return rc;
-	}
-	else if (by == SORTBY_RATE)
-		return contact2->bContactRate - contact1->bContactRate;
-	// else :o)
-	return 0;
-}
-
 int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 {
-	int i, r;
-	for (i = 0; i < _countof(g_CluiData.bSortByOrder); i++)
-	{
-		r = CompareContacts2(contact1, contact2, g_CluiData.bSortByOrder[i]);
+	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100)
+		return 0;
+
+	ClcCacheEntry *c1 = cliGetCacheEntry(contact1->hContact);
+	ClcCacheEntry *c2 = cliGetCacheEntry(contact2->hContact);
+
+	for (int i = 0; i < _countof(g_CluiData.bSortByOrder); i++) {
+		int by = g_CluiData.bSortByOrder[i];
+		if (by == SORTBY_STATUS) { //status
+			int ordera = GetStatusModeOrdering(c1->getStatus());
+			int orderb = GetStatusModeOrdering(c2->getStatus());
+			if (ordera == orderb)
+				continue;
+			return ordera - orderb;
+		}
+
+		// one is offline: offline goes below online
+		if (g_CluiData.fSortNoOfflineBottom == 0) {
+			int statusa = c1->getStatus();
+			int statusb = c1->getStatus();
+			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
+				return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
+		}
+
+		int r;
+		switch (by) {
+		case SORTBY_NAME: // name
+			r = mir_tstrcmpi(contact1->szText, contact2->szText);
+			break;
+
+		case SORTBY_NAME_LOCALE: // name
+			if (LocaleId == -1)
+				LocaleId = Langpack_GetDefaultLocale();
+			r = CompareString(LocaleId, NORM_IGNORECASE, SAFETSTRING(contact1->szText), -1, SAFETSTRING(contact2->szText), -1) - 2;
+			break;
+
+		case SORTBY_LASTMSG: // last message
+			r = (int)CompareContacts2_getLMTime(contact1->hContact) - (int)CompareContacts2_getLMTime(contact1->hContact);
+			break;
+
+		case SORTBY_PROTO:
+			if (contact1->proto == NULL || contact1->proto == NULL)
+				continue;
+			r = GetProtoIndex(contact1->proto) - GetProtoIndex(contact2->proto);
+			break;
+
+		case SORTBY_RATE:
+			r = contact2->bContactRate - contact1->bContactRate; // reverse order 
+			break;
+
+		default: // should never happen
+			continue;
+		}
+
 		if (r != 0)
 			return r;
 	}
