@@ -30,8 +30,8 @@ Serwer:
 Numer ICQ:
 [Password:]
 Hasło:
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Musisz ponownie połączyć się z siecią ICQ żeby zmiany na tej stronie przyniosły rezultat.
+[These changes will take effect the next time you connect to the ICQ network.]
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią ICQ.
 ;file \protocols\ICQCorp\src\options.cpp
 [Network]
 Protokoły

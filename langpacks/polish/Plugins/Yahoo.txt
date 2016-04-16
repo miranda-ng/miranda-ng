@@ -137,7 +137,7 @@ Powiązanie protokołu YAHOO
 Połączenie HTTP Yahoo
 ;file \protocols\Yahoo\src\options.cpp
 [These changes will take effect the next time you connect to the Yahoo network.]
-
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Yahoo.
 [Yahoo options]
 Opcje YAHOO
 [You need to be connected to Yahoo to add to Ignore List.]

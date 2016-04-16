@@ -1381,7 +1381,7 @@ Zhuang
 [Zulu]
 Zulu
 [These changes will take effect the next time you connect to the Jabber network.]
-Te zmiany przyniosą efekt po następnym połączeniu z siecią Jabber
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 [Jabber Protocol Option]
 Opcje protokołu Jabber
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
@@ -1519,7 +1519,7 @@ Odnoklassniki
 [Yandex]
 Yandex
 [Some changes will take effect the next time you connect to the Jabber network.]
-Niektóre zmiany przyniosą efekt po następnym połączeniu z siecią Jabber.
+Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 Ustaw nowe hasło dla %s@%S

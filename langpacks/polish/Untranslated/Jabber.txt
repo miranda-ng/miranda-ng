@@ -1,0 +1,4 @@
+﻿[League Of Legends (EU Nordic)]
+[League Of Legends (EU West)]
+[League Of Legends (Oceania)]
+[League Of Legends (US)]

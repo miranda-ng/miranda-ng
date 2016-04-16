@@ -236,7 +236,7 @@ Powiadomienia
 [Network]
 Protokoły
 [These changes will take effect the next time you connect to the Tlen network.]
-Te zmiany wejdą w życie po ponownym połączeniu się z siecią Tlen.
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Tlen.
 [Tlen Protocol Option]
 Opcja protokołu Tlen
 [Accept all alerts]

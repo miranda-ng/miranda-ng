@@ -250,7 +250,7 @@ Lista lokalna
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Import grup z serwera może zmienić układ twojej listy kontaktów po następnym zalogowaniu. Chcesz wczytać grupy z serwera?
 [These changes will take effect the next time you connect to the MSN Messenger network.]
-
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią MSN Messenger.
 [MSN options]
 Opcje MSN
 [Automatically obtain host/port]
