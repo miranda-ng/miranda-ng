@@ -105,7 +105,8 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 	ClcCacheEntry *c2 = cliGetCacheEntry(contact2->hContact);
 
 	for (int i = 0; i < _countof(g_CluiData.bSortByOrder); i++) {
-		int by = g_CluiData.bSortByOrder[i];
+		BYTE &by = g_CluiData.bSortByOrder[i];
+
 		if (by == SORTBY_STATUS) { //status
 			int ordera = GetStatusModeOrdering(c1->getStatus());
 			int orderb = GetStatusModeOrdering(c2->getStatus());
@@ -117,12 +118,13 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 		// one is offline: offline goes below online
 		if (g_CluiData.fSortNoOfflineBottom == 0) {
 			int statusa = c1->getStatus();
-			int statusb = c1->getStatus();
+			int statusb = c2->getStatus();
 			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
 				return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 
-		int r;
+		int r = 0;
+
 		switch (by) {
 		case SORTBY_NAME: // name
 			r = mir_tstrcmpi(contact1->szText, contact2->szText);
