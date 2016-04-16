@@ -56,7 +56,7 @@
 [Subject]
 Тема
 [Unable to load all required Lotus API functions]
-Не удалось загрузить все необходимые функции Lotus API
+Не удалось загрузить все требуемые функции Lotus API
 [Now checking Lotus, try again later]
 Выполняется проверка Lotus, повторите попытку позже
 [Attachments: %d bytes]

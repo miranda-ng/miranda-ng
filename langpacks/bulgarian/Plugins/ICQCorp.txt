@@ -19,8 +19,8 @@ UIN:
 ICQ номер:
 [Password:]
 Парола:
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Необходимо е да се свържете наново към мрежата ICQ, за да бъдат осъществени направените тук промените.
+[These changes will take effect the next time you connect to the ICQ network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата ICQ.
 [Network]
 Мрежа
 [%d files]

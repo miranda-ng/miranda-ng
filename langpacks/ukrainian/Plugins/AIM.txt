@@ -44,7 +44,7 @@
 [Masquerade as a Sidekick/Hiptop User]
 Представлятися як Sidekick/Hiptop
 [* Some changes will take effect the next time you connect to the AIM network]
-* Деякі зміни наберуть чинності при наступному вході в мережу AIM.
+* Деякі зміни наберуть чинності при наступному вході в мережу AIM
 [Connection]
 З'єднання
 [Port:]

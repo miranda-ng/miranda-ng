@@ -35,8 +35,8 @@ Gadu-Gadu номер:
 Показване на хипервръзки от непознати контакти
 [Enable avatars]
 Ползване на аватари
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
+[These changes will take effect the next time you connect to the GG network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата GG.
 [Conference policy]
 Правила за конференции
 [if total participant count greater than:]
@@ -161,14 +161,6 @@ Gadu-Gadu номер:
 Жена
 [<not specified>]
 <неуточнено>
-[Network]
-Мрежа
-[General]
-Основни
-[Conference]
-Конференция
-[Advanced]
-Разширени
 [<Last Status>]
 <Последно състояние>
 [System tray icon]
@@ -191,6 +183,14 @@ Gadu-Gadu номер:
 Вашите подробности са качени в публичната директория.
 [You have to be logged in before you can change your details.]
 Трябва да се впишете преда да промените подробностите за себе си.
+[Network]
+Мрежа
+[General]
+Основни
+[Conference]
+Конференция
+[Advanced]
+Разширени
 [Unknown HTTP error]
 Неизвестна HTTP грешка
 [&Unblock]

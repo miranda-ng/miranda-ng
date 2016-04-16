@@ -2,6 +2,7 @@
 [Display Name:]
 [Masquerade as a Sidekick/Hiptop User]
 [Force Single Client]
+[Use "clientlogin" (recommended)]
 [AIM Instant Idler]
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 [Screen Name]

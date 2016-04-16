@@ -30,8 +30,8 @@ Port :
 Identifiant :
 [Password:]
 Passe :
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Vous devez vous reconnecter au réseau ICQ pour que les changements effectués sur cette page soient effectifs.
+[These changes will take effect the next time you connect to the ICQ network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau ICQ.
 ;file \protocols\ICQCorp\src\options.cpp
 [Network]
 Réseau

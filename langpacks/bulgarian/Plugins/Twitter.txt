@@ -23,6 +23,8 @@
 Разни настройки
 [sec]
 сек
+[These changes will take effect the next time you connect to the Twitter network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата Twitter.
 [Colors]
 Цветове
 [Use Windows colors]

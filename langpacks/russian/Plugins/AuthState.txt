@@ -14,7 +14,7 @@
 [Plugin settings]
 Настройки
 [Enable menu item (restart required)]
-Добавить пункт меню (необходим перезапуск)
+Добавить пункт меню (нужен перезапуск)
 [Show icons only for recently added contacts]
 Значки только для недавно добавленных
 [Request]

@@ -88,7 +88,7 @@ OTR Создание личного ключа
 [No]
 Нет
 [OTR status (Click for more options)]
-Статус OTR (нажмите для опций)
+Статус OTR (нажмите для настройки)
 [OTR Encryption: Disabled]
 OTR-шифрование: отключено
 [OTR Encryption: UNVERIFIED]
@@ -249,3 +249,11 @@ OTR: установлен SecureIM
 '%s' уже закрыл приватную связь с вами; вы должны поступать так же
 [Error setting up private conversation: %s]
 Ошибка создания приватной беседы: %s
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+Вы получаете свои собственные сообщения OTR.\nВы пытаетесь общаться сами с собой, либо кто-то пересылает обратно ваши собственные сообщения
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+Полученное от '%s' зашифрованное сообщение невозможно прочитать, поскольку вы, в настоящий момент, не ведёте приватную беседу
+[We received an unreadable encrypted message from '%s']
+Получено нечитаемое зашифрованное сообщение от '%s'
+[unknown OTR message received, please report that to Miranda NG developers]
+получено неизвестное сообщение OTR, сообщите об этом разработчикам Miranda NG

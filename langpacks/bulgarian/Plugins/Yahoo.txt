@@ -125,9 +125,9 @@ Yahoo грешка
 Протокол за Yahoo връзки
 [YAHOO plugin HTTP connections]
 HTTP връзки на приставката YAHOO
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Направените промени изискват да се свържете наново с мрежата Yahoo, за да бъдат осъществени
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата Yahoo.
+[Yahoo options]
 YAHOO настройки
 [You need to be connected to Yahoo to add to Ignore List.]
 Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.12.1.2
+;  Version: 0.12.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Authorization]

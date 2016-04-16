@@ -43,6 +43,8 @@
 Имя контакта:
 [Display]
 Показывать
+[Between start and end strings]
+Между начальной и конечной строками
 [Opens data window]
 Открыть окно с данными
 [Display clean-up]
@@ -61,6 +63,10 @@
 Найти:
 [Search was completed.]
 Поиск завершён.
+[Events and alerts]
+События и оповещения
+[Enable alerts]
+Включить оповещения
 [Add time and date of alert to contact name]
 Добавить время и дату к имени контакта
 [Use 24 hour time format instead of 12 hour]
@@ -69,6 +75,12 @@
 Добавить как префикс
 [Add as suffix]
 Добавить как суффикс
+[Alert when:]
+Оповещать при:
+[Alert type:]
+Тип оповещений:
+[String:]
+Строка:
 [Log to file]
 Запись в файл
 [Log file:]
@@ -181,6 +193,18 @@
 Использовать плагин OSD
 [This is a preview popup.]
 Это всплывающее окно предпросмотра.
+[You need to supply a search string.]
+необходимо указать строку для поиска.
+[You need to supply a start string.]
+необходимо указать начальную строку.
+[You need to supply an end string.]
+необходимо указать конечную строку.
+[You need to supply a file name and path.]
+необходимо указать имя файла и путь.
+[You need to supply a URL.]
+необходимо указать URL.
+[You need to supply a name for the contact.]
+необходимо указать имя контакта.
 [Invalid symbol present in contact name.]
 Недопустимый символ в имени контакта.
 [Cache folder does not exist.]

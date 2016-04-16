@@ -49,4 +49,5 @@
 [Calls]
 [Incoming call sound]
 [Incoming call canceled sound]
+[Skypename]
 [Failed to establish a TRouter connection.]

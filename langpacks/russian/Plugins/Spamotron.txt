@@ -22,9 +22,9 @@
 [and learn as ham]
 и считать не спамом
 [Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Не включайте эти опции, пока в базе не будет как минимум 20 не спамерских и 50 спамерских сообщений.
+Не включайте эти настройки до тех пор, пока в базе не будет как минимум 20 не спамерских и 50 спамерских сообщений.
 [Learning options]
-Опции обучения
+Настройки обучения
 [Auto-learn messages from approved contacts as ham]
 Считать сообщения от одобренных контактов не спамом
 [Auto-learn messages from contacts if not approved in]

@@ -197,8 +197,20 @@ HTTP подключение Quotes
 Не удалось загрузить плагин Quotes. Отсутствует парсер Microsoft HTML.
 [Log File]
 Файл журнала
+[Miranda's History]
+История Miranda
 [All]
 Все
+[Last Day]
+Последний день
+[Last Week]
+Последняя неделя
+[Last Month]
+Последний месяц
+[Last Year]
+Последний год
+[User-Defined]
+Настраивается пользователем
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
 [Quote Symbol]

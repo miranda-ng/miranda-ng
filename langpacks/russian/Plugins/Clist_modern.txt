@@ -92,7 +92,7 @@
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 ВНИМАНИЕ: \tСкины могут изменять ваш профиль. Откат невозможен. \n\t\tПожалуйста, сделайте РЕЗЕРВНУЮ КОПИЮ базы данных.
 [* Restart may be required for all changes to take effect]
-* Необходим перезапуск для вступления изменений в силу
+* Для вступления изменений в силу нужен перезапуск
 [Skin folder]
 Папка скинов
 [Available view modes]
@@ -148,7 +148,7 @@
 [Accounts per line]
 Уч. записей в строке
 [* To increase status bar height:\nset in Main menu -> Frames -> Status Bar -> Show title then pull appeared title of status bar up or down.]
-* Изменение высоты панели статусов: включите опцию "Главное меню -> Фреймы -> Панель статусов -> Плавающий режим" и растяните заголовок панели вверх или вниз.
+* Изменение высоты панели статусов: включите "Главное меню -> Фреймы -> Панель статусов -> Плавающий режим" и растяните заголовок панели вверх или вниз.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift+Правый клик - Главное меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
@@ -946,7 +946,7 @@ Angeli-Ka (графика), FYR (шаблон)
 [Minimize]
 Свернуть
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
-Для отображения панели кнопок в Clist_modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
+Для отображения панели кнопок в Clist_modern нужен плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
 [Toolbar background]
 Фон панели кнопок
 [Toolbar upgrade]

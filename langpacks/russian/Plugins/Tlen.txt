@@ -18,7 +18,7 @@
 [Options]
 Настройки
 [Automatically reconnect after unintentional disconnection]
-Переподключиться после неожиданного разрыва
+Повторно подключиться после неожиданного разъединения
 [Leave status message after disconnection]
 Оставить сообщение статуса после отключения
 [Ignore advertisements]
@@ -117,12 +117,16 @@ P2P Подключения
 Ищу:
 [Voice chats]
 Голосовые чаты
+[Publicly visible status]
+Публичный статус
 [Save changes]
 Сохранить изменения
 [Avatar]
 Аватар
 [Avatar Options]
 Настройки аватара
+[Public avatar]
+Публичный аватар
 [Tlen login:]
 Вход Tlen:
 [Subscription:]
@@ -222,7 +226,7 @@ Tlen входящие
 [Network]
 Сеть
 [These changes will take effect the next time you connect to the Tlen network.]
-Изменения вступят в силу, после того как вы переподключитесь к сети Tlen.
+Эти изменения вступят в силу при следующем подключении к сети Tlen.
 [Tlen Protocol Option]
 Настройки протокола Tlen
 [Accept all alerts]
@@ -251,12 +255,14 @@ Tlen входящие
 (Последнее сообщение)
 [Forwarding]
 Пересылка
+[%S mail]
+Писем: %S
 [Image sent file://%s]
 Отправлено изображение file://%s
 [Image received file://%s]
 Получено изображение file://%s
 [You need to be connected to Tlen account to set avatar.]
-Необходимо подключить учётную запись Tlen, прежде чем устанавливать аватар.
+Нужно подключить учётную запись Tlen, прежде чем устанавливать аватар.
 [Enter password for %s]
 Введите пароль для %s
 [Tlen Connection Error]
@@ -271,6 +277,8 @@ Tlen входящие
 Уведомление принято.
 [Private conference]
 Личная конференция
+[%s mail]
+Писем: %S
 [Subject]
 Тема
 [Account]

@@ -6,7 +6,6 @@
 [Disable popups]
 [Use Dropbox]
 [Backup profile folder]
-[Created by:]
 [Uploading to Dropbox failed]
 [Database backed up]
 [Database back up in process...]
@@ -25,3 +24,4 @@
 ["Desktop" folder for currently logged-on Windows user]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 [Variables]
+[Miranda NG [%s] database backup]

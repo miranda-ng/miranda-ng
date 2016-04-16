@@ -1476,7 +1476,7 @@ Google Hangouts
 [Yandex]
 Яндекс
 [Some changes will take effect the next time you connect to the Jabber network.]
-Деякі зміни наберуть чинності при наступному вході в мережу.
+Деякі зміни наберуть чинності при наступному вході в мережу Jabber.
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]

@@ -66,7 +66,7 @@
 [This will take affect after Non-IM Contacts' status is changed]
 Изменения вступят в силу после смены статуса контактов
 [Timer Options]
-Опции таймера
+Настройки таймера
 [String Maker]
 Создать строку
 [&Test String]

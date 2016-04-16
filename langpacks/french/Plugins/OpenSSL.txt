@@ -12,3 +12,7 @@
 
 [Host we are connecting to is not the one certificate was issued for]
 
+[OpenSSL library loading failed]
+
+[OpenSSL error]
+

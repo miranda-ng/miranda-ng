@@ -34,6 +34,7 @@
 [Login error: Invalid request.]
 [Login error: Some Facebook things are required.]
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 [Login error, probably bad login credentials.]
 [Could not load communication token. You should report this and wait for plugin update.]

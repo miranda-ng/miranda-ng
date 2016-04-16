@@ -11,8 +11,8 @@ Podpora Gadu-Gadu protokolu pre Mirandu NG.
 Heslo:
 [E-mail:]
 E-mail:
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[These changes will take effect the next time you connect to the GG network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do GG siete.
 [Keep connection alive]
 Navždy zachovať pripojenie
 [Send messages slower, but with full acknowledgment]
@@ -55,14 +55,14 @@ Muž
 Žena
 [<not specified>]
 <nešpecifikované>
-[Network]
-Sieť
-[Advanced]
-Podrobne
 [System tray icon]
 Ikona v oznamovacej oblasti
 [Ignore]
 Ignorovať
+[Network]
+Sieť
+[Advanced]
+Podrobne
 [Contact list]
 Zoznam kontaktov
 [All Files]

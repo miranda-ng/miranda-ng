@@ -11,16 +11,12 @@ Nombre:
 Versión
 [Preview]
 Previsualizar
-[Disable]
-Deshabilitar
 [Smiley button]
 Botón de emoticono
 [Background color]
 Color de fondo
-[Off]
-Apagado
-[On]
-Encendido
+[Show]
+Mostrar
 [All files]
 Todos los archivos
 [Customize]

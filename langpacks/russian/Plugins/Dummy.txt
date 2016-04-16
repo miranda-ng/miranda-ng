@@ -18,7 +18,7 @@
 [Visible name of unique identifier of contacts]
 Видимое имя уникального идентификатора контактов
 [Restart is required to apply these changes.]
-Необходим перезапуск для применения настроек.
+Для применения настроек нужен перезапуск.
 [Allow sending messages to contacts]
 Разрешить отправку сообщений
 [Custom]

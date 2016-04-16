@@ -993,8 +993,6 @@ Validar certificados SSL
 Conexiones entrantes
 [Enable UPnP port mapping]
 Habilitar la asignación de puertos UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Tendrá que volver a conectarse para que los cambios en esta página surtan efecto.
 [Please complete the following form to create a new user profile]
 Por favor, complete el siguiente formulario para crear un nuevo perfil de usuario.
 [Profile]

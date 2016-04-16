@@ -27,8 +27,8 @@
 Номер ICQ:
 [Password:]
 Пароль:
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Чтобы изменения, сделанные на этой странице, вступили в силу, необходимо переподключиться к сети ICQ.
+[These changes will take effect the next time you connect to the ICQ network.]
+Эти изменения вступят в силу при следующем подключении к сети ICQ.
 [Network]
 Сеть
 [ICQ Corporate plugin used only WinSock v2.2 or later.]

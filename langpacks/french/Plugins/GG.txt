@@ -38,8 +38,8 @@ Receptionner les image, puis utiliser :
 
 [Enable avatars]
 
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Vous devrez vous reconnecter afin de valider les modifications de cette page.
+[These changes will take effect the next time you connect to the GG network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau GG.
 [Conference policy]
 Police
 [if total participant count greater than:]
@@ -213,14 +213,6 @@ Homme
 Femme
 [<not specified>]
 <non spécifié>
-[Network]
-Réseau
-[General]
-Général
-[Conference]
-Chat
-[Advanced]
-Avancé
 [<Last Status>]
 <Dernier État>
 [System tray icon]
@@ -245,6 +237,14 @@ Ignorer
 
 [You have to be logged in before you can change your details.]
 
+[Network]
+Réseau
+[General]
+Général
+[Conference]
+Chat
+[Advanced]
+Avancé
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

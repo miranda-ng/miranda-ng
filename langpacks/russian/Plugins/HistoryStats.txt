@@ -22,7 +22,7 @@ HistoryStats - Добавить колонку
 [HistoryStats - Conflicting files]
 HistoryStats - Конфликт файлов
 [Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
-Некоторые файлы временно сохранены в другом месте, чтобы избежать перезаписи существующих файлов. Если вы хотите всегда перезаписывать существующие файлы, в настройках HistoryStats есть опция для этого.
+Некоторые файлы временно сохранены в другом месте, чтобы избежать перезаписи существующих файлов. HistoryStats содержит настройку, заставляющую его всегда перезаписывать существующие файлы.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Следующие файлы не могут быть записаны, потому что в папке назначения уже существуют файлы с такими именами. Пожалуйста выберите, перезаписать ли существующие, или избавиться от сгенерированных файлов.
 [Overwrite existing]
@@ -420,7 +420,7 @@ wday3:Вск
 [(multiple)]
 (несколько)
 [You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
-Вы не можете открыть отдельное окно опций HistoryStats, так как открыто окно опций Miranda NG. Закройте его и попытайтесь снова.\r\n\r\nПримечание: опции в обоих диалогах одинаковы.
+Вы не можете открыть отдельное окно настроек HistoryStats, поскольку открыто окно настроек Miranda NG. Закройте его и попытайтесь снова.\r\n\r\nПримечание: настройки в обоих окнах одинаковы.
 [HistoryStats - Warning]
 HistoryStats - Предупреждение
 [Add set]
@@ -472,7 +472,7 @@ HistoryStats - Предупреждение
 [Create statistics (there are warnings)]
 Создать статистику (есть предупреждения)
 [You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
-Вы не можете открыть опции HistoryStats здесь, пока открыто отдельное окно опций. Закройте его и попытайтесь снова.\r\n\r\nПримечание: опции в обоих диалогах одинаковы.
+Вы не можете открыть здесь настройки HistoryStats, пока открыто отдельное окно настроек. Закройте его и попытайтесь снова.\r\n\r\nПримечание: настройки в обоих окнах одинаковы.
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 Вы не сохранили настройки. Желаете сохранить их перед запуском HistoryStats?
 [HistoryStats]
@@ -522,7 +522,7 @@ HTML вывод невозможен.
 [Fallback to HTML due to setting.]
 Переключение в HTML режим по установке
 [Setting ignored due to PNG output.]
-Опция пропущена, так как включён вывод PNG.
+Настройка пропущена, поскольку включён вывод PNG.
 [** All contacts **]
 ** Все контакты **
 [Integration]
@@ -682,7 +682,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 [Auto open statistics after being generated...]
 Автооткрытие статистики после генерации...
 [...via button "Create statistics" in options]
-...через кнопку "Создать статистику" в опциях
+...кнопкой "Создать статистику" в настройках
 [...on Miranda NG startup]
 ...при старте программы
 [...via Miranda NG main menu]
@@ -780,7 +780,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 [Excluded contacts]
 Исключённые контакты
 [Options tree]
-Дерево опций
+Дерево настроек
 [Checkbox]
 Переключатель
 [Checkbox (checked)]
@@ -846,7 +846,7 @@ HistoryStats - Информация
 [(default nick)]
 (ник по умолчанию)
 [HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
-HistoryStats не может создать необходимую папку (#{folder}).\r\n\r\nПожалуйста, проверьте имя файла и папки, а также возможность записи в файл/папку/диск.
+HistoryStats не может создать папку (#{folder}).\r\n\r\nПожалуйста, проверьте имя файла и папки, а также возможность записи в файл/папку/диск.
 [Omitted contacts]
 Пропущено контактов
 [HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]

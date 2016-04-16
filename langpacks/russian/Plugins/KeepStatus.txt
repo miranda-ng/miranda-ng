@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-Проверяет наличие подключения к сети и автоматически переподключает при разрывах.
+Проверяет наличие подключения к сети и автоматически повторно подключает при разрывах.
 [Check connection]
 Проверять
 [Max. retries]
@@ -220,7 +220,7 @@ Cтатус-профиль
 [Cancel all if an account connects from another location]
 Отменить, если учётная запись подключена из другого места
 [Reconnect on APM resume]
-Переподключаться после спящего режима
+Повторно подключиться после спящего режима
 [Stop trying to reconnect]
 Прекратить подключение
 [Set delay to]
@@ -236,7 +236,7 @@ Cтатус-профиль
 [Timers]
 Таймеры
 [Reconnecting]
-Переподключение
+Повторное подключение
 [Ignore locked status of accounts]
 Игнорировать блокированные учётные записи
 [Consider connection lost after]
@@ -274,7 +274,7 @@ Cтатус-профиль
 [Giving up]
 Прекращаю
 [KeepStatus]
-Переподключение
+Повторное подключение
 [Basic]
 Основные
 [Advanced]

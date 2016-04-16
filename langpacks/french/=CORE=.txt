@@ -1004,8 +1004,8 @@ Valider les certificats SSL
 Connexions entrantes
 [Enable UPnP port mapping]
 Activer la redirection UPnP des ports
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Vous devrez vous reconnecter afin de valider les modifications de cette page.
+[These changes will take effect the next time you connect to the network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau.
 [Please complete the following form to create a new user profile]
 Veuillez remplir le formulaire suivant pour créer un nouveau profil
 [Profile]
@@ -1929,6 +1929,26 @@ Homme
 Femme
 [<not specified>]
 <non spécifié>
+[Single]
+
+[Close relationships]
+
+[Engaged]
+
+[Married]
+
+[Divorced]
+
+[Separated]
+
+[Widowed]
+
+[Actively searching]
+
+[In love]
+Amoureux
+[It\'s complicated]
+
 [Summary]
 Résumé
 [Contact]

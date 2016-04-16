@@ -93,7 +93,7 @@
 [Relative list]
 [Local list]
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-[MSN Options]
+[MSN options]
 [Automatically obtain host/port]
 [Manually specify host/port]
 [Disable]

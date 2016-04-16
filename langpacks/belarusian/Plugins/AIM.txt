@@ -43,8 +43,8 @@
 Перадачы файлаў праз проксі
 [Masquerade as a Sidekick/Hiptop User]
 Уяўляцца як Sidekick/Hiptop
-[*Aim must be reconnected for some option to take effect]
-*Змены адбудуцца пры наступным далучэнні AIM
+[* Some changes will take effect the next time you connect to the AIM network]
+* Некаторыя змены будуць ужытыя пры наступным уваходзе ў AIM
 [Connection]
 Далучэнне
 [Port:]
@@ -57,6 +57,8 @@
 Кіраваць гуртамі на серверы
 [Force Single Client]
 Толькі адна сесія
+[Use "clientlogin" (recommended)]
+
 [Save Profile]
 Захаваць профіль
 [Create a new AIM account]

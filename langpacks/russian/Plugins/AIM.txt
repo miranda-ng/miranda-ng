@@ -18,7 +18,7 @@ AIM Детали пользователя
 [Login Server:]
 Сервер:
 [AIM Options]
-AIM Опции
+Настройки AIM
 [Message Delivery Confirmation]
 Подтверждение приёма
 [Do Not Autoreply When Away]

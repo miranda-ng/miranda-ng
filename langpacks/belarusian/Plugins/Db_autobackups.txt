@@ -41,10 +41,6 @@
 
 [Backup profile folder]
 
-[Miranda NG database]
-Рэзервовая копія профіля
-[Created by:]
-Створана:
 [Backup in progress]
 Рэзерваванне падчас
 [Copying database file...]
@@ -103,3 +99,5 @@
 Абярыце тэчку для рэзервовых копій
 [Error creating backup folder]
 Памылка пры стварэнні тэчкі для рэзервовага капіравання
+[Miranda NG [%s] database backup]
+Рэзервовая копія профіля Miranda NG [%s]

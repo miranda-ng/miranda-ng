@@ -48,8 +48,8 @@ Zone de saisie
 
 [Built-in message dialog support]
 
-[Disable]
-
+[Enable]
+Activer
 [Smiley button]
 Position du bouton
 [Surround inserted smiley with spaces]
@@ -80,10 +80,10 @@ Couleur de fond
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
-[Off]
-
-[On]
-
+[Hide]
+Cacher
+[Show]
+Afficher
 [Smiley packs]
 Pack de Smiley
 [All files]

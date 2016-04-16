@@ -16,8 +16,6 @@
 [Disable popups]
 [Use Dropbox]
 [Backup profile folder]
-[Miranda NG database]
-[Created by:]
 [Backup in progress]
 [Copying database file...]
 [Uploading to Dropbox failed]
@@ -46,3 +44,4 @@
 [minutes]
 [Select backup folder]
 [Error creating backup folder]
+[Miranda NG [%s] database backup]

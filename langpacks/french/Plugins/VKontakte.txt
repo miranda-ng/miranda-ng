@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.23
+;  Version: 0.1.1.27
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Support du protocole VKontakte pour Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
+[Show in protocol menu ]
+
+[Create new chat]
+
+[Status message]
+
+[Send message to my wall]
+
+[Load news from VK]
+
+[Load history for all contacts from VK]
+
+[Wipe contacts missing in friend list]
+
+[Visit profile]
+Visiter le profil
 [[img] BBCode support for image]
 
 [off]
@@ -26,10 +42,10 @@ Support du protocole VKontakte pour Miranda NG.
 
 [Use this setting also for attachments on news and notifications]
 
-[Other]
-Autre
 [BBCode support on attachments]
 
+[Other]
+Autre
 [Process stickers as smileys]
 
 [Shorten links for audio attachments]
@@ -138,29 +154,17 @@ Groupe chats
 
 [Contact list group:]
 
+[Language for names and titles:]
+
 [Server-side delivery confirmation]
 
 [Use local time for received messages]
 Utiliser l'heure locale pour les messages reçus
 [Automatically wipe local contacts missing in your friend list]
 
-[Mark message as read...]
+[Mark message as read:]
 
-[on read]
-
-[on receive]
-
-[on reply]
-
-[on typing]
-
-[Sync history on protocol online...]
-
-[automatically]
-
-[for last 1 day]
-
-[for last 3 days]
+[Sync history on protocol online:]
 
 [Bots challenge test]
 
@@ -170,6 +174,8 @@ Instruction :
 Soumettre
 [Cancel]
 Annuler
+[Open in browser]
+Ouvrir dans le navigateur
 [Invite user to chat]
 
 [Choose one of your contacts to be invited:]
@@ -185,8 +191,6 @@ Partager
 [URL:]
 Lien :
 [Only for friends]
-
-[Attention]
 
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
@@ -299,9 +303,6 @@ Lien
 
 [at]
 
-;file \protocols\VKontakte\src\vk_captcha.cpp
-[Enter the text you see]
-
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 
@@ -345,12 +346,15 @@ Avertissement
 
 [&User details]
 &Détails contact
-[Visit profile]
-Visiter le profil
 [&Kick]
 
 [%s is typing a message...]
 %s vous écrit un message...
+;file \protocols\VKontakte\src\vk_dialogs.cpp
+[Enter the text you see]
+
+[Wall message for]
+
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 
@@ -427,8 +431,6 @@ Visiter le profil
 [Loading messages for %s is completed]
 
 ;file \protocols\VKontakte\src\vk_options.cpp
-[I'm back]
-
 [Network]
 Réseau
 [Account]
@@ -437,22 +439,48 @@ Compte
 
 [View]
 
+[Menu]
+Menu
+[Account language]
+
+[English]
+Anglais
+[Russian]
+Russe
+[Belarusian]
+Biélorusse
+[Ukrainian]
+Ukrainien
+[Spanish]
+
+[Finnish]
+Finnois
+[German]
+Allemand
+[Italian]
+Italien
+[automatically]
+
+[for last 1 day]
+
+[for last 3 days]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
+
+[These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
+
+[VKontakte protocol]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s serveur connexion
 [VKontakte newsfeed & notification event]
-
-[Create new chat]
-
-[Status message]
-
-[Send message to my wall]
-
-[Load news from VK]
-
-[Load history for all contacts from VK]
-
-[Wipe contacts missing in friend list]
 
 [Mark messages as read]
 
@@ -497,7 +525,26 @@ Erreurs
 EN ATTENTE...
 [Enter new status message]
 
+;file \protocols\VKontakte\src\vk_struct.cpp
+[I\'m back]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Interests]
+Intérêts
+[Activities]
+
+[Music]
+Musique
+[Movies]
+
+[TV]
+
+[Books]
+
+[Games]
+Jeux
+[Quotes]
+
 [Please authorize me to add you to my friend list.]
 
 [Are you sure to wipe local contacts missing in your friend list?]
@@ -527,9 +574,4 @@ EN ATTENTE...
 [\nIt will also]
 
 [Are you sure to report abuse on %s?]
-
-;file \protocols\VKontakte\src\vk_wallpost.cpp
-[Wall message for]
-
-[Attention! Message body or url should not be empty!]
 

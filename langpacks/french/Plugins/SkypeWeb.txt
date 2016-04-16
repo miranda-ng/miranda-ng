@@ -78,6 +78,8 @@ Avertissement
 [Are you sure?]
 Etes-vous sûr?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
+[Incoming call]
+
 [Edited message]
 
 [Action]
@@ -94,8 +96,6 @@ Etes-vous sûr?
 Fichier
 [Unknown event]
 Évènement inconnu
-[Incoming call]
-
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 
@@ -187,6 +187,8 @@ Erreurs
 [Incoming call sound]
 
 [Incoming call canceled sound]
+
+[Skypename]
 
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]

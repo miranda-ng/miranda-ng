@@ -146,7 +146,7 @@
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 Невозможно загрузить все требуемые данные. Нормальная работа плагина возможна, тем не менее оставьте отчёт об ошибке и ждите обновления плагина.
 [Contact doesn't have required data in database.]
-В базе отсутствуют необходимые данные контакта.
+В базе отсутствуют требуемые данные контакта.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново отправить сообщение этому контакту!
 [User cancel captcha challenge.]

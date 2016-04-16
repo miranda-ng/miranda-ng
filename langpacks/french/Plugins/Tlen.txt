@@ -236,7 +236,7 @@ Notifications
 [Network]
 Réseau
 [These changes will take effect the next time you connect to the Tlen network.]
-Certains changements ne prendront effets qu'à la reconnexion au réseau Tlen.
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau Tlen.
 [Tlen Protocol Option]
 Options
 [Accept all alerts]

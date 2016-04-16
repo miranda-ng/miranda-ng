@@ -28,7 +28,7 @@
 [Enable avatar support]
 [Check avatar validity before saving *]
 [Load avatars automatically (like ICQ Lite)]
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+[These changes will take effect the next time you connect to the ICQ network.]
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 [Use this codepage for Ansi <-> Unicode translation:]

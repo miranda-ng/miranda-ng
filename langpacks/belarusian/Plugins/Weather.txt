@@ -451,18 +451,20 @@ HTTP падлучэнне Weather
 байт
 [Description:]
 Апісанне:
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Не знойдзены файл абнаўлення. Калі ласка, праверце тэчку Plugins\\Weather.
-[Invalid ini format for: %s]
-Уласны фармат ini для: %s
 [All update data has been reloaded.]
 Усе абноўленыя дадзеныя перазагружаны.
+[Invalid ini format for: %s]
+Уласны фармат ini для: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Не знойдзены файл абнаўлення. Калі ласка, праверце тэчку Plugins\\Weather.
 [Frame Font]
 Шрыфт фрэйма
 [Frame Title Font]
 Шрыфт загалоўка фрэйма
 [Frame Background]
 Фон фрэйма
+[Weather Protocol Text Preview]
+Прагляд конту надвор'я
 [Network]
 Сеціва
 [General]
@@ -471,8 +473,6 @@ HTTP падлучэнне Weather
 Паказваць
 [Popups]
 Усплывальныя вокны
-[Weather Protocol Text Preview]
-Прагляд конту надвор'я
 [Station ID]
 ID гарады
 [Disable &weather notification]
@@ -501,10 +501,6 @@ ID гарады
 Паказваць у фрэйме
 [Unable to retrieve weather information for %s]
 Немагчыма знайсці інфармацыю пра надвор'е для %s
-[Current condition for %n]
-Бягучы стан для %n
-[Last update on:   %u]
-Апошняе абнаўленне: %u
 [Variable]
 Зменная
 [Information]
@@ -513,3 +509,7 @@ ID гарады
 Атрымліваю новыя дадзеныя. Пачакайце калі ласка...
 [More Info]
 Падрабязней
+[Current condition for %n]
+Бягучы стан для %n
+[Last update on:   %u]
+Апошняе абнаўленне: %u

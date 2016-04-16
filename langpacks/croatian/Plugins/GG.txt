@@ -38,7 +38,7 @@ opcije
 
 [Enable avatars]
 
-[You will need to reconnect for the changes you have made on this page to take effect.]
+[These changes will take effect the next time you connect to the GG network.]
 
 [Conference policy]
 
@@ -213,14 +213,6 @@ opcije
 
 [<not specified>]
 
-[Network]
-
-[General]
-
-[Conference]
-
-[Advanced]
-
 [<Last Status>]
 
 [System tray icon]
@@ -244,6 +236,14 @@ ikona područja obavijesti
 [Your details has been uploaded to the public directory.]
 
 [You have to be logged in before you can change your details.]
+
+[Network]
+
+[General]
+
+[Conference]
+
+[Advanced]
 
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]

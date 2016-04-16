@@ -38,8 +38,8 @@ Datei empfangen und nach Empfang folgendes benutzen:
 Links von unbekannten Kontakten anzeigen
 [Enable avatars]
 Avatare aktivieren
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Sie müssen sich neu verbinden, damit diese Änderungen wirksam werden.
+[These changes will take effect the next time you connect to the GG network.]
+Die Änderungen werden erst nach einer Neueinwahl ins GG-Netzwerk aktiv.
 [Conference policy]
 Konferenzverhalten
 [if total participant count greater than:]
@@ -213,14 +213,6 @@ männlich
 weiblich
 [<not specified>]
 <nicht angegeben>
-[Network]
-Netzwerk
-[General]
-Allgemein
-[Conference]
-Konferenz
-[Advanced]
-Erweitert
 [<Last Status>]
 <Letzter Status>
 [System tray icon]
@@ -245,6 +237,14 @@ Ignorieren
 Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
 [You have to be logged in before you can change your details.]
 Sie müssen sich einloggen bevor sie ihre Details ändern können.
+[Network]
+Netzwerk
+[General]
+Allgemein
+[Conference]
+Konferenz
+[Advanced]
+Erweitert
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s

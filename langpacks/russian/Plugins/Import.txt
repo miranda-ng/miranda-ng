@@ -8,7 +8,7 @@
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Импортирует контакты и сообщения из других профилей Miranda NG или из сторонних программ.
 [Choose how you would like to import:]
-Выберите, откуда необходимо произвести импорт данных:
+Выберите, откуда произвести импорт данных:
 [From a Miranda NG database.]
 Из базы Miranda NG.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]

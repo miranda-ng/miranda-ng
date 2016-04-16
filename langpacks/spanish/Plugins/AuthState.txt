@@ -15,12 +15,12 @@ Configuración de plugin
 Activar opción de menú (requiere un reinicio)
 [Show icons only for recently added contacts]
 Mostrar sólo iconos de los contactos agregados recientemente
+[Grant]
+Conceder
 [Disable AuthState icons]
 Deshabilitar iconos estado de autenticación
 [Enable AuthState icons]
 Habilitar iconos estado de autenticación
-[Grant]
-Conceder
 [Auth state]
 Estado de autenticación
 [Icons]

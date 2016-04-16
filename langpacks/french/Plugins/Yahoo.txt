@@ -136,9 +136,9 @@ Raccourci du protocole Yahoo
 [YAHOO plugin HTTP connections]
 
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Les changements que vous avez faits exigent une reconnexion à Yahoo! pour entrer en vigueur
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau Yahoo.
+[Yahoo options]
 Options YAHOO
 [You need to be connected to Yahoo to add to Ignore List.]
 Vous devez être connecté à Yahoo pour pourvoir ajouter un contact à ignorer.

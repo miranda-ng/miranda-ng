@@ -249,9 +249,9 @@ Spisak kontakata
 
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
 
-[MSN Options]
+[MSN options]
 
 [Automatically obtain host/port]
 

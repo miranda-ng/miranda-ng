@@ -247,6 +247,8 @@ ID клиента
 Колонка содержит результат выполнения скрипта.\r\nДля получения подробной информации нажмите "Помощь" в диалоге скрипта.
 [Column content is contact property (see list). Can be empty.]
 Колонка содержит свойство контакта (см. список). Может быть пустой.
+[Content is last online time.]
+Содержит время последнего появления в сети.
 [Content is time of last contact event.]
 Содержит время последнего события контакта.
 [Content is metacontact info.]

@@ -44,7 +44,7 @@
 
 [Masquerade as a Sidekick/Hiptop User]
 
-[*Aim must be reconnected for some option to take effect]
+[* Some changes will take effect the next time you connect to the AIM network]
 
 [Connection]
 
@@ -57,6 +57,8 @@ Reset
 [Manage Server Groups]
 
 [Force Single Client]
+
+[Use "clientlogin" (recommended)]
 
 [Save Profile]
 

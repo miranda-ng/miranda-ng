@@ -73,6 +73,8 @@
 Увядзіце новую тэму чату
 [Are you sure?]
 Вы ўпэўнены?
+[Incoming call]
+
 [Edited message]
 Рэдагаванае паведамленне
 [Action]
@@ -89,8 +91,6 @@ URI аб'ект
 Файл
 [Unknown event]
 Невядомая з'ява
-[Incoming call]
-
 [SkypeWeb error: Invalid data!]
 
 [[b]Original message:[/b]\n%s\n]
@@ -172,6 +172,8 @@ URI аб'ект
 [Incoming call sound]
 
 [Incoming call canceled sound]
+
+[Skypename]
 
 [Failed to establish a TRouter connection.]
 

@@ -11,5 +11,5 @@
 [Failed]
 [Open]
 [Reload]
-[Services]
 [Common scripts]
+[Services]

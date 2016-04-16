@@ -1004,7 +1004,7 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Enable UPnP port mapping]
 
-[You will need to reconnect for the changes you have made on this page to take effect.]
+[These changes will take effect the next time you connect to the network.]
 
 [Please complete the following form to create a new user profile]
 
@@ -1928,6 +1928,26 @@ sve datoteke
 [Female]
 
 [<not specified>]
+
+[Single]
+
+[Close relationships]
+
+[Engaged]
+
+[Married]
+
+[Divorced]
+
+[Separated]
+
+[Widowed]
+
+[Actively searching]
+
+[In love]
+
+[It\'s complicated]
 
 [Summary]
 

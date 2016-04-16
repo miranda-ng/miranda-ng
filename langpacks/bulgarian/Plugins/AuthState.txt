@@ -15,11 +15,11 @@
 Елемент в менюто (изисква рестарт)
 [Show icons only for recently added contacts]
 Показване на икони само за скоро добавените контакти
+[Grant]
+Разрешаване
 [Disable AuthState icons]
 Без икони за упълномощаване
 [Enable AuthState icons]
 Включване на иконите за упълномощаване
-[Grant]
-Разрешаване
 [Icons]
 Икони

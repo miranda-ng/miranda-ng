@@ -103,6 +103,10 @@
 Неизвестная ошибка
 [File transfer]
 Передача файла
+[Image upload]
+Загрузка изображения
+[HTTPServer transfer]
+Передача HTTPServer
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Server.
 [Retry]

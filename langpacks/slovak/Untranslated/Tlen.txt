@@ -78,7 +78,6 @@
 [Tlen Authentication]
 [General]
 [Notifications]
-[These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
 [Accept all alerts]
 [Ignore alerts from unauthorized contacts]

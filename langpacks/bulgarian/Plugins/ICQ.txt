@@ -73,8 +73,8 @@ ICQ аватари
 Проверяване валидността на аватара преди запаметяване*
 [Load avatars automatically (like ICQ Lite)]
 Автоматично зареждане на аватари (като ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Необходимо е да се свържете наново към мрежата ICQ, за да бъдат осъществени направените тук промените.
+[These changes will take effect the next time you connect to the ICQ network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Не можете да включвате/изключвате списъка на сървъра, докато сте свързани към мрежата ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]

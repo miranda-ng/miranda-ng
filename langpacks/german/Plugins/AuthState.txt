@@ -19,16 +19,16 @@ Hauptmenüeintrag anzeigen (erfordert Neustart)
 [Show icons only for recently added contacts]
 Icons nur für kürzlich hinzugefügte Kontakte
 ;file \plugins\AuthState\src\main.cpp
-[Disable AuthState icons]
-Authstate-Icon deaktivieren
-[Enable AuthState icons]
-Authstate-Icon aktivieren
 [Request]
 Anfrage
 [Grant]
 Kontakt ist nicht autorisiert
 [Request & Grant]
 
+[Disable AuthState icons]
+Authstate-Icon deaktivieren
+[Enable AuthState icons]
+Authstate-Icon aktivieren
 [Auth state]
 
 ;file \plugins\AuthState\src\options.cpp

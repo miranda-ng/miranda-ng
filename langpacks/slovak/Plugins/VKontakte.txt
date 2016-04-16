@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.23
+;  Version: 0.1.1.27
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,3 +31,9 @@ neznáme
 Varovanie
 [Network]
 Sieť
+[Interests]
+Záujmy
+[Music]
+Hudba
+[Games]
+Hry

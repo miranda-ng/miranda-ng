@@ -927,8 +927,8 @@ Mаксимална ширина за лента с бутони
 Частната тема (.tabsrmm файл) за контейнера ще замени стандартната. Трябва да затворите и отворите наново прозорците за съобщения след задаване на нова тема.
 [Transparency]
 Прозрачност
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Опцията изисква Windows 2000 или по-нов. Има вероятност да не е възможно ползването и ако е приложен облик за контейнера.
+[This feature may be unavailable when using a container skin.]
+Има вероятност да не е възможно ползването и ако е приложен облик за контейнера.
 [Contact avatars]
 Аватари на контактите
 [Sound notifications]

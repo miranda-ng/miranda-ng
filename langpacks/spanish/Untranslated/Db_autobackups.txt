@@ -14,8 +14,6 @@
 [Disable popups]
 [Use Dropbox]
 [Backup profile folder]
-[Miranda NG database]
-[Created by:]
 [Backup in progress]
 [Copying database file...]
 [Uploading to Dropbox failed]
@@ -38,3 +36,4 @@
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 [Select backup folder]
 [Error creating backup folder]
+[Miranda NG [%s] database backup]

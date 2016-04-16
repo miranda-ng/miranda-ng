@@ -1222,7 +1222,7 @@ Jabber източник
 [Zulu]
 зулуски
 [These changes will take effect the next time you connect to the Jabber network.]
-Промените ще бъдат осъществени при следващо свързване с мрежата Jabber.
+Промените ще бъдат осъществени при следващо свързване към мрежата Jabber.
 [Jabber Protocol Option]
 Настройки на протокола Jabber
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
@@ -1340,7 +1340,7 @@ Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
 [Some changes will take effect the next time you connect to the Jabber network.]
-Някои промени ще бъдат осъществени при следващото свързване към мрежата Jabber.
+Някои промени ще бъдат осъществени при следващо свързване към мрежата Jabber.
 [Set New Password for %s@%S]
 Задаване на нова парола за %s@%S
 [New password does not match.]
@@ -2011,15 +2011,3 @@ Jabber vCard: Редактиране на телефонен номер
 Дейности
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
-[The text of a welcome message]
-Текст на приветственото съобщение
-[First Name]
-Име
-[Last Name]
-Фамилия
-[Desired Nickname]
-Желан прякор
-[Your URL]
-Ваш URL адрес
-[Email Address]
-Имейл адрес

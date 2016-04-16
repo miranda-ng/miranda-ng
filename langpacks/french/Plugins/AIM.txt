@@ -44,8 +44,8 @@ Options avancées
 Transfert de fichier par Proxy
 [Masquerade as a Sidekick/Hiptop User]
 
-[*Aim must be reconnected for some option to take effect]
-*AIM doit être reconnecter pour valider certaines options
+[* Some changes will take effect the next time you connect to the AIM network]
+* Certaines modifications prendront effet la prochaine fois que vous vous connecterez au réseau AIM.
 [Connection]
 
 [Port:]
@@ -57,6 +57,8 @@ RAZ
 [Manage Server Groups]
 Gestion des groupes sur le serveur
 [Force Single Client]
+
+[Use "clientlogin" (recommended)]
 
 [Save Profile]
 Enregistrer

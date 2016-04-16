@@ -78,7 +78,7 @@
 
 [Load avatars automatically (like ICQ Lite)]
 
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+[These changes will take effect the next time you connect to the ICQ network.]
 
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 

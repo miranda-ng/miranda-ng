@@ -43,8 +43,6 @@
 Без замяна при посочване
 [Built-in message dialog support]
 Прозорец за съобщения
-[Disable]
-Изключване
 [Smiley button]
 Бутон "Усмивки"
 [Surround inserted smiley with spaces]
@@ -65,10 +63,8 @@ HTTP връзки на SmileyAdd
 Задаване на категория усмивки
 [Background color]
 Цвят на фона
-[Off]
-Изкл.
-[On]
-Включено
+[Show]
+Показване
 [Smiley packs]
 Пакети усмивки
 [All files]

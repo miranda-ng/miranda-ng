@@ -220,7 +220,7 @@
 [Cancel all if an account connects from another location]
 Отменить, если учётная запись подключена из другого места
 [Reconnect on APM resume]
-Переподключаться после спящего режима
+Повторно подключиться после спящего режима
 [Stop trying to reconnect]
 Прекратить подключение
 [Set delay to]
@@ -236,7 +236,7 @@
 [Timers]
 Таймеры
 [Reconnecting]
-Переподключение
+Повторное подключение
 [Ignore locked status of accounts]
 Игнорировать блокированные учётные записи
 [Consider connection lost after]

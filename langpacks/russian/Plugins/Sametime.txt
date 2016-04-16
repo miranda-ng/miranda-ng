@@ -121,6 +121,8 @@ ID и версия клиента
 %s\n\nОшибка Sametime %S\n%s
 [Success]
 Успешно
+[General failure]
+Общая ошибка
 [Request delayed]
 Запрос отложен
 [Request is invalid]
@@ -320,9 +322,9 @@ IP токена не совпадает
 [The registration mode is not supported]
 Регистрация не поддерживается
 [User does not have appropriate privilege level]
-У пользователя нет необходимых прав доступа
+У пользователя отсутствуют необходимые права доступа
 [Email address must be used]
-Необходим адес E-mail
+Нужен адрес E-mail
 [Error in DNS]
 Ошибка DNS
 [Fatal error in DNS]
@@ -348,7 +350,7 @@ IP токена не совпадает
 [Unable to log in because the server is either unreachable, or not configured properly.]
 Невозможно подключиться, так как сервер недоступен или настроен неправильно.
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
-Невозможно подключиться к домашнему серверу Sametime через указанный сервер: ваш домашний сервер необходимо обновить.
+Невозможно подключиться к домашнему серверу Sametime через указанный сервер: обновите ваш домашний сервер.
 [The user is not online]
 Пользователь не в сети
 [The user is in do not disturb mode]

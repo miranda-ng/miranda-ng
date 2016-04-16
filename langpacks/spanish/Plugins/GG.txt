@@ -17,8 +17,6 @@ Eliminar cuenta
 Cambiar contraseña
 [Options]
 Opciones
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Tendrá que volver a conectarse para que los cambios en esta página surtan efecto.
 [Keep connection alive]
 Mantener viva la conexión
 [File Transfer]
@@ -61,16 +59,16 @@ Masculino
 Femenino
 [<not specified>]
 <no especificado>
+[System tray icon]
+Icono de la bandeja de sistema
+[Ignore]
+Ignorar
 [Network]
 Red
 [General]
 General
 [Advanced]
 Avanzado
-[System tray icon]
-Icono de la bandeja de sistema
-[Ignore]
-Ignorar
 [Contact list]
 Lista de contactos
 [Text files]

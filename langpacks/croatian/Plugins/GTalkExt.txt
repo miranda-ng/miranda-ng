@@ -46,6 +46,11 @@
 
 [Test]
 
+;file \protocols\GTalkExt\src\GTalkExt.cpp
+[Popup icon]
+
+[Protocols]
+
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 

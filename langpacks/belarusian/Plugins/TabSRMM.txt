@@ -961,8 +961,8 @@ Esc зачыняе сесію (інакш - згортвае)
 Можна абраць індывідуальную схему (файл .tabsrmm), якая заменіць схему лога паведамленняў у гэтым кантэйнеры. Пры змене опцыі неабходна зачыніць і зноў адкрыць усе вокны паведамленняў.
 [Transparency]
 Празрыстасць
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Гэта опцыя патрабуе Windows 2000 ці навей і можа быць недасяжны пры выкарыстанні скіна кантэйнера.
+[This feature may be unavailable when using a container skin.]
+Гэта опцыя можа быць недасяжны пры выкарыстанні скіна кантэйнера.
 [Contact avatars]
 Аватары кантактаў
 [Sound notifications]

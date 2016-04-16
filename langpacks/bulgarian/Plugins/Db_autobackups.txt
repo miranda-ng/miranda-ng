@@ -35,10 +35,6 @@
 Изключване на лентата за напредък
 [Disable popups]
 Изключване на Popups
-[Miranda NG database]
-База данни на Miranda NG
-[Created by:]
-Създадена от:
 [Backup in progress]
 Създава се резервно копие
 [Copying database file...]

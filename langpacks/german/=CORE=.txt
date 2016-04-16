@@ -1004,8 +1004,8 @@ SSL-Zertifikate überprüfen
 Eingehende Verbindungen
 [Enable UPnP port mapping]
 UPnP-Portweiterleitungen aktivieren
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Sie müssen sich neu verbinden, damit diese Änderungen wirksam werden.
+[These changes will take effect the next time you connect to the network.]
+
 [Please complete the following form to create a new user profile]
 Bitte füllen Sie den folgenden Dialog aus, um ein neues Profil zu erstellen.
 [Profile]
@@ -1929,6 +1929,26 @@ männlich
 weiblich
 [<not specified>]
 <nicht angegeben>
+[Single]
+Single
+[Close relationships]
+Feste Beziehung
+[Engaged]
+Verlobt
+[Married]
+Verheiratet
+[Divorced]
+Geschieden
+[Separated]
+Getrennt
+[Widowed]
+Verwitwet
+[Actively searching]
+Aktiv am Suchen
+[In love]
+Verliebt
+[It\'s complicated]
+
 [Summary]
 Zusammenfassung
 [Contact]

@@ -230,7 +230,7 @@ Tlen пошта
 [Network]
 Сеціва
 [These changes will take effect the next time you connect to the Tlen network.]
-Змены адбудуцца, пасля таго як Вы перападключыцеся Tlen.
+Змены будуць ужытыя пры наступным уваходзе ў Tlen.
 [Tlen Protocol Option]
 Налады пратаколу Tlen
 [Accept all alerts]

@@ -249,9 +249,9 @@ Verwandte Liste
 Lokale Liste
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Der Import von serverseitigen Gruppen wird Ihre Kontaktliste verändern. Wollen Sie Ihre Gruppen an den Server übermitteln?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Sie müssen sich neu ins MSN-Netzwerk einwählen, bevor die Änderungen wirksam werden.
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Die Änderungen werden erst nach einer Neueinwahl ins MSN-Netzwerk aktiv.
+[MSN options]
 MSN-Einstellungen
 [Automatically obtain host/port]
 Host/Port automatisch ermitteln

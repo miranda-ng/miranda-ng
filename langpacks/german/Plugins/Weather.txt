@@ -462,12 +462,12 @@ Bytes
 [Description:]
 Beschreibung:
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Keine Aktualisierungs-Datei gefunden. Prüfen Sie bitte Ihr "plugins\\weather" Verzeichnis.
-[Invalid ini format for: %s]
-Falsches INI-Format für: %s
 [All update data has been reloaded.]
 Alle aktualisierten Daten wurden geladen.
+[Invalid ini format for: %s]
+Falsches INI-Format für: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Keine Aktualisierungs-Datei gefunden. Prüfen Sie bitte Ihr "plugins\\weather" Verzeichnis.
 ;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 Frame-Schrift
@@ -476,6 +476,8 @@ Frame-Titel-Schrift
 [Frame Background]
 Frame-Hintergrund
 ;file \plugins\Weather\src\weather_opt.cpp
+[Weather Protocol Text Preview]
+Wetter-Protokoll Textvorschau
 [Network]
 Netzwerk
 [General]
@@ -484,8 +486,6 @@ Allgemein
 Anzeige
 [Popups]
 Popups
-[Weather Protocol Text Preview]
-Wetter-Protokoll Textvorschau
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
@@ -518,10 +518,6 @@ Als Frame anzeigen
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.
 ;file \plugins\Weather\src\weather_userinfo.cpp
-[Current condition for %n]
-Momentane Lage für %n
-[Last update on:   %u]
-Letzte Aktualisierung am:   %u
 [Variable]
 Variable
 [Information]
@@ -530,3 +526,7 @@ Information
 Empfange neue Daten, bitte warten...
 [More Info]
 Mehr Info
+[Current condition for %n]
+Momentane Lage für %n
+[Last update on:   %u]
+Letzte Aktualisierung am:   %u

@@ -1,8 +1,4 @@
 ﻿[Tlen]
 [Image transfer policy]
-[Publicly visible status]
-[Public avatar]
-[%S mail]
 [Tlen login]
 [Web message]
-[%s mail]

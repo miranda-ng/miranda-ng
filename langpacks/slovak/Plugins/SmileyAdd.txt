@@ -13,5 +13,7 @@ Autor:
 Verzia:
 [Background color]
 Farba pozadia
+[Show]
+Zobraziť
 [All files]
 Všetky súbory

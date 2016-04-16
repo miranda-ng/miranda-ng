@@ -69,6 +69,8 @@ Od:
 Podrobne
 [Network]
 Sieť
+[These changes will take effect the next time you connect to the Tlen network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Tlen siete.
 [Enter password for %s]
 Zadať heslo pre %s
 [Tlen Connection Error]

@@ -967,8 +967,8 @@ URL адреси
 Потвърждаване на SSL сертификатите
 [Incoming connections]
 Входящи връзки
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
+[These changes will take effect the next time you connect to the network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата.
 [Please complete the following form to create a new user profile]
 Попълнете следния формуляр, за да създадете нов потребителски профил.
 [Profile]

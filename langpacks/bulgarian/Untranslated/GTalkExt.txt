@@ -3,6 +3,8 @@
 [Clear pseudocontact history before adding new events]
 [Mark history event read when popup closed]
 [0 means default timeout,\n-1 means no timeout]
+[Popup icon]
+[Protocols]
 [Open mailbox]
 [You've received an e-mail\n%s unread threads]
 [Why C sucks]

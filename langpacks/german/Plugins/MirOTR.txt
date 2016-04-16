@@ -270,8 +270,8 @@ Wir haben eine missgeformte Datennachricht von '%s' empfangen
 Die folgende Nachricht von'%s' war NICHT verschlüsselt::\n\n%s
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 '%s' hat Ihnen eine Nachricht für eine andere Sitzung gesendet. Wenn Sie mehrfach angemeldet sind, dann könnte eine andere Sitzung diese Nachricht empfangen haben.
-[unknown OTR message received, please report that to Miranda NG]
-Unbekannte OTR-Nachricht empfangen, bitte melden Sie das Miranda NG
+[unknown OTR message received, please report that to Miranda NG developers]
+
 ;file \plugins\MirOTR\src\otr.h
 [ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
  hat eine private Off-the-Record-Unterhaltung mit Ihnen angefragt, aber leider haben Sie keinen Client der dies unterstützt.\nWeitere Informationen unter http://de.wikipedia.org/wiki/Off-the-Record_Messaging

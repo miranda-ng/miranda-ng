@@ -47,8 +47,8 @@ Notifikácia
 Chyba
 [Contact list]
 Zoznam kontaktov
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Pre uplatnenie zmien sa musite nanovio prihlásiť do siete MSN Messenger.
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do MSN Messenger siete.
 [Network]
 Sieť
 [Connection]

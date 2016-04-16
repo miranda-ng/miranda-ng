@@ -573,8 +573,6 @@ Resolvuj mená cez proxy
 Napr: 1050-1070, 2000-2010, 2500
 [Incoming connections]
 Prichádzajúce pripojenia
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
 [Download more plugins]
 Získať ďalšie plug-iny
 [Homepage:]

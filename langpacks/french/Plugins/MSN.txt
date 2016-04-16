@@ -249,9 +249,9 @@ Liste de contacts
 
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 L'importation des groupes du serveur devrait changer l'apparence de votre liste de contacts à la prochaine connexion. Voulez-vous enregistrer vos groupes sur le serveur ?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Les changements requièrent une reconnexion au réseau MSN Messenger avant qu'ils soient effectifs
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau MSN Messenger.
+[MSN options]
 Options MSN
 [Automatically obtain host/port]
 Port et hôte automatique

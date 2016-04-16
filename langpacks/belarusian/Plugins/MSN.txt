@@ -237,9 +237,9 @@ MSN Чат
 Лакальны спіс
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Імпарт гуртоў з сервера можа змяніць размяшчэнне кантактаў пасля наступнага ўваходу. Загрузіць гурты на сервер?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Змены ўступяць пры наступным уваходзе ў сетку MSN
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Змены будуць ужытыя пры наступным уваходзе ў MSN Messenger.
+[MSN options]
 Налады MSN
 [Automatically obtain host/port]
 Аўтаматычна атрымліваць хост/порт

@@ -166,7 +166,7 @@ FTP файл менеджер
 [Zip and upload file]
 Запаковать и отправить файл
 [You have to fill FTP server setting before upload a file.]
-Для отправки файла необходимо указать FTP-сервер в настройках.
+Для отправки файла нужно указать FTP-сервер в настройках.
 [Error has occurred while trying to create a dialog!]
 Ошибка при создании диалога!
 [File upload complete]

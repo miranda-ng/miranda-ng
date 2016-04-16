@@ -13,6 +13,8 @@ Užív. meno:
 Storno
 [sec]
 sek
+[These changes will take effect the next time you connect to the Twitter network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Twitter siete.
 [Colors]
 Farby
 [Back]

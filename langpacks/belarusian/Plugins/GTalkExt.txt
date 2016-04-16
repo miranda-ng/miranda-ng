@@ -45,6 +45,10 @@
 0 - па змаўчанні,\n-1 - Бясконца
 [Test]
 Прагляд
+[Popup icon]
+
+[Protocols]
+Пратаколы
 [Open mailbox]
 Адкрыць паштовую скрыню
 [You've received an e-mail\n%s unread threads]

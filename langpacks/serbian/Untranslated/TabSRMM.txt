@@ -389,7 +389,7 @@
 [Window size and theme]
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
 [Transparency]
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
+[This feature may be unavailable when using a container skin.]
 [Contact avatars]
 [Sound notifications]
 [Container options]

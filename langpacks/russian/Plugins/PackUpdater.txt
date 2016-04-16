@@ -76,7 +76,7 @@
 [Sec]
 сек.
 [* Needs popup actions to be enabled]
-* Необходимы включённые действия вспл. окон
+* Нужны включённые действия вспл. окон
 [Not sets for "Message boxes"]
 Не устанавливает для "Диалоги"
 [Boxes]

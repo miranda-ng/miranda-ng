@@ -16,7 +16,7 @@
 [Exit Miranda]
 Выход из Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Несмотря на то, что программа продолжает работать, её нужно перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьёзные проблемы.
+Несмотря на то, что программа продолжает работать, её необходимо перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьёзные проблемы.
 [About Clist nicer]
 О плагине Clist nicer
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -420,7 +420,7 @@
 [To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
 Чтобы показать ранее скрытый контакт, откройте раздел "Настройки -> Контакты -> Игнорировать", найдите контакт и поставьте галочку перед его именем.
 [Display options]
-Опции отображения
+Настройки отображения
 [Show contact with priority]
 Контакт с приоритетом
 [Show avatar:]
@@ -568,7 +568,7 @@
 [When space is available]
 Когда позволяет место
 [When needed by status message]
-Когда нужно статус сообщению
+Когда нужно сообщению статуса
 [Contact list display and ignore options for %s]
 Настройки отображения и игнорирования для %s
 [&Contact list settings...]
@@ -612,7 +612,7 @@
 [Set status modes]
 Установить режимы статуса
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
-Для запрошенного действия необходим правильный выбор контакта. Выберите контакт из списка и повторите.
+Для запрошенного действия нужен правильный выбор контакта. Выберите контакт из списка и повторите.
 [Parameter mismatch]
 Несоответствие параметра
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
@@ -620,7 +620,7 @@
 [Service failure]
 Ошибка службы
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
-Необходим плагин FloatingContacts, поскольку поддержка встроенных плавающих контактов прекращена.
+Нужен плагин FloatingContacts, поскольку поддержка встроенных плавающих контактов прекращена.
 [Warning]
 Предупреждение
 [Standard contacts]

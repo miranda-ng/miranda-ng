@@ -1,0 +1,131 @@
+﻿;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+[A list of entities with administrative privileges]
+Eine Liste an Benutzern mit administrativen Befugnissen
+[The text of an announcement to be sent to active users or all users]
+Der Text einer Ankündigung, die an aktive oder alle Benutzer gesendet wird
+[A list of entities with whom communication is blocked]
+Eine Liste der Benutzer, mit denen Kommunikation blockiert ist
+[The number of seconds to delay before applying a change]
+Die Anzahl an Sekunden der Verzögerung vor Anwendung einer Änderung
+[The Jabber IDs that have been disabled]
+Die deaktivierten Jabber-IDs
+[The number of disabled entities]
+Die Anzahl deaktivierter Benutzer
+[The email address for a user]
+Die E-Mail-Adresse eines Benutzers
+[The given (first) name of a user]
+Der Vorname eines Benutzers
+[The last login time (per XEP-0082) of a user]
+Die letzte Anmeldezeit (gemäß XEP-0082) eines benutzers
+[The text of a message of the day]
+Der Text einer Nachricht des Tages
+[The names of an account's online sessions]
+Die Namen der Onlinesitzungen eines Kontos
+[The number of online entities]
+Die Anzahl der Onlineentitäten
+[The password for an account]
+Das Passwort für ein Konto
+[Password verification]
+Passwortverifizierung
+[A list of registered entities]
+Eine Liste registrierter Entitäten
+[The number of registered entities]
+Die Anzahl registrierter Entitäten
+[The family (last) name of a user]
+Der Familienname (Nachname) eines Benutzers
+[The text of a welcome message]
+Der Text einer Willkommensnachricht
+[First Name]
+Vorname
+[Last Name]
+Nachname
+[Desired Nickname]
+Gewünschter Nickname
+[Your URL]
+Ihr URL
+[Email Address]
+E-Mail-Adresse
+[FAQ Entry]
+FAQ-Eintrag
+[Whether to allow public searching for room]
+Ob öffentliche Suche in diesem Raum erlaubt ist
+[Full list of room admins]
+Volle Liste aller Raum-Admins
+[Short description of room]
+Kurze Beschreibung des Raums
+[Natural-language room name]
+Raumname in natürlicher Sprache
+[Full list of room owners]
+Vollständige Liste der Raumbesitzer
+[The room password]
+Das Passwort für den Raum
+[The maximum number of child nodes that can be associated with a collection]
+Die Höchstzahl an Kindknoten, die mit einer Sammlung verknüpft werden können
+[The maximum number of items to persist]
+Die Höchstzahl an zu behaltenden Elementen
+[The maximum payload size in bytes]
+Die maximale Nutzlastgröße in Byte
+[The publisher model]
+Das Veröffentlichungsmodell
+[Whether to allow subscriptions]
+Ob Abonnements erlaubt werden sollen
+[A friendly name for the node]
+Ein freundlicher Name für den Knoten
+[The date and time when the node was created]
+Datum und Uhrzeit der Knotenerzeugung
+[The JID of the node creator]
+Die JID des Knotenerzeugers
+[A description of the node]
+Eine Beschreibung des Knotens
+[The default language of the node]
+Die Standardsprache des Knotens
+[The name of the node]
+Der Name des Knotens
+[Payload type]
+Nutzlasttyp
+[Whether to automatically authorize subscription requests]
+Ob Autorisierungsanfragen automatisch angenommen werden
+[Whether to automatically accept file transfers]
+Ob Dateiübertragungen automatisch angenommen werden
+[Whether to automatically open new messages]
+Ob neue nachrichten automatisch geöffnet werden
+[Whether to automatically go offline when idle]
+Ob bei Untätigkeit automatisch offline gegangen wird
+[Whether to play sounds]
+Ob Klänge abgespielt werden sollen
+[A list of pending file transfers]
+Eine Liste ausstehender Dateiübertragungen
+[A list of joined group chat rooms]
+Eine Liste betretener Gruppenchaträume
+[The status message text]
+Der Statusnachrichtentext
+[The new priority for the client]
+Die neue Priorität für den Client
+[Account name associated with the user]
+Mit dem Benutzer verknüpfter Kontoname
+[Familiar name of the user]
+Bekannter Name des Benutzers
+[Password or secret for the user]
+Passwort oder geheime Phrase für den Benutzer
+[Full name of the user]
+Voller Name des Benutzers
+[First name or given name of the user]
+Vor- oder Rufname des Benutzers
+[Last name, surname, or family name of the user]
+Nachname des Benutzers
+[Email address of the user]
+E-Mail-Adresse des Benutzers
+[Family Name]
+Familienname
+[Whether to accept the invitation]
+Ob die Einladung angenommen werden soll
+[Whether may send Chat State Notifications per XEP-0085]
+Ob Chatstatusbenachrichtigungen gemäß XEP-0085 gesendet werden dürfen
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+Ob XHTML-Nachrichtenformatierungen gemäß XEP-0071 erlaubt sind
+[Minimum security level]
+Mindestsicherheitsstufe
+[Whether to terminate the session]
+Ob die Sitzung terminiert werden soll
+[Whether to enable Message Receipts per XEP-0184]
+Ob Nachrichtenbestätigungen gemäß XEP-0184 aktiviert sind

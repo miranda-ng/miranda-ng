@@ -19,15 +19,15 @@
 [Show icons only for recently added contacts]
 
 ;file \plugins\AuthState\src\main.cpp
-[Disable AuthState icons]
-
-[Enable AuthState icons]
-
 [Request]
 
 [Grant]
 
 [Request & Grant]
+
+[Disable AuthState icons]
+
+[Enable AuthState icons]
 
 [Auth state]
 

@@ -203,9 +203,9 @@ MSN услуги
 Местен списък
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Внасянето на групите от сървъра може да измени положението на някои контакти при следващо вписване в MSN. Желаете ли вашите групи да бъдат качени на сървъра?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Направените промени изискват да се свържете наново с мрежата MSN, за да бъдат осъществени.
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата MSN.
+[MSN options]
 MSN настройки
 [Automatically obtain host/port]
 Автоматично получаване на хост/порт

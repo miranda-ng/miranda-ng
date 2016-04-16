@@ -12,7 +12,7 @@
 [Fingerprint plugin not found.]
 Плагин Fingerprint не найден.
 [ClientChangeNotify requires it to work properly.]
-Он необходим для работы ClientChangeNotify.
+Он нужен для работы ClientChangeNotify.
 [Don't remind me anymore]
 Больше не напоминать
 [Enable notification]

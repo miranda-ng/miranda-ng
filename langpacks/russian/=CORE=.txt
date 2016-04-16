@@ -1008,7 +1008,7 @@
 [Driver]
 Драйвер
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Проблема: Не найден ни один драйвер базы данных, невозможно создать новый профиль, вам необходим файл dbx_mmap.dll
+Проблема: Не найден ни один драйвер базы данных, невозможно создать новый профиль, вам нужен файл dbx_mmap.dll
 [Download more plugins]
 Скачать плагины
 [Author(s):]
@@ -2398,7 +2398,7 @@ xСтатус
 [Loading... %d%%]
 Загрузка... %d%%
 [%s options]
-%s опции
+Настройки %s
 [Miranda NG options]
 Настройки Miranda NG
 [Extra icons]
@@ -2458,7 +2458,7 @@ xСтатус
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda.\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет".
+Ваша учётная запись успешно обновлена. Для её активации нужно перезапустить Miranda.\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
 [Account name must be filled.]
@@ -2502,7 +2502,7 @@ ID учётной записи
 [Account %s is being deleted]
 Удаление учётной записи %s
 [You need to disable plugin to delete this account]
-Для удаления учётной записи необходимо отключить протокол
+Для удаления учётной записи нужно отключить протокол
 [&Accounts...]
 &Учётные записи...
 [Account]

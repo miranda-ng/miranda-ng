@@ -26,7 +26,7 @@
 [&Del]
 &Удалить
 [User info - Required]
-Инфо пользователя - Необходимо
+Инфо пользователя - Требуется
 [Nick]
 Ник
 [Alternative nick]
@@ -50,7 +50,7 @@ ID пользователя
 [Rejoin channel if kicked]
 Перезайти на канал после кика
 [Rejoin channels on reconnect]
-Перезайти при переподключении
+Перезайти при повторном подключении
 [Disable tray balloon on error]
 Отключить сообщения в трее
 [Show addresses]
@@ -194,7 +194,7 @@ Wildcard поиск по сети
 [Hidden]
 Скрытый
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-Опции настройки комнаты чата. Для настройки комнаты чата нужны права администратора.
+Настройки комнаты чата. Для этого, чаще всего, требуются права администратора.
 [Strip colors]
 Цвета полос
 [Normal]
@@ -612,11 +612,11 @@ WallOps от %s:\s
 [Set information for nick]
 Установить инфо о нике
 [Please enter nick you want to link to your current nick]
-Введите ник, который нужно закрепить за текущим ником
+Введите ник, который хотите закрепить за текущим ником
 [Link another nick to current nick]
 Закрепить другой ник к этому нику
 [Please enter nick you want to unlink from your current nick]
-Введите ник, который нужно отцепить от текущего
+Введите ник, который хотите отцепить от текущего
 [Unlink another nick from current nick]
 Отцепить другой ник от текущего
 [Please enter nick you want to set as your main nick]
@@ -734,7 +734,7 @@ Nickserv убить фантома
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Быстрее: в сети ищется лишь ник, в точности совпадающий c указанным. Маска узла необязательна, но добавляет безопасности. Поддерживаются метасимволы ? и *.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-Медленнее: ищутся ники, удовлетворяющие указанным метасимволам. Обязательно нужно указать маску узда и минимум 4 символа в поле "Ник". Поддерживаются метасимволы ? и *.
+Медленнее: ищутся ники, удовлетворяющие указанным метасимволам. Необходимо указать маску узла и минимум 4 символа в поле "Ник". Поддерживаются метасимволы ? и *.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
 [Please wait...]

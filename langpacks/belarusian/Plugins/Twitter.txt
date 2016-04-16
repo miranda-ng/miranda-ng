@@ -35,8 +35,8 @@ URL:
 кожныя
 [sec]
 сек
-[Please cycle your connection for these changes to take effect]
-Змены ўступяць у сілу пры наступным далучэнні
+[These changes will take effect the next time you connect to the Twitter network.]
+Змены будуць ужытыя пры наступным уваходзе ў Twitter.
 [Treat tweets as messages]
 Твіты як паведамленні
 [Enable popup notifications for tweets]
@@ -73,7 +73,7 @@ URL:
 Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Не атрымалася атрымаць жэтоны доступу Twitter, выйдзіце і паўтарыце спробу. Калі так адбываецца заўсёды, праверце злучэнне з інтэрнэтам.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 
 [Send Tweet...]
 Паслаць твіт...

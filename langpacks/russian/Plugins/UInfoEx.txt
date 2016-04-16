@@ -320,7 +320,7 @@
 [Select modules]
 Выберите модули
 [Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-Отметьте в списке те модули, которые вы хотите экспортировать для контактов. Для добавления контакта из файла в виде новой записи, необходимо экспортировать хотя бы модуль протокола.
+Отметьте в списке те модули, которые вы хотите экспортировать для контактов. Для добавления контакта из файла в виде новой записи, нужно экспортировать хотя бы модуль протокола.
 [Check all]
 Выбрать всё
 [Uncheck all]

@@ -7,6 +7,7 @@
 [Connection]
 [Disable SSL]
 [Force Single Client]
+[Use "clientlogin" (recommended)]
 [Create a new AIM account]
 [Users who can contact me:]
 [Allow all users]

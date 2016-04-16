@@ -41,14 +41,14 @@
 Потребител
 [Are you sure?]
 Сигурни ли сте?
+[Incoming call]
+Входящо обаждане
 [Action]
 Действие
 [File]
 Файл
 [Unknown event]
 Неизвестно събитие
-[Incoming call]
-Входящо обаждане
 [Call]
 Обаждане
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]

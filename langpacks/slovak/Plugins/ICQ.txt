@@ -21,8 +21,8 @@ Pripájací server:
 Port:
 [Default]
 Prednastavené
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-K dokončeniu zmien ktoré ste urobili sa bude treba odpojiť a znovu pripojiť do siete ICQ.
+[These changes will take effect the next time you connect to the ICQ network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do ICQ siete.
 [Messaging]
 Rozhovor
 [Direct connections]

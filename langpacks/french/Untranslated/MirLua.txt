@@ -7,5 +7,4 @@
 [Scripts folder]
 [Script]
 [Loaded]
-[Failed]
 [Common scripts]

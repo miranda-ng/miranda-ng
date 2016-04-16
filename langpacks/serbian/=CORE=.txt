@@ -1004,8 +1004,8 @@ Potvrditi SSL sertifikate
 Dolazne konekcije
 [Enable UPnP port mapping]
 Dozvoliti mapiranje portova putem UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Kako bi podešavanja stupila na snagu, morate se ponovo konektovati.
+[These changes will take effect the next time you connect to the network.]
+
 [Please complete the following form to create a new user profile]
 Popunite obrazac profla i kreirajte novi profil
 [Profile]
@@ -1929,6 +1929,26 @@ Muško
 Žensko
 [<not specified>]
 <neodređeno>
+[Single]
+
+[Close relationships]
+
+[Engaged]
+
+[Married]
+
+[Divorced]
+
+[Separated]
+
+[Widowed]
+
+[Actively searching]
+
+[In love]
+
+[It\'s complicated]
+
 [Summary]
 Rezime
 [Contact]

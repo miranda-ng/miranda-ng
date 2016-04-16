@@ -8,7 +8,7 @@
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
 [Load from file]
-Импорт из файла
+Загрузить из файла
 [Select existing]
 Выбрать существующий
 [Turn on encryption]
@@ -103,8 +103,16 @@ ID ключа:
 Получен зашифрованный файл от контакта с ограниченными возможностями шифрования.
 [Choose which keys to export]
 Выберите ключи для экспорта
+[Export all private keys]
+Экспорт всех приватных ключей
+[Export public and private keys]
+Экспорт публичных и приватных ключей
+[Change private key password]
+Изменения пароля приватного ключа
 [Current password:]
 Текущий пароль:
+[New password twice:]
+Новый пароль (дважды):
 [User list:]
 Список пользователей:
 [Export PubKey]
@@ -133,6 +141,12 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
+[Export keys]
+Экспорт ключей
+[Import keys]
+Импорт ключей
+[Send public key]
+Отправить публичный ключ
 [Export GPG Public keys]
 Экспортировать публичные GPG ключи
 [Import GPG Public keys]
@@ -187,6 +201,10 @@ ID ключа:
 Получен ключ от %s
 [Key length must be of length from 1024 to 4096 bits]
 Длина ключа должна быть от 1024 до 4096 бит
+[Name must contain at least 5 characters]
+Имя должно содержать не менее 5 символов
+[Name cannot contain '(' or ')']
+Имя не может содержать '(' или ')'
 [Invalid Email]
 Неверный e-mail
 [GPG binary is set and valid (this is good).\n]
@@ -209,6 +227,10 @@ ID ключа:
 Вы не выбрали приватный ключ.\nВы хотите сделать это сейчас?
 [Own private key warning]
 Внимание! Не выбран приватный ключ.
+[Do you want to load key for all subcontacts?]
+Загрузить ключ для всех субконтактов?
+[Metacontact detected]
+Обнаружен метаконтакт
 [Services]
 Службы
 [Main]
@@ -231,12 +253,20 @@ ID ключа:
 Вы хотите убрать ключ для метаконтакта (всех субконтактов)?
 [Export public key]
 Экспорт открытого ключа
+[.asc pubkey file]
+Файл публичного ключа (.asc )
 [LOG files]
 Файлы журнала
+[Turn off encryption]
+Выключить шифрование
 [Turn off GPG encryption]
 Выключить шифрование GPG
 [Turn on GPG encryption]
 Включить шифрование GPG
+[Keys export result]
+Результат экспорта ключей
+[Keys import result]
+Результат импорта ключей
 [New passwords do not match]
 Новые пароли не совпадают
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]

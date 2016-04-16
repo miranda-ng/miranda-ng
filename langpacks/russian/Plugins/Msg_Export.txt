@@ -71,10 +71,14 @@ UTF8 в новых файлах
 Имя файла по умолчанию
 [Copy]
 Копировать
+[Error: Optimal buffer size decreased to a too low size!]
+Ошибка: Оптимальный размер буфера уменьшился до чересчур малого значения!
 [Internal error! (lExtraRead >= 0)]
 Внутренняя ошибка! (lExtraRead >= 0)
 [Failed to load Rich Edit (Msftedit.dll)]
 Не удалось загрузить Rich Edit (Msftedit.dll)
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+Не удалось открыть файл\r\n%s\r\n\r\nСобытий в базе: %d
 [Search string was not found!]
 Строка не найдена!
 [Save as RTF]
@@ -89,6 +93,8 @@ UTF8 в новых файлах
 Ошибка создания файла
 [Failed to save file]
 Ошибка сохранения файла
+[History was saved successfully in file\r\n]
+История успешно сохранена в файл\r\n
 [Open E&xported History]
 Эк&спортированная история
 [No contacts found to export]

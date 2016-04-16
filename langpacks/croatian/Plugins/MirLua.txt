@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.6.1
+;  Version: 0.11.7.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -35,7 +35,7 @@
 [Reload]
 
 ;file \plugins\MirLua\src\mlua_options.cpp
-[Services]
-
 [Common scripts]
+
+[Services]
 

@@ -36,8 +36,8 @@ Abrufrate:
 Einmal alle
 [sec]
 Sek.
-[Please cycle your connection for these changes to take effect]
-Bitte erneuern Sie Ihre Verbindungen, damit die Einstellungen wirksam werden
+[These changes will take effect the next time you connect to the Twitter network.]
+Die Änderungen werden erst nach einer Neueinwahl ins Twitter-Netzwerk aktiv.
 [Treat tweets as messages]
 Tweets als Nachrichten behandeln
 [Enable popup notifications for tweets]
@@ -75,8 +75,8 @@ Geben Sie die von Twitter bereitgestellte PIN ein, um die Anmeldung abzuschließ
 OAuth-Variablen sind in der falschen Reihenfolge, sie wurden zurückgesetzt. Bitte verbinden und autorisieren Sie Miranda neu mit Twitter (erledigen Sie das PIN-Zeug noch mal)
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen Sie es erneut. Wenn dies häufiger geschieht, überprüfen Sie Ihre Internetverbindung.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
-Ihnen fehlt der Nick-Schlüssel in der Datenbank. Das ist wirklich keine große Sache, aber Sie werden einige kleinere Probleme bemerken (Selbstkontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder setzen Sie Ihr Twitterkonto in den Kontooptionen zurück
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
+
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 Tweet senden...

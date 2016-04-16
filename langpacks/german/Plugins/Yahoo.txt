@@ -136,9 +136,9 @@ YAHOO Link Protokoll
 [YAHOO plugin HTTP connections]
 Yahoo-Plugin HTTP-Verbindungen
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Die vorgenommenen Änderungen werden erst nach einer Neuverbindung zum Yahoo-Netzwerk aktiv.
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Die Änderungen werden erst nach einer Neueinwahl ins Yahoo-Netzwerk aktiv.
+[Yahoo options]
 Yahoo-Einstellungen
 [You need to be connected to Yahoo to add to Ignore List.]
 Sie müssen mit Yahoo online sein, um jemanden zu Ihrer Ignorierliste hinzufügen zu können.

@@ -18,7 +18,7 @@
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
 Не удалось отправить сообщение. Скорее всего, вы отправляете сообщения слишком часто, либо чат полностью отключён.
 [Set server address to connect.]
-Для подключения необходимо указать адрес сервера.
+Для подключения нужно указать адрес сервера.
 [Protocol icon]
 Значок протокола
 [%s server connection]

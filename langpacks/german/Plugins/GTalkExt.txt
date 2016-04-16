@@ -46,6 +46,11 @@ Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
 0 bedeutet Standard-Zeitüberschreitung\n-1 bedeutet unendlich
 [Test]
 Testen
+;file \protocols\GTalkExt\src\GTalkExt.cpp
+[Popup icon]
+
+[Protocols]
+Protokolle
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Mailbox öffnen

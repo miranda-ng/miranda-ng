@@ -78,8 +78,8 @@ Activer le support des avatars
 Vérifier l'avatar avant de l'enregistrer *
 [Load avatars automatically (like ICQ Lite)]
 Charger les avatars automatiquement (comme ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Vous devez vous reconnecter au réseau ICQ pour que les changements effectués sur cette page soient effectifs.
+[These changes will take effect the next time you connect to the ICQ network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Vous ne pouvez (dés)activer le support serveur de la liste de contacts lorsque vous êtes connecté au réseau ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]

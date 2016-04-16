@@ -78,6 +78,8 @@ Neues Thema für diesen Chatraum eingeben
 [Are you sure?]
 Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
+[Incoming call]
+Eingehender Anruf
 [Edited message]
 Bearbeitete Nachricht
 [Action]
@@ -94,8 +96,6 @@ URI-Objekt
 Datei
 [Unknown event]
 Unbekanntes Ereignis
-[Incoming call]
-Eingehender Anruf
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 
@@ -188,6 +188,8 @@ Aufrufe
 Eingehender-Anruf-Klang
 [Incoming call canceled sound]
 Eingehender-Anruf-Abgebrochen-Klang
+[Skypename]
+
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]
 Aufbau einer TRouter-Verbindung fehlgeschlagen.

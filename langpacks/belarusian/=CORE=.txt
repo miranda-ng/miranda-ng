@@ -993,8 +993,8 @@
 Уваходныя злучэнні
 [Enable UPnP port mapping]
 Уключыць перанакіраванне портаў UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Змены запрацуюць пры наступным далучэнні.
+[These changes will take effect the next time you connect to the network.]
+Змены будуць ужытыя пры наступным уваходзе.
 [Please complete the following form to create a new user profile]
 Запоўніце форму для стварэння профіля карыстача
 [Profile]
@@ -1883,6 +1883,26 @@ Miranda не здолела загрузіць убудаваную сістэм
 Жаночы
 [<not specified>]
 <не паказана>
+[Single]
+
+[Close relationships]
+
+[Engaged]
+
+[Married]
+
+[Divorced]
+
+[Separated]
+
+[Widowed]
+
+[Actively searching]
+
+[In love]
+
+[It\'s complicated]
+
 [Summary]
 Рэзюмэ
 [Contact]

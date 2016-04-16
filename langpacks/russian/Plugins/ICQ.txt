@@ -114,7 +114,7 @@
 [Direct connections]
 Прямые соединения
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
-Важно: применение прямых соединений откроет ваши IP адреса для других пользователей (но необходимо для некоторых функций)
+Важно: применение прямых соединений откроет ваши IP адреса для других пользователей (но это необходимо для некоторых функций)
 [Allow direct connections with any user]
 Прямые соединения с любыми пользователями
 [Allow direct connections with users on my contact list]
@@ -460,7 +460,7 @@ xСтатус "%s"
 [Upload FAILED]
 Загрузка не удалась
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
-Переход с сервера на сервер не удался так как сервер вернул неверные данные. Вам нужно подключиться вручную.
+Переход с сервера на сервер не удался так как сервер вернул неверные данные. Вам придётся подключиться вручную.
 [Failed to request offline messages. They may be received next time you log in.]
 Ошибка запроса оффлайн сообщений. Они могут быть получены при следующем подключении.
 [Spambot Detected]
@@ -1770,7 +1770,7 @@ xСтатус ICQ
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Попытка подключения с сервером прервалась с ошибкой. Возможно, пропало подключение к локальной сети.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
-Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить опцию "Отправлять запросы DNS через прокси" в разделе "Настройки -> Сеть".
+Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить настройку "Отправлять запросы DNS через прокси" в разделе "Настройки -> Сеть".
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
 [Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]

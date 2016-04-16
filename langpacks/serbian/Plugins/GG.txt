@@ -38,8 +38,8 @@ Podešavanja
 
 [Enable avatars]
 
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Kako bi podešavanja stupila na snagu, morate se ponovo konektovati.
+[These changes will take effect the next time you connect to the GG network.]
+
 [Conference policy]
 
 [if total participant count greater than:]
@@ -213,14 +213,6 @@ Muško
 Žensko
 [<not specified>]
 <neodređeno>
-[Network]
-Mreža
-[General]
-Uopšteno
-[Conference]
-
-[Advanced]
-Napredno
 [<Last Status>]
 
 [System tray icon]
@@ -245,6 +237,14 @@ Ignorisati
 
 [You have to be logged in before you can change your details.]
 
+[Network]
+Mreža
+[General]
+Uopšteno
+[Conference]
+
+[Advanced]
+Napredno
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

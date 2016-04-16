@@ -151,8 +151,12 @@
 %s (заблокирована)
 [External Applications]
 Внешние приложения
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+запрашивает название песни, проигрываемой в Winamp (совместимо с Simple Status Message)
 [Miranda Related]
 Относящееся к Miranda NG
+[get the date (Simple Status Message compatible)]
+получает дату (совместимо с Simple Status Message)
 [<current>]
 <текущий>
 [Clear history]

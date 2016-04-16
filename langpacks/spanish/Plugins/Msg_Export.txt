@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.4
+;  Version: 3.1.1.5
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Browse]

@@ -129,9 +129,9 @@ Yahoo Японія
 Спасылка YAHOO
 [YAHOO plugin HTTP connections]
 HTTP злучэнні YAHOO
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Змены ўступяць пры наступным уваходзе ў Yahoo.
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Змены будуць ужытыя пры наступным уваходзе ў Yahoo.
+[Yahoo options]
 Налады Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Вы павінны далучыцца для дадання ў спіс ігнаравання.

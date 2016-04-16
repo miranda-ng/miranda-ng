@@ -241,6 +241,8 @@
 [Divorced]
 [Separated]
 [Widowed]
+[Actively searching]
+[It\'s complicated]
 [jun.]
 [sen.]
 [E-mail (UInfoEx)]

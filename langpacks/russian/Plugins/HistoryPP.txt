@@ -176,7 +176,7 @@ WATrack: запрос запрещён
 [Searching... %.0n items in %d contacts found]
 Поиск... Найдено %.0n записей в %d контактах
 [Enter the history password to search.]
-Для поиска необходимо ввести пароль.
+Для поиска нужно ввести пароль.
 [Please wait while closing the window...]
 Подождите закрытия окна...
 [Partial History [%s] - [%s]]

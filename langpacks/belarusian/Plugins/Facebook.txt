@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.0
+;  Version: 0.2.12.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -136,6 +136,8 @@ URL:
 [Login error: Some Facebook things are required.]
 Памылка далучэння: Неабходны некаторыя рэчы Facebook.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 

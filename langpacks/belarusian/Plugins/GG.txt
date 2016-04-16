@@ -37,8 +37,8 @@
 Паказваць спасылкі ад невядомых кантактаў
 [Enable avatars]
 Уключыць аватары
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Змены запрацуюць пры наступным далучэнні.
+[These changes will take effect the next time you connect to the GG network.]
+Змены будуць ужытыя пры наступным уваходзе ў Gadu-Gadu.
 [Conference policy]
 Палітыка канферэнцый
 [if total participant count greater than:]
@@ -209,14 +209,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Жаночы
 [<not specified>]
 <не паказана>
-[Network]
-Сеціва
-[General]
-Агульнае
-[Conference]
-Чат
-[Advanced]
-Дадаткова
 [<Last Status>]
 <Апошні статус>
 [System tray icon]
@@ -241,6 +233,14 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Ваша інфармацыя была запісаная на агульным каталогу.
 [You have to be logged in before you can change your details.]
 Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
+[Network]
+Сеціва
+[General]
+Агульнае
+[Conference]
+Чат
+[Advanced]
+Дадаткова
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]

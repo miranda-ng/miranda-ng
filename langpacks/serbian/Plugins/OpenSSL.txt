@@ -12,3 +12,7 @@
 Klijent ne razume poruku host-a. Postoji mogućnost da host ne podržava SSL ili podržava drugi oblik sigurnosti
 [Host we are connecting to is not the one certificate was issued for]
 Host koji prihvata vezu nije u vezi sa deklaracijom sertifikata
+[OpenSSL library loading failed]
+
+[OpenSSL error]
+

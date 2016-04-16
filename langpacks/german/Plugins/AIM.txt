@@ -44,8 +44,8 @@ Sofort als untätig anmelden
 Dateien per Proxy versenden
 [Masquerade as a Sidekick/Hiptop User]
 Als Sidekick-/Hiptop-Nutzer ausgeben
-[*Aim must be reconnected for some option to take effect]
-AIM muss zum Übernehmen einiger Einstellungen neu verbunden werden
+[* Some changes will take effect the next time you connect to the AIM network]
+Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit AIM auswirken.
 [Connection]
 Verbindung
 [Port:]
@@ -58,6 +58,8 @@ SSL deaktivieren
 Server-Gruppen verwalten
 [Force Single Client]
 Kein mehrfaches Einloggen erlauben
+[Use "clientlogin" (recommended)]
+
 [Save Profile]
 Profil speichern
 [Create a new AIM account]

@@ -92,7 +92,7 @@ TLS
 [Hint:]
 !!!!
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-Отключите все опции, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
+Отключите все настройки, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
 [Jabber Account Registration]
 Регистрация учётной записи Jabber
 [Jabber Form]
@@ -256,7 +256,7 @@ Jabber vCard: добавление телефона
 [URL]
 Ссылка
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Автовход (Необходимо включить автоматический вход в настройках)
+Автовход (нужно включить автоматический вход в настройках)
 [Room JID/ URL:]
 JID / URL:
 [Bookmark Name:]
@@ -1348,7 +1348,7 @@ Jabber ошибка
 [Zulu]
 Зулусский
 [These changes will take effect the next time you connect to the Jabber network.]
-Изменения вступят в силу при следующем входе в сеть Jabber.
+Эти изменения вступят в силу при следующем подключении к сети Jabber.
 [Jabber Protocol Option]
 Настройки протокола Jabber
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
@@ -1358,7 +1358,7 @@ Jabber ошибка
 [You can change your password only when you are online]
 Чтобы сменить пароль, необходимо подключиться к сети
 [You must be online]
-Вам нужно подключиться к сети
+Необходимо подключиться к сети
 [Messaging]
 Сообщения
 [Send messages slower, but with full acknowledgment]
@@ -1474,7 +1474,7 @@ XML для MS Excel (кодировка UTF-8)
 [Yandex]
 Яндекс
 [Some changes will take effect the next time you connect to the Jabber network.]
-Некоторые изменения вступят в силу после следующего подключения к сети.
+Некоторые изменения вступят в силу при следующем подключении к сети Jabber.
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
@@ -1654,7 +1654,7 @@ XML для MS Excel (кодировка UTF-8)
 [There is no messages to forward]
 Нет сообщений для пересылки
 [Forward options]
-Опции пересылки
+Настройки пересылки
 [%d message(s) to be forwarded]
 %d сообщений(я) для пересылки
 [Mark messages as read]
@@ -1686,7 +1686,7 @@ XML для MS Excel (кодировка UTF-8)
 [Please wait...\r\nConnecting search server...]
 Подождите...\r\nПодключение к серверу поиска...
 [You have to be connected to server]
-Нужно подключение к серверу
+Необходимо подключение к серверу
 [closed chat session]
 закрыл окно чата
 [sent subscription request]

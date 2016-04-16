@@ -1,1 +1,3 @@
 ﻿[Core driver to provide OpenSSL-based SSL services.]
+[OpenSSL library loading failed]
+[OpenSSL error]

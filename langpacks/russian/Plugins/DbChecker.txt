@@ -58,7 +58,7 @@
 [Just checks that the database is valid, without writing anything to the disk.]
 Только проверка базы, без записи чего-либо на диск.
 [Cleaning Options]
-Опции очистки
+Настройки очистки
 [You can choose to remove information from the database while it is being processed.]
 Вы можете удалить информацию из базы во время обработки.
 [Erase all histories]

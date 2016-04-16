@@ -54,7 +54,7 @@
 [Show connection errors]
 Показывать ошибки соединения
 [Automatically reconnect after unintentional disconnection]
-Переподключиться после неожиданного разрыва
+Повторно подключиться после неожиданного разъединения
 [Send messages slower, but with full acknowledgment]
 Отправлять сообщения медленнее, но с подтверждением
 [Manually specify connection servers' hosts]
@@ -73,8 +73,6 @@
 Использовать перенаправление
 [Host:]
 Хост:
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Изменения вступят в силу при следующем входе в сеть.
 [Number:]
 Номер:
 [Internal IP:]

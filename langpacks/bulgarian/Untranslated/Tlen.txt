@@ -61,7 +61,6 @@
 [Error while setting avatar on Tlen account]
 [1 File]
 [Tlen Authentication]
-[These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
 [Accept all alerts]
 [Ignore alerts from unauthorized contacts]

@@ -48,7 +48,7 @@
 
 [Built-in message dialog support]
 
-[Disable]
+[Enable]
 
 [Smiley button]
 
@@ -80,10 +80,10 @@
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 
 ;file \plugins\SmileyAdd\src\options.cpp
-[Off]
-isključen
-[On]
-Uključen
+[Hide]
+
+[Show]
+Prikaži
 [Smiley packs]
 
 [All files]

@@ -48,8 +48,8 @@ Smileys aktivieren
 Erst bei nächstem Zeichen anzeigen
 [Built-in message dialog support]
 Nachrichtenfensterunterstützung
-[Disable]
-Deaktivieren
+[Enable]
+Aktivieren
 [Smiley button]
 Smileybutton
 [Surround inserted smiley with spaces]
@@ -80,10 +80,10 @@ Hintergrundfarbe
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
 ;file \plugins\SmileyAdd\src\options.cpp
-[Off]
-Aus
-[On]
-Ein
+[Hide]
+Verstecken
+[Show]
+Zeige
 [Smiley packs]
 Smileypacks
 [All files]

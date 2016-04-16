@@ -1070,6 +1070,12 @@ Geschieden
 Getrennt
 [Widowed]
 Verwitwet
+[Actively searching]
+Aktiv am Suchen
+[In love]
+Verliebt
+[It\'s complicated]
+
 [jun.]
 Jun.
 [sen.]

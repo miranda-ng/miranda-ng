@@ -16,7 +16,7 @@ xСтатус будет очищен перед изменением текст
 [Use xStatus]
 Использовать xСтатус
 [If this option is "ON", xStatus doesn't depend on protocol status.]
-Если включена эта опция, xСтатус не будет зависеть от статуса протокола.
+Если эта настройка включена, xСтатус не будет зависеть от статуса протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Использовать плагин Variables или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без него WATrack будет работать быстрее.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
@@ -26,7 +26,7 @@ xСтатус будет очищен перед изменением текст
 [Report on some errors.]
 Показывать информацию об ошибках.
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Пытаться использовать OLE интерфейс, чтобы получить больше информации из проигрывателя. Если эта опция выключена, WATrack должен работать быстрее.
+Пытаться использовать OLE интерфейс, чтобы получить больше информации из проигрывателя. Если эта настройка выключена, WATrack должен работать быстрее.
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
 Время обновления информации о музыке, статистики, и сообщений статуса в секундах. Если равно 0, автоматическое обновление выключено. Если значение > 499, время будет считаться в мс.
 [Text insertion to other Apps]
@@ -288,23 +288,23 @@ VBR или пусто
 [lowercase %type%]
 строчный %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Если опция включена, вы можете вставлять информацию о музыке в окно сообщений, нажав горячую клавишу.
+Если эта настройка включена, вы можете вставлять информацию о музыке в окно сообщений, нажав горячую клавишу.
 [If this option is "ON", status text will be replaced by music info.]
-Если опция включена, текст статусов будет замещён на информацию о музыке
+Если эта настройка включена, текст статусов будет замещён на информацию о музыке
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
-Если опция включена, все настройки сохранятся в INI-файле и сотрутся из базы Miranda, иначе - удалится INI-файл (если был).
+Если эта настройка включена, все настройки сохранятся в INI-файле и сотрутся из базы Miranda, иначе - удалится INI-файл (если был).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
-Если опция включена, плагин попытается получить информацию о музыке от плеера, работает не со всеми плеерами
+Если эта настройка включена, плагин попытается получить информацию о музыке от плеера, работает не со всеми плеерами
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
-Если опция включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
+Если эта настройка включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
 [If this option is "ON", xStatus doesn't depend of ICQ's status.]
-Если включена эта опция, xСтатус не зависит от статуса ICQ.
+Если эта настройка включена, xСтатус не зависит от статуса ICQ.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
-Если опция включена, xСтатус не изменится при выключении плеера.
+Если эта настройка включена, xСтатус не изменится при выключении плеера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
-Если опция включена, xСтатус для ICQ заменится на "Музыка" и его текст изменится на информацию о музыке
+Если эта настройка включена, xСтатус для ICQ заменится на "Музыка" и его текст изменится на информацию о музыке
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-Если опция включена, то будет применён один шаблон для всех протоколов, а также плееров и статусов. Страница настройки шаблонов изменится после перезагрузки
+Если эта настройка включена, то будет применён один шаблон для всех протоколов, а также плееров и статусов. Страница настройки шаблонов изменится после перезагрузки
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Встраиваться в процесс проигрывателя для облегчения получения информации. Может спровоцировать тревогу брандмауэра или антивируса.
 [Keep opened file as active, not newly founded.]
@@ -484,7 +484,7 @@ VBR или нет
 [Use listening info]
 Использовать "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Если опция включена, то поле "Listening To" будет заполнено информацией о музыке.
+Если эта настройка включена, то поле "Listening To" будет заполнено информацией о музыке.
 [Enable Status message]
 Включить сообщение статуса
 [Enable xStatus message]

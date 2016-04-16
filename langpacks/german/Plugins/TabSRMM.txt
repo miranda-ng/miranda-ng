@@ -967,8 +967,8 @@ Fenstergröße und -theme
 Sie können ein anderes Theme (.tabsrmm-Datei) für diesen Container auswählen. Dies überschreibt das Standardtheme. Anschließend müssen Sie alle Nachrichtenfenster schließen und erneut öffnen.
 [Transparency]
 Transparenz
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Diese Funktion benötigt mindestens Windows 2000 und ist nicht verfügbar, wenn eigene Containerskins benutzt werden.
+[This feature may be unavailable when using a container skin.]
+Diese Funktion ist nicht verfügbar, wenn eigene Containerskins benutzt werden.
 [Contact avatars]
 Kontaktavatare
 [Sound notifications]

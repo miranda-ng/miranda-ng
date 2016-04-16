@@ -967,7 +967,7 @@ Vidi istoriju korisnika
 
 [Transparency]
 
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
+[This feature may be unavailable when using a container skin.]
 
 [Contact avatars]
 

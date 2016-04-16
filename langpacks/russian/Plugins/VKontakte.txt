@@ -16,9 +16,9 @@
 [Send message to my wall]
 Опубликовать на своей стене
 [Load news from VK]
-Загрузить новости с VK
+Загрузить новости с сайта
 [Load history for all contacts from VK]
-Загрузить историю всех контактов из ВК
+Загрузить историю всех контактов с сайта
 [Wipe contacts missing in friend list]
 Удалить контакты, не являющиеся друзьями
 [Visit profile]
@@ -466,7 +466,7 @@ ID получателя ошибочен или неизвестен
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 Эти изменения вступят в силу после перезапуска.\nХотите перезапустить сейчас?
 [VKontakte protocol]
-Протокол Вконтакте
+Протокол ВКонтакте
 [%s server connection]
 Подключение к серверу %s
 [VKontakte newsfeed & notification event]
