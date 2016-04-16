@@ -968,7 +968,7 @@ Możesz wybrać prywatny szablon (plik .tabsrmm) dla tego kontenera, który nadp
 [Transparency]
 Przezroczystość
 [This feature may be unavailable when using a container skin.]
-Ta funkcjonalność nie jest dostępna, gdy kontener używa skinów.
+Ta funkcjonalność nie jest dostępna, gdy używasz skórek dla kontenera.
 [Contact avatars]
 Awatary kontaktu
 [Sound notifications]
