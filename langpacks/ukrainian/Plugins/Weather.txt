@@ -447,18 +447,20 @@ HTTP-з'єднання Weather
 байт
 [Description:]
 Опис:
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Не знайдено жодного файлу INI. Будь ласка, перевірте папку Plugins\\Weather.
-[Invalid ini format for: %s]
-Власний формат INI для: %s
 [All update data has been reloaded.]
 Усі оновлені дані перезавантажені.
+[Invalid ini format for: %s]
+Власний формат INI для: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Не знайдено жодного файлу INI. Будь ласка, перевірте папку Plugins\\Weather.
 [Frame Font]
 Шрифт фрейму
 [Frame Title Font]
 Шрифт заголовка фрейму
 [Frame Background]
 Фон фрейму
+[Weather Protocol Text Preview]
+Перегляд протоколу погоди
 [Network]
 Мережа
 [General]
@@ -467,8 +469,6 @@ HTTP-з'єднання Weather
 Показувати
 [Popups]
 Спливаючі вікна
-[Weather Protocol Text Preview]
-Перегляд протоколу погоди
 [Station ID]
 ID міста
 [Disable &weather notification]
@@ -497,10 +497,6 @@ ID міста
 Показувати у фреймі
 [Unable to retrieve weather information for %s]
 Неможливо знайти інформацію про погоду для %s
-[Current condition for %n]
-Поточний стан для %n
-[Last update on:   %u]
-Останнє оновлення: %u
 [Variable]
 Змінна
 [Information]
@@ -509,3 +505,7 @@ ID міста
 Отримую нові дані. Зачекайте...
 [More Info]
 Детальніше
+[Current condition for %n]
+Поточний стан для %n
+[Last update on:   %u]
+Останнє оновлення: %u

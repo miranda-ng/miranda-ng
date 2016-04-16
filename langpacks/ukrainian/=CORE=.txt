@@ -989,8 +989,8 @@
 Вхідні з'єднання
 [Enable UPnP port mapping]
 Увімкнути перенаправлення портів UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Зміни наберуть чинності при наступному вході до мережі.
+[These changes will take effect the next time you connect to the network.]
+Зміни наберуть чинності при наступному вході в мережу.
 [Please complete the following form to create a new user profile]
 Щоб створити новий профіль, заповніть форму
 [Profile]
@@ -1879,26 +1879,26 @@ UIN, E-mail тощо
 Жіноча
 [<not specified>]
 <не вказано>
-[single]
-наодинці
-[close relationships]
-у близьких відносинах
-[engaged]
-заручений(а)
-[married]
-у шлюбі
-[divorced]
-розлучений(а)
-[separated]
-проживаємо окремо
-[widowed]
-вдівець/вдова
-[actively searching]
-в активному пошуку
-[in love]
-закоханий(а)
-[it\'s complicated]
-усе складно
+[Single]
+Наодинці
+[Close relationships]
+У близьких відносинах
+[Engaged]
+Заручений(а)
+[Married]
+У шлюбі
+[Divorced]
+Розлучений(а)
+[Separated]
+Проживаємо окремо
+[Widowed]
+Вдівець/вдова
+[Actively searching]
+В активному пошуку
+[In love]
+Закоханий(а)
+[It\'s complicated]
+Усе складно
 [Summary]
 Коротко
 [Contact]

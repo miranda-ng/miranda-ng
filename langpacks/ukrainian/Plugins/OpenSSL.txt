@@ -11,3 +11,7 @@
 Клієнт не може декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потрібна бібліотека відсутня.
 [Host we are connecting to is not the one certificate was issued for]
 Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
+[OpenSSL library loading failed]
+Не вдалося завантажити бібліотеку OpenSSL
+[OpenSSL error]
+Помилка OpenSSL

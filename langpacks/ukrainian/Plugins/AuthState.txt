@@ -17,16 +17,16 @@
 Додати пункт меню (потрібен перезапуск)
 [Show icons only for recently added contacts]
 Значки тільки для нещодавно доданих
-[Disable AuthState icons]
-Вимк. значки стану авторизації
-[Enable AuthState icons]
-Увімк. значки стану авторизації
 [Request]
 Запитати
 [Grant]
 Дозволити
 [Request & Grant]
 Запитати і Дозволити
+[Disable AuthState icons]
+Вимк. значки стану авторизації
+[Enable AuthState icons]
+Увімк. значки стану авторизації
 [Auth state]
 Стан авторизації
 [Icons]

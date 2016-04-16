@@ -73,6 +73,8 @@
 Введіть нову тему для чат-кімнати
 [Are you sure?]
 Ви впевнені?
+[Incoming call]
+Вхідний дзвінок
 [Edited message]
 Відредаговане повідомлення
 [Action]
@@ -89,8 +91,6 @@
 Файл
 [Unknown event]
 Невідома подія
-[Incoming call]
-Вхідний дзвінок
 [SkypeWeb error: Invalid data!]
 Помилка SkypeWeb: Неправильні дані!
 [[b]Original message:[/b]\n%s\n]
@@ -173,6 +173,8 @@
 Вхідний дзвінок
 [Incoming call canceled sound]
 Вхідний дзвінок скасовано
+[Skypename]
+Логін Skype
 [Failed to establish a TRouter connection.]
 Неможливо встановити з'єднання для TRouter.
 [Incoming call from %s]

@@ -77,8 +77,8 @@
 Перевіряти цілісність аватара перед збереженням*
 [Load avatars automatically (like ICQ Lite)]
 Завантажувати аватари автоматично (як ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Зміни вступлять у силу при наступному вході в мережу ICQ.
+[These changes will take effect the next time you connect to the ICQ network.]
+Зміни наберуть чинності при наступному вході в мережу ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Неможливо ввімкнути/вимкнути зберігання списку контактів на сервері під час підключення до мережі ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]

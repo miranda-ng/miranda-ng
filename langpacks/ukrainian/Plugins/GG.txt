@@ -37,8 +37,8 @@
 Показувати посилання від невідомих контактів
 [Enable avatars]
 Увімкнути аватари
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Зміни вступлять у силу при наступному вході в мережу.
+[These changes will take effect the next time you connect to the GG network.]
+Зміни наберуть чинності при наступному вході в мережу Gadu-Gadu.
 [Conference policy]
 Політика конференцій
 [if total participant count greater than:]
@@ -209,14 +209,6 @@
 Жіноча
 [<not specified>]
 <не вказано>
-[Network]
-Мережа
-[General]
-Загальне
-[Conference]
-Конференція
-[Advanced]
-Додатково
 [<Last Status>]
 <Останній статус>
 [System tray icon]
@@ -237,6 +229,14 @@
 Запитати
 [Ignore]
 Ігнорувати
+[Network]
+Мережа
+[General]
+Загальне
+[Conference]
+Конференція
+[Advanced]
+Додатково
 [HTTP failed connecting]
 HTTP помилка з'єднання
 [HTTP failed resolving]

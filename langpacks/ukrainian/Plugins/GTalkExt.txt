@@ -45,6 +45,8 @@
 0 = замовчання,\n-1 = нескінченно
 [Test]
 Тест
+[Protocols]
+Протоколи
 [Open mailbox]
 Відкрити поштову скриньку
 [You've received an e-mail\n%s unread threads]

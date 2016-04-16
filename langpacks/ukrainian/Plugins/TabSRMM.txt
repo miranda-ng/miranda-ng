@@ -959,8 +959,8 @@ BBCode ([b][i][u])
 Можна вибрати власну тему (файл .tabsrmm), яка замінить тему журналу повідомлень у цьому контейнері. При зміні опції необхідно закрити і знову відкрити всі вікна повідомлень.
 [Transparency]
 Прозорість
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Ця опція вимагає Windows 2000 або новішу і може бути недоступна при використанні скіна контейнера.
+[This feature may be unavailable when using a container skin.]
+Ця функція може бути недоступна при використанні скіна контейнера.
 [Contact avatars]
 Аватари контактів
 [Sound notifications]

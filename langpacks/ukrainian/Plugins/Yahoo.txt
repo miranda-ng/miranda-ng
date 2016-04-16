@@ -125,9 +125,9 @@ Yahoo Японія
 Протокол Yahoo
 [YAHOO plugin HTTP connections]
 HTTP-з'єднання Yahoo
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+[These changes will take effect the next time you connect to the Yahoo network.]
 Зміни наберуть чинності при наступному вході в мережу Yahoo.
-[YAHOO Options]
+[Yahoo options]
 Налаштування Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Ви повинні бути в мережі, щоб додавати в список ігнорування.

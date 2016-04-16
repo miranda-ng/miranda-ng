@@ -228,7 +228,7 @@
 [Network]
 Мережа
 [These changes will take effect the next time you connect to the Tlen network.]
-Зміни вступлять у силу при наступному вході в мережу Tlen.
+Зміни наберуть чинності при наступному вході в мережу Tlen.
 [Tlen Protocol Option]
 Налаштування протоколу Tlen
 [Accept all alerts]

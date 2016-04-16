@@ -28,7 +28,7 @@
 [Password:]
 Пароль:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Зміни вступлять у силу при наступному вході в мережу ICQ.
+Зміни наберуть чинності при наступному вході в мережу ICQ.
 [Network]
 Мережа
 [ICQ Corporate plugin used only WinSock v2.2 or later.]
