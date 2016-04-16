@@ -78,8 +78,8 @@ Włącz wsparcie dla awatarów
 Sprawdź ważność awataru przed zapisaniem *
 [Load avatars automatically (like ICQ Lite)]
 Wczytuj awatary automatycznie (jak ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Musisz ponownie połączyć się z siecią ICQ żeby zmiany na tej stronie przyniosły rezultat.
+[These changes will take effect the next time you connect to the ICQ network.]
+
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Nie możesz włączyć/wyłączyć listy kontaktów po stronie serwera kiedy jesteś połączony z ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]

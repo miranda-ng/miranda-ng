@@ -48,8 +48,8 @@ Włącz emotikony
 Nie zamieniaj przy kursorze
 [Built-in message dialog support]
 Wbudowane wsparcie dla okna rozmowy
-[Disable]
-Wyłącz
+[Enable]
+Włącz
 [Smiley button]
 Przycisk emotikon
 [Surround inserted smiley with spaces]
@@ -80,10 +80,10 @@ Kolor tła
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu "Plugins"
 ;file \plugins\SmileyAdd\src\options.cpp
-[Off]
-Wył.
-[On]
-Wł.
+[Hide]
+Ukryj
+[Show]
+Pokaż
 [Smiley packs]
 Paczka emotikon
 [All files]

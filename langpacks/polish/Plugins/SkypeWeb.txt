@@ -78,6 +78,8 @@ Wprowadź nowy temat pokoju
 [Are you sure?]
 Jesteś pewien?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
+[Incoming call]
+Połączenie przychodzące
 [Edited message]
 Wiadomość edytowana
 [Action]
@@ -94,8 +96,6 @@ Moji
 Plik
 [Unknown event]
 Nieznane zdarzenie
-[Incoming call]
-Połączenie przychodzące
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 Błąd SkypeWeb: Nieprawidłowe dane!
@@ -188,6 +188,8 @@ Rozmowy
 Dźwięk rozmowy przychodzącej
 [Incoming call canceled sound]
 Dźwięk anulowania rozmowy przychodzącej
+[Skypename]
+
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]
 Nie udało się ustanowić połączenia TRouter.

@@ -1070,6 +1070,12 @@ Rozwiedziony(-a)
 W separacji
 [Widowed]
 Wdowa/Wdowiec
+[Actively searching]
+Poszukuję
+[In love]
+Zakochany
+[It\'s complicated]
+Too.. skomplikowane
 [jun.]
 Junior
 [sen.]

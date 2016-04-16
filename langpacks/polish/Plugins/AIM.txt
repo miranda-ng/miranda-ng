@@ -44,8 +44,8 @@ Chwilowa bezczynność przy logowaniu
 Wymuszanie transferu plików przez proxy
 [Masquerade as a Sidekick/Hiptop User]
 Wystąp jako użytkownik Sidekick/Hiptop
-[*Aim must be reconnected for some option to take effect]
-*Aim musi być ponownie uruchomiony, aby opcje odniosły żądany efekt
+[* Some changes will take effect the next time you connect to the AIM network]
+* Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią AIM
 [Connection]
 Połączenie
 [Port:]
@@ -58,6 +58,8 @@ Wyłącz SSL
 Zarządzaj grupami na serwerze
 [Force Single Client]
 Wymuś pojedynczego klienta.
+[Use "clientlogin" (recommended)]
+Uzyj "clientlogin" (zalecane)
 [Save Profile]
 Zapisz profil
 [Create a new AIM account]

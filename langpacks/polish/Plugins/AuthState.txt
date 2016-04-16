@@ -19,16 +19,16 @@ Dodaj pozycję w menu (wymaga restartu)
 [Show icons only for recently added contacts]
 Pokazuj ikony tylko dla nowo dodanych kontaktów
 ;file \plugins\AuthState\src\main.cpp
-[Disable AuthState icons]
-Wyłącz ikony autoryzacji
-[Enable AuthState icons]
-Włącz ikony autoryzacji
 [Request]
 Żądanie
 [Grant]
 Udziel
 [Request & Grant]
 Żądania i przyznania
+[Disable AuthState icons]
+Wyłącz ikony autoryzacji
+[Enable AuthState icons]
+Włącz ikony autoryzacji
 [Auth state]
 Status autoryzacji
 ;file \plugins\AuthState\src\options.cpp

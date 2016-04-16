@@ -43,16 +43,12 @@ Używaj Dropbox
 [Backup profile folder]
 Kopia zapasowa folderu z profilem
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda NG database]
-Baza danych Mirandy NG
-[Created by:]
-Utworzona przez:
 [Backup in progress]
 Tworzenie kopii zapasowej...
 [Copying database file...]
 Kopiowanie pliku profilu...
 [Uploading to Dropbox failed]
-
+Nieudane załadowanie do Dropbox'a
 [Error]
 Błąd
 [Database backed up]
@@ -108,3 +104,6 @@ Wybierz folder kopii zapasowej
 [Error creating backup folder]
 Błąd tworzenia folderu kopii bezpieczeństwa
 ;file \plugins\Db_autobackups\src\stdafx.h
+;file \plugins\Db_autobackups\src\zip.cpp
+[Miranda NG [%s] database backup]
+

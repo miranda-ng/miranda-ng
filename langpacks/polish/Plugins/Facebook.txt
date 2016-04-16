@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.0
+;  Version: 0.2.12.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -141,6 +141,8 @@ Błąd logowania: Nieprawidłowe żądanie.
 Błąd logowania: Nieznana przyczyna.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
+Błąd logowania: Facebook uważa, że Twój komputer jest zainfekowany. Aby to naprawić, zaloguj się w trybie prywatnym swojej przeglądarki i uruchom ich kontrolę antywirusową.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
 [Login error, probably bad login credentials.]

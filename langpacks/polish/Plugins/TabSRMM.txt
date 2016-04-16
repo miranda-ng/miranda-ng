@@ -967,8 +967,8 @@ Szablon i pozycja okna
 Możesz wybrać prywatny szablon (plik .tabsrmm) dla tego kontenera, który nadpisze domyślny szablon wiadomości. Musisz zamknąć i ponownie otworzyć okno rozmowy po zmianie tej opcji.
 [Transparency]
 Przezroczystość
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Ta funkcjonalność wymaga Windowsa 2000 lub późniejszego i nie jest dostępna, gdy kontener używa skinów.
+[This feature may be unavailable when using a container skin.]
+
 [Contact avatars]
 Awatary kontaktu
 [Sound notifications]

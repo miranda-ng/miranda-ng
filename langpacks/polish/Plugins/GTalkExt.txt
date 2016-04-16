@@ -46,6 +46,11 @@ Jeśli oba kolory ustawione są na taką samą wartość, zostaną wykorzystane 
 0 - domyślnie,\n-1 - nie chowaj
 [Test]
 Test
+;file \protocols\GTalkExt\src\GTalkExt.cpp
+[Popup icon]
+Ikona popup\'a
+[Protocols]
+Protokoły
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Otwórz skrzynkę pocztową

@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.23
+;  Version: 0.1.1.27
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
+[Show in protocol menu ]
+
+[Create new chat]
+Utwórz nowy czat
+[Status message]
+Opis
+[Send message to my wall]
+Wyślij posta na moją tablicę
+[Load news from VK]
+Załaduj aktualności z VK
+[Load history for all contacts from VK]
+Załaduj historię dla wszystkich kontaktów z VK
+[Wipe contacts missing in friend list]
+Usuń kontakty spoza listy znajomych
+[Visit profile]
+Odwiedź profil
 [[img] BBCode support for image]
 Wsparcie tagu BBCode [img] dla obrazków
 [off]
@@ -26,10 +42,10 @@ podstawowe ([b], [i], [u], [s])
 zaawansowane (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 Używaj tego ustawienia także dla załączników do aktualności i powiadomień
-[Other]
-Inne
 [BBCode support on attachments]
 Wsparcie BBCode dla załączników
+[Other]
+Inne
 [Process stickers as smileys]
 Przetwarzaj naklejki jako uśmieszki
 [Shorten links for audio attachments]
@@ -138,30 +154,18 @@ Opcje logowania
 Ustawienia lokalne
 [Contact list group:]
 Grupa na liście kontaktów:
+[Language for names and titles:]
+Język dla nazw i tytułów:
 [Server-side delivery confirmation]
 Potwierdzenie dostarczenia ze strony serwera
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
 [Automatically wipe local contacts missing in your friend list]
 Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
-[Mark message as read...]
-Oznacz wiadomość jako przeczytaną...
-[on read]
-po przeczytaniu
-[on receive]
-po otrzymaniu
-[on reply]
-po udzieleniu odpowiedzi
-[on typing]
-podczas pisania
-[Sync history on protocol online...]
-Synchronizuj historię przy połączeniu z protokołem...
-[automatically]
-automatycznie
-[for last 1 day]
-z ostatniego dnia
-[for last 3 days]
-z ostatnich 3 dni
+[Mark message as read:]
+Oznacz wiadomości jako odczytane:
+[Sync history on protocol online:]
+
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -170,6 +174,8 @@ Instrukcja:
 Wyślij
 [Cancel]
 Anuluj
+[Open in browser]
+Otwórz w przeglądarce
 [Invite user to chat]
 Zaproś użytkownika do czatu
 [Choose one of your contacts to be invited:]
@@ -186,8 +192,6 @@ Udostępnij
 Link:
 [Only for friends]
 Tylko dla znajomych
-[Attention]
-Uwaga
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Ikona formularza Captcha
@@ -299,9 +303,6 @@ Niewspierany albo nieznany typ załącznika: %s
 Wiadomość od
 [at]
 o
-;file \protocols\VKontakte\src\vk_captcha.cpp
-[Enter the text you see]
-Wprowadź tekst, który widzisz
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Uczestnicy
@@ -345,12 +346,15 @@ Pokaż/Zmień &nazwę
 &Zniszcz pokój
 [&User details]
 Dane &kontaktu
-[Visit profile]
-Odwiedź profil
 [&Kick]
 &Wyrzuć
 [%s is typing a message...]
 %s pisze wiadomość...
+;file \protocols\VKontakte\src\vk_dialogs.cpp
+[Enter the text you see]
+Wprowadź tekst, który widzisz
+[Wall message for]
+Post na tablicy dla
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Nowe aktualności
@@ -419,16 +423,14 @@ Uwaga!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 
 [Error loading message history from server]
-
+Błąd w trakcie pobierania historii wiadomości z serwera
 [Loading messages for all contacts is completed]
-
+Zakończono pobieranie wiadomości dla wszystkich kontaktów
 [Loading history]
-
+Pobieranie historii
 [Loading messages for %s is completed]
-
+Zakończono pobieranie wiadomości dla %s
 ;file \protocols\VKontakte\src\vk_options.cpp
-[I'm back]
-Wróciłem
 [Network]
 Protokoły
 [Account]
@@ -437,23 +439,49 @@ Konto
 Aktualności i powiadomienia
 [View]
 Pokaż
+[Menu]
+Menu
+[Account language]
+Język konta
+[English]
+Angielski
+[Russian]
+Rosyjski
+[Belarusian]
+Białoruski
+[Ukrainian]
+Ukraiński
+[Spanish]
+Hiszpański
+[Finnish]
+Fiński
+[German]
+Niemiecki
+[Italian]
+Włoski
+[automatically]
+automatycznie
+[for last 1 day]
+z ostatniego dnia
+[for last 3 days]
+z ostatnich 3 dni
+[on read]
+po przeczytaniu
+[on receive]
+po otrzymaniu
+[on reply]
+po udzieleniu odpowiedzi
+[on typing]
+podczas pisania
+[These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
+Te zmiany zostaną wporwadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz to zrobić teraz?
+[VKontakte protocol]
+Protokół VKontakte
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
 [VKontakte newsfeed & notification event]
 Zdarzenie powiadomień kanału aktualności VKontakte
-[Create new chat]
-Utwórz nowy czat
-[Status message]
-Opis
-[Send message to my wall]
-Wyślij posta na moją tablicę
-[Load news from VK]
-Załaduj aktualności z VK
-[Load history for all contacts from VK]
-
-[Wipe contacts missing in friend list]
-Usuń kontakty spoza listy znajomych
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
 [Send message to user\'s wall]
@@ -497,7 +525,26 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na 
 Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
+;file \protocols\VKontakte\src\vk_struct.cpp
+[I\'m back]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Interests]
+Zainteresowania
+[Activities]
+Aktywność
+[Music]
+Muzyka
+[Movies]
+Filmy
+[TV]
+TV
+[Books]
+Książki
+[Games]
+Gry
+[Quotes]
+Notowania giełdowe
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to wipe local contacts missing in your friend list?]
@@ -528,8 +575,3 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%sKontynuować?
 \nTo także
 [Are you sure to report abuse on %s?]
 Czy na pewno chcesz zgłosić nadużycie przez %s?
-;file \protocols\VKontakte\src\vk_wallpost.cpp
-[Wall message for]
-Post na tablicy dla
-[Attention! Message body or url should not be empty!]
-Uwaga! Treść wiadomości lub link nie powinny być puste!

@@ -38,8 +38,8 @@ Odbieraj nadchodzące obrazki za pomocą metody:
 Pokazuj linki od nieznajomych
 [Enable avatars]
 Włącz obsługę awatarów
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Musisz ponownie się połączyć aby wprowadzone zmiany odniosły efekt.
+[These changes will take effect the next time you connect to the GG network.]
+Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią GG.
 [Conference policy]
 Reguły konferencji
 [if total participant count greater than:]
@@ -213,14 +213,6 @@ Mężczyzna
 Kobieta
 [<not specified>]
 <nieokreślone>
-[Network]
-Protokoły
-[General]
-Ogólne
-[Conference]
-Konferencja
-[Advanced]
-Zaawansowane
 [<Last Status>]
 <Ostatni status>
 [System tray icon]
@@ -245,6 +237,14 @@ Ignorowanie
 Twoje dane zostały wysłane do katalogu publicznego.
 [You have to be logged in before you can change your details.]
 Musisz być zalogowany, żeby zmienić swoje dane.
+[Network]
+Protokoły
+[General]
+Ogólne
+[Conference]
+Konferencja
+[Advanced]
+Zaawansowane
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s

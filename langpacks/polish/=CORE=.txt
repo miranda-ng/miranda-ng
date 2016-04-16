@@ -1004,8 +1004,8 @@ Zatwierdź certyfikat SSL
 Połączenia przychodzące
 [Enable UPnP port mapping]
 Włącz mapowanie portów UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Musisz ponownie się połączyć aby wprowadzone zmiany odniosły efekt.
+[These changes will take effect the next time you connect to the network.]
+Te zmiany zostaną wprowadzone przy ponownym połączeniu z siecią/protokołem.
 [Please complete the following form to create a new user profile]
 Uzupełnij podane pola by utworzyć nowy profil użytkownika.
 [Profile]
@@ -1929,6 +1929,26 @@ Mężczyzna
 Kobieta
 [<not specified>]
 <nieokreślone>
+[Single]
+Singiel
+[Close relationships]
+Bliskie stosunki
+[Engaged]
+Zaręczony(-a)
+[Married]
+Żonaty/Mężatka
+[Divorced]
+Rozwiedziony(-a)
+[Separated]
+Oddzielone
+[Widowed]
+Wdowa/Wdowiec
+[Actively searching]
+Poszukuję
+[In love]
+Zakochany
+[It\'s complicated]
+Too.. skomplikowane
 [Summary]
 Podsumowanie
 [Contact]

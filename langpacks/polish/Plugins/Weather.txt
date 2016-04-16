@@ -462,12 +462,12 @@ bajty
 [Description:]
 Opis:
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
-[Invalid ini format for: %s]
-Niepoprawny format INI dla: %s
 [All update data has been reloaded.]
 Wszystkie aktualizacje danych zostały przeładowane.
+[Invalid ini format for: %s]
+Niepoprawny format INI dla: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
 ;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 Czcionka tekstu ramki
@@ -476,6 +476,8 @@ Czcionka tekstu tytułu ramki
 [Frame Background]
 Tło ramki
 ;file \plugins\Weather\src\weather_opt.cpp
+[Weather Protocol Text Preview]
+Podgląd tekstu protokołu pogody
 [Network]
 Protokoły
 [General]
@@ -484,8 +486,6 @@ Ogólne
 Wyświetlanie
 [Popups]
 Popupy
-[Weather Protocol Text Preview]
-Podgląd tekstu protokołu pogody
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
@@ -518,10 +518,6 @@ Ekran w ramce
 [Unable to retrieve weather information for %s]
 Nie można pobrać informacji o pogodzie dla %s
 ;file \plugins\Weather\src\weather_userinfo.cpp
-[Current condition for %n]
-Aktualny stan dla %n
-[Last update on:   %u]
-Ostatnia aktualizacja:   %u
 [Variable]
 Zmienna
 [Information]
@@ -530,3 +526,7 @@ Informacje
 Pobieranie nowych danych, proszę czekać...
 [More Info]
 Więcej
+[Current condition for %n]
+Aktualny stan dla %n
+[Last update on:   %u]
+Ostatnia aktualizacja:   %u

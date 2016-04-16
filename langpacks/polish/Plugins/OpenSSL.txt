@@ -12,3 +12,7 @@ Sterownik rdzenia zapewniający usługi SSL oparte na OpenSSL.
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
+[OpenSSL library loading failed]
+Nieudane załadowanie biblioteki OpenSSL
+[OpenSSL error]
+Błąd OpenSSL
