@@ -117,11 +117,13 @@ extern struct PlugOptions
     #define DEFAULT_OPP_BITS 32
 	#define OLD_FILENAME FILENAME_X64
 	#define NEW_FILENAME FILENAME_X32
+	#define IDC_CHANGE_PLATFORM IDC_X86
 #else
     #define DEFAULT_BITS 32
     #define DEFAULT_OPP_BITS 64
 	#define OLD_FILENAME FILENAME_X32
 	#define NEW_FILENAME FILENAME_X64
+	#define IDC_CHANGE_PLATFORM IDC_X64
 #endif
 
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")
@@ -145,6 +147,7 @@ extern struct PlugOptions
 #define DB_SETTING_DONT_SWITCH_TO_STABLE		"DontSwitchToStable"
 #define DB_SETTING_CHANGEPLATFORM	"ChangePlatform"
 #define DB_MODULE_FILES				MODNAME "Files"
+#define DB_MODULE_NEW_FILES         MODNAME "NewFiles"
 
 #define MAX_RETRIES			3
 

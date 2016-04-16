@@ -72,6 +72,7 @@ static void ApplyDownloads(void *param)
 				ListView_SetItemText(hwndList, i, 1, TranslateT("Succeeded."));
 				if (unzip(todo[i].File.tszDiskPath, tszMirandaPath, tszFileBack,false))
 					SafeDeleteFile(todo[i].File.tszDiskPath);  // remove .zip after successful update
+				db_unset(NULL, DB_MODULE_NEW_FILES, StrToLower(_T2A(todo[i].tszOldName)));
 			}
 			else
 				ListView_SetItemText(hwndList, i, 1, TranslateT("Failed!"));
@@ -220,6 +221,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			ListView_DeleteAllItems(hwndList);
 
 			///
+			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvi = {0};
@@ -235,7 +237,15 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				lvi.iImage = ((groupId ==1) ? 0 : -1);
 				lvi.pszText = todo[i].tszOldName;
 				ListView_InsertItem(hwndList, &lvi);
+
+				if (todo[i].bEnabled)
+				{
+					enableOk = true;
+					ListView_SetCheckState(hwndList, lvi.iItem, 1);
+				}
 			}
+			if (enableOk)
+				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
 		}
 
 		// do this after filling list - enables 'ITEMCHANGED' below
@@ -334,9 +344,6 @@ static void __stdcall LaunchListDialog(void *param)
 	hwndDialog = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LIST), GetDesktopWindow(), DlgList, (LPARAM)param);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// building file list in the separate thread
-
 static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* tszBaseUrl, const TCHAR* tszPath)
 {
 	FILEINFO *FileInfo = new FILEINFO;
@@ -360,11 +367,15 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* t
 	for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
-	// Deselect all plugins by default
-	FileInfo->bEnabled = false;
+	// Load list of checked Plugins from database
+	Netlib_LogfT(hNetlibUser, _T("File %s found"), FileInfo->tszOldName);
+	FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;
 	return FileInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// building file list in the separate thread
+//
 static void GetList(void *)
 {
 	TCHAR tszTempPath[MAX_PATH];
