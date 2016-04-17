@@ -766,7 +766,7 @@ xHTML-формат повідомлень чату
 [Please wait for room list to download.]
 Будь ласка, зачекайте поки список кімнат завантажиться.
 [Please specify group chat directory first.]
-Будь ласка, вкажіть групу для чат-кімнат.
+Будь ласка, вкажіть спочатку директорію чатів.
 [Bookmarks...]
 Закладки...
 [Change nickname in <%s>]

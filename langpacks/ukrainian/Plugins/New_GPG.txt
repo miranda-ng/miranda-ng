@@ -103,8 +103,16 @@ ID ключа:
 Отримано зашифрований файл від контакту з обмеженими можливостями шифрування.
 [Choose which keys to export]
 Виберіть ключі для експорту
+[Export all private keys]
+Експорт усіх приватних ключів
+[Export public and private keys]
+Експорт публічних і приватних ключів
+[Change private key password]
+Зміна пароля приватного ключа
 [Current password:]
 Поточний пароль:
+[New password twice:]
+Новий пароль (двічі):
 [User list:]
 Список користувачів:
 [Export PubKey]
@@ -135,6 +143,12 @@ ID ключа:
 Видаляти всі мітки з вихідних повідомлень
 [Turn on presence signing (Jabber) (required by XEP 0-27)]
 Увімкнути підпис повідомлень присутності (Jabber)
+[Export keys]
+Експорт ключів
+[Import keys]
+Імпорт ключів
+[Send public key]
+Надіслати публічний ключ
 [Export GPG Public keys]
 Експортувати публічні ключі GPG
 [Import GPG Public keys]
@@ -189,6 +203,10 @@ ID ключа:
 Отримано ключ від %s
 [Key length must be of length from 1024 to 4096 bits]
 Довжина ключа має бути від 1024 до 4096 біт
+[Name must contain at least 5 characters]
+Ім'я має містити щонайменше 5 символів
+[Name cannot contain '(' or ')']
+Ім'я не може містити '(' чи ')'
 [Invalid Email]
 Неправильний E-mail
 [GPG binary is set and valid (this is good).\n]
@@ -211,6 +229,10 @@ ID ключа:
 Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
 [Own private key warning]
 Увага! Не вибрано приватний ключ.
+[Do you want to load key for all subcontacts?]
+Завантажити ключ для всіх субконтактів?
+[Metacontact detected]
+Виявлено метаконтакт
 [Services]
 Служби
 [Main]
@@ -233,12 +255,20 @@ ID ключа:
 Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
 [Export public key]
 Експорт відкритого ключа
+[.asc pubkey file]
+Файл публічного ключа (.asc)
 [LOG files]
 Файли журналу
+[Turn off encryption]
+Вимкнути шифрування
 [Turn off GPG encryption]
 Вимкнути шифрування GPG
 [Turn on GPG encryption]
 Увімкнути шифрування GPG
+[Keys export result]
+Результат експорту ключів
+[Keys import result]
+Результат імпорту ключів
 [New passwords do not match]
 Нові паролі не збігаються
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]

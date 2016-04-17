@@ -26,7 +26,7 @@
 [Miscellaneous options]
 Дод. налаштування
 [Use group chat for Twitter feed]
-Чат для відображення повідомлень
+Повідомлення у вигляді чату
 [Base URL:]
 URL:
 [Polling rate:]
@@ -71,6 +71,10 @@ URL:
 Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не створите свій обліковий запис Twitter у Miranda заново.
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Змінні OAuth втратили послідовність і були обнулені. Будь ласка, з'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
+[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
+Не вдалося отримати токени доступу Twitter, відключіться і спробуйте знову. Якщо наступна спроба буде невдалою, перевірте з'єднання з Інтернетом.
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
+У базі відсутнє налаштування "Nick". Це може спричинити незначні помилки, як-от появу самого себе у списку, відсутність підсвітки вихідних повідомлень у групових чатах тощо. Щоб їх уникнути, додайте це налаштування вручну або створіть свій обліковий запис Twitter у Miranda заново.
 [Send Tweet...]
 Надіслати твіт...
 [Network]
