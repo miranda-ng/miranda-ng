@@ -109,8 +109,10 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		if (!tid.empty()) {
 			if (facy.send_message(0, hContact, data->msg, &err_message) == SEND_MESSAGE_OK)
 				UpdateChat(data->chat_id.c_str(), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
-			else
-				UpdateChat(data->chat_id.c_str(), NULL, NULL, err_message.c_str());
+			else {
+				ptrA text(mir_utf8encode(err_message.c_str()));
+				UpdateChat(data->chat_id.c_str(), NULL, NULL, text);
+			}
 		}
 	}
 

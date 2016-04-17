@@ -1381,13 +1381,19 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 	
 	if (isChatRoom) {
-		data += "&message_batch[0][thread_id]=" + std::string(threadId);
+		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+		std::string thread_fbid = threadId;
+		if (thread_fbid.substr(0, 3) == "id.")
+			thread_fbid = thread_fbid.substr(3);
+
+		data += "&message_batch[0][thread_fbid]=" + thread_fbid;
 	} else {
 		data += "&message_batch[0][specific_to_list][0]=fbid:" + std::string(userId);
 		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
 		data += "&message_batch[0][other_user_fbid]=" + std::string(userId);
 	}
 
+	data += "&message_batch[0][thread_id]=";
 	data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
 	data += "&message_batch[0][author_email]";
 	data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
