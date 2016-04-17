@@ -61,7 +61,11 @@ void CMLua::Load()
 	lua_pushstring(L, "__mod");
 	lua_pushcfunction(L, luaM_interpolate);
 	lua_rawset(L, -3);
-	lua_pop(L, 2);
+	lua_pushstring(L, "__index");
+	lua_rawget(L, -2);
+	lua_pushcfunction(L, luaM_interpolate);
+	lua_setfield(L, -2, "interpolate");
+	lua_pop(L, 3);
 
 	lua_atpanic(L, luaM_atpanic);
 

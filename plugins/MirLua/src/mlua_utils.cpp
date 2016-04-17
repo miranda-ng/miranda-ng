@@ -168,18 +168,33 @@ int luaM_tonumber(lua_State *L)
 int luaM_interpolate(lua_State *L)
 {
 	const char *string = luaL_checkstring(L, 1);
-	luaL_checktype(L, 2, LUA_TTABLE);
 
-	for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 2))
+	if (lua_istable(L, 2))
 	{
-		lua_pushvalue(L, -2);
-		const char *key = lua_tostring(L, -1);
-		const char *val = lua_tostring(L, -2);
+		for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 2))
+		{
+			lua_pushvalue(L, -2);
+			const char *key = lua_tostring(L, -1);
+			const char *val = lua_tostring(L, -2);
 
-		char pattern[32];
-		mir_snprintf(pattern, "{%s}", key);
-		string = luaL_gsub(L, string, pattern, val);
-		lua_pop(L, 1);
+			char pattern[32];
+			mir_snprintf(pattern, "{%s}", key);
+			string = luaL_gsub(L, string, pattern, val);
+			lua_pop(L, 1);
+		}
+	}
+	else
+	{
+		int nargs = lua_gettop(L);
+		for (int i = 2; i <= nargs; i++)
+		{
+			const char *val = lua_tostring(L, i);
+
+			char pattern[32];
+			mir_snprintf(pattern, "{%d}", i - 1);
+			string = luaL_gsub(L, string, pattern, val);
+			lua_pop(L, 1);
+		}
 	}
 
 	lua_pushstring(L, string);
