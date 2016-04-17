@@ -215,7 +215,7 @@ CAPTION "Facebook Login Approval"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 	LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.", IDC_STATIC, 7, 7, 179, 40
-	PUSHBUTTON      "Send SMS", IDSMS, 7, 53, 59, 15
+	PUSHBUTTON      "Send SMS", IDC_SEND_SMS, 7, 53, 59, 15
 	EDITTEXT        IDC_TEXT, 72, 54, 114, 12, ES_AUTOHSCROLL | ES_NUMBER
 	DEFPUSHBUTTON   "OK",IDOK,82,75,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,136,75,50,14    
