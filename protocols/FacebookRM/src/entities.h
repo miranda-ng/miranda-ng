@@ -81,7 +81,6 @@ struct facebook_chatroom
 struct facebook_message
 {
 	std::string user_id;
-	std::string sender_name;
 	std::string message_text;	
 	std::string message_id;
 	std::string thread_id;

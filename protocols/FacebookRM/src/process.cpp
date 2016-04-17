@@ -919,15 +919,17 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			if (!tid || mir_strcmp(tid, messages[i]->thread_id.c_str()))
 				setString(hChatContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
 
-			// Try to map name of this chat participant to his id
-			std::map<std::string, std::string>::iterator jt = fbc->participants.find(messages[i]->user_id);
+			// Get name of this chat participant
+			std::string name = messages[i]->user_id; // fallback to numeric id
+
+			auto jt = fbc->participants.find(messages[i]->user_id);
 			if (jt != fbc->participants.end()) {
-				messages[i]->sender_name = jt->second;
+				name = jt->second;
 			}
 
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
 			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
-			UpdateChat(fbc->thread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), messages[i]->time);
+			UpdateChat(fbc->thread_id.c_str(), messages[i]->user_id.c_str(), name.c_str(), messages[i]->message_text.c_str(), messages[i]->time);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
 			hChatContacts->insert(hChatContact); // std::set checks duplicates at insert automatically
@@ -938,7 +940,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
-			fbu.real_name = messages[i]->sender_name;
 
 			MCONTACT hContact = ContactIDToHContact(fbu.user_id);
 			if (hContact == NULL) {

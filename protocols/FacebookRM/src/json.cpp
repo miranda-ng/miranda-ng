@@ -941,7 +941,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 					message->time = utils::time::from_string(action_["timestamp"].as_string());
 					message->user_id = id;
 					message->message_id = message_id;
-					message->sender_name.clear();
 					message->thread_id = thread_id;
 					message->type = CALL;
 
@@ -1081,7 +1080,6 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 
 	for (auto it = actions.begin(); it != actions.end(); ++it) {
 		const JSONNode &author = (*it)["author"];
-		const JSONNode &author_email = (*it)["author_email"];
 		const JSONNode &other_user_fbid = (*it)["other_user_fbid"];
 		const JSONNode &body = (*it)["body"];
 		const JSONNode &tid = (*it)["thread_id"];
@@ -1098,7 +1096,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		std::string message_text = body.as_string();
 		std::string author_id = author.as_string();
 		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
-		std::string::size_type pos = author_id.find(":");
+		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos + 1);
 
@@ -1120,8 +1118,6 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 
 		facebook_message* message = new facebook_message();
 		message->message_text = message_text;
-		if (author_email)
-			message->sender_name = author_email.as_string();
 		message->time = utils::time::from_string(timestamp.as_string());
 		message->thread_id = thread_id;
 		message->message_id = message_id;
