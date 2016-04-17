@@ -35,7 +35,7 @@ Downloadlink im Nachrichteneingabebereich einfügen
 [Copy download link to clipboard]
 Downloadlink in Zwischenablage kopieren
 [Here you can choose the protocols in which Dropbox will be used instead of regular file transfers (sending), used by this protocol.]
-
+Hier können Sie auswählen, für welche Protokolle Dropbox den regulären Dateiversand ersetzen soll.
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 In Arbeit...
@@ -47,19 +47,19 @@ Sie wurden autorisiert
 [Dropbox supports the following commands:]
 Dropbox unterstützt die folgenden Befehle:
 [shows all files in folder "path" ("path" is relative from root and can be omitted for root folder)]
-
+Zeigt alle Dateien im Verzeichnis "Pfad" an ("Pfad" ist relativ zum Hauptverzeichnis, und kann für das Hauptverzeichnis ausgelassen werden).
 [returns download link for file or folder with specified path ("path" is relative from root folder)]
 Gibt den Downloadlink für die Datei oder das Verzeichnis am angegebenen Pfad zurück (Pfad ist relativ zum Hauptverzeichnis).
 [searches for file or folder matched by query ("query" is split on spaces into multiple tokens)]
-
+Sucht nach einer Datei oder einem Verzeichnis, das auf "query" zutrifft ("query" wird per Leerzeichen in mehrere Token geteilt)
 [deletes file or folder with specified path ("path" is relative from root folder)]
 löscht die Datei oder das Verzeichnis am angegebenen Pfad (Pfad ist relativ zum Hauptverzeichnis).
 ["%s" command has invalid parameter.\nUse "/help" for more info.]
-Befehl "%s" hat ungültige Parameter.\nVerwenden Sie "/help" für weitere informationen.
+Befehl "%s" hat ungültige Parameter.\nVerwenden Sie "/help" für weitere Informationen.
 [is empty]
 ist leer
 [is not found]
-
+ist nicht gefunden
 [is deleted]
 ist gelöscht
 ;file \plugins\Dropbox\src\dropbox_events.cpp
@@ -85,7 +85,7 @@ Netzwerk
 [General]
 Allgemein
 [Interception]
-
+Dateiversand
 ;file \plugins\Dropbox\src\dropbox_services.cpp
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" ist ungültig.\nVerwenden Sie "/help" für weitere Informationen.

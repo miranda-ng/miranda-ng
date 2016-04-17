@@ -59,7 +59,7 @@ Server-Gruppen verwalten
 [Force Single Client]
 Kein mehrfaches Einloggen erlauben
 [Use "clientlogin" (recommended)]
-
+"Clientlogin" verwenden (empfohlen)
 [Save Profile]
 Profil speichern
 [Create a new AIM account]

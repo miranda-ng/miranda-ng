@@ -9,7 +9,7 @@
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
 [Show in protocol menu ]
-
+Im Protokollmenü anzeigen
 [Create new chat]
 Neuen Chat erstellen
 [Status message]
@@ -19,7 +19,7 @@ Nachricht auf meine Pinnwand senden
 [Load news from VK]
 Neuigkeiten von VK laden
 [Load history for all contacts from VK]
-
+Verlauf für alle Kontakte von VK laden
 [Wipe contacts missing in friend list]
 Kontakte außerhalb der Freundesliste löschen
 [Visit profile]
@@ -155,7 +155,7 @@ Lokale Einstellungen
 [Contact list group:]
 Kontaktlistengruppe:
 [Language for names and titles:]
-
+Sprache für Namen und Titel:
 [Server-side delivery confirmation]
 Serverseitige Empfangsbestätigungen
 [Use local time for received messages]
@@ -163,9 +163,9 @@ Lokale Zeit für empfangene Nachrichten verwenden
 [Automatically wipe local contacts missing in your friend list]
 Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Mark message as read:]
-
+Nachricht als gelesen markieren:
 [Sync history on protocol online:]
-
+Verlauf synchronisieren wenn Protokoll online:
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -175,7 +175,7 @@ Senden
 [Cancel]
 Abbrechen
 [Open in browser]
-Im Web-Browser öffnen
+Im Browser öffnen
 [Invite user to chat]
 Benutzer zum Chat einladen
 [Choose one of your contacts to be invited:]
@@ -218,7 +218,7 @@ Statusicon
 [Wall message icon]
 Pinnwandicon
 [Mark messages as read icon]
-
+Nachrichten-als-gelesen-markieren-Icon
 [Protocols]
 Protokolle
 [VKontakte]
@@ -421,15 +421,15 @@ Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf
 [Attention!]
 Achtung!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
-
+Sind Sie sich sicher, dass Sie alle Nachrichten für alle Kontakte von vk.com laden wollen?\nDer lokale Verlauf Ihrer Kontakte wird gelöscht und vom Server neu geladen.\nDies kann sehr lange Zeit dauern und/oder die Miranda-Datenbank beschädigen.\nWir empfehlen Ihnen eine Überprüfung Ihrer Datenbank vorher und nachher (Miranda32.exe /svc:dbchecker oder Miranda64.exe /svc:dbchecker).\nMöchten Sie fortfahren?
 [Error loading message history from server]
-
+Fehler beim Laden des Verlaufes vom Server
 [Loading messages for all contacts is completed]
-
+Nachrichten für alle Kontakte wurden komplett geladen
 [Loading history]
-
+Verlauf laden
 [Loading messages for %s is completed]
-
+Nachrichten für %s wurden komplett geladen
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -442,7 +442,7 @@ Anzeige
 [Menu]
 Menü
 [Account language]
-
+Kontosprache
 [English]
 Englisch
 [Russian]
@@ -474,7 +474,7 @@ Beim Antworten
 [on typing]
 Beim Tippen
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
-
+Diese Änderungen werden erst nach einem Neustart von Miranda NG wirksam.\nMöchten Sie es jetzt neu starten?
 [VKontakte protocol]
 VKontakte-Protokoll
 ;file \protocols\VKontakte\src\vk_proto.cpp
@@ -527,7 +527,7 @@ Warten...
 Neue Statusnachricht eingeben
 ;file \protocols\VKontakte\src\vk_struct.cpp
 [I\'m back]
-
+Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Interests]
 Interessen
@@ -536,15 +536,15 @@ Aktivitäten
 [Music]
 Musik
 [Movies]
-
+Filme
 [TV]
-
+Fernsehen
 [Books]
-
+Bücher
 [Games]
 Spiele
 [Quotes]
-Kurse
+Zitate
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to wipe local contacts missing in your friend list?]

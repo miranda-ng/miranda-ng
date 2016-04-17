@@ -23,7 +23,7 @@ Größere Avatare nutzen
 [Message sessions]
 Nachrichtensitzungen
 [Show chat state events (i.e., user closed chat session)]
-
+Chatstatusänderungen anzeigen (bspw. Benutzer hat Chatsitzung geschlossen)
 [Captcha]
 Captcha
 [Cancel]

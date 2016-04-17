@@ -499,13 +499,13 @@ Unterstützt Jabberbrowsen
 [Can negotiate options for specific features]
 Kann Optionen für bestimmte Funktionen aushandeln
 [Can request advanced processing of message stanzas]
-
+Kann erweiterte Verarbeitung von Nachrichtenstanzas anfordern
 [Can report information about user moods]
 Kann Informationen über Benutzerstimmungen melden
 [Receives information about user moods]
 Erhält Informationen über Benutzerstimmungen
 [Supports generic publish-subscribe functionality]
-
+Unterstützt allgemeine Veröffentlichen-Abonnieren-Funktionalität
 [Supports SecureIM plugin for Miranda NG]
 Unterstützt SecureIM-Plugin für Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
@@ -1507,13 +1507,13 @@ Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
 [League Of Legends (EU Nordic)]
-
+League Of Legends (EU Nord)
 [League Of Legends (EU West)]
-
+League Of Legends (EU West)
 [League Of Legends (Oceania)]
-
+League Of Legends (Ozeanien)
 [League Of Legends (US)]
-
+League Of Legends (US)
 [Odnoklassniki]
 Odnoklassniki
 [Yandex]
@@ -1907,7 +1907,7 @@ Hinweis
 %s-Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
-
+<erweiterter Statusslot>
 [Afraid]
 Ängstlich
 [Amazed]

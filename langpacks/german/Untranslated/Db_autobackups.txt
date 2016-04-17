@@ -1,3 +1,0 @@
-﻿[Backup profile folder]
-[Uploading to Dropbox failed]
-[Miranda NG [%s] database backup]

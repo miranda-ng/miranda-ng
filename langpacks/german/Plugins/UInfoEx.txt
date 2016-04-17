@@ -1071,11 +1071,11 @@ Getrennt
 [Widowed]
 Verwitwet
 [Actively searching]
-Aktiv am Suchen
+Aktiv suchend
 [In love]
 Verliebt
 [It\'s complicated]
-
+Es ist kompliziert
 [jun.]
 Jun.
 [sen.]

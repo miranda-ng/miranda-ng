@@ -83,7 +83,7 @@ Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikat
 [Hide]
 Verstecken
 [Show]
-Zeige
+Anzeigen
 [Smiley packs]
 Smileypacks
 [All files]

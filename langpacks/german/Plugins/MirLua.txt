@@ -20,14 +20,14 @@ Allgemein
 Popup bei veralteten Methoden
 ;file \plugins\MirLua\src\main.cpp
 [C libs folder]
-
+C-Bibliotheken-Verzeichnis
 [Scripts folder]
 Skriptverzeichnis
 ;file \plugins\MirLua\src\mlua_icons.cpp
 [Script]
 Skript
 [Loaded]
-
+Geladen
 [Failed]
 Fehlgeschlagen
 [Open]

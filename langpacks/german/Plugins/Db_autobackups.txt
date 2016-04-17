@@ -41,14 +41,14 @@ Popups deaktivieren
 [Use Dropbox]
 Dropbox verwenden
 [Backup profile folder]
-
+Profilverzeichnis sichern
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Sicherheitskopie wird erstellt
 [Copying database file...]
 Kopiere Datenbank...
 [Uploading to Dropbox failed]
-
+Hochladen auf Dropbox fehlgeschlagen
 [Error]
 Fehler
 [Database backed up]
@@ -106,4 +106,4 @@ Fehler beim Erstellen des Backup-Verzeichnisses.
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
-
+Miranda NG [%s] Datenbanksicherung

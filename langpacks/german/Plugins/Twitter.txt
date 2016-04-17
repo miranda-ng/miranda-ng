@@ -76,7 +76,7 @@ OAuth-Variablen sind in der falschen Reihenfolge, sie wurden zurückgesetzt. Bit
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen Sie es erneut. Wenn dies häufiger geschieht, überprüfen Sie Ihre Internetverbindung.
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-
+Ihnen fehlt der Nick-Eintrag in der Datenbank. Das ist nicht weiter schlimm, aber Sie werden einige kleinere Probleme bemerken (eigener Kontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder erstellen Sie Ihr Twitterkonto in den Konteinstellungen neu.
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 Tweet senden...

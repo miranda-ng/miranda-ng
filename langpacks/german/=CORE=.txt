@@ -1005,7 +1005,7 @@ Eingehende Verbindungen
 [Enable UPnP port mapping]
 UPnP-Portweiterleitungen aktivieren
 [These changes will take effect the next time you connect to the network.]
-
+Diese Änderungen werden erst bei der nächsten Verbindung zum Netzwerk wirksam.
 [Please complete the following form to create a new user profile]
 Bitte füllen Sie den folgenden Dialog aus, um ein neues Profil zu erstellen.
 [Profile]
@@ -1944,11 +1944,11 @@ Getrennt
 [Widowed]
 Verwitwet
 [Actively searching]
-Aktiv am Suchen
+Aktiv suchend
 [In love]
 Verliebt
 [It\'s complicated]
-
+Es ist kompliziert
 [Summary]
 Zusammenfassung
 [Contact]

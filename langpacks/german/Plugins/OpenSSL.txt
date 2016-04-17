@@ -13,6 +13,6 @@ Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unte
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 [OpenSSL library loading failed]
-
+Laden der OpenSSL-Bibliothek fehlgeschlagen.
 [OpenSSL error]
-
+OpenSSL-Fehler

@@ -91,14 +91,14 @@ Dateiübertragungsinformation
 [URI object]
 URI-Objekt
 [Moji]
-
+Moji
 [File]
 Datei
 [Unknown event]
 Unbekanntes Ereignis
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
-
+SkypeWeb-Fehler: Ungültige Daten!
 [[b]Original message:[/b]\n%s\n]
 \[b]Originalnachricht:[/b]\n%s\n
 [Original message:\n%s\n]
@@ -189,7 +189,7 @@ Eingehender-Anruf-Klang
 [Incoming call canceled sound]
 Eingehender-Anruf-Abgebrochen-Klang
 [Skypename]
-
+Skypename
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]
 Aufbau einer TRouter-Verbindung fehlgeschlagen.

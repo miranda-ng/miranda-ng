@@ -57,7 +57,7 @@ Testen
 [Transfer limit (Kb/s)]
 Verbindungsrate (kB/Sek)
 [No control when Away or Not available]
-
+Keine Kontrollen wenn Abwesend/A.H.
 [Connection control]
 Verbindungskontrolle
 [Index creation]
@@ -86,16 +86,16 @@ In Br&owser öffnen
 Link kopieren
 ;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
-
+Miranda NG HTTP-Server
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
-aktuelles Verzeichnis freigeben
+Aktuelles Verzeichnis freigeben
 [All files]
 Alle Dateien
 [Specify a file to share]
 Datei für Freigabe auswählen
 [Failed to share new file]
-
+Freigeben einer neuen Datei fehlgeschlagen.
 [Max Downloads]
 Max. Downloads
 [Allowed Mask]
@@ -105,13 +105,13 @@ Lokaler Pfad
 [User]
 Benutzer
 [Agent]
-
+Agent
 [Completed]
 Abgeschlossen
 [Speed]
 Geschwindigkeit
 [Selected link size is 0]
-
+Größe der ausgewählten Datei ist 0.
 [Failed to get access to clipboard]
 
 [Failed to get close the clipboard]
@@ -131,7 +131,7 @@ Geschwindigkeit
 [You are browsing from]
 
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
-Deine externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
+Ihre externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
 [You need to restart Miranda to change the main menu]
 Um die Änderungen zu übernehmen, ist ein Neustart von Miranda NG erforderlich
 [HTTP Server]
@@ -159,6 +159,6 @@ Freigabe entfernt
 [Failed to write xml tail to file ]
 
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
-
+Zuweisung von Port %s fehlgeschlagen!\r\nVermutlich verwendet ein anderes Programm oder ein anderer Dienst diesen Port.
 [Disable HTTP server]
 HTTP-Server deaktivieren

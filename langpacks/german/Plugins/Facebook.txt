@@ -142,7 +142,7 @@ Anmeldefehler: Einige Facebook-Dinge werden benötigt.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-
+Anmeldefehler: Facebook denkt, dass Ihr Computer infiziert ist. Lösen Sie dies, indem sie sich im "Privat Browsen"-Modus Ihres Webbrowsers anmelden und deren Antiviren-Überprüfung ausführen.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Anmeldefehler: Captcha-Code wird benötigt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Login error, probably bad login credentials.]

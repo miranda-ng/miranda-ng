@@ -105,7 +105,7 @@ Server
 [User]
 Benutzer
 [Away Info]
-Awayinfo
+Abwesenheitsinfo
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 Der Server liefert die folgenden Informationen. Beachten Sie aber, dass diese verfälscht oder nicht richtig sein könnten.
 [CTCP information]
@@ -309,9 +309,9 @@ DCC: Anfrage Dateiübertragungsbericht von %s abgelehnt
 [CTCP %s requested by %s]
 CTCP %s Anfrage von %s
 [%u second]
-
+%u Sekunde
 [%u seconds]
-
+%u Sekunden
 [CTCP PING reply from %s: %u sec(s)]
 CTCP-PING-Antwort von %s: %u Sekunde(n)
 [CTCP %s reply from %s: %s]

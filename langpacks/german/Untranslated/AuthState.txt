@@ -1,3 +1,0 @@
-﻿[Show Request icon]
-[Request & Grant]
-[Auth state]

@@ -9,28 +9,28 @@
 Falls ein Kontakt Sie nicht autorisiert hat, zeigt dieses Plugin ein Icon vor seinem Namen an.
 ;file \plugins\AuthState\res\authstate.rc
 [Show Request icon]
-
+Anfragen-Icon anzeigen
 [Show Grant icon]
-'Kontakt ist nicht autorisiert'-Icon anzeigen
+Gewähren-Icon anzeigen
 [Plugin settings]
 Plugin-Einstellungen
 [Enable menu item (restart required)]
 Hauptmenüeintrag anzeigen (erfordert Neustart)
 [Show icons only for recently added contacts]
-Icons nur für kürzlich hinzugefügte Kontakte
+Icons nur für kürzlich hinzugefügte Kontakte anzeigen
 ;file \plugins\AuthState\src\main.cpp
 [Request]
-Anfrage
+Anfragen
 [Grant]
-Kontakt ist nicht autorisiert
+Gewähren
 [Request & Grant]
-
+Anfragen & Gewähren
 [Disable AuthState icons]
 Authstate-Icon deaktivieren
 [Enable AuthState icons]
 Authstate-Icon aktivieren
 [Auth state]
-
+Auth.Status
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
 Icons

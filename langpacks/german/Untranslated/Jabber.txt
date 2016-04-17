@@ -1,7 +1,0 @@
-﻿[Can request advanced processing of message stanzas]
-[Supports generic publish-subscribe functionality]
-[League Of Legends (EU Nordic)]
-[League Of Legends (EU West)]
-[League Of Legends (Oceania)]
-[League Of Legends (US)]
-[<advanced status slot>]

@@ -48,7 +48,7 @@ Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
 Testen
 ;file \protocols\GTalkExt\src\GTalkExt.cpp
 [Popup icon]
-
+Popupicon
 [Protocols]
 Protokolle
 ;file \protocols\GTalkExt\src\menu.cpp

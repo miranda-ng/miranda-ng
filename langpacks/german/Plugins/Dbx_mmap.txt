@@ -9,7 +9,7 @@
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Select crypto provider]
-
+Verschlüsselungsmodul auswählen
 [Cancel]
 Abbrechen
 [Login to Miranda NG]

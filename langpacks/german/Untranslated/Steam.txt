@@ -1,1 +1,0 @@
-﻿[Show chat state events (i.e., user closed chat session)]
