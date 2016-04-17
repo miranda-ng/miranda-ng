@@ -114,18 +114,118 @@ int luaM_toucs2(lua_State *L)
 	return 1;
 }
 
+int luaM_topointer(lua_State *L)
+{
+	switch (lua_type(L, 1))
+	{
+	case LUA_TBOOLEAN:
+		lua_pushlightuserdata(L, (void*)lua_toboolean(L, 1));
+		break;
+	case LUA_TNUMBER:
+	{
+		if (lua_isinteger(L, 1))
+		{
+			lua_Integer value = lua_tointeger(L, 1);
+			if (value > INT_MAX)
+			{
+				const char *msg = lua_pushfstring(L, "%f is larger than %d", value, INT_MAX);
+				return luaL_argerror(L, 1, msg);
+			}
+			lua_pushlightuserdata(L, (void*)value);
+		}
+	}
+		break;
+	case LUA_TSTRING:
+		lua_pushlightuserdata(L, (void*)lua_tostring(L, 1));
+		break;
+	case LUA_TLIGHTUSERDATA:
+		lua_pushvalue(L, 1);
+	default:
+		return luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
+
+	return 1;
+}
+
+int luaM_tonumber(lua_State *L)
+{
+	if (lua_islightuserdata(L, 1))
+	{
+		lua_Integer value = (lua_Integer)lua_touserdata(L, 1);
+		lua_pushinteger(L, value);
+	}
+	else
+	{
+		lua_getglobal(L, "_tonumber");
+		lua_pushvalue(L, 1);
+		lua_pushnumber(L, 2);
+		luaM_pcall(L, 2, 1);
+	}
+
+	return 1;
+}
+
+WPARAM luaM_towparam(lua_State *L, int idx)
+{
+	if (lua_islightuserdata(L, idx))
+	{
+		return (WPARAM)lua_touserdata(L, idx);
+	}
+
+	char text[512];
+	mir_snprintf(text, "Type %s is not supported. Use topointer(x) instead", luaL_typename(L, idx));
+	Log(text);
+	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
+		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+
+	switch (lua_type(L, idx))
+	{
+	case LUA_TBOOLEAN:
+		return lua_toboolean(L, idx);
+	case LUA_TNUMBER:
+		return (WPARAM)lua_tonumber(L, idx);
+	case LUA_TSTRING:
+		return (WPARAM)lua_tostring(L, idx);
+		break;
+	default:
+		return NULL;
+	}
+}
+
+LPARAM luaM_tolparam(lua_State *L, int idx)
+{
+	if (lua_islightuserdata(L, idx))
+	{
+		return (LPARAM)lua_touserdata(L, idx);
+	}
+
+	char text[512];
+	mir_snprintf(text, "Type %s is not supported. Use topointer(x) instead", luaL_typename(L, idx));
+	Log(text);
+	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
+		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+
+	switch (lua_type(L, idx))
+	{
+	case LUA_TBOOLEAN:
+		return lua_toboolean(L, idx);
+	case LUA_TNUMBER:
+		return (LPARAM)lua_tonumber(L, idx);
+	case LUA_TSTRING:
+		return (LPARAM)lua_tostring(L, idx);
+	case LUA_TUSERDATA:
+	case LUA_TLIGHTUSERDATA:
+		return (LPARAM)lua_touserdata(L, idx);
+	default:
+		return NULL;
+	}
+}
+
 bool luaM_toboolean(lua_State *L, int idx)
 {
 	if (lua_isnumber(L, idx))
 		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
-}
-
-int luaM_ptr2number(lua_State *L)
-{
-	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-	lua_pushnumber(L, (intptr_t)lua_touserdata(L, 1));
-	return 1;
 }
 
 void ObsoleteMethod(lua_State *L, const char *message)

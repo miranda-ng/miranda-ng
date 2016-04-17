@@ -29,11 +29,11 @@ static TTBButton* MakeTBButton(lua_State *L)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "wParamUp");
-	tbb->wParamUp = luaM_towparam(L, -1);
+	tbb->wParamUp = (WPARAM)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "lParamUp");
-	tbb->lParamUp = luaM_tolparam(L, -1);
+	tbb->lParamUp = (LPARAM)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	// dn state
@@ -46,11 +46,11 @@ static TTBButton* MakeTBButton(lua_State *L)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "wParamDown");
-	tbb->wParamDown = luaM_towparam(L, -1);
+	tbb->wParamDown = (WPARAM)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "lParamDown");
-	tbb->lParamDown = luaM_tolparam(L, -1);
+	tbb->lParamDown = (LPARAM)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	return tbb;

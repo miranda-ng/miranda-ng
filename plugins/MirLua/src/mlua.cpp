@@ -50,6 +50,11 @@ void CMLua::Load()
 	lua_register(L, "print", luaM_print);
 	lua_register(L, "a", luaM_toansi);
 	lua_register(L, "u", luaM_toucs2);
+	lua_register(L, "topointer", luaM_topointer);
+
+	lua_getglobal(L, "tonumber");
+	lua_setglobal(L, "_tonumber");
+	lua_register(L, "tonumber", luaM_tonumber);
 
 	lua_atpanic(L, luaM_atpanic);
 

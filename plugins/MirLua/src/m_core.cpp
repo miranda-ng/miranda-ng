@@ -360,6 +360,15 @@ static int core_TerminateThread(lua_State *L)
 	return 1;
 }
 
+int core_ptr2number(lua_State *L)
+{
+	ObsoleteMethod(L, "Use tonumber(x) instead");
+
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	lua_pushnumber(L, (intptr_t)lua_touserdata(L, 1));
+	return 1;
+}
+
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", core_CreateHookableEvent },
@@ -389,7 +398,7 @@ luaL_Reg coreApi[] =
 	{ "ForkThread", core_ForkThread },
 	{ "TerminateThread", core_TerminateThread },
 
-	{ "PointerToNumber", luaM_ptr2number },
+	{ "PointerToNumber", core_ptr2number },
 
 	{ "GetFullPath", core_GetFullPath },
 
