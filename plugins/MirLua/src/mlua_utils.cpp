@@ -126,15 +126,15 @@ int luaM_topointer(lua_State *L)
 		if (lua_isinteger(L, 1))
 		{
 			lua_Integer value = lua_tointeger(L, 1);
-			if (value > INT_MAX)
+			if (value > INTPTR_MAX)
 			{
-				const char *msg = lua_pushfstring(L, "%f is larger than %d", value, INT_MAX);
+				const char *msg = lua_pushfstring(L, "%f is larger than %d", value, INTPTR_MAX);
 				return luaL_argerror(L, 1, msg);
 			}
 			lua_pushlightuserdata(L, (void*)value);
 		}
 	}
-		break;
+	break;
 	case LUA_TSTRING:
 		lua_pushlightuserdata(L, (void*)lua_tostring(L, 1));
 		break;
@@ -161,6 +161,30 @@ int luaM_tonumber(lua_State *L)
 		lua_pushnumber(L, 2);
 		luaM_pcall(L, 2, 1);
 	}
+
+	return 1;
+}
+
+int luaM_interpolate(lua_State *L)
+{
+	const char *string = luaL_checkstring(L, 1);
+	luaL_checktype(L, 2, LUA_TTABLE);
+
+	lua_pushnil(L);
+	while (lua_next(L, -2) != 0)
+	{
+		const char *key = luaL_checkstring(L, -2);
+		const char *val = lua_tostring(L, -1);
+
+		char pattern[32];
+		mir_snprintf(pattern, "{%s}", key);
+		string = luaL_gsub(L, string, pattern, val);
+		lua_pop(L, 1);
+
+		lua_pop(L, 1);
+	}
+
+	lua_pushstring(L, string);
 
 	return 1;
 }

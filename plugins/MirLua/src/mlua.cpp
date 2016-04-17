@@ -56,6 +56,13 @@ void CMLua::Load()
 	lua_setglobal(L, "_tonumber");
 	lua_register(L, "tonumber", luaM_tonumber);
 
+	lua_pushstring(L, "");
+	lua_getmetatable(L, -1);
+	lua_pushstring(L, "__mod");
+	lua_pushcfunction(L, luaM_interpolate);
+	lua_rawset(L, -3);
+	lua_pop(L, 2);
+
 	lua_atpanic(L, luaM_atpanic);
 
 	Log("Loading miranda modules");
