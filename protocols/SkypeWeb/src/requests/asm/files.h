@@ -8,7 +8,7 @@ public:
 	{
 		flags &= (~NLHRF_DUMPASTEXT);
 		Headers
-			<< CHAR_VALUE("Authorization", CMStringA(::FORMAT, "skype_token %s", li.api.szToken))
+			<< FORMAT_VALUE("Authorization", "skype_token %s", li.api.szToken)
 			<< CHAR_VALUE("Content-Type", "text/json");
 
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
@@ -30,7 +30,7 @@ public:
 		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/original", szObject)
 	{
 		Headers
-			<< CHAR_VALUE("Authorization", CMStringA(::FORMAT, "skype_token %s", li.api.szToken))
+			<< FORMAT_VALUE("Authorization", "skype_token %s", li.api.szToken)
 			<< CHAR_VALUE("Content-Type", "application/octet-stream");
 
 		pData = (char*)mir_alloc(size);
@@ -40,7 +40,7 @@ public:
 	}
 	~ASMObjectUploadRequest()
 	{
-		mir_free(pData);
 		HttpRequest::~HttpRequest();
+		mir_free(pData);
 	}
 };

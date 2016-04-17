@@ -53,7 +53,7 @@ struct FORMAT_VALUE : public VALUE
 	{
 		va_list args;
 		va_start(args, _valueFormat);
-		szValue.AppendFormatV(_valueFormat, args);
+		szValue.FormatV(_valueFormat, args);
 		va_end(args);
 	}
 };
@@ -253,7 +253,7 @@ public:
 		pData = NULL;
 	}
 
-	~HttpRequest()
+	virtual ~HttpRequest()
 	{
 		for (int i = 0; i < headersCount; i++)
 		{
@@ -263,7 +263,7 @@ public:
 		mir_free(headers);
 	}
 
-	NETLIBHTTPREQUEST * Send(HANDLE hConnection)
+	NETLIBHTTPREQUEST* Send(HANDLE hConnection)
 	{
 		if (url.Find("://") == -1)
 			url.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
@@ -278,7 +278,7 @@ public:
 		mir_snprintf(message, "Send request to %s", szUrl);
 		CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
+		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)(NETLIBHTTPREQUEST*)this);
 	}
 };
 

@@ -42,7 +42,7 @@ void CSkypeProto::Login()
 		if (strchr(li.szSkypename, '@'))
 			SendRequest(new LoginMSRequest(), &CSkypeProto::OnMSLoginFirst);
 		else
-			SendRequest(new LoginOAuthRequest(li.szSkypename, szPassword), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest((char*)li.szSkypename, szPassword), &CSkypeProto::OnLoginOAuth);
 	}
 }
 
@@ -192,7 +192,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		if (response->resultCode == 401)
 		{
 			delSetting("TokenExpiresIn");
-			SendRequest(new LoginOAuthRequest(li.szSkypename, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest((char*)li.szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
 		}
 		else if (response->resultCode == 400)

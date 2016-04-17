@@ -44,8 +44,8 @@ public:
 
 	~SetAvatarRequest()
 	{
-		mir_free(pData);
 		HttpRequest::~HttpRequest();
+		mir_free(pData);
 	}
 };
 

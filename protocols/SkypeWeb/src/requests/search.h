@@ -28,7 +28,6 @@ public:
 			<< CHAR_VALUE("keyWord", string);
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")
-			<< CHAR_VALUE("Connection", "keep-alive")
 			<< CHAR_VALUE("X-Skypetoken", li.api.szToken);
 	}
 };
