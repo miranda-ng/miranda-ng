@@ -260,8 +260,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 		//	case REQUEST_IDENTITY_SWITCH:
 		//	case REQUEST_CAPTCHA_REFRESH:
 		//	case REQUEST_LINK_SCRAPER:
-		//	case REQUEST_MESSAGE_SEND_CHAT:
-		//	case REQUEST_MESSAGE_SEND_INBOX:
+		//	case REQUEST_MESSAGES_SEND:
 		//	case REQUEST_THREAD_INFO:
 		//	case REQUEST_THREAD_SYNC:
 		//	case REQUEST_VISIBILITY:
@@ -431,11 +430,8 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_MESSAGE_SEND_CHAT:
+	case REQUEST_MESSAGES_SEND:
 		return "/ajax/mercury/send_messages.php?__a=1";
-
-	case REQUEST_MESSAGE_SEND_INBOX:
-		return "/ajax/messaging/send.php?";
 
 	case REQUEST_THREAD_INFO:
 		return "/ajax/mercury/thread_info.php?__a=1";
@@ -542,8 +538,7 @@ bool facebook_client::notify_errors(RequestType request_type)
 	switch (request_type)
 	{
 	case REQUEST_BUDDY_LIST:
-	case REQUEST_MESSAGE_SEND_INBOX:
-	case REQUEST_MESSAGE_SEND_CHAT:
+	case REQUEST_MESSAGES_SEND:
 		return false;
 
 	default:
@@ -1411,7 +1406,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 
 	{
 		ScopedLock s(send_message_lock_);
-		resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data); // NOTE: Request revised 11.2.2016
+		resp = flap(REQUEST_MESSAGES_SEND, &data); // NOTE: Request revised 11.2.2016
 
 		*error_text = resp.error_text;
 

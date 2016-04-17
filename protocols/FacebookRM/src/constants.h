@@ -151,8 +151,7 @@ enum RequestType {
 	REQUEST_CANCEL_FRIENDSHIP,	// canceling (our) friendship request
 	REQUEST_FRIENDSHIP,			// approving or ignoring friendship requests
 
-	REQUEST_MESSAGE_SEND_CHAT,	// sending message through chat
-	REQUEST_MESSAGE_SEND_INBOX,	// sending message through inbox
+	REQUEST_MESSAGES_SEND,		// sending messages
 	REQUEST_MESSAGES_RECEIVE,	// receiving messages and other realtime actions
 	REQUEST_ACTIVE_PING,		// sending activity ping
 	REQUEST_TYPING_SEND,		// sending typing notification
