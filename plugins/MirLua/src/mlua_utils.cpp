@@ -170,17 +170,15 @@ int luaM_interpolate(lua_State *L)
 	const char *string = luaL_checkstring(L, 1);
 	luaL_checktype(L, 2, LUA_TTABLE);
 
-	lua_pushnil(L);
-	while (lua_next(L, -2) != 0)
+	for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 2))
 	{
-		const char *key = luaL_checkstring(L, -2);
-		const char *val = lua_tostring(L, -1);
+		lua_pushvalue(L, -2);
+		const char *key = lua_tostring(L, -1);
+		const char *val = lua_tostring(L, -2);
 
 		char pattern[32];
 		mir_snprintf(pattern, "{%s}", key);
 		string = luaL_gsub(L, string, pattern, val);
-		lua_pop(L, 1);
-
 		lua_pop(L, 1);
 	}
 
