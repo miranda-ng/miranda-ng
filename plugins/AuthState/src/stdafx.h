@@ -30,46 +30,21 @@
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_icolib.h>
-#include <m_cluiframes.h>
-#include <win2k.h>
 #include <m_extraicons.h>
+#include <m_gui.h>
 
 #include "resource.h"
 #include "Version.h"
 
 #define MODULENAME "AuthState"
 
-struct Opts
-{
-	BYTE bUseAuthIcon;
-	BYTE bUseGrantIcon;
-	BYTE bContactMenuItem;
-	BYTE bIconsForRecentContacts;
-
-	void Load()
-	{
-		bUseAuthIcon = db_get_b(NULL, MODULENAME, "EnableAuthIcon", 1);
-		bUseGrantIcon = db_get_b(NULL, MODULENAME, "EnableGrantIcon", 1);
-		bContactMenuItem = db_get_b(NULL, MODULENAME, "MenuItem", 0);
-		bIconsForRecentContacts = db_get_b(NULL, MODULENAME, "EnableOnlyForRecent", 0);
-	}
-
-	void Save()
-	{
-		db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
-		db_set_b(NULL, MODULENAME, "EnableGrantIcon", bUseGrantIcon);
-		db_set_b(NULL, MODULENAME, "MenuItem", bContactMenuItem);
-		db_set_b(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
-	}
-
-};
-
-extern Opts Options;
-
 int onOptInitialise(WPARAM wParam, LPARAM lParam);
 int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
 
 extern HINSTANCE g_hInst;
 extern HANDLE hExtraIcon;
+
+#include "options.h"
+
 
 #endif //COMMHEADERS_H

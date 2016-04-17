@@ -177,8 +177,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 	CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
-	Options.Load();
-
 	CMenuItem mi;
 	SET_UID(mi, 0xc5a784ea, 0x8b07, 0x4b95, 0xa2, 0xb2, 0x84, 0x9d, 0x87, 0x43, 0x7e, 0xda);
 	mi.position = -1999901005;
