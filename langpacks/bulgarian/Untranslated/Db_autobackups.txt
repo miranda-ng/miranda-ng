@@ -6,3 +6,4 @@
 [Backup folder]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+[Miranda NG [%s] database backup]

@@ -15,8 +15,6 @@
 Създаване на акаунт
 [Options]
 Настройки
-[These changes will take effect the next time you connect to the Tlen network.]
-Промените ще бъдат осъществени при следващо свързване към мрежата Tlen.
 [Automatically delete contacts not in my roster]
 Автоизтриване на контакти, които не са в моя списък с хора
 [Enable avatars]
@@ -105,6 +103,8 @@
 Уведомявания
 [Network]
 Мрежа
+[These changes will take effect the next time you connect to the Tlen network.]
+Промените ще бъдат осъществени при следващо свързване към мрежата Tlen.
 [%S mail]
 %s имейл
 [Enter password for %s]

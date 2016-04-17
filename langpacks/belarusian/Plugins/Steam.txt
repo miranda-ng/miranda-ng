@@ -94,4 +94,4 @@
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 [closed chat session]
-
+зачыніў вакно чата

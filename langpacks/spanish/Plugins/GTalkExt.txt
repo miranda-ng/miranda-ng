@@ -45,6 +45,8 @@ Si ambos colores son ajustados al mismo valor, se utilizarán colores por defect
 0 significa tiempo de espera predeterminado,\n-1 significa que no hay tiempo de espera
 [Test]
 Probar
+[Protocols]
+Protocolos
 [Open mailbox]
 Abrir buzón
 [Popups]

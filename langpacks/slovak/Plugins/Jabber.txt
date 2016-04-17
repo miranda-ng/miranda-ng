@@ -139,8 +139,6 @@ Do
 od
 [These changes will take effect the next time you connect to the Jabber network.]
 Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
-[Some changes will take effect the next time you connect to the Jabber network.]
-Niektoré zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
 [Jabber Protocol Option]
 Voľby jabber protokolu
 [Messaging]
@@ -155,6 +153,8 @@ Pripájam...
 Sieť
 [Advanced]
 Podrobne
+[Some changes will take effect the next time you connect to the Jabber network.]
+Niektoré zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
 [<none>]
 <nič>
 [Status]

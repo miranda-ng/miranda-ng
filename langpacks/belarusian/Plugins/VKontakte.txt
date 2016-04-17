@@ -174,7 +174,7 @@
 [Cancel]
 Скасаваць
 [Open in browser]
-
+Адкрыць у браўзары
 [Invite user to chat]
 Запрасіць у чат
 [Choose one of your contacts to be invited:]
@@ -433,7 +433,6 @@
 Выгляд
 [Menu]
 Меню
-
 [Account language]
 
 [English]
@@ -445,7 +444,7 @@
 [Ukrainian]
 Украінскі
 [Spanish]
-
+Гішпанскі
 [Finnish]
 Фінскі
 [German]
@@ -475,7 +474,7 @@
 [VKontakte newsfeed & notification event]
 
 [Mark messages as read]
-
+Пазначыць павеламленні прачытанымі
 [Send message to user\'s wall]
 
 [Add as friend]

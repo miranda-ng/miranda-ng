@@ -29,7 +29,6 @@
 [TmplPast Work Place]
 [TmplPast Organization]
 [Actively searching]
-[In love]
 [It\'s complicated]
 [The function caused an exception!]
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]

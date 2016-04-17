@@ -17,6 +17,10 @@
 За да бъдат приложени промените е необходимо да рестартирате.
 [Custom]
 Избор
+[User name]
+Потребителско име
+[Gadu-Gadu Number]
+Gadu-Gadu номер
 [Nickname]
 Прякор
 [E-mail address]

@@ -75,7 +75,6 @@
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
 [Odnoklassniki]
-[Yandex]
 [Extended away (Not available)]
 [Play sounds]
 [Workstation successfully locked]

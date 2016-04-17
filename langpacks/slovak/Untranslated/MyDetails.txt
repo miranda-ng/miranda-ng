@@ -30,7 +30,6 @@
 [Right:]
 [Set my status message for all status]
 [Status message:]
-[On&line]
 [Set my avatar...]
 [Set my nickname...]
 [Set my status message...]

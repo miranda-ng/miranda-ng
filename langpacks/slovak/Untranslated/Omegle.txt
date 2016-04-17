@@ -48,7 +48,6 @@
 [Stranger is typing]
 [Stranger stopped typing]
 [Changing stranger]
-[Receive message]
 [Visible name]
 [Account]
 [Omegle Icon]

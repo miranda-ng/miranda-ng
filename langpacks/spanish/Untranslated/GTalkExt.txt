@@ -1,3 +1,2 @@
 ﻿[Popup icon]
-[Protocols]
 [You've received an e-mail\n%s unread threads]

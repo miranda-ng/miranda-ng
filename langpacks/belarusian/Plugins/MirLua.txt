@@ -22,15 +22,15 @@
 [Scripts folder]
 Каталог скыптоў
 [Script]
-
+Скрыпт
 [Loaded]
 
 [Failed]
-
+Не атрымалася
 [Open]
-
+Адкрыць
 [Reload]
-
+Перагрузіць
 [Common scripts]
 Агульныя скрыпты
 [Services]

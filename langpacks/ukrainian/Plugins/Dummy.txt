@@ -41,6 +41,8 @@ ID користувача
 Адреса E-mail
 [Skype name]
 Логін Skype
+[Tlen login]
+Логін Tlen
 [Username]
 Ім'я користувача
 [This Dummy account has disabled sending messages. Enable it in account options.]

@@ -7,6 +7,8 @@
 ;============================================================
 [Custom]
 Personalizado
+[User ID]
+ID de usuario
 [Nickname]
 Apodo
 [E-mail address]

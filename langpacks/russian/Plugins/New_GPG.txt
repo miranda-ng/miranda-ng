@@ -108,7 +108,7 @@ ID ключа:
 [Export public and private keys]
 Экспорт публичных и приватных ключей
 [Change private key password]
-Изменения пароля приватного ключа
+Изменение пароля приватного ключа
 [Current password:]
 Текущий пароль:
 [New password twice:]

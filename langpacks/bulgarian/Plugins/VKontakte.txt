@@ -31,6 +31,8 @@
 Пращане
 [Cancel]
 Отказ
+[Open in browser]
+Отваряне в браузер
 [Share]
 Сподели
 [URL:]
@@ -83,11 +85,39 @@ URL:
 Акаунт
 [View]
 Преглед
+[Menu]
+Меню
+[English]
+Английски
+[Russian]
+Руски
+[Belarusian]
+Беларуски
+[Ukrainian]
+Украински
+[Spanish]
+Испански
+[Finnish]
+Фински
+[German]
+Немски
+[Italian]
+Италиански
 [%s server connection]
 %s връзка със сървъра
+[Mark messages as read]
+Маркиране на съобщенията като прочетени
 [Errors]
 Грешки
 [Notification]
 Уведомяване
 [Waiting...]
 Изчакване...
+[Interests]
+Интереси
+[Activities]
+Дейности
+[Music]
+Музика
+[Games]
+Игри

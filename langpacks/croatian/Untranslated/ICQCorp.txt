@@ -10,7 +10,7 @@
 [Login Server:]
 [ICQ number:]
 [Password:]
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+[These changes will take effect the next time you connect to the ICQ network.]
 [Network]
 [ICQ Corporate plugin used only WinSock v2.2 or later.]
 [You need specify ICQ Corporate login server.]

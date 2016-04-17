@@ -11,4 +11,3 @@
 [Open]
 [Reload]
 [Common scripts]
-[Services]

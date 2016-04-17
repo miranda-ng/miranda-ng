@@ -25,6 +25,5 @@
 [Upload files to Dropbox]
 [you are already authorized]
 [you are not authorized yet]
-[Account name]
 [Interception]
 ["%s" is not valid.\nUse "/help" for more info.]

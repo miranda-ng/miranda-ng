@@ -11,5 +11,7 @@ Podpora Omegle protokolu pre Mirandu NG.
 Jazyk:
 [Connecting...]
 Pripájam...
+[Receive message]
+Prijať správu
 [Network]
 Sieť

@@ -1831,6 +1831,22 @@ Popups за изобразяване
 Жена
 [<not specified>]
 <неуточнено>
+[Single]
+Необвързан(а)
+[Close relationships]
+Обвързан(а)
+[Engaged]
+Сгоден(а)
+[Married]
+Женен/Омъжена
+[Divorced]
+Разведен(а)
+[Separated]
+Разделен(а)
+[Widowed]
+Вдовец/Вдовица
+[In love]
+Влюбен
 [Summary]
 Обобщение
 [Contact]

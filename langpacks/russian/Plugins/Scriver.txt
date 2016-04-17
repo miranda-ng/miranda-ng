@@ -273,6 +273,8 @@
 Выделить &всё
 [Word lookup]
 Найти слово
+[Yandex]
+Яндекс
 [Google Maps]
 Google Карты
 [Google Translate]

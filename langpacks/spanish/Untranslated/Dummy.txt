@@ -10,7 +10,6 @@
 [User name]
 [Facebook ID]
 [Gadu-Gadu Number]
-[User ID]
 [ICQ number]
 [JID]
 [Visible name]

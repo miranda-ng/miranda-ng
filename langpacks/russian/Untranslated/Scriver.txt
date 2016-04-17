@@ -1,5 +1,4 @@
 ﻿[Bing]
-[Yandex]
 [Wikipedia (en)]
 [Yahoo]
 [Foodnetwork]

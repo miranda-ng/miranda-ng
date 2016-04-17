@@ -21,4 +21,3 @@
 [Join to game]
 [Gaming icon]
 [SteamID]
-[closed chat session]

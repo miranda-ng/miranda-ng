@@ -30,7 +30,6 @@
 [Engaged]
 [Married]
 [Divorced]
-[Separated]
 [Widowed]
 [Actively searching]
 [In love]

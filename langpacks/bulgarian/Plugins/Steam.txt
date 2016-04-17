@@ -47,3 +47,5 @@
 %s връзка
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"
+[closed chat session]
+затворен разговор

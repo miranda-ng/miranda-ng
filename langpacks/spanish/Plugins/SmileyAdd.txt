@@ -11,6 +11,8 @@ Nombre:
 Versión
 [Preview]
 Previsualizar
+[Enable]
+Habilitar
 [Smiley button]
 Botón de emoticono
 [Background color]
