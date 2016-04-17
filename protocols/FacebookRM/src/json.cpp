@@ -289,7 +289,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	std::string type;
 
 	const JSONNode &attachments_ = delta_["attachments"];
-	if (!attachments_)
+	if (!attachments_ || attachments_.empty())
 		return;
 		
 	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
