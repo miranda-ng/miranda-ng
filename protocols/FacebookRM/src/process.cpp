@@ -309,12 +309,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	facy.handle_entry("ProcessUnreadMessages");
 
-	// receive messages from all folders by default, use hidden setting to receive only inbox messages
-	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
-
-	std::string data = "folders[0]=inbox";
-	if (!inboxOnly)
-		data += "&folders[1]=other";
+	std::string data = "folders[0]=inbox&folders[1]=other"; // TODO: I'm not sure if this is still valid/used on fb side (or it has any effect at all)
 	data += "&client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
@@ -332,7 +327,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		std::vector<std::string> threads;
 
 		facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_unread_threads(&resp.data, &threads, inboxOnly);
+		p->parse_unread_threads(&resp.data, &threads);
 		delete p;
 
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
@@ -364,9 +359,6 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 
 	int offset = 0;
 	int limit = 21;
-
-	// receive messages from all folders by default, use hidden setting to receive only inbox messages
-	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
 	http::response resp;
 
@@ -405,7 +397,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 			std::map<std::string, facebook_chatroom*> chatrooms;
 
 			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, inboxOnly);
+			p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
 			delete p;
 
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
@@ -526,7 +518,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	std::map<std::string, facebook_chatroom*> chatrooms;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false);
+	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
 	delete p;
 
 	// TODO: do something with this, chat is loading somewhere else... (in receiveMessages method right now)
@@ -596,16 +588,11 @@ void FacebookProto::SyncThreads(void*)
 		timestamp = daysBefore;
 	}
 
-	// Receive messages from all folders by default, use hidden setting to receive only inbox messages
-	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
-
 	// Get milli timestamp string for Facebook
 	std::string time = utils::conversion::to_string((void*)&timestamp, UTILS_CONV_TIME_T) + "000";
 
 	std::string data = "last_action_timestamp=" + time;
-	data += "&folders[0]=inbox";
-	if (!inboxOnly)
-		data += "&folders[1]=other";
+	data += "&folders[0]=inbox&folders[1]=other"; // TODO: I'm not sure if this is still valid/used on fb side (or it has any effect at all)
 	data += "&client=mercury_sync";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__dyn=" + facy.__dyn();
@@ -629,7 +616,7 @@ void FacebookProto::SyncThreads(void*)
 	std::map<std::string, facebook_chatroom*> chatrooms;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false);
+	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
 	delete p;
 
 	ReceiveMessages(messages, true);
@@ -1036,9 +1023,6 @@ void FacebookProto::ProcessMessages(void* data)
 		return;
 	}
 
-	// receive messages from all folders by default, use hidden setting to receive only inbox messages
-	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
-
 	debugLogA("*** Starting processing messages");
 
 	CODE_BLOCK_TRY
@@ -1046,7 +1030,7 @@ void FacebookProto::ProcessMessages(void* data)
 		std::vector< facebook_message* > messages;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_messages(resp, &messages, &facy.notifications, inboxOnly);
+	p->parse_messages(resp, &messages, &facy.notifications);
 	delete p;
 
 	ReceiveMessages(messages);

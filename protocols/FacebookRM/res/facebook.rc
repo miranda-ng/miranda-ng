@@ -187,26 +187,24 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Messages",IDC_STATIC,7,7,294,57
-    CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,19,281,10
+    GROUPBOX        "Messages",IDC_STATIC,7,7,294,43
     CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,33,281,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,19,281,10
     CONTROL         "Show stickers as custom smileys (EXPERIMENTAL)",IDC_CUSTOM_SMILEYS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,48,281,10
-    GROUPBOX        "Multi user chats",IDC_STATIC,7,70,294,43
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,281,10
+    GROUPBOX        "Multi user chats",IDC_STATIC,7,56,294,43
     CONTROL         "Enable multi user chats support",IDC_ENABLE_CHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,281,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,69,281,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDE_CHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,97,281,10
-    GROUPBOX        "History synchronization",IDC_STATIC,7,121,294,59
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,281,10
+    GROUPBOX        "History synchronization",IDC_STATIC,7,107,294,59
     CONTROL         "Load last messages (24 hours old) on login (EXPERIMENTAL)",IDC_LOGIN_SYNC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,135,281,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,121,281,10
     CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,149,281,10
-    RTEXT           "Number of messages to load:",IDC_STATIC,13,163,231,8
-    EDITTEXT        IDC_MESSAGES_COUNT,249,160,34,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,160,11,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,135,281,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,13,149,231,8
+    EDITTEXT        IDC_MESSAGES_COUNT,249,146,34,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,146,11,14
 END
 
 IDD_GUARD DIALOGEX 0, 0, 193, 94
@@ -214,11 +212,11 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Facebook Login Approval"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-	LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.", IDC_STATIC, 7, 7, 179, 40
-	PUSHBUTTON      "Send SMS", IDC_SEND_SMS, 7, 53, 59, 15
-	EDITTEXT        IDC_TEXT, 72, 54, 114, 12, ES_AUTOHSCROLL | ES_NUMBER
-	DEFPUSHBUTTON   "OK",IDOK,82,75,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,136,75,50,14    
+    LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.",IDC_STATIC,7,7,179,40
+    PUSHBUTTON      "Send SMS",IDC_SEND_SMS,7,53,59,15
+    EDITTEXT        IDC_TEXT,72,54,114,12,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,82,75,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,136,75,50,14
 END
 
 

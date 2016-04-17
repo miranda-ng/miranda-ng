@@ -511,7 +511,7 @@ void parseAttachments2(FacebookProto *proto, std::string *message_text, const JS
 	}
 }
 
-int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications, bool inboxOnly)
+int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications)
 {
 	// remove old received messages from map		
 	for (std::map<std::string, int>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
@@ -548,8 +548,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			const JSONNode &cls_ = delta_["class"];
 			std::string cls = cls_.as_string();
 			if (cls == "NewMessage") {
-				// TODO: Support for "folders" was probably removed, we should remove the "inboxOnly" option too - but first check how does that "allow messages request" works
-
 				const JSONNode &meta_ = delta_["messageMetadata"];
 				if (!meta_) {
 					proto->debugLogA("json::parse_messages - No messageMetadata element");
@@ -961,7 +959,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< std::string >* threads, bool inboxOnly)
+int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< std::string >* threads)
 {
 	std::string jsonData = data->substr(9);
 
@@ -974,11 +972,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 		return EXIT_FAILURE;
 
 	for (auto it = unread_threads.begin(); it != unread_threads.end(); ++it) {
-		const JSONNode &folder = (*it)["folder"];
 		const JSONNode &thread_ids = (*it)["thread_ids"];
-
-		if (inboxOnly && folder.as_string() != "inbox")
-			continue;
 
 		for (auto jt = thread_ids.begin(); jt != thread_ids.end(); ++jt)
 			threads->push_back((*jt).as_string());
@@ -987,7 +981,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly)
+int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly)
 {
 	std::string jsonData = data->substr(9);
 
@@ -1023,7 +1017,6 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		const JSONNode &name = (*it)["name"];
 		//const JSONNode &message_count = (*it)["message_count");
 		//const JSONNode &unread_count = (*it)["unread_count"); // TODO: use it to check against number of loaded messages... but how?
-		const JSONNode &folder = (*it)["folder"];
 
 		if (!other_user_fbid || !thread_id) {
 			proto->debugLogA("!!! Missing other_user_fbid/thread_id");
@@ -1053,9 +1046,6 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		if (iter != chatrooms->end())
 			chatrooms->erase(iter); // this is not chatroom
 
-		if (inboxOnly && folder.as_string() != "inbox")
-			continue;
-
 		if (id == "null")
 			continue;
 
@@ -1071,13 +1061,9 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		const JSONNode &mid = (*it)["message_id"];
 		const JSONNode &timestamp = (*it)["timestamp"];
 		const JSONNode &filtered = (*it)["is_filtered_content"];
-		const JSONNode &folder = (*it)["folder"];
 		const JSONNode &is_unread = (*it)["is_unread"];
 
 		if (!author || !body || !mid || !tid || !timestamp)
-			continue;
-
-		if (inboxOnly && folder.as_string() != "inbox")
 			continue;
 
 		std::string thread_id = tid.as_string();

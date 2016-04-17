@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\facebook.rc
+// Used by D:\Development\Miranda NG\Miranda NG\protocols\FacebookRM\res\facebook.rc
 //
 #define IDC_EXPAND                      3
 #define IDI_FACEBOOK                    101
@@ -33,7 +33,6 @@
 #define IDC_CUSTOM_SMILEYS              1034
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
-#define IDC_INBOX_ONLY                  1038
 #define IDC_MESSAGES_ON_OPEN            1039
 #define IDC_HIDE_CHATS                  1040
 #define IDC_NOTIFICATIONS_ENABLE        1041

@@ -57,7 +57,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_PLACE					"Place"
 #define FACEBOOK_KEY_LAST_WALL				"LastWall"
 #define FACEBOOK_KEY_LOAD_PAGES				"LoadPages"
-#define FACEBOOK_KEY_INBOX_ONLY				"InboxOnly"
 #define FACEBOOK_KEY_FILTER_ADS				"FilterAds"
 #define FACEBOOK_KEY_LOGON_TS				"LogonTS"
 #define FACEBOOK_KEY_LOGIN_SYNC				"LoginSync"		// (byte) 0 = get only unread messages, 1 = sync messages since last activity (default is 0)

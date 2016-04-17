@@ -82,7 +82,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_CUSTOM_SMILEYS					0
 #define DEFAULT_LOAD_PAGES						0
 #define DEFAULT_KEEP_UNREAD						0
-#define DEFAULT_INBOX_ONLY						0
 #define DEFAULT_FILTER_ADS						0
 #define DEFAULT_LOGIN_SYNC   					0
 #define DEFAULT_MESSAGES_ON_OPEN				0
