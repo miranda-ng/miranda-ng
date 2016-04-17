@@ -28,3 +28,31 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+
+/////////////////////////////////////////////////////////////////////////////////
+
+typedef CProtoDlgBase<FacebookProto> CFacebookDlgBase;
+
+#define DIALOG_RESULT_OK 1
+
+class CFacebookGuardDialog : public CFacebookDlgBase
+{
+private:
+	const char *m_fb_dtsg;
+	char m_code[7];
+
+	CCtrlEdit m_text;
+	CCtrlButton m_ok;
+	CCtrlButton m_sms;
+
+protected:
+	void OnInitDialog();
+	void OnOk(CCtrlButton*);
+	void OnSms(CCtrlButton*);
+	void OnClose();
+
+public:
+	CFacebookGuardDialog(FacebookProto *proto, const char *fb_dtsg);
+
+	const char *GetCode();
+};

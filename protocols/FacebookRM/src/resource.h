@@ -19,6 +19,7 @@
 #define IDI_CONVERSATION                131
 #define IDI_READ                        132
 #define IDI_KEYS                        133
+#define IDD_GUARD                       134
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
@@ -65,14 +66,16 @@
 #define IDC_INSTRUCTION                 1214
 #define IDC_FRAME1                      1215
 #define IDC_FRAME2                      1216
+#define IDC_TEXT                        1217
+#define IDC_SEND_SMS                    1218
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        134
+#define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1218
+#define _APS_NEXT_CONTROL_VALUE         1219
 #define _APS_NEXT_SYMED_VALUE           134
 #endif
 #endif

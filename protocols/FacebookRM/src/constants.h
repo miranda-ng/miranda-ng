@@ -128,7 +128,8 @@ enum RequestType {
 	REQUEST_VISIBILITY,			// setting chat visibility
 	REQUEST_IDENTITY_SWITCH,	// changing identity to post status for pages
 	REQUEST_CAPTCHA_REFRESH,	// refreshing captcha dialog (changing captcha type)
-
+	REQUEST_LOGIN_SMS,			// request to receive login code via SMS
+	
 	REQUEST_FEEDS,				// getting feeds
 	REQUEST_NOTIFICATIONS,		// getting notifications
 	REQUEST_LOAD_FRIENDSHIPS,	// getting friendship requests

@@ -276,6 +276,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 		//	case REQUEST_FRIENDSHIP:
 		//	case REQUEST_UNREAD_THREADS:
 		//	case REQUEST_ON_THIS_DAY:
+		//	case REQUEST_LOGIN_SMS:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
 	}
@@ -524,6 +525,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 			action += "&" + (*get_data);
 		}
 		return action;
+	}
+
+	case REQUEST_LOGIN_SMS:
+	{
+		return "/ajax/login/approvals/send_sms?dpr=1";
 	}
 
 	default:
@@ -823,17 +829,8 @@ bool facebook_client::login(const char *username, const char *password)
 			return handle_error("login", FORCE_QUIT);
 		}
 
-		// Check whether some Facebook things are required
-		if (location.find("help.php") != std::string::npos)
-		{
-			client_notify(TranslateT("Login error: Some Facebook things are required."));
-			parent->debugLogA("!!! Login error: Some Facebook things are required.");
-			// return handle_error("login", FORCE_QUIT);
-		}
-
-		// Check whether setting Machine name is required
-		if (location.find("/checkpoint/") != std::string::npos)
-		{
+		// Check whether login checks are required
+		if (location.find("/checkpoint/") != std::string::npos) {
 			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL);
 
 			if (resp.data.find("login_approvals_no_phones") != std::string::npos) {
@@ -842,9 +839,48 @@ bool facebook_client::login(const char *username, const char *password)
 				return handle_error("login", FORCE_QUIT);
 			}
 
-			std::string inner_data;
 			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
+				std::string inner_data;
 
+				int attempt = 0;
+				// Check if we need to put approval code (aka "two-factor auth")
+				while (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
+					parent->debugLogA("    Login info: Approval code required.");
+
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+
+					CFacebookGuardDialog guardDialog(parent, fb_dtsg.c_str());
+					if (guardDialog.DoModal() != DIALOG_RESULT_OK) {
+						parent->SetStatus(ID_STATUS_OFFLINE);
+						return false;
+					}
+
+					// We need verification code from user (he can get it via Facebook application on phone or by requesting code via SMS)
+					std::string givenCode = guardDialog.GetCode();
+
+					inner_data = "submit[Continue]=Continue";
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + fb_dtsg;
+					inner_data += "&approvals_code=" + givenCode;
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+
+					if (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
+						// We get no error message if we put wrong code. Facebook just shows same form again.
+						if (++attempt >= 3) {
+							client_notify(TranslateT("You entered too many invalid verification codes. Plugin will disconnect."));
+							parent->debugLogA("!!! Login error: Too many invalid attempts to verification code.");
+							return handle_error("login", FORCE_QUIT);
+						}
+						else {
+							client_notify(TranslateT("You entered wrong verification code. Try it again."));
+						}
+					}
+					else {
+						// After successfull verification is showed different page - classic form to save device (as handled at the bottom)
+						break;
+					}
+				}
+				
 				// Check if we need to approve also last unapproved device
 				if (resp.data.find("name=\"name_action_selected\"") == std::string::npos) {
 					// 1) Continue
@@ -876,20 +912,12 @@ bool facebook_client::login(const char *username, const char *password)
 					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 				}
-
+				
 				// Save this actual device
 				inner_data = "submit[Continue]=Continue";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
-				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
-
-			}
-			else if (resp.data.find("name=\"submit[OK]\"") != std::string::npos) {
-				// TODO: not sure this branch could happen anymore
-				inner_data = "submit[OK]=OK";
-				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
 			else if (resp.data.find("name=\"submit[Get Started]\"") != std::string::npos) {
@@ -1598,4 +1626,29 @@ bool facebook_client::save_url(const std::string &url, const std::tstring &filen
 	}
 
 	return ret;
+}
+
+bool facebook_client::sms_code(const char *fb_dtsg)
+{
+	std::string inner_data = "method_requested=sms_requested";
+	inner_data += "&current_time=" + (utils::time::unix_timestamp() + ".000");
+	inner_data += "&__a=1";
+	inner_data += "&__user=0";
+	inner_data += "&__dyn=" + __dyn();
+	inner_data += "&__req=" + __req();
+	inner_data += "&__be=0";
+	inner_data += "&__pc=EXP1:DEFAULT";
+	inner_data += "&fb_dtsg=" + std::string(fb_dtsg);
+	inner_data += "&ttstamp=" + ttstamp_;
+	inner_data += "&__rev=" + __rev();
+	http::response resp = flap(REQUEST_LOGIN_SMS, &inner_data);
+
+	if (resp.data.find("\"is_valid\":true", 0) == std::string::npos) {
+		// Code wasn't send
+		client_notify(TranslateT("Error occurred when requesting verification SMS code."));
+		return false;
+	}
+
+	parent->NotifyEvent(parent->m_tszUserName, TranslateT("Verification SMS code was sent to your mobile phone."), NULL, FACEBOOK_EVENT_OTHER);
+	return true;
 }

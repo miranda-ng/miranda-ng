@@ -120,7 +120,7 @@ BEGIN
     CONTROL         "Automatically set 'Ignore status change' flag",IDC_SET_IGNORE_STATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,107,271,10
     CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,120,271,10
-	CONTROL         "Prefer real names instead of nicknames",IDC_NAME_AS_NICK,
+    CONTROL         "Prefer real names instead of nicknames",IDC_NAME_AS_NICK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,134,271,10
 END
 
@@ -209,6 +209,18 @@ BEGIN
     CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,160,11,14
 END
 
+IDD_GUARD DIALOGEX 0, 0, 193, 94
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Facebook Login Approval"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+	LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.", IDC_STATIC, 7, 7, 179, 40
+	PUSHBUTTON      "Send SMS", IDSMS, 7, 53, 59, 15
+	EDITTEXT        IDC_TEXT, 72, 54, 114, 12, ES_AUTOHSCROLL | ES_NUMBER
+	DEFPUSHBUTTON   "OK",IDOK,82,75,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,136,75,50,14    
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -295,6 +307,12 @@ BEGIN
         VERTGUIDE, 294
         TOPMARGIN, 7
         BOTTOMMARGIN, 224
+    END
+
+    IDD_GUARD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
     END
 END
 #endif    // APSTUDIO_INVOKED

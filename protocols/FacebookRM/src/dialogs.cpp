@@ -635,3 +635,49 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+CFacebookGuardDialog::CFacebookGuardDialog(FacebookProto *proto, const char *fb_dtsg)
+	: CFacebookDlgBase(proto, IDD_GUARD, false),
+	m_ok(this, IDOK),
+	m_sms(this, IDSMS),
+	m_text(this, IDC_TEXT),
+	m_fb_dtsg(fb_dtsg)
+{
+	memset(m_code, 0, sizeof(m_code));
+	m_ok.OnClick = Callback(this, &CFacebookGuardDialog::OnOk);
+	m_sms.OnClick = Callback(this, &CFacebookGuardDialog::OnSms);
+}
+
+void CFacebookGuardDialog::OnInitDialog()
+{
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("facebook"), TRUE));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("facebook")));
+
+	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
+
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+}
+
+void CFacebookGuardDialog::OnOk(CCtrlButton*)
+{
+	mir_strncpy(m_code, ptrA(m_text.GetTextA()), _countof(m_code));
+	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+}
+
+void CFacebookGuardDialog::OnSms(CCtrlButton *btn)
+{
+	btn->Disable();
+	m_proto->facy.sms_code(m_fb_dtsg);
+}
+
+void CFacebookGuardDialog::OnClose()
+{
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+}
+
+const char* CFacebookGuardDialog::GetCode()
+{
+	return m_code;
+}

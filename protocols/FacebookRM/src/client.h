@@ -167,6 +167,7 @@ public:
 
 	bool    login(const char *username, const char *password);
 	bool    logout();
+	bool	sms_code(const char *fb_dtsg);
 
 	const std::string & get_username() const;
 
