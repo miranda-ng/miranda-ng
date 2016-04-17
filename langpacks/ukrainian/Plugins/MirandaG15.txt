@@ -35,8 +35,6 @@
 Показувати секунди
 [Use transition effects when changing screens]
 Використовувати ефекти при зміні екранів
-[Credits]
-Автори
 [About]
 Інформація
 [For updates and news check the thread on http://www.g15forums.com]
