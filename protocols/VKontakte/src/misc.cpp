@@ -420,6 +420,18 @@ CMString CVkProto::RunConfirmationCode()
 	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
 }
 
+CMString CVkProto::RunRenameNick(LPCTSTR ptszOldName)
+{
+	ENTER_STRING pForm = { sizeof(pForm) };
+	pForm.type = ESF_COMBO;
+	pForm.recentCount = 0;
+	pForm.caption = TranslateT("Enter new nickname");
+	pForm.ptszInitVal = ptszOldName;
+	pForm.szModuleName = m_szModuleName;
+	pForm.szDataPrefix = "renamenick_";
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)

@@ -21,7 +21,7 @@ enum
 {
 	IDM_NONE,
 	IDM_TOPIC, IDM_INVITE, IDM_DESTROY,
-	IDM_KICK, IDM_INFO, IDM_VISIT_PROFILE
+	IDM_KICK, IDM_INFO, IDM_CHANGENICK, IDM_VISIT_PROFILE
 };
 
 static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
@@ -183,9 +183,12 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				bNew = cu->m_bUnknown;
 			cu->m_bDel = false;
 
-			CMString fName(jnUser["first_name"].as_mstring());
-			CMString lName(jnUser["last_name"].as_mstring());
-			CMString tszNick = fName.Trim() + _T(" ") + lName.Trim();
+			CMString tszNick(ptrT(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
+			if (tszNick.IsEmpty()) {
+				CMString fName(jnUser["first_name"].as_mstring());
+				CMString lName(jnUser["last_name"].as_mstring());
+				tszNick = fName.Trim() + _T(" ") + lName.Trim();
+			}
 			cu->m_tszNick = mir_tstrdup(tszNick);
 			cu->m_bUnknown = false;
 			
@@ -416,7 +419,8 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
-		cu->m_tszNick = mir_tstrdup(hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
+		CMString tszNick(ptrT(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
+		cu->m_tszNick = mir_tstrdup(tszNick.IsEmpty() ? (hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : tszNick);
 		cu->m_bUnknown = true;
 	}
 
@@ -783,6 +787,31 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			SvcVisitProfile(hContact, 0);
 		break;
 
+	case IDM_CHANGENICK:
+	{
+		CMString tszNewNick = RunRenameNick(cu->m_tszNick);
+		if (tszNewNick.IsEmpty() || tszNewNick == cu->m_tszNick)
+			break;
+
+		GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_NICK };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+
+		TCHAR tszId[20];
+		_itot(cu->m_uid, tszId, 10);
+
+		gce.ptszNick = mir_tstrdup(cu->m_tszNick);
+		gce.bIsMe = (cu->m_uid == m_myUserId);
+		gce.ptszUID = tszId;
+		gce.ptszText = mir_tstrdup(tszNewNick);
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.time = time(NULL);
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+		cu->m_tszNick = mir_tstrdup(tszNewNick);		
+		setTString(cc->m_hContact, CMStringA(FORMAT, "nick%d", cu->m_uid), tszNewNick);
+	}
+		break;
+
 	case IDM_KICK:
 		if (!IsOnline())
 			return;
@@ -791,6 +820,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			<< INT_PARAM("chat_id", cc->m_chatid) 
 			<< INT_PARAM("user_id", cu->m_uid));
 		cu->m_bUnknown = true;
+
 		break;
 	}
 }
@@ -809,6 +839,7 @@ static gc_item sttListItems[] =
 {
 	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
 	{ LPGENT("Visit profile"), IDM_VISIT_PROFILE, MENU_ITEM },
+	{ LPGENT("Change nick"), IDM_CHANGENICK, MENU_ITEM },
 	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
 };
 

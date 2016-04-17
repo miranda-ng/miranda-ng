@@ -324,6 +324,7 @@ private:
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
 	CMString RunConfirmationCode();
+	CMString RunRenameNick(LPCTSTR ptszOldName);
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
 	void __cdecl DBAddAuthRequestThread(void *p);

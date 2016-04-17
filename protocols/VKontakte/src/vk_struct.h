@@ -341,7 +341,6 @@ struct CVKOptions {
 	CMOption<TCHAR*> ptszReturnChatMessage;
 	CMOption<TCHAR*> ptszVKLang;
 
-
 	CVKOptions(PROTO_INTERFACE *proto);
 	
 	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(BYTE)iBBCForNews; };
