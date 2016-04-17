@@ -866,9 +866,9 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			debugLogA("  < Got chat message ID: %s", messages[i]->message_id.c_str());
 
 			facebook_chatroom *fbc;
-			std::string tthread_id = messages[i]->thread_id.c_str();
+			std::string thread_id = messages[i]->thread_id.c_str();
 
-			auto it = facy.chat_rooms.find(tthread_id);
+			auto it = facy.chat_rooms.find(thread_id);
 			if (it != facy.chat_rooms.end()) {
 				fbc = it->second;
 			}
@@ -880,14 +880,14 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				}
 
 				// We don't have this chat loaded in memory yet, lets load some info (name, list of users)
-				fbc = new facebook_chatroom(tthread_id);
+				fbc = new facebook_chatroom(thread_id);
 				LoadChatInfo(fbc);
-				facy.chat_rooms.insert(std::make_pair(tthread_id, fbc));
+				facy.chat_rooms.insert(std::make_pair(thread_id, fbc));
 			}
 
 			MCONTACT hChatContact = NULL;
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
-			// like: if (ChatIDToHContact(tthread_id) == NULL) {
+			// like: if (ChatIDToHContact(thread_id) == NULL) {
 			ptrA users(GetChatUsers(fbc->thread_id.c_str()));
 			if (users == NULL) {
 				AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());

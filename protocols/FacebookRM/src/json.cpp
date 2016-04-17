@@ -158,6 +158,33 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 	}
 }
 
+int facebook_json_parser::parse_chat_participant_names(std::string *data, std::map<std::string, std::string>* participants)
+{
+	std::string jsonData = data->substr(9);
+
+	JSONNode root = JSONNode::parse(jsonData.c_str());
+	if (!root)
+		return EXIT_FAILURE;
+
+	const JSONNode &profiles = root["payload"].at("profiles");
+	if (!profiles)
+		return EXIT_FAILURE;
+
+	for (auto it = profiles.begin(); it != profiles.end(); ++it) {
+		std::string userId = (*it).name();
+		std::string userName = (*it)["name"].as_string();
+
+		if (userId.empty() || userName.empty())
+			continue;
+
+		auto participant = participants->find(userId);
+		if (participant != participants->end())
+			participant->second = userName;
+	}
+
+	return EXIT_SUCCESS;
+}
+
 int facebook_json_parser::parse_friends(std::string *data, std::map< std::string, facebook_user* >* friends)
 {
 	std::string jsonData = data->substr(9);
@@ -1195,22 +1222,6 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 	if (!threads)
 		return EXIT_FAILURE;
 
-	/*const JSONNode &roger = payload, "roger");
-	if (roger) {
-	for (unsigned int i = 0; i < json_size(roger); i++) {
-	const JSONNode &it = json_at(roger, i);
-	std::tstring id = _A2T(json_name(it));
-
-	// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
-	if (id.substr(0, 3) == _T("id.")) {
-	facebook_chatroom *room = new facebook_chatroom();
-	room->thread_id = id;
-
-	chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
-	}
-	}
-	}*/
-
 	for (auto it = threads.begin(); it != threads.end(); ++it) {
 		const JSONNode &is_canonical_user_ = (*it)["is_canonical_user"];
 		const JSONNode &thread_id_ = (*it)["thread_id"];
@@ -1223,14 +1234,16 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 
 		std::string tid = thread_id_.as_string();
 
-		// TODO: allow more users to parse at once
+		// TODO: allow more chats to parse at once
 		if (fbc->thread_id != tid)
 			continue;
+
+		// const JSONNode &former_participants = (*it)["former_participants"]; // TODO: Do we want to list also former participants? We can show them with different role or something like that...
 
 		const JSONNode &participants = (*it)["participants"];
 		for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
 			std::string user_id = (*jt).as_string();
-			fbc->participants.insert(std::make_pair(user_id.substr(5), ""));
+			fbc->participants.insert(std::make_pair(user_id.substr(5), "")); // strip "fbid:" prefix
 		}
 
 		fbc->chat_name = std::tstring(ptrT(mir_utf8decodeT(name_.as_string().c_str())));

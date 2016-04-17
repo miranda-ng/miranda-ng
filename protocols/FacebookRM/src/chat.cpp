@@ -288,22 +288,22 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		return 0;
 
 	facebook_chatroom *fbc;
-	std::string tthread_id = threadId;
+	std::string thread_id = threadId;
 
-	auto it = facy.chat_rooms.find(tthread_id);
+	auto it = facy.chat_rooms.find(thread_id);
 	if (it != facy.chat_rooms.end()) {
 		fbc = it->second;
 	}
 	else {
 		// We don't have this chat loaded in memory yet, lets load some info (name, list of users)
-		fbc = new facebook_chatroom(tthread_id);
+		fbc = new facebook_chatroom(thread_id);
 		LoadChatInfo(fbc);
-		facy.chat_rooms.insert(std::make_pair(tthread_id, fbc));
+		facy.chat_rooms.insert(std::make_pair(thread_id, fbc));
 	}
 
 	// RM TODO: better use check if chatroom exists/is in db/is online... no?
-	// like: if (ChatIDToHContact(tthread_id) == NULL) {
-	ptrA users(GetChatUsers(tthread_id.c_str()));
+	// like: if (ChatIDToHContact(thread_id) == NULL) {
+	ptrA users(GetChatUsers(thread_id.c_str()));
 	if (users == NULL) {
 		// Add chatroom
 		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());

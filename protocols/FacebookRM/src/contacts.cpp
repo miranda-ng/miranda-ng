@@ -244,7 +244,10 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 
 void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 {
-	for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
+	std::vector<std::string> namelessIds;
+
+	// TODO: We could load all names from server at once by skipping this for cycle and using namelessIds as all in participants list, but we would lost our local names of our contacts. But maybe that's not a problem?
+	for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
 		if (it->second.empty()) {
 			if (!mir_strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
 				it->second = facy.self_.real_name;
@@ -259,13 +262,49 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 					// TODO: set correct role (friend/user) for this contact here - need rework participants map to <id, participant>
 				}
 
-				// TODO: load unknown contact's names from server
 				if (it->second.empty())
-					it->second = it->first;
-
-				//if (isOffline())
-				//	return;
+					namelessIds.push_back(it->first);
 			}
+		}
+	}
+
+	// if (isOffline())
+	//	return;
+
+	if (!namelessIds.empty()) {
+		// we have some contacts without name, let's load them all from the server
+
+		std::string data = "&__user=" + facy.self_.user_id;
+		data += "&__dyn=" + facy.__dyn();
+		data += "&__req=" + facy.__req();
+		data += "&fb_dtsg=" + facy.dtsg_;
+		data += "&ttstamp=" + facy.ttstamp_;
+		data += "&__rev=" + facy.__rev();
+
+		for (std::string::size_type i = 0; i < namelessIds.size() - 1; i++) {
+			std::string pos = utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
+			std::string id = utils::url::encode(namelessIds.at(i));
+			data += "&ids[" + pos + "]=" + id;
+		}
+
+		http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 11.2.2016
+
+		if (resp.code == HTTP_CODE_OK) {
+			CODE_BLOCK_TRY
+
+			// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
+
+			facebook_json_parser* p = new facebook_json_parser(this);
+			p->parse_chat_participant_names(&resp.data, &fbc->participants);
+			delete p;
+
+			debugLogA("*** Participant names processed");
+
+			CODE_BLOCK_CATCH
+
+				debugLogA("*** Error processing participant names: %s", e.what());
+
+			CODE_BLOCK_END
 		}
 	}
 }
@@ -340,8 +379,6 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 			if (fbc->chat_name.empty())
 				fbc->chat_name = std::tstring(_A2T(fbc->thread_id.c_str())); // TODO: is this needed? Isn't it showed automatically as id if there is no name?
 		}
-
-		//ReceiveMessages(messages, true); // don't let it fall into infinite cycle, solve it somehow...
 
 		debugLogA("*** Chat thread info processed");
 
