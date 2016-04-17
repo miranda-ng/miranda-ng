@@ -30,12 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HTTPRECVHEADERSTIMEOUT   30000  //in ms
 #define HTTPRECVDATATIMEOUT      20000
 
-struct ResizableCharBuffer
-{
-	char *sz;
-	int iEnd, cbAlloced;
-};
-
 struct ProxyAuth
 {
 	char *szServer;
@@ -85,26 +79,6 @@ struct ProxyAuthList : OBJLIST<ProxyAuth>
 };
 
 ProxyAuthList proxyAuthList;
-
-static void AppendToCharBuffer(struct ResizableCharBuffer *rcb, const char *fmt, ...)
-{
-	va_list va;
-	int charsDone;
-
-	if (rcb->cbAlloced == 0) {
-		rcb->cbAlloced = 512;
-		rcb->sz = (char*)mir_alloc(rcb->cbAlloced);
-	}
-	va_start(va, fmt);
-	while (true) {
-		charsDone = mir_vsnprintf(rcb->sz + rcb->iEnd, rcb->cbAlloced - rcb->iEnd, fmt, va);
-		if (charsDone >= 0) break;
-		rcb->cbAlloced += 512;
-		rcb->sz = (char*)mir_realloc(rcb->sz, rcb->cbAlloced);
-	}
-	va_end(va);
-	rcb->iEnd += charsDone;
-}
 
 static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, char *buf, int len, int flags)
 {
@@ -371,21 +345,21 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	return 1;
 }
 
-static int SendHttpRequestAndData(NetlibConnection *nlc, struct ResizableCharBuffer *httpRequest, NETLIBHTTPREQUEST *nlhr, int sendContentLengthHeader)
+static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest, NETLIBHTTPREQUEST *nlhr, int sendContentLengthHeader)
 {
 	bool sendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT);
 
 	if (sendContentLengthHeader && sendData)
-		AppendToCharBuffer(httpRequest, "Content-Length: %d\r\n\r\n", nlhr->dataLength);
+		httpRequest.AppendFormat("Content-Length: %d\r\n\r\n", nlhr->dataLength);
 	else
-		AppendToCharBuffer(httpRequest, "\r\n");
+		httpRequest.AppendFormat("\r\n");
 
 	DWORD hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 		(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND | NLHRF_NODUMPHEADERS) ?
 	MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 					 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
-	int bytesSent = NLSend(nlc, httpRequest->sz, httpRequest->iEnd, hflags);
+	int bytesSent = NLSend(nlc, httpRequest, httpRequest.GetLength(), hflags);
 	if (bytesSent != SOCKET_ERROR && sendData && nlhr->dataLength) {
 		DWORD sflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 			(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ?
@@ -396,8 +370,6 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, struct ResizableCharBuf
 
 		bytesSent = sendResult != SOCKET_ERROR ? bytesSent + sendResult : SOCKET_ERROR;
 	}
-	mir_free(httpRequest->sz);
-	memset(httpRequest, 0, sizeof(*httpRequest));
 
 	return bytesSent;
 }
@@ -409,7 +381,6 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
 
-	struct ResizableCharBuffer httpRequest = { 0 };
 	char *szHost = NULL, *szNewUrl = NULL;
 	char *pszProxyAuthHdr = NULL, *pszAuthHdr = NULL;
 	int i, doneHostHeader, doneContentLengthHeader, doneProxyAuthHeader, doneAuthHeader;
@@ -476,20 +447,23 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 				if (phost == NULL) phost = pszUrl;
 				else phost += 3;
 				ppath = strchr(phost, '/');
-				if (ppath == phost) phost = NULL;
+				if (ppath == phost)
+					phost = NULL;
 
 				if (nlhr->flags & NLHRF_GENERATEHOST) {
 					szHost = mir_strdup(phost);
-					if (ppath && phost) szHost[ppath - phost] = 0;
+					if (ppath && phost)
+						szHost[ppath - phost] = 0;
 				}
 
 				if (nlhr->flags & NLHRF_REMOVEHOST || (nlhr->flags & NLHRF_SMARTREMOVEHOST && !usingProxy))
 					pszUrl = ppath ? ppath : "/";
 
 				if (usingProxy && phost && !nlc->dnsThroughProxy) {
-					char* tszHost = mir_strdup(phost);
-					if (ppath && phost) tszHost[ppath - phost] = 0;
-					char* cln = strchr(tszHost, ':'); if (cln) *cln = 0;
+					char *tszHost = mir_strdup(phost);
+					if (ppath && phost)
+						tszHost[ppath - phost] = 0;
+					char *cln = strchr(tszHost, ':'); if (cln) *cln = 0;
 
 					if (inet_addr(tszHost) == INADDR_NONE) {
 						DWORD ip = DnsLookup(nlu, tszHost);
@@ -516,9 +490,10 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		}
 		nlc->proxyAuthNeeded = false;
 
-		AppendToCharBuffer(&httpRequest, "%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
+		CMStringA httpRequest;
+		httpRequest.AppendFormat("%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
 
-		//HTTP headers
+		// HTTP headers
 		doneHostHeader = doneContentLengthHeader = doneProxyAuthHeader = doneAuthHeader = 0;
 		for (i=0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
@@ -528,23 +503,23 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			else if (!mir_strcmpi(p.szName, "Authorization")) doneAuthHeader = 1;
 			else if (!mir_strcmpi(p.szName, "Connection")) continue;
 			if (p.szValue == NULL) continue;
-			AppendToCharBuffer(&httpRequest, "%s: %s\r\n", p.szName, p.szValue);
+			httpRequest.AppendFormat("%s: %s\r\n", p.szName, p.szValue);
 		}
 		if (szHost && !doneHostHeader)
-			AppendToCharBuffer(&httpRequest, "%s: %s\r\n", "Host", szHost);
+			httpRequest.AppendFormat("%s: %s\r\n", "Host", szHost);
 		if (pszProxyAuthHdr && !doneProxyAuthHeader)
-			AppendToCharBuffer(&httpRequest, "%s: %s\r\n", "Proxy-Authorization", pszProxyAuthHdr);
+			httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Authorization", pszProxyAuthHdr);
 		if (pszAuthHdr && !doneAuthHeader)
-			AppendToCharBuffer(&httpRequest, "%s: %s\r\n", "Authorization", pszAuthHdr);
-		AppendToCharBuffer(&httpRequest, "%s: %s\r\n", "Connection", "Keep-Alive");
-		AppendToCharBuffer(&httpRequest, "%s: %s\r\n", "Proxy-Connection", "Keep-Alive");
+			httpRequest.AppendFormat("%s: %s\r\n", "Authorization", pszAuthHdr);
+		httpRequest.AppendFormat("%s: %s\r\n", "Connection", "Keep-Alive");
+		httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Connection", "Keep-Alive");
 
 		// Add Sticky Headers
 		if (nlu->szStickyHeaders != NULL)
-			AppendToCharBuffer(&httpRequest, "%s\r\n", nlu->szStickyHeaders);
+			httpRequest.AppendFormat("%s\r\n", nlu->szStickyHeaders);
 
 		//send it
-		bytesSent = SendHttpRequestAndData(nlc, &httpRequest, nlhr, !doneContentLengthHeader);
+		bytesSent = SendHttpRequestAndData(nlc, httpRequest, nlhr, !doneContentLengthHeader);
 		if (bytesSent == SOCKET_ERROR)
 			break;
 
@@ -636,7 +611,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
-			mir_free(pszAuthHdr); pszAuthHdr = NULL;
+			replaceStr(pszAuthHdr, NULL);
 			if (nlhrReply) {
 				char *szAuthStr = NULL;
 				if (!complete) {
