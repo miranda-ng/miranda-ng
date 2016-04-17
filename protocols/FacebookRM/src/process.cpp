@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#define MAX_NEWSFEED_LEN 500
-
 /**
  * Helper function for loading name from database (or use default one specified as parameter), used for title of few notifications.
  */

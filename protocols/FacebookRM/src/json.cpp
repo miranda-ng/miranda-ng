@@ -283,161 +283,23 @@ std::string absolutizeUrl(std::string &url) {
 	return url;
 }
 
-void parseAttachments(FacebookProto *proto, std::string *message_text, const JSONNode &it, const std::string &thread_id, std::string other_user_fbid)
-{
-	// Process attachements and stickers
-	const JSONNode &has_attachment = it["has_attachment"];
-	if (!has_attachment || !has_attachment.as_bool())
-		return;
-
-	// Append attachements
-	std::string type;
-	std::string attachments_text;
-	const JSONNode &attachments = it["attachments"];
-	for (auto itAttachment = attachments.begin(); itAttachment != attachments.end(); ++itAttachment) {
-		const JSONNode &attach_type = (*itAttachment)["attach_type"]; // "sticker", "photo", "file", "share"
-		if (attach_type) {
-			// Get attachment type - "file" has priority over other types
-			if (type.empty() || type != "file")
-				type = attach_type.as_string();
-		}
-
-		if (type == "photo") {			
-			std::string filename = (*itAttachment)["name"].as_string();
-			std::string link = (*itAttachment)["hires_url"].as_string();
-
-			const JSONNode &metadata = (*itAttachment)["metadata"];
-			if (metadata) {
-				std::string id = metadata["fbid"].as_string();
-				const JSONNode &data = it["attachment_map"][id.c_str()];
-				filename = data["filename"].as_string();
-				link = data["image_data"]["url"].as_string();
-			}
-
-			if (!link.empty()) {
-				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-			}
-		}
-		else if (type == "file") {
-			std::string filename = (*itAttachment)["name"].as_string();
-			std::string link = (*itAttachment)["url"].as_string();
-
-			if (!link.empty()) {
-				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-			}
-		}
-		else if (type == "share") {
-			const JSONNode &share = (*itAttachment)["share"];
-			if (share) {
-				std::string title = share["title"].as_string();
-				std::string description = share["description"].as_string();
-				std::string link = share["uri"].as_string();
-
-				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
-					// de-facebook this link
-					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
-				}
-
-				if (!link.empty()) {
-					attachments_text += "\n";
-					if (!title.empty())
-						attachments_text += title + "\n";
-					if (!description.empty())
-						attachments_text += description + "\n";
-					attachments_text += absolutizeUrl(link) + "\n";
-				}
-			}
-		}
-		else if (type == "sticker") {
-			std::string link = (*itAttachment)["url"].as_string();
-			if (!link.empty()) {
-				attachments_text += "\n" + absolutizeUrl(link) + "\n";
-			}
-
-			const JSONNode &metadata = (*itAttachment)["metadata"];
-			if (metadata) {
-				const JSONNode &stickerId_ = metadata["stickerID"];
-				if (stickerId_) {
-					std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]\n";
-					attachments_text += sticker;
-
-					if (other_user_fbid.empty() && !thread_id.empty())
-						other_user_fbid = proto->ThreadIDToContactID(thread_id);
-
-					// Stickers as smileys
-					if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
-						// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
-						if (!other_user_fbid.empty()) {
-							MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
-							proto->StickerAsSmiley(sticker, link, hContact);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// TODO: have this as extra event, not replace or append message content
-	if (!message_text->empty())
-		*message_text += "\n\n";
-
-	if (!attachments_text.empty()) {
-		// we can't use this as offline messages doesn't have it
-		/* const JSONNode &admin_snippet = it["admin_snippet");
-		if (admin_snippet != NULL) {
-		*message_text += admin_snippet);
-		} */
-
-		std::tstring newText;
-		if (type == "sticker")
-			newText = TranslateT("a sticker");
-		else if (type == "share")
-			newText = TranslateT("a link");
-		else if (type == "file")
-			newText = (attachments.size() > 1) ? TranslateT("files") : TranslateT("a file");
-		else if (type == "photo")
-			newText = (attachments.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
-		else
-			newText = _A2T(type.c_str());
-
-		TCHAR title[200];
-		mir_sntprintf(title, TranslateT("User sent %s:"), newText.c_str());
-
-		*message_text += T2Utf(title);
-		*message_text += attachments_text;
-	}
-	else {
-		*message_text += T2Utf(TranslateT("User sent an unsupported attachment. Open your browser to see it."));
-	}
-}
-
-void parseAttachments2(FacebookProto *proto, std::string *message_text, const JSONNode &it, std::string other_user_fbid)
+void parseAttachments(FacebookProto *proto, std::string *message_text, const JSONNode &delta_, std::string other_user_fbid, bool legacy)
 {
 	std::string attachments_text;
 	std::string type;
 
-	const JSONNode &attach_ = it["attachments"]["mercury"];
-
-	if (!attach_)
+	const JSONNode &attachments_ = delta_["attachments"];
+	if (!attachments_)
 		return;
-
-	/* const JSONNode &attachments = it["attachments"];
-	for (auto itAttachment = attachments.begin(); itAttachment != attachments.end(); ++itAttachment) {
-		const JSONNode &attach_ = (*itAttachment)["mercury"];*/
+		
+	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
+		const JSONNode &attach_ = legacy ? (*itAttachment) : (*itAttachment)["mercury"];
 
 		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share"
 
 		if (type == "photo") {
 			std::string filename = attach_["name"].as_string();
 			std::string link = attach_["hires_url"].as_string();
-
-			const JSONNode &metadata = attach_["metadata"];
-			if (metadata) {
-				std::string id = metadata["fbid"].as_string();
-				const JSONNode &data = it["attachment_map"][id.c_str()];
-				filename = data["filename"].as_string();
-				link = data["image_data"]["url"].as_string();
-			}
 
 			if (!link.empty()) {
 				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
@@ -454,9 +316,13 @@ void parseAttachments2(FacebookProto *proto, std::string *message_text, const JS
 		else if (type == "share") {
 			const JSONNode &share = attach_["share"];
 			if (share) {
-				std::string title = share["title"].as_string();
-				std::string description = share["description"].as_string();
+				std::string title = share["title"] ? share["title"].as_string() : "";
+				std::string description = share["description"] ? share["description"].as_string() : "";
 				std::string link = share["uri"].as_string();
+
+				// shorten long descriptions
+				if (description.length() > MAX_LINK_DESCRIPTION_LEN)
+					description = description.substr(0, MAX_LINK_DESCRIPTION_LEN) + "...";
 
 				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link
@@ -498,32 +364,24 @@ void parseAttachments2(FacebookProto *proto, std::string *message_text, const JS
 			}
 		}
 		else {
-			proto->debugLogA("json::parseAttachments2 - Unknown attachment type '%s'", type.c_str());
+			proto->debugLogA("json::parseAttachments (%s) - Unknown attachment type '%s'", legacy ? "legacy" : "not legacy", type.c_str());
 		}
-	// }
+	}
 
 	// TODO: have this as extra event, not replace or append message content
 	if (!message_text->empty())
 		*message_text += "\n\n";
 
 	if (!attachments_text.empty()) {
-		// we can't use this as offline messages doesn't have it
-		/* const JSONNode &admin_snippet = it["admin_snippet");
-		if (admin_snippet != NULL) {
-		*message_text += admin_snippet);
-		} */
-
 		std::tstring newText;
 		if (type == "sticker")
 			newText = TranslateT("a sticker");
 		else if (type == "share")
 			newText = TranslateT("a link");
 		else if (type == "file")
-			// newText = (attachments.size() > 1) ? TranslateT("files") : TranslateT("a file");
-			newText = TranslateT("a file");
+			newText = (attachments_.size() > 1) ? TranslateT("files") : TranslateT("a file");
 		else if (type == "photo")
-			// newText = (attachments.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
-			newText = TranslateT("a photo");
+			newText = (attachments_.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
 		else
 			newText = _A2T(type.c_str());
 
@@ -582,11 +440,11 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				}
 				
 				const JSONNode &sender_fbid = meta_["actorFbId"]; // who send the message
-				const JSONNode &body = delta_["body"];
+				const JSONNode &body = delta_["body"]; // message text, could be empty if there is only attachment (or sticker)
 
 				const JSONNode &mid = meta_["messageId"];
 				const JSONNode &timestamp = meta_["timestamp"];
-				if (!sender_fbid || !body || !mid || !timestamp)
+				if (!sender_fbid || !mid || !timestamp)
 					continue;
 
 				std::string id = sender_fbid.as_string();
@@ -600,17 +458,11 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				std::string thread_id = !other_user_id_ && thread_fbid_ ? "id." + thread_fbid_.as_string() : ""; // NOTE: we must add "id." prefix as this is threadFbId and we want threadId (but only for multi chats)
 
 				// Process attachements and stickers
-				parseAttachments2(proto, &message_text, delta_, other_user_id); // FIXME: Rework and fix parsing attachments
+				parseAttachments(proto, &message_text, delta_, other_user_id, false);
 
 				// Ignore duplicits or messages sent from miranda
 				if (ignore_duplicits(proto, message_id, message_text))
 					continue;
-
-				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
-				if (message_text.empty()) {
-					proto->debugLogA("json::parse_messages - Received empty message. Received only some attachment?");
-					// continue;
-				}
 
 				facebook_message* message = new facebook_message();				
 				message->isChat = other_user_id.empty();
@@ -1101,7 +953,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
-		parseAttachments(proto, &message_text, *it, thread_id, other_user_id);
+		parseAttachments(proto, &message_text, *it, other_user_id, true);
 
 		if (filtered.as_bool() && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
