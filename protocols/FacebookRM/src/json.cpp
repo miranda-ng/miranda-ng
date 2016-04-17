@@ -598,17 +598,45 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			}
 			else if (cls == "ReadReceipt") {
 				// user read message
-				const JSONNode &reader_ = delta_["threadKey"]["otherUserFbId"]; // who read the message
-				const JSONNode &time_ = delta_["actionTimestampMs"]; // when read
 
-				if (!reader_ || !time_)
+				// when read
+				const JSONNode &time_ = delta_["actionTimestampMs"];
+				if (!time_)
 					continue;
-
+				
 				time_t timestamp = utils::time::from_string(time_.as_string());
-				MCONTACT hContact = proto->ContactIDToHContact(reader_.as_string());
 
-				if (hContact)
+				// for multi chats (not available for single)
+				const JSONNode &actor_ = delta_["actorFbId"]; // who read the message
+				const JSONNode &thread_ = delta_["threadKey"]["threadFbId"]; // chat thread
+
+				// for single chats (not available for multi)
+				const JSONNode &reader_ = delta_["threadKey"]["otherUserFbId"]; // who read the message
+
+				if (actor_ && thread_) {
+					// multi chat
+					
+					// ignore if disabled
+					if (!proto->m_enableChat)
+						continue;
+
+					std::string readerId = actor_.as_string();
+					std::string tid = "id." + thread_.as_string(); // NOTE: threadFbId means just numeric id of thread, without "id." prefix. We add it here to have it consistent with other methods (where threadId is used)
+
+					MCONTACT hContact = proto->ChatIDToHContact(tid);
+					proto->facy.insert_reader(hContact, timestamp, readerId);
+				}
+				else if (reader_) {
+					// single chat
+					std::string userId = reader_.as_string();
+
+					MCONTACT hContact = proto->ContactIDToHContact(userId);
 					proto->facy.insert_reader(hContact, timestamp);
+				}
+			}
+			else if (cls == "NoOp") {
+				// contains numNoOps=1 (or probably other number) in delta element, but I don't know what is it for
+				continue;
 			}
 			else {
 				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
@@ -622,50 +650,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				continue;
 
 			std::string ev = ev_.as_string();
-			if (ev == "read") {
-				// user read chat message
-				if (!proto->m_enableChat)
-					continue;
-
-				const JSONNode &reader_ = (*it)["realtime_viewer_fbid"];
-				const JSONNode &time_ = (*it)["timestamp"];
-				if (!reader_ || !time_)
-					continue;
-
-				std::string readerId = reader_.as_string();
-				time_t timestamp = utils::time::from_string(time_.as_string());
-				std::string tid = "";
-
-				const JSONNode &tids = (*it)["tids"];
-				for (auto it2 = tids.begin(); it2 != tids.end(); ++it2) {
-					tid = (*it2).as_string();
-					break;
-				}
-
-				auto itRoom = proto->facy.chat_rooms.find(tid);
-				if (itRoom != proto->facy.chat_rooms.end()) {
-					facebook_chatroom *chatroom = itRoom->second;
-					std::map<std::string, std::string> participants = chatroom->participants;
-
-					auto participant = participants.find(readerId);
-					if (participant == participants.end()) {
-						// TODO: load name of this participant
-						std::string name = readerId;
-						participants.insert(std::make_pair(readerId, name));
-						proto->AddChatContact(tid.c_str(), readerId.c_str(), name.c_str());
-					}
-
-					participant = participants.find(readerId);
-					if (participant != participants.end()) {
-						// TODO: remember just reader ids to avoid eventual duplication of names
-						std::tstring reader = _A2T(participant->second.c_str(), CP_UTF8);
-						
-						MCONTACT hContact = proto->ChatIDToHContact(tid);
-						proto->facy.insert_reader(hContact, timestamp, reader);
-					}
-				}
-			}
-			else if (ev == "deliver") {
+			if (ev == "deliver") {
 				// inbox message (multiuser or direct)
 
 				const JSONNode &msg = (*it)["message"];

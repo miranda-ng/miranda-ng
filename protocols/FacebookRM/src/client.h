@@ -125,7 +125,7 @@ public:
 	void	clear_notifications();
 	void	clear_chatrooms();
 	void	clear_readers();
-	void	insert_reader(MCONTACT, time_t, const std::tstring &reader = _T(""));
+	void	insert_reader(MCONTACT, time_t, const std::string &readerId = "");
 	void	erase_reader(MCONTACT);
 
 	////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ public:
 	}
 
 	std::string __inline __rev() {
-		return "2177663"; // FIXME: Some version of communication protocol? This version is from 12.2.2015
+		return "2288795"; // FIXME: Some version of communication protocol? This version is from 17.4.2016
 	}
 
 	////////////////////////////////////////////////////////////

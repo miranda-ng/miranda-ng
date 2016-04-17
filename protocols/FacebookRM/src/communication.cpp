@@ -694,9 +694,36 @@ void facebook_client::clear_readers()
 /**
  * Inserts info to readers list, db and writes to statusbar
  */
-void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const std::tstring &reader)
+void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const std::string &readerId)
 {
+	if (!hContact)
+		return;
+
 	if (parent->isChatRoom(hContact)) {
+		std::string tid = ptrA(parent->getStringA(hContact, "ChatRoomID"));
+
+		std::string name = readerId;
+
+		// get name of this participant from chatroom's participants list
+		auto itRoom = chat_rooms.find(tid);
+		if (itRoom != chat_rooms.end()) {
+			facebook_chatroom *chatroom = itRoom->second;
+			std::map<std::string, std::string> participants = chatroom->participants;
+
+			// try to get name of this participant
+			auto participant = participants.find(readerId);
+			if (participant != participants.end()) {
+				name = participant->second;
+			}
+			else {
+				// FIXME: This probably shouldn't be here, but chatroom should have all it's participants loaded itself already
+				// add this missing participant, just in case
+				participants.insert(std::make_pair(readerId, name));
+				parent->AddChatContact(tid.c_str(), readerId.c_str(), name.c_str());
+			}
+		}
+		
+		std::tstring treaderName = _A2T(name.c_str(), CP_UTF8);
 		std::tstring treaders;
 
 		// Load old readers
@@ -705,7 +732,7 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 			treaders = std::tstring(told) + _T(", ");
 
 		// Append new reader name and remember them
-		treaders += utils::text::prepare_name(reader, true);
+		treaders += utils::text::prepare_name(treaderName, true);
 		parent->setTString(hContact, FACEBOOK_KEY_MESSAGE_READERS, treaders.c_str());
 	}
 
@@ -1396,7 +1423,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	data += "&message_batch[0][message_id]";
 	data += "&message_batch[0][ephemeral_ttl_mode]=0";
 	data += "&message_batch[0][manual_retry_cnt]=0";
-	data += "&client=mercury&__a=1&__pc=EXP1:DEFAULT";
+	data += "&client=mercury&__a=1&__be=0&__pc=EXP1:DEFAULT";
 	data += "&fb_dtsg=" + this->dtsg_;
 	data += "&__user=" + this->self_.user_id;
 	data += "&ttstamp=" + ttstamp_;
