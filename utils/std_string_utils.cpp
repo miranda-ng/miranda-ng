@@ -169,6 +169,7 @@ std::string utils::text::html_entities_decode(std::string data)
 	utils::text::replace_all(&data, "&quot;", "\"");
 	utils::text::replace_all(&data, "&lt;", "<");
 	utils::text::replace_all(&data, "&gt;", ">");
+	utils::text::replace_all(&data, "&nbsp;", " ");
 
 	utils::text::replace_all(&data, "&hearts;", "\xE2\x99\xA5"); // direct byte replacement
 	//	utils::text::replace_all(&data, "&hearts;", "\\u2665");      // indirect slashu replacement
