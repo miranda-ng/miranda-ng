@@ -568,8 +568,11 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				std::string message_id = mid.as_string();
 				std::string message_text = body.as_string();
 
-				std::string other_user_id = meta_["threadKey"]["otherUserFbId"].as_string(); // for whom the message is (probably only for single conversations)
-				std::string tid = meta_["threadKey"]["threadFbId"].as_string(); // this is probably only for chats
+				const JSONNode &other_user_id_ = meta_["threadKey"]["otherUserFbId"]; // for whom the message is (only for single conversations)
+				const JSONNode &thread_fbid_ = meta_["threadKey"]["threadFbId"]; // thread of the message (only for multi chat conversations)
+
+				std::string other_user_id = other_user_id_ ? other_user_id_.as_string() : "";
+				std::string thread_id = !other_user_id_ && thread_fbid_ ? "id." + thread_fbid_.as_string() : ""; // NOTE: we must add "id." prefix as this is threadFbId and we want threadId (but only for multi chats)
 
 				// Process attachements and stickers
 				parseAttachments2(proto, &message_text, delta_, other_user_id); // FIXME: Rework and fix parsing attachments
@@ -591,8 +594,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				message->time = utils::time::from_string(timestamp.as_string());
 				message->user_id = other_user_id;
 				message->message_id = message_id;
-				message->thread_id = tid;
-				message->isChat = other_user_id.empty(); // FIXME: Determine whether this is chat or not
+				message->thread_id = thread_id;
+				message->isChat = other_user_id.empty();
 
 				messages->push_back(message);
 			}
@@ -640,81 +643,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 			}
 			else {
 				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
-			}
-		}
-		else if (t == "messaging") {
-			// various messaging stuff (received and sent messages, getting seen info)
-
-			const JSONNode &ev_ = (*it)["event"];
-			if (!ev_)
-				continue;
-
-			std::string ev = ev_.as_string();
-			if (ev == "deliver") {
-				// inbox message (multiuser or direct)
-
-				const JSONNode &msg = (*it)["message"];
-				const JSONNode &folder = (*it)["folder"];				
-
-				if (inboxOnly && folder.as_string() != "inbox")
-					continue;
-
-				const JSONNode &sender_fbid = msg["sender_fbid"];
-				const JSONNode &sender_name = msg["sender_name"];
-				const JSONNode &body = msg["body"];
-
-				// looks like there is either "tid" or "other_user_fbid" (or both)
-				const JSONNode &tid = msg["tid"];
-				const JSONNode &mid = msg["mid"];
-				const JSONNode &timestamp = msg["timestamp"];				
-				if (!sender_fbid || !sender_name || !body || !mid || !timestamp)
-					continue;
-
-				const JSONNode &is_filtered = (*it)["is_filtered_content"]; // TODO: is it still here? perhaps it is replaced with msg["is_spoof_warning"] or something else?
-				//const JSONNode &is_spoof_warning = msg["is_spoof_warning"];				
-				//const JSONNode &is_silent = msg["is_silent"];
-				//const JSONNode &is_unread = msg["is_unread"];
-
-				std::string id = sender_fbid.as_string();
-				std::string message_id = mid.as_string();
-				std::string message_text = body.as_string();
-
-				std::string thread_id = tid.as_string();
-				std::string other_user_id = msg["other_user_fbid"].as_string();
-
-				// Process attachements and stickers
-				parseAttachments(proto, &message_text, msg, thread_id, other_user_id);
-
-				// Ignore duplicits or messages sent from miranda
-				if (!body || ignore_duplicits(proto, message_id, message_text))
-					continue;
-
-				if (is_filtered.as_bool() && message_text.empty())
-					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
-
-				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
-				if (message_text.empty())
-					continue;
-
-				facebook_message* message = new facebook_message();
-				message->isUnread = true;
-				message->isIncoming = (id != proto->facy.self_.user_id);
-				message->message_text = message_text;
-				message->time = utils::time::from_string(timestamp.as_string());
-				message->user_id = id;
-				message->message_id = message_id;
-				message->sender_name = utils::text::slashu_to_utf8(sender_name.as_string()); // TODO: or if not incomming use my own name from facy.self_ ?
-				message->thread_id = tid.as_string(); // TODO: or if not incomming use my own id from facy.self_ ?
-
-				const JSONNode &gthreadinfo = msg["group_thread_info"];
-				message->isChat = (gthreadinfo && gthreadinfo.as_string() != "null");
-
-				if (!message->isChat && !message->isIncoming) {
-					message->sender_name.clear();
-					message->user_id = !other_user_id.empty() ? other_user_id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
-				}
-
-				messages->push_back(message);
 			}
 		}
 		else if (t == "notification_json") {
