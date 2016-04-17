@@ -613,14 +613,14 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				}
 
 				facebook_message* message = new facebook_message();				
+				message->isChat = other_user_id.empty();
 				message->isIncoming = (id != proto->facy.self_.user_id);
 				message->isUnread = message->isIncoming;
 				message->message_text = message_text;
 				message->time = utils::time::from_string(timestamp.as_string());
-				message->user_id = other_user_id;
+				message->user_id = message->isChat ? id : other_user_id;
 				message->message_id = message_id;
 				message->thread_id = thread_id;
-				message->isChat = other_user_id.empty();
 
 				messages->push_back(message);
 			}
