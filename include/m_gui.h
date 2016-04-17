@@ -47,13 +47,13 @@ struct CMDBTraits<1>
 {
 	typedef BYTE DBType;
 	enum { DBTypeId = DBVT_BYTE };
-	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return pPro->getByte(szSetting, value);
+		return db_get_b(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		pPro->setByte(szSetting, value);
+		db_set_b(0, szModule, szSetting, value);
 	}
 };
 
@@ -62,13 +62,13 @@ struct CMDBTraits<2>
 {
 	typedef WORD DBType;
 	enum { DBTypeId = DBVT_WORD };
-	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		pPro->getWord(szSetting, value);
+		return db_get_w(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		pPro->setWord(szSetting, value);
+		db_set_w(0, szModule, szSetting, value);
 	}
 };
 
@@ -77,13 +77,13 @@ struct CMDBTraits<4>
 {
 	typedef DWORD DBType;
 	enum { DBTypeId = DBVT_DWORD };
-	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return pPro->getDword(szSetting, value);
+		return db_get_dw(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		pPro->setDword(szSetting, value);
+		db_set_dw(0, szModule, szSetting, value);
 	}
 };
 
@@ -92,28 +92,32 @@ struct CMDBTraits<8>
 {
 	typedef DWORD DBType;
 	enum { DBTypeId = DBVT_DWORD };
-	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return pPro->getDword(szSetting, value);
+		return db_get_dw(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		pPro->setDword(szSetting, value);
+		db_set_dw(0, szModule, szSetting, value);
 	}
 };
 
 class CMOptionBase
 {
 public:
-	__forceinline char* GetDBModuleName() const { return m_proto->m_szModuleName; }
-	__forceinline char* GetDBSettingName() const { return m_szSetting; }
+	__forceinline const char* GetDBModuleName() const { return m_szModuleName; }
+	__forceinline const char* GetDBSettingName() const { return m_szSetting; }
 
 protected:
 	__forceinline CMOptionBase(PROTO_INTERFACE *proto, char *szSetting) :
-		m_proto(proto), m_szSetting(szSetting)
+		m_szModuleName(proto->m_szModuleName), m_szSetting(szSetting)
 	{}
 
-	PROTO_INTERFACE *m_proto;
+	__forceinline CMOptionBase(char *module, char *szSetting) :
+		m_szModuleName(module), m_szSetting(szSetting)
+	{}
+
+	char *m_szModuleName;
 	char *m_szSetting;
 
 private:
@@ -131,13 +135,17 @@ public:
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
+	__forceinline CMOption(char *szModule, char *szSetting, Type defValue) :
+		CMOptionBase(szModule, szSetting), m_default(defValue)
+	{}
+
 	__forceinline operator Type()
 	{
-		return (Type)CMDBTraits<sizeof(Type)>::Get(m_proto, m_szSetting, m_default);
+		return (Type)CMDBTraits<sizeof(Type)>::Get(m_szModuleName, m_szSetting, m_default);
 	}
 	__forceinline Type operator= (Type value)
 	{
-		CMDBTraits<sizeof(Type)>::Set(m_proto, m_szSetting, (CMDBTraits<sizeof(Type)>::DBType)value);
+		CMDBTraits<sizeof(Type)>::Set(m_szModuleName, m_szSetting, (CMDBTraits<sizeof(Type)>::DBType)value);
 		return value;
 	}
 
@@ -161,15 +169,19 @@ public:
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
+	__forceinline CMOption(char *szModule, char *szSetting, const Type *defValue = nullptr) :
+		CMOptionBase(szModule, szSetting), m_default(defValue)
+	{}
+
 	__forceinline operator Type*()
 	{
-		m_value = m_proto->getStringA(m_szSetting);
+		m_value = db_get_sa(0, m_szModuleName, m_szSetting);
 		if (!m_value) m_value = mir_strdup(m_default);
 		return m_value;
 	}
 	__forceinline Type* operator= (Type *value)
 	{
-		m_proto->setString(m_szSetting, value);
+		db_set_s(0, m_szModuleName, m_szSetting, value);
 		return value;
 	}
 
@@ -177,7 +189,7 @@ private:
 	const Type *m_default;
 	mir_ptr<Type> m_value;
 
-	CMOption(const CMOption &) : CMOptionBase(NULL, NULL) {}
+	CMOption(const CMOption &) : CMOptionBase((char*)nullptr, nullptr) {}
 	void operator= (const CMOption &) {}
 };
 
@@ -192,16 +204,20 @@ public:
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
+	__forceinline CMOption(char *szModule, char *szSetting, const Type *defValue = nullptr) :
+		CMOptionBase(szModule, szSetting), m_default(defValue)
+	{}
+
 	__forceinline operator Type*()
 	{
-		m_value = m_proto->getWStringA(m_szSetting);
+		m_value = db_get_wsa(0, m_szModuleName, m_szSetting);
 		if (!m_value) m_value = mir_wstrdup(m_default);
 		return m_value;
 	}
 
 	__forceinline const Type* operator= (const Type *value)
 	{
-		m_proto->setWString(m_szSetting, value);
+		db_set_ws(0, m_szModuleName, m_szSetting, value);
 		return value;
 	}
 
@@ -209,7 +225,7 @@ private:
 	const Type *m_default;
 	mir_ptr<Type> m_value;
 
-	CMOption(const CMOption &) : CMOptionBase(NULL, NULL) {}
+	CMOption(const CMOption &) : CMOptionBase((char*)nullptr, nullptr) {}
 	void operator= (const CMOption &) {}
 };
 
