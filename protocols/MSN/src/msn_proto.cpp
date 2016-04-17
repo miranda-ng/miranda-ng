@@ -534,7 +534,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 
 			nlhr.cbSize = sizeof(nlhr);
 			nlhr.requestType = REQUEST_GET;
-			nlhr.flags = NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11;
+			nlhr.flags = NLHRF_HTTP11;
 			nlhr.szUrl = ft->szInvcookie;
 			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 

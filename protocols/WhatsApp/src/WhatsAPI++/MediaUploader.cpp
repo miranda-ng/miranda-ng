@@ -51,7 +51,7 @@ namespace MediaUploader
 		nlhr.szUrl = (char*)host.c_str();
 		nlhr.headers = s_imageHeaders;
 		nlhr.headersCount = _countof(s_imageHeaders);
-		nlhr.flags = NLHRF_HTTP11 | NLHRF_GENERATEHOST | NLHRF_REMOVEHOST | NLHRF_SSL;
+		nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
 		nlhr.pData = (char*)allVector.data();
 		nlhr.dataLength = (int)allVector.size();
 

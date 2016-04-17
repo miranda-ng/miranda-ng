@@ -2194,7 +2194,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	NETLIBHTTPREQUEST request = { 0 };
 	request.cbSize = sizeof(request);
 	request.requestType = REQUEST_GET;
-	request.flags = NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11;
+	request.flags = NLHRF_HTTP11;
 	request.szUrl = JABBER_SERVER_URL;
 
 	NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);

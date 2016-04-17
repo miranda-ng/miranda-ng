@@ -72,7 +72,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 	nlhrSend.pData = (char*)buf;
 	nlhrSend.dataLength = len;
 
-	nlhrSend.flags = NLHRF_GENERATEHOST | NLHRF_DUMPPROXY | NLHRF_SMARTAUTHHEADER | NLHRF_NOPROXY | NLHRF_REDIRECT;
+	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	if (nlc->nlhpi.flags & NLHPIF_HTTP11)
 		nlhrSend.flags |= NLHRF_HTTP11;
 

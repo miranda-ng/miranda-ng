@@ -300,7 +300,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	nlhrSend.cbSize = sizeof(nlhrSend);
 	nlhrSend.requestType = REQUEST_CONNECT;
-	nlhrSend.flags = NLHRF_GENERATEHOST | NLHRF_DUMPPROXY | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
+	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	if (nlc->dnsThroughProxy)
 		mir_snprintf(szUrl, "%s:%u", nloc->szHost, nloc->wPort);
 	else {

@@ -89,39 +89,24 @@ const
   REQUEST_PUT      = 5;
   REQUEST_DELETE   = 6;
 
-  NLHRF_GENERATEHOST    = $00000001; // auto generate a 'host' header from .szUrl
-  NLHRF_REMOVEHOST      = $00000002; // remove any host and/or protocol portion
-                                     // of szUrl before sending it
-  NLHRF_SMARTREMOVEHOST = $00000004; // removes host and/or protocol from szUrl
-                                     // unless the connection was opened through
-                                     // an HTTP or HTTPS proxy.
-  NLHRF_SMARTAUTHHEADER = $00000008; // if the connection was opened through an
-                                     // HTTP or HTTPS proxy then send a
-                                     // Proxy-Authorization header if required.
+  NLHRF_MANUALHOST      = $00000002; // don't remove any host and/or protocol portion of szUrl before sending it
   NLHRF_HTTP11          = $00000010; // use HTTP 1.1
-  NLHRF_PERSISTENT      = $00000020; // preserve connection on exit, open connection provided
-                                     // in the nlc field of the reply it should be supplied in
+  NLHRF_PERSISTENT      = $00000020; // preserve connection on exit, open connection provided in the nlc field of the reply it should be supplied in
                                      // nlc field of request for reuse or closed if not needed
   NLHRF_SSL             = $00000040; // use ssl connection
   NLHRF_NOPROXY         = $00000080; // do not use proxy server
-  NLHRF_REDIRECT        = $00000100; // handle HTTP redirect requests (response 30x), the
-                                     // resulting url provided in szUrl of the response
+  NLHRF_REDIRECT        = $00000100; // handle HTTP redirect requests (response 30x), the resulting url provided in szUrl of the response
   NLHRF_NODUMP          = $00010000; // never dump this to the log
-  NLHRF_NODUMPHEADERS   = $00020000; // don't dump http headers (only useful for
-                                     // POSTs and MS_NETLIB_HTTPTRANSACTION
-  NLHRF_DUMPPROXY       = $00040000; // this transaction is a proxy communication.
-                                     // For dump filtering only.
-  NLHRF_DUMPASTEXT      = $00080000; // dump posted and reply data as text.
-                                     // Headers are always dumped as text.
+  NLHRF_NODUMPHEADERS   = $00020000; // don't dump http headers (only useful for POSTs and MS_NETLIB_HTTPTRANSACTION
+  NLHRF_DUMPPROXY       = $00040000; // this transaction is a proxy communication. For dump filtering only.
+  NLHRF_DUMPASTEXT      = $00080000; // dump posted and reply data as text. Headers are always dumped as text.
   NLHRF_NODUMPSEND      = $00100000; // do not dump sent message.
 
   // for TNETLIBBUFFER.flags
 
-  MSG_NOHTTPGATEWAYWRAP = $010000; // don't wrap outgoing packet using
-                                   // TNETLIBUSER.pfnHttpGatewayWrapSend
+  MSG_NOHTTPGATEWAYWRAP = $010000; // don't wrap outgoing packet using TNETLIBUSER.pfnHttpGatewayWrapSend
   MSG_NODUMP            = $020000; // don't dump this packet to the log
-  MSG_DUMPPROXY         = $040000; // this is proxy communication, for dump
-                                   // filtering only
+  MSG_DUMPPROXY         = $040000; // this is proxy communication, for dump filtering only
   MSG_DUMPASTEXT        = $080000; // don't dump as hex, it's text
   MSG_RAW               = $100000; // send as raw, bybpass HTTP proxy stuff
   MSG_DUMPSSL           = $200000; // this is SSL traffic. For dump filtering only.

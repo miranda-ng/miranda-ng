@@ -179,7 +179,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
-		nlhr.flags = NLHRF_NODUMP | NLHRF_GENERATEHOST | NLHRF_SMARTAUTHHEADER;
+		nlhr.flags = NLHRF_NODUMP;
 		nlhr.szUrl = avt->pic_url;
 
 		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);

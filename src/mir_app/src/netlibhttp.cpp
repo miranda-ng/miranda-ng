@@ -436,7 +436,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 
 		if (!pszUrl) {
 			pszUrl = pszFullUrl;
-			if (nlhr->flags & (NLHRF_SMARTREMOVEHOST | NLHRF_REMOVEHOST | NLHRF_GENERATEHOST)) {
+			if (!(nlhr->flags & NLHRF_MANUALHOST)) {
 				bool usingProxy = nlc->proxyType == PROXYTYPE_HTTP && !(nlhr->flags & NLHRF_SSL);
 
 				mir_free(szHost);
@@ -450,14 +450,11 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 				if (ppath == phost)
 					phost = NULL;
 
-				if (nlhr->flags & NLHRF_GENERATEHOST) {
-					szHost = mir_strdup(phost);
-					if (ppath && phost)
-						szHost[ppath - phost] = 0;
-				}
+				szHost = mir_strdup(phost);
+				if (ppath && phost)
+					szHost[ppath - phost] = 0;
 
-				if (nlhr->flags & NLHRF_REMOVEHOST || (nlhr->flags & NLHRF_SMARTREMOVEHOST && !usingProxy))
-					pszUrl = ppath ? ppath : "/";
+				pszUrl = ppath ? ppath : "/";
 
 				if (usingProxy && phost && !nlc->dnsThroughProxy) {
 					char *tszHost = mir_strdup(phost);
@@ -848,21 +845,16 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 	if (nlc == NULL)
 		return 0;
 
-	NETLIBHTTPREQUEST nlhrSend;
-	char szUserAgent[64];
-
-	nlhrSend = *nlhr;
-	nlhrSend.flags &= ~NLHRF_REMOVEHOST;
-	nlhrSend.flags |= NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_SMARTAUTHHEADER;
+	NETLIBHTTPREQUEST nlhrSend = *nlhr;
 
 	bool doneUserAgentHeader = NetlibHttpFindHeader(nlhr, "User-Agent") != NULL;
 	bool doneAcceptEncoding = NetlibHttpFindHeader(nlhr, "Accept-Encoding") != NULL;
-
 	if (!doneUserAgentHeader || !doneAcceptEncoding) {
 		nlhrSend.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER) * (nlhrSend.headersCount + 2));
 		memcpy(nlhrSend.headers, nlhr->headers, sizeof(NETLIBHTTPHEADER) * nlhr->headersCount);
 	}
 
+	char szUserAgent[64];
 	if (!doneUserAgentHeader) {
 		nlhrSend.headers[nlhrSend.headersCount].szName = "User-Agent";
 		nlhrSend.headers[nlhrSend.headersCount].szValue = szUserAgent;

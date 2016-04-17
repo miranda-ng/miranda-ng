@@ -55,7 +55,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 {
 	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_POST;
-	nlhr.flags = NLHRF_GENERATEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP | NLHRF_NODUMPHEADERS;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP | NLHRF_NODUMPHEADERS;
 	nlhr.szUrl = reqUrl;
 	nlhr.headers = (NETLIBHTTPHEADER*)&HEADER_URL_ENCODED;
 	nlhr.headersCount = 1;

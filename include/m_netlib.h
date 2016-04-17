@@ -462,10 +462,7 @@ typedef struct {
 #define REQUEST_PUT      5
 #define REQUEST_DELETE   6
 
-#define NLHRF_GENERATEHOST    0x00000001   // auto-generate a "Host" header from szUrl
-#define NLHRF_REMOVEHOST      0x00000002   // remove any host and/or protocol portion of szUrl before sending it
-#define NLHRF_SMARTREMOVEHOST 0x00000004   // removes host and/or protocol from szUrl unless the connection was opened through an HTTP or HTTPS proxy.
-#define NLHRF_SMARTAUTHHEADER 0x00000008   // if the connection was opened through an HTTP or HTTPS proxy then send a Proxy-Authorization header if required.
+#define NLHRF_MANUALHOST      0x00000001   // do not remove any host and/or protocol portion of szUrl before sending it
 #define NLHRF_HTTP11          0x00000010   // use HTTP 1.1
 #define NLHRF_PERSISTENT      0x00000020   // preserve connection on exit, open connection provided in the nlc field of the reply
                                            // it should be supplied in nlc field of request for reuse or closed if not needed

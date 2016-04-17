@@ -469,7 +469,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 			nlhr.cbSize = sizeof(nlhr);
 			nlhr.requestType = REQUEST_GET;
-			nlhr.flags = NLHRF_GENERATEHOST | NLHRF_PERSISTENT | NLHRF_SMARTAUTHHEADER;
+			nlhr.flags = NLHRF_PERSISTENT;
 			nlhr.szUrl = uri;
 			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 			nlhr.headersCount = _countof(nlbhHeaders);
