@@ -934,6 +934,8 @@ bool facebook_client::login(const char *username, const char *password)
 		// Get and notify error message
 		std::string error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "[\"LoginFormError\"", "\"__html\":\"", "\"}"));
 		if (error.empty())
+			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "role=\"alert\"", ">", "</div"));
+		if (error.empty())
 			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "id=\"globalContainer\"", ">", "</div"));
 		if (error.empty())
 			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 2, "<strong>", "</strong"));
