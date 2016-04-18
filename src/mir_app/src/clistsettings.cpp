@@ -149,12 +149,6 @@ int ContactAdded(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int ContactDeleted(WPARAM wParam, LPARAM)
-{
-	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, TCHAR* &pStr)
@@ -201,7 +195,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 					// User's state is changing, and we are hideOffline-ing
 					if (cws->value.wVal == ID_STATUS_OFFLINE) {
 						cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
-						CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 						return 0;
 					}
 					cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 1);
@@ -212,11 +205,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
-			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
+			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
-			}
-			else
-				CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 		}
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);

@@ -137,7 +137,6 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 							// User's state is changing, and we are hideOffline-ing
 							if (cws->value.wVal == ID_STATUS_OFFLINE) {
 								pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(cws->szModule, cws->value.wVal, hContact, NULL), 0);
-								CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 								return 0;
 							}
 							pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(cws->szModule, cws->value.wVal, hContact, NULL), 1);

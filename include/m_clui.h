@@ -34,39 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //new groups are always created with the name "New Group"
 #define MS_CLUI_GROUPADDED  "CLUI/GroupCreated"
 
-//change the icon for a contact
-//wParam = (MCONTACT)hContact
-//lParam = iconid
-//returns 0 on sucess, nonzero on failure
-//iconid is an offset in the image list. see clist/geticonsimagelist
-#define MS_CLUI_CONTACTSETICON  "CLUI/ContactSetIcon"
-
-//remove a contact from the list
-//wParam = (MCONTACT)hContact
-//lParam = 0
-//returns 0 on success, nonzero on failure
-//this is not necessarily the same as a contact being actually deleted, since
-//if a contact goes offline while 'hide offline' is on, this will be called
-#define MS_CLUI_CONTACTDELETED  "CLUI/ContactDeleted"
-
-//add a contact to the list
-//wParam = (MCONTACT)hContact
-//lParam = iconId
-//returns 0 on success, nonzero on failure
-//The caller processes the 'hide offline' setting, so the callee should not do
-//further processing based on the value of this setting.
-//warning: this will be called to re-add a contact when they come online if
-//'hide offline' is on, but it cannot determine if the contact is already on
-//the list, so you may get requests to add a contact when it is already on the
-//list, which you should ignore.
-//You'll also get this whenever an event is added for a contact, since if the
-//contact was offline it needs to be shown to display the message, even if hide
-//offline is on.
-//You should not re-sort the list on this call. A separate resort request will
-//be sent
-//iconid is an offset in the image list. see clist/geticonsimagelist
-#define MS_CLUI_CONTACTADDED    "CLUI/ContactAdded"
-
 //start a rebuild of the contact list
 //wParam = lParam = 0
 //returns 0 on success, nonzero on failure

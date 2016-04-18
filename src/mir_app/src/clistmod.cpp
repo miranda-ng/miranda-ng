@@ -31,7 +31,6 @@ void UninitCListEvents(void);
 void UninitGroupServices(void);
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 int ContactAdded(WPARAM wParam, LPARAM lParam);
-int ContactDeleted(WPARAM wParam, LPARAM lParam);
 INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam);
 INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
@@ -421,7 +420,6 @@ int LoadContactListModule2(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, ContactListAccountsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
-	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
 	HookEvent(ME_PROTO_ACK, ProtocolAck);
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);

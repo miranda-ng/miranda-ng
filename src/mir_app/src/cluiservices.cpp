@@ -43,57 +43,45 @@ static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ContactSetIcon(WPARAM, LPARAM)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ContactDeleted(WPARAM, LPARAM)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
-static INT_PTR ContactAdded(WPARAM, LPARAM)
-{
-	//unnecessary: CLC does this automatically
-	return 0;
-}
-
 static INT_PTR ListBeginRebuild(WPARAM, LPARAM)
 {
-	//unnecessary: CLC does this automatically
 	return 0;
 }
 
 static INT_PTR ListEndRebuild(WPARAM, LPARAM)
 {
-	int rebuild = 0;
-	//CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
+	bool bRebuild = false;
+	LONG_PTR dwStyle = GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE);
+
+	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
+	if ((db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
 		if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
+			dwStyle |= CLS_HIDEOFFLINE;
 		else
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
-		rebuild = 1;
+			dwStyle &= ~CLS_HIDEOFFLINE;
+		bRebuild = true;
 	}
-	if ((db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
+	
+	if ((db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
 		if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			dwStyle |= CLS_HIDEEMPTYGROUPS;
 		else
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		rebuild = 1;
+			dwStyle &= ~CLS_HIDEEMPTYGROUPS;
+		bRebuild = true;
 	}
-	if ((db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
+	
+	if ((db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
 		if (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
+			dwStyle |= CLS_USEGROUPS;
 		else
-			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);
-		rebuild = 1;
+			dwStyle &= ~CLS_USEGROUPS;
+		bRebuild = true;
 	}
-	if (rebuild)
+	
+	if (bRebuild) {
+		SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, dwStyle);
 		cli.pfnInitAutoRebuild(cli.hwndContactTree);
+	}
 	return 0;
 }
 
@@ -111,9 +99,6 @@ static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 void LoadCluiServices(void)
 {
 	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
-	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);
-	CreateServiceFunction(MS_CLUI_CONTACTADDED, ContactAdded);
-	CreateServiceFunction(MS_CLUI_CONTACTDELETED, ContactDeleted);
 	CreateServiceFunction(MS_CLUI_LISTBEGINREBUILD, ListBeginRebuild);
 	CreateServiceFunction(MS_CLUI_LISTENDREBUILD, ListEndRebuild);
 	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);

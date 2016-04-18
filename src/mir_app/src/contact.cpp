@@ -36,9 +36,8 @@ static int GetContactStatus(MCONTACT hContact)
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
-void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add)
+void fnChangeContactIcon(MCONTACT hContact, int iIcon, int)
 {
-	CallService(add ? MS_CLUI_CONTACTADDED : MS_CLUI_CONTACTSETICON, hContact, iIcon);
 	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
 }
 
@@ -64,15 +63,12 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 {
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
-	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
-	if ((HANDLE) lParam == NULL)
+	if (lParam == NULL)
 		db_unset(wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = Clist_GroupGetName(lParam, NULL);
 		db_set_ts(wParam, "CList", "Group", grpChg.pszNewName);
 	}
-	CallService(MS_CLUI_CONTACTADDED, wParam,
-		cli.pfnIconFromStatusMode(GetContactProto(wParam), GetContactStatus(wParam), wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
 	return 0;
@@ -80,7 +76,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 int fnSetHideOffline(WPARAM wParam, LPARAM)
 {
-	switch((int)wParam) {
+	switch ((int)wParam) {
 	case 0:
 		db_set_b(NULL, "CList", "HideOffline", 0);
 		break;

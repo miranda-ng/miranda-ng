@@ -545,11 +545,11 @@ static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort
 
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 {
-	ClcContact *selcontact;
-	ClcGroup *group = &dat->list, *selgroup;
-	MCONTACT hSelItem;
+	ClcGroup *group = &dat->list;
 
 	if (dat->needsResort) {
+		MCONTACT hSelItem;
+		ClcContact *selcontact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
 			hSelItem = NULL;
 		else
@@ -570,9 +570,12 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 			}
 			group->scanIndex++;
 		}
-		if (hSelItem)
+
+		if (hSelItem) {
+			ClcGroup *selgroup;
 			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+		}
 
 		cli.pfnRecalcScrollBar(hwnd, dat);
 	}

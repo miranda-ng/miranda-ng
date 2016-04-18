@@ -43,61 +43,6 @@ const
   MS_CLUI_GROUPADDED:PAnsiChar = 'CLUI/GroupCreated';
 
   {
-    wParam : TMCONTACT
-    lParam : ICON_ID
-    Affect : Change the icon for a contact, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : ICON_ID is an offset in the imagelist, see clist/geticonsimagelist
-  }
-  MS_CLUI_CONTACTSETICON:PAnsiChar = 'CLUI/ContactSetIcon';
-
-  {
-    wParam : TMCONTACT
-    lParam : 0
-    Affect : Remove a contact from the list, see notes
-    Returns: 0 on success, [non zereo] on failure
-    Notes  : this contact is NOT actually being deleted, since if
-             a contact goes offline while 'hide offline' option is sset,
-             this service will be called then ALSO
-  }
-  MS_CLUI_CONTACTDELETED:PAnsiChar = 'CLUI/ContactDeleted';
-
-  {
-    wParam : TMCONTACT
-    lParam : ICON_ID
-    Affect : Add a contact to the list, see note
-    returns: 0 on success, [non zero] on failure
-    Notes  : the caller processes the 'hide offline' setting, so the callee
-             should not do further processing based on the value of this setting
-             -
-             WARNING: this will be called to re-add a contact when they come
-             online if 'hide offline' is on, but it cannot determine if
-             the contact is already on the list, so you may get requests to
-             add a contact when it is already on the list, which you should ignore.
-             -
-             You'll also get this whenever an event is added for a contact,
-             since if the contact was offline, it needs to be shown to
-             display the mesage, even if 'hide offlines' is on.
-             -
-             you should not resort the list on this call, a seperate resort
-             request will be sent.
-             -
-             ICON_ID is an offset in the image list, see clist/geticonsimagelist
-
-  }
-  MS_CLUI_CONTACTADDED:PAnsiChar = 'CLUI/ContactAdded';
-
-  {
-    wParam : TMCONTACT
-    lParam : 0
-    Affect : Reename a contact in the lists, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : You should not re-sort the list on this call, a separate resort
-             request will be sent, you can get the new name from clist/getcontactdisplayname
-  }
-  MS_CLUI_CONTACTRENAMED:PAnsiChar = 'CLUI/ContactRenamed';
-
-  {
     wParam : 0
     lParam : 0
     Affect : Start a rebuild of the contact list, see notes

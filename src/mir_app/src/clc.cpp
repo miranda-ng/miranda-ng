@@ -64,7 +64,7 @@ void fnClcOptionsChanged(void)
 
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
@@ -91,7 +91,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			// something is being written to a protocol module
 			if (!strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				char *id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+				char *id = (char *)CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
 					cli.pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
 			}
@@ -99,7 +99,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (szProto == NULL || strcmp(szProto, cws->szModule))
 			return 0;
 		if (!strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "e-mail")
-			 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "UIN"))
+			|| !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "UIN"))
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "ApparentMode"))
 			cli.pfnClcBroadcast(INTM_APPARENTMODECHANGED, hContact, lParam);
@@ -112,17 +112,17 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 static int ClcAccountsChanged(WPARAM, LPARAM)
 {
 	int i, cnt;
-	for (i=0, cnt=0; i < accounts.getCount(); i++)
+	for (i = 0, cnt = 0; i < accounts.getCount(); i++)
 		if (Proto_IsAccountEnabled(accounts[i]))
 			cnt++;
 
 	cli.hClcProtoCount = cnt;
-	cli.clcProto = (ClcProtoStatus *) mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
+	cli.clcProto = (ClcProtoStatus *)mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
 
-	for (i=0, cnt=0; i < accounts.getCount(); i++) {
+	for (i = 0, cnt = 0; i < accounts.getCount(); i++) {
 		if (Proto_IsAccountEnabled(accounts[i])) {
 			cli.clcProto[cnt].szProto = accounts[i]->szModuleName;
-			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
+			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(NULL, accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
 			++cnt;
 		}
 	}
@@ -138,13 +138,13 @@ static int ClcModulesLoaded(WPARAM, LPARAM)
 
 static int ClcProtoAck(WPARAM, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA *) lParam;
+	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type == ACKTYPE_STATUS) {
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
-			for (int i=0; i < cli.hClcProtoCount; i++) {
+			for (int i = 0; i < cli.hClcProtoCount; i++) {
 				if (!mir_strcmp(cli.clcProto[i].szProto, ack->szModule)) {
-					cli.clcProto[i].dwStatus = (WORD) ack->lParam;
+					cli.clcProto[i].dwStatus = (WORD)ack->lParam;
 					break;
 				}
 			}
@@ -179,7 +179,7 @@ static int ClcIconsChanged(WPARAM, LPARAM)
 
 static INT_PTR SetInfoTipHoverTime(WPARAM wParam, LPARAM)
 {
-	db_set_w(NULL, "CLC", "InfoTipHoverTime", (WORD) wParam);
+	db_set_w(NULL, "CLC", "InfoTipHoverTime", (WORD)wParam);
 	cli.pfnClcBroadcast(INTM_SETINFOTIPHOVERTIME, wParam, 0);
 	return 0;
 }
@@ -976,7 +976,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			POINT pt;
 			pt.x = (short)LOWORD(lParam);
 			pt.y = (short)HIWORD(lParam);
-			
+
 			HCURSOR hNewCursor = LoadCursor(NULL, IDC_NO);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 			if (dat->dragAutoScrolling) {
@@ -996,7 +996,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 				dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 			}
-			
+
 			switch (target) {
 			case DROPTARGET_ONSELF:
 			case DROPTARGET_ONCONTACT:
