@@ -32,7 +32,11 @@ struct CGroupInternal
 		groupName(mir_tstrdup(_name))
 		{}
 
-	int groupId;
+	~CGroupInternal()
+	{	mir_free(groupName);
+	}
+
+	int    groupId;
 	TCHAR *groupName;
 
 	void save()
@@ -252,7 +256,6 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), pGroup->groupName+1, NULL };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
-	mir_free(pGroup->groupName);
 	delete(pGroup);
 	return 0;
 }
@@ -521,10 +524,9 @@ int InitGroupServices(void)
 
 void UninitGroupServices(void)
 {
-	for (int i = 0; i < arByIds.getCount(); i++) {
-		mir_free(arByIds[i]->groupName);
+	for (int i = 0; i < arByIds.getCount(); i++)
 		delete arByIds[i];
-	}
+
 	arByIds.destroy();
 	arByName.destroy();
 }
