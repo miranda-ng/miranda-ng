@@ -621,7 +621,7 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay)
 	int delay = nDelay;
 	if (delay == -1) {
 		switch (uIDEvent) {
-		case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
+		case TIMERID_DELAYEDRESORTCLC: delay = 200; break;
 		case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
 		case TIMERID_REBUILDAFTER:     delay = 50;  break;
 		default:                       delay = 100; break;
@@ -1366,12 +1366,11 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 
 static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
-	ClcContact *contact = NULL;
-	ClcGroup *group = NULL;
-	int recalcScrollBar = 0, shouldShow;
-	BOOL needRepaint = FALSE;
+	bool needRepaint = false;
 	int contacticon = corecli.pfnGetContactIcon(wParam);
 	MCONTACT hSelItem = NULL;
+
+	ClcGroup *selgroup;
 	ClcContact *selcontact = NULL;
 
 	char *szProto = GetContactProto(wParam);
@@ -1383,19 +1382,20 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
 	bool ifVisibleByClui = !pcli->pfnIsHiddenMode(dat, status);
-	bool isVisible = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
+	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? TRUE : ifVisibleByClui;
 	bool isIconChanged = cli_GetContactIcon(wParam) != LOWORD(lParam);
 
-	shouldShow = isVisiblebyFilter && (isVisible || isIconChanged);
+	int shouldShow = isVisiblebyFilter && (isVisible || isIconChanged);
 
 	// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
+	ClcGroup *group = NULL;
+	ClcContact *contact = NULL;
 	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
-			recalcScrollBar = 1;
 			needRepaint = TRUE;
 			pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 			if (contact) {
@@ -1407,7 +1407,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		}
 	}
 	else {
-		//item in list already
+		// item in list already
 		if (contact && contact->iImage == lParam)
 			return 0;
 
@@ -1419,7 +1419,6 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
-			recalcScrollBar = 1;
 			dat->needsResort = 1;
 		}
 		else if (contact) {
@@ -1431,15 +1430,14 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			contact->image_is_special = image_is_special;
 			if (!image_is_special) { //Only if it is status changing
 				dat->needsResort = 1;
-				needRepaint = TRUE;
+				needRepaint = true;
 			}
 			else if (dat->m_paintCouter == contact->lastPaintCounter) //if contacts is visible
-				needRepaint = TRUE;
+				needRepaint = true;
 		}
 	}
 
 	if (hSelItem) {
-		ClcGroup *selgroup;
 		if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 		else
