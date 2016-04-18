@@ -114,8 +114,8 @@ static int core_NotifyEventHooks(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hEvent = lua_touserdata(L, 1);
-	WPARAM wParam = luaM_towparam(L, 2);
-	LPARAM lParam = luaM_tolparam(L, 3);
+	WPARAM wParam = (WPARAM)luaM_tomparam(L, 2);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 3);
 
 	int res = NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushboolean(L, res != -1);
@@ -201,8 +201,8 @@ static int core_CreateServiceFunction(lua_State *L)
 static int core_CallService(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-	WPARAM wParam = luaM_towparam(L, 2);
-	LPARAM lParam = luaM_tolparam(L, 3);
+	WPARAM wParam = (WPARAM)luaM_tomparam(L, 2);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 3);
 
 	INT_PTR res = CallService(name, wParam, lParam);
 	lua_pushinteger(L, res);
@@ -284,7 +284,7 @@ static int core_Translate(lua_State *L)
 	return 1;
 }
 
-static int core_ReplaceVariables(lua_State *L)
+static int core_Parse(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
@@ -343,13 +343,16 @@ static int core_ForkThread(lua_State *L)
 
 	p->hThread = mir_forkthread(ThreadFunc, p);
 	lstThreads[p->hThread] = p;
-	lua_pushnumber(L, (intptr_t)p->hThread);
+	lua_pushlightuserdata(L, p->hThread);
+
 	return 1;
 }
 
 static int core_TerminateThread(lua_State *L)
 {
-	HANDLE hThread = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	HANDLE hThread = (HANDLE)lua_touserdata(L, 1);
+
 	auto it = lstThreads.find(hThread);
 	if (it != lstThreads.end())
 	{
@@ -357,6 +360,7 @@ static int core_TerminateThread(lua_State *L)
 		lua_pushboolean(L, TerminateThread(hThread, 0));
 	}
 	else lua_pushboolean(L, 0);
+
 	return 1;
 }
 
@@ -372,7 +376,7 @@ int core_ptr2number(lua_State *L)
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", core_CreateHookableEvent },
-	{ "DestroyHookableEvent", core_DestroyHookableEvent },
+	//{ "DestroyHookableEvent", core_DestroyHookableEvent },
 
 	{ "NotifyEventHooks", core_NotifyEventHooks },
 
@@ -380,7 +384,7 @@ luaL_Reg coreApi[] =
 	{ "UnhookEvent", core_UnhookEvent },
 
 	{ "CreateServiceFunction", core_CreateServiceFunction },
-	//{ "DestroyServiceFunction", core_DestroyServiceFunction },
+	{ "DestroyServiceFunction", core_DestroyServiceFunction },
 
 	{ "ServiceExists", core_ServiceExists },
 	{ "CallService", core_CallService },
@@ -393,7 +397,9 @@ luaL_Reg coreApi[] =
 	{ "Free", core_Free },
 
 	{ "Translate", core_Translate },
-	{ "ReplaceVariables", core_ReplaceVariables },
+
+	{ "Parse", core_Parse },
+	{ "ReplaceVariables", core_Parse },
 
 	{ "ForkThread", core_ForkThread },
 	{ "TerminateThread", core_TerminateThread },
@@ -410,45 +416,6 @@ luaL_Reg coreApi[] =
 
 	{ NULL, NULL }
 };
-
-/***********************************************/
-
-#define MT_WPARAM "WPARAM"
-#define MT_LPARAM "LPARAM"
-
-/*static int mp__call(lua_State *L)
-{
-	switch (lua_type(L, idx))
-	{
-	case LUA_TBOOLEAN:
-		return lua_toboolean(L, idx);
-	case LUA_TNUMBER:
-		return lua_tonumber(L, idx);
-	case LUA_TSTRING:
-		return (LPARAM)lua_tostring(L, idx);
-	case LUA_TUSERDATA:
-	case LUA_TLIGHTUSERDATA:
-		return (LPARAM)lua_touserdata(L, idx);
-	default:
-		return NULL;
-	}
-}
-
-static int mp__toboolean(lua_State *L)
-{
-}
-
-static int mp__tonumber(lua_State *L)
-{
-}
-
-static int mp__tostring(lua_State *L)
-{
-}
-
-static int mp__topointer(lua_State *L)
-{
-}*/
 
 /***********************************************/
 

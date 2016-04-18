@@ -165,6 +165,31 @@ int luaM_tonumber(lua_State *L)
 	return 1;
 }
 
+UINT_PTR luaM_tomparam(lua_State *L, int idx)
+{
+	switch (lua_type(L, idx))
+	{
+	case LUA_TBOOLEAN:
+		return lua_toboolean(L, idx);
+	case LUA_TSTRING:
+		return (UINT_PTR)lua_tostring(L, idx);
+	case LUA_TLIGHTUSERDATA:
+		return (UINT_PTR)lua_touserdata(L, idx);
+	case LUA_TNUMBER:
+	{
+		if (lua_isinteger(L, 1))
+		{
+			lua_Integer value = lua_tointeger(L, 1);
+			return value <= INTPTR_MAX
+				? (UINT_PTR)value
+				: NULL;
+		}
+	}
+	default:
+		return NULL;
+	}
+}
+
 int luaM_interpolate(lua_State *L)
 {
 	const char *string = luaL_checkstring(L, 1);
@@ -200,62 +225,6 @@ int luaM_interpolate(lua_State *L)
 	lua_pushstring(L, string);
 
 	return 1;
-}
-
-WPARAM luaM_towparam(lua_State *L, int idx)
-{
-	if (lua_islightuserdata(L, idx))
-	{
-		return (WPARAM)lua_touserdata(L, idx);
-	}
-
-	char text[512];
-	mir_snprintf(text, "Type %s is not supported. Use topointer(x) instead", luaL_typename(L, idx));
-	Log(text);
-	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
-		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
-
-	switch (lua_type(L, idx))
-	{
-	case LUA_TBOOLEAN:
-		return lua_toboolean(L, idx);
-	case LUA_TNUMBER:
-		return (WPARAM)lua_tonumber(L, idx);
-	case LUA_TSTRING:
-		return (WPARAM)lua_tostring(L, idx);
-		break;
-	default:
-		return NULL;
-	}
-}
-
-LPARAM luaM_tolparam(lua_State *L, int idx)
-{
-	if (lua_islightuserdata(L, idx))
-	{
-		return (LPARAM)lua_touserdata(L, idx);
-	}
-
-	char text[512];
-	mir_snprintf(text, "Type %s is not supported. Use topointer(x) instead", luaL_typename(L, idx));
-	Log(text);
-	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
-		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
-
-	switch (lua_type(L, idx))
-	{
-	case LUA_TBOOLEAN:
-		return lua_toboolean(L, idx);
-	case LUA_TNUMBER:
-		return (LPARAM)lua_tonumber(L, idx);
-	case LUA_TSTRING:
-		return (LPARAM)lua_tostring(L, idx);
-	case LUA_TUSERDATA:
-	case LUA_TLIGHTUSERDATA:
-		return (LPARAM)lua_touserdata(L, idx);
-	default:
-		return NULL;
-	}
 }
 
 bool luaM_toboolean(lua_State *L, int idx)

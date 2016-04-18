@@ -115,10 +115,9 @@ int luaM_toucs2(lua_State *L);
 int luaM_topointer(lua_State *L);
 int luaM_tonumber(lua_State *L);
 
-int luaM_interpolate(lua_State *L);
+WPARAM luaM_tomparam(lua_State *L, int idx);
 
-WPARAM luaM_towparam(lua_State *L, int idx);
-LPARAM luaM_tolparam(lua_State *L, int idx);
+int luaM_interpolate(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
 
