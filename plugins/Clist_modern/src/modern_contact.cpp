@@ -52,11 +52,6 @@ static int GetContactStatus(MCONTACT hContact)
 	return (GetContactCachedStatus(hContact));
 }
 
-void cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add)
-{
-	corecli.pfnChangeContactIcon(hContact, iIcon, add);
-}
-
 static int GetStatusModeOrdering(int statusMode)
 {
 	for (int i = 0; i < _countof(statusModeOrder); i++)

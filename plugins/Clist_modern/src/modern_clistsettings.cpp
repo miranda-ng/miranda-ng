@@ -277,7 +277,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 int ContactAdded(WPARAM hContact, LPARAM)
 {
 	if (!MirandaExiting())
-		cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact), ID_STATUS_OFFLINE, hContact), 1); ///by FYR
+		pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact), ID_STATUS_OFFLINE, hContact), 1); ///by FYR
 
 	return 0;
 }
@@ -320,7 +320,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				amRequestAwayMsg(hContact);
 
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
+			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
@@ -354,7 +354,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pdnce->bIsHidden = cws->value.bVal;
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto(hContact);
-				cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
+				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
 					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);  //by FYR
 			}
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
@@ -368,7 +368,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "p")) {
 			pdnce->m_pszProto = GetContactProto(hContact);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
-			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
+			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
 				szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 0);
 		}
 	}

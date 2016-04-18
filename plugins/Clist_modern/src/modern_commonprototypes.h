@@ -265,8 +265,7 @@ void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int upd
 void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_FreeContact(ClcContact*);
 void    cli_FreeGroup(ClcGroup*);
-TCHAR*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
-void    cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add);
+TCHAR*  cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 CListEvent* cli_AddEvent(CLISTEVENT *cle);
