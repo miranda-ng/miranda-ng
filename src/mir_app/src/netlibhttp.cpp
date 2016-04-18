@@ -454,7 +454,8 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 				if (ppath && phost)
 					szHost[ppath - phost] = 0;
 
-				pszUrl = ppath ? ppath : "/";
+				if (!usingProxy)
+					pszUrl = ppath ? ppath : "/";
 
 				if (usingProxy && phost && !nlc->dnsThroughProxy) {
 					char *tszHost = mir_strdup(phost);
