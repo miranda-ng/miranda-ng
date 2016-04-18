@@ -431,9 +431,21 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 {
 	GCDEST gcd = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+	ptrT szNick;
 
+	if (IsMe(_T2A(from)))
+	{
+		szNick = getTStringA(NULL, "Nick");
+	}
+	else
+	{
+		MCONTACT hContact = FindContact(_T2A(from));
+		szNick = hContact != NULL ? getTStringA(hContact, "Nick") : NULL;
+	}
+
+	
 	gce.bIsMe = IsMe(_T2A(from));
-	gce.ptszNick = from;
+	gce.ptszNick = szNick != NULL ? szNick : from;
 	gce.time = timestamp;
 	gce.ptszUID = from;
 
@@ -531,14 +543,24 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	if (IsChatContact(tchat_id, id))
 		return;
 
-	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
 	ptrT tid(mir_a2t(id));
+	ptrT szNick;
 
+	if (IsMe(name))
+	{
+		szNick = getTStringA(NULL, "Nick");
+	}
+	else
+	{
+		MCONTACT hContact = FindContact(name);
+		szNick = hContact != NULL ? getTStringA(hContact, "Nick") : NULL;
+	}
+	
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.pDest = &gcd;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tnick;
+	gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
 	gce.ptszUID = tid;
 	gce.time = !isChange ? time(NULL) : NULL;
 	gce.bIsMe = IsMe(id);
@@ -552,23 +574,33 @@ void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const
 	if (IsMe(id))
 		return;
 
-	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
 	ptrT tid(mir_a2t(id));
 	ptrT tinitiator(mir_a2t(initiator));
+	ptrT szNick;
 
+	if (IsMe(name))
+	{
+		szNick = getTStringA(NULL, "Nick");
+	}
+	else
+	{
+		MCONTACT hContact = FindContact(name);
+		szNick = hContact != NULL ? getTStringA(hContact, "Nick") : NULL;
+	}
+	
 	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	if (isKick)
 	{
 		gce.ptszUID = tid;
-		gce.ptszNick = tnick;
+		gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
 		gce.ptszStatus = tinitiator;
 		gce.time = time(NULL);
 	}
 	else
 	{
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszNick = tnick;
+		gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
 		gce.ptszUID = tid;
 		gce.time = time(NULL);
 		gce.bIsMe = IsMe(id);
