@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-//routines for managing adding/removal of items in the list, including sorting
+// routines for managing adding/removal of items in the list, including sorting
 
 int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 {
@@ -188,7 +188,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	i = cli.pfnAddItemToGroup(group, index + 1);
 	char *szProto = GetContactProto(hContact);
 	group->cl.items[i]->type = CLCIT_CONTACT;
-	group->cl.items[i]->iImage = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
+	group->cl.items[i]->iImage = cli.pfnGetContactIcon(hContact);
 	group->cl.items[i]->hContact = hContact;
 	group->cl.items[i]->proto = szProto;
 	if (szProto != NULL && !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))

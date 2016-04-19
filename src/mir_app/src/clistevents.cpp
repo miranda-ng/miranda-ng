@@ -33,8 +33,6 @@ struct CListImlIcon
 static struct CListImlIcon *imlIcon;
 static int imlIconCount;
 
-extern HIMAGELIST hCListImages;
-
 static UINT_PTR flashTimerId;
 static int iconsOn;
 static int disableTrayFlash;
@@ -116,7 +114,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 			if (g_cliEvents[j].hContact == g_cliEvents[i].hContact)
 				break;
 		if (j >= i)
-			cli.pfnChangeContactIcon(g_cliEvents[i].hContact, iconsOn || disableIconFlash ? g_cliEvents[i].imlIconIndex : 0, 0);
+			cli.pfnChangeContactIcon(g_cliEvents[i].hContact, iconsOn || disableIconFlash ? g_cliEvents[i].imlIconIndex : 0);
 		
 		// decrease eflashes in any case - no need to collect all events
 		if (g_cliEvents[i].flags & CLEF_ONLYAFEW)
@@ -169,7 +167,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 		flashTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
 		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->ptszTooltip, szProto);
 	}
-	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex, 1);
+	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex);
 	return p;
 }
 
@@ -191,8 +189,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 
 	// Update contact's icon
 	char *szProto = GetContactProto(hContact);
-	cli.pfnChangeContactIcon(g_cliEvents[i].hContact,
-		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)g_cliEvents[i].hContact, 1), 0);
+	cli.pfnChangeContactIcon(g_cliEvents[i].hContact, cli.pfnGetContactIcon(g_cliEvents[i].hContact));
 
 	// Free any memory allocated to the event
 	g_cliEvents.remove(i);

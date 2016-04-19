@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "clc.h"
 
 #include <m_nudge.h>
 #include "metacontacts.h"
@@ -281,8 +282,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 			}
 			else ptszName = cli.pfnGetContactDisplayName(hContact, 0);
 
-			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
-			HICON hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
+			HICON hIcon = ImageList_GetIcon(hCListImages, cli.pfnGetContactIcon(hContact), 0);
 			Menu_ModifyItem(hMenuContact[i], ptszName, hIcon, 0);
 			DestroyIcon(hIcon);
 			

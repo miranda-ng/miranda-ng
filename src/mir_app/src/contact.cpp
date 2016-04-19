@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-extern HANDLE hContactIconChangedEvent;
 extern HANDLE hGroupChangeEvent;
 
 static int GetContactStatus(MCONTACT hContact)
@@ -34,11 +33,6 @@ static int GetContactStatus(MCONTACT hContact)
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-}
-
-void fnChangeContactIcon(MCONTACT hContact, int iIcon, int)
-{
-	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
 }
 
 void fnLoadContactTree(void)
@@ -54,7 +48,7 @@ void fnLoadContactTree(void)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
-			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact), 1);
+			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));
 	}
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }

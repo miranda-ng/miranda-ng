@@ -125,28 +125,13 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					szProto_s = NULL;
 				else
 					szProto_s = cws->value.pszVal;
-				pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, NULL), 0);
+				pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, NULL));
 			}
 			// something is being written to a protocol module
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-				if (!__strcmp(cws->szSetting, "Status")) {
-					if (!cfg::getByte(hContact, "CList", "Hidden", 0)) {
-						if (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
-							// User's state is changing, and we are hideOffline-ing
-							if (cws->value.wVal == ID_STATUS_OFFLINE) {
-								pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(cws->szModule, cws->value.wVal, hContact, NULL), 0);
-								return 0;
-							}
-							pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(cws->szModule, cws->value.wVal, hContact, NULL), 1);
-						}
-						pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(cws->szModule, cws->value.wVal, hContact, NULL), 0);
-					}
-					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
-					return 0;
-				}
-				else if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
+				if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
 					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
 					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, hContact, lParam);
@@ -343,7 +328,7 @@ LBL_Def:
 				}
 			}
 			else {
-				//item in list already
+				// item in list already
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				if (contact->iImage == (WORD)lParam)
 					break;
@@ -441,7 +426,7 @@ LBL_Def:
 
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
-			
+
 			contact->ace = cEntry;
 			if (cEntry == NULL)
 				contact->cFlags &= ~ECF_AVATAR;
@@ -651,19 +636,16 @@ LBL_Def:
 		return TRUE;
 
 	case WM_CONTEXTMENU:
+		pcli->pfnEndRename(hwnd, dat, 1);
+		pcli->pfnHideInfoTip(hwnd, dat);
+		KillTimer(hwnd, TIMERID_RENAME);
+		KillTimer(hwnd, TIMERID_INFOTIP);
+		if (GetFocus() != hwnd)
+			SetFocus(hwnd);
+		dat->iHotTrack = -1;
+		dat->szQuickSearch[0] = 0;
 		{
-			HMENU hMenu = NULL;
 			DWORD hitFlags;
-
-			pcli->pfnEndRename(hwnd, dat, 1);
-			pcli->pfnHideInfoTip(hwnd, dat);
-			KillTimer(hwnd, TIMERID_RENAME);
-			KillTimer(hwnd, TIMERID_INFOTIP);
-			if (GetFocus() != hwnd)
-				SetFocus(hwnd);
-			dat->iHotTrack = -1;
-			dat->szQuickSearch[0] = 0;
-
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
@@ -682,6 +664,7 @@ LBL_Def:
 				pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 			UpdateWindow(hwnd);
 
+			HMENU hMenu = NULL;
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				if (contact->type == CLCIT_GROUP) {
 					hMenu = Menu_BuildSubGroupMenu(contact->group);

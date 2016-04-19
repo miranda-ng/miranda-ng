@@ -136,9 +136,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	else {
-		if (!strcmp(cws->szSetting, "TickTS"))
-			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-		else if (!strcmp(cws->szModule, "UserInfo")) {
+		if (!strcmp(cws->szModule, "UserInfo")) {
 			if (!strcmp(cws->szSetting, "Timezone"))
 				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
 		}
@@ -1360,7 +1358,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		dat->needsResort = 1;
 	}
-	SetTimer(hwnd, TIMERID_REBUILDAFTER, 1, NULL);
+	pcli->pfnInitAutoRebuild(hwnd);
 	return 0;
 }
 
@@ -1564,7 +1562,6 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	if (wParam != 0) {
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(wParam);
 		if (pdnce && pdnce->m_pszProto) {
-			pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
 			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
@@ -1581,11 +1578,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 		}
 	}
 
-	if (db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOOFLINETOROOT_DEFAULT))
-		pcli->pfnInitAutoRebuild(hwnd);
-	else
-		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
-
+	pcli->pfnInitAutoRebuild(hwnd);
 	return ret;
 }
 

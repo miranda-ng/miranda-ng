@@ -157,17 +157,6 @@ const
 
   {
     wParam : TMCONTACT
-    lParam : 0
-    Affect : Get the icon that should be associated with a contact
-    Returns: an index into the contact list imagelist, if the icon
-             is a flashing icon, this service won't return information about it
-             see below
-    Version: v0.1.2.0+
-  }
-  MS_CLIST_GETCONTACTICON:PAnsiChar = 'CList/GetContactIcon';
-
-  {
-    wParam : TMCONTACT
     lParam : ICON_ID
     Affect : The icon of a contact in the contact list has changed,
              ICON_ID is an index to what image has changed

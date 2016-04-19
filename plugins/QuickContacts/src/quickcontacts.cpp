@@ -469,7 +469,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HISTORY), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MENU), TRUE);
 
-		HICON ico = ImageList_GetIcon(hIml, CallService(MS_CLIST_GETCONTACTICON, hContact, 0), ILD_IMAGE);
+		HICON ico = ImageList_GetIcon(hIml, pcli->pfnGetContactIcon(hContact), ILD_IMAGE);
 		SendDlgItemMessage(hwndDlg, IDC_ICO, STM_SETICON, (WPARAM) ico, 0);
 	}
 }
@@ -1025,8 +1025,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// Draw icon
 			rc.left = lpdis->rcItem.left + 5;
 			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - icon_height) / 2;
-			ImageList_Draw(hIml, CallService(MS_CLIST_GETCONTACTICON, (WPARAM)contacts[lpdis->itemData]->hcontact, 0), 
-				lpdis->hDC, rc.left, rc.top, ILD_NORMAL);
+			ImageList_Draw(hIml, pcli->pfnGetContactIcon(contacts[lpdis->itemData]->hcontact), lpdis->hDC, rc.left, rc.top, ILD_NORMAL);
 
 			// Make rect for text
 			rc.left += icon_width + 5;

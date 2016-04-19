@@ -184,7 +184,6 @@ HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
 BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
-char*   GetContactCachedProtocol(MCONTACT hContact);                                 //clistsettings.c
 char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
 WCHAR*  GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces);
 DWORD   CompareContacts2_getLMTime(MCONTACT u);                                    //contact.c

@@ -2,6 +2,7 @@
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 {
+	UNREFERENCED_PARAMETER(wParam);
 	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = { 0 };
@@ -163,6 +164,8 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
+	UNREFERENCED_PARAMETER(l);
+
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTitle = pluginName;

@@ -371,7 +371,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 	tvIns.hInsertAfter = TVI_ROOT;
 	tvIns.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-	tvIns.item.iImage = tvIns.item.iSelectedImage = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
+	tvIns.item.iImage = tvIns.item.iSelectedImage = pcli->pfnGetContactIcon(hContact);
 	tvIns.item.lParam = Items.AddElem(CCLItemData(hContact));
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }

@@ -182,7 +182,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				SetWindowPos(hdlg, NULL, rWnd.left, rWnd.top, x + dx, y + (dx / 3), SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE);
 
 				SetWindowPos(hClistControl, 0, x - dd, dd, dx - dd, y + (dx / 12), SWP_NOZORDER/*|SWP_NOSIZE|SWP_SHOWWINDOW*/);
-				SendMessage(hClistControl, WM_TIMER, TIMERID_REBUILDAFTER, 0);
+				SendMessage(hClistControl, CLM_AUTOREBUILD, 0, 0);
 
 				for (i = 0; session_list[i] > 0; i++) {
 					hItem = (HANDLE)SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)session_list[i], 0);

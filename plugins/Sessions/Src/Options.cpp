@@ -341,9 +341,8 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				SetWindowLongPtr(hOpClistControl, GWL_STYLE,
 					GetWindowLongPtr(hOpClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 				SendMessage(hOpClistControl, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
-
-				SendMessage(hOpClistControl, WM_TIMER, TIMERID_REBUILDAFTER, 0);
-
+				SendMessage(hOpClistControl, CLM_AUTOREBUILD, 0, 0);
+				
 				for (int i = 0; session_list_t[i] > 0; i++) {
 					HANDLE hItem = (HANDLE)SendMessage(hOpClistControl, CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
 					SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hItem, 1);

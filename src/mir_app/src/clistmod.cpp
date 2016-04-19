@@ -165,11 +165,6 @@ int fnGetContactIcon(MCONTACT hContact)
 		szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
-static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
-{
-	return cli.pfnGetContactIcon(wParam);
-}
-
 static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
 	ProtoIconIndex *pii = new ProtoIconIndex;
@@ -394,6 +389,13 @@ int fnShowHide(WPARAM, LPARAM)
 	return 0;
 }
 
+void fnChangeContactIcon(MCONTACT hContact, int iIcon)
+{
+	WindowList_BroadcastAsync(hClcWindowList, INTM_ICONCHANGED, hContact, iIcon);
+
+	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
@@ -437,7 +439,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_DOCKINGPROCESSMESSAGE, Docking_ProcessWindowMessageStub);
 	CreateServiceFunction(MS_CLIST_DOCKINGISDOCKED, Docking_IsDocked);
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);
-	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
 
 	InitCListEvents();
 	InitGroupServices();

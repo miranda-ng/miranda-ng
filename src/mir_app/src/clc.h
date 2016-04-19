@@ -36,6 +36,8 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 
 /* clc.c */
 extern int g_IconWidth, g_IconHeight;
+extern MWindowList hClcWindowList;
+extern HIMAGELIST hCListImages;
 
 void   fnClcOptionsChanged(void);
 void   fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
@@ -183,7 +185,7 @@ void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
-void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add);
+void fnChangeContactIcon(MCONTACT hContact, int iIcon);
 void fnLoadContactTree(void);
 int  fnSetHideOffline(WPARAM wParam, LPARAM lParam);
 

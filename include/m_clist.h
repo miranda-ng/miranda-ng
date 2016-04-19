@@ -253,15 +253,6 @@ typedef struct {
 #define IMAGE_GROUPSHUT     12
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// get the icon that should be associated with a contact
-// wParam = (MCONTACT)hContact
-// lParam = 0
-// returns an index into the contact list imagelist. See clist/geticonsimagelist
-// If the contact is flashing an icon, this function will not return that
-// flashing icon. Use me_clist_contacticonchanged to get info about that.
-#define MS_CLIST_GETCONTACTICON   "CList/GetContactIcon"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // The icon of a contact in the contact list has changed
 // wParam = (MCONTACT)hContact
 // lParam = iconId

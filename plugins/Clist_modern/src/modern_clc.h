@@ -425,6 +425,5 @@ TCHAR*  GetGroupNameTS(int idx, DWORD* pdwFlags);
 int     RenameGroupT(WPARAM groupID, LPARAM newName);
 
 int     GetContactCachedStatus(MCONTACT hContact);
-char   *GetContactCachedProtocol(MCONTACT hContact);
 
 #endif /* _CLC_H_ */

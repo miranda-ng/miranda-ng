@@ -387,7 +387,7 @@ struct CLIST_INTERFACE
 	void (*pfnOnCreateClc)(void);
 
 	/* contact.c */
-	void (*pfnChangeContactIcon)(MCONTACT hContact, int iIcon, int add);
+	void (*pfnChangeContactIcon)(MCONTACT hContact, int iIcon);
 	void (*pfnLoadContactTree)(void);
 	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	int  (*pfnSetHideOffline)(WPARAM wParam, LPARAM lParam);

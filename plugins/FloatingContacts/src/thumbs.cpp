@@ -302,7 +302,7 @@ void ThumbInfo::ResizeThumb()
 void ThumbInfo::RefreshContactIcon(int _iIcon)
 {
 	if (_iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= _iIcon)
-		iIcon = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
+		iIcon = pcli->pfnGetContactIcon(hContact);
 	else
 		iIcon = _iIcon;
 

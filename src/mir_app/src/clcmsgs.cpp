@@ -75,9 +75,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		}
 
 	case CLM_AUTOREBUILD:
-		KillTimer(hwnd, TIMERID_REBUILDAFTER);
-		cli.pfnSaveStateAndRebuildList(hwnd, dat);
-		cli.bAutoRebuild = false;
+		SetTimer(hwnd, TIMERID_REBUILDAFTER, 50, 0);
 		break;
 
 	case CLM_DELETEITEM:

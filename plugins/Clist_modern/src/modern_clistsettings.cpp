@@ -243,15 +243,6 @@ void IvalidateDisplayNameCache()
 	}
 }
 
-char* GetContactCachedProtocol(MCONTACT hContact)
-{
-	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
-	if (cacheEntry && cacheEntry->m_pszProto)
-		return cacheEntry->m_pszProto;
-
-	return NULL;
-}
-
 int GetStatusForContact(MCONTACT hContact, char *szProto)
 {
 	return (szProto) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE;
@@ -259,8 +250,7 @@ int GetStatusForContact(MCONTACT hContact, char *szProto)
 
 int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *Status)
 {
-	ClcCacheEntry *cacheEntry = NULL;
-	cacheEntry = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != NULL) {
 		if (Proto != NULL)  *Proto = cacheEntry->m_pszProto;
 		if (Name != NULL)   *Name = cacheEntry->tszName;
@@ -277,7 +267,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 int ContactAdded(WPARAM hContact, LPARAM)
 {
 	if (!MirandaExiting())
-		pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact), ID_STATUS_OFFLINE, hContact), 1); ///by FYR
+		pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, hContact));
 
 	return 0;
 }
@@ -320,7 +310,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				amRequestAwayMsg(hContact);
 
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
@@ -352,11 +341,9 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 		else if (!strcmp(cws->szSetting, "Hidden")) {
 			pdnce->bIsHidden = cws->value.bVal;
-			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = GetContactProto(hContact);
-				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
-					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);  //by FYR
-			}
+			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
+				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(pdnce->m_pszProto, pdnce->getStatus(), hContact));
+
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		else if (!strcmp(cws->szSetting, "noOffline")) {
@@ -368,8 +355,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "p")) {
 			pdnce->m_pszProto = GetContactProto(hContact);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
-			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,
-				szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 0);
+			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
 		}
 	}
 

@@ -32,10 +32,9 @@ void UninitCustomMenus(void);
 void MTG_OnmodulesLoad(void);
 
 static bool bModuleInitialized = false;
-static MWindowList hClcWindowList;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
-static LIST<void> arEvents(10);
+MWindowList hClcWindowList;
 
 int g_IconWidth, g_IconHeight;
 
@@ -165,12 +164,6 @@ static int ClcContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ClcContactIconChanged(WPARAM wParam, LPARAM lParam)
-{
-	WindowList_BroadcastAsync(hClcWindowList, INTM_ICONCHANGED, wParam, lParam);
-	return 0;
-}
-
 static int ClcIconsChanged(WPARAM, LPARAM)
 {
 	WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
@@ -191,7 +184,6 @@ static INT_PTR GetInfoTipHoverTime(WPARAM, LPARAM)
 
 static void SortClcByTimer(HWND hwnd)
 {
-	KillTimer(hwnd, TIMERID_DELAYEDRESORTCLC);
 	SetTimer(hwnd, TIMERID_DELAYEDRESORTCLC, 200, NULL);
 }
 
@@ -210,14 +202,13 @@ int LoadCLCModule(void)
 
 	InitFileDropping();
 
-	arEvents.insert(HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded));
-	arEvents.insert(HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged));
-	arEvents.insert(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged));
-	arEvents.insert(HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded));
-	arEvents.insert(HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted));
-	arEvents.insert(HookEvent(ME_CLIST_CONTACTICONCHANGED, ClcContactIconChanged));
-	arEvents.insert(HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged));
-	arEvents.insert(HookEvent(ME_PROTO_ACK, ClcProtoAck));
+	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
+	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
+	HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted);
+	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);
+	HookEvent(ME_PROTO_ACK, ClcProtoAck);
 
 	InitCustomMenus();
 	return 0;
@@ -227,9 +218,6 @@ void UnloadClcModule()
 {
 	if (!bModuleInitialized)
 		return;
-
-	for (int i = 0; i < arEvents.getCount(); i++)
-		UnhookEvent(arEvents[i]);
 
 	mir_free(cli.clcProto);
 	WindowList_Destroy(hClcWindowList); hClcWindowList = NULL;
@@ -461,7 +449,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 			int shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0))
-				&& (!cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);
+				&& (!cli.pfnIsHiddenMode(dat, status) || cli.pfnGetContactIcon(wParam) != lParam);
 
 			contact = NULL;
 			group = NULL;
@@ -841,6 +829,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			KillTimer(hwnd, TIMERID_REBUILDAFTER);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+			cli.bAutoRebuild = false;
 			break;
 
 		case TIMERID_DELAYEDRESORTCLC:
