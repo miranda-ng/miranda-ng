@@ -105,7 +105,7 @@ int cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, Clc
 
 int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts)
 {
-	int index = 0, i;
+	int index = 0;
 	int nowVisible = 1;
 
 	ClcGroup *group = &dat->list;
@@ -114,22 +114,23 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			ClcGroup *tgroup;
 			group = group->parent;
 			if (group == NULL)
 				break;
 
 			nowVisible = 1;
-			for (tgroup = group; tgroup; tgroup = tgroup->parent) {
+			for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 				if (!tgroup->expanded) {
 					nowVisible = 0;
 					break;
 				}
-			}
+
 			group->scanIndex++;
 			continue;
 		}
-		if (nowVisible) index++;
+
+		if (nowVisible)
+			index++;
 
 		ClcContact *c = group->cl.items[group->scanIndex];
 		if ((IsHContactGroup(dwItem) && c->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == c->groupId) ||
@@ -144,8 +145,7 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 					else {
 						RECT clRect;
 						GetClientRect(hwnd, &clRect);
-						if (posy >= dat->yScroll + clRect.bottom) *isVisible = 0;
-						else *isVisible = 1;
+						*isVisible = (posy < dat->yScroll + clRect.bottom);
 					}
 				}
 			}
@@ -156,7 +156,7 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 		}
 
 		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && c->type == CLCIT_CONTACT && c->SubAllocated > 0) {
-			for (i = 0; i < c->SubAllocated; i++) {
+			for (int i = 0; i < c->SubAllocated; i++) {
 				if (c->subcontacts[i].hContact == dwItem) {
 					if (contact) *contact = &c->subcontacts[i];
 					if (subgroup) *subgroup = group;
