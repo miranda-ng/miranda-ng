@@ -200,7 +200,7 @@ void fill_session_url(CMStringA &buf, CMStringA &token, CMStringA &secret, time_
 		*/
 
 	CMStringA query_string;
-	query_string.Format("a=%s&distId=%d&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption);
+	query_string.Format("a=%s&distId=%s&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption);
 
 	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
 	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret.GetString(), secret.GetLength());
@@ -301,10 +301,19 @@ void CAimProto::aim_connection_clientlogin(void)
 	// reuse NETLIBHTTPREQUEST
 	req.requestType = REQUEST_GET;
 	req.pData = NULL;
+	req.flags |= NLHRF_MANUALHOST;
+	//req.flags &= ~(NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_REMOVEHOST);
 	req.dataLength = 0;
-	req.headersCount = 0; //additional headers disabled
+	req.headersCount = 4; //additional headers disabled
 	req.szUrl = url.GetBuffer();
-	resp = CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	{
+		NETLIBHTTPHEADER headers2[] = {
+			{ "Host", "api.oscar.aol.com" },
+		};
+		req.headers = headers2;
+
+		resp = CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	}
 
 	if (!resp || !resp->dataLength) {
 		// TODO: handle error

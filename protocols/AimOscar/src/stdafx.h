@@ -169,13 +169,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define AIM_LOGIN_URL "https://api.screenname.aol.com/auth/clientLogin"
 #define AIM_SESSION_URL "https://api.oscar.aol.com/aim/startOSCARSession"
 #define AIM_DEFAULT_CLIENT_KEY "ma15d7JTxbmVG-RP" //this one from libpurple, i am not able to create one, sorry guys
-#define AIM_DEFAULT_DISTID 0x00000611 //this one from libpurple, i am not able to create one, sorry guys
+#define AIM_DEFAULT_DISTID "1553" //this one from libpurple, i am not able to create one, sorry guys
+
+
 
 #define AIM_DEFAULT_SERVER          "login.oscar.aol.com"
-//#define AIM_DEFAULT_SERVER_SSL       "slogin.oscar.aol.com"
 #define AIM_PROXY_SERVER            "ars.oscar.aol.com"
 #define AIM_DEFAULT_PORT            5190
-//#define AIM_DEFAULT_SSL_PORT        5190
 
 //Some Defaults for various things
 #define DEFAULT_KEEPALIVE_TIMER     39 // secs
