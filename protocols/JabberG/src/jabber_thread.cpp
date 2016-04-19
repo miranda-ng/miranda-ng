@@ -72,17 +72,15 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{
-			param = (JabberPasswordDlgParam*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			TCHAR text[512];
-			mir_sntprintf(text, TranslateT("Enter password for %s"), param->ptszJid);
-			SetDlgItemText(hwndDlg, IDC_JID, text);
+		param = (JabberPasswordDlgParam*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			int bSavePassword = param->pro->getByte("SaveSessionPassword", 0);
-			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, (bSavePassword) ? BST_CHECKED : BST_UNCHECKED);
-		}
+		TCHAR text[512];
+		mir_sntprintf(text, TranslateT("Enter password for %s"), param->ptszJid);
+		SetDlgItemText(hwndDlg, IDC_JID, text);
+
+		CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, param->pro->getByte("SaveSessionPassword", 0) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:

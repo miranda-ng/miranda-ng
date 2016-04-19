@@ -51,15 +51,17 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, bool bStripResource)
 	if (jid == NULL)
 		return NULL;
 
-	TCHAR szJid[JABBER_MAX_JID_LEN];
-	if (bStripResource)
-		JabberStripJid(jid, szJid, _countof(szJid));
-	else
-		_tcsncpy_s(szJid, jid, _TRUNCATE);
-	
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szJid);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item != NULL && item->hContact)
 		return item->hContact;
+
+	if (bStripResource) {
+		TCHAR szJid[JABBER_MAX_JID_LEN];
+		JabberStripJid(jid, szJid, _countof(szJid));
+		item = ListGetItemPtr(LIST_ROSTER, jid);
+		if (item != NULL && item->hContact)
+			return item->hContact;
+	}
 
 	return NULL;
 }
