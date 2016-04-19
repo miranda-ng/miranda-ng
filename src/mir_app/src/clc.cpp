@@ -44,7 +44,7 @@ void fnInitAutoRebuild(HWND hWnd)
 {
 	if (!cli.bAutoRebuild && hWnd) {
 		cli.bAutoRebuild = true;
-		SendMessage(hWnd, CLM_AUTOREBUILD, 0, 0);
+		PostMessage(hWnd, CLM_AUTOREBUILD, 0, 0);
 	}
 }
 
@@ -790,29 +790,35 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		case TIMERID_RENAME:
 			cli.pfnBeginRenameSelection(hwnd, dat);
 			break;
+
 		case TIMERID_DRAGAUTOSCROLL:
 			cli.pfnScrollTo(hwnd, dat, dat->yScroll + dat->dragAutoScrolling * dat->rowHeight * 2, 0);
 			break;
+
 		case TIMERID_INFOTIP:
+			KillTimer(hwnd, wParam);
 			{
 				CLCINFOTIP it;
-				RECT clRect;
-				POINT ptClientOffset = { 0 };
-
-				KillTimer(hwnd, wParam);
 				GetCursorPos(&it.ptCursor);
 				ScreenToClient(hwnd, &it.ptCursor);
 				if (it.ptCursor.x != dat->ptInfoTip.x || it.ptCursor.y != dat->ptInfoTip.y)
 					break;
+
+				RECT clRect;
 				GetClientRect(hwnd, &clRect);
+
 				it.rcItem.left = 0;
 				it.rcItem.right = clRect.right;
+
 				hit = cli.pfnHitTest(hwnd, dat, it.ptCursor.x, it.ptCursor.y, &contact, NULL, NULL);
 				if (hit == -1)
 					break;
 				if (contact->type != CLCIT_GROUP && contact->type != CLCIT_CONTACT)
 					break;
+
 				ClientToScreen(hwnd, &it.ptCursor);
+
+				POINT ptClientOffset = { 0 };
 				ClientToScreen(hwnd, &ptClientOffset);
 				it.isTreeFocused = GetFocus() == hwnd;
 				it.rcItem.top = cli.pfnGetRowTopY(dat, hit) - dat->yScroll;
@@ -822,9 +828,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				it.hItem = (contact->type == CLCIT_GROUP) ? (HANDLE)contact->groupId : (HANDLE)contact->hContact;
 				it.cbSize = sizeof(it);
 				dat->hInfoTipItem = cli.pfnContactToHItem(contact);
-				NotifyEventHooks(hShowInfoTipEvent, 0, (LPARAM)& it);
-				break;
+				NotifyEventHooks(hShowInfoTipEvent, 0, (LPARAM)&it);
 			}
+			break;
+
 		case TIMERID_REBUILDAFTER:
 			KillTimer(hwnd, TIMERID_REBUILDAFTER);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);

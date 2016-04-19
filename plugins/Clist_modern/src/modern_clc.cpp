@@ -1578,7 +1578,6 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 		}
 	}
 
-	pcli->pfnInitAutoRebuild(hwnd);
 	return ret;
 }
 

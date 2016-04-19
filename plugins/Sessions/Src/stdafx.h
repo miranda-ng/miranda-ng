@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_langpack.h>
 #include <m_icolib.h>
 #include <m_message.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_hotkeys.h>
 #include <win2k.h>
 
@@ -70,6 +70,6 @@ extern bool g_bOtherWarnings;
 extern bool g_bCrashRecovery;
 extern bool g_bIncompletedSave;
 
-#define TIMERID_LOAD		  12
-#define TIMERID_SHOW          11
-#define TIMERID_REBUILDAFTER   14
+#define TIMERID_SHOW 11
+#define TIMERID_LOAD 12
+

@@ -795,10 +795,6 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 					cli.pfnSetAllExtraIcons((UINT_PTR)nmc->hItem);
 				return TRUE;
 
-			case CLN_LISTREBUILT:
-				cli.pfnSetAllExtraIcons(NULL);
-				return(FALSE);
-
 			case NM_KEYDOWN:
 				return CallService(MS_CLIST_MENUPROCESSHOTKEY, ((NMKEY*)lParam)->nVKey, MPCF_MAINMENU | MPCF_CONTACTMENU);
 
