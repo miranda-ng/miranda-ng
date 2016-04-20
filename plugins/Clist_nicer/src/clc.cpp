@@ -130,7 +130,16 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			// something is being written to a protocol module
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
+				if (!__strcmp(cws->szSetting, "Status")) {
+					if (!cfg::getByte(hContact, "CList", "Hidden", 0))
+						if (cws->value.wVal == ID_STATUS_OFFLINE)
+							if (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+								return 0;
+
+					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
+					return 0;
+				}
+				
 				if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
 					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
