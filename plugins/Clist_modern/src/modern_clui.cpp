@@ -1391,8 +1391,6 @@ static int CLUI_SyncSmoothAnimation(WPARAM, LPARAM)
 
 static void CLUI_SmoothAnimationThreadProc(void *param)
 {
-	Netlib_Logf(NULL, "SmoothAnimationThreadProc thread end");
-
 	if (mutex_bAnimationInProgress) {
 		do {
 			if (!g_mutex_bLockUpdating) {
@@ -1408,7 +1406,6 @@ static void CLUI_SmoothAnimationThreadProc(void *param)
 		} while (mutex_bAnimationInProgress);
 	}
 
-	Netlib_Logf(NULL, "SmoothAnimationThreadProc thread end");
 	g_hSmoothAnimationThread = NULL;
 }
 
