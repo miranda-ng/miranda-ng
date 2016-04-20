@@ -33,6 +33,7 @@ extern HANDLE hEventExtraClick;
 
 static HMODULE hUserDll;
 static HANDLE hContactDraggingEvent, hContactDroppedEvent, hContactDragStopEvent;
+static bool bSetOfflineIcons = false;
 static int transparentFocus = 1;
 UINT uMsgProcessProfile;
 
@@ -465,8 +466,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 													  | CLS_CONTACTLIST
 													  | (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 													  | (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-													  | (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ?
-CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
+													  | (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0), 
+													  0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 		break;
 
@@ -578,9 +579,9 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 			LRESULT result;
 			result = DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
 			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT ||
-				 result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
-				 if (db_get_b(NULL, "CLUI", "AutoSize", 0))
-					 return HTCLIENT;
+				result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
+				if (db_get_b(NULL, "CLUI", "AutoSize", 0))
+					return HTCLIENT;
 			return result;
 		}
 
@@ -639,7 +640,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 				if (thisTick >= startTick + 200)
 					break;
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
-													(BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
+					(BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
 			}
 			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)destAlpha, LWA_ALPHA);
 		}
@@ -669,7 +670,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 		case SC_MINIMIZE:
 		case SC_CLOSE:
 			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) ||
-				 db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 				ShowWindow(hwnd, SW_HIDE);
 				db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 
@@ -745,7 +746,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 
 	case WM_SETTINGCHANGE:
 		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE &&
-			 !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+			!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 			if (Utils_AssertInsideScreen(&rc) == 1)
@@ -795,6 +796,13 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 					cli.pfnSetAllExtraIcons((UINT_PTR)nmc->hItem);
 				return TRUE;
 
+			case CLN_LISTREBUILT:
+				if (!bSetOfflineIcons) {
+					bSetOfflineIcons = true;
+					cli.pfnSetAllExtraIcons(NULL);
+				}
+				return FALSE;
+
 			case NM_KEYDOWN:
 				return CallService(MS_CLIST_MENUPROCESSHOTKEY, ((NMKEY*)lParam)->nVKey, MPCF_MAINMENU | MPCF_CONTACTMENU);
 
@@ -832,7 +840,7 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 							rcWindow.bottom = rcWorkArea.bottom;
 					}
 					SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,
-									 SWP_NOZORDER | SWP_NOACTIVATE);
+						SWP_NOZORDER | SWP_NOACTIVATE);
 					break;
 				}
 			case NM_CLICK:
@@ -971,13 +979,13 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 				if (showOpts & 1) {
 					HICON hIcon = Skin_LoadProtoIcon(szProto, status);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
-								  g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
+						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
 						hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
-										  g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
+								g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
 							IcoLib_ReleaseIcon(hIcon);
 						}
 
@@ -1058,4 +1066,4 @@ CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 	}
 
 	return TRUE;
-	}
+}
