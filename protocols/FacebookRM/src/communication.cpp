@@ -246,6 +246,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 	case REQUEST_LOAD_FRIENDSHIPS:
 	case REQUEST_SEARCH:
 	case REQUEST_USER_INFO_MOBILE:
+	case REQUEST_PROFILE_PICTURE:
 		return this->mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE;
 
 		//	case REQUEST_LOGOUT:
@@ -526,6 +527,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	case REQUEST_LOGIN_SMS:
 	{
 		return "/ajax/login/approvals/send_sms?dpr=1";
+	}
+
+	case REQUEST_PROFILE_PICTURE:
+	{
+		return "/profile/picture/view/?profile_id=" + self_.user_id;
 	}
 
 	default:
@@ -1136,6 +1142,20 @@ bool facebook_client::home()
 			// It must contain "/" at the beginning and also shouldn't contain "?" as parameters after that are stripped
 			if (!this->self_.image_url.empty())
 				this->self_.image_url = "/" + this->self_.image_url;
+		}
+		
+		// Final attempt to get avatar as on some pages is only link to photo page and not link to image itself
+		if (this->self_.image_url.empty()) {
+			if (resp.data.find("/profile/picture/view/?profile_id=") != std::string::npos) {
+				http::response resp2 = flap(REQUEST_PROFILE_PICTURE);
+				
+				// Get avatar (from mbasic version of photo page)
+				this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
+
+				// Get avatar (from touch version)
+				if (this->self_.image_url.empty())
+					this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "background-image: url(&quot;", "&quot;)"));
+			}
 		}
 
 		parent->debugLogA("    Got self avatar: %s", this->self_.image_url.c_str());
