@@ -25,12 +25,12 @@ INT interval;
 int hLangpack;
 
 TCHAR* ptszDefaultMsg[] = {
-	TranslateT("I am currently away. I will reply to you when I am back."),
-	TranslateT("I am currently very busy and can't spare any time to talk with you. Sorry..."),
-	TranslateT("I am not available right now."),
-	TranslateT("I am now doing something, I will talk to you later."),
-	TranslateT("I am on the phone right now. I will get back to you very soon."),
-	TranslateT("I am having meal right now. I will get back to you very soon.")
+	LPGENT("I am currently away. I will reply to you when I am back."),
+	LPGENT("I am currently very busy and can't spare any time to talk with you. Sorry..."),
+	LPGENT("I am not available right now."),
+	LPGENT("I am now doing something, I will talk to you later."),
+	LPGENT("I am on the phone right now. I will get back to you very soon."),
+	LPGENT("I am having meal right now. I will get back to you very soon.")
 };
 
 PLUGININFOEX pluginInfoEx = {
@@ -95,34 +95,36 @@ INT OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 INT CheckDefaults(WPARAM, LPARAM)
 {
-	DBVARIANT dbv;
-	TCHAR *ptszDefault;
-	char szStatus[6] = { 0 };
-
 	interval = db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300);
 
-	if (db_get_ts(NULL, protocolname, KEY_HEADING, &dbv))
+	TCHAR *ptszVal = db_get_tsa(NULL, protocolname, KEY_HEADING);
+	if (ptszVal == 0)
 		// Heading not set
 		db_set_ts(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
-		db_free(&dbv);
+		mir_free(ptszVal);
 
 	for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
-		mir_snprintf(szStatus, "%d", c);
 		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 			continue;
 		else {
-			if (db_get_ts(NULL, protocolname, szStatus, &dbv)) {
+			char szStatus[6] = { 0 };
+			mir_snprintf(szStatus, "%d", c);
+			ptszVal = db_get_tsa(NULL, protocolname, szStatus);
+			if (ptszVal == 0) {
+				TCHAR *ptszDefault;
 				if (c < ID_STATUS_FREECHAT)
 					// This mode does not have a preset message
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 1];
 				else if (c > ID_STATUS_INVISIBLE)
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 3];
+				else
+					ptszDefault = 0;
 				if (ptszDefault)
-					db_set_ts(NULL, protocolname, szStatus, ptszDefault);
+					db_set_ts(NULL, protocolname, szStatus, TranslateTS(ptszDefault));
 			}
 			else
-				db_free(&dbv);
+				mir_free(ptszVal);
 		}
 	}
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
@@ -148,20 +150,24 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
 		return FALSE;
 
+	// detect size of msg
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get(hDBEvent, &dbei); /// detect size of msg
+	if (db_event_get(hDBEvent, &dbei))
+		return 0;
 
-	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ))
-		return FALSE; /// we need EVENTTYPE_MESSAGE event..
-	else {	/// needed event has occured..
-		DBVARIANT dbv;
-
+	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ)) {
+		// we need EVENTTYPE_MESSAGE event..
+		return FALSE;
+	}
+	else {
+		// needed event has occured..
 		if (!dbei.cbBlob)	/// invalid size
 			return FALSE;
 
-		if (db_get_ts(hContact, "Protocol", "p", &dbv)) // Contact with no protocol ?!!
+		TCHAR *ptszVal = db_get_tsa(hContact, "Protocol", "p");
+		if (ptszVal == NULL) // Contact with no protocol ?!!
 			return FALSE;
-		db_free(&dbv);
+		mir_free(ptszVal);
 
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			return FALSE;
@@ -172,39 +178,38 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		if (!(dbei.flags & DBEF_SENT)) {
 			int timeBetween = time(NULL) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
 			if (timeBetween > interval || db_get_w(hContact, protocolname, "LastStatus", 0) != status) {
-				char szStatus[6] = { 0 };
-				int msgLen = 1;
+				size_t msgLen = 1;
 				int isQun = db_get_b(hContact, pszProto, "IsQun", 0);
 				if (isQun)
 					return FALSE;
 
+				char szStatus[6] = { 0 };
 				mir_snprintf(szStatus, "%d", status);
-				if (!db_get_ts(NULL, protocolname, szStatus, &dbv)) {
-					if (*dbv.ptszVal) {
-						DBVARIANT dbvHead = { 0 }, dbvNick = { 0 };
+				ptszVal = db_get_tsa(NULL, protocolname, szStatus);
+				if (ptszVal) {
+					if (*ptszVal) {
 						CMString ptszTemp;
-						TCHAR *ptszTemp2;
 
-						db_get_ts(hContact, pszProto, "Nick", &dbvNick);
-						if (mir_tstrcmp(dbvNick.ptszVal, NULL) == 0) {
-							db_free(&dbvNick);
+						TCHAR *ptszNick = db_get_tsa(hContact, pszProto, "Nick");
+						if (ptszNick == 0) {
+							mir_free(ptszNick);
 							return FALSE;
 						}
 
-						msgLen += (int)mir_tstrlen(dbv.ptszVal);
-						if (!db_get_ts(NULL, protocolname, KEY_HEADING, &dbvHead)) {
-							ptszTemp = dbvHead.ptszVal;
-							ptszTemp.Replace(_T("%user%"), dbvNick.ptszVal);
-							msgLen += (int)(mir_tstrlen(ptszTemp));
+						msgLen += mir_tstrlen(ptszVal);
+
+						TCHAR *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
+						if (ptszHead != NULL) {
+							ptszTemp = ptszHead;
+							ptszTemp.Replace(_T("%user%"), ptszNick);
+							msgLen += mir_tstrlen(ptszTemp);
+							mir_free(ptszHead);
 						}
-						ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen + 5));
-						mir_sntprintf(ptszTemp2, msgLen + 5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), dbv.ptszVal);
+
+						TCHAR *ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen + 5));
+						mir_sntprintf(ptszTemp2, msgLen + 5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
-							FORMATINFO fi = { 0 };
-							fi.cbSize = sizeof(fi);
-							fi.flags = FIF_TCHAR;
-							fi.tszFormat = ptszTemp2;
-							ptszTemp = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
 						}
 						else ptszTemp = Utils_ReplaceVarsT(ptszTemp2);
 
@@ -221,12 +226,9 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						db_event_add(hContact, &dbei);
 
 						mir_free(ptszTemp2);
-						if (dbvNick.ptszVal)
-							db_free(&dbvNick);
-						if (dbvHead.ptszVal)
-							db_free(&dbvHead);
+						mir_free(ptszNick);
 					}
-					db_free(&dbv);
+					mir_free(ptszVal);
 				}
 			}
 		}
