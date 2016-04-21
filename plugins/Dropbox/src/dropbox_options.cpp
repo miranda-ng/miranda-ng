@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
 CDropboxOptionsMain::CDropboxOptionsMain(CDropbox *instance)
-	: CDropboxDlgBase(instance, IDD_OPTIONS_MAIN),
+	: CPluginDlgBase(g_hInstance, IDD_OPTIONS_MAIN, MODULE),
+	m_instance(instance),
 	m_auth(this, IDC_GETAUTH, DROPBOX_WWW_URL "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY),
 	m_requestCode(this, IDC_REQUEST_CODE), m_authorize(this, IDC_AUTHORIZE), m_authStatus(this, IDC_AUTH_STATUS),
 	m_useShortUrl(this, IDC_USE_SHORT_LINKS), m_urlAutoSend(this, IDC_URL_AUTOSEND),
@@ -19,7 +20,7 @@ CDropboxOptionsMain::CDropboxOptionsMain(CDropbox *instance)
 
 void CDropboxOptionsMain::OnInitDialog()
 {
-	CDropboxDlgBase::OnInitDialog();
+	CDlgBase::OnInitDialog();
 
 	LOGFONT lf;
 	HFONT hFont = (HFONT)m_authStatus.SendMsg(WM_GETFONT, 0, 0);
@@ -52,14 +53,14 @@ void CDropboxOptionsMain::Authorize_OnClick(CCtrlBase*)
 /////////////////////////////////////////////////////////////////////////////////
 
 CDropboxOptionsInterception::CDropboxOptionsInterception(CDropbox *instance)
-	: CDropboxDlgBase(instance, IDD_OPTIONS_INTERCEPTION),
+	: CPluginDlgBase(g_hInstance, IDD_OPTIONS_INTERCEPTION, MODULE),
 	m_accounts(this, IDC_ACCOUNTS), isAccountListInit(false)
 {
 }
 
 void CDropboxOptionsInterception::OnInitDialog()
 {
-	CDropboxDlgBase::OnInitDialog();
+	CDlgBase::OnInitDialog();
 
 	m_accounts.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 

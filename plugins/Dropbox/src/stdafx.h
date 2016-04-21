@@ -65,7 +65,6 @@ public:
 
 #define MODULE "Dropbox"
 
-#include "dropbox_dialogs.h"
 #include "dropbox_options.h"
 #include "http_request.h"
 #include "api\account.h"

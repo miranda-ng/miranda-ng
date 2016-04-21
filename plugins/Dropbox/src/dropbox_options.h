@@ -1,9 +1,12 @@
 #ifndef _DROPBOX_OPTIONS_H_
 #define _DROPBOX_OPTIONS_H_
 
-class CDropboxOptionsMain : public CDropboxDlgBase
+class CDropboxOptionsMain : public CPluginDlgBase
 {
 private:
+	CDropbox *m_instance;
+
+
 	CCtrlHyperlink m_auth;
 	CCtrlEdit m_requestCode;
 	CCtrlButton m_authorize;
@@ -27,7 +30,7 @@ public:
 	static CDlgBase *CreateOptionsPage(void *param) { return new CDropboxOptionsMain((CDropbox*)param); }
 };
 
-class CDropboxOptionsInterception : public CDropboxDlgBase
+class CDropboxOptionsInterception : public CPluginDlgBase
 {
 private:
 	bool isAccountListInit;
