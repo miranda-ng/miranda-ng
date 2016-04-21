@@ -175,29 +175,24 @@ void HTMLBuilder::setLastEventTime(DWORD t)
 
 bool HTMLBuilder::isSameDate(time_t time1, time_t time2)
 {
-	struct tm tm_t1, tm_t2;
-	tm_t1 = *localtime((time_t *)(&time1));
-	tm_t2 = *localtime((time_t *)(&time2));
-	if (tm_t1.tm_year == tm_t2.tm_year && tm_t1.tm_mon == tm_t2.tm_mon
-		&& tm_t1.tm_mday == tm_t2.tm_mday) {
-		return true;
-	}
-	return false;
+	tm *tm_t1 = localtime(&time1), *tm_t2 = localtime(&time2);
+	return tm_t1->tm_year == tm_t2->tm_year && tm_t1->tm_mon == tm_t2->tm_mon && tm_t1->tm_mday == tm_t2->tm_mday;
+
 }
 
 void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 {
-	CONTACTINFO ci;
-	char buf[128];
-	char *szProto;
+	CONTACTINFO ci = { 0 };
+	char buf[128] = { 0 };
+	const char *szProto = GetContactProto(hContact);
+
 	hContact = getRealContact(hContact);
-	szProto = getProto(hContact);
-	memset(&ci, 0, sizeof(ci));
+
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
-	ci.szProto = szProto;
+	ci.szProto = const_cast<char*>(szProto);
 	ci.dwFlag = CNF_UNIQUEID;
-	buf[0] = 0;
+
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
@@ -211,6 +206,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	}
 	uinIn = mir_utf8encode(buf);
 	ci.hContact = NULL;
+
 	buf[0] = 0;
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 		switch (ci.type) {
@@ -224,7 +220,6 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 		}
 	}
 	uinOut = mir_utf8encode(buf);
-	mir_free(szProto);
 }
 
 wchar_t *HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)

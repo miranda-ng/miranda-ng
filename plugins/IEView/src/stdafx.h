@@ -79,4 +79,14 @@ extern IEView *debugView;
 extern char *workingDirUtf8;
 extern HANDLE hHookOptionsChanged;
 
+class BSTR_PTR
+{
+	BSTR _data;
+public:
+	BSTR_PTR(const wchar_t *src) : _data(SysAllocString(src)) {}
+	~BSTR_PTR() { SysFreeString(_data); }
+	size_t length() { return SysStringLen(_data); }
+	operator BSTR () { return _data; }
+};
+
 #endif

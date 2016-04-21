@@ -98,7 +98,7 @@ static LRESULT CALLBACK IEViewWindowProcedure(HWND hwnd, UINT message, WPARAM wP
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-IEViewSink::IEViewSink(IEView *smptr)
+IEViewSink::IEViewSink(IEView *smptr) : m_cRef(1)
 {
 	ieWindow = smptr;
 }
@@ -894,12 +894,12 @@ void IEView::writef(const char *fmt, ...)
 
 void IEView::navigate(const char *url)
 {
-	pWebBrowser->Navigate(_A2T(url), NULL, NULL, NULL, NULL);
+	pWebBrowser->Navigate(BSTR_PTR(_A2T(url)), NULL, NULL, NULL, NULL);
 }
 
 void IEView::navigate(const wchar_t *url)
 {
-	pWebBrowser->Navigate((WCHAR *)url, NULL, NULL, NULL, NULL);
+	pWebBrowser->Navigate(BSTR_PTR(url), NULL, NULL, NULL, NULL);
 }
 
 void IEView::documentClose()
@@ -946,7 +946,7 @@ void IEView::clear(IEVIEWEVENT *event)
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
 	if (document == NULL) {
-		pWebBrowser->Navigate(L"about:blank", NULL, NULL, NULL, NULL);
+		pWebBrowser->Navigate(BSTR_PTR(L"about:blank"), NULL, NULL, NULL, NULL);
 		HRESULT hr = S_OK;
 		CComPtr<IHTMLDocument2> doc2;
 		while ((doc2 == NULL) && (hr == S_OK)) {
@@ -967,7 +967,7 @@ void IEView::clear(IEVIEWEVENT *event)
 		VariantInit(&open_replace);
 
 		CComPtr<IDispatch> open_window;
-		document->open(SysAllocString(L"text/html"), open_name, open_features, open_replace, &open_window);
+		document->open(BSTR_PTR(L"text/html"), open_name, open_features, open_replace, &open_window);
 	}
 	if (builder != NULL)
 		builder->clear(this, event);
@@ -1062,7 +1062,7 @@ WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 	if (FAILED(element.QueryInterface(&pAnchor))) {
 		VARIANT variant;
 		WCHAR *url = NULL;
-		if (SUCCEEDED(element->getAttribute(L"href", 2, &variant)) && variant.vt == VT_BSTR) {
+		if (SUCCEEDED(element->getAttribute(BSTR_PTR(L"href"), 2, &variant)) && variant.vt == VT_BSTR) {
 			url = mir_wstrdup(variant.bstrVal);
 			::SysFreeString(variant.bstrVal);
 		}
@@ -1126,14 +1126,12 @@ void IEView::saveDocument()
 	if (document == NULL)
 		return;
 
-	BSTR bCmd = SysAllocString(L"SaveAs");
 	VARIANT vValue;
 	vValue.vt = VT_BOOL;
 	vValue.boolVal = TRUE;
 
 	VARIANT_BOOL vb;
-	document->execCommand(bCmd, VARIANT_FALSE, vValue, &vb);
-	::SysFreeString(bCmd);
+	document->execCommand(BSTR_PTR(L"SaveAs"), VARIANT_FALSE, vValue, &vb);
 }
 
 void IEView::navigate(IEVIEWNAVIGATE *nav)

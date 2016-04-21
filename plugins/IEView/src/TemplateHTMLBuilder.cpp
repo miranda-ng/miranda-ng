@@ -24,8 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 TemplateHTMLBuilder::TemplateHTMLBuilder()
 {
 	iLastEventType = -1;
-	startedTime = time(NULL);
-	lastEventTime = time(NULL);
+	startedTime = lastEventTime = time(NULL);
 	groupTemplate = NULL;
 }
 
@@ -114,7 +113,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		return;
 
 	DBVARIANT dbv;
-	char tempBase[1024];
+	
 	char tempStr[1024];
 	char *szNameIn = NULL;
 	char *szNameOut = NULL;
@@ -127,11 +126,12 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	MCONTACT hRealContact = getRealContact(event->hContact);
 	char *szRealProto = getProto(hRealContact);
 	char *szProto = getProto(event->pszProto, event->hContact);
-	tempBase[0] = '\0';
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm == NULL)
 		return;
+
+	char tempBase[1024] = { 0 };
 
 	mir_strcpy(tempBase, "file://");
 	mir_strncat(tempBase, tmpm->getFilename(), _countof(tempBase) - mir_strlen(tempBase));
@@ -285,6 +285,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	char tempBase[1024];
 	char tempStr[1024];
 	char szCID[32];
+
 	char *szNameIn = NULL;
 	char *szNameOut = NULL;
 	char *szUIN = NULL;
@@ -306,10 +307,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if (tmpm != NULL) {
 		mir_strcpy(tempBase, "file://");
 		mir_strcat(tempBase, tmpm->getFilename());
-		char* pathrun = tempBase + mir_strlen(tempBase);
-		while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase)) pathrun--;
-		pathrun++;
-		*pathrun = '\0';
+
+		char* pathrun = nullptr;
+		if (pathrun = strrchr(tempBase, '\\'))
+			++pathrun = '\0';
+		else if (pathrun = strrchr(tempBase, '/'))
+			++pathrun = '\0';
+
 		isGrouping = tmpm->isGrouping();
 	}
 	char *szBase = mir_utf8encode(tempBase);
