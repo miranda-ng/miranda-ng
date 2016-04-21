@@ -33,7 +33,6 @@ extern HANDLE hEventExtraClick;
 
 static HMODULE hUserDll;
 static HANDLE hContactDraggingEvent, hContactDroppedEvent, hContactDragStopEvent;
-static bool bSetOfflineIcons = false;
 static int transparentFocus = 1;
 UINT uMsgProcessProfile;
 
@@ -797,10 +796,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				return TRUE;
 
 			case CLN_LISTREBUILT:
-				if (!bSetOfflineIcons) {
-					bSetOfflineIcons = true;
-					cli.pfnSetAllExtraIcons(NULL);
-				}
+				cli.pfnSetAllExtraIcons(NULL);
 				return FALSE;
 
 			case NM_KEYDOWN:
