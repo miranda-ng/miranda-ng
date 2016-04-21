@@ -40,7 +40,6 @@ public:
 	}
 	~ASMObjectUploadRequest()
 	{
-		HttpRequest::~HttpRequest();
 		mir_free(pData);
 	}
 };
