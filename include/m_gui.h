@@ -1298,6 +1298,27 @@ protected:
 	TProto* m_proto;
 };
 
+class CPluginDlgBase : public CDlgBase
+{
+	const char *m_szModule;
+public:
+	CPluginDlgBase(HINSTANCE hInst, int idDialog, const char *module) : CDlgBase(hInst, idDialog), m_szModule(module) {};
+
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
+	{
+		ctrl.CreateDbLink(m_szModule, szSetting, type, iValue);
+	}
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
+	{
+		ctrl.CreateDbLink(m_szModule, szSetting, szValue);
+	}
+	template<class T>
+	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
+	{
+		ctrl.CreateDbLink(new CMOptionLink<T>(option));
+	}
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Safe open/close dialogs
 #define UI_SAFE_OPEN(dlgClass, dlgPtr)	\
