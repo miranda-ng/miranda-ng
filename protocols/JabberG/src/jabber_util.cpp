@@ -71,10 +71,11 @@ TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 	if (jid == NULL)
 		return mir_tstrdup(_T(""));
 
-	const TCHAR *p = _tcschr(jid, '@');
-	if (p == NULL)
-		p = _tcschr(jid, '/');
+	const TCHAR *p = _tcsrchr(jid, '/');
+	if (p != NULL)
+		return mir_tstrdup(p+1);
 
+	p = _tcschr(jid, '@');
 	return (p != NULL) ? mir_tstrndup(jid, p - jid) : mir_tstrdup(jid);
 }
 

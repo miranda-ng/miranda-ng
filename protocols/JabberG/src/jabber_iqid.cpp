@@ -1011,9 +1011,6 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	}
 	if (!hasFn)
 		delSetting(hContact, "FullName");
-	// We are not deleting "Nick"
-	//		if (!hasNick)
-	//			delSetting(hContact, "Nick");
 	if (!hasGiven)
 		delSetting(hContact, "FirstName");
 	if (!hasFamily)
