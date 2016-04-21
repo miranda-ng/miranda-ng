@@ -16,7 +16,7 @@ public:
 };
 
 
-class CMLuaOptions : public CDlgBase
+class CMLuaOptions : public CPluginDlgBase
 {
 private:
 	CCtrlCheck m_popupOnError;
@@ -40,17 +40,7 @@ protected:
 public:
 	CMLuaOptions(int idDialog);
 
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
-
 	static int OnOptionsInit(WPARAM wParam, LPARAM);
-
-	template<class T>
-	__inline void CreateLink(CCtrlData &ctrl, CMOption<T> &option)
-	{
-		ctrl.CreateDbLink(new CMOptionLink<T>(option));
-	}
-
 	static CDlgBase *CreateOptionsPage() { return new CMLuaOptions(IDD_OPTIONS); }
 };
 

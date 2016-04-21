@@ -19,7 +19,7 @@ BOOL CCtrlScriptList::OnNotify(int idCtrl, NMHDR *pnmh)
 /****************************************/
 
 CMLuaOptions::CMLuaOptions(int idDialog)
-	: CDlgBase(g_hInstance, idDialog),
+	: CPluginDlgBase(g_hInstance, idDialog, MODULE),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
 	isScriptListInit(false), m_scripts(this, IDC_SCRIPTS),
@@ -30,16 +30,6 @@ CMLuaOptions::CMLuaOptions(int idDialog)
 
 	m_scripts.OnClick = Callback(this, &CMLuaOptions::OnScriptListClick);
 	m_reload.OnClick = Callback(this, &CMLuaOptions::OnReload);
-}
-
-void CMLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
-{
-	ctrl.CreateDbLink(MODULE, szSetting, type, iValue);
-}
-
-void CMLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
-{
-	ctrl.CreateDbLink(MODULE, szSetting, szValue);
 }
 
 void CMLuaOptions::LoadScripts()
