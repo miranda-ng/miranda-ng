@@ -847,7 +847,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 	if (!root)
 		return EXIT_FAILURE;
 
-	const JSONNode &unread_threads = root["payload"].at("unread_thread_ids");
+	const JSONNode &unread_threads = root["payload"].at("unread_thread_fbids");
 	if (!unread_threads)
 		return EXIT_FAILURE;
 
