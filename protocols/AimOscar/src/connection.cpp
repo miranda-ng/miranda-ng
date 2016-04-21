@@ -302,9 +302,8 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.requestType = REQUEST_GET;
 	req.pData = NULL;
 	req.flags |= NLHRF_MANUALHOST;
-	//req.flags &= ~(NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_REMOVEHOST);
 	req.dataLength = 0;
-	req.headersCount = 4; //additional headers disabled
+	req.headersCount = 1;
 	req.szUrl = url.GetBuffer();
 	{
 		NETLIBHTTPHEADER headers2[] = {
