@@ -1146,15 +1146,21 @@ bool facebook_client::home()
 		
 		// Final attempt to get avatar as on some pages is only link to photo page and not link to image itself
 		if (this->self_.image_url.empty()) {
-			if (resp.data.find("/profile/picture/view/?profile_id=") != std::string::npos) {
-				http::response resp2 = flap(REQUEST_PROFILE_PICTURE);
+			http::response resp2 = flap(REQUEST_PROFILE_PICTURE);
 				
-				// Get avatar (from mbasic version of photo page)
-				this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
+			// Get avatar (from mbasic version of photo page)
+			this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
 
-				// Get avatar (from touch version)
-				if (this->self_.image_url.empty())
-					this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "background-image: url(&quot;", "&quot;)"));
+			// Get avatar (from touch version)
+			if (this->self_.image_url.empty())
+				this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "background-image: url(&quot;", "&quot;)"));
+
+			// Sometimes even Facebook doesn't show any picture at all! So just ignore this error in that case...
+			if (this->self_.image_url.empty()) {
+				parent->debugLogA("!!! Empty avatar even from avatar page. Source code:\n%s", resp2.data.c_str());
+				
+				// Set dumb avatar "url" (see how it works in CheckAvatarChange()) so we can't tell if/when the avatar changed, but it will be loaded at least once
+				this->self_.image_url = "/NO_AVATAR/";
 			}
 		}
 
