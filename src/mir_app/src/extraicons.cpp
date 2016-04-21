@@ -279,7 +279,6 @@ int ClistExtraClick(WPARAM hContact, LPARAM lParam)
 HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClick;
 
 static bool bImageCreated = false;
-static int g_mutex_bSetAllExtraIconsCycle = 0;
 static HIMAGELIST hExtraImageList;
 
 HANDLE ExtraIcon_Add(HICON hIcon)
@@ -312,7 +311,6 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 	if (cli.hwndContactTree == 0)
 		return;
 
-	g_mutex_bSetAllExtraIconsCycle = 1;
 	bool hcontgiven = (hContact != 0);
 
 	if (!bImageCreated)
@@ -333,9 +331,7 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 			break;
 	}
 
-	g_mutex_bSetAllExtraIconsCycle = 0;
 	cli.pfnInvalidateRect(cli.hwndContactTree, NULL, FALSE);
-	Sleep(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
