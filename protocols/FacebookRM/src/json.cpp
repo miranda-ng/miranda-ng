@@ -524,6 +524,75 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
 			}
 		}
+		else if (t == "messaging") {
+			// various messaging stuff (received and sent messages, getting seen info)
+
+			const JSONNode &ev_ = (*it)["event"];
+			if (!ev_)
+				continue;
+
+			std::string ev = ev_.as_string();
+			if (ev == "deliver") {
+				// inbox message (multiuser or direct)
+
+				const JSONNode &msg = (*it)["message"];
+
+				const JSONNode &sender_fbid = msg["sender_fbid"];
+				const JSONNode &sender_name = msg["sender_name"];
+				const JSONNode &body = msg["body"];
+
+				// looks like there is either "tid" or "other_user_fbid" (or both)
+				const JSONNode &tid = msg["tid"];
+				const JSONNode &mid = msg["mid"];
+				const JSONNode &timestamp = msg["timestamp"];
+				if (!sender_fbid || !sender_name || !body || !mid || !timestamp)
+					continue;
+
+				const JSONNode &is_filtered = (*it)["is_filtered_content"]; // TODO: is it still here? perhaps it is replaced with msg["is_spoof_warning"] or something else?
+				//const JSONNode &is_spoof_warning = msg["is_spoof_warning"];				
+				//const JSONNode &is_silent = msg["is_silent"];
+				//const JSONNode &is_unread = msg["is_unread"];
+
+				std::string id = sender_fbid.as_string();
+				std::string message_id = mid.as_string();
+				std::string message_text = body.as_string();
+
+				std::string thread_id = tid.as_string();
+				std::string other_user_id = msg["other_user_fbid"].as_string();
+
+				// Process attachements and stickers
+				parseAttachments(proto, &message_text, msg, other_user_id, true);
+
+				// Ignore duplicits or messages sent from miranda
+				if (!body || ignore_duplicits(proto, message_id, message_text))
+					continue;
+
+				if (is_filtered.as_bool() && message_text.empty())
+					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
+
+				message_text = utils::text::trim(message_text, true);
+
+				facebook_message* message = new facebook_message();
+				message->isChat = other_user_id.empty();
+				message->isIncoming = (id != proto->facy.self_.user_id);
+				message->isUnread = message->isIncoming;
+				message->message_text = message_text;
+				message->time = utils::time::from_string(timestamp.as_string());
+				message->user_id = (!message->isChat && !message->isIncoming) ? other_user_id : id;
+				message->message_id = message_id;
+				message->thread_id = thread_id;
+
+				if (message->user_id.empty()) {
+					proto->debugLogA(" !!! JSON: deliver message event with empty user_id (thread_id %s)\n%s", message->thread_id.empty() ? "empty too" : "exists", (*it).as_string().c_str());
+
+					if (!message->thread_id.empty()) {
+						message->user_id = proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
+					}
+				}
+
+				messages->push_back(message);
+			}
+		}
 		else if (t == "notification_json") {
 			// event notification
 			const JSONNode &nodes = (*it)["nodes"];
