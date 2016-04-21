@@ -464,7 +464,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				if (ignore_duplicits(proto, message_id, message_text))
 					continue;
 
-				facebook_message* message = new facebook_message();				
+				message_text = utils::text::trim(message_text, true);
+
+				facebook_message* message = new facebook_message();
 				message->isChat = other_user_id.empty();
 				message->isIncoming = (id != proto->facy.self_.user_id);
 				message->isUnread = message->isIncoming;
