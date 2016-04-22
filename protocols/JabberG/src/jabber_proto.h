@@ -530,6 +530,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	JABBER_LIST_ITEM* ListGetItemPtr(JABBER_LIST list, const TCHAR *jid);
 	JABBER_LIST_ITEM* ListGetItemPtrFromIndex(int index);
 
+	void   ListInit(void);
 	void   ListWipe(void);
 
 	void   ListRemove(JABBER_LIST list, const TCHAR *jid);

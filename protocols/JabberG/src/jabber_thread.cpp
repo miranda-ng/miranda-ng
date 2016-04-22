@@ -394,6 +394,8 @@ LBL_FatalError:
 			mir_sntprintf(m_szJabberJID, len + 1, _T("%s@%S"), info.conn.username, info.conn.server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
 			setTString("jid", m_szJabberJID); // store jid in database
+
+			ListInit();
 		}
 
 		xmlStreamInitializeNow(&info);

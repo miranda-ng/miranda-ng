@@ -492,7 +492,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 		LISTFOREACH(i, this, LIST_CHATROOM)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item != NULL) {
+			if (item != NULL && item->nick != NULL) {
 				TCHAR text[1024];
 				mir_sntprintf(text, _T("%s/%s"), item->jid, item->nick);
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);

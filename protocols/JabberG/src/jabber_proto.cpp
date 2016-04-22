@@ -241,25 +241,17 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		SetContactOfflineStatus(hContact);
 
-		if (isChatRoom(hContact)) {
-			ptrT jid(getTStringA(hContact, "ChatRoomID"));
-			if (jid != NULL)
-				ListAdd(LIST_CHATROOM, jid, hContact);
-			continue;
-		}
+		if (getByte(hContact, "IsTransport", 0)) {
+			ptrT jid(getTStringA(hContact, "jid"));
+			if (jid == NULL)
+				continue;
 
-		ptrT jid(getTStringA(hContact, "jid"));
-		if (jid == NULL)
-			continue;
+			TCHAR *resourcepos = _tcschr(jid, '/');
+			if (resourcepos != NULL)
+				*resourcepos = '\0';
 
-		ListAdd(LIST_ROSTER, jid, hContact);
-
-		TCHAR *resourcepos = _tcschr(jid, '/');
-		if (resourcepos != NULL)
-			*resourcepos = '\0';
-
-		if (getByte(hContact, "IsTransport", 0))
 			m_lstTransports.insert(mir_tstrdup(jid));
+		}
 	}
 
 	return 0;
