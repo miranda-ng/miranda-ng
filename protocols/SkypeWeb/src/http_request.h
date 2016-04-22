@@ -263,7 +263,7 @@ public:
 		mir_free(headers);
 	}
 
-	NETLIBHTTPREQUEST* Send(HANDLE hConnection)
+	virtual NETLIBHTTPREQUEST* Send(HANDLE hConnection)
 	{
 		if (url.Find("://") == -1)
 			url.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));

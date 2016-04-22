@@ -101,6 +101,7 @@ struct MessageId
 	HANDLE handle;
 };
 
+//#include "websocket.h"
 #include "version.h"
 #include "resource.h"
 #include "skype_menus.h"

@@ -119,18 +119,14 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 	for (size_t i = 0; i < conversations.size(); i++)
 	{
 		const JSONNode &conversation = conversations.at(i);
-		const JSONNode &lastMessage = conversation["lastMessage"];
 		const JSONNode &threadProperties = conversation["threadProperties"];
-		if (!lastMessage)
+		const JSONNode &id = conversation["id"];
+
+		if (!conversation["lastMessage"])
 			continue;
 
-		std::string conversationLink = lastMessage["conversationLink"].as_string();
-		if (conversationLink.find("/19:") != -1)
-		{
-			CMStringA skypename(UrlToSkypename(conversationLink.c_str()));
-			CMString topic(threadProperties["topic"].as_mstring());
-			SendRequest(new GetChatInfoRequest(skypename, li), &CSkypeProto::OnGetChatInfo, topic.Detach());
-		}
+		CMString topic(threadProperties["topic"].as_mstring());
+		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), li), &CSkypeProto::OnGetChatInfo, topic.Detach());
 	}
 }
 

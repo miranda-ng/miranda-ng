@@ -115,7 +115,7 @@ class GetChatInfoRequest : public HttpRequest
 {
 public:
 	GetChatInfoRequest(const char *chatId, LoginInfo &li) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/threads/19:%s", li.endpoint.szServer, chatId)
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/threads/%s%s", li.endpoint.szServer, strstr(chatId, "19:") == chatId ? "" : "19:", chatId)
 	{
 		Url << CHAR_VALUE("view", "msnp24Equivalent");
 
