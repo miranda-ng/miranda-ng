@@ -5,7 +5,7 @@ class GetAccessTokenRequest : public HttpRequest
 {
 public:
 	GetAccessTokenRequest(const char *requestToken) :
-		HttpRequest(REQUEST_POST, DROPBOX_API_OLD "/oauth2/token")
+		HttpRequest(REQUEST_POST, DROPBOX_API "/oauth2/token")
 	{
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -16,11 +16,11 @@ public:
 	}
 };
 
-class DisableAccessTokenRequest : public HttpRequest
+class RevokeAccessTokenRequest : public HttpRequest
 {
 public:
-	DisableAccessTokenRequest() :
-		HttpRequest(REQUEST_POST, DROPBOX_API_OLD "/disable_access_token")
+	RevokeAccessTokenRequest() :
+		HttpRequest(REQUEST_POST, DROPBOX_API "/oauth2/token/revoke")
 	{
 	}
 };

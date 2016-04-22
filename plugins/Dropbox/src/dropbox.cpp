@@ -122,7 +122,7 @@ void CDropbox::RequestAccountInfo(void *p)
 
 void CDropbox::DestroyAccessToken()
 {
-	DisableAccessTokenRequest request;
+	RevokeAccessTokenRequest request;
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");

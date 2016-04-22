@@ -1,16 +1,6 @@
 #ifndef _DROPBOX_API_OPERATIONS_H_
 #define _DROPBOX_API_OPERATIONS_H_
 
-class ShareOldRequest : public HttpRequest
-{
-public:
-	ShareOldRequest(const char *token, const char *path) :
-		HttpRequest(REQUEST_POST, HttpRequestUrlFormat::FORMAT, DROPBOX_API_OLD "/shares/auto/%s", path)
-	{
-		AddBearerAuthHeader(token);
-	}
-};
-
 class ShareRequest : public HttpRequest
 {
 public:
