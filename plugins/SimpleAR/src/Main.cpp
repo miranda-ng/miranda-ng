@@ -192,7 +192,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 						TCHAR *ptszNick = db_get_tsa(hContact, pszProto, "Nick");
 						if (ptszNick == 0) {
-							mir_free(ptszNick);
+							mir_free(ptszVal);
 							return FALSE;
 						}
 
