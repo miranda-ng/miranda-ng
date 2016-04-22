@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Englisch (USA) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -50,43 +50,43 @@ END
 // Dialog
 //
 
-IDD_AIM DIALOGEX 0, 0, 305, 217
+IDD_AIM DIALOGEX 0, 0, 305, 212
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "AIM User Details",IDC_DETAILS,3,7,147,80,WS_GROUP
-    LTEXT           "Screen Name:",IDC_STATIC,8,20,45,11
-    EDITTEXT        IDC_SN,59,17,86,15,ES_LOWERCASE | ES_AUTOHSCROLL
-    LTEXT           "Display Name:",IDC_STATIC,6,39,51,9
-    EDITTEXT        IDC_NK,59,37,86,15,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,17,59,35,15
-    EDITTEXT        IDC_PW,59,57,86,15,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Login Server:",IDC_STATIC,158,104,44,12
-    EDITTEXT        IDC_HN,206,102,83,13,ES_AUTOHSCROLL
-    GROUPBOX        "AIM Options",IDC_OPTIONS,3,89,147,120,WS_GROUP
-    CONTROL         "Message Delivery Confirmation",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,99,130,13
-    CONTROL         "Do Not Autoreply When Away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,111,139,13
-    CONTROL         "Convert Incoming Messages to BBCode",IDC_FI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,123,137,13
-    CONTROL         "Convert Outgoing Messages to HTML",IDC_FO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,136,13
-    CONTROL         "Disable Avatars",IDC_DA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,147,136,13
-    CONTROL         "Disable Account Type Icons",IDC_AT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,159,133,13
-    CONTROL         "Disable Extended Status Icons",IDC_ES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,171,134,13
-    CONTROL         "Notify about new mail",IDC_CM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,183,112,13
-    GROUPBOX        "Advanced Options",IDC_EXPERT,154,7,142,80,WS_GROUP
-    CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,18,131,15
-    CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,31,130,11
-    CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,42,135,13
-    CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,166,174,115,28,NOT WS_VISIBLE
-    GROUPBOX        "Connection",IDC_STATIC,154,89,142,80
-    EDITTEXT        IDC_PN,207,119,37,13,ES_AUTOHSCROLL
-    LTEXT           "Port:",IDC_STATIC,158,121,44,12
-    PUSHBUTTON      "Reset",IDC_SVRRESET,254,118,35,14
-    CONTROL         "Disable SSL",IDC_DSSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,135,85,10
-    CONTROL         "Manage Server Groups",IDC_MG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,138,13
-    CONTROL         "Force Single Client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,155,129,10
+    GROUPBOX        "AIM User Details",IDC_DETAILS,3,7,147,72,WS_GROUP
+    RTEXT           "Screen Name:",IDC_STATIC,8,20,50,11
+    EDITTEXT        IDC_SN,60,17,87,15,ES_LOWERCASE | ES_AUTOHSCROLL
+    RTEXT           "Display Name:",IDC_STATIC,8,39,50,9
+    EDITTEXT        IDC_NK,60,37,87,15,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,8,59,50,11
+    EDITTEXT        IDC_PW,60,57,87,15,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "AIM Options",IDC_OPTIONS,3,83,147,120,WS_GROUP
+    CONTROL         "Message Delivery Confirmation",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,93,139,13
+    CONTROL         "Do Not Autoreply When Away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,105,139,13
+    CONTROL         "Convert Incoming Messages to BBCode",IDC_FI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,117,139,13
+    CONTROL         "Convert Outgoing Messages to HTML",IDC_FO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,129,139,13
+    CONTROL         "Disable Avatars",IDC_DA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,141,139,13
+    CONTROL         "Disable Account Type Icons",IDC_AT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,153,139,13
+    CONTROL         "Disable Extended Status Icons",IDC_ES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,165,139,13
+    CONTROL         "Notify about new mail",IDC_CM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,177,139,13
+    CONTROL         "Manage Server Groups",IDC_MG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,188,139,13
+    GROUPBOX        "Advanced Options",IDC_EXPERT,154,7,145,72,WS_GROUP
+    CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,18,138,15
+    CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,33,138,11
+    CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,46,138,13
+    GROUPBOX        "Connection",IDC_STATIC,154,83,145,80
+    RTEXT           "Login Server:",IDC_STATIC,157,98,52,12
+    EDITTEXT        IDC_HN,212,96,83,13,ES_AUTOHSCROLL
+    RTEXT           "Port:",IDC_STATIC,157,115,52,12
+    EDITTEXT        IDC_PN,212,113,38,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Reset",IDC_SVRRESET,260,112,35,14
+    CONTROL         "Disable SSL",IDC_DSSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,129,138,10
+    CONTROL         "Force Single Client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,149,138,10
     CONTROL         "Use ""clientlogin"" (recommended)",IDC_CLIENTLOGIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,145,119,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,139,138,10
+    CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,157,168,138,28,NOT WS_VISIBLE
 END
 
 IDD_INFO DIALOGEX 0, 0, 227, 165
@@ -137,27 +137,27 @@ BEGIN
     PUSHBUTTON      "Unset Idle",IDCANCEL,129,50,39,14
 END
 
-IDD_PRIVACY DIALOGEX 0, 0, 301, 220
+IDD_PRIVACY DIALOGEX 0, 0, 305, 220
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Users who can contact me:",IDC_STATIC,16,14,141,8
-    CONTROL         "Allow all users",IDC_ALLOWALL,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,29,145,10
-    CONTROL         "Allow only users on contact list",IDC_ALLOWCONT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,40,145,10
-    CONTROL         "Allow only users below",IDC_ALLOWBELOW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,51,145,10
-    CONTROL         "Block all users",IDC_BLOCKALL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,40,116,10
-    CONTROL         "Block only users below",IDC_BLOCKBELOW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,51,116,10
+    LTEXT           "Users who can contact me:",IDC_STATIC,14,14,282,8
+    CONTROL         "Allow all users",IDC_ALLOWALL,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,29,159,10
+    CONTROL         "Allow only users on contact list",IDC_ALLOWCONT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,40,159,10
+    CONTROL         "Allow only users below",IDC_ALLOWBELOW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,51,159,10
+    CONTROL         "Block all users",IDC_BLOCKALL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,177,40,121,10
+    CONTROL         "Block only users below",IDC_BLOCKBELOW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,177,51,121,10
     EDITTEXT        IDC_ALLOWEDIT,16,67,82,14,ES_AUTOHSCROLL,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
     PUSHBUTTON      "Add",IDC_ALLOWADD,98,67,38,14
     LISTBOX         IDC_ALLOWLIST,16,81,119,86,LBS_SORT | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
     PUSHBUTTON      "Remove",IDC_ALLOWREMOVE,16,167,119,12
-    EDITTEXT        IDC_BLOCKEDIT,165,66,82,14,ES_AUTOHSCROLL,WS_EX_STATICEDGE
-    PUSHBUTTON      "Add",IDC_BLOCKADD,247,66,37,14
-    LISTBOX         IDC_BLOCKLIST,165,80,119,86,LBS_SORT | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
-    PUSHBUTTON      "Remove",IDC_BLOCKREMOVE,165,166,119,12
+    EDITTEXT        IDC_BLOCKEDIT,177,66,82,14,ES_AUTOHSCROLL,WS_EX_STATICEDGE
+    PUSHBUTTON      "Add",IDC_BLOCKADD,259,66,37,14
+    LISTBOX         IDC_BLOCKLIST,177,80,119,86,LBS_SORT | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    PUSHBUTTON      "Remove",IDC_BLOCKREMOVE,177,166,119,12
     CONTROL         "Idle",IDC_SIS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,197,119,9
-    LTEXT           "Allow contacts to be notified of:",IDC_STATIC,17,185,272,8
+    LTEXT           "Allow contacts to be notified of:",IDC_STATIC,14,185,284,8
 END
 
 IDD_CHAT DIALOGEX 0, 0, 162, 82
@@ -239,8 +239,21 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_AIM, DIALOG
     BEGIN
-        RIGHTMARGIN, 296
-        BOTTOMMARGIN, 211
+        RIGHTMARGIN, 299
+        VERTGUIDE, 8
+        VERTGUIDE, 58
+        VERTGUIDE, 60
+        VERTGUIDE, 147
+        VERTGUIDE, 154
+        VERTGUIDE, 157
+        VERTGUIDE, 209
+        VERTGUIDE, 212
+        VERTGUIDE, 295
+        BOTTOMMARGIN, 206
+    END
+
+    IDD_INFO, DIALOG
+    BEGIN
     END
 
     IDD_AIMACCOUNT, DIALOG
@@ -258,7 +271,11 @@ BEGIN
     IDD_PRIVACY, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 294
+        RIGHTMARGIN, 298
+        VERTGUIDE, 14
+        VERTGUIDE, 173
+        VERTGUIDE, 177
+        VERTGUIDE, 296
         TOPMARGIN, 7
         BOTTOMMARGIN, 213
     END
@@ -364,7 +381,12 @@ BEGIN
     0
 END
 
-#endif    // English (United States) resources
+IDD_PRIVACY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Englisch (USA) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
