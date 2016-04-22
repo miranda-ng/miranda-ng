@@ -13,7 +13,6 @@
 #include <m_icolib.h>
 #include <m_extraicons.h>
 #include <m_message.h>
-#include <m_timezones.h>
 #include "resource.h"
 #include "Version.h"
 
@@ -22,3 +21,4 @@
 #define MODULENAME "MessageState"
 
 extern HINSTANCE g_hInst;
+extern IconItem Icons[];
