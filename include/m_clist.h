@@ -195,12 +195,6 @@ typedef struct {
 #define ME_CLIST_DOUBLECLICKED "CList/DoubleClicked"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Invalidates the display name cache
-// wParam = (MCONTACT)hContact
-// lParam = not used
-#define MS_CLIST_INVALIDATEDISPLAYNAME  "CList/InvalidateDiplayName"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // The contact list will flash hIcon next to the contact hContact (use NULL for
 // a system message). szServiceName will be called when the user double clicks
 // the icon, at which point the event will be removed from the contact list's

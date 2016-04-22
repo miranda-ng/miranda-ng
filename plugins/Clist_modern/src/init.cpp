@@ -156,7 +156,6 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnGetRowTopY = cliGetRowTopY;
 	pcli->pfnGetRowTotalHeight = cliGetRowTotalHeight;
 	pcli->pfnInvalidateRect = CLUI__cliInvalidateRect;
-	pcli->pfnGetCacheEntry = cliGetCacheEntry;
 	pcli->pfnOnCreateClc = CLUI::cliOnCreateClc;
 	pcli->pfnPaintClc = CLCPaint::cliPaintClc;
 	pcli->pfnRebuildEntireList = cliRebuildEntireList;

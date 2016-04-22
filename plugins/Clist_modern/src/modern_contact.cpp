@@ -96,8 +96,8 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100)
 		return 0;
 
-	ClcCacheEntry *c1 = cliGetCacheEntry(contact1->hContact);
-	ClcCacheEntry *c2 = cliGetCacheEntry(contact2->hContact);
+	ClcCacheEntry *c1 = pcli->pfnGetCacheEntry(contact1->hContact);
+	ClcCacheEntry *c2 = pcli->pfnGetCacheEntry(contact2->hContact);
 
 	for (int i = 0; i < _countof(g_CluiData.bSortByOrder); i++) {
 		BYTE &by = g_CluiData.bSortByOrder[i];

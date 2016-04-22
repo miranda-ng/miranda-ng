@@ -94,13 +94,6 @@ const
   }
   ME_CLIST_DOUBLECLICKED:PAnsiChar = 'CList/DoubleClicked';
 
-  {
-    Invalidates the display name cache
-    wParam=(WPARAM)(HANDLE)hContact
-    lParam=not used
-  }
-  MS_CLIST_INVALIDATEDISPLAYNAME:PAnsiChar = 'CList/InvalidateDiplayName';
-
 type
   PCLISTEVENT = ^TCLISTEVENT;
   TCLISTEVENT = record

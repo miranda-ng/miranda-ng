@@ -489,7 +489,7 @@ LBL_Def:
 			break;
 
 		contact->proto = GetContactProto(wParam);
-		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
+		pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);

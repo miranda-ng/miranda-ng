@@ -1308,15 +1308,6 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		g_CluiData.current_viewmode[255] = 0;
 
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG) {
-			BYTE bSaved = g_CluiData.bSortByOrder[0];
-
-			g_CluiData.bSortByOrder[0] = SORTBY_LASTMSG;
-			for (int i = 0; i < clistCache.getCount(); i++) {
-				ClcCacheEntry *pdnce = clistCache[i];
-				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
-			}
-			g_CluiData.bSortByOrder[0] = bSaved;
-
 			g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG;
 			mir_snprintf(szSetting, "%c%s_LM", 246, Name);
 			g_CluiData.lastMsgFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);

@@ -687,8 +687,6 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->dbbBlendInActiveState = db_get_b(NULL, "CLC", "BlendInActiveState", SETTING_BLENDINACTIVESTATE_DEFAULT);
 	dat->dbbBlend25 = db_get_b(NULL, "CLC", "Blend25%", SETTING_BLENDINACTIVESTATE_DEFAULT);
 	dat->bCompactMode = db_get_b(NULL, "CLC", "CompactMode", SETTING_COMPACTMODE_DEFAULT);
-	if ((pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL))
-		IvalidateDisplayNameCache();
 
 	corecli.pfnLoadClcOptions(hwnd, dat, bFirst);
 

@@ -175,9 +175,6 @@ void MakeButtonSkinned(HWND hWnd);
 #define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_tstrdup(b);}
 
 void TRACE_ERROR();
-void IvalidateDisplayNameCache();
-
-extern LIST<ClcCacheEntry> clistCache;
 
 HICON LoadSmallIcon(HINSTANCE hInstance, int idx);
 BOOL DestroyIcon_protect(HICON icon);

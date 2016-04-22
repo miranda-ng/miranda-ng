@@ -137,12 +137,6 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }
 
-INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM)
-{
-	cli.pfnInvalidateDisplayNameCacheEntry(wParam);
-	return 0;
-}
-
 int ContactAdded(WPARAM wParam, LPARAM)
 {
 	cli.pfnChangeContactIcon(wParam, cli.pfnIconFromStatusMode(GetContactProto(wParam), ID_STATUS_OFFLINE, NULL));

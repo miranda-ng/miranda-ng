@@ -412,7 +412,7 @@ public:
 			tvi.hItem = m_nameOrder.GetNextSibling(tvi.hItem);
 		}
 		db_set_blob(NULL, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
-		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)INVALID_HANDLE_VALUE, 0);
+		cli.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
 	}
 
 	void OnBeginDrag(CCtrlTreeView::TEventInfo *evt)

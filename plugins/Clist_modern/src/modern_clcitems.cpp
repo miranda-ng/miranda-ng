@@ -243,15 +243,6 @@ void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hContact)
 	ClearRowByIndexCache();
 	corecli.pfnDeleteItemFromTree(hwnd, hContact);
 
-	// check here contacts are not resorting
-	if (hwnd == pcli->hwndContactTree) {
-		int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
-		if (idx != -1) {
-			pcli->pfnFreeCacheItem(clistCache[idx]);
-			clistCache.remove(idx);
-		}
-	}
-
 	dat->needsResort = 1;
 	ClearRowByIndexCache();
 }
@@ -573,19 +564,21 @@ ClcContact* cliCreateClcContact()
 
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 {
-	ClcCacheEntry *p = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
-	if (p == NULL)
+	ClcCacheEntry *pdnce = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
+	if (pdnce == NULL)
 		return NULL;
 
-	p->hContact = hContact;
-	p->m_pszProto = GetContactProto(hContact);
-	p->dwLastMsgTime = -1;
-	p->bIsHidden = -1;
-	p->m_bNoHiddenOffline = -1;
-	p->IdleTS = -1;
-	p->NotOnList = -1;
-	p->IsExpanded = -1;
-	return p;
+	pdnce->hContact = hContact;
+	pdnce->m_pszProto = GetContactProto(hContact);
+	pdnce->bIsHidden = db_get_b(hContact, "CList", "Hidden", 0);
+	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
+	pdnce->m_bNoHiddenOffline = db_get_b(hContact, "CList", "noOffline", 0);
+	pdnce->IdleTS = db_get_dw(hContact, pdnce->m_pszProto, "IdleTS", 0);
+	pdnce->ApparentMode = db_get_w(hContact, pdnce->m_pszProto, "ApparentMode", 0);
+	pdnce->NotOnList = db_get_b(hContact, "CList", "NotOnList", 0);
+	pdnce->IsExpanded = db_get_b(hContact, "CList", "Expanded", 0);
+	pdnce->dwLastMsgTime = -1;
+	return pdnce;
 }
 
 void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)

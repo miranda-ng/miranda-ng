@@ -313,11 +313,11 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 
 void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 {
-	ClcContact *contact;
-	ClcGroup *group;
 	struct ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
-
 	dat->needsResort = 1;
+
+	ClcGroup *group;
+	ClcContact *contact;
 	if (!cli.pfnFindItem(hwnd, dat, hItem, &contact, &group, NULL)) {
 		DBVARIANT dbv;
 		int i, nameOffset;

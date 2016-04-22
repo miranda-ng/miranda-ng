@@ -286,7 +286,6 @@ int		cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProt
 
 ClcContact*    cliCreateClcContact(void);
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact);
-ClcCacheEntry* cliGetCacheEntry(MCONTACT hContact);
 
 #define WM_DWMCOMPOSITIONCHANGED  0x031E
 

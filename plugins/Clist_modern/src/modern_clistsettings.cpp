@@ -31,10 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void InsertContactIntoTree(MCONTACT hContact, int status);
 void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
 
-static int displayNameCacheSize;
-
-LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
-
 TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InitDisplayNameCache(void)
@@ -46,27 +42,6 @@ void InitDisplayNameCache(void)
 void FreeDisplayNameCache()
 {
 	UninitAwayMsgModule();
-
-	for (int i = 0; i < clistCache.getCount(); i++) {
-		pcli->pfnFreeCacheItem(clistCache[i]);
-		mir_free(clistCache[i]);
-	}
-	clistCache.destroy();
-}
-
-ClcCacheEntry* cliGetCacheEntry(MCONTACT hContact)
-{
-	ClcCacheEntry *p;
-	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
-	if (idx == -1) {
-		if ((p = pcli->pfnCreateCacheItem(hContact)) != NULL) {
-			clistCache.insert(p);
-			pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-		}
-	}
-	else p = clistCache[idx];
-	pcli->pfnCheckCacheItem(p);
-	return p;
 }
 
 void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst)
@@ -200,46 +175,11 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 			pdnce->tszGroup = mir_tstrdup(_T(""));
 	}
 
-	if (pdnce->bIsHidden == -1)
-		pdnce->bIsHidden = db_get_b(pdnce->hContact, "CList", "Hidden", 0);
-
-	pdnce->m_bIsSub = db_mc_isSub(pdnce->hContact) != 0;
-
-	if (pdnce->m_bNoHiddenOffline == -1)
-		pdnce->m_bNoHiddenOffline = db_get_b(pdnce->hContact, "CList", "noOffline", 0);
-
-	if (pdnce->IdleTS == -1)
-		pdnce->IdleTS = db_get_dw(pdnce->hContact, pdnce->m_pszProto, "IdleTS", 0);
-
-	if (pdnce->ApparentMode == -1)
-		pdnce->ApparentMode = db_get_w(pdnce->hContact, pdnce->m_pszProto, "ApparentMode", 0);
-
-	if (pdnce->NotOnList == -1)
-		pdnce->NotOnList = db_get_b(pdnce->hContact, "CList", "NotOnList", 0);
-
-	if (pdnce->IsExpanded == -1)
-		pdnce->IsExpanded = db_get_b(pdnce->hContact, "CList", "Expanded", 0);
-
+	// this variable isn't filled inside cliCreateCacheItem() because the filter could be changed dynamically
 	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
 		pdnce->dwLastMsgTime = db_get_dw(pdnce->hContact, "CList", "mf_lastmsg", 0);
 		if (pdnce->dwLastMsgTime == 0)
 			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
-	}
-}
-
-void IvalidateDisplayNameCache()
-{
-	for (int i = 0; i < clistCache.getCount(); i++) {
-		ClcCacheEntry *pdnce = (ClcCacheEntry *)clistCache[i];
-		pdnce->ssSecondLine.DestroySmileyList();
-		mir_free_and_nil(pdnce->szSecondLineText);
-		pdnce->ssThirdLine.DestroySmileyList();
-		mir_free_and_nil(pdnce->szThirdLineText);
-		pdnce->ssSecondLine.iMaxSmileyHeight = 0;
-		pdnce->ssThirdLine.iMaxSmileyHeight = 0;
-		pdnce->hTimeZone = NULL;
-		pdnce->dwLastMsgTime = -1;
-		Cache_GetTimezone(NULL, pdnce->hContact);
 	}
 }
 
