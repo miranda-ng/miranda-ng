@@ -102,7 +102,7 @@ int CDropbox::OnTabSrmmButtonPressed(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnFileDialogCancelled(WPARAM hContact, LPARAM lParam)
+int CDropbox::OnFileDialogCancelled(WPARAM hContact, LPARAM)
 {
 	auto it = interceptedContacts.find(hContact);
 	if (it != interceptedContacts.end())

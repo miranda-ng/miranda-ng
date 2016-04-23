@@ -52,7 +52,7 @@ void CDropboxOptionsMain::Authorize_OnClick(CCtrlBase*)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CDropboxOptionsInterception::CDropboxOptionsInterception(CDropbox *instance)
+CDropboxOptionsInterception::CDropboxOptionsInterception(CDropbox*)
 	: CPluginDlgBase(g_hInstance, IDD_OPTIONS_INTERCEPTION, MODULE),
 	m_accounts(this, IDC_ACCOUNTS), isAccountListInit(false)
 {
