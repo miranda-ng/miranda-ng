@@ -185,6 +185,7 @@ CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
 	m_edtTitle(this, IDC_TITLE)
 {
 	m_btnOk.OnClick = Callback(this, &CVkGCCreateForm::btnOk_OnOk);
+	m_clCList.OnListRebuilt = Callback(this, &CVkGCCreateForm::FilterList);
 }
 
 void CVkGCCreateForm::OnInitDialog()
@@ -194,7 +195,6 @@ void CVkGCCreateForm::OnInitDialog()
 	m_clCList.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions(&m_clCList);
-	FilterList(&m_clCList);
 }
 
 void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
@@ -222,16 +222,13 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, bRes);
 }
 
-void CVkGCCreateForm::FilterList(CCtrlClc *clCList)
+void CVkGCCreateForm::FilterList(CCtrlClc*)
 {
-	if (!clCList)
-		return;
-
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
-		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
-			if (HANDLE hItem = clCList->FindContact(hContact))
-				clCList->DeleteItem(hItem);
+		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->getDword(hContact, "ID") == VK_FEED_USER)
+			if (HANDLE hItem = m_clCList.FindContact(hContact))
+				m_clCList.DeleteItem(hItem);
 	}
 }
 
