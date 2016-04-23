@@ -61,6 +61,7 @@ CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
 	CSkypeDlgBase(proto, IDD_GC_CREATE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
 {
 	m_ok.OnClick = Callback(this, &CSkypeGCCreateDlg::btnOk_OnOk);
+	m_clc.OnListRebuilt = Callback(this, &CSkypeGCCreateDlg::FilterList);
 }
 CSkypeGCCreateDlg::~CSkypeGCCreateDlg()
 {
@@ -75,7 +76,6 @@ void CSkypeGCCreateDlg::OnInitDialog()
 	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions(&m_clc);
-	FilterList(&m_clc);
 }
 
 void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
