@@ -711,17 +711,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						params.result = &result;
 						gpg_launcher(params); //TODO: handle errors
 						if ((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos)) {
-							string::size_type p = 0, stop = 0;
-							for (;;) {
-								if ((p = out.find("\n", p + 2)) != string::npos) {
-									if (p > stop) {
-										stop = p;
-										out.insert(p, "\r");
-									}
-									else
-										break;
-								}
-							}
+							boost::algorithm::replace_all(out, "\n", "\r\n");
+
 							TCHAR *tmp3 = mir_a2t(out.c_str());
 							str.clear();
 							str.append(tmp3);
