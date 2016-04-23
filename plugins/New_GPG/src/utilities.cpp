@@ -650,6 +650,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					return FALSE;
 		}
 		if (str) {
+
+			//TODO: make following block more readable
 			if (_tcsstr(str, _T("-----BEGIN PGP MESSAGE-----")) && _tcsstr(str, _T("-----END PGP MESSAGE-----"))) {
 				wstring data = str;
 				xmlSetText(local_node, _T("This message is encrypted."));
@@ -670,6 +672,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 				wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
 				wstring data2 = data.substr(p1, p2 - p1 - 2);
 				strip_line_term(data2);
+				if(bDebugLog)
+					debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
 				HXML encrypted_data = xmlAddChild(node, _T("x"), data2.c_str());
 				xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
 				return FALSE;
