@@ -106,8 +106,7 @@ private:
 		auto it = fields.find(key);
 		if (it == fields.end())
 		{
-			lua_pushnil(L);
-			return 1;
+			return Index(L, obj);
 		}
 
 		MTField<T> *field = it->second;
@@ -136,7 +135,7 @@ private:
 			lua_pushlightuserdata(L, field->GetValue<void*>(obj));
 			break;
 		default:
-			return Index(L, obj);
+			lua_pushnil(L);
 		}
 
 		return 1;

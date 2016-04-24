@@ -577,20 +577,14 @@ void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 
 void MT<CONTACTINFO>::Init(lua_State *L, CONTACTINFO **ci)
 {
-	MCONTACT hContact = 0;
-	switch (lua_type(L, 1))
+	if (!lua_isinteger(L, 1))
 	{
-	case LUA_TNUMBER:
-		hContact = lua_tointeger(L, 1);
-		break;
-	case LUA_TLIGHTUSERDATA:
-		hContact = (MCONTACT)lua_touserdata(L, 1);
-		break;
-	default:
 		const char *msg = lua_pushfstring(L, "hContact expected, got %s", luaL_typename(L, 1));
 		luaL_argerror(L, 1, msg);
 	}
+	MCONTACT hContact = luaL_checkinteger(L, 1);
 
+	(*ci) = (CONTACTINFO*)mir_calloc(sizeof(CONTACTINFO));
 	(*ci)->cbSize = sizeof(CONTACTINFO);
 	(*ci)->hContact = hContact;
 }
@@ -679,6 +673,11 @@ int MT<CONTACTINFO>::Index(lua_State *L, CONTACTINFO *ci)
 	}
 
 	return 1;
+}
+
+void MT<CONTACTINFO>::Free(lua_State *L, CONTACTINFO **ci)
+{
+	mir_free((*ci));
 }
 
 /***********************************************/
