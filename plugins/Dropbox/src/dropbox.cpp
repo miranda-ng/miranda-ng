@@ -90,8 +90,8 @@ void CDropbox::RequestAccountInfo(void *p)
 
 	JSONNode name = root.at("name");
 	if (!name.empty()) {
-		db_set_ts(hContact, MODULE, "FirstName", ptrT(mir_utf8decodeT(name.at("given_name").as_string().c_str())));
-		db_set_ts(hContact, MODULE, "LastName", ptrT(mir_utf8decodeT(name.at("surname").as_string().c_str())));
+		db_set_utf(hContact, MODULE, "FirstName", name.at("given_name").as_string().c_str());
+		db_set_utf(hContact, MODULE, "LastName", name.at("surname").as_string().c_str());
 	}
 
 	JSONNode country = root.at("country");
@@ -151,7 +151,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	GetAccessTokenRequest request(requestToken);
 	NLHR_PTR response(request.Send(instance->hNetlibConnection));
 
-	if (response == NULL) {
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText(HTTP_STATUS_ERROR));
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));

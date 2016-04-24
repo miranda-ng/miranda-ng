@@ -38,12 +38,12 @@
 
 class CDropbox;
 
-#define DROPBOX_API_VER "2"
-#define DROPBOX_WWW_URL "https://www.dropbox.com/1"
-#define DROPBOX_API_OLD "https://api.dropboxapi.com/1"
-#define DROPBOX_API "https://api.dropboxapi.com/"
+#define DROPBOX_API_VER "/2"
+#define DROPBOX_WWW_URL "https://www.dropbox.com"
+#define DROPBOX_API "https://api.dropboxapi.com"
 #define DROPBOX_API_RPC DROPBOX_API DROPBOX_API_VER
-#define DROPBOX_API_CU "https://content.dropboxapi.com/" DROPBOX_API_VER
+#define DROPBOX_CONTENT "https://content.dropboxapi.com"
+#define DROPBOX_API_CU DROPBOX_CONTENT DROPBOX_API_VER
 
 #define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
 #include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
