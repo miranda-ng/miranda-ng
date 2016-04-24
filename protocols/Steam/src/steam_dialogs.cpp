@@ -11,8 +11,8 @@ void CSteamPasswordEditor::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, false));
 
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 
@@ -52,8 +52,8 @@ void CSteamGuardDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, false));
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
 
@@ -100,8 +100,8 @@ void CSteamCaptchaDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, true));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, false));
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 
