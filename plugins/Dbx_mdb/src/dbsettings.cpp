@@ -567,7 +567,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
-	memset(keySearch.szSettingName, 0, _countof(keySearch.szSettingName));
+	memset(keySearch.szSettingName, 0, sizeof(keySearch.szSettingName));
 
 	mir_cslockfull lck(m_csDbAccess);
 	txn_ptr_ro trnlck(m_txn);
@@ -575,19 +575,15 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 	MDB_val key = { sizeof(keySearch), &keySearch }, data;
 
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) 
+	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 	{
-		do 
-		{
-			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-			if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-				return result;
+		const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
+			return result;
 
-			char szSetting[256];
-			strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD) * 2);
-			result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
-		}
-			while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+		char szSetting[256];
+		strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD)* 2);
+		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
 	}
 
 	return result;

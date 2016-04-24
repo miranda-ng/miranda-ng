@@ -104,13 +104,15 @@ int CDbxMdb::Load(bool bSkipInit)
 			const DBHeader *hdr = (const DBHeader*)data.mv_data;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				DatabaseCorruption(NULL);
+			if (hdr->dwVersion != DBHEADER_VERSION)
+				return EGROKPRF_OBSOLETE;
 
 			memcpy(&m_header, data.mv_data, sizeof(m_header));
 		}
 		else 
 		{
 			m_header.dwSignature = DBHEADER_SIGNATURE;
-			m_header.dwVersion = 1;
+			m_header.dwVersion = DBHEADER_VERSION;
 			data.mv_data = &m_header; data.mv_size = sizeof(m_header);
 			mdb_put(trnlck, m_dbGlobal, &key, &data, 0);
 

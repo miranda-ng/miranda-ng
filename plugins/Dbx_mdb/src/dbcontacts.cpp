@@ -113,16 +113,14 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
 
-		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS)
+		for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 		{
-			do
-			{
-				const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-				if (pKey->dwContactID != contactID)
-					break;
-				mdb_cursor_del(cursor, 0);
-			} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+			if (pKey->dwContactID != contactID)
+				break;
+			mdb_cursor_del(cursor, 0);
 		}
+
 		txn.commit();
 	}
 
@@ -199,15 +197,14 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS)
-	{
-		do {
-			const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
-			if (pKey->dwContactId != hContact)
-				return;
 
-			list.insert(new EventItem(pKey->ts, pKey->dwEventId));
-		} while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
+	{
+		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
+		if (pKey->dwContactId != hContact)
+			return;
+
+		list.insert(new EventItem(pKey->ts, pKey->dwEventId));
 	}
 }
 
@@ -321,7 +318,7 @@ void CDbxMdb::FillContacts()
 		cursor_ptr_ro cursor(m_curContacts);
 
 		MDB_val key, data;
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) 
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
 		{
 			const DBContact *dbc = (const DBContact*)data.mv_data;
 			if (dbc->dwSignature != DBCONTACT_SIGNATURE)

@@ -29,6 +29,9 @@
     <ClCompile Include="src\lmdb\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+	<ClCompile Include="src\lmdb\*.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

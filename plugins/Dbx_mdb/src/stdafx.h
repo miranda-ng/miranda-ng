@@ -41,10 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_netlib.h>
 #include <m_gui.h>
 
-extern "C"
-{
-	#include "lmdb\lmdb.h"
-};
+#include "lmdb\lmdb.h"
 
 class txn_ptr
 {

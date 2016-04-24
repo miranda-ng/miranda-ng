@@ -271,18 +271,15 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 
 	MDB_val key = { sizeof(key2), &key2 }, data;
 
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET) == MDB_SUCCESS)
+	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 	{
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
-		{
-			const DBEvent *dbe = (const DBEvent*)data.mv_data;
-			if (dbe->contactID != cc->contactID)
-				break;
-			if (!dbe->markedRead()) {
-				cc->dbc.dwFirstUnread = key2.dwEventId;
-				cc->dbc.tsFirstUnread = key2.ts;
-				return;
-			}
+		const DBEvent *dbe = (const DBEvent*)data.mv_data;
+		if (dbe->contactID != cc->contactID)
+			break;
+		if (!dbe->markedRead()) {
+			cc->dbc.dwFirstUnread = key2.dwEventId;
+			cc->dbc.tsFirstUnread = key2.ts;
+			return;
 		}
 	}
 

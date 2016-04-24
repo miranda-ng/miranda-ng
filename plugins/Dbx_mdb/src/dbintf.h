@@ -43,6 +43,7 @@ struct ModuleName
 
 #include <pshpack1.h>
 
+#define DBHEADER_VERSION 2
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
