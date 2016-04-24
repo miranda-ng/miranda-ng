@@ -90,8 +90,8 @@ void CDropbox::RequestAccountInfo(void *p)
 
 	JSONNode name = root.at("name");
 	if (!name.empty()) {
-		db_set_s(hContact, MODULE, "FirstName", name.at("given_name").as_string().c_str());
-		db_set_s(hContact, MODULE, "LastName", name.at("surname").as_string().c_str());
+		db_set_ts(hContact, MODULE, "FirstName", ptrT(mir_utf8decodeT(name.at("given_name").as_string().c_str())));
+		db_set_ts(hContact, MODULE, "LastName", ptrT(mir_utf8decodeT(name.at("surname").as_string().c_str())));
 	}
 
 	JSONNode country = root.at("country");
