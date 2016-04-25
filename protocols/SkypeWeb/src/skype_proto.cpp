@@ -26,7 +26,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 		m_bThreadsTerminated(0),
 		m_TrouterConnection(0),
 		m_pollingConnection(0),
-		m_opts(this)
+		m_opts(this),
+		Contacts(this)
 {
 	InitNetwork();
 
@@ -156,7 +157,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(li, CID(this, hContact)));
+	PushRequest(new AuthAcceptRequest(li, Contacts[hContact]));
 	return 0;
 }
 
@@ -166,7 +167,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(li, CID(this, hContact)));
+	PushRequest(new AuthDeclineRequest(li, Contacts[hContact]));
 	return 0;
 }
 
@@ -180,7 +181,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(li, CID(this, hContact), T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(li, Contacts[hContact], T2Utf(szMessage)));
 	return 0;
 }
 
@@ -188,7 +189,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
 	if (!isChatRoom(hContact))
 		PushRequest(
-			new GetProfileRequest(li, CID(this, hContact)),
+		new GetProfileRequest(li, Contacts[hContact]),
 			&CSkypeProto::LoadProfile);
 	return 0;
 }
@@ -265,7 +266,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(CID(this, hContact), type, li));
+	SendRequest(new SendTypingRequest(Contacts[hContact], type, li));
 	return 0;
 }
 

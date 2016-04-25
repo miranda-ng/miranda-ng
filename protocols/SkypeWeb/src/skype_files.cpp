@@ -27,7 +27,7 @@ void CSkypeProto::SendFileThread(void *p)
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
 	T2Utf uszFileName(fup->tszFileName);
-	SendRequest(new ASMObjectCreateRequest(li, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, ptrA(getStringA(fup->hContact, SKYPE_SETTINGS_ID))), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
+	SendRequest(new ASMObjectCreateRequest(li, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, Contacts[fup->hContact]), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
 }
 
 void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
@@ -92,7 +92,7 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 	xmlAddAttr(xml, L"uri", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s", _A2T(fup->uid)));
 	xmlAddAttr(xml, L"url_thumbnail", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s/views/thumbnail", _A2T(fup->uid)));
 
-	SendRequest(new SendMessageRequest(ptrA(getStringA(fup->hContact, SKYPE_SETTINGS_ID)), time(NULL), T2Utf(ptrT(xmlToString(xml, nullptr))), li, "RichText/Media_GenericFile"));
+	SendRequest(new SendMessageRequest(Contacts[fup->hContact], time(NULL), T2Utf(ptrT(xmlToString(xml, nullptr))), li, "RichText/Media_GenericFile"));
 	xmlDestroyNode(xml);
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 	delete fup;

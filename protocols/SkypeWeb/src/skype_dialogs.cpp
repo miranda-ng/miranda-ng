@@ -88,7 +88,7 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 			{
 				if (m_clc.GetCheck(hItem)) 
 				{
-					char *szName = db_get_sa(hContact, m_proto->m_szModuleName, SKYPE_SETTINGS_ID);
+					char *szName = mir_strdup(m_proto->Contacts[hContact]);
 					if (szName != NULL)
 						m_ContactsList.insert(szName);
 				}

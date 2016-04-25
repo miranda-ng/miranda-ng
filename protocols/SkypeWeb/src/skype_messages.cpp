@@ -270,7 +270,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	time_t timestamp = dbei.timestamp;
 
 	if(db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
-		PushRequest(new MarkMessageReadRequest(CID(this, hContact), timestamp, timestamp, false, li));
+		PushRequest(new MarkMessageReadRequest(Contacts[hContact], timestamp, timestamp, false, li));
 }
 
 

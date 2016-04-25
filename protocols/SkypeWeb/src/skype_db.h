@@ -63,13 +63,4 @@ struct CSkypeOptions
 
 };
 
-class CID
-{
-	ptrA m_value;
-public:
-	inline CID(PROTO_INTERFACE *ppro, const MCONTACT hContact) : m_value(ppro->getStringA(hContact, SKYPE_SETTINGS_ID)) {}
-	inline operator char *() { return m_value; }
-};
-
-
 #endif //_SKYPE_DB_H_

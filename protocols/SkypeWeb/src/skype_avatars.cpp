@@ -136,7 +136,7 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cb
 	pszDest[tPathLen++] = '\\';
 
 	const TCHAR* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
-	CMStringA username(ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)));
+	CMStringA username(Contacts[hContact]);
 	username.Replace("live:", "__live_");
 	username.Replace("facebook:", "__facebook_");
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), username.c_str(), szFileType);

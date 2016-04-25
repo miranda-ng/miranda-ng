@@ -182,8 +182,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			MCONTACT hContact = dlg.m_hContact;
 			if (hContact != NULL)
 			{
-				ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
-				SendRequest(new InviteUserToChatRequest(chat_id, username, "User", li));
+				SendRequest(new InviteUserToChatRequest(chat_id, Contacts[hContact], "User", li));
 			}
 
 			{ mir_cslock lck(m_InviteDialogsLock); m_InviteDialogs.remove(&dlg); }

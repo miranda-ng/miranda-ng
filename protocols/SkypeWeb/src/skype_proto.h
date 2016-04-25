@@ -89,7 +89,38 @@ private:
 
 	LoginInfo li;
 
-	
+	struct contacts_list
+	{
+		CSkypeProto *m_proto;
+		std::map<MCONTACT, char*> m_cache;
+
+		contacts_list(CSkypeProto *ppro) : m_proto(ppro)
+		{}
+
+		~contacts_list()
+		{
+			for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
+			{
+				mir_free(it->second);
+			}
+		}
+
+		const char* operator[](MCONTACT hContact)
+		{
+			try
+			{
+				return m_cache.at(hContact);
+			}
+			catch (std::out_of_range&)
+			{
+				char *id = m_proto->getStringA(hContact, SKYPE_SETTINGS_ID);
+				m_cache[hContact] = id;
+				return id;
+			}
+		}
+
+	} Contacts;
+
 
 	static UINT_PTR m_timer;
 

@@ -77,7 +77,7 @@ MCONTACT CSkypeProto::FindContact(const char *skypename)
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if (!mir_strcmpi(skypename, CID(this, hContact)))
+		if (!mir_strcmpi(skypename, Contacts[hContact]))
 			break;
 	}
 	return hContact;
@@ -299,8 +299,7 @@ INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(li, skypename));
+	PushRequest(new AddContactRequest(li, Contacts[hContact]));
 	return 0;
 }
 
@@ -309,8 +308,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthAcceptRequest(li, skypename));
+	PushRequest(new AuthAcceptRequest(li, Contacts[hContact]));
 	return 0;
 }
 
@@ -319,7 +317,7 @@ int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (hContact && !isChatRoom(hContact))
-		PushRequest(new DeleteContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
+		PushRequest(new DeleteContactRequest(li, Contacts[hContact]));
 	return 0;
 }
 
@@ -328,7 +326,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnBlockContact, (void *)hContact);
+		SendRequest(new BlockContactRequest(li, Contacts[hContact]), &CSkypeProto::OnBlockContact, (void *)hContact);
 	return 0;
 }
 
@@ -343,7 +341,7 @@ void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnUnblockContact, (void *)hContact);
+	SendRequest(new UnblockContactRequest(li, Contacts[hContact]), &CSkypeProto::OnUnblockContact, (void *)hContact);
 	return 0;
 }
 
