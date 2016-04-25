@@ -578,10 +578,14 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			idx = IDM_LINK0;
 			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
 				if (item = ListGetItemPtrFromIndex(i)) {
+					if (!item->bChatActive)
+						continue;
+
 					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 					pItem->pszDesc = item->jid;
 					pItem->uType = MENU_POPUPITEM;
-					if (++idx > IDM_LINK9) break;
+					if (++idx > IDM_LINK9)
+						break;
 				}
 
 			for (; idx <= IDM_LINK9; ++idx)
