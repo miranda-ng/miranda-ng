@@ -49,34 +49,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //you do not need to explicitly sort the list
 #define MS_CLUI_LISTENDREBUILD  "CLUI/ListEndRebuild"
 
-//Gets a load of capabilities for the loaded CLUI    v0.1.2.1+
-//wParam = capability, CLUICAPS_*
-//lParam = 0
-//returns the requested value, 0 if wParam is an unknown value
-//If this service is not implemented, it is assumed to return 0 to all input
-
-#define CLUICAPS_FLAGS1   0
-#define CLUIF_HIDEEMPTYGROUPS   1   //the clist has a checkbox in its options
-												//to set this, which will be hidden if this flag is not set. It is
-												//up to the CLUI to provide support for it, but it just seemed insane
-												//to me to have hide offline and hide empty in different pages.
-												//The setting is "CList"/"HideEmptyGroups", a byte. A complete list
-												//reload is sent whenever the user changes it.
-#define CLUIF_DISABLEGROUPS     2   //can show list without groups. Adds option
-												//to change "CList"/"UseGroups", a byte.
-#define CLUIF_HASONTOPOPTION    4   //the clui options page provides a way to
-												//change "CList"/"OnTop", a byte. When it is changed the clui should
-												//also set the topmost flag on the window using SetWindowPos().
-#define CLUIF_HASAUTOHIDEOPTION 8   //the clui options page provides a way to
-												//change the list auto hide options. It should read and write the
-												//byte "CList"/"AutoHide" and the word "CList"/"HideTime". No other
-												//action is needed.
-
-#define CLUICAPS_FLAGS2   1			//Returns info about extra icons
-												//HIWORD is the first extra icon number, LOWORD is the extra icons count
-
-#define MS_CLUI_GETCAPS         "CLUI/GetCaps"
-
 //a contact is being dragged outside the main window     v0.1.2.0+
 //wParam = (MCONTACT)hContact
 //lParam = MAKELPARAM(screenX, screenY)

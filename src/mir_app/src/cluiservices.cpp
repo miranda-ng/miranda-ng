@@ -85,23 +85,11 @@ static INT_PTR ListEndRebuild(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR GetCaps(WPARAM wParam, LPARAM)
-{
-	switch (wParam) {
-	case CLUICAPS_FLAGS1:
-		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
-	case CLUICAPS_FLAGS2:
-		return MAKELONG(EXTRA_ICON_COUNT,1);
-	}
-	return 0;
-}
-
 void LoadCluiServices(void)
 {
 	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
 	CreateServiceFunction(MS_CLUI_LISTBEGINREBUILD, ListBeginRebuild);
 	CreateServiceFunction(MS_CLUI_LISTENDREBUILD, ListEndRebuild);
-	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

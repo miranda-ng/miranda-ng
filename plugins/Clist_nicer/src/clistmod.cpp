@@ -24,16 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern int AddEvent(WPARAM wParam, LPARAM lParam);
-extern int RemoveEvent(WPARAM wParam, LPARAM lParam);
-
 int InitCustomMenus(void);
 void UninitCustomMenus(void);
-INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam);
-int EventsProcessContactDoubleClick(MCONTACT hContact);
-int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
-extern HIMAGELIST hCListImages;
+INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam);
 
 extern int       g_maxStatus;
 extern HANDLE    hSvc_GetContactStatusMsg;
@@ -91,23 +85,6 @@ int LoadContactListModule(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR GetCaps(WPARAM wParam, LPARAM)
-{
-	switch (wParam) {
-	case CLUICAPS_FLAGS1:
-		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
-	case CLUICAPS_FLAGS2:
-		return MAKELONG(EXTRA_ICON_COUNT, 1);
-	}
-	return 0;
-}
-
-int PreloadContactListModule(void)
-{
-	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);
-	return 0;
-}
 
 /*
 Begin of Hrk's code for bug

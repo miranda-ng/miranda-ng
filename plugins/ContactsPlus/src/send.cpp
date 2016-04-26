@@ -200,7 +200,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 	if (szProto == NULL)
 		return;
 
-	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
+	if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
 	else
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);

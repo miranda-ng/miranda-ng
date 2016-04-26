@@ -1132,14 +1132,8 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	if (hItem)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
-	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, FALSE, 0);
-	else
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, TRUE, 0);
-	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && M.GetByte("CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
-	else
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);
+	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, M.GetByte("CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendMessage(hwndClist, CLM_SETUSEGROUPS, M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)

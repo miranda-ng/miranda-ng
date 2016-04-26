@@ -67,46 +67,6 @@ const
   MS_CLUI_LISTENDREBUILD:PAnsiChar = 'CLUI/ListEndRebuild';
 
   {
-    wParam : CLUICAPS_*
-    lParam : 0
-    Affect : Gets a load of capabilites for the loaded CLUI, see notes
-    Returns: the requested value, 0 of wParam is unknown --
-             if this service is not implemented it is assumed all return
-             values will be 0.
-    Version: v0.1.2.1+
-  }
-{
-  CLUIF2_PLUGININFO       = 1; // returns pointer to plugininfo
-  CLUIF2_CLISTTYPE        = 2; // the genaration of list in chronologic
-                               // modern layered return 0x07 (assuming classic,
-                               // mw, meta, nicer1, modern1, nicer++, modernLayered)
-                               // +0x0100 for unicode
-  CLUIF2_EXTRACOLUMNCOUNT = 3; // return max number of extra icon available to
-                               // be set in main window
-  CLUIF2_USEREXTRASTART   = 4; // return index of first 'advanced' image except
-                               // Adv1 and Adv2
-}
-  // can only provide this flag to return the following set of caps, the strings
-  // show the database setting/type to store the list option, changing the value
-  // does not reflect what the change is, i.e. ontop can only be affected with
-  // a call to SetWindowPos()
-  CLUICAPS_FLAGS1         = 0;
-  // empty groups aren't shown, 'CList/HideEmptyGroups' (byte) [changes make the list reload]
-  CLUIF_HIDEEMPTYGROUPS   = 1;
-  // groups can be disabled, lists can be merged into one seamlessly, (byte) 'CList/UseGroups'
-  CLUIF_DISABLEGROUPS     = 2;
-  // list can be displayed 'on top' of all other windows, 4 (byte) 'CList/OnTop'
-  CLUIF_HASONTOPOPTION    = 4;
-  // can disappear after a while of inactive use,
-  // (byte) 'CList/AutoHide' (word) 'CList/HideTime'
-  CLUIF_HASAUTOHIDEOPTION = 8;
-
-  CLUICAPS_FLAGS2 = 1; // Returns info about extra icons
-                       // HIWORD is the first extra icon number, LOWORD is the extra icons count
-
-  MS_CLUI_GETCAPS:PAnsiChar = 'CLUI/GetCaps';
-
-  {
     wParam : TMCONTACT
     lParam : MAKELPARAM(screenX, screenY)
     Affect : A contact is being dragged outside the main window
@@ -135,10 +95,7 @@ const
   }
   ME_CLUI_CONTACTDRAGSTOP:PAnsiChar = 'CLUI/ContactDragStop';
 
-// return TRUE if Clist Module Support Metacontacts
+  // return TRUE if Clist Module Support Metacontacts
   ME_CLUI_METASUPPORT:PAnsiChar = 'CLUI/MetaContactSupport';
-
-// return pointer to PLUGININFO structure
-//  MS_CLIST_GETCLISTCAPS = 'CList/GetCaps';
 
 {$ENDIF}

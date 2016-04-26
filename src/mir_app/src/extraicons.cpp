@@ -46,9 +46,6 @@ LIST<BaseExtraIcon> registeredExtraIcons(10);
 BOOL clistRebuildAlreadyCalled = FALSE;
 BOOL clistApplyAlreadyCalled = FALSE;
 
-int clistFirstSlot = 0;
-int clistSlotCount = 0;
-
 // Functions ////////////////////////////////////////////////////////////////////////////
 
 int InitOptionsCallback(WPARAM wParam, LPARAM lParam);
@@ -62,7 +59,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int GetNumberOfSlots()
 {
-	return clistSlotCount;
+	return EXTRA_ICON_COUNT;
 }
 
 int ConvertToClistSlot(int slot)
@@ -70,7 +67,7 @@ int ConvertToClistSlot(int slot)
 	if (slot < 0)
 		return slot;
 
-	return clistFirstSlot + slot;
+	return slot+1;
 }
 
 int ExtraImage_ExtraIDToColumnNum(int extra)
@@ -508,10 +505,6 @@ static IconItem iconList[] =
 
 void LoadExtraIconsModule()
 {
-	DWORD ret = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS2, 0);
-	clistFirstSlot = HIWORD(ret);
-	clistSlotCount = LOWORD(ret);
-
 	// Services
 	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, svcExtraIcon_Add);
 

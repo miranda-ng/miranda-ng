@@ -176,7 +176,7 @@ int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 	if ((ack == NULL) || (ack->type != ACKTYPE_STATUS)) return 0;
 
 	WORD wNewStatus = (WORD)ack->lParam;
-	WORD wOldStatus = (WORD)ack->hProcess;
+	WORD wOldStatus = (UINT_PTR)ack->hProcess;
 	if (wOldStatus == wNewStatus) return 0; //Useless message.
 
 	char *szProtocol = (char *)ack->szModule;
@@ -714,10 +714,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 void CTooltipNotify::ResetCList(HWND hwndDlg)
 {
-	BOOL b = (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS &&
-		db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM)b, 0);
-
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 

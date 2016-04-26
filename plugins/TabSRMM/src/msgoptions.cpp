@@ -840,7 +840,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static void ResetCList(HWND hwndDlg)
 {
-	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+	if (!M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
 	else
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);

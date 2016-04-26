@@ -31,7 +31,6 @@ extern ImageItem *g_glyphItem;
 
 extern int hClcProtoCount;
 
-extern HIMAGELIST hCListImages;
 static BYTE divide3[765] = { 255 };
 extern char *im_clients[];
 extern HICON im_clienthIcons[];

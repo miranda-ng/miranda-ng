@@ -42,8 +42,6 @@ static int transparentFocus = 1;
 static byte oldhideoffline;
 static int disableautoupd = 1;
 HANDLE hFrameContactTree;
-extern HIMAGELIST hCListImages;
-extern PLUGININFOEX pluginInfo;
 extern RECT old_window_rect, new_window_rect;
 
 extern BOOL g_trayTooltipActive;
@@ -67,7 +65,6 @@ TCHAR *statusNames[12];
 extern LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern HANDLE hNotifyFrame;
 
-int SortList(WPARAM wParam, LPARAM lParam);
 int LoadCluiServices(void);
 void InitGroupMenus();
 void FS_RegisterFonts();

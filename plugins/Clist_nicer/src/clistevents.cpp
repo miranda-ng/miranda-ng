@@ -41,7 +41,6 @@ struct CListImlIcon
 };
 
 static int iconsOn;
-extern HIMAGELIST hCListImages;
 
 HANDLE hNotifyFrame = (HANDLE)-1;
 

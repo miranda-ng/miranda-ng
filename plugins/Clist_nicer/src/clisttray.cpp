@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TRAYICON_ID_BASE 100
 
-extern HIMAGELIST hCListImages;
-
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
 #define NIF_STATE		0x00000008
 #define NIF_INFO		0x00000010

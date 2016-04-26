@@ -25,9 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "cluiframes.h"
 
-extern HIMAGELIST hCListImages;
 extern ButtonItem *g_ButtonItems;
-extern PLUGININFOEX pluginInfo;
 
 static INT_PTR GetClistVersion(WPARAM, LPARAM lParam)
 {
