@@ -175,8 +175,8 @@ void HTMLBuilder::setLastEventTime(DWORD t)
 
 bool HTMLBuilder::isSameDate(time_t time1, time_t time2)
 {
-	tm *tm_t1 = localtime(&time1), *tm_t2 = localtime(&time2);
-	return tm_t1->tm_year == tm_t2->tm_year && tm_t1->tm_mon == tm_t2->tm_mon && tm_t1->tm_mday == tm_t2->tm_mday;
+	tm tm_t1 = *localtime(&time1), tm_t2 = *localtime(&time2);
+	return tm_t1.tm_year == tm_t2.tm_year && tm_t1.tm_mon == tm_t2.tm_mon && tm_t1.tm_mday == tm_t2.tm_mday;
 
 }
 
