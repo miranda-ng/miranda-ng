@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.13.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -89,8 +89,6 @@
 Передать
 [Messages]
 Сообщения
-[Receive messages from "inbox" folder only]
-Принимать сообщения только из папки "входящие"
 [Keep messages as unread on server (don't send "seen" info)]
 Не помечать сообщения на сервере как прочитанные
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -109,6 +107,12 @@
 Подгружать последние сообщения при открытии окна (Экспериментально)
 [Number of messages to load:]
 Количество подгружаемых сообщений:
+[Facebook Login Approval]
+Подтверждение входа в Facebook
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+Для доступа к вашей учётной записи из незнакомого браузера требуется ввести проверочный код.\n\nВы можете получить его через мобильное приложение Facebook или нажать расположенную ниже кнопку, чтобы получить SMS с кодом.
+[Send SMS]
+Отправить SMS
 [Enter the text you see]
 Введите текст, который видите
 [Myself]
@@ -131,8 +135,10 @@
 Неизвестная ошибка
 [Login error: Invalid request.]
 Ошибка входа: Неверный запрос.
-[Login error: Some Facebook things are required.]
-Ошибка входа: Требуются дополнительные вещи от Facebook
+[You entered too many invalid verification codes. Plugin will disconnect.]
+Вы слишком часто вводили неверный код. Протокол отключается.
+[You entered wrong verification code. Try it again.]
+Введён неверный код. Попробуйте ещё раз.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Ошибка входа: Ваша учётная запись заблокирована. Требуется пройти подтверждение в браузере.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
@@ -155,6 +161,10 @@
 Таймаут отправки сообщения.
 [Status update was successful.]
 Успешное обновление статуса.
+[Error occurred when requesting verification SMS code.]
+Произошла ошибка при запросе SMS с кодом подтверждения.
+[Verification SMS code was sent to your mobile phone.]
+SMS с кодом подтверждения отправлено на ваш мобильный телефон.
 [Please enter a username.]
 Пожалуйста, введите имя пользователя.
 [Please enter a password.]

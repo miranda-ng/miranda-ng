@@ -13,8 +13,8 @@
 Показывать значок "Разрешить"
 [Plugin settings]
 Настройки
-[Enable menu item (restart required)]
-Добавить пункт меню (нужен перезапуск)
+[Enable menu item]
+Добавить пункт меню
 [Show icons only for recently added contacts]
 Значки только для недавно добавленных
 [Request]

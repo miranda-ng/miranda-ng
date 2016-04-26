@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -233,6 +233,8 @@ Cоздать комнату чата
 Превышено ограничение на число публикаций в сутки
 [Enter confirmation code]
 Введите код подтверждения
+[Enter new nickname]
+Введите новое имя
 [Message read: %s]
 Сообщение прочтено в: %s
 [has invited you to a group]
@@ -341,6 +343,8 @@ Cоздать комнату чата
 &Удалить комнату чата
 [&User details]
 Информация о &контакте
+[Change nick]
+Изменить имя
 [&Kick]
 &Выкинуть
 [%s is typing a message...]

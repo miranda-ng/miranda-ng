@@ -103,8 +103,16 @@ Cтатус-профиль
 с
 [Set window location]
 Положение окна
+[Left]
+Слева
+[Top]
+Сверху
 [Set window size]
 Размер окна
+[Width]
+Ширина
+[Height]
+Высота
 [Allow override]
 Изменять
 [Note: status profiles can be created in the 'Status profiles' options screen]

@@ -11,8 +11,6 @@
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 Были найдены обновлённые версии плагинов Miranda NG. Нажмите на кнопку "Детали" для подробной информации.
-[Platform]
-Разрядность
 [Update]
 Обновить
 [Details >>]
@@ -49,6 +47,8 @@
 Версия в разработке c отладочными символами
 [Custom version]
 Заданная пользователем версия
+[Platform]
+Разрядность
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]

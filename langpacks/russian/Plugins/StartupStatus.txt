@@ -9,10 +9,6 @@
 Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
 [Check connection]
 Проверять наличие соединения
-[Top]
-Сверху
-[Left]
-Слева
 [Max. retries]
 Макс. попыток
 [Account connection]
@@ -107,8 +103,16 @@ Cтатус-профиль
 с
 [Set window location]
 Положение окна
+[Left]
+Слева
+[Top]
+Сверху
 [Set window size]
 Размер окна
+[Width]
+Ширина
+[Height]
+Высота
 [Allow override]
 Изменять
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -257,8 +261,6 @@ Cтатус-профиль
 <текущий>
 [<unknown>]
 <неизвестно>
-[Left]
-Слева
 [Right]
 Справа
 [None]
