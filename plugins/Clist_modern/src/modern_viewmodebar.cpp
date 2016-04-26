@@ -1216,8 +1216,6 @@ void CreateViewModeFrame()
 	ApplyViewMode(NULL); //Apply last selected view mode
 }
 
-const char *MakeVariablesString(const char *src, const char *UIN);
-
 void ApplyViewMode(const char *Name, bool onlySelector)
 {
 	char szSetting[256];

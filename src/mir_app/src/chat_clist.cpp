@@ -35,10 +35,8 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 		MGROUP hGroup = Clist_GroupExists(pszGroup);
 		if (hGroup == 0) {
 			hGroup = Clist_GroupCreate(0, pszGroup);
-			if (hGroup) {
-				CallService(MS_CLUI_GROUPADDED, (WPARAM)hGroup, 0);
+			if (hGroup)
 				Clist_GroupSetExpanded(hGroup, 1);
-			}
 		}
 	}
 

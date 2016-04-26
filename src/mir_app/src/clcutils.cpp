@@ -717,7 +717,6 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 {
 	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-
 	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->exStyle = db_get_dw(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
 	dat->scrollTime = db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);

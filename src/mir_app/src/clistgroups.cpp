@@ -132,7 +132,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
 	arByIds.insert(pNew);
 	arByName.insert(pNew);
 
-	CallService(MS_CLUI_GROUPADDED, newId + 1, 1);
+	Clist_GroupAdded(newId + 1);
 
 	CLISTGROUPCHANGE grpChg = { sizeof(grpChg), NULL, newName };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);

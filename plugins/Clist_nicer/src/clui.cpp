@@ -66,6 +66,7 @@ extern LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 extern HANDLE hNotifyFrame;
 
 int LoadCluiServices(void);
+void MF_InitCheck(void);
 void InitGroupMenus();
 void FS_RegisterFonts();
 void LoadExtraIconModule();
@@ -1951,6 +1952,8 @@ void LoadCLUIModule(void)
 			TranslateT("Warning"), MB_OK | MB_ICONWARNING);
 		db_unset(NULL, "CLUI", "FloaterMode");
 	}
+	
+	MF_InitCheck();
 }
 
 void OnCreateClc()

@@ -124,31 +124,14 @@ void MF_UpdateThread(LPVOID)
 	CloseHandle(hEvent);
 }
 
-void LoadContactTree(void)
+void MF_InitCheck(void)
 {
-	int i, status, hideOffline;
 	BYTE bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
-
-	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
-	for (i = 1;; i++) {
-		if (Clist_GroupGetName(i, NULL) == NULL)
-			break;
-		CallService(MS_CLUI_GROUPADDED, i, 0);
-	}
-
-	hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		status = GetContactStatus(hContact);
-		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
-			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL));
-
-		// build initial data for message frequency
-		if (!bMsgFrequency)
+	if (!bMsgFrequency) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			MF_CalcFrequency(hContact, 100, 0);
+		cfg::writeByte("CList", "fhistdata", 1);
 	}
-	cfg::writeByte("CList", "fhistdata", 1);
-	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
 DWORD INTSORT_GetLastMsgTime(MCONTACT hContact)
@@ -281,6 +264,6 @@ int SetHideOffline(WPARAM wParam, LPARAM)
 	}
 	SetButtonStates();
 	ClcSetButtonState(IDC_TBHIDEOFFLINE, newVal);
-	LoadContactTree();
+	pcli->pfnLoadContactTree();
 	return 0;
 }

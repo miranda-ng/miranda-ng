@@ -354,6 +354,13 @@ EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
 EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const TCHAR *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// a new group was created. Add it to the list
+// this is also called when the contact list is being rebuilt
+// new groups are always created with the name "New Group"
+
+EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // deletes a group and calls CLUI to display the change
 // returns 0 on success, nonzero on failure
 
@@ -411,6 +418,11 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefo
 EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// end a rebuild of the contact list
+
+EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // changes the 'hide offline contacts' flag and call CLUI
 // wParam = newValue
 // lParam = 0
@@ -450,6 +462,29 @@ EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 // returns +1 if hContact2 should be displayed after hContact1
 // returns -1 if hContact1 should be displayed after hContact2
 #define MS_CLIST_CONTACTSCOMPARE      "CList/ContactsCompare"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// DRAG-N-DROP SUPPORT
+/////////////////////////////////////////////////////////////////////////////////////////
+// a contact is being dragged outside the main window
+// wParam = (MCONTACT)hContact
+// lParam = MAKELPARAM(screenX, screenY)
+// return nonzero to make the cursor a 'can drop here', or zero for 'no'
+#define ME_CLUI_CONTACTDRAGGING     "CLUI/ContactDragging"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// a contact has just been dropped outside the main window
+// wParam = (MCONTACT)hContact
+// lParam = MAKELPARAM(screenX, screenY)
+// return nonzero if your hook processed this, so no other hooks get it
+#define ME_CLUI_CONTACTDROPPED      "CLUI/ContactDropped"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// a contact that was being dragged outside the main window has gone back in to the main window.
+// wParam = (MCONTACT)hContact
+// lParam = 0
+// always returns zero
+#define ME_CLUI_CONTACTDRAGSTOP     "CLUI/ContactDragStop"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // wParam = 0 (not used)

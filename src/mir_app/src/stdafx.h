@@ -64,7 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_database.h>
 #include <m_db_int.h>
 #include <m_clc.h>
-#include <m_clui.h>
 #include <m_crypto.h>
 #include <m_langpack.h>
 #include <m_clist.h>

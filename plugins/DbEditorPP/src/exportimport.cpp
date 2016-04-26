@@ -361,7 +361,6 @@ void importSettings(MCONTACT hContact, char *utf8)
 						continue;
 
 					MGROUP GroupHandle = Clist_GroupCreate(0, GroupName);
-					CallService(MS_CLUI_GROUPADDED, GroupHandle, 0);
 					Clist_GroupSetExpanded(GroupHandle, true);
 				}
 

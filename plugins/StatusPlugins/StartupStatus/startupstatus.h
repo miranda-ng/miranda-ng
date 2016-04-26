@@ -23,7 +23,6 @@
 #include <wininet.h>
 #include <shlobj.h>
 #include <m_options.h>
-#include <m_clui.h>
 #include <m_toptoolbar.h>
 #include "version.h"
 

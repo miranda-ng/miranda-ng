@@ -198,7 +198,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnGetRowTotalHeight = RowHeight::getTotalHeight;
 	pcli->pfnGetWindowVisibleState = GetWindowVisibleState;
 	pcli->pfnHitTest = HitTest;
-	pcli->pfnLoadContactTree = LoadContactTree;
 	pcli->pfnOnCreateClc = OnCreateClc;
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnRebuildEntireList = RebuildEntireList;

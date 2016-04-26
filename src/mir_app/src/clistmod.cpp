@@ -34,7 +34,6 @@ int ContactAdded(WPARAM wParam, LPARAM lParam);
 INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam);
 INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
-void LoadCluiServices();
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 int LoadCLUIModule(void);
 int InitClistHotKeys(void);
@@ -426,8 +425,6 @@ int LoadContactListModule2(void)
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
-
-	LoadCluiServices();
 
 	CreateServiceFunction(MS_CLIST_CONTACTDOUBLECLICKED, ContactDoubleClicked);
 	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);

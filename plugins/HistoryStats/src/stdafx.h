@@ -39,7 +39,6 @@
 #include <m_chat.h>        // not used
 #include <m_clc.h>
 #include <m_clist.h>
-#include <m_clui.h>        // not used
 #include <m_contacts.h>
 #include <m_database.h>
 #include <m_email.h>       // not used

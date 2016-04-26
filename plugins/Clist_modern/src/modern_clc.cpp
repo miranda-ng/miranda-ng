@@ -53,13 +53,6 @@ static ClcContact *hitcontact = NULL;
 HANDLE hSkinFolder;
 TCHAR SkinsFolder[MAX_PATH];
 
-static int clcHookSmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
-static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam);
-static int clcHookBkgndConfigChanged(WPARAM wParam, LPARAM lParam);
-static int clcProceedDragToScroll(HWND hwnd, int Y);
-static int clcExitDragToScroll();
-
-
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
@@ -205,18 +198,15 @@ static int clcExitDragToScroll()
 
 static int clcProceedDragToScroll(HWND hwnd, int Y)
 {
-	int pos, dy;
 	if (!IsDragToScrollMode) return 0;
 	if (GetCapture() != hwnd) clcExitDragToScroll();
-	dy = StartDragPos - Y;
-	pos = StartScrollPos + dy;
+	int dy = StartDragPos - Y;
+	int pos = StartScrollPos + dy;
 	if (pos < 0)
 		pos = 0;
 	SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_THUMBTRACK, pos), 0);
 	return 1;
 }
-
-
 
 static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR *text, int prefixOk, BOOL fSearchUp)
 {
@@ -418,6 +408,7 @@ static LRESULT clcOnChar(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	}
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
+
 static LRESULT clcOnPaint(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (IsWindowVisible(hwnd)) {
@@ -638,14 +629,14 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_INVALIDATE:
-	{
-		time_t cur_time = (time(NULL) / 60);
-		if (cur_time != dat->last_tick_time) {
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
-			dat->last_tick_time = cur_time;
+		{
+			time_t cur_time = (time(NULL) / 60);
+			if (cur_time != dat->last_tick_time) {
+				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+				dat->last_tick_time = cur_time;
+			}
 		}
-	}
-	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_SUBEXPAND:
 		KillTimer(hwnd, TIMERID_SUBEXPAND);
@@ -690,7 +681,6 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	}
 }
-
 
 static LRESULT clcOnActivate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -751,6 +741,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 	int hit = cliHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, &group, &hitFlags);
 	if (GetFocus() != hwnd)
 		SetFocus(hwnd);
+
 	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE)) {
 		if (hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
 			if (!(dat->dragStage & DRAGSTAGEF_SKIPRENAME)) {
@@ -1600,8 +1591,8 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		MessageBox(NULL,
-		TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download"),
-		TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
+			TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download"),
+			TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
 
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
 
@@ -1802,8 +1793,7 @@ int ClcEnterDragToScroll(HWND hwnd, int Y)
 */
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
-#define CASE_MSG_RET(msg, handler) case msg: return handler(dat, hwnd, msg, wParam, lParam);
+	#define CASE_MSG_RET(msg, handler) case msg: return handler(dat, hwnd, msg, wParam, lParam);
 
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 

@@ -39,7 +39,6 @@
 #include <m_contacts.h>
 #include <m_options.h>
 #include <m_icolib.h>
-#include <m_clui.h>
 #include <m_clc.h>
 #include <m_string.h>
 #include <m_metacontacts.h>

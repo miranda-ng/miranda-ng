@@ -68,13 +68,10 @@ void setSrmmIcon(MCONTACT h)
 		Srmm_ModifyIcon(hMC, &sid);
 }
 
-
 void RefreshContactListIcons() 
 {
-	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setClistIcon(hContact);
 
-	CallService(MS_CLUI_LISTENDREBUILD,0,0);
+	Clist_EndRebuild();
 }

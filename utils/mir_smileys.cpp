@@ -24,7 +24,6 @@ Boston, MA 02111-1307, USA.
 #include <m_smileyadd.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
-#include <m_clui.h>
 #include <m_database.h>
 #include <commctrl.h>
 #include <m_skin_eng.h>

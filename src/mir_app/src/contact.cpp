@@ -37,20 +37,13 @@ static int GetContactStatus(MCONTACT hContact)
 
 void fnLoadContactTree(void)
 {
-	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
-	for (int i = 1;; i++) {
-		if (Clist_GroupGetName(i, NULL) == NULL)
-			break;
-		CallService(MS_CLUI_GROUPADDED, i, 0);
-	}
-
 	int hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));
 	}
-	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
+	Clist_EndRebuild();
 }
 
 INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)

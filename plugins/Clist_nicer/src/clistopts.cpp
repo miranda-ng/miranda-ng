@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void LoadContactTree(void);
-void SortContacts(void);
-
 static int opt_gen_opts_changed = 0;
 
 static void __setFlag(DWORD dwFlag, int iMode)
@@ -179,7 +176,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				HideShowNotifyFrame();
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-				LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
+				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
 				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 

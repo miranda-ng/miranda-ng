@@ -66,7 +66,6 @@ extern "C" {
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_ignore.h>
-#include <m_clui.h>
 #include <m_clc.h>
 #include <m_utils.h>
 #include <m_idle.h>

@@ -40,14 +40,8 @@ void cliCluiProtocolStatusChanged(int, const char * proto)
 		pcli->pfnTrayIconUpdateBase(proto);
 }
 
-static INT_PTR MetaSupportCheck(WPARAM, LPARAM)
-{
-	return 1;
-}
-
 int CLUIServices_LoadModule(void)
 {
-	CreateServiceFunction(MS_CLUI_METASUPPORT, MetaSupportCheck);
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, CListTray_GetGlobalStatus);
 	return 0;
 }

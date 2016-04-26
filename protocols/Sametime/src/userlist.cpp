@@ -49,7 +49,6 @@ void CSametimeProto::AddGroup(const char* name, bool expanded)
 		return;
 
 	MGROUP hGroup = Clist_GroupCreate(NULL, ptrT(mir_utf8decodeT(name)));
-	CallService(MS_CLUI_GROUPADDED, hGroup, 0);
 	Clist_GroupSetExpanded(hGroup, expanded);
 }
 

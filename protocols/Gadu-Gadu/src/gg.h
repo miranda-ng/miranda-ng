@@ -59,7 +59,6 @@
 #include <m_clist.h>
 #include <m_options.h>
 #include <m_userinfo.h>
-#include <m_clui.h>
 #include <m_button.h>
 #include <m_message.h>
 #include <m_icolib.h>

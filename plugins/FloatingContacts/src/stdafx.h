@@ -15,7 +15,6 @@
 #include <m_protosvc.h>
 #include <m_database.h>
 #include <m_message.h>
-#include <m_clui.h>
 #include <m_options.h>
 #include <m_clist.h>
 #include <m_hotkeys.h>

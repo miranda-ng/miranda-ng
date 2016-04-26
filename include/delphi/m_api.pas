@@ -197,7 +197,6 @@ var
   {$include m_chat.inc}
   {$include m_clc.inc}
   {$include m_clistint.inc}
-  {$include m_clui.inc}
   {$include m_cluiframes.inc}
   {$include m_contacts.inc}
   {$include m_crypto.inc}

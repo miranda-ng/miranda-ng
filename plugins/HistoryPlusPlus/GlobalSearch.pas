@@ -530,11 +530,9 @@ begin
     else
     begin
       li.Caption := LastAddedContact.Name;
-      // li.Caption := CurContactName;
       Inc(ContactsFound);
     end;
-    li.ImageIndex := CallService(MS_CLIST_GETCONTACTICON, CurContact, 0);
-    // meTest.Lines.Add(CurContactName+' icon is '+IntToStr(CallService(MS_CLIST_GETCONTACTICON,CurContact,0)));
+    li.ImageIndex := cli^.pfnGetContactIcon(CurContact);
     li.Data := Pointer(CurContact);
   end;
 
