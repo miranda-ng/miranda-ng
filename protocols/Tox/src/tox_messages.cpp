@@ -58,7 +58,7 @@ void CToxProto::SendMessageAsync(void *arg)
 	}
 
 	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
-	int messageNumber = tox_friend_send_message(toxThread->tox, friendNumber, type, msg, msgLen, &sendError);
+	int messageNumber = tox_friend_send_message(toxThread->Tox(), friendNumber, type, msg, msgLen, &sendError);
 	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
 	{
 		logger->Log(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
@@ -139,7 +139,7 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 	}
 
 	TOX_ERR_FRIEND_QUERY error;
-	size_t size = tox_friend_get_status_message_size(toxThread->tox, friendNumber, &error);
+	size_t size = tox_friend_get_status_message_size(toxThread->Tox(), friendNumber, &error);
 	if (error != TOX_ERR_FRIEND_QUERY::TOX_ERR_FRIEND_QUERY_OK)
 	{
 		logger->Log(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
@@ -148,7 +148,7 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 	}
 
 	ptrA statusMessage((char*)mir_calloc(size + 1));
-	if (!tox_friend_get_status_message(toxThread->tox, friendNumber, (uint8_t*)(char*)statusMessage, &error))
+	if (!tox_friend_get_status_message(toxThread->Tox(), friendNumber, (uint8_t*)(char*)statusMessage, &error))
 	{
 		logger->Log(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
@@ -167,7 +167,7 @@ int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
 		return 0;
 
 	TOX_ERR_SET_TYPING error;
-	if (!tox_self_set_typing(toxThread->tox, friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
+	if (!tox_self_set_typing(toxThread->Tox(), friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
 		logger->Log(__FUNCTION__": failed to send typing (%d)", error);
 
 	return 0;

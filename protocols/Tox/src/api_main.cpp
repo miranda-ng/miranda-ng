@@ -7,6 +7,11 @@ struct Tox_Options *tox_options_new(TOX_ERR_OPTIONS_NEW *error)
 	return CreateFunction<struct Tox_Options*(*)(TOX_ERR_OPTIONS_NEW*)>(__FUNCTION__)(error);
 }
 
+void tox_options_default(struct Tox_Options *options)
+{
+	CreateFunction<void(*)(struct Tox_Options*)>(__FUNCTION__)(options);
+}
+
 void tox_options_free(struct Tox_Options *options)
 {
 	CreateFunction<void(*)(struct Tox_Options*)>(__FUNCTION__)(options);

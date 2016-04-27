@@ -46,18 +46,18 @@ MCONTACT CToxProto::AddChatRoom(int groupNumber)
 
 void CToxProto::LoadChatRoomList(void*)
 {
-	uint32_t count = tox_count_chatlist(toxThread->tox);
+	uint32_t count = tox_count_chatlist(toxThread->Tox());
 	if (count == 0)
 	{
 		logger->Log("CToxProto::LoadGroupChatList: your group chat list is empty");
 		return;
 	}
 	int32_t *groupChats = (int32_t*)mir_alloc(count * sizeof(int32_t));
-	tox_get_chatlist(toxThread->tox, groupChats, count);
+	tox_get_chatlist(toxThread->Tox(), groupChats, count);
 	for (uint32_t i = 0; i < count; i++)
 	{
 		int32_t groupNumber = groupChats[i];
-		int type = tox_group_get_type(toxThread->tox, groupNumber);
+		int type = tox_group_get_type(toxThread->Tox(), groupNumber);
 		if (type == TOX_GROUPCHAT_TYPE_AV)
 		{
 			continue;
@@ -66,7 +66,7 @@ void CToxProto::LoadChatRoomList(void*)
 		if (hContact)
 		{
 			uint8_t title[TOX_MAX_NAME_LENGTH] = { 0 };
-			tox_group_get_title(toxThread->tox, groupNumber, title, TOX_MAX_NAME_LENGTH);
+			tox_group_get_title(toxThread->Tox(), groupNumber, title, TOX_MAX_NAME_LENGTH);
 			setWString(hContact, "Nick", ptrT(mir_utf8decodeT((char*)title)));
 		}
 	}
@@ -110,7 +110,7 @@ INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 		CToxProto::ChatRoomInviteProc,
 		(LPARAM)&param) == IDOK && !param.invitedContacts.empty())
 	{
-		int groupNumber = tox_add_groupchat(toxThread->tox);
+		int groupNumber = tox_add_groupchat(toxThread->Tox());
 		if (groupNumber == TOX_ERROR)
 		{
 			return 1;
@@ -118,7 +118,7 @@ INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 		for (std::vector<MCONTACT>::iterator it = param.invitedContacts.begin(); it != param.invitedContacts.end(); ++it)
 		{
 			int32_t friendNumber = GetToxFriendNumber(*it);
-			if (friendNumber == TOX_ERROR || tox_invite_friend(toxThread->tox, friendNumber, groupNumber) == TOX_ERROR)
+			if (friendNumber == TOX_ERROR || tox_invite_friend(toxThread->Tox(), friendNumber, groupNumber) == TOX_ERROR)
 			{
 				return 1;
 			}

@@ -104,9 +104,9 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 	if (!toxThread)
 		return;
 
-	size_t size = tox_get_savedata_size(toxThread->tox);
+	size_t size = tox_get_savedata_size(toxThread->Tox());
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
-	tox_get_savedata(toxThread->tox, data);
+	tox_get_savedata(toxThread->Tox(), data);
 
 	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
 	if (password && mir_strlen(password))

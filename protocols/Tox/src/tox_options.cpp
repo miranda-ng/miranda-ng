@@ -62,7 +62,10 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
-	CToxThread toxThread;
+	Tox_Options *options;
+	tox_options_default(options);
+	CToxThread toxThread(options);
+	tox_options_free(options);
 
 	ptrT profilePath(m_proto->GetToxProfilePath());
 	if (!m_proto->IsFileExists(profilePath))
