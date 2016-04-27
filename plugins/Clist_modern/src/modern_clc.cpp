@@ -273,9 +273,8 @@ static BOOL clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 	if (g_CluiData.bFilterEffective) return FALSE;
 
 	if (!contact) return FALSE;
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
-	if (!pdnce) return FALSE;
-	if (pdnce->m_bNoHiddenOffline) return TRUE;
+
+	if (contact->pce->m_bNoHiddenOffline) return TRUE;
 
 	if (!group) return FALSE;
 	if (group->hideOffline) return FALSE;

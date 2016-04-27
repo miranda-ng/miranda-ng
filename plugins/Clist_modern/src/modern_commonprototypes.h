@@ -117,7 +117,7 @@ int     ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
 int     ModernSkinButtonUnloadModule(WPARAM, LPARAM);
 
 /* RowHeight */
-int     RowHeight_CalcRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
+int     RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item);
 
 /* SkinEngine */
 BOOL    ske_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BLENDFUNCTION blendFunction);

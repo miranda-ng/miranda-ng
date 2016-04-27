@@ -319,10 +319,6 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 		hContact = db_find_first();
 
 	for (; hContact; hContact = db_find_next(hContact)) {
-		ClcCacheEntry* pdnce = (ClcCacheEntry*)cli.pfnGetCacheEntry(hContact);
-		if (pdnce == NULL)
-			continue;
-
 		NotifyEventHooks(hEventExtraImageApplying, hContact, 0);
 		if (hcontgiven)
 			break;

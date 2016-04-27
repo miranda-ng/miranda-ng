@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
-	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(cont->hContact);
 	cont->SubExpanded = (db_get_b(cont->hContact, "CList", "Expanded", 0) && (db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT)));
 	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
@@ -48,7 +47,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	int bHideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
-		cacheEntry = pcli->pfnGetCacheEntry(hsub);
+		ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = cacheEntry->getStatus();
 
 		if (!showOfflineHereGroup && bHideOffline && !cacheEntry->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
@@ -149,7 +148,11 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	if (!cont)
 		return;
 
+	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
+	char *szProto = cacheEntry->m_pszProto;
+
 	cont->type = CLCIT_CONTACT;
+	cont->pce = cacheEntry;
 	cont->SubAllocated = 0;
 	cont->isSubcontact = 0;
 	cont->subcontacts = NULL;
@@ -157,12 +160,9 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->lastPaintCounter = 0;
 	cont->image_is_special = FALSE;
 	cont->hContact = hContact;
+	cont->proto = szProto;
 
 	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-
-	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
-	char *szProto = cacheEntry->m_pszProto;
-	cont->proto = szProto;
 
 	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, cacheEntry->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
@@ -201,21 +201,20 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->bContactRate = db_get_b(hContact, "CList", "Rate", 0);
 }
 
-static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, ClcCacheEntry *cacheEntry)
+static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
-	if (cacheEntry == NULL || group == NULL || dat == NULL)
+	if (group == NULL || dat == NULL)
 		return NULL;
 	
-	MCONTACT hContact = cacheEntry->hContact;
 	dat->needsResort = 1;
 	int i;
 	for (i = group->cl.count - 1; i >= 0; i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
 			break;
+
 	i = cli_AddItemToGroup(group, i + 1);
 
 	_LoadDataToContact(group->cl.items[i], group, dat, hContact);
-	cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	ClearRowByIndexCache();
 	return group->cl.items[i];
 }
@@ -341,12 +340,12 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (cacheEntry->m_pszProto == NULL) {
 						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
-							cont = AddContactToGroup(dat, group, cacheEntry);
+							cont = AddContactToGroup(dat, group, hContact);
 					}
 					else if (!pcli->pfnIsHiddenMode(dat, cacheEntry->m_iStatus) || cacheEntry->m_bNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
-						cont = AddContactToGroup(dat, group, cacheEntry);
+						cont = AddContactToGroup(dat, group, hContact);
 				}
-				else cont = AddContactToGroup(dat, group, cacheEntry);
+				else cont = AddContactToGroup(dat, group, hContact);
 			}
 		}
 		if (cont) {

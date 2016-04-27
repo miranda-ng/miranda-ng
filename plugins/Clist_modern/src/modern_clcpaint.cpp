@@ -152,10 +152,6 @@ HFONT CLCPaint::ChangeToFont(HDC hdc, ClcData *dat, int id, int *fontHeight)
 
 int CLCPaint::GetBasicFontID(ClcContact *contact)
 {
-	ClcCacheEntry *pdnce = NULL;
-	if (contact->type == CLCIT_CONTACT)
-		pdnce = pcli->pfnGetCacheEntry(contact->hContact);
-
 	switch (contact->type) {
 	case CLCIT_GROUP:
 		return (contact->group->expanded) ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS;
@@ -177,7 +173,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 			return (contact->flags & CONTACTF_ONLINE) ? FONTID_INVIS : FONTID_OFFINVIS;
 		}
 
-		switch (pdnce->getStatus()) {
+		switch (contact->pce->getStatus()) {
 		case ID_STATUS_OFFLINE: return FONTID_OFFLINE;
 		case ID_STATUS_AWAY: return FONTID_AWAY;
 		case ID_STATUS_DND: return FONTID_DND;
@@ -657,7 +653,7 @@ void CLCPaint::_RTLRect(RECT *rect, int width)
 	rect->right = right;//-offset;
 }
 
-void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack)
+void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack)
 {
 	int i = 0;
 	int dx = free_row_rc.left;
@@ -668,13 +664,10 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 	int minheight = dat->row_min_heigh;
 	int mode2 = -1;
 	BOOL InClistWindow = (dat->hWnd == pcli->hwndContactTree);
-	ClcCacheEntry *pdnce = NULL;
-	int height = RowHeight_CalcRowHeight(dat, hwnd, Drawing, -1);
+	int height = RowHeight_CalcRowHeight(dat, Drawing, -1);
+	ClcCacheEntry *pdnce = Drawing->pce;
 
 	// TO DO DEPRECATE OLD ROW LAYOUT
-
-	if (Drawing->type == CLCIT_CONTACT)
-		pdnce = pcli->pfnGetCacheEntry(Drawing->hContact);
 
 	if (Drawing->type == CLCIT_GROUP  &&
 		Drawing->group->parent->groupId == 0 &&
@@ -1686,7 +1679,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 				if (!gl_RowRoot)
 					RowHeights_GetRowHeight(dat, hWnd, Drawing, line_num);
 				else
-					RowHeight_CalcRowHeight(dat, hWnd, Drawing, line_num);
+					RowHeight_CalcRowHeight(dat, Drawing, line_num);
 
 				// Init settings
 				int selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
@@ -1822,7 +1815,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					// Store pos
 					Drawing->pos_check = rc;
 				}
-				_PaintRowItems(hWnd, pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint);
+				_PaintRowItems(pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint);
 				if (mpRequest) {
 					if (!dat->force_in_dialog) {
 						mir_free(mpRequest->pl_Params[1].szValue);
@@ -2010,6 +2003,7 @@ void CLCPaint::_StoreItemPos(ClcContact *contact, int ItemType, RECT *rc)
 
 void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *in_row_rc, RECT *in_free_row_rc, int left_pos, int right_pos, int selected)
 {
+	ClcCacheEntry *pdnce = Drawing->pce;
 	int item_iterator, item, item_text = 0, text_left_pos;
 	BOOL left = TRUE;               //TODO remove
 	RECT free_row_rc = *in_free_row_rc;
@@ -2147,28 +2141,25 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			break;
 
 		case ITEM_CONTACT_TIME: /////////////////////////////////////////////////////////////////////////////////////////////////////
-			{
-				ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
-				if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
-					TCHAR szResult[80];
+			if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
+				TCHAR szResult[80];
 
-					if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
-						// Select font
-						ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
+				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
+					// Select font
+					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 
-						// Get text size
-						RECT rc;
-						SIZE text_size;
-						text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
-						text_size.cy = min(text_size.cy, free_row_rc.bottom - free_row_rc.top);
-						text_size.cx = rc.right - rc.left;
+					// Get text size
+					RECT rc;
+					SIZE text_size;
+					text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+					text_size.cy = min(text_size.cy, free_row_rc.bottom - free_row_rc.top);
+					text_size.cx = rc.right - rc.left;
 
-						// Get rc
-						rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, text_size.cx, text_size.cx, text_size.cy, HORIZONTAL_SPACE);
-						if (rc.left < rc.right) { // Store pos
-							Drawing->pos_contact_time = rc;
-							_StoreItemPos(Drawing, CIT_TIME, &rc);
-						}
+					// Get rc
+					rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, text_size.cx, text_size.cx, text_size.cy, HORIZONTAL_SPACE);
+					if (rc.left < rc.right) { // Store pos
+						Drawing->pos_contact_time = rc;
+						_StoreItemPos(Drawing, CIT_TIME, &rc);
 					}
 				}
 			}
@@ -2329,7 +2320,6 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		}
 		else if (Drawing->type == CLCIT_CONTACT && !CheckMiniMode(dat, selected)) {
 			int tmp;
-			ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
 			if (dat->second_line_show) {
 				if (dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
@@ -2774,21 +2764,19 @@ void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing
 		}
 	}
 	else if (Drawing->type == CLCIT_CONTACT) {
+		ClcCacheEntry *pdnce = Drawing->pce;
 		SIZE text_size = { _rcWidth(prcItem), _rcHeight(prcItem) };
-		ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
-		if (pdnce) {
-			ChangeToFont(hdcMem, dat, itemType == CIT_SUBTEXT1 ? FONTID_SECONDLINE : FONTID_THIRDLINE, NULL);
-			//draw second and third line
-			if (selected)
-				SetTextColor(hdcMem, dat->selTextColour);
-			else if (hottrack)
-				_SetHotTrackColour(hdcMem, dat);
-			uTextFormat |= DT_VCENTER;
-			if (itemType == CIT_SUBTEXT1)
-				_DrawTextSmiley(hdcMem, prcItem, &text_size, pdnce->szSecondLineText, 0, -1, pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
-			else
-				_DrawTextSmiley(hdcMem, prcItem, &text_size, pdnce->szThirdLineText, 0, -1, pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
-		}
+		ChangeToFont(hdcMem, dat, itemType == CIT_SUBTEXT1 ? FONTID_SECONDLINE : FONTID_THIRDLINE, NULL);
+		//draw second and third line
+		if (selected)
+			SetTextColor(hdcMem, dat->selTextColour);
+		else if (hottrack)
+			_SetHotTrackColour(hdcMem, dat);
+		uTextFormat |= DT_VCENTER;
+		if (itemType == CIT_SUBTEXT1)
+			_DrawTextSmiley(hdcMem, prcItem, &text_size, pdnce->szSecondLineText, 0, -1, pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
+		else
+			_DrawTextSmiley(hdcMem, prcItem, &text_size, pdnce->szThirdLineText, 0, -1, pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
 	}
 	text_rc.right = max(text_rc.right, prcItem->right);
 	text_rc.left = min(text_rc.left, prcItem->left);
@@ -2797,7 +2785,7 @@ void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing
 void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *prcItem)
 {
 	TCHAR szResult[80];
-	ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
+	ClcCacheEntry *pdnce = Drawing->pce;
 	if (!pdnce)
 		return;
 
@@ -2922,15 +2910,15 @@ void CLCPaint::_DrawContactItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, 
 		_DrawContactLine(hdcMem, Drawing, free_row_rc, rcPaint, text_rc);
 }
 
-void CLCPaint::_PaintRowItems(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint)
+void CLCPaint::_PaintRowItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint)
 {
-	//Extended LAYOUT
+	// Extended LAYOUT
 	if (gl_RowRoot && (dat->hWnd == pcli->hwndContactTree)) {
-		_PaintRowItemsEx(hwnd, hdcMem, dat, Drawing, row_rc, free_row_rc, selected, hottrack);
+		_PaintRowItemsEx(hdcMem, dat, Drawing, row_rc, free_row_rc, selected, hottrack);
 		ske_ResetTextEffect(hdcMem);
 		return;
 	}
-	//END OFF Extended LAYOUT
+	// END OFF Extended LAYOUT
 	if (!Drawing->ext_fItemsValid) _CalcItemsPos(hdcMem, dat, Drawing, &row_rc, &free_row_rc, left_pos, right_pos, selected);
 	_DrawContactItems(hdcMem, dat, Drawing, &row_rc, &free_row_rc, selected, hottrack, rcPaint);
 	ske_ResetTextEffect(hdcMem);

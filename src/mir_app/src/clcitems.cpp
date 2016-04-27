@@ -185,39 +185,39 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 				index = i;
 	}
 
-	i = cli.pfnAddItemToGroup(group, index + 1);
 	char *szProto = GetContactProto(hContact);
-	group->cl.items[i]->type = CLCIT_CONTACT;
-	group->cl.items[i]->iImage = cli.pfnGetContactIcon(hContact);
-	group->cl.items[i]->hContact = hContact;
-	group->cl.items[i]->proto = szProto;
+
+	ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);
+	replaceStrT(pce->tszGroup, NULL);
+
+	i = cli.pfnAddItemToGroup(group, index + 1);
+
+	ClcContact *cc = group->cl.items[i];
+	cc->type = CLCIT_CONTACT;
+	cc->iImage = cli.pfnGetContactIcon(hContact);
+	cc->hContact = hContact;
+	cc->proto = szProto;
+	cc->pce = pce;
 	if (szProto != NULL && !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
-		group->cl.items[i]->flags |= CONTACTF_ONLINE;
+		cc->flags |= CONTACTF_ONLINE;
 	WORD apparentMode = szProto != NULL ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
 	if (apparentMode == ID_STATUS_OFFLINE)
-		group->cl.items[i]->flags |= CONTACTF_INVISTO;
+		cc->flags |= CONTACTF_INVISTO;
 	else if (apparentMode == ID_STATUS_ONLINE)
-		group->cl.items[i]->flags |= CONTACTF_VISTO;
+		cc->flags |= CONTACTF_VISTO;
 	else if (apparentMode)
-		group->cl.items[i]->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
+		cc->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
 	if (db_get_b(hContact, "CList", "NotOnList", 0))
-		group->cl.items[i]->flags |= CONTACTF_NOTONLIST;
+		cc->flags |= CONTACTF_NOTONLIST;
 	DWORD idleMode = szProto != NULL ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
-		group->cl.items[i]->flags |= CONTACTF_IDLE;
-	mir_tstrncpy(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), _countof(group->cl.items[i]->szText));
-
-	ClcCacheEntry *p = cli.pfnGetCacheEntry(hContact);
-	if (p != NULL)
-		replaceStrT(p->tszGroup, NULL);
-
+		cc->flags |= CONTACTF_IDLE;
+	mir_tstrncpy(cc->szText, cli.pfnGetContactDisplayName(hContact, 0), _countof(cc->szText));
 	return i;
 }
 
 void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
-	ClcGroup *group;
-	DBVARIANT dbv;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	WORD status = ID_STATUS_OFFLINE;
 	char *szProto = GetContactProto(hContact);
@@ -229,49 +229,46 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 		if (szProto != NULL)
 			status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-	if (db_get_ts(hContact, "CList", "Group", &dbv))
+	int i;
+	DWORD groupFlags;
+	ClcGroup *group;
+	ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+	if (tszGroup == NULL)
 		group = &dat->list;
 	else {
-		group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
+		group = cli.pfnAddGroup(hwnd, dat, tszGroup, (DWORD)-1, 0, 0);
 		if (group == NULL) {
-			int i;
-			DWORD groupFlags;
-			TCHAR *szGroupName;
-			if (!(style & CLS_HIDEEMPTYGROUPS)) {
-				mir_free(dbv.ptszVal);
+			if (!(style & CLS_HIDEEMPTYGROUPS))
 				return;
-			}
+
 			if (checkHideOffline && cli.pfnIsHiddenMode(dat, status)) {
 				for (i = 1;; i++) {
-					szGroupName = Clist_GroupGetName(i, &groupFlags);
-					if (szGroupName == NULL) {
-						mir_free(dbv.ptszVal);
+					TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
+					if (szGroupName == NULL)
 						return;
-					}
-					if (!mir_tstrcmp(szGroupName, dbv.ptszVal))
+
+					if (!mir_tstrcmp(szGroupName, tszGroup))
 						break;
 				}
-				if (groupFlags & GROUPF_HIDEOFFLINE) {
-					mir_free(dbv.ptszVal);
+				if (groupFlags & GROUPF_HIDEOFFLINE)
 					return;
-				}
 			}
 			for (i = 1;; i++) {
-				szGroupName = Clist_GroupGetName(i, &groupFlags);
-				if (szGroupName == NULL) {
-					mir_free(dbv.ptszVal);
+				TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
+				if (szGroupName == NULL)
 					return;
-				}
-				if (!mir_tstrcmp(szGroupName, dbv.ptszVal))
+
+				if (!mir_tstrcmp(szGroupName, tszGroup))
 					break;
+
 				size_t len = mir_tstrlen(szGroupName);
-				if (!_tcsncmp(szGroupName, dbv.ptszVal, len) && dbv.ptszVal[len] == '\\')
+				if (!_tcsncmp(szGroupName, tszGroup, len) && tszGroup[len] == '\\')
 					cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
-			group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, groupFlags, i, 1);
+			group = cli.pfnAddGroup(hwnd, dat, tszGroup, groupFlags, i, 1);
 		}
-		mir_free(dbv.ptszVal);
 	}
+	
 	if (checkHideOffline) {
 		if (cli.pfnIsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 			if (updateTotalCount)
@@ -286,17 +283,15 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 
 ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
-	int iContact;
-	if ((iContact = List_IndexOf((SortedList*)&group->cl, contact)) == -1)
+	int iContact = List_IndexOf((SortedList*)&group->cl, contact);
+	if (iContact == -1)
 		return group;
 
 	if (contact->type == CLCIT_CONTACT) {
 		if (updateTotalCount)
 			group->totalMembers--;
 
-		ClcCacheEntry *p = cli.pfnGetCacheEntry(contact->hContact);
-		if (p != NULL)
-			replaceStrT(p->tszGroup, NULL);
+		cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 	}
 
 	cli.pfnFreeContact(group->cl.items[iContact]);
@@ -332,9 +327,11 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 		for (i=0;; i++) {
 			if (group->scanIndex == group->cl.count)
 				break;
-			if (group->cl.items[i]->type == CLCIT_GROUP) {
-				size_t len = mir_tstrlen(group->cl.items[i]->szText);
-				if (!_tcsncmp(group->cl.items[i]->szText, dbv.ptszVal + nameOffset, len) &&
+
+			ClcContact *cc = group->cl.items[i];
+			if (cc->type == CLCIT_GROUP) {
+				size_t len = mir_tstrlen(cc->szText);
+				if (!_tcsncmp(cc->szText, dbv.ptszVal + nameOffset, len) &&
 					 (dbv.ptszVal[nameOffset + len] == '\\' || dbv.ptszVal[nameOffset + len] == '\0')) {
 					group->totalMembers--;
 					if (dbv.ptszVal[nameOffset + len] == '\0')

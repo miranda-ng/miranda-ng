@@ -73,6 +73,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define GROUP_ALLOCATE_STEP  8
 
+struct ClcContact;
+struct ClcData;
+struct ClcCacheEntry;
+
 struct ContactList
 {
 	struct ClcContact** items;
@@ -113,6 +117,7 @@ struct ClcContactBase
 	WORD  iExtraImage[EXTRA_ICON_COUNT];
 	TCHAR szText[120-EXTRA_ICON_COUNT];
 	char *proto; // MS_PROTO_GETBASEPROTO
+	ClcCacheEntry *pce; // cache is persistent, contacts aren't
 };
 
 struct ClcDataBase
@@ -172,10 +177,6 @@ struct CListEvent : public CLISTEVENT, public MZeroedObject
 	int menuId;
 	int imlIconOverlayIndex;
 };
-
-struct ClcContact;
-struct ClcData;
-struct ClcCacheEntry;
 
 struct trayIconInfo_t
 {

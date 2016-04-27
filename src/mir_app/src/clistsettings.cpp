@@ -119,7 +119,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (cacheEntry != NULL)
-				cacheEntry->tszName = ci.pszVal;
+				replaceStrT(cacheEntry->tszName, ci.pszVal);
 			return ci.pszVal;
 		}
 
@@ -127,7 +127,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 			TCHAR *buffer = (TCHAR*)mir_alloc(15 * sizeof(TCHAR));
 			_ltot(ci.dVal, buffer, 10);
 			if (cacheEntry != NULL)
-				cacheEntry->tszName = buffer;
+				replaceStrT(cacheEntry->tszName, buffer);
 			return buffer;
 		}
 	}
@@ -137,9 +137,20 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }
 
-int ContactAdded(WPARAM wParam, LPARAM)
+int ContactAdded(WPARAM hContact, LPARAM)
 {
-	cli.pfnChangeContactIcon(wParam, cli.pfnIconFromStatusMode(GetContactProto(wParam), ID_STATUS_OFFLINE, NULL));
+	cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, NULL));
+	return 0;
+}
+
+int ContactDeleted(WPARAM hContact, LPARAM)
+{
+	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
+	if (idx != -1) {
+		cli.pfnFreeCacheItem(clistCache[idx]);
+		mir_free(clistCache[idx]);
+		clistCache.remove(idx);
+	}
 	return 0;
 }
 

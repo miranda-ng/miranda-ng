@@ -69,8 +69,7 @@ void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
 {
 	Cache_GetFirstLineText(dat, contact);
 	if (!dat->force_in_dialog) {
-		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
-		if ((dat->second_line_show && (forceRenew || pdnce->szSecondLineText == NULL)) || (dat->third_line_show && (forceRenew || pdnce->szThirdLineText == NULL)))
+		if ((dat->second_line_show && (forceRenew || contact->pce->szSecondLineText == NULL)) || (dat->third_line_show && (forceRenew || contact->pce->szThirdLineText == NULL)))
 			gtaAddRequest(dat, contact->hContact);
 	}
 }
@@ -479,7 +478,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	if (GetCurrentThreadId() != g_dwMainThreadID)
 		return;
 
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
+	ClcCacheEntry *pdnce = contact->pce;
 	TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
 	if (dat->first_line_append_nick && !dat->force_in_dialog) {
 		DBVARIANT dbv = { 0 };

@@ -226,7 +226,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 	INT_PTR caps2;
 	if (szProto == NULL)
 		caps2 = -1;
-	else if ((caps2 = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
+	else if ((caps2 = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
 		caps2 = 0;
 
 	if (IsStatusConnecting(status)) {
@@ -306,7 +306,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			else
 				lowidx = 0, highidx = _countof(statusIcons);
 
-			for (int i = lowidx; i < highidx; i++)
+			for (int i = lowidx; i < highidx; i++) {
 				if (caps2 == 0 || (caps2 & statusIcons[i].pf2)) {
 					// format: core_%s%d
 					mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, i);
@@ -315,6 +315,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 					sid.iDefaultIndex = statusIcons[i].resource_id;
 					IcoLib_AddIcon(&sid, 0);
 				}
+			}
 		}
 
 		// format: core_status_%s%d

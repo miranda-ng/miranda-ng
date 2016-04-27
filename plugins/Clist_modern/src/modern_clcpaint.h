@@ -107,7 +107,7 @@ private:
 	void _FillParam(MASKPARAM * lpParam, DWORD dwParamHash, const char* szValue, DWORD dwValueHash);
 	MODERNMASK* _GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat);
 	void _RTLRect(RECT *rect, int width);
-	void _PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack);
+	void _PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack);
 	void _DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HDC hdcMem, int x, int y, int cx, int cy, DWORD colorbg, DWORD colorfg, int mode);
 	BOOL _DrawNonEnginedBackground(HDC hdcMem, RECT *rcPaint, RECT clRect, ClcData *dat);
 	void _PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
@@ -116,7 +116,7 @@ private:
 	BOOL __IsVisible(RECT *firtRect, RECT *secondRect);
 	void _GetBlendMode(IN ClcData *dat, IN ClcContact *Drawing, IN BOOL selected, IN BOOL hottrack, IN BOOL bFlag, OUT COLORREF * OutColourFg, OUT int * OutMode);
 	void _DrawContactItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, RECT *free_row_rc, int selected, int hottrack, RECT *rcPaint);
-	void _PaintRowItems(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint);
+	void _PaintRowItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint);
 
 	void _DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT *prcItem);
 	void _DrawContactIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *prcItem);
