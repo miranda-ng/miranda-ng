@@ -178,7 +178,6 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
 	pcli->pfnSortCLC = cli_SortCLC;
 	pcli->pfnAddGroup = cli_AddGroup;
-	pcli->pfnGetGroupCountsText = cli_GetGroupCountsText;
 	pcli->pfnAddContactToTree = cli_AddContactToTree;
 	pcli->pfnAddInfoItemToGroup = cli_AddInfoItemToGroup;
 	pcli->pfnAddItemToGroup = cli_AddItemToGroup;

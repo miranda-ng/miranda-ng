@@ -149,6 +149,8 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	if (!cont)
 		return;
 
+	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
+
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	char *szProto = cacheEntry->m_pszProto;
 
@@ -162,8 +164,6 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->image_is_special = FALSE;
 	cont->hContact = hContact;
 	cont->proto = szProto;
-
-	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
 
 	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, cacheEntry->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
@@ -598,11 +598,6 @@ void cli_SetContactCheckboxes(ClcContact *cc, int checked)
 
 	for (int i = 0; i < cc->SubAllocated; i++)
 		corecli.pfnSetContactCheckboxes(&cc->subcontacts[i], checked);
-}
-
-TCHAR* cli_GetGroupCountsText(ClcData *dat, ClcContact *contact)
-{
-	return corecli.pfnGetGroupCountsText(dat, contact);
 }
 
 int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
