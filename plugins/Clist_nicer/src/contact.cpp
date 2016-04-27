@@ -49,7 +49,7 @@ static int GetContactStatus(MCONTACT hContact)
 	szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
-	return cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
 int __forceinline GetStatusModeOrdering(int statusMode)
@@ -90,15 +90,15 @@ static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 
 	if (eventCount == 0) {
 		frequency = 0x7fffffff;
-		cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
+		db_set_dw(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
 	}
 	else {
 		frequency = (curTime - dbei.timestamp) / eventCount;
-		cfg::writeDword(hContact, "CList", "mf_firstEvent", dbei.timestamp);
+		db_set_dw(hContact, "CList", "mf_firstEvent", dbei.timestamp);
 	}
 
-	cfg::writeDword(hContact, "CList", "mf_freq", frequency);
-	cfg::writeDword(hContact, "CList", "mf_count", eventCount);
+	db_set_dw(hContact, "CList", "mf_freq", frequency);
+	db_set_dw(hContact, "CList", "mf_count", eventCount);
 }
 
 extern TCHAR g_ptszEventName[];
@@ -126,11 +126,11 @@ void MF_UpdateThread(LPVOID)
 
 void MF_InitCheck(void)
 {
-	BYTE bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
+	BYTE bMsgFrequency = db_get_b(NULL, "CList", "fhistdata", 0);
 	if (!bMsgFrequency) {
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			MF_CalcFrequency(hContact, 100, 0);
-		cfg::writeByte("CList", "fhistdata", 1);
+		db_set_b(NULL, "CList", "fhistdata", 1);
 	}
 }
 
@@ -249,21 +249,11 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 #undef SAFESTRING
 
-int SetHideOffline(WPARAM wParam, LPARAM)
+int SetHideOffline(int iValue)
 {
-	int newVal = (int)wParam;
-	switch ((int)wParam) {
-	case 0:
-		cfg::writeByte("CList", "HideOffline", 0); break;
-	case 1:
-		cfg::writeByte("CList", "HideOffline", 1); break;
-	case -1:
-		newVal = !cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-		cfg::writeByte("CList", "HideOffline", (BYTE)newVal);
-		break;
-	}
+	int newVal = coreCli.pfnSetHideOffline(iValue);
+
 	SetButtonStates();
 	ClcSetButtonState(IDC_TBHIDEOFFLINE, newVal);
-	pcli->pfnLoadContactTree();
-	return 0;
+	return newVal;
 }

@@ -73,12 +73,12 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			DWORD firstTime = cfg::getDword(hContact, "CList", "mf_firstEvent", 0);
-			DWORD count = cfg::getDword(hContact, "CList", "mf_count", 0);
+			DWORD firstTime = db_get_dw(hContact, "CList", "mf_firstEvent", 0);
+			DWORD count = db_get_dw(hContact, "CList", "mf_count", 0);
 			count++;
 			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
-			cfg::writeDword(hContact, "CList", "mf_freq", new_freq);
-			cfg::writeDword(hContact, "CList", "mf_count", count);
+			db_set_dw(hContact, "CList", "mf_freq", new_freq);
+			db_set_dw(hContact, "CList", "mf_count", count);
 
 			TExtraCache *p = cfg::getCache(hContact, NULL);
 			if (p) {
@@ -125,15 +125,15 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					szProto_s = NULL;
 				else
 					szProto_s = cws->value.pszVal;
-				pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, NULL));
+				pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, NULL));
 			}
 			// something is being written to a protocol module
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				if (!__strcmp(cws->szSetting, "Status")) {
-					if (!cfg::getByte(hContact, "CList", "Hidden", 0))
+					if (!db_get_b(hContact, "CList", "Hidden", 0))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
-							if (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+							if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 								return 0;
 
 					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
@@ -156,12 +156,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {
-		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
+		cfg::dat.soundsOff = db_get_b(NULL, cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "CList") && !__strcmp(cws->szSetting, "UseGroups")) {
-		ClcSetButtonState(IDC_TBHIDEGROUPS, cfg::getByte(cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
+		ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(NULL, cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {
@@ -317,7 +317,7 @@ LBL_Def:
 			if (szProto == NULL)
 				status = ID_STATUS_OFFLINE;
 			else
-				status = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN ||
 				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
@@ -416,7 +416,7 @@ LBL_Def:
 	case INTM_CODEPAGECHANGED:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
-		contact->codePage = cfg::getDword(wParam, "Tab_SRMsg", "ANSIcodepage", cfg::getDword(wParam, "UserInfo", "ANSIcodepage", CP_ACP));
+		contact->codePage = db_get_dw(wParam, "Tab_SRMsg", "ANSIcodepage", db_get_dw(wParam, "UserInfo", "ANSIcodepage", CP_ACP));
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
 		goto LBL_Def;
 
@@ -445,7 +445,7 @@ LBL_Def:
 				if (contact->pExtra)
 					dwFlags = contact->pExtra->dwDFlags;
 				else
-					dwFlags = cfg::getDword(contact->hContact, "CList", "CLN_Flags", 0);
+					dwFlags = db_get_dw(contact->hContact, "CList", "CLN_Flags", 0);
 				if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
 					contact->cFlags = (dwFlags & ECF_HIDEAVATAR ? contact->cFlags & ~ECF_AVATAR : contact->cFlags | ECF_AVATAR);
 				else
@@ -473,7 +473,7 @@ LBL_Def:
 
 	case INTM_STATUSCHANGED:
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-			WORD wStatus = cfg::getWord(wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
+			WORD wStatus = db_get_w(wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
 				if (cfg::dat.bAvatarServiceAvail && contact->ace == NULL)
@@ -538,7 +538,7 @@ LBL_Def:
 				break;
 
 			contact->flags &= ~CONTACTF_IDLE;
-			if (cfg::getDword(wParam, szProto, "IdleTS", 0)) {
+			if (db_get_dw(wParam, szProto, "IdleTS", 0)) {
 				contact->flags |= CONTACTF_IDLE;
 			}
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
@@ -558,12 +558,12 @@ LBL_Def:
 				if (!dat->bisEmbedded && szProto) {				// may be a subcontact, forward the xstatus
 					MCONTACT hMasterContact = db_mc_tryMeta(hContact);
 					if (hMasterContact != hContact)				// avoid recursive call of settings handler
-						cfg::writeByte(hMasterContact, META_PROTO, "XStatusId", (BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
+						db_set_b(hMasterContact, META_PROTO, "XStatusId", (BYTE)db_get_b(hContact, szProto, "XStatusId", 0));
 					break;
 				}
 			}
 			else {
-				contact->xStatus = cfg::getByte(hContact, szProto, "XStatusId", 0);
+				contact->xStatus = db_get_b(hContact, szProto, "XStatusId", 0);
 				p = contact->pExtra;
 			}
 

@@ -808,7 +808,7 @@ set_bg_l:
 				rc.top = y + sselected->MARGIN_TOP;
 				rc.right = clRect->right - sselected->MARGIN_RIGHT - bg_indent_r;
 				rc.bottom = y + rowHeight - sselected->MARGIN_BOTTOM;
-				if (cfg::getByte("CLCExt", "EXBK_EqualSelection", 0) == 1 && savedCORNER != -1)
+				if (db_get_b(NULL, "CLCExt", "EXBK_EqualSelection", 0) == 1 && savedCORNER != -1)
 					DrawAlpha(hdcMem, &rc, sselected->COLOR, sselected->ALPHA, sselected->COLOR2, sselected->COLOR2_TRANSPARENT, sselected->GRADIENT, savedCORNER, sselected->BORDERSTYLE, sselected->imageItem);
 				else
 					DrawAlpha(hdcMem, &rc, sselected->COLOR, sselected->ALPHA, sselected->COLOR2, sselected->COLOR2_TRANSPARENT, sselected->GRADIENT, sselected->CORNER, sselected->BORDERSTYLE, sselected->imageItem);
@@ -1261,7 +1261,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	BOOL bFirstNGdrawn = FALSE;
 	int line_num = -1;
 	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->useWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
-	selBlend = cfg::getByte("CLCExt", "EXBK_SelBlend", 1);
+	selBlend = db_get_b(NULL, "CLCExt", "EXBK_SelBlend", 1);
 	g_inCLCpaint = TRUE;
 	g_focusWnd = GetFocus();
 	my_status = GetGeneralisedStatus();
@@ -1292,8 +1292,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	mirror_always = (cfg::dat.bUseDCMirroring == 1);
 	mirror_rtltext = (cfg::dat.bUseDCMirroring == 3);
 
-	g_center = cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0) && !dat->bisEmbedded;
-	g_ignoreselforgroups = cfg::getByte("CLC", "IgnoreSelforGroups", 0);
+	g_center = db_get_b(NULL, "CLCExt", "EXBK_CenterGroupnames", 0) && !dat->bisEmbedded;
+	g_ignoreselforgroups = db_get_b(NULL, "CLC", "IgnoreSelforGroups", 0);
 
 	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(my_status) || style & WS_DISABLED)
 		grey = 1;

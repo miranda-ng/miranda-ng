@@ -49,7 +49,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		szFinalProto = GetContactProto(hSubContact);
-		finalStatus = (status == 0) ? (WORD)cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
+		finalStatus = (status == 0) ? (WORD)db_get_w(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
 		hContact = hSubContact;
 	}
 	else {
@@ -187,7 +187,7 @@ int ShowHide(WPARAM, LPARAM)
 		switch (iVisibleState) {
 		case GWVS_PARTIALLY_COVERED:
 			//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-			if (!cfg::getByte("CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+			if (!db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 				break;
 		case GWVS_COVERED:     //Fall through (and we're already falling)
 		case GWVS_HIDDEN:
@@ -205,12 +205,12 @@ int ShowHide(WPARAM, LPARAM)
 		RECT rcWindow;
 
 		SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
-		if (!cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		SetForegroundWindow(pcli->hwndContactList);
 		//SetActiveWindow(pcli->hwndContactList);
 		ShowWindow(pcli->hwndContactList, SW_SHOW);
-		cfg::writeByte("CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 
 		GetWindowRect(pcli->hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
@@ -220,8 +220,8 @@ int ShowHide(WPARAM, LPARAM)
 	}
 	else {                      //It needs to be hidden
 		ShowWindow(pcli->hwndContactList, SW_HIDE);
-		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
-		if (cfg::getByte("CList", "DisableWorkingSet", 1))
+		db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+		if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;

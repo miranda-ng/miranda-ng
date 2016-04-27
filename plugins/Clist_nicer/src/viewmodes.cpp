@@ -142,8 +142,8 @@ static void UpdateStickies()
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		MCONTACT hItem = (MCONTACT)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
-			SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", sttModeName, 0) ? 1 : 0);
-		DWORD localMask = HIWORD(cfg::getDword(hContact, "CLVM", sttModeName, 0));
+			SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, db_get_b(hContact, "CLVM", sttModeName, 0) ? 1 : 0);
+		DWORD localMask = HIWORD(db_get_dw(hContact, "CLVM", sttModeName, 0));
 		UpdateClistItem(hItem, (localMask == 0 || localMask == sttStickyStatusMask) ? sttStickyStatusMask : localMask);
 	}
 
@@ -301,19 +301,19 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 	char szSetting[512];
 
 	mir_snprintf(szSetting, "%c%s_PF", 246, name);
-	cfg::writeString(NULL, CLVM_MODULE, szSetting, szProtoFilter);
+	db_set_s(NULL, CLVM_MODULE, szSetting, szProtoFilter);
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	cfg::writeTString(NULL, CLVM_MODULE, szSetting, szGroupFilter);
+	db_set_ts(NULL, CLVM_MODULE, szSetting, szGroupFilter);
 	mir_snprintf(szSetting, "%c%s_SM", 246, name);
-	cfg::writeDword(CLVM_MODULE, szSetting, statusMask);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, statusMask);
 	mir_snprintf(szSetting, "%c%s_SSM", 246, name);
-	cfg::writeDword(CLVM_MODULE, szSetting, stickyStatusMask);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, stickyStatusMask);
 	mir_snprintf(szSetting, "%c%s_OPT", 246, name);
-	cfg::writeDword(CLVM_MODULE, szSetting, options);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, options);
 	mir_snprintf(szSetting, "%c%s_LM", 246, name);
-	cfg::writeDword(CLVM_MODULE, szSetting, lmdat);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, lmdat);
 
-	cfg::writeDword(CLVM_MODULE, name, MAKELONG((unsigned short)operators, (unsigned short)stickies));
+	db_set_dw(NULL, CLVM_MODULE, name, MAKELONG((unsigned short)operators, (unsigned short)stickies));
 }
 
 // saves the state of the filter definitions for the current item
@@ -393,11 +393,11 @@ void SaveState()
 				if (hItem) {
 					if (SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 						dwLocalMask = GetMaskForItem(hItem);
-						cfg::writeDword(hContact, "CLVM", szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
+						db_set_dw(hContact, "CLVM", szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
 						stickies++;
 					}
-					else if (cfg::getDword(hContact, "CLVM", szModeName, 0))
-						cfg::writeDword(hContact, "CLVM", szModeName, 0);
+					else if (db_get_dw(hContact, "CLVM", szModeName, 0))
+						db_set_dw(hContact, "CLVM", szModeName, 0);
 				}
 			}
 
@@ -455,17 +455,17 @@ void UpdateFilters()
 	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-	if (cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
+	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);
-	if ((opt = cfg::getDword(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
+	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
 		SendDlgItemMessage(sttClvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
 	mir_snprintf(szSetting, "%c%s_SM", 246, szBuf);
-	statusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
+	statusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 	mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf);
-	sttStickyStatusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
-	dwFlags = cfg::getDword(CLVM_MODULE, szBuf, 0);
+	sttStickyStatusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
+	dwFlags = db_get_dw(NULL, CLVM_MODULE, szBuf, 0);
 	{
 		LVITEMA item = {0};
 		char szTemp[256];
@@ -539,7 +539,7 @@ void UpdateFilters()
 		Utils::enableDlgControl(sttClvmHwnd, IDC_LASTMESSAGEUNIT, useLastMsg);
 
 		mir_snprintf(szSetting, "%c%s_LM", 246, szBuf);
-		lmdat = cfg::getDword(CLVM_MODULE, szSetting, 0);
+		lmdat = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(sttClvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
 		bTmp = LOBYTE(HIWORD(lmdat));
@@ -669,8 +669,8 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								SetWindowTextA(hwndSelector, Translate("No view mode"));
 							}
 							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-								if (cfg::getDword(hContact, "CLVM", szBuf, -1) != -1)
-									cfg::writeDword(hContact, "CLVM", szBuf, 0);
+								if (db_get_dw(hContact, "CLVM", szBuf, -1) != -1)
+									db_set_dw(hContact, "CLVM", szBuf, 0);
 
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 							if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
@@ -694,7 +694,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				szBuf[255] = 0;
 
 				if (mir_strlen(szBuf) > 2) {
-					if (cfg::getDword(CLVM_MODULE, szBuf, -1) != -1)
+					if (db_get_dw(NULL, CLVM_MODULE, szBuf, -1) != -1)
 						MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
 					else {
 						int iNewItem = SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
@@ -882,7 +882,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 	case WM_USER + 100:
 		{
-			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
+			bool bSkinned = db_get_b(NULL, "CLCExt", "bskinned", 0) != 0;
 			for (int i = 0; i < _countof(_buttons); i++) {
 				HWND hwndButton = GetDlgItem(hwnd, _buttons[i].btn_id);
 				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(_buttons[i].icon));
@@ -987,7 +987,7 @@ clvm_reset_command:
 				SetButtonStates();
 				cfg::dat.current_viewmode[0] = 0;
 				cfg::dat.old_viewmode[0] = 0;
-				cfg::writeString(NULL, "CList", "LastViewMode", "");
+				db_set_s(NULL, "CList", "LastViewMode", "");
 				break;
 			case IDC_CONFIGUREMODES:
 clvm_config_command:
@@ -1049,7 +1049,7 @@ void ApplyViewMode(const char *name)
 	cfg::dat.bFilterEffective = 0;
 
 	mir_snprintf(szSetting, "%c%s_PF", 246, name);
-	if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+	if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_strlen(dbv.pszVal) >= 2) {
 			strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
 			cfg::dat.protoFilter[sizeof(cfg::dat.protoFilter) - 1] = 0;
@@ -1058,7 +1058,7 @@ void ApplyViewMode(const char *name)
 		mir_free(dbv.pszVal);
 	}
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+	if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) >= 2) {
 			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, _countof(cfg::dat.groupFilter));
 			cfg::dat.groupFilter[_countof(cfg::dat.groupFilter) - 1] = 0;
@@ -1067,23 +1067,23 @@ void ApplyViewMode(const char *name)
 		mir_free(dbv.ptszVal);
 	}
 	mir_snprintf(szSetting, "%c%s_SM", 246, name);
-	cfg::dat.statusMaskFilter = cfg::getDword(CLVM_MODULE, szSetting, -1);
+	cfg::dat.statusMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 	if (cfg::dat.statusMaskFilter >= 1)
 		cfg::dat.bFilterEffective |= CLVM_FILTER_STATUS;
 
 	mir_snprintf(szSetting, "%c%s_SSM", 246, name);
-	cfg::dat.stickyMaskFilter = cfg::getDword(CLVM_MODULE, szSetting, -1);
+	cfg::dat.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 	if (cfg::dat.stickyMaskFilter != -1)
 		cfg::dat.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
 
-	cfg::dat.filterFlags = cfg::getDword(CLVM_MODULE, name, 0);
+	cfg::dat.filterFlags = db_get_dw(NULL, CLVM_MODULE, name, 0);
 
 	KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 
 	if (cfg::dat.filterFlags & CLVM_AUTOCLEAR) {
 		DWORD timerexpire;
 		mir_snprintf(szSetting, "%c%s_OPT", 246, name);
-		timerexpire = LOWORD(cfg::getDword(CLVM_MODULE, szSetting, 0));
+		timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
 		strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
 		cfg::dat.old_viewmode[255] = 0;
 		SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, NULL);
@@ -1104,7 +1104,7 @@ void ApplyViewMode(const char *name)
 
 		cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG;
 		mir_snprintf(szSetting, "%c%s_LM", 246, name);
-		cfg::dat.lastMsgFilter = cfg::getDword(CLVM_MODULE, szSetting, 0);
+		cfg::dat.lastMsgFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 		if (LOBYTE(HIWORD(cfg::dat.lastMsgFilter)))
 			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
 		else
@@ -1129,12 +1129,12 @@ void ApplyViewMode(const char *name)
 		cfg::dat.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
 	if (cfg::dat.boldHideOffline == (BYTE)-1)
-		cfg::dat.boldHideOffline = cfg::getByte("CList", "HideOffline", 0);
+		cfg::dat.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", 0);
 
 	CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 	SetWindowTextA(hwndSelector, name);
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();
 
-	cfg::writeString(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);
+	db_set_s(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);
 }

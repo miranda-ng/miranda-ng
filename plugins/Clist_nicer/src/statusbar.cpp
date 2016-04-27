@@ -88,7 +88,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			RECT rcClient, rcWindow;
 			DRAWITEMSTRUCT dis = { 0 };
-			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
 
 			GetClientRect(hwnd, &rcClient);
@@ -155,9 +155,9 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 						if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
 							tooltip_active = TRUE;
-						else if (cfg::getDword("mToolTip", "ShowStatusTip", 0)) {
+						else if (db_get_dw(NULL, "mToolTip", "ShowStatusTip", 0)) {
 							WORD wStatus = (WORD)CallProtoService(PD->RealName, PS_GETSTATUS, 0, 0);
-							BYTE isLocked = cfg::getByte(PD->RealName, "LockMainStatus", 0);
+							BYTE isLocked = db_get_b(NULL, PD->RealName, "LockMainStatus", 0);
 
 							TCHAR szTipText[256];
 							mir_sntprintf(szTipText, _T("<b>%s</b>: %s%s"),

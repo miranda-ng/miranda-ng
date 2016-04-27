@@ -145,7 +145,7 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 static int FS_FontsChanged(WPARAM, LPARAM)
 {
-	COLORREF clr_cluiframes = cfg::getDword("CLUI", "clr_frameborder", RGB(40, 40, 40));
+	COLORREF clr_cluiframes = db_get_dw(NULL, "CLUI", "clr_frameborder", RGB(40, 40, 40));
 
 	if (g_hPenCLUIFrames)
 		DeleteObject(g_hPenCLUIFrames);
@@ -162,10 +162,9 @@ static HWND PreCreateCLC(HWND parent)
 {
 	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
 		WS_CHILD | CLS_CONTACTLIST
-		| (cfg::getByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| CLS_HIDEOFFLINE
-		//| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (cfg::getByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
+		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
+		| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
 		| CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, NULL, g_hInst, (LPVOID)0xff00ff00);
 
@@ -347,7 +346,7 @@ void IcoLibReloadIcons()
 void ConfigureCLUIGeometry(int mode)
 {
 	RECT rcStatus;
-	DWORD clmargins = cfg::getDword("CLUI", "clmargins", 0);
+	DWORD clmargins = db_get_dw(NULL, "CLUI", "clmargins", 0);
 
 	cfg::dat.bCLeft = LOBYTE(LOWORD(clmargins));
 	cfg::dat.bCRight = HIBYTE(LOWORD(clmargins));
@@ -414,7 +413,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 		if (buttonItem->type == DBVT_ASCIIZ) {
 			DBVARIANT dbv = { 0 };
 
-			if (!cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
+			if (!db_get_s(hFinalContact, szModule, szSetting, &dbv)) {
 				result = !mir_strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -422,17 +421,17 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 		else {
 			switch (buttonItem->type) {
 			case DBVT_BYTE: {
-					BYTE val = cfg::getByte(hFinalContact, szModule, szSetting, 0);
+					BYTE val = db_get_b(hFinalContact, szModule, szSetting, 0);
 					result = (val == buttonItem->bValuePush[0]);
 					break;
 				}
 			case DBVT_WORD: {
-					WORD val = cfg::getWord(hFinalContact, szModule, szSetting, 0);
+					WORD val = db_get_w(hFinalContact, szModule, szSetting, 0);
 					result = (val == *((WORD *)&buttonItem->bValuePush));
 					break;
 				}
 			case DBVT_DWORD:
-				DWORD val = cfg::getDword(hFinalContact, szModule, szSetting, 0);
+				DWORD val = db_get_dw(hFinalContact, szModule, szSetting, 0);
 				result = (val == *((DWORD *)&buttonItem->bValuePush));
 				break;
 			}
@@ -455,10 +454,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(NULL, "CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(NULL, "CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				}
 			}
@@ -552,23 +551,23 @@ void BlitWallpaper(HDC hdc, RECT *rc, struct ClcData *dat)
 
 void ReloadThemedOptions()
 {
-	cfg::dat.bSkinnedStatusBar = cfg::getByte("CLUI", "sb_skinned", 0);
-	cfg::dat.bUsePerProto = cfg::getByte("CLCExt", "useperproto", 0);
-	cfg::dat.bOverridePerStatusColors = cfg::getByte("CLCExt", "override_status", 0);
-	cfg::dat.bRowSpacing = cfg::getByte("CLC", "RowGap", 0);
-	cfg::dat.bApplyIndentToBg = cfg::getByte("CLCExt", "applyindentbg", 0);
-	cfg::dat.bWallpaperMode = cfg::getByte("CLUI", "UseBkSkin", 1);
-	cfg::dat.bClipBorder = cfg::getByte("CLUI", "clipborder", 0);
-	cfg::dat.cornerRadius = cfg::getByte("CLCExt", "CornerRad", 6);
-	cfg::dat.gapBetweenFrames = (BYTE)cfg::getDword("CLUIFrames", "GapBetweenFrames", 1);
-	cfg::dat.bUseDCMirroring = cfg::getByte("CLC", "MirrorDC", 0);
-	cfg::dat.bGroupAlign = cfg::getByte("CLC", "GroupAlign", 0);
+	cfg::dat.bSkinnedStatusBar = db_get_b(NULL, "CLUI", "sb_skinned", 0);
+	cfg::dat.bUsePerProto = db_get_b(NULL, "CLCExt", "useperproto", 0);
+	cfg::dat.bOverridePerStatusColors = db_get_b(NULL, "CLCExt", "override_status", 0);
+	cfg::dat.bRowSpacing = db_get_b(NULL, "CLC", "RowGap", 0);
+	cfg::dat.bApplyIndentToBg = db_get_b(NULL, "CLCExt", "applyindentbg", 0);
+	cfg::dat.bWallpaperMode = db_get_b(NULL, "CLUI", "UseBkSkin", 1);
+	cfg::dat.bClipBorder = db_get_b(NULL, "CLUI", "clipborder", 0);
+	cfg::dat.cornerRadius = db_get_b(NULL, "CLCExt", "CornerRad", 6);
+	cfg::dat.gapBetweenFrames = (BYTE)db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", 1);
+	cfg::dat.bUseDCMirroring = db_get_b(NULL, "CLC", "MirrorDC", 0);
+	cfg::dat.bGroupAlign = db_get_b(NULL, "CLC", "GroupAlign", 0);
 	if (cfg::dat.hBrushColorKey)
 		DeleteObject(cfg::dat.hBrushColorKey);
 	cfg::dat.hBrushColorKey = CreateSolidBrush(RGB(255, 0, 255));
-	cfg::dat.bWantFastGradients = cfg::getByte("CLCExt", "FastGradients", 0);
-	cfg::dat.titleBarHeight = cfg::getByte("CLCExt", "frame_height", DEFAULT_TITLEBAR_HEIGHT);
-	cfg::dat.group_padding = cfg::getDword("CLCExt", "grp_padding", 0);
+	cfg::dat.bWantFastGradients = db_get_b(NULL, "CLCExt", "FastGradients", 0);
+	cfg::dat.titleBarHeight = db_get_b(NULL, "CLCExt", "frame_height", DEFAULT_TITLEBAR_HEIGHT);
+	cfg::dat.group_padding = db_get_dw(NULL, "CLCExt", "grp_padding", 0);
 }
 
 static RECT rcWindow = { 0 };
@@ -582,7 +581,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (disableautoupd)
 		return;
 
-	if (!cfg::getByte("CLUI", "AutoSize", 0))
+	if (!db_get_b(NULL, "CLUI", "AutoSize", 0))
 		return;
 
 	if (Docking_IsDocked(0, 0))
@@ -590,7 +589,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (hFrameContactTree == 0)
 		return;
 
-	maxHeight = cfg::getByte("CLUI", "MaxSizeHeight", 75);
+	maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", 75);
 	rcOld = rcWindow;
 
 	GetWindowRect(hwnd, &rcWindow);
@@ -620,7 +619,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
 		newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
-	if (cfg::getByte("CLUI", "AutoSizeUpward", 0)) {
+	if (db_get_b(NULL, "CLUI", "AutoSizeUpward", 0)) {
 		rcWindow.top = rcWindow.bottom - newHeight;
 		if (rcWindow.top < rcWorkArea.top) rcWindow.top = rcWorkArea.top;
 	}
@@ -735,10 +734,10 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
-	int onTop = cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT);
+	int onTop = db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
-	if (!cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+	if (!db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 		SetMenu(pcli->hwndContactList, NULL);
 	if (state == SETTING_STATE_NORMAL) {
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
@@ -781,8 +780,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_CREATE:
 		{
 			int flags = WS_CHILD | CCS_BOTTOM;
-			flags |= cfg::getByte("CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
-			flags |= cfg::getByte("CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
+			flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
+			flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
 			pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, NULL, flags, 0, 0, 0, 0, hwnd, NULL, g_hInst, NULL);
 			if (flags & WS_VISIBLE) {
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
@@ -792,8 +791,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SetClassLong(pcli->hwndStatus, GCL_STYLE, GetClassLong(pcli->hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
 		}
 		g_oldSize.cx = g_oldSize.cy = 0;
-		old_cliststate = cfg::getByte("CList", "State", SETTING_STATE_NORMAL);
-		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
+		old_cliststate = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 		if (!cfg::dat.bFirstRun)
@@ -828,7 +827,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case M_CREATECLC: {
-			if (cfg::getByte("CLUI", "useskin", 0))
+			if (db_get_b(NULL, "CLUI", "useskin", 0))
 				IMG_LoadItems();
 			CreateButtonBar(hwnd);
 			//FYR: to be checked: otherwise it raises double xStatus items
@@ -836,7 +835,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 			{
 				LONG style;
-				BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
+				BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 				ShowWindow(pcli->hwndContactList, SW_HIDE);
 				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 				if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
@@ -845,7 +844,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 				else {
 					style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
-					if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
+					if (db_get_b(NULL, "CList", "AlwaysHideOnTB", 1))
 						style &= ~WS_EX_APPWINDOW;
 					else
 						style |= WS_EX_APPWINDOW;
@@ -874,13 +873,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					Tweak_It(cfg::clcdat->bkColour);
 			}
 
-			cfg::writeByte("CList", "State", old_cliststate);
+			db_set_b(NULL, "CList", "State", old_cliststate);
 
-			if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
+			if (db_get_b(NULL, "CList", "AutoApplyLastViewMode", 0)) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get(NULL, "CList", "LastViewMode", &dbv)) {
 					if (mir_strlen(dbv.pszVal) > 2) {
-						if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
+						if (db_get_dw(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 							ApplyViewMode((char *)dbv.pszVal);
 					}
 					db_free(&dbv);
@@ -1123,11 +1122,11 @@ skipbg:
 
 				// if docked, dont remember pos (except for width)
 				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
-					cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
-					cfg::writeDword("CList", "x", (DWORD)rc.left);
-					cfg::writeDword("CList", "y", (DWORD)rc.top);
+					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
+					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
+					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
 				}
-				cfg::writeDword("CList", "Width", (DWORD)(rc.right - rc.left));
+				db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1137,8 +1136,8 @@ skipbg:
 		return 0;
 
 	case CLUIINTM_REMOVEFROMTASKBAR: {
-			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
-			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && cfg::getByte("CList", "AlwaysHideOnTB", 0))
+			BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && db_get_b(NULL, "CList", "AlwaysHideOnTB", 0))
 				RemoveFromTaskBar(hwnd);
 			return 0;
 		}
@@ -1160,7 +1159,7 @@ skipbg:
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 			}
-			SetWindowPos(pcli->hwndContactList, cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+			SetWindowPos(pcli->hwndContactList, db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
 		}
 		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1183,7 +1182,7 @@ skipbg:
 
 			GetWindowRect(hwnd, &r);
 			GetCursorPos(&pt);
-			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !cfg::getByte("CLUI", "AutoSize", 0)) {
+			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !db_get_b(NULL, "CLUI", "AutoSize", 0)) {
 				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 					return HTBOTTOM;
 				if (pt.x < r.left + clip + 10)
@@ -1191,7 +1190,7 @@ skipbg:
 				if (pt.x > r.right - clip - 10)
 					return HTBOTTOMRIGHT;
 			}
-			else if (pt.y >= r.top && pt.y <= r.top + 3 && !cfg::getByte("CLUI", "AutoSize", 0)) {
+			else if (pt.y >= r.top && pt.y <= r.top + 3 && !db_get_b(NULL, "CLUI", "AutoSize", 0)) {
 				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 					return HTTOP;
 				if (pt.x < r.left + clip + 10)
@@ -1294,14 +1293,14 @@ skipbg:
 
 	case WM_SYSCOMMAND:
 		{
-			BYTE bWindowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			BYTE bWindowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
 				if (wParam == SC_RESTORE) {
 					CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
 					SendMessage(hwnd, WM_SIZE, 0, 0);
 					SendMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
 					SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
-					cfg::writeByte("CList", "State", SETTING_STATE_NORMAL);
+					db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 					break;
 				}
 			}
@@ -1310,8 +1309,8 @@ skipbg:
 				return 0;
 
 			if (wParam == SC_MINIMIZE) {
-				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
-					cfg::writeByte("CList", "State", SETTING_STATE_MINIMIZED);
+				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !db_get_b(NULL, "CList", "AlwaysHideOnTB", 0)) {
+					db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 					break;
 				}
 				pcli->pfnShowHide(0, 0);
@@ -1396,16 +1395,16 @@ skipbg:
 									else {
 										switch (item->type) {
 										case DBVT_BYTE:
-											cfg::writeByte(finalhContact, szModule, szSetting, pValue[0]);
+											db_set_b(finalhContact, szModule, szSetting, pValue[0]);
 											break;
 										case DBVT_WORD:
-											cfg::writeWord(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
+											db_set_w(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
 											break;
 										case DBVT_DWORD:
-											cfg::writeDword(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));
+											db_set_dw(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));
 											break;
 										case DBVT_ASCIIZ:
-											cfg::writeString(finalhContact, szModule, szSetting, (char *)pValue);
+											db_set_s(finalhContact, szModule, szSetting, (char *)pValue);
 											break;
 										}
 									}
@@ -1446,8 +1445,8 @@ skipbg:
 				case IDC_TBSOUND:
 				case IDC_STBSOUND:
 					cfg::dat.soundsOff = !cfg::dat.soundsOff;
-					cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
-					cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
+					db_set_b(NULL, "CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
+					db_set_b(NULL, "Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
 					return 0;
 
 				case IDC_TBSELECTVIEWMODE:
@@ -1508,7 +1507,7 @@ buttons_done:
 			case POPUP_HIDEEMPTYGROUPS:
 				{
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-					cfg::writeByte("CList", "HideEmptyGroups", (BYTE)newVal);
+					db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 				}
 				break;
@@ -1517,7 +1516,7 @@ buttons_done:
 			case POPUP_DISABLEGROUPS:
 				{
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-					cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
+					db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 					ClcSetButtonState(IDC_TBHIDEGROUPS, newVal);
 					SetButtonStates();
@@ -1542,7 +1541,7 @@ buttons_done:
 			}
 			if (dwOldFlags != cfg::dat.dwFlags) {
 				InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
-				cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
+				db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
 				if ((dwOldFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN)) != (cfg::dat.dwFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN))) {
 					ConfigureFrame();
 					ConfigureCLUIGeometry(1);
@@ -1585,7 +1584,7 @@ buttons_done:
 
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
-					if (cfg::getByte("CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
 						pt = nm->pt;
 						ClientToScreen(pcli->hwndContactTree, &pt);
@@ -1620,7 +1619,7 @@ buttons_done:
 			GetWindowRect(pcli->hwndStatus, &rc);
 			if (PtInRect(&rc, pt)) {
 				HMENU hMenu;
-				if (cfg::getByte("CLUI", "SBarRightClk", 0))
+				if (db_get_b(NULL, "CLUI", "SBarRightClk", 0))
 					hMenu = Menu_GetMainMenu();
 				else
 					hMenu = Menu_GetStatusMenu();
@@ -1656,7 +1655,7 @@ buttons_done:
 
 				int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
 				SIZE textSize;
-				BYTE showOpts = cfg::getByte("CLUI", "SBarShow", 1);
+				BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 				char *szProto = pd->RealName;
 				int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 				SetBkMode(dis->hDC, TRANSPARENT);
@@ -1692,8 +1691,8 @@ buttons_done:
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 
-					if (cfg::getByte("CLUI", "sbar_showlocked", 1)) {
-						if (cfg::getByte(szProto, "LockMainStatus", 0)) {
+					if (db_get_b(NULL, "CLUI", "sbar_showlocked", 1)) {
+						if (db_get_b(NULL, szProto, "LockMainStatus", 0)) {
 							hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != NULL) {
 								DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
@@ -1742,7 +1741,7 @@ buttons_done:
 		return 0;
 
 	case WM_CLOSE:
-		if (SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
+		if (SETTING_WINDOWSTYLE_DEFAULT == db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !db_get_b(NULL, "CList", "AlwaysHideOnTB", 0)) {
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return 0;
 		}
@@ -1933,11 +1932,11 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = _T("EventAreaClass");
 	RegisterClass(&wndclass);
 
-	oldhideoffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	cluiPos.left = cfg::getDword("CList", "x", 600);
-	cluiPos.top = cfg::getDword("CList", "y", 200);
-	cluiPos.right = cfg::getDword("CList", "Width", 150);
-	cluiPos.bottom = cfg::getDword("CList", "Height", 350);
+	oldhideoffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	cluiPos.left = db_get_dw(NULL, "CList", "x", 600);
+	cluiPos.top = db_get_dw(NULL, "CList", "y", 200);
+	cluiPos.right = db_get_dw(NULL, "CList", "Width", 150);
+	cluiPos.bottom = db_get_dw(NULL, "CList", "Height", 350);
 
 	LoadExtraIconModule();
 	LoadCLUIFramesModule();
@@ -1946,7 +1945,7 @@ void LoadCLUIModule(void)
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
 
-	if (cfg::getByte("CLUI", "FloaterMode", 0)) {
+	if (db_get_b(NULL, "CLUI", "FloaterMode", 0)) {
 		MessageBox(NULL,
 			TranslateT("You need the FloatingContacts plugin, cause the embedded floating contacts were removed."),
 			TranslateT("Warning"), MB_OK | MB_ICONWARNING);

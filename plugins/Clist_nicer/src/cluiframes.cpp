@@ -411,26 +411,26 @@ int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	Frames[Frameid].collapsed = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
+	Frames[Frameid].collapsed = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
 
-	Frames[Frameid].Locked = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
-	Frames[Frameid].visible = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].Locked = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
+	Frames[Frameid].visible = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].height = cfg::getWord(CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed = cfg::getWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
-	Frames[Frameid].align = cfg::getWord(CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
+	Frames[Frameid].height = db_get_w(NULL, CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed = db_get_w(NULL, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
+	Frames[Frameid].align = db_get_w(NULL, CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
 
 	Frames[Frameid].FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
 	Frames[Frameid].FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
 	Frames[Frameid].FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
 	Frames[Frameid].FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
 
-	Frames[Frameid].floating = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Floating", sadd), 0);
-	Frames[Frameid].order = cfg::getWord(CLUIFrameModule, AS(buf, "Order", sadd), 0);
+	Frames[Frameid].floating = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Floating", sadd), 0);
+	Frames[Frameid].order = db_get_w(NULL, CLUIFrameModule, AS(buf, "Order", sadd), 0);
 
-	Frames[Frameid].UseBorder = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
-	Frames[Frameid].Skinned = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	Frames[Frameid].UseBorder = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
+	Frames[Frameid].Skinned = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -441,27 +441,27 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	cfg::writeTString(0, CLUIFrameModule, AS(buf, "Name", sadd), Frames[Frameid].name);
+	db_set_ts(0, CLUIFrameModule, AS(buf, "Name", sadd), Frames[Frameid].name);
 	//boolean
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "Collapse", sadd), (BYTE)btoint(Frames[Frameid].collapsed));
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "Locked", sadd), (BYTE)btoint(Frames[Frameid].Locked));
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "Visible", sadd), (BYTE)btoint(Frames[Frameid].visible));
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "TBVisile", sadd), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
+	db_set_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), (BYTE)btoint(Frames[Frameid].collapsed));
+	db_set_b(0, CLUIFrameModule, AS(buf, "Locked", sadd), (BYTE)btoint(Frames[Frameid].Locked));
+	db_set_b(0, CLUIFrameModule, AS(buf, "Visible", sadd), (BYTE)btoint(Frames[Frameid].visible));
+	db_set_b(0, CLUIFrameModule, AS(buf, "TBVisile", sadd), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
-	cfg::writeWord(CLUIFrameModule, AS(buf, "Height", sadd), (WORD)Frames[Frameid].height);
-	cfg::writeWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), (WORD)Frames[Frameid].HeightWhenCollapsed);
-	cfg::writeWord(CLUIFrameModule, AS(buf, "Align", sadd), (WORD)Frames[Frameid].align);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "Height", sadd), (WORD)Frames[Frameid].height);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), (WORD)Frames[Frameid].HeightWhenCollapsed);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "Align", sadd), (WORD)Frames[Frameid].align);
 	//FloatingPos
-	cfg::writeWord(CLUIFrameModule, AS(buf, "FloatX", sadd), (WORD)Frames[Frameid].FloatingPos.x);
-	cfg::writeWord(CLUIFrameModule, AS(buf, "FloatY", sadd), (WORD)Frames[Frameid].FloatingPos.y);
-	cfg::writeWord(CLUIFrameModule, AS(buf, "FloatW", sadd), (WORD)Frames[Frameid].FloatingSize.x);
-	cfg::writeWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), (WORD)Frames[Frameid].FloatingSize.y);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatX", sadd), (WORD)Frames[Frameid].FloatingPos.x);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatY", sadd), (WORD)Frames[Frameid].FloatingPos.y);
+	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatW", sadd), (WORD)Frames[Frameid].FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, AS(buf, "FloatH", sadd), (WORD)Frames[Frameid].FloatingSize.y);
 
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "Floating", sadd), (BYTE)btoint(Frames[Frameid].floating));
-	cfg::writeByte(0, CLUIFrameModule, AS(buf, "UseBorder", sadd), (BYTE)btoint(Frames[Frameid].UseBorder));
-	cfg::writeWord(0, CLUIFrameModule, AS(buf, "Order", sadd), (WORD)Frames[Frameid].order);
+	db_set_b(0, CLUIFrameModule, AS(buf, "Floating", sadd), (BYTE)btoint(Frames[Frameid].floating));
+	db_set_b(0, CLUIFrameModule, AS(buf, "UseBorder", sadd), (BYTE)btoint(Frames[Frameid].UseBorder));
+	db_set_w(0, CLUIFrameModule, AS(buf, "Order", sadd), (WORD)Frames[Frameid].order);
 
-	cfg::writeByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	db_set_b(NULL, CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -489,7 +489,7 @@ int CLUIFramesLoadFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	maxstored = cfg::getWord(CLUIFrameModule, "StoredFrames", -1);
+	maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		return 0;
 
@@ -511,7 +511,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	maxstored = cfg::getWord(CLUIFrameModule, "StoredFrames", -1);
+	maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		maxstored = 0;
 
@@ -522,7 +522,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	}
 
 	DBStoreFrameSettingsAtPos(storpos, Frameid);
-	cfg::writeWord(CLUIFrameModule, "StoredFrames", (WORD)maxstored);
+	db_set_w(NULL, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
 	return 0;
 }
 
@@ -1237,7 +1237,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam, LPARAM)
 		if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
 			return 0;
 
-		if (cfg::getByte("CLUI", "AutoSize", 0))
+		if (db_get_b(NULL, "CLUI", "AutoSize", 0))
 			return 0;
 
 		GetWindowRect(pcli->hwndContactList, &rc);
@@ -1622,7 +1622,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 	// create frame
 	Frames[nFramescount].TitleBar.hwnd =
 		CreateWindow(CLUIFrameTitleBarClassName, Frames[nFramescount].name,
-		(cfg::getByte(CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
+		(db_get_b(NULL, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
 		| WS_CHILD | WS_CLIPCHILDREN | (Frames[nFramescount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
 		WS_CLIPCHILDREN, 0, 0, 0, 0, pcli->hwndContactList, NULL, g_hInst, NULL);
 
@@ -1844,27 +1844,23 @@ int SizeMoveNewSizes()
 
 int CLUIFramesResize(const RECT newsize)
 {
-	int sumheight = 9999999, newheight;
-	int prevframe, prevframebottomline;
-	int tbh, curfrmtbh;
-	int drawitems;
-	int clientfrm, clientframe = -1;
+	int sumheight = 9999999;
+	int clientframe = -1;
 	int i, j;
-	int sepw;
 	int topOff = 0, botOff = 0, last_bottomtop;
 
 	GapBetweenFrames = cfg::dat.gapBetweenFrames;
-	sepw = GapBetweenFrames;
+	int sepw = GapBetweenFrames;
 
 	if (nFramescount < 1 || cfg::shutDown)
 		return 0;
 
-	newheight = newsize.bottom - newsize.top;
+	int newheight = newsize.bottom - newsize.top;
 	TitleBarH = cfg::dat.titleBarHeight;
 
 	// search for alClient frame and get the titlebar's height
-	tbh = 0;
-	clientfrm = CLUIFramesGetalClientFrame();
+	int tbh = 0;
+	int clientfrm = CLUIFramesGetalClientFrame();
 	if (clientfrm != -1)
 		tbh = (TitleBarH)* btoint(Frames[clientfrm].TitleBar.ShowTitleBar);
 
@@ -1886,7 +1882,7 @@ int CLUIFramesResize(const RECT newsize)
 		qsort(g_sd, nFramescount, sizeof(SortData), sortfunc);
 
 	}
-	drawitems = nFramescount;
+	int drawitems = nFramescount;
 	while (sumheight >(newheight - tbh) && drawitems > 0) {
 		sumheight = 0;
 		drawitems = 0;
@@ -1894,7 +1890,7 @@ int CLUIFramesResize(const RECT newsize)
 			FRAMEWND &F = Frames[i];
 			if (((F.align != alClient)) && (!F.floating) && (F.visible) && (!F.needhide)) {
 				drawitems++;
-				curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+				int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
 				sumheight += (F.height) + curfrmtbh + (i > 0 ? sepw : 0) + (F.UseBorder ? 2 : 0);
 				if (sumheight > newheight - tbh) {
 					sumheight -= (F.height) + curfrmtbh + (i > 0 ? sepw : 0);
@@ -1906,14 +1902,14 @@ int CLUIFramesResize(const RECT newsize)
 		}
 	}
 
-	prevframe = -1;
-	prevframebottomline = 0;
+	int prevframe = -1;
+	int prevframebottomline = 0;
 	for (j = 0; j < nFramescount; j++) {
-		//move all alTop frames
+		// move all alTop frames
 		i = g_sd[j].realpos;
 		FRAMEWND &F = Frames[i];
 		if ((!F.needhide) && (!F.floating) && (F.visible) && (F.align == alTop)) {
-			curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+			int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
 			F.wndSize.top = prevframebottomline + (prevframebottomline > 0 ? sepw : 0) + (curfrmtbh);
 			F.wndSize.bottom = F.height + F.wndSize.top + (F.UseBorder ? 2 : 0);
 			F.prevvisframe = prevframe;
@@ -1925,7 +1921,7 @@ int CLUIFramesResize(const RECT newsize)
 
 	if (sumheight < newheight) {
 		for (j = 0; j < nFramescount; j++) {
-			//move alClient frame
+			// move alClient frame
 			i = g_sd[j].realpos;
 			FRAMEWND &F = Frames[i];
 			if ((!F.needhide) && (!F.floating) && (F.visible) && (F.align == alClient)) {
@@ -1939,23 +1935,22 @@ int CLUIFramesResize(const RECT newsize)
 				prevframe = i;
 				prevframebottomline = F.wndSize.bottom;
 				if (prevframebottomline > newheight) {
-					//prevframebottomline-=F.height+(tbh+1);
-					//F.needhide=TRUE;
+					// prevframebottomline-=F.height+(tbh+1);
+					// F.needhide=TRUE;
 				}
 				break;
 			}
 		}
 	}
 
-	//newheight
+	// newheight
 	prevframebottomline = last_bottomtop = newheight;
-	//prevframe=-1;
 	for (j = nFramescount - 1; j >= 0; j--) {
-		//move all alBottom frames
+		// move all alBottom frames
 		i = g_sd[j].realpos;
 		FRAMEWND &F = Frames[i];
 		if ((F.visible) && (!F.floating) && (!F.needhide) && (F.align == alBottom)) {
-			curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+			int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
 			F.wndSize.bottom = prevframebottomline - ((prevframebottomline < newheight) ? sepw : 0);
 			F.wndSize.top = F.wndSize.bottom - F.height - (F.UseBorder ? 2 : 0);
 			F.prevvisframe = prevframe;
@@ -1976,7 +1971,6 @@ int CLUIFramesResize(const RECT newsize)
 
 INT_PTR CLUIFramesUpdateFrame(WPARAM wParam, LPARAM lParam)
 {
-	int pos;
 	if (FramesSysNotStarted)
 		return -1;
 
@@ -1989,7 +1983,7 @@ INT_PTR CLUIFramesUpdateFrame(WPARAM wParam, LPARAM lParam)
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 1);
 
 	mir_cslock lck(csFrameHook);
-	pos = id2pos(wParam);
+	int pos = id2pos(wParam);
 	if (pos < 0 || pos >= nFramescount)
 		return -1;
 
@@ -2023,9 +2017,6 @@ RECT old_window_rect = { 0 }, new_window_rect = { 0 };
 
 int SizeFramesByWindowRect(RECT *r)
 {
-	RECT nRect;
-	DWORD noSize = 0;
-
 	if (FramesSysNotStarted)
 		return -1;
 
@@ -2034,8 +2025,7 @@ int SizeFramesByWindowRect(RECT *r)
 	mir_cslock lck(csFrameHook);
 	GapBetweenFrames = cfg::dat.gapBetweenFrames;
 
-	nRect = *r;
-
+	RECT nRect = *r;
 	nRect.bottom -= (cfg::dat.statusBarHeight + cfg::dat.bottomOffset);
 	nRect.right -= cfg::dat.bCRight;
 	nRect.left = cfg::dat.bCLeft;
@@ -2049,17 +2039,9 @@ int SizeFramesByWindowRect(RECT *r)
 			FRAMEWND &F = Frames[i];
 			if (!F.floating) {
 				if (F.OwnerWindow && F.OwnerWindow != (HWND)-2) {
-					/*
-					if (F.wndSize.right - F.wndSize.left == F.oldWndSize.right - F.oldWndSize.left &&
-					F.wndSize.bottom - F.wndSize.top == F.oldWndSize.bottom - F.oldWndSize.top)
-					noSize = SWP_NOSIZE;
-					else {
-					noSize = 0;
-					CopyRect(&F.oldWndSize, &F.wndSize);
-					}*/
 					SetWindowPos(F.hWnd, NULL, F.wndSize.left + cfg::dat.bCLeft, F.wndSize.top + cfg::dat.topOffset,
 						(F.wndSize.right - F.wndSize.left),
-						(F.wndSize.bottom - F.wndSize.top), SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS | noSize);
+						(F.wndSize.bottom - F.wndSize.top), SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 
 					if (F.TitleBar.ShowTitleBar) {
 						SetWindowPos(F.TitleBar.hwnd, NULL, F.wndSize.left + cfg::dat.bCLeft, F.wndSize.top + cfg::dat.topOffset - TitleBarH,
@@ -2079,7 +2061,6 @@ int SizeFramesByWindowRect(RECT *r)
 							(F.wndSize.right - F.wndSize.left),
 							TitleBarH + (F.UseBorder ? (!F.collapsed ? (F.align == alClient ? 0 : 2) : 1) : 0), SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOREDRAW);
 					}
-					//UpdateWindow(F.hWnd);
 					if (F.TitleBar.ShowTitleBar)
 						UpdateWindow(F.TitleBar.hwnd);
 				}
@@ -2164,19 +2145,19 @@ boolean AlignCOLLIconToLeft; //will hide frame icon
 
 int OnFrameTitleBarBackgroundChange()
 {
-	AlignCOLLIconToLeft = cfg::getByte("FrameTitleBar", "AlignCOLLIconToLeft", 0);
-	bkColour = cfg::getDword("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+	AlignCOLLIconToLeft = db_get_b(NULL, "FrameTitleBar", "AlignCOLLIconToLeft", 0);
+	bkColour = db_get_dw(NULL, "FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
 		hBmpBackground = NULL;
 	}
-	if (cfg::getByte("FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+	if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 		ptrT tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	backgroundBmpUse = cfg::getWord("FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	backgroundBmpUse = db_get_w(NULL, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 
 	CLUIFramesOnClistResize(0, 0);
 	return 0;
@@ -2407,7 +2388,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			}
 
 			if ((!(wParam&MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
-				if (cfg::getByte("CLUI", "ClientAreaDrag", 0)) {
+				if (db_get_b(NULL, "CLUI", "ClientAreaDrag", 0)) {
 					POINT pt;
 					GetCursorPos(&pt);
 					return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -3046,7 +3027,7 @@ int LoadCLUIFramesModule(void)
 	OnFrameTitleBarBackgroundChange();
 
 	FramesSysNotStarted = FALSE;
-	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, cfg::getDword("CLUI", "clr_frameborder", GetSysColor(COLOR_3DDKSHADOW)));
+	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, db_get_dw(NULL, "CLUI", "clr_frameborder", GetSysColor(COLOR_3DDKSHADOW)));
 	return 0;
 }
 
