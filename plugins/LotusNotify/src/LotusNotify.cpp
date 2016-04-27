@@ -1575,22 +1575,10 @@ void checkEnvPath(TCHAR *path)
 	_tcslwr(cur);
 	TCHAR *found = _tcsstr(cur, path);
 	size_t len = mir_tstrlen(path);
-	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0)))) {
+	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
-	}
 
-	len = mir_tstrlen(_T("PATH=")) + mir_tstrlen(cur) + 1 /* ; */ + mir_tstrlen(path) + 1 /* ; */ + 1 /* ending null */;
-	TCHAR *nowy = new TCHAR[len];
-	_tcsncpy_s(nowy, len, _T("PATH="), _TRUNCATE);
-	_tcscat_s(nowy, len, cur);
-	if (cur[mir_tstrlen(cur) - 1] != ';')
-		_tcscat_s(nowy, len, _T(";"));
-	_tcscat_s(nowy, len, path);
-	_tcscat_s(nowy, len, _T(";"));
-
-	_tputenv(nowy);
-
-	delete[] nowy;
+	_tputenv(CMString(FORMAT, _T("PATH=%s;%s;"), cur, path));
 }
 
 //GetStatus
