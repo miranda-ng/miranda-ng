@@ -55,6 +55,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 
 		ClcContact& p = cont->subcontacts[i];
 		p.hContact = cacheEntry->hContact;
+		p.pce = cacheEntry;
 
 		p.avatar_pos = AVATAR_POS_DONT_HAVE;
 		Cache_GetAvatar(dat, &p);
