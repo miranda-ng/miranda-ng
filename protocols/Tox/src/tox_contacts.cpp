@@ -43,7 +43,7 @@ MCONTACT CToxProto::GetContact(const int friendNumber)
 	TOX_ERR_FRIEND_GET_PUBLIC_KEY error;
 	if (!tox_friend_get_public_key(toxThread->Tox(), friendNumber, data, &error))
 	{
-		logger->Log(__FUNCTION__": failed to get friend public key (%d)", error);
+		logger->Log(__FUNCTION__": failed to get friend (%d) public key (%d)", friendNumber, error);
 		return NULL;
 	}
 	ToxHexAddress pubKey(data, TOX_PUBLIC_KEY_SIZE);
@@ -61,6 +61,19 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 			break;
 	}
 	return hContact;
+}
+
+ToxHexAddress CToxProto::GetContactPublicKey(const int friendNumber)
+{
+	uint8_t data[TOX_PUBLIC_KEY_SIZE];
+	TOX_ERR_FRIEND_GET_PUBLIC_KEY error;
+	if (!tox_friend_get_public_key(toxThread->Tox(), friendNumber, data, &error))
+	{
+		logger->Log(__FUNCTION__": failed to get friend (%d) public key (%d)", friendNumber, error);
+		return ToxHexAddress::Empty();
+	}
+	ToxHexAddress pubKey(data, TOX_PUBLIC_KEY_SIZE);
+	return pubKey;
 }
 
 MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char *dnsId, bool isTemporary)
@@ -117,13 +130,11 @@ void CToxProto::LoadFriendList(void*)
 		for (size_t i = 0; i < count; i++)
 		{
 			uint32_t friendNumber = friends[i];
-			TOX_ERR_FRIEND_GET_PUBLIC_KEY getPublicKeyResult;
-			if (!tox_friend_get_public_key(toxThread->Tox(), friendNumber, data, &getPublicKeyResult))
-			{
-				logger->Log(__FUNCTION__": failed to get friend public key (%d)", getPublicKeyResult);
+
+			ToxHexAddress pubKey = GetContactPublicKey(friendNumber);
+			if (pubKey == ToxHexAddress::Empty())
 				continue;
-			}
-			ToxHexAddress pubKey(data, TOX_PUBLIC_KEY_SIZE);
+
 			MCONTACT hContact = AddContact(pubKey);
 			if (hContact)
 			{
