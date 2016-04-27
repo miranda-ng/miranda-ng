@@ -112,11 +112,11 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
-			char *data = (char*)mir_calloc(chunkSize);
+			mir_ptr<char>data((char*)mir_calloc(chunkSize));
 			size_t size = ftp->ReadCurrentFile(data, chunkSize);
 
 			size_t offset = 0;
-			char sessionId[32];
+			char sessionId[64];
 			instance->StartUploadSession(data, size, sessionId);
 
 			offset += size;
