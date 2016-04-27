@@ -61,19 +61,20 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int fnSetHideOffline(WPARAM wParam, LPARAM)
+int fnSetHideOffline(int iValue)
 {
-	switch ((int)wParam) {
+	if (iValue == -1) // invert the current value
+		iValue = !db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+
+	switch (iValue) {
 	case 0:
-		db_set_b(NULL, "CList", "HideOffline", 0);
-		break;
 	case 1:
-		db_set_b(NULL, "CList", "HideOffline", 1);
+		db_set_b(NULL, "CList", "HideOffline", iValue);
 		break;
-	case -1:
-		db_set_b(NULL, "CList", "HideOffline", !db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-		break;
+
+	default:
+		return -1;
 	}
 	cli.pfnLoadContactTree();
-	return 0;
+	return iValue;
 }

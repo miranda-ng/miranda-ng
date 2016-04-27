@@ -41,6 +41,9 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
 
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 {
+	if (cli.hwndContactTree == NULL)
+		return;
+
 	bool bRebuild = false;
 	LONG_PTR dwStyle = GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE);
 

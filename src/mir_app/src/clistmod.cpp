@@ -411,7 +411,7 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 /***************************************************************************************/
 
 static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnShowHide(wParam, lParam); }
-static INT_PTR SetHideOfflineStub(WPARAM wParam, LPARAM lParam) { return cli.pfnSetHideOffline(wParam, lParam); }
+static INT_PTR SetHideOfflineStub(WPARAM wParam, LPARAM) { return cli.pfnSetHideOffline((int)wParam); }
 static INT_PTR Docking_ProcessWindowMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnDocking_ProcessWindowMessage(wParam, lParam); }
 static INT_PTR HotkeysProcessMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnHotkeysProcessMessage(wParam, lParam); }
 

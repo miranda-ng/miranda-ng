@@ -187,14 +187,10 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 /* contact.c */
 void fnChangeContactIcon(MCONTACT hContact, int iIcon);
 void fnLoadContactTree(void);
-int  fnSetHideOffline(WPARAM wParam, LPARAM lParam);
+int  fnSetHideOffline(int iValue);
 
 /* docking.c */
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
-
-/* group.c */
-TCHAR* fnGetGroupName(MGROUP idx, DWORD *pdwFlags);
-int    fnRenameGroup(MGROUP groupID, const TCHAR *newName);
 
 /* keyboard.c */
 int  fnHotKeysRegister(HWND hwnd);

@@ -158,7 +158,7 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 
 INT_PTR ToggleHideOffline(WPARAM, LPARAM)
 {
-	return pcli->pfnSetHideOffline((WPARAM)-1, 0);
+	return pcli->pfnSetHideOffline(-1);
 }
 
 INT_PTR ToggleGroups(WPARAM, LPARAM)

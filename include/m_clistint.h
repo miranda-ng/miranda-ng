@@ -390,7 +390,7 @@ struct CLIST_INTERFACE
 	void (*pfnChangeContactIcon)(MCONTACT hContact, int iIcon);
 	void (*pfnLoadContactTree)(void);
 	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
-	int  (*pfnSetHideOffline)(WPARAM wParam, LPARAM lParam);
+	int  (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
 	/* docking.c */
 	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
