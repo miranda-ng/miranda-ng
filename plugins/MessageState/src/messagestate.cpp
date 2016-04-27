@@ -9,7 +9,7 @@ IconItem Icons[] =
 	{ LPGEN("Unread clist extra icon"), "clist_unread_icon", IDI_EXTRA },
 };
 
-const TCHAR* Tooltips[]
+const TCHAR* Tooltips[] = 
 {
 	LPGENT("Last message is not read"),
 	LPGENT("Last message read"),
