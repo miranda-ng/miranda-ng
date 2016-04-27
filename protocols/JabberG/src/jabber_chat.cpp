@@ -117,11 +117,14 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r)
 
 int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 {
-	int i;
+	if (item->bChatActive)
+		return 1;
 
 	// translate string for menus (this can't be done in initializer)
-	for (i = 0; i < _countof(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
-	for (i = 0; i < _countof(sttRoleItems); i++) sttRoleItems[i].translate();
+	for (int i = 0; i < _countof(sttAffiliationItems); i++)
+		sttAffiliationItems[i].translate();
+	for (int i = 0; i < _countof(sttRoleItems); i++)
+		sttRoleItems[i].translate();
 
 	ptrT szNick(JabberNickFromJID(item->jid));
 
@@ -162,11 +165,11 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		}
 	}
 
-	item->bChatActive = TRUE;
+	item->bChatActive = true;
 
 	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	for (i = _countof(sttStatuses) - 1; i >= 0; i--) {
+	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
 		gce.ptszStatus = TranslateTS(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
@@ -175,14 +178,6 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	CallServiceSync(MS_GC_EVENT, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 	return 0;
-}
-
-void CJabberProto::GcLogCreate(JABBER_LIST_ITEM *item)
-{
-	if (item->bChatActive)
-		return;
-
-	GcInit(item);
 }
 
 void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type)
@@ -354,7 +349,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	CallServiceSync(MS_GC_EVENT, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, (LPARAM)&gce);
 
 	db_unset(item->hContact, "CList", "Hidden");
-	item->bChatActive = FALSE;
+	item->bChatActive = false;
 
 	if (m_bJabberOnline) {
 		TCHAR szPresenceTo[JABBER_MAX_JID_LEN];

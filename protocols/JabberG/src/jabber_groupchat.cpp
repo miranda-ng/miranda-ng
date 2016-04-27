@@ -846,7 +846,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		if (ptrT(JabberNickFromJID(from)) == NULL)
 			return;
 
-		GcLogCreate(item);
+		GcInit(item);
 		item->iChatState = 0;
 
 		// Update status of room participant
@@ -1086,7 +1086,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		else gcd.iType = GC_EVENT_MESSAGE;
 	}
 
-	GcLogCreate(item);
+	GcInit(item);
 
 	time_t msgTime = 0;
 	if (!JabberReadXep203delay(node, msgTime)) {

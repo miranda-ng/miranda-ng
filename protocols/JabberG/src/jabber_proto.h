@@ -329,7 +329,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_chat.cpp ---------------------------------------------------------------
 
 	int    GcInit(JABBER_LIST_ITEM *item);
-	void   GcLogCreate(JABBER_LIST_ITEM *item);
 	void   GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode = -1);
 	void   GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type);
 	void   GcQuit(JABBER_LIST_ITEM* jid, int code, HXML reason);
