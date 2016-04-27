@@ -29,7 +29,7 @@ type
 
   public
     constructor Create(fname:PWideChar);
-    destructor Free;
+    destructor Destroy;
 
     procedure SetBasePath(path:PWideChar);
 
@@ -268,7 +268,7 @@ begin
   SetBasePath(fname);
 end;
 
-destructor tPlaylist.Free;
+destructor tPlaylist.Destroy;
 var
   i:integer;
 begin
@@ -285,7 +285,7 @@ begin
   end;
   plStrings:=nil;
 
-  inherited Free;
+  inherited;
 end;
 
 procedure tPlaylist.AddLine(name,descr:PWideChar;new:boolean=true);
