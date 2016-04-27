@@ -188,6 +188,8 @@ void CToxProto::PollingThread(void*)
 		toxThread.Iterate();
 	}
 
+	this->toxThread = NULL;
+
 	toxThread.Disconnect();
 	UninitToxCore(&toxThread);
 
