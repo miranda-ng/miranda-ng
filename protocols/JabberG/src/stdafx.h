@@ -64,7 +64,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_avatars.h>
 #include <m_awaymsg.h>
 #include <m_button.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_cluiframes.h>
 #include <m_contacts.h>
@@ -113,6 +113,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_byte.h"
 #include "jabber_ibb.h"
 #include "jabber_db_utils.h"
+
+struct SESSION_INFO : public GCSessionInfoBase
+{};
 
 struct CJabberProto;
 

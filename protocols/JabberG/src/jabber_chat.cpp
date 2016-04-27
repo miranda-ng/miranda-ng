@@ -132,30 +132,33 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	gcw.ptszID = item->jid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
-	MCONTACT hContact = HContactFromJID(item->jid);
-	if (hContact != NULL) {
-		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
-			if (bookmark->name) {
-				ptrT myHandle(db_get_tsa(hContact, "CList", "MyHandle"));
-				if (myHandle == NULL)
-					db_set_ts(hContact, "CList", "MyHandle", bookmark->name);
-			}
+	GCSessionInfoBase *si = pci->SM_FindSession(item->jid, m_szModuleName);
+	if (si != NULL) {
+		item->hContact = si->hContact;
 
-		ptrT tszNick(getTStringA(hContact, "MyNick"));
+		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
+			if (bookmark->name) {
+				ptrT myHandle(db_get_tsa(si->hContact, "CList", "MyHandle"));
+				if (myHandle == NULL)
+					db_set_ts(si->hContact, "CList", "MyHandle", bookmark->name);
+			}
+		}
+
+		ptrT tszNick(getTStringA(si->hContact, "MyNick"));
 		if (tszNick != NULL) {
 			if (!mir_tstrcmp(tszNick, szNick))
-				delSetting(hContact, "MyNick");
+				delSetting(si->hContact, "MyNick");
 			else
-				setTString(hContact, "MyNick", item->nick);
+				setTString(si->hContact, "MyNick", item->nick);
 		}
-		else setTString(hContact, "MyNick", item->nick);
+		else setTString(si->hContact, "MyNick", item->nick);
 
-		ptrT passw(getTStringA(hContact, "Password"));
+		ptrT passw(getTStringA(si->hContact, "Password"));
 		if (lstrcmp_null(passw, item->password)) {
 			if (!item->password || !item->password[0])
-				delSetting(hContact, "Password");
+				delSetting(si->hContact, "Password");
 			else
-				setTString(hContact, "Password", item->password);
+				setTString(si->hContact, "Password", item->password);
 		}
 	}
 
@@ -350,7 +353,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	gce.ptszText = XmlGetText(reason);
 	CallServiceSync(MS_GC_EVENT, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, (LPARAM)&gce);
 
-	db_unset(HContactFromJID(item->jid), "CList", "Hidden");
+	db_unset(item->hContact, "CList", "Hidden");
 	item->bChatActive = FALSE;
 
 	if (m_bJabberOnline) {

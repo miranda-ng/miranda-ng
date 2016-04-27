@@ -39,6 +39,7 @@ HINSTANCE hInst;
 
 int hLangpack;
 unsigned int g_nTempFileId;
+CHAT_MANAGER *pci;
 
 int g_cbCountries;
 CountryListEntry *g_countries;
@@ -182,6 +183,7 @@ extern "C" int __declspec(dllexport) Load()
 	// set the memory, lists & utf8 managers
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
+	mir_getCI(NULL);
 
 	{
 		INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
