@@ -294,27 +294,27 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
-	//rfc2817
-	NETLIBHTTPREQUEST nlhrSend = { 0 };
-	char szUrl[512];
-
-	nlhrSend.cbSize = sizeof(nlhrSend);
-	nlhrSend.requestType = REQUEST_CONNECT;
-	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
+	// rfc2817
+	CMStringA szUrl;
 	if (nlc->dnsThroughProxy)
-		mir_snprintf(szUrl, "%s:%u", nloc->szHost, nloc->wPort);
+		szUrl.Format("%s:%u", nloc->szHost, nloc->wPort);
 	else {
 		DWORD ip = DnsLookup(nlu, nloc->szHost);
 		if (ip == 0) return false;
-		mir_snprintf(szUrl, "%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
+		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
 	}
-	nlhrSend.szUrl = szUrl;
+
+	NETLIBHTTPREQUEST nlhrSend = { 0 };
+	nlhrSend.cbSize = sizeof(nlhrSend);
+	nlhrSend.requestType = REQUEST_CONNECT;
+	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
+	nlhrSend.szUrl = szUrl.GetBuffer();
 
 	nlc->usingHttpGateway = true;
 
 	if (NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) == SOCKET_ERROR) {
 		nlc->usingHttpGateway = false;
-		return 0;
+		return false;
 	}
 
 	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
@@ -335,8 +335,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		return 0;
 	}
 	NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
-	//connected
-	return true;
+	return true; // connected
 }
 
 static void FreePartiallyInitedConnection(NetlibConnection *nlc)

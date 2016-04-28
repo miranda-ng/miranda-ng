@@ -240,15 +240,15 @@ struct HttpSecurityContext
 		}
 
 		if (m_hNtlmSecurity == NULL) {
-			char szSpnStr[256] = "";
+			CMStringA szSpnStr;
 			if (szHost && _stricmp(szProvider, "Basic")) {
 				unsigned long ip = inet_addr(szHost);
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
-				mir_snprintf(szSpnStr, "HTTP/%s", host && host->h_name ? host->h_name : szHost);
-				_strlwr(szSpnStr + 5);
+				szSpnStr.Format("HTTP/%s", host && host->h_name ? host->h_name : szHost);
+				_strlwr(szSpnStr.GetBuffer() + 5);
 				NetlibLogf(nlu, "Host SPN: %s", szSpnStr);
 			}
-			m_hNtlmSecurity = NetlibInitSecurityProvider(szProvider, szSpnStr[0] ? szSpnStr : NULL);
+			m_hNtlmSecurity = NetlibInitSecurityProvider(szProvider, szSpnStr.IsEmpty() ? NULL : szSpnStr.c_str());
 			if (m_hNtlmSecurity) {
 				m_szProvider = mir_strdup(szProvider);
 				m_szHost = mir_strdup(szHost);
@@ -257,7 +257,7 @@ struct HttpSecurityContext
 		}
 
 		if (m_hNtlmSecurity) {
-			TCHAR *szLogin = NULL, *szPassw = NULL;
+			ptrT szLogin, szPassw;
 
 			if (nlu->settings.useProxyAuth) {
 				mir_cslock lck(csNetlibUser);
@@ -265,18 +265,11 @@ struct HttpSecurityContext
 				szPassw = mir_a2t(nlu->settings.szProxyAuthPassword);
 			}
 
-			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity,
-				szChallenge, szLogin, szPassw, true, complete);
-
-			if (!szAuthHdr) {
-				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S",
-					szProvider, szLogin ? szLogin : _T("(no user)"), szPassw ? _T("(exist)") : _T("(no psw)"));
-			}
+			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity, szChallenge, szLogin, szPassw, true, complete);
+			if (!szAuthHdr)
+				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S", szProvider, szLogin ? szLogin : _T("(no user)"), szPassw ? _T("(exist)") : _T("(no psw)"));
 			else if (justCreated)
 				proxyAuthList.add(m_szHost, m_szProvider);
-
-			mir_free(szLogin);
-			mir_free(szPassw);
 		}
 		else complete = 1;
 
@@ -287,8 +280,7 @@ struct HttpSecurityContext
 static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime, DWORD recvFlags, int *resultCode, char **ppszResultDescr, int *length)
 {
 	int bytesPeeked;
-	char buffer[2048];
-	char *peol;
+	char buffer[2048], *peol;
 
 	while (true) {
 		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK | recvFlags);
@@ -312,7 +304,8 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 			SetLastError(ERROR_BUFFER_OVERFLOW);
 			return 0;
 		}
-		if (Miranda_Terminated()) return 0;
+		if (Miranda_Terminated())
+			return 0;
 		Sleep(10);
 	}
 
@@ -332,16 +325,17 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	if (off >= (unsigned)bytesPeeked)
 		return 0;
 
-	char* pResultCode = buffer + off;
+	char *pResultCode = buffer + off;
 	*(pResultCode++) = 0;
 
-	char* pResultDescr;
+	char *pResultDescr;
 	*resultCode = strtol(pResultCode, &pResultDescr, 10);
 
 	if (ppszResultDescr)
 		*ppszResultDescr = mir_strdup(lrtrimp(pResultDescr));
 
-	if (length) *length = peol - buffer + 1;
+	if (length)
+		*length = peol - buffer + 1;
 	return 1;
 }
 
@@ -488,8 +482,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		}
 		nlc->proxyAuthNeeded = false;
 
-		CMStringA httpRequest;
-		httpRequest.AppendFormat("%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
+		CMStringA httpRequest(FORMAT, "%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
 
 		// HTTP headers
 		doneHostHeader = doneContentLengthHeader = doneProxyAuthHeader = doneAuthHeader = 0;
