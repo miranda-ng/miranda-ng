@@ -1711,9 +1711,9 @@ static int _us_DoRemoveFrame(WPARAM wParam, LPARAM)
 	g_pfwFrames[pos].OwnerWindow = NULL;
 	RemoveItemFromList(pos, &g_pfwFrames, &g_nFramesCount);
 
-	CLUI__cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
+	cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 0);
-	CLUI__cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
+	cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
 
 	return 0;
 };
@@ -2332,7 +2332,7 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam)
 
 	tick = GetTickCount() - tick;
 
-	if (pcli->hwndContactList != 0) CLUI__cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
+	if (pcli->hwndContactList != 0) cliInvalidateRect(pcli->hwndContactList, NULL, TRUE);
 	if (pcli->hwndContactList != 0) UpdateWindow(pcli->hwndContactList);
 
 	if (lParam == 2) RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE | RDW_INVALIDATE);
@@ -2370,7 +2370,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 		}
 	}
 
-	CLUI__cliInvalidateRect(pcli->hwndContactList, 0, 0);
+	cliInvalidateRect(pcli->hwndContactList, 0, 0);
 
 	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE | RDW_INVALIDATE);
 	return 0;
@@ -2607,7 +2607,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 		return 1;
 
 	case WM_ENABLE:
-		if (hwnd != 0) CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+		if (hwnd != 0)
+			cliInvalidateRect(hwnd, NULL, FALSE);
 		return 0;
 
 	case WM_ERASEBKGND:

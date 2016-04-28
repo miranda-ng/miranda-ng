@@ -16,7 +16,7 @@ public:
 	static int getMaxRowHeight(ClcData *dat, const HWND hwnd);
 
 	// Calc and store row height
-	static int getRowHeight(ClcData *dat, ClcContact* contact, int item, DWORD style)
+	static int getRowHeight(ClcData *dat, ClcContact *contact, int item, DWORD style)
 	{
 		if (!Alloc(dat, item + 1))
 			return -1;
@@ -36,39 +36,36 @@ public:
 
 		// Checkbox size
 		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
-			(style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
-			(contact->type == CLCIT_INFO && contact->flags & CLCIIF_CHECKBOX)) {
+			 (style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
+			 (contact->type == CLCIT_INFO && contact->flags & CLCIIF_CHECKBOX)) {
 			height = max(height, dat->checkboxSize);
 		}
 
-		//height += 2 * dat->row_border;
 		// Min size
 		height = max(height, contact->type == CLCIT_GROUP ? dat->group_row_height : dat->min_row_heigh);
 		height += cfg::dat.bRowSpacing;
 
 		dat->row_heights[item] = height;
-		//contact->iRowHeight = item;
-
 		return height;
 	}
 
 	// Calc and store row height for all itens in the list
-	static void				calcRowHeights		(ClcData *dat, HWND hwnd);
+	static void calcRowHeights(ClcData *dat, HWND hwnd);
 
 	// Calc item top Y (using stored data)
-	static int 				getItemTopY			(ClcData *dat, int item);
+	static int getItemTopY(ClcData *dat, int item);
 
 	// Calc item bottom Y (using stored data)
-	static int 				getItemBottomY		(ClcData *dat, int item);
+	static int getItemBottomY(ClcData *dat, int item);
 
 	// Calc total height of rows (using stored data)
-	static int 				getTotalHeight		(ClcData *dat);
+	static int getTotalHeight(ClcData *dat);
 
 	// Return the line that pos_y is at or -1 (using stored data). Y start at 0
-	static int 				hitTest				(ClcData *dat, int pos_y);
+	static int hitTest(ClcData *dat, int pos_y);
 
 	// Returns the height of the chosen row
-	static int 				getHeight			(ClcData *dat, int item);
+	static int getHeight(ClcData *dat, int item);
 };
 
 #endif // __ROWHEIGHT_FUNCS_H__

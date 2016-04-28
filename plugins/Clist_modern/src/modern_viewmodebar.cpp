@@ -1365,7 +1365,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 	SetWindowText(hwndSelector, ptrT(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
 
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-	CLUI__cliInvalidateRect(pcli->hwndStatus, NULL, FALSE);
+	cliInvalidateRect(pcli->hwndStatus, NULL, FALSE);
 }
 
 static int SkinSetViewMode(WPARAM wParam /*char * name*/, LPARAM lParam /*int index*/)

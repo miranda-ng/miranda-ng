@@ -129,41 +129,33 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 // Calc and store row height for all items in the list
 void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 {
-	int indent, subindex, line_num;
-	ClcContact *Drawing;
-	ClcGroup *group;
 	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// Draw lines
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
-	indent = 0;
-	//subindex=-1;
-	line_num = -1;
+	int line_num = -1;
 
 	Clear(dat);
 
 	while (true) {
 		if (group->scanIndex == group->cl.count) {
 			group = group->parent;
-			indent--;
 			if (group == NULL) break;	// Finished list
 			group->scanIndex++;
 			continue;
 		}
 
 		// Get item to draw
-		Drawing = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl.items[group->scanIndex];
 		line_num++;
 
 		// Calc row height
-		getRowHeight(dat, Drawing, line_num, dwStyle);
+		getRowHeight(dat, cc, line_num, dwStyle);
 
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
-			group = group->cl.items[group->scanIndex]->group;
-			indent++;
+		if (cc->type == CLCIT_GROUP && (cc->group->expanded & 0x0000ffff)) {
+			group = cc->group;
 			group->scanIndex = 0;
-			subindex = -1;
 			continue;
 		}
 		group->scanIndex++;
@@ -173,42 +165,33 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 // Calc item top Y (using stored data)
 int RowHeight::getItemTopY(ClcData *dat, int item)
 {
-	int i;
-	int y = 0;
-
 	if (item >= dat->row_heights_size)
 		return -1;
 
-	for (i = 0; i < item; i++) {
+	int y = 0;
+	for (int i = 0; i < item; i++)
 		y += dat->row_heights[i];
-	}
 
 	return y;
 }
-
 
 // Calc item bottom Y (using stored data)
 int RowHeight::getItemBottomY(ClcData *dat, int item)
 {
-	int i;
-	int y = 0;
-
 	if (item >= dat->row_heights_size)
 		return -1;
 
-	for (i = 0; i <= item; i++) {
+	int y = 0;
+	for (int i = 0; i <= item; i++)
 		y += dat->row_heights[i];
-	}
 
 	return y;
 }
-
 
 // Calc total height of rows (using stored data)
 int RowHeight::getTotalHeight(ClcData *dat)
 {
 	int y = 0;
-
 	for (int i = 0; i < dat->row_heights_size; i++)
 		y += dat->row_heights[i];
 

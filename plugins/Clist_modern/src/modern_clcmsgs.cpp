@@ -56,7 +56,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		RowHeights_GetMaxRowHeight(dat, hwnd);
 
 		if (LOWORD(lParam))
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+			cliInvalidateRect(hwnd, NULL, FALSE);
 		return 0;
 
 	case CLM_SETHIDEEMPTYGROUPS:

@@ -174,7 +174,7 @@ int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 
 	g_CluiData.dwKeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
 
-	CLUI__cliInvalidateRect(pcli->hwndContactList, 0, 0);
+	cliInvalidateRect(pcli->hwndContactList, 0, 0);
 	return 0;
 }
 
@@ -1486,7 +1486,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 	return 0;
 }
 
-BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
+BOOL cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 {
 	if (CLUI_IsInMainWindow(hWnd) && g_CluiData.fLayered) {
 		if (IsWindowVisible(hWnd))

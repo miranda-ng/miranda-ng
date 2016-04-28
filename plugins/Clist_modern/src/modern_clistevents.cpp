@@ -146,7 +146,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		}
 	}
 
-	CLUI__cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
+	cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
 	return p;
 }
 
@@ -189,7 +189,7 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 	if (hContact == g_CluiData.hUpdateContact || (INT_PTR)hDbEvent == 1)
 		g_CluiData.hUpdateContact = 0;
-	CLUI__cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
+	cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
 	return res;
 }
 
@@ -291,7 +291,7 @@ static int EventArea_Draw(HWND hwnd, HDC hDC)
 	if (GetParent(hwnd) == pcli->hwndContactList)
 		return EventArea_DrawWorker(hwnd, hDC);
 
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	return 0;
 }
 

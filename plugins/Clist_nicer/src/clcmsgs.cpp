@@ -33,7 +33,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		{
 			ClcContact *contact;
 			ClcGroup *group;
-			if (wParam == 0 || !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL))
+			if (wParam == 0 || !pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL))
 				return 0;
 
 			if (lParam)
@@ -46,7 +46,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 	case CLM_GETSTATUSMSG:
 		if (wParam) {
 			ClcContact *contact = NULL;
-			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				return 0;
 
 			if (contact->type != CLCIT_CONTACT)
@@ -65,7 +65,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 	case CLM_TOGGLEPRIORITYCONTACT:
 		if (wParam) {
 			ClcContact *contact = NULL;
-			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
@@ -78,7 +78,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 	case CLM_QUERYPRIORITYCONTACT:
 		if (wParam) {
 			ClcContact *contact = NULL;
-			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;

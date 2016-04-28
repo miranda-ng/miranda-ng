@@ -140,7 +140,7 @@ int ModernDrawStatusBar(HWND hwnd, HDC hDC)
 	if (GetParent(hwnd) == pcli->hwndContactList)
 		return ModernDrawStatusBarWorker(hwnd, hDC);
 
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	return 0;
 }
 
@@ -822,7 +822,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						ApplyViewMode(filterName);
 					}
 					pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-					CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+					cliInvalidateRect(hwnd, NULL, FALSE);
 					SetCapture(NULL);
 					return 0;
 				}
@@ -854,7 +854,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		GetClientRect(hwnd, &rc);
 		if (PtInRect(&rc, pt) && msg == WM_LBUTTONDOWN && g_CluiData.bFilterEffective == CLVM_FILTER_PROTOS) {
 			ApplyViewMode("");
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+			cliInvalidateRect(hwnd, NULL, FALSE);
 			SetCapture(NULL);
 			return 0;
 		}

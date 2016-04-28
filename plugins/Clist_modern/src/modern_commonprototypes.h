@@ -252,7 +252,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int     cliShowHide(WPARAM wParam, LPARAM lParam);
-BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
+BOOL    cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
 int     cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2);
 int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
@@ -261,9 +261,8 @@ void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
-BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
-int		cliTrayIconInit(HWND hwnd);
-int		cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
+int     cliTrayIconInit(HWND hwnd);
+int     cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 
 ClcContact*    cliCreateClcContact(void);
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact);

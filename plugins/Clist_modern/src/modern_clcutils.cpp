@@ -180,7 +180,7 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 		}
 	}
 	dat->yScroll = desty;
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 

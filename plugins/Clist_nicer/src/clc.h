@@ -363,10 +363,6 @@ struct protoMenu
 	HICON hIcon;
 };
 
-// clcidents.c
-int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
-
 // clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
 DWORD INTSORT_GetLastMsgTime(MCONTACT hContact);

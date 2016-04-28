@@ -586,7 +586,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		if (dat->selection < 0) dat->selection = 0;
 		if (dat->bCompactMode)
 			SendMessage(hwnd, WM_SIZE, 0, 0);
-		CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+		cliInvalidateRect(hwnd, NULL, FALSE);
 		pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 		SetCapture(hwnd);
@@ -618,7 +618,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		{
 			time_t cur_time = (time(NULL) / 60);
 			if (cur_time != dat->last_tick_time) {
-				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+				cliInvalidateRect(hwnd, NULL, FALSE);
 				dat->last_tick_time = cur_time;
 			}
 		}
@@ -773,7 +773,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			if (dat->bCompactMode)
 				SendMessage(hwnd, WM_SIZE, 0, 0);
 			else {
-				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+				cliInvalidateRect(hwnd, NULL, FALSE);
 				UpdateWindow(hwnd);
 			}
 			return TRUE;
@@ -787,7 +787,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			else
 				pcli->pfnSetContactCheckboxes(contact, bNewState);
 			pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+			cliInvalidateRect(hwnd, NULL, FALSE);
 
 			NMCLISTCONTROL nm;
 			nm.hdr.code = CLN_CHECKCHANGED;
@@ -814,7 +814,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			return FALSE;
 
 		dat->selection = (hitFlags & CLCHT_NOWHERE) ? -1 : hit;
-		CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+		cliInvalidateRect(hwnd, NULL, FALSE);
 
 		UpdateWindow(hwnd);
 		if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags & (CLCHT_ONITEMEXTRA | CLCHT_ONITEMCHECK | CLCHT_NOWHERE))) {
@@ -940,7 +940,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 
 		POINT pt = UNPACK_POINT(lParam);
 		HCURSOR hNewCursor = LoadCursor(NULL, IDC_NO);
-		CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+		cliInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->dragAutoScrolling) {
 			KillTimer(hwnd, TIMERID_DRAGAUTOSCROLL);
 			dat->dragAutoScrolling = 0;
@@ -1263,7 +1263,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 	}
 
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	dat->iDragItem = -1;
 	dat->iInsertionMark = -1;
 	return 0;
@@ -1425,9 +1425,9 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	}
 	else if (needRepaint) {
 		if (contact && contact->pos_icon.bottom != 0 && contact->pos_icon.right != 0)
-			CLUI__cliInvalidateRect(hwnd, &(contact->pos_icon), FALSE);
+			cliInvalidateRect(hwnd, &contact->pos_icon, FALSE);
 		else
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+			cliInvalidateRect(hwnd, NULL, FALSE);
 		//try only needed rectangle
 	}
 
@@ -1442,7 +1442,7 @@ static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hCon
 	else if (hContact == 0)
 		UpdateAllAvatars(dat);
 
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	return 0;
 }
 
@@ -1518,7 +1518,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	else
 		contact->flags |= CONTACTF_NOTONLIST;
 
-	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, NULL, FALSE);
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
