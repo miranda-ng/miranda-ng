@@ -308,7 +308,7 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 
 void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 {
-	struct ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 	dat->needsResort = 1;
 
 	ClcGroup *group;

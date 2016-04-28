@@ -91,24 +91,6 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		mir_free_and_nil(cont->subcontacts);
 }
 
-int cli_AddItemToGroup(ClcGroup *group, int iAboveItem)
-{
-	if (group == NULL)
-		return 0;
-
-	iAboveItem = corecli.pfnAddItemToGroup(group, iAboveItem);
-	ClearRowByIndexCache();
-	return iAboveItem;
-}
-
-ClcGroup* cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
-{
-	ClearRowByIndexCache();
-	ClcGroup *result = corecli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
-	ClearRowByIndexCache();
-	return result;
-}
-
 void cli_FreeContact(ClcContact *p)
 {
 	if (p->SubAllocated) {
@@ -129,19 +111,6 @@ void cli_FreeContact(ClcContact *p)
 		AniAva_RemoveAvatar(p->hContact);
 	p->avatar_pos = AVATAR_POS_DONT_HAVE;
 	corecli.pfnFreeContact(p);
-}
-
-void cli_FreeGroup(ClcGroup *group)
-{
-	corecli.pfnFreeGroup(group);
-	ClearRowByIndexCache();
-}
-
-int cli_AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
-{
-	int i = corecli.pfnAddInfoItemToGroup(group, flags, pszText);
-	ClearRowByIndexCache();
-	return i;
 }
 
 static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, MCONTACT hContact)
@@ -213,10 +182,9 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hCo
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
 			break;
 
-	i = cli_AddItemToGroup(group, i + 1);
+	i = pcli->pfnAddItemToGroup(group, i + 1);
 
 	_LoadDataToContact(group->cl.items[i], group, dat, hContact);
-	ClearRowByIndexCache();
 	return group->cl.items[i];
 }
 
@@ -235,16 +203,6 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 	ClcContact *cont;
 	if (FindItem(hwnd, dat, hContact, &cont, &group, NULL, FALSE))
 		_LoadDataToContact(cont, group, dat, hContact);
-}
-
-void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hContact)
-{
-	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
-	ClearRowByIndexCache();
-	corecli.pfnDeleteItemFromTree(hwnd, hContact);
-
-	dat->needsResort = 1;
-	ClearRowByIndexCache();
 }
 
 bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
@@ -291,17 +249,14 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	ClcGroup *group = NULL;
-	static int rebuildCounter = 0;
 
 	BOOL PlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT);
 	KillTimer(hwnd, TIMERID_REBUILDAFTER);
 	pcli->bAutoRebuild = false;
 
-	ClearRowByIndexCache();
 	ImageArray_Clear(&dat->avatar_cache);
 	RowHeights_Clear(dat);
 	RowHeights_GetMaxRowHeight(dat, hwnd);
-	TRACEVAR("Rebuild Entire List %d times\n", ++rebuildCounter);
 
 	dat->list.expanded = 1;
 	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
@@ -315,10 +270,10 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	for (int i = 1;; i++) {
 		DWORD groupFlags;
-		TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags); //UNICODE
+		TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
 		if (szGroupName == NULL)
 			break;
-		cli_AddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
+		pcli->pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -330,7 +285,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (mir_tstrlen(cacheEntry->tszGroup) == 0)
 				group = &dat->list;
 			else
-				group = cli_AddGroup(hwnd, dat, cacheEntry->tszGroup, (DWORD)-1, 0, 0);
+				group = pcli->pfnAddGroup(hwnd, dat, cacheEntry->tszGroup, (DWORD)-1, 0, 0);
 
 			if (group != NULL) {
 				if (cacheEntry->m_iStatus == ID_STATUS_OFFLINE && PlaceOfflineToRoot)
@@ -447,7 +402,6 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
 	LOCK_RECALC_SCROLLBAR = TRUE;
 
-	NMCLISTCONTROL nm;
 	int i, j;
 	OBJLIST<SavedGroupState_t> savedGroup(4);
 	OBJLIST<SavedContactState_t> savedContact(4);
@@ -474,14 +428,14 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = group->cl.items[group->scanIndex]->group;
 			group->scanIndex = 0;
 
-			SavedGroupState_t* p = new SavedGroupState_t;
+			SavedGroupState_t *p = new SavedGroupState_t;
 			p->groupId = group->groupId;
 			p->expanded = group->expanded;
 			savedGroup.insert(p);
 			continue;
 		}
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
-			SavedContactState_t* p = new SavedContactState_t;
+			SavedContactState_t *p = new SavedContactState_t;
 			p->hContact = group->cl.items[group->scanIndex]->hContact;
 			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
 			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
@@ -549,6 +503,8 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
 
 	pcli->pfnRecalcScrollBar(hwnd, dat);
+
+	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTREBUILT;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -557,7 +513,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 ClcContact* cliCreateClcContact()
 {
-	ClcContact* contact = (ClcContact*)mir_calloc(sizeof(ClcContact));
+	ClcContact *contact = (ClcContact*)mir_calloc(sizeof(ClcContact));
 	memset(contact->iExtraImage, 0xFF, sizeof(contact->iExtraImage));
 	return contact;
 }
@@ -632,7 +588,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 // checks the currently active view mode filter and returns true, if the contact should be hidden
 // if no view mode is active, it returns the CList/Hidden setting
 // also cares about sub contacts (if meta is active)
-//
+
 int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.

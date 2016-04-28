@@ -350,14 +350,9 @@ int     FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, Clc
 int     cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 HANDLE  ContactToHItem(ClcContact *contact);
 HANDLE  ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
-void    ClearRowByIndexCache();
 
 //clcitems.c
-ClcGroup *cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-void    cli_FreeGroup(ClcGroup *group);
-int     cli_AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
-void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void    cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 int     GetNewSelection(ClcGroup *group, int selection, int direction);

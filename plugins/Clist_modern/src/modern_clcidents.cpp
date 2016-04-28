@@ -26,10 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_clc.h"
 #include "modern_commonprototypes.h"
 
-#define CacheArrSize 255
-ClcGroup* CacheIndex[CacheArrSize] = { NULL };
-bool CacheIndexClear = TRUE;
-
 /* the CLC uses 3 different ways to identify elements in its list, this file
 contains routines to convert between them.
 
@@ -50,7 +46,9 @@ exclusively externally
 int GetContactIndex(ClcGroup *group, ClcContact *contact)
 {
 	for (int i = 0; i < group->cl.count; i++)
-		if (group->cl.items[i]->hContact == contact->hContact)  return i;
+		if (group->cl.items[i]->hContact == contact->hContact)
+			return i;
+	
 	return -1;
 }
 
@@ -180,14 +178,6 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 	return 0;
 }
 
-void ClearRowByIndexCache()
-{
-	if (!CacheIndexClear) {
-		memset(CacheIndex, 0, sizeof(CacheIndex));
-		CacheIndexClear = TRUE;
-	}
-}
-
 int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)
 {
 	int index = 0, i;
@@ -204,11 +194,6 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 			continue;
 		}
 
-		if (index > 0 && index < CacheArrSize) {
-			CacheIndex[index] = group;
-			CacheIndexClear = FALSE;
-		}
-
 		ClcContact *c = group->cl.items[group->scanIndex];
 		if (testindex == index) {
 			if (contact) *contact = c;
@@ -220,10 +205,6 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 			if (c->SubAllocated)
 				if (c->SubExpanded && dat->expandMeta) {
 					for (i = 0; i < c->SubAllocated; i++) {
-						if ((index>0) && (index < CacheArrSize)) {
-							CacheIndex[index] = group;
-							CacheIndexClear = FALSE;
-						}
 						index++;
 						if (testindex == index) {
 							if (contact) {

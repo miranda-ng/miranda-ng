@@ -251,8 +251,6 @@ void    cliFreeCacheItem(ClcCacheEntry *p);
 void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
 void    cliRecalcScrollBar(HWND hwnd, ClcData *dat);
 void    CLUI_cliOnCreateClc(void);
-int     cli_AddItemToGroup(ClcGroup *group, int iAboveItem);
-int     cli_AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
@@ -260,9 +258,7 @@ int     cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hConta
 int     cli_GetContactIcon(MCONTACT hContact);
 int     cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_FreeContact(ClcContact*);
-void    cli_FreeGroup(ClcGroup*);
 void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 CListEvent* cli_AddEvent(CLISTEVENT *cle);
@@ -274,7 +270,6 @@ int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact,
 int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status, const char *proto);
 void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
-void    cliCheckCacheItem(ClcCacheEntry *pdnce);
 void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);

@@ -177,14 +177,9 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
 	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
 	pcli->pfnSortCLC = cli_SortCLC;
-	pcli->pfnAddGroup = cli_AddGroup;
 	pcli->pfnAddContactToTree = cli_AddContactToTree;
-	pcli->pfnAddInfoItemToGroup = cli_AddInfoItemToGroup;
-	pcli->pfnAddItemToGroup = cli_AddItemToGroup;
 	pcli->pfnContactListWndProc = CLUI::cli_ContactListWndProc;
-	pcli->pfnDeleteItemFromTree = cli_DeleteItemFromTree;
 	pcli->pfnFreeContact = cli_FreeContact;
-	pcli->pfnFreeGroup = cli_FreeGroup;
 	pcli->pfnSetContactCheckboxes = cli_SetContactCheckboxes;
 	pcli->pfnTrayIconProcessMessage = cli_TrayIconProcessMessage;
 	pcli->pfnSaveStateAndRebuildList = cli_SaveStateAndRebuildList;
