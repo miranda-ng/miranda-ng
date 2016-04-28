@@ -209,17 +209,6 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		return 0;
-
-	case CLM_SETEXTRAIMAGE:
-		if (LOWORD(lParam) >= dat->extraColumnsCount)
-			return 0;
-
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
-			return 0;
-
-		contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
-		pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-		return 0;
 	}
 	return corecli.pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 }

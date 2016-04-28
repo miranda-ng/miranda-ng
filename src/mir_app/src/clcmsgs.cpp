@@ -339,11 +339,13 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 
 	case CLM_SETEXTRAIMAGE:
 		if (LOWORD(lParam) < dat->extraColumnsCount) {
-			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			int bVisible;
+			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, &bVisible))
 				return 0;
 
 			contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
-			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+			if (bVisible)
+				cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		}
 		break;
 
