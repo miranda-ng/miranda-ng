@@ -81,17 +81,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protosvc.h>
 #include <m_clist.h>
 #include <m_skin.h>
+#include <m_skin_eng.h>
+#include <m_skinbutton.h>
 #include <m_contacts.h>
 #include <m_avatars.h>
 #include <m_icolib.h>
 #include <m_fontservice.h>
+#include <m_hotkeys.h>
+#include <m_metacontacts.h>
 #include <m_timezones.h>
 #include <m_extraicons.h>
 #include <m_xstatus.h>
 #include <m_cluiframes.h>
+#include <m_protoint.h>
 #include <m_modernopt.h>
 #include <m_netlib.h>
-
 #include <m_toptoolbar.h>
 #include <m_metacontacts.h>
 #include <m_variables.h>
@@ -99,12 +103,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_folders.h>
 
 #include "modern_global_structure.h"
-#include "modern_clc.h"
+#include "modern_defsettings.h"
 #include "modern_clist.h"
+#include "modern_clc.h"
+#include "modern_row.h"
+#include "modern_skinselector.h"
+#include "modern_skinengine.h"
+#include "modern_statusbar.h"
 #include "cluiframes.h"
+#include "modern_commonprototypes.h"
 #include "modern_rowheight_funcs.h"
 #include "modern_cache_funcs.h"
 #include "modern_log.h"
+
 #include "resource.h"
 
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"

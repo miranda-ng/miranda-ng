@@ -26,7 +26,6 @@ Created by Pescuma
 
 #include "stdafx.h"
 #include "modern_image_array.h"
-#include "modern_commonprototypes.h"
 
 #pragma comment(lib, "msimg32.lib")
 

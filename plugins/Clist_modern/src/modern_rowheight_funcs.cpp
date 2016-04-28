@@ -25,9 +25,6 @@ Created by Pescuma, modified by Artem Shpynov
 */
 
 #include "stdafx.h"
-#include "modern_rowheight_funcs.h"
-#include "modern_commonprototypes.h"
-#include "modern_row.h"
 #include "modern_clcpaint.h"
 
 int g_mutex_nCalcRowHeightLock = 0;

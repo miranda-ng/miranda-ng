@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "modern_statusbar.h"
 #include "m_skin_eng.h"
-#include "modern_commonprototypes.h"
 #include "modern_clcpaint.h"
 #include "modern_sync.h"
 

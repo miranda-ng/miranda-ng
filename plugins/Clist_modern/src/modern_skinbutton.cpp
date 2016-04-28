@@ -27,9 +27,7 @@ This file contains code related to new modern free positioned skinned buttons
 */
 
 #include "stdafx.h"
-#include "modern_skinengine.h"
 #include "modern_clcpaint.h"
-#include "m_skinbutton.h"
 
 #define MODERNSKINBUTTONCLASS "MirandaModernSkinButtonClass"
 BOOL ModernSkinButtonModuleIsLoaded = FALSE;

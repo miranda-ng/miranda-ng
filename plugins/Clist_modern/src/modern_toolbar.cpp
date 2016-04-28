@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "modern_commonprototypes.h"
 #include "m_skinbutton.h"
 #include <m_toptoolbar.h>
 #include "modern_sync.h"

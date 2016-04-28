@@ -24,16 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //Include
 #include "stdafx.h"
-#include "m_skin_eng.h"
-#include "modern_skinselector.h"
-#include "cluiframes.h"
 
 #define _EFFECTENUM_FULL_H
 #include "modern_effectenum.h"
 #undef _EFFECTENUM_FULL_H
 
-#include "modern_skinengine.h"
-#include "modern_commonprototypes.h"
 #include "modern_sync.h"
 
 //Implementation

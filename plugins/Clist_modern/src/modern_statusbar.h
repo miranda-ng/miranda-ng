@@ -3,7 +3,6 @@
 #ifndef modern_statusbar_h__
 #define modern_statusbar_h__
 
-#include "modern_commonprototypes.h"
 #include "m_xpTheme.h"
 
 int ModernDrawStatusBar(HWND hwnd, HDC hDC);

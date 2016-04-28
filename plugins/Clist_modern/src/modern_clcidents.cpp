@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "modern_clc.h"
-#include "modern_commonprototypes.h"
 
 /* the CLC uses 3 different ways to identify elements in its list, this file
 contains routines to convert between them.

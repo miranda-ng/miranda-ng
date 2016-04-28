@@ -29,9 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_image_array.h"
 #include "m_xpTheme.h"
 
-#include "modern_defsettings.h"
-#include "modern_clist.h"
-
 // Новый формат настроек.
 #define TRAY_ICON_MODE_GLOBAL		1
 #define TRAY_ICON_MODE_ACC			2

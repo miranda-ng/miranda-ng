@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "modern_commonprototypes.h"
 #include "m_xpTheme.h"
 
 

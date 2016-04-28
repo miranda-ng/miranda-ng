@@ -29,9 +29,6 @@ Created by Pescuma
 #ifndef __CACHE_FUNCS_H__
 # define __CACHE_FUNCS_H__
 
-#include "modern_clc.h"
-#include "modern_commonprototypes.h"
-
 void Cache_GetText(ClcData *dat, ClcContact *contact);
 void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact);
 void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n);

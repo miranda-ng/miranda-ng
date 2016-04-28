@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "modern_clist.h"
-#include "m_skin_eng.h"
-#include "m_skinbutton.h"
-#include "modern_commonprototypes.h"
 #include "modern_sync.h"
 
 #define WM_DOCKCALLBACK   (WM_USER+121)

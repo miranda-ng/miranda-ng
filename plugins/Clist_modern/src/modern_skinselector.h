@@ -26,9 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_MOD_SKIN_SELECTOR_H_INC
 #define M_MOD_SKIN_SELECTOR_H_INC
 
-#include "newpluginapi.h"
-#include "stdafx.h"
-
 #define MAXVALUE 20
 
 #define MPF_EQUAL		1

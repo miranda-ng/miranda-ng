@@ -26,29 +26,10 @@ Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
 
 #include "stdafx.h"
 
-/*
-#include <windows.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
-#include "resource.h"
-#include "stdafx.h"
-*/
-#include "modern_row.h"
-
-//Futher declaration
 void rowCalculateMinSize(ROWCELL* cell);
 void rowEqualize(ROWCELL* cell);
 void rowResetEmptyRects(ROWCELL* cell);
 void rowDeleteTree(ROWCELL* cell);
-////////
-
-
 
 //extern ROWCELL * gl_RowRoot;	// Указатель на корневой тэг  < contact> в шаблоне
 //ROWOBJECTS RowTA;				// Структура, через которую осуществляется доступ к элементам контакта.

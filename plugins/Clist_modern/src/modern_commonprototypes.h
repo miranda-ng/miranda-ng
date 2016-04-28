@@ -3,18 +3,6 @@
 #ifndef _COMMONPROTOTYPES
 #define _COMMONPROTOTYPES
 
-#ifndef commonheaders_h__
-#error "stdafx.h have to be including first"
-#endif
-
-#include "stdafx.h"  //TO DO: Move contents of this file to commonheaders.h
-#include "modern_clist.h"
-#include "cluiframes.h"
-#include "modern_row.h"
-#include "modern_skinengine.h"
-#include "modern_skinselector.h"
-#include "modern_statusbar.h"
-
 #define SKIN  "ModernSkin"
 
 extern PLUGININFOEX pluginInfo;

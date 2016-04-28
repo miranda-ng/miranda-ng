@@ -23,11 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-
-#include "modern_clc.h"
-#include "modern_skinengine.h"
-#include "modern_commonprototypes.h"
-#include "modern_row.h"
 #include "modern_clcpaint.h"
 
 CLCPaint g_clcPainter;

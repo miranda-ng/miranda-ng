@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "m_skin_eng.h"
-#include "modern_commonprototypes.h"
 #include "modern_sync.h"
 
 // ALL THIS MODULE FUNCTION SHOULD BE EXECUTED FROM MAIN THREAD

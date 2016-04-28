@@ -29,8 +29,6 @@ Modified by FYR
 // Module for working with lines text and avatars
 
 #include "stdafx.h"
-#include "modern_cache_funcs.h"
-#include "newpluginapi.h"
 #include "modern_sync.h"
 
 typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact, void *param);
