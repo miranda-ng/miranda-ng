@@ -595,59 +595,43 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	// Second line
 	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->second_line_show = db_get_b(NULL, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
-		dat->second_line_top_space = db_get_w(NULL, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
-		dat->second_line_draw_smileys = db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
-		dat->second_line_type = db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
+		dat->secondLine.show = db_get_b(NULL, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
+		dat->secondLine.top_space = db_get_w(NULL, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
+		dat->secondLine.draw_smileys = db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
+		dat->secondLine.type = db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->second_line_text, tszLineText, _countof(dat->second_line_text));
+			mir_tstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
 		else
-			dat->second_line_text[0] = _T('\0');
+			dat->secondLine.text[0] = _T('\0');
 
-		dat->second_line_xstatus_has_priority = db_get_b(NULL, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
-		dat->second_line_show_status_if_no_away = db_get_b(NULL, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->second_line_show_listening_if_no_away = db_get_b(NULL, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->second_line_use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->secondLine.xstatus_has_priority = db_get_b(NULL, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
+		dat->secondLine.show_status_if_no_away = db_get_b(NULL, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->secondLine.show_listening_if_no_away = db_get_b(NULL, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->secondLine.use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
-	else {
-		dat->second_line_show = 0;
-		dat->second_line_top_space = 0;
-		dat->second_line_draw_smileys = 0;
-		dat->second_line_type = 0;
-		dat->second_line_text[0] = _T('\0');
-		dat->second_line_xstatus_has_priority = 0;
-		dat->second_line_use_name_and_message_for_xstatus = 0;
-	}
+	else memset(&dat->secondLine, 0, sizeof(dat->secondLine));
 
 	// Third line
 	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->third_line_show = db_get_b(NULL, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
-		dat->third_line_top_space = db_get_w(NULL, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-		dat->third_line_draw_smileys = db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
-		dat->third_line_type = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
+		dat->thirdLine.show = db_get_b(NULL, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
+		dat->thirdLine.top_space = db_get_w(NULL, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
+		dat->thirdLine.draw_smileys = db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
+		dat->thirdLine.type = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->third_line_text, tszLineText, _countof(dat->third_line_text));
+			mir_tstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
 		else
-			dat->third_line_text[0] = _T('\0');
+			dat->thirdLine.text[0] = _T('\0');
 
-		dat->third_line_xstatus_has_priority = db_get_b(NULL, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-		dat->third_line_show_status_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->third_line_show_listening_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->third_line_use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->thirdLine.xstatus_has_priority = db_get_b(NULL, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
+		dat->thirdLine.show_status_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->thirdLine.show_listening_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->thirdLine.use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
-	else {
-		dat->third_line_show = 0;
-		dat->third_line_top_space = 0;
-		dat->third_line_draw_smileys = 0;
-		dat->third_line_type = TEXT_STATUS_MESSAGE;
-		dat->third_line_text[0] = _T('\0');
-		dat->third_line_xstatus_has_priority = 1;
-		dat->third_line_use_name_and_message_for_xstatus = 0;
-	}
+	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
 
 	dat->rightMargin = db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
 	dat->force_in_dialog = (pcli->hwndContactTree) ? (hwnd != pcli->hwndContactTree) : 0;

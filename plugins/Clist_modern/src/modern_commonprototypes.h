@@ -192,7 +192,7 @@ HICON   cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int sta
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
 int     __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
 int     BgStatusBarChange(WPARAM wParam, LPARAM lParam);                              //clcopts.c
-int     ClcDoProtoAck(MCONTACT wParam, ACKDATA *ack);                                 //clc.c
+int     ClcDoProtoAck(ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetContactCachedStatus(MCONTACT hContact);                                 //clistsettings.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
@@ -230,8 +230,7 @@ void    UpdateAllAvatars(ClcData *dat);                                    //cac
 void ApplyViewMode(const char *Name, bool onlySelector = false);
 void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
-//cluiframes.c
-void    gtaRenewText(MCONTACT hContact);
+// cluiframes.c
 int     ExtraImage_ExtraIDToColumnNum(int extra);
 
 int     LoadSkinButtonModule();

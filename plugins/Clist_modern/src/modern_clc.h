@@ -64,7 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TIMERID_SUBEXPAND			21
 #define TIMERID_INVALIDATE			22
-#define TIMERID_INVALIDATE_FULL		25
 #define TIMERID_RECALCSCROLLBAR		26
 
 #define TIMERID_FIRST	TIMERID_RENAME
@@ -221,6 +220,19 @@ struct ClcContact : public ClcContactBase
 	}
 };
 
+struct ClcLineInfo
+{
+	BOOL  show;
+	int   top_space;
+	BOOL  draw_smileys;
+	int   type;
+	TCHAR text[TEXT_TEXT_MAX_LENGTH];
+	BOOL  xstatus_has_priority;
+	BOOL  show_status_if_no_away;
+	BOOL  show_listening_if_no_away;
+	BOOL  use_name_and_message_for_xstatus;
+};
+
 struct ClcModernFontInfo {
 	HFONT hFont;
 	int fontHeight, changed;
@@ -301,71 +313,24 @@ struct ClcData : public ClcDataBase
 	BOOL first_line_draw_smileys;
 	BOOL first_line_append_nick;
 
-	// Second line
-	BOOL second_line_show;
-	int second_line_top_space;
-	BOOL second_line_draw_smileys;
-	int second_line_type;
-	TCHAR second_line_text[TEXT_TEXT_MAX_LENGTH];
-	BOOL second_line_xstatus_has_priority;
-	BOOL second_line_show_status_if_no_away;
-	BOOL second_line_show_listening_if_no_away;
-	BOOL second_line_use_name_and_message_for_xstatus;
+	// Second & third line
+	ClcLineInfo secondLine, thirdLine;
 
-	// Third line
-	BOOL third_line_show;
-	int third_line_top_space;
-	BOOL third_line_draw_smileys;
-	int third_line_type;
-	TCHAR third_line_text[TEXT_TEXT_MAX_LENGTH];
-	BOOL third_line_xstatus_has_priority;
-	BOOL third_line_show_status_if_no_away;
-	BOOL third_line_show_listening_if_no_away;
-	BOOL third_line_use_name_and_message_for_xstatus;
-	struct ClcModernFontInfo fontModernInfo[FONTID_MODERN_MAX + 1];
-	HWND hWnd;
-	BYTE menuOwnerType;
-	int menuOwnerID;
+	ClcModernFontInfo fontModernInfo[FONTID_MODERN_MAX + 1];
+	HWND  hWnd;
+	BYTE  menuOwnerType;
+	int   menuOwnerID;
 	DWORD m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
-	BYTE useMetaIcon;
-	BYTE drawOverlayedStatus;
-	int nInsertionLevel;
+	BYTE  useMetaIcon;
+	BYTE  drawOverlayedStatus;
+	int   nInsertionLevel;
 
-	BYTE dbbMetaHideExtra;
-	BYTE dbbBlendInActiveState;
-	BYTE dbbBlend25;
+	BYTE  dbbMetaHideExtra;
+	BYTE  dbbBlendInActiveState;
+	BYTE  dbbBlend25;
 
 	XPTHANDLE hCheckBoxTheme;
 	BYTE bCompactMode;
-};
-
-struct SHORTDATA
-{
-	HWND    hWnd;
-	BOOL    contact_time_show_only_if_different;
-	int     text_smiley_height;
-	BOOL    text_replace_smileys;
-	BOOL    text_use_protocol_smileys;
-
-	// Second line
-	BOOL    second_line_show;
-	BOOL    second_line_draw_smileys;
-	int     second_line_type;
-	TCHAR   second_line_text[TEXT_TEXT_MAX_LENGTH];
-	BOOL    second_line_xstatus_has_priority;
-	BOOL    second_line_show_status_if_no_away;
-	BOOL    second_line_show_listening_if_no_away;
-	BOOL    second_line_use_name_and_message_for_xstatus;
-
-	// Third line
-	BOOL    third_line_show;
-	BOOL    third_line_draw_smileys;
-	int     third_line_type;
-	TCHAR   third_line_text[TEXT_TEXT_MAX_LENGTH];
-	BOOL    third_line_xstatus_has_priority;
-	BOOL    third_line_show_status_if_no_away;
-	BOOL    third_line_show_listening_if_no_away;
-	BOOL    third_line_use_name_and_message_for_xstatus;
 };
 
 typedef struct tagOVERLAYICONINFO

@@ -244,9 +244,6 @@ int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc);
 #define CCI_OTHER         ~( CCI_NAME|CCI_GROUP|CCI_PROTO|CCI_STATUS|CCI_LINES|CCI_TIME )
 #define CCI_ALL            (0xFFFFFFFF)
 
-void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
-int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
-
 /* move to list module */
 typedef void(*ItemDestuctor)(void*);
 

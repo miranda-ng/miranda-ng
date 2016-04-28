@@ -1227,23 +1227,6 @@ int CLUI_SizingGetWindowRect(HWND hwnd, RECT *rc)
 }
 
 
-int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam)
-{
-	return CListSettings_GetCopyFromCache((ClcCacheEntry *)lParam, wParam ? (DWORD)wParam : CCI_ALL);
-}
-
-int CLUI_SyncSetPDNCE(WPARAM wParam, LPARAM lParam)
-{
-	return CListSettings_SetToCache((ClcCacheEntry *)lParam, wParam ? (DWORD)wParam : CCI_ALL);
-}
-
-int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
-{
-	HWND hwnd = (HWND)wParam;
-	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
-	return ClcGetShortData(dat, (SHORTDATA*)lParam);
-}
-
 int CLUI_IconsChanged(WPARAM, LPARAM)
 {
 	if (MirandaExiting())
@@ -2542,9 +2525,6 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 	//fire the "Away Message" Event to wake the thread so it can die.
 	//fire the "Get Text Async" Event to wake the thread so it can die.
 	if (amWakeThread())
-		wait = TRUE;
-
-	if (gtaWakeThread())
 		wait = TRUE;
 
 	if (wait) {

@@ -78,9 +78,6 @@ static void amThreadProc(void *)
 {
 	Netlib_Logf(NULL, "amThreadProc thread start");
 
-	ClcCacheEntry dnce;
-	memset(&dnce, 0, sizeof(dnce));
-
 	while (!MirandaExiting()) {
 		MCONTACT hContact = amGetCurrentChain();
 		while (hContact) {
@@ -90,22 +87,20 @@ static void amThreadProc(void *)
 				if (MirandaExiting())
 					goto LBL_Exit;
 			}
-			CListSettings_FreeCacheItemData(&dnce);
-			dnce.hContact = hContact;
-			Sync(CLUI_SyncGetPDNCE, (WPARAM)0, (LPARAM)&dnce);
+
+			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
 
 			HANDLE ACK = 0;
-			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
+			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;
 				ack.type = ACKTYPE_AWAYMSG;
 				ack.result = ACKRESULT_FAILED;
-				ack.szModule = dnce.m_pszProto;
-				ClcDoProtoAck(hContact, &ack);
+				ack.szModule = pdnce->m_pszProto;
+				ClcDoProtoAck(&ack);
 			}
-			CListSettings_FreeCacheItemData(&dnce);
 			amRequestTick = time;
 			hContact = amGetCurrentChain();
 			if (hContact) {

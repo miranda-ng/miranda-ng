@@ -31,7 +31,6 @@ Modified by FYR
 #include "stdafx.h"
 #include "modern_cache_funcs.h"
 #include "newpluginapi.h"
-#include "./modern_gettextasync.h"
 #include "modern_sync.h"
 
 typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact, void *param);
@@ -43,9 +42,6 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
 
 static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
-int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
-void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
-void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get time zone for contact
@@ -65,16 +61,19 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get all lines of text
 //
-void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
+void Cache_GetText(ClcData *dat, ClcContact *contact)
 {
 	Cache_GetFirstLineText(dat, contact);
+
 	if (!dat->force_in_dialog) {
-		if ((dat->second_line_show && (forceRenew || contact->pce->szSecondLineText == NULL)) || (dat->third_line_show && (forceRenew || contact->pce->szThirdLineText == NULL)))
-			gtaAddRequest(dat, contact->hContact);
+		if (dat->secondLine.show)
+			Cache_GetNthLineText(dat, contact->pce, 2);
+		if (dat->thirdLine.show)
+			Cache_GetNthLineText(dat, contact->pce, 3);
 	}
 }
 
-void CSmileyString::AddListeningToIcon(SHORTDATA *dat, TCHAR *szText)
+void CSmileyString::AddListeningToIcon(ClcData *dat, TCHAR *szText)
 {
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();
@@ -173,7 +172,7 @@ void CSmileyString::DestroySmileyList()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Parsing of text for smiley
 //
-void CSmileyString::ReplaceSmileys(SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
+void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
 {
 	int last_pos = 0;
 	iMaxSmileyHeight = 0;
@@ -382,11 +381,8 @@ int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xsta
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Get the text for specified lines
-//
-int Cache_GetLineText(
-	ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority,
-	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
-	BOOL pdnce_time_show_only_if_different)
+
+int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, ClcLineInfo &line)
 {
 	if (text == NULL)
 		return TEXT_EMPTY;
@@ -394,7 +390,8 @@ int Cache_GetLineText(
 
 	switch (type) {
 	case TEXT_STATUS:
-		if (GetStatusName(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
+LBL_Status:
+		if (GetStatusName(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusMsg
 			ptrT tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 			if (tszXStatusMsg != NULL && tszXStatusMsg[0] != 0) {
@@ -416,7 +413,7 @@ int Cache_GetLineText(
 		return TEXT_NICKNAME;
 
 	case TEXT_STATUS_MESSAGE:
-		if (GetStatusMessage(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
+		if (GetStatusMessage(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusName
 			ptrT tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
@@ -425,7 +422,7 @@ int Cache_GetLineText(
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}
-		else if (use_name_and_message_for_xstatus && xstatus_has_priority) {
+		else if (line.use_name_and_message_for_xstatus && line.xstatus_has_priority) {
 			// Try to get XStatusName
 			ptrT tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
@@ -435,14 +432,14 @@ int Cache_GetLineText(
 		}
 
 		if (text[0] == '\0') {
-			if (show_listening_if_no_away) {
-				Cache_GetLineText(pdnce, TEXT_LISTENING_TO, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);
+			if (line.show_listening_if_no_away) {
+				GetListeningTo(text, text_size, pdnce);
 				if (text[0] != '\0')
 					return TEXT_LISTENING_TO;
 			}
 
-			if (show_status_if_no_away) // re-request status if no away
-				return Cache_GetLineText(pdnce, TEXT_STATUS, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);
+			if (line.show_status_if_no_away) // re-request status if no away
+				goto LBL_Status;
 		}
 		return TEXT_STATUS_MESSAGE;
 
@@ -452,7 +449,7 @@ int Cache_GetLineText(
 
 	case TEXT_TEXT:
 		{
-			ptrT tmp(variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact));
+			ptrT tmp(variables_parsedup(line.text, pdnce->tszName, pdnce->hContact));
 			mir_tstrncpy(text, tmp, text_size);
 			CopySkipUnprintableChars(text, text, text_size - 1);
 		}
@@ -472,7 +469,7 @@ int Cache_GetLineText(
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Get the text for First Line
-//
+
 void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 {
 	if (GetCurrentThreadId() != g_dwMainThreadID)
@@ -497,60 +494,42 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	}
 	else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 
-	if (!dat->force_in_dialog) {
-		SHORTDATA data = { 0 };
-		Sync(CLUI_SyncGetShortData, (WPARAM)pcli->hwndContactTree, (LPARAM)&data);
-		contact->ssText.ReplaceSmileys(&data, pdnce, contact->szText, dat->first_line_draw_smileys);
-	}
+	if (!dat->force_in_dialog)
+		contact->ssText.ReplaceSmileys(dat, pdnce, contact->szText, dat->first_line_draw_smileys);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get the text for Second Line
-//
-void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
+
+void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 {
-	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
-	int type = TEXT_EMPTY;
+	TCHAR Text[240 - EXTRA_ICON_COUNT]; Text[0] = 0;
+	ClcLineInfo &line = (n == 2) ? dat->secondLine : dat->thirdLine;
+	TCHAR* &szText = (n == 2) ? pdnce->szSecondLineText : pdnce->szThirdLineText;
 
-	if (dat->second_line_show)
-		type = Cache_GetLineText(pdnce, dat->second_line_type, Text, _countof(Text), dat->second_line_text,
-		dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
-		dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
-
-	Text[_countof(Text) - 1] = 0; //to be sure that it is null terminated string
-
-	replaceStrT(pdnce->szSecondLineText, (dat->second_line_show) ? Text : NULL);
-
-	if (pdnce->szSecondLineText) {
-		if (type == TEXT_LISTENING_TO && pdnce->szSecondLineText[0] != _T('\0'))
-			pdnce->ssSecondLine.AddListeningToIcon(dat, pdnce->szSecondLineText);
-		else
-			pdnce->ssSecondLine.ReplaceSmileys(dat, pdnce, pdnce->szSecondLineText, dat->second_line_draw_smileys);
+	// in most cases replaceStrT does nothing
+	if (!line.show) {
+		replaceStrT(szText, NULL);
+		return;
 	}
+	
+	int type = Cache_GetLineText(pdnce, line.type, Text, _countof(Text), line);
+	if (Text[0] == 0) {
+		replaceStrT(szText, NULL);
+		return;
+	}
+	
+	Text[_countof(Text) - 1] = 0; //to be sure that it is null terminated string
+	replaceStrT(szText, Text);
+
+	CSmileyString &ss = (n == 2) ? pdnce->ssSecondLine : pdnce->ssThirdLine;
+	if (type == TEXT_LISTENING_TO && szText[0] != _T('\0'))
+		ss.AddListeningToIcon(dat, szText);
+	else
+		ss.ReplaceSmileys(dat, pdnce, szText, line.draw_smileys);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Get the text for Third Line
-//
-void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
-{
-	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
-	int type = TEXT_EMPTY;
-	if (dat->third_line_show)
-		type = Cache_GetLineText(pdnce, dat->third_line_type, Text, _countof(Text), dat->third_line_text,
-		dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
-		dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
-
-	Text[_countof(Text) - 1] = 0; //to be sure that it is null terminated string
-
-	replaceStrT(pdnce->szThirdLineText, (dat->third_line_show) ? Text : NULL);
-	if (pdnce->szThirdLineText) {
-		if (type == TEXT_LISTENING_TO && pdnce->szThirdLineText[0] != _T('\0'))
-			pdnce->ssThirdLine.AddListeningToIcon(dat, pdnce->szThirdLineText);
-		else
-			pdnce->ssThirdLine.ReplaceSmileys(dat, pdnce, pdnce->szThirdLineText, dat->third_line_draw_smileys);
-	}
-}
 
 void RemoveTag(TCHAR *to, TCHAR *tag)
 {
@@ -564,8 +543,8 @@ void RemoveTag(TCHAR *to, TCHAR *tag)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//Copy string with removing Escape chars from text and BBcodes
-//
+// Copy string with removing Escape chars from text and BBcodes
+
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 {
 	DWORD i;

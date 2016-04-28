@@ -55,14 +55,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Declaration of prototypes in other modules */
 
 int ClcUnloadModule();
-int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData);
 int ClcEnterDragToScroll(HWND hwnd, int Y);
 
 int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam);
 int CListMod_HideWindow(HWND hwndContactList, int mode);
-
-int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag);
-int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam, LPARAM lParam);
@@ -118,5 +114,4 @@ int SizeFramesByWindowRect(RECT *r, HDWP * PosBatch, int mode);	//cluiframes.c
 
 int InitSkinHotKeys();
 BOOL amWakeThread();
-BOOL gtaWakeThread();
 void CreateViewModeFrame();

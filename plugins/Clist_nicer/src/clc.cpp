@@ -260,7 +260,6 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		pcli->pfnRecalcScrollBar(hwnd, dat);
-LBL_Def:
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_NCCALCSIZE:
@@ -302,7 +301,7 @@ LBL_Def:
 			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 1);
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_ICONCHANGED:
 		{
@@ -369,7 +368,7 @@ LBL_Def:
 			if (recalcScrollBar)
 				pcli->pfnRecalcScrollBar(hwnd, dat);
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_METACHANGED:
 		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
@@ -393,14 +392,14 @@ LBL_Def:
 			}
 		}
 		SendMessage(hwnd, INTM_NAMEORDERCHANGED, wParam, lParam);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_METACHANGEDEVENT:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		if (lParam == 0)
 			pcli->pfnInitAutoRebuild(hwnd);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_NAMECHANGED:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
@@ -411,14 +410,15 @@ LBL_Def:
 
 		dat->needsResort = TRUE;
 		PostMessage(hwnd, INTM_SORTCLC, 0, 0);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_CODEPAGECHANGED:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
+
 		contact->codePage = db_get_dw(wParam, "Tab_SRMsg", "ANSIcodepage", db_get_dw(wParam, "UserInfo", "ANSIcodepage", CP_ACP));
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_AVATARCHANGED:
 		contact = NULL;
@@ -430,7 +430,7 @@ LBL_Def:
 				cfg::dat.bForceRefetchOnPaint = TRUE;
 				RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
 				cfg::dat.bForceRefetchOnPaint = FALSE;
-				goto LBL_Def;
+				return DefWindowProc(hwnd, msg, wParam, lParam);
 			}
 
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
@@ -453,7 +453,7 @@ LBL_Def:
 			}
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_STATUSMSGCHANGED:
 		{
@@ -469,7 +469,7 @@ LBL_Def:
 			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, contact ? contact->hContact : 0);
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_STATUSCHANGED:
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
@@ -480,7 +480,7 @@ LBL_Def:
 					LoadAvatarForContact(contact);
 			}
 			contact->wStatus = wStatus;
-			goto LBL_Def;
+			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 		break;
 
@@ -496,7 +496,7 @@ LBL_Def:
 
 		dat->needsResort = TRUE;
 		PostMessage(hwnd, INTM_SORTCLC, 0, 0);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_INVALIDATE:
 		if (!dat->bNeedPaint) {
@@ -504,18 +504,7 @@ LBL_Def:
 			SetTimer(hwnd, TIMERID_PAINT, 100, NULL);
 			dat->bNeedPaint = TRUE;
 		}
-		goto LBL_Def;
-
-	case INTM_INVALIDATECONTACT:
-		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL))
-			break;
-
-		if (contact && group) {
-			int iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*)& group->cl, contact));
-			pcli->pfnInvalidateItem(hwnd, dat, iItem);
-			goto LBL_Def;
-		}
-		break;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_FORCESORT:
 		dat->needsResort = TRUE;
@@ -528,7 +517,7 @@ LBL_Def:
 		}
 		if (lParam)
 			pcli->pfnRecalcScrollBar(hwnd, dat);
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_IDLECHANGED:
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
@@ -542,7 +531,7 @@ LBL_Def:
 				contact->flags |= CONTACTF_IDLE;
 			}
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
-			goto LBL_Def;
+			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 		break;
 
@@ -581,7 +570,7 @@ LBL_Def:
 			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, contact ? contact->hContact : 0);
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_PAINT:
 		{
@@ -598,7 +587,7 @@ LBL_Def:
 				dat->oldSelection = dat->selection;
 			}
 		}
-		goto LBL_Def;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_MOUSEWHEEL:
 		dat->forceScroll = TRUE;
@@ -608,12 +597,12 @@ LBL_Def:
 		if (wParam == TIMERID_PAINT) {
 			KillTimer(hwnd, TIMERID_PAINT);
 			InvalidateRect(hwnd, NULL, FALSE);
-			goto LBL_Def;
+			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
 		if (wParam == TIMERID_REFRESH) {
 			InvalidateRect(hwnd, NULL, FALSE);
-			goto LBL_Def;
+			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 		break;
 

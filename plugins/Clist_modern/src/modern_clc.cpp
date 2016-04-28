@@ -67,9 +67,9 @@ static int clcHookSmileyAddOptionsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int clcHookProtoAck(WPARAM wParam, LPARAM lParam)
+static int clcHookProtoAck(WPARAM, LPARAM lParam)
 {
-	return ClcDoProtoAck(wParam, (ACKDATA*)lParam);
+	return ClcDoProtoAck((ACKDATA*)lParam);
 }
 
 static int clcHookIconsChanged(WPARAM, LPARAM)
@@ -313,7 +313,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	LoadCLCOptions(hwnd, dat, TRUE);
-	if (dat->contact_time_show || dat->second_line_type == TEXT_CONTACT_TIME || dat->third_line_type == TEXT_CONTACT_TIME)
+	if (dat->contact_time_show || dat->secondLine.type == TEXT_CONTACT_TIME || dat->thirdLine.type == TEXT_CONTACT_TIME)
 		CLUI_SafeSetTimer(hwnd, TIMERID_INVALIDATE, 5000, NULL);
 	else
 		KillTimer(hwnd, TIMERID_INVALIDATE);
@@ -621,12 +621,6 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay)
 static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
-	case TIMERID_INVALIDATE_FULL:
-		KillTimer(hwnd, TIMERID_INVALIDATE_FULL);
-		pcli->pfnRecalcScrollBar(hwnd, dat);
-		pcli->pfnInvalidateRect(hwnd, NULL, 0);
-		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-
 	case TIMERID_INVALIDATE:
 		{
 			time_t cur_time = (time(NULL) / 60);
@@ -1467,7 +1461,7 @@ static LRESULT clcOnIntmTimeZoneChanged(ClcData *dat, HWND hwnd, UINT msg, WPARA
 
 	if (contact) {
 		Cache_GetTimezone(dat, contact->hContact);
-		Cache_GetText(dat, contact, 1);
+		Cache_GetText(dat, contact);
 		cliRecalcScrollBar(hwnd, dat);
 	}
 	return 0;
@@ -1485,7 +1479,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 
 	if (contact) {
 		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
-		Cache_GetText(dat, contact, 1);
+		Cache_GetText(dat, contact);
 		// cliRecalcScrollBar(hwnd, dat);
 	}
 
@@ -1508,7 +1502,7 @@ static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 
 	if (contact) {
-		Cache_GetText(dat, contact, 1);
+		Cache_GetText(dat, contact);
 		// cliRecalcScrollBar(hwnd, dat);
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
 	}
@@ -1549,15 +1543,19 @@ static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, 
 static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+	
 	if (wParam != 0) {
-		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(wParam);
-		if (pdnce && pdnce->m_pszProto) {
-			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
-				gtaRenewText(pdnce->hContact);
-			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
+		ClcContact *contact;
+		if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, TRUE)) {
+			ClcCacheEntry *pdnce = contact->pce;
+			if (pdnce && pdnce->m_pszProto) {
+				if (!dat->force_in_dialog) {
+					Cache_GetNthLineText(dat, pdnce, 2);
+					Cache_GetNthLineText(dat, pdnce, 3);
+				}
 
-			ClcContact *contact;
-			if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, TRUE)) {
+				SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
+
 				if (contact && contact->type == CLCIT_CONTACT) {
 					if (!contact->image_is_special && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
@@ -1686,7 +1684,7 @@ int ClcUnloadModule()
 	return 0;
 }
 
-int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
+int ClcDoProtoAck(ACKDATA *ack)
 {
 	if (MirandaExiting()) return 0;
 	if (ack->type == ACKTYPE_STATUS) {
@@ -1708,7 +1706,7 @@ int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
 					return 0;
 
 			db_set_ws(ack->hContact, "CList", "StatusMsg", (const TCHAR *)ack->lParam);
-			gtaRenewText(ack->hContact);
+			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 		}
 		else {
 			if (ack->szModule != NULL)
@@ -1721,7 +1719,7 @@ int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
 					if (mir_strcmpi(val, ""))
 						db_set_s(ack->hContact, "CList", "StatusMsg", "");
 					else
-						gtaRenewText(ack->hContact);
+						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 					mir_free(val);
 				}
 			}
@@ -1730,43 +1728,6 @@ int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
 	else if (ack->type == ACKTYPE_EMAIL) {
 		CLUIUnreadEmailCountChanged(0, 0);
 	}
-	return 0;
-}
-
-int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
-{
-	if (!pData || !pShortData)
-		return -1;
-
-	pShortData->hWnd = pData->hWnd;
-	pShortData->text_replace_smileys = pData->text_replace_smileys;
-	pShortData->text_smiley_height = pData->text_smiley_height;
-	pShortData->text_use_protocol_smileys = pData->text_use_protocol_smileys;
-	pShortData->contact_time_show_only_if_different = pData->contact_time_show_only_if_different;
-
-	// Second line
-	pShortData->second_line_show = pData->second_line_show;
-	pShortData->second_line_draw_smileys = pData->second_line_draw_smileys;
-	pShortData->second_line_type = pData->second_line_type;
-
-	mir_tstrncpy(pShortData->second_line_text, pData->second_line_text, _countof(pShortData->second_line_text));
-
-	pShortData->second_line_xstatus_has_priority = pData->second_line_xstatus_has_priority;
-	pShortData->second_line_show_status_if_no_away = pData->second_line_show_status_if_no_away;
-	pShortData->second_line_show_listening_if_no_away = pData->second_line_show_listening_if_no_away;
-	pShortData->second_line_use_name_and_message_for_xstatus = pData->second_line_use_name_and_message_for_xstatus;
-
-	// Third line
-	pShortData->third_line_show = pData->third_line_show;
-	pShortData->third_line_draw_smileys = pData->third_line_draw_smileys;
-	pShortData->third_line_type = pData->third_line_type;
-
-	mir_tstrncpy(pShortData->third_line_text, pData->third_line_text, _countof(pShortData->third_line_text));
-
-	pShortData->third_line_xstatus_has_priority = pData->third_line_xstatus_has_priority;
-	pShortData->third_line_show_status_if_no_away = pData->third_line_show_status_if_no_away;
-	pShortData->third_line_show_listening_if_no_away = pData->third_line_show_listening_if_no_away;
-	pShortData->third_line_use_name_and_message_for_xstatus = pData->third_line_use_name_and_message_for_xstatus;
 	return 0;
 }
 

@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "modern_clist.h"
 #include "modern_commonprototypes.h"
-#include "modern_gettextasync.h"
 #include "modern_sync.h"
 #include "modern_clui.h"
 #include <m_modernopt.h>
@@ -138,7 +137,6 @@ void UnLoadContactListModule()  //unhooks noncritical events
 
 int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 {
-	gtaShutdown();
 	FreeDisplayNameCache();
 	return 0;
 }

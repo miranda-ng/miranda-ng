@@ -26,112 +26,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_clist.h"
 #include "modern_commonprototypes.h"
 #include "modern_awaymsg.h"
-#include "modern_gettextasync.h"
 
 void InsertContactIntoTree(MCONTACT hContact, int status);
-void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
 
 TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InitDisplayNameCache(void)
 {
-	InitCacheAsync();
 	InitAwayMsgModule();
 }
 
 void FreeDisplayNameCache()
 {
 	UninitAwayMsgModule();
-}
-
-void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst)
-{
-	CListSettings_FreeCacheItemDataOption(pDst, CCI_ALL);
-}
-
-void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag)
-{
-	if (!pDst)
-		return;
-
-	if (flag & CCI_NAME)
-		mir_free_and_nil(pDst->tszName);
-
-	if (flag & CCI_GROUP)
-		mir_free_and_nil(pDst->tszGroup);
-
-	if (flag & CCI_LINES) {
-		mir_free_and_nil(pDst->szSecondLineText);
-		mir_free_and_nil(pDst->szThirdLineText);
-		pDst->ssSecondLine.DestroySmileyList();
-		pDst->ssThirdLine.DestroySmileyList();
-	}
-}
-
-int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag);
-int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
-
-void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWORD flag)
-{
-	if (!pDst || !pSrc) return;
-	CListSettings_FreeCacheItemDataOption(pDst, flag);
-
-	if (flag & CCI_NAME)   pDst->tszName = mir_tstrdup(pSrc->tszName);
-	if (flag & CCI_GROUP)  pDst->tszGroup = mir_tstrdup(pSrc->tszGroup);
-	if (flag & CCI_PROTO)  pDst->m_pszProto = pSrc->m_pszProto;
-	if (flag & CCI_STATUS) pDst->m_iStatus = pSrc->m_iStatus;
-
-	if (flag & CCI_LINES) {
-		mir_free(pDst->szThirdLineText);
-		pDst->szThirdLineText = mir_tstrdup(pSrc->szThirdLineText);
-
-		mir_free(pDst->szSecondLineText);
-		pDst->szSecondLineText = mir_tstrdup(pSrc->szSecondLineText);
-
-		pDst->ssThirdLine = pSrc->ssThirdLine;
-		pDst->ssSecondLine = pSrc->ssSecondLine;
-	}
-
-	if (flag & CCI_TIME)
-		pDst->hTimeZone = pSrc->hTimeZone;
-
-	if (flag & CCI_OTHER) {
-		pDst->bIsHidden = pSrc->bIsHidden;
-		pDst->m_bNoHiddenOffline = pSrc->m_bNoHiddenOffline;
-
-		pDst->m_bIsSub = pSrc->m_bIsSub;
-		pDst->ApparentMode = pSrc->ApparentMode;
-		pDst->NotOnList = pSrc->NotOnList;
-		pDst->IdleTS = pSrc->IdleTS;
-		pDst->ClcContact = pSrc->ClcContact;
-		pDst->IsExpanded = pSrc->IsExpanded;
-	}
-}
-
-int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag)
-{
-	if (!pDest || !pDest->hContact)
-		return -1;
-
-	ClcCacheEntry *pSource = pcli->pfnGetCacheEntry(pDest->hContact);
-	if (!pSource)
-		return -1;
-
-	CListSettings_CopyCacheItems(pDest, pSource, flag);
-	return 0;
-}
-
-int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag)
-{
-	if (!pSrc || !pSrc->hContact)
-		return -1;
-
-	ClcCacheEntry *pDst = pcli->pfnGetCacheEntry(pSrc->hContact);
-	if (!pDst)
-		return -1;
-
-	CListSettings_CopyCacheItems(pDst, pSrc, flag);
-	return 0;
 }
 
 void cliFreeCacheItem(ClcCacheEntry *p)

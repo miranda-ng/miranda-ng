@@ -71,7 +71,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		p.image_is_special = FALSE;
 		//p.status = cacheEntry->status;
 		Cache_GetTimezone(dat, (&p)->hContact);
-		Cache_GetText(dat, &p, 1);
+		Cache_GetText(dat, &p);
 
 		char *szProto = cacheEntry->m_pszProto;
 		if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, wStatus))
@@ -196,7 +196,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->lastPaintCounter = 0;
 	cont->avatar_pos = AVATAR_POS_DONT_HAVE;
 	Cache_GetAvatar(dat, cont);
-	Cache_GetText(dat, cont, 1);
+	Cache_GetText(dat, cont);
 	Cache_GetTimezone(dat, cont->hContact);
 	cont->iImage = corecli.pfnGetContactIcon(hContact);
 	cont->bContactRate = db_get_b(hContact, "CList", "Rate", 0);

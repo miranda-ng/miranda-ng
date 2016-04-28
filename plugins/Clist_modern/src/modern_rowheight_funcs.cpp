@@ -159,9 +159,9 @@ int mod_CalcRowHeight_worker(ClcData *dat, ClcContact *contact, int item)
 			case TC_TEXT2:
 				{
 					int tmp = 0;
-					if (dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
+					if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
 						tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
-						if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
+						if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
 							tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
 						if (item == -1) {
 							//calculate text width here
@@ -184,9 +184,9 @@ int mod_CalcRowHeight_worker(ClcData *dat, ClcContact *contact, int item)
 			case TC_TEXT3:
 				{
 					int tmp = 0;
-					if (dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
+					if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
 						tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
-						if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
+						if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
 							tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
 						if (item == -1) {
 							//calculate text width here
@@ -397,18 +397,18 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 
 		max_height += tmp;
 
-		if (dat->second_line_show) {
+		if (dat->secondLine.show) {
 			tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
-			if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
+			if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
 				tmp = max(tmp, dat->text_smiley_height);
-			max_height += dat->second_line_top_space + tmp;
+			max_height += dat->secondLine.top_space + tmp;
 		}
 
-		if (dat->third_line_show) {
+		if (dat->thirdLine.show) {
 			tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
-			if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
+			if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
 				tmp = max(tmp, dat->text_smiley_height);
-			max_height += dat->third_line_top_space + tmp;
+			max_height += dat->thirdLine.top_space + tmp;
 		}
 
 		// Get other font sizes
@@ -545,19 +545,19 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 				tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
 			height += tmp;
 
-			if (pdnce) {
-				if (!minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
+			if (pdnce && !minimalistic) {
+				if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
 					tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
-					if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
+					if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
 						tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
-					height += dat->second_line_top_space + tmp;
+					height += dat->secondLine.top_space + tmp;
 				}
 
-				if (!minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
+				if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
 					tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
-					if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
+					if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
 						tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
-					height += dat->third_line_top_space + tmp;
+					height += dat->thirdLine.top_space + tmp;
 				}
 			}
 		}
