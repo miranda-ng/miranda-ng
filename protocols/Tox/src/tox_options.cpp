@@ -389,9 +389,11 @@ BOOL CCtrlNodeList::OnNotify(int idCtrl, NMHDR *pnmh)
 
 CToxOptionsNodeList::CToxOptionsNodeList(CToxProto *proto)
 	: CSuper(proto, IDD_OPTIONS_NODES, false),
-	m_nodes(this, IDC_NODESLIST), m_addNode(this, IDC_ADDNODE)
+	m_nodes(this, IDC_NODESLIST), m_addNode(this, IDC_ADDNODE),
+	m_updateNodes(this, IDC_UPDATENODES)
 {
 	m_addNode.OnClick = Callback(this, &CToxOptionsNodeList::OnAddNode);
+	m_updateNodes.OnClick = Callback(this, &CToxOptionsNodeList::OnUpdateNodes);
 	m_nodes.OnClick = Callback(this, &CToxOptionsNodeList::OnNodeListClick);
 	m_nodes.OnDoubleClick = Callback(this, &CToxOptionsNodeList::OnNodeListDoubleClick);
 	m_nodes.OnKeyDown = Callback(this, &CToxOptionsNodeList::OnNodeListKeyDown);
@@ -418,37 +420,88 @@ void CToxOptionsNodeList::OnInitDialog()
 	m_nodes.AddGroup(0, TranslateT("Common nodes"));
 	m_nodes.AddGroup(1, TranslateT("User nodes"));
 
-	////////////////////////////////////////
+	ReloadNodeList();
+}
 
-	int iItem = -1;
+void CToxOptionsNodeList::OnAddNode(CCtrlBase*)
+{
+	CToxNodeEditor nodeEditor(-1, &m_nodes);
+	if (nodeEditor.DoModal())
+		SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+}
 
-	if (CToxProto::IsFileExists((TCHAR*)VARST(_T(TOX_INI_PATH))))
+void CToxOptionsNodeList::OnUpdateNodes(CCtrlBase*)
+{
+	m_proto->UpdateNodes();
+
+	ReloadNodeList();
+}
+
+void CToxOptionsNodeList::OnNodeListDoubleClick(CCtrlBase*)
+{
+	int iItem = m_nodes.GetNextItem(-1, LVNI_SELECTED);
+
+	LVITEM lvi = { 0 };
+	lvi.iItem = iItem;
+	lvi.mask = LVIF_GROUPID;
+	m_nodes.GetItem(&lvi);
+	if (lvi.iGroupId || (lvi.iGroupId == 0 && lvi.iItem == -1))
 	{
-		char fileName[MAX_PATH];
-		mir_strcpy(fileName, VARS(TOX_INI_PATH));
+		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
+		if (nodeEditor.DoModal())
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+	}
+}
 
-		char *section, sections[MAX_PATH], value[MAX_PATH];
-		GetPrivateProfileSectionNamesA(sections, _countof(sections), fileName);
-		section = sections;
-		while (*section != NULL)
+void CToxOptionsNodeList::OnNodeListClick(CCtrlListView::TEventInfo *evt)
+{
+	LVITEM lvi = { 0 };
+	lvi.iItem = evt->nmlvia->iItem;
+	lvi.mask = LVIF_GROUPID;
+	m_nodes.GetItem(&lvi);
+	lvi.iSubItem = evt->nmlvia->iSubItem;
+	if (lvi.iGroupId && lvi.iSubItem == 4)
+	{
+		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
+		if (nodeEditor.DoModal())
+			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
+	}
+	else if (lvi.iGroupId && lvi.iSubItem == 5)
+	{
+		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		{
-			if (strstr(section, TOX_SETTINGS_NODE_PREFIX) == section)
-			{
-				GetPrivateProfileStringA(section, "IPv4", NULL, value, _countof(value), fileName);
-				iItem = m_nodes.AddItem(mir_a2t(value), -1, NULL, 0);
-
-				GetPrivateProfileStringA(section, "IPv6", NULL, value, _countof(value), fileName);
-				m_nodes.SetItem(iItem, 1, mir_a2t(value));
-
-				GetPrivateProfileStringA(section, "Port", NULL, value, _countof(value), fileName);
-				m_nodes.SetItem(iItem, 2, mir_a2t(value));
-
-				GetPrivateProfileStringA(section, "PubKey", NULL, value, _countof(value), fileName);
-				m_nodes.SetItem(iItem, 3, mir_a2t(value));
-			}
-			section += mir_strlen(section) + 1;
+			m_nodes.DeleteItem(lvi.iItem);
+			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
 		}
 	}
+}
+
+void CToxOptionsNodeList::OnNodeListKeyDown(CCtrlListView::TEventInfo *evt)
+{
+	LVITEM lvi = { 0 };
+	lvi.iItem = m_nodes.GetSelectionMark();
+	lvi.mask = LVIF_GROUPID;
+	m_nodes.GetItem(&lvi);
+
+	if (lvi.iGroupId && lvi.iItem != -1 && (evt->nmlvkey)->wVKey == VK_DELETE)
+	{
+		if (MessageBox(
+			GetParent(m_hwnd),
+			TranslateT("Are you sure?"),
+			TranslateT("Node deleting"),
+			MB_YESNO | MB_ICONWARNING) == IDYES)
+		{
+			m_nodes.DeleteItem(lvi.iItem);
+			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
+		}
+	}
+}
+
+void CToxOptionsNodeList::ReloadNodeList()
+{
+	m_nodes.DeleteAllItems();
+
+	int iItem = -1;
 
 	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
 	if (CToxProto::IsFileExists(path))
@@ -521,73 +574,6 @@ void CToxOptionsNodeList::OnInitDialog()
 
 		m_nodes.SetItem(iItem, 4, _T(""), 0);
 		m_nodes.SetItem(iItem, 5, _T(""), 1);
-	}
-}
-
-void CToxOptionsNodeList::OnAddNode(CCtrlBase*)
-{
-	CToxNodeEditor nodeEditor(-1, &m_nodes);
-	if (nodeEditor.DoModal())
-		SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
-}
-
-void CToxOptionsNodeList::OnNodeListDoubleClick(CCtrlBase*)
-{
-	int iItem = m_nodes.GetNextItem(-1, LVNI_SELECTED);
-
-	LVITEM lvi = { 0 };
-	lvi.iItem = iItem;
-	lvi.mask = LVIF_GROUPID;
-	m_nodes.GetItem(&lvi);
-	if (lvi.iGroupId || (lvi.iGroupId == 0 && lvi.iItem == -1))
-	{
-		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
-		if (nodeEditor.DoModal())
-			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
-	}
-}
-
-void CToxOptionsNodeList::OnNodeListClick(CCtrlListView::TEventInfo *evt)
-{
-	LVITEM lvi = { 0 };
-	lvi.iItem = evt->nmlvia->iItem;
-	lvi.mask = LVIF_GROUPID;
-	m_nodes.GetItem(&lvi);
-	lvi.iSubItem = evt->nmlvia->iSubItem;
-	if (lvi.iGroupId && lvi.iSubItem == 4)
-	{
-		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
-		if (nodeEditor.DoModal())
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
-	}
-	else if (lvi.iGroupId && lvi.iSubItem == 5)
-	{
-		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
-		{
-			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
-		}
-	}
-}
-
-void CToxOptionsNodeList::OnNodeListKeyDown(CCtrlListView::TEventInfo *evt)
-{
-	LVITEM lvi = { 0 };
-	lvi.iItem = m_nodes.GetSelectionMark();
-	lvi.mask = LVIF_GROUPID;
-	m_nodes.GetItem(&lvi);
-
-	if (lvi.iGroupId && lvi.iItem != -1 && (evt->nmlvkey)->wVKey == VK_DELETE)
-	{
-		if (MessageBox(
-			GetParent(m_hwnd),
-			TranslateT("Are you sure?"),
-			TranslateT("Node deleting"),
-			MB_YESNO | MB_ICONWARNING) == IDYES)
-		{
-			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
-		}
 	}
 }
 

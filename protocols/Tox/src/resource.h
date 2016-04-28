@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\protocols\Tox\res\resource.rc
+// Used by D:\Projects\MirandaNG\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
 #define IDD_USER_INFO                   101
@@ -42,6 +42,7 @@
 #define IDC_NODESLIST                   1015
 #define IDC_ADDNODE                     1016
 #define IDC_IPV4                        1017
+#define IDC_UPDATENODES                 1081
 #define IDC_IPV6                        1018
 #define IDC_PORT                        1019
 #define IDC_PKEY                        1020

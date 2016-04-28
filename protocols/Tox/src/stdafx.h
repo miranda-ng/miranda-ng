@@ -42,6 +42,7 @@ DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0
 #include <m_folders.h>
 #include <m_assocmgr.h>
 #include <m_json.h>
+#include <m_http.h>
 
 #include <tox.h>
 #include <ToxAV.h>
@@ -78,7 +79,7 @@ extern HINSTANCE g_hInstance;
 #define TOX_MAX_CALLS 1
 
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
-#define TOX_JSON_PATH "%miranda_path%\\Plugins\\tox.json"
+#define TOX_JSON_PATH "%miranda_userdata%\\tox.json"
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_DNS "DnsID"

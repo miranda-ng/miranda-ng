@@ -117,12 +117,16 @@ private:
 
 	CCtrlNodeList m_nodes;
 	CCtrlButton m_addNode;
+	CCtrlButton m_updateNodes;
 
 protected:
 	void OnInitDialog();
 	void OnApply();
 
+	void ReloadNodeList();
+
 	void OnAddNode(CCtrlBase*);
+	void OnUpdateNodes(CCtrlBase*);
 	void OnNodeListDoubleClick(CCtrlBase*);
 	void OnNodeListClick(CCtrlListView::TEventInfo *evt);
 	void OnNodeListKeyDown(CCtrlListView::TEventInfo *evt);
