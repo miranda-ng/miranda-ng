@@ -450,6 +450,49 @@ void CToxOptionsNodeList::OnInitDialog()
 		}
 	}
 
+	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	if (CToxProto::IsFileExists(path))
+	{
+		char *json = NULL;
+
+		FILE *hFile = _tfopen(path, L"r");
+		if (hFile != NULL)
+		{
+			_fseeki64(hFile, 0, SEEK_END);
+			size_t size = _ftelli64(hFile);
+			json = (char*)mir_calloc(size);
+			rewind(hFile);
+			fread(json, sizeof(char), size, hFile);
+			fclose(hFile);
+		}
+
+		if (json)
+		{
+			JSONNode root = JSONNode::parse(json);
+			if (!root.empty())
+			{
+				JSONNode nodes = root.at("nodes").as_array();
+				for (size_t i = 0; i < nodes.size(); i++)
+				{
+					JSONNode node = nodes[i];
+
+					TCHAR *ipv4 = mir_utf8decodeT(node.at("ipv4").as_string().c_str());
+					iItem = m_nodes.AddItem(ipv4, -1, NULL, 0);
+
+					TCHAR *ipv6 = mir_utf8decodeT(node.at("ipv6").as_string().c_str());
+					if (mir_tstrcmp(ipv6, _T("-")))
+						m_nodes.SetItem(iItem, 1, ipv6);
+
+					TCHAR *port = mir_utf8decodeT(node.at("port").as_string().c_str());
+					m_nodes.SetItem(iItem, 2, port);
+
+					TCHAR *pubKey = mir_utf8decodeT(node.at("public_key").as_string().c_str());
+					m_nodes.SetItem(iItem, 3, pubKey);
+				}
+			}
+		}
+	}
+
 	char module[MAX_PATH], setting[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);

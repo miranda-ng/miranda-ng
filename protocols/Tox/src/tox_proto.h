@@ -96,6 +96,7 @@ private:
 	void BootstrapNode(const char *address, int port, const char *pubKey);
 	void BootstrapNodesFromDb(bool isIPv6);
 	void BootstrapNodesFromIni(bool isIPv6);
+	void BootstrapNodesFromJson(bool isIPv6);
 	void BootstrapNodes();
 	void TryConnect();
 	void CheckConnection(int &retriesCount);

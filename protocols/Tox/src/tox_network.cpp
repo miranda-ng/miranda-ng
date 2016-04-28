@@ -77,12 +77,58 @@ void CToxProto::BootstrapNodesFromIni(bool isIPv6)
 	}
 }
 
+void CToxProto::BootstrapNodesFromJson(bool isIPv6)
+{
+	char *json = NULL;
+
+	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	// todo: download from https://nodes.tox.chat/json
+
+	if (IsFileExists(path))
+	{
+		FILE *hFile = _tfopen(path, L"r");
+		if (hFile != NULL)
+		{
+			_fseeki64(hFile, 0, SEEK_END);
+			size_t size = _ftelli64(hFile);
+			json = (char*)mir_calloc(size);
+			rewind(hFile);
+			fread(json, sizeof(char), size, hFile);
+			fclose(hFile);
+		}
+	}
+
+	if (json)
+	{
+		JSONNode root = JSONNode::parse(json);
+		if (!root.empty())
+		{
+			JSONNode nodes = root.at("nodes").as_array();
+			for (size_t i = 0; i < nodes.size(); i++)
+			{
+				JSONNode node = nodes[i];
+
+				JSONNode address = node.at("ipv4");
+				int port = node.at("port").as_int();
+				JSONNode pubKey = node.at("public_key");
+				BootstrapNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+				if (isIPv6)
+				{
+					address = node.at("ipv6");
+					BootstrapNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+				}
+			}
+		}
+	}
+}
+
 void CToxProto::BootstrapNodes()
 {
 	logger->Log(__FUNCTION__": bootstraping DHT");
 	bool isIPv6 = getBool("EnableIPv6", 0);
 	BootstrapNodesFromDb(isIPv6);
 	BootstrapNodesFromIni(isIPv6);
+	BootstrapNodesFromJson(isIPv6);
 }
 
 void CToxProto::TryConnect()
