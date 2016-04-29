@@ -448,7 +448,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 				if (ppath && phost)
 					szHost[ppath - phost] = 0;
 
-				if (!usingProxy)
+				if ((nlhr->flags & NLHRF_SMARTREMOVEHOST) && !usingProxy)
 					pszUrl = ppath ? ppath : "/";
 
 				if (usingProxy && phost && !nlc->dnsThroughProxy) {
@@ -840,6 +840,7 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	NETLIBHTTPREQUEST nlhrSend = *nlhr;
+	nlhrSend.flags |= NLHRF_SMARTREMOVEHOST;
 
 	bool doneUserAgentHeader = NetlibHttpFindHeader(nlhr, "User-Agent") != NULL;
 	bool doneAcceptEncoding = NetlibHttpFindHeader(nlhr, "Accept-Encoding") != NULL;

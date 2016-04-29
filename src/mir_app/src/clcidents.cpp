@@ -83,12 +83,12 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contac
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			ClcGroup *tgroup;
 			group = group->parent;
 			if (group == NULL)
 				break;
+
 			nowVisible = 1;
-			for (tgroup = group; tgroup; tgroup = tgroup->parent)
+			for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 				if (!group->expanded) {
 					nowVisible = 0;
 					break;

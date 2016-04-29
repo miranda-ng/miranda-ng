@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NLH_PACKETRECVER 'PCKT'
 int GetNetlibHandleType(void*);
 
+#define NLHRF_SMARTREMOVEHOST	0x00000004	 // for internal purposes only
+
 extern struct SSL_API sslApi;
 
 struct NetlibUser
