@@ -31,7 +31,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				tox_file_get_file_id(proto->toxThread->Tox(), friendNumber, fileNumber, transfer->hash, &error);
 				if (error != TOX_ERR_FILE_GET_OK)
 				{
-					proto->logger->Log(__FUNCTION__": unable to get avatar hash (%d) from %s(%d) cause (%d)", fileNumber, pubKey, friendNumber, error);
+					proto->logger->Log(__FUNCTION__": unable to get avatar hash (%d) from %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
 					memset(transfer->hash, 0, TOX_HASH_LENGTH);
 				}
 				proto->OnGotFriendAvatarInfo(transfer);
@@ -40,7 +40,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 
 		case TOX_FILE_KIND_DATA:
 			{
-				proto->logger->Log(__FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, pubKey, friendNumber);
+				proto->logger->Log(__FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 
 				ptrA rawName((char*)mir_alloc(filenameLength + 1));
 				memcpy(rawName, fileName, filenameLength);
@@ -64,7 +64,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			break;
 
 		default:
-			proto->logger->Log(__FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, pubKey, friendNumber, kind);
+			proto->logger->Log(__FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, (const char*)pubKey, friendNumber, kind);
 			return;
 		}
 	}
@@ -162,7 +162,7 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-		proto->logger->Log(__FUNCTION__": failed to find transfer (%d) from %s(%d)", fileNumber, pubKey, friendNumber);
+		proto->logger->Log(__FUNCTION__": failed to find transfer (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		return;
 	}
 
@@ -176,7 +176,7 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact == NULL)
 	{
-		proto->logger->Log(__FUNCTION__": cannot find contact %s(%d)", pubKey, friendNumber);
+		proto->logger->Log(__FUNCTION__": cannot find contact %s(%d)", (const char*)pubKey, friendNumber);
 		tox_file_control(proto->toxThread->Tox(), friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		return;
 	}
@@ -230,12 +230,12 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 	uint32_t fileNumber = tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_DATA, fileSize, NULL, (uint8_t*)name, mir_strlen(name), &sendError);
 	if (sendError != TOX_ERR_FILE_SEND_OK)
 	{
-		logger->Log(__FUNCTION__": failed to send file (%d) to %s(%d) cause (%d)", fileNumber, pubKey, friendNumber, sendError);
+		logger->Log(__FUNCTION__": failed to send file (%d) to %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, sendError);
 		mir_free(fileDir);
 		mir_free(name);
 		return NULL;
 	}
-	logger->Log(__FUNCTION__": start sending file (%d) to %s(%d)", fileNumber, pubKey, friendNumber);
+	logger->Log(__FUNCTION__": start sending file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 
 	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, fileName, fileSize);
 	transfer->pfts.flags |= PFTS_SENDING;
@@ -257,17 +257,17 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-		proto->logger->Log(__FUNCTION__": failed to find transfer (%d) to %s(%d)", fileNumber, pubKey, friendNumber);
+		proto->logger->Log(__FUNCTION__": failed to find transfer (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		return;
 	}
 
 	if (length == 0)
 	{
 		// file sending is finished
-		proto->logger->Log(__FUNCTION__": finised the transfer of file (%d) to %s(%d)", fileNumber, pubKey, friendNumber);
+		proto->logger->Log(__FUNCTION__": finised the transfer of file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		bool isFileFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
 		if (!isFileFullyTransfered)
-			proto->logger->Log(__FUNCTION__": file (%d) is not completely transferred to %s(%d)", fileNumber, pubKey, friendNumber);
+			proto->logger->Log(__FUNCTION__": file (%d) is not completely transferred to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFileFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		proto->transfers.Remove(transfer);
 		return;
@@ -280,7 +280,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	uint8_t *data = (uint8_t*)mir_alloc(length);
 	if (fread(data, sizeof(uint8_t), length, transfer->hFile) != length)
 	{
-		proto->logger->Log(__FUNCTION__": failed to read from file (%d) to %s(%d)", fileNumber, pubKey, friendNumber);
+		proto->logger->Log(__FUNCTION__": failed to read from file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		mir_free(data);
@@ -295,7 +295,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 			mir_free(data);
 			return;
 		}
-		proto->logger->Log(__FUNCTION__": failed to send file chunk (%d) to %s(%d) cause (%d)", fileNumber, pubKey, friendNumber, error);
+		proto->logger->Log(__FUNCTION__": failed to send file chunk (%d) to %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		mir_free(data);
