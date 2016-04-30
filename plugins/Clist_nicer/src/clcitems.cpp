@@ -56,13 +56,8 @@ ClcContact* CreateClcContact(void)
 int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
 	int i = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
+
 	ClcContact* p = group->cl.items[i];
-	p->codePage = 0;
-	//p->clientId = -1;
-	p->bIsMeta = 0;
-	p->xStatus = 0;
-	p->ace = NULL;
-	p->pExtra = 0;
 	p->avatarLeft = p->extraIconRightBegin = -1;
 	return i;
 }

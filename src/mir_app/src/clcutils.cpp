@@ -191,19 +191,18 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 
 void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 {
-	DWORD startTick, nowTick;
 	int oldy = dat->yScroll;
-	RECT clRect, rcInvalidate;
-	int maxy, previousy;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
 		cli.pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
 	}
+
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
-	rcInvalidate = clRect;
-	maxy = cli.pfnGetRowTotalHeight(dat) - clRect.bottom;
+	
+	int maxy = cli.pfnGetRowTotalHeight(dat) - clRect.bottom;
 	if (desty > maxy)
 		desty = maxy;
 	if (desty < 0)
@@ -212,13 +211,15 @@ void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 		noSmooth = 1;
 	if (!noSmooth && dat->exStyle & CLS_EX_NOSMOOTHSCROLLING)
 		noSmooth = 1;
-	previousy = dat->yScroll;
+	
+	int previousy = dat->yScroll;
 	if (!noSmooth) {
-		startTick = GetTickCount();
+		DWORD startTick = GetTickCount();
 		for (;;) {
-			nowTick = GetTickCount();
+			DWORD nowTick = GetTickCount();
 			if (nowTick >= startTick + dat->scrollTime)
 				break;
+			
 			dat->yScroll = oldy + (desty - oldy) * (int)(nowTick - startTick) / dat->scrollTime;
 			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL)
 				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
@@ -229,6 +230,7 @@ void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 			UpdateWindow(hwnd);
 		}
 	}
+	
 	dat->yScroll = desty;
 	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL)
 		ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
@@ -270,11 +272,10 @@ void fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk)
 
 void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
 {
-	SCROLLINFO si = { 0 };
 	RECT clRect;
-	NMCLISTCONTROL nm;
-
 	GetClientRect(hwnd, &clRect);
+
+	SCROLLINFO si = { 0 };
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
@@ -289,6 +290,8 @@ void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	else SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 
 	cli.pfnScrollTo(hwnd, dat, dat->yScroll, 1);
+
+	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTSIZECHANGE;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);

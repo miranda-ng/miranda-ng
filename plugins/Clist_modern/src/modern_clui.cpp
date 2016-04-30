@@ -1667,35 +1667,36 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_EXITSIZEMOVE:
-	{
-		int res = DefWindowProc(m_hWnd, msg, wParam, lParam);
-		ReleaseCapture();
-		TRACE("WM_EXITSIZEMOVE\n");
-		SendMessage(m_hWnd, WM_ACTIVATE, (WPARAM)WA_ACTIVE, (LPARAM)m_hWnd);
-		return res;
-	}
+		{
+			int res = DefWindowProc(m_hWnd, msg, wParam, lParam);
+			ReleaseCapture();
+			TRACE("WM_EXITSIZEMOVE\n");
+			SendMessage(m_hWnd, WM_ACTIVATE, (WPARAM)WA_ACTIVE, (LPARAM)m_hWnd);
+			return res;
+		}
 
 	case WM_SIZING:
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 
 	case WM_MOVE:
-	{
-		RECT rc;
-		CallWindowProc(DefWindowProc, m_hWnd, msg, wParam, lParam);
-		mutex_bDuringSizing = 0;
-		GetWindowRect(m_hWnd, &rc);
-		CheckFramesPos(&rc);
-		Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
-		if (!IsIconic(m_hWnd)) {
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) { // if g_CluiData.fDocked, dont remember pos (except for width)
-				db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-				db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
-				db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
+		{
+			RECT rc;
+			CallWindowProc(DefWindowProc, m_hWnd, msg, wParam, lParam);
+			mutex_bDuringSizing = 0;
+			GetWindowRect(m_hWnd, &rc);
+			CheckFramesPos(&rc);
+			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
+			if (!IsIconic(m_hWnd)) {
+				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) { // if g_CluiData.fDocked, dont remember pos (except for width)
+					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
+					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
+					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
+				}
+				db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
 			}
-			db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
 		}
-	}
-	return TRUE;
+		return TRUE;
+
 	case WM_SIZE:
 		if (g_mutex_bSizing) return 0;
 		if (wParam != SIZE_MINIMIZED /* &&  IsWindowVisible(m_hWnd)*/) {
@@ -2315,7 +2316,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 	if (newHeight < (rcWorkArea.bottom - rcWorkArea.top)*minHeight / 100)
 		newHeight = (rcWorkArea.bottom - rcWorkArea.top)*minHeight / 100;
 
-	if (newHeight>(rcWorkArea.bottom - rcWorkArea.top)*maxHeight / 100)
+	if (newHeight > (rcWorkArea.bottom - rcWorkArea.top)*maxHeight / 100)
 		newHeight = (rcWorkArea.bottom - rcWorkArea.top)*maxHeight / 100;
 
 	if (newHeight == (rcWindow.bottom - rcWindow.top)) return 0;

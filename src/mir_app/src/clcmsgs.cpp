@@ -103,11 +103,9 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_EXPAND:
-		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
-			break;
-		if (contact->type != CLCIT_GROUP)
-			break;
-		cli.pfnSetGroupExpand(hwnd, dat, contact->group, lParam);
+		if (cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			if (contact->type == CLCIT_GROUP)
+				cli.pfnSetGroupExpand(hwnd, dat, contact->group, lParam);
 		break;
 
 	case CLM_FINDCONTACT:
@@ -338,15 +336,9 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_SETEXTRAIMAGE:
-		if (LOWORD(lParam) < dat->extraColumnsCount) {
-			int bVisible;
-			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, &bVisible))
-				return 0;
-
-			contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
-			if (bVisible)
-				cli.pfnInvalidateRect(hwnd, NULL, FALSE);
-		}
+		if (LOWORD(lParam) < dat->extraColumnsCount)
+			if (cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+				contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
 		break;
 
 	case CLM_SETEXTRAIMAGELIST:
