@@ -35,8 +35,8 @@ int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2)
 	if (ret != 0)
 		return ret;
 
-	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p1)->getID() : 0;
-	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p2)->getID() : 0;
+	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p1)->getID() : 0;
+	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p2)->getID() : 0;
 	return id1 - id2;
 }
 
@@ -80,7 +80,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (cli.hwndContactTree == 0)
 		return -1;
 
-	int icol = ExtraImage_ExtraIDToColumnNum( ConvertToClistSlot(slot));
+	int icol = ExtraImage_ExtraIDToColumnNum(ConvertToClistSlot(slot));
 	if (icol == -1)
 		return -1;
 
@@ -88,7 +88,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (hItem == 0)
 		return -1;
 
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol,hImage));
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
 	return 0;
 }
 
@@ -289,7 +289,7 @@ HANDLE ExtraIcon_Add(HICON hIcon)
 
 void fnReloadExtraIcons()
 {
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(NULL,"CLUI","ExtraColumnSpace",18), 0);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(NULL, "CLUI", "ExtraColumnSpace", 18), 0);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
 
 	if (hExtraImageList)
@@ -299,7 +299,7 @@ void fnReloadExtraIcons()
 
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hExtraImageList);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
-	NotifyEventHooks(hEventExtraImageListRebuilding,0,0);
+	NotifyEventHooks(hEventExtraImageListRebuilding, 0, 0);
 	bImageCreated = true;
 }
 
@@ -379,7 +379,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int _hLang)
 	}
 }
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon, 
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon,
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
 	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int _hLang)
 {

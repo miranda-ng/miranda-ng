@@ -93,6 +93,7 @@ protected:
 	ptrA m_szDescIcon;
 	MIRANDAHOOKPARAM m_OnClick;
 	LPARAM m_onClickParam;
+	HANDLE m_hOldImage;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

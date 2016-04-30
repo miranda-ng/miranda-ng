@@ -29,7 +29,8 @@ BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description,
 	m_OnClick(OnClick),
 	m_onClickParam(param),
 	m_tszDescription(mir_tstrdup(description)),
-	m_szDescIcon(mir_strdup(descIcon))
+	m_szDescIcon(mir_strdup(descIcon)),
+	m_hOldImage(INVALID_HANDLE_VALUE)
 {
 }
 
@@ -76,6 +77,10 @@ void BaseExtraIcon::onClick(MCONTACT hContact)
 
 int BaseExtraIcon::ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage)
 {
+	if (hImage == m_hOldImage)
+		return 0;
+
+	m_hOldImage = hImage;
 	ExtraIcon *tmp = extraIconsByHandle[m_id - 1];
 	if (tmp != this)
 		return tmp->ClistSetExtraIcon(hContact, hImage);
