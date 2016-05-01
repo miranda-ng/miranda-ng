@@ -30,8 +30,8 @@ Server:
 Identifikátor:
 [Password:]
 Heslo:
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Změny se projeví až při příštím připojení do sítě ICQ.
+[These changes will take effect the next time you connect to the ICQ network.]
+Provedené změny se projeví až při dalším připojení k síti ICQ.
 ;file \protocols\ICQCorp\src\options.cpp
 [Network]
 Sítě

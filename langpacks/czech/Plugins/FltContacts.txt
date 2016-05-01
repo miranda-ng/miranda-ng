@@ -21,7 +21,7 @@ pixelů
 [Hide all contacts]
 Skrýt všechny kontakty
 [Hide when a fullscreen app is active]
-Skrýt v režimu na celou obrazovku
+Skrýt v celoobrazovkovém režimu
 [Show tooltips*]
 Zobrazovat tipy*
 [ms]

@@ -249,9 +249,9 @@ Seznam protistrany
 Lokální seznam
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Import skupin ze serveru může při příštím přihlášení ovlivnit seznam\nkontaktů. Opravdu chcete zapnout správu skupin na serveru?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Změny se projeví až při příštím připojení do sítě MSN Messenger.
-[MSN Options]
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Provedené změny se projeví až při dalším připojení k síti MSN Messenger.
+[MSN options]
 MSN - možnosti
 [Automatically obtain host/port]
 Automaticky zjistit kombinaci hostitel/port

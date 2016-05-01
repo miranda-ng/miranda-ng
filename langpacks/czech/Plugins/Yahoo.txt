@@ -136,9 +136,9 @@ Yahoo Link protokol
 [YAHOO plugin HTTP connections]
 Yahoo - spojení pomocí protokolu HTTP
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Změny se projeví až při příštím připojení do sítě Yahoo.
-[YAHOO Options]
+[These changes will take effect the next time you connect to the Yahoo network.]
+Provedené změny se projeví až při dalším připojení k síti Yahoo.
+[Yahoo options]
 Možnosti Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
 Novou položku lze přidat až po připojení do sítě Yahoo.

@@ -8,10 +8,12 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
+[Select crypto provider]
+Zvolit způsob šifrování
 [Cancel]
 Zrušit
+[Login to Miranda NG]
+Přihlášení do Mirandy NG
 [New password]
 Nové heslo
 [Please enter your new password]

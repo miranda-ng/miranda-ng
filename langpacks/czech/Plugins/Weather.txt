@@ -462,12 +462,12 @@ bajtů
 [Description:]
 Popis:
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
-[Invalid ini format for: %s]
-Neplatný formát souboru ini: %s
 [All update data has been reloaded.]
 Aktualizovaná data byla znovu načtena.
+[Invalid ini format for: %s]
+Neplatný formát souboru ini: %s
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
 ;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 Písmo v rámečku
@@ -476,6 +476,8 @@ Písmo v záhlaví rámečku
 [Frame Background]
 Barva pozadí rámečku
 ;file \plugins\Weather\src\weather_opt.cpp
+[Weather Protocol Text Preview]
+Počasí - náhled
 [Network]
 Sítě
 [General]
@@ -484,8 +486,6 @@ Obecné
 Zobrazení
 [Popups]
 Oznámení
-[Weather Protocol Text Preview]
-Počasí - náhled
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
@@ -518,10 +518,6 @@ Zobrazit v rámečku
 [Unable to retrieve weather information for %s]
 Nelze stáhnout předpověď počasí pro %s
 ;file \plugins\Weather\src\weather_userinfo.cpp
-[Current condition for %n]
-Aktuální předpověď pro %n
-[Last update on:   %u]
-Naposledy aktualizováno %u
 [Variable]
 Proměnná
 [Information]
@@ -530,3 +526,7 @@ Informace
 Aktualizace dat, počkejte prosím...
 [More Info]
 Informace
+[Current condition for %n]
+Aktuální předpověď pro %n
+[Last update on:   %u]
+Naposledy aktualizováno %u

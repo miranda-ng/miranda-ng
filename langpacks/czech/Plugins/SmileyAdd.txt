@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.18
+;  Version: 0.2.4.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -48,8 +48,8 @@ Povolit smajlíky
 Nenahrazovat během psaní
 [Built-in message dialog support]
 Vestavěná podpora
-[Disable]
-Vypnout
+[Enable]
+Povolit
 [Smiley button]
 Tlačítko se smajlíky
 [Surround inserted smiley with spaces]
@@ -80,20 +80,18 @@ Barva pozadí
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Pouze jedna instance doplňku SmileyAdd může běžet.\nOdstraňte duplicitní instance ze složky 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
-[Smileys]
-Smajlíky
-[Customize]
-Vlastní úpravy
-[Off]
-Vyp
-[Top]
-Nahoře
-[Bottom]
-Dole
+[Hide]
+Skrýt
+[Show]
+Zobrazit
 [Smiley packs]
 Sady smajlíků
 [All files]
 Všechny soubory
+[Smileys]
+Smajlíky
+[Customize]
+Vlastní úpravy
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 Závisí na protokolu

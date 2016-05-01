@@ -9,6 +9,7 @@ Credits - podìkování
 Drop down - šipka
 Fatal error - katastrofální selhání
 Frames, windows - rámeèky
+Fullscreen mode - celoobrazovkový režim (celoobraz. režim)
 Hotkey - klávesová zkratka
 Icon library, icon pack - knihovna ikon
 Idle - neèinnost

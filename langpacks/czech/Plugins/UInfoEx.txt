@@ -1070,6 +1070,12 @@ rozvedený/á
 odloučený/á
 [Widowed]
 ovdovělý/á
+[Actively searching]
+aktivně hledám
+[In love]
+zamilovaný/á
+[It\'s complicated]
+je to komplikované
 [jun.]
 jun.
 [sen.]
@@ -1083,11 +1089,11 @@ sen.
 Poslat e-mail
 [Memory allocation error!]
 Chyba při alokování paměti!
-[E-mail (uinfoex)]
-E-mail (uinfoex)
+[E-mail (UInfoEx)]
+E-mail (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (uinfoex)]
-Pohlaví (uinfoex)
+[Gender (UInfoEx)]
+Pohlaví (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Uživatel nemá uvedenou platnou domácí stránku
@@ -1095,11 +1101,11 @@ Uživatel nemá uvedenou platnou domácí stránku
 Zobrazit domovskou stránku
 [&Homepage]
 &Domácí stránka
-[Homepage (uinfoex)]
-Domovská stránka (uinfoex)
+[Homepage (UInfoEx)]
+Domovská stránka (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (uinfoex)]
-Telefon (uinfoex)
+[Phone (UInfoEx)]
+Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d kontaktů zbývá
@@ -1150,8 +1156,8 @@ Narozeniny
 Narozeniny (již brzy!)
 [Anniversary Reminder]
 Upozorňování na výročí
-[Reminder (uinfoex)]
-Připomínka (uinfoex)
+[Reminder (UInfoEx)]
+Připomínka (UInfoEx)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 identifikace kontaktu
@@ -1238,6 +1244,6 @@ přidané kontakty: %u / %u\npřidaná nastavení: %u / %u\npřidané události 
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 CHYBA: vznikla výjimka při importu kontaktů z XMLCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-[Flags (uinfoex)]
-Vlajky (uinfoex)
+[Flags (UInfoEx)]
+Vlajky (UInfoEx)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

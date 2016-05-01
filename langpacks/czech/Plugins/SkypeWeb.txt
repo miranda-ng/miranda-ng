@@ -78,6 +78,8 @@ Zadejte nové téma diskuse
 [Are you sure?]
 Opravdu chcete pokračovat?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
+[Incoming call]
+Příchozí hovor
 [Edited message]
 Upravená zpráva
 [Action]
@@ -88,13 +90,15 @@ Informace o hovoru
 Informace o přenosu souboru
 [URI object]
 Objekt URI
+[Moji]
+Moji
+[File]
+Soubor
 [Unknown event]
 Neznámá událost
-[Incoming call]
-Příchozí hovor
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Invalid data!]
-Neplatná data!
+[SkypeWeb error: Invalid data!]
+SkypeWeb chyba: Neplatná data!
 [[b]Original message:[/b]\n%s\n]
 \[b]Původní zpráva:[/b]\n%s\n
 [Original message:\n%s\n]
@@ -184,6 +188,8 @@ Hovory
 Zvuk příchozího hovoru
 [Incoming call canceled sound]
 Zvuk zrušení příchozího hovoru
+[Skypename]
+Skype jméno
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed to establish a TRouter connection.]
 Nelze navázat TRouter spojení.

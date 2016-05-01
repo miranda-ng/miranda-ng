@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.5.0
+;  Version: 0.11.5.1
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -20,6 +20,10 @@ Výchozí skupina:
 Kontakty
 [Use bigger avatars]
 Zobrazit větší avatary
+[Message sessions]
+Komunikace
+[Show chat state events (i.e., user closed chat session)]
+Zobrazovat události konverzace (např. uživatel ukončil komunikaci)
 [Captcha]
 Ověřovací kód
 [Cancel]

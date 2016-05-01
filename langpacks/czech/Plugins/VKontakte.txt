@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.20
+;  Version: 0.1.1.27
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
 ;file \protocols\VKontakte\res\resource.rc
+[Show in protocol menu ]
+
+[Create new chat]
+Založit novou diskusi
+[Status message]
+Zpráva stavu
+[Send message to my wall]
+
+[Load news from VK]
+
+[Load history for all contacts from VK]
+
+[Wipe contacts missing in friend list]
+
+[Visit profile]
+Zobrazit profil
 [[img] BBCode support for image]
 
 [off]
@@ -26,10 +42,10 @@ vyp
 
 [Use this setting also for attachments on news and notifications]
 
-[Other]
-Ostatní
 [BBCode support on attachments]
 
+[Other]
+Ostatní
 [Process stickers as smileys]
 
 [Shorten links for audio attachments]
@@ -138,29 +154,17 @@ Skupinové rozhovory
 
 [Contact list group:]
 
+[Language for names and titles:]
+
 [Server-side delivery confirmation]
 
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
 [Automatically wipe local contacts missing in your friend list]
 
-[Mark message as read...]
-Označit zprávu jako přečtenou...
-[on read]
-při přečtení
-[on receive]
-při přijetí
-[on reply]
-při odpovězení
-[on typing]
-při psaní
-[Sync history on protocol online...]
+[Mark message as read:]
 
-[automatically]
-
-[for last 1 day]
-
-[for last 3 days]
+[Sync history on protocol online:]
 
 [Bots challenge test]
 Kontrola robotů
@@ -170,6 +174,8 @@ Instrukce:
 Potvrdit
 [Cancel]
 Zrušit
+[Open in browser]
+Otevřít v prohlížeči
 [Invite user to chat]
 Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
@@ -185,8 +191,6 @@ Sdílet
 [URL:]
 Odkaz:
 [Only for friends]
-
-[Attention]
 
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
@@ -212,6 +216,8 @@ Ikona upozornění
 [Status icon]
 
 [Wall message icon]
+
+[Mark messages as read icon]
 
 [Protocols]
 Protokoly
@@ -297,9 +303,6 @@ Nepodporovaný nebo neznámý typ přílohy: %s
 Zpráva od
 [at]
 
-;file \protocols\VKontakte\src\vk_captcha.cpp
-[Enter the text you see]
-Zadejte text, který vidíte
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Účastníci
@@ -343,12 +346,15 @@ Pozvat už&ivatele
 Zruši&t místnost
 [&User details]
 Informace o &uživateli
-[Visit profile]
-Zobrazit profil
 [&Kick]
 Vy&kopnout
 [%s is typing a message...]
 %s píše zprávu...
+;file \protocols\VKontakte\src\vk_dialogs.cpp
+[Enter the text you see]
+Zadejte text, který vidíte
+[Wall message for]
+
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Nové novinky
@@ -414,9 +420,17 @@ Protokol je offline
 
 [Attention!]
 
-;file \protocols\VKontakte\src\vk_options.cpp
-[I'm back]
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 
+[Error loading message history from server]
+
+[Loading messages for all contacts is completed]
+
+[Loading history]
+
+[Loading messages for %s is completed]
+
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sítě
 [Account]
@@ -425,20 +439,50 @@ Sítě
 
 [View]
 Zobrazit
+[Menu]
+Menu
+[Account language]
+
+[English]
+angličtina
+[Russian]
+ruština
+[Belarusian]
+běloruština
+[Ukrainian]
+ukrajinština
+[Spanish]
+španělština
+[Finnish]
+finština
+[German]
+němčina
+[Italian]
+italština
+[automatically]
+
+[for last 1 day]
+
+[for last 3 days]
+
+[on read]
+při přečtení
+[on receive]
+při přijetí
+[on reply]
+při odpovězení
+[on typing]
+při psaní
+[These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
+Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní restartovat?
+[VKontakte protocol]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
 [VKontakte newsfeed & notification event]
 
-[Create new chat]
-Založit novou diskusi
-[Status message]
-Zpráva stavu
-[Send message to my wall]
-
-[Load news from VK]
-
-[Wipe contacts missing in friend list]
+[Mark messages as read]
 
 [Send message to user\'s wall]
 
@@ -481,7 +525,26 @@ Oznámení
 ČEKÁNÍ...
 [Enter new status message]
 
+;file \protocols\VKontakte\src\vk_struct.cpp
+[I\'m back]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Interests]
+Zájmy
+[Activities]
+Činnosti
+[Music]
+Hudba
+[Movies]
+
+[TV]
+
+[Books]
+
+[Games]
+Hry
+[Quotes]
+
 [Please authorize me to add you to my friend list.]
 
 [Are you sure to wipe local contacts missing in your friend list?]
@@ -511,9 +574,4 @@ Oznámení
 [\nIt will also]
 
 [Are you sure to report abuse on %s?]
-
-;file \protocols\VKontakte\src\vk_wallpost.cpp
-[Wall message for]
-
-[Attention! Message body or url should not be empty!]
 

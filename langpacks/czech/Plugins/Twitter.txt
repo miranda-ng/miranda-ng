@@ -36,8 +36,8 @@ Ostatní možnosti
 
 [sec]
 sek.
-[Please cycle your connection for these changes to take effect]
-
+[These changes will take effect the next time you connect to the Twitter network.]
+Provedené změny se projeví až při dalším připojení k síti Twitter.
 [Treat tweets as messages]
 
 [Enable popup notifications for tweets]
@@ -75,7 +75,7 @@ Náhled
 
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]

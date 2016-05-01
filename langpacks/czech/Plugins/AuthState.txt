@@ -19,16 +19,16 @@ Zobrazit položku v nabídce (vyžadován restart)
 [Show icons only for recently added contacts]
 Zobrazit ikony jen pro nedávno přidané kontakty
 ;file \plugins\AuthState\src\main.cpp
-[Disable AuthState icons]
-Zakázat ikony Stavu autorizace
-[Enable AuthState icons]
-Povolit ikony Stavu autorizace
 [Request]
 Požadavek
 [Grant]
 Schválení
 [Request & Grant]
 Požadavek a schválení
+[Disable AuthState icons]
+Zakázat ikony Stavu autorizace
+[Enable AuthState icons]
+Povolit ikony Stavu autorizace
 [Auth state]
 Stav autorizace
 ;file \plugins\AuthState\src\options.cpp

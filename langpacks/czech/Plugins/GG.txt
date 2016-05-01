@@ -38,8 +38,8 @@ Po dokončení přenosu obrázku použít:
 Zobrazit odkazy i od neznámých kontaktů
 [Enable avatars]
 Aktivovat avatary
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Poznámka: Provedené změny se projeví až při dalším připojení do sítě.
+[These changes will take effect the next time you connect to the GG network.]
+Provedené změny se projeví až při dalším připojení k síti GG.
 [Conference policy]
 Pravidla pro konference
 [if total participant count greater than:]
@@ -213,14 +213,6 @@ muž
 žena
 [<not specified>]
 <neurčeno>
-[Network]
-Sítě
-[General]
-Obecné
-[Conference]
-Konference
-[Advanced]
-Extra
 [<Last Status>]
 <poslední stav>
 [System tray icon]
@@ -245,6 +237,14 @@ Filtrování
 Vaše údaje byly nahrány na veřejného adresáře.
 [You have to be logged in before you can change your details.]
 Musíte být přihlášeni pro změnu vašich údajů.
+[Network]
+Sítě
+[General]
+Obecné
+[Conference]
+Konference
+[Advanced]
+Extra
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s

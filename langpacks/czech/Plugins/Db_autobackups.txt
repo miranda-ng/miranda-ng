@@ -40,21 +40,21 @@ Vypnout ukazatel průběhu
 Vypnout oznámení
 [Use Dropbox]
 Použít Dropbox
+[Backup profile folder]
+Složka pro zálohy profilu
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda NG database]
-Databáze Mirandy NG
-[Created by:]
-Vytvořeno:
 [Backup in progress]
 Probíhá zálohování
 [Copying database file...]
 Kopírování souborů s profilem...
+[Uploading to Dropbox failed]
+Nahrávání na Dropbox selhalo
+[Error]
+Chyba
 [Database backed up]
 Databáze zálohována
 [Database back up in process...]
 Probíhá záloha databáze...
-[Error]
-Chyba
 ;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 Databáze Mirandy NG
@@ -104,3 +104,6 @@ Vyberte složku pro zálohování profilů
 [Error creating backup folder]
 Chyba při vytváření složky pro zálohování
 ;file \plugins\Db_autobackups\src\stdafx.h
+;file \plugins\Db_autobackups\src\zip.cpp
+[Miranda NG [%s] database backup]
+Miranda NG [%s] záloha databáze

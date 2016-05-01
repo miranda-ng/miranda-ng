@@ -967,8 +967,8 @@ Velikost okna a vzhled
 Můžete vybrat vlastní téma (soubor .tabsrmm) pro tento kontejner, které přepíše výchozí téma záznamu komunikace. Po této změně bude nutné zavřít a znovu otevřít všechna komunikační okna.
 [Transparency]
 Průhlednost
-[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Tato funkce vyžaduje Windows 2000 nebo novější a může být nedostupná při použití skinu kontejneru.
+[This feature may be unavailable when using a container skin.]
+Tato funkce může být nedostupná při použití skinu kontejneru.
 [Contact avatars]
 Avatary kontaktu
 [Sound notifications]

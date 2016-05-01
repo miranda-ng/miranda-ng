@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.7
+;  Version: 0.2.12.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -141,6 +141,8 @@ Chyba připojení: Neplatný požadavek.
 Chyba připojení: Něco je vyžadováno.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
+Chyba připojení: Facebook si myslí, že je váš počítač nakažen. To můžete vyřešit přihlášením ve vašem prohlížeči v "privátním režimu", kdy následně potvrdíte antivirovou kontrolu.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
 [Login error, probably bad login credentials.]

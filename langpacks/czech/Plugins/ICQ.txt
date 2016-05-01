@@ -78,8 +78,8 @@ Aktivovat podporu avatarů
 Před uložením prověřit obrázek avataru *
 [Load avatars automatically (like ICQ Lite)]
 Načíst obrázky avatarů automaticky (jako ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Změny se projeví až při příštím připojení do sítě ICQ.
+[These changes will take effect the next time you connect to the ICQ network.]
+Provedené změny se projeví až při dalším připojení k síti ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Funkci ukládání kontaktů na serveru lze aktivovat nebo deaktivovat pouze po odpojení ze sítě ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]

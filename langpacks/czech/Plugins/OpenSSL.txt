@@ -12,3 +12,7 @@ Základní ovladač poskytující SSL služby s použitím OpenSSL.
 Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
 [Host we are connecting to is not the one certificate was issued for]
 Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
+[OpenSSL library loading failed]
+Načtení knihovny OpenSSL selhalo
+[OpenSSL error]
+Chyba OpenSSL

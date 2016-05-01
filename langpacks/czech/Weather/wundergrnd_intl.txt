@@ -494,6 +494,8 @@ sněhové vločky
 
 [Snow Showers 80% Chance Of Precipitation]
 
+[Snow Showers]
+sněhové přeháňky
 [Snow]
 sněžení
 [South]

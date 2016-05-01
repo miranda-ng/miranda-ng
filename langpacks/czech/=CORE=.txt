@@ -1004,8 +1004,8 @@ Ověřit platnost certifikátů
 Příchozí spojení
 [Enable UPnP port mapping]
 Povolit mapování portů dle UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Poznámka: Provedené změny se projeví až po opětovném připojení.
+[These changes will take effect the next time you connect to the network.]
+Provedené změny se projeví až při dalším připojení k síti.
 [Please complete the following form to create a new user profile]
 Po vyplnění následujících položek bude vytvořen nový profil
 [Profile]
@@ -1929,6 +1929,26 @@ muž
 žena
 [<not specified>]
 <neurčeno>
+[Single]
+svobodný/á
+[Close relationships]
+ve společné domácnosti
+[Engaged]
+zadaný/á
+[Married]
+ženatý/vdaná
+[Divorced]
+rozvedený/á
+[Separated]
+odloučený/á
+[Widowed]
+ovdovělý/á
+[Actively searching]
+aktivně hledám
+[In love]
+zamilovaný/á
+[It\'s complicated]
+je to komplikované
 [Summary]
 Souhrn
 [Contact]
