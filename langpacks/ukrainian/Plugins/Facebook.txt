@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.13.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -91,8 +91,6 @@
 Передати
 [Messages]
 Повідомлення
-[Receive messages from "inbox" folder only]
-Приймати повідомлення тільки з папки "Вхідні"
 [Keep messages as unread on server (don't send "seen" info)]
 Не позначати повідомлення на сервері як прочитані
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -111,6 +109,12 @@
 Показувати історію при відкритті вікна (експериментально)
 [Number of messages to load:]
 Кількість останніх повідомлень:
+[Facebook Login Approval]
+Підтвердження входу у Facebook
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+Для доступу до облікового запису з невідомого браузера необхідно ввести перевірочний код.\n\nОтримайте код через мобільний додаток Facebook або натисніть кнопку нижче, щоб отримати SMS з кодом.
+[Send SMS]
+Надіслати SMS
 [Enter the text you see]
 Введіть текст, який бачите
 [Myself]
@@ -133,8 +137,10 @@
 Невідома помилка
 [Login error: Invalid request.]
 Помилка входу: недопустимий запит.
-[Login error: Some Facebook things are required.]
-Помилка входу: деякі речі Facebook є обов'язковими.
+[You entered too many invalid verification codes. Plugin will disconnect.]
+Ви занадто часто вводили неправильний код. Протокол буде відключено.
+[You entered wrong verification code. Try it again.]
+Ви ввели неправильний код. Спробуйте знову.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
@@ -157,6 +163,10 @@
 Час надсилання повідомлення вичерпано.
 [Status update was successful.]
 Успішне оновлення статусу.
+[Error occurred when requesting verification SMS code.]
+Помилка при запиті SMS з кодом підтвердження.
+[Verification SMS code was sent to your mobile phone.]
+SMS з кодом підтвердження відправлено на ваш телефон.
 [Please enter a username.]
 Будь ласка, введіть ім'я користувача.
 [Please enter a password.]

@@ -19,13 +19,15 @@
 Надсилання
 [Unread clist extra icon]
 Непрочитане повідомлення в списку контактів
-[Last message read at]
-Останнє повідомлення прочитане о
-[Last message read (unknown time)]
-Останнє повідомлення прочитане (невідомо)
 [Last message is not read]
 Останнє повідомлення не прочитане
-[Last message was not sent.]
-Останнє повідомлення не надіслане.
+[Last message read]
+Останнє повідомлення прочитане
+[Last message was not sent]
+Останнє повідомлення не надіслане
 [Sending...]
 Надсилання...
+[Last message read at %X %x]
+Останнє повідомлення прочитане о %X %x
+[Last message read (unknown time)]
+Останнє повідомлення прочитане (невідомо)

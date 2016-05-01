@@ -103,8 +103,16 @@
 с
 [Set window location]
 Позиція вікна
+[Left]
+Ліворуч
+[Top]
+Зверху
 [Set window size]
 Розмір вікна
+[Width]
+Ширина
+[Height]
+Висота
 [Allow override]
 Змінювати
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -253,8 +261,6 @@
 <поточний>
 [<unknown>]
 <невідомо>
-[Left]
-Ліворуч
 [Right]
 Праворуч
 [None]

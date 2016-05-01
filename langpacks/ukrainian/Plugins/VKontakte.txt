@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -235,6 +235,8 @@
 Денний ліміт публікацій вичерпано
 [Enter confirmation code]
 Введіть код підтвердження
+[Enter new nickname]
+Введіть нове ім'я
 [Message read: %s]
 Повідомлення прочитане о %s
 [has invited you to a group]
@@ -343,6 +345,8 @@
 &Видалити кімнату
 [&User details]
 &Інформація про користувача
+[Change nick]
+Змінити ім'я
 [&Kick]
 &Вигнати
 [%s is typing a message...]
