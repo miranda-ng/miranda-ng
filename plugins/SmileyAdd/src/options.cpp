@@ -128,7 +128,6 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_SPACES:
 		case IDC_SCALETOTEXTHEIGHT:
 		case IDC_APPENDSPACES:
-		case IDC_SMLBUT:
 		case IDC_SCALEALLSMILEYS:
 		case IDC_IEVIEWSTYLE:
 		case IDC_ANIMATESEL:
@@ -139,6 +138,10 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_HQSCALING:
 		case IDC_SORTING_HORIZONTAL:
 			if (HIWORD(wParam) == BN_CLICKED)
+				SetChanged();
+			break;
+		case IDC_SMLBUT:
+			if (HIWORD(wParam) == CBN_SELCHANGE)
 				SetChanged();
 			break;
 
