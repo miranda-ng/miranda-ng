@@ -114,17 +114,17 @@ int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilen
 	TCHAR *mode = *action == FILERESUME_OVERWRITE ? _T("wb") : _T("ab");
 	if (!transfer->OpenFile(mode))
 	{
-		logger->Log(__FUNCTION__": failed to open file (%d) from %s(%d)", transfer->fileNumber, pubKey, transfer->friendNumber);
+		logger->Log(__FUNCTION__": failed to open file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 		tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		transfers.Remove(transfer);
 		return NULL;
 	}
 
 	TOX_ERR_FILE_CONTROL error;
-	logger->Log(__FUNCTION__": start receiving file (%d) from %s(%d)", transfer->fileNumber, pubKey, transfer->friendNumber);
+	logger->Log(__FUNCTION__": start receiving file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 	if (!tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error))
 	{
-		logger->Log(__FUNCTION__": failed to start receiving of file(%d) from %s(%d) cause (%d)", transfer->fileNumber, pubKey, transfer->friendNumber, error);
+		logger->Log(__FUNCTION__": failed to start receiving of file(%d) from %s(%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		transfers.Remove(transfer);
@@ -137,10 +137,10 @@ void CToxProto::OnTransferCompleted(FileTransferParam *transfer)
 {
 	ToxHexAddress pubKey = GetContactPublicKey(transfer->friendNumber);
 
-	logger->Log(__FUNCTION__": finised the transfer of file (%d) from %s(%d)", transfer->fileNumber, pubKey, transfer->friendNumber);
+	logger->Log(__FUNCTION__": finised the transfer of file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 	bool isFileFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
 	if (!isFileFullyTransfered)
-		logger->Log(__FUNCTION__": file (%d) from %s(%d) is transferred not completely", transfer->fileNumber, pubKey, transfer->friendNumber);
+		logger->Log(__FUNCTION__": file (%d) from %s(%d) is transferred not completely", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 
 	if (transfer->transferType == TOX_FILE_KIND_AVATAR)
 	{
@@ -331,11 +331,11 @@ void CToxProto::PauseOutgoingTransfers(uint32_t friendNumber)
 		{
 			ToxHexAddress pubKey = GetContactPublicKey(friendNumber);
 
-			logger->Log(__FUNCTION__": sending ask to pause the transfer of file (%d) to %s(%d)", transfer->fileNumber, pubKey, transfer->friendNumber);
+			logger->Log(__FUNCTION__": sending ask to pause the transfer of file (%d) to %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			TOX_ERR_FILE_CONTROL error;
 			if (!tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_PAUSE, &error))
 			{
-				logger->Log(__FUNCTION__": failed to pause the transfer (%d) to %s(%d) cause(%d)", transfer->fileNumber, pubKey, transfer->friendNumber, error);
+				logger->Log(__FUNCTION__": failed to pause the transfer (%d) to %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 				tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 			}
 		}
@@ -352,11 +352,11 @@ void CToxProto::ResumeIncomingTransfers(uint32_t friendNumber)
 		{
 			ToxHexAddress pubKey = GetContactPublicKey(friendNumber);
 
-			logger->Log(__FUNCTION__": sending ask to resume the transfer of file (%d) from %s(%d) cause(%d)", transfer->fileNumber, pubKey, transfer->friendNumber);
+			logger->Log(__FUNCTION__": sending ask to resume the transfer of file (%d) from %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			TOX_ERR_FILE_CONTROL error;
 			if (!tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error))
 			{
-				logger->Log(__FUNCTION__": failed to resume the transfer (%d) from %s(%d) cause(%d)", transfer->fileNumber, pubKey, transfer->friendNumber, error);
+				logger->Log(__FUNCTION__": failed to resume the transfer (%d) from %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 				tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 			}
 		}
