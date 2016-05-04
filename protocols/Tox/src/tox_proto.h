@@ -69,9 +69,8 @@ private:
 	CToxThread *toxThread;
 	mir_cs profileLock;
 	TCHAR *accountName;
-	HANDLE hNetlib, hPollingThread;
+	HANDLE hPollingThread;
 	CTransferList transfers;
-	CLogger *logger;
 	ULONG hMessageProcess;
 
 	static HANDLE hProfileFolderPath;
@@ -93,7 +92,9 @@ private:
 	// tox network
 	bool IsOnline();
 
-	void BootstrapNode(const char *address, int port, const char *pubKey);
+	void BootstrapUdpNode(const char *address, int port, const char *pubKey);
+	void BootstrapTcpRelay(const char *address, int port, const char *pubKey);
+
 	void BootstrapNodesFromDb(bool isIPv6);
 	void BootstrapNodesFromJson(bool isIPv6);
 	void BootstrapNodes();

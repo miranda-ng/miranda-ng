@@ -49,7 +49,7 @@ void CToxProto::LoadChatRoomList(void*)
 	uint32_t count = tox_count_chatlist(toxThread->Tox());
 	if (count == 0)
 	{
-		logger->Log("CToxProto::LoadGroupChatList: your group chat list is empty");
+		debugLogA(__FUNCTION__": your group chat list is empty");
 		return;
 	}
 	int32_t *groupChats = (int32_t*)mir_alloc(count * sizeof(int32_t));
@@ -175,21 +175,21 @@ void CToxProto::OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, 
 
 	if (type == TOX_GROUPCHAT_TYPE_AV)
 	{
-		proto->logger->Log("CToxProto::OnGroupChatInvite: audio chat is not supported yet");
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": audio chat is not supported yet");
 		return;
 	}
 
 	int groupNumber = tox_join_groupchat(tox, friendNumber, data, length);
 	if (groupNumber == TOX_ERROR)
 	{
-		proto->logger->Log("CToxProto::OnFriendRequest: failed to join to group chat");
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to join to group chat");
 		return;
 	}
 
 	MCONTACT hContact = proto->AddChatRoom(groupNumber);
 	if (!hContact)
 	{
-		proto->logger->Log("CToxProto::OnFriendRequest: failed to create group chat");
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to create group chat");
 	}
 }
 

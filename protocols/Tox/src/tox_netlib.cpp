@@ -10,15 +10,13 @@ void CToxProto::InitNetlib()
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = m_szModuleName;
-	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	logger = new CLogger(hNetlib);
-
-	logger->Log("Setting protocol/module name to '%s'", m_szModuleName);
+	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
 }
 
 void CToxProto::UninitNetlib()
 {
-	Netlib_CloseHandle(hNetlib);
-	hNetlib = NULL;
+	Netlib_CloseHandle(m_hNetlibUser);
+	m_hNetlibUser = NULL;
 }

@@ -18,7 +18,7 @@ TCHAR* CToxProto::GetToxProfilePath(const TCHAR *accountName)
 
 bool CToxProto::LoadToxProfile(Tox_Options *options)
 {
-	logger->Log(__FUNCTION__": loading tox profile");
+	debugLogA(__FUNCTION__": loading tox profile");
 
 	mir_cslock locker(profileLock);
 	
@@ -30,7 +30,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	if (profile == NULL)
 	{
 		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
-		logger->Log(__FUNCTION__": failed to open tox profile");
+		debugLogA(__FUNCTION__": failed to open tox profile");
 		return false;
 	}
 
@@ -54,7 +54,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	{
 		fclose(profile);
 		ShowNotification(TranslateT("Unable to read Tox profile"), MB_ICONERROR);
-		logger->Log(__FUNCTION__": failed to read tox profile");
+		debugLogA(__FUNCTION__": failed to read tox profile");
 		mir_free(data);
 		return false;
 	}
@@ -77,7 +77,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError))
 		{
 			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
-			logger->Log(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
+			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
 			mir_free(data);
 			return false;
 		}
@@ -114,7 +114,7 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 		TOX_ERR_ENCRYPTION coreEncryptError;
 		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), data, &coreEncryptError))
 		{
-			logger->Log(__FUNCTION__": failed to encrypt tox profile");
+			debugLogA(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);
 			return;
 		}
@@ -125,7 +125,7 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 	FILE *profile = _tfopen(profilePath, _T("wb"));
 	if (profile == NULL)
 	{
-		logger->Log(__FUNCTION__": failed to open tox profile");
+		debugLogA(__FUNCTION__": failed to open tox profile");
 		mir_free(data);
 		return;
 	}
@@ -133,7 +133,7 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 	size_t written = fwrite(data, sizeof(char), size, profile);
 	if (size != written)
 	{
-		logger->Log(__FUNCTION__": failed to write tox profile");
+		debugLogA(__FUNCTION__": failed to write tox profile");
 	}
 
 	fclose(profile);

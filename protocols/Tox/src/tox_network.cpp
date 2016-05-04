@@ -5,17 +5,32 @@ bool CToxProto::IsOnline()
 	return toxThread && toxThread->IsConnected() && m_iStatus >= ID_STATUS_ONLINE;
 }
 
-void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
+void CToxProto::BootstrapUdpNode(const char *address, int port, const char *hexKey)
 {
-	if (hexKey == NULL || toxThread == NULL)
+	if (!toxThread)
+		return;
+
+	if (address == NULL || hexKey == NULL)
 		return;
 
 	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
 	TOX_ERR_BOOTSTRAP error;
 	if (!tox_bootstrap(toxThread->Tox(), address, port, binKey, &error))
-		logger->Log(__FUNCTION__ ": failed to bootstrap node %s:%d \"%s\" (%d)", address, port, hexKey, error);
+		debugLogA(__FUNCTION__ ": failed to bootstrap node %s:%d \"%s\" (%d)", address, port, hexKey, error);
+}
+
+void CToxProto::BootstrapTcpRelay(const char *address, int port, const char *hexKey)
+{	
+	if (!toxThread)
+		return;
+
+	if (address == NULL || hexKey == NULL)
+		return;
+
+	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
+	TOX_ERR_BOOTSTRAP error;
 	if (!tox_add_tcp_relay(toxThread->Tox(), address, port, binKey, &error))
-		logger->Log(__FUNCTION__ ": failed to add tcp relay %s:%d \"%s\" (%d)", address, port, hexKey, error);
+		debugLogA(__FUNCTION__ ": failed to add tcp relay %s:%d \"%s\" (%d)", address, port, hexKey, error);
 }
 
 void CToxProto::BootstrapNodesFromDb(bool isIPv6)
@@ -34,12 +49,14 @@ void CToxProto::BootstrapNodesFromDb(bool isIPv6)
 			int port = db_get_w(NULL, module, setting, 33445);
 			mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
 			ptrA pubKey(db_get_sa(NULL, module, setting));
-			BootstrapNode(address, port, pubKey);
+			BootstrapUdpNode(address, port, pubKey);
+			BootstrapTcpRelay(address, port, pubKey);
 			if (isIPv6)
 			{
 				mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
 				address = db_get_sa(NULL, module, setting);
-				BootstrapNode(address, port, pubKey);
+				BootstrapUdpNode(address, port, pubKey);
+				BootstrapTcpRelay(address, port, pubKey);
 			}
 		}
 	}
@@ -79,13 +96,32 @@ void CToxProto::BootstrapNodesFromJson(bool isIPv6)
 				JSONNode node = nodes[i];
 
 				JSONNode address = node.at("ipv4");
-				int port = node.at("port").as_int();
 				JSONNode pubKey = node.at("public_key");
-				BootstrapNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
-				if (isIPv6)
+
+				bool isUdp = getBool("EnableUDP", 1);
+				if (isUdp)
 				{
-					address = node.at("ipv6");
-					BootstrapNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+					int port = node.at("port").as_int();
+					BootstrapUdpNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+					if (isIPv6)
+					{
+						address = node.at("ipv6");
+						BootstrapUdpNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+					}
+				}
+				else
+				{
+					JSONNode tcpPorts = root.at("tcp_ports").as_array();
+					for (size_t i = 0; i < tcpPorts.size(); i++)
+					{
+						int port = tcpPorts[i].as_int();
+						BootstrapTcpRelay(address.as_string().c_str(), port, pubKey.as_string().c_str());
+						if (isIPv6)
+						{
+							address = node.at("ipv6");
+							BootstrapTcpRelay(address.as_string().c_str(), port, pubKey.as_string().c_str());
+						}
+					}
 				}
 			}
 		}
@@ -94,7 +130,7 @@ void CToxProto::BootstrapNodesFromJson(bool isIPv6)
 
 void CToxProto::BootstrapNodes()
 {
-	logger->Log(__FUNCTION__": bootstraping DHT");
+	debugLogA(__FUNCTION__": bootstraping DHT");
 	bool isIPv6 = getBool("EnableIPv6", 0);
 	BootstrapNodesFromDb(isIPv6);
 	BootstrapNodesFromJson(isIPv6);
@@ -102,55 +138,64 @@ void CToxProto::BootstrapNodes()
 
 void CToxProto::UpdateNodes()
 {
-	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
+	if (response->resultCode != HTTP_CODE_OK || !response->pData)
+	{
+		debugLogA(__FUNCTION__": failed to dowload tox.json");
+		return;
+	}
+
+	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
 	if (!IsFileExists(path))
 	{
 		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hProfile == NULL)
 		{
-			logger->Log(__FUNCTION__": failed to create tox.json");
+			debugLogA(__FUNCTION__": failed to create tox.json");
 			return;
 		}
 		CloseHandle(hProfile);
 	}
 
-	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
-	NLHR_PTR response(request.Send(hNetlib));
-
-	if (response->resultCode == 200 && response->pData)
+	FILE *hFile = _tfopen(path, _T("w"));
+	if (!hFile)
 	{
-		FILE *hFile = _tfopen(path, _T("w"));
-		if (hFile)
-		{
-			fwrite(response->pData, sizeof(char), response->dataLength, hFile);
-			fclose(hFile);
-		}
+		debugLogA(__FUNCTION__": failed to open tox.json");
+		return;
 	}
+
+	if (fwrite(response->pData, sizeof(char), response->dataLength, hFile) != response->dataLength)
+		debugLogA(__FUNCTION__": failed to write tox.json");
+
+	fclose(hFile);
 }
 
 void CToxProto::TryConnect()
 {
-	if (toxThread != NULL)
+	if (!toxThread)
 	{
-		if (tox_self_get_connection_status(toxThread->Tox()) != TOX_CONNECTION_NONE)
-		{
-			toxThread->Connect();
-			logger->Log(__FUNCTION__": successfuly connected to DHT");
+		return;
+	}
 
-			ForkThread(&CToxProto::LoadFriendList, NULL);
+	if (tox_self_get_connection_status(toxThread->Tox()) != TOX_CONNECTION_NONE)
+	{
+		toxThread->Connect();
+		debugLogA(__FUNCTION__": successfuly connected to DHT");
 
-			m_iStatus = m_iDesiredStatus;
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-			tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(m_iStatus));
-			logger->Log(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
-		}
-		else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
-		{
-			SetStatus(ID_STATUS_OFFLINE);
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
-			logger->Log(__FUNCTION__": failed to connect to DHT");
-		}
+		ForkThread(&CToxProto::LoadFriendList, NULL);
+
+		m_iStatus = m_iDesiredStatus;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+		tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(m_iStatus));
+		debugLogA(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
+	}
+	else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
+	{
+		SetStatus(ID_STATUS_OFFLINE);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+		debugLogA(__FUNCTION__": failed to connect to DHT");
 	}
 }
 
@@ -164,7 +209,7 @@ void CToxProto::CheckConnection(int &retriesCount)
 	{
 		if (retriesCount < TOX_MAX_DISCONNECT_RETRIES)
 		{
-			logger->Log(__FUNCTION__": restored connection with DHT");
+			debugLogA(__FUNCTION__": restored connection with DHT");
 			retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 		}
 	}
@@ -173,17 +218,17 @@ void CToxProto::CheckConnection(int &retriesCount)
 		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES)
 		{
 			retriesCount--;
-			logger->Log(__FUNCTION__": lost connection with DHT");
+			debugLogA(__FUNCTION__": lost connection with DHT");
 		}
-		else if (retriesCount % 50 == 0)
+		/*else if (retriesCount % 50 == 0)
 		{
 			retriesCount--;
 			BootstrapNodes();
-		}
+		}*/
 		else if (!(--retriesCount))
 		{
 			toxThread->Disconnect();
-			logger->Log(__FUNCTION__": disconnected from DHT");
+			debugLogA(__FUNCTION__": disconnected from DHT");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
@@ -191,12 +236,14 @@ void CToxProto::CheckConnection(int &retriesCount)
 
 void CToxProto::PollingThread(void*)
 {
+	debugLogA(__FUNCTION__": entering");
+
 	Tox_Options *options = GetToxOptions();
 	if (!options)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL);
-		logger->Log(__FUNCTION__": leaving");
+		debugLogA(__FUNCTION__": leaving");
 		return;
 	}
 
@@ -204,7 +251,7 @@ void CToxProto::PollingThread(void*)
 	CToxThread toxThread(options, &error);
 	if (error != TOX_ERR_NEW_OK)
 	{
-		logger->Log(__FUNCTION__": failed to initialize tox core (%d)", error);
+		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
 		ShowNotification(ToxErrorToString(error), TranslateT("Unable to initialize Tox core"), MB_ICONERROR);
 		tox_options_free(options);
 	}
@@ -212,14 +259,12 @@ void CToxProto::PollingThread(void*)
 
 	this->toxThread = &toxThread;
 
-	logger->Log(__FUNCTION__": entering");
-
 	if (!InitToxCore(&toxThread))
 	{
 		UninitToxCore(&toxThread);
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-		logger->Log(__FUNCTION__": leaving");
+		debugLogA(__FUNCTION__": leaving");
 		return;
 	}
 
@@ -237,5 +282,5 @@ void CToxProto::PollingThread(void*)
 	toxThread.Disconnect();
 	UninitToxCore(&toxThread);
 
-	logger->Log(__FUNCTION__": leaving");
+	debugLogA(__FUNCTION__": leaving");
 }

@@ -27,17 +27,17 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 	FILE *hFile = _tfopen(path, L"rb");
 	if (!hFile)
 	{
-		logger->Log(__FUNCTION__": failed to open avatar file");
+		debugLogA(__FUNCTION__": failed to open avatar file");
 		return;
 	}
 
 	fseek(hFile, 0, SEEK_END);
-	long length = ftell(hFile);
+	size_t length = ftell(hFile);
 	rewind(hFile);
 	if (length > TOX_MAX_AVATAR_SIZE)
 	{
 		fclose(hFile);
-		logger->Log(__FUNCTION__": new avatar size is excessive");
+		debugLogA(__FUNCTION__": new avatar size is excessive");
 		return;
 	}
 
@@ -45,7 +45,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 	if (fread(data, sizeof(uint8_t), length, hFile) != length)
 	{
 		fclose(hFile);
-		logger->Log(__FUNCTION__": failed to read avatar file");
+		debugLogA(__FUNCTION__": failed to read avatar file");
 		mir_free(data);
 		return;
 	}
@@ -60,7 +60,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 		{
 			db_free(&dbv);
 			mir_free(data);
-			logger->Log(__FUNCTION__": new avatar is same with old");
+			debugLogA(__FUNCTION__": new avatar is same with old");
 			return;
 		}
 		db_free(&dbv);
@@ -79,7 +79,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 			if (friendNumber == UINT32_MAX)
 			{
 				mir_free(data);
-				logger->Log(__FUNCTION__": failed to set new avatar");
+				debugLogA(__FUNCTION__": failed to set new avatar");
 				return;
 			}
 
@@ -88,7 +88,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 			if (error != TOX_ERR_FILE_SEND_OK)
 			{
 				mir_free(data);
-				logger->Log(__FUNCTION__": failed to set new avatar");
+				debugLogA(__FUNCTION__": failed to set new avatar");
 				return;
 			}
 
@@ -157,15 +157,15 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
-	logger->Log("CToxProto::SetMyAvatar: setting avatar");
+	debugLogA(__FUNCTION__": setting avatar");
 	TCHAR *path = (TCHAR*)lParam;
 	ptrT avatarPath(GetAvatarFilePath());
 	if (path != NULL)
 	{
-		logger->Log("CToxProto::SetMyAvatar: copy new avatar");
+		debugLogA(__FUNCTION__": copy new avatar");
 		if (!CopyFile(path, avatarPath, FALSE))
 		{
-			logger->Log("CToxProto::SetMyAvatar: failed to copy new avatar to avatar cache");
+			debugLogA(__FUNCTION__": failed to copy new avatar to avatar cache");
 			return 0;
 		}
 
@@ -189,7 +189,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK)
 			{
-				logger->Log(__FUNCTION__": failed to unset avatar (%d)", error);
+				debugLogA(__FUNCTION__": failed to unset avatar (%d)", error);
 				return 0;
 			}
 		}

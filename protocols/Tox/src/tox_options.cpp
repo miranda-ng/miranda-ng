@@ -62,7 +62,7 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
-	Tox_Options *options;
+	Tox_Options *options = NULL;
 	tox_options_default(options);
 	CToxThread toxThread(options);
 	tox_options_free(options);
@@ -73,7 +73,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hProfile == NULL)
 		{
-			m_proto->logger->Log(__FUNCTION__": failed to create tox profile");
+			m_proto->debugLogA(__FUNCTION__": failed to create tox profile");
 			return;
 		}
 		CloseHandle(hProfile);

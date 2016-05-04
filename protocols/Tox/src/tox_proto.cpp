@@ -143,7 +143,7 @@ int CToxProto::SetStatus(int iNewStatus)
 
 	iNewStatus = MapStatus(iNewStatus);
 
-	logger->Log("CToxProto::SetStatus: changing status from %i to %i", m_iStatus, iNewStatus);
+	debugLogA(__FUNCTION__": changing status from %i to %i", m_iStatus, iNewStatus);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
@@ -207,7 +207,7 @@ int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
 		if (!tox_self_set_status_message(toxThread->Tox(), (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
-			logger->Log("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
+			debugLogA(__FUNCTION__": failed to set status status message %s (%d)", msg, error);
 	}
 
 	return 0;

@@ -10,7 +10,7 @@ INT_PTR CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam)
 		T2Utf szNick8(nickname);
 		TOX_ERR_SET_INFO error;
 		if (!tox_self_set_name(toxThread->Tox(), szNick8, mir_strlen(szNick8), &error))
-			logger->Log(__FUNCTION__": failed to set nick name");
+			debugLogA(__FUNCTION__": failed to set nick name");
 	}
 
 	return 0;
