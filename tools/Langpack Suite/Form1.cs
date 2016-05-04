@@ -274,10 +274,10 @@ namespace Langpack_Suite
                         s = ReadFile.ReadLine().Trim();
                         while (s != "")
                         {
-                            if (s.StartsWith(" ") || s.Contains(".dll"))
+                            if (s.StartsWith(" ") || s.StartsWith("¤") || s.Contains(".dll"))
                             {
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith(" "))
+                                if (s.StartsWith(" ") || s.StartsWith("¤"))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
@@ -294,10 +294,10 @@ namespace Langpack_Suite
                         s = ReadFile.ReadLine().Trim();
                         while (s != "")
                         {
-                            if (s.StartsWith(" ") || s.Contains("DbChecker.dll"))
+                            if (s.StartsWith(" ") || s.StartsWith("¤") || s.Contains("DbChecker.dll"))
                             {
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith(" "))
+                                if (s.StartsWith(" ") || s.StartsWith("¤"))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
@@ -372,11 +372,11 @@ namespace Langpack_Suite
                         while (s != "")
                         {
                             StreamReader plug_in;
-                            if (s.StartsWith(" ") || s.Contains(".dll"))
+                            if (s.StartsWith(" ") || s.StartsWith("¤") || s.Contains(".dll"))
                             {
                                 string back_s = s;
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith(" "))
+                                if (s.StartsWith(" ") || s.StartsWith("¤"))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
@@ -464,11 +464,11 @@ namespace Langpack_Suite
                         while (s != "")
                         {
                             StreamReader plug_in;
-                            if (s.StartsWith(" ") || s.Contains(".dll"))
+                            if (s.StartsWith(" ") || s.StartsWith("¤") || s.Contains(".dll"))
                             {
                                 string back_s = s;
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith(" "))
+                                if (s.StartsWith(" ") || s.StartsWith("¤"))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
