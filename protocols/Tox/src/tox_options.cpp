@@ -593,6 +593,7 @@ void CToxOptionsNodeList::OnApply()
 	for (int i = 0; i < itemCount; i++)
 	{
 		lvi.iItem = i;
+		lvi.iGroupId = 0;
 		lvi.mask = LVIF_GROUPID;
 		m_nodes.GetItem(&lvi);
 		if (lvi.iGroupId == 0)
