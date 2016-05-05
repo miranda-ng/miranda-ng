@@ -5,7 +5,7 @@ bool CToxProto::IsOnline()
 	return toxThread && toxThread->IsConnected() && m_iStatus >= ID_STATUS_ONLINE;
 }
 
-void CToxProto::BootstrapUdpNode(const char *address, int port, const char *hexKey)
+void CToxProto::BootstrapUdpNode(CToxThread *toxThread, const char *address, int port, const char *hexKey)
 {
 	if (!toxThread)
 		return;
@@ -19,7 +19,7 @@ void CToxProto::BootstrapUdpNode(const char *address, int port, const char *hexK
 		debugLogA(__FUNCTION__ ": failed to bootstrap node %s:%d \"%s\" (%d)", address, port, hexKey, error);
 }
 
-void CToxProto::BootstrapTcpRelay(const char *address, int port, const char *hexKey)
+void CToxProto::BootstrapTcpRelay(CToxThread *toxThread, const char *address, int port, const char *hexKey)
 {	
 	if (!toxThread)
 		return;
@@ -33,7 +33,7 @@ void CToxProto::BootstrapTcpRelay(const char *address, int port, const char *hex
 		debugLogA(__FUNCTION__ ": failed to add tcp relay %s:%d \"%s\" (%d)", address, port, hexKey, error);
 }
 
-void CToxProto::BootstrapNodesFromDb(bool isIPv6)
+void CToxProto::BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6)
 {
 	char module[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_szModuleName);
@@ -49,20 +49,20 @@ void CToxProto::BootstrapNodesFromDb(bool isIPv6)
 			int port = db_get_w(NULL, module, setting, 33445);
 			mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
 			ptrA pubKey(db_get_sa(NULL, module, setting));
-			BootstrapUdpNode(address, port, pubKey);
-			BootstrapTcpRelay(address, port, pubKey);
+			BootstrapUdpNode(toxThread, address, port, pubKey);
+			BootstrapTcpRelay(toxThread, address, port, pubKey);
 			if (isIPv6)
 			{
 				mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
 				address = db_get_sa(NULL, module, setting);
-				BootstrapUdpNode(address, port, pubKey);
-				BootstrapTcpRelay(address, port, pubKey);
+				BootstrapUdpNode(toxThread, address, port, pubKey);
+				BootstrapTcpRelay(toxThread, address, port, pubKey);
 			}
 		}
 	}
 }
 
-void CToxProto::BootstrapNodesFromJson(bool isIPv6)
+void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool isIPv6)
 {
 	char *json = NULL;
 
@@ -98,15 +98,14 @@ void CToxProto::BootstrapNodesFromJson(bool isIPv6)
 				JSONNode address = node.at("ipv4");
 				JSONNode pubKey = node.at("public_key");
 
-				bool isUdp = getBool("EnableUDP", 1);
 				if (isUdp)
 				{
 					int port = node.at("port").as_int();
-					BootstrapUdpNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+					BootstrapUdpNode(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
 					if (isIPv6)
 					{
 						address = node.at("ipv6");
-						BootstrapUdpNode(address.as_string().c_str(), port, pubKey.as_string().c_str());
+						BootstrapUdpNode(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
 					}
 				}
 				else
@@ -115,11 +114,11 @@ void CToxProto::BootstrapNodesFromJson(bool isIPv6)
 					for (size_t i = 0; i < tcpPorts.size(); i++)
 					{
 						int port = tcpPorts[i].as_int();
-						BootstrapTcpRelay(address.as_string().c_str(), port, pubKey.as_string().c_str());
+						BootstrapTcpRelay(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
 						if (isIPv6)
 						{
 							address = node.at("ipv6");
-							BootstrapTcpRelay(address.as_string().c_str(), port, pubKey.as_string().c_str());
+							BootstrapTcpRelay(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
 						}
 					}
 				}
@@ -128,12 +127,13 @@ void CToxProto::BootstrapNodesFromJson(bool isIPv6)
 	}
 }
 
-void CToxProto::BootstrapNodes()
+void CToxProto::BootstrapNodes(CToxThread *toxThread)
 {
 	debugLogA(__FUNCTION__": bootstraping DHT");
+	bool isUdp = getBool("EnableUDP", 1);
 	bool isIPv6 = getBool("EnableIPv6", 0);
-	BootstrapNodesFromDb(isIPv6);
-	BootstrapNodesFromJson(isIPv6);
+	BootstrapNodesFromDb(toxThread, isIPv6);
+	BootstrapNodesFromJson(toxThread, isUdp, isIPv6);
 }
 
 void CToxProto::UpdateNodes()
@@ -166,7 +166,7 @@ void CToxProto::UpdateNodes()
 		return;
 	}
 
-	if (fwrite(response->pData, sizeof(char), response->dataLength, hFile) != response->dataLength)
+	if (fwrite(response->pData, sizeof(char), response->dataLength, hFile) != (size_t)response->dataLength)
 		debugLogA(__FUNCTION__": failed to write tox.json");
 
 	fclose(hFile);
@@ -269,7 +269,7 @@ void CToxProto::PollingThread(void*)
 	}
 
 	int retriesCount = TOX_MAX_DISCONNECT_RETRIES;
-	BootstrapNodes();
+	BootstrapNodes(&toxThread);
 
 	while (!toxThread.IsTerminated())
 	{

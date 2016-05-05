@@ -92,12 +92,12 @@ private:
 	// tox network
 	bool IsOnline();
 
-	void BootstrapUdpNode(const char *address, int port, const char *pubKey);
-	void BootstrapTcpRelay(const char *address, int port, const char *pubKey);
+	void BootstrapUdpNode(CToxThread *toxThread, const char *address, int port, const char *pubKey);
+	void BootstrapTcpRelay(CToxThread *toxThread, const char *address, int port, const char *pubKey);
 
-	void BootstrapNodesFromDb(bool isIPv6);
-	void BootstrapNodesFromJson(bool isIPv6);
-	void BootstrapNodes();
+	void BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6);
+	void BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool isIPv6);
+	void BootstrapNodes(CToxThread *toxThread);
 
 	void UpdateNodes();
 
