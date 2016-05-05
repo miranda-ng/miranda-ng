@@ -70,7 +70,7 @@ ULONG CDropTarget::Release(void)
 	return InterlockedDecrement(&refCount);
 }
 
-static MCONTACT HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, int *hitLine)
+static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hitLine)
 {
 	DWORD hitFlags;
 	ClcContact *contact;
@@ -95,7 +95,6 @@ static MCONTACT HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, 
 HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffect)
 {
 	POINT shortPt;
-	struct ClcData *dat;
 	RECT clRect;
 	int hit;
 	MCONTACT hContact;
@@ -109,7 +108,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		return S_OK;
 	}
 	cli.pfnTrayIconPauseAutoHide(0, 0);
-	dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+	ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	ScreenToClient(hwndCurrentDrag, &shortPt);
@@ -149,9 +148,8 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, _countof(szWindowClass));
 	if (!mir_tstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
-		struct ClcData *dat;
 		hwndCurrentDrag = hwnd;
-		dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		originalSelection = dat->selection;
 		dat->showSelAlways = 1;
 	}
@@ -163,10 +161,9 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 HRESULT CDropTarget::DragLeave(void)
 {
 	if (hwndCurrentDrag) {
-		struct ClcData *dat;
 		if (pDropTargetHelper)
 			pDropTargetHelper->DragLeave();
-		dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		dat->showSelAlways = 0;
 		dat->selection = originalSelection;
 		cli.pfnInvalidateRect(hwndCurrentDrag, NULL, FALSE);
@@ -206,7 +203,6 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	STGMEDIUM stg;
 	HDROP hDrop;
 	POINT shortPt;
-	struct ClcData *dat;
 
 	if (pDropTargetHelper && hwndCurrentDrag)
 		pDropTargetHelper->Drop(pDataObj, (POINT*)&pt, *pdwEffect);
@@ -215,7 +211,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	if (hwndCurrentDrag == NULL || S_OK != pDataObj->GetData(&fe, &stg))
 		return S_OK;
 	hDrop = (HDROP) stg.hGlobal;
-	dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+	ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;

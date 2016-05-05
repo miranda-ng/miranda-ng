@@ -74,7 +74,7 @@ int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	return -1;
 }
 
-int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0;
 	int nowVisible = 1;
@@ -142,7 +142,7 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contac
 	return 0;
 }
 
-int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)
+int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)
 {
 	int index = 0;
 	ClcGroup *group = &dat->list;

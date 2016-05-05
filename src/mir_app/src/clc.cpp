@@ -238,7 +238,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	DWORD hitFlags;
 	int hit;
 
-	ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (ClcData *) GetWindowLongPtr(hwnd, 0);
 	if (uMsg >= CLM_FIRST && uMsg < CLM_LAST)
 		return cli.pfnProcessExternalMessages(hwnd, dat, uMsg, wParam, lParam);
 
@@ -247,7 +247,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		WindowList_Add(hClcWindowList, hwnd, NULL);
 		cli.pfnRegisterFileDropping(hwnd);
 		if (dat == NULL) {
-			dat = (struct ClcData *) mir_calloc(sizeof(struct ClcData));
+			dat = (ClcData *) mir_calloc(sizeof(ClcData));
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 		}
 		{

@@ -39,7 +39,7 @@ int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	return iAboveItem;
 }
 
-ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	TCHAR *pBackslash, *pNextField, szThisField[ _countof(dat->list.cl.items[0]->szText) ];
 	ClcGroup *group = &dat->list;
@@ -171,7 +171,7 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 	return i;
 }
 
-int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
+int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
 	int i, index = -1;
 
@@ -216,7 +216,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	return i;
 }
 
-void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
+void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	WORD status = ID_STATUS_OFFLINE;
@@ -344,7 +344,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	else cli.pfnRemoveItemFromGroup(hwnd, group, contact, 1);
 }
 
-void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
+void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	ClcGroup *group;
@@ -484,7 +484,7 @@ static void InsertionSort(ClcContact **pContactArray, int nArray, int (*CompareP
 	}
 }
 
-static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort)
+static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 {
 	int i, sortCount;
 
@@ -540,7 +540,7 @@ static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort
 	}
 }
 
-void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
+void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
 	ClcGroup *group = &dat->list;
 
@@ -598,7 +598,7 @@ struct SavedInfoState_t
 	ClcContact contact;
 };
 
-void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
+void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
 	NMCLISTCONTROL nm;
 	int i, j;

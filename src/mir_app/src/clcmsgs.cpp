@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // processing of all the CLM_ messages incoming
 
-LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
 	ClcGroup *group;
@@ -336,9 +336,14 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_SETEXTRAIMAGE:
-		if (LOWORD(lParam) < dat->extraColumnsCount)
-			if (cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (LOWORD(lParam) < dat->extraColumnsCount) {
+			int bVisible;
+			if (cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, &bVisible)) {
 				contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
+				if (bVisible)
+					cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+			}
+		}
 		break;
 
 	case CLM_SETEXTRAIMAGELIST:

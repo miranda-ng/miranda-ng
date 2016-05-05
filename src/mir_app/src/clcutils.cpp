@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hHideInfoTipEvent;
 
-TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
+TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
 		return _T("");
@@ -63,7 +63,7 @@ TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
 	return szName;
 }
 
-int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags)
+int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags)
 {
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
@@ -189,7 +189,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	return -1;
 }
 
-void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
+void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 {
 	int oldy = dat->yScroll;
 
@@ -239,7 +239,7 @@ void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 
-void fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk)
+void fnEnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk)
 {
 	int itemy = cli.pfnGetRowTopY(dat, iItem), itemh = cli.pfnGetRowHeight(dat, iItem), newY = 0;
 	int moved = 0;
@@ -270,7 +270,7 @@ void fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk)
 		cli.pfnScrollTo(hwnd, dat, newY, 0);
 }
 
-void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
+void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 {
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
@@ -299,7 +299,7 @@ void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)
+void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 {
 	int contentCount;
 	int groupy;
@@ -338,7 +338,7 @@ void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newSt
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
+void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 {
 	ClcContact *contact;
 
@@ -353,7 +353,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
 		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)contact->hContact, 0);
 }
 
-int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk)
+int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
 	size_t testlen = mir_tstrlen(text);
@@ -396,7 +396,7 @@ int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefi
 	return -1;
 }
 
-void fnEndRename(HWND, struct ClcData *dat, int save)
+void fnEndRename(HWND, ClcData *dat, int save)
 {
 	HWND hwndEdit = dat->hwndRenameEdit;
 	if (hwndEdit == NULL)
@@ -435,7 +435,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 	DestroyWindow(hwndEdit);
 }
 
-void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat)
+void fnDeleteFromContactList(HWND hwnd, ClcData *dat)
 {
 	ClcContact *contact;
 	if (dat->selection == -1)
@@ -459,10 +459,10 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			cli.pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+			cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
 			return 0;
 		case VK_ESCAPE:
-			cli.pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 0);
+			cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 0);
 			return 0;
 		}
 		break;
@@ -476,13 +476,13 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 		}
 		return DLGC_WANTMESSAGE;
 	case WM_KILLFOCUS:
-		cli.pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+		cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
 		return 0;
 	}
 	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);
 }
 
-void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
+void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 {
 	ClcContact *contact;
 	ClcGroup *group;
@@ -510,7 +510,7 @@ void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	SetFocus(dat->hwndRenameEdit);
 }
 
-void fnCalcEipPosition(struct ClcData *dat, ClcContact *, ClcGroup *group, POINT *result)
+void fnCalcEipPosition(ClcData *dat, ClcContact *, ClcGroup *group, POINT *result)
 {
 	int indent;
 	for (indent = 0; group->parent; indent++, group = group->parent);
@@ -518,7 +518,7 @@ void fnCalcEipPosition(struct ClcData *dat, ClcContact *, ClcGroup *group, POINT
 	result->y = cli.pfnGetRowTopY(dat, dat->selection) - dat->yScroll;
 }
 
-int fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt)
+int fnGetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 {
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
@@ -617,12 +617,12 @@ int fnClcStatusToPf2(int status)
 	return 0;
 }
 
-int fnIsHiddenMode(struct ClcData *dat, int status)
+int fnIsHiddenMode(ClcData *dat, int status)
 {
 	return dat->offlineModes & cli.pfnClcStatusToPf2(status);
 }
 
-void fnHideInfoTip(HWND, struct ClcData *dat)
+void fnHideInfoTip(HWND, ClcData *dat)
 {
 	if (dat->hInfoTipItem == NULL)
 		return;
@@ -717,7 +717,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 }
 
-void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
+void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
 	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
@@ -782,7 +782,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 #define GSIF_ALLCHECKED   0x40000000
 #define GSIF_INDEXMASK    0x3FFFFFFF
 
-void fnRecalculateGroupCheckboxes(HWND, struct ClcData *dat)
+void fnRecalculateGroupCheckboxes(HWND, ClcData *dat)
 {
 	ClcGroup *group = &dat->list;
 	group->scanIndex = GSIF_ALLCHECKED;
@@ -835,7 +835,7 @@ void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 	}
 }
 
-void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem)
+void fnInvalidateItem(HWND hwnd, ClcData *dat, int iItem)
 {
 	if (iItem == -1)
 		return;
@@ -850,27 +850,27 @@ void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem)
 ///////////////////////////////////////////////////////////////////////////////
 // row coord functions
 
-int fnGetRowTopY(struct ClcData *dat, int item)
+int fnGetRowTopY(ClcData *dat, int item)
 {
 	return item * dat->rowHeight;
 }
 
-int fnGetRowBottomY(struct ClcData *dat, int item)
+int fnGetRowBottomY(ClcData *dat, int item)
 {
 	return (item+1) * dat->rowHeight;
 }
 
-int fnGetRowTotalHeight(struct ClcData *dat)
+int fnGetRowTotalHeight(ClcData *dat)
 {
 	return dat->rowHeight * cli.pfnGetGroupContentsCount(&dat->list, 1);
 }
 
-int fnGetRowHeight(struct ClcData *dat, int)
+int fnGetRowHeight(ClcData *dat, int)
 {
 	return dat->rowHeight;
 }
 
-int fnRowHitTest(struct ClcData *dat, int y)
+int fnRowHitTest(ClcData *dat, int y)
 {
 	if (!dat->rowHeight)
 		return y;
