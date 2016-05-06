@@ -794,7 +794,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = ContactToItemHandle(contact, &nm.flags);
+			nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		}
 
@@ -804,7 +804,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = (hit == -1 || hitFlags & CLCHT_NOWHERE) ? NULL : ContactToItemHandle(contact, &nm.flags);
+			nm.hItem = (hit == -1 || hitFlags & CLCHT_NOWHERE) ? NULL : pcli->pfnContactToItemHandle(contact, &nm.flags);
 			nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
 			nm.pt = dat->ptDragStart;
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
@@ -955,7 +955,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = ContactToItemHandle(contact, &nm.flags);
+			nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 			dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 		}
@@ -1035,7 +1035,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 				nm.flags = 0;
-				nm.hItem = ContactToItemHandle(contact, &nm.flags);
+				nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
 				nm.pt = pt;
 				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
 					return 0;

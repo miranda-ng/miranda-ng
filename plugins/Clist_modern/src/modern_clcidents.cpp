@@ -24,23 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/* the CLC uses 3 different ways to identify elements in its list, this file
-contains routines to convert between them.
-
-1) ClcContact/ClcGroup pair. Only ever used within the duration
-of a single operation, but used at some point in nearly everything
-2) index integer. The 0-based number of the item from the top. Only visible
-items are counted (ie not closed groups). Used for saving selection and drag
-highlight
-3) hItem handle. Either the hContact or (hGroup|HCONTACT_ISGROUP). Used
-exclusively externally
-
-1->2: cliGetRowsPriorTo()
-1->3: ContactToHItem()
-3->1: FindItem()
-2->1: GetRowByIndex()
-*/
-
 int GetContactIndex(ClcGroup *group, ClcContact *contact)
 {
 	for (int i = 0; i < group->cl.count; i++)
@@ -225,32 +208,4 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 		group->scanIndex++;
 	}
 	return -1;
-}
-
-HANDLE ContactToHItem(ClcContact *contact)
-{
-	switch (contact->type) {
-	case CLCIT_CONTACT:
-		return (HANDLE)contact->hContact;
-	case CLCIT_GROUP:
-		return (HANDLE)(contact->groupId | HCONTACT_ISGROUP);
-	case CLCIT_INFO:
-		return (HANDLE)((DWORD_PTR)contact->hContact | HCONTACT_ISINFO);
-	}
-	return NULL;
-}
-
-HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags)
-{
-	switch (contact->type) {
-	case CLCIT_CONTACT:
-		return (HANDLE)contact->hContact;
-	case CLCIT_GROUP:
-		if (nmFlags) *nmFlags |= CLNF_ISGROUP;
-		return (HANDLE)contact->groupId;
-	case CLCIT_INFO:
-		if (nmFlags) *nmFlags |= CLNF_ISINFO;
-		return (HANDLE)((DWORD_PTR)contact->hContact | HCONTACT_ISINFO);
-	}
-	return NULL;
 }

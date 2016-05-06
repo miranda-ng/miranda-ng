@@ -330,6 +330,10 @@ struct ClcData : public ClcDataBase
 
 	XPTHANDLE hCheckBoxTheme;
 	BYTE bCompactMode;
+
+	__forceinline int getRowHeight(int iRow) const
+	{ return (row_variable_height) ? row_heights[iRow] : rowHeight;
+	}
 };
 
 typedef struct tagOVERLAYICONINFO
@@ -347,8 +351,6 @@ void    ClcOptionsChanged(void);
 int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int     FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts);
 int     cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-HANDLE  ContactToHItem(ClcContact *contact);
-HANDLE  ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
 void    cliRebuildEntireList(HWND hwnd, ClcData *dat);

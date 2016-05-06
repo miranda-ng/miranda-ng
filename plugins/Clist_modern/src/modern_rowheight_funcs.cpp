@@ -461,7 +461,7 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 		else
 			RowHeight_CalcRowHeight(dat, Drawing, line_num);
 
-		//increment by subcontacts
+		// increment by subcontacts
 		if (group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP) {
 			if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta) {
 				if (subindex < group->cl.items[group->scanIndex]->SubAllocated - 1)
@@ -487,75 +487,74 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 // Calc and store row height
 int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
+	if (!dat->row_variable_height)
+		return dat->rowHeight;
+
 	if (gl_RowRoot)
 		return RowHeight_CalcRowHeight(dat, contact, item);
 
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	//TODO replace futher code with new rowheight definition
-	int tmp;
-	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
+	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat, selected));
+
 	if (!RowHeights_Alloc(dat, item + 1))
 		return -1;
 
 	int height = 0;
 	ClcCacheEntry *pdnce = contact->pce;
 
-	if (dat->row_variable_height) {
-		if (!dat->text_ignore_size_for_row_height) {
-			tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
-			if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
-				tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
-			height += tmp;
+	if (!dat->text_ignore_size_for_row_height) {
+		int tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
+		if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
+			tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
+		height += tmp;
 
-			if (pdnce && !minimalistic) {
-				if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
-					tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
-					if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
-						tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
-					height += dat->secondLine.top_space + tmp;
-				}
+		if (pdnce && !minimalistic) {
+			if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
+				tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
+				if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
+					tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
+				height += dat->secondLine.top_space + tmp;
+			}
 
-				if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
-					tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
-					if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
-						tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
-					height += dat->thirdLine.top_space + tmp;
-				}
+			if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
+				tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
+				if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
+					tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
+				height += dat->thirdLine.top_space + tmp;
 			}
 		}
-
-		// Avatar size
-		if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && contact->type == CLCIT_CONTACT && contact->avatar_data != NULL && !minimalistic)
-			height = max(height, dat->avatars_maxheight_size);
-
-		// Checkbox size
-		if (contact->isCheckBox(style))
-			height = max(height, dat->checkboxSize);
-
-		// Icon size
-		if (!dat->icon_ignore_size_for_row_height) {
-			if (contact->type == CLCIT_GROUP ||
-				(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->image_is_special))) {
-				height = max(height, ICON_HEIGHT);
-			}
-		}
-
-		height += 2 * dat->row_border;
-
-		// Min size
-		height = max(height, dat->row_min_heigh);
 	}
-	else height = dat->rowHeight;
 
-	dat->row_heights[item] = height;
+	// Avatar size
+	if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && contact->type == CLCIT_CONTACT && contact->avatar_data != NULL && !minimalistic)
+		height = max(height, dat->avatars_maxheight_size);
 
-	return height;
+	// Checkbox size
+	if (contact->isCheckBox(style))
+		height = max(height, dat->checkboxSize);
+
+	// Icon size
+	if (!dat->icon_ignore_size_for_row_height) {
+		if (contact->type == CLCIT_GROUP ||
+			(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->image_is_special))) {
+			height = max(height, ICON_HEIGHT);
+		}
+	}
+
+	height += 2 * dat->row_border;
+
+	// Min size
+	return dat->row_heights[item] = max(height, dat->row_min_heigh);
 }
 
 // Calc item top Y (using stored data)
 int cliGetRowTopY(ClcData *dat, int item)
 {
+	if (!dat->row_variable_height)
+		return item * dat->rowHeight;
+
 	if (item >= dat->row_heights_size)
 		return cliGetRowBottomY(dat, item - 1);
 
@@ -568,6 +567,9 @@ int cliGetRowTopY(ClcData *dat, int item)
 // Calc item bottom Y (using stored data)
 int cliGetRowBottomY(ClcData *dat, int item)
 {
+	if (!dat->row_variable_height)
+		return (item+1) * dat->rowHeight;
+
 	if (item >= dat->row_heights_size)
 		return -1;
 
@@ -581,6 +583,9 @@ int cliGetRowBottomY(ClcData *dat, int item)
 // Calc total height of rows (using stored data)
 int cliGetRowTotalHeight(ClcData *dat)
 {
+	if (!dat->row_variable_height)
+		return dat->rowHeight * dat->row_heights_size;
+
 	int y = 0;
 	for (int i = 0; i < dat->row_heights_size; i++)
 		y += dat->row_heights[i];
@@ -594,6 +599,9 @@ int cliRowHitTest(ClcData *dat, int pos_y)
 	if (pos_y < 0)
 		return -1;
 
+	if (!dat->row_variable_height && dat->rowHeight)
+		return pos_y / dat->rowHeight;
+
 	int y = 0;
 	for (int i = 0; i < dat->row_heights_size; i++) {
 		y += dat->row_heights[i];
@@ -606,7 +614,7 @@ int cliRowHitTest(ClcData *dat, int pos_y)
 
 int cliGetRowHeight(ClcData *dat, int item)
 {
-	if (item >= dat->row_heights_size || item < 0)
+	if (!dat->row_variable_height || item >= dat->row_heights_size || item < 0)
 		return dat->rowHeight;
 
 	return dat->row_heights[item];

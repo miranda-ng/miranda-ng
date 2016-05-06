@@ -1647,7 +1647,8 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 		line_num++;
 
 		// Draw line, if needed
-		if (y > rcPaint->top - dat->row_heights[line_num]) {
+		int iRowHeight = dat->getRowHeight(line_num);
+		if (y > rcPaint->top - iRowHeight) {
 			RECT rc;
 
 			// Get item to draw
@@ -1678,7 +1679,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 				int right_pos = dat->rightMargin;   // Border
 
 				RECT row_rc;
-				SetRect(&row_rc, clRect.left, y, clRect.right, y + dat->row_heights[line_num]);
+				SetRect(&row_rc, clRect.left, y, clRect.right, y + iRowHeight);
 
 				RECT free_row_rc = row_rc;
 				free_row_rc.left += left_pos;
@@ -1817,8 +1818,9 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 				}
 			}
 		}
-		y += dat->row_heights[line_num];
-		//increment by subcontacts
+		y += iRowHeight;
+		
+		// increment by subcontacts
 		if ((group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP)
 			&& (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta)) {
 			if (subindex < group->cl.items[group->scanIndex]->SubAllocated - 1)
@@ -1864,7 +1866,7 @@ void CLCPaint::_DrawInsertionMark(ClcData *dat, RECT& clRect, _PaintContext& pc)
 	pts[3].y = pts[0].y - 1;
 
 	pts[4].x = pts[3].x;        pts[4].y = pts[0].y + 7;
-	pts[5].x = pts[2].x + 1;      pts[5].y = pts[1].y + 2;
+	pts[5].x = pts[2].x + 1;    pts[5].y = pts[1].y + 2;
 	pts[6].x = pts[1].x;        pts[6].y = pts[5].y;
 	pts[7].x = pts[0].x;        pts[7].y = pts[4].y;
 
@@ -1932,11 +1934,12 @@ void CLCPaint::_PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *_rcPaint)
 
 	// Draw background
 	_DrawBackground(hwnd, dat, paintMode, rcPaint, clRect, pc);
+	
 	// Draw lines
-	if (dat->row_heights) {
+	if (!dat->row_variable_height || dat->row_heights) {
 		_DrawLines(hwnd, dat, paintMode, rcPaint, clRect, pc);
 
-		//insertion mark
+		// insertion mark
 		if (dat->iInsertionMark != -1)
 			_DrawInsertionMark(dat, clRect, pc);
 	}
@@ -1949,7 +1952,6 @@ void CLCPaint::_PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *_rcPaint)
 
 	// all still non-validated animated avatars have to be removed
 	AniAva_RemoveInvalidatedAvatars();
-
 }
 
 void CLCPaint::_StoreItemPos(ClcContact *contact, int ItemType, RECT *rc)
@@ -2185,32 +2187,22 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 	}
 	if (text_left_pos < free_row_rc.right) {
 		// Draw text
-		RECT text_rc;
-		RECT selection_text_rc;
-		SIZE text_size = { 0 };
-		SIZE second_line_text_size = { 0 };
-		SIZE third_line_text_size = { 0 };
-		SIZE space_size = { 0 };
-		SIZE counts_size = { 0 };
-		TCHAR *szCounts = NULL;//mir_tstrdup( _T(""));
-		int free_width;
-		int free_height;
 		int max_bottom_selection_border = SELECTION_BORDER;
 		UINT uTextFormat = DT_NOPREFIX | /*DT_VCENTER |*/ DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0) | (dat->text_align_right ? DT_RIGHT : 0);
 
 		free_row_rc.left = text_left_pos;
-		free_width = free_row_rc.right - free_row_rc.left;
-		free_height = free_row_rc.bottom - free_row_rc.top;
+		int free_height = free_row_rc.bottom - free_row_rc.top;
 
 		// Select font
 		ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
 
 		// Get text size
+		SIZE text_size = { 0 };
 		GetTextSize(&text_size, hdcMem, free_row_rc, Drawing->szText, Drawing->ssText.plText, uTextFormat,
 			dat->text_resize_smileys ? 0 : Drawing->ssText.iMaxSmileyHeight);
 
 		// Get rect
-		text_rc = free_row_rc;
+		RECT text_rc = free_row_rc;
 
 		free_height -= text_size.cy;
 		text_rc.top += free_height >> 1;
@@ -2221,15 +2213,14 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		else
 			text_rc.right = min(free_row_rc.right, free_row_rc.left + text_size.cx);
 
-		selection_text_rc = text_rc;
+		RECT selection_text_rc = text_rc;
+		SIZE counts_size = { 0 }, second_line_text_size = { 0 }, third_line_text_size = { 0 };
 
 		// If group, can have the size of count
 		if (Drawing->type == CLCIT_GROUP) {
 			int full_text_width = text_size.cx;
-			// Group conts?
-			szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
-
 			// Has to draw the count?
+			TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 			if (szCounts && szCounts[0]) {
 				RECT space_rc = free_row_rc;
 				RECT counts_rc = free_row_rc;
@@ -2239,20 +2230,17 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 				// Get widths
 				ske_DrawText(hdcMem, _T(" "), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX);
+
+				SIZE space_size;
 				space_size.cx = space_rc.right - space_rc.left;
 				space_size.cy = min(space_rc.bottom - space_rc.top, free_height);
 
 				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 				DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &counts_rc, DT_CALCRECT);
 
-				//Store position
-				//StoreItemPos( Drawing, CIT_SUBTEXT1, &counts_rc ); //  Or not to comment?
-
 				counts_size.cx = counts_rc.right - counts_rc.left;
 				counts_size.cy = min(counts_rc.bottom - counts_rc.top, free_height);
-
-				counts_size.cx += 1; // FIXME: This is workaround for sometimes stripped user counts by one pixel, it somehow wrongly counts width of space or counts text (used wrong font?)
-
+				counts_size.cx ++; // FIXME: This is workaround for sometimes stripped user counts by one pixel, it somehow wrongly counts width of space or counts text (used wrong font?)
 				text_width = free_row_rc.right - free_row_rc.left - space_size.cx - counts_size.cx;
 
 				if (text_width > 4) {
@@ -2284,9 +2272,6 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 			if (dat->row_align_group_mode == 1) { // center
 				int x = free_row_rc.left + ((free_row_rc.right - free_row_rc.left - full_text_width) >> 1);
-				//int l = dat->leftMargin;
-				//int r = dat->rightMargin;
-				//x = l+row_rc.left+(( row_rc.right-row_rc.left-full_text_width-l-r )>>1 );
 				text_rc.left = x;
 				text_rc.right = x + full_text_width;
 			}
@@ -2300,7 +2285,6 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			}
 		}
 		else if (Drawing->type == CLCIT_CONTACT && !CheckMiniMode(dat, selected)) {
-			int tmp;
 			if (dat->secondLine.show) {
 				if (dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
@@ -2318,7 +2302,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
 
 					// Get rect
-					tmp = min(free_height, dat->secondLine.top_space + second_line_text_size.cy);
+					int tmp = min(free_height, dat->secondLine.top_space + second_line_text_size.cy);
 
 					free_height -= tmp;
 					text_rc.top = free_row_rc.top + (free_height >> 1);
@@ -2344,8 +2328,6 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					pdnce->szThirdLineText = mir_tstrdup(buf);
 				}
 				if (pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0] && free_height > dat->thirdLine.top_space) {
-					//RECT rc_tmp = free_row_rc;
-
 					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
 
 					// Get sizes
@@ -2353,7 +2335,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
 
 					// Get rect
-					tmp = min(free_height, dat->thirdLine.top_space + third_line_text_size.cy);
+					int tmp = min(free_height, dat->thirdLine.top_space + third_line_text_size.cy);
 
 					free_height -= tmp;
 					text_rc.top = free_row_rc.top + (free_height >> 1);
@@ -2389,126 +2371,124 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		_StoreItemPos(Drawing, CIT_SELECTION, &selection_text_rc);
 
 		Drawing->pos_rename_rect = free_row_rc;
-		{
-			// Draw text
-			uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0);
 
-			switch (Drawing->type) {
-			case CLCIT_DIVIDER:
-				{
-					//devider
-					RECT trc = free_row_rc;
-					RECT rc = free_row_rc;
-					rc.top += (rc.bottom - rc.top) >> 1;
-					rc.bottom = rc.top + 2;
-					rc.right = rc.left + ((rc.right - rc.left - text_size.cx) >> 1) - 3;
-					trc.left = rc.right + 3;
-					trc.right = trc.left + text_size.cx + 6;
-					if (text_size.cy < trc.bottom - trc.top) {
-						trc.top += (trc.bottom - trc.top - text_size.cy) >> 1;
-						trc.bottom = trc.top + text_size.cy;
-					}
-					_StoreItemPos(Drawing, CIT_TEXT, &trc);
-					rc.left = rc.right + 6 + text_size.cx;
-					rc.right = free_row_rc.right;
+		// Draw text
+		uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0);
+
+		switch (Drawing->type) {
+		case CLCIT_DIVIDER:
+			{
+				//devider
+				RECT trc = free_row_rc;
+				RECT rc = free_row_rc;
+				rc.top += (rc.bottom - rc.top) >> 1;
+				rc.bottom = rc.top + 2;
+				rc.right = rc.left + ((rc.right - rc.left - text_size.cx) >> 1) - 3;
+				trc.left = rc.right + 3;
+				trc.right = trc.left + text_size.cx + 6;
+				if (text_size.cy < trc.bottom - trc.top) {
+					trc.top += (trc.bottom - trc.top - text_size.cy) >> 1;
+					trc.bottom = trc.top + text_size.cy;
 				}
-				break;
-			case CLCIT_GROUP:
-				{
-					RECT rc = text_rc;
+				_StoreItemPos(Drawing, CIT_TEXT, &trc);
+				rc.left = rc.right + 6 + text_size.cx;
+				rc.right = free_row_rc.right;
+			}
+			break;
+		case CLCIT_GROUP:
+			{
+				RECT rc = text_rc;
 
-					// Get text rectangle
+				// Get text rectangle
+				if (dat->text_align_right)
+					rc.left = rc.right - text_size.cx;
+				else
+					rc.right = rc.left + text_size.cx;
+
+				if (text_size.cy < rc.bottom - rc.top) {
+					rc.top += (rc.bottom - rc.top - text_size.cy) >> 1;
+					rc.bottom = rc.top + text_size.cy;
+				}
+
+				// Draw text
+				_StoreItemPos(Drawing, CIT_TEXT, &rc);
+
+				// Has to draw the count?
+				if (counts_size.cx > 0) {
+					RECT counts_rc = text_rc;
+					//counts_size.cx;
 					if (dat->text_align_right)
-						rc.left = rc.right - text_size.cx;
+						counts_rc.right = text_rc.left + counts_size.cx;
 					else
-						rc.right = rc.left + text_size.cx;
+						counts_rc.left = text_rc.right - counts_size.cx;
 
-
-					if (text_size.cy < rc.bottom - rc.top) {
-						rc.top += (rc.bottom - rc.top - text_size.cy) >> 1;
-						rc.bottom = rc.top + text_size.cy;
+					if (counts_size.cy < counts_rc.bottom - counts_rc.top) {
+						counts_rc.top += (counts_rc.bottom - counts_rc.top - counts_size.cy + 1) >> 1;
+						counts_rc.bottom = counts_rc.top + counts_size.cy;
 					}
-
-					// Draw text
-					_StoreItemPos(Drawing, CIT_TEXT, &rc);
-
-					// Has to draw the count?
-					if (counts_size.cx > 0) {
-						RECT counts_rc = text_rc;
-						//counts_size.cx;
-						if (dat->text_align_right)
-							counts_rc.right = text_rc.left + counts_size.cx;
-						else
-							counts_rc.left = text_rc.right - counts_size.cx;
-
-						if (counts_size.cy < counts_rc.bottom - counts_rc.top) {
-							counts_rc.top += (counts_rc.bottom - counts_rc.top - counts_size.cy + 1) >> 1;
-							counts_rc.bottom = counts_rc.top + counts_size.cy;
-						}
-						// Draw counts
-						_StoreItemPos(Drawing, CIT_SUBTEXT1, &counts_rc);
-					}
+					// Draw counts
+					_StoreItemPos(Drawing, CIT_SUBTEXT1, &counts_rc);
 				}
-				break;
-			case CLCIT_CONTACT:
-				{
-					RECT free_rc = text_rc;
-					if (text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						RECT rc = free_rc;
-						rc.bottom = min(rc.bottom, rc.top + text_size.cy);
+			}
+			break;
+		case CLCIT_CONTACT:
+			{
+				RECT free_rc = text_rc;
+				if (text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					RECT rc = free_rc;
+					rc.bottom = min(rc.bottom, rc.top + text_size.cy);
 
-						if (text_size.cx < rc.right - rc.left) {
+					if (text_size.cx < rc.right - rc.left) {
+						if (dat->text_align_right)
+							rc.left = rc.right - text_size.cx;
+						else
+							rc.right = rc.left + text_size.cx;
+					}
+					uTextFormat |= DT_VCENTER;
+					_StoreItemPos(Drawing, CIT_TEXT, &rc);
+					free_rc.top = rc.bottom;
+				}
+				uTextFormat &= ~DT_VCENTER;
+				if (second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					free_rc.top += dat->secondLine.top_space;
+
+					if (free_rc.bottom > free_rc.top) {
+						RECT rc = free_rc;
+						rc.bottom = min(rc.bottom, rc.top + second_line_text_size.cy);
+
+						if (second_line_text_size.cx < rc.right - rc.left) {
 							if (dat->text_align_right)
-								rc.left = rc.right - text_size.cx;
+								rc.left = rc.right - second_line_text_size.cx;
 							else
-								rc.right = rc.left + text_size.cx;
+								rc.right = rc.left + second_line_text_size.cx;
 						}
-						uTextFormat |= DT_VCENTER;
-						_StoreItemPos(Drawing, CIT_TEXT, &rc);
+						_StoreItemPos(Drawing, CIT_SUBTEXT1, &rc);
 						free_rc.top = rc.bottom;
 					}
-					uTextFormat &= ~DT_VCENTER;
-					if (second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						free_rc.top += dat->secondLine.top_space;
+				}
 
-						if (free_rc.bottom > free_rc.top) {
-							RECT rc = free_rc;
-							rc.bottom = min(rc.bottom, rc.top + second_line_text_size.cy);
+				if (third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					free_rc.top += dat->thirdLine.top_space;
 
-							if (second_line_text_size.cx < rc.right - rc.left) {
-								if (dat->text_align_right)
-									rc.left = rc.right - second_line_text_size.cx;
-								else
-									rc.right = rc.left + second_line_text_size.cx;
-							}
-							_StoreItemPos(Drawing, CIT_SUBTEXT1, &rc);
-							free_rc.top = rc.bottom;
+					if (free_rc.bottom > free_rc.top) {
+						RECT rc = free_rc;
+						rc.bottom = min(rc.bottom, rc.top + third_line_text_size.cy);
+
+						if (third_line_text_size.cx < rc.right - rc.left) {
+							if (dat->text_align_right)
+								rc.left = rc.right - third_line_text_size.cx;
+							else
+								rc.right = rc.left + third_line_text_size.cx;
 						}
-					}
-
-					if (third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						free_rc.top += dat->thirdLine.top_space;
-
-						if (free_rc.bottom > free_rc.top) {
-							RECT rc = free_rc;
-							rc.bottom = min(rc.bottom, rc.top + third_line_text_size.cy);
-
-							if (third_line_text_size.cx < rc.right - rc.left) {
-								if (dat->text_align_right)
-									rc.left = rc.right - third_line_text_size.cx;
-								else
-									rc.right = rc.left + third_line_text_size.cx;
-							}
-							_StoreItemPos(Drawing, CIT_SUBTEXT2, &rc);
-							free_rc.top = rc.bottom;
-						}
+						_StoreItemPos(Drawing, CIT_SUBTEXT2, &rc);
+						free_rc.top = rc.bottom;
 					}
 				}
-				break;
-
-			default: // CLCIT_INFO
-				_StoreItemPos(Drawing, CIT_TEXT, &text_rc);
 			}
+			break;
+
+		default: // CLCIT_INFO
+			_StoreItemPos(Drawing, CIT_TEXT, &text_rc);
 		}
 	}
 
@@ -2560,7 +2540,7 @@ void CLCPaint::_GetBlendMode(IN ClcData *dat, IN ClcContact *Drawing, IN BOOL se
 	}
 }
 
-void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT *prcItem)
+void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, int &selected, int &hottrack, RECT *prcItem)
 {
 	if (Drawing->avatar_pos == AVATAR_POS_ANIMATED) {
 		int overlayIdx = -1;
