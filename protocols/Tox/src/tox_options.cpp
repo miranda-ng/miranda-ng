@@ -307,7 +307,7 @@ void CToxNodeEditor::OnInitDialog()
 		lvi.mask = LVIF_TEXT;
 		lvi.iItem = m_iItem;
 		lvi.cchTextMax = MAX_PATH;
-		lvi.pszText = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
+		lvi.pszText = (TCHAR*)alloca(MAX_PATH * sizeof(TCHAR));
 
 		lvi.iSubItem = 0;
 		m_list->GetItem(&lvi);
@@ -324,8 +324,6 @@ void CToxNodeEditor::OnInitDialog()
 		lvi.iSubItem = 3;
 		m_list->GetItem(&lvi);
 		m_pkey.SetText(lvi.pszText);
-
-		mir_free(lvi.pszText);
 	}
 
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "EditNodeDlg");
@@ -429,7 +427,7 @@ void CToxOptionsNodeList::OnAddNode(CCtrlBase*)
 {
 	CToxNodeEditor nodeEditor(-1, &m_nodes);
 	if (nodeEditor.DoModal())
-		SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+		NotifyChange();
 }
 
 void CToxOptionsNodeList::OnUpdateNodes(CCtrlBase*)
@@ -451,7 +449,7 @@ void CToxOptionsNodeList::OnNodeListDoubleClick(CCtrlBase*)
 	{
 		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
 		if (nodeEditor.DoModal())
-			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+			NotifyChange();
 	}
 }
 
@@ -466,14 +464,14 @@ void CToxOptionsNodeList::OnNodeListClick(CCtrlListView::TEventInfo *evt)
 	{
 		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
 		if (nodeEditor.DoModal())
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
+			NotifyChange();
 	}
 	else if (lvi.iGroupId && lvi.iSubItem == 5)
 	{
 		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		{
 			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+			NotifyChange();
 		}
 	}
 }
@@ -490,7 +488,7 @@ void CToxOptionsNodeList::OnNodeListKeyDown(CCtrlListView::TEventInfo *evt)
 		if (MessageBox(GetParent(m_hwnd), TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		{
 			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+			NotifyChange();
 		}
 	}
 }
@@ -501,10 +499,10 @@ void CToxOptionsNodeList::ReloadNodeList()
 
 	int iItem = -1;
 
-	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	VARST path(_T(TOX_JSON_PATH));
 	if (CToxProto::IsFileExists(path))
 	{
-		char *json = NULL;
+		ptrA json;
 
 		FILE *hFile = _tfopen(path, L"r");
 		if (hFile != NULL)
@@ -527,17 +525,17 @@ void CToxOptionsNodeList::ReloadNodeList()
 				{
 					JSONNode node = nodes[i];
 
-					TCHAR *ipv4 = mir_utf8decodeT(node.at("ipv4").as_string().c_str());
+					ptrT ipv4(mir_utf8decodeT(node.at("ipv4").as_string().c_str()));
 					iItem = m_nodes.AddItem(ipv4, -1, NULL, 0);
 
-					TCHAR *ipv6 = mir_utf8decodeT(node.at("ipv6").as_string().c_str());
+					ptrT ipv6(mir_utf8decodeT(node.at("ipv6").as_string().c_str()));
 					if (mir_tstrcmp(ipv6, _T("-")))
 						m_nodes.SetItem(iItem, 1, ipv6);
 
-					TCHAR *port = mir_utf8decodeT(node.at("port").as_string().c_str());
+					ptrT port(mir_utf8decodeT(node.at("port").as_string().c_str()));
 					m_nodes.SetItem(iItem, 2, port);
 
-					TCHAR *pubKey = mir_utf8decodeT(node.at("public_key").as_string().c_str());
+					ptrT pubKey(mir_utf8decodeT(node.at("public_key").as_string().c_str()));
 					m_nodes.SetItem(iItem, 3, pubKey);
 				}
 			}
@@ -578,10 +576,11 @@ void CToxOptionsNodeList::ReloadNodeList()
 void CToxOptionsNodeList::OnApply()
 {
 	char setting[MAX_PATH];
+	TCHAR tszText[MAX_PATH];
 
 	LVITEM lvi = { 0 };
 	lvi.cchTextMax = MAX_PATH;
-	lvi.pszText = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
+	lvi.pszText = tszText;
 
 	char module[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);

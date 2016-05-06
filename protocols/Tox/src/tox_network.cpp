@@ -64,9 +64,9 @@ void CToxProto::BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6)
 
 void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool isIPv6)
 {
-	char *json = NULL;
+	ptrA json;
 
-	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	VARST path(_T(TOX_JSON_PATH));
 
 	if (!IsFileExists(path))
 		UpdateNodes();
