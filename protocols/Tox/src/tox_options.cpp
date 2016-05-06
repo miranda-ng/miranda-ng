@@ -359,6 +359,8 @@ void CToxNodeEditor::OnOk(CCtrlBase*)
 	m_list->SetItem(m_iItem, 4, _T(""), 0);
 	m_list->SetItem(m_iItem, 5, _T(""), 1);
 
+	SendMessage(GetParent(GetParent(m_list->GetHwnd())), PSM_CHANGED, 0, 0);
+
 	EndDialog(m_hwnd, 1);
 }
 
@@ -471,7 +473,7 @@ void CToxOptionsNodeList::OnNodeListClick(CCtrlListView::TEventInfo *evt)
 		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		{
 			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
 		}
 	}
 }
@@ -485,14 +487,10 @@ void CToxOptionsNodeList::OnNodeListKeyDown(CCtrlListView::TEventInfo *evt)
 
 	if (lvi.iGroupId && lvi.iItem != -1 && (evt->nmlvkey)->wVKey == VK_DELETE)
 	{
-		if (MessageBox(
-			GetParent(m_hwnd),
-			TranslateT("Are you sure?"),
-			TranslateT("Node deleting"),
-			MB_YESNO | MB_ICONWARNING) == IDYES)
+		if (MessageBox(GetParent(m_hwnd), TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		{
 			m_nodes.DeleteItem(lvi.iItem);
-			SendMessage(GetParent(GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
 		}
 	}
 }
