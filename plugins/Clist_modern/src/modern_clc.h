@@ -211,9 +211,11 @@ struct ClcContact : public ClcContactBase
 	BOOL ext_fItemsValid;
 	tContactItems ext_mpItemsDesc[EXTRA_ICON_COUNT + 10];  //up to 10 items
 
+	__forceinline bool isCheckBox(DWORD_PTR style) const
+	{	return (style & CLS_CHECKBOXES && type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && type == CLCIT_GROUP) || (type == CLCIT_INFO && flags & CLCIIF_CHECKBOX);
+	}
 	__forceinline bool isChat() const
-	{
-		return (type == CLCIT_CONTACT) && (db_get_b(hContact, proto, "ChatRoom", 0) != 0);
+	{	return (type == CLCIT_CONTACT) && (db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 	}
 };
 

@@ -1624,11 +1624,9 @@ void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcP
 
 void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc)
 {
-	ClcContact *Drawing;
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 	int indent = 0;
-	int subident = 0;
 	int subindex = -1;
 	int line_num = -1;
 	int y = -dat->yScroll;
@@ -1650,19 +1648,16 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 
 		// Draw line, if needed
 		if (y > rcPaint->top - dat->row_heights[line_num]) {
-			int free_row_height;
-			RECT row_rc;
-			RECT free_row_rc;
 			RECT rc;
 
 			// Get item to draw
+			int subident = 0;
+			ClcContact *Drawing;
 			if (group->scanIndex < group->cl.count) {
-				if (subindex == -1) {
+				if (subindex == -1)
 					Drawing = group->cl.items[group->scanIndex];
-					subident = 0;
-				}
 				else {
-					Drawing = &(group->cl.items[group->scanIndex]->subcontacts[subindex]);
+					Drawing = &group->cl.items[group->scanIndex]->subcontacts[subindex];
 					subident = dat->subIndent;
 				}
 			}
@@ -1678,17 +1673,18 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 
 				// Init settings
 				int selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
-				int hottrack = dat->exStyle&CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
+				int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
 				int left_pos = clRect.left + dat->leftMargin + indent * dat->groupIndent + subident;
 				int right_pos = dat->rightMargin;   // Border
 
+				RECT row_rc;
 				SetRect(&row_rc, clRect.left, y, clRect.right, y + dat->row_heights[line_num]);
-				free_row_rc = row_rc;
+
+				RECT free_row_rc = row_rc;
 				free_row_rc.left += left_pos;
 				free_row_rc.right -= right_pos;
 				free_row_rc.top += dat->row_border;
 				free_row_rc.bottom -= dat->row_border;
-				free_row_height = free_row_rc.bottom - free_row_rc.top;
 				{
 					HRGN rgn = CreateRectRgn(row_rc.left, row_rc.top, row_rc.right, row_rc.bottom);
 					SelectClipRgn(pc.hdcMem, rgn);
@@ -1752,13 +1748,6 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					}
 				}
 				else {
-					int checkboxWidth;
-					if ((lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT) ||
-						(lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP) ||
-						(Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX))
-						checkboxWidth = dat->checkboxSize + 2;
-					else checkboxWidth = 0;
-
 					// background
 					if (selected) {
 						switch (dat->HiLightMode) {
@@ -1769,7 +1758,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 								for (int i = y; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
 									ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 0, i, clRect.right,
 										min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
-										dat->exStyle&CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
+										dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
 								}
 								SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
 							}
@@ -1780,18 +1769,15 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 							for (int i = y + 1; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
 								ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 1, i, clRect.right - 2,
 									min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
-									dat->exStyle&CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
+									dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
 							}
-							SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
+							SetTextColor(pc.hdcMem, paintMode & DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
 							break;
 						}
 					}
 				}
 				//**** Checkboxes
-				if ((lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT) ||
-					(lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP) ||
-					(Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX)) {
-					//RECT rc;
+				if (Drawing->isCheckBox(lStyle)) {
 					rc = free_row_rc;
 					rc.right = rc.left + dat->checkboxSize;
 					rc.top += (rc.bottom - rc.top - dat->checkboxSize) >> 1;
@@ -1799,10 +1785,10 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 
 					if (dat->text_rtl != 0) _RTLRect(&rc, free_row_rc.right);
 
-					if (xpt_IsThemed(dat->hCheckBoxTheme)) {
-						xpt_DrawThemeBackground(dat->hCheckBoxTheme, pc.hdcMem, BP_CHECKBOX, Drawing->flags&CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
-					}
-					else DrawFrameControl(pc.hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (Drawing->flags&CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (hottrack ? DFCS_HOT : 0));
+					if (xpt_IsThemed(dat->hCheckBoxTheme))
+						xpt_DrawThemeBackground(dat->hCheckBoxTheme, pc.hdcMem, BP_CHECKBOX, Drawing->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
+					else
+						DrawFrameControl(pc.hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (Drawing->flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (hottrack ? DFCS_HOT : 0));
 
 					left_pos += dat->checkboxSize + EXTRA_CHECKBOX_SPACE + HORIZONTAL_SPACE;
 					free_row_rc.left = row_rc.left + left_pos;

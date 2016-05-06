@@ -27,17 +27,8 @@ Created by Pescuma, modified by Artem Shpynov
 #include "stdafx.h"
 #include "modern_clcpaint.h"
 
-int g_mutex_nCalcRowHeightLock = 0;
-int mod_CalcRowHeight_worker(ClcData *dat, ClcContact *contact, int item);
-void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd);
-int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
-
-/*
-*
-*/
-
-ROWCELL	* gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = { 0 };	// Массив, через который осуществляется доступ к элементам контакта.
-ROWCELL * gl_RowRoot;
+ROWCELL *gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = { 0 };	// Массив, через который осуществляется доступ к элементам контакта.
+ROWCELL *gl_RowRoot;
 
 void FreeRowCell()
 {
@@ -67,15 +58,6 @@ SIZE GetAvatarSize(int imageWidth, int imageHeight, int maxWidth, int maxHeight)
 }
 
 int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
-{
-	if (MirandaExiting()) return 0;
-	g_mutex_nCalcRowHeightLock++;
-	int res = mod_CalcRowHeight_worker(dat, contact, item);
-	g_mutex_nCalcRowHeightLock--;
-	return res;
-}
-
-int mod_CalcRowHeight_worker(ClcData *dat, ClcContact *contact, int item)
 {
 	if (!RowHeights_Alloc(dat, item + 1))
 		return -1;
@@ -439,26 +421,19 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 {
 	if (MirandaExiting()) return;
-	g_mutex_nCalcRowHeightLock++;
-	RowHeights_CalcRowHeights_Worker(dat, hwnd);
-	g_mutex_nCalcRowHeightLock--;
-}
-
-void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd)
-{
-	if (MirandaExiting()) return;
 
 	// Draw lines
 	ClcGroup *group = &dat->list;
-	ClcContact *Drawing;
 	group->scanIndex = 0;
-	int indent = 0, subident;
+	int indent = 0;
 	int subindex = -1;
 	int line_num = -1;
 
 	RowHeights_Clear(dat);
 
 	while (TRUE) {
+		int subident;
+		ClcContact *Drawing;
 		if (subindex == -1) {
 			if (group->scanIndex == group->cl.count) {
 				group = group->parent;
@@ -512,15 +487,6 @@ void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd)
 // Calc and store row height
 int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
-	if (MirandaExiting()) return 0;
-	g_mutex_nCalcRowHeightLock++;
-	int res = RowHeights_GetRowHeight_worker(dat, hwnd, contact, item);
-	g_mutex_nCalcRowHeightLock--;
-	return res;
-}
-
-int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
-{
 	if (gl_RowRoot)
 		return RowHeight_CalcRowHeight(dat, contact, item);
 
@@ -564,11 +530,8 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 			height = max(height, dat->avatars_maxheight_size);
 
 		// Checkbox size
-		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
-			(style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
-			(contact->type == CLCIT_INFO && contact->flags & CLCIIF_CHECKBOX)) {
+		if (contact->isCheckBox(style))
 			height = max(height, dat->checkboxSize);
-		}
 
 		// Icon size
 		if (!dat->icon_ignore_size_for_row_height) {

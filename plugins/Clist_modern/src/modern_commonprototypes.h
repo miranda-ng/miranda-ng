@@ -35,7 +35,6 @@ extern SKINOBJECTSLIST g_SkinObjectList;
 extern CURRWNDIMAGEDATA *g_pCachedWindow;
 extern char *g_szConnectingProto;
 extern BOOL g_mutex_bLockUpdating;
-extern int  g_mutex_nCalcRowHeightLock;
 extern int  g_mutex_bOnTrayRightClick;
 extern BOOL g_flag_bPostWasCanceled;
 extern BOOL g_flag_bFullRepaint;
