@@ -224,7 +224,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 		if (memcmp(transfer->hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
 		{
 			db_free(&dbv);
-			OnFileCancel(transfer->pfts.hContact, transfer);
+			CancelTransfer(transfer->pfts.hContact, transfer);
 			return;
 		}
 		db_free(&dbv);

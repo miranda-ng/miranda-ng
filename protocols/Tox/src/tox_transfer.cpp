@@ -40,7 +40,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 
 		case TOX_FILE_KIND_DATA:
 			{
-				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+				proto->debugLogA(__FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 
 				ptrA rawName((char*)mir_alloc(filenameLength + 1));
 				memcpy(rawName, fileName, filenameLength);
@@ -64,7 +64,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			break;
 
 		default:
-			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, (const char*)pubKey, friendNumber, kind);
+			proto->debugLogA(__FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, (const char*)pubKey, friendNumber, kind);
 			return;
 		}
 	}
@@ -187,7 +187,7 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 
 	if (fwrite(data, sizeof(uint8_t), length, transfer->hFile) != length)
 	{
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed write to file (%d)", fileNumber);
+		proto->debugLogA(__FUNCTION__": failed write to file (%d)", fileNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->toxThread->Tox(), friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		return;
@@ -257,17 +257,17 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to find transfer (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+		proto->debugLogA(__FUNCTION__": failed to find transfer (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		return;
 	}
 
 	if (length == 0)
 	{
 		// file sending is finished
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": finised the transfer of file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+		proto->debugLogA(__FUNCTION__": finised the transfer of file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		bool isFileFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
 		if (!isFileFullyTransfered)
-			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": file (%d) is not completely transferred to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+			proto->debugLogA(__FUNCTION__": file (%d) is not completely transferred to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFileFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		proto->transfers.Remove(transfer);
 		return;
@@ -280,7 +280,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	uint8_t *data = (uint8_t*)mir_alloc(length);
 	if (fread(data, sizeof(uint8_t), length, transfer->hFile) != length)
 	{
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to read from file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+		proto->debugLogA(__FUNCTION__": failed to read from file (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		mir_free(data);
@@ -295,7 +295,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 			mir_free(data);
 			return;
 		}
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to send file chunk (%d) to %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
+		proto->debugLogA(__FUNCTION__": failed to send file chunk (%d) to %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		mir_free(data);
@@ -310,8 +310,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 
 /* COMMON */
 
-// file request is cancelled
-int CToxProto::OnFileCancel(MCONTACT, HANDLE hTransfer)
+int CToxProto::CancelTransfer(MCONTACT, HANDLE hTransfer)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	debugLogA(__FUNCTION__": Transfer (%d) is canceled", transfer->fileNumber);
@@ -357,13 +356,13 @@ void CToxProto::ResumeIncomingTransfers(uint32_t friendNumber)
 			if (!tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error))
 			{
 				debugLogA(__FUNCTION__": failed to resume the transfer (%d) from %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
-				tox_file_control(toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+				CancelTransfer(NULL, transfer);
 			}
 		}
 	}
 }
 
-void CToxProto::CancelAllTransfers()
+void CToxProto::CancelAllTransfers(CToxThread *toxThread)
 {
 	for (size_t i = 0; i < transfers.Count(); i++)
 	{
@@ -385,7 +384,7 @@ void CToxProto::OnFileRequest(Tox*, uint32_t friendNumber, uint32_t fileNumber, 
 		FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 		if (transfer == NULL)
 		{
-			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to find transfer (%d)", fileNumber);
+			proto->debugLogA(__FUNCTION__": failed to find transfer (%d)", fileNumber);
 			return;
 		}
 

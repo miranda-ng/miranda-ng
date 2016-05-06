@@ -227,8 +227,9 @@ private:
 	// transfer
 	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath);
 	int OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename);
-	int OnFileCancel(MCONTACT hContact, HANDLE hTransfer);
 	HANDLE OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
+
+	int CancelTransfer(MCONTACT hContact, HANDLE hTransfer);
 
 	static void OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, TOX_FILE_CONTROL control, void *arg);
 	static void OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, uint32_t kind, uint64_t fileSize, const uint8_t *fileName, size_t filenameLength, void *arg);
@@ -240,7 +241,7 @@ private:
 
 	void PauseOutgoingTransfers(uint32_t friendNumber);
 	void ResumeIncomingTransfers(uint32_t friendNumber);
-	void CancelAllTransfers();
+	void CancelAllTransfers(CToxThread *toxThread);
 
 	// avatars
 	TCHAR* GetAvatarFilePath(MCONTACT hContact = NULL);

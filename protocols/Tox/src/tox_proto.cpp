@@ -103,7 +103,7 @@ HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *ts
 
 int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
-	return OnFileCancel(hContact, hTransfer);
+	return CancelTransfer(hContact, hTransfer);
 }
 
 int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
