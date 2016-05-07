@@ -62,8 +62,6 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 	int settingNameLen = (int)strlen(szSetting);
 	int moduleNameLen = (int)strlen(szModule);
 
-	mir_cslock lck(m_csDbAccess);
-
 LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
@@ -426,8 +424,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		return 1;
 	}
 
-	mir_cslockfull lck(m_csDbAccess);
-
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 
 	// we don't cache blobs and passwords
@@ -453,7 +449,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		}
 		if (szCachedSettingName[-1] != 0) 
 		{
-			lck.unlock();
 			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
 			return 0;
 		}
@@ -509,7 +504,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		if (trnlck.commit())
 			break;
 	}
-	lck.unlock();
 
 	// notify
 	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
@@ -569,7 +563,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
 	memset(keySearch.szSettingName, 0, sizeof(keySearch.szSettingName));
 
-	mir_cslockfull lck(m_csDbAccess);
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 

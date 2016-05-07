@@ -42,7 +42,6 @@ int CDbxMdb::CheckProto(DBCachedContact *cc, const char *proto)
 
 STDMETHODIMP_(LONG) CDbxMdb::GetContactCount(void)
 {
-	mir_cslock lck(m_csDbAccess);
 	return m_contactCount;
 }
 
@@ -92,7 +91,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 	
-	mir_cslock lck(m_csDbAccess);
 	
 	{
 		OBJLIST<EventItem> events(50);
@@ -133,7 +131,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 			break;
 	}
 
-	m_contactCount--;
+	InterlockedDecrement(&m_contactCount);
 
 	m_cache->FreeCachedContact(contactID);
 	if (contactID == m_hLastCachedContact)
@@ -146,8 +144,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
 	DWORD dwContactId;
 	{
-		mir_cslock lck(m_csDbAccess);
-		dwContactId = ++m_dwMaxContactId;
+		dwContactId = InterlockedIncrement(&m_dwMaxContactId);
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 		cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
@@ -161,7 +158,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 			if (trnlck.commit())
 				break;
 		}
-		m_contactCount++;
+		InterlockedIncrement(&m_contactCount);
 	}
 
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
@@ -312,8 +309,6 @@ void CDbxMdb::FillContacts()
 	LIST<DBCachedContact> arContacts(10);
 
 	{
-		mir_cslock lck(m_csDbAccess);
-
 		txn_ptr_ro trnlck(m_txn);
 		cursor_ptr_ro cursor(m_curContacts);
 

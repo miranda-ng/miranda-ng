@@ -43,6 +43,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "lmdb\lmdb.h"
 
+#ifndef thread_local
+#	define thread_local __declspec(thread)
+#endif
+
+
 class txn_ptr
 {
 	MDB_txn *m_txn;
@@ -79,7 +84,7 @@ class txn_ptr_ro
 {
 	MDB_txn *m_txn;
 public:
-	__forceinline txn_ptr_ro(MDB_txn *&txn) : m_txn(txn)
+	__forceinline txn_ptr_ro(MDB_txn *txn) : m_txn(txn)
 	{
 		mdb_txn_renew(m_txn);
 	}
@@ -114,7 +119,7 @@ class cursor_ptr_ro
 {
 	MDB_cursor *m_cursor;
 public:
-	__forceinline cursor_ptr_ro(MDB_cursor *&cursor) : m_cursor(cursor)
+	__forceinline cursor_ptr_ro(MDB_cursor *cursor) : m_cursor(cursor)
 	{
 		mdb_cursor_renew(mdb_cursor_txn(m_cursor), m_cursor); //--
 	}

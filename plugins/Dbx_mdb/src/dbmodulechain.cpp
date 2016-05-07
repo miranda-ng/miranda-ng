@@ -42,12 +42,11 @@ int CDbxMdb::InitModuleNames(void)
 {
 	m_maxModuleID = 0;
 
-	mir_cslock lck(m_csDbAccess);
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curModules);
 
 	MDB_val key, data;
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) 
+	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
 	{
 		DBModuleName *pmod = (DBModuleName*)data.mv_data;
 		if (pmod->dwSignature != DBMODULENAME_SIGNATURE)

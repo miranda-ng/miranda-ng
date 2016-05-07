@@ -43,7 +43,7 @@ struct ModuleName
 
 #include <pshpack1.h>
 
-#define DBHEADER_VERSION 2
+#define DBHEADER_VERSION 3
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
@@ -97,7 +97,6 @@ struct DBSettingKey
 	char  szSettingName[100];
 };
 
-
 #include <poppack.h>
 
 struct DBCachedContact : public DBCachedContactBase
@@ -118,8 +117,12 @@ struct EventItem
 	DWORD eventId;
 };
 
+class LMDBEventCursor;
+
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
+	friend class LMDBEventCursor;
+
 	CDbxMdb(const TCHAR *tszFileName, int mode);
 	~CDbxMdb();
 
@@ -193,7 +196,7 @@ protected:
 	void  FillContacts(void);
 
 	bool  Remap();
-	bool  Map();
+	int   Map();
 
 protected:
 	TCHAR*   m_tszProfileName;
@@ -241,8 +244,7 @@ protected:
 
 	MDB_dbi	m_dbEvents, m_dbEventsSort;
 	MDB_cursor *m_curEvents, *m_curEventsSort;
-	DWORD    m_dwMaxEventId, m_tsLast;
-	MEVENT   m_evLast;
+	DWORD    m_dwMaxEventId;
 
 	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 
