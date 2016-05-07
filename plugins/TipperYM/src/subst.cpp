@@ -305,8 +305,9 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		if (!hSubContact)
 			return false;
 		
-		TCHAR *swzNick = (TCHAR *)pcli->pfnGetContactDisplayName(hSubContact, 0);
-		if (swzNick) _tcsncpy(buff, swzNick, bufflen);
+		TCHAR *swzNick = pcli->pfnGetContactDisplayName(hSubContact, 0);
+		if (swzNick)
+			_tcsncpy(buff, swzNick, bufflen);
 		return true;
 	}
 	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subuid"))) {
@@ -760,7 +761,10 @@ TCHAR* GetProtoExtraStatusMessage(char *szProto)
 
 		TCHAR *tszParsed = variables_parse(ptszText, NULL, hContact);
 		if (tszParsed)
-			replaceStrT(ptszText, tszParsed);
+		{
+			mir_free(ptszText);
+			ptszText = tszParsed;
+		}
 	}
 
 	if (opt.bLimitMsg)
