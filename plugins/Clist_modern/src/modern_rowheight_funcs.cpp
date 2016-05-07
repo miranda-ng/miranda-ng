@@ -584,7 +584,7 @@ int cliGetRowBottomY(ClcData *dat, int item)
 int cliGetRowTotalHeight(ClcData *dat)
 {
 	if (!dat->row_variable_height)
-		return dat->rowHeight * dat->row_heights_size;
+		return corecli.pfnGetRowTotalHeight(dat);
 
 	int y = 0;
 	for (int i = 0; i < dat->row_heights_size; i++)
