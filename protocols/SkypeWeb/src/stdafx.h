@@ -43,7 +43,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_message.h>
 #include <m_avatars.h>
 #include <m_skin.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_genmenu.h>
 #include <m_clc.h>
 #include <m_string.h>
@@ -60,6 +60,9 @@ extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 extern FI_INTERFACE *fii;
+
+struct SESSION_INFO : public GCSessionInfoBase
+{};
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 

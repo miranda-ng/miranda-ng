@@ -56,7 +56,6 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 
 		if (lBytes != lFileLen) {
 			fclose(pFile);
-			mir_free(pData);
 			FILETRANSFER_FAILED(fup);
 			return;
 		}

@@ -38,7 +38,7 @@ void CSkypeProto::CloseAllChatChatSessions()
 	gci.Flags = GCF_BYINDEX | GCF_ID | GCF_DATA;
 	gci.pszModule = m_szModuleName;
 
-	int count = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+	int count = pci->SM_GetCount(m_szModuleName);
 	for (int i = 0; i < count; i++)
 	{
 		gci.iItem = i;
@@ -54,17 +54,8 @@ void CSkypeProto::CloseAllChatChatSessions()
 
 MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 {
-	MCONTACT hContact = NULL;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-	{
-		if (!isChatRoom(hContact))
-			continue;
-
-		ptrA cChatname(getStringA(hContact, "ChatRoomID"));
-		if (!mir_strcmpi(chatname, cChatname))
-			break;
-	}
-	return hContact;
+	SESSION_INFO *si = pci->SM_FindSession(_A2T(chatname), m_szModuleName);
+	return si ? si->hContact : 0;
 }
 
 void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
@@ -203,11 +194,9 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 	case GC_USER_NICKLISTMENU:
 	{
-		ptrA user_id;
-		if (gch->dwData == 10 || gch->dwData == 30 || gch->dwData == 40)
-		{
-			user_id = mir_t2a_cp(gch->ptszUID, CP_UTF8);
-		}
+
+		_T2A user_id(gch->ptszUID);
+
 
 		switch (gch->dwData)
 		{
@@ -220,6 +209,33 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 40:
 			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "User", li));
 			break;
+		case 50:
+
+			ENTER_STRING pForm = { sizeof(pForm) };
+			pForm.type = ESF_COMBO;
+			pForm.recentCount = 0;
+			pForm.caption = TranslateT("Enter new nickname");
+			pForm.ptszInitVal = gch->ptszUID;
+			pForm.szModuleName = m_szModuleName;
+			pForm.szDataPrefix = "renamenick_";
+
+			GCDEST gcd = { m_szModuleName, gch->ptszUID, GC_EVENT_NICK };
+			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+
+			EnterString(&pForm);
+
+			gce.ptszNick = gch->ptszUID;
+			gce.bIsMe = IsMe(user_id);
+			gce.ptszUID = gch->ptszUID;
+			gce.ptszText = pForm.ptszResult;
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.time = time(NULL);
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+			db_set_ts(FindChatRoom(chat_id), "UsersNicks", _T2A(gch->ptszUID), pForm.ptszResult);
+
+			break;
+
 		}
 
 		break;
@@ -527,6 +543,9 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 		return;
 
 	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
+	if (TCHAR *tmp = db_get_tsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
+		tnick = tmp;
+
 	ptrT tid(mir_a2t(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
@@ -610,24 +629,25 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
-		if (IsMe(_T2A(gcmi->pszUID)))
+/*		if (IsMe(_T2A(gcmi->pszUID)))
 		{
 			gcmi->nItems = 0;
 			gcmi->Item = NULL;
 		}
 		else
-		{
+		{*/
 			static const struct gc_item Items[] =
 			{
 				{ LPGENT("Kick &user"),  10, MENU_ITEM      },
 				{ NULL,                  0,  MENU_SEPARATOR },
 				{ LPGENT("Set &role"),   20, MENU_NEWPOPUP  },
 				{ LPGENT("&Admin"),      30, MENU_POPUPITEM },
-				{ LPGENT("&User"),       40, MENU_POPUPITEM }
+				{ LPGENT("&User"),       40, MENU_POPUPITEM },
+				{ LPGENT("Change nick"), 50, MENU_ITEM },
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
-		}
+//		}
 	}
 
 
