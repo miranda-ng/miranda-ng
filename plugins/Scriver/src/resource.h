@@ -122,7 +122,6 @@
 #define IDC_USERMENU                    1071
 #define IDC_QUOTE                       1072
 #define IDC_HISTORY                     1080
-#define IDC_SMILEYS                     1081
 #define IDC_REMEMBER                    1082
 #define IDC_INFOBAR_NAME                1090
 #define IDC_INFOBAR_STATUS              1091

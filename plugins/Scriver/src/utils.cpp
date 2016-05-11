@@ -192,11 +192,11 @@ TCHAR* limitText(TCHAR *text, int limit)
 	}
 	return text;
 }
+
 TCHAR* GetRichTextWord(HWND hwnd, POINTL *ptl)
 {
-	TCHAR* pszWord = NULL;
 	long iCharIndex, start, end, iRes;
-	pszWord = GetRichEditSelection(hwnd);
+	TCHAR *pszWord = GetRichEditSelection(hwnd);
 	if (pszWord == NULL) {
 		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
 		if (iCharIndex >= 0) {
@@ -219,9 +219,9 @@ TCHAR* GetRichTextWord(HWND hwnd, POINTL *ptl)
 			}
 		}
 	}
-	if (pszWord != NULL) {
+	if (pszWord != NULL)
 		rtrimText(pszWord);
-	}
+
 	return pszWord;
 }
 
@@ -240,20 +240,19 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 {
 	CHARRANGE sel;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
-	if (sel.cpMin != sel.cpMax) {
-		MessageSendQueueItem msi;
-		EDITSTREAM stream;
-		DWORD dwFlags = 0;
-		memset(&stream, 0, sizeof(stream));
-		stream.pfnCallback = StreamOutCallback;
-		stream.dwCookie = (DWORD_PTR)&msi;
-		dwFlags = SF_TEXT | SF_UNICODE | SFF_SELECTION;
-		msi.sendBuffer = NULL;
-		msi.sendBufferSize = 0;
-		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)&stream);
-		return (TCHAR*)msi.sendBuffer;
-	}
-	return NULL;
+	if (sel.cpMin == sel.cpMax)
+		return NULL;
+		
+	MessageSendQueueItem msi;
+	msi.sendBuffer = NULL;
+	msi.sendBufferSize = 0;
+
+	EDITSTREAM stream;
+	memset(&stream, 0, sizeof(stream));
+	stream.pfnCallback = StreamOutCallback;
+	stream.dwCookie = (DWORD_PTR)&msi;
+	SendMessage(hwnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&stream);
+	return (TCHAR*)msi.sendBuffer;
 }
 
 void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
@@ -367,7 +366,7 @@ char *url_encode(char *str)
 	return buf;
 }
 
-void SearchWord(TCHAR * word, int engine)
+void SearchWord(TCHAR *word, int engine)
 {
 	char szURL[4096];
 	if (word && word[0]) {
@@ -439,7 +438,7 @@ void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 	}
 }
 
-HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rect)
+HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect)
 {
 	TOOLINFO ti = { 0 };
 	HWND hwndTT;
@@ -472,7 +471,7 @@ void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTi
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 }
 
-void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
+void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT *rect)
 {
 	TOOLINFO ti = { sizeof(ti) };
 	ti.hinst = g_hInst;
@@ -483,7 +482,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 
 /* toolbar-related stuff, to be moved to a separate file */
 
-HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility)
+HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton *buttons, int controlVisibility)
 {
 	HWND hCtrl;
 	int i;
@@ -515,12 +514,11 @@ void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton* butto
 		ShowWindow(GetDlgItem(hwndDlg, buttons[i].controlId), (controlVisibility & (1 << i)) ? state : SW_HIDE);
 }
 
-int GetToolbarWidth(int cControls, const ToolbarButton * buttons)
+int GetToolbarWidth(int cControls, const ToolbarButton *buttons)
 {
 	int w = 0;
 	for (int i = 0; i < cControls; i++)
-		if (buttons[i].controlId != IDC_SMILEYS || g_dat.smileyAddInstalled)
-			w += buttons[i].width + buttons[i].spacing;
+		w += buttons[i].width + buttons[i].spacing;
 
 	return w;
 }

@@ -35,7 +35,6 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 
 static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Quote"), IDC_QUOTE, 0, 4, 24},
-	{LPGENT("Smiley"), IDC_SMILEYS, 0, 10, 24},
 	{LPGENT("Add contact"), IDC_ADD, 0, 10, 24},
 	{LPGENT("User menu"), IDC_USERMENU, 1, 0, 24},
 	{LPGENT("User details"), IDC_DETAILS, 1, 0, 24},
@@ -194,9 +193,6 @@ static void SetDialogToType(HWND hwndDlg)
 		ShowToolbarControls(hwndDlg, _countof(toolbarButtons), toolbarButtons, g_dat.buttonVisibility, showToolbar ? SW_SHOW : SW_HIDE);
 		if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
-
-		if (!g_dat.smileyAddInstalled)
-			ShowWindow(GetDlgItem(hwndDlg, IDC_SMILEYS), SW_HIDE);
 	}
 	else ShowToolbarControls(hwndDlg, _countof(toolbarButtons), toolbarButtons, g_dat.buttonVisibility, SW_HIDE);
 
@@ -684,6 +680,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat = (SrmmWindowData*)mir_calloc(sizeof(SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = newData->hContact;
+			WindowList_Add(g_dat.hMessageWindowList, hwndDlg, dat->hContact);
+
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
 
 			dat->hwnd = hwndDlg;
@@ -753,7 +751,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->toolbarSize.cx = GetToolbarWidth(_countof(toolbarButtons), toolbarButtons);
 			if (dat->splitterPos == -1)
 				dat->splitterPos = dat->minEditBoxHeight;
-			WindowList_Add(g_dat.hMessageWindowList, hwndDlg, dat->hContact);
 
 			if (newData->szInitialText) {
 				if (newData->isWchar)
@@ -779,7 +776,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View user's history"), 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_QUOTE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Quote text"), 0);
-			SendDlgItemMessage(hwndDlg, IDC_SMILEYS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert emoticon"), 0);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send message"), 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
@@ -991,7 +987,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_USERDETAILS"));
 		SendDlgItemMessage(hwndDlg, IDC_HISTORY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_HISTORY"));
 		SendDlgItemMessage(hwndDlg, IDC_QUOTE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_QUOTE"));
-		SendDlgItemMessage(hwndDlg, IDC_SMILEYS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SMILEY"));
 		SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SEND"));
 		SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
 		SetStatusIcon(dat);
@@ -1650,28 +1645,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_DETAILS:
 			CallService(MS_USERINFO_SHOWDIALOG, dat->hContact, 0);
-			break;
-
-		case IDC_SMILEYS:
-			if (g_dat.smileyAddInstalled) {
-				SMADD_SHOWSEL3 smaddInfo;
-				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
-				smaddInfo.hwndParent = dat->hwndParent;
-				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
-				smaddInfo.targetMessage = EM_REPLACESEL;
-				smaddInfo.targetWParam = TRUE;
-
-				MCONTACT hContact = db_mc_getSrmmSub(dat->hContact);
-				smaddInfo.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : dat->szProto;
-
-				RECT rc;
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYS), &rc);
-				smaddInfo.Direction = 0;
-				smaddInfo.xPosition = rc.left;
-				smaddInfo.yPosition = rc.bottom;
-				smaddInfo.hContact = dat->hContact;
-				CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
-			}
 			break;
 
 		case IDC_QUOTE:
