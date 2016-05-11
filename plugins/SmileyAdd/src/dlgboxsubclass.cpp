@@ -71,13 +71,16 @@ public:
 	RECT CalcSmileyButtonPos(void)
 	{
 		RECT rect;
-		POINT pt;
-
 		GetWindowRect(LButton, &rect);
+
+		POINT pt;
 		pt.y = rect.top;
 
+		MUUID muidScriver = { 0x84636f78, 0x2057, 0x4302, { 0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c } };
+		int iShift = (IsPluginLoaded(muidScriver)) ? 28 : -28;
+
 		if ((GetWindowLongPtr(LButton, GWL_STYLE) & WS_VISIBLE) != 0)
-			pt.x = rect.left - 28;
+			pt.x = rect.left + iShift;
 		else
 			pt.x = rect.left;
 
@@ -270,6 +273,8 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			msgwnd->REdit = wndEvtData->hwndLog;
 			msgwnd->MEdit = wndEvtData->hwndInput;
 			msgwnd->LButton = GetDlgItem(wndEvtData->hwndWindow, MI_IDC_ADD);
+			if (msgwnd->LButton == NULL)
+				msgwnd->LButton = GetDlgItem(wndEvtData->hwndWindow, 5019);
 
 			// Get the protocol for this contact to display correct smileys.
 			char *protonam = GetContactProto(DecodeMetaContact(msgwnd->hContact));

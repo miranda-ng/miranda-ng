@@ -27,7 +27,6 @@ static ToolbarButton toolbarButtons[] = {
 	{ LPGENT("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24 },
 	{ LPGENT("Text color"), IDC_CHAT_COLOR, 0, 0, 24 },
 	{ LPGENT("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24 },
-	{ LPGENT("Smiley"), IDC_CHAT_SMILEY, 0, 8, 24 },
 	{ LPGENT("History"), IDC_CHAT_HISTORY, 1, 0, 24 },
 	{ LPGENT("Filter"), IDC_CHAT_FILTER, 1, 0, 24 },
 	{ LPGENT("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24 },
@@ -77,7 +76,6 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SMILEY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_smiley"));
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_bold"));
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_italics"));
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_underline"));
@@ -89,7 +87,6 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(si->bFilterEnabled ? "chat_filter" : "chat_filter2"));
 	SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SEND"));
 
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SMILEY, BUTTONSETASFLATBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONSETASFLATBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONSETASFLATBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONSETASFLATBTN, TRUE, 0);
@@ -101,7 +98,6 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BUTTONSETASFLATBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASFLATBTN, TRUE, 0);
 
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SMILEY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
@@ -1112,8 +1108,6 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
 			}
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_SMILEY), TRUE);
-
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
@@ -1746,23 +1740,6 @@ LABEL_SHOWWINDOW:
 				si->cmdListCurrent = NULL;
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 1200, FALSE) != 0);
 			}
-			break;
-
-		case IDC_CHAT_SMILEY:
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_SMILEY), &rc);
-
-			SMADD_SHOWSEL3 smaddInfo;
-			smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
-			smaddInfo.hwndParent = GetParent(hwndDlg);
-			smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
-			smaddInfo.targetMessage = EM_REPLACESEL;
-			smaddInfo.targetWParam = TRUE;
-			smaddInfo.Protocolname = si->pszModule;
-			smaddInfo.Direction = 0;
-			smaddInfo.xPosition = rc.left;
-			smaddInfo.yPosition = rc.bottom;
-			smaddInfo.hContact = si->hContact;
-			CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
 			break;
 
 		case IDC_CHAT_HISTORY:

@@ -172,7 +172,6 @@
 #define IDC_INPUTLINESSPIN              1648
 #define IDC_CHAT_LOG                    5005
 #define IDC_CHAT_SPLITTERX              5006
-#define IDC_CHAT_SMILEY                 5007
 #define IDC_CHAT_SPLITTERY              5008
 #define IDC_CHAT_MESSAGE                5009
 #define IDC_CHAT_BOLD                   5010
