@@ -2,11 +2,11 @@
 
 HANDLE hExtraIcon = NULL;
 
-int ExtraIconsApply(WPARAM hContact, LPARAM)
+int ExtraIconsApply(WPARAM hContact, LPARAM force)
 {
 	if (hContact == NULL) return 0;
 
-	if (HasUnread(hContact))
+	if (HasUnread(hContact) || force)
 		ExtraIcon_SetIcon(hExtraIcon, hContact, Icons[ICON_EXTRA].hIcolib);
 	else
 		ExtraIcon_Clear(hExtraIcon, hContact);
