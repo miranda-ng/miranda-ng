@@ -62,7 +62,8 @@ MCONTACT CDropbox::GetDefaultContact()
 
 bool CDropbox::HasAccessToken()
 {
-	return db_get_sa(NULL, MODULE, "TokenSecret") != NULL;
+	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
+	return token != NULL;
 }
 
 void CDropbox::RequestAccountInfo(void *p)
