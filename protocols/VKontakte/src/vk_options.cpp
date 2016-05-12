@@ -226,7 +226,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	m_cbForceInvisibleStatus(this, IDC_FORCE_ONLINE_ON_ACT),
 	m_edtInvInterval(this, IDC_ED_INT_INVIS),
 	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
-	m_cbUseNonStandardNotifications(this, IDC_USENOSTDURLENCODE),
+	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS),
 	m_cbUseNonStandardUrlEncode(this, IDC_USENOSTDURLENCODE),
 	m_cbReportAbuse(this, IDC_REPORT_ABUSE),
 	m_cbClearServerHistory(this, IDC_CLEAR_SERVER_HISTORY),
