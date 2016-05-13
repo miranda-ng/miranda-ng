@@ -94,7 +94,9 @@ void CSkypeProto::ParsePollData(void *pData)
 {
 	debugLogA(__FUNCTION__);
 
-	JSONNode data = JSONNode::parse((char*)pData);
+	ptrA szData((char*)pData); // memory must be freed in any case
+
+	JSONNode data = JSONNode::parse(szData);
 	if (!data) return;
 
 	const JSONNode &node = data["eventMessages"];
@@ -128,7 +130,6 @@ void CSkypeProto::ParsePollData(void *pData)
 			ProcessThreadUpdate(resource);
 		}
 	}
-	mir_free(pData);
 }
 
 void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)

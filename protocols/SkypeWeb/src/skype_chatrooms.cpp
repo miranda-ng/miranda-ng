@@ -468,7 +468,7 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
-	TCHAR *topic = (TCHAR*)p;
+	ptrT topic((TCHAR*)p); // memory must be freed in any case
 	if (response == NULL || response->pData == NULL)
 		return;
 
@@ -493,7 +493,6 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 			AddChatContact(_A2T(chatId), username, username, _A2T(role.c_str()), true);
 	}
 	PushRequest(new GetHistoryRequest(chatId, 15, true, 0, li), &CSkypeProto::OnGetServerHistory);
-	mir_free(topic);
 }
 
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)
