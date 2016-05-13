@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static mir_cs csWndList;
 
-static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 // type definitions 
 
 class MsgWndData : public MZeroedObject
@@ -314,6 +312,7 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			CloseRichCallback(wndEvtData->hwndLog);
 			CloseRichOwnerCallback(wndEvtData->hwndWindow);
 		}
+		mir_unsubclassWindow(wndEvtData->hwndWindow, MessageDlgSubclass);
 		break;
 	}
 	return 0;
