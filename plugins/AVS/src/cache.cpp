@@ -125,12 +125,11 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 		// Fire the event for avatar history
 		node->dwFlags &= ~AVH_MUSTNOTIFY;
 		if (node->szFilename[0] != '\0') {
-			CONTACTAVATARCHANGEDNOTIFICATION cacn = { 0 };
+			CONTACTAVATARCHANGEDNOTIFICATION cacn = {};
 			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
-			_tcsncpy(cacn.filename, node->szFilename, MAX_PATH);
-			cacn.filename[MAX_PATH - 1] = 0;
+			_tcsncpy_s(cacn.filename, node->szFilename, _TRUNCATE);
 
 			// Get hash
 			char *szProto = GetContactProto(hContact);
@@ -139,6 +138,8 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 				if (!db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
 					if (dbv.type == DBVT_TCHAR)
 						_tcsncpy_s(cacn.hash, dbv.ptszVal, _TRUNCATE);
+					else if (dbv.type == DBVT_ASCIIZ)
+						_tcsncpy_s(cacn.hash, _A2T(dbv.pszVal), _TRUNCATE);
 					else if (dbv.type == DBVT_BLOB) {
 						ptrA szHash(mir_base64_encode(dbv.pbVal, dbv.cpbVal));
 						_tcsncpy_s(cacn.hash, _A2T(szHash), _TRUNCATE);
@@ -151,7 +152,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 			if (cacn.hash[0] == '\0')
 				mir_sntprintf(cacn.hash, _T("AVS-HASH-%x"), GetFileHash(cacn.filename));
 
-			NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)cacn.hContact, (LPARAM)&cacn);
+			NotifyEventHooks(hEventContactAvatarChanged, hContact, (LPARAM)&cacn);
 		}
 		else NotifyEventHooks(hEventContactAvatarChanged, hContact, NULL);
 	}
