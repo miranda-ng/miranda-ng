@@ -1622,7 +1622,7 @@ void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcP
 	}
 }
 
-void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc)
+void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint, RECT& clRect, _PaintContext &pc)
 {
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
@@ -1751,22 +1751,21 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 				else {
 					// background
 					if (selected) {
+						int row_height;
 						switch (dat->HiLightMode) {
 						case 0:
 						case 1:
-							{
-								int row_height = row_rc.bottom - row_rc.top;
-								for (int i = y; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
-									ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 0, i, clRect.right,
-										min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
-										dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
-								}
-								SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
+							row_height = row_rc.bottom - row_rc.top;
+							for (int i = y; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
+								ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 0, i, clRect.right,
+									min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
+									dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
 							}
+							SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
 							break;
 
 						case 2:
-							int row_height = row_rc.bottom - row_rc.top - 1;
+							row_height = row_rc.bottom - row_rc.top - 1;
 							for (int i = y + 1; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
 								ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 1, i, clRect.right - 2,
 									min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
@@ -1784,7 +1783,8 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					rc.top += (rc.bottom - rc.top - dat->checkboxSize) >> 1;
 					rc.bottom = rc.top + dat->checkboxSize;
 
-					if (dat->text_rtl != 0) _RTLRect(&rc, free_row_rc.right);
+					if (dat->text_rtl != 0)
+						_RTLRect(&rc, free_row_rc.right);
 
 					if (xpt_IsThemed(dat->hCheckBoxTheme))
 						xpt_DrawThemeBackground(dat->hCheckBoxTheme, pc.hdcMem, BP_CHECKBOX, Drawing->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
@@ -1803,15 +1803,14 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 						mir_free(mpRequest->pl_Params[1].szValue);
 						mpRequest->pl_Params[1].szValue = mir_strndup("Ovl", 3);
 						mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
-						{
-							RECT mrc = row_rc;
-							if (Drawing->type == CLCIT_GROUP  &&
-								Drawing->group->parent->groupId == 0 &&
-								Drawing->group->parent->cl.items[0] != Drawing) {
-								mrc.top += dat->row_before_group_space;
-							}
-							SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
+
+						RECT mrc = row_rc;
+						if (Drawing->type == CLCIT_GROUP  &&
+							Drawing->group->parent->groupId == 0 &&
+							Drawing->group->parent->cl.items[0] != Drawing) {
+							mrc.top += dat->row_before_group_space;
 						}
+						SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
 						SkinSelector_DeleteMask(mpRequest);
 					}
 					mir_free(mpRequest);

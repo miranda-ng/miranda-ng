@@ -39,7 +39,6 @@ void FreeRowCell()
 void RowHeight_InitModernRow()
 {
 	gl_RowRoot = cppInitModernRow(gl_RowTabAccess);
-	return;
 }
 
 SIZE GetAvatarSize(int imageWidth, int imageHeight, int maxWidth, int maxHeight)
@@ -65,10 +64,6 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 	if (!pcli->hwndContactTree)
 		return 0;
 
-	BYTE i = 0;
-	int height = 0;
-	BOOL hasAvatar = FALSE;
-
 	ClcCacheEntry *pdnce = contact->pce;
 	if (dat->hWnd != pcli->hwndContactTree || !gl_RowRoot || contact->type == CLCIT_GROUP) {
 		int tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
@@ -83,104 +78,94 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 		tmp = max(tmp, ICON_HEIGHT);
 		tmp = max(tmp, dat->row_min_heigh);
 		tmp += dat->row_border * 2;
-		if (contact->type == CLCIT_GROUP &&
-			contact->group->parent->groupId == 0 &&
-			contact->group->parent->cl.items[0] != contact)
+		if (contact->type == CLCIT_GROUP && contact->group->parent->groupId == 0 && contact->group->parent->cl.items[0] != contact)
 			tmp += dat->row_before_group_space;
 		if (item != -1)
 			dat->row_heights[item] = tmp;
 		return tmp;
 	}
 
-	hasAvatar = contact->avatar_data != NULL;
-	while (gl_RowTabAccess[i] != NULL) {
-		if (gl_RowTabAccess[i]->type != TC_SPACE) {
-			gl_RowTabAccess[i]->h = 0;
-			gl_RowTabAccess[i]->w = 0;
-			SetRect(&(gl_RowTabAccess[i]->r), 0, 0, 0, 0);
-			switch (gl_RowTabAccess[i]->type) {
+	bool hasAvatar = contact->avatar_data != NULL;
+	for (int i = 0;; i++) {
+		ROWCELL *pCell = gl_RowTabAccess[i];
+		if (pCell == NULL)
+			break;
+
+		if (pCell->type != TC_SPACE) {
+			pCell->h = 0;
+			pCell->w = 0;
+			SetRect(&pCell->r, 0, 0, 0, 0);
+			switch (pCell->type) {
 			case TC_TEXT1:
-				{
-					int tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
-					if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
-						tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
-					if (item == -1) {
-						//calculate text width here
-						SIZE size = { 0 };
-						RECT dummyRect = { 0, 0, 1024, tmp };
-						HDC hdc = CreateCompatibleDC(NULL);
-						g_clcPainter.ChangeToFont(hdc, dat, g_clcPainter.GetBasicFontID(contact), NULL);
-						g_clcPainter.GetTextSize(&size, hdc, dummyRect, contact->szText, contact->ssText.plText, 0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
-						if (contact->type == CLCIT_GROUP) {
-							TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
-							if (szCounts && mir_tstrlen(szCounts) > 0) {
-								RECT count_rc = { 0 };
-								// calc width and height
-								g_clcPainter.ChangeToFont(hdc, dat, contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-								ske_DrawText(hdc, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
-								size.cx += count_rc.right - count_rc.left;
-								count_rc.right = 0;
-								count_rc.left = 0;
-								ske_DrawText(hdc, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
-								size.cx += count_rc.right - count_rc.left;
-								tmp = max(tmp, count_rc.bottom - count_rc.top);
-							}
+				pCell->h = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
+				if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
+					pCell->h = max(pCell->h, contact->ssText.iMaxSmileyHeight);
+				if (item == -1) {
+					// calculate text width here
+					SIZE size = { 0 };
+					RECT dummyRect = { 0, 0, 1024, pCell->h };
+					HDC hdc = CreateCompatibleDC(NULL);
+					g_clcPainter.ChangeToFont(hdc, dat, g_clcPainter.GetBasicFontID(contact), NULL);
+					g_clcPainter.GetTextSize(&size, hdc, dummyRect, contact->szText, contact->ssText.plText, 0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
+					if (contact->type == CLCIT_GROUP) {
+						TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
+						if (szCounts && mir_tstrlen(szCounts) > 0) {
+							RECT count_rc = { 0 };
+							// calc width and height
+							g_clcPainter.ChangeToFont(hdc, dat, contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
+							ske_DrawText(hdc, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
+							size.cx += count_rc.right - count_rc.left;
+							count_rc.right = 0;
+							count_rc.left = 0;
+							ske_DrawText(hdc, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
+							size.cx += count_rc.right - count_rc.left;
+							pCell->h = max(pCell->h, count_rc.bottom - count_rc.top);
 						}
-						gl_RowTabAccess[i]->w = size.cx;
-						SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-						ske_ResetTextEffect(hdc);
-						DeleteDC(hdc);
 					}
-					gl_RowTabAccess[i]->h = tmp;
+					pCell->w = size.cx;
+					SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
+					ske_ResetTextEffect(hdc);
+					DeleteDC(hdc);
 				}
 				break;
 
 			case TC_TEXT2:
-				{
-					int tmp = 0;
-					if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
-						tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
-						if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
-							tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
-						if (item == -1) {
-							//calculate text width here
-
-							SIZE size = { 0 };
-							RECT dummyRect = { 0, 0, 1024, tmp };
-							HDC hdc = CreateCompatibleDC(NULL);
-							g_clcPainter.ChangeToFont(hdc, dat, FONTID_SECONDLINE, NULL);
-							g_clcPainter.GetTextSize(&size, hdc, dummyRect, pdnce->szSecondLineText, pdnce->ssSecondLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
-							gl_RowTabAccess[i]->w = size.cx;
-							SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-							ske_ResetTextEffect(hdc);
-							DeleteDC(hdc);
-						}
+				if (dat->secondLine.show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
+					pCell->h = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
+					if (dat->text_replace_smileys && dat->secondLine.draw_smileys && !dat->text_resize_smileys)
+						pCell->h = max(pCell->h, pdnce->ssSecondLine.iMaxSmileyHeight);
+					if (item == -1) {
+						// calculate text width here
+						SIZE size = { 0 };
+						RECT dummyRect = { 0, 0, 1024, pCell->h };
+						HDC hdc = CreateCompatibleDC(NULL);
+						g_clcPainter.ChangeToFont(hdc, dat, FONTID_SECONDLINE, NULL);
+						g_clcPainter.GetTextSize(&size, hdc, dummyRect, pdnce->szSecondLineText, pdnce->ssSecondLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
+						pCell->w = size.cx;
+						SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
+						ske_ResetTextEffect(hdc);
+						DeleteDC(hdc);
 					}
-					gl_RowTabAccess[i]->h = tmp;
 				}
 				break;
 
 			case TC_TEXT3:
-				{
-					int tmp = 0;
-					if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
-						tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
-						if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
-							tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
-						if (item == -1) {
-							//calculate text width here
-							SIZE size = { 0 };
-							RECT dummyRect = { 0, 0, 1024, tmp };
-							HDC hdc = CreateCompatibleDC(NULL);
-							g_clcPainter.ChangeToFont(hdc, dat, FONTID_THIRDLINE, NULL);
-							g_clcPainter.GetTextSize(&size, hdc, dummyRect, pdnce->szThirdLineText, pdnce->ssThirdLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
-							gl_RowTabAccess[i]->w = size.cx;
-							SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-							ske_ResetTextEffect(hdc);
-							DeleteDC(hdc);
-						}
+				if (dat->thirdLine.show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
+					pCell->h = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
+					if (dat->text_replace_smileys && dat->thirdLine.draw_smileys && !dat->text_resize_smileys)
+						pCell->h = max(pCell->h, pdnce->ssThirdLine.iMaxSmileyHeight);
+					if (item == -1) {
+						//calculate text width here
+						SIZE size = { 0 };
+						RECT dummyRect = { 0, 0, 1024, pCell->h };
+						HDC hdc = CreateCompatibleDC(NULL);
+						g_clcPainter.ChangeToFont(hdc, dat, FONTID_THIRDLINE, NULL);
+						g_clcPainter.GetTextSize(&size, hdc, dummyRect, pdnce->szThirdLineText, pdnce->ssThirdLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
+						pCell->w = size.cx;
+						SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
+						ske_ResetTextEffect(hdc);
+						DeleteDC(hdc);
 					}
-					gl_RowTabAccess[i]->h = tmp;
 				}
 				break;
 
@@ -188,8 +173,8 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 				if ((contact->type == CLCIT_GROUP && !dat->row_hide_group_icon) ||
 					(contact->type == CLCIT_CONTACT && contact->iImage != -1 &&
 					!(dat->icon_hide_on_avatar && dat->avatars_show && (hasAvatar || (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special))) {
-					gl_RowTabAccess[i]->h = ICON_HEIGHT;
-					gl_RowTabAccess[i]->w = ICON_HEIGHT;
+					pCell->h = ICON_HEIGHT;
+					pCell->w = ICON_HEIGHT;
 				}
 				break;
 
@@ -207,14 +192,12 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 					if ((sz.cx == 0 || sz.cy == 0) && dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)
 						sz.cx = ICON_HEIGHT, sz.cy = ICON_HEIGHT;
 
-					gl_RowTabAccess[i]->h = sz.cy;
-					gl_RowTabAccess[i]->w = sz.cx;
+					pCell->h = sz.cy;
+					pCell->w = sz.cx;
 				}
 				break;
 
-			case TC_EXTRA:
-				// Draw extra icons
-
+			case TC_EXTRA: // Draw extra icons
 				if (contact->type == CLCIT_CONTACT &&
 					(!contact->isSubcontact || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
 					BOOL hasExtra = FALSE;
@@ -226,8 +209,8 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 							width += (width > 0) ? dat->extraColumnSpacing : (dat->extraColumnSpacing - 2);
 						}
 					if (hasExtra) {
-						gl_RowTabAccess[i]->h = ICON_HEIGHT;
-						gl_RowTabAccess[i]->w = width;
+						pCell->h = ICON_HEIGHT;
+						pCell->w = width;
 					}
 				}
 				break;
@@ -243,18 +226,18 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 			case TC_EXTRA9:
 				if (contact->type == CLCIT_CONTACT &&
 					(!contact->isSubcontact || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
-					int eNum = gl_RowTabAccess[i]->type - TC_EXTRA1;
+					int eNum = pCell->type - TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount)
 						if (contact->iExtraImage[eNum] != EMPTY_EXTRA_ICON || !dat->MetaIgnoreEmptyExtra) {
-							gl_RowTabAccess[i]->h = ICON_HEIGHT;
-							gl_RowTabAccess[i]->w = ICON_HEIGHT;
+							pCell->h = ICON_HEIGHT;
+							pCell->w = ICON_HEIGHT;
 						}
 				}
 				break;
 
 			case TC_TIME:
 				if (contact->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
-					gl_RowTabAccess[i]->h = dat->fontModernInfo[FONTID_CONTACT_TIME].fontHeight;
+					pCell->h = dat->fontModernInfo[FONTID_CONTACT_TIME].fontHeight;
 					if (item == -1) {
 						TCHAR szResult[80];
 
@@ -271,17 +254,16 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 							ske_ResetTextEffect(hdc);
 							DeleteDC(hdc);
 							text_size.cx = rc.right - rc.left;
-							gl_RowTabAccess[i]->w = text_size.cx;
+							pCell->w = text_size.cx;
 						}
 					}
 				}
 				break;
 			}
 		}
-		i++;
 	}
 
-	height = cppCalculateRowHeight(gl_RowRoot);
+	int height = cppCalculateRowHeight(gl_RowRoot);
 	height += dat->row_border * 2;
 	height = max(height, dat->row_min_heigh);
 	if (item != -1)
@@ -490,12 +472,9 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 	if (!dat->row_variable_height)
 		return dat->rowHeight;
 
-	if (gl_RowRoot)
-		return RowHeight_CalcRowHeight(dat, contact, item);
-
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	//TODO replace futher code with new rowheight definition
-	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
+	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || (dat->exStyle & CLS_EX_SHOWSELALWAYS) || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat, selected));
 
 	if (!RowHeights_Alloc(dat, item + 1))
