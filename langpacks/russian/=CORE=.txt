@@ -2041,6 +2041,18 @@ Miranda не смогла загрузить встроенную систему
 Тема '%s'
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
+[New group]
+Новая группа
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Вы уверены, что хотите удалить группу "%s"? Операция не может быть отменена.
+[Delete group]
+Удаление группы
+[You already have a group with that name. Please enter a unique name for the group.]
+Группа с таким именем уже есть. Введите уникальное имя для группы.
+[Rename group]
+Переименовать группу
+[This group]
+Эта группа
 [Connecting]
 Подключение
 [Connecting (attempt %d)]
@@ -2173,18 +2185,6 @@ Ctrl+Искать добавляет контакт
 Основной текст
 [Small text]
 Дополнительный текст
-[New group]
-Новая группа
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Вы уверены, что хотите удалить группу "%s"? Операция не может быть отменена.
-[Delete group]
-Удаление группы
-[You already have a group with that name. Please enter a unique name for the group.]
-Группа с таким именем уже есть. Введите уникальное имя для группы.
-[Rename group]
-Переименовать группу
-[This group]
-Эта группа
 [Mute]
 Вкл/выкл звук
 [Mail]

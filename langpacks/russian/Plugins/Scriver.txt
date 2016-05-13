@@ -155,8 +155,6 @@
 Меню &пользователя
 [User &details]
 &Информация
-[&Emoticons]
-&Смайлы
 [&Add]
 &Добавить
 [&History]
@@ -467,8 +465,6 @@ Google Карты
 Действие: Вставить и отправить
 [Quote]
 Цитата
-[Smiley]
-Смайл
 [User menu]
 Меню пользователя
 [User details]
@@ -489,8 +485,6 @@ Google Карты
 История сообщений
 [Quote text]
 Цитата
-[Insert emoticon]
-Смайлы
 [User menu - %s]
 Меню пользователя - %s
 [Sending in progress: %d message(s) left...]
@@ -805,8 +799,6 @@ ID текущего контакта (если определён). Наприм
 Настройки комнаты
 [Nick list]
 Список пользователей
-[Insert a smiley]
-Вставить смайл
 [Make the text bold (CTRL+B)]
 Сделать текст жирным (CTRL+B)
 [Make the text italicized (CTRL+I)]

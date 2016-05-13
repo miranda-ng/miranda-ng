@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.20
+;  Version: 0.11.1.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -49,6 +49,8 @@ DNS имя:
 Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
 [Add]
 Добавить
+[Update]
+Обновить
 [IPv4 address/ Host]
 IPv4 адрес/ Хост
 [IPv6 address (optional)]
@@ -97,8 +99,6 @@ IPv6 адрес (необязательно)
 Для:
 [Group chat]
 Чат
-[Unable to initialize Tox core]
-Невозможно инициализировать ядро Tox
 [Profiles folder]
 Папка профилей
 [Tox URI scheme]
@@ -129,6 +129,8 @@ IPv6 адрес (необязательно)
 Исходящий звонок к %s
 [%s connection]
 %s подключение
+[Unable to initialize Tox core]
+Невозможно инициализировать ядро Tox
 [Tox profile]
 Профиль Tox
 [All files]
