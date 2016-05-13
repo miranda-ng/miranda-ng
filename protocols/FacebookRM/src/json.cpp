@@ -396,7 +396,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	}
 }
 
-int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications)
+int facebook_json_parser::parse_messages(std::string *pData, std::vector<facebook_message>* messages, std::map< std::string, facebook_notification* >* notifications)
 {
 	// remove old received messages from map		
 	for (std::map<std::string, int>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
@@ -466,16 +466,15 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 
 				message_text = utils::text::trim(message_text, true);
 
-				facebook_message* message = new facebook_message();
-				message->isChat = other_user_id.empty();
-				message->isIncoming = (id != proto->facy.self_.user_id);
-				message->isUnread = message->isIncoming;
-				message->message_text = message_text;
-				message->time = utils::time::from_string(timestamp.as_string());
-				message->user_id = message->isChat ? id : other_user_id;
-				message->message_id = message_id;
-				message->thread_id = thread_id;
-
+				facebook_message message;
+				message.isChat = other_user_id.empty();
+				message.isIncoming = (id != proto->facy.self_.user_id);
+				message.isUnread = message.isIncoming;
+				message.message_text = message_text;
+				message.time = utils::time::from_string(timestamp.as_string());
+				message.user_id = message.isChat ? id : other_user_id;
+				message.message_id = message_id;
+				message.thread_id = thread_id;
 				messages->push_back(message);
 			}
 			else if (cls == "ReadReceipt") {
@@ -572,21 +571,21 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 
 				message_text = utils::text::trim(message_text, true);
 
-				facebook_message* message = new facebook_message();
-				message->isChat = other_user_id.empty();
-				message->isIncoming = (id != proto->facy.self_.user_id);
-				message->isUnread = message->isIncoming;
-				message->message_text = message_text;
-				message->time = utils::time::from_string(timestamp.as_string());
-				message->user_id = (!message->isChat && !message->isIncoming) ? other_user_id : id;
-				message->message_id = message_id;
-				message->thread_id = thread_id;
+				facebook_message message;
+				message.isChat = other_user_id.empty();
+				message.isIncoming = (id != proto->facy.self_.user_id);
+				message.isUnread = message.isIncoming;
+				message.message_text = message_text;
+				message.time = utils::time::from_string(timestamp.as_string());
+				message.user_id = (!message.isChat && !message.isIncoming) ? other_user_id : id;
+				message.message_id = message_id;
+				message.thread_id = thread_id;
 
-				if (message->user_id.empty()) {
-					proto->debugLogA(" !!! JSON: deliver message event with empty user_id (thread_id %s)\n%s", message->thread_id.empty() ? "empty too" : "exists", (*it).as_string().c_str());
+				if (message.user_id.empty()) {
+					proto->debugLogA(" !!! JSON: deliver message event with empty user_id (thread_id %s)\n%s", message.thread_id.empty() ? "empty too" : "exists", (*it).as_string().c_str());
 
-					if (!message->thread_id.empty()) {
-						message->user_id = proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
+					if (!message.thread_id.empty()) {
+						message.user_id = proto->ThreadIDToContactID(message.thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
 					}
 				}
 
@@ -856,17 +855,16 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 					std::string id = action_["other_user_fbid"].as_string();
 					std::string message_id = action_["message_id"].as_string();
 
-					facebook_message* message = new facebook_message();
-					message->isChat = false;
-					message->isUnread = true;
-					message->isIncoming = (id != proto->facy.self_.user_id);
-					message->message_text = message_text;
-					message->time = utils::time::from_string(action_["timestamp"].as_string());
-					message->user_id = id;
-					message->message_id = message_id;
-					message->thread_id = thread_id;
-					message->type = CALL;
-
+					facebook_message message;
+					message.isChat = false;
+					message.isUnread = true;
+					message.isIncoming = (id != proto->facy.self_.user_id);
+					message.message_text = message_text;
+					message.time = utils::time::from_string(action_["timestamp"].as_string());
+					message.user_id = id;
+					message.message_id = message_id;
+					message.thread_id = thread_id;
+					message.type = CALL;
 					messages->push_back(message);
 				}
 				else {
@@ -930,7 +928,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly)
+int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly)
 {
 	std::string jsonData = data->substr(9);
 
@@ -1039,31 +1037,29 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		if (unreadOnly && !isUnread)
 			continue;
 
-		facebook_message* message = new facebook_message();
-		message->message_text = message_text;
-		message->time = utils::time::from_string(timestamp.as_string());
-		message->thread_id = thread_id;
-		message->message_id = message_id;
-		message->isIncoming = (author_id != proto->facy.self_.user_id);
-		message->isUnread = isUnread;
+		facebook_message message;
+		message.message_text = message_text;
+		message.time = utils::time::from_string(timestamp.as_string());
+		message.thread_id = thread_id;
+		message.message_id = message_id;
+		message.isIncoming = (author_id != proto->facy.self_.user_id);
+		message.isUnread = isUnread;
 
 		if (chatrooms->find(thread_id) != chatrooms->end()) {
 			// this is chatroom message
-			message->isChat = true;
-			message->user_id = author_id;
+			message.isChat = true;
+			message.user_id = author_id;
 		}
 		else {
 			// this is standard message
-			message->isChat = false;
+			message.isChat = false;
 			auto iter = thread_ids.find(thread_id);
 			if (iter != thread_ids.end())
-				message->user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+				message.user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 			else if (!other_user_id.empty())
-				message->user_id = other_user_id;
-			else {
-				delete message;
+				message.user_id = other_user_id;
+			else
 				continue;
-			}
 		}
 
 		messages->push_back(message);
