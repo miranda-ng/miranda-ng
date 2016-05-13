@@ -151,7 +151,7 @@ int RepList::add(char* pat1, char* pat2) {
 }
 
 int RepList::conv(const char* word, char* dest, size_t destsize) {
-  int stl = 0;
+  size_t stl = 0;
   int change = 0;
   for (size_t i = 0; i < strlen(word); i++) {
     int n = near(word + i);
@@ -171,5 +171,23 @@ int RepList::conv(const char* word, char* dest, size_t destsize) {
     }
   }
   dest[stl] = '\0';
+  return change;
+}
+
+bool RepList::conv(const char* word, std::string& dest) {
+  dest.clear();
+
+  bool change = false;
+  for (size_t i = 0; i < strlen(word); i++) {
+    int n = near(word + i);
+    int l = match(word + i, n);
+    if (l) {
+      dest.append(dat[n]->pattern2);
+      i += l - 1;
+      change = true;
+    } else {
+      dest.push_back(word[i]);
+    }
+  }
   return change;
 }

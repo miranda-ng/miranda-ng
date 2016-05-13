@@ -77,9 +77,12 @@
 #include "hunvisapi.h"
 
 #include <stdio.h>
+#include <string>
+#include <vector>
 
 #include "htypes.hxx"
 #include "filemgr.hxx"
+#include "w_char.hxx"
 
 enum flag { FLAG_CHAR, FLAG_LONG, FLAG_NUM, FLAG_UNI };
 
@@ -95,8 +98,7 @@ class LIBHUNSPELL_DLL_EXPORTED HashMgr {
   char* lang;
   struct cs_info* csconv;
   char* ignorechars;
-  unsigned short* ignorechars_utf16;
-  int ignorechars_utf16_len;
+  std::vector<w_char> ignorechars_utf16;
   int numaliasf;  // flag vector `compression' with aliases
   unsigned short** aliasf;
   unsigned short* aliasflen;
@@ -111,7 +113,7 @@ class LIBHUNSPELL_DLL_EXPORTED HashMgr {
   int hash(const char*) const;
   struct hentry* walk_hashtable(int& col, struct hentry* hp) const;
 
-  int add(const char* word);
+  int add(const std::string& word);
   int add_with_affix(const char* word, const char* pattern);
   int remove(const char* word);
   int decode_flags(unsigned short** result, char* flags, FileMgr* af);
@@ -123,7 +125,7 @@ class LIBHUNSPELL_DLL_EXPORTED HashMgr {
   char* get_aliasm(int index);
 
  private:
-  int get_clen_and_captype(const char* word, int wbl, int* captype);
+  int get_clen_and_captype(const std::string& word, int* captype);
   int load_tables(const char* tpath, const char* key);
   int add_word(const char* word,
                int wbl,
@@ -134,15 +136,14 @@ class LIBHUNSPELL_DLL_EXPORTED HashMgr {
                bool onlyupcase);
   int load_config(const char* affpath, const char* key);
   int parse_aliasf(char* line, FileMgr* af);
-  int add_hidden_capitalized_word(char* word,
-                                  int wbl,
+  int add_hidden_capitalized_word(const std::string& word,
                                   int wcl,
                                   unsigned short* flags,
                                   int al,
                                   char* dp,
                                   int captype);
   int parse_aliasm(char* line, FileMgr* af);
-  int remove_forbidden_flag(const char* word);
+  int remove_forbidden_flag(const std::string& word);
 };
 
 #endif

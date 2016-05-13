@@ -74,8 +74,6 @@
 #ifndef _SUGGESTMGR_HXX_
 #define _SUGGESTMGR_HXX_
 
-#define MAXSWL 100
-#define MAXSWUTF8L (MAXSWL * 4)
 #define MAX_ROOTS 100
 #define MAX_WORDS 100
 #define MAX_GUESS 200
@@ -132,7 +130,7 @@ class LIBHUNSPELL_DLL_EXPORTED SuggestMgr {
   ~SuggestMgr();
 
   int suggest(char*** slst, const char* word, int nsug, int* onlycmpdsug);
-  int ngsuggest(char** wlst, char* word, int ns, HashMgr** pHMgr, int md);
+  int ngsuggest(char** wlst, const char* word, int ns, HashMgr** pHMgr, int md);
   int suggest_auto(char*** slst, const char* word, int nsug);
   int suggest_stems(char*** slst, const char* word, int nsug);
   int suggest_pos_stems(char*** slst, const char* word, int nsug);
@@ -177,8 +175,7 @@ class LIBHUNSPELL_DLL_EXPORTED SuggestMgr {
 
   int mapchars(char**, const char*, int, int);
   int map_related(const char*,
-                  char*,
-                  int,
+                  std::string&,
                   int,
                   char** wlst,
                   int,

@@ -46,9 +46,7 @@ struct phonetable {
 
 LIBHUNSPELL_DLL_EXPORTED void init_phonet_hash(phonetable& parms);
 
-LIBHUNSPELL_DLL_EXPORTED int phonet(const char* inword,
-                                    char* target,
-                                    int len,
-                                    phonetable& phone);
+LIBHUNSPELL_DLL_EXPORTED std::string phonet(const std::string& inword,
+                                            phonetable& phone);
 
 #endif

@@ -77,6 +77,7 @@
 #include "affixmgr.hxx"
 #include "suggestmgr.hxx"
 #include "langnum.hxx"
+#include <vector>
 
 #define SPELL_XML "<?xml?>"
 
@@ -215,7 +216,7 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
 
   /* get extra word characters definied in affix file for tokenization */
   const char* get_wordchars();
-  unsigned short* get_wordchars_utf16(int* len);
+  const std::vector<w_char>& get_wordchars_utf16();
 
   struct cs_info* get_csconv();
   const char* get_version();
@@ -229,45 +230,32 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
   {
 	  return pAMgr->get_try_string();
   }
-/* experimental and deprecated functions */
-
-#ifdef HUNSPELL_EXPERIMENTAL
-  /* suffix is an affix flag string, similarly in dictionary files */
-  int put_word_suffix(const char* word, const char* suffix);
-  char* morph_with_correction(const char* word);
-
-  /* spec. suggestions */
-  int suggest_auto(char*** slst, const char* word);
-  int suggest_pos_stems(char*** slst, const char* word);
-#endif
 
  private:
-  int cleanword(char*, const char*, int* pcaptype, int* pabbrev);
-  int cleanword2(char*,
-                 const char*,
-                 w_char*,
-                 int* w_len,
-                 int* pcaptype,
-                 int* pabbrev);
-  void mkinitcap(char*);
-  int mkinitcap2(char* p, w_char* u, int nc);
-  int mkinitsmall2(char* p, w_char* u, int nc);
-  void mkallcap(char*);
-  int mkallcap2(char* p, w_char* u, int nc);
-  void mkallsmall(char*);
-  int mkallsmall2(char* p, w_char* u, int nc);
+  void cleanword(std::string& dest, const char*, int* pcaptype, int* pabbrev);
+  size_t cleanword2(std::string& dest,
+                    std::vector<w_char>& dest_u,
+                    const char*,
+                    int* w_len,
+                    int* pcaptype,
+                    size_t* pabbrev);
+  void mkinitcap(std::string& u8);
+  int mkinitcap2(std::string& u8, std::vector<w_char>& u16);
+  int mkinitsmall2(std::string& u8, std::vector<w_char>& u16);
+  void mkallcap(std::string& u8);
+  int mkallsmall2(std::string& u8, std::vector<w_char>& u16);
   struct hentry* checkword(const char*, int* info, char** root);
-  char* sharps_u8_l1(char* dest, char* source);
+  std::string sharps_u8_l1(const std::string& source);
   hentry*
-  spellsharps(char* base, char*, int, int, char* tmp, int* info, char** root);
+  spellsharps(std::string& base, size_t start_pos, int, int, int* info, char** root);
   int is_keepcase(const hentry* rv);
-  int insert_sug(char*** slst, char* word, int ns);
-  void cat_result(char* result, char* st);
+  int insert_sug(char*** slst, const char* word, int ns);
+  void cat_result(std::string& result, char* st);
   char* stem_description(const char* desc);
   int spellml(char*** slst, const char* word);
-  int get_xml_par(char* dest, const char* par, int maxl);
+  std::string get_xml_par(const char* par);
   const char* get_xml_pos(const char* s, const char* attr);
-  int get_xml_list(char*** slst, char* list, const char* tag);
+  int get_xml_list(char*** slst, const char* list, const char* tag);
   int check_xml_par(const char* q, const char* attr, const char* value);
 };
 

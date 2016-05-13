@@ -534,9 +534,8 @@ public:
 		if (mir_strcmp(dic_enc, "UTF-8") == 0) {
 			codePage = CP_UTF8;
 
-
-			int wcs_len;
-			hwordchars = fromHunspell((char *)hunspell->get_wordchars_utf16(&wcs_len));
+			const std::vector<w_char> wordchars_utf16 = hunspell->get_wordchars_utf16();
+			hwordchars = fromHunspell((char *)&wordchars_utf16[0]);
 
 		}
 		else {

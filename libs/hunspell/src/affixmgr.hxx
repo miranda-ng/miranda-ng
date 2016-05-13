@@ -160,11 +160,9 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
   PfxEntry* pfx;         // BUG: not stateless
   int checknum;
   char* wordchars;
-  unsigned short* wordchars_utf16;
-  int wordchars_utf16_len;
+  std::vector<w_char> wordchars_utf16;
   char* ignorechars;
-  unsigned short* ignorechars_utf16;
-  int ignorechars_utf16_len;
+  std::vector<w_char> ignorechars_utf16;
   char* version;
   char* lang;
   int langnum;
@@ -258,9 +256,9 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
                       unsigned short al,
                       const char* bad,
                       int,
-                      char*);
+                      const char*);
 
-  short get_syllable(const char* word, int wlen);
+  short get_syllable(const std::string& word);
   int cpdrep_check(const char* word, int len);
   int cpdpat_check(const char* word,
                    int len,
@@ -282,6 +280,7 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
                                 short maxwordnum,
                                 short wnum,
                                 hentry** words,
+                                hentry** rwords,
                                 char hu_mov_rule,
                                 char is_sug,
                                 int* info);
@@ -293,6 +292,7 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
                            short maxwordnum,
                            short wnum,
                            hentry** words,
+                           hentry** rwords,
                            char hu_mov_rule,
                            char** result,
                            char* partresult);
@@ -317,9 +317,9 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
   char* get_key_string();
   char* get_try_string() const;
   const char* get_wordchars() const;
-  unsigned short* get_wordchars_utf16(int* len) const;
+  const std::vector<w_char>& get_wordchars_utf16() const;
   char* get_ignore() const;
-  unsigned short* get_ignore_utf16(int* len) const;
+  const std::vector<w_char>& get_ignore_utf16() const;
   int get_compound() const;
   FLAG get_compoundflag() const;
   FLAG get_compoundbegin() const;
@@ -370,11 +370,11 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
   int parse_defcpdtable(char* line, FileMgr* af);
   int parse_affix(char* line, const char at, FileMgr* af, char* dupflags);
 
-  void reverse_condition(char*);
+  void reverse_condition(std::string&);
   void debugflag(char* result, unsigned short flag);
   std::string& debugflag(std::string& result, unsigned short flag);
-  int condlen(char*);
-  int encodeit(affentry& entry, char* cs);
+  int condlen(const char*);
+  int encodeit(affentry& entry, const char* cs);
   int build_pfxtree(PfxEntry* pfxptr);
   int build_sfxtree(SfxEntry* sfxptr);
   int process_pfx_order();
@@ -383,7 +383,7 @@ class LIBHUNSPELL_DLL_EXPORTED AffixMgr {
   SfxEntry* process_sfx_in_order(SfxEntry* ptr, SfxEntry* nptr);
   int process_pfx_tree_to_list();
   int process_sfx_tree_to_list();
-  int redundant_condition(char, char* strip, int stripl, const char* cond, int);
+  int redundant_condition(char, const char* strip, int stripl, const char* cond, int);
   void finishFileMgr(FileMgr* afflst);
 };
 

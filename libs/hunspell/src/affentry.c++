@@ -79,8 +79,6 @@
 #include "affentry.hxx"
 #include "csutil.hxx"
 
-#define MAXTEMPWORDLEN (MAXWORDUTF8LEN + 4)
-
 PfxEntry::PfxEntry(AffixMgr* pmgr, affentry* dp)
     // register affix manager
     : pmyMgr(pmgr),
@@ -117,11 +115,10 @@ PfxEntry::~PfxEntry() {
 }
 
 // add prefix to this word assuming conditions hold
-char* PfxEntry::add(const char* word, int len) {
+char* PfxEntry::add(const char* word, size_t len) {
   if ((len > strip.size() || (len == 0 && pmyMgr->get_fullstrip())) &&
       (len >= numconds) && test_condition(word) &&
-      (!strip.size() || (strncmp(word, strip.c_str(), strip.size()) == 0)) &&
-      ((MAXTEMPWORDLEN) > (len + appnd.size() - strip.size()))) {
+      (!strip.size() || (strncmp(word, strip.c_str(), strip.size()) == 0))) {
     /* we have a match so add prefix */
     std::string tword(appnd);
     tword.append(word + strip.size());
@@ -233,26 +230,21 @@ struct hentry* PfxEntry::checkword(const char* word,
                                    int len,
                                    char in_compound,
                                    const FLAG needflag) {
-  int tmpl;           // length of tmpword
   struct hentry* he;  // hash entry of root word or NULL
-  char tmpword[MAXTEMPWORDLEN];
 
   // on entry prefix is 0 length or already matches the beginning of the word.
   // So if the remaining root word has positive length
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if (tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) {
     // generate new root word by removing prefix and adding
     // back any characters that would have been stripped
 
-    if (strip.size()) {
-      strncpy(tmpword, strip.c_str(), MAXTEMPWORDLEN - 1);
-      tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    }
-    strcpy((tmpword + strip.size()), (word + appnd.size()));
+    std::string tmpword(strip);
+    tmpword.append(word + appnd.size());
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -262,9 +254,9 @@ struct hentry* PfxEntry::checkword(const char* word,
     // if all conditions are met then check if resulting
     // root word in the dictionary
 
-    if (test_condition(tmpword)) {
+    if (test_condition(tmpword.c_str())) {
       tmpl += strip.size();
-      if ((he = pmyMgr->lookup(tmpword)) != NULL) {
+      if ((he = pmyMgr->lookup(tmpword.c_str())) != NULL) {
         do {
           if (TESTAFF(he->astr, aflag, he->alen) &&
               // forbid single prefixes with needaffix flag
@@ -283,8 +275,9 @@ struct hentry* PfxEntry::checkword(const char* word,
 
       // if ((opts & aeXPRODUCT) && in_compound) {
       if ((opts & aeXPRODUCT)) {
-        he = pmyMgr->suffix_check(tmpword, tmpl, aeXPRODUCT, this, NULL, 0,
-                                  NULL, FLAG_NULL, needflag, in_compound);
+        he = pmyMgr->suffix_check(tmpword.c_str(), tmpl, aeXPRODUCT, this,
+                                  NULL, 0, NULL, FLAG_NULL, needflag,
+                                  in_compound);
         if (he)
           return he;
       }
@@ -298,27 +291,22 @@ struct hentry* PfxEntry::check_twosfx(const char* word,
                                       int len,
                                       char in_compound,
                                       const FLAG needflag) {
-  int tmpl;           // length of tmpword
   struct hentry* he;  // hash entry of root word or NULL
-  char tmpword[MAXTEMPWORDLEN];
 
   // on entry prefix is 0 length or already matches the beginning of the word.
   // So if the remaining root word has positive length
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if ((tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) &&
       (tmpl + strip.size() >= numconds)) {
     // generate new root word by removing prefix and adding
     // back any characters that would have been stripped
 
-    if (strip.size()) {
-      strncpy(tmpword, strip.c_str(), MAXTEMPWORDLEN - 1);
-      tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    }
-    strcpy((tmpword + strip.size()), (word + appnd.size()));
+    std::string tmpword(strip);
+    tmpword.append(word + appnd.size());
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -328,7 +316,7 @@ struct hentry* PfxEntry::check_twosfx(const char* word,
     // if all conditions are met then check if resulting
     // root word in the dictionary
 
-    if (test_condition(tmpword)) {
+    if (test_condition(tmpword.c_str())) {
       tmpl += strip.size();
 
       // prefix matched but no root word was found
@@ -336,7 +324,7 @@ struct hentry* PfxEntry::check_twosfx(const char* word,
       // cross checked combined with a suffix
 
       if ((opts & aeXPRODUCT) && (in_compound != IN_CPD_BEGIN)) {
-        he = pmyMgr->suffix_check_twosfx(tmpword, tmpl, aeXPRODUCT, this,
+        he = pmyMgr->suffix_check_twosfx(tmpword.c_str(), tmpl, aeXPRODUCT, this,
                                          needflag);
         if (he)
           return he;
@@ -351,26 +339,20 @@ char* PfxEntry::check_twosfx_morph(const char* word,
                                    int len,
                                    char in_compound,
                                    const FLAG needflag) {
-  int tmpl;  // length of tmpword
-  char tmpword[MAXTEMPWORDLEN];
-
   // on entry prefix is 0 length or already matches the beginning of the word.
   // So if the remaining root word has positive length
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if ((tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) &&
       (tmpl + strip.size() >= numconds)) {
     // generate new root word by removing prefix and adding
     // back any characters that would have been stripped
 
-    if (strip.size()) {
-      strncpy(tmpword, strip.c_str(), MAXTEMPWORDLEN - 1);
-      tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    }
-    strcpy((tmpword + strip.size()), (word + appnd.size()));
+    std::string tmpword(strip);
+    tmpword.append(word + appnd.size());
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -380,7 +362,7 @@ char* PfxEntry::check_twosfx_morph(const char* word,
     // if all conditions are met then check if resulting
     // root word in the dictionary
 
-    if (test_condition(tmpword)) {
+    if (test_condition(tmpword.c_str())) {
       tmpl += strip.size();
 
       // prefix matched but no root word was found
@@ -388,7 +370,8 @@ char* PfxEntry::check_twosfx_morph(const char* word,
       // ross checked combined with a suffix
 
       if ((opts & aeXPRODUCT) && (in_compound != IN_CPD_BEGIN)) {
-        return pmyMgr->suffix_check_twosfx_morph(tmpword, tmpl, aeXPRODUCT,
+        return pmyMgr->suffix_check_twosfx_morph(tmpword.c_str(), tmpl,
+                                                 aeXPRODUCT,
                                                  this, needflag);
       }
     }
@@ -401,31 +384,23 @@ char* PfxEntry::check_morph(const char* word,
                             int len,
                             char in_compound,
                             const FLAG needflag) {
-  int tmpl;           // length of tmpword
   struct hentry* he;  // hash entry of root word or NULL
-  char tmpword[MAXTEMPWORDLEN];
-  char result[MAXLNLEN];
   char* st;
-
-  *result = '\0';
 
   // on entry prefix is 0 length or already matches the beginning of the word.
   // So if the remaining root word has positive length
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if ((tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) &&
       (tmpl + strip.size() >= numconds)) {
     // generate new root word by removing prefix and adding
     // back any characters that would have been stripped
 
-    if (strip.size()) {
-      strncpy(tmpword, strip.c_str(), MAXTEMPWORDLEN - 1);
-      tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    }
-    strcpy(tmpword + strip.size(), word + appnd.size());
+    std::string tmpword(strip);
+    tmpword.append(word + appnd.size());
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -435,9 +410,11 @@ char* PfxEntry::check_morph(const char* word,
     // if all conditions are met then check if resulting
     // root word in the dictionary
 
-    if (test_condition(tmpword)) {
+    if (test_condition(tmpword.c_str())) {
+      std::string result;
+
       tmpl += strip.size();
-      if ((he = pmyMgr->lookup(tmpword)) != NULL) {
+      if ((he = pmyMgr->lookup(tmpword.c_str())) != NULL) {
         do {
           if (TESTAFF(he->astr, aflag, he->alen) &&
               // forbid single prefixes with needaffix flag
@@ -446,28 +423,28 @@ char* PfxEntry::check_morph(const char* word,
               ((!needflag) || TESTAFF(he->astr, needflag, he->alen) ||
                (contclass && TESTAFF(contclass, needflag, contclasslen)))) {
             if (morphcode) {
-              mystrcat(result, " ", MAXLNLEN);
-              mystrcat(result, morphcode, MAXLNLEN);
+              result.append(" ");
+              result.append(morphcode);
             } else
-              mystrcat(result, getKey(), MAXLNLEN);
+              result.append(getKey());
             if (!HENTRY_FIND(he, MORPH_STEM)) {
-              mystrcat(result, " ", MAXLNLEN);
-              mystrcat(result, MORPH_STEM, MAXLNLEN);
-              mystrcat(result, HENTRY_WORD(he), MAXLNLEN);
+              result.append(" ");
+              result.append(MORPH_STEM);
+              result.append(HENTRY_WORD(he));
             }
             // store the pointer of the hash entry
             if (HENTRY_DATA(he)) {
-              mystrcat(result, " ", MAXLNLEN);
-              mystrcat(result, HENTRY_DATA2(he), MAXLNLEN);
+              result.append(" ");
+              result.append(HENTRY_DATA2(he));
             } else {
               // return with debug information
               char* flag = pmyMgr->encode_flag(getFlag());
-              mystrcat(result, " ", MAXLNLEN);
-              mystrcat(result, MORPH_FLAG, MAXLNLEN);
-              mystrcat(result, flag, MAXLNLEN);
+              result.append(" ");
+              result.append(MORPH_FLAG);
+              result.append(flag);
               free(flag);
             }
-            mystrcat(result, "\n", MAXLNLEN);
+            result.append("\n");
           }
           he = he->next_homonym;
         } while (he);
@@ -478,18 +455,19 @@ char* PfxEntry::check_morph(const char* word,
       // ross checked combined with a suffix
 
       if ((opts & aeXPRODUCT) && (in_compound != IN_CPD_BEGIN)) {
-        st = pmyMgr->suffix_check_morph(tmpword, tmpl, aeXPRODUCT, this,
+        st = pmyMgr->suffix_check_morph(tmpword.c_str(), tmpl, aeXPRODUCT, this,
                                         FLAG_NULL, needflag);
         if (st) {
-          mystrcat(result, st, MAXLNLEN);
+          result.append(st);
           free(st);
         }
       }
+
+      if (!result.empty())
+        return mystrdup(result.c_str());
     }
   }
 
-  if (*result)
-    return mystrdup(result);
   return NULL;
 }
 
@@ -516,7 +494,8 @@ SfxEntry::SfxEntry(AffixMgr* pmgr, affentry* dp)
     c.l.conds2 = dp->c.l.conds2;
   } else
     memcpy(c.conds, dp->c.conds, MAXCONDLEN);
-  rappnd = myrevstrdup(appnd.c_str());
+  rappnd = appnd;
+  reverseword(rappnd);
   morphcode = dp->morphcode;
   contclass = dp->contclass;
   contclasslen = dp->contclasslen;
@@ -524,8 +503,6 @@ SfxEntry::SfxEntry(AffixMgr* pmgr, affentry* dp)
 
 SfxEntry::~SfxEntry() {
   aflag = 0;
-  if (rappnd)
-    free(rappnd);
   pmyMgr = NULL;
   if (opts & aeLONGCOND)
     free(c.l.conds2);
@@ -536,13 +513,12 @@ SfxEntry::~SfxEntry() {
 }
 
 // add suffix to this word assuming conditions hold
-char* SfxEntry::add(const char* word, int len) {
+char* SfxEntry::add(const char* word, size_t len) {
   /* make sure all conditions match */
   if ((len > strip.size() || (len == 0 && pmyMgr->get_fullstrip())) &&
       (len >= numconds) && test_condition(word + len, word) &&
       (!strip.size() ||
-       (strcmp(word + len - strip.size(), strip.c_str()) == 0)) &&
-      ((MAXTEMPWORDLEN) > (len + appnd.size() - strip.size()))) {
+       (strcmp(word + len - strip.size(), strip.c_str()) == 0))) {
     std::string tword(word);
     /* we have a match so add suffix */
     tword.replace(len - strip.size(), std::string::npos, appnd);
@@ -699,10 +675,7 @@ struct hentry* SfxEntry::checkword(const char* word,
                                    const FLAG cclass,
                                    const FLAG needflag,
                                    const FLAG badflag) {
-  int tmpl;           // length of tmpword
   struct hentry* he;  // hash entry pointer
-  unsigned char* cp;
-  char tmpword[MAXTEMPWORDLEN];
   PfxEntry* ep = ppfx;
 
   // if this suffix is being cross checked with a prefix
@@ -716,7 +689,7 @@ struct hentry* SfxEntry::checkword(const char* word,
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
   // the second condition is not enough for UTF-8 strings
   // it checked in test_condition()
 
@@ -726,15 +699,13 @@ struct hentry* SfxEntry::checkword(const char* word,
     // back any characters that would have been stripped or
     // or null terminating the shorter string
 
-    strncpy(tmpword, word, MAXTEMPWORDLEN - 1);
-    tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    cp = (unsigned char*)(tmpword + tmpl);
+    std::string tmpstring(word, tmpl);
     if (strip.size()) {
-      strcpy((char*)cp, strip.c_str());
-      tmpl += strip.size();
-      cp = (unsigned char*)(tmpword + tmpl);
-    } else
-      *cp = '\0';
+      tmpstring.append(strip);
+    }
+
+    const char* tmpword = tmpstring.c_str();
+    const char* endword = tmpword + tmpstring.size();
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -744,7 +715,7 @@ struct hentry* SfxEntry::checkword(const char* word,
     // if all conditions are met then check if resulting
     // root word in the dictionary
 
-    if (test_condition((char*)cp, (char*)tmpword)) {
+    if (test_condition(endword, tmpword)) {
 #ifdef SZOSZABLYA_POSSIBLE_ROOTS
       fprintf(stdout, "%s %s %c\n", word, tmpword, aflag);
 #endif
@@ -804,10 +775,7 @@ struct hentry* SfxEntry::check_twosfx(const char* word,
                                       int optflags,
                                       PfxEntry* ppfx,
                                       const FLAG needflag) {
-  int tmpl;           // length of tmpword
   struct hentry* he;  // hash entry pointer
-  unsigned char* cp;
-  char tmpword[MAXTEMPWORDLEN];
   PfxEntry* ep = ppfx;
 
   // if this suffix is being cross checked with a prefix
@@ -821,7 +789,7 @@ struct hentry* SfxEntry::check_twosfx(const char* word,
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if ((tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) &&
       (tmpl + strip.size() >= numconds)) {
@@ -829,15 +797,13 @@ struct hentry* SfxEntry::check_twosfx(const char* word,
     // back any characters that would have been stripped or
     // or null terminating the shorter string
 
-    strncpy(tmpword, word, MAXTEMPWORDLEN - 1);
-    tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    cp = (unsigned char*)(tmpword + tmpl);
-    if (strip.size()) {
-      strcpy((char*)cp, strip.c_str());
-      tmpl += strip.size();
-      cp = (unsigned char*)(tmpword + tmpl);
-    } else
-      *cp = '\0';
+    std::string tmpword(word);
+    tmpword.resize(tmpl);
+    tmpword.append(strip);
+    tmpl += strip.size();
+
+    const char* beg = tmpword.c_str();
+    const char* end = beg + tmpl;
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -846,17 +812,17 @@ struct hentry* SfxEntry::check_twosfx(const char* word,
 
     // if all conditions are met then recall suffix_check
 
-    if (test_condition((char*)cp, (char*)tmpword)) {
+    if (test_condition(end, beg)) {
       if (ppfx) {
         // handle conditional suffix
         if ((contclass) && TESTAFF(contclass, ep->getFlag(), contclasslen))
-          he = pmyMgr->suffix_check(tmpword, tmpl, 0, NULL, NULL, 0, NULL,
+          he = pmyMgr->suffix_check(tmpword.c_str(), tmpl, 0, NULL, NULL, 0, NULL,
                                     (FLAG)aflag, needflag);
         else
-          he = pmyMgr->suffix_check(tmpword, tmpl, optflags, ppfx, NULL, 0,
+          he = pmyMgr->suffix_check(tmpword.c_str(), tmpl, optflags, ppfx, NULL, 0,
                                     NULL, (FLAG)aflag, needflag);
       } else {
-        he = pmyMgr->suffix_check(tmpword, tmpl, 0, NULL, NULL, 0, NULL,
+        he = pmyMgr->suffix_check(tmpword.c_str(), tmpl, 0, NULL, NULL, 0, NULL,
                                   (FLAG)aflag, needflag);
       }
       if (he)
@@ -872,9 +838,6 @@ char* SfxEntry::check_twosfx_morph(const char* word,
                                    int optflags,
                                    PfxEntry* ppfx,
                                    const FLAG needflag) {
-  int tmpl;  // length of tmpword
-  unsigned char* cp;
-  char tmpword[MAXTEMPWORDLEN];
   PfxEntry* ep = ppfx;
   char* st;
 
@@ -893,7 +856,7 @@ char* SfxEntry::check_twosfx_morph(const char* word,
   // and if there are enough chars in root word and added back strip chars
   // to meet the number of characters conditions, then test it
 
-  tmpl = len - appnd.size();
+  int tmpl = len - appnd.size(); // length of tmpword
 
   if ((tmpl > 0 || (tmpl == 0 && pmyMgr->get_fullstrip())) &&
       (tmpl + strip.size() >= numconds)) {
@@ -901,15 +864,13 @@ char* SfxEntry::check_twosfx_morph(const char* word,
     // back any characters that would have been stripped or
     // or null terminating the shorter string
 
-    strncpy(tmpword, word, MAXTEMPWORDLEN - 1);
-    tmpword[MAXTEMPWORDLEN - 1] = '\0';
-    cp = (unsigned char*)(tmpword + tmpl);
-    if (strip.size()) {
-      strcpy((char*)cp, strip.c_str());
-      tmpl += strip.size();
-      cp = (unsigned char*)(tmpword + tmpl);
-    } else
-      *cp = '\0';
+    std::string tmpword(word);
+    tmpword.resize(tmpl);
+    tmpword.append(strip);
+    tmpl += strip.size();
+
+    const char* beg = tmpword.c_str();
+    const char* end = beg + tmpl;
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -918,11 +879,11 @@ char* SfxEntry::check_twosfx_morph(const char* word,
 
     // if all conditions are met then recall suffix_check
 
-    if (test_condition((char*)cp, (char*)tmpword)) {
+    if (test_condition(end, beg)) {
       if (ppfx) {
         // handle conditional suffix
         if ((contclass) && TESTAFF(contclass, ep->getFlag(), contclasslen)) {
-          st = pmyMgr->suffix_check_morph(tmpword, tmpl, 0, NULL, aflag,
+          st = pmyMgr->suffix_check_morph(tmpword.c_str(), tmpl, 0, NULL, aflag,
                                           needflag);
           if (st) {
             if (ppfx->getMorph()) {
@@ -934,7 +895,7 @@ char* SfxEntry::check_twosfx_morph(const char* word,
             mychomp(result);
           }
         } else {
-          st = pmyMgr->suffix_check_morph(tmpword, tmpl, optflags, ppfx, aflag,
+          st = pmyMgr->suffix_check_morph(tmpword.c_str(), tmpl, optflags, ppfx, aflag,
                                           needflag);
           if (st) {
             mystrcat(result, st, MAXLNLEN);
@@ -944,7 +905,7 @@ char* SfxEntry::check_twosfx_morph(const char* word,
         }
       } else {
         st =
-            pmyMgr->suffix_check_morph(tmpword, tmpl, 0, NULL, aflag, needflag);
+            pmyMgr->suffix_check_morph(tmpword.c_str(), tmpl, 0, NULL, aflag, needflag);
         if (st) {
           mystrcat(result, st, MAXLNLEN);
           free(st);
