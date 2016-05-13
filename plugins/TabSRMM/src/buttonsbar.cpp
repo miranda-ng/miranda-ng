@@ -245,38 +245,37 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 {
-	BBButton *bbdi = (BBButton *)lParam;
+	BBButton *bbdi = (BBButton*)lParam;
 	if (!bbdi)
 		return 1;
 
-	DWORD tempCID = 0;
-	DWORD dwFlags = 0;
+	CustomButtonData *pFound = NULL;
 	{
 		mir_cslock lck(csToolBar);
 
 		for (int i = LButtonsList.getCount() - 1; i >= 0; i--) {
 			CustomButtonData *cbd = LButtonsList[i];
 			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
-				tempCID = cbd->m_dwButtonCID;
-				dwFlags = cbd->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
+				pFound = cbd;
 				LButtonsList.remove(i);
 			}
 		}
 
-		if (!tempCID) {
+		if (!pFound) {
 			for (int i = RButtonsList.getCount() - 1; i >= 0; i--) {
 				CustomButtonData *cbd = RButtonsList[i];
 				if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
-					tempCID = cbd->m_dwButtonCID;
-					dwFlags = cbd->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
+					pFound = cbd;
 					RButtonsList.remove(i);
 				}
 			}
 		}
 	}
 
-	if (tempCID)
-		M.BroadcastMessage(DM_CBDESTROY, (WPARAM)tempCID, (LPARAM)dwFlags);
+	if (pFound) {
+		M.BroadcastMessage(DM_CBDESTROY, pFound->m_dwButtonCID, pFound->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON);
+		delete pFound;
+	}
 	return 0;
 }
 
