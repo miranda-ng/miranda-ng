@@ -32,11 +32,7 @@ typedef void*          VLD_HMODULE;
 
 #if defined _DEBUG || defined VLD_FORCE_ENABLE
 
-#ifdef _WIN64
-#pragma comment(lib, "vld64.lib")
-#else
-#pragma comment(lib, "vld32.lib")
-#endif
+#pragma comment(lib, "vld.lib")
 
 // Force a symbolic reference to the global VisualLeakDetector class object from
 // the DLL. This ensures that the DLL is loaded and linked with the program,
