@@ -368,7 +368,7 @@ int __stdcall utf8_decode_codepage(const char *from, char **to, WORD wCp)
 		}
 
 		int err = WideCharToMultiByte(wCp, WC_COMPOSITECHECK, unicode, -1, *to, (int)chars, NULL, NULL);
-		if (err != chars) {
+		if (err != (int)chars) {
 #ifdef _DEBUG
 			fprintf(stderr, "Unicode translation error %d\n", GetLastError());
 #endif

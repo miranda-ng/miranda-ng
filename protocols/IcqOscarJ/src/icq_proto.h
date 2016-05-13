@@ -221,7 +221,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	//----| cookies.cpp |-----------------------------------------------------------------
 	mir_cs cookieMutex; // we want this in avatar thread, used as queue lock
-	LIST<icq_cookie_info> cookies;
+	OBJLIST<icq_cookie_info> cookies;
 	WORD   wCookieSeq;
 
 	DWORD  AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void *pvExtra);

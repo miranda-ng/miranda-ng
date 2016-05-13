@@ -932,7 +932,7 @@ void avatars_server_connection::connectionThread()
 	{
 		// release rates
 		mir_cslock l(m_ratesMutex);
-		SAFE_DELETE((MZeroedObject**)&m_rates);
+		delete m_rates; m_rates = NULL;
 	}
 
 	SAFE_FREE((void**)&pCookie);

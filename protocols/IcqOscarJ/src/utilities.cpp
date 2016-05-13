@@ -370,18 +370,17 @@ void CIcqProto::InitContactsCache()
 
 void CIcqProto::UninitContactsCache(void)
 {
-	{	mir_cslock l(contactsCacheMutex);
+	mir_cslock l(contactsCacheMutex);
 
-		// cleanup the cache
-		for (int i = 0; i < contactsCache.getCount(); i++) {
-			icq_contacts_cache *cache_item = contactsCache[i];
+	// cleanup the cache
+	for (int i = 0; i < contactsCache.getCount(); i++) {
+		icq_contacts_cache *cache_item = contactsCache[i];
 
-			SAFE_FREE((void**)&cache_item->szUid);
-			SAFE_FREE((void**)&cache_item);
-		}
-
-		contactsCache.destroy();
+		SAFE_FREE((void**)&cache_item->szUid);
+		SAFE_FREE((void**)&cache_item);
 	}
+
+	contactsCache.destroy();
 }
 
 
@@ -419,7 +418,8 @@ MCONTACT CIcqProto::HandleFromCacheByUid(DWORD dwUin, const char *szUid)
 
 MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 {
-	if (Added) *Added = 0;
+	if (Added)
+		*Added = 0;
 
 	MCONTACT hContact = HandleFromCacheByUid(dwUin, NULL);
 	if (hContact)
@@ -438,7 +438,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
-	//not present: add
+	// not present: add
 	if (Added) {
 		debugLogA("Attempt to create ICQ contact %u", dwUin);
 
@@ -486,13 +486,15 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	if (dwUin)
 		return HContactFromUIN(dwUin, Added);
 
-	if (Added) *Added = 0;
+	if (Added)
+		*Added = 0;
 
 	if (!m_bAimEnabled)
 		return INVALID_CONTACT_ID;
 
 	MCONTACT hContact = HandleFromCacheByUid(dwUin, szUid);
-	if (hContact) return hContact;
+	if (hContact)
+		return hContact;
 
 	hContact = db_find_first(m_szModuleName);
 	while (hContact) {
@@ -529,7 +531,6 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 		}
 		AddToContactsCache(hContact, 0, szUid);
 		*Added = 1;
-
 		return hContact;
 	}
 
@@ -1317,16 +1318,6 @@ bool CIcqProto::validateStatusMessageRequest(MCONTACT hContact, WORD byMessageTy
 	return true;
 }
 
-
-void __fastcall SAFE_DELETE(MZeroedObject **p)
-{
-	if (*p) {
-		delete *p;
-		*p = NULL;
-	}
-}
-
-
 void __fastcall SAFE_FREE(void** p)
 {
 	if (*p) {
@@ -1334,7 +1325,6 @@ void __fastcall SAFE_FREE(void** p)
 		*p = NULL;
 	}
 }
-
 
 void* __fastcall SAFE_MALLOC(size_t size)
 {
@@ -1348,7 +1338,6 @@ void* __fastcall SAFE_MALLOC(size_t size)
 	return p;
 }
 
-
 void* __fastcall SAFE_REALLOC(void* p, size_t size)
 {
 	if (p)
@@ -1356,7 +1345,6 @@ void* __fastcall SAFE_REALLOC(void* p, size_t size)
 
 	return SAFE_MALLOC(size);
 }
-
 
 DWORD ICQWaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds, int bWaitAlways)
 {

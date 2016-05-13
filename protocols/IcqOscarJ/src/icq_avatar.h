@@ -107,8 +107,6 @@ public:
 	virtual ~avatars_request();
 };
 
-__inline static void SAFE_DELETE(avatars_request **p) { SAFE_DELETE((MZeroedObject**)p); };
-
 #define ART_GET     1
 #define ART_UPLOAD  2
 #define ART_BLOCK   4

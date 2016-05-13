@@ -33,10 +33,9 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 	case ICQ_LISTS_ACK: // UPDATE_ACK
 		if (wBufferLength >= 2) {
 			WORD wError;
-			cookie_servlist_action* sc;
-
 			unpackWord(&pBuffer, &wError);
 
+			cookie_servlist_action *sc;
 			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc)) { // look for action cookie
 				debugLogA("Received expected server list ack, action: %d, result: %d", sc->dwAction, wError);
 				FreeCookie(pSnacHeader->dwRef); // release cookie
@@ -47,7 +46,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 					debugLogA("Server-List: Grouped action contains %d actions.", sc->dwGroupCount);
 
 					pBuffer -= 2; // revoke unpack
-					if (wBufferLength != 2 * sc->dwGroupCount)
+					if ((int)wBufferLength != 2 * sc->dwGroupCount)
 						debugLogA("Error: Server list ack does not contain expected amount of result codes (%u != %u)", wBufferLength / 2, sc->dwGroupCount);
 
 					for (i = 0; i < sc->dwGroupCount; i++) {
