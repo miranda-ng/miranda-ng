@@ -555,12 +555,17 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 		MCONTACT hContact = FindContact(name);
 		szNick = hContact != NULL ? getTStringA(hContact, "Nick") : NULL;
 	}
+
+	if (szNick == NULL)
+	{
+		szNick = mir_a2t_cp(name, CP_UTF8);
+	}
 	
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.pDest = &gcd;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
+	gce.ptszNick = szNick;
 	gce.ptszUID = tid;
 	gce.time = !isChange ? time(NULL) : NULL;
 	gce.bIsMe = IsMe(id);
@@ -587,20 +592,25 @@ void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const
 		MCONTACT hContact = FindContact(name);
 		szNick = hContact != NULL ? getTStringA(hContact, "Nick") : NULL;
 	}
+
+	if (szNick == NULL)
+	{
+		szNick = mir_a2t_cp(name, CP_UTF8);
+	}
 	
 	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	if (isKick)
 	{
 		gce.ptszUID = tid;
-		gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
+		gce.ptszNick = szNick;
 		gce.ptszStatus = tinitiator;
 		gce.time = time(NULL);
 	}
 	else
 	{
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszNick = szNick != NULL ? szNick : mir_a2t_cp(name, CP_UTF8);
+		gce.ptszNick = szNick;
 		gce.ptszUID = tid;
 		gce.time = time(NULL);
 		gce.bIsMe = IsMe(id);
