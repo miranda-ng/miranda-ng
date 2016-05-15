@@ -80,6 +80,8 @@ int OnProtoAck(WPARAM, LPARAM lParam)
 	{
 		if (pAck->result == ACKRESULT_SUCCESS)     SetSRMMIcon(pAck->hContact, ICON_UNREAD);
 		else if (pAck->result == ACKRESULT_FAILED) SetSRMMIcon(pAck->hContact, ICON_FAILED);
+
+		ExtraIconsApply(pAck->hContact, 0);
 	}
 	return 0;
 }
@@ -89,7 +91,6 @@ int	OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->flags & DBEF_SENT) && CheckProtoSupport(dbei->szModule) && db_get_b(hContact, "Tab_SRMsg", "no_ack", 0))
 		SetSRMMIcon(hContact, ICON_NOSENT);
-	ExtraIconsApply(hContact, 1);
 	return 0;
 }
 
