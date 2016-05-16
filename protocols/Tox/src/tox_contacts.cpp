@@ -39,6 +39,9 @@ MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 MCONTACT CToxProto::GetContact(const int friendNumber)
 {
+	if (!toxThread)
+		return NULL;
+
 	uint8_t data[TOX_PUBLIC_KEY_SIZE];
 	TOX_ERR_FRIEND_GET_PUBLIC_KEY error;
 	if (!tox_friend_get_public_key(toxThread->Tox(), friendNumber, data, &error))
@@ -79,32 +82,33 @@ ToxHexAddress CToxProto::GetContactPublicKey(const int friendNumber)
 MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char *dnsId, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(address);
-	if (!hContact)
+	if (hContact)
+		return hContact;
+
+	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	Proto_AddToContact(hContact, m_szModuleName);
+
+	setString(hContact, TOX_SETTINGS_ID, address);
+
+	if (mir_strlen(nick))
+		setTString(hContact, "Nick", ptrT(mir_utf8decodeT(nick)));
+
+	if (mir_strlen(dnsId))
+		setTString(hContact, TOX_SETTINGS_DNS, ptrT(mir_utf8decodeT(dnsId)));
+
+	DBVARIANT dbv;
+	if (!getTString(TOX_SETTINGS_GROUP, &dbv))
 	{
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		Proto_AddToContact(hContact, m_szModuleName);
-
-		setString(hContact, TOX_SETTINGS_ID, address);
-
-		if (mir_strlen(nick))
-			setTString(hContact, "Nick", ptrT(mir_utf8decodeT(nick)));
-
-		if (mir_strlen(dnsId))
-			setTString(hContact, TOX_SETTINGS_DNS, ptrT(mir_utf8decodeT(dnsId)));
-
-		DBVARIANT dbv;
-		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
-		{
-			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
-			db_free(&dbv);
-		}
-
-		setByte(hContact, "Auth", 1);
-		setByte(hContact, "Grant", 1);
-
-		if (isTemporary)
-			db_set_b(hContact, "CList", "NotOnList", 1);
+		db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+		db_free(&dbv);
 	}
+
+	setByte(hContact, "Auth", 1);
+	setByte(hContact, "Grant", 1);
+
+	if (isTemporary)
+		db_set_b(hContact, "CList", "NotOnList", 1);
+
 	return hContact;
 }
 
@@ -322,63 +326,63 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(friendNumber);
-	if (hContact)
+	if (!hContact)
+		return;
+
+	if (status != TOX_CONNECTION_NONE)
 	{
-		if (status != TOX_CONNECTION_NONE)
+		proto->delSetting(hContact, "Auth");
+		proto->delSetting(hContact, "Grant");
+
+		// resume incoming transfers
+		proto->ResumeIncomingTransfers(friendNumber);
+
+		// update avatar
+		ptrT avatarPath(proto->GetAvatarFilePath());
+		if (IsFileExists(avatarPath))
 		{
-			proto->delSetting(hContact, "Auth");
-			proto->delSetting(hContact, "Grant");
-
-			// resume incoming transfers
-			proto->ResumeIncomingTransfers(friendNumber);
-
-			// update avatar
-			ptrT avatarPath(proto->GetAvatarFilePath());
-			if (IsFileExists(avatarPath))
+			FILE *hFile = _tfopen(avatarPath, L"rb");
+			if (!hFile)
 			{
-				FILE *hFile = _tfopen(avatarPath, L"rb");
-				if (!hFile)
-				{
-					Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
-					return;
-				}
-
-				fseek(hFile, 0, SEEK_END);
-				size_t length = ftell(hFile);
-				rewind(hFile);
-
-				uint8_t hash[TOX_HASH_LENGTH];
-				DBVARIANT dbv;
-				if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
-				{
-					memcpy(hash, dbv.pbVal, TOX_HASH_LENGTH);
-					db_free(&dbv);
-				}
-
-				TOX_ERR_FILE_SEND error;
-				uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
-				if (error != TOX_ERR_FILE_SEND_OK)
-				{
-					Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
-					fclose(hFile);
-					return;
-				}
-
-				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
-				transfer->pfts.flags |= PFTS_SENDING;
-				memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
-				transfer->pfts.hContact = hContact;
-				transfer->hFile = hFile;
-				proto->transfers.Add(transfer);
+				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
+				return;
 			}
-			else
-				tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
+
+			fseek(hFile, 0, SEEK_END);
+			size_t length = ftell(hFile);
+			rewind(hFile);
+
+			uint8_t hash[TOX_HASH_LENGTH];
+			DBVARIANT dbv;
+			if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
+			{
+				memcpy(hash, dbv.pbVal, TOX_HASH_LENGTH);
+				db_free(&dbv);
+			}
+
+			TOX_ERR_FILE_SEND error;
+			uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
+			if (error != TOX_ERR_FILE_SEND_OK)
+			{
+				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
+				fclose(hFile);
+				return;
+			}
+
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+			transfer->pfts.flags |= PFTS_SENDING;
+			memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
+			transfer->pfts.hContact = hContact;
+			transfer->hFile = hFile;
+			proto->transfers.Add(transfer);
 		}
 		else
-		{
-			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
-			proto->setDword(hContact, "LastEventDateTS", time(NULL));
-		}
+			tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
+	}
+	else
+	{
+		proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
+		proto->setDword(hContact, "LastEventDateTS", time(NULL));
 	}
 }
 

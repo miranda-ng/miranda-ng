@@ -109,4 +109,19 @@ void CToxProto::UninitToxCore(CToxThread *toxThread)
 
 	CancelAllTransfers(toxThread);
 	SaveToxProfile(toxThread);
+
+	tox_callback_friend_request(toxThread->Tox(), OnFriendRequest, NULL);
+	tox_callback_friend_message(toxThread->Tox(), OnFriendMessage, NULL);
+	tox_callback_friend_read_receipt(toxThread->Tox(), OnReadReceipt, NULL);
+	tox_callback_friend_typing(toxThread->Tox(), OnTypingChanged, NULL);
+	//
+	tox_callback_friend_name(toxThread->Tox(), OnFriendNameChange, NULL);
+	tox_callback_friend_status_message(toxThread->Tox(), OnStatusMessageChanged, NULL);
+	tox_callback_friend_status(toxThread->Tox(), OnUserStatusChanged, NULL);
+	tox_callback_friend_connection_status(toxThread->Tox(), OnConnectionStatusChanged, NULL);
+	// transfers
+	tox_callback_file_recv_control(toxThread->Tox(), OnFileRequest, NULL);
+	tox_callback_file_recv(toxThread->Tox(), OnFriendFile, NULL);
+	tox_callback_file_recv_chunk(toxThread->Tox(), OnDataReceiving, NULL);
+	tox_callback_file_chunk_request(toxThread->Tox(), OnFileSendData, NULL);
 }

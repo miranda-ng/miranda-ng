@@ -289,10 +289,10 @@ void CToxProto::PollingThread(void*)
 		toxThread.Iterate();
 	}
 
-	this->toxThread = NULL;
-
 	toxThread.Disconnect();
 	UninitToxCore(&toxThread);
+
+	this->toxThread = NULL;
 
 	debugLogA(__FUNCTION__": leaving");
 }

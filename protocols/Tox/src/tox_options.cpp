@@ -650,9 +650,9 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pDialog = CToxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Multimedia");
+	/*odp.ptszTab = LPGENT("Multimedia");
 	odp.pDialog = CToxOptionsMultimedia::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	Options_AddPage(wParam, &odp);*/
 
 	odp.ptszTab = LPGENT("Nodes");
 	odp.pDialog = CToxOptionsNodeList::CreateOptionsPage(this);
