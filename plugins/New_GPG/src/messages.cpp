@@ -186,7 +186,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					return;
 				}
-				if (result == pxSuccessExitCodeInvalid)
+/*				if (result == pxSuccessExitCodeInvalid) //sometime we have invalid return code after succesful decryption, this should be non-fatal at  least
 				{
 					if(!bDebugLog)
 					{
@@ -197,7 +197,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					HistoryLog(hContact, db_event(Translate("failed to decrypt message, GPG returned error, turn on debug log for more details"), timestamp, 0, 0));
 					return;
-				}
+				} */
 
 				//TODO: check gpg output for errors
 				_terminate = false;
@@ -480,11 +480,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				}
 				if (result == pxNotFound)
 					return 1;
-				if (result == pxSuccessExitCodeInvalid)
+/*				if (result == pxSuccessExitCodeInvalid) //sometime we have invalid return code after succesful decryption, this should be non-fatal at  least
 				{
 					HistoryLog(ccs->hContact, db_event(Translate("failed to decrypt message, GPG returned error, turn on debug log for more details")));
 					return 1;
-				}
+				} */
 				{
 					char *tmp = NULL;
 					s1 = output.find("gpg: key ") + mir_strlen("gpg: key ");
@@ -768,16 +768,16 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		}
 		else return;
 	}
-	if (result == pxSuccessExitCodeInvalid) {
+//	if (result == pxSuccessExitCodeInvalid) { //sometims gpg return error after succesful operation, this should be non-fatal at  least
 		//mir_free(msg);
-		HistoryLog(hContact, db_event(Translate("failed to encrypt message, GPG returned error, turn on debug log for more details"), 0, 0, DBEF_SENT));
-		if(!bDebugLog)
-		{
-			boost::system::error_code e;
-			boost::filesystem::remove(path, e);
-		}
-		return;
-	}
+//		HistoryLog(hContact, db_event(Translate("failed to encrypt message, GPG returned error, turn on debug log for more details"), 0, 0, DBEF_SENT));
+//		if(!bDebugLog)
+//		{
+//			boost::system::error_code e;
+//			boost::filesystem::remove(path, e);
+//		}
+//		return;
+//	}
 	if (out.find("usage: ") != string::npos) {
 		MessageBox(0, TranslateT("Something is wrong, GPG does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
 		//mir_free(msg);
