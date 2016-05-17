@@ -540,7 +540,7 @@
 [About Miranda NG]
 О программе
 [Credits >]
-Авторы >
+Благодарности >
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
 [Become idle if the screen saver is active]
@@ -1016,9 +1016,9 @@
 [Homepage:]
 Сайт:
 [Unique ID:]
-Уник. ID:
+Уникальный ID:
 [Copyright:]
-Права:
+Авторские права:
 [Please restart Miranda NG for your changes to take effect.]
 Изменения вступят в силу после перезапуска программы.
 [Fonts and colors]
@@ -1746,7 +1746,7 @@ UIN, E-mail и т.д.
 [Outgoing]
 Исходящие
 [< Copyright]
-< Права
+< Авторские права
 [&Help]
 &Справка
 [&About...]

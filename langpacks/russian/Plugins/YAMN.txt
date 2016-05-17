@@ -14,7 +14,7 @@
 [Description:]
 Описание:
 [Copyright:]
-Права:
+Авторские права:
 [Contact:]
 Контакт:
 [Account]

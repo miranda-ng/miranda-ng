@@ -42,7 +42,7 @@
 [About]
 Информация
 [Copyright]
-Права
+Авторские права
 [&Close]
 &Закрыть
 [Edit]
@@ -170,7 +170,7 @@ HTTP подключение SendSS
 [SendScreenshot - Error]
 SendScreenshot - Ошибка
 [Credits]
-Кредиты
+Благодарности
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
 [Send screenshot to %s]
