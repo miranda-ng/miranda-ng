@@ -675,7 +675,7 @@ int MT<CONTACTINFO>::Index(lua_State *L, CONTACTINFO *ci)
 	return 1;
 }
 
-void MT<CONTACTINFO>::Free(lua_State *L, CONTACTINFO **ci)
+void MT<CONTACTINFO>::Free(lua_State* /*L*/, CONTACTINFO **ci)
 {
 	mir_free((*ci));
 }

@@ -20,27 +20,28 @@ private:
 	};
 
 	size_t offset;
+	size_t size;
 	int type;
-	int getType;
+
+	int getterType;
 	std::function<void*(T*)> lambda;
 
 public:
-	MTField(size_t offset, int type)
-		: offset(offset), type(type), getType(MTFG_OFFSET) { }
+	MTField(size_t offset, size_t size, int type)
+		: offset(offset), size(size), type(type), getterType(MTFG_OFFSET) { }
 
 	MTField(std::function<void*(T*)> f, int type)
-		: lambda(f), type(type), getType(MTFG_LAMBDA) { }
+		: lambda(f), type(type), getterType(MTFG_LAMBDA) { }
 
 	int GetType() const { return type; }
 
 	template<typename R>
 	R GetValue(T *obj) const
 	{
-		if (getType == MTFG_LAMBDA) return (R)lambda(obj);
+		if (getterType == MTFG_LAMBDA) return (R)lambda(obj);
 		else
 		{
 			R res = NULL;
-			size_t size = sizeof(R);
 			memcpy(&res, ((char*)obj) + offset, size);
 			return res;
 		}
@@ -114,7 +115,7 @@ private:
 		switch (field->GetType())
 		{
 		case LUA_TBOOLEAN:
-			lua_pushboolean(L, field->GetValue<BOOL>(obj));
+			lua_pushboolean(L, field->GetValue<int>(obj));
 			break;
 		case LUA_TINTEGER:
 			lua_pushinteger(L, field->GetValue<long long>(obj));
@@ -166,11 +167,13 @@ public:
 	}
 
 	template<typename R>
-	MT& Field(R T::*M, const char *name, int type)
+	MT& Field(R T::*M, const char *name, int type, size_t size = 0)
 	{
+		if (size == 0)
+			size = sizeof(M);
 		size_t offset = offsetof(T, *M);
 		if (type != LUA_TNONE)
-			fields[name] = new MTField<T>(offset, type);
+			fields[name] = new MTField<T>(offset, size, type);
 		return *this;
 	}
 
