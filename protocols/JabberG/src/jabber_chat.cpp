@@ -1034,6 +1034,8 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			CMString jid(FORMAT, _T("%s/%s"), item->jid, him->m_tszResourceName);
 
 			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
+			ppro->setTString(hContact, "Nick", him->m_tszResourceName);
+			
 			ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
