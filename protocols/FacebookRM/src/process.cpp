@@ -38,129 +38,8 @@ std::string getContactName(FacebookProto *proto, MCONTACT hContact, const char *
 	return name;
 }
 
-void FacebookProto::ProcessBuddyList(void*)
-{
-	ScopedLock s(facy.buddies_lock_);
-
-	if (isOffline())
-		return;
-
-	facy.handle_entry("ProcessBuddyList");
-
-	std::string data = "user=" + facy.self_.user_id;
-
-	data += "&cached_user_info_ids=";
-	int counter = 0;
-	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL; i = i->next, counter++) {
-		data += i->data->user_id + "%2C";
-	}
-
-	if (getByte(FACEBOOK_KEY_FETCH_MOBILE, 0) == 1)
-		data += "&fetch_mobile=true";
-	// data += "&additional_buddies[0]=" + some_user_id; // FIXME: I'm not sure what this is for
-	// data += "&additional_buddies[1]=" + some_user_id;
-	data += "&get_now_available_list=true";
-
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-
-	// Get buddy list
-	http::response resp = facy.flap(REQUEST_BUDDY_LIST, &data); // NOTE: Request revised 1.9.2015
-
-	if (resp.code != HTTP_CODE_OK) {
-		facy.handle_error("buddy_list");
-		return;
-	}
-
-	debugLogA("*** Starting processing buddy list");
-
-	CODE_BLOCK_TRY
-
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_buddy_list(&resp.data, &facy.buddies);
-	delete p;
-
-	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL;)
-	{
-		facebook_user* fbu = i->data;
-
-		if (!fbu->deleted) {
-			if (!fbu->handle) // just been added
-				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
-
-			ptrT client(getTStringA(fbu->handle, "MirVer"));
-			if (!client || mir_tstrcmp(client, fbu->getMirVer()))
-				setTString(fbu->handle, "MirVer", fbu->getMirVer());
-
-			if (getDword(fbu->handle, "IdleTS", 0) != fbu->last_active) {
-				if ((fbu->idle || fbu->status_id == ID_STATUS_OFFLINE) && fbu->last_active > 0)
-					setDword(fbu->handle, "IdleTS", fbu->last_active);
-				else
-					delSetting(fbu->handle, "IdleTS");
-			}
-		}
-
-		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted) {
-			if (fbu->handle)
-				setWord(fbu->handle, "Status", ID_STATUS_OFFLINE);
-
-			std::string to_delete(i->key);
-			i = i->next;
-			facy.buddies.erase(to_delete);
-		} else {
-			i = i->next;
-
-			if (!fbu->handle) // just been added
-				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
-
-			if (getWord(fbu->handle, "Status", 0) != (int)fbu->status_id)
-				setWord(fbu->handle, "Status", fbu->status_id);
-
-			if (getDword(fbu->handle, "LastActiveTS", 0) != fbu->last_active) {
-				if (fbu->last_active > 0)
-					setDword(fbu->handle, "LastActiveTS", fbu->last_active);
-				else
-					delSetting(fbu->handle, "LastActiveTS");
-			}
-
-			if (getByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
-				setByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
-				// TODO: remove that popup and use "Contact added you" event?
-			}
-
-			// Wasn't contact removed from "server-list" someday?
-			if (getDword(fbu->handle, FACEBOOK_KEY_DELETED, 0)) {
-				delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
-
-				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-				std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
-
-				ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_FRIENDSHIP, &url);
-			}
-
-			// Check avatar change
-			CheckAvatarChange(fbu->handle, fbu->image_url);
-		}
-	}
-
-	debugLogA("*** Buddy list processed");
-
-	CODE_BLOCK_CATCH
-
-		debugLogA("*** Error processing buddy list: %s", e.what());
-
-	CODE_BLOCK_END
-}
-
 void FacebookProto::ProcessFriendList(void*)
 {
-	ScopedLock s(facy.buddies_lock_);
-
 	if (isOffline())
 		return;
 
@@ -1017,15 +896,15 @@ void FacebookProto::ProcessMessages(void* data)
 
 	std::vector<facebook_message> messages;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_messages(resp, &messages, &facy.notifications);
-	delete p;
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_messages(resp, &messages, &facy.notifications);
+		delete p;
 
-	ReceiveMessages(messages);
+		ReceiveMessages(messages);
 
-	ShowNotifications();
+		ShowNotifications();
 
-	debugLogA("*** Messages processed");
+		debugLogA("*** Messages processed");
 
 	CODE_BLOCK_CATCH
 

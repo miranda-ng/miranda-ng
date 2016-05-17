@@ -489,9 +489,10 @@ void FacebookProto::DeleteContactFromServer(void *data)
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
-		facebook_user* fbu = facy.buddies.find(id);
+		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
+		/* facebook_user* fbu = facy.buddies.find(id);
 		if (fbu != NULL)
-			fbu->deleted = true;
+			fbu->deleted = true; */
 
 		MCONTACT hContact = ContactIDToHContact(id);
 

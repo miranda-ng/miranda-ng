@@ -246,12 +246,6 @@ void FacebookProto::InitMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.root = m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = "/RefreshBuddyList";
-	CreateProtoService(mi.pszService, &FacebookProto::RefreshBuddyList);
-	mi.name.a = LPGEN("Refresh Buddy List");
-	mi.hIcolibItem = GetIconHandle("friendship");
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
 	mi.pszService = "/CheckFriendRequests";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckFriendRequests);
 	mi.name.a = LPGEN("Check Friends Requests");

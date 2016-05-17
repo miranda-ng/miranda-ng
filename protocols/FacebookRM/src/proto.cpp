@@ -32,7 +32,6 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	avatar_lock_ = CreateMutex(NULL, FALSE, NULL);
 	log_lock_ = CreateMutex(NULL, FALSE, NULL);
 	update_loop_lock_ = CreateEvent(NULL, FALSE, FALSE, NULL);
-	facy.buddies_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
@@ -121,7 +120,6 @@ FacebookProto::~FacebookProto()
 	WaitForSingleObject(signon_lock_, IGNORE);
 	WaitForSingleObject(avatar_lock_, IGNORE);
 	WaitForSingleObject(log_lock_, IGNORE);
-	WaitForSingleObject(facy.buddies_lock_, IGNORE);
 	WaitForSingleObject(facy.send_message_lock_, IGNORE);
 	WaitForSingleObject(facy.notifications_lock_, IGNORE);
 	WaitForSingleObject(facy.cookies_lock_, IGNORE);
@@ -130,7 +128,6 @@ FacebookProto::~FacebookProto()
 	CloseHandle(avatar_lock_);
 	CloseHandle(log_lock_);
 	CloseHandle(update_loop_lock_);
-	CloseHandle(facy.buddies_lock_);
 	CloseHandle(facy.send_message_lock_);
 	CloseHandle(facy.fcb_conn_lock_);
 	CloseHandle(facy.notifications_lock_);
@@ -646,15 +643,6 @@ INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
-{
-	if (!isOffline()) {
-		facy.client_notify(TranslateT("Refreshing buddy list..."));
-		ForkThread(&FacebookProto::ProcessBuddyList, NULL);
-	}
-	return 0;
-}
-
 
 INT_PTR FacebookProto::VisitProfile(WPARAM wParam, LPARAM)
 {
@@ -778,11 +766,12 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 
 		std::string *val = new std::string(id);
 
-		if (deleting) {
+		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
+		/*if (deleting) {
 			facebook_user *fbu = facy.buddies.find(*val);
 			if (fbu != NULL)
 				fbu->handle = NULL;
-		}
+		}*/
 
 		ForkThread(&FacebookProto::DeleteContactFromServer, val);
 	}

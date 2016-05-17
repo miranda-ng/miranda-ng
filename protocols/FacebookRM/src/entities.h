@@ -40,6 +40,8 @@ struct facebook_user
 	bool deleted;
 	bool idle;
 
+	bool updated;
+
 	ClientType client;
 
 	facebook_user()
@@ -47,7 +49,7 @@ struct facebook_user
 		this->handle = NULL;
 		this->status_id = ID_STATUS_OFFLINE;
 		this->gender = this->last_active = 0;
-		this->deleted = this->idle = false;
+		this->deleted = this->idle = this->updated = false;
 		this->client = CLIENT_WEB;
 	}
 

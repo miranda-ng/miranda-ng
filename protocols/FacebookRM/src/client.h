@@ -39,7 +39,7 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
-		buddies_lock_ = send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
+		send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
 		hMsgCon = NULL;
 		hFcbCon = NULL;
 		fcb_conn_lock_ = NULL;
@@ -184,7 +184,6 @@ public:
 	// Updates handling
 
 	List::List<facebook_user> buddies;
-	HANDLE  buddies_lock_;
 	HANDLE  send_message_lock_;
 	HANDLE  notifications_lock_;
 

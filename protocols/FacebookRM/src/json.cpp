@@ -22,100 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebook_user >* buddy_list)
-{
-	facebook_user* current = NULL;
-	std::string jsonData = data->substr(9);
-
-	JSONNode root = JSONNode::parse(jsonData.c_str());
-	if (!root)
-		return EXIT_FAILURE;
-
-	const JSONNode &list = root["payload"].at("buddy_list");
-	if (!list)
-		return EXIT_FAILURE;
-
-	// Set all contacts in map to offline (and reset client)
-	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
-		i->data->status_id = ID_STATUS_OFFLINE;
-		if (i->data->client == 0)
-			i->data->client = CLIENT_WEB;
-	}
-
-	// Load last active times
-	const JSONNode &lastActive = list["last_active_times"];
-	for (auto it = lastActive.begin(); it != lastActive.end(); ++it) {
-		const char *id = (*it).name();
-
-		current = buddy_list->find(id);
-		if (current == NULL) {
-			buddy_list->insert(std::make_pair(id, new facebook_user()));
-			current = buddy_list->find(id);
-			current->user_id = id;
-		}
-
-		current->last_active = (*it).as_int();
-	}
-
-	// Find mobile friends
-	const JSONNode &mobileFriends = list["mobile_friends"];
-	for (auto it = mobileFriends.begin(); it != mobileFriends.end(); ++it) {
-		std::string id = (*it).as_string();
-
-		current = buddy_list->find(id);
-		if (current == NULL) {
-			buddy_list->insert(std::make_pair(id, new facebook_user()));
-			current = buddy_list->find(id);
-			current->user_id = id;
-		}
-
-		current->status_id = ID_STATUS_OFFLINE;
-		current->client = CLIENT_MOBILE;
-	}
-
-	time_t now = ::time(NULL);
-
-	// Find now available contacts
-	const JSONNode &nowAvailable = list["nowAvailableList"];
-	for (auto it = nowAvailable.begin(); it != nowAvailable.end(); ++it) {
-		const char *id = (*it).name();
-
-		current = buddy_list->find(id);
-		if (current == NULL) {
-			buddy_list->insert(std::make_pair(id, new facebook_user()));
-			current = buddy_list->find(id);
-			current->user_id = id;
-		}
-
-		current->status_id = (current->client == CLIENT_MOBILE || current->client == CLIENT_MESSENGER) ? ID_STATUS_ONTHEPHONE : ID_STATUS_ONLINE;
-
-		// Set contacts that were last active more than 1 minute ago as away
-		if (current->status_id == ID_STATUS_ONLINE && current->last_active > 0 && (now - current->last_active) > 60) {
-			current->status_id = ID_STATUS_AWAY;
-		}
-	}
-
-	// Get aditional informations about contacts (if available)
-	const JSONNode &userInfos = list["userInfos"];
-	for (auto it = userInfos.begin(); it != userInfos.end(); ++it) {
-		const char *id = (*it).name();
-
-		current = buddy_list->find(id);
-		if (current == NULL)
-			continue;
-
-		std::string name = (*it)["name"].as_string();
-		if (!name.empty())
-			current->real_name = utils::text::slashu_to_utf8(name);
-
-		std::string thumbSrc = (*it)["thumbSrc"].as_string();
-		if (!thumbSrc.empty())
-			current->image_url = utils::text::slashu_to_utf8(thumbSrc);
-	}
-
-	return EXIT_SUCCESS;
-}
-
 void parseUser(const JSONNode &it, facebook_user *fbu)
 {
 	fbu->user_id = it.name();
@@ -758,54 +664,191 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
 		}
+		else if (t == "chatproxy-presence") {
+			const JSONNode &buddyList = (*it)["buddyList"];
+			if (!buddyList)
+				continue;
+
+			for (auto itNodes = buddyList.begin(); itNodes != buddyList.end(); ++itNodes) {
+				std::string id = (*itNodes).name();
+
+				MCONTACT hContact = proto->ContactIDToHContact(id);
+				if (!hContact) {
+					// FIXME: What to do, when we don't have this contact? What does it mean?
+					// fbu->handle = AddToContactList(fbu, CONTACT_FRIEND); // add this contact as friend?
+					continue;
+				}
+
+				// TODO: Check for friends existence/inexistence? Here we should get all friends (but we're already doing friendslist request, so we should have fresh data already)
+
+				const JSONNode &p_ = (*itNodes)["p"]; // possible values: 0, 2 (something more?) (might not be present)
+				const JSONNode &lat_ = (*itNodes)["lat"]; // timestamp of last activity (could be 0) (is always present)
+				const JSONNode &vc_ = (*itNodes)["vc"]; // possible values: 0, 8, 10 (something more?) (might not be present)
+
+				int status = ID_STATUS_DND; // DND to easily spot some problem, as we expect it will always be p==0 or p==2 below
+
+				// Probably means presence: 0 = away, 2 = online, when not present then that probably means don't change that status
+				if (p_) {
+					int p = p_.as_int();
+
+					if (p == 0)
+						status = ID_STATUS_AWAY;
+					else if (p == 2)
+						status = ID_STATUS_ONLINE;
+
+					if (proto->getWord(hContact, "Status", 0) != status)
+						proto->setWord(hContact, "Status", status);
+				}
+
+				// Last active time
+				if (lat_) {
+					time_t last_active = utils::time::from_string(lat_.as_string());
+
+					if (proto->getDword(hContact, "LastActiveTS", 0) != last_active) {
+						if (last_active > 0)
+							proto->setDword(hContact, "LastActiveTS", last_active);
+						else
+							proto->delSetting(hContact, "LastActiveTS");
+					}
+				}
+
+				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
+				if (vc_) {
+					int vc = vc_.as_int();
+					TCHAR *client;
+
+					if (vc == 0) {
+						client = _T(FACEBOOK_CLIENT_WEB);
+					}
+					else if (vc == 8) {
+						client = _T(FACEBOOK_CLIENT_MESSENGER); // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
+					}
+					else if (vc == 10) {
+						client = _T(FACEBOOK_CLIENT_MOBILE);
+					}
+					else {
+						client = _T(FACEBOOK_CLIENT_OTHER);
+					}
+
+					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));
+					if (!oldClient || mir_tstrcmp(oldClient, client))
+						proto->setTString(hContact, "MirVer", client);
+				}
+			}
+		}
 		else if (t == "buddylist_overlay") {
-			// additional info about user status (used client)
+			// TODO: This is now supported also via /ajax/mercury/tabs_presence.php request (probably)
+			// additional info about user status (status, used client)
 			const JSONNode &overlay = (*it)["overlay"];
 			if (!overlay)
 				continue;
 
 			for (auto itNodes = overlay.begin(); itNodes != overlay.end(); ++itNodes) {
-				std::string id = (*itNodes).as_string();
+				std::string id = (*itNodes).name();
 
-				const JSONNode &p_ = (*itNodes)["p"];
-				if (!p_)
+				MCONTACT hContact = proto->ContactIDToHContact(id);
+				if (!hContact) {
+					// FIXME: What to do, when we don't have this contact? What does it mean?
+					// fbu->handle = AddToContactList(fbu, CONTACT_FRIEND); // add this contact as friend?
 					continue;
+				}
 
-				// TODO: This is now supported also via /ajax/mercury/tabs_presence.php request
-				const JSONNode &p = (*it)["p"];
-				if (p) {
-					facebook_user* current = proto->facy.buddies.find(id); // HACKISH-WAY to get buddies...
-					if (current == NULL)
-						continue;
+				// TODO: Check for friends existence/inexistence?
 
-					std::string status = p["status"].as_string(); // this seems to be "active" or "invisible" or null
-					std::string webStatus = p["webStatus"].as_string(); // "active", "idle" or "offline"
-					std::string fbAppStatus = p["fbAppStatus"].as_string(); // "offline" or "active" or "invisible" or null
-					std::string messengerStatus = p["messengerStatus"].as_string(); // "offline" or "active" or "invisible" or null
-					std::string otherStatus = p["otherStatus"].as_string(); // "offline" or "active" or "invisible" or null - this seems to be "active" when webStatus is "idle" or "active" only
+				/* if (getByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+					setByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+					// TODO: remove that popup and use "Contact added you" event?
+				}
 
-					// this may never happen
-					if (status != "active")
-						current->status_id = ID_STATUS_OFFLINE;
+				// Wasn't contact removed from "server-list" someday?
+				if (getDword(fbu->handle, FACEBOOK_KEY_DELETED, 0)) {
+					delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
 
-					bool b;
+					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+					std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-					// "webStatus" and "otherStatus" are marked as "WEB" on FB website
-					if ((b = (webStatus == "active")) || otherStatus == "active") {
-						current->status_id = ID_STATUS_ONLINE;
-						current->client = b ? CLIENT_WEB : CLIENT_OTHER;
+					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_FRIENDSHIP, &url);
+				} */
+
+
+				/* ptrT client(getTStringA(fbu->handle, "MirVer"));
+				if (!client || mir_tstrcmp(client, fbu->getMirVer()))
+					setTString(fbu->handle, "MirVer", fbu->getMirVer());
+				*/
+
+				const JSONNode &a_ = (*itNodes)["a"]; // possible values: 0, 2 (something more?)
+				const JSONNode &la_ = (*itNodes)["la"]; // timestamp of last activity (could be 0)
+				const JSONNode &s_ = (*itNodes)["s"]; // possible values: push (something more?)
+				const JSONNode &vc_ = (*itNodes)["vc"]; // possible values: 0, 8, 10 (something more?)
+
+				// Friller account has also these:
+				// const JSONNode &ol_ = (*itNodes)["ol"]; // possible values: -1 (when goes to offline), 0 (when goes back online) (something more?)
+				// const JSONNode &p_ = (*itNodes)["p"]; // class with fbAppStatus, messengerStatus, otherStatus, status, webStatus
+
+				int status = ID_STATUS_FREECHAT; // FREECHAT to easily spot some problem, as we expect it will always be p==0 or p==2 below
+
+				if (a_) {
+					int a = a_.as_int();
+
+					if (a == 0)
+						status = ID_STATUS_OFFLINE;
+					else if (a == 2)
+						status = ID_STATUS_ONLINE;
+				}
+
+				if (proto->getWord(hContact, "Status", 0) != status)
+					proto->setWord(hContact, "Status", status);
+
+
+				if (la_ && status != ID_STATUS_ONLINE) {
+					time_t last_active = utils::time::from_string(la_.as_string());
+					
+					// we should set IdleTS only when contact is IDLE, or OFFLINE
+					if (proto->getDword(hContact, "IdleTS", 0) != last_active) {
+						if (/*(fbu->idle || status == ID_STATUS_OFFLINE) &&*/ last_active > 0)
+							proto->setDword(hContact, "IdleTS", last_active);
+						else
+							proto->delSetting(hContact, "IdleTS");
 					}
 
-					// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
-					if ((b = (fbAppStatus == "active")) || messengerStatus == "active") {
-						current->status_id = ID_STATUS_ONTHEPHONE;
-						current->client = b ? CLIENT_APP : CLIENT_MESSENGER;
+					/*if (proto->getDword(hContact, "LastActiveTS", 0) != last_active) {
+						if (last_active > 0)
+							proto->setDword(hContact, "LastActiveTS", last_active);
+						else
+							proto->delSetting(hContact, "LastActiveTS");
+					}*/
+				}
+				else {
+					proto->delSetting(hContact, "IdleTS");
+				}
+
+				if (s_) {
+					// what to do with this?
+				}
+				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
+				if (vc_) {
+					int vc = vc_.as_int();
+					TCHAR *client = _T(FACEBOOK_CLIENT_WEB);
+
+					/*if (vc == 0) {
+						// means active some time ago? (on messenger or also on web)
+						client = _T(FACEBOOK_CLIENT_WEB);
 					}
+					else if (vc == 8) {
+						client = _T(FACEBOOK_CLIENT_MESSENGER); // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
+					}
+					else if (vc == 10) {
+						// means actually active on messenger
+						client = _T(FACEBOOK_CLIENT_MOBILE);
+					}
+					else {
+						client = _T(FACEBOOK_CLIENT_OTHER);
+					}*/
 
-					// this is not marked anyhow on website (yet?)
-					current->idle = webStatus == "idle" || otherStatus == "idle" || fbAppStatus == "idle" || messengerStatus == "idle";
-
-					// TODO: save that info to DB
+					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));
+					if (!oldClient || mir_tstrcmp(oldClient, client))
+						proto->setTString(hContact, "MirVer", client);
 				}
 			}
 		} else if (t == "ticker_update:home") {

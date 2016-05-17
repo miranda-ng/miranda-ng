@@ -125,7 +125,6 @@ public:
 	INT_PTR __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckNewsfeeds(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckFriendRequests(WPARAM, LPARAM);
-	INT_PTR __cdecl RefreshBuddyList(WPARAM, LPARAM);
 	INT_PTR __cdecl GetNotificationsCount(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
@@ -161,7 +160,6 @@ public:
 	void __cdecl UpdateLoop(void*);
 
 	// Processing threads
-	void __cdecl ProcessBuddyList(void*);
 	void __cdecl ProcessFriendList(void*);
 	void __cdecl ProcessMessages(void*);
 	void __cdecl ProcessUnreadMessages(void*);

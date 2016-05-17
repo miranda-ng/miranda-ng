@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void FacebookProto::ChangeStatus(void*)
 {
 	ScopedLock s(signon_lock_);
-	ScopedLock b(facy.buddies_lock_);
 
 	int new_status = m_iDesiredStatus;
 	int old_status = m_iStatus;
@@ -64,7 +63,6 @@ void FacebookProto::ChangeStatus(void*)
 		facy.clear_notifications();
 		facy.clear_chatrooms();
 		facy.clear_readers();
-		facy.buddies.clear();
 		facy.messages_ignore.clear();
 		facy.messages_timestamp.clear();
 		facy.pages.clear();
@@ -168,8 +166,6 @@ void FacebookProto::ChangeStatus(void*)
 
 	facy.chat_state(!m_invisible);
 
-	ForkThread(&FacebookProto::ProcessBuddyList, NULL);
-
 	m_iStatus = facy.self_.status_id = new_status;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
@@ -216,8 +212,6 @@ void FacebookProto::UpdateLoop(void *)
 	for (int i = -1; !isOffline(); i = (i + 1) % 50)
 	{
 		if (i != -1) {
-			ProcessBuddyList(NULL);
-
 			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 				ProcessFeeds(NULL);
 		}

@@ -1273,6 +1273,8 @@ bool facebook_client::channel()
 	}
 
 	std::string type = utils::text::source_get_value(&resp.data, 2, "\"t\":\"", "\"");
+	parent->debugLogA("Pull response type = %s", type.c_str());
+
 	if (type == "continue" || type == "heartbeat") {
 		// Everything is OK, no new message received
 	}
@@ -1284,21 +1286,19 @@ bool facebook_client::channel()
 		this->chat_sticky_num_ = utils::text::source_get_value2(&resp.data, "\"sticky\":\"", "\"");
 		parent->debugLogA("    Got self sticky number: %s", this->chat_sticky_num_.c_str());
 	}
-	else if (type == "fullReload" || type == "refresh") {
-		// Requested reload of page or relogin (due to some settings change, removing this session, etc.)
-		parent->debugLogA("!!! Requested %s", type.c_str());
+	if (type == "refresh") {
+		// Requested relogin (due to some settings change, removing this session, etc.)
+		parent->debugLogA("!!! Requested refresh");
 
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
-		if (type == "refresh") {
-			this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
-			parent->debugLogA("    Got reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+		this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
+		parent->debugLogA("    Got reconnect reason: %s", this->chat_reconnect_reason_.c_str());
 
-			return this->reconnect();
-		}
-	}
-	else if (!type.empty()) {
+		return this->reconnect();
+	}	
+	else if (!type.empty()) { // for "msg", "fullReload" and maybe also other types
 		// Something has been received, throw to new thread to process
 		std::string* response_data = new std::string(resp.data);
 		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
@@ -1310,6 +1310,10 @@ bool facebook_client::channel()
 		if (type == "msg") {
 			// Update msgs_recv number for every "msg" type we receive (during fullRefresh/reload responses it stays the same)
 			this->chat_msgs_recv_++;
+		}
+		else if (type == "fullReload") {
+			// At fullReload we force our seq number to received value (there may have been some error or something)
+			this->chat_sequence_num_ = seq;
 		}
 
 		// Check if it's different from our old one (which means we should increment our old one)
