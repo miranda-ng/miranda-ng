@@ -99,28 +99,28 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			}
 			else if (special == SVS_MARITAL) {
 				switch (dbv.cVal) {
-				case 0: 
+				case 0:
 					ptstr = TranslateT("<not specified>");
 					break;
 				case 10:
 					ptstr = TranslateT("Single");
 					break;
-				case 11: 
+				case 11:
 					ptstr = TranslateT("Close relationships");
 					break;
-				case 12: 
+				case 12:
 					ptstr = TranslateT("Engaged");
 					break;
-				case 20: 
+				case 20:
 					ptstr = TranslateT("Married");
 					break;
-				case 30: 
+				case 30:
 					ptstr = TranslateT("Divorced");
 					break;
-				case 31: 
+				case 31:
 					ptstr = TranslateT("Separated");
 					break;
-				case 40: 
+				case 40:
 					ptstr = TranslateT("Widowed");
 					break;
 				case 50:
@@ -431,7 +431,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL)
 						break;
-					
+
 					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
 					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
 
@@ -444,7 +444,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						mir_snprintf(idstr, "Past%d", i);
 						ptrT tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
 						if (tszColText == NULL)
-							 break;
+							break;
 						mir_snprintf(idstr, "Past%dText", i);
 						ptrT tszText(db_get_tsa(hContact, szProto, idstr));
 						if (tszText == NULL)

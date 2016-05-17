@@ -445,14 +445,14 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				if (nm->iSubItem < 2)
 					break;
-				
+
 				LVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(GetMessagePos());
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(nm->hdr.hwndFrom, &hti.pt);
 				if (ListView_SubItemHitTest(nm->hdr.hwndFrom, &hti) == -1)
 					break;
-				
+
 				LVITEM lvi;
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = hti.iItem;
@@ -460,7 +460,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 				if (lvi.lParam == -1)
 					break;
-				
+
 				if (lvi.lParam == -2) {
 					if (hti.iSubItem - 3 == (nm->hdr.idFrom == IDC_PHONES)) {
 						// add

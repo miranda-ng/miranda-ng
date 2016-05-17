@@ -613,7 +613,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 static int ShutdownUserInfo(WPARAM, LPARAM)
 {
-	WindowList_BroadcastAsync(hWindowList, WM_DESTROY, 0, 0);
+	WindowList_Broadcast(hWindowList, WM_DESTROY, 0, 0);
 	WindowList_Destroy(hWindowList);
 	return 0;
 }
