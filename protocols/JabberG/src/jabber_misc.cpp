@@ -121,6 +121,10 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
 	else
 		SendGetVcard(s);
+	
+	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
+		pItem->bUseResource = !stripResource;
+	
 	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), s, nick);
 	DBCheckIsTransportedContact(s, hNewContact);
 	return hNewContact;
