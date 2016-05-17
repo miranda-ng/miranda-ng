@@ -87,7 +87,6 @@ struct TabControlData
 };
 
 TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto);
-TCHAR* GetTabName(MCONTACT hContact);
 HWND   GetParentWindow(MCONTACT hContact, BOOL bChat);
 void   NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 

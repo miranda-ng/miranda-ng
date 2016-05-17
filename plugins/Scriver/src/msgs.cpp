@@ -120,8 +120,8 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	if (hwnd == NULL || !IsWindowVisible(GetParent(hwnd))) {
-		TCHAR *contactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
 		TCHAR toolTip[256];
+		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		CLISTEVENT cle = {};
 		cle.flags = CLEF_TCHAR;
@@ -129,7 +129,6 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		cle.hDbEvent = hDbEvent;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
-		mir_sntprintf(toolTip, TranslateT("Message from %s"), contactName);
 		cle.ptszTooltip = toolTip;
 		pcli->pfnAddEvent(&cle);
 	}
@@ -207,9 +206,9 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
-
 		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
-		if ( ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
+
+		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
 			tn.cbSize = sizeof(tn);

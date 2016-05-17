@@ -224,7 +224,6 @@ int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
 void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
-TCHAR *GetNickname(MCONTACT hContact, const char *szProto);
 int IsAutoPopup(MCONTACT hContact);
 
 #define MSGFONTID_MYMSG			0

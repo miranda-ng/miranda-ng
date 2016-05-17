@@ -29,17 +29,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 extern HANDLE hHookWinEvt;
-extern HANDLE hHookWinPopup;
 
 static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 
-static ToolbarButton toolbarButtons[] = {
-	{LPGENT("Quote"), IDC_QUOTE, 0, 4, 24},
-	{LPGENT("Add contact"), IDC_ADD, 0, 10, 24},
-	{LPGENT("User menu"), IDC_USERMENU, 1, 0, 24},
-	{LPGENT("User details"), IDC_DETAILS, 1, 0, 24},
-	{LPGENT("History"), IDC_HISTORY, 1, 0, 24},
-	{LPGENT("Send"), IDOK, 1, 0, 38}
+static ToolbarButton toolbarButtons[] =
+{
+	{ LPGENT("Quote"), IDC_QUOTE, 0, 4, 24 },
+	{ LPGENT("Add contact"), IDC_ADD, 0, 10, 24 },
+	{ LPGENT("User menu"), IDC_USERMENU, 1, 0, 24 },
+	{ LPGENT("User details"), IDC_DETAILS, 1, 0, 24 },
+	{ LPGENT("History"), IDC_HISTORY, 1, 0, 24 },
+	{ LPGENT("Send"), IDOK, 1, 0, 38 }
 };
 
 static TCHAR* GetIEViewSelection(SrmmWindowData *dat)
@@ -453,7 +453,7 @@ static void SubclassLogEdit(HWND hwnd)
 static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 {
 	ParentWindowData *pdat = dat->parent;
-	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(_countof(toolbarButtons), g_dat.buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
+	int hSplitterPos = dat->splitterPos, toolbarHeight = (pdat->flags2 & SMF2_SHOWTOOLBAR) ? IsToolbarVisible(_countof(toolbarButtons), g_dat.buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
 	int hSplitterMinTop = toolbarHeight + dat->minLogBoxHeight, hSplitterMinBottom = dat->minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
@@ -1009,9 +1009,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TabControlData tcd;
 		tcd.iFlags = TCDF_TEXT | TCDF_ICON;
 		tcd.hIcon = GetTabIcon(dat);
-		tcd.pszText = GetTabName(dat->hContact);
+		tcd.pszText = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 		SendMessage(dat->hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)hwndDlg);
-		mir_free(tcd.pszText);
 		break;
 	}
 
@@ -1355,11 +1354,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mir_sntprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
 			}
 			else if (dat->nTypeSecs) {
-				TCHAR *szContactName = GetNickname(dat->hContact, dat->szProto);
 				sbd.hIcon = GetCachedIcon("scriver_TYPING");
 				sbd.pszText = szText;
-				mir_sntprintf(szText, TranslateT("%s is typing a message..."), szContactName);
-				mir_free(szContactName);
+				mir_sntprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(dat->hContact, 0));
 				dat->nTypeSecs--;
 			}
 			else if (dat->lastMessage) {

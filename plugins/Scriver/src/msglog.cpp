@@ -84,43 +84,6 @@ struct LogStreamData
 	EventData *events;
 };
 
-TCHAR* GetNickname(MCONTACT hContact, const char *szProto)
-{
-	CONTACTINFO ci = { sizeof(ci) };
-	ci.hContact = hContact;
-	ci.szProto = (char*)szProto;
-	ci.dwFlag = CNF_DISPLAY;
-	if (IsUnicodeMIM())
-		ci.dwFlag |= CNF_UNICODE;
-
-	TCHAR *szName = NULL;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		if (ci.type == CNFT_ASCIIZ) {
-			if (ci.pszVal) {
-				if (IsUnicodeMIM()) {
-					if (!mir_tstrcmp((TCHAR*)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
-						ci.dwFlag &= ~CNF_UNICODE;
-						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
-							szName = mir_a2t((char*)ci.pszVal);
-					}
-					else szName = mir_tstrdup((TCHAR*)ci.pszVal);
-				}
-				else szName = mir_a2t((char*)ci.pszVal);
-
-				mir_free(ci.pszVal);
-				if (szName != NULL)
-					return szName;
-			}
-		}
-	}
-
-	TCHAR *tszBaseNick = pcli->pfnGetContactDisplayName(hContact, 0);
-	if (tszBaseNick != NULL)
-		return mir_tstrdup(tszBaseNick);
-
-	return mir_tstrdup(TranslateT("Unknown contact"));
-}
-
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei)
 {
 	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
@@ -181,11 +144,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
-
-	if (evt->dwFlags & IEEDF_SENT)
-		evt->pszNickT = GetNickname(NULL, dat->szProto);
-	else
-		evt->pszNickT = GetNickname(hContact, dat->szProto);
+	evt->pszNickT = pcli->pfnGetContactDisplayName((evt->dwFlags & IEEDF_SENT) ? NULL : hContact, 0);
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
@@ -217,23 +176,21 @@ static EventData* GetTestEvents()
 {
 	EventData *evt, *firstEvent, *prevEvent;
 	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
+	evt->pszNickT = TranslateT("Me");
 	evt->pszTextT = mir_tstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
 
 	evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
 	evt->pszTextT = mir_tstrdup(TranslateT("to tiny bits, in Thy mercy"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
+	evt->pszNickT = TranslateT("My contact");
 	evt->pszTextT = mir_tstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
 	evt->pszTextT = mir_tstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
@@ -242,7 +199,6 @@ static EventData* GetTestEvents()
 
 static void freeEvent(EventData *evt)
 {
-	mir_free(evt->pszNickT);
 	mir_free(evt->pszTextT);
 	mir_free(evt->pszText2T);
 	mir_free(evt);

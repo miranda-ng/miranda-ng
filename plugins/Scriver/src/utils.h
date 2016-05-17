@@ -34,7 +34,6 @@ enum SEARCHENGINES {
 	SEARCHENGINE_FOODNETWORK = 8
 };
 
-int IsUnicodeMIM();
 TCHAR *limitText(TCHAR *text, int limit);
 void logInfo(const char *fmt, ...);
 int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes);

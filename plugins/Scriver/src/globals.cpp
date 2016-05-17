@@ -27,15 +27,18 @@ GlobalMessageData g_dat;
 
 int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
 
-static const char *buttonIcons[] = {"scriver_CLOSEX", "scriver_QUOTE", "scriver_SMILEY", 
-									"scriver_ADD", NULL, "scriver_USERDETAILS", "scriver_HISTORY", 
-									"scriver_SEND"};
+static const char *buttonIcons[] =
+{
+	"scriver_CLOSEX", "scriver_QUOTE", "scriver_ADD", NULL, 
+	"scriver_USERDETAILS", "scriver_HISTORY", "scriver_SEND"
+};
 
-static const char *chatButtonIcons[] = {"scriver_CLOSEX", 
-									"chat_bold", "chat_italics", "chat_underline", 
-									"chat_fgcol", "chat_bkgcol", 
-									"chat_smiley", "chat_history", 
-									"chat_filter", "chat_settings", "chat_nicklist", "scriver_SEND"};
+static const char *chatButtonIcons[] =
+{
+	"scriver_CLOSEX", "chat_bold", "chat_italics", "chat_underline", 
+	"chat_fgcol", "chat_bkgcol", "chat_history", "chat_filter", 
+	"chat_settings", "chat_nicklist", "scriver_SEND"
+};
 
 static IconItem iconList[] =
 {
@@ -125,13 +128,14 @@ static int ackevent(WPARAM, LPARAM lParam)
 
 		if (item != NULL && item->hwndErrorDlg == NULL) {
 			if (hwndSender != NULL) {
-				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
-				ewd->szName = GetNickname(item->hContact, item->proto);
+				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+
+				ErrorWindowData *ewd = (ErrorWindowData*)mir_alloc(sizeof(ErrorWindowData));
+				ewd->szName = mir_tstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
 				ewd->szDescription = mir_a2t((char *)pAck->lParam);
 				ewd->szText = GetSendBufferMsg(item);
 				ewd->hwndParent = hwndSender;
 				ewd->queueItem = item;
-				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
 			}
 			else RemoveSendQueueItem(item);

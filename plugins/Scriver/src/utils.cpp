@@ -27,37 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TTI_NONE 0
 #endif
 
-wchar_t* a2w(const char *src, int len)
-{
-	wchar_t *wline;
-	int i;
-	if (len < 0) {
-		len = (int)mir_strlen(src);
-	}
-	wline = (wchar_t*)mir_alloc(2 * (len + 1));
-	for (i = 0; i < len; i++) {
-		wline[i] = src[i];
-	}
-	wline[i] = 0;
-	return wline;
-}
-
-static int mimFlags = 0;
-
-enum MIMFLAGS
-{
-	MIM_CHECKED = 1,
-	MIM_UNICODE = 2
-};
-
-int IsUnicodeMIM()
-{
-	if (!(mimFlags & MIM_CHECKED))
-		mimFlags = MIM_CHECKED | MIM_UNICODE;
-
-	return TRUE;
-}
-
 const char *filename = "scriver.log";
 
 void logInfo(const char *fmt, ...)

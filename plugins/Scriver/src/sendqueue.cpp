@@ -104,7 +104,7 @@ void ReportSendQueueTimeouts(HWND hwndSender)
 				if (item->hwndSender == hwndSender && item->hwndErrorDlg == NULL) {
 					if (hwndSender != NULL) {
 						ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
-						ewd->szName = GetNickname(item->hContact, item->proto);
+						ewd->szName = mir_tstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
 						ewd->szDescription = mir_tstrdup(TranslateT("The message send timed out."));
 						ewd->szText = GetSendBufferMsg(item);
 						ewd->hwndParent = hwndSender;

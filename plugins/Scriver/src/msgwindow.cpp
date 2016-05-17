@@ -33,84 +33,49 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern TCHAR *GetNickname(MCONTACT hContact, const char* szProto);
-
-static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%")};
+static const TCHAR *titleTokenNames[] = { _T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%") };
 
 TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
-	TCHAR* tokens[4] = { 0 };
-	size_t tokenLen[4] = { 0 };
-	TCHAR *p, *tmplt;
-	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message session"));
-	int isTemplate = 0;
+	ptrT tmplt;
+	const TCHAR* tokens[4] = { 0 };
+
+	CMString tszTemplate, tszStatus, tszTitle;
 	if (hContact && szProto) {
-		tokens[0] = GetNickname(hContact, szProto);
-		tokenLen[0] = mir_tstrlen(tokens[0]);
-		tokens[1] = mir_tstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
-		tokenLen[1] = mir_tstrlen(tokens[1]);
-		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
-		if (tokens[2] != NULL) {
-			tokenLen[2] = mir_tstrlen(tokens[2]);
-			size_t j = 0;
-			for (size_t i = 0; i < tokenLen[2]; i++) {
-				if (tokens[2][i] == '\r')
-					continue;
-				if (tokens[2][i] == '\n')
-					tokens[2][j++] = ' ';
-				else
-					tokens[2][j++] = tokens[2][i];
-			}
-			tokens[2][j] = '\0';
-			tokenLen[2] = j;
-		}
+		tokens[0] = pcli->pfnGetContactDisplayName(hContact, 0);
+		tokens[1] = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+		
+		tszStatus = ptrT(db_get_tsa(hContact, "CList", "StatusMsg"));
+		tszStatus.Replace(_T("\r\n"), _T(" "));
+		tokens[2] = tszStatus;
 
 		char *accModule = Proto_GetBaseAccountName(hContact);
 		if (accModule != NULL) {
 			PROTOACCOUNT* proto = Proto_GetAccount(accModule);
-			if (proto != NULL) {
+			if (proto != NULL)
 				tokens[3] = mir_tstrdup(proto->tszAccountName);
-				tokenLen[3] = mir_tstrlen(tokens[3]);
-			}
 		}
+		
 		tmplt = db_get_tsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
 		if (tmplt != NULL)
-			isTemplate = 1;
+			tszTemplate = tmplt;
 		else {
 			if (g_dat.flags & SMF_STATUSICON)
-				tmplt = _T("%name% - ");
+				tszTemplate = _T("%name% - ");
 			else
-				tmplt = _T("%name% (%status%) : ");
+				tszTemplate = _T("%name% (%status%) : ");
 		}
 	}
-	else tmplt = _T("");
 
-	size_t i, len;
-	for (len = 0, p = tmplt; *p; p++, len++) {
+	for (const TCHAR *p = tszTemplate; *p; p++) {
 		if (*p == '%') {
-			for (i = 0; i < _countof(titleTokenNames); i++) {
-				int tnlen = (int)mir_tstrlen(titleTokenNames[i]);
-				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
-					len += tokenLen[i] - 1;
-					p += tnlen - 1;
-					break;
-				}
-			}
-		}
-	}
-	if (!isTemplate)
-		len += mir_tstrlen(pszNewTitleEnd);
-
-	TCHAR *title = (TCHAR*)mir_alloc(sizeof(TCHAR) * (len + 1));
-	for (len = 0, p = tmplt; *p; p++) {
-		if (*p == '%') {
+			int i;
 			for (i = 0; i < _countof(titleTokenNames); i++) {
 				size_t tnlen = mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
-					if (tokens[i] != NULL) {
-						memcpy(title + len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
-						len += tokenLen[i];
-					}
+					if (tokens[i] != NULL)
+						tszTitle.Append(tokens[i]);
+
 					p += tnlen - 1;
 					break;
 				}
@@ -118,29 +83,13 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 			if (i < _countof(titleTokenNames))
 				continue;
 		}
-		title[len++] = *p;
+		tszTitle.AppendChar(*p);
 	}
-	if (!isTemplate) {
-		memcpy(title + len, pszNewTitleEnd, sizeof(TCHAR) * mir_tstrlen(pszNewTitleEnd));
-		len += mir_tstrlen(pszNewTitleEnd);
-	}
-	title[len] = '\0';
-	if (isTemplate)
-		mir_free(tmplt);
+	
+	if (tmplt == NULL)
+		tszTitle.Append(TranslateT("Message session"));
 
-	for (i = 0; i < _countof(titleTokenNames); i++)
-		mir_free(tokens[i]);
-
-	mir_free(pszNewTitleEnd);
-	return title;
-}
-
-TCHAR* GetTabName(MCONTACT hContact)
-{
-	if (hContact)
-		return GetNickname(hContact, NULL);
-
-	return NULL;
+	return tszTitle.Detach();
 }
 
 static int GetChildCount(ParentWindowData *dat)
@@ -191,7 +140,7 @@ static int GetTabFromHWND(ParentWindowData *dat, HWND child)
 	return -1;
 }
 
-static MessageWindowTabData * GetChildFromTab(HWND hwndTabs, int tabId)
+static MessageWindowTabData* GetChildFromTab(HWND hwndTabs, int tabId)
 {
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
@@ -201,7 +150,7 @@ static MessageWindowTabData * GetChildFromTab(HWND hwndTabs, int tabId)
 	return NULL;
 }
 
-static MessageWindowTabData * GetChildFromHWND(ParentWindowData *dat, HWND hwnd)
+static MessageWindowTabData* GetChildFromHWND(ParentWindowData *dat, HWND hwnd)
 {
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
 	for (int i = 0; i < l; i++) {
@@ -1337,7 +1286,6 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(mwtd->hwnd, DM_SWITCHINFOBAR, 0, 0);
 		}
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
-
 		break;
 
 	case DM_SWITCHSTATUSBAR:
@@ -1357,7 +1305,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
 
-	case DM_SWITCHTITLEBAR: {
+	case DM_SWITCHTITLEBAR:
 		dat->flags2 ^= SMF2_SHOWTITLEBAR;
 		ws = GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
 		if (dat->flags2 & SMF2_SHOWTITLEBAR)
@@ -1369,7 +1317,6 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 			SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 		RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
-	}
 		break;
 
 	case DM_CASCADENEWWINDOW:
@@ -1536,7 +1483,7 @@ int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szMod
 	GetMonitorInfo(hMonitor, &mi);
 	RECT rcDesktop = mi.rcWork;
 	if (wp.rcNormalPosition.left > rcDesktop.right || wp.rcNormalPosition.top > rcDesktop.bottom ||
-		 wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
+		wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
 	SetWindowPlacement(hwnd, &wp);
 	return 0;
 }
