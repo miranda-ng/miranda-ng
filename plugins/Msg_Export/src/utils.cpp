@@ -973,8 +973,23 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			for (int nCur = 0; nCur < 9; nCur++)
 				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], _T("")));
 
-			mir_sntprintf(szTemp, _T("%d"), db_get_dw(hContact, sProto.c_str(), "UIN", 0));
-			ReplaceAll(output, _T("%UIN%"), szTemp);
+			CONTACTINFO ci = {};
+			ci.cbSize = sizeof(ci);
+			ci.hContact = hContact;
+			ci.szProto = (char*)sProto.c_str();
+			ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
+			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
+				switch (ci.type) {
+				case CNFT_ASCIIZ:
+					ReplaceAll(output, _T("%UIN%"), ci.pszVal);
+					mir_free(ci.pszVal);
+					break;
+				case CNFT_DWORD:
+					mir_sntprintf(szTemp, _T("%u"), ci.dVal);
+					ReplaceAll(output, _T("%UIN%"), szTemp);
+					break;
+				}
+			}
 
 			mir_sntprintf(szTemp, _T("%d"), db_get_w(hContact, sProto.c_str(), "Age", 0));
 			ReplaceAll(output, _T("%Age%"), szTemp);
@@ -991,24 +1006,19 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		}
 	}
 
-	int nIndent;
-	{  // Get time stamp 
+	// Get time stamp 
+	int nIndent = mir_sntprintf(szTemp, _T("%-*s"), nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
-		nIndent = mir_sntprintf(szTemp, _T("%-*s"),
-			nFirstColumnWidth,
-			dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
+	TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
-		TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
+	nIndent = (int)mir_tstrlen(szTemp);
+	szTemp[nIndent++] = ' ';
 
-		nIndent = (int)mir_tstrlen(szTemp);
-		szTemp[nIndent++] = ' ';
-
-		// Write first part of line with name and timestamp
-		if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
-			DisplayErrorDialog(LPGENT("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
-			CloseHandle(hFile);
-			return;
-		}
+	// Write first part of line with name and timestamp
+	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
+		DisplayErrorDialog(LPGENT("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
+		CloseHandle(hFile);
+		return;
 	}
 
 	if (dbei.pBlob != NULL && dbei.cbBlob >= 2) {
