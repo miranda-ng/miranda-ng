@@ -144,7 +144,20 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
-	evt->pszNickT = pcli->pfnGetContactDisplayName((evt->dwFlags & IEEDF_SENT) ? NULL : hContact, 0);
+	if (evt->dwFlags & IEEDF_SENT) {
+		CONTACTINFO ci = {};
+		ci.cbSize = sizeof(ci);
+		ci.szProto = dat->szProto;
+		ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
+		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci))) {
+			if (ci.type == CNFT_ASCIIZ)
+				evt->pszNickT = ci.pszVal;
+			else
+				evt->pszNickT = CMString(FORMAT, _T("%d"), ci.dVal).Detach();
+		}
+	}
+	if (evt->pszNickT == NULL)
+		evt->pszNickT = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
@@ -176,21 +189,23 @@ static EventData* GetTestEvents()
 {
 	EventData *evt, *firstEvent, *prevEvent;
 	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = TranslateT("Me");
+	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
 	evt->pszTextT = mir_tstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
 
 	evt = GetTestEvent(IEEDF_SENT);
+	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
 	evt->pszTextT = mir_tstrdup(TranslateT("to tiny bits, in Thy mercy"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = TranslateT("My contact");
+	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
 	evt->pszTextT = mir_tstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
+	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
 	evt->pszTextT = mir_tstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
@@ -199,6 +214,7 @@ static EventData* GetTestEvents()
 
 static void freeEvent(EventData *evt)
 {
+	mir_free(evt->pszNickT);
 	mir_free(evt->pszTextT);
 	mir_free(evt->pszText2T);
 	mir_free(evt);
