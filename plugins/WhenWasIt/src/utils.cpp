@@ -140,43 +140,13 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 
 TCHAR* GetContactID(MCONTACT hContact)
 {
-	return GetContactID(hContact, GetContactProto(hContact));
+	return GetContactID(hContact, NULL);
 }
 
 TCHAR* GetContactID(MCONTACT hContact, char *szProto)
 {
-	CONTACTINFO ctInfo = { sizeof(ctInfo) };
-	ctInfo.szProto = szProto;
-	ctInfo.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-	ctInfo.hContact = hContact;
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ctInfo);
-	TCHAR *buffer;
-	if (!ret) {
-		TCHAR tmp[16];
-		switch (ctInfo.type) {
-		case CNFT_BYTE:
-			mir_sntprintf(tmp, _T("%d"), ctInfo.bVal);
-			buffer = _tcsdup(tmp);
-			break;
-
-		case CNFT_WORD:
-			mir_sntprintf(tmp, _T("%d"), ctInfo.wVal);
-			buffer = _tcsdup(tmp);
-			break;
-
-		case CNFT_DWORD:
-			mir_sntprintf(tmp, _T("%ld"), ctInfo.dVal);
-			buffer = _tcsdup(tmp);
-			break;
-
-		default:
-			buffer = _tcsdup(ctInfo.pszVal);
-			break;
-		}
-	}
-
-	mir_free(ctInfo.pszVal);
-	return (!ret) ? buffer : NULL;
+	ptrT res(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	return (res) ? _tcsdup(res) : NULL;
 }
 
 MCONTACT GetContactFromID(TCHAR *szID, char *szProto)

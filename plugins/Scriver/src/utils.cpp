@@ -387,24 +387,9 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 
 void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 {
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = dat->hContact;
-	ci.szProto = dat->szProto;
-	ci.dwFlag = CNF_UNIQUEID;
-	buf[0] = 0;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			strncpy_s(buf, maxlen, (char*)ci.pszVal, _TRUNCATE);
-			mir_free(ci.pszVal);
-			break;
-		case CNFT_DWORD:
-			mir_snprintf(buf, maxlen, "%u", ci.dVal);
-			break;
-		}
-	}
+	ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
+	if (id != NULL)
+		strncpy_s(buf, maxlen, _T2A(id), _TRUNCATE);
 }
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect)

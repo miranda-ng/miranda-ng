@@ -151,20 +151,11 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		case 'i':
 		case 'I':
 			{
-				// get sender's uin
-				CONTACTINFO ci = { sizeof(ci) };
-				ci.dwFlag = CNF_UNIQUEID;
-				if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci) == 0){
-					if (ci.type == CNFT_ASCIIZ)
-						_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
-					else if (ci.type == CNFT_BYTE)
-						mir_sntprintf(buf, _T("%u"), ci.bVal);
-					else if (ci.type == CNFT_WORD)
-						mir_sntprintf(buf, _T("%u"), ci.wVal);
-					else if (ci.type == CNFT_DWORD)
-						mir_sntprintf(buf, _T("%u"), ci.dVal);
-				}
-				else mir_sntprintf(buf, _T("%p"), hContact);
+				ptrT id(Contact_GetInfo(CNF_UNIQUEID, NULL));
+				if (id != NULL)
+					_tcsncpy_s(buf, id, _TRUNCATE);
+				else
+					mir_sntprintf(buf, _T("%p"), hContact);
 			}
 			szUtfMsg.append(T2Utf(buf));
 			break;

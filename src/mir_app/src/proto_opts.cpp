@@ -626,26 +626,12 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 				if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
 					char *szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
-					TCHAR *tszIdName = szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID"));
-
-					CONTACTINFO ci = { 0 };
-					ci.cbSize = sizeof(ci);
-					ci.hContact = NULL;
-					ci.szProto = acc->szModuleName;
-					ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-						switch (ci.type) {
-						case CNFT_ASCIIZ:
-							mir_sntprintf(text, size, _T("%s: %s"), tszIdName, ci.pszVal);
-							mir_free(ci.pszVal);
-							break;
-						case CNFT_DWORD:
-							mir_sntprintf(text, size, _T("%s: %d"), tszIdName, ci.dVal);
-							break;
-						}
-					}
-					else mir_sntprintf(text, size, _T("%s: %s"), tszIdName, TranslateT("<unknown>"));
-					mir_free(tszIdName);
+					ptrT tszIdName(szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID")));
+					ptrT tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, NULL, acc->szModuleName));
+					if (tszUniqueID != NULL)
+						mir_sntprintf(text, size, _T("%s: %s"), tszIdName, tszUniqueID);
+					else 
+						mir_sntprintf(text, size, _T("%s: %s"), tszIdName, TranslateT("<unknown>"));
 				}
 				else mir_sntprintf(text, size, TranslateT("Protocol is not loaded."));
 

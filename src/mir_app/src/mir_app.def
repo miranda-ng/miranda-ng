@@ -259,3 +259,4 @@ Clist_GroupGetName @257
 Clist_GroupRename @258
 Clist_EndRebuild @259
 Clist_GroupAdded @260
+Contact_GetInfo @261

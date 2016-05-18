@@ -40,35 +40,11 @@ POINT menuMousePoint;
 
 int Meta_SetNick(char *szProto)
 {
-	CONTACTINFO ci = { sizeof(ci) };
-	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ci.szProto = szProto;
-	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+	ptrT tszNick(Contact_GetInfo(CNF_DISPLAY, NULL, szProto));
+	if (tszNick == NULL)
 		return 1;
 
-	switch (ci.type) {
-	case CNFT_BYTE:
-		if (db_set_b(NULL, META_PROTO, "Nick", ci.bVal))
-			return 1;
-		break;
-	case CNFT_WORD:
-		if (db_set_w(NULL, META_PROTO, "Nick", ci.wVal))
-			return 1;
-		break;
-	case CNFT_DWORD:
-		if (db_set_dw(NULL, META_PROTO, "Nick", ci.dVal))
-			return 1;
-		break;
-	case CNFT_ASCIIZ:
-		if (db_set_ts(NULL, META_PROTO, "Nick", ci.pszVal))
-			return 1;
-		mir_free(ci.pszVal);
-		break;
-	default:
-		if (db_set_s(NULL, META_PROTO, "Nick", (char *)TranslateT("Sender")))
-			return 1;
-		break;
-	}
+	db_set_ts(NULL, META_PROTO, "Nick", tszNick);
 	return 0;
 }
 

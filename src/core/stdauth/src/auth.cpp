@@ -44,7 +44,6 @@ INT_PTR ShowAddedWindow(WPARAM, LPARAM lParam)
 
 static int AuthEventAdded(WPARAM, LPARAM lParam)
 {
-	TCHAR szUid[128] = _T("");
 	TCHAR szTooltip[256];
 	MEVENT hDbEvent = (MEVENT)lParam;
 
@@ -66,27 +65,11 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	cli.lParam = lParam;
 	cli.hDbEvent = hDbEvent;
 
-	CONTACTINFO ci = {};
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	ci.szProto = GetContactProto(hContact);
-	ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			_tcsncpy_s(szUid, ci.pszVal, _TRUNCATE);
-			mir_free(ci.pszVal);
-			break;
-
-		case CNFT_DWORD:
-			mir_sntprintf(szUid, _T("%u"), ci.dVal);
-			break;
-		}
-	}
+	ptrT szUid(Contact_GetInfo(CNF_UNIQUEID, hContact));
 
 	if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		SkinPlaySound("AuthRequest");
-		if (szUid[0])
+		if (szUid)
 			mir_sntprintf(szTooltip, TranslateT("%s requests authorization"), szUid);
 		else
 			mir_sntprintf(szTooltip, TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
@@ -97,7 +80,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	}
 	else if (dbei.eventType == EVENTTYPE_ADDED) {
 		SkinPlaySound("AddedEvent");
-		if (szUid[0])
+		if (szUid)
 			mir_sntprintf(szTooltip, TranslateT("%s added you to their contact list"), szUid);
 		else
 			mir_sntprintf(szTooltip, TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);

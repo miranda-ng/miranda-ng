@@ -116,23 +116,13 @@ float CContactCache::getWeight(int rate)
 
 static bool AppendInfo(TCHAR *buf, int size, MCONTACT hContact, int info)
 {
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	ci.dwFlag = info;
-	ci.dwFlag |= CNF_UNICODE;
-
-	bool ret = false;
-
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci) && (ci.type == CNFT_ASCIIZ) && ci.pszVal) {
-		if (*ci.pszVal && (mir_tstrlen(ci.pszVal) < size - 2)) {
-			mir_tstrcpy(buf, ci.pszVal);
-			ret = true;
-		}
-		mir_free(ci.pszVal);
+	ptrT str(Contact_GetInfo(info, hContact));
+	if (str != NULL) {
+		mir_tstrncpy(buf, str, size);
+		return true;
 	}
 
-	return ret;
+	return false;
 }
 
 void CContactCache::TContactInfo::LoadInfo()

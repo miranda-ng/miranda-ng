@@ -1037,25 +1037,11 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 
 void TSAPI GetMYUIN(TWindowData *dat)
 {
-	CONTACTINFO ci = { sizeof(ci) };
-	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());
-	ci.dwFlag = CNF_TCHAR | CNF_DISPLAYUID;
-
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			_tcsncpy_s(dat->myUin, ci.pszVal, _TRUNCATE);
-			mir_free((void*)ci.pszVal);
-			break;
-		case CNFT_DWORD:
-			mir_sntprintf(dat->myUin, _T("%u"), ci.dVal);
-			break;
-		default:
-			dat->myUin[0] = 0;
-			break;
-		}
-	}
-	else dat->myUin[0] = 0;
+	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, NULL, dat->cache->getActiveProto()));
+	if (uid != NULL)
+		_tcsncpy_s(dat->myUin, uid, _TRUNCATE);
+	else
+		dat->myUin[0] = 0;
 }
 
 static int g_IEViewAvail = -1;
@@ -1748,37 +1734,14 @@ void TSAPI GetClientIcon(TWindowData *dat)
 
 void TSAPI GetMyNick(TWindowData *dat)
 {
-	CONTACTINFO ci;
-
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = NULL;
-	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());
-	ci.dwFlag = CNF_TCHAR | CNF_NICK;
-
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			if (mir_tstrlen((TCHAR*)ci.pszVal) == 0 ||
-				!mir_tstrcmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
-				_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
-			}
-			else {
-				_tcsncpy_s(dat->szMyNickname, (TCHAR*)ci.pszVal, _TRUNCATE);
-			}
-			break;
-		case CNFT_DWORD:
-			_ltot(ci.dVal, dat->szMyNickname, 10);
-			break;
-		default:
-			_tcsncpy_s(dat->szMyNickname, _T("<undef>"), _TRUNCATE); // that really should *never* happen
-			break;
-		}
-		mir_free(ci.pszVal);
+	ptrT tszNick(Contact_GetInfo(CNF_NICK, NULL, dat->cache->getActiveProto()));
+	if (tszNick != NULL) {
+		if (mir_tstrlen(tszNick) == 0 || !mir_tstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
+			_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
+		else
+			_tcsncpy_s(dat->szMyNickname, tszNick, _TRUNCATE);
 	}
-	else {
-		_tcsncpy_s(dat->szMyNickname, _T("<undef>"), _TRUNCATE); // same here
-	}
+	else _tcsncpy_s(dat->szMyNickname, _T("<undef>"), _TRUNCATE); // same here
 }
 
 HICON TSAPI MY_GetContactIcon(const TWindowData *dat, LPCSTR szSetting)

@@ -178,22 +178,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		db_free(&dbv);
 	}
 
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = event->hContact;
-	ci.szProto = szProto;
-	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
-		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
+	ptrT tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
+	if (tszNick != NULL)
+		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = NULL;
-	ci.szProto = szProto;
-	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
-		szNickOut = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
+	tszNick = Contact_GetInfo(CNF_NICK, NULL, szProto);
+	if (tszNick != NULL)
+		szNickOut = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
 	Template *tmplt = NULL;
 	if (tmpm) {
@@ -361,22 +352,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		}
 	}
 
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = event->hContact;
-	ci.szProto = szProto;
-	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
-		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
+	ptrT tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
+	if (tszNick != NULL)
+		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = NULL;
-	ci.szProto = szProto;
-	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
-		szNickOut = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
+	tszNick = Contact_GetInfo(CNF_NICK, NULL, szProto);
+	if (tszNick != NULL)
+		szNickOut = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {

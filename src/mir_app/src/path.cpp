@@ -35,25 +35,10 @@ static TCHAR tszAvatarRoot[MAX_PATH];
 TCHAR* GetContactID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
 		return db_get_tsa(hContact, szProto, "ChatRoomID");
-	}
-	else {
-		CONTACTINFO ci = {0};
-		ci.cbSize = sizeof(ci);
-		ci.hContact = hContact;
-		ci.szProto = szProto;
-		ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
-			switch (ci.type) {
-			case CNFT_ASCIIZ:
-				return (TCHAR *)ci.pszVal;
-			case CNFT_DWORD:
-				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
-			}
-		}
-		return NULL;
-	}
+
+	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

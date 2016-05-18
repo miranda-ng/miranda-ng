@@ -164,32 +164,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 		break;
 	}
 
-	CONTACTINFO ci = { sizeof(ci) };
-	ci.hContact = hContact;
-	ci.dwFlag = type | CNF_UNICODE;
-	CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-
-	char szVal[16];
-	memset(szVal, '\0', sizeof(szVal));
-	switch (ci.type) {
-	case CNFT_BYTE:
-		if (type == CNF_GENDER) {
-			szVal[0] = (char)ci.bVal; szVal[1] = 0;
-			return mir_a2t(szVal);
-		}
-		return itot(ci.bVal);
-
-	case CNFT_WORD:
-		return itot(ci.wVal);
-
-	case CNFT_DWORD:
-		return itot(ci.dVal);
-
-	case CNFT_ASCIIZ:
-		return ci.pszVal;
-	}
-
-	return NULL;
+	return Contact_GetInfo(type, hContact);
 }
 
 // MS_VARS_GETCONTACTFROMSTRING

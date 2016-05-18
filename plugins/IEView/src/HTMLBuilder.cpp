@@ -182,65 +182,28 @@ bool HTMLBuilder::isSameDate(time_t time1, time_t time2)
 
 void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 {
-	CONTACTINFO ci = { 0 };
-	char buf[128] = { 0 };
-	const char *szProto = GetContactProto(hContact);
-
 	hContact = getRealContact(hContact);
 
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	ci.szProto = const_cast<char*>(szProto);
-	ci.dwFlag = CNF_UNIQUEID;
+	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	uinIn = mir_utf8encodeT((id != NULL) ? id : _T(""));
 
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
-			mir_free(ci.pszVal);
-			break;
-		case CNFT_DWORD:
-			mir_snprintf(buf, "%u", ci.dVal);
-			break;
-		}
-	}
-	uinIn = mir_utf8encode(buf);
-	ci.hContact = NULL;
-
-	buf[0] = 0;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
-			mir_free(ci.pszVal);
-			break;
-		case CNFT_DWORD:
-			mir_snprintf(buf, "%u", ci.dVal);
-			break;
-		}
-	}
-	uinOut = mir_utf8encode(buf);
+	id = Contact_GetInfo(CNF_UNIQUEID, NULL);
+	uinOut = mir_utf8encodeT((id != NULL) ? id : _T(""));
 }
 
-wchar_t *HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
+wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 {
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	ci.szProto = (char *)szProto;
-	ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
-		if (ci.type == CNFT_ASCIIZ && ci.pszVal) // already mir_tstrdup'ed
-			return ci.pszVal;
+	TCHAR *str = Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
+	if (str != NULL)
+		return str;
 
-	ci.dwFlag = CNF_UNIQUEID;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
-		if (ci.type == CNFT_ASCIIZ && ci.pszVal) // already mir_tstrdup'ed
-			return ci.pszVal;
+	str = Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
+	if (str != NULL)
+		return str;
 
-	TCHAR *szNameStr = pcli->pfnGetContactDisplayName(hContact, 0);
-	if (szNameStr != NULL)
-		return mir_tstrdup(szNameStr);
+	str = pcli->pfnGetContactDisplayName(hContact, 0);
+	if (str != NULL)
+		return mir_tstrdup(str);
 
 	return mir_tstrdup(TranslateT("(Unknown Contact)"));
 }

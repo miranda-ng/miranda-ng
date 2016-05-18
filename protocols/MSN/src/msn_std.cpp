@@ -48,16 +48,13 @@ TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
 	if (hContact)
 		return (TCHAR*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0);
 
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ci.szProto = m_szModuleName;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		if (m_DisplayNameCache) mir_free(m_DisplayNameCache);
-		return (TCHAR*)m_DisplayNameCache = ci.pszVal;
+	TCHAR *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
+	if (str != NULL) {
+		mir_free(m_DisplayNameCache);
+		return m_DisplayNameCache = str;
 	}
-	else
-		return _T("Me");
+
+	return _T("Me");
 }
 
 unsigned MSN_GenRandom(void)

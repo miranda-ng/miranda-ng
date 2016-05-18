@@ -361,15 +361,8 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
 			return NULL;
 	}
-	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PINICK))) {
-		CONTACTINFO ci;
-		ci.cbSize = sizeof(CONTACTINFO);
-		ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;
-		ci.hContact = NULL;
-		ci.szProto = szProto;
-		CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-		tszRes = ci.pszVal;
-	}
+	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PINICK)))
+		tszRes = Contact_GetInfo(CNF_DISPLAY, NULL, szProto);
 
 	if (szRes == NULL && tszRes == NULL)
 		return NULL;

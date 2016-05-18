@@ -396,40 +396,10 @@ std::wstring HistoryEventList::GetContactName()
 	return TranslateT("System");
 }
 
-void GetInfo(CONTACTINFO& ci, std::wstring& str)
-{
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		if (ci.type == CNFT_ASCIIZ) {
-			str = ci.pszVal;
-			mir_free(ci.pszVal);
-		}
-		else if (ci.type == CNFT_DWORD) {
-			TCHAR buf[20];
-			_ltot_s(ci.dVal, buf, 10);
-			str = buf;
-		}
-		else if (ci.type == CNFT_WORD) {
-			TCHAR buf[20];
-			_ltot_s(ci.wVal, buf, 10);
-			str = buf;
-		}
-	}
-}
-
 std::wstring HistoryEventList::GetMyName()
 {
-	std::wstring myName;
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(m_hContact);
-	ci.hContact = 0;
-	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	GetInfo(ci, myName);
-	if (myName.empty())
-		return TranslateT("Me");
-
-	return myName;
+	ptrT name(Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(m_hContact)));
+	return (name == NULL) ? TranslateT("Me") : name;
 }
 
 inline std::wstring GetProtocolName(MCONTACT hContact)
@@ -461,28 +431,14 @@ std::string HistoryEventList::GetBaseProtocol()
 
 std::wstring HistoryEventList::GetMyId()
 {
-	std::wstring myId;
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(m_hContact);
-	ci.hContact = 0;
-	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-	GetInfo(ci, myId);
-	return myId;
+	ptrT id(Contact_GetInfo(CNF_DISPLAYUID, NULL, GetContactProto(m_hContact)));
+	return (id == NULL) ? L"" : id;
 }
 
 inline std::wstring GetContactId(MCONTACT hContact)
 {
-	std::wstring id;
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(hContact);
-	ci.hContact = hContact;
-	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-	GetInfo(ci, id);
-	return id;
+	ptrT id(Contact_GetInfo(CNF_DISPLAYUID, hContact));
+	return (id == NULL) ? L"" : id;
 }
 
 std::wstring HistoryEventList::GetContactId()

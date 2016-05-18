@@ -88,7 +88,6 @@ end;
 
 function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): String;
 var
-  ci: TContactInfo;
   RetPWideChar, UW: PChar;
 begin
   if (hContact = 0) and Contact then
@@ -101,13 +100,9 @@ begin
       Result := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } )
     else
     begin
-      ci.cbSize := SizeOf(ci);
-      ci.hContact := hContact;
-      ci.szProto := PAnsiChar(Proto);
-      ci.dwFlag := CNF_DISPLAY + CNF_UNICODE;
-      if CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(@ci)) = 0 then
+      RetPWideChar := Contact_GetInfo(CNF_DISPLAY, hContact, PAnsiChar(Proto));
+      if RetPWideChar <> nil then
       begin
-        RetPWideChar := ci.retval.szVal.w;
         UW := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } );
         if WideCompareText(RetPWideChar, UW) = 0 then
           Result := AnsiToWideString(GetContactID(hContact, Proto), CP_ACP)

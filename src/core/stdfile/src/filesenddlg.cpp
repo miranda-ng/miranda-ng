@@ -238,34 +238,8 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
-			char *szProto = GetContactProto(dat->hContact);
-			if (szProto) {
-				int hasName = 0;
-				char buf[128];
-
-				CONTACTINFO ci = { sizeof(ci) };
-				ci.hContact = dat->hContact;
-				ci.szProto = szProto;
-				ci.dwFlag = CNF_UNIQUEID;
-				if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-					switch (ci.type) {
-					case CNFT_ASCIIZ:
-						hasName = 1;
-						strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
-						mir_free(ci.pszVal);
-						break;
-					case CNFT_DWORD:
-						hasName = 1;
-						mir_snprintf(buf, "%u", ci.dVal);
-						break;
-					}
-				}
-
-				if (hasName)
-					SetDlgItemTextA(hwndDlg, IDC_NAME, buf);
-				else
-					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
-			}
+			ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
+			SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
 			if (fsd->ppFiles == NULL) {
 				EnableWindow(hwndDlg, FALSE);

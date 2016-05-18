@@ -72,20 +72,10 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		mir_snprintf(jid, "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
-		if (((hContact=TlenHContactFromJID(proto, jid)) != NULL) || !mir_strcmp(id, proto->threadData->username)) {
-			CONTACTINFO ci = { sizeof(ci) };
-			ci.hContact = hContact;
-			ci.szProto = (char *)proto->m_szModuleName;
-			ci.dwFlag = CNF_DISPLAY;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
-				if (ci.type == CNFT_ASCIIZ) {
-					if (ci.pszVal) {
-						char* str = mir_t2a(ci.pszVal);
-						mir_free(ci.pszVal);
-						return str;
-					}
-				}
-			}
+		if (((hContact = TlenHContactFromJID(proto, jid)) != NULL) || !mir_strcmp(id, proto->threadData->username)) {
+			ptrT szName(Contact_GetInfo(CNF_DISPLAY, hContact, proto->m_szModuleName));
+			if (szName)
+				return mir_t2a(szName);
 		}
 	}
 	return mir_strdup(id);

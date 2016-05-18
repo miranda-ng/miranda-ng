@@ -178,21 +178,9 @@ bool CContactCache::updateUIN()
 	m_szUIN[0] = 0;
 
 	if (m_Valid) {
-		CONTACTINFO ci = { sizeof(ci) };
-		ci.hContact = getActiveContact();
-		ci.szProto = const_cast<char *>(getActiveProto());
-		ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-			switch (ci.type) {
-			case CNFT_ASCIIZ:
-				_tcsncpy_s(m_szUIN, ci.pszVal, _TRUNCATE);
-				mir_free(ci.pszVal);
-				break;
-			case CNFT_DWORD:
-				mir_sntprintf(m_szUIN, _T("%u"), ci.dVal);
-				break;
-			}
-		}
+		ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
+		if (uid != NULL)
+			_tcsncpy_s(m_szUIN, uid, _TRUNCATE);
 	}
 
 	return false;

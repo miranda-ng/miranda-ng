@@ -3,9 +3,9 @@
 function Service_RadioPlayStop(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   p:PAnsiChar;
+  tmpw, res:PWideChar;
   lnew:bool;
   hContact:TMCONTACT;
-  cni:TCONTACTINFO;
   i:integer;
 begin
   result:=0;
@@ -21,30 +21,21 @@ begin
   // wParam = station name
   else
   begin
-    FillChar(cni,SizeOf(cni),0);
-    cni.cbSize  :=sizeof(cni);
-    if lParam=1 then
-      cni.dwFlag:=CNF_DISPLAY
-    else
-      cni.dwFlag:=CNF_DISPLAY or CNF_UNICODE;
-    cni.szProto :=PluginName;
-
+    AnsiToWide(pAnsiChar(wParam), tmpw);
     hContact:=db_find_first(PluginName);
     while hContact<>0 do
     begin
-      cni.hContact:=hContact;
-      if CallService(MS_CONTACT_GETCONTACTINFO,0,tlparam(@cni))=0 then
+      res:=Contact_GetInfo(CNF_DISPLAY,hContact,PluginName);
+      if res <> nil then
       begin
-        if lParam=1 then
-          i:=StrCmp(pAnsiChar(wParam),cni.retval.szVal.a)
-        else
-          i:=StrCmpW(pWideChar(wParam),cni.retval.szVal.w);
-        mir_free(cni.retval.szVal.w);
+        i:=StrCmpW(tmpw, res);
+        mir_free(res);
         if i=0 then
           break;
       end;
       hContact:=db_find_next(hContact,PluginName);
     end;
+    mFreeMem(tmpw);
   end;
 
   if hContact<>0 then

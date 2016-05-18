@@ -257,8 +257,8 @@ end;
 procedure LoadOneItem(hContact:THANDLE;column:pcolumnitem;proto:integer; var res:tQSRec);
 var
   lmodule:PAnsiChar;
+  pInfo:PWideChar;
   DbEvent:TMEVENT;
-  cni:TCONTACTINFO;
   dbei:TDBEVENTINFO;
   data:tSubstData;
 begin
@@ -299,36 +299,14 @@ begin
       end;
 
       QST_CONTACTINFO: begin
-        FillChar(cni,SizeOf(cni),0);
-        cni.cbSize  :=sizeof(cni);
-        cni.dwFlag  :=cnftype or CNF_UNICODE;
-        cni.hContact:=hContact;
-        cni.szProto :=GetProtoName(proto);
-        if CallService(MS_CONTACT_GETCONTACTINFO,0,tlparam(@cni))=0 then
+        pInfo := Contact_GetInfo(cnftype,hContact,nil);
+        if pInfo <> nil then
         begin
-          case cni._type of
-            CNFT_ASCIIZ: begin
-              if cni.retval.szVal.w<>nil then
-              begin
-                StrDupW(res.text,cni.retval.szVal.w);
-                mir_free(cni.retval.szVal.w);
-              end;
-              exit;
-            end;
-            CNFT_BYTE :begin
-              res.data:=cni.retval.bVal;
-              if cnftype=CNF_GENDER then
-              begin
-                if not (res.data in [70,77]) then
-                  res.data:=DBReadByte(hContact,'UserInfo','Gender',0);
-                exit;
-              end
-            end;
-            CNFT_WORD :res.data:=cni.retval.wVal;
-            CNFT_DWORD:res.data:=cni.retval.dVal;
-          end;
-          res.text:=int2strw(res.data);
+           StrDupW(res.text,pInfo);
+           mir_free(pInfo);
+           exit;
         end;
+        res.text:=int2strw(res.data);
       end;
 
       QST_SETTING: begin

@@ -77,35 +77,6 @@ void ConvertToFilename(TCHAR *str, size_t size)
 	}
 }
 
-int GetUIDFromHContact(MCONTACT contact, TCHAR* uinout, int uinout_len)
-{
-	bool found = true;
-
-	CONTACTINFO cinfo = { sizeof(cinfo) };
-	cinfo.hContact = contact;
-	cinfo.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&cinfo) == 0) {
-		if (cinfo.type == CNFT_ASCIIZ) {
-			mir_tstrncpy(uinout, cinfo.pszVal, uinout_len);
-			// It is up to us to free the string
-			// The catch? We need to use Miranda's free(), not our CRT's :)
-			mir_free(cinfo.pszVal);
-		}
-		else if (cinfo.type == CNFT_DWORD)
-			_itot(cinfo.dVal,uinout,10);
-		else if (cinfo.type == CNFT_WORD)
-			_itot(cinfo.wVal,uinout,10);
-		else
-			found = false;
-	}
-	else found = false;
-
-	if (!found)
-		mir_tstrncpy(uinout, TranslateT("Unknown UIN"), uinout_len);
-
-	return 0;
-}
-
 TCHAR* GetExtension(TCHAR *file)
 {
 	if (file == NULL) return _T("");
@@ -144,7 +115,8 @@ TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 	GetProtocolFolder(fn, proto);
 	
 	TCHAR uin[MAX_PATH];
-	GetUIDFromHContact(hContact, uin, _countof(uin));
+	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
+	_tcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
 	CreateDirectoryTreeT(fn);

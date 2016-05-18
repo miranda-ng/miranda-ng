@@ -397,7 +397,6 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 	TCHAR* p = NULL;
 	int NameLenght = 0;
 	TCHAR* ptszName = NULL;
-	CONTACTINFO ci;
 
 	if (!_tcschr(ptszQValue, varstr))
 		return ptszQValue;
@@ -499,16 +498,10 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = -1;
 			break;
 		case 'F':
-			memset(&ci, 0, sizeof(CONTACTINFO));
-			ci.cbSize = sizeof(CONTACTINFO);
-			ci.hContact = hContact;
-			ci.dwFlag = CNF_FIRSTNAME | CNF_UNICODE;
-			ci.szProto = GetContactProto(hContact);
-
-			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+			ptszName = Contact_GetInfo(CNF_FIRSTNAME, hContact);
+			if (ptszName == NULL)
 				break;
-			NameLenght = (int)mir_tstrlen(ci.pszVal);
-			ptszName = ci.pszVal;
+			NameLenght = (int)mir_tstrlen(ptszName);
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p) {
 				mir_free(ptszName);
@@ -531,16 +524,11 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = -1;
 			break;
 		case 'L':
-			memset(&ci, 0, sizeof(CONTACTINFO));
-			ci.cbSize = sizeof(CONTACTINFO);
-			ci.hContact = hContact;
-			ci.dwFlag = CNF_LASTNAME | CNF_UNICODE;
-			ci.szProto = GetContactProto(hContact);
-
-			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+			ptszName = Contact_GetInfo(CNF_LASTNAME, hContact);
+			if (ptszName == NULL)
 				break;
-			NameLenght = (int)mir_tstrlen(ci.pszVal);
-			ptszName = ci.pszVal;
+
+			NameLenght = (int)mir_tstrlen(ptszName);
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p) {
 				mir_free(ptszName);

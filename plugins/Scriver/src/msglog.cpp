@@ -144,19 +144,9 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
-	if (evt->dwFlags & IEEDF_SENT) {
-		CONTACTINFO ci = {};
-		ci.cbSize = sizeof(ci);
-		ci.szProto = dat->szProto;
-		ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci))) {
-			if (ci.type == CNFT_ASCIIZ)
-				evt->pszNickT = ci.pszVal;
-			else
-				evt->pszNickT = CMString(FORMAT, _T("%d"), ci.dVal).Detach();
-		}
-	}
-	if (evt->pszNickT == NULL)
+	if (evt->dwFlags & IEEDF_SENT)
+		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL);
+	else
 		evt->pszNickT = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (evt->eventType == EVENTTYPE_FILE) {

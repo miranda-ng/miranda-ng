@@ -63,24 +63,8 @@ int CSendEmail::Send()
 	mir_free(m_pszFileA);
 	m_pszFileA = mir_t2a(m_pszFile);
 
-
-	//	AnsiString Email, Subject, FriendlyName;
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.hContact = m_hContact;
-	ci.szProto = m_pszProto;
-	//ci.dwFlag = CNF_TCHAR;
-
-	ci.dwFlag = CNF_EMAIL | CNF_TCHAR;
-	CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-	m_Email = mir_t2a(ci.pszVal);
-
-	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-	m_FriendlyName = mir_t2a(ci.pszVal);
-
-	mir_free(ci.pszVal);
-
+	m_Email = mir_t2a(ptrT(Contact_GetInfo(CNF_EMAIL, m_hContact, m_pszProto)));
+	m_FriendlyName = mir_t2a(ptrT(Contact_GetInfo(CNF_DISPLAY, m_hContact, m_pszProto)));
 	m_Subject = mir_t2a(m_pszFileDesc);
 
 	//SendByEmail(m_pszFileA, "", m_FriendlyName, m_Email, m_Subject);

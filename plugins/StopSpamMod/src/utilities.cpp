@@ -190,36 +190,9 @@ BOOL IsUrlContains(TCHAR * Str)
 
 tstring GetContactUid(MCONTACT hContact, tstring Protocol)
 {
-	tstring Uid;
-	TCHAR dUid[32] = { 0 };
-	char aUid[32] = { 0 };
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-
-	ci.hContact = hContact;
-	ci.szProto = szProto;
-	ci.cbSize = sizeof(ci);
-
-	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			Uid = ci.pszVal;
-			mir_free((void *)ci.pszVal);
-			break;
-		case CNFT_DWORD:
-			_itoa_s(ci.dVal, aUid, 32, 10);
-			OemToChar(aUid, dUid);
-			Uid = dUid;
-			break;
-		default:
-			Uid = _T("");
-			break;
-		};
-	}
-	mir_free(szProto);
-	return Uid;
+	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
+	return (uid) ? uid : _T("");
 }
 
 void LogSpamToFile(MCONTACT hContact, tstring message)

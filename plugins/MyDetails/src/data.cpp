@@ -284,27 +284,10 @@ int Protocol::GetNickMaxLength()
 	return ret;
 }
 
-TCHAR *Protocol::GetNick()
+TCHAR* Protocol::GetNick()
 {
-	// Get it
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.hContact = NULL;
-	ci.szProto = name;
-	ci.dwFlag = CNF_DISPLAY;
-
-#ifdef UNICODE
-	ci.dwFlag |= CNF_UNICODE;
-#endif
-
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-		// CNF_DISPLAY always returns a string type
-		lcopystr(nickname, ci.pszVal, _countof(nickname));
-		mir_free(ci.pszVal);
-	}
-	else
-		lcopystr(nickname, _T(""), _countof(nickname));
-
+	ptrT nick(Contact_GetInfo(CNF_DISPLAY, NULL, name));
+	lcopystr(nickname, (nick != NULL) ? nick : _T(""), _countof(nickname));
 	return nickname;
 }
 

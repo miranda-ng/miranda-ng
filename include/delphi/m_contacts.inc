@@ -18,23 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 {$IFNDEF M_CONTACTS}
 {$DEFINE M_CONTACTS}
-type
-  PCONTACTINFO = ^TCONTACTINFO;
-  TCONTACTINFO = record
-    cbSize  : int;
-    dwFlag  : byte;
-    hContact: TMCONTACT;
-    szProto : PAnsiChar;
-    _type   : byte;
-    retval: record // in C this is a nameless union
-      case longint of
-        0: (bVal  : byte);
-        1: (wVal  : word);
-        2: (dVal  : dword);
-        3: (szVal : TChar);
-        4: (cchVal: word);
-      end;
-  end;
 
 const
 
@@ -90,23 +73,7 @@ const
 // you can get a function pointer to Miranda's free() via MS_SYSTEM_GET_MMI, see m_system.h
   CNF_DISPLAYNC = 17;
 
-// Add this flag if you want to get the Unicode info
-  CNF_UNICODE = $80;
-
-// If MS_CONTACT_GETCONTACTINFO returns 0 (valid), then one of the following
-// types is setting telling you what type of info you received
-  CNFT_BYTE   = 1;
-  CNFT_WORD   = 2;
-  CNFT_DWORD  = 3;
-  CNFT_ASCIIZ = 4;
-
-  {
-    wParam : not used
-    lParam : Pointer to an initialised TCONTACTINFO structure
-    affects: Get contact information
-    returns: Zero on success, non zero on failure.
-    notes  : If successful, the type is set and the result is put into the associated member of TCONTACTINFO
-  }
-  MS_CONTACT_GETCONTACTINFO:PAnsiChar = 'Miranda/Contact/GetContactInfo';
+// result must be freed using mir_free
+function Contact_GetInfo(iType:Integer; hContact:TMCONTACT; proto:PAnsiChar=0) : PWideChar; stdcall; external AppDLL;
 
 {$ENDIF}

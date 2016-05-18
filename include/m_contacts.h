@@ -21,20 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CONTACTS_H__
 #define M_CONTACTS_H__ 1
 
-typedef struct {
-	int cbSize;
-	BYTE dwFlag;
-	MCONTACT hContact;
-	char *szProto;
-	BYTE type;
-	union {
-		BYTE bVal;
-		WORD wVal;
-		DWORD dVal;
-		TCHAR *pszVal;
-		WORD cchVal;
-	};
-} CONTACTINFO;
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
 
 // Types of information you can retrieve by setting the dwFlag in CONTACTINFO
 #define CNF_FIRSTNAME   1  // returns first name (string)
@@ -77,38 +66,17 @@ typedef struct {
 
 // Special types
 // Return the custom name using the name order setting
-// IMPORTANT: When using CNF_DISPLAY you MUST free the string returned
-// You must **NOT** do this from your version of free() you have to use Miranda's free()
-// you can get a function pointer to Miranda's free() via MS_SYSTEM_GET_MMI, see m_system.h
 #define CNF_DISPLAY		16
 // Same as CNF_DISPLAY except the custom handle is not used
-// IMPORTANT: When using CNF_DISPLAYNC you MUST free the string returned
-// You must **NOT** do this from your version of free() you have to use Miranda's free()
-// you can get a function pointer to Miranda's free() via MS_SYSTEM_GET_MMI, see m_system.h
 #define CNF_DISPLAYNC	17
 
-// Add this flag if you want to get the Unicode info
-#define CNF_UNICODE     0x80
-
-#if defined(_UNICODE)
-	#define CNF_TCHAR       CNF_UNICODE     // will use TCHAR* instead of char*
-#else
-	#define CNF_TCHAR       0               // will return char*, as usual
-#endif
-
-// If MS_CONTACT_GETCONTACTINFO returns 0 (valid), then one of the following
-// types is setting telling you what type of info you received
-#define CNFT_BYTE		1
-#define CNFT_WORD		2
-#define CNFT_DWORD		3
-#define CNFT_ASCIIZ		4
-
 // Get contact information
-// wParam = not used
-// lParam = (CONTACTINFO *)
-// Returns 1 on failure to retrieve the info and 0 on success.  If
-// sucessful, the type is set and the result is put into the associated
-// member of CONTACTINFO
-#define MS_CONTACT_GETCONTACTINFO	"Miranda/Contact/GetContactInfo"
+// Returns NULL on failure to retrieve the info or a string on success.
+// If successful, this string must be freed using mir_free
+
+EXTERN_C MIR_APP_DLL(TCHAR*) Contact_GetInfo(
+	int type,                    // one of the CNF_* constants
+	MCONTACT hContact,           // contact id or NULL for the global data
+	const char *szProto = NULL); // protocol for global data. if skipped, grabbed from hContact
 
 #endif // M_CONTACTS_H__

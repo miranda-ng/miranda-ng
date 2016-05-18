@@ -158,35 +158,10 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
 }
 
-TCHAR *GetContactName(MCONTACT hContact, char *szProto)
+TCHAR* GetContactName(MCONTACT hContact, char *szProto)
 {
-	CONTACTINFO ctInfo;
-	char proto[200];
-	
-	memset(&ctInfo, 0, sizeof(ctInfo));	
-	ctInfo.cbSize = sizeof(ctInfo);
-	if (szProto)
-		{
-			ctInfo.szProto = szProto;
-		}
-		else{
-			GetContactProtocol(hContact, proto, sizeof(proto));
-			ctInfo.szProto = proto;
-		}
-	ctInfo.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ctInfo.hContact = hContact;
-	//_debug_message("retrieving contact name for %d", hContact);
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	//_debug_message("	contact name %s", ctInfo.pszVal);
-	TCHAR *buffer;
-	if (!ret)
-		buffer = _tcsdup(ctInfo.pszVal);
-
-	mir_free(ctInfo.pszVal);
-	if (!ret)
-		return buffer;
-
-	return NULL;
+	ptrT id(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
+	return (id != NULL) ? _tcsdup(id) : NULL;
 }
 
 void GetContactProtocol(MCONTACT hContact, char *szProto, int size)
@@ -202,62 +177,10 @@ TCHAR *GetContactID(MCONTACT hContact)
 	return GetContactID(hContact, protocol);
 }
 
-TCHAR *GetContactID(MCONTACT hContact, char *szProto)
+TCHAR* GetContactID(MCONTACT hContact, char *szProto)
 {
-	CONTACTINFO ctInfo;
-
-	memset(&ctInfo, 0, sizeof(ctInfo));	
-	ctInfo.cbSize = sizeof(ctInfo);
-	ctInfo.szProto = szProto;
-	ctInfo.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ctInfo.hContact = hContact;
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	TCHAR *buffer;
-	if (!ret)
-		{
-			TCHAR tmp[16];
-			switch (ctInfo.type)
-				{
-					case CNFT_BYTE:
-						{
-							mir_sntprintf(tmp, _T("%d"), ctInfo.bVal);
-							buffer = _tcsdup(tmp);
-						
-							break;
-						}
-						
-					case CNFT_WORD:
-						{
-							mir_sntprintf(tmp, _T("%d"), ctInfo.wVal);
-							buffer = _tcsdup(tmp);
-						
-							break;
-						}
-						
-					case CNFT_DWORD:
-						{
-							mir_sntprintf(tmp, _T("%ld"), ctInfo.dVal);
-							buffer = _tcsdup(tmp);
-							
-							break;
-						}
-						
-					case CNFT_ASCIIZ:
-					default:
-						{
-							buffer = _tcsdup(ctInfo.pszVal);
-							
-							break;
-						}
-				}
-				
-
-		}
-	mir_free(ctInfo.pszVal);
-	if (!ret)
-		return buffer;
-
-	return NULL;
+	ptrT id(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
+	return (id != NULL) ? _tcsdup(id) : NULL;
 }
 
 MCONTACT GetContactFromID(TCHAR *szID, char *szProto)

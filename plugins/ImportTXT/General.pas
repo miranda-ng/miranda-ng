@@ -256,7 +256,6 @@ function GetContactByUID(const proto: AnsiString; const id: AnsiString): THandle
 var
   Contact: THandle;
   otherproto: AnsiString;
-  ci: TCONTACTINFO;
   idnum: integer;
   tempwstr: PWideChar;
   ws: WideString;
@@ -272,19 +271,13 @@ begin
     otherproto := Proto_GetProtoName(Contact);
     if otherproto = proto then
     begin
-      ci.cbSize := SizeOf(ci);
-      ci.dwFlag := CNF_UNIQUEID or CNF_UNICODE;
-      ci.hContact := Contact;
-      ci.szProto := PAnsiChar(otherproto);
-      if CallService(MS_CONTACT_GETCONTACTINFO, 0, lparam(@ci)) = 0 then
+      tempwstr := Contact_GetInfo(CNF_UNIQUEID, Contact, PAnsiChar(otherproto));
+      if (tempwstr <> nil) and (tempwstr = ws) then
       begin
-        case (ci._type) of
-          CNFT_BYTE:   if ci.retval.bVal = idnum then break;
-          CNFT_WORD:   if ci.retval.wVal = idnum then break;
-          CNFT_DWORD:  if ci.retval.dVal = DWORD(idnum) then break;
-          CNFT_ASCIIZ: if ws = ci.retval.szVal.w then break;
-        end; // case
-      end; // if
+         mir_free(tempwstr);
+         break;
+      end;
+      mir_free(tempwstr);
     end; // if
     Contact := db_find_next(Contact);
   end; // while
@@ -298,7 +291,7 @@ function GetContactByNick(const proto: AnsiString; const Nick: WideString): THan
 var
   Contact: THandle;
   otherproto: AnsiString;
-  ci: TCONTACTINFO;
+  tmpwstr: PWideChar;
 begin
   result := INVALID_HANDLE_VALUE;
   Contact := db_find_first();
@@ -307,19 +300,14 @@ begin
     otherproto := Proto_GetProtoName(Contact);
     if otherproto = proto then
     begin
-      ci.cbSize := SizeOf(ci);
-      ci.dwFlag := CNF_NICK;
-      ci.dwFlag := ci.dwFlag or CNF_UNICODE;
-      ci.hContact := Contact;
-      ci.szProto := PAnsiChar(otherproto);
-      if CallService(MS_CONTACT_GETCONTACTINFO, 0, lparam(@ci)) = 0 then
+      tmpwstr := Contact_GetInfo(CNF_NICK, Contact, PAnsiChar(otherproto));
+      if (tmpwstr <> nil) and (Nick = tmpwstr) then
       begin
-        if Nick = ci.retval.szVal.w then
-        begin
-          result := Contact;
-          break;
-        end;
+        mir_free(tmpwstr);
+        result := Contact;
+        break;
       end; // if
+      mir_free(tmpwstr);
     end; // if
     Contact := db_find_next(Contact);
   end; // while

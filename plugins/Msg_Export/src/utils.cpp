@@ -973,23 +973,9 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			for (int nCur = 0; nCur < 9; nCur++)
 				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], _T("")));
 
-			CONTACTINFO ci = {};
-			ci.cbSize = sizeof(ci);
-			ci.hContact = hContact;
-			ci.szProto = (char*)sProto.c_str();
-			ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-				switch (ci.type) {
-				case CNFT_ASCIIZ:
-					ReplaceAll(output, _T("%UIN%"), ci.pszVal);
-					mir_free(ci.pszVal);
-					break;
-				case CNFT_DWORD:
-					mir_sntprintf(szTemp, _T("%u"), ci.dVal);
-					ReplaceAll(output, _T("%UIN%"), szTemp);
-					break;
-				}
-			}
+			ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, sProto.c_str()));
+			if (id != NULL)
+				ReplaceAll(output, _T("%UIN%"), id);
 
 			mir_sntprintf(szTemp, _T("%d"), db_get_w(hContact, sProto.c_str(), "Age", 0));
 			ReplaceAll(output, _T("%Age%"), szTemp);
@@ -1447,9 +1433,6 @@ void SaveSettings()
 
 TCHAR* GetMyOwnNick(MCONTACT hContact)
 {
-	CONTACTINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(hContact);
-	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	return CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(&ci)) ? mir_tstrdup(TranslateT("No_Nick")) : ci.pszVal;
+	TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(hContact));
+	return (p != NULL) ? p : mir_tstrdup(TranslateT("No_Nick"));
 }

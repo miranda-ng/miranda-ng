@@ -109,27 +109,11 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 			return cacheEntry->tszName;
 	}
 
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	if (ci.hContact == NULL)
-		ci.szProto = "ICQ";
-	ci.dwFlag = ((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		if (ci.type == CNFT_ASCIIZ) {
-			if (cacheEntry != NULL)
-				replaceStrT(cacheEntry->tszName, ci.pszVal);
-			return ci.pszVal;
-		}
-
-		if (ci.type == CNFT_DWORD) {
-			TCHAR *buffer = (TCHAR*)mir_alloc(15 * sizeof(TCHAR));
-			_ltot(ci.dVal, buffer, 10);
-			if (cacheEntry != NULL)
-				replaceStrT(cacheEntry->tszName, buffer);
-			return buffer;
-		}
+	ptrT tszDisplayName(Contact_GetInfo((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY, hContact));
+	if (tszDisplayName != NULL) {
+		if (cacheEntry != NULL)
+			replaceStrT(cacheEntry->tszName, tszDisplayName);
+		return tszDisplayName.detach();
 	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);

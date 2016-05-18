@@ -271,27 +271,18 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 
 	if (!(g_dat.flags & SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		TCHAR *szName;
-		CONTACTINFO ci = { 0 };
 
 		if (dbei.flags & DBEF_SENT) {
-			ci.cbSize = sizeof(ci);
-			ci.szProto = dbei.szModule;
-			ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-				// CNF_DISPLAY always returns a string type
-				szName = ci.pszVal;
-			}
+			if (TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule))
+				szName = NEWTSTR_ALLOCA(p);
 			else
-				// Shouldn't happen?
-				szName = mir_tstrdup(TranslateT("Me"));
+				szName = TranslateT("Me");
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 		buffer.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 		AppendToBufferWithRTF(buffer, szName);
 		showColon = 1;
-		if (ci.pszVal)
-			mir_free(ci.pszVal);
 	}
 
 	if (showColon)
@@ -302,18 +293,11 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		if (dbei.flags & DBEF_SENT) {
-			CONTACTINFO ci = { sizeof(ci) };
-			ci.hContact = NULL;
-			ci.szProto = dbei.szModule;
-			ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-
-			// CNF_DISPLAY always returns a string type
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
-				szName = NEWTSTR_ALLOCA(ci.pszVal);
-			else
-				szName = _T("");
-
-			mir_free(ci.pszVal);
+			if (TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule)) {
+				szName = NEWTSTR_ALLOCA(p);
+				mir_free(p);
+			}
+			else szName = _T("");
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 

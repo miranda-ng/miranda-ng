@@ -91,37 +91,13 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 	*p = '\0';
 }
 
-char* contact_get_id(MCONTACT hContact, bool bNameOnError) {
-	char* pszUniqueID = NULL;
-	CONTACTINFO ci;
-	memset(&ci, 0, sizeof(ci));
-	ci.cbSize = sizeof(ci);
-	ci.hContact = hContact;
-	ci.dwFlag = CNF_UNIQUEID;
+char* contact_get_id(MCONTACT hContact, bool bNameOnError)
+{
+	ptrT pszUniqueID(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	if (!pszUniqueID && bNameOnError)
+		pszUniqueID = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
-	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci) == 0)
-	{
-		if (ci.type == CNFT_ASCIIZ) {   
-			pszUniqueID = (char*)ci.pszVal; // MS_CONTACT_GETCONTACTINFO uses mir_alloc
-		} else if (ci.type == CNFT_DWORD)  {
-			pszUniqueID = (char*)mir_alloc(15);
-			if (pszUniqueID) 
-				mir_snprintf(pszUniqueID, 15, ("%u"), ci.dVal);
-		} else if (ci.type == CNFT_WORD)  {
-			pszUniqueID = (char*)mir_alloc(15);
-			if (pszUniqueID)
-				mir_snprintf(pszUniqueID, 15, ("%u"), ci.wVal);
-		} else if (ci.type == CNFT_BYTE)  {
-			pszUniqueID = (char*)mir_alloc(15);
-			if (pszUniqueID)
-				mir_snprintf(pszUniqueID, 15, ("%u"), ci.bVal);
-		}
-	}
-	if (!pszUniqueID && bNameOnError) {
-		const TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
-		if (name) pszUniqueID = mir_t2a(name);
-	}
-	return pszUniqueID;
+	return mir_t2a(pszUniqueID);
 }
 
 __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
@@ -130,24 +106,8 @@ __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 
 TCHAR* ProtoGetNickname(const char* proto)
 {
-	CONTACTINFO ci = {sizeof(ci)};
-	ci.dwFlag = CNF_TCHAR | CNF_NICK;
-	ci.szProto = (char*)proto;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch (ci.type) {
-		case CNFT_ASCIIZ:
-			return ci.pszVal;
-		case CNFT_DWORD:
-			mir_free(ci.pszVal);
-			ci.pszVal=(TCHAR*)mir_alloc(12*sizeof(TCHAR)); // long can only have up to 11 characters (unsigned = 10)
-			if(ci.pszVal)
-				_ltot(ci.dVal, ci.pszVal, 10);
-			return ci.pszVal;
-		default:
-			mir_free(ci.pszVal);
-		}
-	}
-	return mir_tstrdup(_T(""));
+	TCHAR *p = Contact_GetInfo(CNF_NICK, NULL, proto);
+	return (p != NULL) ? p : mir_tstrdup(_T(""));
 }
 
 void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {

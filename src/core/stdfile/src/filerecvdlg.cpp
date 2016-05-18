@@ -247,34 +247,8 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, _countof(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
 
-			char* szProto = GetContactProto(dat->hContact);
-			if (szProto) {
-				int hasName = 0;
-				char buf[128];
-
-				CONTACTINFO ci = { 0 };
-				ci.cbSize = sizeof(ci);
-				ci.hContact = dat->hContact;
-				ci.szProto = szProto;
-				ci.dwFlag = CNF_UNIQUEID;
-				if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-					switch (ci.type) {
-					case CNFT_ASCIIZ:
-						hasName = 1;
-						strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
-						mir_free(ci.pszVal);
-						break;
-					case CNFT_DWORD:
-						hasName = 1;
-						mir_snprintf(buf, "%u", ci.dVal);
-						break;
-					}
-				}
-				if (hasName)
-					SetDlgItemTextA(hwndDlg, IDC_NAME, buf);
-				else
-					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
-			}
+			ptrT info(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
+			SetDlgItemText(hwndDlg, IDC_NAME, (info) ? info : contactName);
 
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
 				RECT rcBtn1, rcBtn2, rcDateCtrl;

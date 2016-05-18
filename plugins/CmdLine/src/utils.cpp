@@ -152,29 +152,8 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 #pragma warning (disable: 4312)
 char* GetContactName(MCONTACT hContact, char *szProto)
 {
-	char proto[200];
-
-	CONTACTINFO ctInfo;
-	memset(&ctInfo, 0, sizeof(ctInfo));
-	ctInfo.cbSize = sizeof(ctInfo);
-	if (szProto)
-		ctInfo.szProto = szProto;
-	else {
-		GetContactProto(hContact, proto, sizeof(proto));
-		ctInfo.szProto = proto;
-	}
-	ctInfo.dwFlag = CNF_DISPLAY;
-	ctInfo.hContact = hContact;
-
-	//_debug_message("retrieving contact name for %d", hContact);
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	if (ret)
-		return NULL;
-
-	//_debug_message("	contact name %s", ctInfo.pszVal);
-	char *buffer = strdup((char*)ctInfo.pszVal);
-	mir_free(ctInfo.pszVal);
-	return buffer;
+	ptrT name(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
+	return (name == NULL) ? NULL : strdup(_T2A(name));
 }
 #pragma warning (default: 4312)
 
@@ -196,42 +175,8 @@ char* GetContactID(MCONTACT hContact)
 
 char* GetContactID(MCONTACT hContact, char *szProto)
 {
-	CONTACTINFO ctInfo;
-	memset(&ctInfo, 0, sizeof(ctInfo));
-	ctInfo.cbSize = sizeof(ctInfo);
-	ctInfo.szProto = szProto;
-	ctInfo.dwFlag = CNF_UNIQUEID;
-	ctInfo.hContact = hContact;
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	if (ret)
-		return NULL;
-
-	char *buffer;
-	char tmp[16];
-	switch (ctInfo.type) {
-	case CNFT_BYTE:
-		mir_snprintf(tmp, "%d", ctInfo.bVal);
-		buffer = strdup(tmp);
-		break;
-
-	case CNFT_WORD:
-		mir_snprintf(tmp, "%d", ctInfo.wVal);
-		buffer = strdup(tmp);
-		break;
-
-	case CNFT_DWORD:
-		mir_snprintf(tmp, "%ld", ctInfo.dVal);
-		buffer = strdup(tmp);
-		break;
-
-	case CNFT_ASCIIZ:
-	default:
-		buffer = _strdup((char*)ctInfo.pszVal);
-		break;
-	}
-
-	mir_free(ctInfo.pszVal);
-	return buffer;
+	ptrT name(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	return (name == NULL) ? NULL : strdup(_T2A(name));
 }
 #pragma warning (default: 4312)
 

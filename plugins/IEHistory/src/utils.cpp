@@ -78,23 +78,10 @@ int Info(char *title, char *format, ...)
 returns the name of a contact
 */
 
-TCHAR *GetContactName(MCONTACT contact)
+TCHAR* GetContactName(MCONTACT contact)
 {
-	CONTACTINFO ctInfo = { sizeof(ctInfo) };
-	//	if(db_mc_isMeta(contact))
-	//		contact=db_mc_getMostOnline(contact);
-	ctInfo.szProto = GetContactProto(contact);
-	ctInfo.dwFlag = CNF_DISPLAY;
-#ifdef _UNICODE
-	ctInfo.dwFlag += CNF_UNICODE;
-#endif
-	ctInfo.hContact = contact;
-	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ctInfo)){
-		return NULL;
-	}
-	TCHAR* buffer = _tcsdup(ctInfo.pszVal);
-	mir_free(ctInfo.pszVal);
-	return buffer;
+	ptrT name(Contact_GetInfo(CNF_DISPLAY, contact));
+	return (name) ? _tcsdup(name) : NULL;
 }
 
 /*

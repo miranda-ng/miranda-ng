@@ -85,8 +85,7 @@ end;
 
 function GetContactDisplayName(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PWideChar;
 var
-  ci: TContactInfo;
-  pUnk:PWideChar;
+  pName, pUnk:PWideChar;
 begin
   if (hContact = 0) and Contact then
     StrDupW(Result, TranslateW('Server'))
@@ -99,17 +98,14 @@ begin
       StrDupW(Result, pUnk)
     else
     begin
-      ci.cbSize   := SizeOf(ci);
-      ci.hContact := hContact;
-      ci.szProto  := Proto;
-      ci.dwFlag   := CNF_DISPLAY + CNF_UNICODE;
-      if CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(@ci)) = 0 then
+      pName := Contact_GetInfo(CNF_DISPLAY, hContact, Proto);
+      if pName <> nil then
       begin
-        if StrCmpW(ci.retval.szVal.w, pUnk)=0 then
+        if StrCmpW(pName, pUnk)=0 then
           AnsiToWide(GetContactID(hContact, Proto), Result, CP_ACP)
         else
-          StrDupW(Result, ci.retval.szVal.w);
-        mir_free(ci.retval.szVal.w);
+          StrDupW(Result, pName);
+        mir_free(pName);
       end
       else
         AnsiToWide(GetContactID(hContact, Proto), Result);

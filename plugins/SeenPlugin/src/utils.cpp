@@ -165,9 +165,8 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 		return sztemp;
 	}
 
-	CONTACTINFO ci = { sizeof(CONTACTINFO) };
-	ci.hContact = hcontact;
-	ci.szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
+	char *szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
+	ptrT info;
 
 	TCHAR *d = sztemp;
 	for (TCHAR *p = szstring; *p; p++) {
@@ -257,9 +256,8 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_charPtr;
 
 		case 'N':
-			ci.dwFlag = CNF_NICK | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-				charPtr = ci.pszVal;
+			if (info = Contact_GetInfo(CNF_NICK, hcontact, szProto)) {
+				charPtr = info;
 				goto LBL_charPtr;
 			}
 			goto LBL_noData;
@@ -274,26 +272,11 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			break;
 
 		case 'u':
-			ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-				switch (ci.type) {
-				case CNFT_BYTE:
-					_ltot(ci.bVal, szdbsetting, 10);
-					break;
-				case CNFT_WORD:
-					_ltot(ci.wVal, szdbsetting, 10);
-					break;
-				case CNFT_DWORD:
-					_ltot(ci.dVal, szdbsetting, 10);
-					break;
-				case CNFT_ASCIIZ:
-					_tcsncpy(szdbsetting, ci.pszVal, _countof(szdbsetting));
-					break;
-				}
+			if (info = Contact_GetInfo(CNF_UNIQUEID, hcontact, szProto)) {
+				charPtr = info;
+				goto LBL_charPtr;
 			}
-			else goto LBL_noData;
-			charPtr = szdbsetting;
-			goto LBL_charPtr;
+			goto LBL_noData;
 
 		case 's':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
@@ -329,16 +312,15 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 
 		case 'i':
 		case 'r':
-			if (isJabber(ci.szProto)) {
-				if (db_get_ts(hcontact, ci.szProto, *p == 'i' ? "Resource" : "System", &dbv))
-					goto LBL_noData;
-
-				_tcsncpy(szdbsetting, dbv.ptszVal, _countof(szdbsetting));
-				db_free(&dbv);
-				charPtr = szdbsetting;
+			if (isJabber(szProto)) {
+				if (info = db_get_tsa(hcontact, szProto, *p == 'i' ? "Resource" : "System")) {
+					charPtr = info;
+					goto LBL_charPtr;
+				}
+				goto LBL_noData;
 			}
 			else {
-				dwsetting = db_get_dw(hcontact, ci.szProto, *p == 'i' ? "IP" : "RealIP", 0);
+				dwsetting = db_get_dw(hcontact, szProto, *p == 'i' ? "IP" : "RealIP", 0);
 				if (!dwsetting)
 					goto LBL_noData;
 
@@ -349,7 +331,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_charPtr;
 
 		case 'P':
-			_tcsncpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), _countof(szdbsetting));
+			_tcsncpy(szdbsetting, szProto ? _A2T(szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), _countof(szdbsetting));
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
@@ -358,27 +340,26 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
-			if (!db_get_ts(hcontact, ci.szProto, "MirVer", &dbv)) {
-				_tcsncpy(szdbsetting, dbv.ptszVal, _countof(szdbsetting));
-				db_free(&dbv);
+			if (info = db_get_tsa(hcontact, szProto, "MirVer")) {
+				charPtr = info;
+				goto LBL_charPtr;
 			}
-			else goto LBL_noData;
-			charPtr = szdbsetting;
-			goto LBL_charPtr;
+			goto LBL_noData;
 
 		case 't':
 			charPtr = _T("\t");
 			goto LBL_charPtr;
 
 		case 'A':
-		{
-			PROTOACCOUNT *pa = Proto_GetAccount(ci.szProto);
-			if (!pa) goto LBL_noData;
-			_tcsncpy(szdbsetting, pa->tszAccountName, _countof(szdbsetting));
-			charPtr = szdbsetting;
+			{
+				PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+				if (!pa)
+					goto LBL_noData;
+				
+				_tcsncpy(szdbsetting, pa->tszAccountName, _countof(szdbsetting));
+				charPtr = szdbsetting;
+			}
 			goto LBL_charPtr;
-		}
-
 
 		default:
 			*d++ = p[-1];

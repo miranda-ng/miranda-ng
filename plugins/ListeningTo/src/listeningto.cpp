@@ -461,7 +461,8 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM)
 		return -1;
 
 	if (wParam < proto_items.size()) {
-		ProtocolInfo &pi = proto_items[wParam];		EnableListeningTo(pi.proto, !ListeningToEnabled(pi.proto, TRUE));
+		ProtocolInfo &pi = proto_items[wParam];
+		EnableListeningTo(pi.proto, !ListeningToEnabled(pi.proto, TRUE));
 	}
 	return 0;
 }

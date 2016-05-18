@@ -920,27 +920,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 	case DM_USERNAMETOCLIP:
 		if (dat->hContact) {
-			TCHAR buf[128] = _T("");
-			CONTACTINFO ci = { sizeof(ci) };
-			ci.hContact = dat->hContact;
-			ci.szProto = dat->szProto;
-			ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-				switch (ci.type) {
-				case CNFT_ASCIIZ:
-					_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
-					mir_free(ci.pszVal);
-					break;
-
-				case CNFT_DWORD:
-					mir_sntprintf(buf, _T("%u"), ci.dVal);
-					break;
-				}
-			}
-			if (buf[0] && OpenClipboard(hwndDlg)) {
+			ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
+			if (id != NULL && OpenClipboard(hwndDlg)) {
 				EmptyClipboard();
-				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(buf) * sizeof(TCHAR)+1);
-				mir_tstrcpy((TCHAR*)GlobalLock(hData), buf);
+				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(id) * sizeof(TCHAR)+1);
+				mir_tstrcpy((TCHAR*)GlobalLock(hData), id);
 				GlobalUnlock(hData);
 				SetClipboardData(CF_UNICODETEXT, hData);
 				CloseClipboard();
@@ -1025,29 +1009,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-				TCHAR buf[128] = _T("");
-				if (mir_strcmp(dat->szProto, META_PROTO)) {
-					CONTACTINFO ci = { 0 };
-					ci.cbSize = sizeof(ci);
-					ci.hContact = dat->hContact;
-					ci.szProto = dat->szProto;
-					ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-						switch (ci.type) {
-						case CNFT_ASCIIZ:
-							_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
-							mir_free(ci.pszVal);
-							break;
-						case CNFT_DWORD:
-							mir_sntprintf(buf, _T("%u"), ci.dVal);
-							break;
-						}
-					}
-				}
-				if (buf[0])
-					SetDlgItemText(hwndDlg, IDC_NAME, buf);
-				else
-					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
+				ptrT id(Contact_GetInfo(CNF_DISPLAYUID, dat->hContact, dat->szProto));
+				SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
 				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 				if (statusIcon)
