@@ -290,17 +290,14 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 				strncpy_s(name, "(UNKNOWN)", _TRUNCATE);
 		}
 		else {
-			// Proto loadet - GetContactName(hContact,pszProto,0)
+			// Proto loaded - GetContactName(hContact,pszProto,0)
 			LPSTR pszCI	= NULL;
-			CONTACTINFO ci;
-			memset(&ci, 0, sizeof(ci));
-
-			ci.cbSize		= sizeof(ci);
-			ci.hContact		= _hContact;
-			ci.szProto		= _pszProto;
-			ci.dwFlag		= CNF_DISPLAY;
-
-			if (!GetContactInfo(NULL, (LPARAM) &ci)) {
+			CONTACTINFO ci = {};
+			ci.cbSize = sizeof(ci);
+			ci.hContact = _hContact;
+			ci.szProto = _pszProto;
+			ci.dwFlag = CNF_DISPLAY;
+			if (!CallService(MS_CONTACT_GETCONTACTINFO, NULL, (LPARAM)&ci)) {
 				// CNF_DISPLAY always returns a string type
 				pszCI = (LPSTR)ci.pszVal;
 			}
@@ -312,7 +309,7 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 
 			mir_free(pszCI);
 			mir_free(pszUID);
-		} // end else (Proto loadet)
+		} // end else (Proto loaded)
 
 		// it is not the best solution (but still works if only basic modules export) - need rework
 		if (modCount > 3)

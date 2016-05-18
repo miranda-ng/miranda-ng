@@ -194,7 +194,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	SvcFlagsLoadModule();
 	SvcTimezoneLoadModule();
-	SvcContactInfoLoadModule();
 	SvcEMailLoadModule();
 	SvcRefreshContactInfoLoadModule();
 

@@ -113,7 +113,6 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 #include "../IconPacks/ice/src/icons.h"
 #include "svc_constants.h"
 #include "svc_avatar.h"
-#include "svc_contactinfo.h"
 #include "svc_email.h"
 #include "svc_gender.h"
 #include "svc_homepage.h"

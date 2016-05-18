@@ -719,38 +719,34 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_TCHAR;
 
-	DBCONTACTGETSETTING cgs = { 0 };
-	cgs.szModule = group;
-	cgs.szSetting = setting;
-	cgs.pValue = &dbv;
-
-	INT_PTR rc;
-
 	int caps = (isProtocol ? CallProtoService(group, PS_GETCAPS, PFLAGNUM_4, 0) : 0);
-	if (caps & PF4_INFOSETTINGSVC)
-		rc = CallProtoService(group, PS_GETINFOSETTING, hContact, (LPARAM)&cgs);
+	if (caps & PF4_INFOSETTINGSVC) {
+		DBCONTACTGETSETTING cgs = { 0 };
+		cgs.szModule = group;
+		cgs.szSetting = setting;
+		cgs.pValue = &dbv;
+		if (CallProtoService(group, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
+			return;
+	}
 	else {
-		rc = CallService(MS_DB_CONTACT_GETSETTING_STR_EX, hContact, (LPARAM)&cgs);
-		if (rc == CALLSERVICE_NOTFOUND)
-			rc = db_get_ts(hContact, group, setting, &dbv);
+		if (db_get_ts(hContact, group, setting, &dbv))
+			return;
 	}
 
-	if (!rc && dbv.type == DBVT_TCHAR && dbv.ptszVal != NULL) {
+	if (dbv.type == DBVT_TCHAR && dbv.ptszVal != NULL) {
 		TCHAR *lang = dbv.ptszVal;
 
 		for (int i = 0; i < languages.getCount(); i++) {
 			Dictionary *dict = languages[i];
 			if (mir_tstrcmpi(dict->localized_name, lang) == 0
-				 || mir_tstrcmpi(dict->english_name, lang) == 0
-				 || mir_tstrcmpi(dict->language, lang) == 0) {
+				|| mir_tstrcmpi(dict->english_name, lang) == 0
+				|| mir_tstrcmpi(dict->language, lang) == 0) {
 				mir_tstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
 				break;
 			}
 		}
 	}
-
-	if (!rc)
-		db_free(&dbv);
+	db_free(&dbv);
 }
 
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
