@@ -131,9 +131,10 @@ static int lua_Accounts(lua_State *L)
 
 INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 {
-	NotifyEventHooks(hRecvMessage, wParam, lParam);
-
-	return Proto_ChainRecv(wParam, (CCSDATA*)lParam);
+	int res = NotifyEventHooks(hRecvMessage, wParam, lParam);
+	if (res) return res;
+	Proto_ChainRecv(wParam, (CCSDATA*)lParam);
+	return 0;
 }
 
 /***********************************************/
