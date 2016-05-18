@@ -73,7 +73,6 @@ public:
 	void SetAvatar(const TCHAR *file_name);
 	//void SetAvatar(const char *file_name, HBITMAP hBmp);
 
-	bool CanGetNick();
 	TCHAR *GetNick();			// Copy to cache and return a copy
 	int GetNickMaxLength();
 	bool CanSetNick();

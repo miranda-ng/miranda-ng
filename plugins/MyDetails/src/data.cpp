@@ -273,11 +273,6 @@ void Protocol::GetAvatar()
 }
 
 
-bool Protocol::CanGetNick()
-{
-	return ServiceExists(MS_CONTACT_GETCONTACTINFO) != FALSE;
-}
-
 int Protocol::GetNickMaxLength()
 {
 	if (!ProtoServiceExists(name, PS_GETMYNICKNAMEMAXLENGTH))
@@ -291,10 +286,6 @@ int Protocol::GetNickMaxLength()
 
 TCHAR *Protocol::GetNick()
 {
-	// See if can get one
-	if (!CanGetNick())
-		return NULL;
-
 	// Get it
 	CONTACTINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
