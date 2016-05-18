@@ -546,7 +546,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					if (ht) {
 						ClcContact *contact2;
 						ClcGroup *group2;
-						if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, FALSE)) {
+						if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, false)) {
 							int i = cliGetRowsPriorTo(&dat->list, group2, GetContactIndex(group2, contact2));
 							pcli->pfnEnsureVisible(hwnd, dat, i + contact->SubAllocated, 0);
 						}
@@ -642,7 +642,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				int i = 0;
 				ClcContact *contact;
 				ClcGroup *group;
-				if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, FALSE)) {
+				if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, false)) {
 					i = cliGetRowsPriorTo(&dat->list, group, GetContactIndex(group, contact));
 					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->SubAllocated, 0);
 				}
@@ -1437,7 +1437,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hContact, LPARAM)
 {
 	ClcContact *contact;
-	if (FindItem(hwnd, dat, hContact, &contact, NULL, NULL, FALSE))
+	if (FindItem(hwnd, dat, hContact, &contact, NULL, NULL, false))
 		Cache_GetAvatar(dat, contact);
 	else if (hContact == 0)
 		UpdateAllAvatars(dat);
@@ -1449,7 +1449,7 @@ static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hCon
 static LRESULT clcOnIntmTimeZoneChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, FALSE))
+	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	if (contact) {
@@ -1467,7 +1467,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, FALSE))
+	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
 		return ret;
 
 	if (contact) {
@@ -1491,7 +1491,7 @@ static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, hContact, &contact, NULL, NULL, FALSE))
+	if (!FindItem(hwnd, dat, hContact, &contact, NULL, NULL, false))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 
 	if (contact) {
@@ -1507,7 +1507,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, TRUE))
+	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, true))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	if (contact->type != CLCIT_CONTACT)
@@ -1539,7 +1539,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	
 	if (wParam != 0) {
 		ClcContact *contact;
-		if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, TRUE)) {
+		if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, true)) {
 			ClcCacheEntry *pdnce = contact->pce;
 			if (pdnce && pdnce->m_pszProto) {
 				if (!dat->force_in_dialog) {
@@ -1549,7 +1549,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 
 				SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
 
-				if (contact && contact->type == CLCIT_CONTACT) {
+				if (contact->type == CLCIT_CONTACT) {
 					if (!contact->image_is_special && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
 					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)

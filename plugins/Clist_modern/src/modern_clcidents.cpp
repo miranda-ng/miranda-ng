@@ -79,10 +79,10 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 
 int cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
-	return FindItem(hwnd, dat, dwItem, contact, subgroup, isVisible, FALSE);
+	return FindItem(hwnd, dat, dwItem, contact, subgroup, isVisible, false);
 }
 
-int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts)
+int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, bool isIgnoreSubcontacts)
 {
 	int index = 0;
 	int nowVisible = 1;

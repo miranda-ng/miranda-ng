@@ -197,7 +197,7 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (FindItem(hwnd, dat, hContact, &cont, &group, NULL, FALSE))
+	if (FindItem(hwnd, dat, hContact, &cont, &group, NULL, false))
 		_LoadDataToContact(cont, group, dat, hContact);
 }
 
