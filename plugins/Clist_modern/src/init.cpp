@@ -136,6 +136,7 @@ static HRESULT SubclassClistInterface()
 	pcli->hInst = g_hInst;
 	pcli->bDisplayLocked = TRUE;
 
+	pcli->pfnCreateCacheItem = cliCreateCacheItem;
 	pcli->pfnCheckCacheItem = cliCheckCacheItem;
 	pcli->pfnFreeCacheItem = cliFreeCacheItem;
 	pcli->pfnInvalidateDisplayNameCacheEntry = cliInvalidateDisplayNameCacheEntry;
@@ -148,7 +149,6 @@ static HRESULT SubclassClistInterface()
 
 	pcli->pfnBeginRenameSelection = cliBeginRenameSelection;
 	pcli->pfnCreateClcContact = cliCreateClcContact;
-	pcli->pfnCreateCacheItem = cliCreateCacheItem;
 	pcli->pfnGetRowBottomY = cliGetRowBottomY;
 	pcli->pfnGetRowHeight = cliGetRowHeight;
 	pcli->pfnGetRowTopY = cliGetRowTopY;

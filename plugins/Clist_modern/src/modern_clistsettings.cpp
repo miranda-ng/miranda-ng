@@ -23,30 +23,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "modern_awaymsg.h"
 
 void InsertContactIntoTree(MCONTACT hContact, int status);
 
 TCHAR* UnknownConctactTranslatedName = NULL;
 
-void InitDisplayNameCache(void)
-{
-	InitAwayMsgModule();
-}
-
-void FreeDisplayNameCache()
-{
-	UninitAwayMsgModule();
-}
-
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
-	mir_free_and_nil(p->tszName);
-	mir_free_and_nil(p->tszGroup);
 	mir_free_and_nil(p->szSecondLineText);
 	mir_free_and_nil(p->szThirdLineText);
 	p->ssSecondLine.DestroySmileyList();
 	p->ssThirdLine.DestroySmileyList();
+
+	corecli.pfnFreeCacheItem(p);
 }
 
 void cliCheckCacheItem(ClcCacheEntry *pdnce)
@@ -74,18 +63,14 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
 		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
 
-	if (pdnce->tszGroup == NULL) {
-		pdnce->tszGroup = db_get_tsa(pdnce->hContact, "CList", "Group");
-		if (pdnce->tszGroup == NULL)
-			pdnce->tszGroup = mir_tstrdup(_T(""));
-	}
-
 	// this variable isn't filled inside cliCreateCacheItem() because the filter could be changed dynamically
 	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
 		pdnce->dwLastMsgTime = db_get_dw(pdnce->hContact, "CList", "mf_lastmsg", 0);
 		if (pdnce->dwLastMsgTime == 0)
 			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 	}
+
+	corecli.pfnCheckCacheItem(pdnce);
 }
 
 int GetStatusForContact(MCONTACT hContact, char *szProto)

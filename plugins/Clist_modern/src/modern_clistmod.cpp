@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "modern_awaymsg.h"
 #include "modern_sync.h"
 #include "modern_clui.h"
 
@@ -134,7 +135,7 @@ void UnLoadContactListModule()  //unhooks noncritical events
 
 int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 {
-	FreeDisplayNameCache();
+	UninitAwayMsgModule();
 	return 0;
 }
 
@@ -157,7 +158,8 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam);
 
 HRESULT CluiLoadModule()
 {
-	InitDisplayNameCache();
+	InitAwayMsgModule();
+
 	HookEvent(ME_SYSTEM_SHUTDOWN, CListMod_ContactListShutdownProc);
 	HookEvent(ME_OPT_INITIALISE, CListOptInit);
 	HookEvent(ME_OPT_INITIALISE, SkinOptInit);

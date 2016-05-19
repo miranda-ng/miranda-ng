@@ -63,8 +63,8 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 
 void fnFreeCacheItem(ClcCacheEntry *p)
 {
-	if (p->tszName) { mir_free(p->tszName); p->tszName = NULL; }
-	if (p->tszGroup) { mir_free(p->tszGroup); p->tszGroup = NULL; }
+	replaceStrT(p->tszName, NULL);
+	replaceStrT(p->tszGroup, NULL);
 	p->bIsHidden = -1;
 }
 

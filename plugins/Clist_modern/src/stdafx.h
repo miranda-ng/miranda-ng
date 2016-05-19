@@ -168,8 +168,6 @@ char* __cdecl strstri(char *a, const char *b);
 
 HBITMAP ske_CreateDIB32(int cx, int cy);
 
-void InitDisplayNameCache(void);
-void FreeDisplayNameCache();
 int CLUI_ShowWindowMod(HWND hwnd, int cmd);
 
 void MakeButtonSkinned(HWND hWnd);
