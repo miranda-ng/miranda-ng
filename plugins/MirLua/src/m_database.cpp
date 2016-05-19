@@ -53,6 +53,69 @@ static int db_Contacts(lua_State *L)
 	return 1;
 }
 
+static int db_GetContactInfo(lua_State *L)
+{
+	int type = 0;
+	if (lua_isnumber(L, 1))
+		type = lua_tointeger(L, 1);
+	else if (lua_isstring(L, 1))
+	{
+		const char *key = luaL_checkstring(L, 1);
+
+		if (mir_strcmpi(key, "FirstName") == 0)
+			type = CNF_FIRSTNAME;
+		else if (mir_strcmpi(key, "LastName") == 0)
+			type = CNF_LASTNAME;
+		else if (mir_strcmpi(key, "Nick") == 0)
+			type = CNF_NICK;
+		else if (mir_strcmpi(key, "CustomNick") == 0)
+			type = CNF_CUSTOMNICK;
+		else if (mir_strcmpi(key, "FullName") == 0)
+			type = CNF_FIRSTLAST;
+		else if (mir_strcmpi(key, "DisplayName") == 0)
+			type = CNF_DISPLAY;
+		else if (mir_strcmpi(key, "Uid") == 0)
+			type = CNF_UNIQUEID;
+		else if (mir_strcmpi(key, "Email") == 0)
+			type = CNF_EMAIL;
+		else if (mir_strcmpi(key, "City") == 0)
+			type = CNF_CITY;
+		else if (mir_strcmpi(key, "State") == 0)
+			type = CNF_STATE;
+		else if (mir_strcmpi(key, "Country") == 0)
+			type = CNF_COUNTRY;
+		else if (mir_strcmpi(key, "Phone") == 0)
+			type = CNF_PHONE;
+		else if (mir_strcmpi(key, "Homepage") == 0)
+			type = CNF_HOMEPAGE;
+		else if (mir_strcmpi(key, "About") == 0)
+			type = CNF_ABOUT;
+		else if (mir_strcmpi(key, "Age") == 0)
+			type = CNF_AGE;
+		else if (mir_strcmpi(key, "Gender") == 0)
+			type = CNF_GENDER;
+		else
+		{
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+
+	MCONTACT hContact = luaL_checkinteger(L, 2);
+	const char *proto = lua_tostring(L, 3);
+
+	ptrT value(Contact_GetInfo(CNF_FIRSTNAME, hContact, proto));
+	if (value)
+		lua_pushstring(L, ptrA(mir_utf8encodeT(value)));
+	else
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	return 1;
+}
+
 /***********************************************/
 
 static int db_GetEventCount(lua_State *L)
@@ -471,6 +534,7 @@ static luaL_Reg databaseApi[] =
 	{ "FindFirstContact", db_FindFirstContact },
 	{ "FindNextContact", db_FindNextContact },
 	{ "Contacts", db_Contacts },
+	{ "GetContactInfo", db_GetContactInfo },
 
 	{ "GetEventCount", db_GetEventCount },
 
@@ -573,115 +637,6 @@ void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 
 /***********************************************/
 
-#define MT_CONTACTINFO "CONTACTINFO"
-
-void MT<CONTACTINFO>::Init(lua_State *L, CONTACTINFO **ci)
-{
-	if (!lua_isinteger(L, 1))
-	{
-		const char *msg = lua_pushfstring(L, "hContact expected, got %s", luaL_typename(L, 1));
-		luaL_argerror(L, 1, msg);
-	}
-	MCONTACT hContact = luaL_checkinteger(L, 1);
-
-	(*ci) = (CONTACTINFO*)mir_calloc(sizeof(CONTACTINFO));
-	(*ci)->cbSize = sizeof(CONTACTINFO);
-	(*ci)->hContact = hContact;
-}
-
-int MT<CONTACTINFO>::Index(lua_State *L, CONTACTINFO *ci)
-{
-	if (lua_isnumber(L, 2))
-		ci->dwFlag = lua_tointeger(L, 2);
-	else if (lua_isstring(L, 2))
-	{
-		const char *key = luaL_checkstring(L, 2);
-
-		if (mir_strcmpi(key, "Handle") == 0)
-		{
-			lua_pushinteger(L, ci->hContact);
-			return 1;
-		}
-
-		if (mir_strcmpi(key, "FirstName") == 0)
-			ci->dwFlag = CNF_FIRSTNAME;
-		else if (mir_strcmpi(key, "LastName") == 0)
-			ci->dwFlag = CNF_LASTNAME;
-		else if (mir_strcmpi(key, "Nick") == 0)
-			ci->dwFlag = CNF_NICK;
-		else if (mir_strcmpi(key, "CustomNick") == 0)
-			ci->dwFlag = CNF_CUSTOMNICK;
-		else if (mir_strcmpi(key, "FullName") == 0)
-			ci->dwFlag = CNF_FIRSTLAST;
-		else if (mir_strcmpi(key, "DisplayName") == 0)
-			ci->dwFlag = CNF_DISPLAY;
-		else if (mir_strcmpi(key, "Uid") == 0)
-			ci->dwFlag = CNF_UNIQUEID;
-		else if (mir_strcmpi(key, "Email") == 0)
-			ci->dwFlag = CNF_EMAIL;
-		else if (mir_strcmpi(key, "City") == 0)
-			ci->dwFlag = CNF_CITY;
-		else if (mir_strcmpi(key, "State") == 0)
-			ci->dwFlag = CNF_STATE;
-		else if (mir_strcmpi(key, "Country") == 0)
-			ci->dwFlag = CNF_COUNTRY;
-		else if (mir_strcmpi(key, "Phone") == 0)
-			ci->dwFlag = CNF_PHONE;
-		else if (mir_strcmpi(key, "Homepage") == 0)
-			ci->dwFlag = CNF_HOMEPAGE;
-		else if (mir_strcmpi(key, "About") == 0)
-			ci->dwFlag = CNF_ABOUT;
-		else if (mir_strcmpi(key, "Age") == 0)
-			ci->dwFlag = CNF_AGE;
-		else if (mir_strcmpi(key, "Gender") == 0)
-			ci->dwFlag = CNF_GENDER;
-		else
-		{
-			lua_pushnil(L);
-			return 1;
-		}
-	}
-	else
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	ci->dwFlag |= CNF_TCHAR;
-	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)(CONTACTINFO*)ci))
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	switch (ci->type)
-	{
-	case CNFT_BYTE:
-		lua_pushinteger(L, ci->bVal);
-		break;
-	case CNFT_WORD:
-		lua_pushinteger(L, ci->wVal);
-		break;
-	case CNFT_DWORD:
-		lua_pushnumber(L, ci->dVal);
-		break;
-	case CNFT_ASCIIZ:
-		lua_pushstring(L, ptrA(mir_utf8encodeT(ci->pszVal)));
-		break;
-	default:
-		lua_pushnil(L);
-	}
-
-	return 1;
-}
-
-void MT<CONTACTINFO>::Free(lua_State* /*L*/, CONTACTINFO **ci)
-{
-	mir_free((*ci));
-}
-
-/***********************************************/
-
 LUAMOD_API int luaopen_m_database(lua_State *L)
 {
 	luaL_newlib(L, databaseApi);
@@ -715,10 +670,6 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
-	lua_pop(L, 1);
-
-	MT<CONTACTINFO>(L, "CONTACTINFO")
-		.Field(&CONTACTINFO::hContact, "hContact", LUA_TINTEGER);
 	lua_pop(L, 1);
 
 	return 1;
