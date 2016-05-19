@@ -516,6 +516,9 @@ ClcContact* cliCreateClcContact()
 
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 {
+	if (hContact == NULL)
+		return NULL;
+
 	ClcCacheEntry *pdnce = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
 	if (pdnce == NULL)
 		return NULL;

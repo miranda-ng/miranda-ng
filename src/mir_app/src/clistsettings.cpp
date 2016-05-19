@@ -41,6 +41,9 @@ void FreeDisplayNameCache(void)
 
 ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 {
+	if (hContact == NULL)
+		return NULL;
+
 	ClcCacheEntry *p = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 	if (p == NULL)
 		return NULL;
@@ -99,8 +102,10 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 
 TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 {
+	if (hContact == NULL)
+		return TranslateT("(Unknown contact)");
+	
 	ClcCacheEntry *cacheEntry = NULL;
-
 	if (mode & GCDNF_NOCACHE)
 		mode &= ~GCDNF_NOCACHE;
 	else if (mode != GCDNF_NOMYHANDLE) {
@@ -117,6 +122,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
+
 	TCHAR *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }

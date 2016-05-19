@@ -87,6 +87,9 @@ static TCHAR* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto
 
 MIR_APP_DLL(TCHAR*) Contact_GetInfo(int type, MCONTACT hContact, const char *szProto)
 {
+	if (hContact == NULL && szProto == NULL)
+		return NULL;
+
 	if (szProto == NULL)
 		szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == NULL)
