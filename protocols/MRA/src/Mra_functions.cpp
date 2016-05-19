@@ -457,8 +457,11 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 		setDword(hContact, "GroupID", dwGroupID);
 
 		MraGroupItem *grp = m_groups.find((MraGroupItem*)&dwGroupID);
-		if (grp)
-			db_set_ts(hContact, "CList", "Group", grp->m_name);
+		if (grp) {
+			ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+			if (mir_tstrcmp(tszGroup, grp->m_name))
+				db_set_ts(hContact, "CList", "Group", grp->m_name);
+		}
 	}
 
 	if ((dwFlags & SCBIF_NICK) && wszNick != NULL && !wszNick->IsEmpty()) {
