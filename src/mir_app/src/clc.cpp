@@ -380,42 +380,30 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
 			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
 				int groupId = atoi(dbcws->szSetting) + 1;
-				TCHAR szFullName[512];
 				int i, eq;
 				//check name of group and ignore message if just being expanded/collapsed
 				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
-					mir_tstrcpy(szFullName, contact->szText);
+					CMString szFullName(contact->szText);
 					while (group->parent) {
-						for (i = 0; i < group->parent->cl.count; i++)
-							if (group->parent->cl.items[i]->group == group)
+						ClcContact *cc;
+						for (i = 0; i < group->parent->cl.count; i++) {
+							cc = group->parent->cl.items[i];
+							if (cc->group == group)
 								break;
+						}
 						if (i == group->parent->cl.count) {
-							szFullName[0] = '\0';
+							szFullName.Empty();
 							break;
 						}
+						szFullName = CMString(cc->szText) + _T("\\") + szFullName;
 						group = group->parent;
-						size_t nameLen = mir_tstrlen(group->cl.items[i]->szText);
-						if (mir_tstrlen(szFullName) + 1 + nameLen > _countof(szFullName)) {
-							szFullName[0] = '\0';
-							break;
-						}
-						memmove(szFullName + 1 + nameLen, szFullName, sizeof(TCHAR)*(mir_tstrlen(szFullName) + 1));
-						memcpy(szFullName, group->cl.items[i]->szText, sizeof(TCHAR)*nameLen);
-						szFullName[nameLen] = '\\';
 					}
 
-					if (dbcws->value.type == DBVT_ASCIIZ) {
-						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal + 1);
-						eq = !mir_tstrcmp(szFullName, wszGrpName);
-						mir_free(wszGrpName);
-					}
-					else {
-						char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal + 1);
-						WCHAR* wszGrpName;
-						Utf8Decode(szGrpName, &wszGrpName);
-						eq = !mir_tstrcmp(szFullName, wszGrpName);
-						mir_free(wszGrpName);
-					}
+					if (dbcws->value.type == DBVT_ASCIIZ)
+						eq = !mir_tstrcmp(szFullName, _A2T(dbcws->value.pszVal+1));
+					else
+						eq = !mir_tstrcmp(szFullName, ptrT(mir_utf8decodeT(dbcws->value.pszVal + 1)));
+
 					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
 						break;  //only expanded has changed: no action reqd
 				}
