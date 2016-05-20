@@ -104,7 +104,7 @@ static int db_GetContactInfo(lua_State *L)
 	MCONTACT hContact = luaL_checkinteger(L, 2);
 	const char *proto = lua_tostring(L, 3);
 
-	ptrT value(Contact_GetInfo(CNF_FIRSTNAME, hContact, proto));
+	ptrT value(Contact_GetInfo(type, hContact, proto));
 	if (value)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(value)));
 	else
