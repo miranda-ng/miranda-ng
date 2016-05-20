@@ -67,9 +67,10 @@ static int clcHookProtoAck(WPARAM, LPARAM lParam)
 
 static int clcHookIconsChanged(WPARAM, LPARAM)
 {
-	int i;
-	if (MirandaExiting()) return 0;
-	for (i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
+	if (MirandaExiting())
+		return 0;
+
+	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
 	}
@@ -78,7 +79,7 @@ static int clcHookIconsChanged(WPARAM, LPARAM)
 		ImageList_Destroy(hAvatarOverlays);
 	hAvatarOverlays = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, _countof(g_pAvatarOverlayIcons) * 2, 1);
 
-	for (i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
+	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
 		HICON hIcon = IcoLib_GetIcon(g_pAvatarOverlayIcons[i].name);
 		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
 		IcoLib_Release(g_pAvatarOverlayIcons[i].name);

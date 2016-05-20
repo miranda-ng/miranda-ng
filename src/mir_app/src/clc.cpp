@@ -64,6 +64,11 @@ void fnClcOptionsChanged(void)
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
+	if (hContact == NULL) {
+		if (!strcmp(cws->szModule, "CListGroups"))
+			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
+		return 0;
+	}
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
@@ -369,6 +374,55 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_GETFONT:
 		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
+
+	case INTM_GROUPSCHANGED:
+		{
+			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
+			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
+				int groupId = atoi(dbcws->szSetting) + 1;
+				TCHAR szFullName[512];
+				int i, eq;
+				//check name of group and ignore message if just being expanded/collapsed
+				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
+					mir_tstrcpy(szFullName, contact->szText);
+					while (group->parent) {
+						for (i = 0; i < group->parent->cl.count; i++)
+							if (group->parent->cl.items[i]->group == group)
+								break;
+						if (i == group->parent->cl.count) {
+							szFullName[0] = '\0';
+							break;
+						}
+						group = group->parent;
+						size_t nameLen = mir_tstrlen(group->cl.items[i]->szText);
+						if (mir_tstrlen(szFullName) + 1 + nameLen > _countof(szFullName)) {
+							szFullName[0] = '\0';
+							break;
+						}
+						memmove(szFullName + 1 + nameLen, szFullName, sizeof(TCHAR)*(mir_tstrlen(szFullName) + 1));
+						memcpy(szFullName, group->cl.items[i]->szText, sizeof(TCHAR)*nameLen);
+						szFullName[nameLen] = '\\';
+					}
+
+					if (dbcws->value.type == DBVT_ASCIIZ) {
+						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal + 1);
+						eq = !mir_tstrcmp(szFullName, wszGrpName);
+						mir_free(wszGrpName);
+					}
+					else {
+						char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal + 1);
+						WCHAR* wszGrpName;
+						Utf8Decode(szGrpName, &wszGrpName);
+						eq = !mir_tstrcmp(szFullName, wszGrpName);
+						mir_free(wszGrpName);
+					}
+					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
+						break;  //only expanded has changed: no action reqd
+				}
+			}
+			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+		}
+		break;
 
 	case INTM_NAMEORDERCHANGED:
 		cli.pfnInitAutoRebuild(hwnd);
