@@ -316,11 +316,9 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 		case IDC_SESSDEL:
 			if (session_list_recovered[0] && ses_count == 256) {
-				int i = 0;
-				while (session_list_recovered[i]) {
+				for (int i = 0; session_list_recovered[i]; i++)
 					db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
-					i++;
-				}
+
 				memset(session_list_recovered, 0, sizeof(session_list_recovered));
 				g_bIncompletedSave = 0;
 
@@ -695,12 +693,14 @@ static int GetContactHandle(WPARAM, LPARAM lParam)
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
 		if (strstr(MWeventdata->szModule, "tabSRMsg")) g_mode = 1;
 		AddToCurSession(MWeventdata->hContact, 0);
-		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);
+		if (g_bCrashRecovery)
+			db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);
 	}
 	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
 		if (!DONT)
 			DelFromCurSession(MWeventdata->hContact, 0);
-		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 0);
+		if (g_bCrashRecovery)
+			db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 0);
 	}
 
 	return 0;
@@ -868,7 +868,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0) != 0;
 
 	if (g_bCrashRecovery)
-		g_bIncompletedSave = !db_get_b(NULL, MODNAME, "lastSaveCompleted", 0) != 0;
+		g_bIncompletedSave = db_get_b(NULL, MODNAME, "lastSaveCompleted", 0) == 0;
 
 	if (g_bIncompletedSave) {
 		int i = 0;
