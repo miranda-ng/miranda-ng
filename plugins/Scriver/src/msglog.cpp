@@ -145,7 +145,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
 	if (evt->dwFlags & IEEDF_SENT)
-		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL);
+		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL, dat->szProto);
 	else
 		evt->pszNickT = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
