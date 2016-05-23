@@ -607,8 +607,8 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 			if (!func(group->cl.items[scanIndex], FALSE, param))
 				return FALSE;
 
-			if (group->cl.items[scanIndex]->SubAllocated > 0) {
-				for (int i = 0; i < group->cl.items[scanIndex]->SubAllocated; i++)
+			if (group->cl.items[scanIndex]->iSubAllocated > 0) {
+				for (int i = 0; i < group->cl.items[scanIndex]->iSubAllocated; i++)
 					if (!func(&group->cl.items[scanIndex]->subcontacts[i], TRUE, param))
 						return FALSE;
 			}

@@ -37,7 +37,7 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 {
 	int count = 0;
 	int subcontactscount = 0;
-	BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+	bool bMetaExpanding = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
@@ -61,16 +61,16 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 				continue;
 			}
 		}
+		int iRows = (bMetaExpanding && c->bSubExpanded) ? c->iSubAllocated : 0;
 		if (group == subgroup) {
-			if (c->type == CLCIT_CONTACT && c->SubAllocated) {
-				int rows = (c->SubAllocated*c->SubExpanded*k);
-				if (group->scanIndex + rows >= contactIndex)
+			if (c->type == CLCIT_CONTACT && c->iSubAllocated) {
+				if (group->scanIndex + iRows >= contactIndex)
 					return count + (contactIndex - group->scanIndex) - 1;
 			}
 		}
 		if (c->type == CLCIT_CONTACT) {
-			count += (c->SubAllocated * c->SubExpanded * k);
-			subcontactscount += (c->SubAllocated * c->SubExpanded * k);
+			count += iRows;
+			subcontactscount += iRows;
 		}
 		group->scanIndex++;
 	}
@@ -134,8 +134,8 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 			return 1;
 		}
 
-		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && c->type == CLCIT_CONTACT && c->SubAllocated > 0) {
-			for (int i = 0; i < c->SubAllocated; i++) {
+		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && c->type == CLCIT_CONTACT && c->iSubAllocated > 0) {
+			for (int i = 0; i < c->iSubAllocated; i++) {
 				if (c->subcontacts[i].hContact == dwItem) {
 					if (contact) *contact = &c->subcontacts[i];
 					if (subgroup) *subgroup = group;
@@ -183,9 +183,9 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 		}
 
 		if (c->type == CLCIT_CONTACT)
-			if (c->SubAllocated)
-				if (c->SubExpanded && dat->expandMeta) {
-					for (i = 0; i < c->SubAllocated; i++) {
+			if (c->iSubAllocated)
+				if (c->bSubExpanded && dat->expandMeta) {
+					for (i = 0; i < c->iSubAllocated; i++) {
 						index++;
 						if (testindex == index) {
 							if (contact) {

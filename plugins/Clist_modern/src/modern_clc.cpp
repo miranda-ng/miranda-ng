@@ -509,21 +509,21 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			return 0;
 		}
 
-		if (contact->type == CLCIT_CONTACT && (contact->isSubcontact || contact->SubAllocated > 0)) {
-			if (contact->isSubcontact && changeGroupExpand == 1) {
-				dat->selection -= contact->isSubcontact;
+		if (contact->type == CLCIT_CONTACT && (contact->nSubContacts || contact->iSubAllocated > 0)) {
+			if (contact->nSubContacts && changeGroupExpand == 1) {
+				dat->selection -= contact->nSubContacts;
 				selMoved = 1;
 			}
-			else if (!contact->isSubcontact && contact->SubAllocated > 0) {
-				if (changeGroupExpand == 1 && !contact->SubExpanded) {
+			else if (!contact->nSubContacts && contact->iSubAllocated > 0) {
+				if (changeGroupExpand == 1 && !contact->bSubExpanded) {
 					dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
 					selMoved = 1;
 				}
-				else if (changeGroupExpand == 1 && contact->SubExpanded) {
+				else if (changeGroupExpand == 1 && contact->bSubExpanded) {
 					//Contract
 					ClcContact *ht = NULL;
 					KillTimer(hwnd, TIMERID_SUBEXPAND);
-					contact->SubExpanded = 0;
+					contact->bSubExpanded = false;
 					db_set_b(contact->hContact, "CList", "Expanded", 0);
 					ht = contact;
 					dat->bNeedsResort = true;
@@ -531,14 +531,14 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					cliRecalcScrollBar(hwnd, dat);
 					hitcontact = NULL;
 				}
-				else if (changeGroupExpand == 2 && contact->SubExpanded) {
+				else if (changeGroupExpand == 2 && contact->bSubExpanded) {
 					dat->selection++;
 					selMoved = 1;
 				}
-				else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta) {
+				else if (changeGroupExpand == 2 && !contact->bSubExpanded && dat->expandMeta) {
 					ClcContact *ht = NULL;
 					KillTimer(hwnd, TIMERID_SUBEXPAND);
-					contact->SubExpanded = 1;
+					contact->bSubExpanded = true;
 					db_set_b(contact->hContact, "CList", "Expanded", 1);
 					ht = contact;
 					dat->bNeedsResort = true;
@@ -549,7 +549,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 						ClcGroup *group2;
 						if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, false)) {
 							int i = cliGetRowsPriorTo(&dat->list, group2, GetContactIndex(group2, contact2));
-							pcli->pfnEnsureVisible(hwnd, dat, i + contact->SubAllocated, 0);
+							pcli->pfnEnsureVisible(hwnd, dat, i + contact->iSubAllocated, 0);
 						}
 					}
 					hitcontact = NULL;
@@ -630,10 +630,10 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		{
 			ClcContact *ht = NULL;
 			if (hitcontact && dat->expandMeta) {
-				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
-				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->SubExpanded);
-				if (hitcontact->SubExpanded)
-					ht = &(hitcontact->subcontacts[hitcontact->SubAllocated - 1]);
+				hitcontact->bSubExpanded = !hitcontact->bSubExpanded;
+				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->bSubExpanded);
+				if (hitcontact->bSubExpanded)
+					ht = &(hitcontact->subcontacts[hitcontact->iSubAllocated - 1]);
 			}
 
 			dat->bNeedsResort = true;
@@ -645,7 +645,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				ClcGroup *group;
 				if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, false)) {
 					i = cliGetRowsPriorTo(&dat->list, group, GetContactIndex(group, contact));
-					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->SubAllocated, 0);
+					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->iSubAllocated, 0);
 				}
 			}
 			hitcontact = NULL;
@@ -745,7 +745,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 		}
 	}
 
-	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->iSubAllocated && !contact->nSubContacts)
 		if (hitFlags & CLCHT_ONITEMICON && dat->expandMeta) {
 			hitcontact = contact;
 			HitPoint.x = (short)LOWORD(lParam);
@@ -972,7 +972,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->isSubcontact)
+				if (!contSour->nSubContacts)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else
 					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
@@ -985,7 +985,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->isSubcontact)
+				if (!contSour->nSubContacts)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contSour->subcontacts == contDest)
 					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
@@ -1000,7 +1000,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->isSubcontact)
+				if (!contSour->nSubContacts)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contDest->subcontacts == contSour->subcontacts)
 					break;
@@ -1048,7 +1048,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			cliGetRowByIndex(dat, dat->iDragItem, NULL, &group);
 			if (group && group->parent) {
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (!contSour->isSubcontact)
+				if (!contSour->nSubContacts)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));
 			}
 			break;
@@ -1104,7 +1104,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->proto, META_PROTO)) {
-					if (!contSour->isSubcontact) {
+					if (!contSour->nSubContacts) {
 						MCONTACT hDest = contDest->hContact;
 						mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
 						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
@@ -1142,7 +1142,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
-				if (!contSour->isSubcontact) {
+				if (!contSour->nSubContacts) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->hContact;
 					mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->szText);
@@ -1184,7 +1184,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
-				if (!contSour->isSubcontact) {
+				if (!contSour->nSubContacts) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->subcontacts->hContact;
 					mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->subcontacts->szText);
@@ -1351,7 +1351,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	char *szProto = GetContactProto(wParam);
 	WORD status = (szProto == NULL) ? ID_STATUS_OFFLINE : GetContactCachedStatus(wParam);
-	BOOL image_is_special = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
+	bool bImageIsSpecial = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
 
 	int nHiddenStatus = CLVM_GetContactHiddenStatus(wParam, szProto, dat);
 
@@ -1376,7 +1376,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 			if (contact) {
 				contact->iImage = lParam;
-				contact->image_is_special = image_is_special;
+				contact->bImageIsSpecial = bImageIsSpecial;
 				pcli->pfnNotifyNewContact(hwnd, wParam);
 				dat->bNeedsResort = true;
 			}
@@ -1403,8 +1403,8 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 				contact->flags |= CONTACTF_ONLINE;
 			else
 				contact->flags &= ~CONTACTF_ONLINE;
-			contact->image_is_special = image_is_special;
-			if (!image_is_special) { //Only if it is status changing
+			contact->bImageIsSpecial = bImageIsSpecial;
+			if (!bImageIsSpecial) { //Only if it is status changing
 				dat->bNeedsResort = true;
 				needRepaint = true;
 			}
@@ -1542,9 +1542,9 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 				SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
 
 				if (contact->type == CLCIT_CONTACT) {
-					if (!contact->image_is_special && pdnce->getStatus() > ID_STATUS_OFFLINE)
+					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
-					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
+					if (contact->nSubContacts && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
 						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}
 			}

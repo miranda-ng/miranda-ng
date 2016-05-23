@@ -184,22 +184,22 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 
-			if (!contact->isSubcontact) {
+			if (!contact->nSubContacts) {
 				index = List_IndexOf((SortedList*)&group->cl, contact);
 				mainindex = index;
 			}
 			else {
 				index = List_IndexOf((SortedList*)&group->cl, contact->subcontacts);
 				mainindex = index;
-				index += contact->isSubcontact;
+				index += contact->nSubContacts;
 			}
 
 			BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 			if (k) {
 				for (int i = 0; i < mainindex; i++) {
 					ClcContact *tempCont = group->cl.items[i];
-					if (tempCont->type == CLCIT_CONTACT && tempCont->SubAllocated && tempCont->SubExpanded)
-						index += tempCont->SubAllocated;
+					if (tempCont->type == CLCIT_CONTACT && tempCont->iSubAllocated && tempCont->bSubExpanded)
+						index += tempCont->iSubAllocated;
 				}
 			}
 

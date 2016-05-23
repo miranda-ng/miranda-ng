@@ -181,11 +181,10 @@ struct tContactItems
 struct ClcContact : public ClcContactBase
 {
 	ClcContact *subcontacts;
-	BYTE SubAllocated;
-	BYTE SubExpanded;
-	BYTE isSubcontact;
-	//	int status;
-	BOOL image_is_special;
+	int  iSubAllocated, nSubContacts;
+
+	bool bSubExpanded, bImageIsSpecial;
+	
 	int avatar_pos;
 	avatarCacheEntry *avatar_data;
 	SIZE avatar_size;

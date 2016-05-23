@@ -26,19 +26,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
-	cont->SubExpanded = (db_get_b(cont->hContact, "CList", "Expanded", 0) && (db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT)));
+	cont->bSubExpanded = db_get_b(cont->hContact, "CList", "Expanded", 0) && db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
-		cont->isSubcontact = 0;
+		cont->nSubContacts = 0;
 		cont->subcontacts = NULL;
-		cont->SubAllocated = 0;
+		cont->iSubAllocated = 0;
 		return;
 	}
 
-	cont->isSubcontact = 0;
+	cont->nSubContacts = 0;
 	mir_free(cont->subcontacts);
 	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact)*subcount);
-	cont->SubAllocated = subcount;
+	cont->iSubAllocated = subcount;
 	int i = 0;
 	int bHideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (int j = 0; j < subcount; j++) {
@@ -61,10 +61,10 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		p.proto = cacheEntry->m_pszProto;
 		p.type = CLCIT_CONTACT;
 		p.flags = 0;//CONTACTF_ONLINE;
-		p.isSubcontact = i + 1;
+		p.nSubContacts = i + 1;
 		p.lastPaintCounter = 0;
 		p.subcontacts = cont;
-		p.image_is_special = FALSE;
+		p.bImageIsSpecial = false;
 		//p.status = cacheEntry->status;
 		Cache_GetTimezone(dat, (&p)->hContact);
 		Cache_GetText(dat, &p);
@@ -82,16 +82,16 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		i++;
 	}
 
-	cont->SubAllocated = i;
+	cont->iSubAllocated = i;
 	if (!i && cont->subcontacts != NULL)
 		mir_free_and_nil(cont->subcontacts);
 }
 
 void cli_FreeContact(ClcContact *p)
 {
-	if (p->SubAllocated) {
-		if (p->subcontacts && !p->isSubcontact) {
-			for (int i = 0; i < p->SubAllocated; i++) {
+	if (p->iSubAllocated) {
+		if (p->subcontacts && !p->nSubContacts) {
+			for (int i = 0; i < p->iSubAllocated; i++) {
 				p->subcontacts[i].ssText.DestroySmileyList();
 				if (p->subcontacts[i].avatar_pos == AVATAR_POS_ANIMATED)
 					AniAva_RemoveAvatar(p->subcontacts[i].hContact);
@@ -99,7 +99,7 @@ void cli_FreeContact(ClcContact *p)
 			}
 			mir_free_and_nil(p->subcontacts);
 		}
-		p->SubAllocated = 0;
+		p->iSubAllocated = 0;
 	}
 
 	p->ssText.DestroySmileyList();
@@ -119,12 +119,12 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 
 	cont->type = CLCIT_CONTACT;
 	cont->pce = cacheEntry;
-	cont->SubAllocated = 0;
-	cont->isSubcontact = 0;
+	cont->iSubAllocated = 0;
+	cont->nSubContacts = 0;
 	cont->subcontacts = NULL;
 	cont->szText[0] = 0;
 	cont->lastPaintCounter = 0;
-	cont->image_is_special = FALSE;
+	cont->bImageIsSpecial = false;
 	cont->hContact = hContact;
 	cont->proto = szProto;
 
@@ -153,7 +153,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 
 	// Add subcontacts
 	if (szProto)
-		if (dat->IsMetaContactsEnabled && mir_strcmp(cont->proto, META_PROTO) == 0)
+		if (dat->IsMetaContactsEnabled && !mir_strcmp(cont->proto, META_PROTO))
 			AddSubcontacts(dat, cont, CLCItems_IsShowOfflineGroup(group));
 
 	cont->lastPaintCounter = 0;
@@ -227,13 +227,13 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 		return dat->selection;
 	}
 
-	if (!selcontact->isSubcontact)
+	if (!selcontact->nSubContacts)
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 	else {
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts));
 
 		if (dat->selection != -1)
-			dat->selection += selcontact->isSubcontact;
+			dat->selection += selcontact->nSubContacts;
 	}
 	return dat->selection;
 }
@@ -298,7 +298,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 			}
 		}
 		if (cont) {
-			cont->SubAllocated = 0;
+			cont->iSubAllocated = 0;
 			if (cont->proto && dat->IsMetaContactsEnabled  && mir_strcmp(cont->proto, META_PROTO) == 0)
 				AddSubcontacts(dat, cont, CLCItems_IsShowOfflineGroup(group));
 		}
@@ -422,7 +422,7 @@ void cli_SetContactCheckboxes(ClcContact *cc, int checked)
 {
 	corecli.pfnSetContactCheckboxes(cc, checked);
 
-	for (int i = 0; i < cc->SubAllocated; i++)
+	for (int i = 0; i < cc->iSubAllocated; i++)
 		corecli.pfnSetContactCheckboxes(&cc->subcontacts[i], checked);
 }
 
@@ -437,17 +437,21 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			if (group == topgroup)
 				break;
 			group = group->parent;
+			group->scanIndex++;
+			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || group->cl.items[group->scanIndex]->group->expanded)) {
-			group = group->cl.items[group->scanIndex]->group;
+		
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || cc->group->expanded)) {
+			group = cc->group;
 			group->scanIndex = 0;
 			count += group->cl.count;
 			continue;
 		}
-		else if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) &&
-			(group->cl.items[group->scanIndex]->subcontacts != NULL) &&
-			((group->cl.items[group->scanIndex]->SubExpanded || (!visibleOnly)))) {
-			count += group->cl.items[group->scanIndex]->SubAllocated;
+		else if ((cc->type == CLCIT_CONTACT) &&
+			(cc->subcontacts != NULL) &&
+			((cc->bSubExpanded || (!visibleOnly)))) {
+			count += group->cl.items[group->scanIndex]->iSubAllocated;
 		}
 		group->scanIndex++;
 	}

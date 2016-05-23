@@ -554,21 +554,21 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	case CLCIT_CONTACT:
 		{
 			ClcContact *mCont = Drawing;
-			if (Drawing->isSubcontact) {
+			if (Drawing->nSubContacts) {
 				_AddParamShort(mpModernMask, hi_Type, hi_SubContact);
-				if (Drawing->isSubcontact == 1 && Drawing->subcontacts->SubAllocated == 1)
+				if (Drawing->nSubContacts == 1 && Drawing->subcontacts->iSubAllocated == 1)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_First_Single);
-				else if (Drawing->isSubcontact == 1)
+				else if (Drawing->nSubContacts == 1)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_First);
-				else if (Drawing->isSubcontact == Drawing->subcontacts->SubAllocated)
+				else if (Drawing->nSubContacts == Drawing->subcontacts->iSubAllocated)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_Last);
 				else
 					_AddParamShort(mpModernMask, hi_SubPos, hi_Middle);
 				mCont = Drawing->subcontacts;
 			}
-			else if (Drawing->SubAllocated) {
+			else if (Drawing->iSubAllocated) {
 				_AddParamShort(mpModernMask, hi_Type, hi_MetaContact);
-				_AddParamShort(mpModernMask, hi_Open, (Drawing->SubExpanded) ? hi_True : hi_False);
+				_AddParamShort(mpModernMask, hi_Open, (Drawing->bSubExpanded) ? hi_True : hi_False);
 			}
 			else _AddParamShort(mpModernMask, hi_Type, hi_Contact);
 
@@ -1146,7 +1146,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 			case TC_STATUS:
 				if ((Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon) || (Drawing->type == CLCIT_CONTACT && Drawing->iImage != -1
-					&& !(dat->icon_hide_on_avatar && dat->avatars_show && Drawing->avatar_data != NULL && !Drawing->image_is_special))) {
+					&& !(dat->icon_hide_on_avatar && dat->avatars_show && Drawing->avatar_data != NULL && !Drawing->bImageIsSpecial))) {
 					int iImage = -1;
 					// Get image
 					if (Drawing->type == CLCIT_GROUP) {
@@ -1323,7 +1323,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 			case TC_EXTRA:
 				if (Drawing->type == CLCIT_CONTACT &&
-					(!Drawing->isSubcontact || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
+					(!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
 					int BlendedInActiveState = dat->dbbBlendInActiveState;
 					int BlendValue = dat->dbbBlend25 ? ILD_BLEND25 : ILD_BLEND50;
 					int count = 0;
@@ -1375,7 +1375,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			case TC_EXTRA7:
 			case TC_EXTRA8:
 			case TC_EXTRA9:
-				if (Drawing->type == CLCIT_CONTACT && (!Drawing->isSubcontact || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
+				if (Drawing->type == CLCIT_CONTACT && (!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
 					int eNum = gl_RowTabAccess[i]->type - TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount) {
 						if (Drawing->iExtraImage[eNum] != EMPTY_EXTRA_ICON) {
@@ -1426,7 +1426,7 @@ void CLCPaint::_DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HD
 	if (Drawing->type != CLCIT_CONTACT) {
 		ske_ImageList_DrawEx(g_himlCListClc, LOWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 	}
-	else if (Drawing->image_is_special) {
+	else if (Drawing->bImageIsSpecial) {
 		ske_ImageList_DrawEx(g_himlCListClc, LOWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 	}
 	else if (iImage != -1 && HIWORD(iImage) && dat->drawOverlayedStatus) {
@@ -1821,8 +1821,8 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 		
 		// increment by subcontacts
 		if ((group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP)
-			&& (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta)) {
-			if (subindex < group->cl.items[group->scanIndex]->SubAllocated - 1)
+			&& (group->cl.items[group->scanIndex]->bSubExpanded && dat->expandMeta)) {
+			if (subindex < group->cl.items[group->scanIndex]->iSubAllocated - 1)
 				subindex++;
 			else
 				subindex = -1;
@@ -2084,7 +2084,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					&& dat->icon_hide_on_avatar
 					&& !dat->icon_draw_on_avatar_space
 					&& has_avatar
-					&& !Drawing->image_is_special) {
+					&& !Drawing->bImageIsSpecial) {
 					// Don't have to draw, but has to keep the empty space?
 					if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
 						RECT rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, dat->iconXSpace, dat->iconXSpace, ICON_HEIGHT, HORIZONTAL_SPACE);
@@ -2096,7 +2096,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (Drawing->type == CLCIT_CONTACT
 					&& dat->icon_hide_on_avatar
 					&& dat->icon_draw_on_avatar_space
-					&& (!Drawing->image_is_special || !has_avatar ||
+					&& (!Drawing->bImageIsSpecial || !has_avatar ||
 						(dat->avatars_draw_overlay
 							&& dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
 							&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < _countof(g_pAvatarOverlayIcons)
@@ -2160,7 +2160,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 		case ITEM_EXTRA_ICONS: //////////////////////////////////////////////////////////////////////////////////////////////
 			// Draw extra icons
-			if (!Drawing->isSubcontact || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0) {
+			if (!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0) {
 				int iImage;
 				int count = 0;
 

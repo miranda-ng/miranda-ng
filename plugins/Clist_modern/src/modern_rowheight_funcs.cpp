@@ -172,7 +172,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 			case TC_STATUS:
 				if ((contact->type == CLCIT_GROUP && !dat->row_hide_group_icon) ||
 					(contact->type == CLCIT_CONTACT && contact->iImage != -1 &&
-					!(dat->icon_hide_on_avatar && dat->avatars_show && (hasAvatar || (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special))) {
+					!(dat->icon_hide_on_avatar && dat->avatars_show && (hasAvatar || (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->bImageIsSpecial))) {
 					pCell->h = ICON_HEIGHT;
 					pCell->w = ICON_HEIGHT;
 				}
@@ -199,7 +199,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 
 			case TC_EXTRA: // Draw extra icons
 				if (contact->type == CLCIT_CONTACT &&
-					(!contact->isSubcontact || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
+					(!contact->nSubContacts || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
 					BOOL hasExtra = FALSE;
 					int width = 0;
 					for (int k = 0; k < dat->extraColumnsCount; k++)
@@ -225,7 +225,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 			case TC_EXTRA8:
 			case TC_EXTRA9:
 				if (contact->type == CLCIT_CONTACT &&
-					(!contact->isSubcontact || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
+					(!contact->nSubContacts || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
 					int eNum = pCell->type - TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount)
 						if (contact->iExtraImage[eNum] != EMPTY_EXTRA_ICON || !dat->MetaIgnoreEmptyExtra) {
@@ -445,8 +445,8 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 
 		// increment by subcontacts
 		if (group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP) {
-			if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta) {
-				if (subindex < group->cl.items[group->scanIndex]->SubAllocated - 1)
+			if (group->cl.items[group->scanIndex]->bSubExpanded && dat->expandMeta) {
+				if (subindex < group->cl.items[group->scanIndex]->iSubAllocated - 1)
 					subindex++;
 				else
 					subindex = -1;
@@ -517,7 +517,7 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 	// Icon size
 	if (!dat->icon_ignore_size_for_row_height) {
 		if (contact->type == CLCIT_GROUP ||
-			(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->image_is_special))) {
+			(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->bImageIsSpecial))) {
 			height = max(height, ICON_HEIGHT);
 		}
 	}

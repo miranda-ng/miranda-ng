@@ -252,7 +252,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 		return;
 
 	int indent, subindent;
-	if (contact->type == CLCIT_CONTACT && contact->isSubcontact)
+	if (contact->type == CLCIT_CONTACT && contact->nSubContacts)
 		subindent = dat->subIndent;
 	else
 		subindent = 0;
@@ -411,7 +411,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 
 	if (!mir_strcmp(contact->proto, META_PROTO))
 		return DROPTARGET_ONMETACONTACT;
-	if (contact->isSubcontact)
+	if (contact->nSubContacts)
 		return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
@@ -645,18 +645,18 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->bUseWindowsColours = false; // because it's missing in the options
 }
 
-int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)
+int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat)
 {
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
-	if (contact->type != CLCIT_CONTACT || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT))
+	if (contact->type != CLCIT_CONTACT || contact->iSubAllocated == 0 || contact->bSubExpanded || !db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT))
 		return 0;
 
-	contact->SubExpanded = bExpand;
-	db_set_b(contact->hContact, "CList", "Expanded", contact->SubExpanded);
+	contact->bSubExpanded = true;
+	db_set_b(contact->hContact, "CList", "Expanded", contact->bSubExpanded);
 	dat->bNeedsResort = true;
 	pcli->pfnSortCLC(hwnd, dat, 1);
 	cliRecalcScrollBar(hwnd, dat);
-	return contact->SubExpanded;
+	return contact->bSubExpanded;
 }
 
 int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
@@ -701,10 +701,10 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 				}
 			}
 		}
-		if (contact->type == CLCIT_CONTACT && contact->SubAllocated) {
-			if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || contact->SubExpanded) {
+		if (contact->type == CLCIT_CONTACT && contact->iSubAllocated) {
+			if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || contact->bSubExpanded) {
 				int i = 0;
-				for (i = 0; i < contact->SubAllocated; i++) {
+				for (i = 0; i < contact->iSubAllocated; i++) {
 					ClcContact *subcontact = &(contact->subcontacts[i]);
 
 					bool found;
@@ -720,15 +720,15 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 						int contactScanIndex = group->scanIndex;
 						for (; group; group = group->parent)
 							pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
-						if (!contact->SubExpanded)
-							ExpandMetaContact(hwnd, contact, dat, 1);
+						if (!contact->bSubExpanded)
+							ExpandMetaContact(hwnd, contact, dat);
 						return pcli->pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex + SubCount + i + 1);
 					}
 				}
 			}
 		}
-		if (contact->type == CLCIT_CONTACT && contact->SubAllocated && contact->SubExpanded)
-			SubCount += contact->SubAllocated;
+		if (contact->type == CLCIT_CONTACT && contact->iSubAllocated && contact->bSubExpanded)
+			SubCount += contact->iSubAllocated;
 		group->scanIndex++;
 	}
 	return -1;
