@@ -68,7 +68,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 				continue;
 			compareResult = mir_tstrcmp(szThisField, group->cl.items[i]->szText);
 			if (compareResult == 0) {
-				if (pNextField == NULL && flags != (DWORD) - 1) {
+				if (pNextField == NULL && flags != (DWORD)-1) {
 					group->cl.items[i]->groupId = (WORD) groupId;
 					group = group->cl.items[i]->group;
 					group->expanded = (flags & GROUPF_EXPANDED) != 0;
@@ -96,7 +96,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 			group = group->cl.items[i]->group;
 			memset(&group->cl, 0, sizeof(group->cl));
 			group->cl.increment = 10;
-			if (flags == (DWORD) - 1 || pNextField != NULL) {
+			if (flags == (DWORD)-1 || pNextField != NULL) {
 				group->expanded = 0;
 				group->hideOffline = 0;
 			}
@@ -106,7 +106,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 			}
 			group->groupId = pNextField ? 0 : groupId;
 			group->totalMembers = 0;
-			if (flags != (DWORD) - 1 && pNextField == NULL && calcTotalMembers) {
+			if (flags != (DWORD)-1 && pNextField == NULL && calcTotalMembers) {
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
@@ -368,7 +368,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (db_get_ts(hContact, "CList", "Group", &dbv))
 				group = &dat->list;
 			else {
-				group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
+				group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD)-1, 0, 0);
 				if (group == NULL && style & CLS_SHOWHIDDEN) group = &dat->list;
 				mir_free(dbv.ptszVal);
 			}

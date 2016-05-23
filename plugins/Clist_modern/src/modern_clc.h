@@ -103,15 +103,12 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 #define DROPTARGET_ONMETACONTACT  6
 #define DROPTARGET_ONSUBCONTACT  7
 
-ClcGroup;
-
 #define CONTACTF_ONLINE    1
 #define CONTACTF_INVISTO   2
 #define CONTACTF_VISTO     4
 #define CONTACTF_NOTONLIST 8
 #define CONTACTF_CHECKED   16
 #define CONTACTF_IDLE      32
-//#define CONTACTF_STATUSMSG 64
 
 #define AVATAR_POS_DONT_HAVE -1
 #define AVATAR_POS_ANIMATED -2
@@ -234,7 +231,7 @@ struct ClcLineInfo
 
 struct ClcModernFontInfo {
 	HFONT hFont;
-	int fontHeight, changed;
+	int  fontHeight, changed;
 	COLORREF colour;
 	BYTE effect;
 	COLORREF effectColour1;
@@ -245,34 +242,34 @@ struct ClcData : public ClcDataBase
 {
 	BYTE HiLightMode;
 	BYTE doubleClickExpand;
-	int MetaIgnoreEmptyExtra;
+	int  MetaIgnoreEmptyExtra;
 	BYTE expandMeta;
 	BYTE IsMetaContactsEnabled;
 	time_t last_tick_time;
 	BOOL force_in_dialog;
-	int subIndent;
-	int rightMargin;
+	int  subIndent;
+	int  rightMargin;
 	HBITMAP hMenuBackground;
 	DWORD MenuBkColor, MenuBkHiColor, MenuTextColor, MenuTextHiColor;
-	int MenuBmpUse;
+	int  MenuBmpUse;
 
 	// Row height
 	int *row_heights;
-	int row_heights_size;
-	int row_heights_allocated;
+	int  row_heights_size;
+	int  row_heights_allocated;
 
 	// Avatar cache
 	IMAGE_ARRAY_DATA avatar_cache;
 
 	// Row
-	int row_min_heigh;
-	int row_border;
-	int row_before_group_space;
+	int  row_min_heigh;
+	int  row_border;
+	int  row_before_group_space;
 
 	BOOL row_variable_height;
 	BOOL row_align_left_items_to_left;
 	BOOL row_align_right_items_to_right;
-	int row_items[NUM_ITEM_TYPE];
+	int  row_items[NUM_ITEM_TYPE];
 	BOOL row_hide_group_icon;
 	BYTE row_align_group_mode;
 
@@ -282,13 +279,13 @@ struct ClcData : public ClcDataBase
 	COLORREF avatars_border_color;
 	BOOL avatars_round_corners;
 	BOOL avatars_use_custom_corner_size;
-	int avatars_custom_corner_size;
+	int  avatars_custom_corner_size;
 	BOOL avatars_ignore_size_for_row_height;
 	BOOL avatars_draw_overlay;
-	int avatars_overlay_type;
+	int  avatars_overlay_type;
 
-	int avatars_maxheight_size;
-	int avatars_maxwidth_size;
+	int  avatars_maxheight_size;
+	int  avatars_maxwidth_size;
 
 	// Icon
 	BOOL icon_hide_on_avatar;
@@ -304,7 +301,7 @@ struct ClcData : public ClcDataBase
 	BOOL text_align_right;
 	BOOL text_replace_smileys;
 	BOOL text_resize_smileys;
-	int text_smiley_height;
+	int  text_smiley_height;
 	BOOL text_use_protocol_smileys;
 	BOOL text_ignore_size_for_row_height;
 

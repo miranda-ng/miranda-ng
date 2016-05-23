@@ -114,8 +114,6 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	if (!cont)
 		return;
 
-	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	char *szProto = cacheEntry->m_pszProto;
 

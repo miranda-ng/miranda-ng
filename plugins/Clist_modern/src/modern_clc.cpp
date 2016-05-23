@@ -1463,21 +1463,12 @@ static LRESULT clcOnIntmTimeZoneChanged(ClcData *dat, HWND hwnd, UINT msg, WPARA
 
 static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-
-	pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
+	LRESULT ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
-		return ret;
-
-	if (contact) {
-		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+	if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
 		Cache_GetText(dat, contact);
-		// cliRecalcScrollBar(hwnd, dat);
-	}
 
-	dat->needsResort = 1;
 	return ret;
 }
 
@@ -1536,7 +1527,7 @@ static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, 
 
 static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+	LRESULT ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	
 	if (wParam != 0) {
 		ClcContact *contact;

@@ -2289,8 +2289,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					// Get contact time
 					TCHAR buf[70] = _T("");
 					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
-					mir_free(pdnce->szSecondLineText);
-					pdnce->szSecondLineText = mir_tstrdup(buf);
+					replaceStrT(pdnce->szSecondLineText, buf);
 				}
 
 				if (pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > dat->secondLine.top_space) {
@@ -2323,8 +2322,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					// Get contact time
 					TCHAR buf[70] = _T("");
 					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
-					mir_free(pdnce->szThirdLineText);
-					pdnce->szThirdLineText = mir_tstrdup(buf);
+					replaceStrT(pdnce->szThirdLineText, buf);
 				}
 				if (pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0] && free_height > dat->thirdLine.top_space) {
 					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);

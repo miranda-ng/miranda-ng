@@ -2765,7 +2765,7 @@ quote_from_last:
 					if (dbei.eventType == EVENTTYPE_FILE) {
 						size_t iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
 						memmove(szText, szText + sizeof(DWORD), iDescr);
-						memmove(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD) - 1);
+						memmove(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
 						szText[iDescr] = '\r';
 						szText[iDescr + 1] = '\n';
 						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));
