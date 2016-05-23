@@ -630,7 +630,7 @@ void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
 	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
-	dat->filterSearch = 0;
+	dat->bFilterSearch = false;
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 }
 
@@ -642,7 +642,7 @@ int GetRowHeight(ClcData *dat, int)
 
 void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
-	if (dat->needsResort) {
+	if (dat->bNeedsResort) {
 		coreCli.pfnSortCLC(hwnd, dat, useInsertionSort);
 		dat->need_rebuild = TRUE;
 	}

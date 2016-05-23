@@ -168,7 +168,8 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 
 void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 {
-	if (LOCK_RECALC_SCROLLBAR) return;
+	if (dat->bLockScrollbar)
+		return;
 
 	RowHeights_CalcRowHeights(dat, hwnd);
 
@@ -199,8 +200,8 @@ void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 	si.nPos = dat->yScroll;
 
 	if (GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_CONTACTLIST) {
-		if (dat->noVScrollbar == 0) SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
-		//else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
+		if (!dat->bNoVScrollbar)
+			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	}
 	else SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	
@@ -641,7 +642,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
-	dat->useWindowsColours = false; // because it's missing in the options
+	dat->bUseWindowsColours = false; // because it's missing in the options
 }
 
 int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)
@@ -652,7 +653,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand
 
 	contact->SubExpanded = bExpand;
 	db_set_b(contact->hContact, "CList", "Expanded", contact->SubExpanded);
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	pcli->pfnSortCLC(hwnd, dat, 1);
 	cliRecalcScrollBar(hwnd, dat);
 	return contact->SubExpanded;
@@ -677,7 +678,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 		contact = group->cl.items[group->scanIndex];
 		if (contact->type != CLCIT_DIVIDER) {
 			bool found;
-			if (dat->filterSearch) {
+			if (dat->bFilterSearch) {
 				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(contact->szText));
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				found = _tcsstr(lowered_szText, lowered_text) != NULL;
@@ -707,7 +708,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 					ClcContact *subcontact = &(contact->subcontacts[i]);
 
 					bool found;
-					if (dat->filterSearch) {
+					if (dat->bFilterSearch) {
 						TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(subcontact->szText));
 						TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 						found = _tcsstr(lowered_szText, lowered_text) != NULL;

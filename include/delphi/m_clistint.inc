@@ -186,12 +186,8 @@ type
     extraColumnsCount     :int;
     extraColumnSpacing    :int;
     checkboxSize          :int;
-    showSelAlways         :int;
-    showIdle              :int;
-    noVScrollbar          :int;
-    useWindowsColours     :int;
-    needsResort           :int;
-    filterSearch          :int;
+	 bShowSelAlways, bShowIdle, bNoVScrollbar, bUseWindowsColours : byte;
+	 bNeedsResort, bFilterSearch, bLockScrollbar : byte;
   end;
 
   PtrayIconInfo_t = ^trayIconInfo_t;

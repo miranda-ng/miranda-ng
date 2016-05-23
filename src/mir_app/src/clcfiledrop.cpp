@@ -151,7 +151,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 		hwndCurrentDrag = hwnd;
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		originalSelection = dat->selection;
-		dat->showSelAlways = 1;
+		dat->bShowSelAlways = true;
 	}
 	if (pDropTargetHelper && hwndCurrentDrag)
 		pDropTargetHelper->DragEnter(hwndCurrentDrag, pDataObj, (POINT*)&pt, *pdwEffect);
@@ -164,7 +164,7 @@ HRESULT CDropTarget::DragLeave(void)
 		if (pDropTargetHelper)
 			pDropTargetHelper->DragLeave();
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
-		dat->showSelAlways = 0;
+		dat->bShowSelAlways = false;
 		dat->selection = originalSelection;
 		cli.pfnInvalidateRect(hwndCurrentDrag, NULL, FALSE);
 	}

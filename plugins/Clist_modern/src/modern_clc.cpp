@@ -223,7 +223,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
 				found = true;
 			}
-			else if (dat->filterSearch) {
+			else if (dat->bFilterSearch) {
 				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
 				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
@@ -290,7 +290,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 	RowHeights_Initialize(dat);
 
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_MANUALUPDATE)) && db_mc_isEnabled();
@@ -369,7 +369,7 @@ static LRESULT clcOnSize(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		HBITMAP hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
 		HDC hdcMem = CreateCompatibleDC(hdc);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
-		HBRUSH hBrush = CreateSolidBrush((dat->useWindowsColours || dat->force_in_dialog) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
+		HBRUSH hBrush = CreateSolidBrush((dat->bUseWindowsColours || dat->force_in_dialog) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
 		FillRect(hdcMem, &rc, hBrush);
 		DeleteObject(hBrush);
 
@@ -471,7 +471,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		pcli->pfnDoSelectionDefaultAction(hwnd, dat);
 		SetCapture(hwnd);
 		dat->szQuickSearch[0] = 0;
-		if (dat->filterSearch)
+		if (dat->bFilterSearch)
 			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
 		return 0;
 
@@ -526,7 +526,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					contact->SubExpanded = 0;
 					db_set_b(contact->hContact, "CList", "Expanded", 0);
 					ht = contact;
-					dat->needsResort = 1;
+					dat->bNeedsResort = true;
 					pcli->pfnSortCLC(hwnd, dat, 1);
 					cliRecalcScrollBar(hwnd, dat);
 					hitcontact = NULL;
@@ -541,7 +541,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					contact->SubExpanded = 1;
 					db_set_b(contact->hContact, "CList", "Expanded", 1);
 					ht = contact;
-					dat->needsResort = 1;
+					dat->bNeedsResort = true;
 					pcli->pfnSortCLC(hwnd, dat, 1);
 					cliRecalcScrollBar(hwnd, dat);
 					if (ht) {
@@ -636,7 +636,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					ht = &(hitcontact->subcontacts[hitcontact->SubAllocated - 1]);
 			}
 
-			dat->needsResort = 1;
+			dat->bNeedsResort = true;
 			pcli->pfnSortCLC(hwnd, dat, 1);
 			cliRecalcScrollBar(hwnd, dat);
 			if (ht) {
@@ -1334,7 +1334,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		nm.flags = 0;
 		nm.hItem = (HANDLE)wParam;
 		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
-		dat->needsResort = 1;
+		dat->bNeedsResort = true;
 	}
 	pcli->pfnInitAutoRebuild(hwnd);
 	return 0;
@@ -1378,7 +1378,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 				contact->iImage = lParam;
 				contact->image_is_special = image_is_special;
 				pcli->pfnNotifyNewContact(hwnd, wParam);
-				dat->needsResort = 1;
+				dat->bNeedsResort = true;
 			}
 		}
 	}
@@ -1395,7 +1395,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
-			dat->needsResort = 1;
+			dat->bNeedsResort = true;
 		}
 		else if (contact) {
 			contact->iImage = lParam;
@@ -1405,7 +1405,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 				contact->flags &= ~CONTACTF_ONLINE;
 			contact->image_is_special = image_is_special;
 			if (!image_is_special) { //Only if it is status changing
-				dat->needsResort = 1;
+				dat->bNeedsResort = true;
 				needRepaint = true;
 			}
 			else if (dat->m_paintCouter == contact->lastPaintCounter) //if contacts is visible
@@ -1420,7 +1420,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			dat->selection = -1;
 	}
 
-	if (dat->needsResort) {
+	if (dat->bNeedsResort) {
 		TRACE("Sort required\n");
 		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd);
 	}
@@ -1517,7 +1517,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM)
 {
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
-		if (dat->noVScrollbar)
+		if (dat->bNoVScrollbar)
 			ShowScrollBar(hwnd, SB_VERT, FALSE);
 		else
 			pcli->pfnRecalcScrollBar(hwnd, dat);

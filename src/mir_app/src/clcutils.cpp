@@ -272,6 +272,9 @@ void fnEnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk)
 
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 {
+	if (dat->bLockScrollbar)
+		return;
+
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 
@@ -284,7 +287,7 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 	si.nPos = dat->yScroll;
 
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
-		if (dat->noVScrollbar == 0)
+		if (!dat->bNoVScrollbar)
 			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	}
 	else SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
@@ -369,7 +372,7 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
 			bool show;
-			if (dat->filterSearch) {
+			if (dat->bFilterSearch) {
 				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				show = _tcsstr(lowered_szText, lowered_text) != NULL;
@@ -725,9 +728,9 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->scrollTime = db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
 	dat->groupIndent = db_get_b(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
 	dat->gammaCorrection = db_get_b(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
-	dat->showIdle = db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
-	dat->noVScrollbar = db_get_b(NULL, "CLC", "NoVScrollBar", 0);
-	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 1);
+	dat->bShowIdle = db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) != 0;
+	dat->bNoVScrollbar = db_get_b(NULL, "CLC", "NoVScrollBar", false) != 0;
+	dat->bFilterSearch = db_get_b(NULL, "CLC", "FilterSearch", true) != 0;
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 
 	dat->greyoutFlags = db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
@@ -736,7 +739,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_SELTEXTCOLOUR);
 	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
-	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+	dat->bUseWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) != 0;
 
 	if (cli.hwndContactTree != NULL && hwnd != cli.hwndContactTree) {
 		dat->bkChanged = true; // block custom background

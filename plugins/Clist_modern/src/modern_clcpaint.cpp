@@ -700,7 +700,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					colourFg = dat->hotTextColour;
 					mode = ILD_NORMAL;
 				}
-				else if (Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST) {
+				else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST) {
 					colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
@@ -709,7 +709,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					mode = ILD_NORMAL;
 				}
 
-				if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
+				if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
 					_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 					mode = ILD_SELECTED;
 				}
@@ -842,7 +842,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				if (dat->text_rtl != 0) _RTLRect(&nameRect, free_row_rc.right);
 				_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 
-				if (selected && !dat->filterSearch) {
+				if (selected && !dat->bFilterSearch) {
 					SetTextColor(hdcMem, dat->quickSearchColour);
 					_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 				}
@@ -912,9 +912,9 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				_SetHotTrackColour(hdcMem, dat);
 			if (dat->text_rtl != 0) _RTLRect(&text_rect, free_row_rc.right);
 			_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
-			if (((dat->filterSearch && Drawing->type != CLCIT_GROUP) || selected) && dat->szQuickSearch[0] != '\0') {
+			if (((dat->bFilterSearch && Drawing->type != CLCIT_GROUP) || selected) && dat->szQuickSearch[0] != '\0') {
 				int idx = 0;
-				if (dat->filterSearch) {
+				if (dat->bFilterSearch) {
 					TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
 					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 					TCHAR *p1 = _tcsstr(lowered, lowered_search);
@@ -992,9 +992,9 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						else if (hottrack)
 							_SetHotTrackColour(hdcMem, dat);
 						_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
-						if ((dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0') {
+						if ((dat->bFilterSearch || selected) && dat->szQuickSearch[0] != '\0') {
 							int idx = 0;
-							if (dat->filterSearch) {
+							if (dat->bFilterSearch) {
 								TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
 								TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 								TCHAR *p1 = _tcsstr(lowered, lowered_search);
@@ -1069,7 +1069,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						else if (hottrack)
 							_SetHotTrackColour(hdcMem, dat);
 						_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
-						if (selected && !dat->filterSearch) {
+						if (selected && !dat->bFilterSearch) {
 							SetTextColor(hdcMem, dat->quickSearchColour);
 							_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 						}
@@ -1165,7 +1165,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 							colourFg = dat->hotTextColour;
 							mode = ILD_NORMAL;
 						}
-						else if (Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST) {
+						else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST) {
 							colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
 							mode = ILD_BLEND50;
 						}
@@ -1174,7 +1174,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 							mode = ILD_NORMAL;
 						}
 
-						if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
+						if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
 							_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 							mode = ILD_SELECTED;
 						}
@@ -1192,7 +1192,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						blendmode = 255;
 					else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST)
 						blendmode = 128;
-					if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
+					if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
 						_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 						blendmode = 128;
 					if (!hasAvatar) { // if no avatar then paint icon image
@@ -1215,7 +1215,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 								mode = ILD_NORMAL;
 							}
 
-							if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags & CONTACTF_IDLE) &&
+							if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
 								_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 								mode = ILD_SELECTED;
 							}
@@ -1569,7 +1569,7 @@ void CLCPaint::_PreparePaintContext(ClcData *dat, HDC hdc, int paintMode, RECT& 
 		pc.tmpforecolour = GetSysColor(COLOR_BTNTEXT);
 	}
 	else {
-		pc.tmpbkcolour = (!(paintMode & DM_CONTROL) && dat->bkChanged) ? dat->bkColour : (!dat->useWindowsColours ? dat->bkColour : GetSysColor(COLOR_3DFACE));
+		pc.tmpbkcolour = (!(paintMode & DM_CONTROL) && dat->bkChanged) ? dat->bkColour : (!dat->bUseWindowsColours ? dat->bkColour : GetSysColor(COLOR_3DFACE));
 		pc.tmpforecolour = dat->fontModernInfo[FONTID_CONTACTS].colour;
 	}
 
@@ -1673,7 +1673,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 					RowHeight_CalcRowHeight(dat, Drawing, line_num);
 
 				// Init settings
-				int selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
+				int selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->bShowSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
 				int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
 				int left_pos = clRect.left + dat->leftMargin + indent * dat->groupIndent + subident;
 				int right_pos = dat->rightMargin;   // Border
@@ -2523,7 +2523,7 @@ void CLCPaint::_GetBlendMode(IN ClcData *dat, IN ClcContact *Drawing, IN BOOL se
 		colourFg = dat->selBkColour;
 		mode = ILD_NORMAL;
 	}
-	if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
+	if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags&CONTACTF_IDLE) &&
 		_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE &&
 		(bFlag & GIM_IDLE_AFFECT))
 		mode = ILD_SELECTED;
@@ -2669,12 +2669,12 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 	ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
 	if (selected)
 		SetTextColor(hdcMem, dat->force_in_dialog ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
-	else if (hottrack || (dat->filterSearch && dat->szQuickSearch[0] != '\0' && Drawing->type != CLCIT_GROUP))
+	else if (hottrack || (dat->bFilterSearch && dat->szQuickSearch[0] != '\0' && Drawing->type != CLCIT_GROUP))
 		_SetHotTrackColour(hdcMem, dat);
 
 	if (Drawing->type == CLCIT_GROUP) {
 		ske_DrawText(hdcMem, Drawing->szText, -1, prcItem, uTextFormat);
-		if (selected && !dat->filterSearch) {
+		if (selected && !dat->bFilterSearch) {
 			SetTextColor(hdcMem, dat->quickSearchColour);
 			ske_DrawText(hdcMem, Drawing->szText, (int)mir_tstrlen(dat->szQuickSearch), prcItem, uTextFormat);
 		}
@@ -2686,9 +2686,9 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 		uTextFormat |= DT_VCENTER;
 		//get font
 		_DrawTextSmiley(hdcMem, prcItem, &text_size, Drawing->szText, 0, -1, Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
-		if ((dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0') {
+		if ((dat->bFilterSearch || selected) && dat->szQuickSearch[0] != '\0') {
 			int idx = 0;
-			if (dat->filterSearch) {
+			if (dat->bFilterSearch) {
 				TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
 				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				TCHAR *p1 = _tcsstr(lowered, lowered_search);

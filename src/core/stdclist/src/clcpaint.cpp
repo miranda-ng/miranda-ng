@@ -142,7 +142,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = GetGeneralisedStatus();
 	// yes I know about GetSysColorBrush()
-	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->useWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
+	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
 	
 	int minHeight = 16;
 	for (int i = 0; i < FONTID_LAST; i++)
@@ -277,7 +277,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		ClcContact *cc = group->cl.items[group->scanIndex];
 		if (y > rcPaint->top - dat->rowHeight) {
 			int iImage = -1;
-			int selected = index == dat->selection && (dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && cc->type != CLCIT_DIVIDER;
+			int selected = index == dat->selection && (dat->bShowSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && cc->type != CLCIT_DIVIDER;
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && cc->type != CLCIT_DIVIDER && dat->iHotTrack == index;
 			SIZE textSize, countsSize, spaceSize;
 			int width, checkboxWidth;
@@ -375,7 +375,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
-				if (cc->type == CLCIT_CONTACT && dat->showIdle && (cc->flags & CONTACTF_IDLE) && GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				if (cc->type == CLCIT_CONTACT && dat->bShowIdle && (cc->flags & CONTACTF_IDLE) && GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					mode = ILD_SELECTED;
 				ImageList_DrawEx(himlCListClc, iImage, hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth,
 					y + ((dat->rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);

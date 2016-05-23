@@ -270,7 +270,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		dat->infoTipTimeout = db_get_w(NULL, "CLC", "InfoTipHoverTime", 750);
 		dat->extraColumnSpacing = 20;
 		dat->list.cl.increment = 30;
-		dat->needsResort = 1;
+		dat->bNeedsResort = true;
 		cli.pfnLoadClcOptions(hwnd, dat, TRUE);
 		if (!IsWindowVisible(hwnd))
 			SetTimer(hwnd, TIMERID_REBUILDAFTER, 10, NULL);
@@ -286,7 +286,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_SCROLLBARCHANGED:
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
-			if (dat->noVScrollbar)
+			if (dat->bNoVScrollbar)
 				ShowScrollBar(hwnd, SB_VERT, FALSE);
 			else
 				cli.pfnRecalcScrollBar(hwnd, dat);
@@ -323,7 +323,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			HBITMAP hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
-			HBRUSH hBrush = CreateSolidBrush(dat->useWindowsColours ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
+			HBRUSH hBrush = CreateSolidBrush(dat->bUseWindowsColours ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
 			FillRect(hdcMem, &rc, hBrush);
 			DeleteObject(hBrush);
 
@@ -440,7 +440,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			}
 			else cli.pfnDeleteItemFromTree(hwnd, wParam);
 
-			dat->needsResort = 1;
+			dat->bNeedsResort = true;
 			SortClcByTimer(hwnd);
 		}
 		break;
@@ -470,7 +470,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				nm.flags = 0;
 				nm.hItem = (HANDLE)wParam;
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
-				dat->needsResort = 1;
+				dat->bNeedsResort = true;
 			}
 		}
 		SetTimer(hwnd, TIMERID_REBUILDAFTER, 1, NULL);
@@ -504,7 +504,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					if (contact) {
 						contact->iImage = (WORD)lParam;
 						cli.pfnNotifyNewContact(hwnd, wParam);
-						dat->needsResort = 1;
+						dat->bNeedsResort = true;
 					}
 				}
 			}
@@ -523,7 +523,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					else
 						contact->flags &= ~CONTACTF_ONLINE;
 				}
-				dat->needsResort = 1;
+				dat->bNeedsResort = true;
 			}
 			if (hSelItem) {
 				ClcGroup *selgroup;
@@ -541,7 +541,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			break;
 
 		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
-		dat->needsResort = 1;
+		dat->bNeedsResort = true;
 		SortClcByTimer(hwnd);
 		break;
 
@@ -703,7 +703,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case VK_RETURN:
 				cli.pfnDoSelectionDefaultAction(hwnd, dat);
 				dat->szQuickSearch[0] = 0;
-				if (dat->filterSearch)
+				if (dat->bFilterSearch)
 					cli.pfnSaveStateAndRebuildList(hwnd, dat);
 				return 0;
 			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
@@ -721,7 +721,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				}
 			}
 			if (changeGroupExpand) {
-				if (!dat->filterSearch)
+				if (!dat->bFilterSearch)
 					dat->szQuickSearch[0] = 0;
 				hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
 				if (hit != -1) {
@@ -741,7 +741,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					return 0;
 			}
 			if (selMoved) {
-				if (!dat->filterSearch)
+				if (!dat->bFilterSearch)
 					dat->szQuickSearch[0] = 0;
 				if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
 					dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
@@ -794,7 +794,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			mir_tstrcat(dat->szQuickSearch, szNew);
 		}
 
-		if (dat->filterSearch)
+		if (dat->bFilterSearch)
 			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 
 		if (dat->szQuickSearch[0]) {
@@ -901,7 +901,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		cli.pfnEndRename(hwnd, dat, 1);
 		dat->ptDragStart.x = (short)LOWORD(lParam);
 		dat->ptDragStart.y = (short)HIWORD(lParam);
-		if (!dat->filterSearch)
+		if (!dat->bFilterSearch)
 			dat->szQuickSearch[0] = 0;
 
 		hit = cli.pfnHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, &group, &hitFlags);
@@ -1183,7 +1183,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		UpdateWindow(hwnd);
 		cli.pfnDoSelectionDefaultAction(hwnd, dat);
 		dat->szQuickSearch[0] = 0;
-		if (dat->filterSearch)
+		if (dat->bFilterSearch)
 			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
 
@@ -1195,7 +1195,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (GetFocus() != hwnd)
 			SetFocus(hwnd);
 		dat->iHotTrack = -1;
-		if (!dat->filterSearch)
+		if (!dat->bFilterSearch)
 			dat->szQuickSearch[0] = 0;
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };

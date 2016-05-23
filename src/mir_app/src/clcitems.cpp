@@ -45,7 +45,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 	ClcGroup *group = &dat->list;
 	int i, compareResult;
 
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	if (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_USEGROUPS))
 		return &dat->list;
 
@@ -175,7 +175,7 @@ int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
 	int i, index = -1;
 
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	for (i = group->cl.count - 1; i >= 0; i--) {
 		if (group->cl.items[i]->hContact == hContact)
 			return i;
@@ -222,7 +222,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	WORD status = ID_STATUS_OFFLINE;
 	char *szProto = GetContactProto(hContact);
 
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	if (style & CLS_NOHIDEOFFLINE)
 		checkHideOffline = 0;
 	if (checkHideOffline)
@@ -309,7 +309,7 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 
 	ClcGroup *group;
 	ClcContact *contact;
@@ -376,7 +376,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (group != NULL) {
 				group->totalMembers++;
 
-				if (dat->filterSearch && dat->szQuickSearch[0] != '\0') {
+				if (dat->bFilterSearch && dat->szQuickSearch[0] != '\0') {
 					TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
 					TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(name));
 					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
@@ -544,7 +544,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
 	ClcGroup *group = &dat->list;
 
-	if (dat->needsResort) {
+	if (dat->bNeedsResort) {
 		MCONTACT hSelItem;
 		ClcContact *selcontact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
@@ -576,7 +576,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 
 		cli.pfnRecalcScrollBar(hwnd, dat);
 	}
-	dat->needsResort = 0;
+	dat->bNeedsResort = false;
 	cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 }
 
@@ -600,7 +600,6 @@ struct SavedInfoState_t
 
 void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
-	NMCLISTCONTROL nm;
 	int i, j;
 	ClcGroup *group;
 	ClcContact *contact;
@@ -610,11 +609,13 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	KillTimer(hwnd, TIMERID_RENAME);
 	cli.pfnEndRename(hwnd, dat, 1);
 
+	dat->bLockScrollbar = true;
+
 	OBJLIST<SavedContactState_t> saveContact(10, NumericKeySortT);
 	OBJLIST<SavedGroupState_t> saveGroup(100, NumericKeySortT);
 	OBJLIST<SavedInfoState_t> saveInfo(10, NumericKeySortT);
 
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
@@ -627,21 +628,21 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = group->cl.items[group->scanIndex]->group;
 			group->scanIndex = 0;
 
-			SavedGroupState_t* p = new SavedGroupState_t;
+			SavedGroupState_t *p = new SavedGroupState_t;
 			p->groupId = group->groupId;
 			p->expanded = group->expanded;
 			saveGroup.insert(p);
 			continue;
 		}
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
-			SavedContactState_t* p = new SavedContactState_t;
+			SavedContactState_t *p = new SavedContactState_t;
 			p->hContact = group->cl.items[group->scanIndex]->hContact;
 			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
 			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
 			saveContact.insert(p);
 		}
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_INFO) {
-			SavedInfoState_t* p = new SavedInfoState_t;
+			SavedInfoState_t *p = new SavedInfoState_t;
 			p->parentId = (group->parent == NULL) ? -1 : group->groupId;
 			p->contact = *group->cl.items[group->scanIndex];
 			saveInfo.insert(p);
@@ -695,9 +696,12 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		*group->cl.items[j] = saveInfo[i].contact;
 	}
 
+	dat->bLockScrollbar = false;
 	cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
 
 	cli.pfnRecalcScrollBar(hwnd, dat);
+
+	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTREBUILT;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);

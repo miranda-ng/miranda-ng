@@ -168,10 +168,10 @@ struct ClcData : public ClcDataBase
 	BYTE isMultiSelect;
 	HWND hwndParent;
 	DWORD lastSort;
-	BOOL bNeedPaint, bisEmbedded, bHideSubcontacts;
 	DWORD lastRepaint;
-	BOOL forceScroll;
 	int oldSelection;
+
+	bool bNeedPaint, bisEmbedded, bHideSubcontacts, bForceScroll;
 };
 
 //#define CLUI_FRAME_SHOWTOPBUTTONS 1

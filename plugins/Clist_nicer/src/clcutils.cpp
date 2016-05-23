@@ -392,11 +392,14 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 		CoolSB_SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 	else
 		SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
-	dat->forceScroll = 0;
+	dat->bForceScroll = false;
 }
 
 void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 {
+	if (dat->bLockScrollbar)
+		return;
+
 	RowHeight::calcRowHeights(dat, hwnd);
 
 	RECT clRect;
@@ -411,7 +414,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	si.nPos = dat->yScroll;
 
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
-		if (dat->noVScrollbar == 0) {
+		if (!dat->bNoVScrollbar) {
 			if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
 				CoolSB_SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 			else

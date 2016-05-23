@@ -474,7 +474,7 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	//TODO replace futher code with new rowheight definition
-	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || (dat->exStyle & CLS_EX_SHOWSELALWAYS) || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
+	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->bShowSelAlways || (dat->exStyle & CLS_EX_SHOWSELALWAYS) || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat, selected));
 
 	if (!RowHeights_Alloc(dat, item + 1))

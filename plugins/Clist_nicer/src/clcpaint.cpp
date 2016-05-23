@@ -435,7 +435,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 
 	BYTE type = contact->type;
 	BYTE flags = contact->flags;
-	int  selected = index == dat->selection && (dat->showSelAlways || dat->exStyle &CLS_EX_SHOWSELALWAYS || g_focusWnd == hwnd) && type != CLCIT_DIVIDER;
+	int  selected = index == dat->selection && (dat->bShowSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || g_focusWnd == hwnd) && type != CLCIT_DIVIDER;
 	avatar_done = FALSE;
 
 	TExtraCache *cEntry;
@@ -928,7 +928,7 @@ bgskipped:
 				colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 				mode = ILD_BLEND50;
 			}
-			if (type == CLCIT_CONTACT && dat->showIdle && (flags & CONTACTF_IDLE) && contact->wStatus != ID_STATUS_OFFLINE)
+			if (type == CLCIT_CONTACT && dat->bShowIdle && (flags & CONTACTF_IDLE) && contact->wStatus != ID_STATUS_OFFLINE)
 				mode = ILD_SELECTED;
 
 			if (pi_selectiveIcon && av_right) {
@@ -1260,7 +1260,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	int grey = 0;
 	BOOL bFirstNGdrawn = FALSE;
 	int line_num = -1;
-	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->useWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
+	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
 	selBlend = db_get_b(NULL, "CLCExt", "EXBK_SelBlend", 1);
 	g_inCLCpaint = TRUE;
 	g_focusWnd = GetFocus();

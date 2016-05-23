@@ -236,16 +236,16 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
 		RowHeight::Init(dat);
-		dat->forceScroll = 0;
+		dat->bForceScroll = false;
 		dat->lastRepaint = 0;
 		dat->hwndParent = GetParent(hwnd);
 		dat->lastSort = GetTickCount();
-		dat->needsResort = FALSE;
+		dat->bNeedsResort = false;
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
 			if (cs->lpCreateParams == (LPVOID)0xff00ff00) {
-				dat->bisEmbedded = FALSE;
-				dat->bHideSubcontacts = TRUE;
+				dat->bisEmbedded = false;
+				dat->bHideSubcontacts = true;
 				cfg::clcdat = dat;
 				if (cfg::dat.bShowLocalTime)
 					SetTimer(hwnd, TIMERID_REFRESH, 65000, NULL);
@@ -298,7 +298,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				nm.hItem = (HANDLE)wParam;
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 			}
-			dat->needsResort = TRUE;
+			dat->bNeedsResort = true;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 1);
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -362,7 +362,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				else
 					dat->selection = -1;
 			}
-			dat->needsResort = TRUE;
+			dat->bNeedsResort = true;
 			PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, contactRemoved ? 0 : wParam);
 			if (recalcScrollBar)
@@ -408,7 +408,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		RTL_DetectAndSet(contact, 0);
 
-		dat->needsResort = TRUE;
+		dat->bNeedsResort = true;
 		PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -494,7 +494,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		RTL_DetectAndSet(contact, 0);
 
-		dat->needsResort = TRUE;
+		dat->bNeedsResort = true;
 		PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -502,18 +502,18 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (!dat->bNeedPaint) {
 			KillTimer(hwnd, TIMERID_PAINT);
 			SetTimer(hwnd, TIMERID_PAINT, 100, NULL);
-			dat->bNeedPaint = TRUE;
+			dat->bNeedPaint = true;
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_FORCESORT:
-		dat->needsResort = TRUE;
+		dat->bNeedsResort = true;
 		return SendMessage(hwnd, INTM_SORTCLC, wParam, lParam);
 
 	case INTM_SORTCLC:
-		if (dat->needsResort) {
+		if (dat->bNeedsResort) {
 			pcli->pfnSortCLC(hwnd, dat, TRUE);
-			dat->needsResort = FALSE;
+			dat->bNeedsResort = false;
 		}
 		if (lParam)
 			pcli->pfnRecalcScrollBar(hwnd, dat);
@@ -590,7 +590,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_MOUSEWHEEL:
-		dat->forceScroll = TRUE;
+		dat->bForceScroll = true;
 		break;
 
 	case WM_TIMER:

@@ -156,12 +156,8 @@ struct ClcDataBase
 	int extraColumnsCount;
 	int extraColumnSpacing;
 	int checkboxSize;
-	int showSelAlways;
-	int showIdle;
-	int noVScrollbar;
-	int useWindowsColours;
-	int needsResort;
-	int filterSearch;
+	bool bShowSelAlways, bShowIdle, bNoVScrollbar, bUseWindowsColours;
+	bool bNeedsResort, bFilterSearch, bLockScrollbar;
 };
 
 struct CListEvent : public CLISTEVENT, public MZeroedObject

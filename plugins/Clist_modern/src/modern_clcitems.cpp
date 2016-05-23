@@ -170,7 +170,7 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hCo
 	if (group == NULL || dat == NULL)
 		return NULL;
 	
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 	int i;
 	for (i = group->cl.count - 1; i >= 0; i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
@@ -220,9 +220,8 @@ MCONTACT SaveSelection(ClcData *dat)
 
 int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 {
-	ClcContact *selcontact = NULL;
 	ClcGroup *selgroup = NULL;
-
+	ClcContact *selcontact = NULL;
 	if (!hSelected || !pcli->pfnFindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL)) {
 		dat->selection = -1;
 		return dat->selection;
@@ -256,7 +255,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
 	dat->list.cl.count = dat->list.cl.limit = 0;
 	dat->list.cl.increment = 50;
-	dat->needsResort = 1;
+	dat->bNeedsResort = true;
 
 	MCONTACT hSelected = SaveSelection(dat);
 	dat->selection = -1;
@@ -339,6 +338,8 @@ void cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 	RestoreSelection(dat, hSelected);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int GetNewSelection(ClcGroup *group, int selection, int direction)
 {
 	if (selection < 0)
@@ -373,137 +374,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 	return lastcount;
 }
 
-struct SavedContactState_t
-{
-	MCONTACT hContact;
-	WORD iExtraImage[EXTRA_ICON_COUNT];
-	int checked;
-};
-
-struct SavedGroupState_t
-{
-	int groupId, expanded;
-};
-
-struct SavedInfoState_t
-{
-	int parentId;
-	ClcContact contact;
-};
-
-BOOL LOCK_RECALC_SCROLLBAR = FALSE;
-void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
-{
-	LOCK_RECALC_SCROLLBAR = TRUE;
-
-	int i, j;
-	OBJLIST<SavedGroupState_t> savedGroup(4);
-	OBJLIST<SavedContactState_t> savedContact(4);
-	OBJLIST<SavedInfoState_t> savedInfo(4);
-
-	ClcGroup *group;
-	ClcContact *contact;
-
-	pcli->pfnHideInfoTip(hwnd, dat);
-	KillTimer(hwnd, TIMERID_INFOTIP);
-	KillTimer(hwnd, TIMERID_RENAME);
-	pcli->pfnEndRename(hwnd, dat, 1);
-
-	dat->needsResort = 1;
-	group = &dat->list;
-	group->scanIndex = 0;
-	for (;;) {
-		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
-				break;
-		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-			group = group->cl.items[group->scanIndex]->group;
-			group->scanIndex = 0;
-
-			SavedGroupState_t *p = new SavedGroupState_t;
-			p->groupId = group->groupId;
-			p->expanded = group->expanded;
-			savedGroup.insert(p);
-			continue;
-		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
-			SavedContactState_t *p = new SavedContactState_t;
-			p->hContact = group->cl.items[group->scanIndex]->hContact;
-			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
-			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
-			savedContact.insert(p);
-		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_INFO) {
-			SavedInfoState_t *p = new SavedInfoState_t;
-			memset(p, 0, sizeof(SavedInfoState_t));
-			if (group->parent == NULL)
-				p->parentId = -1;
-			else
-				p->parentId = group->groupId;
-			p->contact = *group->cl.items[group->scanIndex];
-			savedInfo.insert(p);
-		}
-		group->scanIndex++;
-	}
-
-	pcli->pfnFreeGroup(&dat->list);
-	pcli->pfnRebuildEntireList(hwnd, dat);
-
-	group = &dat->list;
-	group->scanIndex = 0;
-	for (;;) {
-		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
-				break;
-		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-			group = group->cl.items[group->scanIndex]->group;
-			group->scanIndex = 0;
-			for (i = 0; i < savedGroup.getCount(); i++)
-				if (savedGroup[i].groupId == group->groupId) {
-					group->expanded = savedGroup[i].expanded;
-					break;
-				}
-			continue;
-		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
-			for (i = 0; i < savedContact.getCount(); i++)
-				if (savedContact[i].hContact == group->cl.items[group->scanIndex]->hContact) {
-					memcpy(group->cl.items[group->scanIndex]->iExtraImage, savedContact[i].iExtraImage, sizeof(contact->iExtraImage));
-					if (savedContact[i].checked)
-						group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
-					break;
-				}
-		}
-		group->scanIndex++;
-	}
-
-	for (i = 0; i < savedInfo.getCount(); i++) {
-		if (savedInfo[i].parentId == -1)
-			group = &dat->list;
-		else {
-			if (!pcli->pfnFindItem(hwnd, dat, savedInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
-				continue;
-			group = contact->group;
-		}
-		j = pcli->pfnAddInfoItemToGroup(group, savedInfo[i].contact.flags, _T(""));
-		*group->cl.items[j] = savedInfo[i].contact;
-	}
-
-	LOCK_RECALC_SCROLLBAR = FALSE;
-	pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
-
-	pcli->pfnRecalcScrollBar(hwnd, dat);
-
-	NMCLISTCONTROL nm;
-	nm.hdr.code = CLN_LISTREBUILT;
-	nm.hdr.hwndFrom = hwnd;
-	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 ClcContact* cliCreateClcContact()
 {
@@ -533,6 +404,8 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 	pdnce->dwLastMsgTime = -1;
 	return pdnce;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
@@ -604,7 +477,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 	if (pdnce && pdnce->m_bIsUnknown && dat != NULL && !dat->force_in_dialog)
 		return 1; //'Unknown Contact'
 
-	if (dat != NULL && dat->filterSearch && pdnce && pdnce->tszName) {
+	if (dat != NULL && dat->bFilterSearch && pdnce && pdnce->tszName) {
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));

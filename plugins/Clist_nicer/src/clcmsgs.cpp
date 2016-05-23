@@ -59,7 +59,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		return 0;
 
 	case CLM_SETHIDESUBCONTACTS:
-		dat->bHideSubcontacts = (BOOL)lParam;
+		dat->bHideSubcontacts = lParam != 0;
 		return 0;
 
 	case CLM_TOGGLEPRIORITYCONTACT:

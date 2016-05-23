@@ -22,7 +22,6 @@ extern int  g_nTitleBarHeight;
 extern BOOL g_bTransparentFlag;
 extern HIMAGELIST g_himlCListClc;
 extern BOOL g_mutex_bSizing;
-extern BOOL LOCK_RECALC_SCROLLBAR;
 extern HIMAGELIST g_himlCListClc;
 extern BYTE nameOrder[];
 extern SortedList lContactsCache;
@@ -257,7 +256,6 @@ int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact,
 int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status, const char *proto);
 void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
-void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 int     cliTrayIconInit(HWND hwnd);
