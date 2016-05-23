@@ -11,7 +11,7 @@ static int message_Paste(lua_State *L)
 
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
 
-	INT_PTR res = ::CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
+	INT_PTR res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
 	lua_pushinteger(L, res);
 	if (res)
 		return 1;
@@ -42,7 +42,7 @@ static int message_Send(lua_State *L)
 		gce.ptszText = mir_utf8decodeT(message);
 		gce.time = time(NULL);
 
-		res = ::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+		res = CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 		lua_pushinteger(L, res);
 
 		mir_free((void*)gce.ptszText);
@@ -57,7 +57,7 @@ static int message_Send(lua_State *L)
 		dbei.cbBlob = mir_strlen(message);
 		dbei.pBlob = (PBYTE)mir_strdup(message);
 		dbei.flags = DBEF_UTF | DBEF_SENT;
-		::db_event_add(hContact, &dbei);
+		db_event_add(hContact, &dbei);
 
 		lua_pushinteger(L, res);
 		return 1;

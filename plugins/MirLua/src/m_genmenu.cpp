@@ -90,6 +90,20 @@ static int genmenu_ModifyMenuItem(lua_State *L)
 	return 1;
 }
 
+static int genmenu_ConfigureMenuItem(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
+	int option = luaL_checkinteger(L, 2);
+	luaL_checktype(L, 3, LUA_TLIGHTUSERDATA);
+	INT_PTR value = (INT_PTR)lua_touserdata(L, 3);
+	
+	int res = Menu_ConfigureItem(hMenuItem, option, value);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 static int genmenu_ShowMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
@@ -139,6 +153,7 @@ static luaL_Reg genmenuApi[] =
 	//{ "CreateRoot", genmenu_CreateRoot },
 	//{ "AddMenuItem", genmenu_AddMenuItem },
 	{ "ModifyMenuItem", genmenu_ModifyMenuItem },
+	{ "ConfigureMenuItem", genmenu_ConfigureMenuItem },
 	{ "ShowMenuItem", genmenu_ShowMenuItem },
 	{ "EnableMenuItem", genmenu_EnableMenuItem },
 	{ "CheckMenuItem", genmenu_CheckMenuItem },
