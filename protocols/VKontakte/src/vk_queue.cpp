@@ -172,12 +172,15 @@ void CVkProto::WorkerThread(void*)
 		}
 	}
 
-	if (m_hAPIConnection) 
+	if (m_hAPIConnection) {
+		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) beg");
 		Netlib_CloseHandle(m_hAPIConnection);
+		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) end");
+	}
 
 	m_hAPIConnection = NULL;
 	m_hWorkerThread = 0;
-	debugLogA("CVkProto::WorkerThread: leaving");
+	debugLogA("CVkProto::WorkerThread: leaving m_bTerminated = %d", m_bTerminated ? 1 : 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

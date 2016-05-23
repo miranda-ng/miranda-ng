@@ -32,11 +32,9 @@ static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, ti
 void CVkProto::ShutdownSession()
 {
 	debugLogA("CVkProto::ShutdownSession");
-	if (m_hWorkerThread) {
-		m_bTerminated = true;
+	m_bTerminated = true;
+	if (m_hWorkerThread) 
 		SetEvent(m_evRequestsQueue);
-	}
-
 	OnLoggedOut();
 }
 

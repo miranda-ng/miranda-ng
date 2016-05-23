@@ -20,6 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 int CVkProto::SetStatus(int iNewStatus)
 {
 	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL ? 0 : 1);
+
+	mir_cslock lck(m_csSetStatus);
+
 	if (m_iDesiredStatus == iNewStatus || iNewStatus == ID_STATUS_IDLE)
 		return 0;
 

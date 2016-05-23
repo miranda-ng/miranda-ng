@@ -202,7 +202,8 @@ private:
 	mir_cs 
 		m_csChatTyping,
 		m_csLoadHistoryTask,
-		m_csRequestsQueue;
+		m_csRequestsQueue,
+		m_csSetStatus;
 
 	int m_iLoadHistoryTask;
 
