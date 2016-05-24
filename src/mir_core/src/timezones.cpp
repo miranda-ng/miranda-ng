@@ -142,8 +142,6 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size
 	_tcsncpy_s(szDest, cbDest, tszTemp, _TRUNCATE);
 }
 
-#define fnSystemTimeToTzSpecificLocalTime SystemTimeToTzSpecificLocalTime
-
 MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 {
 	if (st == NULL) return 1;
@@ -154,7 +152,7 @@ MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 	else if (tz && tz != &myInfo.myTZ) {
 		SYSTEMTIME sto;
 		GetSystemTime(&sto);
-		return !fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &sto, st);
+		return !SystemTimeToTzSpecificLocalTime(&tz->tzi, &sto, st);
 	}
 	else
 		GetLocalTime(st);
@@ -193,7 +191,7 @@ static void CalcTsOffset(MIM_TIMEZONE *tz)
 	SystemTimeToFileTime(&st, &ft);
 	mir_time ts1 = FileTimeToUnixTime(&ft);
 
-	if (!fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
+	if (!SystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
 		return;
 
 	SystemTimeToFileTime(&stl, &ft);

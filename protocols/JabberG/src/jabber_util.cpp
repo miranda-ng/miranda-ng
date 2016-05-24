@@ -758,7 +758,7 @@ void CJabberProto::RebuildInfoFrame()
 
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen)
 {
-	struct tm* T = localtime(&_time);
+	struct tm* T = gmtime(&_time);
 	mir_sntprintf(buf, bufLen, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"),
 					  T->tm_year + 1900, T->tm_mon + 1, T->tm_mday, T->tm_hour, T->tm_min, T->tm_sec);
 	return buf;
@@ -775,7 +775,7 @@ time_t str2time(const TCHAR *buf)
 
 	T.tm_year -= 1900;
 	T.tm_mon--;
-	return mktime(&T);
+	return _mkgmtime(&T);
 }
 
 ////////////////////////////////////////////////////////////////////////
