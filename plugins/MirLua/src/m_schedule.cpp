@@ -525,16 +525,6 @@ static int fluent_Sunday(lua_State *L)
 	return 1;
 }
 
-static const luaL_Reg scheduleEvery2Api[] =
-{
-	{ "Seconds", fluent_Seconds },
-	{ "Minutes", fluent_Minutes },
-	{ "Hours", fluent_Hours },
-	{ "Days", fluent_Days },
-
-	{ NULL, NULL }
-};
-
 static const luaL_Reg scheduleEvery1Api[] =
 {
 	{ "Second", fluent_Second },
@@ -549,6 +539,16 @@ static const luaL_Reg scheduleEvery1Api[] =
 	{ "Friday", fluent_Friday },
 	{ "Saturday", fluent_Saturday },
 	{ "Sunday", fluent_Sunday },
+
+	{ NULL, NULL }
+};
+
+static const luaL_Reg scheduleEvery2Api[] =
+{
+	{ "Seconds", fluent_Seconds },
+	{ "Minutes", fluent_Minutes },
+	{ "Hours", fluent_Hours },
+	{ "Days", fluent_Days },
 
 	{ NULL, NULL }
 };
@@ -579,6 +579,10 @@ static int schedule_Every(lua_State *L)
 {
 	int interval = luaL_optinteger(L, 1, 0);
 
+	const luaL_Reg *funcs = lua_isnone(L, 1)
+		? scheduleEvery1Api
+		: scheduleEvery2Api;
+
 	lua_newtable(L);
 	lua_pushinteger(L, interval);
 	lua_setfield(L, -2, "Interval");
@@ -587,9 +591,6 @@ static int schedule_Every(lua_State *L)
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 	lua_pushvalue(L, -2);
-	const luaL_Reg *funcs = lua_isnoneornil(L, 1)
-		? scheduleEvery1Api
-		: scheduleEvery2Api;
 	luaL_setfuncs(L, funcs, 1);
 	lua_setmetatable(L, -2);
 
