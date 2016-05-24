@@ -304,9 +304,7 @@ begin
         begin
            StrDupW(res.text,pInfo);
            mir_free(pInfo);
-           exit;
         end;
-        res.text:=int2strw(res.data);
       end;
 
       QST_SETTING: begin
