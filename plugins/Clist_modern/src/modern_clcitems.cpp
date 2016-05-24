@@ -29,13 +29,13 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->bSubExpanded = db_get_b(cont->hContact, "CList", "Expanded", 0) && db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
-		cont->nSubContacts = 0;
+		cont->iSubNumber = 0;
 		cont->subcontacts = NULL;
 		cont->iSubAllocated = 0;
 		return;
 	}
 
-	cont->nSubContacts = 0;
+	cont->iSubNumber = 0;
 	mir_free(cont->subcontacts);
 	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact)*subcount);
 	cont->iSubAllocated = subcount;
@@ -61,7 +61,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		p.proto = cacheEntry->m_pszProto;
 		p.type = CLCIT_CONTACT;
 		p.flags = 0;//CONTACTF_ONLINE;
-		p.nSubContacts = i + 1;
+		p.iSubNumber = i + 1;
 		p.lastPaintCounter = 0;
 		p.subcontacts = cont;
 		p.bImageIsSpecial = false;
@@ -90,7 +90,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 void cli_FreeContact(ClcContact *p)
 {
 	if (p->iSubAllocated) {
-		if (p->subcontacts && !p->nSubContacts) {
+		if (p->subcontacts && !p->iSubNumber) {
 			for (int i = 0; i < p->iSubAllocated; i++) {
 				p->subcontacts[i].ssText.DestroySmileyList();
 				if (p->subcontacts[i].avatar_pos == AVATAR_POS_ANIMATED)
@@ -120,7 +120,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->type = CLCIT_CONTACT;
 	cont->pce = cacheEntry;
 	cont->iSubAllocated = 0;
-	cont->nSubContacts = 0;
+	cont->iSubNumber = 0;
 	cont->subcontacts = NULL;
 	cont->szText[0] = 0;
 	cont->lastPaintCounter = 0;
@@ -227,13 +227,12 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 		return dat->selection;
 	}
 
-	if (!selcontact->nSubContacts)
+	if (!selcontact->iSubNumber)
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 	else {
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts));
-
 		if (dat->selection != -1)
-			dat->selection += selcontact->nSubContacts;
+			dat->selection += selcontact->iSubNumber;
 	}
 	return dat->selection;
 }
@@ -309,15 +308,18 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 		group->scanIndex = 0;
 		for (;;) {
 			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				if (group == NULL)
+				if ((group = group->parent) == NULL)
 					break;
+				group->scanIndex++;
+				continue;
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (group->cl.items[group->scanIndex]->group->cl.count == 0)
-					group = pcli->pfnRemoveItemFromGroup(hwnd, group, group->cl.items[group->scanIndex], 0);
+
+			ClcContact *cc = group->cl.items[group->scanIndex];
+			if (cc->type == CLCIT_GROUP) {
+				if (cc->group->cl.count == 0)
+					group = pcli->pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				else {
-					group = group->cl.items[group->scanIndex]->group;
+					group = cc->group;
 					group->scanIndex = 0;
 				}
 				continue;
@@ -350,8 +352,8 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL) break;
+			if ((group = group->parent) == NULL)
+				break;
 			group->scanIndex++;
 			continue;
 		}
@@ -364,8 +366,9 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 		if (!direction && count > selection)
 			return lastcount;
 
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded)) {
-			group = group->cl.items[group->scanIndex]->group;
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+			group = cc->group;
 			group->scanIndex = 0;
 			continue;
 		}
@@ -448,11 +451,9 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			count += group->cl.count;
 			continue;
 		}
-		else if ((cc->type == CLCIT_CONTACT) &&
-			(cc->subcontacts != NULL) &&
-			((cc->bSubExpanded || (!visibleOnly)))) {
-			count += group->cl.items[group->scanIndex]->iSubAllocated;
-		}
+		if (cc->type == CLCIT_CONTACT && cc->subcontacts != NULL && (cc->bSubExpanded || !visibleOnly))
+			count += cc->iSubAllocated;
+
 		group->scanIndex++;
 	}
 	return count;
@@ -487,6 +488,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 		searchResult = _tcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
+	
 	if (pdnce && g_CluiData.bFilterEffective && dat != NULL && !dat->force_in_dialog) {
 		if (szProto == NULL)
 			szProto = GetContactProto(hContact);
@@ -500,11 +502,13 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 				return 0 | searchResult;
 			}
 		}
+
 		// check the proto, use it as a base filter result for all further checks
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
 			mir_snprintf(szTemp, "%s|", szProto);
 			filterResult = strstr(g_CluiData.protoFilter, szTemp) ? 1 : 0;
 		}
+
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
 			if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
 				mir_sntprintf(szGroupMask, _T("%s|"), &dbv.ptszVal[0]);
@@ -516,10 +520,12 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 			else
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
 		}
+
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
 			WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
+
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
 			if (pdnce->dwLastMsgTime != -1) {
 				DWORD now = g_CluiData.t_now;

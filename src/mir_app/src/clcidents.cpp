@@ -49,8 +49,7 @@ int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
@@ -83,8 +82,7 @@ int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcG
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 
 			nowVisible = 1;
@@ -153,8 +151,7 @@ int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup 
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;

@@ -212,24 +212,25 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
-		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type != CLCIT_DIVIDER) {
 			bool found;
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+			if (cc->type == CLCIT_GROUP) {
 				found = true;
 			}
 			else if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
 				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
 			}
 			else {
-				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
 			}
 			if (found) {
 				ClcGroup *contactGroup = group;
@@ -249,9 +250,9 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 				group = contactGroup;
 				group->scanIndex = contactScanIndex;
 			}
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
-					group = group->cl.items[group->scanIndex]->group;
+			if (cc->type == CLCIT_GROUP) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+					group = cc->group;
 					group->scanIndex = 0;
 					continue;
 				}
@@ -509,12 +510,12 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			return 0;
 		}
 
-		if (contact->type == CLCIT_CONTACT && (contact->nSubContacts || contact->iSubAllocated > 0)) {
-			if (contact->nSubContacts && changeGroupExpand == 1) {
-				dat->selection -= contact->nSubContacts;
+		if (contact->type == CLCIT_CONTACT && (contact->iSubNumber || contact->iSubAllocated > 0)) {
+			if (contact->iSubNumber && changeGroupExpand == 1) {
+				dat->selection -= contact->iSubNumber;
 				selMoved = 1;
 			}
-			else if (!contact->nSubContacts && contact->iSubAllocated > 0) {
+			else if (!contact->iSubNumber && contact->iSubAllocated > 0) {
 				if (changeGroupExpand == 1 && !contact->bSubExpanded) {
 					dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
 					selMoved = 1;
@@ -590,8 +591,6 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		cliInvalidateRect(hwnd, NULL, FALSE);
 		pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		UpdateWindow(hwnd);
-		SetCapture(hwnd);
-		return 0;
 	}
 	SetCapture(hwnd);
 	return 0;
@@ -745,7 +744,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 		}
 	}
 
-	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->iSubAllocated && !contact->nSubContacts)
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->iSubAllocated && !contact->iSubNumber)
 		if (hitFlags & CLCHT_ONITEMICON && dat->expandMeta) {
 			hitcontact = contact;
 			HitPoint.x = (short)LOWORD(lParam);
@@ -972,7 +971,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->nSubContacts)
+				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else
 					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
@@ -985,7 +984,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->nSubContacts)
+				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contSour->subcontacts == contDest)
 					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
@@ -1000,7 +999,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-				if (!contSour->nSubContacts)
+				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contDest->subcontacts == contSour->subcontacts)
 					break;
@@ -1048,7 +1047,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			cliGetRowByIndex(dat, dat->iDragItem, NULL, &group);
 			if (group && group->parent) {
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (!contSour->nSubContacts)
+				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));
 			}
 			break;
@@ -1104,7 +1103,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->proto, META_PROTO)) {
-					if (!contSour->nSubContacts) {
+					if (!contSour->iSubNumber) {
 						MCONTACT hDest = contDest->hContact;
 						mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
 						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
@@ -1142,7 +1141,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
-				if (!contSour->nSubContacts) {
+				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->hContact;
 					mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->szText);
@@ -1184,7 +1183,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
-				if (!contSour->nSubContacts) {
+				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->subcontacts->hContact;
 					mir_sntprintf(Wording, TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->subcontacts->szText);
@@ -1544,7 +1543,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 				if (contact->type == CLCIT_CONTACT) {
 					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
-					if (contact->nSubContacts && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
+					if (contact->iSubNumber && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
 						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}
 			}

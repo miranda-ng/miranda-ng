@@ -1423,17 +1423,18 @@ bgdone:
 	g_list_avatars = 0;
 	while (true) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL) break;	// Finished list
+			if ((group = group->parent) == NULL)
+				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		if (group->cl.items[group->scanIndex]->cFlags & ECF_AVATAR)
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->cFlags & ECF_AVATAR)
 			g_list_avatars++;
 
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded)) {
-			group = group->cl.items[group->scanIndex]->group;
+		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+			group = cc->group;
 			group->scanIndex = 0;
 			continue;
 		}
@@ -1443,33 +1444,32 @@ bgdone:
 
 	group = &dat->list;
 	group->scanIndex = 0;
-	int indent = 0;
 
+	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			indent--;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
-
 			group->scanIndex++;
+			indent--;
 			continue;
 		}
 
 		line_num++;
+		ClcContact *cc = group->cl.items[group->scanIndex];
 		if (cfg::dat.bForceRefetchOnPaint)
-			group->cl.items[group->scanIndex]->ace = (struct avatarCacheEntry*) - 1;
+			cc->ace = (struct avatarCacheEntry*) - 1;
 
 		if (y > rcPaint->top - dat->row_heights[line_num] && y <= rcPaint->bottom) {
-			if (group->cl.items[group->scanIndex]->ace == (struct avatarCacheEntry*) - 1)
-				group->cl.items[group->scanIndex]->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)group->cl.items[group->scanIndex]->hContact, 0);
-			RowHeight::getRowHeight(dat, group->cl.items[group->scanIndex], line_num, style);
-			PaintItem(hdcMem, group, group->cl.items[group->scanIndex], indent, y, dat, index, hwnd, style, &clRect, &bFirstNGdrawn, groupCountsFontTopShift, dat->row_heights[line_num]);
+			if (cc->ace == (struct avatarCacheEntry*) - 1)
+				cc->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)cc->hContact, 0);
+			RowHeight::getRowHeight(dat, cc, line_num, style);
+			PaintItem(hdcMem, group, cc, indent, y, dat, index, hwnd, style, &clRect, &bFirstNGdrawn, groupCountsFontTopShift, dat->row_heights[line_num]);
 		}
 		index++;
 		y += dat->row_heights[line_num];
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded)) {
-			group = group->cl.items[group->scanIndex]->group;
+		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+			group = cc->group;
 			indent++;
 			group->scanIndex = 0;
 			continue;

@@ -199,15 +199,18 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 		group->scanIndex = 0;
 		for (;;) {
 			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				if (group == NULL)
+				if ((group = group->parent) == NULL)
 					break;
+				group->scanIndex++;
+				continue;
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (group->cl.items[group->scanIndex]->group->cl.count == 0)
-					group = pcli->pfnRemoveItemFromGroup(hwnd, group, group->cl.items[group->scanIndex], 0);
+
+			ClcContact *cc = group->cl.items[group->scanIndex];
+			if (cc->type == CLCIT_GROUP) {
+				if (cc->group->cl.count == 0)
+					group = pcli->pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				else {
-					group = group->cl.items[group->scanIndex]->group;
+					group = cc->group;
 					group->scanIndex = 0;
 				}
 				continue;

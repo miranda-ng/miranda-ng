@@ -43,15 +43,19 @@ TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 			if (group == topgroup)
 				break;
 			group = group->parent;
+			group->scanIndex++;
+			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-			group = group->cl.items[group->scanIndex]->group;
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP) {
+			group = cc->group;
 			group->scanIndex = 0;
 			totalCount += group->totalMembers;
 			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT)
-			if (group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE)
+		else if (cc->type == CLCIT_CONTACT)
+			if (cc->flags & CONTACTF_ONLINE)
 				onlineCount++;
 		group->scanIndex++;
 	}
@@ -364,20 +368,21 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
-		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type != CLCIT_DIVIDER) {
 			bool show;
 			if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				show = _tcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else show = ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+			else show = ((prefixOk && !_tcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
 
 			if (show) {
 				ClcGroup *contactGroup = group;
@@ -386,9 +391,9 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 					cli.pfnSetGroupExpand(hwnd, dat, group, 1);
 				return cli.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
 			}
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
-					group = group->cl.items[group->scanIndex]->group;
+			if (cc->type == CLCIT_GROUP) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+					group = cc->group;
 					group->scanIndex = 0;
 					continue;
 				}

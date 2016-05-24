@@ -266,11 +266,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			indent--;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
+			indent--;
 			continue;
 		}
 		

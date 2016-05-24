@@ -403,16 +403,19 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		group->scanIndex = 0;
 		for (;;) {
 			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				if (group == NULL)
+				if ((group = group->parent) == NULL)
 					break;
+				group->scanIndex++;
+				continue;
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (group->cl.items[group->scanIndex]->group->cl.count == 0) {
-					group = cli.pfnRemoveItemFromGroup(hwnd, group, group->cl.items[group->scanIndex], 0);
+
+			ClcContact *cc = group->cl.items[group->scanIndex];
+			if (cc->type == CLCIT_GROUP) {
+				if (cc->group->cl.count == 0) {
+					group = cli.pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				}
 				else {
-					group = group->cl.items[group->scanIndex]->group;
+					group = cc->group;
 					group->scanIndex = 0;
 				}
 				continue;
@@ -436,9 +439,13 @@ int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			if (group == topgroup)
 				break;
 			group = group->parent;
+			group->scanIndex++;
+			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (!visibleOnly || group->cl.items[group->scanIndex]->group->expanded)) {
-			group = group->cl.items[group->scanIndex]->group;
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP && (!visibleOnly || cc->group->expanded)) {
+			group = cc->group;
 			group->scanIndex = 0;
 			count += group->cl.count;
 			continue;
@@ -555,12 +562,15 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 		SortGroup(dat, group, useInsertionSort);
 		for (;;) {
 			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				if (group == NULL)
+				if ((group = group->parent) == NULL)
 					break;
+				group->scanIndex++;
+				continue;
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				group = group->cl.items[group->scanIndex]->group;
+
+			ClcContact *cc = group->cl.items[group->scanIndex];
+			if (cc->type == CLCIT_GROUP) {
+				group = cc->group;
 				group->scanIndex = 0;
 				SortGroup(dat, group, useInsertionSort);
 				continue;
@@ -620,12 +630,15 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
+			group->scanIndex++;
+			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-			group = group->cl.items[group->scanIndex]->group;
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP) {
+			group = cc->group;
 			group->scanIndex = 0;
 
 			SavedGroupState_t *p = new SavedGroupState_t;
@@ -634,17 +647,17 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			saveGroup.insert(p);
 			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
+		else if (cc->type == CLCIT_CONTACT) {
 			SavedContactState_t *p = new SavedContactState_t;
-			p->hContact = group->cl.items[group->scanIndex]->hContact;
-			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
-			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
+			p->hContact = cc->hContact;
+			memcpy(p->iExtraImage, cc->iExtraImage, sizeof(p->iExtraImage));
+			p->checked = cc->flags & CONTACTF_CHECKED;
 			saveContact.insert(p);
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_INFO) {
+		else if (cc->type == CLCIT_INFO) {
 			SavedInfoState_t *p = new SavedInfoState_t;
 			p->parentId = (group->parent == NULL) ? -1 : group->groupId;
-			p->contact = *group->cl.items[group->scanIndex];
+			p->contact = *cc;
 			saveInfo.insert(p);
 		}
 		group->scanIndex++;
@@ -657,12 +670,15 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
+			group->scanIndex++;
+			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-			group = group->cl.items[group->scanIndex]->group;
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type == CLCIT_GROUP) {
+			group = cc->group;
 			group->scanIndex = 0;
 
 			SavedGroupState_t tmp, *p;
@@ -671,13 +687,13 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 				group->expanded = p->expanded;
 			continue;
 		}
-		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
+		else if (cc->type == CLCIT_CONTACT) {
 			SavedContactState_t tmp, *p;
-			tmp.hContact = group->cl.items[group->scanIndex]->hContact;
+			tmp.hContact = cc->hContact;
 			if ((p = saveContact.find(&tmp)) != NULL) {
-				memcpy(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage, sizeof(p->iExtraImage));
+				memcpy(cc->iExtraImage, p->iExtraImage, sizeof(p->iExtraImage));
 				if (p->checked)
-					group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
+					cc->flags |= CONTACTF_CHECKED;
 			}
 		}
 

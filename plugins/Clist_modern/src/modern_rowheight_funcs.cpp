@@ -199,7 +199,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 
 			case TC_EXTRA: // Draw extra icons
 				if (contact->type == CLCIT_CONTACT &&
-					(!contact->nSubContacts || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
+					(!contact->iSubNumber || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
 					BOOL hasExtra = FALSE;
 					int width = 0;
 					for (int k = 0; k < dat->extraColumnsCount; k++)
@@ -225,7 +225,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 			case TC_EXTRA8:
 			case TC_EXTRA9:
 				if (contact->type == CLCIT_CONTACT &&
-					(!contact->nSubContacts || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
+					(!contact->iSubNumber || db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0)) {
 					int eNum = pCell->type - TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount)
 						if (contact->iExtraImage[eNum] != EMPTY_EXTRA_ICON || !dat->MetaIgnoreEmptyExtra) {
@@ -413,15 +413,15 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 
 	RowHeights_Clear(dat);
 
-	while (TRUE) {
+	while (true) {
 		int subident;
 		ClcContact *Drawing;
 		if (subindex == -1) {
 			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				indent--;
-				if (group == NULL) break;	// Finished list
+				if ((group = group->parent) == NULL)
+					break;
 				group->scanIndex++;
+				indent--;
 				continue;
 			}
 
@@ -431,7 +431,7 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 		}
 		else {
 			// Get item to draw
-			Drawing = &(group->cl.items[group->scanIndex]->subcontacts[subindex]);
+			Drawing = &group->cl.items[group->scanIndex]->subcontacts[subindex];
 			subident = dat->subIndent;
 		}
 

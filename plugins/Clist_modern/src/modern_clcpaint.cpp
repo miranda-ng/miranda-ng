@@ -554,13 +554,13 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	case CLCIT_CONTACT:
 		{
 			ClcContact *mCont = Drawing;
-			if (Drawing->nSubContacts) {
+			if (Drawing->iSubNumber) {
 				_AddParamShort(mpModernMask, hi_Type, hi_SubContact);
-				if (Drawing->nSubContacts == 1 && Drawing->subcontacts->iSubAllocated == 1)
+				if (Drawing->iSubNumber == 1 && Drawing->subcontacts->iSubAllocated == 1)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_First_Single);
-				else if (Drawing->nSubContacts == 1)
+				else if (Drawing->iSubNumber == 1)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_First);
-				else if (Drawing->nSubContacts == Drawing->subcontacts->iSubAllocated)
+				else if (Drawing->iSubNumber == Drawing->subcontacts->iSubAllocated)
 					_AddParamShort(mpModernMask, hi_SubPos, hi_Last);
 				else
 					_AddParamShort(mpModernMask, hi_SubPos, hi_Middle);
@@ -1323,7 +1323,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 			case TC_EXTRA:
 				if (Drawing->type == CLCIT_CONTACT &&
-					(!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
+					(!Drawing->iSubNumber || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
 					int BlendedInActiveState = dat->dbbBlendInActiveState;
 					int BlendValue = dat->dbbBlend25 ? ILD_BLEND25 : ILD_BLEND50;
 					int count = 0;
@@ -1375,7 +1375,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			case TC_EXTRA7:
 			case TC_EXTRA8:
 			case TC_EXTRA9:
-				if (Drawing->type == CLCIT_CONTACT && (!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
+				if (Drawing->type == CLCIT_CONTACT && (!Drawing->iSubNumber || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0)) {
 					int eNum = gl_RowTabAccess[i]->type - TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount) {
 						if (Drawing->iExtraImage[eNum] != EMPTY_EXTRA_ICON) {
@@ -2160,7 +2160,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 		case ITEM_EXTRA_ICONS: //////////////////////////////////////////////////////////////////////////////////////////////
 			// Draw extra icons
-			if (!Drawing->nSubContacts || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0) {
+			if (!Drawing->iSubNumber || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0) {
 				int iImage;
 				int count = 0;
 

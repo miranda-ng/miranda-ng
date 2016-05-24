@@ -67,9 +67,9 @@ int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **conta
 		if (flags) *flags |= CLCHT_NOWHERE | CLCHT_BELOWITEMS;
 		return -1;
 	}
+
 	if (contact) *contact = hitcontact;
 	if (group) *group = hitgroup;
-	/////////
 
 	if (((testx < hitcontact->pos_indent) && !dat->text_rtl) || ((testx>clRect.right - hitcontact->pos_indent) && dat->text_rtl)) {
 		if (flags) *flags |= CLCHT_ONITEMINDENT;
@@ -252,7 +252,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 		return;
 
 	int indent, subindent;
-	if (contact->type == CLCIT_CONTACT && contact->nSubContacts)
+	if (contact->type == CLCIT_CONTACT && contact->iSubNumber)
 		subindent = dat->subIndent;
 	else
 		subindent = 0;
@@ -411,7 +411,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 
 	if (!mir_strcmp(contact->proto, META_PROTO))
 		return DROPTARGET_ONMETACONTACT;
-	if (contact->nSubContacts)
+	if (contact->iSubNumber)
 		return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
@@ -663,72 +663,73 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
 	int testlen = (int)mir_tstrlen(text);
-	ClcContact *contact = NULL;
 	int SubCount = 0;
 
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
-		contact = group->cl.items[group->scanIndex];
-		if (contact->type != CLCIT_DIVIDER) {
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
+		if (cc->type != CLCIT_DIVIDER) {
 			bool found;
 			if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(contact->szText));
+				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				found = _tcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else found = (prefixOk && !_tcsnicmp(text, contact->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, contact->szText));
+			else found = (prefixOk && !_tcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText));
 
 			if (found) {
-				ClcGroup *contactGroup = group;
-				int contactScanIndex = group->scanIndex;
+				ClcGroup *ccGroup = group;
+				int ccScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
 					pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
-				return pcli->pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex + SubCount);
+				return pcli->pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount);
 			}
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
-					group = group->cl.items[group->scanIndex]->group;
+			
+			if (cc->type == CLCIT_GROUP) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+					group = cc->group;
 					group->scanIndex = 0;
 					SubCount = 0;
 					continue;
 				}
 			}
 		}
-		if (contact->type == CLCIT_CONTACT && contact->iSubAllocated) {
-			if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || contact->bSubExpanded) {
-				int i = 0;
-				for (i = 0; i < contact->iSubAllocated; i++) {
-					ClcContact *subcontact = &(contact->subcontacts[i]);
+
+		if (cc->type == CLCIT_CONTACT && cc->iSubAllocated) {
+			if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->bSubExpanded) {
+				for (int i = 0; i < cc->iSubAllocated; i++) {
+					const ClcContact &ccSub = cc->subcontacts[i];
 
 					bool found;
 					if (dat->bFilterSearch) {
-						TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(subcontact->szText));
+						TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(ccSub.szText));
 						TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 						found = _tcsstr(lowered_szText, lowered_text) != NULL;
 					}
-					else found = (prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, subcontact->szText));
+					else found = (prefixOk && !_tcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, ccSub.szText));
 
 					if (found) {
-						ClcGroup *contactGroup = group;
-						int contactScanIndex = group->scanIndex;
+						ClcGroup *ccGroup = group;
+						int ccScanIndex = group->scanIndex;
 						for (; group; group = group->parent)
 							pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
-						if (!contact->bSubExpanded)
-							ExpandMetaContact(hwnd, contact, dat);
-						return pcli->pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex + SubCount + i + 1);
+						if (!cc->bSubExpanded)
+							ExpandMetaContact(hwnd, cc, dat);
+						return pcli->pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount + i + 1);
 					}
 				}
 			}
 		}
-		if (contact->type == CLCIT_CONTACT && contact->iSubAllocated && contact->bSubExpanded)
-			SubCount += contact->iSubAllocated;
+
+		if (cc->type == CLCIT_CONTACT && cc->iSubAllocated && cc->bSubExpanded)
+			SubCount += cc->iSubAllocated;
 		group->scanIndex++;
 	}
 	return -1;

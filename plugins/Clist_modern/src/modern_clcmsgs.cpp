@@ -184,14 +184,14 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 
-			if (!contact->nSubContacts) {
+			if (!contact->iSubNumber) {
 				index = List_IndexOf((SortedList*)&group->cl, contact);
 				mainindex = index;
 			}
 			else {
 				index = List_IndexOf((SortedList*)&group->cl, contact->subcontacts);
 				mainindex = index;
-				index += contact->nSubContacts;
+				index += contact->iSubNumber;
 			}
 
 			BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);

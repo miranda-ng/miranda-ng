@@ -181,7 +181,7 @@ struct tContactItems
 struct ClcContact : public ClcContactBase
 {
 	ClcContact *subcontacts;
-	int  iSubAllocated, nSubContacts;
+	int  iSubAllocated, iSubNumber;
 
 	bool bSubExpanded, bImageIsSpecial;
 	
