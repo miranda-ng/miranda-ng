@@ -148,8 +148,15 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 				TCHAR *server = _tcstok(NULL, _T("@"));
 				if (item->nick && item->nick[0])
 					GroupchatJoinRoom(server, p, item->nick, item->password, true);
-				else
-					GroupchatJoinRoom(server, p, ptrT(JabberNickFromJID(m_szJabberJID)), item->password, true);
+				else {
+					ptrT nick(getTStringA(HContactFromJID(m_szJabberJID), "MyNick"));
+					if (nick == NULL)
+						nick = getTStringA("Nick");
+					if (nick == NULL)
+						nick = JabberNickFromJID(m_szJabberJID);
+
+					GroupchatJoinRoom(server, p, nick, item->password, true);
+				}
 			}
 		}
 

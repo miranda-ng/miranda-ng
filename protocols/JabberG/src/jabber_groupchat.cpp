@@ -1208,7 +1208,14 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 		inviteInfo->password = mir_tstrdup(password);
 		ForkThread((MyThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
 	}
-	else AcceptGroupchatInvite(roomJid, ptrT(JabberNickFromJID(m_szJabberJID)), password);
+	else {
+		ptrT nick(getTStringA(HContactFromJID(m_szJabberJID), "MyNick"));
+		if (nick == NULL)
+			nick = getTStringA("Nick");
+		if (nick == NULL)
+			nick = JabberNickFromJID(m_szJabberJID);
+		AcceptGroupchatInvite(roomJid, nick, password);
+	}
 }
 
 void CJabberProto::AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password)
