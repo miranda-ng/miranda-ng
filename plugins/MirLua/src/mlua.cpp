@@ -87,8 +87,6 @@ void CMLua::Unload()
 		delete script;
 	}
 
-	KillModuleScheduleTasks();
-
 	KillModuleIcons(hMLuaLangpack);
 	KillModuleSounds(hMLuaLangpack);
 	KillModuleMenus(hMLuaLangpack);

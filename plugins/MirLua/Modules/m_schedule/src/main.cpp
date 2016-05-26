@@ -35,9 +35,9 @@ void ExecuteTaskThread(void *arg)
 	ScheduleTask *task = (ScheduleTask*)arg;
 
 	lua_rawgeti(task->L, LUA_REGISTRYINDEX, task->callbackRef);
-	luaM_pcall(task->L, 0, 1);
+	lua_pcall(task->L, 0, 1, 0);
 
-	void* res = lua_touserdata(task->L, -1);
+	void *res = lua_touserdata(task->L, -1);
 
 	if (res == STOP || task->interval == 0)
 	{
@@ -605,7 +605,7 @@ static int schedule_Do(lua_State *L)
 	lua_pushvalue(L, 1);
 	lua_pushcclosure(L, fluent_Do, 1);
 	lua_pushvalue(L, 2);
-	luaM_pcall(L, 1);
+	lua_pcall(L, 1, 0, 0);
 
 	return 0;
 }
@@ -623,7 +623,7 @@ static const luaL_Reg scheduleApi[] =
 
 /***********************************************/
 
-LUAMOD_API int luaopen_m_schedule(lua_State *L)
+extern "C" LUAMOD_API int luaopen_m_schedule(lua_State *L)
 {
 	luaL_newlib(L, scheduleApi);
 	lua_pushlightuserdata(L, STOP);

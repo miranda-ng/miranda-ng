@@ -91,8 +91,6 @@ LUAMOD_API int (luaopen_m_message)(lua_State *L);
 
 #include "m_protocols.h"
 
-#include "m_schedule.h"
-
 #define MLUA_SOUNDS	"m_sounds"
 LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
