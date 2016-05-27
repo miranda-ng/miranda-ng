@@ -251,18 +251,16 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	if (dat->selection == -1 || (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP))
 		return;
 
-	int indent, subindent;
-	if (contact->type == CLCIT_CONTACT && contact->iSubNumber)
-		subindent = dat->subIndent;
-	else
-		subindent = 0;
+	int subindent = (contact->type == CLCIT_CONTACT && contact->iSubNumber) ? dat->subIndent : 0;
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
-	for (indent = 0; group->parent; indent++, group = group->parent);
-	int x = indent*dat->groupIndent + dat->iconXSpace - 2 + subindent;
+
+	POINT pt;
+	pcli->pfnCalcEipPosition(dat, contact, group, &pt);
+
+	int x = pt.x + subindent, y = pt.y;
 	int w = clRect.right - x;
-	int y = cliGetRowTopY(dat, dat->selection) - dat->yScroll;
 	int h = dat->getRowHeight(dat->selection);
 
 	for (int i = 0; i <= FONTID_MODERN_MAX; i++)
@@ -271,16 +269,15 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 	RECT rectW;
 	GetWindowRect(hwnd, &rectW);
-
-	x = contact->pos_rename_rect.left + rectW.left;
-	y = contact->pos_label.top + rectW.top;
-	w = contact->pos_rename_rect.right - contact->pos_rename_rect.left;
-	h = contact->pos_label.bottom - contact->pos_label.top + 4;
+	x += rectW.left;
+	y += rectW.top;
 
 	int a = 0;
 	if (contact->type == CLCIT_GROUP) {
-		if (dat->row_align_group_mode == 1) a |= ES_CENTER;
-		else if (dat->row_align_group_mode == 2) a |= ES_RIGHT;
+		if (dat->row_align_group_mode == 1)
+			a |= ES_CENTER;
+		else if (dat->row_align_group_mode == 2)
+			a |= ES_RIGHT;
 	}
 	if (dat->text_rtl)
 		a |= EN_ALIGN_RTL_EC;

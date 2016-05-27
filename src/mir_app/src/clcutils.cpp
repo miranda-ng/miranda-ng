@@ -492,21 +492,20 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 
 void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 {
-	ClcContact *contact;
-	ClcGroup *group;
-	POINT pt;
-
 	KillTimer(hwnd, TIMERID_RENAME);
 	ReleaseCapture();
 	dat->iHotTrack = -1;
+
+	ClcGroup *group;
+	ClcContact *contact;
 	dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
-	if (dat->selection == -1)
-		return;
-	if (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP)
+	if (dat->selection == -1 || (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP))
 		return;
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
+
+	POINT pt;
 	cli.pfnCalcEipPosition(dat, contact, group, &pt);
 	int h = cli.pfnGetRowHeight(dat, dat->selection);
 	dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, NULL, cli.hInst, NULL);

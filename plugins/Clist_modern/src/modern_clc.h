@@ -196,7 +196,6 @@ struct ClcContact : public ClcContactBase
 	RECT pos_avatar;
 	RECT pos_icon;
 	RECT pos_label;
-	RECT pos_rename_rect;
 	RECT pos_contact_time;
 	RECT pos_extra[EXTRA_ICON_COUNT];
 	DWORD lastPaintCounter;
