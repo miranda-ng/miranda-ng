@@ -128,9 +128,9 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
 	int newId = arByIds.getCount();
 	newName[0] = 1 | GROUPF_EXPANDED;   // 1 is required so we never get '\0'
 	CGroupInternal *pNew = new CGroupInternal(newId, newName);
-	pNew->save();
 	arByIds.insert(pNew);
 	arByName.insert(pNew);
+	pNew->save();
 
 	Clist_GroupAdded(newId + 1);
 

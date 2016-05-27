@@ -326,21 +326,11 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 {
 	ClcContact *contact;
 	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
-	if (hit != -1) {
+	if (hit != -1 && contact->type == CLCIT_GROUP) {
 		switch (LOWORD(wParam)) {
-		case POPUP_NEWSUBGROUP:
-			if (contact->type == CLCIT_GROUP) {
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				Clist_GroupCreate(contact->groupId, 0);
-			}
-			return 0;
-
 		case POPUP_GROUPSHOWOFFLINE:
-			if (contact->type == CLCIT_GROUP) {
-				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
-				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-			}
+			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 			return 0;
 		}
 	}

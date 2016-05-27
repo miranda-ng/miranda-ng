@@ -214,6 +214,7 @@ static INT_PTR SubGroupMenuCheckService(WPARAM wParam, LPARAM)
 // called with:
 // wparam - ownerdata
 // lparam - lparam from winproc
+
 static INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
@@ -255,6 +256,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // wparam menu handle to pass to clc.c
 // lparam WM_COMMAND HWND
+
 static INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM lParam)
 {
 	SendMessage(lParam ? (HWND)lParam : (HWND)cli.hwndContactTree, WM_COMMAND, wParam, 0);
@@ -330,7 +332,6 @@ void InitGroupMenus(void)
 	CreateServiceFunction("CLISTMENUSSubGroup/ExecService", SubGroupMenuExecService);
 	CreateServiceFunction("CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu", FreeOwnerDataSubGroupMenu);
 	CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuCheckService", SubGroupMenuCheckService);
-	CreateServiceFunction("CLISTMENUSSubGroup/GroupMenuExecProxy", GroupMenuExecProxy);
 
 	hEventPreBuildSubGroupMenu = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU, OnBuildSubGroupMenu);
@@ -349,6 +350,7 @@ void InitGroupMenus(void)
 		mi.name.a = LPGEN("&New subgroup");
 		gmp.wParam = POPUP_NEWSUBGROUP;
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
+		CreateServiceFunction(mi.pszService, GroupMenuExecProxy);
 
 		SET_UID(mi, 0xd85f5ff0, 0x12ca, 0x464d, 0x86, 0x51, 0x53, 0x36, 0x9f, 0x1d, 0x80, 0x45);
 		mi.position = 1001;
