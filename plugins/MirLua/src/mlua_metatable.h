@@ -193,8 +193,8 @@ public:
 			return;
 		}
 
-		T *udata = (T*)lua_newuserdata(L, sizeof(T));
-		memcpy(udata, obj, sizeof(T));
+		T **udata = (T**)lua_newuserdata(L, sizeof(T));
+		*udata = obj;
 		luaL_setmetatable(L, MT::name);
 	}
 };

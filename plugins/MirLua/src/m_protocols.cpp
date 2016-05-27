@@ -99,7 +99,7 @@ static int lua_AccountIterator(lua_State *L)
 {
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	int count = lua_tointeger(L, lua_upvalueindex(2));
-	PROTOACCOUNT** accounts = (PROTOACCOUNT**)lua_touserdata(L, lua_upvalueindex(3));
+	PROTOACCOUNT **accounts = (PROTOACCOUNT**)lua_touserdata(L, lua_upvalueindex(3));
 
 	if (i < count)
 	{
