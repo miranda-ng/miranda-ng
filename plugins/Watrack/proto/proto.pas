@@ -354,7 +354,7 @@ begin
   RegisterIcons;
 
   FillChar(mi, sizeof(mi), 0);
-  mi.root := Menu_CreateRoot(MO_CONTACT, 'Watrack', 0, 0, 0);
+  mi.root := Menu_CreateRoot(MO_CONTACT, 'WATrack', 0, 0, 0);
   Menu_ConfigureItem(mi.root, MCI_OPT_UID, 'CAEA4B95-A873-429F-A083-BB2DF51E2E45');
 
   SET_UID(@mi, '47D372B2-AA27-42B3-A3CB-85D3CE5F6A95');

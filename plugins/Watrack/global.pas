@@ -3,13 +3,14 @@ unit Global;
 
 interface
 
-uses windows,messages,wat_api;
+uses windows,messages,wat_api,m_api;
 
 const
   hwndTooltip:HWND=0;
 
 var
   UserCP:dword;
+  hMenuRoot:HGENMENU;
 
 const
   DLGED_INIT = $1000; // dialog init, not activate Apply button
@@ -53,7 +54,7 @@ procedure MakeHintW(wnd:HWND;id:integer;txt:pWideChar);
 
 implementation
 
-uses common,commctrl,mirutils,m_api;//,templates;
+uses common,commctrl,mirutils;//,templates;
 
 procedure MakeHint(wnd:HWND;id:integer;txt:pAnsiChar);
 var

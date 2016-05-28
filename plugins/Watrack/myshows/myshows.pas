@@ -213,7 +213,7 @@ begin
 
   FillChar(mi, sizeof(mi), 0);
   SET_UID(@mi, '201D5C0E-E7BA-4DAA-B80D-C9691CA296F5');
-  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', 500050000, 0, 0);
+  mi.root      :=hMenuRoot;
   mi.hIcon     :=IcoLib_GetIcon(IcoMyShows,0);
   mi.szName.a  :='Disable scrobbling';
   mi.pszService:=MS_WAT_MYSHOWS;

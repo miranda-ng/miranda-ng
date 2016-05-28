@@ -655,6 +655,8 @@ begin
 
   DisablePlugin:=dsPermanent;
 
+  hMenuRoot:=Menu_CreateRoot(MO_MAIN, 'WATrack', 500050000, 0, 0);
+
   hHookWATLoaded:=CreateHookableEvent(ME_WAT_MODULELOADED);
   hHookWATStatus:=CreateHookableEvent(ME_WAT_NEWSTATUS);
 
