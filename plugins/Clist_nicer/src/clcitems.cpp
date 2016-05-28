@@ -53,13 +53,11 @@ ClcContact* CreateClcContact(void)
 	return p;
 }
 
-int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
+ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
-	int i = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
-
-	ClcContact* p = group->cl[i];
+	ClcContact *p = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
 	p->avatarLeft = p->extraIconRightBegin = -1;
-	return i;
+	return p;
 }
 
 ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
@@ -97,10 +95,9 @@ void LoadAvatarForContact(ClcContact *p)
 		p->cFlags &= ~ECF_AVATAR;
 }
 
-int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
+ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
-	int i = coreCli.pfnAddContactToGroup(dat, group, hContact);
-	ClcContact* p = group->cl[i];
+	ClcContact *p = coreCli.pfnAddContactToGroup(dat, group, hContact);
 
 	p->wStatus = db_get_w(hContact, p->proto, "Status", ID_STATUS_OFFLINE);
 	p->xStatus = db_get_b(hContact, p->proto, "XStatusId", 0);
@@ -140,7 +137,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	p->avatarLeft = p->extraIconRightBegin = -1;
 	p->flags |= db_get_b(p->hContact, "CList", "Priority", 0) ? CONTACTF_PRIORITY : 0;
 
-	return i;
+	return p;
 }
 
 void RebuildEntireList(HWND hwnd, struct ClcData *dat)

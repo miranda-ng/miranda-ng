@@ -176,10 +176,9 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hCo
 		if (group->cl[i]->type != CLCIT_INFO || !(group->cl[i]->flags & CLCIIF_BELOWCONTACTS))
 			break;
 
-	i = pcli->pfnAddItemToGroup(group, i + 1);
-
-	_LoadDataToContact(group->cl[i], group, dat, hContact);
-	return group->cl[i];
+	ClcContact *cc = pcli->pfnAddItemToGroup(group, i + 1);
+	_LoadDataToContact(cc, group, dat, hContact);
+	return cc;
 }
 
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)

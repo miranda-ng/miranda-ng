@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // routines for managing adding/removal of items in the list, including sorting
 
-int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
+ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 {
 	ClcContact* newItem = cli.pfnCreateClcContact();
 	newItem->type = CLCIT_DIVIDER;
@@ -35,7 +35,7 @@ int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	newItem->szText[0] = '\0';
 	memset(newItem->iExtraImage, 0xFF, sizeof(newItem->iExtraImage));
 	group->cl.insert(newItem, iAboveItem);
-	return iAboveItem;
+	return newItem;
 }
 
 ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
@@ -85,7 +85,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 			if (groupId == 0)
 				return NULL;
 
-			ClcContact *cc = group->cl[cli.pfnAddItemToGroup(group, i)];
+			ClcContact *cc = cli.pfnAddItemToGroup(group, i);
 			cc->type = CLCIT_GROUP;
 			mir_tstrncpy(cc->szText, pThisField, _countof(cc->szText));
 			cc->groupId = (WORD)(pNextField ? 0 : groupId);
@@ -137,7 +137,7 @@ void fnFreeGroup(ClcGroup *group)
 }
 
 static int iInfoItemUniqueHandle = 0;
-int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
+ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
 	int i = 0;
 
@@ -152,28 +152,30 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 		for (; i < group->cl.getCount(); i++)
 			if (group->cl[i]->type != CLCIT_INFO)
 				break;
-	i = cli.pfnAddItemToGroup(group, i);
+
+	ClcContact *cc = cli.pfnAddItemToGroup(group, i);
 	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle + 1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
-	group->cl[i]->type = CLCIT_INFO;
-	group->cl[i]->flags = (BYTE)flags;
-	group->cl[i]->hContact = (MCONTACT)++iInfoItemUniqueHandle;
-	mir_tstrncpy(group->cl[i]->szText, pszText, _countof(group->cl[i]->szText));
-	return i;
+	cc->type = CLCIT_INFO;
+	cc->flags = (BYTE)flags;
+	cc->hContact = (MCONTACT)++iInfoItemUniqueHandle;
+	mir_tstrncpy(cc->szText, pszText, _countof(cc->szText));
+	return cc;
 }
 
-int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
+ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
 	int i, index = -1;
 
 	dat->bNeedsResort = true;
 	for (i = group->cl.getCount() - 1; i >= 0; i--) {
-		if (group->cl[i]->hContact == hContact)
-			return i;
+		ClcContact *cc = group->cl[i];
+		if (cc->hContact == hContact)
+			return cc;
 
 		if (index == -1)
-			if (group->cl[i]->type != CLCIT_INFO || !(group->cl[i]->flags & CLCIIF_BELOWCONTACTS))
+			if (cc->type != CLCIT_INFO || !(cc->flags & CLCIIF_BELOWCONTACTS))
 				index = i;
 	}
 
@@ -182,9 +184,7 @@ int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);
 	replaceStrT(pce->tszGroup, NULL);
 
-	i = cli.pfnAddItemToGroup(group, index + 1);
-
-	ClcContact *cc = group->cl[i];
+	ClcContact *cc = cli.pfnAddItemToGroup(group, index + 1);
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = cli.pfnGetContactIcon(hContact);
 	cc->hContact = hContact;
@@ -205,7 +205,7 @@ int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	if (idleMode)
 		cc->flags |= CONTACTF_IDLE;
 	mir_tstrncpy(cc->szText, cli.pfnGetContactDisplayName(hContact, 0), _countof(cc->szText));
-	return i;
+	return cc;
 }
 
 void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
@@ -530,9 +530,9 @@ static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 				prevContactOnline = 1;
 			else {
 				if (prevContactOnline) {
-					i = cli.pfnAddItemToGroup(group, i);
-					group->cl[i]->type = CLCIT_DIVIDER;
-					mir_tstrcpy(group->cl[i]->szText, TranslateT("Offline"));
+					ClcContact *cc = cli.pfnAddItemToGroup(group, i);
+					cc->type = CLCIT_DIVIDER;
+					mir_tstrcpy(cc->szText, TranslateT("Offline"));
 				}
 				break;
 			}
@@ -603,10 +603,6 @@ struct SavedInfoState_t
 
 void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
-	int i, j;
-	ClcGroup *group;
-	ClcContact *contact;
-
 	cli.pfnHideInfoTip(hwnd, dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
@@ -619,7 +615,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	OBJLIST<SavedInfoState_t> saveInfo(10, NumericKeySortT);
 
 	dat->bNeedsResort = true;
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
@@ -693,16 +689,18 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		group->scanIndex++;
 	}
 
-	for (i = 0; i < saveInfo.getCount(); i++) {
+	for (int i = 0; i < saveInfo.getCount(); i++) {
 		if (saveInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
+			ClcContact *contact;
 			if (!cli.pfnFindItem(hwnd, dat, saveInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}
-		j = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, _T(""));
-		*group->cl[j] = saveInfo[i].contact;
+	
+		ClcContact *cc = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, _T(""));
+		*cc = saveInfo[i].contact;
 	}
 
 	dat->bLockScrollbar = false;

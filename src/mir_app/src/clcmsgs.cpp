@@ -64,14 +64,16 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 					return NULL;
 				group = contact->group;
 			}
+			
+			ClcContact *cc;
 			if (msg == CLM_ADDINFOITEMA) {
 				WCHAR* wszText = mir_a2u((char*)cii->pszText);
-				i = cli.pfnAddInfoItemToGroup(group, cii->flags, wszText);
+				cc = cli.pfnAddInfoItemToGroup(group, cii->flags, wszText);
 				mir_free(wszText);
 			}
-			else i = cli.pfnAddInfoItemToGroup(group, cii->flags, cii->pszText);
+			else cc = cli.pfnAddInfoItemToGroup(group, cii->flags, cii->pszText);
 			cli.pfnRecalcScrollBar(hwnd, dat);
-			return (LRESULT)group->cl[i]->hContact | HCONTACT_ISINFO;
+			return (LRESULT)cc->hContact | HCONTACT_ISINFO;
 		}
 
 	case CLM_AUTOREBUILD:

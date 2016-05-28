@@ -56,12 +56,14 @@ HANDLE    fnContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
+ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
+ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
+ClcContact* fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+
 void fnFreeContact(ClcContact *p);
 void fnFreeGroup(ClcGroup *group);
-int  fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
-int  fnAddItemToGroup(ClcGroup *group, int iAboveItem);
+
 void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void fnRebuildEntireList(HWND hwnd, struct ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);

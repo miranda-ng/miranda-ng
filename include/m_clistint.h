@@ -296,9 +296,10 @@ struct CLIST_INTERFACE
 	void (*pfnFreeContact)(ClcContact *contact);
 	void (*pfnFreeGroup)(ClcGroup *group);
 
-	int  (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const WCHAR *pszText);
-	int  (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
-	int  (*pfnAddContactToGroup)(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+	ClcContact* (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const WCHAR *pszText);
+	ClcContact* (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
+	ClcContact* (*pfnAddContactToGroup)(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+	
 	void (*pfnAddContactToTree)(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 	void (*pfnDeleteItemFromTree)(HWND hwnd, MCONTACT hItem);
 	void (*pfnRebuildEntireList)(HWND hwnd, struct ClcData *dat);

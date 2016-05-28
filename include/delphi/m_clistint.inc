@@ -335,12 +335,10 @@ type
     pfnFreeContact : procedure (var contact:TClcContact); cdecl;
     pfnFreeGroup   : procedure (var group:TClcGroup); cdecl;
 
-    pfnAddInfoItemToGroup      : function  (var group:TClcGroup; flags:int; pszText:TChar):int; cdecl;
-    pfnAddItemToGroup          : function  (var group:TClcGroup; iAboveItem:int):int; cdecl;
-    pfnAddContactToGroup       : function  (var dat:TClcData; var group:TClcGroup;
-                                 hContact:TMCONTACT):int; cdecl;
-    pfnAddContactToTree        : procedure (hwnd:HWND; var dat:TClcData; hContact:TMCONTACT;
-                                 updateTotalCount:int; checkHideOffline:int); cdecl;
+    pfnAddInfoItemToGroup      : function  (var group:TClcGroup; flags:int; pszText:TChar):PClcContact; cdecl;
+    pfnAddItemToGroup          : function  (var group:TClcGroup; iAboveItem:int):PClcContact; cdecl;
+    pfnAddContactToGroup       : function  (var dat:TClcData; var group:TClcGroup; hContact:TMCONTACT):PClcContact; cdecl;
+    pfnAddContactToTree        : procedure (hwnd:HWND; var dat:TClcData; hContact:TMCONTACT; updateTotalCount:int; checkHideOffline:int); cdecl;
     pfnDeleteItemFromTree      : procedure (hwnd:HWND; hItem:TMCONTACT); cdecl;
     pfnRebuildEntireList       : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnGetGroupContentsCount   : function  (var group:TClcGroup; visibleOnly:int):int; cdecl;
