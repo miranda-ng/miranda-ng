@@ -104,7 +104,7 @@ struct ClcContactBase
 	BYTE flags;
 	union {
 		struct {
-			int    iImage;
+			int iImage;
 			MCONTACT hContact;
 		};
 		struct {
@@ -152,7 +152,7 @@ struct ClcDataBase : public MZeroedObject
 	DWORD exStyle;
 	POINT ptInfoTip;
 	int infoTipTimeout;
-	HANDLE hInfoTipItem;
+	DWORD hInfoTipItem;
 	HIMAGELIST himlExtraColumns;
 	int extraColumnsCount;
 	int extraColumnSpacing;
@@ -185,15 +185,15 @@ struct trayIconInfo_t
 	TCHAR* ptszToolTip;
 };
 
-typedef struct _menuProto
+struct MenuProto
 {
 	char *szProto; //This is DLL-based unique name
 	HGENMENU pMenu;
 	HICON hIcon;
-}
-	MenuProto;
+};
 
-/* constants */
+/////////////////////////////////////////////////////////////////////////////////////////
+// constants
 
 #define DRAGSTAGE_NOTMOVED  0
 #define DRAGSTAGE_ACTIVE    1
@@ -241,9 +241,14 @@ typedef struct _menuProto
 #define TIM_CALLBACK   (WM_USER+1857)
 #define TIM_CREATE     (WM_USER+1858)
 
-/***************************************************************************
- * CLIST_INTERFACE structure definition
- ***************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+// functions
+
+EXTERN_C MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *contact);
+EXTERN_C MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CLIST_INTERFACE structure definition
 
 struct ClcProtoStatus
 {
@@ -285,8 +290,8 @@ struct CLIST_INTERFACE
 	int    (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 	int    (*pfnFindItem)(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 	int    (*pfnGetRowByIndex)(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-	HANDLE (*pfnContactToHItem)(ClcContact *contact);
-	HANDLE (*pfnContactToItemHandle)(ClcContact *contact, DWORD *nmFlags);
+	HANDLE (*unused1)(ClcContact *contact);
+	HANDLE (*unused2)(ClcContact *contact, DWORD *nmFlags);
 
 	/* clcitems.c */
 	ClcContact* (*pfnCreateClcContact)(void);

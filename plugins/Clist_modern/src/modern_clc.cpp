@@ -784,7 +784,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
+			nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		}
 
@@ -794,7 +794,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = (hit == -1 || hitFlags & CLCHT_NOWHERE) ? NULL : pcli->pfnContactToItemHandle(contact, &nm.flags);
+			nm.hItem = (hit == -1 || hitFlags & CLCHT_NOWHERE) ? NULL : Clist_ContactToItemHandle(contact, &nm.flags);
 			nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
 			nm.pt = dat->ptDragStart;
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
@@ -945,7 +945,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
+			nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 			dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 		}
@@ -1025,7 +1025,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 				nm.flags = 0;
-				nm.hItem = pcli->pfnContactToItemHandle(contact, &nm.flags);
+				nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 				nm.pt = pt;
 				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
 					return 0;
@@ -1359,7 +1359,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
+				hSelItem = Clist_ContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			needRepaint = TRUE;
 			pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
@@ -1381,7 +1381,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) { // CLVM changed
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
+				hSelItem = Clist_ContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			dat->bNeedsResort = true;

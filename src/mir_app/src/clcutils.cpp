@@ -635,8 +635,8 @@ void fnHideInfoTip(HWND, ClcData *dat)
 		return;
 
 	CLCINFOTIP it = { 0 };
-	it.isGroup = IsHContactGroup((UINT_PTR)dat->hInfoTipItem);
-	it.hItem = (HANDLE)((UINT_PTR)dat->hInfoTipItem & ~HCONTACT_ISGROUP);
+	it.isGroup = IsHContactGroup(dat->hInfoTipItem);
+	it.hItem = (HANDLE)(dat->hInfoTipItem & ~HCONTACT_ISGROUP);
 	it.cbSize = sizeof(it);
 	dat->hInfoTipItem = NULL;
 	NotifyEventHooks(hHideInfoTipEvent, 0, (LPARAM)&it);

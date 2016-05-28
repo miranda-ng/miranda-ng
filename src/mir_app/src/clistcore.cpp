@@ -81,8 +81,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnGetRowsPriorTo                  = fnGetRowsPriorTo;
 		cli.pfnFindItem                        = fnFindItem;
 		cli.pfnGetRowByIndex                   = fnGetRowByIndex;
-		cli.pfnContactToHItem                  = fnContactToHItem;
-		cli.pfnContactToItemHandle             = fnContactToItemHandle;
 
 		cli.pfnAddGroup                        = fnAddGroup;
 		cli.pfnAddItemToGroup                  = fnAddItemToGroup;

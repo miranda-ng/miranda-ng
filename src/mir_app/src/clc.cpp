@@ -497,7 +497,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (UINT_PTR)cli.pfnContactToHItem(selcontact);
+						hSelItem = Clist_ContactToHItem(selcontact);
 					cli.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 					cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 					if (contact) {
@@ -512,7 +512,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (UINT_PTR)cli.pfnContactToHItem(selcontact);
+						hSelItem = Clist_ContactToHItem(selcontact);
 					cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 				}
 				else {
@@ -779,7 +779,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+			nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 		}
 		else {
@@ -868,7 +868,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				it.isGroup = contact->type == CLCIT_GROUP;
 				it.hItem = (contact->type == CLCIT_GROUP) ? (HANDLE)contact->groupId : (HANDLE)contact->hContact;
 				it.cbSize = sizeof(it);
-				dat->hInfoTipItem = cli.pfnContactToHItem(contact);
+				dat->hInfoTipItem = Clist_ContactToHItem(contact);
 				NotifyEventHooks(hShowInfoTipEvent, 0, (LPARAM)&it);
 			}
 			break;
@@ -942,7 +942,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+			nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		}
 		if (!(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMCHECK))) {
@@ -954,7 +954,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (hit == -1)
 				nm.hItem = NULL;
 			else
-				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+				nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 			nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
 			nm.pt = dat->ptDragStart;
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
@@ -1029,7 +1029,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 				nm.flags = 0;
-				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+				nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 				dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 			}
@@ -1066,7 +1066,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 				nm.flags = 0;
-				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+				nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 				nm.pt = pt;
 				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
 					return 0;
@@ -1141,7 +1141,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					nm.hdr.hwndFrom = hwnd;
 					nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 					nm.flags = 0;
-					nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+					nm.hItem = Clist_ContactToItemHandle(contact, &nm.flags);
 					nm.pt = pt;
 					SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 				}

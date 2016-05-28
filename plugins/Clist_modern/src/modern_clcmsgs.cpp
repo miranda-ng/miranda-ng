@@ -114,37 +114,43 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			switch (wParam) {
 			case CLGN_ROOT:
 				if (dat->list.cl.getCount())
-					return (LRESULT)pcli->pfnContactToHItem(dat->list.cl[0]);
+					return Clist_ContactToHItem(dat->list.cl[0]);
 				else
 					return NULL;
+			
 			case CLGN_CHILD:
 				if (contact->type != CLCIT_GROUP)
 					return NULL;
 				group = contact->group;
 				if (group->cl.getCount() == 0)
 					return NULL;
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[0]);
+				return Clist_ContactToHItem(group->cl[0]);
+			
 			case CLGN_PARENT:
 				return group->groupId | HCONTACT_ISGROUP;
+			
 			case CLGN_NEXT:
 				do {
 					if (++i >= group->cl.getCount())
 						return NULL;
 				} while (group->cl[i]->type == CLCIT_DIVIDER);
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
+			
 			case CLGN_PREVIOUS:
 				do {
 					if (--i < 0)
 						return NULL;
 				} while (group->cl[i]->type == CLCIT_DIVIDER);
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
+			
 			case CLGN_NEXTCONTACT:
 				for (i++; i < group->cl.getCount(); i++)
 					if (group->cl[i]->type == CLCIT_CONTACT)
 						break;
 				if (i >= group->cl.getCount())
 					return NULL;
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
+			
 			case CLGN_PREVIOUSCONTACT:
 				if (i >= group->cl.getCount())
 					return NULL;
@@ -153,14 +159,16 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 						break;
 				if (i < 0)
 					return NULL;
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
+			
 			case CLGN_NEXTGROUP:
 				for (i++; i < group->cl.getCount(); i++)
 					if (group->cl[i]->type == CLCIT_GROUP)
 						break;
 				if (i >= group->cl.getCount())
 					return NULL;
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
+			
 			case CLGN_PREVIOUSGROUP:
 				if (i >= group->cl.getCount())
 					return NULL;
@@ -169,7 +177,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 						break;
 				if (i < 0)
 					return NULL;
-				return (LRESULT)pcli->pfnContactToHItem(group->cl[i]);
+				return Clist_ContactToHItem(group->cl[i]);
 			}
 		}
 		return NULL;

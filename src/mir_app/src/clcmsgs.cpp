@@ -191,7 +191,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_GETNEXTITEM:
 		if (wParam == CLGN_ROOT) {
 			if (dat->list.cl.getCount())
-				return (LRESULT)cli.pfnContactToHItem(dat->list.cl[0]);
+				return Clist_ContactToHItem(dat->list.cl[0]);
 			return NULL;
 		}
 
@@ -206,7 +206,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			group = contact->group;
 			if (group->cl.getCount() == 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl[0]);
+			return Clist_ContactToHItem(group->cl[0]);
 
 		case CLGN_PARENT:
 			return group->groupId | HCONTACT_ISGROUP;
@@ -216,14 +216,14 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 				if (++i >= group->cl.getCount())
 					return NULL;
 			} while (group->cl[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUS:
 			do {
 				if (--i < 0)
 					return NULL;
 			} while (group->cl[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 
 		case CLGN_NEXTCONTACT:
 			for (i++; i < group->cl.getCount(); i++)
@@ -231,7 +231,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 					break;
 			if (i >= group->cl.getCount())
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUSCONTACT:
 			if (i >= group->cl.getCount())
@@ -241,7 +241,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 					break;
 			if (i < 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 
 		case CLGN_NEXTGROUP:
 			for (i++; i < group->cl.getCount(); i++)
@@ -249,7 +249,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 					break;
 			if (i >= group->cl.getCount())
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUSGROUP:
 			if (i >= group->cl.getCount())
@@ -259,7 +259,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 					break;
 			if (i < 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
+			return Clist_ContactToHItem(group->cl[i]);
 		}
 		return NULL;
 
@@ -269,7 +269,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_GETSELECTION:
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) == -1)
 			return NULL;
-		return (LRESULT)cli.pfnContactToHItem(contact);
+		return Clist_ContactToHItem(contact);
 
 	case CLM_GETTEXTCOLOR:
 		if (wParam > FONTID_MAX)
@@ -285,7 +285,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			if (hit == -1)
 				return NULL;
 		}
-		return (LRESULT)cli.pfnContactToHItem(contact);
+		return Clist_ContactToHItem(contact);
 
 	case CLM_SELECTITEM:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL))

@@ -181,7 +181,7 @@ type
     exStyle               :dword;
     ptInfoTip             :TPOINT;
     infoTipTimeout        :int;
-    hInfoTipItem          :THANDLE;
+    hInfoTipItem          :DWORD;
     himlExtraColumns      :THANDLE; // HIMAGELIST in CommCtrl
     extraColumnsCount     :int;
     extraColumnSpacing    :int;
@@ -322,8 +322,8 @@ type
                              var contact:PClcContact; var subgroup:PClcGroup; var isVisible:int):int; cdecl;
     pfnGetRowByIndex       : function (var dat:TClcData; testindex:int;
                              var contact:PClcContact; var subgroup:PClcGroup):int; cdecl;
-    pfnContactToHItem      : function (var contact:TClcContact):THANDLE;cdecl;
-    pfnContactToItemHandle : function (var contact:TClcContact; var nmFlags:dword):THANDLE; cdecl;
+    unused1                : function (var contact:TClcContact):THANDLE;cdecl;
+    unused2                : function (var contact:TClcContact; var nmFlags:dword):THANDLE; cdecl;
 
   (* clcitems.c *)
     pfnCreateClcContact    : function :PClcContact; cdecl;

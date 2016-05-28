@@ -39,18 +39,16 @@ extern int g_IconWidth, g_IconHeight;
 extern MWindowList hClcWindowList;
 extern HIMAGELIST hCListImages;
 
-void   fnClcOptionsChanged(void);
-void   fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
-void   fnInitAutoRebuild(HWND hWnd);
+void fnClcOptionsChanged(void);
+void fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
+void fnInitAutoRebuild(HWND hWnd);
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcidents.c */
-int       fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int       fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-int       fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-HANDLE    fnContactToHItem(ClcContact *contact);
-HANDLE    fnContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
+int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 /* clcitems.c */
 ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);

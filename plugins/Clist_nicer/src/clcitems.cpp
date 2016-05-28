@@ -45,11 +45,10 @@ static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
 
 ClcContact* CreateClcContact(void)
 {
-	ClcContact* p = (ClcContact*)mir_alloc(sizeof(ClcContact));
-	if (p != NULL) {
-		memset(p, 0, sizeof(ClcContact));
+	ClcContact* p = (ClcContact*)mir_calloc(sizeof(ClcContact));
+	if (p != NULL)
 		p->avatarLeft = p->extraIconRightBegin = p->xStatusIcon = -1;
-	}
+
 	return p;
 }
 
