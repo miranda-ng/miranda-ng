@@ -244,24 +244,22 @@ void CLCPaint::AddParam(MODERNMASK *mpModernMask, DWORD dwParamHash, const char*
 
 BOOL  CLCPaint::CheckMiniMode(ClcData *dat, BOOL selected)
 {
-	if ((!dat->bCompactMode /* not mini*/)
-		|| ((dat->bCompactMode & 0x01) && selected /*mini on selected*/)
-		/* || ( TRUE && hot )*/) return FALSE;
+	if (!dat->bCompactMode || ((dat->bCompactMode & 0x01) && selected))
+		return FALSE;
 	return TRUE;
 }
 
 tPaintCallbackProc CLCPaint::PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN, DWORD, void *)
 {
-	ClcData* dat = (ClcData*)GetWindowLongPtr(hWnd, 0);
-	if (!dat) return 0;
-	cliPaintClc(hWnd, dat, hDC, rcPaint);
-	return NULL;
+	ClcData *dat = (ClcData*)GetWindowLongPtr(hWnd, 0);
+	if (dat)
+		cliPaintClc(hWnd, dat, hDC, rcPaint);
+	return 0;
 }
 
 void CLCPaint::_FillQuickHash()
 {
-	int i;
-	for (i = 0; i < hi_LastItem; i++)
+	for (int i = 0; i < hi_LastItem; i++)
 		HASH[i] = mod_CalcHash(HASHTEXT[i]);
 }
 
@@ -404,7 +402,7 @@ void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHA
 {
 	if (szText == NULL)
 		return;
-	
+
 	uTextFormat &= ~DT_RIGHT;
 	if (plText == NULL) {
 		if (start) {
@@ -1826,7 +1824,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 	SelectClipRgn(pc.hdcMem, NULL);
 }
 
-void CLCPaint::_DrawInsertionMark(ClcData *dat, RECT& clRect, _PaintContext& pc)
+void CLCPaint::_DrawInsertionMark(ClcData *dat, RECT &clRect, _PaintContext &pc)
 {
 	int identation = dat->nInsertionLevel*dat->groupIndent;
 	int yt = cliGetRowTopY(dat, dat->iInsertionMark);
