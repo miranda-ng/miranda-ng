@@ -1591,7 +1591,7 @@ void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcP
 		if (!(paintMode & DM_GREYALTERNATE))
 			SkinDrawGlyph(pc.hdcMem, &clRect, rcPaint, "CL,ID=Background,Type=Control");
 	}
-	else if (paintMode&DM_CLASSIC) {
+	else if (paintMode & DM_CLASSIC) {
 		if (!_DrawNonEnginedBackground(pc.hdcMem, rcPaint, clRect, dat)) {
 			HBRUSH hBrush = CreateSolidBrush(pc.tmpbkcolour);
 			FillRect(pc.hdcMem, rcPaint, hBrush);
@@ -1599,8 +1599,8 @@ void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcP
 		}
 	}
 	else {
-		if (paintMode&DM_NON_LAYERED)
-			ske_BltBackImage(hWnd, (paintMode&DM_GRAY) ? pc.hdcMem2 : pc.hdcMem, rcPaint);
+		if (paintMode & DM_NON_LAYERED)
+			ske_BltBackImage(hWnd, (paintMode & DM_GRAY) ? pc.hdcMem2 : pc.hdcMem, rcPaint);
 
 		SkinDrawGlyph(pc.hdcMem, &clRect, rcPaint, "CL,ID=Background");
 	}
@@ -1631,8 +1631,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 		line_num++;
 
 		// Draw line, if needed
-		int iRowHeight = dat->getRowHeight(line_num);
-		if (y > rcPaint->top - iRowHeight) {
+		if (y > rcPaint->top - dat->getRowHeight(line_num)) {
 			RECT rc;
 
 			// Get item to draw
@@ -1663,7 +1662,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 				int right_pos = dat->rightMargin;   // Border
 
 				RECT row_rc;
-				SetRect(&row_rc, clRect.left, y, clRect.right, y + iRowHeight);
+				SetRect(&row_rc, clRect.left, y, clRect.right, y + dat->getRowHeight(line_num));
 
 				RECT free_row_rc = row_rc;
 				free_row_rc.left += left_pos;
@@ -1799,7 +1798,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 				}
 			}
 		}
-		y += iRowHeight;
+		y += dat->getRowHeight(line_num);
 
 		// increment by subcontacts
 		ClcContact *cc = group->cl[group->scanIndex];

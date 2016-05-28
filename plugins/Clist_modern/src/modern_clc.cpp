@@ -229,9 +229,8 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
 			}
-			else {
-				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
-			}
+			else found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
+
 			if (found) {
 				ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
