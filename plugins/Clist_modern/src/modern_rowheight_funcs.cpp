@@ -547,7 +547,7 @@ int cliGetRowTopY(ClcData *dat, int item)
 int cliGetRowBottomY(ClcData *dat, int item)
 {
 	if (!dat->row_variable_height)
-		return (item+1) * dat->rowHeight;
+		return (item + 1) * dat->rowHeight;
 
 	if (item >= dat->row_heights_size)
 		return -1;

@@ -72,10 +72,10 @@ static HGENMENU hFavoriteContactMenuItems[_countof(rates)];
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Contact rate: none"), "Rate1", IDI_FAVORITE_0 },
-	{ LPGEN("Contact rate: low"), "Rate2", IDI_FAVORITE_1 },
+	{ LPGEN("Contact rate: none"),   "Rate1", IDI_FAVORITE_0 },
+	{ LPGEN("Contact rate: low"),    "Rate2", IDI_FAVORITE_1 },
 	{ LPGEN("Contact rate: medium"), "Rate3", IDI_FAVORITE_2 },
-	{ LPGEN("Contact rate: high"), "Rate4", IDI_FAVORITE_3 }
+	{ LPGEN("Contact rate: high"),   "Rate4", IDI_FAVORITE_3 }
 };
 
 static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)

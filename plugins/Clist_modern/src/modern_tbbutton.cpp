@@ -190,7 +190,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 	if (bct->hIcon && (rcIcon.right > rcTemp.right || rcIcon.bottom > rcTemp.bottom || rcIcon.left < rcTemp.left || rcIcon.top < rcTemp.top))
 		bct->hIcon = NULL;
 
-	if (bHasText && (rcText.right>rcTemp.right || rcText.bottom>rcTemp.bottom || rcText.left < rcTemp.left || rcText.top < rcTemp.top))
+	if (bHasText && (rcText.right > rcTemp.right || rcText.bottom > rcTemp.bottom || rcText.left < rcTemp.left || rcText.top < rcTemp.top))
 		bHasText = FALSE;
 
 	if (bct->hIcon) {
@@ -297,30 +297,30 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 0;
 
 	case WM_LBUTTONDOWN:
-	{
-		POINT ptMouse = UNPACK_POINT(lParam);
+		{
+			POINT ptMouse = UNPACK_POINT(lParam);
 
-		RECT rcClient;
-		GetClientRect(bct->hwnd, &rcClient);
-		if (!PtInRect(&rcClient, ptMouse)) {
-			bct->bHotMark = false;
-			ReleaseCapture();
-		}
-		else {
-			if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
-				bct->stateId = PBS_PRESSED;
-				bct->bHotMark = true;
-				InvalidateParentRect(bct->hwnd, NULL, TRUE);
-				if (bct->bSendOnDown) {
-					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
-					bct->stateId = PBS_NORMAL;
-					InvalidateParentRect(bct->hwnd, NULL, TRUE);
-				}
+			RECT rcClient;
+			GetClientRect(bct->hwnd, &rcClient);
+			if (!PtInRect(&rcClient, ptMouse)) {
+				bct->bHotMark = false;
+				ReleaseCapture();
 			}
-			SetCapture(bct->hwnd);
+			else {
+				if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
+					bct->stateId = PBS_PRESSED;
+					bct->bHotMark = true;
+					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+					if (bct->bSendOnDown) {
+						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
+						bct->stateId = PBS_NORMAL;
+						InvalidateParentRect(bct->hwnd, NULL, TRUE);
+					}
+				}
+				SetCapture(bct->hwnd);
+			}
 		}
-	}
-	return 0;
+		return 0;
 
 	case WM_LBUTTONUP:
 		if (GetCapture() == bct->hwnd) {
@@ -355,48 +355,50 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 0;
 
 	case WM_MOUSEMOVE:
-	{
-		BOOL bPressed = (wParam & MK_LBUTTON) != 0;
-		if (bPressed && !bct->bHotMark)
-			break;
+		{
+			BOOL bPressed = (wParam & MK_LBUTTON) != 0;
+			if (bPressed && !bct->bHotMark)
+				break;
 
-		RECT rc;
-		POINT pt;
-		GetWindowRect(hwndDlg, &rc);
-		GetCursorPos(&pt);
-		BOOL inClient = PtInRect(&rc, pt);
-		if (inClient) {
-			SetCapture(bct->hwnd);
-			if (bct->stateId == PBS_NORMAL) {
+			RECT rc;
+			GetWindowRect(hwndDlg, &rc);
+
+			POINT pt;
+			GetCursorPos(&pt);
+
+			BOOL inClient = PtInRect(&rc, pt);
+			if (inClient) {
+				SetCapture(bct->hwnd);
+				if (bct->stateId == PBS_NORMAL) {
+					bct->stateId = PBS_HOT;
+					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+				}
+			}
+
+			if (!inClient && bct->stateId == PBS_PRESSED) {
 				bct->stateId = PBS_HOT;
 				InvalidateParentRect(bct->hwnd, NULL, TRUE);
 			}
-		}
-
-		if (!inClient && bct->stateId == PBS_PRESSED) {
-			bct->stateId = PBS_HOT;
-			InvalidateParentRect(bct->hwnd, NULL, TRUE);
-		}
-		else if (inClient && bct->stateId == PBS_HOT && bPressed) {
-			if (bct->bHotMark) {
-				bct->stateId = PBS_PRESSED;
-				InvalidateParentRect(bct->hwnd, NULL, TRUE);
+			else if (inClient && bct->stateId == PBS_HOT && bPressed) {
+				if (bct->bHotMark) {
+					bct->stateId = PBS_PRESSED;
+					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+				}
+			}
+			else if (!inClient && !bPressed) {
+				bct->bHotMark = false;
+				ReleaseCapture();
 			}
 		}
-		else if (!inClient && !bPressed) {
-			bct->bHotMark = false;
-			ReleaseCapture();
-		}
-	}
-	return 0;
+		return 0;
 
 	case WM_NCHITTEST:
-	{
-		LRESULT lr = SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam);
-		if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT || lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
-			return HTTRANSPARENT;
-	}
-	break;
+		{
+			LRESULT lr = SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam);
+			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT || lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
+				return HTTRANSPARENT;
+		}
+		break;
 
 	case BM_SETCHECK:
 		if (!bct->bIsPushBtn) break;

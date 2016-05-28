@@ -31,27 +31,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Declarations */
 static HANDLE hNotifyFrame = NULL;
-static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
-static int EventArea_Draw(HWND hwnd, HDC hDC);
-static int EventArea_DrawWorker(HWND hwnd, HDC hDC);
-static void EventArea_HideShowNotifyFrame();
-static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-int EventArea_Create(HWND hCluiWnd);
-int EventArea_UnloadModule();
-void EventArea_ConfigureEventArea();
 
 /**************************************************/
 
-HWND g_hwndEventArea = 0;
-
-static CListEvent *event;
-static int eventCount;
-static int disableTrayFlash;
-static int disableIconFlash;
-
-
-struct CListImlIcon {
+struct CListImlIcon
+{
 	int index;
 	HICON hIcon;
 };
@@ -62,7 +46,8 @@ static UINT flashTimerId;
 static int iconsOn;
 
 
-struct NotifyMenuItemExData {
+struct NotifyMenuItemExData
+{
 	MCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
@@ -79,10 +64,31 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 	return NULL;
 }
 
+static void EventArea_HideShowNotifyFrame()
+{
+	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;
+
+	int desired;
+	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
+		desired = TRUE;
+	else if (g_CluiData.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
+		desired = g_CluiData.bNotifyActive ? TRUE : FALSE;
+	else
+		desired = FALSE;
+
+	if (desired) {
+		if (!dwVisible)
+			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+	}
+	else {
+		if (dwVisible)
+			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+	}
+}
 
 CListEvent* cli_AddEvent(CLISTEVENT *cle)
 {
-	CListEvent* p = corecli.pfnAddEvent(cle);
+	CListEvent *p = corecli.pfnAddEvent(cle);
 	if (p == NULL)
 		return NULL;
 
@@ -92,8 +98,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->pszService &&
 			(!strncmp("SRMsg/ReadMessage", p->pszService, _countof("SRMsg/ReadMessage")) ||
-			!strncmp("GChat/DblClickEvent", p->pszService, _countof("GChat/DblClickEvent"))))
-		{
+			!strncmp("GChat/DblClickEvent", p->pszService, _countof("GChat/DblClickEvent")))) {
 			// dup check only for msg events
 			for (int j = 0; j < GetMenuItemCount(g_CluiData.hMenuNotify); j++) {
 				if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) != 0) {
@@ -208,7 +213,8 @@ struct event_area_t
 		bkColour(CLCDEFAULT_BKCOLOUR),
 		useWinColors(CLCDEFAULT_USEWINDOWSCOLOURS),
 		backgroundBmpUse(CLCDEFAULT_USEBITMAP)
-	{}
+	{
+	}
 };
 
 static event_area_t event_area;
@@ -216,23 +222,19 @@ static event_area_t event_area;
 static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
 	BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
-	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
-	{
+	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 		RECT rc;
+		if (rect)
+			rc = *rect;
+		else
+			GetClientRect(hwnd, &rc);
 
-		if (rect) rc = *rect;
-		else	  GetClientRect(hwnd, &rc);
-
-		if (!event_area.hBmpBackground && !event_area.useWinColors)
-		{
+		if (!event_area.hBmpBackground && !event_area.useWinColors) {
 			HBRUSH hbr = CreateSolidBrush(event_area.bkColour);
 			FillRect(hdc, &rc, hbr);
 			DeleteObject(hbr);
 		}
-		else
-		{
-			DrawBackGround(hwnd, hdc, event_area.hBmpBackground, event_area.bkColour, event_area.backgroundBmpUse);
-		}
+		else DrawBackGround(hwnd, hdc, event_area.hBmpBackground, event_area.bkColour, event_area.backgroundBmpUse);
 	}
 	return TRUE;
 }
@@ -241,8 +243,7 @@ COLORREF sttGetColor(char * module, char * color, COLORREF defColor); //clcutils
 
 static int  ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 {
-	if (event_area.hBmpBackground)
-	{
+	if (event_area.hBmpBackground) {
 		DeleteObject(event_area.hBmpBackground);
 		event_area.hBmpBackground = NULL;
 	}
@@ -279,33 +280,19 @@ void EventArea_ConfigureEventArea()
 	EventArea_HideShowNotifyFrame();
 }
 
-
-static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
-{
-	return EventArea_Draw(hWnd, hDC);
-}
-
-static int EventArea_Draw(HWND hwnd, HDC hDC)
-{
-	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == pcli->hwndContactList)
-		return EventArea_DrawWorker(hwnd, hDC);
-
-	cliInvalidateRect(hwnd, NULL, FALSE);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 {
 	RECT rc;
-	HFONT hOldFont;
 	GetClientRect(hWnd, &rc);
+
 	if (g_CluiData.fDisableSkinEngine)
 		sttDrawEventAreaBackground(hWnd, hDC, &rc);
 	else
 		SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=EventArea");
 
-	hOldFont = g_clcPainter.ChangeToFont(hDC, NULL, FONTID_EVENTAREA, NULL);
+	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, NULL, FONTID_EVENTAREA, NULL);
 	SetBkMode(hDC, TRANSPARENT);
 
 	int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
@@ -324,7 +311,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo(g_CluiData.hMenuNotify, iCount - 1, TRUE, &mii);
-		
+
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 		TCHAR *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
 		int iIcon = cli_GetContactIcon(nmi->hContact);
@@ -346,31 +333,158 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	return 0;
 }
 
-static void EventArea_HideShowNotifyFrame()
+static int EventArea_Draw(HWND hwnd, HDC hDC)
 {
-	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;
-	int desired;
+	if (hwnd == (HWND)-1) return 0;
+	if (GetParent(hwnd) == pcli->hwndContactList)
+		return EventArea_DrawWorker(hwnd, hDC);
 
-	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
-		desired = TRUE;
-	else if (g_CluiData.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
-		desired = g_CluiData.bNotifyActive ? TRUE : FALSE;
-	else
-		desired = FALSE;
+	cliInvalidateRect(hwnd, NULL, FALSE);
+	return 0;
+}
 
-	if (desired) {
-		if (!dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+{
+	return EventArea_Draw(hWnd, hDC);
+}
+
+static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_MEASUREITEM:
+		{
+			MEASUREITEMSTRUCT *lpi = (LPMEASUREITEMSTRUCT)lParam;
+			MENUITEMINFOA mii = { 0 };
+			mii.cbSize = sizeof(mii);
+			mii.fMask = MIIM_DATA | MIIM_ID;
+			if (GetMenuItemInfoA(g_CluiData.hMenuNotify, lpi->itemID, FALSE, &mii) != 0) {
+				if (mii.dwItemData == lpi->itemData) {
+					lpi->itemWidth = 8 + 16;
+					lpi->itemHeight = 0;
+					return TRUE;
+				}
+			}
+		}
+		break;
+
+	case WM_DRAWITEM:
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+			if (dis->hwndItem == (HWND)g_CluiData.hMenuNotify) {
+				MENUITEMINFOA mii = { 0 };
+				mii.cbSize = sizeof(mii);
+				mii.fMask = MIIM_DATA;
+				if (GetMenuItemInfoA(g_CluiData.hMenuNotify, (UINT)dis->itemID, FALSE, &mii) != 0) {
+					NotifyMenuItemExData *nmi = (NotifyMenuItemExData *)mii.dwItemData;
+					if (nmi) {
+						int iIcon = cli_GetContactIcon(nmi->hContact);
+						ske_ImageList_DrawEx(g_himlCListClc, nmi->iIcon, dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
+						ske_ImageList_DrawEx(g_himlCListClc, iIcon, dis->hDC, 2 + GetSystemMetrics(SM_CXSMICON) + 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
+						return TRUE;
+					}
+				}
+			}
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		if (g_CluiData.bEventAreaEnabled)
+			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_NOTIFYBUTTON, 0), 0);
+		break;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
+			POINT pt;
+			GetCursorPos(&pt);
+
+			MENUITEMINFO mii = { 0 };
+			mii.cbSize = sizeof(mii);
+			mii.fMask = MIIM_DATA;
+
+			int iSelection;
+			if (GetMenuItemCount(g_CluiData.hMenuNotify) > 1)
+				iSelection = TrackPopupMenu(g_CluiData.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+			else
+				iSelection = GetMenuItemID(g_CluiData.hMenuNotify, 0);
+			BOOL result = GetMenuItemInfo(g_CluiData.hMenuNotify, (UINT)iSelection, FALSE, &mii);
+			if (result != 0) {
+				NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)mii.dwItemData;
+				if (nmi) {
+					CLISTEVENT *cle = MyGetEvent(iSelection);
+					if (cle) {
+						CLISTEVENT *cle1 = NULL;
+						CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
+						// re-obtain the pointer, it may already be invalid/point to another event if the
+						// event we're interested in was removed by the service (nasty one...)
+						cle1 = MyGetEvent(iSelection);
+						if (cle1 != NULL)
+							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
+					}
+				}
+			}
+			break;
+		}
+		break;
+
+	case WM_SIZE:
+		if (!g_CluiData.fLayered)
+			InvalidateRect(hwnd, NULL, FALSE);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_ERASEBKGND:
+		return 1;
+
+	case WM_PAINT:
+		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)
+			CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)hwnd, 0);
+		else if (GetParent(hwnd) == pcli->hwndContactList && !g_CluiData.fLayered) {
+			RECT rc = { 0 };
+			GetClientRect(hwnd, &rc);
+			rc.right++;
+			rc.bottom++;
+			HDC hdc = GetDC(hwnd);
+			HDC hdc2 = CreateCompatibleDC(hdc);
+			HBITMAP hbmp = ske_CreateDIB32(rc.right, rc.bottom);
+			HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
+			ske_BltBackImage(hwnd, hdc2, &rc);
+			EventArea_DrawWorker(hwnd, hdc2);
+			BitBlt(hdc, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
+				hdc2, rc.left, rc.top, SRCCOPY);
+			SelectObject(hdc2, hbmpo);
+			DeleteObject(hbmp);
+			DeleteDC(hdc2);
+			SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
+			ReleaseDC(hwnd, hdc);
+			ValidateRect(hwnd, NULL);
+		}
+		else {
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+			HDC hdc2 = CreateCompatibleDC(hdc);
+			HBITMAP hbmp = ske_CreateDIB32(rc.right, rc.bottom);
+			HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
+			FillRect(hdc2, &ps.rcPaint, br);
+			EventArea_DrawWorker(hwnd, hdc2);
+			BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top,
+				hdc2, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY);
+			SelectObject(hdc2, hbmpo);
+			DeleteObject(hbmp);
+			DeleteDC(hdc2);
+			ps.fErase = FALSE;
+			EndPaint(hwnd, &ps);
+		}
+
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
-	else {
-		if (dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
-	}
+	return TRUE;
 }
 
 int EventArea_Create(HWND hCluiWnd)
 {
-
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Event area background")"/EventArea"), 0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhEventAreaBackgroundSettingsChanged);
 	ehhEventAreaBackgroundSettingsChanged(0, 0);
@@ -420,148 +534,4 @@ int EventArea_UnloadModule()
 	// remove all events data from menu
 	DestroyMenu(g_CluiData.hMenuNotify);
 	return 0;
-}
-
-static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_MEASUREITEM:
-	{
-		MEASUREITEMSTRUCT *lpi = (LPMEASUREITEMSTRUCT)lParam;
-		MENUITEMINFOA mii = { 0 };
-
-		mii.cbSize = sizeof(mii);
-		mii.fMask = MIIM_DATA | MIIM_ID;
-		if (GetMenuItemInfoA(g_CluiData.hMenuNotify, lpi->itemID, FALSE, &mii) != 0) {
-			if (mii.dwItemData == lpi->itemData) {
-				lpi->itemWidth = 8 + 16;
-				lpi->itemHeight = 0;
-				return TRUE;
-			}
-		}
-	}
-	break;
-
-	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-		if (dis->hwndItem == (HWND)g_CluiData.hMenuNotify) {
-			NotifyMenuItemExData *nmi = 0;
-
-			MENUITEMINFOA mii = { 0 };
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_DATA;
-			if (GetMenuItemInfoA(g_CluiData.hMenuNotify, (UINT)dis->itemID, FALSE, &mii) != 0) {
-				nmi = (NotifyMenuItemExData *)mii.dwItemData;
-				if (nmi) {
-					int iIcon = cli_GetContactIcon(nmi->hContact);
-					ske_ImageList_DrawEx(g_himlCListClc, nmi->iIcon, dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
-					ske_ImageList_DrawEx(g_himlCListClc, iIcon, dis->hDC, 2 + GetSystemMetrics(SM_CXSMICON) + 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
-					return TRUE;
-				}
-			}
-		}
-		break;
-	}
-	case WM_LBUTTONUP:
-		if (g_CluiData.bEventAreaEnabled)
-			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_NOTIFYBUTTON, 0), 0);
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
-			int iSelection;
-			struct NotifyMenuItemExData *nmi = 0;
-			int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
-			BOOL result;
-
-			POINT pt;
-			GetCursorPos(&pt);
-
-			MENUITEMINFO mii = { 0 };
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_DATA;
-			if (iCount > 1)
-				iSelection = TrackPopupMenu(g_CluiData.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
-			else
-				iSelection = GetMenuItemID(g_CluiData.hMenuNotify, 0);
-			result = GetMenuItemInfo(g_CluiData.hMenuNotify, (UINT)iSelection, FALSE, &mii);
-			if (result != 0) {
-				nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-				if (nmi) {
-					CLISTEVENT *cle = MyGetEvent(iSelection);
-					if (cle) {
-						CLISTEVENT *cle1 = NULL;
-						CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
-						// re-obtain the pointer, it may already be invalid/point to another event if the
-						// event we're interested in was removed by the service (nasty one...)
-						cle1 = MyGetEvent(iSelection);
-						if (cle1 != NULL)
-							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
-					}
-				}
-			}
-			break;
-		}
-		break;
-
-	case WM_SIZE:
-		if (!g_CluiData.fLayered)
-			InvalidateRect(hwnd, NULL, FALSE);
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-
-	case WM_ERASEBKGND:
-		return 1;
-
-	case WM_PAINT:
-		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)
-			CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)hwnd, 0);
-		else if (GetParent(hwnd) == pcli->hwndContactList && !g_CluiData.fLayered) {
-			HDC hdc, hdc2;
-			HBITMAP hbmp, hbmpo;
-			RECT rc = { 0 };
-			GetClientRect(hwnd, &rc);
-			rc.right++;
-			rc.bottom++;
-			hdc = GetDC(hwnd);
-			hdc2 = CreateCompatibleDC(hdc);
-			hbmp = ske_CreateDIB32(rc.right, rc.bottom);
-			hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
-			ske_BltBackImage(hwnd, hdc2, &rc);
-			EventArea_DrawWorker(hwnd, hdc2);
-			BitBlt(hdc, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
-				hdc2, rc.left, rc.top, SRCCOPY);
-			SelectObject(hdc2, hbmpo);
-			DeleteObject(hbmp);
-			DeleteDC(hdc2);
-			SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-			ReleaseDC(hwnd, hdc);
-			ValidateRect(hwnd, NULL);
-		}
-		else {
-			HDC hdc, hdc2;
-			HBITMAP hbmp, hbmpo;
-			RECT rc;
-			PAINTSTRUCT ps;
-			HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
-			GetClientRect(hwnd, &rc);
-			hdc = BeginPaint(hwnd, &ps);
-			hdc2 = CreateCompatibleDC(hdc);
-			hbmp = ske_CreateDIB32(rc.right, rc.bottom);
-			hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
-			FillRect(hdc2, &ps.rcPaint, br);
-			EventArea_DrawWorker(hwnd, hdc2);
-			BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top,
-				hdc2, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY);
-			SelectObject(hdc2, hbmpo);
-			DeleteObject(hbmp);
-			DeleteDC(hdc2);
-			ps.fErase = FALSE;
-			EndPaint(hwnd, &ps);
-		}
-
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-	return TRUE;
 }
