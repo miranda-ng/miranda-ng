@@ -339,11 +339,11 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	ClcGroup *group;
 
 	dat->list.expanded = 1;
-	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0) && style&CLS_USEGROUPS;
+	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0) && (style & CLS_USEGROUPS);
 	dat->list.cl.destroy();
+	dat->list.totalMembers = 0;
 	dat->selection = -1;
 
 	for (int i = 1;; i++) {
@@ -356,13 +356,14 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (style & CLS_SHOWHIDDEN || !db_get_b(hContact, "CList", "Hidden", 0)) {
-			DBVARIANT dbv;
-			if (db_get_ts(hContact, "CList", "Group", &dbv))
+			ClcGroup *group;
+			ptrT tszGroupName(db_get_tsa(hContact, "CList", "Group"));
+			if (tszGroupName == NULL)
 				group = &dat->list;
 			else {
-				group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD)-1, 0, 0);
-				if (group == NULL && style & CLS_SHOWHIDDEN) group = &dat->list;
-				mir_free(dbv.ptszVal);
+				group = cli.pfnAddGroup(hwnd, dat, tszGroupName, (DWORD)-1, 0, 0);
+				if (group == NULL && style & CLS_SHOWHIDDEN)
+					group = &dat->list;
 			}
 
 			if (group != NULL) {
@@ -391,7 +392,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	}
 
 	if (style & CLS_HIDEEMPTYGROUPS) {
-		group = &dat->list;
+		ClcGroup *group = &dat->list;
 		group->scanIndex = 0;
 		for (;;) {
 			if (group->scanIndex == group->cl.getCount()) {

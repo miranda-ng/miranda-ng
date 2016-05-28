@@ -145,82 +145,12 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 
 void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 {
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	ClcGroup *group;
-	DBVARIANT dbv = { 0 };
-
 	RowHeight::Clear(dat);
 	RowHeight::getMaxRowHeight(dat, hwnd);
 
-	dat->list.expanded = 1;
-	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0);
-	dat->list.cl.destroy();
-	dat->list.totalMembers = 0;
-	dat->selection = -1;
 	dat->SelectMode = db_get_b(NULL, "CLC", "SelectMode", 0);
-	{
-		for (int i = 1;; i++) {
-			DWORD groupFlags;
-			TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
-			if (szGroupName == NULL)
-				break;
-			pcli->pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
-		}
-	}
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
-			memset(&dbv, 0, sizeof(dbv));
-			if (db_get_ts(hContact, "CList", "Group", &dbv))
-				group = &dat->list;
-			else {
-				group = pcli->pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD)-1, 0, 0);
-				mir_free(dbv.ptszVal);
-			}
-
-			if (group != NULL) {
-				group->totalMembers++;
-				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-					char *szProto = GetContactProto(hContact);
-					if (szProto == NULL) {
-						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
-							AddContactToGroup(dat, group, hContact);
-					}
-					else if (!pcli->pfnIsHiddenMode(dat, (WORD)db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
-						AddContactToGroup(dat, group, hContact);
-				}
-				else AddContactToGroup(dat, group, hContact);
-			}
-		}
-	}
-
-	if (style & CLS_HIDEEMPTYGROUPS) {
-		group = &dat->list;
-		group->scanIndex = 0;
-		for (;;) {
-			if (group->scanIndex == group->cl.getCount()) {
-				if ((group = group->parent) == NULL)
-					break;
-				group->scanIndex++;
-				continue;
-			}
-
-			ClcContact *cc = group->cl[group->scanIndex];
-			if (cc->type == CLCIT_GROUP) {
-				if (cc->group->cl.getCount() == 0)
-					group = pcli->pfnRemoveItemFromGroup(hwnd, group, cc, 0);
-				else {
-					group = cc->group;
-					group->scanIndex = 0;
-				}
-				continue;
-			}
-			group->scanIndex++;
-		}
-	}
-
-	pcli->pfnSortCLC(hwnd, dat, 0);
-	pcli->pfnSetAllExtraIcons(NULL);
+	coreCli.pfnRebuildEntireList(hwnd, dat);
 }
 
 /*
