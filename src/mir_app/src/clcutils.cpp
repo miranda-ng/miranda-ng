@@ -39,7 +39,7 @@ TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 	int totalCount = group->totalMembers;
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if (group == topgroup)
 				break;
 			group = group->parent;
@@ -47,7 +47,7 @@ TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP) {
 			group = cc->group;
 			group->scanIndex = 0;
@@ -367,14 +367,14 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type != CLCIT_DIVIDER) {
 			bool show;
 			if (dat->bFilterSearch) {
@@ -794,27 +794,27 @@ void fnRecalculateGroupCheckboxes(HWND, ClcData *dat)
 	ClcGroup *group = &dat->list;
 	group->scanIndex = GSIF_ALLCHECKED;
 	for (;;) {
-		if ((group->scanIndex & GSIF_INDEXMASK) == group->cl.count) {
+		if ((group->scanIndex & GSIF_INDEXMASK) == group->cl.getCount()) {
 			int check = (group->scanIndex & (GSIF_HASMEMBERS | GSIF_ALLCHECKED)) == (GSIF_HASMEMBERS | GSIF_ALLCHECKED);
 			if (group->parent == NULL)
 				break;
 			group->parent->scanIndex |= group->scanIndex & GSIF_HASMEMBERS;
 			group = group->parent;
 			if (check)
-				group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->flags |= CONTACTF_CHECKED;
+				group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags |= CONTACTF_CHECKED;
 			else {
-				group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->flags &= ~CONTACTF_CHECKED;
+				group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags &= ~CONTACTF_CHECKED;
 				group->scanIndex &= ~GSIF_ALLCHECKED;
 			}
 		}
-		else if (group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_GROUP) {
-			group = group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->group;
+		else if (group->cl[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_GROUP) {
+			group = group->cl[(group->scanIndex & GSIF_INDEXMASK)]->group;
 			group->scanIndex = GSIF_ALLCHECKED;
 			continue;
 		}
-		else if (group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_CONTACT) {
+		else if (group->cl[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_CONTACT) {
 			group->scanIndex |= GSIF_HASMEMBERS;
-			if (!(group->cl.items[(group->scanIndex & GSIF_INDEXMASK)]->flags & CONTACTF_CHECKED))
+			if (!(group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags & CONTACTF_CHECKED))
 				group->scanIndex &= ~GSIF_ALLCHECKED;
 		}
 		group->scanIndex++;
@@ -831,8 +831,8 @@ void fnSetContactCheckboxes(ClcContact *cc, int checked)
 
 void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
-	for (int i = 0; i < group->cl.count; i++) {
-		ClcContact *cc = group->cl.items[i];
+	for (int i = 0; i < group->cl.getCount(); i++) {
+		ClcContact *cc = group->cl[i];
 		if (cc->type == CLCIT_GROUP) {
 			cli.pfnSetGroupChildCheckboxes(cc->group, checked);
 			cli.pfnSetContactCheckboxes(cc, checked);

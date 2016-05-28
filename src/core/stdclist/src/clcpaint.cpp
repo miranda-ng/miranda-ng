@@ -265,7 +265,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	group->scanIndex = 0;
 	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
@@ -273,7 +273,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			continue;
 		}
 		
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (y > rcPaint->top - dat->rowHeight) {
 			int iImage = -1;
 			int selected = index == dat->selection && (dat->bShowSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && cc->type != CLCIT_DIVIDER;

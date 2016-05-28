@@ -78,7 +78,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 		tmp = max(tmp, ICON_HEIGHT);
 		tmp = max(tmp, dat->row_min_heigh);
 		tmp += dat->row_border * 2;
-		if (contact->type == CLCIT_GROUP && contact->group->parent->groupId == 0 && contact->group->parent->cl.items[0] != contact)
+		if (contact->type == CLCIT_GROUP && contact->group->parent->groupId == 0 && contact->group->parent->cl[0] != contact)
 			tmp += dat->row_before_group_space;
 		if (item != -1)
 			dat->row_heights[item] = tmp;
@@ -417,7 +417,7 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 		int subident;
 		ClcContact *Drawing;
 		if (subindex == -1) {
-			if (group->scanIndex == group->cl.count) {
+			if (group->scanIndex == group->cl.getCount()) {
 				if ((group = group->parent) == NULL)
 					break;
 				group->scanIndex++;
@@ -426,12 +426,12 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 			}
 
 			// Get item to draw
-			Drawing = group->cl.items[group->scanIndex];
+			Drawing = group->cl[group->scanIndex];
 			subident = 0;
 		}
 		else {
 			// Get item to draw
-			Drawing = &group->cl.items[group->scanIndex]->subcontacts[subindex];
+			Drawing = &group->cl[group->scanIndex]->subcontacts[subindex];
 			subident = dat->subIndent;
 		}
 
@@ -444,9 +444,9 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 			RowHeight_CalcRowHeight(dat, Drawing, line_num);
 
 		// increment by subcontacts
-		if (group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP) {
-			if (group->cl.items[group->scanIndex]->bSubExpanded && dat->expandMeta) {
-				if (subindex < group->cl.items[group->scanIndex]->iSubAllocated - 1)
+		if (group->cl[group->scanIndex]->subcontacts != NULL && group->cl[group->scanIndex]->type != CLCIT_GROUP) {
+			if (group->cl[group->scanIndex]->bSubExpanded && dat->expandMeta) {
+				if (subindex < group->cl[group->scanIndex]->iSubAllocated - 1)
 					subindex++;
 				else
 					subindex = -1;
@@ -454,8 +454,8 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 		}
 
 		if (subindex == -1) {
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {
-				group = group->cl.items[group->scanIndex]->group;
+			if (group->cl[group->scanIndex]->type == CLCIT_GROUP && group->cl[group->scanIndex]->group->expanded) {
+				group = group->cl[group->scanIndex]->group;
 				indent++;
 				group->scanIndex = 0;
 				subindex = -1;

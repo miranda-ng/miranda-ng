@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int GetContactIndex(ClcGroup *group, ClcContact *contact)
 {
-	for (int i = 0; i < group->cl.count; i++)
-		if (group->cl.items[i]->hContact == contact->hContact)
+	for (int i = 0; i < group->cl.getCount(); i++)
+		if (group->cl[i]->hContact == contact->hContact)
 			return i;
 	
 	return -1;
@@ -40,7 +40,7 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	bool bMetaExpanding = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
@@ -49,7 +49,7 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 		if (group == subgroup && contactIndex - subcontactscount == group->scanIndex) return count;
 		count++;
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP) {
 			if (cc->group == subgroup && contactIndex == -1)
 				return count - 1;
@@ -92,7 +92,7 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 	group = &dat->list;
 
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 
@@ -110,7 +110,7 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 		if (nowVisible)
 			index++;
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if ((IsHContactGroup(dwItem) && cc->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == cc->groupId) ||
 			(IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->hContact == dwItem) ||
 			(IsHContactInfo(dwItem) && cc->type == CLCIT_INFO && cc->hContact == (dwItem & ~HCONTACT_ISINFO))) {
@@ -167,14 +167,14 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (testindex == index) {
 			if (contact) *contact = cc;
 			if (subgroup) *subgroup = group;

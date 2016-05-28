@@ -232,7 +232,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	switch (msg) {
 	case WM_CREATE:
-		dat = (struct ClcData *)mir_calloc(sizeof(struct ClcData));
+		dat = new ClcData();
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
 		RowHeight::Init(dat);
@@ -358,7 +358,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (hSelItem) {
 				ClcGroup *selgroup;
 				if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)& selgroup->cl, selcontact));
+					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
 			}

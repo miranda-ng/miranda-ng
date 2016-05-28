@@ -589,7 +589,7 @@ set_bg_l:
 
 			// check for special cases (first item, single item, last item)
 			// this will only change the shape for this status. Color will be blended over with ALPHA value
-			if (!ssingleitem->IGNORED && scanIndex == 0 && group->cl.count == 1 && group->parent != NULL) {
+			if (!ssingleitem->IGNORED && scanIndex == 0 && group->cl.getCount() == 1 && group->parent != NULL) {
 				rc.left = ssingleitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + ssingleitem->MARGIN_TOP;
 				rc.right = clRect->right - ssingleitem->MARGIN_RIGHT - bg_indent_r;
@@ -613,7 +613,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, ssingleitem->COLOR, ssingleitem->ALPHA, ssingleitem->COLOR2, ssingleitem->COLOR2_TRANSPARENT, ssingleitem->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, ssingleitem->imageItem);
 			}
-			else if (scanIndex == 0 && group->cl.count > 1 && !sfirstitem->IGNORED && group->parent != NULL) {
+			else if (scanIndex == 0 && group->cl.getCount() > 1 && !sfirstitem->IGNORED && group->parent != NULL) {
 				rc.left = sfirstitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + sfirstitem->MARGIN_TOP;
 				rc.right = clRect->right - sfirstitem->MARGIN_RIGHT - bg_indent_r;
@@ -637,7 +637,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, sfirstitem->COLOR, sfirstitem->ALPHA, sfirstitem->COLOR2, sfirstitem->COLOR2_TRANSPARENT, sfirstitem->GRADIENT, sfirstitem->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
 			}
-			else if (scanIndex == group->cl.count - 1 && !slastitem->IGNORED && group->parent != NULL) {
+			else if (scanIndex == group->cl.getCount() - 1 && !slastitem->IGNORED && group->parent != NULL) {
 				// last item of group
 				rc.left = slastitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + slastitem->MARGIN_TOP;
@@ -663,7 +663,7 @@ set_bg_l:
 					DrawAlpha(hdcMem, &rc, slastitem->COLOR, slastitem->ALPHA, slastitem->COLOR2, slastitem->COLOR2_TRANSPARENT, slastitem->GRADIENT, slastitem->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
 			}
 			// --- Non-grouped items ---
-			else if (type != CLCIT_GROUP && group->parent == NULL && !sfirstitem_NG->IGNORED && scanIndex != group->cl.count - 1 && !(*bFirstNGdrawn)) {
+			else if (type != CLCIT_GROUP && group->parent == NULL && !sfirstitem_NG->IGNORED && scanIndex != group->cl.getCount() - 1 && !(*bFirstNGdrawn)) {
 				// first NON-grouped
 				*bFirstNGdrawn = TRUE;
 				rc.left = sfirstitem_NG->MARGIN_LEFT + bg_indent_l;
@@ -689,7 +689,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, sfirstitem_NG->COLOR, sfirstitem_NG->ALPHA, sfirstitem_NG->COLOR2, sfirstitem_NG->COLOR2_TRANSPARENT, sfirstitem_NG->GRADIENT, sfirstitem_NG->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
 			}
-			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && scanIndex == group->cl.count - 1 && (*bFirstNGdrawn)) {
+			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && scanIndex == group->cl.getCount() - 1 && (*bFirstNGdrawn)) {
 				// last item of list (NON-group)
 				// last NON-grouped
 				rc.left = slastitem_NG->MARGIN_LEFT + bg_indent_l;
@@ -766,7 +766,7 @@ set_bg_l:
 		StatusItems_t *scollapsed = arStatusItems[ID_EXTBKCOLLAPSEDDGROUP - ID_STATUS_OFFLINE];
 
 		ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
-		if (contact->group->cl.count == 0) {
+		if (contact->group->cl.getCount() == 0) {
 			if (!sempty->IGNORED) {
 				rc.left = sempty->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + sempty->MARGIN_TOP;
@@ -1422,14 +1422,14 @@ bgdone:
 
 	g_list_avatars = 0;
 	while (true) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->cFlags & ECF_AVATAR)
 			g_list_avatars++;
 
@@ -1447,7 +1447,7 @@ bgdone:
 
 	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
@@ -1456,7 +1456,7 @@ bgdone:
 		}
 
 		line_num++;
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cfg::dat.bForceRefetchOnPaint)
 			cc->ace = (struct avatarCacheEntry*) - 1;
 

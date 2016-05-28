@@ -172,14 +172,14 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hCo
 	
 	dat->bNeedsResort = true;
 	int i;
-	for (i = group->cl.count - 1; i >= 0; i--)
-		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
+	for (i = group->cl.getCount() - 1; i >= 0; i--)
+		if (group->cl[i]->type != CLCIT_INFO || !(group->cl[i]->flags & CLCIIF_BELOWCONTACTS))
 			break;
 
 	i = pcli->pfnAddItemToGroup(group, i + 1);
 
-	_LoadDataToContact(group->cl.items[i], group, dat, hContact);
-	return group->cl.items[i];
+	_LoadDataToContact(group->cl[i], group, dat, hContact);
+	return group->cl[i];
 }
 
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
@@ -228,9 +228,9 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 	}
 
 	if (!selcontact->iSubNumber)
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 	else {
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts));
+		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact->subcontacts));
 		if (dat->selection != -1)
 			dat->selection += selcontact->iSubNumber;
 	}
@@ -251,9 +251,8 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 	RowHeights_GetMaxRowHeight(dat, hwnd);
 
 	dat->list.expanded = 1;
-	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
-	dat->list.cl.count = dat->list.cl.limit = 0;
-	dat->list.cl.increment = 50;
+	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", SETTING_HIDEOFFLINEATROOT_DEFAULT) && style & CLS_USEGROUPS;
+	dat->list.cl.destroy();
 	dat->bNeedsResort = true;
 
 	MCONTACT hSelected = SaveSelection(dat);
@@ -307,16 +306,16 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 		group = &dat->list;
 		group->scanIndex = 0;
 		for (;;) {
-			if (group->scanIndex == group->cl.count) {
+			if (group->scanIndex == group->cl.getCount()) {
 				if ((group = group->parent) == NULL)
 					break;
 				group->scanIndex++;
 				continue;
 			}
 
-			ClcContact *cc = group->cl.items[group->scanIndex];
+			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
-				if (cc->group->cl.count == 0)
+				if (cc->group->cl.getCount() == 0)
 					group = pcli->pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				else {
 					group = cc->group;
@@ -351,7 +350,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
@@ -366,7 +365,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 		if (!direction && count > selection)
 			return lastcount;
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
 			group = cc->group;
 			group->scanIndex = 0;
@@ -431,12 +430,12 @@ void cli_SetContactCheckboxes(ClcContact *cc, int checked)
 
 int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 {
-	int count = group->cl.count;
+	int count = group->cl.getCount();
 	ClcGroup *topgroup = group;
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if (group == topgroup)
 				break;
 			group = group->parent;
@@ -444,11 +443,11 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			continue;
 		}
 		
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || cc->group->expanded)) {
 			group = cc->group;
 			group->scanIndex = 0;
-			count += group->cl.count;
+			count += group->cl.getCount();
 			continue;
 		}
 		if (cc->type == CLCIT_CONTACT && cc->subcontacts != NULL && (cc->bSubExpanded || !visibleOnly))

@@ -341,7 +341,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 			ok = 1;
 		}
 		else if ((pt.y + dat->yScroll >= cliGetRowTopY(dat, hit + 1) - dat->insertionMarkHitHeight)
-			|| (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count > 0)) {
+			|| (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.getCount() > 0)) {
 			//could be insertion mark (below)
 			topItem = hit; bottomItem = hit + 1;
 			topcontact = contact; topgroup = group;
@@ -664,14 +664,14 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type != CLCIT_DIVIDER) {
 			bool found;
 			if (dat->bFilterSearch) {

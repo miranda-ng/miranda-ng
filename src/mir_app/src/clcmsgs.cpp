@@ -71,7 +71,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			}
 			else i = cli.pfnAddInfoItemToGroup(group, cii->flags, cii->pszText);
 			cli.pfnRecalcScrollBar(hwnd, dat);
-			return (LRESULT)group->cl.items[i]->hContact | HCONTACT_ISINFO;
+			return (LRESULT)group->cl[i]->hContact | HCONTACT_ISINFO;
 		}
 
 	case CLM_AUTOREBUILD:
@@ -99,7 +99,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			cli.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
-		cli.pfnEnsureVisible(hwnd, dat, cli.pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*)&group->cl, contact)), 0);
+		cli.pfnEnsureVisible(hwnd, dat, cli.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact)), 0);
 		break;
 
 	case CLM_EXPAND:
@@ -188,76 +188,76 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	case CLM_GETNEXTITEM:
 		if (wParam == CLGN_ROOT) {
-			if (dat->list.cl.count)
-				return (LRESULT)cli.pfnContactToHItem(dat->list.cl.items[0]);
+			if (dat->list.cl.getCount())
+				return (LRESULT)cli.pfnContactToHItem(dat->list.cl[0]);
 			return NULL;
 		}
 
 		if (!cli.pfnFindItem(hwnd, dat, lParam, &contact, &group, NULL))
 			return NULL;
 
-		i = List_IndexOf((SortedList*)&group->cl, contact);
+		i = group->cl.indexOf(contact);
 		switch (wParam) {
 		case CLGN_CHILD:
 			if (contact->type != CLCIT_GROUP)
 				return NULL;
 			group = contact->group;
-			if (group->cl.count == 0)
+			if (group->cl.getCount() == 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[0]);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[0]);
 
 		case CLGN_PARENT:
 			return group->groupId | HCONTACT_ISGROUP;
 
 		case CLGN_NEXT:
 			do {
-				if (++i >= group->cl.count)
+				if (++i >= group->cl.getCount())
 					return NULL;
-			} while (group->cl.items[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			} while (group->cl[i]->type == CLCIT_DIVIDER);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUS:
 			do {
 				if (--i < 0)
 					return NULL;
-			} while (group->cl.items[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			} while (group->cl[i]->type == CLCIT_DIVIDER);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 
 		case CLGN_NEXTCONTACT:
-			for (i++; i < group->cl.count; i++)
-				if (group->cl.items[i]->type == CLCIT_CONTACT)
+			for (i++; i < group->cl.getCount(); i++)
+				if (group->cl[i]->type == CLCIT_CONTACT)
 					break;
-			if (i >= group->cl.count)
+			if (i >= group->cl.getCount())
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUSCONTACT:
-			if (i >= group->cl.count)
+			if (i >= group->cl.getCount())
 				return NULL;
 			for (i--; i >= 0; i--)
-				if (group->cl.items[i]->type == CLCIT_CONTACT)
+				if (group->cl[i]->type == CLCIT_CONTACT)
 					break;
 			if (i < 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 
 		case CLGN_NEXTGROUP:
-			for (i++; i < group->cl.count; i++)
-				if (group->cl.items[i]->type == CLCIT_GROUP)
+			for (i++; i < group->cl.getCount(); i++)
+				if (group->cl[i]->type == CLCIT_GROUP)
 					break;
-			if (i >= group->cl.count)
+			if (i >= group->cl.getCount())
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 
 		case CLGN_PREVIOUSGROUP:
-			if (i >= group->cl.count)
+			if (i >= group->cl.getCount())
 				return NULL;
 			for (i--; i >= 0; i--)
-				if (group->cl.items[i]->type == CLCIT_GROUP)
+				if (group->cl[i]->type == CLCIT_GROUP)
 					break;
 			if (i < 0)
 				return NULL;
-			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
+			return (LRESULT)cli.pfnContactToHItem(group->cl[i]);
 		}
 		return NULL;
 
@@ -291,7 +291,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			cli.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
-		dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*)&group->cl, contact));
+		dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
 		cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		break;
 

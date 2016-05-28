@@ -139,7 +139,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 	Clear(dat);
 
 	while (true) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			group = group->parent;
 			if (group == NULL) break;	// Finished list
 			group->scanIndex++;
@@ -147,7 +147,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		}
 
 		// Get item to draw
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		line_num++;
 
 		// Calc row height

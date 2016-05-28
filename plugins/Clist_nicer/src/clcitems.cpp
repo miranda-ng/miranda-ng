@@ -57,7 +57,7 @@ int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
 	int i = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
 
-	ClcContact* p = group->cl.items[i];
+	ClcContact* p = group->cl[i];
 	p->avatarLeft = p->extraIconRightBegin = -1;
 	return i;
 }
@@ -66,7 +66,7 @@ ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD fl
 {
 	ClcGroup *p = coreCli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
 	if (p && p->parent)
-		RTL_DetectGroupName(p->parent->cl.items[p->parent->cl.count - 1]);
+		RTL_DetectGroupName(p->parent->cl[p->parent->cl.getCount() - 1]);
 
 	return p;
 }
@@ -100,7 +100,7 @@ void LoadAvatarForContact(ClcContact *p)
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
 	int i = coreCli.pfnAddContactToGroup(dat, group, hContact);
-	ClcContact* p = group->cl.items[i];
+	ClcContact* p = group->cl[i];
 
 	p->wStatus = db_get_w(hContact, p->proto, "Status", ID_STATUS_OFFLINE);
 	p->xStatus = db_get_b(hContact, p->proto, "XStatusId", 0);
@@ -154,7 +154,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 	dat->list.expanded = 1;
 	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0);
-	dat->list.cl.count = 0;
+	dat->list.cl.destroy();
 	dat->list.totalMembers = 0;
 	dat->selection = -1;
 	dat->SelectMode = db_get_b(NULL, "CLC", "SelectMode", 0);
@@ -198,16 +198,16 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 		group = &dat->list;
 		group->scanIndex = 0;
 		for (;;) {
-			if (group->scanIndex == group->cl.count) {
+			if (group->scanIndex == group->cl.getCount()) {
 				if ((group = group->parent) == NULL)
 					break;
 				group->scanIndex++;
 				continue;
 			}
 
-			ClcContact *cc = group->cl.items[group->scanIndex];
+			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
-				if (cc->group->cl.count == 0)
+				if (cc->group->cl.getCount() == 0)
 					group = pcli->pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				else {
 					group = cc->group;

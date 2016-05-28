@@ -77,7 +77,7 @@ int deRegisterToken(TCHAR *token)
 		if (tre == NULL)
 			return -1;
 
-		List_RemovePtr((SortedList*)&tokens, tre);
+		tokens.remove(tre);
 	}
 
 	if (!(tre->tr.flags & TRF_PARSEFUNC) && tre->tr.szService != NULL)
@@ -99,7 +99,6 @@ int deRegisterToken(TCHAR *token)
 INT_PTR registerToken(WPARAM, LPARAM lParam)
 {
 	DWORD hash;
-	int idx;
 
 	TOKENREGISTEREX *newVr = (TOKENREGISTEREX*)lParam;
 	if (newVr == NULL || newVr->szTokenString == NULL || newVr->cbSize <= 0)
@@ -140,8 +139,7 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 		tre->tr.szCleanupService = mir_strdup(newVr->szCleanupService);
 
 	mir_cslock lck(csRegister);
-	List_GetIndex((SortedList*)&tokens, tre, &idx);
-	List_Insert((SortedList*)&tokens, tre, idx);
+	tokens.insert(tre);
 	return 0;
 }
 

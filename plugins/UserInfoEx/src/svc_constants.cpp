@@ -271,7 +271,7 @@ static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
 * @return	nothing
 **/
 
-static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, SortedList *pSorted*/)
+static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount)
 {
 	if (!pList[0].ptszTranslated) {
 		for (UINT i = 0; i < nListCount; i++)	

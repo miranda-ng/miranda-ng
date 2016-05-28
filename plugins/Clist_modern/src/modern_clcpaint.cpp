@@ -544,7 +544,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 		_AddParamShort(mpModernMask, hi_Type, hi_Group);
 		if (Drawing->group) {
 			_AddParamShort(mpModernMask, hi_Open, Drawing->group->expanded ? hi_True : hi_False);
-			_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.count == 0) ? hi_True : hi_False);
+			_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.getCount() == 0) ? hi_True : hi_False);
 		}
 		break;
 
@@ -598,11 +598,11 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 		break;
 	}
 
-	if (group->scanIndex == 0 && group->cl.count == 1)
+	if (group->scanIndex == 0 && group->cl.getCount() == 1)
 		_AddParamShort(mpModernMask, hi_GroupPos, hi_First_Single);
 	else if (group->scanIndex == 0)
 		_AddParamShort(mpModernMask, hi_GroupPos, hi_First);
-	else if (group->scanIndex + 1 == group->cl.count)
+	else if (group->scanIndex + 1 == group->cl.getCount())
 		_AddParamShort(mpModernMask, hi_GroupPos, hi_Last);
 	else
 		_AddParamShort(mpModernMask, hi_GroupPos, hi_Mid);
@@ -625,7 +625,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	}
 
 	if (group->parent) {
-		TCHAR *b2 = NEWTSTR_ALLOCA(group->parent->cl.items[0]->szText);
+		TCHAR *b2 = NEWTSTR_ALLOCA(group->parent->cl[0]->szText);
 		for (int i = 0; b2[i] != 0; i++)
 			if (b2[i] == _T(','))
 				b2[i] = _T('.');
@@ -663,7 +663,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 	if (Drawing->type == CLCIT_GROUP  &&
 		Drawing->group->parent->groupId == 0 &&
-		Drawing->group->parent->cl.items[0] != Drawing) {
+		Drawing->group->parent->cl[0] != Drawing) {
 		dg = dat->row_before_group_space;
 		free_row_rc.top += dg;
 		height -= dg;
@@ -1619,7 +1619,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 
 	while (y < rcPaint->bottom) {
 		if (subindex == -1) {
-			if (group->scanIndex >= group->cl.count) {
+			if (group->scanIndex >= group->cl.getCount()) {
 				group = group->parent;
 				indent--;
 				if (group == NULL) break;  // Finished list
@@ -1638,11 +1638,11 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 			// Get item to draw
 			int subident = 0;
 			ClcContact *Drawing;
-			if (group->scanIndex < group->cl.count) {
+			if (group->scanIndex < group->cl.getCount()) {
 				if (subindex == -1)
-					Drawing = group->cl.items[group->scanIndex];
+					Drawing = group->cl[group->scanIndex];
 				else {
-					Drawing = &group->cl.items[group->scanIndex]->subcontacts[subindex];
+					Drawing = &group->cl[group->scanIndex]->subcontacts[subindex];
 					subident = dat->subIndent;
 				}
 			}
@@ -1702,8 +1702,8 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 						RECT mrc = row_rc;
 						if (group->parent == 0
 							&& group->scanIndex != 0
-							&& group->scanIndex < group->cl.count
-							&& group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+							&& group->scanIndex < group->cl.getCount()
+							&& group->cl[group->scanIndex]->type == CLCIT_GROUP) {
 							mrc.top += dat->row_before_group_space;
 						}
 						SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
@@ -1712,7 +1712,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 						RECT mrc = row_rc;
 						if (Drawing->type == CLCIT_GROUP  &&
 							Drawing->group->parent->groupId == 0 &&
-							Drawing->group->parent->cl.items[0] != Drawing) {
+							Drawing->group->parent->cl[0] != Drawing) {
 							mrc.top += dat->row_before_group_space;
 						}
 						// Selection background ( only if hole line - full/less )
@@ -1789,7 +1789,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 						RECT mrc = row_rc;
 						if (Drawing->type == CLCIT_GROUP  &&
 							Drawing->group->parent->groupId == 0 &&
-							Drawing->group->parent->cl.items[0] != Drawing) {
+							Drawing->group->parent->cl[0] != Drawing) {
 							mrc.top += dat->row_before_group_space;
 						}
 						SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
@@ -1802,17 +1802,17 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 		y += iRowHeight;
 
 		// increment by subcontacts
-		if ((group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP)
-			&& (group->cl.items[group->scanIndex]->bSubExpanded && dat->expandMeta)) {
-			if (subindex < group->cl.items[group->scanIndex]->iSubAllocated - 1)
+		ClcContact *cc = group->cl[group->scanIndex];
+		if (cc != NULL && cc->subcontacts != NULL && cc->type != CLCIT_GROUP && cc->bSubExpanded && dat->expandMeta) {
+			if (subindex < cc->iSubAllocated - 1)
 				subindex++;
 			else
 				subindex = -1;
 		}
 
-		if (subindex == -1 && group->scanIndex < group->cl.count) {
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {
-				group = group->cl.items[group->scanIndex]->group;
+		if (cc && subindex == -1) {
+			if (cc->type == CLCIT_GROUP && cc->group->expanded) {
+				group = cc->group;
 				indent++;
 				group->scanIndex = 0;
 				subindex = -1;
@@ -1820,7 +1820,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 			}
 			group->scanIndex++;
 		}
-		else if (group->scanIndex >= group->cl.count) {
+		else if (group->scanIndex >= group->cl.getCount()) {
 			subindex = -1;
 		}
 	}

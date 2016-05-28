@@ -211,14 +211,14 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 	if (index == -1) fReturnAsFound = TRUE;
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type != CLCIT_DIVIDER) {
 			bool found;
 			if (cc->type == CLCIT_GROUP) {
@@ -281,7 +281,7 @@ static BOOL clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 
 static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	dat = (ClcData*)mir_calloc(sizeof(ClcData));
+	dat = new ClcData();
 	SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 	dat->hCheckBoxTheme = xpt_AddThemeHandle(hwnd, L"BUTTON");
 	dat->m_paintCouter = 0;
@@ -1404,7 +1404,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	if (hSelItem) {
 		if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		else
 			dat->selection = -1;
 	}

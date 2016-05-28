@@ -34,8 +34,7 @@ int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	newItem->flags = 0;
 	newItem->szText[0] = '\0';
 	memset(newItem->iExtraImage, 0xFF, sizeof(newItem->iExtraImage));
-
-	List_Insert((SortedList*)&group->cl, newItem, iAboveItem);
+	group->cl.insert(newItem, iAboveItem);
 	return iAboveItem;
 }
 
@@ -58,8 +57,8 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 		}
 		
 		int i, compareResult = 1;
-		for (i = 0; i < group->cl.count; i++) {
-			ClcContact *cc = group->cl.items[i];
+		for (i = 0; i < group->cl.getCount(); i++) {
+			ClcContact *cc = group->cl[i];
 			if (cc->type == CLCIT_CONTACT)
 				break;
 			if (cc->type != CLCIT_GROUP)
@@ -86,15 +85,14 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, 
 			if (groupId == 0)
 				return NULL;
 
-			ClcContact *cc = group->cl.items[cli.pfnAddItemToGroup(group, i)];
+			ClcContact *cc = group->cl[cli.pfnAddItemToGroup(group, i)];
 			cc->type = CLCIT_GROUP;
 			mir_tstrncpy(cc->szText, pThisField, _countof(cc->szText));
 			cc->groupId = (WORD)(pNextField ? 0 : groupId);
-			cc->group = (ClcGroup *)mir_alloc(sizeof(ClcGroup));
+			cc->group = new ClcGroup(10);
 			cc->group->parent = group;
 			group = cc->group;
-			memset(&group->cl, 0, sizeof(group->cl));
-			group->cl.increment = 10;
+
 			if (flags == (DWORD)-1 || pNextField != NULL) {
 				group->expanded = 0;
 				group->hideOffline = 0;
@@ -122,8 +120,7 @@ void fnFreeContact(ClcContact* p)
 {
 	if (p->type == CLCIT_GROUP) {
 		cli.pfnFreeGroup(p->group);
-		mir_free(p->group);
-		p->group = NULL;
+		delete p->group; p->group = NULL;
 	}
 }
 
@@ -132,15 +129,11 @@ void fnFreeGroup(ClcGroup *group)
 	if (!group)
 		return;
 
-	if (group->cl.items) {
-		for (int i = 0; i < group->cl.count; i++) {
-			cli.pfnFreeContact(group->cl.items[i]);
-			mir_free(group->cl.items[i]);
-		}
-		mir_free(group->cl.items);
-		group->cl.items = NULL;
+	for (int i = 0; i < group->cl.getCount(); i++) {
+		cli.pfnFreeContact(group->cl[i]);
+		mir_free(group->cl[i]);
 	}
-	group->cl.limit = group->cl.count = 0;
+	group->cl.destroy();
 }
 
 static int iInfoItemUniqueHandle = 0;
@@ -149,24 +142,24 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 	int i = 0;
 
 	if (flags & CLCIIF_BELOWCONTACTS)
-		i = group->cl.count;
+		i = group->cl.getCount();
 	else if (flags & CLCIIF_BELOWGROUPS) {
-		for (; i < group->cl.count; i++)
-			if (group->cl.items[i]->type == CLCIT_CONTACT)
+		for (; i < group->cl.getCount(); i++)
+			if (group->cl[i]->type == CLCIT_CONTACT)
 				break;
 	}
 	else
-		for (; i < group->cl.count; i++)
-			if (group->cl.items[i]->type != CLCIT_INFO)
+		for (; i < group->cl.getCount(); i++)
+			if (group->cl[i]->type != CLCIT_INFO)
 				break;
 	i = cli.pfnAddItemToGroup(group, i);
 	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle + 1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
-	group->cl.items[i]->type = CLCIT_INFO;
-	group->cl.items[i]->flags = (BYTE)flags;
-	group->cl.items[i]->hContact = (MCONTACT)++iInfoItemUniqueHandle;
-	mir_tstrncpy(group->cl.items[i]->szText, pszText, _countof(group->cl.items[i]->szText));
+	group->cl[i]->type = CLCIT_INFO;
+	group->cl[i]->flags = (BYTE)flags;
+	group->cl[i]->hContact = (MCONTACT)++iInfoItemUniqueHandle;
+	mir_tstrncpy(group->cl[i]->szText, pszText, _countof(group->cl[i]->szText));
 	return i;
 }
 
@@ -175,12 +168,12 @@ int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	int i, index = -1;
 
 	dat->bNeedsResort = true;
-	for (i = group->cl.count - 1; i >= 0; i--) {
-		if (group->cl.items[i]->hContact == hContact)
+	for (i = group->cl.getCount() - 1; i >= 0; i--) {
+		if (group->cl[i]->hContact == hContact)
 			return i;
 
 		if (index == -1)
-			if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags & CLCIIF_BELOWCONTACTS))
+			if (group->cl[i]->type != CLCIT_INFO || !(group->cl[i]->flags & CLCIIF_BELOWCONTACTS))
 				index = i;
 	}
 
@@ -191,7 +184,7 @@ int fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 
 	i = cli.pfnAddItemToGroup(group, index + 1);
 
-	ClcContact *cc = group->cl.items[i];
+	ClcContact *cc = group->cl[i];
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = cli.pfnGetContactIcon(hContact);
 	cc->hContact = hContact;
@@ -282,7 +275,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 
 ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
-	int iContact = List_IndexOf((SortedList*)&group->cl, contact);
+	int iContact = group->cl.indexOf(contact);
 	if (iContact == -1)
 		return group;
 
@@ -293,14 +286,14 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 		cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 	}
 
-	cli.pfnFreeContact(group->cl.items[iContact]);
-	mir_free(group->cl.items[iContact]);
-	List_Remove((SortedList*)&group->cl, iContact);
+	cli.pfnFreeContact(group->cl[iContact]);
+	mir_free(group->cl[iContact]);
+	group->cl.remove(iContact);
 
-	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.count == 0 && group->parent != NULL)
-		for (int i = 0; i < group->parent->cl.count; i++)
-			if (group->parent->cl.items[i]->type == CLCIT_GROUP && group->parent->cl.items[i]->groupId == group->groupId)
-				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, group->parent->cl.items[i], 0);
+	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != NULL)
+		for (int i = 0; i < group->parent->cl.getCount(); i++)
+			if (group->parent->cl[i]->type == CLCIT_GROUP && group->parent->cl[i]->groupId == group->groupId)
+				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, group->parent->cl[i], 0);
 
 	return group;
 }
@@ -324,10 +317,10 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 		group = &dat->list;
 		nameOffset = 0;
 		for (i = 0;; i++) {
-			if (group->scanIndex == group->cl.count)
+			if (group->scanIndex == group->cl.getCount())
 				break;
 
-			ClcContact *cc = group->cl.items[i];
+			ClcContact *cc = group->cl[i];
 			if (cc->type == CLCIT_GROUP) {
 				size_t len = mir_tstrlen(cc->szText);
 				if (!_tcsncmp(cc->szText, dbv.ptszVal + nameOffset, len) &&
@@ -350,7 +343,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	dat->list.expanded = 1;
 	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0) && style&CLS_USEGROUPS;
-	dat->list.cl.count = dat->list.cl.limit = 0;
+	dat->list.cl.destroy();
 	dat->selection = -1;
 
 	for (int i = 1;; i++) {
@@ -401,16 +394,16 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		group = &dat->list;
 		group->scanIndex = 0;
 		for (;;) {
-			if (group->scanIndex == group->cl.count) {
+			if (group->scanIndex == group->cl.getCount()) {
 				if ((group = group->parent) == NULL)
 					break;
 				group->scanIndex++;
 				continue;
 			}
 
-			ClcContact *cc = group->cl.items[group->scanIndex];
+			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
-				if (cc->group->cl.count == 0) {
+				if (cc->group->cl.getCount() == 0) {
 					group = cli.pfnRemoveItemFromGroup(hwnd, group, cc, 0);
 				}
 				else {
@@ -429,12 +422,12 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 
 int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 {
-	int count = group->cl.count;
+	int count = group->cl.getCount();
 	ClcGroup *topgroup = group;
 
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if (group == topgroup)
 				break;
 			group = group->parent;
@@ -442,11 +435,11 @@ int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP && (!visibleOnly || cc->group->expanded)) {
 			group = cc->group;
 			group->scanIndex = 0;
-			count += group->cl.count;
+			count += group->cl.getCount();
 			continue;
 		}
 		group->scanIndex++;
@@ -494,51 +487,51 @@ static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 {
 	int i, sortCount;
 
-	for (i = group->cl.count - 1; i >= 0; i--) {
-		if (group->cl.items[i]->type == CLCIT_DIVIDER) {
-			mir_free(group->cl.items[i]);
-			List_Remove((SortedList*)&group->cl, i);
+	for (i = group->cl.getCount() - 1; i >= 0; i--) {
+		if (group->cl[i]->type == CLCIT_DIVIDER) {
+			mir_free(group->cl[i]);
+			group->cl.remove(i);
 		}
 	}
 
-	for (i = 0; i < group->cl.count; i++)
-		if (group->cl.items[i]->type != CLCIT_INFO)
+	for (i = 0; i < group->cl.getCount(); i++)
+		if (group->cl[i]->type != CLCIT_INFO)
 			break;
-	if (i > group->cl.count - 2)
+	if (i > group->cl.getCount() - 2)
 		return;
-	if (group->cl.items[i]->type == CLCIT_GROUP) {
+	if (group->cl[i]->type == CLCIT_GROUP) {
 		if (dat->exStyle & CLS_EX_SORTGROUPSALPHA) {
-			for (sortCount = 0; i + sortCount < group->cl.count; sortCount++)
-				if (group->cl.items[i + sortCount]->type != CLCIT_GROUP)
+			for (sortCount = 0; i + sortCount < group->cl.getCount(); sortCount++)
+				if (group->cl[i + sortCount]->type != CLCIT_GROUP)
 					break;
-			qsort(group->cl.items + i, sortCount, sizeof(void*), GroupSortProc);
+			qsort(group->cl.getArray() + i, sortCount, sizeof(void*), GroupSortProc);
 			i = i + sortCount;
 		}
-		for (; i < group->cl.count; i++)
-			if (group->cl.items[i]->type == CLCIT_CONTACT)
+		for (; i < group->cl.getCount(); i++)
+			if (group->cl[i]->type == CLCIT_CONTACT)
 				break;
-		if (group->cl.count - i < 2)
+		if (group->cl.getCount() - i < 2)
 			return;
 	}
-	for (sortCount = 0; i + sortCount < group->cl.count; sortCount++)
-		if (group->cl.items[i + sortCount]->type != CLCIT_CONTACT)
+	for (sortCount = 0; i + sortCount < group->cl.getCount(); sortCount++)
+		if (group->cl[i + sortCount]->type != CLCIT_CONTACT)
 			break;
 	if (useInsertionSort)
-		InsertionSort(group->cl.items + i, sortCount, ContactSortProc);
+		InsertionSort(group->cl.getArray() + i, sortCount, ContactSortProc);
 	else
-		qsort(group->cl.items + i, sortCount, sizeof(void*), ContactSortProc);
+		qsort(group->cl.getArray() + i, sortCount, sizeof(void*), ContactSortProc);
 	if (dat->exStyle & CLS_EX_DIVIDERONOFF) {
 		int prevContactOnline = 0;
-		for (i = 0; i < group->cl.count; i++) {
-			if (group->cl.items[i]->type != CLCIT_CONTACT)
+		for (i = 0; i < group->cl.getCount(); i++) {
+			if (group->cl[i]->type != CLCIT_CONTACT)
 				continue;
-			if (group->cl.items[i]->flags & CONTACTF_ONLINE)
+			if (group->cl[i]->flags & CONTACTF_ONLINE)
 				prevContactOnline = 1;
 			else {
 				if (prevContactOnline) {
 					i = cli.pfnAddItemToGroup(group, i);
-					group->cl.items[i]->type = CLCIT_DIVIDER;
-					mir_tstrcpy(group->cl.items[i]->szText, TranslateT("Offline"));
+					group->cl[i]->type = CLCIT_DIVIDER;
+					mir_tstrcpy(group->cl[i]->szText, TranslateT("Offline"));
 				}
 				break;
 			}
@@ -560,14 +553,14 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 		group->scanIndex = 0;
 		SortGroup(dat, group, useInsertionSort);
 		for (;;) {
-			if (group->scanIndex == group->cl.count) {
+			if (group->scanIndex == group->cl.getCount()) {
 				if ((group = group->parent) == NULL)
 					break;
 				group->scanIndex++;
 				continue;
 			}
 
-			ClcContact *cc = group->cl.items[group->scanIndex];
+			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
 				group = cc->group;
 				group->scanIndex = 0;
@@ -580,7 +573,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 		if (hSelItem) {
 			ClcGroup *selgroup;
 			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
 		cli.pfnRecalcScrollBar(hwnd, dat);
@@ -628,14 +621,14 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP) {
 			group = cc->group;
 			group->scanIndex = 0;
@@ -668,14 +661,14 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == NULL)
 				break;
 			group->scanIndex++;
 			continue;
 		}
 
-		ClcContact *cc = group->cl.items[group->scanIndex];
+		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP) {
 			group = cc->group;
 			group->scanIndex = 0;
@@ -708,7 +701,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = contact->group;
 		}
 		j = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, _T(""));
-		*group->cl.items[j] = saveInfo[i].contact;
+		*group->cl[j] = saveInfo[i].contact;
 	}
 
 	dat->bLockScrollbar = false;

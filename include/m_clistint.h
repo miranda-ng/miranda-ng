@@ -78,16 +78,13 @@ struct ClcContact;
 struct ClcData;
 struct ClcCacheEntry;
 
-struct ContactList
+struct ClcGroup : public MZeroedObject
 {
-	struct ClcContact** items;
-	int count, limit, increment;
-	void* sortFunc;
-};
+	__forceinline ClcGroup(int _limit) :
+		cl(_limit)
+	{}
 
-struct ClcGroup
-{
-	ContactList cl;
+	LIST<ClcContact> cl;
 	int expanded, hideOffline, groupId;
 	ClcGroup *parent;
 	int scanIndex;
@@ -121,8 +118,12 @@ struct ClcContactBase
 	ClcCacheEntry *pce; // cache is persistent, contacts aren't
 };
 
-struct ClcDataBase
+struct ClcDataBase : public MZeroedObject
 {
+	__forceinline ClcDataBase() :
+		list(50)
+	{}
+
 	ClcGroup list;
 	int rowHeight;
 	int yScroll;

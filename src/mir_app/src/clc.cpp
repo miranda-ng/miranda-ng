@@ -252,7 +252,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		WindowList_Add(hClcWindowList, hwnd, NULL);
 		cli.pfnRegisterFileDropping(hwnd);
 		if (dat == NULL) {
-			dat = (ClcData *) mir_calloc(sizeof(ClcData));
+			dat = new ClcData();
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 		}
 		{
@@ -269,7 +269,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		dat->iHotTrack = -1;
 		dat->infoTipTimeout = db_get_w(NULL, "CLC", "InfoTipHoverTime", 750);
 		dat->extraColumnSpacing = 20;
-		dat->list.cl.increment = 30;
 		dat->bNeedsResort = true;
 		cli.pfnLoadClcOptions(hwnd, dat, TRUE);
 		if (!IsWindowVisible(hwnd))
@@ -386,12 +385,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					CMString szFullName(contact->szText);
 					while (group->parent) {
 						ClcContact *cc;
-						for (i = 0; i < group->parent->cl.count; i++) {
-							cc = group->parent->cl.items[i];
+						for (i = 0; i < group->parent->cl.getCount(); i++) {
+							cc = group->parent->cl[i];
 							if (cc->group == group)
 								break;
 						}
-						if (i == group->parent->cl.count) {
+						if (i == group->parent->cl.getCount()) {
 							szFullName.Empty();
 							break;
 						}
@@ -528,7 +527,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (hSelItem) {
 				ClcGroup *selgroup;
 				if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-					dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+					dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
 			}
@@ -923,7 +922,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 				if (dat->selection != -1) {
 					dat->selection =
-						cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+						cli.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 					if (dat->selection == -1)
 						dat->selection = cli.pfnGetRowsPriorTo(&dat->list, contact->group, -1);
 				}
@@ -1287,7 +1286,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (dat->hBmpBackground)
 			DeleteObject(dat->hBmpBackground);
 		cli.pfnFreeGroup(&dat->list);
-		mir_free(dat);
+		delete dat;
 		cli.pfnUnregisterFileDropping(hwnd);
 		WindowList_Remove(hClcWindowList, hwnd);
 	}
