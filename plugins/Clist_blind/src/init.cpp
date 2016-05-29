@@ -512,7 +512,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	TCHAR *text = tmp;
 	size_t size = _countof(tmp);
 	while (true) {
-		if (group->scanIndex == group->cl.count) {
+		if (group->scanIndex == group->cl.getCount()) {
 			group = group->parent;
 			if (group == NULL)
 				break;
@@ -522,7 +522,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 			continue;
 		}
 
-		ClcContact *item = group->cl.items[group->scanIndex];
+		ClcContact *item = group->cl[group->scanIndex];
 		text[0] = _T('\0');
 		switch (item->type) {
 		case CLCIT_GROUP:
