@@ -42,13 +42,11 @@ MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen)
 	if (dest == NULL)
 		return;
 
-	CMString filter;
-	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png)%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG%c"), TranslateT("All Files"), 0, 0);
-	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.gif)%c*.GIF%c"), TranslateT("GIF bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.png)%c*.PNG%c"), TranslateT("PNG bitmaps"), 0, 0);
-	filter.AppendChar(0);
-
-	_tcsncpy_s(dest, destLen, filter, filter.GetLength());
+	mir_sntprintf(dest, destLen,
+		_T("%s (*.bmp;*.jpg;*.gif;*.png)%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG%c")
+		_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c")
+		_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c")
+		_T("%s (*.gif)%c*.GIF%c")
+		_T("%s (*.png)%c*.PNG%c%c"),
+		TranslateT("All Files"), 0, 0, TranslateT("Windows bitmaps"), 0, 0, TranslateT("JPEG bitmaps"), 0, 0, TranslateT("GIF bitmaps"), 0, 0, TranslateT("PNG bitmaps"), 0, 0, 0);
 }
