@@ -108,8 +108,6 @@ struct
 }
 static tbdat = { NULL, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };
 
-COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
-
 static int ehhToolBarSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
@@ -138,7 +136,7 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
-		tbdat.mtb_bkColour = sttGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+		tbdat.mtb_bkColour = cliGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmapName(db_get_tsa(NULL, "ToolBar", "BkBitmap"));
 			if (tszBitmapName)

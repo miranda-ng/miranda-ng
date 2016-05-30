@@ -13,8 +13,6 @@ POINT lastpnt;
 HWND hModernStatusBar = NULL;
 HANDLE hFramehModernStatusBar = NULL;
 
-COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
-
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
 #define DBFONTF_UNDERLINE  4
@@ -106,7 +104,7 @@ int LoadStatusBarData()
 	if (g_StatusBarData.hBmpBackground) { DeleteObject(g_StatusBarData.hBmpBackground); g_StatusBarData.hBmpBackground = NULL; }
 
 	if (g_CluiData.fDisableSkinEngine) {
-		g_StatusBarData.bkColour = sttGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+		g_StatusBarData.bkColour = cliGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "StatusBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmapName(db_get_tsa(NULL, "StatusBar", "BkBitmap"));
 			if (tszBitmapName)

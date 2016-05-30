@@ -1157,9 +1157,7 @@ static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 	return TRUE;
 }
 
-COLORREF sttGetColor(char * module, char * color, COLORREF defColor); //clcutils
-
-static int  ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
+static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 {
 	if (view_mode.hBmpBackground) {
 		DeleteObject(view_mode.hBmpBackground);
@@ -1167,7 +1165,7 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
-		view_mode.bkColour = sttGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
+		view_mode.bkColour = cliGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ViewMode", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmapName(db_get_tsa(NULL, "ViewMode", "BkBitmap"));
 			if (tszBitmapName)

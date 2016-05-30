@@ -239,9 +239,7 @@ static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT *rect)
 	return TRUE;
 }
 
-COLORREF sttGetColor(char * module, char * color, COLORREF defColor); //clcutils
-
-static int  ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
+static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 {
 	if (event_area.hBmpBackground) {
 		DeleteObject(event_area.hBmpBackground);
@@ -249,7 +247,7 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
-		event_area.bkColour = sttGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
+		event_area.bkColour = cliGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmap(db_get_tsa(NULL, "EventArea", "BkBitmap"));
 			if (tszBitmap != NULL)

@@ -88,7 +88,7 @@ static COLORREF sttSelBkColour;
 static BOOL sttBkUseWinColours;
 
 BYTE AlignCOLLIconToLeft; //will hide frame icon
-COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
+
 //for old multiwindow
 #define MPCF_CONTEXTFRAMEMENU		3
 POINT ptOld;
@@ -2352,9 +2352,9 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 	{
 		AlignCOLLIconToLeft = db_get_b(NULL, "FrameTitleBar", "AlignCOLLIconToLeft", CLCDEFAULT_COLLICONTOLEFT);
 
-		sttBkColour = sttGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+		sttBkColour = cliGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		sttBkUseWinColours = db_get_b(NULL, "FrameTitleBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		sttSelBkColour = sttGetColor("FrameTitleBar", "TextColour", CLCDEFAULT_TEXTCOLOUR);
+		sttSelBkColour = cliGetColor("FrameTitleBar", "TextColour", CLCDEFAULT_TEXTCOLOUR);
 		
 		if (sttBmpBackground) {
 			DeleteObject(sttBmpBackground);
@@ -2522,8 +2522,7 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 					xpt_DrawThemeBackground(_hFrameTitleTheme, hdcMem, WP_SMALLCAPTION, state, &rc, &rc);
 					bThemed = TRUE;
 				}
-				else
-					DrawBackGround(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, sttBmpBackground, sttBkColour, sttBackgroundBmpUse);
+				else DrawBackGround(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, sttBmpBackground, sttBkColour, sttBackgroundBmpUse);
 			}
 			else if (!g_CluiData.fLayered) {
 				ske_BltBackImage(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, &rc);

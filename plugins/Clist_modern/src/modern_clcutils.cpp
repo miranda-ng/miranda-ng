@@ -413,7 +413,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	return DROPTARGET_ONCONTACT;
 }
 
-COLORREF sttGetColor(char *module, char *color, COLORREF defColor)
+COLORREF cliGetColor(char *module, char *color, COLORREF defColor)
 {
 	BOOL useWinColor = db_get_b(NULL, module, "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 	if (useWinColor) return defColor;
@@ -603,11 +603,11 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	if (dat->hMenuBackground) { DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL; }
 
 	if (g_CluiData.fDisableSkinEngine) {
-		dat->MenuBkColor = sttGetColor("Menu", "BkColour", CLCDEFAULT_BKCOLOUR);
-		dat->MenuBkHiColor = sttGetColor("Menu", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
+		dat->MenuBkColor = cliGetColor("Menu", "BkColour", CLCDEFAULT_BKCOLOUR);
+		dat->MenuBkHiColor = cliGetColor("Menu", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
 
-		dat->MenuTextColor = sttGetColor("Menu", "TextColour", CLCDEFAULT_TEXTCOLOUR);
-		dat->MenuTextHiColor = sttGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
+		dat->MenuTextColor = cliGetColor("Menu", "TextColour", CLCDEFAULT_TEXTCOLOUR);
+		dat->MenuTextHiColor = cliGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 
 		if (db_get_b(NULL, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmap(db_get_tsa(NULL, "Menu", "BkBitmap"));

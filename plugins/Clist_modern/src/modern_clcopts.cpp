@@ -106,8 +106,6 @@ struct ColourOptionsList {
 
 static struct ColourOptionsList colourOptionsList[] = {
 	{ "CLC", "BkColour", CLCGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
-	{ "CLC", "Rows_BkColour", CLCLINESGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
-	{ "CLC", "Frames_BkColour", CLCFRAMESGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
 
 	{ "CLC", "HotTextColour", CLCCOLOURSGROUP, LPGENT("Hot text"), CLCDEFAULT_MODERN_HOTTEXTCOLOUR },
 	{ "CLC", "SelTextColour", CLCCOLOURSGROUP, LPGENT("Selected text"), CLCDEFAULT_MODERN_SELTEXTCOLOUR },
@@ -116,7 +114,6 @@ static struct ColourOptionsList colourOptionsList[] = {
 	{ "Menu", "TextColour", CLCCOLOURSGROUP, LPGENT("Menu text"), CLCDEFAULT_TEXTCOLOUR },
 	{ "Menu", "SelTextColour", CLCCOLOURSGROUP, LPGENT("Selected menu text"), CLCDEFAULT_MODERN_SELTEXTCOLOUR },
 	{ "FrameTitleBar", "TextColour", CLCCOLOURSGROUP, LPGENT("Frame title text"), CLCDEFAULT_TEXTCOLOUR },
-	{ "StatusBar", "TextColour", CLCCOLOURSGROUP, LPGENT("Status bar text"), CLCDEFAULT_TEXTCOLOUR },
 	{ "ModernSettings", "KeyColor", CLCCOLOURSGROUP, LPGENT("3rd party frames transparent back color"), SETTING_KEYCOLOR_DEFAULT }
 };
 
