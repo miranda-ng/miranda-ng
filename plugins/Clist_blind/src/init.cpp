@@ -335,7 +335,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	switch (msg) {
 	case WM_CREATE:
-		dat = (ClcData*)mir_calloc(sizeof(ClcData));
+		dat = new ClcData();
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
 		dat->hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
@@ -513,8 +513,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	size_t size = _countof(tmp);
 	while (true) {
 		if (group->scanIndex == group->cl.getCount()) {
-			group = group->parent;
-			if (group == NULL)
+			if ((group = group->parent) == NULL)
 				break;
 			text -= 2;
 			size += 2;
