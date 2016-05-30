@@ -477,18 +477,14 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	if (fname != NULL)
 		mir_strncpy(fn, fname, 1024);
 	else {
-		char *start, *end;
-
 		/* based on how gaim does this */
-		start = (char*)strrchr(url, '/');
+		char *start = (char*)strrchr(url, '/');
 		if (start)
 			start++;
 
-		end = (char*)strrchr(url, '?');
-
-		if (start && *start && end) {
+		char *end = (char*)strrchr(url, '?');
+		if (start && *start && end)
 			mir_strncpy(fn, start, end - start + 1);
-		}
 		else
 			mir_strcpy(fn, "filename.ext");
 	}
@@ -506,26 +502,20 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 		return;
 	}
 
-	TCHAR* ptszFileName = mir_a2t(fn);
+	char *szFileName = fn;
 
 	PROTORECVFILET pre = { 0 };
 	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.descr.t = mir_a2t(msg);
-	pre.files.t = &ptszFileName;
+	pre.descr.a = (char*)msg;
+	pre.files.a = &szFileName;
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(hContact, &pre);
-
-	mir_free(pre.descr.t);
-	mir_free(ptszFileName);
 }
 
 void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files)
 {
-	char fn[4096];
-	int fc = 0;
-
 	LOG(("[ext_yahoo_got_files] ident:%s, who: %s, ftoken: %s ", me, who, ft_token == NULL ? "NULL" : ft_token));
 
 	MCONTACT hContact = getbuddyH(who);
@@ -538,26 +528,20 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 		return;
 	}
 
-	fn[0] = '\0';
-	for (YList *f = files; f; f = y_list_next(f)) {
-		char z[1024];
-		yahoo_file_info *fi = (yahoo_file_info *) f->data;
+	int fc = 0;
+	LIST<char> arNames(1);
 
-		mir_snprintf(z, "%s (%lu)\r\n", fi->filename, fi->filesize);
-		mir_strcat(fn, z);
+	for (YList *f = files; f; f = y_list_next(f)) {
+		yahoo_file_info *fi = (yahoo_file_info *)f->data;
+		arNames.insert(fi->filename);
 		fc++;
 	}
 
-	if (fc > 1) {
-		/* multiple files */
-
-	}
-
 	PROTORECVFILET pre = { 0 };
-	pre.fileCount = 1;
+	pre.fileCount = fc;
 	pre.timestamp = time(NULL);
 	pre.descr.a = "";
-	pre.files.a = (char**)&fn;
+	pre.files.a = arNames.getArray();
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(ft->hContact, &pre);
 }
@@ -636,7 +620,7 @@ void CYahooProto::ext_ft7_send_file(const char *me, const char *who, const char*
 		return;
 	}
 
-	_sfs *s = (_sfs *) malloc(sizeof(_sfs));
+	_sfs *s = (_sfs *)malloc(sizeof(_sfs));
 
 	s->me = strdup(me);
 	s->token = strdup(token);
