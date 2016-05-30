@@ -136,7 +136,6 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			RECT r, rc;
 
 			if (GetUpdateRect(hwnd, &r, FALSE)) {
-				DBVARIANT dbv = { 0 };
 				PAINTSTRUCT ps;
 				LOGFONT lfnt, lfnt1;
 				COLORREF fntc, fntc1;
@@ -167,8 +166,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					fntc1 = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt1);
 				}
 
-				if (db_get_ts(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv))
-					break;
+				ptrT tszInfo(db_get_tsa(data->hContact, WEATHERCONDITION, "WeatherInfo"));
 
 				GetClientRect(hwnd, &rc);
 
@@ -198,10 +196,10 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				HFONT hfnt = CreateFontIndirect(&lfnt1);
 				HFONT hfntold = (HFONT)SelectObject(hdc, hfnt);
-				SIZE fontSize;
 
 				TCHAR *nick = (TCHAR*)pcli->pfnGetContactDisplayName(data->hContact, 0);
 
+				SIZE fontSize;
 				GetTextExtentPoint32(hdc, _T("|"), 1, &fontSize);
 
 				rc.top += 1;
@@ -215,19 +213,18 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SelectObject(hdc, hfntold);
 				DeleteObject(hfnt);
 
-				if (dbv.pszVal) {
+				if (tszInfo) {
 					HFONT hFont = CreateFontIndirect(&lfnt);
 					HFONT hFontOld = (HFONT)SelectObject(hdc, hFont);
 
 					SetTextColor(hdc, fntc);
-					DrawText(hdc, dbv.ptszVal, -1, &rc, DT_LEFT | DT_EXPANDTABS);
+					DrawText(hdc, tszInfo, -1, &rc, DT_LEFT | DT_EXPANDTABS);
 
 					SelectObject(hdc, hFontOld);
 					DeleteObject(hFont);
 				}
 				EndPaint(hwnd, &ps);
 				IcoLib_ReleaseIcon(hIcon);
-				db_free(&dbv);
 			}
 			break;
 		}
@@ -284,7 +281,6 @@ void UpdateMwinData(MCONTACT hContact)
 		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 }
 
-
 INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 {
 	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == NULL;
@@ -295,7 +291,6 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-
 int BuildContactMenu(WPARAM wparam, LPARAM)
 {
 	int flags = db_get_dw((MCONTACT)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
@@ -303,13 +298,11 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 	return 0;
 }
 
-
 int RedrawFrame(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hMwinWindowList, WM_REDRAWWIN, 0, 0);
 	return 0;
 }
-
 
 void InitMwin(void)
 {
