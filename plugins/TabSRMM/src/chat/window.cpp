@@ -3156,7 +3156,7 @@ LABEL_SHOWWINDOW:
 	case WM_RBUTTONUP:
 		GetCursorPos(&pt);
 		if (!dat->Panel->invokeConfigDialog(pt)) {
-			HMENU subMenu = GetSubMenu(dat->pContainer->hMenuContext, 0);
+			HMENU subMenu = GetSubMenu(PluginConfig.g_hMenuContext, 0);
 
 			MsgWindowUpdateMenu(dat, subMenu, MENU_TABCONTEXT);
 

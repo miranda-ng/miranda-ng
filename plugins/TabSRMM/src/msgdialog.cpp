@@ -863,7 +863,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			(dat && dat->bType == SESSIONTYPE_CHAT && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY))) {
 			POINT pt;
 			int selection;
-			HMENU hMenu = GetSubMenu(dat->pContainer->hMenuContext, 12);
+			HMENU hMenu = GetSubMenu(PluginConfig.g_hMenuContext, 12);
 			LONG messagePos = GetMessagePos();
 
 			GetClientRect(hwnd, &rc);
@@ -2527,7 +2527,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				menuID = MENU_PICMENU;
 
 			if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->bShowAvatar != 0)) {
-				HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 1);
+				HMENU submenu = GetSubMenu(PluginConfig.g_hMenuContext, 1);
 				GetCursorPos(&pt);
 				MsgWindowUpdateMenu(dat, submenu, menuID);
 				int iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
@@ -2535,7 +2535,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				break;
 			}
 
-			HMENU subMenu = GetSubMenu(m_pContainer->hMenuContext, 0);
+			HMENU subMenu = GetSubMenu(PluginConfig.g_hMenuContext, 0);
 			MsgWindowUpdateMenu(dat, subMenu, MENU_TABCONTEXT);
 
 			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);

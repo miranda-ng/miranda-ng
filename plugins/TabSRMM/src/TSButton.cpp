@@ -328,18 +328,18 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		return 0;
 
 	case WM_PAINT:
-	{
 		PAINTSTRUCT ps;
-		HDC hdcPaint = BeginPaint(hwndDlg, &ps);
-		if (hdcPaint) {
-			if (bct->sitem)
-				bct->sitem->RenderThis(hdcPaint);
-			else
-				PaintWorker(bct, hdcPaint);
-			EndPaint(hwndDlg, &ps);
+		{
+			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
+			if (hdcPaint) {
+				if (bct->sitem)
+					bct->sitem->RenderThis(hdcPaint);
+				else
+					PaintWorker(bct, hdcPaint);
+				EndPaint(hwndDlg, &ps);
+			}
 		}
-	}
-	return 0;
+		return 0;
 
 	case BM_SETIMAGE:
 		if (wParam == IMAGE_ICON) {

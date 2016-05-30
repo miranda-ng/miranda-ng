@@ -345,21 +345,21 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		case ID_VISIBILITY_DEFAULT:
 		case ID_VISIBILITY_HIDDENFORTHISCONTACT:
 		case ID_VISIBILITY_VISIBLEFORTHISCONTACT:
-		{
-			BYTE avOverrideMode;
-			if (selection == ID_VISIBILITY_DEFAULT)
-				avOverrideMode = -1;
-			else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
-				avOverrideMode = 1;
-			else
-				avOverrideMode = 0;
-			db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
-		}
+			{
+				BYTE avOverrideMode;
+				if (selection == ID_VISIBILITY_DEFAULT)
+					avOverrideMode = -1;
+				else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
+					avOverrideMode = 1;
+				else
+					avOverrideMode = 0;
+				db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
+			}
 
-		ShowPicture(dat, FALSE);
-		SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		DM_ScrollToBottom(dat, 0, 1);
-		return 1;
+			ShowPicture(dat, FALSE);
+			SendMessage(hwndDlg, WM_SIZE, 0, 0);
+			DM_ScrollToBottom(dat, 0, 1);
+			return 1;
 
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
 			PluginConfig.m_bAlwaysFullToolbarWidth = !PluginConfig.m_bAlwaysFullToolbarWidth;
@@ -400,14 +400,14 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	else if (menuId == MENU_LOGMENU) {
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
-		{
-			OPENOPTIONSDIALOG ood = { sizeof(ood) };
-			ood.pszPage = "Message sessions";
-			ood.pszGroup = NULL;
-			ood.pszTab = "Message log";
-			Options_Open(&ood);
-		}
-		return 1;
+			{
+				OPENOPTIONSDIALOG ood = { sizeof(ood) };
+				ood.pszPage = "Message sessions";
+				ood.pszGroup = NULL;
+				ood.pszTab = "Message log";
+				Options_Open(&ood);
+			}
+			return 1;
 
 		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
 			CallService(MS_TABMSG_SETUSERPREFS, dat->hContact, 0);
@@ -596,7 +596,7 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		switch (bAvatarMode) {
 		case 0: // globally on
 			dat->bShowAvatar = true;
-		LBL_Check:
+LBL_Check:
 			if (!dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 			break;
@@ -918,7 +918,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 				res.AppendChar(0xA0);
 				p += 2; break;
 			}
-			
+
 			if (!_tcsncmp(p, _T("\\cf"), 3)) { // foreground color
 				int iCol = _ttoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
@@ -1940,7 +1940,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_TCHAR);
 
 	int totalCount = 0;
-	TCHAR** ppFiles = NULL;
+	TCHAR **ppFiles = NULL;
 	Utils::AddToFileList(&ppFiles, &totalCount, filename);
 
 	wchar_t* _t = mir_tstrdup(filename);

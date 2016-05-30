@@ -534,9 +534,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			SendMessage(hwndDlg, DM_CONFIGURECONTAINER, 0, 10);
 
-			// context menu
-			pContainer->hMenuContext = PluginConfig.g_hMenuContext;
-
 			// tab tooltips...
 			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
 				pContainer->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -779,7 +776,7 @@ panel_found:
 			memset(&tci, 0, sizeof(tci));
 
 			GetCursorPos(&pt);
-			HMENU subMenu = GetSubMenu(pContainer->hMenuContext, 0);
+			HMENU subMenu = GetSubMenu(PluginConfig.g_hMenuContext, 0);
 
 			dat = 0;
 			if (((LPNMHDR)lParam)->idFrom == IDC_MSGTABS) {
@@ -1598,7 +1595,6 @@ panel_found:
 	case WM_DESTROY:
 		pContainer->hwnd = 0;
 		pContainer->hwndActive = 0;
-		pContainer->hMenuContext = 0;
 		if (pContainer->hwndStatus)
 			DestroyWindow(pContainer->hwndStatus);
 

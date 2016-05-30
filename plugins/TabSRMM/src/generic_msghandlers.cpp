@@ -249,7 +249,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_FONTFACE:
-		submenu = GetSubMenu(m_pContainer->hMenuContext, 7);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
 		{
 			CHARFORMAT2 cf;
 			memset(&cf, 0, sizeof(CHARFORMAT2));
@@ -326,7 +326,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_TIME:
-		submenu = GetSubMenu(m_pContainer->hMenuContext, 2);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 2);
 		MsgWindowUpdateMenu(dat, submenu, MENU_LOGMENU);
 
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_TIME), &rc);
@@ -336,7 +336,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 	case IDC_PROTOMENU:
 		if (dat->hContact) {
-			submenu = GetSubMenu(m_pContainer->hMenuContext, 4);
+			submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
 			int iOldGlobalSendFormat = PluginConfig.m_SendFormat;
 			int iLocalFormat = M.GetDword(dat->hContact, "sendformat", 0);
 			int iNewLocalFormat = iLocalFormat;
@@ -412,7 +412,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_INFOPANELMENU:
-		submenu = GetSubMenu(m_pContainer->hMenuContext, 9);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 9);
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_NAME), &rc);
 
 		EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !dat->cache->isFavorite() ? MF_ENABLED : MF_GRAYED);
@@ -434,7 +434,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_SENDMENU:
-		submenu = GetSubMenu(m_pContainer->hMenuContext, 3);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 3);
 
 		GetWindowRect(GetDlgItem(hwndDlg, IDOK), &rc);
 		CheckMenuItem(submenu, ID_SENDMENU_SENDTOMULTIPLEUSERS, MF_BYCOMMAND | (dat->sendMode & SMODE_MULTIPLE ? MF_CHECKED : MF_UNCHECKED));

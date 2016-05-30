@@ -217,7 +217,7 @@ static INT_PTR ReloadSkin(WPARAM, LPARAM)
 
 static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
 {
-	PluginConfig.reloadSettings(lParam);
+	PluginConfig.reloadSettings(lParam != 0);
 	return 0;
 }
 

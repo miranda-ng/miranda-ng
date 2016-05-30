@@ -181,7 +181,6 @@ struct TContainerData
 	int	   iChilds;
 	int      iContainerIndex;
 	bool	   fHidden;
-	HMENU    hMenuContext;
 	HWND     hwndTip;			// tab - tooltips...
 	BOOL     bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
 	DWORD    dwFlags;
