@@ -78,83 +78,38 @@ public:
 		pluginState = pluginStateL;
 	}
 
-	//inline
-	//get current tab1 options  state MFENUM_OPTIONS_STATE
-	MFENUM_OPTIONS_STATE getTab1OptionsState() const {
-		return tab1OptionsState;
-	}
-
-	//inline
-	//set current tab1 options  state MFENUM_OPTIONS_STATE
-	void setTab1OptionsState(MFENUM_OPTIONS_STATE tab1OptionsStateL){
-		tab1OptionsState = tab1OptionsStateL;
-	}
-
-	//inline
-	//get current tab2 options  state MFENUM_OPTIONS_STATE
-	MFENUM_OPTIONS_STATE getTab2OptionsState() const {
-		return tab2OptionsState;
-	}
-
-	//inline
-	//set current tab2 options  state MFENUM_OPTIONS_STATE
-	void setTab2OptionsState(MFENUM_OPTIONS_STATE tab2OptionsStateL){
-		tab2OptionsState = tab2OptionsStateL;
-	}
-
-	//inline
-	//get current tab1 options  state MFENUM_OPTIONS_STATE
-	MFENUM_OPTIONS_STATE getTab3OptionsState() const {
-		return tab3OptionsState;
-	}
-
-	//inline
-	//set current tab1 options  state MFENUM_OPTIONS_STATE
-	void setTab3OptionsState(MFENUM_OPTIONS_STATE tab3OptionsStateL){
-		tab3OptionsState = tab3OptionsStateL;
-	}
 
 
-	static bool shouldProtoBeActiveByName(std::string protoName);
 
-	int getAccountDefaultState(MirandaAccount* account);
 
-	int getContactDefaultState(MirandaContact* hContact);
+
 
 
   //Contacts
-	//add MirandaContact item to list of MirandaContacts
-	void addMirandaContact(MirandaContact* mirandaContactL);
 
 	//get list of MirandaAContacts
 	boost::ptr_list<MirandaContact>* getMirandaContacts();
 
-	//clears list of MirandaContacts
-	void clearMirandaContacts();
-
 	//update MirandaContact's state by id
 	//return 0 - ok,
-	int updateMirandaContactState(MCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
+	int updateMirandaContactState(SharedMemoryUtils& sharedMemoryUtils, MCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
+
+	//update All MirandaContact's names
+	//return 0 - ok,
+	int updateAllMirandaContactsNames(SharedMemoryUtils& sharedMemoryUtils);
 
 	//return MirandaContact* by HANDLE
 	MirandaContact* getMirandaContactPtrByHandle(MCONTACT contactHandle);
 
 
-
-
   //Accounts
-	//add MirandaAccount item to list of MirandaAccounts
-	void addMirandaAccount(MirandaAccount* mirandaAccountL);
 
 	//get list of MirandaAccounts
 	boost::ptr_list<MirandaAccount>* getMirandaAccounts();
 
-	//clears list of MirandaAccounts
-	void clearMirandaAccounts();
-
 	//update MirandaAccount's state by id
 	//return 0 - ok,
-	int updateMirandaAccountState(char* szModuleName, MFENUM_MIRANDAACCOUNT_STATE& accountState);
+	int updateMirandaAccountState(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, MFENUM_MIRANDAACCOUNT_STATE& accountState);
 
 	//you MUST delete returned char* (if it is not NULL)
 	char* getAccountSzModuleNameById(uint64_t id);
@@ -162,8 +117,21 @@ public:
 	//return MirandaAccount* by szModuleName
 	MirandaAccount* getMirandaAccountPtrBySzModuleName(char* szModuleName);
 
+	//refresh data support
+	void refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName, char* szProtoName);
+	void refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName);
+	void refreshAccount_Delete(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName);
+	void refreshContact_Add(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact);
+	void refreshContact_Edit(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact);
+	void refreshContact_Delete(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact);
+
 
   //options
+
+	MFENUM_OPTIONS_STATE tab1OptionsState;
+	MFENUM_OPTIONS_STATE tab2OptionsState;
+	MFENUM_OPTIONS_STATE tab3OptionsState;
+
 	//inline
 	//get clientsProfilesFilterCheckbox bool
 	bool getClientsProfilesFilterCheckbox() const {
@@ -182,6 +150,19 @@ public:
 	//normalize clientsProfilesFilterString
 	void normalizeClientsProfilesFilterString(std::size_t maxCSize);
 
+	//inline
+	//get addAccountToContactNameCheckbox bool
+	bool getAddAccountToContactNameCheckbox() const {
+		return addAccountToContactNameCheckbox;
+	}
+
+	//inline
+	//set addAccountToContactNameCheckbox bool
+	void setAddAccountToContactNameCheckbox(bool addAccountToContactNameCheckboxL){
+		addAccountToContactNameCheckbox = addAccountToContactNameCheckboxL;
+	}
+
+
 
 	//id of process record in csm
 	uint16_t processCsmId;
@@ -193,7 +174,6 @@ public:
 
 	void initializeMirfoxData();
 
-
 	void releaseMirfoxData();
 
 
@@ -204,16 +184,21 @@ private:
 	// @see MFENUM_PLUGINSTATE
 	MFENUM_PLUGIN_STATE pluginState;
 
-	MFENUM_OPTIONS_STATE tab1OptionsState;
-	MFENUM_OPTIONS_STATE tab2OptionsState;
-	MFENUM_OPTIONS_STATE tab3OptionsState;
-
 
 	// list of pointers to MirandaAccount class instances
 	boost::ptr_list<MirandaAccount> mirandaAccounts;
 
 	//initialize accounts list
 	void initializeMirandaAccounts();
+
+	uint64_t mirfoxAccountIdPool;
+	int maxAccountIOrder;
+
+	//add MirandaAccount item to list of MirandaAccounts
+	void addMirandaAccount(MirandaAccount* mirandaAccountL);
+
+	//clears list of MirandaAccounts
+	void clearMirandaAccounts();
 
 
 	// list of pointers to MirandaContact class instances
@@ -222,12 +207,36 @@ private:
 	//initialize contacts list
 	void initializeMirandaContacts();
 
+	//add MirandaContact item to list of MirandaContacts
+	void addMirandaContact(MirandaContact* mirandaContactL);
+
+	//clears list of MirandaContacts
+	void clearMirandaContacts();
+
+	//set contactNameW at MirandaContact to contact display name
+	void setContactDisplayName(MirandaContact* mirandaContact);
+
+
+	MFENUM_MIRANDAACCOUNT_STATE createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount);
+
+	MFENUM_MIRANDACONTACT_STATE createOrGetContactStateFromDB(MirandaContact* mirandaContact);
+
+
+	static bool shouldProtoBeActiveByName(std::string protoName);
+
+	int getAccountDefaultState(MirandaAccount* account);
+
+	int getContactDefaultState(MirandaContact* contact);
+
 
 	//options
 	bool clientsProfilesFilterCheckbox;
 	std::wstring clientsProfilesFilterString;
 
+	bool addAccountToContactNameCheckbox;
+
 	void initializeOptions();
+
 
 };
 
@@ -260,10 +269,10 @@ public:
 	~MirandaContact(void);
 	MirandaContact*	getObjectPtr();
 
-	MCONTACT		contactHandle;		//HANDLE to contact in miranda (unikalne)
+	MCONTACT					contactHandle;		//HANDLE to contact in miranda (unique)
 	std::wstring				contactNameW;		//presented name
 	MFENUM_MIRANDACONTACT_STATE contactState;		//state in options
-	MirandaAccount*				mirandaAccountPtr;	//account of hContact
+	MirandaAccount*				mirandaAccountPtr;	//contact's account
 
 };
 

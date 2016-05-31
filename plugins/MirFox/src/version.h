@@ -1,6 +1,6 @@
 #define __MAJOR_VERSION           0
 #define __MINOR_VERSION           5
-#define __RELEASE_NUM             0
+#define __RELEASE_NUM             1
 #define __BUILD_NUM               0
 
 #include <stdver.h>
@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Szymon Tokarz"
 #define __AUTHOREMAIL             "wsx22@o2.pl"
 #define __AUTHORWEB               "http://miranda-ng.org/p/MirFox/"
-#define __COPYRIGHT               "© 2013 Szymon Tokarz"
+#define __COPYRIGHT               "© 2013 - 2016 Szymon Tokarz"

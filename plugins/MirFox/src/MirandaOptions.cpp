@@ -15,7 +15,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 	{
 		//executed once, during each tab initialization during each miranda options open
-		mirfoxMiranda.getMirfoxData().setTab1OptionsState(MFENUM_OPTIONS_INIT);
+		mirfoxMiranda.getMirfoxData().tab1OptionsState = MFENUM_OPTIONS_INIT;
 
 		TranslateDialogDefault(hwndDlg);
 
@@ -41,6 +41,12 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 
 		//other options initialization
+		if (mirfoxMiranda.getMirfoxData().getAddAccountToContactNameCheckbox()){
+			CheckDlgButton(hwndDlg, IDC1_CHECK2, BST_CHECKED);
+		} else {
+			CheckDlgButton(hwndDlg, IDC1_CHECK2, BST_UNCHECKED);
+		}
+
 		SetDlgItemText(hwndDlg, IDC1_EDIT1, mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
 
 		if (mirfoxMiranda.getMirfoxData().getClientsProfilesFilterCheckbox()){
@@ -50,32 +56,26 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			CheckDlgButton(hwndDlg, IDC1_CHECK1, BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC1_EDIT1), FALSE);
 		}
-	  //other options initialization - end
+		//other options initialization - end
 
-		mirfoxMiranda.getMirfoxData().setTab1OptionsState(MFENUM_OPTIONS_WORK);
+		mirfoxMiranda.getMirfoxData().tab1OptionsState = MFENUM_OPTIONS_WORK;
 		return FALSE;
 
 	}
 	case WM_COMMAND:
 	{
-		if (mirfoxMiranda.getMirfoxData().getTab1OptionsState() != MFENUM_OPTIONS_WORK){
+		if (mirfoxMiranda.getMirfoxData().tab1OptionsState != MFENUM_OPTIONS_WORK){
 			break; //options not inited yet
 		}
 
 		//if user changed some options controls, send info to miranda to activate ok button
 		if (
-			(
 				((HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())	//edit control AND control from message has focus now
 				||
 				((HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus())	//button or checkbox clicked AND control from message has focus now
 				||
 				(HIWORD(wParam) == CBN_DROPDOWN)								//COMBOBOX clicked
 			)
-			&&
-			(
-				LOWORD(wParam) != IDC1_BUTTON_INVALIDATE						//invalidate button click doesn't activate [Apply] button.
-			)
-		   )
 		{
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
@@ -90,11 +90,6 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 
-		//if (LOWORD(wParam) == IDC1_BUTTON_INVALIDATE && HIWORD(wParam) == BN_CLICKED){
-			//TODO  invalidate button clicked - refresh MSM's (now this button has visable=false at .rc file)
-			//break;
-		//}
-
 		break;
 	}
 	case WM_NOTIFY:
@@ -102,7 +97,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		//executed on each move to another options tab or after [OK]
 
-		if (mirfoxMiranda.getMirfoxData().getTab1OptionsState() != MFENUM_OPTIONS_WORK){
+		if (mirfoxMiranda.getMirfoxData().tab1OptionsState != MFENUM_OPTIONS_WORK){
 			break; //options not inited yet
 		}
 
@@ -126,6 +121,19 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				db_set_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 2);
 			}
 
+			if (IsDlgButtonChecked(hwndDlg, IDC1_CHECK2) == BST_CHECKED){
+				if (mirfoxMiranda.getMirfoxData().getAddAccountToContactNameCheckbox() != true){
+					mirfoxMiranda.getMirfoxData().setAddAccountToContactNameCheckbox(true);
+					db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 1);
+					mirfoxMiranda.getMirfoxData().updateAllMirandaContactsNames(mirfoxMiranda.getSharedMemoryUtils());
+				}
+			} else {
+				if (mirfoxMiranda.getMirfoxData().getAddAccountToContactNameCheckbox() != false){
+					mirfoxMiranda.getMirfoxData().setAddAccountToContactNameCheckbox(false);
+					db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 2);
+					mirfoxMiranda.getMirfoxData().updateAllMirandaContactsNames(mirfoxMiranda.getSharedMemoryUtils());
+				}
+			}
 
 			int opt2Len = SendDlgItemMessage(hwndDlg, IDC1_EDIT1, WM_GETTEXTLENGTH, 0, 0);
 			wchar_t * opt2Buffer = new WCHAR[opt2Len+1];
@@ -303,7 +311,7 @@ static void setAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
  */
 static void resetListOptions(HWND hwndList)
 {
-	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList,GWL_STYLE)|CLS_SHOWHIDDEN);
+	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) & ~CLS_SHOWHIDDEN);
 }
 
 
@@ -323,7 +331,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	{
 		TranslateDialogDefault(hwndDlg);
 
-		mirfoxMiranda.getMirfoxData().setTab2OptionsState(MFENUM_OPTIONS_INIT);
+		mirfoxMiranda.getMirfoxData().tab2OptionsState = MFENUM_OPTIONS_INIT;
 
 		//load icons
 		HIMAGELIST hIml;
@@ -359,7 +367,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 
 
-		mirfoxMiranda.getMirfoxData().setTab2OptionsState(MFENUM_OPTIONS_WORK);
+		mirfoxMiranda.getMirfoxData().tab2OptionsState = MFENUM_OPTIONS_WORK;
 		return FALSE;
 
 	}
@@ -370,7 +378,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 
-		if (mirfoxMiranda.getMirfoxData().getTab2OptionsState() != MFENUM_OPTIONS_WORK){
+		if (mirfoxMiranda.getMirfoxData().tab2OptionsState != MFENUM_OPTIONS_WORK){
 			break; //options not inited yet
 		}
 
@@ -474,10 +482,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							}
 
 							//save to mirfoxData
-							int result = mirfoxMiranda.getMirfoxData().updateMirandaContactState(hContact, contactState);
-							if (result != 0){
-								//todo errors handling
-							}
+							mirfoxMiranda.getMirfoxData().updateMirandaContactState(mirfoxMiranda.getSharedMemoryUtils(), hContact, contactState);
 
 							//save to db	1 - on, 2 - off
 							if (contactState == MFENUM_MIRANDACONTACT_STATE_OFF){
@@ -534,13 +539,13 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	{
 		//executed once during init of each tab, on each enter to miranda options
 
-		mirfoxMiranda.getMirfoxData().setTab3OptionsState(MFENUM_OPTIONS_INIT);
+		mirfoxMiranda.getMirfoxData().tab3OptionsState = MFENUM_OPTIONS_INIT;
 
 		TranslateDialogDefault(hwndDlg);
 
 		//protocol list initialization
 		HWND hAccountsList = GetDlgItem(hwndDlg, IDC3_PROTOCOLS_LIST);
-
+		ListView_DeleteAllItems(hAccountsList);
 		ListView_SetExtendedListViewStyleEx(hAccountsList, LVS_EX_FULLROWSELECT|LVS_EX_CHECKBOXES, LVS_EX_FULLROWSELECT|LVS_EX_CHECKBOXES);
 
 		LVCOLUMN lvCol = {0};
@@ -562,26 +567,26 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			lvItem.pszText = mirandaAccountsIter->tszAccountName;
 			//http://www.experts-exchange.com/Programming/Languages/CPP/Q_20175412.html - must duplicate string
 			lvItem.lParam = (LPARAM)_strdup(mirandaAccountsIter->szModuleName);
-			ListView_InsertItem(hAccountsList,&lvItem);//winapi function
+			int newItem = ListView_InsertItem(hAccountsList, &lvItem);//winapi function
 
 			MFENUM_MIRANDAACCOUNT_STATE accountState = mirandaAccountsIter->accountState;
 			if (accountState == MFENUM_MIRANDAACCOUNT_STATE_ON){
-				ListView_SetCheckState(hAccountsList, lvItem.iItem, 1 );
+				ListView_SetCheckState(hAccountsList, newItem, TRUE );
 			} else {
-				ListView_SetCheckState(hAccountsList, lvItem.iItem, 0 );
+				ListView_SetCheckState(hAccountsList, newItem, FALSE );
 			}
 
 			lvItem.iItem++;
 		}
-	    //protocol list initialization - end
+		//protocol list initialization - end
 
-		mirfoxMiranda.getMirfoxData().setTab3OptionsState(MFENUM_OPTIONS_WORK);
+		mirfoxMiranda.getMirfoxData().tab3OptionsState = MFENUM_OPTIONS_WORK;
 		return FALSE;
 
 	}
 	case WM_COMMAND:
 	{
-		if (mirfoxMiranda.getMirfoxData().getTab3OptionsState() != MFENUM_OPTIONS_WORK){
+		if (mirfoxMiranda.getMirfoxData().tab3OptionsState != MFENUM_OPTIONS_WORK){
 			break; //options not inited yet
 		}
 
@@ -592,7 +597,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		//executed on each change tab at options or after [OK]
 
-		if (mirfoxMiranda.getMirfoxData().getTab3OptionsState() != MFENUM_OPTIONS_WORK){
+		if (mirfoxMiranda.getMirfoxData().tab3OptionsState != MFENUM_OPTIONS_WORK){
 			break; //options not inited yet
 		}
 
@@ -633,10 +638,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				//save to mirfoxData
-				int result = mirfoxMiranda.getMirfoxData().updateMirandaAccountState(accountId, accountState);
-				if (result != 0){
-					//todo errors handling
-				}
+				mirfoxMiranda.getMirfoxData().updateMirandaAccountState(mirfoxMiranda.getSharedMemoryUtils(), accountId, accountState);
 
 				//save to db	1 - on, 2 - off
 				std::string mirandaAccountDBKey("ACCOUNTSTATE_");

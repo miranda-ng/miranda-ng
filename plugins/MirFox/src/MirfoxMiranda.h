@@ -5,6 +5,14 @@
 #include "MirandaUtils.h"
 
 
+class CMirfoxMiranda;
+
+
+struct OnContactAsyncThreadArgStruct {
+	MCONTACT hContact;
+	CMirfoxMiranda* mirfoxMiranda;
+};
+
 
 class CMirfoxMiranda
 {
@@ -18,9 +26,19 @@ public:
 
 	MirfoxData& getMirfoxData();
 
+	SharedMemoryUtils& getSharedMemoryUtils();
+
 	int onMirandaInterfaceLoad();
 
 	int onMirandaInterfaceUnload();
+
+	//hooks support - to refresh data
+	void onAccListChanged(WPARAM wParam, LPARAM lParam);
+	static void onContactAdded_async(void* threadArg); //at async new thread
+	void onContactDeleted(MCONTACT hContact);
+	void onContactSettingChanged(MCONTACT hContact, LPARAM lParam);
+	static void onContactSettingChanged_async(void* threadArg); //at async new thread
+
 
 	//csm maintanance thread function (threadArg - pointer to this CMirfoxMiranda class instance)
 	static void csmThread(void* threadArg);

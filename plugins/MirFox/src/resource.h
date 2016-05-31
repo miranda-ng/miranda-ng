@@ -23,13 +23,13 @@
 #define IDC1_CHECK1                     1110
 #define IDC1_EDIT1                      1111
 #define IDC1_STATIC_G3                  1112
-#define IDC1_STATIC_INVALIDATE          1113
-#define IDC1_BUTTON_INVALIDATE          1114
+#define IDC1_CHECK2                     1113
+
 //@IDD_OPT2
-#define IDC2_LABEL1                     1201
+#define IDC2_STATIC_G1                  1201
 #define IDC2_CONTACTS_LIST              1202
+
 //@IDD_OPT3
 #define IDC3_STATIC_G1                  1301
-#define IDC3_LABEL1                     1302
-#define IDC3_PROTOCOLS_LIST             1303
+#define IDC3_PROTOCOLS_LIST             1302
 

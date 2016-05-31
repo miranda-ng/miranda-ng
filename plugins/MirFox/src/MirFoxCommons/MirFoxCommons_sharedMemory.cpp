@@ -64,7 +64,7 @@ const boost::interprocess::offset_t		SMUCONST_MSM_RECORDS_OFFSET				= SMUCONST_M
 
 const boost::interprocess::offset_t		SMUCONST_MSM_RECORD_TYPE_RECOFFSET		= 0;
 const std::size_t 						SMUCONST_MSM_RECORD_TYPE_SIZE			= sizeof(char); //1B
-										//	[O]Option, [T]Translation, [A]Account, [G]Group, [C]Contact
+										//	[O]Option, [T]Translation, [A]Account, [G]Group, [C]Contact, [D]Deleted item
 const boost::interprocess::offset_t		SMUCONST_MSM_RECORD_HANDLE_RECOFFSET	= SMUCONST_MSM_RECORD_TYPE_RECOFFSET + SMUCONST_MSM_RECORD_TYPE_SIZE;
 const std::size_t 						SMUCONST_MSM_RECORD_HANDLE_SIZE			= sizeof(uint64_t); //8B
 										//	{AGC} miranda HANDLE to account/group/contact - HANDLE 32/64b, {O} option id, {T} translation id
@@ -187,6 +187,128 @@ SharedMemoryUtils::addContactToSM(uint64_t mirandaContactHandle, uint64_t mirand
 {
 	return addRecordToMsm('C', mirandaContactHandle, mirandaAccountHandle, mirandaGroupHandle, (char)NULL, displayName);
 }
+
+
+
+
+void
+SharedMemoryUtils::refreshMsm_Add(char type, uint64_t mirandaId, std::wstring& displayName)
+{
+	logger->log_p(L"SharedMemoryUtils.refreshMsm_Add type=[%c], mirandaId=[%I64u]", type, mirandaId);
+
+	if (type == 'A'){
+		addAccountToSM(mirandaId, displayName);
+	} else if (type == 'C'){
+		addContactToSM(mirandaId, (uint64_t)NULL, (uint64_t)1, displayName);
+	}
+
+	return;
+}
+
+void
+SharedMemoryUtils::refreshMsm_Edit(char type, uint64_t mirandaId, std::wstring& displayName)
+{
+	logger->log_p(L"SharedMemoryUtils.refreshMsm_Edit type=[%c], mirandaId=[%I64u]", type, mirandaId);
+
+	boost::ptr_list<boost::interprocess::windows_shared_memory>::iterator msmListIter;
+	for (msmListIter = msmList.begin(); msmListIter != msmList.end(); msmListIter++){
+
+		for (int recordNo = 0; recordNo < SMUCONST_MSM_RECORDS_COUNT; recordNo++ ){
+
+			boost::interprocess::mapped_region region1(
+				*msmListIter,
+				boost::interprocess::read_only,
+				SMUCONST_MSM_HEADER_SIZE + (recordNo * SMUCONST_MSM_RECORD_SIZE) + SMUCONST_MSM_RECORD_TYPE_RECOFFSET,
+				SMUCONST_MSM_RECORD_TYPE_SIZE
+			);
+			char* recordTypePtr = static_cast<char*>(region1.get_address());
+
+			if (*recordTypePtr == type){
+
+				boost::interprocess::mapped_region region2(
+					*msmListIter,
+					boost::interprocess::read_only,
+					SMUCONST_MSM_HEADER_SIZE + (recordNo * SMUCONST_MSM_RECORD_SIZE) + SMUCONST_MSM_RECORD_HANDLE_RECOFFSET,
+					SMUCONST_MSM_RECORD_HANDLE_SIZE
+				);
+				uint64_t* agcHandlePtr = static_cast<uint64_t*>(region2.get_address());
+
+				if (*agcHandlePtr == mirandaId){
+
+					boost::interprocess::mapped_region region3(
+						*msmListIter,
+						boost::interprocess::read_write,
+						SMUCONST_MSM_HEADER_SIZE + (recordNo * SMUCONST_MSM_RECORD_SIZE) + SMUCONST_MSM_RECORD_DNAME_RECOFFSET,
+						SMUCONST_MSM_RECORD_DNAME_SIZE
+					);
+					wchar_t* recordValuePtr = static_cast<wchar_t*>(region3.get_address());
+					wcsncpy_s(recordValuePtr, SMUCONST_MSM_RECORD_DNAME_SIZEC, displayName.c_str(), _TRUNCATE);
+
+					logger->log(L"SharedMemoryUtils::refreshMsm_Edit record found and edited");
+
+					// unique record found and edited
+					return;
+				}
+
+			}
+
+		}
+
+	}
+
+	return;
+}
+
+
+
+void
+SharedMemoryUtils::refreshMsm_Delete(char type, uint64_t mirandaId)
+{
+	logger->log_p(L"SharedMemoryUtils.refreshMsm_Delete type=[%c], mirandaId=[%I64u]", type, mirandaId);
+
+	boost::ptr_list<boost::interprocess::windows_shared_memory>::iterator msmListIter;
+	for (msmListIter = msmList.begin(); msmListIter != msmList.end(); msmListIter++){
+
+		for (int recordNo = 0; recordNo < SMUCONST_MSM_RECORDS_COUNT; recordNo++ ){
+
+			boost::interprocess::mapped_region region1(
+				*msmListIter,
+				boost::interprocess::read_write,
+				SMUCONST_MSM_HEADER_SIZE + (recordNo * SMUCONST_MSM_RECORD_SIZE) + SMUCONST_MSM_RECORD_TYPE_RECOFFSET,
+				SMUCONST_MSM_RECORD_TYPE_SIZE
+			);
+			char* recordTypePtr = static_cast<char*>(region1.get_address());
+
+			if (*recordTypePtr == type){
+
+				boost::interprocess::mapped_region region2(
+					*msmListIter,
+					boost::interprocess::read_only,
+					SMUCONST_MSM_HEADER_SIZE + (recordNo * SMUCONST_MSM_RECORD_SIZE) + SMUCONST_MSM_RECORD_HANDLE_RECOFFSET,
+					SMUCONST_MSM_RECORD_HANDLE_SIZE
+				);
+				uint64_t* agcHandlePtr = static_cast<uint64_t*>(region2.get_address());
+
+				if (*agcHandlePtr == mirandaId){
+
+					*recordTypePtr = 'D'; //[D] deleted - will not be read by other sm clients (even older)
+
+					logger->log(L"SharedMemoryUtils::refreshMsm_Delete record found and deleted");
+
+					// unique record found and edited
+					return;
+				}
+
+			}
+
+		}
+
+	}
+
+	return;
+}
+
+
 
 
 int

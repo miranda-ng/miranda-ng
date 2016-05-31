@@ -16,6 +16,7 @@
 #include <m_popup.h>
 #include <m_message.h>
 #include <m_extraicons.h>
+#include <m_protocols.h>
 
 
 #define PLUGIN_DB_ID				"MirFox"

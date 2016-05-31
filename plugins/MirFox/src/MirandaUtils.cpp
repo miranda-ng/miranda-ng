@@ -199,7 +199,11 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				//show notyfication popup (only in SMM_ONLY_SEND mode)
 				wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
 				if (contactNameW != NULL && tszAccountName != NULL)
-					mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s (%s)"), contactNameW, tszAccountName);
+					if (args->mirfoxDataPtr->getAddAccountToContactNameCheckbox()){
+						mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s"), contactNameW);
+					} else {
+						mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s (%s)"), contactNameW, tszAccountName);
+					}
 				else
 					mir_sntprintf(buffer, 1024, TranslateT("Message sent"));
 
@@ -213,10 +217,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 			else if (mode == MFENUM_SMM_SEND_AND_SHOW_MW){
 				//notify hook to open window
 				if (args->mirfoxDataPtr != NULL && args->mirfoxDataPtr->hhook_EventOpenMW != NULL){
-					OnHookOpenMvStruct* onHookOpenMv = new(OnHookOpenMvStruct);
-					onHookOpenMv->targetHandle = args->targetHandle;
-					onHookOpenMv->msgBuffer = NULL;
-					NotifyEventHooks(args->mirfoxDataPtr->hhook_EventOpenMW, (WPARAM)onHookOpenMv, 0);
+					notifyHookToOpenMsgWindow(args, false);
 				}
 				else logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 			}
@@ -254,6 +255,14 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				PUShowMessageT(buffer, SM_WARNING);
 			}
 
+			//if MFENUM_SMM_SEND_AND_SHOW_MW, even if error sending message - notify hook to open window
+			if (mode == MFENUM_SMM_SEND_AND_SHOW_MW){
+				if (args->mirfoxDataPtr != NULL && args->mirfoxDataPtr->hhook_EventOpenMW != NULL){
+					notifyHookToOpenMsgWindow(args, true);
+				}
+				else logger->log(L"SMTC: ERROR2 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
+			}
+
 			delete[] buffer;
 		}
 
@@ -267,19 +276,11 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		LeaveCriticalSection(&ackMapCs);
 	}
 	else if (mode == MFENUM_SMM_ONLY_SHOW_MW) {
-		//notify hook to open window
+		//notify hook to open msg window
 		if (args->mirfoxDataPtr != NULL && args->mirfoxDataPtr->hhook_EventOpenMW != NULL){
-
-			OnHookOpenMvStruct* onHookOpenMv = new(OnHookOpenMvStruct);
-			onHookOpenMv->targetHandle = args->targetHandle;
-			//adding newline to message in Message Window, only in this mode
-			std::wstring* msgBuffer = new std::wstring(); //deleted at on_hook_OpenMW
-			msgBuffer->append(args->userActionSelection);
-			msgBuffer->append(L"\r\n");
-			onHookOpenMv->msgBuffer = msgBuffer;
-			NotifyEventHooks(args->mirfoxDataPtr->hhook_EventOpenMW, (WPARAM)onHookOpenMv, 0);
+			notifyHookToOpenMsgWindow(args, true);
 		}
-		else logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
+		else logger->log(L"SMTC: ERROR3 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 	}
 }
 
@@ -299,6 +300,23 @@ void MirandaUtils::addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_
 	dbei.cbBlob = (DWORD)bufSize;
 	dbei.pBlob = (PBYTE)msgBuffer;
 	db_event_add(hContact, &dbei);
+}
+
+void MirandaUtils::notifyHookToOpenMsgWindow(ActionThreadArgStruct* args, bool showMessageToSend)
+{
+	OnHookOpenMvStruct* onHookOpenMv = new(OnHookOpenMvStruct);
+	onHookOpenMv->targetHandle = args->targetHandle;
+	if (showMessageToSend){
+		//adding newline to message in Message Window, only in this mode
+		std::wstring* msgBuffer = new std::wstring(); //deleted at on_hook_OpenMW
+		msgBuffer->append(args->userActionSelection);
+		msgBuffer->append(L"\r\n");
+		onHookOpenMv->msgBuffer = msgBuffer;
+	} else {
+		onHookOpenMv->msgBuffer = NULL;
+	}
+
+	NotifyEventHooks(args->mirfoxDataPtr->hhook_EventOpenMW, (WPARAM)onHookOpenMv, 0);
 }
 
 

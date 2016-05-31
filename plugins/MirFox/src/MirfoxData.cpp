@@ -16,6 +16,7 @@ MirfoxData::MirfoxData(void)
 	pluginState = MFENUM_PLUGIN_STATE_NEW;
 	tab1OptionsState = MFENUM_OPTIONS_NEW;
 	tab2OptionsState = MFENUM_OPTIONS_NEW;
+	tab3OptionsState = MFENUM_OPTIONS_NEW;
 
 	Plugin_Terminated = false;
 	workerThreadsCount = 0;
@@ -27,6 +28,11 @@ MirfoxData::MirfoxData(void)
 	middleClickSendMode = MFENUM_SMM_ONLY_SEND;
 
 	processCsmId = 0;
+	hhook_EventOpenMW = NULL;
+	hhook_OpenMW = NULL;
+
+	mirfoxAccountIdPool = 1;
+	maxAccountIOrder = 0;
 }
 
 MirfoxData::~MirfoxData(void)
@@ -49,20 +55,48 @@ void MirfoxData::clearMirandaContacts(){
 }
 
 int
-MirfoxData::updateMirandaContactState(MCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState)
+MirfoxData::updateMirandaContactState(SharedMemoryUtils& sharedMemoryUtils, MCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState)
 {
 
 	boost::ptr_list<MirandaContact>* mirandaContactsPtr = getMirandaContacts();
 	boost::ptr_list<MirandaContact>::iterator mirandaContactsIter;
 	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
 		if (mirandaContactsIter->contactHandle == contactHandle ){
+			MFENUM_MIRANDACONTACT_STATE oldState = mirandaContactsIter->contactState;
 			mirandaContactsIter->contactState = contactState;
+			if (contactState != oldState ){
+				if (contactState == MFENUM_MIRANDACONTACT_STATE_ON){
+					sharedMemoryUtils.refreshMsm_Add('C', (uint64_t)mirandaContactsIter->contactHandle, mirandaContactsIter->contactNameW);
+				} else {
+					sharedMemoryUtils.refreshMsm_Delete('C', (uint64_t)mirandaContactsIter->contactHandle);
+				}
+			}
 			return 0;
 		}
 	}
 	return 1; //mirandaContact not found
 
 }
+
+int
+MirfoxData::updateAllMirandaContactsNames(SharedMemoryUtils& sharedMemoryUtils)
+{
+
+	boost::ptr_list<MirandaContact>* mirandaContactsPtr = getMirandaContacts();
+	boost::ptr_list<MirandaContact>::iterator mirandaContactsIter;
+	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
+
+		setContactDisplayName(mirandaContactsIter->getObjectPtr());
+
+		if (mirandaContactsIter->contactState == MFENUM_MIRANDACONTACT_STATE_ON){
+			sharedMemoryUtils.refreshMsm_Edit('C', (uint64_t)mirandaContactsIter->contactHandle, mirandaContactsIter->contactNameW);
+		}
+
+	}
+	return 0;
+
+}
+
 
 MirandaContact*
 MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
@@ -89,6 +123,31 @@ MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
 }
 
 
+void
+MirfoxData::setContactDisplayName(MirandaContact* mirandaContact){
+
+	if (mirandaContact->mirandaAccountPtr != NULL && strcmp(mirandaContact->mirandaAccountPtr->szProtoName, "Twitter") == 0){
+		// hack for Twitter protocol
+		DBVARIANT dbv;
+		if (!db_get_s(mirandaContact->contactHandle, mirandaContact->mirandaAccountPtr->szModuleName, "Username", &dbv, DBVT_WCHAR)) {
+			mirandaContact->contactNameW = std::wstring(dbv.pwszVal);
+			db_free(&dbv);
+		}
+	} else {
+		// standard miranda way for another protocols
+		mirandaContact->contactNameW = pcli->pfnGetContactDisplayName(mirandaContact->contactHandle, 0);
+	}
+
+	if (getAddAccountToContactNameCheckbox()){
+		mirandaContact->contactNameW = mirandaContact->contactNameW.append(L" (").append(mirandaContact->mirandaAccountPtr->tszAccountName).append(L")");
+
+	}
+
+	MFLogger::getInstance()->log_p(L"initializeMirandaContacts: got name for hContact = [" SCNuPTR L"]  is: [%s]", mirandaContact->contactHandle,
+			&(mirandaContact->contactNameW)==NULL ? L"<null>" : mirandaContact->contactNameW.c_str());
+
+}
+
 
 //Accounts
 
@@ -105,14 +164,23 @@ void MirfoxData::clearMirandaAccounts(){
 }
 
 int
-MirfoxData::updateMirandaAccountState(char* szModuleName, MFENUM_MIRANDAACCOUNT_STATE& accountState)
+MirfoxData::updateMirandaAccountState(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, MFENUM_MIRANDAACCOUNT_STATE& accountState)
 {
 
 	boost::ptr_list<MirandaAccount>* mirandaAccountsPtr = getMirandaAccounts();
 	boost::ptr_list<MirandaAccount>::iterator mirandaAccountsIter;
 	for (mirandaAccountsIter = mirandaAccountsPtr->begin(); mirandaAccountsIter != mirandaAccountsPtr->end(); mirandaAccountsIter++){
 		if (strcmp(mirandaAccountsIter->szModuleName, szModuleName) == 0 ){
+			MFENUM_MIRANDAACCOUNT_STATE oldState = mirandaAccountsIter->accountState;
 			mirandaAccountsIter->accountState = accountState;
+			if (accountState != oldState ){
+				if (accountState == MFENUM_MIRANDAACCOUNT_STATE_ON){
+					std::wstring tszAccountNameW = mirandaAccountsIter->tszAccountName;
+					sharedMemoryUtils.refreshMsm_Add('A', (uint64_t)mirandaAccountsIter->id, tszAccountNameW);
+				} else {
+					sharedMemoryUtils.refreshMsm_Delete('A', (uint64_t)mirandaAccountsIter->id);
+				}
+			}
 			return 0;
 		}
 	}
@@ -174,6 +242,187 @@ MirfoxData::getMirandaAccountPtrBySzModuleName(char* szModuleName)
 
 
 
+
+// refresh support
+
+void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName, char* szProtoName)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshAccount_Add  proto [%S]", szModuleName);
+
+	//add proto to mirandaAccounts
+	mirfoxAccountIdPool++;
+	maxAccountIOrder++;
+
+	MirandaAccount* mirandaAccountItemPtr = new MirandaAccount(
+		mirfoxAccountIdPool,
+		szModuleName,
+		tszAccountName,
+		szProtoName,
+		maxAccountIOrder
+	  );
+
+	mirandaAccountItemPtr->accountState = createOrGetAccountStateFromDB(mirandaAccountItemPtr);
+
+	/*
+	MFENUM_MIRANDAACCOUNT_STATE getOrCreateAccountStateInDB(char* szModuleName);
+	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
+	mirandaAccountDBKey += szModuleName;
+	int keyValue = db_get_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
+	if (keyValue == 1 || keyValue == 2){
+		//setting exist
+		if (keyValue == 1){
+			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
+		} else {
+			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
+		}
+	} else {
+		//setting does not exist, or is invalid -> save default setting (1 - ON)
+		if (getAccountDefaultState(mirandaAccountItemPtr) == 1){ //on = 1
+			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
+			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
+		} else { //off = 2
+			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
+			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
+		}
+	}
+	 */
+	addMirandaAccount(mirandaAccountItemPtr);
+
+	//add proto to SM
+	std::wstring tszAccountNameW = mirandaAccountItemPtr->tszAccountName;
+	sharedMemoryUtils.refreshMsm_Add('A', mirandaAccountItemPtr->id, tszAccountNameW);
+
+	return;
+}
+
+void MirfoxData::refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshAccount_Edit  proto [%S]", szModuleName);
+
+	//edit proto in mirandaAccounts
+	MirandaAccount* mirandaAccount = getMirandaAccountPtrBySzModuleName(szModuleName);
+	if (!mirandaAccount){
+		logger->log(L"MirfoxData::refreshAccount_Edit  edit proto not found in mirandaAccounts");
+		return;
+	}
+
+	mirandaAccount->tszAccountName = tszAccountName;
+
+	//edit proto in SM
+	std::wstring tszAccountNameW = mirandaAccount->tszAccountName;
+	sharedMemoryUtils.refreshMsm_Edit('A', mirandaAccount->id, tszAccountNameW);
+
+	return;
+}
+
+void MirfoxData::refreshAccount_Delete(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshAccount_Delete  proto [%S]", szModuleName);
+
+	uint64_t deletedId;
+
+	//del proto in mirandaAccounts
+	boost::ptr_list<MirandaAccount>* mirandaAccountsPtr = getMirandaAccounts();
+	boost::ptr_list<MirandaAccount>::iterator mirandaAccountsIter;
+	for (mirandaAccountsIter = mirandaAccountsPtr->begin(); mirandaAccountsIter != mirandaAccountsPtr->end(); mirandaAccountsIter++){
+		if (mirandaAccountsIter->szModuleName != NULL && strcmp(mirandaAccountsIter->szModuleName, szModuleName) == 0){
+			deletedId = mirandaAccountsIter->id;
+			mirandaAccountsPtr->erase(mirandaAccountsIter);
+			break;
+		}
+	}
+
+	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
+	mirandaAccountDBKey += szModuleName;
+	db_unset(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str());
+
+	//del proto from SM
+	sharedMemoryUtils.refreshMsm_Delete('A', deletedId);
+
+	return;
+}
+
+void MirfoxData::refreshContact_Add(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshContact_Add  hContact [" SCNuPTR L"]", hContact);
+
+	//add contact to mirandaContacts
+	MirandaContact* mirandaContactItemPtr = new MirandaContact(
+		hContact	  //handle to contact in miranda
+	  );
+
+	char *szModuleName = Proto_GetBaseAccountName(mirandaContactItemPtr->contactHandle);
+	if (szModuleName != NULL)
+		mirandaContactItemPtr->mirandaAccountPtr = getMirandaAccountPtrBySzModuleName(szModuleName);
+
+	// Always getting '(Unknown Contact)' here if called from HookEvent ME_DB_CONTACT_ADDED, (updated to proper via ME_DB_CONTACT_SETTINGCHANGED)
+	setContactDisplayName(mirandaContactItemPtr);
+
+	mirandaContactItemPtr->contactState = createOrGetContactStateFromDB(mirandaContactItemPtr);
+
+	addMirandaContact(mirandaContactItemPtr);
+
+
+	//add contact to SM
+	sharedMemoryUtils.refreshMsm_Add('C', (uint64_t)mirandaContactItemPtr->contactHandle, mirandaContactItemPtr->contactNameW);
+
+
+	return;
+}
+
+void MirfoxData::refreshContact_Edit(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshContact_Edit  hContact [" SCNuPTR L"]", hContact);
+
+
+	MirandaContact* mirandaContact = getMirandaContactPtrByHandle(hContact);
+
+	if (!mirandaContact){
+		logger->log(L"refreshContact_Edit  edited contact not found in mirandaContactss");
+		return;
+	}
+
+	setContactDisplayName(mirandaContact);
+
+
+	// edit contact in SM
+	sharedMemoryUtils.refreshMsm_Edit('C', (uint64_t)mirandaContact->contactHandle, mirandaContact->contactNameW);
+
+
+	return;
+}
+
+void MirfoxData::refreshContact_Delete(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact)
+{
+	MFLogger* logger = MFLogger::getInstance();
+	logger->log_p(L"MirfoxData::refreshContact_Delete  hContact [" SCNuPTR L"]", hContact);
+
+	//del contact from mirandaContacts
+	boost::ptr_list<MirandaContact>* mirandaContactsPtr = getMirandaContacts();
+	boost::ptr_list<MirandaContact>::iterator mirandaContactsIter;
+	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
+		if (mirandaContactsIter->contactHandle == hContact ){
+			mirandaContactsPtr->erase(mirandaContactsIter);
+			break;
+		}
+	}
+
+
+	//del contact from SM
+	sharedMemoryUtils.refreshMsm_Delete('C', (uint64_t)hContact);
+
+
+	return;
+}
+
+
+
+
 //options
 
 //get ptr to clientsProfilesFilterWString std::string
@@ -202,9 +451,9 @@ void
 MirfoxData::initializeMirfoxData()
 {
 
+	initializeOptions();
 	initializeMirandaAccounts();	//must be before initializeMirandaContacts
 	initializeMirandaContacts();
-	initializeOptions();
 
 }
 
@@ -272,11 +521,60 @@ MirfoxData::getContactDefaultState(MirandaContact* contact)
 	if (!shouldProtoBeActiveByName(contact->mirandaAccountPtr->szProtoName))
 		return 2;
 
-	if (db_get_b(contact->contactHandle, "CList", "Hidden", 0) == 1 || db_get_b(contact->contactHandle, "CList", "NotOnList", 0) == 1 )
-		return 2;
-
 	return 1;
 }
+
+
+MFENUM_MIRANDAACCOUNT_STATE
+MirfoxData::createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount){
+
+	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
+	mirandaAccountDBKey += mirandaAccount->szModuleName;
+	int keyValue = db_get_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
+	if (keyValue == 1 || keyValue == 2){
+		//setting exist
+		if (keyValue == 1){
+			return MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
+		} else {
+			return MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
+		}
+	} else {
+		//setting does not exist, or is invalid -> save default setting (1 - ON)
+		if (getAccountDefaultState(mirandaAccount) == 1){ //on = 1
+			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
+			return MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
+		} else { //off = 2
+			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
+			return MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
+		}
+	}
+
+}
+
+MFENUM_MIRANDACONTACT_STATE
+MirfoxData::createOrGetContactStateFromDB(MirandaContact* mirandaContact){
+
+	int keyValue = db_get_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 0);
+	if (keyValue == 1 || keyValue == 2){
+		//setting exist
+		if (keyValue == 1){
+			return MFENUM_MIRANDACONTACT_STATE_ON;	//1
+		} else {
+			return MFENUM_MIRANDACONTACT_STATE_OFF;	//2
+		}
+	} else {
+		//setting does not exist, or is invalid -> save default setting (1 - ON)
+		if (MirfoxData::getContactDefaultState(mirandaContact->getObjectPtr()) == 1){ //on = 1
+			db_set_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 1);
+			return MFENUM_MIRANDACONTACT_STATE_ON;		//1
+		} else { //off = 2
+			db_set_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 2);
+			return MFENUM_MIRANDACONTACT_STATE_OFF;	//2
+		}
+	}
+
+}
+
 
 void
 MirfoxData::initializeMirandaAccounts()
@@ -287,8 +585,6 @@ MirfoxData::initializeMirandaAccounts()
 	int accountsCount = 0;
 	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&accountsCount, &accounts);
-
-	uint64_t protocolId = 1;
 
 	for(int i=0; i<accountsCount; i++) {
 
@@ -302,7 +598,7 @@ MirfoxData::initializeMirandaAccounts()
 
 		//add to list
 		MirandaAccount* mirandaAccountItemPtr = new MirandaAccount(
-			protocolId,
+			mirfoxAccountIdPool,
 			accounts[i]->szModuleName,
 			accounts[i]->tszAccountName,
 			accounts[i]->szProtoName,
@@ -312,29 +608,10 @@ MirfoxData::initializeMirandaAccounts()
 		MFLogger* logger = MFLogger::getInstance();
 		logger->log_p(L"initializeMirandaAccounts: tszAccountName: [%s]   protocol: [%S]", accounts[i]->tszAccountName, accounts[i]->szProtoName );
 
-		protocolId++;
+		mirfoxAccountIdPool++;
+		if (accounts[i]->iOrder > maxAccountIOrder) maxAccountIOrder = accounts[i]->iOrder;
 
-		std::string mirandaAccountDBKey("ACCOUNTSTATE_");
-		mirandaAccountDBKey += accounts[i]->szModuleName;
-
-		int keyValue = db_get_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
-		if (keyValue == 1 || keyValue == 2){
-			//setting exist
-			if (keyValue == 1){
-				mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
-			} else {
-				mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
-			}
-		} else {
-			//setting does not exist, or is invalid -> save default setting (1 - ON)
-			if (MirfoxData::getAccountDefaultState(mirandaAccountItemPtr) == 1){ //on = 1
-				mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
-				db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
-			} else { //off = 2
-				mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
-				db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
-			}
-		}
+		mirandaAccountItemPtr->accountState = createOrGetAccountStateFromDB(mirandaAccountItemPtr);
 
 		addMirandaAccount(mirandaAccountItemPtr);
 
@@ -355,11 +632,16 @@ void MirfoxData::initializeMirandaContacts()
 
 	//get contects from miranda
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
-		//add to list
+
+		//"Hidden" contacts not allowed in MirfoxData and SM, "NotOnList" contacts allowed and enabled
+		if (db_get_b(hContact, "CList", "Hidden", 0) == 1) continue;
+
+		//add to MirfoxData list
 		MirandaContact* mirandaContactItemPtr = new MirandaContact(
 			hContact	  //handle to contact in miranda
 		  );
 		addMirandaContact(mirandaContactItemPtr);
+
 	}
 
 
@@ -376,74 +658,38 @@ void MirfoxData::initializeMirandaContacts()
 			continue;  //mirandaContactsIter->mirandaAccountPtr will be NULL
 
 		mirandaContactsIter->mirandaAccountPtr = getMirandaAccountPtrBySzModuleName(szModuleName);
-	}
 
+		//determine contact's name
+		setContactDisplayName(mirandaContactsIter->getObjectPtr());
 
-	//determine contact's name
-	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
-
-		logger->log_p(L"initializeMirandaContacts: try to get name for hContact = [" SCNuPTR L"]", mirandaContactsIter->contactHandle);
-
-		if (mirandaContactsIter->mirandaAccountPtr != NULL){
-			if (strcmp(mirandaContactsIter->mirandaAccountPtr->szProtoName, "Twitter") == 0){
-				// hack for Twitter protocol
-
-				DBVARIANT dbv;
-				if (!db_get_s(mirandaContactsIter->contactHandle, mirandaContactsIter->mirandaAccountPtr->szModuleName, "Username", &dbv, DBVT_WCHAR)) {
-					mirandaContactsIter->contactNameW = std::wstring(dbv.pwszVal);
-					db_free(&dbv);
-				}
-			}
-			else // standard miranda way for another protocols
-				mirandaContactsIter->contactNameW = pcli->pfnGetContactDisplayName(mirandaContactsIter->contactHandle, 0);
-		}
-
-		if (mirandaContactsIter->contactNameW.size() == 0)
-			// last chance (if some hack didn't work or mirandaContactsIter->mirandaAccountPtr is NULL)
-			mirandaContactsIter->contactNameW = pcli->pfnGetContactDisplayName(mirandaContactsIter->contactHandle, 0);
-
-		logger->log_p(L"initializeMirandaContacts: got name for hContact = [" SCNuPTR L"]  is: [%s]", mirandaContactsIter->contactHandle,
-				&(mirandaContactsIter->contactNameW)==NULL ? L"<null>" : mirandaContactsIter->contactNameW.c_str());
+		//determine contact's state
+		mirandaContactsIter->contactState = createOrGetContactStateFromDB(mirandaContactsIter->getObjectPtr());
 
 	}
-
-
-	//determine contact's state
-	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
-
-		logger->log_p(L"initializeMirandaContacts: try to get state for hContact = [" SCNuPTR L"]", mirandaContactsIter->contactHandle);
-
-		int keyValue = db_get_b(mirandaContactsIter->contactHandle, PLUGIN_DB_ID, "state", 0);
-		if (keyValue == 1 || keyValue == 2){
-			//setting exist
-			if (keyValue == 1){
-				mirandaContactsIter->contactState = MFENUM_MIRANDACONTACT_STATE_ON;		//1
-			} else {
-				mirandaContactsIter->contactState = MFENUM_MIRANDACONTACT_STATE_OFF;	//2
-			}
-		} else {
-			//setting does not exist, or is invalid -> save default setting (1 - ON)
-			if (MirfoxData::getContactDefaultState(mirandaContactsIter->getObjectPtr()) == 1){ //on = 1
-				mirandaContactsIter->contactState = MFENUM_MIRANDACONTACT_STATE_ON;		//1
-				db_set_b(mirandaContactsIter->contactHandle, PLUGIN_DB_ID, "state", 1);
-			} else { //off = 2
-				mirandaContactsIter->contactState = MFENUM_MIRANDACONTACT_STATE_OFF;	//2
-				db_set_b(mirandaContactsIter->contactHandle, PLUGIN_DB_ID, "state", 2);
-			}
-		}
-
-	}
-
-
 
 }
 
 
 
 
-
 void MirfoxData::initializeOptions()
 {
+
+	//addAccountToContactNameCheckbox
+	int opt2KeyValue = db_get_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 0);
+	if (opt2KeyValue == 1 || opt2KeyValue == 2){
+		//setting exist
+		if (opt2KeyValue == 1){
+			setAddAccountToContactNameCheckbox(true);  //1
+		} else {
+			setAddAccountToContactNameCheckbox(false);  //2
+		}
+	} else {
+		//setting does not exist, or is invalid -> save default setting (2 - false)
+		setAddAccountToContactNameCheckbox(false);	 //2
+		db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 2);
+	}
+
 
 	//clientsProfilesFilterCheckbox
 	int opt1KeyValue = db_get_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 0);

@@ -93,6 +93,16 @@ public:
 	//call after openOrCreateSM and after creating sm thread
 	int commitSM();
 
+
+	// new functions to support refresh data in SM (compatible with v.4 SM version)
+	// add record in working Miranda shared memory
+	void refreshMsm_Add(char type, uint64_t mirandaId, std::wstring& displayName);
+	// edit record in working Miranda shared memory
+	void refreshMsm_Edit(char type, uint64_t mirandaId, std::wstring& displayName);
+	// remove record in working Miranda shared memory
+	void refreshMsm_Delete(char type, uint64_t mirandaId);
+
+
 	//delete returned sm object after use
 	boost::interprocess::windows_shared_memory* getSmById(const char* smName, std::size_t smSize);
 
