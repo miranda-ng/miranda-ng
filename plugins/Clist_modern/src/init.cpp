@@ -157,6 +157,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnOnCreateClc = CLUI::cliOnCreateClc;
 	pcli->pfnPaintClc = CLCPaint::cliPaintClc;
 	pcli->pfnRebuildEntireList = cliRebuildEntireList;
+	pcli->pfnIsVisibleContact = cliIsVisibleContact;
 	pcli->pfnRecalcScrollBar = cliRecalcScrollBar;
 	pcli->pfnRowHitTest = cliRowHitTest;
 	pcli->pfnScrollTo = cliScrollTo;
@@ -171,7 +172,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnFindRowByText = cliFindRowByText;
 	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 
-	//partialy overloaded - call default handlers from inside
+	// partialy overloaded - call default handlers from inside
 	pcli->pfnGetContactIcon = cli_GetContactIcon;
 	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
 	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;

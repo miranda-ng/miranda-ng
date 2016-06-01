@@ -228,6 +228,17 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 	return dat->selection;
 }
 
+int cliIsVisibleContact(ClcCacheEntry *pce, ClcGroup *group)
+{
+	if (pce->m_bNoHiddenOffline)
+		return true;
+
+	if (CLCItems_IsShowOfflineGroup(group))
+		return true;
+	
+	return false;
+}
+
 void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	KillTimer(hwnd, TIMERID_REBUILDAFTER);

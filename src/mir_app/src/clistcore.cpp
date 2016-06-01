@@ -55,6 +55,11 @@ static void fnOnCreateClc(void)
 {
 }
 
+static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
+{
+	return false;
+}
+
 static void fnReloadProtoMenus(void)
 {
 	RebuildMenuOrder();
@@ -118,6 +123,7 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnGetDropTargetInformation        = fnGetDropTargetInformation;
 		cli.pfnClcStatusToPf2                  = fnClcStatusToPf2;
 		cli.pfnIsHiddenMode                    = fnIsHiddenMode;
+		cli.pfnIsVisibleContact                = fnIsVisibleContact;
 		cli.pfnHideInfoTip                     = fnHideInfoTip;
 		cli.pfnNotifyNewContact                = fnNotifyNewContact;
 		cli.pfnGetDefaultExStyle               = fnGetDefaultExStyle;

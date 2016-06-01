@@ -291,7 +291,7 @@ struct CLIST_INTERFACE
 	int    (*pfnFindItem)(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 	int    (*pfnGetRowByIndex)(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 	int    (*pfnGetContactHiddenStatus)(MCONTACT hContact, char *szProto, ClcData *dat);
-	HANDLE(*unused2)(ClcContact *contact, DWORD *nmFlags);
+	int    (*pfnIsVisibleContact)(ClcCacheEntry *pce, ClcGroup *group);
 
 	/* clcitems.c */
 	ClcContact* (*pfnCreateClcContact)(void);

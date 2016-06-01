@@ -362,6 +362,8 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int nHiddenStatus = cli.pfnGetContactHiddenStatus(hContact, NULL, dat);
 		if (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus) {
+			ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);
+
 			ClcGroup *group;
 			ptrT tszGroupName(db_get_tsa(hContact, "CList", "Group"));
 			if (tszGroupName == NULL)
@@ -386,10 +388,10 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL) {
-						if (!cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
+						if (!cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cli.pfnIsVisibleContact(pce, group))
 							cli.pfnAddContactToGroup(dat, group, hContact);
 					}
-					else if (!cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+					else if (!cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) || cli.pfnIsVisibleContact(pce, group))
 						cli.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else cli.pfnAddContactToGroup(dat, group, hContact);
