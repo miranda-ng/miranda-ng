@@ -618,7 +618,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
-		dat->bMetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "bMetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
+		dat->bMetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
 	else
 		dat->bMetaIgnoreEmptyExtra = false;
 
