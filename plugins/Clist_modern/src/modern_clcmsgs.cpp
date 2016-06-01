@@ -40,7 +40,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		return 0;
 
 	case CLM_AUTOREBUILD:
-		if (dat->force_in_dialog) {
+		if (dat->bForceInDialog) {
 			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
 			pcli->bAutoRebuild = false;
 		}
@@ -76,7 +76,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		if (wParam > FONTID_MODERN_MAX) break;
 
 		dat->fontModernInfo[wParam].colour = lParam;
-		dat->force_in_dialog = TRUE;
+		dat->bForceInDialog = true;
 		// Issue 40: option knows nothing about moderns colors
 		// others who know have to set colors from lowest to highest
 		switch (wParam) {

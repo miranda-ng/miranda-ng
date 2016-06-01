@@ -151,13 +151,12 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 			dat->yScroll = oldy + (desty - oldy)*(int)(nowTick - startTick) / dat->scrollTime;
 			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL  && */FALSE)
 				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
-			else {
-				CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)0);
-				//InvalidateRectZ(hwnd,NULL,FALSE);
-			}
+			else
+				CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, 0);
+
 			previousy = dat->yScroll;
 			SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
-			CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)0);
+			CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, 0);
 			UpdateWindow(hwnd);
 		}
 	}
@@ -430,14 +429,13 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 	HFONT holdfont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 
 	for (int i = 0; i <= FONTID_MODERN_MAX; i++) {
-		if (!dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont) {
+		if (!dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont)
 			DeleteObject(dat->fontModernInfo[i].hFont);
-		}
-		LOGFONT lf;
 
 		// Issue 40: Do not reload font colors for embedded clists
 		// Parent window is responsible to re-set fonts colors if needed
-		GetFontSetting(i, &lf, dat->force_in_dialog ? NULL : &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2);
+		LOGFONT lf;
+		GetFontSetting(i, &lf, dat->bForceInDialog ? NULL : &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2);
 		dat->fontModernInfo[i].hFont = CreateFontIndirect(&lf);
 		dat->fontModernInfo[i].changed = 0;
 
@@ -450,7 +448,7 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 	ReleaseDC(hwnd, hdc);
 }
 
-void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
+void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
 	g_CluiData.fDisableSkinEngine = db_get_b(NULL, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
@@ -596,7 +594,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
 
 	dat->rightMargin = db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
-	dat->force_in_dialog = (pcli->hwndContactTree) ? (hwnd != pcli->hwndContactTree) : 0;
+	dat->bForceInDialog = (pcli->hwndContactTree) ? (hwnd != pcli->hwndContactTree) : 0;
 	dat->subIndent = db_get_b(NULL, "CLC", "SubIndent", CLCDEFAULT_GROUPINDENT);
 
 	if (dat->hBmpBackground) { DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL; }
@@ -620,13 +618,13 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
-		dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
+		dat->bMetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "bMetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
 	else
-		dat->MetaIgnoreEmptyExtra = FALSE;
+		dat->bMetaIgnoreEmptyExtra = false;
 
-	dat->expandMeta = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
-	dat->useMetaIcon = db_get_b(NULL, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT);
+	dat->bMetaExpanding = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 
+	dat->bPlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
 	dat->drawOverlayedStatus = db_get_b(NULL, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
 
 	dat->dbbMetaHideExtra = db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT);

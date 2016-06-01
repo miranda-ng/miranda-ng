@@ -240,11 +240,9 @@ struct ClcData : public ClcDataBase
 {
 	BYTE HiLightMode;
 	BYTE doubleClickExpand;
-	int  MetaIgnoreEmptyExtra;
-	BYTE expandMeta;
 	BYTE IsMetaContactsEnabled;
 	time_t last_tick_time;
-	BOOL force_in_dialog;
+	bool bForceInDialog, bPlaceOfflineToRoot, bMetaIgnoreEmptyExtra, bMetaExpanding;
 	int  subIndent;
 	int  rightMargin;
 	HBITMAP hMenuBackground;
@@ -315,7 +313,6 @@ struct ClcData : public ClcDataBase
 	BYTE  menuOwnerType;
 	int   menuOwnerID;
 	DWORD m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
-	BYTE  useMetaIcon;
 	BYTE  drawOverlayedStatus;
 	int   nInsertionLevel;
 
@@ -348,6 +345,7 @@ int  FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, ClcGro
 int  cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 // clcitems.c
+ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 void cliRebuildEntireList(HWND hwnd, ClcData *dat);
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
@@ -362,7 +360,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat);
 int  cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
 void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 int  GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
-void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst);
+void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst);
 
 COLORREF cliGetColor(char *module, char *color, COLORREF defColor);
 

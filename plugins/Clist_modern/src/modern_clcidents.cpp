@@ -183,7 +183,7 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 
 		if (cc->type == CLCIT_CONTACT)
 			if (cc->iSubAllocated)
-				if (cc->bSubExpanded && dat->expandMeta) {
+				if (cc->bSubExpanded && dat->bMetaExpanding) {
 					for (i = 0; i < cc->iSubAllocated; i++) {
 						index++;
 						if (testindex == index) {

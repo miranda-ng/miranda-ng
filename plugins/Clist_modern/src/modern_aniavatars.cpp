@@ -810,7 +810,7 @@ int AniAva_AddAvatar(MCONTACT hContact, TCHAR * szFilename, int width, int heigt
 	else
 		pavi->dwAvatarUniqId = _AniAva_LoadAvatarFromImage(szFilename, width, heigth, &avii);
 	if (hwnd)
-		SendMessage(hwnd, AAM_SETAVATAR, (WPARAM)&avii, (LPARAM)0);
+		SendMessage(hwnd, AAM_SETAVATAR, (WPARAM)&avii, 0);
 	pavi->ObjectSize = avii.szSize;
 	return MAKELONG(avii.szSize.cx, avii.szSize.cy);
 }
@@ -925,7 +925,7 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 
 		ANIAVATARIMAGEINFO avii = { 0 };
 		if (_AniAva_GetAvatarImageInfo(pai->dwAvatarUniqId, &avii))
-			SendMessage(pai->hWindow, AAM_SETAVATAR, (WPARAM)&avii, (LPARAM)0);
+			SendMessage(pai->hWindow, AAM_SETAVATAR, (WPARAM)&avii, 0);
 	}
 	api->bAlpha = bAlpha;
 	api->idxOverlay = overlayIdx;

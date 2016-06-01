@@ -255,10 +255,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			dat = new ClcData();
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 		}
-		{
-			for (int i = 0; i <= FONTID_MAX; i++)
-				dat->fontInfo[i].changed = 1;
-		}
+
+		for (int i = 0; i <= FONTID_MAX; i++)
+			dat->fontInfo[i].changed = 1;
+
 		dat->selection = -1;
 		dat->iconXSpace = 20;
 		dat->checkboxSize = 13;

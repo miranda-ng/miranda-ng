@@ -1317,7 +1317,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						COLORREF colourFg = dat->selBkColour;
 						int mode = BlendedInActiveState ? BlendValue : ILD_NORMAL;
 						if (Drawing->iExtraImage[iImage] == EMPTY_EXTRA_ICON) {
-							if (!dat->MetaIgnoreEmptyExtra) {
+							if (!dat->bMetaIgnoreEmptyExtra) {
 								SetRect(&rc, p_rect.left + x, p_rect.top, p_rect.left + x + ICON_HEIGHT, p_rect.bottom);
 								x += dat->extraColumnSpacing;
 								if (dat->text_rtl != 0) _RTLRect(&rc, free_row_rc.right);
@@ -1506,7 +1506,7 @@ int CLCPaint::_DetermineDrawMode(HWND hWnd, ClcData *dat)
 {
 	int paintMode = DM_LAYERED; // by default
 
-	if (dat->force_in_dialog)
+	if (dat->bForceInDialog)
 		paintMode = DM_CONTROL;
 	else if (g_CluiData.fDisableSkinEngine)
 		paintMode = DM_CLASSIC;
@@ -1778,7 +1778,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 				}
 				_PaintRowItems(pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint);
 				if (mpRequest) {
-					if (!dat->force_in_dialog) {
+					if (!dat->bForceInDialog) {
 						mir_free(mpRequest->pl_Params[1].szValue);
 						mpRequest->pl_Params[1].szValue = mir_strndup("Ovl", 3);
 						mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
@@ -1800,7 +1800,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 
 		// increment by subcontacts
 		ClcContact *cc = group->cl[group->scanIndex];
-		if (cc != NULL && cc->subcontacts != NULL && cc->type != CLCIT_GROUP && cc->bSubExpanded && dat->expandMeta) {
+		if (cc != NULL && cc->subcontacts != NULL && cc->type != CLCIT_GROUP && cc->bSubExpanded && dat->bMetaExpanding) {
 			if (subindex < cc->iSubAllocated - 1)
 				subindex++;
 			else
@@ -2144,7 +2144,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				int count = 0;
 
 				for (iImage = dat->extraColumnsCount - 1; iImage >= 0; iImage--) {
-					if (Drawing->iExtraImage[iImage] != EMPTY_EXTRA_ICON || !dat->MetaIgnoreEmptyExtra) {
+					if (Drawing->iExtraImage[iImage] != EMPTY_EXTRA_ICON || !dat->bMetaIgnoreEmptyExtra) {
 						RECT rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, dat->extraColumnSpacing, dat->extraColumnSpacing, ICON_HEIGHT, 0);
 						if (rc.left < rc.right) {
 							// Store position
@@ -2644,7 +2644,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 {
 	ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
 	if (selected)
-		SetTextColor(hdcMem, dat->force_in_dialog ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
+		SetTextColor(hdcMem, dat->bForceInDialog ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
 	else if (hottrack || (dat->bFilterSearch && dat->szQuickSearch[0] != '\0' && Drawing->type != CLCIT_GROUP))
 		_SetHotTrackColour(hdcMem, dat);
 
@@ -2798,7 +2798,7 @@ void CLCPaint::_DrawContactItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, 
 		(dat->text_rtl ? DT_RTLREADING : 0) |
 		(dat->text_align_right ? DT_RIGHT : 0) |
 		(gl_TrimText ? DT_END_ELLIPSIS : 0) |
-		((dat->force_in_dialog || dat->bkChanged) ? DT_FORCENATIVERENDER : 0);
+		((dat->bForceInDialog || dat->bkChanged) ? DT_FORCENATIVERENDER : 0);
 
 	RECT text_rc = *row_rc;
 

@@ -291,22 +291,11 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	RowHeights_Initialize(dat);
 
 	dat->bNeedsResort = true;
-	dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_MANUALUPDATE)) && db_mc_isEnabled();
-
-	dat->expandMeta = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
-	dat->useMetaIcon = db_get_b(NULL, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT);
-	dat->drawOverlayedStatus = db_get_b(NULL, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
-	g_CluiData.bSortByOrder[0] = db_get_b(NULL, "CList", "SortBy1", SETTING_SORTBY1_DEFAULT);
-	g_CluiData.bSortByOrder[1] = db_get_b(NULL, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
-	g_CluiData.bSortByOrder[2] = db_get_b(NULL, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom = db_get_b(NULL, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT);
 	dat->menuOwnerID = -1;
 	dat->menuOwnerType = CLCIT_INVALID;
 
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	LoadCLCOptions(hwnd, dat, TRUE);
 	if (dat->contact_time_show || dat->secondLine.type == TEXT_CONTACT_TIME || dat->thirdLine.type == TEXT_CONTACT_TIME)
 		CLUI_SafeSetTimer(hwnd, TIMERID_INVALIDATE, 5000, NULL);
 	else
@@ -343,7 +332,7 @@ static LRESULT clcOnSize(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 	cliRecalcScrollBar(hwnd, dat);
-	if (g_CluiData.fDisableSkinEngine || dat->force_in_dialog) {
+	if (g_CluiData.fDisableSkinEngine || dat->bForceInDialog) {
 		RECT rc = { 0 };
 		GetClientRect(hwnd, &rc);
 		if (rc.right == 0)
@@ -359,7 +348,7 @@ static LRESULT clcOnSize(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		HBITMAP hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
 		HDC hdcMem = CreateCompatibleDC(hdc);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
-		HBRUSH hBrush = CreateSolidBrush((dat->bUseWindowsColours || dat->force_in_dialog) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
+		HBRUSH hBrush = CreateSolidBrush((dat->bUseWindowsColours || dat->bForceInDialog) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
 		FillRect(hdcMem, &rc, hBrush);
 		DeleteObject(hBrush);
 
@@ -525,7 +514,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					dat->selection++;
 					selMoved = 1;
 				}
-				else if (changeGroupExpand == 2 && !contact->bSubExpanded && dat->expandMeta) {
+				else if (changeGroupExpand == 2 && !contact->bSubExpanded && dat->bMetaExpanding) {
 					ClcContact *ht = NULL;
 					KillTimer(hwnd, TIMERID_SUBEXPAND);
 					contact->bSubExpanded = true;
@@ -617,7 +606,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		KillTimer(hwnd, TIMERID_SUBEXPAND);
 		{
 			ClcContact *ht = NULL;
-			if (hitcontact && dat->expandMeta) {
+			if (hitcontact && dat->bMetaExpanding) {
 				hitcontact->bSubExpanded = !hitcontact->bSubExpanded;
 				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->bSubExpanded);
 				if (hitcontact->bSubExpanded)
@@ -734,7 +723,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 	}
 
 	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->iSubAllocated && !contact->iSubNumber)
-		if (hitFlags & CLCHT_ONITEMICON && dat->expandMeta) {
+		if (hitFlags & CLCHT_ONITEMICON && dat->bMetaExpanding) {
 			hitcontact = contact;
 			HitPoint.x = (short)LOWORD(lParam);
 			HitPoint.y = (short)HIWORD(lParam);
@@ -1053,7 +1042,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 
 	fMouseUpped = TRUE;
 
-	if (hitcontact != NULL && dat->expandMeta) {
+	if (hitcontact != NULL && dat->bMetaExpanding) {
 		BYTE doubleClickExpand = db_get_b(NULL, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT);
 		CLUI_SafeSetTimer(hwnd, TIMERID_SUBEXPAND, GetDoubleClickTime()*doubleClickExpand, NULL);
 	}
@@ -1522,7 +1511,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 		if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, true)) {
 			ClcCacheEntry *pdnce = contact->pce;
 			if (pdnce && pdnce->m_pszProto) {
-				if (!dat->force_in_dialog) {
+				if (!dat->bForceInDialog) {
 					Cache_GetNthLineText(dat, pdnce, 2);
 					Cache_GetNthLineText(dat, pdnce, 3);
 				}
@@ -1546,7 +1535,6 @@ static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 {
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	pcli->pfnLoadClcOptions(hwnd, dat, FALSE);
-	LoadCLCOptions(hwnd, dat, FALSE);
 	pcli->pfnSaveStateAndRebuildList(hwnd, dat);
 	pcli->pfnSortCLC(hwnd, dat, 1);
 	if (IsWindowVisible(hwnd))

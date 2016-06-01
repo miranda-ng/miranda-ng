@@ -773,7 +773,7 @@ static UINT_PTR SetTimerSync(WPARAM wParam, LPARAM)
 UINT_PTR CLUI_SafeSetTimer(HWND hwnd, int ID, int Timeout, TIMERPROC proc)
 {
 	struct  _tagTimerAsync param = { hwnd, ID, Timeout, proc };
-	return Sync(SetTimerSync, (WPARAM)&param, (LPARAM)0);
+	return Sync(SetTimerSync, (WPARAM)&param, 0);
 }
 
 int CLUI_UpdateTimer()

@@ -175,7 +175,9 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnGetContactIcon = cli_GetContactIcon;
 	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
 	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
+	pcli->pfnLoadClcOptions = cli_LoadCLCOptions;
 	pcli->pfnSortCLC = cli_SortCLC;
+	pcli->pfnAddContactToGroup = cli_AddContactToGroup;
 	pcli->pfnAddContactToTree = cli_AddContactToTree;
 	pcli->pfnContactListWndProc = CLUI::cli_ContactListWndProc;
 	pcli->pfnFreeContact = cli_FreeContact;

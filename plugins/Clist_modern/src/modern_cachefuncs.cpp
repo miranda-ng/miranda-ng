@@ -63,7 +63,7 @@ void Cache_GetText(ClcData *dat, ClcContact *contact)
 {
 	Cache_GetFirstLineText(dat, contact);
 
-	if (!dat->force_in_dialog) {
+	if (!dat->bForceInDialog) {
 		if (dat->secondLine.show)
 			Cache_GetNthLineText(dat, contact->pce, 2);
 		if (dat->thirdLine.show)
@@ -475,7 +475,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 
 	ClcCacheEntry *pdnce = contact->pce;
 	TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
-	if (dat->first_line_append_nick && !dat->force_in_dialog) {
+	if (dat->first_line_append_nick && !dat->bForceInDialog) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_pszProto, "Nick", &dbv)) {
 			TCHAR nick[_countof(contact->szText)];
@@ -492,7 +492,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	}
 	else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 
-	if (!dat->force_in_dialog)
+	if (!dat->bForceInDialog)
 		contact->ssText.ReplaceSmileys(dat, pdnce, contact->szText, dat->first_line_draw_smileys);
 }
 
