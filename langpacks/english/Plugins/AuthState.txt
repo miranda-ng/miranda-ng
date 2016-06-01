@@ -10,7 +10,7 @@
 [Show Request icon]
 [Show Grant icon]
 [Plugin settings]
-[Enable menu item (restart required)]
+[Enable menu item]
 [Show icons only for recently added contacts]
 ;file \plugins\AuthState\src\main.cpp
 [Request]

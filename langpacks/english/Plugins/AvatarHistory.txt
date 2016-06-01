@@ -89,8 +89,8 @@
 [removed his/her avatar]
 [changed his/her avatar]
 ;file \plugins\AvatarHistory\src\utils.cpp
-[Unknown UIN]
 [Unknown Protocol]
+[Unknown UIN]
 [AVH Debug: GetOldStyleAvatarName]
 [Avatar History: Unable to create shortcut]
 [AVH Debug: Shortcut created successfully]

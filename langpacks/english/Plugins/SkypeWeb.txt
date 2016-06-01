@@ -31,6 +31,7 @@
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 [User]
+[Enter new nickname]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Warning]
 [&Invite user...]
@@ -40,6 +41,7 @@
 [Set &role]
 [&Admin]
 [&User]
+[Change nick]
 [Enter new chatroom topic]
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]

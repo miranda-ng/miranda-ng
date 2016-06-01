@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -122,6 +122,7 @@
 [One of the parameters specified was missing or invalid]
 [Access to adding post denied]
 [Enter confirmation code]
+[Enter new nickname]
 [Message read: %s]
 [has invited you to a group]
 [has invited you to subscribe to a page]
@@ -177,6 +178,7 @@
 [View/change &title]
 [&Destroy room]
 [&User details]
+[Change nick]
 [&Kick]
 [%s is typing a message...]
 ;file \protocols\VKontakte\src\vk_dialogs.cpp

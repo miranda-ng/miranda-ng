@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.0.0.12
+;  Version: 0.0.0.13
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
@@ -153,9 +153,7 @@
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 [Do you want to try to decrypt encrypted message?]
-[failed to decrypt message, GPG returned error, turn on debug log for more details]
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
-[failed to encrypt message, GPG returned error, turn on debug log for more details]
 [Something is wrong, GPG does not understand us, aborting encryption.]
 ;file \plugins\New_GPG\src\options.cpp
 [Services]
