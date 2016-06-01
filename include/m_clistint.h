@@ -290,8 +290,8 @@ struct CLIST_INTERFACE
 	int    (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 	int    (*pfnFindItem)(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 	int    (*pfnGetRowByIndex)(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-	HANDLE (*unused1)(ClcContact *contact);
-	HANDLE (*unused2)(ClcContact *contact, DWORD *nmFlags);
+	int    (*pfnGetContactHiddenStatus)(MCONTACT hContact, char *szProto, ClcData *dat);
+	HANDLE(*unused2)(ClcContact *contact, DWORD *nmFlags);
 
 	/* clcitems.c */
 	ClcContact* (*pfnCreateClcContact)(void);

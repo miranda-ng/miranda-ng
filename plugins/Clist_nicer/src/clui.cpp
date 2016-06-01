@@ -205,7 +205,7 @@ static int CreateCLC()
 		Frame.TBtname = TranslateT("My contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My contacts"));
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_TCHAR, hFrameContactTree), (LPARAM)TranslateT("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
 		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
@@ -1415,10 +1415,9 @@ skipbg:
 							if (!contactOK)
 								MessageBox(0, TranslateT("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat."), TranslateT("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
-								char szError[512];
-
-								mir_snprintf(szError, Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
-								MessageBoxA(0, szError, Translate("Service failure"), MB_OK);
+								TCHAR szError[512];
+								mir_sntprintf(szError, TranslateT("The service %S specified by the %S button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
+								MessageBox(NULL, szError, TranslateT("Service failure"), MB_OK);
 							}
 							break;
 						}
@@ -1555,10 +1554,8 @@ buttons_done:
 
 	case WM_LBUTTONDOWN:
 		if (g_ButtonItems) {
-			POINT ptMouse, pt;
-
-			GetCursorPos(&ptMouse);
-			pt = ptMouse;
+			POINT pt;
+			GetCursorPos(&pt);
 			return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		break;
@@ -1578,12 +1575,10 @@ buttons_done:
 				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
 					DWORD hitFlags;
-					HANDLE hItem;
-
-					hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-
+					SendMessage(pcli->hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
+					
 					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
 						pt = nm->pt;
@@ -1830,10 +1825,10 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, (WPARAM)hFont, 0);
 		}
 		{
-			char str[64];
+			TCHAR str[64];
 			DWORD v = pluginInfo.version;
-			mir_snprintf(str, "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-			SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
+			mir_sntprintf(str, _T("%s %d.%d.%d.%d"), TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
+			SetDlgItemText(hwndDlg, IDC_VERSION, str);
 		}
 		{
 			HICON hIcon = LoadIcon(GetModuleHandleA("miranda32.exe"), MAKEINTRESOURCE(102));

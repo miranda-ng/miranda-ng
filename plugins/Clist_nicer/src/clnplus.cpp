@@ -8,8 +8,6 @@
 
 #define _CLN_GDIP
 
-#undef Translate
-
 void RemoveFromTaskBar(HWND hWnd)
 {
 	CComPtr<ITaskbarList> pTaskbarList;

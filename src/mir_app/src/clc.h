@@ -67,6 +67,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort);
 void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
+int  fnGetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat);
 
 /* clcmsgs.c */
 LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);

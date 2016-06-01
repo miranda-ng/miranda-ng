@@ -405,21 +405,21 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 void FreeProtocolData( void );
 
 void GetClientID(ClcContact *contact, char *client);
-int LoadCLCButtonModule(void);
+int  LoadCLCButtonModule(void);
 void SetButtonStates();
 void ConfigureCLUIGeometry(int mode);
 void IcoLibReloadIcons();
-int CompareContacts(const ClcContact* p1, const ClcContact* p2);
+int  CompareContacts(const ClcContact* p1, const ClcContact* p2);
 void PaintNotifyArea(HDC hDC, RECT *rc);
-int AvatarChanged(WPARAM wParam, LPARAM lParam);
+int  AvatarChanged(WPARAM wParam, LPARAM lParam);
 void ConfigureFrame();
 void ConfigureEventArea();
 void ClearIcons(int mode);
 void SkinDrawBg(HWND hwnd, HDC hdc);
-int GetBasicFontID(ClcContact * contact);
-extern int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, struct ClcData *dat);
+int  GetBasicFontID(ClcContact *contact);
+int  CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, struct ClcData *dat);
 void CreateViewModeFrame();
-int GetExtraCache(MCONTACT hContact, char *szProto);
+int  GetExtraCache(MCONTACT hContact, char *szProto);
 void ReloadExtraInfo(MCONTACT hContact);
 void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);

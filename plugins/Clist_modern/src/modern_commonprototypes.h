@@ -176,7 +176,7 @@ DWORD   CompareContacts2_getLMTime(MCONTACT u);                                 
 DWORD   mod_CalcHash(const char *a);                                          //mod_skin_selector.c
 HICON   cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);            //clistmod.c
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
-int     __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
+int     CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
 int     BgStatusBarChange(WPARAM wParam, LPARAM lParam);                              //clcopts.c
 int     ClcDoProtoAck(ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c

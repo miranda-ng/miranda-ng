@@ -169,6 +169,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnGetRowsPriorTo = cliGetRowsPriorTo;
 	pcli->pfnGetGroupContentsCount = cliGetGroupContentsCount;
 	pcli->pfnFindRowByText = cliFindRowByText;
+	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 
 	//partialy overloaded - call default handlers from inside
 	pcli->pfnGetContactIcon = cli_GetContactIcon;

@@ -191,6 +191,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnCompareContacts = CompareContacts;
 	pcli->pfnCreateClcContact = CreateClcContact;
 	pcli->pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
+	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 	pcli->pfnGetDefaultFontSetting = GetDefaultFontSetting;
 	pcli->pfnGetRowBottomY = RowHeight::getItemBottomY;
 	pcli->pfnGetRowHeight = RowHeight::getHeight;

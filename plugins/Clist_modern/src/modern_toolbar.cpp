@@ -216,19 +216,19 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_NCPAINT:
 	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
-		if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
-			BeginPaint(hwnd, &ps);
-			if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
-				sttDrawNonLayeredSkinedBar(hwnd, ps.hdc);
-			else
-				sttDrawToolBarBackground(hwnd, ps.hdc, &ps.rcPaint, pMTBInfo);
-			EndPaint(hwnd, &ps);
+		{
+			PAINTSTRUCT ps;
+			BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
+			if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
+				BeginPaint(hwnd, &ps);
+				if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
+					sttDrawNonLayeredSkinedBar(hwnd, ps.hdc);
+				else
+					sttDrawToolBarBackground(hwnd, ps.hdc, &ps.rcPaint, pMTBInfo);
+				EndPaint(hwnd, &ps);
+			}
 		}
-	}
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == BUTTONNEEDREDRAW)
@@ -236,26 +236,26 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	case MTBM_LAYEREDPAINT:
-	{
-		RECT MyRect = { 0 };
-		HDC hDC = (HDC)wParam;
-		GetWindowRect(hwnd, &MyRect);
+		{
+			RECT MyRect = { 0 };
+			HDC hDC = (HDC)wParam;
+			GetWindowRect(hwnd, &MyRect);
 
-		RECT rcClient;
-		GetClientRect(hwnd, &rcClient);
-		SkinDrawGlyph(hDC, &rcClient, &rcClient, "Bar,ID=ToolBar,Part=Background");
+			RECT rcClient;
+			GetClientRect(hwnd, &rcClient);
+			SkinDrawGlyph(hDC, &rcClient, &rcClient, "Bar,ID=ToolBar,Part=Background");
 
-		for (int i = 0; i < pMTBInfo->pButtonList->realCount; i++) {
-			RECT childRect;
-			POINT Offset;
-			TTBCtrlButton* mtbi = (TTBCtrlButton*)pMTBInfo->pButtonList->items[i];
-			GetWindowRect(mtbi->hWindow, &childRect);
-			Offset.x = childRect.left - MyRect.left;
-			Offset.y = childRect.top - MyRect.top;
-			SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
+			for (int i = 0; i < pMTBInfo->pButtonList->realCount; i++) {
+				RECT childRect;
+				POINT Offset;
+				TTBCtrlButton* mtbi = (TTBCtrlButton*)pMTBInfo->pButtonList->items[i];
+				GetWindowRect(mtbi->hWindow, &childRect);
+				Offset.x = childRect.left - MyRect.left;
+				Offset.y = childRect.top - MyRect.top;
+				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
+			}
 		}
-	}
-	return 0;
+		return 0;
 
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwnd);

@@ -336,6 +336,11 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	else cli.pfnRemoveItemFromGroup(hwnd, group, contact, 1);
 }
 
+int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
+{
+	return db_get_b(hContact, "CList", "Hidden", 0);
+}
+
 void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -355,7 +360,8 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (style & CLS_SHOWHIDDEN || !db_get_b(hContact, "CList", "Hidden", 0)) {
+		int nHiddenStatus = cli.pfnGetContactHiddenStatus(hContact, NULL, dat);
+		if (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus) {
 			ClcGroup *group;
 			ptrT tszGroupName(db_get_tsa(hContact, "CList", "Group"));
 			if (tszGroupName == NULL)

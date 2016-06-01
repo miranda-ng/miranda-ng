@@ -373,7 +373,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 * also cares about sub contacts (if meta is active)
 */
 
-int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
+int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
 {
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 
@@ -410,8 +410,9 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup != NULL) {
 			TCHAR szGroupMask[256];
-			mir_sntprintf(szGroupMask, _T("%s|"), LPTSTR(tszGroup)+1);
-			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0));
+			mir_sntprintf(szGroupMask, _T("%s|"), tszGroup);
+			int bHasGroup = _tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0;
+			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | bHasGroup) : (filterResult & bHasGroup);
 		}
 		else if (cfg::dat.filterFlags & CLVM_INCLUDED_UNGROUPED)
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;

@@ -139,7 +139,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
 					return 0;
 				}
-				
+
 				if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
 					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
