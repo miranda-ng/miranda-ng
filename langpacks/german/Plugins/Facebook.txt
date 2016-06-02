@@ -111,11 +111,11 @@ Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
 Lade Anzahl Nachrichten:
 [Facebook Login Approval]
-
+Facebook-Anmeldegenehmigung
 [Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-
+Ihre Sicherheitseinstellungen erfordern es, dass Sie jedesmal, wenn Sie mit einem unbekannten Browser auf Ihr Konto zugreifen, einen Sicherheitscode eingeben.\n\nSie erhalten einen solchen Code über die Facebook-Anwendung auf Ihrem Telefon, oder klicken Sie auf den Button unten, um ihn per SMS zu erhalten.
 [Send SMS]
-SMS-Nachricht
+SMS senden
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -142,9 +142,9 @@ Unbekannter Fehler
 [Login error: Invalid request.]
 Anmeldefehler: Ungültige Anfrage.
 [You entered too many invalid verification codes. Plugin will disconnect.]
-
+Sie haben zu viele falsche Überprüfungscodes eingegeben. Verbindung wird getrennt.
 [You entered wrong verification code. Try it again.]
-
+Sie haben einen falschen Überprüfungscode eingegeben. Versuchen Sie es nochmal.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
@@ -168,9 +168,9 @@ Zeitüberschreitung beim Senden der Nachricht.
 [Status update was successful.]
 Status-Aktualisierung erfolgreich.
 [Error occurred when requesting verification SMS code.]
-
+Fehler beim Anfordern des Überprüfungscodes per SMS.
 [Verification SMS code was sent to your mobile phone.]
-
+Überprüfungscode wurde per SMS an Ihr Mobiltelefon gesendet.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Bitte geben Sie einen Benutzernamen ein.

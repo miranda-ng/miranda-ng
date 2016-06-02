@@ -23,7 +23,7 @@ Nachricht erhalten:
 [Number:]
 Nummer:
 [Send SMS]
-SMS-Nachricht
+SMS senden
 [To:]
 An:
 [Add number to list]

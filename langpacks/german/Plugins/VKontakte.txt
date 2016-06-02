@@ -238,7 +238,7 @@ Zugriff auf Pinnwand verweigert
 [Enter confirmation code]
 Bestätigungscode eingeben
 [Enter new nickname]
-
+Neuen Nicknamen eingeben
 [Message read: %s]
 Nachricht gelesen: %s
 [has invited you to a group]
@@ -349,7 +349,7 @@ Raum &zerstören
 [&User details]
 Kontakt&profil
 [Change nick]
-
+Nick ändern
 [&Kick]
 &Kick
 [%s is typing a message...]

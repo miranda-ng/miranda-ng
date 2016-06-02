@@ -17,9 +17,9 @@ bei Rechtsklick mit Maus
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 bei Klick mit der mittleren Maustaste\n(Hinweis: verwenden Sie die mittlere Maustaste, um mehrere Nachrichten von Firefox aus zu versenden)
 [Firefox menu]
-
+Firefox-Menü
 [Add account to contact name]
-
+Konto zu Kontaktnamen hinzufügen
 [Firefox profiles]
 Firefox-Profile
 [Show Miranda menu only in these Firefox profiles (comma delimited)]

@@ -1,6 +1,0 @@
-﻿[Facebook Login Approval]
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-[You entered too many invalid verification codes. Plugin will disconnect.]
-[You entered wrong verification code. Try it again.]
-[Error occurred when requesting verification SMS code.]
-[Verification SMS code was sent to your mobile phone.]
