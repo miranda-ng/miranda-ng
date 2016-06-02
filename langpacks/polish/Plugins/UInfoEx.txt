@@ -1081,9 +1081,6 @@ Junior
 [sen.]
 Senior
 ;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
-['(Unknown Contact)']
-"(Nieznany kontakt)"
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Wyślij e-mail

@@ -166,10 +166,10 @@ usunął/usunęła awatar
 [changed his/her avatar]
 zmienił/zmieniła awatar
 ;file \plugins\AvatarHistory\src\utils.cpp
-[Unknown UIN]
-Nieznane UIN
 [Unknown Protocol]
 Nieznany protokół
+[Unknown UIN]
+Nieznane UIN
 [AVH Debug: GetOldStyleAvatarName]
 AVH Debug: GetOldStyleAvatarName
 [Avatar History: Unable to create shortcut]

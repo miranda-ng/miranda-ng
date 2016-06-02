@@ -54,6 +54,8 @@ Skype-Link-Protokoll
 Administrator
 [User]
 Benutzer
+[Enter new nickname]
+
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
 [Warning]
@@ -72,6 +74,8 @@ Ben&utzer kicken
 &Administrator
 [&User]
 Ben&utzer
+[Change nick]
+
 [Enter new chatroom topic]
 Neues Thema für diesen Chatraum eingeben
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp

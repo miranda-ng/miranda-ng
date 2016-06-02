@@ -1,0 +1,2 @@
+﻿[Firefox menu]
+[Add account to contact name]

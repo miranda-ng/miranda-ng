@@ -15,10 +15,10 @@
 Опис:
 [Copyright:]
 Права:
-[Contact:]
-Контакт:
-[WWW:]
-Сторінка:
+[E-mail:]
+Пошта:
+[Homepage:]
+Сайт:
 [Account]
 Обліковий запис
 [Name:]

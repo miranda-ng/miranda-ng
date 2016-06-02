@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.0.0.12
+;  Version: 0.0.0.13
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
@@ -297,12 +297,8 @@ Metakontakt entdeckt
 Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
 [Do you want to try to decrypt encrypted message?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
-[failed to decrypt message, GPG returned error, turn on debug log for more details]
-Konnte Nachricht nicht entschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein.
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
-[failed to encrypt message, GPG returned error, turn on debug log for more details]
-Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein.
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Etwas läuft falsch, GPG versteht uns nicht, breche Verschlüsselung ab.
 ;file \plugins\New_GPG\src\options.cpp

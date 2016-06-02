@@ -1081,9 +1081,6 @@ Balončići
 [sen.]
 
 ;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
-['(Unknown Contact)']
-'(Nepoznat kontakt)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Slanje e-maila

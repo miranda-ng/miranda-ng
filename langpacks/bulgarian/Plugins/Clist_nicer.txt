@@ -581,8 +581,8 @@ URL събития
 Заявеното действие изисква да изберете валиден контакт. Моля, повторете като изберете контакт от списъка с контакти.
 [Parameter mismatch]
 Несъвпадащи параметри
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-Услугата "%s", определена от дефиницията на бутона "%s" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка.
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
+Услугата "%S", определена от дефиницията на бутона "%S" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка.
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Нуждаете се от приставката FloatingContacts. Функционалността бе\nотстранена от приставката за списъка с контакти.
 [Warning]
@@ -703,8 +703,8 @@ URL събития
 Часове
 [Days]
 Дни
-[Current view mode: %s]
-Текущ режим за преглед: %s
+[Current view mode: %S]
+Текущ режим за преглед: %S
 [Filtering]
 Филтриране
 [*** All contacts ***]

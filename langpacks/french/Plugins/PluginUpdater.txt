@@ -48,6 +48,12 @@ Version de développement (moins stable)
 Version de développement avec les symboles de debug
 [Custom version]
 Version personnalisée
+[Platform]
+
+[x86]
+
+[x64]
+
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
 [Notifications]

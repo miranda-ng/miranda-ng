@@ -156,8 +156,6 @@ Sesja rozmowy
 Menu &użytkownika
 [User &details]
 &Dane kontaktu
-[&Emoticons]
-&Emotikony
 [&Add]
 &Dodaj
 [&History]
@@ -479,8 +477,6 @@ Akcja: Wklej i wyślij
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Cytat
-[Smiley]
-Emotikony
 [User menu]
 Menu użytkownika
 [User details]
@@ -501,8 +497,6 @@ Zobacz dane kontaktu
 Zobacz historię użytkownika
 [Quote text]
 Cytuj
-[Insert emoticon]
-Wstaw emotikonę
 [User menu - %s]
 Menu kontaktu - %s
 [Sending in progress: %d message(s) left...]
@@ -512,8 +506,6 @@ Wysyłanie w toku: pozostało %d wiadomości
 [Last message received on %s at %s.]
 Ostatnia wiadomość %s o %s.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown contact]
-Nieznane kontakty
 [Me]
 Ja
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -831,8 +823,6 @@ Filtr
 Menedżer
 [Nick list]
 Lista nicków
-[Insert a smiley]
-Wstaw emotikonę
 [Make the text bold (CTRL+B)]
 Pogrub tekst (Ctrl+B)
 [Make the text italicized (CTRL+I)]

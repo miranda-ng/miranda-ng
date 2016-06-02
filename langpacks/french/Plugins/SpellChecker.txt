@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.3
-;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;  Version: 0.2.6.4
+;  Authors: Ricardo Pescuma Domenecci, Wishmaster
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 

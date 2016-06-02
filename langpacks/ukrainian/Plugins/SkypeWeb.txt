@@ -7,6 +7,10 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Підтримка протоколу Skype в Miranda NG. На основі Skype для Web.
+[Enter new nickname]
+Введіть нове ім'я
+[Change nick]
+Змінити ім'я
 [Create group chat]
 Створити чат-кімнату
 [Cancel]

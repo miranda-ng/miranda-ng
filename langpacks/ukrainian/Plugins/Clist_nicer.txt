@@ -613,8 +613,8 @@
 Для цієї дії необхідний правильний вибір контакту. Виберіть контакт зі списку і повторіть.
 [Parameter mismatch]
 Невідповідність параметра
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-Не знайдено службу %s, яка викликається кнопкою %s. Можливо, треба встановити додаткові плагіни.
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
+Не знайдено службу %S, яка викликається кнопкою %S. Можливо, треба встановити додаткові плагіни.
 [Service failure]
 Помилка служби
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
@@ -741,8 +741,8 @@
 годин
 [Days]
 днів
-[Current view mode: %s]
-Поточний режим перегляду: %s
+[Current view mode: %S]
+Поточний режим перегляду: %S
 [Filtering]
 Фільтрація
 [*** All contacts ***]

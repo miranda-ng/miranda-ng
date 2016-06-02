@@ -16,8 +16,6 @@ Benutzername:
 Anzeigename:
 [Password:]
 Passwort:
-[Login Server:]
-Loginserver:
 [AIM Options]
 AIM-Einstellungen
 [Message Delivery Confirmation]
@@ -36,6 +34,8 @@ Kontentyp-Icons deaktivieren
 Erweiterte Statusicons deaktivieren
 [Notify about new mail]
 Über neue Mails benachrichtigen
+[Manage Server Groups]
+Server-Gruppen verwalten
 [Advanced Options]
 Erweiterte Einstellungen
 [Instant Idle on Login]
@@ -44,22 +44,22 @@ Sofort als untätig anmelden
 Dateien per Proxy versenden
 [Masquerade as a Sidekick/Hiptop User]
 Als Sidekick-/Hiptop-Nutzer ausgeben
-[* Some changes will take effect the next time you connect to the AIM network]
-Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit AIM auswirken.
 [Connection]
 Verbindung
+[Login Server:]
+Loginserver:
 [Port:]
 Port:
 [Reset]
 Standard
 [Disable SSL]
 SSL deaktivieren
-[Manage Server Groups]
-Server-Gruppen verwalten
 [Force Single Client]
 Kein mehrfaches Einloggen erlauben
 [Use "clientlogin" (recommended)]
 "Clientlogin" verwenden (empfohlen)
+[* Some changes will take effect the next time you connect to the AIM network]
+Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit AIM auswirken.
 [Save Profile]
 Profil speichern
 [Create a new AIM account]

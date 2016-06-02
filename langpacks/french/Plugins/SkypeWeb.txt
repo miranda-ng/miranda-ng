@@ -54,6 +54,8 @@ Enregistrer le passe
 
 [User]
 Utilisateur
+[Enter new nickname]
+
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
@@ -72,6 +74,8 @@ Avertissement
 
 [&User]
 &Contact
+[Change nick]
+
 [Enter new chatroom topic]
 
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp

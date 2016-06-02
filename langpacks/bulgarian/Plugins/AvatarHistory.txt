@@ -151,10 +151,10 @@ AVH дебъг: Файлът е копиран успешно
 премахна своя аватар
 [changed his/her avatar]
 промени своя аватар
-[Unknown UIN]
-Неизвестен UIN
 [Unknown Protocol]
 Непознат протокол
+[Unknown UIN]
+Неизвестен UIN
 [Avatar History: Unable to create shortcut]
 Avatar History: Създаването на препратка се провали
 [AVH Debug: Shortcut created successfully]

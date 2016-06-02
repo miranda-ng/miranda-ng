@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -237,6 +237,8 @@ Erreur
 
 [Enter confirmation code]
 
+[Enter new nickname]
+
 [Message read: %s]
 Message lu : %s
 [has invited you to a group]
@@ -346,6 +348,8 @@ Avertissement
 
 [&User details]
 &Détails contact
+[Change nick]
+
 [&Kick]
 
 [%s is typing a message...]

@@ -1965,6 +1965,18 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
+[New group]
+Nuevo grupo
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+¿Eliminar el grupo '%s'? Esta operación no se puede deshacer.
+[Delete group]
+Eliminar grupo
+[You already have a group with that name. Please enter a unique name for the group.]
+Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusivo para el grupo.
+[Rename group]
+Renombrar grupo
+[This group]
+Este grupo
 [Connecting]
 Conectando
 [(Unknown contact)]
@@ -2085,18 +2097,6 @@ Cabeceras
 Texto genérico
 [Small text]
 Texto pequeño
-[New group]
-Nuevo grupo
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-¿Eliminar el grupo '%s'? Esta operación no se puede deshacer.
-[Delete group]
-Eliminar grupo
-[You already have a group with that name. Please enter a unique name for the group.]
-Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusivo para el grupo.
-[Rename group]
-Renombrar grupo
-[This group]
-Este grupo
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]
@@ -2165,8 +2165,6 @@ Iconos de menú
 Protocolo
 [Edit]
 Editar
-[Sender]
-Remitente
 [<Root group>]
 <Grupo raíz>
 [&Move to group]

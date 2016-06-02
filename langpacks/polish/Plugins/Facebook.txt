@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -92,8 +92,6 @@ Instrukcja:
 Wyślij
 [Messages]
 Wiadomości
-[Receive messages from "inbox" folder only]
-Odbieraj wiadomości tylko z folderu "Odebrane"
 [Keep messages as unread on server (don't send "seen" info)]
 Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -112,6 +110,12 @@ Załaduj ostatnie wiadomości (ostatnie 24 godziny)
 Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 [Number of messages to load:]
 Liczba wiadomości do załadowania:
+[Facebook Login Approval]
+
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+
+[Send SMS]
+Wyślij SMS
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -137,8 +141,10 @@ Błąd logowania: %s
 Nieznany błąd
 [Login error: Invalid request.]
 Błąd logowania: Nieprawidłowe żądanie.
-[Login error: Some Facebook things are required.]
-Błąd logowania: Nieznana przyczyna.
+[You entered too many invalid verification codes. Plugin will disconnect.]
+
+[You entered wrong verification code. Try it again.]
+
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
@@ -161,6 +167,10 @@ Użytkownik anulował zadanie captcha.
 Upłynęło zbyt dużo czasu wysyłania wiadomości.
 [Status update was successful.]
 Aktualizacja statusu powiodła się.
+[Error occurred when requesting verification SMS code.]
+
+[Verification SMS code was sent to your mobile phone.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Wprowadź nazwę użytkownika.
@@ -289,8 +299,6 @@ Własna tablica
 Ładowanie aktualności...
 [Checking friend requests...]
 Sprawdzanie zaproszeń do grona znajomych...
-[Refreshing buddy list...]
-Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z "%s"?
 [News feeds]
@@ -354,8 +362,6 @@ Zatwierdź znajomość
 Odrzuć prośbę o dodanie do znajomych
 [Services...]
 Usługi...
-[Refresh Buddy List]
-Odśwież listę kontaktów
 [Check Friends Requests]
 Sprawdź zaproszenia do grona znajomych
 [Check Newsfeeds]

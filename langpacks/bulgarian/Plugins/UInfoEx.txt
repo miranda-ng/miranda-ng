@@ -997,8 +997,6 @@ Web дизайн
 младши
 [sen.]
 старши
-['(Unknown Contact)']
-"(Непознат контакт)"
 [Send e-mail]
 Изпращане на е-писмо
 [Memory allocation error!]

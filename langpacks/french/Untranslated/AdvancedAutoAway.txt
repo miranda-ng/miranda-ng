@@ -36,7 +36,6 @@
 [s]
 [Set window location]
 [Set window size]
-[x]
 [Allow override]
 [Note: status profiles can be created in the 'Status profiles' options screen]
 [Window on startup]

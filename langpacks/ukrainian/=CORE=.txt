@@ -2039,6 +2039,18 @@ UIN, E-mail тощо
 Тема: %s
 [The topic is '%s' (set by %s)]
 Тема %s (встановив %s)
+[New group]
+Нова група
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Справді бажаєте видалити групу "%s"?\nРезультати цієї дії є незворотними.
+[Delete group]
+Видалити групу
+[You already have a group with that name. Please enter a unique name for the group.]
+Група з такою назвою вже існує. Будь ласка, вкажіть іншу назву.
+[Rename group]
+Перейменувати групу
+[This group]
+Ця група
 [Connecting]
 З'єднання
 [Connecting (attempt %d)]
@@ -2171,18 +2183,6 @@ Ctrl+Знайти додає контакт
 Звичайний текст
 [Small text]
 Дрібний текст
-[New group]
-Нова група
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Справді бажаєте видалити групу "%s"?\nРезультати цієї дії є незворотними.
-[Delete group]
-Видалити групу
-[You already have a group with that name. Please enter a unique name for the group.]
-Група з такою назвою вже існує. Будь ласка, вкажіть іншу назву.
-[Rename group]
-Перейменувати групу
-[This group]
-Ця група
 [Remove shortcut]
 Видалити
 [Add another shortcut]
@@ -2325,8 +2325,6 @@ xСтатус
 Не знайдено контактів у мережі.
 [Select metacontact]
 Виберіть метаконтакт
-[Sender]
-Відправник
 [Could not retrieve contact protocol]
 Не можу визначити протокол контакту
 [Assignment error]

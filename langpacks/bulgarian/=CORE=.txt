@@ -1985,6 +1985,18 @@ Popups за изобразяване
 Темата е "%s"
 [The topic is '%s' (set by %s)]
 Темата е "%s" (зададена от %s)
+[New group]
+Нова група
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
+[Delete group]
+Изтриване на групата
+[You already have a group with that name. Please enter a unique name for the group.]
+Вече съществува група с въведеното име. Моля, въведете уникално име.
+[Rename group]
+Преименуване на групата
+[This group]
+Тази група
 [Connecting]
 Свързване
 [Connecting (attempt %d)]
@@ -2101,18 +2113,6 @@ Popups за изобразяване
 Основен текст
 [Small text]
 Малък текст
-[New group]
-Нова група
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
-[Delete group]
-Изтриване на групата
-[You already have a group with that name. Please enter a unique name for the group.]
-Вече съществува група с въведеното име. Моля, въведете уникално име.
-[Rename group]
-Преименуване на групата
-[This group]
-Тази група
 [Browser: Back]
 Браузър: Назад
 [Browser: Forward]
@@ -2287,8 +2287,6 @@ Win +\s
 Не са открити контакти "На линия"
 [Select metacontact]
 Изберете метакнтакт
-[Sender]
-Изпращач
 [<Root group>]
 <Главна група>
 [&Move to group]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -89,8 +89,6 @@ Error de inicio de sesión: %s
 Error desconocido
 [Login error: Invalid request.]
 Error de inicio de sesión: Solicitud no válida.
-[Login error: Some Facebook things are required.]
-Error de inicio de sesión: Se necesitan algunas cosas de Facebook.
 [Login error, probably bad login credentials.]
 Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
@@ -191,8 +189,6 @@ Propio muro
 Cargando noticias...
 [Checking friend requests...]
 Comprobando solicitudes de amistad...
-[Refreshing buddy list...]
-Refrescando lista de amigos...
 [Do you want to cancel your friendship with '%s'?]
 ¿Quiere cancelar su amistad con '%s'?
 [News feeds]
@@ -233,8 +229,6 @@ Solicitud de amistad
 Aprobar amistad
 [Services...]
 Servicios...
-[Refresh Buddy List]
-Refrescar lista de amigos
 [Check Friends Requests]
 Comprobar solicitudes de amistad
 [Check Newsfeeds]

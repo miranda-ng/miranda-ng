@@ -132,7 +132,6 @@
 [Subcontacts]
 [Metacontacts]
 [Select metacontact]
-[Sender]
 [Standard Netlib log]
 [(Miranda core logging)]
 [<mixed>]

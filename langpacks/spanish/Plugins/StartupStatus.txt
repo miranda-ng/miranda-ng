@@ -101,10 +101,10 @@ Tiempo de espera
 s
 [Set window location]
 Establecer ubicación de ventana
+[Left]
+Izquierda
 [Set window size]
 Establecer tamaño de ventana
-[x]
-x
 [Allow override]
 Permitir anular
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -267,8 +267,6 @@ Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la 
 <presente>
 [<unknown>]
 <desconocido>
-[Left]
-Izquierda
 [Right]
 Right
 [None]

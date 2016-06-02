@@ -628,8 +628,8 @@ Status auswählen
 Die geforderte Aktion erfordert einen ausgewählten Kontakt. Bitte wählen Sie einen Kontakt aus der Kontaktliste aus und widerholen Sie die Aktion.
 [Parameter mismatch]
 Parameter stimmen nicht überein
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-Der Dienst %s, angegeben in %s Button-Definition, wurde nicht gefunden. Gegebenenfalls müssen Sie zusätzliche Plugins installieren.
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
+Der Dienst %S, angegeben in %S Button-Definition, wurde nicht gefunden. Gegebenenfalls müssen Sie zusätzliche Plugins installieren.
 [Service failure]
 Dienstfehler
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
@@ -762,8 +762,8 @@ Minuten
 Stunden
 [Days]
 Tage
-[Current view mode: %s]
-aktueller Kontaktfilter: %s
+[Current view mode: %S]
+aktueller Kontaktfilter: %S
 [Filtering]
 Filtern
 [*** All contacts ***]

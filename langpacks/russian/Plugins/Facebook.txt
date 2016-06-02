@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.13.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -285,8 +285,6 @@ SMS с кодом подтверждения отправлено на ваш м
 Загрузка новостей...
 [Checking friend requests...]
 Проверка запросов дружбы...
-[Refreshing buddy list...]
-Обновление списка друзей...
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [News feeds]
@@ -349,8 +347,6 @@ SMS с кодом подтверждения отправлено на ваш м
 Отклонить запрос дружбы
 [Services...]
 Службы...
-[Refresh Buddy List]
-Обновить список друзей
 [Check Friends Requests]
 Проверить запросы дружбы
 [Check Newsfeeds]

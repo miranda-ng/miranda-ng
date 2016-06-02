@@ -2098,6 +2098,19 @@ sve datoteke
 [The topic is '%s' (set by %s)]
 
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistgroups.cpp
+[New group]
+
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+
+[Delete group]
+
+[You already have a group with that name. Please enter a unique name for the group.]
+
+[Rename group]
+
+[This group]
+
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 
@@ -2242,19 +2255,6 @@ sve datoteke
 [Generic text]
 
 [Small text]
-
-;file \src\mir_app\src\groups.cpp
-[New group]
-
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-
-[Delete group]
-
-[You already have a group with that name. Please enter a unique name for the group.]
-
-[Rename group]
-
-[This group]
 
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
@@ -2462,8 +2462,6 @@ sve datoteke
 [Select metacontact]
 
 ;file \src\mir_app\src\meta_utils.cpp
-[Sender]
-
 [Could not retrieve contact protocol]
 
 [Assignment error]

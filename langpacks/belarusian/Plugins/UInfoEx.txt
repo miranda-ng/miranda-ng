@@ -1061,8 +1061,6 @@ Web Дызайн
 мл.
 [sen.]
 сен.
-['(Unknown Contact)']
-'(Невядомы кантакт)'
 [Send e-mail]
 Адправіць e-mail
 [Memory allocation error!]

@@ -120,7 +120,7 @@
 [Service '%s' does not exist.]
 Служба '%s' не iснує.
 [Message sent to '%s'.]
-Повiдомлення надiслано для '%s'.
+Повiдомлення для '%s' надiслано.
 [Message to '%s' was marked as sent but the account seems to be offline]
 Повiдомлення для '%s' позначено як надiслане, але облiковий запис, здається, вiдключений.
 [Could not send message to '%s'.]

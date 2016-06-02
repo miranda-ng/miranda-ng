@@ -14,8 +14,8 @@ Ikona żądania
 Ikona przyznania
 [Plugin settings]
 Ustawienia wtyczki
-[Enable menu item (restart required)]
-Dodaj pozycję w menu (wymaga restartu)
+[Enable menu item]
+Dodaj pozycję w menu
 [Show icons only for recently added contacts]
 Pokazuj ikony tylko dla nowo dodanych kontaktów
 ;file \plugins\AuthState\src\main.cpp

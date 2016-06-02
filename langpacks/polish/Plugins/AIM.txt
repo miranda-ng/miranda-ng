@@ -16,8 +16,6 @@ Nazwa:
 Wyświetlana nazwa:
 [Password:]
 Hasło:
-[Login Server:]
-Serwer:
 [AIM Options]
 Opcje AIM
 [Message Delivery Confirmation]
@@ -36,6 +34,8 @@ Wyłącz ikony rodzaju konta
 Wyłącz rozszerzone ikony statusu
 [Notify about new mail]
 Powiadom o nowych e-mailach
+[Manage Server Groups]
+Zarządzaj grupami na serwerze
 [Advanced Options]
 Opcje zaawansowane
 [Instant Idle on Login]
@@ -44,22 +44,22 @@ Chwilowa bezczynność przy logowaniu
 Wymuszanie transferu plików przez proxy
 [Masquerade as a Sidekick/Hiptop User]
 Wystąp jako użytkownik Sidekick/Hiptop
-[* Some changes will take effect the next time you connect to the AIM network]
-* Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią AIM
 [Connection]
 Połączenie
+[Login Server:]
+Serwer:
 [Port:]
 Port:
 [Reset]
 Domyślne
 [Disable SSL]
 Wyłącz SSL
-[Manage Server Groups]
-Zarządzaj grupami na serwerze
 [Force Single Client]
 Wymuś pojedynczego klienta.
 [Use "clientlogin" (recommended)]
 Uzyj "clientlogin" (zalecane)
+[* Some changes will take effect the next time you connect to the AIM network]
+* Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią AIM
 [Save Profile]
 Zapisz profil
 [Create a new AIM account]

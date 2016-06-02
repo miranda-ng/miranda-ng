@@ -48,6 +48,12 @@ Wersja rozwojowa (mniej stabilna)
 Wersja rozwojowa z symbolami debugowania
 [Custom version]
 Niestandardowa wersja
+[Platform]
+Platformy
+[x86]
+
+[x64]
+
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Notifications]

@@ -104,10 +104,16 @@ Délai du popup
 
 [Set window location]
 
+[Left]
+Gauche
+[Top]
+Haut
 [Set window size]
 
-[x]
-
+[Width]
+Largeur
+[Height]
+hauteur
 [Allow override]
 
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -271,8 +277,6 @@ secondes
 
 [<unknown>]
 <inconnu>
-[Left]
-Gauche
 [Right]
 Droite
 [None]

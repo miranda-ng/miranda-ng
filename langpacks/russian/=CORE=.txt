@@ -2331,8 +2331,6 @@ xСтатус
 Не найдено контактов в сети.
 [Select metacontact]
 Выберите метаконтакт
-[Sender]
-Отправитель
 [Could not retrieve contact protocol]
 Не могу запросить протокол контакта
 [Assignment error]

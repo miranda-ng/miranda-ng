@@ -48,6 +48,12 @@
 
 [Custom version]
 
+[Platform]
+
+[x86]
+
+[x64]
+
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
 [Notifications]

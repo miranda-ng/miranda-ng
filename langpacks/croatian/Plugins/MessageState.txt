@@ -10,7 +10,7 @@
 ;file \plugins\MessageState\src\clist_extra.cpp
 [MessageState unread extra icon]
 
-;file \plugins\MessageState\src\global.h
+;file \plugins\MessageState\src\messagestate.cpp
 [Unread message icon]
 
 [Read message icon]
@@ -21,14 +21,15 @@
 
 [Unread clist extra icon]
 
-;file \plugins\MessageState\src\messagestate.cpp
-[Last message read at]
-
-[Last message read (unknown time)]
-
 [Last message is not read]
 
-[Last message was not sent.]
+[Last message read]
+
+[Last message was not sent]
 
 [Sending...]
+
+[Last message read at %X %x]
+
+[Last message read (unknown time)]
 

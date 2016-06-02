@@ -16,8 +16,6 @@ AIM
 
 [Password:]
 Passe :
-[Login Server:]
-
 [AIM Options]
 
 [Message Delivery Confirmation]
@@ -36,6 +34,8 @@ Désactiver les icônes de compte
 Désactiver les icônes d'états étendus
 [Notify about new mail]
 
+[Manage Server Groups]
+Gestion des groupes sur le serveur
 [Advanced Options]
 Options avancées
 [Instant Idle on Login]
@@ -44,9 +44,9 @@ Options avancées
 Transfert de fichier par Proxy
 [Masquerade as a Sidekick/Hiptop User]
 
-[* Some changes will take effect the next time you connect to the AIM network]
-* Certaines modifications prendront effet la prochaine fois que vous vous connecterez au réseau AIM.
 [Connection]
+
+[Login Server:]
 
 [Port:]
 Port :
@@ -54,12 +54,12 @@ Port :
 RAZ
 [Disable SSL]
 
-[Manage Server Groups]
-Gestion des groupes sur le serveur
 [Force Single Client]
 
 [Use "clientlogin" (recommended)]
 
+[* Some changes will take effect the next time you connect to the AIM network]
+* Certaines modifications prendront effet la prochaine fois que vous vous connecterez au réseau AIM.
 [Save Profile]
 Enregistrer
 [Create a new AIM account]

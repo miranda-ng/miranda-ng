@@ -11,8 +11,6 @@
 AIM подробности за потребителя
 [Password:]
 Парола:
-[Login Server:]
-Сървър:
 [AIM Options]
 AIM настройки
 [Message Delivery Confirmation]
@@ -31,24 +29,26 @@ AIM настройки
 Без икони за разширено състояние
 [Notify about new mail]
 Уведомяване за нови писма
+[Manage Server Groups]
+Управление на сървърните групи
 [Advanced Options]
 Разширени настройки
 [Instant Idle on Login]
 Бездействащ веднага след вписване
 [Force Proxy File Transfers]
 Задължително прехвърляне на файлове през прокси сървър
-[* Some changes will take effect the next time you connect to the AIM network]
-Някои промени ще бъдат осъществени при следващо свързване към мрежата AIM
 [Connection]
 Връзка
+[Login Server:]
+Сървър:
 [Port:]
 Порт:
 [Reset]
 Анулиране
 [Disable SSL]
 Изключване на SSL
-[Manage Server Groups]
-Управление на сървърните групи
+[* Some changes will take effect the next time you connect to the AIM network]
+Някои промени ще бъдат осъществени при следващо свързване към мрежата AIM
 [Save Profile]
 Запис на профила
 [Create a new AIM account]

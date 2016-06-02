@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -83,8 +83,6 @@ URL:
 История на потребителя
 [Unknown error]
 Непозната грешка
-[Login error: Some Facebook things are required.]
-Грешка при вписване: Необходими са някой неща за Facebook.
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]

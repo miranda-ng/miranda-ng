@@ -16,10 +16,10 @@ Version:
 Beschreibung:
 [Copyright:]
 Copyright:
-[Contact:]
-Kontakt:
-[WWW:]
-Website:
+[E-mail:]
+E-Mail:
+[Homepage:]
+Homepage:
 [Account]
 Konto
 [Name:]

@@ -2098,6 +2098,19 @@ Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
 Das Thema ist '%s' (gesetzt von %s)
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistgroups.cpp
+[New group]
+Neue Gruppe
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Sind Sie sich sicher, dass die Gruppe '%s' gelöscht werden soll?\nDiese Aktion kann nicht rückgängig gemacht werden.
+[Delete group]
+Gruppe löschen
+[You already have a group with that name. Please enter a unique name for the group.]
+Eine Gruppe mit dem Namen existiert bereits. Bitte einen eindeutigen Namen für die Gruppe wählen.
+[Rename group]
+Gruppe umbenennen
+[This group]
+Diese Gruppe
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Verbinden
@@ -2243,19 +2256,6 @@ Kopfzeilen
 Allgemeiner Text
 [Small text]
 Kleiner Text
-;file \src\mir_app\src\groups.cpp
-[New group]
-Neue Gruppe
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Sind Sie sich sicher, dass die Gruppe '%s' gelöscht werden soll?\nDiese Aktion kann nicht rückgängig gemacht werden.
-[Delete group]
-Gruppe löschen
-[You already have a group with that name. Please enter a unique name for the group.]
-Eine Gruppe mit dem Namen existiert bereits. Bitte einen eindeutigen Namen für die Gruppe wählen.
-[Rename group]
-Gruppe umbenennen
-[This group]
-Diese Gruppe
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Browser: Zurück
@@ -2462,8 +2462,6 @@ Keine Onlinekontakte gefunden.
 [Select metacontact]
 Metakontakt auswählen
 ;file \src\mir_app\src\meta_utils.cpp
-[Sender]
-Sender
 [Could not retrieve contact protocol]
 Konnte Kontaktprotokoll nicht abrufen
 [Assignment error]

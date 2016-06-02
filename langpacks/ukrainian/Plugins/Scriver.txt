@@ -155,8 +155,6 @@
 &Меню користувача
 [User &details]
 &Про користувача
-[&Emoticons]
-Смайли
 [&Add]
 &Додати
 [&History]
@@ -467,8 +465,6 @@
 Дія: Вставити й надіслати
 [Quote]
 Цитата
-[Smiley]
-Смайл
 [User menu]
 Меню користувача
 [User details]
@@ -489,8 +485,6 @@
 Історія
 [Quote text]
 Цитувати
-[Insert emoticon]
-Смайли
 [User menu - %s]
 Меню користувача - %s
 [Sending in progress: %d message(s) left...]
@@ -499,8 +493,6 @@
 %s друкує вам повідомлення...
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
-[Unknown contact]
-Невідомій контакт
 [Me]
 Я
 [My contact]
@@ -801,8 +793,6 @@ ID поточного контакту (якщо визначено). Напри
 Налаштування кімнати
 [Nick list]
 Список користувачів
-[Insert a smiley]
-Вставити смайл
 [Make the text bold (CTRL+B)]
 Виділити жирним (Ctrl+B)
 [Make the text italicized (CTRL+I)]

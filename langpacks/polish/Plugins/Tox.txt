@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.20
+;  Version: 0.11.1.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -54,6 +54,8 @@ Anuluj
 Profil tox jest zaszyfrowany. Wprowadź hasło, by kontynuować.
 [Add]
 Dodaj
+[Update]
+Aktualizacja
 [IPv4 address/ Host]
 Adres/host IPv4
 [IPv6 address (optional)]
@@ -103,9 +105,6 @@ Do:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Group chat]
 Czat grupowy
-;file \protocols\Tox\src\tox_core.cpp
-[Unable to initialize Tox core]
-Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Folder profili
@@ -142,6 +141,9 @@ Rozmowa wychodząca z %s
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
+;file \protocols\Tox\src\tox_network.cpp
+[Unable to initialize Tox core]
+Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Profil Tox

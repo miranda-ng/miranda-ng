@@ -11,8 +11,8 @@ Si un contacto no autorizó que este plugin colocar un icono delante del nombre 
 Mostrar icono de concesión
 [Plugin settings]
 Configuración de plugin
-[Enable menu item (restart required)]
-Activar opción de menú (requiere un reinicio)
+[Enable menu item]
+Activar opción de menú
 [Show icons only for recently added contacts]
 Mostrar sólo iconos de los contactos agregados recientemente
 [Grant]

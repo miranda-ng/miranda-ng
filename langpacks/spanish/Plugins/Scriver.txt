@@ -65,8 +65,6 @@ Sesión de mensaje
 Menú de usuario
 [User &details]
 &Detalles del usuario
-[&Emoticons]
-&Emoticones
 [&Add]
 &Añadir
 [&History]
@@ -473,8 +471,6 @@ Seleccionar carpeta
 Ventanas emergentes
 [&Message %s]
 &Mensaje %s
-[Insert a smiley]
-Inserte un emoticono
 [Make the text bold (CTRL+B)]
 Hacer el texto negrita (CTRL+B)
 [Make the text italicized (CTRL+I)]

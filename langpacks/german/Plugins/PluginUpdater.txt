@@ -48,6 +48,12 @@ Entwicklungsversion (weniger stabil)
 Entwicklungsversion mit Debugsymbolen
 [Custom version]
 Eigene Version
+[Platform]
+Plattform
+[x86]
+
+[x64]
+
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Notifications]

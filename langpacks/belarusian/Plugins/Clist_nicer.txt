@@ -621,8 +621,8 @@ Clist nicer
 Для гэтага дзеяння неабходны правільны выбар кантакту. Абярыце кантакт са спісу і паўтарыце.
 [Parameter mismatch]
 Неадпаведнасць параметру
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-Сервіс %s пазначаны кнопкай %s не знойдзены. Магчыма, для гэтага патрэбны дадатковы плагін.
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
+Сервіс %S пазначаны кнопкай %S не знойдзены. Магчыма, для гэтага патрэбны дадатковы плагін.
 [Service failure]
 Збой службы
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
@@ -749,8 +749,8 @@ Clist nicer
 Гадзін
 [Days]
 Дзён
-[Current view mode: %s]
-Бягучы рэжым выгляду: %s
+[Current view mode: %S]
+Бягучы рэжым выгляду: %S
 [Filtering]
 Фільтраванне
 [*** All contacts ***]

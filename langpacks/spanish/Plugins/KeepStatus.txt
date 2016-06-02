@@ -101,8 +101,6 @@ s
 Establecer ubicación de ventana
 [Set window size]
 Establecer tamaño de ventana
-[x]
-x
 [Allow override]
 Permitir anular
 [Note: status profiles can be created in the 'Status profiles' options screen]

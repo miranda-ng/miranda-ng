@@ -51,6 +51,8 @@
 Адмін
 [User]
 Карыстач
+[Enter new nickname]
+
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
@@ -69,6 +71,8 @@
 &Адмін
 [&User]
 &Карыстач
+[Change nick]
+
 [Enter new chatroom topic]
 Увядзіце новую тэму чату
 [Are you sure?]

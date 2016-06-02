@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
-;  Version: 0.5.0.0
+;  Version: 0.5.1.0
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
@@ -15,6 +15,10 @@
 [on right mouse button click]
 
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+
+[Firefox menu]
+
+[Add account to contact name]
 
 [Firefox profiles]
 
@@ -50,6 +54,8 @@ Contacts
 Comptes
 ;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
+
+[Message sent to %s]
 
 [Message sent to %s (%s)]
 

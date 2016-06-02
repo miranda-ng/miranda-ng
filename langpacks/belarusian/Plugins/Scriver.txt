@@ -155,8 +155,6 @@
 Меню кантакта
 [User &details]
 &Інфармацыя
-[&Emoticons]
-Эмоцыі
 [&Add]
 &Дадаць
 [&History]
@@ -475,8 +473,6 @@ KB
 Дзеянне: Уставіць і адправіць
 [Quote]
 Цытата
-[Smiley]
-Смайлік
 [User menu]
 Меню кантакта
 [User details]
@@ -497,8 +493,6 @@ KB
 Гісторыя паведамленняў
 [Quote text]
 Цытата
-[Insert emoticon]
-Смайлы
 [User menu - %s]
 Меню кантакта - %s
 [Sending in progress: %d message(s) left...]
@@ -507,8 +501,6 @@ KB
 %s набірае тэкст...
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
-[Unknown contact]
-Невядомы кантакт
 [Me]
 Я
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -817,8 +809,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Мэнэджар
 [Nick list]
 Спіс мянушак
-[Insert a smiley]
-Уставіць смайл
 [Make the text bold (CTRL+B)]
 Зрабіць тэкст тоўстым (CTRL+B)
 [Make the text italicized (CTRL+I)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.20
+;  Version: 0.11.1.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -53,6 +53,8 @@
 
 [Add]
 Дадаць
+[Update]
+
 [IPv4 address/ Host]
 
 [IPv6 address (optional)]
@@ -101,8 +103,6 @@
 Для:
 [Group chat]
 Чат
-[Unable to initialize Tox core]
-
 [Profiles folder]
 
 [Tox URI scheme]
@@ -133,6 +133,8 @@
 
 [%s connection]
 Злучэнне %s
+[Unable to initialize Tox core]
+
 [Tox profile]
 
 [All files]

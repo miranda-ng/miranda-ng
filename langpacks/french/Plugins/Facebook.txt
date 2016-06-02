@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -92,8 +92,6 @@ Instruction :
 Soumettre
 [Messages]
 Messages
-[Receive messages from "inbox" folder only]
-Recevoir uniquement les messages de la boîte de réception
 [Keep messages as unread on server (don't send "seen" info)]
 Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -112,6 +110,12 @@ Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 
 [Number of messages to load:]
 
+[Facebook Login Approval]
+
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+
+[Send SMS]
+Envoyer SMS
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 
@@ -137,7 +141,9 @@ Utilisateur
 Erreur inconnue
 [Login error: Invalid request.]
 
-[Login error: Some Facebook things are required.]
+[You entered too many invalid verification codes. Plugin will disconnect.]
+
+[You entered wrong verification code. Try it again.]
 
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 
@@ -161,6 +167,10 @@ Erreur inconnue
 
 [Status update was successful.]
 Mise à jour du statut avec succès.
+[Error occurred when requesting verification SMS code.]
+
+[Verification SMS code was sent to your mobile phone.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Veuillez entrer un nom d'utilisateur.
@@ -289,8 +299,6 @@ Partager le statut
 
 [Checking friend requests...]
 
-[Refreshing buddy list...]
-
 [Do you want to cancel your friendship with '%s'?]
 
 [News feeds]
@@ -354,8 +362,6 @@ Supprimer
 
 [Services...]
 Services...
-[Refresh Buddy List]
-Actualiser la liste d'amis
 [Check Friends Requests]
 
 [Check Newsfeeds]

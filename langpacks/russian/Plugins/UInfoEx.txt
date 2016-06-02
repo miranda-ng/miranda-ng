@@ -1055,8 +1055,6 @@ Web Дизайн
 мл.
 [sen.]
 ст.
-['(Unknown Contact)']
-'(Неизвестный контакт)'
 [Send e-mail]
 Отправить e-mail
 [Memory allocation error!]

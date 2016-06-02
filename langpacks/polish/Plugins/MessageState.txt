@@ -10,7 +10,7 @@ Wyświetla ikonę w oknie rozmowy informującą o tym czy ostatnia wysłana wiad
 ;file \plugins\MessageState\src\clist_extra.cpp
 [MessageState unread extra icon]
 Dodatkowa ikona nieodczytania MessageState
-;file \plugins\MessageState\src\global.h
+;file \plugins\MessageState\src\messagestate.cpp
 [Unread message icon]
 Ikona nieodczytania wiadomości
 [Read message icon]
@@ -21,14 +21,15 @@ Ikona nieudanego wysyłania
 Ikona wysyłania wiadomości
 [Unread clist extra icon]
 Dodatkowa ikona nieodczytania, lista kontaktów
-;file \plugins\MessageState\src\messagestate.cpp
-[Last message read at]
-Ostatnią wiadomość odczytano o
-[Last message read (unknown time)]
-Ostatnią wiadomość odczytano (nieznany czas)
 [Last message is not read]
 Nie odczytano ostatniej wiadomości
-[Last message was not sent.]
-Ostatnia wiadomość nie została wysłana.
+[Last message read]
+Ostatnią wiadomość odczytano
+[Last message was not sent]
+Ostatnia wiadomość nie została wysłana
 [Sending...]
 Wysyłanie...
+[Last message read at %X %x]
+Ostatnią wiadomość odczytano o %X %x
+[Last message read (unknown time)]
+Ostatnią wiadomość odczytano (nieznany czas)

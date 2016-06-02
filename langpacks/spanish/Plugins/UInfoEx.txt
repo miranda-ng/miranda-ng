@@ -187,8 +187,6 @@ Inicio
 Internet
 [Separated]
 Separado
-['(Unknown Contact)']
-'(Contacto desconocido)'
 [Send e-mail]
 Enviar e-mail
 [All Contacts]

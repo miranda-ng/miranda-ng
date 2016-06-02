@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -235,6 +235,8 @@
 
 [Enter confirmation code]
 
+[Enter new nickname]
+
 [Message read: %s]
 Паведамленне прачытана ў: %s
 [has invited you to a group]
@@ -343,6 +345,8 @@
 Выдаліць чат
 [&User details]
 Пра кантакт
+[Change nick]
+
 [&Kick]
 Выкінуць
 [%s is typing a message...]

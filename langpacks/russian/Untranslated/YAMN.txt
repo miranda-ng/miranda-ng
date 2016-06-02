@@ -1,3 +1,2 @@
-﻿[WWW:]
-[SSL]
+﻿[SSL]
 [APOP]

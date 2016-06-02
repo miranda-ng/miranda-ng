@@ -16,10 +16,10 @@
 Opis:
 [Copyright:]
 Prava (Licenca):
-[Contact:]
-
-[WWW:]
-
+[E-mail:]
+E-mail:
+[Homepage:]
+Web Stranica:
 [Account]
 
 [Name:]

@@ -15,8 +15,6 @@
 Паказваць:
 [Password:]
 Пароль:
-[Login Server:]
-Сервер:
 [AIM Options]
 Налады AIM
 [Message Delivery Confirmation]
@@ -35,6 +33,8 @@
 Адкл. пашыраныя абразкі статусу
 [Notify about new mail]
 Абвяшчаць пра новую пошту
+[Manage Server Groups]
+Кіраваць гуртамі на серверы
 [Advanced Options]
 Дадаткова
 [Instant Idle on Login]
@@ -43,22 +43,22 @@
 Перадачы файлаў праз проксі
 [Masquerade as a Sidekick/Hiptop User]
 Уяўляцца як Sidekick/Hiptop
-[* Some changes will take effect the next time you connect to the AIM network]
-* Некаторыя змены будуць ужытыя пры наступным уваходзе ў AIM
 [Connection]
 Далучэнне
+[Login Server:]
+Сервер:
 [Port:]
 Порт:
 [Reset]
 Скід
 [Disable SSL]
 Выкл. SSL
-[Manage Server Groups]
-Кіраваць гуртамі на серверы
 [Force Single Client]
 Толькі адна сесія
 [Use "clientlogin" (recommended)]
 
+[* Some changes will take effect the next time you connect to the AIM network]
+* Некаторыя змены будуць ужытыя пры наступным уваходзе ў AIM
 [Save Profile]
 Захаваць профіль
 [Create a new AIM account]

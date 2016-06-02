@@ -1,8 +1,6 @@
 ﻿[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 [Installed plugins]
 [Version:]
-[Contact:]
-[WWW:]
 [Account]
 [Server:]
 [SSL]

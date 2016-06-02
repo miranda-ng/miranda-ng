@@ -1,1 +1,3 @@
-﻿[Skypename]
+﻿[Enter new nickname]
+[Change nick]
+[Skypename]

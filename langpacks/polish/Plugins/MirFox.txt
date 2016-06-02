@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
-;  Version: 0.5.0.0
+;  Version: 0.5.1.0
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
@@ -16,6 +16,10 @@ po kliknięciu LPM
 po kliknięciu PPM
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 po kliknięciu środkowym przyciskiem myszy\n(używając środkowego przycisku można wysłać wiadomość wielokrotnie)
+[Firefox menu]
+
+[Add account to contact name]
+
 [Firefox profiles]
 Profile Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
@@ -51,6 +55,8 @@ Konta
 ;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
 MirFox log
+[Message sent to %s]
+Wiadomość wysłana do %s
 [Message sent to %s (%s)]
 Wiadomość wysłana do %s (%s)
 [Message sent]

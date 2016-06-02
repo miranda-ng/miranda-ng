@@ -15,9 +15,9 @@
 Апісанне:
 [Copyright:]
 Правы:
-[Contact:]
-Кантакт:
-[WWW:]
+[E-mail:]
+Пошта:
+[Homepage:]
 Сайт:
 [Account]
 Конт

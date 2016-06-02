@@ -47,6 +47,12 @@
 Версія ў распрацоўцы з сімваламі адладкі
 [Custom version]
 Зададзеная версія
+[Platform]
+Аперацыйная сістэма
+[x86]
+
+[x64]
+
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
 [Notifications]

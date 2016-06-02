@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -237,6 +237,8 @@ Einer der angegebenen Parameter fehlte oder war ungültig.
 Zugriff auf Pinnwand verweigert
 [Enter confirmation code]
 Bestätigungscode eingeben
+[Enter new nickname]
+
 [Message read: %s]
 Nachricht gelesen: %s
 [has invited you to a group]
@@ -346,6 +348,8 @@ Benutzer e&inladen
 Raum &zerstören
 [&User details]
 Kontakt&profil
+[Change nick]
+
 [&Kick]
 &Kick
 [%s is typing a message...]

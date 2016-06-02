@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -91,8 +91,6 @@ URL:
 Перадаць
 [Messages]
 Паведамленні
-[Receive messages from "inbox" folder only]
-Прымаць паведамленні толькі з тэчкі "уваходныя"
 [Keep messages as unread on server (don't send "seen" info)]
 Не пазначаць паведамленні прачытанымі
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -110,6 +108,12 @@ URL:
 [Load last messages on opening message window (EXPERIMENTAL)]
 
 [Number of messages to load:]
+
+[Facebook Login Approval]
+
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+
+[Send SMS]
 
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
@@ -133,8 +137,10 @@ URL:
 Невядомая памылка
 [Login error: Invalid request.]
 Памылка далучэння: Памылковы запрос.
-[Login error: Some Facebook things are required.]
-Памылка далучэння: Неабходны некаторыя рэчы Facebook.
+[You entered too many invalid verification codes. Plugin will disconnect.]
+
+[You entered wrong verification code. Try it again.]
+
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
@@ -157,6 +163,10 @@ URL:
 Затрымка пры адпраўцы паведамлення.
 [Status update was successful.]
 Паспяховае абнаўленне статуса.
+[Error occurred when requesting verification SMS code.]
+
+[Verification SMS code was sent to your mobile phone.]
+
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
 [Please enter a password.]
@@ -277,8 +287,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Загрузка навін...
 [Checking friend requests...]
 Праверка запытаў сяброўства...
-[Refreshing buddy list...]
-Абнаўленне спісу сяброў...
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
 [News feeds]
@@ -341,8 +349,6 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Services...]
 Службы...
-[Refresh Buddy List]
-Абнавіць спіс сяброў
 [Check Friends Requests]
 Праверыць запыты сяброўства
 [Check Newsfeeds]

@@ -13,8 +13,8 @@
 Паказваць абразок "Дазволіць"
 [Plugin settings]
 Налады
-[Enable menu item (restart required)]
-Дадаць пункт меню (патрэбен перазапуск)
+[Enable menu item]
+Дадаць пункт меню
 [Show icons only for recently added contacts]
 Значкі толькі для нядаўна дададзеных
 [Request]

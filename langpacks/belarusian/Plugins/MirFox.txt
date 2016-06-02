@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
-;  Version: 0.5.0.0
+;  Version: 0.5.1.0
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
@@ -15,6 +15,10 @@ MirFox (Міранда NG) - частка Міранда-Firefox інтэгра�
 пры націску правай кнопкі мышы
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 пры націску сярэдняй кнопкі мышы\n(нататка: выкарыстоўвайце, каб адправіць некалькі паведамленняў з Firefox)
+[Firefox menu]
+
+[Add account to contact name]
+
 [Firefox profiles]
 Конт Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
@@ -47,8 +51,10 @@ MirFox/Error
 Конты
 [MirFox log]
 MirFox log
+[Message sent to %s]
+паведамленне для %s адпраўлена
 [Message sent to %s (%s)]
-паведамленне адпраўлена для %s (%s)
+паведамленне для %s (%s) адпраўлена
 [Message sent]
 паведамленне адпраўлена
 [Cannot send message to %s (%s) - %S]

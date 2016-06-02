@@ -104,10 +104,16 @@ Timeout
 s
 [Set window location]
 Fensterposition
+[Left]
+Links
+[Top]
+Oben
 [Set window size]
 Fenstergröße
-[x]
-x
+[Width]
+Breite
+[Height]
+Höhe
 [Allow override]
 Aufheben möglich
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -271,8 +277,6 @@ Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status
 <aktueller>
 [<unknown>]
 <unbekannt>
-[Left]
-Links
 [Right]
 Rechts
 [None]

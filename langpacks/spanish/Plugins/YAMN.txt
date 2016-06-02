@@ -11,8 +11,10 @@ Versión
 Detalles:
 [Copyright:]
 Copyright:
-[Contact:]
-Contacto
+[E-mail:]
+E-mail:
+[Homepage:]
+Sitio web:
 [Account]
 Cuenta
 [Name:]

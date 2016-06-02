@@ -628,7 +628,7 @@ Choix du mode d'état
 L'action demandée requière un contact valide. Veuillez sélectionner un contact de votre liste, et réessayer.
 [Parameter mismatch]
 
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
 
 [Service failure]
 
@@ -762,8 +762,8 @@ Minutes
 Heures
 [Days]
 Jours
-[Current view mode: %s]
-Mode actuel : %s
+[Current view mode: %S]
+Mode actuel : %S
 [Filtering]
 Filtres
 [*** All contacts ***]

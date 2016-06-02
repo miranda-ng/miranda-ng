@@ -1081,9 +1081,6 @@ Amoureux
 [sen.]
 
 ;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
-['(Unknown Contact)']
-'(Contacts Inconnus)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Envoyer un courriel

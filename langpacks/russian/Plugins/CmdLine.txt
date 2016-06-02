@@ -118,7 +118,7 @@
 [Service '%s' does not exist.]
 Служба '%s' не существует.
 [Message sent to '%s'.]
-Сообщение отправлено для '%s'.
+Сообщение для '%s' отправлено.
 [Could not send message to '%s'.]
 Невозможно отправить сообщение для '%s'.
 [Timed out while waiting for acknowledgment for contact '%s'.]

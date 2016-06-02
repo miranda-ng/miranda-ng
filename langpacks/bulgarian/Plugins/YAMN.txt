@@ -11,8 +11,10 @@
 Описание:
 [Copyright:]
 Copyright:
-[Contact:]
-Контакт:
+[E-mail:]
+Имейл:
+[Homepage:]
+Страница:
 [Account]
 Акаунт
 [Name:]

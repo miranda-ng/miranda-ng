@@ -93,6 +93,8 @@ ms
 сек
 [Set window location]
 Местоположение на прозореца
+[Left]
+Ляво
 [Set window size]
 Размер на прозореца
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -221,8 +223,6 @@ Dial-up (експериментално)
 <текущо>
 [<unknown>]
 <неизвестно>
-[Left]
-Ляво
 [Right]
 Дясно
 [None]

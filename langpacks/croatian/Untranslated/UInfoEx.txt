@@ -518,7 +518,6 @@
 [It\'s complicated]
 [jun.]
 [sen.]
-['(Unknown Contact)']
 [Send e-mail]
 [Memory allocation error!]
 [E-mail (UInfoEx)]

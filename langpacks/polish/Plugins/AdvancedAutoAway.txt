@@ -104,10 +104,16 @@ Wyświetlaj
 s
 [Set window location]
 Położenie okna
+[Left]
+Lewa
+[Top]
+Góra
 [Set window size]
 Rozmiar okna
-[x]
-x
+[Width]
+Szerokość
+[Height]
+Wysokość
 [Allow override]
 Nadpisuj
 [Note: status profiles can be created in the 'Status profiles' options screen]

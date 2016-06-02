@@ -159,10 +159,10 @@
 удалил(а) свой аватар
 [changed his/her avatar]
 сменил(а) свой аватар
-[Unknown UIN]
-Неизвестный номер
 [Unknown Protocol]
 Неизвестный протокол
+[Unknown UIN]
+Неизвестный номер
 [AVH Debug: GetOldStyleAvatarName]
 Отладка AVH: GetOldStyleAvatarName
 [Avatar History: Unable to create shortcut]

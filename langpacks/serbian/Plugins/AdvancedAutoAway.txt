@@ -104,9 +104,15 @@ Ostalo
 
 [Set window location]
 
+[Left]
+
+[Top]
+
 [Set window size]
 
-[x]
+[Width]
+
+[Height]
 
 [Allow override]
 

@@ -103,10 +103,16 @@
 з
 [Set window location]
 Пазіцыя вакна
+[Left]
+Злева
+[Top]
+Угару
 [Set window size]
 Памер вакна
-[x]
-
+[Width]
+Шырыня
+[Height]
+Вышыня
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status profiles' options screen]

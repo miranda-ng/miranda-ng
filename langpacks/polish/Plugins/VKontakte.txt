@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.1.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -237,6 +237,8 @@ Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 Odmówiono dostępu do dodawania postów
 [Enter confirmation code]
 Wprowadź kod weryfikacyjny
+[Enter new nickname]
+
 [Message read: %s]
 Wiadomość odczytana: %s
 [has invited you to a group]
@@ -346,6 +348,8 @@ Pokaż/Zmień &nazwę
 &Zniszcz pokój
 [&User details]
 Dane &kontaktu
+[Change nick]
+
 [&Kick]
 &Wyrzuć
 [%s is typing a message...]

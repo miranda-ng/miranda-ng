@@ -16,10 +16,10 @@ Plugins installés
 Description :
 [Copyright:]
 Copyright :
-[Contact:]
-Contact :
-[WWW:]
-
+[E-mail:]
+Courriel :
+[Homepage:]
+Page web :
 [Account]
 Compte
 [Name:]

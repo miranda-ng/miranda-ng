@@ -14,8 +14,8 @@ Anfragen-Icon anzeigen
 Gewähren-Icon anzeigen
 [Plugin settings]
 Plugin-Einstellungen
-[Enable menu item (restart required)]
-Hauptmenüeintrag anzeigen (erfordert Neustart)
+[Enable menu item]
+Hauptmenüeintrag anzeigen
 [Show icons only for recently added contacts]
 Icons nur für kürzlich hinzugefügte Kontakte anzeigen
 ;file \plugins\AuthState\src\main.cpp

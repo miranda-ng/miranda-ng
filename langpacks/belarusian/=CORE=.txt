@@ -2043,6 +2043,18 @@ Miranda не здолела загрузіць убудаваную сістэм
 Тэма '%s'
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
+[New group]
+Новы гурт
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Вы ўпэўнены, што жадаеце выдаліць гурт "%s"? Аперацыя не можа быць адменена.
+[Delete group]
+Выдаленне гурта
+[You already have a group with that name. Please enter a unique name for the group.]
+Гурт з такім імем ужо ёсць. Увядзіце ўнікальнае імя для гурта.
+[Rename group]
+Пераназваць гурт
+[This group]
+Гэты гурт
 [Connecting]
 Далучэнне
 [Connecting (attempt %d)]
@@ -2175,18 +2187,6 @@ Ctrl+Шукаць дадае карыстальніка
 Асноўны тэкст
 [Small text]
 Дадатковы тэкст
-[New group]
-Новы гурт
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Вы ўпэўнены, што жадаеце выдаліць гурт "%s"? Аперацыя не можа быць адменена.
-[Delete group]
-Выдаленне гурта
-[You already have a group with that name. Please enter a unique name for the group.]
-Гурт з такім імем ужо ёсць. Увядзіце ўнікальнае імя для гурта.
-[Rename group]
-Пераназваць гурт
-[This group]
-Гэты гурт
 [Browser: Back]
 
 [Browser: Forward]
@@ -2375,8 +2375,6 @@ xСтатус
 Няма далучаных кантактаў.
 [Select metacontact]
 Выберыце метакантакт
-[Sender]
-Адпраўшчык
 [Could not retrieve contact protocol]
 Не магу запытаць пратакол кантакту
 [Assignment error]
