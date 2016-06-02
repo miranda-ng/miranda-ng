@@ -9,4 +9,3 @@
 [Enable groups]
 [Minimize contact list]
 [TopToolBar background]
-[TopToolBar]

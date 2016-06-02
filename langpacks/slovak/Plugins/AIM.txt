@@ -9,18 +9,18 @@
 Podpora AOL Instant Messenger (AIM) protokolu pre Mirandu NG.
 [Password:]
 Heslo:
-[Login Server:]
-Pripájací server:
 [Advanced Options]
 Rozšírené nastavenia
-[* Some changes will take effect the next time you connect to the AIM network]
-* Niektoré zmeny sa prejavia pri nasledujúcom prihlásení sa do AIM siete.
 [Connection]
 pripája
+[Login Server:]
+Pripájací server:
 [Port:]
 Port:
 [Reset]
 Reset
+[* Some changes will take effect the next time you connect to the AIM network]
+* Niektoré zmeny sa prejavia pri nasledujúcom prihlásení sa do AIM siete.
 [E-mail]
 e-mail
 [Save Changes]

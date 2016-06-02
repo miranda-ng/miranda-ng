@@ -1,6 +1,5 @@
 ﻿[Install and update plugins and other Miranda NG components.]
 [Backup database before update (requires Db_autobackups plugin)]
-[Platform]
 [x86]
 [x64]
 [For "Restart" popup setting is always infinity]

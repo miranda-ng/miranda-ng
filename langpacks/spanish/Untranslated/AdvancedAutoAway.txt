@@ -1,5 +1,1 @@
 ﻿[when full-screen mode is active]
-[Left]
-[Top]
-[Width]
-[Height]

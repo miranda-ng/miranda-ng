@@ -1884,23 +1884,23 @@ Miranda не здолела загрузіць убудаваную сістэм
 [<not specified>]
 <не паказана>
 [Single]
-
+Самотны
 [Close relationships]
-
+У блізкіх стасунках
 [Engaged]
-
+Заручаны
 [Married]
-
+У шлюбе
 [Divorced]
-
+У разводзе
 [Separated]
-
+Падзельнік
 [Widowed]
-
+Удавец/Удава
 [Actively searching]
 
 [In love]
-
+У каханні
 [It\'s complicated]
 
 [Summary]

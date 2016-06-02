@@ -15,7 +15,6 @@
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 [DNS name:]
 [Tox profile is encrypted. Enter the password to continue.]
-[Update]
 [IPv4 address/ Host]
 [IPv6 address (optional)]
 [Public key]

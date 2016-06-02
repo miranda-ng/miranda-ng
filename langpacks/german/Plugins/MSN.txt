@@ -167,7 +167,7 @@ Benutzer nicht online
 [IID_IOleObject failed.]
 
 [RESULT]
-
+Ergebnis
 [IID_IOleInPlaceObject failed.]
 
 [Failed to Advise]

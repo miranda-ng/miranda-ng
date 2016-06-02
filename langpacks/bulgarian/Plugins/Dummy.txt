@@ -23,8 +23,12 @@
 Gadu-Gadu номер
 [Nickname]
 Прякор
+[JID]
+JID
 [E-mail address]
 Имейл
+[Live ID]
+Live ID
 [ID]
 Идентификатор
 [Username]

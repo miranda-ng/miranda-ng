@@ -16,7 +16,6 @@
 [DNS name:]
 [Enter password]
 [Tox profile is encrypted. Enter the password to continue.]
-[Update]
 [IPv4 address/ Host]
 [IPv6 address (optional)]
 [Public key]

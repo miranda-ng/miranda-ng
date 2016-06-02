@@ -54,7 +54,7 @@
 [Add]
 Дадаць
 [Update]
-
+Абнавіць
 [IPv4 address/ Host]
 
 [IPv6 address (optional)]

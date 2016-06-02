@@ -803,6 +803,14 @@ Poznámky
 Zobraziť/Zmeniť moje informácie...
 [%s is online]
 %s je pripojený
+[New group]
+Nová skupina
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
+[Rename group]
+Premenovať skupinu
+[This group]
+Táto skupina
 [Connecting]
 Pripájam sa
 [Connecting (attempt %d)]
@@ -867,14 +875,6 @@ Nájsť/Pridať kontakty...
 Vzorový text
 [Fonts]
 Písmo
-[New group]
-Nová skupina
-[You already have a group with that name. Please enter a unique name for the group.]
-Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
-[Rename group]
-Premenovať skupinu
-[This group]
-Táto skupina
 [** All contacts **]
 ** Všetky kontakty **
 [Unknown]

@@ -1,5 +1,4 @@
 ﻿[IID_IOleObject failed.]
-[RESULT]
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]

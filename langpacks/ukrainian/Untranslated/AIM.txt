@@ -51,5 +51,4 @@
 [Can't start the confirmation procedure.]
 [Hiptop]
 [AOL]
-[Basic]
 [Join me in this buddy chat!]

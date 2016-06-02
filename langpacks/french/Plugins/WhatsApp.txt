@@ -13,7 +13,7 @@ Téléphone
 [Nickname]
 Pseudo
 [Default group:]
-
+Groupes :
 [Use SSL connection (port 443)]
 
 [Use remote message timestamps]
@@ -108,7 +108,7 @@ Réseau
 Compte
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
-
+serveur
 [Message received: %s by %s]
 
 ;file \protocols\WhatsApp\src\proto.cpp

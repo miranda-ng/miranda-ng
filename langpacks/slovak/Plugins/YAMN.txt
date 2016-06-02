@@ -13,6 +13,10 @@ Verzia:
 Popis:
 [Copyright:]
 Copyright:
+[E-mail:]
+E-mail:
+[Homepage:]
+WWW:
 [Port:]
 Port:
 [SSL]

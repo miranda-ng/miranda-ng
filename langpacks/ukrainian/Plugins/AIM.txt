@@ -297,6 +297,8 @@ AIM Встановити Instant Idle
 Додати в список на сервері
 [Network]
 Мережа
+[Basic]
+Основні
 [Privacy]
 Приватність
 [Please, enter a username in the options dialog.]

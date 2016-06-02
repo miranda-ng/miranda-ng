@@ -242,7 +242,7 @@ Lista de acciones
 [Where to use]
 Dónde se utiliza
 [TopToolbar]
-Barra de herramientas superior
+Barra de herramientas TopToolbar
 [TabSRMM toolbar]
 Barra de herramientas TabSRMM
 [Core Hotkey]

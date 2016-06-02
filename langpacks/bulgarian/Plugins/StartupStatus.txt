@@ -95,8 +95,14 @@ ms
 Местоположение на прозореца
 [Left]
 Ляво
+[Top]
+Горе
 [Set window size]
 Размер на прозореца
+[Width]
+Ширина
+[Height]
+Височина
 [Note: status profiles can be created in the 'Status profiles' options screen]
 Можете да създадете нов профил от таб "Профили на състоянията"
 [Window on startup]

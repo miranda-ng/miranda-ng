@@ -1,5 +1,4 @@
-﻿[Update]
-[Tox URI scheme]
+﻿[Tox URI scheme]
 [Audio ring]
 [Audio start]
 [Audio end]

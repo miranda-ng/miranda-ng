@@ -99,8 +99,16 @@ Tiempo de espera
 s
 [Set window location]
 Establecer ubicación de ventana
+[Left]
+Izquierda
+[Top]
+Superior
 [Set window size]
 Establecer tamaño de ventana
+[Width]
+Ancho
+[Height]
+Alto
 [Allow override]
 Permitir anular
 [Note: status profiles can be created in the 'Status profiles' options screen]

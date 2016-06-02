@@ -7,12 +7,6 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Miranda NG) - часть интеграции Miranda-Firefox - http://wsx22.3.xpdev-hosted.com
-[Firefox menu]
-Меню Firefox
-[Add account to contact name]
-Добавить учётную запись к имени контакта
-[Message sent to %s]
-Сообщение для %s отправлено
 [Send to contact action]
 Действие при отправке контакту
 [on left mouse button click]
@@ -21,6 +15,10 @@ MirFox (Miranda NG) - часть интеграции Miranda-Firefox - http://w
 при нажатии правой кнопки мыши
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 при нажатии средней кнопки мыши\n(примечание: используйте среднюю кнопку мыши, чтобы отправить несколько сообщений из Firefox)
+[Firefox menu]
+Меню Firefox
+[Add account to contact name]
+Добавить учётную запись к имени контакта
 [Firefox profiles]
 Профили Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
@@ -53,6 +51,8 @@ MirFox/Ошибка
 Учётные записи
 [MirFox log]
 Лог MirFox
+[Message sent to %s]
+Сообщение для %s отправлено
 [Message sent to %s (%s)]
 Сообщение для %s (%s) отправлено
 [Message sent]

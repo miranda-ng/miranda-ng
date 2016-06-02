@@ -114,7 +114,7 @@ URL:
 [Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
 
 [Send SMS]
-
+Адправіць SMS
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
 [Myself]

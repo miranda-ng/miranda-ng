@@ -7,10 +7,6 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Підтримка протоколу Skype в Miranda NG. На основі Skype для Web.
-[Enter new nickname]
-Введіть нове ім'я
-[Change nick]
-Змінити ім'я
 [Create group chat]
 Створити чат-кімнату
 [Cancel]
@@ -55,6 +51,8 @@
 Адмін
 [User]
 Користувач
+[Enter new nickname]
+Введіть нове ім'я
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
 [Warning]
@@ -73,6 +71,8 @@
 &Адмін
 [&User]
 &Користувач
+[Change nick]
+Змінити ім'я
 [Enter new chatroom topic]
 Введіть нову тему для чат-кімнати
 [Are you sure?]

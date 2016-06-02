@@ -1,6 +1,4 @@
 ﻿[Installed plugins]
-[Contact:]
-[WWW:]
 [Account]
 [Name:]
 [Server:]

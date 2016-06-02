@@ -422,7 +422,7 @@ ms между две мигания
 [height]
 височина
 [width]
-Ширина
+ширина
 [Hide icon when showing avatar]
 Скриване на иконата, когато има аватар
 [Draw icon in avatar space]

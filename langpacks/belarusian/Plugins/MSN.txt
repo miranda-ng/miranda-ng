@@ -162,7 +162,7 @@ MSN Чат
 [IID_IOleObject failed.]
 
 [RESULT]
-
+ВЫНІК
 [IID_IOleInPlaceObject failed.]
 
 [Failed to Advise]

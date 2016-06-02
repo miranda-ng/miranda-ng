@@ -53,6 +53,8 @@ DNS име:
 Tox профилът е шифрован. Въведете паролата за да продължите.
 [Add]
 Добавяне
+[Update]
+Обнови
 [IPv4 address/ Host]
 IPv4 адрес/ Хост
 [IPv6 address (optional)]

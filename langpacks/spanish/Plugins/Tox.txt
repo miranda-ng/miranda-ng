@@ -17,6 +17,8 @@ Guardar contraseña
 Cancelar
 [Add]
 Añadir
+[Update]
+Actualizar
 [Port]
 Puerto
 [&Cancel]

@@ -57,6 +57,8 @@ Salir
 Por defecto
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at http://wiki.miranda-ng.org/Download]
 No se ha encontrado el servicio Marcos, por lo que el plugin se desactivará.\nPara ejecutarlo es necesario instalar y/o activar el plugin de lista de contactos que lo soporte:\n- Lista de contactos Moderna\n- Nicer\nUsted puede obtenerlo en http://wiki.miranda-ng.org/Download[TopToolBar]
+[TopToolBar]
+Barra de herramientas TopToolbar
 [Contact list]
 Lista de contactos
 [Toolbar]
