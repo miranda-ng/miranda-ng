@@ -168,7 +168,7 @@ int CToxProto::SetStatus(int iNewStatus)
 		return 0;
 	}
 
-	if (old_status == ID_STATUS_CONNECTING)
+	if (old_status >= ID_STATUS_CONNECTING && old_status < ID_STATUS_OFFLINE)
 		return 0;
 
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline())
