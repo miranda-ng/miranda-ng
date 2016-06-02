@@ -270,16 +270,16 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
-		dbei.cbBlob = (DWORD)mir_strlen(szEventText);
+		dbei.cbBlob = (DWORD)mir_strlen(szEventText)+1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = szEventText;
 		dbei.timestamp = tmStart + _ttol(tszSecs);
-		if (!IsDuplicateEvent(hContact, dbei)) {
+		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 
-			if (dbei.timestamp > tmLast)
-				tmLast = dbei.timestamp;
-		}
+		tmStart = dbei.timestamp;
+		if (dbei.timestamp > tmLast)
+			tmLast = dbei.timestamp;
 	}
 
 	if (tmLast != 0)
