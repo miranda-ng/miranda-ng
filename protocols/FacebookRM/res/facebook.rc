@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Englisch (USA) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -53,13 +53,21 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_FACEBOOK            ICON                    "facebook.ico"
+
 IDI_MIND                ICON                    "mind.ico"
+
 IDI_POKE                ICON                    "poke.ico"
+
 IDI_NOTIFICATION        ICON                    "notification.ico"
+
 IDI_NEWSFEED            ICON                    "feeds.ico"
+
 IDI_FRIENDS             ICON                    "friends.ico"
+
 IDI_CONVERSATION        ICON                    "conversation.ico"
+
 IDI_READ                ICON                    "read.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -207,16 +215,16 @@ BEGIN
     CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,146,11,14
 END
 
-IDD_GUARD DIALOGEX 0, 0, 193, 94
+IDD_GUARD DIALOGEX 0, 0, 285, 104
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Facebook Login Approval"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.",IDC_STATIC,7,7,179,40
-    PUSHBUTTON      "Send SMS",IDC_SEND_SMS,7,53,59,15
-    EDITTEXT        IDC_TEXT,72,54,114,12,ES_AUTOHSCROLL | ES_NUMBER
-    DEFPUSHBUTTON   "OK",IDOK,82,75,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,136,75,50,14
+    LTEXT           "Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.",IDC_STATIC,7,7,264,54
+    PUSHBUTTON      "Send SMS",IDC_SEND_SMS,7,84,59,15
+    EDITTEXT        IDC_TEXT,7,65,264,12,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,159,84,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,221,84,50,14
 END
 
 
@@ -310,12 +318,27 @@ BEGIN
     IDD_GUARD, DIALOG
     BEGIN
         LEFTMARGIN, 7
+        RIGHTMARGIN, 284
+        VERTGUIDE, 271
         TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+        HORZGUIDE, 84
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_GUARD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Englisch (USA) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
