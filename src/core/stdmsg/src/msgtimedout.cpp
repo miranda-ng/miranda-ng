@@ -30,7 +30,7 @@ struct ErrorDlgParam
 
 INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar);
 
-INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TMsgQueue *item = (TMsgQueue*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -38,7 +38,6 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			RECT rc, rcParent;
 			ErrorDlgParam *param = (ErrorDlgParam *)lParam;
 			item = param->item;
 
@@ -53,11 +52,21 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrT(mir_utf8decodeT(item->szMsg)));
 
-			GetWindowRect(hwndDlg, &rc);
-			GetWindowRect(GetParent(hwndDlg), &rcParent);
-			SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
-				(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
-				0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			HWND hwndParent = GetParent(hwndDlg);
+			if (hwndParent != NULL)
+			{
+				RECT rc;
+				if (GetWindowRect(hwndDlg, &rc))
+				{
+					RECT rcParent;
+					if (GetWindowRect(hwndParent, &rcParent))
+					{
+						SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
+							(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
+							0, 0, SWP_NOZORDER | SWP_NOSIZE);
+					}
+				}
+			}
 		}
 		return TRUE;
 
@@ -84,10 +93,13 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 void MessageFailureProcess(TMsgQueue *item, const char* err)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, item->hContact);
+	MCONTACT hContact = db_mc_tryMeta(item->hContact);
+
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (hwnd == NULL) {
+		// If message window doesn't already exist, open a new one
 		SendMessageCmd(item->hContact, NULL, 0);
-		hwnd = WindowList_Find(g_dat.hMessageWindowList, item->hContact);
+		hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
 
