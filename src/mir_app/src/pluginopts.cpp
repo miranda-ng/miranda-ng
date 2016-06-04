@@ -434,7 +434,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, tszEmail);
 
 						ptrT p(Langpack_PcharToTchar(dat->description));
-						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p : _T(""));
+						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p.get() : _T(""));
 
 						ptrT tszCopyright(latin2t(sel ? dat->copyright : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, tszCopyright);

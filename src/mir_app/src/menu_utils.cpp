@@ -745,7 +745,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 		if (pmi->uid != miid_last && pRoot->mi.uid == miid_last) {
 			char szUid[100];
 			bin2hex(&pmi->uid, sizeof(pmi->uid), szUid);
-			Netlib_Logf("[MENU]: fake UUID added to menu item %s", szUid);
+			Netlib_Logf(0, "[MENU]: fake UUID added to menu item %s", szUid);
 
 			pRoot->mi.uid = pmi->uid;
 			pRoot->mi.uid.d[7]--; // and make it slightly different
@@ -898,7 +898,7 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
 		int bVisible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
-		TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : _T("");
+		const TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : _T("");
 		
 		char szRootUid[33];
 		if (pmi->mi.root == NULL)

@@ -215,7 +215,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 	if (mir_tstrcmpi(hNtlm->szProvider, _T("Basic"))) {
 		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, _T("GSSAPI")) == 0;
-		TCHAR *szProvider = isGSSAPI ? _T("Kerberos") : hNtlm->szProvider;
+		TCHAR *szProvider = isGSSAPI ? (TCHAR*)_T("Kerberos") : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge) {
 			unsigned tokenLen;

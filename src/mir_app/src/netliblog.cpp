@@ -66,7 +66,7 @@ static void InitLog()
 
 	ptrT szBuf(db_get_tsa(NULL, "Netlib", "File"));
 	if (mir_tstrlen(szBuf)) {
-		logOptions.tszUserFile = szBuf;
+		logOptions.tszUserFile = szBuf.get();
 
 		TCHAR path[MAX_PATH];
 		PathToAbsoluteT(VARST(szBuf), path);

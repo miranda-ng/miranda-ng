@@ -385,7 +385,7 @@ int LoadSkinIcons(void)
 	// Add main icons to list
 	for (int i = 0; i < _countof(mainIcons); i++) {
 		mir_snprintf(iconName, "%s%d", mainIconsFmt, i);
-		sid.section.a = mainIcons[i].section == NULL ? LPGEN("Main icons") : (char*)mainIcons[i].section;
+		sid.section.a = mainIcons[i].section == NULL ? (char*)LPGEN("Main icons") : (char*)mainIcons[i].section;
 		sid.description.a = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
 		mainIcons[i].hIcolib = IcoLib_AddIcon(&sid, 0);
