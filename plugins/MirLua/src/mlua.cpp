@@ -67,6 +67,8 @@ void CMLua::Load()
 	lua_setfield(L, -2, "interpolate");
 	lua_pop(L, 3);
 
+	luaopen_m_utils(L);
+
 	lua_atpanic(L, luaM_atpanic);
 
 	Log("Loading miranda modules");

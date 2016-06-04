@@ -60,8 +60,6 @@ private:
 	static void Init(lua_State *L, T **obj)
 	{
 		luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-		//T *udata = (T*)lua_touserdata(L, 1);
-		//memcpy(*obj, udata, sizeof(T));
 		*obj = (T*)lua_touserdata(L, 1);
 	}
 
@@ -71,7 +69,7 @@ private:
 		return 1;
 	}
 
-	static void Free(lua_State * /*L*/, T **obj)
+	static void Free(lua_State* /*L*/, T **obj)
 	{
 		*obj = NULL;
 	}
@@ -79,7 +77,6 @@ private:
 	static int lua_new(lua_State *L)
 	{
 		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
-		//memset(udata, 0, sizeof(T));
 		Init(L, udata);
 		if (*udata == NULL)
 		{

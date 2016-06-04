@@ -236,85 +236,6 @@ static int db_EventsFromEnd(lua_State *L)
 
 /***********************************************/
 
-#define MT_BLOB "BLOB"
-
-static int array_create(lua_State *L)
-{
-	BYTE *data = (BYTE*)lua_touserdata(L, 1);
-	size_t size = luaL_checkinteger(L, 2);
-
-	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
-	blob->cbSize = size;
-	blob->pBlobData = (BYTE*)mir_calloc(size);
-	memcpy(blob->pBlobData, data, size);
-	luaL_setmetatable(L, MT_BLOB);
-
-	return 1;
-}
-
-static int array__index(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int i = luaL_checkinteger(L, 2);
-
-	lua_pushinteger(L, (uint8_t)blob->pBlobData[i - 1]);
-
-	return 1;
-}
-
-static int array__newindex(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int i = luaL_checkinteger(L, 2);
-
-	blob->pBlobData[i - 1] = (BYTE)luaL_checkinteger(L, 3);
-
-	return 0;
-}
-
-static int array__len(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-
-	lua_pushinteger(L, blob->cbSize);
-
-	return 1;
-}
-
-static int array__tostring(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-
-	char *res = (char*)alloca(blob->cbSize * 2 + 1);
-	bin2hex(blob->pBlobData, blob->cbSize, res);
-
-	lua_pushstring(L, res);
-
-	return 1;
-}
-
-static int array__gc(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-
-	mir_free(blob->pBlobData);
-
-	return 0;
-}
-
-static const struct luaL_Reg blobApi[] =
-{
-	{ "__index", array__index },
-	{ "__newindex", array__newindex },
-	{ "__len", array__len },
-	{ "__tostring", array__tostring },
-	{ "__gc", array__gc },
-
-	(NULL, NULL)
-};
-
-/***********************************************/
-
 static int db_GetSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -350,7 +271,7 @@ static int db_GetSetting(lua_State *L)
 		break;
 	case DBVT_BLOB:
 		{
-			lua_pushcfunction(L, array_create);
+			lua_getglobal(L, MT_BLOB);
 			lua_pushlightuserdata(L, dbv.pbVal);
 			lua_pushnumber(L, dbv.cpbVal);
 			luaM_pcall(L, 2, 1);
@@ -423,7 +344,7 @@ static int db_Settings(lua_State *L)
 	dbces.szModule = szModule;
 	dbces.ofsSettings = 0;
 	dbces.lParam = (LPARAM)param;
-	::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 
 	lua_pushinteger(L, 0);
 	lua_pushlightuserdata(L, param);
@@ -600,7 +521,7 @@ int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 			break;
 		case DBVT_BLOB:
 		{
-			lua_pushcfunction(L, array_create);
+			lua_getglobal(L, MT_BLOB);
 			lua_pushlightuserdata(L, dbcw->value.pbVal);
 			lua_pushnumber(L, dbcw->value.cpbVal);
 			luaM_pcall(L, 2, 1);
@@ -624,6 +545,7 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 {
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
 
+	*dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
 	(*dbei)->cbSize = sizeof(DBEVENTINFO);
 	(*dbei)->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
 	(*dbei)->pBlob = (PBYTE)mir_calloc((*dbei)->cbBlob);
@@ -633,6 +555,7 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 {
 	mir_free((*dbei)->pBlob);
+	mir_free(*dbei);
 }
 
 /***********************************************/
@@ -653,10 +576,6 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 	lua_setfield(L, -2, "DBVT_UTF8");
 	lua_pushnumber(L, DBVT_WCHAR);
 	lua_setfield(L, -2, "DBVT_WCHAR");
-
-	luaL_newmetatable(L, MT_BLOB);
-	luaL_setfuncs(L, blobApi, 0);
-	lua_pop(L, 1);
 
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
 		.Field(&DBCONTACTWRITESETTING::szModule, "Module", LUA_TSTRINGA)

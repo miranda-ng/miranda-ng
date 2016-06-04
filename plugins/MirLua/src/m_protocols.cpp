@@ -46,7 +46,7 @@ static int lua_ProtocolIterator(lua_State *L)
 static int lua_Protocols(lua_State *L)
 {
 	int count;
-	PROTOCOLDESCRIPTOR** protos;
+	PROTOCOLDESCRIPTOR **protos;
 	Proto_EnumProtocols(&count, &protos);
 
 	lua_pushinteger(L, 0);
@@ -116,7 +116,7 @@ static int lua_AccountIterator(lua_State *L)
 static int lua_Accounts(lua_State *L)
 {
 	int count;
-	PROTOACCOUNT** accounts;
+	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&count, &accounts);
 
 	lua_pushinteger(L, 0);

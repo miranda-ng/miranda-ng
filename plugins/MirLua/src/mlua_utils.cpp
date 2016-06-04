@@ -35,6 +35,19 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 	MessageBoxA(NULL, message, caption, MB_OK | flags);
 }
 
+void ObsoleteMethod(lua_State *L, const char *message)
+{
+	lua_Debug ar;
+	if (lua_getstack(L, 0, &ar) == 0 || lua_getinfo(L, "n", &ar) == 0)
+		return;
+
+	char text[512];
+	mir_snprintf(text, "%s is obsolete. %s", ar.name, message);
+	Log(text);
+	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
+		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+}
+
 void ReportError(const char *message)
 {
 	Log(message);
@@ -158,7 +171,7 @@ int luaM_tonumber(lua_State *L)
 	{
 		lua_getglobal(L, "_tonumber");
 		lua_pushvalue(L, 1);
-		lua_pushnumber(L, 2);
+		lua_pushvalue(L, 2);
 		luaM_pcall(L, 2, 1);
 	}
 
@@ -234,15 +247,76 @@ bool luaM_toboolean(lua_State *L, int idx)
 	return lua_toboolean(L, idx) > 0;
 }
 
-void ObsoleteMethod(lua_State *L, const char *message)
-{
-	lua_Debug ar;
-	if (lua_getstack(L, 0, &ar) == 0 || lua_getinfo(L, "n", &ar) == 0)
-		return;
+/***********************************************/
 
-	char text[512];
-	mir_snprintf(text, "%s is obsolete. %s", ar.name, message);
-	Log(text);
-	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
-		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+static int blob_create(lua_State *L)
+{
+	BYTE *data = (BYTE*)lua_touserdata(L, 1);
+	size_t size = luaL_checkinteger(L, 2);
+
+	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
+	blob->cbSize = size;
+	blob->pBlobData = (BYTE*)mir_calloc(size);
+	memcpy(blob->pBlobData, data, size);
+	luaL_setmetatable(L, MT_BLOB);
+
+	return 1;
+}
+
+static int blob__index(lua_State *L)
+{
+	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
+	int i = luaL_checkinteger(L, 2);
+
+	lua_pushinteger(L, (uint8_t)blob->pBlobData[i - 1]);
+
+	return 1;
+}
+
+static int blob__newindex(lua_State *L)
+{
+	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
+	int i = luaL_checkinteger(L, 2);
+
+	blob->pBlobData[i - 1] = (BYTE)luaL_checkinteger(L, 3);
+
+	return 0;
+}
+
+static int blob__len(lua_State *L)
+{
+	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
+
+	lua_pushinteger(L, blob->cbSize);
+
+	return 1;
+}
+
+static int blob__gc(lua_State *L)
+{
+	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
+
+	mir_free(blob->pBlobData);
+
+	return 0;
+}
+
+static const struct luaL_Reg blobApi[] =
+{
+	{ "__index", blob__index },
+	{ "__newindex", blob__newindex },
+	{ "__len", blob__len },
+	{ "__gc", blob__gc },
+
+	(NULL, NULL)
+};
+
+int luaopen_m_utils(lua_State *L)
+{
+	lua_register(L, MT_BLOB, blob_create);
+	luaL_newmetatable(L, MT_BLOB);
+	luaL_setfuncs(L, blobApi, 0);
+	lua_pop(L, 1);
+
+	return 0;
 }

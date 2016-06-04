@@ -46,9 +46,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_OPT_INITIALISE, CMLuaOptions::OnOptionsInit);
 
-	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
-	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
-
 	InitIcons();
 
 	g_mLua = new CMLua();
@@ -65,7 +62,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.flags = NUF_NOOPTIONS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = _T(MODULE);
 	nlu.szSettingsModule = MODULE;
 	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -76,7 +73,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_FILTER;
 	Proto_RegisterModule(&pd);
 
+	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
+
 	/*CreateProtoServiceFunction(MODULE, PSR_AUTH, FilterRecvAuth);
 	CreateProtoServiceFunction(MODULE, PSR_FILE, FilterRecvFile);
 	CreateProtoServiceFunction(MODULE, PSR_URL, FilterRecvUrl);

@@ -96,11 +96,16 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
 /* utils */
 
+#define MT_BLOB "BLOB"
+int (luaopen_m_utils)(lua_State *L);
+
 extern HANDLE hNetlib;
 void Log(const char *format, ...);
 void Log(const wchar_t *format, ...);
 
 void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
+
+void ObsoleteMethod(lua_State *L, const char *message);
 
 int luaM_atpanic(lua_State *L);
 int luaM_pcall(lua_State *L, int n = 0, int r = 0);
@@ -122,7 +127,5 @@ bool luaM_toboolean(lua_State *L, int idx);
 void InitIcons();
 HICON GetIcon(int iconId);
 HANDLE GetIconHandle(int iconId);
-
-void ObsoleteMethod(lua_State *L, const char *message);
 
 #endif //_COMMON_H_
