@@ -125,8 +125,8 @@ bool setup_next_file_send(file_transfer *ft)
 	T2Utf fname(file);
 	if (ft->pfts.totalFiles > 1 && ft->file[0]) {
 		size_t dlen = mir_strlen(ft->file);
-		if (strncmp(fname, ft->file, dlen) == 0 && fname[dlen] == '\\') {
-			fnamea = &fname[dlen + 1];
+		if (strncmp(fname, ft->file, dlen) == 0 && fname.get()[dlen] == '\\') {
+			fnamea = &fname.get()[dlen + 1];
 			for (char *p = fnamea; *p; ++p)
 				if (*p == '\\')
 					*p = 1;
