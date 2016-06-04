@@ -253,22 +253,8 @@
 невдалих пінгів
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
-[Entering first auto-away status]
-Введення першого стану авто-відійшов
-[Entering second auto-away status]
-Введення другого стану авто-відійшов
-[Leaving first auto-away status]
-Залишивши першого стану авто-відійшов
-[Leaving second auto-away status]
-Залишивши другого стану авто-відійшов
-[Becoming active without status change]
-Стають активними без зміни статусу
 [Pre-conditions]
 Попередні умови
-[TriggerData]
-Дані виклику
-[Status: The status the account will change to\r\nAccount: The account changing state]
-Статус: статус, який має бути встановлено для облікового запису\r\nОбліковий запис: обліковий запис, для якого потрібно змінити статус
 [Protocol]
 Протокол
 [%s connected from another location]
