@@ -529,32 +529,27 @@ MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);
 MIR_CORE_DLL(char*)  mir_u2a_cp(const wchar_t* src, int codepage);
 MIR_CORE_DLL(char*)  mir_u2a(const wchar_t* src);
 
-#if defined(__cplusplus)
+#ifdef __cplusplus
 
-class _A2T
+#ifndef M_SYSTEM_CPP_H__
+extern "C++"
 {
-	TCHAR* buf;
+#include <m_system_cpp.h>
+}
+#endif
 
+class _A2T : public ptrT
+{
 public:
-	__forceinline _A2T(const char* s) : buf(mir_a2t(s)) {}
-	__forceinline _A2T(const char* s, int cp) : buf(mir_a2t_cp(s, cp)) {}
-	~_A2T() { mir_free(buf); }
-
-	__forceinline operator LPARAM() const { return (LPARAM)buf; }
-	__forceinline operator TCHAR*() const { return buf; }
+	__inline _A2T(const char* s) : ptrT(mir_a2t(s)) {}
+	__inline _A2T(const char* s, int cp) : ptrT(mir_a2t_cp(s, cp)) {}
 };
 
-class _T2A
+class _T2A : public ptrA
 {
-	char* buf;
-
 public:
-	__forceinline _T2A(const TCHAR* s) : buf(mir_t2a(s)) {}
-	__forceinline _T2A(const TCHAR* s, int cp) : buf(mir_t2a_cp(s, cp)) {}
-	__forceinline ~_T2A() { mir_free(buf); }
-
-	__forceinline operator LPARAM() const { return (LPARAM)buf; }
-	__forceinline operator char*() const {	return buf; }
+	__forceinline _T2A(const TCHAR* s) : ptrA(mir_t2a(s)) {}
+	__forceinline _T2A(const TCHAR* s, int cp) : ptrA(mir_t2a_cp(s, cp)) {}
 };
 
 #endif
@@ -631,30 +626,13 @@ __forceinline char* mir_utf8decodeA(const char* src)
 	#define mir_utf8encodeT mir_utf8encode
 #endif
 
-class T2Utf
+class T2Utf : public ptrA
 {
-	char* m_str;
-
 public:
-	__forceinline T2Utf(const TCHAR *str) :
-		m_str(mir_utf8encodeT(str))
-	{}
-
-	__forceinline ~T2Utf()
-	{	mir_free(m_str);
-	}
-
-	__forceinline char* detach()
-	{	char *res = m_str; m_str = NULL;
-		return res;
-	}
-
-	__forceinline char& operator[](size_t idx) const { return m_str[idx]; }
-	__forceinline operator char*() const {	return m_str; }
-	__forceinline operator unsigned char*() const {	return (unsigned char*)m_str; }
-	__forceinline operator LPARAM() const { return (LPARAM)m_str; }
+	__forceinline T2Utf(const TCHAR *str) : ptrA(mir_utf8encodeT(str)) {}
+	__forceinline operator BYTE* () const { return (BYTE*)data; }
 	#ifdef _XSTRING_
-		std::string str() const { return std::string(m_str); }
+		std::string str() const { return std::string(data); }
 	#endif
 };
 

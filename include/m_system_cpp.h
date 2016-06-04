@@ -21,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #ifndef M_SYSTEM_CPP_H__
 #define M_SYSTEM_CPP_H__ 1
 
@@ -42,12 +43,14 @@ namespace std
 
 template<class T> class mir_ptr
 {
+protected:
 	T* data;
 
 public:
 	__inline explicit mir_ptr() : data(NULL) {}
 	__inline explicit mir_ptr(T* _p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
+	__inline T* get() const { return data; }
 	__inline T* operator = (T* _p) { if (data) mir_free(data); data = _p; return data; }
 	__inline T* operator->() const { return data; }
 	__inline operator T*() const { return data; }
@@ -97,8 +100,8 @@ public:
 	__inline ~pass_ptrA() { zero(); }
 	__inline char* operator = (char *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
-	{ char *_data = mir_ptr::operator char *();
-	  if (_data) SecureZeroMemory(_data, mir_strlen(_data)); 
+	{
+	  if (data) SecureZeroMemory(data, mir_strlen(data)); 
 	}
 };
 
@@ -110,8 +113,8 @@ public:
 	__inline ~pass_ptrW() { zero(); }
 	__inline WCHAR* operator = (WCHAR *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
-	{ WCHAR *_data = mir_ptr::operator WCHAR *();
-	  if (_data) SecureZeroMemory(_data, mir_wstrlen(_data)*sizeof(WCHAR));
+	{
+	  if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(WCHAR));
 	}
 };
 
