@@ -11,6 +11,10 @@
 Редактиране на информацията за контакта
 [This list gives you some overview about all your contact's anniversaries.]
 Списъкът ще ви даде представа за годишнините на контактите ви.
+[Actively searching]
+В активно търсене
+[It\'s complicated]
+Всичко е сложно
 [Origin]
 Родом от
 [&Update]
