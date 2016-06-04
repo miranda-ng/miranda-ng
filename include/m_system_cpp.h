@@ -21,7 +21,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
 #ifndef M_SYSTEM_CPP_H__
 #define M_SYSTEM_CPP_H__ 1
 
@@ -271,6 +270,30 @@ template<class T> struct OBJLIST : public LIST<T>
 	}
 
 	__inline T& operator[](int idx) const { return *this->items[idx]; }
+};
+
+class _A2T : public ptrT
+{
+public:
+	__inline _A2T(const char* s) : ptrT(mir_a2t(s)) {}
+	__inline _A2T(const char* s, int cp) : ptrT(mir_a2t_cp(s, cp)) {}
+};
+
+class _T2A : public ptrA
+{
+public:
+	__forceinline _T2A(const TCHAR* s) : ptrA(mir_t2a(s)) {}
+	__forceinline _T2A(const TCHAR* s, int cp) : ptrA(mir_t2a_cp(s, cp)) {}
+};
+
+class T2Utf : public ptrA
+{
+public:
+	__forceinline T2Utf(const TCHAR *str) : ptrA(mir_utf8encodeT(str)) {}
+	__forceinline operator BYTE* () const { return (BYTE*)data; }
+	#ifdef _XSTRING_
+		std::string str() const { return std::string(data); }
+	#endif
 };
 
 #endif

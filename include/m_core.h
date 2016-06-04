@@ -529,31 +529,6 @@ MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);
 MIR_CORE_DLL(char*)  mir_u2a_cp(const wchar_t* src, int codepage);
 MIR_CORE_DLL(char*)  mir_u2a(const wchar_t* src);
 
-#ifdef __cplusplus
-
-#ifndef M_SYSTEM_CPP_H__
-extern "C++"
-{
-#include <m_system_cpp.h>
-}
-#endif
-
-class _A2T : public ptrT
-{
-public:
-	__inline _A2T(const char* s) : ptrT(mir_a2t(s)) {}
-	__inline _A2T(const char* s, int cp) : ptrT(mir_a2t_cp(s, cp)) {}
-};
-
-class _T2A : public ptrA
-{
-public:
-	__forceinline _T2A(const TCHAR* s) : ptrA(mir_t2a(s)) {}
-	__forceinline _T2A(const TCHAR* s, int cp) : ptrA(mir_t2a_cp(s, cp)) {}
-};
-
-#endif
-
 ///////////////////////////////////////////////////////////////////////////////
 // threads
 
@@ -625,16 +600,6 @@ __forceinline char* mir_utf8decodeA(const char* src)
 	#define mir_utf8decodeT mir_utf8decodeA
 	#define mir_utf8encodeT mir_utf8encode
 #endif
-
-class T2Utf : public ptrA
-{
-public:
-	__forceinline T2Utf(const TCHAR *str) : ptrA(mir_utf8encodeT(str)) {}
-	__forceinline operator BYTE* () const { return (BYTE*)data; }
-	#ifdef _XSTRING_
-		std::string str() const { return std::string(data); }
-	#endif
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Window subclassing
