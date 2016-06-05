@@ -1006,8 +1006,8 @@ void HistoryWindow::Initialise()
 	ResetCList(m_hWnd);
 
 	RestorePos();
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY, true));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY));
+	Window_SetSkinIcon_IcoLib(m_hWnd, SKINICON_OTHER_HISTORY);
+
 	SendMessage(editWindow, EM_AUTOURLDETECT, TRUE, 0);
 	SendMessage(editWindow, EM_SETEVENTMASK, 0, ENM_LINK | ENM_SELCHANGE | ENM_KEYEVENTS | ENM_MOUSEEVENTS);
 	SendMessage(editWindow, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
@@ -1098,13 +1098,9 @@ void HistoryWindow::Initialise()
 
 void HistoryWindow::Destroy()
 {
-	HICON hIcon = (HICON)SendMessage(m_hWnd, WM_SETICON, ICON_BIG, 0);
-	IcoLib_ReleaseIcon(hIcon);
-
-	hIcon = (HICON)SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, 0);
-	IcoLib_ReleaseIcon(hIcon);
-
+	Window_FreeIcon_IcoLib(m_hWnd);
 	isDestroyed = true;
+
 	HistoryWindow::Close(this);
 }
 

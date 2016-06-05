@@ -769,7 +769,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 		Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
-		Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
+		Window_SetSkinIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
 		EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
 		{
 			COMBOBOXINFO cbi;

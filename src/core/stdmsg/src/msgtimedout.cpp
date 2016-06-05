@@ -28,9 +28,7 @@ struct ErrorDlgParam
 	TMsgQueue *item;
 };
 
-INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar);
-
-static INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TMsgQueue *item = (TMsgQueue*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 

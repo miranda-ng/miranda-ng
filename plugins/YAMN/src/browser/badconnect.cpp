@@ -230,8 +230,7 @@ void __cdecl BadConnection(void *Param)
 	__try
 	{
 		hBadConnect = CreateDialogParam(YAMNVar.hInst, MAKEINTRESOURCE(IDD_DLGBADCONNECT), NULL, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
-		SendMessage(hBadConnect, WM_SETICON, ICON_BIG, (LPARAM)g_LoadIconEx(3));
-		SendMessage(hBadConnect, WM_SETICON, ICON_SMALL, (LPARAM)g_LoadIconEx(3));
+		Window_SetIcon_IcoLib(hBadConnect, g_GetIconHandle(3));
 
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");

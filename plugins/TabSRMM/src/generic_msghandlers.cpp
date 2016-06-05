@@ -617,7 +617,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
 		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_EVENT_MESSAGE);
 		return TRUE;
 
 	case WM_COMMAND:

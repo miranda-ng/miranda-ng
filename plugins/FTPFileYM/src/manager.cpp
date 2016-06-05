@@ -223,8 +223,8 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		Window_SetIcon_IcoLib(hwndDlg, Utils::getIconHandle("main"));
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Utils::loadIconEx("main"));
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_TICK));
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select All"), BATF_TCHAR);

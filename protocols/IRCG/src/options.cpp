@@ -228,24 +228,6 @@ HANDLE GetIconHandle(int iconId)
 	return NULL;
 }
 
-void ReleaseIconEx(HICON hIcon)
-{
-	if (hIcon)
-		IcoLib_ReleaseIcon(hIcon);
-}
-
-void WindowSetIcon(HWND hWnd, int iconId)
-{
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(iconId, true));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(iconId));
-}
-
-void WindowFreeIcon(HWND hWnd)
-{
-	ReleaseIconEx((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-	ReleaseIconEx((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // code page handler
 

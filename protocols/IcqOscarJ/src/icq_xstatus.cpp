@@ -758,10 +758,8 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				db_set_utf(NULL, dat->ppro->m_szModuleName, DBSETTING_XSTATUS_NAME, szValue);
 				SAFE_FREE(&szValue);
 
-				if (dat->bXStatus) {
-					IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-					IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-				}
+				if (dat->bXStatus)
+					Window_FreeIcon_IcoLib(hwndDlg);
 			}
 			dat->ppro->updateServerCustomStatus(TRUE);
 		}

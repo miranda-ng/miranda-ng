@@ -15,7 +15,7 @@ IcoLib_GetIconHandle       @12
 IcoLib_IsManaged           @13
 IcoLib_ReleaseIcon         @14
 Window_FreeIcon_IcoLib     @15
-Window_SetIcon_IcoLib      @16
+Window_SetSkinIcon_IcoLib      @16
 Window_SetProtoIcon_IcoLib @17
 ProtoServiceExists         @18
 mir_main                   @19
@@ -262,3 +262,4 @@ Clist_GroupAdded @260
 Contact_GetInfo @261
 Clist_ContactToHItem @262
 Clist_ContactToItemHandle @263
+Window_SetSkinIcon_IcoLib @264

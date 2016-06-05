@@ -52,12 +52,9 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
+		Utils_RestoreWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
 		{
-			HICON hTitleIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIcon);
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
-			Utils_RestoreWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
-			
 			READAWAYMSGDATA *awayData = new READAWAYMSGDATA;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)awayData);
 			awayData->hContact = lParam;

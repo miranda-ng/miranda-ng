@@ -36,8 +36,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		ppro = (CIcqProto*)lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
+		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		{
 			DWORD dwUin = ppro->getContactUin(NULL);
 
@@ -52,8 +51,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 
 	case WM_CLOSE:

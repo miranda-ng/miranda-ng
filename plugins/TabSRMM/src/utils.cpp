@@ -1175,8 +1175,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			m_hwnd = hwnd;
 
 			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
-			::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true)));
-			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA)));
+			::Window_SetSkinIcon_IcoLib(hwnd, SKINICON_OTHER_MIRANDA);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 

@@ -99,7 +99,8 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 #define NR_O_PAGES 10
 #define NR_O_OPTIONSPERPAGE 10
 
-static struct _tagPages {
+static struct _tagPages
+{
 	const TCHAR *szTitle, *szDesc;
 	UINT uIds[10];
 } o_pages[] = {
@@ -140,98 +141,98 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
-	case WM_INITDIALOG: {
-		TVINSERTSTRUCT 	tvis = { 0 };
-		int nr_layouts = 0;
-		const TSideBarLayout *sblayouts = CSideBar::getLayouts(nr_layouts);
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		pContainer = (TContainerData*)lParam;
-		pContainer->hWndOptions = hwndDlg;
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowText(hwndDlg, TranslateT("Container options"));
-		TCHAR szNewTitle[128];
-		mir_sntprintf(szNewTitle, _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
-			TranslateT("Default container") : pContainer->szName);
-		SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
-		Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
-		CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->settings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
+		{
+			TVINSERTSTRUCT 	tvis = { 0 };
+			int nr_layouts = 0;
+			const TSideBarLayout *sblayouts = CSideBar::getLayouts(nr_layouts);
 
-		SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the top"));
-		SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the bottom"));
-		SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the left side"));
-		SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the right side"));
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+			pContainer = (TContainerData*)lParam;
+			pContainer->hWndOptions = hwndDlg;
+			SetWindowText(hwndDlg, TranslateT("Container options"));
+			TCHAR szNewTitle[128];
+			mir_sntprintf(szNewTitle, _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
+				TranslateT("Default container") : pContainer->szName);
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
+			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
+			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->settings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally on"));
-		SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
-		SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally OFF"));
-		SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present, always in bottom display"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the top"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the bottom"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the left side"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the right side"));
 
-		SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
-		SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Don't show them"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally on"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally OFF"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present, always in bottom display"));
 
-		for (int i = 0; i < nr_layouts; i++)
-			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
+			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
+			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Don't show them"));
 
-		/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
-		SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->settings->dwFlagsEx & 0xff000000) >> 24), 0);
+			for (int i = 0; i < nr_layouts; i++)
+				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
+
+			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
+			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->settings->dwFlagsEx & 0xff000000) >> 24), 0);
 
 
-		SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
-		SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
-		SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->settings->szTitleFormat);
-		SetDlgItemText(hwndDlg, IDC_THEME, pContainer->szRelThemeFile);
-		for (int i = 0; i < NR_O_PAGES; i++) {
-			tvis.hParent = NULL;
-			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-			tvis.item.pszText = TranslateTS(o_pages[i].szTitle);
-			tvis.item.lParam = i;
-			HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
-			if (i == 0)
-				SendMessage(hwndTree, TVM_SELECTITEM, TVGN_CARET, (LPARAM)hItem);
-			for (int j = 0; j < NR_O_OPTIONSPERPAGE && o_pages[i].uIds[j] != 0; j++)
-				Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
-			ShowPage(hwndDlg, i, FALSE);
-		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
-		ShowPage(hwndDlg, 0, TRUE);
-		SetFocus(hwndTree);
-		Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);
+			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
+			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
+			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->settings->szTitleFormat);
+			SetDlgItemText(hwndDlg, IDC_THEME, pContainer->szRelThemeFile);
+			for (int i = 0; i < NR_O_PAGES; i++) {
+				tvis.hParent = NULL;
+				tvis.hInsertAfter = TVI_LAST;
+				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+				tvis.item.pszText = TranslateTS(o_pages[i].szTitle);
+				tvis.item.lParam = i;
+				HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
+				if (i == 0)
+					SendMessage(hwndTree, TVM_SELECTITEM, TVGN_CARET, (LPARAM)hItem);
+				for (int j = 0; j < NR_O_OPTIONSPERPAGE && o_pages[i].uIds[j] != 0; j++)
+					Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
+				ShowPage(hwndDlg, i, FALSE);
+			}
+			Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_EVENT_MESSAGE);
+			ShowPage(hwndDlg, 0, TRUE);
+			SetFocus(hwndTree);
+			Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);
 
-		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_DESC, WM_GETFONT, 0, 0);
-		LOGFONT lf = { 0 };
+			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_DESC, WM_GETFONT, 0, 0);
+			LOGFONT lf = { 0 };
 
-		GetObject(hFont, sizeof(lf), &lf);
-		lf.lfHeight = (int)(lf.lfHeight * 1.2);
-		hFont = CreateFontIndirect(&lf);
+			GetObject(hFont, sizeof(lf), &lf);
+			lf.lfHeight = (int)(lf.lfHeight * 1.2);
+			hFont = CreateFontIndirect(&lf);
 
-		SendDlgItemMessage(hwndDlg, IDC_TITLEBOX, WM_SETFONT, (WPARAM)hFont, TRUE);
+			SendDlgItemMessage(hwndDlg, IDC_TITLEBOX, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-		if (pContainer->isCloned && pContainer->hContactFrom != 0) {
-			Utils::showDlgControl(hwndDlg, IDC_CNTPRIVATE, SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_O_CNTPRIVATE, SW_HIDE);
+			if (pContainer->isCloned && pContainer->hContactFrom != 0) {
+				Utils::showDlgControl(hwndDlg, IDC_CNTPRIVATE, SW_HIDE);
+				Utils::showDlgControl(hwndDlg, IDC_O_CNTPRIVATE, SW_HIDE);
+			}
 		}
 		return FALSE;
-	}
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-	{
-		HWND hwndChild = (HWND)lParam;
-		UINT id = GetDlgCtrlID(hwndChild);
+		{
+			HWND hwndChild = (HWND)lParam;
+			UINT id = GetDlgCtrlID(hwndChild);
 
-		if (hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX))
-			::SetTextColor((HDC)wParam, RGB(60, 60, 150));
-		else if (hwndChild == GetDlgItem(hwndDlg, IDC_DESC))
-			::SetTextColor((HDC)wParam, RGB(160, 50, 50));
-		
-		if (id == IDC_TSLABEL_REOPENWARN)
-			break;
-		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-	}
+			if (hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX))
+				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
+			else if (hwndChild == GetDlgItem(hwndDlg, IDC_DESC))
+				::SetTextColor((HDC)wParam, RGB(160, 50, 50));
+
+			if (id == IDC_TSLABEL_REOPENWARN)
+				break;
+			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+		}
 
 	case WM_NOTIFY:
 		if (wParam == IDC_SECTIONTREE && ((LPNMHDR)lParam)->code == TVN_SELCHANGED) {
@@ -249,47 +250,50 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_CNTPRIVATE: {
+		case IDC_CNTPRIVATE:
+			{
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
-				Utils::ReadPrivateContainerSettings(pContainer, true);
-				pContainer->settings->fPrivate = true;
-			}
-			else {
-				if (pContainer->settings != &PluginConfig.globalContainerSettings) {
-					char szCname[40];
-					mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
-					pContainer->settings->fPrivate = false;
-					db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
-					mir_free(pContainer->settings);
+				if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
+					Utils::ReadPrivateContainerSettings(pContainer, true);
+					pContainer->settings->fPrivate = true;
 				}
-				pContainer->settings = &PluginConfig.globalContainerSettings;
-				pContainer->settings->fPrivate = false;
+				else {
+					if (pContainer->settings != &PluginConfig.globalContainerSettings) {
+						char szCname[40];
+						mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+						pContainer->settings->fPrivate = false;
+						db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
+						mir_free(pContainer->settings);
+					}
+					pContainer->settings = &PluginConfig.globalContainerSettings;
+					pContainer->settings->fPrivate = false;
+				}
+				SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
+				goto do_apply;
 			}
-			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
-			goto do_apply;
-		}
-		case IDC_TRANSPARENCY: {
-			bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
-			goto do_apply;
-		}
+		case IDC_TRANSPARENCY:
+			{
+				bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
+				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
+				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
+				goto do_apply;
+			}
 		case IDC_SECTIONTREE:
 		case IDC_DESC:
 			return 0;
-		case IDC_SAVESIZEASGLOBAL: {
-			WINDOWPLACEMENT wp = { 0 };
+		case IDC_SAVESIZEASGLOBAL:
+			{
+				WINDOWPLACEMENT wp = { 0 };
 
-			wp.length = sizeof(wp);
-			if (GetWindowPlacement(pContainer->hwnd, &wp)) {
-				db_set_dw(0, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
-				db_set_dw(0, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
-				db_set_dw(0, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-				db_set_dw(0, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+				wp.length = sizeof(wp);
+				if (GetWindowPlacement(pContainer->hwnd, &wp)) {
+					db_set_dw(0, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
+					db_set_dw(0, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
+					db_set_dw(0, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+					db_set_dw(0, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+				}
+				break;
 			}
-			break;
-		}
 		case IDC_O_ENABLESOUNDS:
 			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
 			break;
@@ -297,23 +301,23 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			goto do_apply;
-		case IDC_SELECTTHEME: {
-			const wchar_t *szFileName = GetThemeFileName(0);
+		case IDC_SELECTTHEME:
+			{
+				const wchar_t *szFileName = GetThemeFileName(0);
 
-			if (PathFileExists(szFileName)) {
-				SetDlgItemText(hwndDlg, IDC_THEME, szFileName);
-				goto do_apply;
+				if (PathFileExists(szFileName)) {
+					SetDlgItemText(hwndDlg, IDC_THEME, szFileName);
+					goto do_apply;
+				}
+				break;
 			}
-			break;
-		}
 
 		case IDC_O_HELP_TITLEFORMAT:
 			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Title_bar_formatting");
 			break;
 
 		case IDOK:
-		case IDC_APPLY: {
-
+		case IDC_APPLY:
 			SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, (LPARAM)pContainer->settings);
 
 			pContainer->settings->dwTransparency = MAKELONG((WORD)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_GETPOS, 0, 0),
@@ -364,7 +368,6 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ShowWindow(pContainer->hwnd, SW_HIDE);
 			{
 				RECT	rc;
-
 				GetWindowRect(pContainer->hwnd, &rc);
 				SetWindowPos(pContainer->hwnd, 0, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
 				SetWindowPos(pContainer->hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);
@@ -376,181 +379,186 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);
 
 			break;
-		}
+
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			return TRUE;
 
 		default:
-		do_apply : Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
+do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			break;
 		}
 		break;
-	case DM_SC_INITDIALOG: {
-		TContainerSettings* cs = (TContainerSettings *)lParam;
 
-		DWORD dwFlags = cs->dwFlags;
-		DWORD dwTransparency = cs->dwTransparency;
-		DWORD dwFlagsEx = cs->dwFlagsEx;
-		BOOL fAllowTrans = FALSE;
+	case DM_SC_INITDIALOG:
+		{
+			TContainerSettings* cs = (TContainerSettings *)lParam;
 
-		if (PluginConfig.m_WinVerMajor >= 6)
-			fAllowTrans = TRUE;
-		else
-			fAllowTrans = (!CSkin::m_skinEnabled);
+			DWORD dwFlags = cs->dwFlags;
+			DWORD dwTransparency = cs->dwTransparency;
+			DWORD dwFlagsEx = cs->dwFlagsEx;
+			BOOL fAllowTrans = FALSE;
 
-		MY_CheckDlgButton(hwndDlg, IDC_O_HIDETITLE, dwFlags & CNT_NOTITLE);
-		MY_CheckDlgButton(hwndDlg, IDC_O_DONTREPORT, dwFlags & CNT_DONTREPORT);
-		MY_CheckDlgButton(hwndDlg, IDC_O_NOTABS, dwFlags & CNT_HIDETABS);
-		MY_CheckDlgButton(hwndDlg, IDC_O_STICKY, dwFlags & CNT_STICKY);
-		MY_CheckDlgButton(hwndDlg, IDC_O_FLASHNEVER, dwFlags & CNT_NOFLASH);
-		MY_CheckDlgButton(hwndDlg, IDC_O_FLASHALWAYS, dwFlags & CNT_FLASHALWAYS);
-		MY_CheckDlgButton(hwndDlg, IDC_O_FLASHDEFAULT, !((dwFlags & CNT_NOFLASH) || (dwFlags & CNT_FLASHALWAYS)));
-		MY_CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY);
-		MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTUNFOCUSED2, dwFlags & CNT_DONTREPORTUNFOCUSED);
-		MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTFOCUSED2, dwFlags & CNT_DONTREPORTFOCUSED);
-		MY_CheckDlgButton(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, dwFlags & CNT_ALWAYSREPORTINACTIVE);
-		MY_CheckDlgButton(hwndDlg, IDC_CNTNOSTATUSBAR, dwFlags & CNT_NOSTATUSBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_HIDEMENUBAR, dwFlags & CNT_NOMENUBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_HIDETOOLBAR, dwFlags & CNT_HIDETOOLBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_BOTTOMTOOLBAR, dwFlags & CNT_BOTTOMTOOLBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_UIDSTATUSBAR, dwFlags & CNT_UINSTATUSBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_VERTICALMAX, dwFlags & CNT_VERTICALMAX);
-		MY_CheckDlgButton(hwndDlg, IDC_AUTOSPLITTER, dwFlags & CNT_AUTOSPLITTER);
-		MY_CheckDlgButton(hwndDlg, IDC_AVATARSONTASKBAR, dwFlags & CNT_AVATARSONTASKBAR);
-		MY_CheckDlgButton(hwndDlg, IDC_INFOPANEL, dwFlags & CNT_INFOPANEL);
-		MY_CheckDlgButton(hwndDlg, IDC_USEGLOBALSIZE, dwFlags & CNT_GLOBALSIZE);
+			if (PluginConfig.m_WinVerMajor >= 6)
+				fAllowTrans = TRUE;
+			else
+				fAllowTrans = (!CSkin::m_skinEnabled);
 
-		MY_CheckDlgButton(hwndDlg, IDC_FLASHICON, dwFlagsEx & TCF_FLASHICON);
-		MY_CheckDlgButton(hwndDlg, IDC_FLASHLABEL, dwFlagsEx & TCF_FLASHLABEL);
-		MY_CheckDlgButton(hwndDlg, IDC_CLOSEBUTTONONTABS, dwFlagsEx & TCF_CLOSEBUTTON);
+			MY_CheckDlgButton(hwndDlg, IDC_O_HIDETITLE, dwFlags & CNT_NOTITLE);
+			MY_CheckDlgButton(hwndDlg, IDC_O_DONTREPORT, dwFlags & CNT_DONTREPORT);
+			MY_CheckDlgButton(hwndDlg, IDC_O_NOTABS, dwFlags & CNT_HIDETABS);
+			MY_CheckDlgButton(hwndDlg, IDC_O_STICKY, dwFlags & CNT_STICKY);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHNEVER, dwFlags & CNT_NOFLASH);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHALWAYS, dwFlags & CNT_FLASHALWAYS);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHDEFAULT, !((dwFlags & CNT_NOFLASH) || (dwFlags & CNT_FLASHALWAYS)));
+			MY_CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY);
+			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTUNFOCUSED2, dwFlags & CNT_DONTREPORTUNFOCUSED);
+			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTFOCUSED2, dwFlags & CNT_DONTREPORTFOCUSED);
+			MY_CheckDlgButton(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, dwFlags & CNT_ALWAYSREPORTINACTIVE);
+			MY_CheckDlgButton(hwndDlg, IDC_CNTNOSTATUSBAR, dwFlags & CNT_NOSTATUSBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_HIDEMENUBAR, dwFlags & CNT_NOMENUBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_HIDETOOLBAR, dwFlags & CNT_HIDETOOLBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_BOTTOMTOOLBAR, dwFlags & CNT_BOTTOMTOOLBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_UIDSTATUSBAR, dwFlags & CNT_UINSTATUSBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_VERTICALMAX, dwFlags & CNT_VERTICALMAX);
+			MY_CheckDlgButton(hwndDlg, IDC_AUTOSPLITTER, dwFlags & CNT_AUTOSPLITTER);
+			MY_CheckDlgButton(hwndDlg, IDC_AVATARSONTASKBAR, dwFlags & CNT_AVATARSONTASKBAR);
+			MY_CheckDlgButton(hwndDlg, IDC_INFOPANEL, dwFlags & CNT_INFOPANEL);
+			MY_CheckDlgButton(hwndDlg, IDC_USEGLOBALSIZE, dwFlags & CNT_GLOBALSIZE);
 
-		MY_CheckDlgButton(hwndDlg, IDC_SINGLEROWTAB, dwFlagsEx & TCF_SINGLEROWTABCONTROL);
-		MY_CheckDlgButton(hwndDlg, IDC_BUTTONTABS, dwFlagsEx & TCF_FLAT);
+			MY_CheckDlgButton(hwndDlg, IDC_FLASHICON, dwFlagsEx & TCF_FLASHICON);
+			MY_CheckDlgButton(hwndDlg, IDC_FLASHLABEL, dwFlagsEx & TCF_FLASHLABEL);
+			MY_CheckDlgButton(hwndDlg, IDC_CLOSEBUTTONONTABS, dwFlagsEx & TCF_CLOSEBUTTON);
 
-		MY_CheckDlgButton(hwndDlg, IDC_O_ENABLESOUNDS, !(dwFlags & CNT_NOSOUND));
-		MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSMINIMIZED, dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED);
-		MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSUNFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED);
-		MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSINACTIVE, dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS);
-		MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_FOCUSED);
+			MY_CheckDlgButton(hwndDlg, IDC_SINGLEROWTAB, dwFlagsEx & TCF_SINGLEROWTABCONTROL);
+			MY_CheckDlgButton(hwndDlg, IDC_BUTTONTABS, dwFlagsEx & TCF_FLAT);
 
-		SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
+			MY_CheckDlgButton(hwndDlg, IDC_O_ENABLESOUNDS, !(dwFlags & CNT_NOSOUND));
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSMINIMIZED, dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSUNFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSINACTIVE, dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_FOCUSED);
 
-		if (!(dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)))
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlags & CNT_TABSBOTTOM ? 1 : 0, 0);
-		else
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);
+			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
 
-		if (LOBYTE(LOWORD(GetVersion())) >= 5 && fAllowTrans)
-			CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY ? BST_CHECKED : BST_UNCHECKED);
-		else
-			CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
+			if (!(dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)))
+				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlags & CNT_TABSBOTTOM ? 1 : 0, 0);
+			else
+				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);
 
-		Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans);
+			if (LOBYTE(LOWORD(GetVersion())) >= 5 && fAllowTrans)
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY ? BST_CHECKED : BST_UNCHECKED);
+			else
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
 
-		bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
-		Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
-		Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans);
 
-		SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
-		SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
+			bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
 
-		SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETPOS, TRUE, (LPARAM)LOWORD(dwTransparency));
-		SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETPOS, TRUE, (LPARAM)HIWORD(dwTransparency));
+			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
+			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
 
-		Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, !nen_options.bWindowCheck);
-		Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, !nen_options.bWindowCheck);
-		Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, !nen_options.bWindowCheck);
-		Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, !nen_options.bWindowCheck);
+			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETPOS, TRUE, (LPARAM)LOWORD(dwTransparency));
+			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETPOS, TRUE, (LPARAM)HIWORD(dwTransparency));
 
-		SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_SETCURSEL, (WPARAM)cs->avatarMode, 0);
-		SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_SETCURSEL, (WPARAM)cs->ownAvatarMode, 0);
+			Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, !nen_options.bWindowCheck);
 
-		Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, nen_options.bWindowCheck ? SW_SHOW : SW_HIDE);
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_SETCURSEL, (WPARAM)cs->avatarMode, 0);
+			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_SETCURSEL, (WPARAM)cs->ownAvatarMode, 0);
 
-		SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-		SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETPOS, 0, (LPARAM)cs->autoCloseSeconds);
-		break;
-	}
+			Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, nen_options.bWindowCheck ? SW_SHOW : SW_HIDE);
 
-	case DM_SC_CONFIG: {
-		bool bEnable = IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) != 0;
-		Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSINACTIVE, bEnable);
-		Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSUNFOCUSED, bEnable);
-		Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSMINIMIZED, bEnable);
-		Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSFOCUSED, bEnable);
-		return 0;
-	}
-
-	case DM_SC_BUILDLIST: {
-		DWORD dwNewFlags = 0, dwNewFlagsEx = 0;
-		TContainerSettings* cs = (TContainerSettings *)lParam;
-
-		dwNewFlags = (IsDlgButtonChecked(hwndDlg, IDC_O_HIDETITLE) ? CNT_NOTITLE : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_DONTREPORT) ? CNT_DONTREPORT : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_NOTABS) ? CNT_HIDETABS : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_STICKY) ? CNT_STICKY : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHALWAYS) ? CNT_FLASHALWAYS : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHNEVER) ? CNT_NOFLASH : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) ? CNT_TRANSPARENCY : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTUNFOCUSED2) ? CNT_DONTREPORTUNFOCUSED : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTFOCUSED2) ? CNT_DONTREPORTFOCUSED : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE) ? CNT_ALWAYSREPORTINACTIVE : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_CNTNOSTATUSBAR) ? CNT_NOSTATUSBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_HIDEMENUBAR) ? CNT_NOMENUBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_HIDETOOLBAR) ? CNT_HIDETOOLBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_BOTTOMTOOLBAR) ? CNT_BOTTOMTOOLBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_UIDSTATUSBAR) ? CNT_UINSTATUSBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_USEGLOBALSIZE) ? CNT_GLOBALSIZE : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_INFOPANEL) ? CNT_INFOPANEL : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) ? 0 : CNT_NOSOUND) |
-			(IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR) ? CNT_AVATARSONTASKBAR : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX) ? CNT_VERTICALMAX : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER) ? CNT_AUTOSPLITTER : 0) |
-			(CNT_NEWCONTAINERFLAGS);
-
-		LRESULT iTabMode = SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_GETCURSEL, 0, 0);
-		LRESULT iTabLayout = SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_GETCURSEL, 0, 0);
-
-		dwNewFlagsEx = 0;
-
-		if (iTabMode < 2)
-			dwNewFlags = ((iTabMode == 1) ? (dwNewFlags | CNT_TABSBOTTOM) : (dwNewFlags & ~CNT_TABSBOTTOM));
-		else {
-			dwNewFlags &= ~CNT_TABSBOTTOM;
-			dwNewFlagsEx = iTabMode == 2 ? TCF_SBARLEFT : TCF_SBARRIGHT;
+			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
+			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETPOS, 0, (LPARAM)cs->autoCloseSeconds);
 		}
-
-		dwNewFlagsEx |= ((IsDlgButtonChecked(hwndDlg, IDC_FLASHICON) ? TCF_FLASHICON : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_FLASHLABEL) ? TCF_FLASHLABEL : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_BUTTONTABS) ? TCF_FLAT : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_CLOSEBUTTONONTABS) ? TCF_CLOSEBUTTON : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_SINGLEROWTAB) ? TCF_SINGLEROWTABCONTROL : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSMINIMIZED) ? CNT_EX_SOUNDS_MINIMIZED : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSUNFOCUSED) ? CNT_EX_SOUNDS_UNFOCUSED : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSFOCUSED) ? CNT_EX_SOUNDS_FOCUSED : 0) |
-			(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSINACTIVE) ? CNT_EX_SOUNDS_INACTIVETABS : 0)
-			);
-
-		/* bits 24 - 31 of dwFlagsEx hold the sidebar layout id */
-		dwNewFlagsEx |= ((int)((iTabLayout << 24) & 0xff000000));
-
-		if (IsDlgButtonChecked(hwndDlg, IDC_O_FLASHDEFAULT))
-			dwNewFlags &= ~(CNT_FLASHALWAYS | CNT_NOFLASH);
-
-		cs->dwFlags = dwNewFlags;
-		cs->dwFlagsEx = dwNewFlagsEx;
-		cs->autoCloseSeconds = (WORD)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
 		break;
-	}
-	case WM_DESTROY: {
+
+	case DM_SC_CONFIG:
+		{
+			bool bEnable = IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) != 0;
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSINACTIVE, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSUNFOCUSED, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSMINIMIZED, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSFOCUSED, bEnable);
+		}
+		return 0;
+
+	case DM_SC_BUILDLIST:
+		{
+			DWORD dwNewFlags = 0, dwNewFlagsEx = 0;
+			TContainerSettings* cs = (TContainerSettings *)lParam;
+
+			dwNewFlags = (IsDlgButtonChecked(hwndDlg, IDC_O_HIDETITLE) ? CNT_NOTITLE : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_DONTREPORT) ? CNT_DONTREPORT : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_NOTABS) ? CNT_HIDETABS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_STICKY) ? CNT_STICKY : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHALWAYS) ? CNT_FLASHALWAYS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHNEVER) ? CNT_NOFLASH : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) ? CNT_TRANSPARENCY : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTUNFOCUSED2) ? CNT_DONTREPORTUNFOCUSED : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTFOCUSED2) ? CNT_DONTREPORTFOCUSED : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE) ? CNT_ALWAYSREPORTINACTIVE : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_CNTNOSTATUSBAR) ? CNT_NOSTATUSBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_HIDEMENUBAR) ? CNT_NOMENUBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_HIDETOOLBAR) ? CNT_HIDETOOLBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_BOTTOMTOOLBAR) ? CNT_BOTTOMTOOLBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_UIDSTATUSBAR) ? CNT_UINSTATUSBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_USEGLOBALSIZE) ? CNT_GLOBALSIZE : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_INFOPANEL) ? CNT_INFOPANEL : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) ? 0 : CNT_NOSOUND) |
+				(IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR) ? CNT_AVATARSONTASKBAR : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX) ? CNT_VERTICALMAX : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER) ? CNT_AUTOSPLITTER : 0) |
+				(CNT_NEWCONTAINERFLAGS);
+
+			LRESULT iTabMode = SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_GETCURSEL, 0, 0);
+			LRESULT iTabLayout = SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_GETCURSEL, 0, 0);
+
+			dwNewFlagsEx = 0;
+
+			if (iTabMode < 2)
+				dwNewFlags = ((iTabMode == 1) ? (dwNewFlags | CNT_TABSBOTTOM) : (dwNewFlags & ~CNT_TABSBOTTOM));
+			else {
+				dwNewFlags &= ~CNT_TABSBOTTOM;
+				dwNewFlagsEx = iTabMode == 2 ? TCF_SBARLEFT : TCF_SBARRIGHT;
+			}
+
+			dwNewFlagsEx |= ((IsDlgButtonChecked(hwndDlg, IDC_FLASHICON) ? TCF_FLASHICON : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_FLASHLABEL) ? TCF_FLASHLABEL : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_BUTTONTABS) ? TCF_FLAT : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_CLOSEBUTTONONTABS) ? TCF_CLOSEBUTTON : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_SINGLEROWTAB) ? TCF_SINGLEROWTABCONTROL : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSMINIMIZED) ? CNT_EX_SOUNDS_MINIMIZED : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSUNFOCUSED) ? CNT_EX_SOUNDS_UNFOCUSED : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSFOCUSED) ? CNT_EX_SOUNDS_FOCUSED : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSINACTIVE) ? CNT_EX_SOUNDS_INACTIVETABS : 0)
+				);
+
+			/* bits 24 - 31 of dwFlagsEx hold the sidebar layout id */
+			dwNewFlagsEx |= ((int)((iTabLayout << 24) & 0xff000000));
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_O_FLASHDEFAULT))
+				dwNewFlags &= ~(CNT_FLASHALWAYS | CNT_NOFLASH);
+
+			cs->dwFlags = dwNewFlags;
+			cs->dwFlagsEx = dwNewFlagsEx;
+			cs->autoCloseSeconds = (WORD)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
+		}
+		break;
+
+	case WM_DESTROY:
+		Window_FreeIcon_IcoLib(hwndDlg);
 		pContainer->hWndOptions = 0;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 
 		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_TITLEBOX, WM_GETFONT, 0, 0);
 		DeleteObject(hFont);
 		break;
-	}
 	}
 	return FALSE;
 }

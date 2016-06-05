@@ -153,8 +153,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		TranslateDialogDefault( hDlg );
 		oldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
 		
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(iconList[2].hIcolib, 1));
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(iconList[2].hIcolib));
+		Window_SetIcon_IcoLib(hDlg, iconList[2].hIcolib);
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 			ImageList_AddIconFromIconLib(hIml, 1);
@@ -328,8 +327,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
-		IcoLib_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hDlg);
 		hwndDialog = NULL;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);

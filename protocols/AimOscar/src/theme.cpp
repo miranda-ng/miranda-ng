@@ -57,7 +57,7 @@ static IconItem iconList[] =
 void InitIcons(void)
 {
 	Icon_Register(hInstance, "Protocols/AIM", iconList, 14, "AIM");
-	Icon_Register(hInstance, "Protocols/AIM/" LPGEN("Profile Editor"), iconList+14, 14, "AIM");
+	Icon_Register(hInstance, "Protocols/AIM/" LPGEN("Profile Editor"), iconList + 14, 14, "AIM");
 }
 
 HICON LoadIconEx(const char *name, bool big)
@@ -69,8 +69,8 @@ HICON LoadIconEx(const char *name, bool big)
 
 HANDLE GetIconHandle(const char *name)
 {
-	for (int i=0; i < _countof(iconList); i++)
-		if ( !mir_strcmp(iconList[i].szName, name))
+	for (int i = 0; i < _countof(iconList); i++)
+		if (!mir_strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 
 	return NULL;
@@ -81,12 +81,6 @@ void ReleaseIconEx(const char *name, bool big)
 	char szSettingName[100];
 	mir_snprintf(szSettingName, "%s_%s", "AIM", name);
 	IcoLib_Release(szSettingName, big);
-}
-
-void Window_SetIcon(HWND hWnd, const char* name)
-{
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadIconEx( name, true ));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx( name ));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -139,14 +133,14 @@ void set_contact_icon(CAimProto* ppro, MCONTACT hContact)
 void remove_AT_icons(CAimProto* ppro)
 {
 	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
-		if (!ppro->isChatRoom(hContact)) 
+		if (!ppro->isChatRoom(hContact))
 			ExtraIcon_Clear(hExtraAT, hContact);
 }
 
 void remove_ES_icons(CAimProto* ppro)
 {
 	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
-		if (!ppro->isChatRoom(hContact)) 
+		if (!ppro->isChatRoom(hContact))
 			ExtraIcon_Clear(hExtraES, hContact);
 }
 
@@ -230,7 +224,7 @@ void CAimProto::InitMainMenus(void)
 	CreateProtoService(mi.pszService, &CAimProto::JoinChatUI);
 	mi.position = 201003;
 	mi.hIcolibItem = GetIconHandle("aol");
-	mi.name.a = LPGEN( "Join Chat Room" );
+	mi.name.a = LPGEN("Join Chat Room");
 	m_hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
@@ -239,7 +233,7 @@ void CAimProto::InitContactMenus(void)
 	CMenuItem mi;
 
 	SET_UID(mi, 0xb961e2af, 0x87a, 0x4fbf, 0xb5, 0x32, 0x6, 0xe2, 0x18, 0xad, 0x29, 0xac);
-	CreateProtoService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
+	CreateProtoService("/GetHTMLAwayMsg", &CAimProto::GetHTMLAwayMsg);
 	mi.pszService = "/GetHTMLAwayMsg";
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("away");
@@ -257,7 +251,7 @@ void CAimProto::InitContactMenus(void)
 	Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
-	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList); 
+	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList);
 	mi.pszService = "/AddToServerList";
 	mi.position = -2000005080;
 	mi.hIcolibItem = GetIconHandle("add");

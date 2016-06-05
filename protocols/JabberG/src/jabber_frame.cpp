@@ -364,7 +364,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 				if (hIcon) {
 					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-					g_ReleaseIcon(hIcon);
+					IcoLib_ReleaseIcon(hIcon);
 				}
 			}
 
@@ -379,7 +379,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 					cx -= cx_icon;
 
-					g_ReleaseIcon(hIcon);
+					IcoLib_ReleaseIcon(hIcon);
 
 					SetToolTip(item.m_tooltipId, &item.m_rcItem, item.m_pszText);
 				}
@@ -424,7 +424,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 				cx += cx_icon + SZ_ICONSPACING;
 
-				g_ReleaseIcon(hIcon);
+				IcoLib_ReleaseIcon(hIcon);
 			}
 		}
 

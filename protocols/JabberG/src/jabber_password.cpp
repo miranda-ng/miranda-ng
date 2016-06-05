@@ -90,7 +90,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		break;
 	case WM_DESTROY:
 		ppro->m_hwndJabberChangePassword = NULL;
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 

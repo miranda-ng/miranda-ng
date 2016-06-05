@@ -442,7 +442,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 
 			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
 			TranslateDialogDefault(hwndDlg);
-			WindowSetIcon(hwndDlg, "conference");
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_CONFERENCE));
 			gg_gc_resetclistopts(GetDlgItem(hwndDlg, IDC_CLIST));
 
 			// Hook MetaContacts event (if available)
@@ -567,8 +567,9 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 		case WM_DESTROY:
 		{
 			HANDLE hMetaContactsEvent = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (hMetaContactsEvent) UnhookEvent(hMetaContactsEvent);
-			WindowFreeIcon(hwndDlg);
+			if (hMetaContactsEvent)
+				UnhookEvent(hMetaContactsEvent);
+			Window_FreeIcon_IcoLib(hwndDlg);
 			break;
 		}
 	}

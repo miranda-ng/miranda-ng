@@ -120,8 +120,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			CYahooProto* ppro = (CYahooProto*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx("yahoo", true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx("yahoo"));
+			Window_SetIcon_IcoLib(hwndDlg, ppro->GetIconHandle(IDI_YAHOO));
 
 			if (!ppro->getString(YAHOO_CUSTSTATDB, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, dbv.pszVal);
@@ -185,11 +184,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		{
-			CYahooProto* ppro = (CYahooProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			ppro->ReleaseIconEx("yahoo", true);
-			ppro->ReleaseIconEx("yahoo");
-		}
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

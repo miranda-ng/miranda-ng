@@ -597,6 +597,7 @@ public:
 	
 	virtual void OnInitDialog()
 	{
+		// MUST NOT be replaced with Window_SetIcon_IcoLib!!!
 		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconSX, g_iIconSY, 0));
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconX, g_iIconY, 0));
 

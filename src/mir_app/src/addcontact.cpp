@@ -65,7 +65,7 @@ public:
 	void OnInitDialog()
 	{
 		char szUin[10];
-		Window_SetIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
+		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
 		if (m_acs.handleType == HANDLE_EVENT) {
 			DWORD dwUin;
 			DBEVENTINFO dbei = { sizeof(dbei) };

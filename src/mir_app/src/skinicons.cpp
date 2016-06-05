@@ -188,28 +188,34 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 	return res;
 }
 
-MIR_APP_DLL(void) Window_SetIcon_IcoLib(HWND hWnd, int iconId)
+MIR_APP_DLL(void) Window_SetIcon_IcoLib(HWND hWnd, HANDLE hIcolib)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)Skin_LoadIcon(iconId, true));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(iconId));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hIcolib, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(hIcolib, false));
+}
+
+MIR_APP_DLL(void) Window_SetSkinIcon_IcoLib(HWND hWnd, int iconId)
+{
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(iconId, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(iconId, false));
 }
 
 MIR_APP_DLL(void) Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)Skin_LoadProtoIcon(szProto, iconId, true));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(szProto, iconId));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(szProto, iconId, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(szProto, iconId, false));
 }
 
 MIR_APP_DLL(void) Window_FreeIcon_IcoLib(HWND hWnd)
 {
 	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0), true);
-	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), false);
 }
 
 MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char *tooltip)
 {
 	HWND hWnd = GetDlgItem(hwndDlg, itemId);
-	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(iconId));
+	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(iconId, false));
 	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
 	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
 }

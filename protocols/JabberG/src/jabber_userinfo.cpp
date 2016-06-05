@@ -190,7 +190,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 		tvis.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 		tvis.itemex.iImage =
 		tvis.itemex.iSelectedImage = ImageList_AddIcon(himl, hIcon);
-		g_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 	}
 
 	if (hti) {
@@ -439,8 +439,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		// lParam is hContact
 		TranslateDialogDefault(hwndDlg);
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS, true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_USERDETAILS);
 
 		dat = (JabberUserInfoDlgData *)mir_alloc(sizeof(JabberUserInfoDlgData));
 		memset(dat, 0, sizeof(JabberUserInfoDlgData));
@@ -585,7 +584,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		}
 		WindowList_Remove(hUserInfoList, hwndDlg);
 		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TV_INFO), NULL, TVSIL_NORMAL));
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

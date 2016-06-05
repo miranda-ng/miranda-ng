@@ -46,8 +46,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		ppro = (CDummyProto*)lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon, true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(ppro->m_hProtoIcon));
+		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		{
 			SendDlgItemMessageA(hwndDlg, IDC_TEMPLATE, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(templates[0].name)));
 			for (size_t i = 1; i < _countof(templates); i++)
@@ -108,8 +107,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 

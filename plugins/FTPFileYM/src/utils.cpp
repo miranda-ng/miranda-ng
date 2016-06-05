@@ -44,11 +44,18 @@ int Utils::msgBoxA(char *szMsg, UINT uType)
 	return MessageBoxA(hwnd, szMsg, Translate("FTP File"), uType);
 }
 
-HICON Utils::loadIconEx(char *szName)
+HICON Utils::loadIconEx(const char *szName)
 {
 	char buff[100];
 	mir_snprintf(buff, "%s_%s", MODULE, szName);
 	return IcoLib_GetIcon(buff);
+}
+
+HANDLE Utils::getIconHandle(const char *szName)
+{
+	char buff[100];
+	mir_snprintf(buff, "%s_%s", MODULE, szName);
+	return IcoLib_GetIconHandle(buff);
 }
 
 TCHAR* Utils::getFileNameFromPath(TCHAR *stzPath)

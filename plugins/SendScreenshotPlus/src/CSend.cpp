@@ -91,8 +91,8 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(ICO_MAIN));
 		{
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
 			CSend* self = (CSend*)lParam;
 			TCHAR* tmp = mir_tstrdup(TranslateT("Resulting URL from\n"));
 			mir_tstradd(tmp, self->m_pszSendTyp);

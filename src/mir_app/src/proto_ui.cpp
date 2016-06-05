@@ -80,8 +80,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return result;
 
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(m_hwnd);
 		m_proto_interface->WindowUnsubscribe(m_hwnd);
 		break;
 

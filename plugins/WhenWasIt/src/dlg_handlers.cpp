@@ -403,7 +403,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
 		Utils_RestoreWindowPositionNoSize(hWnd, hContact, ModuleName, "BirthdayWnd");
 
-		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hAddBirthdayContact, 1));
+		Window_SetIcon_IcoLib(hWnd, hAddBirthdayContact);
 
 		for (int i = 0; i < cSaveModule; i++)
 			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
@@ -473,7 +473,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_DESTROY:
 		RefreshContactListIcons(hContact); //the birthday might be changed, refresh icon.
-		IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		Window_FreeIcon_IcoLib(hWnd);
 		Utils_SaveWindowPosition(hWnd, hContact, ModuleName, "BirthdayWnd");
 		WindowList_Remove(hAddBirthdayWndsList, hWnd);
 		break;
@@ -716,7 +716,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
-		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hListMenu));
+		Window_SetIcon_IcoLib(hWnd, hListMenu);
 		{
 			HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 
@@ -832,7 +832,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_DESTROY:
 		hBirthdaysDlg = NULL;
 		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayList");
-		IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		Window_FreeIcon_IcoLib(hWnd);
 		lastColumn = -1;
 		break;
 
@@ -848,9 +848,9 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
+		Window_SetIcon_IcoLib(hWnd, hListMenu);
 		{
 			timeout = commonData.cDlgTimeout;
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hListMenu));
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 
 			mir_subclassWindow(hList, BirthdaysListSubclassProc);
@@ -960,7 +960,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		hUpcomingDlg = NULL;
 		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
-		IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		Window_FreeIcon_IcoLib(hWnd);
 		KillTimer(hWnd, UPCOMING_TIMER_ID);
 		break;
 	}

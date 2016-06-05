@@ -26,7 +26,7 @@ HANDLE hHookDbSettingChange, hHookContactAdded, hHookSkinIconsChanged;
 
 HICON hIcons[5];
 
-static IconItem iconList[] =
+IconItem iconList[] =
 {
 	{ LPGEN("Play"), "FePlay", IDI_PLAY },
 	{ LPGEN("Pause"), "FePause", IDI_PAUSE },
@@ -47,7 +47,6 @@ int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
 
 	WindowList_Broadcast(hFileList, WM_FE_SKINCHANGE, 0, 0);
-
 	return 0;
 }
 
@@ -181,7 +180,7 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	CMenuItem mi;
 	SET_UID(mi, 0xe4a98d2a, 0xa54a, 0x4db1, 0x8d, 0x29, 0xd, 0x5c, 0xf1, 0x10, 0x69, 0x35);
 	mi.position = 200011;
-	mi.hIcolibItem = hIcons[ICON_MAIN];
+	mi.hIcolibItem = iconList[ICON_MAIN].hIcolib;
 	mi.name.a = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.flags = CMIF_NOTOFFLINE;

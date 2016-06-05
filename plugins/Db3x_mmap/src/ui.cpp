@@ -229,7 +229,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, 1);
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 	}
 
 	return FALSE;

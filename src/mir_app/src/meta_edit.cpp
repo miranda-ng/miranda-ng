@@ -32,7 +32,7 @@ struct
 	MCONTACT hDefaultContact;                // HANDLE of the new default contact
 	MCONTACT hOfflineContact;
 	int num_deleted,                         // DWORD number of deleted contacts
-		 num_contacts;                        // DWORD number of contacts
+		num_contacts;                        // DWORD number of contacts
 	MCONTACT hDeletedContacts[MAX_CONTACTS]; // HANDLEs of the subcontacts to be removed from this metacontact
 	MCONTACT hContact[MAX_CONTACTS];         // HANDLEs of the subcontacts, in the order they should be in
 }
@@ -197,7 +197,7 @@ LRESULT ProcessCustomDraw(LPARAM lParam)
 *
 * @param hwndDlg : HANDLE to the <b>'Edit'</b> Dialog.
 * @param uMsg : Specifies the message received by this dialog.
-* @param wParam : Specifies additional message-specific information. 
+* @param wParam : Specifies additional message-specific information.
 * @param lParam : Specifies additional message-specific information (handle of MetaContact to edit)
 *
 * @return TRUE if the dialog processed the message, FALSE if it did not.
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(I_EDIT));
+		Window_SetIcon_IcoLib(hwndDlg, Meta_GetIconHandle(I_EDIT));
 		{
 			DBCachedContact *cc = currDb->m_cache->GetCachedContact(lParam);
 			if (cc == NULL) {
@@ -287,7 +287,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				// enable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), sel != -1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), sel != -1 && g_data.hContact[sel] != g_data.hDefaultContact);
-				
+
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), sel > 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel != -1 && sel < g_data.num_contacts - 1));
 
@@ -428,7 +428,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		EndDialog(hwndDlg, IDCANCEL);
 		break;
 	}

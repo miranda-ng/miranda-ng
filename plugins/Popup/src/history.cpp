@@ -130,8 +130,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			for (int i = 0; i < arPopupHistory.getCount(); ++i)
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
 
-			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(IDI_HISTORY, false));
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_HISTORY, true));
+			Window_SetIcon_IcoLib(hwnd, GetIconHandle(IDI_HISTORY));
 
 			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
 				logType = LOG_HPP;

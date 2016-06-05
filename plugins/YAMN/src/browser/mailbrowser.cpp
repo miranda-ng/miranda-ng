@@ -1268,8 +1268,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hListView = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterSubclassProc);
 			SetWindowLongPtr(hDlg, DWLP_USER, (LONG_PTR)MailParam);
-			SendMessage(hDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)g_LoadIconEx(2, true));
-			SendMessage(hDlg, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_LoadIconEx(2));
+			Window_SetIcon_IcoLib(hDlg, g_GetIconHandle(2));
 
 			ListView_SetUnicodeFormat(hListView, TRUE);
 			ListView_SetExtendedListViewStyle(hListView, LVS_EX_FULLROWSELECT);
@@ -1476,6 +1475,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 
 	case WM_DESTROY:
+		Window_FreeIcon_IcoLib(hDlg);
 		{
 			RECT coord;
 			if (GetWindowRect(hDlg, &coord)) {
@@ -1706,6 +1706,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			LVCOLUMN ColInfo;
 			HYAMNMAIL Parser;
 
+			Window_FreeIcon_IcoLib(hDlg);
+
 			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 			if (NULL == (ActualAccount = GetWindowAccount(hDlg)))
 				break;
@@ -1783,6 +1785,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			PostQuitMessage(0);
 		}
 		break;
+
 	case WM_SHOWWINDOW:
 		{
 			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
@@ -1791,6 +1794,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				return 0;
 			mwui->Seen = TRUE;
 		}
+
 	case WM_YAMN_CHANGESTATUS:
 		if (NULL == (ActualAccount = GetWindowAccount(hDlg)))
 			break;
@@ -2340,8 +2344,7 @@ void __cdecl MailBrowser(void *Param)
 			WndFound = TRUE;
 		if ((hMailBrowser == NULL) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG))) {
 			hMailBrowser = CreateDialogParamW(YAMNVar.hInst, MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), NULL, DlgProcYAMNMailBrowser, (LPARAM)&MyParam);
-			SendMessage(hMailBrowser, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)g_LoadIconEx(2, true));
-			SendMessage(hMailBrowser, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_LoadIconEx(2));
+			Window_SetIcon_IcoLib(hMailBrowser, g_GetIconHandle(2));
 			MoveWindow(hMailBrowser, PosX, PosY, SizeX, SizeY, TRUE);
 		}
 

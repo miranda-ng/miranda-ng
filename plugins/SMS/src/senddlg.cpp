@@ -86,7 +86,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 
 		mir_subclassWindow(GetDlgItem(hWndDlg, IDC_MESSAGE), MessageSubclassProc);
 
-		SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_SMS));
+		Window_SetSkinIcon_IcoLib(hWndDlg, SKINICON_OTHER_SMS);
 		SendDlgItemMessage(hWndDlg, IDC_HISTORY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY));
 		{
 			HICON hIcon;

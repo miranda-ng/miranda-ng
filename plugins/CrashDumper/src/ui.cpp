@@ -64,10 +64,8 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_VI));
 		{
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_VI, true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(IDI_VI));
-
 			CHARFORMAT2 chf;
 			chf.cbSize = sizeof(chf);
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
@@ -165,8 +163,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY:
 		hViewWnd = NULL;
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		Utils_SaveWindowPosition(hwndDlg, NULL, PluginName, "ViewInfo_");
 		if (servicemode)
 			PostQuitMessage(0);
@@ -291,8 +288,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case UM_FREEPLUGINDATA:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hWnd);
 		break;
 	}
 

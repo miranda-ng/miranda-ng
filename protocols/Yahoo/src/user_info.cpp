@@ -27,10 +27,6 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPA
 	case WM_INITDIALOG:
 		// lParam is hContact
 		TranslateDialogDefault(hwndDlg);
-
-		//SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
-
-
 		break;
 
 	case WM_NOTIFY:

@@ -662,15 +662,15 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
-
-	DBVARIANT dbv = { 0 };
-	if (!source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
-		TCHAR tszFullPath[MAX_PATH];
-		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
-		int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
-		int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);
-		source = GetIconSourceItemFromPath(tszFullPath, cx, cy);
-		db_free(&dbv);
+	if (source == NULL) {
+		ptrT tszCustomPath(db_get_tsa(NULL, "SkinIcons", item->name));
+		if (tszCustomPath != NULL) {
+			TCHAR tszFullPath[MAX_PATH];
+			PathToAbsoluteT(tszCustomPath, tszFullPath);
+			int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
+			int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);
+			source = GetIconSourceItemFromPath(tszFullPath, cx, cy);
+		}
 	}
 
 	HICON hIcon = NULL;

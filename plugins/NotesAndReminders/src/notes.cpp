@@ -1921,12 +1921,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		break;
 	case WM_INITDIALOG:
 		{
-			HWND H;
-
-			HICON hIcon = IcoLib_GetIconByHandle(iconList[13].hIcolib, ICON_SMALL);
-			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
-			hIcon = IcoLib_GetIconByHandle(iconList[13].hIcolib, ICON_BIG);
-			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
+			Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
 
 			SetWindowText(Dialog, LPGENT("Notes"));
 
@@ -1934,7 +1929,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 			SetDlgItemText(Dialog,IDC_REMINDERDATA, _T(""));
 
-			H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("Note text");
@@ -1984,8 +1979,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		ListNotesVisible = FALSE;
-		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(Dialog);
 		return TRUE;
 
 	case WM_NOTIFY:

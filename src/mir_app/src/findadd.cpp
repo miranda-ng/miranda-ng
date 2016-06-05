@@ -319,7 +319,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_FINDUSER);
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_FINDUSER);
 		dat = (FindAddDlgData*)mir_calloc(sizeof(FindAddDlgData));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		dat->notSearchedYet = 1;

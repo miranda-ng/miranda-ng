@@ -711,8 +711,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2), !IsAeroMode());
 
 			// set icons
-			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_COMMON_MAIN, false));
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_COMMON_MAIN, true));
+			Window_SetIcon_IcoLib(hDlg, IcoLib_GetIconHandle(ICO_COMMON_MAIN));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
 			// load basic protocol for current contact (for faster load later on and better handling for owner protocol)
@@ -1611,6 +1610,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		ResetUpdateInfo(pPs);
 
 		// avoid any further message processing for this dialog page
+		Window_FreeIcon_IcoLib(hDlg);
 		WindowList_Remove(g_hWindowList, hDlg);
 		SetUserData(hDlg, NULL);
 

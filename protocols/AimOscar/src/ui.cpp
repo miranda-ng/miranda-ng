@@ -1155,7 +1155,8 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		ppro = (CAimProto*)lParam;
 		{
-			Window_SetIcon(hwndDlg, "idle");
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("idle"));
+
 			unsigned long it = ppro->getDword(AIM_KEY_IIT, 0);
 			unsigned long hours = it / 60;
 			unsigned long minutes = it % 60;
@@ -1216,7 +1217,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		ppro = (CAimProto*)lParam;
-		Window_SetIcon(hwndDlg, "aol");
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("aol"));
 		break;
 
 	case WM_CLOSE:
@@ -1325,7 +1326,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (invite_chat_param*)lParam;
 
-		Window_SetIcon(hwndDlg, "aol");
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("aol"));
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, param->id);
 		SetDlgItemTextA(hwndDlg, IDC_MSG, Translate("Join me in this buddy chat!"));
 		break;
@@ -1414,7 +1415,7 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (invite_chat_req_param*)lParam;
 
-		Window_SetIcon(hwndDlg, "aol");
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("aol"));
 
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, strrchr(param->cnp->id, '-') + 1);
 		SetDlgItemTextA(hwndDlg, IDC_SCREENNAME, param->name);

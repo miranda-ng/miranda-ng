@@ -170,7 +170,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Utils::loadIconEx("main"));
+		Window_SetIcon_IcoLib(hwndDlg, Utils::getIconHandle("main"));
 
 		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_TAB), TabControlProc);
 		{

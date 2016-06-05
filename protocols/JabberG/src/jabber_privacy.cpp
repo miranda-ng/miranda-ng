@@ -545,10 +545,10 @@ public:
 
 	void OnDestroy()
 	{
-		g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_MESSAGE,     STM_SETICON, 0, 0));
-		g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_QUERY,       STM_SETICON, 0, 0));
-		g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN,  STM_SETICON, 0, 0));
-		g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, 0, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_MESSAGE,     STM_SETICON, 0, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_QUERY,       STM_SETICON, 0, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN,  STM_SETICON, 0, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, 0, 0));
 		m_proto->m_hwndPrivacyRule = NULL;
 	}
 };

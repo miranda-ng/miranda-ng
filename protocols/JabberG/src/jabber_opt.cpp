@@ -1393,45 +1393,42 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
+	case WM_INITDIALOG:
+		ppro = (CJabberProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		TranslateDialogDefault(hwndDlg);
+		WindowSetIcon(hwndDlg, ppro, "Agents");
+
+		Utils_RestoreWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
+
+		ListView_SetExtendedListViewStyle(GetDlgItem(hwndDlg, IDC_ROSTER), LVS_EX_CHECKBOXES | LVS_EX_BORDERSELECT /*| LVS_EX_FULLROWSELECT*/ | LVS_EX_GRIDLINES /*| LVS_EX_HEADERDRAGDROP*/);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_ROSTER), _RosterNewListProc);
+		_RosterListClear(hwndDlg);
+		ppro->rrud.hwndDlg = hwndDlg;
+		ppro->rrud.bReadyToDownload = TRUE;
+		ppro->rrud.bReadyToUpload = FALSE;
+		SendMessage(hwndDlg, JM_STATUSCHANGED, 0, 0);
+		return TRUE;
+
 	case JM_STATUSCHANGED:
 		{
 			int count = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_ROSTER));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DOWNLOAD), ppro->m_bJabberOnline);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_UPLOAD), count && ppro->m_bJabberOnline);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORT), count > 0);
-			break;
 		}
+		break;
+
 	case WM_CLOSE:
-		{
-			DestroyWindow(hwndDlg);
-			break;
-		}
+		DestroyWindow(hwndDlg);
+		break;
+
 	case WM_DESTROY:
-		{
-			Utils_SaveWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
-			ppro->rrud.hwndDlg = NULL;
-			WindowFreeIcon(hwndDlg);
-			break;
-		}
-	case WM_INITDIALOG:
-		{
-			ppro = (CJabberProto*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-			TranslateDialogDefault(hwndDlg);
-			WindowSetIcon(hwndDlg, ppro, "Agents");
-
-			Utils_RestoreWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
-
-			ListView_SetExtendedListViewStyle(GetDlgItem(hwndDlg, IDC_ROSTER), LVS_EX_CHECKBOXES | LVS_EX_BORDERSELECT /*| LVS_EX_FULLROWSELECT*/ | LVS_EX_GRIDLINES /*| LVS_EX_HEADERDRAGDROP*/);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_ROSTER), _RosterNewListProc);
-			_RosterListClear(hwndDlg);
-			ppro->rrud.hwndDlg = hwndDlg;
-			ppro->rrud.bReadyToDownload = TRUE;
-			ppro->rrud.bReadyToUpload = FALSE;
-			SendMessage(hwndDlg, JM_STATUSCHANGED, 0, 0);
-		}
-		return TRUE;
+		Utils_SaveWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
+		ppro->rrud.hwndDlg = NULL;
+		Window_FreeIcon_IcoLib(hwndDlg);
+		break;
 
 	case WM_GETMINMAXINFO:
 		{

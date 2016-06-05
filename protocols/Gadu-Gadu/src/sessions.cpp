@@ -170,7 +170,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
 			mir_sntprintf(newTitle, oldTitle, gg->m_tszUserName);
 			SetWindowText(hwndDlg, newTitle);
-			WindowSetIcon(hwndDlg, "sessions");
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SESSIONS));
 
 			if (hHandCursor == NULL)
 				hHandCursor = LoadCursor(NULL, IDC_HAND);
@@ -383,7 +383,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			HANDLE hProtoAckEvent = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hProtoAckEvent) UnhookEvent(hProtoAckEvent);
 			gg->hwndSessionsDlg = NULL;
-			WindowFreeIcon(hwndDlg);
+			Window_FreeIcon_IcoLib(hwndDlg);
 			break;
 		}
 	}

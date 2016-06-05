@@ -69,15 +69,3 @@ void ReleaseIconEx(const char* name, bool big)
 	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
 	IcoLib_Release(szSettingName, big);
 }
-
-void WindowSetIcon(HWND hWnd, const char* name)
-{
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(name, TRUE));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(name, FALSE));
-}
-
-void WindowFreeIcon(HWND hWnd)
-{
-	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
-}

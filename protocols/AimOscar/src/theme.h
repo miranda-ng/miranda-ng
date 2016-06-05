@@ -26,8 +26,6 @@ HICON  LoadIconEx(const char *name, bool big = false);
 HANDLE GetIconHandle(const char *name);
 void   ReleaseIconEx(const char *name, bool big = false);
 
-void   Window_SetIcon(HWND hWnd, const char *name);
-
 void   add_AT_icons(CAimProto* ppro);
 void   remove_AT_icons(CAimProto* ppro);
 void   add_ES_icons(CAimProto* ppro);

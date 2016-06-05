@@ -479,20 +479,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			g_SetAwayMsgPage.SetWnd(hwndDlg);
 			g_SetAwayMsgPage.DBToMemToPage();
 
-			HICON hTitleIconBigElse = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
-
 			char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
 			int Status = 0;
 			Status = g_ProtoStates[dat->szProtocol].m_status;
-			HICON hTitleIcon = Skin_LoadProtoIcon(szProto, Status);
-			HICON hTitleIconBig = Skin_LoadProtoIcon(szProto, Status, true);
 
-			if (hTitleIconBig == NULL || (HICON)CALLSERVICE_NOTFOUND == hTitleIconBig)
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBigElse);
-			else
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBig);
+			Window_SetProtoIcon_IcoLib(hwndDlg, szProto, Status);
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
 			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(IDI_IGNORE));

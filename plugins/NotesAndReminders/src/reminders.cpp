@@ -2398,10 +2398,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 		break;
 	case WM_INITDIALOG:
 		{
-			HICON hIcon = IcoLib_GetIconByHandle(iconList[6].hIcolib, ICON_SMALL);
-			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
-			hIcon = IcoLib_GetIconByHandle(iconList[6].hIcolib, ICON_BIG);
-			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
+			Window_SetIcon_IcoLib(Dialog, iconList[6].hIcolib);
 
 			TranslateDialogDefault(Dialog);
 			SetDlgItemText(Dialog,IDC_REMINDERDATA, _T(""));
@@ -2542,8 +2539,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			}
 		}
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(Dialog);
 		break;
 	}
 	return FALSE;

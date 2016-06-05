@@ -44,8 +44,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(IDI_KEYS, true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(IDI_KEYS));
+		Window_SetSkinIcon_IcoLib(hwndDlg, IDI_KEYS);
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		LPCTSTR hint = params->hint;
@@ -104,7 +103,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

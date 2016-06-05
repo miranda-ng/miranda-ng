@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			FreeResource(hRes);
 		}
-		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
 		return TRUE;
 
 	case WM_COMMAND:

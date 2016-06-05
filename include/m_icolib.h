@@ -117,7 +117,8 @@ MIR_APP_DLL(void)   Button_FreeIcon_IcoLib(HWND hDlg, int itemId);
 ///////////////////////////////////////////////////////////////////////////////
 // Helper to apply an icolib's icon to a window
 
-MIR_APP_DLL(void)   Window_SetIcon_IcoLib(HWND hWnd, int iconId);
+MIR_APP_DLL(void)   Window_SetIcon_IcoLib(HWND hWnd, HANDLE hIcolib);
+MIR_APP_DLL(void)   Window_SetSkinIcon_IcoLib(HWND hWnd, int iconId);
 MIR_APP_DLL(void)   Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId);
 MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 

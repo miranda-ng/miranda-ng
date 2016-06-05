@@ -994,11 +994,8 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, "", hDlg, IDC_STATUS);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		WindowList_Add(hFileList, hDlg, dat->hContact);
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcons[ICON_MAIN]);
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[ICON_MAIN]);
+		Window_SetIcon_IcoLib(hDlg, iconList[ICON_MAIN].hIcolib);
 		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[ICON_STOP]), 0);
-
-		//SetDlgItemText(hDlg, IDC_FILENAME, "C:\\!Developer\\!Miranda\\miranda\\bin\\release\\emo\\biggrin.gif");
 
 		mir_subclassWindow(GetDlgItem(hDlg, IDC_PROGRESS), ProgressWndProc);
 
@@ -1007,9 +1004,6 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_STOP]);
 		dat->setState(STATE_IDLE);
-
-		//ShowWindow(hDlg, SW_HIDE);
-		//UpdateWindow(hDlg);
 
 		if (dat->inSend)
 			PostMessage(hDlg, WM_COMMAND, IDC_BROWSE, NULL);
@@ -1024,8 +1018,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	case WM_FE_SKINCHANGE:
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcons[ICON_MAIN]);
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[ICON_MAIN]);
+		Window_SetIcon_IcoLib(hDlg, iconList[ICON_MAIN].hIcolib);
 		dat->setState(dat->iState);
 		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_STOP]);
 

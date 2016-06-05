@@ -37,14 +37,14 @@ static IconItem iconList[] = {
 	{ LPGEN("Remove"),                 "remove",  IDI_MCREMOVE      },
 };
 
-HANDLE GetIconHandle(IconIndex i)
+HANDLE Meta_GetIconHandle(IconIndex i)
 {
 	return iconList[i].hIcolib;
 }
 
-HICON LoadIconEx(IconIndex i)
+HICON Meta_LoadIconEx(IconIndex i, bool big)
 {
-	return IcoLib_GetIcon(iconList[i].szName);
+	return IcoLib_GetIcon(iconList[i].szName, big);
 }
 
 void UnloadMetacontacts(void)

@@ -580,12 +580,9 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		bInitializing = 1;
+		Window_SetIcon_IcoLib(hWnd, IcoLib_GetIconHandle(ICO_HISTORY));
 		{
 			int renderer = lstPopupHistory.GetRenderer();
-
-			SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,0));
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,1));
-
 			LoadRenderer(hWnd, renderer);
 
 			TranslateDialogDefault(hWnd);

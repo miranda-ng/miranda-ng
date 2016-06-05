@@ -624,7 +624,6 @@ LPARAM TreeList_GetData(HTREELISTITEM hItem);
 HTREELISTITEM TreeList_GetRoot(HWND hwnd);
 int TreeList_GetChildrenCount(HTREELISTITEM hItem);
 HTREELISTITEM TreeList_GetChild(HTREELISTITEM hItem, int i);
-void sttTreeList_RecursiveApply(HTREELISTITEM hItem, void (*func)(HTREELISTITEM, LPARAM), LPARAM data);
 void TreeList_Update(HWND hwnd);
 BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, UINT idc, BOOL *result);
 
@@ -645,10 +644,7 @@ void JabberFormDestroyUI(HWND hwndStatic);
 void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text);
 HJFORMLAYOUT JabberFormCreateLayout(HWND hwndStatic); // use mir_free to destroy
 HJFORMCTRL JabberFormAppendControl(HWND hwndStatic, HJFORMLAYOUT layout_info, TJabberFormControlType type, const TCHAR *labelStr, const TCHAR *valueStr);
-void JabberFormAddListItem(HJFORMCTRL item, const TCHAR *text, bool selected);
 void JabberFormLayoutControls(HWND hwndStatic, HJFORMLAYOUT layout_info, int *formHeight);
-
-void JabberFormCreateDialog(HXML xNode, TCHAR* defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata);
 
 HXML JabberFormGetData(HWND hwndStatic, HXML xNode);
 
@@ -658,13 +654,9 @@ void   g_IconsInit();
 void   g_XstatusIconsInit();
 HANDLE g_GetIconHandle(int iconId);
 HICON  g_LoadIconEx(const char* name, bool big = false);
-void   g_ReleaseIcon(HICON hIcon);
 
 void   ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon);
 void   WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name);
-void   WindowFreeIcon(HWND hWnd);
-
-int    ReloadIconsEventHook(WPARAM wParam, LPARAM lParam);
 
 //---- jabber_libstr.c ----------------------------------------------
 
@@ -729,7 +721,7 @@ struct TStringPairs
 	const char* operator[](const char* name) const;
 
 	int numElems;
-	TStringPairsElem* elems;
+	TStringPairsElem *elems;
 };
 
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
@@ -753,9 +745,9 @@ LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);
 time_t str2time(const TCHAR*);
 
-const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr);
-void JabberCopyText(HWND hwnd, const TCHAR *text);
-CJabberProto *JabberChooseInstance(bool bIsLink=false);
+const TCHAR*  JabberStrIStr(const TCHAR *str, const TCHAR *substr);
+void          JabberCopyText(HWND hwnd, const TCHAR *text);
+CJabberProto* JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime);
 
@@ -765,8 +757,5 @@ void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow);
 //---- jabber_userinfo.cpp --------------------------------------------------------------
 
 void JabberUserInfoUpdate(MCONTACT hContact);
-
-//---- jabber_iq_handlers.cpp
-BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE);
 
 #endif

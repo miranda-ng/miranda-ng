@@ -178,8 +178,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			pcli->pfnGetContactDisplayName(hContact, 0),
 			TranslateT("last seen history"));
 		SetWindowText(hwndDlg, sztemp);
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
 
 		if (db_get_b(hContact, S_MOD, "OnlineAlert", 0))
 			CheckDlgButton(hwndDlg, IDC_STATUSCHANGE, BST_CHECKED);

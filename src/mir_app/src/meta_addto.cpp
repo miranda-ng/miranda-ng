@@ -135,7 +135,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam); // user data is contact handle
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(I_ADD));
+		Window_SetIcon_IcoLib(hwndDlg, Meta_GetIconHandle(I_ADD));
 
 		// Initialize the graphical part
 		CheckDlgButton(hwndDlg, IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_DESTROY:
 		// Free all allocated memory and return the focus to the CList
 		HWND clist = GetParent(hwndDlg);
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		EndDialog(hwndDlg, TRUE);
 		SetFocus(clist);
 		return TRUE;

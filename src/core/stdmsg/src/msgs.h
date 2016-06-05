@@ -127,6 +127,7 @@ int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);
 void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
 int  SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto);
+INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar);
 
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);

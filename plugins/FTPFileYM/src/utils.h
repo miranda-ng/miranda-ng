@@ -30,7 +30,9 @@ public:
 	static int msgBox(TCHAR *szMsg, UINT uType);
 	static int msgBoxA(char *szMsg, UINT uType);
 	static int getDeleteTimeMin();
-	static HICON loadIconEx(char *szName);
+
+	static HICON loadIconEx(const char *szName);
+	static HANDLE getIconHandle(const char *szName);
 
 	static TCHAR *getFileNameFromPath(TCHAR *stzPath);
 	static TCHAR *getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff);

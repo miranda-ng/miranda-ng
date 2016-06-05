@@ -610,15 +610,11 @@ void    InitServers(void);
 void    RereadServers(void);
 
 void    InitContactMenus(void);
-void	UninitContactMenus(void);
-
-void    WindowSetIcon(HWND hWnd, int iconId);
-void    WindowFreeIcon(HWND hWnd);
+void    UninitContactMenus(void);
 
 void    InitIcons(void);
 HICON   LoadIconEx(int iIndex, bool big = false);
 HANDLE  GetIconHandle(int iconId);
-void    ReleaseIconEx(HICON hIcon);
 
 //tools.cpp
 int          __stdcall WCCmp(const TCHAR* wild, const TCHAR* string);

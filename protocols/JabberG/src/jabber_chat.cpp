@@ -976,9 +976,9 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
-		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
-		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
 		if (dat) {
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			mir_free(dat);

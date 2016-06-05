@@ -89,8 +89,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			assert(hWL);
 			WindowList_Add(hWL, hDlg, NULL);
 
-			::SendMessage(hDlg, WM_SETICON, FALSE, LPARAM(Quotes_LoadIconEx(IDI_ICON_CURRENCY_CONVERTER)));
-			::SendMessage(hDlg, WM_SETICON, TRUE, LPARAM(Quotes_LoadIconEx(IDI_ICON_CURRENCY_CONVERTER, true)));
+			Window_SetIcon_IcoLib(hDlg, Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER));
 
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
@@ -146,7 +145,11 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			EndDialog(hDlg, 0);
 		}
 		return TRUE;
-	
+
+	case WM_DESTROY:
+		Window_FreeIcon_IcoLib(hDlg);
+		break;
+
 	case WM_COMMAND:
 		switch (LOWORD(wp)) {
 		case IDC_COMBO_CONVERT_FROM:

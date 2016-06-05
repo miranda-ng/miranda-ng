@@ -1057,13 +1057,10 @@ static INT_PTR CALLBACK TlenChangeAvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{
-			HICON hIcon = GetIcolibIcon(IDI_TLEN);
-			SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
-			ReleaseIcolibIcon(hIcon);
-		}
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_TLEN));
 		CheckDlgButton(hwndDlg, IDC_PUBLICAVATAR, BST_CHECKED);
 		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:

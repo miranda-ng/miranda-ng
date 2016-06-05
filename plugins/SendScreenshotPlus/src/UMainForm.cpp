@@ -173,8 +173,8 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 {
 	HWND hCtrl;
 	/// Taskbar and Window icon
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)GetIcon(ICO_MAINXS));
+	Window_SetIcon_IcoLib(m_hWnd, GetIconHandle(ICO_MAIN));
+
 	TCHAR *pt = mir_tstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
 	if (pt && (m_hContact != 0)) {
 		CMString string;

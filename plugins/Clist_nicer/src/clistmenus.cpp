@@ -105,7 +105,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					mir_sntprintf(szTitle, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : pcli->pfnGetContactDisplayName(hContact, 0));
 
 					SetWindowText(hWnd, szTitle);
-					SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
+					Window_SetSkinIcon_IcoLib(hWnd, SKINICON_OTHER_MIRANDA);
 					pCaps = CallProtoService(contact ? contact->proto : GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSONLINE, pCaps & PF1_INVISLIST ? TRUE : FALSE);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSOFFLINE, pCaps & PF1_VISLIST ? TRUE : FALSE);

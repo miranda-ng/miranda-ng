@@ -909,13 +909,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (dat->szProto) {
 				WORD wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(dat->szProto, wStatus, true));
-				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(dat->szProto, wStatus));
+				Window_SetProtoIcon_IcoLib(hwndDlg, dat->szProto, wStatus);
 				break;
 			}
 		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_EVENT_MESSAGE);
 		break;
 
 	case DM_USERNAMETOCLIP:

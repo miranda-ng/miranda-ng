@@ -163,8 +163,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_STEP4, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set icons
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("main", TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("main", FALSE));
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("main"));
 
 		WindowList_Add(hWindowList, hwndDlg, NULL);
 		ShowWindow(hwndDlg, SW_SHOW);
@@ -213,8 +212,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_DESTROY:
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

@@ -376,7 +376,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 	return item;
 }
 
-void JabberFormAddListItem(TJabberFormControlInfo *item, const TCHAR *text, bool selected)
+static void JabberFormAddListItem(TJabberFormControlInfo *item, const TCHAR *text, bool selected)
 {
 	DWORD dwIndex;
 	switch (item->type) {

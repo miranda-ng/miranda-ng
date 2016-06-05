@@ -80,7 +80,7 @@ static IconItem iconList[] =
 	{ LPGEN("Send image"),             "IMAGE",        IDI_IMAGE      }
 };
 
-static HANDLE GetIconHandle(int iconId)
+HANDLE GetIconHandle(int iconId)
 {
 	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)

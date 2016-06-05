@@ -416,8 +416,8 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE,	BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save image to disk"), BATF_TCHAR);
 
 			// Set main window image
-			WindowSetIcon(hwndDlg, "image");
-			
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_IMAGE));
+
 			TCHAR *szName = pcli->pfnGetContactDisplayName(dat->hContact, 0), szTitle[128];
 			if (dat->bReceiving)
 				mir_sntprintf(szTitle, TranslateT("Image from %s"), szName);
@@ -519,7 +519,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ReleaseIconEx("next", FALSE);
 			ReleaseIconEx("delete", FALSE);
 			ReleaseIconEx("save", FALSE);
-			WindowFreeIcon(hwndDlg);
+			Window_FreeIcon_IcoLib(hwndDlg);
 			gg->gg_EnterCriticalSection(&gg->img_mutex, "gg_img_dlgproc", 58, "img_mutex", 1);
 			list_remove(&gg->imagedlgs, dat, 1);
 			gg->gg_LeaveCriticalSection(&gg->img_mutex, "gg_img_dlgproc", 58, 1, "img_mutex", 1);

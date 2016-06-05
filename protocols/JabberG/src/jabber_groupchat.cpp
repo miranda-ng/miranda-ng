@@ -479,7 +479,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 
 void CJabberDlgGcJoin::OnDestroy()
 {
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, 0));
 	m_proto->m_pDlgJabberJoinGroupchat = NULL;
 	DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0));
 

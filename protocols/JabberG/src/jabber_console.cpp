@@ -380,7 +380,7 @@ void CJabberDlgConsole::OnInitDialog()
 
 	for (int i=0; i < _countof(filter_modes); i++)
 		if (filter_modes[i].type == m_proto->m_filterInfo.type) {
-			g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
+			IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
 			break;
 		}
@@ -406,11 +406,11 @@ void CJabberDlgConsole::OnClose()
 
 void CJabberDlgConsole::OnDestroy()
 {
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
-	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
 
 	m_proto->m_pDlgConsole = NULL;
 	CSuper::OnDestroy();
@@ -580,7 +580,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
 				for (i = 0; i < _countof(filter_modes); i++) {
 					if (filter_modes[i].type == m_proto->m_filterInfo.type) {
-						g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
+						IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 						break;
 					}
 				}

@@ -1268,8 +1268,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
 			SendMessage(si->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("window", TRUE));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("window", FALSE));
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("window"));
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 

@@ -423,8 +423,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (InviteChatParam*)lParam;
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)param->ppro->LoadIconEx("yahoo", true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)param->ppro->LoadIconEx("yahoo"));
+		Window_SetIcon_IcoLib(hwndDlg, param->ppro->GetIconHandle(IDI_YAHOO));
 
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, param->room);
 		SetDlgItemText(hwndDlg, IDC_MSG, TranslateT("Join My Conference..."));
@@ -435,8 +434,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NCDESTROY:
-		param->ppro->ReleaseIconEx("yahoo", true);
-		param->ppro->ReleaseIconEx("yahoo");
+		Window_FreeIcon_IcoLib(hwndDlg);
 		delete param;
 		break;
 
@@ -516,8 +514,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (InviteChatReqParam*)lParam;
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)param->ppro->LoadIconEx("yahoo", true));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)param->ppro->LoadIconEx("yahoo"));
+		Window_SetIcon_IcoLib(hwndDlg, param->ppro->GetIconHandle(IDI_YAHOO));
 
 		SetDlgItemTextA(hwndDlg, IDC_SCREENNAME, param->who);
 		SetDlgItemText(hwndDlg, IDC_MSG, param->msg);
@@ -529,8 +526,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		break;
 
 	case WM_NCDESTROY:
-		param->ppro->ReleaseIconEx("yahoo", true);
-		param->ppro->ReleaseIconEx("yahoo");
+		Window_FreeIcon_IcoLib(hwndDlg);
 		delete param;
 		break;
 

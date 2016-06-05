@@ -164,8 +164,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 		Utils_RestoreWindowPositionNoSize(hdlg, NULL, "AddContact", "");
 		TranslateDialogDefault(hdlg);
-		SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICON_ADD,1));
-		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICON_ADD));
+		Window_SetIcon_IcoLib(hdlg, IcoLib_GetIconHandle(ICON_ADD));
+
 		HookEventMessage(ME_SKIN2_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
 		{
@@ -324,8 +324,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		break;
 
 	case DM_ADDCONTACT_CHANGEICONS:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICON_ADD, 1)));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICON_ADD)));
+		Window_FreeIcon_IcoLib(hdlg);
+		Window_SetIcon_IcoLib(hdlg, IcoLib_GetIconHandle(ICON_ADD));
 		break;
 
 	case DM_ADDCONTACT_CHANGEACCLIST:
@@ -334,8 +334,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 	case WM_DESTROY:
 		hAddDlg = NULL;
-		IcoLib_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hdlg);
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
 		if (acs) {
 			db_set_s(NULL, "AddContact", "LastProto", acs->proto);

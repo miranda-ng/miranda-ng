@@ -130,11 +130,9 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		DBDataManage(hContact, WDBM_DETAILDISPLAY, (WPARAM)hwndDlg, 0);
 
 		// set icons
-		{
-			WORD statusIcon = db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0);
-			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon, true)));
-			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon)));
-		}
+		Window_FreeIcon_IcoLib(hwndDlg);
+		Window_SetProtoIcon_IcoLib(hwndDlg, WEATHERPROTONAME, db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0));
+
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 
@@ -227,9 +225,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 
 	case WM_DESTROY:
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
-
+		Window_FreeIcon_IcoLib(hwndDlg);
 		Utils_SaveWindowPosition(hwndDlg, NULL, WEATHERPROTONAME, "BriefInfo_");
 		WindowList_Remove(hDataWindowList, hwndDlg);
 		break;

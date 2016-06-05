@@ -34,8 +34,7 @@ CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param) :
 
 void CVkCaptchaForm::OnInitDialog()
 {
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS), TRUE));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_KEYS)));
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_KEYS));
 
 	m_btnOk.Disable();
 	m_btnOpenInBrowser.Enable((m_param->bmp != NULL));
@@ -83,8 +82,7 @@ INT_PTR CVkCaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CVkCaptchaForm::OnDestroy()
 {
-	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+	Window_FreeIcon_IcoLib(m_hwnd);
 }
 
 void CVkCaptchaForm::On_btnOpenInBrowser_Click(CCtrlButton*)
@@ -120,8 +118,7 @@ CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
 
 void CVkWallPostForm::OnInitDialog()
 {
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL), TRUE));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL)));
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
 	
 	CMString tszTitle(FORMAT, _T("%s %s"), TranslateT("Wall message for"), m_param->ptszNick);
 	SetCaption(tszTitle);
@@ -131,8 +128,7 @@ void CVkWallPostForm::OnInitDialog()
 
 void CVkWallPostForm::OnDestroy()
 {
-	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-	IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+	Window_FreeIcon_IcoLib(m_hwnd);
 }
 
 void CVkWallPostForm::On_btnShare_Click(CCtrlButton*)

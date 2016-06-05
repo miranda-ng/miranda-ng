@@ -313,6 +313,13 @@ HICON LoadIconEx(const char *pszIcoLibName, bool big)
 	return IcoLib_GetIcon(szTemp, big);
 }
 
+HANDLE GetIconHandle(const char *pszIcoLibName)
+{
+	char szTemp[256];
+	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);
+	return IcoLib_GetIconHandle(szTemp);
+}
+
 static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 {
 	DBVARIANT dbv;

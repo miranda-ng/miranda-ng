@@ -211,7 +211,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	{
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
-			WindowSetIcon(hwndDlg, "settings");
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SETTINGS));
 			dat = (GGUSERUTILDLGDATA *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 			if (dat) SetDlgItemTextA(hwndDlg, IDC_EMAIL, dat->email); // Readup email
@@ -271,7 +271,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case WM_DESTROY:
-			WindowFreeIcon(hwndDlg);
+			Window_FreeIcon_IcoLib(hwndDlg);
 			break;
 	}
 	return FALSE;

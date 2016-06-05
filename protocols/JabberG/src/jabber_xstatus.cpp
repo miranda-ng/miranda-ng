@@ -155,7 +155,7 @@ private:
 		bool m_subitem;
 
 		CStatusMode(LPARAM id, char *name, HICON hIcon, TCHAR *title, bool subitem): m_id(id), m_name(name), m_hIcon(hIcon), m_title(title), m_subitem(subitem) {}
-		~CStatusMode() { g_ReleaseIcon(m_hIcon); }
+		~CStatusMode() { IcoLib_ReleaseIcon(m_hIcon); }
 	};
 
 	OBJLIST<CStatusMode> m_modes;

@@ -87,7 +87,7 @@ void CWhoisDlg::OnInitDialog()
 
 	CCoolIrcDlg::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, IDI_WHOIS);
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WHOIS));
 }
 
 void CWhoisDlg::OnClose()
@@ -208,7 +208,7 @@ CNickDlg::CNickDlg(CIrcProto *_pro)
 void CNickDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
-	WindowSetIcon(m_hwnd, IDI_RENAME);
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_RENAME));
 
 	DBVARIANT dbv;
 	if (!m_proto->getTString("RecentNicks", &dbv)) {
@@ -292,7 +292,7 @@ void CListDlg::OnInitDialog()
 
 	m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
 	m_list2.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
-	WindowSetIcon(m_hwnd, IDI_LIST);
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_LIST));
 	m_status.SetText(TranslateT("Please wait..."));
 }
 
@@ -714,7 +714,7 @@ void CQuestionDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, IDI_IRCQUESTION);
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IRCQUESTION));
 }
 
 void CQuestionDlg::OnClose()
@@ -873,7 +873,7 @@ void CManagerDlg::OnInitDialog()
 	HWND hwndEdit = ChildWindowFromPoint(m_topic.GetHwnd(), pt);
 	mir_subclassWindow(hwndEdit, MgrEditSubclassProc);
 
-	WindowSetIcon(m_hwnd, IDI_MANAGER);
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_MANAGER));
 
 	m_list.SendMsg(LB_SETHORIZONTALEXTENT, 750, NULL);
 	m_radio1.SetState(true);
@@ -1395,8 +1395,8 @@ void CCoolIrcDlg::OnDestroy()
 	SendDlgItemMessage(m_hwnd, IDC_CAPTION, WM_SETFONT, SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0), 0);
 	DeleteObject(hFont);
 
-	ReleaseIconEx((HICON)SendDlgItemMessage(m_hwnd, IDC_LOGO, STM_SETICON, 0, 0));
-	WindowFreeIcon(m_hwnd);
+	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_LOGO, STM_SETICON, 0, 0));
+	Window_FreeIcon_IcoLib(m_hwnd);
 }
 
 INT_PTR CCoolIrcDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

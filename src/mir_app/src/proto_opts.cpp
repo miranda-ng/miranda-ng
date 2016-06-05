@@ -481,7 +481,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_ACCMGR);
+		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_ACCMGR);
 
 		dat = (TAccMgrData *)mir_alloc(sizeof(TAccMgrData));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);

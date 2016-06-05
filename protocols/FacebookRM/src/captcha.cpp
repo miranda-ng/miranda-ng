@@ -39,8 +39,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("key"), TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("key")));
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("key"));
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
@@ -95,8 +94,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

@@ -99,8 +99,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
 		ShowWindow(hdlg, SW_SHOW);
-		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)GetIcon(IDI_IMPORT));
-		SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(IDI_IMPORT, true));
+		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
 		return TRUE;
 
 	case WIZM_GOTOPAGE:

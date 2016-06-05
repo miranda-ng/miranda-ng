@@ -123,8 +123,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 		mir_free(pszText);
 	}
 
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)GetIcon(ICO_MAINXS));
+	Window_SetIcon_IcoLib(m_hWnd, GetIconHandle(ICO_MAIN));
 
 	//init controls
 	btnPageClick();

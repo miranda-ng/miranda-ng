@@ -104,8 +104,8 @@ int Meta_ReadOptions();
 void CreateApiServices();
 
 typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOVE} IconIndex;
-HICON LoadIconEx(IconIndex i);
-HANDLE GetIconHandle(IconIndex i);
+HICON Meta_LoadIconEx(IconIndex i, bool big = false);
+HANDLE Meta_GetIconHandle(IconIndex i);
 
 extern HANDLE hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
 extern POINT menuMousePoint;
