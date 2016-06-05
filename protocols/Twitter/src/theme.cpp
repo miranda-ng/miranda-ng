@@ -31,6 +31,11 @@ static IconItem icons[] =
 	{ LPGEN("Visit Homepage"), "homepage", 0 }, 
 };
 
+void TwitterInitSounds(void)
+{
+SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("TwitterNewContact"));
+SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("TwitterNew"));
+}
 static HANDLE hIconLibItem[_countof(icons)];
 
 // TODO: uninit

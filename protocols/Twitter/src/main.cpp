@@ -100,7 +100,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitIcons();
 	InitContactMenus();
-
+	TwitterInitSounds();
 	return 0;
 }
 

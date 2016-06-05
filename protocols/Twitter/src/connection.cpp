@@ -589,6 +589,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			if (!pre_read && popups) {
 				std::stringstream url;
 				url << std::string("https://twitter.com/") << i->username << std::string("/status/") << i->status.id;
+				SkinPlaySound("TwitterNew");
 				ShowContactPopup(hContact, i->status.text, new std::string(url.str()));
 			}
 		}
