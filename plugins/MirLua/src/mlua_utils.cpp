@@ -249,7 +249,7 @@ bool luaM_toboolean(lua_State *L, int idx)
 
 /***********************************************/
 
-static int blob_create(lua_State *L)
+static int blob_new(lua_State *L)
 {
 	BYTE *data = (BYTE*)lua_touserdata(L, 1);
 	size_t size = luaL_checkinteger(L, 2);
@@ -259,6 +259,17 @@ static int blob_create(lua_State *L)
 	blob->pBlobData = (BYTE*)mir_calloc(size);
 	memcpy(blob->pBlobData, data, size);
 	luaL_setmetatable(L, MT_BLOB);
+
+	return 1;
+}
+
+static int blob_call(lua_State *L)
+{
+	int nargs = lua_gettop(L);
+	lua_pushcfunction(L, blob_new);
+	for (int i = 2; i <= nargs; i++)
+		lua_pushvalue(L, i);
+	luaM_pcall(L, nargs - 1, 1);
 
 	return 1;
 }
@@ -303,6 +314,7 @@ static int blob__gc(lua_State *L)
 
 static const struct luaL_Reg blobApi[] =
 {
+	{ "__call", blob_call },
 	{ "__index", blob__index },
 	{ "__newindex", blob__newindex },
 	{ "__len", blob__len },
@@ -313,9 +325,16 @@ static const struct luaL_Reg blobApi[] =
 
 int luaopen_m_utils(lua_State *L)
 {
-	lua_register(L, MT_BLOB, blob_create);
 	luaL_newmetatable(L, MT_BLOB);
 	luaL_setfuncs(L, blobApi, 0);
+	lua_pop(L, 1);
+
+	lua_createtable(L, 0, 1);
+	lua_pushcfunction(L, blob_new);
+	lua_setfield(L, -2, "new");
+	lua_pushvalue(L, -1);
+	lua_setglobal(L, MT_BLOB);
+	luaL_setmetatable(L, MT_BLOB);
 	lua_pop(L, 1);
 
 	return 0;

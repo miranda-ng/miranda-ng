@@ -55,12 +55,14 @@ static int db_Contacts(lua_State *L)
 
 static int db_GetContactInfo(lua_State *L)
 {
+	MCONTACT hContact = luaL_checkinteger(L, 1);
+
 	int type = 0;
-	if (lua_isnumber(L, 1))
-		type = lua_tointeger(L, 1);
-	else if (lua_isstring(L, 1))
+	if (lua_isnumber(L, 2))
+		type = lua_tointeger(L, 2);
+	else if (lua_isstring(L, 2))
 	{
-		const char *key = luaL_checkstring(L, 1);
+		const char *key = luaL_checkstring(L, 2);
 
 		if (mir_strcmpi(key, "FirstName") == 0)
 			type = CNF_FIRSTNAME;
@@ -101,10 +103,7 @@ static int db_GetContactInfo(lua_State *L)
 		}
 	}
 
-	MCONTACT hContact = luaL_checkinteger(L, 2);
-	const char *proto = lua_tostring(L, 3);
-
-	ptrT value(Contact_GetInfo(type, hContact, proto));
+	ptrT value(Contact_GetInfo(type, hContact));
 	if (value)
 		lua_pushstring(L, ptrA(mir_utf8encodeT(value)));
 	else
@@ -580,7 +579,6 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 	MT<DBCONTACTWRITESETTING>(L, MT_DBCONTACTWRITESETTING)
 		.Field(&DBCONTACTWRITESETTING::szModule, "Module", LUA_TSTRINGA)
 		.Field(&DBCONTACTWRITESETTING::szSetting, "Setting", LUA_TSTRINGA);
-	lua_pop(L, 1);
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
 		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
@@ -589,7 +587,6 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
-	lua_pop(L, 1);
 
 	return 1;
 }

@@ -20,7 +20,6 @@ LUAMOD_API int luaopen_m_chat(lua_State *L)
 		.Field(&GCEVENT::ptszUID, "Uid", LUA_TSTRINGW)
 		.Field(&GCEVENT::ptszStatus, "Status", LUA_TSTRINGW)
 		.Field(&GCEVENT::ptszText, "Text", LUA_TSTRINGW);
-	lua_pop(L, 1);
 
 	return 1;
 }

@@ -74,7 +74,7 @@ private:
 		*obj = NULL;
 	}
 
-	static int lua_new(lua_State *L)
+	static int lua__new(lua_State *L)
 	{
 		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
 		Init(L, udata);
@@ -89,6 +89,17 @@ private:
 	}
 
 	static int lua__call(lua_State *L)
+	{
+		int nargs = lua_gettop(L);
+		lua_pushcfunction(L, lua__new);
+		for (int i = 2; i <= nargs; i++)
+			lua_pushvalue(L, i);
+		luaM_pcall(L, nargs - 1, 1);
+
+		return 1;
+	}
+
+	static int lua__bnot(lua_State *L)
 	{
 		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
 		lua_pushlightuserdata(L, obj);
@@ -152,15 +163,24 @@ public:
 	{
 		MT::name = tname;
 
-		lua_register(L, MT::name, lua_new);
-
 		luaL_newmetatable(L, MT::name);
-		lua_pushcfunction(L, lua__index);
-		lua_setfield(L, -2, "__index");
 		lua_pushcfunction(L, lua__call);
 		lua_setfield(L, -2, "__call");
+		lua_pushcfunction(L, lua__index);
+		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, lua__bnot);
+		lua_setfield(L, -2, "__bnot");
 		lua_pushcfunction(L, lua__gc);
 		lua_setfield(L, -2, "__gc");
+		lua_pop(L, 1);
+
+		lua_createtable(L, 0, 1);
+		lua_pushcfunction(L, lua__new);
+		lua_setfield(L, -2, "new");
+		lua_pushvalue(L, -1);
+		lua_setglobal(L, MT::name);
+		luaL_setmetatable(L, MT::name);
+		lua_pop(L, 1);
 	}
 
 	template<typename R>

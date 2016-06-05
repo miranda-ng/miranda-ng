@@ -160,7 +160,6 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 	MT<PROTOCOLDESCRIPTOR>(L, "PROTOCOLDESCRIPTOR")
 		.Field(&PROTOCOLDESCRIPTOR::szName, "Name", LUA_TSTRINGA)
 		.Field(&PROTOCOLDESCRIPTOR::type, "Type", LUA_TINTEGER);
-	lua_pop(L, 1);
 
 	MT<PROTOACCOUNT>(L, "PROTOACCOUNT")
 		.Field(&PROTOACCOUNT::szModuleName, "ModuleName", LUA_TSTRINGA)
@@ -170,7 +169,6 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&PROTOACCOUNT::bIsVisible, "IsVisible", LUA_TBOOLEAN)
 		.Field(&PROTOACCOUNT::bIsVirtual, "IsVirtual", LUA_TBOOLEAN)
 		.Field(&PROTOACCOUNT::bOldProto, "IsOldProto", LUA_TBOOLEAN);
-	lua_pop(L, 1);
 
 	MT<ACKDATA>(L, "ACKDATA")
 		.Field(&ACKDATA::szModule, "Module", LUA_TSTRINGA)
@@ -179,12 +177,10 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&ACKDATA::result, "Result", LUA_TINTEGER)
 		.Field(&ACKDATA::hProcess, "hProcess", LUA_TLIGHTUSERDATA)
 		.Field(&ACKDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
-	lua_pop(L, 1);
 
 	MT<CCSDATA>(L, "CCSDATA")
 		.Field(&CCSDATA::hContact, "hContact", LUA_TINTEGER)
 		.Field([](CCSDATA *ccs) { return ((PROTORECVEVENT*)ccs->lParam)->szMessage; }, "Message", LUA_TSTRING);
-	lua_pop(L, 1);
 
 	return 1;
 }
