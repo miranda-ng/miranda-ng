@@ -552,7 +552,11 @@ MIR_APP_DLL(int) IcoLib_ReleaseIcon(HICON hIcon, bool big)
 		return 1;
 
 	mir_cslock lck(csIconList);
-	return ReleaseIconInternal(IcoLib_FindHIcon(hIcon, big), big);
+
+	// this call might change the 'big' parameter
+	// if inserted into the call of ReleaseIconInternal(), the unchanged 'big' will be passed first
+	IcolibItem *pItem = IcoLib_FindHIcon(hIcon, big);
+	return ReleaseIconInternal(pItem, big);
 }
 
 MIR_APP_DLL(int) IcoLib_Release(const char *szIconName, bool big)
