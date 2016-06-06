@@ -28,19 +28,19 @@ static IconItem iconList[] =
 	{ LPGEN("Calendar"), "calendar", IDI_CALENDAR }
 };
 
-void CYahooProto::IconsInit(void)
+void IconsInit(void)
 {
 	Icon_Register(hInstance, "Protocols/YAHOO", iconList, _countof(iconList), "YAHOO");
 }
 
-HICON CYahooProto::LoadIconEx(const char* name, bool big)
+HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, "YAHOO_%s", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
-HANDLE CYahooProto::GetIconHandle(int iconId)
+HANDLE GetIconHandle(int iconId)
 {
 	for (unsigned i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
@@ -49,7 +49,7 @@ HANDLE CYahooProto::GetIconHandle(int iconId)
 	return NULL;
 }
 
-void CYahooProto::ReleaseIconEx(const char* name, bool big)
+void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, "YAHOO_%s", name);

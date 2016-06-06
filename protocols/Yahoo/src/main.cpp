@@ -114,12 +114,12 @@ extern "C" int __declspec(dllexport)Load(void)
 	nlu.ptszDescriptiveName = TranslateT("YAHOO plugin HTTP connections");
 	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
+	IconsInit();
 	YmsgrLinksInit();
 	/**
 	 * Register LibYahoo2 callback functions
 	 */
 	register_callbacks();
-
 	return 0;
 }
 

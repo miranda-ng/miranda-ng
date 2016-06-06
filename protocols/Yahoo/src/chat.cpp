@@ -423,7 +423,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (InviteChatParam*)lParam;
 
-		Window_SetIcon_IcoLib(hwndDlg, param->ppro->GetIconHandle(IDI_YAHOO));
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_YAHOO));
 
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, param->room);
 		SetDlgItemText(hwndDlg, IDC_MSG, TranslateT("Join My Conference..."));
@@ -514,7 +514,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (InviteChatReqParam*)lParam;
 
-		Window_SetIcon_IcoLib(hwndDlg, param->ppro->GetIconHandle(IDI_YAHOO));
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_YAHOO));
 
 		SetDlgItemTextA(hwndDlg, IDC_SCREENNAME, param->who);
 		SetDlgItemText(hwndDlg, IDC_MSG, param->msg);

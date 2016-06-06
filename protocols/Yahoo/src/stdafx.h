@@ -112,7 +112,13 @@ struct YAHOO_SEARCH_RESULT : public PROTOSEARCHRESULT
 
 int YAHOO_util_dbsettingchanged(WPARAM wParam, LPARAM lParam);
 
-//Services.c
+// icolib.cpp
+void   IconsInit(void);
+HICON  LoadIconEx(const char* name, bool big = false);
+HANDLE GetIconHandle(int iconId);
+void   ReleaseIconEx(const char* name, bool big = false);
+
+// Services.c
 int SetStatus(WPARAM wParam,LPARAM lParam);
 int GetStatus(WPARAM wParam,LPARAM lParam);
 

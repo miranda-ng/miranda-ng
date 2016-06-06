@@ -120,7 +120,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			CYahooProto* ppro = (CYahooProto*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			Window_SetIcon_IcoLib(hwndDlg, ppro->GetIconHandle(IDI_YAHOO));
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_YAHOO));
 
 			if (!ppro->getString(YAHOO_CUSTSTATDB, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, dbv.pszVal);

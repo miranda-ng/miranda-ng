@@ -168,12 +168,6 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void   ext_got_file7info(const char *me, const char *who, const char *url, const char *fname, const char *ft_token);
 	void   ext_ft7_send_file(const char *me, const char *who, const char *filename, const char *token, const char *ft_token);
 
-	//====| icolib.cpp |==================================================================
-	void   IconsInit( void );
-	HICON  LoadIconEx(const char* name, bool big = false);
-	HANDLE GetIconHandle(int iconId);
-	void   ReleaseIconEx(const char* name, bool big = false);
-
 	//====| ignore.cpp |==================================================================
 	const YList* GetIgnoreList(void);
 	void  IgnoreBuddy(const char *buddy, int ignore);

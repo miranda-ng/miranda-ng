@@ -38,7 +38,6 @@ CYahooProto::CYahooProto(const char *aProtoName, const TCHAR *aUserName)
 	SkinAddNewSoundExT("mail", m_tszUserName, LPGENT("New E-mail available in Inbox"));
 
 	LoadYahooServices();
-	IconsInit();
 }
 
 CYahooProto::~CYahooProto()
