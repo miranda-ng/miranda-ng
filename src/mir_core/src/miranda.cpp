@@ -48,13 +48,14 @@ DWORD mir_tls = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
+static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
-	PROCESS_INFORMATION pi;
-	STARTUPINFO startupInfo = { 0 };
-	startupInfo.cb = sizeof(startupInfo);
-	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+	if (lParam)
+		_tcsncpy_s(mirandaPath, (const TCHAR*)lParam, _TRUNCATE);
+	else
+		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+
 	if (wParam) {
 		VARST profilename(_T("%miranda_profilename%"));
 		mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
@@ -62,6 +63,10 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 	else mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
+
+	PROCESS_INFORMATION pi;
+	STARTUPINFO startupInfo = { 0 };
+	startupInfo.cb = sizeof(startupInfo);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &pi);
 	return 0;
 }
