@@ -58,32 +58,34 @@ static const TCHAR *szColumnNames[] = { NULL, NULL, _T("Nick"), _T("First Name")
 static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
-	HDITEM hdi;
-	int columnOrder[NUM_COLUMNID];
-	int columnCount;
 	char szSetting[32];
-	bool colOrdersValid;
 
 	defaultColumnSizes[COLUMNID_PROTO] = g_iIconSX + 4;
 	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(GetParent(hwndResults), GWLP_USERDATA);
 
-	columnCount = NUM_COLUMNID;
-	colOrdersValid = true;
+	int columnCount = NUM_COLUMNID, columnOrder[NUM_COLUMNID];
+	bool colOrdersValid = true;
 	for (int i = 0; i < NUM_COLUMNID; i++) {
 		LVCOLUMN lvc;
 		if (i < columnCount) {
-			int bNeedsFree = FALSE;
+			bool bNeedsFree = false;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 			if (szColumnNames[i] != NULL)
 				lvc.pszText = TranslateTS(szColumnNames[i]);
-			else if (i == COLUMNID_HANDLE) {
-				if (szProto) {
-					bNeedsFree = TRUE;
-					lvc.pszText = mir_a2t((char*)CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
+			else {
+				if (i == COLUMNID_HANDLE) {
+					lvc.pszText = _T("ID");
+					if (szProto) {
+						INT_PTR ret = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+						if (ret != CALLSERVICE_NOTFOUND) {
+							bNeedsFree = true;
+							lvc.pszText = mir_a2t((char*)ret);
+						}
+					}
 				}
-				else lvc.pszText = _T("ID");
+				else lvc.mask &= ~LVCF_TEXT;
 			}
-			else lvc.mask &= ~LVCF_TEXT;
+			
 			mir_snprintf(szSetting, "ColWidth%d", i);
 			lvc.cx = db_get_w(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
@@ -101,9 +103,11 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 		ListView_SetColumnOrderArray(hwndResults, columnCount, columnOrder);
 
 	dat->iLastColumnSortIndex = db_get_b(NULL, "FindAdd", "SortColumn", COLUMNID_NICK);
-	if (dat->iLastColumnSortIndex >= columnCount) dat->iLastColumnSortIndex = COLUMNID_NICK;
+	if (dat->iLastColumnSortIndex >= columnCount)
+		dat->iLastColumnSortIndex = COLUMNID_NICK;
 	dat->bSortAscending = db_get_b(NULL, "FindAdd", "SortAscending", TRUE);
 
+	HDITEM hdi;
 	hdi.mask = HDI_FORMAT;
 	hdi.fmt = HDF_LEFT | HDF_STRING | (dat->bSortAscending ? HDF_SORTDOWN : HDF_SORTUP);
 	Header_SetItem(ListView_GetHeader(hwndResults), dat->iLastColumnSortIndex, &hdi);
