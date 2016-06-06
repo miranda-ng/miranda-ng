@@ -117,13 +117,11 @@ extern struct PlugOptions
     #define DEFAULT_OPP_BITS 32
 	#define OLD_FILENAME FILENAME_X64
 	#define NEW_FILENAME FILENAME_X32
-	#define IDC_CHANGE_PLATFORM IDC_X86
 #else
     #define DEFAULT_BITS 32
     #define DEFAULT_OPP_BITS 64
 	#define OLD_FILENAME FILENAME_X32
 	#define NEW_FILENAME FILENAME_X64
-	#define IDC_CHANGE_PLATFORM IDC_X64
 #endif
 
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")

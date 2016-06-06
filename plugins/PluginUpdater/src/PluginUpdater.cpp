@@ -70,7 +70,11 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitServices();
 #endif
-
+	ptrT oldbin(db_get_tsa(NULL, MODNAME, "OldBin"));
+	if (oldbin) {
+		SafeDeleteFile(oldbin);
+		db_unset(NULL, MODNAME, "OldBin");
+	}
 	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0);
 
 	DWORD dwLen = GetTempPath(_countof(g_tszTempPath), g_tszTempPath);

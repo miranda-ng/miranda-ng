@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\Resource.rc
+// Used by d:\Miranda_orig\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDD_UPDATE                      101
 #define IDD_OPT_UPDATENOTIFY            102
@@ -50,8 +50,7 @@
 #define IDC_SILENTMODE                  1047
 #define IDC_NEEDRESTARTLABEL            1048
 #define IDC_BACKUP                      1049
-#define IDC_X86                         1050
-#define IDC_X64                         1051
+#define IDC_CHANGE_PLATFORM             1052
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
@@ -69,9 +68,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        117
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1052
+#define _APS_NEXT_CONTROL_VALUE         1053
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -27,10 +27,15 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_MENU                ICON                    "menu.ico"
+
 IDI_OK                  ICON                    "btnOk.ico"
+
 IDI_CANCEL              ICON                    "btnClose.ico"
+
 IDI_INFO                ICON                    "info.ico"
+
 IDI_PLGLIST             ICON                    "PlgList.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -52,7 +57,7 @@ BEGIN
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 236
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 237
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -70,17 +75,15 @@ BEGIN
     CONTROL         "Silent mode",IDC_SILENTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,267,10
     CONTROL         "Backup database before update (requires Db_autobackups plugin)",IDC_BACKUP,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,11,86,272,10
-    GROUPBOX        "Files source",IDC_STATIC,2,115,285,96
-    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,128,199,10
-    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,143,199,10
+    GROUPBOX        "Files source",IDC_STATIC,2,104,285,106
+    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,117,267,10
+    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,132,267,10
     CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,158,199,10
-    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,173,267,10
-    EDITTEXT        IDC_CUSTOMURL,12,187,267,16,ES_AUTOHSCROLL | WS_DISABLED
-    GROUPBOX        "Platform",IDC_STATIC,212,122,58,40
-	CONTROL         "x86", IDC_X86, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 217, 131, 28, 10
-	CONTROL         "x64", IDC_X64, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 217, 146, 28, 10
-    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,213,267,15,NOT WS_VISIBLE
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,147,267,10
+    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,162,267,10
+    EDITTEXT        IDC_CUSTOMURL,12,176,267,16,ES_AUTOHSCROLL | WS_DISABLED
+    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,214,267,15,NOT WS_VISIBLE
+    CONTROL         "Change platform",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,197,212,10
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
@@ -181,7 +184,7 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 278
         VERTGUIDE, 286
-        BOTTOMMARGIN, 228
+        BOTTOMMARGIN, 229
     END
 
     IDD_POPUP, DIALOG
@@ -210,6 +213,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_UPDATENOTIFY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

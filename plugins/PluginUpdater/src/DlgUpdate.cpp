@@ -128,12 +128,6 @@ static void ApplyUpdates(void *param)
 		db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
 #endif
 
-	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
-
-	opts.bChangePlatform = false;
-	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
-
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 
 	if (opts.bBackup)
@@ -144,10 +138,31 @@ static void ApplyUpdates(void *param)
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES)
 #if MIRANDA_VER >= 0x0A00
-		CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
+		if (opts.bChangePlatform) {
+			TCHAR mirstartpath[MAX_PATH];
+#ifdef _WIN64
+			mir_sntprintf(mirstartpath, _T("%s\\miranda32.exe"), tszMirandaPath);
+#else
+			mir_sntprintf(mirstartpath, _T("%s\\miranda64.exe"), tszMirandaPath);
+#endif
+			CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, (LPARAM)mirstartpath);
+		}
+		else
+			CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 #else
 		CallFunctionAsync(RestartMe, 0);
 #endif
+
+	opts.bForceRedownload = false;
+	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
+
+	opts.bChangePlatform = false;
+	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+
+	TCHAR mirandaPath[MAX_PATH];
+	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+	db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
+
 }
 
 static void ResizeVert(HWND hDlg, int yy)
