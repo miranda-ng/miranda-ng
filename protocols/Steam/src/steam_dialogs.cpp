@@ -51,7 +51,7 @@ void CSteamGuardDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
-	Window_SetIcon_IcoLib(m_hwnd, iconName);
+	Window_SetIcon_IcoLib(m_hwnd, IcoLib_GetIconHandle(iconName));
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
 
