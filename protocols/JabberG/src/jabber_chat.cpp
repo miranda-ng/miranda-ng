@@ -1160,6 +1160,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			LISTFOREACH(i, ppro, LIST_CHATROOM)
 			{
 				if (JABBER_LIST_ITEM *pItem = ppro->ListGetItemPtrFromIndex(i)) {
+					if (!pItem->bChatActive) continue;
 					if (!idx--) {
 						szInviteTo = pItem->jid;
 						break;
