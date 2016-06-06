@@ -46,7 +46,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		ppro = (CJabberProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
-		WindowSetIcon(hwndDlg, ppro, "key");
+		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_KEYS));
 		TranslateDialogDefault(hwndDlg);
 		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 			TCHAR text[1024];

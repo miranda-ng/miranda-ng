@@ -656,7 +656,6 @@ HANDLE g_GetIconHandle(int iconId);
 HICON  g_LoadIconEx(const char* name, bool big = false);
 
 void   ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon);
-void   WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name);
 
 //---- jabber_libstr.c ----------------------------------------------
 

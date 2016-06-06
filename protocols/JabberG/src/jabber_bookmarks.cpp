@@ -272,7 +272,7 @@ void CJabberDlgBookmarks::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, m_proto, "bookmarks");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_BOOKMARKS));
 
 	m_btnAdd.Disable();
 	m_btnEdit.Disable();

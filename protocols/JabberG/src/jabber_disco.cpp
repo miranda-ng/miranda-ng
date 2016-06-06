@@ -631,7 +631,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, m_proto, "servicediscovery");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_SERVICE_DISCOVERY));
 
 	if (m_jid) {
 		SetDlgItemText(m_hwnd, IDC_COMBO_JID, m_jid);

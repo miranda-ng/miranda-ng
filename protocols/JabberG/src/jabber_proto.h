@@ -46,14 +46,6 @@ typedef UNIQUE_MAP<TCHAR,TCharKeyCmp> U_TCHAR_MAP;
 
 #define JABBER_DEFAULT_RECENT_COUNT 10
 
-struct JABBER_GROUPCHAT_INVITE_INFO
-{
-	TCHAR *roomJid;
-	TCHAR *from;
-	TCHAR *reason;
-	TCHAR *password;
-};
-
 struct ROSTERREQUSERDATA
 {
 	HWND hwndDlg;
@@ -415,7 +407,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_groupchat.c ------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleJoinGroupchat(WPARAM wParam, LPARAM lParam);
-	void       __cdecl GroupchatInviteAcceptThread(JABBER_GROUPCHAT_INVITE_INFO *inviteInfo);
 
 	INT_PTR    __cdecl OnJoinChat(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnLeaveChat(WPARAM wParam, LPARAM lParam);

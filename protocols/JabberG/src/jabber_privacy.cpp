@@ -760,7 +760,7 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, m_proto, "privacylists");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_PRIVACY_LISTS));
 
 	EnableWindow(GetDlgItem(m_hwnd, IDC_ADD_RULE), FALSE);
 	EnableWindow(GetDlgItem(m_hwnd, IDC_EDIT_RULE), FALSE);

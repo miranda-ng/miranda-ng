@@ -237,7 +237,7 @@ CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TF
 void CJabberDlgNoteItem::OnInitDialog()
 {
 	CSuper::OnInitDialog();
-	WindowSetIcon(m_hwnd, m_proto, "notes");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
 
 	if (m_fnProcess) {
 		CMString buf;
@@ -639,7 +639,7 @@ void CJabberDlgNotes::UpdateData()
 void CJabberDlgNotes::OnInitDialog()
 {
 	CSuper::OnInitDialog();
-	WindowSetIcon(m_hwnd, m_proto, "notes");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
 
 	LOGFONT lf, lfTmp;
 	m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);

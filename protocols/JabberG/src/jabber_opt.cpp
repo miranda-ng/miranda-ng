@@ -1398,7 +1398,7 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		TranslateDialogDefault(hwndDlg);
-		WindowSetIcon(hwndDlg, ppro, "Agents");
+		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_AGENTS));
 
 		Utils_RestoreWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
 

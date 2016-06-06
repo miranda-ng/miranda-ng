@@ -417,7 +417,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	WindowSetIcon(m_hwnd, m_proto, "group");
+	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
 	JabberGcRecentInfo *pInfo = NULL;
 	if (m_jid)
@@ -1141,12 +1141,12 @@ class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 	CCtrlButton m_accept;
-	JABBER_GROUPCHAT_INVITE_INFO* m_info;
+	CMString m_roomJid, m_from, m_reason, m_password;
 
 public:
-	CGroupchatInviteAcceptDlg(CJabberProto *ppro, JABBER_GROUPCHAT_INVITE_INFO* pInfo) :
+	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const TCHAR *roomJid, const TCHAR *from, const TCHAR *reason, const TCHAR *password) :
 		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT, NULL),
-		m_info(pInfo),
+		m_roomJid(roomJid), m_from(from), m_reason(reason), m_password(password),
 		m_accept(this, IDC_ACCEPT)
 	{
 		m_accept.OnClick = Callback(this, &CGroupchatInviteAcceptDlg::OnCommand_Accept);
@@ -1157,17 +1157,14 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, TranslateT("Group chat invitation to\n%s"), m_info->roomJid);
+		mir_sntprintf(buf, TranslateT("Group chat invitation to\n%s"), m_roomJid);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
-		SetDlgItemText(m_hwnd, IDC_FROM, m_info->from);
-
-		if (m_info->reason != NULL)
-			SetDlgItemText(m_hwnd, IDC_REASON, m_info->reason);
-
+		SetDlgItemText(m_hwnd, IDC_FROM, m_from);
+		SetDlgItemText(m_hwnd, IDC_REASON, m_reason);
 		SetDlgItemText(m_hwnd, IDC_NICK, ptrT(JabberNickFromJID(m_proto->m_szJabberJID)));
 
-		WindowSetIcon(m_hwnd, m_proto, "group");
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
 		SetFocus(GetDlgItem(m_hwnd, IDC_NICK));
 	}
@@ -1176,20 +1173,15 @@ public:
 	{
 		TCHAR text[128];
 		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
-		m_proto->AcceptGroupchatInvite(m_info->roomJid, text, m_info->password);
+		m_proto->AcceptGroupchatInvite(m_roomJid, text, m_password);
 		EndDialog(m_hwnd, 0);
 	}
 };
 
-void __cdecl CJabberProto::GroupchatInviteAcceptThread(JABBER_GROUPCHAT_INVITE_INFO *inviteInfo)
+static void __stdcall sttShowDialog(void *pArg)
 {
-	CGroupchatInviteAcceptDlg(this, inviteInfo).DoModal();
-
-	mir_free(inviteInfo->roomJid);
-	mir_free(inviteInfo->from);
-	mir_free(inviteInfo->reason);
-	mir_free(inviteInfo->password);
-	mir_free(inviteInfo);
+	CGroupchatInviteAcceptDlg *pDlg = (CGroupchatInviteAcceptDlg*)pArg;
+	pDlg->Show();
 }
 
 void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *from, const TCHAR *reason, const TCHAR *password)
@@ -1200,15 +1192,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 	if (ListGetItemPtr(LIST_CHATROOM, roomJid))
 		return;
 
-	if (m_options.AutoAcceptMUC == FALSE) {
-		JABBER_GROUPCHAT_INVITE_INFO* inviteInfo = (JABBER_GROUPCHAT_INVITE_INFO *)mir_alloc(sizeof(JABBER_GROUPCHAT_INVITE_INFO));
-		inviteInfo->roomJid = mir_tstrdup(roomJid);
-		inviteInfo->from = mir_tstrdup(from);
-		inviteInfo->reason = mir_tstrdup(reason);
-		inviteInfo->password = mir_tstrdup(password);
-		ForkThread((MyThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
-	}
-	else {
+	if (m_options.AutoAcceptMUC) {
 		ptrT nick(getTStringA(HContactFromJID(m_szJabberJID), "MyNick"));
 		if (nick == NULL)
 			nick = getTStringA("Nick");
@@ -1216,6 +1200,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 			nick = JabberNickFromJID(m_szJabberJID);
 		AcceptGroupchatInvite(roomJid, nick, password);
 	}
+	else CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
 }
 
 void CJabberProto::AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password)

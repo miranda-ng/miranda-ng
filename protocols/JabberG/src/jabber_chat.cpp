@@ -730,7 +730,7 @@ public:
 		CSuper::OnInitDialog();
 
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMString(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
-		WindowSetIcon(m_hwnd, m_proto, "group");
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
 			GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | CLS_HIDEOFFLINE | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -840,7 +840,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		dat = (TUserInfoData *)lParam;
 
-		WindowSetIcon(hwndDlg, dat->ppro, "group");
+		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_GROUP));
 		{
 			LOGFONT lf;
 			GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);

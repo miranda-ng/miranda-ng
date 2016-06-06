@@ -557,7 +557,3 @@ void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon)
 	ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 }
-
-void WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name)
-{
-}

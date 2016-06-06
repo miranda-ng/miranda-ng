@@ -601,7 +601,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		WindowSetIcon(m_hwnd, m_proto, "openid");
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_OPEN));
 
 		SetDlgItemText(m_hwnd, IDC_TXT_URL, m_pParams->m_szUrl);
 		SetDlgItemText(m_hwnd, IDC_TXT_FROM, m_pParams->m_szFrom);
