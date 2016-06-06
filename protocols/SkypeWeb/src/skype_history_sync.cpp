@@ -105,9 +105,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		else if (conversationLink.find("/19:") != -1)
 		{
 			CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
+			ptrA szMessage(messageType == "RichText" ? RemoveHtml(content.c_str()) : mir_strdup(content.c_str()));
 			if (messageType == "Text" || messageType == "RichText")
 			{
-				AddMessageToChat(_A2T(chatname), _A2T(skypename), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
+				AddMessageToChat(_A2T(chatname), _A2T(skypename), szMessage, emoteOffset != NULL, emoteOffset, timestamp, true);
 			}
 		}
 	}
