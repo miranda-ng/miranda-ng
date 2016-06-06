@@ -114,7 +114,7 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 	AVATARCACHEENTRY *ace;
 
 	// Get the node
-	CacheNode *node = FindAvatarInCache(hSubContact, TRUE);
+	CacheNode *node = FindAvatarInCache(hSubContact, true);
 	if (node == NULL || !node->loaded) {
 		ace = (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);

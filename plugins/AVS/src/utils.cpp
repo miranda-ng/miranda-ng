@@ -411,7 +411,7 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 	hContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
-	CacheNode *node = FindAvatarInCache(hContact, g_AvatarHistoryAvail && fNotifyHist, TRUE);
+	CacheNode *node = FindAvatarInCache(hContact, g_AvatarHistoryAvail && fNotifyHist, true);
 	if (node == NULL)
 		return 0;
 

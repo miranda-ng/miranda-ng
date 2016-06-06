@@ -21,6 +21,8 @@ Boston, MA 02111-1307, USA.
 #ifndef __POLL_H__
 # define __POLL_H__
 
+#define REQUEST_WAIT_TIME 3000
+
 struct QueueItem
 {
 	MCONTACT hContact;
@@ -31,6 +33,6 @@ void InitPolls();
 void UninitPolls();
 
 // Add an contact to a queue
-void QueueAdd(MCONTACT hContact);
+void QueueAdd(MCONTACT hContact, int waitTime = REQUEST_WAIT_TIME);
 
 #endif // __POLL_H__

@@ -25,8 +25,6 @@ A queue to request items. One request is done at a time, REQUEST_WAIT_TIME milis
 ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the cache queue)
 */
 
-#define REQUEST_WAIT_TIME 3000
-
 // Time to wait before re-requesting an avatar that failed
 #define REQUEST_FAIL_WAIT_TIME (3 * 60 * 60 * 1000)
 
@@ -99,7 +97,7 @@ static BOOL PollContactCanHaveAvatar(MCONTACT hContact, const char *szProto)
 // Return true if this contact has to be checked
 static BOOL PollCheckContact(MCONTACT hContact)
 {
-	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, FALSE, TRUE) != NULL;
+	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, false, true) != NULL;
 }
 
 static void QueueRemove(MCONTACT hContact)
@@ -113,7 +111,8 @@ static void QueueRemove(MCONTACT hContact)
 	}
 }
 
-static void QueueAdd(MCONTACT hContact, int waitTime)
+// Add an contact to a queue
+void QueueAdd(MCONTACT hContact, int waitTime)
 {
 	if (fei == NULL || g_shutDown)
 		return;
@@ -129,12 +128,6 @@ static void QueueAdd(MCONTACT hContact, int waitTime)
 	item->hContact = hContact;
 	item->check_time = GetTickCount() + waitTime;
 	queue.insert(item);
-}
-
-// Add an contact to a queue
-void QueueAdd(MCONTACT hContact)
-{
-	QueueAdd(hContact, REQUEST_WAIT_TIME);
 }
 
 void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pai, const char *szProto)
