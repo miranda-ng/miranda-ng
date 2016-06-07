@@ -498,9 +498,9 @@ void LoadBassLibrary(const TCHAR *ptszPath)
 
 		BASS_DEVICEINFO info;
 		if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
-			for (size_t i = 1; BASS_GetDeviceInfo(i, &info); i++)
+			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
 				if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
-					device = i;
+					device = (int)i;
 
 		db_free(&dbv);
 
