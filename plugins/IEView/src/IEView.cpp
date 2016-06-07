@@ -1159,7 +1159,7 @@ VARIANT IEView::CallJScript(const CMString strFunc, size_t nPCount, const CMStri
 	
 	DISPPARAMS dispparams;
 	memset(&dispparams, 0, sizeof dispparams);
-	dispparams.cArgs = nPCount;
+	dispparams.cArgs = (UINT)nPCount;
 	dispparams.rgvarg = new VARIANT[dispparams.cArgs];
 	dispparams.cNamedArgs = 0;
 
