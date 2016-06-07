@@ -124,15 +124,14 @@ static LPARAM ListView_GetItemLParam(HWND hwndList, int idx)
 
 int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	struct FindAddDlgData *dat = (struct FindAddDlgData*)GetWindowLongPtr((HWND)lParamSort, GWLP_USERDATA);
-	struct ListSearchResult *lsr1, *lsr2;
+	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr((HWND)lParamSort, GWLP_USERDATA);
 	HWND hList = GetDlgItem((HWND)lParamSort, IDC_RESULTS);
 
 	int sortMultiplier = dat->bSortAscending ? 1 : -1;
 	int sortCol = dat->iLastColumnSortIndex;
 	if (!dat->bFlexSearchResult) {
-		lsr1 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
-		lsr2 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
+		ListSearchResult *lsr1 = (ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
+		ListSearchResult *lsr2 = (ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
 		if (lsr1 == NULL || lsr2 == NULL)
 			return 0;
 		
@@ -152,8 +151,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		}
 	}
 	else {
-		TCHAR szText1[100];
-		TCHAR szText2[100];
+		TCHAR szText1[100], szText2[100];
 		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, _countof(szText1));
 		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, _countof(szText2));
 		return mir_tstrcmpi(szText1, szText2)*sortMultiplier;
@@ -167,7 +165,7 @@ void FreeSearchResults(HWND hwndResults)
 	for (lvi.iItem = ListView_GetItemCount(hwndResults) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		lvi.mask = LVIF_PARAM;
 		ListView_GetItem(hwndResults, &lvi);
-		struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
+		ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 		if (lsr == NULL) continue;
 		mir_free(lsr->psr.id.t);
 		mir_free(lsr->psr.email.t);
@@ -181,11 +179,11 @@ void FreeSearchResults(HWND hwndResults)
 }
 
 // on its own thread
-static void BeginSearchFailed(void * arg)
+static void BeginSearchFailed(void *arg)
 {
 	TCHAR buf[128];
 	if (arg != NULL) {
-		const TCHAR* protoName = (TCHAR*)arg;
+		const TCHAR *protoName = (TCHAR*)arg;
 		mir_sntprintf(buf,
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
 			protoName, protoName);
@@ -203,16 +201,20 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
 		for (int i = 0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT *pa = accounts[i];
-			if (!Proto_IsAccountEnabled(pa)) continue;
+			if (!Proto_IsAccountEnabled(pa))
+				continue;
+			
 			DWORD caps = (DWORD)CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-			if (!(caps&requiredCapability)) continue;
+			if (!(caps & requiredCapability))
+				continue;
+			
 			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
 			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
 			else dat->searchCount++;
 		}
 		if (failures) {
-			//infuriatingly vague error message. fixme.
+			// infuriatingly vague error message. fixme.
 			if (dat->searchCount == 0) {
 				mir_forkthread(BeginSearchFailed);
 				mir_free(dat->search);
@@ -227,7 +229,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(NULL, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
 		dat->search[0].szProto = szProto;
 		if (dat->search[0].hProcess == NULL) {
-			//infuriatingly vague error message. fixme.
+			// infuriatingly vague error message. fixme.
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			mir_forkthread(BeginSearchFailed, mir_tstrdup(pa->tszAccountName));
 			mir_free(dat->search);
@@ -259,7 +261,8 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str.c_str());
 }
 
-struct ProtoResultsSummary {
+struct ProtoResultsSummary
+{
 	const char *szProto;
 	int count;
 };
@@ -277,7 +280,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 		for (lvi.iItem = total - 1; lvi.iItem >= 0; lvi.iItem--) {
 			lvi.mask = LVIF_PARAM;
 			ListView_GetItem(hwndResults, &lvi);
-			struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
+			ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 			if (lsr == NULL)
 				continue;
 			
@@ -342,7 +345,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	lvi.mask = LVIF_PARAM;
 	lvi.iItem = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL | LVNI_SELECTED);
 	ListView_GetItem(GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
-	struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
+	ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 
 	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hPopupMenu = GetSubMenu(hMenu, 4);

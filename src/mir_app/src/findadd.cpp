@@ -364,11 +364,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
 
 			TCHAR *szProto = NULL;
-			DBVARIANT dbv;
-			if (!db_get_ts(NULL, "FindAdd", "LastSearched", &dbv)) {
-				szProto = NEWTSTR_ALLOCA(dbv.ptszVal);
-				db_free(&dbv); /* free string szProto was fetched with */
-			}
+			ptrT tszLast(db_get_tsa(NULL, "FindAdd", "LastSearched"));
+			if (tszLast)
+				szProto = NEWTSTR_ALLOCA(tszLast);
 
 			int i, index = 0, cbwidth = 0, netProtoCount = 0;
 			for (i = 0; i < accounts.getCount(); i++) {
@@ -435,16 +433,15 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_SIZE:
-		{
-			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_FINDADD), FindAddDlgResizer, (LPARAM)dat);
-			ReposTinySearchDlg(hwndDlg, dat);
-			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_SIZE, 0, 0);
-			if (dat->notSearchedYet) {
-				GetClientRect(hwndList, &rc);
-				ListView_SetColumnWidth(hwndList, 0, rc.right);
-			}
+		Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_FINDADD), FindAddDlgResizer, (LPARAM)dat);
+		ReposTinySearchDlg(hwndDlg, dat);
+		SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_SIZE, 0, 0);
+		if (dat->notSearchedYet) {
+			GetClientRect(hwndList, &rc);
+			ListView_SetColumnWidth(hwndList, 0, rc.right);
 		}
-		//fall through
+		// fall through
+
 	case WM_MOVE:
 		if (dat && dat->hwndAdvSearch) {
 			GetWindowRect(hwndList, &rc);
@@ -862,7 +859,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 				}
 				else { // blob contain info about found contacts
-					ListSearchResult *lsr = (ListSearchResult*)mir_alloc(offsetof(struct ListSearchResult, psr) + psr->cbSize);
+					ListSearchResult *lsr = (ListSearchResult*)mir_alloc(offsetof(ListSearchResult, psr) + psr->cbSize);
 					lsr->szProto = ack->szModule;
 					memcpy(&lsr->psr, psr, psr->cbSize);
 
@@ -901,7 +898,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			else if (ack->result == ACKRESULT_DATA) {
 				PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)ack->lParam;
-				ListSearchResult *lsr = (ListSearchResult*)mir_alloc(offsetof(struct ListSearchResult, psr) + psr->cbSize);
+				ListSearchResult *lsr = (ListSearchResult*)mir_alloc(offsetof(ListSearchResult, psr) + psr->cbSize);
 				lsr->szProto = ack->szModule;
 
 				dat->bFlexSearchResult = FALSE;
@@ -929,7 +926,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						break;
 					}
 				}
-				
+
 				int iItem = ListView_InsertItem(hwndList, &lvi);
 				SetListItemText(hwndList, iItem, 1, lsr->psr.id.t);
 				SetListItemText(hwndList, iItem, 2, lsr->psr.nick.t);
@@ -1018,6 +1015,7 @@ int FindAddPreShutdown(WPARAM, LPARAM)
 int LoadFindAddModule(void)
 {
 	CreateServiceFunction(MS_FINDADD_FINDADD, FindAddCommand);
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnSystemModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, FindAddPreShutdown);
