@@ -101,7 +101,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 		SetTimer(hDlg, 1, 200, NULL);
 
 		oldLayout = GetKeyboardLayout(0);
-		if (MAKELCID((WORD)oldLayout & 0xffffffff, SORT_DEFAULT) != (LCID)0x00000409)
+		if (MAKELCID(LOWORD(oldLayout) & 0xffffffff, SORT_DEFAULT) != (LCID)0x00000409)
 			ActivateKeyboardLayout((HKL)0x00000409, 0);
 		LanguageChanged(hDlg);
 		return TRUE;
@@ -157,7 +157,7 @@ static void LanguageChanged(HWND hDlg)
 	{
 		char Lang[3] = { 0 };
 		oldLangID = LangID;
-		GetLocaleInfoA(MAKELCID(((WORD)LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
+		GetLocaleInfoA(MAKELCID((LOWORD(LangID) & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
 		Lang[0] = toupper(Lang[0]);
 		Lang[1] = tolower(Lang[1]);
 		SetDlgItemTextA(hDlg, IDC_LANG, Lang);
