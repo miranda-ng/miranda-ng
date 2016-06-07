@@ -828,7 +828,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				}
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
 				if (vc_) {
-					int vc = vc_.as_int();
 					TCHAR *client = _T(FACEBOOK_CLIENT_WEB);
 
 					/*if (vc == 0) {
