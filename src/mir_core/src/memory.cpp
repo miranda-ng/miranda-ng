@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-16 Miranda NG project (http://miranda-ng.org),
+Copyright (ï¿½) 2012-16 Miranda NG project (http://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -107,8 +107,10 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 	}
 	else p = NULL;
 
+    ptr = p;
 	p = (char*)realloc(p, size + sizeof(DWORD)*3);
 	if (p == NULL) {
+	    free(ptr);
 		OutputDebugStringA("memory overflow\n");
 		#if defined(_DEBUG)
 			DebugBreak();
