@@ -274,7 +274,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
 				RECT rc;
 				GetClientRect(hwnd, &rc);
-				POINT pt = { wParam, 0 };
+				POINT pt = { (LONG)wParam, 0 };
 				ScreenToClient(hwnd, &pt);
 
 				splitterPos = rc.left + pt.x + 1;
