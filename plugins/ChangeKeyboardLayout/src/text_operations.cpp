@@ -71,7 +71,7 @@ LPTSTR GetShortNameOfLayout(HKL hklLayout)
 {
 	TCHAR szLI[20];
 	LPTSTR ptszLiShort = (LPTSTR)mir_alloc(3*sizeof(TCHAR));
-	DWORD dwLcid = MAKELCID(hklLayout, 0);
+	DWORD dwLcid = MAKELCID(LOWORD(hklLayout), 0);
 	GetLocaleInfo(dwLcid, LOCALE_SISO639LANGNAME, szLI, 10);
 	ptszLiShort[0] = toupper(szLI[0]);
 	ptszLiShort[1] = toupper(szLI[1]);
@@ -216,10 +216,10 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 
 int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 {
-	HKL hklCurLay, hklToLay;
+	HKL hklCurLay = 0, hklToLay = 0;
 
 	ptrT ptszInText;
-	CHARRANGE crSelection, crTemp;
+	CHARRANGE crSelection = { 0 }, crTemp = { 0 };
 	DWORD dwStartWord, dwEndWord;
 	int i, iRes;
 
