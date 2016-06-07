@@ -107,10 +107,8 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 	}
 	else p = NULL;
 
-    ptr = p;
 	p = (char*)realloc(p, size + sizeof(DWORD)*3);
 	if (p == NULL) {
-	    free(ptr);
 		OutputDebugStringA("memory overflow\n");
 		#if defined(_DEBUG)
 			DebugBreak();
