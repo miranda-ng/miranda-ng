@@ -35,8 +35,16 @@ enum SocketState
 	sockError
 };
 
-struct SslHandle
+struct SslHandle : public MZeroedObject
 {
+	~SslHandle()
+	{
+		if (session)
+			SSL_free(session);
+		if (ctx)
+			SSL_CTX_free(ctx);
+	}
+
 	SOCKET s;
 	SSL_CTX *ctx;
 	SSL *session;
@@ -46,7 +54,8 @@ struct SslHandle
 static void SSL_library_unload(void)
 {
 	/* Load Library Pointers */
-	if (!bSslInitDone) return;
+	if (!bSslInitDone)
+		return;
 
 	WaitForSingleObject(g_hSslMutex, INFINITE);
 
@@ -66,7 +75,8 @@ static void SSL_library_unload(void)
 static bool SSL_library_load(void)
 {
 	/* Load Library Pointers */
-	if (bSslInitDone) return true;
+	if (bSslInitDone)
+		return true;
 
 	WaitForSingleObject(g_hSslMutex, INFINITE);
 
@@ -74,8 +84,7 @@ static bool SSL_library_load(void)
 		g_hOpenSSLCrypto = LoadLibraryA("libeay32.dll");
 		g_hOpenSSL = LoadLibraryA("ssleay32.dll");
 		g_hWinCrypt = LoadLibraryA("crypt32.dll");
-		if (g_hOpenSSL && g_hOpenSSLCrypto && g_hWinCrypt) 
-		{
+		if (g_hOpenSSL && g_hOpenSSLCrypto && g_hWinCrypt) {
 			// init OpenSSL
 			SSL_library_init();
 			SSL_load_error_strings();
@@ -84,9 +93,7 @@ static bool SSL_library_load(void)
 
 			bSslInitDone = true;
 		}
-		else {
-			SSL_library_unload();
-		}
+		else SSL_library_unload();
 	}
 
 	return bSslInitDone;
@@ -132,15 +139,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 
 void NetlibSslFree(SslHandle *ssl)
 {
-	if (ssl == NULL) return;
-
-	/* Delete Context */
-	if (ssl->session) 
-		SSL_free(ssl->session);
-	if (ssl->ctx) 
-		SSL_CTX_free(ssl->ctx);
-
-	mir_free(ssl);
+	delete ssl;
 }
 
 BOOL NetlibSslPending(HSSL ssl)
@@ -185,7 +184,7 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 		return false;
 	}
 
-	const char* suite = SSL_GetCipherName(ssl);
+	const char *suite = SSL_GetCipherName(ssl);
 	if (suite != NULL)
 		Netlib_Logf(0, "SSL established with %s", suite);
 	return true;
@@ -193,11 +192,10 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 
 static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
 {
-	int len;
-	unsigned char * buf = NULL;
+	unsigned char *buf = NULL;
 	PCCERT_CONTEXT pCertContext = NULL;
 
-	len = i2d_X509(x509, &buf);
+	int len = i2d_X509(x509, &buf);
 	if ((len >= 0) && buf) {
 		pCertContext = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, buf, len);
 
@@ -210,7 +208,7 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 {
 	/* convert the active certificate chain provided in the handshake of 'session' into
 		the format used by CryptAPI.
-	*/
+		*/
 	PCCERT_CONTEXT anchor = NULL;
 	// create cert store
 	HCERTSTORE store = CertOpenStore(CERT_STORE_PROV_MEMORY, 0, NULL, CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, NULL);
@@ -225,10 +223,8 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 				// add all remaining certs to store (note: stack needs not be freed, it is not a copy)
 				STACK_OF(X509) *server_chain = SSL_get_peer_cert_chain(session);
 				if (server_chain) {
-					X509 *next_cert;
-					int i;
-					for (i = 0; i < server_chain->stack.num; i++) {
-						next_cert = (X509 *)server_chain->stack.data[i];
+					for (int i = 0; i < server_chain->stack.num; i++) {
+						X509 *next_cert = (X509 *)server_chain->stack.data[i];
 						CertAddCertificateContextToStore(store, SSL_X509ToCryptCert(next_cert), CERT_STORE_ADD_USE_EXISTING, NULL);
 					}
 				}
@@ -237,7 +233,8 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 				anchor = primary_cert;
 			}
 			else {
-				if (primary_cert) CertFreeCertificateContext(primary_cert);
+				if (primary_cert)
+					CertFreeCertificateContext(primary_cert);
 			}
 
 			X509_free(server_cert);
@@ -322,8 +319,8 @@ cleanup:
 SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 {
 	/* negotiate SSL session, verify cert, return NULL if failed */
-	
-	SslHandle *ssl = (SslHandle*)mir_calloc(sizeof(SslHandle));
+
+	SslHandle *ssl = new SslHandle();
 	ssl->s = s;
 	bool res = ClientConnect(ssl, host);
 
@@ -337,7 +334,7 @@ SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 	if (res)
 		return ssl;
 
-	NetlibSslFree(ssl);
+	delete ssl;
 	return NULL;
 }
 
@@ -364,17 +361,15 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 	if (err <= 0) {
 		int err2 = SSL_get_error(ssl->session, err);
-		switch (err2) {
-		case SSL_ERROR_ZERO_RETURN:
+		if (err2 == SSL_ERROR_ZERO_RETURN) {
 			Netlib_Logf(0, "SSL connection gracefully closed");
 			ssl->state = sockClosed;
-			break;
-		default:
-			Netlib_Logf(0, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
-			ssl->state = sockError;
-			return SOCKET_ERROR;
+			return 0;
 		}
-		return 0;
+
+		Netlib_Logf(0, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
+		ssl->state = sockError;
+		return SOCKET_ERROR;
 	}
 
 	return err;
@@ -389,7 +384,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	int err = SSL_write(ssl->session, buf, num);
 	if (err > 0)
 		return err;
-	
+
 	int err2 = SSL_get_error(ssl->session, err);
 	switch (err2) {
 	case SSL_ERROR_ZERO_RETURN:
@@ -406,7 +401,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 
 static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 {
-	SSL_API* pSsl = (SSL_API*)lParam;
+	SSL_API *pSsl = (SSL_API*)lParam;
 	if (pSsl == NULL)
 		return FALSE;
 
@@ -424,8 +419,7 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 
 int LoadSslModule(void)
 {
-	if (!SSL_library_load())
-	{
+	if (!SSL_library_load()) {
 		MessageBoxW(NULL, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL error"), MB_ICONERROR | MB_OK);
 		return 1;
 	}

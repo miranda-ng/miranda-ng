@@ -342,19 +342,9 @@ static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 {
 	DWORD dwOriginalLastError = GetLastError();
 
-	if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
-		if (nlc->s != INVALID_SOCKET)
-			closesocket(nlc->s);
-		mir_free(nlc->nlhpi.szHttpPostUrl);
-		mir_free(nlc->nlhpi.szHttpGetUrl);
-		mir_free((char*)nlc->nloc.szHost);
-		mir_free(nlc->szProxyServer);
-		NetlibDeleteNestedCS(&nlc->ncsSend);
-		NetlibDeleteNestedCS(&nlc->ncsRecv);
-		CloseHandle(nlc->hOkToCloseEvent);
-		DeleteCriticalSection(&nlc->csHttpSequenceNums);
-		mir_free(nlc);
-	}
+	if (GetNetlibHandleType(nlc) == NLH_CONNECTION)
+		delete nlc;
+
 	SetLastError(dwOriginalLastError);
 }
 
@@ -840,20 +830,11 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 
 	NetlibLogf(nlu, "Connection request to %s:%d (Flags %x)....", nloc->szHost, nloc->wPort, nloc->flags);
 
-	NetlibConnection *nlc = (NetlibConnection*)mir_calloc(sizeof(struct NetlibConnection));
-	nlc->handleType = NLH_CONNECTION;
+	NetlibConnection *nlc = new NetlibConnection();
 	nlc->nlu = nlu;
 	nlc->nloc = *nloc;
 	nlc->nloc.szHost = mir_strdup(nloc->szHost);
-	nlc->s = INVALID_SOCKET;
-	nlc->s2 = INVALID_SOCKET;
 	nlc->dnsThroughProxy = nlu->settings.dnsThroughProxy != 0;
-
-	InitializeCriticalSection(&nlc->csHttpSequenceNums);
-	nlc->hOkToCloseEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-	nlc->dontCloseNow = 0;
-	NetlibInitializeNestedCS(&nlc->ncsSend);
-	NetlibInitializeNestedCS(&nlc->ncsRecv);
 
 	if (!NetlibDoConnect(nlc)) {
 		FreePartiallyInitedConnection(nlc);
@@ -889,4 +870,34 @@ INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam)
 		NetlibLogf(nlc->nlu, "(%d %s) SSL negotiation successful", nlc->s, szHost);
 
 	return nlc->hSsl != NULL;
+}
+
+NetlibConnection::NetlibConnection()
+{
+	handleType = NLH_CONNECTION;
+	s = s2 = INVALID_SOCKET;
+	hOkToCloseEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+	NetlibInitializeNestedCS(&ncsSend);
+	NetlibInitializeNestedCS(&ncsRecv);
+}
+
+NetlibConnection::~NetlibConnection()
+{
+	handleType = 0;
+
+	if (s != INVALID_SOCKET)
+		closesocket(s);
+
+	mir_free(szNewUrl);
+	mir_free(szProxyServer);
+
+	mir_free(nlhpi.szHttpPostUrl);
+	mir_free(nlhpi.szHttpGetUrl);
+
+	mir_free((char*)nloc.szHost);
+
+	NetlibDeleteNestedCS(&ncsSend);
+	NetlibDeleteNestedCS(&ncsRecv);
+
+	CloseHandle(hOkToCloseEvent);
 }

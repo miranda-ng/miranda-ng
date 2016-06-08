@@ -79,7 +79,12 @@ INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
 	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW))
 		recvResult = NetlibHttpGatewayRecv(nlc, nlb->buf, nlb->len, nlb->flags);
 	else {
-		if (nlc->hSsl)
+		if (!nlc->foreBuf.isEmpty()) {
+			recvResult = min(nlb->len, nlc->foreBuf.length());
+			memcpy(nlb->buf, nlc->foreBuf.data(), recvResult);
+			nlc->foreBuf.remove(recvResult);
+		}
+		else if (nlc->hSsl)
 			recvResult = sslApi.read(nlc->hSsl, nlb->buf, nlb->len, (nlb->flags & MSG_PEEK) != 0);
 		else
 			recvResult = recv(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
@@ -180,7 +185,7 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 
 		if (sslApi.pending(conn->hSsl))
 			nls->hReadStatus[j] = TRUE;
-		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == NULL && conn->dataBuffer == NULL)
+		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == NULL && conn->szProxyBuf.IsEmpty())
 			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != NULL);
 		else
 			nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);

@@ -266,13 +266,12 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			mir_free(nlu->user.szHttpGatewayHello);
 			mir_free(nlu->user.szHttpGatewayUserAgent);
 			mir_free(nlu->szStickyHeaders);
-			break;
 		}
+		break;
+
 	case NLH_CONNECTION:
 		{
-			NetlibConnection *nlc = (struct NetlibConnection*)wParam;
-			HANDLE waitHandles[4];
-			DWORD waitResult;
+			NetlibConnection *nlc = (NetlibConnection*)wParam;
 
 			WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 			if (nlc->usingHttpGateway)
@@ -280,36 +279,26 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			else {
 				if (nlc->s != INVALID_SOCKET)
 					NetlibDoClose(nlc, nlc->termRequested);
-				if (nlc->s2 != INVALID_SOCKET) closesocket(nlc->s2);
+				if (nlc->s2 != INVALID_SOCKET)
+					closesocket(nlc->s2);
 				nlc->s2 = INVALID_SOCKET;
 			}
 			ReleaseMutex(hConnectionHeaderMutex);
 
-			waitHandles[0] = hConnectionHeaderMutex;
-			waitHandles[1] = nlc->hOkToCloseEvent;
-			waitHandles[2] = nlc->ncsRecv.hMutex;
-			waitHandles[3] = nlc->ncsSend.hMutex;
-			waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
+			HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
+			DWORD waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
 			if (waitResult >= WAIT_OBJECT_0 + _countof(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
 				SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
 				return 0;
 			}
-			nlc->handleType = 0;
-			mir_free(nlc->nlhpi.szHttpPostUrl);
-			mir_free(nlc->nlhpi.szHttpGetUrl);
-			mir_free(nlc->dataBuffer);
-			mir_free((char*)nlc->nloc.szHost);
-			mir_free(nlc->szNewUrl);
-			mir_free(nlc->szProxyServer);
-			NetlibDeleteNestedCS(&nlc->ncsRecv);
-			NetlibDeleteNestedCS(&nlc->ncsSend);
-			CloseHandle(nlc->hOkToCloseEvent);
-			DeleteCriticalSection(&nlc->csHttpSequenceNums);
-			ReleaseMutex(hConnectionHeaderMutex);
+
 			NetlibLogf(nlc->nlu, "(%p:%u) Connection closed", nlc, nlc->s);
+			delete nlc;
+
+			ReleaseMutex(hConnectionHeaderMutex);
 		}
-		break;
+		return 1;
 
 	case NLH_BOUNDPORT:
 		return NetlibFreeBoundPort((struct NetlibBoundPort*)wParam);
@@ -340,10 +329,10 @@ static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		switch (GetNetlibHandleType((void*)wParam)) {
 		case NLH_CONNECTION:
-			s = ((struct NetlibConnection*)wParam)->s;
+			s = ((NetlibConnection*)wParam)->s;
 			break;
 		case NLH_BOUNDPORT:
-			s = ((struct NetlibBoundPort*)wParam)->s;
+			s = ((NetlibBoundPort*)wParam)->s;
 			break;
 		default:
 			s = INVALID_SOCKET;

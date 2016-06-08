@@ -160,15 +160,9 @@ static void NetlibBindAcceptThread(void* param)
 
 		NetlibLogf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(NetlibAddressToString(&sin)), s);
 		
-		NetlibConnection *nlc = (NetlibConnection*)mir_calloc(sizeof(NetlibConnection));
-		nlc->handleType = NLH_CONNECTION;
+		NetlibConnection *nlc = new NetlibConnection();
 		nlc->nlu = nlbp->nlu;
 		nlc->s = s;
-		nlc->s2 = INVALID_SOCKET;
-		InitializeCriticalSection(&nlc->csHttpSequenceNums);
-		nlc->hOkToCloseEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-		NetlibInitializeNestedCS(&nlc->ncsSend);
-		NetlibInitializeNestedCS(&nlc->ncsRecv);
 
 		if (nlbp->pfnNewConnectionV2)
 			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.Ipv4.sin_addr.S_un.S_addr), nlbp->pExtra);

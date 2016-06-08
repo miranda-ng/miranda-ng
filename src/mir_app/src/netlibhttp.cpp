@@ -84,7 +84,7 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, ch
 {
 	DWORD dwTimeNow;
 
-	if (!sslApi.pending(nlc->hSsl)) {
+	if (nlc->foreBuf.isEmpty() && !sslApi.pending(nlc->hSsl)) {
 		while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
 			unsigned dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
 			int res = WaitUntilReadable(nlc->s, dwDeltaTime);
@@ -284,7 +284,6 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 
 	while (true) {
 		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK | recvFlags);
-
 		if (bytesPeeked == 0) {
 			SetLastError(ERROR_HANDLE_EOF);
 			return 0;
@@ -370,7 +369,7 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest,
 
 INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 {
-	NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+	NetlibConnection *nlc = (NetlibConnection*)wParam;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
@@ -509,12 +508,12 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		if (nlu->szStickyHeaders != NULL)
 			httpRequest.AppendFormat("%s\r\n", nlu->szStickyHeaders);
 
-		//send it
+		// send it
 		bytesSent = SendHttpRequestAndData(nlc, httpRequest, nlhr, !doneContentLengthHeader);
 		if (bytesSent == SOCKET_ERROR)
 			break;
 
-		//ntlm reply
+		// ntlm reply
 		if (doneContentLengthHeader && nlhr->requestType != REQUEST_HEAD)
 			break;
 
@@ -717,14 +716,13 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 	return 1;
 }
 
+#define NHRV_BUF_SIZE 8192
+
 INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 {
-	NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+	NetlibConnection *nlc = (NetlibConnection*)wParam;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return 0;
-
-	char *peol, *pbuffer;
-	int headersCount = 0, bufferSize = 8192;
 
 	DWORD dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
@@ -739,30 +737,22 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	char *buffer = (char*)mir_alloc(bufferSize + 1);
-	int bytesPeeked = NLRecv(nlc, buffer, min(firstLineLength, bufferSize), lParam | MSG_DUMPASTEXT);
+	char *buffer = (char*)_alloca(NHRV_BUF_SIZE + 1);
+	int bytesPeeked = NLRecv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), lParam | MSG_DUMPASTEXT);
 	if (bytesPeeked != firstLineLength) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr);
-		if (bytesPeeked != SOCKET_ERROR) SetLastError(ERROR_HANDLE_EOF);
-		mir_free(buffer);
+		if (bytesPeeked != SOCKET_ERROR)
+			SetLastError(ERROR_HANDLE_EOF);
 		return 0;
 	}
 
 	// Make sure all headers arrived
+	NetlibBinBuffer buf;
+	int headersCount = 0;
 	bytesPeeked = 0;
 	for (bool headersCompleted = false; !headersCompleted;) {
-		if (bytesPeeked >= bufferSize) {
-			bufferSize += 8192;
-			mir_free(buffer);
-			if (bufferSize > 32 * 1024) {
-				bytesPeeked = 0;
-				break;
-			}
-			buffer = (char*)mir_alloc(bufferSize + 1);
-		}
-
-		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, bufferSize, MSG_PEEK | MSG_NODUMP | lParam);
+		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, NHRV_BUF_SIZE, lParam | MSG_DUMPASTEXT);
 		if (bytesPeeked == 0)
 			break;
 
@@ -770,36 +760,37 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 			bytesPeeked = 0;
 			break;
 		}
-		buffer[bytesPeeked] = 0;
+		
+		buf.append(buffer, bytesPeeked);
 
-		for (pbuffer = buffer, headersCount = 0;; pbuffer = peol + 1, ++headersCount) {
-			peol = strchr(pbuffer, '\n');
+		headersCount = 0;
+		for (char *pbuffer = (char*)buf.data();; headersCount++) {
+			char *peol = strchr(pbuffer, '\n');
 			if (peol == NULL) break;
 			if (peol == pbuffer || (peol == (pbuffer + 1) && *pbuffer == '\r')) {
-				bytesPeeked = peol - buffer + 1;
+				bytesPeeked = peol - (char*)buf.data() + 1;
 				headersCompleted = true;
 				break;
 			}
+			pbuffer = peol + 1;
 		}
 	}
 
 	// Receive headers
-	if (bytesPeeked > 0)
-		bytesPeeked = NLRecv(nlc, buffer, bytesPeeked, lParam | MSG_DUMPASTEXT);
 	if (bytesPeeked <= 0) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr);
-		mir_free(buffer);
 		return 0;
 	}
-	buffer[bytesPeeked] = 0;
 
 	nlhr->headersCount = headersCount;
 	nlhr->headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER) * headersCount);
 
-	for (pbuffer = buffer, headersCount = 0;; pbuffer = peol + 1, ++headersCount) {
-		peol = strchr(pbuffer, '\n');
-		if (peol == NULL || peol == pbuffer || (peol == (pbuffer + 1) && *pbuffer == '\r')) break;
+	headersCount = 0;
+	for (char *pbuffer = buf.data();; headersCount++) {
+		char *peol = strchr(pbuffer, '\n');
+		if (peol == NULL || peol == pbuffer || (peol == (pbuffer+1) && *pbuffer == '\r'))
+			break;
 		*peol = 0;
 
 		char *pColon = strchr(pbuffer, ':');
@@ -809,13 +800,19 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
-		*(pColon++) = 0;
+		*pColon = 0;
 		nlhr->headers[headersCount].szName = mir_strdup(rtrim(pbuffer));
-		nlhr->headers[headersCount].szValue = mir_strdup(lrtrimp(pColon));
+		nlhr->headers[headersCount].szValue = mir_strdup(lrtrimp(pColon+1));
+		pbuffer = peol + 1;
+	}
+
+	// remove processed data
+	if (bytesPeeked > 0) {
+		buf.remove(bytesPeeked);
+		nlc->foreBuf.appendBefore(buf.data(), buf.length());
 	}
 
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
-	mir_free(buffer);
 	return (INT_PTR)nlhr;
 }
 
@@ -973,31 +970,34 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD flags)
 {
-	char data[1000];
+	NetlibBinBuffer buf;
 
 	while (true) {
-		int recvResult = NLRecv(nlc, data, _countof(data)-1, MSG_RAW | MSG_PEEK);
+		char data[1000];
+		int recvResult = NLRecv(nlc, data, _countof(data) - 1, MSG_RAW | flags);
 		if (recvResult <= 0 || recvResult >= _countof(data))
 			return SOCKET_ERROR;
 
-		data[recvResult] = 0;
+		buf.append(data, recvResult); // add chunk
 
-		char *peol1 = strchr(data, '\n');
+		char *peol1 = strchr(buf.data(), '\n');
 		if (peol1 == NULL)
 			continue;
 
-		char *peol2 = first ? peol1 : strchr(peol1 + 1, '\n');
+		const char *peol2 = first ? peol1 : strchr(peol1 + 1, '\n');
 		if (peol2 == NULL)
 			continue;
 
-		int sz = peol2 - data + 1;
-		int r = strtol(first ? data : peol1 + 1, NULL, 16);
+		int sz = peol2 - buf.data() + 1;
+		int r = strtol(first ? buf.data() : peol1 + 1, NULL, 16);
 		if (r == 0) {
-			char *peol3 = strchr(peol2 + 1, '\n');
-			if (peol3 == NULL) continue;
-			sz = peol3 - data + 1;
+			const char *peol3 = strchr(peol2 + 1, '\n');
+			if (peol3 == NULL)
+				continue;
+			sz = peol3 - buf.data() + 1;
 		}
-		NLRecv(nlc, data, sz, MSG_RAW | flags);
+		buf.remove(sz); // remove all our data from buffer
+		nlc->foreBuf.appendBefore(buf.data(), buf.length());
 		return r;
 	}
 }
