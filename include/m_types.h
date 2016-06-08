@@ -29,14 +29,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FALSE 0
 #define TRUE  1
 
-typedef void*          HANDLE, HICON, HBITMAP;
+typedef void          *HANDLE, *HINSTANCE, *HICON, *HBITMAP, *HWND, *HGENMENU;
 typedef int            BOOL;
+typedef unsigned char  BYTE;
 typedef unsigned int   DWORD;
-typedef intptr_t       WPARAM, LPARAM;
-typedef char*          LPSTR;
-typedef const char*    LPCSTR;
-typedef wchar_t*       LPWSTR, LPTSTR;
-typedef const wchar_t* LPCWSTR, LPCTSTR;
+typedef intptr_t       WPARAM, LPARAM, INT_PTR;
+typedef char          *LPSTR;
+typedef const char    *LPCSTR;
+typedef wchar_t       *LPWSTR, *LPTSTR;
+typedef const wchar_t *LPCWSTR, *LPCTSTR;
 
 #endif
 
