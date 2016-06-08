@@ -384,7 +384,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
 					CMString szFullName(contact->szText);
 					while (group->parent) {
-						ClcContact *cc;
+						ClcContact *cc = NULL;
 						for (i = 0; i < group->parent->cl.getCount(); i++) {
 							cc = group->parent->cl[i];
 							if (cc->group == group)

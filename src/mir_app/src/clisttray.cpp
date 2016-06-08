@@ -40,15 +40,9 @@ static bool hasTips()
 	return ServiceExists("mToolTip/ShowTip") && db_get_b(NULL, "Tipper", "TrayTip", 1);
 }
 
-// don't move to win2k.h, need new and old versions to work on 9x/2000/XP
-#define NIF_STATE       0x00000008
-#define NIF_INFO        0x00000010
-
 #define initcheck if (!fTrayInited) return
 
-#define SIZEOFNID (DWORD)((cli.shellVersion >= 5) ? NOTIFYICONDATA_V2_SIZE : NOTIFYICONDATA_V1_SIZE)
-
-static BOOL fTrayInited = FALSE;
+static bool fTrayInited;
 
 static TCHAR* sttGetXStatus(const char *szProto)
 {
@@ -174,7 +168,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 	p.szProto = (char*)szProto;
 	p.hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, szIconProto ? szIconProto : p.szProto, status);
 
-	NOTIFYICONDATA nid = { SIZEOFNID };
+	NOTIFYICONDATA nid = { NOTIFYICONDATA_V2_SIZE };
 	nid.hWnd = hwnd;
 	nid.uID = p.id;
 	nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
@@ -205,7 +199,7 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 	for (int i = 0; i < cli.trayIconCount; i++) {
 		trayIconInfo_t *pii = &cli.trayIcon[i];
 		if (pii->id != 0 && !mir_strcmp(szProto, pii->szProto)) {
-			NOTIFYICONDATA nid = { SIZEOFNID };
+			NOTIFYICONDATA nid = { NOTIFYICONDATA_V2_SIZE };
 			nid.hWnd = hwnd;
 			nid.uID = pii->id;
 			Shell_NotifyIcon(NIM_DELETE, &nid);
@@ -286,7 +280,7 @@ int fnTrayIconDestroy(HWND hwnd)
 	if (cli.trayIconCount == 1)
 		SetTaskBarIcon(NULL, NULL);
 
-	NOTIFYICONDATA nid = { SIZEOFNID };
+	NOTIFYICONDATA nid = { NOTIFYICONDATA_V2_SIZE };
 	nid.hWnd = hwnd;
 	for (int i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
@@ -325,7 +319,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 	initcheck - 1;
 	mir_cslock lck(trayLockCS);
 
-	NOTIFYICONDATA nid = { SIZEOFNID };
+	NOTIFYICONDATA nid = { NOTIFYICONDATA_V2_SIZE };
 	nid.hWnd = cli.hwndContactList;
 	nid.uFlags = NIF_ICON | NIF_TIP;
 	nid.hIcon = hNewIcon;
@@ -800,7 +794,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 
 	if (msn->dwInfoFlags & NIIF_INTERN_UNICODE) {
 		NOTIFYICONDATAW nid = { 0 };
-		nid.cbSize = (cli.shellVersion >= 5) ? NOTIFYICONDATAW_V2_SIZE : NOTIFYICONDATAW_V1_SIZE;
+		nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
@@ -814,7 +808,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 	}
 	else {
 		NOTIFYICONDATAA nid = { 0 };
-		nid.cbSize = (cli.shellVersion >= 5) ? NOTIFYICONDATAA_V2_SIZE : NOTIFYICONDATAA_V1_SIZE;
+		nid.cbSize = NOTIFYICONDATAA_V2_SIZE;
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
@@ -828,7 +822,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static DLLVERSIONINFO dviShell;
+static DLLVERSIONINFO dviShell = { sizeof(dviShell) };
 
 static INT_PTR pfnCListTrayNotifyStub(WPARAM, LPARAM lParam)
 {
@@ -837,26 +831,20 @@ static INT_PTR pfnCListTrayNotifyStub(WPARAM, LPARAM lParam)
 
 void fnInitTray(void)
 {
-	HMODULE hLib = GetModuleHandleA("shell32");
-	if (hLib) {
-		DLLGETVERSIONPROC proc;
-		dviShell.cbSize = sizeof(dviShell);
-		proc = (DLLGETVERSIONPROC)GetProcAddress(hLib, "DllGetVersion");
-		if (proc) {
-			proc(&dviShell);
-			cli.shellVersion = dviShell.dwMajorVersion;
+	if (HMODULE hLib = GetModuleHandleA("shell32")) {
+		if (DLLGETVERSIONPROC proc = (DLLGETVERSIONPROC)GetProcAddress(hLib, "DllGetVersion")) {
+			if (proc(&dviShell) == S_OK)
+				cli.shellVersion = dviShell.dwMajorVersion;
 		}
-		FreeLibrary(hLib);
 	}
 
-	if (cli.shellVersion >= 5)
-		CreateServiceFunction(MS_CLIST_SYSTRAY_NOTIFY, pfnCListTrayNotifyStub);
+	CreateServiceFunction(MS_CLIST_SYSTRAY_NOTIFY, pfnCListTrayNotifyStub);
 	fTrayInited = TRUE;
 }
 
 void fnUninitTray(void)
 {
-	fTrayInited = FALSE;
+	fTrayInited = false;
 }
 
 #undef initcheck
