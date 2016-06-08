@@ -128,8 +128,8 @@ begin
   CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
   CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
 
-  SET_UID(@mi, '5FC2C67E-A16B-47B7-A6A1-40BE922CCD93');
   FillChar(mi, sizeof(mi), 0);
+  SET_UID(@mi, '5FC2C67E-A16B-47B7-A6A1-40BE922CCD93');
   mi.position := 1000090050;
   mi.hIcon := LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT));
   mi.szName.a := 'Import history';
