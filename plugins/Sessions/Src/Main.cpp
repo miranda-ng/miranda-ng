@@ -100,7 +100,7 @@ INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			DestroyWindow(hdlg);
 			break;
 		}
-        break;
+		break;
 
 	case WM_CLOSE:
 		DestroyWindow(hdlg);
@@ -289,7 +289,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		}
 		else {
 			KillTimer(hdlg, TIMERID_LOAD);
-			LoadSession(0, 0);
+			LoadSession(0, g_bIncompletedSave ? 256 : 0);
 			g_hghostw = StartUp = FALSE;
 			DestroyWindow(hdlg);
 			g_hDlg = 0;
@@ -346,7 +346,8 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				if (LoadSessionToCombobox(hdlg, 0, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
 					ses_count = 0;
 
-				if (session_list_recovered[0]) ses_count = 256;
+				if (session_list_recovered[0])
+					ses_count = 256;
 
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 			}
@@ -360,7 +361,8 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				if (LoadSessionToCombobox(hdlg, 0, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
 					ses_count = 0;
 
-				if (session_list_recovered[0]) ses_count = 256;
+				if (session_list_recovered[0])
+					ses_count = 256;
 
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 			}
@@ -536,7 +538,6 @@ int LoadSession(WPARAM, LPARAM lparam)
 {
 	int dup = 0;
 	int hidden[255] = { '0' };
-	MCONTACT hContact;
 	MCONTACT session_list_t[255] = { 0 };
 	int mode = 0;
 	if ((int)lparam >= g_ses_limit && lparam != 256) {
@@ -546,14 +547,14 @@ int LoadSession(WPARAM, LPARAM lparam)
 	if (session_list_recovered[0] && lparam == 256 && mode == 0)
 		memcpy(session_list_t, session_list_recovered, sizeof(session_list_t));
 	else
-		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (LoadContactsFromMask(hContact, mode, lparam)) {
 				int i = GetInSessionOrder(hContact, mode, lparam);
 				session_list_t[i] = hContact;
 			}
-		}
+
 	int i = 0, j = 0;
-	//TODO: change to "switch"
+	// TODO: change to "switch"
 	while (session_list_t[i] != 0) {
 		if (CheckForDuplicate(session_list, session_list_t[i]) == -1)
 			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)session_list_t[i], 0);
@@ -663,10 +664,6 @@ int SessionPreShutdown(WPARAM, LPARAM)
 	if (g_hDlg)  DestroyWindow(g_hDlg);
 	if (g_hSDlg) DestroyWindow(g_hSDlg);
 
-	if (g_bIncompletedSave)
-		for (int i = 0; session_list_recovered[i]; i++)
-			db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
-
 	db_set_b(NULL, MODNAME, "lastSaveCompleted", 1);
 	return 0;
 }
@@ -687,7 +684,7 @@ int OkToExit(WPARAM, LPARAM)
 	return 0;
 }
 
-static int GetContactHandle(WPARAM, LPARAM lParam)
+static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
@@ -765,7 +762,7 @@ static INT_PTR LaunchSessions(WPARAM wParam, LPARAM)
 
 static int PluginInit(WPARAM, LPARAM)
 {
-	HookEvent(ME_MSG_WINDOWEVENT, GetContactHandle);
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
 
@@ -858,10 +855,8 @@ extern "C" __declspec(dllexport) int Load(void)
 		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_SESSIONS_LAUNCHME);
 	}
 
-	g_ses_count = db_get_b(0, MODNAME, "UserSessionsCount", 0);
-	if (!g_ses_count)
-		g_ses_count = db_get_b(0, "Sessions (Unicode)", "UserSessionsCount", 0);
-	g_ses_limit = db_get_b(0, MODNAME, "TrackCount", 10);
+	g_ses_count = db_get_b(NULL, MODNAME, "UserSessionsCount", 0);
+	g_ses_limit = db_get_b(NULL, MODNAME, "TrackCount", 10);
 	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0) != 0;
 	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0) != 0;
 	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1) != 0;
@@ -880,12 +875,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	}
 
 	if (!session_list_recovered[0])
-		g_bIncompletedSave = FALSE;
+		g_bIncompletedSave = false;
 
 	db_set_b(NULL, MODNAME, "lastSaveCompleted", 0);
 
 	if (!db_get_b(NULL, MODNAME, "lastempty", 1) || g_bIncompletedSave)
-		isLastTRUE = TRUE;
+		isLastTRUE = true;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
