@@ -671,6 +671,7 @@ void CIcqProto::requestAvatarConnection()
 void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 {
 	debugLogA("%s thread started.", "Avatar");
+	Thread_SetName("ICQ: AvatarThread");
 
 	// Execute connection handler
 	pInfo->connectionThread();

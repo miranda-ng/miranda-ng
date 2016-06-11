@@ -713,6 +713,8 @@ int SmileyToolWindowType::CalculateCoordinatesToButton(POINT pt, int scroll)
 
 void __cdecl SmileyToolThread(void *arg)
 {
+	Thread_SetName("SmileyAdd: SmileyToolThread");
+
 	SmileyToolWindowParam *stwp = (SmileyToolWindowParam*)arg;
 	if (stwp->pSmileyPack && stwp->pSmileyPack->VisibleSmileyCount()) {
 		WNDCLASSEX wndclass;

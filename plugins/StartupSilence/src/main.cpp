@@ -223,38 +223,40 @@ void IsMenu()
 
 static INT_PTR AdvSt()
 {
-		if ((Enabled == 1)){
-			POPUPDATAT ppd = {0};
-			TCHAR * lptzText =L"";
-			db_set_b(NULL, "Skin", "UseSound", 0);
-			EnablePopupModule();
+	Thread_SetName("StartupSilenc: AdvSt");
 
-			if (PopUp == 1) {
-				lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
-				ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
-				ppd.lchContact = NULL;
-				ppd.iSeconds = PopUpTime;
-				wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-				lptzText = TranslateT(MENU_NAME);
-				wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
-				PUAddPopupT(&ppd);
-			}
+	if ((Enabled == 1)) {
+		POPUPDATAT ppd = {0};
+		TCHAR * lptzText =L"";
+		db_set_b(NULL, "Skin", "UseSound", 0);
+		EnablePopupModule();
 
-			timer = 2;
-			Sleep(delay * 1000);
-			timer = 0;
-
-			if (PopUp == 1) {
-				lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
-				ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
-				wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-				PUAddPopupT(&ppd);
-			}
-			if (DefEnabled == 1) { //predefined sound setting
-				db_set_b(NULL, "Skin", "UseSound", DefSound);
-			}
-			else db_set_b(NULL, "Skin", "UseSound", 1); //or enable sounds every starts
+		if (PopUp == 1) {
+			lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
+			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			ppd.lchContact = NULL;
+			ppd.iSeconds = PopUpTime;
+			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
+			lptzText = TranslateT(MENU_NAME);
+			wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
+			PUAddPopupT(&ppd);
 		}
+
+		timer = 2;
+		Sleep(delay * 1000);
+		timer = 0;
+
+		if (PopUp == 1) {
+			lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
+			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
+			PUAddPopupT(&ppd);
+		}
+		if (DefEnabled == 1) { //predefined sound setting
+			db_set_b(NULL, "Skin", "UseSound", DefSound);
+		}
+		else db_set_b(NULL, "Skin", "UseSound", 1); //or enable sounds every starts
+	}
 	return 0;
 }
 

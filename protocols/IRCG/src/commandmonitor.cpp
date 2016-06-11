@@ -237,6 +237,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, TCHAR* msg)
 
 void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 {
+	Thread_SetName("IRC: ResolveIPThread");
 	IPRESOLVE* ipr = (IPRESOLVE *)di;
 	{
 		mir_cslock lock(m_resolve);
@@ -2382,6 +2383,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 
 static void __cdecl AwayWarningThread(LPVOID)
 {
+	Thread_SetName("IRC: AwayWarningThread");
 	MessageBox(NULL, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 }
 

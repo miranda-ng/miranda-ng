@@ -480,6 +480,8 @@ struct AckBasicSearchParam
 
 void __cdecl CIrcProto::AckBasicSearch(void *arg)
 {
+	Thread_SetName("IRC: AckBasicSearch");
+
 	AckBasicSearchParam *param = (AckBasicSearchParam*)arg;
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
@@ -658,16 +660,19 @@ struct TFakeAckParam
 
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
+	Thread_SetName("IRC: AckMessageFail");
 	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
+	Thread_SetName("IRC: AckMessageFailDcc");
 	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)
 {
+	Thread_SetName("IRC: AckMessageSuccess");
 	TFakeAckParam *param = (TFakeAckParam*)info;
 	ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
 	delete param;

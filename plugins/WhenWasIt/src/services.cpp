@@ -189,6 +189,8 @@ void ShowPopupMessage(const TCHAR *title, const TCHAR *message, HANDLE icon)
 
 void __cdecl RefreshUserDetailsWorkerThread(void*)
 {
+	Thread_SetName("WhenWasIt: RefreshUserDetailsWorkerThread");
+
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
 	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
 

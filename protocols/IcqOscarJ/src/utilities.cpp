@@ -906,6 +906,7 @@ bool IsStringUIN(const char *pszString)
 
 void __cdecl CIcqProto::ProtocolAckThread(icq_ack_args* pArguments)
 {
+	Thread_SetName("ICQ: ProtocolAckThread");
 	Sleep(150);
 
 	if (pArguments->nAckResult == ACKRESULT_SUCCESS)
@@ -988,6 +989,7 @@ int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 
 void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 {
+	Thread_SetName("ICQ: SetStatusNoteThread");
 	if (pDelay)
 		SleepEx((UINT_PTR)pDelay, TRUE);
 

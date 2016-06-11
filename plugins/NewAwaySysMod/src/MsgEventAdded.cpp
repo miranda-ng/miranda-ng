@@ -50,6 +50,8 @@ public:
 // _ad must be allocated using "new CAutoreplyData()"
 void __cdecl AutoreplyDelayThread(void *_ad)
 {
+	Thread_SetName("NewAwaySysMod: AutoreplyDelayThread");
+
 	CAutoreplyData *ad = (CAutoreplyData*)_ad;
 	_ASSERT(ad && ad->hContact && ad->Reply.GetLen());
 	char *szProto = GetContactProto(ad->hContact);

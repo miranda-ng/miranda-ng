@@ -751,6 +751,8 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 
 static void CheckContinueslyFunction(void *)
 {
+	Thread_SetName("KeepStatus: CheckContinueslyFunction");
+
 	static int pingFailures = 0;
 
 	// one at the time is enough, do it the 'easy' way

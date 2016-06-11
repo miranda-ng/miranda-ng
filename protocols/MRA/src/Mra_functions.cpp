@@ -887,6 +887,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 
 static void FakeThread(void* param)
 {
+	Thread_SetName("MRA: ProtoBroadcastAckAsync");
 	Sleep(100);
 	
 	ACKDATA *ack = (ACKDATA*)param;
@@ -935,9 +936,10 @@ CMStringA CopyNumber(const CMStringA &str)
 {
 	CMStringA res;
 
-	for (LPCSTR p = str; *p; p++)
-	if (*p >= '0' && *p <= '9')
-		res.AppendChar(*p);
+	for (LPCSTR p = str; *p; p++) {
+		if (*p >= '0' && *p <= '9')
+			res.AppendChar(*p);
+	}
 
 	return res;
 }

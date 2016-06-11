@@ -438,6 +438,7 @@ void CIrcProto::DoReceive()
 
 void __cdecl CIrcProto::ThreadProc(void*)
 {
+	Thread_SetName("IRC: CIrcProto");
 	DoReceive();
 	m_info.Reset();
 }
@@ -836,6 +837,8 @@ int CDccSession::Connect()
 
 void __cdecl CDccSession::ConnectProc(void *pparam)
 {
+	Thread_SetName("IRC: ConnectProc");
+
 	CDccSession* pThis = (CDccSession*)pparam;
 	if (!pThis->con)
 		pThis->SetupConnection();
@@ -1039,6 +1042,8 @@ int CDccSession::IncomingConnection(HANDLE hConnection, DWORD dwIP)
 // here we decide which function to use for communicating with the remote computer, depending on connection type
 void __cdecl CDccSession::ThreadProc(void *pparam)
 {
+	Thread_SetName("IRC: CDccSession::ThreadProc");
+
 	CDccSession* pThis = (CDccSession*)pparam;
 
 	// if it is an incoming connection on a listening port, then we should close the listenting port so only one can connect (the one you offered

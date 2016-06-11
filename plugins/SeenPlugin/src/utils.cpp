@@ -507,6 +507,8 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 // will add hContact to queue and will return position;
 static void waitThread(void *param)
 {
+	Thread_SetName("SeenPlugin: waitThread");
+
 	logthread_info* infoParam = (logthread_info*)param;
 
 	WORD prevStatus = db_get_w(infoParam->hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE);
@@ -636,6 +638,8 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 
 static void cleanThread(void *param)
 {
+	Thread_SetName("SeenPlugin: cleanThread");
+
 	logthread_info* infoParam = (logthread_info*)param;
 	char *szProto = infoParam->sProtoName;
 

@@ -1370,6 +1370,8 @@ bool Statistic::createStatisticsSteps()
 
 void __cdecl Statistic::threadProc(void *lpParameter)
 {
+	Thread_SetName("HistoryStats: Statistic::threadProc");
+
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
 	SetEvent(pStats->m_hThreadPushEvent);
 
@@ -1388,6 +1390,7 @@ void __cdecl Statistic::threadProc(void *lpParameter)
 
 void __cdecl Statistic::threadProcSteps(void *lpParameter)
 {
+	Thread_SetName("HistoryStats: Statistic::threadProcSteps");
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
 	if (pStats->m_Settings.m_ThreadLowPriority)
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);

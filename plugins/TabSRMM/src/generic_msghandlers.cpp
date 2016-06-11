@@ -978,6 +978,8 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 static void LoadKLThread(LPVOID _param)
 {
+	Thread_SetName("TabSRMM: LoadKLThread");
+
 	DBVARIANT dbv;
 	if (!db_get_ts((UINT_PTR)_param, SRMSGMOD_T, "locale", &dbv)) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);

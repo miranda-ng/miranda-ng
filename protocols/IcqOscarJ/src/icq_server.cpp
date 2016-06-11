@@ -36,6 +36,8 @@ void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pE
 
 void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 {
+	Thread_SetName("ICQ: ServerThread");
+
 	serverthread_info info = { 0 };
 	info.isLoginServer = info.bReinitRecver = true;
 	info.wAuthKeyLen = infoParam->wPassLen;
@@ -333,6 +335,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 
 void __cdecl CIcqProto::SendPacketAsyncThread(icq_packet* pkt)
 {
+	Thread_SetName("ICQ: SendPacketAsyncThread");
 	sendServPacket( pkt );
 	SAFE_FREE((void**)&pkt);
 }

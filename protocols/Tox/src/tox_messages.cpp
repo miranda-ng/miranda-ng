@@ -42,6 +42,8 @@ struct SendMessageParam
 
 void CToxProto::SendMessageAsync(void *arg)
 {
+	Thread_SetName("TOX: SendMessageAsync");
+
 	SendMessageParam *param = (SendMessageParam*)arg;
 
 	int32_t friendNumber = GetToxFriendNumber(param->hContact);
@@ -129,6 +131,8 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 /* STATUS MESSAGE */
 void CToxProto::GetStatusMessageAsync(void* arg)
 {
+	Thread_SetName("TOX: GetStatusMessageAsync");
+
 	MCONTACT hContact = (UINT_PTR)arg;
 
 	int32_t friendNumber = GetToxFriendNumber(hContact);

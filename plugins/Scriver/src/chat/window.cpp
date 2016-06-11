@@ -1035,6 +1035,8 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 
 static void __cdecl phase2(void *lParam)
 {
+	Thread_SetName("Scriver: phase2");
+
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
 	if (si && si->hWnd)

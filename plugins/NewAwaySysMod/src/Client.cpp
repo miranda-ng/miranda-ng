@@ -30,6 +30,8 @@ HANDLE g_hUpdateMsgsThread = NULL;
 
 void __cdecl UpdateMsgsThreadProc(void *)
 {
+	Thread_SetName("NewAwaySysMod: UpdateMsgsThreadProc");
+
 	int numAccs;
 	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&numAccs, &accs);

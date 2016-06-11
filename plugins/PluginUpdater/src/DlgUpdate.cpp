@@ -43,6 +43,8 @@ static void SetStringText(HWND hWnd, size_t i, TCHAR *ptszText)
 
 static void ApplyUpdates(void *param)
 {
+	Thread_SetName("PluginUpdater: ApplyUpdates");
+
 	HWND hDlg = (HWND)param;
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	if (todo.getCount() == 0) {
@@ -380,6 +382,8 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 static void DlgUpdateSilent(void *param)
 {
+	Thread_SetName("PluginUpdater: DlgUpdateSilent");
+
 	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)param;
 	if (UpdateFiles.getCount() == 0) {
 		delete &UpdateFiles;
@@ -767,6 +771,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 static void CheckUpdates(void *)
 {
 	Netlib_LogfT(hNetlibUser, _T("Checking for updates"));
+	Thread_SetName("PluginUpdater: CheckUpdates");
+
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen - 1] == '\\')
@@ -887,6 +893,7 @@ void InitTimer(void *type)
 {
 	if (!opts.bUpdateOnPeriod)
 		return;
+	Thread_SetName("PluginUpdater: InitTimer");
 
 	LONGLONG interval;
 

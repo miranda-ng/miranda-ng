@@ -148,6 +148,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	int nIqId = 0;
 
 	debugLogA("Thread started: type=bytestream_send");
+	Thread_SetName("Jabber: ByteSendThread");
 
 	BOOL bDirect = m_options.BsDirect;
 
@@ -596,6 +597,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	BOOL validStreamhost = FALSE;
 
 	if (jbt == NULL) return;
+	Thread_SetName("Jabber: ByteReceiveThread");
 
 	jbt->state = JBT_INIT;
 

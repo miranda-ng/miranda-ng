@@ -67,6 +67,7 @@ static void __stdcall OnHook(void * pi)
 
 static void __cdecl GuiOutThread(LPVOID di)
 {
+	Thread_SetName("IRC: GuiOutThread");
 	GCHOOK* gch = (GCHOOK*)di;
 	CallFunctionAsync(OnHook, (void*)gch);
 }

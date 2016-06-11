@@ -709,6 +709,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 
+	Thread_SetName("MRA: FilesQueueRecv");
+
 	if (lpParameter) {
 		MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 		MRA_FILES_QUEUE_ITEM *dat = ((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->dat;
@@ -964,6 +966,8 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hQueue, DWORD dwFlags, MCONTACT hCo
 void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 {
 	DWORD dwRetErrorCode = NO_ERROR;
+
+	Thread_SetName("MRA: FilesQueueSend");
 
 	if (!lpParameter)
 		return;

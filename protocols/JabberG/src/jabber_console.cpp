@@ -596,6 +596,8 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void __cdecl CJabberProto::ConsoleThread(void*)
 {
+	Thread_SetName("Jabber: ConsoleThread");
+
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0)) {
 		if (msg.message == WM_CREATECONSOLE) {

@@ -159,6 +159,8 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 
 	nls.cbSize = sizeof(nls);
 
+	Thread_SetName("MRA: AvatarsThreadProc");
+
 	HANDLE hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	{
 		mir_cslock lck(pmraaqAvatarsQueue->cs);
@@ -432,16 +434,18 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 
 bool CMraProto::MraAvatarsGetContactTime(MCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {
-	if (lpszValueName && pstTime) {
-		INTERNET_TIME itAvatarLastModifiedTimeLocal;
-		CMStringA szBuff;
-		if (mraGetStringA(hContact, lpszValueName, szBuff))
-		if (InternetTimeGetTime(szBuff, itAvatarLastModifiedTimeLocal) == NO_ERROR) {
-			memcpy(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
-			return true;
-		}
-	}
-	return false;
+	INTERNET_TIME itAvatarLastModifiedTimeLocal;
+	CMStringA szBuff;
+
+	if (NULL == lpszValueName ||
+	    NULL == pstTime)
+		return false;
+	if (false == mraGetStringA(hContact, lpszValueName, szBuff))
+		return false;
+	if (InternetTimeGetTime(szBuff, itAvatarLastModifiedTimeLocal) != NO_ERROR)
+		return false;
+	memcpy(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
+	return true;
 }
 
 void CMraProto::MraAvatarsSetContactTime(MCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)

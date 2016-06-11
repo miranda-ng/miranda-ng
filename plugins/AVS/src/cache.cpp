@@ -213,6 +213,8 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 
 void PicLoader(LPVOID)
 {
+	Thread_SetName("AVS: PicLoader");
+
 	DWORD dwDelay = db_get_dw(NULL, AVS_MODULE, "picloader_sleeptime", 80);
 
 	if (dwDelay < 30)

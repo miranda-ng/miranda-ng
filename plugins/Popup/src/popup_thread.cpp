@@ -211,6 +211,8 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 //  thread func
 static unsigned __stdcall PopupThread(void *)
 {
+	Thread_SetName("Popup: PopupThread");
+
 	//  Create manager window
 	DWORD err;
 	WNDCLASSEX wcl;

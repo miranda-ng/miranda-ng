@@ -976,6 +976,8 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 }
 void __cdecl CIrcProto::ConnectServerThread(void*)
 {
+	Thread_SetName("IRC: ConnectServer");
+
 	InterlockedIncrement((long *)&m_bConnectThreadRunning);
 	InterlockedIncrement((long *)&m_bConnectRequested);
 	while (!Miranda_Terminated() && m_bConnectRequested > 0) {
@@ -1016,6 +1018,8 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 
 void __cdecl CIrcProto::DisconnectServerThread(void*)
 {
+	Thread_SetName("IRC: DisconnectServer");
+
 	mir_cslock lck(cs);
 	if (IsConnected())
 		Disconnect();

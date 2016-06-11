@@ -105,6 +105,8 @@ extern TCHAR g_ptszEventName[];
 
 void MF_UpdateThread(LPVOID)
 {
+	Thread_SetName("CList_nicer: MF_UpdateThread");
+
 	HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, g_ptszEventName);
 
 	WaitForSingleObject(hEvent, 20000);

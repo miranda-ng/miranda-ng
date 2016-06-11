@@ -184,7 +184,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_SHOW_ALL_XSTATUSES		FALSE /* Do not display some x statuses (like dating) in menu. */
 
 #define MRA_AVT_DEFAULT_ENABLE               TRUE
-#define MRA_AVT_DEFAULT_WRK_THREAD_COUNTS    4 // hidden
+#define MRA_AVT_DEFAULT_WRK_THREAD_COUNTS    1 // hidden
 #define MRA_AVT_DEFAULT_SERVER               "obraz.foto.mail.ru"
 #define MRA_AVT_DEFAULT_SERVER_PORT          80
 #define MRA_AVT_DEFAULT_TIMEOUT_CONN         10

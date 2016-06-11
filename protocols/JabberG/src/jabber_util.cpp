@@ -884,6 +884,8 @@ bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 {
+	Thread_SetName("Jabber: LoadHttpAvatars");
+
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HANDLE hHttpCon = NULL;
 	for (int i = 0; i < avs.getCount(); i++) {

@@ -208,6 +208,8 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 
 static void RequestThread(void *)
 {
+	Thread_SetName("AVS: RequestThread");
+
 	while (!g_shutDown) {
 		mir_cslockfull lck(cs);
 

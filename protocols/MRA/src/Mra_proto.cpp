@@ -37,6 +37,8 @@ void CMraProto::MraThreadProc(LPVOID)
 	CMStringA szHost;
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
 
+	Thread_SetName("MRA: ProtoThreadProc");
+
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
 	dwConnectReTryCount = getDword("ConnectReTryCountMRIM", MRA_DEFAULT_CONN_RETRY_COUNT_MRIM);

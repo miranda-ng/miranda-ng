@@ -712,6 +712,8 @@ private:
 
 	static void QueryServerListThread(void *arg)
 	{
+		Thread_SetName("Jabber: QueryServerListThread");
+
 		CDlgOptAccount *wnd = (CDlgOptAccount *)arg;
 		HWND hwnd = wnd->GetHwnd();
 		bool bIsError = true;

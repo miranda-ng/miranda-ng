@@ -249,6 +249,7 @@ void CToxProto::CheckConnection(int &retriesCount)
 void CToxProto::PollingThread(void*)
 {
 	debugLogA(__FUNCTION__": entering");
+	Thread_SetName("TOX: PollingThread");
 
 	Tox_Options *options = GetToxOptions();
 	if (!options)

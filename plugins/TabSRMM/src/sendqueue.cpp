@@ -119,6 +119,8 @@ entry_found:
 
 static void DoSplitSendA(LPVOID param)
 {
+	Thread_SetName("TabSRMM: DoSplitSendA");
+
 	SendJob *job = sendQueue->getJobByIndex((INT_PTR)param);
 
 	size_t iLen = mir_strlen(job->szSendBuffer);

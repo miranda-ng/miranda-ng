@@ -192,6 +192,8 @@ void CIcqProto::CloseDirectConnection(directconnect *dc)
 
 void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 {
+	Thread_SetName("ICQ: directThread");
+
 	directconnect dc = { 0 };
 	NETLIBPACKETRECVER packetRecv = { 0 };
 	HANDLE hPacketRecver;

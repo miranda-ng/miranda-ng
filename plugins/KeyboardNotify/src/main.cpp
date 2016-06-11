@@ -273,6 +273,8 @@ static void __cdecl FlashThreadFunction(void*)
 	BOOL bEvent = FALSE;
 	DWORD dwEventStarted = 0, dwFlashStarted = 0;
 	BYTE data, unchangedLeds;
+	
+	Thread_SetName("KeyboardNotify: FlashThreadFunction");
 
 	while (TRUE) {
 		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));

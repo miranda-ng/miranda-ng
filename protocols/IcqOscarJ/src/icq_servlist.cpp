@@ -65,6 +65,7 @@ void CIcqProto::servlistEndOperation(int operationCount)
 void __cdecl CIcqProto::servlistQueueThread(void *param)
 {
 	debugLogA("Server-List: Starting Update board.");
+	Thread_SetName("ICQ: servlistQueueThread");
 
 	int *queueState = (int*)param;
 	SleepEx(50, FALSE);

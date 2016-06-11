@@ -679,6 +679,7 @@ struct JABBER_SEARCH_BASIC
 
 void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 {
+	Thread_SetName("Jabber: BasicSearchThread");
 	Sleep(100);
 
 	PROTOSEARCHRESULT psr = { 0 };
@@ -938,6 +939,7 @@ struct TFakeAckParams
 
 void __cdecl CJabberProto::SendMessageAckThread(void* param)
 {
+	Thread_SetName("Jabber: SendMessageAckThread");
 	TFakeAckParams *par = (TFakeAckParams*)param;
 	Sleep(100);
 	debugLogA("Broadcast ACK");
@@ -1122,6 +1124,8 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
 void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 {
+	Thread_SetName("Jabber: GetAwayMsgThread");
+
 	MCONTACT hContact = (DWORD_PTR)param;
 
 	ptrT jid(getTStringA(hContact, "jid"));

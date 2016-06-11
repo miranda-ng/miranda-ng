@@ -151,6 +151,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 	DWORD dwWait = WAIT_OBJECT_0;
 
 	debugLogA("%s thread starting.", "Info-Update");
+	Thread_SetName("ICQ: InfoUpdateThread");
 
 	bInfoUpdateRunning = TRUE;
 

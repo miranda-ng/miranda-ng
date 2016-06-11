@@ -1104,6 +1104,8 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 	NETLIBPACKETRECVER packetRecv = { 0 };
 	HANDLE hPacketRecver;
 
+	Thread_SetName("ICQ: oft_connectionThread");
+
 	oc.hContact = otsi->hContact;
 	oc.hConnection = otsi->hConnection;
 	oc.type = otsi->type;

@@ -799,6 +799,8 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 static void ReloadMyAvatar(LPVOID lpParam)
 {
+	Thread_SetName("AVS: ReloadMyAvatar");
+
 	char *szProto = (char *)lpParam;
 
 	mir_sleep(500);

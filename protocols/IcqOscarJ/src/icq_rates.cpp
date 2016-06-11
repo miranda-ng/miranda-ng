@@ -301,6 +301,7 @@ rates_queue::~rates_queue()
 
 static void rateDelayThread(void *param)
 {
+	Thread_SetName("ICQ: rateDelayThread");
 	rates_queue *pQueue = (rates_queue*)param;
 	pQueue->handleDelay();
 }

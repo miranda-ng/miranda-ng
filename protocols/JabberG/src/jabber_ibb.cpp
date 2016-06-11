@@ -89,6 +89,7 @@ void CJabberProto::OnIbbCloseResult(HXML, CJabberIqInfo *pInfo)
 void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 {
 	debugLogA("Thread started: type=ibb_send");
+	Thread_SetName("Jabber: IbbSendThread");
 
 	jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	jibb->bStreamInitialized = FALSE;
@@ -134,6 +135,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 {
 	debugLogA("Thread started: type=ibb_recv");
+	Thread_SetName("Jabber: IbbReceiveThread");
 
 	filetransfer *ft = jibb->ft;
 

@@ -124,6 +124,8 @@ uint32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 
 void CToxProto::LoadFriendList(void*)
 {
+	Thread_SetName("TOX: LoadFriendList");
+
 	size_t count = tox_self_get_friend_list_size(toxThread->Tox());
 	if (count > 0)
 	{

@@ -101,6 +101,8 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 unsigned int CALLBACK MessagePumpThread(void*)
 {
+	Thread_SetName("TipperYM: MessagePumpThread");
+
 	HWND hwndTip = NULL;
 	CLCINFOTIPEX *clcitex = NULL;
 	MSG hwndMsg = {0};

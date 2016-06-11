@@ -59,6 +59,8 @@ ToxHexAddress ResolveToxAddressFromDns(const char *dnsQuery)
 
 void CToxProto::SearchByNameAsync(void *arg)
 {
+	Thread_SetName("TOX: SearchByNameAsync");
+
 	char *query = (char*)arg;
 	char *name = strtok(query, "@");
 	char *domain = strtok(NULL, "");
@@ -145,6 +147,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 void CToxProto::SearchFailedAsync(void*)
 {
+	Thread_SetName("TOX: SearchFailedAsync");
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
 }
 

@@ -716,6 +716,8 @@ void CIcqProto::CheekySearchThread(void*)
 	ICQSEARCHRESULT isr = { 0 };
 	isr.hdr.cbSize = sizeof(isr);
 
+	Thread_SetName("ICQ: CheekySearchThread");
+
 	if (cheekySearchUin) {
 		_itoa(cheekySearchUin, szUin, 10);
 		isr.hdr.id.t = (TCHAR*)szUin;
@@ -1633,6 +1635,8 @@ struct status_message_thread_data
 
 void __cdecl CIcqProto::GetAwayMsgThread(void *pStatusData)
 {
+	Thread_SetName("ICQ: GetAwayMsgThread");
+
 	status_message_thread_data *pThreadData = (status_message_thread_data*)pStatusData;
 	if (pThreadData) {
 		// wait a little

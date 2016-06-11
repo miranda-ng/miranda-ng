@@ -32,6 +32,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 	ThreadData info(this, NULL);
 
 	debugLogA("Thread started: type=file_receive server='%s' port='%d'", ft->httpHostName, ft->httpPort);
+	Thread_SetName("Jabber: FileReceiveThread");
 
 	ft->type = FT_OOB;
 
@@ -234,6 +235,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 {
 	debugLogA("Thread started: type=file_send");
+	Thread_SetName("Jabber: FileServerThread");
 
 	ThreadData info(this, NULL);
 	ft->type = FT_OOB;

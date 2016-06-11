@@ -37,6 +37,8 @@ static TCHAR g_eventName[100];
 
 static void TrayAnimThread(LPVOID)
 {
+	Thread_SetName("TabSRMM: TrayAnimThread");
+
 	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] &&
 		PluginConfig.m_AnimTrayIcons[3]);
 	DWORD   dwElapsed = 0, dwAnimStep = 0;

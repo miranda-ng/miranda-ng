@@ -133,12 +133,15 @@ void CJabberIqManager::FillPermanentHandlers()
 
 void __cdecl CJabberProto::ExpirerThread(void* pParam)
 {
+	Thread_SetName("Jabber: ExpirerThread");
 	CJabberIqManager *pManager = (CJabberIqManager *)pParam;
 	pManager->ExpirerThread();
 }
 
 void CJabberIqManager::ExpirerThread()
 {
+	Thread_SetName("Jabber: ExpirerThread");
+
 	while (!m_bExpirerThreadShutdownRequest) {
 		CJabberIqInfo *pInfo = DetouchExpired();
 		if (!pInfo) {

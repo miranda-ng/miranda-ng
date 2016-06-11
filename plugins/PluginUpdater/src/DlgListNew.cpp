@@ -34,6 +34,8 @@ static void SelectAll(HWND hDlg, bool bEnable)
 
 static void ApplyDownloads(void *param)
 {
+	Thread_SetName("PluginUpdater: ApplyDownloads");
+
 	HWND hDlg = (HWND)param;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -376,6 +378,8 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* t
 //
 static void GetList(void *)
 {
+	Thread_SetName("PluginUpdater: GetList");
+
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')

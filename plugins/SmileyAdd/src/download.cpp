@@ -124,6 +124,8 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HANDLE &hHttpDwnl)
 
 void __cdecl SmileyDownloadThread(void*)
 {
+	Thread_SetName("SmileyAdd: SmileyDownloadThread");
+
 	bool needext = false;
 	HANDLE hHttpDwnl = NULL;
 	WaitForSingleObject(g_hDlMutex, 3000);

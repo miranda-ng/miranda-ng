@@ -222,6 +222,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 	ThreadData info(this, pParam);
 
 	debugLogA("Thread started: type=%d", info.bIsReg);
+	Thread_SetName("Jabber: ServerThread");
 
 	if (m_options.ManualConnect == TRUE) {
 		ptrA szManualHost(getStringA("ManualHost"));

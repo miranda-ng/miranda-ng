@@ -42,6 +42,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 	LogMessageInfo *err = (LogMessageInfo*)arg;
 	if (!err)
 		return;
+	Thread_SetName("ICQ: LogMessageThread");
 
 	if (bPopupService && getByte("PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED)) {
 		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel);
