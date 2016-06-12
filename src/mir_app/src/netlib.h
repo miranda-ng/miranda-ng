@@ -87,6 +87,9 @@ public:
 
 	void append(void *pBuf, int bufLen)
 	{
+		if (pBuf == NULL || bufLen == 0)
+			return;
+
 		m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
 		if (m_buf) {
 			memcpy(m_buf + m_len, pBuf, bufLen);
@@ -97,6 +100,9 @@ public:
 
 	void appendBefore(void *pBuf, int bufLen)
 	{
+		if (pBuf == NULL || bufLen == 0)
+			return;
+
 		m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
 		if (m_buf) {
 			memmove(m_buf + bufLen, m_buf, m_len);
@@ -108,8 +114,17 @@ public:
 
 	void remove(int sz)
 	{
-		memmove(m_buf, m_buf + sz, m_len - sz);
-		m_len -= sz;
+		if (sz > m_len)
+			m_len = sz;
+
+		if (m_len == sz) {
+			m_len = 0;
+			mir_free(m_buf); m_buf = NULL;
+		}
+		else {
+			memmove(m_buf, m_buf + sz, m_len - sz);
+			m_len -= sz;
+		}
 	}
 };
 
