@@ -1880,13 +1880,13 @@ UIN, E-mail тощо
 [<not specified>]
 <не вказано>
 [Single]
-Наодинці
+Неодружений/Незаміжня
 [Close relationships]
-У близьких відносинах
+Зустрічаюсь
 [Engaged]
 Заручений(а)
 [Married]
-У шлюбі
+Одружений/Заміжня
 [Divorced]
 Розлучений(а)
 [Separated]
