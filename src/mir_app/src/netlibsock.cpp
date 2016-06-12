@@ -112,7 +112,7 @@ static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
 			return 0;
 		}
 		FD_SET(nlcCheck->s, fd);
-		if (sslApi.pending(nlcCheck->hSsl))
+		if (!nlcCheck->foreBuf.isEmpty() || sslApi.pending(nlcCheck->hSsl))
 			pending++;
 	}
 	return 1;
@@ -125,10 +125,6 @@ INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
-
-	TIMEVAL tv;
-	tv.tv_sec = nls->dwTimeout/1000;
-	tv.tv_usec = (nls->dwTimeout%1000)*1000;
 
 	int pending = 0;
 	fd_set readfd, writefd, exceptfd;
@@ -144,6 +140,9 @@ INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 	if (pending)
 		return 1;
 
+	TIMEVAL tv;
+	tv.tv_sec = nls->dwTimeout / 1000;
+	tv.tv_usec = (nls->dwTimeout % 1000) * 1000;
 	return select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? NULL : &tv);
 }
 

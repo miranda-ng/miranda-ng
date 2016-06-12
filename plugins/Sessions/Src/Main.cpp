@@ -122,12 +122,10 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
-		{
-			LoadSessionToCombobox(hdlg, 1, 5, "UserSessionDsc", 0);
+		LoadSessionToCombobox(hdlg, 1, 5, "UserSessionDsc", 0);
 
-			LoadPosition(hdlg, "SaveDlg");
-			ShowWindow(hdlg, SW_SHOW);
-		}
+		LoadPosition(hdlg, "SaveDlg");
+		ShowWindow(hdlg, SW_SHOW);
 		break;
 
 	case WM_CLOSE:
@@ -397,13 +395,12 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
 	HWND hWnd;
-	int i = 0;
 	MessageWindowInputData  mwid;
 	MessageWindowData  mwd;
 
 	while (session_list[0] != 0) {
 		mwid.cbSize = sizeof(MessageWindowInputData);
-		mwid.hContact = session_list[i];
+		mwid.hContact = session_list[0];
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 		mwd.cbSize = sizeof(MessageWindowData);

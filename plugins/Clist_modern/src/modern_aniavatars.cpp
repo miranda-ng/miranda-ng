@@ -289,7 +289,7 @@ static void _AniAva_RemoveAniAvaDC()
 static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 {
 	for (int j = 0; j < s_AniAvatarList.getCount(); j++) {
-		ANIAVA_INFO *aai = (ANIAVA_INFO *)s_AniAvatarList[j];
+		ANIAVA_INFO *aai = s_AniAvatarList[j];
 		if (aai->dwAvatarUniqId == UniqueID) {
 			aai->nRefCount--;
 			if (aai->nRefCount == 0) {
@@ -300,7 +300,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 				_AniAva_ReduceAvatarImages(aai->nStripTop, aai->FrameSize.cx*aai->nFrameCount, FALSE);
 				for (int k = 0; k < s_AniAvatarList.getCount(); k++) {
 					if (k != j) {
-						ANIAVA_INFO *taai = (ANIAVA_INFO *)s_AniAvatarList[k];
+						ANIAVA_INFO *taai = s_AniAvatarList[k];
 						if (taai->nStripTop>aai->nStripTop)
 							taai->nStripTop -= aai->FrameSize.cx*aai->nFrameCount;
 					}
@@ -311,7 +311,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 					int newHeight = 0;
 					for (int i = 0; i < s_AniAvatarList.getCount(); i++)
 						if (i != j)
-							newHeight = max(newHeight, ((ANIAVA_INFO *)s_AniAvatarList[i])->FrameSize.cy);
+							newHeight = max(newHeight, s_AniAvatarList[i]->FrameSize.cy);
 
 					HDC hNewDC = CreateCompatibleDC(NULL);
 					HBITMAP hNewBmp = ske_CreateDIB32(newWidth, newHeight);
@@ -397,7 +397,7 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 		GdiFlush();
 		_AniAva_ResumePainting();
 	}
-	else paai = (ANIAVA_INFO*)s_AniAvatarList[idx];
+	else paai = s_AniAvatarList[idx];
 
 	if (paai == NULL)
 		return 0;
