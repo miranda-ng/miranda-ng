@@ -476,7 +476,7 @@ function ParseSourceFile (FileTextVar,array) {
 //filter _T() function results
 function filter_T(string) {
 //filter for exact matched strings
-var filter1=/^(&?[Oo][Kk]|ICQ|Jabber|WhatsApp|OSD|Google|Miranda NG|SMS|Miranda|Windows)$/g;
+var filter1=/^(&?[Oo][Kk]|Google|ICQ|Jabber|Miranda|Miranda NG|OSD|SMS|WhatsApp|Windows|x64|x86)$/g;
 //filter string starting from following words
 var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|&?[Oo][Kk]|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
