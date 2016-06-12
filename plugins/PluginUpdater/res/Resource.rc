@@ -83,7 +83,7 @@ BEGIN
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,162,267,10
     EDITTEXT        IDC_CUSTOMURL,12,176,267,16,ES_AUTOHSCROLL | WS_DISABLED
     CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,214,267,15,NOT WS_VISIBLE
-    CONTROL         "Change platform",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,197,212,10
+    CONTROL         "Change platform to x86",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,197,212,10
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174

@@ -24,9 +24,7 @@ POPUP_OPTIONS PopupOptions = {0};
 
 static int GetBits(HWND hwndDlg)
 {
-	if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM))
-		return DEFAULT_OPP_BITS;
-	return DEFAULT_BITS;
+	return IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM) ? DEFAULT_OPP_BITS : DEFAULT_BITS;
 }
 
 static int GetUpdateMode()
@@ -58,22 +56,13 @@ TCHAR* GetDefaultUrl()
 	TCHAR url[MAX_PATH];
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
-		if (opts.bChangePlatform)
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), DEFAULT_OPP_BITS);
-		else
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), DEFAULT_BITS);
+		mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_tstrdup(url);
 	case UPDATE_MODE_TRUNK:
-		if (opts.bChangePlatform)
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_OPP_BITS);
-		else
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), DEFAULT_BITS);
+		mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK), opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_tstrdup(url);
 	case UPDATE_MODE_TRUNK_SYMBOLS:
-		if (opts.bChangePlatform)
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_OPP_BITS);
-		else
-			mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), DEFAULT_BITS);
+		mir_sntprintf(url, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_tstrdup(url);
 	default:
 		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
@@ -149,6 +138,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			default:
 				CheckDlgButton(hwndDlg, IDC_CUSTOM, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 
 				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 				if (url == NULL)
@@ -156,9 +146,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 		}
 
-#ifdef _WIN64
-		SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to x86"));
-#else
+#ifndef _WIN64
 		SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to x64"));
 		{
 			BOOL bIsWow64 = FALSE;
@@ -167,8 +155,6 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), SW_HIDE);
 		}
 #endif
-		if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -193,6 +179,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_TRUNK_SYMBOLS:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
 			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS), GetBits(hwndDlg));
 			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
@@ -200,6 +187,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_TRUNK:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
 			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL_TRUNK), GetBits(hwndDlg));
 			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
@@ -207,6 +195,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_STABLE:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
 			mir_sntprintf(defurl, _T(DEFAULT_UPDATE_URL), GetBits(hwndDlg));
 			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
@@ -214,6 +203,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_CUSTOM:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 			{
 				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));

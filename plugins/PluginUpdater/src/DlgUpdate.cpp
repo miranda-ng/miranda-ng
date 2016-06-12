@@ -135,37 +135,49 @@ static void ApplyUpdates(void *param)
 	if (opts.bBackup)
 		CallService(MS_AB_BACKUP);
 
+	if (opts.bChangePlatform) {
+		TCHAR mirandaPath[MAX_PATH];
+		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
+
+		opts.bChangePlatform = 0;
+		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+	}
+	else {
+		ptrT oldbin(db_get_tsa(NULL, MODNAME, "OldBin"));
+		if (oldbin) {
+			SafeDeleteFile(oldbin);
+			db_unset(NULL, MODNAME, "OldBin");
+		}
+	}
+
+	if (opts.bForceRedownload) {
+		opts.bForceRedownload = 0;
+		db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
+	}
+
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
-	if (rc == IDYES)
+	if (rc == IDYES) {
 #if MIRANDA_VER >= 0x0A00
+		BOOL bRestartCurrentProfile = db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0;
 		if (opts.bChangePlatform) {
 			TCHAR mirstartpath[MAX_PATH];
+
 #ifdef _WIN64
 			mir_sntprintf(mirstartpath, _T("%s\\miranda32.exe"), tszMirandaPath);
 #else
 			mir_sntprintf(mirstartpath, _T("%s\\miranda64.exe"), tszMirandaPath);
 #endif
-			CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, (LPARAM)mirstartpath);
+			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
 		}
 		else
-			CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
+			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
 #else
 		CallFunctionAsync(RestartMe, 0);
 #endif
-
-	if (opts.bChangePlatform) {
-		TCHAR mirandaPath[MAX_PATH];
-		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-		db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
 	}
-
-	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
-
-	opts.bChangePlatform = false;
-	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
 }
 
 static void ResizeVert(HWND hDlg, int yy)
