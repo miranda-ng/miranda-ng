@@ -34,7 +34,7 @@ static int db_ContactIterator(lua_State *L)
 	{
 		lua_pushinteger(L, hContact);
 		lua_pushvalue(L, -1);
-		lua_replace(L, lua_upvalueindex(2));
+		lua_replace(L, lua_upvalueindex(1));
 	}
 	else
 		lua_pushnil(L);
@@ -232,6 +232,49 @@ static int db_EventsFromEnd(lua_State *L)
 
 	return 1;
 }
+
+void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
+{
+	dbei.cbSize = sizeof(dbei);
+
+
+	lua_getfield(L, -1, "Module");
+	dbei.szModule = mir_strdup(lua_tostring(L, -1));
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Type");
+	dbei.eventType = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Timestamp");
+	dbei.timestamp = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Flags");
+	dbei.flags = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Length");
+	dbei.cbBlob = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Blob");
+
+	dbei.pBlob = ((BLOB*)lua_touserdata(L, -1))->pBlobData;
+
+	lua_pop(L, 1);
+}
+
+static int db_AddEvent(lua_State *L)
+{
+	MCONTACT hContact = luaL_checkinteger(L, 1);
+	
+	DBEVENTINFO dbei;
+	MakeDbEvent(L, dbei);
+	lua_pushnumber(L, db_event_add(hContact, &dbei));
+	return 1;
+}
+
 
 /***********************************************/
 
@@ -464,6 +507,7 @@ static luaL_Reg databaseApi[] =
 	{ "GetLastEvent", db_GetLastEvent },
 	{ "Events", db_Events },
 	{ "EventsFromEnd", db_EventsFromEnd },
+	{ "AddEvent", db_AddEvent },
 
 	{ "WriteSetting", db_WriteSetting },
 	{ "SetSetting", db_WriteSetting },

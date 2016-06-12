@@ -167,12 +167,18 @@ int luaM_tonumber(lua_State *L)
 		lua_Integer value = (lua_Integer)lua_touserdata(L, 1);
 		lua_pushinteger(L, value);
 	}
-	else
+	else if (lua_gettop(L) == 2)
 	{
 		lua_getglobal(L, "_tonumber");
 		lua_pushvalue(L, 1);
 		lua_pushvalue(L, 2);
 		luaM_pcall(L, 2, 1);
+	}
+	else
+	{
+		lua_getglobal(L, "_tonumber");
+		lua_pushvalue(L, 1);
+		luaM_pcall(L, 1, 1);
 	}
 
 	return 1;
