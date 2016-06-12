@@ -33,8 +33,8 @@ static IconItem icons[] =
 
 void TwitterInitSounds(void)
 {
-SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("TwitterNewContact"));
-SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("TwitterNew"));
+SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("First tweet from new contact"));
+SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("New tweet"));
 }
 static HANDLE hIconLibItem[_countof(icons)];
 
