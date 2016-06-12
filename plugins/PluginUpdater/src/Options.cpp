@@ -81,7 +81,10 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP,  BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), TRUE);
 		}
+		
 		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, opts.bOnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHANGE_PLATFORM, opts.bChangePlatform ? BST_CHECKED : BST_UNCHECKED);
+
 		if (opts.bUpdateOnPeriod) {
 			CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), TRUE);
@@ -146,11 +149,12 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 
 		{
-			BOOL bIsWow64 = FALSE;
 #ifdef _WIN64
 			SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to x86"));
 #else
 			SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to x64"));
+
+			BOOL bIsWow64 = FALSE;
 			IsWow64Process(GetCurrentProcess(), &bIsWow64);
 			if (!bIsWow64)
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), SW_HIDE);
@@ -323,13 +327,11 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM))
-				{
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM)) {
 					db_set_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
 					db_set_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 1);
 				}
-				else
-					db_set_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 0);
+				else db_set_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 0);
 			}
 		}
 	}
