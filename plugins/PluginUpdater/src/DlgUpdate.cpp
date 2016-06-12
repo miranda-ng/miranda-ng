@@ -140,7 +140,6 @@ static void ApplyUpdates(void *param)
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 		db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
 
-		opts.bChangePlatform = 0;
 		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
 	}
 	else {
