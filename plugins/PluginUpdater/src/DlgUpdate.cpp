@@ -155,16 +155,17 @@ static void ApplyUpdates(void *param)
 		CallFunctionAsync(RestartMe, 0);
 #endif
 
+	if (opts.bChangePlatform) {
+		TCHAR mirandaPath[MAX_PATH];
+		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
+	}
+
 	opts.bForceRedownload = false;
 	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 
 	opts.bChangePlatform = false;
 	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
-
-	TCHAR mirandaPath[MAX_PATH];
-	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-	db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
-
 }
 
 static void ResizeVert(HWND hDlg, int yy)
