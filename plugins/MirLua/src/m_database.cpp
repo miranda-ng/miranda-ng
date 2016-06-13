@@ -259,9 +259,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Blob");
-
 	dbei.pBlob = ((BLOB*)lua_touserdata(L, -1))->pBlobData;
-
 	lua_pop(L, 1);
 }
 
@@ -395,6 +393,49 @@ static int db_Settings(lua_State *L)
 	return 1;
 }
 
+static int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
+{
+	if (szModuleName)
+	{
+		LIST<char>* p = (LIST<char>*)lParam;
+		p->insert(mir_strdup(szModuleName));
+	}
+	return 0;
+}
+
+static int db_ModulesIterator(lua_State *L)
+{
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
+
+	if (i < param.getCount())
+	{
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
+		mir_free(param[i]);
+	}
+	else
+	{
+		lua_pushnil(L);
+		delete &param;
+	}
+	return 1;
+}
+
+static int db_Modules(lua_State *L)
+{	
+	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
+
+	CallService(MS_DB_MODULES_ENUM, (WPARAM)param, (LPARAM)ModulesEnumProc);
+
+	lua_pushinteger(L, 0);
+	lua_pushlightuserdata(L, param);
+	lua_pushcclosure(L, db_ModulesIterator, 2);
+
+	return 1;
+}
+
 static int db_WriteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -517,6 +558,7 @@ static luaL_Reg databaseApi[] =
 
 	{ "DeleteSetting", db_DeleteSetting },
 	{ "DeleteModule", db_DeleteModule },
+	{ "Modules", db_Modules },
 
 	{ "DBVT_BYTE", NULL },
 	{ "DBVT_WORD", NULL },
