@@ -27,8 +27,8 @@
 [Development version (less stable)]
 [Development version with debug symbols]
 [Custom version]
-[Platform]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+[Change platform to x86]
 [Notifications]
 [Restart]
 [Errors]
@@ -93,6 +93,7 @@
 [Stable version (incompatible with current development version)]
 [hours]
 [days]
+[Change platform to x64]
 [Test]
 [Services]
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
