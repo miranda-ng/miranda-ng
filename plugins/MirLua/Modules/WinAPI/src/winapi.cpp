@@ -1706,21 +1706,22 @@ static int global_GetCurrentProcessId(lua_State *L)
 
 static int global_GetOpenFileName(lua_State *L)
 {
-	const char *szExt = luaL_optstring(L, 1, nullptr);
-	_A2T tszExt(szExt);
-	wchar_t buff[MAX_PATH], f[2] = { 0, 0 };
+	_A2T tszExt(lua_tostring(L, 1));
+
+	TCHAR buff[MAX_PATH] = _T("");
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = buff;
 	ofn.nMaxFile = _countof(buff);
 	ofn.lpstrDefExt = tszExt;
-	ofn.lpstrFilter = f;
+	ofn.lpstrFilter = _T("\0\0");
 
-	if (GetOpenFileNameW(&ofn))
+	if (GetOpenFileName(&ofn))
 		lua_pushstring(L, T2Utf(buff));
 	else
 		lua_pushnil(L);
+
 	return 1;
 }
 
