@@ -5,10 +5,6 @@
 ;============================================================
 [Authorization request]
 Молба за упълномощаване
-[Actively searching]
-В активно търсене
-[It\'s complicated]
-Всичко е сложно
 [&Authorize]
 Приемане
 [&Deny]
@@ -1849,8 +1845,12 @@ Popups за изобразяване
 Разделен(а)
 [Widowed]
 Вдовец/Вдовица
+[Actively searching]
+В активно търсене
 [In love]
 Влюбен
+[It\'s complicated]
+Всичко е сложно
 [Summary]
 Обобщение
 [Contact]

@@ -48,13 +48,9 @@ Version de développement (moins stable)
 Version de développement avec les symboles de debug
 [Custom version]
 Version personnalisée
-[Platform]
-
-[x86]
-
-[x64]
-
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+
+[Change platform to x86]
 
 [Notifications]
 Notifications
@@ -178,6 +174,8 @@ Vérification des mises à jour en cours!
 heures
 [days]
 jours
+[Change platform to x64]
+
 [Test]
 Test
 [Services]

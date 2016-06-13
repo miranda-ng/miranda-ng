@@ -11,10 +11,6 @@
 Редактиране на информацията за контакта
 [This list gives you some overview about all your contact's anniversaries.]
 Списъкът ще ви даде представа за годишнините на контактите ви.
-[Actively searching]
-В активно търсене
-[It\'s complicated]
-Всичко е сложно
 [Origin]
 Родом от
 [&Update]
@@ -995,8 +991,12 @@ Web дизайн
 Разделен(а)
 [Widowed]
 Вдовец/Вдовица
+[Actively searching]
+В активно търсене
 [In love]
 Влюбен
+[It\'s complicated]
+Всичко е сложно
 [jun.]
 младши
 [sen.]

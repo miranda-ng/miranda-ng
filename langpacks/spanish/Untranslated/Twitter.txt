@@ -30,4 +30,6 @@
 [Tweet]
 [Reply to Tweet]
 [Visit Homepage]
+[First tweet from new contact]
+[New tweet]
 [Reply...]

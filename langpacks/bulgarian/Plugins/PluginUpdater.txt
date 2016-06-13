@@ -43,8 +43,6 @@
 Развойна версия с дебъг символи
 [Custom version]
 Персонализирана версия
-[Platform]
-Платформа
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
 [Notifications]

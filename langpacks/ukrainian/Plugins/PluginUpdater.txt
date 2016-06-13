@@ -47,8 +47,6 @@
 Версія в розробці з символами налагодження
 [Custom version]
 Задана користувачем версія
-[Platform]
-Розрядність
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Оновлено деякі компоненти.\nОновлення будуть застосовані після перезапуску програми.
 [Notifications]

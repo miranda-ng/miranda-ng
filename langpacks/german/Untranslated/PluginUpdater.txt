@@ -1,2 +1,2 @@
-﻿[x86]
-[x64]
+﻿[Change platform to x86]
+[Change platform to x64]
