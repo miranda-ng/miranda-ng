@@ -21,11 +21,21 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BD291BF0-D804-4818-8311-DE871E6BCEAA}</ProjectGuid>
     <ProjectName>liblua</ProjectName>
+    <TargetName>lua53</TargetName>
   </PropertyGroup>
-  <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
-  </ImportGroup>
-    <ItemDefinitionGroup>
+  <PropertyGroup>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Libs\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Libs\</OutDir>
+  </PropertyGroup>
+  <Import Project="$(ProjectDir)..\..\build\vc.common\common.props"/>
+  <PropertyGroup>
+    <TargetExt>.dll</TargetExt>
+    <TargetPath>$(OutDir)$(TargetName)$(TargetExt)</TargetPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>LUA_BUILD_AS_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4310;4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
