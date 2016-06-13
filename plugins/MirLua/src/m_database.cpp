@@ -442,10 +442,10 @@ static int db_GetSetting(lua_State *L)
 		lua_pushvalue(L, 4);
 		return 1;
 	}
-
+	lua_pushinteger(L, dbv.type);
 	db_free(&dbv);
 
-	return 1;
+	return 2;
 }
 
 static int db_WriteSetting(lua_State *L)
