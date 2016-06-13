@@ -642,7 +642,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo);
 	int    SearchRenewFields(HWND hwndDlg, JabberSearchData * dat);
-	void   SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFromDB = TRUE);
+	void   SearchDeleteFromRecent(const TCHAR *szAddr, bool deleteLastFromDB);
 	void   SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog = NULL);
 
 	//---- jabber_std.cpp ----------------------------------------------
@@ -651,7 +651,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_svc.c ------------------------------------------------------------------
 
 	void   CheckMenuItems();
-	void   EnableMenuItems(BOOL bEnable);
+	void   EnableMenuItems(bool bEnable);
 
 	INT_PTR    __cdecl JabberGetAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam);
@@ -818,7 +818,7 @@ private:
 	LONG   m_nSerial;
 
 	HGENMENU   m_hPrivacyMenuRoot;
-	BOOL       m_menuItemsStatus;
+	bool       m_menuItemsStatus;
 	LIST<void> m_hPrivacyMenuItems;
 
 	int        m_nMenuResourceItems;

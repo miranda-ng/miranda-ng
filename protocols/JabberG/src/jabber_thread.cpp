@@ -499,7 +499,7 @@ recvRest:
 			m_iqManager.ExpireAll();
 			m_bJabberOnline = false;
 			info.zlibUninit();
-			EnableMenuItems(FALSE);
+			EnableMenuItems(false);
 			RebuildInfoFrame();
 			if (m_hwndJabberChangePassword)
 				// Since this is a different thread, simulate the click on the cancel button instead

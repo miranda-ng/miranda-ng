@@ -52,7 +52,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 		if (!mir_tstrcmp(tmp.category, _T("pubsub")) && !mir_tstrcmp(tmp.type, _T("pep"))) {
 			m_bPepSupported = true;
 
-			EnableMenuItems(TRUE);
+			EnableMenuItems(true);
 			RebuildInfoFrame();
 			continue;
 		}
@@ -82,10 +82,10 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *szGroupDelimeter = NULL;
-	BOOL bPrivateStorageSupport = FALSE;
+	bool bPrivateStorageSupport = false;
 
 	if (iqNode && pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		bPrivateStorageSupport = TRUE;
+		bPrivateStorageSupport = true;
 		szGroupDelimeter = XPathFmt(iqNode, _T("query[@xmlns='%s']/roster[@xmlns='%s']"), JABBER_FEAT_PRIVATE_STORAGE, JABBER_FEAT_NESTED_ROSTER_GROUPS);
 		if (szGroupDelimeter && !szGroupDelimeter[0])
 			szGroupDelimeter = NULL; // "" as roster delimeter is not supported :)
@@ -371,7 +371,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	OBJLIST<JABBER_HTTP_AVATARS> *httpavatars = new OBJLIST<JABBER_HTTP_AVATARS>(20, JABBER_HTTP_AVATARS::compare);
 
 	for (int i = 0;; i++) {
-		BOOL bIsTransport = FALSE;
+		bool bIsTransport = false;
 
 		HXML itemNode = XmlGetChild(queryNode, i);
 		if (!itemNode)
@@ -393,7 +393,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		if (jid == NULL)
 			continue;
 		if (_tcschr(jid, '@') == NULL)
-			bIsTransport = TRUE;
+			bIsTransport = true;
 
 		const TCHAR *name = XmlGetAttrValue(itemNode, _T("name"));
 		TCHAR *nick = (name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid);
@@ -473,9 +473,9 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		if (hContact != NULL) {
 			if (bIsTransport)
-				setByte(hContact, "IsTransport", TRUE);
+				setByte(hContact, "IsTransport", true);
 			else
-				setByte(hContact, "IsTransport", FALSE);
+				setByte(hContact, "IsTransport", false);
 		}
 
 		const TCHAR *imagepath = XmlGetAttrValue(itemNode, _T("vz:img"));
@@ -501,7 +501,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 	}
 
-	EnableMenuItems(TRUE);
+	EnableMenuItems(true);
 
 	debugLogA("Status changed via THREADSTART");
 	SetServerStatus(m_iDesiredStatus);
@@ -560,7 +560,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 	if (!mir_tstrcmp(type, _T("result"))) {
 		MCONTACT hContact = HContactFromJID(from);
 		if (hContact != NULL)
-			setByte(hContact, "IsTransport", TRUE);
+			setByte(hContact, "IsTransport", true);
 
 		if (m_hwndRegProgress)
 			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration successful"));
@@ -615,7 +615,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 
 	debugLogA("%d bytes written", nWritten);
 	if (hContact == NULL) {
-		hasPhoto = TRUE;
+		hasPhoto = true;
 		CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
 
 		debugLog(_T("My picture saved to %s"), szAvatarFileName);
@@ -630,7 +630,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 					item->bUseResource = true;
 			}
 			if (item != NULL) {
-				hasPhoto = TRUE;
+				hasPhoto = true;
 				if (item->photoFileName && mir_tstrcmp(item->photoFileName, szAvatarFileName))
 					DeleteFile(item->photoFileName);
 				replaceStrT(item->photoFileName, szAvatarFileName);
@@ -1121,7 +1121,16 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 		delSetting(hContact, "CompanyPosition");
 	if (!hasDesc)
 		delSetting(hContact, "About");
+	if (!hasPhoto) {
+		debugLogA("Has no avatar");
+		delSetting(hContact, "AvatarHash");
 
+		if (ptrT(getTStringA(hContact, "AvatarSaved")) != NULL) {
+			delSetting(hContact, "AvatarSaved");
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
+		}
+	}
+	
 	if (id == m_ThreadInfo->resolveID) {
 		const TCHAR *p = _tcschr(jid, '@');
 		ResolveTransportNicks((p != NULL) ? p + 1 : jid);
@@ -1468,7 +1477,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 	if (!mir_tstrcmp(type, _T("result"))) {
 		if (m_ThreadInfo && !(m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)) {
 			m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PRIVATE_STORAGE;
-			EnableMenuItems(TRUE);
+			EnableMenuItems(true);
 		}
 
 		if (HXML storageNode = XPathT(iqNode, "query/storage[@xmlns='storage:bookmarks']")) {
@@ -1499,14 +1508,14 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 			}
 
 			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_REFRESH);
-			m_ThreadInfo->bBookmarksLoaded = TRUE;
+			m_ThreadInfo->bBookmarksLoaded = true;
 			OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_BOOKMARKS);
 		}
 	}
 	else if (!mir_tstrcmp(type, _T("error"))) {
 		if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE) {
 			m_ThreadInfo->jabberServerCaps &= ~JABBER_CAPS_PRIVATE_STORAGE;
-			EnableMenuItems(TRUE);
+			EnableMenuItems(true);
 			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_ACTIVATE);
 		}
 	}

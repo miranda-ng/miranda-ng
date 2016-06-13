@@ -401,7 +401,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 	SearchReturnResults((HANDLE)id, (void*)&SearchResults, (U_TCHAR_MAP *)&mColumnsNames);
 
 	for (int i = 0; i < SearchResults.getCount(); i++)
-		delete ((U_TCHAR_MAP *)SearchResults[i]);
+		delete ((U_TCHAR_MAP*)SearchResults[i]);
 
 	//send success to finish searching
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
@@ -488,9 +488,9 @@ static void JabberSearchAddUrlToRecentCombo(HWND hwndDlg, const TCHAR *szAddr)
 		SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szAddr);
 }
 
-void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFromDB)
+void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, bool deleteLastFromDB)
 {
-	//search in recent
+	// search in recent
 	for (int i = 0; i < 10; i++) {
 		char key[30];
 		mir_snprintf(key, "RecentlySearched_%d", i);
@@ -520,7 +520,7 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 {
 	char key[30];
-	SearchDeleteFromRecent(szAddr);
+	SearchDeleteFromRecent(szAddr, true);
 
 	for (int j = 9; j > 0; j--) {
 		mir_snprintf(key, "RecentlySearched_%d", j - 1);

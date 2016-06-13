@@ -881,7 +881,7 @@ void CJabberProto::GlobalMenuUninit()
 	m_nMenuResourceItems = 0;
 }
 
-void CJabberProto::EnableMenuItems(BOOL bEnable)
+void CJabberProto::EnableMenuItems(bool bEnable)
 {
 	m_menuItemsStatus = bEnable;
 	CheckMenuItems();
