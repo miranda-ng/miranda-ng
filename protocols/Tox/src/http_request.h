@@ -41,75 +41,6 @@ private:
 protected:
 	enum HttpRequestUrlFormat { FORMAT };
 
-	void AddHeader(LPCSTR szName, LPCSTR szValue)
-	{
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER) * (headersCount + 1));
-		headers[headersCount].szName = mir_strdup(szName);
-		headers[headersCount].szValue = mir_strdup(szValue);
-		headersCount++;
-	}
-
-	void AddBasicAuthHeader(LPCSTR szLogin, LPCSTR szPassword)
-	{
-		char cPair[128];
-		mir_snprintf(
-			cPair,
-			_countof(cPair),
-			"%s:%s",
-			szLogin,
-			szPassword);
-
-		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)mir_strlen(cPair));
-
-		char value[128];
-		mir_snprintf(
-			value,
-			_countof(value),
-			"Basic %s",
-			ePair);
-
-		mir_free(ePair);
-
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
-		headersCount++;
-	}
-
-	void AddBearerAuthHeader(LPCSTR szValue)
-	{
-		char value[128];
-		mir_snprintf(
-			value,
-			_countof(value),
-			"Bearer %s",
-			szValue);
-
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
-		headersCount++;
-	}
-
-	void AddUrlParameter(const char *urlFormat, ...)
-	{
-		va_list urlArgs;
-		va_start(urlArgs, urlFormat);
-		m_szUrl += m_szUrl.Find('?') == -1 ? '?' : '&';
-		m_szUrl.AppendFormatV(urlFormat, urlArgs);
-		va_end(urlArgs);
-	}
-
-	void SetData(const char *data, size_t size)
-	{
-		if (pData != NULL)
-			mir_free(pData);
-
-		dataLength = (int)size;
-		pData = (char*)mir_alloc(size);
-		memcpy(pData, data, size);
-	}
-
 public:
 	HttpRequest(int type, LPCSTR url)
 	{
@@ -138,6 +69,33 @@ public:
 		mir_free(headers);
 		if (pData)
 			mir_free(pData);
+	}
+
+	void AddHeader(LPCSTR szName, LPCSTR szValue)
+	{
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER) * (headersCount + 1));
+		headers[headersCount].szName = mir_strdup(szName);
+		headers[headersCount].szValue = mir_strdup(szValue);
+		headersCount++;
+	}
+
+	void AddUrlParameter(const char *urlFormat, ...)
+	{
+		va_list urlArgs;
+		va_start(urlArgs, urlFormat);
+		m_szUrl += m_szUrl.Find('?') == -1 ? '?' : '&';
+		m_szUrl.AppendFormatV(urlFormat, urlArgs);
+		va_end(urlArgs);
+	}
+
+	void SetData(const char *data, size_t size)
+	{
+		if (pData != NULL)
+			mir_free(pData);
+
+		dataLength = (int)size;
+		pData = (char*)mir_alloc(size);
+		memcpy(pData, data, size);
 	}
 
 	NETLIBHTTPREQUEST* Send(HANDLE hNetlibConnection)
