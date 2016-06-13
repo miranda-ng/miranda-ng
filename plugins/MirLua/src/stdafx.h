@@ -96,9 +96,6 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
 /* utils */
 
-#define MT_BLOB "BLOB"
-int (luaopen_m_utils)(lua_State *L);
-
 extern HANDLE hNetlib;
 void Log(const char *format, ...);
 void Log(const wchar_t *format, ...);

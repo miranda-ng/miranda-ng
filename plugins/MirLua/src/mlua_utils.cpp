@@ -166,20 +166,15 @@ int luaM_tonumber(lua_State *L)
 	{
 		lua_Integer value = (lua_Integer)lua_touserdata(L, 1);
 		lua_pushinteger(L, value);
+		return 1;
 	}
-	else if (lua_gettop(L) == 2)
-	{
-		lua_getglobal(L, "_tonumber");
-		lua_pushvalue(L, 1);
+
+	int n = lua_gettop(L);
+	lua_getglobal(L, "_tonumber");
+	lua_pushvalue(L, 1);
+	if (n == 2)
 		lua_pushvalue(L, 2);
-		luaM_pcall(L, 2, 1);
-	}
-	else
-	{
-		lua_getglobal(L, "_tonumber");
-		lua_pushvalue(L, 1);
-		luaM_pcall(L, 1, 1);
-	}
+	luaM_pcall(L, n, 1);
 
 	return 1;
 }
@@ -251,97 +246,4 @@ bool luaM_toboolean(lua_State *L, int idx)
 	if (lua_isnumber(L, idx))
 		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
-}
-
-/***********************************************/
-
-static int blob_new(lua_State *L)
-{
-	BYTE *data = (BYTE*)lua_touserdata(L, 1);
-	size_t size = luaL_checkinteger(L, 2);
-
-	BLOB *blob = (BLOB*)lua_newuserdata(L, sizeof(BLOB));
-	blob->cbSize = size;
-	blob->pBlobData = (BYTE*)mir_calloc(size);
-	memcpy(blob->pBlobData, data, size);
-	luaL_setmetatable(L, MT_BLOB);
-
-	return 1;
-}
-
-static int blob_call(lua_State *L)
-{
-	int nargs = lua_gettop(L);
-	lua_pushcfunction(L, blob_new);
-	for (int i = 2; i <= nargs; i++)
-		lua_pushvalue(L, i);
-	luaM_pcall(L, nargs - 1, 1);
-
-	return 1;
-}
-
-static int blob__index(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int i = luaL_checkinteger(L, 2);
-
-	lua_pushinteger(L, (uint8_t)blob->pBlobData[i - 1]);
-
-	return 1;
-}
-
-static int blob__newindex(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-	int i = luaL_checkinteger(L, 2);
-
-	blob->pBlobData[i - 1] = (BYTE)luaL_checkinteger(L, 3);
-
-	return 0;
-}
-
-static int blob__len(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-
-	lua_pushinteger(L, blob->cbSize);
-
-	return 1;
-}
-
-static int blob__gc(lua_State *L)
-{
-	BLOB *blob = (BLOB*)luaL_checkudata(L, 1, MT_BLOB);
-
-	mir_free(blob->pBlobData);
-
-	return 0;
-}
-
-static const struct luaL_Reg blobApi[] =
-{
-	{ "__call", blob_call },
-	{ "__index", blob__index },
-	{ "__newindex", blob__newindex },
-	{ "__len", blob__len },
-	{ "__gc", blob__gc },
-
-	(NULL, NULL)
-};
-
-int luaopen_m_utils(lua_State *L)
-{
-	luaL_newmetatable(L, MT_BLOB);
-	luaL_setfuncs(L, blobApi, 0);
-	lua_pop(L, 1);
-
-	lua_createtable(L, 0, 1);
-	lua_pushcfunction(L, blob_new);
-	lua_setfield(L, -2, "new");
-	lua_pushvalue(L, -1);
-	lua_setglobal(L, MT_BLOB);
-	luaL_setmetatable(L, MT_BLOB);
-	lua_pop(L, 1);
-
-	return 0;
 }

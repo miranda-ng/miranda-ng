@@ -304,6 +304,8 @@ static int core_GetFullPath(lua_State *L)
 	return 1;
 }
 
+/***********************************************/
+
 struct core_ForkThreadParam
 {
 	lua_State *L;
@@ -364,18 +366,12 @@ static int core_TerminateThread(lua_State *L)
 	return 1;
 }
 
-int core_ptr2number(lua_State *L)
-{
-	ObsoleteMethod(L, "Use tonumber(x) instead");
-
-	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-	lua_pushnumber(L, (intptr_t)lua_touserdata(L, 1));
-	return 1;
-}
+/***********************************************/
 
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", core_CreateHookableEvent },
+	// potentially unsefe for use in scripts
 	//{ "DestroyHookableEvent", core_DestroyHookableEvent },
 
 	{ "NotifyEventHooks", core_NotifyEventHooks },
@@ -399,14 +395,11 @@ luaL_Reg coreApi[] =
 	{ "Translate", core_Translate },
 
 	{ "Parse", core_Parse },
-	{ "ReplaceVariables", core_Parse },
+
+	{ "GetFullPath", core_GetFullPath },
 
 	{ "ForkThread", core_ForkThread },
 	{ "TerminateThread", core_TerminateThread },
-
-	{ "PointerToNumber", core_ptr2number },
-
-	{ "GetFullPath", core_GetFullPath },
 
 	{ "Version", NULL },
 

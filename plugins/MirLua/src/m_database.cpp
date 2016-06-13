@@ -237,7 +237,6 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 {
 	dbei.cbSize = sizeof(dbei);
 
-
 	lua_getfield(L, -1, "Module");
 	dbei.szModule = mir_strdup(lua_tostring(L, -1));
 	lua_pop(L, 1);
@@ -254,12 +253,18 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	dbei.flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	lua_getfield(L, -1, "Length");
-	dbei.cbBlob = lua_tonumber(L, -1);
-	lua_pop(L, 1);
-
 	lua_getfield(L, -1, "Blob");
-	dbei.pBlob = ((BLOB*)lua_touserdata(L, -1))->pBlobData;
+	if (lua_istable(L, -1))
+	{
+		dbei.cbBlob = lua_rawlen(L, 4);
+		dbei.pBlob = (BYTE*)mir_calloc(dbei.cbBlob);
+		for (DWORD i = 0; i < dbei.cbBlob; i++)
+		{
+			lua_geti(L, 4, i + 1);
+			dbei.pBlob[i] = lua_tointeger(L, -1);
+			lua_pop(L, 1);
+		}
+	}
 	lua_pop(L, 1);
 }
 
@@ -269,12 +274,125 @@ static int db_AddEvent(lua_State *L)
 	
 	DBEVENTINFO dbei;
 	MakeDbEvent(L, dbei);
-	lua_pushnumber(L, db_event_add(hContact, &dbei));
+	MEVENT hDbEvent = db_event_add(hContact, &dbei);
+
+	if (hDbEvent)
+		lua_pushnumber(L, hDbEvent);
+	else
+		lua_pushnil(L);
+
 	return 1;
 }
 
-
 /***********************************************/
+
+static int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
+{
+	if (szModuleName)
+	{
+		LIST<char>* p = (LIST<char>*)lParam;
+		p->insert(mir_strdup(szModuleName));
+	}
+
+	return 0;
+}
+
+static int db_ModulesIterator(lua_State *L)
+{
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
+
+	if (i < param.getCount())
+	{
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
+		mir_free(param[i]);
+	}
+	else
+	{
+		lua_pushnil(L);
+		delete &param;
+	}
+
+	return 1;
+}
+
+static int db_Modules(lua_State *L)
+{
+	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
+
+	CallService(MS_DB_MODULES_ENUM, (WPARAM)param, (LPARAM)ModulesEnumProc);
+
+	lua_pushinteger(L, 0);
+	lua_pushlightuserdata(L, param);
+	lua_pushcclosure(L, db_ModulesIterator, 2);
+
+	return 1;
+}
+
+static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
+{
+	if (szSetting)
+	{
+		LIST<char>* p = (LIST<char>*)lParam;
+		p->insert(mir_strdup(szSetting));
+	}
+	return 0;
+}
+
+static int db_SettingIterator(lua_State *L)
+{
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
+
+	if (i < param.getCount())
+	{
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
+		mir_free(param[i]);
+	}
+	else
+	{
+		lua_pushnil(L);
+		delete &param;
+	}
+
+	return 1;
+}
+
+static int db_DeleteModule(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+
+	INT_PTR res = CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
+	lua_pushboolean(L, !res);
+
+	return 1;
+}
+
+static int db_Settings(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	const char* szModule = luaL_checkstring(L, 2);
+
+	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.pfnEnumProc = SettingsEnumProc;
+	dbces.szModule = szModule;
+	dbces.ofsSettings = 0;
+	dbces.lParam = (LPARAM)param;
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+
+	lua_pushinteger(L, 0);
+	lua_pushlightuserdata(L, param);
+	lua_pushcclosure(L, db_SettingIterator, 2);
+
+	return 1;
+}
 
 static int db_GetSetting(lua_State *L)
 {
@@ -310,13 +428,15 @@ static int db_GetSetting(lua_State *L)
 		lua_pushstring(L, ptrA(mir_utf8encodeW(dbv.pwszVal)));
 		break;
 	case DBVT_BLOB:
+	{
+		lua_createtable(L, dbv.cpbVal, 0);
+		for (int i = 0; i < dbv.cpbVal; i++)
 		{
-			lua_getglobal(L, MT_BLOB);
-			lua_pushlightuserdata(L, dbv.pbVal);
-			lua_pushnumber(L, dbv.cpbVal);
-			luaM_pcall(L, 2, 1);
+			lua_pushinteger(L, dbv.pbVal[i]);
+			lua_rawseti(L, -2, i + 1);
 		}
-		break;
+	}
+	break;
 	default:
 		db_free(&dbv);
 		lua_pushvalue(L, 4);
@@ -324,114 +444,6 @@ static int db_GetSetting(lua_State *L)
 	}
 
 	db_free(&dbv);
-
-	return 1;
-}
-
-typedef struct
-{
-	int  count;
-	char **pszSettingName;
-}
-enumDBSettingsParam;
-
-static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
-{
-	if (szSetting)
-	{
-		enumDBSettingsParam* p = (enumDBSettingsParam*)lParam;
-
-		p->count++;
-		p->pszSettingName = (char**)mir_realloc(p->pszSettingName, p->count * sizeof(char*));
-		p->pszSettingName[p->count - 1] = mir_strdup(szSetting);
-	}
-	return 0;
-}
-
-static int db_SettingIterator(lua_State *L)
-{
-	int i = lua_tointeger(L, lua_upvalueindex(1));
-	enumDBSettingsParam* param = (enumDBSettingsParam*)lua_touserdata(L, lua_upvalueindex(2));
-
-	if (i < param->count)
-	{
-		lua_pushinteger(L, (i + 1));
-		lua_replace(L, lua_upvalueindex(1));
-		lua_pushstring(L, ptrA(mir_utf8encode(param->pszSettingName[i])));
-		mir_free(param->pszSettingName[i]);
-	}
-	else
-	{
-		lua_pushnil(L);
-		mir_free(param->pszSettingName);
-		mir_free(param);
-	}
-
-	return 1;
-}
-
-static int db_Settings(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	const char* szModule = luaL_checkstring(L, 2);
-
-	enumDBSettingsParam* param = (enumDBSettingsParam*)mir_alloc(sizeof(enumDBSettingsParam));
-	param->count = 0;
-	param->pszSettingName = NULL;
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = SettingsEnumProc;
-	dbces.szModule = szModule;
-	dbces.ofsSettings = 0;
-	dbces.lParam = (LPARAM)param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
-
-	lua_pushinteger(L, 0);
-	lua_pushlightuserdata(L, param);
-	lua_pushcclosure(L, db_SettingIterator, 2);
-
-	return 1;
-}
-
-static int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
-{
-	if (szModuleName)
-	{
-		LIST<char>* p = (LIST<char>*)lParam;
-		p->insert(mir_strdup(szModuleName));
-	}
-	return 0;
-}
-
-static int db_ModulesIterator(lua_State *L)
-{
-	int i = lua_tointeger(L, lua_upvalueindex(1));
-	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
-
-	if (i < param.getCount())
-	{
-		lua_pushinteger(L, (i + 1));
-		lua_replace(L, lua_upvalueindex(1));
-		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
-		mir_free(param[i]);
-	}
-	else
-	{
-		lua_pushnil(L);
-		delete &param;
-	}
-	return 1;
-}
-
-static int db_Modules(lua_State *L)
-{	
-	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
-
-	CallService(MS_DB_MODULES_ENUM, (WPARAM)param, (LPARAM)ModulesEnumProc);
-
-	lua_pushinteger(L, 0);
-	lua_pushlightuserdata(L, param);
-	lua_pushcclosure(L, db_ModulesIterator, 2);
 
 	return 1;
 }
@@ -457,7 +469,7 @@ static int db_WriteSetting(lua_State *L)
 		case LUA_TSTRING:
 			dbv.type = DBVT_UTF8;
 			break;
-		case LUA_TUSERDATA:
+		case LUA_TTABLE:
 			dbv.type = DBVT_BLOB;
 			break;
 		default:
@@ -492,9 +504,14 @@ static int db_WriteSetting(lua_State *L)
 		break;
 	case DBVT_BLOB:
 	{
-		BLOB *blob = (BLOB*)luaL_checkudata(L, 4, MT_BLOB);
-		dbv.cpbVal = blob->cbSize;
-		dbv.pbVal = blob->pBlobData;
+		dbv.cpbVal = (WORD)lua_rawlen(L, 4);
+		dbv.pbVal = (BYTE*)mir_calloc(dbv.cpbVal);
+		for (int i = 0; i < dbv.cpbVal; i++)
+		{
+			lua_geti(L, 4, i + 1);
+			dbv.pbVal[i] = lua_tointeger(L, -1);
+			lua_pop(L, 1);
+		}
 	}
 		break;
 	default:
@@ -520,17 +537,6 @@ static int db_DeleteSetting(lua_State *L)
 	return 1;
 }
 
-static int db_DeleteModule(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-
-	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
-	lua_pushboolean(L, !res);
-
-	return 1;
-}
-
 /***********************************************/
 
 static luaL_Reg databaseApi[] =
@@ -550,15 +556,15 @@ static luaL_Reg databaseApi[] =
 	{ "EventsFromEnd", db_EventsFromEnd },
 	{ "AddEvent", db_AddEvent },
 
-	{ "WriteSetting", db_WriteSetting },
-	{ "SetSetting", db_WriteSetting },
+	{ "Settings", db_Settings },
+	{ "Modules", db_Modules },
+
+	{ "DeleteModule", db_DeleteModule },
 
 	{ "GetSetting", db_GetSetting },
-	{ "Settings", db_Settings },
-
+	{ "WriteSetting", db_WriteSetting },
+	{ "SetSetting", db_WriteSetting },
 	{ "DeleteSetting", db_DeleteSetting },
-	{ "DeleteModule", db_DeleteModule },
-	{ "Modules", db_Modules },
 
 	{ "DBVT_BYTE", NULL },
 	{ "DBVT_WORD", NULL },
@@ -578,11 +584,7 @@ int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 {
 	const char *key = luaL_checkstring(L, 2);
 
-	if (mir_strcmpi(key, "Module") == 0)
-		lua_pushstring(L, dbcw->szModule);
-	else if (mir_strcmpi(key, "Setting") == 0)
-		lua_pushstring(L, dbcw->szSetting);
-	else if (mir_strcmpi(key, "Value") == 0)
+	if (mir_strcmpi(key, "Value") == 0)
 	{
 		switch (dbcw->value.type)
 		{
@@ -606,10 +608,12 @@ int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 			break;
 		case DBVT_BLOB:
 		{
-			lua_getglobal(L, MT_BLOB);
-			lua_pushlightuserdata(L, dbcw->value.pbVal);
-			lua_pushnumber(L, dbcw->value.cpbVal);
-			luaM_pcall(L, 2, 1);
+			lua_createtable(L, dbcw->value.cpbVal, 0);
+			for (int i = 0; i < dbcw->value.cpbVal; i++)
+			{
+				lua_pushinteger(L, dbcw->value.pbVal[i]);
+				lua_rawseti(L, -2, i + 1);
+			}
 		}
 		break;
 		default:

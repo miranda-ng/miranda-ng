@@ -67,8 +67,6 @@ void CMLua::Load()
 	lua_setfield(L, -2, "interpolate");
 	lua_pop(L, 3);
 
-	luaopen_m_utils(L);
-
 	lua_atpanic(L, luaM_atpanic);
 
 	Log("Loading miranda modules");
@@ -83,7 +81,7 @@ void CMLua::Unload()
 
 	while (int last = Scripts.getCount())
 	{
-		CMLuaScript* script = g_mLua->Scripts[last - 1];
+		CMLuaScript *script = g_mLua->Scripts[last - 1];
 		Scripts.remove(script);
 		script->Unload();
 		delete script;

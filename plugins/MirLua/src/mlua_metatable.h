@@ -3,8 +3,6 @@
 
 #include <functional>
 
-#define LFUNC(T, L) std::function<void*(T*)>(L)
-
 #define LUA_TINTEGER LUA_NUMTAGS + 1
 #define LUA_TSTRINGA LUA_NUMTAGS + 2
 #define LUA_TSTRINGW LUA_NUMTAGS + 3
