@@ -331,18 +331,27 @@ void CToxNodeEditor::OnInitDialog()
 
 void CToxNodeEditor::OnOk(CCtrlBase*)
 {
-	if (!m_ipv4.GetInt())
+	ptrT ipv4(m_ipv4.GetText());
+	if (!ipv4)
 	{
 		MessageBox(m_hwnd, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 		return;
 	}
-	if (!m_pkey.GetInt())
+
+	ptrT port(m_port.GetText());
+	if (!port)
+	{
+		MessageBox(m_hwnd, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
+		return;
+	}
+
+	ptrT pubKey(m_pkey.GetText());
+	if (!pubKey)
 	{
 		MessageBox(m_hwnd, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
-	ptrT ipv4(m_ipv4.GetText());
 	if (m_iItem == -1)
 	{
 		m_iItem = m_list->AddItem(ipv4, -1, NULL, 1);
@@ -351,9 +360,8 @@ void CToxNodeEditor::OnOk(CCtrlBase*)
 	}
 	else
 		m_list->SetItem(m_iItem, 0, ipv4);
-	m_list->SetItem(m_iItem, 1, ptrT(m_ipv6.GetText()));
-	m_list->SetItem(m_iItem, 2, ptrT(m_port.GetText()));
-	m_list->SetItem(m_iItem, 3, ptrT(m_pkey.GetText()));
+	m_list->SetItem(m_iItem, 2, port);
+	m_list->SetItem(m_iItem, 3, pubKey);
 	m_list->SetItem(m_iItem, 4, _T(""), 0);
 	m_list->SetItem(m_iItem, 5, _T(""), 1);
 
