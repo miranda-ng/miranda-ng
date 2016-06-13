@@ -1704,6 +1704,26 @@ static int global_GetCurrentProcessId(lua_State *L)
 	return 1;
 }
 
+static int global_GetOpenFileName(lua_State *L)
+{
+	const char *szExt = luaL_optstring(L, 1, nullptr);
+	_A2T tszExt(szExt);
+	wchar_t buff[MAX_PATH], f[2] = { 0, 0 };
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = buff;
+	ofn.nMaxFile = _countof(buff);
+	ofn.lpstrDefExt = tszExt;
+	ofn.lpstrFilter = f;
+
+	if (GetOpenFileNameW(&ofn))
+		lua_pushstring(L, T2Utf(buff));
+	else
+		lua_pushnil(L);
+	return 1;
+}
+
 static luaM_consts consts[] = 
 {
 	{ "TRUE", TRUE },
@@ -1961,6 +1981,7 @@ static luaL_Reg winApi[] =
 	{ "CoInitialize", global_CoInitialize },
 	{ "CoUninitialize", global_CoUninitialize },
 	{ "GetCurrentProcessId", global_GetCurrentProcessId },
+	{ "GetOpenFileName", global_GetOpenFileName },
 	
 	{ NULL, NULL }
 };
