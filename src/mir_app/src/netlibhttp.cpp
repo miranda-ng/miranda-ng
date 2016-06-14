@@ -980,11 +980,12 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD fl
 
 		buf.append(data, recvResult); // add chunk
 
-		char *peol1 = strchr(buf.data(), '\n');
+		const char *peol1 = (const char*)memchr(buf.data(), '\n', buf.length());
 		if (peol1 == NULL)
 			continue;
 
-		const char *peol2 = first ? peol1 : strchr(peol1 + 1, '\n');
+		int cbRest = int(peol1 - buf.data()) + 1;
+		const char *peol2 = first ? peol1 : (const char*)memchr(peol1 + 1, '\n', buf.length() - cbRest);
 		if (peol2 == NULL)
 			continue;
 
