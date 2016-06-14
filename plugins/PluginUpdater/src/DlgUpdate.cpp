@@ -138,15 +138,15 @@ static void ApplyUpdates(void *param)
 	if (opts.bChangePlatform) {
 		TCHAR mirandaPath[MAX_PATH];
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-		db_set_ts(NULL, MODNAME, "OldBin", mirandaPath);
+		db_set_ts(NULL, MODNAME, "OldBin2", mirandaPath);
 
 		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
 	}
 	else {
-		ptrT oldbin(db_get_tsa(NULL, MODNAME, "OldBin"));
+		ptrT oldbin(db_get_tsa(NULL, MODNAME, "OldBin2"));
 		if (oldbin) {
 			SafeDeleteFile(oldbin);
-			db_unset(NULL, MODNAME, "OldBin");
+			db_unset(NULL, MODNAME, "OldBin2");
 		}
 	}
 
