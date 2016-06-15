@@ -20,6 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C83B0AB-9739-41C1-A127-ED7DB9551F76}</ProjectGuid>
+    <ProjectName>ConnectionNotify</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
