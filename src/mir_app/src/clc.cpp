@@ -667,29 +667,23 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
-		{
-			UINT scrollLines;
-			if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
-				scrollLines = 3;
-			cli.pfnScrollTo(hwnd, dat, dat->yScroll - (short)HIWORD(wParam) * dat->rowHeight * (signed)scrollLines / WHEEL_DELTA, 0);
-		}
+
+		UINT scrollLines;
+		if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
+			scrollLines = 3;
+		cli.pfnScrollTo(hwnd, dat, dat->yScroll - (short)HIWORD(wParam) * dat->rowHeight * (signed)scrollLines / WHEEL_DELTA, 0);
 		return 0;
 
 	case WM_KEYDOWN:
-		{
-			int selMoved = 0;
-			int changeGroupExpand = 0;
-			int pageSize;
-			cli.pfnHideInfoTip(hwnd, dat);
-			KillTimer(hwnd, TIMERID_INFOTIP);
-			KillTimer(hwnd, TIMERID_RENAME);
-			if (CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU))
-				break;
-			{
-				RECT clRect;
-				GetClientRect(hwnd, &clRect);
-				pageSize = clRect.bottom / dat->rowHeight;
-			}
+		cli.pfnHideInfoTip(hwnd, dat);
+		KillTimer(hwnd, TIMERID_INFOTIP);
+		KillTimer(hwnd, TIMERID_RENAME);
+		if (!CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU)) {
+			RECT clRect;
+			GetClientRect(hwnd, &clRect);
+			int pageSize = clRect.bottom / dat->rowHeight;
+			int selMoved = 0, changeGroupExpand = 0;
+
 			switch (wParam) {
 			case VK_DOWN:   dat->selection++; selMoved = 1; break;
 			case VK_UP:     dat->selection--; selMoved = 1; break;
@@ -708,36 +702,33 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
 			case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
 			default:
-				{
-					NMKEY nmkey;
-					nmkey.hdr.hwndFrom = hwnd;
-					nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
-					nmkey.hdr.code = NM_KEYDOWN;
-					nmkey.nVKey = wParam;
-					nmkey.uFlags = HIWORD(lParam);
-					if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nmkey))
-						return 0;
-				}
+				NMKEY nmkey;
+				nmkey.hdr.hwndFrom = hwnd;
+				nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
+				nmkey.hdr.code = NM_KEYDOWN;
+				nmkey.nVKey = wParam;
+				nmkey.uFlags = HIWORD(lParam);
+				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nmkey))
+					return 0;
 			}
 			if (changeGroupExpand) {
 				if (!dat->bFilterSearch)
 					dat->szQuickSearch[0] = 0;
 				hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
-				if (hit != -1) {
-					if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
-						if (group == &dat->list)
-							return 0;
-						dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, -1);
-						selMoved = 1;
-					}
-					else {
-						if (contact->type == CLCIT_GROUP)
-							cli.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
-						return 0;
-					}
-				}
-				else
+				if (hit == -1) 
 					return 0;
+
+				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
+					if (group == &dat->list)
+						return 0;
+					dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, -1);
+					selMoved = 1;
+				}
+				else {
+					if (contact->type == CLCIT_GROUP)
+						cli.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
+					return 0;
+				}
 			}
 			if (selMoved) {
 				if (!dat->bFilterSearch)
