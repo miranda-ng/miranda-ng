@@ -40,12 +40,12 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
     RTEXT           "Version:", IDC_STATIC, 5, 223, 34, 8, SS_RIGHT
     AUTOCHECKBOX    "Show notification if no filter defined", ID_CHK_DEFAULTACTION, 12, 131, 187, 8
     LTEXT           "Attempt interval (ms)", IDC_STATIC, 35, 155, 163, 8, SS_LEFT
-    PUSHBUTTON      "", ID_DELETE, 297, 68, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Delete", ID_DELETE, 297, 68, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
     LTEXT           "'Online' means:", IDC_STATIC, 211, 122, 92, 8, SS_LEFT
     LTEXT           "Filters", IDC_STATIC, 6, 5, 289, 8, SS_LEFT
-    PUSHBUTTON      "", ID_DOWN, 297, 52, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
-    PUSHBUTTON      "", ID_UP, 297, 37, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
-    PUSHBUTTON      "", ID_ADD, 297, 22, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Move down", ID_DOWN, 297, 52, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Move up", ID_UP, 297, 37, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Add", ID_ADD, 297, 22, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
 }
 
 
