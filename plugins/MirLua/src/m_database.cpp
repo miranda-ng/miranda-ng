@@ -651,6 +651,21 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 	db_event_get((MEVENT)hDbEvent, (*dbei));
 }
 
+int MT<DBEVENTINFO>::Index(lua_State *L, DBEVENTINFO *dbei)
+{
+	const char *key = luaL_checkstring(L, 2);
+
+	if (mir_strcmpi(key, "Blob") == 0)
+	{
+		lua_createtable(L, dbei->cbBlob, 0);
+		for (int i = 0; i < dbei->cbBlob; i++)
+		{
+			lua_pushinteger(L, dbei->pBlob[i]);
+			lua_rawseti(L, -2, i + 1);
+		}
+	}
+}
+
 void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 {
 	mir_free((*dbei)->pBlob);
@@ -684,9 +699,7 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
 		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::cbBlob, "Length", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::pBlob, "Blob", LUA_TLIGHTUSERDATA);
+		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER);
 
 	return 1;
 }
