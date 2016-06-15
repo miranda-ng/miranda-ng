@@ -254,7 +254,6 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Blob");
-
 	switch (lua_type(L, -1))
 	{
 	case LUA_TTABLE:
@@ -658,12 +657,16 @@ int MT<DBEVENTINFO>::Index(lua_State *L, DBEVENTINFO *dbei)
 	if (mir_strcmpi(key, "Blob") == 0)
 	{
 		lua_createtable(L, dbei->cbBlob, 0);
-		for (int i = 0; i < dbei->cbBlob; i++)
+		for (DWORD i = 0; i < dbei->cbBlob; i++)
 		{
 			lua_pushinteger(L, dbei->pBlob[i]);
 			lua_rawseti(L, -2, i + 1);
 		}
 	}
+	else
+		lua_pushnil(L);
+
+	return 1;
 }
 
 void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
