@@ -254,8 +254,10 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Blob");
-	if (lua_istable(L, -1))
+
+	switch (lua_type(L, -1))
 	{
+	case LUA_TTABLE:
 		dbei.cbBlob = lua_rawlen(L, 4);
 		dbei.pBlob = (BYTE*)mir_calloc(dbei.cbBlob);
 		for (DWORD i = 0; i < dbei.cbBlob; i++)
@@ -264,6 +266,14 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 			dbei.pBlob[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
 		}
+		break;
+	case LUA_TSTRING:
+		size_t nLen;
+		const char *str = lua_tolstring(L, -1, &nLen);
+		dbei.cbBlob = nLen;
+		dbei.pBlob = (BYTE*)mir_alloc(nLen);
+		memcpy(dbei.pBlob, str, nLen);
+		break;
 	}
 	lua_pop(L, 1);
 }
@@ -272,7 +282,7 @@ static int db_AddEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	
-	DBEVENTINFO dbei;
+	DBEVENTINFO dbei = {};
 	MakeDbEvent(L, dbei);
 	MEVENT hDbEvent = db_event_add(hContact, &dbei);
 
