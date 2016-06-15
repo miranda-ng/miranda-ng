@@ -26,7 +26,7 @@ CMLuaScript::~CMLuaScript()
 	mir_free(moduleName);
 }
 
-bool CMLuaScript::GetScriptEnviroment(lua_State *L)
+bool CMLuaScript::GetEnviroment(lua_State *L)
 {
 	lua_Debug ar;
 	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
@@ -47,7 +47,7 @@ bool CMLuaScript::GetScriptEnviroment(lua_State *L)
 
 CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L)
 {
-	if (!GetScriptEnviroment(L))
+	if (!GetEnviroment(L))
 		return NULL;
 
 	lua_getfield(L, -1, SCRIPT);
@@ -61,9 +61,14 @@ int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L)
 {
 	CMLuaScript *script = GetScriptFromEnviroment(L);
 	if (script != NULL)
-		return script->id;
+		return script->GetId();
 
 	return hMLuaLangpack;
+}
+
+int CMLuaScript::GetId() const
+{
+	return id;
 }
 
 const char* CMLuaScript::GetModuleName() const

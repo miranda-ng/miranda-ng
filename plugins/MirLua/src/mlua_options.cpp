@@ -159,6 +159,7 @@ void CMLuaOptions::OnReload(CCtrlBase*)
 int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTitle = _T("Lua");

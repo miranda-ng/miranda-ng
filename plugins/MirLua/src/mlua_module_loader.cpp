@@ -34,6 +34,7 @@ void CMLuaModuleLoader::LoadModules()
 	Preload(MLUA_GENMENU, luaopen_m_genmenu);
 	Preload(MLUA_HOTKEYS, luaopen_m_hotkeys);
 	Preload(MLUA_MESSAGE, luaopen_m_message);
+	Preload(MLUA_OPTIONS, luaopen_m_options);
 	Preload(MLUA_PROTOCOLS, luaopen_m_protocols);
 	Preload(MLUA_SOUNDS, luaopen_m_sounds);
 }

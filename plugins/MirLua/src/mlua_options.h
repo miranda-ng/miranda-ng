@@ -15,7 +15,6 @@ public:
 	CCallback<TEventInfo> OnClick;
 };
 
-
 class CMLuaOptions : public CPluginDlgBase
 {
 private:
