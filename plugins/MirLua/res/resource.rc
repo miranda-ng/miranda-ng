@@ -86,6 +86,13 @@ BEGIN
     CONTROL         "Popup on obsolete methods",IDC_POPUPONOBSOLETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,21,294,10
 END
 
+IDD_SCRIPTOPTIONSPAGE DIALOGEX 0, 0, 310, 250
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -100,6 +107,10 @@ BEGIN
         VERTGUIDE, 8
         VERTGUIDE, 302
         HORZGUIDE, 242
+    END
+
+    IDD_SCRIPTOPTIONSPAGE, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED

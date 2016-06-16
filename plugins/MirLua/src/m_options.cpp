@@ -3,13 +3,13 @@
 class CMLuaScriptOptionPage : public CDlgBase
 {
 private:
-	CMLuaScript *script;
+	lua_State *L;
 	int onInitDialogRef;
 	int onApplyRef;
 
 public:
-	CMLuaScriptOptionPage(CMLuaScript *script, int onInitDialogRef, int onApplyRef)
-		: CDlgBase(g_hInstance, IDD_SCRIPTOPTIONSPAGE), script(script),
+	CMLuaScriptOptionPage(lua_State *L, int onInitDialogRef, int onApplyRef)
+		: CDlgBase(g_hInstance, IDD_SCRIPTOPTIONSPAGE), L(L),
 		onInitDialogRef(onInitDialogRef), onApplyRef(onApplyRef)
 	{
 	}
@@ -19,10 +19,10 @@ protected:
 	{
 		if (onInitDialogRef)
 		{
-			lua_rawgeti(script->L, LUA_REGISTRYINDEX, onInitDialogRef);
+			lua_rawgeti(L, LUA_REGISTRYINDEX, onInitDialogRef);
 
-			lua_pushlightuserdata(script->L, (void*)this->GetHwnd());
-			luaM_pcall(script->L, 1, 0);
+			lua_pushlightuserdata(L, (void*)this->GetHwnd());
+			luaM_pcall(L, 1, 0);
 		}
 	}
 
@@ -30,20 +30,24 @@ protected:
 	{
 		if (onApplyRef)
 		{
-			lua_rawgeti(script->L, LUA_REGISTRYINDEX, onApplyRef);
+			lua_rawgeti(L, LUA_REGISTRYINDEX, onApplyRef);
 
-			lua_pushlightuserdata(script->L, (void*)this->GetHwnd());
-			luaM_pcall(script->L, 1, 0);
+			lua_pushlightuserdata(L, (void*)this->GetHwnd());
+			luaM_pcall(L, 1, 0);
 		}
+	}
+
+	void OnDestroy()
+	{
+		lua_pushnil(L);
+		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
 	}
 };
 
 void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 {
-	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
-
 	odp.hInstance = g_hInstance;
-	odp.hLangpack = script->GetId();
+	odp.hLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 
 	lua_getfield(L, -1, "Flags");
 	odp.flags = luaL_optinteger(L, -1, ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE);
@@ -77,8 +81,10 @@ void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 		onApplyRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	else
 		lua_pop(L, 1);
-
-	odp.pDialog = new CMLuaScriptOptionPage(script, onInitDialogRef, onApplyRef);
+	
+	lua_State *T = lua_newthread(L);
+	lua_rawsetp(L, LUA_REGISTRYINDEX, T);
+	odp.pDialog = new CMLuaScriptOptionPage(T, onInitDialogRef, onApplyRef);
 }
 
 int opt_AddPage(lua_State *L)
