@@ -3,7 +3,7 @@
 #define SCRIPT "Script"
 
 CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
-	: L(L), status(None), unloadRef(0)
+	: L(L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_tstrcpy(filePath, path);
 

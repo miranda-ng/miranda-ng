@@ -64,14 +64,14 @@ void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 	odp.ptszTab = mir_utf8decodeT((char*)lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	int onInitDialogRef = 0;
+	int onInitDialogRef = LUA_NOREF;
 	lua_getfield(L, -1, "OnInitDialog");
 	if (lua_isfunction(L, -1))
 		onInitDialogRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	else
 		lua_pop(L, 1);
 
-	int onApplyRef = 0;
+	int onApplyRef = LUA_NOREF;
 	lua_getfield(L, -1, "OnApply");
 	if (lua_isfunction(L, -1))
 		onApplyRef = luaL_ref(L, LUA_REGISTRYINDEX);
