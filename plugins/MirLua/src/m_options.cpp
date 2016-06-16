@@ -3,36 +3,33 @@
 class CMLuaScriptOptionPage : public CDlgBase
 {
 private:
+	int m_onInitDialogRef;
+	int m_onApplyRef;
 	lua_State *L;
-	int onInitDialogRef;
-	int onApplyRef;
 
 public:
-	CMLuaScriptOptionPage(lua_State *L, int onInitDialogRef, int onApplyRef)
-		: CDlgBase(g_hInstance, IDD_SCRIPTOPTIONSPAGE), L(L),
-		onInitDialogRef(onInitDialogRef), onApplyRef(onApplyRef)
+	CMLuaScriptOptionPage(lua_State *_L, int onInitDialogRef, int onApplyRef)
+		: CDlgBase(g_hInstance, IDD_SCRIPTOPTIONSPAGE), L(_L),
+		m_onInitDialogRef(onInitDialogRef), m_onApplyRef(onApplyRef)
 	{
 	}
 
-protected:
-	void OnInitDialog()
+	void OnInitDialog() override 
 	{
-		if (onInitDialogRef)
+		if (m_onInitDialogRef)
 		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, onInitDialogRef);
-
-			lua_pushlightuserdata(L, (void*)this->GetHwnd());
+			lua_rawgeti(L, LUA_REGISTRYINDEX, m_onInitDialogRef);
+			lua_pushlightuserdata(L, m_hwnd);
 			luaM_pcall(L, 1, 0);
 		}
 	}
 
-	void OnApply()
+	void OnApply() override
 	{
-		if (onApplyRef)
+		if (m_onApplyRef)
 		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, onApplyRef);
-
-			lua_pushlightuserdata(L, (void*)this->GetHwnd());
+			lua_rawgeti(L, LUA_REGISTRYINDEX, m_onApplyRef);
+			lua_pushlightuserdata(L, m_hwnd);
 			luaM_pcall(L, 1, 0);
 		}
 	}
