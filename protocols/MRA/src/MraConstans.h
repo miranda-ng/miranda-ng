@@ -31,7 +31,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define BUFF_SIZE_RCV_MIN_FREE               (16 * 1024) //internal
 #define BUFF_SIZE_BLOB                       16384 //internal
 #define BUFF_SIZE_URL                        4096 //internal
-#define NETLIB_SELECT_TIMEOUT                250 //internal // время ожидания событий на сокете
 #define WAIT_FOR_THREAD_TIMEOUT              15 //internal // время ожидания завершения потока
 #define THREAD_SLEEP_TIME                    100 //internal
 #define THREAD_MAX_PING_TIME                 20 // sec, internal
@@ -195,7 +194,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_AVT_DEFAULT_AVT_FILENAME         _T("_default.jpg")
 #define MRA_AVT_DEFAULT_RET_ABC_PATH         TRUE
 #define MRA_DELETE_AVT_ON_CONTACT_DELETE     TRUE
-#define MRA_AVT_DEFAULT_QE_CHK_INTERVAL      1000 //internal
 
 #define MRA_FILES_QUEUE_PROGRESS_INTERVAL    250 //internal
 #define MRA_FILES_NULL_ADDRR                 "192.168.0.1:26666;"

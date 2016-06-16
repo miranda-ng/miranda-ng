@@ -170,7 +170,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	while (!g_bShutdown) {
 		if (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
 			NETLIB_CLOSEHANDLE(hConnection);
-			WaitForSingleObjectEx(hThreadEvent, MRA_AVT_DEFAULT_QE_CHK_INTERVAL, FALSE);
+			WaitForSingleObjectEx(hThreadEvent, INFINITE, FALSE);
 			continue;
 		}
 		
