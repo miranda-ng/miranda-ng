@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 /* Signed integers */
 #define PRId8   "d"
 #define PRId16  "d"
