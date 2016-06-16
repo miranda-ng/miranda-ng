@@ -235,6 +235,8 @@ DWORD CMraProto::MraNetworkDispatcher()
 			nls.dwTimeout = (m_dwPingPeriod * 1000);
 			m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime + nls.dwTimeout);
 			MraSendCMD(MRIM_CS_PING, NULL, 0);
+		} else {
+			nls.dwTimeout = (m_dwNextPingSendTickTime - m_dwThreadWorkerLastPingTime);
 		}
 		{ /* Remove old items from send queue. */
 			DWORD dwCmdNum, dwFlags, dwAckType;
