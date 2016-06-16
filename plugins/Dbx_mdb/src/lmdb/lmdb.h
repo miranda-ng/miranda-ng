@@ -166,7 +166,11 @@
 #define _LMDB_H_
 
 #include <sys/types.h>
-#include <inttypes.h>
+#if _MSC_VER < 1800
+#	include <msapi/inttypes.h>
+#else
+#	include <inttypes.h>
+#endif
 
 #define MDB_VL32 1
 

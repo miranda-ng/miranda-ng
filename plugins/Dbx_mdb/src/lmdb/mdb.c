@@ -136,7 +136,11 @@ extern int cacheflush(char *addr, int nbytes, int cache);
 #include <errno.h>
 #include <limits.h>
 #include <stddef.h>
-#include <inttypes.h>
+#if _MSC_VER < 1800
+#	include <msapi/inttypes.h>
+#else
+#	include <inttypes.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

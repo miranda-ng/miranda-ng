@@ -27,7 +27,11 @@
 #define _MDB_MIDL_H_
 
 #include <stddef.h>
-#include <inttypes.h>
+#if _MSC_VER < 1800
+#	include <msapi/inttypes.h>
+#else
+#	include <inttypes.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {

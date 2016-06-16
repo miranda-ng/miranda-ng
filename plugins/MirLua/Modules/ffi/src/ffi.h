@@ -15,7 +15,7 @@
 
 #if _MSC_VER < 1800
 #	include "msvc/stdbool.h"
-#	include "msvc/inttypes.h"
+#	include <msapi/inttypes.h>
 #else
 #	include <stdbool.h>
 #	include <inttypes.h>
