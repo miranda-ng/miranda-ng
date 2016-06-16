@@ -219,7 +219,6 @@ DWORD CMraProto::MraNetworkDispatcher()
 	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
 	m_dwThreadWorkerLastPingTime = GetTickCount();
 	while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
-		nls.dwTimeout = (m_dwPingPeriod * 1000);
 		DWORD dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 		if (SOCKET_ERROR == dwSelectRet) {
 			if (m_iStatus != ID_STATUS_OFFLINE) {
