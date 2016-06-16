@@ -9,7 +9,12 @@ static int lua_GetProtocol(lua_State *L)
 	switch (lua_type(L, 1))
 	{
 	case LUA_TNUMBER:
-		name = GetContactProto(lua_tonumber(L, 1));
+	{
+		const char *proto = GetContactProto(lua_tonumber(L, 1));
+		PROTOACCOUNT *pa = Proto_GetAccount(proto);
+		if (pa)
+			name = pa->szProtoName;
+	}
 		break;
 	case LUA_TSTRING:
 		name = lua_tostring(L, 1);
@@ -86,7 +91,7 @@ static int lua_GetAccount(lua_State *L)
 		break;
 	}
 
-	PROTOACCOUNT* pa = Proto_GetAccount(name);
+	PROTOACCOUNT *pa = Proto_GetAccount(name);
 	if (pa)
 		MT<PROTOACCOUNT>::Set(L, pa);
 	else
