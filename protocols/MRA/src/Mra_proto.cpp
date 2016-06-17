@@ -209,7 +209,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 	mrim_packet_header_t *pmaHeader;
 
 	NETLIBSELECT nls = { sizeof(nls) };
-	nls.dwTimeout = 1000;
+	nls.dwTimeout = 30000;
 	nls.hReadConns[0] = m_hConnection;
 
 	lpbBufferRcv = (LPBYTE)mir_calloc(dwRcvBuffSize);
@@ -217,7 +217,6 @@ DWORD CMraProto::MraNetworkDispatcher()
 	m_dwNextPingSendTickTime = m_dwPingPeriod = MAXDWORD;
 	dwCMDNum = 0;
 	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
-	m_dwThreadWorkerLastPingTime = GetTickCount();
 	while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
 		DWORD dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 		if (SOCKET_ERROR == dwSelectRet) {
@@ -235,7 +234,8 @@ DWORD CMraProto::MraNetworkDispatcher()
 			m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime + nls.dwTimeout);
 			MraSendCMD(MRIM_CS_PING, NULL, 0);
 		} else {
-			nls.dwTimeout = (m_dwNextPingSendTickTime - m_dwThreadWorkerLastPingTime);
+			if (MAXDWORD != m_dwNextPingSendTickTime)
+				nls.dwTimeout = (m_dwNextPingSendTickTime - m_dwThreadWorkerLastPingTime);
 		}
 		{ /* Remove old items from send queue. */
 			DWORD dwCmdNum, dwFlags, dwAckType;
