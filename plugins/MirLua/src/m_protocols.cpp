@@ -19,6 +19,8 @@ static int lua_GetProtocol(lua_State *L)
 	case LUA_TSTRING:
 		name = lua_tostring(L, 1);
 		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
 	}
 
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(name);
@@ -64,12 +66,53 @@ static int lua_Protocols(lua_State *L)
 
 static int lua_CallService(lua_State *L)
 {
-	const char *module = luaL_checkstring(L, 1);
+	const char *module = NULL;
+
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNUMBER:
+		module = GetContactProto(lua_tonumber(L, 1));
+	break;
+	case LUA_TSTRING:
+		module = lua_tostring(L, 1);
+		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
+
 	const char *service = luaL_checkstring(L, 2);
 	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
 	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
 
 	INT_PTR res = CallProtoService(module, service, wParam, lParam);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_ChainSend(lua_State *L)
+{
+	MCONTACT hContact = luaL_checknumber(L, 1);
+	const char *service = luaL_checkstring(L, 2);
+	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
+
+	CCSDATA ccs = { hContact, service, wParam, lParam };
+	INT_PTR res = Proto_ChainSend(0, &ccs);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_ChainRecv(lua_State *L)
+{
+	MCONTACT hContact = luaL_checknumber(L, 1);
+	const char *service = luaL_checkstring(L, 2);
+	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
+
+	CCSDATA ccs = { hContact, service, wParam, lParam };
+	INT_PTR res = Proto_ChainRecv(0, &ccs);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -89,6 +132,8 @@ static int lua_GetAccount(lua_State *L)
 	case LUA_TSTRING:
 		name = lua_tostring(L, 1);
 		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
 	}
 
 	PROTOACCOUNT *pa = Proto_GetAccount(name);
@@ -149,6 +194,8 @@ static luaL_Reg protocolsApi[] =
 	{ "GetProtocol", lua_GetProtocol },
 	{ "Protocols", lua_Protocols },
 	{ "CallService", lua_CallService },
+	{ "CallSendChain", lua_ChainSend },
+	{ "CallReceiveChain", lua_ChainRecv },
 
 	{ "GetAccount", lua_GetAccount },
 	{ "Accounts", lua_Accounts },
