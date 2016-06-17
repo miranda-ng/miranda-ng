@@ -32,8 +32,8 @@
 #define NOTIFY_SETTINGS_FROM_MOD_NAME SHORT_PLUGIN_NAME ".NotifySettingsFromModName"
 
 #define TEST_LETTER_SUBJECT LPGENT("Why C sucks")
-#define TEST_LETTER_INBOX   LPGENT("brickstrace@gmail.com [1]")
-#define TEST_LETTER_SENDER  LPGENT("    bems\n")
+#define TEST_LETTER_INBOX   _T("brickstrace@gmail.com [1]")
+#define TEST_LETTER_SENDER  _T("    bems\n")
 #define TEST_LETTER_SNIP    LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
 
 void CheckControlsEnabled(HWND wnd)
