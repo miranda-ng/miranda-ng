@@ -15,8 +15,6 @@
 Име на сървъра
 [Internet address]
 Интернет адрес
-[SSL]
-SSL
 [Port range]
 Портов обхват
 [Password]

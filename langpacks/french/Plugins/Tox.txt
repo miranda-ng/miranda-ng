@@ -24,8 +24,6 @@ Nom :
 Passe :
 [Default group:]
 Groupes :
-[Tox]
-
 [Create Tox profile]
 
 [Import Tox profile]
@@ -161,6 +159,8 @@ Tous les fichiers
 
 [Error]
 Erreur
+[Enter port]
+
 [Enter public key]
 
 [Common nodes]

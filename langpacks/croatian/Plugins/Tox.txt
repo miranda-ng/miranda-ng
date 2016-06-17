@@ -24,8 +24,6 @@
 
 [Default group:]
 
-[Tox]
-
 [Create Tox profile]
 
 [Import Tox profile]
@@ -160,6 +158,8 @@ sve datoteke
 [Enter IPv4]
 
 [Error]
+
+[Enter port]
 
 [Enter public key]
 

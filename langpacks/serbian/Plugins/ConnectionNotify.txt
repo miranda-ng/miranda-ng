@@ -30,16 +30,18 @@ Tekst
 
 [Attempt interval (ms)]
 
-[X]
-
+[Delete]
+Briši
 ['Online' means:]
 
 [Filters]
 
-[DN]
+[Move down]
 
-[UP]
+[Move up]
 
+[Add]
+Dodaj
 [Rule editor]
 
 [Application name]

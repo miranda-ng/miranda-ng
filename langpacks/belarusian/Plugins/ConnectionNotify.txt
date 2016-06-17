@@ -29,16 +29,18 @@
 Абвяшчаць, калі ні адзін фільтр не вызначаны
 [Attempt interval (ms)]
 Спрабаваць кожныя (ms.):
-[X]
-
+[Delete]
+Выдаліць
 ['Online' means:]
 "Далучаны" азначае:
 [Filters]
 Фільтры
-[DN]
-ВЕРХ
-[UP]
-НІЗ
+[Move down]
+
+[Move up]
+
+[Add]
+Дадаць
 [Rule editor]
 Кіравала
 [Application name]

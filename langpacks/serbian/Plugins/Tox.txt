@@ -24,8 +24,6 @@ Ime:
 Šifra
 [Default group:]
 
-[Tox]
-
 [Create Tox profile]
 
 [Import Tox profile]
@@ -161,6 +159,8 @@ Sve datoteke
 
 [Error]
 Greška
+[Enter port]
+
 [Enter public key]
 
 [Common nodes]

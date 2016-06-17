@@ -13,8 +13,6 @@
 [Key Exchange Timeout:]
 [Offline Key Timeout:]
 [days]
-[PGP]
-[GPG]
 [Reset All]
 [Protocols]
 [Split Messages]

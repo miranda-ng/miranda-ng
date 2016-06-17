@@ -1,6 +1,4 @@
-﻿[Bing]
-[Wikipedia (en)]
-[Yahoo]
+﻿[Wikipedia (en)]
 [Foodnetwork]
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]

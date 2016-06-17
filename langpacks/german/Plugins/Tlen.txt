@@ -16,8 +16,6 @@ Passwort:
 Passwort speichern
 [Create new account]
 Neues Konto erstellen
-[Tlen]
-Tlen
 [Options]
 Einstellungen
 [Automatically reconnect after unintentional disconnection]

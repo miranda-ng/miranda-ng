@@ -351,8 +351,6 @@ AIM Усталяваць Instant Idle
 Неправераны
 [Blocked list]
 Спіс заблакаваных
-[AOL]
-AOL
 [Foreground Color]
 Колер пярэдняга плану
 [Background Color]

@@ -3,7 +3,6 @@
 [Version:]
 [Account]
 [Server:]
-[SSL]
 [APOP]
 [User Name:]
 [Codepage:]

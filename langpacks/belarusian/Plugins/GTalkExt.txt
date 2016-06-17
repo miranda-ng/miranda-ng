@@ -59,10 +59,6 @@
 Сеціва
 [Why C sucks]
 
-[brickstrace@gmail.com [1]]
-
-[    bems\n]
-
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 * Сістэма прымітыўныага тыпу\n* Няма перазагрузкі\n* Абмежаваныя магчымасці для абстракцыі дадзеных, палімарфізм падтыпаў і паўторнага выкарыстання кода\n* Няма метапраграмавання акрамя макрасаў прэпрацэсара\n* Няма выключэння
 [GMail notifications]

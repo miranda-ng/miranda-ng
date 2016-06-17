@@ -16,8 +16,6 @@
 
 [Internet address]
 
-[SSL]
-
 [Port range]
 
 [Password]

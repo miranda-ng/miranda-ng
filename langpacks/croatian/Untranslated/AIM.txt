@@ -167,7 +167,6 @@
 [Confirmed]
 [Not Confirmed]
 [Blocked list]
-[AOL]
 [Foreground Color]
 [Background Color]
 [Bold]

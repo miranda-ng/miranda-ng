@@ -1,4 +1,3 @@
-﻿[Tlen]
-[Image transfer policy]
+﻿[Image transfer policy]
 [Tlen login]
 [Web message]

@@ -271,8 +271,6 @@ KB
 Маркиране на всичко
 [Word lookup]
 Търсене на дума
-[Bing]
-Bing
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -281,8 +279,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-[Yahoo]
-Yahoo
 [Foodnetwork]
 Foodnetwork
 [C&lear log]

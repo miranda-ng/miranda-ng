@@ -14,8 +14,6 @@
 [sec]
 [Offline Key Timeout:]
 [days]
-[PGP]
-[GPG]
 [Reset All]
 [Protocols]
 [Split Messages]

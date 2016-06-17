@@ -37,10 +37,6 @@
 Захоўваць ключ:
 [days]
 дзён
-[PGP]
-
-[GPG]
-
 [Reset All]
 Скід
 [Protocols]

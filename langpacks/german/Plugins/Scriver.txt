@@ -272,8 +272,6 @@ Alles ko&pieren
 &Alles auswählen
 [Word lookup]
 Wort nachschlagen
-[Bing]
-Bing
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -282,8 +280,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-[Yahoo]
-Yahoo
 [Foodnetwork]
 Foodnetwork
 [C&lear log]

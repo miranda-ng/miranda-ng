@@ -1,5 +1,4 @@
 ﻿[Yahoo protocol support for Miranda NG.]
-[Yahoo]
 [ID:]
 [Create a new Yahoo account using the Yahoo website]
 [Expert]

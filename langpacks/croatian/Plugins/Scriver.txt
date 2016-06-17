@@ -272,8 +272,6 @@ vrijeme nestanka (s)
 
 [Word lookup]
 &Traženje riječi
-[Bing]
-
 [Yandex]
 
 [Wikipedia (en)]
@@ -281,8 +279,6 @@ vrijeme nestanka (s)
 [Google Maps]
 
 [Google Translate]
-
-[Yahoo]
 
 [Foodnetwork]
 

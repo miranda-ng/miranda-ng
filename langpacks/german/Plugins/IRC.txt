@@ -16,8 +16,6 @@ Aktivieren
 Servername
 [Internet address]
 Internetadresse
-[SSL]
-SSL
 [Port range]
 Portbereich
 [Password]

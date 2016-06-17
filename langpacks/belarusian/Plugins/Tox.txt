@@ -23,8 +23,6 @@
 Пароль:
 [Default group:]
 Гурт:
-[Tox]
-
 [Create Tox profile]
 
 [Import Tox profile]
@@ -151,6 +149,8 @@
 
 [Error]
 Памылка
+[Enter port]
+
 [Enter public key]
 
 [Common nodes]

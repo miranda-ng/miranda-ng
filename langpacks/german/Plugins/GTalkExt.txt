@@ -64,10 +64,6 @@ Popups
 Netzwerk
 [Why C sucks]
 Nachteile von C
-[brickstrace@gmail.com [1]]
-brickstrace@gmail.com [1]
-[    bems\n]
-    bems\n
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 * Primitives Typensystem\n* Keine Überladung\n* Begrenzte Möglichkeiten für Datenabstraktion, Polymorphismus, Subtypen und Codewiederverwendung\n* Keine Metaprogrammierung außer Präprozessormakros\n* Keine Ausnahmen
 ;file \protocols\GTalkExt\src\options.h

@@ -247,8 +247,6 @@ AIM икона
 Непотвърдено
 [Blocked list]
 Списък "Блокирани"
-[AOL]
-AOL
 [Background Color]
 Цвят на фона
 [Bold]

@@ -7,8 +7,6 @@
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Yahoo в Miranda NG.
-[Yahoo]
-Yahoo
 [ID:]
 ID:
 [Password:]

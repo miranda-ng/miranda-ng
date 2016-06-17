@@ -41,5 +41,3 @@
 Рopups
 [Network]
 Мрежа
-[brickstrace@gmail.com [1]]
-brickstrace@gmail.com [1]

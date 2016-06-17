@@ -3,7 +3,6 @@
 [Enable]
 [Server name]
 [Internet address]
-[SSL]
 [Port range]
 [Password]
 [&Del]

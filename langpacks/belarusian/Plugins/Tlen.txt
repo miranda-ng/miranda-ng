@@ -15,8 +15,6 @@
 Захаваць пароль
 [Create new account]
 Новы конт
-[Tlen]
-
 [Options]
 Налады
 [Automatically reconnect after unintentional disconnection]

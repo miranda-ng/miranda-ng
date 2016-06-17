@@ -158,7 +158,6 @@
 [Confirmed]
 [Not Confirmed]
 [Blocked list]
-[AOL]
 [Foreground Color]
 [Not Bold]
 [Italic]

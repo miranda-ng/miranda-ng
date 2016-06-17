@@ -360,8 +360,6 @@ Bestätigt
 Unbestätigt
 [Blocked list]
 Blockierliste
-[AOL]
-AOL
 [Foreground Color]
 Vordergrundfarbe
 [Background Color]

@@ -28,8 +28,6 @@ Ime:
 
 [Port:]
 Port:
-[SSL]
-
 [APOP]
 
 [User Name:]

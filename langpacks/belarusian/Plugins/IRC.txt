@@ -15,8 +15,6 @@
 Імя сервера
 [Internet address]
 Сеткавы адрас
-[SSL]
-
 [Port range]
 Дыяпазон портаў
 [Password]

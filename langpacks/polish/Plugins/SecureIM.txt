@@ -38,10 +38,6 @@ s
 Wyłączenie klucza po:
 [days]
 dni
-[PGP]
-PGP
-[GPG]
-GPG
 [Reset All]
 Domyślne
 [Protocols]

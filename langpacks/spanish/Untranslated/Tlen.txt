@@ -1,5 +1,4 @@
 ﻿[Tlen protocol support for Miranda NG.]
-[Tlen]
 [Automatically reconnect after unintentional disconnection]
 [Leave status message after disconnection]
 [Ignore advertisements]

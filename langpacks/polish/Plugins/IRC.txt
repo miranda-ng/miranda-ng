@@ -16,8 +16,6 @@ Włącz
 Nazwa serwera
 [Internet address]
 Adres internetowy
-[SSL]
-SSL
 [Port range]
 Zakres portów
 [Password]

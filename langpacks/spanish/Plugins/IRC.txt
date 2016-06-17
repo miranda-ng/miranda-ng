@@ -7,8 +7,6 @@
 ;============================================================
 [Enable]
 Habilitar
-[SSL]
-SSL
 [Password]
 Contraseña
 [&Add]

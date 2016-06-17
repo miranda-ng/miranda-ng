@@ -16,8 +16,6 @@ Passe :
 Enregistrer le mot de passe
 [Create new account]
 Créer un compte
-[Tlen]
-
 [Options]
 Paramètres
 [Automatically reconnect after unintentional disconnection]

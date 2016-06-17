@@ -1,5 +1,4 @@
-﻿[MSN]
-[Live ID:]
+﻿[Live ID:]
 [Hotmail]
 [Live ID]
 [IID_IOleObject failed.]

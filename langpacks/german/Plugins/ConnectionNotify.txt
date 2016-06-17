@@ -30,16 +30,18 @@ Version:
 Benachrichtigungen anzeigen falls kein Filter gesetzt wurde
 [Attempt interval (ms)]
 Versuchintervall (ms.)
-[X]
-X
+[Delete]
+Löschen
 ['Online' means:]
 Online bedeutet
 [Filters]
 Filter
-[DN]
-Ru
-[UP]
-Ho
+[Move down]
+Runter
+[Move up]
+Hoch
+[Add]
+Hinzufügen
 [Rule editor]
 Regeln ändern
 [Application name]

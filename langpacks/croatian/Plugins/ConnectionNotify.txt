@@ -30,15 +30,17 @@ tekst
 
 [Attempt interval (ms)]
 
-[X]
+[Delete]
 
 ['Online' means:]
 
 [Filters]
 
-[DN]
+[Move down]
 
-[UP]
+[Move up]
+
+[Add]
 
 [Rule editor]
 

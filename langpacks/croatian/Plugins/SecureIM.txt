@@ -38,10 +38,6 @@
 
 [days]
 
-[PGP]
-
-[GPG]
-
 [Reset All]
 
 [Protocols]

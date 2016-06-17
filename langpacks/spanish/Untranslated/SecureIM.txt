@@ -12,8 +12,6 @@
 [Mode in Context Menu]
 [Key Exchange Timeout:]
 [Offline Key Timeout:]
-[PGP]
-[GPG]
 [Reset All]
 [Split Messages]
 [Online:]

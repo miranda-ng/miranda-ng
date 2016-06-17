@@ -1,5 +1,4 @@
-﻿[Tlen]
-[Automatically reconnect after unintentional disconnection]
+﻿[Automatically reconnect after unintentional disconnection]
 [Enable avatars]
 [Log alerts as messages]
 [Group chat policy]

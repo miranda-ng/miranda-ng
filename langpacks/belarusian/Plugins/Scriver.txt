@@ -271,8 +271,6 @@ KB
 Вылучыць &усё
 [Word lookup]
 Знайсці слова
-[Bing]
-
 [Yandex]
 Яндэкс
 [Wikipedia (en)]
@@ -280,8 +278,6 @@ KB
 [Google Maps]
 
 [Google Translate]
-
-[Yahoo]
 
 [Foodnetwork]
 

@@ -23,8 +23,6 @@ Nombre:
 Servidor:
 [Port:]
 Puerto:
-[SSL]
-SSL
 [Password:]
 Contraseña:
 [Default]

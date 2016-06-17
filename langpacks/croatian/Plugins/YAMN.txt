@@ -28,8 +28,6 @@
 
 [Port:]
 
-[SSL]
-
 [APOP]
 
 [User Name:]

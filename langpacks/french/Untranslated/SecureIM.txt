@@ -3,8 +3,6 @@
 [Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]
 [Mode in Context Menu]
-[PGP]
-[GPG]
 [Split Messages]
 [Online:]
 [Offline:]

@@ -1,5 +1,4 @@
-﻿[SSL]
-[CTCP]
+﻿[CTCP]
 [DCC]
 [Jerk]
 [NickServ]

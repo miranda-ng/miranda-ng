@@ -38,10 +38,6 @@ Sek.
 Offlineschl.-Timeout:
 [days]
 Tage
-[PGP]
-PGP
-[GPG]
-GPG
 [Reset All]
 Alle rückg.
 [Protocols]

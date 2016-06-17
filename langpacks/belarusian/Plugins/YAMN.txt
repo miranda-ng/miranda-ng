@@ -27,8 +27,6 @@
 Сервер:
 [Port:]
 Порт:
-[SSL]
-
 [APOP]
 
 [User Name:]

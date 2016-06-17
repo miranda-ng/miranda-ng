@@ -24,8 +24,6 @@ Nazwa:
 Hasło:
 [Default group:]
 Domyślna grupa:
-[Tox]
-Tox
 [Create Tox profile]
 Stwórz profil Tox
 [Import Tox profile]
@@ -161,6 +159,8 @@ Zmień gniazdo
 Wprowadź IPV4
 [Error]
 Błąd
+[Enter port]
+
 [Enter public key]
 Wprowadź klucz publiczny
 [Common nodes]

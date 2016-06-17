@@ -35,12 +35,12 @@
 "В сети" значит:
 [Filters]
 Фильтры
-[Add]
-Добавить
 [Move down]
 Вниз
 [Move up]
 Вверх
+[Add]
+Добавить
 [Rule editor]
 Редактор правил
 [Application name]

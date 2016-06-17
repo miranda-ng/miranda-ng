@@ -3,7 +3,6 @@
 [Password:]
 [Save password]
 [Create new account]
-[Tlen]
 [Automatically reconnect after unintentional disconnection]
 [Leave status message after disconnection]
 [Ignore advertisements]

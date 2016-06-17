@@ -24,8 +24,6 @@ Name:
 Passwort:
 [Default group:]
 Standardgruppe:
-[Tox]
-Tox
 [Create Tox profile]
 Tox-Profil erstellen
 [Import Tox profile]
@@ -161,6 +159,8 @@ Knoten ändern
 IPv4 eingeben
 [Error]
 Fehler
+[Enter port]
+
 [Enter public key]
 Öffentlichen Schlüssel eingeben
 [Common nodes]

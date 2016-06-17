@@ -8,8 +8,6 @@
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG.
 ;file \protocols\MSN\res\msn.rc
-[MSN]
-MSN
 [Live ID:]
 Live-ID:
 [Password:]

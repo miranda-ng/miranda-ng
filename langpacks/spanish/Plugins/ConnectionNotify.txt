@@ -13,8 +13,10 @@ Texto
 Ajustes
 [Version:]
 Versión
-[X]
-X
+[Delete]
+Eliminar
+[Add]
+Añadir
 [Cancel]
 Cancelar
 [Show]

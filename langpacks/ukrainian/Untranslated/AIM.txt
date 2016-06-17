@@ -50,5 +50,4 @@
 [Your account has already been confirmed.]
 [Can't start the confirmation procedure.]
 [Hiptop]
-[AOL]
 [Join me in this buddy chat!]

@@ -23,8 +23,6 @@ Copyright:
 Сървър:
 [Port:]
 Порт:
-[SSL]
-SSL
 [APOP]
 APOP
 [User Name:]

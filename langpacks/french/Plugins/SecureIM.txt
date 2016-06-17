@@ -38,10 +38,6 @@ secondes
 Clef hors-ligne expirée :
 [days]
 jours
-[PGP]
-
-[GPG]
-
 [Reset All]
 Tout réinitialiser
 [Protocols]

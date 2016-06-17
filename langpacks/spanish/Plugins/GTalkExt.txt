@@ -55,10 +55,6 @@ Ventanas emergentes
 Red
 [Why C sucks]
 ¿Por qué C es una mierda?
-[brickstrace@gmail.com [1]]
-brickstrace@gmail.com [1]
-[    bems\n]
-    bems\n
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 * Sistema de tipos primitivos\n* Sin sobrecargado\n* Posibilidad limitada de abstracción de datos, polimorfismo, subtipos y reutilización de código\n* Sin metaprogramación excepto macros del preprocesador\n* No hay excepciones
 [GMail notifications]

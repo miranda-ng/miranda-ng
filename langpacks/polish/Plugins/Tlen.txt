@@ -16,8 +16,6 @@ Hasło:
 Zapisz hasło
 [Create new account]
 Utwórz nowe konto
-[Tlen]
-Tlen
 [Options]
 Opcje
 [Automatically reconnect after unintentional disconnection]

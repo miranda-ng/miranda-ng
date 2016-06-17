@@ -16,8 +16,6 @@ Korisničko ime:
 
 [Create new account]
 Otvaranje naloga
-[Tlen]
-
 [Options]
 Podešavanja
 [Automatically reconnect after unintentional disconnection]

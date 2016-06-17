@@ -28,8 +28,6 @@ Nom :
 Serveur :
 [Port:]
 Port :
-[SSL]
-SSL
 [APOP]
 
 [User Name:]

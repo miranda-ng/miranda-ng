@@ -30,16 +30,18 @@ Paramètres
 
 [Attempt interval (ms)]
 
-[X]
-
+[Delete]
+Effacer
 ['Online' means:]
 
 [Filters]
 
-[DN]
+[Move down]
 
-[UP]
-Haut
+[Move up]
+
+[Add]
+Ajouter
 [Rule editor]
 
 [Application name]

@@ -30,16 +30,18 @@ Wersja:
 Wyświetl powiadomienie, jeśli nie ma filtrów
 [Attempt interval (ms)]
 Interwał próby (ms.)
-[X]
-X
+[Delete]
+Usuń
 ['Online' means:]
 "Dostępny", czyli:
 [Filters]
 Filtry
-[DN]
-DN
-[UP]
-UP
+[Move down]
+Przesuń w dół
+[Move up]
+Przesuń w górę
+[Add]
+Dodaj
 [Rule editor]
 Edytor reguł
 [Application name]

@@ -272,8 +272,6 @@ Ko&piranje svega
 &Izaberi sve
 [Word lookup]
 Pronađi reč
-[Bing]
-
 [Yandex]
 
 [Wikipedia (en)]
@@ -281,8 +279,6 @@ Pronađi reč
 [Google Maps]
 
 [Google Translate]
-
-[Yahoo]
 
 [Foodnetwork]
 

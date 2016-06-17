@@ -16,8 +16,6 @@
 
 [Create new account]
 
-[Tlen]
-
 [Options]
 opcije
 [Automatically reconnect after unintentional disconnection]

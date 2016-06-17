@@ -360,8 +360,6 @@ Detalji o &Korisniku
 
 [Blocked list]
 
-[AOL]
-
 [Foreground Color]
 
 [Background Color]

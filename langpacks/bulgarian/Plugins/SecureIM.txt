@@ -9,10 +9,6 @@
 сек
 [days]
 дни
-[PGP]
-PGP
-[GPG]
-GPG
 [Protocols]
 Протоколи
 [Private]

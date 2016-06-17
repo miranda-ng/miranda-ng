@@ -23,8 +23,6 @@ Tox ID:
 Парола:
 [Default group:]
 Станд. група:
-[Tox]
-Tox
 [Create Tox profile]
 Създаване на профил
 [Import Tox profile]

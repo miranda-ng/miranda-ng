@@ -8,8 +8,6 @@
 [Yahoo protocol support for Miranda NG.]
 
 ;file \protocols\Yahoo\res\Yahoo.rc
-[Yahoo]
-
 [ID:]
 
 [Password:]

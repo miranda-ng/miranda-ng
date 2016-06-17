@@ -16,8 +16,6 @@ Activer
 Nom du Serveur
 [Internet address]
 Adresse Internet
-[SSL]
-SSL
 [Port range]
 Ports
 [Password]
