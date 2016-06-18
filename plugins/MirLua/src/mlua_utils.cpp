@@ -237,19 +237,23 @@ int luaM_interpolate(lua_State *L)
 	}
 
 	lua_Debug ar;
-	lua_getstack(L, 1, &ar);
-	const char *name = lua_getlocal(L, &ar, 1);
 
-	size_t i = 1;
-	while (const char *key = lua_getlocal(L, &ar, i++))
+	size_t level = 1;
+
+	while (lua_getstack(L, level++, &ar))
 	{
-		const char *val = lua_tostring(L, -1);
-
-		mir_snprintf(pattern, "${%s}", name);
-		string = luaL_gsub(L, string, pattern, val);
-		lua_pop(L, 1);
+		size_t i = 1;
+		while (const char *name = lua_getlocal(L, &ar, i++))
+		{
+			const char *val = lua_tostring(L, -1);
+			if (val)
+			{
+				mir_snprintf(pattern, "${%s}", name);
+				string = luaL_gsub(L, string, pattern, val);
+				lua_pop(L, 1);
+			}
+		}
 	}
-
 	lua_pushstring(L, string);
 
 	return 1;
