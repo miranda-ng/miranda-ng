@@ -49,6 +49,8 @@
 Задана користувачем версія
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Оновлено деякі компоненти.\nОновлення будуть застосовані після перезапуску програми.
+[Change platform to x86]
+Перейти на x86
 [Notifications]
 Сповіщення
 [Restart]
@@ -163,6 +165,8 @@
 годин
 [days]
 днів
+[Change platform to x64]
+Перейти на x64
 [Test]
 Тест
 [Services]

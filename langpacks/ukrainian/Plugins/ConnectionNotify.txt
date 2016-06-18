@@ -35,6 +35,10 @@
 "В мережі" означає:
 [Filters]
 Фільтри
+[Move down]
+Нижче
+[Move up]
+Вище
 [Add]
 Додати
 [Rule editor]

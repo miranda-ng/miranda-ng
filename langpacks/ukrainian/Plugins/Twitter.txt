@@ -103,5 +103,9 @@ Twitter (аватари)
 Відповісти на твіт
 [Visit Homepage]
 Сайт
+[First tweet from new contact]
+Перший твіт від нового контакту
+[New tweet]
+Новий твіт
 [Reply...]
 Відповідь...

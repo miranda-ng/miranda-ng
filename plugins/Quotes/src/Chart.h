@@ -90,7 +90,7 @@ public:
 			HFONT hFont = static_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT));
 			HFONT hOldFont = static_cast<HFONT>(::SelectObject(hdc, hFont));
 
-			LPCTSTR pszText = TranslateT("There is no to show");
+			LPCTSTR pszText = TranslateT("There is nothing to show");
 			int nDrawTextResult = ::DrawText(hdc, pszText, -1, &rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 			assert(0 != nDrawTextResult);
 

@@ -147,6 +147,8 @@ IPv6 адреса (необов'язково)
 Введіть IPv4
 [Error]
 Помилка
+[Enter port]
+Вкажіть порт
 [Enter public key]
 Введіть відкритий ключ
 [Common nodes]
