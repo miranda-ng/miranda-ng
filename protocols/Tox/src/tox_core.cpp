@@ -91,13 +91,31 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 	ToxHexAddress address(data);
 	setString(TOX_SETTINGS_ID, address);
 
-	uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
-	tox_self_get_name(toxThread->Tox(), nick);
-	setTString("Nick", ptrT(Utf8DecodeT((char*)nick)));
+	TOX_ERR_SET_INFO error;
 
-	uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
+	/*uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
+	tox_self_get_name(toxThread->Tox(), nick);
+	setTString("Nick", ptrT(Utf8DecodeT((char*)nick)));*/
+
+	ptrA nick(mir_utf8encodeT(ptrT(getTStringA("Nick"))));
+	tox_self_set_name(toxThread->Tox(), (uint8_t*)(char*)nick, mir_strlen(nick), &error);
+	if (error != TOX_ERR_SET_INFO_OK)
+	{
+		debugLogA(__FUNCTION__": failed to set self name (%d)", error);
+		return NULL;
+	}
+
+	/*uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 	tox_self_get_status_message(toxThread->Tox(), statusMessage);
-	setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));
+	setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));*/
+
+	ptrA statusMessage(mir_utf8encodeT(ptrT(getTStringA("StatusMsg"))));
+	tox_self_set_status_message(toxThread->Tox(), (uint8_t*)(char*)statusMessage, mir_strlen(statusMessage), &error);
+	if (error != TOX_ERR_SET_INFO_OK)
+	{
+		debugLogA(__FUNCTION__": failed to set self status message (%d)", error);
+		return NULL;
+	}
 
 	return true;
 }

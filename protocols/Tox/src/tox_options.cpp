@@ -127,7 +127,37 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
 		CopyFile(profilePath, defaultProfilePath, FALSE);
 
-	m_profileCreate.OnClick(&m_profileCreate);
+	Tox_Options *options = NULL;
+	tox_options_default(options);
+	if (m_proto->LoadToxProfile(options))
+	{
+		CToxThread toxThread(options);
+
+		uint8_t data[TOX_ADDRESS_SIZE];
+		tox_self_get_address(toxThread.Tox(), data);
+		ToxHexAddress address(data);
+		m_proto->setString(TOX_SETTINGS_ID, address);
+		
+		m_toxAddress.Enable();
+		m_toxAddress.SetTextA(address);
+
+		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
+		tox_self_get_name(toxThread.Tox(), nick);
+		ptrT nickname(Utf8DecodeT((char*)nick));
+		m_proto->setTString("Nick", nickname);
+		m_nickname.SetText(nickname);
+
+		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
+		tox_self_get_status_message(toxThread.Tox(), statusMessage);
+		m_proto->setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));
+
+		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
+		ShowWindow(m_profileImport.GetHwnd(), FALSE);
+
+		ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
+		ShowWindow(m_profileExport.GetHwnd(), TRUE);
+	}
+	tox_options_free(options);
 }
 
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
