@@ -361,7 +361,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	TCHAR *szFilename = (TCHAR*)param;
 	int file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
-		debugLog(_T("setavatarthread(): Failed to open avatar file errno=%d: %s)", errno, ws_strerror(errno));
+		debugLog(_T("setavatarthread(): Failed to open avatar file errno=%d: %s"), errno, ws_strerror(errno));
 		TCHAR error[512];
 		mir_sntprintf(error, TranslateT("Cannot open avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), szFilename);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
