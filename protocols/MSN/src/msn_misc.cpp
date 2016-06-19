@@ -685,35 +685,28 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 {
 	if (this == NULL) return 0;
 
-	size_t strsize = 512;
-	char* str = (char*)mir_alloc(strsize);
-
+	CMStringA str;
 	int thisTrid = 0;
 
 	if (fmt == NULL)
-		strncpy_s(str, strsize, cmd, _TRUNCATE);
+		str = cmd;
 	else {
 		thisTrid = InterlockedIncrement(&mTrid);
 		if (fmt[0] == '\0')
-			mir_snprintf(str, strsize, "%s %d", cmd, thisTrid);
+			str.AppendFormat("%s %d", cmd, thisTrid);
 		else {
 			va_list vararg;
 			va_start(vararg, fmt);
-
-			int paramStart = mir_snprintf(str, strsize, "%s %d ", cmd, thisTrid);
-			while (mir_vsnprintf(str + paramStart, strsize - paramStart - 3, fmt, vararg) == -1)
-				str = (char*)mir_realloc(str, strsize += 512);
-
-			str[strsize - 3] = 0;
+			str.AppendFormat("%s %d ", cmd, thisTrid);
+			str.AppendFormatV(fmt, vararg);
 			va_end(vararg);
 		}
 	}
 
 	if (strchr(str, '\r') == NULL)
-		mir_strcat(str, "\r\n");
+		str += "\r\n";
 
-	int result = send(str, mir_strlen(str));
-	mir_free(str);
+	int result = send(str, str.GetLength());
 	return (result > 0) ? thisTrid : -1;
 }
 
