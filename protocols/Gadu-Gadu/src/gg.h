@@ -311,6 +311,7 @@ unsigned long crc_get(char *mem);
 int gg_normalizestatus(int status);
 char *gg_status2db(int status, const char *suffix);
 TCHAR *ws_strerror(int code);
+char *as_strerror(int code);
 uint32_t swap32(uint32_t x);
 const char *gg_version2string(int v);
 

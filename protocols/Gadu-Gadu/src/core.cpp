@@ -423,10 +423,10 @@ retry:
 				}
 			}
 			if (!perror) {
-				mir_sntprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"),errno, strerror(errno));
+				mir_sntprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"), errno, ws_strerror(errno));
 				perror = error;
 			}
-			debugLogA("mainthread() (%x): %s", this, perror);
+			debugLog(_T("mainthread() (%x): %s"), this, perror);
 			if (getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS))
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 

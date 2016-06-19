@@ -75,6 +75,26 @@ TCHAR* ws_strerror(int code)
    return _tcserror(code);
 }
 
+char* as_strerror(int code)
+{
+   static char err_desc[160];
+
+   // Not a windows error display WinSock
+   if (code == 0)
+   {
+      char buff[128];
+      int len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
+      if (len == 0)
+         mir_snprintf(err_desc, "WinSock %u: Unknown error.", WSAGetLastError());
+      else
+         mir_snprintf(err_desc, "WinSock %d: %s", WSAGetLastError(), buff);
+      return err_desc;
+   }
+
+   // Return normal error
+   return strerror(code);
+}
+
 //////////////////////////////////////////////////////////
 // Build the crc table
 void crc_gentable(void)

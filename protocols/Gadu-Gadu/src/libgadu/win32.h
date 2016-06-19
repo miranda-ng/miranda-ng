@@ -59,10 +59,11 @@
 #define WNOHANG     WHOHANG
 #define SHUT_RDWR 2
 
-/* Defined in gg.c custom error reporting function */
+/* Defined in gg.c custom error reporting function, override only at \libgadu\ dir */
+#define GG_CONFIG_MIRANDA
 #ifdef GG_CONFIG_MIRANDA
-char *ws_strerror(int code);
-#define strerror(x) ws_strerror(x)
+char *as_strerror(int code);
+#define strerror(x) as_strerror(x)
 #endif
 
 #define fork()			(-1)

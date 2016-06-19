@@ -278,9 +278,9 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 	{
 		TCHAR error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), _tcserror(errno), errno);
+		mir_sntprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogA("import_server(): Cannot import list. errno:%d: %s", errno, strerror(errno));
+		debugLog(_T("import_server(): Cannot import list. errno:%d: %s"), errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
 
@@ -316,9 +316,9 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 	{
 		TCHAR error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), _tcserror(errno), errno);
+		mir_sntprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogA("remove_server(): Cannot remove list. errno=%d: %s", errno, strerror(errno));
+		debugLog(_T("remove_server(): Cannot remove list. errno=%d: %s"), errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 2, "sess_mutex", 1);
 
@@ -392,7 +392,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		TCHAR error[256];
 		mir_sntprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("import_text(): Cannot import list from file \"%s\". errno=%d: %s"), str, errno, strerror(errno));
+		debugLog(_T("import_text(): Cannot import list from file \"%s\". errno=%d: %s"), str, errno, _tcserror(errno));
 		if (f)
 			fclose(f);
 		return 0;
@@ -454,7 +454,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 		TCHAR error[128];
 		mir_sntprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogA("export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, strerror(errno));
+		debugLog(_T("export_text(): Cannot export list to file \"%s\". errno=%d: %s"), str, errno, _tcserror(errno));
 	}
 
 	return 0;
@@ -496,9 +496,9 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 	{
 		TCHAR error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), _tcserror(errno), errno);
+		mir_sntprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogA("export_server(): Cannot export list. errno=%d: %s", errno, strerror(errno));
+		debugLog(_T("export_server(): Cannot export list. errno=%d: %s"), errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 2, "sess_mutex", 1);
 
