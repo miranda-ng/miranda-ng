@@ -712,33 +712,30 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 
 int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char* fmt, ...)
 {
-	int thisTrid = 0;
-	bool bTopHdr;
-
 	if (this == NULL) return 0;
-
-	size_t strsize = 512;
-	char* str = (char*)mir_alloc(strsize);
 
 	va_list vararg;
 	va_start(vararg, fmt);
 
-	thisTrid = InterlockedIncrement(&mTrid);
-	int regSz = proto->msnRegistration ? (int)mir_strlen(proto->msnRegistration)+16 : 0;
-	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strSz;
-	if (bTopHdr=*fmt=='\b') fmt++;
-	while ((strSz = mir_vsnprintf(str + paramStart, strsize - paramStart - regSz - 10, fmt, vararg)) == -1)
-		str = (char*)mir_realloc(str, strsize += 512);
-	if (strSz && !bTopHdr) strSz+=2;
-	paramStart+=mir_snprintf(str+paramStart, strsize - paramStart , "%d\r\n", strSz+regSz);
-	if (proto->msnRegistration) paramStart+=mir_snprintf(str+paramStart, strsize - paramStart, "Registration: %s\r\n", proto->msnRegistration);
-	if (strSz && !bTopHdr) paramStart+=mir_snprintf(str+paramStart, strsize - paramStart, "\r\n");
-	mir_vsnprintf(str + paramStart, strsize - paramStart, fmt, vararg);
-	str[strsize - 3] = 0;
+	bool bTopHdr = fmt[0] == '\b';
+	int thisTrid = InterlockedIncrement(&mTrid);
+
+	CMStringA str, payLoad;
+	if (bTopHdr)
+		fmt++;
+
+	if (proto->msnRegistration)
+		payLoad.AppendFormat("Registration: %s\r\n", proto->msnRegistration);
+	if (!bTopHdr)
+		payLoad.Append("\r\n");
+	payLoad.AppendFormatV(fmt, vararg);
 	va_end(vararg);
 
-	int result = send(str, mir_strlen(str));
-	mir_free(str);
+	str.AppendFormat("%s %d %s ", cmd, thisTrid, param);
+	str.AppendFormat("%d\r\n", payLoad.GetLength());
+	str += payLoad;
+
+	int result = send(str, str.GetLength());
 	return (result > 0) ? thisTrid : -1;
 }
 
