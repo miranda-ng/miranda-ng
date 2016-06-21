@@ -1649,7 +1649,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 		}
 
 	// play a sound
-	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
+	if (!bDisableNotify && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
 		PostMessage(hwndDlg, DM_PLAYINCOMINGSOUND, 0, 0);
 
 	if (dat->pWnd)
