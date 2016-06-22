@@ -1501,7 +1501,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		return;
 
 	LPCTSTR from = XmlGetAttrValue(node, _T("from"));
-	if (from == NULL) return;
+	if (from == NULL)
+		return;
 
 	if (m_presenceManager.HandlePresencePermanent(node, info))
 		return;

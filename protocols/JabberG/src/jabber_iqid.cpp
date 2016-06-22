@@ -402,7 +402,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		MCONTACT hContact = HContactFromJID(jid);
 		if (hContact == NULL) // Received roster has a new JID.
-			hContact = DBCreateContact(jid, nick, false, true); // Add the jid (with empty resource) to Miranda contact list.
+			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to Miranda contact list.
 
 		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 		item->subscription = sub;

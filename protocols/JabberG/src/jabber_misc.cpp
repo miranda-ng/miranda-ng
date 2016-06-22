@@ -90,15 +90,12 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;
 
-	TCHAR *s = NEWTSTR_ALLOCA(jid);
-	TCHAR *q = NULL;
 	// strip resource if present
-	if (TCHAR *p = _tcschr(s, '@'))
-		if ((q = _tcschr(p, '/')) != NULL)
-			*q = '\0';
-
-	if (!stripResource && q != NULL)	// so that resource is not stripped
-		*q = '/';
+	TCHAR *s = NEWTSTR_ALLOCA(jid), *pResource = NULL;
+	if (stripResource)
+		if (TCHAR *p = _tcschr(s, '@'))
+			if (pResource = _tcschr(p, '/'))
+				*pResource = '\0';
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
 	size_t len = mir_tstrlen(s);
@@ -123,7 +120,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 		SendGetVcard(s);
 	
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
-		pItem->bUseResource = !stripResource;
+		pItem->bUseResource = pResource != NULL;
 	
 	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), s, nick);
 	DBCheckIsTransportedContact(s, hNewContact);
