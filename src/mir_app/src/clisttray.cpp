@@ -593,7 +593,7 @@ int fnTrayIconPauseAutoHide(WPARAM, LPARAM)
 // processes tray icon's messages
 
 static BYTE s_LastHoverIconID = 0;
-static BOOL g_trayTooltipActive = FALSE;
+static bool g_trayTooltipActive = false;
 static POINT tray_hover_pos = { 0 };
 
 static void CALLBACK TrayHideToolTipTimerProc(HWND hwnd, UINT, UINT_PTR, DWORD)
@@ -603,7 +603,7 @@ static void CALLBACK TrayHideToolTipTimerProc(HWND hwnd, UINT, UINT_PTR, DWORD)
 		GetCursorPos(&pt);
 		if (abs(pt.x - tray_hover_pos.x) > TOOLTIP_TOLERANCE || abs(pt.y - tray_hover_pos.y) > TOOLTIP_TOLERANCE) {
 			CallService("mToolTip/HideTip", 0, 0);
-			g_trayTooltipActive = FALSE;
+			g_trayTooltipActive = false;
 			KillTimer(hwnd, TIMERID_TRAYHOVER_2);
 		}
 	}
@@ -633,7 +633,7 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 
 			GetCursorPos(&tray_hover_pos);
 			SetTimer(cli.hwndContactList, TIMERID_TRAYHOVER_2, 600, TrayHideToolTipTimerProc);
-			g_trayTooltipActive = TRUE;
+			g_trayTooltipActive = true;
 		}
 	}
 
@@ -671,7 +671,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	case TIM_CALLBACK:
 		if (msg->lParam == WM_RBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN && g_trayTooltipActive) {
 			CallService("mToolTip/HideTip", 0, 0);
-			g_trayTooltipActive = FALSE;
+			g_trayTooltipActive = false;
 		}
 
 		if (msg->lParam == WM_MBUTTONUP)
@@ -731,7 +731,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				GetCursorPos(&pt);
 				if (abs(pt.x - tray_hover_pos.x) > TOOLTIP_TOLERANCE || abs(pt.y - tray_hover_pos.y) > TOOLTIP_TOLERANCE) {
 					CallService("mToolTip/HideTip", 0, 0);
-					g_trayTooltipActive = FALSE;
+					g_trayTooltipActive = false;
 					ReleaseCapture();
 				}
 			}
