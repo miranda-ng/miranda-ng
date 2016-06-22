@@ -25,12 +25,13 @@
 // WhatsApp
 #define WHATSAPP_TOKEN "PdA2DJyKoUrwLw1Bg6EIhzh502dF9noR9uFCllGk1447796090073"
 #define WHATSAPP_LOGIN_SERVER "c.whatsapp.net"
+#define ACCOUNT_USER_AGENT "WhatsApp/2.13.21 S40Version/14.26 Device/Nokia302"
 #define ACCOUNT_URL_CODEREQUESTV2 "https://v.whatsapp.net/v2/code"
 #define ACCOUNT_URL_REGISTERREQUESTV2 "https://v.whatsapp.net/v2/register"
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
-#define ACCOUNT_USER_AGENT "WhatsApp/2.12.556 Android/4.3 Device/Xiaomi-HM_1SW"
-#define ACCOUNT_RESOURCE  "Android"
+// WhatsApp Samsung Galaxy S3
+#define ACCOUNT_RESOURCE  "S40"
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2
