@@ -254,7 +254,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			if (nick != NULL) {
 				MCONTACT hContact = HContactFromJID(jid, false);
 				if (hContact == NULL)
-					hContact = DBCreateContact(jid, nick, false, false);
+					hContact = DBCreateContact(jid, nick, false, true);
 				else
 					setTString(hContact, "jid", jid);
 

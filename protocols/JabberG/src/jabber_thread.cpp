@@ -1512,14 +1512,14 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 	}
 
 	MCONTACT hContact;
-	BOOL bSelfPresence = FALSE;
+	bool bSelfPresence = false;
 	TCHAR szBareFrom[JABBER_MAX_JID_LEN];
 	JabberStripJid(from, szBareFrom, _countof(szBareFrom));
 	TCHAR szBareOurJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(info->fullJID, szBareOurJid, _countof(szBareOurJid));
 
 	if (!mir_tstrcmpi(szBareFrom, szBareOurJid))
-		bSelfPresence = TRUE;
+		bSelfPresence = true;
 
 	LPCTSTR type = XmlGetAttrValue(node, _T("type"));
 	if (type == NULL || !mir_tstrcmp(type, _T("available"))) {
