@@ -95,7 +95,7 @@ bool CMLuaScript::Load()
 {
 	status = Failed;
 
-	if (luaL_loadfile(L, T2Utf(filePath)))
+	if (luaL_loadfile(L, _T2A(filePath)))
 	{
 		Log(lua_tostring(L, -1));
 		return false;
