@@ -67,7 +67,7 @@
 [&Watched Quotes:]
 [Status &Message:]
 ;file \plugins\Quotes\src\Chart.h
-[There is no to show]
+[There is nothing to show]
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 [Minutes]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.28
+;  Version: 0.1.2.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -291,6 +291,10 @@ Cоздать комнату чата
 Запись на стене
 [Link]
 Ссылка
+[Product]
+Товар
+[Price]
+Цена
 [Gift]
 Подарок
 [Unsupported or unknown attachment type: %s]

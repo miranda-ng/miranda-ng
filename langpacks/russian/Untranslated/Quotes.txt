@@ -1,6 +1,6 @@
 ﻿[Get data from:]
 [Do not add to popup's history]
-[There is no to show]
+[There is nothing to show]
 [Enter text to display in contact list.]
 [Error occurred during html parsing.]
 [Enter integer value]
