@@ -225,7 +225,7 @@ static int core_DestroyServiceFunction(lua_State *L)
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hService = lua_touserdata(L, 1);
 
-	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(hService);
+	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(&hService);
 	if (param != NULL)
 	{
 		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
