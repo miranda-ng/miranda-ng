@@ -89,8 +89,8 @@ void CMLua::Unload()
 	KillModuleMenus(hMLuaLangpack);
 	KillModuleHotkeys(hMLuaLangpack);
 
-	KillObjectEventHooks(L);
-	KillObjectServices(L);
+	KillObjectEventHooks(this);
+	KillObjectServices(this);
 
 	lua_close(L);
 }

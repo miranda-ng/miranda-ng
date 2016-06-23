@@ -18,7 +18,7 @@ static int core_CreateHookableEvent(lua_State *L)
 
 int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	lua_State *L = (lua_State*)obj;
+	lua_State *L = lua_newthread((lua_State*)obj);
 
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
@@ -46,9 +46,7 @@ static int core_HookEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	lua_State *T = lua_newthread(L);
-
-	HANDLE hEvent = HookEventObjParam(name, HookEventObjParam, T, ref);
+	HANDLE hEvent = HookEventObjParam(name, HookEventObjParam, g_mLua, ref);
 	if (hEvent == NULL)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
@@ -56,9 +54,6 @@ static int core_HookEvent(lua_State *L)
 
 		return 1;
 	}
-
-	lua_rawsetp(L, LUA_REGISTRYINDEX, hEvent);
-	lua_pushlightuserdata(L, hEvent);
 
 	return 1;
 }
@@ -69,11 +64,6 @@ static int core_UnhookEvent(lua_State *L)
 	HANDLE hEvent = lua_touserdata(L, 1);
 
 	int res = UnhookEvent(hEvent);
-	if (!res)
-	{
-		lua_pushnil(L);
-		lua_rawsetp(L, LUA_REGISTRYINDEX, hEvent);
-	}
 	lua_pushboolean(L, !res);
 
 	return 1;
@@ -107,7 +97,7 @@ static int core_DestroyHookableEvent(lua_State *L)
 
 INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	lua_State *L = (lua_State*)obj;
+	lua_State *L = lua_newthread((lua_State*)obj);
 
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
@@ -130,18 +120,13 @@ static int core_CreateServiceFunction(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	lua_State *T = lua_newthread(L);
-
-	HANDLE hService = CreateServiceFunctionObjParam(name, CreateServiceFunctionObjParam, T, ref);
+	HANDLE hService = CreateServiceFunctionObjParam(name, CreateServiceFunctionObjParam, g_mLua, ref);
 	if (!hService)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
 		return 1;
 	}
-
-	lua_rawsetp(L, LUA_REGISTRYINDEX, hService);
-	lua_pushlightuserdata(L, hService);
 
 	return 1;
 }
@@ -174,9 +159,6 @@ static int core_DestroyServiceFunction(lua_State *L)
 	HANDLE hService = lua_touserdata(L, 1);
 
 	DestroyServiceFunction(hService);
-
-	lua_pushnil(L);
-	lua_rawsetp(L, LUA_REGISTRYINDEX, hService);
 
 	return 0;
 }
