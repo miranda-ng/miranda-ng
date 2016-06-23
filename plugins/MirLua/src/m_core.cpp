@@ -97,7 +97,7 @@ static int core_UnhookEvent(lua_State *L)
 	int res = UnhookEvent(hEvent);
 	if (!res)
 	{
-		HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(hEvent);
+		HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(&hEvent);
 		if (param != NULL)
 		{
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
