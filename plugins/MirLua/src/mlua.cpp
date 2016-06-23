@@ -2,9 +2,6 @@
 
 int hMLuaLangpack;
 
-LIST<void> CMLua::HookRefs(1, HandleKeySortT);
-LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
-
 static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 {
 	return mir_strcmpi(p1->GetModuleName(), p2->GetModuleName());
@@ -83,7 +80,7 @@ void CMLua::Unload()
 	{
 		CMLuaScript *script = g_mLua->Scripts[last - 1];
 		Scripts.remove(script);
-		script->Unload();
+		script->Unload(L);
 		delete script;
 	}
 
@@ -96,29 +93,4 @@ void CMLua::Unload()
 	KillObjectServices(L);
 
 	lua_close(L);
-}
-
-void CMLua::KillLuaRefs()
-{
-	while (HookRefs.getCount())
-	{
-		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
-		if (param != NULL)
-		{
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			HookRefs.remove(0);
-			delete param;
-		}
-	}
-
-	while (ServiceRefs.getCount())
-	{
-		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
-		if (param != NULL)
-		{
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			ServiceRefs.remove(0);
-			delete param;
-		}
-	}
 }

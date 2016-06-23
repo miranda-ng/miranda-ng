@@ -131,8 +131,8 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 
 	case 2:
 		//m_scripts.DeleteItem(evt->nmlvia->iItem);
-		script->Unload();
-		script->Load();
+		script->Unload((lua_State*)g_mLua);
+		script->Load((lua_State*)g_mLua);
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
 		lvi.iImage = script->GetStatus() - 1;

@@ -2,8 +2,8 @@
 
 #define SCRIPT "Script"
 
-CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
-	: L(L), status(None), unloadRef(LUA_NOREF)
+CMLuaScript::CMLuaScript(const TCHAR *path)
+	: status(None), unloadRef(LUA_NOREF)
 {
 	mir_tstrcpy(filePath, path);
 
@@ -91,7 +91,7 @@ const CMLuaScript::Status CMLuaScript::GetStatus() const
 	return status;
 }
 
-bool CMLuaScript::Load()
+bool CMLuaScript::Load(lua_State *L)
 {
 	status = Failed;
 
@@ -154,7 +154,7 @@ bool CMLuaScript::Load()
 	return true;
 }
 
-void CMLuaScript::Unload()
+void CMLuaScript::Unload(lua_State *L)
 {
 	if (status == Loaded)
 	{
