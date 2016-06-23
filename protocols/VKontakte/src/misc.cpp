@@ -971,7 +971,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszTitle(jnVideo["title"].as_mstring());
 			int vid = jnVideo["id"].as_int();
 			int ownerID = jnVideo["owner_id"].as_int();
-			CMString tszUrl(FORMAT, _T("http://vk.com/video%d_%d"), ownerID, vid);
+			CMString tszUrl(FORMAT, _T("https://vk.com/video%d_%d"), ownerID, vid);
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
@@ -995,7 +995,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszText(jnWall["text"].as_mstring());
 			int id = jnWall["id"].as_int();
 			int fromID = jnWall["from_id"].as_int();
-			CMString tszUrl(FORMAT, _T("http://vk.com/wall%d_%d"), fromID, id);
+			CMString tszUrl(FORMAT, _T("https://vk.com/wall%d_%d"), fromID, id);
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl),
 				tszText.IsEmpty() ? _T(" ") : tszText);
@@ -1007,7 +1007,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				CMString tszCHText(jnCopyHystoryItem["text"].as_mstring());
 				int iCHid = jnCopyHystoryItem["id"].as_int();
 				int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
-				CMString tszCHUrl(FORMAT, _T("http://vk.com/wall%d_%d"), iCHfromID, iCHid);
+				CMString tszCHUrl(FORMAT, _T("https://vk.com/wall%d_%d"), iCHfromID, iCHid);
 				tszCHText.Replace(_T("\n"), _T("\n\t\t"));
 				res.AppendFormat(_T("\n\t\t%s: %s"),
 					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszCHUrl),
@@ -1069,11 +1069,42 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
 			
-			if (!tszDescription.IsEmpty())
+			if (!tszCaption.IsEmpty())
 				res.AppendFormat(_T("\n\t%s"), SetBBCString(tszCaption, iBBC, vkbbcI));
 			
-			if (jnLink["photo"])		
+			if (jnLink["photo"])
 				res.AppendFormat(_T("\n\t%s"), GetVkPhotoItem(jnLink["photo"], iBBC));
+
+			if (!tszDescription.IsEmpty())
+				res.AppendFormat(_T("\n\t%s"), tszDescription);
+		}
+		else if (tszType == _T("market")) {
+			const JSONNode &jnMarket = jnAttach["market"];
+
+			int id = jnMarket["id"].as_int();
+			int ownerID = jnMarket["owner_id"].as_int();
+			CMString tszTitle(jnMarket["title"].as_mstring());
+			CMString tszDescription(jnMarket["description"].as_mstring());
+			CMString tszPhoto(jnMarket["thumb_photo"].as_mstring());
+			CMString tszUrl(FORMAT, _T("https://vk.com/%s%d?w=product%d_%d"),
+				ownerID > 0 ? _T("id") : _T("club"),
+				ownerID > 0 ? ownerID : (-1)*ownerID,
+				ownerID,
+				id);
+
+			res.AppendFormat(_T("%s: %s"),
+				SetBBCString(TranslateT("Product"), iBBC, vkbbcB),
+				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
+
+			if (!tszPhoto.IsEmpty())
+				res.AppendFormat(_T("\n\t%s: %s"), 
+					SetBBCString(TranslateT("Photo"), iBBC, vkbbcB), 
+					SetBBCString(tszPhoto, iBBC, vkbbcImg));			
+			
+			if (jnMarket["price"] && jnMarket["price"]["text"])
+				res.AppendFormat(_T("\n\t%s: %s"), 
+					SetBBCString(TranslateT("Price"), iBBC, vkbbcB), 
+					jnMarket["price"]["text"].as_mstring());
 
 			if (!tszDescription.IsEmpty())
 				res.AppendFormat(_T("\n\t%s"), tszDescription);
