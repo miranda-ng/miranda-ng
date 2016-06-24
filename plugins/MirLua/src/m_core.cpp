@@ -18,7 +18,7 @@ static int core_CreateHookableEvent(lua_State *L)
 
 int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	lua_State *L = lua_newthread((lua_State*)obj);
+	lua_State *L = lua_newthread(*(CMLua*)obj);
 
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
@@ -97,7 +97,7 @@ static int core_DestroyHookableEvent(lua_State *L)
 
 INT_PTR CreateServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	lua_State *L = lua_newthread((lua_State*)obj);
+	lua_State *L = lua_newthread(*(CMLua*)obj);
 
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
