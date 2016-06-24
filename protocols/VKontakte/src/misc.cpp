@@ -496,21 +496,22 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 
 void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 {
-	MCONTACT hContact = (UINT_PTR)p;
-	if (hContact == NULL || hContact == INVALID_CONTACT_ID || !IsOnline())
+	CVkDBAddAuthRequestThreadParam *param = (CVkDBAddAuthRequestThreadParam *)p;
+	if (param->hContact == NULL || param->hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
-	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))); i++) {
+	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"))); i++) {
 		Sleep(1500);
 		
 		if (!IsOnline())
 			return;
 	}
 
-	DBAddAuthRequest(hContact);
+	DBAddAuthRequest(param->hContact, param->bAdded);
+	delete param;
 }
 
-void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
+void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
@@ -524,7 +525,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
-	dbei.eventType = EVENTTYPE_AUTHREQUEST;
+	dbei.eventType = added ? EVENTTYPE_ADDED: EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szFirstName) + mir_strlen(szLastName) + 5);
 
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);

@@ -314,7 +314,8 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto):
 	m_cbNotificationFilterLikes(this, IDC_N_LIKES),
 	m_cbNotificationFilterReposts(this, IDC_N_REPOSTS),
 	m_cbNotificationFilterMentions(this, IDC_N_MENTIONS),
-	m_cbNotificationFilterInvites(this, IDC_N_INVITES)
+	m_cbNotificationFilterInvites(this, IDC_N_INVITES),
+	m_cbNotificationFilterAcceptedFriends(this, IDC_N_FRIENDACCEPTED)
 {
 	CreateLink(m_cbNewsEnabled, m_proto->m_vkOptions.bNewsEnabled);
 	CreateLink(m_edtNewsInterval, m_proto->m_vkOptions.iNewsInterval);
@@ -338,6 +339,7 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto):
 	CreateLink(m_cbNotificationFilterReposts, m_proto->m_vkOptions.bNotificationFilterReposts);
 	CreateLink(m_cbNotificationFilterMentions, m_proto->m_vkOptions.bNotificationFilterMentions);
 	CreateLink(m_cbNotificationFilterInvites, m_proto->m_vkOptions.bNotificationFilterInvites);
+	CreateLink(m_cbNotificationFilterAcceptedFriends, m_proto->m_vkOptions.bNotificationFilterAcceptedFriends);
 
 	m_cbNewsEnabled.OnChange = Callback(this, &CVkOptionFeedsForm::On_cbNewsEnabledChange);
 	m_cbNotificationsEnabled.OnChange = Callback(this, &CVkOptionFeedsForm::On_cbNotificationsEnabledChange);

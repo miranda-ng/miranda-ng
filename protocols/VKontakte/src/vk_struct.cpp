@@ -202,6 +202,8 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bNotificationFilterReposts(proto, "NotificationFilterReposts", true),
 	bNotificationFilterMentions(proto, "NotificationFilterMentions", true),
 	bNotificationFilterInvites(proto, "NotificationFilterInvites", true),
+	bNotificationFilterAcceptedFriends(proto, "NotificationFilterAcceptedFriends", true),
+
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
 	bUseNonStandardUrlEncode(proto, "UseNonStandardUrlEncode", true),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),

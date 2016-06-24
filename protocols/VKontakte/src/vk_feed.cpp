@@ -466,6 +466,11 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 	const JSONNode &jnFeedback = jnItem["feedback"];
 	const JSONNode &jnParent = jnItem["parent"];
 
+	if (m_vkOptions.bNotificationFilterAcceptedFriends && tszType == _T("friend_accepted") && jnFeedback && vkFeedbackType == VKObjType::vkUsers) {
+		OnFriendAccepted(jnFeedback);
+		return NULL;
+	}
+
 	if (!jnFeedback || !jnParent)
 		return NULL;
 
@@ -501,6 +506,24 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 
 	delete vkNotification;
 	return NULL;
+}
+
+void CVkProto::OnFriendAccepted(const JSONNode & jnFeedback)
+{
+	const JSONNode &jnUsers = jnFeedback["items"];
+
+	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
+		const JSONNode &jnUserItem = (*it);
+		if (!jnUserItem["from_id"])
+			continue;
+
+		LONG iUserId = jnUserItem["from_id"].as_int();
+		MCONTACT hContact = FindUser(iUserId, true);
+
+		RetrieveUserInfo(iUserId);		
+		CVkDBAddAuthRequestThreadParam *param = new CVkDBAddAuthRequestThreadParam(hContact, true);
+		ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)param);
+	}
 }
 
 CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers)

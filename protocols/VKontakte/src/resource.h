@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\svn\protocols\VKontakte\res\resource.rc
+// Используется d:\svn\protocols\VKontakte\res\resource.rc
 //
 #define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101
@@ -123,6 +123,7 @@
 #define IDC_SHOW_MENU6                  1107
 #define IDC_COMBO_MARKASREAD            1108
 #define IDC_COMBO_SYNCHISTORY           1109
+#define IDC_N_FRIENDACCEPTED            1110
 
 // Next default values for new objects
 // 
@@ -131,7 +132,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1110
+#define _APS_NEXT_CONTROL_VALUE         1111
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

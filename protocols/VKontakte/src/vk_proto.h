@@ -267,6 +267,7 @@ private:
 	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 	CVKNewsItem* GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
+	void OnFriendAccepted(const JSONNode &jnFeedback);
 	CMString GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCTSTR ptszReplyText = NULL, LPCTSTR ptszReplyLink = NULL);
 	void RetrieveUnreadNews(time_t tLastNewsTime);
@@ -329,7 +330,7 @@ private:
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
 	void __cdecl DBAddAuthRequestThread(void *p);
-	void DBAddAuthRequest(const MCONTACT hContact);
+	void DBAddAuthRequest(const MCONTACT hContact, bool bAdded = false);
 	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);
 	void SetMirVer(MCONTACT hContact, int platform);
 	void __cdecl ContactTypingThread(void *p);

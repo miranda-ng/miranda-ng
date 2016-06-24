@@ -118,6 +118,17 @@ struct CVkSendMsgParam : public MZeroedObject
 	CVkFileUploadParam *pFUP;
 };
 
+struct CVkDBAddAuthRequestThreadParam : public MZeroedObject
+{
+	CVkDBAddAuthRequestThreadParam(MCONTACT _hContact, bool _bAdded) :
+		hContact(_hContact),
+		bAdded(_bAdded)
+	{}
+
+	MCONTACT hContact;
+	bool bAdded;
+};
+
 struct CVkChatMessage : public MZeroedObject
 {
 	CVkChatMessage(int _id) :
@@ -316,6 +327,7 @@ struct CVKOptions {
 	CMOption<BYTE> bNotificationFilterReposts;
 	CMOption<BYTE> bNotificationFilterMentions;
 	CMOption<BYTE> bNotificationFilterInvites;
+	CMOption<BYTE> bNotificationFilterAcceptedFriends;
 	CMOption<BYTE> bUseNonStandardNotifications;
 	CMOption<BYTE> bUseNonStandardUrlEncode;
 	CMOption<BYTE> bShortenLinksForAudio;

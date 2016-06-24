@@ -133,6 +133,7 @@ class CVkOptionFeedsForm : public CVkDlgBase
 	CCtrlCheck m_cbNotificationFilterReposts;
 	CCtrlCheck m_cbNotificationFilterMentions;
 	CCtrlCheck m_cbNotificationFilterInvites;
+	CCtrlCheck m_cbNotificationFilterAcceptedFriends;
 
 public:
 	CVkOptionFeedsForm(CVkProto *proto);

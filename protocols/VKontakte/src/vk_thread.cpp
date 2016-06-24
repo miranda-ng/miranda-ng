@@ -581,7 +581,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!getBool(hContact, "ReqAuth")) {
 			RetrieveUserInfo(userid);
 			setByte(hContact, "ReqAuth", 1);
-			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)hContact);
+			CVkDBAddAuthRequestThreadParam *param = new CVkDBAddAuthRequestThreadParam(hContact, false);
+			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)param);
 		}
 	}
 }
