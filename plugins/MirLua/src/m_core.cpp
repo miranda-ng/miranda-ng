@@ -54,7 +54,7 @@ static int core_HookEvent(lua_State *L)
 
 		return 1;
 	}
-
+	lua_pushlightuserdata(L, hEvent);
 	return 1;
 }
 
@@ -127,6 +127,7 @@ static int core_CreateServiceFunction(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
+	lua_pushlightuserdata(L, hService);
 
 	return 1;
 }
