@@ -293,7 +293,7 @@ CMString CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbac
 		tszFormat = _T("%s %%s %%s\n%s");
 	}
 	else if (vkFeedbackType == vkPost) {
-		iUserId = jnFeedback["owner_id "].as_int();
+		iUserId = jnFeedback["owner_id"].as_int();
 		tszFormat = _T("%s %%s %%s\n%s");
 	}
 	else if (vkFeedbackType == VKObjType::vkUsers || vkFeedbackType == vkCopy) {

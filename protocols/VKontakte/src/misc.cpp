@@ -525,7 +525,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
-	dbei.eventType = added ? EVENTTYPE_ADDED: EVENTTYPE_AUTHREQUEST;
+	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szFirstName) + mir_strlen(szLastName) + 5);
 
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
