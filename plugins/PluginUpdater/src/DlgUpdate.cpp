@@ -583,6 +583,11 @@ static renameTable[] =
 
 	{ _T("langpack_*.txt"),                 _T("Languages\\*") },
 
+	{ _T("mir_app.dll"),                    NULL },
+	{ _T("mir_core.dll"),                   NULL },
+	{ _T("zlib.dll"),                       NULL },
+	{ _T("pcre16.dll"),                     NULL },
+	{ _T("libtox.dll"),                     NULL },
 	{ _T("clist_classic.dll"),              NULL },
 	{ _T("chat.dll"),                       NULL },
 	{ _T("srmm.dll"),                       NULL },
