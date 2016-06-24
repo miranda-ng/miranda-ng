@@ -4,6 +4,8 @@
 class CMLuaScript
 {
 public:
+	lua_State *L;
+
 	enum Status
 	{
 		None,
@@ -21,7 +23,7 @@ private:
 
 
 public:
-	CMLuaScript(const TCHAR *path);
+	CMLuaScript(lua_State *L, const TCHAR *path);
 	~CMLuaScript();
 
 	static CMLuaScript* GetScriptFromEnviroment(lua_State *L);
@@ -37,8 +39,8 @@ public:
 
 	const Status GetStatus() const;
 
-	bool Load(lua_State *L);
-	void Unload(lua_State *L);
+	bool Load();
+	void Unload();
 };
 
 #endif //_LUA_SCRIPT_H_

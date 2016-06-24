@@ -36,14 +36,14 @@ static int lua_AddButton(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
 	{
-		lua_pushboolean(L, false);
+		lua_pushlightuserdata(L, 0);
 		return 1;
 	}
 
-	BBButton *bbb = MakeBBButton(L);
+	BBButton* bbb = MakeBBButton(L);
 
 	INT_PTR res = CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
-	lua_pushboolean(L, !res);
+	lua_pushinteger(L, res);
 
 	return 1;
 }
@@ -52,14 +52,14 @@ static int lua_ModifyButton(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
 	{
-		lua_pushboolean(L, false);
+		lua_pushlightuserdata(L, 0);
 		return 1;
 	}
 
-	BBButton *bbb = MakeBBButton(L);
+	BBButton* bbb = MakeBBButton(L);
 
 	INT_PTR res = CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
-	lua_pushboolean(L, !res);
+	lua_pushinteger(L, res);
 
 	mir_free(bbb->pszModuleName);
 	mir_free(bbb->ptszTooltip);
@@ -70,15 +70,14 @@ static int lua_ModifyButton(lua_State *L)
 
 static int lua_RemoveButton(lua_State *L)
 {
-	ptrA module(mir_utf8decodeA(luaL_checkstring(L, 1)));
-	int buttonId = luaL_checkinteger(L, 2);
+	ptrA szModuleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
 	BBButton mbb = { sizeof(BBButton) };
-	mbb.pszModuleName = module;
-	mbb.dwButtonID = buttonId;
+	mbb.pszModuleName = szModuleName;
+	mbb.dwButtonID = luaL_checkinteger(L, 2);
 
-	INT_PTR res = CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&mbb);
-	lua_pushboolean(L, !res);
+	INT_PTR res = ::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&mbb);
+	lua_pushinteger(L, res);
 
 	return 1;
 }

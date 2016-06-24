@@ -10,7 +10,7 @@ void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 	mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, file);
 	PathToRelativeT(fullPath, path);
 
-	CMLuaScript *script = new CMLuaScript(path);
+	CMLuaScript *script = new CMLuaScript(L, path);
 	g_mLua->Scripts.insert(script);
 
 	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE)
@@ -19,7 +19,7 @@ void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 		return;
 	}
 
-	if (script->Load(L))
+	if (script->Load())
 		Log(_T("%s:OK"), path);
 }
 
