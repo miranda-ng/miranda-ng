@@ -502,7 +502,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 		return 4096;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)"VK ID";
+		return (DWORD_PTR)"VKontakte ID";
 
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"ID";
