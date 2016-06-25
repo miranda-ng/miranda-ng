@@ -40,10 +40,10 @@ typedef struct {
 
 static const ttemplate templates[] = {
 		{ LPGEN("Custom"), "", "" },
-		{ "AIM", "SN", LPGEN("Screen Name") },
+		{ "AIM", "SN", LPGEN("Screen name") },
 		{ "EmLAN", "Nick", LPGEN("User name") },
 		{ "Facebook", "ID", LPGEN("Facebook ID") },
-		{ "GG", "UIN", LPGEN("Gadu-Gadu Number") },
+		{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
 		{ "ICQ", "UIN", LPGEN("User ID") },
 		{ "ICQCorp", "UIN", LPGEN("ICQ number") },
 		{ "IRC", "Nick", LPGEN("Nickname") },
@@ -60,7 +60,7 @@ static const ttemplate templates[] = {
 		{ "Tlen", "jid", LPGEN("Tlen login") },
 		{ "Tox", "ToxID", LPGEN("Tox ID") },
 		{ "Twitter", "Username", LPGEN("Username") },
-		{ "VK", "ID", LPGEN("VK ID") },
+		{ "VK", "ID", LPGEN("VKontakte ID") },
 		{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
 		{ "XFire", "Username", LPGEN("Username") },
 		{ "Yahoo", "yahoo_id", LPGEN("ID") },
