@@ -796,6 +796,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					else if (a == 2)
 						status = ID_STATUS_ONLINE;
 				}
+				else {
+					status = ID_STATUS_OFFLINE;
+				}
 
 				if (proto->getWord(hContact, "Status", 0) != status)
 					proto->setWord(hContact, "Status", status);
