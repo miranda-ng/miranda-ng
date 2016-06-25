@@ -752,7 +752,6 @@
 [Role changes]
 [Status changes]
 [Don't notify history messages]
-[JID]
 [Group]
 [Subscription]
 [Uploading...]

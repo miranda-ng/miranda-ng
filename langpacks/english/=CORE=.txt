@@ -1245,7 +1245,6 @@
 [Assignment to the metacontact failed.]
 [Assignment failure]
 ;file \src\mir_app\src\meta_edit.cpp
-[ID]
 [Protocol]
 [Send offline]
 [Send &online]

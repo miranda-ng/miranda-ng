@@ -88,7 +88,6 @@
 ;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
 [%s plugin connections]
-[ID]
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 [Please enter your Yahoo password in Options -> Network -> Yahoo]
 [Yahoo Login Error]
