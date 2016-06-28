@@ -42,7 +42,7 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 
 	// for bookmarks, temporary contacts & groupchat members
 	// resource must be used in the comparison
-	if ((p1->list == LIST_ROSTER && (p1->bUseResource == TRUE || p2->bUseResource == TRUE))
+	if ((p1->list == LIST_ROSTER && (p1->bUseResource == true || p2->bUseResource == true))
 		|| (p1->list == LIST_BOOKMARK) || (p1->list == LIST_VCARD_TEMP))
 		return mir_tstrcmpi(p1->jid, p2->jid);
 
@@ -299,35 +299,10 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 {
 	debugLog(_T("AddToListByJID jid = %s"), newJid);
 
-	MCONTACT hContact = HContactFromJID(newJid);
-	if (hContact == NULL) {
-		// not already there: add
-		debugLog(_T("Add new jid to contact jid = %s"), newJid);
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		Proto_AddToContact(hContact, m_szModuleName);
-		setTString(hContact, "jid", newJid);
+	MCONTACT hContact = DBCreateContact(newJid, NULL, true, false);
+	if (flags & PALF_TEMPORARY)
+		db_set_b(hContact, "CList", "Hidden", 1);
 
-		// Note that by removing or disable the "NotOnList" will trigger
-		// the plugin to add a particular contact to the roster list.
-		// See DBSettingChanged hook at the bottom part of this source file.
-		// But the add module will delete "NotOnList". So we will not do it here.
-		// Also because we need "MyHandle" and "Group" info, which are set after
-		// PS_ADDTOLIST is called but before the add dialog issue deletion of
-		// "NotOnList".
-		// If temporary add, "NotOnList" won't be deleted, and that's expected.
-		db_set_b(hContact, "CList", "NotOnList", 1);
-		if (flags & PALF_TEMPORARY)
-			db_set_b(hContact, "CList", "Hidden", 1);
-	}
-	else {
-		// already exist
-		// Set up a dummy "NotOnList" when adding permanently only
-		if (!(flags & PALF_TEMPORARY))
-			db_set_b(hContact, "CList", "NotOnList", 1);
-	}
-
-	if (hContact && newJid)
-		DBCheckIsTransportedContact(newJid, hContact);
 	return hContact;
 }
 

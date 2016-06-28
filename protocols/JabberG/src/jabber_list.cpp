@@ -200,7 +200,7 @@ JABBER_LIST_ITEM* CJabberProto::ListGetItemPtr(JABBER_LIST list, const TCHAR *ji
 	JABBER_LIST_ITEM *tmp = (JABBER_LIST_ITEM*)_alloca(sizeof(JABBER_LIST_ITEM));
 	tmp->list = list;
 	tmp->jid = (TCHAR*)jid;
-	tmp->bUseResource = FALSE;
+	tmp->bUseResource = false;
 
 	mir_cslock lck(m_csLists);
 	if (list == LIST_ROSTER) {

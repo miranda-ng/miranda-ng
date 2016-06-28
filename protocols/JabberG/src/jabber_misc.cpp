@@ -90,40 +90,32 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;
 
+	MCONTACT hContact = HContactFromJID(jid, stripResource);
+	if (hContact != NULL)
+		return hContact;
+
 	// strip resource if present
-	TCHAR *s = NEWTSTR_ALLOCA(jid), *pResource = NULL;
+	TCHAR szJid[JABBER_MAX_JID_LEN];
 	if (stripResource)
-		if (TCHAR *p = _tcschr(s, '@'))
-			if (pResource = _tcschr(p, '/'))
-				*pResource = '\0';
-
-	// We can't use JabberHContactFromJID() here because of the stripResource option
-	size_t len = mir_tstrlen(s);
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrT dbJid(getTStringA(hContact, "jid"));
-		if (dbJid == NULL)
-			continue;
-
-		TCHAR *p = dbJid; // not null
-		if (_tcslen(p) >= len && (p[len] == '\0' || p[len] == '/') && !_tcsnicmp(p, s, len))
-			return hContact;
-	}
+		JabberStripJid(jid, szJid, _countof(szJid));
+	else
+		_tcsncpy_s(szJid, jid, _TRUNCATE);
 
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	Proto_AddToContact(hNewContact, m_szModuleName);
-	setTString(hNewContact, "jid", s);
+	setTString(hNewContact, "jid", szJid);
 	if (nick != NULL && *nick != '\0')
 		setTString(hNewContact, "Nick", nick);
 	if (temporary)
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
 	else
-		SendGetVcard(s);
+		SendGetVcard(szJid);
 	
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
-		pItem->bUseResource = pResource != NULL;
+		pItem->bUseResource = _tcschr(szJid, '/') != 0;
 	
-	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), s, nick);
-	DBCheckIsTransportedContact(s, hNewContact);
+	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), szJid, nick);
+	DBCheckIsTransportedContact(szJid, hNewContact);
 	return hNewContact;
 }
 
