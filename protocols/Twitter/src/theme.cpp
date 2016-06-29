@@ -55,10 +55,9 @@ HANDLE GetIconHandle(const char *name)
 
 // Contact List menu stuff
 static HGENMENU g_hMenuItems[2];
-static HANDLE g_hMenuEvts[3];
 
 // Helper functions
-static TwitterProto * GetInstanceByHContact(MCONTACT hContact)
+static TwitterProto* GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if (!proto)
@@ -88,7 +87,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void InitContactMenus()
 {
-	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CMenuItem mi;
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
@@ -98,26 +97,16 @@ void InitContactMenus()
 	mi.hIcolibItem = GetIconHandle("reply");
 	mi.name.t = LPGENT("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
-	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 
 	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("homepage");
 	mi.name.t = LPGENT("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
-	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);
 	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);
-}
-
-void UninitContactMenus()
-{
-	for (size_t i = 0; i < _countof(g_hMenuItems); i++)
-		Menu_RemoveItem(g_hMenuItems[i]);
-
-	UnhookEvent(g_hMenuEvts[0]);
-	for (size_t i = 1; i < _countof(g_hMenuEvts); i++)
-		DestroyServiceFunction(g_hMenuEvts[i]);
+	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);
 }
 
 void ShowContactMenus(bool show)

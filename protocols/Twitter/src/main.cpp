@@ -83,8 +83,6 @@ static int protoUninit(PROTO_INTERFACE *proto)
 	return 0;
 }
 
-static HANDLE g_hEvents[1];
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -109,9 +107,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UninitContactMenus();
-	for (size_t i = 1; i < _countof(g_hEvents); i++)
-		UnhookEvent(g_hEvents[i]);
-
 	return 0;
 }
