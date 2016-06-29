@@ -41,8 +41,6 @@ extern IconItem iconList[] =
 	{ LPGEN("Concurrent sessions"),        "sessions",      IDI_SESSIONS         }
 };
 
-HANDLE hIconLibItem[_countof(iconList)];
-
 void gg_icolib_init()
 {
 	Icon_Register(hInstance, "Protocols/" GGDEF_PROTO, iconList, _countof(iconList), GGDEF_PROTO);
@@ -59,7 +57,7 @@ HANDLE GetIconHandle(int iconId)
 {
 	for(int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
-			return hIconLibItem[i];
+			return iconList[i].hIcolib;
 	return NULL;
 }
 

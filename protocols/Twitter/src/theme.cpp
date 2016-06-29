@@ -24,19 +24,18 @@ extern OBJLIST<TwitterProto> g_Instances;
 
 static IconItem icons[] =
 {
-	{ LPGEN("Twitter Icon"),   "twitter",  IDI_TWITTER },
-	{ LPGEN("Tweet"),          "tweet",    IDI_TWITTER },
-	{ LPGEN("Reply to Tweet"), "reply",    IDI_TWITTER },
+	{ LPGEN("Twitter Icon"), "twitter", IDI_TWITTER },
+	{ LPGEN("Tweet"), "tweet", IDI_TWITTER },
+	{ LPGEN("Reply to Tweet"), "reply", IDI_TWITTER },
 
-	{ LPGEN("Visit Homepage"), "homepage", 0 }, 
+	{ LPGEN("Visit Homepage"), "homepage", 0 },
 };
 
 void TwitterInitSounds(void)
 {
-SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("First tweet from new contact"));
-SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("New tweet"));
+	SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("First tweet from new contact"));
+	SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("New tweet"));
 }
-static HANDLE hIconLibItem[_countof(icons)];
 
 // TODO: uninit
 void InitIcons(void)
@@ -45,11 +44,11 @@ void InitIcons(void)
 	icons[_countof(icons) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
 }
 
-HANDLE GetIconHandle(const char* name)
+HANDLE GetIconHandle(const char *name)
 {
 	for (size_t i = 0; i < _countof(icons); i++)
 		if (mir_strcmp(icons[i].szName, name) == 0)
-			return hIconLibItem[i];
+			return icons[i].hIcolib;
 
 	return 0;
 }
@@ -94,7 +93,7 @@ void InitContactMenus()
 	CMenuItem mi;
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
-	SET_UID(mi,0xfc4e1245, 0xc8e0, 0x4de2, 0x92, 0x15, 0xfc, 0xcf, 0x48, 0xf9, 0x41, 0x56);
+	SET_UID(mi, 0xfc4e1245, 0xc8e0, 0x4de2, 0x92, 0x15, 0xfc, 0xcf, 0x48, 0xf9, 0x41, 0x56);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("reply");
 	mi.name.t = LPGENT("Reply...");
