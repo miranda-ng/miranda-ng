@@ -508,8 +508,6 @@ private:
 	STDMETHOD(SetZoneMapping)(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags);
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
-	VARIANT CallJScript(const CMString strFunc, size_t nPCount, const CMString strArgs, ...);
-
 	IHTMLDocument2 *getDocument();
 	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	WCHAR*  getSelection();

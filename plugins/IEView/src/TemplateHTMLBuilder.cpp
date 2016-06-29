@@ -301,9 +301,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 		char* pathrun = nullptr;
 		if (pathrun = strrchr(tempBase, '\\'))
-			++pathrun = '\0';
+			*(++pathrun) = '\0';
 		else if (pathrun = strrchr(tempBase, '/'))
-			++pathrun = '\0';
+			*(++pathrun) = '\0';
 
 		isGrouping = tmpm->isGrouping();
 	}
@@ -404,7 +404,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			else
 				szFileDesc = encodeUTF8(event->hContact, szRealProto, eventData->pszText2, event->codepage, 0, isSent);
 
-			if ((eventData->iType == IEED_EVENT_MESSAGE)) {
+			if (eventData->iType == IEED_EVENT_MESSAGE) {
 				if (!isRTL) {
 					if (isGrouping && (getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES)) {
 						if (isGroupBreak)
