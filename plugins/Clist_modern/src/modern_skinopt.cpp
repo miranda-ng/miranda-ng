@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				sd = (SkinListData*)(tvi.lParam);
 			}
 			if (!sd) return 0;
-			if (sd->File && !_tcschr(sd->File, _T('%'))) {
+			if (!_tcschr(sd->File, _T('%'))) {
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, _countof(Author), sd->File);
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, _countof(URL), sd->File);
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, _countof(Contact), sd->File);
