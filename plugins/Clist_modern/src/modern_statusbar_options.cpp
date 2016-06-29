@@ -343,8 +343,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
-		else if (LOWORD(wParam) == IDC_SHOWXSTATUS || LOWORD(wParam) == IDC_SHOWBOTH || LOWORD(wParam) == IDC_SHOWNORMAL || LOWORD(wParam) == IDC_TRANSPARENTOVERLAY || LOWORD(wParam) == IDC_SHOWXSTATUSNAME)
-		{
+		else if (LOWORD(wParam) == IDC_SHOWXSTATUS || LOWORD(wParam) == IDC_SHOWBOTH || LOWORD(wParam) == IDC_SHOWNORMAL || LOWORD(wParam) == IDC_TRANSPARENTOVERLAY || LOWORD(wParam) == IDC_SHOWXSTATUSNAME) {
 			UpdateXStatusIconOptions(hwndDlg, *dat);
 		}
 		else if (LOWORD(wParam) == IDC_SBAR_USE_ACCOUNT_SETTINGS) {

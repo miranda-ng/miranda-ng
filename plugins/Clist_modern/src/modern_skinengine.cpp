@@ -2008,18 +2008,6 @@ static __inline void ske_SetMatrix(sbyte * matrix,
 	matrix[6] = g;	matrix[7] = h;	matrix[8] = i;
 }
 
-static void ske_SetTextEffect(BYTE EffectID, DWORD FirstColor, DWORD SecondColor)
-{
-	if (EffectID > MAXPREDEFINEDEFFECTS) return;
-	if (EffectID == -1) meCurrentEffect.EffectID = -1;
-	else {
-		meCurrentEffect.EffectID = EffectID;
-		meCurrentEffect.EffectMatrix = ModernEffectsEnum[EffectID];
-		meCurrentEffect.EffectColor1 = FirstColor;
-		meCurrentEffect.EffectColor2 = SecondColor;
-	}
-}
-
 bool ske_ResetTextEffect(HDC hdc)
 {
 	int idx = arEffectStack.getIndex((EFFECTSSTACKITEM*)&hdc);
