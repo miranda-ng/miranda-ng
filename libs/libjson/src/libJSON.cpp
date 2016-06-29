@@ -440,13 +440,13 @@ LIBJSON_DLL(void) json_push_back(JSONNode *node, JSONNode *node2) {
 
 LIBJSON_DLL(JSONNode*) json_pop_back_at(JSONNode *node, json_index_t pos) {
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_pop_back_i"), return 0;);
-	return MANAGER_INSERT(&node->pop_back(pos));
+	return MANAGER_INSERT(node->pop_back(pos));
 }
 
 LIBJSON_DLL(JSONNode*) json_pop_back(JSONNode *node, const json_char *name) {
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_pop_back"), return 0;);
 	JSON_ASSERT_SAFE(name, JSON_TEXT("null name to json_pop_back.  Did you mean to use json_pop_back_at?"), return 0;);
-	return MANAGER_INSERT(&node->pop_back(name));
+	return MANAGER_INSERT(node->pop_back(name));
 }
 
 //comparison

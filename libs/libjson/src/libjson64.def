@@ -134,8 +134,8 @@ EXPORTS
 ?nullify@JSONNode@@QEAAXXZ @131 NONAME
 ?parse@JSONNode@@SA?AV1@PEBD@Z @132 NONAME
 ?parse@JSONWorker@@SA?AVJSONNode@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @133 NONAME
-?pop_back@JSONNode@@QEAA?AV1@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @134 NONAME
-?pop_back@JSONNode@@QEAA?AV1@_K@Z @135 NONAME
+?pop_back@JSONNode@@QEAAPEAV1@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @134 NONAME
+?pop_back@JSONNode@@QEAAPEAV1@_K@Z @135 NONAME
 ?preparse@JSONNode@@QEAAXXZ @136 NONAME
 ?push_back@JSONNode@@QEAAXAEBV1@@Z @137 NONAME
 ?rbegin@JSONNode@@QEAA?AUreverse_iterator@1@XZ @138 NONAME

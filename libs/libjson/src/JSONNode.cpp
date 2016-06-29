@@ -255,46 +255,24 @@ const JSONNode & JSONNode::at(const json_char *name_t) const {
 	}
 #endif
 
-#ifndef JSON_LIBRARY
-	struct auto_delete {
-		public:
-			auto_delete(JSONNode *node) : mynode(node){};
-			~auto_delete(void){ JSONNode::deleteJSONNode(mynode); };
-			JSONNode * mynode;
-		private:
-			auto_delete(const auto_delete &);
-			auto_delete & operator = (const auto_delete &);
-	};
-#endif
-
-JSONNode JSON_PTR_LIB JSONNode::pop_back(json_index_t pos){
+JSONNode* JSON_PTR_LIB JSONNode::pop_back(json_index_t pos){
 	JSON_CHECK_INTERNAL();
 	if (pos >= internal -> size()) {
 		JSON_FAIL(JSON_TEXT("pop_back out of bounds"));
-		return nullNode;
+		return &nullNode;
 	}
 	makeUniqueInternal();
-	#ifdef JSON_LIBRARY
-		return internal -> pop_back(pos);
-	#else
-		auto_delete temp(internal -> pop_back(pos));
-		return *temp.mynode;
-	#endif
+	return internal -> pop_back(pos);
 }
 
-JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t){
+JSONNode* JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t){
 	JSON_CHECK_INTERNAL();
 	JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("popping a non-iteratable node"));
-	#ifdef JSON_LIBRARY
-		return internal -> pop_back(name_t);
-	#else
-		if (JSONNode * res = internal -> pop_back(name_t)) {
-			auto_delete temp(res);
-			return *(temp.mynode);
-		}
-		JSON_FAIL(json_string(JSON_TEXT("pop_back const could not find child by name: ")) + name_t);
-		return nullNode;
-	#endif
+	if (JSONNode *res = internal -> pop_back(name_t))
+		return res;
+
+	JSON_FAIL(json_string(JSON_TEXT("pop_back const could not find child by name: ")) + name_t);
+	return &nullNode;
 }
 
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
