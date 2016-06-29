@@ -191,9 +191,9 @@ UINT_PTR luaM_tomparam(lua_State *L, int idx)
 		return (UINT_PTR)lua_touserdata(L, idx);
 	case LUA_TNUMBER:
 	{
-		if (lua_isinteger(L, 1))
+		if (lua_isinteger(L, idx))
 		{
-			lua_Integer value = lua_tointeger(L, 1);
+			lua_Integer value = lua_tointeger(L, idx);
 			return value <= INTPTR_MAX
 				? (UINT_PTR)value
 				: NULL;
