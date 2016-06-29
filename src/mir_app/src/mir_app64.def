@@ -263,3 +263,4 @@ Contact_GetInfo @261
 Clist_ContactToHItem @262
 Clist_ContactToItemHandle @263
 Window_SetSkinIcon_IcoLib @264
+Window_SetIcon_IcoLib @265
