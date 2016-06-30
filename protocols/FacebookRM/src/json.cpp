@@ -201,7 +201,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
 		const JSONNode &attach_ = legacy ? (*itAttachment) : (*itAttachment)["mercury"];
 
-		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share"
+		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share", "animated_image"
 
 		if (type == "photo") {
 			std::string filename = attach_["name"].as_string();
@@ -269,6 +269,13 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				}
 			}
 		}
+		else if (type == "animated_image") {
+			std::string link = attach_["hires_url"].as_string();
+
+			if (!link.empty()) {
+				attachments_text += "\n" + absolutizeUrl(link) + "\n";
+			}
+		}
 		else {
 			proto->debugLogA("json::parseAttachments (%s) - Unknown attachment type '%s'", legacy ? "legacy" : "not legacy", type.c_str());
 		}
@@ -288,6 +295,8 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 			newText = (attachments_.size() > 1) ? TranslateT("files") : TranslateT("a file");
 		else if (type == "photo")
 			newText = (attachments_.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
+		else if (type == "animated_image")
+			newText = TranslateT("a GIF");
 		else
 			newText = _A2T(type.c_str());
 
