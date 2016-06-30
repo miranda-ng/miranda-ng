@@ -119,19 +119,22 @@ void CSteamProto::ParsePollData(JSONNode *data)
 
 			case 2:
 				{// auth request
-					/*MCONTACT hContact = FindContact(steamId);
-					if (!hContact)
-						hContact = AddContact(steamId, true);*/
+					MCONTACT hContact = FindContact(steamId);
+					if (hContact)
+					{
+						ContactIsAskingAuth(hContact);
+					}
+					else
+					{
+						// load info about this user from server
+						ptrA token(getStringA("TokenSecret"));
 
-					//RaiseAuthRequestThread((void*)hContact);
-
-					ptrA token(getStringA("TokenSecret"));
-
-					PushRequest(
-						new GetUserSummariesRequest(token, steamId),
-						&CSteamProto::OnAuthRequested,
-						mir_strdup(steamId),
-						MirFreeArg);
+						PushRequest(
+							new GetUserSummariesRequest(token, steamId),
+							&CSteamProto::OnAuthRequested,
+							mir_strdup(steamId),
+							MirFreeArg);
+					}
 				}
 				break;
 

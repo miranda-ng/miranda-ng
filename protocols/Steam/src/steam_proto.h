@@ -142,6 +142,7 @@ protected:
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);
 	void ContactIsIgnored(MCONTACT hContact);
+	void ContactIsAskingAuth(MCONTACT hContact);
 
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
