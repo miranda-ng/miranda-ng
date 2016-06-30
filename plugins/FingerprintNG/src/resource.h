@@ -580,7 +580,6 @@
 #define IDC_STATUSBAR                   7001
 #define IDI_SKYPE                       9002
 #define IDI_TWITTER                     9003
-#define IDI_XFIRE                       9004
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006
 #define IDI_WHATSAPP                    9007
