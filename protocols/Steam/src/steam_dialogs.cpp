@@ -76,6 +76,44 @@ const char* CSteamGuardDialog::GetGuardCode()
 
 /////////////////////////////////////////////////////////////////////////////////
 
+CSteamTwoFactorDialog::CSteamTwoFactorDialog(CSteamProto *proto)
+: CSteamDlgBase(proto, IDD_TWOFACTOR, false),
+m_ok(this, IDOK),
+m_text(this, IDC_TEXT)
+{
+	memset(m_twoFactorCode, 0, sizeof(m_twoFactorCode));
+	m_ok.OnClick = Callback(this, &CSteamTwoFactorDialog::OnOk);
+}
+
+void CSteamTwoFactorDialog::OnInitDialog()
+{
+	char iconName[100];
+	mir_snprintf(iconName, "%s_%s", MODULE, "main");
+	Window_SetIcon_IcoLib(m_hwnd, IcoLib_GetIconHandle(iconName));
+
+	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
+
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
+}
+
+void CSteamTwoFactorDialog::OnOk(CCtrlButton*)
+{
+	mir_strncpy(m_twoFactorCode, ptrA(m_text.GetTextA()), _countof(m_twoFactorCode));
+	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+}
+
+void CSteamTwoFactorDialog::OnClose()
+{
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
+}
+
+const char* CSteamTwoFactorDialog::GetTwoFactorCode()
+{
+	return m_twoFactorCode;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
 CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize)
 	: CSteamDlgBase(proto, IDD_CAPTCHA, false),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),

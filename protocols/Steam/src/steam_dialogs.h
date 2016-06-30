@@ -49,6 +49,27 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////
 
+class CSteamTwoFactorDialog : public CSteamDlgBase
+{
+private:
+	char m_twoFactorCode[6];
+
+	CCtrlEdit m_text;
+	CCtrlButton m_ok;
+
+protected:
+	void OnInitDialog();
+	void OnOk(CCtrlButton*);
+	void OnClose();
+
+public:
+	CSteamTwoFactorDialog(CSteamProto *proto);
+
+	const char *GetTwoFactorCode();
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
 class CSteamCaptchaDialog : public CSteamDlgBase
 {
 private:

@@ -13,6 +13,7 @@
 #define IDC_SAVEPERMANENTLY             108
 #define IDD_CAPTCHA                     118
 #define IDD_GUARD                       119
+#define IDD_TWOFACTOR                   120
 #define IDC_SN                          1001
 #define IDC_PW                          1002
 #define IDC_PASSWORD                    1002
@@ -38,7 +39,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        120
+#define _APS_NEXT_RESOURCE_VALUE        121
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           101

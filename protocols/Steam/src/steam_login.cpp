@@ -94,6 +94,9 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 	// run authorization request
 	T2Utf username(getTStringA("Username"));
 
+	ptrA twoFactorCode(getStringA("TwoFactorCode"));
+	if (!twoFactorCode) twoFactorCode = mir_strdup("");
+
 	ptrA guardId(getStringA("GuardId"));
 	if (!guardId) guardId = mir_strdup("");
 	ptrA guardCode(getStringA("GuardCode"));
@@ -105,7 +108,7 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 	if (!captchaText) captchaText = mir_strdup("");
 
 	PushRequest(
-		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp.c_str(), "", guardCode, guardId, captchaId, captchaText),
+		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp.c_str(), twoFactorCode, guardCode, guardId, captchaId, captchaText),
 		&CSteamProto::OnAuthorization);
 }
 
@@ -133,17 +136,25 @@ void CSteamProto::OnAuthorization(const HttpResponse *response)
 	OnAuthorizationSuccess(root);
 }
 
+void CSteamProto::DeleteAuthSettings()
+{
+	delSetting("TwoFactorCode");
+	delSetting("GuardId");
+	delSetting("GuardCode");
+	delSetting("CaptchaId");
+	delSetting("CaptchaText");
+}
+
 void CSteamProto::OnAuthorizationError(const JSONNode &node)
 {
 	std::string message = node["message"].as_string();
 	ptrT messageT(mir_utf8decodeT(message.c_str()));
+	debugLogA("CSteamProto::OnAuthorizationError: %s", message.c_str());
+
 	if (!mir_tstrcmpi(messageT, _T("Incorrect login.")))
 	{
 		// We can't continue with incorrect login/password
-		delSetting("GuardId");
-		delSetting("GuardCode");
-		delSetting("CaptchaId");
-		delSetting("CaptchaText");
+		DeleteAuthSettings();
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
@@ -152,11 +163,34 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 
 	if (node["requires_twofactor"].as_bool())
 	{
+		debugLogA("CSteamProto::OnAuthorizationError: requires twofactor");
+
+		CSteamTwoFactorDialog twoFactorDialog(this);
+		if (twoFactorDialog.DoModal() != DIALOG_RESULT_OK)
+		{
+			DeleteAuthSettings();
+			SetStatus(ID_STATUS_OFFLINE);
+			return;
+		}
+
+		setString("TwoFactorCode", twoFactorDialog.GetTwoFactorCode());
+
+		PushRequest(
+			new GetRsaKeyRequest(username),
+			&CSteamProto::OnGotRsaKey);
+		return;
+	}
+
+	if (node["clear_password_field"].as_bool())
+	{
+		debugLogA("CSteamProto::OnAuthorizationError: clear password field");
 		return;
 	}
 
 	if (node["emailauth_needed"].as_bool())
 	{
+		debugLogA("CSteamProto::OnAuthorizationError: emailauth needed");
+
 		std::string guardId = node["emailsteamid"].as_string();
 		ptrA oldGuardId(getStringA("GuardId"));
 		if (mir_strcmp(guardId.c_str(), oldGuardId) == 0)
@@ -178,10 +212,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		CSteamGuardDialog guardDialog(this, domain.c_str());
 		if (guardDialog.DoModal() != DIALOG_RESULT_OK)
 		{
-			delSetting("GuardId");
-			delSetting("GuardCode");
-			delSetting("CaptchaId");
-			delSetting("CaptchaText");
+			DeleteAuthSettings();
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
 		}
@@ -197,6 +228,8 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 
 	if (node["captcha_needed"].as_bool())
 	{
+		debugLogA("CSteamProto::OnAuthorizationError: captcha needed");
+
 		std::string captchaId = node["captcha_gid"].as_string();
 
 		GetCaptchaRequest *request = new GetCaptchaRequest(captchaId.c_str());
@@ -207,8 +240,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		delete response;
 		if (captchaDialog.DoModal() != DIALOG_RESULT_OK)
 		{
-			delSetting("CaptchaId");
-			delSetting("CaptchaText");
+			DeleteAuthSettings();
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
 		}
@@ -222,19 +254,13 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		return;
 	}
 
-	delSetting("GuardId");
-	delSetting("GuardCode");
-	delSetting("CaptchaId");
-	delSetting("CaptchaText");
+	DeleteAuthSettings();
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
 void CSteamProto::OnAuthorizationSuccess(const JSONNode &node)
 {
-	delSetting("GuardId");
-	delSetting("GuardCode");
-	delSetting("CaptchaId");
-	delSetting("CaptchaText");
+	DeleteAuthSettings();
 
 	if (!node["login_complete"].as_bool())
 	{

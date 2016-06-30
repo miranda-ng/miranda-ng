@@ -4,7 +4,7 @@
 class AuthorizationRequest : public HttpRequest
 {
 public:
-	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *twofactorcode, const char *guardCode, const char *guardId = "", const char *captchaId = "-1", const char *captchaText = "") :
+	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *twoFactorCode, const char *guardCode, const char *guardId = "", const char *captchaId = "-1", const char *captchaText = "") :
 		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin/")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
@@ -17,7 +17,7 @@ public:
 		data.AppendFormat("password=%s&username=%s&twofactorcode=%s&emailauth=%s&loginfriendlyname=%s&oauth_client_id=3638BFB1&captchagid=%s&captcha_text=%s&emailsteamid=%s&rsatimestamp=%s&rememberlogin=false&donotcache=%lld",
 			ptrA(mir_urlEncode(password)),
 			ptrA(mir_urlEncode(username)),
-			twofactorcode,
+			twoFactorCode,
 			guardCode,
 			"Miranda%20NG",
 			captchaId,

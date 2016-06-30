@@ -129,6 +129,7 @@ protected:
 	void OnLoggedOn(const HttpResponse *response);
 
 	void HandleTokenExpired();
+	void DeleteAuthSettings();
 
 	// contacts
 	void SetContactStatus(MCONTACT hContact, WORD status);
