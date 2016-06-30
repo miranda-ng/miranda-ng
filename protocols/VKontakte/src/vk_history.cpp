@@ -189,7 +189,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				m_iLoadHistoryTask--;
 			
 			ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
-			CMString str(FORMAT, _T("%s for %s"), TranslateT("Error loading message history from server"), ptszNick);
+			CMString str(FORMAT, _T("%s %s %s"), TranslateT("Error loading message history from server"), TranslateT("for"), ptszNick);
 
 			MsgPopup(param->hContact, str, TranslateT("Error"), true);
 			debugLog(_T("CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);

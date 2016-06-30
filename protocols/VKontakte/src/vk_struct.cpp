@@ -42,7 +42,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	bIsMainConn = false;
-	bExpUrlEncode = ppro->m_vkOptions.bUseNonStandardUrlEncode != 0 ? true : false;
+	bExpUrlEncode = (BYTE)ppro->m_vkOptions.bUseNonStandardUrlEncode != 0;
 	AddHeader("Connection", "keep-alive");
 		
 	if (*_url == '/') {	// relative url leads to a site
