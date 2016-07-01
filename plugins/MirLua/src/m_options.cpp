@@ -34,7 +34,7 @@ public:
 		}
 	}
 
-	void OnDestroy()
+	void OnDestroy() override
 	{
 		lua_pushnil(L);
 		lua_rawsetp(L, LUA_REGISTRYINDEX, this);

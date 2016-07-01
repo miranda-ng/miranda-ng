@@ -5,6 +5,7 @@ static luaL_Reg chatApi[] =
 	{ NULL, NULL }
 };
 
+template <>
 int MT<GCEVENT>::Index(lua_State *L, GCEVENT *gce)
 {
 	const char *key = lua_tostring(L, 2);

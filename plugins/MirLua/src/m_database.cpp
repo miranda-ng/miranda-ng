@@ -589,6 +589,7 @@ static luaL_Reg databaseApi[] =
 
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
+template <>
 int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 {
 	const char *key = luaL_checkstring(L, 2);
@@ -639,6 +640,7 @@ int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 
 #define MT_DBEVENTINFO "DBEVENTINFO"
 
+template <>
 void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 {
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
@@ -650,6 +652,7 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 	db_event_get((MEVENT)hDbEvent, (*dbei));
 }
 
+template <>
 int MT<DBEVENTINFO>::Index(lua_State *L, DBEVENTINFO *dbei)
 {
 	const char *key = luaL_checkstring(L, 2);
@@ -669,6 +672,7 @@ int MT<DBEVENTINFO>::Index(lua_State *L, DBEVENTINFO *dbei)
 	return 1;
 }
 
+template <>
 void MT<DBEVENTINFO>::Free(lua_State*, DBEVENTINFO **dbei)
 {
 	mir_free((*dbei)->pBlob);

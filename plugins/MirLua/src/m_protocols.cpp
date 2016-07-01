@@ -233,8 +233,8 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 	MT<CCSDATA>(L, "CCSDATA")
 		.Field(&CCSDATA::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CCSDATA::szProtoService, "Service", LUA_TSTRINGA)
-		.Field([](CCSDATA *ccd) { return (void*)ccd->wParam; }, "wParam", LUA_TLIGHTUSERDATA)
-		.Field([](CCSDATA *ccd) { return (void*)ccd->lParam; }, "lParam", LUA_TLIGHTUSERDATA);
+		.Field([](CCSDATA *ccd) -> MTFieldVal { MTFieldVal tmp; tmp.userdata = (void*)ccd->wParam; return tmp; }, "wParam", LUA_TLIGHTUSERDATA)
+		.Field([](CCSDATA *ccd) -> MTFieldVal { MTFieldVal tmp; tmp.userdata = (void*)ccd->lParam; return tmp; }, "lParam", LUA_TLIGHTUSERDATA);
 	
 	MT<PROTORECVEVENT>(L, "PROTORECVEVENT")
 		.Field(&PROTORECVEVENT::timestamp, "Timestamp", LUA_TINTEGER)

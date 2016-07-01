@@ -79,22 +79,23 @@ int luaM_print(lua_State *L)
 		switch (lua_type(L, i))
 		{
 		case LUA_TNIL:
-			data.Append("nil   ");
+			data.Append("nil");
 			break;
 		case LUA_TBOOLEAN:
-			data.AppendFormat("%s   ", lua_toboolean(L, i) ? "true" : "false");
+			data.AppendFormat("%s", lua_toboolean(L, i) ? "true" : "false");
 			break;
 		case LUA_TNUMBER:
 		case LUA_TSTRING:
-			data.AppendFormat("%s   ", lua_tostring(L, i));
+			data.AppendFormat("%s", lua_tostring(L, i));
 			break;
 		default:
-			data.AppendFormat("%s(0x%p)   ", luaL_typename(L, i), lua_topointer(L, i));
+			data.AppendFormat("%s(0x%p)", luaL_typename(L, i), lua_topointer(L, i));
 			break;
 		}
+		data += '\t';
 	}
-	if (data.GetLength() >= 3)
-		data.Delete(data.GetLength() - 3, 3);
+	if (data.GetLength() >= 1)
+		data.Delete(data.GetLength() - 1, 1);
 
 	Log(data.GetBuffer());
 
