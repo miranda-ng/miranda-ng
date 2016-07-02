@@ -58,9 +58,8 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 	if (szSetting == NULL || szModule == NULL)
 		return 1;
 
-	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	int settingNameLen = (int)strlen(szSetting);
-	int moduleNameLen = (int)strlen(szModule);
+	size_t settingNameLen = strlen(szSetting);
+	size_t moduleNameLen = strlen(szModule);
 
 LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
@@ -106,10 +105,13 @@ LBL_Seek:
 
 	txn_ptr_ro trnlck(m_txn);
 
-	DBSettingKey keySearch = { contactID, GetModuleNameOfs(szModule) };
-	strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
+	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+	keyVal->hContact = contactID;
+	keyVal->dwModuleId = GetModuleNameOfs(szModule);
+	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-	MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
+
+	MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal }, data;
 	if (mdb_get(trnlck, m_dbSettings, &key, &data) != MDB_SUCCESS) 
 	{
 		// try to get the missing mc setting from the active sub
@@ -119,7 +121,7 @@ LBL_Seek:
 			{
 				if (szModule = GetContactProto(contactID)) 
 				{
-					moduleNameLen = (int)strlen(szModule);
+					moduleNameLen = strlen(szModule);
 					goto LBL_Seek;
 				}
 			}
@@ -361,8 +363,8 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	int settingNameLen = (int)strlen(dbcws->szSetting);
-	int moduleNameLen = (int)strlen(dbcws->szModule);
+	size_t settingNameLen = strlen(dbcws->szSetting);
+	size_t moduleNameLen = strlen(dbcws->szModule);
 
 	// used for notifications
 	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
@@ -455,12 +457,13 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	}
 	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
-	DBSettingKey keySearch;
-	keySearch.dwContactID = contactID;
-	keySearch.dwOfsModule = GetModuleNameOfs(dbcws->szModule);
-	strncpy_s(keySearch.szSettingName, dbcws->szSetting, _TRUNCATE);
+	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+	keyVal->hContact = contactID;
+	keyVal->dwModuleId = GetModuleNameOfs(dbcws->szModule);
+	memcpy(&keyVal->szSettingName, dbcws->szSetting, settingNameLen + 1);
 
-	MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
+
+	MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal }, data;
 
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE:  data.mv_size = 2; break;
@@ -501,7 +504,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 		}
 
-		if (trnlck.commit())
+		if (trnlck.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -515,55 +518,49 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	if (!szModule || !szSetting)
 		return 1;
 
-	int settingNameLen = (int)strlen(szSetting);
-	int moduleNameLen = (int)strlen(szModule);
+	size_t settingNameLen = strlen(szSetting);
+	size_t moduleNameLen = strlen(szModule);
 
-	MCONTACT saveContact = contactID;
+	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
+
+	if (szCachedSettingName[-1] == 0)  // it's not a resident variable
 	{
-		mir_cslock lck(m_csDbAccess);
-		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
-		if (szCachedSettingName[-1] == 0) { // it's not a resident variable
-			DBSettingKey keySearch;
-			keySearch.dwContactID = contactID;
-			keySearch.dwOfsModule = GetModuleNameOfs(szModule);
-			strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
+		DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+		keyVal->hContact = contactID;
+		keyVal->dwModuleId = GetModuleNameOfs(szModule);
+		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-			MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
+		MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal };
 
-			for (;; Remap()) 
-			{
-				txn_ptr trnlck(m_pMdbEnv);
-				MDB_CHECK(mdb_del(trnlck, m_dbSettings, &key, &data), 1);
-				if (trnlck.commit())
-					break;
-			}
+		for (;; Remap()) 
+		{
+			txn_ptr trnlck(m_pMdbEnv);
+			MDB_CHECK(mdb_del(trnlck, m_dbSettings, &key, nullptr), 1);
+			if (trnlck.commit() == MDB_SUCCESS)
+				break;
 		}
-
-		m_cache->GetCachedValuePtr(saveContact, szCachedSettingName, -1);
 	}
+
+	m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
-	NotifyEventHooks(hSettingChangeEvent, saveContact, (LPARAM)&dbcws);
+	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcws);
 	return 0;
 }
 
 STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces)
 {
-	if (!dbces->szModule)
-		return -1;
-
 	int result = -1;
 
-	DBSettingKey keySearch;
-	keySearch.dwContactID = contactID;
-	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
-	memset(keySearch.szSettingName, 0, sizeof(keySearch.szSettingName));
+	DBSettingKey keySearch = { 0 };
+	keySearch.hContact = contactID;
+	keySearch.dwModuleId = GetModuleNameOfs(dbces->szModule);
 
-	txn_ptr_ro trnlck(m_txn);
+	txn_ptr_ro txn(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 
 	MDB_val key = { sizeof(keySearch), &keySearch }, data;
@@ -571,12 +568,9 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 	{
 		const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-			return result;
-
-		char szSetting[256];
-		strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD)* 2);
-		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+		if (pKey->hContact != contactID || pKey->dwModuleId != keySearch.dwModuleId)
+			break;
+		result = (dbces->pfnEnumProc)(pKey->szSettingName, dbces->lParam);
 	}
 
 	return result;

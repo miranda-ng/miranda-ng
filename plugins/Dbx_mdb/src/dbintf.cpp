@@ -25,19 +25,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
-	return strcmp(mn1->name, mn2->name);
+	return strcmp(mn1->szName, mn2->szName);
 }
 
 static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
-	return (mn1->ofs - mn2->ofs);
+	return (mn1->dwId - mn2->dwId);
 }
 
 CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_dwMaxContactId(1),
+	m_maxContactId(1),
 	m_lMods(50, ModCompare),
 	m_lOfs(50, OfsCompare),
 	m_lResidentSettings(50, strcmp)
@@ -117,7 +117,7 @@ int CDbxMdb::Load(bool bSkipInit)
 			mdb_put(trnlck, m_dbGlobal, &key, &data, 0);
 
 			keyVal = 0;
-			DBContact dbc = { DBCONTACT_SIGNATURE, 0, 0, 0 };
+			DBContact dbc = { 0, 0, 0 };
 			data.mv_data = &dbc; data.mv_size = sizeof(dbc);
 			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
 		}
@@ -130,15 +130,21 @@ int CDbxMdb::Load(bool bSkipInit)
 
 			mdb_cursor_open(m_txn, m_dbEvents, &m_curEvents);
 			if (mdb_cursor_get(m_curEvents, &key, &val, MDB_LAST) == MDB_SUCCESS)
-				m_dwMaxEventId = *(MEVENT*)key.mv_data + 1;
+				m_dwMaxEventId = *(MEVENT*)key.mv_data;
 
 			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
 			mdb_cursor_open(m_txn, m_dbSettings, &m_curSettings);
 			mdb_cursor_open(m_txn, m_dbModules, &m_curModules);
+			if (mdb_cursor_get(m_curModules, &key, &val, MDB_LAST) == MDB_SUCCESS)
+				m_maxModuleID = *(DWORD*)key.mv_data;
 
 			mdb_cursor_open(m_txn, m_dbContacts, &m_curContacts);
 			if (mdb_cursor_get(m_curContacts, &key, &val, MDB_LAST) == MDB_SUCCESS)
-				m_dwMaxContactId = *(DWORD*)key.mv_data + 1;
+				m_maxContactId = *(MCONTACT*)key.mv_data;
+
+			MDB_stat st;
+			mdb_stat(m_txn, m_dbContacts, &st);
+			m_contactCount = st.ms_entries;
 
 			mdb_txn_reset(m_txn);
 		}
@@ -174,25 +180,23 @@ int CDbxMdb::Create(void)
 	return (Map() == MDB_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
 }
 
+size_t iDefHeaderOffset = 16;
+BYTE bDefHeader[] = { 0xDE, 0xC0, 0xEF, 0xBE };
+
 int CDbxMdb::Check(void)
 {
-	HANDLE hFile = CreateFile(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
+	FILE *pFile = _tfopen(m_tszProfileName, _T("rb"));
+	if (pFile == nullptr)
 		return EGROKPRF_CANTREAD;
 
-	LARGE_INTEGER iFileSize;
-	GetFileSizeEx(hFile, &iFileSize);
-	m_dwFileSize = iFileSize.LowPart;
+	fseek(pFile, iDefHeaderOffset, SEEK_SET);
+	BYTE buf[_countof(bDefHeader)];
+	if (fread(buf, 1, _countof(buf), pFile) != _countof(buf))
+		return EGROKPRF_DAMAGED;
 
-	DWORD dummy = 0;
-	char buf[32];
-	if (!ReadFile(hFile, buf, sizeof(buf), &dummy, NULL)) {
-		CloseHandle(hFile);
-		return EGROKPRF_CANTREAD;
-	}
+	fclose(pFile);
 
-	CloseHandle(hFile);
-	return (memcmp(buf + 16, "\xDE\xC0\xEF\xBE", 4)) ? EGROKPRF_UNKHEADER : 0;
+	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
 
 int CDbxMdb::PrepareCheck(int*)
@@ -209,10 +213,7 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMdb::Map()
 {
-	m_dwFileSize += 0x100000;
-	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
-
-	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | MDB_NOLOCK | MDB_NOTLS | MDB_WRITEMAP;
+	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | /*MDB_NOLOCK |*/ MDB_NOTLS | MDB_WRITEMAP;
 	if (m_bReadOnly)
 		mode |= MDB_RDONLY;
 	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664);
@@ -220,10 +221,11 @@ int CDbxMdb::Map()
 
 bool CDbxMdb::Remap()
 {
-	mir_cslock lck(m_csDbAccess);
-	m_dwFileSize += 0x100000;
-	return mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize) == MDB_SUCCESS;
+	MDB_envinfo ei;
+	mdb_env_info(m_pMdbEnv, &ei);
+	return mdb_env_set_mapsize(m_pMdbEnv, ei.me_mapsize + 0x100000) == MDB_SUCCESS;
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -251,6 +253,14 @@ EXTERN_C void __cdecl dbpanic(void *)
 EXTERN_C void LMDB_FailAssert(void *p, const char *text)
 {
 	((CDbxMdb*)p)->DatabaseCorruption(_A2T(text));
+}
+
+EXTERN_C void LMDB_Log(const char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	CallService(MS_NETLIB_LOG, 0, (LPARAM)(CMStringA().FormatV(fmt, args)));
+	va_end(args);
 }
 
 void CDbxMdb::DatabaseCorruption(const TCHAR *text)

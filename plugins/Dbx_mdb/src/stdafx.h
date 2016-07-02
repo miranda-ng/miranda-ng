@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <process.h>
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include <newpluginapi.h>
 #include <win2k.h>
@@ -50,10 +51,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class txn_ptr
 {
+	MDB_env *m_env;
 	MDB_txn *m_txn;
-
 public:
-	__forceinline txn_ptr(MDB_env *pEnv)
+	__forceinline txn_ptr(MDB_env *pEnv) : m_env(pEnv)
 	{
 		mdb_txn_begin(pEnv, NULL, 0, &m_txn);
 	}
@@ -66,11 +67,11 @@ public:
 
 	__forceinline operator MDB_txn*() const { return m_txn; }
 
-	__forceinline bool commit()
+	__forceinline int commit()
 	{
-		bool bRes = (mdb_txn_commit(m_txn) != MDB_MAP_FULL);
-		m_txn = NULL;
-		return bRes;
+		MDB_txn *tmp = m_txn;
+		m_txn = nullptr;
+		return mdb_txn_commit(tmp);
 	}
 
 	__forceinline void abort()
@@ -121,16 +122,19 @@ class cursor_ptr_ro
 public:
 	__forceinline cursor_ptr_ro(MDB_cursor *cursor) : m_cursor(cursor)
 	{
-		mdb_cursor_renew(mdb_cursor_txn(m_cursor), m_cursor); //--
+		mdb_cursor_renew(mdb_cursor_txn(m_cursor), m_cursor);
 	}
 	__forceinline operator MDB_cursor*() const { return m_cursor; }
 };
 
 #define MDB_CHECK(A,B) \
-	switch(A) { \
+	switch (A) { \
 	case MDB_SUCCESS: break; \
 	case MDB_MAP_FULL: continue; \
 	default: return (B); }
+
+
+
 
 #include "dbintf.h"
 #include "resource.h"

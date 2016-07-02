@@ -37,13 +37,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct ModuleName
 {
-	char *name;
-	DWORD ofs;
+	DWORD dwId;
+	char szName[];
 };
 
 #include <pshpack1.h>
 
-#define DBHEADER_VERSION 3
+#define DBHEADER_VERSION MAKELONG(1, 2)
+
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
@@ -51,27 +52,15 @@ struct DBHeader
 	DWORD dwVersion;			// database format version
 };
 
-#define DBCONTACT_SIGNATURE 0x43DECADEu
 struct DBContact
 {
-	DWORD dwSignature;
 	DWORD dwEventCount;       // number of events in the chain for this contact
 	DWORD tsFirstUnread;
 	DWORD dwFirstUnread;
 };
 
-#define DBMODULENAME_SIGNATURE 0x4DDECADEu
-struct DBModuleName
-{
-	DWORD dwSignature;
-	BYTE cbName;            // number of characters in this module name
-	char name[];           // name, no nul terminator
-};
-
-#define DBEVENT_SIGNATURE  0x45DECADEu
 struct DBEvent
 {
-	DWORD dwSignature;
 	MCONTACT contactID;     // a contact this event belongs to
 	DWORD ofsModuleName;	// offset to a DBModuleName struct of the name of
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
@@ -92,9 +81,27 @@ struct DBEventSortingKey
 
 struct DBSettingKey
 {
-	DWORD dwContactID;
-	DWORD dwOfsModule;
-	char  szSettingName[100];
+	MCONTACT hContact;
+	DWORD dwModuleId;
+	char  szSettingName[];
+};
+
+struct DBSettingValue
+{
+	BYTE type;
+	union
+	{
+		BYTE bVal;
+		WORD wVal;
+		DWORD dwVal;
+		char szVal[];
+
+		struct
+		{
+			size_t nLength;
+			BYTE bVal[];
+		} blob;
+	};
 };
 
 #include <poppack.h>
@@ -124,7 +131,7 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 	friend class LMDBEventCursor;
 
 	CDbxMdb(const TCHAR *tszFileName, int mode);
-	~CDbxMdb();
+	virtual ~CDbxMdb();
 
 	int Load(bool bSkipInit);
 	int Create(void);
@@ -138,7 +145,7 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 
 	int  PrepareCheck(int*);
 
-	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
+	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
@@ -195,8 +202,8 @@ protected:
 
 	void  FillContacts(void);
 
-	bool  Remap();
 	int   Map();
+	bool  Remap();
 
 protected:
 	TCHAR*   m_tszProfileName;
@@ -235,7 +242,8 @@ protected:
 	MDB_dbi	m_dbContacts;
 	MDB_cursor *m_curContacts;
 
-	DWORD    m_contactCount, m_dwMaxContactId;
+	DWORD    m_contactCount;
+	MCONTACT m_maxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
 
@@ -259,10 +267,9 @@ protected:
 	LIST<char> m_lResidentSettings;
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 	MCONTACT m_hLastCachedContact;
-	int      m_maxModuleID;
-	ModuleName *m_lastmn;
+	DWORD      m_maxModuleID;
 
-	void     AddToList(char *name, DWORD ofs);
+	void     AddToList(const char *name, DWORD ofs);
 	DWORD    FindExistingModuleNameOfs(const char *szName);
 	int      InitModuleNames(void);
 	DWORD    GetModuleNameOfs(const char *szName);

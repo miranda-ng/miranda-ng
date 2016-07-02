@@ -35,7 +35,6 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (dbei->timestamp == 0) return 0;
 
 	DBEvent dbe;
-	dbe.dwSignature = DBEVENT_SIGNATURE;
 	dbe.contactID = contactID; // store native or subcontact's id
 	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
 
@@ -97,7 +96,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		// add a sorting key
 		DBEventSortingKey key2 = { dwEventId, dbe.timestamp, contactID };
 		key.mv_size = sizeof(key2); key.mv_data = &key2;
-		data.mv_size = 1; data.mv_data = "";
+		data.mv_size = 1; data.mv_data = (char*)("");
 		MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
 		cc->Advance(dwEventId, dbe);
@@ -115,7 +114,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			MDB_CHECK(mdb_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
 		}
 
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -148,7 +147,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	const auto Snapshot = [&]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
 	const auto Revert = [&]() { cc->Revert(); if (cc2) cc2->Revert(); };
-
+	
 	for (Snapshot();; Revert(), Remap())
 	{
 		DBEventSortingKey key2 = { hDbEvent, dbe.timestamp, contactID };
@@ -187,7 +186,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		key.mv_size = sizeof(MEVENT); key.mv_data = &hDbEvent;
 		MDB_CHECK(mdb_del(txn, m_dbEvents, &key, &data), 1);
 
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -203,9 +202,7 @@ STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(MEVENT hDbEvent)
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 		return -1;
-
-	const DBEvent *dbe = (const DBEvent*)data.mv_data;
-	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->cbBlob : 0;
+	return ((const DBEvent*)data.mv_data)->cbBlob;
 }
 
 STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
@@ -223,8 +220,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 
 	const DBEvent *dbe = (const DBEvent*)data.mv_data;
-	if (dbe->dwSignature != DBEVENT_SIGNATURE)
-		return 1;
 
 	dbei->szModule = GetModuleNameByOfs(dbe->ofsModuleName);
 	dbei->timestamp = dbe->timestamp;
@@ -283,7 +278,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		return -1;
 
 	DWORD wRetVal = -1;
-
+	
 	for (cc->Snapshot();; cc->Revert(), Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
@@ -292,8 +287,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		MDB_CHECK(mdb_get(txn, m_dbEvents, &key, &data), -1);
 
 		const DBEvent *cdbe = (const DBEvent*)data.mv_data;
-		if (cdbe->dwSignature != DBEVENT_SIGNATURE)
-			return -1;
+
 		if (cdbe->markedRead())
 			return cdbe->flags;
 
@@ -309,7 +303,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), -1);
 
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -329,11 +323,11 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 		return INVALID_CONTACT_ID;
 
 	const DBEvent *dbe = (const DBEvent*)data.mv_data;
-	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
+	return dbe->contactID;
 }
 
-thread_local DWORD t_tsLast;
-thread_local MEVENT t_evLast;
+thread_local DWORD t_tsLast = 0;
+thread_local MEVENT t_evLast = 0;
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 {
@@ -420,7 +414,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 
 	txn_ptr_ro txn(m_txn);
 
-	if (t_evLast != hDbEvent) {
+	if (t_evLast != hDbEvent) 
+	{
 		MDB_val key = { sizeof(MEVENT), &hDbEvent };
 		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 			return 0;

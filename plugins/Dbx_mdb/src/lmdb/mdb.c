@@ -35,8 +35,12 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE 1
 #endif
-
-#define MDB_VL32 1
+#if defined(MDB_VL32) || defined(__WIN64__)
+#define _FILE_OFFSET_BITS	64
+#endif
+#ifdef _WIN32
+#include <malloc.h>
+#include <windows.h>
 
 #ifdef _WIN64
 #	pragma comment(lib, "lib/x64/ntdll.lib")
@@ -46,13 +50,6 @@
 
 #pragma warning(disable: 4706)
 
-#if defined(MDB_VL32) || defined(__WIN64__)
-#define _FILE_OFFSET_BITS	64
-#endif
-#ifdef _WIN32
-#include <malloc.h>
-#include <windows.h>
-
 /* We use native NT APIs to setup the memory map, so that we can
  * let the DB file grow incrementally instead of always preallocating
  * the full size. These APIs are defined in <wdm.h> and <ntifs.h>
@@ -61,12 +58,11 @@
  * declare them here. Using these APIs also means we must link to
  * ntdll.dll, which is not linked by default in user code.
  */
-
 NTSTATUS WINAPI
-	NtCreateSection(OUT PHANDLE sh, IN ACCESS_MASK acc,
-	IN void * oa OPTIONAL,
-	IN PLARGE_INTEGER ms OPTIONAL,
-	IN ULONG pp, IN ULONG aa, IN HANDLE fh OPTIONAL);
+NtCreateSection(OUT PHANDLE sh, IN ACCESS_MASK acc,
+  IN void * oa OPTIONAL,
+  IN PLARGE_INTEGER ms OPTIONAL,
+  IN ULONG pp, IN ULONG aa, IN HANDLE fh OPTIONAL);
 
 typedef enum _SECTION_INHERIT {
 	ViewShare = 1,
@@ -74,14 +70,14 @@ typedef enum _SECTION_INHERIT {
 } SECTION_INHERIT;
 
 NTSTATUS WINAPI
-	NtMapViewOfSection(IN PHANDLE sh, IN HANDLE ph,
-	IN OUT PVOID *addr, IN ULONG_PTR zbits,
-	IN SIZE_T cs, IN OUT PLARGE_INTEGER off OPTIONAL,
-	IN OUT PSIZE_T vs, IN SECTION_INHERIT ih,
-	IN ULONG at, IN ULONG pp);
+NtMapViewOfSection(IN PHANDLE sh, IN HANDLE ph,
+  IN OUT PVOID *addr, IN ULONG_PTR zbits,
+  IN SIZE_T cs, IN OUT PLARGE_INTEGER off OPTIONAL,
+  IN OUT PSIZE_T vs, IN SECTION_INHERIT ih,
+  IN ULONG at, IN ULONG pp);
 
 NTSTATUS WINAPI
-	NtClose(HANDLE h);
+NtClose(HANDLE h);
 
 /** getpid() returns int; MinGW defines pid_t but MinGW64 typedefs it
  *  as int64 which is wrong. MSVC doesn't define it at all, so just
@@ -320,7 +316,8 @@ union semun {
 # else
 #  define MDB_USE_ROBUST	1
 /* glibc < 2.12 only provided _np API */
-#  if defined(__GLIBC__) && GLIBC_VER < 0x02000c
+#  if (defined(__GLIBC__) && GLIBC_VER < 0x02000c) || \
+	(defined(PTHREAD_MUTEX_ROBUST_NP) && !defined(PTHREAD_MUTEX_ROBUST))
 #   define PTHREAD_MUTEX_ROBUST	PTHREAD_MUTEX_ROBUST_NP
 #   define pthread_mutexattr_setrobust(attr, flag)	pthread_mutexattr_setrobust_np(attr, flag)
 #   define pthread_mutex_consistent(mutex)	pthread_mutex_consistent_np(mutex)
@@ -582,7 +579,7 @@ static txnid_t mdb_debug_start;
 	 */
 # define DPRINTF(args) ((void) ((mdb_debug) && DPRINTF0 args))
 # define DPRINTF0(fmt, ...) \
-	fprintf(stderr, "%s:%d " fmt "\n", mdb_func_, __LINE__, __VA_ARGS__)
+	LMDB_Log("%s:%d " fmt "\n", mdb_func_, __LINE__, __VA_ARGS__)
 #else
 # define DPRINTF(args)	((void) 0)
 #endif
@@ -4978,6 +4975,13 @@ mdb_env_setup_locks(MDB_env *env, char *lpath, int mode, int *excl)
 #else	/* MDB_USE_POSIX_MUTEX: */
 		pthread_mutexattr_t mattr;
 
+		/* Solaris needs this before initing a robust mutex.  Otherwise
+		 * it may skip the init and return EBUSY "seems someone already
+		 * inited" or EINVAL "it was inited differently".
+		 */
+		memset(env->me_txns->mti_rmutex, 0, sizeof(*env->me_txns->mti_rmutex));
+		memset(env->me_txns->mti_wmutex, 0, sizeof(*env->me_txns->mti_wmutex));
+
 		if ((rc = pthread_mutexattr_init(&mattr))
 			|| (rc = pthread_mutexattr_setpshared(&mattr, PTHREAD_PROCESS_SHARED))
 #ifdef MDB_ROBUST_SUPPORTED
@@ -6433,7 +6437,8 @@ mdb_cursor_next(MDB_cursor *mc, MDB_val *key, MDB_val *data, MDB_cursor_op op)
 	MDB_node	*leaf;
 	int rc;
 
-	if (mc->mc_flags & C_EOF) {
+	if ((mc->mc_flags & C_EOF) ||
+		((mc->mc_flags & C_DEL) && op == MDB_NEXT_DUP)) {
 		return MDB_NOTFOUND;
 	}
 	if (!(mc->mc_flags & C_INITIALIZED))
@@ -7483,8 +7488,13 @@ current:
 					/* Note - this page is already counted in parent's dirty_room */
 					rc2 = mdb_mid2l_insert(mc->mc_txn->mt_u.dirty_list, &id2);
 					mdb_cassert(mc, rc2 == 0);
+					/* Currently we make the page look as with put() in the
+					 * parent txn, in case the user peeks at MDB_RESERVEd
+					 * or unused parts. Some users treat ovpages specially.
+					 */
 					if (!(flags & MDB_RESERVE)) {
-						/* Copy end of page, adjusting alignment so
+						/* Skip the part where LMDB will put *data.
+						 * Copy end of page, adjusting alignment so
 						 * compiler may copy words instead of bytes.
 						 */
 						off = (PAGEHDRSZ + data->mv_size) & -sizeof(size_t);
@@ -9742,7 +9752,7 @@ mdb_env_cthr_toggle(mdb_copy *my, int st)
 static int ESECT
 mdb_env_cwalk(mdb_copy *my, pgno_t *pg, int flags)
 {
-	MDB_cursor mc;
+	MDB_cursor mc = {0};
 	MDB_node *ni;
 	MDB_page *mo, *mp, *leaf;
 	char *buf, *ptr;
@@ -9754,8 +9764,8 @@ mdb_env_cwalk(mdb_copy *my, pgno_t *pg, int flags)
 		return MDB_SUCCESS;
 
 	mc.mc_snum = 1;
-	mc.mc_top = 0;
 	mc.mc_txn = my->mc_txn;
+	mc.mc_flags = my->mc_txn->mt_flags & (C_ORIG_RDONLY|C_WRITEMAP);
 
 	rc = mdb_page_get(&mc, *pg, &mc.mc_pg[0], NULL);
 	if (rc)

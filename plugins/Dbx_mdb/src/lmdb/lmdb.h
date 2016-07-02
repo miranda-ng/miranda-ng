@@ -172,8 +172,6 @@
 #	include <inttypes.h>
 #endif
 
-#define MDB_VL32 1
-
 #ifdef __cplusplus
 extern "C" {
 #endif

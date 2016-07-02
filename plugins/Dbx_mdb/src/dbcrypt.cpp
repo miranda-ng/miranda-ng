@@ -53,13 +53,13 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	{
 		txn_ptr txn(m_pMdbEnv);
 
-		MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
+		MDB_val key = { sizeof(DBKEY_PROVIDER), (char*)(DBKEY_PROVIDER) }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
 
-		key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = DBKEY_IS_ENCRYPTED; value.mv_size = sizeof(bool); value.mv_data = &bTotalCrypt;
+		key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = (char*)(DBKEY_IS_ENCRYPTED); value.mv_size = sizeof(bool); value.mv_data = &bTotalCrypt;
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
 
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -72,7 +72,7 @@ int CDbxMdb::InitCrypt()
 
 	txn_ptr_ro txn(m_txn);
 
-	MDB_val key = { sizeof(DBKEY_PROVIDER), DBKEY_PROVIDER }, value;
+	MDB_val key = { sizeof(DBKEY_PROVIDER), (char*)(DBKEY_PROVIDER) }, value;
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
 	{
 		pProvider = Crypto_GetProvider((const char*)value.mv_data);
@@ -89,7 +89,7 @@ int CDbxMdb::InitCrypt()
 	if ((m_crypto = pProvider->pFactory()) == nullptr)
 		return 3;
 
-	key.mv_size = sizeof(DBKEY_KEY); key.mv_data = DBKEY_KEY;
+	key.mv_size = sizeof(DBKEY_KEY); key.mv_data = (char*)(DBKEY_KEY);
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS && (value.mv_size == m_crypto->getKeyLength()))
 	{
 		if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
@@ -118,7 +118,7 @@ int CDbxMdb::InitCrypt()
 		StoreKey();
 	}
 
-	key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = DBKEY_IS_ENCRYPTED;
+	key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = (char*)(DBKEY_IS_ENCRYPTED);
 	
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
 		m_bEncrypted = *(const bool*)value.mv_data;
@@ -138,9 +138,9 @@ void CDbxMdb::StoreKey()
 	for (;; Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
-		MDB_val key = { sizeof(DBKEY_KEY), DBKEY_KEY }, value = { iKeyLength, pKey };
+		MDB_val key = { sizeof(DBKEY_KEY), (char*)(DBKEY_KEY) }, value = { iKeyLength, pKey };
 		mdb_put(txn, m_dbCrypto, &key, &value, 0);
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 	SecureZeroMemory(pKey, iKeyLength);
@@ -173,7 +173,13 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 #ifdef DEBUG
 	{
 		txn_ptr_ro txn(m_txn);
+
+		MDB_stat st;
+		mdb_stat(txn, m_dbEvents, &st);
+
 		std::vector<MEVENT> lstEvents;
+		lstEvents.reserve(st.ms_entries);
+
 		{
 			cursor_ptr_ro cursor(m_curEvents);
 			MDB_val key, data;
@@ -183,8 +189,9 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 				lstEvents.push_back(hDbEvent);
 			}
 		}
-		for (MEVENT &hDbEvent : lstEvents)
+		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it)
 		{
+			MEVENT &hDbEvent = *it;
 			MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 			mdb_get(txn, m_dbEvents, &key, &data);
 
@@ -224,7 +231,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 					memcpy(pNewDBEvent, pNewEvent, sizeof(DBEvent));
 					memcpy(pNewDBEvent + sizeof(DBEvent), pNewBlob, nNewBlob);
 
-					if (txn.commit())
+					if (txn.commit() == MDB_SUCCESS)
 						break;
 				}
 			}
@@ -235,9 +242,9 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 	for (;; Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
-		MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), DBKEY_IS_ENCRYPTED }, value = { sizeof(bool), &bEncrypted };
+		MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), (char*)(DBKEY_IS_ENCRYPTED) }, value = { sizeof(bool), &bEncrypted };
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), 1);
-		if (txn.commit())
+		if (txn.commit() == MDB_SUCCESS)
 			break;
 	}
 	m_bEncrypted = bEncrypted;

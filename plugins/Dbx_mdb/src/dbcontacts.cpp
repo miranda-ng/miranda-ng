@@ -52,7 +52,6 @@ STDMETHODIMP_(LONG) CDbxMdb::GetContactSize(void)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::FindFirstContact(const char *szProto)
 {
-	mir_cslock lck(m_csDbAccess);
 	DBCachedContact *cc = m_cache->GetFirstContact();
 	if (cc == NULL)
 		return NULL;
@@ -69,7 +68,6 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::FindFirstContact(const char *szProto)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::FindNextContact(MCONTACT contactID, const char *szProto)
 {
-	mir_cslock lck(m_csDbAccess);
 	while (contactID) {
 		DBCachedContact *cc = m_cache->GetNextContact(contactID);
 		if (cc == NULL)
@@ -104,7 +102,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	{
 		MDB_val key, data;
 		DBSettingKey keyS = { contactID, 0 };
-		memset(keyS.szSettingName, 0, sizeof(keyS.szSettingName));
 
 		txn_ptr txn(m_pMdbEnv);
 		cursor_ptr cursor(txn, m_dbSettings);
@@ -114,7 +111,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 		{
 			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-			if (pKey->dwContactID != contactID)
+			if (pKey->hContact != contactID)
 				break;
 			mdb_cursor_del(cursor, 0);
 		}
@@ -127,7 +124,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	{
 		txn_ptr trnlck(m_pMdbEnv);
 		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, nullptr), 1);
-		if (trnlck.commit())
+		if (trnlck.commit() == MDB_SUCCESS)
 			break;
 	}
 
@@ -142,25 +139,21 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
-	DWORD dwContactId;
-	{
-		dwContactId = InterlockedIncrement(&m_dwMaxContactId);
+	MCONTACT dwContactId = InterlockedIncrement(&m_maxContactId);
 
-		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
-		cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
+	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 
-		MDB_val key = { sizeof(MCONTACT), &dwContactId };
-		MDB_val data = { sizeof(cc->dbc), &cc->dbc };
+	MDB_val key = { sizeof(MCONTACT), &dwContactId };
+	MDB_val data = { sizeof(cc->dbc), &cc->dbc };
 
-		for (;; Remap()) {
-			txn_ptr trnlck(m_pMdbEnv);
-			MDB_CHECK(mdb_put(trnlck, m_dbContacts, &key, &data, 0), 0);
-			if (trnlck.commit())
-				break;
-		}
-		InterlockedIncrement(&m_contactCount);
+	for (;; Remap()) {
+		txn_ptr trnlck(m_pMdbEnv);
+		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &key, &data, 0), 0);
+		if (trnlck.commit() == MDB_SUCCESS)
+			break;
 	}
 
+	InterlockedIncrement(&m_contactCount);
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
 	return dwContactId;
 }
@@ -221,7 +214,7 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
 			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
 			mdb_put(trnlck, m_dbEventsSort, &key, &data, 0);
-			if (trnlck.commit())
+			if (trnlck.commit() == MDB_SUCCESS)
 				break;
 		}
 		ccMeta->dbc.dwEventCount++;
@@ -234,7 +227,7 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	{
 		txn_ptr trnlck(m_pMdbEnv);
 		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
-		if (trnlck.commit())
+		if (trnlck.commit() == MDB_SUCCESS)
 			break;
 	}
 	return 0;
@@ -257,7 +250,7 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
 			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
 			mdb_del(trnlck, m_dbEventsSort, &key, &data);
-			if (trnlck.commit())
+			if (trnlck.commit() == MDB_SUCCESS)
 				break;
 		}
 		ccMeta->dbc.dwEventCount--;
@@ -270,7 +263,7 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	{
 		txn_ptr trnlck(m_pMdbEnv);
 		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
-		if (trnlck.commit())
+		if (trnlck.commit() == MDB_SUCCESS)
 			break;
 	}
 	return 0;
@@ -306,21 +299,18 @@ void DBCachedContact::Revert()
 
 void CDbxMdb::FillContacts()
 {
-	LIST<DBCachedContact> arContacts(10);
+	LIST<DBCachedContact> arContacts(m_contactCount);
 
 	{
 		txn_ptr_ro trnlck(m_txn);
 		cursor_ptr_ro cursor(m_curContacts);
 
 		MDB_val key, data;
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
 		{
 			const DBContact *dbc = (const DBContact*)data.mv_data;
-			if (dbc->dwSignature != DBCONTACT_SIGNATURE)
-				DatabaseCorruption(NULL);
 
-			DBCachedContact *cc = m_cache->AddContactToCache(*(DWORD*)key.mv_data);
-			cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
+			DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.mv_data);
 			cc->dbc.dwEventCount = dbc->dwEventCount;
 			cc->dbc.dwFirstUnread = dbc->dwFirstUnread;
 			cc->dbc.tsFirstUnread = dbc->tsFirstUnread;
@@ -328,18 +318,15 @@ void CDbxMdb::FillContacts()
 		}
 	}
 
-	m_contactCount = 0;
-	for (int i = 0; i < arContacts.getCount(); i++) 
+	for (int i = 0; i < arContacts.getCount(); i++)
 	{
 		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
 
-		m_contactCount++;
-
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
-			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
+			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs * sizeof(MCONTACT));
 			for (int k = 0; k < cc->nSubs; k++) {
 				char setting[100];
 				mir_snprintf(setting, _countof(setting), "Handle%d", k);
