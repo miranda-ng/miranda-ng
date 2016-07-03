@@ -23,23 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
-{
-	return strcmp(mn1->szName, mn2->szName);
-}
-
-static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
-{
-	return (mn1->dwId - mn2->dwId);
-}
-
 CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
 	m_maxContactId(1),
-	m_lMods(50, ModCompare),
-	m_lOfs(50, OfsCompare),
 	m_lResidentSettings(50, strcmp)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
@@ -50,14 +38,10 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	mdb_env_set_userctx(m_pMdbEnv, this);
 
 	m_codePage = Langpack_GetDefaultCodePage();
-	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
 CDbxMdb::~CDbxMdb()
 {
-	// destroy modules
-	HeapDestroy(m_hModHeap);
-
 	mdb_env_close(m_pMdbEnv);
 
 	DestroyServiceFunction(hService);
@@ -135,8 +119,6 @@ int CDbxMdb::Load(bool bSkipInit)
 			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
 			mdb_cursor_open(m_txn, m_dbSettings, &m_curSettings);
 			mdb_cursor_open(m_txn, m_dbModules, &m_curModules);
-			if (mdb_cursor_get(m_curModules, &key, &val, MDB_LAST) == MDB_SUCCESS)
-				m_maxModuleID = *(DWORD*)key.mv_data;
 
 			mdb_cursor_open(m_txn, m_dbContacts, &m_curContacts);
 			if (mdb_cursor_get(m_curContacts, &key, &val, MDB_LAST) == MDB_SUCCESS)
@@ -150,7 +132,7 @@ int CDbxMdb::Load(bool bSkipInit)
 		}
 
 
-		if (InitModuleNames()) return EGROKPRF_DAMAGED;
+		if (InitModules()) return EGROKPRF_DAMAGED;
 		if (InitCrypt())       return EGROKPRF_DAMAGED;
 
 		// everything is ok, go on
@@ -201,7 +183,7 @@ int CDbxMdb::Check(void)
 
 int CDbxMdb::PrepareCheck(int*)
 {
-	InitModuleNames();
+	InitModules();
 	return InitCrypt();
 }
 

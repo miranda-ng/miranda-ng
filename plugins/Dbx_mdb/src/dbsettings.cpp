@@ -107,7 +107,7 @@ LBL_Seek:
 
 	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
 	keyVal->hContact = contactID;
-	keyVal->dwModuleId = GetModuleNameOfs(szModule);
+	keyVal->dwModuleId = GetModuleID(szModule);
 	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
 
@@ -459,7 +459,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 
 	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
 	keyVal->hContact = contactID;
-	keyVal->dwModuleId = GetModuleNameOfs(dbcws->szModule);
+	keyVal->dwModuleId = GetModuleID(dbcws->szModule);
 	memcpy(&keyVal->szSettingName, dbcws->szSetting, settingNameLen + 1);
 
 
@@ -527,7 +527,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	{
 		DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
 		keyVal->hContact = contactID;
-		keyVal->dwModuleId = GetModuleNameOfs(szModule);
+		keyVal->dwModuleId = GetModuleID(szModule);
 		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
 		MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal };
@@ -556,19 +556,16 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 {
 	int result = -1;
 
-	DBSettingKey keySearch = { 0 };
-	keySearch.hContact = contactID;
-	keySearch.dwModuleId = GetModuleNameOfs(dbces->szModule);
-
+	DBSettingKey keyVal = { contactID, GetModuleID(dbces->szModule) };
 	txn_ptr_ro txn(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 
-	MDB_val key = { sizeof(keySearch), &keySearch }, data;
+	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 	{
 		const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
-		if (pKey->hContact != contactID || pKey->dwModuleId != keySearch.dwModuleId)
+		if (pKey->hContact != contactID || pKey->dwModuleId != keyVal.dwModuleId)
 			break;
 		result = (dbces->pfnEnumProc)(pKey->szSettingName, dbces->lParam);
 	}

@@ -23,23 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void CDbxMdb::AddToList(const char *szName, DWORD dwId)
-{
-	size_t iNameLength = strlen(szName) + 1;
-	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap, 0, sizeof(ModuleName) + iNameLength);
-	mn->dwId = dwId;
-	memcpy(&mn->szName, szName, iNameLength);
-
-	if (m_lMods.getIndex(mn) != -1)
-		DatabaseCorruption(_T("%s (Module Name not unique)"));
-	m_lMods.insert(mn);
-
-	if (m_lOfs.getIndex(mn) != -1)
-		DatabaseCorruption(_T("%s (Module Offset not unique)"));
-	m_lOfs.insert(mn);
-}
-
-int CDbxMdb::InitModuleNames(void)
+int CDbxMdb::InitModules()
 {
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curModules);
@@ -49,71 +33,42 @@ int CDbxMdb::InitModuleNames(void)
 	{
 		DWORD iMod = *(DWORD*)key.mv_data;
 		const char *szMod = (const char*)data.mv_data;
-		AddToList(szMod, iMod);
-	}
-	return 0;
-}
-
-thread_local ModuleName *t_lastmn = nullptr;
-
-DWORD CDbxMdb::FindExistingModuleNameOfs(const char *szName)
-{
-	if (t_lastmn && !strcmp(szName, t_lastmn->szName))
-		return t_lastmn->dwId;
-
-	ModuleName *pmn = m_lMods.find((ModuleName*)(szName - sizeof(DWORD))); // crazy hack
-	if (pmn != nullptr)
-	{
-		t_lastmn = pmn;
-		return pmn->dwId;
+		m_Modules[iMod] = szMod;
 	}
 	return 0;
 }
 
 // will create the offset if it needs to
-DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
+DWORD CDbxMdb::GetModuleID(const char *szName)
 {
-	DWORD ofsExisting = FindExistingModuleNameOfs(szName);
-	if (ofsExisting)
-		return ofsExisting;
+	DWORD iHash = mir_hashstr(szName);
+	if (auto it = m_Modules.find(iHash) == m_Modules.end())
+	{
+		MDB_val key = { sizeof(iHash), &iHash }, data = { strlen(szName) + 1, (void*)szName };
 
-	if (m_bReadOnly)
-		return 0;
-
-	size_t nameLen = strlen(szName);
-
-//	mir_cslock lck(m_csDbAccess);
-
-	// need to create the module name
-	DWORD newIdx = InterlockedIncrement(&m_maxModuleID);
-	
-	MDB_val key = { sizeof(DWORD), &newIdx }, data = { nameLen + 1, (void*)szName };
-
-	for (;; Remap()) {
-		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_put(trnlck, m_dbModules, &key, &data, 0), -1);
-		if (trnlck.commit() == MDB_SUCCESS)
-			break;
+		for (;; Remap()) {
+			txn_ptr txn(m_pMdbEnv);
+			MDB_CHECK(mdb_put(txn, m_dbModules, &key, &data, 0), -1);
+			if (txn.commit() == MDB_SUCCESS)
+				break;
+		}
+		m_Modules[iHash] = szName;
 	}
 
-	AddToList(szName, newIdx);
-
-	// quit
-	return newIdx;
+	return iHash;
 }
 
-char* CDbxMdb::GetModuleNameByOfs(DWORD ofs)
+char* CDbxMdb::GetModuleName(DWORD dwId)
 {
-	ModuleName *mn = m_lOfs.find((ModuleName*)&ofs);
-	return mn ? mn->szName : nullptr;
+	auto it = m_Modules.find(dwId);
+	return it != m_Modules.end() ? const_cast<char*>(it->second.c_str()) : nullptr;
 }
 
 STDMETHODIMP_(BOOL) CDbxMdb::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	for (int i = 0; i < m_lMods.getCount(); i++) {
-		ModuleName *pmn = m_lMods[i];
-		if (int ret = pFunc(pmn->szName, pmn->dwId, (LPARAM)pParam))
+	for (auto it = m_Modules.begin(); it != m_Modules.end(); ++it)
+		if (int ret = pFunc(it->second.c_str(), it->first, (LPARAM)pParam))
 			return ret;
-	}
+
 	return 0;
 }

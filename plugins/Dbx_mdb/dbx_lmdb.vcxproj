@@ -29,13 +29,15 @@
     <ClCompile Include="src\lmdb\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-	<ClCompile Include="src\lmdb\*.cpp">
+    <ClCompile Include="src\lmdb\*.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MDB_DEBUG=5;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDB_VL32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <process.h>
 #include <memory>
 #include <vector>
-#include <functional>
+#include <algorithm>
+#include <map>
 
 #include <newpluginapi.h>
 #include <win2k.h>
@@ -81,17 +82,39 @@ public:
 	}
 };
 
-class txn_ptr_ro
+struct TXN_RO
 {
 	MDB_txn *m_txn;
+	bool bIsActive;
+	mir_cs cs;
+
+	__forceinline TXN_RO() : m_txn(nullptr), bIsActive(false) {}
+
+	__forceinline operator MDB_txn* () { return m_txn; }
+	__forceinline MDB_txn** operator &() { return &m_txn; }
+};
+
+class txn_ptr_ro
+{
+	TXN_RO &m_txn;
+	bool bNeedReset;
+	mir_cslock lock;
 public:
-	__forceinline txn_ptr_ro(MDB_txn *txn) : m_txn(txn)
+	__forceinline txn_ptr_ro(TXN_RO &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
 	{
-		mdb_txn_renew(m_txn);
+		if (bNeedReset)
+		{
+			mdb_txn_renew(m_txn);
+			m_txn.bIsActive = true;
+		}
 	}
 	__forceinline ~txn_ptr_ro()
 	{
-		mdb_txn_reset(m_txn);
+		if (bNeedReset)
+		{
+			mdb_txn_reset(m_txn);
+			m_txn.bIsActive = false;
+		}
 	}
 	__forceinline operator MDB_txn*() const { return m_txn; }
 };

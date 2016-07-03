@@ -36,7 +36,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	DBEvent dbe;
 	dbe.contactID = contactID; // store native or subcontact's id
-	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
+	dbe.ofsModuleName = GetModuleID(dbei->szModule);
 
 	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *cc, *ccSub = NULL;
@@ -221,7 +221,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	const DBEvent *dbe = (const DBEvent*)data.mv_data;
 
-	dbei->szModule = GetModuleNameByOfs(dbe->ofsModuleName);
+	dbei->szModule = GetModuleName(dbe->ofsModuleName);
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;

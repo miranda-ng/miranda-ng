@@ -35,15 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
 
-struct ModuleName
-{
-	DWORD dwId;
-	char szName[];
-};
-
 #include <pshpack1.h>
 
-#define DBHEADER_VERSION MAKELONG(1, 2)
+#define DBHEADER_VERSION MAKELONG(1, 3)
 
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
@@ -123,8 +117,6 @@ struct EventItem
 	int ts;
 	DWORD eventId;
 };
-
-class LMDBEventCursor;
 
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
@@ -216,7 +208,7 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
-	MDB_txn *m_txn;
+	TXN_RO m_txn;
 	DWORD    m_dwFileSize;
 	MDB_dbi  m_dbGlobal;
 	DBHeader m_header;
@@ -261,19 +253,17 @@ protected:
 
 	MDB_dbi	m_dbModules;
 	MDB_cursor *m_curModules;
+	
+	std::map<DWORD, std::string> m_Modules;
 
-	HANDLE   m_hModHeap;
-	LIST<ModuleName> m_lMods, m_lOfs;
 	LIST<char> m_lResidentSettings;
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 	MCONTACT m_hLastCachedContact;
-	DWORD      m_maxModuleID;
 
-	void     AddToList(const char *name, DWORD ofs);
-	DWORD    FindExistingModuleNameOfs(const char *szName);
-	int      InitModuleNames(void);
-	DWORD    GetModuleNameOfs(const char *szName);
-	char*    GetModuleNameByOfs(DWORD ofs);
+	int      InitModules();
+	
+	DWORD    GetModuleID(const char *szName);
+	char*    GetModuleName(DWORD dwId);
 
 
 	int GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);

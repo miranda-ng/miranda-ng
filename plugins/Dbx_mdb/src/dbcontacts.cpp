@@ -286,12 +286,12 @@ void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
 
 void DBCachedContact::Snapshot()
 {
-	memcpy(&tmp_dbc, &dbc, sizeof(dbc));
+	tmp_dbc = dbc;
 }
 
 void DBCachedContact::Revert()
 {
-	memcpy(&dbc, &tmp_dbc, sizeof(dbc));
+	dbc = tmp_dbc;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -301,26 +301,15 @@ void CDbxMdb::FillContacts()
 {
 	LIST<DBCachedContact> arContacts(m_contactCount);
 
+	txn_ptr_ro trnlck(m_txn);
+	cursor_ptr_ro cursor(m_curContacts);
+
+	MDB_val key, data;
+	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
 	{
-		txn_ptr_ro trnlck(m_txn);
-		cursor_ptr_ro cursor(m_curContacts);
+		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.mv_data);
+		cc->dbc = *(DBContact*)data.mv_data;
 
-		MDB_val key, data;
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
-		{
-			const DBContact *dbc = (const DBContact*)data.mv_data;
-
-			DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.mv_data);
-			cc->dbc.dwEventCount = dbc->dwEventCount;
-			cc->dbc.dwFirstUnread = dbc->dwFirstUnread;
-			cc->dbc.tsFirstUnread = dbc->tsFirstUnread;
-			arContacts.insert(cc);
-		}
-	}
-
-	for (int i = 0; i < arContacts.getCount(); i++)
-	{
-		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
