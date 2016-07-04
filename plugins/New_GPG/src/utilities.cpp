@@ -639,7 +639,7 @@ int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, 
 static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 {
 	HXML local_node = node;
-	for (int n = 0; n <= xmlGetChildCount(node); n++) {
+	for (int n = 0; n <= xmlGetChildCount(node); local_node = xmlGetChild(node, n++)) {
 		LPCTSTR str = xmlGetText(local_node);
 		LPCTSTR nodename = xmlGetName(local_node);
 		LPCTSTR attr = xmlGetAttrValue(local_node, _T("to"));
@@ -647,180 +647,174 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			MCONTACT hContact = ji->ContactFromJID(attr);
 			if (hContact)
 				if (!isContactSecured(hContact))
-					return FALSE;
+					break;
 		}
-		if (str) {
+		
+		if (str == NULL)
+			continue;
 
-			//TODO: make following block more readable
-			if (_tcsstr(str, _T("-----BEGIN PGP MESSAGE-----")) && _tcsstr(str, _T("-----END PGP MESSAGE-----"))) {
-				wstring data = str;
-				xmlSetText(local_node, _T("This message is encrypted."));
-				wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + mir_tstrlen(_T("-----BEGIN PGP MESSAGE-----"));
-				while (data.find(_T("Version: "), p1) != wstring::npos) {
+		// TODO: make following block more readable
+		if (_tcsstr(str, _T("-----BEGIN PGP MESSAGE-----")) && _tcsstr(str, _T("-----END PGP MESSAGE-----"))) {
+			wstring data = str;
+			xmlSetText(local_node, _T("This message is encrypted."));
+			wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + mir_tstrlen(_T("-----BEGIN PGP MESSAGE-----"));
+			while (data.find(_T("Version: "), p1) != wstring::npos) {
+				p1 = data.find(_T("Version: "), p1);
+				p1 = data.find(_T("\n"), p1);
+			}
+			while (data.find(_T("Comment: "), p1) != wstring::npos) {
+				p1 = data.find(_T("Comment: "), p1);
+				p1 = data.find(_T("\n"), p1);
+			}
+			while (data.find(_T("Encoding: "), p1) != wstring::npos) {
+				p1 = data.find(_T("Encoding: "), p1);
+				p1 = data.find(_T("\n"), p1);
+			}
+			p1 += 3;
+			wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
+			wstring data2 = data.substr(p1, p2 - p1 - 2);
+			strip_line_term(data2);
+			if(bDebugLog)
+				debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
+			HXML encrypted_data = xmlAddChild(node, _T("x"), data2.c_str());
+			xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
+			break;
+		}
+
+		if (bPresenceSigning && nodename && _tcsstr(nodename, _T("status"))) {
+			TCHAR *path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+			wstring path_out = path_c;
+			wstring file = toUTF16(get_random(10));
+			mir_free(path_c);
+			path_out += _T("\\tmp\\");
+			path_out += file;
+			boost::filesystem::remove(path_out);
+			wfstream f(path_out.c_str(), std::ios::out);
+			f << toUTF8(str).c_str();
+			f.close();
+			if (!boost::filesystem::exists(path_out)) {
+				if (bDebugLog)
+					debuglog << std::string(time_str() + ": info: Failed to write prescense in file");
+				break;
+			}
+
+			extern TCHAR *password;
+			string out;
+			DWORD code;
+			std::vector<wstring> cmd;
+			{
+				ptrA inkeyid;
+
+				char setting[64];
+				mir_snprintf(setting, sizeof(setting) - 1, "%s_KeyID", ji->GetModuleName());
+				inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting, "");
+				if (!inkeyid[0]) {
+					mir_free(inkeyid);
+					inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+				}
+
+				ptrT pass;
+				if (inkeyid[0]) {
+					string dbsetting = "szKey_";
+					dbsetting += inkeyid;
+					dbsetting += "_Password";
+					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
+					if (pass[0] && bDebugLog)
+						debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.get() + ", trying to encrypt message from self with password");
+				}
+				else {
+					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+					if (pass[0] && bDebugLog)
+						debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
+				}
+				if (pass[0]) {
+					cmd.push_back(L"--passphrase");
+					cmd.push_back(pass.get());
+				}
+				else if (password) {
+					if (bDebugLog)
+						debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
+					cmd.push_back(L"--passphrase");
+					cmd.push_back(password);
+				}
+				else if (bDebugLog)
+					debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
+			}
+
+			cmd.push_back(L"--local-user");
+			path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", _T(""));
+			cmd.push_back(path_c);
+			cmd.push_back(L"--default-key");
+			cmd.push_back(path_c);
+			mir_free(path_c);
+			cmd.push_back(L"--batch");
+			cmd.push_back(L"--yes");
+			cmd.push_back(L"-abs");
+			cmd.push_back(path_out);
+			gpg_execution_params params(cmd);
+			pxResult result;
+			params.out = &out;
+			params.code = &code;
+			params.result = &result;
+			gpg_launcher(params, boost::posix_time::seconds(15)); // TODO: handle errors
+			boost::filesystem::remove(path_out);
+			path_out += _T(".asc");
+			f.open(path_out.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
+			wstring data;
+			if (f.is_open()) {
+				std::wifstream::pos_type size = f.tellg();
+				TCHAR *tmp = new TCHAR[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
+				f.seekg(0, std::ios::beg);
+				f.read(tmp, size);
+				tmp[size] = '\0';
+				data.append(tmp);
+				delete[] tmp;
+				f.close();
+				boost::filesystem::remove(path_out);
+			}
+			if (data.empty()) {
+				if (bDebugLog)
+					debuglog << std::string(time_str() + ": info: Failed to read prescense sign from file");
+				break;
+			}
+			if (data.find(_T("-----BEGIN PGP SIGNATURE-----")) != wstring::npos && data.find(_T("-----END PGP SIGNATURE-----")) != wstring::npos) {
+				wstring::size_type p1 = data.find(_T("-----BEGIN PGP SIGNATURE-----")) + mir_tstrlen(_T("-----BEGIN PGP SIGNATURE-----"));
+				if (data.find(_T("Version: "), p1) != wstring::npos) {
 					p1 = data.find(_T("Version: "), p1);
 					p1 = data.find(_T("\n"), p1);
+					if (data.find(_T("Version: "), p1) != wstring::npos) {
+						p1 = data.find(_T("Version: "), p1);
+						p1 = data.find(_T("\n"), p1) + 1;
+					}
+					else
+						p1 += 1;
 				}
-				while (data.find(_T("Comment: "), p1) != wstring::npos) {
+				if (data.find(_T("Comment: "), p1) != wstring::npos) {
 					p1 = data.find(_T("Comment: "), p1);
 					p1 = data.find(_T("\n"), p1);
+					if (data.find(_T("Comment: "), p1) != wstring::npos) {
+						p1 = data.find(_T("Comment: "), p1);
+						p1 = data.find(_T("\n"), p1) + 1;
+					}
+					else
+						p1 += 1;
 				}
-				while (data.find(_T("Encoding: "), p1) != wstring::npos) {
-					p1 = data.find(_T("Encoding: "), p1);
-					p1 = data.find(_T("\n"), p1);
-				}
-				p1 += 3;
-				wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
-				wstring data2 = data.substr(p1, p2 - p1 - 2);
-				strip_line_term(data2);
-				if(bDebugLog)
-					debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
-				HXML encrypted_data = xmlAddChild(node, _T("x"), data2.c_str());
-				xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
-				return FALSE;
-			}
-		}
-		if (bPresenceSigning && nodename) {
-			if (_tcsstr(nodename, _T("status"))) {
-				TCHAR *path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-				wstring path_out = path_c;
-				wstring file = toUTF16(get_random(10));
-				mir_free(path_c);
-				path_out += _T("\\tmp\\");
-				path_out += file;
-				boost::filesystem::remove(path_out);
-				wfstream f(path_out.c_str(), std::ios::out);
-				f << toUTF8(str).c_str();
-				f.close();
-				if (!boost::filesystem::exists(path_out)) {
-					if (bDebugLog)
-						debuglog << std::string(time_str() + ": info: Failed to write prescense in file");
-					return FALSE;
-				}
+				else
+					p1 += 1;
+				p1++;
+				wstring::size_type p2 = data.find(_T("-----END PGP SIGNATURE-----"));
 				{
-					extern TCHAR *password;
-					string out;
-					DWORD code;
-					std::vector<wstring> cmd;
-					{
-						char *inkeyid;
-						{
-							char *proto = ji->GetModuleName();
-							char setting[64];
-							mir_snprintf(setting, sizeof(setting) - 1, "%s_KeyID", proto);
-							inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting, "");
-							if (!inkeyid[0]) {
-								mir_free(inkeyid);
-								inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-							}
-						}
-						TCHAR *pass = NULL;
-						if (inkeyid[0]) {
-							string dbsetting = "szKey_";
-							dbsetting += inkeyid;
-							dbsetting += "_Password";
-							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-							if (pass[0] && bDebugLog)
-								debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to encrypt message from self with password");
-						}
-						else {
-							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-							if (pass[0] && bDebugLog)
-								debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
-						}
-						if (pass[0]) {
-							cmd.push_back(L"--passphrase");
-							cmd.push_back(pass);
-						}
-						else if (password) {
-							if (bDebugLog)
-								debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
-							cmd.push_back(L"--passphrase");
-							cmd.push_back(password);
-						}
-						else if (bDebugLog)
-							debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
-						mir_free(pass);
-						mir_free(inkeyid);
-					}
-					cmd.push_back(L"--local-user");
-					path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", _T(""));
-					cmd.push_back(path_c);
-					cmd.push_back(L"--default-key");
-					cmd.push_back(path_c);
-					mir_free(path_c);
-					cmd.push_back(L"--batch");
-					cmd.push_back(L"--yes");
-					cmd.push_back(L"-abs");
-					cmd.push_back(path_out);
-					gpg_execution_params params(cmd);
-					pxResult result;
-					params.out = &out;
-					params.code = &code;
-					params.result = &result;
-					gpg_launcher(params, boost::posix_time::seconds(15)); // TODO: handle errors
-					boost::filesystem::remove(path_out);
-					path_out += _T(".asc");
-					f.open(path_out.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
-					wstring data;
-					if (f.is_open()) {
-						std::wifstream::pos_type size = f.tellg();
-						TCHAR *tmp = new TCHAR[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
-						f.seekg(0, std::ios::beg);
-						f.read(tmp, size);
-						tmp[size] = '\0';
-						data.append(tmp);
-						delete[] tmp;
-						f.close();
-						boost::filesystem::remove(path_out);
-					}
-					if (data.empty()) {
-						if (bDebugLog)
-							debuglog << std::string(time_str() + ": info: Failed to read prescense sign from file");
-						return FALSE;
-					}
-					if (data.find(_T("-----BEGIN PGP SIGNATURE-----")) != wstring::npos && data.find(_T("-----END PGP SIGNATURE-----")) != wstring::npos) {
-						wstring::size_type p1 = data.find(_T("-----BEGIN PGP SIGNATURE-----")) + mir_tstrlen(_T("-----BEGIN PGP SIGNATURE-----"));
-						if (data.find(_T("Version: "), p1) != wstring::npos) {
-							p1 = data.find(_T("Version: "), p1);
-							p1 = data.find(_T("\n"), p1);
-							if (data.find(_T("Version: "), p1) != wstring::npos) {
-								p1 = data.find(_T("Version: "), p1);
-								p1 = data.find(_T("\n"), p1) + 1;
-							}
-							else
-								p1 += 1;
-						}
-						if (data.find(_T("Comment: "), p1) != wstring::npos) {
-							p1 = data.find(_T("Comment: "), p1);
-							p1 = data.find(_T("\n"), p1);
-							if (data.find(_T("Comment: "), p1) != wstring::npos) {
-								p1 = data.find(_T("Comment: "), p1);
-								p1 = data.find(_T("\n"), p1) + 1;
-							}
-							else
-								p1 += 1;
-						}
-						else
-							p1 += 1;
-						p1++;
-						wstring::size_type p2 = data.find(_T("-----END PGP SIGNATURE-----"));
-						{
-							std::wstring tmp = data.substr(p1, p2 - p1);
-							strip_line_term(tmp);
-							HXML encrypted_data = xmlAddChild(node, _T("x"), tmp.c_str());
-							xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
-						}
-					}
-					return FALSE;
+					std::wstring tmp = data.substr(p1, p2 - p1);
+					strip_line_term(tmp);
+					HXML encrypted_data = xmlAddChild(node, _T("x"), tmp.c_str());
+					xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
 				}
 			}
+			break;
 		}
-		local_node = xmlGetChild(node, n);
 	}
 	return FALSE;
 }
-
-//boost::mutex sign_file_mutex;
 
 static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
 {
