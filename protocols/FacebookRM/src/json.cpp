@@ -135,6 +135,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		const JSONNode &time_ = (*it)["timestamp"]["time"];
 		const JSONNode &text_ = (*it)["title"]["text"];
 		const JSONNode &url_ = (*it)["url"];
+		const JSONNode &icon_ = (*it)["icon"]["uri"];
 
 		// Ignore empty and old notifications
 		if (!text_ || !state_ || state_.as_string() == "SEEN_AND_READ" || !time_)
@@ -152,6 +153,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		notification->link = url_.as_string();
 		notification->text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text_.as_string()));
 		notification->time = utils::time::from_string(time_.as_string());
+		notification->setIcon(icon_.as_string());
 
 		// Write notification to chatroom
 		proto->UpdateNotificationsChatRoom(notification);
@@ -522,6 +524,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				const JSONNode &text = text_["text"];
 				const JSONNode &url = (*itNodes)["url"];
 				const JSONNode &alert_id = (*itNodes)["alert_id"];
+				const JSONNode &icon_ = (*itNodes)["icon"]["uri"];
 
 				const JSONNode &time_ = (*itNodes)["timestamp"];
 				if (!time_)
@@ -540,6 +543,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					notification->link = url.as_string();
 					notification->id = alert_id.as_string();
 					notification->time = timestamp;
+					notification->setIcon(icon_.as_string());
 
 					// Fix notification ID
 					std::string::size_type pos = notification->id.find(":");

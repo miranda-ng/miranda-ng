@@ -110,6 +110,7 @@ struct facebook_notification
 	std::string text;
 	std::string link;
 	std::string id;
+	const char *icon;
 	time_t time;
 	bool seen;
 	HWND hWndPopup;
@@ -119,6 +120,24 @@ struct facebook_notification
 		this->time = 0;
 		this->seen = false;
 		this->hWndPopup = NULL;
+	}
+
+	void setIcon(std::string iconUrl)
+	{
+		if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yj/r/6WffvhOaXGY.png")
+			icon = "like";
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/y1/r/RvGKklgAefT.png")
+			icon = "love";
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yV/r/McJA2ZjdJmf.png")
+			icon = "haha";
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yL/r/IfsimazVjj4.png")
+			icon = "wow";
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yH/r/jOeSrGlcPLG.png")
+			icon = "sad";
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yL/r/IfsimazVjj4.png")
+			icon = "angry";
+		else
+			icon = NULL;
 	}
 };
 

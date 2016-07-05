@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
+HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id, const char *icon)
 {
 	if (title == NULL || info == NULL)
 		return NULL;
@@ -103,6 +103,9 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 			pd.ptszText = info;
 			pd.pszClassName = name;
 			pd.hContact = contact;
+			if (icon != NULL) {
+				// pd.hIcon = IcoLib_GetIconByHandle(GetIconHandle(icon)); // FIXME: Uncomment when implemented in Popup+ and YAPP correctly
+			}
 
 			if (url != NULL || notification_id != NULL) {
 				popup_data *data = new popup_data(this);
