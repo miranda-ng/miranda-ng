@@ -32,57 +32,41 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 	switch (flags)
 	{
 	case FACEBOOK_EVENT_CLIENT:
-		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 		flags |= NIIF_WARNING;
 		break;
 
 	case FACEBOOK_EVENT_NEWSFEED:
-		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
-		SkinPlaySound("NewsFeed");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_NOTIFICATION:
-		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 		SkinPlaySound("Notification");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_OTHER:
-		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
 		SkinPlaySound("OtherEvent");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_FRIENDSHIP:
-		if (!getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
 		SkinPlaySound("Friendship");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_TICKER:
-		if (!getByte(FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE))
-			return NULL;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
 		SkinPlaySound("Ticker");
 		flags |= NIIF_INFO;
 		break;
 
 	case FACEBOOK_EVENT_ON_THIS_DAY:
-		if (!getByte(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
-			return NULL;
-		mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
-		SkinPlaySound("OnThisDay");
+		mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");		
 		flags |= NIIF_INFO;
 		break;
 	}

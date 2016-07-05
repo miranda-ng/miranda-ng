@@ -254,26 +254,26 @@ void FacebookProto::InitMenu()
 
 	mi.pszService = "/CheckFriendRequests";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckFriendRequests);
-	mi.name.a = LPGEN("Check Friends Requests");
+	mi.name.a = LPGEN("Check friendship requests");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckNewsfeeds";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckNewsfeeds);
-	mi.name.a = LPGEN("Check Newsfeeds");
+	mi.name.a = LPGEN("Check newsfeeds");
+	mi.hIcolibItem = GetIconHandle("newsfeed");
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = "/CheckOnThisDay";
+	CreateProtoService(mi.pszService, &FacebookProto::CheckOnThisDay);
+	mi.name.a = LPGEN("Check \"On this day\" posts");
 	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckNotifications";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckNotifications);
-	mi.name.a = LPGEN("Check Notifications");
+	mi.name.a = LPGEN("Check notifications");
 	mi.hIcolibItem = GetIconHandle("notification");
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-	mi.pszService = "/CheckOnThisDay";
-	CreateProtoService(mi.pszService, &FacebookProto::CheckOnThisDay);
-	mi.name.a = LPGEN("Check On This Day");
-	mi.hIcolibItem = GetIconHandle("mind");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 

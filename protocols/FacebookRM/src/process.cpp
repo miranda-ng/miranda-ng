@@ -129,11 +129,14 @@ void FacebookProto::ProcessFriendList(void*)
 				if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
 					delSetting(hContact, FACEBOOK_KEY_DELETED);
 
-					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-					std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
+					// Notify it, if user wants to be notified
+					if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+						std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+						std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+						ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+						NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+					}
 				}
 
 				// Check avatar change
@@ -145,16 +148,19 @@ void FacebookProto::ProcessFriendList(void*)
 			else {
 				// Contact was removed from "server-list", notify it
 
-				// Wasnt we already been notified about this contact? And was this real friend?
+				// Wasn't we already been notified about this contact? And was this real friend?
 				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
 					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 					
-					std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-					std::string contactname = getContactName(this, hContact, id);
+					// Notify it, if user wants to be notified
+					if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+						std::string url = FACEBOOK_URL_PROFILE + std::string(id);
+						std::string contactname = getContactName(this, hContact, id);
 
-					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+						ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+						NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+					}
 				}
 			}
 		}
@@ -636,7 +642,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 
 void FacebookProto::ProcessOnThisDay(void*)
 {
-	if (isOffline() || !getBool(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
+	if (isOffline())
 		return;
 
 	facy.handle_entry(__FUNCTION__);
@@ -663,10 +669,11 @@ void FacebookProto::ProcessOnThisDay(void*)
 
 			std::vector<facebook_newsfeed *> news;
 			DWORD new_time = 0;
-
 			parseFeeds(html, news, new_time, true);
 
-			debugLogA("    Last feeds update (new): %d", new_time);
+			if (!news.empty()) {
+				SkinPlaySound("OnThisDay");
+			}
 
 			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 			{
@@ -902,7 +909,8 @@ void FacebookProto::ProcessMessages(void* data)
 
 		ReceiveMessages(messages);
 
-		ShowNotifications();
+		if (getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+			ShowNotifications();
 
 		debugLogA("*** Messages processed");
 
@@ -917,9 +925,6 @@ void FacebookProto::ProcessMessages(void* data)
 
 void FacebookProto::ShowNotifications() {
 	ScopedLock s(facy.notifications_lock_);
-
-	if (!getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-		return;
 
 	// Show popups for unseen notifications and/or write them to chatroom
 	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
@@ -1090,6 +1095,10 @@ void FacebookProto::ProcessFeeds(void*)
 	bool filterAds = getBool(FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
 
 	parseFeeds(resp.data, news, new_time, filterAds);
+
+	if (!news.empty()) {
+		SkinPlaySound("NewsFeed");
+	}
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{

@@ -43,8 +43,6 @@
 #define IDC_HIDE_CHATS                  1040
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
-#define IDC_OTHER_ENABLE                1043
-#define IDC_CLIENT_ENABLE               1044
 #define IDC_FILTER_ADS                  1045
 #define IDC_LOGIN_SYNC                  1046
 #define IDC_ENABLE_CHATS                1047
@@ -52,7 +50,6 @@
 #define IDC_TICKER_ENABLE               1049
 #define IDC_ON_THIS_DAY_ENABLE          1050
 #define IDC_SYSTRAY_NOTIFY              1098
-#define IDC_PREVIEW                     1099
 #define IDC_NOTIFICATIONS_CHATROOM      1100
 #define IDC_SET_STATUS                  1126
 #define IDC_FEED_TYPE                   1201

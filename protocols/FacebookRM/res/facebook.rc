@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Englisch (USA) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -134,26 +134,27 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,137
-    CONTROL         "Notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
-    CONTROL         "News feeds (WARNING: Causes excessive network traffic!)",IDC_FEEDS_ENABLE,
+    GROUPBOX        "Popup notifications",IDC_STATIC,6,7,292,118
+    CONTROL         "Show notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
+    CONTROL         "Show wall posts (news feed) (WARNING: Causes excessive network traffic!)",IDC_FEEDS_ENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,36,272,8
-    RTEXT           "News feed types to notify:",IDC_STATIC,26,48,117,8
-    COMBOBOX        IDC_FEED_TYPE,150,46,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,63,138,8
-    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,72,272,8
-    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,85,272,8
-    CONTROL         "Friendship notifications",IDC_FRIENDSHIP_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,99,272,8
-    CONTROL         "Ticker feeds",IDC_TICKER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,272,8
-    CONTROL         "Show ""On this day"" posts at login",IDC_ON_THIS_DAY_ENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,272,8
-    RTEXT           "Use this server for opening links:",IDC_STATIC,13,154,139,8
-    COMBOBOX        IDC_URL_SERVER,156,151,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "News feed types to notify:",IDC_STATIC,46,48,137,8
+    COMBOBOX        IDC_FEED_TYPE,191,46,97,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,46,63,242,8
+    CONTROL         "Show friendships changes (when someone remove/approve you)",IDC_FRIENDSHIP_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
+    CONTROL         "Show real-time friends activity (ticker feed)",IDC_TICKER_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,93,272,8
+    CONTROL         "Show my ""On this day"" posts at login",IDC_ON_THIS_DAY_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,108,272,8
+	GROUPBOX        "Chatroom logging",IDC_STATIC,6,130,292,33
+    CONTROL         "Log notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,145,272,8
+    GROUPBOX        "Extra",IDC_STATIC,6,169,292,46
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,170,272,8
-    CONTROL         "Use logging notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,184,272,8
-    PUSHBUTTON      "Preview",IDC_PREVIEW,116,199,68,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,183,272,8
+    RTEXT           "Use this server for opening links:",IDC_STATIC,16,199,167,8
+    COMBOBOX        IDC_URL_SERVER,191,196,97,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_OPTIONS_STATUSES DIALOGEX 0, 0, 308, 226
@@ -280,7 +281,9 @@ BEGIN
         LEFTMARGIN, 6
         RIGHTMARGIN, 298
         VERTGUIDE, 16
-        VERTGUIDE, 150
+        VERTGUIDE, 46
+        VERTGUIDE, 183
+        VERTGUIDE, 191
         VERTGUIDE, 288
         TOPMARGIN, 7
         BOTTOMMARGIN, 219
@@ -324,18 +327,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_GUARD AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-#endif    // Englisch (USA) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

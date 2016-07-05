@@ -511,8 +511,6 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 
 		LoadDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_ENABLE, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_FEEDS_ENABLE, FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE);
-		LoadDBCheckState(proto, hwnd, IDC_CLIENT_ENABLE, FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE);
-		LoadDBCheckState(proto, hwnd, IDC_OTHER_ENABLE, FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_FRIENDSHIP_ENABLE, FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_TICKER_ENABLE, FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_ON_THIS_DAY_ENABLE, FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE);
@@ -523,15 +521,6 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 	case WM_COMMAND:
 		switch (LOWORD(wparam))
 		{
-		case IDC_PREVIEW:
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample friendship"), NULL, FACEBOOK_EVENT_FRIENDSHIP);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample ticker"), NULL, FACEBOOK_EVENT_TICKER);
-			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample on this day"), NULL, FACEBOOK_EVENT_ON_THIS_DAY);
-			break;
 		case IDC_FEED_TYPE:
 		case IDC_URL_SERVER:
 			if (HIWORD(wparam) == CBN_SELCHANGE)
@@ -554,9 +543,7 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 
 			StoreDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_ENABLE, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_FEEDS_ENABLE, FACEBOOK_KEY_EVENT_FEEDS_ENABLE);
-			StoreDBCheckState(proto, hwnd, IDC_OTHER_ENABLE, FACEBOOK_KEY_EVENT_OTHER_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_FRIENDSHIP_ENABLE, FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE);
-			StoreDBCheckState(proto, hwnd, IDC_CLIENT_ENABLE, FACEBOOK_KEY_EVENT_CLIENT_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_TICKER_ENABLE, FACEBOOK_KEY_EVENT_TICKER_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_ON_THIS_DAY_ENABLE, FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_FILTER_ADS, FACEBOOK_KEY_FILTER_ADS);

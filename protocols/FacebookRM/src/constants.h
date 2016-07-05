@@ -96,8 +96,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1
 #define DEFAULT_EVENT_FEEDS_ENABLE				0
-#define DEFAULT_EVENT_OTHER_ENABLE				1
-#define DEFAULT_EVENT_CLIENT_ENABLE				1
 #define DEFAULT_EVENT_FRIENDSHIP_ENABLE			1
 #define DEFAULT_EVENT_TICKER_ENABLE				0
 #define DEFAULT_EVENT_ON_THIS_DAY_ENABLE		0

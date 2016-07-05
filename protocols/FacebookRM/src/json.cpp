@@ -586,7 +586,10 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				std::string url = href_.as_string();
 				std::string alert_id = alertId_.as_string();
 
-				proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
+				// Notify it, if user wants to be notified
+				if (proto->getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+					proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
+				}
 			}
 		}
 		else if (t == "jewel_requests_add") {
@@ -867,6 +870,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				}
 			}
 		} else if (t == "ticker_update:home") {
+			if (!proto->getByte(FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE))
+				continue;
+
 			const JSONNode &actor_ = (*it)["actor"];
 			const JSONNode &story_ = (*it)["story_xhp"];
 

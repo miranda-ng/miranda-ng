@@ -121,7 +121,8 @@ void FacebookProto::ChangeStatus(void*)
 				ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
 
 			// Get notifications
-			ForkThread(&FacebookProto::ProcessNotifications, NULL);
+			if (getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+				ForkThread(&FacebookProto::ProcessNotifications, NULL);
 
 			// Load pages for post status dialog
 			ForkThread(&FacebookProto::ProcessPages, NULL);

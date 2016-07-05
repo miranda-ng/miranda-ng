@@ -627,8 +627,7 @@ int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Loading newsfeeds..."));
-		facy.last_feeds_update_ = 0;
+		facy.client_notify(TranslateT("Loading wall posts..."));
 		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}
 	return 0;
@@ -637,7 +636,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Checking friend requests..."));
+		facy.client_notify(TranslateT("Loading friendship requests..."));
 		ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 	}
 	return 0;
@@ -646,7 +645,7 @@ INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Checking notifications..."));
+		facy.client_notify(TranslateT("Loading notifications..."));
 		ForkThread(&FacebookProto::ProcessNotifications, NULL);
 	}
 	return 0;
@@ -655,7 +654,7 @@ INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckOnThisDay(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Checking what happened on this day..."));
+		facy.client_notify(TranslateT("Loading what happened on this day..."));
 		ForkThread(&FacebookProto::ProcessOnThisDay, NULL);
 	}
 	return 0;
@@ -994,7 +993,7 @@ void FacebookProto::InitPopups()
 	char name[256];
 
 	// Client
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Client notifications"));
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Client errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1005,7 +1004,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Newsfeeds
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("News feeds"));
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1049,7 +1048,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Ticker
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Ticker feeds"));
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Real-time friends activity"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1060,7 +1059,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// On this day
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("On this day posts"));
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("\"On this day\" posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1110,7 +1109,7 @@ void FacebookProto::InitSounds()
 	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other event"));
 	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENT("Friendship event"));
 	SkinAddNewSoundExT("Ticker", m_tszUserName, LPGENT("Ticker event"));
-	SkinAddNewSoundExT("OnThisDay", m_tszUserName, LPGENT("On this day event"));
+	SkinAddNewSoundExT("OnThisDay", m_tszUserName, LPGENT("\"On this day\" event"));
 }
 
 /**
