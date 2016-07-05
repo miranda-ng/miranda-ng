@@ -176,6 +176,11 @@ int FacebookProto::SetStatus(int new_status)
 {
 	debugLogA("=== Beginning SetStatus process");
 
+	if (new_status != ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_CONNECTING) {
+		debugLogA("=== Status is already connecting, no change");
+		return 0;
+	}
+
 	// Routing statuses not supported by Facebook
 	switch (new_status)
 	{
@@ -194,11 +199,6 @@ int FacebookProto::SetStatus(int new_status)
 	default:
 		m_iDesiredStatus = getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES) ? ID_STATUS_INVISIBLE : ID_STATUS_AWAY;
 		break;
-	}
-
-	if (new_status != ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_CONNECTING) {
-		debugLogA("=== Status is already connecting, no change");
-		return 0;
 	}
 
 	if (m_iStatus == m_iDesiredStatus) {
@@ -638,7 +638,25 @@ INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Checking friend requests..."));
-		ProcessFriendRequests(NULL);
+		ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
+	}
+	return 0;
+}
+
+INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
+{
+	if (!isOffline()) {
+		facy.client_notify(TranslateT("Checking notifications..."));
+		ForkThread(&FacebookProto::ProcessNotifications, NULL);
+	}
+	return 0;
+}
+
+INT_PTR FacebookProto::CheckOnThisDay(WPARAM, LPARAM)
+{
+	if (!isOffline()) {
+		facy.client_notify(TranslateT("Checking what happened on this day..."));
+		ForkThread(&FacebookProto::ProcessOnThisDay, NULL);
 	}
 	return 0;
 }

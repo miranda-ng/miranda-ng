@@ -263,6 +263,18 @@ void FacebookProto::InitMenu()
 	mi.name.a = LPGEN("Check Newsfeeds");
 	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = "/CheckNotifications";
+	CreateProtoService(mi.pszService, &FacebookProto::CheckNotifications);
+	mi.name.a = LPGEN("Check Notifications");
+	mi.hIcolibItem = GetIconHandle("notification");
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = "/CheckOnThisDay";
+	CreateProtoService(mi.pszService, &FacebookProto::CheckOnThisDay);
+	mi.name.a = LPGEN("Check On This Day");
+	mi.hIcolibItem = GetIconHandle("mind");
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
