@@ -158,6 +158,16 @@ void FacebookProto::ChangeStatus(void*)
 		ToggleStatusMenuItems(true);
 		debugLogA("*** SignOn complete");
 	}
+	else
+	{ // Change between online/away/invisible statuses
+		if (new_status == ID_STATUS_INVISIBLE) {
+			// When switching to invisible (from online/away), we need to set all contacts offline as we won't receive no status updates from Facebook
+			SetAllContactStatuses(ID_STATUS_OFFLINE);
+		}
+		else if (old_status == ID_STATUS_INVISIBLE) {
+			// TODO: When switching from invisible, we should somehow load all the contacts statuses...
+		}
+	}
 
 	m_invisible = (new_status == ID_STATUS_INVISIBLE);
 
