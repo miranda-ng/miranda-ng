@@ -103,6 +103,8 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *sz
 	MessageWindowEvent evt = { sizeof(evt), id, hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
+	p->szMsg = (char*)dbei.pBlob;
+
 	db_event_add(hContact, &dbei);
 
 	mir_free(p->szMsg);
