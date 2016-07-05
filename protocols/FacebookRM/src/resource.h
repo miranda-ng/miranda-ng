@@ -20,6 +20,12 @@
 #define IDI_READ                        132
 #define IDI_KEYS                        133
 #define IDD_GUARD                       134
+#define IDI_ANGRY                       135
+#define IDI_HAHA                        136
+#define IDI_LIKE                        137
+#define IDI_LOVE                        138
+#define IDI_SAD                         139
+#define IDI_WOW                         140
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003

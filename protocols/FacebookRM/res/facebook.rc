@@ -50,24 +50,21 @@ END
 // Icon
 //
 
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
 IDI_FACEBOOK            ICON                    "facebook.ico"
-
 IDI_MIND                ICON                    "mind.ico"
-
 IDI_POKE                ICON                    "poke.ico"
-
 IDI_NOTIFICATION        ICON                    "notification.ico"
-
 IDI_NEWSFEED            ICON                    "feeds.ico"
-
 IDI_FRIENDS             ICON                    "friends.ico"
-
 IDI_CONVERSATION        ICON                    "conversation.ico"
-
 IDI_READ                ICON                    "read.ico"
 
+IDI_ANGRY               ICON                    "angry.ico"
+IDI_HAHA                ICON                    "haha.ico"
+IDI_LIKE                ICON                    "like.ico"
+IDI_LOVE                ICON                    "love.ico"
+IDI_SAD                 ICON                    "sad.ico"
+IDI_WOW                 ICON                    "wow.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

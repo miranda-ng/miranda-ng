@@ -38,15 +38,21 @@ HGENMENU g_hContactMenuVisitConversation;
 
 static IconItem icons[] =
 {
-	{ LPGEN("Facebook icon"), "facebook", IDI_FACEBOOK },
-	{ LPGEN("Mind"), "mind", IDI_MIND },
-	{ LPGEN("Poke"), "poke", IDI_POKE },
-	{ LPGEN("Notification"), "notification", IDI_NOTIFICATION },
-	{ LPGEN("Newsfeed"), "newsfeed", IDI_NEWSFEED },
-	{ LPGEN("Friendship details"), "friendship", IDI_FRIENDS },
-	{ LPGEN("Conversation"), "conversation", IDI_CONVERSATION },
-	{ LPGEN("Message read"), "read", IDI_READ },
-	{ LPGEN("Captcha form icon"), "key", IDI_KEYS }
+	{ LPGEN("Facebook icon"),      "facebook",     IDI_FACEBOOK     },
+	{ LPGEN("Mind"),               "mind",         IDI_MIND         },
+	{ LPGEN("Poke"),               "poke",         IDI_POKE         },
+	{ LPGEN("Notification"),       "notification", IDI_NOTIFICATION },
+	{ LPGEN("Newsfeed"),           "newsfeed",     IDI_NEWSFEED     },
+	{ LPGEN("Friendship details"), "friendship",   IDI_FRIENDS      },
+	{ LPGEN("Conversation"),       "conversation", IDI_CONVERSATION },
+	{ LPGEN("Message read"),       "read",         IDI_READ         },
+	{ LPGEN("Captcha form icon"),  "key",          IDI_KEYS         },
+	{ LPGEN("Angry"),              "angry",        IDI_ANGRY        },
+	{ LPGEN("Haha"),               "haha",         IDI_HAHA         },
+	{ LPGEN("Like"),               "like",         IDI_LIKE         },
+	{ LPGEN("Love"),               "love",         IDI_LOVE         },
+	{ LPGEN("Sad"),                "sad",          IDI_SAD          },
+	{ LPGEN("Wow"),                "wow",          IDI_WOW          },
 };
 
 void InitIcons(void)
