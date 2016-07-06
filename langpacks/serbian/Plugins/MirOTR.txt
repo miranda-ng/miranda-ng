@@ -139,8 +139,6 @@ Ne
 
 [OTR not secure]
 
-[OTR]
-
 [Refresh]
 
 [Generating new private key for protocol '%s'.\nPlease Wait...]

@@ -5,18 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Grrr
-[Haha]
-Haha
-[Like]
-J'aime
-[Love]
-J'adore
-[Sad]
-Triste
-[Wow]
-Wouah
 [Facebook protocol support for Miranda NG.]
 Support du protocole Facebook pour Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -58,34 +46,32 @@ Groupes :
 Utiliser des grands avatars
 [Prefer real names instead of nicknames]
 
-[Event notifications]
+[Popup notifications]
 
-[Notifications]
-Notifications
-[News feeds (WARNING: Causes excessive network traffic!)]
+[Show notifications]
+
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
 
 [News feed types to notify:]
 
 [Don't show advertising posts]
 
-[Other events]
-Autres événements
-[Client notifications]
+[Show friendships changes (when someone remove/approve you)]
 
-[Friendship notifications]
+[Show real-time friends activity (ticker feed)]
 
-[Ticker feeds]
+[Show my "On this day" posts at login]
 
-[Show "On this day" posts at login]
+[Chatroom logging]
+
+[Log notifications into special chatroom]
+
+[Extra]
+
+[Use balloon notifications in system tray instead of popups]
 
 [Use this server for opening links:]
 Utiliser ce serveur pour ouvrir les liens :
-[Use balloon notifications in system tray instead of popups]
-
-[Use logging notifications into special chatroom]
-
-[Preview]
-Aperçu
 [Statuses]
 
 [Post Miranda statuses to Wall]
@@ -146,6 +132,8 @@ Utilisateur
 &Détails du contact
 [User &history]
 
+[Notifications]
+Notifications
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -241,20 +229,6 @@ Défaut
 
 [What's on your mind, %s?]
 
-[Sample event]
-
-[Sample request]
-
-[Sample newsfeed]
-
-[Sample notification]
-
-[Sample friendship]
-
-[Sample ticker]
-
-[Sample on this day]
-
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 un autocollant
@@ -268,6 +242,8 @@ un fichier
 photos
 [a photo]
 une photo
+[a GIF]
+
 [User sent %s:]
 
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -307,17 +283,27 @@ Envoi de message
 Partager le statut
 [Own wall]
 
-[Loading newsfeeds...]
+[Loading wall posts...]
 
-[Checking friend requests...]
+[Loading friendship requests...]
+
+[Loading notifications...]
+
+[Loading what happened on this day...]
 
 [Do you want to cancel your friendship with '%s'?]
 
-[News feeds]
-Fil d'actualité
+[Client errors]
+
+[Wall posts]
+
+[Other events]
+Autres événements
 [Friendship events]
 
-[On this day posts]
+[Real-time friends activity]
+
+["On this day" posts]
 
 [Visit profile]
 Visiter le profil
@@ -335,7 +321,7 @@ Autre événement
 
 [Ticker event]
 
-[On this day event]
+["On this day" event]
 
 [Message read: %s by %s]
 
@@ -358,6 +344,18 @@ Conversation
 
 [Captcha form icon]
 
+[Angry]
+Grrr
+[Haha]
+Haha
+[Like]
+J'aime
+[Love]
+J'adore
+[Sad]
+Triste
+[Wow]
+Wouah
 [Visit friendship details]
 Voir les détails
 [Visit conversation]
@@ -374,7 +372,11 @@ Supprimer
 
 [Services...]
 Services...
-[Check Friends Requests]
+[Check friendship requests]
 
-[Check Newsfeeds]
+[Check newsfeeds]
+
+[Check "On this day" posts]
+
+[Check notifications]
 

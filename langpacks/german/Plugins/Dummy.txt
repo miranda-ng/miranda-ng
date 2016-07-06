@@ -25,13 +25,13 @@ Senden von Nachrichten an Kontakte erlauben
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Benutzerdef.
-[Screen Name]
+[Screen name]
 Benutzername
 [User name]
 Benutzername
 [Facebook ID]
 Facebook-ID
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Gadu-Gadu-Nummer
 [User ID]
 Nutzer-ID
@@ -39,16 +39,12 @@ Nutzer-ID
 ICQ-Nummer
 [Nickname]
 Nickname
-[JID]
-JID
 [Visible name]
 Sichtbarer Name
 [E-mail address]
 E-Mail-Adresse
 [Live ID]
 Live-ID
-[ID]
-ID
 [Skype name]
 Skype-Name
 [Steam ID]
@@ -59,8 +55,8 @@ Tlen-Anmeldung
 Tox-ID
 [Username]
 Benutzername
-[VK ID]
-VK-ID
+[VKontakte ID]
+VKontakte-ID
 [WhatsApp ID]
 WhatsApp-ID
 ;file \protocols\Dummy\src\dummy_proto.cpp

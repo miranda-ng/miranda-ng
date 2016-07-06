@@ -41,12 +41,8 @@ xСъстояние
 Улавяне на информация от приставката WATrack
 [Get info from these players:]
 Улавяне на информация от следните плейъри:
-[Winamp (*)]
-Winamp (*)
 [Windows Media Player]
 Windows Media Player
-[iTunes]
-iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (необходимо е да инсталирате компонент ръчно)
 [Other players]
@@ -57,8 +53,6 @@ foobar2000 (необходимо е да инсталирате компонен
 секунди
 [Allow auto-loading plugins into players (affect players with *)]
 Разрешаване на автозареждане на приставките в плейърите (означените с *)
-[mRadio]
-mRadio
 [Listening to]
 Слуша..
 [Template:]

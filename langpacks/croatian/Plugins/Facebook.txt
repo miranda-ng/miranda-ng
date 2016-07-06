@@ -5,10 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Like]
-Sviđa mi se
-[Sad]
-Tužno
 [Facebook protocol support for Miranda NG.]
 
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -50,33 +46,31 @@ Pojedinosti o korisniku
 
 [Prefer real names instead of nicknames]
 
-[Event notifications]
+[Popup notifications]
 
-[Notifications]
+[Show notifications]
 
-[News feeds (WARNING: Causes excessive network traffic!)]
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
 
 [News feed types to notify:]
 
 [Don't show advertising posts]
 
-[Other events]
+[Show friendships changes (when someone remove/approve you)]
 
-[Client notifications]
+[Show real-time friends activity (ticker feed)]
 
-[Friendship notifications]
+[Show my "On this day" posts at login]
 
-[Ticker feeds]
+[Chatroom logging]
 
-[Show "On this day" posts at login]
+[Log notifications into special chatroom]
 
-[Use this server for opening links:]
+[Extra]
 
 [Use balloon notifications in system tray instead of popups]
 
-[Use logging notifications into special chatroom]
-
-[Preview]
+[Use this server for opening links:]
 
 [Statuses]
 
@@ -137,6 +131,8 @@ poruke
 [User &details]
 Detalji o &Korisniku
 [User &history]
+
+[Notifications]
 
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
@@ -233,20 +229,6 @@ Detalji o &Korisniku
 
 [What's on your mind, %s?]
 
-[Sample event]
-
-[Sample request]
-
-[Sample newsfeed]
-
-[Sample notification]
-
-[Sample friendship]
-
-[Sample ticker]
-
-[Sample on this day]
-
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 
@@ -259,6 +241,8 @@ Detalji o &Korisniku
 [photos]
 
 [a photo]
+
+[a GIF]
 
 [User sent %s:]
 
@@ -299,17 +283,27 @@ Detalji o &Korisniku
 
 [Own wall]
 
-[Loading newsfeeds...]
+[Loading wall posts...]
 
-[Checking friend requests...]
+[Loading friendship requests...]
+
+[Loading notifications...]
+
+[Loading what happened on this day...]
 
 [Do you want to cancel your friendship with '%s'?]
 
-[News feeds]
+[Client errors]
+
+[Wall posts]
+
+[Other events]
 
 [Friendship events]
 
-[On this day posts]
+[Real-time friends activity]
+
+["On this day" posts]
 
 [Visit profile]
 
@@ -327,7 +321,7 @@ Detalji o &Korisniku
 
 [Ticker event]
 
-[On this day event]
+["On this day" event]
 
 [Message read: %s by %s]
 
@@ -350,6 +344,18 @@ Detalji o &Korisniku
 
 [Captcha form icon]
 
+[Angry]
+
+[Haha]
+
+[Like]
+Sviđa mi se
+[Love]
+
+[Sad]
+Tužno
+[Wow]
+
 [Visit friendship details]
 
 [Visit conversation]
@@ -366,7 +372,11 @@ Detalji o &Korisniku
 
 [Services...]
 
-[Check Friends Requests]
+[Check friendship requests]
 
-[Check Newsfeeds]
+[Check newsfeeds]
+
+[Check "On this day" posts]
+
+[Check notifications]
 

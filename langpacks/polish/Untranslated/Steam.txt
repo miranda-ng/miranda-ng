@@ -1,1 +1,2 @@
 ﻿[Show chat state events (i.e., user closed chat session)]
+[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]

@@ -25,13 +25,13 @@ Zezwól wysyłać wiadomości do kontaktów
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Niestandardowe
-[Screen Name]
+[Screen name]
 Wyświetlana nazwa
 [User name]
 Nazwa użytkownika
 [Facebook ID]
 Facebook ID
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Numer Gadu-Gadu
 [User ID]
 ID użytkownika
@@ -39,16 +39,12 @@ ID użytkownika
 Numer ICQ
 [Nickname]
 Nick
-[JID]
-JID
 [Visible name]
 Widoczna nazwa
 [E-mail address]
 Adres e-mail
 [Live ID]
 Live ID
-[ID]
-ID
 [Skype name]
 Nazwa Skype
 [Steam ID]
@@ -59,8 +55,8 @@ Logowanie Tlen
 Tox ID
 [Username]
 Użytkownik
-[VK ID]
-VK ID
+[VKontakte ID]
+
 [WhatsApp ID]
 WhatsApp ID
 ;file \protocols\Dummy\src\dummy_proto.cpp

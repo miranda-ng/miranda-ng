@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.5.1
+;  Version: 0.11.6.0
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -40,6 +40,8 @@
 [Save password]
 Захаваць пароль
 [Enter the password to continue.]
+
+[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 
 [Steam game]
 

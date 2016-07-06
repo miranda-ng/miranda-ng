@@ -35,8 +35,6 @@
 Грешка
 [%s connection]
 %s връзка
-[ID]
-Идентификатор
 [Name]
 Име
 [Description]

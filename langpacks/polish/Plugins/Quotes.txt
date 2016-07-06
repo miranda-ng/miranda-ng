@@ -127,8 +127,8 @@ Wpisz nazwę &giełdową lub symbol:
 [Status &Message:]
 &Opis:
 ;file \plugins\Quotes\src\Chart.h
-[There is no to show]
-Nie ma nic do pokazania
+[There is nothing to show]
+
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Sekund

@@ -712,7 +712,6 @@
 [Affiliation changes]
 [Role changes]
 [Don't notify history messages]
-[JID]
 [Group]
 [Subscription]
 [Uploading...]

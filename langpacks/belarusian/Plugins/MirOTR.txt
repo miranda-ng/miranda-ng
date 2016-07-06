@@ -137,8 +137,6 @@ OTR завершаны
 Прыватны OTR
 [OTR not secure]
 OTR не з'яўляецца бяспечным
-[OTR]
-OTR
 [Refresh]
 Абнавіць
 [Generating new private key for protocol '%s'.\nPlease Wait...]

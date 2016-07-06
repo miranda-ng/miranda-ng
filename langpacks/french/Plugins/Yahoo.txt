@@ -163,8 +163,6 @@ Compte
 
 [%s plugin connections]
 
-[ID]
-ID
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Veuillez entrer votre ID Yahoo dans Options -> Réseaux -> Yahoo
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

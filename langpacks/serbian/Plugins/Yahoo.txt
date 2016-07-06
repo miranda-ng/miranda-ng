@@ -163,8 +163,6 @@ Mreža
 
 [%s plugin connections]
 
-[ID]
-
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

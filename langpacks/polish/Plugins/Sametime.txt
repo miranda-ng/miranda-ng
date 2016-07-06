@@ -102,8 +102,6 @@ Błąd
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 Połączenie %s
-[ID]
-ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Wiadomość od administratora Sametime

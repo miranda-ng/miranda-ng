@@ -139,8 +139,6 @@ OTR beendet
 OTR privat
 [OTR not secure]
 OTR nicht sicher
-[OTR]
-OTR
 [Refresh]
 Aktualisieren
 [Generating new private key for protocol '%s'.\nPlease Wait...]

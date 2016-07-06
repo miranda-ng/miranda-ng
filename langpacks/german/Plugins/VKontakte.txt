@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.28
+;  Version: 0.1.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -104,6 +104,8 @@ Einladungen
 Reposts
 [Mentions in comments]
 In Beiträgen erwähnt
+[Accepted friend requests]
+
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -295,6 +297,10 @@ Dokument
 Pinnwandeintrag
 [Link]
 Link
+[Product]
+Produkt
+[Price]
+
 [Gift]
 Geschenk
 [Unsupported or unknown attachment type: %s]
@@ -432,6 +438,8 @@ Fehler beim Laden des Verlaufes vom Server
 Nachrichten für alle Kontakte wurden komplett geladen
 [Loading history]
 Verlauf laden
+[for]
+für
 [Loading messages for %s is completed]
 Nachrichten für %s wurden komplett geladen
 ;file \protocols\VKontakte\src\vk_options.cpp

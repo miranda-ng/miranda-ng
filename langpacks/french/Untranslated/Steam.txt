@@ -4,6 +4,7 @@
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 [Go to email domain]
 [Enter the password to continue.]
+[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 [Steam game]
 [Looking to play]
 [Looking to trade]

@@ -123,7 +123,7 @@ Quote\\Инф. за курса
 Наблюдавани стойности:
 [Status &Message:]
 Текст за състояние:
-[There is no to show]
+[There is nothing to show]
 Няма за изобразяване
 [Seconds]
 Секунди

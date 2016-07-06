@@ -45,7 +45,7 @@
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
-[There is no to show]
+[There is nothing to show]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]

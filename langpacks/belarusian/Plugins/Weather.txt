@@ -99,8 +99,6 @@
 Прагноз надвор'я
 [City name]
 горад
-[ID]
-
 [Log Information]
 Захаванне інфармацыі
 [Use internal history]

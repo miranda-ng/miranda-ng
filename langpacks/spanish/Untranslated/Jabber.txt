@@ -584,7 +584,6 @@
 [Affiliation changes]
 [Role changes]
 [Don't notify history messages]
-[JID]
 [Subscription]
 [Uploading...]
 [XML for MS Excel (UTF-8 encoded)]

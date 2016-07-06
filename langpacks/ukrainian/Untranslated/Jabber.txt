@@ -3,7 +3,6 @@
 [ISDN]
 [PCS]
 [JID:]
-[JID]
 [League Of Legends (EU Nordic)]
 [League Of Legends (EU West)]
 [League Of Legends (Oceania)]

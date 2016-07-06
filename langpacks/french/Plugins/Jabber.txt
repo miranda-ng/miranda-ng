@@ -1476,8 +1476,6 @@ Rejoindre automatiquement une conférence à la connexion
 Changements d'état
 [Don't notify history messages]
 
-[JID]
-JID
 [Group]
 Groupe
 [Subscription]

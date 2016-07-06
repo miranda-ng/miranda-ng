@@ -79,7 +79,6 @@
 [No metacontact selected]
 [Assignment to the metacontact failed.]
 [Assignment failure]
-[ID]
 [Send offline]
 [Send &online]
 [Delete metacontact?]

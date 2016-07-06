@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.1
+;  Version: 0.12.1.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Password:]

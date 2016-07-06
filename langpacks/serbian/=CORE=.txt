@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.5
+;  Version: 0.95.6
 ;============================================================
 ;file \src\core\stdauth\res\resource.rc
 [Authorization request]
@@ -2405,8 +2405,6 @@ Neuspelo dodeljivanje metakontaktu-
 [Assignment failure]
 Dodeljivanje nije uspelo
 ;file \src\mir_app\src\meta_edit.cpp
-[ID]
-
 [Protocol]
 Protokol
 [Send offline]

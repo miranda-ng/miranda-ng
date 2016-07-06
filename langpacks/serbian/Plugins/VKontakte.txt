@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.28
+;  Version: 0.1.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -103,6 +103,8 @@ Grupe
 [Reposts]
 
 [Mentions in comments]
+
+[Accepted friend requests]
 
 [E-mail or phone number:]
 
@@ -295,6 +297,10 @@ Greška
 
 [Link]
 Link
+[Product]
+
+[Price]
+
 [Gift]
 
 [Unsupported or unknown attachment type: %s]
@@ -432,6 +438,8 @@ Upozorenje
 
 [Loading history]
 
+[for]
+u toku
 [Loading messages for %s is completed]
 
 ;file \protocols\VKontakte\src\vk_options.cpp

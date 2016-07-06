@@ -163,8 +163,6 @@ Ignorierliste
 Neue E-Mail im Posteingang
 [%s plugin connections]
 %s Pluginverbindungen
-[ID]
-ID
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Bitte die Yahoo-ID unter Einstellungen -> Netzwerk -> Yahoo eintragen!
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

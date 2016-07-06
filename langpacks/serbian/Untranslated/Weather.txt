@@ -42,7 +42,6 @@
 [Edit Weather Station]
 [Weather Station]
 [City name]
-[ID]
 [Log Information]
 [Use internal history]
 [Use external file]

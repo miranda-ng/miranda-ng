@@ -23,11 +23,11 @@
 Дозволити надсилання повідомлень
 [Custom]
 Налаштувати
-[Screen Name]
+[Screen name]
 Ім'я AIM
 [User name]
 Ім'я користувача
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Номер Gadu-Gadu
 [User ID]
 ID користувача

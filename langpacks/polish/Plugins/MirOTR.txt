@@ -139,8 +139,6 @@ OTR zakończono
 OTR prywatny
 [OTR not secure]
 OTR bez szyfrowania
-[OTR]
-OTR
 [Refresh]
 Odśwież
 [Generating new private key for protocol '%s'.\nPlease Wait...]

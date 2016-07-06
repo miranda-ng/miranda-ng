@@ -23,13 +23,13 @@
 
 [Custom]
 Наладзіць
-[Screen Name]
+[Screen name]
 Мянушка
 [User name]
 Імя карыстача
 [Facebook ID]
 
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Нумар Gadu-Gadu
 [User ID]
 ID кантакта
@@ -37,15 +37,11 @@ ID кантакта
 
 [Nickname]
 Мянушка
-[JID]
-
 [Visible name]
 Бачнае імя
 [E-mail address]
 Адрас e-mail
 [Live ID]
-
-[ID]
 
 [Skype name]
 
@@ -57,7 +53,7 @@ Tlen уваход
 
 [Username]
 Імя карыстача
-[VK ID]
+[VKontakte ID]
 
 [WhatsApp ID]
 

@@ -55,7 +55,7 @@
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
-[There is no to show]
+[There is nothing to show]
 [Minutes]
 [Hours]
 [Enter integer value between 1 and 60.]

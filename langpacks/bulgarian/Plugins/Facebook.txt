@@ -5,18 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Ядосан
-[Haha]
-Ха-ха
-[Like]
-Харесва ми
-[Love]
-Любов
-[Sad]
-Тъжно
-[Wow]
-Еха
 [Facebook protocol support for Miranda NG.]
 Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
 [E-mail:]
@@ -53,20 +41,10 @@ URL:
 Автозадаване на флаг "Игнориране промените на състояния"
 [Use bigger avatars]
 Ползване на по-големи аватари
-[Event notifications]
-Уведомявания за събития
-[Notifications]
-Уведомявания
 [News feed types to notify:]
 Уведомяване за следните новини:
-[Other events]
-Други събития
-[Client notifications]
-Уведомявания
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
-[Preview]
-Образец
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
 [Bots challenge test]
@@ -93,6 +71,8 @@ URL:
 Подробности за потребителя
 [User &history]
 История на потребителя
+[Notifications]
+Уведомявания
 [Unknown error]
 Непозната грешка
 [Login error, probably bad login credentials.]
@@ -107,18 +87,6 @@ URL:
 Стандарт
 [<< Contacts]
 << Контакти
-[Sample event]
-Примерно събитие
-[Sample request]
-Пример за молба
-[Sample newsfeed]
-Пример за новина
-[Sample notification]
-Пример за уведомяване
-[Sample friendship]
-Пример за приятелсттво
-[Sample ticker]
-Пример за стикер
 [a sticker]
 стикер
 [files]
@@ -149,8 +117,8 @@ URL:
 Събития
 [Messaging]
 Съобщения
-[News feeds]
-Новини
+[Other events]
+Други събития
 [Notification]
 Уведомяване
 [Newsfeed event]
@@ -159,6 +127,18 @@ URL:
 Друго събитие
 [Mind]
 Мисли си
+[Angry]
+Ядосан
+[Haha]
+Ха-ха
+[Like]
+Харесва ми
+[Love]
+Любов
+[Sad]
+Тъжно
+[Wow]
+Еха
 [Request friendship]
 Молба за приятелство
 [Services...]

@@ -25,13 +25,13 @@
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Izmenjeno
-[Screen Name]
+[Screen name]
 
 [User name]
 
 [Facebook ID]
 
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 
 [User ID]
 
@@ -39,15 +39,11 @@ Izmenjeno
 
 [Nickname]
 Nadimak
-[JID]
-
 [Visible name]
 
 [E-mail address]
 E-mail adresa
 [Live ID]
-
-[ID]
 
 [Skype name]
 
@@ -59,7 +55,7 @@ E-mail adresa
 
 [Username]
 Korisničko ime
-[VK ID]
+[VKontakte ID]
 
 [WhatsApp ID]
 

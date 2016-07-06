@@ -5,12 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Wrr
-[Like]
-Lubię to!
-[Sad]
-Przykro mi
 [Facebook protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Facebook w Mirandzie NG.
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -52,34 +46,32 @@ Automatycznie ustaw "Ignoruj zmiany statusu"
 Użyj większych awatarów
 [Prefer real names instead of nicknames]
 Preferuj prawdziwe imiona niż nicki
-[Event notifications]
-Zdarzenia
-[Notifications]
-Powiadomienia
-[News feeds (WARNING: Causes excessive network traffic!)]
-Aktualności (OSTRZEŻENIE: powoduje zwiększony przesył danych!)
+[Popup notifications]
+
+[Show notifications]
+
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Powiadamiaj o następujących typach aktualności:
 [Don't show advertising posts]
 Nie pokazuj proponowanych postów
-[Other events]
-Inne zdarzenia
-[Client notifications]
-Powiadomienia klienta
-[Friendship notifications]
-Powiadomienia o znajomości
-[Ticker feeds]
-Aktualności paska aktywności
-[Show "On this day" posts at login]
-Pokazuj posty "Tego Dnia" po zalogowaniu
-[Use this server for opening links:]
-Użyj tego serwera do otwierania linków:
+[Show friendships changes (when someone remove/approve you)]
+
+[Show real-time friends activity (ticker feed)]
+
+[Show my "On this day" posts at login]
+
+[Chatroom logging]
+
+[Log notifications into special chatroom]
+
+[Extra]
+Dodatkowe
 [Use balloon notifications in system tray instead of popups]
 Użyj baloników systemowych w zasobniku zamiast popupów
-[Use logging notifications into special chatroom]
-Używaj rejestrowania powiadomień w specjalnym czacie
-[Preview]
-Podgląd
+[Use this server for opening links:]
+Użyj tego serwera do otwierania linków:
 [Statuses]
 Statusy
 [Post Miranda statuses to Wall]
@@ -140,6 +132,8 @@ Znajomy
 &Dane użytkownika
 [User &history]
 &Historia użytkownika
+[Notifications]
+Powiadomienia
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -235,20 +229,6 @@ Domyślny
 << Kontakty
 [What's on your mind, %s?]
 O czym teraz myślisz, %s?
-[Sample event]
-Próbne zdarzenie
-[Sample request]
-Próbne zaproszenie
-[Sample newsfeed]
-Próbne aktualności
-[Sample notification]
-Próbne powiadomienie
-[Sample friendship]
-Przykładowa znajomość
-[Sample ticker]
-Przykładowy pasek aktywności
-[Sample on this day]
-Przykład tego dnia
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
@@ -262,6 +242,8 @@ plik
 zdjęcia
 [a photo]
 zdjęcie
+[a GIF]
+
 [User sent %s:]
 Użytkownik wysłał %s:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -301,18 +283,28 @@ Wiadomości
 Udostępnij status
 [Own wall]
 Własna tablica
-[Loading newsfeeds...]
-Ładowanie aktualności...
-[Checking friend requests...]
-Sprawdzanie zaproszeń do grona znajomych...
+[Loading wall posts...]
+
+[Loading friendship requests...]
+
+[Loading notifications...]
+
+[Loading what happened on this day...]
+
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z "%s"?
-[News feeds]
-Aktualności
+[Client errors]
+
+[Wall posts]
+Posty na tablicy
+[Other events]
+Inne zdarzenia
 [Friendship events]
 Zdarzenia znajomości
-[On this day posts]
-Posty tego dnia
+[Real-time friends activity]
+
+["On this day" posts]
+
 [Visit profile]
 Odwiedź profil
 [Visit notifications]
@@ -329,8 +321,8 @@ Inne zdarzenie
 Zdarzenie Znajomości
 [Ticker event]
 Wydarzenie paska
-[On this day event]
-Wydarzenie tego dnia
+["On this day" event]
+
 [Message read: %s by %s]
 Wiadomość odczytana: %s przez %s
 [Message read: %s]
@@ -352,6 +344,18 @@ Rozmowa
 Wiadomość odczytana
 [Captcha form icon]
 Ikona formularza Captcha
+[Angry]
+Wrr
+[Haha]
+
+[Like]
+Lubię to!
+[Love]
+Miłość
+[Sad]
+Przykro mi
+[Wow]
+
 [Visit friendship details]
 Sprawdź dane znajomości
 [Visit conversation]
@@ -368,7 +372,11 @@ Zatwierdź znajomość
 Odrzuć prośbę o dodanie do znajomych
 [Services...]
 Usługi...
-[Check Friends Requests]
+[Check friendship requests]
 Sprawdź zaproszenia do grona znajomych
-[Check Newsfeeds]
+[Check newsfeeds]
 Sprawdź aktualności
+[Check "On this day" posts]
+
+[Check notifications]
+

@@ -102,8 +102,6 @@ Greška
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 
-[ID]
-
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 

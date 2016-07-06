@@ -42,6 +42,5 @@
 [New submenu]
 [Tray menu]
 [&About]
-[ID]
 [Account]
 [Add group]

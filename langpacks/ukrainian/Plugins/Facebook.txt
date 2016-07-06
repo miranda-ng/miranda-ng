@@ -5,18 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Злість
-[Haha]
-Ха-ха
-[Like]
-Подобається
-[Love]
-У захваті
-[Sad]
-Сумно
-[Wow]
-Овва
 [Facebook protocol support for Miranda NG.]
 Підтримка протоколу Facebook у Miranda NG.
 [E-mail:]
@@ -57,34 +45,14 @@
 Великі аватари
 [Prefer real names instead of nicknames]
 Показувати справжні імена замість ніків
-[Event notifications]
-Сповіщення про події
-[Notifications]
-Сповіщення
-[News feeds (WARNING: Causes excessive network traffic!)]
-Новини (Увага: підвищує споживання мережевого трафіку!)
 [News feed types to notify:]
 Сповіщати про типи новин:
 [Don't show advertising posts]
 Не показувати рекламні публікації
-[Other events]
-Інші події
-[Client notifications]
-Сповіщення клієнта
-[Friendship notifications]
-Сповіщення про дружбу
-[Ticker feeds]
-Тікер
-[Show "On this day" posts at login]
-Показувати події "Цього дня" при вході
-[Use this server for opening links:]
-Тип сайту для відкриття посилань:
 [Use balloon notifications in system tray instead of popups]
 Сповіщати підказкою в треї замість спливаючих вікон
-[Use logging notifications into special chatroom]
-Записувати сповіщення в окрему чат-кімнату
-[Preview]
-Тест
+[Use this server for opening links:]
+Тип сайту для відкриття посилань:
 [Statuses]
 Статуси
 [Post Miranda statuses to Wall]
@@ -143,6 +111,8 @@
 &Дані контакту
 [User &history]
 &Історія користувача
+[Notifications]
+Сповіщення
 [Login error: %s]
 Помилка входу: %s
 [Unknown error]
@@ -233,20 +203,6 @@ SMS з кодом підтвердження відправлено на ваш 
 << Контакти
 [What's on your mind, %s?]
 Про що ви думаєте, %s?
-[Sample event]
-Приклад події
-[Sample request]
-Приклад запиту
-[Sample newsfeed]
-Приклад новини
-[Sample notification]
-Приклад сповіщення
-[Sample friendship]
-Приклад сповіщення про дружбу
-[Sample ticker]
-Приклад тікера
-[Sample on this day]
-Приклад події "Цього дня"
 [a sticker]
 стікер
 [a link]
@@ -295,18 +251,12 @@ SMS з кодом підтвердження відправлено на ваш 
 Статус...
 [Own wall]
 Своя стіна
-[Loading newsfeeds...]
-Завантаження новин...
-[Checking friend requests...]
-Перевірка запитів дружби...
 [Do you want to cancel your friendship with '%s'?]
 Ви впевнені, що хочете видалити "%s" з друзів?
-[News feeds]
-Новини
+[Other events]
+Інші події
 [Friendship events]
 Події дружби
-[On this day posts]
-Події "Цього дня"
 [Visit profile]
 Профіль
 [Visit notifications]
@@ -323,8 +273,6 @@ SMS з кодом підтвердження відправлено на ваш 
 Подія дружби
 [Ticker event]
 Тікер
-[On this day event]
-Подія "Цього дня"
 [Message read: %s by %s]
 Повідомлення прочитане о %s користувачем %s
 [Message read: %s]
@@ -345,6 +293,18 @@ SMS з кодом підтвердження відправлено на ваш 
 Прочитане повідомлення
 [Captcha form icon]
 Значок форми з капчею
+[Angry]
+Злість
+[Haha]
+Ха-ха
+[Like]
+Подобається
+[Love]
+У захваті
+[Sad]
+Сумно
+[Wow]
+Овва
 [Visit friendship details]
 Інформація про дружбу
 [Visit conversation]
@@ -361,7 +321,7 @@ SMS з кодом підтвердження відправлено на ваш 
 Відхилити додавання в друзі
 [Services...]
 Служби...
-[Check Friends Requests]
+[Check friendship requests]
 Перевірити запити дружби
-[Check Newsfeeds]
+[Check newsfeeds]
 Перевірити новини

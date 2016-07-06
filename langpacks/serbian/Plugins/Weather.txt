@@ -100,8 +100,6 @@ Vidljivost
 
 [City name]
 
-[ID]
-
 [Log Information]
 
 [Use internal history]

@@ -828,7 +828,7 @@ Plane
 [Watching pro7 on TV]
 Regarde pro7 à la télé
 [Love]
-
+J'adore
 [Sets owner current custom status]
 
 [Display xStatus detail]

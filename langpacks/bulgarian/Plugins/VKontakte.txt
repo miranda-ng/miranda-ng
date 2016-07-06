@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.28
+;  Version: 0.1.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Status message]
@@ -79,6 +79,8 @@ URL:
 Въведете текста, който виждате
 [Protocol is offline]
 Протоколът е извън линия
+[for]
+за
 [Network]
 Мрежа
 [Account]

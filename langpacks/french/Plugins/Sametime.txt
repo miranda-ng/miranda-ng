@@ -102,8 +102,6 @@ Erreur
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 
-[ID]
-ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 

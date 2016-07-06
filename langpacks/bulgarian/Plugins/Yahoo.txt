@@ -151,8 +151,6 @@ Yahoo игнориране
 Нов имейл във входящата кутия
 [%s plugin connections]
 Връзки на приставката "%s"
-[ID]
-Идентификатор
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Въведете Yahoo ID в "Настройки > Мрежа > Yahoo"
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

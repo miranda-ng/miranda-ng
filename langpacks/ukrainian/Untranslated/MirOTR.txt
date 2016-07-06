@@ -1,5 +1,4 @@
-﻿[OTR]
-[Malformed message received]
+﻿[Malformed message received]
 [The last message to '%s' was resent]
 [We received a malformed data message from '%s']
 [The following message received from '%s' was NOT encrypted:\n\n%s]

@@ -163,8 +163,6 @@ Lista ignorowania
 Nowy e-mail w skrzynce
 [%s plugin connections]
 Połączenie %s
-[ID]
-ID
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

@@ -1012,7 +1012,6 @@
 [No metacontact selected]
 [Assignment to the metacontact failed.]
 [Assignment failure]
-[ID]
 [Protocol]
 [Send offline]
 [Send &online]

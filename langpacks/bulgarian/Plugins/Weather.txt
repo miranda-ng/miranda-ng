@@ -99,8 +99,6 @@ m
 Метеостанция
 [City name]
 Име на града
-[ID]
-Идентификатор
 [Log Information]
 Информация за дневника
 [Use internal history]

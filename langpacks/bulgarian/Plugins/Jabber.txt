@@ -1309,8 +1309,6 @@ Jabber източник
 Промяна на състояние
 [Don't notify history messages]
 Без уведомяване за съобщения от историята
-[JID]
-JID
 [Group]
 Група
 [Subscription]

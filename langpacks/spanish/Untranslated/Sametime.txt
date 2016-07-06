@@ -31,7 +31,6 @@
 [Server protocol version: %03d.%03d]
 [Protocol icon]
 [%s connection]
-[ID]
 [Sametime administrator message]
 [Session announcement - from '%s']
 [Unknown user status: %d]

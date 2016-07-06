@@ -5,18 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Me enoja
-[Haha]
-Me divierte
-[Like]
-Me gusta
-[Love]
-Me encanta
-[Sad]
-Me entristece
-[Wow]
-Me asombra
 [Facebook protocol support for Miranda NG.]
 Compatibilidad con el protocolo de Facebook para Miranda NG.
 [E-mail:]
@@ -55,22 +43,12 @@ Grupo predeterminado:
 Establecer automáticamente bandera 'Ignorar el cambio de estado'
 [Use bigger avatars]
 Usar avatares grandes
-[Event notifications]
-Notificaciones de eventos
-[Notifications]
-Notificaciones
 [News feed types to notify:]
 Tipos de noticias a notificar:
-[Other events]
-Otros eventos
-[Client notifications]
-Notificaciones cliente
-[Use this server for opening links:]
-Abrir enlaces con este servidor:
 [Use balloon notifications in system tray instead of popups]
 Globos de aviso en la bandeja en vez de ventanas emergentes
-[Preview]
-Previsualizar
+[Use this server for opening links:]
+Abrir enlaces con este servidor:
 [Post Miranda statuses to Wall]
 Enviar estados de Miranda al Muro
 [Allow posting statuses to my pages (may slow down login)]
@@ -95,6 +73,8 @@ Introduzca el texto que aparece
 &Detalles del usuario
 [User &history]
 &Historial del usuario
+[Notifications]
+Notificaciones
 [Login error: %s]
 Error de inicio de sesión: %s
 [Unknown error]
@@ -151,14 +131,6 @@ Por defecto
 << Contactos
 [What's on your mind, %s?]
 ¿Qué hay en tu mente, %s?
-[Sample event]
-Evento de ejemplo
-[Sample request]
-Ejemplo de solicitud
-[Sample newsfeed]
-Ejemplo de noticias
-[Sample notification]
-Notificación de ejemplo
 [a sticker]
 una etiqueta
 [files]
@@ -197,14 +169,10 @@ Mensajería
 Compartir estado...
 [Own wall]
 Propio muro
-[Loading newsfeeds...]
-Cargando noticias...
-[Checking friend requests...]
-Comprobando solicitudes de amistad...
 [Do you want to cancel your friendship with '%s'?]
 ¿Quiere cancelar su amistad con '%s'?
-[News feeds]
-Nuevas noticias
+[Other events]
+Otros eventos
 [Visit profile]
 Visitar perfil
 [Show 'Share status' window]
@@ -229,6 +197,18 @@ Fuentes noticias
 Detalles de amistad
 [Captcha form icon]
 Formulario Captcha icono
+[Angry]
+Me enoja
+[Haha]
+Me divierte
+[Like]
+Me gusta
+[Love]
+Me encanta
+[Sad]
+Me entristece
+[Wow]
+Me asombra
 [Visit friendship details]
 Visitar detalles de amistad
 [Cancel friendship]
@@ -241,7 +221,7 @@ Solicitud de amistad
 Aprobar amistad
 [Services...]
 Servicios...
-[Check Friends Requests]
+[Check friendship requests]
 Comprobar solicitudes de amistad
-[Check Newsfeeds]
+[Check newsfeeds]
 Comprobar fuentes de noticias

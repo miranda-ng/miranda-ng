@@ -19,17 +19,13 @@
 Избор
 [User name]
 Потребителско име
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Gadu-Gadu номер
 [Nickname]
 Прякор
-[JID]
-JID
 [E-mail address]
 Имейл
 [Live ID]
 Live ID
-[ID]
-Идентификатор
 [Username]
 Потребител

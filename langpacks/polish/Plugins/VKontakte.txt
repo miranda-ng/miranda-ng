@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.28
+;  Version: 0.1.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -104,6 +104,8 @@ Zaprasza
 Udostępnienia
 [Mentions in comments]
 Wspomnienia w komentarzach
+[Accepted friend requests]
+
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -295,6 +297,10 @@ Dokument
 Post na tablicy
 [Link]
 Link
+[Product]
+
+[Price]
+
 [Gift]
 Prezent
 [Unsupported or unknown attachment type: %s]
@@ -432,6 +438,8 @@ Błąd w trakcie pobierania historii wiadomości z serwera
 Zakończono pobieranie wiadomości dla wszystkich kontaktów
 [Loading history]
 Pobieranie historii
+[for]
+przez
 [Loading messages for %s is completed]
 Zakończono pobieranie wiadomości dla %s
 ;file \protocols\VKontakte\src\vk_options.cpp

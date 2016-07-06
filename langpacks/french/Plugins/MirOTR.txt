@@ -139,8 +139,6 @@ TOR - Informations
 
 [OTR not secure]
 
-[OTR]
-
 [Refresh]
 Actualiser
 [Generating new private key for protocol '%s'.\nPlease Wait...]

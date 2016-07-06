@@ -1,5 +1,4 @@
 ﻿[ID:]
-[ID]
 [General failure]
 [Not logged in]
 [User is invalid or not trusted]

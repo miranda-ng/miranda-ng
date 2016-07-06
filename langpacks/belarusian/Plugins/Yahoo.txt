@@ -155,8 +155,6 @@ Yahoo Ігнор
 Новая пошта ў тэчцы "Ўваходныя"
 [%s plugin connections]
 %s злучэнне з серверам
-[ID]
-
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Увядзіце ваш Yahoo ID ("Налады -> Сеціва -> Yahoo")
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

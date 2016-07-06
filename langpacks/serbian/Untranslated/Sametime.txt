@@ -35,7 +35,6 @@
 [Announce]
 [Notification]
 [%s connection]
-[ID]
 [Sametime administrator message]
 [Session announcement - from '%s']
 [Unknown user status: %d]

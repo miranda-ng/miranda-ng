@@ -1476,8 +1476,6 @@ Bannbenachrichtigungen
 Statusänderungen
 [Don't notify history messages]
 Nicht über alte Nachrichten benachrichtigen
-[JID]
-JID
 [Group]
 Gruppe
 [Subscription]

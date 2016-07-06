@@ -1453,8 +1453,6 @@ Jabber Рэсурс
 Змены статусу
 [Don't notify history messages]
 Не паказваць абвестак з гісторыі
-[JID]
-
 [Group]
 Гурт
 [Subscription]

@@ -125,7 +125,7 @@
 &Адсочваныя каціроўкі:
 [Status &Message:]
 Паведамленне статусу:
-[There is no to show]
+[There is nothing to show]
 
 [Seconds]
 Секунд

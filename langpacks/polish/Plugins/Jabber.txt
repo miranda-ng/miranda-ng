@@ -1476,8 +1476,6 @@ Zmiany roli
 Zmiany statusu
 [Don't notify history messages]
 Filtruj historię wiadomości
-[JID]
-JID
 [Group]
 Grupa
 [Subscription]

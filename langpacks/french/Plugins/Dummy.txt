@@ -25,13 +25,13 @@
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Défini
-[Screen Name]
+[Screen name]
 
 [User name]
 Utilisateur
 [Facebook ID]
 
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 Numéro Gadu-Gadu
 [User ID]
 
@@ -39,16 +39,12 @@ Numéro Gadu-Gadu
 
 [Nickname]
 Pseudo
-[JID]
-JID
 [Visible name]
 
 [E-mail address]
 Adresse électronique
 [Live ID]
 
-[ID]
-ID
 [Skype name]
 Pseudo
 [Steam ID]
@@ -59,7 +55,7 @@ login Tlen
 
 [Username]
 ID
-[VK ID]
+[VKontakte ID]
 
 [WhatsApp ID]
 

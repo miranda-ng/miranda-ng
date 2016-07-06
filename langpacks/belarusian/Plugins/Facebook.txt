@@ -5,18 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Раззлаваныя
-[Haha]
-Ха-ха
-[Like]
-Упадабаць
-[Love]
-Каханне
-[Sad]
-Сумна
-[Wow]
-Ого
 [Facebook protocol support for Miranda NG.]
 Падтрымка пратаколу Facebook.
 [E-mail:]
@@ -57,34 +45,32 @@ URL:
 Вялікія аватары
 [Prefer real names instead of nicknames]
 
-[Event notifications]
-Абвесткі
-[Notifications]
-Абвесткі
-[News feeds (WARNING: Causes excessive network traffic!)]
+[Popup notifications]
+
+[Show notifications]
+
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
 
 [News feed types to notify:]
 Абвяшчаць пра тыпы навін:
 [Don't show advertising posts]
 
-[Other events]
-Іншыя падзеі
-[Client notifications]
-Абвесткі кліента
-[Friendship notifications]
+[Show friendships changes (when someone remove/approve you)]
 
-[Ticker feeds]
+[Show real-time friends activity (ticker feed)]
 
-[Show "On this day" posts at login]
+[Show my "On this day" posts at login]
 
-[Use this server for opening links:]
-Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
+[Chatroom logging]
+
+[Log notifications into special chatroom]
+
+[Extra]
+
 [Use balloon notifications in system tray instead of popups]
 Абвяшчаць падказкай у трэі замест усплывальных вокнаў
-[Use logging notifications into special chatroom]
-
-[Preview]
-Прагляд
+[Use this server for opening links:]
+Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
 [Statuses]
 Статусы
 [Post Miranda statuses to Wall]
@@ -143,6 +129,8 @@ URL:
 &Дадзеныя кантакта
 [User &history]
 &Гісторыя кантакта
+[Notifications]
+Абвесткі
 [Login error: %s]
 Памылка далучэння: %s
 [Unknown error]
@@ -233,20 +221,6 @@ URL:
 << Кантакты
 [What's on your mind, %s?]
 Пра што думаеш, %s?
-[Sample event]
-Прыклад падзеі
-[Sample request]
-Прыклад запыту
-[Sample newsfeed]
-Прыклад навіны
-[Sample notification]
-Прыклад абвесткі
-[Sample friendship]
-
-[Sample ticker]
-
-[Sample on this day]
-
 [a sticker]
 сцікер
 [a link]
@@ -259,6 +233,8 @@ URL:
 фатаграфіі
 [a photo]
 фатаграфію
+[a GIF]
+
 [User sent %s:]
 Кантакт паслаў вам %s:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -295,17 +271,27 @@ Facebook ID павінна быць лічбавым значэннем.
 Статус...
 [Own wall]
 Свая сцяна
-[Loading newsfeeds...]
-Загрузка навін...
-[Checking friend requests...]
-Праверка запытаў сяброўства...
+[Loading wall posts...]
+
+[Loading friendship requests...]
+
+[Loading notifications...]
+
+[Loading what happened on this day...]
+
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
-[News feeds]
-Навіны
+[Client errors]
+
+[Wall posts]
+
+[Other events]
+Іншыя падзеі
 [Friendship events]
 
-[On this day posts]
+[Real-time friends activity]
+
+["On this day" posts]
 
 [Visit profile]
 Профіль
@@ -323,7 +309,7 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Ticker event]
 
-[On this day event]
+["On this day" event]
 
 [Message read: %s by %s]
 Паведамленне прачытана ў: %s карытальнікам %s
@@ -345,6 +331,18 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Captcha form icon]
 
+[Angry]
+Раззлаваныя
+[Haha]
+Ха-ха
+[Like]
+Упадабаць
+[Love]
+Каханне
+[Sad]
+Сумна
+[Wow]
+Ого
 [Visit friendship details]
 Дэталі сяброўства
 [Visit conversation]
@@ -361,7 +359,11 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Services...]
 Службы...
-[Check Friends Requests]
+[Check friendship requests]
 Праверыць запыты сяброўства
-[Check Newsfeeds]
+[Check newsfeeds]
 Праверыць навіны
+[Check "On this day" posts]
+
+[Check notifications]
+

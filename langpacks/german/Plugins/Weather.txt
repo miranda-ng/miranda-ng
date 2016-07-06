@@ -100,8 +100,6 @@ Wetterstation bearbeiten
 Wetterstation
 [City name]
 Stadt-Name
-[ID]
-ID
 [Log Information]
 Log-Informationen
 [Use internal history]

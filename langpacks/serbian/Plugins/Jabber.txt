@@ -1476,8 +1476,6 @@ Uopšteno
 Izmene statusa
 [Don't notify history messages]
 
-[JID]
-
 [Group]
 Grupa
 [Subscription]

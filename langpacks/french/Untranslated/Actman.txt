@@ -315,7 +315,6 @@
 [Sleeping]
 [Browsing]
 [On WC]
-[Love]
 [Sets owner current custom status]
 [Display xStatus detail]
 [Action group list was changed: some was added or deleted]

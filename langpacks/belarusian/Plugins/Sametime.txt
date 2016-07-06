@@ -95,8 +95,6 @@
 Памылка
 [%s connection]
 Злучэнне %s
-[ID]
-
 [Sametime administrator message]
 
 [Session announcement - from '%s']

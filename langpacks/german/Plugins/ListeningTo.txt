@@ -42,12 +42,8 @@ Vorlage anderer Kontakte durch eigene Vorlage überschreiben
 Informationen vom WATrack-Plugin beziehen
 [Get info from these players:]
 Informationen von folgenden Playern beziehen:
-[Winamp (*)]
-Winamp (*)
 [Windows Media Player]
 Windows Media Player
-[iTunes]
-iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (Plugin muss manuell installiert werden)
 [Other players]
@@ -58,8 +54,6 @@ Frage nach neuen Infos
 Sekunden
 [Allow auto-loading plugins into players (affect players with *)]
 Plugins automatisch in Player laden (betrifft Player mit *)
-[mRadio]
-mRadio
 [Listening to]
 Höre gerade
 [Template:]

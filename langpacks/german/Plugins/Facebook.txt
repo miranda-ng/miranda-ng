@@ -5,16 +5,6 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-[Angry]
-Wütend
-[Haha]
-Haha
-[Like]
-Gefällt mir
-[Sad]
-Traurig
-[Wow]
-Wow
 [Facebook protocol support for Miranda NG.]
 Facebook-Protokollunterstützung für Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -56,34 +46,32 @@ Automatisch 'Ignoriere Statusänderung-Flag' setzen
 Größere Avatare nutzen
 [Prefer real names instead of nicknames]
 Echte Namen anstatt Nicknamen verwenden
-[Event notifications]
-Ereignisbenachrichtigungen
-[Notifications]
-Benachrichtigungen
-[News feeds (WARNING: Causes excessive network traffic!)]
-Newsfeeds (WARNUNG: Verursacht exzessiven Netzwerkverkehr!)
+[Popup notifications]
+Popup-Benachrichtigung
+[Show notifications]
+
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
 Werbebeiträge nicht anzeigen
-[Other events]
-Sonstige Ereignisse
-[Client notifications]
-Clientbenachrichtigungen
-[Friendship notifications]
-Freundschaftsbenachrichtigungen
-[Ticker feeds]
-Ticker-Feeds
-[Show "On this day" posts at login]
-Beiträge "an diesem Tag" beim Anmelden anzeigen
-[Use this server for opening links:]
-Öffne Links auf diesem Server:
+[Show friendships changes (when someone remove/approve you)]
+
+[Show real-time friends activity (ticker feed)]
+
+[Show my "On this day" posts at login]
+
+[Chatroom logging]
+
+[Log notifications into special chatroom]
+
+[Extra]
+Extras
 [Use balloon notifications in system tray instead of popups]
 Ballonereignisse im Systemtray anstatt Popups verwenden
-[Use logging notifications into special chatroom]
-Benachrichtigungen in einem speziellen Chatraum aufzeichnen
-[Preview]
-Vorschau
+[Use this server for opening links:]
+Öffne Links auf diesem Server:
 [Statuses]
 Status
 [Post Miranda statuses to Wall]
@@ -144,6 +132,8 @@ Chatsitzung ver&lassen
 Benutzer&details
 [User &history]
 Kontakt&verlauf
+[Notifications]
+Benachrichtigungen
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Anmeldefehler: %s
@@ -239,20 +229,6 @@ Standard
 << Kontakte
 [What's on your mind, %s?]
 Was machen Sie gerade, %s?
-[Sample event]
-Beispielereignis
-[Sample request]
-Beispielanfrage
-[Sample newsfeed]
-Beispielnewsfeed
-[Sample notification]
-Beispielbenachrichtigung
-[Sample friendship]
-Beispielfreundschaft
-[Sample ticker]
-Beispielticker
-[Sample on this day]
-Beispiel "an diesem Tag"
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
@@ -266,6 +242,8 @@ eine Datei
 Fotos
 [a photo]
 ein Foto
+[a GIF]
+
 [User sent %s:]
 Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -305,18 +283,28 @@ Nachrichten
 Status teilen...
 [Own wall]
 Eigene Pinnwand
-[Loading newsfeeds...]
-Newsfeeds laden...
-[Checking friend requests...]
-Freundschaftsanfragen überprüfen...
+[Loading wall posts...]
+
+[Loading friendship requests...]
+
+[Loading notifications...]
+
+[Loading what happened on this day...]
+
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
-[News feeds]
-Newsfeeds
+[Client errors]
+
+[Wall posts]
+Pinnwand-Einträge
+[Other events]
+Sonstige Ereignisse
 [Friendship events]
 Freundschaftsereignisse
-[On this day posts]
-Beiträge an diesem Tag
+[Real-time friends activity]
+
+["On this day" posts]
+
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -333,8 +321,8 @@ Anderes Ereignis
 Freundschaftsereignis
 [Ticker event]
 Ticker-Ereignis
-[On this day event]
-Ereignis an diesem Tag
+["On this day" event]
+
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]
@@ -356,6 +344,18 @@ Unterhaltung
 Nachricht gelesen
 [Captcha form icon]
 Captcha Form. Icon
+[Angry]
+Wütend
+[Haha]
+Haha
+[Like]
+Gefällt mir
+[Love]
+Liebe
+[Sad]
+Traurig
+[Wow]
+Wow
 [Visit friendship details]
 Freundschaft-Details besuchen
 [Visit conversation]
@@ -372,7 +372,11 @@ Freundschaft genehmigen
 Freundschaftsanfrage ablehnen
 [Services...]
 Dienste...
-[Check Friends Requests]
+[Check friendship requests]
 Freundschaftsanfragen überprüfen
-[Check Newsfeeds]
+[Check newsfeeds]
 Newsfeeds überprüfen
+[Check "On this day" posts]
+
+[Check notifications]
+

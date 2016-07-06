@@ -100,8 +100,6 @@ Modifier la Station Météo
 Station Météo
 [City name]
 Ville
-[ID]
-ID
 [Log Information]
 Enregistrement des Informations
 [Use internal history]
