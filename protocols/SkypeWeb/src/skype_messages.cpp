@@ -85,8 +85,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 				if (response->pData != NULL)
 				{
 					JSONNode jRoot = JSONNode::parse(response->pData);
-					auto it = m_mpOutMessages.find(hMessage);
-					if (it == m_mpOutMessages.end())
+					if (m_mpOutMessages.find(hMessage) == m_mpOutMessages.end())
 					{
 						m_mpOutMessages[hMessage] = std::stoull(jRoot["OriginalArrivalTime"].as_string()) / 1000;
 					}
