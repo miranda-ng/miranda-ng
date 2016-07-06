@@ -231,6 +231,8 @@ SMS с кодом подтверждения отправлено на ваш м
 фотографии
 [a photo]
 фотографию
+[a GIF]
+анимированное изображение
 [User sent %s:]
 Контакт послал %s:
 [User sent an unsupported attachment. Open your browser to see it.]
