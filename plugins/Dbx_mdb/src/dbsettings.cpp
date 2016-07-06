@@ -345,7 +345,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::SetSettingResident(BOOL bIsResident, const char *ps
 	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, (int)strlen(pszSettingName));
 	szSetting[-1] = (char)bIsResident;
 
-	mir_cslock lck(m_csDbAccess);
 	int idx = m_lResidentSettings.getIndex(szSetting);
 	if (idx == -1) {
 		if (bIsResident)
@@ -372,13 +371,11 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	{
 		if (dbcwNotif.value.pszVal != NULL) 
 		{
-			char* val = mir_utf8encodeW(dbcwNotif.value.pwszVal);
+			T2Utf val(dbcwNotif.value.pwszVal);
 			if (val == NULL)
 				return 1;
 
-			dbcwNotif.value.pszVal = (char*)alloca(strlen(val) + 1);
-			strcpy(dbcwNotif.value.pszVal, val);
-			mir_free(val);
+			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(val);
 			dbcwNotif.value.type = DBVT_UTF8;
 		}
 		else return 1;

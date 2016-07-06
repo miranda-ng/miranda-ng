@@ -37,30 +37,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <pshpack1.h>
 
-#define DBHEADER_VERSION MAKELONG(1, 3)
+#define DBHEADER_VERSION MAKELONG(1, 4)
 
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
-	DWORD dwSignature;
-	DWORD dwVersion;			// database format version
+	uint32_t dwSignature;
+	uint32_t dwVersion;			// database format version
 };
 
 struct DBContact
 {
-	DWORD dwEventCount;       // number of events in the chain for this contact
-	DWORD tsFirstUnread;
-	DWORD dwFirstUnread;
+	uint32_t dwEventCount;       // number of events in the chain for this contact
+	MEVENT   evFirstUnread;
+	uint64_t tsFirstUnread;
 };
 
 struct DBEvent
 {
 	MCONTACT contactID;     // a contact this event belongs to
-	DWORD ofsModuleName;	// offset to a DBModuleName struct of the name of
-	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
-	DWORD flags;            // see m_database.h, db/event/add
-	WORD  wEventType;       // module-defined event type
-	WORD  cbBlob;           // number of bytes in the blob
+	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
+	uint64_t timestamp;        // seconds since 00:00:00 01/01/1970
+	uint32_t flags;            // see m_database.h, db/event/add
+	uint16_t wEventType;       // module-defined event type
+	uint16_t cbBlob;           // number of bytes in the blob
 
 	bool __forceinline markedRead() const
 	{
@@ -70,14 +70,21 @@ struct DBEvent
 
 struct DBEventSortingKey
 {
-	DWORD dwEventId, ts, dwContactId;
+	MCONTACT hContact;
+	MEVENT hEvent;
+	uint64_t ts;
+
+	static int Compare(const MDB_val* a, const MDB_val* b);
 };
 
 struct DBSettingKey
 {
 	MCONTACT hContact;
-	DWORD dwModuleId;
-	char  szSettingName[];
+	uint32_t dwModuleId;
+	char     szSettingName[];
+
+	static int Compare(const MDB_val*, const MDB_val*);
+
 };
 
 struct DBSettingValue
@@ -102,7 +109,7 @@ struct DBSettingValue
 
 struct DBCachedContact : public DBCachedContactBase
 {
-	void Advance(DWORD id, DBEvent &dbe);
+	void Advance(MEVENT id, DBEvent &dbe);
 	void Snapshot();
 	void Revert();
 	DBContact dbc, tmp_dbc;
@@ -110,12 +117,12 @@ struct DBCachedContact : public DBCachedContactBase
 
 struct EventItem
 {
-	__forceinline EventItem(int _ts, DWORD _id) :
+	__forceinline EventItem(int _ts, MEVENT _id) :
 		ts(_ts), eventId(_id)
 	{}
 
-	int ts;
-	DWORD eventId;
+	uint64_t ts;
+	MEVENT eventId;
 };
 
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
@@ -208,14 +215,12 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
-	TXN_RO m_txn;
-	DWORD    m_dwFileSize;
+	CMDB_txn_ro m_txn;
+
 	MDB_dbi  m_dbGlobal;
 	DBHeader m_header;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
-
-	mir_cs   m_csDbAccess;
 
 	int      CheckProto(DBCachedContact *cc, const char *proto);
 
@@ -228,13 +233,15 @@ protected:
 	int      m_codePage;
 	HANDLE   hService, hHook;
 
+	LIST<char> m_lResidentSettings;
+
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 
-	MDB_dbi	m_dbContacts;
+	MDB_dbi	    m_dbContacts;
 	MDB_cursor *m_curContacts;
 
-	DWORD    m_contactCount;
+	uint32_t m_contactCount;
 	MCONTACT m_maxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
@@ -242,9 +249,11 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	MDB_dbi	m_dbEvents, m_dbEventsSort;
+	MDB_dbi	    m_dbEvents,   m_dbEventsSort;
 	MDB_cursor *m_curEvents, *m_curEventsSort;
-	DWORD    m_dwMaxEventId;
+	MEVENT       m_dwMaxEventId;
+
+	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 
 	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 
@@ -254,16 +263,12 @@ protected:
 	MDB_dbi	m_dbModules;
 	MDB_cursor *m_curModules;
 	
-	std::map<DWORD, std::string> m_Modules;
-
-	LIST<char> m_lResidentSettings;
-	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
-	MCONTACT m_hLastCachedContact;
+	std::map<uint32_t, std::string> m_Modules;
 
 	int      InitModules();
 	
-	DWORD    GetModuleID(const char *szName);
-	char*    GetModuleName(DWORD dwId);
+	uint32_t GetModuleID(const char *szName);
+	char*    GetModuleName(uint32_t dwId);
 
 
 	int GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);

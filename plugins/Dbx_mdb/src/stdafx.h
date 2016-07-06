@@ -52,10 +52,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class txn_ptr
 {
-	MDB_env *m_env;
 	MDB_txn *m_txn;
 public:
-	__forceinline txn_ptr(MDB_env *pEnv) : m_env(pEnv)
+	__forceinline txn_ptr(MDB_env *pEnv)
 	{
 		mdb_txn_begin(pEnv, NULL, 0, &m_txn);
 	}
@@ -82,13 +81,13 @@ public:
 	}
 };
 
-struct TXN_RO
+struct CMDB_txn_ro
 {
 	MDB_txn *m_txn;
 	bool bIsActive;
 	mir_cs cs;
 
-	__forceinline TXN_RO() : m_txn(nullptr), bIsActive(false) {}
+	__forceinline CMDB_txn_ro() : m_txn(nullptr), bIsActive(false) {}
 
 	__forceinline operator MDB_txn* () { return m_txn; }
 	__forceinline MDB_txn** operator &() { return &m_txn; }
@@ -96,11 +95,11 @@ struct TXN_RO
 
 class txn_ptr_ro
 {
-	TXN_RO &m_txn;
+	CMDB_txn_ro &m_txn;
 	bool bNeedReset;
 	mir_cslock lock;
 public:
-	__forceinline txn_ptr_ro(TXN_RO &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
+	__forceinline txn_ptr_ro(CMDB_txn_ro &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
 	{
 		if (bNeedReset)
 		{

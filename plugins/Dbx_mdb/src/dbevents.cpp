@@ -36,7 +36,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	DBEvent dbe;
 	dbe.contactID = contactID; // store native or subcontact's id
-	dbe.ofsModuleName = GetModuleID(dbei->szModule);
+	dbe.iModuleId = GetModuleID(dbei->szModule);
 
 	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *cc, *ccSub = NULL;
@@ -72,13 +72,13 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
 		if (pResult != NULL) {
 			pCryptBlob = pBlob = pResult;
-			dbe.cbBlob = (DWORD)len;
+			dbe.cbBlob = (uint16_t)len;
 			dbe.flags |= DBEF_ENCRYPTED;
 		}
 	}
 
 
-	DWORD dwEventId = InterlockedIncrement(&m_dwMaxEventId);
+	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
 
 	const auto Snapshot = [&]() { cc->Snapshot(); if (ccSub) ccSub->Snapshot(); };
 	const auto Revert = [&]() { cc->Revert(); if (ccSub) ccSub->Revert(); };
@@ -89,12 +89,12 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		MDB_val key = { sizeof(int), &dwEventId }, data = { sizeof(DBEvent) + dbe.cbBlob, NULL };
 		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), 0);
 
-		BYTE *pDest = (BYTE*)data.mv_data;
-		memcpy(pDest, &dbe, sizeof(DBEvent));
-		memcpy(pDest + sizeof(DBEvent), pBlob, dbe.cbBlob);
+		DBEvent *pNewEvent = (DBEvent*)data.mv_data;
+		*pNewEvent = dbe;
+		memcpy(pNewEvent + 1, pBlob, dbe.cbBlob);
 
 		// add a sorting key
-		DBEventSortingKey key2 = { dwEventId, dbe.timestamp, contactID };
+		DBEventSortingKey key2 = { contactID, dwEventId, dbe.timestamp };
 		key.mv_size = sizeof(key2); key.mv_data = &key2;
 		data.mv_size = 1; data.mv_data = (char*)("");
 		MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
@@ -105,7 +105,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 		// insert an event into a sub's history too
 		if (ccSub != NULL) {
-			key2.dwContactId = ccSub->contactID;
+			key2.hContact = ccSub->contactID;
 			MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
 			ccSub->Advance(dwEventId, dbe);
@@ -137,7 +137,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 			return 1;
-		memcpy(&dbe, data.mv_data, sizeof(dbe));
+		dbe = *(DBEvent*)data.mv_data;
 	}
 
 	if (contactID != dbe.contactID)
@@ -150,7 +150,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	
 	for (Snapshot();; Revert(), Remap())
 	{
-		DBEventSortingKey key2 = { hDbEvent, dbe.timestamp, contactID };
+		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
 
 		txn_ptr txn(m_pMdbEnv);
 		MDB_val key = { sizeof(key2), &key2 }, data;
@@ -160,7 +160,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		{
 			key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 			cc->dbc.dwEventCount--;
-			if (cc->dbc.dwFirstUnread == hDbEvent)
+			if (cc->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(txn, cc, key2);
 
 			data.mv_size = sizeof(DBContact); data.mv_data = &cc->dbc;
@@ -169,12 +169,12 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 		if (cc2)
 		{
-			key2.dwContactId = dbe.contactID;
+			key2.hContact = dbe.contactID;
 			MDB_CHECK(mdb_del(txn, m_dbEventsSort, &key, &data), 1);
 
 			key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 			cc2->dbc.dwEventCount--;
-			if (cc2->dbc.dwFirstUnread == hDbEvent)
+			if (cc2->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(txn, cc2, key2);
 
 			data.mv_size = sizeof(DBContact); data.mv_data = &cc2->dbc;
@@ -221,7 +221,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	const DBEvent *dbe = (const DBEvent*)data.mv_data;
 
-	dbei->szModule = GetModuleName(dbe->ofsModuleName);
+	dbei->szModule = GetModuleName(dbe->iModuleId);
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
@@ -260,13 +260,13 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 		if (dbe->contactID != cc->contactID)
 			break;
 		if (!dbe->markedRead()) {
-			cc->dbc.dwFirstUnread = key2.dwEventId;
+			cc->dbc.evFirstUnread = key2.hEvent;
 			cc->dbc.tsFirstUnread = key2.ts;
 			return;
 		}
 	}
 
-	cc->dbc.dwFirstUnread = cc->dbc.tsFirstUnread = 0;
+	cc->dbc.evFirstUnread = cc->dbc.tsFirstUnread = 0;
 }
 
 STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
@@ -277,7 +277,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	if (cc == NULL)
 		return -1;
 
-	DWORD wRetVal = -1;
+	uint32_t wRetVal = -1;
 	
 	for (cc->Snapshot();; cc->Revert(), Remap())
 	{
@@ -291,14 +291,16 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		if (cdbe->markedRead())
 			return cdbe->flags;
 
-		DBEventSortingKey key2 = { hDbEvent, cdbe->timestamp, contactID };
+		DBEventSortingKey keyVal = { contactID, hDbEvent, cdbe->timestamp };
 
 		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), -1);
-		memcpy(data.mv_data, cdbe, data.mv_size);
 
-		wRetVal = (((DBEvent*)data.mv_data)->flags |= DBEF_READ);
+		DBEvent *pNewEvent = (DBEvent*)data.mv_data;
+		*pNewEvent = *cdbe;
 
-		FindNextUnread(txn, cc, key2);
+		wRetVal = (pNewEvent->flags |= DBEF_READ);
+
+		FindNextUnread(txn, cc, keyVal);
 		key.mv_size = sizeof(MCONTACT); key.mv_data = &contactID;
 		data.mv_data = &cc->dbc; data.mv_size = sizeof(cc->dbc);
 		MDB_CHECK(mdb_put(txn, m_dbContacts, &key, &data, 0), -1);
@@ -322,16 +324,15 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
 		return INVALID_CONTACT_ID;
 
-	const DBEvent *dbe = (const DBEvent*)data.mv_data;
-	return dbe->contactID;
+	return ((const DBEvent*)data.mv_data)->contactID;
 }
 
-thread_local DWORD t_tsLast = 0;
+thread_local uint64_t t_tsLast = 0;
 thread_local MEVENT t_evLast = 0;
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 {
-	DBEventSortingKey keyVal = { 0, 0, contactID };
+	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	txn_ptr_ro txn(m_txn);
@@ -342,18 +343,18 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	t_tsLast = pKey->ts;
-	return t_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	return t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	return (cc == NULL) ? 0 : cc->dbc.dwFirstUnread;
+	return (cc == NULL) ? 0 : cc->dbc.evFirstUnread;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 {
-	DBEventSortingKey keyVal = { 0xFFFFFFFF, 0xFFFFFFFF, contactID };
+	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFFFFFFFFFF };
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	txn_ptr_ro txn(m_txn);
@@ -372,7 +373,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	t_tsLast = pKey->ts;
-	return t_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	return t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
@@ -390,7 +391,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 		t_tsLast = ((DBEvent*)data.mv_data)->timestamp;
 	}
 
-	DBEventSortingKey keyVal = { hDbEvent, t_tsLast, contactID };
+	DBEventSortingKey keyVal = { contactID, hDbEvent, t_tsLast };
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	cursor_ptr_ro cursor(m_curEventsSort);
@@ -402,7 +403,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	t_tsLast = pKey->ts;
-	return t_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	return t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
@@ -422,7 +423,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 		t_tsLast = ((DBEvent*)data.mv_data)->timestamp;
 	}
 
-	DBEventSortingKey keyVal = { hDbEvent, t_tsLast, contactID };
+	DBEventSortingKey keyVal = { contactID, hDbEvent, t_tsLast };
 	MDB_val key = { sizeof(keyVal), &keyVal };
 
 	cursor_ptr_ro cursor(m_curEventsSort);
@@ -434,5 +435,5 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
 	t_tsLast = pKey->ts;
-	return t_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	return t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }

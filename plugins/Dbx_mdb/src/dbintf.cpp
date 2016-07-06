@@ -27,8 +27,8 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_maxContactId(1),
-	m_lResidentSettings(50, strcmp)
+	m_lResidentSettings(50, strcmp),
+	m_maxContactId(1)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
 	InitDbInstance(this);
@@ -36,6 +36,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	mdb_env_create(&m_pMdbEnv);
 	mdb_env_set_maxdbs(m_pMdbEnv, 10);
 	mdb_env_set_userctx(m_pMdbEnv, this);
+//	mdb_env_set_assert(m_pMdbEnv, LMDB_FailAssert);
 
 	m_codePage = Langpack_GetDefaultCodePage();
 }
@@ -78,20 +79,24 @@ int CDbxMdb::Load(bool bSkipInit)
 		mdb_dbi_open(trnlck, "contacts", defFlags | MDB_INTEGERKEY, &m_dbContacts);
 		mdb_dbi_open(trnlck, "modules", defFlags | MDB_INTEGERKEY, &m_dbModules);
 		mdb_dbi_open(trnlck, "events", defFlags | MDB_INTEGERKEY, &m_dbEvents);
-		mdb_dbi_open(trnlck, "eventsrt", defFlags | MDB_INTEGERKEY, &m_dbEventsSort);
-		mdb_dbi_open(trnlck, "settings", defFlags, &m_dbSettings);
 
-		DWORD keyVal = 1;
-		MDB_val key = { sizeof(DWORD), &keyVal }, data;
+		mdb_dbi_open(trnlck, "eventsrt", defFlags, &m_dbEventsSort);
+		mdb_set_compare(trnlck, m_dbEventsSort, DBEventSortingKey::Compare);
+
+		mdb_dbi_open(trnlck, "settings", defFlags, &m_dbSettings);
+		mdb_set_compare(trnlck, m_dbSettings, DBSettingKey::Compare);
+
+		uint32_t keyVal = 1;
+		MDB_val key = { sizeof(keyVal), &keyVal }, data;
 		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) 
 		{
 			const DBHeader *hdr = (const DBHeader*)data.mv_data;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
-				DatabaseCorruption(NULL);
+				return EGROKPRF_DAMAGED;
 			if (hdr->dwVersion != DBHEADER_VERSION)
 				return EGROKPRF_OBSOLETE;
 
-			memcpy(&m_header, data.mv_data, sizeof(m_header));
+			m_header = *hdr;
 		}
 		else 
 		{
@@ -158,7 +163,6 @@ int CDbxMdb::Load(bool bSkipInit)
 
 int CDbxMdb::Create(void)
 {
-	m_dwFileSize = 0;
 	return (Map() == MDB_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
 }
 
@@ -189,7 +193,6 @@ int CDbxMdb::PrepareCheck(int*)
 
 STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 {
-	mir_cslock lck(m_csDbAccess);
 	m_safetyMode = bIsSet != 0;
 }
 
@@ -232,9 +235,9 @@ EXTERN_C void __cdecl dbpanic(void *)
 }
 
 
-EXTERN_C void LMDB_FailAssert(void *p, const char *text)
+EXTERN_C void LMDB_FailAssert(MDB_env *env, const char *text)
 {
-	((CDbxMdb*)p)->DatabaseCorruption(_A2T(text));
+	((CDbxMdb*)mdb_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
 }
 
 EXTERN_C void LMDB_Log(const char *fmt, ...)
@@ -249,7 +252,6 @@ void CDbxMdb::DatabaseCorruption(const TCHAR *text)
 {
 	int kill = 0;
 
-	mir_cslockfull lck(m_csDbAccess);
 	if (DatabaseCorrupted == 0) {
 		DatabaseCorrupted++;
 		kill++;
@@ -262,7 +264,6 @@ void CDbxMdb::DatabaseCorruption(const TCHAR *text)
 		Sleep(INFINITE);
 		return;
 	}
-	lck.unlock();
 
 	if (kill) {
 		_beginthread(dbpanic, 0, NULL);

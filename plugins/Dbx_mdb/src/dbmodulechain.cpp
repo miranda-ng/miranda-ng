@@ -31,7 +31,7 @@ int CDbxMdb::InitModules()
 	MDB_val key, data;
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
 	{
-		DWORD iMod = *(DWORD*)key.mv_data;
+		uint32_t iMod = *(uint32_t*)key.mv_data;
 		const char *szMod = (const char*)data.mv_data;
 		m_Modules[iMod] = szMod;
 	}
@@ -39,10 +39,10 @@ int CDbxMdb::InitModules()
 }
 
 // will create the offset if it needs to
-DWORD CDbxMdb::GetModuleID(const char *szName)
+uint32_t CDbxMdb::GetModuleID(const char *szName)
 {
-	DWORD iHash = mir_hashstr(szName);
-	if (auto it = m_Modules.find(iHash) == m_Modules.end())
+	uint32_t iHash = mir_hashstr(szName);
+	if (m_Modules.find(iHash) == m_Modules.end())
 	{
 		MDB_val key = { sizeof(iHash), &iHash }, data = { strlen(szName) + 1, (void*)szName };
 
@@ -58,7 +58,7 @@ DWORD CDbxMdb::GetModuleID(const char *szName)
 	return iHash;
 }
 
-char* CDbxMdb::GetModuleName(DWORD dwId)
+char* CDbxMdb::GetModuleName(uint32_t dwId)
 {
 	auto it = m_Modules.find(dwId);
 	return it != m_Modules.end() ? const_cast<char*>(it->second.c_str()) : nullptr;

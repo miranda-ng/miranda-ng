@@ -130,10 +130,6 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 	InterlockedDecrement(&m_contactCount);
 
-	m_cache->FreeCachedContact(contactID);
-	if (contactID == m_hLastCachedContact)
-		m_hLastCachedContact = NULL;
-
 	return 0;
 }
 
@@ -191,17 +187,15 @@ void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
 	{
 		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
-		if (pKey->dwContactId != hContact)
+		if (pKey->hContact != hContact)
 			return;
 
-		list.insert(new EventItem(pKey->ts, pKey->dwEventId));
+		list.insert(new EventItem(pKey->ts, pKey->hEvent));
 	}
 }
 
 BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	mir_cslock lck(m_csDbAccess);
-
 	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
@@ -212,7 +206,7 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		{
 			txn_ptr trnlck(m_pMdbEnv);
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
+			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, (void*)"" };
 			mdb_put(trnlck, m_dbEventsSort, &key, &data, 0);
 			if (trnlck.commit() == MDB_SUCCESS)
 				break;
@@ -237,8 +231,6 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	mir_cslock lck(m_csDbAccess);
-
 	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
@@ -248,7 +240,7 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		for (;; Remap()) {
 			txn_ptr trnlck(m_pMdbEnv);
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
+			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, (void*)"" };
 			mdb_del(trnlck, m_dbEventsSort, &key, &data);
 			if (trnlck.commit() == MDB_SUCCESS)
 				break;
@@ -271,7 +263,7 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
+void DBCachedContact::Advance(MEVENT id, DBEvent &dbe)
 {
 	dbc.dwEventCount++;
 
@@ -280,7 +272,7 @@ void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
 
 	if (dbe.timestamp < dbc.tsFirstUnread || dbc.tsFirstUnread == 0) {
 		dbc.tsFirstUnread = dbe.timestamp;
-		dbc.dwFirstUnread = id;
+		dbc.evFirstUnread = id;
 	}
 }
 

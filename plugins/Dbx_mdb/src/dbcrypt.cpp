@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define DBKEY_PROVIDER       "Provider"
-#define DBKEY_KEY            "Key"
-#define DBKEY_IS_ENCRYPTED   "EncryptedDB"
+char DBKey_Crypto_Provider   [] = "Provider";
+char DBKey_Crypto_Key        [] = "Key";
+char DBKey_Crypto_IsEncrypted[] = "EncryptedDB";
 
 CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 {
@@ -53,10 +53,10 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	{
 		txn_ptr txn(m_pMdbEnv);
 
-		MDB_val key = { sizeof(DBKEY_PROVIDER), (char*)(DBKEY_PROVIDER) }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
+		MDB_val key = { sizeof(DBKey_Crypto_Provider), DBKey_Crypto_Provider }, value = { mir_strlen(pProv->pszName) + 1, pProv->pszName };
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
 
-		key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = (char*)(DBKEY_IS_ENCRYPTED); value.mv_size = sizeof(bool); value.mv_data = &bTotalCrypt;
+		key.mv_size = sizeof(DBKey_Crypto_IsEncrypted); key.mv_data = DBKey_Crypto_IsEncrypted; value.mv_size = sizeof(bool); value.mv_data = &bTotalCrypt;
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
 
 		if (txn.commit() == MDB_SUCCESS)
@@ -72,7 +72,7 @@ int CDbxMdb::InitCrypt()
 
 	txn_ptr_ro txn(m_txn);
 
-	MDB_val key = { sizeof(DBKEY_PROVIDER), (char*)(DBKEY_PROVIDER) }, value;
+	MDB_val key = { sizeof(DBKey_Crypto_Provider), DBKey_Crypto_Provider }, value;
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
 	{
 		pProvider = Crypto_GetProvider((const char*)value.mv_data);
@@ -89,7 +89,7 @@ int CDbxMdb::InitCrypt()
 	if ((m_crypto = pProvider->pFactory()) == nullptr)
 		return 3;
 
-	key.mv_size = sizeof(DBKEY_KEY); key.mv_data = (char*)(DBKEY_KEY);
+	key.mv_size = sizeof(DBKey_Crypto_Key); key.mv_data = DBKey_Crypto_Key;
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS && (value.mv_size == m_crypto->getKeyLength()))
 	{
 		if (!m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
@@ -118,7 +118,7 @@ int CDbxMdb::InitCrypt()
 		StoreKey();
 	}
 
-	key.mv_size = sizeof(DBKEY_IS_ENCRYPTED); key.mv_data = (char*)(DBKEY_IS_ENCRYPTED);
+	key.mv_size = sizeof(DBKey_Crypto_IsEncrypted); key.mv_data = DBKey_Crypto_IsEncrypted;
 	
 	if (mdb_get(txn, m_dbCrypto, &key, &value) == MDB_SUCCESS)
 		m_bEncrypted = *(const bool*)value.mv_data;
@@ -138,7 +138,7 @@ void CDbxMdb::StoreKey()
 	for (;; Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
-		MDB_val key = { sizeof(DBKEY_KEY), (char*)(DBKEY_KEY) }, value = { iKeyLength, pKey };
+		MDB_val key = { sizeof(DBKey_Crypto_Key), DBKey_Crypto_Key }, value = { iKeyLength, pKey };
 		mdb_put(txn, m_dbCrypto, &key, &value, 0);
 		if (txn.commit() == MDB_SUCCESS)
 			break;
@@ -168,9 +168,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 	if (m_bEncrypted == bEncrypted)
 		return 0;
 
-	mir_cslock lck(m_csDbAccess);
 
-#ifdef DEBUG
 	{
 		txn_ptr_ro txn(m_txn);
 
@@ -202,7 +200,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 			{
 				mir_ptr<BYTE> pNewBlob;
 				size_t nNewBlob;
-				DWORD dwNewFlags;
+				uint32_t dwNewFlags;
 
 				if (dbEvent->flags & DBEF_ENCRYPTED)
 				{
@@ -215,21 +213,18 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 					dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
 				}
 
-				DBEvent *pNewEvent = (DBEvent*)_alloca(sizeof(DBEvent));
-				memcpy(pNewEvent, dbEvent, sizeof(DBEvent));
-				pNewEvent->cbBlob = nNewBlob;
-				pNewEvent->flags = dwNewFlags;
-
-
 				for (;; Remap())
 				{
 					txn_ptr txn(m_pMdbEnv);
 					data.mv_size = sizeof(DBEvent)+nNewBlob;
 					MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), 1);
 
-					BYTE *pNewDBEvent = (BYTE*)data.mv_data;
-					memcpy(pNewDBEvent, pNewEvent, sizeof(DBEvent));
-					memcpy(pNewDBEvent + sizeof(DBEvent), pNewBlob, nNewBlob);
+					DBEvent *pNewDBEvent = (DBEvent *)data.mv_data;
+					*pNewDBEvent = *dbEvent;
+					pNewDBEvent->cbBlob = nNewBlob;
+					pNewDBEvent->flags = dwNewFlags;
+					memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
+
 
 					if (txn.commit() == MDB_SUCCESS)
 						break;
@@ -237,12 +232,11 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 			}
 		}
 	}
-#endif
 
 	for (;; Remap())
 	{
 		txn_ptr txn(m_pMdbEnv);
-		MDB_val key = { sizeof(DBKEY_IS_ENCRYPTED), (char*)(DBKEY_IS_ENCRYPTED) }, value = { sizeof(bool), &bEncrypted };
+		MDB_val key = { sizeof(DBKey_Crypto_IsEncrypted), DBKey_Crypto_IsEncrypted }, value = { sizeof(bool), &bEncrypted };
 		MDB_CHECK(mdb_put(txn, m_dbCrypto, &key, &value, 0), 1);
 		if (txn.commit() == MDB_SUCCESS)
 			break;
