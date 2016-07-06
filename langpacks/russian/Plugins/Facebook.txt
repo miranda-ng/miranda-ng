@@ -58,11 +58,11 @@
 [Show real-time friends activity (ticker feed)]
 Показывать активность друзей в реальном времени
 [Show my "On this day" posts at login]
-Показывать сообщение "В этот день" при входе
+Показывать сообщения "В этот день" при входе
 [Chatroom logging]
-Ведение журнала в чат-комнате
+Ведение журнала в чатах
 [Log notifications into special chatroom]
-Вести журнал уведомлений в специальной чат-комнате
+Вести журнал уведомлений в специальном чате
 [Extra]
 Дополнительно
 [Use balloon notifications in system tray instead of popups]
@@ -278,9 +278,9 @@ SMS с кодом подтверждения отправлено на ваш м
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [Client errors]
-Ошибка клиента
+Ошибки клиента
 [Wall posts]
-Сообщение на стене
+Сообщения на стене
 [Other events]
 Другие события
 [Friendship events]
@@ -306,7 +306,7 @@ SMS с кодом подтверждения отправлено на ваш м
 [Ticker event]
 Тиккер
 ["On this day" event]
-События "В этот день"
+Событие "В этот день"
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
