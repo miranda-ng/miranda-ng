@@ -137,8 +137,6 @@ OTR завершён
 Частный OTR
 [OTR not secure]
 OTR не является безопасным
-[OTR]
-Шифрование
 [Refresh]
 Обновить
 [Generating new private key for protocol '%s'.\nPlease Wait...]

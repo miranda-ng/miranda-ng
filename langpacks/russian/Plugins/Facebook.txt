@@ -43,34 +43,32 @@
 Большие аватары
 [Prefer real names instead of nicknames]
 Предпочитать реальные имена вместо ников
-[Event notifications]
-Уведомления
-[Notifications]
-Уведомления
-[News feeds (WARNING: Causes excessive network traffic!)]
-Новости (Предупреждение: высокое потребление сетевого трафика)
+[Popup notifications]
+Настройка уведомлений вспл. окнами
+[Show notifications]
+Показывать уведомления
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+Показывать сообщения со стены (новостная лента) (ВНИМАНИЕ: Большой расход трафика!)
 [News feed types to notify:]
 Уведомлять о типах новостей:
 [Don't show advertising posts]
 Не показывать рекламные публикации
-[Other events]
-Другие события
-[Client notifications]
-Уведомления клиента
-[Friendship notifications]
-Уведомления о дружбе
-[Ticker feeds]
-Тиккер
-[Show "On this day" posts at login]
-При входе показывать события "В этот день"
-[Use this server for opening links:]
-Тип сайта для открытия ссылок:
+[Show friendships changes (when someone remove/approve you)]
+Показывать изменения запросов дружбы (когда удалили/приняли ваш запрос)
+[Show real-time friends activity (ticker feed)]
+Показывать активность друзей в реальном времени
+[Show my "On this day" posts at login]
+Показывать сообщение "В этот день" при входе
+[Chatroom logging]
+Ведение журнала в чат-комнате
+[Log notifications into special chatroom]
+Вести журнал уведомлений в специальной чат-комнате
+[Extra]
+Дополнительно
 [Use balloon notifications in system tray instead of popups]
 Уведомлять подсказкой в трее вместо всплывающих окон
-[Use logging notifications into special chatroom]
-Запись уведомлений в специальную комнату чата
-[Preview]
-Тест
+[Use this server for opening links:]
+Тип сайта для открытия ссылок:
 [Statuses]
 Статусы
 [Post Miranda statuses to Wall]
@@ -129,6 +127,8 @@
 &Данные контакта
 [User &history]
 &История пользователя
+[Notifications]
+Уведомления
 [Login error: %s]
 Ошибка входа: %s
 [Unknown error]
@@ -219,20 +219,6 @@ SMS с кодом подтверждения отправлено на ваш м
 << Контакты
 [What's on your mind, %s?]
 О чём вы думаете, %s?
-[Sample event]
-Пример события
-[Sample request]
-Пример запроса
-[Sample newsfeed]
-Пример новости
-[Sample notification]
-Пример уведомления
-[Sample friendship]
-Пример уведомления о дружбе
-[Sample ticker]
-Пример тиккера
-[Sample on this day]
-Пример события "В этот день"
 [a sticker]
 стикер
 [a link]
@@ -281,18 +267,28 @@ SMS с кодом подтверждения отправлено на ваш м
 Статус...
 [Own wall]
 Своя стена
-[Loading newsfeeds...]
-Загрузка новостей...
-[Checking friend requests...]
-Проверка запросов дружбы...
+[Loading wall posts...]
+Загрузка записей со стены...
+[Loading friendship requests...]
+Загрузка запросов дружбы...
+[Loading notifications...]
+Загрузка уведомлений...
+[Loading what happened on this day...]
+Загрузка случившегося в этот день...
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
-[News feeds]
-Новости
+[Client errors]
+Ошибка клиента
+[Wall posts]
+Сообщение на стене
+[Other events]
+Другие события
 [Friendship events]
 События дружбы
-[On this day posts]
-События "В этот день"
+[Real-time friends activity]
+Активность друзей в реальном времени
+["On this day" posts]
+Сообщения "В этот день"
 [Visit profile]
 Профиль на сайте
 [Visit notifications]
@@ -309,8 +305,8 @@ SMS с кодом подтверждения отправлено на ваш м
 Событие дружбы
 [Ticker event]
 Тиккер
-[On this day event]
-Событие "В этот день"
+["On this day" event]
+События "В этот день"
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
@@ -331,6 +327,18 @@ SMS с кодом подтверждения отправлено на ваш м
 Сообщение прочтено
 [Captcha form icon]
 Значок формы с капчей
+[Angry]
+Злой
+[Haha]
+Смешно!
+[Like]
+Нравится
+[Love]
+Любовь
+[Sad]
+Печально
+[Wow]
+Ого
 [Visit friendship details]
 Информация о дружбе
 [Visit conversation]
@@ -347,7 +355,11 @@ SMS с кодом подтверждения отправлено на ваш м
 Отклонить запрос дружбы
 [Services...]
 Службы...
-[Check Friends Requests]
+[Check friendship requests]
 Проверить запросы дружбы
-[Check Newsfeeds]
+[Check newsfeeds]
 Проверить новости
+[Check "On this day" posts]
+Проверить сообщения "В этот день"
+[Check notifications]
+Проверить уведомления

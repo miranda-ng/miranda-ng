@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.0
+;  Version: 0.1.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -103,6 +103,8 @@
 Репосты
 [Mentions in comments]
 Упоминания в комментариях
+[Accepted friend requests]
+Принятые запросы дружбы
 [E-mail or phone number:]
 E-mail или номер телефона:
 [Password:]
@@ -427,6 +429,8 @@ ID получателя ошибочен или неизвестен
 Загрузка сообщений для всех контактов завершена
 [Loading history]
 Загрузка истории
+[for]
+в течение
 [Loading messages for %s is completed]
 Загрузка сообщений для %s завершена
 [Network]

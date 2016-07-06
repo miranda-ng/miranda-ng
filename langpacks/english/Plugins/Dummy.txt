@@ -16,10 +16,10 @@
 [Allow sending messages to contacts]
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
-[Screen Name]
+[Screen name]
 [User name]
 [Facebook ID]
-[Gadu-Gadu Number]
+[Gadu-Gadu number]
 [User ID]
 [ICQ number]
 [Nickname]
@@ -31,7 +31,7 @@
 [Tlen login]
 [Tox ID]
 [Username]
-[VK ID]
+[VKontakte ID]
 [WhatsApp ID]
 ;file \protocols\Dummy\src\dummy_proto.cpp
 [This Dummy account has disabled sending messages. Enable it in account options.]

@@ -3,7 +3,6 @@
 [ISDN]
 [PCS]
 [JID:]
-[JID]
 [Google Talk!]
 [League Of Legends (EU Nordic)]
 [League Of Legends (EU West)]
