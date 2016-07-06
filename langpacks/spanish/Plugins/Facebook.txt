@@ -5,6 +5,18 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Me enoja
+[Haha]
+Me divierte
+[Like]
+Me gusta
+[Love]
+Me encanta
+[Sad]
+Me entristece
+[Wow]
+Me asombra
 [Facebook protocol support for Miranda NG.]
 Compatibilidad con el protocolo de Facebook para Miranda NG.
 [E-mail:]

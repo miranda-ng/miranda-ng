@@ -5,6 +5,18 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Grrr
+[Haha]
+Haha
+[Like]
+J'aime
+[Love]
+J'adore
+[Sad]
+Triste
+[Wow]
+Wouah
 [Facebook protocol support for Miranda NG.]
 Support du protocole Facebook pour Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc

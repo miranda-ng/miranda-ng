@@ -5,6 +5,16 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Љут
+[Haha]
+Хаха
+[Like]
+Свиђа ми се
+[Love]
+Воли
+[Sad]
+Тужан
 [Facebook protocol support for Miranda NG.]
 
 ;file \protocols\FacebookRM\res\facebook.rc

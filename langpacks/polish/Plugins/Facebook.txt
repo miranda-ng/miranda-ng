@@ -5,6 +5,12 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Wrr
+[Like]
+Lubię to!
+[Sad]
+Przykro mi
 [Facebook protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Facebook w Mirandzie NG.
 ;file \protocols\FacebookRM\res\facebook.rc

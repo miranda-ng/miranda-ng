@@ -5,6 +5,10 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Like]
+Sviđa mi se
+[Sad]
+Tužno
 [Facebook protocol support for Miranda NG.]
 
 ;file \protocols\FacebookRM\res\facebook.rc

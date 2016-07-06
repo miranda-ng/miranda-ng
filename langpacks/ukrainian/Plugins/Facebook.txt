@@ -5,6 +5,18 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Злість
+[Haha]
+Ха-ха
+[Like]
+Подобається
+[Love]
+У захваті
+[Sad]
+Сумно
+[Wow]
+Овва
 [Facebook protocol support for Miranda NG.]
 Підтримка протоколу Facebook у Miranda NG.
 [E-mail:]

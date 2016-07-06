@@ -5,6 +5,18 @@
 ;  Version: 0.2.14.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Angry]
+Ядосан
+[Haha]
+Ха-ха
+[Like]
+Харесва ми
+[Love]
+Любов
+[Sad]
+Тъжно
+[Wow]
+Еха
 [Facebook protocol support for Miranda NG.]
 Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
 [E-mail:]
