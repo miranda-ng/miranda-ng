@@ -25,8 +25,8 @@ public:
 		HttpRequest(REQUEST_GET, "skypegraph.skype.com/search/v1.1/namesearch/swx/")
 	{
 
-		wchar_t locale[LOCALE_NAME_MAX_LENGTH] = { 0 };
-		LCIDToLocaleName(Langpack_GetDefaultLocale(), locale, _countof(locale), 0);
+		wchar_t locale[LOCALE_NAME_MAX_LENGTH] = L"en-US";
+		//LCIDToLocaleName(Langpack_GetDefaultLocale(), locale, _countof(locale), 0); //FIXME: xp support
 
 		Url
 			<< CHAR_VALUE("requestid", "skype.com-1.48.78-00000000-0000-0000-0000-000000000000")
