@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <regex>
 #include <map>
 #include <memory>
+#include <functional>
 
 #include <newpluginapi.h>
 
@@ -104,6 +105,7 @@ struct MessageId
 	HANDLE handle;
 };
 
+
 //#include "websocket.h"
 #include "version.h"
 #include "resource.h"
@@ -132,6 +134,61 @@ struct MessageId
 #include "requests\asm\files.h"
 #include "request_queue.h"
 #include "skype_proto.h"
+
+void SkypeHttpResponse(const NETLIBHTTPREQUEST *response, void *arg);
+
+class SkypeResponseDelegateBase
+{
+protected:
+	CSkypeProto *proto;
+public:
+	SkypeResponseDelegateBase(CSkypeProto *ppro) : proto(ppro) {}
+	virtual void Invoke(const NETLIBHTTPREQUEST *) = 0;
+	virtual ~SkypeResponseDelegateBase(){};
+};
+
+class SkypeResponseDelegate : public SkypeResponseDelegateBase
+{
+	SkypeResponseCallback pfnResponseCallback;
+public:
+	SkypeResponseDelegate(CSkypeProto *ppro, SkypeResponseCallback callback) : SkypeResponseDelegateBase(ppro), pfnResponseCallback(callback) {}
+
+	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
+	{
+		(proto->*(pfnResponseCallback))(response);
+	}
+};
+
+class SkypeResponseDelegateWithArg : public SkypeResponseDelegateBase
+{
+	SkypeResponseWithArgCallback pfnResponseCallback;
+	void *arg;
+public:
+	SkypeResponseDelegateWithArg(CSkypeProto *ppro, SkypeResponseWithArgCallback callback, void *p) :
+		SkypeResponseDelegateBase(ppro),
+		pfnResponseCallback(callback),
+		arg(p)
+	{}
+
+	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
+	{
+		(proto->*(pfnResponseCallback))(response, arg);
+	}
+};
+
+template <typename F>
+class SkypeResponseDelegateLambda : public SkypeResponseDelegateBase
+{
+	F lCallback;
+public:
+	SkypeResponseDelegateLambda(CSkypeProto *ppro, F &callback) : SkypeResponseDelegateBase(ppro), lCallback(callback) {}
+
+	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
+	{
+		lCallback(response);
+	}
+};
+
 
 #define MODULE "Skype"
 

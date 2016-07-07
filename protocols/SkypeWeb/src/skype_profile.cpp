@@ -484,4 +484,6 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	UpdateProfileStatusMessage(root, hContact);
 	//richMood
 	UpdateProfileAvatar(root, hContact);
+
+	setString(hContact, "StatusMsg", root["mood"].as_string().c_str());
 }

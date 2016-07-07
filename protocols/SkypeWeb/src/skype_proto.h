@@ -54,6 +54,8 @@ public:
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
 	// accounts
 	static CSkypeProto* InitAccount(const char *protoName, const TCHAR *userName);
@@ -120,7 +122,6 @@ private:
 		}
 
 	} Contacts;
-
 
 	static UINT_PTR m_timer;
 
@@ -192,9 +193,23 @@ private:
 	void PushRequest(HttpRequest *request, SkypeResponseCallback response);
 	void PushRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
 
+	template<typename F>
+	void PushRequest(HttpRequest *request, F callback)
+	{
+		SkypeResponseDelegateBase *delegate = new SkypeResponseDelegateLambda<F>(this, callback);
+		requestQueue->Push(request, SkypeHttpResponse, delegate);
+	}
+
 	void SendRequest(HttpRequest *request);
 	void SendRequest(HttpRequest *request, SkypeResponseCallback response);
 	void SendRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
+
+	template<typename F>
+	void SendRequest(HttpRequest *request, F callback)
+	{
+		SkypeResponseDelegateBase *delegate = new SkypeResponseDelegateLambda<F>(this, response);
+		requestQueue->Send(request, SkypeHttpResponse, delegate);
+	}
 
 	// icons
 	static IconItemT Icons[];

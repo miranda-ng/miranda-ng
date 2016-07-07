@@ -36,4 +36,24 @@ public:
 	}
 };
 
+class SetStatusMsgRequest : public HttpRequest
+{
+public:
+	SetStatusMsgRequest(const char *status, LoginInfo &li) :
+		HttpRequest(REQUEST_POST, "api.skype.com/users/nikolay200027/profile/partial")
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+
+		JSONNode node, payload;
+		payload.set_name("payload");
+		node << (payload << JSONNode("mood", status));
+
+
+		Body << VALUE(node.write().c_str());
+	}
+};
+
 #endif //_SKYPE_REQUEST_STATUS_H_

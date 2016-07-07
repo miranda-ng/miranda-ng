@@ -114,6 +114,31 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
+int CSkypeProto::SetAwayMsg(int, const TCHAR *msg)
+{
+	PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", li));
+	return 0;
+}
+
+HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
+{
+	PushRequest(new GetProfileRequest(li, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response)
+	{
+		if (!response || !response->pData)
+			return;
+
+		JSONNode root = JSONNode::parse(response->pData);
+
+		if (JSONNode &mood = root["mood"])
+		{
+			CMString str = mood.as_mstring();
+			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
+		}
+		this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	});
+	return (HANDLE)1;
+}
+
 MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	debugLogA(__FUNCTION__);
