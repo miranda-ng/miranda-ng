@@ -40,7 +40,7 @@ class SetStatusMsgRequest : public HttpRequest
 {
 public:
 	SetStatusMsgRequest(const char *status, LoginInfo &li) :
-		HttpRequest(REQUEST_POST, "api.skype.com/users/nikolay200027/profile/partial")
+		HttpRequest(REQUEST_POST, "api.skype.com/users/self/profile/partial")
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
