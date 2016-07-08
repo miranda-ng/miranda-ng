@@ -26,11 +26,6 @@
 #define IDC_TIMESTAMP_SECONDS   3021
 #define IDC_TRANSITIONS         3022
 #define IDC_CREDITS             3023
-#define IDC_STC6                3025
-#define IDC_STC7                3026
-#define IDC_STC8                3027
-#define IDC_STC9                3028
-#define IDC_STC10               3029
 #define IDC_DEVICE              3151
 #define IDC_DEVICE_STATIC       3150
 #define IDC_STC14               103
