@@ -265,7 +265,6 @@ private:
 	void UpdateProfilePhoneMobile(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfilePhoneHome(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 

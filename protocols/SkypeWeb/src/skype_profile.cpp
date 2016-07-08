@@ -419,18 +419,6 @@ void CSkypeProto::UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hConta
 		delSetting(hContact, "CompanyPhone");
 }
 
-void CSkypeProto::UpdateProfileStatusMessage(const JSONNode &root, MCONTACT hContact)
-{
-	if (hContact == NULL)
-		return;
-
-	CMString province = root["mood"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		db_set_ts(hContact, "CList", "StatusMsg", province);
-	else
-		db_unset(hContact, "CList", "StatusMsg");
-}
-
 void CSkypeProto::UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact)
 {
 	CMString province = root["richMood"].as_mstring();
@@ -481,9 +469,6 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	UpdateProfilePhoneMobile(root, hContact);
 	UpdateProfilePhoneHome(root, hContact);
 	UpdateProfilePhoneOffice(root, hContact);
-	UpdateProfileStatusMessage(root, hContact);
 	//richMood
 	UpdateProfileAvatar(root, hContact);
-
-	setString(hContact, "StatusMsg", root["mood"].as_string().c_str());
 }
