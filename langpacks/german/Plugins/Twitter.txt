@@ -108,8 +108,8 @@ Auf Tweet antworten
 [Visit Homepage]
 Homepage besuchen
 [First tweet from new contact]
-
+Erster Tweet eines neuen Kontaktes
 [New tweet]
-
+Neuer Tweet
 [Reply...]
 Antworten...

@@ -43,7 +43,7 @@ Passwort speichern
 [Enter the password to continue.]
 Passwort eingeben um fortzufahren.
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-
+Als zusätzliche Sicherungsmaßnahme müssen Sie den Zugriff bestätigen, indem Sie den per SMS auf Ihr Mobiltelefon gesendeten Code eingeben.
 ;file \protocols\Steam\src\main.cpp
 [Steam game]
 Steam-Spiel

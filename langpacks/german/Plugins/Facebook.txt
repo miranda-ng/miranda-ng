@@ -47,25 +47,25 @@ Größere Avatare nutzen
 [Prefer real names instead of nicknames]
 Echte Namen anstatt Nicknamen verwenden
 [Popup notifications]
-Popup-Benachrichtigung
+Popup-Benachrichtigungen
 [Show notifications]
-
+Benachrichtigungen anzeigen
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-
+Newsfeed-Einträge anzeigen (WARNUNG: Verursacht exzessiven Netzwerkverkehr!)
 [News feed types to notify:]
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
 Werbebeiträge nicht anzeigen
 [Show friendships changes (when someone remove/approve you)]
-
+Freundschaftsänderungen anzeigen (wenn jemand Sie entfernt/annimmt)
 [Show real-time friends activity (ticker feed)]
-
+Echtzeit-Freundesaktivität (Ticker-Feed) anzeigen
 [Show my "On this day" posts at login]
-
+Meine Beiträge "an diesem Tag" beim Anmelden anzeigen
 [Chatroom logging]
-
+Chatraum-Aufzeichnungen
 [Log notifications into special chatroom]
-
+Benachrichtigungen in speziellem Chatraum aufzeichnen
 [Extra]
 Extras
 [Use balloon notifications in system tray instead of popups]
@@ -243,7 +243,7 @@ Fotos
 [a photo]
 ein Foto
 [a GIF]
-
+ein GIF
 [User sent %s:]
 Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -284,17 +284,17 @@ Status teilen...
 [Own wall]
 Eigene Pinnwand
 [Loading wall posts...]
-
+Pinnwand-Einträge laden...
 [Loading friendship requests...]
-
+Freundschaftsanfragen laden...
 [Loading notifications...]
-
+Benachrichtigungen laden...
 [Loading what happened on this day...]
-
+Laden, was an diesem Tag passiert ist...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
 [Client errors]
-
+Client-Fehler
 [Wall posts]
 Pinnwand-Einträge
 [Other events]
@@ -302,9 +302,9 @@ Sonstige Ereignisse
 [Friendship events]
 Freundschaftsereignisse
 [Real-time friends activity]
-
+Echtzeit-Freundesaktivität
 ["On this day" posts]
-
+Beiträge "an diesem Tag"
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -322,7 +322,7 @@ Freundschaftsereignis
 [Ticker event]
 Ticker-Ereignis
 ["On this day" event]
-
+Ereignis "an diesem Tag"
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]
@@ -377,6 +377,6 @@ Freundschaftsanfragen überprüfen
 [Check newsfeeds]
 Newsfeeds überprüfen
 [Check "On this day" posts]
-
+Beiträge "an diesem Tag" überprüfen
 [Check notifications]
-
+Benachrichtigungen überprüfen

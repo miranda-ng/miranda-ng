@@ -160,7 +160,7 @@ IPv4 eingeben
 [Error]
 Fehler
 [Enter port]
-
+Port eingeben
 [Enter public key]
 Öffentlichen Schlüssel eingeben
 [Common nodes]

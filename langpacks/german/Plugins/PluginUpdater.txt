@@ -51,7 +51,7 @@ Eigene Version
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Change platform to x86]
-
+Plattform zu x86 ändern
 [Notifications]
 Benachrichtigungen
 [Restart]
@@ -175,7 +175,7 @@ Stunden
 [days]
 Tage
 [Change platform to x64]
-
+Plattform zu x64 ändern
 [Test]
 Testen
 [Services]

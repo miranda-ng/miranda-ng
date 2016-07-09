@@ -30,4 +30,4 @@ Kombinierte Tasten für Zuordnung
 [Customize]
 Customize
 [Hardware HotKeys]
-
+Hardware-Hotkeys

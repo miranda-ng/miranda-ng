@@ -128,7 +128,7 @@ Aktienname oder -&symbol eingeben:
 Status&nachricht:
 ;file \plugins\Quotes\src\Chart.h
 [There is nothing to show]
-
+Es ist nichts anzuzeigen
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Sekunden

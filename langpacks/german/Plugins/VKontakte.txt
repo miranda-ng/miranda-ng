@@ -105,7 +105,7 @@ Reposts
 [Mentions in comments]
 In Beiträgen erwähnt
 [Accepted friend requests]
-
+Angenommene Freundesanfragen
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -300,7 +300,7 @@ Link
 [Product]
 Produkt
 [Price]
-
+Preis
 [Gift]
 Geschenk
 [Unsupported or unknown attachment type: %s]
