@@ -56,7 +56,6 @@
 [Signed]
 [As hex]
 [String]
-[IP]
 [TimeStamp]
 [Module:]
 [Setting:]
