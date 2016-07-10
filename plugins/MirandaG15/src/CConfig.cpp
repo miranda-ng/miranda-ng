@@ -250,13 +250,13 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 847000000;
 	odp.hInstance = hInstance;
-	odp.pszGroup = LPGEN("MirandaG15");
+	odp.pszGroup = "MirandaG15";
 	odp.flags = ODPF_BOLDGROUPS;
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FONTS);
 	odp.pszTitle = LPGEN("Appearance");
-	odp.pszGroup = LPGEN("MirandaG15");
+	odp.pszGroup = "MirandaG15";
 	odp.pfnDlgProc = CConfig::AppearanceDlgProc;
 	Options_AddPage(wParam, &odp);
 
