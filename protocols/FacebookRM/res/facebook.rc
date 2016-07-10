@@ -141,7 +141,7 @@ BEGIN
     RTEXT           "News feed types to notify:",IDC_STATIC,46,48,137,8
     COMBOBOX        IDC_FEED_TYPE,191,46,97,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,46,63,242,8
-    CONTROL         "Show friendships changes (when someone remove/approve you)",IDC_FRIENDSHIP_ENABLE,
+    CONTROL         "Show friendships changes (when someone removes/approves you)",IDC_FRIENDSHIP_ENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
     CONTROL         "Show real-time friends activity (ticker feed)",IDC_TICKER_ENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,93,272,8
