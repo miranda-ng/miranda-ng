@@ -1688,6 +1688,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						case TABSRMM_HK_USERMENU:
 							SendMessage(hwndDlg, WM_COMMAND, IDC_PROTOCOL, 0);
 							return _dlgReturn(hwndDlg, 1);
+						case TABSRMM_HK_SENDMENU:
+							SendMessage(hwndDlg, WM_COMMAND, IDC_SENDMENU, IDC_SENDMENU);
+							return _dlgReturn(hwndDlg, 1);
+						case TABSRMM_HK_PROTOMENU:
+							SendMessage(hwndDlg, WM_COMMAND, IDC_PROTOMENU, IDC_PROTOMENU);
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_USERDETAILS:
 							SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_NAME, BN_CLICKED), 0);
 							return _dlgReturn(hwndDlg, 1);
@@ -1767,13 +1773,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							case 23:                // ctrl - w
 								PostMessage(hwndDlg, WM_CLOSE, 1, 0);
 								break;
-							case 19:
-								PostMessage(hwndDlg, WM_COMMAND, IDC_SENDMENU, IDC_SENDMENU);
-								break;
-							case 16:
-								PostMessage(hwndDlg, WM_COMMAND, IDC_PROTOMENU, IDC_PROTOMENU);
-								break;
-							case 20:
+							case 20:                // ctrl - t
 								PostMessage(hwndDlg, WM_COMMAND, IDC_TOGGLETOOLBAR, 1);
 								break;
 							}

@@ -52,6 +52,8 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ 0, "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, 0, 0, TABSRMM_HK_SEND },
 	{ 0, "tabsrmm_emot", LPGEN("Smiley selector"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'E'), TABSRMM_HK_EMOTICONS },
 	{ 0, "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'H'), TABSRMM_HK_HISTORY },
+	{ 0, "tabsrmm_sendmenu", LPGEN("Show send menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'S'), TABSRMM_HK_SENDMENU },
+	{ 0, "tabsrmm_protomenu", LPGEN("Show protocol menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'P'), TABSRMM_HK_PROTOMENU },
 	{ 0, "tabsrmm_umenu", LPGEN("Show user menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'D'), TABSRMM_HK_USERMENU },
 	{ 0, "tabsrmm_udet", LPGEN("Show user details"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'U'), TABSRMM_HK_USERDETAILS },
 	{ 0, "tabsrmm_tbar", LPGEN("Toggle toolbar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_SHIFT, 'T'), TABSRMM_HK_TOGGLETOOLBAR },
