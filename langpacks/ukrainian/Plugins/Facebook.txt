@@ -45,10 +45,28 @@
 Великі аватари
 [Prefer real names instead of nicknames]
 Показувати справжні імена замість ніків
+[Popup notifications]
+Спливаючі вікна
+[Show notifications]
+Показувати сповіщення
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+Повідомлення на стіні (стрічка новин) Увага: підвищує споживання трафіку!
 [News feed types to notify:]
 Сповіщати про типи новин:
 [Don't show advertising posts]
 Не показувати рекламні публікації
+[Show friendships changes (when someone removes/approves you)]
+Показувати зміни запитів дружби (коли хтось видаляє/підтверджує запит)
+[Show real-time friends activity (ticker feed)]
+Показувати активність друзів у реальному часі
+[Show my "On this day" posts at login]
+Показувати повідомлення "Цього дня" при вході
+[Chatroom logging]
+Журнал чатів
+[Log notifications into special chatroom]
+Показувати сповіщення в окремому чаті
+[Extra]
+Додатково
 [Use balloon notifications in system tray instead of popups]
 Сповіщати підказкою в треї замість спливаючих вікон
 [Use this server for opening links:]
@@ -215,6 +233,8 @@ SMS з кодом підтвердження відправлено на ваш 
 фотографії
 [a photo]
 фотографію
+[a GIF]
+анімоване зображення
 [User sent %s:]
 Контакт надіслав %s:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -251,12 +271,28 @@ SMS з кодом підтвердження відправлено на ваш 
 Статус...
 [Own wall]
 Своя стіна
+[Loading wall posts...]
+Завантаження записів зі стіни...
+[Loading friendship requests...]
+Завантаження запитів дружби...
+[Loading notifications...]
+Завантаження сповіщень...
+[Loading what happened on this day...]
+Завантаження подій за цей день...
 [Do you want to cancel your friendship with '%s'?]
 Ви впевнені, що хочете видалити "%s" з друзів?
+[Client errors]
+Помилки клієнта
+[Wall posts]
+Повідомлення на стіні
 [Other events]
 Інші події
 [Friendship events]
 Події дружби
+[Real-time friends activity]
+Активність друзів у реальному часі
+["On this day" posts]
+Повідомлення "Цього дня"
 [Visit profile]
 Профіль
 [Visit notifications]
@@ -273,6 +309,8 @@ SMS з кодом підтвердження відправлено на ваш 
 Подія дружби
 [Ticker event]
 Тікер
+["On this day" event]
+Подія "Цього дня"
 [Message read: %s by %s]
 Повідомлення прочитане о %s користувачем %s
 [Message read: %s]
@@ -325,3 +363,7 @@ SMS з кодом підтвердження відправлено на ваш 
 Перевірити запити дружби
 [Check newsfeeds]
 Перевірити новини
+[Check "On this day" posts]
+Перевірити повідомлення "Цього дня"
+[Check notifications]
+Перевірити сповіщення

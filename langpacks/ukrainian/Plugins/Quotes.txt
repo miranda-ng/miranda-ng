@@ -123,6 +123,8 @@
 &Відслідковані котування:
 [Status &Message:]
 Повідомлення &статусу:
+[There is nothing to show]
+Немає даних для показу
 [Seconds]
 секунд
 [Minutes]

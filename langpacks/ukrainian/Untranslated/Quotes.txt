@@ -1,5 +1,4 @@
 ﻿[Get data from:]
-[There is nothing to show]
 [Enter text to display in contact list.]
 [User-Defined]
 [Enter integer value]

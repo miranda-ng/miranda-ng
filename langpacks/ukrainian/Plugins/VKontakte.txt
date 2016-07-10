@@ -103,6 +103,8 @@
 Репости
 [Mentions in comments]
 Згадування в коментарях
+[Accepted friend requests]
+Підтверджені запити дружби
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -293,6 +295,10 @@
 Запис на стіні
 [Link]
 Посилання
+[Product]
+Товар
+[Price]
+Ціна
 [Gift]
 Подарунок
 [Unsupported or unknown attachment type: %s]
@@ -425,6 +431,8 @@ ID отримувача помилковий або невідомий
 Завершено завантаження повідомлень для всіх контактів
 [Loading history]
 Завантаження історії
+[for]
+протягом
 [Loading messages for %s is completed]
 Завершено завантаження повідомлень для %s
 [Network]
