@@ -203,7 +203,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
 		const JSONNode &attach_ = legacy ? (*itAttachment) : (*itAttachment)["mercury"];
 
-		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share", "animated_image"
+		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share", "animated_image", "video"
 
 		if (type == "photo") {
 			std::string filename = attach_["name"].as_string();
@@ -213,7 +213,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
 			}
 		}
-		else if (type == "file") {
+		else if (type == "file" || type == "video") {
 			std::string filename = attach_["name"].as_string();
 			std::string link = attach_["url"].as_string();
 
@@ -297,6 +297,8 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 			newText = (attachments_.size() > 1) ? TranslateT("files") : TranslateT("a file");
 		else if (type == "photo")
 			newText = (attachments_.size() > 1) ? TranslateT("photos") : TranslateT("a photo");
+		else if (type == "video")
+			newText = TranslateT("a video");
 		else if (type == "animated_image")
 			newText = TranslateT("a GIF");
 		else
