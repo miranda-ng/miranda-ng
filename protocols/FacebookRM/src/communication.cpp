@@ -910,25 +910,46 @@ bool facebook_client::login(const char *username, const char *password)
 				}
 				
 				// Check if we need to approve also last unapproved device
-				if (resp.data.find("name=\"name_action_selected\"") == std::string::npos) {
-					// 1) Continue
+
+				// 1) Continue (it might have been sent with approval code above already)
+				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
 					inner_data = "submit[Continue]=Continue";
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				}
+				
+				// In this step might be needed identity confirmation
+				if (resp.data.find("name=\"birthday_captcha_") != std::string::npos) {
+					// Account is locked and needs identity confirmation
+					client_notify(TranslateT("Login error: Your account is temporarily locked. You need to confirm this device from web browser."));
+					parent->debugLogA("!!! Login error: Birthday confirmation.");
+					return handle_error("login", FORCE_QUIT);
+				}
 
-					// In this step might be needed identity confirmation
-					if (resp.data.find("name=\"birthday_captcha_") != std::string::npos) {
-						// Account is locked and needs identity confirmation
-						client_notify(TranslateT("Login error: Your account is temporarily locked. You need to confirm this device from web browser."));
-						parent->debugLogA("!!! Login error: Birthday confirmation.");
-						return handle_error("login", FORCE_QUIT);
+				// 2) Approve last unknown login
+				if (resp.data.find("name=\"submit[This was me]\"") != std::string::npos) {
+					CMString tszTitle;
+					tszTitle.AppendFormat(_T("%s - %s"), parent->m_tszUserName, TranslateT("Check last login"));
+					CMString tszMessage(TranslateT("Do you recognize this activity?"));
+
+					std::string activity = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "<body", "</strong></div>", "</div>"));
+					activity = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(activity)));
+					if (!activity.empty()) {
+						tszMessage.AppendFormat(_T("\n\n%s"), ptrT(mir_utf8decodeT(activity.c_str())));
 					}
 
-					// 2) Approve last unknown login
-					// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
-					inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
-					inner_data += "&submit[This is Okay]=This is Okay"; // I don't know whether it's with classic spaces now or not
+					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) == IDYES) {
+						// Recognized activity, will continue with login
+						inner_data = "submit[This was me]=This was me";
+					} else {
+						// Don't recognize - this will force to change account password
+						inner_data = "submit[This wasn't me]=This wasn't me";
+						
+						// We won't continue with this and rather cancel connecting right away, because we don't want to handle password changing via Miranda
+						client_notify(TranslateT("Login error: You need to confirm last unknown login or revoke it from web browser."));
+						return handle_error("login", FORCE_QUIT);
+					}
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
@@ -942,11 +963,13 @@ bool facebook_client::login(const char *username, const char *password)
 				}
 				
 				// Save this actual device
-				inner_data = "submit[Continue]=Continue";
-				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
-				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
+					inner_data = "submit[Continue]=Continue";
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				}
 			}
 			else if (resp.data.find("name=\"submit[Get Started]\"") != std::string::npos) {
 				if (!parent->getBool(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID)) {
