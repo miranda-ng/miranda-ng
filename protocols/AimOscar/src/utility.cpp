@@ -100,7 +100,7 @@ void CAimProto::start_connection(void*)
 		}
 
 
-		bool use_clientlogin = getByte(AIM_KEY_CLIENTLOGIN, 0) != 0;
+		bool use_clientlogin = getByte(AIM_KEY_CLIENTLOGIN, 1) != 0; //clientlogin should be enabled by default
 		if (!use_clientlogin)
 		{
 			char* login_url = getStringA(AIM_KEY_HN);
