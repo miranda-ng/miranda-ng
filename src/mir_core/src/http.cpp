@@ -32,7 +32,7 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 		if (('0' <= *s && *s <= '9')  || //0-9
 			 ('A' <= *s && *s <= 'Z')  || //ABC...XYZ
 			 ('a' <= *s && *s <= 'z')  || //abc...xyz
-			*s == '-' || *s == '_' || *s == '.' || *s == ' ') outputLen++;
+			*s == '-' || *s == '_' || *s == '.' || *s == ' ' || *s == '~') outputLen++;
 		else outputLen += 3;
 	}
 
@@ -45,7 +45,7 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 		if (('0' <= *s && *s <= '9')  || //0-9
 			 ('A' <= *s && *s <= 'Z')  || //ABC...XYZ
 			 ('a' <= *s && *s <= 'z')  || //abc...xyz
-			*s == '-' || *s == '_' || *s == '.') *d++ = *s;
+			*s == '-' || *s == '_' || *s == '.' || *s == '~') *d++ = *s;
 		else if (*s == ' ') *d++='+';
 		else {
 			*d++ = '%';
