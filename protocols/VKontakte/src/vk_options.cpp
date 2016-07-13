@@ -226,7 +226,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	m_cbForceInvisibleStatus(this, IDC_FORCE_ONLINE_ON_ACT),
 	m_edtInvInterval(this, IDC_ED_INT_INVIS),
 	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
-	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS),
+	m_cbSendVKLinksAsAttachments(this, IDC_SENDVKURLSASATTACH),
 	m_cbUseNonStandardUrlEncode(this, IDC_USENOSTDURLENCODE),
 	m_cbReportAbuse(this, IDC_REPORT_ABUSE),
 	m_cbClearServerHistory(this, IDC_CLEAR_SERVER_HISTORY),
@@ -243,7 +243,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbMesAsUnread, m_proto->m_vkOptions.bMesAsUnread);
 	CreateLink(m_cbForceInvisibleStatus, m_proto->m_vkOptions.bUserForceInvisibleOnActivity);
 	CreateLink(m_edtInvInterval, m_proto->m_vkOptions.iInvisibleInterval);
-	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
+	CreateLink(m_cbSendVKLinksAsAttachments, m_proto->m_vkOptions.bSendVKLinksAsAttachments);
 	CreateLink(m_cbUseNonStandardUrlEncode, m_proto->m_vkOptions.bUseNonStandardUrlEncode);
 	CreateLink(m_cbReportAbuse, m_proto->m_vkOptions.bReportAbuse);
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
@@ -407,11 +407,13 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto):
 	m_cbBBCForAttachmentsBasic(this, IDC_ATTBBC_BASIC),
 	m_cbBBCForAttachmentsAdvanced(this, IDC_ATTBBC_ADV),
 	m_cbStikersAsSmyles(this, IDC_STICKERS_AS_SMYLES),
-	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO)
+	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO),
+	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS)
 {
 	CreateLink(m_cbUseBBCOnAttacmentsAsNews, m_proto->m_vkOptions.bUseBBCOnAttacmentsAsNews);
 	CreateLink(m_cbStikersAsSmyles, m_proto->m_vkOptions.bStikersAsSmyles);
 	CreateLink(m_cbShortenLinksForAudio, m_proto->m_vkOptions.bShortenLinksForAudio);
+	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
 }
 
 void CVkOptionViewForm::OnInitDialog()

@@ -62,8 +62,16 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 
 	if (StickerId)
 		pReq << INT_PARAM("sticker_id", StickerId);
-	else
+	else {
 		pReq << CHAR_PARAM("message", szMsg);
+		if (m_vkOptions.bSendVKLinksAsAttachments) {
+			CMStringA szAttachments = GetAttachmentsFromMessage(szMsg);
+			if (!szAttachments.IsEmpty()) {
+				debugLogA("CVkProto::SendMsg Attachments = %s", szAttachments);
+				pReq << CHAR_PARAM("attachment", szAttachments);
+			}
+		}
+	}
 
 	if (!bIsChat)
 		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);

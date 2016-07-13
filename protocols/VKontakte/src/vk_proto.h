@@ -337,6 +337,7 @@ private:
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	char* GetStickerId(const char *Msg, int& stickerid);
+	CMStringA GetAttachmentsFromMessage(const char * Msg);
 	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMString GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
 	CMString SetBBCString(LPCTSTR tszString, BBCSupport iBBC, VKBBCType bbcType, LPCTSTR tszAddString = NULL);

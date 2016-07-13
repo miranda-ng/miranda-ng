@@ -76,8 +76,8 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 	CCtrlEdit m_edtInvInterval;
 	CCtrlButton m_spInvInterval;
 
-	CCtrlCheck m_cbUseNonStandardNotifications;
 	CCtrlCheck m_cbUseNonStandardUrlEncode;
+	CCtrlCheck m_cbSendVKLinksAsAttachments;
 
 	CCtrlCheck m_cbReportAbuse;
 	CCtrlCheck m_cbClearServerHistory;
@@ -164,6 +164,7 @@ class CVkOptionViewForm : public CVkDlgBase
 
 	CCtrlCheck m_cbStikersAsSmyles;
 	CCtrlCheck m_cbShortenLinksForAudio;
+	CCtrlCheck m_cbUseNonStandardNotifications;
 	
 public:
 	CVkOptionViewForm(CVkProto *proto);

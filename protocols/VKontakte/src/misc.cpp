@@ -21,6 +21,9 @@ static const char *szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "
 
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 
+static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
+static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d" };
+
 JSONNode nullNode(JSON_NULL);
 
 bool IsEmpty(LPCTSTR str)
@@ -731,6 +734,43 @@ char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 	}
 
 	return retMsg;
+}
+
+CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
+{
+	if (IsEmpty(Msg))
+		return CMStringA();
+
+	const char *pos = NULL;
+	for (int i = 0; i < _countof(szVKUrls) && !pos; i++) {
+		pos = strstr(Msg, szVKUrls[i]);
+		if (pos) {
+			pos += mir_strlen(szVKUrls[i]);
+			break;
+		}
+	}
+
+	if (!pos || pos >= (Msg + mir_strlen(Msg)))
+		return CMStringA();
+
+	int iRes = 0, 
+		iOwner = 0, 
+		iId = 0;
+
+	for (int i = 0; i < _countof(szAttachmentMasks); i++) {
+		iRes = sscanf(pos, szAttachmentMasks[i], &iOwner, &iId);
+		if (iRes == 2) {
+			CMStringA szAttacment(FORMAT, szAttachmentMasks[i], iOwner, iId);
+			CMStringA szAttacment2 = GetAttachmentsFromMessage(pos + szAttacment.GetLength());
+			if (!szAttacment2.IsEmpty())
+				szAttacment += "," + szAttacment2;
+			return szAttacment;
+		}
+		else if (iRes == 1)
+			break;
+	}
+
+	return GetAttachmentsFromMessage(pos);
 }
 
 int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
