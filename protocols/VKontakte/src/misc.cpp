@@ -23,6 +23,7 @@ static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 
 static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
 static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d" };
+static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
 
 JSONNode nullNode(JSON_NULL);
 
@@ -736,35 +737,63 @@ char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 	return retMsg;
 }
 
+const char* FindVKUrls(const char *Msg)
+{
+	if (IsEmpty(Msg))
+		return NULL;
+
+	const char *pos = NULL;
+	for (int i = 0; i < _countof(szVKUrls) && !pos; i++) {
+		pos = strstr(Msg, szVKUrls[i]);
+		if (pos)
+			pos += mir_strlen(szVKUrls[i]);
+	}
+
+	if (pos >= (Msg + mir_strlen(Msg)))
+		pos = NULL;
+
+	return pos;
+}
+
+
 CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
 {
 	if (IsEmpty(Msg))
 		return CMStringA();
 
-	const char *pos = NULL;
-	for (int i = 0; i < _countof(szVKUrls) && !pos; i++) {
-		pos = strstr(Msg, szVKUrls[i]);
-		if (pos) {
-			pos += mir_strlen(szVKUrls[i]);
-			break;
-		}
-	}
-
-	if (!pos || pos >= (Msg + mir_strlen(Msg)))
+	const char *pos = FindVKUrls(Msg);
+	if (!pos)
 		return CMStringA();
 
-	int iRes = 0, 
-		iOwner = 0, 
+	const char *nextpos = FindVKUrls(pos);
+	const char *pos2 = NULL;
+
+	for (int i = 0; i < _countof(szVKLinkParam) && !pos2; i++) {
+		pos2 = strstr(pos, szVKLinkParam[i]);
+		if (pos2 && (!nextpos || pos2 < nextpos)) 
+			pos = pos2 + mir_strlen(szVKLinkParam[i]);
+	}
+
+	if (pos >= (Msg + mir_strlen(Msg)))
+		return CMStringA();
+
+	int iRes = 0,
+		iOwner = 0,
 		iId = 0;
 
 	for (int i = 0; i < _countof(szAttachmentMasks); i++) {
 		iRes = sscanf(pos, szAttachmentMasks[i], &iOwner, &iId);
 		if (iRes == 2) {
-			CMStringA szAttacment(FORMAT, szAttachmentMasks[i], iOwner, iId);
-			CMStringA szAttacment2 = GetAttachmentsFromMessage(pos + szAttacment.GetLength());
-			if (!szAttacment2.IsEmpty())
-				szAttacment += "," + szAttacment2;
-			return szAttacment;
+			CMStringA szAttachment(FORMAT, szAttachmentMasks[i], iOwner, iId);
+			CMStringA szAttachment2;
+			
+			if (nextpos)
+				szAttachment2 = GetAttachmentsFromMessage(pos + szAttachment.GetLength());
+			
+			if (!szAttachment2.IsEmpty())
+				szAttachment += "," + szAttachment2;
+			
+			return szAttachment;
 		}
 		else if (iRes == 1)
 			break;
