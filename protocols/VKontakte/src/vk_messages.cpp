@@ -320,7 +320,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!isOut)
 				m_incIds.insert((HANDLE)mid);
 		}
-		else if (m_vkOptions.bLoadSentAttachments && !tszAttachmentDescr.IsEmpty() && !isOut) {
+		else if (m_vkOptions.bLoadSentAttachments && !tszAttachmentDescr.IsEmpty() && isOut) {
 			T2Utf pszAttach(tszAttachmentDescr);
 			recv.timestamp = time(NULL); // only local time
 			recv.szMessage = pszAttach;
