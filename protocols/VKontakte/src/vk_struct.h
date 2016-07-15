@@ -335,6 +335,7 @@ struct CVKOptions {
 	CMOption<BYTE> bSyncReadMessageStatusFromServer;
 	CMOption<BYTE> bLoadFullCList;
 	CMOption<BYTE> bSendVKLinksAsAttachments;
+	CMOption<BYTE> bLoadSentAttachments;
 
 	CMOption<BYTE> bShowProtoMenuItem0;
 	CMOption<BYTE> bShowProtoMenuItem1;

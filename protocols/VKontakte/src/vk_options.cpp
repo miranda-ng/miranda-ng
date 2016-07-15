@@ -227,6 +227,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	m_edtInvInterval(this, IDC_ED_INT_INVIS),
 	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
 	m_cbSendVKLinksAsAttachments(this, IDC_SENDVKURLSASATTACH),
+	m_cbLoadSentAttachments(this, IDC_LOADSENTATTACH),
 	m_cbUseNonStandardUrlEncode(this, IDC_USENOSTDURLENCODE),
 	m_cbReportAbuse(this, IDC_REPORT_ABUSE),
 	m_cbClearServerHistory(this, IDC_CLEAR_SERVER_HISTORY),
@@ -244,6 +245,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbForceInvisibleStatus, m_proto->m_vkOptions.bUserForceInvisibleOnActivity);
 	CreateLink(m_edtInvInterval, m_proto->m_vkOptions.iInvisibleInterval);
 	CreateLink(m_cbSendVKLinksAsAttachments, m_proto->m_vkOptions.bSendVKLinksAsAttachments);
+	CreateLink(m_cbLoadSentAttachments, m_proto->m_vkOptions.bLoadSentAttachments);
 	CreateLink(m_cbUseNonStandardUrlEncode, m_proto->m_vkOptions.bUseNonStandardUrlEncode);
 	CreateLink(m_cbReportAbuse, m_proto->m_vkOptions.bReportAbuse);
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
@@ -252,6 +254,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.ptszReturnChatMessage);
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
+	m_cbSendVKLinksAsAttachments.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange);
 }
 
 void CVkOptionAdvancedForm::OnInitDialog()
@@ -265,6 +268,7 @@ void CVkOptionAdvancedForm::OnInitDialog()
 	m_spInvInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iInvisibleInterval);
 
 	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
+	On_cbSendVKLinksAsAttachmentsChange(&m_cbSendVKLinksAsAttachments);
 }
 
 void CVkOptionAdvancedForm::OnApply()
@@ -277,6 +281,9 @@ void CVkOptionAdvancedForm::OnApply()
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendBroadcastOnly;
 	if (m_cbMusicSendStatus.GetState())
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendStatusOnly;
+
+	if (m_cbSendVKLinksAsAttachments.GetState() == 0)
+		m_proto->m_vkOptions.bLoadSentAttachments = false;
 }
 
 void CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange(CCtrlCheck *)
@@ -285,6 +292,11 @@ void CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange(CCtrlCheck *)
 
 	m_edtInvInterval.Enable(bEnable);
 	m_spInvInterval.Enable(bEnable);
+}
+
+void CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange(CCtrlCheck *)
+{
+	m_cbLoadSentAttachments.Enable(m_cbSendVKLinksAsAttachments.GetState());
 }
 
 ////////////////////// News and notifications ////////////////////////////////

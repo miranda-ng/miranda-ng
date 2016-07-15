@@ -256,11 +256,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			tszBody +=  tszFwdMessages;
 		}
 
+		CMString tszAttachmentDescr;
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+			tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
-				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+				tszBody += _T("\n");
 			tszBody += tszAttachmentDescr;
 		}
 
@@ -318,6 +319,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				setDword(hContact, "lastmsgid", mid);
 			if (!isOut)
 				m_incIds.insert((HANDLE)mid);
+		}
+		else if (m_vkOptions.bLoadSentAttachments && !tszAttachmentDescr.IsEmpty() && !isOut) {
+			T2Utf pszAttach(tszAttachmentDescr);
+			recv.timestamp = time(NULL); // only local time
+			recv.szMessage = pszAttach;
+			ProtoChainRecvMsg(hContact, &recv);
 		}
 	}
 

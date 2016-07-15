@@ -125,6 +125,7 @@
 #define IDC_COMBO_SYNCHISTORY           1109
 #define IDC_N_FRIENDACCEPTED            1110
 #define IDC_SENDVKURLSASATTACH          1111
+#define IDC_LOADSENTATTACH              1112
 
 // Next default values for new objects
 // 

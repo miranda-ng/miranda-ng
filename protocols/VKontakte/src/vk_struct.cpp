@@ -205,6 +205,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bNotificationFilterAcceptedFriends(proto, "NotificationFilterAcceptedFriends", true),
 
 	bSendVKLinksAsAttachments(proto, "SendVKLinksAsAttachments", true),
+	bLoadSentAttachments(proto, "LoadSentAttachments", bSendVKLinksAsAttachments),
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
 	bUseNonStandardUrlEncode(proto, "UseNonStandardUrlEncode", true),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),

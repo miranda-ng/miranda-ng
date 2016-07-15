@@ -78,6 +78,7 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 
 	CCtrlCheck m_cbUseNonStandardUrlEncode;
 	CCtrlCheck m_cbSendVKLinksAsAttachments;
+	CCtrlCheck m_cbLoadSentAttachments;
 
 	CCtrlCheck m_cbReportAbuse;
 	CCtrlCheck m_cbClearServerHistory;
@@ -96,6 +97,7 @@ public:
 	void OnInitDialog();
 	void OnApply();
 	void On_cbForceInvisibleStatusChange(CCtrlCheck*);
+	void On_cbSendVKLinksAsAttachmentsChange(CCtrlCheck*);
 };
 
 ////////////////////// News and notifications ////////////////////////////////
