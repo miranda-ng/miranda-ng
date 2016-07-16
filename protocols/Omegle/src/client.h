@@ -43,7 +43,6 @@ public:
 	{
 		nick_ = NULL;
 		//msgid_ = 0;
-		send_message_lock_ = NULL;
 		state_ = STATE_INACTIVE;
 
 		typing_ = spy_mode_ = false;
@@ -72,7 +71,6 @@ public:
 	std::string question_;
 	ptrT nick_;
 
-	HANDLE send_message_lock_;
 	//int	msgid_;
 
 	// State of client

@@ -27,8 +27,6 @@ void OmegleProto::SendMsgWorker(void *p)
 	if (p == NULL)
 		return;
 
-	ScopedLock s(facy.send_message_lock_);
-
 	std::string data = *(std::string*)p;
 	delete (std::string*)p;
 

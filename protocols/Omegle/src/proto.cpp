@@ -29,7 +29,6 @@ PROTO<OmegleProto>(proto_name, username)
 
 	this->signon_lock_ = CreateMutex(NULL, FALSE, NULL);
 	this->log_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	this->facy.connection_lock_ = CreateMutex(NULL, FALSE, NULL);
 	this->events_loop_lock_ = CreateMutex(NULL, FALSE, NULL);
 
@@ -70,12 +69,10 @@ OmegleProto::~OmegleProto()
 
 	WaitForSingleObject(this->signon_lock_, IGNORE);
 	WaitForSingleObject(this->log_lock_, IGNORE);
-	WaitForSingleObject(this->facy.send_message_lock_, IGNORE);
 	WaitForSingleObject(this->events_loop_lock_, IGNORE);
 
 	CloseHandle(this->signon_lock_);
 	CloseHandle(this->log_lock_);
-	CloseHandle(this->facy.send_message_lock_);
 	CloseHandle(this->events_loop_lock_);
 	CloseHandle(this->facy.connection_lock_);
 }
