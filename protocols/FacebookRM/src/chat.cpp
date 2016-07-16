@@ -96,7 +96,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
 		// Find this contact in list or add new temporary contact
-		MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+		MCONTACT hContact = AddToContactList(&fbu, false, true);
 
 		if (!hContact)
 			break;
@@ -131,7 +131,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
 			// Find this contact in list or add new temporary contact
-			hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+			hContact = AddToContactList(&fbu, false, true);
 
 			if (!hContact)
 				break;

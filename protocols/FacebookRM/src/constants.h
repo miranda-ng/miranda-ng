@@ -167,7 +167,8 @@ enum ContactType {
 	CONTACT_FRIEND	= 1,	// contact that IS on our server list
 	CONTACT_NONE	= 2,	// contact that ISN'T on our server list
 	CONTACT_REQUEST	= 3,	// contact that we asked for friendship
-	CONTACT_APPROVE	= 4		// contact that is asking us for approval of friendship
+	CONTACT_APPROVE	= 4,	// contact that is asking us for approval of friendship
+	CONTACT_PAGE	= 5		// contact is Facebook page
 };
 
 enum ClientType {

@@ -199,17 +199,19 @@ void InitContactMenus()
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wParam);
+
+	BYTE type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0);
 	bool bIsChatroom = isChatRoom(hContact);
+	bool bIsPage = (type == CONTACT_PAGE);
 
 	Menu_ShowItem(g_hContactMenuVisitProfile, !bIsChatroom);
-	Menu_ShowItem(g_hContactMenuVisitFriendship, !bIsChatroom);
+	Menu_ShowItem(g_hContactMenuVisitFriendship, !bIsChatroom && !bIsPage);
 	Menu_ShowItem(g_hContactMenuVisitConversation, true);
 	Menu_ShowItem(g_hContactMenuPostStatus, !bIsChatroom);
 
-	if (!isOffline() && !bIsChatroom)
+	if (!isOffline() && !bIsChatroom && !bIsPage)
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-		BYTE type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0);
 
 		Menu_ShowItem(g_hContactMenuAuthAsk, ctrlPressed || type == CONTACT_NONE || !type);
 		Menu_ShowItem(g_hContactMenuAuthGrant, ctrlPressed || type == CONTACT_APPROVE);

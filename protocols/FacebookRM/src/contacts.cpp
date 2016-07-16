@@ -391,7 +391,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	facy.handle_success("LoadChatInfo");
 }
 
-MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add, bool add_temporarily)
+MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, bool add_temporarily)
 {
 	// Ignore self user completely
 	if (fbu->user_id == facy.self_.user_id)
@@ -432,7 +432,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 		if (m_tszDefaultGroup)
 			db_set_ts(hContact, "CList", "Group", m_tszDefaultGroup);
 
-		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
 
 		if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
 			CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);

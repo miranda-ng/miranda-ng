@@ -169,7 +169,7 @@ void FacebookProto::ProcessFriendList(void*)
 	// Check remaining contacts in map and add them to contact list
 	for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end();) {
 		if (!it->second->deleted)
-			AddToContactList(it->second, CONTACT_FRIEND, true); // we know this contact doesn't exists, so we force add it
+			AddToContactList(it->second, true); // we know this contact doesn't exists, so we force add it
 
 		delete it->second;
 		it = friends.erase(it);
@@ -828,7 +828,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				// We don't have this contact, lets load info about him
 				LoadContactInfo(&fbu);
 
-				hContact = AddToContactList(&fbu, CONTACT_NONE);
+				hContact = AddToContactList(&fbu);
 			}
 
 			if (!hContact) {
@@ -1033,9 +1033,10 @@ void FacebookProto::ProcessFriendRequests(void*)
 		facebook_user fbu;
 		fbu.real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<a", ">", "</a>"));
 		fbu.user_id = utils::text::source_get_value2(&get, "confirm=", "&\"");
+		fbu.type = CONTACT_APPROVE;
 
 		if (!fbu.user_id.empty() && !fbu.real_name.empty()) {
-			MCONTACT hContact = AddToContactList(&fbu, CONTACT_APPROVE);
+			MCONTACT hContact = AddToContactList(&fbu);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
 			bool isNew = false;

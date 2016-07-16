@@ -42,6 +42,13 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 		return;
 	}
 
+	if (type == "friend")
+		fbu->type = CONTACT_FRIEND;
+	else if (type == "user")
+		fbu->type = CONTACT_NONE;
+	else if (type == "page")
+		fbu->type = CONTACT_PAGE;
+
 	if (!name.empty())
 		fbu->real_name = utils::text::slashu_to_utf8(name);
 	if (!thumbSrc.empty())
@@ -608,8 +615,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 			facebook_user fbu;
 			fbu.user_id = from.as_string();
+			fbu.type = CONTACT_FRIEND; // only friends are able to send typing notifications
 
-			MCONTACT hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND); // only friends are able to send typing notifications
+			MCONTACT hContact = proto->AddToContactList(&fbu);
 
 			const JSONNode &st = (*it)["st"];
 			if (st.as_int() == 1)
@@ -694,7 +702,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				MCONTACT hContact = proto->ContactIDToHContact(id);
 				if (!hContact) {
 					// FIXME: What to do, when we don't have this contact? What does it mean?
-					// fbu->handle = AddToContactList(fbu, CONTACT_FRIEND); // add this contact as friend?
+					// fbu->type = CONTACT_FRIEND; // add this contact as a friend?
+					// fbu->handle = AddToContactList(fbu);
 					continue;
 				}
 
@@ -768,7 +777,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				MCONTACT hContact = proto->ContactIDToHContact(id);
 				if (!hContact) {
 					// FIXME: What to do, when we don't have this contact? What does it mean?
-					// fbu->handle = AddToContactList(fbu, CONTACT_FRIEND); // add this contact as friend?
+					// fbu->type = CONTACT_FRIEND; // add this contact as a friend?
+					// fbu->handle = AddToContactList(fbu);
 					continue;
 				}
 

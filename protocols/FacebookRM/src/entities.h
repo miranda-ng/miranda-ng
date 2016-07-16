@@ -43,6 +43,7 @@ struct facebook_user
 	bool updated;
 
 	ClientType client;
+	ContactType type;
 
 	facebook_user()
 	{
@@ -51,6 +52,7 @@ struct facebook_user
 		this->gender = this->last_active = 0;
 		this->deleted = this->idle = this->updated = false;
 		this->client = CLIENT_WEB;
+		this->type = CONTACT_NONE;
 	}
 
 	TCHAR *getMirVer()
