@@ -190,13 +190,13 @@ bool FacebookProto::NegotiateConnection()
 
 	ptrA username(getStringA(FACEBOOK_KEY_LOGIN));
 	if (!username || !mir_strlen(username)) {
-		NotifyEvent(m_tszUserName, TranslateT("Please enter a username."), NULL, FACEBOOK_EVENT_CLIENT);
+		facy.client_notify(TranslateT("Please enter a username."));
 		return false;
 	}
 
 	ptrA password(getStringA(FACEBOOK_KEY_PASS));
 	if (!password || !*password) {
-		NotifyEvent(m_tszUserName, TranslateT("Please enter a password."), NULL, FACEBOOK_EVENT_CLIENT);
+		facy.client_notify(TranslateT("Please enter a password."));
 		return false;
 	}
 

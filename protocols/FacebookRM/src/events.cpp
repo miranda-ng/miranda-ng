@@ -125,7 +125,7 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 	}
 
 	if (FLAG_CONTAINS(flags, FACEBOOK_EVENT_CLIENT))
-		MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, info, title, MB_OK | MB_ICONERROR);
 
 	return NULL;
 }

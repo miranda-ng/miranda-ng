@@ -101,7 +101,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_EVENT_ON_THIS_DAY_ENABLE		0
 
 // Event flags
-#define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook error or info message
+#define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook client errors
 #define FACEBOOK_EVENT_NEWSFEED					0x20000000 // Facebook newsfeed (wall) message
 #define FACEBOOK_EVENT_NOTIFICATION				0x40000000 // Facebook new notification
 #define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event (poke sent, status update, ...)

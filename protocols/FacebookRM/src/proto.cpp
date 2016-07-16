@@ -627,7 +627,7 @@ int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Loading wall posts..."));
+		NotifyEvent(m_tszUserName, TranslateT("Loading wall posts..."), NULL, FACEBOOK_EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}
 	return 0;
@@ -636,7 +636,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Loading friendship requests..."));
+		NotifyEvent(m_tszUserName, TranslateT("Loading friendship requests..."), NULL, FACEBOOK_EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 	}
 	return 0;
@@ -645,7 +645,7 @@ INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Loading notifications..."));
+		NotifyEvent(m_tszUserName, TranslateT("Loading notifications..."), NULL, FACEBOOK_EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessNotifications, NULL);
 	}
 	return 0;
@@ -654,7 +654,7 @@ INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckOnThisDay(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		facy.client_notify(TranslateT("Loading what happened on this day..."));
+		NotifyEvent(m_tszUserName, TranslateT("Loading what happened on this day..."), NULL, FACEBOOK_EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessOnThisDay, NULL);
 	}
 	return 0;
