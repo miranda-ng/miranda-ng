@@ -356,8 +356,15 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 		SaveName(hContact, &fbu);
 	}
 
-	if (fbu.gender)
+	if (fbu.gender) {
 		setByte(hContact, "Gender", fbu.gender);
+	}
+
+	if (fbu.type == CONTACT_PAGE || fbu.type == CONTACT_FRIEND) {
+		if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu.type) {
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu.type);
+		}
+	}
 
 	CheckAvatarChange(hContact, fbu.image_url);
 
