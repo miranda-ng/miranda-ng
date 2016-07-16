@@ -26,21 +26,21 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 {
 	fbu->user_id = it.name();
 
-	std::string id = it["id"].as_string();
-	if (id.empty() || id == "0") {
-		// this user has deleted account or is just unavailable for us (e.g., ignore list) -> don't read dummy name and avatar and rather ignore that completely
-		return;
-	}
-
+	std::string id = it["id"].as_string(); // same as element's name, but doesn't exists for "page" type
 	std::string alternateName = it["alternateName"].as_string(); // nickname
 	std::string name = it["name"].as_string();
 	std::string thumbSrc = it["thumbSrc"].as_string();
 	std::string vanity = it["vanity"].as_string(); // username
+	std::string type = it["type"].as_string(); // "friend", "page", "user" (friend with disabled account or not friend)
 	int gender = it["gender"].as_int();
 
 	//const JSONNode &uri = it["uri"); // profile url
-	//const JSONNode &is_friend = it["is_friend"); // e.g. "True"
-	//const JSONNode &type = it["type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
+	//const JSONNode &is_friend = it["is_friend"); // e.g. "True" for type="friend", "False" for type="user", doesn't exist for type="page"
+
+	if (type == "user" && (id.empty() || id == "0")) {
+		// this user has deleted account or is just unavailable for us (e.g., ignore list) -> don't read dummy name and avatar and rather ignore that completely
+		return;
+	}
 
 	if (!name.empty())
 		fbu->real_name = utils::text::slashu_to_utf8(name);
@@ -59,7 +59,8 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 		case 2: // male
 			fbu->gender = 77;
 			break;
-			// case 7: not available female?
+		// case 7: // not available female?
+		// case 11: // page
 		}
 	}
 }
