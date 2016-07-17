@@ -70,6 +70,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX_NEWSFEED_LEN						500
 #define MAX_LINK_DESCRIPTION_LEN				200
 
+#define TEXT_ELLIPSIS							"\xE2\x80\xA6" // unicode ellipsis
+#define TEXT_EMOJI_LINK							"\xF0\x9F\x94\x97" // emoji :link:
+#define TEXT_EMOJI_CLOCK						"\xF0\x9F\x95\x92" // emoji :clock3:
+#define TEXT_EMOJI_PAGE							"\xF0\x9F\x93\x84" // emoji :page_facing_up:
+
 // Defaults
 #define FACEBOOK_MINIMAL_POLL_RATE				10
 #define FACEBOOK_DEFAULT_POLL_RATE				24 // in seconds

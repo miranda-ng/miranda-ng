@@ -238,7 +238,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 
 				// shorten long descriptions
 				if (description.length() > MAX_LINK_DESCRIPTION_LEN)
-					description = description.substr(0, MAX_LINK_DESCRIPTION_LEN) + "...";
+					description = description.substr(0, MAX_LINK_DESCRIPTION_LEN) + TEXT_ELLIPSIS;
 
 				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link
@@ -447,6 +447,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				continue;
 			}
 			else {
+				// DeliveryReceipt, MarkRead, ThreadDelete
+
 				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
 			}
 		}

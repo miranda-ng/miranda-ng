@@ -768,10 +768,12 @@ void facebook_client::erase_reader(MCONTACT hContact)
 }
 
 void loginError(FacebookProto *proto, std::string error_str) {
+	utils::text::replace_all(&error_str, "<br \\/>", "\n");
+	utils::text::replace_all(&error_str, "\n\n\n", "\n\n");
+
 	error_str = utils::text::trim(
 		utils::text::html_entities_decode(
-		utils::text::remove_html(
-		utils::text::edit_html(error_str))));
+		utils::text::remove_html(error_str)));
 
 	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 

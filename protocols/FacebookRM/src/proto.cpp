@@ -49,7 +49,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 
 	// Load custom page prefix, if set
 	ptrT pagePrefix(getTStringA(FACEBOOK_KEY_PAGE_PREFIX));
-	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : "\xF0\x9F\x93\x84"; // emoji :page_facing_up:
+	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : TEXT_EMOJI_PAGE;
 
 	if (m_tszDefaultGroup == NULL)
 		m_tszDefaultGroup = mir_tstrdup(_T("Facebook"));
@@ -638,6 +638,11 @@ int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
+		// If holding control, load all newsfeeds (not only newer since last check)
+		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		if (ctrlPressed) {
+			facy.last_feeds_update_ = 0;
+		}
 		NotifyEvent(m_tszUserName, TranslateT("Loading wall posts..."), NULL, FACEBOOK_EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}

@@ -515,6 +515,18 @@ void FacebookProto::SyncThreads(void*)
 	facy.handle_success("SyncThreads");
 }
 
+std::string truncateUtf8(std::string &text, size_t maxLength) {
+	// To not split some unicode character we need to transform it to TCHAR first, then split it, and then convert it back, because we want std::string as result
+	// TODO: Probably there is much simpler and nicer way
+	std::tstring ttext = ptrT(mir_utf8decodeT(text.c_str()));
+	if (ttext.length() > maxLength) {
+		ttext = ttext.substr(0, maxLength) + _T("\x2026"); // unicode ellipsis
+		return std::string(_T2A(ttext.c_str(), CP_UTF8));
+	}
+	// It's not longer, return given string
+	return text;
+}
+
 void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news, DWORD &last_post_time, bool filterAds = true) {
 	std::string::size_type pos = 0;
 	UINT limit = 0;
@@ -523,19 +535,12 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 
 	while ((pos = text.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
 	{
-		/*std::string::size_type pos2 = text.find("<div class=\"userContentWrapper", pos+5);
-		if (pos2 == std::string::npos)
-		pos2 = text.length();
-
-		std::string post = text.substr(pos, pos2 - pos);*/
 		std::string post = text.substr(pos, text.find("</form>", pos) - pos);
 		pos += 5;
 
 		std::string post_header = utils::text::source_get_value(&post, 3, "<h5", ">", "</h5>");
 		std::string post_message = utils::text::source_get_value(&post, 3, " userContent\"", ">", "<form");
 		std::string post_link = utils::text::source_get_value(&post, 4, "</h5>", "<a", "href=\"", "\"");
-		//std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
-
 		std::string post_time = utils::text::source_get_value(&post, 3, "</h5>", "<abbr", "</a>");
 
 		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
@@ -564,33 +569,23 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 			//debugLogA("    - Newsfeed time: %d (normal)", ttime);
 		}
 
+		std::string timeandloc = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(time_text)));
 		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
-
-		std::string premsg = "\n" + time_text;
-
-		post_place = utils::text::trim(
-			utils::text::remove_html(post_place));
+		post_place = utils::text::trim(utils::text::remove_html(post_place));
 		if (!post_place.empty()) {
-			premsg += " - " + post_place;
+			timeandloc += " · " + post_place;
 		}
-		premsg += "\n";
 
 		// in title keep only name, end of events like "X shared link" put into message
-		std::string::size_type pos2 = post_header.find("?");
-
-		if (pos2 != std::string::npos) {
-			utils::text::replace_first(&post_header, "?", " � ");
-		}
-		else {
-			pos2 = post_header.find("</a></");
-			if (pos2 != std::string::npos) {
-				pos2 += 4;
-				std::string a = utils::text::trim(utils::text::remove_html(post_header.substr(pos2, post_header.length() - pos2)));
-				if (a.length() > 2)
-					premsg += a;
-				post_header = post_header.substr(0, pos2);
-			}
-		}
+		std::string::size_type pos2 = post_header.find("</a>");
+		std::string header_author = utils::text::trim(
+			utils::text::html_entities_decode(
+			utils::text::remove_html(
+			post_header.substr(0, pos2))));
+		std::string header_rest = utils::text::trim(
+			utils::text::html_entities_decode(
+			utils::text::remove_html(
+			post_header.substr(pos2, post_header.length() - pos2))));
 
 		// Strip "Translate" link
 		pos2 = post_message.find("role=\"button\">");
@@ -598,16 +593,50 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 			post_message = post_message.substr(0, pos2 + 14);
 		}
 
-		post_message = premsg + post_message;
+		// Process attachment (if present)
+		std::string post_attachment = "";
+		pos2 = post_message.find("class=\"mtm\">");
+		if (pos2 != std::string::npos) {
+			pos2 += 12;
+			post_attachment = post_message.substr(pos2, post_message.length() - pos2);
+			post_message = post_message.substr(0, pos2);
 
-		// append attachement to message (if any)
-		//post_message += utils::text::trim(post_attach);
+			// Add new lines between some elements to improve formatting
+			utils::text::replace_all(&post_attachment, "</a>", "</a>\n");
+			utils::text::replace_all(&post_attachment, "ellipsis\">", "ellipsis\">\n");
+
+			post_attachment = utils::text::trim(
+				utils::text::html_entities_decode(
+				utils::text::remove_html(post_attachment)));
+
+			post_attachment = truncateUtf8(post_attachment, MAX_LINK_DESCRIPTION_LEN);
+
+			if (post_attachment.empty()) {
+				// This is some textless attachment, so mention it
+				post_attachment = Translate("<attachment without text>");
+			}
+		}
+
+		post_message = utils::text::trim(
+			utils::text::html_entities_decode(
+			utils::text::remove_html(post_message)));
+
+		// Truncate text of newsfeed when it's too long
+		post_message = truncateUtf8(post_message, MAX_NEWSFEED_LEN);
+
+		std::string content = "";
+		if (header_rest.length() > 2)
+			content += TEXT_ELLIPSIS + header_rest + "\n";
+		if (!post_message.empty())
+			content += post_message + "\n";
+		if (!post_attachment.empty())
+			content += TEXT_EMOJI_LINK" " + post_attachment + "\n";
+		if (!timeandloc.empty())
+			content += TEXT_EMOJI_CLOCK" " + timeandloc;
 
 		facebook_newsfeed* nf = new facebook_newsfeed;
 
-		nf->title = utils::text::trim(
-			utils::text::html_entities_decode(
-			utils::text::remove_html(post_header)));
+		nf->title = header_author;
 
 		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
 
@@ -618,10 +647,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 			|| post.find("class=\"uiStreamSponsoredLink\"") != std::string::npos
 			|| post.find("href=\"/about/ads\"") != std::string::npos);
 
-		nf->text = utils::text::trim(
-			utils::text::html_entities_decode(
-			utils::text::remove_html(
-			utils::text::edit_html(post_message))));
+		nf->text = utils::text::trim(content);
 
 		if (filtered || nf->title.empty() || nf->text.empty()) {
 			//debugLogA("    \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
@@ -677,13 +703,8 @@ void FacebookProto::ProcessOnThisDay(void*)
 
 			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 			{
-				// Truncate text of newsfeed when it's too long
-				std::tstring text = ptrT(mir_utf8decodeT(news[i]->text.c_str()));
-				if (text.length() > MAX_NEWSFEED_LEN)
-					text = text.substr(0, MAX_NEWSFEED_LEN) + _T("...");
-
 				ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
-				ptrT tszText(mir_tstrdup(text.c_str()));
+				ptrT tszText(mir_utf8decodeT(news[i]->text.c_str()));
 
 				NotifyEvent(TranslateT("On this day"), tszText, NULL, FACEBOOK_EVENT_ON_THIS_DAY, &news[i]->link);
 				delete news[i];
@@ -1103,15 +1124,11 @@ void FacebookProto::ProcessFeeds(void*)
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{
-		// Truncate text of newsfeed when it's too long
-		std::tstring text = ptrT(mir_utf8decodeT(news[i]->text.c_str()));
-		if (text.length() > MAX_NEWSFEED_LEN)
-			text = text.substr(0, MAX_NEWSFEED_LEN) + _T("...");
-
 		ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
-		ptrT tszText(mir_tstrdup(text.c_str()));
+		ptrT tszText(mir_utf8decodeT(news[i]->text.c_str()));
+		MCONTACT hContact = ContactIDToHContact(news[i]->user_id);
 
-		NotifyEvent(tszTitle, tszText, this->ContactIDToHContact(news[i]->user_id), FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
+		NotifyEvent(tszTitle, tszText, hContact, FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
 		delete news[i];
 	}
 	news.clear();
