@@ -66,6 +66,7 @@ public:
 	time_t m_awayTS;
 	time_t m_pingTS;
 	std::string m_locale;
+	std::string m_pagePrefix;
 
 	// DB utils missing in proto_interface
 

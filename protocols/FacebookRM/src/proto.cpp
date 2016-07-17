@@ -47,6 +47,10 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	if (locale != NULL)
 		m_locale = locale;
 
+	// Load custom page prefix, if set
+	ptrT pagePrefix(getTStringA(FACEBOOK_KEY_PAGE_PREFIX));
+	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : "\xF0\x9F\x93\x84"; // emoji :page_facing_up:
+
 	if (m_tszDefaultGroup == NULL)
 		m_tszDefaultGroup = mir_tstrdup(_T("Facebook"));
 

@@ -40,8 +40,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 {
 	if (fbu->type == CONTACT_PAGE) {
 		// Page has only nickname and no first/last names
-		std::string nick = Translate("[Page]"); // page prefix
-		nick += " " + fbu->real_name;
+		std::string nick = m_pagePrefix + " " + fbu->real_name;
 
 		updateStringUtf(this, hContact, FACEBOOK_KEY_NICK, nick);
 		delSetting(hContact, FACEBOOK_KEY_FIRST_NAME);
