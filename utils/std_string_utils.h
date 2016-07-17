@@ -66,7 +66,6 @@ namespace utils
 		void treplace_all(std::tstring* data, const std::tstring &from, const std::tstring &to);
 		unsigned int count_all(std::string* data, const std::string &term);
 		std::string html_entities_decode(std::string data);
-		std::string edit_html(std::string data);
 		std::string remove_html(const std::string &data);
 		std::string slashu_to_utf8(const std::string &data);
 		std::string trim(const std::string &data, bool rtrim = false);
