@@ -1309,7 +1309,7 @@ bool facebook_client::channel()
 		this->chat_sticky_num_ = utils::text::source_get_value2(&resp.data, "\"sticky\":\"", "\"");
 		parent->debugLogA("    Got self sticky number: %s", this->chat_sticky_num_.c_str());
 	}
-	if (type == "refresh") {
+	else if (type == "refresh") {
 		// Requested relogin (due to some settings change, removing this session, etc.)
 		parent->debugLogA("!!! Requested refresh");
 
@@ -1320,7 +1320,7 @@ bool facebook_client::channel()
 		parent->debugLogA("    Got reconnect reason: %s", this->chat_reconnect_reason_.c_str());
 
 		return this->reconnect();
-	}	
+	}
 	else if (!type.empty()) { // for "msg", "fullReload" and maybe also other types
 		// Something has been received, throw to new thread to process
 		std::string* response_data = new std::string(resp.data);
