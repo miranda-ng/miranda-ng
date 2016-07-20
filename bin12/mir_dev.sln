@@ -437,7 +437,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblua", "..\libs\liblua\li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winapi", "..\plugins\MirLua\Modules\WinAPI\WinAPI.vcxproj", "{045BAC91-34D1-4B43-B52B-566801BE7F85}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "..\plugins\MirLua\Modules\JSON\JSON.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "..\plugins\MirLua\Modules\m_json\m_json.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libaxolotl\libaxolotl.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
 EndProject
