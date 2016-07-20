@@ -216,8 +216,8 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	}
 	cli.pfnReloadProtoMenus();
 	cli.pfnTrayIconIconsChanged();
-	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
-	cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
+	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
 }
 
@@ -391,7 +391,7 @@ int fnShowHide(WPARAM, LPARAM)
 
 void fnChangeContactIcon(MCONTACT hContact, int iIcon)
 {
-	WindowList_BroadcastAsync(hClcWindowList, INTM_ICONCHANGED, hContact, iIcon);
+	Clist_BroadcastAsync(INTM_ICONCHANGED, hContact, iIcon);
 
 	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
 }

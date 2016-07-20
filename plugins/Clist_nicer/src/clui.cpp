@@ -339,7 +339,7 @@ void IcoLibReloadIcons()
 	pcli->pfnReloadExtraIcons();
 	pcli->pfnSetAllExtraIcons(NULL);
 
-	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
 }
 
@@ -1796,7 +1796,7 @@ buttons_done:
 
 static int MetaChanged(WPARAM wParam, LPARAM lParam)
 {
-	pcli->pfnClcBroadcast(INTM_METACHANGEDEVENT, wParam, lParam);
+	Clist_Broadcast(INTM_METACHANGEDEVENT, wParam, lParam);
 	return 0;
 }
 

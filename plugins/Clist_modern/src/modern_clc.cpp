@@ -55,8 +55,8 @@ int ReloadSkinFolder(WPARAM, LPARAM)
 static int clcHookSmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
-	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-	pcli->pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
+	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
 }
 
@@ -91,20 +91,20 @@ static int clcHookIconsChanged(WPARAM, LPARAM)
 
 	g_hListeningToIcon = IcoLib_GetIcon("LISTENING_TO_ICON");
 
-	pcli->pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	AniAva_UpdateOptions();
 	return 0;
 }
 
 static int clcMetaModeChanged(WPARAM, LPARAM)
 {
-	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	return 0;
 }
 
 static int clcMetacontactChanged(WPARAM, LPARAM)
 {
-	pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
+	Clist_Broadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	return 0;
 }
 
@@ -125,28 +125,28 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 	else {
 		if (!strcmp(cws->szModule, "UserInfo")) {
 			if (!strcmp(cws->szSetting, "Timezone"))
-				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
+				Clist_Broadcast(INTM_TIMEZONECHANGED, hContact, 0);
 		}
 		else if (!strcmp(cws->szModule, "CList")) {
 			if (!strcmp(cws->szSetting, "StatusMsg"))
-				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
+				Clist_Broadcast(INTM_STATUSMSGCHANGED, hContact, 0);
 		}
 		else if (!strcmp(cws->szModule, "ContactPhoto")) {
 			if (!strcmp(cws->szSetting, "File"))
-				pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
+				Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
 		}
 		else {
 			if ((!strcmp(cws->szSetting, "XStatusName") || !strcmp(cws->szSetting, "XStatusMsg")))
-				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
+				Clist_Broadcast(INTM_STATUSMSGCHANGED, hContact, 0);
 			else if (!strcmp(cws->szSetting, "XStatusId"))
-				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
+				Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
 			else if (!strcmp(cws->szSetting, "Timezone"))
-				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
+				Clist_Broadcast(INTM_TIMEZONECHANGED, hContact, 0);
 			else if (!strcmp(cws->szSetting, "ListeningTo"))
-				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
+				Clist_Broadcast(INTM_STATUSMSGCHANGED, hContact, 0);
 			else if (!strcmp(cws->szSetting, "Transport") || !strcmp(cws->szSetting, "IsTransported")) {
 				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, hContact, 0);
+				Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
 			}
 		}
 	}
@@ -178,7 +178,7 @@ static int clcHookBkgndConfigChanged(WPARAM, LPARAM)
 static int clcHookAvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
-	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, wParam, lParam);
+	Clist_Broadcast(INTM_AVATARCHANGED, wParam, lParam);
 	return 0;
 }
 
@@ -318,7 +318,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case POPUP_GROUPSHOWOFFLINE:
 			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			return 0;
 		}
 	}
@@ -1522,7 +1522,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
 					if (contact->iSubNumber && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
-						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
+						Clist_Broadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}
 			}
 		}
@@ -1667,7 +1667,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 					return 0;
 
 			db_set_ws(ack->hContact, "CList", "StatusMsg", (const TCHAR *)ack->lParam);
-			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, ack->hContact, 0);
+			Clist_Broadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 		}
 		else {
 			if (ack->szModule != NULL)
@@ -1680,7 +1680,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 					if (mir_strcmpi(val, ""))
 						db_set_s(ack->hContact, "CList", "StatusMsg", "");
 					else
-						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, ack->hContact, 0);
+						Clist_Broadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 					mir_free(val);
 				}
 			}

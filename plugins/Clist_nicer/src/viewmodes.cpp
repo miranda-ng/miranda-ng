@@ -654,7 +654,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						db_unset(NULL, CLVM_MODULE, szBuf);
 						if (!mir_strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
 							cfg::dat.bFilterEffective = 0;
-							pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+							Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 							SetWindowText(hwndSelector, TranslateT("No view mode"));
 						}
 						for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
@@ -969,7 +969,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case IDC_RESETMODES:
 clvm_reset_command:
 			cfg::dat.bFilterEffective = 0;
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("No view mode"));
 			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)cfg::dat.boldHideOffline, 0);
 			cfg::dat.boldHideOffline = (BYTE)-1;
@@ -1114,7 +1114,7 @@ void ApplyViewMode(const char *name)
 
 	CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 	SetWindowTextA(hwndSelector, name);
-	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();
 
 	db_set_s(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);

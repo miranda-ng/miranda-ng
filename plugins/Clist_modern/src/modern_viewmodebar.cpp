@@ -625,7 +625,7 @@ void DeleteViewMode(char * szName)
 
 	if (!mir_strcmp(g_CluiData.current_viewmode, szName) && mir_strlen(szName) == mir_strlen(g_CluiData.current_viewmode)) {
 		g_CluiData.bFilterEffective = 0;
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		SetWindowText(hwndSelector, TranslateT("All contacts"));
 	}
 
@@ -1242,7 +1242,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
 
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 		SetDlgItemText(g_hwndViewModeFrame, IDC_SELECTMODE, TranslateT("All contacts"));
 		if (g_CluiData.boldHideOffline != (BYTE)-1)
@@ -1362,7 +1362,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 
 	SetWindowText(hwndSelector, ptrT(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
 
-	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	cliInvalidateRect(pcli->hwndStatus, NULL, FALSE);
 }
 

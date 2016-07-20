@@ -106,7 +106,7 @@ int MetaStatusChanged(WPARAM hMeta, LPARAM)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hMeta);
 	if (pdnce)
-		pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hMeta, 0);
+		Clist_Broadcast(INTM_STATUSCHANGED, hMeta, 0);
 
 	return 0;
 }
@@ -139,7 +139,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if ((db_get_w(NULL, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
 				amRequestAwayMsg(hContact);
 
-			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
+			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
@@ -161,7 +161,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!strcmp(cws->szModule, "CList")) {
 		// name is null or (setting is myhandle)
 		if (!strcmp(cws->szSetting, "Rate"))
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 
 		else if (!strcmp(cws->szSetting, "NotOnList"))
 			pdnce->NotOnList = cws->value.bVal;
@@ -174,11 +174,11 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
 				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(pdnce->m_pszProto, pdnce->getStatus(), hContact));
 
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		else if (!strcmp(cws->szSetting, "noOffline")) {
 			pdnce->m_bNoHiddenOffline = cws->value.bVal;
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
 	else if (!strcmp(cws->szModule, "Protocol")) {

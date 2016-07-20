@@ -264,3 +264,5 @@ Clist_ContactToHItem @262
 Clist_ContactToItemHandle @263
 Window_SetSkinIcon_IcoLib @264
 Window_SetIcon_IcoLib @265
+Clist_Broadcast @266
+Clist_BroadcastAsync @267

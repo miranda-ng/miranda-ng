@@ -155,7 +155,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				ske_LoadSkinFromIniFile(sd->File, FALSE);
 				ske_LoadSkinFromDB();
-				pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+				Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 				Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 				ske_RedrawCompleteWindow();
 				Sync(CLUIFrames_OnClistResize_mod, 0, 0);
@@ -233,9 +233,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+				Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 				NotifyEventHooks(g_CluiData.hEventBkgrChanged, 0, 0);
-				pcli->pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+				Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 				RedrawWindow(GetParent(pcli->hwndContactTree), NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
 			}
 			break;
@@ -485,7 +485,7 @@ INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 {
 	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE);
 	ske_LoadSkinFromDB();
-	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 	ske_RedrawCompleteWindow();
 	Sync(CLUIFrames_OnClistResize_mod, 0, 0);

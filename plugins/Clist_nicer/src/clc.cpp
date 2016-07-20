@@ -50,7 +50,7 @@ void  SetDBButtonStates(MCONTACT hContact);
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, wParam, lParam);
+	Clist_Broadcast(INTM_AVATARCHANGED, wParam, lParam);
 	return 0;
 }
 
@@ -85,7 +85,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 				p->dwLastMsgTime = dbei.timestamp;
 				if (new_freq)
 					p->msgFrequency = new_freq;
-				pcli->pfnClcBroadcast(INTM_FORCESORT, 0, 1);
+				Clist_Broadcast(INTM_FORCESORT, 0, 1);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM)
 {
 	if (BOOL(bMetaEnabled) != cfg::dat.bMetaEnabled) {
 		cfg::dat.bMetaEnabled = (BYTE)bMetaEnabled;
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	}
 	return 0;
 }
@@ -113,14 +113,14 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else if (!__strcmp(cws->szModule, "UserInfo")) {
 			if (!__strcmp(cws->szSetting, "ANSIcodepage"))
-				pcli->pfnClcBroadcast(INTM_CODEPAGECHANGED, hContact, lParam);
+				Clist_Broadcast(INTM_CODEPAGECHANGED, hContact, lParam);
 			else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 				ReloadExtraInfo(hContact);
 		}
 		else if (hContact != 0 && (szProto = GetContactProto(hContact)) != NULL) {
 			if (!__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
-				pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
+				Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
 				if (cws->value.type == DBVT_DELETED)
 					szProto_s = NULL;
 				else
@@ -149,10 +149,10 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 
 				if (!(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, META_PROTO))
 					if ((mir_strlen(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
-						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
+						Clist_Broadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
 			}
 			if (cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, META_PROTO) && !__strcmp(cws->szSetting, "IsSubcontact"))
-				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
+				Clist_Broadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		}
 	}
 	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {

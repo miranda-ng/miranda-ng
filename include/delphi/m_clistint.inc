@@ -305,8 +305,8 @@ type
     clcProto        : PClcProtoStatus;
 
   (* clc.h *)
-    pfnClcOptionsChanged   : procedure ;cdecl;
-    pfnClcBroadcast        : procedure (_para1:int; _para2:WPARAM; _para3:LPARAM); cdecl;
+    pfnClcOptionsChanged   : procedure; cdecl;
+    unused3                : procedure; cdecl;
     pfnBuildGroupPopupMenu : function  (_para1:PClcGroup):HMENU; cdecl;
 
     pfnContactListControlWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;

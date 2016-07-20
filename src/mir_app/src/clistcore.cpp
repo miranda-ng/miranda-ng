@@ -77,7 +77,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.bDisplayLocked = TRUE;
 
 		cli.pfnClcOptionsChanged               = fnClcOptionsChanged;
-		cli.pfnClcBroadcast                    = fnClcBroadcast;
 		cli.pfnContactListControlWndProc       = fnContactListControlWndProc;
 
 		cli.pfnRegisterFileDropping            = fnRegisterFileDropping;

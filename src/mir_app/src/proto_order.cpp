@@ -191,8 +191,8 @@ public:
 		WriteDbAccounts();
 		cli.pfnReloadProtoMenus();
 		cli.pfnTrayIconIconsChanged();
-		cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
-		cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+		Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
+		Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	}
 
 	virtual void OnDestroy()

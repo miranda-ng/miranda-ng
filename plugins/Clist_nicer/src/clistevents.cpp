@@ -293,7 +293,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)p->hContact, 0);
 		if (hItem) {
 			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 1);
-			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM)p->hContact, 0);
+			Clist_Broadcast(INTM_PROTOCHANGED, (WPARAM)p->hContact, 0);
 		}
 	}
 
@@ -356,7 +356,7 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, hContact, 0);
 	if (hItem) {
 		SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 0);
-		pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, 0);
+		Clist_Broadcast(INTM_PROTOCHANGED, hContact, 0);
 	}
 
 	if (hContact == cfg::dat.hUpdateContact || (INT_PTR)hDbEvent == 1)

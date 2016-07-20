@@ -298,7 +298,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			opt_clui_changed = 0;
 
 			pcli->pfnClcOptionsChanged();
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			return TRUE;
 		}
 		break;

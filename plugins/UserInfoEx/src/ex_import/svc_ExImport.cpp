@@ -177,7 +177,7 @@ if (ExImContact->Typ == EXIM_ACCOUNT ||
 			CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);	//workarround to refresh the clist....
 			xmlFile.Import(ExImContact->hContact, szFileName);
 			CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);	//...after import.
-			//pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0); //does not work
+			//Clist_Broadcast(CLM_AUTOREBUILD, 0, 0); //does not work
 			return 0;
 		}
 		// .ini

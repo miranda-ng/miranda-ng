@@ -247,6 +247,9 @@ struct MenuProto
 EXTERN_C MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *contact);
 EXTERN_C MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
+EXTERN_C MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
 
@@ -277,7 +280,7 @@ struct CLIST_INTERFACE
 
 	/* clc.h */
 	void  (*pfnClcOptionsChanged)(void);
-	void  (*pfnClcBroadcast)(int, WPARAM, LPARAM);
+	void  (*pfnUnused1)();
 	HMENU (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
 
 	LRESULT (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

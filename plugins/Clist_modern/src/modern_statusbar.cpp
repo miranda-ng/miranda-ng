@@ -819,7 +819,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 						ApplyViewMode(filterName);
 					}
-					pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+					Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 					cliInvalidateRect(hwnd, NULL, FALSE);
 					SetCapture(NULL);
 					return 0;

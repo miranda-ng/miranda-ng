@@ -170,7 +170,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM, LPARAM)
 
 int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 {
-	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, wParam, lParam);
+	Clist_Broadcast(INTM_RELOADOPTIONS, wParam, lParam);
 
 	g_CluiData.dwKeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
 
@@ -225,7 +225,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
-	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
+	Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
@@ -233,7 +233,7 @@ INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 
-	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
+	Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
@@ -2029,7 +2029,7 @@ LRESULT CLUI::OnDelayedSizingTimer(UINT, WPARAM, LPARAM)
 	if (mutex_bDelayedSizing && !mutex_bDuringSizing) {
 		mutex_bDelayedSizing = 0;
 		KillTimer(m_hWnd, TM_DELAYEDSIZING);
-		pcli->pfnClcBroadcast(INTM_SCROLLBARCHANGED, 0, 0);
+		Clist_Broadcast(INTM_SCROLLBARCHANGED, 0, 0);
 	}
 	return TRUE;
 }

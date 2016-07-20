@@ -255,7 +255,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 							p->dwDFlags = dwFlags;
 					}
 					db_set_b(hContact, "CList", "Priority", (BYTE)(IsDlgButtonChecked(hWnd, IDC_IGN_PRIORITY) ? 1 : 0));
-					pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+					Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 				}
 			}
 		case IDCANCEL:

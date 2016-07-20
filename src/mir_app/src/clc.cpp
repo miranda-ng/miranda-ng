@@ -34,7 +34,7 @@ void MTG_OnmodulesLoad(void);
 static bool bModuleInitialized = false;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
-MWindowList hClcWindowList;
+static MWindowList hClcWindowList;
 
 int g_IconWidth, g_IconHeight;
 
@@ -48,14 +48,19 @@ void fnInitAutoRebuild(HWND hWnd)
 	}
 }
 
-void fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(hClcWindowList, msg, wParam, lParam);
 }
 
+MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam)
+{
+	WindowList_BroadcastAsync(hClcWindowList, msg, wParam, lParam);
+}
+
 void fnClcOptionsChanged(void)
 {
-	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -66,49 +71,49 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (hContact == NULL) {
 		if (!strcmp(cws->szModule, "CListGroups"))
-			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
 		return 0;
 	}
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
-			cli.pfnClcBroadcast(INTM_NAMECHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_NAMECHANGED, hContact, lParam);
 		}
 		else if (!strcmp(cws->szSetting, "Group"))
-			cli.pfnClcBroadcast(INTM_GROUPCHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_GROUPCHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "Hidden"))
-			cli.pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "NotOnList"))
-			cli.pfnClcBroadcast(INTM_NOTONLISTCHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_NOTONLISTCHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "Status"))
-			cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
+			Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 		else if (!strcmp(cws->szSetting, "NameOrder"))
-			cli.pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
+			Clist_Broadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	}
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL) {
 			if (!strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
-				cli.pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
+				Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
 
 			// something is being written to a protocol module
 			if (!strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				char *id = (char *)CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
-					cli.pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
+					Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
 			}
 		}
 		if (szProto == NULL || strcmp(szProto, cws->szModule))
 			return 0;
 		if (!strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "e-mail")
 			|| !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "UIN"))
-			cli.pfnClcBroadcast(INTM_NAMECHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_NAMECHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "ApparentMode"))
-			cli.pfnClcBroadcast(INTM_APPARENTMODECHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_APPARENTMODECHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "IdleTS"))
-			cli.pfnClcBroadcast(INTM_IDLECHANGED, hContact, lParam);
+			Clist_Broadcast(INTM_IDLECHANGED, hContact, lParam);
 	}
 	return 0;
 }
@@ -178,7 +183,7 @@ static int ClcIconsChanged(WPARAM, LPARAM)
 static INT_PTR SetInfoTipHoverTime(WPARAM wParam, LPARAM)
 {
 	db_set_w(NULL, "CLC", "InfoTipHoverTime", (WORD)wParam);
-	cli.pfnClcBroadcast(INTM_SETINFOTIPHOVERTIME, wParam, 0);
+	Clist_Broadcast(INTM_SETINFOTIPHOVERTIME, wParam, 0);
 	return 0;
 }
 

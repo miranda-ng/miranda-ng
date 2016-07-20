@@ -177,7 +177,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 
 				opt_gen_opts_changed = 0;

@@ -1569,7 +1569,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (PathFileExists(tszFinalPath)) {
 				LoadPerContactSkins(tszFinalPath);
 				ReloadSkinItemsToCache();
-				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			}
 			break;
 		}

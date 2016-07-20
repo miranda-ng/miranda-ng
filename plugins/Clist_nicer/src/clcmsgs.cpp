@@ -71,7 +71,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 				return 0;
 			contact->flags ^= CONTACTF_PRIORITY;
 			db_set_b(contact->hContact, "CList", "Priority", (BYTE)(contact->flags & CONTACTF_PRIORITY ? 1 : 0));
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		return 0;
 
