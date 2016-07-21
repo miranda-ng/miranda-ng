@@ -28,7 +28,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !db_get_b(hcntct, pluginName, answeredSetting, 0) && !IsExistMyMessage(hcntct)) {
 			if (!plSets->HandleAuthReq.Get()) {
 				char *buf = mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
-				CallContactService(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
+				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 
@@ -121,7 +121,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				// send congratulation
 
 				char * buf = mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
-				CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 
 				// process the event
@@ -141,7 +141,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 
 		char * buf = mir_utf8encodeW(q.c_str());
-		CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 		mir_free(buf);
 
 

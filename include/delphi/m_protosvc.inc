@@ -635,7 +635,7 @@ const
 }
   PS_GETUNREADEMAILCOUNT = '/GetUnreadEmailCount';
 
-// these should be called with CallContactService()
+// these should be called with ProtoChainSend()
 
 {<</
     !IMPORTANT!

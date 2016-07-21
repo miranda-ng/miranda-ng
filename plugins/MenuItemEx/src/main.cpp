@@ -403,7 +403,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpara
 		{
 			TCHAR tszReason[256] = { 0 };
 			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
-			CallContactService(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
+			ProtoChainSend(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 		} // fall through
 		case IDCANCEL:
 			DestroyWindow(hdlg);
@@ -428,7 +428,7 @@ INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 
 	DWORD flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (flags&PF4_NOCUSTOMAUTH)
-		CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)_T(""));
+		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)_T(""));
 	else
 		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
@@ -438,7 +438,7 @@ INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 INT_PTR onSendAdded(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wparam;
-	CallContactService(hContact, PSS_ADDED, 0, 0);
+	ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 	return 0;
 }
 
@@ -446,7 +446,7 @@ INT_PTR onSendAdded(WPARAM wparam, LPARAM)
 INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wparam;
-	CallContactService(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
+	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
@@ -454,7 +454,7 @@ INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 INT_PTR onSetVis(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wparam;
-	CallContactService(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
+	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
 	return 0;
 }
 

@@ -86,6 +86,7 @@ const
   bufsize = 4096*SizeOf(WideChar);
 var
   ccs:PCCSDATA;
+  ccdata:TCCSDATA;
   s:pWideChar;
   buf:PWideChar;
   data:PByte;
@@ -182,7 +183,12 @@ begin
 
           if (HistMask and hmOutInfo)<>0 then
             AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_SENT,data,dataSize);
-          CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(encbuf));
+
+          ccdata.hContact := ccs^.hContact;
+          ccdata.szProtoService := PSS_MESSAGE;
+          ccdata.wParam := 0;
+          ccdata.lParam := tlparam(encbuf);
+          Proto_ChainSend(0, @ccdata);
           mFreeMem(encbuf);
         end
         else
@@ -190,7 +196,11 @@ begin
           WideToUTF8(textpos,encodedStr);
           if (HistMask and hmOutInfo)<>0 then
             AddEvent(ccs^.hContact,EVENTTYPE_WAT_MESSAGE,DBEF_SENT or DBEF_UTF,encodedStr,StrLen(encodedStr));
-          CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(encodedStr));
+          ccdata.hContact := ccs^.hContact;
+          ccdata.szProtoService := PSS_MESSAGE;
+          ccdata.wParam := 0;
+          ccdata.lParam := tlparam(encodedStr);
+          Proto_ChainSend(0, @ccdata);
           mFreeMem(encodedStr);
         end;
       end;
@@ -211,7 +221,11 @@ begin
           pc:=PAnsiChar(buf)+Length(wpError);
         end;
         StrCopy(pc,'Sorry, but you have no permission to obtain this info!');
-        CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(buf));
+        ccdata.hContact := ccs^.hContact;
+        ccdata.szProtoService := PSS_MESSAGE;
+        ccdata.wParam := 0;
+        ccdata.lParam := tlparam(buf);
+        Proto_ChainSend(0, @ccdata);
         if (HistMask and hmOutError)<>0 then
         begin
           AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_SENT,nil,0,
@@ -249,12 +263,6 @@ begin
     if (HistMask and hmInError)<>0 then
       AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_READ,nil,0,
                PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
-{
-    AnsiToWide(PAnsiChar(CallService(MS_CLIST_GETCONTACTDISPLAYNAME,ccs^.hContact,0)),s);
-    StrCopyW(buf,s);
-    StrCatW (buf,TranslateW(' answer you'));
-    mFreeMem(s);
-}
     MessageBoxA(0,Translate(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a+Length(wpError)),
                Translate('You Get Error'),MB_ICONERROR);
   end
@@ -266,11 +274,18 @@ end;
 function SendRequest(hContact:WPARAM;lParam:LPARAM):int_ptr; cdecl;
 var
   buf:array [0..2047] of AnsiChar;
+  ccdata:TCCSDATA;
 begin
   result:=0;
   StrCopy(buf,wpRequest);
   StrCopy(buf+Length(wpRequest),SendRequestText);
-  CallContactService(hContact,PSS_MESSAGE,0,tlparam(@buf));
+
+  ccdata.hContact := hContact;
+  ccdata.szProtoService := PSS_MESSAGE;
+  ccdata.wParam := 0;
+  ccdata.lParam := tlparam(@buf);
+  Proto_ChainSend(0, @ccdata);
+
   if (HistMask and hmOutRequest)<>0 then
     AddEvent(hContact,EVENTTYPE_WAT_REQUEST,DBEF_SENT,nil,0);
 end;

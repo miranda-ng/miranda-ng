@@ -66,11 +66,13 @@ void fnClcOptionsChanged(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // standard CLC services
 
+extern bool g_bGroupsLocked;
+
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (hContact == NULL) {
-		if (!strcmp(cws->szModule, "CListGroups"))
+		if (!strcmp(cws->szModule, "CListGroups") && !g_bGroupsLocked)
 			Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
 		return 0;
 	}

@@ -51,7 +51,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		if (dat->hContact == NULL)
 			dat->hContact = lParam;
 		dat->hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG);
-		dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
+		dat->hSeq = (HANDLE)ProtoChainSend(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 		WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 		{
 			TCHAR str[256], format[128];

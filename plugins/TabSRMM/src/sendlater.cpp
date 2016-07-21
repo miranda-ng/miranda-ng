@@ -404,7 +404,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	job->iSendCount++;
 	job->hTargetContact = hContact;
 	job->bCode = CSendLaterJob::JOB_WAITACK;
-	job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)job->sendBuffer);
+	job->hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)job->sendBuffer);
 	return 0;
 }
 

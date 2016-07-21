@@ -134,7 +134,7 @@ void PasteIt(MCONTACT hContact, int mode)
 					dbei.cbBlob = (DWORD)mir_strlen(pasteToWeb->szFileLink) + 1;
 					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);
-					CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
+					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
 				}
 				else
 				{

@@ -138,7 +138,7 @@ extern "C" {
 		DEBUGOUT_T("OTR_GUI_INJECT_MESSAGE\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-			CallContactService(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
+			ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
 	}
 
 	/* When the list of ConnContexts changes (including a change in
@@ -383,7 +383,7 @@ extern "C" {
 			TCHAR* tmp = mir_utf8decodeT(message);
 			mir_snwprintf(msg, _countof(msg), TranslateT("The following message received from '%s' was NOT encrypted:\n\n%s"), contact, tmp);
 			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
+			ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
 			break; }
 		case OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE:
 			//			title = TranslateT("Received message for a different session");

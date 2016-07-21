@@ -209,14 +209,14 @@ public:
 		db_unset(hContact, "CList", "NotOnList");
 
 		if (m_chkAdded.GetState())
-			CallContactService(hContact, PSS_ADDED, 0, 0);
+			ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 
 		if (m_chkAuth.GetState()) {
 			DWORD flags = CallProtoServiceInt(NULL, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			if (flags & PF4_NOCUSTOMAUTH)
-				CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
+				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
-				CallContactService(hContact, PSS_AUTHREQUEST, 0, ptrT(m_authReq.GetText()));
+				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, ptrT(m_authReq.GetText()));
 		}
 
 		if (m_chkOpen.GetState())

@@ -289,16 +289,16 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 					db_unset(hContact, "CList", "NotOnList");
 
 					if (IsDlgButtonChecked(hdlg, IDC_ADDED))
-						CallContactService(hContact, PSS_ADDED, 0, 0);
+						ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 
 					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
 						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 						if (flags & PF4_NOCUSTOMAUTH)
-							CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
+							ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {
 							TCHAR tszReason[512];
 							GetDlgItemText(hdlg, IDC_AUTHREQ, tszReason, _countof(tszReason));
-							CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
+							ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 						}
 					}
 				}

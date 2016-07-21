@@ -92,7 +92,7 @@ static void amThreadProc(void *)
 
 			HANDLE ACK = 0;
 			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
+				ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;

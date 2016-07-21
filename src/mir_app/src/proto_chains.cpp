@@ -89,14 +89,6 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
-	return Proto_ChainSend(0, &ccs);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 INT_PTR stubChainRecv(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;

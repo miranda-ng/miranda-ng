@@ -25,7 +25,7 @@ static void sttWaitForExchange(LPVOID param)
 				Sent_NetLog("Sent (unencrypted) message from queue: %s", ptrMessage->Message);
 
 				// send unencrypted messages
-				CallContactService(ptr->hContact, PSS_MESSAGE, (WPARAM)ptrMessage->wParam | PREF_METANODB, (LPARAM)ptrMessage->Message);
+				ProtoChainSend(ptr->hContact, PSS_MESSAGE, (WPARAM)ptrMessage->wParam | PREF_METANODB, (LPARAM)ptrMessage->Message);
 				mir_free(ptrMessage->Message);
 				pWM tmp = ptrMessage;
 				ptrMessage = ptrMessage->nextMessage;
@@ -45,7 +45,7 @@ static void sttWaitForExchange(LPVOID param)
 			Sent_NetLog("Sent (encrypted) message from queue: %s", ptrMessage->Message);
 
 			// send unencrypted messages
-			CallContactService(ptr->hContact, PSS_MESSAGE, (WPARAM)ptrMessage->wParam | PREF_METANODB, (LPARAM)ptrMessage->Message);
+			ProtoChainSend(ptr->hContact, PSS_MESSAGE, (WPARAM)ptrMessage->wParam | PREF_METANODB, (LPARAM)ptrMessage->Message);
 			mir_free(ptrMessage->Message);
 			pWM tmp = ptrMessage;
 			ptrMessage = ptrMessage->nextMessage;

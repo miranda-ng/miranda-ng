@@ -286,7 +286,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 
 HANDLE MirandaUtils::sendMessageMiranda(MCONTACT hContact, char *msgBuffer)
 {
-	return (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)msgBuffer);
+	return (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)msgBuffer);
 }
 
 void MirandaUtils::addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto)

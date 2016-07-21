@@ -88,6 +88,7 @@ var
   tmp:PWideChar;
   blob,p:PAnsiChar;
   w:PWideChar;
+  ccs:TCCSDATA;
   hContact:TMCONTACT;
   wnd:HWND;
   fexist:bool;
@@ -272,7 +273,13 @@ begin
     if DBReadByte(hContact,p,'ChatRoom',0)<>1 then
     begin
       WidetoUTF8(last,blob);
-      CallContactService(hContact,PSS_MESSAGE,0,tlparam(blob));
+
+      ccs.hContact       := hContact;
+      ccs.szProtoService := PSS_MESSAGE;
+      ccs.wParam         := 0;
+      ccs.lParam         := tlparam(blob);
+      Proto_ChainSend(0, @ccs);
+
       dbei.cbSize   :=sizeof(dbei);
       dbei.cbBlob   :=StrLen(blob);
       dbei.pBlob    :=pByte(blob);

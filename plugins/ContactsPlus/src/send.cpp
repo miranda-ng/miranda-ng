@@ -114,7 +114,7 @@ void TSendContactsData::AddContact(MCONTACT hContact1)
 
 int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, int nContacts1)
 {
-	HANDLE hProcc = (HANDLE)CallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts1), (LPARAM)phContacts);
+	HANDLE hProcc = (HANDLE)ProtoChainSend(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts1), (LPARAM)phContacts);
 	if (!hProcc) {
 		// on trivial error - do not close dialog
 		ShowErrorDlg(hwndDlg, "Contacts transfer failed!", FALSE);
@@ -293,7 +293,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case MSGERROR_RETRY:// resend timeouted packets
 			for (int i = 0; i < wndData->uacklist.Count; i++) {
 				TAckData *lla = g_aAckData.Remove(wndData->uacklist.Items[i]);
-				HANDLE hProcc = (HANDLE)CallContactService(wndData->hContact, PSS_CONTACTS, MAKEWPARAM(0, lla->nContacts), (LPARAM)lla->aContacts);
+				HANDLE hProcc = (HANDLE)ProtoChainSend(wndData->hContact, PSS_CONTACTS, MAKEWPARAM(0, lla->nContacts), (LPARAM)lla->aContacts);
 
 				if (!hProcc) { // if fatal do not include
 					wndData->uacklist.Remove(wndData->uacklist.Items[i]);

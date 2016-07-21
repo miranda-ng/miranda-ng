@@ -73,6 +73,7 @@ static CGroupList arByIds;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 HANDLE hGroupChangeEvent;
+bool g_bGroupsLocked = false;
 
 static mir_cs csGroups;
 
@@ -295,6 +296,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 		}
 	}
 
+	g_bGroupsLocked = true;
 	arByIds.remove(pGroup);
 
 	for (int i = shuffleFrom; i != shuffleTo; i += shuffleStep) {
@@ -307,6 +309,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	pGroup->save();
 	
 	arByIds.insert(pGroup);
+	g_bGroupsLocked = false;
 	return shuffleTo + 1;
 }
 
@@ -371,7 +374,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 				}
 			}
 		}
-		cli.pfnInitAutoRebuild(cli.hwndContactTree);
+		Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
 	}
 
 	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (TCHAR*)szName };

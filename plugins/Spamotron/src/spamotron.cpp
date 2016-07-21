@@ -159,7 +159,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				db_unset(hContact, "CList", "Delete");
 				if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess) && (_getCOptB(hContact, "MsgSent", 0))) {
 					T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
-					CallContactService(hContact, PSS_MESSAGE, 0, response);
+					ProtoChainSend(hContact, PSS_MESSAGE, 0, response);
 				}
 				return 0;
 			}
@@ -225,7 +225,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		db_unset(hContact, "CList", "ResponseNum");
 		if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess)) {
 			T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
-			CallContactService(hContact, PSS_MESSAGE, 0,	response);
+			ProtoChainSend(hContact, PSS_MESSAGE, 0,	response);
 		}
 		_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), NULL);
 
@@ -353,7 +353,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else
 			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
 		ReplaceVars(challengeW, maxmsglen);
-		CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending plain challenge to %s."), message);
 		break;
 		
@@ -368,7 +368,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 		_setCOptD(hContact, "ResponseNum", _getCOptD(hContact, "ResponseNum", -1) + 1);
 		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
-		CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending round-robin challenge to %s."), message);
 		break;
 
@@ -381,7 +381,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		srand(time(NULL));
 		_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
 		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
-		CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending random challenge to %s."), message);
 		break;
 
@@ -395,7 +395,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			_getOptS(challengeW, maxmsglen, "ChallengeMath", defaultChallengeMath);
 		ReplaceVar(challengeW, maxmsglen, _T("%mathexpr%"), mexpr);
 		_setCOptD(hContact, "ResponseMath", a + b);
-		CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending math expression challenge to %s."), message);
 		break;
 	}

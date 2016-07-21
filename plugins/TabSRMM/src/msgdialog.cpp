@@ -2379,7 +2379,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (job->hSendId == 0 && job->hContact == 0)
 						break;
 
-					job->hSendId = (HANDLE)CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
+					job->hSendId = (HANDLE)ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
 					resent++;
 				}
 

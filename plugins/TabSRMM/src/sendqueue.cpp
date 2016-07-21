@@ -154,7 +154,7 @@ static void DoSplitSendA(LPVOID param)
 
 			char savedChar = *szSaved;
 			*szSaved = 0;
-			int id = CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
+			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -168,7 +168,7 @@ static void DoSplitSendA(LPVOID param)
 			}
 		}
 		else {
-			int id = CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
+			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -283,7 +283,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].hSendId = (HANDLE)CallContactService(dat->hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
+		m_jobs[iEntry].hSendId = (HANDLE)ProtoChainSend(dat->hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = { 0 };

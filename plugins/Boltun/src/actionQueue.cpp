@@ -86,7 +86,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	T2Utf msg(info->Answer.c_str());
 	size_t bufsize = mir_strlen(msg);
 
-	CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
+	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);

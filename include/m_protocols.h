@@ -477,6 +477,12 @@ EXTERN_C MIR_APP_DLL(int) Proto_RemoveFromContact(MCONTACT, const char *szProto)
 
 EXTERN_C MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs);
 
+__forceinline INT_PTR ProtoChainSend(MCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
+{
+	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
+	return Proto_ChainSend(0, &ccs);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Call the next service in the chain for this receive operation
 // The return value should be returned immediately

@@ -214,7 +214,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						else ptszTemp = Utils_ReplaceVarsT(ptszTemp2);
 
 						T2Utf pszUtf(ptszTemp);
-						CallContactService(hContact, PSS_MESSAGE, 0, pszUtf);
+						ProtoChainSend(hContact, PSS_MESSAGE, 0, pszUtf);
 
 						dbei.cbSize = sizeof(dbei);
 						dbei.eventType = EVENTTYPE_MESSAGE;

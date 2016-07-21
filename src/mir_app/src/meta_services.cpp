@@ -259,7 +259,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 	char *proto = GetContactProto(hMostOnline);
 	Meta_SetNick(proto);	// (no matter what was there before)
 
-	return CallContactService(ccs->hContact, PSS_MESSAGE, ccs->wParam, ccs->lParam);
+	return ProtoChainSend(ccs->hContact, PSS_MESSAGE, ccs->wParam, ccs->lParam);
 }
 
 /** Called when an ACK is received.
@@ -724,7 +724,7 @@ INT_PTR Meta_FileSend(WPARAM, LPARAM lParam)
 
 	char *proto = GetContactProto(hMostOnline);
 	if (proto)
-		return CallContactService(hMostOnline, PSS_FILE, ccs->wParam, ccs->lParam);
+		return ProtoChainSend(hMostOnline, PSS_FILE, ccs->wParam, ccs->lParam);
 
 	return 0; // fail
 }
@@ -745,7 +745,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = hMostOnline;
-	return CallContactService(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
+	return ProtoChainSend(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
 }
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
@@ -810,7 +810,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	if (!ProtoServiceExists(proto, PSS_GETINFO))
 		return 0; // fail
 
-	return CallContactService(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
+	return ProtoChainSend(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
 int Meta_CallMostOnline(WPARAM hContact, LPARAM)

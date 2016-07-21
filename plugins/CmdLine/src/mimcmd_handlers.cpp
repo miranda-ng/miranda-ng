@@ -785,7 +785,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 			if (hContact) {
 				bShouldProcessAcks = TRUE;
-				HANDLE hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)message);
+				HANDLE hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message);
 				const int MAX_COUNT = 60;
 				int counter = 0;
 				while (((ack = GetAck(hProcess)) == NULL) && (counter < MAX_COUNT)) {

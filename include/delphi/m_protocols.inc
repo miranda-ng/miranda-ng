@@ -38,9 +38,6 @@ type
     lParam        : LPARAM;
   end;
 
-const
-  MS_PROTO_CALLCONTACTSERVICE:PAnsiChar = 'Proto/CallContactService';
-
 //a general network 'ack'
 //wParam=0
 //lParam=(LPARAM)(ACKDATA*)&ack

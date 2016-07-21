@@ -7,13 +7,13 @@ INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl Service_CreateIM(WPARAM wParam, LPARAM)
 {
-	CallContactService(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_INIT);
+	ProtoChainSend(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_INIT);
 	return 1;
 }
 
 INT_PTR __cdecl Service_DisableIM(WPARAM wParam, LPARAM)
 {
-	CallContactService(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
+	ProtoChainSend(wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
 	return 1;
 }
 

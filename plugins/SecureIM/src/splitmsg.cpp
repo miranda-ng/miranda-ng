@@ -102,7 +102,7 @@ int splitMessageSend(pUinKey ptr, LPSTR szMsg)
 		while (*buf) {
 			len = (int)mir_strlen(buf);
 			LPSTR tmp = mir_strdup(buf);
-			ret = CallContactService(ptr->hContact, PSS_MESSAGE, (WPARAM)PREF_METANODB, (LPARAM)tmp);
+			ret = ProtoChainSend(ptr->hContact, PSS_MESSAGE, (WPARAM)PREF_METANODB, (LPARAM)tmp);
 			mir_free(tmp);
 			buf += len + 1;
 		}
@@ -110,5 +110,5 @@ int splitMessageSend(pUinKey ptr, LPSTR szMsg)
 		return ret;
 	}
 	
-	return (int)CallContactService(ptr->hContact, PSS_MESSAGE, (WPARAM)PREF_METANODB, (LPARAM)szMsg);
+	return (int)ProtoChainSend(ptr->hContact, PSS_MESSAGE, (WPARAM)PREF_METANODB, (LPARAM)szMsg);
 }

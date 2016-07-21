@@ -244,13 +244,13 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 					for (int i = 0; i < 2; i++) {
 						int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 						if (iImage == i + 1) {
-							CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1 ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
+							ProtoChainSend(hContact, PSS_SETAPPARENTMODE, iImage == 1 ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 							set = 1;
 							break;
 						}
 					}
 					if (!set)
-						CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
+						ProtoChainSend(hContact, PSS_SETAPPARENTMODE, 0, 0);
 				}
 				return TRUE;
 			}

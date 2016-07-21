@@ -123,7 +123,6 @@ MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
 MIR_APP_DLL(int)      ProtoServiceExists(LPCSTR szModule, const char *szService);
-MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT, const char*, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_APP_DLL(INT_PTR)  CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
 
 ///////////////////////////////////////////////////////////////////////////////

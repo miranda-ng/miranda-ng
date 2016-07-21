@@ -67,7 +67,7 @@ namespace External
 		WPARAM wParam = Var_To<WPARAM>(pDispParams->rgvarg[1], wType);
 		LPARAM lParam = Var_To<LPARAM>(pDispParams->rgvarg[0], lType);
 
-		INT_PTR res = CallContactService(hContact, _T2A((TCHAR*)szName), wParam, lParam);
+		INT_PTR res = ProtoChainSend(hContact, _T2A((TCHAR*)szName), wParam, lParam);
 
 		if (wType == 'A' || wType == 'U') mir_free((void*)wParam);
 		if (lType == 'A' || lType == 'U') mir_free((void*)lParam);

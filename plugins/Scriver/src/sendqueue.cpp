@@ -181,5 +181,5 @@ void SendSendQueueItem(MessageSendQueueItem* item)
 	}
 	lock.unlock();
 
-	item->hSendId = (HANDLE)CallContactService(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
+	item->hSendId = (HANDLE)ProtoChainSend(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
 }

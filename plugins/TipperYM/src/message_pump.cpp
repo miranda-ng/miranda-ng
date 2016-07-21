@@ -55,7 +55,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
 			db_unset(hContact, MODULE, "TempStatusMsg");
-			if (CanRetrieveStatusMsg(hContact, szProto) && CallContactService(hContact, PSS_GETAWAYMSG, 0, 0))
+			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
 					KillTimer(0, WaitForContentTimerID);

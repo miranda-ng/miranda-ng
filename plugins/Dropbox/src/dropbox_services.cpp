@@ -147,7 +147,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0, 0);
 	char help[1024];
 	mir_snprintf(help, Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
-	CallContactService(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
+	ProtoChainSend(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
 	return 0;
 }
 

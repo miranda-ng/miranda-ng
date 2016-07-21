@@ -343,7 +343,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat->updateAnimFrame = 0;
 			GetDlgItemText(hwndDlg, IDC_UPDATING, dat->szUpdating, _countof(dat->szUpdating));
 			SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);
-			if (!CallContactService(dat->hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
+			if (!ProtoChainSend(dat->hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				SetTimer(hwndDlg, 1, 100, NULL);
 			}
@@ -565,7 +565,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->infosUpdated = NULL;
 			}
 			if (dat->hContact != NULL) {
-				if (!CallContactService(dat->hContact, PSS_GETINFO, 0, 0)) {
+				if (!ProtoChainSend(dat->hContact, PSS_GETINFO, 0, 0)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 					ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_SHOW);
 					SetTimer(hwndDlg, 1, 100, NULL);

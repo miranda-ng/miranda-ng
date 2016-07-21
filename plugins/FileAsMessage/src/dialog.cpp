@@ -855,7 +855,7 @@ int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 		mir_snprintf(buf, buflen, "%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
 	else
 		mir_snprintf(buf, buflen, "%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
-	retval = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+	retval = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 	free(buf);
 	updateProgress();
 	return retval;

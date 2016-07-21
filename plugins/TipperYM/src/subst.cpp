@@ -229,7 +229,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 
 		if (!swzMsg) {
 			if (CanRetrieveStatusMsg(hContact, szProto))
-				if (CallContactService(hContact, PSS_GETAWAYMSG, 0, 0))
+				if (ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
 					return NULL;
 
 			if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {

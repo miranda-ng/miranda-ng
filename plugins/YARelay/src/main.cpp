@@ -199,7 +199,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		strncpy(szMsgPart, szBuf, cbPortion);
 		szMsgPart[cbPortion] = 0;
 
-		HANDLE hMsgProc = (HANDLE)CallContactService(hForwardTo, PSS_MESSAGE, 0, (LPARAM)szMsgPart);
+		HANDLE hMsgProc = (HANDLE)ProtoChainSend(hForwardTo, PSS_MESSAGE, 0, (LPARAM)szMsgPart);
 
 		MESSAGE_PROC* msgProc = (MESSAGE_PROC*)mir_alloc(sizeof(MESSAGE_PROC));
 		msgProc->hProcess = hMsgProc;

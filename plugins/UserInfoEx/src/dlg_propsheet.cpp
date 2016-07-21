@@ -1564,7 +1564,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 						// call the services
 						for (int i = 0; i < pPs->nSubContacts; i++)
-						if (!CallContactService(pPs->infosUpdated[pPs->nSubContacts].hContact, PSS_GETINFO, NULL, NULL))
+						if (!ProtoChainSend(pPs->infosUpdated[pPs->nSubContacts].hContact, PSS_GETINFO, NULL, NULL))
 							bDo = TRUE;
 
 						if (bDo) {
@@ -1574,7 +1574,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						}
 					}
 				}
-				else if (!CallContactService(pPs->hContact, PSS_GETINFO, NULL, NULL)) {
+				else if (!ProtoChainSend(pPs->hContact, PSS_GETINFO, NULL, NULL)) {
 					pPs->infosUpdated = (TAckInfo *)mir_calloc(sizeof(TAckInfo));
 					pPs->infosUpdated[0].hContact = pPs->hContact;
 					pPs->nSubContacts = 1;

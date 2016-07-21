@@ -144,7 +144,7 @@ int CheckDate(MCONTACT hContact)
 
 void SendPounce(TCHAR *text, MCONTACT hContact)
 {
-	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(text))) 
+	if (HANDLE hSendId = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(text))) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
 }
 

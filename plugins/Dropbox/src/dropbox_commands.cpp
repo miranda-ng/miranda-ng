@@ -15,7 +15,7 @@ void CDropbox::CommandHelp(void *arg)
 	help += "\"/delete <path>\" \t- "; help += T2Utf(TranslateT("deletes file or folder with specified path (\"path\" is relative from root folder)"));
 
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-	CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help.GetBuffer());
+	ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help.GetBuffer());
 }
 
 void CDropbox::CommandList(void *arg)
@@ -27,7 +27,7 @@ void CDropbox::CommandList(void *arg)
 	if (path[0] == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
+		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 
 		return;
 	}
@@ -61,7 +61,7 @@ void CDropbox::CommandList(void *arg)
 	}
 
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-	CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
+	ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
 }
 
 void CDropbox::CommandShare(void *arg)
@@ -73,7 +73,7 @@ void CDropbox::CommandShare(void *arg)
 	if (path[0] == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
+		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 
 		return;
 	}
@@ -96,7 +96,7 @@ void CDropbox::CommandShare(void *arg)
 
 	CMStringA link = root.at("url").as_string().c_str();
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-	CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)link.GetBuffer());
+	ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)link.GetBuffer());
 }
 
 void CDropbox::CommandSearch(void *arg)
@@ -107,7 +107,7 @@ void CDropbox::CommandSearch(void *arg)
 	if (query == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/search");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
+		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 
 		return;
 	}
@@ -141,7 +141,7 @@ void CDropbox::CommandSearch(void *arg)
 	}
 
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-	CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
+	ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
 }
 
 void CDropbox::CommandDelete(void *arg)
@@ -153,7 +153,7 @@ void CDropbox::CommandDelete(void *arg)
 	if (path[0] == NULL) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/delete");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
+		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 
 		return;
 	}
@@ -167,7 +167,7 @@ void CDropbox::CommandDelete(void *arg)
 
 		CMStringA message(FORMAT, "%s %s", path, T2Utf(TranslateT("is deleted")));
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
-		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
+		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)message.GetBuffer());
 	}
 	catch (DropboxException &ex)
 	{

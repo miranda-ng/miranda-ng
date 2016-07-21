@@ -637,7 +637,7 @@ class CContactUpdater : public CContactQueue
 			if (IsProtoOnline(pszProto))
 			{
 				int i;
-				for (i = 0; i < 3 && CallContactService(hContact, PSS_GETINFO, 0, 0); i++)
+				for (i = 0; i < 3 && ProtoChainSend(hContact, PSS_GETINFO, 0, 0); i++)
 				{
 					Sleep(3000);
 				}

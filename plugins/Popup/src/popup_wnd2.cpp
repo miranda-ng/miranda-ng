@@ -840,7 +840,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 			{
 				T2Utf buf(msg);
-				CallContactService(dat->hContact, PSS_MESSAGE, 0, buf);
+				ProtoChainSend(dat->hContact, PSS_MESSAGE, 0, buf);
 				AddMessageToDB(dat->hContact, buf);
 			}
 			// fall through

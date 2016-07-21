@@ -62,7 +62,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 
 	T2Utf pszReply(ad->Reply);
 	int ReplyLen = (int)mir_strlen(pszReply);
-	CallContactService(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
+	ProtoChainSend(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
 
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY)) { // store in the history
 		DBEVENTINFO dbeo = { 0 };

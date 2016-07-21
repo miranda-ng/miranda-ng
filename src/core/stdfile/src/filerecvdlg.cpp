@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDCANCEL:
-			if (dat->fs) CallContactService(dat->hContact, PSS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
+			if (dat->fs) ProtoChainSend(dat->hContact, PSS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
 			dat->fs = NULL; /* the protocol will free the handle */
 			DestroyWindow(hwndDlg);
 			break;

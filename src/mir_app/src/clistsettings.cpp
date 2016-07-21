@@ -121,7 +121,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 		return tszDisplayName.detach();
 	}
 
-	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
+	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
 
 	TCHAR *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;

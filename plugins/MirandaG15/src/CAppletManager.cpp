@@ -791,7 +791,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 		memcpy(pJob->pcBuffer, szMsgUtf, pJob->iBufferSize);
 		mir_free(szMsgUtf);
 
-		pJob->hEvent = (MEVENT)CallContactService(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer);
+		pJob->hEvent = (MEVENT)ProtoChainSend(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer);
 		CAppletManager::GetInstance()->AddMessageJob(pJob);
 		return pJob->hEvent;
 	}

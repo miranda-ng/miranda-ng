@@ -82,7 +82,7 @@ int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char*)
 	if (db_mc_isMeta(hContact))
 		hContact = db_mc_getSrmmSub(hContact);
 
-	int sendId = CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
+	int sendId = ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
 	msgQueue_add(hContact, sendId, sendBuffer.detach(), flags);
 	return sendId;
 }

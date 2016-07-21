@@ -82,7 +82,7 @@ void CSend::SetContact(MCONTACT hContact)
 
 //---------------------------------------------------------------------------
 /*bool	CSend::hasCap(unsigned int Flag) {
-	return (Flag & CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_1, NULL)) == Flag;
+	return (Flag & ProtoChainSend(m_hContact, PS_GETCAPS, PFLAGNUM_1, NULL)) == Flag;
 	}// */
 
 //---------------------------------------------------------------------------
@@ -263,7 +263,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 			m_hOnSend = HookEventObj(ME_PROTO_ACK, OnSend, this);
 		}
 		//start PSS_MESSAGE service
-		m_hSend = (HANDLE)CallContactService(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
+		m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
 		// check we actually got an ft handle back from the protocol
 		if (!m_hSend) {
 			Unhook();
@@ -311,7 +311,7 @@ void CSend::svcSendFileExit()
 	TCHAR* pDesc = mir_tstrdup(m_pszFileDesc);
 	ppFile[0] = mir_tstrdup(m_pszFile);
 	ppFile[1] = NULL;
-	m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
+	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
 	mir_free(pDesc);
 	mir_free(ppFile[0]);
 

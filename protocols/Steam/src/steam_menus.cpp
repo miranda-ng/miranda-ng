@@ -20,7 +20,7 @@ INT_PTR CSteamProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 
 int CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
 {
-	CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
+	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 
 	return 0;
 }

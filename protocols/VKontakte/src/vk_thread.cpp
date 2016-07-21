@@ -656,7 +656,7 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 	LONG userID = getDword(hContact, "ID", -1);
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
-	CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
+	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
 	return 0;
 }
 

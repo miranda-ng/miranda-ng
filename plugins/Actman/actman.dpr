@@ -185,7 +185,7 @@ var
   ccs:PCCSDATA;
 begin
   ccs := PCCSDATA(lParam);
-  result := CallContactService(ccs^.hContact, ccs^.szProtoService, ccs^.wParam, ccs^.lParam);
+  result := Proto_ChainSend(0, ccs);
 end;
 
 function DoOpenUrl(wParam:WPARAM;lParam:LPARAM):int;cdecl;

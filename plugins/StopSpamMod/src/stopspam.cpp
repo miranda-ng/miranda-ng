@@ -61,7 +61,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, hDbEvent)
 				}
 				if (msg) {
 					ptrA buff(mir_utf8encodeW(variables_parse(gbAuthRepl, hcntct).c_str()));
-					CallContactService(hcntct, PSS_MESSAGE, 0, (LPARAM)buff);
+					ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buff);
 				}
 				return 1;
 			}
@@ -177,7 +177,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			// for notICQ protocols or disable auto auth. reqwest
 			if ((Stricmp(_T("ICQ"), prot.c_str())) || (!gbAutoReqAuth)) {
 				char * buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
-				CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 			// Note: For ANSI can be not work
@@ -193,7 +193,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				};
 				// auto auth. reqwest with send congratulation
 				if (gbAutoReqAuth)
-					CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
+					ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
 			}
 		}
 		return 0;
@@ -270,7 +270,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			else
 				q += variables_parse(gbQuestion, hContact);
 
-			CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
+			ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
 
 			// increment question count
 			DWORD questCount = db_get_dw(hContact, pluginName, "QuestionCount", 0);
