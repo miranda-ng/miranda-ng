@@ -12,13 +12,13 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 		mi.flags |= CMIF_TCHAR;
 
 	lua_getfield(L, -1, "Uid");
-	const char* uuid = (char*)lua_tostring(L, -1);
+	const char* uuid = lua_tostring(L, -1);
 	if (UuidFromStringA((RPC_CSTR)uuid, (UUID*)&mi.uid))
 		UNSET_UID(mi);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Name");
-	mi.name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
+	mi.name.t = mir_utf8decodeT(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Position");
@@ -30,7 +30,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Service");
-	mi.pszService = (char*)lua_tostring(L, -1);
+	mi.pszService = lua_tostring(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Parent");

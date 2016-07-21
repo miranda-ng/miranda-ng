@@ -97,8 +97,7 @@ static int lua_ChainSend(lua_State *L)
 	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
 	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
 
-	CCSDATA ccs = { hContact, service, wParam, lParam };
-	INT_PTR res = Proto_ChainSend(0, &ccs);
+	INT_PTR res = ProtoChainSend(hContact, service, wParam, lParam);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -111,8 +110,7 @@ static int lua_ChainRecv(lua_State *L)
 	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
 	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
 
-	CCSDATA ccs = { hContact, service, wParam, lParam };
-	INT_PTR res = Proto_ChainRecv(0, &ccs);
+	INT_PTR res = ProtoChainRecv(hContact, service, wParam, lParam);
 	lua_pushinteger(L, res);
 
 	return 1;

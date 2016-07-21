@@ -47,7 +47,7 @@ static int message_Send(lua_State *L)
 
 		mir_free((void*)gce.ptszText);
 	}
-	else if ((res = ::ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED)
+	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED)
 	{
 		DBEVENTINFO dbei;
 		dbei.cbSize = sizeof(dbei);

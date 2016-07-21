@@ -40,7 +40,7 @@ static int clist_AddContactMenuItem(lua_State *L)
 	CMenuItem mi;
 	MakeMenuItem(L, mi);
 
-	ptrA szProto(mir_utf8decode((char*)lua_tostring(L, 2), NULL));
+	ptrA szProto(mir_utf8decodeA(lua_tostring(L, 2)));
 	HGENMENU res = Menu_AddContactMenuItem(&mi, szProto);
 	lua_pushlightuserdata(L, res);
 

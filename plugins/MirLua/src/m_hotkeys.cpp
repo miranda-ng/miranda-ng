@@ -16,7 +16,7 @@ void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Description");
-	hk.ptszDescription = mir_utf8decodeT((char*)lua_tostring(L, -1));
+	hk.ptszDescription = mir_utf8decodeT(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Section");
