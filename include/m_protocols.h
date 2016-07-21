@@ -497,7 +497,7 @@ __forceinline INT_PTR ProtoChainSend(MCONTACT hContact, const char *szProtoServi
 
 EXTERN_C MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs);
 
-__forceinline INT_PTR ProtoChainRecv(MCONTACT hContact, char *szService, WPARAM wParam, LPARAM lParam)
+__forceinline INT_PTR ProtoChainRecv(MCONTACT hContact, const char *szService, WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA ccs = { hContact, szService, wParam, lParam };
 	return Proto_ChainRecv(0, &ccs);
