@@ -196,6 +196,7 @@ MIR_CORE_DLL(BOOL) IsScreenSaverRunning(void)
 #endif
 
 typedef BOOL(WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef LPCSTR(WINAPI *WGV)(void);
 
 MIR_CORE_DLL(BOOL) GetOSDisplayString(TCHAR *buf, size_t bufSize)
 {
@@ -400,6 +401,13 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(TCHAR *buf, size_t bufSize)
 	}
 
 	ret.AppendFormat(_T(" (build %d)"), osvi.dwBuildNumber);
+
+	HMODULE hNtDll = GetModuleHandleA("ntdll.dll");
+	if (WGV wine_get_version = (WGV)GetProcAddress(hNtDll, "wine_get_version"))
+	{
+		ret.AppendFormat(_T(" (Wine %s)"), _A2T(wine_get_version()));
+	}
+
 	mir_tstrncpy(buf, ret, bufSize);
 	return TRUE;
 }

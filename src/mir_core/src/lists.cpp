@@ -74,7 +74,7 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 	int high = p_list->realCount - 1;
 
 	switch ((INT_PTR)p_list->sortFunc) {
-	case HandleKeySort:
+	case HandleKeySortT:
 	#ifdef _WIN64
 		{
 			const unsigned __int64 val = *(unsigned __int64 *)p_value;
@@ -96,7 +96,7 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 		break;
 	#endif
 
-	case NumericKeySort:
+	case NumericKeySortT:
 		{
 			const unsigned val = *(unsigned *)p_value;
 
@@ -116,7 +116,7 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 		}
 		break;
 
-	case PtrKeySort:
+	case PtrKeySortT:
 		while (low <= high) {
 			int i = (low + high) / 2;
 			const void* vali = p_list->items[i];
