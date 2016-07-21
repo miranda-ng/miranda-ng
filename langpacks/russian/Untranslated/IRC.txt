@@ -1,5 +1,3 @@
-﻿[CTCP]
-[DCC]
-[Jerk]
+﻿[Jerk]
 [NickServ]
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]

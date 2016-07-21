@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.2.14.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -31,7 +31,7 @@
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
 [News feed types to notify:]
 [Don't show advertising posts]
-[Show friendships changes (when someone remove/approve you)]
+[Show friendships changes (when someone removes/approves you)]
 [Show real-time friends activity (ticker feed)]
 [Show my "On this day" posts at login]
 [Chatroom logging]
@@ -78,6 +78,9 @@
 [You entered too many invalid verification codes. Plugin will disconnect.]
 [You entered wrong verification code. Try it again.]
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+[Check last login]
+[Do you recognize this activity?]
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 [Login error, probably bad login credentials.]
@@ -128,6 +131,7 @@
 [a file]
 [photos]
 [a photo]
+[a video]
 [a GIF]
 [User sent %s:]
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -138,6 +142,7 @@
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
+[<attachment without text>]
 [On this day]
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]

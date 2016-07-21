@@ -131,8 +131,6 @@
 [Queries]
 [Messages]
 [Notices]
-[CTCP]
-[DCC]
 [Ignore mask (nick!user@host)]
 [Network (*)]
 [Ignore events]

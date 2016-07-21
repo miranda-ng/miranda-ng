@@ -560,6 +560,8 @@
 [Send message]
 [Smiley selector]
 [Show message history]
+[Show send menu]
+[Show protocol menu]
 [Show user menu]
 [Show user details]
 [Toggle toolbar]

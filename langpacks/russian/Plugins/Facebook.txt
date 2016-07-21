@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.2.14.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -53,7 +53,7 @@
 Уведомлять о типах новостей:
 [Don't show advertising posts]
 Не показывать рекламные публикации
-[Show friendships changes (when someone remove/approve you)]
+[Show friendships changes (when someone removes/approves you)]
 Показывать изменения запросов дружбы (когда удалили/приняли ваш запрос)
 [Show real-time friends activity (ticker feed)]
 Показывать активность друзей в реальном времени
@@ -141,6 +141,12 @@
 Введён неверный код. Попробуйте ещё раз.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Ошибка входа: Ваша учётная запись заблокирована. Требуется пройти подтверждение в браузере.
+[Check last login]
+Проверить последний вход
+[Do you recognize this activity?]
+Вы узнаёте эту активность?
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+Ошибка входа: Вам необходимо подтвердить последний неизвестный вход или отозвать его из веб-браузера.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Ошибка входа: Facebook полагает, что ваш компьютер заражён. Зайдите в свою учётную запись с помощью браузера в режиме 'приватного просмотра' и запустите антивирусную проверку.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -231,6 +237,8 @@ SMS с кодом подтверждения отправлено на ваш м
 фотографии
 [a photo]
 фотографию
+[a video]
+видео
 [a GIF]
 анимированное изображение
 [User sent %s:]
@@ -247,6 +255,8 @@ SMS с кодом подтверждения отправлено на ваш м
 Контакт снова в списке на сервере.
 [Contact is no longer on server-list.]
 Контакта больше нет в списке на сервере.
+[<attachment without text>]
+<вложение без текста>
 [On this day]
 В этот день
 [%s server connection]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.1
+;  Version: 0.1.2.4
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -28,6 +28,7 @@
 [Other]
 [Process stickers as smileys]
 [Shorten links for audio attachments]
+[Use non-standard popups for news and event notifications]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
@@ -66,7 +67,8 @@
 [Force invisible status upon user activity]
 [Invisible interval timeout (min):]
 [Use non-standard urlEncode for sent messages (less traffic)]
-[Use non-standard popups for news and event notifications]
+[Send VK-objects links as attachments]
+[and load sent attachments]
 [When I ban user...]
 [Report abuse]
 [Clear server history]

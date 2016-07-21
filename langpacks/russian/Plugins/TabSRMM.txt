@@ -1093,6 +1093,10 @@ TabSRMM: набирает
 Выбор смайла
 [Show message history]
 Показать историю сообщений
+[Show send menu]
+Отображать меню отправки
+[Show protocol menu]
+Отображать меню протокола
 [Show user menu]
 Меню пользователя
 [Show user details]
