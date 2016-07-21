@@ -1,1 +1,1 @@
-#include <msapi\stdver.h>
+#include <msapi/stdver.h>
