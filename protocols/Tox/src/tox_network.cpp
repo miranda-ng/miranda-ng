@@ -267,6 +267,8 @@ void CToxProto::PollingThread(void*)
 		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
 		ShowNotification(ToxErrorToString(error), TranslateT("Unable to initialize Tox core"), MB_ICONERROR);
 		tox_options_free(options);
+		debugLogA(__FUNCTION__": leaving");
+		return;
 	}
 	tox_options_free(options);
 
