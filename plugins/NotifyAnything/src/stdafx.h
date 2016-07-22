@@ -17,7 +17,7 @@
 #include "m_popup.h"
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 extern HINSTANCE hInst;
 

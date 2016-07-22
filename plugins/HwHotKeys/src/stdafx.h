@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 #include <Strsafe.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 int initializeOptions(WPARAM, LPARAM);
 INT_PTR CALLBACK OptDlgProc(HWND, UINT, WPARAM, LPARAM);

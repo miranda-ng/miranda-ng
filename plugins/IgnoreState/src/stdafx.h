@@ -35,7 +35,7 @@
 #include <m_extraicons.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define MODULENAME "IgnoreState"
 

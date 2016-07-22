@@ -29,7 +29,7 @@
 
 #include "resource.h"
 #include "utilities.h"
-#include "Version.h"
+#include "version.h"
 
 #define szModuleName "Watrack_MPD"
 

@@ -21,7 +21,7 @@
 #include <m_database.h>
 #include <win2k.h>
 
-#include "Version.h"
+#include "version.h"
 
 #define SHLExt_Name            "shlext15"
 #define SHLExt_MRU             "MRU"

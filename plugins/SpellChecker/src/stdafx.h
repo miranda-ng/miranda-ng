@@ -61,7 +61,7 @@ using namespace std;
 #include <hunspell.hpp>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "options.h"
 #include "autoreplace.h"
 #include "dictionary.h"

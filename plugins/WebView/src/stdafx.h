@@ -32,4 +32,4 @@
 #include <m_findadd.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"

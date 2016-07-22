@@ -57,7 +57,7 @@
 
 #include "resource.h"
 #include "Misc.h"
-#include "Version.h"
+#include "version.h"
 
 // Actions on popup click
 #define PCA_OPENMESSAGEWND	0	// open message window

@@ -46,7 +46,7 @@ using namespace std;
 #include "MimeHandling.h"
 #include "resource.h"
 #include "IndexCreation.h"
-#include "Version.h"
+#include "version.h"
 
 
 #define SD_RECEIVE      0x00

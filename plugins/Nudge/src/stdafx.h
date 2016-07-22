@@ -26,7 +26,7 @@
 
 #include "resource.h"
 #include "shake.h"
-#include "Version.h"
+#include "version.h"
 #include "nudge.h"
 
 /*

@@ -12,7 +12,7 @@
 #include <m_variables.h>
 
 #include "Resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define protocolname		"SimpleAutoReplier" //no spaces here :)
 

@@ -45,7 +45,7 @@
 #include <m_metacontacts.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 //VERY_PUBLIC Begin ... will be moved to m_neweventnotify.h
 #define MS_NEN_MENUNOTIFY "NewEventNotify/MenuitemNotifyCommand"

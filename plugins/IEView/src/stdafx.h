@@ -59,7 +59,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Utils.h"
 #include "ieview_services.h"
 #include "Options.h"
-#include "Version.h"
+#include "version.h"
 #include "ChatHTMLBuilder.h"
 #include "HistoryHTMLBuilder.h"
 #include "HTMLBuilder.h"

@@ -14,7 +14,7 @@
 #include <m_extraicons.h>
 #include <m_message.h>
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #include "global.h"
 

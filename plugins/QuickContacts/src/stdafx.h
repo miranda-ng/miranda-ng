@@ -49,7 +49,7 @@ Boston, MA 02111-1307, USA.
 
 #include "resource.h"
 #include "options.h"
-#include "Version.h"
+#include "version.h"
 
 #define MODULE_NAME		"QuickContacts"
 

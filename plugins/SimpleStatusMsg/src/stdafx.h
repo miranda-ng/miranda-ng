@@ -44,7 +44,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "simplestatusmsg.h"
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define MTYPE_AUTOONLINE            0xE7 // Auto online message (internal only)
 #define MTYPE_AUTOAWAY              0xE8 // Auto away message

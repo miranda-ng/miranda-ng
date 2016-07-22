@@ -19,7 +19,7 @@
 #include <m_langpack.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "get_time.h"
 #include "lan.h"
 #include "mlan.h"

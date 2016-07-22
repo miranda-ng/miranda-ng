@@ -8,4 +8,4 @@
 #include <win2k.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"

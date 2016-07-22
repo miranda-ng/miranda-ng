@@ -27,7 +27,7 @@
 #include "../../utils/mir_options.h"
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "popup.h"
 
 // Globals

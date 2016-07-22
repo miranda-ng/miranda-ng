@@ -21,7 +21,7 @@
 
 #include "miscutils.h"
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define MODULENAME	"StickyNotes"
 #define SECTIONNAME	LPGEN("Notes & Reminders")

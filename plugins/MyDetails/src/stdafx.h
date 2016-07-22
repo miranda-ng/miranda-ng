@@ -53,7 +53,7 @@ Boston, MA 02111-1307, USA.
 #include "../../utils/mir_options.h"
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "data.h"
 #include "options.h"
 #include "frame.h"

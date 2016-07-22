@@ -26,7 +26,7 @@
 
 #include "resource.h"
 #include "collection.h"
-#include "Version.h"
+#include "version.h"
 #include "icmp.h"
 #include "log.h"
 #include "menu.h"

@@ -31,7 +31,7 @@ Features:
 #include <win2k.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define STATUS_OFFLINE               0x1
 #define STATUS_ONLINE                0x2

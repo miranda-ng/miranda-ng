@@ -39,7 +39,7 @@
 #include "m_toptoolbar.h"
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 
 //=======================================================

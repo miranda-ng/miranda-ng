@@ -73,7 +73,7 @@ using std::fstream;
 
 //internal
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "constants.h"
 #include "log.h"
 #include "globals.h"

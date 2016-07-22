@@ -36,7 +36,7 @@
 #include "language.h"
 #include "linklist_dlg.h"
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 
 // Filter Flags

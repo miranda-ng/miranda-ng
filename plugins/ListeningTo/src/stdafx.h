@@ -54,7 +54,7 @@ Boston, MA 02111-1307, USA.
 #include "music.h"
 #include "resource.h"
 #include "options.h"
-#include "Version.h"
+#include "version.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 

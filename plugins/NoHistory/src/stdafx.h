@@ -19,7 +19,7 @@
 #include "resource.h"
 #include "icons.h"
 #include "options.h"
-#include "Version.h"
+#include "version.h"
 
 #define MODULE						"NoHistory"
 #define DBSETTING_REMOVE			"RemoveHistory"

@@ -14,7 +14,7 @@
 #include <m_chat_int.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define SETTINGSNAME "XSoundNotify"
 #define SETTINGSKEY "XSNPlugin_sound"

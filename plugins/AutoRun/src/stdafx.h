@@ -7,7 +7,7 @@
 #include <win2k.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 
 #define SUB_KEY _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
 #define ModuleName LPGEN("Autorun")

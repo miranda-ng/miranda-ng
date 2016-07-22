@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_msg_buttonsbar.h>
 
 #include "resource.h"
-#include "Version.h"
+#include "version.h"
 #include "Utils.h"
 
 #define PLGNAME "QuickMessages"
