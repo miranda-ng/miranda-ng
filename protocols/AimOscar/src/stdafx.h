@@ -30,7 +30,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <Uxtheme.h>
 
 //Miranda NG includes
-#include <msapi\vssym32.h>
+#include <msapi/vssym32.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>

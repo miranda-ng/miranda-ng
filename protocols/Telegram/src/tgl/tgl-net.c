@@ -32,8 +32,8 @@
 #if defined(WIN32) || defined(_WIN32)
 #include <io.h>
 #include <fcntl.h>
-#include <sys\types.h>
-#include <sys\stat.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdint.h>
 #include <string.h>
 #include <winsock2.h>

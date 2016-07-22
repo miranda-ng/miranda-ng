@@ -26,7 +26,7 @@
 //
 // Helper functions for the group chat module.
 
-#include "..\stdafx.h"
+#include "../stdafx.h"
 
 int GetRichTextLength(HWND hwnd)
 {

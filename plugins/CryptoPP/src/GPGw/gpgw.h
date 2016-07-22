@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "..\version.h"
+#include "../version.h"
 
 // gnupg plugin
 #include "gpg_res.h"

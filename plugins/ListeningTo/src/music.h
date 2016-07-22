@@ -26,14 +26,14 @@ Boston, MA 02111-1307, USA.
 
 
 // Players
-#include "players\\player.h"
-#include "players\\watrack.h"
-#include "players\\generic.h"
-#include "players\\winamp.h"
-#include "players\\foobar.h"
-#include "players\\itunes.h"
-#include "players\\wmp.h"
-#include "players\\mradio.h"
+#include "players/player.h"
+#include "players/watrack.h"
+#include "players/generic.h"
+#include "players/winamp.h"
+#include "players/foobar.h"
+#include "players/itunes.h"
+#include "players/wmp.h"
+#include "players/mradio.h"
 
 
 // First non polling ones

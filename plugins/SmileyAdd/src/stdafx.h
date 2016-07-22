@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 #include <gdiplus.h>
 #include <tom.h>
-#include <msapi\comptr.h>
+#include <msapi/comptr.h>
 
 #include <io.h>
 #include <fcntl.h>
@@ -70,8 +70,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_smileyadd.h>
 #include <m_folders.h>
 
-#include "regexp\wcpattern.h"
-#include "regexp\wcmatcher.h"
+#include "regexp/wcpattern.h"
+#include "regexp/wcmatcher.h"
 
 typedef WCPattern _TPattern;
 typedef WCMatcher _TMatcher;

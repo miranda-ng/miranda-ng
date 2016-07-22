@@ -47,7 +47,7 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #if MIRANDA_VER < 0x0A00
-#include "Compat\compat.h"
+#include "Compat/compat.h"
 #endif
 
 #include "Notifications.h"

@@ -19,7 +19,7 @@ Features:
 
 #include "stdafx.h"
 
-#include "..\..\utils\mir_buffer.h"
+#include "../../utils/mir_buffer.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;

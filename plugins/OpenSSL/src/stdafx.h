@@ -38,8 +38,8 @@ typedef struct SslHandle *HSSL;
 #include <m_string.h>
 #include <m_ssl.h>
 
-#include <openssl\ssl.h>
-#include <openssl\rand.h>
+#include <openssl/ssl.h>
+#include <openssl/rand.h>
 
 #include "version.h"
 

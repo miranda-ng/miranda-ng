@@ -46,7 +46,7 @@
 #include "m_protosvc.h"
 #include "m_options.h"
 #include "m_netlib.h"
-#include "..\..\protocols\IcqOscarJ\src\icq_constants.h"
+#include "../../protocols/IcqOscarJ/src/icq_constants.h"
 #include "m_skin.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"

@@ -31,14 +31,14 @@
 #if defined(_WIN64)
 #define _AMD64_
 #endif
-#include "cnotesapi\include\global.h"
-#include "cnotesapi\include\osmisc.h"
-#include "cnotesapi\include\nsfdb.h"
-#include "cnotesapi\include\nsfsearc.h"
-#include "cnotesapi\include\names.h"
-#include "cnotesapi\include\osenv.h"
-#include "cnotesapi\include\extmgr.h"
-#include "cnotesapi\include\bsafeerr.h"
-#include "cnotesapi\include\nsferr.h"
+#include "cnotesapi/include/global.h"
+#include "cnotesapi/include/osmisc.h"
+#include "cnotesapi/include/nsfdb.h"
+#include "cnotesapi/include/nsfsearc.h"
+#include "cnotesapi/include/names.h"
+#include "cnotesapi/include/osenv.h"
+#include "cnotesapi/include/extmgr.h"
+#include "cnotesapi/include/bsafeerr.h"
+#include "cnotesapi/include/nsferr.h"
 
 

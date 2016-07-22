@@ -1,5 +1,5 @@
 #ifdef _MSC_VER
-#include "..\auto.h"
+#include "../auto.h"
 #else
 #include "auto.h"
 #endif

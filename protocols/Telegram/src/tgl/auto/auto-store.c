@@ -1,8 +1,8 @@
 #ifdef _MSC_VER
-#include "..\auto.h"
-#include "..\mtproto-common.h"
+#include "../auto.h"
+#include "../mtproto-common.h"
 #include "auto-store.h"
-#include "..\auto-static-store.c"
+#include "../auto-static-store.c"
 #else
 #include "auto.h"
 #include "mtproto-common.h"

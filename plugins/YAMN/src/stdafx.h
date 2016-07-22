@@ -36,11 +36,11 @@
 #include "resource.h"
 #include "debug.h"
 #include "version.h"
-#include "proto\netclient.h"
-#include "proto\netlib.h"
-#include "proto\pop3\pop3.h"
-#include "proto\pop3\pop3comm.h"
-#include "proto\pop3\pop3opt.h"
+#include "proto/netclient.h"
+#include "proto/netlib.h"
+#include "proto/pop3/pop3.h"
+#include "proto/pop3/pop3comm.h"
+#include "proto/pop3/pop3opt.h"
 
 
 //From services.cpp

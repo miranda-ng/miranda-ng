@@ -39,7 +39,7 @@ using namespace std;
 
 #define ASSERT assert
 
-#include "LCDFramework\LCDFramework.h"
+#include "LCDFramework/LCDFramework.h"
 
 #include "Miranda.h"
 #include "CEvent.h"

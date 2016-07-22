@@ -31,7 +31,7 @@ using namespace std;
 #include "version.h"
 #include "resource.h"
 #include "utilities.h"
-#include "include\utf8.h"
+#include "include/utf8.h"
 
 extern HINSTANCE hInst;
 extern HANDLE hStopSpamLogDirH;

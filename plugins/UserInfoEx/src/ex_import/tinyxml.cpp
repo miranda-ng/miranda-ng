@@ -30,7 +30,7 @@ Copyright:
 ===============================================================================
  */
 
-#include "..\stdafx.h"
+#include "../stdafx.h"
 
 bool TiXmlBase::condenseWhiteSpace = true;
 

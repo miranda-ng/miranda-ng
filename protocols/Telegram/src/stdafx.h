@@ -1,7 +1,7 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-#include "..\..\..\miranda-private-keys\Telegram\api.h"
+#include "../../../miranda-private-keys/Telegram/api.h"
 
 #include <windows.h>
 #include <time.h>
@@ -41,12 +41,12 @@
 
 extern "C" 
 {
-	#include "tgl\tgl.h"
-	#include "tgl\tgl-net.h"
-	#include "tgl\tgl-timers.h"
-	#include "tgl\tgl-binlog.h"
-	#include "tgl\config.h"
-	#include "tgl\mtproto-client.h"
+	#include "tgl/tgl.h"
+	#include "tgl/tgl-net.h"
+	#include "tgl/tgl-timers.h"
+	#include "tgl/tgl-binlog.h"
+	#include "tgl/config.h"
+	#include "tgl/mtproto-client.h"
 }
 
 

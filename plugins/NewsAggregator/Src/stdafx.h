@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include <malloc.h>
 #include <fcntl.h>
 #include <io.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include <mshtml.h>
 
 // Miranda header files

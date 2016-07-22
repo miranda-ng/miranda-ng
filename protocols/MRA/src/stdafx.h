@@ -56,7 +56,7 @@
 #define PROTO_VERSION_MINOR     21
 
 #include "resource.h"
-#include "..\xstatus_MRA\src\resource.h"
+#include "../xstatus_MRA/src/resource.h"
 
 #include "Sdk/MemoryFind.h"
 #include "Sdk/MemoryFindByte.h"

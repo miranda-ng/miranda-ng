@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "profilemanager.h"
 
-#include "..\..\..\plugins\ExternalAPI\m_folders.h"
+#include "../../../plugins/ExternalAPI/m_folders.h"
 
 extern TCHAR g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
 

@@ -1,9 +1,9 @@
 #ifdef _MSC_VER
-#include "..\auto.h"
+#include "../auto.h"
 #include "auto-store-ds.h"
 #include "auto-skip.h"
 #include "auto-types.h"
-#include "..\mtproto-common.h"
+#include "../mtproto-common.h"
 #else
 #include "auto.h"
 #include "auto/auto-store-ds.h"

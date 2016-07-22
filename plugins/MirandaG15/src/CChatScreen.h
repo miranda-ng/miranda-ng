@@ -3,9 +3,9 @@
 
 #include "CScreen.h"
 
-#include "LCDFramework\CLCDLabel.h"
-#include "LCDFramework\CLCDTextLog.h"
-#include "LCDFramework\CLCDInput.h"
+#include "LCDFramework/CLCDLabel.h"
+#include "LCDFramework/CLCDTextLog.h"
+#include "LCDFramework/CLCDInput.h"
 
 class CChatScreen : public CScreen
 {

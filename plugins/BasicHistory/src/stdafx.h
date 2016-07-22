@@ -58,11 +58,11 @@
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
 
-#include "..\..\libs\zlib\src\zconf.h"
-#include "..\..\libs\zlib\src\ioapi.h"
-#include "..\..\libs\zlib\src\zip.h"
-#include "..\..\libs\zlib\src\unzip.h"
-#include "..\..\libs\zlib\src\iowin32.h"
+#include "../../libs/zlib/src/zconf.h"
+#include "../../libs/zlib/src/ioapi.h"
+#include "../../libs/zlib/src/zip.h"
+#include "../../libs/zlib/src/unzip.h"
+#include "../../libs/zlib/src/iowin32.h"
 
 #include "version.h"
 #include "HistoryWindow.h"

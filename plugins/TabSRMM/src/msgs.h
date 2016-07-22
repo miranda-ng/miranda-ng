@@ -750,7 +750,7 @@ struct TLogIcon {
 	HBRUSH hBkgBrush;
 };
 
-#include "..\TabSRMM_icons\resource.h"         // icon pack values
+#include "../TabSRMM_icons/resource.h"         // icon pack values
 
 struct TCpTable {
 	UINT cpId;

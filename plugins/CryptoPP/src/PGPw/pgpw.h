@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "..\version.h"
+#include "../version.h"
 
 // PGP API
 #ifndef PGP_WIN32

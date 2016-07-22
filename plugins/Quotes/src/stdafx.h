@@ -10,7 +10,7 @@
 #include <comdef.h>
 #include <commctrl.h>
 #include <ShellAPI.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include <CommDlg.h>
 #include <fstream>
 #include <msapi/comptr.h>

@@ -10,7 +10,7 @@
 #include <ObjError.h>
 #include <Ole2Ver.h>
 
-#include "SAPI 4.0\Include\speech.h"
+#include "SAPI 4.0/Include/speech.h"
 //#include <spchwrap.h>
 
 

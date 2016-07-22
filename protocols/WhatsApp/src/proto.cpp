@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "WhatsAPI++\WARegister.h"
+#include "WhatsAPI++/WARegister.h"
 
 struct SearchParam
 {

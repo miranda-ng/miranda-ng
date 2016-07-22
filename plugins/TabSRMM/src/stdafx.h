@@ -46,7 +46,7 @@
 #include <malloc.h>
 #include <locale.h>
 
-#include <msapi\vsstyle.h>
+#include <msapi/vsstyle.h>
 #include <m_avatars.h>
 #include <m_message.h>
 #include <win2k.h>

@@ -47,9 +47,9 @@ Boston, MA 02111-1307, USA.
 #include <m_toptoolbar.h>
 #include <m_listeningto.h>
 
-#include "..\..\utils\mir_options.h"
-#include "..\..\utils\mir_buffer.h"
-#include "..\..\utils\utf8_helpers.h"
+#include "../../utils/mir_options.h"
+#include "../../utils/mir_buffer.h"
+#include "../../utils/utf8_helpers.h"
 
 #include "music.h"
 #include "resource.h"

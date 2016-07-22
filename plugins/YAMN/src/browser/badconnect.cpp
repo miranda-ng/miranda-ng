@@ -4,7 +4,7 @@
  * (c) majvan 2002,2004
  */
 
-#include "..\stdafx.h"
+#include "../stdafx.h"
 
 #define BADCONNECTTITLE LPGEN("%s - connection error")
 #define BADCONNECTMSG LPGEN("An error occurred. Error code: %d")//is in use?

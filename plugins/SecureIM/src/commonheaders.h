@@ -40,7 +40,7 @@
 #include "secureim.h"
 #include "version.h"
 #include "resource.h"
-#include "..\SecureIM_icons\src\resource.h"
+#include "../SecureIM_icons/src/resource.h"
 #include "language.h"
 #include "mmi.h"
 #include "crypt.h"

@@ -30,7 +30,7 @@
 #include <string.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
-#include "..\..\..\..\libs\zlib\src\zlib.h"
+#include "../../../../libs/zlib/src/zlib.h"
 #include <time.h>
 #if defined(WIN32) || defined(_WIN32)
 #include <sys/timeb.h>

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\..\libs\zlib\src\zip.h"
+#include "../../libs/zlib/src/zip.h"
 
 int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback)
 {
