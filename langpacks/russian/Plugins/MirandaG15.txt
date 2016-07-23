@@ -102,7 +102,7 @@
 [Status changes]
 Смены статуса
 [Group chat events:]
-Событие чата:
+События чата:
 [Notices]
 Уведомления
 [Channel events]

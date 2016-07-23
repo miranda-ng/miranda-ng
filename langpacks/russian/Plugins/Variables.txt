@@ -5,6 +5,10 @@
 ;  Version: 0.2.3.11
 ;  Authors: P Boon
 ;============================================================
+[x + y + ...]
+x плюс y плюс ...
+[x - y - ...]
+x минус y минус ...
 [Adds support for dynamic variables in strings for plugins.]
 Поддержка динамических переменных для других плагинов.
 [Parse options]

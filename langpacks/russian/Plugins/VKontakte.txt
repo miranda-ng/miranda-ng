@@ -50,7 +50,7 @@
 [Shorten links for audio attachments]
 Сокращённые ссылки для вложений с аудио
 [Use non-standard popups for news and event notifications]
-Использовать нестандартные вспл. окна для новостей и событий
+Использовать нестандартные всплывающие окна для новостей и событий
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
@@ -160,7 +160,7 @@ E-mail или номер телефона:
 [Contact list group:]
 Группа в списке контактов:
 [Language for names and titles:]
-Язык для имен и названий:
+Язык для имён и названий:
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Use local time for received messages]
