@@ -202,13 +202,13 @@ BEGIN
     GROUPBOX        "News and event notifications",IDC_STATIC,4,4,293,97
     CTEXT           "WARNING: Causes excessive network traffic!!!",IDC_STATIC,12,14,278,8
     CONTROL         "Enable news feeds",IDC_NEWS_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,24,169,10
-    RTEXT           "Interval for news updates (min):",IDC_STATIC,16,35,169,8
-    EDITTEXT        IDC_ED_INT_NEWS,190,32,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_INT_NEWS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,32,14,14
+    LTEXT           "Interval for news updates (min):",IDC_STATIC,16,35,169,8
+    EDITTEXT        IDC_ED_INT_NEWS,190,30,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_NEWS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,30,14,14
     CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,46,169,10
-    RTEXT           "Interval for notification updates (min):",IDC_STATIC,16,57,169,8
-    EDITTEXT        IDC_ED_INT_NOTIF,190,54,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_INT_NOTIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,54,14,14
+    LTEXT           "Interval for notification updates (min):",IDC_STATIC,16,57,169,8
+    EDITTEXT        IDC_ED_INT_NOTIF,190,52,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_NOTIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,52,14,14
     CONTROL         "Mark notification as viewed on receive",IDC_NOTIF_MARK_VIEWED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,278,10
     CONTROL         "Special contact always enabled",IDC_SPEC_CONT_ENBL,
@@ -261,7 +261,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,278,10
     CONTROL         "Force invisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,50,278,10
-    RTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,63,184,8
+    LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,63,184,8
     EDITTEXT        IDC_ED_INT_INVIS,204,60,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN_INT_INVIS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,244,60,14,13
     CONTROL         "Use non-standard urlEncode for sent messages (less traffic)",IDC_USENOSTDURLENCODE,
