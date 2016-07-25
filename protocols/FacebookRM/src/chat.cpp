@@ -276,16 +276,6 @@ void FacebookProto::AddChat(const char *id, const TCHAR *tname)
 	gce.pDest = &gcd;
 
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
-
-	/*chatroom_participant myself;
-	myself.user_id = facy.self_.user_id;
-	myself.nick = facy.self_.real_name;
-	myself.role = ROLE_ME;
-	myself.is_former = false;
-	myself.loaded = true;
-
-	// Add self contact
-	AddChatContact(id, myself);*/
 	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
 }

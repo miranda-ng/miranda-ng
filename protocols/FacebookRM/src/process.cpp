@@ -120,8 +120,8 @@ void FacebookProto::ProcessFriendList(void*)
 				}
 
 				// Update contact type
-				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
-					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu->type) {
+					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
 					// TODO: remove that popup and use "Contact added you" event?
 				}
 
