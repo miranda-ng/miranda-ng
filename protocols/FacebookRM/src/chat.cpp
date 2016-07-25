@@ -304,6 +304,16 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		fbc = new facebook_chatroom(thread_id);
 		LoadChatInfo(fbc);
 		facy.chat_rooms.insert(std::make_pair(thread_id, fbc));
+
+		// Update loaded info about this chat
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_CAN_REPLY, true) != fbc->can_reply)
+			setByte(hContact, FACEBOOK_KEY_CHAT_CAN_REPLY, fbc->can_reply);
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_READ_ONLY, false) != fbc->read_only)
+			setByte(hContact, FACEBOOK_KEY_CHAT_READ_ONLY, fbc->read_only);
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, false) != fbc->is_archived)
+			setByte(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, fbc->is_archived);
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, true) != fbc->is_subscribed)
+			setByte(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, fbc->is_subscribed);
 	}
 
 	// RM TODO: better use check if chatroom exists/is in db/is online... no?

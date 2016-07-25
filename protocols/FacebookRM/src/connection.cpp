@@ -157,11 +157,7 @@ void FacebookProto::ChangeStatus(void*)
 		}
 
 		// Join all locally present chatrooms
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			if (isChatRoom(hContact)) {
-				OnJoinChat(hContact, NULL);
-			}
-		}
+		JoinChatrooms();
 
 		ToggleStatusMenuItems(true);
 		debugLogA("*** SignOn complete");

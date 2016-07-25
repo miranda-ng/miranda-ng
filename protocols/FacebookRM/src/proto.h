@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-16 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-16 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -218,7 +218,8 @@ public:
 	void ReceiveMessages(std::vector<facebook_message> &messages, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
 	void LoadParticipantsNames(facebook_chatroom *fbc);
-	
+	void JoinChatrooms();
+
 	bool IsSpecialChatRoom(MCONTACT hContact);
 	void PrepareNotificationsChatRoom();
 	void UpdateNotificationsChatRoom(facebook_notification *notification);

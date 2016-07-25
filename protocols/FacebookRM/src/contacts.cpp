@@ -333,6 +333,20 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 	}
 }
 
+void FacebookProto::JoinChatrooms()
+{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (!isChatRoom(hContact))
+			continue;
+		
+		// Ignore archived and unsubscribed chats
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, false) || !getBool(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, true))
+			continue;
+
+		OnJoinChat(hContact, NULL);
+	}
+}
+
 void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 {
 	if (isOffline())
