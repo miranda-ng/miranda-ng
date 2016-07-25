@@ -201,13 +201,13 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						TCHAR *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
 						if (ptszHead != NULL) {
 							ptszTemp = ptszHead;
-							ptszTemp.Replace(_T("%user%"), ptszNick);
+							ptszTemp.Replace(L"%user%", ptszNick);
 							msgLen += mir_tstrlen(ptszTemp);
 							mir_free(ptszHead);
 						}
 
 						TCHAR *ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen + 5));
-						mir_sntprintf(ptszTemp2, msgLen + 5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), ptszVal);
+						mir_sntprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
 						}
@@ -257,13 +257,13 @@ extern "C" int __declspec(dllexport)Load(void)
 
 	SET_UID(mi, 0xac1c64a, 0x82ca, 0x4845, 0x86, 0x89, 0x59, 0x76, 0x12, 0x74, 0x72, 0x7b);
 	mi.position = 500090000;
-	mi.name.t = _T("");
+	mi.name.t = L"";
 	mi.pszService = protocolname"/ToggleEnable";
 	hEnableMenu = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xb290cccd, 0x4ecc, 0x475e, 0x87, 0xcb, 0x51, 0xf4, 0x3b, 0xc3, 0x44, 0x9c);
 	mi.position = -0x7FFFFFFF;
-	mi.name.t = _T("");
+	mi.name.t = L"";
 	mi.pszService = protocolname"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
 
@@ -272,7 +272,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	HookEvent(ME_DB_EVENT_ADDED, addEvent);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
 
-	Icon_RegisterT(hinstance, _T("Simple Auto Replier"), iconList, _countof(iconList));
+	Icon_RegisterT(hinstance, L"Simple Auto Replier", iconList, _countof(iconList));
 
 	return 0;
 }

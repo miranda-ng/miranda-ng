@@ -122,7 +122,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 			const IQuotesProvider::CProviderInfo& pi = pProvider->GetInfo();
 			tostringstream o;
-			o << TranslateT("Info provided by") << _T(" <a href=\"") << pi.m_sURL << _T("\">") << pi.m_sName << _T("</a>");
+			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
 			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 
@@ -242,7 +242,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 		case NM_CLICK:
 			if (IDC_SYSLINK_PROVIDER == wp) {
 				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-				::ShellExecute(hDlg, _T("open"), pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
+				::ShellExecute(hDlg, L"open", pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
 			}
 			break;
 		}

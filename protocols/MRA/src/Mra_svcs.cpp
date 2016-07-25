@@ -304,7 +304,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM, LPARAM lParam)
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) {
-		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, _T(""), 0);
+		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, L"", 0);
 		delSetting(DBSETTING_BLOGSTATUSMUSIC);
 	}
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
@@ -312,7 +312,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM, LPARAM lParam)
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack ? pliInfo->ptszTrack : _T(""), pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""), pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""), pliInfo->ptszPlayer ? pliInfo->ptszPlayer : _T(""));
+			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack ? pliInfo->ptszTrack : L"", pliInfo->ptszTitle ? pliInfo->ptszTitle : L"", pliInfo->ptszArtist ? pliInfo->ptszArtist : L"", pliInfo->ptszPlayer ? pliInfo->ptszPlayer : L"");
 
 		mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszListeningTo);
 		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszListeningTo, 0);
@@ -328,7 +328,7 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 		// stopped
 		if (1 == lParam) {
 			delSetting(DBSETTING_BLOGSTATUSMUSIC);
-			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, _T(""), 0);
+			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, L"", 0);
 		}
 		break;
 
@@ -336,7 +336,7 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 		SONGINFO *psiSongInfo;
 		if (WAT_RES_OK == CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&psiSongInfo)) {
 			CMStringW wszMusic;
-			wszMusic.Format(_T("%ld. %s - %s - %s"), psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
+			wszMusic.Format(L"%ld. %s - %s - %s", psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
 			mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszMusic);
 			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszMusic, 0);
 		}
@@ -374,7 +374,7 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 	DWORD dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iXStatus, dwXStatus);
 	setByte(DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 
-	MraSendNewStatus(m_iStatus, dwXStatus, _T(""), _T(""));
+	MraSendNewStatus(m_iStatus, dwXStatus, L"", L"");
 
 	return dwOldStatusMode;
 }

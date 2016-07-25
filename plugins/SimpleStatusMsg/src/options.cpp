@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (hIcon != NULL)
 					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 				else
-					SetDlgItemText(hwndDlg, IDC_VARSHELP, _T("V"));
+					SetDlgItemText(hwndDlg, IDC_VARSHELP, L"V");
 
 				if (szTipInfo == NULL)
 					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open string formatting help"), 0);
@@ -421,13 +421,13 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						if (data->proto_msg[i].msg)
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->proto_msg[i].msg);
 						else
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 					}
 					else
 					{
 						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG)
 						{
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
@@ -447,7 +447,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "LastMsg");
 
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting)
 							{
@@ -496,7 +496,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_free(tszStatusMsg);
 							}
 							else
-								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -543,7 +543,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						if (data->proto_msg[i].msg)
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->proto_msg[i].msg);
 						else
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTSTATUS), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG1), FALSE);
@@ -577,7 +577,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					{
 						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG)
 						{
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
@@ -598,7 +598,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "LastMsg");
 
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting != NULL)
 							{
@@ -646,7 +646,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_free(tszStatusMsg);
 							}
 							else
-								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -673,7 +673,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					if (data->status_msg[j].flags[i] & STATUS_EMPTY_MSG)
 					{
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
@@ -693,7 +693,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "LastMsg");
 
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 						if (szSetting != NULL)
 						{
@@ -733,7 +733,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							mir_free(tszStatusMsg);
 						}
 						else
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -780,7 +780,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					if (LOWORD(wParam) == IDC_ROPTMSG1)
 					{
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						data->status_msg[j].flags[i] |= STATUS_EMPTY_MSG;
@@ -801,7 +801,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "LastMsg");
 
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
@@ -844,7 +844,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							mir_free(tszStatusMsg);
 						}
 						else
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -1235,7 +1235,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 				TCHAR szText[100];
-				mir_sntprintf(szText, _T("%s *"), TranslateT("Show status profiles in status list"));
+				mir_sntprintf(szText, L"%s *", TranslateT("Show status profiles in status list"));
 				SetDlgItemText(hwndDlg, IDC_CPROFILES, szText);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CPROFILES), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_NOTE1), SW_SHOW);
@@ -1330,7 +1330,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				for (int i = 1; i <= max_hist_msgs; i++) {
 					char text[8];
 					mir_snprintf(text, "SMsg%d", i);
-					db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
+					db_set_ts(NULL, "SimpleStatusMsg", text, L"");
 				}
 
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");

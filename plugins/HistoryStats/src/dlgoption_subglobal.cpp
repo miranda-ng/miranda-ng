@@ -42,9 +42,9 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 
 					ext::string linkLabel = linkURLs.substr(posURLs + 1);
 
-					linkLabel += _T(" [");
+					linkLabel += L" [";
 					linkLabel += linkTexts.substr(posTexts + 1);
-					linkLabel += _T("]");
+					linkLabel += L"]";
 
 					SetDlgItemText(hDlg, LinkIDs[nCurLink], linkLabel.c_str());
 
@@ -97,7 +97,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 				TCHAR* szTitle = new TCHAR[nLen + 1];
 
 				if (GetWindowText(hLink, szTitle, nLen + 1)) {
-					TCHAR* szEndOfURL = (TCHAR*)ext::strfunc::str(szTitle, _T(" ["));
+					TCHAR* szEndOfURL = (TCHAR*)ext::strfunc::str(szTitle, L" [");
 					if (szEndOfURL) {
 						*szEndOfURL = '\0';
 						g_pSettings->openURL(szTitle);
@@ -316,7 +316,7 @@ void DlgOption::SubGlobal::initSupportInfo()
 			LPGENT(""),
 			LPGENT(""),
 			LPGENT(""),
-			_T("")
+			L""
 		},
 	};
 

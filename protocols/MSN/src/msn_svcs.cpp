@@ -139,7 +139,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			ft->std.hContact = pai->hContact;
 			ft->p2p_object = mir_strdup(szContext);
 
-			MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), _T("unk"));
+			MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), L"unk");
 			ft->std.tszCurrentFile = mir_tstrdup(filename);
 
 			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
@@ -340,10 +340,10 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 		msnCurrentMedia.cbSize = sizeof(msnCurrentMedia);	// Marks that there is info set
 		msnCurrentMedia.dwFlags = LTI_TCHAR;
 
-		overrideStr(msnCurrentMedia.ptszType, cm->ptszType, unicode, _T("Music"));
+		overrideStr(msnCurrentMedia.ptszType, cm->ptszType, unicode, L"Music");
 		overrideStr(msnCurrentMedia.ptszArtist, cm->ptszArtist, unicode);
 		overrideStr(msnCurrentMedia.ptszAlbum, cm->ptszAlbum, unicode);
-		overrideStr(msnCurrentMedia.ptszTitle, cm->ptszTitle, unicode, _T("No Title"));
+		overrideStr(msnCurrentMedia.ptszTitle, cm->ptszTitle, unicode, L"No Title");
 		overrideStr(msnCurrentMedia.ptszTrack, cm->ptszTrack, unicode);
 		overrideStr(msnCurrentMedia.ptszYear, cm->ptszYear, unicode);
 		overrideStr(msnCurrentMedia.ptszGenre, cm->ptszGenre, unicode);
@@ -357,11 +357,11 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 	else {
 		TCHAR *text;
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			text = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%title% - %artist%"), (LPARAM)&msnCurrentMedia);
+			text = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&msnCurrentMedia);
 		else {
 			text = (TCHAR *)mir_alloc(128 * sizeof(TCHAR));
-			mir_sntprintf(text, 128, _T("%s - %s"), (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : _T("")),
-				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : _T("")));
+			mir_sntprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
+				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : L""));
 		}
 		setTString("ListeningTo", text);
 		mir_free(text);

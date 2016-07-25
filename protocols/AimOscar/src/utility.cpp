@@ -533,14 +533,14 @@ int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TC
 {
 	path = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
 
-	int pos = mir_sntprintf(path, MAX_PATH, _T("%s\\%S"), VARST(_T("%miranda_userdata%")), m_szModuleName);
+	int pos = mir_sntprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_userdata%"), m_szModuleName);
 	if (contact_dir)
-		pos += mir_sntprintf(path + pos, MAX_PATH - pos, _T("\\%S"), m_szModuleName);
+		pos += mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%S", m_szModuleName);
 
 	if (_taccess(path, 0))
 		CreateDirectoryTreeT(path);
 
-	mir_sntprintf(path + pos, MAX_PATH - pos, _T("\\%s"), file);
+	mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%s", file);
 	int fid = _topen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);
 	if (fid < 0) {
 		TCHAR errmsg[512];
@@ -553,7 +553,7 @@ int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TC
 void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 {
 	TCHAR* path;
-	int fid = open_contact_file(sn, _T("away.html"), "wb", path, 1);
+	int fid = open_contact_file(sn, L"away.html", "wb", path, 1);
 	if (fid >= 0) {
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
 		char* s_msg = process_status_msg(msg, sn);
@@ -562,7 +562,7 @@ void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 		_write(fid, "'s Away Message:</h3>", 21);
 		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
-		ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
 		mir_free(path);
 		mir_free(s_msg);
 	}
@@ -571,7 +571,7 @@ void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 void CAimProto::write_profile(const char* sn, const char* msg, bool utf)
 {
 	TCHAR* path;
-	int fid = open_contact_file(sn, _T("profile.html"), "wb", path, 1);
+	int fid = open_contact_file(sn, L"profile.html", "wb", path, 1);
 	if (fid >= 0) {
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
 		char* s_msg = process_status_msg(msg, sn);
@@ -580,7 +580,7 @@ void CAimProto::write_profile(const char* sn, const char* msg, bool utf)
 		_write(fid, "'s Profile:</h3>", 16);
 		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
-		ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
 		mir_free(path);
 		mir_free(s_msg);
 	}

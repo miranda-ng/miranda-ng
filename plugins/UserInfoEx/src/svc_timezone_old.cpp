@@ -193,13 +193,13 @@ public:
 					pTimeZone = new CTimeZone();
 					if (pTimeZone) {
 						cbData = sizeof(szDisplay);
-						result |= RegQueryValueEx(hKeyTz, _T("Display"), 0, 0, (LPBYTE)szDisplay, &cbData);
+						result |= RegQueryValueEx(hKeyTz, L"Display", 0, 0, (LPBYTE)szDisplay, &cbData);
 
 						cbData = sizeof(REG_TZI_FORMAT);
-						result |= RegQueryValueEx(hKeyTz, _T("TZI"), 0, 0, (LPBYTE)pTimeZone, &cbData);
+						result |= RegQueryValueEx(hKeyTz, L"TZI", 0, 0, (LPBYTE)pTimeZone, &cbData);
 
 						cbData = sizeof(DWORD);
-						if (RegQueryValueEx(hKeyTz, _T("Index"), 0, 0, (LPBYTE)(UINT_PTR)pTimeZone->dwIndex, &cbData) != ERROR_SUCCESS)
+						if (RegQueryValueEx(hKeyTz, L"Index", 0, 0, (LPBYTE)(UINT_PTR)pTimeZone->dwIndex, &cbData) != ERROR_SUCCESS)
 							pTimeZone->dwIndex = TZINDEX_UNSPECIFIED;
 
 						if (result == ERROR_SUCCESS) {
@@ -313,56 +313,56 @@ static TZ_MAP MirTZ2WinTZ(const CHAR MirTz)
 	* for retrieving information about daylight saving time and more.
 	**/
 	static const TZ_MAP TzMap[] = {
-		{ 0,	_T("Dateline Standard Time")},			// GMT-12:00 Eniwetok; Kwajalein
-		{-1,	_T("")},								// GMT-11:30
-		{ 1,	_T("Samoa Standard Time")},				// GMT-11:00 Midway Island; Samoa
-		{-1,	_T("")},								// GMT-10:30
-		{ 2,	_T("Hawaiian Standard Time")},			// GMT-10:00 Hawaii
-		{-1,	_T("")},								// GMT-9:30
-		{ 3,	_T("Alaskan Standard Time")},			// GMT-9:00 Alaska
-		{-1,	_T("")},								// GMT-8:30
-		{ 4,	_T("Pacific Standard Time")},			// GMT-8:00 Pacific Time; Tijuana
-		{-1,	_T("")},								// GMT-7:30
-		{15,	_T("US Mountain Standard Time")},		// GMT-7:00 Arizona; Mountain Time
-		{-1,	_T("")},								// GMT-6:30
-		{33,	_T("Central America Standard Time")},	// GMT-6:00 Central Time; Central America; Saskatchewan
-		{-1,	_T("")},								// GMT-5:30
-		{45,	_T("SA Pacific Standard Time")},		// GMT-5:00 Eastern Time; Bogota; Lima; Quito
-		{-1,	_T("")},								// GMT-4:30
-		{56,	_T("Pacific SA Standard Time")},		// GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz
-		{60,	_T("Newfoundland Standard Time")},		// GMT-3:30 Newfoundland
-		{70,	_T("SA Eastern Standard Time")},		// GMT-3:00 Greenland; Buenos Aires; Georgetown
-		{-1,	_T("")},								// GMT-2:30
-		{75,	_T("Mid-Atlantic Standard Time")},		// GMT-2:00 Mid-Atlantic
-		{-1,	_T("")},								// GMT-1:30
-		{80,	_T("Azores Standard Time")},			// GMT-1:00 Cape Verde Islands; Azores
-		{-1,	_T("")},								// GMT-0:30
-		{85,	_T("GMT Standard Time")},				// GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca
-		{-1,	_T("")},								// GMT+0:30
-		{105,	_T("Romance Standard Time")},			// GMT+1:00 Central European Time; West Central Africa; Warsaw
-		{-1,	_T("")},								// GMT+1:30
-		{140,	_T("South Africa Standard Time")},		// GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens
-		{-1,	_T("")},								// GMT+2:30
-		{145,	_T("Russian Standard Time")},			// GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad
-		{160,	_T("Iran Standard Time")},				// GMT+3:30 Tehran
-		{165,	_T("Arabian Standard Time")},			// GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat
-		{175,	_T("Afghanistan Standard Time")},		// GMT+4:30 Kabul
-		{185,	_T("West Asia Standard Time")},			// GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg
-		{200,	_T("Sri Lanka Standard Time")},			// GMT+5:30 Sri Jayawardenepura
-		{201,	_T("N. Central Asia Standard Time")},	// GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk
-		{203,	_T("Myanmar Standard Time")},			// GMT+6:30 Rangoon
-		{207,	_T("North Asia Standard Time")},		// GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk
-		{-1,	_T("")},								// GMT+7:30
-		{210,	_T("China Standard Time")},				// GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing
-		{-1,	_T("")},								// GMT+8:30
-		{235,	_T("Tokyo Standard Time")},				// GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk
-		{245,	_T("AUS Central Standard Time")},		// GMT+9:30 Darwin; Adelaide
-		{270,	_T("Vladivostok Standard Time")},		// GMT+10:00 East Australia; Guam; Vladivostok
-		{-1,	_T("")},								// GMT+10:30
-		{280,	_T("Central Pacific Standard Time")},	// GMT+11:00 Magadan; Solomon Is.; New Caledonia
-		{-1,	_T("")},								// GMT+11:30
-		{290,	_T("New Zealand Standard Time")},		// GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.
-		{-1,	_T("")}
+		{ 0,	L"Dateline Standard Time"},			// GMT-12:00 Eniwetok; Kwajalein
+		{-1,	L""},								// GMT-11:30
+		{ 1,	L"Samoa Standard Time"},				// GMT-11:00 Midway Island; Samoa
+		{-1,	L""},								// GMT-10:30
+		{ 2,	L"Hawaiian Standard Time"},			// GMT-10:00 Hawaii
+		{-1,	L""},								// GMT-9:30
+		{ 3,	L"Alaskan Standard Time"},			// GMT-9:00 Alaska
+		{-1,	L""},								// GMT-8:30
+		{ 4,	L"Pacific Standard Time"},			// GMT-8:00 Pacific Time; Tijuana
+		{-1,	L""},								// GMT-7:30
+		{15,	L"US Mountain Standard Time"},		// GMT-7:00 Arizona; Mountain Time
+		{-1,	L""},								// GMT-6:30
+		{33,	L"Central America Standard Time"},	// GMT-6:00 Central Time; Central America; Saskatchewan
+		{-1,	L""},								// GMT-5:30
+		{45,	L"SA Pacific Standard Time"},		// GMT-5:00 Eastern Time; Bogota; Lima; Quito
+		{-1,	L""},								// GMT-4:30
+		{56,	L"Pacific SA Standard Time"},		// GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz
+		{60,	L"Newfoundland Standard Time"},		// GMT-3:30 Newfoundland
+		{70,	L"SA Eastern Standard Time"},		// GMT-3:00 Greenland; Buenos Aires; Georgetown
+		{-1,	L""},								// GMT-2:30
+		{75,	L"Mid-Atlantic Standard Time"},		// GMT-2:00 Mid-Atlantic
+		{-1,	L""},								// GMT-1:30
+		{80,	L"Azores Standard Time"},			// GMT-1:00 Cape Verde Islands; Azores
+		{-1,	L""},								// GMT-0:30
+		{85,	L"GMT Standard Time"},				// GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca
+		{-1,	L""},								// GMT+0:30
+		{105,	L"Romance Standard Time"},			// GMT+1:00 Central European Time; West Central Africa; Warsaw
+		{-1,	L""},								// GMT+1:30
+		{140,	L"South Africa Standard Time"},		// GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens
+		{-1,	L""},								// GMT+2:30
+		{145,	L"Russian Standard Time"},			// GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad
+		{160,	L"Iran Standard Time"},				// GMT+3:30 Tehran
+		{165,	L"Arabian Standard Time"},			// GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat
+		{175,	L"Afghanistan Standard Time"},		// GMT+4:30 Kabul
+		{185,	L"West Asia Standard Time"},			// GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg
+		{200,	L"Sri Lanka Standard Time"},			// GMT+5:30 Sri Jayawardenepura
+		{201,	L"N. Central Asia Standard Time"},	// GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk
+		{203,	L"Myanmar Standard Time"},			// GMT+6:30 Rangoon
+		{207,	L"North Asia Standard Time"},		// GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk
+		{-1,	L""},								// GMT+7:30
+		{210,	L"China Standard Time"},				// GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing
+		{-1,	L""},								// GMT+8:30
+		{235,	L"Tokyo Standard Time"},				// GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk
+		{245,	L"AUS Central Standard Time"},		// GMT+9:30 Darwin; Adelaide
+		{270,	L"Vladivostok Standard Time"},		// GMT+10:00 East Australia; Guam; Vladivostok
+		{-1,	L""},								// GMT+10:30
+		{280,	L"Central Pacific Standard Time"},	// GMT+11:00 Magadan; Solomon Is.; New Caledonia
+		{-1,	L""},								// GMT+11:30
+		{290,	L"New Zealand Standard Time"},		// GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.
+		{-1,	L""}
 	};
 	return (MirTz >= -24 && MirTz <= 24) ? TzMap[24 - MirTz] : TzMap[49] ;
 }

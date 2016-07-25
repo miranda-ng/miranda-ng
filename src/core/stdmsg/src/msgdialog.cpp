@@ -96,12 +96,12 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
-		mir_sntprintf(szPath, _T("%s\\*"), szFilename);
+		mir_sntprintf(szPath, L"%s\\*", szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_sntprintf(szPath, _T("%s\\%s"), szFilename, fd.cFileName);
+				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L"..")) continue;
+				mir_sntprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			}
 			while (FindNextFile(hFind, &fd));
@@ -122,7 +122,7 @@ static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus)
 		TCHAR buf[32];
 		int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-		mir_sntprintf(buf, _T("%d"), len);
+		mir_sntprintf(buf, L"%d", len);
 		SendMessage(hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 	}
 }
@@ -136,7 +136,7 @@ static void ShowTime(SrmmWindowData *dat)
 			TCHAR buf[32];
 			unsigned i = (g_dat.flags & SMF_SHOWREADCHAR) ? 2 : 1;
 
-			TimeZone_PrintDateTime(dat->hTimeZone, _T("t"), buf, _countof(buf), 0);
+			TimeZone_PrintDateTime(dat->hTimeZone, L"t", buf, _countof(buf), 0);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, i, (LPARAM)buf);
 			dat->wMinute = st.wMinute;
 		}
@@ -413,7 +413,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			break;
 
 		case IDM_CLEAR:
-			SetWindowText(hwnd, _T(""));
+			SetWindowText(hwnd, L"");
 			break;
 		}
 		DestroyMenu(hMenu);
@@ -936,12 +936,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		if (dat->lastMessage) {
 			TCHAR date[64], time[64], fmt[128];
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, _countof(date), 0);
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, _countof(time), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
 			mir_sntprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 		}
-		else SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)_T(""));
+		else SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)L"");
 
 		SendMessage(dat->hwndStatus, SB_SETICON, 0, (LPARAM)NULL);
 		break;
@@ -988,7 +988,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			pf2.wEffects = PFE_RTLPARA;
 			pf2.dwMask = PFM_RTLPARA;
-			SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+			SetDlgItemText(hwndDlg, IDC_LOG, L"");
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 			pf2.wEffects = 0;
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
@@ -1012,9 +1012,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 				if (statusIcon)
-					mir_sntprintf(newtitle, _T("%s - %s"), contactName, TranslateT("Message session"));
+					mir_sntprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 				else
-					mir_sntprintf(newtitle, _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
+					mir_sntprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
 					
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 				if (!cws || (!mir_strcmp(cws->szModule, dat->szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
@@ -1357,7 +1357,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 					SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 
 					if (g_dat.flags & SMF_AUTOCLOSE)
 						DestroyWindow(hwndDlg);
@@ -1483,7 +1483,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
 						break;
 					case IDM_CLEAR:
-						SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+						SetDlgItemText(hwndDlg, IDC_LOG, L"");
 						dat->hDbEventFirst = NULL;
 						break;
 					}
@@ -1526,7 +1526,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
 					if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
 						memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1) * sizeof(TCHAR));
-						memcpy(tr.lpstrText, _T("mailto:"), 7 * sizeof(TCHAR));
+						memcpy(tr.lpstrText, L"mailto:", 7 * sizeof(TCHAR));
 					}
 
 					if (((ENLINK *)lParam)->msg == WM_RBUTTONDOWN) {
@@ -1540,7 +1540,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 						case IDM_OPENLINK:
-							ShellExecute(NULL, _T("open"), tr.lpstrText, NULL, NULL, SW_SHOW);
+							ShellExecute(NULL, L"open", tr.lpstrText, NULL, NULL, SW_SHOW);
 							break;
 
 						case IDM_COPYLINK:
@@ -1560,7 +1560,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						return TRUE;
 					}
 
-					ShellExecute(NULL, _T("open"), tr.lpstrText, NULL, NULL, SW_SHOW);
+					ShellExecute(NULL, L"open", tr.lpstrText, NULL, NULL, SW_SHOW);
 					SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 					break;
 				}

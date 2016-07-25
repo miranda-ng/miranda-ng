@@ -304,7 +304,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 
 	// check for support TrueColor Icons
 	BOOL bIsComCtl6 = FALSE;
-	HMODULE hComCtlDll = LoadLibrary(_T("comctl32.dll"));
+	HMODULE hComCtlDll = LoadLibrary("comctl32.dll");
 	if (hComCtlDll) {
 		typedef HRESULT(CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
 		PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION)GetProcAddress(hComCtlDll, "DllGetVersion");

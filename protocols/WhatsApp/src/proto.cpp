@@ -43,18 +43,18 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	WASocketConnection::initNetwork(m_hNetlibUser);
 
-	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
+	m_tszAvatarFolder = std::tstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	if (m_tszDefaultGroup == NULL)
-		m_tszDefaultGroup = mir_tstrdup(_T("WhatsApp"));
+		m_tszDefaultGroup = mir_tstrdup(L"WhatsApp");
 	Clist_GroupCreate(0, m_tszDefaultGroup);
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
@@ -197,7 +197,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.nick.t = psr.firstName.t = psr.lastName.t = _T("");
+	psr.nick.t = psr.firstName.t = psr.lastName.t = L"";
 	psr.id.t = (TCHAR*)param->jid.c_str();
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param->id, (LPARAM)&psr);

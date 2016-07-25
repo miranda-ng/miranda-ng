@@ -69,7 +69,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH, (LPARAM)szProfileDir);
 				ofn.lpstrInitialDir = szProfileDir;
 				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-				ofn.lpstrDefExt = _T("log");
+				ofn.lpstrDefExt = L"log";
 				if (GetOpenFileName(&ofn)) {
 					PathToRelativeT(szTemp, szTemp1);
 					SetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp1);
@@ -166,7 +166,7 @@ void load_settings()
 		db_free(&dbv);
 	}
 	else
-		g_settings.log_filename = g_mirandaDir + _T("\\") + _T(LOG_ID) + _T(".log");
+		g_settings.log_filename = g_mirandaDir + L"\\" + _T(LOG_ID) + L".log";
 }
 
 int OptionsInitialize(WPARAM wParam, LPARAM)

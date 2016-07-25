@@ -7,9 +7,9 @@ CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwnd
 {
 	SetParent(hwndParent);
 
-	CreateLink(m_username, "Username", _T(""));
-	CreateLink(m_password, "Password", _T(""));
-	CreateLink(m_group, "DefaultGroup", _T("Steam"));
+	CreateLink(m_username, "Username", L"");
+	CreateLink(m_password, "Password", L"");
+	CreateLink(m_group, "DefaultGroup", L"Steam");
 	CreateLink(m_biggerAvatars, "UseBigAvatars", DBVT_BYTE, FALSE);
 	CreateLink(m_showChatEvents, "ShowChatEvents", DBVT_BYTE, TRUE);
 }
@@ -62,7 +62,7 @@ void CSteamOptionsBlockList::OnInitDialog()
 	m_list.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
 
 	m_list.AddColumn(0, TranslateT("Name"), 220);
-	m_list.AddColumn(1, _T(""), 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_list.AddColumn(1, L"", 32 - GetSystemMetrics(SM_CXVSCROLL));
 }
 
 void CSteamOptionsBlockList::OnBlock(CCtrlButton*)

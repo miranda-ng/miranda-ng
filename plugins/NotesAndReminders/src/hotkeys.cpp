@@ -1,6 +1,6 @@
 #include "globals.h"
 
-#define MSG_WND_CLASS _T("MIM_SNMsgWindow")
+#define MSG_WND_CLASS "MIM_SNMsgWindow"
 
 
 HWND HKHwnd;
@@ -105,7 +105,7 @@ void CreateMsgWindow(void)
 	HWND hParent = NULL;
 	WNDCLASSEX TWC = {0};
 
-	if (!GetClassInfoEx(hmiranda,MSG_WND_CLASS,&TWC))
+	if (!GetClassInfoEx(hmiranda, MSG_WND_CLASS, &TWC))
 	{
 		TWC.style = 0;
 		TWC.cbClsExtra = 0;
@@ -123,7 +123,7 @@ void CreateMsgWindow(void)
 
 	hParent = HWND_MESSAGE;
 
-	HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, MSG_WND_CLASS, _T("StickyNotes"), 0, 0, 0, 0, 0, hParent, NULL, hmiranda, NULL);
+	HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, MSG_WND_CLASS, "StickyNotes", 0, 0, 0, 0, 0, hParent, NULL, hmiranda, NULL);
 	SetTimer(HKHwnd, 1026, REMINDER_UPDATE_INTERVAL, 0);
 }
 

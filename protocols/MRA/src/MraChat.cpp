@@ -39,7 +39,7 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = pcli->pfnGetContactDisplayName(hContact, 0);
 		gcw.ptszID = wszEMail;
-		gcw.ptszStatusbarText = _T("status bar");
+		gcw.ptszStatusbarText = L"status bar";
 		gcw.dwItemData = (DWORD)hContact;
 		if (!CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
 			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
@@ -56,7 +56,7 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
-				MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, _T(""), (LPBYTE)&opcode, sizeof(opcode));
+				MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
 			return 0;
 		}
 	}
@@ -145,7 +145,7 @@ INT_PTR CMraProto::MraChatSessionMembersAdd(MCONTACT hContactChatSession, const 
 INT_PTR CMraProto::MraChatSessionJoinUser(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], _T(""), 0, dwTime);
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], L"", 0, dwTime);
 
 	return 1;
 }
@@ -224,7 +224,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 			case GC_USER_CHANMGR:
 				//int iqId = SerialNext();
 				//IqAdd( iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc );
-				//m_ThreadInfo->send( XmlNodeIq( _T("get"), iqId, item->jid ) << XQUERY( xmlnsOwner ));
+				//m_ThreadInfo->send( XmlNodeIq( L"get", iqId, item->jid ) << XQUERY( xmlnsOwner ));
 				break;
 			}
 		}

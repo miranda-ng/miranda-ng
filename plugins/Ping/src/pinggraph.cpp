@@ -45,11 +45,11 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			if (wd->hwnd_chk_grid == 0) {
-				wd->hwnd_chk_grid = CreateWindow(_T("BUTTON"), TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
+				wd->hwnd_chk_grid = CreateWindow(L"BUTTON", TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
 				SendMessage(wd->hwnd_chk_grid, BM_SETCHECK, wd->show_grid ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
 			if (wd->hwnd_chk_stat == 0) {
-				wd->hwnd_chk_stat = CreateWindow(_T("BUTTON"), TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
+				wd->hwnd_chk_stat = CreateWindow(L"BUTTON", TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
 				SendMessage(wd->hwnd_chk_stat, BM_SETCHECK, wd->show_stat ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
 			KillTimer(hwnd, ID_REPAINT_TIMER);
@@ -272,18 +272,18 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = _T(PLUG) _T("GraphWindow");
+	wndclass.lpszClassName = _T(PLUG) L"GraphWindow";
 	RegisterClass(&wndclass);
 
 	TCHAR title[256];
 	mir_tstrncpy(title, TranslateT("Ping Graph"), _countof(title));
 	if (lParam) {
-		mir_tstrncat(title, _T(" - "), _countof(title) - mir_tstrlen(title));
+		mir_tstrncat(title, L" - ", _countof(title) - mir_tstrlen(title));
 		mir_tstrncat(title, (TCHAR *)lParam, _countof(title) - mir_tstrlen(title));
 	}
 
 	HWND parent = 0;
-	hGraphWnd = CreateWindowEx(0, _T(PLUG) _T("GraphWindow"), title,
+	hGraphWnd = CreateWindowEx(0, _T(PLUG) L"GraphWindow", title,
 		(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~CS_VREDRAW & ~CS_HREDRAW,
 		0, 0, 800, 600, parent, NULL, hInst, NULL);
 

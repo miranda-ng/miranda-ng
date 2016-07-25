@@ -156,11 +156,11 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			systime.wYear = 2000;
 			systime.wMonth = 1;
 			systime.wDay = 1;
-			SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
+			SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETFORMAT, 0, (LPARAM)L"HH:mm");
 			SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
 			systime.wHour = HIBYTE(TimeWrd2);
 			systime.wMinute = LOBYTE(TimeWrd2);
-			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
+			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)L"HH:mm");
 			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
 		}
 
@@ -358,14 +358,14 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	switch (msg) {
 	case WM_CREATE:
-		hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 16, 16, hwnd,
+		hwndMute = CreateWindow(MIRANDABUTTONCLASS, L"", WS_CHILD | WS_VISIBLE, 1, 1, 16, 16, hwnd,
 			0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 		SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 		SendMessage(hwndMute, BUTTONSETCUSTOMPAINT, 0, (LPARAM)&fnPainter);
 
 		EnableFrameIcon(db_get_b(NULL, "Skin", "UseSound", 0) != 0);
 
-		hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
+		hwndSlider = CreateWindow(TRACKBAR_CLASS, L"", WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
 			hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 		SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 		SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
@@ -448,10 +448,10 @@ void CreateFrame()
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.hInstance = hInst;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.lpszClassName = _T("BassInterfaceFrame");
+	wndclass.lpszClassName = L"BassInterfaceFrame";
 	RegisterClass(&wndclass);
 
-	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"),
+	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("Bass Interface"),
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
@@ -525,8 +525,8 @@ void LoadBassLibrary(const TCHAR *ptszPath)
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
-	mir_tstrcat(CurrBassPath, _T("\\bass.dll"));
+	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
+	mir_tstrcat(CurrBassPath, L"\\bass.dll");
 
 	if (hBass != NULL) {
 		BASS_Free();
@@ -542,14 +542,14 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT _T("\\Bass"))) {
-		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
-		mir_tstrcat(CurrBassPath, _T("\\bass.dll"));
+	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT L"\\Bass")) {
+		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
+		mir_tstrcat(CurrBassPath, L"\\bass.dll");
 	}
 	else {
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			mir_tstrncpy(CurrBassPath, VARST(_T("Plugins\\Bass\\bass.dll")), _countof(CurrBassPath));
+			mir_tstrncpy(CurrBassPath, VARST(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
 			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {

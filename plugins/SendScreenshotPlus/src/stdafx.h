@@ -97,8 +97,8 @@ using namespace std;
 #define UM_EVENT	WM_USER+2
 
 // Generic Message Box for Errors
-#define MSGERROR(text) MessageBox(NULL, text, _T("SendSS"), MB_OK | MB_ICONERROR)
-#define MSGINFO	(text) MessageBox(NULL, text, _T("SendSS"), MB_OK | MB_ICONINFORMATION)
+#define MSGERROR(text) MessageBox(NULL, text, L"SendSS", MB_OK | MB_ICONERROR)
+#define MSGINFO	(text) MessageBox(NULL, text, L"SendSS", MB_OK | MB_ICONINFORMATION)
 
 typedef struct _MGLOBAL {
 	DWORD		mirandaVersion;					// mirandaVersion

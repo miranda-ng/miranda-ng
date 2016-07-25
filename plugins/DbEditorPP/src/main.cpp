@@ -268,16 +268,16 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 TCHAR *DBVType(BYTE type)
 {
 	switch (type) {
-	case DBVT_BYTE:		return _T("BYTE");
-	case DBVT_WORD:		return _T("WORD");
-	case DBVT_DWORD:	return _T("DWORD");
-	case DBVT_ASCIIZ:	return _T("STRING");
+	case DBVT_BYTE:		return L"BYTE";
+	case DBVT_WORD:		return L"WORD";
+	case DBVT_DWORD:	return L"DWORD";
+	case DBVT_ASCIIZ:	return L"STRING";
 	case DBVT_WCHAR:
-	case DBVT_UTF8:		return _T("UNICODE");
-	case DBVT_BLOB:		return _T("BLOB");
-	case DBVT_DELETED:	return _T("DELETED");
+	case DBVT_UTF8:		return L"UNICODE";
+	case DBVT_BLOB:		return L"BLOB";
+	case DBVT_DELETED:	return L"DELETED";
 	}
-	return _T("");
+	return L"";
 }
 
 DWORD getNumericValue(DBVARIANT *dbv)
@@ -474,7 +474,7 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 				int len = (int)mir_tstrlen(name);
 				if (len + 2 < _countof(name)) {
 					if (len)
-						mir_tstrncat(name, _T(" "), _countof(name));
+						mir_tstrncat(name, L" ", _countof(name));
 					len++;
 					GetValue(hContact, szProto, "LastName", &name[len], _countof(name) - len);
 				}
@@ -491,15 +491,15 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 
 	if (szProto && szProto[0]) {
 		if (g_Order)
-			mir_sntprintf(value, maxlen, _T("(%s) %s"), _A2T(szProto), name);
+			mir_sntprintf(value, maxlen, L"(%s) %s", _A2T(szProto), name);
 		else
-			mir_sntprintf(value, maxlen, _T("%s (%s)"), name, _A2T(szProto));
+			mir_sntprintf(value, maxlen, L"%s (%s)", name, _A2T(szProto));
 	}
 	else mir_tstrncpy(value, name, maxlen);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	if (!Proto_IsAccountEnabled(pa)) {
-		mir_tstrncat(value, _T(" "), maxlen);
+		mir_tstrncat(value, L" ", maxlen);
 		mir_tstrncat(value, TranslateT("[UNLOADED]"), maxlen);
 	}
 

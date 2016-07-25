@@ -109,7 +109,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 		break;
 	case IDM_CLEAR:
-		SetWindowText(hwnd, _T(""));
+		SetWindowText(hwnd, L"");
 		break;
 	}
 	DestroyMenu(hMenu);
@@ -224,7 +224,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 						if (windowData->cmdListCurrent->next != NULL)
 							cmdListNew = windowData->cmdListCurrent->next;
 						else if (!windowData->cmdListCurrent->temporary)
-							SetWindowText(hwnd, _T(""));
+							SetWindowText(hwnd, L"");
 					}
 				}
 				if (cmdListNew != NULL) {
@@ -376,7 +376,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (_tcschr(tr.lpstrText, _T('@')) != NULL && _tcschr(tr.lpstrText, _T(':')) == NULL && _tcschr(tr.lpstrText, _T('/')) == NULL) {
 		memmove(tr.lpstrText + 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		memcpy(tr.lpstrText, _T("mailto:"), sizeof(TCHAR) * 7);
+		memcpy(tr.lpstrText, L"mailto:", sizeof(TCHAR) * 7);
 	}
 
 	BOOL bOpenLink = TRUE;

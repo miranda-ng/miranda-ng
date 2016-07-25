@@ -538,14 +538,14 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
 	}
 
-	TCHAR lpzText[MAX_SECONDLINE*2] = _T("\0\0");
+	TCHAR lpzText[MAX_SECONDLINE*2] = L"\0\0";
 	if (pdata->pluginOptions->bShowHeaders)
 		mir_sntprintf(lpzText, TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
 
 	int doReverse = pdata->pluginOptions->bShowON;
 
 	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) || (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
-		mir_sntprintf(lpzText, _T("%s...\n"), lpzText);
+		mir_sntprintf(lpzText, L"%s...\n", lpzText);
 
 	//take the active event as starting one
 	EVENT_DATA_EX *eventData = pdata->firstShowEventData;
@@ -573,17 +573,17 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			TCHAR timestamp[MAX_DATASIZE];
 			TCHAR formatTime[MAX_DATASIZE];
 			if (pdata->pluginOptions->bShowDate)
-				_tcsncpy(formatTime, _T("%Y.%m.%d"), _countof(formatTime));
+				_tcsncpy(formatTime, L"%Y.%m.%d", _countof(formatTime));
 			else if (pdata->pluginOptions->bShowTime)
-				mir_tstrncat(formatTime, _T(" %H:%M"), _countof(formatTime) - mir_tstrlen(formatTime));
+				mir_tstrncat(formatTime, L" %H:%M", _countof(formatTime) - mir_tstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
 			_tcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
-			mir_sntprintf(lpzText, _T("%s[b][i]%s[/i][/b]\n"), lpzText, timestamp);
+			mir_sntprintf(lpzText, L"%s[b][i]%s[/i][/b]\n", lpzText, timestamp);
 		}
 
 		// prepare event preview
 		TCHAR* szEventPreview = GetEventPreview(&dbe);
-		mir_sntprintf(lpzText, _T("%s%s"), lpzText, szEventPreview);
+		mir_sntprintf(lpzText, L"%s%s", lpzText, szEventPreview);
 		mir_free(szEventPreview);
 		
 		if (dbe.pBlob)
@@ -595,11 +595,11 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		else if ((iEvent >= pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg) || !eventData->prev)
 			break;
 
-		mir_sntprintf(lpzText, _T("%s\n"), lpzText);
+		mir_sntprintf(lpzText, L"%s\n", lpzText);
 	}
 
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
-		mir_sntprintf(lpzText, _T("%s\n..."), lpzText);
+		mir_sntprintf(lpzText, L"%s\n...", lpzText);
 
 	PUChangeTextT(pdata->hWnd, lpzText);
 	return 0;

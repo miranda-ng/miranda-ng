@@ -54,7 +54,7 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 					int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
 					SetDlgItemText(hDlg, IDC_DESCRIPTION, Column::getColInfo(nData).m_Description);
 				}
-				else SetDlgItemText(hDlg, IDC_DESCRIPTION, _T(""));
+				else SetDlgItemText(hDlg, IDC_DESCRIPTION, L"");
 			}
 			else if (HIWORD(wParam) == LBN_DBLCLK)
 				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(IDOK, 0), NULL);
@@ -415,14 +415,14 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 
 		if (restrictions & Column::crHTMLMask) {
 			// MEMO: don't distinguish between full/partial since not yet supported
-			msg += _T("HTML");
+			msg += L"HTML";
 		}
 
 		if (restrictions & Column::crPNGMask) {
 			if (restrictions & Column::crHTMLMask)
-				msg += _T(", ");
+				msg += L", ";
 
-			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : _T("PNG");
+			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : L"PNG";
 		}
 
 		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
@@ -450,18 +450,18 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 		 */
 
 		if (!bPNGOutput) {
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? _T("HTML") : TranslateT("Nothing (column will be skipped)");
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? L"HTML" : TranslateT("Nothing (column will be skipped)");
 		}
 		else if (nPNGMode != Settings::pmPreferHTML) // && bPNGOutput
 		{
 			if (restrictions == (Column::crHTMLFull | Column::crPNGPartial))
 				msg += (nPNGMode == Settings::pmHTMLFallBack) ? TranslateT("HTML as fallback") : TranslateT("PNG, ignoring some settings");
 			else // !(html-full | png-partial)
-				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? _T("PNG") : _T("HTML");
+				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? L"PNG" : L"HTML";
 		}
 		else // bPNGOutput && nPNGMode == Settings::pmPreferHTML
 		{
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? _T("HTML") : _T("PNG");
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? L"HTML" : L"PNG";
 		}
 
 		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
@@ -675,10 +675,10 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 							pHelp->push_back(HelpPair());
 
 							pHelp->back().first = TranslateTS(pCol->getTitle());
-							pHelp->back().first += _T(": ");
+							pHelp->back().first += L": ";
 							pHelp->back().first += TranslateT("HTML output unsupported.");
 
-							pHelp->back().second = _T("");
+							pHelp->back().second = L"";
 						}
 
 						++nConflicts;
@@ -695,7 +695,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 							pHelp->push_back(HelpPair());
 
 							pHelp->back().first = TranslateTS(pCol->getTitle());
-							pHelp->back().first += _T(": ");
+							pHelp->back().first += L": ";
 
 							if (nPNGMode == Settings::pmHTMLFallBack)
 								pHelp->back().first += TranslateT("Fallback to HTML due to setting.");

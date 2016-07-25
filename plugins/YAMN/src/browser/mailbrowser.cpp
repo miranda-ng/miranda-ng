@@ -704,7 +704,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 				nid.hIcon = g_LoadIconEx(2);
 				nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 				nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
-				mir_sntprintf(nid.szTip, _T("%S %s"), ActualAccount->Name, TranslateT("- new mail message(s)"));
+				mir_sntprintf(nid.szTip, L"%S %s", ActualAccount->Name, TranslateT("- new mail message(s)"));
 				Shell_NotifyIcon(NIM_ADD, &nid);
 				SetTimer(hDlg, TIMER_FLASHING, 500, NULL);
 			}
@@ -1575,8 +1575,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 							if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 							ListView_GetItemText(hList, courRow, 0, headname, _countof(headname));
 							ListView_GetItemText(hList, courRow, 1, headvalue, _countof(headvalue));
-							if (mir_tstrlen(headname)) courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s:\t%s\r\n"), headname, headvalue);
-							else courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("\t%s\r\n"), headvalue);
+							if (mir_tstrlen(headname)) courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, L"%s:\t%s\r\n", headname, headvalue);
+							else courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, L"\t%s\r\n", headvalue);
 						}
 						GlobalUnlock(hData);
 
@@ -2256,7 +2256,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 							ListView_GetItemText(hList, courRow, 1, subject, _countof(subject));
 							ListView_GetItemText(hList, courRow, 2, size, _countof(size));
 							ListView_GetItemText(hList, courRow, 3, date, _countof(date));
-							courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s\t%s\t%s\t%s\r\n"), from, subject, size, date);
+							courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, L"%s\t%s\t%s\t%s\r\n", from, subject, size, date);
 						}
 						GlobalUnlock(hData);
 

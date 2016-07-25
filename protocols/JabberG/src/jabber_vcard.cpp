@@ -36,8 +36,8 @@ int CJabberProto::SendGetVcard(const TCHAR *jid)
 	if (!m_bJabberOnline) return 0;
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
-	m_ThreadInfo->send(XmlNodeIq(pInfo) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP)
-		<< XATTR(_T("prodid"), _T("-//HandGen//NONSGML vGen v1.0//EN")) << XATTR(_T("version"), _T("2.0")));
+	m_ThreadInfo->send(XmlNodeIq(pInfo) << XCHILDNS(L"vCard", JABBER_FEAT_VCARD_TEMP)
+		<< XATTR(L"prodid", L"-//HandGen//NONSGML vGen v1.0//EN") << XATTR(L"version", L"2.0"));
 
 	return pInfo->GetIqId();
 }
@@ -291,9 +291,9 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dat->ppro->GetAvatarFileName(NULL, szAvatarFileName, _countof(szAvatarFileName));
 		if (_taccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
-				mir_tstrcpy(szTempPath, _T(".\\"));
-			if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-				dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
+				mir_tstrcpy(szTempPath, L".\\");
+			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
+				dat->ppro->debugLog(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != NULL) {
 						FIP->FI_Premultiply(dat->hBitmap);
@@ -349,16 +349,16 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				struct _stat st;
 				HBITMAP hNewBitmap;
 
-				dat->ppro->debugLog(_T("File selected is %s"), szFileName);
+				dat->ppro->debugLog(L"File selected is %s", szFileName);
 				if (_tstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
 					MessageBox(hwndDlg, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK | MB_SETFOREGROUND);
 					break;
 				}
 				if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
-					mir_tstrcpy(szTempPath, _T(".\\"));
+					mir_tstrcpy(szTempPath, L".\\");
 				
-				if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-					dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
+				if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
+					dat->ppro->debugLog(L"Temp file = %s", szTempFileName);
 					if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
 						if ((hNewBitmap = Bitmap_Load(szTempFileName)) != NULL) {
 							if (dat->hBitmap) {
@@ -733,7 +733,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 				ptrT email( ppro->getTStringA(idstr));
 				if (email == NULL) break;
 
-				mir_sntprintf(number, _T("%d"), i+1);
+				mir_sntprintf(number, L"%d", i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
@@ -754,7 +754,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 				ptrT phone( ppro->getTStringA(idstr));
 				if (phone == NULL) break;
 
-				mir_sntprintf(number, _T("%d"), i+1);
+				mir_sntprintf(number, L"%d", i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
@@ -1018,11 +1018,11 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	char idstr[33];
 
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultSetVcard, JABBER_IQ_TYPE_SET));
-	HXML v = iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
+	HXML v = iq << XCHILDNS(L"vCard", JABBER_FEAT_VCARD_TEMP);
 
 	AppendVcardFromDB(v, "FN", "FullName");
 
-	HXML n = v << XCHILD(_T("N"));
+	HXML n = v << XCHILD(L"N");
 	AppendVcardFromDB(n, "GIVEN", "FirstName");
 	AppendVcardFromDB(n, "MIDDLE", "MiddleName");
 	AppendVcardFromDB(n, "FAMILY", "LastName");
@@ -1037,19 +1037,19 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		if (email == NULL)
 			break;
 
-		HXML e = v << XCHILD(_T("EMAIL"), email);
+		HXML e = v << XCHILD(L"EMAIL", email);
 		AppendVcardFromDB(e, "USERID", idstr);
 
 		mir_snprintf(idstr, "e-mailFlag%d", i);
 		WORD nFlag = getWord(idstr, 0);
-		if (nFlag & JABBER_VCEMAIL_HOME)     e << XCHILD(_T("HOME"));
-		if (nFlag & JABBER_VCEMAIL_WORK)     e << XCHILD(_T("WORK"));
-		if (nFlag & JABBER_VCEMAIL_INTERNET) e << XCHILD(_T("INTERNET"));
-		if (nFlag & JABBER_VCEMAIL_X400)     e << XCHILD(_T("X400"));
+		if (nFlag & JABBER_VCEMAIL_HOME)     e << XCHILD(L"HOME");
+		if (nFlag & JABBER_VCEMAIL_WORK)     e << XCHILD(L"WORK");
+		if (nFlag & JABBER_VCEMAIL_INTERNET) e << XCHILD(L"INTERNET");
+		if (nFlag & JABBER_VCEMAIL_X400)     e << XCHILD(L"X400");
 	}
 
-	n = v << XCHILD(_T("ADR"));
-	n << XCHILD(_T("HOME"));
+	n = v << XCHILD(L"ADR");
+	n << XCHILD(L"HOME");
 	AppendVcardFromDB(n, "STREET", "Street");
 	AppendVcardFromDB(n, "EXTADR", "Street2");
 	AppendVcardFromDB(n, "EXTADD", "Street2");	// for compatibility with client using old vcard format
@@ -1059,8 +1059,8 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(n, "CTRY", "Country");
 	AppendVcardFromDB(n, "COUNTRY", "Country");	// for compatibility with client using old vcard format
 
-	n = v << XCHILD(_T("ADR"));
-	n << XCHILD(_T("WORK"));
+	n = v << XCHILD(L"ADR");
+	n << XCHILD(L"WORK");
 	AppendVcardFromDB(n, "STREET", "CompanyStreet");
 	AppendVcardFromDB(n, "EXTADR", "CompanyStreet2");
 	AppendVcardFromDB(n, "EXTADD", "CompanyStreet2");	// for compatibility with client using old vcard format
@@ -1070,7 +1070,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(n, "CTRY", "CompanyCountry");
 	AppendVcardFromDB(n, "COUNTRY", "CompanyCountry");	// for compatibility with client using old vcard format
 
-	n = v << XCHILD(_T("ORG"));
+	n = v << XCHILD(L"ORG");
 	AppendVcardFromDB(n, "ORGNAME", "Company");
 	AppendVcardFromDB(n, "ORGUNIT", "CompanyDepartment");
 
@@ -1085,23 +1085,23 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		if (phone == NULL)
 			break;
 
-		n = v << XCHILD(_T("TEL"));
+		n = v << XCHILD(L"TEL");
 		AppendVcardFromDB(n, "NUMBER", idstr);
 
 		mir_snprintf(idstr, "PhoneFlag%d", i);
 		WORD nFlag = getWord(idstr, 0);
-		if (nFlag & JABBER_VCTEL_HOME)  n << XCHILD(_T("HOME"));
-		if (nFlag & JABBER_VCTEL_WORK)  n << XCHILD(_T("WORK"));
-		if (nFlag & JABBER_VCTEL_VOICE) n << XCHILD(_T("VOICE"));
-		if (nFlag & JABBER_VCTEL_FAX)   n << XCHILD(_T("FAX"));
-		if (nFlag & JABBER_VCTEL_PAGER) n << XCHILD(_T("PAGER"));
-		if (nFlag & JABBER_VCTEL_MSG)   n << XCHILD(_T("MSG"));
-		if (nFlag & JABBER_VCTEL_CELL)  n << XCHILD(_T("CELL"));
-		if (nFlag & JABBER_VCTEL_VIDEO) n << XCHILD(_T("VIDEO"));
-		if (nFlag & JABBER_VCTEL_BBS)   n << XCHILD(_T("BBS"));
-		if (nFlag & JABBER_VCTEL_MODEM) n << XCHILD(_T("MODEM"));
-		if (nFlag & JABBER_VCTEL_ISDN)  n << XCHILD(_T("ISDN"));
-		if (nFlag & JABBER_VCTEL_PCS)   n << XCHILD(_T("PCS"));
+		if (nFlag & JABBER_VCTEL_HOME)  n << XCHILD(L"HOME");
+		if (nFlag & JABBER_VCTEL_WORK)  n << XCHILD(L"WORK");
+		if (nFlag & JABBER_VCTEL_VOICE) n << XCHILD(L"VOICE");
+		if (nFlag & JABBER_VCTEL_FAX)   n << XCHILD(L"FAX");
+		if (nFlag & JABBER_VCTEL_PAGER) n << XCHILD(L"PAGER");
+		if (nFlag & JABBER_VCTEL_MSG)   n << XCHILD(L"MSG");
+		if (nFlag & JABBER_VCTEL_CELL)  n << XCHILD(L"CELL");
+		if (nFlag & JABBER_VCTEL_VIDEO) n << XCHILD(L"VIDEO");
+		if (nFlag & JABBER_VCTEL_BBS)   n << XCHILD(L"BBS");
+		if (nFlag & JABBER_VCTEL_MODEM) n << XCHILD(L"MODEM");
+		if (nFlag & JABBER_VCTEL_ISDN)  n << XCHILD(L"ISDN");
+		if (nFlag & JABBER_VCTEL_PCS)   n << XCHILD(L"PCS");
 	}
 
 	TCHAR szAvatarName[MAX_PATH], *szFileName;
@@ -1112,15 +1112,15 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		szFileName = szAvatarName;
 
 	// Set photo element, also update the global jabberVcardPhotoFileName to reflect the update
-	debugLog(_T("Before update, file name = %s"), szFileName);
+	debugLog(L"Before update, file name = %s", szFileName);
 	if (szFileName == NULL || szFileName[0] == 0) {
-		v << XCHILD(_T("PHOTO"));
+		v << XCHILD(L"PHOTO");
 		DeleteFile(szAvatarName);
 		delSetting("AvatarSaved");
 		delSetting("AvatarHash");
 	}
 	else {
-		debugLog(_T("Saving picture from %s"), szFileName);
+		debugLog(L"Saving picture from %s", szFileName);
 
 		struct _stat st;
 		if (_tstat(szFileName, &st) >= 0) {
@@ -1133,16 +1133,16 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 					if (ReadFile(hFile, buffer, st.st_size, &nRead, NULL)) {
 						ptrA str(mir_base64_encode((PBYTE)(LPSTR)buffer, nRead));
 						if (str != NULL) {
-							n = v << XCHILD(_T("PHOTO"));
+							n = v << XCHILD(L"PHOTO");
 							TCHAR *szFileType;
 							switch (ProtoGetBufferFormat(buffer)) {
-								case PA_FORMAT_PNG:  szFileType = _T("image/png");   break;
-								case PA_FORMAT_GIF:  szFileType = _T("image/gif");   break;
-								case PA_FORMAT_BMP:  szFileType = _T("image/bmp");   break;
-								default:             szFileType = _T("image/jpeg");  break;
+								case PA_FORMAT_PNG:  szFileType = L"image/png";   break;
+								case PA_FORMAT_GIF:  szFileType = L"image/gif";   break;
+								case PA_FORMAT_BMP:  szFileType = L"image/bmp";   break;
+								default:             szFileType = L"image/jpeg";  break;
 							}
-							n << XCHILD(_T("TYPE"), szFileType);
-							n << XCHILD(_T("BINVAL"), _A2T(str));
+							n << XCHILD(L"TYPE", szFileType);
+							n << XCHILD(L"BINVAL", _A2T(str));
 
 							// NEED TO UPDATE OUR AVATAR HASH:
 							BYTE digest[MIR_SHA1_HASH_SIZE];

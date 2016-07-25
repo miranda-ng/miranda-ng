@@ -16,14 +16,14 @@ namespace utils
 	{
 		TCHAR temp[100] = { 0 };
 
-		return (ext::strfunc::ftime(temp, 100, format, gmtime(&value)) > 0) ? temp : _T("");
+		return (ext::strfunc::ftime(temp, 100, format, gmtime(&value)) > 0) ? temp : L"";
 	}
 
 	ext::string tmStructToString(const tm& value, const TCHAR* format)
 	{
 		TCHAR temp[100] = { 0 };
 
-		return (ext::strfunc::ftime(temp, 100, format, &value) > 0) ? temp : _T("");
+		return (ext::strfunc::ftime(temp, 100, format, &value) > 0) ? temp : L"";
 	}
 
 	ext::string durationToString(DWORD value)
@@ -34,9 +34,9 @@ namespace utils
 		value /= 60;
 
 		if (value >= 1440)
-			ext::strfunc::sprintf(temp, _T("%dd %02d:%02d"), value / 1440, (value / 60) % 24, value % 60);
+			ext::strfunc::sprintf(temp, L"%dd %02d:%02d", value / 1440, (value / 60) % 24, value % 60);
 		else
-			ext::strfunc::sprintf(temp, _T("%02d:%02d"), value / 60, value % 60);
+			ext::strfunc::sprintf(temp, L"%02d:%02d", value / 60, value % 60);
 
 		return temp;
 	}
@@ -77,7 +77,7 @@ namespace utils
 	{
 		TCHAR temp[100] = { 0 };
 
-		ext::strfunc::sprintf(temp, _T("%d"), value);
+		ext::strfunc::sprintf(temp, L"%d", value);
 
 		return temp;
 	}
@@ -86,7 +86,7 @@ namespace utils
 	{
 		TCHAR temp[100] = { 0 };
 
-		ext::strfunc::sprintf(temp, _T("%0*d"), len, value);
+		ext::strfunc::sprintf(temp, L"%0*d", len, value);
 
 		return temp;
 	}
@@ -96,7 +96,7 @@ namespace utils
 		TCHAR temp[100] = { 0 };
 		const char* grouping = Locale::grouping();
 
-		ext::strfunc::sprintf(temp, _T("%d"), value);
+		ext::strfunc::sprintf(temp, L"%d", value);
 
 		if (*grouping == CHAR_MAX || *grouping <= 0)
 			return temp;
@@ -119,7 +119,7 @@ namespace utils
 	{
 		TCHAR temp[100] = { 0 };
 
-		ext::strfunc::sprintf(temp, _T("%.*f"), precision, value);
+		ext::strfunc::sprintf(temp, L"%.*f", precision, value);
 
 		return temp;
 	}
@@ -129,7 +129,7 @@ namespace utils
 		TCHAR temp[100] = { 0 };
 		const char* grouping = Locale::grouping();
 
-		ext::strfunc::sprintf(temp, _T("%.*f"), precision, value);
+		ext::strfunc::sprintf(temp, L"%.*f", precision, value);
 
 		if (*grouping == CHAR_MAX || *grouping <= 0)
 			return temp;
@@ -160,7 +160,7 @@ namespace utils
 			value = 1.0f * numerator / denominator;
 		}
 
-		ext::strfunc::sprintf(temp, _T("%.0f%%"), 100.0f * value);
+		ext::strfunc::sprintf(temp, L"%.0f%%", 100.0f * value);
 
 		return temp;
 	}
@@ -180,10 +180,10 @@ namespace utils
 
 	void htmlEscapeInPlace(ext::string& text)
 	{
-		replaceAllInPlace(text, _T("&"), _T("&amp;"));
-		replaceAllInPlace(text, _T("\""), _T("&quot;"));
-		replaceAllInPlace(text, _T("<"), _T("&lt;"));
-		replaceAllInPlace(text, _T(">"), _T("&gt;"));
+		replaceAllInPlace(text, L"&", L"&amp;");
+		replaceAllInPlace(text, L"\"", L"&quot;");
+		replaceAllInPlace(text, L"<", L"&lt;");
+		replaceAllInPlace(text, L">", L"&gt;");
 	}
 
 	const TCHAR* stripPrefix(const TCHAR* szPrefix, const TCHAR* szText)
@@ -199,7 +199,7 @@ namespace utils
 		return szText;
 	}
 
-	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const TCHAR* szNick /* = _T("") */)
+	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const TCHAR* szNick /* = L"" */)
 	{
 		static const TCHAR* szMonthName[][2] = {
 			{ LPGENT("month3:Jan"), LPGENT("monthF:January") },
@@ -239,83 +239,83 @@ namespace utils
 				ext::string strSubst;
 
 				// match variable and generate substitution
-				if (strVar == _T("h")) {
+				if (strVar == L"h") {
 					strSubst = intToString(timeTM->tm_hour % 12 + (timeTM->tm_hour % 12 == 0 ? 12 : 0));
 				}
-				else if (strVar == _T("hh")) {
+				else if (strVar == L"hh") {
 					strSubst = intToPadded(timeTM->tm_hour % 12 + (timeTM->tm_hour % 12 == 0 ? 12 : 0), 2);
 				}
-				else if (strVar == _T("H")) {
+				else if (strVar == L"H") {
 					strSubst = intToString(timeTM->tm_hour);
 				}
-				else if (strVar == _T("HH")) {
+				else if (strVar == L"HH") {
 					strSubst = intToPadded(timeTM->tm_hour, 2);
 				}
-				else if (strVar == _T("m")) {
+				else if (strVar == L"m") {
 					strSubst = intToString(timeTM->tm_min);
 				}
-				else if (strVar == _T("mm")) {
+				else if (strVar == L"mm") {
 					strSubst = intToPadded(timeTM->tm_min, 2);
 				}
-				else if (strVar == _T("s")) {
+				else if (strVar == L"s") {
 					strSubst = intToString(timeTM->tm_sec);
 				}
-				else if (strVar == _T("ss")) {
+				else if (strVar == L"ss") {
 					strSubst = intToPadded(timeTM->tm_sec, 2);
 				}
-				else if (strVar == _T("tt")) {
+				else if (strVar == L"tt") {
 					strSubst = timeTM->tm_hour / 12 ? TranslateT("pm") : TranslateT("am");
 				}
-				else if (strVar == _T("TT")) {
+				else if (strVar == L"TT") {
 					strSubst = timeTM->tm_hour / 12 ? TranslateT("PM") : TranslateT("AM");
 				}
-				else if (strVar == _T("yy")) {
+				else if (strVar == L"yy") {
 					strSubst = intToPadded((timeTM->tm_year + 1900) % 100, 2);
 				}
-				else if (strVar == _T("yyyy")) {
+				else if (strVar == L"yyyy") {
 					strSubst = intToPadded(timeTM->tm_year + 1900, 4);
 				}
-				else if (strVar == _T("M")) {
+				else if (strVar == L"M") {
 					strSubst = intToString(timeTM->tm_mon + 1);
 				}
-				else if (strVar == _T("MM")) {
+				else if (strVar == L"MM") {
 					strSubst = intToPadded(timeTM->tm_mon + 1, 2);
 				}
-				else if (strVar == _T("MMM")) {
-					strSubst = stripPrefix(_T("month3:"), TranslateTS(szMonthName[timeTM->tm_mon % 12][0]));
+				else if (strVar == L"MMM") {
+					strSubst = stripPrefix(L"month3:", TranslateTS(szMonthName[timeTM->tm_mon % 12][0]));
 				}
-				else if (strVar == _T("MMMM")) {
-					strSubst = stripPrefix(_T("monthF:"), TranslateTS(szMonthName[timeTM->tm_mon % 12][1]));
+				else if (strVar == L"MMMM") {
+					strSubst = stripPrefix(L"monthF:", TranslateTS(szMonthName[timeTM->tm_mon % 12][1]));
 				}
-				else if (strVar == _T("d")) {
+				else if (strVar == L"d") {
 					strSubst = intToString(timeTM->tm_mday);
 				}
-				else if (strVar == _T("dd")) {
+				else if (strVar == L"dd") {
 					strSubst = intToPadded(timeTM->tm_mday, 2);
 				}
-				else if (strVar == _T("ww")) {
-					strSubst = stripPrefix(_T("wday2:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][0]));
+				else if (strVar == L"ww") {
+					strSubst = stripPrefix(L"wday2:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][0]));
 				}
-				else if (strVar == _T("www")) {
-					strSubst = stripPrefix(_T("wday3:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][1]));
+				else if (strVar == L"www") {
+					strSubst = stripPrefix(L"wday3:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][1]));
 				}
-				else if (strVar == _T("wwww")) {
-					strSubst = stripPrefix(_T("wdayF:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][2]));
+				else if (strVar == L"wwww") {
+					strSubst = stripPrefix(L"wdayF:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][2]));
 				}
-				else if (strVar == _T("miranda_path")) {
+				else if (strVar == L"miranda_path") {
 					strSubst = getMirandaPath();
 				}
-				else if (strVar == _T("profile_path")) {
+				else if (strVar == L"profile_path") {
 					strSubst = getProfilePath();
 				}
-				else if (strVar == _T("profile_name")) {
+				else if (strVar == L"profile_name") {
 					strSubst = getProfileName();
 				}
-				else if (strVar == _T("nick")) {
+				else if (strVar == L"nick") {
 					strSubst = szNick;
 				}
-				else if (strVar == _T("")) {
-					strSubst = _T("%");
+				else if (strVar == L"") {
+					strSubst = L"%";
 				}
 
 				// perform actual substitution
@@ -381,7 +381,7 @@ namespace utils
 		int part = 3;
 
 		while (!version.empty() && part >= 0) {
-			ext::string::size_type dotPos = version.find(_T("."));
+			ext::string::size_type dotPos = version.find(L".");
 
 			if (dotPos == ext::string::npos) {
 				dotPos = version.length();
@@ -401,7 +401,7 @@ namespace utils
 
 		ext::strfunc::sprintf(
 			temp,
-			_T("%d.%d.%d.%d"),
+			L"%d.%d.%d.%d",
 			(version >> 24) & 0xFF,
 			(version >> 16) & 0xFF,
 			(version >> 8) & 0xFF,
@@ -617,7 +617,7 @@ namespace utils
 	bool pathExists(const ext::string& path)
 	{
 		WIN32_FIND_DATA wfd;
-		HANDLE hFind = FindFirstFile((path + _T(".")).c_str(), &wfd);
+		HANDLE hFind = FindFirstFile((path + L".").c_str(), &wfd);
 
 		if (hFind != INVALID_HANDLE_VALUE) {
 			FindClose(hFind);
@@ -641,7 +641,7 @@ namespace utils
 	bool isValidFilePart(ext::string filePart)
 	{
 		// check for disallowed chars
-		if (filePart.find_first_of(_T("<>:\"/\\|?*")) != ext::string::npos)
+		if (filePart.find_first_of(L"<>:\"/\\|?*") != ext::string::npos)
 			return false;
 
 		// check for dots only
@@ -650,29 +650,29 @@ namespace utils
 
 		// check for disallowed names
 		static const TCHAR* disallowedNames[] = {
-			_T("clock$"),
-			_T("aux"),
-			_T("con"),
-			_T("nul"),
-			_T("prn"),
-			_T("com1"),
-			_T("com2"),
-			_T("com3"),
-			_T("com4"),
-			_T("com5"),
-			_T("com6"),
-			_T("com7"),
-			_T("com8"),
-			_T("com9"),
-			_T("lpt1"),
-			_T("lpt2"),
-			_T("lpt3"),
-			_T("lpt4"),
-			_T("lpt5"),
-			_T("lpt6"),
-			_T("lpt7"),
-			_T("lpt8"),
-			_T("lpt9")
+			L"clock$",
+			L"aux",
+			L"con",
+			L"nul",
+			L"prn",
+			L"com1",
+			L"com2",
+			L"com3",
+			L"com4",
+			L"com5",
+			L"com6",
+			L"com7",
+			L"com8",
+			L"com9",
+			L"lpt1",
+			L"lpt2",
+			L"lpt3",
+			L"lpt4",
+			L"lpt5",
+			L"lpt6",
+			L"lpt7",
+			L"lpt8",
+			L"lpt9"
 		};
 
 		ext::string::size_type pos = filePart.find('.');
@@ -716,7 +716,7 @@ namespace utils
 		ext::string::size_type pos = fileName.rfind('\\');
 
 		if (pos == ext::string::npos) {
-			return _T("");
+			return L"";
 		}
 		else {
 			return fileName.substr(0, pos + 1);
@@ -766,7 +766,7 @@ namespace utils
 				return false;
 			}
 
-			curPath += _T("\\");
+			curPath += L"\\";
 
 			subDirs.pop();
 		}
@@ -776,7 +776,7 @@ namespace utils
 
 	ext::string colorToHTML(COLORREF crColor)
 	{
-		static const TCHAR hexDigits[] = _T("0123456789ABCDEF");
+		static const TCHAR hexDigits[] = L"0123456789ABCDEF";
 
 		ext::string htmlColor(7, '#');
 
@@ -823,7 +823,7 @@ namespace utils
 
 	ext::string getGUID()
 	{
-		static const TCHAR hexDigits[] = _T("0123456789ABCDEF");
+		static const TCHAR hexDigits[] = L"0123456789ABCDEF";
 		GUID guid;
 
 		CoCreateGuid(&guid);
@@ -895,7 +895,7 @@ namespace utils
 		if (strMirandaPath.empty()) {
 			TCHAR szPath[MAX_PATH] = { 0 };
 
-			PathToAbsoluteT(_T("x"), szPath);
+			PathToAbsoluteT(L"x", szPath);
 			strMirandaPath = extractPath(szPath);
 		}
 
@@ -914,7 +914,7 @@ namespace utils
 
 			if (strProfilePath.empty() || strProfilePath[strProfilePath.length() - 1] != '\\')
 			{
-				strProfilePath += _T("\\");
+				strProfilePath += L"\\";
 			}
 		}
 
@@ -986,8 +986,8 @@ RTFFilter::RTFFilter() : m_hRTFConv(NULL), m_RTFConvString(0)
 
 void RTFFilter::init()
 {
-	if (!(m_Data.m_hRTFConv = LoadLibrary(_T("rtfconv.dll"))))
-		if (!(m_Data.m_hRTFConv = LoadLibrary(_T("plugins\\rtfconv.dll"))))
+	if (!(m_Data.m_hRTFConv = LoadLibrary(L"rtfconv.dll")))
+		if (!(m_Data.m_hRTFConv = LoadLibrary(L"plugins\\rtfconv.dll")))
 			return;
 
 	if (!(m_Data.m_RTFConvString = reinterpret_cast<RTFCONVSTRING>(GetProcAddress(m_Data.m_hRTFConv, "RtfconvString")))) {

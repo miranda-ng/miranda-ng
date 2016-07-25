@@ -154,7 +154,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 					EnableWindow(GetDlgItem(hWndDlg, IDOK), dwSignLen != 0);
 				}
 
-			mir_sntprintf(tszSign, _T("%d/%d"), dwSignLen, GetSMSMessageLenMax(hWndDlg));
+			mir_sntprintf(tszSign, L"%d/%d", dwSignLen, GetSMSMessageLenMax(hWndDlg));
 			SetDlgItemText(hWndDlg, IDC_COUNT, tszSign);
 		}
 
@@ -386,7 +386,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 				size_t dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
 
 				EnableWindow(GetDlgItem(hWndDlg, IDOK), dwMessageSize != 0);
-				mir_sntprintf(tszBuff, _T("%d/%d"), dwMessageSize, GetSMSMessageLenMax(hWndDlg));
+				mir_sntprintf(tszBuff, L"%d/%d", dwMessageSize, GetSMSMessageLenMax(hWndDlg));
 				SetDlgItemText(hWndDlg, IDC_COUNT, tszBuff);
 			}
 			break;
@@ -400,7 +400,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 				size_t dwPhoneSize = GetDlgItemText(hWndDlg, IDC_ADDRESS, tszPhone, (_countof(tszPhone) - 4));
 				if (IsPhoneW(tszPhone, dwPhoneSize)) {
 					if (IsContactPhone(psswdWindowData->hMyContact, tszPhone, dwPhoneSize) == FALSE) {
-						mir_tstrcat(tszPhone, _T(" SMS"));
+						mir_tstrcat(tszPhone, L" SMS");
 						for (DWORD i = 0; bCont; i++) {
 							mir_snprintf(szBuff, "MyPhone%d", i);
 							if (db_get(psswdWindowData->hMyContact, "UserInfo", szBuff, &dbv)) bCont = FALSE;
@@ -559,7 +559,7 @@ HWND SendSMSWindowAdd(MCONTACT hContact)
 
 		LPTSTR lptszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
 		TCHAR tszTitle[MAX_PATH];
-		mir_sntprintf(tszTitle, _T("%s - %s"), lptszContactDisplayName, TranslateT("Send SMS"));
+		mir_sntprintf(tszTitle, L"%s - %s", lptszContactDisplayName, TranslateT("Send SMS"));
 		SetWindowText(psswdWindowData->hWnd, tszTitle);
 		SendDlgItemMessage(psswdWindowData->hWnd, IDC_NAME, CB_ADDSTRING, 0, (LPARAM)lptszContactDisplayName);
 		SendDlgItemMessage(psswdWindowData->hWnd, IDC_NAME, CB_SETCURSEL, 0, 0);

@@ -579,7 +579,7 @@ void ParseAPart(APartDataType *data)
 	}
 	catch(...)
 	{
-		MessageBox(NULL, TranslateT("Translate header error"), _T(""), 0);
+		MessageBox(NULL, TranslateT("Translate header error"), L"", 0);
 	}
 	if (data->body) data->bodyLen = (int)mir_strlen(data->body);
 }

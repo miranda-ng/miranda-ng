@@ -59,7 +59,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 		TCHAR error[128];
 		mir_sntprintf(error, TranslateT("Password could not be reminded because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("remindpasswordthread(): Password could not be reminded. errno=%d: %s"), errno, ws_strerror(errno));
+		debugLog(L"remindpasswordthread(): Password could not be reminded. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else
 	{

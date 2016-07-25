@@ -249,7 +249,7 @@ TCHAR *GetListName(c_struct *cs)
 {
 	if (opts.group_append && cs->szgroup[0] != _T('\0'))
 	{
-		mir_sntprintf(tmp_list_name, _T("%s (%s)"), cs->szname, cs->szgroup);
+		mir_sntprintf(tmp_list_name, L"%s (%s)", cs->szname, cs->szgroup);
 		return tmp_list_name;
 	}
 	else
@@ -527,7 +527,7 @@ MCONTACT GetSelectedContact(HWND hwndDlg)
 	}
 
 	// Now try the name
-	TCHAR cname[120] = _T("");
+	TCHAR cname[120] = L"";
 
 	GetDlgItemText(hwndDlg, IDC_USERNAME, cname, _countof(cname));
 			
@@ -562,7 +562,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			if (wparam<32 && wparam != VK_BACK) 
 				break;
 
-			TCHAR sztext[120] = _T("");
+			TCHAR sztext[120] = L"";
 			DWORD start;
 			DWORD end;
 
@@ -597,7 +597,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		}
 	case WM_KEYUP:
 		{
-			TCHAR sztext[120] = _T("");
+			TCHAR sztext[120] = L"";
 
 			if (wparam == VK_RETURN)
 			{
@@ -716,7 +716,7 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, L"%s (%s)", TranslateTS(name), key);
 
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONSETASFLATBTN, 0, 0);
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_TCHAR);
@@ -732,7 +732,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, L"%s (%s)", TranslateTS(name), key);
 
 	SetDlgItemText(hwndDlg, dlgItem, full);
 }
@@ -748,7 +748,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_USERNAME), &rc);
 			ScreenToClient(hwndDlg, &rc);
 
-			CreateWindow(_T("STATIC"), _T(""), WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
+			CreateWindow(L"STATIC", L"", WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
 				rc.left - 20, rc.top + (rc.bottom - rc.top - 16) / 2, 16, 16, hwndDlg, (HMENU) IDC_ICO, 
 				hInst, NULL);
 
@@ -762,13 +762,13 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			mir_subclassWindow(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), EditProc);
 
 			// Buttons
-			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : _T("Ctrl+A"));
+			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : L"Ctrl+A");
 			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : _T("Ctrl+F"), Skin_LoadIcon(SKINICON_EVENT_FILE));
-			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : _T("Ctrl+U"), Skin_LoadIcon(SKINICON_EVENT_URL));
-			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open user info"), hasNewHotkeyModule ? NULL : _T("Ctrl+I"), Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
-			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : _T("Ctrl+H"), Skin_LoadIcon(SKINICON_OTHER_HISTORY));
-			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : _T("Ctrl+M"), Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
+			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : L"Ctrl+F", Skin_LoadIcon(SKINICON_EVENT_FILE));
+			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : L"Ctrl+U", Skin_LoadIcon(SKINICON_EVENT_URL));
+			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open user info"), hasNewHotkeyModule ? NULL : L"Ctrl+I", Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
+			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : L"Ctrl+H", Skin_LoadIcon(SKINICON_OTHER_HISTORY));
+			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : L"Ctrl+M", Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, TRUE, 0);
 
@@ -816,7 +816,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -838,7 +838,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -860,7 +860,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -882,7 +882,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -904,7 +904,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -926,7 +926,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
 					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
 					break;
 				}
@@ -956,10 +956,10 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				// Get old text
 				HWND hEdit = GetWindow(GetWindow(hwndDlg,GW_CHILD),GW_CHILD);
-				TCHAR sztext[120] = _T("");
+				TCHAR sztext[120] = L"";
 
 				if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
-					SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
+					SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)L"");
 
 				GetWindowText(hEdit, sztext, _countof(sztext));
 

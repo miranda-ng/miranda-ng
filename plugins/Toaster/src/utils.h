@@ -11,7 +11,7 @@ class ToasterImage
 	ptrT tszId;
 
 public:
-	__inline explicit ToasterImage(HICON hIcon) : _hBitmap(NULL), tszId(CMString(FORMAT, _T("%p"), hIcon).Detach())
+	__inline explicit ToasterImage(HICON hIcon) : _hBitmap(NULL), tszId(CMString(FORMAT, L"%p", hIcon).Detach())
 	{
 		ICONINFO icon = { 0 };
 		if (GetIconInfo(hIcon, &icon))
@@ -21,7 +21,7 @@ public:
 		}
 	}
 
-	__inline explicit ToasterImage(HBITMAP bmp) : _hBitmap(bmp), tszId(CMString(FORMAT, _T("%p"), bmp).Detach())
+	__inline explicit ToasterImage(HBITMAP bmp) : _hBitmap(bmp), tszId(CMString(FORMAT, L"%p", bmp).Detach())
 	{  
 	}
 

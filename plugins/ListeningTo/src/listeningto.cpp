@@ -332,52 +332,52 @@ int ModulesLoaded(WPARAM, LPARAM)
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_PARSEFUNC | TRF_FIELD | TRF_TCHAR;
 
-		tr.tszTokenString = _T("listening_info");
+		tr.tszTokenString = L"listening_info";
 		tr.parseFunctionT = VariablesParseInfo;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Listening info as set in the options");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_type");
+		tr.tszTokenString = L"listening_type";
 		tr.parseFunctionT = VariablesParseType;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Media type: Music, Video, etc.");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_artist");
+		tr.tszTokenString = L"listening_artist";
 		tr.parseFunctionT = VariablesParseArtist;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Artist name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_album");
+		tr.tszTokenString = L"listening_album";
 		tr.parseFunctionT = VariablesParseAlbum;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Album name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_title");
+		tr.tszTokenString = L"listening_title";
 		tr.parseFunctionT = VariablesParseTitle;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_track");
+		tr.tszTokenString = L"listening_track";
 		tr.parseFunctionT = VariablesParseTrack;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Track number");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_year");
+		tr.tszTokenString = L"listening_year";
 		tr.parseFunctionT = VariablesParseYear;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song year");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_genre");
+		tr.tszTokenString = L"listening_genre";
 		tr.parseFunctionT = VariablesParseGenre;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song genre");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_length");
+		tr.tszTokenString = L"listening_length";
 		tr.parseFunctionT = VariablesParseLength;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song length");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = _T("listening_player");
+		tr.tszTokenString = L"listening_player";
 		tr.parseFunctionT = VariablesParsePlayer;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Player name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
@@ -539,7 +539,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC) {
 				// Set text to nothing
 				TCHAR *fr[] = {
-					_T("listening"), opts.nothing
+					L"listening", opts.nothing
 				};
 
 				Buffer<TCHAR> name;
@@ -611,16 +611,16 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			}
 
 			TCHAR *fr[] = {
-				_T("listening"), GetParsedFormat(lti),
-				_T("artist"), UNKNOWN(lti->ptszArtist),
-				_T("album"), UNKNOWN(lti->ptszAlbum),
-				_T("title"), UNKNOWN(lti->ptszTitle),
-				_T("track"), UNKNOWN(lti->ptszTrack),
-				_T("year"), UNKNOWN(lti->ptszYear),
-				_T("genre"), UNKNOWN(lti->ptszGenre),
-				_T("length"), UNKNOWN(lti->ptszLength),
-				_T("player"), UNKNOWN(lti->ptszPlayer),
-				_T("type"), UNKNOWN(lti->ptszType)
+				L"listening", GetParsedFormat(lti),
+				L"artist", UNKNOWN(lti->ptszArtist),
+				L"album", UNKNOWN(lti->ptszAlbum),
+				L"title", UNKNOWN(lti->ptszTitle),
+				L"track", UNKNOWN(lti->ptszTrack),
+				L"year", UNKNOWN(lti->ptszYear),
+				L"genre", UNKNOWN(lti->ptszGenre),
+				L"length", UNKNOWN(lti->ptszLength),
+				L"player", UNKNOWN(lti->ptszPlayer),
+				L"type", UNKNOWN(lti->ptszType)
 			};
 
 			Buffer<TCHAR> name;
@@ -722,15 +722,15 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 		return NULL;
 
 	TCHAR *fr[] = {
-		_T("artist"), UNKNOWN(lti->ptszArtist),
-		_T("album"), UNKNOWN(lti->ptszAlbum),
-		_T("title"), UNKNOWN(lti->ptszTitle),
-		_T("track"), UNKNOWN(lti->ptszTrack),
-		_T("year"), UNKNOWN(lti->ptszYear),
-		_T("genre"), UNKNOWN(lti->ptszGenre),
-		_T("length"), UNKNOWN(lti->ptszLength),
-		_T("player"), UNKNOWN(lti->ptszPlayer),
-		_T("type"), UNKNOWN(lti->ptszType)
+		L"artist", UNKNOWN(lti->ptszArtist),
+		L"album", UNKNOWN(lti->ptszAlbum),
+		L"title", UNKNOWN(lti->ptszTitle),
+		L"track", UNKNOWN(lti->ptszTrack),
+		L"year", UNKNOWN(lti->ptszYear),
+		L"genre", UNKNOWN(lti->ptszGenre),
+		L"length", UNKNOWN(lti->ptszLength),
+		L"player", UNKNOWN(lti->ptszPlayer),
+		L"type", UNKNOWN(lti->ptszType)
 	};
 
 	Buffer<TCHAR> ret;
@@ -910,19 +910,19 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 	LISTENINGTOINFO *lti = GetListeningInfo();
 	if (lti == NULL) {
 		ai->flags = AIF_FALSE;
-		return mir_tstrdup(_T(""));
+		return mir_tstrdup(L"");
 	}
 
 	TCHAR *fr[] = {
-		_T("artist"), UNKNOWN(lti->ptszArtist),
-		_T("album"), UNKNOWN(lti->ptszAlbum),
-		_T("title"), UNKNOWN(lti->ptszTitle),
-		_T("track"), UNKNOWN(lti->ptszTrack),
-		_T("year"), UNKNOWN(lti->ptszYear),
-		_T("genre"), UNKNOWN(lti->ptszGenre),
-		_T("length"), UNKNOWN(lti->ptszLength),
-		_T("player"), UNKNOWN(lti->ptszPlayer),
-		_T("type"), UNKNOWN(lti->ptszType)
+		L"artist", UNKNOWN(lti->ptszArtist),
+		L"album", UNKNOWN(lti->ptszAlbum),
+		L"title", UNKNOWN(lti->ptszTitle),
+		L"track", UNKNOWN(lti->ptszTrack),
+		L"year", UNKNOWN(lti->ptszYear),
+		L"genre", UNKNOWN(lti->ptszGenre),
+		L"length", UNKNOWN(lti->ptszLength),
+		L"player", UNKNOWN(lti->ptszPlayer),
+		L"type", UNKNOWN(lti->ptszType)
 	};
 
 	Buffer<TCHAR> ret;
@@ -938,7 +938,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 	if (lti == NULL) \
 			{ \
 		ai->flags = AIF_FALSE; \
-		return mir_tstrdup(_T("")); \
+		return mir_tstrdup(L""); \
 			} \
 				else if (IsEmpty(lti->__field__))  \
 	{ \

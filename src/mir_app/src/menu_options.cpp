@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "genmenu.h"
 #include "plugins.h"
 
-#define STR_SEPARATOR _T("-----------------------------------")
+#define STR_SEPARATOR L"-----------------------------------"
 
 extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
@@ -94,9 +94,9 @@ class CGenMenuOptionsPage : public CDlgBase
 					if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
 						ptszCustomName = iod->name;
 					else
-						ptszCustomName = _T("");
+						ptszCustomName = L"";
 
-					CMString tszValue(FORMAT, _T("%d;%d;%S;%s"), visible, runtimepos, pszParent, ptszCustomName);
+					CMString tszValue(FORMAT, L"%d;%d;%S;%s", visible, runtimepos, pszParent, ptszCustomName);
 					db_set_ts(NULL, szModule, menuItemName, tszValue);
 
 					if (pimi->mi.flags & CMIF_CUSTOM)

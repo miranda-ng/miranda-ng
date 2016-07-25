@@ -23,7 +23,7 @@ SettingsTree::SettingsTree(const ext::string& config) :
 void SettingsTree::clear()
 {
 	m_Keys.clear();
-	setKey(_T(""));
+	setKey(L"");
 }
 
 void SettingsTree::fromString(const ext::string& config)
@@ -45,13 +45,13 @@ void SettingsTree::fromString(const ext::string& config)
 			while (i < config.length() && config[i] != '}') {
 				if (config[i] == ':') {
 					curSetting = curVal;
-					curVal = _T("");
+					curVal = L"";
 				}
 				else if (config[i] == ';') {
 					vals[curSetting] = curVal;
 
-					curSetting = _T("");
-					curVal = _T("");
+					curSetting = L"";
+					curVal = L"";
 				}
 				else if (config[i] == '\\') {
 					++i;
@@ -62,24 +62,24 @@ void SettingsTree::fromString(const ext::string& config)
 				++i;
 			}
 
-			curKey = _T("");
+			curKey = L"";
 		}
 		else curKey += config[i];
 
 		++i;
 	}
 
-	setKey(_T(""));
+	setKey(L"");
 }
 
 ext::string SettingsTree::toString() const
 {
 	static const TCHAR* replaces[5][2] = {
-		{ _T("\\"), _T("\\\\") },
-		{ _T("{"), _T("\\{") },
-		{ _T("}"), _T("\\}") },
-		{ _T(":"), _T("\\:") },
-		{ _T(";"), _T("\\;") }
+		{ L"\\", L"\\\\" },
+		{ L"{", L"\\{" },
+		{ L"}", L"\\}" },
+		{ L":", L"\\:" },
+		{ L";", L"\\;" }
 	};
 
 	ext::string data;
@@ -89,12 +89,12 @@ ext::string SettingsTree::toString() const
 		const ValueMap& vals = i->second;
 
 		data += i->first;
-		data += _T("{");
+		data += L"{";
 
 		citer_each_(ValueMap, j, vals)
 		{
 			data += j->first;
-			data += _T(":");
+			data += L":";
 
 			ext::string tempSecond = j->second;
 
@@ -104,10 +104,10 @@ ext::string SettingsTree::toString() const
 			}
 
 			data += tempSecond;
-			data += _T(";");
+			data += L";";
 		}
 
-		data += _T("}");
+		data += L"}";
 	}
 
 	return data;
@@ -131,7 +131,7 @@ bool SettingsTree::readBool(const TCHAR* setting, bool errorValue) const
 		ValueMap::iterator i = m_pCurValues->find(setting);
 
 		if (i != m_pCurValues->end()) {
-			return (i->second == _T("y"));
+			return (i->second == L"y");
 		}
 	}
 
@@ -175,7 +175,7 @@ void SettingsTree::writeBool(const TCHAR* setting, bool value)
 {
 	makeKeyValid();
 
-	(*m_pCurValues)[setting] = value ? _T("y") : _T("n");
+	(*m_pCurValues)[setting] = value ? L"y" : L"n";
 }
 
 void SettingsTree::writeInt(const TCHAR* setting, int value)

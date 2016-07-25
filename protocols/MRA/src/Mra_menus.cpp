@@ -282,7 +282,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	HGENMENU hRoot;
 	{
 		TCHAR szItem[MAX_PATH + 64];
-		mir_sntprintf(szItem, _T("%s Custom Status"), m_tszUserName);
+		mir_sntprintf(szItem, L"%s Custom Status", m_tszUserName);
 
 		CMenuItem mi;
 		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);

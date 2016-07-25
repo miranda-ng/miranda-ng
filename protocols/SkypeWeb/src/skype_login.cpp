@@ -77,25 +77,25 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 				{
 				case 40002:
 					{
-						ShowNotification(_T("Skype"), TranslateT("Authentication failed. Invalid username."), NULL, 1);
+						ShowNotification(L"Skype", TranslateT("Authentication failed. Invalid username."), NULL, 1);
 						error = LOGINERR_BADUSERID;
 						break;
 					}
 				case 40120:
 					{
-						ShowNotification(_T("Skype"), TranslateT("Authentication failed. Bad username or password."), NULL, 1);
+						ShowNotification(L"Skype", TranslateT("Authentication failed. Bad username or password."), NULL, 1);
 						error = LOGINERR_WRONGPASSWORD;
 						break;
 					}
 				case 40121:
 					{
-						ShowNotification(_T("Skype"), TranslateT("Too many failed authentication attempts with given username or IP."), NULL, 1);
+						ShowNotification(L"Skype", TranslateT("Too many failed authentication attempts with given username or IP."), NULL, 1);
 						error = LOGIN_ERROR_TOOMANY_REQUESTS;
 						break;
 					}
 				default: 
 					{
-						ShowNotification(_T("Skype"), status["text"] ? status["text"].as_mstring() : TranslateT("Authentication failed. Unknown error."), NULL, 1);
+						ShowNotification(L"Skype", status["text"] ? status["text"].as_mstring() : TranslateT("Authentication failed. Unknown error."), NULL, 1);
 						error = LOGIN_ERROR_UNKNOWN;
 					}
 				}

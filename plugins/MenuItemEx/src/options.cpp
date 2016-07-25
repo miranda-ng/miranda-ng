@@ -48,7 +48,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			for (i = 0; i < 4; i++)
 			{
 				GetDlgItemText(hdlg, checkboxes[i].idc, buffer, (_countof(buffer) - 3));
-				mir_tstrcat(buffer, _T(" *"));
+				mir_tstrcat(buffer, L" *");
 				SetDlgItemText(hdlg, checkboxes[i].idc, buffer);
 			}
 		}

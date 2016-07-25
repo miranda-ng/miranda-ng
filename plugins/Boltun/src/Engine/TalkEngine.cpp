@@ -94,7 +94,7 @@ tstring TalkBot::GetInitMessage(MCONTACT contact)
 
 tstring TalkBot::ReplaceAliases(const tstring &message)
 {
-	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—\1");
+	const TCHAR dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—\1";
 	tstring sentence = message;
 	tstring result;
 	map<size_t, tstring> sm;
@@ -107,7 +107,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 			tstring item = sentence.substr(i, j);
 			if (mind.GetData()->smiles.find(item) != mind.GetData()->smiles.end()) {
 				sm[i] = item;
-				sentence.replace(i, j, _T("\1"));
+				sentence.replace(i, j, L"\1");
 				break;
 			}
 		}
@@ -163,7 +163,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 	if (FindExact(contactData, incomingMessage, mind.GetData()->study, res)) //study
 	{
 		#ifdef DEBUG_PREFIXES
-		mm.insert(make_pair(LOOKSLIKE, _T("(study_all) ") + res));
+		mm.insert(make_pair(LOOKSLIKE, L"(study_all) " + res));
 		#else
 		mm.insert(make_pair(LOOKSLIKE, res));
 		#endif
@@ -173,12 +173,12 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 	vector<tstring> sentences;
 	SplitSectences(incomingMessage, sentences);
 	ValueChooser<> ch(sentences, true); //Using random order of sentences.
-	while ((res = ch.GetString()) != _T("")) {
+	while ((res = ch.GetString()) != L"") {
 		//Part 4
 		if (FindExact(contactData, res, mind.GetData()->widelyUsed, res)) //widelyUsed
 		{
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(BEST, _T("(widelyused_sent) ") + res));
+			mm.insert(make_pair(BEST, L"(widelyused_sent) " + res));
 			#else
 			mm.insert(make_pair(BEST, res));
 			#endif
@@ -189,7 +189,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 		if (FindExact(contactData, res, mind.GetData()->study, res)) //study
 		{
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(LOOKSLIKE, _T("(study_sent) ") + res));
+			mm.insert(make_pair(LOOKSLIKE, L"(study_sent) " + res));
 			#else
 			mm.insert(make_pair(LOOKSLIKE, res));
 			#endif
@@ -201,21 +201,21 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 		bool isQuestion;
 		SplitAndSortWords(res, keywords, otherwords, isQuestion);
 		//Part 7, 8
-		res = _T("");
+		res = L"";
 		FindByKeywords(contactData, keywords, res/*, ures*/, isQuestion); //keywords
-		if (res != _T("")) {
+		if (res != L"") {
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(LOOKSLIKE, _T("(keywords) ") + res));
+			mm.insert(make_pair(LOOKSLIKE, L"(keywords) " + res));
 			#else
 			mm.insert(make_pair(LOOKSLIKE, res));
 			#endif
 			if (maxValue > LOOKSLIKE)
 				maxValue = LOOKSLIKE;
 		}
-		/*		if (ures != _T(""))
+		/*		if (ures != L"")
 				{
 				#ifdef DEBUG_PREFIXES
-				mm.insert(make_pair(LOOKSLIKE2, _T("(keywords_unstrict) ")+ures));
+				mm.insert(make_pair(LOOKSLIKE2, L"(keywords_unstrict) "+ures));
 				#else
 				mm.insert(make_pair(LOOKSLIKE2, ures));
 				#endif
@@ -226,7 +226,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 		if (FindByOthers(contactData, otherwords, res, isQuestion)) //specialEscapes
 		{
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(BAD, _T("(otherwords) ") + res));
+			mm.insert(make_pair(BAD, L"(otherwords) " + res));
 			#else
 			mm.insert(make_pair(BAD, res));
 			#endif
@@ -239,7 +239,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 		if (FindAny(contactData->escape, res)) //escape
 		{
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(FAIL, _T("(escape) ") + res));
+			mm.insert(make_pair(FAIL, L"(escape) " + res));
 			#else
 			mm.insert(make_pair(FAIL, res));
 			#endif
@@ -250,7 +250,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 		if (!understandAlways && FindAny(contactData->failure, res)) //failure
 		{
 			#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(FAIL, _T("(failure) ") + res));
+			mm.insert(make_pair(FAIL, L"(failure) " + res));
 			#else
 			mm.insert(make_pair(FAIL, res));
 			#endif
@@ -277,16 +277,16 @@ TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, 
 			const vector<tstring>& v = mind.GetData()->repeats;
 			tstring res = v[rand() % v.size()];
 			#ifdef DEBUG_PREFIXES
-			info = new MessageInfo(incomingMessage, _T("(repeat_norm) ") + res);
+			info = new MessageInfo(incomingMessage, L"(repeat_norm) " + res);
 			#else
 			info = new MessageInfo(incomingMessage, res);
 			#endif
 		}
 		else
 			#ifdef DEBUG_PREFIXES
-			info = new MessageInfo(incomingMessage, _T("(repeat_silence)"));
+			info = new MessageInfo(incomingMessage, L"(repeat_silence)");
 		#else
-			info = new MessageInfo(incomingMessage, _T(""));
+			info = new MessageInfo(incomingMessage, L"");
 		#endif
 		if (saveChoice)
 			RecordAnswer(contactData, *info);
@@ -301,7 +301,7 @@ TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, 
 	if (!res.empty()) {
 		UpdateStartChar(res);
 		#ifdef DEBUG_PREFIXES
-		MessageInfo *info = new MessageInfo(incomingMessage, _T("(widelyused_all) ") + res);
+		MessageInfo *info = new MessageInfo(incomingMessage, L"(widelyused_all) " + res);
 		#else
 		MessageInfo *info = new MessageInfo(incomingMessage, res);
 		#endif
@@ -317,7 +317,7 @@ TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, 
 	if (!res.empty()) {
 		UpdateStartChar(res);
 		#ifdef DEBUG_PREFIXES
-		MessageInfo *info = new MessageInfo(incomingMessage, _T("(widelyused_all) ") + res);
+		MessageInfo *info = new MessageInfo(incomingMessage, L"(widelyused_all) " + res);
 		#else
 		MessageInfo *info = new MessageInfo(incomingMessage, res);
 		#endif
@@ -383,7 +383,7 @@ bool TalkBot::FindAny(ValueChooser<> &ch, tstring& res)
 void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& vec)
 {
 	//FIXME: (THINK ABOUT IT:-))these chars not always mark the end of sentence.
-	const TCHAR symbols[] = _T(".?!");
+	const TCHAR symbols[] = L".?!";
 	int it = 0, len = (int)incomingMessage.length();
 	while (it != len) {
 		while (it != len && _istspace(incomingMessage[it]))
@@ -410,11 +410,11 @@ tstring LevelToStr(TalkBot::Level target)
 {
 	tstring lev;
 	switch (target) {
-	case TalkBot::BEST: lev = _T("BEST(0)"); break;
-	case TalkBot::LOOKSLIKE: lev = _T("LOOKSLIKE(1)"); break;
-	case TalkBot::BAD: lev = _T("BAD(2)"); break;
-	case TalkBot::FAIL: lev = _T("FAIL(3)"); break;
-	case TalkBot::NOTHING: lev = _T("NOTHING(4)"); break;
+	case TalkBot::BEST: lev = L"BEST(0)"; break;
+	case TalkBot::LOOKSLIKE: lev = L"LOOKSLIKE(1)"; break;
+	case TalkBot::BAD: lev = L"BAD(2)"; break;
+	case TalkBot::FAIL: lev = L"FAIL(3)"; break;
+	case TalkBot::NOTHING: lev = L"NOTHING(4)"; break;
 	}
 	return lev;
 }
@@ -423,13 +423,13 @@ tstring LevelToStr(TalkBot::Level target)
 tstring TalkBot::ChooseResult(ContactData *contactData, Level maxValue, const multimap<Level, tstring> &mm)
 {
 	#ifdef DEBUG_SHOW_VARIANTS
-	AddBotMessage(_T(">>Availabe:"));
+	AddBotMessage(L">>Availabe:");
 	for (multimap<Level, tstring>::iterator it = mm.begin(); it != mm.end(); it++)
-		AddBotMessage(LevelToStr((*it).first) + _T(": ") + (*it).second);
-	AddBotMessage(_T(">>Result:"));
+		AddBotMessage(LevelToStr((*it).first) + L": " + (*it).second);
+	AddBotMessage(L">>Result:");
 	#endif
 	if (maxValue == NOTHING)
-		return _T("");
+		return L"";
 	Level target = maxValue;
 	typedef multimap<Level, tstring>::const_iterator lt_cit;
 	pair<lt_cit, lt_cit> range = mm.equal_range(target);
@@ -437,7 +437,7 @@ tstring TalkBot::ChooseResult(ContactData *contactData, Level maxValue, const mu
 		contactData->chooser.AddChoice((*it).second);
 	#ifdef DEBUG_SHOW_LEVEL
 	tstring lev = LevelToStr(target);
-	return lev + _T(": ") + contactData->chooser.Choose();
+	return lev + L": " + contactData->chooser.Choose();
 	#else
 	return contactData->chooser.Choose();
 	#endif
@@ -454,7 +454,7 @@ void TalkBot::FindByKeywords(ContactData *contactData, const vector<tstring> &ke
 		float prio;
 		if ((*it).first.MatchesAll(keywords/*, strict*/, prio))
 			#ifdef DEBUG_SHOW_SOLUTION_REASON
-			contactData->chooser.AddChoice((tstring)(*it).first + _T(": - ") + (*it).second, prio);
+			contactData->chooser.AddChoice((tstring)(*it).first + L": - " + (*it).second, prio);
 		#else
 			contactData->chooser.AddChoice((*it).second, prio);
 		#endif
@@ -471,7 +471,7 @@ bool TalkBot::FindByOthers(ContactData *contactData, const vector<tstring> &othe
 	it != specs.end(); ++it)
 		if ((*it).first.MatchesAny(otherwords)) {
 			#ifdef DEBUG_SHOW_SOLUTION_REASON
-			contactData->chooser.AddChoice((tstring)(*it).first + _T(": - ") + (*it).second);
+			contactData->chooser.AddChoice((tstring)(*it).first + L": - " + (*it).second);
 			#else
 			contactData->chooser.AddChoice((*it).second);
 			#endif
@@ -490,7 +490,7 @@ const Mind& TalkBot::GetMind() const
 void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	vector<tstring>& otherwords, bool& isQuestion)
 {
-	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—");
+	const TCHAR dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—";
 	int len = (int)sentence.length();
 	vector<tstring> words;
 	map<size_t, tstring> sm;
@@ -504,7 +504,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 			if (mind.GetData()->smiles.find(item)
 				!= mind.GetData()->smiles.end()) {
 				sm[i] = item;
-				sentence.replace(i, j, _T(" "));
+				sentence.replace(i, j, L" ");
 				break;
 			}
 		}

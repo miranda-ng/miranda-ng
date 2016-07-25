@@ -52,7 +52,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : TEXT_EMOJI_PAGE;
 
 	if (m_tszDefaultGroup == NULL)
-		m_tszDefaultGroup = mir_tstrdup(_T("Facebook"));
+		m_tszDefaultGroup = mir_tstrdup(L"Facebook");
 
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG, &FacebookProto::GetMyAwayMsg);
@@ -92,7 +92,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	facy.set_handle(m_hNetlibUser);
@@ -271,7 +271,7 @@ HANDLE FacebookProto::SearchByEmail(const TCHAR* email)
 HANDLE FacebookProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
 	TCHAR arg[200];
-	mir_sntprintf(arg, _T("%s %s %s"), nick, firstName, lastName);
+	mir_sntprintf(arg, L"%s %s %s", nick, firstName, lastName);
 	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 
@@ -886,7 +886,7 @@ void FacebookProto::OpenUrlThread(void *p) {
 
 	open_url *data = static_cast<open_url*>(p);
 
-	ShellExecute(NULL, _T("open"), data->browser, data->url, NULL, SW_SHOWDEFAULT);
+	ShellExecute(NULL, L"open", data->browser, data->url, NULL, SW_SHOWDEFAULT);
 
 	delete data;
 }
@@ -1009,7 +1009,7 @@ void FacebookProto::InitPopups()
 	char name[256];
 
 	// Client
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Client errors"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Client errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1020,7 +1020,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Newsfeeds
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Wall posts"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1031,7 +1031,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Notifications
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Notifications"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1042,7 +1042,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Others
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Other events"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Other events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1053,7 +1053,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Friendship changes
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Friendship events"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Friendship events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1064,7 +1064,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Ticker
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Real-time friends activity"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Real-time friends activity"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1075,7 +1075,7 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// On this day
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("\"On this day\" posts"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("\"On this day\" posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -1143,7 +1143,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 		return;
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, _countof(ttime), _T("%X"), localtime(&time));
+	_tcsftime(ttime, _countof(ttime), L"%X", localtime(&time));
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
@@ -1152,7 +1152,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	if (isChatRoom(hContact)) {
 		// Load readers names
 		ptrT treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
-		mir_sntprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
+		mir_sntprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???");
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	} else if (!ServiceExists(MS_MESSAGESTATE_UPDATE)){
 		mir_sntprintf(st.tszText, TranslateT("Message read: %s"), ttime);

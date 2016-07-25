@@ -185,10 +185,10 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	hContact = getRealContact(hContact);
 
 	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact));
-	uinIn = mir_utf8encodeT(id ? id.get() : _T(""));
+	uinIn = mir_utf8encodeT(id ? id.get() : L"");
 
 	id = Contact_GetInfo(CNF_UNIQUEID, NULL);
-	uinOut = mir_utf8encodeT(id ? id.get() : _T(""));
+	uinOut = mir_utf8encodeT(id ? id.get() : L"");
 }
 
 wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)

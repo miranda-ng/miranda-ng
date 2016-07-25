@@ -401,7 +401,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 							szFullName.Empty();
 							break;
 						}
-						szFullName = CMString(cc->szText) + _T("\\") + szFullName;
+						szFullName = CMString(cc->szText) + L"\\" + szFullName;
 						group = group->parent;
 					}
 
@@ -1111,7 +1111,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						TCHAR szNewName[120];
-						mir_sntprintf(szNewName, _T("%s\\%s"), Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
+						mir_sntprintf(szNewName, L"%s\\%s", Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
 						Clist_GroupRename(contacto->groupId, szNewName);
 					}
 				}

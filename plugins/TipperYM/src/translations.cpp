@@ -39,7 +39,7 @@ void AddTranslation(DBVTranslation *newTrans)
 	char szSetting[256];
 	mir_snprintf(szSetting, sizeof(szSetting),"Trans_%s",szName);
 
-	if (mir_tstrcmp(newTrans->swzName, _T("[No translation]")) == 0) 
+	if (mir_tstrcmp(newTrans->swzName, L"[No translation]") == 0) 
 	{
 		translations[iTransFuncsCount - 1].id = 0;
 	} 
@@ -76,7 +76,7 @@ TCHAR* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const c
 	if (ts == 0)
 		return 0;
 	
-	return TimeZone_ToStringT(ts, _T("d"), buff, bufflen);
+	return TimeZone_ToStringT(ts, L"d", buff, bufflen);
 }
 
 TCHAR* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
@@ -85,7 +85,7 @@ TCHAR* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const ch
 	if (ts == 0)
 		return 0;
 	
-	return TimeZone_ToStringT(ts, _T("D"), buff, bufflen);
+	return TimeZone_ToStringT(ts, L"D", buff, bufflen);
 }
 
 TCHAR* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
@@ -94,7 +94,7 @@ TCHAR* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *
 	if (ts == 0)
 		return 0;
 	
-	return TimeZone_ToStringT(ts, _T("s"), buff, bufflen);
+	return TimeZone_ToStringT(ts, L"s", buff, bufflen);
 }
 
 TCHAR* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
@@ -103,7 +103,7 @@ TCHAR* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const 
 	if (ts == 0)
 		return 0;
 	
-	return TimeZone_ToStringT(ts, _T("t"), buff, bufflen);
+	return TimeZone_ToStringT(ts, L"t", buff, bufflen);
 }
 
 TCHAR* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
@@ -158,9 +158,9 @@ TCHAR *ByteToYesNo(MCONTACT hContact, const char *szModuleName, const char *szSe
 		if (dbv.type == DBVT_BYTE)
 		{
 			if (dbv.bVal != 0)
-				_tcsncpy(buff, _T("Yes"), bufflen);
+				_tcsncpy(buff, L"Yes", bufflen);
 			else
-				_tcsncpy(buff, _T("No"), bufflen);
+				_tcsncpy(buff, L"No", bufflen);
 			buff[bufflen - 1] = 0;
 			db_free(&dbv);
 			return buff;
@@ -204,7 +204,7 @@ TCHAR *DwordToIp(MCONTACT hContact, const char *szModuleName, const char *szSett
 	DWORD ip = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ip) {
 		unsigned char *ipc = (unsigned char*)&ip;
-		mir_sntprintf(buff, bufflen, _T("%u.%u.%u.%u"), ipc[3], ipc[2], ipc[1], ipc[0]);
+		mir_sntprintf(buff, bufflen, L"%u.%u.%u.%u", ipc[3], ipc[2], ipc[1], ipc[0]);
 		return buff;
 	}
 	return 0;
@@ -259,7 +259,7 @@ TCHAR *DayMonthYearToDate(MCONTACT hContact, const char *szModuleName, const cha
 					time.tm_mon = month - 1;
 					time.tm_year = year - 1900;
 
-					_tcsftime(buff, bufflen, _T("%x"), &time);
+					_tcsftime(buff, bufflen, L"%x", &time);
 
 					return buff;
 						
@@ -306,7 +306,7 @@ TCHAR *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const char
 							int age = now.wYear - year;
 							if (now.wMonth < month || (now.wMonth == month && now.wDay < day))
 								age--;
-							mir_sntprintf(buff, bufflen, _T("%d"), age);
+							mir_sntprintf(buff, bufflen, L"%d", age);
 							return buff;
 						} 
 						else

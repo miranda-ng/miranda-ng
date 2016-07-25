@@ -191,7 +191,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_AVT_DEFAULT_TIMEOUT_RECV         30
 #define MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN   TRUE
 #define MRA_AVT_DEFAULT_CHK_INTERVAL         60
-#define MRA_AVT_DEFAULT_AVT_FILENAME         _T("_default.jpg")
+#define MRA_AVT_DEFAULT_AVT_FILENAME         L"_default.jpg"
 #define MRA_AVT_DEFAULT_RET_ABC_PATH         TRUE
 #define MRA_DELETE_AVT_ON_CONTACT_DELETE     TRUE
 

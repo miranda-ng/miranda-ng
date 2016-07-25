@@ -297,7 +297,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	tszValue = jnItem["bdate"].as_mstring();
 	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
-		iReadCount = _stscanf(tszValue, _T("%d.%d.%d"), &d, &m, &y);
+		iReadCount = _stscanf(tszValue, L"%d.%d.%d", &d, &m, &y);
 		if (iReadCount > 1) {
 			if (iReadCount == 3)
 				setWord(hContact, "BirthYear", y);
@@ -362,7 +362,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	CMString tszOldListeningTo(ptrT(db_get_tsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
 	if (jnAudio) {
-		CMString tszListeningTo(FORMAT, _T("%s - %s"), jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
+		CMString tszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
 		if (tszListeningTo != tszOldListeningTo) {
 			setTString(hContact, "ListeningTo", tszListeningTo);
 			setTString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
@@ -461,7 +461,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	if (userID == VK_FEED_USER || !IsOnline())
 		return;
 
-	CMString code(FORMAT, _T("var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};"),
+	CMString code(FORMAT, L"var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};",
 		userID, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code));
@@ -481,7 +481,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 			continue;
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
-		userIDs.AppendFormat(_T("%i"), userID);
+		userIDs.AppendFormat(L"%i", userID);
 		
 		if (i == MAX_CONTACTS_PER_REQUEST)
 			break;
@@ -491,7 +491,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	CMString codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
 
 	if (m_bNeedSendOnline)
-		codeformat += _T("API.account.setOnline();");
+		codeformat += L"API.account.setOnline();";
 
 	if (bFreeOffline && !m_vkOptions.bLoadFullCList)
 		codeformat += CMString("var US=[];var res=[];var t=10;while(t>0){"
@@ -774,8 +774,8 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
 	CMString ptszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
 		IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick, 
-		tszVarWarning.IsEmpty() ? _T(" ") : TranslateT("\nIt will also"),
-		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning);
+		tszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
+		tszVarWarning.IsEmpty() ? L"\n" : tszVarWarning);
 
 	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
@@ -836,7 +836,7 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	if (tszDomain)
 		tszUrl.Append(tszDomain);
 	else
-		tszUrl.AppendFormat(_T("id%i"), userID);
+		tszUrl.AppendFormat(L"id%i", userID);
 	
 	Utils_OpenUrlT(tszUrl);
 	return 0;

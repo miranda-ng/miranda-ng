@@ -71,9 +71,9 @@ void DlgOption::SubInput::onWMInitDialog()
 	OptionsCtrl::Item hTemp, hTemp2;
 
 	hTemp = m_Options.insertGroup(NULL, TranslateT("History interpretation"), OptionsCtrl::OCF_ROOTGROUP);
-	m_hChatSessionMinDur = m_Options.insertEdit(hTemp, TranslateT("Time a chat session must last to be counted (seconds)"), _T(""), OptionsCtrl::OCF_NUMBER);
-	m_hChatSessionTimeout = m_Options.insertEdit(hTemp, TranslateT("Time between two chat sessions (seconds)"), _T(""), OptionsCtrl::OCF_NUMBER);
-	m_hAverageMinTime = m_Options.insertEdit(hTemp, TranslateT("Minimum time to assume when calculating average (days)"), _T(""), OptionsCtrl::OCF_NUMBER);
+	m_hChatSessionMinDur = m_Options.insertEdit(hTemp, TranslateT("Time a chat session must last to be counted (seconds)"), L"", OptionsCtrl::OCF_NUMBER);
+	m_hChatSessionTimeout = m_Options.insertEdit(hTemp, TranslateT("Time between two chat sessions (seconds)"), L"", OptionsCtrl::OCF_NUMBER);
+	m_hAverageMinTime = m_Options.insertEdit(hTemp, TranslateT("Minimum time to assume when calculating average (days)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hWordDelimiters = m_Options.insertEdit(hTemp, TranslateT("Word delimiting characters"));
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Contact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 	m_hProtocols = m_Options.insertGroup(hTemp, TranslateT("Ignore all contacts with protocol..."));
@@ -92,9 +92,9 @@ void DlgOption::SubInput::onWMInitDialog()
 	m_Options.insertRadio(hTemp2, m_hMergeMode, TranslateT("Don't merge events"));
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Message filtering"), OptionsCtrl::OCF_ROOTGROUP);
 	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("Ignore messages..."));
-	m_hIgnoreOlder = m_Options.insertEdit(hTemp2, TranslateT("...older than (days, 0=no limit)"), _T(""), OptionsCtrl::OCF_NUMBER);
-	m_hIgnoreBefore = m_Options.insertDateTime(hTemp2, TranslateT("...before date (none=no limit)"), 0, _T("%Y-%m-%d"), OptionsCtrl::OCF_ALLOWNONE);
-	m_hIgnoreAfter = m_Options.insertDateTime(hTemp2, TranslateT("...after date (none=no limit)"), 0, _T("%Y-%m-%d"), OptionsCtrl::OCF_ALLOWNONE);
+	m_hIgnoreOlder = m_Options.insertEdit(hTemp2, TranslateT("...older than (days, 0=no limit)"), L"", OptionsCtrl::OCF_NUMBER);
+	m_hIgnoreBefore = m_Options.insertDateTime(hTemp2, TranslateT("...before date (none=no limit)"), 0, L"%Y-%m-%d", OptionsCtrl::OCF_ALLOWNONE);
+	m_hIgnoreAfter = m_Options.insertDateTime(hTemp2, TranslateT("...after date (none=no limit)"), 0, L"%Y-%m-%d", OptionsCtrl::OCF_ALLOWNONE);
 	m_hFilterRawRTF = m_Options.insertCheck(hTemp, TranslateT("Strip raw RTF control sequences from message"));
 	m_hFilterBBCodes = m_Options.insertCheck(hTemp, TranslateT("Strip BBCode tags from messages"));
 

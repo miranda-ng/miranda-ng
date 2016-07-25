@@ -274,7 +274,7 @@ TCHAR * ParseText(const TCHAR *text,
 				return NULL;
 
 			if (text[i + 1] == _T('%')) {
-				if (CopyData(&ret, _T("%"), 1))
+				if (CopyData(&ret, L"%", 1))
 					return NULL;
 
 				i++;
@@ -338,7 +338,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		dat = new ClcData();
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
-		dat->hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
+		dat->hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
 			0, 0, 0, 0, hwnd, NULL, g_hInst, 0);
 		dat->need_rebuild = FALSE;
@@ -528,9 +528,9 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 			{
 				TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, item);
 				const TCHAR *t[] = {
-					_T("%name%"),
-					_T("%count%"),
-					_T("%mode%")
+					L"%name%",
+					L"%count%",
+					L"%mode%"
 				};
 				const TCHAR *v[] = {
 					item->szText,
@@ -539,7 +539,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				};
 
 				if (szCounts[0] != '\0')
-					mir_sntprintf(count, _T("%s "), szCounts);
+					mir_sntprintf(count, L"%s ", szCounts);
 				else
 					count[0] = _T('\0');
 
@@ -553,10 +553,10 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 		case CLCIT_CONTACT:
 			{
 				const TCHAR *t[] = {
-					_T("%name%"),
-					_T("%status%"),
-					_T("%protocol%"),
-					_T("%status_message%")
+					L"%name%",
+					L"%status%",
+					L"%protocol%",
+					L"%status_message%"
 				};
 				const TCHAR *v[] = {
 					item->szText,

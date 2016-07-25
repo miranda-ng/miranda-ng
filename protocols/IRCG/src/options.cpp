@@ -828,10 +828,10 @@ void CCtcpPrefsDlg::OnInitDialog()
 	m_combo.AddStringA("8192");
 
 	TCHAR szTemp[10];
-	mir_sntprintf(szTemp, _T("%u"), m_proto->m_DCCPacketSize);
+	mir_sntprintf(szTemp, L"%u", m_proto->m_DCCPacketSize);
 	int i = m_combo.SelectString(szTemp);
 	if (i == CB_ERR)
-		m_combo.SelectString(_T("4096"));
+		m_combo.SelectString(L"4096");
 
 	if (m_proto->m_DCCChatAccept == 1)
 		m_radio1.SetState(true);
@@ -849,14 +849,14 @@ void CCtcpPrefsDlg::OnInitDialog()
 	else {
 		if (m_proto->m_IPFromServer) {
 			if (m_proto->m_myHost[0]) {
-				CMString s = (CMString)TranslateT("<Resolved IP: ") + (TCHAR*)_A2T(m_proto->m_myHost) + _T(">");
+				CMString s = (CMString)TranslateT("<Resolved IP: ") + (TCHAR*)_A2T(m_proto->m_myHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
 		}
 		else {
 			if (m_proto->m_myLocalHost[0]) {
-				CMString s = (CMString)TranslateT("<Local IP: ") + (TCHAR*)_A2T(m_proto->m_myLocalHost) + _T(">");
+				CMString s = (CMString)TranslateT("<Local IP: ") + (TCHAR*)_A2T(m_proto->m_myLocalHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
@@ -874,14 +874,14 @@ void CCtcpPrefsDlg::OnClicked(CCtrlData*)
 	else {
 		if (m_fromServer.GetState()) {
 			if (m_proto->m_myHost[0]) {
-				CMString s = (CMString)TranslateT("<Resolved IP: ") + (TCHAR*)_A2T(m_proto->m_myHost) + _T(">");
+				CMString s = (CMString)TranslateT("<Resolved IP: ") + (TCHAR*)_A2T(m_proto->m_myHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
 		}
 		else {
 			if (m_proto->m_myLocalHost[0]) {
-				CMString s = (CMString)TranslateT("<Local IP: ") + (TCHAR*)_A2T(m_proto->m_myLocalHost) + _T(">");
+				CMString s = (CMString)TranslateT("<Local IP: ") + (TCHAR*)_A2T(m_proto->m_myLocalHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
@@ -1091,7 +1091,7 @@ void COtherPrefsDlg::OnAdd(CCtrlButton*)
 {
 	TCHAR* temp = m_pertormEdit.GetText();
 
-	if (my_strstri(temp, _T("/away")))
+	if (my_strstri(temp, L"/away"))
 		MessageBox(NULL, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 	else {
 		int i = m_performCombo.GetCurSel();
@@ -1113,7 +1113,7 @@ void COtherPrefsDlg::OnDelete(CCtrlButton*)
 	if (i != CB_ERR) {
 		PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
 		if (pPerf != NULL) {
-			pPerf->mText = _T("");
+			pPerf->mText = L"";
 			m_pertormEdit.SetTextA("");
 			m_delete.Disable();
 			m_add.Disable();
@@ -1179,7 +1179,7 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 		pPref = new PERFORM_INFO(sSetting.c_str(), dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else pPref = new PERFORM_INFO(sSetting.c_str(), _T(""));
+	else pPref = new PERFORM_INFO(sSetting.c_str(), L"");
 	m_performCombo.SetItemData(idx, (LPARAM)pPref);
 }
 
@@ -1232,7 +1232,7 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 	CMString Mask = GetWord(szMask, 0);
 	if (Mask.GetLength() != 0) {
 		if (!_tcschr(Mask.c_str(), '!') && !_tcschr(Mask.c_str(), '@'))
-			Mask += _T("!*@*");
+			Mask += L"!*@*";
 
 		if (!flags.IsEmpty()) {
 			if (*szOldMask)
@@ -1316,7 +1316,7 @@ static LRESULT CALLBACK ListviewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 void CIrcProto::InitIgnore(void)
 {
 	TCHAR szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, _T("%%miranda_path%%\\Plugins\\%S_ignore.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_ignore.ini", m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if (pszIgnoreData != NULL) {
@@ -1383,7 +1383,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 		mir_snprintf(settingName, "IGNORE:%d", i);
 
 		CIrcIgnoreItem& C = m_ignoreItems[i];
-		setTString(settingName, (C.mask + _T(" ") + C.flags + _T(" ") + C.network).c_str());
+		setTString(settingName, (C.mask + L" " + C.flags + L" " + C.network).c_str());
 	}
 }
 
@@ -1662,11 +1662,11 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 
 void CIrcProto::InitPrefs(void)
 {
-	ConnectSettings[0].defStr = _T("Miranda");
-	ConnectSettings[1].defStr = _T("UNIX");
-	ConnectSettings[2].defStr = _T("113");
-	ConnectSettings[3].defStr = _T("30");
-	ConnectSettings[4].defStr = _T("10");
+	ConnectSettings[0].defStr = L"Miranda";
+	ConnectSettings[1].defStr = L"UNIX";
+	ConnectSettings[2].defStr = L"113";
+	ConnectSettings[3].defStr = L"30";
+	ConnectSettings[4].defStr = L"10";
 
 	CtcpSettings[0].defStr = STR_USERINFO;
 
@@ -1701,7 +1701,7 @@ void CIrcProto::InitPrefs(void)
 	m_mySpecifiedHostIP[0] = 0;
 
 	if (m_alias == NULL)
-		m_alias = mir_tstrdup(_T("/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout"));
+		m_alias = mir_tstrdup(L"/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout");
 
 	m_quickComboSelection = getDword("QuickComboSelection", m_serverComboSelection + 1);
 	m_myHost[0] = '\0';
@@ -1821,7 +1821,7 @@ INT_PTR CIrcProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 static void sttImportIni(const TCHAR* szIniFile)
 {
-	FILE* serverFile = _tfopen(szIniFile, _T("r"));
+	FILE* serverFile = _tfopen(szIniFile, L"r");
 	if (serverFile == NULL)
 		return;
 
@@ -1847,17 +1847,17 @@ static void sttImportIni(const TCHAR* szIniFile)
 
 void InitServers()
 {
-	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_path%\\Plugins\\IRC_servers.ini"));
+	TCHAR *szTemp = Utils_ReplaceVarsT(L"%miranda_path%\\Plugins\\IRC_servers.ini");
 	sttImportIni(szTemp);
 	mir_free(szTemp);
 
 	RereadServers();
 
 	if (g_servers.getCount() == 0) {
-		TCHAR *szIniFile = Utils_ReplaceVarsT(_T("%temp%\\default_servers.ini"));
-		FILE *serverFile = _tfopen(szIniFile, _T("a"));
+		TCHAR *szIniFile = Utils_ReplaceVarsT(L"%temp%\\default_servers.ini");
+		FILE *serverFile = _tfopen(szIniFile, L"a");
 		if (serverFile) {
-			char* pszSvrs = (char*)LockResource(LoadResource(hInst, FindResource(hInst, MAKEINTRESOURCE(IDR_SERVERS), _T("TEXT"))));
+			char* pszSvrs = (char*)LockResource(LoadResource(hInst, FindResource(hInst, MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
 			if (pszSvrs)
 				fwrite(pszSvrs, 1, mir_strlen(pszSvrs) + 1, serverFile);
 			fclose(serverFile);

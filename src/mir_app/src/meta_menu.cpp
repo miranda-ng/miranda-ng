@@ -164,7 +164,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = ccMeta->contactID;
 			ai.format = PA_FORMAT_UNKNOWN;
-			_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+			_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);

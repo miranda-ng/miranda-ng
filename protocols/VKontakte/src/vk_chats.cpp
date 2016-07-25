@@ -30,7 +30,7 @@ extern JSONNode nullNode;
 
 CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 {
-	debugLog(_T("CVkProto::AppendChat"));
+	debugLog(L"CVkProto::AppendChat");
 	if (id == 0)
 		return NULL;
 
@@ -46,11 +46,11 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	c = new CVkChatInfo(id);
 	if (jnDlg) {
 		tszTitle = jnDlg["title"].as_mstring();
-		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle : _T(""));
+		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle : L"");
 	}
 
 	CMString sid; 
-	sid.Format(_T("%S_%d"), m_szModuleName, id);
+	sid.Format(L"%S_%d", m_szModuleName, id);
 	c->m_tszId = mir_tstrdup(sid);
 
 	GCSESSION gcw = { sizeof(gcw) };
@@ -79,7 +79,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 
 	setDword(gci.hContact, "vk_chat_id", id);
 
-	CMString tszHomepage(FORMAT, _T("https://vk.com/im?sel=c%d"), id);
+	CMString tszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", id);
 	setTString(gci.hContact, "Homepage", tszHomepage);
 	
 	db_unset(gci.hContact, m_szModuleName, "off");
@@ -187,7 +187,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (tszNick.IsEmpty()) {
 				CMString fName(jnUser["first_name"].as_mstring());
 				CMString lName(jnUser["last_name"].as_mstring());
-				tszNick = fName.Trim() + _T(" ") + lName.Trim();
+				tszNick = fName.Trim() + L" " + lName.Trim();
 			}
 			cu->m_tszNick = mir_tstrdup(tszNick);
 			cu->m_bUnknown = false;
@@ -217,7 +217,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszUID = tszId;
 			gce.dwFlags = GCEF_REMOVECONTACT | GCEF_NOTNOTIFY;
 			gce.time = time(NULL);
-			gce.ptszNick = mir_tstrdup(CMString(FORMAT, _T("%s (https://vk.com/id%s)"), cu.m_tszNick, tszId));
+			gce.ptszNick = mir_tstrdup(CMString(FORMAT, L"%s (https://vk.com/id%s)", cu.m_tszNick, tszId));
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 			cc->m_users.remove(i);
@@ -268,7 +268,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic)
 {
-	debugLog(_T("CVkProto::SetChatTitle"));
+	debugLog(L"CVkProto::SetChatTitle");
 	if (!cc)
 		return;
 
@@ -308,7 +308,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 	if (jnFwdMessages) {
 		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
 		if (!tszBody.IsEmpty())
-			tszFwdMessages = _T("\n") + tszFwdMessages;
+			tszFwdMessages = L"\n" + tszFwdMessages;
 		tszBody += tszFwdMessages;
 	}
 
@@ -316,7 +316,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 	if (jnAttachments) {
 		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
 		if (!tszBody.IsEmpty())
-			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+			tszAttachmentDescr = L"\n" + tszAttachmentDescr;
 		tszBody += tszAttachmentDescr;
 	}
 
@@ -324,75 +324,75 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 		bIsAction = true;
 		CMString tszAction = jnMsg["action"].as_mstring();
 		
-		if (tszAction == _T("chat_create")) {
+		if (tszAction == L"chat_create") {
 			CMString tszActionText = jnMsg["action_text"].as_mstring();
-			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("create chat"), tszActionText.IsEmpty() ? _T(" ") : tszActionText);
+			tszBody.AppendFormat(L"%s \"%s\"", TranslateT("create chat"), tszActionText.IsEmpty() ? L" " : tszActionText);
 		}
-		else if (tszAction == _T("chat_kick_user")) {
+		else if (tszAction == L"chat_kick_user") {
 			CMString tszActionMid = jnMsg["action_mid"].as_mstring();
 			if (tszActionMid.IsEmpty())
 				tszBody = TranslateT("kick user");
 			else {
-				CMString tszUid(FORMAT, _T("%d"), uid);
+				CMString tszUid(FORMAT, L"%d", uid);
 				if (tszUid == tszActionMid) {
 					if (cc->m_bHistoryRead)
 						return;
-					tszBody.AppendFormat(_T(" (https://vk.com/id%s) %s"), tszUid, TranslateT("left chat"));
+					tszBody.AppendFormat(L" (https://vk.com/id%s) %s", tszUid, TranslateT("left chat"));
 				}
 				else {
 					int a_uid = 0;
-					int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
+					int iReadCount = _stscanf(tszActionMid, L"%d", &a_uid);
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
-							tszBody.AppendFormat(_T("%s (https://vk.com/id%d)"), TranslateT("kick user"), a_uid);
+							tszBody.AppendFormat(L"%s (https://vk.com/id%d)", TranslateT("kick user"), a_uid);
 						else
-							tszBody.AppendFormat(_T("%s %s (https://vk.com/id%d)"), TranslateT("kick user"), cu->m_tszNick, a_uid);
+							tszBody.AppendFormat(L"%s %s (https://vk.com/id%d)", TranslateT("kick user"), cu->m_tszNick, a_uid);
 					}
 					else 
 						tszBody = TranslateT("kick user");
 				}
 			}
 		}
-		else if (tszAction == _T("chat_invite_user")) {
+		else if (tszAction == L"chat_invite_user") {
 			CMString tszActionMid = jnMsg["action_mid"].as_mstring();
 			if (tszActionMid.IsEmpty())
 				tszBody = TranslateT("invite user");
 			else {
-				CMString tszUid(FORMAT, _T("%d"), uid);
+				CMString tszUid(FORMAT, L"%d", uid);
 				if (tszUid == tszActionMid)
-					tszBody.AppendFormat(_T(" (https://vk.com/id%s) %s"), tszUid, TranslateT("returned to chat"));
+					tszBody.AppendFormat(L" (https://vk.com/id%s) %s", tszUid, TranslateT("returned to chat"));
 				else {
 					int a_uid = 0;
-					int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
+					int iReadCount = _stscanf(tszActionMid, L"%d", &a_uid);
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
-							tszBody.AppendFormat(_T("%s (https://vk.com/id%d)"), TranslateT("invite user"), a_uid);
+							tszBody.AppendFormat(L"%s (https://vk.com/id%d)", TranslateT("invite user"), a_uid);
 						else
-							tszBody.AppendFormat(_T("%s %s (https://vk.com/id%d)"), TranslateT("invite user"), cu->m_tszNick, a_uid);
+							tszBody.AppendFormat(L"%s %s (https://vk.com/id%d)", TranslateT("invite user"), cu->m_tszNick, a_uid);
 					}
 					else
 						tszBody = TranslateT("invite user");
 				}
 			}
 		}
-		else if (tszAction == _T("chat_title_update")) {
+		else if (tszAction == L"chat_title_update") {
 			CMString tszTitle = jnMsg["action_text"].as_mstring();
-			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("change chat title to"), tszTitle.IsEmpty() ? _T(" ") : tszTitle);
+			tszBody.AppendFormat(L"%s \"%s\"", TranslateT("change chat title to"), tszTitle.IsEmpty() ? L" " : tszTitle);
 
 			if (!bIsHistory)
 				SetChatTitle(cc, tszTitle);
 		}
-		else if (tszAction == _T("chat_photo_update"))
+		else if (tszAction == L"chat_photo_update")
 			tszBody.Replace(TranslateT("Attachments:"), TranslateT("changed chat cover:"));
-		else if (tszAction == _T("chat_photo_remove"))
+		else if (tszAction == L"chat_photo_remove")
 			tszBody = TranslateT("deleted chat cover");
 		else
-			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
+			tszBody.AppendFormat(L": %s (%s)", TranslateT("chat action not supported"), tszAction);
 	}
 
-	tszBody.Replace(_T("%"), _T("%%"));
+	tszBody.Replace(L"%", L"%%");
 
 	if (cc->m_bHistoryRead) {
 		if (jnMsg["title"])
@@ -434,7 +434,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
-	gce.ptszText = IsEmpty((TCHAR *)ptszBody) ? mir_tstrdup(_T("...")) : mir_tstrdup(ptszBody);
+	gce.ptszText = IsEmpty((TCHAR *)ptszBody) ? mir_tstrdup(L"...") : mir_tstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	StopChatContactTyping(cc->m_chatid, uid);
 }
@@ -782,7 +782,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_VISIT_PROFILE:
 		hContact = FindUser(cu->m_uid);
 		if (hContact == NULL)
-			Utils_OpenUrlT(CMString(FORMAT, _T("https://vk.com/id%d"), cu->m_uid));
+			Utils_OpenUrlT(CMString(FORMAT, L"https://vk.com/id%d", cu->m_uid));
 		else 
 			SvcVisitProfile(hContact, 0);
 		break;
@@ -933,7 +933,7 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 
 		StatusTextData st = { 0 };
 		st.cbSize = sizeof(st);
-		mir_sntprintf(st.tszText, _T(" "));
+		mir_sntprintf(st.tszText, L" ");
 		
 		// CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL) clears statusbar very slowly. 
 		// (1-10 sec(!!!) for me on tabSRMM O_o)
@@ -963,7 +963,7 @@ void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.createChat.json", true, &CVkProto::OnCreateNewChat)
-		<< TCHAR_PARAM("title", ptszTitle ? ptszTitle : _T(""))
+		<< TCHAR_PARAM("title", ptszTitle ? ptszTitle : L"")
 		<< CHAR_PARAM("user_ids", uids));
 }
 

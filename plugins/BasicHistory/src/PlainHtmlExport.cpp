@@ -30,69 +30,69 @@ extern std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl);
 
 void PlainHtmlExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring& encoding)
 {
-	EXP_FILE << _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
-	EXP_FILE << _T("<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=") << encoding << _T("\">\n");
-	EXP_FILE << _T("<title>") << TranslateT("History Log") << _T(" [") << MakeTextHtmled(myName) << _T("] - [") << MakeTextHtmled(name1) << _T("]</title>\n");
-	EXP_FILE << _T("<style type=\"text/css\"><!--\n");
-	EXP_FILE << _T("h3 { color: #666666; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 16pt; }\n");
-	EXP_FILE << _T("h4 { text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 14pt; }\n");
-	EXP_FILE << _T("h6 { font-weight: normal; color: #000000; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8pt; }\n");
-	EXP_FILE << _T(".mes { border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px;border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n");
-	EXP_FILE << _T(".text { clear: both; }\n");
-	EXP_FILE << _T(".nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n");
-	EXP_FILE << _T(".date { float: right; clear: right; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n");
-	EXP_FILE << _T(".url { color: #0000FF; }\n");
-	EXP_FILE << _T(".nick#inc { color: #C83F6B; }\n");
-	EXP_FILE << _T(".nick#out { color: #0860BD; }\n");
-	EXP_FILE << _T(".date#inc { color: #000000; }\n");
-	EXP_FILE << _T(".date#out { color: #000000; }\n");
-	EXP_FILE << _T(".mes#event0 { background-color: #DBDBDB; }\n");
-	EXP_FILE << _T(".mes#event1 { background-color: #EEEEEE; }\n");
-	EXP_FILE << _T(".mes#event2 { background-color: #CCD9F4; }\n");
-	EXP_FILE << _T(".mes#session { background-color: #FFFDD7; }\n");
-	EXP_FILE << _T("--></style>\n</head><body>\n<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
+	EXP_FILE << L"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+	EXP_FILE << L"<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" << encoding << L"\">\n";
+	EXP_FILE << L"<title>" << TranslateT("History Log") << L" [" << MakeTextHtmled(myName) << L"] - [" << MakeTextHtmled(name1) << L"]</title>\n";
+	EXP_FILE << L"<style type=\"text/css\"><!--\n";
+	EXP_FILE << L"h3 { color: #666666; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 16pt; }\n";
+	EXP_FILE << L"h4 { text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 14pt; }\n";
+	EXP_FILE << L"h6 { font-weight: normal; color: #000000; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8pt; }\n";
+	EXP_FILE << L".mes { border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px;border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n";
+	EXP_FILE << L".text { clear: both; }\n";
+	EXP_FILE << L".nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n";
+	EXP_FILE << L".date { float: right; clear: right; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n";
+	EXP_FILE << L".url { color: #0000FF; }\n";
+	EXP_FILE << L".nick#inc { color: #C83F6B; }\n";
+	EXP_FILE << L".nick#out { color: #0860BD; }\n";
+	EXP_FILE << L".date#inc { color: #000000; }\n";
+	EXP_FILE << L".date#out { color: #000000; }\n";
+	EXP_FILE << L".mes#event0 { background-color: #DBDBDB; }\n";
+	EXP_FILE << L".mes#event1 { background-color: #EEEEEE; }\n";
+	EXP_FILE << L".mes#event2 { background-color: #CCD9F4; }\n";
+	EXP_FILE << L".mes#session { background-color: #FFFDD7; }\n";
+	EXP_FILE << L"--></style>\n</head><body>\n<h4>" << TranslateT("History Log") << L"</h4>\n<h3>";
 	EXP_FILE << MakeTextHtmled(myName);
 	if (proto1.length() || myId.length())
-		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
+		EXP_FILE << L" (" << MakeTextHtmled(proto1) << L": " << MakeTextHtmled(myId) << L") - ";
 	else
-		EXP_FILE << _T(" - ");
+		EXP_FILE << L" - ";
 
 	EXP_FILE << MakeTextHtmled(name1);
 	if (proto1.length() || id1.length())
-		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
+		EXP_FILE << L" (" << MakeTextHtmled(proto1) << L": " << MakeTextHtmled(id1) << L")</h3>\n";
 	else
-		EXP_FILE << _T("</h3>\n");
+		EXP_FILE << L"</h3>\n";
 
-	EXP_FILE << _T("<h6>") << TranslateT("Filter:") << _T(" ") << MakeTextHtmled(filterName) << _T("</h6>\n");
+	EXP_FILE << L"<h6>" << TranslateT("Filter:") << L" " << MakeTextHtmled(filterName) << L"</h6>\n";
 }
 
 void PlainHtmlExport::WriteFooter()
 {
-	EXP_FILE << _T("<div class=mes></div>\n</body></html>\n");
+	EXP_FILE << L"<div class=mes></div>\n</body></html>\n";
 }
 
 void PlainHtmlExport::WriteGroup(bool, const std::wstring &time, const std::wstring&, const std::wstring&)
 {
 	TCHAR buf[256];
-	EXP_FILE << _T("<div class=mes id=session>\n");
+	EXP_FILE << L"<div class=mes id=session>\n";
 	mir_sntprintf(buf, TranslateT("Conversation started at %s"), time.c_str());
-	EXP_FILE << _T("<div class=text>") << buf << _T("</div>\n");
-	EXP_FILE << _T("</div>\n");
+	EXP_FILE << L"<div class=text>" << buf << L"</div>\n";
+	EXP_FILE << L"</div>\n";
 }
 
 void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
-	TCHAR *id = isMe ? _T("out") : _T("inc");
-	TCHAR* ev = (isMe ? _T("1") : _T("0"));
+	TCHAR *id = isMe ? L"out" : L"inc";
+	TCHAR* ev = (isMe ? L"1" : L"0");
 	bool isUrl = false;
 	std::wstring mes = UrlHighlightHtml(MakeTextHtmled(message), isUrl);
 	if (isUrl)
-		ev = _T("2");
-	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");
-	EXP_FILE << _T("<div class=nick id=") << id << _T(">") << MakeTextHtmled(user) << _T(":</div>\n");
-	EXP_FILE << _T("<div class=date id=") << id << _T(">") << (Options::instance->exportHtml1ShowDate ? longDate : shortDate) << _T("</div>\n");
-	EXP_FILE << _T("<div class=text>\n");
+		ev = L"2";
+	EXP_FILE << L"<div class=mes id=event" << ev << L">\n";
+	EXP_FILE << L"<div class=nick id=" << id << L">" << MakeTextHtmled(user) << L":</div>\n";
+	EXP_FILE << L"<div class=date id=" << id << L">" << (Options::instance->exportHtml1ShowDate ? longDate : shortDate) << L"</div>\n";
+	EXP_FILE << L"<div class=text>\n";
 	EXP_FILE << mes;
-	EXP_FILE << _T("\n</div>\n");
-	EXP_FILE << _T("</div>\n");
+	EXP_FILE << L"\n</div>\n";
+	EXP_FILE << L"</div>\n";
 }

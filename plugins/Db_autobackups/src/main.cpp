@@ -38,7 +38,7 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 	OPENFILENAME ofn = { 0 };
 	CallService(MS_DB_GETPROFILENAMET, _countof(fname_buff), (LPARAM)fname_buff);
 
-	mir_sntprintf(tszFilter, _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"),
+	mir_sntprintf(tszFilter, L"%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c",
 		TranslateT("Miranda NG databases"), 0, 0,
 		TranslateT("Compressed Miranda NG databases"), 0, 0,
 		TranslateT("All files"), 0, 0);
@@ -49,7 +49,7 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 	ofn.Flags = OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
 	ofn.lpstrFilter = tszFilter;
 	ofn.nFilterIndex = 1;
-	ofn.lpstrDefExt = _T("dat");
+	ofn.lpstrDefExt = L"dat";
 
 	if (GetSaveFileName(&ofn))
 		BackupStart(fname_buff);
@@ -81,7 +81,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
 
-	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	profilePath = Utils_ReplaceVarsT(L"%miranda_userdata%");
 
 	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);

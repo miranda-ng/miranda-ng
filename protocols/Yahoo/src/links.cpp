@@ -95,7 +95,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 	if (!proto) return 1;
 
 	/* add a contact to the list */
-	if (!_tcsnicmp(arg, _T("addfriend?"), 10)) {
+	if (!_tcsnicmp(arg, L"addfriend?", 10)) {
 		arg += 10;
 
 		char *id = get_buddy(&arg);
@@ -119,7 +119,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	/* send a message to a contact */
-	else if (!_tcsnicmp(arg, _T("sendim?"), 7)) {
+	else if (!_tcsnicmp(arg, L"sendim?", 7)) {
 		arg += 7;
 
 		char *id = get_buddy(&arg);
@@ -128,7 +128,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 		TCHAR *msg = NULL;
 
 		while (arg) {
-			if (!_tcsnicmp(arg, _T("m="), 2)) {
+			if (!_tcsnicmp(arg, L"m=", 2)) {
 				msg = arg + 2;
 				url_decode(msg);
 				break;
@@ -146,7 +146,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	/* open a chatroom */
-	else if (!_tcsnicmp(arg, _T("chat?"), 5)) {
+	else if (!_tcsnicmp(arg, L"chat?", 5)) {
 		arg += 5;
 
 		//		char *id = get_buddy(&arg);

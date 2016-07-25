@@ -5,7 +5,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 
 	CCSDATA *ccs = (CCSDATA *) lParam;
 
-	DEBUGOUT_T("SENDING\n");
+	DEBUGOUTW(L"SENDING\n");
 		DEBUGOUTA("'");
 		DEBUGOUTA((const char*)ccs->lParam);
 		DEBUGOUTA("'\n");
@@ -26,7 +26,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 
 	// don't filter OTR messages being sent (OTR messages should only happen *after* the otrl_message_sending call below)
 	if(strncmp(oldmessage, "?OTR", 4) == 0) {
-		DEBUGOUT_T("OTR message without PREF_BYPASS_OTR\n");
+		DEBUGOUTW(L"OTR message without PREF_BYPASS_OTR\n");
 		return Proto_ChainSend(wParam, ccs);
 	}
 

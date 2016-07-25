@@ -51,7 +51,7 @@ void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags)
 		QueueUserAPC(sttMainThreadCallback, mainThread, (ULONG_PTR)ppd);
 	}
 	else{
-		MessageBox(NULL, line2, _T(PLUG) _T(" Message"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, line2, _T(PLUG) L" Message", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 }
@@ -206,7 +206,7 @@ INT_PTR DblClick(WPARAM wParam, LPARAM) {
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->item_id == (DWORD)wParam) {
 			if (mir_tstrlen(i->pszCommand)) {
-				ShellExecute(0, _T("open"), i->pszCommand, i->pszParams, 0, SW_SHOW);
+				ShellExecute(0, L"open", i->pszCommand, i->pszParams, 0, SW_SHOW);
 			}
 			else {
 				return CallService(PLUG "/ToggleEnabled", wParam, 0);

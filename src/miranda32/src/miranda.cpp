@@ -39,26 +39,26 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	p[1] = 0;
 	SetCurrentDirectory(tszPath);
 
-	_tcsncat_s(tszPath, _T("libs"), _TRUNCATE);
+	_tcsncat_s(tszPath, L"libs", _TRUNCATE);
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
 
-	DWORD cbSize = GetEnvironmentVariable(_T("PATH"), NULL, 0);
+	DWORD cbSize = GetEnvironmentVariable(L"PATH", NULL, 0);
 	TCHAR *ptszVal = new TCHAR[cbSize + MAX_PATH + 2];
 	_tcscpy(ptszVal, tszPath);
-	_tcscat(ptszVal, _T(";"));
-	GetEnvironmentVariable(_T("PATH"), ptszVal + cbPath + 1, cbSize);
-	SetEnvironmentVariable(_T("PATH"), ptszVal);
+	_tcscat(ptszVal, L";");
+	GetEnvironmentVariable(L"PATH", ptszVal + cbPath + 1, cbSize);
+	SetEnvironmentVariable(L"PATH", ptszVal);
 
 	int retVal;
-	HINSTANCE hMirApp = LoadLibrary(_T("mir_app.mir"));
+	HINSTANCE hMirApp = LoadLibrary(L"mir_app.mir");
 	if (hMirApp == NULL) {
-		MessageBox(NULL, _T("mir_app.mir cannot be loaded"), _T("Fatal error"), MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"mir_app.mir cannot be loaded", L"Fatal error", MB_ICONERROR | MB_OK);
 		retVal = 1;
 	}
 	else {
 		pfnMain fnMain = (pfnMain)GetProcAddress(hMirApp, "mir_main");
 		if (fnMain == NULL) {
-			MessageBox(NULL, _T("invalid mir_app.mir present, program exiting"), _T("Fatal error"), MB_ICONERROR | MB_OK);
+			MessageBox(NULL, L"invalid mir_app.mir present, program exiting", L"Fatal error", MB_ICONERROR | MB_OK);
 			retVal = 2;
 		}
 		else

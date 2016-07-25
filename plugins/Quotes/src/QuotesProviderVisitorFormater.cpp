@@ -87,7 +87,7 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderBase& rProvider)
 	case _T('t'):
 		{
 			tstring sFrmt = Quotes_GetDateFormat(true);
-			sFrmt += _T(" ");
+			sFrmt += L" ";
 			sFrmt += Quotes_GetTimeFormat(true);
 			m_sResult = format_fetch_time(rProvider, m_hContact, sFrmt);
 		}
@@ -109,10 +109,10 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderGoogleFinance&/*
 		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_OPEN_VALUE);
 		break;
 	case _T('d'):
-		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_DIFF, _T("0"));
+		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_DIFF, L"0");
 		break;
 	case _T('y'):
-		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_PERCENT_CHANGE_TO_YERSTERDAY_CLOSE, _T("0"));
+		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_PERCENT_CHANGE_TO_YERSTERDAY_CLOSE, L"0");
 		break;
 	case _T('n'):
 		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
@@ -134,7 +134,7 @@ tstring format_double(double dValue, int nWidth)
 }
 
 void CQuotesProviderVisitorFormater::FormatDoubleHelper(LPCSTR pszDbSet,
-	const tstring sInvalid/* = _T("-")*/)
+	const tstring sInvalid/* = L"-"*/)
 {
 	double d = 0.0;
 	if (true == Quotes_DBReadDouble(m_hContact, QUOTES_MODULE_NAME, pszDbSet, d))

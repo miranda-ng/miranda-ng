@@ -188,7 +188,7 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		int i;
 		// try to find an identical message in the same group (to prevent saving multiple identical messages), 
 		// or at least if we'll find an identical message somewhere else, then we'll use its title for our new message
-		TCString Title(_T(""));
+		TCString Title(L"");
 		for (i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
 			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && TreeCtrl->m_value[i].User_Str1 == (const TCHAR*)Message) {
 				if (TreeCtrl->m_value[i].ParentID == RecentGroupID) { // found it in the same group
@@ -204,13 +204,13 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		if (i == TreeCtrl->m_value.GetSize()) { // we didn't find an identical message in the same group, so we'll add our new message here
 			if (Title.IsEmpty()) { // didn't find a title for our message either
 				if (Message.GetLen() > MRM_MAX_GENERATED_TITLE_LEN)
-					Title = Message.Left(MRM_MAX_GENERATED_TITLE_LEN - 3) + _T("...");
+					Title = Message.Left(MRM_MAX_GENERATED_TITLE_LEN - 3) + L"...";
 				else
 					Title = Message;
 
 				TCHAR *p = Title.GetBuffer();
 				while (*p) { // remove "garbage"
-					if (!(p = _tcspbrk(p, _T("\r\n\t"))))
+					if (!(p = _tcspbrk(p, L"\r\n\t")))
 						break;
 
 					*p++ = ' ';
@@ -270,7 +270,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 
 	if (Flags & GMF_PROTOORGLOBAL && Message == NULL) {
 		Message = CProtoSettings().GetMsgFormat(GMF_PERSONAL | (Flags & GMF_TEMPORARY), pOrder);
-		return (Message == NULL) ? _T("") : Message; // global message can't be NULL
+		return (Message == NULL) ? L"" : Message; // global message can't be NULL
 	}
 
 	if (Flags & GMF_LASTORDEFAULT && Message == NULL) { // try to get the last or default message, depending on current settings
@@ -331,7 +331,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 				*pOrder = Order;
 		}
 		if (Message == NULL)
-			Message = _T(""); // last or default message can't be NULL.. otherwise ICQ won't reply to status message requests and won't notify us of status message requests at all
+			Message = L""; // last or default message can't be NULL.. otherwise ICQ won't reply to status message requests and won't notify us of status message requests at all
 	}
 	return Message;
 }

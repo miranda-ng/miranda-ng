@@ -41,7 +41,7 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 void InitPopups()
 {
 	// window needed for popup commands
-	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MODULE_NAME) _T("_PopupWindow"),
+	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _T(MODULE_NAME) L"_PopupWindow",
 		0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
 		NULL, hInst, NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
@@ -57,7 +57,7 @@ void DeInitPopups()
 // Show an error popup
 void ShowErrPopup(const TCHAR *description, const TCHAR *title)
 {
-	ShowPopupEx(NULL, title == NULL ? _T(MODULE_NAME) _T(" Error") : title, description,
+	ShowPopupEx(NULL, title == NULL ? _T(MODULE_NAME) L" Error" : title, description,
 			  NULL, POPUP_TYPE_ERROR, NULL);
 }
 

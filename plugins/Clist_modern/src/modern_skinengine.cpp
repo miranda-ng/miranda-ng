@@ -126,7 +126,7 @@ IniParser::IniParser(TCHAR * tcsFileName, BYTE flags) : _Flags(flags)
 		return;
 	}
 
-	_hFile = _tfopen(tcsFileName, _T("r"));
+	_hFile = _tfopen(tcsFileName, L"r");
 	if (_hFile != NULL) {
 		_eType = IT_FILE;
 		_isValid = true;
@@ -215,9 +215,9 @@ int IniParser::GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderN
 	while (b3 > custom_folder && *b3 != _T('\\')) { b3--; }
 	*b3 = _T('\0');
 
-	GetPrivateProfileString(_T("Skin_Description_Section"), _T("SkinFolder"), _T(""), cus, _countof(custom_folder), szFileName);
+	GetPrivateProfileString(L"Skin_Description_Section", L"SkinFolder", L"", cus, _countof(custom_folder), szFileName);
 	if (cus[0] != 0)
-		mir_sntprintf(pszFolderName, MAX_PATH, _T("%s\\%s"), custom_folder, cus);
+		mir_sntprintf(pszFolderName, MAX_PATH, L"%s\\%s", custom_folder, cus);
 
 	mir_free(szBuff);
 	PathToRelativeT(pszFolderName, pszFolderName);
@@ -1471,11 +1471,11 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 {
 	TCHAR *SkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
 	if (SkinPlace == NULL)
-		SkinPlace = mir_tstrdup(_T("\\Skin\\default"));
+		SkinPlace = mir_tstrdup(L"\\Skin\\default");
 
 	TCHAR b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		mir_sntprintf(b2, _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
+		mir_sntprintf(b2, L"%s\\%s", (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : L"", file);
 	else
 		mir_tstrncpy(b2, file, _countof(b2));
 
@@ -1564,9 +1564,9 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 	BOOL err = FALSE;
 	tga_header_t header;
 	if (!szFilename) return NULL;
-	if (!wildcmpit(szFilename, _T("*\\*%.tga"))) {
+	if (!wildcmpit(szFilename, L"*\\*%.tga")) {
 		//Loading TGA image from file
-		FILE *fp = _tfopen(szFilename, _T("rb"));
+		FILE *fp = _tfopen(szFilename, L"rb");
 		if (!fp) {
 			TRACEVAR("error: couldn't open \"%s\"!\n", szFilename);
 			return NULL;
@@ -1631,7 +1631,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 	HBITMAP hBitmap;
 	bool f = false;
 
-	if (!mir_tstrcmpi(ext, _T(".tga"))) {
+	if (!mir_tstrcmpi(ext, L".tga")) {
 		hBitmap = ske_LoadGlyphImage_TGA(tszFileName);
 		f = true;
 	}
@@ -1663,7 +1663,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 
 static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
 {
-	if (!wildcmpit(tszFileName, _T("*.tga")))
+	if (!wildcmpit(tszFileName, L"*.tga"))
 		return GDIPlus_LoadGlyphImage(tszFileName);
 
 	return ske_LoadGlyphImageByDecoders(tszFileName);
@@ -1918,7 +1918,7 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 		if (Skin->szSkinPlace && _tcschr(Skin->szSkinPlace, '%'))
 			bOnlyObjects = TRUE;
 		mir_free(Skin->szSkinPlace);
-		Skin->szSkinPlace = mir_tstrdup(_T("%Default%"));
+		Skin->szSkinPlace = mir_tstrdup(L"%Default%");
 		ske_LoadSkinFromResource(bOnlyObjects);
 	}
 
@@ -2275,7 +2275,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 		lpWorkString = (TCHAR*)mir_alloc((visibleCharCount + 4) * sizeof(TCHAR));
 
 		memcpy((void*)lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
-		memcpy((void*)(lpWorkString + visibleCharCount), _T("..."), 4 * sizeof(TCHAR)); // 3 + 1
+		memcpy((void*)(lpWorkString + visibleCharCount), L"...", 4 * sizeof(TCHAR)); // 3 + 1
 
 		nCount = visibleCharCount + 3;
 	}
@@ -3311,8 +3311,8 @@ static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 
 TCHAR* ske_ReplaceVar(TCHAR *var)
 {
-	if (!var) return mir_tstrdup(_T(""));
-	if (!mir_tstrcmpi(var, _T("Profile"))) {
+	if (!var) return mir_tstrdup(L"");
+	if (!mir_tstrcmpi(var, L"Profile")) {
 		char buf[MAX_PATH] = { 0 };
 		CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)buf);
 
@@ -3324,7 +3324,7 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 	}
 
 	mir_free(var);
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 TCHAR *ske_ParseText(TCHAR *stzText)
@@ -3355,7 +3355,7 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 				result = ske_ReAppend(result, var, 0);
 				mir_free(var);
 			}
-			else result = ske_ReAppend(result, _T("%"), 0);
+			else result = ske_ReAppend(result, L"%", 0);
 
 			curpos++;
 			stpos = curpos;

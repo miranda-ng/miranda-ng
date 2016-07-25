@@ -45,14 +45,14 @@ void NetlibUnInit()
 
 void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
-	Netlib_LogfT(hNetlibUser, _T("Getting feed data %s."), tszUrl);
+	Netlib_LogfT(hNetlibUser, L"Getting feed data %s.", tszUrl);
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (_tcsstr(tszUrl, _T("https://")) != NULL)
+	if (_tcsstr(tszUrl, L"https://") != NULL)
 		nlhr.flags |= NLHRF_SSL;
 	char *szUrl = mir_t2a(tszUrl);
 	nlhr.szUrl = szUrl;
@@ -84,14 +84,14 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
-			Netlib_LogfT(hNetlibUser, _T("Code 200: Succeeded getting feed data %s."), tszUrl);
+			Netlib_LogfT(hNetlibUser, L"Code 200: Succeeded getting feed data %s.", tszUrl);
 			// allocate memory and save the retrieved data
 			*szData = (char *)mir_alloc((size_t)(nlhrReply->dataLength + 2));
 			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		else if (nlhrReply->resultCode == 401) {
-			Netlib_LogfT(hNetlibUser, _T("Code 401: feed %s needs auth data."), tszUrl);
+			Netlib_LogfT(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
 			ItemInfo SelItem = { 0 };
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
@@ -99,11 +99,11 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
 		else
-			Netlib_LogfT(hNetlibUser, _T("Code %d: Failed getting feed data %s."), nlhrReply->resultCode, tszUrl);
+			Netlib_LogfT(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 	else
-		Netlib_LogfT(hNetlibUser, _T("Failed getting feed data %s, no response."), tszUrl);
+		Netlib_LogfT(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
 
 	mir_free(szUrl);
 }
@@ -193,56 +193,56 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	else {
 		TCHAR *weekday, monthstr[4], timezonesign[2];
 		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
-		if (_tcsstr(p, _T(","))) {
-			weekday = _tcstok(p, _T(","));
-			p = _tcstok(NULL, _T(","));
-			_stscanf(p + 1, _T("%d %3s %d %d:%d:%d %1s%02d%02d"), &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_tstrcmpi(monthstr, _T("Jan")))
+		if (_tcsstr(p, L",")) {
+			weekday = _tcstok(p, L",");
+			p = _tcstok(NULL, L",");
+			_stscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (!mir_tstrcmpi(monthstr, L"Jan"))
 				month = 1;
-			if (!mir_tstrcmpi(monthstr, _T("Feb")))
+			if (!mir_tstrcmpi(monthstr, L"Feb"))
 				month = 2;
-			if (!mir_tstrcmpi(monthstr, _T("Mar")))
+			if (!mir_tstrcmpi(monthstr, L"Mar"))
 				month = 3;
-			if (!mir_tstrcmpi(monthstr, _T("Apr")))
+			if (!mir_tstrcmpi(monthstr, L"Apr"))
 				month = 4;
-			if (!mir_tstrcmpi(monthstr, _T("May")))
+			if (!mir_tstrcmpi(monthstr, L"May"))
 				month = 5;
-			if (!mir_tstrcmpi(monthstr, _T("Jun")))
+			if (!mir_tstrcmpi(monthstr, L"Jun"))
 				month = 6;
-			if (!mir_tstrcmpi(monthstr, _T("Jul")))
+			if (!mir_tstrcmpi(monthstr, L"Jul"))
 				month = 7;
-			if (!mir_tstrcmpi(monthstr, _T("Aug")))
+			if (!mir_tstrcmpi(monthstr, L"Aug"))
 				month = 8;
-			if (!mir_tstrcmpi(monthstr, _T("Sep")))
+			if (!mir_tstrcmpi(monthstr, L"Sep"))
 				month = 9;
-			if (!mir_tstrcmpi(monthstr, _T("Oct")))
+			if (!mir_tstrcmpi(monthstr, L"Oct"))
 				month = 10;
-			if (!mir_tstrcmpi(monthstr, _T("Nov")))
+			if (!mir_tstrcmpi(monthstr, L"Nov"))
 				month = 11;
-			if (!mir_tstrcmpi(monthstr, _T("Dec")))
+			if (!mir_tstrcmpi(monthstr, L"Dec"))
 				month = 12;
 			if (year < 2000)
 				year += 2000;
-			if (!mir_tstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_tstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour + timezoneh, min + timezonem, sec);
+			if (!mir_tstrcmp(timezonesign, L"+"))
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_tstrcmp(timezonesign, L"-"))
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
-		else if (_tcsstr(p, _T("T"))) {
-			_stscanf(p, _T("%d-%d-%dT%d:%d:%d"), &year, &month, &day, &hour, &min, &sec);
-			mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+		else if (_tcsstr(p, L"T")) {
+			_stscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
+			mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 		else
 		{
-			_stscanf(p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_tstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_tstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour + timezoneh, min + timezonem, sec);
+			_stscanf(p, L"%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (!mir_tstrcmp(timezonesign, L"+"))
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_tstrcmp(timezonesign, L"-"))
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 	}
 	// Get the date part
@@ -273,7 +273,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if (_stscanf(p, _T("%d:%d:%d"), &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
+	if (_stscanf(p, L"%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return 0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
@@ -453,7 +453,7 @@ HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 
 LPCTSTR ClearText(CMString &result, const TCHAR *message)
 {
-	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(_T(""));
+	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
 	if (SUCCEEDED(hr))
 		result = bstrRes;

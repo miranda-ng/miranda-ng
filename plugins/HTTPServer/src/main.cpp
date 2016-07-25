@@ -20,9 +20,9 @@
 
 #define szConfigFile        "HTTPServer.xml"
 
-const TCHAR szXmlHeader[] = _T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
-_T("<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n")
-_T("<config>\r\n");
+const char szXmlHeader[] = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n"
+"<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n"
+"<config>\r\n";
 
 const char szXmlData[] = "\t<share>\r\n"
 "\t\t<name>%s</name>\r\n"
@@ -32,7 +32,7 @@ const char szXmlData[] = "\t<share>\r\n"
 "\t\t<ip_mask>%d.%d.%d.%d</ip_mask>\r\n"
 "\t</share>\r\n";
 
-const TCHAR szXmlTail[] = _T("</config>");
+const char szXmlTail[] = "</config>";
 
 const char* pszDefaultShares[] = {
 	"htdocs\\@settings\\favicon.ico",     "/favicon.ico",
@@ -342,7 +342,7 @@ bool bWriteConfigurationFile()
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
+		mir_sntprintf(temp, "%s%s", TranslateT("Failed to open or create file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
@@ -350,11 +350,11 @@ bool bWriteConfigurationFile()
 	DWORD dwBytesWriten = 0;
 	if (!WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
+		mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml header to file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	}
 	else {
-		CLFileShareNode * pclCur = pclFirstNode;
+		CLFileShareNode *pclCur = pclFirstNode;
 		while (pclCur) {
 			DWORD dwBytesToWrite = mir_snprintf(szBuf, szXmlData,
 				pclCur->st.pszSrvPath,
@@ -365,7 +365,7 @@ bool bWriteConfigurationFile()
 
 			if (!WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
-				mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
+				mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml data to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
@@ -374,7 +374,7 @@ bool bWriteConfigurationFile()
 
 		if (!WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
 			TCHAR temp[200];
-			mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+			mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
 			MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
@@ -751,7 +751,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	nlu.ptszDescriptiveName = TranslateT("HTTP Server");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)& nlu);
 	if (!hNetlibUser) {
-		MessageBox(NULL, _T("Failed to register NetLib user"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to register NetLib user", MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
@@ -865,49 +865,49 @@ extern "C" __declspec(dllexport) int Load()
 
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 	if (!hHttpAcceptConnectionsService) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
 	if (!hHttpAddChangeRemoveService) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
 	if (!hHttpGetShareService) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_SHARE"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to CreateServiceFunction MS_HTTP_GET_SHARE", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hHttpGetAllShares = CreateServiceFunction(MS_HTTP_GET_ALL_SHARES, nHttpGetAllShares);
 	if (!hHttpGetAllShares) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 
 	hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	if (!hEventSystemInit) {
-		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to HookEvent ME_SYSTEM_MODULESLOADED", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	if (!hPreShutdown) {
-		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_PRESHUTDOWN"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to HookEvent ME_SYSTEM_PRESHUTDOWN", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 
 	if (CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szPluginPath)) {
-		MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to retrieve plugin path.", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
-	mir_tstrncat(szPluginPath, _T("\\HTTPServer\\"), _countof(szPluginPath) - mir_tstrlen(szPluginPath));
+	mir_tstrncat(szPluginPath, "\\HTTPServer\\", _countof(szPluginPath) - mir_tstrlen(szPluginPath));
 	int err = CreateDirectoryTree(szPluginPath);
 	if ((err != 0) && (err != ERROR_ALREADY_EXISTS)) {
-		MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to create HTTPServer directory.", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
 

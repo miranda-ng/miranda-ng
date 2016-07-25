@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer);
 			_itot(commonData.checkInterval, buffer, 10);
 			SetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer);
-			mir_sntprintf(buffer, _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
+			mir_sntprintf(buffer, L"%d|%d", commonData.popupTimeout, commonData.popupTimeoutToday);
 			SetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer);
 			_itot(commonData.cSoundNearDays, buffer, 10);
 			SetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer);
@@ -436,7 +436,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			switch (loc) {
 			case DOB_MBIRTHDAY:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_MBIRTHDAY);
-				szCurrentModuleTooltip = _T("mBirthday");
+				szCurrentModuleTooltip = L"mBirthday";
 				break;
 
 			case DOB_PROTOCOL:
@@ -447,17 +447,17 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 			case DOB_BIRTHDAYREMINDER:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_BIRTHDAYREMINDER);
-				szCurrentModuleTooltip = _T("Birthday Reminder");
+				szCurrentModuleTooltip = L"Birthday Reminder";
 				break;
 
 			case DOB_USERINFO:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_USERINFO);
-				szCurrentModuleTooltip = _T("UserInfo");
+				szCurrentModuleTooltip = L"UserInfo";
 				break;
 
 			case DOB_MICQBIRTHDAY:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_MICQBIRTHDAY);
-				szCurrentModuleTooltip = _T("mICQBirthday");
+				szCurrentModuleTooltip = L"mICQBirthday";
 				break;
 
 			default:
@@ -519,11 +519,11 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 TCHAR* GetBirthdayModule(int module, MCONTACT)
 {
 	switch (module) {
-	case DOB_MBIRTHDAY:        return _T("mBirthday");
+	case DOB_MBIRTHDAY:        return L"mBirthday";
 	case DOB_PROTOCOL:         return TranslateT("Protocol module");
-	case DOB_BIRTHDAYREMINDER: return _T("Birthday Reminder");
-	case DOB_USERINFO:         return _T("UserInfo");
-	case DOB_MICQBIRTHDAY:     return _T("mICQBirthday");
+	case DOB_BIRTHDAYREMINDER: return L"Birthday Reminder";
+	case DOB_USERINFO:         return L"UserInfo";
+	case DOB_MICQBIRTHDAY:     return L"mICQBirthday";
 	}
 	return NA;
 }
@@ -609,20 +609,20 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 
 		TCHAR buffer[2048];
 		if ((dtb <= 366) && (dtb >= 0))
-			mir_sntprintf(buffer, _T("%d"), dtb);
+			mir_sntprintf(buffer, L"%d", dtb);
 		else
 			mir_sntprintf(buffer, NA);
 
 		ListView_SetItemText(hList, entry, 2, buffer);
 		if ((month != 0) && (day != 0))
-			mir_sntprintf(buffer, _T("%04d-%02d-%02d"), year, month, day);
+			mir_sntprintf(buffer, L"%04d-%02d-%02d", year, month, day);
 		else
 			mir_sntprintf(buffer, NA);
 
 		ListView_SetItemText(hList, entry, 3, buffer);
 
 		if (age < 400 && age > 0) //hopefully noone lives longer than this :)
-			mir_sntprintf(buffer, _T("%d"), age);
+			mir_sntprintf(buffer, L"%d", age);
 		else
 			mir_sntprintf(buffer, NA);
 
@@ -914,9 +914,9 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			ListView_InsertItem(hList, &item);
 
 			TCHAR buffer[512];
-			mir_sntprintf(buffer, _T("%d"), data->age);
+			mir_sntprintf(buffer, L"%d", data->age);
 			ListView_SetItemText(hList, index, 1, buffer);
-			mir_sntprintf(buffer, _T("%d"), data->dtb);
+			mir_sntprintf(buffer, L"%d", data->dtb);
 			ListView_SetItemText(hList, index, 2, buffer);
 
 			BirthdaysSortParams params = { 0 };

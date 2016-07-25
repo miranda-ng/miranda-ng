@@ -33,7 +33,7 @@
 
 #include <commonheaders.h>
 
-#define RTF_DEFAULT_HEADER _T("{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u")
+#define RTF_DEFAULT_HEADER L"{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u"
 
 wchar_t* WarningDlg::m_warnings[WarningDlg::WARN_LAST] = {
 		LPGENT("Notes|release notes"),
@@ -68,7 +68,7 @@ void Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t* tszN
 			HANDLE  hFile;
 			char 	*pData = (char *)LockResource(hResource);
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
-			mir_sntprintf(szFilename, MAX_PATH, _T("%s%s"), tszPath, tszFilename);
+			mir_sntprintf(szFilename, MAX_PATH, L"%s%s", tszPath, tszFilename);
 			if(!fForceOverwrite) {
 				if(PathFileExistsW(szFilename))
 					return;

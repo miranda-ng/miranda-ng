@@ -276,7 +276,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 		i = 0;
 
 	// Get real height of the line
-	text_height = skin_DrawText(hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat);
+	text_height = skin_DrawText(hdcMem, L"A", 1, &tmp_rc, DT_CALCRECT | uTextFormat);
 	if (uTextFormat & DT_RESIZE_SMILEYS)
 		row_height = text_height;
 	else
@@ -285,7 +285,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 	// Just draw ellipsis
 	if (free_rc.right <= free_rc.left)
 	{
-		skin_DrawText(hdcMem, _T("..."), 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
+		skin_DrawText(hdcMem, L"...", 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 	}
 	else
 	{
@@ -349,7 +349,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 					else
 					{
 						text_rc.top += (row_height - text_height) >> 1;
-						skin_DrawText(hdcMem, _T("..."), 3, &text_rc, uTextFormat);
+						skin_DrawText(hdcMem, L"...", 3, &text_rc, uTextFormat);
 					}
 
 					pos_x += (LONG)(piece->smiley_width * factor);

@@ -72,7 +72,7 @@ std::wstring GetFile()
 {
 	TCHAR filter[512];
 	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), _countof(filter));
-	memcpy(filter + mir_tstrlen(filter), _T("\0*.*\0"), 6 * sizeof(TCHAR));
+	memcpy(filter + mir_tstrlen(filter), L"\0*.*\0", 6 * sizeof(TCHAR));
 	TCHAR stzFilePath[1024];
 	stzFilePath[0] = 0;
 	stzFilePath[1] = 0;

@@ -157,7 +157,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "TranslitSwitcher/ConvertAllOrSelected";
 	hkd.ptszDescription = LPGENT("Convert All / Selected");
-	hkd.ptszSection = _T("TranslitSwitcher");
+	hkd.ptszSection = L"TranslitSwitcher";
 	hkd.pszService = MS_TS_SWITCHLAYOUT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL + HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);

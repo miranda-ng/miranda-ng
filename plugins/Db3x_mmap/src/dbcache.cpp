@@ -37,9 +37,9 @@ void CDb3Mmap::Map()
 	if (m_hMap) {
 		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
 		if (!m_pDbCache)
-			DatabaseCorruption(_T("%s (MapViewOfFile failed. Code: %d)"));
+			DatabaseCorruption(L"%s (MapViewOfFile failed. Code: %d)");
 	}
-	else DatabaseCorruption(_T("%s (CreateFileMapping failed. Code: %d)"));
+	else DatabaseCorruption(L"%s (CreateFileMapping failed. Code: %d)");
 }
 
 void CDb3Mmap::ReMap(DWORD needed)
@@ -51,7 +51,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 	if (needed > 0) {
 		if (needed > m_ChunkSize) {
 			if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
-				DatabaseCorruption(_T("%s (Too large increment)"));
+				DatabaseCorruption(L"%s (Too large increment)");
 			else {
 				DWORD x = m_dbHeader.ofsFileEnd / m_ChunkSize;
 				m_dwFileSize = (x + 1)*m_ChunkSize;

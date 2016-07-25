@@ -251,13 +251,13 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 
 	// give no station name but only ID if the search is unavailable
 	else _tcsncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
-	mir_sntprintf(newID, _T("%s/%s"), svc, sID);
+	mir_sntprintf(newID, L"%s/%s", svc, sID);
 
 	// set the search result and broadcast it
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
 	psr.nick.t = str;
-	psr.firstName.t = _T(" ");
+	psr.firstName.t = L" ";
 	psr.lastName.t = svcname;
 	psr.email.t = newID;
 	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
@@ -272,7 +272,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 int IDSearch(TCHAR *sID, const int searchId)
 {
 	// for a normal ID search (ID != #)
-	if (mir_tstrcmp(sID, _T("#"))) {
+	if (mir_tstrcmp(sID, L"#")) {
 		WIDATALIST *Item = WIHead;
 
 		// search every weather service using the search station ID
@@ -288,8 +288,8 @@ int IDSearch(TCHAR *sID, const int searchId)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 		psr.nick.t = TranslateT("<Enter station name here>");	// to be entered
-		psr.firstName.t = _T(" ");
-		psr.lastName.t = _T("");
+		psr.firstName.t = L" ";
+		psr.lastName.t = L"";
 		psr.email.t = TranslateT("<Enter station ID here>");		// to be entered
 		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 	}
@@ -322,16 +322,16 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 			// for single result
 			if (sData->Single.Available && (search != NULL || !sData->Multiple.Available)) { // single result
 				// if station ID appears first in the downloaded data
-				if (!mir_tstrcmpi(sData->Single.First, _T("ID"))) {
+				if (!mir_tstrcmpi(sData->Single.First, L"ID")) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, L"%s/%s", svc, str);
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
-				else if (!mir_tstrcmpi(sData->Single.First, _T("NAME"))) {
+				else if (!mir_tstrcmpi(sData->Single.First, L"NAME")) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, L"%s/%s", svc, str);
 				}
 				else
 					str[0] = 0;
@@ -350,7 +350,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
 				psr.flags = PSR_TCHAR;
 				psr.nick.t = Name;
-				psr.firstName.t = _T(" ");
+				psr.firstName.t = L" ";
 				psr.lastName.t = svcname;
 				psr.email.t = sID;
 				psr.id.t = sID;
@@ -363,16 +363,16 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				// search for the next occurrence of the string
 				while (true) {
 					// if station ID appears first in the downloaded data
-					if (!mir_tstrcmpi(sData->Multiple.First, _T("ID"))) {
+					if (!mir_tstrcmpi(sData->Multiple.First, L"ID")) {
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, L"%s/%s", svc, str);
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 					}
 					// if station name appears first in the downloaded data
-					else if (!mir_tstrcmpi(sData->Multiple.First, _T("NAME"))) {
+					else if (!mir_tstrcmpi(sData->Multiple.First, L"NAME")) {
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, L"%s/%s", svc, str);
 					}
 					else
 						break;
@@ -388,7 +388,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					PROTOSEARCHRESULT psr = { sizeof(psr) };
 					psr.flags = PSR_TCHAR;
 					psr.nick.t = Name;
-					psr.firstName.t = _T("");
+					psr.firstName.t = L"";
 					psr.lastName.t = svcname;
 					psr.email.t = sID;
 					psr.id.t = sID;

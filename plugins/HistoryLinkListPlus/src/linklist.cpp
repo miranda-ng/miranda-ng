@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	wndclass.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wndclass.lpszClassName = _T("Progressbar");
+	wndclass.lpszClassName = L"Progressbar";
 	RegisterClass(&wndclass);
 
 	splitCursor = LoadCursor(NULL, IDC_SIZENS);
@@ -140,7 +140,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
-	HWND hWndProgress = CreateWindow(_T("Progressbar"), TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
+	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
 	if (hWndProgress == NULL) {
 		mir_free(dbe.pBlob);
 		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );

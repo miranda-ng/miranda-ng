@@ -267,7 +267,7 @@ struct HttpSecurityContext
 
 			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity, szChallenge, szLogin, szPassw, true, complete);
 			if (!szAuthHdr)
-				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S", szProvider, szLogin ? szLogin.get() : _T("(no user)"), szPassw ? _T("(exist)") : _T("(no psw)"));
+				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S", szProvider, szLogin ? szLogin.get() : L"(no user)", szPassw ? L"(exist)" : L"(no psw)");
 			else if (justCreated)
 				proxyAuthList.add(m_szHost, m_szProvider);
 		}

@@ -203,7 +203,7 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			static const struct gc_item Items[] = {
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
-				{ _T(""), 100, MENU_SEPARATOR, FALSE },
+				{ L"", 100, MENU_SEPARATOR, FALSE },
 				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);

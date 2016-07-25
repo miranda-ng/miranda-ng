@@ -445,7 +445,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						else
 							exStyle &= ~(WS_EX_RTLREADING | WS_EX_RIGHT);
 					}
-					mir_sntprintf(buf, sizeof(buf) - 4, _T("%s"), szTitle);
+					mir_sntprintf(buf, sizeof(buf) - 4, L"%s", szTitle);
 					if (hdc != NULL && hwndCtlText != NULL) {
 						SendMessage(hwndCtlText, EM_GETRECT, 0, (LPARAM)&rc);
 						hFontPrev = (HFONT)SelectObject(hdc, (HFONT)SendMessage(hwndCtlText, WM_GETFONT, 0, 0)); // look at !!

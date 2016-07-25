@@ -457,14 +457,14 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 			if (buffer->str[j] == _T('%'))
 			{
 				size_t foundLen = i - j + 1;
-				if (foundLen == 9 && _tcsncmp(&buffer->str[j], _T("%contact%"), 9) == 0)
+				if (foundLen == 9 && _tcsncmp(&buffer->str[j], L"%contact%", 9) == 0)
 				{
 					buffer->replace(j, i + 1, pcli->pfnGetContactDisplayName(hContact, 0));
 				}
-				else if (foundLen == 6 && _tcsncmp(&buffer->str[j], _T("%date%"), 6) == 0)
+				else if (foundLen == 6 && _tcsncmp(&buffer->str[j], L"%date%", 6) == 0)
 				{
 					TCHAR tmp[128];
-					TimeZone_ToStringT(time(NULL), _T("d s"), tmp, _countof(tmp));
+					TimeZone_ToStringT(time(NULL), L"d s", tmp, _countof(tmp));
 					buffer->replace(j, i + 1, tmp);
 				}
 				else

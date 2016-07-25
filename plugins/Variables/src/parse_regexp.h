@@ -17,5 +17,5 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define REGEXPCHECK		_T("regexp_check")
-#define REGEXPSUBSTR	_T("regexp_substr")
+#define REGEXPCHECK		L"regexp_check"
+#define REGEXPSUBSTR	L"regexp_substr"

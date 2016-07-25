@@ -525,7 +525,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	if (opt.AnimateSel) SetTimer(m_hwndDialog, 1, 100, NULL);
 
 	//add tooltips
-	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""),
+	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"",
 		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, NULL, g_hInst, NULL);
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
@@ -728,11 +728,11 @@ void __cdecl SmileyToolThread(void *arg)
 		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wndclass.hbrBackground = CreateSolidBrush(opt.SelWndBkgClr);
 		wndclass.lpszMenuName = NULL;
-		wndclass.lpszClassName = _T("SmileyTool");
+		wndclass.lpszClassName = L"SmileyTool";
 		wndclass.hIconSm = NULL;
 		RegisterClassEx(&wndclass);
 
-		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, _T("SmileyTool"), NULL,
+		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, L"SmileyTool", NULL,
 			WS_BORDER | WS_POPUP | WS_VISIBLE,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 			((SmileyToolWindowParam*)arg)->hWndParent, NULL, g_hInst, arg);
@@ -744,7 +744,7 @@ void __cdecl SmileyToolThread(void *arg)
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		UnregisterClass(_T("SmileyTool"), g_hInst);
+		UnregisterClass(L"SmileyTool", g_hInst);
 	}
 	delete stwp;
 }

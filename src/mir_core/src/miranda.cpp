@@ -57,10 +57,10 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 
 	if (wParam) {
-		VARST profilename(_T("%miranda_profilename%"));
-		mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+		VARST profilename(L"%miranda_profilename%");
+		mir_sntprintf(cmdLine, L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
 	}
-	else mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+	else mir_sntprintf(cmdLine, L"\"%s\" /restart:%d", mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
 
@@ -98,11 +98,11 @@ static void LoadCoreModule(void)
 	icce.dwICC = ICC_WIN95_CLASSES | ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icce);
 
-	hAPCWindow = CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hAPCWindow = CreateWindowEx(0, L"ComboLBox", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
 	DestroyWindow(hAPCWindow);
 
-	hAPCWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hAPCWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
 	SetTimer(hAPCWindow, 1, 1000, NULL);
 	hStackMutex = CreateMutex(NULL, FALSE, NULL);

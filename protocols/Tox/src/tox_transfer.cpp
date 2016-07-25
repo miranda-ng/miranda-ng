@@ -20,7 +20,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 
 				ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
 				TCHAR avatarName[MAX_PATH];
-				mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), address);
+				mir_sntprintf(avatarName, MAX_PATH, L"%s.png", address);
 
 				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
 				transfer->pfts.flags |= PFTS_RECEIVING;
@@ -56,7 +56,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.t = _T("");
+				pre.descr.t = L"";
 				pre.files.t = &name;
 				pre.lParam = (LPARAM)transfer;
 				ProtoChainRecvFile(hContact, &pre);
@@ -78,7 +78,7 @@ HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *
 
 	// stupid fix
 	TCHAR fullPath[MAX_PATH];
-	mir_sntprintf(fullPath, _T("%s\\%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
+	mir_sntprintf(fullPath, L"%s\\%s", transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
 	transfer->ChangeName(fullPath);
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
@@ -111,7 +111,7 @@ int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilen
 
 	ToxHexAddress pubKey = GetContactPublicKey(transfer->friendNumber);
 
-	TCHAR *mode = *action == FILERESUME_OVERWRITE ? _T("wb") : _T("ab");
+	TCHAR *mode = *action == FILERESUME_OVERWRITE ? L"wb" : L"ab";
 	if (!transfer->OpenFile(mode))
 	{
 		debugLogA(__FUNCTION__": failed to open file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
@@ -206,7 +206,7 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 	if (friendNumber == UINT32_MAX)
 		return NULL;
 
-	FILE *hFile = _tfopen(ppszFiles[0], _T("rb"));
+	FILE *hFile = _tfopen(ppszFiles[0], L"rb");
 	if (hFile == NULL)
 	{
 		debugLogA(__FUNCTION__": cannot open file %s", ppszFiles[0]);

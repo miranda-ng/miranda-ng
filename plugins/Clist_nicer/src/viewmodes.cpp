@@ -320,7 +320,7 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 // saves the state of the filter definitions for the current item
 void SaveState()
 {
-	CMString newGroupFilter(_T("|"));
+	CMString newGroupFilter(L"|");
 	CMStringA newProtoFilter("|");
 	DWORD statusMask = 0;
 	DWORD operators = 0;
@@ -493,7 +493,7 @@ void UpdateFilters()
 		for (int i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, _T("%s|"), szTemp);
+			mir_sntprintf(szMask, L"%s|", szTemp);
 			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask)) {
 				ListView_SetCheckState(hwndList, i, TRUE);
 			}
@@ -687,7 +687,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					int iNewItem = SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
 					if (iNewItem != LB_ERR) {
 						SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, (WPARAM)iNewItem, 0);
-						SaveViewMode(szBuf, _T(""), "", -1, -1, 0, 0, 0, 0);
+						SaveViewMode(szBuf, L"", "", -1, -1, 0, 0, 0, 0);
 						sttClvm_curItem = iNewItem;
 						UpdateStickies();
 						SendDlgItemMessage(hwndDlg, IDC_PROTOGROUPOP, CB_SETCURSEL, 0, 0);
@@ -825,18 +825,18 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 {
 	switch (msg) {
 	case WM_CREATE:
-		hwndSelector = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+		hwndSelector = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, NULL);
 		CustomizeButton(hwndSelector, false, false, false);
 		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
 		SendMessage(hwndSelector, BUTTONSETSENDONDOWN, TRUE, 0);
 		{
-			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, NULL);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_UNICODE);
 
-			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU)IDC_RESETMODES, g_hInst, NULL);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_UNICODE);
@@ -1010,18 +1010,18 @@ void CreateViewModeFrame()
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE);
 	wndclass.lpszMenuName = 0;
-	wndclass.lpszClassName = _T("CLVMFrameWindow");
+	wndclass.lpszClassName = L"CLVMFrameWindow";
 	RegisterClass(&wndclass);
 
 	memset(&frame, 0, sizeof(frame));
 	frame.cbSize = sizeof(frame);
-	frame.tname = _T("View modes");
+	frame.tname = L"View modes";
 	frame.TBtname = TranslateT("View modes");
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T("CLVM"), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);

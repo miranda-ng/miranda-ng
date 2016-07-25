@@ -284,7 +284,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							break;
 
 						lvi.pszText = idstr2;
-						mir_sntprintf(idstr2, _T("%d"), i + 2);
+						mir_sntprintf(idstr2, L"%d", i + 2);
 					}
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.ptszVal);
@@ -331,7 +331,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = TranslateT("Mobile");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 					if (mir_strlen(dbv.pszVal) > 4 && !mir_strcmp(dbv.pszVal + mir_strlen(dbv.pszVal) - 4, " SMS")) {
-						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
+						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, L"y");
 						dbv.ptszVal[mir_tstrlen(dbv.ptszVal) - 4] = '\0';
 					}
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
@@ -361,8 +361,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = idstr2;
 					mir_sntprintf(idstr2, TranslateT("Custom %d"), i + 1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (mir_tstrlen(dbv.ptszVal) > 4 && !mir_tstrcmp(dbv.ptszVal + mir_tstrlen(dbv.ptszVal) - 4, _T(" SMS"))) {
-						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
+					if (mir_tstrlen(dbv.ptszVal) > 4 && !mir_tstrcmp(dbv.ptszVal + mir_tstrlen(dbv.ptszVal) - 4, L" SMS")) {
+						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, L"y");
 						dbv.ptszVal[mir_tstrlen(dbv.ptszVal) - 4] = '\0';
 					}
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
@@ -439,8 +439,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR szEmail[256];
 				if (IsOverEmail(hwndDlg, szEmail, _countof(szEmail))) {
 					TCHAR szExec[264];
-					mir_sntprintf(szExec, _T("mailto:%s"), szEmail);
-					ShellExecute(hwndDlg, _T("open"), szExec, NULL, NULL, SW_SHOW);
+					mir_sntprintf(szExec, L"mailto:%s", szEmail);
+					ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
 					break;
 				}
 				if (nm->iSubItem < 2)

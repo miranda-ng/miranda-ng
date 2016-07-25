@@ -46,7 +46,7 @@
 #define DEFAULT_SHOW_POPUP2		false
 #define DEFAULT_BLOCK_REPS		true
 #define DEFAULT_LOGGING_ENABLED	false
-#define DEFAULT_LOG_FILENAME	_T("ping_log.txt")
+#define DEFAULT_LOG_FILENAME	L"ping_log.txt"
 #define DEFAULT_NO_TEST_ICON	true
 #define DEFAULT_ATTACH_TO_CLIST	false
 

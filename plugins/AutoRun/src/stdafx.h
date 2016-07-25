@@ -9,5 +9,5 @@
 #include "resource.h"
 #include "version.h"
 
-#define SUB_KEY _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+#define SUB_KEY L"Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #define ModuleName LPGEN("Autorun")

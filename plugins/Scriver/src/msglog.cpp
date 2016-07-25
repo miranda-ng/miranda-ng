@@ -366,25 +366,25 @@ TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		if (dwFlags & SMF_RELATIVEDATE && check >= today) {
 			mir_tstrcpy(szResult, TranslateT("Today"));
 			if (mode == 0)
-				mir_tstrcat(szResult, _T(","));
+				mir_tstrcat(szResult, L",");
 		}
 		else if (dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
 			mir_tstrcpy(szResult, TranslateT("Yesterday"));
 			if (mode == 0)
-				mir_tstrcat(szResult, _T(","));
+				mir_tstrcat(szResult, L",");
 		}
 		else {
 			if (dwFlags & SMF_LONGDATE)
-				mir_tstrcpy(format, _T("D"));
+				mir_tstrcpy(format, L"D");
 			else
-				mir_tstrcpy(format, _T("d"));
+				mir_tstrcpy(format, L"d");
 		}
 	}
 	if (mode == 0 || mode == 2) {
 		if (mode == 0 && (dwFlags & SMF_SHOWDATE))
-			mir_tstrcat(format, _T(" "));
+			mir_tstrcat(format, L" ");
 
-		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? _T("s") : _T("t"));
+		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? L"s" : L"t");
 	}
 	if (format[0] != '\0') {
 		TimeZone_PrintTimeStamp(NULL, check, format, str, _countof(str), 0);
@@ -642,16 +642,16 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessa
 				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateT("File sent"));
 			else
 				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateT("File received"));
-			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _T(":"));
+			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, L":");
 		}
 		else if (evt->eventType == EVENTTYPE_URL) {
 			if (evt->dwFlags & IEEDF_SENT)
 				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateT("URL sent"));
 			else
 				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateT("URL received"));
-			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _T(":"));
+			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, L":");
 		}
-		AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _T(" "));
+		AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, L" ");
 
 		if (evt->pszTextW != NULL) {
 			if (evt->dwFlags & IEEDF_UNICODE_TEXT)
@@ -661,12 +661,12 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessa
 		}
 
 		if (evt->pszText2W != NULL) {
-			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _T(" ("));
+			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, L" (");
 			if (evt->dwFlags & IEEDF_UNICODE_TEXT2)
 				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, evt->pszText2W);
 			else
 				AppendAnsiToBuffer(buffer, bufferEnd, bufferAlloced, evt->pszText2);
-			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _T(")"));
+			AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, L")");
 		}
 		break;
 	default:
@@ -822,7 +822,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	}
 	else {
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+		SetDlgItemText(hwndDlg, IDC_LOG, L"");
 		sel.cpMin = 0;
 		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);

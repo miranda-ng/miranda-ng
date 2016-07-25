@@ -149,7 +149,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.pszID = S.c_str();
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
 				TCHAR szTemp[40];
-				mir_sntprintf(szTemp, _T("%u"), gci.iCount);
+				mir_sntprintf(szTemp, L"%u", gci.iCount);
 				sOutput = szTemp;
 			}
 		}
@@ -163,7 +163,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 				return (INT_PTR)mir_strdup(gci.pszUsers);
 		}
 		else if (sRequest == "channellist") {
-			CMString S = _T("");
+			CMString S = L"";
 			int n = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
 			if (n >= 0) {
 				int j = 0;
@@ -175,10 +175,10 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
 						if (mir_tstrcmpi(gci.pszID, SERVERWINDOW)) {
 							CMString S1 = gci.pszID;
-							int k = S1.Find(_T(" "));
+							int k = S1.Find(L" ");
 							if (k != -1)
 								S1 = S1.Mid(0, k);
-							S += S1 + _T(" ");
+							S += S1 + L" ";
 						}
 					}
 					j++;

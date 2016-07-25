@@ -49,7 +49,7 @@ char* u2a(const WCHAR *pszUnicode)
 
 void TrimString(TCHAR *pszStr)
 {
-	TCHAR *psz, szChars[] = _T(" \r\n\t");
+	TCHAR *psz, szChars[] = L" \r\n\t";
 	for (int i = 0; i < _countof(szChars); ++i) {
 		/* trim end */
 		psz = &pszStr[mir_tstrlen(pszStr) - 1];
@@ -199,7 +199,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut, int nSize, time_t timestamp, BOOL fShowD
 			return FALSE;
 		if (!GetDateFormat(locale, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate)))
 			return FALSE;
-		mir_sntprintf(pszOut, nSize, _T("%s %s"), szTime, szDate);
+		mir_sntprintf(pszOut, nSize, L"%s %s", szTime, szDate);
 		return TRUE;
 	}
 }

@@ -55,7 +55,7 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *, 
 	ts->TxSendMessage(EM_SETSEL, range.cpMin, -1, &lResult);
 	ts->TxSendMessage(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf, &lResult);
 	ts->TxSendMessage(EM_SETSEL, range.cpMin, range.cpMax, &lResult);
-	ts->TxSendMessage(EM_REPLACESEL, FALSE, (LPARAM)_T(""), &lResult);
+	ts->TxSendMessage(EM_REPLACESEL, FALSE, (LPARAM)L"", &lResult);
 
 	return true;
 }
@@ -85,24 +85,24 @@ static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt
 
 static BBCodeInfo bbCodes[] =
 {
-	{ _T("[b]"), 0, bbCodeSimpleFunc, BBS_BOLD_S },
-	{ _T("[/b]"), 0, bbCodeSimpleFunc, BBS_BOLD_E },
-	{ _T("[i]"), 0, bbCodeSimpleFunc, BBS_ITALIC_S },
-	{ _T("[/i]"), 0, bbCodeSimpleFunc, BBS_ITALIC_E },
-	{ _T("[u]"), 0, bbCodeSimpleFunc, BBS_UNDERLINE_S },
-	{ _T("[/u]"), 0, bbCodeSimpleFunc, BBS_UNDERLINE_E },
-	{ _T("[s]"), 0, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
-	{ _T("[/s]"), 0, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
+	{ L"[b]", 0, bbCodeSimpleFunc, BBS_BOLD_S },
+	{ L"[/b]", 0, bbCodeSimpleFunc, BBS_BOLD_E },
+	{ L"[i]", 0, bbCodeSimpleFunc, BBS_ITALIC_S },
+	{ L"[/i]", 0, bbCodeSimpleFunc, BBS_ITALIC_E },
+	{ L"[u]", 0, bbCodeSimpleFunc, BBS_UNDERLINE_S },
+	{ L"[/u]", 0, bbCodeSimpleFunc, BBS_UNDERLINE_E },
+	{ L"[s]", 0, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
+	{ L"[/s]", 0, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
 
-	//	{ _T("[color="),  _T("]"),     bbCodeSimpleFunc, BBS_COLOR_S },
-	//	{ _T("[/color]"), 0,           bbCodeSimpleFunc, BBS_COLOR_E }
+	//	{ L"[color=",  L"]",     bbCodeSimpleFunc, BBS_COLOR_S },
+	//	{ L"[/color]", 0,           bbCodeSimpleFunc, BBS_COLOR_E }
 
-	{ _T("[$hicon="), _T("$]"), bbCodeImageFunc, 0 }
+	{ L"[$hicon=", L"$]", bbCodeImageFunc, 0 }
 
-	//	{ _T("[url]"),   _T("[/url]"), bbCodeSimpleFunc, BBS_URL1 },
-	//	{ _T("[url="),    _T("]"),     bbCodeSimpleFunc, BBS_URL2 },
-	//	{ _T("[url]"),   _T("[/url]"), bbCodeSimpleFunc, BBS_IMG1 },
-	//	{ _T("[url="),    _T("]"),     bbCodeSimpleFunc, BBS_IMG2 },
+	//	{ L"[url]",   L"[/url]", bbCodeSimpleFunc, BBS_URL1 },
+	//	{ L"[url=",    L"]",     bbCodeSimpleFunc, BBS_URL2 },
+	//	{ L"[url]",   L"[/url]", bbCodeSimpleFunc, BBS_IMG1 },
+	//	{ L"[url=",    L"]",     bbCodeSimpleFunc, BBS_IMG2 },
 };
 static int bbCodeCount = sizeof(bbCodes) / sizeof(*bbCodes);
 

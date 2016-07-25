@@ -323,14 +323,14 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	TCHAR szEventName[100];
-	mir_sntprintf(szEventName, _T("avs_loaderthread_%d"), GetCurrentThreadId());
+	mir_sntprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 
 	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
-	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT _T("\\Avatars"));
-	hGlobalAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Global Avatar Cache"), MIRANDA_USERDATAT _T("\\Avatars"));
+	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT L"\\Avatars");
+	hGlobalAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Global Avatar Cache"), MIRANDA_USERDATAT L"\\Avatars");
 
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
 
@@ -381,7 +381,7 @@ static int LoadAvatarModule()
 	InitServices();
 	InitPolls();
 
-	_tcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(_T("%miranda_userdata%\\")), _TRUNCATE);
+	_tcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(L"%miranda_userdata%\\"), _TRUNCATE);
 	_tcslwr(g_szDataPath);
 	return 0;
 }

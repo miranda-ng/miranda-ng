@@ -135,25 +135,25 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					char *tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
 					tmp = mir_a2t(tmp2);
 					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 1, (mir_tstrlen(tmp) > 1) ? tmp : _T("not set"));
+					ListView_SetItemText(hwndList, iRow, 1, (mir_tstrlen(tmp) > 1) ? tmp : L"not set");
 					mir_free(tmp);
 					
 					tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", "");
 					if (!toUTF16(tmp2).empty())
 						tmp = mir_wstrdup(toUTF16(tmp2).c_str());
 					else
-						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", _T(""));
+						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", L"");
 					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 2, (mir_tstrlen(tmp) > 1) ? tmp : _T("not set"));
+					ListView_SetItemText(hwndList, iRow, 2, (mir_tstrlen(tmp) > 1) ? tmp : L"not set");
 					mir_free(tmp);
 					
 					tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", "");
 					if (!toUTF16(tmp2).empty())
 						tmp = mir_wstrdup(toUTF16(tmp2).c_str());
 					else
-						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", _T(""));
+						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", L"");
 					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 3, (mir_tstrlen(tmp) > 1) ? tmp : _T("not set"));
+					ListView_SetItemText(hwndList, iRow, 3, (mir_tstrlen(tmp) > 1) ? tmp : L"not set");
 					mir_free(tmp);
 					
 					if (db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0))
@@ -168,8 +168,8 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					i++;
 				}
 			}
-			TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", _T(""));
-			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_tstrlen(tmp) > 1) ? tmp : _T("c:\\GPGdebug.log"));
+			TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", L"");
+			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_tstrlen(tmp) > 1) ? tmp : L"c:\\GPGdebug.log");
 			mir_free(tmp);
 			CheckStateLoadDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog", 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), bIsMiranda09);
@@ -304,11 +304,11 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_SAVE_KEY_BUTTON:
 			{
-				TCHAR *tmp = GetFilePath(TranslateT("Export public key"), _T("*"), TranslateT(".asc pubkey file"), true);
+				TCHAR *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
 				if (tmp) {
-					wstring str(ptrT(UniGetContactSettingUtf(user_data[item_num + 1], szGPGModuleName, "GPGPubKey", _T(""))));
+					wstring str(ptrT(UniGetContactSettingUtf(user_data[item_num + 1], szGPGModuleName, "GPGPubKey", L"")));
 					wstring::size_type s = 0;
-					while ((s = str.find(_T("\r"), s)) != wstring::npos)
+					while ((s = str.find(L"\r", s)) != wstring::npos)
 						str.erase(s, 1);
 
 					wfstream f(tmp, std::ios::out);
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			break;
 
 		case IDC_LOG_FILE_SET:
-			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, ptrT(GetFilePath(TranslateT("Set log file"), _T("*"), TranslateT("LOG files"), 1)));
+			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, ptrT(GetFilePath(TranslateT("Set log file"), L"*", TranslateT("LOG files"), 1)));
 			break;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -415,16 +415,16 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetDlgItemText(hwndDlg, IDC_BIN_PATH, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"))));
-		SetDlgItemText(hwndDlg, IDC_HOME_DIR, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T("gpg"))));
+		SetDlgItemText(hwndDlg, IDC_BIN_PATH, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
+		SetDlgItemText(hwndDlg, IDC_HOME_DIR, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"gpg")));
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_SET_BIN_PATH:
 			{
-				GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), TranslateT("EXE Executables"));
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"));
+				GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
+				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
 				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 				bool gpg_exists = false;
 				{
@@ -432,7 +432,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						gpg_exists = true;
 					if (gpg_exists) {
 						bool bad_version = false;
-						TCHAR *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
+						TCHAR *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 						string out;
 						DWORD code;
@@ -460,7 +460,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 						}
 						/*					  if(bad_version) //looks like working fine with gpg2
-													MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), _T("Warning"), MB_OK); */
+													MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), L"Warning", MB_OK); */
 					}
 				}
 				char mir_path[MAX_PATH];
@@ -478,7 +478,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SET_HOME_DIR:
 			{
 				GetFolderPath(TranslateT("Set home directory"), "szHomePath");
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 				SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 				char mir_path[MAX_PATH];
 				char *atmp = mir_t2a(tmp);
@@ -526,16 +526,16 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckStateLoadDB(hwndDlg, IDC_APPEND_TAGS, "bAppendTags", 0);
 			CheckStateLoadDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags", 0);
 			{
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", _T("<GPGdec>"));
+				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", L"<GPGdec>");
 				SetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp);
 				mir_free(tmp);
-				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", _T("</GPGdec>"));
+				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", L"</GPGdec>");
 				SetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp);
 				mir_free(tmp);
-				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", _T("<GPGenc>"));
+				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", L"<GPGenc>");
 				SetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp);
 				mir_free(tmp);
-				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", _T("</GPGenc>"));
+				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", L"</GPGenc>");
 				SetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp);
 				mir_free(tmp);
 			}
@@ -679,16 +679,16 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, BST_CHECKED);
 			}
 			if (hcnt) {
-				TCHAR *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
+				TCHAR *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
 				wstring str = tmp;
 				mir_free(tmp); tmp = NULL;
 				if (!str.empty()) {
 					wstring::size_type p = 0, stop = 0;
 					for (;;) {
-						if ((p = str.find(_T("\n"), p + 2)) != wstring::npos) {
+						if ((p = str.find(L"\n", p + 2)) != wstring::npos) {
 							if (p > stop) {
 								stop = p;
-								str.insert(p, _T("\r"));
+								str.insert(p, L"\r");
 							}
 							else break;
 						}
@@ -736,7 +736,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				}
 				if (tmp)
 					mir_free(tmp);
-				SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, !str.empty() ? str.c_str() : _T(""));
+				SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, !str.empty() ? str.c_str() : L"");
 			}
 			hPubKeyEdit = GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT);
 			return TRUE;
@@ -751,26 +751,26 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					TCHAR *begin, *end;
 					GetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, tmp, 40960);
 					key_buf.append(tmp);
-					key_buf.append(_T("\n")); //no new line at end of file )
+					key_buf.append(L"\n"); //no new line at end of file )
 					delete[] tmp;
-					while ((ws1 = key_buf.find(_T("\r"), ws1)) != wstring::npos) {
+					while ((ws1 = key_buf.find(L"\r", ws1)) != wstring::npos) {
 						key_buf.erase(ws1, 1); //remove windows specific trash
 					}
 					ws1 = 0;
-					if (((ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos)) {
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1));
-						mir_tstrcpy(begin, _T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
-						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1));
-						mir_tstrcpy(end, _T("-----END PGP PUBLIC KEY BLOCK-----"));
+					if (((ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos)) {
+						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----BEGIN PGP PUBLIC KEY BLOCK-----") + 1));
+						mir_tstrcpy(begin, L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
+						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----") + 1));
+						mir_tstrcpy(end, L"-----END PGP PUBLIC KEY BLOCK-----");
 					}
-					else if (((ws2 = key_buf.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos)) {
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1));
-						mir_tstrcpy(begin, _T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
-						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1));
-						mir_tstrcpy(end, _T("-----END PGP PRIVATE KEY BLOCK-----"));
+					else if (((ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos)) {
+						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----BEGIN PGP PRIVATE KEY BLOCK-----") + 1));
+						mir_tstrcpy(begin, L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
+						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----END PGP PRIVATE KEY BLOCK-----") + 1));
+						mir_tstrcpy(end, L"-----END PGP PRIVATE KEY BLOCK-----");
 					}
 					else {
-						MessageBox(0, TranslateT("This is not public or private key"), _T("INFO"), MB_OK);
+						MessageBox(0, TranslateT("This is not public or private key"), L"INFO", MB_OK);
 						break;
 					}
 					ws2 += mir_tstrlen(end);
@@ -800,18 +800,18 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						DWORD exitcode;
 						{
 							MCONTACT hcnt = db_mc_tryMeta(hContact);
-							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 							_tcsncpy(tmp2, ptmp, MAX_PATH - 1);
 							mir_free(ptmp);
-							mir_tstrncat(tmp2, _T("\\"), _countof(tmp2) - mir_tstrlen(tmp2));
-							mir_tstrncat(tmp2, _T("temporary_exported.asc"), _countof(tmp2) - mir_tstrlen(tmp2));
+							mir_tstrncat(tmp2, L"\\", _countof(tmp2) - mir_tstrlen(tmp2));
+							mir_tstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_tstrlen(tmp2));
 							boost::filesystem::remove(tmp2);
 							wfstream f(tmp2, std::ios::out);
-							ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
+							ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
 							wstring str = ptmp;
 							mir_free(ptmp);
 							wstring::size_type s = 0;
-							while ((s = str.find(_T("\r"), s)) != wstring::npos) {
+							while ((s = str.find(L"\r", s)) != wstring::npos) {
 								str.erase(s, 1);
 							}
 							f << str.c_str();
@@ -1004,7 +1004,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							}
 						}
 						if (!hContact) {
-							TCHAR *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", _T(""));
+							TCHAR *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", L"");
 							{
 								string out;
 								DWORD code;
@@ -1031,7 +1031,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							}
 						}
 						tmp = mir_wstrdup(toUTF16(output).c_str());
-						MessageBox(0, tmp, _T(""), MB_OK);
+						MessageBox(0, tmp, L"", MB_OK);
 						mir_free(tmp);
 						boost::filesystem::remove(tmp2);
 					}
@@ -1069,7 +1069,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				break;
 			case ID_LOAD_FROM_FILE:
 				{
-					TCHAR *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), _T("*"), TranslateT("GPG public key file"));
+					TCHAR *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
 					if (!tmp)
 						break;
 
@@ -1095,17 +1095,17 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							debuglog << std::string(time_str() + ": info: Failed to read key file");
 						break;
 					}
-					ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));
-					ws1 = key_buf.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
+					ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----");
+					ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
 					if (ws2 == wstring::npos || ws1 == wstring::npos) {
-						ws2 = key_buf.find(_T("-----END PGP PRIVATE KEY BLOCK-----"));
-						ws1 = key_buf.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
+						ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----");
+						ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
 					}
 					if (ws2 == wstring::npos || ws1 == wstring::npos) {
 						MessageBox(0, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
 						break;
 					}
-					ws2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
+					ws2 += mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 					SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, key_buf.substr(ws1, ws2 - ws1).c_str());
 					key_buf.clear();
 				}

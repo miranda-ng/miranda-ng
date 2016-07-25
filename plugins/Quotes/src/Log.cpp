@@ -6,7 +6,7 @@ namespace
 
 	tstring get_log_file_name()
 	{
-		return CreateFilePath(_T("Quotes.log"));
+		return CreateFilePath(L"Quotes.log");
 	}
 
 	bool is_log_enabled()
@@ -26,7 +26,7 @@ namespace
 		{
 			TCHAR szTime[20];
 			_tstrtime_s(szTime);
-			file << szTime << _T(" ================================>\n") << rsMsg << _T("\n\n");
+			file << szTime << L" ================================>\n" << rsMsg << L"\n\n";
 		}
 	}
 }

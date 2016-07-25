@@ -61,11 +61,11 @@ int CExchangeServer::Connect(int bForceConnect)
 		TCHAR password[1024]; //i know
 		TCHAR server[1024];
 
-		GetStringFromDatabase("Username", _T(""), user, _countof(user));
+		GetStringFromDatabase("Username", L"", user, _countof(user));
 		_tcsncpy_s(user, VARST(user), _TRUNCATE);
 
-		GetStringFromDatabase("Password", _T(""), password, _countof(password));
-		GetStringFromDatabase("Server", _T(""), server, _countof(server));
+		GetStringFromDatabase("Password", L"", password, _countof(password));
+		GetStringFromDatabase("Server", L"", server, _countof(server));
 
 		int port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
 		if (mir_tstrlen(server) > 0) //only connect if there's a server to connect to
@@ -153,7 +153,7 @@ int CExchangeServer::IsServerAvailable()
 		return 0; //server is not available
 
 	TCHAR szServer[1024];
-	GetStringFromDatabase("Server", _T(""), szServer, sizeof(szServer));
+	GetStringFromDatabase("Server", L"", szServer, sizeof(szServer));
 	sockaddr_in addrServer;
 	InitSocketAddr(&addrServer, mir_t2a(szServer));
 	int res = connect(sServer, (sockaddr *) &addrServer, sizeof(addrServer));
@@ -209,10 +209,10 @@ int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 		TCHAR* szSubject = m_HeadersKeeper[iUnreadEmail]->m_szSubject;
 
 		if (NULL == szSender)
-			szSender = _T("");
+			szSender = L"";
 
 		if (NULL == szSubject)
-			szSubject = _T("");
+			szSubject = L"";
 
 		emailInfo->szSender  = szSender;
 		emailInfo->szSubject = szSubject;

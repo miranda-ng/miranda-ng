@@ -33,7 +33,7 @@ void GetProfilePath(TCHAR *res, size_t resLen)
 	TCHAR *p = _tcsrchr(dbname, '.');
 	if (p) *p = 0;
 
-	mir_sntprintf(res, resLen, _T("\"%s\" \"/profile:%s\""), exename, dbname);
+	mir_sntprintf(res, resLen, L"\"%s\" \"/profile:%s\"", exename, dbname);
 }
 
 static void SetAutorun(BOOL autorun)
@@ -45,13 +45,13 @@ static void SetAutorun(BOOL autorun)
 		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
 			TCHAR result[MAX_PATH];
 			GetProfilePath(result, _countof(result));
-			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*(DWORD)mir_tstrlen(result));
+			RegSetValueEx(hKey, L"MirandaNG", 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*(DWORD)mir_tstrlen(result));
 			RegCloseKey(hKey);
 		}
 		break;
 	case FALSE:
 		if ( RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS) {
-			RegDeleteValue(hKey, _T("MirandaNG"));
+			RegDeleteValue(hKey, L"MirandaNG");
 			RegCloseKey(hKey);
 		}
 		break;
@@ -66,7 +66,7 @@ static BOOL CmpCurrentAndRegistry()
 
 	TCHAR result[MAX_PATH], dbpath[MAX_PATH];
 	DWORD dwBufLen = MAX_PATH;
-	if ( RegQueryValueEx(hKey, _T("MirandaNG"), NULL, NULL, (LPBYTE)dbpath, &dwBufLen) != ERROR_SUCCESS)
+	if ( RegQueryValueEx(hKey, L"MirandaNG", NULL, NULL, (LPBYTE)dbpath, &dwBufLen) != ERROR_SUCCESS)
 		return FALSE;
 	
 	GetProfilePath(result, _countof(result));

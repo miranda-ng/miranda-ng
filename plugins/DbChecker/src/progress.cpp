@@ -90,7 +90,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			hdc = GetDC(NULL);
 			hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
 			hoFont = (HFONT)SelectObject(hdc, hFont);
-			GetTextExtentPoint32(hdc, _T("x"), 1, &s);
+			GetTextExtentPoint32(hdc, L"x", 1, &s);
 			SelectObject(hdc, hoFont);
 			ReleaseDC(NULL, hdc);
 			fontHeight = s.cy;

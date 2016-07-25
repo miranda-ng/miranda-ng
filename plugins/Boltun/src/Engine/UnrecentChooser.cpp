@@ -60,7 +60,7 @@ tstring UnRecentChooser::Choose()
 	}
 	else
 		if (minimum == -1)
-			res = _T("");
+			res = L"";
 		else
 		{
 			float minprio = maxOldPrio / 1.5F;

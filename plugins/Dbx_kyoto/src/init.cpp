@@ -99,7 +99,7 @@ static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
 	"dbx_kyoto",
-	_T("KyotoCabinet database driver"),
+	L"KyotoCabinet database driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

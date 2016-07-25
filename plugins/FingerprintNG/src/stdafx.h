@@ -110,7 +110,7 @@ typedef struct _foundInfo
 
 #define MODULENAME   "Finger"
 
-#define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_icons.dll")
+#define DEFAULT_SKIN_FOLDER		L"Icons\\Fp_icons.dll"
 
 void ClearFI();
 

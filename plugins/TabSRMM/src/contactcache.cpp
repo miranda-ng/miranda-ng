@@ -120,7 +120,7 @@ bool CContactCache::updateNick()
 		TCHAR *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick && mir_tstrcmp(m_szNick, tszNick))
 			fChanged = true;
-		_tcsncpy_s(m_szNick, (tszNick ? tszNick : _T("<undef>")), _TRUNCATE);
+		_tcsncpy_s(m_szNick, (tszNick ? tszNick : L"<undef>"), _TRUNCATE);
 	}
 	return fChanged;
 }
@@ -343,18 +343,18 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		}
 		if (m_iHistoryCurrent == m_iHistoryTop) {
 			if (m_history[m_iHistorySize].szText != NULL) {           // replace the temp buffer
-				::SetWindowText(hwndEdit, _T(""));
+				::SetWindowText(hwndEdit, L"");
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
 			}
 		}
 		else {
 			if (m_history[m_iHistoryCurrent].szText != NULL) {
-				::SetWindowText(hwndEdit, _T(""));
+				::SetWindowText(hwndEdit, L"");
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
 			}
-			else ::SetWindowText(hwndEdit, _T(""));
+			else ::SetWindowText(hwndEdit, L"");
 		}
 		::SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
 		m_dat->dwFlags &= ~MWF_NEEDHISTORYSAVE;

@@ -33,7 +33,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai, std::string *
 		utils::text::replace_first(url, "%s", std::string(id));
 	}
 
-	std::tstring filename = GetAvatarFolder() + _T('\\') + std::tstring(_A2T(id)) + _T(".jpg");
+	std::tstring filename = GetAvatarFolder() + _T('\\') + std::tstring(_A2T(id)) + L".jpg";
 
 	_tcsncpy_s(pai.filename, filename.c_str(), _TRUNCATE);
 	pai.format = ProtoGetAvatarFormat(pai.filename);
@@ -126,7 +126,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 std::tstring FacebookProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }
 

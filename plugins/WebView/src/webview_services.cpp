@@ -85,16 +85,16 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_sntprintf(cachedirectorypath, _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+			mir_sntprintf(cachedirectorypath, L"%s" MODULENAME L"cache\\", cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			TCHAR newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_sntprintf(newcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
-			mir_sntprintf(renamedcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
+			mir_sntprintf(newcachepath, L"%s" MODULENAME L"cache\\%s.txt", cachepath, oldName);
+			mir_sntprintf(renamedcachepath, L"%s" MODULENAME L"cache\\%s.txt", cachepath, nick);
 
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
-				FILE *pcachefile = _tfopen(newcachepath, _T("r"));
+				FILE *pcachefile = _tfopen(newcachepath, L"r");
 				if (pcachefile != NULL) {
 					fclose(pcachefile);
 					if (mir_tstrcmp(newcachepath, renamedcachepath)) {
@@ -124,12 +124,12 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+	mir_sntprintf(cachedirectorypath, L"%s" MODULENAME L"cache\\", cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_sntprintf(newcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
+	mir_sntprintf(newcachepath, L"%s" MODULENAME L"cache\\%s.txt", cachepath,  contactName);
 	// file exists?
 	if ( _taccess(newcachepath, 0) != -1) {
-		FILE *pcachefile = _tfopen(newcachepath, _T("r"));
+		FILE *pcachefile = _tfopen(newcachepath, L"r");
 		if (pcachefile != NULL) {
 			fclose(pcachefile);
 			DeleteFile(newcachepath);
@@ -149,12 +149,12 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, _T("%s")_T(MODULENAME)_T("cache\\%s"), cachepath, cacheend);
+	mir_sntprintf(cachedirectorypath, L"%s" MODULENAME L"cache\\%s", cachepath, cacheend);
 
 	if( _taccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Cache folder does not exist."));
 	else
-		ShellExecute(NULL, _T("open"), cachedirectorypath, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(NULL, L"open", cachedirectorypath, NULL, NULL, SW_SHOWNORMAL);
 	return 0;
 }
 
@@ -173,7 +173,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 
 	TCHAR Cnick[200], *Oldnick;
 	_tcsncpy(Cnick, url, _countof(Cnick));
-	if ((Oldnick = _tcsstr(Cnick, _T("://"))) != 0)
+	if ((Oldnick = _tcsstr(Cnick, L"://")) != 0)
 		Oldnick += 3;
 	else 
 		Oldnick = Cnick;
@@ -181,7 +181,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 	TCHAR *Nend = _tcschr(Oldnick, '/');
 	if (Nend) *Nend = '\0';
 
-	ShellExecute(NULL, _T("open"), _T("psite.bat"), Oldnick, NULL, SW_HIDE);
+	ShellExecute(NULL, L"open", L"psite.bat", Oldnick, NULL, SW_HIDE);
 	return 0;
 }
 
@@ -384,17 +384,17 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	else
 		Cnick[0] = 0;
 
-	TCHAR *Oldnick = _tcsstr(Cnick, _T("://"));
+	TCHAR *Oldnick = _tcsstr(Cnick, L"://");
 	if (Oldnick != 0)
 		Oldnick += 3;
 	else
 		Oldnick = Cnick;
 
-	TCHAR *Newnick = _tcsstr(Oldnick, _T("www."));
+	TCHAR *Newnick = _tcsstr(Oldnick, L"www.");
 	if (Newnick != 0)
 		Newnick += 4;
 	else {
-		Newnick = _tcsstr(Oldnick, _T("WWW."));
+		Newnick = _tcsstr(Oldnick, L"WWW.");
 		if (Newnick != 0)
 			Newnick += 4;
 		else

@@ -131,7 +131,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				GetDlgItemText(hwndDlg, IDC_PRG, szName, _countof(szName));
 				OpenFileName.lStructSize = sizeof(OPENFILENAME);
 				OpenFileName.hwndOwner = hwndDlg;
-				OpenFileName.lpstrFilter = _T("Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0");
+				OpenFileName.lpstrFilter = L"Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0";
 				OpenFileName.lpstrFile = szName;
 				OpenFileName.nMaxFile = _countof(szName);
 				OpenFileName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;

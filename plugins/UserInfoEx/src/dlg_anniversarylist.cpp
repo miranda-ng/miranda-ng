@@ -706,7 +706,7 @@ class CAnnivList
 					if (ad.Age(&mtNow))
 						AddSubItem(iItem, COLUMN_AGE, _itot(ad.Age(&mtNow), szText, 10));
 					else
-						AddSubItem(iItem, COLUMN_AGE, _T("???"));
+						AddSubItem(iItem, COLUMN_AGE, L"???");
 
 					// fifth line: anniversary
 					AddSubItem(iItem, COLUMN_DESC, (LPTSTR)ad.Description());

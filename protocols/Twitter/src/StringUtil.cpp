@@ -71,7 +71,7 @@ tstring GetWord(const tstring& str, unsigned index, bool getRest)
 		}
 		else ++end;
 	}
-	return _T("");
+	return L"";
 }
 
 // takes a pointer to a string, and does an inplace replace of all the characters "from" found 

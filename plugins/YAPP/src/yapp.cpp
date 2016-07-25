@@ -98,8 +98,8 @@ static void InitFonts()
 	mir_tstrcpy(font_id_firstline.name, LPGENT("First line"));
 	mir_strcpy(font_id_firstline.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_firstline.prefix, "FontFirst");
-	mir_tstrcpy(font_id_firstline.backgroundGroup, _T("Popups"));
-	mir_tstrcpy(font_id_firstline.backgroundName, _T("Background"));
+	mir_tstrcpy(font_id_firstline.backgroundGroup, L"Popups");
+	mir_tstrcpy(font_id_firstline.backgroundName, L"Background");
 	font_id_firstline.order = 0;
 	FontRegisterT(&font_id_firstline);
 
@@ -109,8 +109,8 @@ static void InitFonts()
 	mir_tstrcpy(font_id_secondline.name, LPGENT("Second line"));
 	mir_strcpy(font_id_secondline.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_secondline.prefix, "FontSecond");
-	mir_tstrcpy(font_id_secondline.backgroundGroup, _T("Popups"));
-	mir_tstrcpy(font_id_secondline.backgroundName, _T("Background"));
+	mir_tstrcpy(font_id_secondline.backgroundGroup, L"Popups");
+	mir_tstrcpy(font_id_secondline.backgroundName, L"Background");
 	font_id_secondline.order = 1;
 	FontRegisterT(&font_id_secondline);
 
@@ -120,8 +120,8 @@ static void InitFonts()
 	mir_tstrcpy(font_id_time.name, LPGENT("Time"));
 	mir_strcpy(font_id_time.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_time.prefix, "FontTime");
-	mir_tstrcpy(font_id_time.backgroundGroup, _T("Popups"));
-	mir_tstrcpy(font_id_time.backgroundName, _T("Background"));
+	mir_tstrcpy(font_id_time.backgroundGroup, L"Popups");
+	mir_tstrcpy(font_id_time.backgroundName, L"Background");
 	font_id_time.order = 2;
 	FontRegisterT(&font_id_time);
 
@@ -200,7 +200,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	LoadModuleDependentOptions(); 
 
-	if (GetModuleHandle(_T("neweventnotify")))
+	if (GetModuleHandle(L"neweventnotify"))
 		ignore_gpd_passed_addy = true;
 
 	return 0;

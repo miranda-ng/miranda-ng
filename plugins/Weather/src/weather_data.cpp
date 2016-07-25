@@ -185,54 +185,54 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 	// convert the unit
 	if (mir_tstrcmp(Data, TranslateT("<Error>")) && mir_tstrcmp(Data, NODATA) && mir_tstrcmp(Data, TranslateTS(NODATA))) {
 		// temperature
-		if (!mir_tstrcmp(UpdateData->Name, _T("Temperature")) || !mir_tstrcmp(UpdateData->Name, _T("High")) ||
-			!mir_tstrcmp(UpdateData->Name, _T("Low")) || !mir_tstrcmp(UpdateData->Name, _T("Feel")) ||
-			!mir_tstrcmp(UpdateData->Name, _T("Dewpoint")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("C")) || !mir_tstrcmpi(UpdateData->Unit, _T("F")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("K"))) {
+		if (!mir_tstrcmp(UpdateData->Name, L"Temperature") || !mir_tstrcmp(UpdateData->Name, L"High") ||
+			!mir_tstrcmp(UpdateData->Name, L"Low") || !mir_tstrcmp(UpdateData->Name, L"Feel") ||
+			!mir_tstrcmp(UpdateData->Name, L"Dewpoint") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"C") || !mir_tstrcmpi(UpdateData->Unit, L"F") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"K")) {
 			GetTemp(Data, UpdateData->Unit, str);
 			mir_tstrcpy(Data, str);
 		}
 		// pressure
-		else if (!mir_tstrcmp(UpdateData->Name, _T("Pressure")) || !mir_tstrcmpi(UpdateData->Unit, _T("HPA")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("KPA")) || !mir_tstrcmpi(UpdateData->Unit, _T("MB")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("TORR")) || !mir_tstrcmpi(UpdateData->Unit, _T("IN")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("MM"))) {
+		else if (!mir_tstrcmp(UpdateData->Name, L"Pressure") || !mir_tstrcmpi(UpdateData->Unit, L"HPA") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"KPA") || !mir_tstrcmpi(UpdateData->Unit, L"MB") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"TORR") || !mir_tstrcmpi(UpdateData->Unit, L"IN") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"MM")) {
 			GetPressure(Data, UpdateData->Unit, str);
 			mir_tstrcpy(Data, str);
 		}
 		// speed
-		else if (!mir_tstrcmp(UpdateData->Name, _T("Wind Speed")) || !mir_tstrcmpi(UpdateData->Unit, _T("KM/H")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("M/S")) || !mir_tstrcmpi(UpdateData->Unit, _T("MPH")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("KNOTS"))) {
+		else if (!mir_tstrcmp(UpdateData->Name, L"Wind Speed") || !mir_tstrcmpi(UpdateData->Unit, L"KM/H") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"M/S") || !mir_tstrcmpi(UpdateData->Unit, L"MPH") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"KNOTS")) {
 			GetSpeed(Data, UpdateData->Unit, str);
 			mir_tstrcpy(Data, str);
 		}
 		// visibility
-		else if (!mir_tstrcmp(UpdateData->Name, _T("Visibility")) || !mir_tstrcmpi(UpdateData->Unit, _T("KM")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("MILES"))) {
+		else if (!mir_tstrcmp(UpdateData->Name, L"Visibility") || !mir_tstrcmpi(UpdateData->Unit, L"KM") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"MILES")) {
 			GetDist(Data, UpdateData->Unit, str);
 			mir_tstrcpy(Data, str);
 		}
 		// elevation
-		else if (!mir_tstrcmp(UpdateData->Name, _T("Elevation")) || !mir_tstrcmpi(UpdateData->Unit, _T("FT")) ||
-			!mir_tstrcmpi(UpdateData->Unit, _T("M"))) {
+		else if (!mir_tstrcmp(UpdateData->Name, L"Elevation") || !mir_tstrcmpi(UpdateData->Unit, L"FT") ||
+			!mir_tstrcmpi(UpdateData->Unit, L"M")) {
 			GetElev(Data, UpdateData->Unit, str);
 			mir_tstrcpy(Data, str);
 		}
 		// converting case for condition to the upper+lower format
-		else if (!mir_tstrcmpi(UpdateData->Unit, _T("COND")))
+		else if (!mir_tstrcmpi(UpdateData->Unit, L"COND"))
 			CaseConv(Data);
 		// degree sign
-		else if (!mir_tstrcmpi(UpdateData->Unit, _T("DEG"))) {
+		else if (!mir_tstrcmpi(UpdateData->Unit, L"DEG")) {
 			if (!opt.DoNotAppendUnit) mir_tstrcat(Data, opt.DegreeSign);
 		}
 		// percent sign
-		else if (!mir_tstrcmpi(UpdateData->Unit, _T("%"))) {
-			if (!opt.DoNotAppendUnit) mir_tstrcat(Data, _T("%"));
+		else if (!mir_tstrcmpi(UpdateData->Unit, L"%")) {
+			if (!opt.DoNotAppendUnit) mir_tstrcat(Data, L"%");
 		}
 		// truncating strings for day/month to 2 or 3 characters
-		else if (!mir_tstrcmpi(UpdateData->Unit, _T("DAY")) || !mir_tstrcmpi(UpdateData->Unit, _T("MONTH")))
+		else if (!mir_tstrcmpi(UpdateData->Unit, L"DAY") || !mir_tstrcmpi(UpdateData->Unit, L"MONTH"))
 			if (opt.dUnit > 1 && mir_tstrlen(Data) > opt.dUnit)
 				Data[opt.dUnit] = '\0';
 	}
@@ -270,7 +270,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 	if (UpdateData->End[0] != 0)
 		end = _tcsstr(szInfo, UpdateData->End);
 	else
-		end = _tcsstr(szInfo, _T(" "));
+		end = _tcsstr(szInfo, L" ");
 
 	if (end != NULL) {
 		// set the ending location
@@ -291,7 +291,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 				(szInfo[startloc + 1] == ';' || szInfo[startloc + 2] == ';' || szInfo[startloc + 3] == ';' ||
 					szInfo[startloc + 4] == ';' || szInfo[startloc + 5] == ';' || szInfo[startloc + 6] == ';')) {
 				// ...but do NOT strip &minus;
-				if ((endloc - startloc) > 7 && _tcsncmp(szInfo + startloc, _T("&minus;"), 7) == 0) {
+				if ((endloc - startloc) > 7 && _tcsncmp(szInfo + startloc, L"&minus;", 7) == 0) {
 					Data[respos++] = '-';
 					startloc += 7;
 					continue;
@@ -315,7 +315,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 			++startloc;
 			// prevent crashes if the string go over maximun length -> generate an error
 			if (respos >= MAX_DATA_LEN) {
-				if (opt.ShowWarnings && UpdateData->Name[0] != 0 && mir_tstrcmp(UpdateData->Name, _T("Ignore"))) {
+				if (opt.ShowWarnings && UpdateData->Name[0] != 0 && mir_tstrcmp(UpdateData->Name, L"Ignore")) {
 					mir_sntprintf(Data, MAX_DATA_LEN, TranslateT("Error when obtaining data: %s"), UpdateData->Name);
 					WPShowMessage(Data, SM_WARNING);
 				}

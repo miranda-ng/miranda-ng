@@ -86,7 +86,7 @@ void CSendEmail::SendThread()
 	MapiMessage Msg;
 	MAPIFUNC lpMAPISendMail;
 
-	HINSTANCE hMAPILib = ::LoadLibrary(_T("MAPI32.DLL"));
+	HINSTANCE hMAPILib = ::LoadLibrary(L"MAPI32.DLL");
 	if (hMAPILib == NULL) {
 		//return -1;
 		Error(SS_ERR_INIT, m_pszSendTyp);

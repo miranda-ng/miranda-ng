@@ -24,10 +24,10 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM 
     {
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemInt(hwndDlg, IDC_PORT, db_get_w(NULL, szModuleName, "Port", 6600), FALSE);
-		TCHAR *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", _T("127.0.0.1"));
+		TCHAR *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
 		SetDlgItemText(hwndDlg, IDC_SERVER, tmp);
 		mir_free(tmp);
-		tmp = UniGetContactSettingUtf(NULL, szModuleName, "Password", _T(""));
+		tmp = UniGetContactSettingUtf(NULL, szModuleName, "Password", L"");
 		SetDlgItemText(hwndDlg, IDC_PASSWORD, tmp);
 		mir_free(tmp);
       return TRUE;

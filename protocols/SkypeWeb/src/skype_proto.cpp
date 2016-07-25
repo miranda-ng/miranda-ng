@@ -42,7 +42,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
-	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
+	m_tszAvatarFolder = std::tstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());

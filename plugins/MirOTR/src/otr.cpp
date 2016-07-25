@@ -79,7 +79,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam)
 extern "C" {
 	/* Return the OTR policy for the given context. */
 	OtrlPolicy otr_gui_policy(void *opdata, ConnContext *context) {
-		DEBUGOUT_T("OTR_GUI_POLICY\n");
+		DEBUGOUTA("OTR_GUI_POLICY\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		DWORD pol;
 		if (hContact) {
@@ -103,7 +103,7 @@ extern "C" {
 	* desired. */
 	// otr_gui_create_privkey(void *opdata, const char *account_name, const char *protocol) {
 	void otr_gui_create_privkey(void *opdata, const char *, const char *protocol) {
-		DEBUGOUT_T("OTR_GUI_CREATE_PRIVKEY\n");
+		DEBUGOUTA("OTR_GUI_CREATE_PRIVKEY\n");
 		if (opdata) {
 			protocol = GetContactProto((UINT_PTR)opdata);
 		}
@@ -120,7 +120,7 @@ extern "C" {
 	* logged in" errors if you're wrong. */
 	//int otr_gui_is_logged_in(void *opdata, const char *accountname, const char *protocol, const char *recipient) {
 	int otr_gui_is_logged_in(void *opdata, const char *, const char *, const char *) {
-		DEBUGOUT_T("OTR_GUI_IS_LOGGED_IN\n");
+		DEBUGOUTA("OTR_GUI_IS_LOGGED_IN\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (hContact) {
 			WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
@@ -135,7 +135,7 @@ extern "C" {
 	* accountname/protocol. */
 	//void otr_gui_inject_message(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message) {
 	void otr_gui_inject_message(void *opdata, const char *, const char *protocol, const char *, const char *message) {
-		DEBUGOUT_T("OTR_GUI_INJECT_MESSAGE\n");
+		DEBUGOUTA("OTR_GUI_INJECT_MESSAGE\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
@@ -146,12 +146,12 @@ extern "C" {
 	//void otr_gui_update_context_list(void *opdata) {
 	void otr_gui_update_context_list(void *) {
 		//MessageBox(0, "Update Context List", "OTR Callback", MB_OK);
-		DEBUGOUT_T("OTR: Update Context List\n");
+		DEBUGOUTA("OTR: Update Context List\n");
 	}
 
 	/* A new fingerprint for the given user has been received. */
 	void otr_gui_new_fingerprint(void *opdata, OtrlUserState us, const char *accountname, const char *protocol, const char *username, unsigned char fingerprint[20]) {
-		DEBUGOUT_T("OTR_GUI_NEW_FINGERPRINT\n");
+		DEBUGOUTA("OTR_GUI_NEW_FINGERPRINT\n");
 		ConnContext *context = otrl_context_find(us, username, accountname, protocol, OTRL_INSTAG_BEST, TRUE, 0, add_appdata, opdata);
 		Fingerprint *fp = otrl_context_find_fingerprint(context, fingerprint, TRUE, 0);
 
@@ -164,14 +164,14 @@ extern "C" {
 	/* The list of known fingerprints has changed.  Write them to disk. */
 	//void otr_gui_write_fingerprints(void *opdata) {
 	void otr_gui_write_fingerprints(void *) {
-		DEBUGOUT_T("OTR_GUI_WRITE_FINGERPRINTS\n");
+		DEBUGOUTA("OTR_GUI_WRITE_FINGERPRINTS\n");
 		//if(MessageBox(0, Translate("Would you like to save the current fingerprint list?"), Translate(MODULE), MB_YESNO) == IDYES)
 		otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	}
 
 	/* A ConnContext has entered a secure state. */
 	void otr_gui_gone_secure(void *opdata, ConnContext *context) {
-		DEBUGOUT_T("OTR_GUI_GONE_SECURE\n");
+		DEBUGOUTA("OTR_GUI_GONE_SECURE\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
@@ -199,7 +199,7 @@ extern "C" {
 	/* A ConnContext has left a secure state. */
 	void otr_gui_gone_insecure(void *opdata, ConnContext *context) {
 		MCONTACT hContact = (UINT_PTR)opdata;
-		DEBUGOUT_T("OTR_GUI_GONE_INSECURE\n");
+		DEBUGOUTA("OTR_GUI_GONE_INSECURE\n");
 		TCHAR buff[512];
 		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
@@ -215,7 +215,7 @@ extern "C" {
 	* already knew.  is_reply indicates whether we initiated the AKE. */
 	void otr_gui_still_secure(void *opdata, ConnContext *context, int is_reply) {
 		MCONTACT hContact = (UINT_PTR)opdata;
-		DEBUGOUT_T("OTR_GUI_STILL_SECURE\n");
+		DEBUGOUTA("OTR_GUI_STILL_SECURE\n");
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
 		TCHAR buff[1024];
@@ -285,7 +285,7 @@ extern "C" {
 	}
 
 	void handle_smp_event(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, unsigned short progress_percent, char *question) {
-		DEBUGOUT_T("HANDLE_SMP_EVENT\n");
+		DEBUGOUTA("HANDLE_SMP_EVENT\n");
 		if (!context) return;
 		switch (smp_event){
 		case OTRL_SMPEVENT_NONE:
@@ -399,8 +399,8 @@ extern "C" {
 
 	//void otr_create_instag(void *opdata, const char *accountname, const char *protocol) {
 	void otr_create_instag(void *, const char *accountname, const char *protocol){
-		DEBUGOUT_T("OTR_CREATE_INSTAG\n");
-		FILE* instagf = _tfopen(g_instag_filename, _T("w+b"));
+		DEBUGOUTA("OTR_CREATE_INSTAG\n");
+		FILE* instagf = _tfopen(g_instag_filename, L"w+b");
 		if (!instagf)
 			return;
 		otrl_instag_generate_FILEp(otr_user_state, instagf, accountname, protocol);

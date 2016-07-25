@@ -27,28 +27,28 @@ TxtExport::~TxtExport()
 void TxtExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring&)
 {
 	TCHAR* start = TranslateT("###");
-	EXP_FILE << start << "\n" << start << _T(" ") << TranslateT("History Log") << _T("\n");
-	EXP_FILE << start << _T(" ") << myName;
+	EXP_FILE << start << "\n" << start << L" " << TranslateT("History Log") << L"\n";
+	EXP_FILE << start << L" " << myName;
 	if (proto1.length() || myId.length())
 	{
-		EXP_FILE << _T(" (") << proto1 << _T(": ") << myId << _T(") - ");
+		EXP_FILE << L" (" << proto1 << L": " << myId << L") - ";
 	}
 	else
 	{
-		EXP_FILE << _T(" - ");
+		EXP_FILE << L" - ";
 	}
 
 	EXP_FILE << name1;
 	if (proto1.length() || id1.length())
 	{
-		EXP_FILE << _T(" (") << proto1 << _T(": ") << id1 << _T(")\n");
+		EXP_FILE << L" (" << proto1 << L": " << id1 << L")\n";
 	}
 	else
 	{
-		EXP_FILE << _T("\n");
+		EXP_FILE << L"\n";
 	}
 
-	EXP_FILE << start << _T(" ") << TranslateT("Filter:") << _T(" ") << filterName << _T("\n") << start << _T("\n");
+	EXP_FILE << start << L" " << TranslateT("Filter:") << L" " << filterName << L"\n" << start << L"\n";
 }
 
 void TxtExport::WriteFooter()

@@ -306,7 +306,7 @@ public:
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
 	void AddCategory(const CMString& name, const CMString& displayName, SmcType typ,
-		const CMString& defaultFilename = CMString(_T("Smileys\\nova\\default.msl")));
+		const CMString& defaultFilename = CMString(L"Smileys\\nova\\default.msl"));
 	void AddAndLoad(const CMString& name, const CMString& displayName);
 	void AddAllProtocolsAsCategory(void);
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile);

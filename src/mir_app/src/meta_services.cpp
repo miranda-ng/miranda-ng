@@ -446,7 +446,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = ccMeta->contactID;
 			ai.format = PA_FORMAT_UNKNOWN;
-			_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+			_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
 		}
@@ -612,7 +612,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 			tszNick = cli.pfnGetContactDisplayName(cc->pSubs[i], 0);
 		else
 			Meta_GetSubNick(hMeta, i, tszNick);
-		tszNick.AppendFormat(_T(" [%s]"), pa->tszAccountName);
+		tszNick.AppendFormat(L" [%s]", pa->tszAccountName);
 
 		mii.wID = i + 1;
 		mii.fState = (i == iDefault) ? MFS_CHECKED : MFS_ENABLED;
@@ -796,7 +796,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION ai;
 	ai.hContact = ccs->hContact;
 	ai.format = PA_FORMAT_UNKNOWN;
-	_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+	_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 		db_set_ts(ccs->hContact, "ContactPhoto", "File", ai.filename);
 

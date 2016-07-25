@@ -7,30 +7,30 @@
 #define NUM_IDS		24
 
 TCHAR* client_names[NUM_IDS] = {
-	_T("Official Binary Library"),
-	_T("Official Java Applet"),
-	_T("Official Binary Application"), 
-	_T("Official Java Application"),
-	_T("Notes 6.5"),
-	_T("Notes 7.0"),
-	_T("Notes 8.0 Basic"),
-	_T("Notes 8.5.2"),
-	_T("Sametime Connect 8.0"),
-	_T("Sametime Connect 8.5.2"),
-	_T("ICT"),
-	_T("NotesBuddy"),
-	_T("NotesBuddy 4.15"),
-	_T("Sanity"),
-	_T("Perl"),
-	_T("PMR Alert"),
-	_T("Trillian (SourceForge)"),
-	_T("Trillian (IBM)"),
-	_T("Meanwhile Library"),
-	_T("Meanwhile (Python)"),
-	_T("Meanwhile (Gaim)"),
-	_T("Meanwhile (Adium)"),
-	_T("Meanwhile (Kopete)"),
-	_T("Custom")
+	L"Official Binary Library",
+	L"Official Java Applet",
+	L"Official Binary Application", 
+	L"Official Java Application",
+	L"Notes 6.5",
+	L"Notes 7.0",
+	L"Notes 8.0 Basic",
+	L"Notes 8.5.2",
+	L"Sametime Connect 8.0",
+	L"Sametime Connect 8.5.2",
+	L"ICT",
+	L"NotesBuddy",
+	L"NotesBuddy 4.15",
+	L"Sanity",
+	L"Perl",
+	L"PMR Alert",
+	L"Trillian (SourceForge)",
+	L"Trillian (IBM)",
+	L"Meanwhile Library",
+	L"Meanwhile (Python)",
+	L"Meanwhile (Gaim)",
+	L"Meanwhile (Adium)",
+	L"Meanwhile (Kopete)",
+	L"Custom"
 };
 int client_ids[NUM_IDS] = {
 	0x1000,
@@ -66,11 +66,11 @@ int client_ids[NUM_IDS] = {
 #define NUM_CVS		5
 
 TCHAR* CV_names[NUM_CVS] = {
-	_T("Sametime (Use old client version)"),
-	_T("Sametime (Miranda default)"),
-	_T("Sametime 8"),
-	_T("Sametime 8.5.1"),
-	_T("Sametime 8.5.2")
+	L"Sametime (Use old client version)",
+	L"Sametime (Miranda default)",
+	L"Sametime 8",
+	L"Sametime 8.5.1",
+	L"Sametime 8.5.2"
 };
 int CV_major[NUM_CVS] = {
 	MW_PROTOCOL_VERSION_MAJOR,
@@ -238,7 +238,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = CC_FULLOPEN;
 					ofn.nMaxFile = MAX_PATH;
-					ofn.lpstrFilter = _T("All\0*.*\0");
+					ofn.lpstrFilter = L"All\0*.*\0";
 					ofn.nFilterIndex = 1;
 					ofn.lpstrFileTitle = NULL;
 					ofn.nMaxFileTitle = 0;
@@ -410,9 +410,9 @@ void CSametimeProto::LoadOptions()
 	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE)) options.err_method = ED_BAL;
 	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_MB;
 
-	debugLog(_T("LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]"), options.server_name == NULL ? -1 : mir_strlen(options.server_name), options.id == NULL ? -1 : mir_strlen(options.id), options.pword == NULL ? -1 : mir_strlen(options.pword));
-	debugLog(_T("LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]"), options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
-	debugLog(_T("LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]"), options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
+	debugLog(L"LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == NULL ? -1 : mir_strlen(options.server_name), options.id == NULL ? -1 : mir_strlen(options.id), options.pword == NULL ? -1 : mir_strlen(options.pword));
+	debugLog(L"LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]", options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
+	debugLog(L"LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]", options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
 
 }
 

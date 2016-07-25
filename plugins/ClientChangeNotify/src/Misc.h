@@ -20,7 +20,7 @@
 #include "stdafx.h"
 extern BOOL bPopupExists;
 
-__inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsErrorMsg = false, int Timeout = 0)
+__inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = L"", bool IsErrorMsg = false, int Timeout = 0)
 {
 	if (bPopupExists)
 	{
@@ -40,7 +40,7 @@ __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsError
 
 __inline void ShowLog(TCString &LogFilePath)
 {
-	INT_PTR Result = (INT_PTR)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
+	INT_PTR Result = (INT_PTR)ShellExecute(NULL, L"open", LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) // Error
 	{
 		TCHAR szError[64];
@@ -52,10 +52,10 @@ __inline void ShowLog(TCString &LogFilePath)
 __inline void RecompileRegexps(TCString IgnoreSubstrings)
 {
 	FreePcreCompileData();
-	TCHAR *p = _tcstok(IgnoreSubstrings, _T(";"));
+	TCHAR *p = _tcstok(IgnoreSubstrings, L";");
 	while (p)
 	{
 		CompileRegexp(p, p[0] != '/');
-		p = _tcstok(NULL, _T(";"));
+		p = _tcstok(NULL, L";");
 	}
 }

@@ -112,8 +112,8 @@ void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 		else
 		{
 			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
-				% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource])
-				% _T("#{unit}") * TranslateTS(szUnitDesc[m_nAbsTime]));
+				% L"#{data}" * TranslateTS(szSourceDesc[m_nSource])
+				% L"#{unit}" * TranslateTS(szUnitDesc[m_nAbsTime]));
 		}
 
 		writeRowspanTD(tos, getCustomTitle(TranslateTS(szShortDesc[m_nSource / 3]), strTitle), row, 1, rowSpan);
@@ -136,9 +136,9 @@ void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			&Contact::getTotalChats,
 		};
 
-		tos << _T("<td class=\"num\">")
+		tos << L"<td class=\"num\">"
 			<< utils::intToGrouped((contact.*getData[m_nSource])())
-			<< _T("</td>") << ext::endl;
+			<< L"</td>" << ext::endl;
 	}
 	else
 	{
@@ -160,8 +160,8 @@ void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			60.0 * 60.0 * 24.0 * 30.0,
 		};
 
-		tos << _T("<td class=\"num\">")
+		tos << L"<td class=\"num\">"
 			<< utils::floatToGrouped((contact.*getData[m_nSource])() * avgFactor[m_nAbsTime], 1)
-			<< _T("</td>") << ext::endl;
+			<< L"</td>" << ext::endl;
 	}
 }

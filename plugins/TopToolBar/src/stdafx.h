@@ -25,7 +25,7 @@
 #include "version.h"
 #include "BkgrCfg.h"
 
-#define TTB_BUTTON_CLASS  _T("TopToolbarButtonClass")
+#define TTB_BUTTON_CLASS  L"TopToolbarButtonClass"
 
 #define TTB_REPOSBUTTONS          (WM_USER+10)
 #define TTB_UPDATEFRAMEVISIBILITY (WM_USER+11)

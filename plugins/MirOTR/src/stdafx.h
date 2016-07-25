@@ -64,12 +64,10 @@ using namespace std;
 
 #ifdef _DEBUG
 	#define DEBUGOUTA(x)	OutputDebugStringA(x)
-	#define DEBUGOUT(x)		OutputDebugString(x)
-	#define DEBUGOUT_T(x)	OutputDebugString(__T(x))
+	#define DEBUGOUTW(x) OutputDebugStringW(x)
 #else
 	#define DEBUGOUTA(x);
-	#define DEBUGOUT(x)		
-	#define DEBUGOUT_T(x)	
+	#define DEBUGOUTW(x)		
 #endif
 
 // modified manual policy - so that users set to 'opportunistic' will automatically start OTR with users set to 'manual'

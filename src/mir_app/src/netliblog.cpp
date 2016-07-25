@@ -73,7 +73,7 @@ static void InitLog()
 		logOptions.tszFile = path;
 	}
 	else {
-		db_set_ts(NULL, "Netlib", "File", logOptions.tszUserFile = _T("%miranda_logpath%\\netlog.txt"));
+		db_set_ts(NULL, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
 		logOptions.tszFile = Utils_ReplaceVarsT(logOptions.tszUserFile);
 	}
 
@@ -160,7 +160,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
 			{
 				TCHAR filter[200];
-				mir_sntprintf(filter, _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
 					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(TCHAR)));
 					str[0] = '"';
-					mir_tstrcat(str, _T("\""));
+					mir_tstrcat(str, L"\"");
 				}
 				SetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str);
 			}

@@ -110,7 +110,7 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 					SendMessage(mwpd->hwnd, EM_GETSELTEXT, 0, (LPARAM)pszText);
 				}
 				if (qd->ptszValue) {
-					ptszQValue = ParseString(mwpd->hContact, qd->ptszValue, pszText ? pszText : _T(""), pszCBText ? pszCBText : _T(""), (int)mir_tstrlen(qd->ptszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
+					ptszQValue = ParseString(mwpd->hContact, qd->ptszValue, pszText ? pszText : L"", pszCBText ? pszCBText : L"", (int)mir_tstrlen(qd->ptszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
 					if ((bIsService = qd->bIsService) && ptszQValue)
 
 						CallService(mir_u2a(ptszQValue), (WPARAM)mwpd->hContact, 0);
@@ -195,7 +195,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 	switch (state) {
 	case 1:
 		if (ButtonsList[cbcd->dwButtonId]->ptszQValue)
-			ptszQValue = ParseString(cbcd->hContact, ButtonsList[cbcd->dwButtonId]->ptszQValue, pszText ? pszText : _T(""), pszCBText ? pszCBText : _T(""), (int)mir_tstrlen(ButtonsList[cbcd->dwButtonId]->ptszQValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
+			ptszQValue = ParseString(cbcd->hContact, ButtonsList[cbcd->dwButtonId]->ptszQValue, pszText ? pszText : L"", pszCBText ? pszCBText : L"", (int)mir_tstrlen(ButtonsList[cbcd->dwButtonId]->ptszQValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
 		if ((bIsService = ButtonsList[cbcd->dwButtonId]->bIsServName) && ptszQValue)
 			CallService(mir_u2a(ptszQValue), (WPARAM)cbcd->hContact, 0);
 		break;
@@ -204,7 +204,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 		{
 			ButtonData *bd = (ButtonData *)sl->items[0];
 			if (bd && bd->pszValue) {
-				ptszQValue = ParseString(cbcd->hContact, bd->pszValue, pszText ? pszText : _T(""), pszCBText ? pszCBText : _T(""), (int)mir_tstrlen(bd->pszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
+				ptszQValue = ParseString(cbcd->hContact, bd->pszValue, pszText ? pszText : L"", pszCBText ? pszCBText : L"", (int)mir_tstrlen(bd->pszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
 				if ((bIsService = bd->bIsServName) && ptszQValue)
 					CallService(mir_u2a(ptszQValue), (WPARAM)cbcd->hContact, 0);
 			}
@@ -246,7 +246,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 		ButtonData *bd = (ButtonData *)sl->items[res - 1];
 		bCTRL = (GetKeyState(VK_CONTROL) & 0x8000) ? 1 : 0;
 		if (bd->pszValue) {
-			ptszQValue = ParseString(cbcd->hContact, bd->pszValue, pszText ? pszText : _T(""), pszCBText ? pszCBText : _T(""), (int)mir_tstrlen(bd->pszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
+			ptszQValue = ParseString(cbcd->hContact, bd->pszValue, pszText ? pszText : L"", pszCBText ? pszCBText : L"", (int)mir_tstrlen(bd->pszValue), textlenght, pszCBText ? (int)mir_tstrlen(pszCBText) : 0);
 			if ((bIsService = bd->bIsServName) && ptszQValue)
 				CallService(mir_u2a(ptszQValue), (WPARAM)cbcd->hContact, 0);
 		}

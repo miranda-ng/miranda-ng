@@ -121,7 +121,7 @@ class CExtraIconOptsDlg : public CDlgBase
 				img = extra->getID();
 
 			if (i > 0)
-				desc += _T(" / ");
+				desc += L" / ";
 			desc += extra->getDescription();
 		}
 

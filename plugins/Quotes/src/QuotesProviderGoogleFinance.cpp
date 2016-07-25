@@ -11,7 +11,7 @@ CQuotesProviderGoogleFinance::~CQuotesProviderGoogleFinance()
 static tstring build_url(MCONTACT hContact, const tstring& rsURL)
 {
 	tostringstream o;
-	o << rsURL << _T("?q=") << Quotes_DBGetStringT(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_ID);
+	o << rsURL << L"?q=" << Quotes_DBGetStringT(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_ID);
 	return o.str();
 }
 
@@ -41,18 +41,18 @@ struct CGoogleInfo
 tstring make_rate_id_value(const tstring& rsCmpID, int nFlags)
 {
 	tostringstream o;
-	o << _T("ref_") << rsCmpID;
+	o << L"ref_" << rsCmpID;
 	switch (nFlags) {
 	default:
 		assert(!"Unknown type of value");
 	case CGoogleInfo::giRate:
-		o << _T("_l");
+		o << L"_l";
 		break;
 	case CGoogleInfo::giPercentChangeAfterHours:
-		o << _T("_ecp");
+		o << L"_ecp";
 		break;
 	case CGoogleInfo::giPercentChangeToYesterdayClose:
-		o << _T("_cp");
+		o << L"_cp";
 		break;
 	}
 
@@ -79,7 +79,7 @@ tstring get_var_value(const tstring& rsHTML, LPCTSTR pszVarName, size_t cVarName
 
 tstring get_company_id(const tstring& rsHTML)
 {
-	static LPCTSTR pszVarName = _T("setCompanyId(");
+	static LPCTSTR pszVarName = L"setCompanyId(";
 	static size_t cVarNameLength = mir_tstrlen(pszVarName);
 
 	tstring sResult;
@@ -99,7 +99,7 @@ tstring get_company_id(const tstring& rsHTML)
 
 tstring get_company_name(const tstring& rsHTML)
 {
-	static LPCTSTR pszVarName = _T("var _companyName = ");
+	static LPCTSTR pszVarName = L"var _companyName = ";
 	static size_t cVarNameLength = mir_tstrlen(pszVarName);
 
 	tstring s = get_var_value(rsHTML, pszVarName, cVarNameLength);
@@ -151,7 +151,7 @@ bool get_inline_data(const IHTMLNode::THTMLNodePtr& pNode, CGoogleInfo& rInfo)
 			IHTMLNode::THTMLNodePtr pName = pChild->GetChildPtr(0);
 
 			tstring sName = pName->GetText();
-			if (0 == mir_tstrcmpi(sName.c_str(), _T("Open"))) {
+			if (0 == mir_tstrcmpi(sName.c_str(), L"Open")) {
 				IHTMLNode::THTMLNodePtr pValue = pChild->GetChildPtr(1);
 				tstring sValue = pValue->GetText();
 				if (true == get_double_value(sValue, rInfo.m_dOpenValue)) {
@@ -210,7 +210,7 @@ bool parse_responce(const tstring& rsHTML, CGoogleInfo& rInfo)
 			if (pRate && get_rate(pRate, rInfo)) {
 				rInfo.m_sCmpName = get_company_name(rsHTML);
 
-				IHTMLNode::THTMLNodePtr pInline = pRoot->GetElementByID(_T("snap-data"));
+				IHTMLNode::THTMLNodePtr pInline = pRoot->GetElementByID(L"snap-data");
 				if (pInline) {
 					get_inline_data(pInline, rInfo);
 				}

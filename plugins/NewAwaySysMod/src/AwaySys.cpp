@@ -162,7 +162,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		return 0;
 	}
 	if (CContactSettings(iMode, hContactForSettings).Ignore) {
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, _T("")); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, L""); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
 		return 0; // move along, sir
 	}
 
@@ -288,7 +288,7 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 
 	for (int i = 0; i < lParam; i++) {
 		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", 
-			i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : _T("NULL"));
+			i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : L"NULL");
 		if (ps[i]->status != ID_STATUS_DISABLED) {
 			if (ps[i]->status != ID_STATUS_CURRENT)
 				g_ProtoStates[ps[i]->szName].m_status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
@@ -489,7 +489,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
 	if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : L"H:mm", Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
@@ -510,11 +510,11 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			Result = TranslateT("Stranger");
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
-		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
-		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
@@ -566,7 +566,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	if (!szResult)
 		return NULL;
 
-	mir_tstrcpy(szResult, (Result != NULL) ? Result : _T(""));
+	mir_tstrcpy(szResult, (Result != NULL) ? Result : L"");
 	return (INT_PTR)szResult;
 }
 
@@ -726,13 +726,13 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitOptions(); // must be called before we hook CallService
 
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
-		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", _T(""));
+		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", L"");
 		if (Str.GetLen())
-			db_set_ts(NULL, MOD_NAME, "PopupsFormat", Str.Replace(_T("nas_message"), _T("extratext")));
+			db_set_ts(NULL, MOD_NAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
 
-		Str = db_get_s(NULL, MOD_NAME, "ReplyPrefix", _T(""));
+		Str = db_get_s(NULL, MOD_NAME, "ReplyPrefix", L"");
 		if (Str.GetLen())
-			db_set_ts(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(_T("nas_message"), _T("extratext")));
+			db_set_ts(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
 	}
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
 		db_set_b(NULL, MOD_NAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);

@@ -43,10 +43,10 @@ MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen)
 		return;
 
 	mir_sntprintf(dest, destLen,
-		_T("%s (*.bmp;*.jpg;*.gif;*.png)%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG%c")
-		_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c")
-		_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c")
-		_T("%s (*.gif)%c*.GIF%c")
-		_T("%s (*.png)%c*.PNG%c%c"),
+		L"%s (*.bmp;*.jpg;*.gif;*.png)%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG%c"
+		L"%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"
+		L"%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"
+		L"%s (*.gif)%c*.GIF%c"
+		L"%s (*.png)%c*.PNG%c%c",
 		TranslateT("All Files"), 0, 0, TranslateT("Windows bitmaps"), 0, 0, TranslateT("JPEG bitmaps"), 0, 0, TranslateT("GIF bitmaps"), 0, 0, TranslateT("PNG bitmaps"), 0, 0, 0);
 }

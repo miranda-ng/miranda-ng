@@ -226,7 +226,7 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
-	wcl.lpszClassName = _T("PopupThreadManagerWnd");
+	wcl.lpszClassName = L"PopupThreadManagerWnd";
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupThreadManagerWnd = RegisterClassEx(&wcl);
 	err = GetLastError();
@@ -236,7 +236,7 @@ static unsigned __stdcall PopupThread(void *)
 		MSGERROR(msg);
 	}
 
-	gHwndManager = CreateWindow(_T("PopupThreadManagerWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
+	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
 	SetWindowPos(gHwndManager, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	MSG msg;

@@ -9,13 +9,13 @@ Distributed under GNU's GPL 2 or later
 
 #include "stdafx.h"
 
-TCHAR szClassName[] = _T("wbOSD");
-const static osdmsg defstr = { _T(""), 0, RGB(0, 0, 0), 0, 0 };
+TCHAR szClassName[] = L"wbOSD";
+const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), 0, 0 };
 
 int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 {
 	logmsg("DrawMe");
-	if (!string) string = _T("bullshit");
+	if (!string) string = L"bullshit";
 
 	plgsettings plgs;
 	loadDBSettings(&plgs);
@@ -276,7 +276,7 @@ int MainInit(WPARAM, LPARAM)
 	if (!RegisterClassEx(&wincl))
 		return 0;
 
-	g_hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW, szClassName, _T("WannaBeOSD"),
+	g_hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW, szClassName, L"WannaBeOSD",
 		WS_POPUP,
 		db_get_dw(NULL, THIS_MODULE, "winxpos", DEFAULT_WINXPOS),
 		db_get_dw(NULL, THIS_MODULE, "winypos", DEFAULT_WINYPOS),

@@ -188,11 +188,11 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 
 	TCHAR *ptszContactName = pcli->pfnGetContactDisplayName(hContact, 0);
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-		mir_sntprintf(newdisplaytext, _T("%s\n%s"), ptszContactName, displaytext);
+		mir_sntprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
 		PUShowMessageT(newdisplaytext, SM_WARNING);
 	}
 	else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-		mir_sntprintf(newdisplaytext, _T("%s: %s"), ptszContactName, TranslateTS(displaytext));
+		mir_sntprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateTS(displaytext));
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
 	else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
@@ -357,7 +357,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					//
 					if ((!notpresent)) {
 						if (alertIndex == 0) { // popup
-							mir_sntprintf(displaystring, _T("%s \"%S\" %s."), Translate("The string"), alertstring, Translate("has been found on the web page"));
+							mir_sntprintf(displaystring, L"%s \"%S\" %s.", Translate("The string"), alertstring, Translate("has been found on the web page"));
 							WAlertPopup(hContact, displaystring);
 
 							// contactlist name//
@@ -397,7 +397,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							}
 						}
 						else if (alertIndex == 3) {
-							mir_sntprintf(displaystring, _T("%s \"%s\" %s."), TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
+							mir_sntprintf(displaystring, L"%s \"%s\" %s.", TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
 							WAlertOSD(hContact, displaystring);
 
 							// contactlist name//
@@ -426,12 +426,12 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			cacheend++;
 			*cacheend = '\0';
 
-			mir_sntprintf(cachedirectorypath, _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+			mir_sntprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
 			CreateDirectory(cachedirectorypath, NULL);
-			mir_sntprintf(newcachepath, _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
+			mir_sntprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
-				if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
+				if ((pcachefile = _tfopen(newcachepath, L"r")) == NULL)
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 				else {
 					memset(&cachecompare, 0, sizeof(cachecompare));
@@ -440,7 +440,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				}
 			}
 			// write to cache
-			if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
+			if ((pcachefile = _tfopen(newcachepath, L"w")) == NULL)
 				WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 1"));
 			else {
 				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
@@ -638,12 +638,12 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				cacheend++;
 				*cacheend = '\0';
 
-				mir_sntprintf(cachedirectorypath, _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+				mir_sntprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
 				CreateDirectory(cachedirectorypath, NULL);
-				mir_sntprintf(newcachepath, _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
+				mir_sntprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 				// file exists?
 				if ( _taccess(newcachepath, 0) != -1) {
-					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
+					if ((pcachefile = _tfopen(newcachepath, L"r")) == NULL)
 						WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 					else {
 						memset(&cachecompare, 0, sizeof(cachecompare));
@@ -652,7 +652,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					}
 				}
 				// write to cache
-				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
+				if ((pcachefile = _tfopen(newcachepath, L"w")) == NULL)
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache

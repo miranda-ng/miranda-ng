@@ -281,7 +281,7 @@ bool MinecraftDynmapProto::doEvents()
 			// TODO: there are also "channel" and "account" elements
 
 			if (!time_ || !playerName_ || !message_) {
-				debugLog(_T("Error: No player name, time or text for message"));
+				debugLog(L"Error: No player name, time or text for message");
 				continue;
 			}
 
@@ -289,7 +289,7 @@ bool MinecraftDynmapProto::doEvents()
 			std::string name = playerName_.as_string();
 			std::string message = message_.as_string();
 
-			debugLog(_T("Received message: [%d] %s -> %s"), timestamp, name.c_str(), message.c_str());
+			debugLog(L"Received message: [%d] %s -> %s", timestamp, name.c_str(), message.c_str());
 			UpdateChat(name.c_str(), message.c_str(), timestamp);
 		}
 	}

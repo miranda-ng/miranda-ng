@@ -93,11 +93,11 @@ void log2file(const char *fmt, ...)
 static TCHAR *GetWinampSong(void)
 {
 	TCHAR *szTitle, *pstr, *res = NULL;
-	HWND hwndWinamp = FindWindow(_T("STUDIO"), NULL);
+	HWND hwndWinamp = FindWindow(L"STUDIO", NULL);
 	int iTitleLen;
 
 	if (hwndWinamp == NULL)
-		hwndWinamp = FindWindow(_T("Winamp v1.x"), NULL);
+		hwndWinamp = FindWindow(L"Winamp v1.x", NULL);
 
 	if (hwndWinamp == NULL)
 		return NULL;
@@ -113,7 +113,7 @@ static TCHAR *GetWinampSong(void)
 		return NULL;
 	}
 
-	pstr = _tcsstr(szTitle, _T(" - Winamp"));
+	pstr = _tcsstr(szTitle, L" - Winamp");
 	if (pstr == NULL)
 	{
 		mir_free(szTitle);
@@ -123,7 +123,7 @@ static TCHAR *GetWinampSong(void)
 	if (pstr < szTitle + (iTitleLen / 2))
 	{
 		memmove(szTitle, pstr + 9, mir_tstrlen(pstr + 9) * sizeof(TCHAR));
-		pstr = _tcsstr(pstr + 1, _T(" - Winamp"));
+		pstr = _tcsstr(pstr + 1, L" - Winamp");
 		if (pstr == NULL)
 		{
 			mir_free(szTitle);
@@ -177,7 +177,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 		if (msg[i] != '%')
 			continue;
 
-		if (!_tcsnicmp(msg+i, _T("%winampsong%"), 12))
+		if (!_tcsnicmp(msg+i, L"%winampsong%", 12))
 		{
 			TCHAR *ptszWinampTitle = GetWinampSong();
 
@@ -186,7 +186,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				mir_free(g_ptszWinampSong);
 				g_ptszWinampSong = mir_tstrdup(ptszWinampTitle);
 			}
-			else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg"))
+			else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, L"SimpleStatusMsg")
 				&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
 			{
 				ptszWinampTitle = mir_tstrdup(g_ptszWinampSong);
@@ -202,7 +202,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 
 			mir_free(ptszWinampTitle);
 		}
-		else if (!_tcsnicmp(msg + i, _T("%time%"), 6))
+		else if (!_tcsnicmp(msg + i, L"%time%", 6))
 		{
 			MIRANDA_IDLE_INFO mii = {0};
 			mii.cbSize = sizeof(mii);
@@ -235,7 +235,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
-		else if (!_tcsnicmp(msg + i, _T("%date%"), 6))
+		else if (!_tcsnicmp(msg + i, L"%date%", 6))
 		{
 			GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 
@@ -245,20 +245,20 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
-		else if (!_tcsnicmp(msg+i, _T("%rand("), 6))
+		else if (!_tcsnicmp(msg+i, L"%rand(", 6))
 		{
 			TCHAR *temp, *token;
 			int ran_from, ran_to, k;
 
 			temp = mir_tstrdup(msg + i + 6);
-			token = _tcstok(temp, _T(",)"));
+			token = _tcstok(temp, L",)");
 			ran_from = _ttoi(token);
-			token = _tcstok(NULL, _T(",)%%"));
+			token = _tcstok(NULL, L",)%%");
 			ran_to = _ttoi(token);
 
 			if (ran_to > ran_from)
 			{
-				mir_sntprintf(substituteStr, _T("%d"), GetRandom(ran_from, ran_to));
+				mir_sntprintf(substituteStr, L"%d", GetRandom(ran_from, ran_to));
 				for (k = i + 1; msg[k]; k++) if (msg[k] == '%') { k++; break; }
 
 				if (mir_tstrlen(substituteStr) > k - i)
@@ -269,7 +269,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			}
 			mir_free(temp);
 		}
-		else if (!_tcsnicmp(msg+i, _T("%randmsg%"), 9))
+		else if (!_tcsnicmp(msg+i, L"%randmsg%", 9))
 		{
 			char buff[16];
 			int k, k2 = 0;
@@ -299,14 +299,14 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				if (!mir_tstrlen(substituteStr))
 					continue;
 
-				if (_tcsstr(substituteStr, _T("%randmsg%")) != NULL || _tcsstr(substituteStr, _T("%randdefmsg%")) != NULL)
+				if (_tcsstr(substituteStr, L"%randmsg%") != NULL || _tcsstr(substituteStr, L"%randdefmsg%") != NULL)
 				{
 					if (k == maxk) maxk--;
 				}
 				else rmark[0] = TRUE;
 			}
 
-			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, _T(""));
+			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, L"");
 
 			if (mir_tstrlen(substituteStr) > 9)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 9) * sizeof(TCHAR));
@@ -314,7 +314,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
-		else if (!_tcsnicmp(msg+i, _T("%randdefmsg%"), 12))
+		else if (!_tcsnicmp(msg+i, L"%randdefmsg%", 12))
 		{
 			char buff[16];
 			int k, k2 = 0;
@@ -344,14 +344,14 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				if (!mir_tstrlen(substituteStr))
 					continue;
 
-				if (_tcsstr(substituteStr, _T("%randmsg%")) != NULL || _tcsstr(substituteStr, _T("%randdefmsg%")) != NULL)
+				if (_tcsstr(substituteStr, L"%randmsg%") != NULL || _tcsstr(substituteStr, L"%randdefmsg%") != NULL)
 				{
 					if (k == maxk) maxk--;
 				}
 				else rmark[0] = TRUE;
 			}
 
-			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, _T(""));
+			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, L"");
 
 			if (mir_tstrlen(substituteStr) > 12)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg)+1+mir_tstrlen(substituteStr)-12) * sizeof(TCHAR));
@@ -404,7 +404,7 @@ static TCHAR *GetAwayMessageFormat(int iStatus, const char *szProto)
 
 	if (flags & STATUS_EMPTY_MSG)
 	{
-		return mir_tstrdup(_T(""));
+		return mir_tstrdup(L"");
 	}
 	else if (flags & STATUS_LAST_STATUS_MSG)
 	{
@@ -424,7 +424,7 @@ static TCHAR *GetAwayMessageFormat(int iStatus, const char *szProto)
 
 		char *szLastMsg = db_get_sa(NULL, "SimpleStatusMsg", szSetting);
 		if (szLastMsg == NULL)
-			return NULL; //mir_tstrdup(_T(""));
+			return NULL; //mir_tstrdup(L"");
 
 		format = db_get_tsa(NULL, "SimpleStatusMsg", szLastMsg);
 		mir_free(szLastMsg);
@@ -438,7 +438,7 @@ static TCHAR *GetAwayMessageFormat(int iStatus, const char *szProto)
 
 		format = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting));
 		if (format == NULL)
-			format = mir_tstrdup(_T(""));
+			format = mir_tstrdup(L"");
 	}
 	else
 		format = mir_tstrdup(GetDefaultMessage(iStatus));
@@ -527,7 +527,7 @@ static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars,
 
 		//if (flags & PROTO_NO_MSG)
 		//{
-		//	format = mir_tstrdup(_T(""));
+		//	format = mir_tstrdup(L"");
 		//}
 		//else
 		if (flags & PROTO_THIS_MSG)
@@ -535,7 +535,7 @@ static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars,
 			mir_snprintf(szSetting, "Proto%sDefault", szProto);
 			format = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 			if (format == NULL)
-				format = mir_tstrdup(_T(""));
+				format = mir_tstrdup(L"");
 		}
 		else if (flags & PROTO_NOCHANGE && szProto)
 		{
@@ -606,7 +606,7 @@ static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus
 		return;
 	}
 
-	Proto_SetAwayMsgT(szProto, iStatus, tszMsg /* ? tszMsg : _T("")*/);
+	Proto_SetAwayMsgT(szProto, iStatus, tszMsg /* ? tszMsg : L""*/);
 	if (iStatus != iInitialStatus)
 		CallProtoService(szProto, PS_SETSTATUS, iStatus, 0);
 }
@@ -639,9 +639,9 @@ int HasProtoStaticStatusMsg(const char *szProto, int iInitialStatus, int iStatus
 		}
 		else
 		{
-			Proto_SetStatus(szProto, iInitialStatus, iStatus, _T(""));
-			SaveMessageToDB(szProto, _T(""), TRUE);
-			SaveMessageToDB(szProto, _T(""), FALSE);
+			Proto_SetStatus(szProto, iInitialStatus, iStatus, L"");
+			SaveMessageToDB(szProto, L"", TRUE);
+			SaveMessageToDB(szProto, L"", FALSE);
 		}
 		return 1;
 	}
@@ -689,7 +689,7 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 			SaveMessageToDB(accounts->pa[i]->szModuleName, (TCHAR *)lParam, TRUE);
 			SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
-			Proto_SetStatus(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus, msg /*? msg : _T("")*/);
+			Proto_SetStatus(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus, msg /*? msg : L""*/);
 			mir_free(msg);
 		}
 		else
@@ -1177,7 +1177,7 @@ int SetStartupStatus(int i)
 	if (fmsg)
 		mir_free(fmsg);
 
-	Proto_SetStatus(accounts->pa[i]->szModuleName, ID_STATUS_OFFLINE, iStatus, msg /*? msg : _T("")*/);
+	Proto_SetStatus(accounts->pa[i]->szModuleName, ID_STATUS_OFFLINE, iStatus, msg /*? msg : L""*/);
 	mir_free(msg);
 
 	return 0;
@@ -1580,7 +1580,7 @@ static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 		mir_free(g_ptszWinampSong);
 		g_ptszWinampSong = mir_tstrdup(ptszWinampTitle);
 	}
-	else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) && db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
+	else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, L"SimpleStatusMsg") && db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
 		ptszWinampTitle = mir_tstrdup(g_ptszWinampSong);
 
 	return ptszWinampTitle;
@@ -1705,13 +1705,13 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
-		tr.tszTokenString = _T("winampsong");
+		tr.tszTokenString = L"winampsong";
 		tr.parseFunctionT = ParseWinampSong;
 		tr.szHelpText = LPGEN("External Applications") "\t" LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		if (db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) != 0) {
-			tr.tszTokenString = _T("date");
+			tr.tszTokenString = L"date";
 			tr.parseFunctionT = ParseDate;
 			tr.szHelpText = LPGEN("Miranda Related") "\t" LPGEN("get the date (Simple Status Message compatible)");
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
@@ -1720,7 +1720,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	
 	g_ptszWinampSong = db_get_tsa(NULL, "SimpleStatusMsg", "AmpLastTitle");
 	if (g_ptszWinampSong == NULL)
-		g_ptszWinampSong = mir_tstrdup(_T("SimpleStatusMsg"));
+		g_ptszWinampSong = mir_tstrdup(L"SimpleStatusMsg");
 
 	if (db_get_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", 1))
 		g_uUpdateMsgTimer = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10) * 1000, UpdateMsgTimerProc);
@@ -1769,7 +1769,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 			db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0));
 		}
 
-		if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)
+		if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, L"SimpleStatusMsg") /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)
 			DBWriteMessage("AmpLastTitle", g_ptszWinampSong);
 	}
 

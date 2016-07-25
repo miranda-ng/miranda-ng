@@ -278,7 +278,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 			// Queried protocol isn't in list, adding
 			TCHAR tszSection[MAX_PATH];
-			mir_sntprintf(tszSection, _T(PROTOCOLS_PREFIX)_T("/%s"), pa->tszAccountName);
+			mir_sntprintf(tszSection, _T(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
 
 			SKINICONDESC sid = { 0 };
 			sid.section.t = tszSection;
@@ -287,11 +287,11 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			str = _tcsrchr(szPath, '\\');
 			if (str != NULL)
 				*str = 0;
-			mir_sntprintf(szFullPath, _T("%s\\Icons\\proto_%S.dll"), szPath, pa->szProtoName);
+			mir_sntprintf(szFullPath, L"%s\\Icons\\proto_%S.dll", szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
 				sid.defaultFile.t = szFullPath;
 			else {
-				mir_sntprintf(szFullPath, _T("%s\\Plugins\\%S.dll"), szPath, szProto);
+				mir_sntprintf(szFullPath, L"%s\\Plugins\\%S.dll", szPath, szProto);
 				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1)) > 0) {
 					DestroyIcon(hIcon);
 					sid.defaultFile.t = szFullPath;

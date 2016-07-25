@@ -15,13 +15,13 @@ INT_PTR Log(WPARAM wParam, LPARAM) {
 
 	TCHAR *line = (TCHAR *)wParam;
 
-	FILE *f = _tfopen(buf, _T("a+"));
+	FILE *f = _tfopen(buf, L"a+");
 	if (f) {
 		if (options.log_csv) {
-			_ftprintf(f, _T("%s, %s, %s\n"), dbuf, tbuf, line);
+			_ftprintf(f, L"%s, %s, %s\n", dbuf, tbuf, line);
 		}
 		else {
-			_ftprintf(f, _T("%s, %s: %s\n"), dbuf, tbuf, line);
+			_ftprintf(f, L"%s, %s: %s\n", dbuf, tbuf, line);
 		}
 		fclose(f);
 	}
@@ -34,7 +34,7 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 	TCHAR *filename = (TCHAR *)lParam;
 	if (db_get_ts(0, PLUG, "LogFilename", &dbv)) {
 		CallService(MS_DB_GETPROFILEPATHT, wParam, (LPARAM)filename);
-		mir_tstrncat(filename, _T("\\ping_log.txt"), wParam - mir_tstrlen(filename));
+		mir_tstrncat(filename, L"\\ping_log.txt", wParam - mir_tstrlen(filename));
 	}
 	else {
 		mir_tstrncpy(filename, dbv.ptszVal, wParam);
@@ -54,6 +54,6 @@ INT_PTR SetLogFilename(WPARAM, LPARAM lParam) {
 INT_PTR ViewLogData(WPARAM wParam, LPARAM) {
 	TCHAR buf[MAX_PATH];
 	CallService(PLUG "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)buf);
-	return (INT_PTR)ShellExecute((HWND)wParam, _T("edit"), buf, _T(""), _T(""), SW_SHOW);
+	return (INT_PTR)ShellExecute((HWND)wParam, L"edit", buf, L"", L"", SW_SHOW);
 }
 

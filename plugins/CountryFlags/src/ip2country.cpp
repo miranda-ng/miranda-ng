@@ -73,7 +73,7 @@ static BOOL EnsureRecordCacheLoaded(BYTE **pdata,DWORD *pcount)
 	mir_cslock lck(csRecordCache);
 	if (dataRecords == NULL) {
 		/* load record data list from resources */
-		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),_T("BIN"));
+		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),L"BIN");
 		cb=SizeofResource(hInst,hrsrc);
 		dataRecords=(BYTE*)LockResource(LoadResource(hInst,hrsrc));
 		if (cb<=sizeof(DWORD) || dataRecords == NULL)
@@ -289,9 +289,9 @@ static void BinConvThread(void *unused)
 	if (MessageBox(NULL,_T("Looking for 'ip-to-country.csv' in current directory.\n"
 		"It will be converted into 'ip-to-country.bin'.\n"
 		"See debug output for more details.\n"
-		"This process may take very long."),_T("Bin Converter"),MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL) == IDOK) {
+		"This process may take very long."),L"Bin Converter",MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL) == IDOK) {
 		EnumIpDataLines("ip-to-country.csv","ip-to-country.bin");
-		MessageBox(NULL,_T("Done!\n'ip-to-country.bin' has been created in current directory."),_T("Bin Converter"),MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
+		MessageBox(NULL,L"Done!\n'ip-to-country.bin' has been created in current directory.",L"Bin Converter",MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
 	}
 }
 

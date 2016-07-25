@@ -32,7 +32,7 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &p
 BOOL GDIPlus_IsAnimatedGif(TCHAR *szName);
 
 /* Next is module */
-#define ANIAVAWINDOWCLASS _T("MirandaModernAniAvatar")
+#define ANIAVAWINDOWCLASS L"MirandaModernAniAvatar"
 #define aacheck if (!s_bModuleStarted) return
 
 #define AAO_HAS_BORDER	  0x01

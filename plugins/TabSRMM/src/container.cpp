@@ -508,11 +508,11 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			HMENU hSysmenu = GetSystemMenu(hwndDlg, FALSE);
 			int iMenuItems = GetMenuItemCount(hSysmenu);
 
-			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, L"");
 			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_STAYONTOP, TranslateT("Stay on top"));
 			if (!CSkin::m_frameSkins)
 				InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_NOTITLE, TranslateT("Hide title bar"));
-			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, L"");
 			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_MOREOPTIONS, TranslateT("Container options..."));
 			SetWindowText(hwndDlg, TranslateT("Message session..."));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_iconContainer);
@@ -1428,7 +1428,7 @@ panel_found:
 				}
 			}
 			else if (pContainer->hwndStatus == 0) {
-				pContainer->hwndStatus = CreateWindowEx(0, _T("TSStatusBarClass"), NULL, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
+				pContainer->hwndStatus = CreateWindowEx(0, L"TSStatusBarClass", NULL, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
 
 				if (sBarHeight && bSkinned)
 					SendMessage(pContainer->hwndStatus, SB_SETMINHEIGHT, sBarHeight, 0);
@@ -1759,7 +1759,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
-	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, _T("default")))
+	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, L"default"))
 		iTemp |= CNT_CREATEFLAG_CLONED;
 
 	// save container name to the db
@@ -1785,7 +1785,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 				pContainer->iContainerIndex = i;
 				iFound = TRUE;
 			}
-			else if (!_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
+			else if (!_tcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
 				iFirstFree = i;
 		} while (++i && iFound == FALSE);
 	}
@@ -1880,7 +1880,7 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, size_t size)
 		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
 		TCHAR fmt[30];
-		mir_sntprintf(fmt, _T("%%%d.%ds..."), PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
+		mir_sntprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
 		mir_sntprintf(newname, size, fmt, oldname);
 	}
 	return 0;
@@ -2010,7 +2010,7 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iName
 {
 	// single window mode using cloned (temporary) containers
 	if (M.GetByte("singlewinmode", 0)) {
-		_tcsncpy_s(szName, iNameLen, _T("Message Session"), _TRUNCATE);
+		_tcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
 		return 0;
 	}
 
@@ -2018,7 +2018,7 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iName
 	if (M.GetByte("useclistgroups", 0)) {
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup == NULL) {
-			_tcsncpy_s(szName, iNameLen, _T("default"), _TRUNCATE);
+			_tcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 			return 0;
 		}
 
@@ -2028,7 +2028,7 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iName
 
 	ptrT tszContainerName(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 	if (tszContainerName == NULL) {
-		_tcsncpy_s(szName, iNameLen, _T("default"), _TRUNCATE);
+		_tcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 		return 0;
 	}
 
@@ -2044,7 +2044,7 @@ void TSAPI DeleteContainer(int iIndex)
 	if (tszContainerName == NULL)
 		return;
 
-	db_set_ts(NULL, CONTAINER_KEY, szIndex, _T("**mir_free**"));
+	db_set_ts(NULL, CONTAINER_KEY, szIndex, L"**mir_free**");
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
@@ -2109,8 +2109,8 @@ HMENU TSAPI BuildContainerMenu()
 		if (tszName == NULL)
 			break;
 
-		if (_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
-			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_tstrcmp(tszName, _T("default")) ? TranslateT("Default container") : tszName);
+		if (_tcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
+			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_tstrcmp(tszName, L"default") ? TranslateT("Default container") : tszName);
 		i++;
 	}
 

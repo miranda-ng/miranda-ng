@@ -102,7 +102,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 			PreparePath(folderName, path);
 			instance->CreateFolder(path);
 			instance->CreateDownloadUrl(path, url);
-			ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
+			ftp->AppendFormatData(L"%s\r\n", ptrT(mir_utf8decodeT(url)));
 		}
 
 		ftp->FirstFile();
@@ -142,7 +142,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 			const TCHAR *serverFolder = ftp->GetServerFolder();
 			if (serverFolder) {
 				TCHAR serverPath[MAX_PATH] = { 0 };
-				mir_sntprintf(serverPath, _T("%s\\%s"), serverFolder, fileName);
+				mir_sntprintf(serverPath, L"%s\\%s", serverFolder, fileName);
 				PreparePath(serverPath, path);
 			}
 			else
@@ -154,7 +154,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 			if (!_tcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
 				instance->CreateDownloadUrl(path, url);
-				ftp->AppendFormatData(_T("%s\r\n"), ptrT(mir_utf8decodeT(url)));
+				ftp->AppendFormatData(L"%s\r\n", ptrT(mir_utf8decodeT(url)));
 			}
 		} while (ftp->NextFile());
 	}

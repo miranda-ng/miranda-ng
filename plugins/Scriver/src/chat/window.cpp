@@ -237,7 +237,7 @@ LBL_SkipEnd:
 		int topicStart = start;
 		while (topicStart >0 && (pszText[topicStart - 1] == ' ' || pszText[topicStart - 1] == 13 || pszText[topicStart - 1] == VK_TAB))
 			topicStart--;
-		if (topicStart > 5 && _tcsstr(&pszText[topicStart - 6], _T("/topic")) == &pszText[topicStart - 6])
+		if (topicStart > 5 && _tcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = true;
 	}
 
@@ -274,7 +274,7 @@ LBL_SkipEnd:
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(TCHAR));
 				mir_tstrcpy(szReplace, pszName);
-				mir_tstrcat(szReplace, _T(": "));
+				mir_tstrcat(szReplace, L": ");
 				pszName = szReplace;
 			}
 			SendMessage(hwnd, EM_SETSEL, start, end);
@@ -706,7 +706,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 			case IDM_CLEAR:
 				if (si) {
-					SetWindowText(hwnd, _T(""));
+					SetWindowText(hwnd, L"");
 					pci->LM_RemoveAll(&si->pLog, &si->pLogEnd);
 					si->iEventCount = 0;
 					si->LastTime = 0;
@@ -795,7 +795,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * p
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -1147,8 +1147,8 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 		
 			// nicklist
-			int ih = GetTextPixelSize(_T("AQG_glo'"), g_Settings.UserListFont, FALSE);
-			int ih2 = GetTextPixelSize(_T("AQG_glo'"), g_Settings.UserListHeadingsFont, FALSE);
+			int ih = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, FALSE);
+			int ih2 = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, FALSE);
 			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
 			int font = ih > ih2 ? ih : ih2;
 			// make sure we have space for icon!
@@ -1187,7 +1187,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_SERVER:
-			mir_sntprintf(szTemp, _T("%s: Server"), si->ptszName);
+			mir_sntprintf(szTemp, L"%s: Server", si->ptszName);
 			break;
 		}
 		tbd.iFlags = TBDF_TEXT | TBDF_ICON;
@@ -1200,7 +1200,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
-			mir_sntprintf(szTemp, _T("%s : %s"), mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : _T(""));
+			mir_sntprintf(szTemp, L"%s : %s", mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : L"");
 
 			StatusBarData sbd;
 			sbd.iItem = 0;
@@ -1211,7 +1211,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			sbd.iItem = 1;
 			sbd.hIcon = NULL;
-			sbd.pszText = _T("");
+			sbd.pszText = L"";
 			SendMessage(GetParent(hwndDlg), CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 
 			StatusIconData sid = { sizeof(sid) };
@@ -1345,7 +1345,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 	case GC_ACKMESSAGE:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
+		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
 		return TRUE;
 
 	case WM_CTLCOLORLISTBOX:
@@ -1358,8 +1358,8 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			if (mis->CtlType == ODT_MENU)
 				return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
-			int ih = GetTextPixelSize(_T("AQGgl'"), g_Settings.UserListFont, FALSE);
-			int ih2 = GetTextPixelSize(_T("AQGg'"), g_Settings.UserListHeadingsFont, FALSE);
+			int ih = GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
+			int ih2 = GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
 			int font = ih > ih2 ? ih : ih2;
 			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
 			// make sure we have space for icon!
@@ -1428,7 +1428,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				char szIndicator = SM_GetStatusIndicator(si, ui);
 				if (szIndicator > '\0') {
 					static TCHAR ptszBuf[128];
-					mir_sntprintf(ptszBuf, _T("%c%s"), szIndicator, ui->pszNick);
+					mir_sntprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
 				else SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
@@ -1456,7 +1456,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			return TRUE;
 
 		case WINDOW_CLEARLOG:
-			SetDlgItemText(hwndDlg, IDC_CHAT_LOG, _T(""));
+			SetDlgItemText(hwndDlg, IDC_CHAT_LOG, L"");
 			return TRUE;
 
 		case SESSION_TERMINATE:
@@ -1637,7 +1637,7 @@ LABEL_SHOWWINDOW:
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
 						static TCHAR ptszBuf[1024];
-						mir_sntprintf(ptszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+						mir_sntprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
 							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -1670,9 +1670,9 @@ LABEL_SHOWWINDOW:
 						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 4);
 						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
 						if (start == 0)
-							mir_sntprintf(pszName, dwNameLenMax, _T("%s: "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
 						else
-							mir_sntprintf(pszName, dwNameLenMax, _T("%s "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
 
 						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -1709,13 +1709,13 @@ LABEL_SHOWWINDOW:
 				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
 				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
-				ptszText.Replace(_T("%"), _T("%%"));
+				ptszText.Replace(L"%", L"%%");
 
 				if (mi->bAckMsg) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
+				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 

@@ -69,8 +69,8 @@ void __cdecl CVkProto::SearchThread(void *p)
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
 
 	TCHAR arg[200];
-	mir_sntprintf(arg, _T("%s %s %s"), pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
-	debugLog(_T("CVkProto::SearchThread %s"), arg);
+	mir_sntprintf(arg, L"%s %s %s", pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
+	debugLog(L"CVkProto::SearchThread %s", arg);
 	if (!IsOnline())
 		return;
 
@@ -120,7 +120,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		CMString Id(FORMAT, _T("%d"), jnRecord["id"].as_int());
+		CMString Id(FORMAT, L"%d", jnRecord["id"].as_int());
 		CMString FirstName(jnRecord["first_name"].as_mstring());
 		CMString LastName(jnRecord["last_name"].as_mstring());
 		CMString Nick(jnRecord["nickname"].as_mstring());
@@ -178,7 +178,7 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 		
-		CMString Id(FORMAT, _T("%d"), jnRecord["id"].as_int());
+		CMString Id(FORMAT, L"%d", jnRecord["id"].as_int());
 		CMString FirstName(jnRecord["first_name"].as_mstring());
 		CMString LastName(jnRecord["last_name"].as_mstring());
 		CMString Nick(jnRecord["nickname"].as_mstring());

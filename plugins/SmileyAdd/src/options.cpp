@@ -286,7 +286,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
 
 		if (!visible && smc[i].IsAcc() && !useOne) {
-			CMString PhysProtoName = _T("AllProto");
+			CMString PhysProtoName = L"AllProto";
 			CMString ProtoName = smc[i].GetName();
 			DBVARIANT dbv;
 			if (db_get_ts(NULL, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
@@ -463,14 +463,14 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 {
 	OPENFILENAME ofn = { 0 };
 
-	TCHAR filename[MAX_PATH] = _T("");
+	TCHAR filename[MAX_PATH] = L"";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = _countof(filename);
 
 	CMString inidir;
 	SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(item);
 	if (smc->GetFilename().IsEmpty())
-		pathToAbsolute(_T("Smileys"), inidir);
+		pathToAbsolute(L"Smileys", inidir);
 	else {
 		pathToAbsolute(smc->GetFilename(), inidir);
 		inidir.Truncate(inidir.ReverseFind('\\'));
@@ -482,21 +482,21 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 
 	TCHAR filter[512], *pfilter;
 	mir_tstrcpy(filter, TranslateT("Smiley packs"));
-	mir_tstrcat(filter, _T(" (*.msl;*.asl;*.xep)"));
+	mir_tstrcat(filter, L" (*.msl;*.asl;*.xep)");
 	pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, _T("*.msl;*.asl;*.xep"));
+	mir_tstrcpy(pfilter, L"*.msl;*.asl;*.xep");
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	mir_tstrcpy(pfilter, TranslateT("All files"));
-	mir_tstrcat(pfilter, _T(" (*.*)"));
+	mir_tstrcat(pfilter, L" (*.*)");
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	mir_tstrcpy(pfilter, _T("*.*"));
+	mir_tstrcpy(pfilter, L"*.*");
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	*pfilter = '\0';
 	ofn.lpstrFilter = filter;
 
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_READONLY |
 		OFN_EXPLORER | OFN_LONGNAMES | OFN_NOCHANGEDIR;
-	ofn.lpstrDefExt = _T("msl");
+	ofn.lpstrDefExt = L"msl";
 
 	if (GetOpenFileName(&ofn)) {
 		CMString relpath;
@@ -590,7 +590,7 @@ void OptionsType::Load(void)
 
 void OptionsType::ReadPackFileName(CMString &filename, const CMString &name, const CMString &defaultFilename)
 {
-	CMString settingKey = name + _T("-filename");
+	CMString settingKey = name + L"-filename";
 
 	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
 	filename = (tszValue != NULL) ? (TCHAR*)tszValue : defaultFilename;
@@ -598,7 +598,7 @@ void OptionsType::ReadPackFileName(CMString &filename, const CMString &name, con
 
 void OptionsType::WritePackFileName(const CMString &filename, const CMString &name)
 {
-	CMString settingKey = name + _T("-filename");
+	CMString settingKey = name + L"-filename";
 	db_set_ts(NULL, "SmileyAdd", _T2A(settingKey.c_str()), filename.c_str());
 }
 

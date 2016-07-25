@@ -31,10 +31,10 @@ public:
 		CreateLink(m_remoteTime, WHATSAPP_KEY_USE_REMOTE_TIME, DBVT_BYTE, false);
 		CreateLink(m_autorun, WHATSAPP_KEY_AUTORUNCHATS, DBVT_BYTE, true);
 
-		CreateLink(m_cc, WHATSAPP_KEY_CC, _T(""));
-		CreateLink(m_nick, WHATSAPP_KEY_NICK, _T(""));
-		CreateLink(m_login, WHATSAPP_KEY_LOGIN, _T(""));
-		CreateLink(m_group, WHATSAPP_KEY_DEF_GROUP, _T(""));
+		CreateLink(m_cc, WHATSAPP_KEY_CC, L"");
+		CreateLink(m_nick, WHATSAPP_KEY_NICK, L"");
+		CreateLink(m_login, WHATSAPP_KEY_LOGIN, L"");
+		CreateLink(m_group, WHATSAPP_KEY_DEF_GROUP, L"");
 
 		m_requestSMS.OnClick = Callback(this, &COptionsDlg::OnRequestSMSClick);
 		m_requestVoice.OnClick = Callback(this, &COptionsDlg::OnRequestVoiceClick);

@@ -179,7 +179,7 @@ INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 	if (FileName == NULL)
 		return NULL;
 
-	mir_sntprintf(FileName, MAX_PATH, _T("%s\\yamn-accounts.%s.%s.book"), UserDirectory, wParam, ProfileName);
+	mir_sntprintf(FileName, MAX_PATH, L"%s\\yamn-accounts.%s.%s.book", UserDirectory, wParam, ProfileName);
 	return (INT_PTR)FileName;
 }
 

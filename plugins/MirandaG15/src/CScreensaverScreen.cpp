@@ -30,15 +30,15 @@ bool CScreensaverScreen::Initialize()
 
 	m_Label.SetAlignment(DT_CENTER);
 	m_Label.SetWordWrap(TRUE);
-	m_Label.SetText(_T("Screensaver is active"));
-	m_Label.SetFontFaceName(_T("Microsoft Sans Serif"));
+	m_Label.SetText(L"Screensaver is active");
+	m_Label.SetFontFaceName(L"Microsoft Sans Serif");
 	m_Label.SetFontPointSize(10);
 	m_Label.SetFontWeight(FW_BOLD);
 	
 	m_Label2.SetAlignment(DT_CENTER);
 	m_Label2.SetWordWrap(TRUE);
-	m_Label2.SetText(_T(""));
-	m_Label2.SetFontFaceName(_T("Microsoft Sans Serif"));
+	m_Label2.SetText(L"");
+	m_Label2.SetFontFaceName(L"Microsoft Sans Serif");
 	m_Label2.SetFontPointSize(8);
 
 	m_Label.SetOrigin(0,0);
@@ -80,20 +80,20 @@ bool CScreensaverScreen::Update()
 	if(dwTimeElapsed > m_dwDuration)
 	{
 		m_dwDuration = 4000;
-		m_Label.SetText(_T(""));
-		m_Label2.SetText(_T(""));
+		m_Label.SetText(L"");
+		m_Label2.SetText(L"");
 		switch(m_iPosition)
 		{
 		case 0:
 			m_Label.SetFontPointSize(8);
-			m_Label.SetText(_T("MirandaG15"));
-			m_Label2.SetText(_T("Screensaver is active"));
+			m_Label.SetText(L"MirandaG15");
+			m_Label2.SetText(L"Screensaver is active");
 			m_dwDuration = 1800;
 			break;
 		case 1:
 			m_Label.SetFontPointSize(11);
-			m_Label.SetText(_T("MirandaG15"));
-			m_Label2.SetText(_T("Applet locked"));
+			m_Label.SetText(L"MirandaG15");
+			m_Label2.SetText(L"Applet locked");
 			m_dwDuration = 1800;
 			m_iPosition = -1;
 			break;
@@ -122,8 +122,8 @@ void CScreensaverScreen::Reset()
 	
 	m_Label.SetFontPointSize(10);
 
-	m_Label.SetText(_T(""));
-	m_Label2.SetText(_T(""));
+	m_Label.SetText(L"");
+	m_Label2.SetText(L"");
 
 	CAppletManager::GetInstance()->GetLCDConnection()->SetAsForeground(true);
 }

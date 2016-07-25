@@ -92,7 +92,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 		return dwSrcLen;
 	}
 	if (pSrc[0] == '.')
-		return (mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), cfg::dat.tszProfilePath, pSrc));
+		return (mir_sntprintf(pOut, MAX_PATH, L"%s\\%s", cfg::dat.tszProfilePath, pSrc));
 
 	return 0;
 }
@@ -170,7 +170,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 		TCHAR *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
+			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
 			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
@@ -311,7 +311,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		TCHAR *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
+			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
 			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
@@ -536,7 +536,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 			if (h < dat->fontInfo[i].fontHeight + 2) h = dat->fontInfo[i].fontHeight + 2;
 	}
 
-	dat->hwndRenameEdit = CreateWindowEx(0, _T("RICHEDIT50W"), contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
+	dat->hwndRenameEdit = CreateWindowEx(0, L"RICHEDIT50W", contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
 	{
 		if ((contact->type == CLCIT_CONTACT && contact->pExtra->dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
@@ -544,13 +544,13 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.wEffects = PFE_RTLPARA;
-			SetWindowText(dat->hwndRenameEdit, _T(""));
+			SetWindowText(dat->hwndRenameEdit, L"");
 			SendMessage(dat->hwndRenameEdit, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 			SetWindowText(dat->hwndRenameEdit, contact->szText);
 		}
 	}
 
-	//dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
+	//dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
@@ -575,7 +575,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 
 		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
 		SIZE fontSize;
-		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
+		GetTextExtentPoint32(hdc, L"x", 1, &fontSize);
 		SelectObject(hdc, holdfont);
 
 		dat->fontInfo[i].fontHeight = fontSize.cy;

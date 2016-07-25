@@ -211,7 +211,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 					timebuf, "<unknown>", TEXT(""));
 
 				GetLinkedModulesInfo(path, ubuffer);
-				ubuffer.Append(_T("\r\n"));
+				ubuffer.Append(L"\r\n");
 
 				++ucount;
 			}
@@ -234,7 +234,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 				VS_FIXEDFILEINFO* fi;
 				void* pVerInfo = mir_alloc(verInfoSize);
 				GetFileVersionInfo(path, 0, verInfoSize, pVerInfo);
-				VerQueryValue(pVerInfo, _T("\\"), (LPVOID*)&fi, &blockSize);
+				VerQueryValue(pVerInfo, L"\\", (LPVOID*)&fi, &blockSize);
 				v1 = HIWORD(fi->dwProductVersionMS), v2 = LOWORD(fi->dwProductVersionMS),
 					v3 = HIWORD(fi->dwProductVersionLS), v4 = LOWORD(fi->dwProductVersionLS);
 				mir_free(pVerInfo);
@@ -346,7 +346,7 @@ static void GetProtocolStrings(CMString& buffer)
 	for (i = 0; i < protoCountMy; i++)
 		buffer.AppendFormat(TEXT("%-24s %d - Enabled %d - Disabled  %sLoaded\r\n"),
 		(TCHAR*)_A2T(protoListMy[i]), protos[i].countse,
-		protos[i].countsd, protos[i].nloaded ? _T("Not ") : _T(""));
+		protos[i].countsd, protos[i].nloaded ? L"Not " : L"");
 }
 
 
@@ -445,34 +445,34 @@ static void GetIconStrings(CMString& buffer)
 void PrintVersionInfo(CMString& buffer, unsigned flags)
 {
 	GetProcessorString(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	GetFreeMemoryString(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	TCHAR tszOsVer[200];
 	GetOSDisplayString(tszOsVer, _countof(tszOsVer));
 	buffer.Append(tszOsVer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	GetInternetExplorerVersion(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	GetAdminString(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	GetLanguageString(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
 	if (flags & VI_FLAG_PRNVAR) {
 		GetFreeDiskString(profpathfull, buffer);
-		buffer.Append(_T("\r\n"));
+		buffer.Append(L"\r\n");
 	}
 
 	buffer.AppendFormat(TEXT("\r\nMiranda NG Version: %s"), vertxt);
 	GetWow64String(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	TCHAR path[MAX_PATH], mirtime[30];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -503,7 +503,7 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	mir_free(profpathfull);
 
 	GetLanguagePackString(buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	// buffer.AppendFormat(TEXT("Nightly: %s\r\n"), _tcsstr(vertxt, TEXT("alpha")) ? TEXT("Yes") : TEXT("No")); 
 	// buffer.AppendFormat(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
@@ -585,7 +585,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 	int crashpos = buffer.GetLength();
 
 	ReadableExceptionInfo(exc_ptr->ExceptionRecord, buffer);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	const HANDLE hProcess = GetCurrentProcess();
 
@@ -668,7 +668,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 		buffer.AppendFormat(formatd, (void*)frame.AddrPC.Offset, moduleName, (void*)Module.BaseOfImage,lineFileName, Line.LineNumber, name);
 	}
 	SymCleanup(hProcess);
-	buffer.Append(_T("\r\n"));
+	buffer.Append(L"\r\n");
 
 	PrintVersionInfo(buffer, VI_FLAG_PRNDLL);
 

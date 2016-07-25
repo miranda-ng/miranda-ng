@@ -79,7 +79,7 @@ private:
 	int eval_atom(TCHAR *&s, Args *args, bool *vars) const;
 
 public:
-	Formula() :m_str(mir_tstrdup(_T(""))) {}
+	Formula() :m_str(mir_tstrdup(L"")) {}
 	Formula(TCHAR *s) :m_str(mir_tstrdup(s)) {}
 	~Formula() { mir_free(m_str); }
 	void	set(TCHAR *s){ mir_free(m_str); m_str = mir_tstrdup(s); }

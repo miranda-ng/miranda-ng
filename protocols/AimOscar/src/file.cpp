@@ -324,7 +324,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					mir_free(buf);
 
 					TCHAR fname[256];
-					mir_sntprintf(fname, _T("%s%s"), ft->pfts.tszWorkingDir, name);
+					mir_sntprintf(fname, L"%s%s", ft->pfts.tszWorkingDir, name);
 					mir_free(name);
 					mir_free(ft->pfts.tszCurrentFile);
 					ft->pfts.tszCurrentFile = mir_tstrdup(fname);

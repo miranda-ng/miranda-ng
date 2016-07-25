@@ -58,7 +58,7 @@ void ColNick::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) c
 
 void ColNick::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
 {
-	tos << _T("<td");
+	tos << L"<td";
 
 	if (m_bDetail || (m_bContactCount && display != asContact))
 	{
@@ -76,30 +76,30 @@ void ColNick::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, Di
 		if (m_bDetail && !(m_bContactCount && display != asContact))
 		{
 			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("[First] #{first_time} / [Last] #{last_time}"))
-				% _T("#{first_time}") * strFirstTime
-				% _T("#{last_time}") * strLastTime));
+				% L"#{first_time}" * strFirstTime
+				% L"#{last_time}" * strLastTime));
 		}
 		else if (m_bDetail && (m_bContactCount && display != asContact))
 		{
 			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{count} contacts / [First] #{first_time} / [Last] #{last_time}"))
-				% _T("#{count}") * contact.getNumContacts()
-				% _T("#{first_time}") * strFirstTime
-				% _T("#{last_time}") * strLastTime));
+				% L"#{count}" * contact.getNumContacts()
+				% L"#{first_time}" * strFirstTime
+				% L"#{last_time}" * strLastTime));
 		}
 		else // if (!m_bDetail && (m_bContactCount && display != asContact))
 		{
 			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{count} contacts"))
-				% _T("#{count}") * contact.getNumContacts()));
+				% L"#{count}" * contact.getNumContacts()));
 		}
 
-		tos << _T(" title=\"") << strTooltip << _T("\">");
+		tos << L" title=\"" << strTooltip << L"\">";
 	}
-	else tos << _T(">");		
+	else tos << L">";		
 
 	if (display == asContact)
-		tos << utils::htmlEscape(contact.getNick()) << _T("</td>") << ext::endl;
+		tos << utils::htmlEscape(contact.getNick()) << L"</td>" << ext::endl;
 	else if (display == asOmitted)
-		tos << TranslateT("Omitted") << _T("</td>") << ext::endl;
+		tos << TranslateT("Omitted") << L"</td>" << ext::endl;
 	else
-		tos << TranslateT("Totals") << _T("</td>") << ext::endl;
+		tos << TranslateT("Totals") << L"</td>" << ext::endl;
 }

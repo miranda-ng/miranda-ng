@@ -214,7 +214,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		//!! move it up, to text extent points?
 		if (ctl->cHot) {
 			SIZE szHot;
-			GetTextExtentPoint32 (hdcMem, _T("&"), 1, &szHot);
+			GetTextExtentPoint32 (hdcMem, L"&", 1, &szHot);
 			sz.cx -= szHot.cx;
 		}
 		if (ctl->arrow)
@@ -471,7 +471,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				else {
 					TTooltips *ptt = (TTooltips*)mir_alloc(sizeof(TTooltips));
 					ptt->ThreadId = tt.ThreadId;
-					ptt->hwnd = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), TTS_ALWAYSTIP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
+					ptt->hwnd = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_ALWAYSTIP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
 					lToolTips.insert(ptt);
 					bct->hwndToolTips = ptt->hwnd;
 				}

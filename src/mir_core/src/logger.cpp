@@ -108,7 +108,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const TCHAR *ptszDescr, 
 		return &arLoggers[idx];
 	}
 
-	FILE *fp = _tfopen(ptszFile, _T("ab"));
+	FILE *fp = _tfopen(ptszFile, L"ab");
 	if (fp == NULL) {
 		TCHAR tszPath[MAX_PATH];
 		_tcsncpy_s(tszPath, ptszFile, _TRUNCATE);
@@ -149,7 +149,7 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, _T("ab"))) == NULL)
+		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	va_list args;
@@ -171,7 +171,7 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, _T("ab"))) == NULL)
+		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	va_list args;
@@ -195,7 +195,7 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list arg
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, _T("ab"))) == NULL)
+		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	vfprintf(p->m_out, format, args);
@@ -214,7 +214,7 @@ MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list ar
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, _T("ab"))) == NULL)
+		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	vfwprintf(p->m_out, format, args);

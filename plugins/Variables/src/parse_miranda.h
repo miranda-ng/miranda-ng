@@ -17,27 +17,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define VERSIONSTRING		_T("mirandaversion")
-#define CODETOSTATUS		_T("code2status")
-#define CONTACT				_T("contact")
-#define CONTACTCOUNT		_T("ccount")
-#define MIR_CONTACTINFO		_T("cinfo")
-#define DBPROFILENAME		_T("dbprofile")
-#define DBPROFILEPATH		_T("dbprofilepath")
-#define DBSETTING			_T("dbsetting")
-#define LSDATE				_T("lsdate")
-#define LSTIME				_T("lstime")
-#define LSSTATUS			_T("lsstatus")
+#define VERSIONSTRING		L"mirandaversion"
+#define CODETOSTATUS		L"code2status"
+#define CONTACT				L"contact"
+#define CONTACTCOUNT		L"ccount"
+#define MIR_CONTACTINFO		L"cinfo"
+#define DBPROFILENAME		L"dbprofile"
+#define DBPROFILEPATH		L"dbprofilepath"
+#define DBSETTING			L"dbsetting"
+#define LSDATE				L"lsdate"
+#define LSTIME				L"lstime"
+#define LSSTATUS			L"lsstatus"
 //#define SUBJECT				"subject" // defined in variables.h
-#define MIRANDAPATH			_T("mirandapath")
-#define MYSTATUS			_T("mstatus")
-#define DBEVENT				_T("message") // may be extended later
+#define MIRANDAPATH			L"mirandapath"
+#define MYSTATUS			L"mstatus"
+#define DBEVENT				L"message" // may be extended later
 //#define PROTONAME			"protoname" // depreciated
-#define PROTOINFO			_T("pinfo")
-#define TRANSLATE			_T("translate")
-#define CONTACT_NAME		_T("contactname")
-#define MIR_DATE			_T("date")
-#define SRVEXISTS			_T("srvexists")
+#define PROTOINFO			L"pinfo"
+#define TRANSLATE			L"translate"
+#define CONTACT_NAME		L"contactname"
+#define MIR_DATE			L"date"
+#define SRVEXISTS			L"srvexists"
 
 #define STR_PINAME			"name"
 #define STR_PIUIDTEXT		"uidtext"
@@ -46,13 +46,13 @@
 
 #define SEEN_MODULE			"SeenModule"
 
-#define STR_PROTOID			_T("protoid")
-#define STR_FIRST			_T("first")
-#define STR_LAST			_T("last")
-#define STR_SENT			_T("sent")
-#define STR_RCVD			_T("recv")
-#define STR_READ			_T("read")
-#define	STR_UNREAD			_T("unread")
+#define STR_PROTOID			L"protoid"
+#define STR_FIRST			L"first"
+#define STR_LAST			L"last"
+#define STR_SENT			L"sent"
+#define STR_RCVD			L"recv"
+#define STR_READ			L"read"
+#define	STR_UNREAD			L"unread"
 
 /* dbevent flags */
 /* these flags must contain:

@@ -34,10 +34,10 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (M.FindWindow(hContact) != 0)
 		return 0;
 
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
-		if ((pContainer = FindMatchingContainer(_T("default"))) == NULL) {
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, L"default", 6)) {
+		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
-			mir_sntprintf(szName, _T("default"));
+			mir_sntprintf(szName, L"default");
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
 		}
@@ -59,7 +59,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 		else
 			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
 	}
-	else _tcsncpy_s(newcontactname, _T("_U_"), _TRUNCATE);
+	else _tcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
 	newData.item.pszText = newcontactname;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -167,8 +167,8 @@ void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 	TContainerData *pContainer = si->pContainer;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
-		if (!g_Settings.bOpenInDefault && !mir_tstrcmp(szName, _T("default")))
-			_tcsncpy(szName, _T("Chat Rooms"), CONTAINER_NAMELEN);
+		if (!g_Settings.bOpenInDefault && !mir_tstrcmp(szName, L"default"))
+			_tcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}

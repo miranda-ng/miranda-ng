@@ -34,7 +34,7 @@ CIconList g_IconList;
 // Set window size and center its controls
 void MySetPos(HWND hwndParent)
 {
-	HWND hWndTab = FindWindowEx(GetParent(hwndParent), NULL, _T("SysTabControl32"), _T(""));
+	HWND hWndTab = FindWindowEx(GetParent(hwndParent), NULL, L"SysTabControl32", L"");
 	if (!hWndTab) {
 		_ASSERT(0);
 		return;
@@ -201,10 +201,10 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					ChangeLock++;
 					if (!(pnm->ItemNew->Flags & TIF_ROOTITEM)) {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
-						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, (pnm->ItemNew->Flags & TIF_GROUP) ? _T("") : ((CTreeItem*)pnm->ItemNew)->User_Str1);
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, (pnm->ItemNew->Flags & TIF_GROUP) ? L"" : ((CTreeItem*)pnm->ItemNew)->User_Str1);
 					}
 					else {
-						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, L"");
 						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages."));
 						else {
@@ -519,8 +519,8 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				int Meaning;
 			}
 			static IdleComboValues[] = {
-				_T("Windows"), AUTOREPLY_IDLE_WINDOWS,
-				_T("Miranda"), AUTOREPLY_IDLE_MIRANDA
+				L"Windows", AUTOREPLY_IDLE_WINDOWS,
+				L"Miranda", AUTOREPLY_IDLE_MIRANDA
 			};
 
 			for (int i = 0; i < _countof(IdleComboValues); i++)
@@ -552,7 +552,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				IDC_MOREOPTDLG_EVNTURL, LPGENT("URL"),
 				IDC_MOREOPTDLG_EVNTFILE, LPGENT("File")
 			};
-			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
 			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
@@ -756,10 +756,10 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					ChangeLock++;
 					if (!(pnm->ItemNew->Flags & TIF_ROOTITEM)) {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
-						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, (pnm->ItemNew->Flags & TIF_GROUP) ? _T("") : ((CTreeItem*)pnm->ItemNew)->User_Str1);
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, (pnm->ItemNew->Flags & TIF_GROUP) ? L"" : ((CTreeItem*)pnm->ItemNew)->User_Str1);
 					}
 					else {
-						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, L"");
 						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages."));
 						else {

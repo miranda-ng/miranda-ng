@@ -41,22 +41,22 @@ bool CChatScreen::Initialize()
 	// other attributes
 	m_InfoText.SetAlignment(DT_CENTER);
 	m_InfoText.SetWordWrap(TRUE);
-	m_InfoText.SetText(_T(""));
+	m_InfoText.SetText(L"");
 	m_InfoText.Show(0);
 
 	m_UserName.SetAlignment(DT_CENTER);
 	m_UserName.SetWordWrap(TRUE);
-	m_UserName.SetText(_T("Proto"));
+	m_UserName.SetText(L"Proto");
 
 
 	m_UserStatus.SetAlignment(DT_LEFT);
 	m_UserStatus.SetWordWrap(TRUE);
-	m_UserStatus.SetText(_T("Status"));
+	m_UserStatus.SetText(L"Status");
 	
 		
 	m_UserProto.SetAlignment(DT_RIGHT);
 	m_UserProto.SetWordWrap(TRUE);
-	m_UserProto.SetText(_T("User"));
+	m_UserProto.SetText(L"User");
 
 	m_Input.Show(0);
 	
@@ -170,11 +170,11 @@ void CChatScreen::UpdateLabels()
 	char *szProto = GetContactProto(m_hContact);
 	m_iStatus = ID_STATUS_OFFLINE;
 
-	tstring strProto = _T("");
-	tstring strStatus = _T("");
+	tstring strProto = L"";
+	tstring strStatus = L"";
 	if(szProto != NULL)
 	{
-		strProto = _T("(") + toTstring(szProto) + _T(")");
+		strProto = L"(" + toTstring(szProto) + L")";
 		m_iStatus = db_get_w(m_hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	}
 	
@@ -186,7 +186,7 @@ void CChatScreen::UpdateLabels()
 	m_UserStatus.SetText(strStatus.c_str());
 
 	if(m_bContactTyping && CConfig::GetBoolSetting(SESSION_SHOWTYPING))
-		m_UserProto.SetText(CAppletManager::TranslateString(_T("typing..")));
+		m_UserProto.SetText(CAppletManager::TranslateString(L"typing.."));
 	else
 		m_UserProto.SetText(strProto.c_str());
 }
@@ -267,7 +267,7 @@ void CChatScreen::LoadHistory()
 			time(&now);
 			localtime_s(&tm_now,&now);
 
-			AddIncomingMessage(CAppletManager::TranslateString(_T("IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD")),&tm_now,true);
+			AddIncomingMessage(CAppletManager::TranslateString(L"IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD"),&tm_now,true);
 		}
 		else
 		{
@@ -416,9 +416,9 @@ bool CChatScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 void CChatScreen::AddOutgoingMessage(tstring strMessage,tm *time,bool bIRC)
 {
-	tstring strPrefix = bIRC?_T(""):_T(">> ");
+	tstring strPrefix = bIRC?L"":L">> ";
 	if(CConfig::GetBoolSetting(SESSION_TIMESTAMPS))
-		strPrefix += CAppletManager::GetFormattedTimestamp(time) + _T(" ");
+		strPrefix += CAppletManager::GetFormattedTimestamp(time) + L" ";
 
 	// adjust the scroll mode
 	m_TextLog.SetAutoscrollMode(SCROLL_LINE);
@@ -433,9 +433,9 @@ void CChatScreen::AddOutgoingMessage(tstring strMessage,tm *time,bool bIRC)
 //************************************************************************
 void CChatScreen::AddIncomingMessage(tstring strMessage,tm *time,bool bIRC)
 {
-	tstring strPrefix = bIRC?_T(""):_T("<< ");
+	tstring strPrefix = bIRC?L"":L"<< ";
 	if(CConfig::GetBoolSetting(SESSION_TIMESTAMPS))
-		strPrefix += CAppletManager::GetFormattedTimestamp(time) + _T(" ");
+		strPrefix += CAppletManager::GetFormattedTimestamp(time) + L" ";
 
 	
 	// adjust the scroll mode
@@ -495,7 +495,7 @@ void CChatScreen::SendCurrentMessage()
 
 	m_Input.DeactivateInput();
 
-	m_InfoText.SetText(CAppletManager::TranslateString(_T("Sending message...")));
+	m_InfoText.SetText(CAppletManager::TranslateString(L"Sending message..."));
 	m_InfoText.Show(1);
 	m_Input.Show(0);
 	
@@ -621,7 +621,7 @@ void CChatScreen::OnEventReceived(CEvent *pEvent)
 		if(pEvent->iValue == ACKRESULT_SUCCESS)
 			DeactivateMessageMode();
 		else
-			InvalidateMessageMode(pEvent->strValue.empty()?CAppletManager::TranslateString(_T("Could not send the message!")):pEvent->strValue);
+			InvalidateMessageMode(pEvent->strValue.empty()?CAppletManager::TranslateString(L"Could not send the message!"):pEvent->strValue);
 		break;
 	case EVENT_IRC_SENT:
 		// Add the message to the log

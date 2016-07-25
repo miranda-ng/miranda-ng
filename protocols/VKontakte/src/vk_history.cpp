@@ -168,7 +168,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		mir_cslock lck(m_csLoadHistoryTask);
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
-		debugLog(_T("CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d"), m_iLoadHistoryTask);
+		debugLog(L"CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d", m_iLoadHistoryTask);
 		MsgPopup(NULL, TranslateT("Error loading message history from server"), TranslateT("Error"), true);
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
@@ -189,10 +189,10 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				m_iLoadHistoryTask--;
 			
 			ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
-			CMString str(FORMAT, _T("%s %s %s"), TranslateT("Error loading message history from server"), TranslateT("for"), ptszNick);
+			CMString str(FORMAT, L"%s %s %s", TranslateT("Error loading message history from server"), TranslateT("for"), ptszNick);
 
 			MsgPopup(param->hContact, str, TranslateT("Error"), true);
-			debugLog(_T("CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
+			debugLog(L"CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d", ptszNick, m_iLoadHistoryTask);
 
 			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
 				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
@@ -233,7 +233,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (jnFwdMessages) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
-				tszFwdMessages = _T("\n") + tszFwdMessages;
+				tszFwdMessages = L"\n" + tszFwdMessages;
 			tszBody += tszFwdMessages;
 		}
 
@@ -241,7 +241,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (jnAttachments) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
-				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+				tszAttachmentDescr = L"\n" + tszAttachmentDescr;
 			tszBody += tszAttachmentDescr;
 		}
 
@@ -282,7 +282,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		ptrT ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
 		CMString str(FORMAT, TranslateT("Loading messages for %s is completed"), ptszNick);
-		debugLog(_T("CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d"), ptszNick, m_iLoadHistoryTask);
+		debugLog(L"CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d", ptszNick, m_iLoadHistoryTask);
 
 		if (m_bNotifyForEndLoadingHistory)
 			MsgPopup(param->hContact, str, TranslateT("Loading history"));

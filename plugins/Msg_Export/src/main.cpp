@@ -192,12 +192,12 @@ extern "C" __declspec(dllexport) int Load()
 	if (nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir = _DBGetString(NULL, MODULE, "ExportDir", _T("%dbpath%\\MsgExport\\"));
-	sDefaultFile = _DBGetString(NULL, MODULE, "DefaultFile", _T("%nick%.txt"));
+	sExportDir = _DBGetString(NULL, MODULE, "ExportDir", L"%dbpath%\\MsgExport\\");
+	sDefaultFile = _DBGetString(NULL, MODULE, "DefaultFile", L"%nick%.txt");
 
-	sTimeFormat = _DBGetString(NULL, MODULE, "TimeFormat", _T("d s"));
+	sTimeFormat = _DBGetString(NULL, MODULE, "TimeFormat", L"d s");
 
-	sFileViewerPrg = _DBGetString(NULL, MODULE, "FileViewerPrg", _T(""));
+	sFileViewerPrg = _DBGetString(NULL, MODULE, "FileViewerPrg", L"");
 	bUseInternalViewer(db_get_b(NULL, MODULE, "UseInternalViewer", bUseInternalViewer()) != 0);
 
 	bReplaceHistory = db_get_b(NULL, MODULE, "ReplaceHistory", bReplaceHistory) != 0;

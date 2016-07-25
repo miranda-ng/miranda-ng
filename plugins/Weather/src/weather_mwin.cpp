@@ -200,7 +200,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				TCHAR *nick = (TCHAR*)pcli->pfnGetContactDisplayName(data->hContact, 0);
 
 				SIZE fontSize;
-				GetTextExtentPoint32(hdc, _T("|"), 1, &fontSize);
+				GetTextExtentPoint32(hdc, L"|", 1, &fontSize);
 
 				rc.top += 1;
 				rc.left += picSize + fontSize.cx;
@@ -242,10 +242,10 @@ static void addWindow(MCONTACT hContact)
 		return;
 
 	TCHAR winname[512];
-	mir_sntprintf(winname, _T("Weather: %s"), dbv.ptszVal);
+	mir_sntprintf(winname, L"Weather: %s", dbv.ptszVal);
 	db_free(&dbv);
 
-	HWND hWnd = CreateWindow(_T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE,
+	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,
 		0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
@@ -321,7 +321,7 @@ void InitMwin(void)
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = _T("WeatherFrame");
+	wndclass.lpszClassName = L"WeatherFrame";
 	RegisterClass(&wndclass);
 
 	ColourIDT colourid = { 0 };
@@ -346,7 +346,7 @@ void InitMwin(void)
 	ReleaseDC(0, hdc);
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
-	mir_tstrcpy(fontid.deffontsettings.szFace, _T("Verdana"));
+	mir_tstrcpy(fontid.deffontsettings.szFace, L"Verdana");
 	mir_tstrcpy(fontid.backgroundGroup, _T(WEATHERPROTONAME));
 	mir_tstrcpy(fontid.backgroundName, LPGENT("Frame Background"));
 	FontRegisterT(&fontid);
@@ -370,7 +370,7 @@ void DestroyMwin(void)
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}
-	UnregisterClass(_T("WeatherFrame"), hInst);
+	UnregisterClass(L"WeatherFrame", hInst);
 	WindowList_Destroy(hMwinWindowList);
 	UnhookEvent(hFontHook);
 }

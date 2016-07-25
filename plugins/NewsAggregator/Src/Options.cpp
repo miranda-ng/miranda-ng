@@ -26,7 +26,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		SetWindowText(hwndDlg, TranslateT("Add Feed"));
-		SetDlgItemText(hwndDlg, IDC_FEEDURL, _T("http://"));
+		SetDlgItemText(hwndDlg, IDC_FEEDURL, L"http://");
 		SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
 		SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 		SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DEFAULT_UPDATE_TIME, TRUE);
@@ -44,7 +44,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -95,14 +95,14 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("#<title>#"), TranslateT("The title of the item."),
-				_T("#<description>#"), TranslateT("The item synopsis."),
-				_T("#<link>#"), TranslateT("The URL of the item."),
-				_T("#<author>#"), TranslateT("Email address of the author of the item."),
-				_T("#<comments>#"), TranslateT("URL of a page for comments relating to the item."),
-				_T("#<guid>#"), TranslateT("A string that uniquely identifies the item."),
-				_T("#<category>#"), TranslateT("Specify one or more categories that the item belongs to."));
+			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+				L"#<title>#", TranslateT("The title of the item."),
+				L"#<description>#", TranslateT("The item synopsis."),
+				L"#<link>#", TranslateT("The URL of the item."),
+				L"#<author>#", TranslateT("Email address of the author of the item."),
+				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
+				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
+				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
 			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 			break;
 
@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			TCHAR tszURL[MAX_PATH] = { 0 };
 			TCHAR *tszTitle = NULL;
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0)
 				tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
@@ -203,7 +203,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -255,14 +255,14 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("#<title>#"), TranslateT("The title of the item."),
-				_T("#<description>#"), TranslateT("The item synopsis."),
-				_T("#<link>#"), TranslateT("The URL of the item."),
-				_T("#<author>#"), TranslateT("Email address of the author of the item."),
-				_T("#<comments>#"), TranslateT("URL of a page for comments relating to the item."),
-				_T("#<guid>#"), TranslateT("A string that uniquely identifies the item."),
-				_T("#<category>#"), TranslateT("Specify one or more categories that the item belongs to."));
+			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+				L"#<title>#", TranslateT("The title of the item."),
+				L"#<description>#", TranslateT("The item synopsis."),
+				L"#<link>#", TranslateT("The URL of the item."),
+				L"#<author>#", TranslateT("Email address of the author of the item."),
+				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
+				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
+				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
 			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 			break;
 
@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
@@ -361,7 +361,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -411,14 +411,14 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("#<title>#"), TranslateT("The title of the item."),
-				_T("#<description>#"), TranslateT("The item synopsis."),
-				_T("#<link>#"), TranslateT("The URL of the item."),
-				_T("#<author>#"), TranslateT("Email address of the author of the item."),
-				_T("#<comments>#"), TranslateT("URL of a page for comments relating to the item."),
-				_T("#<guid>#"), TranslateT("A string that uniquely identifies the item."),
-				_T("#<category>#"), TranslateT("Specify one or more categories that the item belongs to."));
+			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+				L"#<title>#", TranslateT("The title of the item."),
+				L"#<description>#", TranslateT("The item synopsis."),
+				L"#<link>#", TranslateT("The URL of the item."),
+				L"#<author>#", TranslateT("Email address of the author of the item."),
+				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
+				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
+				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
 			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 			break;
 
@@ -429,7 +429,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);

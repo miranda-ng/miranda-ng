@@ -78,7 +78,7 @@ TCHAR* getArguments(TCHAR *string, TArgList &argv)
 			if (cur > scur)
 				tszArg = mir_tstrndup(scur + 1, cur - (scur + 1));
 			if (tszArg == NULL)
-				tszArg = mir_tstrdup(_T(""));
+				tszArg = mir_tstrdup(L"");
 			argv.insert(tszArg);
 
 			bNewArg = false;
@@ -145,7 +145,7 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 			continue;
 		}
 		// remove end of lines
-		else if ((!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
+		else if ((!_tcsncmp(cur, L"\r\n", 2)) && (gParseOpts.bStripEOL)) {
 			memmove(cur, cur + 2, (mir_tstrlen(cur + 2) + 1)*sizeof(TCHAR));
 			pos = cur - string - 1;
 			continue;
@@ -158,7 +158,7 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 		// remove comments
 		else if (!_tcsncmp(cur, _T(COMMENT_STRING), mir_tstrlen(_T(COMMENT_STRING)))) {
 			TCHAR *scur = cur;
-			while (_tcsncmp(cur, _T("\r\n"), 2) && *cur != '\n' && *cur != 0)
+			while (_tcsncmp(cur, L"\r\n", 2) && *cur != '\n' && *cur != 0)
 				cur++;
 
 			if (*cur == 0) {

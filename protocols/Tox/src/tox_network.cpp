@@ -169,7 +169,7 @@ void CToxProto::UpdateNodes()
 		CloseHandle(hProfile);
 	}
 
-	FILE *hFile = _tfopen(path, _T("w"));
+	FILE *hFile = _tfopen(path, L"w");
 	if (!hFile)
 	{
 		debugLogA(__FUNCTION__": failed to open tox.json");

@@ -141,7 +141,7 @@ bool IsStringValidLink(TCHAR *pszText)
 	if (_totlower(pszText[0]) == 'w' && _totlower(pszText[1]) == 'w' && _totlower(pszText[2]) == 'w' && pszText[3] == '.' && _istalnum(pszText[4]))
 		return true;
 
-	return _tcsstr(pszText, _T("://")) != NULL;
+	return _tcsstr(pszText, L"://") != NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -471,7 +471,7 @@ LBL_SkipEnd:
 		int topicStart = start;
 		while (topicStart > 0 && (pszText[topicStart - 1] == ' ' || pszText[topicStart - 1] == 13 || pszText[topicStart - 1] == VK_TAB))
 			topicStart--;
-		if (topicStart > 5 && _tcsstr(&pszText[topicStart - 6], _T("/topic")) == &pszText[topicStart - 6])
+		if (topicStart > 5 && _tcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = TRUE;
 	}
 	if (dat->szSearchQuery == NULL) {
@@ -843,7 +843,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			if (lpPrevCmd)
 				SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
 			else
-				SetWindowText(hwnd, _T(""));
+				SetWindowText(hwnd, L"");
 
 			GETTEXTLENGTHEX gtl = { 0 };
 			gtl.flags = GTL_PRECISE;
@@ -1321,7 +1321,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 			TranslateT("Nickname"), ui1->pszNick,
 			TranslateT("Unique ID"), ui1->pszUID,
 			TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1671,7 +1671,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					}
 				}
 				if (tszBuf[0] == 0)
-					mir_sntprintf(tszBuf, _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
+					mir_sntprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
 					TranslateT("Nick"), ui1->pszNick,
 					TranslateT("Unique ID"), ui1->pszUID,
 					TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1813,7 +1813,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			GetMYUIN(dat);
 			GetMyNick(dat);
 
-			CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+			CustomizeButton(CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
 				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, 1, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
@@ -1905,7 +1905,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				hIcon = Skin_LoadProtoIcon(si->pszModule, (dat->wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : dat->wStatus);
 				mir_sntprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
-					szNick, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : _T(""));
+					szNick, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : L"");
 				break;
 			case GCW_PRIVMESS:
 				hIcon = Skin_LoadProtoIcon(si->pszModule, (dat->wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : dat->wStatus);
@@ -1915,7 +1915,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					mir_sntprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
-				mir_sntprintf(szTemp, _T("%s: Server"), szNick);
+				mir_sntprintf(szTemp, L"%s: Server", szNick);
 				hIcon = LoadIconEx("window");
 				break;
 			}
@@ -1988,7 +1988,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else {
 				if (si->ptszStatusbarText)
-					mir_sntprintf(szFinalStatusBarText, _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
+					mir_sntprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, si->ptszStatusbarText);
 				else
 					_tcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
 			}
@@ -2094,7 +2094,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_ACKMESSAGE:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
+		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
 		return TRUE;
 
 	case DM_TYPING:
@@ -2263,7 +2263,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case WINDOW_CLEARLOG:
-			SetDlgItemText(hwndDlg, IDC_CHAT_LOG, _T(""));
+			SetDlgItemText(hwndDlg, IDC_CHAT_LOG, L"");
 			return TRUE;
 
 		case SESSION_TERMINATE:
@@ -2564,14 +2564,14 @@ LABEL_SHOWWINDOW:
 
 					case ID_SEARCH_GOOGLE:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMString(FORMAT, _T("http://www.google.com/search?q=%s"), pszWord));
+							Utils_OpenUrlT(CMString(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
 
 					case ID_SEARCH_WIKIPEDIA:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMString(FORMAT, _T("http://en.wikipedia.org/wiki/%s"), pszWord));
+							Utils_OpenUrlT(CMString(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
@@ -2684,7 +2684,7 @@ LABEL_SHOWWINDOW:
 								CHARRANGE chr;
 								SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
 
-								TCHAR tszAplTmpl[] = _T("%s:");
+								TCHAR tszAplTmpl[] = L"%s:";
 								size_t bufSize = mir_tstrlen(tr.lpstrText) + mir_tstrlen(tszAplTmpl) + 3;
 								TCHAR *tszTmp = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR)), *tszAppeal = tszTmp;
 
@@ -2791,9 +2791,9 @@ LABEL_SHOWWINDOW:
 						int start = LOWORD(lResult);
 						CMString tszName;
 						if (start == 0)
-							tszName.Format(_T("%s: "), ui->pszNick);
+							tszName.Format(L"%s: ", ui->pszNick);
 						else
-							tszName.Format(_T("%s "), ui->pszNick);
+							tszName.Format(L"%s ", ui->pszNick);
 
 						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2830,13 +2830,13 @@ LABEL_SHOWWINDOW:
 
 				DoRtfToTags(si->dat, ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
-				ptszText.Replace(_T("%"), _T("%%"));
+				ptszText.Replace(L"%", L"%%");
 
 				if (mi->bAckMsg) {
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, false);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
+				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
 
 				Utils::enableDlgControl(hwndDlg, IDOK, false);
 

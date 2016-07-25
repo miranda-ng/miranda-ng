@@ -148,7 +148,7 @@ void RecodeDlg(HWND hwndDlg)
 	}
 	else
 	{
-		SetDlgItemText(hwndDlg, IDC_FILE_DATA, _T(""));
+		SetDlgItemText(hwndDlg, IDC_FILE_DATA, L"");
 	}
 
 	fromFileData->codepage = cp;

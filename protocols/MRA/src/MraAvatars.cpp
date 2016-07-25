@@ -56,7 +56,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
 
 	TCHAR szBuffer[MAX_PATH];
-	mir_sntprintf(szBuffer, _T("%s %s"), m_tszUserName, TranslateT("Avatars' plugin connections"));
+	mir_sntprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -476,7 +476,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD d
 		return ERROR_NOT_SUPPORTED;
 
 	TCHAR tszBase[MAX_PATH];
-	mir_sntprintf(tszBase, _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(tszBase, L"%s\\%s\\", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible

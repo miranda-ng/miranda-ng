@@ -68,7 +68,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
 		if (mir_tstrlen(szTemp) > 40)
-			mir_tstrncpy(szTemp + 40, _T("..."), 4);
+			mir_tstrncpy(szTemp + 40, L"...", 4);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

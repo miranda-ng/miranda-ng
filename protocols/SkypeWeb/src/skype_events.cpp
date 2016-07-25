@@ -57,19 +57,19 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("partlist"));
+			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"partlist");
 			if (xml != NULL)
 			{
-				ptrA type(mir_t2a(xmlGetAttrValue(xml, _T("type"))));
+				ptrA type(mir_t2a(xmlGetAttrValue(xml, L"type")));
 				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
 				time_t callDuration = 0;
 
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
 				{
-					HXML xmlPart = xmlGetNthChild(xml, _T("part"), i);		
+					HXML xmlPart = xmlGetNthChild(xml, L"part", i);		
 					if (xmlPart != NULL)
 					{
-						HXML xmlDuration = xmlGetChildByPath(xmlPart, _T("duration"), 0);
+						HXML xmlDuration = xmlGetChildByPath(xmlPart, L"duration", 0);
 						
 						if (xmlDuration != NULL)
 						{
@@ -106,16 +106,16 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("files"));
+			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"files");
 			if (xml != NULL)
 			{
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
 				{
 					LONGLONG fileSize = 0;
-					HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
+					HXML xmlNode = xmlGetNthChild(xml, L"file", i);
 					if (xmlNode != NULL)
 					{
-						fileSize = _ttol(xmlGetAttrValue(xmlNode, _T("size")));
+						fileSize = _ttol(xmlGetAttrValue(xmlNode, L"size"));
 						char *fileName = _T2A(xmlGetText(xmlNode));
 						if (fileName != NULL)
 						{
@@ -136,14 +136,14 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("URIObject"));
+			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"URIObject");
 			if (xml != NULL)
 			{
 				//szText.Append(_T2A(xmlGetText(xml)));
-				HXML xmlA = xmlGetChildByPath(xml, _T("a"), 0);
+				HXML xmlA = xmlGetChildByPath(xml, L"a", 0);
 				if (xmlA != NULL)
 				{
-					szText += T2Utf(xmlGetAttrValue(xmlA, _T("href")));
+					szText += T2Utf(xmlGetAttrValue(xmlA, L"href"));
 				}
 				xmlDestroyNode(xml);
 			}

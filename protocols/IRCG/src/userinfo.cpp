@@ -114,9 +114,9 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 				DBVARIANT dbv;
 				if (!p->ppro->getTString(p->hContact, "Default", &dbv)) {
 					CMString S = _T(STR_ERROR);
-					S += _T(" (");
+					S += L" (";
 					S += dbv.ptszVal;
-					S += _T(")");
+					S += L")";
 					if ((mir_tstrlen(temp) < 4 && mir_tstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.ptszVal))) {
 						MessageBox(NULL, TranslateTS(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 						db_free(&dbv);

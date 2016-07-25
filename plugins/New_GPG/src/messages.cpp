@@ -29,8 +29,8 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 	DWORD dbflags = DBEF_UTF;
 	{
 		// check for gpg related data
-		wstring::size_type s1 = str.find(_T("-----BEGIN PGP MESSAGE-----"));
-		wstring::size_type s2 = str.find(_T("-----END PGP MESSAGE-----"));
+		wstring::size_type s1 = str.find(L"-----BEGIN PGP MESSAGE-----");
+		wstring::size_type s2 = str.find(L"-----END PGP MESSAGE-----");
 		if (s2 != wstring::npos && s1 != wstring::npos)
 		{ //this is generic encrypted data block
 			if (!isContactSecured(hContact))
@@ -68,13 +68,13 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 			else if (bDebugLog)
 				debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 			boost::algorithm::erase_all(str, "\r");
-			s2 += mir_tstrlen(_T("-----END PGP MESSAGE-----"));
+			s2 += mir_tstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrT ptszHomePath(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T("")));
+			ptrT ptszHomePath(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 			wstring encfile = toUTF16(get_random(10));
 			wstring decfile = toUTF16(get_random(10));
 			{
-				wstring path = wstring(ptszHomePath) + _T("\\tmp\\") + encfile;
+				wstring path = wstring(ptszHomePath) + L"\\tmp\\" + encfile;
 				if(!bDebugLog)
 				{
 					boost::system::error_code e;
@@ -117,13 +117,13 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
 						dbsetting += "_Password";
-						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
+						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
 						if (pass[0] && bDebugLog)
 							debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)) + " with password");
 					}
 					else
 					{
-						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 						if (pass[0] && bDebugLog)
 							debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)) + " with password");
 					}
@@ -147,7 +147,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 				if(!bDebugLog)
 				{
 					boost::system::error_code e;
-					boost::filesystem::remove(wstring(ptszHomePath) + _T("\\tmp\\") + decfile, e);
+					boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + decfile, e);
 				}
 
 				cmd.push_back(L"--output");
@@ -296,10 +296,10 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 				if(!bDebugLog)
 				{
 					boost::system::error_code e;
-					boost::filesystem::remove(wstring(ptszHomePath) + _T("\\tmp\\") + encfile, e);
+					boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + encfile, e);
 				}
 
-				if (!boost::filesystem::exists(wstring(ptszHomePath) + _T("\\tmp\\") + decfile))
+				if (!boost::filesystem::exists(wstring(ptszHomePath) + L"\\tmp\\" + decfile))
 				{
 					string str1 = msg;
 					str1.insert(0, "Received unencrypted message:\n");
@@ -319,7 +319,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 
 				str.clear();
 
-				wstring tszDecPath = wstring(ptszHomePath) + _T("\\tmp\\") + decfile;
+				wstring tszDecPath = wstring(ptszHomePath) + L"\\tmp\\" + decfile;
 				{
 					fstream f(tszDecPath.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 					if (f.is_open())
@@ -408,17 +408,17 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	}
 	wstring str = toUTF16(msg);
 	size_t s1, s2;
-	if (bAutoExchange && (str.find(_T("-----PGP KEY RESPONSE-----")) != wstring::npos))
+	if (bAutoExchange && (str.find(L"-----PGP KEY RESPONSE-----") != wstring::npos))
 	{
 		if (bDebugLog)
 			debuglog << std::string(time_str() + ": info(autoexchange): parsing key response:" + toUTF8(pcli->pfnGetContactDisplayName(ccs->hContact, 0)));
-		s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));
-		s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
+		s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----");
+		s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
 		if (s1 != wstring::npos && s2 != wstring::npos)
 		{
 			if (bDebugLog)
 				debuglog << std::string(time_str() + ": info(autoexchange): found pubkey block:" + toUTF8(pcli->pfnGetContactDisplayName(ccs->hContact, 0)));
-			s2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
+			s2 += mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 			db_set_ts(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
@@ -426,15 +426,15 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				string output;
 				DWORD exitcode;
 				{
-					ptrT ptmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T("")));
+					ptrT ptmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 					mir_tstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
-					mir_tstrcat(tmp2, _T("\\"));
+					mir_tstrcat(tmp2, L"\\");
 					TCHAR *tmp3 = mir_a2t(get_random(5).c_str());
 					mir_tstrcat(tmp2, tmp3);
-					mir_tstrcat(tmp2, _T(".asc"));
+					mir_tstrcat(tmp2, L".asc");
 					mir_free(tmp3);
-					//mir_tstrcat(tmp2, _T("temporary_exported.asc"));
+					//mir_tstrcat(tmp2, L"temporary_exported.asc");
 					if(!bDebugLog)
 					{
 						boost::system::error_code e;
@@ -459,7 +459,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 							f.open(tmp2, std::ios::out);
 						}
 					}
-					ptmp = UniGetContactSettingUtf(ccs->hContact, szGPGModuleName, "GPGPubKey", _T(""));
+					ptmp = UniGetContactSettingUtf(ccs->hContact, szGPGModuleName, "GPGPubKey", L"");
 					f << (TCHAR*)ptmp;
 					f.close();
 					cmd.push_back(L"--batch");
@@ -551,23 +551,23 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			return 1;
 		}
 	}
-	if (((s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) == wstring::npos) || ((s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) == wstring::npos))
+	if (((s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----")) == wstring::npos) || ((s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) == wstring::npos))
 	{
-		s2 = str.find(_T("-----END PGP PRIVATE KEY BLOCK-----"));
-		s1 = str.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
+		s2 = str.find(L"-----END PGP PRIVATE KEY BLOCK-----");
+		s1 = str.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
 	}
 	if ((s2 != wstring::npos) && (s1 != wstring::npos))
 	{  //this is public key
 		if (bDebugLog)
 			debuglog << std::string(time_str() + ": info: received key from: " + toUTF8(pcli->pfnGetContactDisplayName(ccs->hContact, 0)));
 		s1 = 0;
-		while ((s1 = str.find(_T("\r"), s1)) != wstring::npos)
+		while ((s1 = str.find(L"\r", s1)) != wstring::npos)
 			str.erase(s1, 1);
 		void ShowNewKeyDialog();
-		if (((s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos))
-			s2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
-		else if (((s2 = str.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((s1 = str.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos))
-			s2 += mir_tstrlen(_T("-----END PGP PRIVATE KEY BLOCK-----"));
+		if (((s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos))
+			s2 += mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
+		else if (((s2 = str.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos))
+			s2 += mir_tstrlen(L"-----END PGP PRIVATE KEY BLOCK-----");
 		new_key.append(str.substr(s1, s2 - s1));
 		//new_key_hcnt_mutex.lock();
 		new_key_hcnt = ccs->hContact;
@@ -613,7 +613,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		else
 		{
-			TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", _T(""));
+			TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
 			if (jid[0])
 			{
 				extern list <JabberAccount*> Accounts;
@@ -632,7 +632,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 									break;
 						}
 						mir_free(caps);
-						if (str1.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
+						if (str1.find(L"GPG_Key_Auto_Exchange:0") != string::npos)
 						{
 							ProtoChainSend(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 							return 0;
@@ -658,8 +658,8 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			debuglog << std::string(time_str() + ": info: stripping tags in outgoing message, name: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 		strip_tags(str);
 	}
-	/*	for(std::wstring::size_type i = str.find(_T("\r\n")); i != std::wstring::npos; i = str.find(_T("\r\n"), i+1))
-			str.replace(i, 2, _T("\n")); */
+	/*	for(std::wstring::size_type i = str.find(L"\r\n"); i != std::wstring::npos; i = str.find(L"\r\n", i+1))
+			str.replace(i, 2, L"\n"); */
 	string out;
 	DWORD code;
 	wstring file = toUTF16(get_random(10)), path;
@@ -695,7 +695,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		mir_free(tmp2);
 	}
 	{
-		TCHAR *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+		TCHAR *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		path = tmp2;
 		cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 		mir_free(tmp2);
@@ -794,7 +794,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		boost::system::error_code e;
 		boost::filesystem::remove(path, e);
 	}
-	path.append(_T(".asc"));
+	path.append(L".asc");
 	wfstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 	count = 0;
 	while (!f.is_open()) {
@@ -933,7 +933,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				}
 			}
 			else {
-				TCHAR *jid = UniGetContactSettingUtf(hContact, proto, "jid", _T(""));
+				TCHAR *jid = UniGetContactSettingUtf(hContact, proto, "jid", L"");
 				if (jid[0]) {
 					if (bDebugLog)
 						debuglog << std::string(time_str() + ": info(autoexchange): protocol looks like jabber, name: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
@@ -950,7 +950,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 										break;
 							}
 							mir_free(caps);
-							if (str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos) {
+							if (str.find(L"GPG_Key_Auto_Exchange:0") != string::npos) {
 								if (bDebugLog)
 									debuglog << std::string(time_str() + ": info(autoexchange, jabber): autoexchange capability found, sending key request, name: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 								ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");

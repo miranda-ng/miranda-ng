@@ -39,7 +39,7 @@ struct CONNECTION *connExceptionsTmp = NULL;
 struct CONNECTION *connCurrentEditModal = NULL;
 int currentStatus = ID_STATUS_OFFLINE, diffstat = 0;
 BOOL bOptionsOpen = FALSE;
-TCHAR *tcpStates[] = { _T("CLOSED"), _T("LISTEN"), _T("SYN_SENT"), _T("SYN_RCVD"), _T("ESTAB"), _T("FIN_WAIT1"), _T("FIN_WAIT2"), _T("CLOSE_WAIT"), _T("CLOSING"), _T("LAST_ACK"), _T("TIME_WAIT"), _T("DELETE_TCB") };
+TCHAR *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -80,7 +80,7 @@ BOOL strrep(TCHAR *src, TCHAR *needle, TCHAR *newstring)
 	_tcsncpy_s(tail, src + pos, _TRUNCATE);
 	begining[pos] = 0;
 
-	pos = mir_sntprintf(src, mir_tstrlen(src), _T("%s%s%s"), begining, newstring, tail);
+	pos = mir_sntprintf(src, mir_tstrlen(src), L"%s%s%s", begining, newstring, tail);
 	return TRUE;
 }
 
@@ -194,16 +194,16 @@ void fillExceptionsListView(HWND hwndDlg)
 		ListView_InsertItem(hwndList, &lvI);
 		lvI.iSubItem = 1;
 		if (tmp->intIntPort == -1)
-			mir_sntprintf(tmpAddress, _T("%s:*"), tmp->strIntIp);
+			mir_sntprintf(tmpAddress, L"%s:*", tmp->strIntIp);
 		else
-			mir_sntprintf(tmpAddress, _T("%s:%d"), tmp->strIntIp, tmp->intIntPort);
+			mir_sntprintf(tmpAddress, L"%s:%d", tmp->strIntIp, tmp->intIntPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 2;
 		if (tmp->intExtPort == -1)
-			mir_sntprintf(tmpAddress, _T("%s:*"), tmp->strExtIp);
+			mir_sntprintf(tmpAddress, L"%s:*", tmp->strExtIp);
 		else
-			mir_sntprintf(tmpAddress, _T("%s:%d"), tmp->strExtIp, tmp->intExtPort);
+			mir_sntprintf(tmpAddress, L"%s:%d", tmp->strExtIp, tmp->intExtPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 3;
@@ -228,12 +228,12 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 			SetDlgItemText(hWnd, ID_TXT_REMOTE_IP, conn->strExtIp);
 
 			if (conn->intIntPort == -1)
-				SetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, _T("*"));
+				SetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, L"*");
 			else
 				SetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, conn->intIntPort, FALSE);
 
 			if (conn->intExtPort == -1)
-				SetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, _T("*"));
+				SetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, L"*");
 			else
 				SetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, conn->intExtPort, FALSE);
 
@@ -298,9 +298,9 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			bOptionsOpen = TRUE;
 			TranslateDialogDefault(hwndDlg);//translate miranda function
 			#ifdef _WIN64
-			mir_sntprintf(buff, _T("%d.%d.%d.%d/64"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_sntprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 			#else
-			mir_sntprintf(buff, _T("%d.%d.%d.%d/32"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_sntprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 			#endif
 			SetDlgItemText(hwndDlg, IDC_VERSION, buff);
 			LoadSettings();
@@ -680,12 +680,12 @@ static unsigned __stdcall checkthread(void *)
 {
 
 	#ifdef _DEBUG
-	_OutputDebugString(_T("check thread started"));
+	_OutputDebugString(L"check thread started");
 	#endif
 	while (1) {
 		struct CONNECTION* conn = NULL, *connOld = first, *cur = NULL;
 		#ifdef _DEBUG
-		_OutputDebugString(_T("checking connections table..."));
+		_OutputDebugString(L"checking connections table...");
 		#endif
 		if (WAIT_OBJECT_0 == WaitForSingleObject(killCheckThreadEvent, 100)) {
 			hConnectionCheckThread = NULL;
@@ -699,8 +699,8 @@ static unsigned __stdcall checkthread(void *)
 
 				#ifdef _DEBUG
 				TCHAR msg[1024];
-				mir_sntprintf(msg, _T("%s:%d\n%s:%d"), cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
-				_OutputDebugString(_T("New connection: %s"), msg);
+				mir_sntprintf(msg, L"%s:%d\n%s:%d", cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
+				_OutputDebugString(L"New connection: %s", msg);
 				#endif
 				pid2name(cur->Pid, cur->PName, _countof(cur->PName));
 				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100)) {
@@ -779,11 +779,11 @@ void showMsg(TCHAR *pName, DWORD pid, TCHAR *intIp, TCHAR *extIp, int intPort, i
 	if (settingResolveIp) {
 		TCHAR hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
-		mir_sntprintf(ppd.lptzText, _T("%s:%d\n%s:%d"), hostName, extPort, intIp, intPort);
+		mir_sntprintf(ppd.lptzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
 	}
-	else mir_sntprintf(ppd.lptzText, _T("%s:%d\n%s:%d"), extIp, extPort, intIp, intPort);
+	else mir_sntprintf(ppd.lptzText, L"%s:%d\n%s:%d", extIp, extPort, intIp, intPort);
 
-	mir_sntprintf(ppd.lptzContactName, _T("%s (%s)"), pName, tcpStates[state - 1]);
+	mir_sntprintf(ppd.lptzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
 
 	if (settingSetColours) {
 		ppd.colorBack = settingBgColor;
@@ -813,14 +813,14 @@ static int modulesloaded(WPARAM, LPARAM)
 {
 
 	#ifdef _DEBUG
-	_OutputDebugString(_T("Modules loaded, lets start TN..."));
+	_OutputDebugString(L"Modules loaded, lets start TN...");
 	#endif
 	//	hConnectionCheckThread = (HANDLE)mir_forkthreadex(checkthread, 0, 0, ConnectionCheckThreadId);
 
 	//#ifdef _DEBUG
 	//	_OutputDebugString("started check thread %d",hConnectionCheckThread);
 	//#endif
-	killCheckThreadEvent = CreateEvent(NULL, FALSE, FALSE, _T("killCheckThreadEvent"));
+	killCheckThreadEvent = CreateEvent(NULL, FALSE, FALSE, L"killCheckThreadEvent");
 	hFilterOptionsThread = startFilterThread();
 	//updaterRegister();
 
@@ -848,13 +848,13 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	#ifdef _DEBUG
-	_OutputDebugString(_T("Entering Load dll"));
+	_OutputDebugString(L"Entering Load dll");
 	#endif
 
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
-	hExceptionsMutex = CreateMutex(NULL, FALSE, _T("ExceptionsMutex"));
+	hExceptionsMutex = CreateMutex(NULL, FALSE, L"ExceptionsMutex");
 
 	LoadSettings();
 	connExceptions = LoadSettingsConnections();
@@ -899,7 +899,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hExceptionsMutex) CloseHandle(hExceptionsMutex);
 
 	#ifdef _DEBUG
-	_OutputDebugString(_T("Unloaded"));
+	_OutputDebugString(L"Unloaded");
 	#endif
 	return 0;
 }

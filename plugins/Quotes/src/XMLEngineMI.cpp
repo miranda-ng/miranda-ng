@@ -99,7 +99,7 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 {
 	IXMLNode::TXMLNodePtr pResult;
 	FILE *stream;
-	if (0 == ::_tfopen_s(&stream, rsFileName.c_str(), _T("r"))) {
+	if (0 == ::_tfopen_s(&stream, rsFileName.c_str(), L"r")) {
 		struct _stat st;
 		if (-1 != ::_fstat(::_fileno(stream), &st)) {
 			std::vector<char> aBuffer(st.st_size + 1);
@@ -139,10 +139,10 @@ bool CXMLEngineMI::SaveFile(const tstring& rsFileName, const IXMLNode::TXMLNodeP
 	if (pXML) {
 		tofstream file(rsFileName.c_str());
 		if (file.good()) {
-			IXMLNode::TXMLNodePtr pRoot(create_node(_T("xml"), tstring(), true));
+			IXMLNode::TXMLNodePtr pRoot(create_node(L"xml", tstring(), true));
 			if (pRoot) {
-				pRoot->AddAttribute(_T("version"), _T("1.0"));
-				pRoot->AddAttribute(_T("encoding"), _T("UTF-8"));
+				pRoot->AddAttribute(L"version", L"1.0");
+				pRoot->AddAttribute(L"encoding", L"UTF-8");
 				file << *pRoot;
 			}
 

@@ -67,7 +67,7 @@ static TCHAR *parseCaps2(ARGUMENTSINFO *ai)
 static TCHAR *parseCrlf(ARGUMENTSINFO *ai)
 {
 	ai->flags |= AIF_DONTPARSE;
-	return mir_tstrdup(_T("\r\n"));
+	return mir_tstrdup(L"\r\n");
 }
 
 static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai)
@@ -87,7 +87,7 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai)
 		res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 2)*sizeof(TCHAR));
 		cur = res + loc;
 		memmove(cur + 2, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
-		memcpy(cur, _T("\r\n"), 2 * sizeof(TCHAR));
+		memcpy(cur, L"\r\n", 2 * sizeof(TCHAR));
 		cur += 2;
 	}
 	while (cur != NULL);
@@ -99,14 +99,14 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 {
 	TCHAR *szReplacement;
 	if (ai->argc == 2)
-		szReplacement = _T("(...)");
+		szReplacement = L"(...)";
 	else if (ai->argc == 3)
 		szReplacement = ai->targv[2];
 	else
 		return NULL;
 
 	TCHAR *cur = ai->targv[1];
-	while (mir_tstrcmp(cur, _T("\r\n")) && *cur != '\n' && *cur != 0)
+	while (mir_tstrcmp(cur, L"\r\n") && *cur != '\n' && *cur != 0)
 		cur++;
 
 	if (*cur == '\0')
@@ -127,7 +127,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai)
 {
 	TCHAR *szReplacement;
 	switch (ai->argc) {
-	case 2:	szReplacement = _T(" ");	break;
+	case 2:	szReplacement = L" ";	break;
 	case 3:  szReplacement = ai->targv[2];  break;
 	default: return NULL;
 	}
@@ -136,11 +136,11 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai)
 	for (size_t pos = 0; pos < mir_tstrlen(res); pos++) {
 		TCHAR *cur = res + pos;
 		TCHAR *szEol = NULL;
-		if (!_tcsncmp(cur, _T("\r\n"), mir_tstrlen(_T("\r\n"))))
-			szEol = _T("\r\n");
+		if (!_tcsncmp(cur, L"\r\n", mir_tstrlen(L"\r\n")))
+			szEol = L"\r\n";
 
 		if (*cur == '\n')
-			szEol = _T("\n");
+			szEol = L"\n";
 
 		if (szEol != NULL) {
 			if (mir_tstrlen(szReplacement) > mir_tstrlen(szEol)) {
@@ -210,7 +210,7 @@ static TCHAR *parseLineCount(ARGUMENTSINFO *ai)
 	int count = 1;
 	TCHAR *cur = ai->targv[1];
 	while (cur < (ai->targv[1] + mir_tstrlen(ai->targv[1]))) {
-		if (!_tcsncmp(cur, _T("\r\n"), 2)) {
+		if (!_tcsncmp(cur, L"\r\n", 2)) {
 			count++;
 			cur++;
 		}
@@ -490,7 +490,7 @@ static TCHAR *parseStrchr(ARGUMENTSINFO *ai)
 	memset(szVal, 0, sizeof(szVal));
 	TCHAR *c = _tcschr(ai->targv[1], *ai->targv[2]);
 	if (c == NULL || *c == 0)
-		return mir_tstrdup(_T("0"));
+		return mir_tstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
 }
@@ -503,7 +503,7 @@ static TCHAR *parseStrcmp(ARGUMENTSINFO *ai)
 	if (mir_tstrcmp(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseStrmcmp(ARGUMENTSINFO *ai)
@@ -519,7 +519,7 @@ static TCHAR *parseStrmcmp(ARGUMENTSINFO *ai)
 		}
 	}
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseStrncmp(ARGUMENTSINFO *ai)
@@ -534,7 +534,7 @@ static TCHAR *parseStrncmp(ARGUMENTSINFO *ai)
 	if (_tcsncmp(ai->targv[1], ai->targv[2], n))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseStricmp(ARGUMENTSINFO *ai)
@@ -545,7 +545,7 @@ static TCHAR *parseStricmp(ARGUMENTSINFO *ai)
 	if (mir_tstrcmpi(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseStrnicmp(ARGUMENTSINFO *ai)
@@ -560,7 +560,7 @@ static TCHAR *parseStrnicmp(ARGUMENTSINFO *ai)
 	if (_tcsnicmp(ai->targv[1], ai->targv[2], n))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseStrrchr(ARGUMENTSINFO *ai)
@@ -570,7 +570,7 @@ static TCHAR *parseStrrchr(ARGUMENTSINFO *ai)
 
 	TCHAR *c = _tcsrchr(ai->targv[1], *ai->targv[2]);
 	if ((c == NULL) || (*c == 0))
-		return mir_tstrdup(_T("0"));
+		return mir_tstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
 }
@@ -582,7 +582,7 @@ static TCHAR *parseStrstr(ARGUMENTSINFO *ai)
 
 	TCHAR *c = _tcsstr(ai->targv[1], ai->targv[2]);
 	if ((c == NULL) || (*c == 0))
-		return mir_tstrdup(_T("0"));
+		return mir_tstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
 }
@@ -645,7 +645,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai)
 		ecur--;
 
 	if (scur >= ecur)
-		return mir_tstrdup(_T(""));
+		return mir_tstrdup(L"");
 
 	TCHAR *res = (TCHAR*)mir_alloc((ecur - scur + 2)*sizeof(TCHAR));
 	if (res == NULL)
@@ -754,7 +754,7 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai)
 			TCHAR *pres = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(szWord) + 2)*sizeof(TCHAR));
 			if (pres != NULL) {
 				res = pres;
-				mir_tstrcat(res, _T(" "));
+				mir_tstrcat(res, L" ");
 				mir_tstrcat(res, szWord);
 			}
 			mir_free(szWord);

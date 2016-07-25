@@ -67,10 +67,10 @@ bool	LoadPopupWnd2()
 
 	WNDCLASSEX wclw = { 0 };
 	wclw.cbSize = sizeof(wclw);
-	if (!GetClassInfoEx(NULL, _T("EDIT"), &wclw))
+	if (!GetClassInfoEx(NULL, L"EDIT", &wclw))
 		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
 	wclw.hInstance = hInst;
-	wclw.lpszClassName = _T("PopupEditBox");
+	wclw.lpszClassName = L"PopupEditBox";
 	wclw.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
 	err = GetLastError();
@@ -94,7 +94,7 @@ bool	LoadPopupWnd2()
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
-	wcl.lpszClassName = _T("PopupMenuHostWnd");
+	wcl.lpszClassName = L"PopupMenuHostWnd";
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
 	err = GetLastError();
@@ -105,7 +105,7 @@ bool	LoadPopupWnd2()
 		MSGERROR(msg);
 	}
 
-	ghwndMenuHost = CreateWindow(_T("PopupMenuHostWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
+	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
 	SetWindowPos(ghwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	INITCOMMONCONTROLSEX iccex;
@@ -697,7 +697,7 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
 	if (m_options->DisplayTime)
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, _countof(m_time));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", m_time, _countof(m_time));
 	else m_time[0] = 0;
 
 	fixDefaults();
@@ -737,9 +737,9 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	if (m_options->DisplayTime) {
 		if (ppd->dwTimestamp)
-			TimeZone_ToStringT(ppd->dwTimestamp, _T("t"), m_time, _countof(m_time));
+			TimeZone_ToStringT(ppd->dwTimestamp, L"t", m_time, _countof(m_time));
 		else
-			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, _countof(m_time));
+			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", m_time, _countof(m_time));
 	}
 	else m_time[0] = 0;
 
@@ -919,7 +919,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			GetWindowRect(m_hwnd, &rc);
 			{
 				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
-					g_wndClass.cPopupEditBox ? _T("PopupEditBox") : _T("EDIT"),
+					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
 					NULL,
 					WS_BORDER | WS_POPUP | WS_VISIBLE | ES_AUTOVSCROLL | ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_WANTRETURN,
 					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInst, NULL);
@@ -977,9 +977,9 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_COPY:
 			if (m_lptzText || m_lptzTitle) {
-				CMString tszText(FORMAT, _T("%s\n\n%s"),
-					(m_lptzTitle) ? m_lptzTitle : _T(""),
-					(m_lptzText) ? m_lptzText : _T(""));
+				CMString tszText(FORMAT, L"%s\n\n%s",
+					(m_lptzTitle) ? m_lptzTitle : L"",
+					(m_lptzText) ? m_lptzText : L"");
 
 				if (OpenClipboard(m_hwnd)) {
 					EmptyClipboard();

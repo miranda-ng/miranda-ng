@@ -168,7 +168,7 @@ void IEViewSink::PropertyChange(BSTR) {}
 void IEViewSink::BeforeNavigate2(IDispatch*, VARIANT* url, VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT_BOOL* cancel)
 {
 #ifndef GECKO
-	if (mir_tstrcmp(url->bstrVal, _T("about:blank")))
+	if (mir_tstrcmp(url->bstrVal, L"about:blank"))
 	{
 		Utils_OpenUrlT(url->bstrVal);
 		*cancel = VARIANT_TRUE;

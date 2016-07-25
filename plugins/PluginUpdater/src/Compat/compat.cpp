@@ -106,8 +106,8 @@ void __stdcall RestartMe(void*)
 	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
 	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
 
-	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+	TCHAR *profilename = Utils_ReplaceVarsT(L"%miranda_profilename%");
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), profilename);
 	mir_free(profilename);
 
 	CallService("CloseAction", 0, 0);
@@ -139,5 +139,5 @@ void InitIcoLib()
 }
 
 TCHAR *GetDefaultUrl() {
-	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
+	return mir_tstrdup(L"http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%");
 }

@@ -182,7 +182,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;
 		mChatID = mir_a2t(tHeader["To"]);
-		if (_tcsncmp(mChatID, _T("19:"), 3)) mChatID[0]=0; // NETID_THREAD
+		if (_tcsncmp(mChatID, L"19:", 3)) mChatID[0]=0; // NETID_THREAD
 		msgBody = tHeader.readFromBuffer(msgBody);
 		msgBody = tHeader.readFromBuffer(msgBody);
 		nick = NEWSTR_ALLOCA(tHeader["IM-Display-Name"]);
@@ -848,7 +848,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		if (pCount > 12) lti.ptszType = mir_utf8decodeT(parts[12]);
 		else lti.ptszType = mir_utf8decodeT(parts[1]);
 
-		TCHAR *cm = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%title% - %artist%"), (LPARAM)&lti);
+		TCHAR *cm = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
 		setTString(hContact, "ListeningTo", cm);
 
 		mir_free(cm);

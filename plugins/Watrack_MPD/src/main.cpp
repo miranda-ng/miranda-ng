@@ -137,7 +137,7 @@ int Parser()
 		SongInfo.mfile = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.mfile = mir_tstrdup(_T(""));
+		SongInfo.mfile = mir_tstrdup(L"");
 	if(ptr = strstr(buf, "Time:"))
 	{
 		ptr = &ptr[6];
@@ -167,7 +167,7 @@ int Parser()
 		SongInfo.title = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.title = mir_tstrdup(_T("Unknown track"));
+		SongInfo.title = mir_tstrdup(L"Unknown track");
 	if(ptr = strstr(buf, "Artist:"))
 	{
 		ptr = &ptr[8];
@@ -177,7 +177,7 @@ int Parser()
 		SongInfo.artist = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.artist = mir_tstrdup(_T("Unknown artist"));
+		SongInfo.artist = mir_tstrdup(L"Unknown artist");
 	if(ptr = strstr(buf, "Genre:"))
 	{
 		ptr = &ptr[7];
@@ -187,7 +187,7 @@ int Parser()
 		SongInfo.genre = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.genre =  mir_tstrdup(_T("Unknown genre"));
+		SongInfo.genre =  mir_tstrdup(L"Unknown genre");
 	if(ptr = strstr(buf, "Album:"))
 	{
 		ptr = &ptr[7];
@@ -197,7 +197,7 @@ int Parser()
 		SongInfo.album = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.album =  mir_tstrdup(_T("Unknown album"));
+		SongInfo.album =  mir_tstrdup(L"Unknown album");
 	if(ptr = strstr(buf, "Date:"))
 	{
 		ptr = &ptr[6];
@@ -207,7 +207,7 @@ int Parser()
 		SongInfo.year = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.year =  mir_tstrdup(_T("Unknown year"));
+		SongInfo.year =  mir_tstrdup(L"Unknown year");
 	if(ptr = strstr(buf, "volume:"))
 	{
 		ptr = &ptr[8];
@@ -413,7 +413,7 @@ void RegisterPlayer()
 	{
 		PLAYERCELL player = {0};
 		player.Desc = "Music Player Daemon";
-		player.Notes = _T("mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.");
+		player.Notes = L"mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.";
 		player.URL = "http://www.musicpd.org";
 		player.Check = CheckPlayer;
 		player.Init = Init;

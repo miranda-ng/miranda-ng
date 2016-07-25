@@ -46,7 +46,7 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 		return;
 	}
 
-	HBITMAP hbmPreview = Bitmap_Load(CMString(fn) + _T(".png"));
+	HBITMAP hbmPreview = Bitmap_Load(CMString(fn) + L".png");
 	if (!hbmPreview)
 		return;
 
@@ -93,7 +93,7 @@ struct TSkinListItem
 
 		size_t length = mir_tstrlen(curPath) + mir_tstrlen(fn) + 2;
 		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
-		mir_sntprintf(filename, length, _T("%s\\%s"), curPath, fn);
+		mir_sntprintf(filename, length, L"%s\\%s", curPath, fn);
 	}
 
 	~TSkinListItem()
@@ -140,16 +140,16 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 	}
 
 	WIN32_FIND_DATA ffd = { 0 };
-	HANDLE h = FindFirstFile(_T("*.*"), &ffd);
+	HANDLE h = FindFirstFile(L"*.*", &ffd);
 	if (h != INVALID_HANDLE_VALUE) {
 		do {
-			if (!mir_tstrcmp(ffd.cFileName, _T("")) || !mir_tstrcmp(ffd.cFileName, _T(".")) || !mir_tstrcmp(ffd.cFileName, _T("..")))
+			if (!mir_tstrcmp(ffd.cFileName, L"") || !mir_tstrcmp(ffd.cFileName, L".") || !mir_tstrcmp(ffd.cFileName, L".."))
 				continue;
 
 			if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 				SetCurrentDirectory(ffd.cFileName);
 				BuildSkinList(hwndList, szExt, nExtLength, false);
-				SetCurrentDirectory(_T(".."));
+				SetCurrentDirectory(L"..");
 			}
 			else {
 				if (CheckExt(ffd.cFileName, szExt, nExtLength)) {

@@ -257,7 +257,7 @@ void __cdecl BadConnection(void *Param)
 			nid.hIcon = g_LoadIconEx(3);
 			nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 			nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
-			mir_sntprintf(nid.szTip, _T("%S%s"), ActualAccount->Name, TranslateT(" - connection error"));
+			mir_sntprintf(nid.szTip, L"%S%s", ActualAccount->Name, TranslateT(" - connection error"));
 			Shell_NotifyIcon(NIM_ADD, &nid);
 		}
 

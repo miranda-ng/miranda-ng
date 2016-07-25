@@ -52,14 +52,14 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 		return NULL;
 
 	if (mir_tstrlen(ai->targv[1]) == 0)
-		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
+		szCounter = mir_tstrdup(L"\\Processor(_Total)\\% Processor Time");
 	else {
 		int size = (int)mir_tstrlen(ai->targv[1]) + 32;
 		szCounter = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;
 
-		mir_sntprintf(szCounter, size, _T("\\Process(%s)\\%% Processor Time"), ai->targv[1]);
+		mir_sntprintf(szCounter, size, L"\\Process(%s)\\%% Processor Time", ai->targv[1]);
 	}
 	PDH_STATUS pdhStatus = PdhValidatePath(szCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
@@ -105,7 +105,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
-	mir_sntprintf(szVal, _T("%.0f"), cValue.doubleValue);
+	mir_sntprintf(szVal, L"%.0f", cValue.doubleValue);
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
 	mir_free(szCounter);
@@ -282,7 +282,7 @@ static TCHAR *parseDiffTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	diff = difftime(mktime(&t1), mktime(&t0));
-	mir_sntprintf(szTime, _T("%.0f"), diff);
+	mir_sntprintf(szTime, L"%.0f", diff);
 
 	return mir_tstrdup(szTime);
 }
@@ -298,7 +298,7 @@ static TCHAR *parseDirExists(ARGUMENTSINFO *ai)
 	else
 		CloseHandle(hFile);
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseEnvironmentVariable(ARGUMENTSINFO *ai)
@@ -333,7 +333,7 @@ static TCHAR *parseFileExists(ARGUMENTSINFO *ai)
 	else
 		CloseHandle(hFile);
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseFindWindow(ARGUMENTSINFO *ai)
@@ -366,8 +366,8 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 
 	TCHAR tszFirst[MAX_PATH], *tszRes, *tszSeperator, *tszFilter;
 	tszFirst[0] = 0;
-	tszSeperator = _T("\r\n");
-	tszFilter = _T("*");
+	tszSeperator = L"\r\n";
+	tszFilter = L"*";
 	tszRes = NULL;
 
 	if (ai->argc > 1)
@@ -389,7 +389,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	if (tszFirst[mir_tstrlen(tszFirst) - 1] == '\\')
 		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	else {
-		mir_tstrncat(tszFirst, _T("\\"), _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, L"\\", _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
 		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	}
 
@@ -410,7 +410,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 			}
 			else {
 				tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
-				mir_tstrcpy(tszRes, _T(""));
+				mir_tstrcpy(tszRes, L"");
 			}
 			mir_tstrcat(tszRes, ffd.cFileName);
 		}
@@ -443,7 +443,7 @@ static TCHAR *parseProcessRunning(ARGUMENTSINFO *ai)
 		ai->flags |= AIF_FALSE;
 
 	mir_free(ref);
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 #endif
 
@@ -466,13 +466,13 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 
 	*cur = 0;
 	HKEY hKey;
-	if (!mir_tstrcmp(key, _T("HKEY_CLASSES_ROOT")))
+	if (!mir_tstrcmp(key, L"HKEY_CLASSES_ROOT"))
 		hKey = HKEY_CLASSES_ROOT;
-	else if (!mir_tstrcmp(key, _T("HKEY_CURRENT_USER")))
+	else if (!mir_tstrcmp(key, L"HKEY_CURRENT_USER"))
 		hKey = HKEY_CURRENT_USER;
-	else if (!mir_tstrcmp(key, _T("HKEY_LOCAL_MACHINE")))
+	else if (!mir_tstrcmp(key, L"HKEY_LOCAL_MACHINE"))
 		hKey = HKEY_LOCAL_MACHINE;
-	else if (!mir_tstrcmp(key, _T("HKEY_USERS")))
+	else if (!mir_tstrcmp(key, L"HKEY_USERS"))
 		hKey = HKEY_USERS;
 	else {
 		mir_free(key);
@@ -659,7 +659,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		totalReadSz += readSz;
 		for (pCur = pBuf; *pCur != '\0'; pCur += csz) {
 			if (tUC) {
-				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
+				if (!_tcsncmp((TCHAR*)pCur, L"\r\n", 2)) {
 					lineCount++;
 					pCur += csz;
 				}
@@ -699,7 +699,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 				linePos = (tUC ? csz : 0) + totalReadSz - readSz + pCur - pBuf;
 
 			if (tUC) {
-				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
+				if (!_tcsncmp((TCHAR*)pCur, L"\r\n", 2)) {
 					lineCount++;
 					pCur += csz;
 				}
@@ -738,7 +738,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 			return NULL;
 		}
 		for (pCur = pBuf; (pCur < pBuf + readSz); pCur += csz) {
-			if ((tUC) && ((!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) || (*(TCHAR*)pCur == '\n')) ||
+			if ((tUC) && ((!_tcsncmp((TCHAR*)pCur, L"\r\n", 2)) || (*(TCHAR*)pCur == '\n')) ||
 				((!tUC) && (((!strncmp((char *)pCur, "\r\n", 2)) || (*(char *)pCur == '\n'))))) {
 				CloseHandle(hFile);
 				if (tUC)
@@ -798,7 +798,7 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	HCOUNTER hCounter;
-	pdhStatus = PdhAddCounter(hQuery, _T("\\System\\System Up Time"), 0, &hCounter);
+	pdhStatus = PdhAddCounter(hQuery, L"\\System\\System Up Time", 0, &hCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
 		PdhCloseQuery(hQuery);
 		return NULL;
@@ -819,7 +819,7 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR szVal[32];
-	mir_sntprintf(szVal, _T("%u"), cValue.largeValue);
+	mir_sntprintf(szVal, L"%u", cValue.largeValue);
 	PdhRemoveCounter(hCounter);
 	PdhCloseQuery(hQuery);
 	return mir_tstrdup(szVal);

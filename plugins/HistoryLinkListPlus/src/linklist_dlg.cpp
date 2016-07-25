@@ -76,7 +76,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON))); 
 		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
-		mir_sntprintf(title, _T("%s [%s]"), TranslateT("Linklist plugin"), pcli->pfnGetContactDisplayName(DlgParam->hContact, 0));
+		mir_sntprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), pcli->pfnGetContactDisplayName(DlgParam->hContact, 0));
 		SetWindowText(hDlg, title);
 		GetFilterText(listMenu, filter, _countof(filter));
 		SetDlgItemText(hDlg, IDC_STATUS, filter);
@@ -123,7 +123,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg); 
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
-			if (_tcsstr(link, _T("mailto:")) != NULL)
+			if (_tcsstr(link, L"mailto:") != NULL)
 				ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 			else {
 				bool openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
@@ -154,13 +154,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL)) {
 			case IDM_LINK_OPEN:
-				if (_tcsstr(link, _T("mailto:")) != NULL)
+				if (_tcsstr(link, L"mailto:") != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
 					Utils_OpenUrlT(link,false);
 				break;
 			case IDM_LINK_OPENNEW:
-				if (_tcsstr(link, _T("mailto:")) != NULL)
+				if (_tcsstr(link, L"mailto:") != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
 					Utils_OpenUrlT(link);
@@ -202,7 +202,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDM_CLEARSEARCH: // clear search results
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
-			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			break;
 		case IDM_SAVE: // save button
@@ -218,7 +218,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
-			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED) {
 				CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
@@ -235,7 +235,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
-			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED) {
 				CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);		
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
@@ -253,7 +253,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			// not possible if search dialog is open
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break;
-			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			if (GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED) {
 				CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);		
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
@@ -268,7 +268,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDM_TYPE_MAIL: // view only URLs
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
-			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			if (GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED) {
 				CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);		
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);				
@@ -380,7 +380,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			hListDlg = WindowList_Find(hWindowList, DlgParam->hContact);
 			if (hListDlg == NULL)
 				break;
-			SetDlgItemText(hListDlg, IDC_MAIN, _T(""));
+			SetDlgItemText(hListDlg, IDC_MAIN, L"");
 			if (IsDlgButtonChecked(hDlg, IDC_TYPE_WEB) == BST_UNCHECKED)
 				flags |= WLL_MAIL;
 			if (IsDlgButtonChecked(hDlg, IDC_TYPE_MAIL) == BST_UNCHECKED)
@@ -399,7 +399,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 				mir_free(buffer);
 			}		
-			mir_sntprintf(filter, _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
+			mir_sntprintf(filter, L"%s: %s", TXT_FILTER, TXT_SEARCHFILTER);
 			SetDlgItemText(hWndMain, IDC_STATUS, filter);
 			} break;
 		}
@@ -788,7 +788,7 @@ LRESULT CALLBACK ProgressBarDlg(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 	switch (message) {
 	case WM_CREATE:
-		hwndPB = CreateWindowEx(0, PROGRESS_CLASS, _T(""), WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, NULL, hInst, NULL);
+		hwndPB = CreateWindowEx(0, PROGRESS_CLASS, L"", WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, NULL, hInst, NULL);
          	SendMessage(hwndPB, PBM_SETRANGE, 0, MAKELPARAM (0, 100)); 
 		return 0;
 		break;

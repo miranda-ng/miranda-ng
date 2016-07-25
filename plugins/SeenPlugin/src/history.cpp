@@ -92,7 +92,7 @@ void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)_T(""));
+		else SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)L"");
 	}
 }
 
@@ -174,7 +174,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		hContact = (MCONTACT)lparam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lparam);
-		mir_sntprintf(sztemp, _T("%s: %s"),
+		mir_sntprintf(sztemp, L"%s: %s",
 			pcli->pfnGetContactDisplayName(hContact, 0),
 			TranslateT("last seen history"));
 		SetWindowText(hwndDlg, sztemp);

@@ -105,7 +105,7 @@ static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
 	"dbx_mmap",
-	_T("dbx mmap driver"),
+	L"dbx mmap driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

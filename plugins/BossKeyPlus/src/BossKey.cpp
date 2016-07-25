@@ -127,7 +127,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 			else if (mir_strcmp(password, g_password)) {
 				SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Password is not correct!\nPlease, enter correct password."));
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
-				SetDlgItemText(hDlg, IDC_EDIT1, _T(""));
+				SetDlgItemText(hDlg, IDC_EDIT1, L"");
 				break;
 			}
 			else EndDialog(hDlg, IDOK);
@@ -174,12 +174,12 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 		TCHAR szTemp[32];
 		GetClassName(hWnd, szTemp, 32);
 
-		if (mir_tstrcmp(szTemp, _T("MirandaThumbsWnd")) == 0) // hide floating contacts
+		if (mir_tstrcmp(szTemp, L"MirandaThumbsWnd") == 0) // hide floating contacts
 		{
 			CallService("FloatingContacts/MainHideAllThumbs", 0, 0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else if (mir_tstrcmp(szTemp, _T("PopupWnd2")) == 0 || mir_tstrcmp(szTemp, _T("YAPPWinClass")) == 0) // destroy opened popups
+		else if (mir_tstrcmp(szTemp, L"PopupWnd2") == 0 || mir_tstrcmp(szTemp, L"YAPPWinClass") == 0) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else
 		{
@@ -258,7 +258,7 @@ static void CreateTrayIcon(bool create)
 		db_free(&dbVar);
 	}
 	else
-		_tcsncpy_s(nim.szTip, _T("Miranda NG"), _TRUNCATE);
+		_tcsncpy_s(nim.szTip, L"Miranda NG", _TRUNCATE);
 
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = g_hListenWindow;
@@ -398,7 +398,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			TCHAR szTemp[32];
 			GetClassName(pCurWnd->hWnd, szTemp, 32);
 
-			if (IsWindow(pCurWnd->hWnd) && mir_tstrcmp(szTemp, _T("SysShadow")) != 0) // precaution
+			if (IsWindow(pCurWnd->hWnd) && mir_tstrcmp(szTemp, L"SysShadow") != 0) // precaution
 				ShowWindow(pCurWnd->hWnd, SW_SHOW);
 
 			delete pCurWnd; // bye-bye
@@ -474,7 +474,7 @@ static TCHAR *HokeyVkToName(WORD vkKey)
 	case VK_PAUSE:
 	case VK_CANCEL:
 	case VK_CAPITAL:
-		return _T("");
+		return L"";
 
 	case VK_DIVIDE:
 	case VK_INSERT:
@@ -503,11 +503,11 @@ static TCHAR *GetBossKeyText(void)
 	BYTE shift = HIBYTE(wHotKey);
 	static TCHAR buf[128] = { 0 };
 
-	mir_sntprintf(buf, _T("%s%s%s%s%s"),
-		(shift & HOTKEYF_CONTROL) ? _T("Ctrl + ") : _T(""),
-		(shift & HOTKEYF_SHIFT) ? _T("Shift + ") : _T(""),
-		(shift & HOTKEYF_ALT) ? _T("Alt + ") : _T(""),
-		(shift & HOTKEYF_EXT) ? _T("Win + ") : _T(""),
+	mir_sntprintf(buf, L"%s%s%s%s%s",
+		(shift & HOTKEYF_CONTROL) ? L"Ctrl + " : L"",
+		(shift & HOTKEYF_SHIFT) ? L"Shift + " : L"",
+		(shift & HOTKEYF_ALT) ? L"Alt + " : L"",
+		(shift & HOTKEYF_EXT) ? L"Win + " : L"",
 		HokeyVkToName(key));
 
 	return buf;
@@ -522,7 +522,7 @@ static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show t
 {
 	if (g_hMenuItem) {
 		TCHAR buf[128];
-		mir_sntprintf(buf, _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
+		mir_sntprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
 		Menu_ModifyItem(g_hMenuItem, buf);
 	}
 	return 0;
@@ -655,7 +655,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	if (IsWinVerVistaPlus())
 	{
-		hDwmApi = LoadLibrary(_T("dwmapi.dll"));
+		hDwmApi = LoadLibrary(L"dwmapi.dll");
 		if (hDwmApi)
 			dwmIsCompositionEnabled = (PFNDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 	}
@@ -670,7 +670,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		tr.memType = TR_MEM_OWNER;
 		tr.flags = TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
 
-		tr.tszTokenString = _T("bosskeyname");
+		tr.tszTokenString = L"bosskeyname";
 		tr.parseFunctionT = VariablesBossKey;
 		tr.szHelpText = LPGEN("BossKey") "\t" LPGEN("get the BossKey name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);

@@ -103,7 +103,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, dwMask);
 			SendMessage(hWnd, WM_USER + 120, 0, 0);
 			TranslateDialogDefault(hWnd);
-			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
+			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SetWindowText(hwndAdd, TranslateT("Add permanently"));
 			EnableWindow(hwndAdd, cfg::getByte(hContact, "CList", "NotOnList", 0));
 
-            hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
+            hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
             SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
             SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 

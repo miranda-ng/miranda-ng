@@ -255,8 +255,8 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
 				TCHAR szExec[264], szEmail[256];
 				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
-				mir_sntprintf(szExec, _T("mailto:%s"), szEmail);
-				ShellExecute(hwndDlg, _T("open"), szExec, NULL, NULL, SW_SHOW);
+				mir_sntprintf(szExec, L"mailto:%s", szEmail);
+				ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
 			}
 			break;
 		}
@@ -283,7 +283,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
 				TCHAR szTime[80];
-				if (printDateTimeByContact(hContact, _T("s"), szTime, _countof(szTime), TZF_KNOWNONLY)) {
+				if (printDateTimeByContact(hContact, L"s", szTime, _countof(szTime), TZF_KNOWNONLY)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), FALSE);
 					SetDlgItemText(hwndDlg, IDC_LOCALTIME, TranslateT("<not specified>"));
 				}
@@ -543,7 +543,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 			lf.lfQuality = DEFAULT_QUALITY;
 			lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-			mir_tstrcpy(lf.lfFaceName, _T("Courier New"));
+			mir_tstrcpy(lf.lfFaceName, L"Courier New");
 			lf.lfCharSet = DEFAULT_CHARSET;
 			HFONT hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));

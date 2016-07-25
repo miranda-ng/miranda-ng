@@ -37,7 +37,7 @@ void InitFonts()
 	fid.deffontsettings.size = -11;
 	mir_tstrncpy(fid.backgroundGroup, _T(PU_FNT_AND_COLOR), _countof(fid.backgroundGroup));
 	mir_tstrncpy(fid.backgroundName, PU_COL_BACK_NAME, _countof(fid.backgroundName));
-	mir_tstrncpy(fid.deffontsettings.szFace, _T("Tahoma"), _countof(fid.deffontsettings.szFace));
+	mir_tstrncpy(fid.deffontsettings.szFace, L"Tahoma", _countof(fid.deffontsettings.szFace));
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TITLE), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);

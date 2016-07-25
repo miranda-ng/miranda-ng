@@ -54,11 +54,11 @@ void PackerJob::getZipFilePath()
 	}
 
 	if (stzFileName[0] == '\0')
-		mir_tstrcpy(stzFileName, _T("archive"));
+		mir_tstrcpy(stzFileName, L"archive");
 
 	GetTempPath(_countof(buff), buff);
 
-	mir_sntprintf(m_tszFilePath, _T("%s%s.zip"), buff, stzFileName);
+	mir_sntprintf(m_tszFilePath, L"%s%s.zip", buff, stzFileName);
 	mir_tstrcpy(m_tszFileName, Utils::getFileNameFromPath(m_tszFilePath));
 
 	if (opt.bSetZipName)
@@ -161,7 +161,7 @@ int PackerJob::createZipFile()
 			FREE(file);
 
 			if (err == ZIP_OK) {
-				FILE *fin = _tfopen(m_files[i], _T("rb"));
+				FILE *fin = _tfopen(m_files[i], L"rb");
 				if (fin) {
 					do {
 						if (isCanceled()) {
@@ -245,8 +245,8 @@ void PackerJob::updateStats()
 		int m = (s - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
-		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
-		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
+		if (d > 0) mir_sntprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
+		else mir_sntprintf(buff, L"%02d:%02d:%02d", h, m, s);
 		mir_sntprintf(m_tab->m_stzRemain, TranslateT("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiReaded) / 1024, m_uiFileSize / 1024);
 
 		refreshTab(false);

@@ -95,7 +95,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return mir_tstrcmpi(pcli->pfnGetContactDisplayName(lParam1, 0), pcli->pfnGetContactDisplayName(lParam2, 0));
 
 	if (lParamSort == 2)
-		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", _T("")).compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", _T("")));
+		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", L"").compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", L""));
 
 	if (lParamSort == 3) {
 		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, _DBGetStringA((MCONTACT)lParam1, "Protocol", "p", "").c_str(), "UIN", 0);
@@ -402,7 +402,7 @@ void ClearAllFileNames(HWND hwndDlg)
 {
 	LVITEM sItem = { 0 };
 	sItem.mask = LVIF_TEXT;
-	sItem.pszText = _T("");
+	sItem.pszText = L"";
 
 	HWND hMapUser = GetDlgItem(hwndDlg, IDC_MAP_USER_LIST);
 	int nCount = ListView_GetItemCount(hMapUser);
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.iImage = db_get_b(hContact, MODULE, "EnableLog", 1);
 					sItem.lParam = hContact;
 
-					sTmp = _DBGetString(hContact, MODULE, "FileName", _T(""));
+					sTmp = _DBGetString(hContact, MODULE, "FileName", L"");
 					sItem.pszText = (TCHAR*)sTmp.c_str();
 					ListView_InsertItem(hMapUser, &sItem);
 
@@ -643,7 +643,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					DWORD dwUIN = db_get_dw(hContact, pa->szModuleName, "UIN", 0);
 					TCHAR szTmp[50];
-					mir_sntprintf(szTmp, _T("%d"), dwUIN);
+					mir_sntprintf(szTmp, L"%d", dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
 					ListView_SetItem(hMapUser, &sItem);
@@ -664,41 +664,41 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			// Export dir
 			SetDlgItemText(hwndDlg, IDC_EXPORT_DIR, sExportDir.c_str());
 			hComboBox = GetDlgItem(hwndDlg, IDC_EXPORT_DIR);
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\Backup\\MsgExport\\"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\%group% - "));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\%group%\\"));
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Backup\\MsgExport\\");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\%group% - ");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\%group%\\");
 
 			// default file
 			SetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, sDefaultFile.c_str());
 			hComboBox = GetDlgItem(hwndDlg, IDC_DEFAULT_FILE);
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%nick%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%UIN%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%e-mail%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%identifier%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%year%-%month%-%day%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%nick%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%UIN%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%identifier%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%protocol%\\%nick%.txt"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("History.txt"));
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%nick%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%UIN%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%e-mail%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%identifier%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%year%-%month%-%day%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%nick%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%UIN%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%identifier%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%protocol%\\%nick%.txt");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"History.txt");
 			
 			// time format
 			SetDlgItemText(hwndDlg, IDC_EXPORT_TIMEFORMAT, sTimeFormat.c_str());
 			hComboBox = GetDlgItem(hwndDlg, IDC_EXPORT_TIMEFORMAT);
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d t"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d s"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d m"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("D s"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("D m :"));
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d t");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d s");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d m");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"D s");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"D m :");
 
 			// File viewer
 			SetDlgItemText(hwndDlg, IDC_FILE_VIEWER, sFileViewerPrg.c_str());
 			hComboBox = GetDlgItem(hwndDlg, IDC_FILE_VIEWER);
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T(""));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\Windows\\Notepad.exe"));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\WinNT\\Notepad.exe"));
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Windows\\Notepad.exe");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\WinNT\\Notepad.exe");
 
 			CheckDlgButton(hwndDlg, IDC_USE_INTERNAL_VIEWER, bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_REPLACE_MIRANDA_HISTORY, bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
@@ -793,7 +793,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, _countof(szFile));
 
 			TCHAR buf[MAX_PATH];
-			mir_sntprintf(buf, _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
+			mir_sntprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 			{
 				OPENFILENAME ofn = {};       // common dialog box structure
 				ofn.lStructSize = sizeof(OPENFILENAME);

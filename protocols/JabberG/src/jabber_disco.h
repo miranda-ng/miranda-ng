@@ -349,23 +349,23 @@ public:
 	{
 		CMString tszTmp;
 
-		tszTmp.AppendFormat(_T("Jid: %s\r\n"), m_szJid);
+		tszTmp.AppendFormat(L"Jid: %s\r\n", m_szJid);
 
 		if (m_szNode)
-			tszTmp.AppendFormat(_T("%s: %s\r\n"), TranslateT("Node"), m_szNode);
+			tszTmp.AppendFormat(L"%s: %s\r\n", TranslateT("Node"), m_szNode);
 
 		if (m_pIdentities) {
-			tszTmp.AppendFormat(_T("\r\n%s:\r\n"), TranslateT("Identities"));
+			tszTmp.AppendFormat(L"\r\n%s:\r\n", TranslateT("Identities"));
 
 			CJabberSDIdentity *pIdentity = m_pIdentities;
 			while (pIdentity) {
 				if (pIdentity->GetName())
-					tszTmp.AppendFormat(_T(" %c %s (%s: %s, %s: %s)\r\n"),
+					tszTmp.AppendFormat(L" %c %s (%s: %s, %s: %s)\r\n",
 						CHR_BULLET, pIdentity->GetName(),
 							TranslateT("category"), pIdentity->GetCategory(),
 							TranslateT("type"), pIdentity->GetType());
 				else
-					tszTmp.AppendFormat(_T(" %c %s: %s, %s: %s\r\n"),
+					tszTmp.AppendFormat(L" %c %s: %s, %s: %s\r\n",
 						CHR_BULLET,
 						TranslateT("Category"), pIdentity->GetCategory(),
 						TranslateT("Type"), pIdentity->GetType());
@@ -375,17 +375,17 @@ public:
 		}
 
 		if (m_pFeatures) {
-			tszTmp.AppendFormat(_T("\r\n%s:\r\n"), TranslateT("Supported features"));
+			tszTmp.AppendFormat(L"\r\n%s:\r\n", TranslateT("Supported features"));
 
 			for (CJabberSDFeature *pFeature = m_pFeatures; pFeature; pFeature = pFeature->GetNext())
-				tszTmp.AppendFormat(_T(" %c %s\r\n"), CHR_BULLET, pFeature->GetVar());
+				tszTmp.AppendFormat(L" %c %s\r\n", CHR_BULLET, pFeature->GetVar());
 		}
 
 		if (m_szInfoError)
-			tszTmp.AppendFormat(_T("\r\n%s: %s\r\n"), TranslateT("Info request error"), m_szInfoError);
+			tszTmp.AppendFormat(L"\r\n%s: %s\r\n", TranslateT("Info request error"), m_szInfoError);
 
 		if (m_szItemsError)
-			tszTmp.AppendFormat(_T("\r\n%s: %s\r\n"), TranslateT("Items request error"), m_szItemsError);
+			tszTmp.AppendFormat(L"\r\n%s: %s\r\n", TranslateT("Items request error"), m_szItemsError);
 
 		tszTmp.TrimRight();
 		_tcsncpy_s(szText, nMaxLength, tszTmp, _TRUNCATE);

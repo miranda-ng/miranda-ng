@@ -509,7 +509,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
 		{
-			TCHAR* size[] = { _T("320 x 205"), _T("480 x 385"), _T("560 x 349"), _T("640 x 390") };
+			TCHAR* size[] = { L"320 x 205", L"480 x 385", L"560 x 349", L"640 x 390" };
 			for (int i = 0; i < _countof(size); ++i) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(size[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_SETITEMDATA, item, 0);

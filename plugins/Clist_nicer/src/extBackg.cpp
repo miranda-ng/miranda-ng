@@ -1152,7 +1152,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 		newItem->nextItem = 0;
 		curItem->nextItem = newItem;
 	}
-	newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
+	newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
 	CustomizeButton(newItem->hWnd, false, false, true);
 	SendMessage(newItem->hWnd, BUTTONSETBTNITEM, 0, (LPARAM)newItem);
 	if (newItem->dwFlags & BUTTON_ISTOGGLE)
@@ -1501,7 +1501,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, _T(""));
+				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, L"");
 			return TRUE;
 		}
 	case WM_COMMAND:
@@ -1524,17 +1524,17 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_SELECTSKINFILE:
 			{
 				OPENFILENAME ofn = { 0 };
-				TCHAR str[MAX_PATH] = _T("*.clist"), final_path[MAX_PATH];
+				TCHAR str[MAX_PATH] = L"*.clist", final_path[MAX_PATH];
 
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				ofn.lpstrFilter = _T("*.clist\0");
+				ofn.lpstrFilter = L"*.clist\0";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
 				ofn.nMaxFile = MAX_PATH;
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.lpstrDefExt = _T("");
+				ofn.lpstrDefExt = L"";
 				if (!GetOpenFileName(&ofn))
 					break;
 				MY_pathToRelative(str, final_path);

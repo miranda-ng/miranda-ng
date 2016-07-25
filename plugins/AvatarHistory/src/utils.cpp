@@ -79,12 +79,12 @@ void ConvertToFilename(TCHAR *str, size_t size)
 
 TCHAR* GetExtension(TCHAR *file)
 {
-	if (file == NULL) return _T("");
+	if (file == NULL) return L"";
 	TCHAR *ext = _tcsrchr(file, _T('.'));
 	if (ext != NULL)
 		ext++;
 	else
-		ext = _T("");
+		ext = L"";
 
 	return ext;
 }
@@ -104,7 +104,7 @@ TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
 	if (proto == NULL)
 		proto = Translate("Unknown Protocol");
 
-	mir_sntprintf(fn, MAX_PATH, _T("%s\\%S"), fn, proto);
+	mir_sntprintf(fn, MAX_PATH, L"%s\\%S", fn, proto);
 	CreateDirectoryTreeT(fn);
 	return fn;
 }
@@ -118,13 +118,13 @@ TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
 	_tcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
-	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
+	mir_sntprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
 	CreateDirectoryTreeT(fn);
 	
 #ifdef DBGPOPUPS
 	TCHAR log[1024];
-	mir_sntprintf(log, _T("Path: %s\nProto: %S\nUIN: %s"), fn, proto, uin);
-	ShowPopup(hContact, _T("AVH Debug: GetContactFolder"), log);
+	mir_sntprintf(log, L"Path: %s\nProto: %S\nUIN: %s", fn, proto, uin);
+	ShowPopup(hContact, L"AVH Debug: GetContactFolder", log);
 #endif
 
 	return fn;
@@ -137,7 +137,7 @@ TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact)
 	SYSTEMTIME curtime;
 	GetLocalTime(&curtime);
 	mir_sntprintf(fn, MAX_PATH, 
-		_T("%s\\%04d-%02d-%02d %02dh%02dm%02ds"), fn, 
+		L"%s\\%04d-%02d-%02d %02dh%02dm%02ds", fn, 
 		curtime.wYear, curtime.wMonth, curtime.wDay, 
 		curtime.wHour, curtime.wMinute, curtime.wSecond);
 	ShowDebugPopup(hContact,TranslateT("AVH Debug: GetOldStyleAvatarName"),fn);
@@ -146,11 +146,11 @@ TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact)
 
 void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
 {
-	TCHAR shortcut[MAX_PATH] = _T("");
+	TCHAR shortcut[MAX_PATH] = L"";
 
 	GetOldStyleAvatarName(shortcut, hContact);
 
-	mir_sntprintf(shortcut, _T("%s.%s.lnk"), shortcut,
+	mir_sntprintf(shortcut, L"%s.%s.lnk", shortcut,
 		GetExtension(history_filename));
 
 	if (!CreateShortcut(history_filename, shortcut))
@@ -166,21 +166,21 @@ void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
 BOOL CopyImageFile(TCHAR *old_file, TCHAR *new_file)
 {
 	TCHAR *ext = GetExtension(old_file);
-	mir_sntprintf(new_file, MAX_PATH, _T("%s.%s"), new_file, ext);
+	mir_sntprintf(new_file, MAX_PATH, L"%s.%s", new_file, ext);
 	return !CopyFile(old_file, new_file, TRUE);
 }
 
 TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 {
 	TCHAR *ret = NULL;
-	TCHAR file[1024] = _T("");
-	TCHAR search[1024] = _T("");
+	TCHAR file[1024] = L"";
+	TCHAR search[1024] = L"";
 	if (opts.log_keep_same_folder)
 		GetHistoryFolder(file);
 	else
 		GetProtocolFolder(file, proto);
 
-	mir_sntprintf(search, _T("%s\\%s.*"), file, hash);
+	mir_sntprintf(search, L"%s\\%s.*", file, hash);
 
 	WIN32_FIND_DATA finddata;
 	HANDLE hFind = FindFirstFile(search, &finddata);
@@ -191,13 +191,13 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 	{
 		size_t len = mir_tstrlen(finddata.cFileName);
 		if (len > 4 
-			&& (!mir_tstrcmpi(&finddata.cFileName[len-4], _T(".png"))
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".bmp"))
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".gif"))
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".jpg"))
-				|| !mir_tstrcmpi(&finddata.cFileName[len-5], _T(".jpeg"))))
+			&& (!mir_tstrcmpi(&finddata.cFileName[len-4], L".png")
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".bmp")
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".gif")
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".jpg")
+				|| !mir_tstrcmpi(&finddata.cFileName[len-5], L".jpeg")))
 		{
-			mir_sntprintf(file, _T("%s\\%s"), file, finddata.cFileName);
+			mir_sntprintf(file, L"%s\\%s", file, finddata.cFileName);
 			ret = mir_tstrdup(file);
 			break;
 		}

@@ -249,7 +249,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 
 	if (lpMDB)
 	{
-		//Log(_T("CallOpenEntry: Calling OpenEntry on MDB with ulFlags = 0x%X\n"),ulFlags);
+		//Log(L"CallOpenEntry: Calling OpenEntry on MDB with ulFlags = 0x%X\n",ulFlags);
 		lpMDB->OpenEntry(
 			cbEntryID,
 			lpEntryID,
@@ -279,7 +279,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 	if (lpAB && !lpUnk)
 	{
 		hRes = S_OK;
-		//Log(_T("CallOpenEntry: Calling OpenEntry on AB with ulFlags = 0x%X\n"),ulFlags);
+		//Log(L"CallOpenEntry: Calling OpenEntry on AB with ulFlags = 0x%X\n",ulFlags);
 		(lpAB->OpenEntry(
 			cbEntryID,
 			lpEntryID,
@@ -310,7 +310,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 	if (lpContainer && !lpUnk)
 	{
 		hRes = S_OK;
-		//Log(_T("CallOpenEntry: Calling OpenEntry on Container with ulFlags = 0x%X\n"),ulFlags);
+		//Log(L"CallOpenEntry: Calling OpenEntry on Container with ulFlags = 0x%X\n",ulFlags);
 		(lpContainer->OpenEntry(
 			cbEntryID,
 			lpEntryID,
@@ -341,7 +341,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 	if (lpMAPISession && !lpUnk)
 	{
 		hRes = S_OK;
-		//Log(_T("CallOpenEntry: Calling OpenEntry on Session with ulFlags = 0x%X\n"),ulFlags);
+		//Log(L"CallOpenEntry: Calling OpenEntry on Session with ulFlags = 0x%X\n",ulFlags);
 		(lpMAPISession->OpenEntry(
 			cbEntryID,
 			lpEntryID,
@@ -371,7 +371,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 
 	if (lpUnk)
 	{
-		//Log(_T("OnOpenEntryID: Got object (0x%08X) of type 0x%08X = %s\n"),lpUnk,ulObjType,ObjectTypeToString(ulObjType));
+		//Log(L"OnOpenEntryID: Got object (0x%08X) of type 0x%08X = %s\n",lpUnk,ulObjType,ObjectTypeToString(ulObjType));
 		*lppUnk = lpUnk;		
 	}
 	if (ulObjTypeRet) *ulObjTypeRet = ulObjType;
@@ -449,7 +449,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			hr = MAPILogonEx( 0, (LPTSTR)mir_t2a(szPIDandName), (LPTSTR)mir_t2a(m_szPassword), dwFlags, &m_lpMAPISession );
 
 			if (FAILED(hr)) {
-				//Log( _T("MAPI Logon failed: 0x%08X"), hr );
+				//Log( L"MAPI Logon failed: 0x%08X", hr );
 				return hr;
 			}
 			
@@ -490,7 +490,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			if (NULL == pDefMsgStore )
 				return hr;
 
-			hRes = pDefMsgStore->GetReceiveFolder( _T("IPM"), NULL, &cbInboxEID,  &lpInboxEID, NULL);
+			hRes = pDefMsgStore->GetReceiveFolder( L"IPM", NULL, &cbInboxEID,  &lpInboxEID, NULL);
 			m_lpMDB = pDefMsgStore;
 			if (cbInboxEID && lpInboxEID) {
 				hRes = CallOpenEntry( pDefMsgStore, NULL, NULL, NULL, cbInboxEID, lpInboxEID, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&m_lpInbox);
@@ -565,7 +565,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	nSize = mir_tstrlen(m_szUsername);
 	szUniqName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (nSize + 4));
 	if (szUniqName != NULL) {
-		memcpy(szUniqName, _T("="), sizeof(TCHAR));
+		memcpy(szUniqName, L"=", sizeof(TCHAR));
 		memcpy((szUniqName + 1), m_szUsername, (sizeof(TCHAR) * (nSize + 1)));
 		// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
 		SPropValue spval[2];
@@ -847,7 +847,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 	DWORD dwType = REG_SZ;
 
 	if ( RegOpenKeyEx(HKEY_CLASSES_ROOT,
-        _T("mailto\\shell\\open\\command"),
+        L"mailto\\shell\\open\\command",
         0,
         KEY_ALL_ACCESS | KEY_EXECUTE | KEY_QUERY_VALUE ,
         &hTheKey) == ERROR_SUCCESS
@@ -863,12 +863,12 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 		else
 		{
 					
-			TCHAR* szTheEnd = _tcsstr( szRegValue,_T(".EXE") );
+			TCHAR* szTheEnd = _tcsstr( szRegValue,L".EXE" );
 
 			if ( NULL != szTheEnd )
 			{
 				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = _T('\0');
-				mir_tstrcat( szRegValue, _T(" /recycle") );
+				mir_tstrcat( szRegValue, L" /recycle" );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;
 				

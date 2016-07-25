@@ -26,7 +26,7 @@ CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
 	m_pszDbPopupDelayTimeout(NULL),
 	m_pszDbPopupHistoryFlag(NULL),
 	m_pszDbTendencyFormat(nullptr),
-	m_pszDefTendencyFormat(_T("%r>%p"))
+	m_pszDefTendencyFormat(L"%r>%p")
 {
 }
 
@@ -36,9 +36,9 @@ CQuotesProviderVisitorDbSettings::~CQuotesProviderVisitorDbSettings()
 
 void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderBase&/* rProvider*/)
 {
-	m_pszDefLogFileFormat = _T("%s\\t%t\\t%r\\n");
-	m_pszDefHistoryFormat = _T("%s %r");
-	m_pszDefPopupFormat = _T("\\nCurrent = %r\\nPrevious = %p");
+	m_pszDefLogFileFormat = L"%s\\t%t\\t%r\\n";
+	m_pszDefHistoryFormat = L"%s %r";
+	m_pszDefPopupFormat = L"\\nCurrent = %r\\nPrevious = %p";
 }
 
 void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderDukasCopy&/* rProvider*/)
@@ -46,8 +46,8 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderDukasCopy&/* r
 	m_pszDbRefreshRateType = DB_STR_REFRESH_RATE_TYPE;
 	m_pszDbRefreshRateValue = DB_STR_REFRESH_RATE_VALUE;
 	m_pszDbDisplayNameFormat = DB_STR_DC_DISPLAY_NAME_FORMAT;
-	m_pszDefDisplayFormat = _T("%s %r");
-	m_pszXMLIniFileName = _T("Dukascopy.xml");
+	m_pszDefDisplayFormat = L"%s %r";
+	m_pszXMLIniFileName = L"Dukascopy.xml";
 	m_pszDbStatusMsgFormat = "DC_StatusMessageFormat";
 
 	m_pszDbLogMode = "DC_LogMode";
@@ -73,8 +73,8 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogle&/* rPro
 	m_pszDbRefreshRateType = DB_STR_GOOGLE_REFRESH_RATE_TYPE;
 	m_pszDbRefreshRateValue = DB_STR_GOOGLE_REFRESH_RATE_VALUE;
 	m_pszDbDisplayNameFormat = DB_STR_GOOGLE_DISPLAY_NAME_FORMAT;
-	m_pszDefDisplayFormat = _T("1 %f = %r %i");
-	m_pszXMLIniFileName = _T("Google.xml");
+	m_pszDefDisplayFormat = L"1 %f = %r %i";
+	m_pszXMLIniFileName = L"Google.xml";
 	m_pszDbStatusMsgFormat = "Google_StatusMessageFormat";
 
 	m_pszDbLogMode = "Google_LogMode";
@@ -101,8 +101,8 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogleFinance&
 	m_pszDbRefreshRateType = "GoogleFinance_RefreshRateType";
 	m_pszDbRefreshRateValue = "GoogleFinance_RefreshRateValue";
 	m_pszDbDisplayNameFormat = "GoogleFinance_DspNameFrmt";
-	m_pszDefDisplayFormat = _T("%s %r");
-	m_pszXMLIniFileName = _T("GoogleFinance.xml");
+	m_pszDefDisplayFormat = L"%s %r";
+	m_pszXMLIniFileName = L"GoogleFinance.xml";
 	m_pszDbStatusMsgFormat = "GoogleFinance_StatusMessageFormat";
 
 	m_pszDbLogMode = "GoogleFinance_LogMode";
@@ -129,8 +129,8 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderYahoo&)
 	m_pszDbRefreshRateType = "Yahoo_RefreshRateType";
 	m_pszDbRefreshRateValue = "Yahoo_RefreshRateValue";
 	m_pszDbDisplayNameFormat = "Yahoo_DspNameFrmt";
-	m_pszDefDisplayFormat = _T("%s %r");
-	m_pszXMLIniFileName = _T("Yahoo.xml");
+	m_pszDefDisplayFormat = L"%s %r";
+	m_pszXMLIniFileName = L"Yahoo.xml";
 	m_pszDbStatusMsgFormat = "Yahoo_StatusMessageFormat";
 
 	m_pszDbLogMode = "Yahoo_LogMode";

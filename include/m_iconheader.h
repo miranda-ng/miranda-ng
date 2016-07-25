@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ICONHEADER_H__
 #define M_ICONHEADER_H__ 1
 
-#define MIRANDAICOTABCLASS _T("MirandaIcoTabClass")
+#define MIRANDAICOTABCLASS L"MirandaIcoTabClass"
 
 #define MITCF_SHAREDICON	0x01
 #define MITCF_UNICODE		0x02

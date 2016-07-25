@@ -948,7 +948,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 						contacts[iContact] = (ICQSEARCHRESULT*)SAFE_MALLOC(sizeof(ICQSEARCHRESULT));
 						contacts[iContact]->hdr.cbSize = sizeof(ICQSEARCHRESULT);
 						contacts[iContact]->hdr.flags = PSR_TCHAR;
-						contacts[iContact]->hdr.nick.t = null_strdup(_T(""));
+						contacts[iContact]->hdr.nick.t = null_strdup(L"");
 						contacts[iContact]->hdr.id.t = ansi_to_tchar(szUid);
 
 						if (IsStringUIN(szUid)) { // icq contact

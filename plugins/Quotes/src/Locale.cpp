@@ -10,7 +10,7 @@ tstring get_int_registry_value(LPCTSTR pszValueName)
 	tstring sResult;
 	HKEY hKey = NULL;
 	LONG lResult = ::RegOpenKeyEx(HKEY_CURRENT_USER,
-		_T("Control Panel\\International"), 0, KEY_QUERY_VALUE, &hKey);
+		L"Control Panel\\International", 0, KEY_QUERY_VALUE, &hKey);
 	if ((ERROR_SUCCESS == lResult) && (NULL != hKey)) {
 		DWORD dwType = 0;
 		DWORD dwSize = 0;
@@ -33,27 +33,27 @@ tstring get_int_registry_value(LPCTSTR pszValueName)
 
 LPCTSTR date_win_2_boost(const tstring& sFrmt)
 {
-	if (sFrmt == _T("dd/MM/yy"))
-		return _T("%d/%m/%y");
-	if (sFrmt == _T("yyyy-MM-dd"))
-		return _T("%y-%m-%d");
-	return _T("%d.%m.%y");
+	if (sFrmt == L"dd/MM/yy")
+		return L"%d/%m/%y";
+	if (sFrmt == L"yyyy-MM-dd")
+		return L"%y-%m-%d";
+	return L"%d.%m.%y";
 }
 
 LPCTSTR time_win_2_boost(const tstring& sFrmt)
 {
-	if (sFrmt == _T("H:mm") || sFrmt == _T("HH:mm"))
-		return _T("%H:%M");
+	if (sFrmt == L"H:mm" || sFrmt == L"HH:mm")
+		return L"%H:%M";
 
-	return _T("%H:%M:%S");
+	return L"%H:%M:%S";
 }
 
 LPCTSTR Quotes_GetDateFormat(bool bShort)
 {
-	return date_win_2_boost(get_int_registry_value(bShort ? _T("sShortDate") : _T("sLongDate")));
+	return date_win_2_boost(get_int_registry_value(bShort ? L"sShortDate" : L"sLongDate"));
 }
 
 LPCTSTR Quotes_GetTimeFormat(bool bShort)
 {
-	return time_win_2_boost(get_int_registry_value(bShort ? _T("sShortTime") : _T("sTimeFormat")));
+	return time_win_2_boost(get_int_registry_value(bShort ? L"sShortTime" : L"sTimeFormat"));
 }

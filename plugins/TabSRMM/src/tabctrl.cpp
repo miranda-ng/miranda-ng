@@ -943,7 +943,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	{
 		WNDCLASSEX wcl = { 0 };
 		wcl.cbSize = sizeof(wcl);
-		GetClassInfoEx(g_hInst, _T("SysTabControl32"), &wcl);
+		GetClassInfoEx(g_hInst, L"SysTabControl32", &wcl);
 		OldTabControlClassProc = wcl.lpfnWndProc;
 
 		tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
@@ -979,7 +979,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		// it is sufficient to search it once. So this message is called, whenever
 		// a new tab is inserted
 		HWND hwndChild;
-		if ((hwndChild = FindWindowEx(hwnd, 0, _T("msctls_updown32"), NULL)) != 0)
+		if ((hwndChild = FindWindowEx(hwnd, 0, L"msctls_updown32", NULL)) != 0)
 			DestroyWindow(hwndChild);
 
 		return 0;
@@ -1466,28 +1466,28 @@ int TSAPI RegisterTabCtrlClass(void)
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
 
-	wc.lpszClassName = _T("TSTabCtrlClass");
+	wc.lpszClassName = L"TSTabCtrlClass";
 	wc.lpfnWndProc = TabControlSubclassProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(TabControlData*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName = _T("TSStatusBarClass");
+	wc.lpszClassName = L"TSStatusBarClass";
 	wc.lpfnWndProc = StatusBarSubclassProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName = _T("TS_SideBarClass");
+	wc.lpszClassName = L"TS_SideBarClass";
 	wc.lpfnWndProc = CSideBar::wndProcStub;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName = _T("TSHK");
+	wc.lpszClassName = L"TSHK";
 	wc.lpfnWndProc = HotkeyHandlerDlgProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);

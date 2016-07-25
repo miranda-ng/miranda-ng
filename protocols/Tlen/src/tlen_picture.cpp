@@ -263,7 +263,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 		ofn.Flags = OFN_FILEMUSTEXIST;
 		if (GetOpenFileName(&ofn)) {
 			long size;
-			FILE* fp = _tfopen(tszFileName, _T("rb"));
+			FILE* fp = _tfopen(tszFileName, L"rb");
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
 				size = ftell(fp);

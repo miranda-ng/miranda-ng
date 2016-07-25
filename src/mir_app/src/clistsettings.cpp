@@ -57,7 +57,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 	if (p->tszGroup == NULL) {
 		p->tszGroup = db_get_tsa(p->hContact, "CList", "Group");
 		if (p->tszGroup == NULL)
-			p->tszGroup = mir_tstrdup(_T(""));
+			p->tszGroup = mir_tstrdup(L"");
 	}
 
 	if (p->bIsHidden == -1)

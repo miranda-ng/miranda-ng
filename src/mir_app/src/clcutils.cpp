@@ -32,7 +32,7 @@ extern HANDLE hHideInfoTipEvent;
 TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
-		return _T("");
+		return L"";
 
 	ClcGroup *group = contact->group, *topgroup = group;
 	int onlineCount = 0;
@@ -60,10 +60,10 @@ TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 		group->scanIndex++;
 	}
 	if (onlineCount == 0 && dat->exStyle & CLS_EX_HIDECOUNTSWHENEMPTY)
-		return _T("");
+		return L"";
 
 	static TCHAR szName[32];
-	mir_sntprintf(szName, _T("(%u/%u)"), onlineCount, totalCount);
+	mir_sntprintf(szName, L"(%u/%u)", onlineCount, totalCount);
 	return szName;
 }
 
@@ -174,7 +174,7 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 		TCHAR *szCounts;
 		szCounts = cli.pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
+			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
 			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
@@ -417,11 +417,11 @@ void fnEndRename(HWND, ClcData *dat, int save)
 
 		ClcContact *contact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) != -1) {
-			if (mir_tstrcmp(contact->szText, text) && !_tcsstr(text, _T("\\"))) {
+			if (mir_tstrcmp(contact->szText, text) && !_tcsstr(text, L"\\")) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
-						mir_sntprintf(szFullName, _T("%s\\%s"),
+						mir_sntprintf(szFullName, L"%s\\%s",
 							Clist_GroupGetName(contact->group->parent->groupId, NULL), text);
 						Clist_GroupRename(contact->groupId, szFullName);
 					}
@@ -508,7 +508,7 @@ void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 	POINT pt;
 	cli.pfnCalcEipPosition(dat, contact, group, &pt);
 	int h = cli.pfnGetRowHeight(dat, dat->selection);
-	dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, NULL, cli.hInst, NULL);
+	dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, NULL, cli.hInst, NULL);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);

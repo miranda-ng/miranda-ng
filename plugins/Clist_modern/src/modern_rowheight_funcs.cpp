@@ -113,7 +113,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 							RECT count_rc = { 0 };
 							// calc width and height
 							g_clcPainter.ChangeToFont(hdc, dat, contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-							ske_DrawText(hdc, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
+							ske_DrawText(hdc, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
 							size.cx += count_rc.right - count_rc.left;
 							count_rc.right = 0;
 							count_rc.left = 0;
@@ -241,7 +241,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 					if (item == -1) {
 						TCHAR szResult[80];
 
-						if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
+						if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 							SIZE text_size = { 0 };
 							RECT rc = { 0 };
 							// Select font

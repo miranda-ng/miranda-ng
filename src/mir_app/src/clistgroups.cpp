@@ -111,7 +111,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
 		if (tmp == NULL)
 			return NULL;
 
-		mir_sntprintf(newBaseName, _T("%s\\%s"), tmp->groupName+1, grpName);
+		mir_sntprintf(newBaseName, L"%s\\%s", tmp->groupName+1, grpName);
 	}
 	else _tcsncpy_s(newBaseName, grpName, _TRUNCATE);
 
@@ -123,7 +123,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
 	}
 	else {
 		for (int idCopy = 1; GroupNameExists(newName + 1, -1); idCopy++)
-			mir_sntprintf(newName + 1, _countof(newName) - 1, _T("%s (%d)"), newBaseName, idCopy);
+			mir_sntprintf(newName + 1, _countof(newName) - 1, L"%s (%d)", newBaseName, idCopy);
 	}
 
 	int newId = arByIds.getCount();
@@ -244,7 +244,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 		
 		if (!_tcsncmp(pGroup->groupName+1, p->groupName+1, len) && p->groupName[len+1] == '\\' && _tcschr(p->groupName + len + 2, '\\') == NULL) {
 			if (szNewParent[0])
-				mir_sntprintf(szNewName, _T("%s\\%s"), szNewParent, p->groupName + len + 2);
+				mir_sntprintf(szNewName, L"%s\\%s", szNewParent, p->groupName + len + 2);
 			else
 				mir_tstrncpy(szNewName, p->groupName + len + 2, _countof(szNewName));
 			Clist_GroupRename(i + 1, szNewName);
@@ -354,7 +354,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		CGroupInternal *p = arByIds[i];
 		if (!_tcsncmp(p->groupName+1, oldName, len) && p->groupName[len+1] == '\\' && _tcschr(p->groupName + len + 2, '\\') == NULL) {
 			TCHAR szNewName[256];
-			mir_sntprintf(szNewName, _T("%s\\%s"), szName, p->groupName + len + 2);
+			mir_sntprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 2);
 			RenameGroupWithMove(i, szNewName, 0); // luckily, child groups will never need reordering
 		}
 	}

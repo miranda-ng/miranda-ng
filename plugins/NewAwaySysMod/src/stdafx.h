@@ -76,15 +76,15 @@
 #define CBSSTATE_PRESSED 2
 #define CBSSTATE_DISABLED 3
 
-#define VAR_AWAYSINCE_TIME _T("nas_awaysince_time")
-#define VAR_AWAYSINCE_DATE _T("nas_awaysince_date")
-#define VAR_STATDESC _T("nas_statdesc")
-#define VAR_MYNICK _T("nas_mynick")
-#define VAR_REQUESTCOUNT _T("nas_requestcount")
-#define VAR_MESSAGENUM _T("nas_messagecount")
-#define VAR_TIMEPASSED _T("nas_timepassed")
-#define VAR_PREDEFINEDMESSAGE _T("nas_predefinedmessage")
-#define VAR_PROTOCOL _T("nas_protocol")
+#define VAR_AWAYSINCE_TIME L"nas_awaysince_time"
+#define VAR_AWAYSINCE_DATE L"nas_awaysince_date"
+#define VAR_STATDESC L"nas_statdesc"
+#define VAR_MYNICK L"nas_mynick"
+#define VAR_REQUESTCOUNT L"nas_requestcount"
+#define VAR_MESSAGENUM L"nas_messagecount"
+#define VAR_TIMEPASSED L"nas_timepassed"
+#define VAR_PREDEFINEDMESSAGE L"nas_predefinedmessage"
+#define VAR_PROTOCOL L"nas_protocol"
 
 #define SENDSMSG_EVENT_MSG 0x1
 #define SENDSMSG_EVENT_URL 0x2
@@ -180,7 +180,7 @@
 #define DB_SENDCOUNT "SendCount"
 #define MESSAGES_DB_MSGTREEDEF "MsgTreeDef"
 
-#define MSGTREE_RECENT_OTHERGROUP _T("Other")
+#define MSGTREE_RECENT_OTHERGROUP L"Other"
 
 // GetMsgFormat flags
 #define GMF_PERSONAL 1 // is also used to get global status message, when hContact = NULL (szProto = NULL)
@@ -300,7 +300,7 @@ void InitOptions(); // called once when plugin is loaded
 
 //int ShowPopupNotification(COptPage &PopupNotifyData, MCONTACT hContact, int iStatusMode);
 void ShowLog(TCString &LogFilePath);
-void ShowMsg(TCHAR *szFirstLine, TCHAR *szSecondLine = _T(""), bool IsErrorMsg = false, int Timeout = 0);
+void ShowMsg(TCHAR *szFirstLine, TCHAR *szSecondLine = L"", bool IsErrorMsg = false, int Timeout = 0);
 
 #define AWAYSYS_STATUSMSGREQUEST_SOUND "AwaySysStatusMsgRequest"
 #define ME_AWAYSYS_WORKAROUND "AwaySys/_CallService"
@@ -325,7 +325,7 @@ static __inline int LogMessage(const char *Format, ...)
 
 __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const TCHAR *szMsg)
 { // we must use this function everywhere we want to call PS_SETAWAYMSG, otherwise NAS won't allow to change the message!
-	LogMessage("PS_SETAWAYMSG called by NAS. szProto=%s, Status=%d, Msg:\n%S", szProto, iMode, szMsg ? szMsg : _T("NULL"));
+	LogMessage("PS_SETAWAYMSG called by NAS. szProto=%s, Status=%d, Msg:\n%S", szProto, iMode, szMsg ? szMsg : L"NULL");
 	return CallProtoService(szProto, PS_SETAWAYMSG, iMode, (LPARAM)szMsg);
 }
 

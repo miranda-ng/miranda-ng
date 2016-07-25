@@ -47,7 +47,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 	const TCHAR *description = (TCHAR*)pccsd->wParam;
 	if (description && description[0])
-		ftp->AppendFormatData(_T("%s\r\n"), (TCHAR*)pccsd->wParam);
+		ftp->AppendFormatData(L"%s\r\n", (TCHAR*)pccsd->wParam);
 
 	TCHAR **paths = (TCHAR**)pccsd->lParam;
 	ftp->SetWorkingDirectory(paths[0]);

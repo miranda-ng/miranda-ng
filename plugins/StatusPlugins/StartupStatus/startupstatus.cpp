@@ -416,7 +416,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
-	hMessageWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hMessageWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
 
 	GetProfile(-1, startupSettings);

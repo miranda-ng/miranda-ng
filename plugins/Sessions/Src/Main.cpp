@@ -161,7 +161,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					dy = 20;
 					dx = 150;
 					dd = 5;
-					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, _T(CLISTCONTROL_CLASS), _T(""),
+					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, _T(CLISTCONTROL_CLASS), L"",
 						WS_TABSTOP | WS_VISIBLE | WS_CHILD,
 						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, 0);
 
@@ -485,7 +485,7 @@ int SaveSessionDate()
 		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szDateBuf, DateSize);
 		int lenn = (DateSize + TimeSize + 5);
 		TCHAR *szSessionTime = (TCHAR*)mir_alloc(lenn*sizeof(TCHAR));
-		mir_sntprintf(szSessionTime, lenn, _T("%s - %s"), szTimeBuf, szDateBuf);
+		mir_sntprintf(szSessionTime, lenn, L"%s - %s", szTimeBuf, szDateBuf);
 
 		char szSetting[256];
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);

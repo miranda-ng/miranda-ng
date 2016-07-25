@@ -61,9 +61,9 @@ static void ApplyUpdates(void *param)
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
-	mir_sntprintf(tszFileBack, _T("%s\\Backups"), g_tszRoot);
+	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
-	mir_sntprintf(tszFileTemp, _T("%s\\Temp"), g_tszRoot);
+	mir_sntprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -96,14 +96,14 @@ static void ApplyUpdates(void *param)
 	Netlib_CloseHandle(nlc);
 
 	// 3) Unpack all zips
-	VARST tszMirandaPath(_T("%miranda_path%"));
+	VARST tszMirandaPath(L"%miranda_path%");
 	for (int i = 0; i < todo.getCount(); i++) {
 		FILEINFO& p = todo[i];
 		if (p.bEnabled) {
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -111,8 +111,8 @@ static void ApplyUpdates(void *param)
 				// otherwise it would be replaced by unzip
 				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -126,8 +126,8 @@ static void ApplyUpdates(void *param)
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
 	ptrT title(db_get_tsa(NULL, "CList", "TitleText"));
-	if (!lstrcmpi(title, _T("Miranda IM")))
-		db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
+	if (!lstrcmpi(title, L"Miranda IM"))
+		db_set_ts(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
@@ -165,9 +165,9 @@ static void ApplyUpdates(void *param)
 			TCHAR mirstartpath[MAX_PATH];
 
 #ifdef _WIN64
-			mir_sntprintf(mirstartpath, _T("%s\\miranda32.exe"), tszMirandaPath);
+			mir_sntprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath);
 #else
-			mir_sntprintf(mirstartpath, _T("%s\\miranda64.exe"), tszMirandaPath);
+			mir_sntprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath);
 #endif
 			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
 		}
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				TCHAR *ext = _tcsrchr(szPath, '.');
 				if (ext != NULL)
 					*ext = '\0';
-				_tcscat(szPath, _T(".test"));
+				_tcscat(szPath, L".test");
 				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
@@ -268,9 +268,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 :
-					((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 :
-						((_tcsstr(todo[i].tszOldName, _T("Icons")) != NULL) ? 4 : 2));
+				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 :
+					((_tcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 :
+						((_tcsstr(todo[i].tszOldName, L"Icons") != NULL) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
 				lvI.pszText = todo[i].tszOldName;
@@ -412,10 +412,10 @@ static void DlgUpdateSilent(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, _T("%s\\Backups"), g_tszRoot);
+	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, _T("%s\\Temp"), g_tszRoot);
+	mir_sntprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -446,14 +446,14 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 3) Unpack all zips
-	VARST tszMirandaPath(_T("%miranda_path%"));
+	VARST tszMirandaPath(L"%miranda_path%");
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
 		FILEINFO& p = UpdateFiles[i];
 		if (p.bEnabled) {
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -461,8 +461,8 @@ static void DlgUpdateSilent(void *param)
 				// otherwise it would be replaced by unzip
 				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -478,8 +478,8 @@ static void DlgUpdateSilent(void *param)
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
 	ptrT title = db_get_tsa(NULL, "CList", "TitleText");
-	if (!_tcsicmp(title, _T("Miranda IM")))
-		db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
+	if (!_tcsicmp(title, L"Miranda IM"))
+		db_set_ts(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
 	opts.bForceRedownload = false;
@@ -515,7 +515,7 @@ static void DlgUpdateSilent(void *param)
 		if (!notified) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
 			TCHAR tszText[200];
-			mir_sntprintf(tszText, _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+			mir_sntprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
 #if MIRANDA_VER >= 0x0A00
@@ -544,61 +544,61 @@ struct
 }
 static renameTable[] =
 {
-	{ _T("svc_dbepp.dll"),                  _T("Plugins\\dbeditorpp.dll") },
-	{ _T("svc_crshdmp.dll"),                _T("Plugins\\crashdumper.dll") },
-	{ _T("crashdmp.dll"),                   _T("Plugins\\crashdumper.dll") },
-	{ _T("crashrpt.dll"),                   _T("Plugins\\crashdumper.dll") },
-	{ _T("attache.dll"),                    _T("Plugins\\crashdumper.dll") },
-	{ _T("svc_vi.dll"),                     _T("Plugins\\crashdumper.dll") },
-	{ _T("crashrpt.dll"),                   _T("Plugins\\crashdumper.dll") },
-	{ _T("versioninfo.dll"),                _T("Plugins\\crashdumper.dll") },
-	{ _T("advsplashscreen.dll"),            _T("Plugins\\splashscreen.dll") },
-	{ _T("import_sa.dll"),                  _T("Plugins\\import.dll") },
-	{ _T("newnr.dll"),                      _T("Plugins\\notesreminders.dll") },
-	{ _T("dbtool.exe"),                     _T("Plugins\\dbchecker.dll") },
-	{ _T("dbtool_sa.exe"),                  _T("Plugins\\dbchecker.dll") },
-	{ _T("clist_mw.dll"),                   _T("Plugins\\clist_nicer.dll") },
-	{ _T("bclist.dll"),                     _T("Plugins\\clist_blind.dll") },
-	{ _T("otr.dll"),                        _T("Plugins\\mirotr.dll") },
-	{ _T("ttnotify.dll"),                   _T("Plugins\\tooltipnotify.dll") },
-	{ _T("newstatusnotify.dll"),            _T("Plugins\\newxstatusnotify.dll") },
-	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
-	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
-	{ _T("actman30.dll"),                   _T("Plugins\\actman.dll") },
-	{ _T("skype.dll"),                      _T("Plugins\\skypeweb.dll") },
-	{ _T("skypeclassic.dll"),               _T("Plugins\\skypeweb.dll") },
-	{ _T("historysweeper.dll"),             _T("Plugins\\historysweeperlight.dll") },
+	{ L"svc_dbepp.dll",                  L"Plugins\\dbeditorpp.dll" },
+	{ L"svc_crshdmp.dll",                L"Plugins\\crashdumper.dll" },
+	{ L"crashdmp.dll",                   L"Plugins\\crashdumper.dll" },
+	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
+	{ L"attache.dll",                    L"Plugins\\crashdumper.dll" },
+	{ L"svc_vi.dll",                     L"Plugins\\crashdumper.dll" },
+	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
+	{ L"versioninfo.dll",                L"Plugins\\crashdumper.dll" },
+	{ L"advsplashscreen.dll",            L"Plugins\\splashscreen.dll" },
+	{ L"import_sa.dll",                  L"Plugins\\import.dll" },
+	{ L"newnr.dll",                      L"Plugins\\notesreminders.dll" },
+	{ L"dbtool.exe",                     L"Plugins\\dbchecker.dll" },
+	{ L"dbtool_sa.exe",                  L"Plugins\\dbchecker.dll" },
+	{ L"clist_mw.dll",                   L"Plugins\\clist_nicer.dll" },
+	{ L"bclist.dll",                     L"Plugins\\clist_blind.dll" },
+	{ L"otr.dll",                        L"Plugins\\mirotr.dll" },
+	{ L"ttnotify.dll",                   L"Plugins\\tooltipnotify.dll" },
+	{ L"newstatusnotify.dll",            L"Plugins\\newxstatusnotify.dll" },
+	{ L"rss.dll",                        L"Plugins\\newsaggregator.dll" },
+	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmap.dll" },
+	{ L"actman30.dll",                   L"Plugins\\actman.dll" },
+	{ L"skype.dll",                      L"Plugins\\skypeweb.dll" },
+	{ L"skypeclassic.dll",               L"Plugins\\skypeweb.dll" },
+	{ L"historysweeper.dll",             L"Plugins\\historysweeperlight.dll" },
 
 #if MIRANDA_VER >= 0x0A00
-	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
-	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
-	{ _T("rc4.dll"),                        NULL },
-	{ _T("athena.dll"),                     NULL },
-	{ _T("skypekit.exe"),                   NULL },
+	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
+	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
+	{ L"rc4.dll",                        NULL },
+	{ L"athena.dll",                     NULL },
+	{ L"skypekit.exe",                   NULL },
 #endif
 
-	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
-	{ _T("clienticons_*.dll"),              _T("Icons\\fp_icons.dll") },
-	{ _T("fp_*.dll"),                       _T("Icons\\fp_icons.dll") },
+	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
+	{ L"clienticons_*.dll",              L"Icons\\fp_icons.dll" },
+	{ L"fp_*.dll",                       L"Icons\\fp_icons.dll" },
 
-	{ _T("langpack_*.txt"),                 _T("Languages\\*") },
+	{ L"langpack_*.txt",                 L"Languages\\*" },
 
-	{ _T("mir_app.dll"),                    NULL },
-	{ _T("mir_core.dll"),                   NULL },
-	{ _T("zlib.dll"),                       NULL },
-	{ _T("pcre16.dll"),                     NULL },
-	{ _T("clist_classic.dll"),              NULL },
-	{ _T("chat.dll"),                       NULL },
-	{ _T("srmm.dll"),                       NULL },
-	{ _T("stdurl.dll"),                     NULL },
-	{ _T("extraicons.dll"),                 NULL },
-	{ _T("firstrun.dll"),                   NULL },
-	{ _T("flashavatars.dll"),               NULL },
-	{ _T("gender.dll"),                     NULL },
-	{ _T("langman.dll"),                    NULL },
-	{ _T("metacontacts.dll"),               NULL },
-	{ _T("xfire.dll"),                      NULL },
-	{ _T("WART-*.exe"),                     NULL },
+	{ L"mir_app.dll",                    NULL },
+	{ L"mir_core.dll",                   NULL },
+	{ L"zlib.dll",                       NULL },
+	{ L"pcre16.dll",                     NULL },
+	{ L"clist_classic.dll",              NULL },
+	{ L"chat.dll",                       NULL },
+	{ L"srmm.dll",                       NULL },
+	{ L"stdurl.dll",                     NULL },
+	{ L"extraicons.dll",                 NULL },
+	{ L"firstrun.dll",                   NULL },
+	{ L"flashavatars.dll",               NULL },
+	{ L"gender.dll",                     NULL },
+	{ L"langman.dll",                    NULL },
+	{ L"metacontacts.dll",               NULL },
+	{ L"xfire.dll",                      NULL },
+	{ L"WART-*.exe",                     NULL },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName
@@ -629,34 +629,34 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 {
 	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
 
-	return (pExt != NULL) && (!_tcsicmp(pExt, _T(".dll")) || !_tcsicmp(pExt, _T(".exe")) || !_tcsicmp(pExt, _T(".txt")));
+	return (pExt != NULL) && (!_tcsicmp(pExt, L".dll") || !_tcsicmp(pExt, L".exe") || !_tcsicmp(pExt, L".txt"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
 static bool isValidDirectory(const TCHAR *ptszDirName)
 {
-	return !_tcsicmp(ptszDirName, _T("Plugins")) || !_tcsicmp(ptszDirName, _T("Icons")) || !_tcsicmp(ptszDirName, _T("Languages")) || !_tcsicmp(ptszDirName, _T("Libs")) || !_tcsicmp(ptszDirName, _T("Core"));
+	return !_tcsicmp(ptszDirName, L"Plugins") || !_tcsicmp(ptszDirName, L"Icons") || !_tcsicmp(ptszDirName, L"Languages") || !_tcsicmp(ptszDirName, L"Libs") || !_tcsicmp(ptszDirName, L"Core");
 }
 
 // Scans folders recursively
 static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
 {
 	TCHAR tszBuf[MAX_PATH];
-	mir_sntprintf(tszBuf, _T("%s\\*"), tszFolder);
+	mir_sntprintf(tszBuf, L"%s\\*", tszFolder);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	Netlib_LogfT(hNetlibUser,_T("Scanning folder %s"), tszFolder);
+	Netlib_LogfT(hNetlibUser,L"Scanning folder %s", tszFolder);
 
 	int count = 0;
 	do {
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			// Scan recursively all subfolders
 			if (isValidDirectory(ffd.cFileName)) {
-				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+				mir_sntprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 				count += ScanFolder(tszBuf, cbBaseLen, tszBaseUrl, hashes, UpdateFiles, level + 1);
 			}
 		}
@@ -664,19 +664,19 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			// calculate the current file's relative name and store it into tszNewName
 			TCHAR tszNewName[MAX_PATH];
 			if (CheckFileRename(ffd.cFileName, tszNewName)) {
-				Netlib_LogfT(hNetlibUser, _T("File %s will be renamed to %s."), ffd.cFileName, tszNewName);
+				Netlib_LogfT(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, tszNewName);
 				// Yes, we need the old file name, because this will be hashed later
-				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+				mir_sntprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 			}
 			else {
 				if (level == 0) {
 					// Rename Miranda*.exe
 					_tcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
-					mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, tszNewName);
+					mir_sntprintf(tszBuf, L"%s\\%s", tszFolder, tszNewName);
 				}
 				else {
-					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
-					mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
+					mir_sntprintf(tszNewName, L"%s\\%s", tszFolder + cbBaseLen, ffd.cFileName);
+					mir_sntprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 				}
 			}
 
@@ -692,7 +692,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 				if (item == NULL) {
 					TCHAR *p = _tcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W') {
-						Netlib_LogfT(hNetlibUser, _T("File %s: Not found on server, skipping"), ffd.cFileName);
+						Netlib_LogfT(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
 					}
 
@@ -700,7 +700,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 					int iPos = int(p - tszNewName) - 1;
 					strdelt(p - 1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
-						Netlib_LogfT(hNetlibUser, _T("File %s: Not found on server, skipping"), ffd.cFileName);
+						Netlib_LogfT(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
 					}
 
@@ -716,11 +716,11 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 						CalculateModuleHash(tszBuf, szMyHash);
 						// hashes are the same, skipping
 						if (strcmp(szMyHash, item->m_szHash) == 0) {
-							Netlib_LogfT(hNetlibUser, _T("File %s: Already up-to-date, skipping"), ffd.cFileName);
+							Netlib_LogfT(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
 							continue;
 						}
 						else
-							Netlib_LogfT(hNetlibUser, _T("File %s: Update available"), ffd.cFileName);
+							Netlib_LogfT(hNetlibUser, L"File %s: Update available", ffd.cFileName);
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
@@ -728,7 +728,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 					}
 				}
 				else
-					Netlib_LogfT(hNetlibUser, _T("File %s: Forcing redownload"), ffd.cFileName);
+					Netlib_LogfT(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
 #endif
 
 				ptszUrl = item->m_name;
@@ -736,8 +736,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			}
 			else {
 				// file was marked for deletion, add it to the list anyway
-				Netlib_LogfT(hNetlibUser, _T("File %s: Marked for deletion"), ffd.cFileName);
-				ptszUrl = _T("");
+				Netlib_LogfT(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
+				ptszUrl = L"";
 				MyCRC = 0;
 			}
 
@@ -761,8 +761,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			p = (p) ? p + 1 : tszBuf;
 			_tcslwr(p);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, _T("%s\\Temp\\%s.zip"), g_tszRoot, p);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, _T("%s/%s.zip"), tszBaseUrl, tszBuf);
+			mir_sntprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';
 
@@ -786,7 +786,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 // Thread checks for updates
 static void CheckUpdates(void *)
 {
-	Netlib_LogfT(hNetlibUser, _T("Checking for updates"));
+	Netlib_LogfT(hNetlibUser, L"Checking for updates");
 	Thread_SetName("PluginUpdater: CheckUpdates");
 
 	TCHAR tszTempPath[MAX_PATH];
@@ -802,7 +802,7 @@ static void CheckUpdates(void *)
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
-		VARST dirname(_T("%miranda_path%"));
+		VARST dirname(L"%miranda_path%");
 		int count = ScanFolder(dirname, lstrlen(dirname) + 1, baseUrl, hashes, UpdateFiles);
 
 		// Show dialog
@@ -849,7 +849,7 @@ void UninitCheck()
 // menu item command
 static INT_PTR MenuCommand(WPARAM, LPARAM)
 {
-	Netlib_LogfT(hNetlibUser, _T("Update started manually!"));
+	Netlib_LogfT(hNetlibUser, L"Update started manually!");
 	DoCheck(false);
 	return 0;
 }
@@ -875,7 +875,7 @@ void CheckUpdateOnStartup()
 			if ((now - was) < 86400)
 				return;
 		}
-		Netlib_LogfT(hNetlibUser, _T("Update on startup started!"));
+		Netlib_LogfT(hNetlibUser, L"Update on startup started!");
 		DoCheck();
 	}
 }

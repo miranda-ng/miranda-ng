@@ -192,7 +192,7 @@ tstring GetContactUid(MCONTACT hContact, tstring Protocol)
 {
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
 	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
-	return (uid) ? uid : _T("");
+	return (uid) ? uid : L"";
 }
 
 void LogSpamToFile(MCONTACT hContact, tstring message)
@@ -204,12 +204,12 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 	TCHAR pszName[MAX_PATH];
 
 	if (hStopSpamLogDirH)
-		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, _T(""));
+		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, L"");
 	else
-		mir_tstrncpy(pszName, VARST(_T("%miranda_logpath%")), _countof(pszName));
+		mir_tstrncpy(pszName, VARST(L"%miranda_logpath%"), _countof(pszName));
 
 	tstring filename = pszName;
-	filename += _T("\\stopspam_mod.log");
+	filename += L"\\stopspam_mod.log";
 	file.open(filename.c_str(), std::ios::out | std::ios::app);
 
 	// Time Log line
@@ -221,16 +221,16 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 	// Time Log line
 
 	// Name, UID and Protocol Log line
-	LogProtocol = DBGetContactSettingStringPAN(hContact, "Protocol", "p", _T(""));
+	LogProtocol = DBGetContactSettingStringPAN(hContact, "Protocol", "p", L"");
 	LogContactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
-	LogContactId = (LogProtocol == _T("")) ? _T("") : GetContactUid(hContact, LogProtocol);
+	LogContactId = (LogProtocol == L"") ? L"" : GetContactUid(hContact, LogProtocol);
 	// Name, UID  and Protocol Log line
 
-	LogStrW = _T("[") + LogTime.substr(0, LogTime.length() - 1) + _T("] ") +
-		LogContactId + _T(" - ") +
-		LogContactName + _T(" (") +
-		LogProtocol + _T("): ") +
-		message + _T("\n");
+	LogStrW = L"[" + LogTime.substr(0, LogTime.length() - 1) + L"] " +
+		LogContactId + L" - " +
+		LogContactName + L" (" +
+		LogProtocol + L"): " +
+		message + L"\n";
 
 	char *buf = mir_u2a(LogStrW.c_str());
 	file.write(buf, LogStrW.length());
@@ -252,14 +252,14 @@ void CleanProtocolTmpThread(std::string proto)
 
 	std::list<MCONTACT> contacts;
 	for (MCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
-		if (db_get_b(hContact, "CList", "NotOnList", 0) || (_T("Not In List") == DBGetContactSettingStringPAN(hContact, "CList", "Group", _T(""))))
+		if (db_get_b(hContact, "CList", "NotOnList", 0) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
 			contacts.push_back(hContact);
 
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
 	std::list<MCONTACT>::iterator end = contacts.end();
 	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
-		LogSpamToFile(*i, _T("Deleted"));
+		LogSpamToFile(*i, L"Deleted");
 		HistoryLogFunc(*i, "Deleted");
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
 	}
@@ -284,7 +284,7 @@ void CleanProtocolExclThread(std::string proto)
 	clean_mutex.lock();
 	std::list<MCONTACT>::iterator end = contacts.end();
 	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
-		LogSpamToFile(*i, _T("Deleted"));
+		LogSpamToFile(*i, L"Deleted");
 		HistoryLogFunc(*i, "Deleted");
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
 	}

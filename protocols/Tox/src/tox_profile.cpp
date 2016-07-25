@@ -11,8 +11,8 @@ TCHAR* CToxProto::GetToxProfilePath(const TCHAR *accountName)
 {
 	TCHAR *profilePath = (TCHAR*)mir_calloc(MAX_PATH * sizeof(TCHAR) + 1);
 	TCHAR profileRootPath[MAX_PATH];
-	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARST(_T("%miranda_userdata%")));
-	mir_sntprintf(profilePath, MAX_PATH, _T("%s\\%s.tox"), profileRootPath, accountName);
+	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARST(L"%miranda_userdata%"));
+	mir_sntprintf(profilePath, MAX_PATH, L"%s\\%s.tox", profileRootPath, accountName);
 	return profilePath;
 }
 
@@ -26,7 +26,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	if (!IsFileExists(profilePath))
 		return false;
 
-	FILE *profile = _tfopen(profilePath, _T("rb"));
+	FILE *profile = _tfopen(profilePath, L"rb");
 	if (profile == NULL)
 	{
 		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
@@ -122,7 +122,7 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 	}
 
 	ptrT profilePath(GetToxProfilePath());
-	FILE *profile = _tfopen(profilePath, _T("wb"));
+	FILE *profile = _tfopen(profilePath, L"wb");
 	if (profile == NULL)
 	{
 		debugLogA(__FUNCTION__": failed to open tox profile");

@@ -96,7 +96,7 @@ void TxtclrLoop()
 {
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
-		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
+		SetDlgItemText(hwndDlg, IDC_DATA, L"");
 		InvalidateRect(hwndDlg, NULL, 1);
 	}
 }
@@ -106,7 +106,7 @@ void BGclrLoop()
 {
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
-		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
+		SetDlgItemText(hwndDlg, IDC_DATA, L"");
 		SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, BackgoundClr);
 		InvalidateRect(hwndDlg, NULL, 1);
 	}
@@ -222,7 +222,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	DWORD  italic = 0;
 	DWORD  underline = 0;
 
-	SetDlgItemText(hWindow, IDC_DATA, _T(""));
+	SetDlgItemText(hWindow, IDC_DATA, L"");
 
 	CHARFORMAT2 cfFM;
 	memset(&cfFM, 0, sizeof(cfFM));

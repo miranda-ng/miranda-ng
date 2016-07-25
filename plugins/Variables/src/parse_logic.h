@@ -17,19 +17,19 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define AND             _T("and")
-#define STR_FALSE       _T("false")
-#define FOR             _T("for")
-#define EQUAL           _T("equal")
-#define GREATER         _T("greater")
-#define IF              _T("if")
-#define IF2             _T("if2")
-#define IF3             _T("if3")
-#define IFEQUAL         _T("ifequal")
-#define IFGREATER       _T("ifgreater")
-#define IFLONGER        _T("iflonger")
-#define LONGER          _T("longer")
-#define NOT             _T("not")
-#define OR              _T("or")
-#define STR_TRUE        _T("true")
-#define XOR             _T("xor")
+#define AND             L"and"
+#define STR_FALSE       L"false"
+#define FOR             L"for"
+#define EQUAL           L"equal"
+#define GREATER         L"greater"
+#define IF              L"if"
+#define IF2             L"if2"
+#define IF3             L"if3"
+#define IFEQUAL         L"ifequal"
+#define IFGREATER       L"ifgreater"
+#define IFLONGER        L"iflonger"
+#define LONGER          L"longer"
+#define NOT             L"not"
+#define OR              L"or"
+#define STR_TRUE        L"true"
+#define XOR             L"xor"

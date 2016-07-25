@@ -113,7 +113,7 @@ public:
 			hSmlButton = CreateWindowEx(
 				WS_EX_LEFT | WS_EX_NOPARENTNOTIFY | WS_EX_TOPMOST,
 				MIRANDABUTTONCLASS,
-				_T("S"),
+				L"S",
 				WS_CHILD | WS_VISIBLE | WS_TABSTOP,
 				rect.left,
 				rect.top,

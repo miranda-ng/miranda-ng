@@ -235,12 +235,12 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			}
 
 			requestAvatarTransfer(pai->hContact, AvatarURL);
-			debugLog(_T("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %s does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR"), uin, pai->filename, errno, ws_strerror(errno));
+			debugLog(L"getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %s does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin, pai->filename, errno, ws_strerror(errno));
 			return GAIR_WAITFOR;
 		}
 		if ((wParam & GAIF_FORCE) != 0) {
 			if (_tremove(pai->filename) != 0){
-				debugLog(_T("getavatarinfo(): refresh. _tremove 1 file %s error. errno=%d: %s"), pai->filename, errno, _tcserror(errno));
+				debugLog(L"getavatarinfo(): refresh. _tremove 1 file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
 				TCHAR error[512];
 				mir_sntprintf(error, TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -255,7 +255,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
 			getAvatarFilename(pai->hContact, pai->filename, _countof(pai->filename));
 			if (_tremove(pai->filename) != 0){
-				debugLog(_T("getavatarinfo(): delete. _tremove file %s error. errno=%d: %s"), pai->filename, errno, _tcserror(errno));
+				debugLog(L"getavatarinfo(): delete. _tremove file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
 				TCHAR error[512];
 				mir_sntprintf(error, TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -302,7 +302,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 		debugLogA("getmyavatar(): Incoming request for self avatar information. returned ok.");
 		return 0;
 	} else {
-		debugLog(_T("getmyavatar(): Incoming request for self avatar information. saved avatar file %s does not exist. return -1 (error)"), szFilename);
+		debugLog(L"getmyavatar(): Incoming request for self avatar information. saved avatar file %s does not exist. return -1 (error)", szFilename);
 		return -1;
 	}
 

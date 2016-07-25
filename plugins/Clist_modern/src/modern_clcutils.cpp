@@ -281,9 +281,9 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	if (dat->text_rtl)
 		a |= EN_ALIGN_RTL_EC;
 	if (contact->type == CLCIT_GROUP)
-		dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
+		dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
 	else
-		dat->hwndRenameEdit = CreateWindow(_T("EDIT"), pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
+		dat->hwndRenameEdit = CreateWindow(L"EDIT", pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
 
 	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE)&(~WS_CAPTION) | WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit, GWLP_USERDATA, (LONG_PTR)dat);

@@ -22,7 +22,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define _CRT_SECURE_NO_DEPRECATE
 
-#define BOSSKEY_LISTEN_INFO _T("MY6BossKey_Param")
+#define BOSSKEY_LISTEN_INFO L"MY6BossKey_Param"
 
 #include <windows.h>
 #include <shellapi.h>

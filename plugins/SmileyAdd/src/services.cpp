@@ -36,7 +36,7 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 	CMString categoryName;
 	if (hContact != NULL) {
 		opt.ReadContactCategory(hContact, categoryName);
-		if (categoryName == _T("<None>")) return NULL;
+		if (categoryName == L"<None>") return NULL;
 		if (!categoryName.IsEmpty() && g_SmileyCategories.GetSmileyCategory(categoryName) == NULL) {
 			categoryName.Empty();
 			opt.WriteContactCategory(hContact, categoryName);
@@ -51,10 +51,10 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 					db_free(&dbv);
 				}
 				else if (opt.UsePhysProto && db_get_ts(NULL, protonam, "AM_BaseProto", &dbv) == 0) {
-					categoryName = _T("AllProto");
+					categoryName = L"AllProto";
 					categoryName += dbv.ptszVal;
 					db_free(&dbv);
-					CMString categoryFileName = g_SmileyCategories.GetSmileyCategory(categoryName) ? g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename() : _T("");
+					CMString categoryFileName = g_SmileyCategories.GetSmileyCategory(categoryName) ? g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename() : L"";
 					if (categoryFileName.IsEmpty())
 						categoryName = _A2T(protonam);
 				}
@@ -66,13 +66,13 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 
 	if (categoryName.IsEmpty()) {
 		if (proto == NULL || proto[0] == 0)
-			categoryName = _T("Standard");
+			categoryName = L"Standard";
 		else {
 			categoryName = _A2T(proto);
 			if (opt.UseOneForAll) {
 				SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(categoryName);
 				if (smc == NULL || smc->IsProto())
-					categoryName = _T("Standard");
+					categoryName = L"Standard";
 			}
 		}
 	}
@@ -250,7 +250,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 			opt.WriteContactCategory(hContact, smct->GetName());
 		else {
 			CMString empty;
-			if (lParam == 1) empty = _T("<None>");
+			if (lParam == 1) empty = L"<None>";
 			opt.WriteContactCategory(hContact, empty);
 		}
 		NotifyEventHooks(hEvent1, hContact, 0);
@@ -315,8 +315,8 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		}
 
 		mi.position = 1;
-		mi.name.t = _T("<None>");
-		if (cat == _T("<None>")) {
+		mi.name.t = L"<None>";
+		if (cat == L"<None>") {
 			mi.flags |= CMIF_CHECKED;
 			nonecheck = false;
 		}
@@ -382,7 +382,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	switch (wParam) {
 	case PRAC_ADDED:
 		if (acc != NULL) {
-			CMString catname(_T("Standard"));
+			CMString catname(L"Standard");
 			const CMString &defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
 			g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 		}
@@ -406,7 +406,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	case PRAC_CHECKED:
 		if (acc != NULL) {
 			if (acc->bIsEnabled) {
-				CMString catname(_T("Standard"));
+				CMString catname(L"Standard");
 				const CMString &defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
 				g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 			}
@@ -427,7 +427,7 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (strcmp(cws->szSetting, "Transport") == 0) {
-		CMString catname(_T("Standard"));
+		CMString catname(L"Standard");
 		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(catname);
 		if (smc != NULL)
 			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());

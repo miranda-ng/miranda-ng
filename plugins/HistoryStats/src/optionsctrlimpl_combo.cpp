@@ -39,7 +39,7 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 	{
 		ext::string strTemp = m_strLabel;
 
-		strTemp += _T(": ");
+		strTemp += L": ";
 		strTemp += m_Items[m_nSelected];
 
 		return strTemp;
@@ -86,7 +86,7 @@ void OptionsCtrlImpl::Combo::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST;
 
 		if (hTempWnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE, WC_COMBOBOX, _T(""), dwStyle,
+			WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", dwStyle,
 			r.left, r.top, r.right - r.left, (r.bottom - r.top) * 20,
 			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_hInst, NULL))
 		{

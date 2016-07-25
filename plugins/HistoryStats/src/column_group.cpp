@@ -20,12 +20,12 @@ void ColGroup::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 		ext::string groupName = contact.getGroup();
 
 		// replace subgroup separator with something better (really better?)
-		utils::replaceAllInPlace(groupName, _T("\\"), _T(" > "));
+		utils::replaceAllInPlace(groupName, L"\\", L" > ");
 
-		tos << _T("<td>") << utils::htmlEscape(groupName) << _T("</td>") << ext::endl;
+		tos << L"<td>" << utils::htmlEscape(groupName) << L"</td>" << ext::endl;
 	}
 	else
 	{
-		tos << _T("<td>&nbsp;</td>");
+		tos << L"<td>&nbsp;</td>";
 	}
 }

@@ -58,7 +58,7 @@ void FreePcreCompileData()
 
 TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 {
-	TCString Result(_T(""));
+	TCString Result(L"");
 	sPcreCompileData s = {0};
 	int NewID = PcreCompileData.AddElem(s);
 	PcreCompileData[NewID].ID = ID;
@@ -126,7 +126,7 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 			PcreCompileData[NewID].pExtra = pcre16_study(PcreCompileData[NewID].pPcre, 0, &Err);
 		} 
 		else {
-			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + _T("\n\n");
+			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + L"\n\n";
 			PcreCompileData[NewID].Pattern = Regexp;
 	 	}
 	} 

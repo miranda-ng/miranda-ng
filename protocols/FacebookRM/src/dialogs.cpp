@@ -202,7 +202,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
 
 		ptrT place(data->proto->getTStringA(FACEBOOK_KEY_PLACE));
-		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
+		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : L"Miranda NG");
 
 		bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
 		ResizeHorizontal(hwnd, bShowContacts);

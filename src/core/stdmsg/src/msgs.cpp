@@ -379,7 +379,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	SendMessage(dat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? _T("") : st->tszText));
+	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
 
 	return 0;
 }
@@ -406,7 +406,7 @@ static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message mo
 
 int LoadSendRecvMessageModule(void)
 {
-	if ((hMsftEdit = LoadLibrary(_T("Msftedit.dll"))) == NULL) {
+	if ((hMsftEdit = LoadLibrary(L"Msftedit.dll")) == NULL) {
 		if (IDYES != MessageBox(0, TranslateTS(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;

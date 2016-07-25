@@ -492,7 +492,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	filetransfer* ft = (filetransfer*)arg;
 
 	TCHAR filefull[MAX_PATH];
-	mir_sntprintf(filefull, _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
+	mir_sntprintf(filefull, L"%s\\%s", ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStrT(ft->std.tszCurrentFile, filefull);
 
 	ResetEvent(ft->hResumeEvt);

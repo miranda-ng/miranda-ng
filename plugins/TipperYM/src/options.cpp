@@ -49,8 +49,8 @@ void CreateDefaultItems()
 	for (int i = 0; defaultItemList[i].szName; i++) {
 		if (defaultItemList[i].szName[0] == '-') {
 			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
-			_tcsncpy(di_node->di.swzLabel, _T(""), LABEL_LEN);
-			_tcsncpy(di_node->di.swzValue, _T(""), VALUE_LEN);
+			_tcsncpy(di_node->di.swzLabel, L"", LABEL_LEN);
+			_tcsncpy(di_node->di.swzValue, L"", VALUE_LEN);
 			di_node->di.bLineAbove = true;
 			di_node->di.bIsVisible = true;
 			di_node->di.bParseTipperVarsFirst = false;
@@ -275,7 +275,7 @@ void SaveItems()
 	opt.bWaitForStatusMsg = false;
 	while (di_node) {
 		SaveDI(&di_node->di, index);
-		if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, _T("sys:status_msg")))
+		if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, L"sys:status_msg"))
 			opt.bWaitForStatusMsg = true;
 		di_node = di_node->next;
 		index++;
@@ -372,7 +372,7 @@ void LoadOptions()
 			di_node->next = opt.diList;
 			opt.diList = di_node;
 			real_count++;
-			if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, _T("sys:status_msg")))
+			if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, L"sys:status_msg"))
 				opt.bWaitForStatusMsg = true;
 		}
 		else
@@ -411,8 +411,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, _T("Last message: (%sys:last_msg_reltime% ago)"), LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, _T("%sys:last_msg%"), VALUE_LEN);
+		_tcsncpy(di_node->di.swzLabel, L"Last message: (%sys:last_msg_reltime% ago)", LABEL_LEN);
+		_tcsncpy(di_node->di.swzValue, L"%sys:last_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -436,8 +436,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, _T("Status message:"), LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, _T("%sys:status_msg%"), VALUE_LEN);
+		_tcsncpy(di_node->di.swzLabel, L"Status message:", LABEL_LEN);
+		_tcsncpy(di_node->di.swzValue, L"%sys:status_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -741,7 +741,7 @@ static void SetTreeItemText(DIListNode *node, TCHAR **pszText)
 {
 	if (node->di.swzLabel[0] == 0) {
 		if (node->di.swzValue[0] == 0 && node->di.bLineAbove)
-			*pszText = _T("--------------------------------------");
+			*pszText = L"--------------------------------------";
 		else
 			*pszText = TranslateT("<No Label>");
 	}
@@ -944,7 +944,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 					tvi.item.lParam = (LPARAM)di_value;
 					tvi.item.state = INDEXTOSTATEIMAGEMASK(2);
-					tvi.item.pszText = _T("---------------------------------");
+					tvi.item.pszText = L"---------------------------------";
 
 					HTREEITEM hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
 					if (hItem)
@@ -2039,7 +2039,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
 						mir_tstrcat(swzProtos, buff);
-						mir_tstrcat(swzProtos, _T(" "));
+						mir_tstrcat(swzProtos, L" ");
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), item.hItem);
@@ -2054,7 +2054,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
 						mir_tstrcat(swzProtos, buff);
-						mir_tstrcat(swzProtos, _T(" "));
+						mir_tstrcat(swzProtos, L" ");
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), item.hItem);

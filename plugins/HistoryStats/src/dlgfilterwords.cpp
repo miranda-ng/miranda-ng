@@ -226,7 +226,7 @@ void DlgFilterWords::onSetSelChanging(HANDLE hItem, INT_PTR dwData)
 		if (GetWindowText(hText, szText, nLen + 1)) {
 			ext::string strText = szText;
 
-			utils::replaceAllInPlace(strText, _T("\r"), _T(""));
+			utils::replaceAllInPlace(strText, L"\r", L"");
 			pFilter->clearWords();
 
 			ext::string::size_type nPos = strText.find('\n');
@@ -270,7 +270,7 @@ void DlgFilterWords::onSetSelChanged(HANDLE hItem, INT_PTR dwData)
 		citer_each_(WordSet, i, pFilter->getWords())
 		{
 			strWords += *i;
-			strWords += _T("\r\n");
+			strWords += L"\r\n";
 		}
 
 		if (!strWords.empty())
@@ -279,8 +279,8 @@ void DlgFilterWords::onSetSelChanged(HANDLE hItem, INT_PTR dwData)
 		SetDlgItemText(m_hWnd, IDC_WORDS, strWords.c_str());
 	}
 	else {
-		SetDlgItemText(m_hWnd, IDC_SETNAME, _T(""));
-		SetDlgItemText(m_hWnd, IDC_WORDS, _T(""));
+		SetDlgItemText(m_hWnd, IDC_SETNAME, L"");
+		SetDlgItemText(m_hWnd, IDC_WORDS, L"");
 	}
 
 	// (de)activate band controls

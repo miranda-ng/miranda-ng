@@ -181,8 +181,8 @@ static void OnLoadSettings()
 	pci->LoadMsgDlgFont(5, &lf, NULL);
 	g_Settings.UserListFonts[CHAT_STATUS_OFFLINE] = CreateFontIndirect(&lf);
 
-	int ih = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
-	int ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
+	int ih = GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
+	int ih2 = GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
 	g_Settings.iNickListFontHeight = max(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
 	for (int i = 0; i < 5; i++) {
@@ -269,7 +269,7 @@ int Chat_Load()
 {
 	CheckUpdate();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Message Sessions") _T("/") LPGENT("Group chats"), FONTMODE_ALTER };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Message Sessions") L"/" LPGENT("Group chats"), FONTMODE_ALTER };
 	mir_getCI(&data);
 	saveCI = *pci;
 	pci->OnCreateModule = OnCreateModule;

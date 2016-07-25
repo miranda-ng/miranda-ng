@@ -468,14 +468,14 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent)
 {
 	if (M.FindWindow(hContact) != 0) {
-		_DebugPopup(hContact, _T("Warning: trying to create duplicate window"));
+		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
 		return 0;
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6))
-		if ((pContainer = FindMatchingContainer(_T("default"))) == NULL)
-			if ((pContainer = CreateContainer(_T("default"), CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, L"default", 6))
+		if ((pContainer = FindMatchingContainer(L"default")) == NULL)
+			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
 
 	TNewWindowData newData = { 0 };
@@ -499,14 +499,14 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 		Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 	}
-	else _tcsncpy_s(newcontactname, _T("_U_"), _TRUNCATE);
+	else _tcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
-		mir_sntprintf(tabtitle, _T("%s (%s)  "), newcontactname, szStatus);
+		mir_sntprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
 	else
-		mir_sntprintf(tabtitle, _T("%s   "), newcontactname);
+		mir_sntprintf(tabtitle, L"%s   ", newcontactname);
 
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -621,10 +621,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName)
 {
 	int iMaxTabs = M.GetDword("maxtabs", 0);
-	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
+	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, L"default", 6)) {
 		// search a "default" with less than iMaxTabs opened...
 		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-			if (!_tcsncmp(p->szName, _T("default"), 6) && p->iChilds < iMaxTabs)
+			if (!_tcsncmp(p->szName, L"default", 6) && p->iChilds < iMaxTabs)
 				return p;
 
 		return NULL;
@@ -801,7 +801,7 @@ static int TSAPI SetupIconLibConfig()
 	int j = 2, version = 0;
 
 	TCHAR szFilename[MAX_PATH];
-	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
+	_tcsncpy(szFilename, L"icons\\tabsrmm_icons.dll", MAX_PATH);
 	g_hIconDLL = LoadLibrary(szFilename);
 	if (g_hIconDLL == 0) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
@@ -838,7 +838,7 @@ static int TSAPI SetupIconLibConfig()
 	sid.iDefaultIndex = -IDI_CLOCK;
 	IcoLib_AddIcon(&sid);
 
-	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
+	_tcsncpy(szFilename, L"plugins\\tabsrmm.dll", MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.description.a = LPGEN("Feature disabled (used as overlay)");
@@ -1069,7 +1069,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	TCHAR sztName[64];
-	mir_sntprintf(sztName, _T("s%u"), nextStgId++);
+	mir_sntprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

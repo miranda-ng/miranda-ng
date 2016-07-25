@@ -31,7 +31,7 @@
 
 #define RTF_CTABLE_DEFSIZE 8
 
-#define RTF_DEFAULT_HEADER _T("{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u")
+#define RTF_DEFAULT_HEADER L"{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u"
 
 #define CNT_KEYNAME "CNTW_Def"
 #define CNT_BASEKEYNAME "CNTW_"

@@ -164,11 +164,11 @@ void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsO
 		*unitsUsed = unitsOverride;
 	
 	switch (unitsOverride) {
-		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits ? _T(" ") : _T(""), appendUnits ? TranslateT("bytes") : _T("")); break;
-		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size / 1024.0, appendUnits ? _T(" KB") : _T("")); break;
-		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size / 1024), appendUnits ? _T(" KB") : _T("")); break;
-		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20) / 1024.0, appendUnits ? _T(" GB") : _T("")); break;
-		default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size / 1048576.0, appendUnits ? _T(" MB") : _T("")); break;
+		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, L"%u%s%s", (int)size, appendUnits ? L" " : L"", appendUnits ? TranslateT("bytes") : L""); break;
+		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, L"%.1lf%s", size / 1024.0, appendUnits ? L" KB" : L""); break;
+		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, L"%u%s", (int)(size / 1024), appendUnits ? L" KB" : L""); break;
+		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, L"%.3f%s", (size >> 20) / 1024.0, appendUnits ? L" GB" : L""); break;
+		default: mir_sntprintf(szOut, cchOut, L"%.2lf%s", size / 1048576.0, appendUnits ? L" MB" : L""); break;
 	}
 }
 
@@ -338,7 +338,7 @@ INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
 	GetContactReceivedFilesDir(hContact, szContRecDir, _countof(szContRecDir), TRUE);
-	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
+	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
 	return 0;
 }
 
@@ -346,7 +346,7 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
 	GetReceivedFilesDir(szContRecDir, _countof(szContRecDir));
-	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
+	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
 	return 0;
 }
 

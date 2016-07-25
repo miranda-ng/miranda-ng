@@ -35,9 +35,9 @@ bool g_bShutdown = false;
 
 CGlobals PluginConfig;
 
-static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, _T("%n (%s)"), 1, 0 };
+static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, L"%n (%s)", 1, 0 };
 
-TCHAR* CGlobals::m_default_container_name = _T("default");
+TCHAR* CGlobals::m_default_container_name = L"default";
 
 extern HANDLE 	hHookButtonPressedEvt;
 extern HANDLE 	hHookToolBarLoadedEvt;
@@ -304,7 +304,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
-	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, _T("TSHK"), _T(""), WS_POPUP,
+	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP,
 		0, 0, 40, 40, 0, 0, g_hInst, NULL);
 
 	::CreateTrayMenus(TRUE);
@@ -502,11 +502,11 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	::NEN_WriteOptions(&nen_options);
 	::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
 
-	::UnregisterClass(_T("TSStatusBarClass"), g_hInst);
-	::UnregisterClass(_T("SideBarClass"), g_hInst);
-	::UnregisterClass(_T("TSTabCtrlClass"), g_hInst);
-	::UnregisterClass(_T("RichEditTipClass"), g_hInst);
-	::UnregisterClass(_T("TSHK"), g_hInst);
+	::UnregisterClass(L"TSStatusBarClass", g_hInst);
+	::UnregisterClass(L"SideBarClass", g_hInst);
+	::UnregisterClass(L"TSTabCtrlClass", g_hInst);
+	::UnregisterClass(L"RichEditTipClass", g_hInst);
+	::UnregisterClass(L"TSHK", g_hInst);
 	return 0;
 }
 

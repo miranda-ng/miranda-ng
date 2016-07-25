@@ -275,7 +275,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
 {
-	HXML xmlNode = xmlParseString(mir_utf8decodeT(szContent), 0, _T("contacts"));
+	HXML xmlNode = xmlParseString(mir_utf8decodeT(szContent), 0, L"contacts");
 	if (xmlNode)
 	{
 		int nCount = 0;
@@ -287,7 +287,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 			nCount = 0;
 			for (int i = 0; i < xmlGetChildCount(xmlNode); i++)
 			{
-				HXML xmlContact = xmlGetNthChild(xmlNode, _T("c"), i);
+				HXML xmlContact = xmlGetNthChild(xmlNode, L"c", i);
 				if (xmlContact != NULL)
 				{
 					const TCHAR *tszContactId = xmlGetAttrValue(xmlContact, L"s");

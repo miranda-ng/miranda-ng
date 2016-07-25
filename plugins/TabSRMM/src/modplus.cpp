@@ -74,7 +74,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	bbd.pszModuleName = "Tabmodplus";
 	CallService(MS_BB_GETBUTTONSTATE, wParam, (LPARAM)&bbd);
 
-	TCHAR *pszText = _T("");
+	TCHAR *pszText = L"";
 	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
 	SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
@@ -128,7 +128,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 
 		bufSize = textlenght + 12;
 		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
-		mir_sntprintf(pszFormatedText, bufSize, _T("[img]%s[/img]"), pszText);
+		mir_sntprintf(pszFormatedText, bufSize, L"[img]%s[/img]", pszText);
 
 		bbd.ptszTooltip = 0;
 		bbd.hIcon = 0;
@@ -137,14 +137,14 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case 3:
-		pszFormatedText = _T("[img]");
+		pszFormatedText = L"[img]";
 
 		bbd.ptszTooltip = LPGENT("Insert [img] tag / surround selected text with [img][/img]");
 		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
 		break;
 
 	case 4:
-		pszFormatedText = _T("[/img]");
+		pszFormatedText = L"[/img]";
 
 		bbd.ptszTooltip = LPGENT("Insert [img] tag / surround selected text with [img][/img]");
 		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);

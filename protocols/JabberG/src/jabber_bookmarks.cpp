@@ -47,7 +47,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
 		TranslateDialogDefault(hwndDlg);
 		if (item = param->m_item) {
-			if (!mir_tstrcmp(item->type, _T("conference"))) {
+			if (!mir_tstrcmp(item->type, L"conference")) {
 				if (!_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
 					CheckDlgButton(hwndDlg, IDC_AGENT_RADIO, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
@@ -118,9 +118,9 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				item = param->ppro->ListAdd(LIST_BOOKMARK, roomJID);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_URL_RADIO) == BST_CHECKED)
-					replaceStrT(item->type, _T("url"));
+					replaceStrT(item->type, L"url");
 				else
-					replaceStrT(item->type, _T("conference"));
+					replaceStrT(item->type, L"conference");
 
 				GetDlgItemText(hwndDlg, IDC_NICK, text, _countof(text));
 				replaceStrT(item->nick, text);
@@ -265,7 +265,7 @@ void CJabberDlgBookmarks::UpdateData()
 
 	m_proto->m_ThreadInfo->send(
 		XmlNodeIq( m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
-			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(_T("storage"), _T("storage:bookmarks")));
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
 }
 
 void CJabberDlgBookmarks::OnInitDialog()
@@ -329,7 +329,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
 	if (item == NULL) return;
 
-	if (!mir_tstrcmpi(item->type, _T("conference"))) {
+	if (!mir_tstrcmpi(item->type, L"conference")) {
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
@@ -391,7 +391,7 @@ void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
 	LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 	{
 		if (item = m_proto->ListGetItemPtrFromIndex(i)) {
-			int itemType = mir_tstrcmpi(item->type, _T("conference")) ? 1 : 0;
+			int itemType = mir_tstrcmpi(item->type, L"conference") ? 1 : 0;
 			int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
 			m_lvBookmarks.SetItem(iItem, 1, item->jid);
 			if (itemType == 0)

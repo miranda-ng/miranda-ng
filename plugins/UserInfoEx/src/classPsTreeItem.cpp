@@ -31,7 +31,7 @@ BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hWnd, LPARAM lParam)
 {
 	 TCHAR szClass[64];
 	 GetClassName(hWnd, szClass, 64);
-	 if (!mir_tstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	 if (!mir_tstrcmp(szClass, L"Button") && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 			SendMessage(hWnd, WM_SETFONT, lParam, NULL);
 	 return TRUE;
 }
@@ -403,13 +403,13 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, _T("%s %d\\%s"), odp->ptszTitle, pPsh->_nSubContact+1, odp->ptszTab);
+				mir_sntprintf(szTitle, L"%s %d\\%s", odp->ptszTitle, pPsh->_nSubContact+1, odp->ptszTab);
 			else
-				mir_sntprintf(szTitle, _T("%s %d"), odp->ptszTitle, pPsh->_nSubContact+1);
+				mir_sntprintf(szTitle, L"%s %d", odp->ptszTitle, pPsh->_nSubContact+1);
 		}
 		else {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, _T("%s\\%s"), odp->ptszTitle, odp->ptszTab);
+				mir_sntprintf(szTitle, L"%s\\%s", odp->ptszTitle, odp->ptszTab);
 			else
 				mir_tstrcpy(szTitle, odp->ptszTitle);
 		}

@@ -389,13 +389,13 @@ static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 		szUniqueID = (TCHAR*)mir_alloc(40);
 		if (szUniqueID == NULL)
 			return NULL;
-		mir_sntprintf(szUniqueID, 20, _T("%p"), ai->fi->hContact);
+		mir_sntprintf(szUniqueID, 20, L"%p", ai->fi->hContact);
 	}
 
 	if (szUniqueID == NULL)
 		return NULL;
 
-	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detach();
+	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
 }
 
 static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
@@ -624,7 +624,7 @@ static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR ret[128];
-	return mir_tstrdup(TimeZone_ToStringT(time(NULL), _T("d s"), ret, _countof(ret)));
+	return mir_tstrdup(TimeZone_ToStringT(time(NULL), L"d s", ret, _countof(ret)));
 }
 
 static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
@@ -635,7 +635,7 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR corevar[MAX_PATH];
-	mir_sntprintf(corevar, _T("%%%s%%"), ai->targv[0]);
+	mir_sntprintf(corevar, L"%%%s%%", ai->targv[0]);
 	return Utils_ReplaceVarsT(corevar);
 }
 
@@ -647,24 +647,24 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 	if (!ServiceExists(_T2A(ai->targv[1])))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 void registerMirandaTokens()
 {
 	// global vars
-	registerIntToken(_T("miranda_path"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to Miranda root folder"));
-	registerIntToken(_T("miranda_profilesdir"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to folder containing Miranda profiles"));
-	registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("name of current Miranda profile (filename, without extension)"));
-	registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"));
-	registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache"));
-	registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs"));
+	registerIntToken(L"miranda_path", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to Miranda root folder"));
+	registerIntToken(L"miranda_profilesdir", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to folder containing Miranda profiles"));
+	registerIntToken(L"miranda_profilename", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("name of current Miranda profile (filename, without extension)"));
+	registerIntToken(L"miranda_userdata", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"));
+	registerIntToken(L"miranda_avatarcache", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache"));
+	registerIntToken(L"miranda_logpath", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs"));
 
 	// OS vars
-	registerIntToken(_T("appdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
-	registerIntToken(_T("username"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("username for currently logged-on Windows user"));
-	registerIntToken(_T("mydocuments"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
-	registerIntToken(_T("desktop"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
+	registerIntToken(L"appdata", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
+	registerIntToken(L"username", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("username for currently logged-on Windows user"));
+	registerIntToken(L"mydocuments", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
+	registerIntToken(L"desktop", parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
 
 	registerIntToken(CODETOSTATUS, parseCodeToStatus, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("translates status code x into a status description"));
 	registerIntToken(CONTACT, parseContact, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y,z)\t" LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));

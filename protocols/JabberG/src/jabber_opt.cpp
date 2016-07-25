@@ -33,194 +33,194 @@ static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account
 
-#define STR_FORMAT _T("%s %s@%S:%d?")
+#define STR_FORMAT L"%s %s@%S:%d?"
 
 struct { TCHAR *szCode; TCHAR *szDescription; } g_LanguageCodes[] = {
-	{ _T("aa"), LPGENT("Afar") },
-	{ _T("ab"), LPGENT("Abkhazian") },
-	{ _T("af"), LPGENT("Afrikaans") },
-	{ _T("ak"), LPGENT("Akan") },
-	{ _T("sq"), LPGENT("Albanian") },
-	{ _T("am"), LPGENT("Amharic") },
-	{ _T("ar"), LPGENT("Arabic") },
-	{ _T("an"), LPGENT("Aragonese") },
-	{ _T("hy"), LPGENT("Armenian") },
-	{ _T("as"), LPGENT("Assamese") },
-	{ _T("av"), LPGENT("Avaric") },
-	{ _T("ae"), LPGENT("Avestan") },
-	{ _T("ay"), LPGENT("Aymara") },
-	{ _T("az"), LPGENT("Azerbaijani") },
-	{ _T("ba"), LPGENT("Bashkir") },
-	{ _T("bm"), LPGENT("Bambara") },
-	{ _T("eu"), LPGENT("Basque") },
-	{ _T("be"), LPGENT("Belarusian") },
-	{ _T("bn"), LPGENT("Bengali") },
-	{ _T("bh"), LPGENT("Bihari") },
-	{ _T("bi"), LPGENT("Bislama") },
-	{ _T("bs"), LPGENT("Bosnian") },
-	{ _T("br"), LPGENT("Breton") },
-	{ _T("bg"), LPGENT("Bulgarian") },
-	{ _T("my"), LPGENT("Burmese") },
-	{ _T("ca"), LPGENT("Catalan; Valencian") },
-	{ _T("ch"), LPGENT("Chamorro") },
-	{ _T("ce"), LPGENT("Chechen") },
-	{ _T("zh"), LPGENT("Chinese") },
-	{ _T("cu"), LPGENT("Church Slavic; Old Slavonic") },
-	{ _T("cv"), LPGENT("Chuvash") },
-	{ _T("kw"), LPGENT("Cornish") },
-	{ _T("co"), LPGENT("Corsican") },
-	{ _T("cr"), LPGENT("Cree") },
-	{ _T("cs"), LPGENT("Czech") },
-	{ _T("da"), LPGENT("Danish") },
-	{ _T("dv"), LPGENT("Divehi; Dhivehi; Maldivian") },
-	{ _T("nl"), LPGENT("Dutch; Flemish") },
-	{ _T("dz"), LPGENT("Dzongkha") },
-	{ _T("en"), LPGENT("English") },
-	{ _T("eo"), LPGENT("Esperanto") },
-	{ _T("et"), LPGENT("Estonian") },
-	{ _T("ee"), LPGENT("Ewe") },
-	{ _T("fo"), LPGENT("Faroese") },
-	{ _T("fj"), LPGENT("Fijian") },
-	{ _T("fi"), LPGENT("Finnish") },
-	{ _T("fr"), LPGENT("French") },
-	{ _T("fy"), LPGENT("Western Frisian") },
-	{ _T("ff"), LPGENT("Fulah") },
-	{ _T("ka"), LPGENT("Georgian") },
-	{ _T("de"), LPGENT("German") },
-	{ _T("gd"), LPGENT("Gaelic; Scottish Gaelic") },
-	{ _T("ga"), LPGENT("Irish") },
-	{ _T("gl"), LPGENT("Galician") },
-	{ _T("gv"), LPGENT("Manx") },
-	{ _T("el"), LPGENT("Greek, Modern (1453-)") },
-	{ _T("gn"), LPGENT("Guarani") },
-	{ _T("gu"), LPGENT("Gujarati") },
-	{ _T("ht"), LPGENT("Haitian; Haitian Creole") },
-	{ _T("ha"), LPGENT("Hausa") },
-	{ _T("he"), LPGENT("Hebrew") },
-	{ _T("hz"), LPGENT("Herero") },
-	{ _T("hi"), LPGENT("Hindi") },
-	{ _T("ho"), LPGENT("Hiri Motu") },
-	{ _T("hu"), LPGENT("Hungarian") },
-	{ _T("ig"), LPGENT("Igbo") },
-	{ _T("is"), LPGENT("Icelandic") },
-	{ _T("io"), LPGENT("Ido") },
-	{ _T("ii"), LPGENT("Sichuan Yi") },
-	{ _T("iu"), LPGENT("Inuktitut") },
-	{ _T("ie"), LPGENT("Interlingue") },
-	{ _T("ia"), LPGENT("Interlingua (International Auxiliary Language Association)") },
-	{ _T("id"), LPGENT("Indonesian") },
-	{ _T("ik"), LPGENT("Inupiaq") },
-	{ _T("it"), LPGENT("Italian") },
-	{ _T("jv"), LPGENT("Javanese") },
-	{ _T("ja"), LPGENT("Japanese") },
-	{ _T("kl"), LPGENT("Kalaallisut; Greenlandic") },
-	{ _T("kn"), LPGENT("Kannada") },
-	{ _T("ks"), LPGENT("Kashmiri") },
-	{ _T("kr"), LPGENT("Kanuri") },
-	{ _T("kk"), LPGENT("Kazakh") },
-	{ _T("km"), LPGENT("Central Khmer") },
-	{ _T("ki"), LPGENT("Kikuyu; Gikuyu") },
-	{ _T("rw"), LPGENT("Kinyarwanda") },
-	{ _T("ky"), LPGENT("Kirghiz; Kyrgyz") },
-	{ _T("kv"), LPGENT("Komi") },
-	{ _T("kg"), LPGENT("Kongo") },
-	{ _T("ko"), LPGENT("Korean") },
-	{ _T("kj"), LPGENT("Kuanyama; Kwanyama") },
-	{ _T("ku"), LPGENT("Kurdish") },
-	{ _T("lo"), LPGENT("Lao") },
-	{ _T("la"), LPGENT("Latin") },
-	{ _T("lv"), LPGENT("Latvian") },
-	{ _T("li"), LPGENT("Limburgan; Limburger; Limburgish") },
-	{ _T("ln"), LPGENT("Lingala") },
-	{ _T("lt"), LPGENT("Lithuanian") },
-	{ _T("lb"), LPGENT("Luxembourgish; Letzeburgesch") },
-	{ _T("lu"), LPGENT("Luba-Katanga") },
-	{ _T("lg"), LPGENT("Ganda") },
-	{ _T("mk"), LPGENT("Macedonian") },
-	{ _T("mh"), LPGENT("Marshallese") },
-	{ _T("ml"), LPGENT("Malayalam") },
-	{ _T("mi"), LPGENT("Maori") },
-	{ _T("mr"), LPGENT("Marathi") },
-	{ _T("ms"), LPGENT("Malay") },
-	{ _T("mg"), LPGENT("Malagasy") },
-	{ _T("mt"), LPGENT("Maltese") },
-	{ _T("mo"), LPGENT("Moldavian") },
-	{ _T("mn"), LPGENT("Mongolian") },
-	{ _T("na"), LPGENT("Nauru") },
-	{ _T("nv"), LPGENT("Navajo; Navaho") },
-	{ _T("nr"), LPGENT("Ndebele, South; South Ndebele") },
-	{ _T("nd"), LPGENT("Ndebele, North; North Ndebele") },
-	{ _T("ng"), LPGENT("Ndonga") },
-	{ _T("ne"), LPGENT("Nepali") },
-	{ _T("nn"), LPGENT("Norwegian Nynorsk; Nynorsk, Norwegian") },
-	{ _T("nb"), LPGENT("Bokmaal, Norwegian; Norwegian Bokmaal") },
-	{ _T("no"), LPGENT("Norwegian") },
-	{ _T("ny"), LPGENT("Chichewa; Chewa; Nyanja") },
-	{ _T("oc"), LPGENT("Occitan (post 1500); Provencal") },
-	{ _T("oj"), LPGENT("Ojibwa") },
-	{ _T("or"), LPGENT("Oriya") },
-	{ _T("om"), LPGENT("Oromo") },
-	{ _T("os"), LPGENT("Ossetian; Ossetic") },
-	{ _T("pa"), LPGENT("Panjabi; Punjabi") },
-	{ _T("fa"), LPGENT("Persian") },
-	{ _T("pi"), LPGENT("Pali") },
-	{ _T("pl"), LPGENT("Polish") },
-	{ _T("pt"), LPGENT("Portuguese") },
-	{ _T("ps"), LPGENT("Pushto") },
-	{ _T("qu"), LPGENT("Quechua") },
-	{ _T("rm"), LPGENT("Romansh") },
-	{ _T("ro"), LPGENT("Romanian") },
-	{ _T("rn"), LPGENT("Rundi") },
-	{ _T("ru"), LPGENT("Russian") },
-	{ _T("sg"), LPGENT("Sango") },
-	{ _T("sa"), LPGENT("Sanskrit") },
-	{ _T("sr"), LPGENT("Serbian") },
-	{ _T("hr"), LPGENT("Croatian") },
-	{ _T("si"), LPGENT("Sinhala; Sinhalese") },
-	{ _T("sk"), LPGENT("Slovak") },
-	{ _T("sl"), LPGENT("Slovenian") },
-	{ _T("se"), LPGENT("Northern Sami") },
-	{ _T("sm"), LPGENT("Samoan") },
-	{ _T("sn"), LPGENT("Shona") },
-	{ _T("sd"), LPGENT("Sindhi") },
-	{ _T("so"), LPGENT("Somali") },
-	{ _T("st"), LPGENT("Sotho, Southern") },
-	{ _T("es"), LPGENT("Spanish; Castilian") },
-	{ _T("sc"), LPGENT("Sardinian") },
-	{ _T("ss"), LPGENT("Swati") },
-	{ _T("su"), LPGENT("Sundanese") },
-	{ _T("sw"), LPGENT("Swahili") },
-	{ _T("sv"), LPGENT("Swedish") },
-	{ _T("ty"), LPGENT("Tahitian") },
-	{ _T("ta"), LPGENT("Tamil") },
-	{ _T("tt"), LPGENT("Tatar") },
-	{ _T("te"), LPGENT("Telugu") },
-	{ _T("tg"), LPGENT("Tajik") },
-	{ _T("tl"), LPGENT("Tagalog") },
-	{ _T("th"), LPGENT("Thai") },
-	{ _T("bo"), LPGENT("Tibetan") },
-	{ _T("ti"), LPGENT("Tigrinya") },
-	{ _T("to"), LPGENT("Tonga (Tonga Islands)") },
-	{ _T("tn"), LPGENT("Tswana") },
-	{ _T("ts"), LPGENT("Tsonga") },
-	{ _T("tk"), LPGENT("Turkmen") },
-	{ _T("tr"), LPGENT("Turkish") },
-	{ _T("tw"), LPGENT("Twi") },
-	{ _T("ug"), LPGENT("Uighur; Uyghur") },
-	{ _T("uk"), LPGENT("Ukrainian") },
-	{ _T("ur"), LPGENT("Urdu") },
-	{ _T("uz"), LPGENT("Uzbek") },
-	{ _T("ve"), LPGENT("Venda") },
-	{ _T("vi"), LPGENT("Vietnamese") },
-	{ _T("vo"), LPGENT("Volapuk") },
-	{ _T("cy"), LPGENT("Welsh") },
-	{ _T("wa"), LPGENT("Walloon") },
-	{ _T("wo"), LPGENT("Wolof") },
-	{ _T("xh"), LPGENT("Xhosa") },
-	{ _T("yi"), LPGENT("Yiddish") },
-	{ _T("yo"), LPGENT("Yoruba") },
-	{ _T("za"), LPGENT("Zhuang; Chuang") },
-	{ _T("zu"), LPGENT("Zulu") },
+	{ L"aa", LPGENT("Afar") },
+	{ L"ab", LPGENT("Abkhazian") },
+	{ L"af", LPGENT("Afrikaans") },
+	{ L"ak", LPGENT("Akan") },
+	{ L"sq", LPGENT("Albanian") },
+	{ L"am", LPGENT("Amharic") },
+	{ L"ar", LPGENT("Arabic") },
+	{ L"an", LPGENT("Aragonese") },
+	{ L"hy", LPGENT("Armenian") },
+	{ L"as", LPGENT("Assamese") },
+	{ L"av", LPGENT("Avaric") },
+	{ L"ae", LPGENT("Avestan") },
+	{ L"ay", LPGENT("Aymara") },
+	{ L"az", LPGENT("Azerbaijani") },
+	{ L"ba", LPGENT("Bashkir") },
+	{ L"bm", LPGENT("Bambara") },
+	{ L"eu", LPGENT("Basque") },
+	{ L"be", LPGENT("Belarusian") },
+	{ L"bn", LPGENT("Bengali") },
+	{ L"bh", LPGENT("Bihari") },
+	{ L"bi", LPGENT("Bislama") },
+	{ L"bs", LPGENT("Bosnian") },
+	{ L"br", LPGENT("Breton") },
+	{ L"bg", LPGENT("Bulgarian") },
+	{ L"my", LPGENT("Burmese") },
+	{ L"ca", LPGENT("Catalan; Valencian") },
+	{ L"ch", LPGENT("Chamorro") },
+	{ L"ce", LPGENT("Chechen") },
+	{ L"zh", LPGENT("Chinese") },
+	{ L"cu", LPGENT("Church Slavic; Old Slavonic") },
+	{ L"cv", LPGENT("Chuvash") },
+	{ L"kw", LPGENT("Cornish") },
+	{ L"co", LPGENT("Corsican") },
+	{ L"cr", LPGENT("Cree") },
+	{ L"cs", LPGENT("Czech") },
+	{ L"da", LPGENT("Danish") },
+	{ L"dv", LPGENT("Divehi; Dhivehi; Maldivian") },
+	{ L"nl", LPGENT("Dutch; Flemish") },
+	{ L"dz", LPGENT("Dzongkha") },
+	{ L"en", LPGENT("English") },
+	{ L"eo", LPGENT("Esperanto") },
+	{ L"et", LPGENT("Estonian") },
+	{ L"ee", LPGENT("Ewe") },
+	{ L"fo", LPGENT("Faroese") },
+	{ L"fj", LPGENT("Fijian") },
+	{ L"fi", LPGENT("Finnish") },
+	{ L"fr", LPGENT("French") },
+	{ L"fy", LPGENT("Western Frisian") },
+	{ L"ff", LPGENT("Fulah") },
+	{ L"ka", LPGENT("Georgian") },
+	{ L"de", LPGENT("German") },
+	{ L"gd", LPGENT("Gaelic; Scottish Gaelic") },
+	{ L"ga", LPGENT("Irish") },
+	{ L"gl", LPGENT("Galician") },
+	{ L"gv", LPGENT("Manx") },
+	{ L"el", LPGENT("Greek, Modern (1453-)") },
+	{ L"gn", LPGENT("Guarani") },
+	{ L"gu", LPGENT("Gujarati") },
+	{ L"ht", LPGENT("Haitian; Haitian Creole") },
+	{ L"ha", LPGENT("Hausa") },
+	{ L"he", LPGENT("Hebrew") },
+	{ L"hz", LPGENT("Herero") },
+	{ L"hi", LPGENT("Hindi") },
+	{ L"ho", LPGENT("Hiri Motu") },
+	{ L"hu", LPGENT("Hungarian") },
+	{ L"ig", LPGENT("Igbo") },
+	{ L"is", LPGENT("Icelandic") },
+	{ L"io", LPGENT("Ido") },
+	{ L"ii", LPGENT("Sichuan Yi") },
+	{ L"iu", LPGENT("Inuktitut") },
+	{ L"ie", LPGENT("Interlingue") },
+	{ L"ia", LPGENT("Interlingua (International Auxiliary Language Association)") },
+	{ L"id", LPGENT("Indonesian") },
+	{ L"ik", LPGENT("Inupiaq") },
+	{ L"it", LPGENT("Italian") },
+	{ L"jv", LPGENT("Javanese") },
+	{ L"ja", LPGENT("Japanese") },
+	{ L"kl", LPGENT("Kalaallisut; Greenlandic") },
+	{ L"kn", LPGENT("Kannada") },
+	{ L"ks", LPGENT("Kashmiri") },
+	{ L"kr", LPGENT("Kanuri") },
+	{ L"kk", LPGENT("Kazakh") },
+	{ L"km", LPGENT("Central Khmer") },
+	{ L"ki", LPGENT("Kikuyu; Gikuyu") },
+	{ L"rw", LPGENT("Kinyarwanda") },
+	{ L"ky", LPGENT("Kirghiz; Kyrgyz") },
+	{ L"kv", LPGENT("Komi") },
+	{ L"kg", LPGENT("Kongo") },
+	{ L"ko", LPGENT("Korean") },
+	{ L"kj", LPGENT("Kuanyama; Kwanyama") },
+	{ L"ku", LPGENT("Kurdish") },
+	{ L"lo", LPGENT("Lao") },
+	{ L"la", LPGENT("Latin") },
+	{ L"lv", LPGENT("Latvian") },
+	{ L"li", LPGENT("Limburgan; Limburger; Limburgish") },
+	{ L"ln", LPGENT("Lingala") },
+	{ L"lt", LPGENT("Lithuanian") },
+	{ L"lb", LPGENT("Luxembourgish; Letzeburgesch") },
+	{ L"lu", LPGENT("Luba-Katanga") },
+	{ L"lg", LPGENT("Ganda") },
+	{ L"mk", LPGENT("Macedonian") },
+	{ L"mh", LPGENT("Marshallese") },
+	{ L"ml", LPGENT("Malayalam") },
+	{ L"mi", LPGENT("Maori") },
+	{ L"mr", LPGENT("Marathi") },
+	{ L"ms", LPGENT("Malay") },
+	{ L"mg", LPGENT("Malagasy") },
+	{ L"mt", LPGENT("Maltese") },
+	{ L"mo", LPGENT("Moldavian") },
+	{ L"mn", LPGENT("Mongolian") },
+	{ L"na", LPGENT("Nauru") },
+	{ L"nv", LPGENT("Navajo; Navaho") },
+	{ L"nr", LPGENT("Ndebele, South; South Ndebele") },
+	{ L"nd", LPGENT("Ndebele, North; North Ndebele") },
+	{ L"ng", LPGENT("Ndonga") },
+	{ L"ne", LPGENT("Nepali") },
+	{ L"nn", LPGENT("Norwegian Nynorsk; Nynorsk, Norwegian") },
+	{ L"nb", LPGENT("Bokmaal, Norwegian; Norwegian Bokmaal") },
+	{ L"no", LPGENT("Norwegian") },
+	{ L"ny", LPGENT("Chichewa; Chewa; Nyanja") },
+	{ L"oc", LPGENT("Occitan (post 1500); Provencal") },
+	{ L"oj", LPGENT("Ojibwa") },
+	{ L"or", LPGENT("Oriya") },
+	{ L"om", LPGENT("Oromo") },
+	{ L"os", LPGENT("Ossetian; Ossetic") },
+	{ L"pa", LPGENT("Panjabi; Punjabi") },
+	{ L"fa", LPGENT("Persian") },
+	{ L"pi", LPGENT("Pali") },
+	{ L"pl", LPGENT("Polish") },
+	{ L"pt", LPGENT("Portuguese") },
+	{ L"ps", LPGENT("Pushto") },
+	{ L"qu", LPGENT("Quechua") },
+	{ L"rm", LPGENT("Romansh") },
+	{ L"ro", LPGENT("Romanian") },
+	{ L"rn", LPGENT("Rundi") },
+	{ L"ru", LPGENT("Russian") },
+	{ L"sg", LPGENT("Sango") },
+	{ L"sa", LPGENT("Sanskrit") },
+	{ L"sr", LPGENT("Serbian") },
+	{ L"hr", LPGENT("Croatian") },
+	{ L"si", LPGENT("Sinhala; Sinhalese") },
+	{ L"sk", LPGENT("Slovak") },
+	{ L"sl", LPGENT("Slovenian") },
+	{ L"se", LPGENT("Northern Sami") },
+	{ L"sm", LPGENT("Samoan") },
+	{ L"sn", LPGENT("Shona") },
+	{ L"sd", LPGENT("Sindhi") },
+	{ L"so", LPGENT("Somali") },
+	{ L"st", LPGENT("Sotho, Southern") },
+	{ L"es", LPGENT("Spanish; Castilian") },
+	{ L"sc", LPGENT("Sardinian") },
+	{ L"ss", LPGENT("Swati") },
+	{ L"su", LPGENT("Sundanese") },
+	{ L"sw", LPGENT("Swahili") },
+	{ L"sv", LPGENT("Swedish") },
+	{ L"ty", LPGENT("Tahitian") },
+	{ L"ta", LPGENT("Tamil") },
+	{ L"tt", LPGENT("Tatar") },
+	{ L"te", LPGENT("Telugu") },
+	{ L"tg", LPGENT("Tajik") },
+	{ L"tl", LPGENT("Tagalog") },
+	{ L"th", LPGENT("Thai") },
+	{ L"bo", LPGENT("Tibetan") },
+	{ L"ti", LPGENT("Tigrinya") },
+	{ L"to", LPGENT("Tonga (Tonga Islands)") },
+	{ L"tn", LPGENT("Tswana") },
+	{ L"ts", LPGENT("Tsonga") },
+	{ L"tk", LPGENT("Turkmen") },
+	{ L"tr", LPGENT("Turkish") },
+	{ L"tw", LPGENT("Twi") },
+	{ L"ug", LPGENT("Uighur; Uyghur") },
+	{ L"uk", LPGENT("Ukrainian") },
+	{ L"ur", LPGENT("Urdu") },
+	{ L"uz", LPGENT("Uzbek") },
+	{ L"ve", LPGENT("Venda") },
+	{ L"vi", LPGENT("Vietnamese") },
+	{ L"vo", LPGENT("Volapuk") },
+	{ L"cy", LPGENT("Welsh") },
+	{ L"wa", LPGENT("Walloon") },
+	{ L"wo", LPGENT("Wolof") },
+	{ L"xh", LPGENT("Xhosa") },
+	{ L"yi", LPGENT("Yiddish") },
+	{ L"yo", LPGENT("Yoruba") },
+	{ L"za", LPGENT("Zhuang; Chuang") },
+	{ L"zu", LPGENT("Zulu") },
 	{ NULL, NULL }
 };
 
@@ -331,7 +331,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 
 static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
 {
-	ppro->setTString("jid", CMString(FORMAT, _T("%s@%s"), ptrT(txtUsername.GetText()), ptrT(cbServer.GetText())));
+	ppro->setTString("jid", CMString(FORMAT, L"%s@%s", ptrT(txtUsername.GetText()), ptrT(cbServer.GetText())));
 }
 
 class CDlgOptAccount : public CJabberDlgBase
@@ -388,22 +388,22 @@ public:
 		m_gotservers(false),
 		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "https://xmpp.net/directory.php")
 	{
-		CreateLink(m_txtUsername, "LoginName", _T(""));
+		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
-		CreateLink(m_cbResource, "Resource", _T("Miranda"));
+		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_chkUseHostnameAsResource, proto->m_options.HostNameAsResource);
 		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
-		CreateLink(m_cbServer, "LoginServer", _T("jabber.org"));
+		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseSsl, proto->m_options.UseSSL);
 		CreateLink(m_chkUseTls, proto->m_options.UseTLS);
 		CreateLink(m_chkManualHost, proto->m_options.ManualConnect);
-		CreateLink(m_txtManualHost, "ManualHost", _T(""));
+		CreateLink(m_txtManualHost, "ManualHost", L"");
 		CreateLink(m_txtManualPort, "ManualPort", DBVT_WORD, 0);
 		CreateLink(m_chkKeepAlive, proto->m_options.KeepAlive);
 		CreateLink(m_chkAutoDeleteContacts, proto->m_options.RosterSync);
-		CreateLink(m_txtUserDirectory, "Jud", _T(""));
+		CreateLink(m_txtUserDirectory, "Jud", L"");
 
 		// Bind events
 		m_cbServer.OnDropdown = Callback(this, &CDlgOptAccount::cbServer_OnDropdown);
@@ -434,7 +434,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
+		TCHAR *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
 		for (int i = 0; i < _countof(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -450,7 +450,7 @@ protected:
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
 		}
-		else m_cbResource.SetText(_T("Miranda"));
+		else m_cbResource.SetText(L"Miranda");
 
 		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
@@ -571,8 +571,8 @@ private:
 
 		if (res == IDYES)
 			m_proto->m_ThreadInfo->send(
-			XmlNodeIq(_T("set"), m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
-			<< XCHILD(_T("remove")));
+			XmlNodeIq(L"set", m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
+			<< XCHILD(L"remove"));
 	}
 
 	void btnChangePassword_OnClick(CCtrlButton *)
@@ -631,8 +631,8 @@ private:
 		m_txtUsername.Enable(!checked);
 		m_chkSavePassword.Enable(!checked);
 		if (checked) {
-			m_txtPassword.SetText(_T(""));
-			m_txtUsername.SetText(_T(""));
+			m_txtPassword.SetText(L"");
+			m_txtUsername.SetText(L"");
 			m_chkSavePassword.SetState(BST_CHECKED);
 		}
 	}
@@ -697,8 +697,8 @@ private:
 				if (!n)
 					break;
 
-				if (!mir_tstrcmp(XmlGetName(n), _T("item")))
-					if (const TCHAR *jid = XmlGetAttrValue(n, _T("jid")))
+				if (!mir_tstrcmp(XmlGetName(n), L"item"))
+					if (const TCHAR *jid = XmlGetAttrValue(n, L"jid"))
 						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 							m_cbServer.AddString(jid);
 			}
@@ -732,7 +732,7 @@ private:
 				TCHAR *buf = mir_a2t(result->pData);
 				XmlNode node(buf, NULL, NULL);
 				if (node) {
-					HXML queryNode = XmlGetChild(node, _T("query"));
+					HXML queryNode = XmlGetChild(node, L"query");
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
 				}
@@ -776,41 +776,41 @@ public:
 		CreateLink(m_chkDirect, proto->m_options.BsDirect);
 		CreateLink(m_chkDirectManual, proto->m_options.BsDirectManual);
 		CreateLink(m_chkProxy, proto->m_options.BsProxyManual);
-		CreateLink(m_txtDirect, "BsDirectAddr", _T(""));
-		CreateLink(m_txtProxy, "BsProxyServer", _T(""));
+		CreateLink(m_txtDirect, "BsDirectAddr", L"");
+		CreateLink(m_txtProxy, "BsProxyServer", L"");
 
 		m_chkDirect.OnChange =
 			m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
 		m_chkProxy.OnChange = Callback(this, &CDlgOptAdvanced::chkProxy_OnChange);
 
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Send messages slower, but with full acknowledgment"), m_proto->m_options.MsgAck);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable avatars"), m_proto->m_options.EnableAvatars);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log chat state changes"), m_proto->m_options.LogChatstates);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log presence subscription state changes"), m_proto->m_options.LogPresence);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log presence errors"), m_proto->m_options.LogPresenceErrors);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user moods receiving"), m_proto->m_options.EnableUserMood);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user tunes receiving"), m_proto->m_options.EnableUserTune);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user activity receiving"), m_proto->m_options.EnableUserActivity);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Receive notes"), m_proto->m_options.AcceptNotes);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Automatically save received notes"), m_proto->m_options.AutosaveNotes);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable server-side history"), m_proto->m_options.EnableMsgArchive);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Send messages slower, but with full acknowledgment"), m_proto->m_options.MsgAck);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Enable avatars"), m_proto->m_options.EnableAvatars);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Log chat state changes"), m_proto->m_options.LogChatstates);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Log presence subscription state changes"), m_proto->m_options.LogPresence);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Log presence errors"), m_proto->m_options.LogPresenceErrors);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Enable user moods receiving"), m_proto->m_options.EnableUserMood);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Enable user tunes receiving"), m_proto->m_options.EnableUserTune);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Enable user activity receiving"), m_proto->m_options.EnableUserActivity);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Receive notes"), m_proto->m_options.AcceptNotes);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Automatically save received notes"), m_proto->m_options.AutosaveNotes);
+		m_otvOptions.AddOption(LPGENT("Messaging") L"/" LPGENT("Enable server-side history"), m_proto->m_options.EnableMsgArchive);
 
-		m_otvOptions.AddOption(LPGENT("Server options") _T("/") LPGENT("Disable SASL authentication (for old servers)"), m_proto->m_options.Disable3920auth);
-		m_otvOptions.AddOption(LPGENT("Server options") _T("/") LPGENT("Enable stream compression (if possible)"), m_proto->m_options.EnableZlib);
+		m_otvOptions.AddOption(LPGENT("Server options") L"/" LPGENT("Disable SASL authentication (for old servers)"), m_proto->m_options.Disable3920auth);
+		m_otvOptions.AddOption(LPGENT("Server options") L"/" LPGENT("Enable stream compression (if possible)"), m_proto->m_options.EnableZlib);
 
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Enable remote controlling (from another resource of same JID only)"), m_proto->m_options.EnableRemoteControl);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Show transport agents on contact list"), m_proto->m_options.ShowTransport);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Automatically add contact when accept authorization"), m_proto->m_options.AutoAdd);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Automatically accept authorization requests"), m_proto->m_options.AutoAcceptAuthorization);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Fix incorrect timestamps in incoming messages"), m_proto->m_options.FixIncorrectTimestamps);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Disable frame"), m_proto->m_options.DisableFrame);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_options.ProcessXMPPLinks);
-		m_otvOptions.AddOption(LPGENT("Other") _T("/") LPGENT("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_options.IgnoreRosterGroups);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Enable remote controlling (from another resource of same JID only)"), m_proto->m_options.EnableRemoteControl);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Show transport agents on contact list"), m_proto->m_options.ShowTransport);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Automatically add contact when accept authorization"), m_proto->m_options.AutoAdd);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Automatically accept authorization requests"), m_proto->m_options.AutoAcceptAuthorization);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Fix incorrect timestamps in incoming messages"), m_proto->m_options.FixIncorrectTimestamps);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Disable frame"), m_proto->m_options.DisableFrame);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_options.ProcessXMPPLinks);
+		m_otvOptions.AddOption(LPGENT("Other") L"/" LPGENT("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_options.IgnoreRosterGroups);
 
-		m_otvOptions.AddOption(LPGENT("Security") _T("/") LPGENT("Allow servers to request version (XEP-0092)"), m_proto->m_options.AllowVersionRequests);
-		m_otvOptions.AddOption(LPGENT("Security") _T("/") LPGENT("Show information about operating system in version replies"), m_proto->m_options.ShowOSVersion);
-		m_otvOptions.AddOption(LPGENT("Security") _T("/") LPGENT("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_options.BsOnlyIBB);
-		m_otvOptions.AddOption(LPGENT("Security") _T("/") LPGENT("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_options.AcceptHttpAuth);
+		m_otvOptions.AddOption(LPGENT("Security") L"/" LPGENT("Allow servers to request version (XEP-0092)"), m_proto->m_options.AllowVersionRequests);
+		m_otvOptions.AddOption(LPGENT("Security") L"/" LPGENT("Show information about operating system in version replies"), m_proto->m_options.ShowOSVersion);
+		m_otvOptions.AddOption(LPGENT("Security") L"/" LPGENT("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_options.BsOnlyIBB);
+		m_otvOptions.AddOption(LPGENT("Security") L"/" LPGENT("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_options.AcceptHttpAuth);
 	}
 
 	void OnInitDialog()
@@ -896,21 +896,21 @@ public:
 		m_txtQuit(this, IDC_TXT_QUIT),
 		m_otvOptions(this, IDC_OPTTREE)
 	{
-		CreateLink(m_txtAltNick, "GcAltNick", _T(""));
+		CreateLink(m_txtAltNick, "GcAltNick", L"");
 		CreateLink(m_txtSlap, "GcMsgSlap", TranslateTS(JABBER_GC_MSG_SLAP));
 		CreateLink(m_txtQuit, "GcMsgQuit", TranslateTS(JABBER_GC_MSG_QUIT));
 
-		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Autoaccept multiuser chat invitations"),   m_proto->m_options.AutoAcceptMUC);
-		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Automatically join bookmarks on login"),   m_proto->m_options.AutoJoinBookmarks);
-		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Automatically join conferences on login"), m_proto->m_options.AutoJoinConferences);
-		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Hide conference windows at startup"),      m_proto->m_options.AutoJoinHidden);
-		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Do not show multiuser chat invitations"),  m_proto->m_options.IgnoreMUCInvites);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Ban notifications"),                    m_proto->m_options.GcLogBans);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Room configuration changes"),           m_proto->m_options.GcLogConfig);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Role changes"),                         m_proto->m_options.GcLogRoles);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
-		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
+		m_otvOptions.AddOption(LPGENT("General") L"/" LPGENT("Autoaccept multiuser chat invitations"),   m_proto->m_options.AutoAcceptMUC);
+		m_otvOptions.AddOption(LPGENT("General") L"/" LPGENT("Automatically join bookmarks on login"),   m_proto->m_options.AutoJoinBookmarks);
+		m_otvOptions.AddOption(LPGENT("General") L"/" LPGENT("Automatically join conferences on login"), m_proto->m_options.AutoJoinConferences);
+		m_otvOptions.AddOption(LPGENT("General") L"/" LPGENT("Hide conference windows at startup"),      m_proto->m_options.AutoJoinHidden);
+		m_otvOptions.AddOption(LPGENT("General") L"/" LPGENT("Do not show multiuser chat invitations"),  m_proto->m_options.IgnoreMUCInvites);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Ban notifications"),                    m_proto->m_options.GcLogBans);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Room configuration changes"),           m_proto->m_options.GcLogConfig);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Role changes"),                         m_proto->m_options.GcLogRoles);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
+		m_otvOptions.AddOption(LPGENT("Log events") L"/" LPGENT("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
 	}
 };
 
@@ -1000,16 +1000,16 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 		if (query == NULL) return;
 		int i = 1;
 		while (TRUE) {
-			HXML item = XmlGetNthChild(query, _T("item"), i++);
+			HXML item = XmlGetNthChild(query, L"item", i++);
 			if (item == NULL)
 				break;
 
-			const TCHAR *jid = XmlGetAttrValue(item, _T("jid"));
+			const TCHAR *jid = XmlGetAttrValue(item, L"jid");
 			if (jid == NULL)
 				continue;
 
-			const TCHAR *name = XmlGetAttrValue(item, _T("name"));
-			const TCHAR *subscription = XmlGetAttrValue(item, _T("subscription"));
+			const TCHAR *name = XmlGetAttrValue(item, L"name");
+			const TCHAR *subscription = XmlGetAttrValue(item, L"subscription");
 			const TCHAR *group = XmlGetText(XmlGetChild(item, "group"));
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
@@ -1050,15 +1050,15 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 		XmlNodeIq iq(AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
 
-		HXML query = iq << XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER);
+		HXML query = iq << XCHILDNS(L"query", JABBER_FEAT_IQ_ROSTER);
 
 		int itemCount = 0;
 		int ListItemCount = ListView_GetItemCount(hList);
 		for (int index = 0; index < ListItemCount; index++) {
-			TCHAR jid[JABBER_MAX_JID_LEN] = _T("");
-			TCHAR name[260] = _T("");
-			TCHAR group[260] = _T("");
-			TCHAR subscr[260] = _T("");
+			TCHAR jid[JABBER_MAX_JID_LEN] = L"";
+			TCHAR name[260] = L"";
+			TCHAR group[260] = L"";
+			TCHAR subscr[260] = L"";
 			ListView_GetItemText(hList, index, 0, jid, _countof(jid));
 			ListView_GetItemText(hList, index, 1, name, _countof(name));
 			ListView_GetItemText(hList, index, 2, group, _countof(group));
@@ -1067,17 +1067,17 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			BOOL bRemove = !ListView_GetCheckState(hList, index);
 			if (itemRoster && bRemove) {
 				//delete item
-				query << XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), _T("remove"));
+				query << XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove");
 				itemCount++;
 			}
 			else if (!bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
-					const TCHAR *rosterName = XmlGetAttrValue(itemRoster, _T("name"));
+					const TCHAR *rosterName = XmlGetAttrValue(itemRoster, L"name");
 					if ((rosterName != NULL || name[0] != 0) && mir_tstrcmpi(rosterName, name))
 						bPushed = TRUE;
 					if (!bPushed) {
-						rosterName = XmlGetAttrValue(itemRoster, _T("subscription"));
+						rosterName = XmlGetAttrValue(itemRoster, L"subscription");
 						if ((rosterName != NULL || subscr[0] != 0) && mir_tstrcmpi(rosterName, subscr))
 							bPushed = TRUE;
 					}
@@ -1088,12 +1088,12 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 					}
 				}
 				if (bPushed) {
-					HXML item = query << XCHILD(_T("item"));
+					HXML item = query << XCHILD(L"item");
 					if (mir_tstrlen(group))
-						item << XCHILD(_T("group"), group);
+						item << XCHILD(L"group", group);
 					if (mir_tstrlen(name))
-						item << XATTR(_T("name"), name);
-					item << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), subscr[0] ? subscr : _T("none"));
+						item << XATTR(L"name", name);
+					item << XATTR(L"jid", jid) << XATTR(L"subscription", subscr[0] ? subscr : L"none");
 					itemCount++;
 				}
 			}
@@ -1120,7 +1120,7 @@ void CJabberProto::_RosterSendRequest(HWND hwndDlg, BYTE rrAction)
 
 	m_ThreadInfo->send(
 		XmlNodeIq(AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_GET))
-		<< XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
+		<< XCHILDNS(L"query", JABBER_FEAT_IQ_ROSTER));
 }
 
 static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)
@@ -1179,7 +1179,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	TCHAR filename[MAX_PATH] = { 0 };
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _T("%s (*.xml)%c*.xml%c%c"), TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
+	mir_sntprintf(filter, L"%s (*.xml)%c*.xml%c%c", TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
@@ -1189,41 +1189,41 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	ofn.Flags = OFN_HIDEREADONLY;
 	ofn.nMaxFile = _countof(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = _T("xml");
+	ofn.lpstrDefExt = L"xml";
 	if (!GetSaveFileName(&ofn)) return;
 
-	FILE * fp = fopent(filename, _T("w"));
+	FILE * fp = fopent(filename, L"w");
 	if (!fp) return;
 	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
 	int ListItemCount = ListView_GetItemCount(hList);
 
-	XmlNode root(_T("Workbook"));
-	root << XATTR(_T("xmlns"), _T("urn:schemas-microsoft-com:office:spreadsheet"))
-	     << XATTR(_T("xmlns:o"), _T("urn:schemas-microsoft-com:office:office"))
-	     << XATTR(_T("xmlns:x"), _T("urn:schemas-microsoft-com:office:excel"))
-	     << XATTR(_T("xmlns:ss"), _T("urn:schemas-microsoft-com:office:spreadsheet"))
-	     << XATTR(_T("xmlns:html"), _T("http://www.w3.org/TR/REC-html40"));
-	root << XCHILD(_T("ExcelWorkbook"))
-	     << XATTR(_T("xmlns"), _T("urn:schemas-microsoft-com:office:excel"));
-	HXML table = root << XCHILD(_T("Worksheet")) << XATTR(_T("ss:Name"), _T("Exported roster"))
-	                  << XCHILD(_T("Table"));
+	XmlNode root(L"Workbook");
+	root << XATTR(L"xmlns", L"urn:schemas-microsoft-com:office:spreadsheet")
+	     << XATTR(L"xmlns:o", L"urn:schemas-microsoft-com:office:office")
+	     << XATTR(L"xmlns:x", L"urn:schemas-microsoft-com:office:excel")
+	     << XATTR(L"xmlns:ss", L"urn:schemas-microsoft-com:office:spreadsheet")
+	     << XATTR(L"xmlns:html", L"http://www.w3.org/TR/REC-html40");
+	root << XCHILD(L"ExcelWorkbook")
+	     << XATTR(L"xmlns", L"urn:schemas-microsoft-com:office:excel");
+	HXML table = root << XCHILD(L"Worksheet") << XATTR(L"ss:Name", L"Exported roster")
+	                  << XCHILD(L"Table");
 
 	for (int index = 0; index < ListItemCount; index++) {
-		TCHAR jid[JABBER_MAX_JID_LEN] = _T("");
-		TCHAR name[260] = _T("");
-		TCHAR group[260] = _T("");
-		TCHAR subscr[260] = _T("");
+		TCHAR jid[JABBER_MAX_JID_LEN] = L"";
+		TCHAR name[260] = L"";
+		TCHAR group[260] = L"";
+		TCHAR subscr[260] = L"";
 		ListView_GetItemText(hList, index, 0, jid, _countof(jid));
 		ListView_GetItemText(hList, index, 1, name, _countof(name));
 		ListView_GetItemText(hList, index, 2, group, _countof(group));
 		ListView_GetItemText(hList, index, 3, subscr, _countof(subscr));
 
-		HXML node = table << XCHILD(_T("Row"));
-		node << XCHILD(_T("Cell")) << XCHILD(_T("Data"), _T("+")) << XATTR(_T("ss:Type"), _T("String"));
-		node << XCHILD(_T("Cell")) << XCHILD(_T("Data"), jid) << XATTR(_T("ss:Type"), _T("String"));
-		node << XCHILD(_T("Cell")) << XCHILD(_T("Data"), name) << XATTR(_T("ss:Type"), _T("String"));
-		node << XCHILD(_T("Cell")) << XCHILD(_T("Data"), group) << XATTR(_T("ss:Type"), _T("String"));
-		node << XCHILD(_T("Cell")) << XCHILD(_T("Data"), subscr) << XATTR(_T("ss:Type"), _T("String"));
+		HXML node = table << XCHILD(L"Row");
+		node << XCHILD(L"Cell") << XCHILD(L"Data", L"+") << XATTR(L"ss:Type", L"String");
+		node << XCHILD(L"Cell") << XCHILD(L"Data", jid) << XATTR(L"ss:Type", L"String");
+		node << XCHILD(L"Cell") << XCHILD(L"Data", name) << XATTR(L"ss:Type", L"String");
+		node << XCHILD(L"Cell") << XCHILD(L"Data", group) << XATTR(L"ss:Type", L"String");
+		node << XCHILD(L"Cell") << XCHILD(L"Data", subscr) << XATTR(L"ss:Type", L"String");
 
 	}
 
@@ -1274,7 +1274,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	int nBytesProcessed = 0;
 	XmlNode node(newBuf, &nBytesProcessed, NULL);
 	if (node) {
-		HXML Workbook = XmlGetChild(node, _T("Workbook"));
+		HXML Workbook = XmlGetChild(node, L"Workbook");
 		if (Workbook) {
 			HXML Worksheet = XmlGetChild(Workbook, "Worksheet");
 			if (Worksheet) {
@@ -1283,7 +1283,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 					int index = 1;
 					HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
 					while (TRUE) {
-						HXML Row = XmlGetNthChild(Table, _T("Row"), index++);
+						HXML Row = XmlGetNthChild(Table, L"Row", index++);
 						if (!Row)
 							break;
 
@@ -1292,13 +1292,13 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 						const TCHAR *name = NULL;
 						const TCHAR *group = NULL;
 						const TCHAR *subscr = NULL;
-						HXML Cell = XmlGetNthChild(Row, _T("Cell"), 1);
+						HXML Cell = XmlGetNthChild(Row, L"Cell", 1);
 						HXML Data = (Cell) ? XmlGetChild(Cell, "Data") : XmlNode();
 						if (Data) {
-							if (!mir_tstrcmpi(XmlGetText(Data), _T("+"))) bAdd = TRUE;
-							else if (mir_tstrcmpi(XmlGetText(Data), _T("-"))) continue;
+							if (!mir_tstrcmpi(XmlGetText(Data), L"+")) bAdd = TRUE;
+							else if (mir_tstrcmpi(XmlGetText(Data), L"-")) continue;
 
-							Cell = XmlGetNthChild(Row, _T("Cell"), 2);
+							Cell = XmlGetNthChild(Row, L"Cell", 2);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
 							else Data = NULL;
 							if (Data) {
@@ -1306,17 +1306,17 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 								if (!jid || mir_tstrlen(jid) == 0) continue;
 							}
 
-							Cell = XmlGetNthChild(Row, _T("Cell"), 3);
+							Cell = XmlGetNthChild(Row, L"Cell", 3);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
 							else Data = NULL;
 							if (Data) name = XmlGetText(Data);
 
-							Cell = XmlGetNthChild(Row, _T("Cell"), 4);
+							Cell = XmlGetNthChild(Row, L"Cell", 4);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
 							else Data = NULL;
 							if (Data) group = XmlGetText(Data);
 
-							Cell = XmlGetNthChild(Row, _T("Cell"), 5);
+							Cell = XmlGetNthChild(Row, L"Cell", 5);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
 							else Data = NULL;
 							if (Data) subscr = XmlGetText(Data);
@@ -1544,10 +1544,10 @@ public:
 	{
 		SetParent(hwndParent);
 
-		CreateLink(m_txtUsername, "LoginName", _T(""));
+		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
-		CreateLink(m_cbResource, "Resource", _T("Miranda"));
-		CreateLink(m_cbServer, "LoginServer", _T("jabber.org"));
+		CreateLink(m_cbResource, "Resource", L"Miranda");
+		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
 
@@ -1578,7 +1578,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
+		TCHAR *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
 		for (int i = 0; i < _countof(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -1594,7 +1594,7 @@ protected:
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
 		}
-		else m_cbResource.SetText(_T("Miranda"));
+		else m_cbResource.SetText(L"Miranda");
 
 		m_cbType.AddString(TranslateT("Public XMPP Network"), ACC_PUBLIC);
 		m_cbType.AddString(TranslateT("Secure XMPP Network"), ACC_TLS);
@@ -1864,8 +1864,8 @@ private:
 		m_txtUsername.Enable(!checked);
 		m_chkSavePassword.Enable(!checked);
 		if (checked) {
-			m_txtPassword.SetText(_T(""));
-			m_txtUsername.SetText(_T(""));
+			m_txtPassword.SetText(L"");
+			m_txtUsername.SetText(L"");
 			m_chkSavePassword.SetState(BST_CHECKED);
 		}
 	}
@@ -2171,8 +2171,8 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 			if (!n)
 				break;
 
-			if (!mir_tstrcmp(XmlGetName(n), _T("item")))
-				if (const TCHAR *jid = XmlGetAttrValue(n, _T("jid")))
+			if (!mir_tstrcmp(XmlGetName(n), L"item"))
+				if (const TCHAR *jid = XmlGetAttrValue(n, L"jid"))
 					if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 						m_cbServer.AddString(jid);
 		}
@@ -2202,7 +2202,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 			TCHAR *ptszText = mir_a2t(result->pData);
 			XmlNode node(ptszText, NULL, NULL);
 			if (node) {
-				HXML queryNode = XmlGetChild(node, _T("query"));
+				HXML queryNode = XmlGetChild(node, L"query");
 				if (queryNode && IsWindow(hwnd)) {
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;

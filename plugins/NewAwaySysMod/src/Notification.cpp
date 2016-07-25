@@ -53,7 +53,7 @@ static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MOD_NAME)_T("_MenuWindow"), 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _T(MOD_NAME)L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(hContact);
 	GetCursorPos(&pt);
@@ -66,7 +66,7 @@ static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 
 void ShowLog(TCString &LogFilePath)
 {
-	INT_PTR Result = (INT_PTR)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
+	INT_PTR Result = (INT_PTR)ShellExecute(NULL, L"open", LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) {
 		TCHAR szError[64];
 		mir_sntprintf(szError, TranslateT("Error #%d"), Result);

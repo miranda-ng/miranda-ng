@@ -54,7 +54,7 @@ void Column::FactoryList::initList()
 
 ext::string Column::IDProvider::getID()
 {
-	ext::string s = _T("q");
+	ext::string s = L"q";
 	int val = m_nNextID++;
 
 	while (val > 0) {
@@ -106,15 +106,15 @@ void Column::writeRowspanTD(ext::ostream& tos, const ext::string& innerHTML, int
 {
 	int curRowSpan = (row < numRows) ? 1 : (rowSpan - numRows + 1);
 
-	tos << _T("<td");
+	tos << L"<td";
 
 	if (colSpan > 1)
-		tos << _T(" colspan=\"") << colSpan << _T("\"");
+		tos << L" colspan=\"" << colSpan << L"\"";
 
 	if (curRowSpan > 1)
-		tos << _T(" rowspan=\"") << curRowSpan << _T("\"");
+		tos << L" rowspan=\"" << curRowSpan << L"\"";
 
-	tos << _T(">") << innerHTML << _T("</td>") << ext::endl;
+	tos << L">" << innerHTML << L"</td>" << ext::endl;
 }
 
 void Column::copyAttrib(const Column* pSource)
@@ -130,7 +130,7 @@ const ext::string Column::getCustomTitle(const ext::string& strShort, const ext:
 	ext::string strTitle = utils::htmlEscape(m_CustomTitle.empty() ? (m_pSettings->m_TableHeaderVerbose ? strLong : strShort) : m_CustomTitle);
 
 	if (m_pSettings->m_HeaderTooltips && (!m_pSettings->m_HeaderTooltipsIfCustom || !m_CustomTitle.empty() || (!m_pSettings->m_TableHeaderVerbose && strShort != strLong)))
-		strTitle = _T("<span title=\"") + utils::htmlEscape(strLong) + _T("\">") + strTitle + _T("</span>");
+		strTitle = L"<span title=\"" + utils::htmlEscape(strLong) + L"\">" + strTitle + L"</span>";
 
 	return strTitle;
 }

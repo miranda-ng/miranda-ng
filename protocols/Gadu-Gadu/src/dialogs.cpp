@@ -65,7 +65,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					ptstr = str;
-					mir_sntprintf(str, dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					mir_sntprintf(str, dbv.cVal ? L"GMT%+d:%02d" : L"GMT", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			} else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
@@ -79,7 +79,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, _T("%S"), pstr);
+					mir_sntprintf(str, L"%S", pstr);
 				}
 			}
 			else {
@@ -97,12 +97,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, _T("%S"), pstr);
+					mir_sntprintf(str, L"%S", pstr);
 				}
 				if (dbv.dVal == 0) unspecified = 1;
 			} else if (special == SVS_GGVERSION) {
 				ptstr = str;
-				mir_sntprintf(str, _T("%S"), (char *)gg_version2string(dbv.dVal));
+				mir_sntprintf(str, L"%S", (char *)gg_version2string(dbv.dVal));
 			} else {
 				ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			}
@@ -110,7 +110,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_ASCIIZ:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			ptstr = str;
-			mir_sntprintf(str, _T("%S"), dbv.pszVal);
+			mir_sntprintf(str, L"%S", dbv.pszVal);
 			break;
 		case DBVT_TCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
@@ -125,7 +125,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			break;
 		default:
 			ptstr = str;
-			mir_tstrcpy(str, _T("???"));
+			mir_tstrcpy(str, L"???");
 			break;
 		}
 	}
@@ -682,7 +682,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		// Add genders
 		if (!dat->hContact)
 		{
-			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)_T(""));				// 0
+			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)L"");				// 0
 			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));	// 1
 			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));	// 2
 		}

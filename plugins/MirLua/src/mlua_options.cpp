@@ -62,9 +62,9 @@ void CMLuaOptions::OnInitDialog()
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
-	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
+	mir_sntprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
-	m_scripts.AddColumn(0, _T("Script"), 380);
+	m_scripts.AddColumn(0, L"Script", 380);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
@@ -126,7 +126,7 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	switch (lvi.iSubItem)
 	{
 	case 1:
-		ShellExecute(m_hwnd, _T("Open"), script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(m_hwnd, L"Open", script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
 		break;
 
 	case 2:
@@ -162,7 +162,7 @@ int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = _T("Lua");
+	odp.ptszTitle = L"Lua";
 	odp.ptszTab = LPGENT("Scripts");
 	odp.pDialog = CMLuaOptions::CreateOptionsPage();
 	Options_AddPage(wParam, &odp);

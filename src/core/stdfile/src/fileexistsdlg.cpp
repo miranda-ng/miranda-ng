@@ -151,7 +151,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		if (pszExtension)
 			mir_tstrncpy(szExtension, pszExtension + 1, _countof(szExtension));
 		else {
-			pszExtension = _T(".");
+			pszExtension = L".";
 			szExtension[0] = '\0';
 		}
 		CharUpper(szExtension);
@@ -161,15 +161,15 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0] = '\0';
-		if (!mir_tstrcmp(szExtension, _T("EXE")))
-			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("2"), szIconFile, _countof(szIconFile));
+		if (!mir_tstrcmp(szExtension, L"EXE"))
+			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"2", szIconFile, _countof(szIconFile));
 		else {
 			TCHAR szTypeName[MAX_PATH];
 			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, _countof(szTypeName))) {
-				mir_tstrcat(szTypeName, _T("\\DefaultIcon"));
+				mir_tstrcat(szTypeName, L"\\DefaultIcon");
 				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, _countof(szIconFile))) {
-					if (_tcsstr(szIconFile, _T("%1")))
-						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("0"), szIconFile, _countof(szIconFile));
+					if (_tcsstr(szIconFile, L"%1"))
+						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"0", szIconFile, _countof(szIconFile));
 					else szIconFile[0] = '\0';
 				}
 			}
@@ -288,9 +288,9 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 					_tcsncpy(filter, TranslateT("All files"),_countof(filter)-1);
-					mir_tstrcat(filter, _T(" (*)"));
+					mir_tstrcat(filter, L" (*)");
 					pfilter = filter + mir_tstrlen(filter) + 1;
-					mir_tstrcpy(pfilter, _T("*"));
+					mir_tstrcpy(pfilter, L"*");
 					pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 					*pfilter = '\0';
 					ofn.lpstrFilter = filter;

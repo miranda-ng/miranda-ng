@@ -61,21 +61,21 @@ public:
 	db_setting<bool> RemTmpAll;
 	db_setting<bool> HistLog;
 
-	Settings():Question("Question",TranslateTS(_T("Spammers made me to install small anti-spam system you are now speaking with. ")
-		_T("Please reply \"nospam\" without quotes and spaces if you want to contact me.\r\n")
-		_T("Внимание! Антиспам защита. Ответьте \"nospam\" без кавычек и пробелов, если хотите связаться со мной.")))
-	,AuthRepl("AuthReply",TranslateTS(_T("StopSpam: send a message and reply to a anti-spam bot question.\r\n")
-		_T("Антиспам: отправьте сообщение и ответьте на вопрос антиспам системы.")))
-	,Answer("Answer",_T("nospam"))
-	,Congratulation("Congratulation",TranslateTS(_T("Congratulations! You just passed human/robot test. Now you can write me a message.\r\n")
-		_T("Поздравляю! Вы прошли антиспам проверку. Теперь вы можете писать мне.")))
+	Settings():Question("Question",TranslateTS(L"Spammers made me to install small anti-spam system you are now speaking with. "
+		L"Please reply \"nospam\" without quotes and spaces if you want to contact me.\r\n"
+		L"Внимание! Антиспам защита. Ответьте \"nospam\" без кавычек и пробелов, если хотите связаться со мной."))
+	,AuthRepl("AuthReply",TranslateTS(L"StopSpam: send a message and reply to a anti-spam bot question.\r\n"
+		L"Антиспам: отправьте сообщение и ответьте на вопрос антиспам системы."))
+	,Answer("Answer",L"nospam")
+	,Congratulation("Congratulation",TranslateTS(L"Congratulations! You just passed human/robot test. Now you can write me a message.\r\n"
+		L"Поздравляю! Вы прошли антиспам проверку. Теперь вы можете писать мне."))
 	,DisabledProtoList("DisabledProtoList","MetaContacts RSSNews")
 	,InfTalkProtection("InfTalkProtection", 1)
 	,AddPermanent("AddPermanent", 0)
 	,HandleAuthReq("HandleAuthReq", 0)
 	,MaxQuestCount("MaxQuestCount", 2)
 	,AnswNotCaseSens("AnswNotCaseSens", 1)
-	,AnswSplitString("AnswSplitString",_T("|"))
+	,AnswSplitString("AnswSplitString",L"|")
 	,RemTmpAll("RemTmpAll", 1)
 	,HistLog("HistLog", 0)
 	{

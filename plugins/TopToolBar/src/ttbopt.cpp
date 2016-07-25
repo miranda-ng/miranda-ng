@@ -21,7 +21,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 	TCHAR* tmp;
 
 	if (b->dwFlags & TTBBF_ISSEPARATOR) {
-		tvis.item.pszText = _T("------------------");
+		tvis.item.pszText = L"------------------";
 		index = -1;
 		tmp = 0;
 	}
@@ -251,7 +251,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
 				ofn.nMaxFile = _countof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.lpstrDefExt = _T("exe");
+				ofn.lpstrDefExt = L"exe";
 				if (!GetOpenFileName(&ofn))
 					break;
 
@@ -309,7 +309,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 				ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL | TTBBF_OPTIONAL;
 				ttb.name = LPGEN("Default");
-				ttb.program = _T("Execute Path");
+				ttb.program = L"Execute Path";
 				TopButtonInt* b = CreateButton(&ttb);
 
 				// get selection for insert

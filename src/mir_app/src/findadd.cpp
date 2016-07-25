@@ -354,7 +354,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int partWidth[3];
 			partWidth[0] = textSize.cx;
-			GetTextExtentPoint32(hdc, _T("01234567890123456789"), 20, &textSize);
+			GetTextExtentPoint32(hdc, L"01234567890123456789", 20, &textSize);
 			partWidth[0] += textSize.cx;
 			ReleaseDC(GetDlgItem(hwndDlg, IDC_STATUSBAR), hdc);
 			partWidth[1] = partWidth[0] + 150;

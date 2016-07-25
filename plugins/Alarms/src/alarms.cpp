@@ -11,8 +11,8 @@ There is no warranty.
 #include "alarms.h"
 
 
-#define SERVICENAME _T("mp")
-#define COMMANDPREFIX _T("/") SERVICENAME
+#define SERVICENAME L"mp"
+#define COMMANDPREFIX L"/" SERVICENAME
 
 #define WMP_PAUSE	32808
 #define WMP_NEXT	0x497B

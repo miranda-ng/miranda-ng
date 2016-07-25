@@ -197,7 +197,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 				hIcon = (HICON)LoadImage(ssSMSSettings.hInstance, MAKEINTRESOURCE(iIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 				break;
 			default:
-				lpwszTitlepart = _T("Unknown event type");
+				lpwszTitlepart = L"Unknown event type";
 				hIcon = 0;
 			}
 
@@ -210,7 +210,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 			}
 
 			lpwszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
-			mir_sntprintf(wszTitle, _T("%s - %s"), lpwszContactDisplayName, lpwszTitlepart);
+			mir_sntprintf(wszTitle, L"%s - %s", lpwszContactDisplayName, lpwszTitlepart);
 			MultiByteToWideChar(CP_UTF8, 0, lpszMessage, (int)dwMessageSize, lpwszMessage, (int)dwMessageSize + MAX_PATH);
 
 			SetWindowText(prswdWindowData->hWnd, wszTitle);

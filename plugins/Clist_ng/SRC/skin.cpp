@@ -1071,7 +1071,7 @@ void SkinLoader::readButtonItem(const char *itemName, const char *file)
         newItem->nextItem = 0;
         curItem->nextItem = newItem;
     }
-    newItem->hWnd = CreateWindowEx(0, _T("CLCButtonClass"), _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
+    newItem->hWnd = CreateWindowEx(0, L"CLCButtonClass", L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
 
     SendMessage(newItem->hWnd, BM_SETBTNITEM, 0, (LPARAM)newItem);
     SendMessage(newItem->hWnd, BUTTONSETASFLATBTN, 0, 0);

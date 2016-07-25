@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 // Version management
-#define PRODUCT_NAME _T("WhatsApp Protocol")
+#define PRODUCT_NAME L"WhatsApp Protocol"
 
 // Limits
 #define WHATSAPP_GROUP_NAME_LIMIT   420

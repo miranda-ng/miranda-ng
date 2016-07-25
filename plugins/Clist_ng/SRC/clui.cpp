@@ -235,7 +235,7 @@ int CLUI::createCLC(HWND parent)
 	{
 		CLISTFrame frame = {0};
 		frame.cbSize = sizeof(frame);
-		frame.tname = _T("EventArea");
+		frame.tname = L"EventArea";
 		frame.TBtname = TranslateT("Event Area");
 		frame.hIcon = 0;
 		frame.height = 20;
@@ -260,7 +260,7 @@ int CLUI::createCLC(HWND parent)
 		Frame.align = alClient;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
-		Frame.tname = _T("My Contacts");
+		Frame.tname = L"My Contacts";
 		Frame.TBtname = TranslateT("My Contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & Frame, (LPARAM)0);
@@ -326,13 +326,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Default"), myIcons, _countof(myIcons));
+	Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Default"), myIcons, _countof(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -345,7 +345,7 @@ static void InitIcoLib()
 		TCHAR szDescr[128];
 		mir_sntprintf(szDescr, _countof(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
@@ -469,7 +469,7 @@ void CreateButtonBar(HWND hWnd)
 		if (top_buttons[i].id != IDC_TBGLOBALSTATUS && top_buttons[i].id != IDC_TBMENU)
 			continue;
 
-		top_buttons[i].hwnd = CreateWindowEx(0, _T("CLCButtonClass"), _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) top_buttons[i].id, g_hInst, NULL);
+		top_buttons[i].hwnd = CreateWindowEx(0, L"CLCButtonClass", L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) top_buttons[i].id, g_hInst, NULL);
 
 		hIcon = top_buttons[i].hIcon = IcoLib_GetIcon(top_buttons[i].szIcoLibIcon);
 		if (top_buttons[i].szIcoLibAltIcon)
@@ -1466,7 +1466,7 @@ skipbg:
 									SendMessage(item->hWnd, BM_SETCHECK, 0, 0);
 							}
 							if (!contactOK)
-								MessageBox(0, _T("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat"), _T("Parameter mismatch"), MB_OK);
+								MessageBox(0, L"The requested action requires a valid contact selection. Please select a contact from the contact list and repeat", L"Parameter mismatch", MB_OK);
 							if (serviceFailure) {
 								char szError[512];
 
@@ -1773,7 +1773,7 @@ buttons_done:
 					else szName[0] = 0;
 
 					if (lstrlen(szName) < sizeof(szName) - 1)
-						lstrcat(szName, _T(" "));
+						lstrcat(szName, L" ");
 					GetTextExtentPoint32(dis->hDC, szName, lstrlen(szName), &textSize);
 					dis->rcItem.left += x;
 					Gfx::renderText(dis->hDC, (HANDLE)dis->CtlID, szName, &dis->rcItem, DT_VCENTER | DT_SINGLELINE, 0);

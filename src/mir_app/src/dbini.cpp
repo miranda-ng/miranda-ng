@@ -38,12 +38,12 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			TCHAR szSecurity[11];
 			const TCHAR *pszSecurityInfo;
 
-			GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, _countof(szSecurity), mirandabootini);
-			if (!mir_tstrcmpi(szSecurity, _T("all")))
+			GetPrivateProfileString(L"AutoExec", L"Warn", L"notsafe", szSecurity, _countof(szSecurity), mirandabootini);
+			if (!mir_tstrcmpi(szSecurity, L"all"))
 				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
-			else if (!mir_tstrcmpi(szSecurity, _T("onlyunsafe")))
+			else if (!mir_tstrcmpi(szSecurity, L"onlyunsafe"))
 				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
-			else if (!mir_tstrcmpi(szSecurity, _T("none")))
+			else if (!mir_tstrcmpi(szSecurity, L"none"))
 				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
 			else pszSecurityInfo = NULL;
 			if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
@@ -56,7 +56,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				TCHAR szPath[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_ININAME, szPath, _countof(szPath));
-				ShellExecute(hwndDlg, _T("open"), szPath, NULL, NULL, SW_SHOW);
+				ShellExecute(hwndDlg, L"open", szPath, NULL, NULL, SW_SHOW);
 			}
 			break;
 
@@ -232,7 +232,7 @@ static int EnumSettingsForDeletion(const char *szSetting, LPARAM param)
 
 static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
-	FILE *fp = _tfopen(szIniPath, _T("rt"));
+	FILE *fp = _tfopen(szIniPath, L"rt");
 	if (fp == NULL)
 		return;
 
@@ -437,22 +437,22 @@ static void DoAutoExec(void)
 	TCHAR szUse[7], szIniPath[MAX_PATH], szFindPath[MAX_PATH];
 	TCHAR buf[2048], szSecurity[11], szOverrideSecurityFilename[MAX_PATH], szOnCreateFilename[MAX_PATH];
 
-	GetPrivateProfileString(_T("AutoExec"), _T("Use"), _T("prompt"), szUse, _countof(szUse), mirandabootini);
-	if (!mir_tstrcmpi(szUse, _T("no"))) return;
-	GetPrivateProfileString(_T("AutoExec"), _T("Safe"), _T("CLC Icons CLUI CList SkinSounds"), buf, _countof(buf), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"Use", L"prompt", szUse, _countof(szUse), mirandabootini);
+	if (!mir_tstrcmpi(szUse, L"no")) return;
+	GetPrivateProfileString(L"AutoExec", L"Safe", L"CLC Icons CLUI CList SkinSounds", buf, _countof(buf), mirandabootini);
 	ptrA szSafeSections(mir_t2a(buf));
-	GetPrivateProfileString(_T("AutoExec"), _T("Unsafe"), _T("AIM Facebook GG ICQ IRC JABBER MRA MSN SKYPE Tlen TWITTER VKontakte XFire"), buf, _countof(buf), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"Unsafe", L"AIM Facebook GG ICQ IRC JABBER MRA MSN SKYPE Tlen TWITTER VKontakte XFire", buf, _countof(buf), mirandabootini);
 	ptrA szUnsafeSections(mir_t2a(buf));
-	GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, _countof(szSecurity), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"Warn", L"notsafe", szSecurity, _countof(szSecurity), mirandabootini);
 
 	int secur = 0;
-	if (!mir_tstrcmpi(szSecurity, _T("none"))) secur = 0;
-	else if (!mir_tstrcmpi(szSecurity, _T("notsafe"))) secur = 1;
-	else if (!mir_tstrcmpi(szSecurity, _T("onlyunsafe"))) secur = 2;
+	if (!mir_tstrcmpi(szSecurity, L"none")) secur = 0;
+	else if (!mir_tstrcmpi(szSecurity, L"notsafe")) secur = 1;
+	else if (!mir_tstrcmpi(szSecurity, L"onlyunsafe")) secur = 2;
 
-	GetPrivateProfileString(_T("AutoExec"), _T("OverrideSecurityFilename"), _T(""), szOverrideSecurityFilename, _countof(szOverrideSecurityFilename), mirandabootini);
-	GetPrivateProfileString(_T("AutoExec"), _T("OnCreateFilename"), _T(""), szOnCreateFilename, _countof(szOnCreateFilename), mirandabootini);
-	GetPrivateProfileString(_T("AutoExec"), _T("Glob"), _T("autoexec_*.ini"), szFindPath, _countof(szFindPath), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"OverrideSecurityFilename", L"", szOverrideSecurityFilename, _countof(szOverrideSecurityFilename), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"OnCreateFilename", L"", szOnCreateFilename, _countof(szOnCreateFilename), mirandabootini);
+	GetPrivateProfileString(L"AutoExec", L"Glob", L"autoexec_*.ini", szFindPath, _countof(szFindPath), mirandabootini);
 
 	if (g_bDbCreated && szOnCreateFilename[0]) {
 		PathToAbsoluteT(VARST(szOnCreateFilename), szIniPath);
@@ -475,8 +475,8 @@ static void DoAutoExec(void)
 	do {
 		bool secFN = mir_tstrcmpi(fd.cFileName, szOverrideSecurityFilename) == 0;
 
-		mir_sntprintf(szIniPath, _T("%s%s"), szFindPath, fd.cFileName);
-		if (!mir_tstrcmpi(szUse, _T("prompt")) && !secFN) {
+		mir_sntprintf(szIniPath, L"%s%s", szFindPath, fd.cFileName);
+		if (!mir_tstrcmpi(szUse, L"prompt") && !secFN) {
 			int result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
 			if (result == IDC_NOTOALL) break;
 			if (result == IDCANCEL) continue;
@@ -488,10 +488,10 @@ static void DoAutoExec(void)
 			DeleteFile(szIniPath);
 		else {
 			TCHAR szOnCompletion[8];
-			GetPrivateProfileString(_T("AutoExec"), _T("OnCompletion"), _T("recycle"), szOnCompletion, _countof(szOnCompletion), mirandabootini);
-			if (!mir_tstrcmpi(szOnCompletion, _T("delete")))
+			GetPrivateProfileString(L"AutoExec", L"OnCompletion", L"recycle", szOnCompletion, _countof(szOnCompletion), mirandabootini);
+			if (!mir_tstrcmpi(szOnCompletion, L"delete"))
 				DeleteFile(szIniPath);
-			else if (!mir_tstrcmpi(szOnCompletion, _T("recycle"))) {
+			else if (!mir_tstrcmpi(szOnCompletion, L"recycle")) {
 				SHFILEOPSTRUCT shfo = { 0 };
 				shfo.wFunc = FO_DELETE;
 				shfo.pFrom = szIniPath;
@@ -499,15 +499,15 @@ static void DoAutoExec(void)
 				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 				SHFileOperation(&shfo);
 			}
-			else if (!mir_tstrcmpi(szOnCompletion, _T("rename"))) {
+			else if (!mir_tstrcmpi(szOnCompletion, L"rename")) {
 				TCHAR szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
-				GetPrivateProfileString(_T("AutoExec"), _T("RenamePrefix"), _T("done_"), szRenamePrefix, _countof(szRenamePrefix), mirandabootini);
+				GetPrivateProfileString(L"AutoExec", L"RenamePrefix", L"done_", szRenamePrefix, _countof(szRenamePrefix), mirandabootini);
 				mir_tstrcpy(szNewPath, szFindPath);
 				mir_tstrcat(szNewPath, szRenamePrefix);
 				mir_tstrcat(szNewPath, fd.cFileName);
 				MoveFile(szIniPath, szNewPath);
 			}
-			else if (!mir_tstrcmpi(szOnCompletion, _T("ask")))
+			else if (!mir_tstrcmpi(szOnCompletion, L"ask"))
 				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_INIIMPORTDONE), NULL, IniImportDoneDlgProc, (LPARAM)szIniPath);
 		}
 	}
@@ -537,7 +537,7 @@ int InitIni(void)
 	DoAutoExec();
 
 	TCHAR szMirandaDir[MAX_PATH];
-	PathToAbsoluteT(_T("."), szMirandaDir);
+	PathToAbsoluteT(L".", szMirandaDir);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
 		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);

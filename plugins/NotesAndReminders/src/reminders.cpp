@@ -2326,7 +2326,7 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,REMINDERDAT
 {
 	HWND hwndListView = (HWND)wParam;
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS)) return FALSE;
-	HMENU hMenuLoad = LoadMenu(hinstance, _T("MNU_REMINDERPOPUP"));
+	HMENU hMenuLoad = LoadMenu(hinstance, "MNU_REMINDERPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	MENUITEMINFO mii = { 0 };
@@ -2373,7 +2373,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 		return 0;
 	case WM_RELOAD:
 		{
-			SetDlgItemText(Dialog, IDC_REMINDERDATA, _T(""));
+			SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 			InitListView(GetDlgItem(Dialog, IDC_LISTREMINDERS));
 			return TRUE;
 		}
@@ -2401,7 +2401,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			Window_SetIcon_IcoLib(Dialog, iconList[6].hIcolib);
 
 			TranslateDialogDefault(Dialog);
-			SetDlgItemText(Dialog,IDC_REMINDERDATA, _T(""));
+			SetDlgItemText(Dialog,IDC_REMINDERDATA, "");
 			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Reminder text");
@@ -2512,7 +2512,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			case IDM_DELETEALLREMINDERS:
 				if (RemindersList && MessageBox(Dialog, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 				{
-					SetDlgItemText(Dialog, IDC_REMINDERDATA, _T(""));
+					SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 					DeleteReminders();
 					InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
 				}
@@ -2528,7 +2528,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 						if (I != -1
 							&& MessageBox(Dialog, TranslateT("Are you sure you want to delete this reminder?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 						{
-							SetDlgItemText(Dialog, IDC_REMINDERDATA, _T(""));
+							SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 							DeleteReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));
 							JustSaveReminders();
 							InitListView(H);

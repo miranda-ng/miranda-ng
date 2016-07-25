@@ -64,7 +64,7 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 
 	switch (hook->pDest->iType) {
 	case GC_USER_MESSAGE:
-		debugLog(_T("**Chat - Outgoing message: %s"), hook->ptszText);
+		debugLog(L"**Chat - Outgoing message: %s", hook->ptszText);
 		{
 			T2Utf text(hook->ptszText);
 
@@ -95,7 +95,7 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2t(nick ? nick : name);
 	gce.ptszUID = mir_a2t(name);
-	gce.ptszStatus = _T("Normal");
+	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
 	mir_free(const_cast<TCHAR*>(gce.ptszNick));
@@ -130,7 +130,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	// ***** Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszStatus = _T("Normal");
+	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
 	// ***** Hook events

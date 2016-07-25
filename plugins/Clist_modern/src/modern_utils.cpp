@@ -42,7 +42,7 @@ void TRACE_ERROR()
 		return;
 	}
 #ifdef _DEBUG
-	MessageBox(NULL, (LPCTSTR)lpMsgBuf, _T("Error"), MB_OK | MB_ICONINFORMATION);
+	MessageBox(NULL, (LPCTSTR)lpMsgBuf, L"Error", MB_OK | MB_ICONINFORMATION);
 	DebugBreak();
 #endif
 	LocalFree(lpMsgBuf);

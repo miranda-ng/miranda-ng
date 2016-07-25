@@ -349,7 +349,7 @@ static void BB_RegisterSeparators()
 	}
 }
 
-#define MIDDLE_SEPARATOR _T(">-------M-------<")
+#define MIDDLE_SEPARATOR L">-------M-------<"
 
 static int SaveTree(HWND hToolBarTree)
 {
@@ -1070,7 +1070,7 @@ void BB_InitDlgButtons(TWindowData *dat)
 			if (!cbd->m_bHidden && !cbd->m_bCanBeHidden)
 				dat->iButtonBarReallyNeeds += cbd->m_iButtonWidth + gap;
 			if (!cbd->m_bSeparator && !GetDlgItem(hdlg, cbd->m_dwButtonCID)) {
-				hwndBtn = CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, rect.right - rwidth + gap, splitterY, cbd->m_iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, rect.right - rwidth + gap, splitterY, cbd->m_iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
 				CustomizeButton(hwndBtn);
 			}
 			if (!cbd->m_bSeparator && hwndBtn)
@@ -1092,7 +1092,7 @@ void BB_InitDlgButtons(TWindowData *dat)
 		CustomButtonData *cbd = LButtonsList[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->m_bIMButton) || (dat->bType == SESSIONTYPE_CHAT && cbd->m_bChatButton))) {
 			if (!cbd->m_bSeparator && !GetDlgItem(hdlg, cbd->m_dwButtonCID)) {
-				hwndBtn = CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2 + lwidth, splitterY,
+				hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2 + lwidth, splitterY,
 					cbd->m_iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
 				CustomizeButton(hwndBtn);
 			}

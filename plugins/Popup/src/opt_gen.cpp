@@ -52,7 +52,7 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	options[pos].iconIndex = 0;
 
 	mir_tstrcpy(options[pos].pszOptionName, prefix);
-	mir_tstrcat(options[pos].pszOptionName, _T("/"));
+	mir_tstrcat(options[pos].pszOptionName, L"/");
 	switch (flag)
 	{
 	case PF2_IDLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			HWND hCtrl = GetDlgItem(hwnd, IDC_CUSTOMPOS);
 			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
-			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)_T("Popup area"), BATF_TCHAR);
+			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)L"Popup area", BATF_TCHAR);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_RESIZE));
 		}
 		// Spreading combobox
@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					TCHAR prefix[128];
-					mir_sntprintf(prefix, LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					mir_sntprintf(prefix, LPGENT("Protocol Status")L"/%s", protocols[i]->tszAccountName);
 					pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
 				}
 			}
@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					mir_snprintf(prefix, "Protocol Status/%s", protocols[i]->szModuleName);
 
 					TCHAR pszSettingName[256];
-					mir_sntprintf(pszSettingName, LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					mir_sntprintf(pszSettingName, LPGENT("Protocol Status")L"/%s", protocols[i]->tszAccountName);
 					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
 				}
 			}
@@ -529,11 +529,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							mir_snprintf(prefix, "Protocol Status/%s", protocols[i]->szModuleName);
 
 							TCHAR pszSettingName[256];
-							mir_sntprintf(pszSettingName, _T("Protocol Status/%s"), protocols[i]->tszAccountName);
+							mir_sntprintf(pszSettingName, L"Protocol Status/%s", protocols[i]->tszAccountName);
 							db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
 						}
 					}
-					db_set_dw(NULL, MODULNAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, _T("Global Status")));
+					db_set_dw(NULL, MODULNAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, L"Global Status"));
 				}
 				return TRUE;
 			}
@@ -626,11 +626,11 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_SETFONT, (WPARAM)hFontTitle, TRUE);
 
 		SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)_T("OK"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)L"OK", BATF_TCHAR);
 		SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_ACT_OK));
 
 		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONADDTOOLTIP, (WPARAM)_T("Cancel"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONADDTOOLTIP, (WPARAM)L"Cancel", BATF_TCHAR);
 		SendDlgItemMessage(hwndDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_ACT_CLOSE));
 
 		SetDlgItemInt(hwndDlg, IDC_TXT_TOP, PopupOptions.gapTop, FALSE);

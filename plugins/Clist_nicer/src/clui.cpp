@@ -160,7 +160,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 // last frame of all.
 static HWND PreCreateCLC(HWND parent)
 {
-	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
+	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
 		WS_CHILD | CLS_CONTACTLIST
 		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
@@ -181,7 +181,7 @@ static int CreateCLC()
 	{
 		CLISTFrame frame = { 0 };
 		frame.cbSize = sizeof(frame);
-		frame.tname = _T("EventArea");
+		frame.tname = L"EventArea";
 		frame.TBtname = TranslateT("Event area");
 		frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
@@ -201,7 +201,7 @@ static int CreateCLC()
 		Frame.align = alClient;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
-		Frame.tname = _T("My contacts");
+		Frame.tname = L"My contacts";
 		Frame.TBtname = TranslateT("My contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
@@ -256,7 +256,7 @@ static void InitIcoLib()
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -269,7 +269,7 @@ static void InitIcoLib()
 		TCHAR szDescr[128];
 		mir_sntprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
@@ -281,14 +281,14 @@ static int IcoLibChanged(WPARAM, LPARAM)
 
 void CreateButtonBar(HWND hWnd)
 {
-	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_hInst, NULL);
+	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_hInst, NULL);
 	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
 	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MAINMENU));
 	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Open main menu"), 0);
 
-	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, NULL);
+	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, NULL);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
 	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_STATUS_OFFLINE));
@@ -1716,7 +1716,7 @@ buttons_done:
 						szName[0] = 0;
 
 					if (mir_tstrlen(szName) < sizeof(szName) - 1)
-						mir_tstrcat(szName, _T(" "));
+						mir_tstrcat(szName, L" ");
 					GetTextExtentPoint32(dis->hDC, szName, (int)mir_tstrlen(szName), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, (int)mir_tstrlen(szName));
 					x += textSize.cx;
@@ -1827,7 +1827,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			TCHAR str[64];
 			DWORD v = pluginInfo.version;
-			mir_sntprintf(str, _T("%s %d.%d.%d.%d"), TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
+			mir_sntprintf(str, L"%s %d.%d.%d.%d", TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 			SetDlgItemText(hwndDlg, IDC_VERSION, str);
 		}
 		{
@@ -1924,7 +1924,7 @@ void LoadCLUIModule(void)
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)COLOR_3DFACE;
 	wndclass.lpszMenuName = 0;
-	wndclass.lpszClassName = _T("EventAreaClass");
+	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
 	oldhideoffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);

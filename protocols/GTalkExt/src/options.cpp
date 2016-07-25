@@ -23,8 +23,8 @@
 #include "db.h"
 #include "options.h"
 
-#define ACCOUNT_PROP_NAME             _T("{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}")
-#define DIALOG_INITIALIZED_PROP_NAME  _T("{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}")
+#define ACCOUNT_PROP_NAME             L"{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}"
+#define DIALOG_INITIALIZED_PROP_NAME  L"{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}"
 
 #define POPUPS_OPTIONS_GROUP   LPGENT("Popups")
 #define NETWORK_OPTIONS_GROUP  LPGENT("Network")
@@ -32,8 +32,8 @@
 #define NOTIFY_SETTINGS_FROM_MOD_NAME SHORT_PLUGIN_NAME ".NotifySettingsFromModName"
 
 #define TEST_LETTER_SUBJECT LPGENT("Why C sucks")
-#define TEST_LETTER_INBOX   _T("brickstrace@gmail.com [1]")
-#define TEST_LETTER_SENDER  _T("    bems\n")
+#define TEST_LETTER_INBOX   L"brickstrace@gmail.com [1]"
+#define TEST_LETTER_SENDER  L"    bems\n"
 #define TEST_LETTER_SNIP    LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
 
 void CheckControlsEnabled(HWND wnd)

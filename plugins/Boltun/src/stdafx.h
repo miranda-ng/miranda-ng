@@ -65,7 +65,7 @@
 #define BOLTUN_GROUP LPGEN("Message sessions")
 
 //Filename depends on UNICODE
-#define DEFAULT_MIND_FILE _T("boltun.mindw")
+#define DEFAULT_MIND_FILE L"boltun.mindw"
 
 //===============================================
 // These are strings for translation:

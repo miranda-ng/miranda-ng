@@ -9,10 +9,10 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableIPv6(this, IDC_ENABLE_IPV6)
 {
 
-	CreateLink(m_toxAddress, TOX_SETTINGS_ID, _T(""));
-	CreateLink(m_nickname, "Nick", _T(""));
-	CreateLink(m_password, "Password", _T(""));
-	CreateLink(m_group, TOX_SETTINGS_GROUP, _T("Tox"));
+	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
+	CreateLink(m_nickname, "Nick", L"");
+	CreateLink(m_password, "Password", L"");
+	CreateLink(m_group, TOX_SETTINGS_GROUP, L"Tox");
 	CreateLink(m_enableUdp, "EnableUDP", DBVT_BYTE, TRUE);
 	CreateLink(m_enableIPv6, "EnableIPv6", DBVT_BYTE, FALSE);
 
@@ -105,7 +105,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 {
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _T("%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c"),
+	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c",
 		TranslateT("Tox profile"), 0, 0, TranslateT("All files"), 0, 0, 0);
 
 	TCHAR profilePath[MAX_PATH] = { 0 };
@@ -118,7 +118,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	ofn.lpstrTitle = TranslateT("Select Tox profile");
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
-	ofn.lpstrInitialDir = _T("%APPDATA%\\Tox");
+	ofn.lpstrInitialDir = L"%APPDATA%\\Tox";
 
 	if (!GetOpenFileName(&ofn))
 		return;
@@ -163,11 +163,11 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 {
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _T("%s(*.tox)%c*.tox%c%c"),
+	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%c",
 		TranslateT("Tox profile"), 0, 0, 0);
 
 	TCHAR profilePath[MAX_PATH];
-	mir_tstrncpy(profilePath, _T("tox_save.tox"), _countof(profilePath));
+	mir_tstrncpy(profilePath, L"tox_save.tox", _countof(profilePath));
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	ofn.hwndOwner = m_hwnd;
@@ -177,7 +177,7 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	ofn.lpstrTitle = TranslateT("Save Tox profile");
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
-	ofn.lpstrInitialDir = _T("%HOMEPATH%");
+	ofn.lpstrInitialDir = L"%HOMEPATH%";
 
 	if (!GetSaveFileName(&ofn))
 		return;
@@ -392,8 +392,8 @@ void CToxNodeEditor::OnOk(CCtrlBase*)
 		m_list->SetItem(m_iItem, 0, ipv4);
 	m_list->SetItem(m_iItem, 2, port);
 	m_list->SetItem(m_iItem, 3, pubKey);
-	m_list->SetItem(m_iItem, 4, _T(""), 0);
-	m_list->SetItem(m_iItem, 5, _T(""), 1);
+	m_list->SetItem(m_iItem, 4, L"", 0);
+	m_list->SetItem(m_iItem, 5, L"", 1);
 
 	SendMessage(GetParent(GetParent(m_list->GetHwnd())), PSM_CHANGED, 0, 0);
 
@@ -447,12 +447,12 @@ void CToxOptionsNodeList::OnInitDialog()
 	icon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 	ImageList_AddIcon(hImageList, icon); IcoLib_ReleaseIcon(icon);
 
-	m_nodes.AddColumn(0, _T("IPv4"), 100);
-	m_nodes.AddColumn(1, _T("IPv6"), 100);
+	m_nodes.AddColumn(0, L"IPv4", 100);
+	m_nodes.AddColumn(1, L"IPv6", 100);
 	m_nodes.AddColumn(2, TranslateT("Port"), 50);
 	m_nodes.AddColumn(3, TranslateT("Public key"), 130);
-	m_nodes.AddColumn(4, _T(""), 32 - GetSystemMetrics(SM_CXVSCROLL));
-	m_nodes.AddColumn(5, _T(""), 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_nodes.AddColumn(4, L"", 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_nodes.AddColumn(5, L"", 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	m_nodes.EnableGroupView(TRUE);
 	m_nodes.AddGroup(0, TranslateT("Common nodes"));
@@ -567,7 +567,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 					iItem = m_nodes.AddItem(ipv4, -1, NULL, 0);
 
 					ptrT ipv6(mir_utf8decodeT(node.at("ipv6").as_string().c_str()));
-					if (mir_tstrcmp(ipv6, _T("-")))
+					if (mir_tstrcmp(ipv6, L"-"))
 						m_nodes.SetItem(iItem, 1, ipv6);
 
 					ptrT port(mir_utf8decodeT(node.at("port").as_string().c_str()));
@@ -606,8 +606,8 @@ void CToxOptionsNodeList::ReloadNodeList()
 		value = db_get_tsa(NULL, module, setting);
 		m_nodes.SetItem(iItem, 3, value);
 
-		m_nodes.SetItem(iItem, 4, _T(""), 0);
-		m_nodes.SetItem(iItem, 5, _T(""), 1);
+		m_nodes.SetItem(iItem, 4, L"", 0);
+		m_nodes.SetItem(iItem, 5, L"", 1);
 	}
 }
 

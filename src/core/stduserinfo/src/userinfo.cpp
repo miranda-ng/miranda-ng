@@ -318,7 +318,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TCITEM tci;
 			tci.mask = TCIF_TEXT | TCIF_IMAGE;
 			tci.iImage = -1;
-			tci.pszText = _T("X");
+			tci.pszText = L"X";
 			TabCtrl_InsertItem(hwndTab, 0, &tci);
 
 			GetWindowRect(hwndTab, &dat->rcDisplayTab);
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_TIMER:
 		TCHAR str[128];
-		mir_sntprintf(str, _T("%.*s%s%.*s"), dat->updateAnimFrame % 10, _T("........."), dat->szUpdating, dat->updateAnimFrame % 10, _T("........."));
+		mir_sntprintf(str, L"%.*s%s%.*s", dat->updateAnimFrame % 10, L".........", dat->szUpdating, dat->updateAnimFrame % 10, L".........");
 		SetDlgItemText(hwndDlg, IDC_UPDATING, str);
 		if (++dat->updateAnimFrame == UPDATEANIMFRAMES)
 			dat->updateAnimFrame = 0;

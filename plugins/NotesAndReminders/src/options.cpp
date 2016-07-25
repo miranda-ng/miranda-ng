@@ -81,11 +81,11 @@ struct FontOptionsList
 }
 static fontOptionsList[] =
 {
-	{LPGENT("Sticky Note Caption"), RGB(0,0,0), _T("Small Fonts"), 0, 7, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), _T("Terminal"), 0, 6, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), _T("MS Serif"), 0, 7, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Body"), RGB(0,0,0), _T("Tahoma"), 0, 8, LPGENT("Sticky Note Background Color")},
-	{LPGENT("Sticky Note Body"), RGB(0,0,0), _T("System"), DBFONTF_BOLD, 10, LPGENT("Sticky Note Background Color")},
+	{LPGENT("Sticky Note Caption"), RGB(0,0,0), "Small Fonts", 0, 7, LPGENT("Sticky Note Background Color")},
+	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), L"Terminal", 0, 6, LPGENT("Sticky Note Background Color")},
+	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), L"MS Serif", 0, 7, LPGENT("Sticky Note Background Color")},
+	//{LPGENT("Sticky Note Body"), RGB(0,0,0), L"Tahoma", 0, 8, LPGENT("Sticky Note Background Color")},
+	{LPGENT("Sticky Note Body"), RGB(0,0,0), "System", DBFONTF_BOLD, 10, LPGENT("Sticky Note Background Color")},
 };
 
 
@@ -375,7 +375,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			else 
 				SetDlgItemText(hdlg,IDC_EDIT_EMAILSMS,"");
 
-			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : _T(""));
+			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			return TRUE;
 		}
 	case WM_HSCROLL:
@@ -433,7 +433,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				mir_free(g_lpszAltBrowser);
 				g_lpszAltBrowser = NULL;
 			}
-			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : _T(""));
+			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			if (g_lpszAltBrowser)
 				db_set_s(0,MODULENAME,"AltBrowser",g_lpszAltBrowser);
 			else
@@ -469,7 +469,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				ofn.lpstrFile = s;
 				ofn.nMaxFile = _countof(s);
 				ofn.lpstrTitle = TranslateT("Select Executable");
-				ofn.lpstrInitialDir = _T(".");
+				ofn.lpstrInitialDir = ".";
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
 
 				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s, ofn.nMaxFile);
@@ -484,13 +484,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 		case IDC_BUTTON_RESET:
 			{
 				SAFE_FREE((void**)&g_RemindSMS);
-				SetDlgItemText(hdlg,IDC_EDIT_EMAILSMS,_T(""));
+				SetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, "");
 				if (g_lpszAltBrowser)
 				{
 					mir_free(g_lpszAltBrowser);
 					g_lpszAltBrowser = NULL;
 				}
-				SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,_T(""));
+				SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, "");
 				g_ShowNotesAtStart = TRUE;
 				g_AddContListMI = TRUE;
 				g_ShowScrollbar = TRUE;

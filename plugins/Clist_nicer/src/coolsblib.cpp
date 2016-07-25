@@ -31,7 +31,7 @@
 #include "userdefs.h"
 #include "coolsb_internal.h"
 
-static TCHAR szPropStr[] = _T("CoolSBSubclassPtr");
+static TCHAR szPropStr[] = L"CoolSBSubclassPtr";
 
 LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -234,7 +234,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	ice.dwICC  = ICC_BAR_CLASSES;
 	InitCommonControlsEx(&ice);
 
-	sw->hwndToolTip = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, TOOLTIPS_CLASS, _T(""),
+	sw->hwndToolTip = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, TOOLTIPS_CLASS, L"",
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,

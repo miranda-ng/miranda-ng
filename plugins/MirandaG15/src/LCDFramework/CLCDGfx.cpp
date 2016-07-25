@@ -60,7 +60,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 	m_hDC = CreateCompatibleDC(NULL);
 	if(NULL == m_hDC)
 	{
-		TRACE(_T("CLCDGfx::Initialize(): failed to create compatible DC.\n"));
+		TRACE(L"CLCDGfx::Initialize(): failed to create compatible DC.\n");
 		Shutdown();
 		return false;
 	}
@@ -69,7 +69,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 	m_pBitmapInfo = (BITMAPINFO *) new BYTE [nBMISize];
 	if(NULL == m_pBitmapInfo)
 	{
-		TRACE(_T("CLCDGfx::Initialize(): failed to allocate bitmap info.\n"));
+		TRACE(L"CLCDGfx::Initialize(): failed to allocate bitmap info.\n");
 		Shutdown();
 		return false;
 	}
@@ -100,7 +100,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 	m_hBitmap = CreateDIBSection(m_hDC, m_pBitmapInfo, DIB_RGB_COLORS, (PVOID *) &m_pBitmapBits, NULL, 0);
 	if(NULL == m_hBitmap)
 	{
-		TRACE(_T("CLCDGfx::Initialize(): failed to create bitmap.\n"));
+		TRACE(L"CLCDGfx::Initialize(): failed to create bitmap.\n");
 		Shutdown();
 		return false;
 	}
@@ -317,7 +317,7 @@ void CLCDGfx::DrawText(int nX,int nY,int nWidth,tstring strText)
 	SIZE sizeLine =  {0, 0};
 	SIZE sizeCutOff = {0, 0};
 
-	GetTextExtentPoint(GetHDC(),_T("..."),3,&sizeCutOff);
+	GetTextExtentPoint(GetHDC(),L"...",3,&sizeCutOff);
 
 	int *piWidths = new int[strText.length()];
 	int iMaxChars = 0;
@@ -329,7 +329,7 @@ void CLCDGfx::DrawText(int nX,int nY,int nWidth,tstring strText)
 			if(piWidths[iMaxChars] + sizeCutOff.cx <= nWidth)
 				break;
 
-		DrawText(nX,nY,(strText.substr(0,iMaxChars) + _T("...")).c_str());
+		DrawText(nX,nY,(strText.substr(0,iMaxChars) + L"...").c_str());
 	}
 	else DrawText(nX,nY,strText.c_str());
 	delete[] piWidths;
@@ -721,7 +721,7 @@ void CLCDGfx::Cache()
 
 
 	m_dwTransitionStart = GetTickCount();
-	TRACE(_T("Textmorphing: time consumed: %0.2f\n"),(double)(m_dwTransitionStart-dwStart)/(double)1000);
+	TRACE(L"Textmorphing: time consumed: %0.2f\n",(double)(m_dwTransitionStart-dwStart)/(double)1000);
 }
 
 //************************************************************************

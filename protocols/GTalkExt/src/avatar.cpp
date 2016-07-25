@@ -23,8 +23,8 @@
 #include "resources.h"
 #include "options.h"
 
-#define AVA_FILE_NAME_FORMAT  _T("%s\\%s\\AvatarCache\\Jabber\\") _T(SHORT_PLUGIN_NAME) _T(".pseudoava.png")
-#define AVA_RES_TYPE  _T("PNG")
+#define AVA_FILE_NAME_FORMAT  L"%s\\%s\\AvatarCache\\Jabber\\" _T(SHORT_PLUGIN_NAME) L".pseudoava.png"
+#define AVA_RES_TYPE  L"PNG"
 #define SRMM_MODULE_NAME  "SRMM"
 #define SRMM_AVATAR_SETTING_NAME  "Avatar"
 
@@ -154,7 +154,7 @@ void SetAvatar(MCONTACT hContact)
 		return;
 
 	if (ava)
-		CallService(MS_AV_SETAVATART, hContact, (LPARAM)_T(""));
+		CallService(MS_AV_SETAVATART, hContact, (LPARAM)L"");
 	CallService(MS_AV_SETAVATART, hContact, (LPARAM)avaFile);
 	db_set_ts(hContact, SRMM_MODULE_NAME, SRMM_AVATAR_SETTING_NAME, avaFile);
 }

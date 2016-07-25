@@ -43,9 +43,9 @@ CJabberMessageManager::~CJabberMessageManager()
 
 void CJabberMessageManager::FillPermanentHandlers()
 {
-	AddPermanentHandler(&CJabberProto::OnMessageError, JABBER_MESSAGE_TYPE_ERROR, JABBER_MESSAGE_PARSE_FROM | JABBER_MESSAGE_PARSE_HCONTACT, NULL, FALSE, _T("error"));
-	AddPermanentHandler(&CJabberProto::OnMessageIbb, 0, 0, JABBER_FEAT_IBB, FALSE, _T("data"));
-	AddPermanentHandler(&CJabberProto::OnMessagePubsubEvent, 0, 0, JABBER_FEAT_PUBSUB_EVENT, FALSE, _T("event"));
+	AddPermanentHandler(&CJabberProto::OnMessageError, JABBER_MESSAGE_TYPE_ERROR, JABBER_MESSAGE_PARSE_FROM | JABBER_MESSAGE_PARSE_HCONTACT, NULL, FALSE, L"error");
+	AddPermanentHandler(&CJabberProto::OnMessageIbb, 0, 0, JABBER_FEAT_IBB, FALSE, L"data");
+	AddPermanentHandler(&CJabberProto::OnMessagePubsubEvent, 0, 0, JABBER_FEAT_PUBSUB_EVENT, FALSE, L"event");
 	AddPermanentHandler(&CJabberProto::OnMessageGroupchat, JABBER_MESSAGE_TYPE_GROUPCHAT, JABBER_MESSAGE_PARSE_FROM, NULL, FALSE, NULL);
 }
 
@@ -57,17 +57,17 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		CJabberMessageInfo messageInfo;
 
-		LPCTSTR szType = XmlGetAttrValue(node, _T("type"));
+		LPCTSTR szType = XmlGetAttrValue(node, L"type");
 		if (szType) {
-			if (!mir_tstrcmpi(szType, _T("normal")))
+			if (!mir_tstrcmpi(szType, L"normal"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
-			else if (!mir_tstrcmpi(szType, _T("error")))
+			else if (!mir_tstrcmpi(szType, L"error"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_ERROR;
-			else if (!mir_tstrcmpi(szType, _T("chat")))
+			else if (!mir_tstrcmpi(szType, L"chat"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_CHAT;
-			else if (!mir_tstrcmpi(szType, _T("groupchat")))
+			else if (!mir_tstrcmpi(szType, L"groupchat"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_GROUPCHAT;
-			else if (!mir_tstrcmpi(szType, _T("headline")))
+			else if (!mir_tstrcmpi(szType, L"headline"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_HEADLINE;
 			else
 				return false;
@@ -80,7 +80,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 				HXML child = XmlGetChild(node, i);
 
 				LPCTSTR szTagName = XmlGetName(child);
-				LPCTSTR szXmlns = XmlGetAttrValue(child, _T("xmlns"));
+				LPCTSTR szXmlns = XmlGetAttrValue(child, L"xmlns");
 
 				if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
@@ -88,19 +88,19 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 					messageInfo.m_szChildTagName = szTagName;
 					messageInfo.m_szChildTagXmlns = szXmlns;
 					messageInfo.m_pUserData = pInfo.m_pUserData;
-					messageInfo.m_szFrom = XmlGetAttrValue(node, _T("from")); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
+					messageInfo.m_szFrom = XmlGetAttrValue(node, L"from"); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
 
 					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
-						messageInfo.m_szId = XmlGetAttrValue(node, _T("id"));
+						messageInfo.m_szId = XmlGetAttrValue(node, L"id");
 
 					if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-						messageInfo.m_szTo = XmlGetAttrValue(node, _T("to"));
+						messageInfo.m_szTo = XmlGetAttrValue(node, L"to");
 
 					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);
 
 					if (messageInfo.m_szFrom)
-						ppro->debugLog(_T("Handling message from %s"), messageInfo.m_szFrom);
+						ppro->debugLog(L"Handling message from %s", messageInfo.m_szFrom);
 					if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &messageInfo))
 						return true;
 				}

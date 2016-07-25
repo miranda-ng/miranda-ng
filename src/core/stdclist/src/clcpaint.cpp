@@ -320,7 +320,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			if (cc->type == CLCIT_GROUP) {
 				ptszGroupCount = pcli->pfnGetGroupCountsText(dat, cc);
 				if (*ptszGroupCount) {
-					GetTextExtentPoint32(hdcMem, _T(" "), 1, &spaceSize);
+					GetTextExtentPoint32(hdcMem, L" ", 1, &spaceSize);
 					ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
 					GetTextExtentPoint32(hdcMem, ptszGroupCount, (int)mir_tstrlen(ptszGroupCount), &countsSize);
 					width += spaceSize.cx + countsSize.cx;

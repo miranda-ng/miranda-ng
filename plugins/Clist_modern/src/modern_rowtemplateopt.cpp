@@ -29,10 +29,10 @@ static char* rowOptTmplStr;
 static ROWCELL* rowOptTmplRoot;
 static ROWCELL* rowOptTA[100];
 TCHAR *types[] = {
-	_T("none"), _T("text1"), _T("text2"), _T("text3"), _T("status"),
-	_T("avatar"), _T("extra"), _T("extra1"), _T("extra2"), _T("extra3"),
-	_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"),
-	_T("extra9"), _T("time"), _T("space"), _T("fspace")
+	L"none", L"text1", L"text2", L"text3", L"status",
+	L"avatar", L"extra", L"extra1", L"extra2", L"extra3",
+	L"extra4", L"extra5", L"extra6", L"extra7", L"extra8",
+	L"extra9", L"time", L"space", L"fspace"
 };
 
 RECT da = { 205, 58, 440, 130 }; // Draw area
@@ -136,10 +136,10 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 
 	switch (cell->cont) {
 	case TC_ROW:
-		tvis.item.pszText = _T("Line");
+		tvis.item.pszText = L"Line";
 		break;
 	case TC_COL:
-		tvis.item.pszText = _T("Column");
+		tvis.item.pszText = L"Column";
 	}
 
 	tvis.item.iImage = cell->child ? 1 : 2;
@@ -171,7 +171,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 		rowAddCell(rowOptTmplRoot, TC_ROW);
 		tvis.hParent = NULL;
 		tvis.hInsertAfter = TVI_ROOT;
-		tvis.item.pszText = _T("Line");
+		tvis.item.pszText = L"Line";
 		tvis.item.lParam = (LPARAM)rowOptTmplRoot;
 		cell = rowOptTmplRoot;
 	}
@@ -183,9 +183,9 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 		cell = (pROWCELL)tviparent.lParam;
 
 		if (cell->cont == TC_ROW)
-			tvis.item.pszText = _T("Column");
+			tvis.item.pszText = L"Column";
 		else
-			tvis.item.pszText = _T("Line");
+			tvis.item.pszText = L"Line";
 
 		if (cell->child) {
 			cell = cell->child;
@@ -362,14 +362,14 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETCURSEL, 0, 0);
 
-		TCHAR *h_alignment[] = { _T("left"), _T("hCenter"), _T("right") };
+		TCHAR *h_alignment[] = { L"left", L"hCenter", L"right" };
 		for (i = 0; i < _countof(h_alignment); i++) {
 			item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(h_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
 
-		TCHAR *v_alignment[] = { _T("top"), _T("vCenter"), _T("bottom") };
+		TCHAR *v_alignment[] = { L"top", L"vCenter", L"bottom" };
 		for (i = 0; i < _countof(v_alignment); i++) {
 			item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(v_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);

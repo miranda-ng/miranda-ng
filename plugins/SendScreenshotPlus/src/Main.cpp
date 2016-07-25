@@ -70,7 +70,7 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 static HANDLE m_hFolderScreenshot = 0;
 TCHAR* GetCustomPath()
 {
-	TCHAR* pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
+	TCHAR* pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
 		TCHAR szPath[1024] = { 0 };
 		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);
@@ -78,14 +78,14 @@ TCHAR* GetCustomPath()
 		pszPath = mir_tstrdup(szPath);
 	}
 	if (!pszPath) {
-		MessageBox(NULL, _T("Can not retrieve screenshot path."), _T("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(NULL, L"Can not retrieve screenshot path.", L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
 	int result = CreateDirectoryTreeT(pszPath);
 	if (result) {
 		TCHAR szError[MAX_PATH];
 		mir_sntprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
-		MessageBox(NULL, szError, _T("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(NULL, szError, L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
 		return 0;
 	}
@@ -240,7 +240,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	CtrlButtonLoadModule();
 	// Folders plugin support
 	m_hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
-		_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
+		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Screenshots");
 	return 0;
 }
 int hook_SystemPreShutdown(WPARAM, LPARAM)
@@ -310,7 +310,7 @@ DLL_EXPORT int Load(void)
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "Open SendSS+";
 	hkd.ptszDescription = LPGENT("Open SendSS+");
-	hkd.ptszSection = _T("SendSS+");
+	hkd.ptszSection = L"SendSS+";
 	hkd.pszService = MS_SENDSS_OPENDIALOG;
 	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = 0xFFFF;

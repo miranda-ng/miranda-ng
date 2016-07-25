@@ -2,8 +2,8 @@
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 
-LPCTSTR g_pszVariableQuoteName = _T("%quotename%");
-LPCTSTR g_pszVariableUserProfile = _T("%miranda_userdata%");
+LPCTSTR g_pszVariableQuoteName = L"%quotename%";
+LPCTSTR g_pszVariableUserProfile = L"%miranda_userdata%";
 
 void update_file_controls(HWND hDlg)
 {
@@ -85,7 +85,7 @@ void update_all_controls(HWND hDlg)
 std::vector<TCHAR> get_filter()
 {
 	std::vector<TCHAR> aFilter;
-	LPCTSTR pszFilterParts[] = { LPGENT("Log Files (*.txt,*.log)"), _T("*.txt;*.log"), LPGENT("All files (*.*)"), _T("*.*") };
+	LPCTSTR pszFilterParts[] = { LPGENT("Log Files (*.txt,*.log)"), L"*.txt;*.log", LPGENT("All files (*.*)"), L"*.*" };
 	for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i) {
 		tstring sPart = TranslateTS(pszFilterParts[i]);
 		std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
@@ -111,7 +111,7 @@ void select_log_file(HWND hDlg)
 	ofn.lpstrFilter = pszFilter;
 	ofn.nFilterIndex = 1;
 	ofn.hInstance = g_hInstance;
-	ofn.lpstrDefExt = _T("log");
+	ofn.lpstrDefExt = L"log";
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
 
 	BOOL b = GetOpenFileName(&ofn);
@@ -663,9 +663,9 @@ CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvide
 	m_sLogFileName = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile);
 	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
-		m_sLogFileName += _T("\\Quotes\\");
+		m_sLogFileName += L"\\Quotes\\";
 		m_sLogFileName += g_pszVariableQuoteName;
-		m_sLogFileName += _T(".log");
+		m_sLogFileName += L".log";
 	}
 
 	m_sFormatLogFile = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);

@@ -96,21 +96,21 @@ void StripBBCodesInPlace(TCHAR *ptszText)
 		if (iRead > iLen)
 			break;
 
-		if (iLen - iRead >= 3 && (_tcsnicmp(ptszText + iRead, _T("[b]"), 3) == 0 || _tcsnicmp(ptszText + iRead, _T("[i]"), 3) == 0))
+		if (iLen - iRead >= 3 && (_tcsnicmp(ptszText + iRead, L"[b]", 3) == 0 || _tcsnicmp(ptszText + iRead, L"[i]", 3) == 0))
 			iRead += 3;
-		else if (iLen - iRead >= 4 && (_tcsnicmp(ptszText + iRead, _T("[/b]"), 4) == 0 || _tcsnicmp(ptszText + iRead, _T("[/i]"), 4) == 0))
+		else if (iLen - iRead >= 4 && (_tcsnicmp(ptszText + iRead, L"[/b]", 4) == 0 || _tcsnicmp(ptszText + iRead, L"[/i]", 4) == 0))
 			iRead += 4;
-		else if (iLen - iRead >= 6 && (_tcsnicmp(ptszText + iRead, _T("[color"), 6) == 0)) {
+		else if (iLen - iRead >= 6 && (_tcsnicmp(ptszText + iRead, L"[color", 6) == 0)) {
 			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 8 && (_tcsnicmp(ptszText + iRead, _T("[/color]"), 8) == 0))
+		else if (iLen - iRead >= 8 && (_tcsnicmp(ptszText + iRead, L"[/color]", 8) == 0))
 			iRead += 8;
-		else if (iLen - iRead >= 5 && (_tcsnicmp(ptszText + iRead, _T("[size"), 5) == 0)) {
+		else if (iLen - iRead >= 5 && (_tcsnicmp(ptszText + iRead, L"[size", 5) == 0)) {
 			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 7 && (_tcsnicmp(ptszText + iRead, _T("[/size]"), 7) == 0))
+		else if (iLen - iRead >= 7 && (_tcsnicmp(ptszText + iRead, L"[/size]", 7) == 0))
 			iRead += 7;
 		else {
 			if (ptszText[iRead] != ptszText[iWrite]) ptszText[iWrite] = ptszText[iRead];
@@ -250,20 +250,20 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 {
 	bool recv = false;
 
-	if (!mir_tstrcmp(swzRawSpec, _T("uid")))
+	if (!mir_tstrcmp(swzRawSpec, L"uid"))
 		return Uid(hContact, 0, buff, bufflen);
 
-	if (!mir_tstrcmp(swzRawSpec, _T("proto"))) {
+	if (!mir_tstrcmp(swzRawSpec, L"proto")) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			a2t(szProto, buff, bufflen);
 			return true;
 		}
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("account"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"account")) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if ((INT_PTR)szProto == CALLSERVICE_NOTFOUND) {
-			return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
+			return GetSysSubstText(hContact, L"proto", buff, bufflen);
 		}
 		else if (szProto) {
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -272,18 +272,18 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 				return true;
 			}
 			else
-				return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
+				return GetSysSubstText(hContact, L"proto", buff, bufflen);
 		}
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("time"))) {
-		if (!printDateTimeByContact(hContact, _T("t"), buff, bufflen, TZF_KNOWNONLY))
+	else if (!mir_tstrcmp(swzRawSpec, L"time")) {
+		if (!printDateTimeByContact(hContact, L"t", buff, bufflen, TZF_KNOWNONLY))
 			return true;
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("uidname"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"uidname")) {
 		char *szProto = GetContactProto(hContact);
 		return UidName(szProto, buff, bufflen);
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("status_msg"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"status_msg")) {
 		TCHAR *swzMsg = GetStatusMessageText(hContact);
 		if (swzMsg) {
 			_tcsncpy(buff, swzMsg, bufflen);
@@ -291,7 +291,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return true;
 		}
 	}
-	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, L"last_msg")) || !mir_tstrcmp(swzRawSpec, L"last_msg_out")) {
 		TCHAR *swzMsg = GetLastMessageText(hContact, recv);
 		if (swzMsg) {
 			_tcsncpy(buff, swzMsg, bufflen);
@@ -299,7 +299,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return true;
 		}
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subname"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"meta_subname")) {
 		// get contact list name of active subcontact
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact)
@@ -310,32 +310,32 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			_tcsncpy(buff, swzNick, bufflen);
 		return true;
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subuid"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"meta_subuid")) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return Uid(hSubContact, 0, buff, bufflen);
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subproto"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"meta_subproto")) {
 		// get protocol of active subcontact
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
-		return GetSysSubstText(hSubContact, _T("account"), buff, bufflen);
+		return GetSysSubstText(hSubContact, L"account", buff, bufflen);
 	}
-	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_time"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_time"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, L"last_msg_time")) || !mir_tstrcmp(swzRawSpec, L"last_msg_out_time")) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "t", buff, bufflen);
 		return true;
 	}
-	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_date"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_date"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, L"last_msg_date")) || !mir_tstrcmp(swzRawSpec, L"last_msg_out_date")) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "d", buff, bufflen);
 		return true;
 	}
-	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_reltime"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_reltime"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, L"last_msg_reltime")) || !mir_tstrcmp(swzRawSpec, L"last_msg_out_reltime")) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		DWORD t = (DWORD)time(0);
@@ -348,7 +348,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		else mir_sntprintf(buff, bufflen, TranslateT("%dm"), m);
 		return true;
 	}
-	else if (!mir_tstrcmp(swzRawSpec, _T("msg_count_all")) || !mir_tstrcmp(swzRawSpec, _T("msg_count_out")) || !mir_tstrcmp(swzRawSpec, _T("msg_count_in"))) {
+	else if (!mir_tstrcmp(swzRawSpec, L"msg_count_all") || !mir_tstrcmp(swzRawSpec, L"msg_count_out") || !mir_tstrcmp(swzRawSpec, L"msg_count_in")) {
 		DWORD dwCountOut, dwCountIn;
 		DWORD dwMetaCountOut = 0, dwMetaCountIn = 0;
 		DWORD dwLastTs, dwNewTs, dwRecountTs;
@@ -406,12 +406,12 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			dwMetaCountIn += dwCountIn;
 		}
 
-		if (!mir_tstrcmp(swzRawSpec, _T("msg_count_out")))
-			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountOut);
-		else if (!mir_tstrcmp(swzRawSpec, _T("msg_count_in")))
-			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountIn);
+		if (!mir_tstrcmp(swzRawSpec, L"msg_count_out"))
+			mir_sntprintf(buff, bufflen, L"%d", dwMetaCountOut);
+		else if (!mir_tstrcmp(swzRawSpec, L"msg_count_in"))
+			mir_sntprintf(buff, bufflen, L"%d", dwMetaCountIn);
 		else
-			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountOut + dwMetaCountIn);
+			mir_sntprintf(buff, bufflen, L"%d", dwMetaCountOut + dwMetaCountIn);
 		return true;
 	}
 
@@ -533,7 +533,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						if (!last) last = p;
 
 						while (p <= last + 1) {
-							len = (int)_tcscspn(p, _T(","));
+							len = (int)_tcscspn(p, L",");
 							t2a(p, sproto, len);
 							sproto[len] = 0;
 							p += len + 1;
@@ -555,13 +555,13 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				if (p) {
 					*p = 0; // clip swzAlt from swzVName
 					p++;
-					if (mir_tstrlen(p) > 4 && _tcsncmp(p, _T("raw:"), 4) == 0) { // raw db substitution
+					if (mir_tstrlen(p) > 4 && _tcsncmp(p, L"raw:", 4) == 0) { // raw db substitution
 						char raw_spec[LABEL_LEN];
 						p += 4;
 						t2a(p, raw_spec, LABEL_LEN);
 						GetRawSubstText(hContact, raw_spec, swzAlt, VALUE_LEN);
 					}
-					else if (mir_tstrlen(p) > 4 && _tcsncmp(p, _T("sys:"), 4) == 0) { // 'system' substitution
+					else if (mir_tstrlen(p) > 4 && _tcsncmp(p, L"sys:", 4) == 0) { // 'system' substitution
 						p += 4;
 						GetSysSubstText(hContact, p, swzAlt, VALUE_LEN);
 					}
@@ -588,13 +588,13 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				}
 
 				// get bSubst text
-				if (v > 4 && _tcsncmp(swzVName, _T("raw:"), 4) == 0) // raw db substitution
+				if (v > 4 && _tcsncmp(swzVName, L"raw:", 4) == 0) // raw db substitution
 				{
 					char raw_spec[LABEL_LEN];
 					t2a(&swzVName[4], raw_spec, LABEL_LEN);
 					bSubst = GetRawSubstText(hContact, raw_spec, swzRep, VALUE_LEN);
 				}
-				else if (v > 4 && _tcsncmp(swzVName, _T("sys:"), 4) == 0) // 'system' substitution
+				else if (v > 4 && _tcsncmp(swzVName, L"sys:", 4) == 0) // 'system' substitution
 				{
 					bSubst = GetSysSubstText(hContact, &swzVName[4], swzRep, VALUE_LEN);
 				}
@@ -679,7 +679,7 @@ void TruncateString(TCHAR *ptszText)
 	if (ptszText && opt.iLimitCharCount > 3) {
 		if ((int)mir_tstrlen(ptszText) > opt.iLimitCharCount) {
 			ptszText[opt.iLimitCharCount - 3] = 0;
-			mir_tstrcat(ptszText, _T("..."));
+			mir_tstrcat(ptszText, L"...");
 		}
 	}
 }

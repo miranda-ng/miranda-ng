@@ -133,17 +133,17 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 		if (p)
 			*p = 0;
 	}
-	else mir_tstrcpy(szDbFile, _T("%1")); /* buffer safe */
+	else mir_tstrcpy(szDbFile, L"%1"); /* buffer safe */
 
 	if ( !GetModuleFileName(fMirExe ? NULL : hInst, szExe, _countof(szExe)))
 		return NULL;
 
 	if (fMirExe)
 		/* run command for miranda32.exe */
-			pszFmt = _T("\"%s\" \"/profile:%s\"");
+			pszFmt = L"\"%s\" \"/profile:%s\"";
 	else {
 		/* run command for rundll32.exe calling WaitForDDE */
-		pszFmt = _T("rundll32.exe %s,WaitForDDE \"/profile:%s\"");
+		pszFmt = L"rundll32.exe %s,WaitForDDE \"/profile:%s\"";
 		/* ensure the command line is not too long */ 
 		GetShortPathName(szExe, szExe, _countof(szExe));
 		/* surround by quotes if failed */
@@ -176,9 +176,9 @@ static BOOL IsValidRunCommand(const TCHAR *pszRunCmd)
 		if (pargs!=NULL) *pargs=0;
 		pexe=buf;
 	}
-	if (SearchPath(NULL,pexe,_T(".exe"),_countof(szFullExe),szFullExe,&pszFilePart)) {
+	if (SearchPath(NULL,pexe,L".exe",_countof(szFullExe),szFullExe,&pszFilePart)) {
 		if (pszFilePart!=NULL)
-			if (!mir_tstrcmpi(pszFilePart,_T("rundll32.exe")) || !mir_tstrcmpi(pszFilePart,_T("rundll.exe"))) {
+			if (!mir_tstrcmpi(pszFilePart,L"rundll32.exe") || !mir_tstrcmpi(pszFilePart,L"rundll.exe")) {
 				/* split into dll path and arguments */
 				if (pargs[0]==_T('\"')) {
 					++pargs;
@@ -188,7 +188,7 @@ static BOOL IsValidRunCommand(const TCHAR *pszRunCmd)
 					pexe=_tcschr(pargs,_T(','));
 					if (pexe!=NULL) *pexe=0;
 				}
-				return SearchPath(NULL,pargs,_T(".dll"),0,NULL,NULL)!=0;
+				return SearchPath(NULL,pargs,L".dll",0,NULL,NULL)!=0;
 			}
 			return TRUE;
 	}
@@ -203,7 +203,7 @@ TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID)
 	if ((cch=GetModuleFileName(hModule,szModule,_countof(szModule))) != 0) {
 		pszIconLoc=(TCHAR*)mir_alloc((cch+=8)*sizeof(TCHAR));
 		if (pszIconLoc!=NULL)
-			mir_sntprintf(pszIconLoc, cch, _T("%s,%i"), szModule, -(int)nIconResID); /* id may be 0, buffer safe */
+			mir_sntprintf(pszIconLoc, cch, L"%s,%i", szModule, -(int)nIconResID); /* id may be 0, buffer safe */
 	}
 	return pszIconLoc;
 }
@@ -592,7 +592,7 @@ BOOL AddRegClass(const char *pszClassName,const TCHAR *pszTypeDescription,const 
 		return FALSE;
 	}
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_CREATE_SUB_KEY,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT; /* might be write protected by security settings */
 
 	/* class */
@@ -600,67 +600,67 @@ BOOL AddRegClass(const char *pszClassName,const TCHAR *pszTypeDescription,const 
 		/* backup class if shared */
 		if (fUrlProto) BackupRegTree(hRootKey,pszClassName,"bak_");
 		/* type description */
-		if (fUrlProto) SetRegStrPrefixValue(hClassKey,_T("URL:"),pszTypeDescription);
+		if (fUrlProto) SetRegStrPrefixValue(hClassKey,L"URL:",pszTypeDescription);
 		else RegSetValueEx(hClassKey,NULL,0,REG_SZ,(BYTE*)pszTypeDescription,(int)(mir_tstrlen(pszTypeDescription)+1)*sizeof(TCHAR));
 		/* default icon */
-		if (pszIconLoc!=NULL) SetRegSubKeyStrDefValue(hClassKey,_T("DefaultIcon"),pszIconLoc);
+		if (pszIconLoc!=NULL) SetRegSubKeyStrDefValue(hClassKey,L"DefaultIcon",pszIconLoc);
 		/* url protocol */
-		if (!fUrlProto) RegDeleteValue(hClassKey,_T("URL Protocol"));
-		else RegSetValueEx(hClassKey,_T("URL Protocol"),0,REG_SZ,NULL,0);
+		if (!fUrlProto) RegDeleteValue(hClassKey,L"URL Protocol");
+		else RegSetValueEx(hClassKey,L"URL Protocol",0,REG_SZ,NULL,0);
 		/* moniker clsid */
-		RegDeleteKey(hClassKey,_T("CLSID"));
+		RegDeleteKey(hClassKey,L"CLSID");
 		/* edit flags */
 		{	DWORD dwFlags=0,dwSize=sizeof(dwFlags);
-		RegQueryValueEx(hClassKey,_T("EditFlags"),NULL,NULL,(BYTE*)&dwFlags,&dwSize);
+		RegQueryValueEx(hClassKey,L"EditFlags",NULL,NULL,(BYTE*)&dwFlags,&dwSize);
 		if (fBrowserAutoOpen) dwFlags=(dwFlags&~FTA_AlwaysUnsafe)|FTA_OpenIsSafe;
 		if (!fUrlProto) dwFlags|=FTA_HasExtension;
 		else dwFlags=(dwFlags&~FTA_HasExtension)|FTA_Show; /* show classes without extension */
-		RegSetValueEx(hClassKey,_T("EditFlags"),0,REG_DWORD,(BYTE*)&dwFlags,sizeof(dwFlags));
+		RegSetValueEx(hClassKey,L"EditFlags",0,REG_DWORD,(BYTE*)&dwFlags,sizeof(dwFlags));
 		}
 		if (fIsShortcut) {
 			RegSetValueExA(hClassKey,"IsShortcut",0,REG_SZ,NULL,0);
 			RegSetValueExA(hClassKey,"NeverShowExt",0,REG_SZ,NULL,0);
 		}
 		/* shell */
-		if ((res=RegCreateKeyEx(hClassKey,_T("shell"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hShellKey,NULL))==ERROR_SUCCESS) {
+		if ((res=RegCreateKeyEx(hClassKey,L"shell",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hShellKey,NULL))==ERROR_SUCCESS) {
 			/* default verb (when empty "open" is used) */
-			RegSetValueEx(hShellKey,NULL,0,REG_SZ,(BYTE*)_T("open"),5*sizeof(TCHAR));
+			RegSetValueEx(hShellKey,NULL,0,REG_SZ,(BYTE*)L"open",5*sizeof(TCHAR));
 			/* verb */
-			if ((res=RegCreateKeyEx(hShellKey,_T("open"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY|DELETE,NULL,&hVerbKey,NULL))==ERROR_SUCCESS) {
+			if ((res=RegCreateKeyEx(hShellKey,L"open",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY|DELETE,NULL,&hVerbKey,NULL))==ERROR_SUCCESS) {
 				/* verb description */
 				if (pszVerbDesc==NULL) RegDeleteValue(hVerbKey,NULL);
 				else RegSetValueEx(hVerbKey,NULL,0,REG_SZ,(BYTE*)pszVerbDesc,(int)(mir_tstrlen(pszVerbDesc)+1)*sizeof(TCHAR));
 				/* friendly appname (mui string) */
-				RegSetValueEx(hVerbKey,_T("FriendlyAppName"),0,REG_SZ,(BYTE*)pszAppName,(int)(mir_tstrlen(pszAppName)+1)*sizeof(TCHAR));
+				RegSetValueEx(hVerbKey,L"FriendlyAppName",0,REG_SZ,(BYTE*)pszAppName,(int)(mir_tstrlen(pszAppName)+1)*sizeof(TCHAR));
 				/* command */
-				SetRegSubKeyStrDefValue(hVerbKey,_T("command"),pszRunCmd);
+				SetRegSubKeyStrDefValue(hVerbKey,L"command",pszRunCmd);
 				/* ddeexec */
 				if (pszDdeCmd!=NULL) {
-					if (!RegCreateKeyEx(hVerbKey,_T("ddeexec"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY|DELETE,NULL,&hDdeKey,NULL)) {
+					if (!RegCreateKeyEx(hVerbKey,L"ddeexec",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY|DELETE,NULL,&hDdeKey,NULL)) {
 						/* command */
 						RegSetValueEx(hDdeKey,NULL,0,REG_SZ,(BYTE*)pszDdeCmd,(int)(mir_tstrlen(pszDdeCmd)+1)*sizeof(TCHAR));
 						/* application */
-						SetRegSubKeyStrDefValue(hDdeKey,_T("application"),pszDdeApp);
+						SetRegSubKeyStrDefValue(hDdeKey,L"application",pszDdeApp);
 						/* topic */
-						SetRegSubKeyStrDefValue(hDdeKey,_T("topic"),pszDdeTopic);
+						SetRegSubKeyStrDefValue(hDdeKey,L"topic",pszDdeTopic);
 						/* ifexec */
-						RegDeleteKey(hDdeKey,_T("ifexec"));
+						RegDeleteKey(hDdeKey,L"ifexec");
 						RegCloseKey(hDdeKey);
 					}
 				} else {
-					if (!RegOpenKeyEx(hVerbKey,_T("ddeexec"),0,DELETE,&hDdeKey)) {
+					if (!RegOpenKeyEx(hVerbKey,L"ddeexec",0,DELETE,&hDdeKey)) {
 						/* application */
-						RegDeleteKey(hDdeKey,_T("application"));
+						RegDeleteKey(hDdeKey,L"application");
 						/* topic */
-						RegDeleteKey(hDdeKey,_T("topic"));
+						RegDeleteKey(hDdeKey,L"topic");
 						/* ifexec */
-						RegDeleteKey(hDdeKey,_T("ifexec"));
+						RegDeleteKey(hDdeKey,L"ifexec");
 						RegCloseKey(hDdeKey);
 					}
-					RegDeleteKey(hVerbKey,_T("ddeexec"));
+					RegDeleteKey(hVerbKey,L"ddeexec");
 				}
 				/* drop target (WinXP+) */
-				RegDeleteKey(hVerbKey,_T("DropTarget"));
+				RegDeleteKey(hVerbKey,L"DropTarget");
 				RegCloseKey(hVerbKey);
 			}
 			RegCloseKey(hShellKey);
@@ -682,7 +682,7 @@ BOOL RemoveRegClass(const char *pszClassName)
 	TCHAR *ptszClassName,*ptszPrevRunCmd;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,DELETE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* class name */
@@ -698,11 +698,11 @@ BOOL RemoveRegClass(const char *pszClassName)
 			/* class */
 				if (!RegOpenKeyExA(hRootKey,pszClassName,0,KEY_QUERY_VALUE,&hClassKey)) {
 					/* shell */
-					if (!RegOpenKeyEx(hClassKey,_T("shell"),0,KEY_QUERY_VALUE,&hShellKey)) {
+					if (!RegOpenKeyEx(hClassKey,L"shell",0,KEY_QUERY_VALUE,&hShellKey)) {
 						/* verb */
-						if (!RegOpenKeyEx(hShellKey,_T("open"),0,KEY_QUERY_VALUE,&hVerbKey)) {
+						if (!RegOpenKeyEx(hShellKey,L"open",0,KEY_QUERY_VALUE,&hVerbKey)) {
 							/* command */
-							ptszPrevRunCmd=GetRegStrValue(hVerbKey,_T("command"));
+							ptszPrevRunCmd=GetRegStrValue(hVerbKey,L"command");
 							if (ptszPrevRunCmd!=NULL && !IsValidRunCommand(ptszPrevRunCmd))
 								res=DeleteRegSubTree(hRootKey,ptszClassName); /* backup outdated, remove all */
 							mir_free(ptszPrevRunCmd); /* does NULL check */
@@ -738,11 +738,11 @@ BOOL IsRegClass(const char *pszClassName,const TCHAR *pszRunCmd)
 	/* class */
 	if (!RegOpenKeyExA(HKEY_CLASSES_ROOT,pszClassName,0,KEY_QUERY_VALUE,&hClassKey)) {
 		/* shell */
-		if (!RegOpenKeyEx(hClassKey,_T("shell"),0,KEY_QUERY_VALUE,&hShellKey)) {
+		if (!RegOpenKeyEx(hClassKey,L"shell",0,KEY_QUERY_VALUE,&hShellKey)) {
 			/* verb */
-			if (!RegOpenKeyEx(hShellKey,_T("open"),0,KEY_QUERY_VALUE,&hVerbKey)) {
+			if (!RegOpenKeyEx(hShellKey,L"open",0,KEY_QUERY_VALUE,&hVerbKey)) {
 				/* command */
-				if (!RegOpenKeyEx(hVerbKey,_T("command"),0,KEY_QUERY_VALUE,&hCmdKey)) {
+				if (!RegOpenKeyEx(hVerbKey,L"command",0,KEY_QUERY_VALUE,&hCmdKey)) {
 					/* it is enough to check if the command is right */
 					fSuccess=IsRegStrValue(hCmdKey,NULL,pszRunCmd);
 					RegCloseKey(hCmdKey);
@@ -772,7 +772,7 @@ HICON LoadRegClassSmallIcon(const char *pszClassName)
 	/* class */
 	if (!RegOpenKeyExA(HKEY_CLASSES_ROOT,pszClassName,0,KEY_QUERY_VALUE,&hClassKey)) {
 		/* default icon */
-		if (!RegOpenKeyEx(hClassKey,_T("DefaultIcon"),0,KEY_QUERY_VALUE,&hIconKey)) {
+		if (!RegOpenKeyEx(hClassKey,L"DefaultIcon",0,KEY_QUERY_VALUE,&hIconKey)) {
 			/* extract icon */
 			pszIconLoc=GetRegStrValue(hIconKey,NULL);
 			if (pszIconLoc!=NULL) {
@@ -812,7 +812,7 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 		return FALSE;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_CREATE_SUB_KEY,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* file ext */
@@ -820,11 +820,11 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 		/* backup previous app */
 		BackupRegTree(hRootKey,pszFileExt,"bak_");
 		/* remove any no-open flag */
-		RegDeleteValue(hExtKey,_T("NoOpen"));
+		RegDeleteValue(hExtKey,L"NoOpen");
 		/* open with progids */
 		TCHAR *pszPrevClass=GetRegStrValue(hExtKey,NULL);
 		if (pszPrevClass!=NULL && !IsRegStrValueA(hExtKey,NULL,pszClassName))
-			if (!RegCreateKeyEx(hExtKey,_T("OpenWithProgids"),0,NULL,0,KEY_SET_VALUE,NULL,&hOpenWithKey,NULL)) {
+			if (!RegCreateKeyEx(hExtKey,L"OpenWithProgids",0,NULL,0,KEY_SET_VALUE,NULL,&hOpenWithKey,NULL)) {
 				/* previous class (backup) */
 				RegSetValueEx(hOpenWithKey,pszPrevClass,0,REG_NONE,NULL,0);
 				RegCloseKey(hOpenWithKey);
@@ -835,7 +835,7 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 			/* mime type e.g. "application/x-icq" */
 			if (pszMimeType!=NULL) RegSetValueExA(hExtKey, "Content Type", 0, REG_SZ, (BYTE*)pszMimeType, (int)mir_strlen(pszMimeType)+1);
 			/* perceived type e.g. text (WinXP+) */
-			if (fIsText) RegSetValueEx(hExtKey,_T("PerceivedType"),0,REG_SZ,(BYTE*)_T("text"),5*sizeof(TCHAR));
+			if (fIsText) RegSetValueEx(hExtKey,L"PerceivedType",0,REG_SZ,(BYTE*)L"text",5*sizeof(TCHAR));
 			RegCloseKey(hExtKey);
 	}
 
@@ -852,7 +852,7 @@ void RemoveRegFileExt(const char *pszFileExt,const char *pszClassName)
 	BOOL fRestored=FALSE;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,DELETE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* file ext */
@@ -873,13 +873,13 @@ void RemoveRegFileExt(const char *pszFileExt,const char *pszClassName)
 		if (pszPrevClassName==NULL) RegDeleteValue(hExtKey,NULL);
 		/* open with progids (remove if empty) */
 		nOpenWithCount=0;
-		if (!RegOpenKeyEx(hExtKey,_T("OpenWithProgids"),0,KEY_SET_VALUE|KEY_QUERY_VALUE,&hSubKey)) {
+		if (!RegOpenKeyEx(hExtKey,L"OpenWithProgids",0,KEY_SET_VALUE|KEY_QUERY_VALUE,&hSubKey)) {
 			/* remove current class (if set by another app) */
 			RegDeleteValueA(hSubKey,pszClassName);
 			RegQueryInfoKey(hSubKey,NULL,NULL,NULL,NULL,NULL,NULL,NULL,&nOpenWithCount,NULL,NULL,NULL);
 			RegCloseKey(hSubKey);
 		}
-		if (!nOpenWithCount) RegDeleteKey(hExtKey,_T("OpenWithProgids")); /* delete if no values */
+		if (!nOpenWithCount) RegDeleteKey(hExtKey,L"OpenWithProgids"); /* delete if no values */
 		RegCloseKey(hExtKey);
 	} else DeleteRegTreeBackup(pszFileExt,"bak_");
 	if (!fRestored) RegDeleteKeyA(hRootKey,pszFileExt); /* try to remove it all */
@@ -928,11 +928,11 @@ BOOL AddRegMimeType(const char *pszMimeType,const char *pszFileExt)
 		return FALSE;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
-	if (!RegOpenKeyEx(hRootKey,_T("MIME\\Database\\Content Type"),0,KEY_CREATE_SUB_KEY,&hDbKey)) {
+	if (!RegOpenKeyEx(hRootKey,L"MIME\\Database\\Content Type",0,KEY_CREATE_SUB_KEY,&hDbKey)) {
 		/* mime type */
 		if (!RegCreateKeyExA(hDbKey,pszMimeType,0,NULL,0,KEY_QUERY_VALUE|KEY_SET_VALUE,NULL,&hTypeKey,NULL)) {
 			/* file ext */
@@ -954,15 +954,15 @@ void RemoveRegMimeType(const char *pszMimeType,const char *pszFileExt)
 	BOOL fDelete=TRUE;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
-	if (!RegOpenKeyEx(hRootKey,_T("MIME\\Database\\Content Type"),0,DELETE,&hDbKey)) {
+	if (!RegOpenKeyEx(hRootKey,L"MIME\\Database\\Content Type",0,DELETE,&hDbKey)) {
 		/* mime type */
 		if (!RegOpenKeyExA(hDbKey,pszMimeType,0,KEY_QUERY_VALUE,&hTypeKey)) {
 			/* file ext */
-			fDelete=IsRegStrValueA(hTypeKey,_T("Extension"),pszFileExt);
+			fDelete=IsRegStrValueA(hTypeKey,L"Extension",pszFileExt);
 			RegCloseKey(hTypeKey);
 		}
 		if (fDelete) RegDeleteKeyA(hDbKey,pszMimeType);
@@ -985,39 +985,39 @@ void AddRegOpenWith(const TCHAR *pszAppFileName,BOOL fAllowOpenWith,const TCHAR 
 	HKEY hRootKey,hAppsKey,hExeKey,hShellKey,hVerbKey,hDdeKey;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
-	if (!RegCreateKeyEx(hRootKey,_T("Applications"),0,NULL,0,KEY_CREATE_SUB_KEY,NULL,&hAppsKey,NULL)) {
+	if (!RegCreateKeyEx(hRootKey,L"Applications",0,NULL,0,KEY_CREATE_SUB_KEY,NULL,&hAppsKey,NULL)) {
 		/* filename */
 		if (!RegCreateKeyEx(hAppsKey,pszAppFileName,0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hExeKey,NULL)) {
 			/* appname */
 			RegSetValueEx(hExeKey,NULL,0,REG_SZ,(BYTE*)pszAppName,(int)(mir_tstrlen(pszAppName)+1)*sizeof(TCHAR));
 			/* no open-with flag */
-			if (fAllowOpenWith) RegDeleteValue(hExeKey,_T("NoOpenWith"));
-			else RegSetValueEx(hExeKey,_T("NoOpenWith"),0,REG_SZ,NULL,0);
+			if (fAllowOpenWith) RegDeleteValue(hExeKey,L"NoOpenWith");
+			else RegSetValueEx(hExeKey,L"NoOpenWith",0,REG_SZ,NULL,0);
 			/* default icon */
-			if (pszIconLoc!=NULL) SetRegSubKeyStrDefValue(hExeKey,_T("DefaultIcon"),pszIconLoc);
+			if (pszIconLoc!=NULL) SetRegSubKeyStrDefValue(hExeKey,L"DefaultIcon",pszIconLoc);
 			/* shell */
-			if (!RegCreateKeyEx(hExeKey,_T("shell"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hShellKey,NULL)) {
+			if (!RegCreateKeyEx(hExeKey,L"shell",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hShellKey,NULL)) {
 				/* default verb (when empty "open" is used) */
-				RegSetValueEx(hShellKey,NULL,0,REG_SZ,(BYTE*)_T("open"),5*sizeof(TCHAR));
+				RegSetValueEx(hShellKey,NULL,0,REG_SZ,(BYTE*)L"open",5*sizeof(TCHAR));
 				/* verb */
-				if (!RegCreateKeyEx(hShellKey,_T("open"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hVerbKey,NULL)) {
+				if (!RegCreateKeyEx(hShellKey,L"open",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hVerbKey,NULL)) {
 					/* friendly appname (mui string) */
-					RegSetValueEx(hVerbKey,_T("FriendlyAppName"),0,REG_SZ,(BYTE*)pszAppName,(int)(mir_tstrlen(pszAppName)+1)*sizeof(TCHAR));
+					RegSetValueEx(hVerbKey,L"FriendlyAppName",0,REG_SZ,(BYTE*)pszAppName,(int)(mir_tstrlen(pszAppName)+1)*sizeof(TCHAR));
 					/* command */
-					SetRegSubKeyStrDefValue(hVerbKey,_T("command"),pszRunCmd);
+					SetRegSubKeyStrDefValue(hVerbKey,L"command",pszRunCmd);
 					/* ddeexec */
 					if (pszDdeCmd!=NULL)
-						if (!RegCreateKeyEx(hVerbKey,_T("ddeexec"),0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hDdeKey,NULL)) {
+						if (!RegCreateKeyEx(hVerbKey,L"ddeexec",0,NULL,0,KEY_SET_VALUE|KEY_CREATE_SUB_KEY,NULL,&hDdeKey,NULL)) {
 							/* command */
 							RegSetValueEx(hDdeKey,NULL,0,REG_SZ,(BYTE*)pszDdeCmd,(int)(mir_tstrlen(pszDdeCmd)+1)*sizeof(TCHAR));
 							/* application */
-							SetRegSubKeyStrDefValue(hDdeKey,_T("application"),pszDdeApp);
+							SetRegSubKeyStrDefValue(hDdeKey,L"application",pszDdeApp);
 							/* topic */
-							SetRegSubKeyStrDefValue(hDdeKey,_T("topic"),pszDdeTopic);
+							SetRegSubKeyStrDefValue(hDdeKey,L"topic",pszDdeTopic);
 							RegCloseKey(hDdeKey);
 						}
 						RegCloseKey(hVerbKey);
@@ -1038,38 +1038,38 @@ void RemoveRegOpenWith(const TCHAR *pszAppFileName)
 	HKEY hRootKey,hAppsKey,hExeKey,hShellKey,hVerbKey,hDdeKey;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */
-	if (!RegOpenKeyEx(hRootKey,_T("Applications"),0,DELETE,&hAppsKey)) {
+	if (!RegOpenKeyEx(hRootKey,L"Applications",0,DELETE,&hAppsKey)) {
 		/* filename */
 		if (!RegOpenKeyEx(hAppsKey,pszAppFileName,0,DELETE,&hExeKey)) {
 			/* default icon */
-			RegDeleteKey(hExeKey,_T("DefaultIcon"));
+			RegDeleteKey(hExeKey,L"DefaultIcon");
 			/* shell */
-			if (!RegOpenKeyEx(hExeKey,_T("shell"),0,DELETE,&hShellKey)) {
+			if (!RegOpenKeyEx(hExeKey,L"shell",0,DELETE,&hShellKey)) {
 				/* verb */
-				if (!RegOpenKeyEx(hShellKey,_T("open"),0,DELETE,&hVerbKey)) {
+				if (!RegOpenKeyEx(hShellKey,L"open",0,DELETE,&hVerbKey)) {
 					/* command */
-					RegDeleteKey(hVerbKey,_T("command"));
+					RegDeleteKey(hVerbKey,L"command");
 					/* ddeexec */
-					if (!RegOpenKeyEx(hVerbKey,_T("ddeexec"),0,DELETE,&hDdeKey)) {
+					if (!RegOpenKeyEx(hVerbKey,L"ddeexec",0,DELETE,&hDdeKey)) {
 						/* application */
-						RegDeleteKey(hDdeKey,_T("application"));
+						RegDeleteKey(hDdeKey,L"application");
 						/* topic */
-						RegDeleteKey(hDdeKey,_T("topic"));
+						RegDeleteKey(hDdeKey,L"topic");
 						RegCloseKey(hDdeKey);
 					}
-					RegDeleteKey(hVerbKey,_T("ddeexec"));
+					RegDeleteKey(hVerbKey,L"ddeexec");
 					RegCloseKey(hVerbKey);
 				}
-				RegDeleteKey(hShellKey,_T("open"));
+				RegDeleteKey(hShellKey,L"open");
 				RegCloseKey(hShellKey);
 			}
-			RegDeleteKey(hExeKey,_T("shell"));
+			RegDeleteKey(hExeKey,L"shell");
 			/* supported types */
-			RegDeleteKey(hExeKey,_T("SupportedTypes"));
+			RegDeleteKey(hExeKey,L"SupportedTypes");
 			RegCloseKey(hExeKey);
 		}
 		RegDeleteKey(hAppsKey,pszAppFileName);
@@ -1089,15 +1089,15 @@ void AddRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileExt,c
 	HKEY hRootKey,hAppsKey,hExeKey,hTypesKey;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */
-	if (!RegOpenKeyEx(hRootKey,_T("Applications"),0,KEY_QUERY_VALUE|KEY_ENUMERATE_SUB_KEYS,&hAppsKey)) {
+	if (!RegOpenKeyEx(hRootKey,L"Applications",0,KEY_QUERY_VALUE|KEY_ENUMERATE_SUB_KEYS,&hAppsKey)) {
 		/* filename */
 		if (!RegOpenKeyEx(hAppsKey,pszAppFileName,0,KEY_CREATE_SUB_KEY,&hExeKey)) {
 			/* supported types */
-			if (!RegCreateKeyEx(hExeKey,_T("SupportedTypes"),0,NULL,0,KEY_SET_VALUE,NULL,&hTypesKey,NULL)) {	
+			if (!RegCreateKeyEx(hExeKey,L"SupportedTypes",0,NULL,0,KEY_SET_VALUE,NULL,&hTypesKey,NULL)) {	
 				TCHAR *ptszFileExt;
 				ptszFileExt=a2t(pszFileExt);
 				if (ptszFileExt!=NULL)
@@ -1119,15 +1119,15 @@ void RemoveRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileEx
 	HKEY hRootKey,hAppsKey,hExeKey,hTypesKey;
 
 	/* try to open interactive user's classes key */
-	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Classes",0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */
-	if (!RegOpenKeyEx(hRootKey,_T("Applications"),0,KEY_QUERY_VALUE,&hAppsKey)) {
+	if (!RegOpenKeyEx(hRootKey,L"Applications",0,KEY_QUERY_VALUE,&hAppsKey)) {
 		/* filename */
 		if (!RegOpenKeyEx(hAppsKey,pszAppFileName,0,KEY_QUERY_VALUE,&hExeKey)) {
 			/* supported types */
-			if (!RegOpenKeyEx(hExeKey,_T("SupportedTypes"),0,KEY_SET_VALUE,&hTypesKey)) {	
+			if (!RegOpenKeyEx(hExeKey,L"SupportedTypes",0,KEY_SET_VALUE,&hTypesKey)) {	
 				RegDeleteValueA(hTypesKey,pszFileExt);
 				RegCloseKey(hTypesKey);
 			}
@@ -1152,7 +1152,7 @@ BOOL AddRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd)
 	HKEY hRunKey;
 
 	/* run */
-	if (!RegCreateKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),0,NULL,0,KEY_SET_VALUE,NULL,&hRunKey,NULL)) {
+	if (!RegCreateKeyEx(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,NULL,0,KEY_SET_VALUE,NULL,&hRunKey,NULL)) {
 		/* appname */
 		fSuccess=!RegSetValueEx(hRunKey,pszAppName,0,REG_SZ,(BYTE*)pszRunCmd,(int)(mir_tstrlen(pszRunCmd)+1)*sizeof(TCHAR));
 		RegCloseKey(hRunKey);
@@ -1165,7 +1165,7 @@ BOOL RemoveRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd)
 	HKEY hRunKey;
 
 	/* run */
-	LONG res = RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hRunKey);
+	LONG res = RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hRunKey);
 	if (!res) {
 		/* appname */
 		if (IsRegStrValue(hRunKey,pszAppName,pszRunCmd))
@@ -1185,7 +1185,7 @@ BOOL IsRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd)
 	HKEY hRunKey;
 
 	/* Run */
-	if (!RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),0,KEY_QUERY_VALUE,&hRunKey)) {
+	if (!RegOpenKeyEx(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,KEY_QUERY_VALUE,&hRunKey)) {
 		/* appname */
 		fState=IsRegStrValue(hRunKey,pszAppName,pszRunCmd);
 		RegCloseKey(hRunKey);

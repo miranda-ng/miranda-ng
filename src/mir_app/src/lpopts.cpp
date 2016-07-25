@@ -43,12 +43,12 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 		
 		/* add some note if its incompatible */
 		if (szLanguageName[0] && szContryName[0]) {
-			mir_sntprintf(szLocaleName, _T("%s (%s)"), TranslateTS(szLanguageName), TranslateTS(szContryName));
+			mir_sntprintf(szLocaleName, L"%s (%s)", TranslateTS(szLanguageName), TranslateTS(szContryName));
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				TCHAR *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
 				szLocaleName[_countof(szLocaleName) - mir_tstrlen(pszIncompat) - 1] = 0;
-				mir_tstrcat(mir_tstrcat(szLocaleName, _T(" ")), pszIncompat);
+				mir_tstrcat(mir_tstrcat(szLocaleName, L" "), pszIncompat);
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
 		}
@@ -77,7 +77,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
 
 	/* insert */
 	TCHAR tszName[512];
-	mir_sntprintf(tszName, _T("%s [%s]"),
+	mir_sntprintf(tszName, L"%s [%s]",
 		TranslateTS(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
 	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;

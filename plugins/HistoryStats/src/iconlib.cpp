@@ -62,7 +62,7 @@ void IconLib::init()
 
 		GetModuleFileNameA(g_hInst, szModule, MAX_PATH);
 
-		m_Section = _T("HistoryStats");
+		m_Section = L"HistoryStats";
 		m_IconName = "historystats_";
 
 		array_each_(i, m_IconInfo)
@@ -70,7 +70,7 @@ void IconLib::init()
 			ext::string strSection = m_Section;
 
 			if (m_IconInfo[i].szSection) {
-				strSection += _T("/");
+				strSection += L"/";
 				strSection += TranslateTS(m_IconInfo[i].szSection);
 			}
 

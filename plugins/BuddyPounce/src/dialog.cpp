@@ -4,7 +4,7 @@ void populateSettingsList(HWND hwnd2List)
 {
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Send If My Status Is..."));
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Send If They Change Status to..."));
-	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)_T("----------------------------"));
+	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)L"----------------------------");
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Reuse Pounce"));
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Give Up delay"));
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Confirmation Window"));
@@ -16,7 +16,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			TCHAR name[300];
-			mir_sntprintf(name, _T("%s (%s)"), pcli->pfnGetContactDisplayName(hContact, 0), _A2T(szProto));
+			mir_sntprintf(name, L"%s (%s)", pcli->pfnGetContactDisplayName(hContact, 0), _A2T(szProto));
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, hContact);
 			if (BPhContact == hContact)
@@ -102,7 +102,7 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				|(IsDlgButtonChecked(hwnd, IDC_CHECK9)<<8)
 				|(IsDlgButtonChecked(hwnd, IDC_CHECK10)<<9);
 
-			if (!mir_tstrcmp(type, _T("Any"))) {
+			if (!mir_tstrcmp(type, L"Any")) {
 				if (LOWORD(wParam) == IDOK)
 					db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", flag);
 				wi->SendIfMy = 0;
@@ -285,7 +285,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 				if (length>1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 					if (!text) {
-						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
+						msg(TranslateT("Couldn't allocate enough memory"), L"");
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
@@ -308,7 +308,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case IDC_DELETE:
 			deletePounce(wi->hContact);
-			SetDlgItemText(hwnd, IDC_MESSAGE, _T(""));
+			SetDlgItemText(hwnd, IDC_MESSAGE, L"");
 			SetDlgItemText(hwnd, GRP_MSG, TranslateT("The Message    (0 Characters)"));
 			break;
 
@@ -411,7 +411,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 				if (length > 1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 					if (!text) {
-						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
+						msg(TranslateT("Couldn't allocate enough memory"), L"");
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);

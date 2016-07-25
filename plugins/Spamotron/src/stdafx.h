@@ -49,7 +49,7 @@ TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char*
 #define defaultMode SPAMOTRON_MODE_PLAIN
 #define defaultChallenge TranslateT("Spam-o-tron needs to verify you're not a bot. Reply with \"%response%\" without quotes.")
 #define defaultChallengeMath TranslateT("Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.")
-#define defaultResponse _T("no-spam")
+#define defaultResponse L"no-spam"
 #define defaultResponseCC TRUE
 #define defaultSuccessResponse TranslateT("Verified.")
 #define defaultAuthChallenge TranslateT("Spam-o-tron delayed authorization request. First reply with \"%response%\" without quotes.")
@@ -67,8 +67,8 @@ TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char*
 #define defaultNotifyPopup FALSE
 #define defaultDontReplySameMsg TRUE
 #define defaultDontReplyMsg TRUE
-#define defaultApproveOnMsgInWordlist _T("")
-#define defaultDontReplyMsgWordlist _T("Spam-o-tron, StopSpam, Anti-Spam")
+#define defaultApproveOnMsgInWordlist L""
+#define defaultDontReplyMsgWordlist L"Spam-o-tron, StopSpam, Anti-Spam"
 #define defaultMaxMsgContactCountPerDay 3
 #define defaultMaxSameMsgCountPerDay 2
 

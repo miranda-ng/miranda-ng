@@ -71,7 +71,7 @@ DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 }
 
 #define SAFESTRING(a) a?a:""
-#define SAFETSTRING(a) a?a:_T("")
+#define SAFETSTRING(a) a?a:L""
 
 int GetProtoIndex(char * szName)
 {

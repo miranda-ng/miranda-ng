@@ -687,7 +687,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 				// load all subcontacts
 				do {
 					// update progressbar and abort if user clicked cancel
-					int result = _pXmlFile->_progress.UpdateContact(_T("Sub Contact: %s (%S)"), 
+					int result = _pXmlFile->_progress.UpdateContact(L"Sub Contact: %s (%S)", 
 						ptrT(mir_utf8decodeT(xContact->Attribute("nick"))), xContact->Attribute("proto"));
 					
 					// user clicked abort button

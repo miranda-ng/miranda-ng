@@ -735,7 +735,7 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 		// Load old readers
 		ptrT told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		if (told)
-			treaders = std::tstring(told) + _T(", ");
+			treaders = std::tstring(told) + L", ";
 
 		// Append new reader name and remember them
 		treaders += utils::text::prepare_name(treaderName, true);
@@ -932,13 +932,13 @@ bool facebook_client::login(const char *username, const char *password)
 				// 2) Approve last unknown login
 				if (resp.data.find("name=\"submit[This was me]\"") != std::string::npos) {
 					CMString tszTitle;
-					tszTitle.AppendFormat(_T("%s - %s"), parent->m_tszUserName, TranslateT("Check last login"));
+					tszTitle.AppendFormat(L"%s - %s", parent->m_tszUserName, TranslateT("Check last login"));
 					CMString tszMessage(TranslateT("Do you recognize this activity?"));
 
 					std::string activity = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "<body", "</strong></div>", "</div>"));
 					activity = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(activity)));
 					if (!activity.empty()) {
-						tszMessage.AppendFormat(_T("\n\n%s"), ptrT(mir_utf8decodeT(activity.c_str())));
+						tszMessage.AppendFormat(L"\n\n%s", ptrT(mir_utf8decodeT(activity.c_str())));
 					}
 
 					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) == IDYES) {
@@ -1694,7 +1694,7 @@ bool facebook_client::save_url(const std::string &url, const std::tstring &filen
 			CreateDirectoryTreeT(dir.c_str());
 
 		// Write to file
-		FILE *f = _tfopen(filename.c_str(), _T("wb"));
+		FILE *f = _tfopen(filename.c_str(), L"wb");
 		if (f != NULL) {
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);

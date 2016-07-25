@@ -7,7 +7,7 @@ using namespace Microsoft::WRL;
 wchar_t* GetShortcutPath()
 {
 	wchar_t path[MAX_PATH];
-	GetEnvironmentVariable(_T("APPDATA"), path, MAX_PATH);
+	GetEnvironmentVariable(L"APPDATA", path, MAX_PATH);
 	wcscat_s(path, _T(SHORTCUT_PATH));
 	return mir_wstrdup(path);
 }

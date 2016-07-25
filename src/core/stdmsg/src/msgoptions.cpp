@@ -34,16 +34,16 @@ struct FontOptionsList
 }
 static const fontOptionsList[] =
 {
-	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), _T("Arial"),    0, -12},
-	{ LPGENT("Incoming messages"), RGB(0, 0, 0),       _T("Arial"),    0, -12},
-	{ LPGENT("Outgoing name"),     RGB(89, 89, 89),    _T("Arial"),    DBFONTF_BOLD, -12},
-	{ LPGENT("Outgoing time"),     RGB(0, 0, 0),       _T("Terminal"), DBFONTF_BOLD, -9},
-	{ LPGENT("Outgoing colon"),    RGB(89, 89, 89),    _T("Arial"),    0, -11},
-	{ LPGENT("Incoming name"),     RGB(215, 0, 0),     _T("Arial"),    DBFONTF_BOLD, -12},
-	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       _T("Terminal"), DBFONTF_BOLD, -9},
-	{ LPGENT("Incoming colon"),    RGB(215, 0, 0),     _T("Arial"),    0, -11},
-	{ LPGENT("Message area"),      RGB(0, 0, 0),       _T("Arial"),    0, -12},
-	{ LPGENT("Other events"),      RGB(90, 90, 160),   _T("Arial"),    0, -12},
+	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), L"Arial",    0, -12},
+	{ LPGENT("Incoming messages"), RGB(0, 0, 0),       L"Arial",    0, -12},
+	{ LPGENT("Outgoing name"),     RGB(89, 89, 89),    L"Arial",    DBFONTF_BOLD, -12},
+	{ LPGENT("Outgoing time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
+	{ LPGENT("Outgoing colon"),    RGB(89, 89, 89),    L"Arial",    0, -11},
+	{ LPGENT("Incoming name"),     RGB(215, 0, 0),     L"Arial",    DBFONTF_BOLD, -12},
+	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
+	{ LPGENT("Incoming colon"),    RGB(215, 0, 0),     L"Arial",    0, -11},
+	{ LPGENT("Message area"),      RGB(0, 0, 0),       L"Arial",    0, -12},
+	{ LPGENT("Other events"),      RGB(90, 90, 160),   L"Arial",    0, -12},
 };
 
 static BYTE MsgDlgGetFontDefaultCharset(const TCHAR*)

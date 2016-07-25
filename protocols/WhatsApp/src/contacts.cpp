@@ -75,10 +75,10 @@ void WhatsAppProto::SetAllContactStatuses(int status, bool reset_client)
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (reset_client) {
 			ptrT tszMirVer(getTStringA(hContact, "MirVer"));
-			if (mir_tstrcmp(tszMirVer, _T("WhatsApp")))
-				setTString(hContact, "MirVer", _T("WhatsApp"));
+			if (mir_tstrcmp(tszMirVer, L"WhatsApp"))
+				setTString(hContact, "MirVer", L"WhatsApp");
 
-			db_set_ws(hContact, "CList", "StatusMsg", _T(""));
+			db_set_ws(hContact, "CList", "StatusMsg", L"");
 		}
 
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
@@ -163,7 +163,7 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 
 		// Save avatar
 		std::tstring filename = GetAvatarFileName(hContact);
-		FILE *f = _tfopen(filename.c_str(), _T("wb"));
+		FILE *f = _tfopen(filename.c_str(), L"wb");
 		size_t r = fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
 		fclose(f);
 
@@ -187,5 +187,5 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 TCHAR* WhatsAppProto::GetContactDisplayName(const string& jid)
 {
 	MCONTACT hContact = ContactIDToHContact(jid);
-	return (hContact) ? pcli->pfnGetContactDisplayName(hContact, 0) : _T("none");
+	return (hContact) ? pcli->pfnGetContactDisplayName(hContact, 0) : L"none";
 }

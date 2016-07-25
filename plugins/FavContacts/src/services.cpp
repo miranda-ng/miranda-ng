@@ -177,7 +177,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.size = -11;
-	mir_tstrcpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"));
+	mir_tstrcpy(fontid.deffontsettings.szFace, L"MS Shell Dlg");
 	fontid.deffontsettings.style = 0;
 
 	mir_tstrcpy(fontid.backgroundName, LPGENT("Background"));

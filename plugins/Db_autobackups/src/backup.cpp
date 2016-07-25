@@ -11,7 +11,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
 		if (ptszPath != 0)
-			ShellExecute(0, _T("open"), ptszPath, NULL, NULL, SW_SHOW);
+			ShellExecute(0, L"open", ptszPath, NULL, NULL, SW_SHOW);
 
 		PUDeletePopup(hWnd);
 		break;
@@ -149,7 +149,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 
 	if (options.num_backups == 0)
 		return 0; /* Roration disabled. */
-	mir_sntprintf(backupfolderTmp, _T("%s\\%s*"), backupfolder, dbname);
+	mir_sntprintf(backupfolderTmp, L"%s\\%s*", backupfolder, dbname);
 	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
@@ -169,7 +169,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	if (i > 0)
 		qsort(bf, i, sizeof(backupFile), Comp); /* Sort the list of found files by date in descending order. */
 	for (; i >= options.num_backups; i --) {
-		mir_sntprintf(backupfolderTmp, _T("%s\\%s"), backupfolder, bf[(i - 1)].Name);
+		mir_sntprintf(backupfolderTmp, L"%s\\%s", backupfolder, bf[(i - 1)].Name);
 		DeleteFile(backupfolderTmp);
 	}
 err_out:
@@ -205,12 +205,12 @@ int Backup(TCHAR *backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
+		mir_sntprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
 		mir_free(backupfolder);
 	}
 	else {
 		_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-		if (!mir_tstrcmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
+		if (!mir_tstrcmp(_tcsrchr(backup_filename, _T('.')), L".zip"))
 			bZip = true;
 	}
 	if (!options.disable_popups)
@@ -221,7 +221,7 @@ int Backup(TCHAR *backup_filename)
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
-	mir_sntprintf(source_file, _T("%s\\%s"), profilePath, dbname);
+	mir_sntprintf(source_file, L"%s\\%s", profilePath, dbname);
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
 	if (bZip)
@@ -247,7 +247,7 @@ int Backup(TCHAR *backup_filename)
 
 		if (options.use_dropbox)
 		{
-			DropboxUploadInfo ui = { dest_file, _T("Backups") };
+			DropboxUploadInfo ui = { dest_file, L"Backups" };
 			if (CallService(MS_DROPBOX_UPLOAD, NULL, (LPARAM)&ui))
 				ShowPopup(TranslateT("Uploading to Dropbox failed"), TranslateT("Error"), nullptr);
 		}
@@ -263,7 +263,7 @@ int Backup(TCHAR *backup_filename)
 					;
 				//_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
 				mir_tstrncpy(puText, dest_file, (i + 2));
-				mir_tstrcat(puText, _T("\n"));
+				mir_tstrcat(puText, L"\n");
 				mir_tstrcat(puText, (dest_file + i + 1));
 			}
 			else

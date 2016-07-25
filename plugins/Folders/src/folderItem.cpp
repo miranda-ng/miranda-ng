@@ -107,7 +107,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	RemoveDirectories(buffer);
 	int res = (DirectoryExists(buffer)) ? FOLDER_FAILURE : FOLDER_SUCCESS;
 	if ((res == FOLDER_FAILURE) && (showFolder))
-		ShellExecute(NULL, _T("explore"), buffer, NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, L"explore", buffer, NULL, NULL, SW_SHOW);
 	return res;
 }
 

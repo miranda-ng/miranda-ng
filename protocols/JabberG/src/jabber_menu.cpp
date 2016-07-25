@@ -461,7 +461,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 				FormatMirVer(r, szTmp);
 				hIcon = Finger_GetClientIcon(szTmp, 0);
 			}
-			szTmp.Format(_T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
+			szTmp.Format(L"%s [%s, %d]", r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
 			Menu_ModifyItem(m_phMenuResourceItems[i], szTmp, hIcon);
 			DestroyIcon(hIcon);
 		}
@@ -520,7 +520,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM hContact, LPARAM)
 	if (hContact != NULL && m_bJabberOnline) {
 		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribe")));
+			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"subscribe"));
 	}
 	return 0;
 }
@@ -530,7 +530,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact != NULL && m_bJabberOnline) {
 		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribed")));
+			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"subscribed"));
 	}
 	return 0;
 }
@@ -540,7 +540,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM hContact, LPARAM)
 	if (hContact != NULL && m_bJabberOnline) {
 		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("unsubscribed")));
+			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"unsubscribed"));
 	}
 	return 0;
 }
@@ -552,9 +552,9 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM hContact, LPARAM)
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (item != NULL) {
-		XmlNode p(_T("presence")); XmlAddAttr(p, _T("to"), item->jid);
+		XmlNode p(L"presence"); XmlAddAttr(p, L"to", item->jid);
 		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
-			XmlAddAttr(p, _T("type"), _T("unavailable"));
+			XmlAddAttr(p, L"type", L"unavailable");
 		m_ThreadInfo->send(p);
 	}
 	return 0;
@@ -584,7 +584,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 		JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
 		item->jid = mir_tstrdup(roomID);
 		item->name = pcli->pfnGetContactDisplayName(hContact, 0);
-		item->type = _T("conference");
+		item->type = L"conference";
 		item->nick = getTStringA(hContact, "MyNick");
 		AddEditBookmark(item);
 		delete item;
@@ -973,8 +973,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 				if (GetResourceCapabilites(jid, TRUE) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
-					XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext())
-					<< XCHILDNS(_T("gone"), JABBER_FEAT_CHATSTATES));
+					XmlNode(L"message") << XATTR(L"to", jid) << XATTR(L"type", L"chat") << XATTRID(SerialNext())
+					<< XCHILDNS(L"gone", JABBER_FEAT_CHATSTATES));
 			}
 		}
 	}
@@ -1083,7 +1083,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 		if (item == NULL)
 			return 0;
 
-		mir_sntprintf(text, _T("%s/%s"), item->jid, item->nick);
+		mir_sntprintf(text, L"%s/%s", item->jid, item->nick);
 		jid = text;
 	}
 	else jid = tszJid;

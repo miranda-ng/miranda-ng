@@ -32,7 +32,7 @@ extern bool g_SmileyAddAvail;
 std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = NULL)
 {
 	std::wstring ret;
-	std::wstring search = _T("&<>\t\r\n");
+	std::wstring search = L"&<>\t\r\n";
 	size_t start = 0;
 	size_t find;
 	size_t currentAdd = 0;
@@ -40,19 +40,19 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 		ret += message.substr(start, find - start);
 		switch(message[find]) {
 		case _T('&'):
-			ret += _T("&amp;");
+			ret += L"&amp;";
 			break;
 		case _T('<'):
-			ret += _T("&lt;");
+			ret += L"&lt;";
 			break;
 		case _T('>'):
-			ret += _T("&gt;");
+			ret += L"&gt;";
 			break;
 		case _T('\t'):
-			ret += _T(" ");
+			ret += L" ";
 			break;
 		case _T('\n'):
-			ret += _T("<br>");
+			ret += L"<br>";
 			break;
 		}
 
@@ -73,8 +73,8 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 {
 	std::wstring ret;
-	std::wstring htmlStop = _T("\'\" []<>\r\n");
-	std::wstring search = _T("://");
+	std::wstring htmlStop = L"\'\" []<>\r\n";
+	std::wstring search = L"://";
 	size_t start = 0;
 	size_t find;
 	while((find = message.find(search, start)) < message.length()) {
@@ -88,8 +88,8 @@ std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 			ret += message.substr(start, (urlStart + 1) - start);
 			std::wstring url = message.substr(urlStart + 1, urlEnd - urlStart - 1);
 			start = urlEnd;
-			ret += _T("<a class=url target=_blank href=\"");
-			ret += url + _T("\">") + url + _T("</a>");
+			ret += L"<a class=url target=_blank href=\"";
+			ret += url + L"\">" + url + L"</a>";
 			isUrl = true;
 		}
 		else {
@@ -288,116 +288,116 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	folderName = GetName(folder);
 	DeleteDirectory(folder.c_str());
 	CreateDirectory(folder.c_str(), NULL);
-	std::wstring css =  folder + _T("\\history.css");
+	std::wstring css =  folder + L"\\history.css";
 	BOOL cssCopied = FALSE;
 	if (!Options::instance->extCssHtml2.empty())
 		cssCopied = CopyFile(Options::instance->extCssHtml2.c_str(), css.c_str(), FALSE);
 
 	if (!cssCopied)
 		ExtractFile(IDR_CSS, css);
-	ExtractFile(IDR_JS, folder + _T("\\history.js"));
+	ExtractFile(IDR_JS, folder + L"\\history.js");
 
 	HICON ico = LoadIconEx(IDI_PLUSEX);
-	IcoSave(folder + _T("\\pnode.ico"), ico);
+	IcoSave(folder + L"\\pnode.ico", ico);
 	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_MINUSEX);
-	IcoSave(folder + _T("\\mnode.ico"), ico);
+	IcoSave(folder + L"\\mnode.ico", ico);
 	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_INM);
-	IcoSave(folder + _T("\\event0.ico"), ico);
+	IcoSave(folder + L"\\event0.ico", ico);
 	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_OUTM);
-	IcoSave(folder + _T("\\event1.ico"), ico);
+	IcoSave(folder + L"\\event1.ico", ico);
 	IcoLib_ReleaseIcon(ico);
 
-	EXP_FILE << _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
-	EXP_FILE << _T("<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=") << encoding << _T("\">\n");
-	EXP_FILE << _T("<title>") << TranslateT("History Log") << _T(" [") << MakeTextHtmled(myName) << _T("] - [") << MakeTextHtmled(name1) << _T("]</title>\n");
-	EXP_FILE << _T("<link rel=\"Stylesheet\" href=\"") << folderName << _T("\\history.css\" type=\"text/css\">\n");
-	EXP_FILE << _T("<script type=\"text/javascript\" src=\"") << folderName << _T("\\history.js\"></script>\n");
-	EXP_FILE << _T("</head><body>\n");
+	EXP_FILE << L"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+	EXP_FILE << L"<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" << encoding << L"\">\n";
+	EXP_FILE << L"<title>" << TranslateT("History Log") << L" [" << MakeTextHtmled(myName) << L"] - [" << MakeTextHtmled(name1) << L"]</title>\n";
+	EXP_FILE << L"<link rel=\"Stylesheet\" href=\"" << folderName << L"\\history.css\" type=\"text/css\">\n";
+	EXP_FILE << L"<script type=\"text/javascript\" src=\"" << folderName << L"\\history.js\"></script>\n";
+	EXP_FILE << L"</head><body>\n";
 
-	EXP_FILE << _T("<span id=\"menubar\">\n");
-	EXP_FILE << _T("<a class=mainmenu onmouseover='this.className=\"mainmenusel\";' href=\"javascript:void(0)\" onClick=\"ShowMenu(1)\" onMouseOut='HideMenu();this.className=\"mainmenu\";'>") << TranslateT("Menu") << _T("</a></span>\n");
-	EXP_FILE << _T("<span class=floatmenu id=L1 onmouseover=clearTimeout(timer) onmouseout=HideMenu()>\n");
-	EXP_FILE << _T("<table><tr>\n");
-	EXP_FILE << _T("<td class=menuitemunsel onmouseover='this.className=\"menuitemsel\"' onmouseout='this.className=\"menuitemunsel\"'>\n");
-	EXP_FILE << _T("<a class=menuitem onmouseover=ShowMenu(1) href=\"javascript:void(0)\" onclick=OpenAll(1)>") << TranslateT("Open all") << _T("</a>\n");
-	EXP_FILE << _T("</td></tr><tr>\n");
-	EXP_FILE << _T("<td class=menuitemunsel onmouseover='this.className=\"menuitemsel\"' onmouseout='this.className=\"menuitemunsel\"'>\n");
-	EXP_FILE << _T("<a class=menuitem onmouseover=ShowMenu(1) href=\"javascript:void(0)\" onclick=OpenAll(0)>") << TranslateT("Close all") << _T("</a>\n");
-	EXP_FILE << _T("</td></tr></table></span>\n");
-	EXP_FILE << _T("<script language=\"JavaScript\">\n");
-	EXP_FILE << _T("<!--\n");
-	EXP_FILE << _T("var menu = document.getElementById(\"menubar\");\n");
-	EXP_FILE << _T("if (menu != null)\n");
-	EXP_FILE << _T("  menu.style.visibility = \"visible\";\n");
-	EXP_FILE << _T("// -->\n");
-	EXP_FILE << _T("</script>\n");
+	EXP_FILE << L"<span id=\"menubar\">\n";
+	EXP_FILE << L"<a class=mainmenu onmouseover='this.className=\"mainmenusel\";' href=\"javascript:void(0)\" onClick=\"ShowMenu(1)\" onMouseOut='HideMenu();this.className=\"mainmenu\";'>" << TranslateT("Menu") << L"</a></span>\n";
+	EXP_FILE << L"<span class=floatmenu id=L1 onmouseover=clearTimeout(timer) onmouseout=HideMenu()>\n";
+	EXP_FILE << L"<table><tr>\n";
+	EXP_FILE << L"<td class=menuitemunsel onmouseover='this.className=\"menuitemsel\"' onmouseout='this.className=\"menuitemunsel\"'>\n";
+	EXP_FILE << L"<a class=menuitem onmouseover=ShowMenu(1) href=\"javascript:void(0)\" onclick=OpenAll(1)>" << TranslateT("Open all") << L"</a>\n";
+	EXP_FILE << L"</td></tr><tr>\n";
+	EXP_FILE << L"<td class=menuitemunsel onmouseover='this.className=\"menuitemsel\"' onmouseout='this.className=\"menuitemunsel\"'>\n";
+	EXP_FILE << L"<a class=menuitem onmouseover=ShowMenu(1) href=\"javascript:void(0)\" onclick=OpenAll(0)>" << TranslateT("Close all") << L"</a>\n";
+	EXP_FILE << L"</td></tr></table></span>\n";
+	EXP_FILE << L"<script language=\"JavaScript\">\n";
+	EXP_FILE << L"<!--\n";
+	EXP_FILE << L"var menu = document.getElementById(\"menubar\");\n";
+	EXP_FILE << L"if (menu != null)\n";
+	EXP_FILE << L"  menu.style.visibility = \"visible\";\n";
+	EXP_FILE << L"// -->\n";
+	EXP_FILE << L"</script>\n";
 
-	EXP_FILE << _T("<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
+	EXP_FILE << L"<h4>" << TranslateT("History Log") << L"</h4>\n<h3>";
 	EXP_FILE << MakeTextHtmled(myName);
 	if (proto1.length() || myId.length())
-		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
+		EXP_FILE << L" (" << MakeTextHtmled(proto1) << L": " << MakeTextHtmled(myId) << L") - ";
 	else
-		EXP_FILE << _T(" - ");
+		EXP_FILE << L" - ";
 
 	EXP_FILE << MakeTextHtmled(name1);
 	if (proto1.length() || id1.length())
-		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
+		EXP_FILE << L" (" << MakeTextHtmled(proto1) << L": " << MakeTextHtmled(id1) << L")</h3>\n";
 	else
-		EXP_FILE << _T("</h3>\n");
+		EXP_FILE << L"</h3>\n";
 
-	EXP_FILE << _T("<h6>") << TranslateT("Filter:") << _T(" ") << MakeTextHtmled(filterName) << _T("</h6>\n");
+	EXP_FILE << L"<h6>" << TranslateT("Filter:") << L" " << MakeTextHtmled(filterName) << L"</h6>\n";
 	groupId = 0;
 }
 
 void RichHtmlExport::WriteFooter()
 {
 	if (groupId > 0)
-		EXP_FILE << _T("</div>\n");
+		EXP_FILE << L"</div>\n";
 
-	EXP_FILE << _T("<div class=mes id=bottom></div>\n</body></html>\n");
+	EXP_FILE << L"<div class=mes id=bottom></div>\n</body></html>\n";
 }
 
 void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring&, const std::wstring &eventText)
 {
-	TCHAR *id = isMe ? _T("out") : _T("inc");
-	TCHAR* ev = (isMe ? _T("1") : _T("0"));
+	TCHAR *id = isMe ? L"out" : L"inc";
+	TCHAR* ev = (isMe ? L"1" : L"0");
 	if (groupId > 0)
-		EXP_FILE << _T("</div>\n");
+		EXP_FILE << L"</div>\n";
 	
 	bool isUrl = false;
 	std::wstring mes = ReplaceSmileys(isMe, eventText, isUrl);
-	EXP_FILE << _T("<div class=mes id=session>\n");
-	EXP_FILE << _T("<span class=eventimg id=") << id << _T("><img src=\"") << folderName << _T("\\pnode.ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group") << groupId << _T("', this)\"/>");
-	EXP_FILE << _T("<img src=\"") << folderName << _T("\\event") << ev << _T(".ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group") << groupId << _T("', this)\"/></span>\n");
-	EXP_FILE << _T("<span class=date id=") << id << _T(">") << time << _T("</span>\n<span class=text>\n") << mes;
-	EXP_FILE << _T("</span>\n</div>\n");
-	EXP_FILE << _T("<div class=group id=group") << groupId << _T(">\n");
+	EXP_FILE << L"<div class=mes id=session>\n";
+	EXP_FILE << L"<span class=eventimg id=" << id << L"><img src=\"" << folderName << L"\\pnode.ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group" << groupId << L"', this)\"/>";
+	EXP_FILE << L"<img src=\"" << folderName << L"\\event" << ev << L".ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group" << groupId << L"', this)\"/></span>\n";
+	EXP_FILE << L"<span class=date id=" << id << L">" << time << L"</span>\n<span class=text>\n" << mes;
+	EXP_FILE << L"</span>\n</div>\n";
+	EXP_FILE << L"<div class=group id=group" << groupId << L">\n";
 	++groupId;
 }
 
 void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
-	TCHAR *id = isMe ? _T("out") : _T("inc");
-	TCHAR* ev = (isMe ? _T("1") : _T("0"));
+	TCHAR *id = isMe ? L"out" : L"inc";
+	TCHAR* ev = (isMe ? L"1" : L"0");
 	TCHAR* ev1 = ev;
 	bool isUrl = false;
 	std::wstring mes = ReplaceSmileys(isMe, message, isUrl);
 	if (isUrl)
-		ev = _T("2");
-	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");
-	EXP_FILE << _T("<div class=eventimg id=") << id << _T(">")  << _T("<img src=\"") << folderName << _T("\\event") << ev1 << _T(".ico\" class=sessionimage width=\"16\" height=\"16\"/></div>\n");
-	EXP_FILE << _T("<div class=date id=") << id << _T(">") << (Options::instance->exportHtml2ShowDate ? longDate : shortDate) << _T("</div>\n");
-	EXP_FILE << _T("<div class=nick id=") << id << _T(">") << MakeTextHtmled(user) << _T("</div>\n");
-	EXP_FILE << _T("<div class=text>\n");
+		ev = L"2";
+	EXP_FILE << L"<div class=mes id=event" << ev << L">\n";
+	EXP_FILE << L"<div class=eventimg id=" << id << L">"  << L"<img src=\"" << folderName << L"\\event" << ev1 << L".ico\" class=sessionimage width=\"16\" height=\"16\"/></div>\n";
+	EXP_FILE << L"<div class=date id=" << id << L">" << (Options::instance->exportHtml2ShowDate ? longDate : shortDate) << L"</div>\n";
+	EXP_FILE << L"<div class=nick id=" << id << L">" << MakeTextHtmled(user) << L"</div>\n";
+	EXP_FILE << L"<div class=text>\n";
 	EXP_FILE << mes;
-	EXP_FILE << _T("\n</div>\n");
-	EXP_FILE << _T("</div>\n");
+	EXP_FILE << L"\n</div>\n";
+	EXP_FILE << L"</div>\n";
 }
 
 std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, bool &isUrl)
@@ -466,17 +466,17 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 			std::wstring smileyName = GetName(spr[i].filepath);
 			if (smileys.find(smileyName) == smileys.end()) {
 				smileys.insert(smileyName);
-				CopyFile(spr[i].filepath, (folder + _T("\\") + smileyName).c_str(), FALSE);
+				CopyFile(spr[i].filepath, (folder + L"\\" + smileyName).c_str(), FALSE);
 			}
 
 			std::wstring smileyText = newMsg.substr(startChar, size);
-			smileyMsg += _T("<img class=smiley src=\"");
+			smileyMsg += L"<img class=smiley src=\"";
 			smileyMsg += folderName;
-			smileyMsg += _T("\\");
+			smileyMsg += L"\\";
 			smileyMsg += smileyName;
-			smileyMsg += _T("\" alt=\"");
+			smileyMsg += L"\" alt=\"";
 			smileyMsg += smileyText;
-			smileyMsg += _T("\"/>");
+			smileyMsg += L"\"/>";
 		}
 
 		// Get next

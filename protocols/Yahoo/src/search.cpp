@@ -174,10 +174,10 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	psr.id.t = _tcslwr(searchid);
 
 	switch (SendDlgItemMessage(hwndDlg, IDC_SEARCH_PROTOCOL, CB_GETCURSEL, 0, 0)) {
-		case 0: psr.firstName.t = _T("<Yahoo>");  psr.protocol = YAHOO_IM_YAHOO; break;
-		case 1: psr.firstName.t = _T("<Lotus Sametime>"); psr.protocol = YAHOO_IM_SAMETIME; break;
-		case 2: psr.firstName.t = _T("<LCS>"); psr.protocol = YAHOO_IM_LCS; break;
-		case 3: psr.firstName.t = _T("<Windows Live (MSN)>"); psr.protocol = YAHOO_IM_MSN; break;
+		case 0: psr.firstName.t = L"<Yahoo>";  psr.protocol = YAHOO_IM_YAHOO; break;
+		case 1: psr.firstName.t = L"<Lotus Sametime>"; psr.protocol = YAHOO_IM_SAMETIME; break;
+		case 2: psr.firstName.t = L"<LCS>"; psr.protocol = YAHOO_IM_LCS; break;
+		case 3: psr.firstName.t = L"<Windows Live (MSN)>"; psr.protocol = YAHOO_IM_MSN; break;
 	}
 
 	/*

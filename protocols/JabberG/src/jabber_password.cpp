@@ -74,8 +74,8 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 				XmlNodeIq iq(ppro->AddIQ(&CJabberProto::OnIqResultSetPassword, JABBER_IQ_TYPE_SET, _A2T(ppro->m_ThreadInfo->conn.server)));
 				HXML q = iq << XQUERY(JABBER_FEAT_REGISTER);
-				q << XCHILD(_T("username"), ppro->m_ThreadInfo->conn.username);
-				q << XCHILD(_T("password"), newPasswd);
+				q << XCHILD(L"username", ppro->m_ThreadInfo->conn.username);
+				q << XCHILD(L"password", newPasswd);
 				ppro->m_ThreadInfo->send(iq);
 			}
 			DestroyWindow(hwndDlg);

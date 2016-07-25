@@ -94,7 +94,7 @@ void CSideBarButton::_create()
 	m_isTopAligned = true;
 	m_sz.cx = m_sz.cy = 0;
 
-	m_hwnd = ::CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	m_hwnd = ::CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
 	if (m_hwnd) {
 		CustomizeButton(m_hwnd);
@@ -390,7 +390,7 @@ void CSideBar::Init()
 
 	if (m_pContainer->dwFlags & CNT_SIDEBAR) {
 		if (m_hwndScrollWnd == 0)
-			m_hwndScrollWnd = ::CreateWindowEx(0, _T("TS_SideBarClass"), _T(""), WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
+			m_hwndScrollWnd = ::CreateWindowEx(0, L"TS_SideBarClass", L"", WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
 				0, 0, m_width, 40, m_pContainer->hwnd, reinterpret_cast<HMENU>(5000), g_hInst, this);
 
 		m_isActive = true;

@@ -82,7 +82,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	case DBVT_BYTE:
 	case DBVT_WORD:
 	case DBVT_DWORD:
-		if (val != 0 || !mir_tstrcmp(value, _T("0")))
+		if (val != 0 || !mir_tstrcmp(value, L"0"))
 			res = setNumericValue(hContact, module, setting, val, toType);
 		break;
 
@@ -194,15 +194,15 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 	lvi.mask = LVIF_IMAGE;
 	lvi.iItem = index;
 
-	ListView_SetItemText(hwnd2List, index, 4, resident ? _T("[R]") : _T(""));
+	ListView_SetItemText(hwnd2List, index, 4, resident ? L"[R]" : L"");
 
 	if (g_db && g_db->IsSettingEncrypted(info.module, setting)) {
 		lvi.iImage = IMAGE_UNICODE;
 		ListView_SetItem(hwnd2List, &lvi);
 		ListView_SetItemTextA(hwnd2List, index, 0, setting);
 		ListView_SetItemText(hwnd2List, index, 1, TranslateT("*** encrypted ***"));
-		ListView_SetItemText(hwnd2List, index, 2, _T("UNICODE"));
-		ListView_SetItemText(hwnd2List, index, 3, _T(""));
+		ListView_SetItemText(hwnd2List, index, 2, L"UNICODE");
+		ListView_SetItemText(hwnd2List, index, 3, L"");
 		return;
 	}
 
@@ -216,7 +216,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 
 		ListView_SetItemTextA(hwnd2List, index, 1, ptrA(StringFromBlob(dbv->pbVal, dbv->cpbVal)));
 
-		mir_sntprintf(data, _T("0x%04X (%u)"), dbv->cpbVal, dbv->cpbVal);
+		mir_sntprintf(data, L"0x%04X (%u)", dbv->cpbVal, dbv->cpbVal);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -224,30 +224,30 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		lvi.iImage = IMAGE_BYTE;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, _T("0x%02X (%u)"), dbv->bVal, dbv->bVal);
+		mir_sntprintf(data, L"0x%02X (%u)", dbv->bVal, dbv->bVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
-		ListView_SetItemText(hwnd2List, index, 3, _T("0x0001 (1)"));
+		ListView_SetItemText(hwnd2List, index, 3, L"0x0001 (1)");
 		break;
 
 	case DBVT_WORD:
 		lvi.iImage = IMAGE_WORD;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, _T("0x%04X (%u)"), dbv->wVal, dbv->wVal);
+		mir_sntprintf(data, L"0x%04X (%u)", dbv->wVal, dbv->wVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
-		ListView_SetItemText(hwnd2List, index, 3, _T("0x0002 (2)"));
+		ListView_SetItemText(hwnd2List, index, 3, L"0x0002 (2)");
 		break;
 
 	case DBVT_DWORD:
 		lvi.iImage = IMAGE_DWORD;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, _T("0x%08X (%u)"), dbv->dVal, dbv->dVal);
+		mir_sntprintf(data, L"0x%08X (%u)", dbv->dVal, dbv->dVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
-		ListView_SetItemText(hwnd2List, index, 3, _T("0x0004 (4)"));
+		ListView_SetItemText(hwnd2List, index, 3, L"0x0004 (4)");
 		break;
 
 	case DBVT_ASCIIZ:
@@ -257,7 +257,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		ListView_SetItemTextA(hwnd2List, index, 1, dbv->pszVal);
 
 		length = (int)mir_strlen(dbv->pszVal) + 1;
-		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		mir_sntprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -268,7 +268,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		length = (int)mir_wstrlen(dbv->pwszVal) + 1;
 		ListView_SetItemText(hwnd2List, index, 1, dbv->pwszVal);
 
-		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		mir_sntprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -281,7 +281,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 			ptrT tszText(mir_utf8decodeT(dbv->pszVal));
 			ListView_SetItemText(hwnd2List, index, 1, tszText);
 		}
-		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		mir_sntprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -306,18 +306,18 @@ void addListHandle(MCONTACT hContact)
 
 	int index = ListView_InsertItem(hwnd2List, &lvi);
 
-	mir_sntprintf(data, _T("0x%08X (%ld)"), hContact, hContact);
+	mir_sntprintf(data, L"0x%08X (%ld)", hContact, hContact);
 
 	ListView_SetItemText(hwnd2List, index, 1, data);
-	ListView_SetItemText(hwnd2List, index, 2, _T("HANDLE"));
-	ListView_SetItemText(hwnd2List, index, 3, _T("0x0004 (4)"));
+	ListView_SetItemText(hwnd2List, index, 2, L"HANDLE");
+	ListView_SetItemText(hwnd2List, index, 3, L"0x0004 (4)");
 	if (db_mc_isEnabled()) {
 		if (db_mc_isSub(hContact)) {
-			ListView_SetItemText(hwnd2List, index, 4, _T("[S]"));
+			ListView_SetItemText(hwnd2List, index, 4, L"[S]");
 		}
 		else
 			if (db_mc_isMeta(hContact)) {
-				ListView_SetItemText(hwnd2List, index, 4, _T("[M]"));
+				ListView_SetItemText(hwnd2List, index, 4, L"[M]");
 			}
 	}
 }
@@ -636,7 +636,7 @@ void EditLabel(int item, int subitem)
 	info.subitem = subitem;
 
 	if (!subitem)
-		info.hwnd2Edit = CreateWindow(_T("EDIT"), _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
 	else {
 		TCHAR *str = NULL, value[16] = { 0 };
 
@@ -645,13 +645,13 @@ void EditLabel(int item, int subitem)
 			str = mir_a2t(dbv.pszVal);
 			break;
 		case DBVT_BYTE:
-			mir_sntprintf(value, (g_Hex & HEX_BYTE) ? _T("0x%02X") : _T("%u"), dbv.bVal);
+			mir_sntprintf(value, (g_Hex & HEX_BYTE) ? L"0x%02X" : L"%u", dbv.bVal);
 			break;
 		case DBVT_WORD:
-			mir_sntprintf(value, (g_Hex & HEX_WORD) ? _T("0x%04X") : _T("%u"), dbv.wVal);
+			mir_sntprintf(value, (g_Hex & HEX_WORD) ? L"0x%04X" : L"%u", dbv.wVal);
 			break;
 		case DBVT_DWORD:
-			mir_sntprintf(value, (g_Hex & HEX_DWORD) ? _T("0x%08X") : _T("%u"), dbv.dVal);
+			mir_sntprintf(value, (g_Hex & HEX_DWORD) ? L"0x%08X" : L"%u", dbv.dVal);
 			break;
 		case DBVT_WCHAR:
 			str = mir_u2t(dbv.pwszVal);
@@ -670,11 +670,11 @@ void EditLabel(int item, int subitem)
 			GetClientRect(hwnd2List, &rclist);
 			if (rc.top + height > rclist.bottom && rclist.bottom - rclist.top > height)
 				rc.top = rc.bottom - height;
-			info.hwnd2Edit = CreateWindow(_T("EDIT"), str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, 0, hInst, 0);
+			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, 0, hInst, 0);
 			mir_free(str);
 		}
 		else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
-			info.hwnd2Edit = CreateWindow(_T("EDIT"), value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
 	}
 
 	db_free(&dbv);

@@ -540,10 +540,10 @@ void InitMenu()
 	wcl.hInstance = g_hInst;
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszClassName = _T("FavContactsMenuHostWnd");
+	wcl.lpszClassName = L"FavContactsMenuHostWnd";
 	RegisterClassEx(&wcl);
 
-	g_hwndMenuHost = CreateWindow(_T("FavContactsMenuHostWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
+	g_hwndMenuHost = CreateWindow(L"FavContactsMenuHostWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
 	SetWindowPos(g_hwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 }
 

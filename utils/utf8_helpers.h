@@ -33,11 +33,11 @@ public:
 	{
 		int size = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
 		if (size <= 0)
-			throw _T("Could not convert string to WCHAR");
+			throw L"Could not convert string to WCHAR";
 
 		WCHAR *tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
 		if (tmp == NULL)
-			throw _T("mir_alloc returned NULL");
+			throw L"mir_alloc returned NULL";
 
 		MultiByteToWideChar(CP_ACP, 0, str, -1, tmp, size);
 
@@ -88,11 +88,11 @@ private:
 	{
 		int size = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
 		if (size <= 0)
-			throw _T("Could not convert string to UTF8");
+			throw L"Could not convert string to UTF8";
 
 		utf8 = (char *) mir_alloc(size);
 		if (utf8 == NULL)
-			throw _T("mir_alloc returned NULL");
+			throw L"mir_alloc returned NULL";
 
 		WideCharToMultiByte(CP_UTF8, 0, str, -1, utf8, size, NULL, NULL);
 	}
@@ -110,11 +110,11 @@ public:
 
 		int size = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
 		if (size <= 0)
-			throw _T("Could not convert string to WCHAR");
+			throw L"Could not convert string to WCHAR";
 
 		WCHAR *tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
 		if (tmp == NULL)
-			throw _T("mir_alloc returned NULL");
+			throw L"mir_alloc returned NULL";
 
 		MultiByteToWideChar(CP_UTF8, 0, str, -1, tmp, size);
 
@@ -128,14 +128,14 @@ public:
 		if (size <= 0)
 		{
 			mir_free(tmp);
-			throw _T("Could not convert string to ACP");
+			throw L"Could not convert string to ACP";
 		}
 
 		tchar = (TCHAR *) mir_alloc(size * sizeof(char));
 		if (tchar == NULL)
 		{
 			mir_free(tmp);
-			throw _T("mir_alloc returned NULL");
+			throw L"mir_alloc returned NULL";
 		}
 
 		WideCharToMultiByte(CP_ACP, 0, tmp, -1, tchar, size, NULL, NULL);

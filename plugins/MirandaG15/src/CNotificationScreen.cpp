@@ -35,7 +35,7 @@ bool CNotificationScreen::Initialize()
 	//m_Input.Initialize();
 	//m_Input.Show(0);
 
-	m_TitleText.SetText(_T("Miranda-IM"));
+	m_TitleText.SetText(L"Miranda-IM");
 	m_TitleText.SetAlignment(DT_LEFT);
 
 	m_Timestamp.SetAlignment(DT_RIGHT);
@@ -125,14 +125,14 @@ void CNotificationScreen::DisplayNotification(CNotificationEntry *pEntry)
 
 	m_pEntry = pEntry;
 	if(CConfig::GetIntSetting(NOTIFY_TITLE) == NOTIFY_TITLE_NAME || pEntry->strTitle.empty())
-		m_TitleText.SetText(_T("Miranda-IM"));
+		m_TitleText.SetText(L"Miranda-IM");
 	else
 		m_TitleText.SetText(pEntry->strTitle);
 	
 	if(CConfig::GetBoolSetting(NOTIFY_TIMESTAMPS))
 		m_Timestamp.SetText(strTime);
 	else
-		m_Timestamp.SetText(_T(""));
+		m_Timestamp.SetText(L"");
 
 
 	if(pEntry->hContact)
@@ -249,7 +249,7 @@ void CNotificationScreen::OnEventReceived(CEvent *pEvent)
 		if(CConfig::GetIntSetting(NOTIFY_TITLE) == NOTIFY_TITLE_INFO)
 			pEntry->strText = pEvent->strValue;
 		else
-			pEntry->strText = strUser + (pEvent->eType == EVENT_IRC_RECEIVED?_T(" - "):_T(": "))+ pEvent->strValue;
+			pEntry->strText = strUser + (pEvent->eType == EVENT_IRC_RECEIVED?L" - ":L": ")+ pEvent->strValue;
 	}
 	else
 	{
@@ -367,8 +367,8 @@ void CNotificationScreen::OnExpiration()
 		delete pEntry;
 	}
 	// reset the object's content
-	m_EventText.SetText(_T(""));
-	m_MessageText.SetText(_T(""));
+	m_EventText.SetText(L"");
+	m_MessageText.SetText(L"");
 
 	m_pEntry = NULL;
 }

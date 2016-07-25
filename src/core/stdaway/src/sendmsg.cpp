@@ -101,7 +101,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				continue;
 
 			TCHAR substituteStr[128];
-			if ( !_tcsnicmp(dbv.ptszVal + i, _T("%time%"), 6)) {
+			if ( !_tcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
 				MIRANDA_IDLE_INFO mii = { sizeof(mii) };
 				CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
@@ -117,7 +117,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				}
 				else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 			}
-			else if ( !_tcsnicmp(dbv.ptszVal + i, _T("%date%"), 6))
+			else if ( !_tcsnicmp(dbv.ptszVal + i, L"%date%", 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 			else continue;
 
@@ -461,7 +461,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				CheckDlgButton(hwndDlg, IDC_USEPREVIOUS, (i < 0 ? 0 : dat->info[i].usePrevious) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_USESPECIFIC, (i < 0 ? 0 : !dat->info[i].usePrevious) ? BST_CHECKED : BST_UNCHECKED);
 
-				SetDlgItemText(hwndDlg, IDC_MSG, i < 0 ? _T("") : dat->info[i].msg);
+				SetDlgItemText(hwndDlg, IDC_MSG, i < 0 ? L"" : dat->info[i].msg);
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NODIALOG), i < 0 ? 0 : !dat->info[i].ignore);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_USEPREVIOUS), i < 0 ? 0 : !dat->info[i].ignore);

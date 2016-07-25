@@ -54,8 +54,8 @@ GenericJob::~GenericJob()
 
 int GenericJob::openFileDialog()
 {
-	TCHAR temp[MAX_PATH] = _T("");
-	mir_sntprintf(temp, _T("%s\0*.*\0"), TranslateT("All Files (*.*)"));
+	TCHAR temp[MAX_PATH] = L"";
+	mir_sntprintf(temp, L"%s\0*.*\0", TranslateT("All Files (*.*)"));
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
@@ -92,7 +92,7 @@ void GenericJob::getFilesFromOpenDialog()
 	{
 		TCHAR *ptr = m_tszFilePath + length + 1;
 		while (ptr[0]) {
-			mir_sntprintf(stzFile, _T("%s\\%s"), m_tszFilePath, ptr);
+			mir_sntprintf(stzFile, L"%s\\%s", m_tszFilePath, ptr);
 			addFile(stzFile);
 			ptr += mir_tstrlen(ptr) + 1;
 		}
@@ -113,10 +113,10 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 	}
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
+	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE) {
 		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-			mir_sntprintf(stzFile, _T("%s\\%s"), stzFolder, ffd.cFileName);
+			mir_sntprintf(stzFile, L"%s\\%s", stzFolder, ffd.cFileName);
 			addFile(stzFile);
 		}
 

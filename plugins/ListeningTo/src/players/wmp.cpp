@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "../stdafx.h"
 
-#define WMP_WINDOWCLASS _T("MsnMsgrUIManager")
+#define WMP_WINDOWCLASS L"MsnMsgrUIManager"
 
 static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -29,7 +29,7 @@ WindowsMediaPlayer *singleton = NULL;
 
 WindowsMediaPlayer::WindowsMediaPlayer()
 {
-	name = _T("WindowsMediaPlayer");
+	name = L"WindowsMediaPlayer";
 	received[0] = _T('\0');
 	singleton = this;
 

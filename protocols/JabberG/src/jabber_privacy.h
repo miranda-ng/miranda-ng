@@ -58,7 +58,7 @@ class CPrivacyListRule
 protected:
 	friend class CPrivacyList;
 public:
-	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const TCHAR *szValue = _T(""), BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
+	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const TCHAR *szValue = L"", BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
 	{
 		m_proto = ppro;
 		m_szValue = mir_tstrdup(szValue);

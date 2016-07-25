@@ -123,7 +123,7 @@ INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
 }
 
 // avatars
-static const TCHAR *statusStr[] = { _T("Light"), _T("Fog"), _T("SShower"), _T("Snow"), _T("RShower"), _T("Rain"), _T("PCloudy"), _T("Cloudy"), _T("Sunny"), _T("NA") };
+static const TCHAR *statusStr[] = { L"Light", L"Fog", L"SShower", L"Snow", L"RShower", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
 static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
@@ -147,12 +147,12 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	pai->format = PA_FORMAT_PNG;
-	mir_sntprintf(pai->filename, _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
+	mir_sntprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.png", szSearchPath, statusStr[i]);
 	if (_taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_GIF;
-	mir_sntprintf(pai->filename, _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
+	mir_sntprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.gif", szSearchPath, statusStr[i]);
 	if (_taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 

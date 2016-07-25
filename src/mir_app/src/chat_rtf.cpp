@@ -28,23 +28,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-static TCHAR tszRtfBreaks[] = _T(" \\\n\r");
+static TCHAR tszRtfBreaks[] = L" \\\n\r";
 
 static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
 	const TCHAR *pszText = Text;
 	int iIndex = 1;
 
-	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
+	static const TCHAR *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
 	TCHAR szRed[10], szGreen[10], szBlue[10];
 
-	const TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
+	const TCHAR *p1 = _tcsstr(pszText, L"\\colortbl");
 	if (!p1)
 		return;
 
 	const TCHAR *pEnd = _tcschr(p1, '}');
 
-	const TCHAR *p2 = _tcsstr(p1, _T("\\red"));
+	const TCHAR *p2 = _tcsstr(p1, L"\\red");
 
 	for (int i = 0; i < iCount; i++)
 		pDst[i] = -1;
@@ -60,7 +60,7 @@ static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst
 		p1 = p2;
 		p1++;
 
-		p2 = _tcsstr(p1, _T("\\red"));
+		p2 = _tcsstr(p1, L"\\red");
 	}
 }
 
@@ -84,9 +84,9 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 	CreateColorMap(pszText, iNumColors, pColors, pIndex);
 
 	// scan the file for rtf commands and remove or parse them
-	int idx = pszText.Find(_T("\\pard"));
+	int idx = pszText.Find(L"\\pard");
 	if (idx == -1) {
-		if ((idx = pszText.Find(_T("\\ltrpar"))) == -1)
+		if ((idx = pszText.Find(L"\\ltrpar")) == -1)
 			return FALSE;
 		idx += 7;
 	}
@@ -108,61 +108,61 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 				p += 2; break;
 			}
 
-			if (!_tcsncmp(p, _T("\\cf"), 3)) { // foreground color
+			if (!_tcsncmp(p, L"\\cf", 3)) { // foreground color
 				int iCol = _ttoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 				bInsideColor = iInd > 0;
 			}
-			else if (!_tcsncmp(p, _T("\\highlight"), 10)) { //background color
+			else if (!_tcsncmp(p, L"\\highlight", 10)) { //background color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p + 10);
-				mir_sntprintf(szTemp, _T("%d"), iCol);
+				mir_sntprintf(szTemp, L"%d", iCol);
 			}
-			else if (!_tcsncmp(p, _T("\\line"), 5)) { // soft line break;
+			else if (!_tcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
 			}
-			else if (!_tcsncmp(p, _T("\\endash"), 7)) {
+			else if (!_tcsncmp(p, L"\\endash", 7)) {
 				res.AppendChar(0x2013);
 			}
-			else if (!_tcsncmp(p, _T("\\emdash"), 7)) {
+			else if (!_tcsncmp(p, L"\\emdash", 7)) {
 				res.AppendChar(0x2014);
 			}
-			else if (!_tcsncmp(p, _T("\\bullet"), 7)) {
+			else if (!_tcsncmp(p, L"\\bullet", 7)) {
 				res.AppendChar(0x2022);
 			}
-			else if (!_tcsncmp(p, _T("\\ldblquote"), 10)) {
+			else if (!_tcsncmp(p, L"\\ldblquote", 10)) {
 				res.AppendChar(0x201C);
 			}
-			else if (!_tcsncmp(p, _T("\\rdblquote"), 10)) {
+			else if (!_tcsncmp(p, L"\\rdblquote", 10)) {
 				res.AppendChar(0x201D);
 			}
-			else if (!_tcsncmp(p, _T("\\lquote"), 7)) {
+			else if (!_tcsncmp(p, L"\\lquote", 7)) {
 				res.AppendChar(0x2018);
 			}
-			else if (!_tcsncmp(p, _T("\\rquote"), 7)) {
+			else if (!_tcsncmp(p, L"\\rquote", 7)) {
 				res.AppendChar(0x2019);
 			}
-			else if (!_tcsncmp(p, _T("\\b"), 2)) { //bold
-				res.Append((p[2] != '0') ? _T("[b]") : _T("[/b]"));
+			else if (!_tcsncmp(p, L"\\b", 2)) { //bold
+				res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 			}
-			else if (!_tcsncmp(p, _T("\\i"), 2)) { // italics
-				res.Append((p[2] != '0') ? _T("[i]") : _T("[/i]"));
+			else if (!_tcsncmp(p, L"\\i", 2)) { // italics
+				res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 			}
-			else if (!_tcsncmp(p, _T("\\strike"), 7)) { // strike-out
-				res.Append((p[7] != '0') ? _T("[s]") : _T("[/s]"));
+			else if (!_tcsncmp(p, L"\\strike", 7)) { // strike-out
+				res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
-			else if (!_tcsncmp(p, _T("\\ul"), 3)) { // underlined
+			else if (!_tcsncmp(p, L"\\ul", 3)) { // underlined
 				if (p[3] == 0 || _tcschr(tszRtfBreaks, p[3])) {
-					res.Append(_T("[u]"));
+					res.Append(L"[u]");
 					bInsideUl = true;
 				}
-				else if (!_tcsnccmp(p + 3, _T("none"), 4)) {
+				else if (!_tcsnccmp(p + 3, L"none", 4)) {
 					if (bInsideUl)
-						res.Append(_T("[/u]"));
+						res.Append(L"[/u]");
 					bInsideUl = false;
 				}
 			}
-			else if (!_tcsncmp(p, _T("\\tab"), 4)) { // tab
+			else if (!_tcsncmp(p, L"\\tab", 4)) { // tab
 				res.AppendChar('\t');
 			}
 			else if (p[1] == '\'') { // special character
@@ -197,7 +197,7 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 	}
 
 	if (bInsideUl)
-		res.Append(_T("[/u]"));
+		res.Append(L"[/u]");
 
 	pszText = res;
 	return TRUE;

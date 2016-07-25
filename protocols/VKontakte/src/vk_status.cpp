@@ -240,11 +240,11 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			tszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%artist% - %title%"), (LPARAM)pliInfo));
+			tszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
 		else
-			tszListeningTo.Format(_T("%s - %s"),
-			pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
-			pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
+			tszListeningTo.Format(L"%s - %s",
+			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
+			pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
 		setTString("ListeningTo", tszListeningTo);
 	}
 	RetrieveStatusMusic(tszListeningTo);

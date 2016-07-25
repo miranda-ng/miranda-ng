@@ -91,7 +91,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case ID_RESTOREDEFAULTS:
 			SetDlgItemText(hwnd, ID_QUESTION, defQuestion);
-			SetDlgItemText(hwnd, ID_ANSWER, _T("nospam"));
+			SetDlgItemText(hwnd, ID_ANSWER, L"nospam");
 			SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
 			SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -111,7 +111,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			db_set_ws(NULL, pluginName, "question", GetDlgItemString(hwnd, ID_QUESTION).c_str());
 			gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
 			db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
-			gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
+			gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
 			db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
 			gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
 			db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
@@ -272,11 +272,11 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				static tstring NewGroupName, CurrentGroupName;
 				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
-				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
+				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"0");
 				if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
 					bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
 					db_set_ws(NULL, pluginName, "SpammersGroup", NewGroupName.c_str());
-					gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("Spammers"));
+					gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
 					if (!GroupExist && gbSpecialGroup)
 						Clist_GroupCreate(0, gbSpammersGroup.c_str());
 				}
@@ -296,11 +296,11 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				static tstring NewAGroupName, CurrentAGroupName;
 				NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
-				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
+				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"0");
 				if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
 					bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
 					db_set_ws(NULL, pluginName, "AutoAuthGroup", NewAGroupName.c_str());
-					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("Not Spammers"));
+					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"Not Spammers");
 					if (!GroupExist && gbAutoAddToServerList)
 						Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
 				}

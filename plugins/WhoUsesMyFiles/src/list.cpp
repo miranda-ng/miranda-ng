@@ -19,12 +19,12 @@ PWumf new_wumf( DWORD dwID,
 	w->szUNC  = mir_tstrdup(szUNC);
 
 	switch(dwPerm) {
-		case PERM_FILE_READ: mir_tstrcpy(w->szPerm, _T("Read"));break;
-		case PERM_FILE_WRITE: mir_tstrcpy(w->szPerm, _T("Write"));break;
-		case PERM_FILE_CREATE: mir_tstrcpy(w->szPerm, _T("Create"));break;
-		default: mir_tstrcpy(w->szPerm, _T("Execute"));
+		case PERM_FILE_READ: mir_tstrcpy(w->szPerm, L"Read");break;
+		case PERM_FILE_WRITE: mir_tstrcpy(w->szPerm, L"Write");break;
+		case PERM_FILE_CREATE: mir_tstrcpy(w->szPerm, L"Create");break;
+		default: mir_tstrcpy(w->szPerm, L"Execute");
 	}
-	mir_sntprintf(w->szID, _T("%i"), dwID);
+	mir_sntprintf(w->szID, L"%i", dwID);
 
 	w->dwID = dwID;
 	w->dwSess = dwSess;

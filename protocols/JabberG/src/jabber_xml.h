@@ -215,9 +215,9 @@ HXML __fastcall operator<<(HXML node, const XQUERY& child);
 // Samples:
 //    LPCTSTR s = XPathT(node, "child/subchild[@attr='value']");          // get node text
 //    LPCTSTR s = XPathT(node, "child/subchild[2]/@attr");                // get attribute value
-//    XPathT(node, "child/subchild[@name='test']/@attr") = _T("Hello");   // create path if needed and set attribute value
+//    XPathT(node, "child/subchild[@name='test']/@attr") = L"Hello";   // create path if needed and set attribute value
 //
-//    XPathT(node, "child/subchild[@name='test']") = _T("Hello");         // TODO: create path if needed and set node text
+//    XPathT(node, "child/subchild[@name='test']") = L"Hello";         // TODO: create path if needed and set node text
 
 #define XPathT(a,b) XPath(a, _T(b))
 

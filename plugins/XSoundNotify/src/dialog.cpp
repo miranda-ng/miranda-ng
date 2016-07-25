@@ -79,7 +79,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDOK:
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p != NULL) {
-				if (mir_tstrcmpi(p->path, _T(""))) {
+				if (mir_tstrcmpi(p->path, L"")) {
 					TCHAR shortpath[MAX_PATH];
 					PathToRelativeT(p->path, shortpath);
 					db_set_ts(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
@@ -94,15 +94,15 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_CONT_BUTTON_CHOOSE_SOUND:
 			{
 				TCHAR FileName[MAX_PATH];
-				TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+				TCHAR *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				if (GetModuleHandle(_T("bass_interface.dll")))
-					mir_sntprintf(tmp, _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c"), TranslateT("Sound files"), 0, 0, 0);
+				if (GetModuleHandle(L"bass_interface.dll"))
+					mir_sntprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
 				else
-					mir_sntprintf(tmp, _T("%s (*.wav)%c*.wav%c%c"), TranslateT("WAV files"), 0, 0, 0);
+					mir_sntprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
 				ofn.lpstrInitialDir = tszMirDir;
 				*FileName = '\0';
-				ofn.lpstrDefExt = _T("");
+				ofn.lpstrDefExt = L"";
 
 				if (GetOpenFileName(&ofn)) {
 					SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(FileName));
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
 					db_free(&dbv);
 				}
-				else XSN_Users.insert(new XSN_Data(hContact, _T(""), IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
+				else XSN_Users.insert(new XSN_Data(hContact, L"", IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
 			}
 			else p->ignore = IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0;
 		}

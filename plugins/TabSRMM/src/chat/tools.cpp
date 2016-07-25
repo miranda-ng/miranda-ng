@@ -113,7 +113,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		pd.lchIcon = LoadIconEx("window");
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, _T("%s - %s"), (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_sntprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
 	_tcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
@@ -146,10 +146,10 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
 
 	TCHAR *bbStart, *bbEnd;
 	if (g_Settings.bBBCodeInPopups) {
-		bbStart = _T("[b]");
-		bbEnd = _T("[/b]");
+		bbStart = L"[b]";
+		bbEnd = L"[/b]";
 	}
-	else bbStart = bbEnd = _T("");
+	else bbStart = bbEnd = L"";
 
 	if (nen_options.iMUCDisable)                          // no popups at all. Period
 		return 0;
@@ -478,7 +478,7 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 {
 	int i, j, k;
 
-	_tsetlocale(LC_ALL, _T(""));
+	_tsetlocale(LC_ALL, L"");
 	for (i = 0; s1[i]; i++)
 		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
 			if (!s2[k + 1])
@@ -546,7 +546,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 			_tcsncpy_s(szTemp, TranslateT("&Message"), _TRUNCATE);
 
 		if (mir_tstrlen(szTemp) > 40)
-			_tcsncpy_s(szTemp + 40, 4, _T("..."), _TRUNCATE);
+			_tcsncpy_s(szTemp + 40, 4, L"...", _TRUNCATE);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

@@ -32,12 +32,12 @@ void CVkProto::AddFeedSpecialUser()
 		hContact = FindUser(VK_FEED_USER, true);
 
 		setTString(hContact, "Nick", TranslateT("VKontakte"));
-		CMString tszUrl = _T("https://vk.com/press/Simple.png");
+		CMString tszUrl = L"https://vk.com/press/Simple.png";
 		SetAvatarUrl(hContact, tszUrl);
 		ReloadAvatarInfo(hContact);
 
-		setTString(hContact, "domain", _T("feed"));
-		setTString(hContact, "Homepage", _T("https://vk.com/feed"));
+		setTString(hContact, "domain", L"feed");
+		setTString(hContact, "Homepage", L"https://vk.com/feed");
 	} 
 
 	if (getWord(hContact, "Status") != ID_STATUS_ONLINE)
@@ -103,10 +103,10 @@ CVkUserInfo* CVkProto::GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers
 
 	if (vkUser == NULL) {
 		CMString tszNick = TranslateT("Unknown");
-		CMString tszLink(_T("https://vk.com/"));
+		CMString tszLink(L"https://vk.com/");
 		if (iUserId) {
 			tszLink += bIsGroup ? "club" : "id";
-			tszLink.AppendFormat(_T("%d"), bIsGroup ? -iUserId : iUserId);
+			tszLink.AppendFormat(L"%d", bIsGroup ? -iUserId : iUserId);
 		}
 		vkUser = new CVkUserInfo(iUserId, bIsGroup, tszNick, tszLink, bIsGroup ? NULL : FindUser(iUserId));
 		vkUsers.insert(vkUser);
@@ -133,10 +133,10 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 			CMString tszNick(jnProfile["first_name"].as_mstring());
 			tszNick.AppendChar(' ');
 			tszNick += jnProfile["last_name"].as_mstring();
-			CMString tszLink = _T("https://vk.com/");
+			CMString tszLink = L"https://vk.com/";
 			CMString tszScreenName(jnProfile["screen_name"].as_mstring());
 			if (tszScreenName.IsEmpty())
-				tszScreenName.AppendFormat(_T("id%d"), UserId);
+				tszScreenName.AppendFormat(L"id%d", UserId);
 			tszLink += tszScreenName;
 			CVkUserInfo *vkUser = new CVkUserInfo(UserId, false, tszNick, tszLink, FindUser(UserId));
 			vkUsers.insert(vkUser);
@@ -151,7 +151,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 			LONG UserId = - jnProfile["id"].as_int();
 
 			CMString tszNick(jnProfile["name"].as_mstring());
-			CMString tszLink = _T("https://vk.com/");
+			CMString tszLink = L"https://vk.com/";
 			tszLink += jnProfile["screen_name"].as_mstring();
 			CVkUserInfo *vkUser = new CVkUserInfo(UserId, true, tszNick, tszLink);
 			vkUsers.insert(vkUser);
@@ -178,11 +178,11 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	vkNewsItem->tDate = jnItem["date"].as_int();
 
 	if (!tszText.IsEmpty())
-		tszText += _T("\n");
+		tszText += L"\n";
 
-	debugLog(_T("CVkProto::GetVkNewsItem %d %d %s"), iSourceId, iPostId, vkNewsItem->tszType);
+	debugLog(L"CVkProto::GetVkNewsItem %d %d %s", iSourceId, iPostId, vkNewsItem->tszType);
 
-	if (vkNewsItem->tszType == _T("photo_tag")) {
+	if (vkNewsItem->tszType == L"photo_tag") {
 		bPostLink = false;
 		const JSONNode &jnPhotos = jnItem["photo_tags"];
 		if (jnPhotos) {			
@@ -191,11 +191,11 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 				tszText = TranslateT("User was tagged in these photos:");
 				tszPopupText = tszText + TranslateT("(photos)");
 				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it)
-					tszText += _T("\n") + GetVkPhotoItem((*it), m_vkOptions.BBCForNews());
+					tszText += L"\n" + GetVkPhotoItem((*it), m_vkOptions.BBCForNews());
 			}
 		}
 	}
-	else if (vkNewsItem->tszType == _T("photo") || vkNewsItem->tszType == _T("wall_photo")) {
+	else if (vkNewsItem->tszType == L"photo" || vkNewsItem->tszType == L"wall_photo") {
 		bPostLink = false;
 		const JSONNode &jnPhotos = jnItem["photos"];
 		int i = 0;
@@ -205,8 +205,8 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 				tszPopupText += TranslateT("(photos)");
 				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it) {
 					const JSONNode &jnPhotoItem = (*it);
-					tszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews()) + _T("\n");
-					if (i == 0 && vkNewsItem->tszType == _T("wall_photo")) {
+					tszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews()) + L"\n";
+					if (i == 0 && vkNewsItem->tszType == L"wall_photo") {
 						if (jnPhotoItem["post_id"]) {
 							bPostLink = true;
 							iPostId = jnPhotoItem["post_id"].as_int();
@@ -218,18 +218,18 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			}
 		}
 	} 
-	else if (vkNewsItem->tszType == _T("post") || vkNewsItem->tszType.IsEmpty()) {
+	else if (vkNewsItem->tszType == L"post" || vkNewsItem->tszType.IsEmpty()) {
 		bPostLink = true;
 		const JSONNode &jnRepost = jnItem["copy_history"];
 		if (jnRepost) {
 			CVKNewsItem *vkRepost = GetVkNewsItem((*jnRepost.begin()), vkUsers, true);
-			vkRepost->tszText.Replace(_T("\n"), _T("\n\t"));
+			vkRepost->tszText.Replace(L"\n", L"\n\t");
 			tszText += vkRepost->tszText;
-			tszText += _T("\n");
+			tszText += L"\n";
 
-			tszPopupText += _T("\t");
+			tszPopupText += L"\t";
 			tszPopupText += vkRepost->tszPopupTitle;
-			tszPopupText += _T("\n\t");
+			tszPopupText += L"\n\t";
 			tszPopupText += vkRepost->tszPopupText;
 			vkNewsItem->bIsRepost = true;
 			delete vkRepost;
@@ -264,14 +264,14 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	vkNewsItem->tszPopupTitle.AppendFormat(tszTitleFormat, vkNewsItem->vkUser->m_tszUserNick);
 	vkNewsItem->tszPopupText = tszPopupText;
 
-	vkNewsItem->tszId.AppendFormat(_T("%d_%d"), vkNewsItem->vkUser->m_UserId, iPostId);
+	vkNewsItem->tszId.AppendFormat(L"%d_%d", vkNewsItem->vkUser->m_UserId, iPostId);
 	if (bPostLink) {
-		vkNewsItem->tszLink = CMString(_T("https://vk.com/wall")) + vkNewsItem->tszId;
+		vkNewsItem->tszLink = CMString(L"https://vk.com/wall") + vkNewsItem->tszId;
 		vkNewsItem->tszText.AppendChar(_T('\n'));
 		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNewsItem->tszLink);
 	}
 
-	debugLog(_T("CVkProto::GetVkNewsItem %d %d <\n%s\n>"), iSourceId, iPostId, vkNewsItem->tszText);
+	debugLog(L"CVkProto::GetVkNewsItem %d %d <\n%s\n>", iSourceId, iPostId, vkNewsItem->tszText);
 
 	return vkNewsItem;
 }
@@ -290,11 +290,11 @@ CMString CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbac
 
 	if (vkFeedbackType == vkComment) {
 		iUserId = jnFeedback["from_id"].as_int();
-		tszFormat = _T("%s %%s %%s\n%s");
+		tszFormat = L"%s %%s %%s\n%s";
 	}
 	else if (vkFeedbackType == vkPost) {
 		iUserId = jnFeedback["owner_id"].as_int();
-		tszFormat = _T("%s %%s %%s\n%s");
+		tszFormat = L"%s %%s %%s\n%s";
 	}
 	else if (vkFeedbackType == VKObjType::vkUsers || vkFeedbackType == vkCopy) {
 		const JSONNode &jnUsers = jnFeedback["items"];
@@ -307,10 +307,10 @@ CMString CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbac
 			iUserId = jnUserItem["from_id"].as_int();
 			vkUser = GetVkUserInfo(iUserId, vkUsers);
 			if (!tszUsers.IsEmpty())
-				tszUsers += _T(", ");
+				tszUsers += L", ";
 			tszUsers += SetBBCString(vkUser->m_tszUserNick, m_vkOptions.BBCForNews(), vkbbcUrl, vkUser->m_tszLink);
 		}
-		tszRes.AppendFormat(_T("%s %%s %%s"), tszUsers);
+		tszRes.AppendFormat(L"%s %%s %%s", tszUsers);
 		vkUser = NULL;
 		iUserId = 0;
 	}
@@ -318,7 +318,7 @@ CMString CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbac
 	if (iUserId) {
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
 		CMString tszText(jnFeedback["text"].as_mstring());
-		tszText.Replace(_T("%"), _T("%%"));
+		tszText.Replace(L"%", L"%%");
 		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick, m_vkOptions.BBCForNews(), vkbbcUrl, vkUser->m_tszLink), ClearFormatNick(tszText));
 	}
 
@@ -338,84 +338,84 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		CMString tszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews());
 		LONG iOwnerId = jnParent["owner_id"].as_int();
 		LONG iId = jnParent["id"].as_int();
-		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
-		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/photo%s"), vkNotificationItem->tszId);
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), tszPhoto);
+		vkNotificationItem->tszId.AppendFormat(L"%d_%d", iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(L"https://vk.com/photo%s", vkNotificationItem->tszId);
+		vkNotificationItem->tszText.AppendFormat(L"\n%s", tszPhoto);
 
 		if (ptszReplyText) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
-			vkNotificationItem->tszPopupText.AppendFormat(_T(">> %s"), ptszReplyText);
+			vkNotificationItem->tszText.AppendFormat(L"\n>> %s", SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszPopupText.AppendFormat(L">> %s", ptszReplyText);
 		}
 
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
+		vkNotificationItem->tszText.AppendFormat(L"\n%s", SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
 	}
 	else if (vkParentType == vkVideo) {
 		LONG iOwnerId = jnParent["owner_id"].as_int();
 		LONG iId = jnParent["id"].as_int();
 		CMString tszTitle(jnParent["title"].as_mstring());
-		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
-		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/video%s"), vkNotificationItem->tszId);
+		vkNotificationItem->tszId.AppendFormat(L"%d_%d", iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(L"https://vk.com/video%s", vkNotificationItem->tszId);
 
 		CMString tszText(jnParent["text"].as_mstring());
 		ClearFormatNick(tszText);
 
 		if (!tszText.IsEmpty())
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Video description:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszText.AppendFormat(L"\n%s: %s", SetBBCString(TranslateT("Video description:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
 
 		if (ptszReplyText) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
-			vkNotificationItem->tszPopupText.AppendFormat(_T(">> %s"), ptszReplyText);
+			vkNotificationItem->tszText.AppendFormat(L"\n>> %s", SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszPopupText.AppendFormat(L">> %s", ptszReplyText);
 		}
 
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle, m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
+		vkNotificationItem->tszText.AppendFormat(L"\n%s", SetBBCString(tszTitle, m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
 	}
 	else if (vkParentType == vkPost) {
 		LONG iToId = jnParent["to_id"].as_int();
 		LONG iId = jnParent["id"].as_int();
-		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iToId, iId);
-		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/wall%s%s"), vkNotificationItem->tszId, ptszReplyLink ? ptszReplyLink : _T(""));
+		vkNotificationItem->tszId.AppendFormat(L"%d_%d", iToId, iId);
+		vkNotificationItem->tszLink.AppendFormat(L"https://vk.com/wall%s%s", vkNotificationItem->tszId, ptszReplyLink ? ptszReplyLink : L"");
 
 		CMString tszText(jnParent["text"].as_mstring());
 		ClearFormatNick(tszText);
 
 		if (!tszText.IsEmpty()) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Post text:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
-			vkNotificationItem->tszPopupText.AppendFormat(_T("%s: %s"), TranslateT("Post text:"), tszText);
+			vkNotificationItem->tszText.AppendFormat(L"\n%s: %s", SetBBCString(TranslateT("Post text:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszPopupText.AppendFormat(L"%s: %s", TranslateT("Post text:"), tszText);
 		}
 
 		if (ptszReplyText) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszText.AppendFormat(L"\n>> %s", SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
 			if (!vkNotificationItem->tszPopupText.IsEmpty())
-				vkNotificationItem->tszPopupText += _T("\n");
-			vkNotificationItem->tszPopupText.AppendFormat(_T(">> %s"), ptszReplyText);
+				vkNotificationItem->tszPopupText += L"\n";
+			vkNotificationItem->tszPopupText.AppendFormat(L">> %s", ptszReplyText);
 		}
 
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
+		vkNotificationItem->tszText.AppendFormat(L"\n%s", SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
 	}
 	else if (vkParentType == vkTopic) {
 		LONG iOwnerId = jnParent["owner_id"].as_int();
 		LONG iId = jnParent["id"].as_int();
 		CMString tszTitle(jnParent["title"].as_mstring());
-		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
-		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/topic%s%s"), 
-			vkNotificationItem->tszId, ptszReplyLink ? ptszReplyLink : _T(""));
+		vkNotificationItem->tszId.AppendFormat(L"%d_%d", iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(L"https://vk.com/topic%s%s", 
+			vkNotificationItem->tszId, ptszReplyLink ? ptszReplyLink : L"");
 
 		CMString tszText(jnParent["text"].as_mstring());
 		ClearFormatNick(tszText);
 
 		if (!tszText.IsEmpty()) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s %s"), SetBBCString(TranslateT("Topic text:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
-			vkNotificationItem->tszPopupText.AppendFormat(_T("%s %s"), TranslateT("Topic text:"), tszText);
+			vkNotificationItem->tszText.AppendFormat(L"\n%s %s", SetBBCString(TranslateT("Topic text:"), m_vkOptions.BBCForNews(), vkbbcB), SetBBCString(tszText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszPopupText.AppendFormat(L"%s %s", TranslateT("Topic text:"), tszText);
 		}
 
 		if (ptszReplyText) {
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
+			vkNotificationItem->tszText.AppendFormat(L"\n>> %s", SetBBCString(ptszReplyText, m_vkOptions.BBCForNews(), vkbbcI));
 			if (!vkNotificationItem->tszPopupText.IsEmpty())
-				vkNotificationItem->tszPopupText += _T("\n");
-			vkNotificationItem->tszPopupText.AppendFormat(_T(">> %s"), ptszReplyText);
+				vkNotificationItem->tszPopupText += L"\n";
+			vkNotificationItem->tszPopupText.AppendFormat(L">> %s", ptszReplyText);
 		}
 
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle, m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
+		vkNotificationItem->tszText.AppendFormat(L"\n%s", SetBBCString(tszTitle, m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->tszLink));
 	}
 	else if (vkParentType == vkComment) {
 		CMString tszText(jnParent["text"].as_mstring());
@@ -437,14 +437,14 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 
 		const JSONNode &jnPost = jnParent["post"];
 		if (jnPost) {
-			CMString tszRepl(FORMAT, _T("?reply=%d"), iId);
+			CMString tszRepl(FORMAT, L"?reply=%d", iId);
 			delete vkNotificationItem;
 			return GetVkParent(jnPost, vkPost, tszText, tszRepl);
 		}
 
 		const JSONNode &jnTopic = jnParent["topic"];
 		if (jnTopic) {
-			CMString tszRepl(FORMAT, _T("?reply=%d"), iId);
+			CMString tszRepl(FORMAT, L"?reply=%d", iId);
 			delete vkNotificationItem;
 			return GetVkParent(jnTopic, vkTopic, tszText, tszRepl);
 		}
@@ -466,7 +466,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 	const JSONNode &jnFeedback = jnItem["feedback"];
 	const JSONNode &jnParent = jnItem["parent"];
 
-	if (m_vkOptions.bNotificationFilterAcceptedFriends && tszType == _T("friend_accepted") && jnFeedback && vkFeedbackType == VKObjType::vkUsers) {
+	if (m_vkOptions.bNotificationFilterAcceptedFriends && tszType == L"friend_accepted" && jnFeedback && vkFeedbackType == VKObjType::vkUsers) {
 		OnFriendAccepted(jnFeedback);
 		return NULL;
 	}
@@ -487,12 +487,12 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 		vkNotification->tszText = tszNotificaton;
 
 		tszFeedback = RemoveBBC(tszFeedback);
-		int idx = tszFeedback.Find(_T(" %s %s"));
+		int idx = tszFeedback.Find(L" %s %s");
 
-		vkNotification->tszPopupTitle.AppendFormat(_T("%s %s"), tszFeedback.Mid(0, idx), tszNotificationTranslate);
+		vkNotification->tszPopupTitle.AppendFormat(L"%s %s", tszFeedback.Mid(0, idx), tszNotificationTranslate);
 		if (tszFeedback.GetLength() > idx + 7) {
 			if (!vkNotification->tszPopupText.IsEmpty())
-				vkNotification->tszPopupText += _T("\n>> ");
+				vkNotification->tszPopupText += L"\n>> ";
 			vkNotification->tszPopupText += tszFeedback.Mid(idx + 7, tszFeedback.GetLength() - idx - 7);
 		}
 
@@ -540,7 +540,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 		return NULL;
 
 	LONG iGroupId = jnItem["id"].as_int();
-	CMString tszId(FORMAT, _T("%d,"), iGroupId);
+	CMString tszId(FORMAT, L"%d,", iGroupId);
 	CMString tszIds(ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds")));
 
 	if (tszIds.Find(tszId, 0) != -1)
@@ -557,13 +557,13 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 
 	CMString tszGroupName;
 	CMString tszGName = jnItem["name"].as_mstring();
-	CMString tszGLink(FORMAT, _T("https://vk.com/%s"), jnItem["screen_name"].as_mstring());
+	CMString tszGLink(FORMAT, L"https://vk.com/%s", jnItem["screen_name"].as_mstring());
 	tszGroupName = SetBBCString(tszGName, m_vkOptions.BBCForNews(), vkbbcUrl, tszGLink);
 
-	CMString tszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), m_vkOptions.BBCForNews(), vkbbcUrl, iUserId ? vkNotification->vkUser->m_tszLink : _T("https://vk.com/"));
+	CMString tszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), m_vkOptions.BBCForNews(), vkbbcUrl, iUserId ? vkNotification->vkUser->m_tszLink : L"https://vk.com/");
 
-	vkNotification->tszText.AppendFormat(_T("%s %s %s"), tszUsers, tszNotificationTranslate, tszGroupName);
-	vkNotification->tszPopupTitle.AppendFormat(_T("%s %s %s"), iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), tszNotificationTranslate, tszGName);
+	vkNotification->tszText.AppendFormat(L"%s %s %s", tszUsers, tszNotificationTranslate, tszGroupName);
+	vkNotification->tszPopupTitle.AppendFormat(L"%s %s %s", iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), tszNotificationTranslate, tszGName);
 
 	tszIds += tszId;
 	setTString("InviteGroupIds", tszIds);
@@ -672,7 +672,7 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 			CVKNewsItem *vkNewsFoundItem = vkNews.find(vkNewsItem);
 			if (vkNewsFoundItem == NULL)
 				vkNews.insert(vkNewsItem);
-			else if (vkNewsFoundItem->tszType == _T("wall_photo") && vkNewsItem->tszType == _T("post")) {
+			else if (vkNewsFoundItem->tszType == L"wall_photo" && vkNewsItem->tszType == L"post") {
 				vkNews.remove(vkNewsFoundItem);
 				vkNews.insert(vkNewsItem);
 			}
@@ -708,9 +708,9 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	if (time(NULL) - tLastNotificationsReqTime < 3 * 60)
 		return;
 
-	CMString code(FORMAT, _T("return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s"),
+	CMString code(FORMAT, L"return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s",
 		(LONG)(tLastNotificationsTime + 1),
-		m_vkOptions.bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
+		m_vkOptions.bNotificationFilterInvites ? L",\"groupinvates\":API.groups.getInvites({\"extended\":1})};" : L"};");
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
 		<< TCHAR_PARAM("code", code)		);
@@ -724,9 +724,9 @@ bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isComme
 	if (vkNotificationItem->vkParentType == vkNull)
 		return false;
 
-	if (vkNotificationItem->tszType == _T("mention_comments")
-		|| vkNotificationItem->tszType == _T("mention_comment_photo")
-		|| vkNotificationItem->tszType == _T("mention_comment_video")) {
+	if (vkNotificationItem->tszType == L"mention_comments"
+		|| vkNotificationItem->tszType == L"mention_comment_photo"
+		|| vkNotificationItem->tszType == L"mention_comment_video") {
 		isCommented = true;
 		return (m_vkOptions.bNotificationFilterMentions != 0);
 	}

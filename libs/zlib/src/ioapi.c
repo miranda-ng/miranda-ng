@@ -94,13 +94,13 @@ static voidpf ZCALLBACK fopen_file_func(voidpf opaque, const TCHAR* filename, in
 	FILE* file = NULL;
 	const TCHAR* mode_fopen = NULL;
 	if ((mode & ZLIB_FILEFUNC_MODE_READWRITEFILTER) == ZLIB_FILEFUNC_MODE_READ)
-		mode_fopen = _T("rb");
+		mode_fopen = L"rb";
 	else
 		if (mode & ZLIB_FILEFUNC_MODE_EXISTING)
-			mode_fopen = _T("r+b");
+			mode_fopen = L"r+b";
 		else
 			if (mode & ZLIB_FILEFUNC_MODE_CREATE)
-				mode_fopen = _T("wb");
+				mode_fopen = L"wb";
 
 	if ((filename != NULL) && (mode_fopen != NULL))
 		file = _tfopen(filename, mode_fopen);
@@ -112,13 +112,13 @@ static voidpf ZCALLBACK fopen64_file_func(voidpf opaque, const void* filename, i
 	FILE* file = NULL;
 	const TCHAR* mode_fopen = NULL;
 	if ((mode & ZLIB_FILEFUNC_MODE_READWRITEFILTER) == ZLIB_FILEFUNC_MODE_READ)
-		mode_fopen = _T("rb");
+		mode_fopen = L"rb";
 	else
 		if (mode & ZLIB_FILEFUNC_MODE_EXISTING)
-			mode_fopen = _T("r+b");
+			mode_fopen = L"r+b";
 		else
 			if (mode & ZLIB_FILEFUNC_MODE_CREATE)
-				mode_fopen = _T("wb");
+				mode_fopen = L"wb";
 
 	if ((filename != NULL) && (mode_fopen != NULL))
 		file = _tfopen((const TCHAR*)filename, mode_fopen);

@@ -184,7 +184,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, _T("%s - %s"), (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
+	mir_sntprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
 	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
@@ -213,13 +213,13 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 		chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, chatApi.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, chatApi.aFonts[16].color, _T("%s %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, chatApi.aFonts[16].color, L"%s %s", gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_MESSAGE:
 		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, chatApi.aFonts[9].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ACTION:
-		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_ACTION], si->pszModule, si->ptszName, chatApi.aFonts[15].color, _T("%s %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_ACTION], si->pszModule, si->ptszName, chatApi.aFonts[15].color, L"%s %s", gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_JOIN:
 		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_JOIN], si->pszModule, si->ptszName, chatApi.aFonts[3].color, TranslateT("%s has joined"), gce->ptszNick);
@@ -255,7 +255,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 			chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, chatApi.aFonts[11].color, TranslateT("The topic is '%s' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
 		break;
 	case GC_EVENT_INFORMATION:
-		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_INFO], si->pszModule, si->ptszName, chatApi.aFonts[12].color, _T("%s"), RemoveFormatting(gce->ptszText));
+		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_INFO], si->pszModule, si->ptszName, chatApi.aFonts[12].color, L"%s", RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ADDSTATUS:
 		chatApi.ShowPopup(si->hContact, si, chatApi.hIcons[ICON_ADDSTATUS], si->pszModule, si->ptszName, chatApi.aFonts[13].color, TranslateT("%s enables '%s' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
@@ -411,7 +411,7 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	return NULL;
 }
 
-static TCHAR szTrimString[] = _T(":,.!?;\'>)");
+static TCHAR szTrimString[] = L":,.!?;\'>)";
 
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
@@ -427,20 +427,20 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	CMString tszHighlightWords(g_Settings->pszHighlightWords);
 
 	while (true) {
-		CMString tszToken = tszHighlightWords.Tokenize(_T("\t "), iStart);
+		CMString tszToken = tszHighlightWords.Tokenize(L"\t ", iStart);
 		if (iStart == -1)
 			break;
 
 		// replace %m with the users nickname
-		if (tszToken == _T("%m"))
+		if (tszToken == L"%m")
 			tszToken = si->pMe->pszNick;
 
 		if (tszToken.Find('*') == -1)
 			tszToken = '*' + tszToken + '*';
 
 		// time to get the next/first word in the incoming text string
-		for (const TCHAR *p = buf; *p != '\0'; p += _tcscspn(p, _T(" "))) {
-			p += _tcsspn(p, _T(" "));
+		for (const TCHAR *p = buf; *p != '\0'; p += _tcscspn(p, L" ")) {
+			p += _tcsspn(p, L" ");
 
 			// compare the words, using wildcards
 			if (wildcmpit(p, tszToken))
@@ -470,7 +470,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	TCHAR szTime[100];
 	mir_tstrncpy(szTime, chatApi.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
 
-	FILE *hFile = _tfopen(si->pszLogFileName, _T("ab+"));
+	FILE *hFile = _tfopen(si->pszLogFileName, L"ab+");
 	if (hFile == NULL)
 		return FALSE;
 
@@ -481,12 +481,12 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	if (gce->ptszNick) {
 		if (g_Settings->bLogLimitNames && mir_tstrlen(gce->ptszNick) > 20) {
 			mir_tstrncpy(szTemp2, gce->ptszNick, 20);
-			mir_tstrncpy(szTemp2 + 20, _T("..."), 4);
+			mir_tstrncpy(szTemp2 + 20, L"...", 4);
 		}
 		else mir_tstrncpy(szTemp2, gce->ptszNick, 511);
 
 		if (gce->ptszUserInfo)
-			mir_sntprintf(szTemp, _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
+			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, gce->ptszUserInfo);
 		else
 			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -496,12 +496,12 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_sntprintf(szBuffer, _T("%s: %s"), gce->ptszNick, chatApi.RemoveFormatting(gce->ptszText));
+		mir_sntprintf(szBuffer, L"%s: %s", gce->ptszNick, chatApi.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_sntprintf(szBuffer, _T("%s %s"), gce->ptszNick, chatApi.RemoveFormatting(gce->ptszText));
+		mir_sntprintf(szBuffer, L"%s %s", gce->ptszNick, chatApi.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_JOIN:
 		p = '>';
@@ -560,9 +560,9 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	// formatting strings don't need to be translatable - changing them via language pack would
 	// only screw up the log format.
 	if (p)
-		mir_sntprintf(szLine, _T("%s %c %s\r\n"), szTime, p, szBuffer);
+		mir_sntprintf(szLine, L"%s %c %s\r\n", szTime, p, szBuffer);
 	else
-		mir_sntprintf(szLine, _T("%s %s\r\n"), szTime, szBuffer);
+		mir_sntprintf(szLine, L"%s %s\r\n", szTime, szBuffer);
 
 	if (szLine[0]) {
 		_fputts(szLine, hFile);
@@ -577,7 +577,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				time_t now = time(0);
 
 				TCHAR tszTimestamp[20];
-				_tcsftime(tszTimestamp, 20, _T("%Y%m%d-%H%M%S"), _localtime32((__time32_t *)&now));
+				_tcsftime(tszTimestamp, 20, L"%Y%m%d-%H%M%S", _localtime32((__time32_t *)&now));
 				tszTimestamp[19] = 0;
 
 				// max size reached, rotate the log
@@ -587,11 +587,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
 
 				TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewPath, _T("%s%sarchived\\"), tszDrive, tszDir);
+				mir_sntprintf(tszNewPath, L"%s%sarchived\\", tszDrive, tszDir);
 				CreateDirectoryTreeT(tszNewPath);
 
 				TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewName, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
+				mir_sntprintf(tszNewName, L"%s%s-%s%s", tszNewPath, tszName, tszTimestamp, tszExt);
 				fclose(hFile);
 				hFile = 0;
 				if (!PathFileExists(tszNewName))
@@ -679,7 +679,7 @@ BOOL IsEventSupported(int eventType)
 void ValidateFilename(TCHAR *filename)
 {
 	TCHAR *p1 = filename;
-	TCHAR szForbidden[] = _T("\\/:*?\"<>|");
+	TCHAR szForbidden[] = L"\\/:*?\"<>|";
 	while (*p1 != '\0') {
 		if (_tcschr(szForbidden, *p1))
 			*p1 = '_';
@@ -696,7 +696,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	// check whether relevant parts of the timestamp have changed and
 	// we have to reparse the filename
-	TCHAR *tszNow = chatApi.MakeTimeStamp(_T("%a%d%m%Y"), tTime); // once a day
+	TCHAR *tszNow = chatApi.MakeTimeStamp(L"%a%d%m%Y", tTime); // once a day
 	if (mir_tstrcmp(tszOldTimeStamp, tszNow)) {
 		_tcsncpy_s(tszOldTimeStamp, tszNow, _TRUNCATE);
 		*si->pszLogFileName = 0;
@@ -704,42 +704,42 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	if (si->pszLogFileName[0] == 0) {
 		REPLACEVARSARRAY rva[11];
-		rva[0].key.t = _T("d");
-		rva[0].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%#d"), tTime));
+		rva[0].key.t = L"d";
+		rva[0].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%#d", tTime));
 		// day 01-31
-		rva[1].key.t = _T("dd");
-		rva[1].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%d"), tTime));
+		rva[1].key.t = L"dd";
+		rva[1].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%d", tTime));
 		// month 1-12
-		rva[2].key.t = _T("m");
-		rva[2].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%#m"), tTime));
+		rva[2].key.t = L"m";
+		rva[2].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%#m", tTime));
 		// month 01-12
-		rva[3].key.t = _T("mm");
-		rva[3].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%m"), tTime));
+		rva[3].key.t = L"mm";
+		rva[3].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%m", tTime));
 		// month text short
-		rva[4].key.t = _T("mon");
-		rva[4].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%b"), tTime));
+		rva[4].key.t = L"mon";
+		rva[4].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%b", tTime));
 		// month text
-		rva[5].key.t = _T("month");
-		rva[5].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%B"), tTime));
+		rva[5].key.t = L"month";
+		rva[5].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%B", tTime));
 		// year 01-99
-		rva[6].key.t = _T("yy");
-		rva[6].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%y"), tTime));
+		rva[6].key.t = L"yy";
+		rva[6].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%y", tTime));
 		// year 1901-9999
-		rva[7].key.t = _T("yyyy");
-		rva[7].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%Y"), tTime));
+		rva[7].key.t = L"yyyy";
+		rva[7].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%Y", tTime));
 		// weekday short
-		rva[8].key.t = _T("wday");
-		rva[8].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%a"), tTime));
+		rva[8].key.t = L"wday";
+		rva[8].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%a", tTime));
 		// weekday
-		rva[9].key.t = _T("weekday");
-		rva[9].value.t = mir_tstrdup(chatApi.MakeTimeStamp(_T("%A"), tTime));
+		rva[9].key.t = L"weekday";
+		rva[9].value.t = mir_tstrdup(chatApi.MakeTimeStamp(L"%A", tTime));
 		// end of array
 		rva[10].key.t = NULL;
 		rva[10].value.t = NULL;
 
 		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
 		if (g_Settings->pszLogDir[mir_tstrlen(g_Settings->pszLogDir) - 1] == '\\') {
-			mir_sntprintf(tszTemp, _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
+			mir_sntprintf(tszTemp, L"%s%s", g_Settings->pszLogDir, L"%userid%.log");
 			ptszVarPath = tszTemp;
 		}
 		else ptszVarPath = g_Settings->pszLogDir;

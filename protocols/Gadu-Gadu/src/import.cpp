@@ -280,7 +280,7 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
 		mir_sntprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("import_server(): Cannot import list. errno:%d: %s"), errno, ws_strerror(errno));
+		debugLog(L"import_server(): Cannot import list. errno:%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
 
@@ -318,7 +318,7 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
 		mir_sntprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("remove_server(): Cannot remove list. errno=%d: %s"), errno, ws_strerror(errno));
+		debugLog(L"remove_server(): Cannot remove list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 2, "sess_mutex", 1);
 
@@ -337,23 +337,23 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	_tcsncpy(filter, TranslateT("Text files"), _countof(filter));
-	mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
+	mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*.TXT"), _countof(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, L"*.TXT", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, _T(" (*)"), _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
+	mir_tstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*"), _countof(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, L"*", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
@@ -366,14 +366,14 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 	ofn.nMaxFile = _countof(str);
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = _T("txt");
+	ofn.lpstrDefExt = L"txt";
 
 #ifdef DEBUGMODE
 	debugLogA("import_text()");
 #endif
 	if (!GetOpenFileName(&ofn)) return 0;
 
-	FILE *f = _tfopen(str, _T("r"));
+	FILE *f = _tfopen(str, L"r");
 	_tstat(str, &st);
 
 	if (f && st.st_size)
@@ -392,7 +392,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		TCHAR error[256];
 		mir_sntprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("import_text(): Cannot import list from file \"%s\". errno=%d: %s"), str, errno, _tcserror(errno));
+		debugLog(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 		if (f)
 			fclose(f);
 		return 0;
@@ -406,24 +406,24 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 	TCHAR filter[512], *pfilter;
 
 	_tcsncpy(str, TranslateT("contacts"), _countof(str));
-	mir_tstrncat(str, _T(".txt"), _countof(str) - mir_tstrlen(str));
+	mir_tstrncat(str, L".txt", _countof(str) - mir_tstrlen(str));
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	_tcsncpy(filter, TranslateT("Text files"), _countof(filter));
-	mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
+	mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*.TXT"), _countof(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, L"*.TXT", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, _T(" (*)"), _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
+	mir_tstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*"), _countof(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, L"*", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
@@ -433,14 +433,14 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 	ofn.nMaxFile = _countof(str);
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = _T("txt");
+	ofn.lpstrDefExt = L"txt";
 
 #ifdef DEBUGMODE
-	debugLog(_T("export_text(%s)."), str);
+	debugLog(L"export_text(%s).", str);
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 
-	FILE *f = _tfopen(str, _T("w"));
+	FILE *f = _tfopen(str, L"w");
 	if (f) {
 		char *contacts = gg_makecontacts(this, 0);
 		fwrite(contacts, sizeof(char), mir_strlen(contacts), f);
@@ -454,7 +454,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 		TCHAR error[128];
 		mir_sntprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("export_text(): Cannot export list to file \"%s\". errno=%d: %s"), str, errno, _tcserror(errno));
+		debugLog(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 	}
 
 	return 0;
@@ -498,7 +498,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
 		mir_sntprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(_T("export_server(): Cannot export list. errno=%d: %s"), errno, ws_strerror(errno));
+		debugLog(L"export_server(): Cannot export list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 2, "sess_mutex", 1);
 

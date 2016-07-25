@@ -20,7 +20,7 @@
 
 // Default error string used upon errors 
 const TCHAR *pszGroupError = LPGENT("No_Group");
-const TCHAR *pszDbPathError = _T(".");
+const TCHAR *pszDbPathError = L".";
 
 // Replacement for chareteres not alowed in file names.
 const TCHAR cBadCharReplace = _T('_');
@@ -51,15 +51,15 @@ int nMaxLineWidth = 80;
 
 const TCHAR *pszReplaceList[] =
 {
-	_T("%FirstName%"),
-	_T("%LastName%"),
-	_T("%e-mail%"),
-	_T("%Nick%"),
-	_T("%City%"),
-	_T("%State%"),
-	_T("%Phone%"),
-	_T("%Homepage%"),
-	_T("%About%")
+	L"%FirstName%",
+	L"%LastName%",
+	L"%e-mail%",
+	L"%Nick%",
+	L"%City%",
+	L"%State%",
+	L"%Phone%",
+	L"%Homepage%",
+	L"%About%"
 };
 const char *pszReplaceListA[] =
 {
@@ -110,14 +110,14 @@ bool bIsUtf8Header(BYTE * pucByteOrder)
 
 void ShowDebugInfo()
 {
-	tstring sDebug = _T("Debug information\r\nsDBPath :");
+	tstring sDebug = L"Debug information\r\nsDBPath :";
 	sDebug += sDBPath;
-	sDebug += _T("\r\nsMirandaPath :");
+	sDebug += L"\r\nsMirandaPath :";
 	sDebug += sMirandaPath;
-	sDebug += _T("\r\nsDefaultFile :");
+	sDebug += L"\r\nsDefaultFile :";
 	sDebug += sDefaultFile;
 
-	sDebug += _T("\r\nGetFilePathFromUser(NULL) :");
+	sDebug += L"\r\nGetFilePathFromUser(NULL) :";
 	sDebug += GetFilePathFromUser(NULL);
 
 	MessageBox(NULL, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
@@ -178,9 +178,9 @@ tstring sGetErrorString(DWORD dwError)
 	// ...
 	// Display the string.
 	tstring ret = (LPCTSTR)lpMsgBuf;
-	ReplaceAll(ret, _T("\r"), _T(" "));
-	ReplaceAll(ret, _T("\n"), _T(" "));
-	ReplaceAll(ret, _T("  "), _T(" "));
+	ReplaceAll(ret, L"\r", L" ");
+	ReplaceAll(ret, L"\n", L" ");
+	ReplaceAll(ret, L"  ", L" ");
 
 	// Free the buffer.
 	LocalFree(lpMsgBuf);
@@ -198,7 +198,7 @@ void DisplayLastError(const TCHAR *pszError)
 	DWORD error = GetLastError();
 
 	TCHAR szTemp[50];
-	mir_sntprintf(szTemp, _T("\r\nErrorCode: %d\r\n"), error);
+	mir_sntprintf(szTemp, L"\r\nErrorCode: %d\r\n", error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
 	MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_OK);
@@ -465,13 +465,13 @@ bool bReadMirandaDirAndPath()
 {
 	TCHAR szDBPath[MAX_PATH], tmp[MAX_PATH];
 	mir_tstrcpy(szDBPath, pszDbPathError);
-	PathToAbsoluteT(_T("miranda32.exe"), tmp);
+	PathToAbsoluteT(L"miranda32.exe", tmp);
 	sMirandaPath = tmp;
-	sMirandaPath.erase(sMirandaPath.find_last_of(_T("\\")));
+	sMirandaPath.erase(sMirandaPath.find_last_of(L"\\"));
 	CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
 	sDBPath = szDBPath;
 	CallService(MS_DB_GETPROFILENAMET, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
-	sDBPath.append(_T("\\")).append(szDBPath);
+	sDBPath.append(L"\\").append(szDBPath);
 	sDBPath.erase(sDBPath.size() - 4);
 	return true;
 }
@@ -491,7 +491,7 @@ bool bReadMirandaDirAndPath()
 
 void ReplaceDBPath(tstring &sRet)
 {
-	ReplaceAll(sRet, _T("%dbpath%"), sDBPath);
+	ReplaceAll(sRet, L"%dbpath%", sDBPath);
 	// Try to firure out if it is a relative path ( ..\..\MsgExport\ )
 	if (sRet.size() <= 2 || !(sRet[1] == ':' ||
 		(sRet[0] == '\\' && sRet[1] == '\\'))) {
@@ -520,7 +520,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 {
 	tstring sFilePath = sExportDir + _DBGetString(hContact, MODULE, "FileName", sDefaultFile.c_str());
 
-	bool bNickUsed = sFilePath.find(_T("%nick%")) != string::npos;
+	bool bNickUsed = sFilePath.find(L"%nick%") != string::npos;
 
 	ReplaceDefines(hContact, sFilePath);
 
@@ -530,7 +530,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 	ReplaceDBPath(sFilePath);
 
 	// Previous file name check to see if it has changed !!
-	tstring sPrevFileName = _DBGetString(hContact, MODULE, "PrevFileName", _T(""));
+	tstring sPrevFileName = _DBGetString(hContact, MODULE, "PrevFileName", L"");
 	if (sNoDBPath != sPrevFileName) {
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
@@ -619,7 +619,7 @@ tstring FileNickFromHandle(MCONTACT hContact)
 {
 	tstring ret = pcli->pfnGetContactDisplayName(hContact, 0);
 	string::size_type nCur = 0;
-	while ((nCur = ret.find_first_of(_T(":\\"), nCur)) != ret.npos)
+	while ((nCur = ret.find_first_of(L":\\", nCur)) != ret.npos)
 		ret[nCur] = cBadCharReplace;
 	return ret;
 }
@@ -664,13 +664,13 @@ void ReplaceAllNoColon(tstring &sSrc, const TCHAR *pszReplace, tstring &sNew)
 
 void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 {
-	if (sTarget.find(_T("%nick%")) != string::npos)
-		ReplaceAll(sTarget, _T("%nick%"), FileNickFromHandle(hContact));
+	if (sTarget.find(L"%nick%") != string::npos)
+		ReplaceAll(sTarget, L"%nick%", FileNickFromHandle(hContact));
 
-	bool bUINUsed = sTarget.find(_T("%UIN%")) != string::npos;
-	bool bEMailUsed = sTarget.find(_T("%e-mail%")) != string::npos;
-	bool bProtoUsed = sTarget.find(_T("%protocol%")) != string::npos;
-	bool bIdentifierUsed = sTarget.find(_T("%identifier%")) != string::npos;
+	bool bUINUsed = sTarget.find(L"%UIN%") != string::npos;
+	bool bEMailUsed = sTarget.find(L"%e-mail%") != string::npos;
+	bool bProtoUsed = sTarget.find(L"%protocol%") != string::npos;
+	bool bIdentifierUsed = sTarget.find(L"%identifier%") != string::npos;
 
 	if (bUINUsed || bEMailUsed || bProtoUsed || bIdentifierUsed) {
 		string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
@@ -679,63 +679,63 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 			tstring sReplaceUin;
 			if (dwUIN) {
 				TCHAR sTmp[20];
-				mir_sntprintf(sTmp, _T("%d"), dwUIN);
+				mir_sntprintf(sTmp, L"%d", dwUIN);
 				sReplaceUin = sTmp;
 			}
 			else sReplaceUin = FileNickFromHandle(hContact);
 
 			if (bUINUsed)
-				ReplaceAll(sTarget, _T("%UIN%"), sReplaceUin);
+				ReplaceAll(sTarget, L"%UIN%", sReplaceUin);
 			if (bIdentifierUsed && sProto == "ICQ") {
 				bIdentifierUsed = false;
-				ReplaceAll(sTarget, _T("%identifier%"), sReplaceUin);
+				ReplaceAll(sTarget, L"%identifier%", sReplaceUin);
 			}
 		}
 
 		if (bEMailUsed || (bIdentifierUsed && sProto == "MSN")) {
-			tstring sEMail = _DBGetString(hContact, sProto.c_str(), "e-mail", _T(""));
+			tstring sEMail = _DBGetString(hContact, sProto.c_str(), "e-mail", L"");
 			if (sEMail.empty()) {
-				sEMail = _DBGetString(hContact, "MSN", "e-mail", _T(""));
+				sEMail = _DBGetString(hContact, "MSN", "e-mail", L"");
 				if (sEMail.empty()) {
 					// We can't finde the E-mail address we will use the the nick
 					sEMail = FileNickFromHandle(hContact);
 				}
 			}
 			if (bEMailUsed)
-				ReplaceAllNoColon(sTarget, _T("%e-mail%"), sEMail);
+				ReplaceAllNoColon(sTarget, L"%e-mail%", sEMail);
 			if (bIdentifierUsed && sProto == "MSN") {
 				bIdentifierUsed = false;
-				ReplaceAllNoColon(sTarget, _T("%identifier%"), sEMail);
+				ReplaceAllNoColon(sTarget, L"%identifier%", sEMail);
 			}
 		}
 
 		if (bIdentifierUsed && sProto == "Jabber") {
-			tstring sReplace = _DBGetString(hContact, "Jabber", "jid", _T(""));
+			tstring sReplace = _DBGetString(hContact, "Jabber", "jid", L"");
 			if (sReplace.empty()) {
 				sReplace = FileNickFromHandle(hContact);
 			}
 			bIdentifierUsed = false;
-			ReplaceAll(sTarget, _T("%identifier%"), sReplace);
+			ReplaceAll(sTarget, L"%identifier%", sReplace);
 		}
 
 		if (bProtoUsed) {
-			tstring tmp = _DBGetString(hContact, "Protocol", "p", _T(""));
-			ReplaceAllNoColon(sTarget, _T("%protocol%"), tmp);
+			tstring tmp = _DBGetString(hContact, "Protocol", "p", L"");
+			ReplaceAllNoColon(sTarget, L"%protocol%", tmp);
 		}
 
 		if (bIdentifierUsed) // It has still not been replaced we will just use nick
-			ReplaceAll(sTarget, _T("%nick%"), FileNickFromHandle(hContact));
+			ReplaceAll(sTarget, L"%nick%", FileNickFromHandle(hContact));
 	}
 
-	if (sTarget.find(_T("%group%")) != string::npos) {
-		tstring sGroup = _DBGetString(hContact, "CList", "Group", _T(""));
-		ReplaceAllNoColon(sTarget, _T("%group%"), sGroup);
+	if (sTarget.find(L"%group%") != string::npos) {
+		tstring sGroup = _DBGetString(hContact, "CList", "Group", L"");
+		ReplaceAllNoColon(sTarget, L"%group%", sGroup);
 	}
 
 	// We can't replace the : here because if the user uses C:\... in the file path 
 	// this will also be replaced 
 	string::size_type nCur = 0;
-	while ((nCur = sTarget.find_first_of(_T("/*?<>|\""), nCur)) != sTarget.npos)
+	while ((nCur = sTarget.find_first_of(L"/*?<>|\"", nCur)) != sTarget.npos)
 		sTarget[nCur] = cBadCharReplace;
 }
 
@@ -754,19 +754,19 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 
 void ReplaceTimeVariables(tstring &sRet)
 {
-	if (sRet.find(_T("%year%")) != string::npos ||
-		sRet.find(_T("%month%")) != string::npos ||
-		sRet.find(_T("%day%")) != string::npos) {
+	if (sRet.find(L"%year%") != string::npos ||
+		sRet.find(L"%month%") != string::npos ||
+		sRet.find(L"%day%") != string::npos) {
 		SYSTEMTIME stTime;
 		GetLocalTime(&stTime);
 		TCHAR sTmp[20];
 
-		mir_sntprintf(sTmp, _T("%d"), stTime.wYear);
-		ReplaceAll(sRet, _T("%year%"), sTmp);
-		mir_sntprintf(sTmp, _T("%.2d"), stTime.wMonth);
-		ReplaceAll(sRet, _T("%month%"), sTmp);
-		mir_sntprintf(sTmp, _T("%.2d"), stTime.wDay);
-		ReplaceAll(sRet, _T("%day%"), sTmp);
+		mir_sntprintf(sTmp, L"%d", stTime.wYear);
+		ReplaceAll(sRet, L"%year%", sTmp);
+		mir_sntprintf(sTmp, L"%.2d", stTime.wMonth);
+		ReplaceAll(sRet, L"%month%", sTmp);
+		mir_sntprintf(sTmp, L"%.2d", stTime.wDay);
+		ReplaceAll(sRet, L"%day%", sTmp);
 	}
 }
 
@@ -821,7 +821,7 @@ void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO *
 	if (MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 		OPENFILENAME ofn;       // common dialog box structure
 		TCHAR szFile[260];       // buffer for file name
-		mir_tstrcpy(szFile, _T("DebugInfo.txt"));
+		mir_tstrcpy(szFile, L"DebugInfo.txt");
 
 		// Initialize OPENFILENAME
 		memset(&ofn, 0, sizeof(OPENFILENAME));
@@ -835,7 +835,7 @@ void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO *
 		ofn.nMaxFileTitle = 0;
 		ofn.lpstrInitialDir = NULL;
 		ofn.Flags = 0 /*OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST*/;
-		ofn.lpstrDefExt = _T("TXT");
+		ofn.lpstrDefExt = L"TXT";
 
 		// Display the Open dialog box. 
 		if (GetSaveFileName(&ofn)) {
@@ -903,8 +903,8 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	string::size_type nFirstColumnWidth;
 
 	if (bUseLessAndGreaterInExport) {
-		sLocalUser = _T("<<");
-		sRemoteUser = _T(">>");
+		sLocalUser = L"<<";
+		sRemoteUser = L">>";
 		nFirstColumnWidth = 4;
 	}
 	else {
@@ -945,7 +945,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 					return;
 				}
 			}
-			tstring output = _T("------------------------------------------------\r\n")
+			tstring output = L"------------------------------------------------\r\n"
 				LPGENT("      History for\r\n")
 				LPGENT("User      : %User%\r\n")
 				LPGENT("Protocol  : %Proto%\r\n")
@@ -961,28 +961,28 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				LPGENT("Phone     : %Phone%\r\n")
 				LPGENT("Homepage  : %Homepage%\r\n")
 				LPGENT("- About -\r\n%About%\r\n")
-				_T("------------------------------------------------\r\n");
+				L"------------------------------------------------\r\n";
 
 			// This is written this way because I expect this will become a string the user may set 
 			// in the options dialog.
-			ReplaceAll(output, _T("%User%"), sRemoteUser);
+			ReplaceAll(output, L"%User%", sRemoteUser);
 
 			string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
-			ReplaceAll(output, _T("%Proto%"), _DBGetString(hContact, "Protocol", "p", _T("")));
+			ReplaceAll(output, L"%Proto%", _DBGetString(hContact, "Protocol", "p", L""));
 
 			for (int nCur = 0; nCur < 9; nCur++)
-				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], _T("")));
+				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], L""));
 
 			ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, sProto.c_str()));
 			if (id != NULL)
-				ReplaceAll(output, _T("%UIN%"), id);
+				ReplaceAll(output, L"%UIN%", id);
 
-			mir_sntprintf(szTemp, _T("%d"), db_get_w(hContact, sProto.c_str(), "Age", 0));
-			ReplaceAll(output, _T("%Age%"), szTemp);
+			mir_sntprintf(szTemp, L"%d", db_get_w(hContact, sProto.c_str(), "Age", 0));
+			ReplaceAll(output, L"%Age%", szTemp);
 
 			szTemp[0] = (TCHAR)db_get_b(hContact, sProto.c_str(), "Gender", 0);
 			szTemp[1] = 0;
-			ReplaceAll(output, _T("%Gender%"), szTemp);
+			ReplaceAll(output, L"%Gender%", szTemp);
 
 			if (!bWriteTextToFile(hFile, output.data(), bWriteUTF8Format, (int)output.size())) {
 				DisplayErrorDialog(LPGENT("Failed to write user details to file :\n"), sFilePath, NULL);
@@ -993,7 +993,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 
 	// Get time stamp 
-	int nIndent = mir_sntprintf(szTemp, _T("%-*s"), nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
+	int nIndent = mir_sntprintf(szTemp, L"%-*s", nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
 	TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
@@ -1103,7 +1103,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 					bWriteNewLine(hFile, nIndent) &&
 					bWriteTextToFile(hFile, LPGENT("UIN       :"), bWriteUTF8Format)) {
 					DWORD uin = *((PDWORD)(dbei.pBlob));
-					int n = mir_sntprintf(szTemp, _T("%d"), uin);
+					int n = mir_sntprintf(szTemp, L"%d", uin);
 					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
 						char *pszEnd = (char *)(dbei.pBlob + dbei.cbSize);
 						for (int i = 0; i < nStringCount && pszCurBlobPos < pszEnd; i++) {
@@ -1157,10 +1157,10 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 					bWriteTextToFile(hFile, &pszStr[nMsgLenght], bWriteUTF8Format, (int)nFriendlyLen);
 					size_t nEmailOffset = nMsgLenght + nFriendlyLen + 1;
 					if (nEmailOffset < dbei.cbBlob) {
-						bWriteTextToFile(hFile, _T("<"), bWriteUTF8Format);
+						bWriteTextToFile(hFile, L"<", bWriteUTF8Format);
 						size_t nEmailLen = mir_strlen(&pszStr[nEmailOffset]);
 						bWriteTextToFile(hFile, &pszStr[nEmailOffset], bWriteUTF8Format, (int)nEmailLen);
-						bWriteTextToFile(hFile, _T(">"), bWriteUTF8Format);
+						bWriteTextToFile(hFile, L">", bWriteUTF8Format);
 					}
 				}
 				else bWriteTextToFile(hFile, LPGENT("No from address"), bWriteUTF8Format);
@@ -1326,7 +1326,7 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool b
 
 		if (pszPrev == pszSrc) {
 			// this is an programming error we have not moved forward in string 
-			MessageBox(NULL, _T("Programming error on line __LINE__ please report this"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(NULL, L"Programming error on line __LINE__ please report this", MSG_BOX_TITEL, MB_OK);
 			break;
 		}
 	}
@@ -1380,14 +1380,14 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 		CloseHandle(hPrevFile);
 
 		TCHAR szTemp[500];
-		mir_sntprintf(szTemp, _T("%s\r\n%s"),
+		mir_sntprintf(szTemp, L"%s\r\n%s",
 			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
 		if (enDeleteAction == eDAAutomatic ||
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 			if (!DeleteFile(sFilePath.c_str())) {
 				mir_sntprintf(szTemp,
-					_T("%s\r\n%s"),
+					L"%s\r\n%s",
 					TranslateT("Failed to delete the file"),
 					sFilePath.c_str());
 

@@ -505,7 +505,7 @@ set_bg_l:
 		int width = textSize.cx;
 		szCounts = pcli->pfnGetGroupCountsText(dat, contact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32(hdcMem, _T(" "), 1, &spaceSize);
+			GetTextExtentPoint32(hdcMem, L" ", 1, &spaceSize);
 			ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
 			GetTextExtentPoint32(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countsSize);
 			width += spaceSize.cx + countsSize.cx;
@@ -1104,7 +1104,7 @@ bgskipped:
 				int fHeight = 0;
 
 				TCHAR szResult[80];
-				if (TimeZone_PrintDateTime(cEntry->hTimeZone, _T("t"), szResult, _countof(szResult), 0))
+				if (TimeZone_PrintDateTime(cEntry->hTimeZone, L"t", szResult, _countof(szResult), 0))
 					goto nodisplay;
 
 				COLORREF oldColor = GetTextColor(hdcMem);

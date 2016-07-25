@@ -21,50 +21,50 @@
 
 #pragma once
 
-#define MESSAGE_URL_FORMAT_STANDARD _T("%s/#inbox/%x%08x")
-#define MESSAGE_URL_FORMAT_HTML     _T("%s/h/?v=c&th=%x%08x")
+#define MESSAGE_URL_FORMAT_STANDARD L"%s/#inbox/%x%08x"
+#define MESSAGE_URL_FORMAT_HTML     L"%s/h/?v=c&th=%x%08x"
 
-#define JABBER_FEAT_GTALK_SHARED_STATUS _T("google:shared-status")
+#define JABBER_FEAT_GTALK_SHARED_STATUS L"google:shared-status"
 
-#define JABBER_EXT_GTALK_PMUC      _T("pmuc-v1")
+#define JABBER_EXT_GTALK_PMUC      L"pmuc-v1"
 
-#define NOTIFY_FEATURE_XMLNS       _T("google:mail:notify")
-#define SETTING_FEATURE_XMLNS      _T("google:setting")
-#define DISCOVERY_XMLNS            _T("http://jabber.org/protocol/disco#info")
+#define NOTIFY_FEATURE_XMLNS       L"google:mail:notify"
+#define SETTING_FEATURE_XMLNS      L"google:setting"
+#define DISCOVERY_XMLNS            L"http://jabber.org/protocol/disco#info"
 
-#define ATTRNAME_TYPE              _T("type")
-#define ATTRNAME_FROM              _T("from")
-#define ATTRNAME_TO                _T("to")
-#define ATTRNAME_URL               _T("url")
-#define ATTRNAME_TID               _T("tid")
-#define ATTRNAME_UNREAD            _T("unread")
-#define ATTRNAME_XMLNS             _T("xmlns")
-#define ATTRNAME_ID                _T("id")
-#define ATTRNAME_TOTAL_MATCHED     _T("total-matched")
-#define ATTRNAME_NAME              _T("name")
-#define ATTRNAME_ADDRESS           _T("address")
-#define ATTRNAME_RESULT_TIME       _T("result-time")
-#define ATTRNAME_NEWER_THAN_TIME   _T("newer-than-time")
-#define ATTRNAME_NEWER_THAN_TID    _T("newer-than-tid")
-#define ATTRNAME_VALUE             _T("value")
-#define ATTRNAME_VAR               _T("var")
+#define ATTRNAME_TYPE              L"type"
+#define ATTRNAME_FROM              L"from"
+#define ATTRNAME_TO                L"to"
+#define ATTRNAME_URL               L"url"
+#define ATTRNAME_TID               L"tid"
+#define ATTRNAME_UNREAD            L"unread"
+#define ATTRNAME_XMLNS             L"xmlns"
+#define ATTRNAME_ID                L"id"
+#define ATTRNAME_TOTAL_MATCHED     L"total-matched"
+#define ATTRNAME_NAME              L"name"
+#define ATTRNAME_ADDRESS           L"address"
+#define ATTRNAME_RESULT_TIME       L"result-time"
+#define ATTRNAME_NEWER_THAN_TIME   L"newer-than-time"
+#define ATTRNAME_NEWER_THAN_TID    L"newer-than-tid"
+#define ATTRNAME_VALUE             L"value"
+#define ATTRNAME_VAR               L"var"
 
-#define IQTYPE_RESULT              _T("result")
-#define IQTYPE_SET                 _T("set")
-#define IQTYPE_GET                 _T("get")
+#define IQTYPE_RESULT              L"result"
+#define IQTYPE_SET                 L"set"
+#define IQTYPE_GET                 L"get"
 
-#define NODENAME_MAILBOX           _T("mailbox")
-#define NODENAME_QUERY             _T("query")
-#define NODENAME_IQ                _T("iq")
-#define NODENAME_USERSETTING       _T("usersetting")
-#define NODENAME_MAILNOTIFICATIONS _T("mailnotifications")
-#define NODENAME_SUBJECT           _T("subject")
-#define NODENAME_SNIPPET           _T("snippet")
-#define NODENAME_SENDERS           _T("senders")
-#define NODENAME_FEATURE           _T("feature")
-#define NODENAME_NEW_MAIL          _T("new-mail")
+#define NODENAME_MAILBOX           L"mailbox"
+#define NODENAME_QUERY             L"query"
+#define NODENAME_IQ                L"iq"
+#define NODENAME_USERSETTING       L"usersetting"
+#define NODENAME_MAILNOTIFICATIONS L"mailnotifications"
+#define NODENAME_SUBJECT           L"subject"
+#define NODENAME_SNIPPET           L"snippet"
+#define NODENAME_SENDERS           L"senders"
+#define NODENAME_FEATURE           L"feature"
+#define NODENAME_NEW_MAIL          L"new-mail"
 
-#define SETTING_TRUE               _T("true")
+#define SETTING_TRUE               L"true"
 
 #define RESPONSE_TIMEOUT (1000 * 60 * 60)
 #define TIMER_INTERVAL   (1000 * 60 * 2)

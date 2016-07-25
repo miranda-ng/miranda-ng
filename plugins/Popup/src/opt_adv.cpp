@@ -161,7 +161,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopupOptions.Alpha);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), AlphaTrackBarWndProc);
-			mir_sntprintf(tstr, _T("%d%%"), Byte2Percentile(PopupOptions.Alpha));
+			mir_sntprintf(tstr, L"%d%%", Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
 			{
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				int iEffect = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				PopupOptions.UseEffect = (iEffect != -2) ? TRUE : FALSE;
 				mir_free(PopupOptions.Effect);
-				PopupOptions.Effect = mir_tstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : _T(""));
+				PopupOptions.Effect = mir_tstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : L"");
 
 				BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
 				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);

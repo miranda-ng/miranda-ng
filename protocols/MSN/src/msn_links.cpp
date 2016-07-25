@@ -34,7 +34,7 @@ static MCONTACT GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 		TCHAR *tok = _tcschr(arg, '&'); /* next token */
 		if (tok != NULL) *tok++ = '\0';
 
-		if (_tcsnicmp(arg, _T("contact="), 8) == 0) {
+		if (_tcsnicmp(arg, L"contact=", 8) == 0) {
 			arg += 8;
 			UrlDecode(arg);
 			email = arg;
@@ -85,7 +85,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 
 	/* add a contact to the list */
-	if (_tcsnicmp(arg, _T("add?"), 4) == 0) {
+	if (_tcsnicmp(arg, L"add?", 4) == 0) {
 		arg += 4;
 
 		TCHAR *email;
@@ -109,7 +109,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	}
 	/* send a message to a contact */
 	/* "voice" and "video" not yet implemented, perform same action as "chat" */
-	else if (_tcsnicmp(arg, _T("chat?"), 5) == 0) {
+	else if (_tcsnicmp(arg, L"chat?", 5) == 0) {
 		arg += 5;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
@@ -119,7 +119,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 			return 0;
 		}
 	}
-	else if (_tcsnicmp(arg, _T("voice?"), 6) == 0) {
+	else if (_tcsnicmp(arg, L"voice?", 6) == 0) {
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
@@ -129,7 +129,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 			return 0;
 		}
 	}
-	else if (_tcsnicmp(arg, _T("video?"), 6) == 0) {
+	else if (_tcsnicmp(arg, L"video?", 6) == 0) {
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);

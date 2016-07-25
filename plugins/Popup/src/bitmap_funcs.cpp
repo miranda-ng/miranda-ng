@@ -680,7 +680,7 @@ bool MyBitmap::loadFromFile_pixel(const TCHAR *fn)
 {
 	allocate(1, 1);
 	int r, g, b, a = 255;
-	const TCHAR *p = fn + mir_tstrlen(_T("pixel:"));
+	const TCHAR *p = fn + mir_tstrlen(L"pixel:");
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
@@ -690,7 +690,7 @@ bool MyBitmap::loadFromFile_pixel(const TCHAR *fn)
 
 bool MyBitmap::loadFromFile_gradient(const TCHAR *fn)
 {
-	const TCHAR *p = fn + mir_tstrlen(_T("gradient:"));
+	const TCHAR *p = fn + mir_tstrlen(L"gradient:");
 
 	if (*p == 'h') allocate(256, 1);
 	else allocate(1, 256);
@@ -724,10 +724,10 @@ bool MyBitmap::loadFromFile(const TCHAR *fn)
 {
 	if (bits) freemem();
 
-	if (!_tcsncmp(fn, _T("pixel:"), mir_tstrlen(_T("pixel:"))))
+	if (!_tcsncmp(fn, L"pixel:", mir_tstrlen(L"pixel:")))
 		return loadFromFile_pixel(fn);
 
-	if (!_tcsncmp(fn, _T("gradient:"), mir_tstrlen(_T("gradient:"))))
+	if (!_tcsncmp(fn, L"gradient:", mir_tstrlen(L"gradient:")))
 		return loadFromFile_gradient(fn);
 
 	SIZE sz;

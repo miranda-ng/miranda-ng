@@ -66,8 +66,8 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Custom (for experts only)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Column setup"));
 				m_hBlockUnit     = Opt.insertCombo(hTemp, TranslateT("Bar unit"));
-				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per bar"), _T(""), OptionsCtrl::OCF_NUMBER);
-				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Bars per graph"), _T(""), OptionsCtrl::OCF_NUMBER);
+				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per bar"), L"", OptionsCtrl::OCF_NUMBER);
+				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Bars per graph"), L"", OptionsCtrl::OCF_NUMBER);
 			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Graph alignment"));
 				m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, TranslateT("Align on day boundary"));
 				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
@@ -139,7 +139,7 @@ ext::string ColSplit::impl_contactDataGetUID() const
 {
 	SplitParams params = getParams();
 	
-	return ext::str(ext::format(_T("split-|-|-|-|-|"))
+	return ext::str(ext::format(L"split-|-|-|-|-|")
 		% m_nSource
 		% m_nSourceType
 		% params.hours_in_block
@@ -249,13 +249,13 @@ Column::StyleList ColSplit::impl_outputGetAdditionalStyles(IDProvider& idp)
 		m_CSS = idp.getID();
 
 		l.push_back(StylePair(
-			_T("div.") + m_CSS,
-			ext::str(ext::format(_T("position: relative; left: 50%; margin-left: -|px; width: |px; height: 50px;"))
+			L"div." + m_CSS,
+			ext::str(ext::format(L"position: relative; left: 50%; margin-left: -|px; width: |px; height: 50px;")
 				% ((5 * params.blocks_in_column - 1) / 2)
 				% (5 * params.blocks_in_column - 1))));
 
-		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),     _T("position: absolute; top: 0px; width: 4px; height: 50px; overflow: hidden;")));
-		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div div"), _T("position: absolute; left: 0px; width: 4px; height: 50px; background-color: ") + utils::colorToHTML(con::ColorBar) + _T(";")));
+		l.push_back(StylePair(L"div." + m_CSS + L" div",     L"position: absolute; top: 0px; width: 4px; height: 50px; overflow: hidden;"));
+		l.push_back(StylePair(L"div." + m_CSS + L" div div", L"position: absolute; left: 0px; width: 4px; height: 50px; background-color: " + utils::colorToHTML(con::ColorBar) + L";"));
 	}
 
 	return l;
@@ -285,10 +285,10 @@ void ColSplit::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	{
 		SplitParams params = getParams();
 		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
-			% _T("#{type}") * TranslateTS(szTypeDesc[params.effective_vis_mode])
-			% _T("#{data}") * TranslateTS(szSourceDesc[3 * m_nSource + m_nSourceType]));
+			% L"#{type}" * TranslateTS(szTypeDesc[params.effective_vis_mode])
+			% L"#{data}" * TranslateTS(szSourceDesc[3 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(_T("<div style=\"width: |px;\"></div>")) % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(L"<div style=\"width: |px;\"></div>") % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
 	}
 }
 
@@ -370,7 +370,7 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 
 	if (usePNG())
 	{
-		tos << _T("<td class=\"img_bottom\">");
+		tos << L"<td class=\"img_bottom\">";
 
 		// draw graph
 		Canvas canvas(5 * params.blocks_in_column - 1, 50);
@@ -400,15 +400,15 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << _T("<img src=\"") << strFinalFile << _T("\" alt=\"\" />");
+			tos << L"<img src=\"" << strFinalFile << L"\" alt=\"\" />";
 		}
 
-		tos << _T("</td>") << ext::endl;
+		tos << L"</td>" << ext::endl;
 	}
 	else
 	{
-		tos << _T("<td class=\"bars_bottom\">")
-			<< _T("<div class=\"") << m_CSS << _T("\">") << ext::endl;
+		tos << L"<td class=\"bars_bottom\">"
+			<< L"<div class=\"" << m_CSS << L"\">" << ext::endl;
 
 		upto_each_(j, params.blocks_in_column)
 		{
@@ -421,41 +421,41 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 				if (params.effective_vis_mode == 0)
 				{
 					divTitle = ext::str(ext::kformat(TranslateT("[#{hour}:00-#{hour}:59] #{amount}"))
-						% _T("#{hour}") * utils::intToPadded(j, 2)
-						% _T("#{amount}") * utils::intToGrouped(part_top));
+						% L"#{hour}" * utils::intToPadded(j, 2)
+						% L"#{amount}" * utils::intToGrouped(part_top));
 				}
 				else if (params.effective_vis_mode == 1)
 				{
 					divTitle = ext::str(ext::kformat(TranslateT("[#{day}] #{amount}"))
-						% _T("#{day}") * utils::stripPrefix(_T("wday3:"), TranslateTS(szWDayName[j]))
-						% _T("#{amount}") * utils::intToGrouped(part_top));
+						% L"#{day}" * utils::stripPrefix(L"wday3:", TranslateTS(szWDayName[j]))
+						% L"#{amount}" * utils::intToGrouped(part_top));
 				}
 				else
 				{
 					divTitle = ext::str(ext::kformat(TranslateT("#{amount}"))
-						% _T("#{amount}") * utils::intToGrouped(part_top));
+						% L"#{amount}" * utils::intToGrouped(part_top));
 				}
 
-				tos << _T("<div title=\"") << utils::htmlEscape(divTitle) << _T("\" style=\"left: ") << (5 * j) << _T("px;\">");
+				tos << L"<div title=\"" << utils::htmlEscape(divTitle) << L"\" style=\"left: " << (5 * j) << L"px;\">";
 			}
 			else if (part_top != 0)
 			{
-				tos << _T("<div style=\"left: ") << (5 * j) << _T("px;\">");
+				tos << L"<div style=\"left: " << (5 * j) << L"px;\">";
 			}
 
 			if (part_top != 0)
 			{
 				int bar_len = (50 * part_top + top - 1) / top;
 
-				tos << _T("<div style=\"top: ") << (50 - bar_len) << _T("px;\"></div>");
+				tos << L"<div style=\"top: " << (50 - bar_len) << L"px;\"></div>";
 			}
 
 			if (m_bDetail || part_top != 0)
 			{
-				tos << _T("</div>") << ext::endl;
+				tos << L"</div>" << ext::endl;
 			}
 		}
 
-		tos << _T("</div></td>") << ext::endl;
+		tos << L"</div></td>" << ext::endl;
 	}
 }

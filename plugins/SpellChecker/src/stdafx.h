@@ -70,9 +70,9 @@ using namespace std;
 
 #define MODULE_NAME		"SpellChecker"
 
-#define FLAGS_DLL_FOLDER _T("%miranda_path%\\Icons")
-#define CUSTOM_DICTIONARIES_FOLDER _T("%miranda_userdata%\\Dictionaries")
-#define DICTIONARIES_FOLDER _T("%miranda_path%\\Dictionaries")
+#define FLAGS_DLL_FOLDER L"%miranda_path%\\Icons"
+#define CUSTOM_DICTIONARIES_FOLDER L"%miranda_userdata%\\Dictionaries"
+#define DICTIONARIES_FOLDER L"%miranda_path%\\Dictionaries"
 
 // Global Variables
 extern HINSTANCE hInst;

@@ -440,7 +440,7 @@ void ToLocaleID(TCHAR *szKLName, size_t size)
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, _countof(ini));
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
 
-	mir_sntprintf(szKLName, size, _T("%s_%s"), ini, end);
+	mir_sntprintf(szKLName, size, L"%s_%s", ini, end);
 }
 
 void LoadDictFromKbdl(Dialog *dlg)
@@ -449,7 +449,7 @@ void LoadDictFromKbdl(Dialog *dlg)
 
 	// Use default input language
 	HKL hkl = GetKeyboardLayout(0);
-	mir_sntprintf(szKLName, _T("%x"), (int)LOWORD(hkl));
+	mir_sntprintf(szKLName, L"%x", (int)LOWORD(hkl));
 	ToLocaleID(szKLName, _countof(szKLName));
 
 	int d = GetClosestLanguage(szKLName);

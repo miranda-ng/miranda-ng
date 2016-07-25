@@ -406,7 +406,7 @@ public:
 	{
 		if (TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) {
 			_ASSERT(!RootItems.GetSize()); // there can't be any root items when the tree is a plain list
-			this->RootItems.AddElem(CTreeRootItem(_T(""), 0, TIF_EXPANDED)); // TODO??
+			this->RootItems.AddElem(CTreeRootItem(L"", 0, TIF_EXPANDED)); // TODO??
 			this->RootItems[0].hItem = TVI_ROOT;
 		}
 	}

@@ -45,26 +45,26 @@ char *TemplateNames[] = {
 };
 
 TTemplateSet LTR_Default = { TRUE,
-_T("%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M"),
-_T("%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M"),
-_T("%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M"),
-_T("%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M"),
-_T("%S %T%|%M"),
-_T("%S %T%|%M"),
-_T("%I %S %&D, %&T, %N %M%! "),
-_T("%I%S %D, %T, %e%l%M"),
+L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%S %T%|%M",
+L"%S %T%|%M",
+L"%I %S %&D, %&T, %N %M%! ",
+L"%I%S %D, %T, %e%l%M",
 "Default LTR"
 };
 
 TTemplateSet RTL_Default = { TRUE,
-_T("%I %S %N  %D%n%S %T%|%M"),
-_T("%I %S %N  %D%n%S %T%|%M"),
-_T("%I %S %N  %D%n%S %T%|%M"),
-_T("%I %S %N  %D%n%S %T%|%M"),
-_T("%S %T%|%M"),
-_T("%S %T%|%M"),
-_T("%I%S %D, %T, %N %M%! "),
-_T("%I%S %D, %T, %e%l%M"),
+L"%I %S %N  %D%n%S %T%|%M",
+L"%I %S %N  %D%n%S %T%|%M",
+L"%I %S %N  %D%n%S %T%|%M",
+L"%I %S %N  %D%n%S %T%|%M",
+L"%S %T%|%M",
+L"%S %T%|%M",
+L"%I%S %D, %T, %N %M%! ",
+L"%I%S %D, %T, %e%l%M",
 "Default RTL"
 };
 
@@ -345,7 +345,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
-			dbei.szModule = (char *)_T("Sample error message");
+			dbei.szModule = (char *)L"Sample error message";
 		dbei.cbSize = sizeof(dbei);
 		dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
@@ -353,11 +353,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
 		dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
 		dat->iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
-		SetDlgItemText(hwndDlg, IDC_PREVIEW, _T(""));
+		SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
 		dat->dwFlags = MWF_LOG_ALL;
 		dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
 		dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
-		mir_sntprintf(dat->szMyNickname, _T("My Nickname"));
+		mir_sntprintf(dat->szMyNickname, L"My Nickname");
 		StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
 		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 		if (teInfo->changed)

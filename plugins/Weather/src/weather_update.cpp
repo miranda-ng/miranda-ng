@@ -44,10 +44,10 @@ int UpdateWeather(MCONTACT hContact)
 	dbv.pszVal = "";
 
 	// log to netlib log for debug purpose
-	Netlib_LogfT(hNetlibUser, _T("************************************************************************"));
+	Netlib_LogfT(hNetlibUser, L"************************************************************************");
 	int dbres = db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
-	Netlib_LogfT(hNetlibUser, _T("<-- Start update for station -->"));
+	Netlib_LogfT(hNetlibUser, L"<-- Start update for station -->");
 
 	// download the info and parse it
 	// result are stored in database
@@ -58,15 +58,15 @@ int UpdateWeather(MCONTACT hContact)
 			// show warnings by popup
 			mir_sntprintf(str, _countof(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
-			mir_tstrncat(str, _T("\n"), _countof(str) - mir_tstrlen(str));
+			mir_tstrncat(str, L"\n", _countof(str) - mir_tstrlen(str));
 			TCHAR *tszError = GetError(code);
 			mir_tstrncat(str, tszError, _countof(str) - mir_tstrlen(str));
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
 		}
 		// log to netlib
-		Netlib_LogfT(hNetlibUser, _T("Error! Update cannot continue... Start to free memory"));
-		Netlib_LogfT(hNetlibUser, _T("<-- Error occurs while updating station: %s -->"), dbv.ptszVal);
+		Netlib_LogfT(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
+		Netlib_LogfT(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.ptszVal);
 		if (!dbres) db_free(&dbv);
 		return 1;
 	}
@@ -104,7 +104,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			mir_sntprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
+			mir_sntprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -172,7 +172,7 @@ int UpdateWeather(MCONTACT hContact)
 					DeleteFile(dbv.ptszVal);
 
 				// open the file and set point to the end of file
-				FILE *file = _tfopen(dbv.ptszVal, _T("a"));
+				FILE *file = _tfopen(dbv.ptszVal, L"a");
 				db_free(&dbv);
 				if (file != NULL) {
 					// write data to the file and close
@@ -203,8 +203,8 @@ int UpdateWeather(MCONTACT hContact)
 		NotifyEventHooks(hHookWeatherUpdated, hContact, (LPARAM)Ch);
 	}
 
-	Netlib_LogfT(hNetlibUser, _T("Update Completed - Start to free memory"));
-	Netlib_LogfT(hNetlibUser, _T("<-- Update successful for station -->"));
+	Netlib_LogfT(hNetlibUser, L"Update Completed - Start to free memory");
+	Netlib_LogfT(hNetlibUser, L"<-- Update successful for station -->");
 
 	// Update frame data
 	UpdateMwinData(hContact);
@@ -437,7 +437,7 @@ int GetWeatherData(MCONTACT hContact)
 			mir_free(szData);
 			return retval;
 		}
-		if (_tcsstr(szData, _T("Document Not Found")) != NULL) {
+		if (_tcsstr(szData, L"Document Not Found") != NULL) {
 			mir_free(szData);
 			return DOC_NOT_FOUND;
 		}
@@ -458,7 +458,7 @@ int GetWeatherData(MCONTACT hContact)
 				// if it is a normal item with start= and end=, then parse through the downloaded string
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
-				if (mir_tstrcmp(Item->Item.Name, _T("Condition")) && mir_tstrcmpi(Item->Item.Unit, _T("Cond")))
+				if (mir_tstrcmp(Item->Item.Name, L"Condition") && mir_tstrcmpi(Item->Item.Unit, L"Cond"))
 					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
@@ -476,7 +476,7 @@ int GetWeatherData(MCONTACT hContact)
 					// go through each part of the operation string seperated by the & operator
 					do {
 						// the end of the string, last item
-						chop = _tcsstr(str, _T(" & "));
+						chop = _tcsstr(str, L" & ");
 						if (chop == NULL)
 							chop = _tcschr(str, '\0');
 
@@ -543,17 +543,17 @@ int GetWeatherData(MCONTACT hContact)
 
 			// don't store data if it is not available
 			if ((DataValue[0] != 0 && mir_tstrcmp(DataValue, NODATA) &&
-				mir_tstrcmp(DataValue, TranslateTS(NODATA)) && mir_tstrcmp(Item->Item.Name, _T("Ignore"))) ||
-				(!mir_tstrcmp(Item->Item.Name, _T("Alert")) && i == 0)) {
+				mir_tstrcmp(DataValue, TranslateTS(NODATA)) && mir_tstrcmp(Item->Item.Name, L"Ignore")) ||
+				(!mir_tstrcmp(Item->Item.Name, L"Alert") && i == 0)) {
 				// temporary workaround for mToolTip to show feel-like temperature
-				if (!mir_tstrcmp(Item->Item.Name, _T("Feel")))
+				if (!mir_tstrcmp(Item->Item.Name, L"Feel"))
 					db_set_ts(hContact, WEATHERCONDITION, "Heat Index", DataValue);
 				GetStationID(hContact, Svc, _countof(Svc));
 				if (!mir_tstrcmp(Svc, opt.Default))
 					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
-				if (!mir_tstrcmp(Item->Item.Name, _T("Condition"))) {
+				if (!mir_tstrcmp(Item->Item.Name, L"Condition")) {
 					TCHAR buf[128], *cbuf;
-					mir_sntprintf(buf, _T("#%s Weather"), DataValue);
+					mir_sntprintf(buf, L"#%s Weather", DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
@@ -561,9 +561,9 @@ int GetWeatherData(MCONTACT hContact)
 					CharLowerBuff(DataValue, (DWORD)mir_tstrlen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
-				else if (mir_tstrcmpi(Item->Item.Unit, _T("Cond")) == 0) {
+				else if (mir_tstrcmpi(Item->Item.Unit, L"Cond") == 0) {
 					TCHAR buf[128], *cbuf;
-					mir_sntprintf(buf, _T("#%s Weather"), DataValue);
+					mir_sntprintf(buf, L"#%s Weather", DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);

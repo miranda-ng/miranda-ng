@@ -70,7 +70,7 @@ int ModernSkinOptInit(WPARAM wParam, LPARAM)
 	obj.hInstance = g_hInst;
 	obj.iSection = MODERNOPT_PAGE_SKINS;
 	obj.iType = MODERNOPT_TYPE_SELECTORPAGE;
-	obj.lptzSubsection = _T("Contact list");
+	obj.lptzSubsection = L"Contact list";
 	obj.lpzThemeExtension = ".msf";
 	obj.lpzThemeModuleName = "ModernSkinSel";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
@@ -119,10 +119,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
 				if (!_tcschr(sd->File, _T('%'))) {
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, _countof(Author), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, _countof(URL), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, _countof(Contact), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, _countof(Description), sd->File);
+					GetPrivateProfileString(L"Skin_Description_Section", L"Author", TranslateT("( unknown )"), Author, _countof(Author), sd->File);
+					GetPrivateProfileString(L"Skin_Description_Section", L"URL", L"", URL, _countof(URL), sd->File);
+					GetPrivateProfileString(L"Skin_Description_Section", L"Contact", L"", Contact, _countof(Contact), sd->File);
+					GetPrivateProfileString(L"Skin_Description_Section", L"Description", L"", Description, _countof(Description), sd->File);
 					mir_sntprintf(text, TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
 						sd->Name, Description, Author, Contact, URL, sd->File);
 				}
@@ -131,8 +131,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						TranslateT("reVista for Modern v0.5"),
 						TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 						TranslateT("Angeli-Ka (graphics), FYR (template)"),
-						_T("JID: fyr@jabber.ru"),
-						_T("fyr.mirandaim.ru"),
+						L"JID: fyr@jabber.ru",
+						L"fyr.mirandaim.ru",
 						TranslateT("Inside library"));
 				}
 				MessageBox(hwndDlg, text, TranslateT("Skin information"), MB_OK | MB_ICONINFORMATION);
@@ -259,9 +259,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, buf);
 
 					TCHAR prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, _countof(imfn), sd->File);
+					GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), sd->File);
 					IniParser::GetSkinFolder(sd->File, skinfolder);
-					mir_sntprintf(prfn, _T("%s\\%s"), skinfolder, imfn);
+					mir_sntprintf(prfn, L"%s\\%s", skinfolder, imfn);
 					PathToAbsoluteT(prfn, imfn);
 					hPreviewBitmap = ske_LoadGlyphImage(imfn);
 
@@ -284,10 +284,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 						TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
 						if (sd2->File && !_tcschr(sd2->File, _T('%'))) {
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, _countof(Author), sd2->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, _countof(URL), sd2->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, _countof(Contact), sd2->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, _countof(Description), sd2->File);
+							GetPrivateProfileString(L"Skin_Description_Section", L"Author", TranslateT("( unknown )"), Author, _countof(Author), sd2->File);
+							GetPrivateProfileString(L"Skin_Description_Section", L"URL", L"", URL, _countof(URL), sd2->File);
+							GetPrivateProfileString(L"Skin_Description_Section", L"Contact", L"", Contact, _countof(Contact), sd2->File);
+							GetPrivateProfileString(L"Skin_Description_Section", L"Description", L"", Description, _countof(Description), sd2->File);
 							mir_sntprintf(text, TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
 								sd2->Name, Description, Author, Contact, URL);
 						}
@@ -296,8 +296,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								TranslateT("reVista for Modern v0.5"),
 								TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 								TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),
-								_T("JID: fyr@jabber.ru"),
-								_T("fyr.mirandaim.ru"));
+								L"JID: fyr@jabber.ru",
+								L"fyr.mirandaim.ru");
 						}
 						ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_INFO), SW_SHOW);
@@ -330,7 +330,7 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 	struct _tfinddata_t fd = { 0 };
 	TCHAR mask[MAX_PATH];
 	long hFile;
-	mir_sntprintf(mask, _T("%s\\*.msf"), Folder);
+	mir_sntprintf(mask, L"%s\\*.msf", Folder);
 	//fd.attrib = _A_SUBDIR;
 	hFile = _tfindfirst(mask, &fd);
 	if (hFile != -1) {
@@ -339,13 +339,13 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 		} while (!_tfindnext(hFile, &fd));
 		_findclose(hFile);
 	}
-	mir_sntprintf(mask, _T("%s\\*"), Folder);
+	mir_sntprintf(mask, L"%s\\*", Folder);
 	hFile = _tfindfirst(mask, &fd);
 	{
 		do {
-			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, _T(".")) == 0 || mir_tstrcmpi(fd.name, _T("..")) == 0)) {//Next level of subfolders
+			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, L".") == 0 || mir_tstrcmpi(fd.name, L"..") == 0)) {//Next level of subfolders
 				TCHAR path[MAX_PATH];
-				mir_sntprintf(path, _T("%s\\%s"), Folder, fd.name);
+				mir_sntprintf(path, L"%s\\%s", Folder, fd.name);
 				SearchSkinFiles(hwndDlg, path);
 			}
 		} while (!_tfindnext(hFile, &fd));
@@ -361,7 +361,7 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 	int attrib;
 
 	TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_TREE1));
-	AddSkinToList(hwndDlg, TranslateT("Default Skin"), _T("%Default Skin%"));
+	AddSkinToList(hwndDlg, TranslateT("Default Skin"), L"%Default Skin%");
 	attrib = GetFileAttributes(SkinsFolder);
 	if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY))
 		SearchSkinFiles(hwndDlg, SkinsFolder);
@@ -403,15 +403,15 @@ HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR * path, TCHAR* file)
 		return 0;
 
 	if (!file || _tcschr(file, _T('%'))) {
-		mir_sntprintf(sd->File, _T("%%Default Skin%%"));
+		mir_sntprintf(sd->File, L"%%Default Skin%%");
 		mir_sntprintf(sd->Name, TranslateT("%Default Skin%"));
 		_tcsncpy_s(fullName, TranslateT("Default Skin"), _TRUNCATE);
 	}
 	else {
-		mir_sntprintf(fullName, _T("%s\\%s"), path, file);
+		mir_sntprintf(fullName, L"%s\\%s", path, file);
 		_tcsncpy_s(defskinname, file, _TRUNCATE);
 		TCHAR *p = _tcsrchr(defskinname, '.'); if (p) *p = 0;
-		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, _countof(sd->Name), fullName);
+		GetPrivateProfileString(L"Skin_Description_Section", L"Name", defskinname, sd->Name, _countof(sd->Name), fullName);
 		_tcsncpy_s(sd->File, fullName, _TRUNCATE);
 	}
 	return AddItemToTree(GetDlgItem(hwndDlg, IDC_TREE1), sd->Name, sd);
@@ -522,9 +522,9 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR prfn[MAX_PATH] = { 0 };
 		TCHAR imfn[MAX_PATH] = { 0 };
 		TCHAR skinfolder[MAX_PATH] = { 0 };
-		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, _countof(imfn), (LPCTSTR)lParam);
+		GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder);
-		mir_sntprintf(prfn, _T("%s\\%s"), skinfolder, imfn);
+		mir_sntprintf(prfn, L"%s\\%s", skinfolder, imfn);
 		PathToAbsoluteT(prfn, imfn);
 
 		hPreviewBitmap = ske_LoadGlyphImage(imfn);

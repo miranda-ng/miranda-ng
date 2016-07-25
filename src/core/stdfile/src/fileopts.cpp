@@ -35,16 +35,16 @@ struct virusscannerinfo {
 	const TCHAR *szExeRegValue;
 	const TCHAR *szCommandLine;
 } virusScanners[] = {
-	{_T("Network Associates/McAfee VirusScan"), _T("SOFTWARE\\McAfee\\VirusScan"), _T("Scan32EXE"), _T("\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot")},
-	{_T("Dr Solomon's VirusScan (Network Associates)"), _T("SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General"), _T("szScannerExe"), _T("\"%s\" %%f /uinone /noboot /comp /prompt /autoexit")},
-	{_T("Norton AntiVirus"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe"), NULL, _T("\"%s\" %%f /b- /m- /s+ /noresults")},
-	{_T("Computer Associates/Inoculate IT"), _T("Software\\Antivirus"), _T("ImageFilename"), _T("\"%s\" %%f /display = progress /exit")},
-	{_T("Computer Associates eTrust"), _T("SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident"), _T("VetPath"), _T("\"%s\" %%f /display = progress /exit")},
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\Components\\101"), _T("EXEName"), _T("\"%s\" /S /Q %%f")},
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV8"), _T("\"%savp.exe\" SCAN %%f")},
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV9"), _T("\"%savp.exe\" SCAN %%f")},
-	{_T("AntiVir PersonalEdition Classic"), _T("SOFTWARE\\Avira\\AntiVir PersonalEdition Classic"), _T("Path"), _T("\"%savscan.exe\" /GUIMODE = 2 /PATH = \"%%f\"")},
-	{_T("ESET NOD32 Antivirus"), _T("SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info"), _T("InstallDir"), _T("\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\"")},
+	{L"Network Associates/McAfee VirusScan", L"SOFTWARE\\McAfee\\VirusScan", L"Scan32EXE", L"\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot"},
+	{L"Dr Solomon's VirusScan (Network Associates)", L"SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General", L"szScannerExe", L"\"%s\" %%f /uinone /noboot /comp /prompt /autoexit"},
+	{L"Norton AntiVirus", L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe", NULL, L"\"%s\" %%f /b- /m- /s+ /noresults"},
+	{L"Computer Associates/Inoculate IT", L"Software\\Antivirus", L"ImageFilename", L"\"%s\" %%f /display = progress /exit"},
+	{L"Computer Associates eTrust", L"SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident", L"VetPath", L"\"%s\" %%f /display = progress /exit"},
+	{L"Kaspersky Anti-Virus", L"SOFTWARE\\KasperskyLab\\Components\\101", L"EXEName", L"\"%s\" /S /Q %%f"},
+	{L"Kaspersky Anti-Virus", L"SOFTWARE\\KasperskyLab\\SetupFolders", L"KAV8", L"\"%savp.exe\" SCAN %%f"},
+	{L"Kaspersky Anti-Virus", L"SOFTWARE\\KasperskyLab\\SetupFolders", L"KAV9", L"\"%savp.exe\" SCAN %%f"},
+	{L"AntiVir PersonalEdition Classic", L"SOFTWARE\\Avira\\AntiVir PersonalEdition Classic", L"Path", L"\"%savscan.exe\" /GUIMODE = 2 /PATH = \"%%f\""},
+	{L"ESET NOD32 Antivirus", L"SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info", L"InstallDir", L"\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\""},
 };
 
 #define M_UPDATEENABLING   (WM_USER+100)
@@ -85,7 +85,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 			}
 			if (SendDlgItemMessageA(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0) {
-				int iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)_T(""));
+				int iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)L"");
 				SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, (LPARAM)-1);
 			}
 
@@ -166,8 +166,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
 
 			CMString tszFilter;
-			tszFilter.AppendFormat(_T("%s (*.exe)%c*.exe%c"), TranslateT("Executable files"), 0, 0);
-			tszFilter.AppendFormat(_T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+			tszFilter.AppendFormat(L"%s (*.exe)%c*.exe%c", TranslateT("Executable files"), 0, 0);
+			tszFilter.AppendFormat(L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (_tcschr(str, ' ') != NULL) {
 				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(TCHAR)));
 				str[0] = '"';
-				mir_tstrcat(str, _T("\""));
+				mir_tstrcat(str, L"\"");
 			}
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
 			break;

@@ -182,18 +182,18 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 		switch (*++p) {
 		case 'Y':
 			if (!st.wYear) goto LBL_noData;
-			d += _stprintf(d, _T("%04i"), st.wYear); //!!!!!!!!!!!!
+			d += _stprintf(d, L"%04i", st.wYear); //!!!!!!!!!!!!
 			break;
 
 		case 'y':
 			if (!st.wYear) goto LBL_noData;
-			d += _stprintf(d, _T("%02i"), st.wYear % 100); //!!!!!!!!!!!!
+			d += _stprintf(d, L"%02i", st.wYear % 100); //!!!!!!!!!!!!
 			break;
 
 		case 'm':
 			if (!(isetting = st.wMonth)) goto LBL_noData;
 		LBL_2DigNum:
-			d += _stprintf(d, _T("%02i"), isetting); //!!!!!!!!!!!!
+			d += _stprintf(d, L"%02i", isetting); //!!!!!!!!!!!!
 			break;
 
 		case 'd':
@@ -204,12 +204,12 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			isetting = st.wDayOfWeek;
 			if (isetting == -1) {
 			LBL_noData:
-				charPtr = wantempty ? _T("") : TranslateT("<unknown>");
+				charPtr = wantempty ? L"" : TranslateT("<unknown>");
 				goto LBL_charPtr;
 			}
 			charPtr = TranslateTS(weekdays[isetting]);
 		LBL_charPtr:
-			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), _T("%s"), charPtr);
+			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), L"%s", charPtr);
 			break;
 
 		case 'w':
@@ -240,7 +240,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 
 		case 'p':
 			if ((isetting = st.wHour) == -1) goto LBL_noData;
-			charPtr = (isetting >= 12) ? _T("PM") : _T("AM");
+			charPtr = (isetting >= 12) ? L"PM" : L"AM";
 			goto LBL_charPtr;
 
 		case 'M':
@@ -252,7 +252,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_2DigNum;
 
 		case 'n':
-			charPtr = hcontact ? (TCHAR*)pcli->pfnGetContactDisplayName(hcontact, 0) : (wantempty ? _T("") : _T("---"));
+			charPtr = hcontact ? (TCHAR*)pcli->pfnGetContactDisplayName(hcontact, 0) : (wantempty ? L"" : L"---");
 			goto LBL_charPtr;
 
 		case 'N':
@@ -282,7 +282,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
 				_tcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
 				if (!(isetting & 0x8000)) {
-					mir_tstrncat(szdbsetting, _T("/"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
@@ -294,7 +294,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			if (db_get_ts(hcontact, "CList", "StatusMsg", &dbv))
 				goto LBL_noData;
 
-			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), _T("%s"), dbv.ptszVal);
+			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.ptszVal);
 			db_free(&dbv);
 			break;
 
@@ -302,7 +302,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
 				_tcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting, 0), _countof(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
-					mir_tstrncat(szdbsetting, _T("/"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
@@ -331,12 +331,12 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_charPtr;
 
 		case 'P':
-			_tcsncpy(szdbsetting, szProto ? _A2T(szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), _countof(szdbsetting));
+			_tcsncpy(szdbsetting, szProto ? _A2T(szProto) : (wantempty ? L"" : L"ProtoUnknown"), _countof(szdbsetting));
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
 		case 'b':
-			charPtr = _T("\x0D\x0A");
+			charPtr = L"\x0D\x0A";
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
@@ -347,7 +347,7 @@ TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 			goto LBL_noData;
 
 		case 't':
-			charPtr = _T("\t");
+			charPtr = L"\t";
 			goto LBL_charPtr;
 
 		case 'A':

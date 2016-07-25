@@ -73,11 +73,11 @@ int OnPreShutdown(WPARAM, LPARAM)
 		NULL,
 		FO_DELETE,
 		wszTempDir,
-		_T(""),
+		L"",
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
 		0,
-		_T("")
+		L""
 	};
 	SHFileOperation(&file_op);
 

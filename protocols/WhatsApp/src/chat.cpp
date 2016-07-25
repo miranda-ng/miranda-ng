@@ -21,7 +21,7 @@ INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM, LPARAM)
 	ENTER_STRING es = { 0 };
 	es.cbSize = sizeof(es);
 	es.type = ESF_MULTILINE;
-	es.caption = _T("Enter a subject for new group");
+	es.caption = L"Enter a subject for new group";
 	es.szModuleName = m_szModuleName;
 	if (EnterString(&es)) {
 		if (isOnline()) {
@@ -175,8 +175,8 @@ void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 	ofn.lpstrFile = tszFileName;
 	ofn.nMaxFile = ofn.nMaxFileTitle = _countof(tszFileName);
 	ofn.Flags = OFN_HIDEREADONLY;
-	ofn.lpstrInitialDir = _T(".");
-	ofn.lpstrDefExt = _T("");
+	ofn.lpstrInitialDir = L".";
+	ofn.lpstrDefExt = L"";
 	if (GetOpenFileName(&ofn))
 		if (_taccess(tszFileName, 4) != -1)
 			InternalSetAvatar(pInfo->hContact, _T2A(pInfo->tszJid), tszFileName);
@@ -513,7 +513,7 @@ void WhatsAppProto::onGetParticipants(const std::string &gjid, const std::vector
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.ptszNick = nick;
 		gce.ptszUID = utils::removeA(ujid);
-		gce.ptszStatus = (bIsOwner) ? _T("Owners") : _T("Members");
+		gce.ptszStatus = (bIsOwner) ? L"Owners" : L"Members";
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 }

@@ -64,7 +64,7 @@ static FontOptionsList fontOptionsList[] =
 	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ _T(""),                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ L"",                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Nick list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Nick list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
 };
@@ -163,7 +163,7 @@ void RegisterFonts(void)
 			}
 
 			_tcsncpy_s(fontid.name, LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
-			FO.szDefFace = _T("Webdings");
+			FO.szDefFace = L"Webdings";
 			FO.defColour = RGB(170, 170, 170);
 			FO.defCharset = SYMBOL_CHARSET;
 			// fall through
@@ -237,13 +237,13 @@ void LoadGlobalSettings(void)
 	if (chatApi.OnLoadSettings)
 		chatApi.OnLoadSettings();
 
-	InitSetting(&g_Settings->pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
-	InitSetting(&g_Settings->pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
-	InitSetting(&g_Settings->pszIncomingNick, "HeaderIncoming", _T("%n:"));
-	InitSetting(&g_Settings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
-	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", _T("%m"));
+	InitSetting(&g_Settings->pszTimeStamp, "HeaderTime", L"[%H:%M]");
+	InitSetting(&g_Settings->pszTimeStampLog, "LogTimestamp", L"[%d %b %y %H:%M]");
+	InitSetting(&g_Settings->pszIncomingNick, "HeaderIncoming", L"%n:");
+	InitSetting(&g_Settings->pszOutgoingNick, "HeaderOutgoing", L"%n:");
+	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", L"%m");
 
-	InitSetting(&g_Settings->pszLogDir, "LogDirectory", _T("%miranda_logpath%\\%proto%\\%userid%.log"));
+	InitSetting(&g_Settings->pszLogDir, "LogDirectory", L"%miranda_logpath%\\%proto%\\%userid%.log");
 	g_Settings->bLogIndentEnabled = db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
 
 	LOGFONT lf;
@@ -313,7 +313,7 @@ int OptionsInit(void)
 
 	LOGFONT lf;
 	LoadMsgDlgFont(18, &lf, NULL);
-	mir_tstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));
+	mir_tstrcpy(lf.lfFaceName, L"MS Shell Dlg");
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
 	lf.lfHeight = -17;
 	lf.lfWeight = FW_BOLD;

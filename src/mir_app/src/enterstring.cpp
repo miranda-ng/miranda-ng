@@ -63,7 +63,7 @@ static void ComboLoadRecentStrings(HWND hwndDlg, EnterStringFormParam *pForm)
 	}
 
 	if (!SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_GETCOUNT, 0, 0))
-		SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_ADDSTRING, 0, (LPARAM)_T(""));
+		SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_ADDSTRING, 0, (LPARAM)L"");
 }
 
 static void ComboAddRecentString(HWND hwndDlg, EnterStringFormParam *pForm)
@@ -77,7 +77,7 @@ static void ComboAddRecentString(HWND hwndDlg, EnterStringFormParam *pForm)
 
 	int id;
 	SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_ADDSTRING, 0, (LPARAM)string);
-	if ((id = SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_FINDSTRING, (WPARAM)-1, (LPARAM)_T(""))) != CB_ERR)
+	if ((id = SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_FINDSTRING, (WPARAM)-1, (LPARAM)L"")) != CB_ERR)
 		SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_DELETESTRING, id, 0);
 
 	id = db_get_b(NULL, pForm->szModuleName, pForm->szDataPrefix, 0);

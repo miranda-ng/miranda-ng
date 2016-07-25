@@ -43,7 +43,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ts(wParam, WEATHERPROTONAME, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
-			ShellExecute((HWND)lParam, _T("open"), dbv.ptszVal, _T(""), _T(""), SW_SHOW);
+			ShellExecute((HWND)lParam, L"open", dbv.ptszVal, L"", L"", SW_SHOW);
 		db_free(&dbv);
 	}
 	else	// display warning dialog if no path is specified
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// check if there are 2 parts in the ID (svc/id) seperated by "/"
 			// if not, don't let user change the setting
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-			chop = _tcsstr(str, _T("/"));
+			chop = _tcsstr(str, L"/");
 			if (chop == NULL)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			else
@@ -272,14 +272,14 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ofn.nMaxFile = _countof(str);
 			// set filters
 			_tcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
-			mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
+			mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
 			pfilter = filter + mir_tstrlen(filter) + 1;
-			_tcsncpy(pfilter, _T("*.txt"), _countof(filter) - 1);
+			_tcsncpy(pfilter, L"*.txt", _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
-			mir_tstrncat(pfilter, _T(" (*.*)"), _countof(filter) - mir_tstrlen(filter));
+			mir_tstrncat(pfilter, L" (*.*)", _countof(filter) - mir_tstrlen(filter));
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-			_tcsncpy(pfilter, _T("*.*"), _countof(filter) - 1);
+			_tcsncpy(pfilter, L"*.*", _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;

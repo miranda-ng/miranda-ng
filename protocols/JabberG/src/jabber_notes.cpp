@@ -153,10 +153,10 @@ void CNoteList::SaveXml(HXML hXmlParent)
 	CNoteList &me = *this;
 
 	for (int i = 0; i < getCount(); i++) {
-		HXML hXmlItem = hXmlParent << XCHILD(_T("note"));
-		hXmlItem << XATTR(_T("from"), me[i].GetFrom()) << XATTR(_T("tags"), me[i].GetTagsStr());
-		hXmlItem << XCHILD(_T("title"), me[i].GetTitle());
-		hXmlItem << XCHILD(_T("text"), me[i].GetText());
+		HXML hXmlItem = hXmlParent << XCHILD(L"note");
+		hXmlItem << XATTR(L"from", me[i].GetFrom()) << XATTR(L"tags", me[i].GetTagsStr());
+		hXmlItem << XCHILD(L"title", me[i].GetTitle());
+		hXmlItem << XCHILD(L"text", me[i].GetText());
 	}
 }
 
@@ -601,9 +601,9 @@ private:
 
 	void btnSave_OnClick(CCtrlButton *)
 	{
-		XmlNodeIq iq(_T("set"));
+		XmlNodeIq iq(L"set");
 		HXML query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
-		HXML storage = query << XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES);
+		HXML storage = query << XCHILDNS(L"storage", JABBER_FEAT_MIRANDA_NOTES);
 		m_proto->m_notes.SaveXml(storage);
 		m_proto->m_ThreadInfo->send(iq);
 		EnableControls();
@@ -710,9 +710,9 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 	if (ok && pNote->IsNotEmpty()) {
 		m_notes.insert(pNote);
 
-		XmlNodeIq iq(_T("set"));
+		XmlNodeIq iq(L"set");
 		HXML query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
-		HXML storage = query << XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES);
+		HXML storage = query << XCHILDNS(L"storage", JABBER_FEAT_MIRANDA_NOTES);
 		m_notes.SaveXml(storage);
 		m_ThreadInfo->send(iq);
 	}
@@ -727,7 +727,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	}
 
 	TCHAR buf[1024];
-	mir_sntprintf(buf, _T("Incoming note: %s\n\n%s\nTags: %s"),
+	mir_sntprintf(buf, L"Incoming note: %s\n\n%s\nTags: %s",
 		pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
 
 	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), TRUE);
@@ -737,20 +737,20 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 
 	int nMsgId = SerialNext();
 
-	XmlNode m(_T("message"));
-	m << XATTR(_T("type"), _T("chat")) << XATTR(_T("to"), pNote->GetFrom()) << XATTRID(nMsgId);
-	m << XCHILD(_T("body"), buf);
-	HXML hXmlItem = m << XCHILDNS(_T("x"), JABBER_FEAT_MIRANDA_NOTES) << XCHILD(_T("note"));
-	hXmlItem << XATTR(_T("tags"), pNote->GetTagsStr());
-	hXmlItem << XCHILD(_T("title"), pNote->GetTitle());
-	hXmlItem << XCHILD(_T("text"), pNote->GetText());
+	XmlNode m(L"message");
+	m << XATTR(L"type", L"chat") << XATTR(L"to", pNote->GetFrom()) << XATTRID(nMsgId);
+	m << XCHILD(L"body", buf);
+	HXML hXmlItem = m << XCHILDNS(L"x", JABBER_FEAT_MIRANDA_NOTES) << XCHILD(L"note");
+	hXmlItem << XATTR(L"tags", pNote->GetTagsStr());
+	hXmlItem << XCHILD(L"title", pNote->GetTitle());
+	hXmlItem << XCHILD(L"text", pNote->GetText());
 
 	// message receipts XEP priority
 	if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
-		m << XCHILDNS(_T("request"), JABBER_FEAT_MESSAGE_RECEIPTS);
+		m << XCHILDNS(L"request", JABBER_FEAT_MESSAGE_RECEIPTS);
 	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-		HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_MESSAGE_EVENTS);
-		x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
+		HXML x = m << XCHILDNS(L"x", JABBER_FEAT_MESSAGE_EVENTS);
+		x << XCHILD(L"delivered"); x << XCHILD(L"offline");
 	}
 	else
 		nMsgId = -1;

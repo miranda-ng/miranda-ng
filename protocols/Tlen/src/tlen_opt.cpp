@@ -416,7 +416,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, dbv.ptszVal);
 				db_free(&dbv);
 			}
-			else SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, _T("tlen.pl"));
+			else SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, L"tlen.pl");
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOSTPORT), TRUE);
@@ -425,7 +425,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetDlgItemText(hwndDlg, IDC_HOST, dbv.ptszVal);
 				db_free(&dbv);
 			}
-			else SetDlgItemText(hwndDlg, IDC_HOST, _T("s1.tlen.pl"));
+			else SetDlgItemText(hwndDlg, IDC_HOST, L"s1.tlen.pl");
 
 			SetDlgItemInt(hwndDlg, IDC_HOSTPORT, db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT), FALSE);
 
@@ -458,8 +458,8 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PASSWORD), bChecked);
 
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Forwarding"));
-			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)_T("SOCKS4"));
-			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)_T("SOCKS5"));
+			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)L"SOCKS4");
+			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)L"SOCKS5");
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_SETCURSEL, db_get_w(NULL, proto->m_szModuleName, "FileProxyType", 0), 0);
 			if (!db_get_ts(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_HOST, dbv.ptszVal);
@@ -660,7 +660,7 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					MailPopupPreview((DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORBKG,CPM_GETCOLOUR,0,0),
 									(DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORTXT,CPM_GETCOLOUR,0,0),
 									title,
-									_T("From: test@test.test\nSubject: test"),
+									L"From: test@test.test\nSubject: test",
 									delay);
 				}
 

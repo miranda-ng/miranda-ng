@@ -61,7 +61,7 @@ WCHAR *any_to_Idle(MCONTACT hContact, const char *module_name, const char *setti
 
 //#define UM_CHECKHOOKS (WM_USER+1)
 
-#define debug(a) MessageBox(NULL,a,_T("Debug"),MB_OK)
+#define debug(a) MessageBox(NULL,a,L"Debug",MB_OK)
 
 #define IDI_USERDETAILS                 160
 #define IDI_DOWNARROW                   264
@@ -78,13 +78,13 @@ WCHAR *any_to_Idle(MCONTACT hContact, const char *module_name, const char *setti
 
 #define WM_REFRESH_UI (WM_USER+10)
 
-#define DEFAULT_MENUSTAMP          _T("%d.%m.%Y - %H:%M [%s]")
+#define DEFAULT_MENUSTAMP          L"%d.%m.%Y - %H:%M [%s]"
 #define DEFAULT_POPUPSTAMP         TranslateT("%n is %s (%u)")
 #define DEFAULT_POPUPSTAMPTEXT     TranslateT("%i(%r)%bWas %o")
 #define DEFAULT_USERSTAMP          TranslateT("Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T")
-#define DEFAULT_FILESTAMP          _T("%d.%m.%Y %H:%M:%S%t%n%t%s%t%u%t%r | %i%t%N")
-#define DEFAULT_FILENAME           _T("%miranda_logpath%\\LastSeen\\%P.txt")
-#define DEFAULT_HISTORYSTAMP       _T("%d.%m.%Y - %H:%M [%s]")
+#define DEFAULT_FILESTAMP          L"%d.%m.%Y %H:%M:%S%t%n%t%s%t%u%t%r | %i%t%N"
+#define DEFAULT_FILENAME           L"%miranda_logpath%\\LastSeen\\%P.txt"
+#define DEFAULT_HISTORYSTAMP       L"%d.%m.%Y - %H:%M [%s]"
 #define DEFAULT_WATCHEDPROTOCOLS   ""
 
 typedef struct{

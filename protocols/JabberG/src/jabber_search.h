@@ -208,7 +208,7 @@ public:
 			if (rv->_value)
 				return rv->_value;
 			else
-				return _T("");
+				return L"";
 		}
 		else
 			return NULL;

@@ -282,7 +282,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 				while (docstr) {
 					const char *docname = ezxml_txt(ezxml_child(docstr, "DocumentStreamName"));
 					if (!mir_strcmp(docname, "UserTileStatic")) {
-						getMyAvatarFile(ezxml_txt(ezxml_child(docstr, "PreAuthURL")), _T("miranda_avatar.tmp"));
+						getMyAvatarFile(ezxml_txt(ezxml_child(docstr, "PreAuthURL")), L"miranda_avatar.tmp");
 						break;
 					}
 					docstr = ezxml_next(docstr);

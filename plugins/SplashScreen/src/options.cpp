@@ -73,7 +73,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, _T("splash\\splash.png"));
+					mir_tstrcpy(inBuf, L"splash\\splash.png");
 				SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
 				if (!db_get_ts(NULL, MODNAME, "Sound", &dbv)) {
@@ -81,7 +81,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, _T("sounds\\startup.wav"));
+					mir_tstrcpy(inBuf, L"sounds\\startup.wav");
 				SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
 
 				if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv)) {
@@ -89,7 +89,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, _T(""));
+					mir_tstrcpy(inBuf, L"");
 				SetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, inBuf);
 
 				if (options.active)
@@ -175,13 +175,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							*pos = 0;
 					}
 					else {
-						szMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
 						mir_tstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
 
 					TCHAR tmp[MAX_PATH];
-					mir_sntprintf(tmp, _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
+					mir_sntprintf(tmp, L"%s (*.png, *.bmp)%c*.png;*.bmp%c%c", TranslateT("Graphic files"), 0, 0, 0);
 
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -192,13 +192,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ofn.Flags = OFN_HIDEREADONLY;
 					ofn.lpstrInitialDir = initDir;
 					*szTempPath = '\0';
-					ofn.lpstrDefExt = _T("");
+					ofn.lpstrDefExt = L"";
 
 					if (GetOpenFileName(&ofn)) {
 						mir_tstrcpy(szSplashFile, szTempPath);
 
 						#ifdef _DEBUG
-						logMessage(_T("Set path"), szSplashFile);
+						logMessage(L"Set path", szSplashFile);
 						#endif
 						// Make path relative
 						int result = PathToRelativeT(szTempPath, szPath2Spash);
@@ -207,7 +207,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								TCHAR *pos = _tcsrchr(szPath2Spash, _T('\\'));
 								if (pos != NULL) {
 									*pos = 0;
-									mir_tstrcat(szPath2Spash, _T("\\"));
+									mir_tstrcat(szPath2Spash, L"\\");
 								}
 							}
 
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (pos != NULL) *pos = 0;
 					}
 					else {
-						szMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
 						mir_tstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					TCHAR tmp[MAX_PATH];
-					mir_sntprintf(tmp, _T("%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c"), TranslateT("Sound Files"), 0, 0, 0);
+					mir_sntprintf(tmp, L"%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c", TranslateT("Sound Files"), 0, 0, 0);
 					ofn.lpstrFilter = tmp;
 					ofn.hwndOwner = 0;
 					ofn.lpstrFile = szTempPath;
@@ -248,13 +248,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ofn.Flags = OFN_HIDEREADONLY;
 					ofn.lpstrInitialDir = initDir;
 					*szTempPath = '\0';
-					ofn.lpstrDefExt = _T("");
+					ofn.lpstrDefExt = L"";
 
 					if (GetOpenFileName(&ofn)) {
 						mir_tstrcpy(szSoundFile, szTempPath);
 
 						#ifdef _DEBUG
-						logMessage(_T("Set sound path"), szSoundFile);
+						logMessage(L"Set sound path", szSoundFile);
 						#endif
 
 						// Make path relative

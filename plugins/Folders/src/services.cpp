@@ -86,7 +86,7 @@ int InitServices()
 	GetModuleFileName(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));
 	pos = _tcsrchr(szMirandaPath, '\\'); if (pos) *pos = 0;
 
-	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	TCHAR *szTemp = Utils_ReplaceVarsT(L"%miranda_userdata%");
 	mir_sntprintf(szUserDataPath, szTemp);
 	mir_free(szTemp);
 

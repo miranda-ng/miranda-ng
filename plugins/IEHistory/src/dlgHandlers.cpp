@@ -71,7 +71,7 @@ void LoadName(HWND hWnd)
 	}
 	TCHAR *szOther = GetContactName(data->contact);
 	TCHAR buffer[1024];
-	sntprintf(buffer, 1024, _T("'%s' - IEHistory"), szOther);
+	sntprintf(buffer, 1024, L"'%s' - IEHistory", szOther);
 	SetWindowText(hWnd, buffer);
 	mir_free(szOther);
 }
@@ -369,7 +369,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
 
 			HWND hStatusBar = CreateWindow(STATUSCLASSNAME, //class
-				_T("-"), //title
+				L"-", //title
 				WS_CHILD | WS_VISIBLE | SBARS_TOOLTIPS | SBARS_SIZEGRIP, //style
 				0, 0, //x, y
 				0, 0, //width, height

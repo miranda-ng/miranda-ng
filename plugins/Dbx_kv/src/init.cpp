@@ -117,7 +117,7 @@ static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
 	"dbx_kv",
-	_T("Hamsterdb database driver"),
+	L"Hamsterdb database driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

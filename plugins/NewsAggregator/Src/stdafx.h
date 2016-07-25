@@ -50,7 +50,7 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #define MODULE	"NewsAggregator"
-#define TAGSDEFAULT _T("#<title>#\r\n#<link>#\r\n#<description>#")
+#define TAGSDEFAULT L"#<title>#\r\n#<link>#\r\n#<description>#"
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 

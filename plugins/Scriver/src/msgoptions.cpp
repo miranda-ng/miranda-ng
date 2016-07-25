@@ -60,20 +60,20 @@ typedef struct FontOptionsListStruct
 } FontOptionsList;
 
 static const FontOptionsList fontOptionsList[] = {
-	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), _T("Arial"), 0, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming messages"), RGB(0, 0, 0), _T("Arial"), 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Outgoing name"), RGB(89, 89, 89), _T("Arial"), FONTF_BOLD, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Outgoing time"), RGB(0, 0, 0), _T("Terminal"), FONTF_BOLD, -9, LPGENT("Outgoing background")},
-	{ LPGENT("Outgoing colon"), RGB(89, 89, 89), _T("Arial"), 0, -11, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming name"), RGB(215, 0, 0), _T("Arial"), FONTF_BOLD, -12, LPGENT("Incoming background")},
-	{ LPGENT("Incoming time"), RGB(0, 0, 0), _T("Terminal"), FONTF_BOLD, -9, LPGENT("Incoming background")},
-	{ LPGENT("Incoming colon"), RGB(215, 0, 0), _T("Arial"), 0, -11, LPGENT("Incoming background")},
-	{ LPGENT("Message area"), RGB(0, 0, 0), _T("Arial"), 0, -12, LPGENT("Input area background")},
-	{ LPGENT("Notices"), RGB(90, 90, 160), _T("Arial"), 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Outgoing URL"), RGB(0, 0, 255), _T("Arial"), 0, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming URL"), RGB(0, 0, 255), _T("Arial"), 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Info bar contact name"), RGB(0, 0, 0), _T("Arial"), FONTF_BOLD, -19, LPGENT("Info bar background")},
-	{ LPGENT("Info bar status message"), RGB(50, 50, 50), _T("Arial"), FONTF_ITALIC, -11, LPGENT("Info bar background")}
+	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), L"Arial", 0, -12, LPGENT("Outgoing background")},
+	{ LPGENT("Incoming messages"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENT("Incoming background")},
+	{ LPGENT("Outgoing name"), RGB(89, 89, 89), L"Arial", FONTF_BOLD, -12, LPGENT("Outgoing background")},
+	{ LPGENT("Outgoing time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENT("Outgoing background")},
+	{ LPGENT("Outgoing colon"), RGB(89, 89, 89), L"Arial", 0, -11, LPGENT("Outgoing background")},
+	{ LPGENT("Incoming name"), RGB(215, 0, 0), L"Arial", FONTF_BOLD, -12, LPGENT("Incoming background")},
+	{ LPGENT("Incoming time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENT("Incoming background")},
+	{ LPGENT("Incoming colon"), RGB(215, 0, 0), L"Arial", 0, -11, LPGENT("Incoming background")},
+	{ LPGENT("Message area"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENT("Input area background")},
+	{ LPGENT("Notices"), RGB(90, 90, 160), L"Arial", 0, -12, LPGENT("Incoming background")},
+	{ LPGENT("Outgoing URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENT("Outgoing background")},
+	{ LPGENT("Incoming URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENT("Incoming background")},
+	{ LPGENT("Info bar contact name"), RGB(0, 0, 0), L"Arial", FONTF_BOLD, -19, LPGENT("Info bar background")},
+	{ LPGENT("Info bar status message"), RGB(50, 50, 50), L"Arial", FONTF_ITALIC, -11, LPGENT("Info bar background")}
 };
 
 int fontOptionsListSize = _countof(fontOptionsList);
@@ -622,7 +622,7 @@ static void ShowPreview(HWND hwndDlg)
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_OFFSET;
 	pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
-	SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+	SetDlgItemText(hwndDlg, IDC_LOG, L"");
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	StreamInTestEvents(GetDlgItem(hwndDlg, IDC_LOG), &gdat);
 }

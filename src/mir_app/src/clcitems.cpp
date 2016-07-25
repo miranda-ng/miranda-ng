@@ -707,7 +707,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = contact->group;
 		}
 	
-		ClcContact *cc = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, _T(""));
+		ClcContact *cc = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, L"");
 		*cc = saveInfo[i].contact;
 	}
 

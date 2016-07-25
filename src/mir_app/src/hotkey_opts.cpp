@@ -43,7 +43,7 @@ static TCHAR* sttHokeyVkToName(WORD vkKey)
 	case VK_NUMLOCK:
 	case VK_CAPITAL:
 	case VK_SCROLL:
-		return _T("");
+		return L"";
 	case VK_BROWSER_BACK:
 		return TranslateT("Browser: Back");
 	case VK_BROWSER_FORWARD:
@@ -101,11 +101,11 @@ static TCHAR* sttHokeyVkToName(WORD vkKey)
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key)
 {
-	mir_sntprintf(buf, size, _T("%s%s%s%s%s"),
-		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : _T(""),
-		(shift & HOTKEYF_ALT) ? TranslateT("Alt + ") : _T(""),
-		(shift & HOTKEYF_SHIFT) ? TranslateT("Shift + ") : _T(""),
-		(shift & HOTKEYF_EXT) ? TranslateT("Win + ") : _T(""),
+	mir_sntprintf(buf, size, L"%s%s%s%s%s",
+		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : L"",
+		(shift & HOTKEYF_ALT) ? TranslateT("Alt + ") : L"",
+		(shift & HOTKEYF_SHIFT) ? TranslateT("Shift + ") : L"",
+		(shift & HOTKEYF_EXT) ? TranslateT("Win + ") : L"",
 		sttHokeyVkToName(key));
 }
 

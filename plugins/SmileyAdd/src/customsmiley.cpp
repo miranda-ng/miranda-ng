@@ -96,7 +96,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 bool SmileyPackCType::LoadSmileyDir(TCHAR *dir)
 {
 	CMString dirs = dir;
-	dirs += _T("\\*.*");
+	dirs += L"\\*.*";
 
 	_tfinddata_t c_file;
 	INT_PTR hFile = _tfindfirst((TCHAR*)dirs.c_str(), &c_file);
@@ -104,7 +104,7 @@ bool SmileyPackCType::LoadSmileyDir(TCHAR *dir)
 		do {
 			if (c_file.name[0] != '.') {
 				CMString fullpath = dir;
-				fullpath = fullpath + _T("\\") + c_file.name;
+				fullpath = fullpath + L"\\" + c_file.name;
 				TCHAR *div = _tcsrchr(c_file.name, '.');
 				if (div) {
 					*div = 0;

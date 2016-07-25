@@ -54,7 +54,7 @@ TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
 		return m_DisplayNameCache = str;
 	}
 
-	return _T("Me");
+	return L"Me";
 }
 
 unsigned MSN_GenRandom(void)

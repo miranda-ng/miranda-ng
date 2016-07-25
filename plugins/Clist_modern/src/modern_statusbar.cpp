@@ -241,7 +241,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
 					TCHAR str[40];
-					mir_sntprintf(str, _T("[%d]"), nEmails);
+					mir_sntprintf(str, L"[%d]", nEmails);
 					p->szProtoEMailCount = mir_tstrdup(str);
 				}
 			}
@@ -815,7 +815,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							}
 						}
 
-						SaveViewMode(filterName, _T(""), g_CluiData.protoFilter, 0, -1, 0, 0, 0, 0);
+						SaveViewMode(filterName, L"", g_CluiData.protoFilter, 0, -1, 0, 0, 0, 0);
 
 						ApplyViewMode(filterName);
 					}
@@ -861,7 +861,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-TCHAR pluginname[] = _T("ModernStatusBar");
+TCHAR pluginname[] = L"ModernStatusBar";
 
 HWND StatusBar_Create(HWND parent)
 {
@@ -887,7 +887,7 @@ HWND StatusBar_Create(HWND parent)
 	if (db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
 		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;
-	Frame.tname = _T("Status bar");
+	Frame.tname = L"Status bar";
 	Frame.TBtname = TranslateT("Status bar");
 	hFramehModernStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame

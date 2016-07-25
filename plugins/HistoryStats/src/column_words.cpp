@@ -136,8 +136,8 @@ void ColWords::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 		m_hVisMode  = Opt.insertRadio(hTemp, NULL, TranslateT("Most common words"));
 		              Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Least common words"));
 				        Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Longest words"));
-	m_hNum         = Opt.insertEdit (hGroup, TranslateT("Number of words"), _T(""), OptionsCtrl::OCF_NUMBER);
-	m_hOffset      = Opt.insertEdit (hGroup, TranslateT("Number of words to skip in output"), _T(""), OptionsCtrl::OCF_NUMBER);
+	m_hNum         = Opt.insertEdit (hGroup, TranslateT("Number of words"), L"", OptionsCtrl::OCF_NUMBER);
+	m_hOffset      = Opt.insertEdit (hGroup, TranslateT("Number of words to skip in output"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hDetail      = Opt.insertCheck(hGroup, TranslateT("Word count for each word (tooltip)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hDetailInOut = Opt.insertCheck(m_hDetail, TranslateT("Show separate counts for incoming/outgoing"));
 	m_hInOutColor  = Opt.insertCheck(hGroup, TranslateT("Color words according to in/out ratio"));
@@ -207,8 +207,8 @@ Column::StyleList ColWords::impl_outputGetAdditionalStyles(IDProvider&)
 
 	if (m_bInOutColor)
 	{
-		l.push_back(StylePair(_T("span.onum"), _T("color: ") + utils::colorToHTML(con::ColorOut) + _T(";")));
-		l.push_back(StylePair(_T("span.inum"), _T("color: ") + utils::colorToHTML(con::ColorIn) + _T(";")));
+		l.push_back(StylePair(L"span.onum", L"color: " + utils::colorToHTML(con::ColorOut) + L";"));
+		l.push_back(StylePair(L"span.inum", L"color: " + utils::colorToHTML(con::ColorIn) + L";"));
 	}
 
 	return l;
@@ -231,8 +231,8 @@ void ColWords::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	if (row == 1)
 	{
 		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
-			% _T("#{type}") * TranslateTS(szTypeDesc[m_nVisMode])
-			% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource]));
+			% L"#{type}" * TranslateTS(szTypeDesc[m_nVisMode])
+			% L"#{data}" * TranslateTS(szSourceDesc[m_nSource]));
 
 		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[m_nVisMode]), strTitle), row, 1, rowSpan);	
 	}
@@ -242,7 +242,7 @@ void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 {
 	const WordList* pWords = reinterpret_cast<const WordList*>(contact.getSlot(contactDataTransformSlotGet()));
 
-	tos << _T("<td>");
+	tos << L"<td>";
 
 	vector_each_(j, *pWords)
 	{
@@ -257,21 +257,21 @@ void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			else
 			{
 				strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("[Out] #{out_words} / [In] #{in_words}"))
-					% _T("#{out_words}") * w.first.out
-					% _T("#{in_words}") * w.first.in));
+					% L"#{out_words}" * w.first.out
+					% L"#{in_words}" * w.first.in));
 			}
 
 			if (!m_bInOutColor || m_nSource != 2 || w.first.in == w.first.out)
 			{
-				tos << _T("<span title=\"") << strTooltip << _T("\">")
-					<< utils::htmlEscape(w.second) << _T("</span>");
+				tos << L"<span title=\"" << strTooltip << L"\">"
+					<< utils::htmlEscape(w.second) << L"</span>";
 			}
 			else
 			{
-				tos << _T("<span class=\"")
-					<< ((w.first.out - w.first.in > 0) ? _T("onum") : _T("inum"))
-					<< _T("\" title=\"") << strTooltip << _T("\">")
-					<< utils::htmlEscape(w.second) << _T("</span>");
+				tos << L"<span class=\""
+					<< ((w.first.out - w.first.in > 0) ? L"onum" : L"inum")
+					<< L"\" title=\"" << strTooltip << L"\">"
+					<< utils::htmlEscape(w.second) << L"</span>";
 			}
 		}
 		else
@@ -282,17 +282,17 @@ void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			}
 			else
 			{
-				tos << _T("<span class=\"")
-					<< ((w.first.out - w.first.in > 0) ? _T("onum") : _T("inum"))
-					<< _T("\">") << utils::htmlEscape(w.second) << _T("</span>");
+				tos << L"<span class=\""
+					<< ((w.first.out - w.first.in > 0) ? L"onum" : L"inum")
+					<< L"\">" << utils::htmlEscape(w.second) << L"</span>";
 			}
 		}
 		
 		if (j < pWords->size() - 1)
 		{
-			tos << _T(", ");
+			tos << L", ";
 		}
 	}
 
-	tos << _T("</td>") << ext::endl;
+	tos << L"</td>" << ext::endl;
 }

@@ -28,22 +28,22 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	
 	if (ptszHelpFile==0)
 	{
-			mir_tstrcpy(pszDirName, _T("%miranda_path%\\Plugins"));
-			mir_tstrcpy(pszFileName, _T("UserGuide.chm"));			
+			mir_tstrcpy(pszDirName, L"%miranda_path%\\Plugins");
+			mir_tstrcpy(pszFileName, L"UserGuide.chm");			
 	}
 	else
 	{
-		if(!mir_tstrcmp(ptszHelpFile, _T("")))
+		if(!mir_tstrcmp(ptszHelpFile, L""))
 		{
-			mir_tstrcpy(pszDirName, _T("%miranda_path%\\Plugins"));
-			mir_tstrcpy(pszFileName, _T("UserGuide.chm"));
+			mir_tstrcpy(pszDirName, L"%miranda_path%\\Plugins");
+			mir_tstrcpy(pszFileName, L"UserGuide.chm");
 		}
 		else 
 		{
 			LPTSTR pszDivider = _tcsrchr(ptszHelpFile, '\\');
 			if (pszDivider == NULL)
 			{	
-				mir_tstrcpy(pszDirName, _T(""));
+				mir_tstrcpy(pszDirName, L"");
 				_tcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
 			}
 			else
@@ -60,7 +60,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	pszDirNameEx = Utils_ReplaceVarsT(pszDirName);
 	mir_free(pszDirName);
 
-	ShellExecute(NULL, _T("open"), pszFileName, NULL, pszDirNameEx, SW_SHOW);
+	ShellExecute(NULL, L"open", pszFileName, NULL, pszDirNameEx, SW_SHOW);
 	mir_free(pszFileName);
 	mir_free(pszDirNameEx);
 	return 0;

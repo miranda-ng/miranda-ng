@@ -29,7 +29,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 	if (groupName)
 		_tcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
-		mir_tstrcpy(pszGroup, _T("Chat rooms"));
+		mir_tstrcpy(pszGroup, L"Chat rooms");
 
 	if (pszGroup[0])  {
 		MGROUP hGroup = Clist_GroupExists(pszGroup);

@@ -46,24 +46,24 @@ INT_PTR WhatsAppProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 std::tstring WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 {
-	std::tstring result = m_tszAvatarFolder + _T("\\");
+	std::tstring result = m_tszAvatarFolder + L"\\";
 
 	std::string jid;
 	if (hContact != NULL) {
 		ptrA szId(getStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
 		if (szId == NULL)
-			return _T("");
+			return L"";
 
 		jid = szId;
 	}
 	else jid = m_szJid;
 
-	return result + std::tstring(_A2T(jid.c_str())) + _T(".jpg");
+	return result + std::tstring(_A2T(jid.c_str())) + L".jpg";
 }
 
 INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	std::tstring tszOwnAvatar(m_tszAvatarFolder + _T("\\myavatar.jpg"));
+	std::tstring tszOwnAvatar(m_tszAvatarFolder + L"\\myavatar.jpg");
 	_tcsncpy_s((TCHAR*)wParam, lParam, tszOwnAvatar.c_str(), _TRUNCATE);
 	return 0;
 }
@@ -102,13 +102,13 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 
 	TCHAR tszTempFile[MAX_PATH], tszMyFile[MAX_PATH];
 	if (hContact == NULL) {
-		mir_sntprintf(tszMyFile, _T("%s\\myavatar.jpg"), m_tszAvatarFolder.c_str());
-		mir_sntprintf(tszTempFile, _T("%s\\myavatar.preview.jpg"), m_tszAvatarFolder.c_str());
+		mir_sntprintf(tszMyFile, L"%s\\myavatar.jpg", m_tszAvatarFolder.c_str());
+		mir_sntprintf(tszTempFile, L"%s\\myavatar.preview.jpg", m_tszAvatarFolder.c_str());
 	}
 	else {
 		std::tstring tszContactAva = GetAvatarFileName(hContact);
 		_tcsncpy_s(tszMyFile, tszContactAva.c_str(), _TRUNCATE);
-		_tcsncpy_s(tszTempFile, (tszContactAva + _T(".preview")).c_str(), _TRUNCATE);
+		_tcsncpy_s(tszTempFile, (tszContactAva + L".preview").c_str(), _TRUNCATE);
 	}
 
 	IMGSRVC_INFO saveInfo = { sizeof(saveInfo), 0 };

@@ -44,9 +44,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			TCHAR buf[512];
 			HXML bodyNode = XmlGetChild(node, "body");
 			if (bodyNode)
-				mir_sntprintf(buf, _T("%s:\n%s\n%s"), pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
+				mir_sntprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
 			else
-				mir_sntprintf(buf, _T("%s:\n%s"), pInfo->GetFrom(), szErrText);
+				mir_sntprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
 
 			MsgPopup(NULL, buf, TranslateT("Jabber Error"));
 		}
@@ -58,8 +58,8 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 BOOL CJabberProto::OnMessageIbb(HXML, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
-	const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
-	const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
+	const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
+	const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
 	if (sid && seq && XmlGetText(pInfo->GetChildNode()))
 		bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
 

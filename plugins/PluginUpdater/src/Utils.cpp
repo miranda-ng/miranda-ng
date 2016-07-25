@@ -132,19 +132,19 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 #if MIRANDA_VER >=0x0A00
-	vars[0].key.t = _T("platform");
+	vars[0].key.t = L"platform";
 #ifdef _WIN64
-	vars[0].value.t = _T("64");
+	vars[0].value.t = L"64";
 #else
-	vars[0].value.t = _T("32");
+	vars[0].value.t = L"32";
 #endif
 	vars[1].key.t = vars[1].value.t = 0;
 #else
-	vars[0].lptzKey = _T("platform");
+	vars[0].lptzKey = L"platform";
 #ifdef _WIN64
-	vars[0].lptzValue = _T("64");
+	vars[0].lptzValue = L"64";
 #else
-	vars[0].lptzValue = _T("32");
+	vars[0].lptzValue = L"32";
 #endif
 	vars[1].lptzKey = vars[1].lptzValue = 0;
 #endif
@@ -152,8 +152,8 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 
 	// Download version info
 	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, _T("%s/hashes.zip"), baseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, _T("%s\\hashes.zip"), g_tszTempPath);
+	mir_sntprintf(pFileUrl.tszDownloadURL, L"%s/hashes.zip", baseUrl);
+	mir_sntprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
 	HANDLE nlc;
@@ -161,14 +161,14 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret) {
-		Netlib_LogfT(hNetlibUser,_T("Downloading list of available updates from %s failed"),baseUrl);
+		Netlib_LogfT(hNetlibUser,L"Downloading list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		SkinPlaySound("updatefailed");
 		return false;
 	}
 
 	if(!unzip(pFileUrl.tszDiskPath, g_tszTempPath, NULL,true)) {
-		Netlib_LogfT(hNetlibUser,_T("Unzipping list of available updates from %s failed"),baseUrl);
+		Netlib_LogfT(hNetlibUser,L"Unzipping list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		SkinPlaySound("updatefailed");
 		return false;
@@ -177,10 +177,10 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, _T("%s\\hashes.txt"), g_tszTempPath);
-	FILE *fp = _tfopen(tszTmpIni, _T("r"));
+	mir_sntprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
+	FILE *fp = _tfopen(tszTmpIni, L"r");
 	if (!fp) {
-		Netlib_LogfT(hNetlibUser,_T("Opening %s failed"), g_tszTempPath);
+		Netlib_LogfT(hNetlibUser,L"Opening %s failed", g_tszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
@@ -258,7 +258,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 	bool ret = false;
 	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
-		Netlib_LogfT(hNetlibUser,_T("Downloading file %s to %s (attempt %d)"),pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
+		Netlib_LogfT(hNetlibUser,L"Downloading file %s to %s (attempt %d)",pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
 		NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 		if (pReply) {
 			nlc = pReply->nlc;
@@ -269,7 +269,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 					int crc = Get_CRC((unsigned char*)pReply->pData, pReply->dataLength);
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
-						Netlib_LogfT(hNetlibUser,_T("crc check failed for file %s"),pFileURL->tszDiskPath);
+						Netlib_LogfT(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);
 						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 						continue;
 					}
@@ -285,7 +285,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				else {
 					// try to write it via PU stub
 					TCHAR tszTempFile[MAX_PATH];
-					mir_sntprintf(tszTempFile, _T("%s\\pulocal.tmp"), g_tszTempPath);
+					mir_sntprintf(tszTempFile, L"%s\\pulocal.tmp", g_tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD dwBytes;
@@ -297,16 +297,16 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				ret = true;
 			}
 			else
-				Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed with error %d"),pFileURL->tszDownloadURL,pReply->resultCode);
+				Netlib_LogfT(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 		}
 		else {
-			Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, host is propably temporary down."),pFileURL->tszDownloadURL);
+			Netlib_LogfT(hNetlibUser,L"Downloading file %s failed, host is propably temporary down.",pFileURL->tszDownloadURL);
 			nlc = NULL;
 		}
 	}
 	if(!ret)
-		Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, giving up"),pFileURL->tszDownloadURL);
+		Netlib_LogfT(hNetlibUser,L"Downloading file %s failed, giving up",pFileURL->tszDownloadURL);
 
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
@@ -487,7 +487,7 @@ bool PrepareEscalation()
 	TCHAR *ext = _tcsrchr(szPath, '.');
 	if (ext != NULL)
 		*ext = '\0';
-	_tcscat(szPath, _T(".test"));
+	_tcscat(szPath, L".test");
 	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		// we are admins or UAC is disable, cool
@@ -502,7 +502,7 @@ bool PrepareEscalation()
 	else {
 		// Elevate the process. Create a pipe for a stub first
 		TCHAR tszPipeName[MAX_PATH];
-		mir_sntprintf(tszPipeName, _T("\\\\.\\pipe\\Miranda_Pu_%d"), GetCurrentProcessId());
+		mir_sntprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
 		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
 		if (hPipe == INVALID_HANDLE_VALUE) {
 			hPipe = NULL;
@@ -511,8 +511,8 @@ bool PrepareEscalation()
 			TCHAR cmdLine[100], *p;
 			GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
 			if ((p = _tcsrchr(szPath, '\\')) != 0)
-				_tcscpy(p+1, _T("pu_stub.exe"));
-			mir_sntprintf(cmdLine, _T("%d"), GetCurrentProcessId());
+				_tcscpy(p+1, L"pu_stub.exe");
+			mir_sntprintf(cmdLine, L"%d", GetCurrentProcessId());
 
 			// Launch a stub
 			SHELLEXECUTEINFO sei = { sizeof(sei) };

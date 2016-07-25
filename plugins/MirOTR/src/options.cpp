@@ -8,7 +8,7 @@ TCHAR g_fingerprint_store_filename[MAX_PATH];
 TCHAR g_instag_filename[MAX_PATH];
 HANDLE hPATH_MIROTR;
 Options options;
-#define DATA_DIRECTORY MIRANDA_USERDATAT _T("\\") _T(MODULENAME)
+#define DATA_DIRECTORY MIRANDA_USERDATAT L"\\" _T(MODULENAME)
 
 struct PROTOREGENKEYOPTIONS {
 	HWND refresh;
@@ -21,15 +21,15 @@ void SetFilenames(const TCHAR *path)
 		return;
 	CreateDirectoryTreeT(path);
 	
-	mir_sntprintf(g_private_key_filename, _T("%s\\") _T(PRIVATE_KEY_FILENAME), path);
-	mir_sntprintf(g_fingerprint_store_filename, _T("%s\\") _T(FINGERPRINT_STORE_FILENAME), path);
-	mir_sntprintf(g_instag_filename, _T("%s\\") _T(INSTAG_FILENAME), path);
+	mir_sntprintf(g_private_key_filename, L"%s\\" _T(PRIVATE_KEY_FILENAME), path);
+	mir_sntprintf(g_fingerprint_store_filename, L"%s\\" _T(FINGERPRINT_STORE_FILENAME), path);
+	mir_sntprintf(g_instag_filename, L"%s\\" _T(INSTAG_FILENAME), path);
 }
 
 int FoldersChanged(WPARAM, LPARAM)
 {
 	TCHAR path[MAX_PATH];
-	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), _T("")))
+	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), L""))
 		SetFilenames( VARST(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
@@ -120,7 +120,7 @@ extern "C" void set_context_contact(void *, ConnContext *context)
 
 void ReadPrivkeyFiles()
 {
-	DEBUGOUT_T("READ privkey");
+	DEBUGOUTA("READ privkey");
 	lib_cs_lock();
 	otrl_privkey_read(otr_user_state, _T2A(g_private_key_filename));
 	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, 0);
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 						if (key) {
 							otrl_privkey_forget(key);
 							otrl_privkey_write(otr_user_state, _T2A(g_private_key_filename));
-							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 2, _T(""));
+							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 2, L"");
 						}
 					}
 				}
@@ -821,7 +821,7 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 	odp.position = 100;
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = _T("OTR");
+	odp.ptszTitle = L"OTR";
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
 	odp.ptszTab = LANG_OPT_GENERAL;

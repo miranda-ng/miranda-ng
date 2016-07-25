@@ -1,19 +1,19 @@
 #include "StdAfx.h"
 
-LPCTSTR g_pszXmlValue = _T("Value");
-LPCTSTR g_pszXmlName = _T("Name");
-LPCTSTR g_pszXmlSetting = _T("Setting");
-LPCTSTR g_pszXmlModule = _T("Module");
-LPCTSTR g_pszXmlContact = _T("Contact");
-LPCTSTR g_pszXmlContacts = _T("Contacts");
-LPCTSTR g_pszXmlType = _T("type");
-LPCTSTR g_pszXmlTypeByte = _T("byte");
-LPCTSTR g_pszXmlTypeWord = _T("word");
-LPCTSTR g_pszXmlTypeDword = _T("dword");
-LPCTSTR g_pszXmlTypeAsciiz = _T("asciiz");
-LPCTSTR g_pszXmlTypeWchar = _T("wchar");
-LPCTSTR g_pszXmlTypeUtf8 = _T("utf8");
-LPCTSTR g_pszXmlTypeBlob = _T("blob");
+LPCTSTR g_pszXmlValue = L"Value";
+LPCTSTR g_pszXmlName = L"Name";
+LPCTSTR g_pszXmlSetting = L"Setting";
+LPCTSTR g_pszXmlModule = L"Module";
+LPCTSTR g_pszXmlContact = L"Contact";
+LPCTSTR g_pszXmlContacts = L"Contacts";
+LPCTSTR g_pszXmlType = L"type";
+LPCTSTR g_pszXmlTypeByte = L"byte";
+LPCTSTR g_pszXmlTypeWord = L"word";
+LPCTSTR g_pszXmlTypeDword = L"dword";
+LPCTSTR g_pszXmlTypeAsciiz = L"asciiz";
+LPCTSTR g_pszXmlTypeWchar = L"wchar";
+LPCTSTR g_pszXmlTypeUtf8 = L"utf8";
+LPCTSTR g_pszXmlTypeBlob = L"blob";
 
 struct CEnumContext
 {
@@ -144,7 +144,7 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 	size_t nLen = mir_tstrlen(pszXml) + 1;
 	p += nLen;
 	if (nLen < cBuffer) {
-		mir_tstrncpy(p, _T("*.xml"), (int)(cBuffer - nLen));
+		mir_tstrncpy(p, L"*.xml", (int)(cBuffer - nLen));
 		p += 6;
 		nLen += 6;
 	}
@@ -158,7 +158,7 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 	}
 
 	if (nLen < cBuffer) {
-		mir_tstrncpy(p, _T("*.*"), (int)(cBuffer - nLen));
+		mir_tstrncpy(p, L"*.*", (int)(cBuffer - nLen));
 		p += 4;
 		nLen += 4;
 	}
@@ -181,7 +181,7 @@ bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 	ofn.hwndOwner = NULL;
 	ofn.lpstrFilter = prepare_filter(szFilter, MAX_PATH);
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
-	ofn.lpstrDefExt = _T("xml");
+	ofn.lpstrDefExt = L"xml";
 	if (bOpen)
 		ofn.Flags |= OFN_FILEMUSTEXIST;
 	else
@@ -255,7 +255,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 		std::string s = quotes_t2a(sModuleName.c_str());
 		dbs.szModule = s.c_str();//T2CA(sModuleName.c_str());
 
-		bool bCListModule = 0 == mir_tstrcmpi(sModuleName.c_str(), _T("CList"));
+		bool bCListModule = 0 == mir_tstrcmpi(sModuleName.c_str(), L"CList");
 
 		size_t cChild = pXmlModule->GetChildCount();
 		for (size_t i = 0; i < cChild; ++i) {
@@ -348,7 +348,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 							}
 						}
 
-						if ((true == bCListModule) && (0 == mir_tstrcmpi(sName.c_str(), _T("Group"))))
+						if ((true == bCListModule) && (0 == mir_tstrcmpi(sName.c_str(), L"Group")))
 							Clist_GroupCreate(NULL, sValue.c_str());
 					}
 				}

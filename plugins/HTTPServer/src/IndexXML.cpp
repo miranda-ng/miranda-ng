@@ -17,13 +17,15 @@
 
 #include "Glob.h"
 
-static const TCHAR szXmlHeader1[] = _T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
-_T("<?xml-stylesheet type=\"text/xsl\" href=\"");
+static const char szXmlHeader1[] =
+	"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n"
+	"<?xml-stylesheet type=\"text/xsl\" href=\"";
 
-static const TCHAR szXmlHeader2[] = _T("\"?>\r\n")
-_T("<config>\r\n");
+static const char szXmlHeader2[] = 
+	"\"?>\r\n"
+	"<config>\r\n";
 
-static const TCHAR szXmlTail[] = _T("</config>");
+static const char szXmlTail[] = "</config>";
 
 static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 	const char * pszNew)

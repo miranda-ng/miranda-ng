@@ -192,8 +192,8 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 
 	if (code == IDC_CANCEL) {
 		statusToSet = 0;
-		ics.ptszName = _T("");
-		ics.ptszMessage = _T("");
+		ics.ptszName = L"";
+		ics.ptszMessage = L"";
 	}
 	else if (code == IDOK && item != NULL) {
 		statusToSet = item->m_iIcon + 1;

@@ -520,7 +520,7 @@ std::string truncateUtf8(std::string &text, size_t maxLength) {
 	// TODO: Probably there is much simpler and nicer way
 	std::tstring ttext = ptrT(mir_utf8decodeT(text.c_str()));
 	if (ttext.length() > maxLength) {
-		ttext = ttext.substr(0, maxLength) + _T("\x2026"); // unicode ellipsis
+		ttext = ttext.substr(0, maxLength) + L"\x2026"; // unicode ellipsis
 		return std::string(_T2A(ttext.c_str(), CP_UTF8));
 	}
 	// It's not longer, return given string
@@ -805,7 +805,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 			if (!hChatContact) {
 				// hopefully shouldn't happen, but who knows?
-				debugLog(_T("!!! No hChatContact for %s"), fbc->thread_id.c_str());
+				debugLog(L"!!! No hChatContact for %s", fbc->thread_id.c_str());
 				continue;
 			}
 

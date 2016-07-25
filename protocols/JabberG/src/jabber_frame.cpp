@@ -79,7 +79,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 
 	CLISTFrame frame = { sizeof(frame) };
 	HWND hwndClist = pcli->hwndContactList;
-	frame.hWnd = CreateWindowEx(0, _T("JabberInfoFrameClass"), NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
+	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
 	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
@@ -105,7 +105,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
 
 	CreateInfoItem("$/JID", true);
-	UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
+	UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), L"Offline");
 	SetInfoItemCallback("$/JID", &CJabberProto::InfoFrame_OnSetup);
 }
 
@@ -137,7 +137,7 @@ void CJabberInfoFrame::InitClass()
 	wcx.style = CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW;
 	wcx.lpfnWndProc = GlobalWndProc;
 	wcx.hInstance = hInst;
-	wcx.lpszClassName = _T("JabberInfoFrameClass");
+	wcx.lpszClassName = L"JabberInfoFrameClass";
 	wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
 	RegisterClassEx(&wcx);
 	bClassRegistered = true;
@@ -242,21 +242,21 @@ void CJabberInfoFrame::ReloadFonts()
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	_tcsncpy_s(fontid.group, _T("Jabber"), _TRUNCATE);
-	_tcsncpy_s(fontid.name, _T("Frame title"), _TRUNCATE);
+	_tcsncpy_s(fontid.group, L"Jabber", _TRUNCATE);
+	_tcsncpy_s(fontid.name, L"Frame title", _TRUNCATE);
 	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
 
-	_tcsncpy_s(fontid.name, _T("Frame text"), _TRUNCATE);
+	_tcsncpy_s(fontid.name, L"Frame text", _TRUNCATE);
 	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	_tcsncpy_s(colourid.group, _T("Jabber"), _TRUNCATE);
-	_tcsncpy_s(colourid.name, _T("Background"), _TRUNCATE);
+	_tcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
+	_tcsncpy_s(colourid.name, L"Background", _TRUNCATE);
 	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	UpdateSize();

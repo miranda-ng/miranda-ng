@@ -246,11 +246,11 @@ void DlgOption::onProblemInfo()
 
 		citer_each_(HelpVec, i, help)
 		{
-			msg += _T("\r\n\r\n");
+			msg += L"\r\n\r\n";
 			msg += i->first;
 
 			if (!i->second.empty()) {
-				msg += _T("\r\n - ");
+				msg += L"\r\n - ";
 				msg += i->second;
 			}
 		}

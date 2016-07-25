@@ -169,7 +169,7 @@ EXTERN_C MIR_CORE_DLL(int) WindowList_BroadcastAsync(MWindowList hList, UINT mes
 /***************************** Hyperlink windows ********************************/
 
 //there aren't any services here, because you don't need them.
-#define WNDCLASS_HYPERLINK	 _T("Hyperlink")
+#define WNDCLASS_HYPERLINK	 L"Hyperlink"
 //the control will obey the SS_LEFT (0), SS_CENTER (1), and SS_RIGHT (2) styles
 //the control will send STN_CLICKED via WM_COMMAND when the link itself is clicked
 

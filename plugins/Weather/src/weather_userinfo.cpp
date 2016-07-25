@@ -67,7 +67,7 @@ static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 		GetDisplay(&winfo, opt.bText, str);
 	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
-	GetDisplay(&winfo, _T("%c, %t"), str);
+	GetDisplay(&winfo, L"%c, %t", str);
 	SetWindowText(hwndDlg, winfo.city);
 	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 }
@@ -177,7 +177,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				LV_ITEM lvi = { 0 };
 				lvi.mask = LVIF_TEXT | LVIF_PARAM;
 				lvi.lParam = 1;
-				lvi.pszText = _T("");
+				lvi.pszText = L"";
 				lvi.iItem = ListView_InsertItem(hList, &lvi);
 				lvi.pszText = TranslateT("Retrieving new data, please wait...");
 				ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
@@ -267,11 +267,11 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
 		}
 		// set the text for displaying other current weather conditions data
-		GetDisplay(&w, _T("%c     %t"), str);
+		GetDisplay(&w, L"%c     %t", str);
 		SetDlgItemText(hwndDlg, IDC_INFO2, str);
 		SetDlgItemText(hwndDlg, IDC_INFO3, w.feel);
 		SetDlgItemText(hwndDlg, IDC_INFO4, w.pressure);
-		GetDisplay(&w, _T("%i  %w"), str);
+		GetDisplay(&w, L"%i  %w", str);
 		SetDlgItemText(hwndDlg, IDC_INFO5, str);
 		SetDlgItemText(hwndDlg, IDC_INFO6, w.dewpoint);
 		SetDlgItemText(hwndDlg, IDC_INFO7, w.sunrise);

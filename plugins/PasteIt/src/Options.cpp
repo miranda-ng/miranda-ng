@@ -206,7 +206,7 @@ void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
 	}
 	if (optsPagesData->webOptions[selected]->isPublicPaste) {
 		if (IsDlgButtonChecked(hwndDlg, IDC_GUEST)) {
-			optsPagesData->webOptions[selected]->pastebinUserKey = _T("");
+			optsPagesData->webOptions[selected]->pastebinUserKey = L"";
 		}
 		else {
 			TCHAR buf[100];
@@ -646,7 +646,7 @@ void Options::InitCodepageCB(HWND hwndCB, unsigned int codepage)
 
 	if (selCpIdx == -1) {
 		TCHAR buf[10];
-		mir_sntprintf(buf, _T("%d"), codepage);
+		mir_sntprintf(buf, L"%d", codepage);
 		ComboBox_SetText(hwndCB, buf);
 	}
 	else {
@@ -667,7 +667,7 @@ void Options::SetCodepageCB(HWND hwndCB, unsigned int codepage)
 
 	if (selCpIdx == -1) {
 		TCHAR buf[10];
-		mir_sntprintf(buf, _T("%d"), codepage);
+		mir_sntprintf(buf, L"%d", codepage);
 		ComboBox_SetText(hwndCB, buf);
 	}
 	else {

@@ -254,7 +254,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	hFolderChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHT L"\\" _T(DEFAULT_SKIN_FOLDER));
 	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 
 	InitTipperSmileys();

@@ -55,7 +55,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 			int posafter = (stringafter - buttontext) + 1;
 			strdelt(stringafter, 1);
 			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-			mir_sntprintf(newbuttontext, _T("%s!!%s"), stringbefore, stringafter);
+			mir_sntprintf(newbuttontext, L"%s!!%s", stringbefore, stringafter);
 
 			posafter = 0;
 			posbefore = 0;
@@ -170,11 +170,11 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PD1:
-			SetDlgItemText(hdlg, IDC_DELAY, _T("0"));
+			SetDlgItemText(hdlg, IDC_DELAY, L"0");
 			break;
 		case IDC_PD2:
 			// Popup delay = permanent
-			SetDlgItemText(hdlg, IDC_DELAY, _T("-1"));
+			SetDlgItemText(hdlg, IDC_DELAY, L"-1");
 			break;
 
 		case IDC_DELAY:
@@ -446,12 +446,12 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				ofn.lpstrFilter = _T("TEXT Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0");
+				ofn.lpstrFilter = L"TEXT Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0";
 				ofn.lpstrFile = szFileName;
 				ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
 				ofn.nMaxFile = _countof(szFileName);
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.lpstrDefExt = _T("txt");
+				ofn.lpstrDefExt = L"txt";
 				if (!GetSaveFileName(&ofn))
 					break;
 

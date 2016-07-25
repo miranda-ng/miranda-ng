@@ -58,12 +58,12 @@ INT_PTR EmptyFolder(WPARAM, LPARAM lParam)
 		NULL,
 		FO_DELETE,
 		tszRoot,
-		_T(""),
+		L"",
 		FOF_NOERRORUI |
 		FOF_SILENT,
 		false,
 		0,
-		_T("") };
+		L"" };
 	if (lParam)
 		file_op.fFlags |= FOF_NOCONFIRMATION;
 	SHFileOperation(&file_op);

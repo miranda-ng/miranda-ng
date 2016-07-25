@@ -81,7 +81,7 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 
 	for(word=0; word<5; ++word) {
 	for(byte=0; byte<4; ++byte) {
-		_stprintf(p, _T("%02X"), hash[word*4+byte]); //!!!!!!!!!!!!!!
+		_stprintf(p, L"%02X", hash[word*4+byte]); //!!!!!!!!!!!!!!
 		p += 2;
 	}
 	*(p++) = ' ';
@@ -107,7 +107,7 @@ __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 TCHAR* ProtoGetNickname(const char* proto)
 {
 	TCHAR *p = Contact_GetInfo(CNF_NICK, NULL, proto);
-	return (p != NULL) ? p : mir_tstrdup(_T(""));
+	return (p != NULL) ? p : mir_tstrdup(L"");
 }
 
 void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {
@@ -115,12 +115,12 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 
 	if ( !options.bHavePopups) {	
 		TCHAR title[256];
-		mir_sntprintf(title, _T("%s Message"), _T(MODULENAME));
+		mir_sntprintf(title, L"%s Message", _T(MODULENAME));
 
 		if(line1 && line2) {
 			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
 			TCHAR *message = new TCHAR[size]; // newline and null terminator
-			mir_sntprintf(message, size, _T("%s\r\n%s"), line1, line2);
+			mir_sntprintf(message, size, L"%s\r\n%s", line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
 			delete[] message;
 		} else if(line1) {
@@ -165,7 +165,7 @@ void ShowWarning(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, _T("%s Warning"), _T(MODULENAME));
+	mir_sntprintf(buffer, L"%s Warning", _T(MODULENAME));
 
 	
 	switch(disp) {
@@ -173,7 +173,7 @@ void ShowWarning(TCHAR *msg) {
 			{
 				int size = int(mir_tstrlen(msg) + 515);
 				TCHAR *message = new TCHAR[size]; // newline and null terminator
-				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
+				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
 			}
@@ -211,7 +211,7 @@ void ShowError(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, _T("%s Error"), _T(MODULENAME));
+	mir_sntprintf(buffer, L"%s Error", _T(MODULENAME));
 
 
 	TCHAR *message;
@@ -220,7 +220,7 @@ void ShowError(TCHAR *msg) {
 			{
 				int size = int(mir_tstrlen(msg) + 515);
 				message = new TCHAR[size]; // newline and null terminator
-				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
+				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
 			}
@@ -269,7 +269,7 @@ void ShowErrorUtf(char* msg) {
 
 void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
 	TCHAR buff[1024];
-	mir_sntprintf(buff, _T("%s%s"), _T(LANG_INLINE_PREFIX), msg);
+	mir_sntprintf(buff, L"%s%s", _T(LANG_INLINE_PREFIX), msg);
 	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};

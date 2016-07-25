@@ -77,7 +77,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 {
 	HANDLE hSecurity = NULL;
 
-	if (mir_tstrcmpi(szProvider, _T("Basic")) == 0) {
+	if (mir_tstrcmpi(szProvider, L"Basic") == 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
 		hNtlm->szProvider = mir_tstrdup(szProvider);
 		SecInvalidateHandle(&hNtlm->hClientContext);
@@ -90,8 +90,8 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 	mir_cslock lck(csSec);
 
 	PSecPkgInfo ntlmSecurityPackageInfo;
-	bool isGSSAPI = mir_tstrcmpi(szProvider, _T("GSSAPI")) == 0;
-	const TCHAR *szProviderC = isGSSAPI ? _T("Kerberos") : szProvider;
+	bool isGSSAPI = mir_tstrcmpi(szProvider, L"GSSAPI") == 0;
+	const TCHAR *szProviderC = isGSSAPI ? L"Kerberos" : szProvider;
 	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
 	if (sc == SEC_E_OK) {
 		NtlmHandleType* hNtlm;
@@ -101,7 +101,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 		FreeContextBuffer(ntlmSecurityPackageInfo);
 
 		hNtlm->szProvider = mir_tstrdup(szProvider);
-		hNtlm->szPrincipal = mir_tstrdup(szPrincipal ? szPrincipal : _T(""));
+		hNtlm->szPrincipal = mir_tstrdup(szPrincipal ? szPrincipal : L"");
 		SecInvalidateHandle(&hNtlm->hClientContext);
 		SecInvalidateHandle(&hNtlm->hClientCredential);
 		ntlmCnt++;
@@ -213,9 +213,9 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	char *szOutputToken;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
-	if (mir_tstrcmpi(hNtlm->szProvider, _T("Basic"))) {
-		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, _T("GSSAPI")) == 0;
-		TCHAR *szProvider = isGSSAPI ? (TCHAR*)_T("Kerberos") : hNtlm->szProvider;
+	if (mir_tstrcmpi(hNtlm->szProvider, L"Basic")) {
+		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
+		TCHAR *szProvider = isGSSAPI ? (TCHAR*)L"Kerberos" : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge) {
 			unsigned tokenLen;

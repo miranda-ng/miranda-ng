@@ -119,7 +119,7 @@ static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				}
 				break;
 			default:
-				SetDlgItemText(hwndDlg, IDC_STC_SMP_PROGRESS, _T(""));
+				SetDlgItemText(hwndDlg, IDC_STC_SMP_PROGRESS, L"");
 			}
 		}
 		break;
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_SMP_QUESTION));
 
-				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, _T(""));
+				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, L"");
 				SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, FALSE, 0);
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_SMP_ANSWER));
 
@@ -215,11 +215,11 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
-				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, _T(""));
+				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, L"");
 				SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
-				SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, _T(""));
+				SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, L"");
 
-				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, _T(""));
+				SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, L"");
 				SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, FALSE, 0);
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_SMP_PASSWORD));
 
@@ -386,11 +386,11 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
-			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, _T(""));
+			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, L"");
 			SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, FALSE, 0);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_SMP_QUESTION));
 
-			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, _T(""));
+			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, L"");
 			SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, FALSE, 0);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_SMP_ANSWER));
 
@@ -495,11 +495,11 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
-						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, L"");
 						SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, FALSE, 0);
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_SMP_QUESTION));
 
-						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, _T(""));
+						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, L"");
 						SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, FALSE, 0);
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_SMP_ANSWER));
 
@@ -516,11 +516,11 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
-						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, L"");
 						SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
-						SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, _T(""));
+						SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, L"");
 
-						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, _T(""));
+						SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, L"");
 						SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, EM_SETREADONLY, FALSE, 0);
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD2, TranslateT(LANG_SMP_PASSWORD));
 
@@ -591,14 +591,14 @@ void SMPDialogUpdate(ConnContext *context, int percent)
 	switch (percent){
 		case 0:
 			VerifyFingerprint(context, false);
-			ShowWarning(_T("SMP failed"));
+			ShowWarning(L"SMP failed");
 			break;
 		case 100:
 			VerifyFingerprint(context, true);
-			ShowWarning(_T("SMP successful"));
+			ShowWarning(L"SMP successful");
 			break;
 		default:
-			ShowWarning(_T("Received an SMP update"));
+			ShowWarning(L"Received an SMP update");
 	}
 	*/
 }
@@ -611,7 +611,7 @@ void SMPDialogReply(ConnContext *context, const char* question)
 	data->question = (question) ? mir_utf8decodeT(question) : NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM)data);
 	/*
-	ShowError(_T("SMP requires user password (NOT IMPL YET)"));
+	ShowError(L"SMP requires user password (NOT IMPL YET)");
 	otr_abort_smp(context);
 	*/
 	//otr_continue_smp(context, pass, mir_strlen(pass));

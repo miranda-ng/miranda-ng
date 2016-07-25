@@ -750,14 +750,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					hwndEdit = NULL;
 					if (!mir_tstrlen(szLabel)) break;
 					if (bd = (ButtonData*)tvi.lParam) {
-						if (!mir_tstrcmp(szLabel, _T("---"))) {
+						if (!mir_tstrcmp(szLabel, L"---")) {
 							if (TreeView_GetChild(hMenuTree, tvi.hItem))
 								break;
 							else {
 								bd->fEntryOpType = QMF_EX_SEPARATOR;
 								EnableWindow(GetDlgItem(hdlg, IDC_MENUVALUE), FALSE);
 								EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
-								SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
+								SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
 							}
 						}
 						else {
@@ -839,7 +839,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 							EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
 							if (!(bd->fEntryOpType&QMF_EX_SEPARATOR))
 								EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
-							SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
+							SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
 						}
 						CheckDlgButton(hdlg, IDC_INQMENU, bd->bOpInQMenu ? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton(hdlg, IDC_ISSERVNAME, bd->bIsOpServName ? BST_CHECKED : BST_UNCHECKED);
@@ -899,7 +899,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 						EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
 						EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
 						EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME2), FALSE);
-						SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
+						SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
 						break;
 					}
 
@@ -912,7 +912,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 					BuildMenuTree(hMenuTree, (SortedList *)((ListData*)tvi.lParam)->sl);
 
-					SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
+					SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
 					EnableWindow(GetDlgItem(hdlg, IDC_RCLICKVALUE), TRUE);
 					EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME2), TRUE);
 					CheckDlgButton(hdlg, IDC_ISSERVNAME2, ((ListData*)tvi.lParam)->bIsOpServName ? BST_CHECKED : BST_UNCHECKED);
@@ -920,7 +920,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					if (((ListData*)tvi.lParam)->ptszOPQValue)
 						SetDlgItemText(hdlg, IDC_RCLICKVALUE, ((ListData*)tvi.lParam)->ptszOPQValue);
 					else
-						SetDlgItemText(hdlg, IDC_RCLICKVALUE, _T(""));
+						SetDlgItemText(hdlg, IDC_RCLICKVALUE, L"");
 				}
 				break;
 			}
@@ -992,8 +992,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME2), FALSE);
-					SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
-					SetDlgItemText(hdlg, IDC_RCLICKVALUE, _T(""));
+					SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
+					SetDlgItemText(hdlg, IDC_RCLICKVALUE, L"");
 				}
 			}break;
 
@@ -1016,7 +1016,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				bd->dwOPPos = TreeView_GetCount(hMenuTree) - 1;
 				bd->pszOpName = mir_tstrlen(namebuff) ? mir_tstrdup(namebuff) : mir_tstrdup(TranslateT("New Menu Entry"));
 				bd->pszOpValue = mir_tstrdup(bd->pszOpName);
-				bd->fEntryOpType = !mir_tstrcmp(namebuff, _T("---")) ? QMF_EX_SEPARATOR : 0;
+				bd->fEntryOpType = !mir_tstrcmp(namebuff, L"---") ? QMF_EX_SEPARATOR : 0;
 				bd->dwOPFlags = QMF_NEW;
 				bd->pszName = NULL;
 				bd->pszValue = NULL;
@@ -1074,7 +1074,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					EnableWindow(GetDlgItem(hdlg, IDC_MENUVALUE), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
-					SetDlgItemText(hdlg, IDC_MENUVALUE, _T(""));
+					SetDlgItemText(hdlg, IDC_MENUVALUE, L"");
 				}
 			}break;
 		}

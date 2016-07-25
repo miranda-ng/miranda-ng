@@ -43,24 +43,24 @@ static void OpenURLThread(void *arg)
 	// wack a protocol on it
 	CMString tszUrl;
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\')
-		tszUrl.Format(_T("file:///%s"), hUrlInfo->szUrl);
+		tszUrl.Format(L"file:///%s", hUrlInfo->szUrl);
 	else {
 		int i;
 		for (i = 0; _istalpha(hUrlInfo->szUrl[i]); i++);
 		if (hUrlInfo->szUrl[i] == ':')
 			tszUrl = hUrlInfo->szUrl;
-		else if (!_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
-			tszUrl.Format(_T("ftp://%s"), hUrlInfo->szUrl);
+		else if (!_tcsnicmp(hUrlInfo->szUrl, L"ftp.", 4))
+			tszUrl.Format(L"ftp://%s", hUrlInfo->szUrl);
 		else
-			tszUrl.Format(_T("http://%s"), hUrlInfo->szUrl);
+			tszUrl.Format(L"http://%s", hUrlInfo->szUrl);
 	}
 
 	// check user defined browser for opening urls
 	ptrT tszBrowser(db_get_tsa(NULL, "Miranda", "OpenUrlBrowser"));
 	if (tszBrowser)
-		ShellExecute(NULL, _T("open"), tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		ShellExecute(NULL, L"open", tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	else
-		ShellExecute(NULL, _T("open"), tszUrl, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		ShellExecute(NULL, L"open", tszUrl, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 
 	delete hUrlInfo;
 }

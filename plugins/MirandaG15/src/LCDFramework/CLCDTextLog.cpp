@@ -299,8 +299,8 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 
 	int iLen = (int)strString.size();
 	int i = 0;
-	tstring strLine = _T("");
-	tstring strWord = _T("");
+	tstring strLine = L"";
+	tstring strWord = L"";
 	SIZE sizeLine =  {0, 0};
 
 	int *piExtents = new int[strString.length()];
@@ -320,7 +320,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			if(strString[i] == '\n' || strString[i] == ' ')
 				i++;
 
-			pos = strString.rfind(_T("\n"),i+iMaxChars);
+			pos = strString.rfind(L"\n",i+iMaxChars);
 			// check for linebreaks
 			if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
 				iMaxChars = 1 + (int)pos - i;
@@ -328,7 +328,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			else if(iMaxChars < iLen - i || sizeLine.cx >= GetWidth())
 			{
 				// find the last space in the line ( substract -1 from offset to ignore spaces as last chars )
-				pos = strString.rfind(_T(" "),i + iMaxChars -1 );
+				pos = strString.rfind(L" ",i + iMaxChars -1 );
 				if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
 					iMaxChars = 1 + (int)pos - i;
 			}
@@ -351,7 +351,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			sizeLine.cx += sizeWord.cx;
 
 			strLine += strWord;
-			strWord = _T("");
+			strWord = L"";
 			sizeWord.cx = 0;
 		}
 
@@ -365,7 +365,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			}
 			pEntry->vLines.push_back(strLine);
 			
-			strLine = _T("");
+			strLine = L"";
 			sizeLine.cx = 0;
 		}
 		i++;

@@ -22,8 +22,8 @@ Boston, MA 02111-1307, USA.
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
 #define WINDOW_NAME_PREFIX		"mydetails_window"
-#define WINDOW_CLASS_NAME		_T("MyDetailsFrame")
-#define CONTAINER_CLASS_NAME	_T("MyDetailsFrameContainer")
+#define WINDOW_CLASS_NAME		L"MyDetailsFrame"
+#define CONTAINER_CLASS_NAME	L"MyDetailsFrameContainer"
 
 #define ID_FRAME_TIMER			1011
 #define ID_RECALC_TIMER			1012
@@ -33,9 +33,9 @@ Boston, MA 02111-1307, USA.
 
 #define IDC_HAND				MAKEINTRESOURCE(32649)
 
-#define DEFAULT_NICKNAME		_T("<no nickname>")
-#define DEFAULT_STATUS_MESSAGE	_T("<no status message>")
-#define DEFAULT_LISTENING_TO	_T("<nothing playing>")
+#define DEFAULT_NICKNAME		L"<no nickname>"
+#define DEFAULT_STATUS_MESSAGE	L"<no status message>"
+#define DEFAULT_LISTENING_TO	L"<nothing playing>"
 
 
 // Messages
@@ -246,7 +246,7 @@ int CreateFrame()
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		font_id[i].deffontsettings.style = font_styles[i];
 		font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
-		mir_tstrncpy(font_id[i].deffontsettings.szFace, _T("Tahoma"), _countof(font_id[i].deffontsettings.szFace));
+		mir_tstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
 		FontRegisterT(&font_id[i]);
@@ -444,7 +444,7 @@ RECT GetRect(HDC hdc, RECT rc, SIZE s, UINT uFormat, int next_top, int text_left
 		uFormat &= ~DT_END_ELLIPSIS;
 
 		RECT rc_tmp = rc;
-		DrawText(hdc, _T(" ..."), 4, &rc_tmp, DT_CALCRECT | uFormat);
+		DrawText(hdc, L" ...", 4, &rc_tmp, DT_CALCRECT | uFormat);
 
 		s.cx += rc_tmp.right - rc_tmp.left;
 	}
@@ -747,7 +747,7 @@ void CalcRectangles(HWND hwnd)
 		if (opts.show_protocol_cycle_button)
 			tmp_r.right -= 2 * ICON_SIZE;
 
-		data->proto_rect = GetRect(hdc, tmp_r, proto->description, _T(""), proto, uFormat, next_top, tmp_text_left, false, true, false);
+		data->proto_rect = GetRect(hdc, tmp_r, proto->description, L"", proto, uFormat, next_top, tmp_text_left, false, true, false);
 
 		if (opts.show_protocol_cycle_button) {
 			data->draw_proto_cycle = true;
@@ -1055,7 +1055,7 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 		uFormat &= ~DT_END_ELLIPSIS;
 
 		rc_tmp = r;
-		text_height = DrawText(hdc, _T(" ..."), 4, &rc_tmp, DT_CALCRECT | uFormat);
+		text_height = DrawText(hdc, L" ...", 4, &rc_tmp, DT_CALCRECT | uFormat);
 		rc_tmp.top += (r.bottom - r.top - text_height) >> 1;
 		rc_tmp.bottom = rc_tmp.top + text_height;
 
@@ -1076,7 +1076,7 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 	DRAW_TEXT(hdc, tmp2, (int)mir_tstrlen(tmp2), &r, uFormat, proto->name);
 
 	if (mouse_over)
-		DrawText(hdc, _T(" ..."), 4, &rc_tmp, uFormat);
+		DrawText(hdc, L" ...", 4, &rc_tmp, uFormat);
 
 	SelectClipRgn(hdc, NULL);
 	DeleteObject(rgn);

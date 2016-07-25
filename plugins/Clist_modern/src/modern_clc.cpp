@@ -1216,7 +1216,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					if (shortGroup) {
 						NeedRename = TRUE;
 						if (sourceGrName)
-							mir_sntprintf(newName, _T("%s\\%s"), sourceGrName, shortGroup);
+							mir_sntprintf(newName, L"%s\\%s", sourceGrName, shortGroup);
 						else
 							mir_tstrncpy(newName, shortGroup, _countof(newName));
 					}
@@ -1558,7 +1558,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
 
 	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT L"\\" _T(DEFAULT_SKIN_FOLDER));
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 
 	// Get icons

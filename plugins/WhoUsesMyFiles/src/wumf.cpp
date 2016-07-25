@@ -72,7 +72,7 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.cx = 40;
-			lvc.pszText = _T("ID");
+			lvc.pszText = L"ID";
 			ListView_InsertColumn(hList, 0, &lvc);
 			lvc.cx = 50;
 			lvc.pszText = TranslateT("User");
@@ -88,7 +88,7 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			if (IsUserAnAdmin())
 				SetTimer(NULL, 777, TIME, TimerProc);
 			else
-				MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
+				MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 			ShowList(lst, hList);
 		}
 		Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME,"conn");
@@ -137,10 +137,10 @@ void LogWumf(PWumf w)
 	if (!WumfOptions.LogFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 
 	if (hLogger == NULL) {
-		hLogger = mir_createLog("wumf", _T("WhoIsUsingMyFiles log file"), WumfOptions.LogFile, 0);
+		hLogger = mir_createLog("wumf", L"WhoIsUsingMyFiles log file", WumfOptions.LogFile, 0);
 		if (hLogger == NULL) {
 			TCHAR str[256];
-			mir_sntprintf(str, _T("Can't open log file %s"), WumfOptions.LogFile);
+			mir_sntprintf(str, L"Can't open log file %s", WumfOptions.LogFile);
 			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
 			return;
@@ -153,7 +153,7 @@ void LogWumf(PWumf w)
 	TCHAR lpDateStr[20], lpTimeStr[20];
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
-	mir_writeLogT(hLogger, _T("%s %s %20s\t%s\r\n"), lpDateStr, lpTimeStr, w->szUser, w->szPath);
+	mir_writeLogT(hLogger, L"%s %s %20s\t%s\r\n", lpDateStr, lpTimeStr, w->szUser, w->szPath);
 }
 
 BOOL wumf()

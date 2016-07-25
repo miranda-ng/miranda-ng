@@ -79,20 +79,20 @@ void CreateHelperWnd()
 	wcex.hCursor = NULL;
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = _T("ZeroSwitchHlp");
+	wcex.lpszClassName = L"ZeroSwitchHlp";
 	wcex.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
 	if (NULL == RegisterClassEx(&wcex))
 		return; // wtf
 
-	hDummyWnd = CreateWindow(_T("ZeroSwitchHlp"), _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hDummyWnd = CreateWindow(L"ZeroSwitchHlp", L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 	if (!hDummyWnd)
-		UnregisterClass(_T("ZeroSwitchHlp"), hInst);
-	hHelperWnd = CreateWindow(_T("ZeroSwitchHlp"), _T("Miranda NG"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, -100, -100, 90, 90, hDummyWnd, NULL, hInst, NULL);
+		UnregisterClass(L"ZeroSwitchHlp", hInst);
+	hHelperWnd = CreateWindow(L"ZeroSwitchHlp", L"Miranda NG", WS_OVERLAPPEDWINDOW | WS_VISIBLE, -100, -100, 90, 90, hDummyWnd, NULL, hInst, NULL);
 	if (!hHelperWnd)
 	{
 		DestroyWindow(hDummyWnd);
-		UnregisterClass(_T("ZeroSwitchHlp"), hInst);
+		UnregisterClass(L"ZeroSwitchHlp", hInst);
 	}
 }
 
@@ -102,7 +102,7 @@ void DestroyHelperWnd()
 	{
 		DestroyWindow(hHelperWnd);
 		DestroyWindow(hDummyWnd);
-		UnregisterClass(_T("ZeroSwitchHlp"), hInst);
+		UnregisterClass(L"ZeroSwitchHlp", hInst);
 	}
 }
 

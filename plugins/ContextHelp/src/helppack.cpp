@@ -174,7 +174,7 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 	*/
 	if (!GetPackPath(szFileName, _countof(szFileName), fEnabledPacks, pack->szFileName))
 		return FALSE;
-	FILE *fp = _tfopen(szFileName, _T("rt"));
+	FILE *fp = _tfopen(szFileName, L"rt");
 	if (fp == NULL)
 		return FALSE;
 	fgets(line, sizeof(line), fp);
@@ -269,7 +269,7 @@ BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *psz
 	if (!fEnabledPacks) {
 		if (nSize<(lstrlen(pszPath) + 10))
 			return FALSE;
-		lstrcat(pszPath, _T("Languages\\"));
+		lstrcat(pszPath, L"Languages\\");
 	}
 	/* file name */
 	if (pszFile != NULL) {
@@ -430,7 +430,7 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 		*pszFile = _T('\0');
 
 	/* move wrongly placed packs from 'Plugins' to 'Language' */
-	mir_sntprintf(szFrom, _T("%s\\Plugins\\%s"), szDir, pszFilePattern);
+	mir_sntprintf(szFrom, L"%s\\Plugins\\%s", szDir, pszFilePattern);
 	WIN32_FIND_DATA wfd;
 	HANDLE hFind = FindFirstFile(szFrom, &wfd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -446,7 +446,7 @@ void CorrectPacks(const TCHAR *pszFilePattern, const TCHAR *pszDefaultFile, BOOL
 
 			/* move file */
 			if (GetPackPath(szDest, _countof(szDest), FALSE, wfd.cFileName)) {
-				mir_sntprintf(szFrom, _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
+				mir_sntprintf(szFrom, L"%s\\Plugins\\%s", szDir, wfd.cFileName);
 				if (!MoveFile(szFrom, szDest) && GetLastError() == ERROR_ALREADY_EXISTS) {
 					DeleteFile(szDest);
 					MoveFile(szFrom, szDest);

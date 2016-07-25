@@ -5,7 +5,7 @@ extern TCHAR tszLogPath[];
 
 void logA(const char *format, ...)
 {
-	FILE *out = _tfopen(tszLogPath, _T("a+"));
+	FILE *out = _tfopen(tszLogPath, L"a+");
 	if (out) {
 		va_list args;
 		va_start(args, format);

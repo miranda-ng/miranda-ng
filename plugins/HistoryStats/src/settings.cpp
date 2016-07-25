@@ -13,7 +13,7 @@
 
 Settings::CharMapper::CharMapper(const Settings& settings)
 {
-	static const TCHAR* defaultWordDelimiters = _T("\n\r\t");
+	static const TCHAR* defaultWordDelimiters = L"\n\r\t";
 
 	array_each_(i, m_CharMap)
 	{
@@ -45,17 +45,17 @@ Settings::Filter::Filter(const ext::string& strID)
 	struct tm* curTM = localtime(&curTime);
 
 	m_strName += utils::intToPadded(1900 + curTM->tm_year, 4);
-	m_strName += _T("-");
+	m_strName += L"-";
 	m_strName += utils::intToPadded(1 + curTM->tm_mon, 2);
-	m_strName += _T("-");
+	m_strName += L"-";
 	m_strName += utils::intToPadded(curTM->tm_mday, 2);
-	m_strName += _T(" ");
+	m_strName += L" ";
 	m_strName += utils::intToPadded(curTM->tm_hour, 2);
-	m_strName += _T(":");
+	m_strName += L":";
 	m_strName += utils::intToPadded(curTM->tm_min, 2);
-	m_strName += _T(":");
+	m_strName += L":";
 	m_strName += utils::intToPadded(curTM->tm_sec, 2);
-	m_strName += _T(".");
+	m_strName += L".";
 	m_strName += utils::intToPadded(GetTickCount() % 1000, 3);
 }
 
@@ -65,7 +65,7 @@ Settings::Filter::Filter(const ext::string& strID)
 
 const TCHAR* Settings::getDefaultWordDelimiters()
 {
-	return _T(".?!,:;()[]{}<>+-*/=\\_^&\"'~%#@|$");
+	return L".?!,:;()[]{}<>+-*/=\\_^&\"'~%#@|$";
 }
 
 const TCHAR* Settings::getDefaultStyleSheet()
@@ -76,29 +76,29 @@ const TCHAR* Settings::getDefaultStyleSheet()
 	{
 		// general formats
 		StyleSheet +=
-			_T("h1 { font-family: Verdana, Arial, sans-serif; font-size: 16pt; }\n")
-			_T("div, span, td { font-family: Verdana, Arial, sans-serif; font-size: 10pt; }\n")
-			_T("span[title], td[title], div[title] { cursor: help; }\n")
-			_T("span[title] { border-bottom: 1px dotted; }\n")
-			_T("span[title]:hover, td[title]:hover { background-color: #FFFFCF; }\n")
-			_T("table { border-collapse: collapse; }\n")
-			_T("td { border: 1px solid ") + utils::colorToHTML(con::ColorBorder) + _T("; text-align: left; padding: 2px 4px 2px 4px; }\n")
-			_T("div.footer { padding: 12px 0px 8px 0px; }\n");
+			L"h1 { font-family: Verdana, Arial, sans-serif; font-size: 16pt; }\n"
+			L"div, span, td { font-family: Verdana, Arial, sans-serif; font-size: 10pt; }\n"
+			L"span[title], td[title], div[title] { cursor: help; }\n"
+			L"span[title] { border-bottom: 1px dotted; }\n"
+			L"span[title]:hover, td[title]:hover { background-color: #FFFFCF; }\n"
+			L"table { border-collapse: collapse; }\n"
+			L"td { border: 1px solid " + utils::colorToHTML(con::ColorBorder) + L"; text-align: left; padding: 2px 4px 2px 4px; }\n"
+			L"div.footer { padding: 12px 0px 8px 0px; }\n";
 
 		// special row formats
 		StyleSheet +=
-			_T("tr.header td { background-color: ") + utils::colorToHTML(con::ColorHeader) + _T("; text-align: center; }\n")
-			_T("tr.header td div { height: 1px; overflow: hidden; }\n")
-			_T("tr.omitted td { background-color: ") + utils::colorToHTML(con::ColorOmitted) + _T("; }\n")
-			_T("tr.totals td { background-color: ") + utils::colorToHTML(con::ColorTotals) + _T("; }\n");
+			L"tr.header td { background-color: " + utils::colorToHTML(con::ColorHeader) + L"; text-align: center; }\n"
+			L"tr.header td div { height: 1px; overflow: hidden; }\n"
+			L"tr.omitted td { background-color: " + utils::colorToHTML(con::ColorOmitted) + L"; }\n"
+			L"tr.totals td { background-color: " + utils::colorToHTML(con::ColorTotals) + L"; }\n";
 
 		// special cell formats
 		StyleSheet +=
-			_T("td.num { text-align: right; }\n")
-			_T("td.bars_bottom { vertical-align: bottom; padding: 4px 0px 0px 0px; }\n")
-			_T("td.bars_middle { vertical-align: middle; padding: 2px 0px 2px 0px; }\n")
-			_T("td.img_bottom { vertical-align: bottom; text-align: center; padding: 4px 0px 0px 0px; }\n")
-			_T("td.img_middle { vertical-align: middle; text-align: center; padding: 2px 0px 2px 0px; }\n");
+			L"td.num { text-align: right; }\n"
+			L"td.bars_bottom { vertical-align: bottom; padding: 4px 0px 0px 0px; }\n"
+			L"td.bars_middle { vertical-align: middle; padding: 2px 0px 2px 0px; }\n"
+			L"td.img_bottom { vertical-align: bottom; text-align: center; padding: 4px 0px 0px 0px; }\n"
+			L"td.img_middle { vertical-align: middle; text-align: center; padding: 2px 0px 2px 0px; }\n";
 	}
 
 	return StyleSheet.c_str();
@@ -106,52 +106,52 @@ const TCHAR* Settings::getDefaultStyleSheet()
 
 const TCHAR* Settings::getDefaultHideContactMenuProtos()
 {
-	return _T("{num:0;}");
+	return L"{num:0;}";
 }
 
 const TCHAR* Settings::getDefaultProtosIgnore()
 {
-	return _T("{num:0;}");
+	return L"{num:0;}";
 }
 
 const TCHAR* Settings::getDefaultColumns()
 {
 	return
-		_T("{num:11;}")
-		_T("0{enabled:y;guid:rank;}")
-		_T("1{enabled:y;guid:nick;}1/data{detail:y;}")
-		_T("2{enabled:y;guid:protocol;}")
-		_T("3{enabled:y;guid:group;}")
-		_T("4{enabled:y;guid:inout;}4/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:0;}")
-		_T("5{enabled:y;guid:inout;}5/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:1;}")
-		_T("6{enabled:y;guid:inout;}6/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:2;}")
-		_T("7{enabled:y;guid:chatduration;}7/data{detail:y;graph:y;vis_mode:3;}")
-		_T("8{enabled:y;guid:commonwords;}8/data{detail:y;filter_links:y;filter_words:0;in_out_color:n;max_length:0;min_length:1;num:10;offset:0;source:2;vis_mode:0;}")
-		_T("9{enabled:y;guid:wordcount;}9/data{detail:y;filter_links:y;filter_words:0;max_length:0;min_length:1;source:2;vis_mode:0;}")
-		_T("10{enabled:y;guid:split;}10/data{block_unit:0;blocks:28;detail:y;graph_align:1;source:0;source_type:2;units_per_block:6;vis_mode:0;}");
+		L"{num:11;}"
+		L"0{enabled:y;guid:rank;}"
+		L"1{enabled:y;guid:nick;}1/data{detail:y;}"
+		L"2{enabled:y;guid:protocol;}"
+		L"3{enabled:y;guid:group;}"
+		L"4{enabled:y;guid:inout;}4/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:0;}"
+		L"5{enabled:y;guid:inout;}5/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:1;}"
+		L"6{enabled:y;guid:inout;}6/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:2;}"
+		L"7{enabled:y;guid:chatduration;}7/data{detail:y;graph:y;vis_mode:3;}"
+		L"8{enabled:y;guid:commonwords;}8/data{detail:y;filter_links:y;filter_words:0;in_out_color:n;max_length:0;min_length:1;num:10;offset:0;source:2;vis_mode:0;}"
+		L"9{enabled:y;guid:wordcount;}9/data{detail:y;filter_links:y;filter_words:0;max_length:0;min_length:1;source:2;vis_mode:0;}"
+		L"10{enabled:y;guid:split;}10/data{block_unit:0;blocks:28;detail:y;graph_align:1;source:0;source_type:2;units_per_block:6;vis_mode:0;}";
 }
 
 const TCHAR* Settings::getDefaultSort()
 {
 	return
-		_T("0{by:17;asc:n}")
-		_T("1{by:-1;asc:y}")
-		_T("2{by:-1;asc:y}");
+		L"0{by:17;asc:n}"
+		L"1{by:-1;asc:y}"
+		L"2{by:-1;asc:y}";
 }
 
 const TCHAR* Settings::getDefaultOutputFile()
 {
-	return _T("HistoryStats\\stats.html");
+	return L"HistoryStats\\stats.html";
 }
 
 const TCHAR* Settings::getDefaultOutputExtraFolder()
 {
-	return _T("extra");
+	return L"extra";
 }
 
 const TCHAR* Settings::getDefaultFilterWords()
 {
-	return _T("{num:0;}");
+	return L"{num:0;}";
 }
 
 void Settings::clearColumns()
@@ -172,16 +172,16 @@ Settings::Settings() :
 	m_GraphicsMode(gmHTML),
 	m_PNGMode(pmHTMLFallBack),
 	m_ThreadLowPriority(true),
-	m_PathToBrowser(_T("")),
+	m_PathToBrowser(L""),
 
 	// input settings
 	m_ChatSessionMinDur(0),
 	m_ChatSessionTimeout(900),
 	m_AverageMinTime(0),
-	m_WordDelimiters(_T("")),
+	m_WordDelimiters(L""),
 	m_IgnoreOld(0),
-	m_IgnoreBefore(_T("")),
-	m_IgnoreAfter(_T("")),
+	m_IgnoreBefore(L""),
+	m_IgnoreAfter(L""),
 	m_FilterRawRTF(false),
 	m_FilterBBCodes(false),
 	m_MetaContactsMode(mcmBoth),
@@ -211,11 +211,11 @@ Settings::Settings() :
 	m_TableHeaderVerbose(false),
 	m_HeaderTooltips(true),
 	m_HeaderTooltipsIfCustom(true),
-	m_OwnNick(_T("")),
+	m_OwnNick(L""),
 	m_OutputVariables(false),
-	m_OutputFile(_T("")),
+	m_OutputFile(L""),
 	m_OutputExtraToFolder(true),
-	m_OutputExtraFolder(_T("")),
+	m_OutputExtraFolder(L""),
 	m_OverwriteAlways(false),
 	m_AutoOpenOptions(false),
 	m_AutoOpenStartup(false),
@@ -511,10 +511,10 @@ ext::string Settings::getOutputPrefix(DWORD timeStarted) const
 
 		// append, if still not empty
 		if (!extraFolder.empty())
-			return extraFolder + _T("\\");
+			return extraFolder + L"\\";
 	}
 	
-	return _T("");
+	return L"";
 }
 
 bool Settings::isPNGOutputActiveAndAvailable() const
@@ -569,7 +569,7 @@ void Settings::ensureConstraints()
 void Settings::openURL(const TCHAR* szURL)
 {
 	if (m_PathToBrowser.empty())
-		ShellExecute(NULL, _T("open"), szURL, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	else
-		ShellExecute(NULL, _T("open"), m_PathToBrowser.c_str(), szURL, NULL, SW_SHOWNORMAL);
+		ShellExecute(NULL, L"open", m_PathToBrowser.c_str(), szURL, NULL, SW_SHOWNORMAL);
 }

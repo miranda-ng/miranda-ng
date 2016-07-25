@@ -32,7 +32,7 @@ extern "C"
 
 static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
 {
-	mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
+	mir_sntprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);
 
 	for (TCHAR *p = dest; *p; ++p)
 		if (*p == '/')
@@ -83,7 +83,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 		else {
 			TCHAR tszTempPath[MAX_PATH];
 			GetTempPath( _countof(tszTempPath), tszTempPath);
-			GetTempFileName(tszTempPath, _T("PUtemp"), GetCurrentProcessId(), tszBackFile);
+			GetTempFileName(tszTempPath, L"PUtemp", GetCurrentProcessId(), tszBackFile);
 			ptszFile2unzip = tszBackFile;
 		}
 

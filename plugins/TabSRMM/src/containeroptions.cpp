@@ -127,7 +127,7 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 		if (o_pages[iPage].szDesc != NULL)
 			SetDlgItemText(hwndDlg, IDC_DESC, TranslateTS(o_pages[iPage].szDesc));
 		else
-			SetDlgItemText(hwndDlg, IDC_DESC, _T(""));
+			SetDlgItemText(hwndDlg, IDC_DESC, L"");
 	}
 	Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, (iPage == 3 && nen_options.bWindowCheck) ? SW_SHOW : SW_HIDE);
 
@@ -153,7 +153,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer->hWndOptions = hwndDlg;
 			SetWindowText(hwndDlg, TranslateT("Container options"));
 			TCHAR szNewTitle[128];
-			mir_sntprintf(szNewTitle, _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
+			mir_sntprintf(szNewTitle, L"%s", !mir_tstrcmp(pContainer->szName, L"default") ?
 				TranslateT("Default container") : pContainer->szName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);

@@ -195,7 +195,7 @@ static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 	TCHAR szClass[64];
 	GetClassName(hwnd, szClass, _countof(szClass));
 
-	if (!mir_tstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	if (!mir_tstrcmp(szClass, L"Button") && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 		SendMessage(hwnd, WM_SETFONT, lParam, 0);
 	return TRUE;
 }
@@ -676,7 +676,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	}
 
 	if (dat->szFilterString[0] == 0) // Clear the keyword combo box
-		SetDlgItemText(hdlg, IDC_KEYWORD_FILTER, _T(""));
+		SetDlgItemText(hdlg, IDC_KEYWORD_FILTER, L"");
 	if (!bRemoveFocusFromFilter)
 		SetFocus(GetDlgItem(hdlg, IDC_KEYWORD_FILTER)); //set the focus back to the combo box
 
@@ -835,7 +835,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TCITEM tie;
 			tie.mask = TCIF_TEXT | TCIF_IMAGE;
 			tie.iImage = -1;
-			tie.pszText = _T("X");
+			tie.pszText = L"X";
 			TabCtrl_InsertItem(GetDlgItem(hdlg, IDC_TAB), 0, &tie);
 
 			GetWindowRect(GetDlgItem(hdlg, IDC_TAB), &dat->rcTab);

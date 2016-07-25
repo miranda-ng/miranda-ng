@@ -55,13 +55,13 @@ static void ApplyDownloads(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, _T("%s\\Backups"), g_tszRoot);
+	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, _T("%s\\Temp"), g_tszRoot);
+	mir_sntprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
-	VARST tszMirandaPath(_T("%miranda_path%"));
+	VARST tszMirandaPath(L"%miranda_path%");
 
 	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
@@ -168,7 +168,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				TCHAR *ext = _tcsrchr(szPath, '.');
 				if (ext != NULL)
 					*ext = '\0';
-				_tcscat(szPath, _T(".test"));
+				_tcscat(szPath, L".test");
 				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
@@ -230,7 +230,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				
 				int groupId = 4;
 				if (_tcschr(todo[i].tszOldName, L'\\') != NULL)
-					groupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 : ((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 2);
+					groupId = (_tcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 : ((_tcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 : 2);
 
 				lvi.iItem = i;
 				lvi.lParam = (LPARAM)&todo[i];
@@ -362,13 +362,13 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* t
 	tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
 	_tcslwr(tp);
 
-	mir_sntprintf(FileInfo->File.tszDiskPath, _T("%s\\Temp\\%s.zip"), g_tszRoot, tszFileName);
-	mir_sntprintf(FileInfo->File.tszDownloadURL, _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
+	mir_sntprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
+	mir_sntprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
 	for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
 	// Load list of checked Plugins from database
-	Netlib_LogfT(hNetlibUser, _T("File %s found"), FileInfo->tszOldName);
+	Netlib_LogfT(hNetlibUser, L"File %s found", FileInfo->tszOldName);
 	FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;
 	return FileInfo;
 }
@@ -393,13 +393,13 @@ static void GetList(void *)
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
-	VARST dirname(_T("%miranda_path%"));
+	VARST dirname(L"%miranda_path%");
 
 	for (int i=0; i < hashes.getCount(); i++) {
 		ServListEntry &hash = hashes[i];
 
 		TCHAR tszPath[MAX_PATH];
-		mir_sntprintf(tszPath, _T("%s\\%s"), dirname, hash.m_name);
+		mir_sntprintf(tszPath, L"%s\\%s", dirname, hash.m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
 			FILEINFO *FileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
@@ -480,9 +480,9 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	if (hash == NULL)
 		return 0;
 
-	VARST dirName(_T("%miranda_path%"));
+	VARST dirName(L"%miranda_path%");
 	TCHAR tszPath[MAX_PATH];
-	mir_sntprintf(tszPath, _T("%s\\%s"), dirName, hash->m_name);
+	mir_sntprintf(tszPath, L"%s\\%s", dirName, hash->m_name);
 	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);
 
 	FILELIST *fileList = new FILELIST(1);

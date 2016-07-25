@@ -58,7 +58,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 			if (result == NULL) {
 				/* relative -> absolute */
 				mir_tstrcpy(tmpPath, dbv.ptszVal);
-				if (_tcsncmp(tmpPath, _T("http://"), 7))
+				if (_tcsncmp(tmpPath, L"http://", 7))
 					PathToAbsoluteT(dbv.ptszVal, tmpPath);
 				result = tmpPath;
 			}
@@ -86,7 +86,7 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 	TCHAR str[300];
 
 	if (mode) // time
-		TimeZone_ToStringT(check, (dwFlags & Options::LOG_SHOW_SECONDS) ? _T("s") : _T("t"), str, _countof(str));
+		TimeZone_ToStringT(check, (dwFlags & Options::LOG_SHOW_SECONDS) ? L"s" : L"t", str, _countof(str));
 	else { // date
 		struct tm tm_now, tm_today;
 		time_t now = time(NULL);
@@ -100,7 +100,7 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		else if (dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
 			_tcsncpy(str, TranslateT("Yesterday"), _countof(str));
 		else
-			TimeZone_ToStringT(check, (dwFlags & Options::LOG_LONG_DATE) ? _T("D") : _T("d"), str, _countof(str));
+			TimeZone_ToStringT(check, (dwFlags & Options::LOG_LONG_DATE) ? L"D" : L"d", str, _countof(str));
 	}
 
 	mir_strncpy(szResult, T2Utf(str), 500);
@@ -157,7 +157,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
+	mir_tstrcat(szNoAvatarPath, L"\\noavatar.png");
 	if (_taccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -326,7 +326,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
+	mir_tstrcat(szNoAvatarPath, L"\\noavatar.png");
 	if (_taccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else

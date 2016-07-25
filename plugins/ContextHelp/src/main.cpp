@@ -96,7 +96,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!InitCommonControlsEx(&icc))
 		return 1;
 
-	hMsftEdit = LoadLibrary(_T("riched20.dll"));
+	hMsftEdit = LoadLibrary(L"riched20.dll");
 	if (hMsftEdit == NULL) {
 		if (IDYES != MessageBoxEx(NULL,
 			TranslateT("The Context help plugin can not be loaded, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),

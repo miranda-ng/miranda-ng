@@ -162,7 +162,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 
 		mir_tstrcat(szArgs, argv[i]);
 		if (i != argv.getCount() - 1)
-			mir_tstrcat(szArgs, _T(","));
+			mir_tstrcat(szArgs, L",");
 	}
 	int res;
 	if (szArgs != NULL && argv.getCount() > 0) {
@@ -184,7 +184,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	mir_free(szArgs);
 	mir_free(szHelp);
 	argv.destroy();
-	return (res == 0) ? mir_tstrdup(_T("")) : NULL;
+	return (res == 0) ? mir_tstrdup(L"") : NULL;
 }
 
 void registerAliasTokens()

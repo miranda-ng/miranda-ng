@@ -352,7 +352,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR *path, int cxIcon, int cyI
 IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 {
 	TCHAR tszName[100];
-	mir_sntprintf(tszName, _T("*StaticIcon_%d"), iStaticCount++);
+	mir_sntprintf(tszName, L"*StaticIcon_%d", iStaticCount++);
 
 	IconSourceItemKey key = { IconSourceFile_Get(tszName, false), 0, cxIcon, cyIcon };
 	IconSourceItem *newItem = new IconSourceItem(key);

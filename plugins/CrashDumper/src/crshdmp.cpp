@@ -159,7 +159,7 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 	ptrT tmp(db_get_wsa(NULL, PluginName, "Username"));
 	if (tmp != NULL) {
 		TCHAR buffer[MAX_PATH];
-		mir_sntprintf(buffer, _T("http://vi.miranda-ng.org/detail/%s"), tmp);
+		mir_sntprintf(buffer, L"http://vi.miranda-ng.org/detail/%s", tmp);
 
 		int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
 		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
@@ -245,7 +245,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	crs_a2t(vertxt, temp);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		replaceStrT(profpath, _T("%miranda_userdata%"));
+		replaceStrT(profpath, L"%miranda_userdata%");
 
 		// Removed because it isn't available on Load()
 		//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
@@ -355,7 +355,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	hMsftedit = LoadLibrary(_T("Msftedit.dll"));
+	hMsftedit = LoadLibrary(L"Msftedit.dll");
 	if (hMsftedit == NULL)
 		return 1;
 
@@ -365,8 +365,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	mir_getLP(&pluginInfoEx);
 
-	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	profname = Utils_ReplaceVarsT(L"%miranda_profilename%.dat");
+	profpath = Utils_ReplaceVarsT(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)
 		mir_sntprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
 	_tcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);

@@ -386,7 +386,7 @@ int CIcqProto::Authorize(MEVENT hDbEvent)
 		if (getContactUid(hContact, &uin, &uid))
 			return 1;
 
-		icq_sendAuthResponseServ(uin, uid, 1, _T(""));
+		icq_sendAuthResponseServ(uin, uid, 1, L"");
 
 		delSetting(hContact, "Grant");
 

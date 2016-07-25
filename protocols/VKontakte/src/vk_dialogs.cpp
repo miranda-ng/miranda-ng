@@ -120,7 +120,7 @@ void CVkWallPostForm::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
 	
-	CMString tszTitle(FORMAT, _T("%s %s"), TranslateT("Wall message for"), m_param->ptszNick);
+	CMString tszTitle(FORMAT, L"%s %s", TranslateT("Wall message for"), m_param->ptszNick);
 	SetCaption(tszTitle);
 	
 	m_btnShare.Disable();

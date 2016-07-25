@@ -92,7 +92,7 @@ static void TrayAnimThread(LPVOID)
 void TSAPI CreateTrayMenus(int mode)
 {
 	if (mode) {
-		mir_sntprintf(g_eventName, _T("tsr_evt_%d"), GetCurrentThreadId());
+		mir_sntprintf(g_eventName, L"tsr_evt_%d", GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
 		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);
@@ -142,7 +142,7 @@ void TSAPI CreateSystrayIcon(int create)
 	nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	nim.hIcon = PluginConfig.g_iconContainer;
 	nim.uCallbackMessage = DM_TRAYICONNOTIFY;
-	_tcsncpy_s(nim.szTip, _T("tabSRMM"), _TRUNCATE);
+	_tcsncpy_s(nim.szTip, L"tabSRMM", _TRUNCATE);
 	if (create && !nen_options.bTrayExist) {
 		Shell_NotifyIcon(NIM_ADD, &nim);
 		nen_options.bTrayExist = TRUE;
@@ -217,7 +217,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 	if (acc && acc->tszAccountName) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
-		mir_sntprintf(szMenuEntry, _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
+		mir_sntprintf(szMenuEntry, L"%s: %s (%s)", acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
 			if (hMenu == PluginConfig.g_hMenuRecent) {
 				if (CheckMenuItem(hMenu, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == 0) {

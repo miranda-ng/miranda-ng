@@ -169,13 +169,13 @@ public:
 							break;
 
 						if (XmlGetName(n)) {
-							if (!mir_tstrcmp(XmlGetName(n), _T("instructions"))) {
+							if (!mir_tstrcmp(XmlGetName(n), L"instructions")) {
 								JabberFormSetInstruction(m_hwnd, XmlGetText(n));
 							}
-							else if (!mir_tstrcmp(XmlGetName(n), _T("key")) || !mir_tstrcmp(XmlGetName(n), _T("registered"))) {
+							else if (!mir_tstrcmp(XmlGetName(n), L"key") || !mir_tstrcmp(XmlGetName(n), L"registered")) {
 								// do nothing
 							}
-							else if (!mir_tstrcmp(XmlGetName(n), _T("password")))
+							else if (!mir_tstrcmp(XmlGetName(n), L"password"))
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_PRIVATE, XmlGetName(n), XmlGetText(n));
 							else 	// everything else is a normal text field
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_SINGLE, XmlGetName(n), XmlGetText(n));
@@ -229,7 +229,7 @@ public:
 		const TCHAR *from;
 
 		if (m_agentRegIqNode == NULL) return;
-		if ((from = XmlGetAttrValue(m_agentRegIqNode, _T("from"))) == NULL) return;
+		if ((from = XmlGetAttrValue(m_agentRegIqNode, L"from")) == NULL) return;
 		if ((queryNode = XmlGetChild(m_agentRegIqNode ,  "query")) == NULL) return;
 		HWND hFrame = GetDlgItem(m_hwnd, IDC_FRAME);
 
@@ -253,14 +253,14 @@ public:
 					break;
 
 				if (XmlGetName(n)) {
-					if (!mir_tstrcmp(XmlGetName(n), _T("key"))) {
+					if (!mir_tstrcmp(XmlGetName(n), L"key")) {
 						// field that must be passed along with the registration
 						if (XmlGetText(n))
 							XmlAddChild(query, XmlGetName(n), XmlGetText(n));
 						else
 							XmlAddChild(query, XmlGetName(n));
 					}
-					else if (!mir_tstrcmp(XmlGetName(n), _T("registered")) || !mir_tstrcmp(XmlGetName(n), _T("instructions"))) {
+					else if (!mir_tstrcmp(XmlGetName(n), L"registered") || !mir_tstrcmp(XmlGetName(n), L"instructions")) {
 						// do nothing, we will skip these
 					}
 					else {

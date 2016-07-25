@@ -428,7 +428,7 @@ INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 
 	DWORD flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (flags&PF4_NOCUSTOMAUTH)
-		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)_T(""));
+		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)L"");
 	else
 		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
@@ -507,7 +507,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_sntprintf(buffer, _T("%s [%S]"), TranslateT("Copy ID"), szID);
+			mir_sntprintf(buffer, L"%s [%S]", TranslateT("Copy ID"), szID);
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
 		else Menu_ModifyItem(hmenuCopyID, LPGENT("Copy ID"), hIconCID);
@@ -629,10 +629,10 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 			if (_tcsclen(msg)) {
 				if (flags & VF_SMNAME) {
 					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - _tcsclen(buffer) - 1));
-					mir_tstrncat(buffer, _T(": "), (_countof(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, L": ", (_countof(buffer) - _tcsclen(buffer) - 1));
 				}
 				mir_tstrncat(buffer, msg, (_countof(buffer) - _tcsclen(buffer) - 1));
-				mir_tstrncat(buffer, _T("\r\n"), (_countof(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, L"\r\n", (_countof(buffer) - _tcsclen(buffer) - 1));
 			}
 			mir_free(msg);
 		}
@@ -704,7 +704,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 			return 0;
 	}
 	if (MessageBox(NULL, (LPCTSTR)TranslateT("Do you want to send authorization request\nto new contact?"),
-		_T("Miranda NG"), MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
+		L"Miranda NG", MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
 
 		onSendAuthRequest((WPARAM)hContactNew, 0);
 

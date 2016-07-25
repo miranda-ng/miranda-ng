@@ -7,7 +7,7 @@ CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L) : L(L)
 void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 {
 	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
-	mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, file);
+	mir_sntprintf(fullPath, L"%s\\%s", scriptDir, file);
 	PathToRelativeT(fullPath, path);
 
 	CMLuaScript *script = new CMLuaScript(L, path);
@@ -15,12 +15,12 @@ void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 
 	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE)
 	{
-		Log(_T("%s:PASS"), path);
+		Log(L"%s:PASS", path);
 		return;
 	}
 
 	if (script->Load())
-		Log(_T("%s:OK"), path);
+		Log(L"%s:OK", path);
 }
 
 void CMLuaScriptLoader::LoadScripts()
@@ -28,10 +28,10 @@ void CMLuaScriptLoader::LoadScripts()
 	TCHAR scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 
-	Log(_T("Loading scripts from %s"), scriptDir);
+	Log(L"Loading scripts from %s", scriptDir);
 
 	TCHAR searchMask[MAX_PATH];
-	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
+	mir_sntprintf(searchMask, L"%s\\%s", scriptDir, L"*.lua");
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchMask, &fd);

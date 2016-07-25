@@ -80,7 +80,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							TCHAR *nick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 							size_t value_max_len = (mir_tstrlen(uid) + mir_tstrlen(nick) + 4);
 							TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * value_max_len);
-							mir_sntprintf(value, value_max_len, _T("%s (%s)"), nick, uid);
+							mir_sntprintf(value, value_max_len, L"%s (%s)", nick, uid);
 							SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)value), hContact);
 							mir_free(value);
 							db_free(&dbvuid);
@@ -116,15 +116,15 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_OPT_BUTTON_CHOOSE_SOUND:
 		{
 			TCHAR FileName[MAX_PATH];
-			TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+			TCHAR *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);
 			TCHAR tmp[MAX_PATH];
-			if (GetModuleHandle(_T("bass_interface.dll")))
-				mir_sntprintf(tmp, _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c"), TranslateT("Sound files"), 0, 0, 0);
+			if (GetModuleHandle(L"bass_interface.dll"))
+				mir_sntprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
 			else
-				mir_sntprintf(tmp, _T("%s (*.wav)%c*.wav%c%c"), TranslateT("WAV files"), 0, 0, 0);
+				mir_sntprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 			ofn.lpstrFilter = tmp;
 			ofn.hwndOwner = 0;
 			ofn.lpstrFile = FileName;
@@ -133,7 +133,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
 			ofn.lpstrInitialDir = tszMirDir;
 			*FileName = '\0';
-			ofn.lpstrDefExt = _T("");
+			ofn.lpstrDefExt = L"";
 
 			if (GetOpenFileName(&ofn)) {
 				SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(FileName));
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
 					db_free(&dbv);
 				}
-				else XSN_Users.insert(new XSN_Data(hContact, _T(""), IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
+				else XSN_Users.insert(new XSN_Data(hContact, L"", IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
 			}
 			else p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -224,7 +224,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (hdr->code) {
 		case PSN_APPLY:
 			for (int i = 0; i < XSN_Users.getCount(); i++) {
-				if (mir_tstrcmpi(XSN_Users[i]->path, _T(""))) {
+				if (mir_tstrcmpi(XSN_Users[i]->path, L"")) {
 					TCHAR shortpath[MAX_PATH];
 					PathToRelativeT(XSN_Users[i]->path, shortpath);
 					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);

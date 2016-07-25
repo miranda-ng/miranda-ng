@@ -7,7 +7,7 @@ public:
 	class CQuote
 	{
 	public:
-		CQuote(const tstring& rsID = _T(""), const tstring& rsSymbol = _T(""), const tstring& rsName = _T(""))
+		CQuote(const tstring& rsID = L"", const tstring& rsSymbol = L"", const tstring& rsName = L"")
 			: m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID){}
 
 		const tstring& GetSymbol()const{ return m_sSymbol; }
@@ -27,7 +27,7 @@ public:
 		typedef std::vector<CQuote> TQuotes;
 
 	public:
-		CQuoteSection(const tstring& rsName = _T(""), const TSections& raSections = TSections(), const TQuotes& raQuotes = TQuotes())
+		CQuoteSection(const tstring& rsName = L"", const TSections& raSections = TSections(), const TQuotes& raQuotes = TQuotes())
 			: m_sName(rsName), m_aSections(raSections), m_aQuotes(raQuotes){}
 
 		const tstring& GetName()const
@@ -89,7 +89,7 @@ protected:
 	MCONTACT CreateNewContact(const tstring& rsName);
 	static bool IsOnline();
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
-	void WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol = _T(""));
+	void WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol = L"");
 
 private:
 	virtual void RefreshQuotes(TContracts& anContacts) = 0;

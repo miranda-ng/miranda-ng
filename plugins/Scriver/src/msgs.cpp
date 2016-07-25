@@ -370,7 +370,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 	}
 
 	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? _T("") : st->tszText));
+	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
 
 	return 0;
 }
@@ -520,7 +520,7 @@ int OnUnloadModule(void)
 
 int OnLoadModule(void)
 {
-	hMsftEdit = LoadLibrary(_T("Msftedit.dll"));
+	hMsftEdit = LoadLibrary(L"Msftedit.dll");
 	if (hMsftEdit == NULL) {
 		if (IDYES != MessageBox(0,
 			TranslateT
@@ -648,7 +648,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	TCHAR sztName[64];
-	mir_sntprintf(sztName, _T("s%u"), nextStgId++);
+	mir_sntprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

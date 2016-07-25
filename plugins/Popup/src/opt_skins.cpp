@@ -54,9 +54,9 @@ void RegisterOptPrevBox()
 
 	//  register custom class for dialog box with drop-shadow attribute
 	//  "#32770" stays for class name of default system dialog box
-	GetClassInfoEx(hInst, _T("#32770"), &wcl);
+	GetClassInfoEx(hInst, L"#32770", &wcl);
 	wcl.hInstance = hInst;
-	wcl.lpszClassName = _T("PopupPlusDlgBox");
+	wcl.lpszClassName = L"PopupPlusDlgBox";
 	wcl.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupPlusDlgBox = RegisterClassEx(&wcl);
 	err = GetLastError();
@@ -184,11 +184,11 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 			options[pos].dwFlag = (DWORD)(1 << (i - 1));
 			options[pos].groupId = OPTTREE_CHECK;
 			options[pos].iconIndex = 0;
-			options[pos].pszSettingName = mir_tstrdup(_T("Skin options"));
+			options[pos].pszSettingName = mir_tstrdup(L"Skin options");
 			options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(TCHAR)*(
 				mir_tstrlen(options[pos].pszSettingName) +
 				mir_strlen(skin->getFlagName(i)) + 10));
-			wsprintf(options[pos].pszOptionName, _T("%s/%hs"), options[pos].pszSettingName, skin->getFlagName(i)); // !!!!!!!!!!!!!
+			wsprintf(options[pos].pszOptionName, L"%s/%hs", options[pos].pszSettingName, skin->getFlagName(i)); // !!!!!!!!!!!!!
 			options[pos].bState = skin->getFlag(i) ? TRUE : FALSE;
 			options[pos].Data = i;	// skin flag index
 			*dwGlobalOptions |= skin->getFlag(i) ? (1 << (i - 1)) : 0;
@@ -203,7 +203,7 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 static LPTSTR mainOption[] = {
 	LPGENT("Show clock"),
 	LPGENT("Drop shadow effect"),
-	LPGENT("Drop shadow effect") _T("/") LPGENT("non rectangular"),
+	LPGENT("Drop shadow effect") L"/" LPGENT("non rectangular"),
 	LPGENT("Enable Aero Glass (Vista+)"),
 	LPGENT("Use Windows colors"),
 	LPGENT("Use advanced text render") };
@@ -249,7 +249,7 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(TCHAR)*(
 			mir_tstrlen(options[pos].pszSettingName) +
 			mir_tstrlen(mainOption[i]) + 10));
-		wsprintf(options[pos].pszOptionName, _T("%s/%s"), options[pos].pszSettingName, mainOption[i]); // !!!!!!!!!!!!!
+		wsprintf(options[pos].pszOptionName, L"%s/%s", options[pos].pszSettingName, mainOption[i]); // !!!!!!!!!!!!!
 		options[pos].bState = bCheck;
 		pos++;
 	}
@@ -282,11 +282,11 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 	char prefix[128];
 	mir_snprintf(prefix, "skin.%S", PopupOptions.SkinPack);
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
-		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), _T("Skin options"));
+		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), L"Skin options");
 
 	// check "Global Settings"
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
-		dwGlobalOptions, _T("Global settings"));
+		dwGlobalOptions, L"Global settings");
 
 	return true;
 }
@@ -314,13 +314,13 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		int index = -1;
 		OptTree_ProcessMessage(hwndDlg, msg, wParam, lParam, &index, IDC_SKIN_LIST_OPT, skinOptions, skinOptionsCount);
 		if (index != -1) {
-			if (mir_tstrcmp(skinOptions[index].pszSettingName, _T("Skin options")) == 0) {
+			if (mir_tstrcmp(skinOptions[index].pszSettingName, L"Skin options") == 0) {
 				const PopupSkin *skin = 0;
 				if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 					skin->setFlag(skinOptions[index].Data, skinOptions[index].bState ? true : false);
 				}
 			}
-			else if (mir_tstrcmp(skinOptions[index].pszSettingName, _T("Global settings")) == 0) {
+			else if (mir_tstrcmp(skinOptions[index].pszSettingName, L"Global settings") == 0) {
 				switch (skinOptions[index].dwFlag) {
 				case (1 << 0) :
 					PopupOptions.DisplayTime = skinOptions[index].bState;

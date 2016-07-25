@@ -195,7 +195,7 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 	if (!m_Settings.m_OverwriteAlways && utils::fileExists(desiredName)) {
 		TCHAR tempBuf[MAX_PATH];
 
-		UINT nUnique = GetTempFileName(m_TempPath.c_str(), _T("his"), 0, tempBuf);
+		UINT nUnique = GetTempFileName(m_TempPath.c_str(), L"his", 0, tempBuf);
 
 		if (nUnique == 0) {
 			abort();
@@ -213,7 +213,7 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 	if (!utils::pathExists(desiredPath)) {
 		if (!utils::createPath(desiredPath)) {
 			m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
-										  % _T("#{folder}") * desiredPath);
+										  % L"#{folder}" * desiredPath);
 		}
 	}
 
@@ -228,7 +228,7 @@ bool Statistic::newFile(const TCHAR* fileExt, ext::string& writeFile, ext::strin
 	writeFile = createFile(m_OutputPath + finalURL);
 
 	// convert relative filename to relative URL
-	utils::replaceAllInPlace(finalURL, _T("\\"), _T("/"));
+	utils::replaceAllInPlace(finalURL, L"\\", L"/");
 
 	return true;
 }
@@ -315,11 +315,11 @@ void Statistic::setProgressMax(bool bSub, int max)
 	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETPOS, (WPARAM)0, (LPARAM)0);
 	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETRANGE, (WPARAM)0, (LPARAM)MAKELPARAM(0, max));
 
-	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBPERCENT : IDC_MAINPERCENT, (max > 0) ? _T("0%") : _T(""));
+	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBPERCENT : IDC_MAINPERCENT, (max > 0) ? L"0%" : L"");
 
 	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, _T(""));
+		setProgressLabel(true, L"");
 	}
 }
 
@@ -329,7 +329,7 @@ void Statistic::setProgressLabel(bool bSub, const ext::string& label)
 
 	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, _T(""));
+		setProgressLabel(true, L"");
 	}
 }
 
@@ -345,7 +345,7 @@ void Statistic::stepProgress(bool bSub, int step /* = 1 */)
 
 	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, _T(""));
+		setProgressLabel(true, L"");
 	}
 }
 
@@ -737,7 +737,7 @@ bool Statistic::stepOmitContacts()
 	if (shouldTerminate())
 		return false;
 
-	m_pOmitted = new Contact(this, m_nNextSlot, _T(""), _T(""), _T(""), 0, 0);
+	m_pOmitted = new Contact(this, m_nNextSlot, L"", L"", L"", 0, 0);
 	prepareContactData(*m_pOmitted);
 
 	// omit depending on some value
@@ -869,7 +869,7 @@ bool Statistic::stepCalcTotals()
 	if (shouldTerminate())
 		return false;
 
-	m_pTotals = new Contact(this, m_nNextSlot, _T(""), _T(""), _T(""), 0, 0);
+	m_pTotals = new Contact(this, m_nNextSlot, L"", L"", L"", 0, 0);
 	prepareContactData(*m_pTotals);
 
 	setProgressMax(true, m_Contacts.size() + 1);
@@ -970,7 +970,7 @@ bool Statistic::stepWriteHTML()
 
 	if (!ofs.good()) {
 		m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
-									  % _T("#{file}") * m_OutputFile);
+									  % L"#{file}" * m_OutputFile);
 		return false;
 	}
 
@@ -995,7 +995,7 @@ bool Statistic::stepWriteHTML()
 		iter_each_(Column::StyleList, css, cssList)
 		{
 			if (additionalCSSSelectors.find(css->first) == additionalCSSSelectors.end()) {
-				additionalCSS.push_back(css->first + _T(" { ") + css->second + _T(" }"));
+				additionalCSS.push_back(css->first + L" { " + css->second + L" }");
 				additionalCSSSelectors.insert(css->first);
 			}
 		}
@@ -1004,15 +1004,15 @@ bool Statistic::stepWriteHTML()
 
 	additionalCSSSelectors.clear();
 
-	tos << _T("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">") << ext::endl
-		<< _T("<html xmlns=\"http://www.w3.org/1999/xhtml\">") << ext::endl
-		<< _T("<head>") << ext::endl
-		<< _T("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />") << ext::endl
-		<< _T("<meta name=\"generator\" content=\"HistoryStats " << utils::versionToDotted(m_Settings.m_VersionCurrent) << "\" />") << ext::endl
-		<< _T("<title>")
-		<< ext::kformat(TranslateT("Statistics for #{nick} - HistoryStats")) % _T("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
-		<< _T("</title>") << ext::endl
-		<< _T("<style type=\"text/css\">") << ext::endl;
+	tos << L"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" << ext::endl
+		<< L"<html xmlns=\"http://www.w3.org/1999/xhtml\">" << ext::endl
+		<< L"<head>" << ext::endl
+		<< L"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" << ext::endl
+		<< L"<meta name=\"generator\" content=\"HistoryStats " << utils::versionToDotted(m_Settings.m_VersionCurrent) << "\" />" << ext::endl
+		<< L"<title>"
+		<< ext::kformat(TranslateT("Statistics for #{nick} - HistoryStats")) % L"#{nick}" * utils::htmlEscape(m_Settings.m_OwnNick)
+		<< L"</title>" << ext::endl
+		<< L"<style type=\"text/css\">" << ext::endl;
 	tos << m_Settings.getDefaultStyleSheet();
 
 	iter_each_(std::vector<ext::string>, css, additionalCSS)
@@ -1020,12 +1020,12 @@ bool Statistic::stepWriteHTML()
 		tos << *css << ext::endl;
 	}
 
-	tos << _T("</style>") << ext::endl
-		<< _T("</head>") << ext::endl
-		<< _T("<body><h1>")
-		<< ext::kformat(TranslateT("Statistics for #{nick}")) % _T("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
-		<< _T("</h1>") << ext::endl;
-	tos << _T("<table>") << ext::endl;
+	tos << L"</style>" << ext::endl
+		<< L"</head>" << ext::endl
+		<< L"<body><h1>"
+		<< ext::kformat(TranslateT("Statistics for #{nick}")) % L"#{nick}" * utils::htmlEscape(m_Settings.m_OwnNick)
+		<< L"</h1>" << ext::endl;
+	tos << L"<table>" << ext::endl;
 
 	additionalCSS.clear();
 
@@ -1042,14 +1042,14 @@ bool Statistic::stepWriteHTML()
 
 	if (m_Settings.m_TableHeader) {
 		for (int j = 1; j <= headerSize.cy; j++) {
-			tos << _T("<tr class=\"header\">") << ext::endl;
+			tos << L"<tr class=\"header\">" << ext::endl;
 
 			iter_each_(std::vector<Column*>, col, m_ActiveCols)
 			{
 				(*col)->outputRenderHeader(tos, j, headerSize.cy);
 			}
 
-			tos << _T("</tr>") << ext::endl;
+			tos << L"</tr>" << ext::endl;
 		}
 	}
 
@@ -1064,7 +1064,7 @@ bool Statistic::stepWriteHTML()
 	if (!bInterrupted) {
 		upto_each_(i, countContacts())
 		{
-			tos << _T("<tr>") << ext::endl;
+			tos << L"<tr>" << ext::endl;
 
 			const Contact& curContact = getContact(i);
 
@@ -1075,7 +1075,7 @@ bool Statistic::stepWriteHTML()
 				(*col)->outputRenderRow(tos, curContact, Column::asContact);
 			}
 
-			tos << _T("</tr>") << ext::endl;
+			tos << L"</tr>" << ext::endl;
 
 			if (shouldTerminate()) {
 				bInterrupted = true;
@@ -1090,14 +1090,14 @@ bool Statistic::stepWriteHTML()
 
 			if (m_Settings.m_TableHeader && m_Settings.m_TableHeaderRepeat != 0 && ((i + 1) % m_Settings.m_TableHeaderRepeat == 0)) {
 				for (int j = 1; j <= headerSize.cy; ++j) {
-					tos << _T("<tr class=\"header\">") << ext::endl;
+					tos << L"<tr class=\"header\">" << ext::endl;
 
 					iter_each_(std::vector<Column*>, col, m_ActiveCols)
 					{
 						(*col)->outputRenderHeader(tos, j, headerSize.cy);
 					}
 
-					tos << _T("</tr>") << ext::endl;
+					tos << L"</tr>" << ext::endl;
 				}
 			}
 
@@ -1111,14 +1111,14 @@ bool Statistic::stepWriteHTML()
 
 		const Contact& omittedContact = getOmitted();
 
-		tos << _T("<tr class=\"omitted\">") << ext::endl;
+		tos << L"<tr class=\"omitted\">" << ext::endl;
 
 		iter_each_(std::vector<Column*>, col, m_ActiveCols)
 		{
 			(*col)->outputRenderRow(tos, omittedContact, Column::asOmitted);
 		}
 
-		tos << _T("</tr>") << ext::endl;
+		tos << L"</tr>" << ext::endl;
 
 		// stop if problem creating files/folders
 		if (!m_ErrorText.empty())
@@ -1139,29 +1139,29 @@ bool Statistic::stepWriteHTML()
 
 		const Contact& totalsContact = getTotals();
 
-		tos << _T("<tr class=\"totals\">") << ext::endl;
+		tos << L"<tr class=\"totals\">" << ext::endl;
 
 		iter_each_(std::vector<Column*>, col, m_ActiveCols)
 		{
 			(*col)->outputRenderRow(tos, totalsContact, Column::asTotal);
 		}
 
-		tos << _T("</tr>") << ext::endl;
+		tos << L"</tr>" << ext::endl;
 
 		stepProgress(true);
 
 		// Finish output.
-		tos << _T("</table>") << ext::endl;
+		tos << L"</table>" << ext::endl;
 
-		tos << _T("<div class=\"footer\">")
+		tos << L"<div class=\"footer\">"
 			<< ext::kformat(TranslateT("Created with #{plugin} #{version} on #{date} at #{time}"))
-			% _T("#{plugin}") * _T("<a href=\"http://miranda-ng.org/p/HistoryStats\">HistoryStats</a>")
-			% _T("#{version}") * utils::versionToDotted(m_Settings.m_VersionCurrent)
-			% _T("#{date}") * utils::htmlEscape(utils::timestampToDate(getTimeStarted()))
-			% _T("#{time}") * utils::htmlEscape(utils::timestampToTime(getTimeStarted()))
-			<< _T("</div>") << ext::endl;
+			% L"#{plugin}" * L"<a href=\"http://miranda-ng.org/p/HistoryStats\">HistoryStats</a>"
+			% L"#{version}" * utils::versionToDotted(m_Settings.m_VersionCurrent)
+			% L"#{date}" * utils::htmlEscape(utils::timestampToDate(getTimeStarted()))
+			% L"#{time}" * utils::htmlEscape(utils::timestampToTime(getTimeStarted()))
+			<< L"</div>" << ext::endl;
 
-		tos << _T("</body></html>") << ext::endl;
+		tos << L"</body></html>" << ext::endl;
 	}
 
 	// Inform active columns about ending output.

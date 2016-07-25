@@ -46,7 +46,7 @@
 
 #define PENLINK ENLINK *
 
-#define NOTE_WND_CLASS _T("MIM_StickyNote")
+#define NOTE_WND_CLASS "MIM_StickyNote"
 
 
 #define IDM_COLORPRESET_BG 41000
@@ -311,7 +311,7 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 	// NOTE: loaded note positions stem from GetWindowPlacement, which normally have a different coord space than
 	//       CreateWindow/SetWindowPos, BUT since we now use WS_EX_TOOLWINDOW they use the same coord space so
 	//       we don't have to worry about notes "drifting" between sessions
-	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, _T("StickyNote"), L2, Ax,Ay,Aw,Ah, NULL, 0, hmiranda, TSN);
+	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, "StickyNote", L2, Ax,Ay,Aw,Ah, NULL, 0, hmiranda, TSN);
 
 	if (g_Transparency < 255)
 		SetLayeredWindowAttributes(TSN->SNHwnd,0,(BYTE)g_Transparency,LWA_ALPHA);
@@ -1002,10 +1002,10 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 {
 	int n, i;
-	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, _T("ctrldata"));
+	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, "ctrldata");
 
 	HMENU hMenuLoad, FhMenu, hSub;
-	hMenuLoad = LoadMenu(hinstance, _T("MNU_NOTEPOPUP"));
+	hMenuLoad = LoadMenu(hinstance, "MNU_NOTEPOPUP");
 	FhMenu = GetSubMenu(hMenuLoad,0);
 
 	if (SN->OnTop)
@@ -1018,11 +1018,11 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 
 	// NOTE: names used for FindMenuItem would need to include & chars if such shortcuts are added to the menus
 
-	n = FindMenuItem(FhMenu, _T("Appearance"));
+	n = FindMenuItem(FhMenu, "Appearance");
 	if (n >= 0 && (hSub = GetSubMenu(FhMenu, n)))
 	{
-		HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Background Color")));
-		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Text Color")));
+		HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, "Background Color"));
+		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, "Text Color"));
 
 		for (i=0; i<_countof(clrPresets); i++)
 			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
@@ -1189,7 +1189,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
     case WM_TIMER:
 		if (wParam == 1025)
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
 
 			KillTimer(hdlg, 1025);
 			JustSaveNotesEx(SN);
@@ -1203,14 +1203,14 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		}
     case WM_CREATE:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
 
 			CREATESTRUCT *CS = (CREATESTRUCT *)lParam;
 			HWND H;
 			DWORD mystyle;
 
 			SN = (STICKYNOTE*)CS->lpCreateParams;
-			SetProp(hdlg,_T("ctrldata"),(HANDLE)SN);
+			SetProp(hdlg, "ctrldata", (HANDLE)SN);
 			BringWindowToTop(hdlg);
 			mystyle = WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
 			if (g_ShowScrollbar) mystyle |= WS_VSCROLL;
@@ -1342,11 +1342,11 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg,1,EM_GETSELTEXT,0,(LPARAM)Buff);
 				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
-					ShellExecute(hdlg, _T("open"), _T("iexplore"), Buff, _T("") ,SW_SHOWNORMAL);
+					ShellExecute(hdlg,  "open", "iexplore", Buff, "" ,SW_SHOWNORMAL);
 				else if (g_lpszAltBrowser && *g_lpszAltBrowser)
-					ShellExecute(hdlg,_T("open"), g_lpszAltBrowser, Buff, _T("") ,SW_SHOWNORMAL);
+					ShellExecute(hdlg, "open", g_lpszAltBrowser, Buff, "" ,SW_SHOWNORMAL);
 				else
-					ShellExecute(hdlg, _T("open"), Buff, _T(""), _T(""), SW_SHOWNORMAL);
+					ShellExecute(hdlg, "open", Buff, "", "", SW_SHOWNORMAL);
 				SAFE_FREE((void**)&Buff);
 				return TRUE;
 			}
@@ -1438,7 +1438,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		break;
 	case WM_COMMAND:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, _T("ctrldata"));
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
 
 			HWND H;
 			UINT id;
@@ -1673,12 +1673,12 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			return TRUE;
 		}
 	case WM_NCDESTROY:
-		{
-			RemoveProp(hdlg, _T("ctrldata"));
-		}
+		RemoveProp(hdlg, "ctrldata");
 		break;
-    case WM_CONTEXTMENU:
-		if (DoContextMenu(hdlg,wParam,lParam)) return FALSE;
+
+	case WM_CONTEXTMENU:
+		if (DoContextMenu(hdlg,wParam,lParam))
+			return FALSE;
 
 	default:
 		return DefWindowProc(hdlg,message,wParam,lParam);
@@ -1927,7 +1927,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 			TranslateDialogDefault(Dialog);
 
-			SetDlgItemText(Dialog,IDC_REMINDERDATA, _T(""));
+			SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 
 			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;

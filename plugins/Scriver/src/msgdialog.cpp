@@ -165,12 +165,12 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
-		mir_sntprintf(szPath, _T("%s\\*"), szFilename);
+		mir_sntprintf(szPath, L"%s\\*", szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_sntprintf(szPath, _T("%s\\%s"), szFilename, fd.cFileName);
+				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L"..")) continue;
+				mir_sntprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -552,7 +552,7 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		sbd.hIcon = NULL;
 		sbd.pszText = szText;
-		mir_sntprintf(szText, _T("%d"), len);
+		mir_sntprintf(szText, L"%d", len);
 		SendMessage(dat->hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 	}
 }
@@ -1099,7 +1099,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_OFFSET;
 		pf2.dxOffset = (g_dat.flags & SMF_INDENTTEXT) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
-		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+		SetDlgItemText(hwndDlg, IDC_LOG, L"");
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
 
@@ -1361,12 +1361,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			else if (dat->lastMessage) {
 				TCHAR date[64], time[64];
-				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, _countof(date), 0);
-				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, _countof(time), 0);
+				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
+				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
 				mir_sntprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
 				sbd.pszText = szText;
 			}
-			else sbd.pszText = _T("");
+			else sbd.pszText = L"";
 
 			SendMessage(dat->hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 			UpdateReadChars(hwndDlg, dat);
@@ -1397,7 +1397,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		}
 
-		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+		SetDlgItemText(hwndDlg, IDC_LOG, L"");
 		dat->hDbEventFirst = NULL;
 		dat->lastEventType = -1;
 		break;
@@ -1609,7 +1609,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
 					NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 
-				SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+				SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 				if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 					ShowWindow(dat->hwndParent, SW_MINIMIZE);

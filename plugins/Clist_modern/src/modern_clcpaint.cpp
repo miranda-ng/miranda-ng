@@ -426,12 +426,12 @@ void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHA
 			i = 0;
 
 		// Get real height of the line
-		row_height = ske_DrawText(hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat);
+		row_height = ske_DrawText(hdcMem, L"A", 1, &tmp_rc, DT_CALCRECT | uTextFormat);
 
 		// Just draw ellipsis
 		if (free_rc->right <= free_rc->left) {
 			if (gl_TrimText)
-				ske_DrawText(hdcMem, _T("..."), 3, free_rc, uTextFormat & ~DT_END_ELLIPSIS);
+				ske_DrawText(hdcMem, L"...", 3, free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 		}
 		else {
 			// Draw text and smileys
@@ -486,7 +486,7 @@ void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHA
 								fac_width, fac_height, 0, NULL, DI_NORMAL | ((factor < 1) ? 128 : 0)); //TO DO enchance drawing quality
 						}
 						else {
-							ske_DrawText(hdcMem, _T("..."), 3, &text_rc, uTextFormat);
+							ske_DrawText(hdcMem, L"...", 3, &text_rc, uTextFormat);
 						}
 
 						pos_x += fac_width;
@@ -786,7 +786,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				if (szCounts && mir_tstrlen(szCounts) > 0) {
 					// calc width and height
 					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-					ske_DrawText(hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
+					ske_DrawText(hdcMem, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
 					count_size.cx = count_rc.right - count_rc.left;
 					space_width = count_size.cx;
 					count_rc.right = 0;
@@ -863,7 +863,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					SIZE counts_size = { 0 };
 					// Get widths
 					counts_rc = fr_rc;
-					DrawText(hdcMem, _T(" "), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX);
+					DrawText(hdcMem, L" ", 1, &space_rc, DT_CALCRECT | DT_NOPREFIX);
 
 					space_size.cx = space_rc.right - space_rc.left;
 					space_size.cy = min(space_rc.bottom - space_rc.top, fr_rc.bottom - fr_rc.top);
@@ -1007,7 +1007,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						if (szCounts && mir_tstrlen(szCounts) > 0) {
 							// calc width and height
 							ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-							ske_DrawText(hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
+							ske_DrawText(hdcMem, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
 							count_size.cx = count_rc.right - count_rc.left;
 							space_width = count_size.cx;
 							count_rc.right = 0;
@@ -1080,10 +1080,10 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 					if (dat->secondLine.show && dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
-						TCHAR buf[70] = _T("");
+						TCHAR buf[70] = L"";
 						mir_free_and_nil(pdnce->szSecondLineText);
 
-						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 						pdnce->szSecondLineText = mir_tstrdup(buf);
 					}
 
@@ -1108,10 +1108,10 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 					if (dat->thirdLine.show && dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
-						TCHAR buf[70] = _T("");
+						TCHAR buf[70] = L"";
 						mir_free(pdnce->szThirdLineText);
 
-						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 						pdnce->szThirdLineText = mir_tstrdup(buf);
 					}
 
@@ -1392,7 +1392,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 			case TC_TIME:
 				TCHAR szResult[80];
-				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
+				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 					ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &p_rect, DT_NOPREFIX | DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0));
@@ -2105,7 +2105,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
 				TCHAR szResult[80];
 
-				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
+				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 
@@ -2206,7 +2206,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				free_height = free_row_rc.bottom - free_row_rc.top;
 
 				// Get widths
-				ske_DrawText(hdcMem, _T(" "), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX);
+				ske_DrawText(hdcMem, L" ", 1, &space_rc, DT_CALCRECT | DT_NOPREFIX);
 
 				SIZE space_size;
 				space_size.cx = space_rc.right - space_rc.left;
@@ -2265,8 +2265,8 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			if (dat->secondLine.show) {
 				if (dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
-					TCHAR buf[70] = _T("");
-					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
+					TCHAR buf[70] = L"";
+					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrT(pdnce->szSecondLineText, buf);
 				}
 
@@ -2298,8 +2298,8 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			if (dat->thirdLine.show) {
 				if (dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
-					TCHAR buf[70] = _T("");
-					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
+					TCHAR buf[70] = L"";
+					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrT(pdnce->szThirdLineText, buf);
 				}
 				if (pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0] && free_height > dat->thirdLine.top_space) {
@@ -2723,7 +2723,7 @@ void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	if (!pdnce)
 		return;
 
-	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
+	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 		// Select font
 		ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 		ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), prcItem, DT_NOPREFIX | DT_SINGLELINE);

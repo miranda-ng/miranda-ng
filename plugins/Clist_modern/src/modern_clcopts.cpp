@@ -52,16 +52,16 @@ struct FontOptionsList {
 	char size;
 };
 
-#define CLCGROUP			LPGENT("Contact list") _T("/") LPGENT("Contact names")
-#define CLCLINESGROUP		LPGENT("Contact list") _T("/") LPGENT("Row items")
-#define CLCFRAMESGROUP		LPGENT("Contact list") _T("/") LPGENT("Frame texts")
-#define CLCCOLOURSGROUP		LPGENT("Contact list") _T("/") LPGENT("Special colors")
+#define CLCGROUP			LPGENT("Contact list") L"/" LPGENT("Contact names")
+#define CLCLINESGROUP		LPGENT("Contact list") L"/" LPGENT("Row items")
+#define CLCFRAMESGROUP		LPGENT("Contact list") L"/" LPGENT("Frame texts")
+#define CLCCOLOURSGROUP		LPGENT("Contact list") L"/" LPGENT("Special colors")
 
 #define DEFAULT_COLOUR		RGB(0, 0, 0)
 #define DEFAULT_GREYCOLOUR	RGB(128, 128, 128)
 #define DEFAULT_BACKCOLOUR	RGB(255, 255, 255)
 
-#define DEFAULT_FAMILY		_T("Arial")
+#define DEFAULT_FAMILY		L"Arial"
 #define DEFAULT_EFFECT		{ 0, 0x00000000, 0x00000000 }
 
 #define DEFAULT_SIZE		-11
@@ -1159,7 +1159,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			g_mutex_bChangingMode = TRUE;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-				HWND hProgMan = FindWindow(_T("Progman"), NULL);
+				HWND hProgMan = FindWindow(L"Progman", NULL);
 				if (IsWindow(hProgMan)) {
 					SetParent(pcli->hwndContactList, hProgMan);
 					Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
@@ -1380,7 +1380,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 			ofn.nMaxFile = _countof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = _T("bmp");
+			ofn.lpstrDefExt = L"bmp";
 			if (!GetOpenFileName(&ofn))
 				break;
 
@@ -1786,7 +1786,7 @@ int ModernOptInit(WPARAM wParam, LPARAM)
 	obj.iSection = MODERNOPT_PAGE_CLIST;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.iBoldControls = iBoldControls;
-	obj.lptzSubsection = _T("Fonts");
+	obj.lptzSubsection = L"Fonts";
 	obj.lpzClassicGroup = NULL;
 	obj.lpzClassicPage = "Contact list";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";

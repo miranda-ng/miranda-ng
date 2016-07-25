@@ -71,7 +71,7 @@ static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, _T("%S\\"), tmp);
+			mir_sntprintf(dbPath, L"%S\\", tmp);
 		}
 
 		size_t len = mir_tstrlen(dbPath);
@@ -89,10 +89,10 @@ static void PathToAbsolute(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, _T("%S\\"), tmp);
+			mir_sntprintf(dbPath, L"%S\\", tmp);
 		}
 
-		mir_sntprintf(pOut, outSize, _T("%s%s"), dbPath, pSrc);
+		mir_sntprintf(pOut, outSize, L"%s%s", dbPath, pSrc);
 	}
 }
 

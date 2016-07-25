@@ -239,7 +239,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BTN_APPLY))) {
 				int idResult = MessageBox(hwndDlg,
 					TranslateT("You have some unsaved changes here.\n Do you wish to apply settings before switching?"),
-					_T("Miranda NG"), MB_ICONQUESTION | MB_YESNOCANCEL);
+					L"Miranda NG", MB_ICONQUESTION | MB_YESNOCANCEL);
 				if (idResult == IDCANCEL) break;
 				sttNotifyPages(dat, (idResult == IDYES) ? PSN_APPLY : PSN_RESET);
 			}
@@ -597,31 +597,31 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 	#if defined(_DEBUG) && defined(MOPT_SAMPLE_PAGES)
 		obj.iSection = MODERNOPT_PAGE_ADVANCED;
 		obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-		obj.lptzSubsection = _T("Page 1");
+		obj.lptzSubsection = L"Page 1";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Page 2");
+		obj.lptzSubsection = L"Page 2";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Page 3");
+		obj.lptzSubsection = L"Page 3";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 		obj.iType = MODERNOPT_TYPE_IGNOREOBJECT;
 		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		obj.lptzSubsection = _T("Files");
+		obj.lptzSubsection = L"Files";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		obj.lptzSubsection = _T("Messages");
+		obj.lptzSubsection = L"Messages";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
-		obj.lptzSubsection = _T("URL events");
+		obj.lptzSubsection = L"URL events";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
-		obj.lptzSubsection = _T("Typing notifications");
+		obj.lptzSubsection = L"Typing notifications";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
-		obj.lptzSubsection = _T("Added notifications");
+		obj.lptzSubsection = L"Added notifications";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-		obj.lptzSubsection = _T("Auth requests");
+		obj.lptzSubsection = L"Auth requests";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 		obj.iSection = MODERNOPT_PAGE_SKINS;
@@ -649,20 +649,20 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 
 		obj.iSection = MODERNOPT_PAGE_ADVANCED;
 		obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-		obj.lptzSubsection = _T("Page 1");
+		obj.lptzSubsection = L"Page 1";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Page 2");
+		obj.lptzSubsection = L"Page 2";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Page 3");
+		obj.lptzSubsection = L"Page 3";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 		obj.iSection = MODERNOPT_PAGE_MODULES;
 		obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-		obj.lptzSubsection = _T("Configure");
+		obj.lptzSubsection = L"Configure";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Update");
+		obj.lptzSubsection = L"Update";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.lptzSubsection = _T("Download");
+		obj.lptzSubsection = L"Download";
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 	#endif
 

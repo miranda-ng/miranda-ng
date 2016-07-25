@@ -24,7 +24,7 @@ profiler_static::~profiler_static()
 		OutputDebugStringA(message);
 	} catch(...) {
 		//should never happen
-		OutputDebugString(_T("unexpected profiler failure\n"));
+		OutputDebugString(L"unexpected profiler failure\n");
 	}
 }
 

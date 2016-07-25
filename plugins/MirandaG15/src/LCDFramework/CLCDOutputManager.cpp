@@ -21,7 +21,7 @@ CLCDOutputManager::CLCDOutputManager() : m_dwButtonRepeatDelay(300), m_pGfx(0),
 	ASSERT(m_pInstance == NULL);
 
 	m_pInstance = this;
-	m_strAppletName = _T("");
+	m_strAppletName = L"";
 }
 
 //************************************************************************
@@ -140,7 +140,7 @@ void CLCDOutputManager::InitializeGfxObject() {
 	if(m_pGfx->IsInitialized())
 		return;
 
-	TRACE(_T("CLCDOutputManager::UpdateGfxObject(): initializing CLCDGfx\n"));
+	TRACE(L"CLCDOutputManager::UpdateGfxObject(): initializing CLCDGfx\n");
 	SIZE size;
 	size = m_pLcdConnection->GetDisplaySize();
 	
@@ -176,7 +176,7 @@ void CLCDOutputManager::DeinitializeGfxObject() {
 	if(!m_pGfx->IsInitialized())
 		return;
 	
-	TRACE(_T("CLCDOutputManager::UpdateGfxObject(): shutting down CLCDGfx\n"));
+	TRACE(L"CLCDOutputManager::UpdateGfxObject(): shutting down CLCDGfx\n");
 
 	m_pGfx->Shutdown();
 	free(m_pbButtonStates);

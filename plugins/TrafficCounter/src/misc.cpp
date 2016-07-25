@@ -47,7 +47,7 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 		*RowItemsList = (RowItemInfo*)mir_realloc(*RowItemsList, sizeof(RowItemInfo) * (c + 1));
 
 		// Разбираем тег.
-		_stscanf(begin + 1, _T("%c%hd"),
+		_stscanf(begin + 1, L"%c%hd",
 			&((*RowItemsList)[c].Alignment),
 			&((*RowItemsList)[c].Interval));
 
@@ -122,7 +122,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 {
 	TCHAR Str1[32], szUnit[4] = { ' ', 0 };
 	DWORD Divider;
-	NUMBERFMT nf = { 0, 1, 3, _T(","), _T(" "), 0 };
+	NUMBERFMT nf = { 0, 1, 3, L",", L" ", 0 };
 	TCHAR *Res; // Промежуточный результат.
 
 	switch (Unit) {
@@ -148,7 +148,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 		return 0;
 	}
 
-	mir_sntprintf(Str1, _T("%d.%d"), Value / Divider, Value % Divider);
+	mir_sntprintf(Str1, L"%d.%d", Value / Divider, Value % Divider);
 	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
 	if (!l) return 0;
 	l += mir_tstrlen(szUnit) + 1;
@@ -197,39 +197,39 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, size_t S
 		Token[TokenIndex] = 0;
 
 		// Что получили в аккумуляторе?
-		if (!mir_tstrcmp(Token, _T("d"))) {
+		if (!mir_tstrcmp(Token, L"d")) {
 			q = Duration / (60 * 60 * 24);
-			mir_sntprintf(Token, _T("%d"), q);
+			mir_sntprintf(Token, L"%d", q);
 			Duration -= q * 60 * 60 * 24;
 		}
-		else if (!mir_tstrcmp(Token, _T("h"))) {
+		else if (!mir_tstrcmp(Token, L"h")) {
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, _T("%d"), q);
+			mir_sntprintf(Token, L"%d", q);
 			Duration -= q * 60 * 60;
 		}
-		else if (!mir_tstrcmp(Token, _T("hh"))) {
+		else if (!mir_tstrcmp(Token, L"hh")) {
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, _T("%02d"), q);
+			mir_sntprintf(Token, L"%02d", q);
 			Duration -= q * 60 * 60;
 		}
-		else if (!mir_tstrcmp(Token, _T("m"))) {
+		else if (!mir_tstrcmp(Token, L"m")) {
 			q = Duration / 60;
-			mir_sntprintf(Token, _T("%d"), q);
+			mir_sntprintf(Token, L"%d", q);
 			Duration -= q * 60;
 		}
-		else if (!mir_tstrcmp(Token, _T("mm"))) {
+		else if (!mir_tstrcmp(Token, L"mm")) {
 			q = Duration / 60;
-			mir_sntprintf(Token, _T("%02d"), q);
+			mir_sntprintf(Token, L"%02d", q);
 			Duration -= q * 60;
 		}
-		else if (!mir_tstrcmp(Token, _T("s"))) {
+		else if (!mir_tstrcmp(Token, L"s")) {
 			q = Duration;
-			mir_sntprintf(Token, _T("%d"), q);
+			mir_sntprintf(Token, L"%d", q);
 			Duration -= q;
 		}
-		else if (!mir_tstrcmp(Token, _T("ss"))) {
+		else if (!mir_tstrcmp(Token, L"ss")) {
 			q = Duration;
-			mir_sntprintf(Token, _T("%02d"), q);
+			mir_sntprintf(Token, L"%02d", q);
 			Duration -= q;
 		}
 

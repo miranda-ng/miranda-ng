@@ -328,7 +328,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				GetDlgItemText(hDlg, EDIT_AREA, szArea, _countof(szArea));
 				GetDlgItemText(hDlg, EDIT_NUMBER, szData, _countof(szData));
-				mir_sntprintf(szPhone, _T("+%u (%s) %s"), nCountry, szArea, szData);
+				mir_sntprintf(szPhone, L"+%u (%s) %s", nCountry, szArea, szData);
 				noRecursion = 1;
 				SetDlgItemText(hDlg, EDIT_PHONE, szPhone);
 				noRecursion = 0;
@@ -362,19 +362,19 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					}
 				}
 				if (isValid) {
-					pArea = pText + _tcscspn(pText, _T("0123456789"));
-					pText = pArea + _tcsspn(pArea, _T("0123456789"));
+					pArea = pText + _tcscspn(pText, L"0123456789");
+					pText = pArea + _tcsspn(pArea, L"0123456789");
 					if (*pText) {
 						*pText = '\0';
-						pNumber = pText + 1 + _tcscspn(pText + 1, _T("0123456789"));
+						pNumber = pText + 1 + _tcscspn(pText + 1, L"0123456789");
 						SetDlgItemText(hDlg, EDIT_NUMBER, pNumber);
 					}
 					SetDlgItemText(hDlg, EDIT_AREA, pArea);
 				}
 				if (!isValid) {
 					SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_SETCURSEL, -1, 0);
-					SetDlgItemText(hDlg, EDIT_AREA, _T(""));
-					SetDlgItemText(hDlg, EDIT_NUMBER, _T(""));
+					SetDlgItemText(hDlg, EDIT_AREA, L"");
+					SetDlgItemText(hDlg, EDIT_NUMBER, L"");
 				}
 			}
 			noRecursion = 0;
@@ -443,7 +443,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		if (!(cbex->hBtnEdit = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 				UINFOBUTTONCLASS, 
-				_T("none"),
+				L"none",
 				WS_VISIBLE|WS_CHILD|WS_TABSTOP, 0, 0,
 				wWidth, wHeight,
 				hwnd,
@@ -470,7 +470,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		x += wWidth + 2;
 		wWidth = (WORD)(cbex->rect.right - cbex->rect.left - x - (2 * (wHeight + 2)));
 		if (!(cbex->hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
-				_T("Edit"), 
+				L"Edit", 
 				NULL,
 				WS_VISIBLE|WS_CHILD|WS_TABSTOP|ES_AUTOHSCROLL,
 				x, 1,
@@ -582,11 +582,11 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 	{
 		HICON hIcon = IcoLib_GetIcon(ICO_BTN_ADD);
 		SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(cbex->hBtnAdd, (hIcon ? _T("") : _T("+")));
+		SetWindowText(cbex->hBtnAdd, (hIcon ? L"" : L"+"));
 
 		hIcon = IcoLib_GetIcon(ICO_BTN_DELETE);
 		SendMessage(cbex->hBtnDel, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(cbex->hBtnDel, (hIcon ? _T("") : _T("-")));
+		SetWindowText(cbex->hBtnDel, (hIcon ? L"" : L"-"));
 
 		if (cbex->pItems && cbex->numItems > 0) {
 			for (int i = 0; i < cbex->numItems; i++)
@@ -796,7 +796,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 					// clear value for standard entry
 					if (cbex->pItems[cbex->iSelectedItem].wFlags & CBEXIF_CATREADONLY) {
 						MIR_FREE(cbex->pItems[cbex->iSelectedItem].pszVal);
-						SetWindowText(cbex->hEdit, _T(""));
+						SetWindowText(cbex->hEdit, L"");
 						cbex->pItems[cbex->iSelectedItem].wFlags &= ~CBEXIF_SMS;
 						cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED;
 					}
@@ -885,7 +885,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 					if ((ccText = GetWindowTextLength(cbex->hEdit)) <= 0) {
 						if (cbex->pItems[cbex->iSelectedItem].wFlags & CBEXIF_CATREADONLY) {
 							MIR_FREE(cbex->pItems[cbex->iSelectedItem].pszVal);
-							SetWindowText(cbex->hEdit, _T(""));
+							SetWindowText(cbex->hEdit, L"");
 							cbex->pItems[cbex->iSelectedItem].wFlags &= ~CBEXIF_SMS;
 						}
 						else
@@ -946,7 +946,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		// set category string
 		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
-			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
 		}
 
 		// set value string
@@ -986,7 +986,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
 			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, _countof(cbex->pItems[pItem->iItem].szCat))) 
-				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
 		}
@@ -996,7 +996,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			if (pItem->pszVal && pItem->pszVal[0])
 				cbex->pItems[pItem->iItem].pszVal = mir_tstrdup(pItem->pszVal);
 			if (pItem->iItem == cbex->iSelectedItem)
-				SetWindowText(cbex->hEdit, cbex->pItems[pItem->iItem].pszVal ? cbex->pItems[pItem->iItem].pszVal : _T(""));
+				SetWindowText(cbex->hEdit, cbex->pItems[pItem->iItem].pszVal ? cbex->pItems[pItem->iItem].pszVal : L"");
 		}
 
 		// set icon
@@ -1111,8 +1111,8 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			cbex->numItems = 0;
 			cbex->iSelectedItem = -1;
-			SetWindowText(cbex->hEdit, _T(""));
-			SetWindowText(cbex->hBtnEdit, _T(""));
+			SetWindowText(cbex->hEdit, L"");
+			SetWindowText(cbex->hBtnEdit, L"");
 			SendMessage(cbex->hBtnEdit, WM_SETICON, NULL, NULL);
 		}
 		return TRUE;
@@ -1203,7 +1203,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		}
 		SetWindowText(cbex->hBtnEdit, cbex->pItems[cbex->iSelectedItem].szCat);
-		SetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal ? cbex->pItems[cbex->iSelectedItem].pszVal : _T(""));
+		SetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal ? cbex->pItems[cbex->iSelectedItem].pszVal : L"");
 		SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
 		CtrlContactWndProc(hwnd, CBEXM_ENABLEITEM, NULL, NULL);
 		cbex->bLocked = 0;
@@ -1297,7 +1297,7 @@ int CtrlContactAddItemFromDB(
 			cbi.pszVal = NULL;
 		else { // check the database value
 			cbi.pszVal = dbv.ptszVal;
-			if (LPTSTR sms = _tcsstr(cbi.pszVal, _T(" SMS"))) {
+			if (LPTSTR sms = _tcsstr(cbi.pszVal, L" SMS")) {
 				cbi.wFlags |= CBEXIF_SMS;
 				*sms = 0;
 			}
@@ -1377,7 +1377,7 @@ int CtrlContactAddMyItemsFromDB(
 				dbv.ptszVal = NULL;
 			}
 		}
-		if (sms = _tcsstr(cbi.pszVal, _T(" SMS"))) {
+		if (sms = _tcsstr(cbi.pszVal, L" SMS")) {
 			cbi.wFlags |= CBEXIF_SMS;
 			*sms = 0;
 		}
@@ -1428,7 +1428,7 @@ int CtrlContactWriteItemToDB(
 		db_unset(hContact, pszModule, pszSetting);
 	else {
 		if (cbi.wFlags & CBEXIF_SMS)
-			mir_tstrncat(szVal, _T(" SMS"), _countof(szVal) - mir_tstrlen(szVal));
+			mir_tstrncat(szVal, L" SMS", _countof(szVal) - mir_tstrlen(szVal));
 
 		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
@@ -1478,7 +1478,7 @@ int CtrlContactWriteMyItemsToDB(
 	while (CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi) && cbi.iItem < 50) {
 		if (!(cbi.wFlags & CBEXIF_DELETED) && *szVal) {
 			if (cbi.wFlags & CBEXIF_SMS) {
-				mir_tstrncat(szVal, _T(" SMS"), _countof(szVal) - mir_tstrlen(szVal));
+				mir_tstrncat(szVal, L" SMS", _countof(szVal) - mir_tstrlen(szVal));
 			}
 			mir_snprintf(pszSetting, szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {

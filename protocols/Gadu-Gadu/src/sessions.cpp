@@ -330,7 +330,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, _countof(szClientName));
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
-						mir_sntprintf(szText, _T("%s\t%s\t%s"), szClientName, szIP, szLoginTime);
+						mir_sntprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
 						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
 						{
 							mir_tstrcpy((TCHAR*)GlobalLock(hData), szText);
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						TCHAR szUrl[256], szIP[64];
 						szIP[0] = 0;
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
-						mir_sntprintf(szUrl, _T("http://whois.domaintools.com/%s"), szIP);
+						mir_sntprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
 						Utils_OpenUrlT(szUrl);
 						break;
 					}

@@ -33,7 +33,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const TCHAR *titleTokenNames[] = { _T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%") };
+static const TCHAR *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
 
 TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
@@ -46,7 +46,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		tokens[1] = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 		
 		tszStatus = ptrT(db_get_tsa(hContact, "CList", "StatusMsg"));
-		tszStatus.Replace(_T("\r\n"), _T(" "));
+		tszStatus.Replace(L"\r\n", L" ");
 		tokens[2] = tszStatus;
 
 		char *accModule = Proto_GetBaseAccountName(hContact);
@@ -61,9 +61,9 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 			tszTemplate = tmplt;
 		else {
 			if (g_dat.flags & SMF_STATUSICON)
-				tszTemplate = _T("%name% - ");
+				tszTemplate = L"%name% - ";
 			else
-				tszTemplate = _T("%name% (%status%) : ");
+				tszTemplate = L"%name% (%status%) : ";
 		}
 	}
 
@@ -280,7 +280,7 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, MCONTACT hContact)
 	tci.mask = TCIF_PARAM | TCIF_IMAGE | TCIF_TEXT;
 	tci.lParam = (LPARAM)mwtd;
 	tci.iImage = -1;
-	tci.pszText = _T("");
+	tci.pszText = L"";
 	TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount - 1, &tci);
 	SetWindowPos(mwtd->hwnd, HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
 	SendMessage(dat->hwnd, WM_SIZE, 0, 0);

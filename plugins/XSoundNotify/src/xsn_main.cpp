@@ -77,7 +77,7 @@ void InitSelfSounds()
 			mir_snprintf(namebuf, "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
 
 			TCHAR infobuf[256];
-			mir_sntprintf(infobuf, _T("%s [%s]"), TranslateT("Self status"), protos[i]->tszAccountName);
+			mir_sntprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
 			SkinAddNewSoundExT(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}

@@ -158,13 +158,13 @@ void __cdecl SmileyDownloadThread(void*)
 
 bool GetSmileyFile(CMString &url, const CMString &packstr)
 {
-	_TPattern *urlsplit = _TPattern::compile(_T(".*/(.*)"));
+	_TPattern *urlsplit = _TPattern::compile(L".*/(.*)");
 	_TMatcher *m0 = urlsplit->createTMatcher(url);
 
 	m0->findFirstMatch();
 
 	CMString filename;
-	filename.AppendFormat(_T("%s\\%s\\"), cachepath, packstr.c_str());
+	filename.AppendFormat(L"%s\\%s\\", cachepath, packstr.c_str());
 	int pathpos = filename.GetLength();
 	filename += m0->getGroup(1);
 
@@ -173,7 +173,7 @@ bool GetSmileyFile(CMString &url, const CMString &packstr)
 
 	bool needext = filename.Find('.') == -1;
 	if (needext)
-		filename += _T(".*");
+		filename += L".*";
 
 	_tfinddata_t c_file;
 	INT_PTR hFile = _tfindfirst((TCHAR*)filename.c_str(), &c_file);
@@ -202,18 +202,18 @@ bool GetSmileyFile(CMString &url, const CMString &packstr)
 
 int FolderChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
+	FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, L"");
 	return 0;
 }
 
 void GetSmileyCacheFolder(void)
 {
-	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT _T("\\SmileyCache"));
+	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
 	if (hFolder) {
-		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
+		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, L"");
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else mir_tstrncpy(cachepath, VARST(_T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
+	else mir_tstrncpy(cachepath, VARST(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
 }
 
 void DownloadInit(void)

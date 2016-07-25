@@ -62,7 +62,7 @@ TCHAR* Utils::getFileNameFromPath(TCHAR *stzPath)
 {
 	TCHAR *pch = _tcsrchr(stzPath, '\\');
 	if (pch) return pch + 1;
-	else return _T("file.zip");
+	else return L"file.zip";
 }
 
 TCHAR* Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
@@ -70,7 +70,7 @@ TCHAR* Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
 	if (mir_tstrlen(stzText) > length) {
 		mir_tstrcpy(buff, stzText);
 		buff[length - 1] = 0;
-		mir_tstrcat(buff, _T("..."));
+		mir_tstrcat(buff, L"...");
 		return buff;
 	}
 

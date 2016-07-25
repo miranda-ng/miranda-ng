@@ -21,8 +21,8 @@ void CSteamProto::ParsePollData(JSONNode *data)
 
 		node = json_get(item, "type");
 		ptrT type(json_as_string(node));
-		if (!lstrcmpi(type, _T("saytext")) || !lstrcmpi(type, _T("emote")) ||
-			!lstrcmpi(type, _T("my_saytext")) || !lstrcmpi(type, _T("my_emote")))
+		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") ||
+			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote"))
 		{
 			MCONTACT hContact = FindContact(steamId);
 			if (!hContact)
@@ -35,7 +35,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			PROTORECVEVENT recv = { 0 };
 			recv.timestamp = timestamp;
 			recv.szMessage = szMessage;
-			if (_tcsstr(type, _T("my_")) == NULL)
+			if (_tcsstr(type, L"my_") == NULL)
 			{
 				ProtoChainRecvMsg(hContact, &recv);
 			}
@@ -45,7 +45,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 				Proto_RecvMessage(hContact, &recv);
 			}
 		}
-		else if (!lstrcmpi(type, _T("typing")))
+		else if (!lstrcmpi(type, L"typing"))
 		{
 			MCONTACT hContact = FindContact(steamId);
 			if (hContact)
@@ -53,7 +53,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
 			}
 		}
-		else if (!lstrcmpi(type, _T("personastate")))
+		else if (!lstrcmpi(type, L"personastate"))
 		{
 			node = json_get(item, "persona_state");
 			int status = node ? SteamToMirandaStatus(json_as_int(node)) : -1;
@@ -68,7 +68,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 
 				if (status != m_iStatus)
 				{
-					debugLog(_T("CSteamProto::ParsePollData: Change own status to %i"), status);
+					debugLog(L"CSteamProto::ParsePollData: Change own status to %i", status);
 					int oldStatus = m_iStatus;
 					m_iStatus = m_iDesiredStatus = status;
 					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
@@ -90,7 +90,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			// todo: find difference between state changing and info changing
 			steamIds.append(steamId).append(",");
 		}
-		else if (!lstrcmpi(type, _T("personarelationship")))
+		else if (!lstrcmpi(type, L"personarelationship"))
 		{
 			node = json_get(item, "persona_state");
 			int state = json_as_int(node);
@@ -146,7 +146,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			default: continue;
 			}
 		}
-		else if (!lstrcmpi(type, _T("leftconversation")))
+		else if (!lstrcmpi(type, L"leftconversation"))
 		{
 			if (!getBool("ShowChatEvents", true))
 				continue;
@@ -185,7 +185,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 
 void CSteamProto::PollingThread(void*)
 {
-	debugLog(_T("CSteamProto::PollingThread: entering"));
+	debugLog(L"CSteamProto::PollingThread: entering");
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqId(getStringA("UMQID"));
@@ -219,7 +219,7 @@ void CSteamProto::PollingThread(void*)
 				if (node) {
 					ptrT error(json_as_string(node));
 
-					if (!lstrcmpi(error, _T("OK")))
+					if (!lstrcmpi(error, L"OK"))
 					{
 						// Remember last message timestamp
 						node = json_get(root, "utc_timestamp");
@@ -244,14 +244,14 @@ void CSteamProto::PollingThread(void*)
 
 						// m_pollingConnection = response->nlc;
 					}
-					else if (!lstrcmpi(error, _T("Timeout")))
+					else if (!lstrcmpi(error, L"Timeout"))
 					{
 						// Do nothing as this is not necessarily an error
 					}
-					else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
+					else if (!lstrcmpi(error, L"Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
 					{
 						// need to relogin
-						debugLog(_T("CSteamProto::PollingThread: Not Logged On"));
+						debugLog(L"CSteamProto::PollingThread: Not Logged On");
 
 						// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
 						if (IsOnline() && Relogin())
@@ -269,7 +269,7 @@ void CSteamProto::PollingThread(void*)
 					else
 					{
 						// something wrong
-						debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
+						debugLog(L"CSteamProto::PollingThread: %s (%d)", error, response->resultCode);
 
 						// token has expired
 						if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
@@ -279,7 +279,7 @@ void CSteamProto::PollingThread(void*)
 						node = json_get(root, "sectimeout");
 						int timeout = json_as_int(node);
 						if (timeout < STEAM_API_TIMEOUT)
-							debugLog(_T("CSteamProto::PollingThread: Timeout is too low (%d)"), timeout);
+							debugLog(L"CSteamProto::PollingThread: Timeout is too low (%d)", timeout);
 
 						// let it jump out of further processing
 						errors = errorsLimit;
@@ -295,10 +295,10 @@ void CSteamProto::PollingThread(void*)
 
 	if (IsOnline())
 	{
-		debugLog(_T("CSteamProto::PollingThread: unexpected termination; switching protocol to offline"));
+		debugLog(L"CSteamProto::PollingThread: unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 
 	m_hPollingThread = NULL;
-	debugLog(_T("CSteamProto::PollingThread: leaving"));
+	debugLog(L"CSteamProto::PollingThread: leaving");
 }

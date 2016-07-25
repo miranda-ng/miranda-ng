@@ -260,7 +260,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		i = GetClassName(hTextWnd, ptszTemp, 255);
 		ptszTemp[i] = 0;
 
-		if (_tcsstr(CharUpper(ptszTemp), _T("RICHEDIT")) != NULL) {
+		if (_tcsstr(CharUpper(ptszTemp), L"RICHEDIT") != NULL) {
 			WindowType = WTYPE_RichEdit;
 			SendMessage(hTextWnd, EM_EXGETSEL, 0, (LPARAM)&crSelection);
 		}
@@ -417,10 +417,10 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				for (i = 0; i < bLayNum; i++)
 					if (hklLayouts[i] != hklCurLay) {
 						if (mir_tstrlen(ptszMBox) != 0)
-							mir_tstrcat(ptszMBox, _T("\n\n"));
+							mir_tstrcat(ptszMBox, L"\n\n");
 						ptrT ptszTemp(GetShortNameOfLayout(hklLayouts[i]));
 						mir_tstrcat(ptszMBox, ptszTemp);
-						mir_tstrcat(ptszMBox, _T(":\n"));
+						mir_tstrcat(ptszMBox, L":\n");
 						ptrT ptszOutText(ChangeTextLayout(ptszInText, hklCurLay, hklLayouts[i], FALSE));
 						mir_tstrcat(ptszMBox, ptszOutText);
 					}

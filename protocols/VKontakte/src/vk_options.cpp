@@ -36,7 +36,7 @@ CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent):
 {
 	SetParent(hwndParent);
 
-	CreateLink(m_edtLogin, "Login", _T(""));
+	CreateLink(m_edtLogin, "Login", L"");
 }
 
 void CVkAccMgrForm::OnInitDialog()
@@ -111,14 +111,14 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 static CVKLang vkLangCodes[] = {
 	{ NULL, LPGENT("Account language") },
-	{ _T("en"), LPGENT("English") },
-	{ _T("ru"), LPGENT("Russian") },
-	{ _T("be"), LPGENT("Belarusian") },
-	{ _T("ua"), LPGENT("Ukrainian") },
-	{ _T("es"), LPGENT("Spanish") },
-	{ _T("fi"), LPGENT("Finnish") },
-	{ _T("de"), LPGENT("German") },
-	{ _T("it"), LPGENT("Italian") },
+	{ L"en", LPGENT("English") },
+	{ L"ru", LPGENT("Russian") },
+	{ L"be", LPGENT("Belarusian") },
+	{ L"ua", LPGENT("Ukrainian") },
+	{ L"es", LPGENT("Spanish") },
+	{ L"fi", LPGENT("Finnish") },
+	{ L"de", LPGENT("German") },
+	{ L"it", LPGENT("Italian") },
 };
 
 static CVKSync vkHistorySyncMethods[] = 
@@ -150,7 +150,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbxMarkAsRead(this, IDC_COMBO_MARKASREAD),
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
-	CreateLink(m_edtLogin, "Login", _T(""));
+	CreateLink(m_edtLogin, "Login", L"");
 	CreateLink(m_edtGroupName, m_proto->m_vkOptions.ptszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);

@@ -68,7 +68,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	if (WinVerMajor() < 5) {
-		MessageBox(0, TranslateT("This version of TabSRMM requires Windows 2000 or later."), _T("tabSRMM"), MB_OK | MB_ICONERROR);
+		MessageBox(0, TranslateT("This version of TabSRMM requires Windows 2000 or later."), L"tabSRMM", MB_OK | MB_ICONERROR);
 		return 1;
 	}
 

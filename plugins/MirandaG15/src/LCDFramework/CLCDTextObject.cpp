@@ -34,7 +34,7 @@ bool CLCDTextObject::Initialize()
 	m_hFont = (HFONT) GetStockObject(DEFAULT_GUI_FONT);
     if(NULL != m_hFont)
 	{   
-		SetFontFaceName(_T("Small Fonts"));
+		SetFontFaceName(L"Small Fonts");
 		SetFontPointSize(6);
 	}
 	return true;

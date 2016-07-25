@@ -538,7 +538,7 @@ char* rtf_to_html(HWND hwndDlg, int DlgItem)
 			isSize = 1;
 		else
 			isSize = 3;
-		TCHAR text[3] = _T("");
+		TCHAR text[3] = L"";
 		SendDlgItemMessage(hwndDlg, DlgItem, EM_GETSELTEXT, 0, (LPARAM)&text);
 		if (Bold != isBold) {
 			Bold = isBold;

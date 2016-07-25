@@ -110,8 +110,8 @@ struct StatusItem // list item structure
 	StatusItem()
 	{
 		m_iIcon = 0;
-		mir_tstrcpy(m_tszTitle, _T(""));
-		mir_tstrcpy(m_tszMessage, _T(""));
+		mir_tstrcpy(m_tszTitle, L"");
+		mir_tstrcpy(m_tszMessage, L"");
 		m_bFavourite = FALSE;
 	}
 

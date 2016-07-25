@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_DESCBUTTON_H__
 #define M_DESCBUTTON_H__ 1
 
-#define MIRANDADESCBUTTONCLASS _T("MirandaDescButtonClass")
+#define MIRANDADESCBUTTONCLASS L"MirandaDescButtonClass"
 
 #define MDBCF_SHAREDICON	0x01
 #define MDBCF_UNICODE		0x02

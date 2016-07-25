@@ -95,9 +95,9 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 	{
 		TCHAR* pszText = NULL;
 		mir_tstradd(pszText, _T(__COPYRIGHT));
-		mir_tstradd(pszText, _T("\r\n\r\n"));
+		mir_tstradd(pszText, L"\r\n\r\n");
 
-		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_LICENSE), _T("TEXT"));
+		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_LICENSE), L"TEXT");
 		DWORD size = SizeofResource(g_hSendSS, hRes);
 		char* data = (char*)mir_alloc(size + 1);
 		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
@@ -112,7 +112,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 
 	//Credit
 	{
-		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_CREDIT), _T("TEXT"));
+		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_CREDIT), L"TEXT");
 		DWORD size = SizeofResource(g_hSendSS, hRes);
 		char* data = (char*)mir_alloc(size + 1);
 		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
@@ -205,7 +205,7 @@ void TfrmAbout::btnPageClick()
 	TCHAR newTitle[128];
 	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
 	TCHAR* pszVer = mir_a2t(__VERSION_STRING_DOTS);
-	mir_sntprintf(newTitle, _T("%s - %s\nv%s"), pszPlug, title, pszVer);
+	mir_sntprintf(newTitle, L"%s - %s\nv%s", pszPlug, title, pszVer);
 	mir_free(pszPlug);
 	mir_free(pszVer);
 	SetDlgItemText(m_hWnd, IDC_HEADERBAR, newTitle);

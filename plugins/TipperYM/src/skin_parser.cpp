@@ -31,19 +31,19 @@ int RefreshSkinList(HWND hwndDlg)
 	SetCurrentDirectory(SKIN_FOLDER);
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
+	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE)
 	{
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(_T("."), ffd.cFileName) && mir_tstrcmp(_T(".."), ffd.cFileName)) 
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(L".", ffd.cFileName) && mir_tstrcmp(L"..", ffd.cFileName)) 
 		{
 			SetCurrentDirectory(ffd.cFileName);
 			WIN32_FIND_DATA ffd2;
-			HANDLE hFindFile = FindFirstFile(_T("*.tsf"), &ffd2);
+			HANDLE hFindFile = FindFirstFile(L"*.tsf", &ffd2);
 			if (hFindFile != INVALID_HANDLE_VALUE)
 				ListBox_AddString(hwndSkins, ffd.cFileName);
 
 			FindClose(hFindFile);
-			SetCurrentDirectory(_T(".."));
+			SetCurrentDirectory(L"..");
 		}
 
 		if (!FindNextFile(hFind, &ffd))
@@ -83,12 +83,12 @@ void ParseAboutPart(FILE *fp, TCHAR *buff, TCHAR *szSkinName)
 
 				if (pch)
 				{
-					if (_tcsstr(buff, _T("author")))
+					if (_tcsstr(buff, L"author"))
 					{}
-					else if (_tcsstr(buff, _T("preview"))) 
+					else if (_tcsstr(buff, L"preview")) 
 					{
 						TCHAR szImgPath[1024];
-						mir_sntprintf(szImgPath, _T("%s\\%s\\%s"), SKIN_FOLDER, szSkinName, pch);
+						mir_sntprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
 							mir_tstrcpy(opt.szPreviewFile, szImgPath);
 					}
@@ -123,40 +123,40 @@ void ParseImagePart(FILE *fp, TCHAR *buff, int iPart)
 
 				if (pch)
 				{
-					if (_tcsstr(buff, _T("image")))
+					if (_tcsstr(buff, L"image"))
 					{
 						TCHAR szImgPath[1024];
-						mir_sntprintf(szImgPath, _T("%s\\%s\\%s"), SKIN_FOLDER, opt.szSkinName, pch);
+						mir_sntprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, opt.szSkinName, pch);
 						opt.szImgFile[iPart] = mir_tstrdup(szImgPath);
 					}
-					else if (_tcsstr(buff, _T("tm")))
+					else if (_tcsstr(buff, L"tm"))
 					{
-						if (!mir_tstrcmpi(pch, _T("TM_NONE")))
+						if (!mir_tstrcmpi(pch, L"TM_NONE"))
 							opt.transfMode[iPart] = TM_NONE;
-						else if (!mir_tstrcmpi(pch, _T("TM_CENTRE")))
+						else if (!mir_tstrcmpi(pch, L"TM_CENTRE"))
 							opt.transfMode[iPart] = TM_CENTRE;
-						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_ALL")))
+						else if (!mir_tstrcmpi(pch, L"TM_STRECH_ALL"))
 							opt.transfMode[iPart] = TM_STRECH_ALL;
-						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_HORIZONTAL")))
+						else if (!mir_tstrcmpi(pch, L"TM_STRECH_HORIZONTAL"))
 							opt.transfMode[iPart] = TM_STRECH_HORIZONTAL;
-						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_VERTICAL")))
+						else if (!mir_tstrcmpi(pch, L"TM_STRECH_VERTICAL"))
 							opt.transfMode[iPart] = TM_STRECH_VERTICAL;
-						else if (!mir_tstrcmpi(pch, _T("TM_TILE_ALL")))
+						else if (!mir_tstrcmpi(pch, L"TM_TILE_ALL"))
 							opt.transfMode[iPart] = TM_TILE_ALL;
-						else if (!mir_tstrcmpi(pch, _T("TM_TILE_HORIZONTAL")))
+						else if (!mir_tstrcmpi(pch, L"TM_TILE_HORIZONTAL"))
 							opt.transfMode[iPart] = TM_TILE_HORIZONTAL;
-						else if (!mir_tstrcmpi(pch, _T("TM_TILE_VERTICAL")))
+						else if (!mir_tstrcmpi(pch, L"TM_TILE_VERTICAL"))
 							opt.transfMode[iPart] = TM_TILE_VERTICAL;
 						else 
 							opt.transfMode[iPart] = TM_NONE;
 					}
-					else if (_tcsstr(buff, _T("left")))
+					else if (_tcsstr(buff, L"left"))
 						opt.margins[iPart].left = _ttoi(pch);
-					else if (_tcsstr(buff, _T("top")))
+					else if (_tcsstr(buff, L"top"))
 						opt.margins[iPart].top = _ttoi(pch);
-					else if (_tcsstr(buff, _T("right")))
+					else if (_tcsstr(buff, L"right"))
 						opt.margins[iPart].right = _ttoi(pch);
-					else if (_tcsstr(buff, _T("bottom")))
+					else if (_tcsstr(buff, L"bottom"))
 						opt.margins[iPart].bottom = _ttoi(pch);
 				}
 			}
@@ -171,15 +171,15 @@ char *GetSettingName(TCHAR *szValue, char *szPostfix, char *buff, size_t buffsiz
 {
 	buff[0] = 0;
 
-	if (_tcsstr(szValue, _T("traytitle")))
+	if (_tcsstr(szValue, L"traytitle"))
 		mir_snprintf(buff, buffsize, "FontTrayTitle%s", szPostfix);
-	else if (_tcsstr(szValue, _T("title")))
+	else if (_tcsstr(szValue, L"title"))
 		mir_snprintf(buff, buffsize, "FontFirst%s", szPostfix);
-	else if (_tcsstr(szValue, _T("label")))
+	else if (_tcsstr(szValue, L"label"))
 		mir_snprintf(buff, buffsize, "FontLabels%s", szPostfix);
-	else if (_tcsstr(szValue, _T("value")))
+	else if (_tcsstr(szValue, L"value"))
 		mir_snprintf(buff, buffsize, "FontValues%s", szPostfix);
-	else if (_tcsstr(szValue, _T("divider")))
+	else if (_tcsstr(szValue, L"divider"))
 		mir_snprintf(buff, buffsize, "Divider%s", szPostfix);
 
 	return buff[0] ? buff : NULL;
@@ -202,7 +202,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 
 				if (pch) 
 				{
-					if (_tcsstr(buff, _T("face")))
+					if (_tcsstr(buff, L"face"))
 					{
 						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) 
 						{
@@ -212,7 +212,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 							db_set_ts(0, MODULE, szSetting, pch);
 						}
 					} 
-					else if (_tcsstr(buff, _T("color")))
+					else if (_tcsstr(buff, L"color"))
 					{
 						if (GetSettingName(buff, "Col", szSetting, sizeof(szSetting) - 1))
 						{
@@ -231,7 +231,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 							}
 						}
 					} 
-					else if (_tcsstr(buff, _T("size")))
+					else if (_tcsstr(buff, L"size"))
 					{
 						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) 
 						{
@@ -241,16 +241,16 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 							ReleaseDC(0, hdc);
 						}
 					} 
-					else if (_tcsstr(buff, _T("effect")))
+					else if (_tcsstr(buff, L"effect"))
 					{
 						if (GetSettingName(buff, "Sty", szSetting, sizeof(szSetting) - 1))
 						{
 							BYTE effect = 0;
-							if (_tcsstr(pch, _T("font_bold")))
+							if (_tcsstr(pch, L"font_bold"))
 								effect |= DBFONTF_BOLD;
-							if (_tcsstr(pch, _T("font_italic")))
+							if (_tcsstr(pch, L"font_italic"))
 								effect |= DBFONTF_ITALIC;
-							if (_tcsstr(pch, _T("font_underline")))
+							if (_tcsstr(pch, L"font_underline"))
 								effect |= DBFONTF_UNDERLINE;
 
 							db_set_b(0, MODULE, szSetting, effect);
@@ -280,23 +280,23 @@ void ParseAppearancePart(FILE *fp, TCHAR *buff)
 
 				if (pch)
 				{
-					if (_tcsstr(buff, _T("general-padding")))
+					if (_tcsstr(buff, L"general-padding"))
 						opt.iPadding = _ttoi(pch);
-					else if (_tcsstr(buff, _T("title-indent")))
+					else if (_tcsstr(buff, L"title-indent"))
 						opt.iTitleIndent = _ttoi(pch);
-					else if (_tcsstr(buff, _T("text-indent")))
+					else if (_tcsstr(buff, L"text-indent"))
 						opt.iTextIndent = _ttoi(pch);
-					else if (_tcsstr(buff, _T("value-indent")))
+					else if (_tcsstr(buff, L"value-indent"))
 						opt.iValueIndent = _ttoi(pch);
-					else if (_tcsstr(buff, _T("text-padding")))
+					else if (_tcsstr(buff, L"text-padding"))
 						opt.iTextPadding = _ttoi(pch);
-					else if (_tcsstr(buff, _T("outer-avatar-padding")))
+					else if (_tcsstr(buff, L"outer-avatar-padding"))
 						opt.iOuterAvatarPadding = _ttoi(pch);
-					else if (_tcsstr(buff, _T("inner-avatar-padding")))
+					else if (_tcsstr(buff, L"inner-avatar-padding"))
 						opt.iInnerAvatarPadding = _ttoi(pch);
-					else if (_tcsstr(buff, _T("sidebar-width")))
+					else if (_tcsstr(buff, L"sidebar-width"))
 						opt.iSidebarWidth = _ttoi(pch);
-					else if (_tcsstr(buff, _T("opacity")))
+					else if (_tcsstr(buff, L"opacity"))
 						opt.iOpacity = _ttoi(pch);
 				}
 			}
@@ -322,9 +322,9 @@ void ParseOtherPart(FILE *fp, TCHAR *buff)
 
 				if (pch) 
 				{
-					if (_tcsstr(buff, _T("enable-coloring")))
+					if (_tcsstr(buff, L"enable-coloring"))
 					{
-						if (_tcsstr(pch, _T("false")))
+						if (_tcsstr(pch, L"false"))
 							opt.iEnableColoring = -1;
 					}
 				}
@@ -351,10 +351,10 @@ void ParseSkinFile(TCHAR *szSkinName, bool bStartup, bool bOnlyPreview)
 	SetCurrentDirectory(szSkinName);
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(_T("*.tsf"), &ffd);
+	HANDLE hFind = FindFirstFile(L"*.tsf", &ffd);
 	if (hFind != INVALID_HANDLE_VALUE) 
 	{
-		FILE *fp = _tfopen(ffd.cFileName, _T("r"));
+		FILE *fp = _tfopen(ffd.cFileName, L"r");
 		if (fp)
 		{
 			myfgets(buff, 1024, fp);
@@ -362,34 +362,34 @@ void ParseSkinFile(TCHAR *szSkinName, bool bStartup, bool bOnlyPreview)
 			{
 				if (buff[0] == '[') 
 				{
-					if (!mir_tstrcmp(_T("[about]"), buff)) 
+					if (!mir_tstrcmp(L"[about]", buff)) 
 					{
 						ParseAboutPart(fp, buff, szSkinName);
 						continue;
 					} 
-					else if (!mir_tstrcmp(_T("[other]"), buff)) 
+					else if (!mir_tstrcmp(L"[other]", buff)) 
 					{
 						ParseOtherPart(fp, buff);
 						continue;
 					} 
 					else if (!bOnlyPreview) 
 					{
-						if (!mir_tstrcmp(_T("[background]"), buff))
+						if (!mir_tstrcmp(L"[background]", buff))
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_BG);
 							continue;
 						} 
-						else if (!mir_tstrcmp(_T("[sidebar]"), buff)) 
+						else if (!mir_tstrcmp(L"[sidebar]", buff)) 
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_SIDEBAR);
 							continue;
 						}
-						else if (!bStartup && opt.bLoadFonts && !mir_tstrcmp(_T("[fonts]"), buff))
+						else if (!bStartup && opt.bLoadFonts && !mir_tstrcmp(L"[fonts]", buff))
 						{
 							ParseFontPart(fp, buff);
 							continue;
 						} 
-						else if (!bStartup && opt.bLoadProportions && !mir_tstrcmp(_T("[appearance]"), buff))
+						else if (!bStartup && opt.bLoadProportions && !mir_tstrcmp(L"[appearance]", buff))
 						{
 							ParseAppearancePart(fp, buff);
 							continue;

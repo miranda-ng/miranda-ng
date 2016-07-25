@@ -97,7 +97,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch(msg) {
 
 	case WM_CREATE: 
-		hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
+		hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_STANDARD | LBS_NOTIFY | LBS_OWNERDRAWFIXED) & ~LBS_SORT
 			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);		
 		return FALSE;
@@ -155,7 +155,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					len--;
 					_tcsncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
-					mir_tstrcat(titlebuff, _T("..."));
+					mir_tstrcat(titlebuff, L"...");
 					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_tstrlen(titlebuff),&textSize);
 				}
 				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,(int)mir_tstrlen(titlebuff));
@@ -496,11 +496,11 @@ int CreateFrame()
 	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 	wndclass.hbrBackground = 0;
 	wndclass.lpszMenuName  = NULL;
-	wndclass.lpszClassName = _T("AlarmsFrame");
+	wndclass.lpszClassName = L"AlarmsFrame";
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
+		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"), 
 			WS_CHILD | WS_CLIPCHILDREN, 
 			0,0,10,10, pcli->hwndContactList, NULL,hInst,NULL);
 
@@ -523,15 +523,15 @@ int CreateFrame()
 		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 		wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
 		wndclass.lpszMenuName  = NULL;
-		wndclass.lpszClassName = _T("AlarmsFrameContainer");
+		wndclass.lpszClassName = L"AlarmsFrameContainer";
 		RegisterClass(&wndclass);
 
-		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, _T("AlarmsFrameContainer"), TranslateT("Alarms"), 
+		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, L"AlarmsFrameContainer", TranslateT("Alarms"), 
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
 			0,0,200,100, pcli->hwndContactList, NULL,hInst,NULL);
 			//0,0,200,100, GetDesktopWindow(), NULL,hInst,NULL);
 	
-		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
+		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"), 
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
 			0,0,10,10, hwnd_frame, NULL,hInst,NULL);
 

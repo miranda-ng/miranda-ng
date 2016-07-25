@@ -3,7 +3,7 @@
 TCHAR *GetFilter()
 {
 	static TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _T("%s%c*.ini%c%s%c*.*%c"), TranslateT("INI Files"), 0, 0, TranslateT("All Files"), 0, 0);
+	mir_sntprintf(filter, L"%s%c*.ini%c%s%c*.*%c", TranslateT("INI Files"), 0, 0, TranslateT("All Files"), 0, 0);
 	return filter;
 }
 
@@ -38,7 +38,7 @@ int Openfile(TCHAR *outputFile, const char *module, int maxlen)
 	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 	ofn.lpstrTitle = TranslateT("Export to file");
 	ofn.nMaxFile = maxlen;
-	ofn.lpstrDefExt = _T("ini");
+	ofn.lpstrDefExt = L"ini";
 	if (!GetSaveFileName(&ofn))
 		return 0;
 
@@ -151,7 +151,7 @@ void exportDB(MCONTACT hContact, const char *module)
 	TCHAR fileName[MAX_PATH];
 
 	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? NULL : module, MAX_PATH)) {
-		FILE *file = _tfopen(fileName, _T("wt"));
+		FILE *file = _tfopen(fileName, L"wt");
 		if (!file) {
 			msg(TranslateT("Couldn't open file for writing"));
 			return;
@@ -492,7 +492,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 
 	DWORD offset = 0;
 
-	mir_tstrcpy(szFileNames, _T(""));
+	mir_tstrcpy(szFileNames, L"");
 
 	if (!FilePath)
 		offset = Openfile2Import(szFileNames, _countof(szFileNames));
@@ -503,11 +503,11 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 	}
 
 	int index = 0;
-	if (mir_tstrcmp(szFileNames, _T(""))) {
+	if (mir_tstrcmp(szFileNames, L"")) {
 		if ((DWORD)mir_tstrlen(szFileNames) < offset) {
 			index += offset;
 			mir_tstrncpy(szPath, szFileNames, offset);
-			mir_tstrcat(szPath, _T("\\"));
+			mir_tstrcat(szPath, L"\\");
 		}
 
 		while (szFileNames[index]) {

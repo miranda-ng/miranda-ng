@@ -264,7 +264,7 @@ BOOL strrep(char *src, char *needle, char *newstring)
 //				1-subject
 BOOL checkFilters(TCHAR* str, int field)
 {
-	TCHAR buff[512] = _T("");
+	TCHAR buff[512] = L"";
 	TCHAR *strptr = NULL;
 	switch(field) {
 	case 0:
@@ -488,7 +488,7 @@ void ErMsgT(TCHAR* msg)
 	log_p(L"Error: %S", msg);
 	if(settingShowError && !isPopupWaiting) {
 		TCHAR buffer[256+14];
-		_tcsncpy_s(buffer, _T("LotusNotify: "), _TRUNCATE);
+		_tcsncpy_s(buffer, L"LotusNotify: ", _TRUNCATE);
 		_tcscat_s(buffer, msg);
 		isPopupWaiting = TRUE;
 		PUShowMessageT(buffer, SM_WARNING);
@@ -1571,14 +1571,14 @@ void checkEnvPath(TCHAR *path)
 	log_p(L"checkEnvPath: [%s]", path);
 
 	_tcslwr(path);
-	TCHAR *cur = _tgetenv(_T("PATH"));
+	TCHAR *cur = _tgetenv(L"PATH");
 	_tcslwr(cur);
 	TCHAR *found = _tcsstr(cur, path);
 	size_t len = mir_tstrlen(path);
 	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
 
-	_tputenv(CMString(FORMAT, _T("PATH=%s;%s;"), cur, path));
+	_tputenv(CMString(FORMAT, L"PATH=%s;%s;", cur, path));
 }
 
 //GetStatus
@@ -1599,7 +1599,7 @@ static int modulesloaded(WPARAM, LPARAM)
 
 	GetLotusPath(path, sizeof(path));
 	checkEnvPath(path);
-	_tcscat_s(path, _countof(path), _T("nnotes.dll"));
+	_tcscat_s(path, _countof(path), L"nnotes.dll");
 	assert(mir_tstrlen(path) > 0);
 
 	log_p(L"Loading dll: %s", path);

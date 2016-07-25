@@ -5,9 +5,9 @@ CRYPTOPP_INFO cpp;
 HMODULE h;
 BOOL loadlib(void)
 {
-	h = LoadLibrary(_T("plugins/cryptopp.dll"));
+	h = LoadLibrary("plugins/cryptopp.dll");
 	if (h == NULL) {
-		h = LoadLibrary(_T("cryptopp.dll"));
+		h = LoadLibrary("cryptopp.dll");
 		if (h == NULL) return 0;
 	}
 

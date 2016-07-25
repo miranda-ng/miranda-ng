@@ -372,7 +372,7 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 
 void SaveState()
 {
-	TCHAR newGroupFilter[2048] = _T("|");
+	TCHAR newGroupFilter[2048] = L"|";
 	char newProtoFilter[2048] = "|";
 	DWORD statusMask = 0;
 	DWORD operators = 0;
@@ -414,7 +414,7 @@ void SaveState()
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 				mir_tstrncat(newGroupFilter, szTemp, _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
-				mir_tstrncat(newGroupFilter, _T("|"), _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
+				mir_tstrncat(newGroupFilter, L"|", _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
 				newGroupFilter[2047] = 0;
 			}
 		}
@@ -561,7 +561,7 @@ static void UpdateFilters()
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, _T("%s|"), szTemp);
+			mir_sntprintf(szMask, L"%s|", szTemp);
 			if (szGF && _tcsstr(szGF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -783,14 +783,14 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					int iNewItem = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
 					if (iNewItem != LB_ERR) {
 						SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, (WPARAM)iNewItem, 0);
-						SaveViewMode(szUTF8Buf, _T(""), "", 0, -1, 0, 0, 0, 0);
+						SaveViewMode(szUTF8Buf, L"", "", 0, -1, 0, 0, 0, 0);
 						clvm_curItem = iNewItem;
 						UpdateStickies();
 						SendDlgItemMessage(hwndDlg, IDC_PROTOGROUPOP, CB_SETCURSEL, 0, 0);
 						SendDlgItemMessage(hwndDlg, IDC_GROUPSTATUSOP, CB_SETCURSEL, 0, 0);
 					}
 				}
-				SetDlgItemText(hwndDlg, IDC_NEWVIEMODE, _T(""));
+				SetDlgItemText(hwndDlg, IDC_NEWVIEMODE, L"");
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDVIEWMODE), FALSE);
 			UpdateFilters();
@@ -923,7 +923,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_CREATE:
 	{
 		RECT rcMargins = { 12, 0, 2, 0 };
-		hwndSelector = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+		hwndSelector = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, NULL);
 		MakeButtonSkinned(hwndSelector);
 		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_TCHAR);
@@ -935,7 +935,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0, (LPARAM)1);
 
 		//SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
-		HWND hwndButton = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+		HWND hwndButton = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, NULL);
 		MakeButtonSkinned(hwndButton);
 		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_TCHAR);
@@ -943,7 +943,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
 		SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 
-		hwndButton = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+		hwndButton = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_RESETMODES, g_hInst, NULL);
 		MakeButtonSkinned(hwndButton);
 		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_TCHAR);
@@ -1193,18 +1193,18 @@ void CreateViewModeFrame()
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetSysColorBrush(COLOR_3DFACE);
 	wndclass.lpszMenuName = 0;
-	wndclass.lpszClassName = _T("CLVMFrameWindow");
+	wndclass.lpszClassName = L"CLVMFrameWindow";
 	RegisterClass(&wndclass);
 
 	CLISTFrame frame = { 0 };
 	frame.cbSize = sizeof(frame);
-	frame.tname = _T("View modes");
+	frame.tname = L"View modes";
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
 	frame.TBtname = TranslateT("View modes");
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", _T(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);

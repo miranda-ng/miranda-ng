@@ -420,7 +420,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 		// Found one, now merge it
 		if (mir_tstrcmpi(extra->getDescription(), desc)) {
 			CMString newDesc = extra->getDescription();
-			newDesc += _T(" / ");
+			newDesc += L" / ";
 			newDesc += desc;
 			extra->setDescription(newDesc.c_str());
 		}

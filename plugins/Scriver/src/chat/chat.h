@@ -100,5 +100,5 @@ void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 
 //////////////////////////////////////////////////////////////////////////////////
 
-#define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
+#define DEFLOGFILENAME L"%miranda_logpath%\\%proto%\\%userid%.log"
 #endif

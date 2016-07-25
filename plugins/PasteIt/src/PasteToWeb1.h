@@ -30,7 +30,7 @@ public:
 	virtual ~PasteToWeb1();
 	virtual TCHAR* GetName()
 	{
-		return _T("pastebin.com");
+		return L"pastebin.com";
 	}
 	virtual void ConfigureSettings();
 	virtual std::list<PasteFormat> GetFormats();

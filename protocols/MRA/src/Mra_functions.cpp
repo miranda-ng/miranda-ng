@@ -878,7 +878,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	else {
 		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;
-		mir_sntprintf(szErrorText, _T("%s %lu: %s"), TranslateTS(lpwszErrText), dwErrorCode, szErrDescription);
+		mir_sntprintf(szErrorText, L"%s %lu: %s", TranslateTS(lpwszErrText), dwErrorCode, szErrDescription);
 	}
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
 }
@@ -1009,7 +1009,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			if (dat->ppro->mraGetStringW(NULL, szValueName, szBuff))
 				SetDlgItemText(hWndDlg, IDC_XMSG, szBuff.c_str()); // custom xstatus description
 			else // default xstatus description
-				SetDlgItemText(hWndDlg, IDC_XMSG, _T(""));
+				SetDlgItemText(hWndDlg, IDC_XMSG, L"");
 
 			SendMessage(hWndDlg, WM_TIMER, 0, 0);
 			SetTimer(hWndDlg, 1, 1000, 0);
@@ -1124,7 +1124,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 
 			DWORD dwTime = dat->ppro->getDword(dat->hContact, DBSETTING_BLOGSTATUSTIME, 0);
 			if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &stBlogStatusTime))
-				szBuff.Format(_T("%s: %04ld.%02ld.%02ld %02ld:%02ld"), TranslateT("Written"),
+				szBuff.Format(L"%s: %04ld.%02ld.%02ld %02ld:%02ld", TranslateT("Written"),
 				stBlogStatusTime.wYear, stBlogStatusTime.wMonth, stBlogStatusTime.wDay, stBlogStatusTime.wHour, stBlogStatusTime.wMinute);
 			else
 				szBuff.Empty();
@@ -1176,7 +1176,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 				size_t dwMessageSize = GetWindowTextLength(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND));
 
 				EnableWindow(GetDlgItem(hWndDlg, IDOK), (int)dwMessageSize);
-				mir_sntprintf(tszBuff, _T("%d/%d"), dwMessageSize, MICBLOG_STATUS_MAX);
+				mir_sntprintf(tszBuff, L"%d/%d", dwMessageSize, MICBLOG_STATUS_MAX);
 				SetDlgItemText(hWndDlg, IDC_STATIC_CHARS_COUNTER, tszBuff);
 			}
 			break;
@@ -1250,7 +1250,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 				dwPathLen++;
 			}
 			szPath[dwPathLen] = 0;
-			mir_tstrcat(szPath, _T("*.*"));
+			mir_tstrcat(szPath, L"*.*");
 
 			dwRetErrorCode = ERROR_FILE_NOT_FOUND;
 			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
@@ -1261,11 +1261,11 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 
 					while (dwRetErrorCode == ERROR_FILE_NOT_FOUND && FindNextFile(prdsiItems[dwRecDeepCurPos].hFind, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData)) {
 						if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
-							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
-							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
+							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, L".", 1) != CSTR_EQUAL)
+							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, L"..", 2) != CSTR_EQUAL) {
 								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (int)mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1;
 								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
-								mir_tstrcat(szPath, _T("\\*.*"));
+								mir_tstrcat(szPath, L"\\*.*");
 								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
 								dwRecDeepCurPos++;
@@ -1433,9 +1433,9 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 	return dwRetErrorCode;
 }
 
-static const LPTSTR lpszXMLTags[] = { _T("&apos;"), _T("&quot;"), _T("&amp;"), _T("&lt;"), _T("&gt;") };
+static const LPTSTR lpszXMLTags[] = { L"&apos;", L"&quot;", L"&amp;", L"&lt;", L"&gt;" };
 static const size_t dwXMLTagsCount[] = { (6 * sizeof(TCHAR)), (6 * sizeof(TCHAR)), (5 * sizeof(TCHAR)), (4 * sizeof(TCHAR)), (4 * sizeof(TCHAR)) };
-static const LPTSTR lpszXMLSymbols[] = { _T("\'"), _T("\""), _T("&"), _T("<"), _T(">") };
+static const LPTSTR lpszXMLSymbols[] = { L"\'", L"\"", L"&", L"<", L">" };
 static const size_t dwXMLSymbolsCount[] = { sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR) };
 
 //Decode XML coded string. The function translate special xml code into standard characters.

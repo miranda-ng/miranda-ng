@@ -95,7 +95,7 @@ int OnIconsChanged(WPARAM, LPARAM)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	LPCTSTR ptszEmptySting = _T("");
+	LPCTSTR ptszEmptySting = L"";
 
 	// Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
 	for (int i = 0; i < bLayNum; i++) {

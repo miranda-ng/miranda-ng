@@ -13,11 +13,11 @@ CSametimeProto* getProtoFromMwFileTransfer(mwFileTransfer* ft)
 void mwFileTransfer_offered(mwFileTransfer* ft)
 {
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
-	proto->debugLog(_T("mwFileTransfer_offered() start"));
+	proto->debugLog(L"mwFileTransfer_offered() start");
 
 	const mwIdBlock* idb = mwFileTransfer_getUser(ft);
 	MCONTACT hContact = proto->FindContactByUserId(idb->user);
-	proto->debugLog(_T("Sametime mwFileTransfer_offered hContact=[%x]"), hContact);
+	proto->debugLog(L"Sametime mwFileTransfer_offered hContact=[%x]", hContact);
 
 	if (!hContact) {
 		mwSametimeList* user_list = mwSametimeList_new();
@@ -33,7 +33,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	TCHAR descriptionT[512];
 	if (message) {
 		TCHAR* messageT = mir_utf8decodeT(message);
-		mir_sntprintf(descriptionT, _T("%s - %s"), filenameT, messageT);
+		mir_sntprintf(descriptionT, L"%s - %s", filenameT, messageT);
 		mir_free(messageT);
 	} else
 		_tcsncpy_s(descriptionT, filenameT, _TRUNCATE);
@@ -59,7 +59,7 @@ int SendFileChunk(CSametimeProto* proto, mwFileTransfer* ft, FileTransferClientD
 		return 0;
 
 	if (!ReadFile(ftcd->hFile, ftcd->buffer, FILE_BUFF_SIZE, &bytes_read, 0)) {
-		proto->debugLog(_T("Sametime closing file transfer (SendFileChunk)"));
+		proto->debugLog(L"Sametime closing file transfer (SendFileChunk)");
 		mwFileTransfer_close(ft, mwFileTransfer_SUCCESS);
 		return 0;
 	}
@@ -79,7 +79,7 @@ void __cdecl SendThread(LPVOID param) {
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
 
-	proto->debugLog(_T("SendThread() start"));
+	proto->debugLog(L"SendThread() start");
 
 	PROTOFILETRANSFERSTATUS pfts = {0};
 
@@ -114,7 +114,7 @@ void __cdecl SendThread(LPVOID param) {
 	if (ftcd->buffer) delete[] ftcd->buffer;
 	delete ftcd;
 	
-	proto->debugLog(_T("SendThread() end"));
+	proto->debugLog(L"SendThread() end");
 	return;
 }
 
@@ -124,7 +124,7 @@ void mwFileTransfer_opened(mwFileTransfer* ft)
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
 
-	proto->debugLog(_T("Sametime mwFileTransfer_opened start"));
+	proto->debugLog(L"Sametime mwFileTransfer_opened start");
 
 	if (ftcd->sending) {
 		// create a thread to send chunks - since it seems not all clients send acks for each of our chunks!
@@ -139,7 +139,7 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 {
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
-	proto->debugLog(_T("mwFileTransfer_closed() start"));
+	proto->debugLog(L"mwFileTransfer_closed() start");
 
 	if (ftcd) {
 		if (ftcd->hFile != INVALID_HANDLE_VALUE)
@@ -217,14 +217,14 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 {
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
-	proto->debugLog(_T("mwFileTransfer_recv() start"));
+	proto->debugLog(L"mwFileTransfer_recv() start");
 
 	DWORD bytes_written;
 	if (!WriteFile(ftcd->hFile, data->data, data->len, &bytes_written, 0)) {
-		proto->debugLog(_T("mwFileTransfer_recv() !WriteFile"));
+		proto->debugLog(L"mwFileTransfer_recv() !WriteFile");
 		mwFileTransfer_cancel(ft);
 		proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt, 0);
-		proto->debugLog(_T("mwFileTransfer_recv() ACKRESULT_FAILED"));
+		proto->debugLog(L"mwFileTransfer_recv() ACKRESULT_FAILED");
 	}
 	else {
 		mwFileTransfer_ack(ft); // acknowledge chunk
@@ -248,11 +248,11 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 		pfts.currentFileTime = 0; //?
 
 		proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftcd->hFt, (LPARAM)&pfts);
-		proto->debugLog(_T("mwFileTransfer_recv() ACKRESULT_DATA"));
+		proto->debugLog(L"mwFileTransfer_recv() ACKRESULT_DATA");
 
 		if (mwFileTransfer_isDone(ft)) {
 			proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt, 0);
-			proto->debugLog(_T("mwFileTransfer_recv() ACKRESULT_SUCCESS"));
+			proto->debugLog(L"mwFileTransfer_recv() ACKRESULT_SUCCESS");
 		}
 	}
 }
@@ -265,7 +265,7 @@ void mwFileTransfer_handle_ack(mwFileTransfer* ft)
 	// see SendThread above - not all clients send us acks
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	//FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
-	proto->debugLog(_T("mwFileTransfer_handle_ack()"));
+	proto->debugLog(L"mwFileTransfer_handle_ack()");
 }
 
 /** optional. called from mwService_free */
@@ -284,7 +284,7 @@ mwFileTransferHandler mwFileTransfer_handler = {
 
 HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, TCHAR** files, const TCHAR* ptszDesc)
 {
-	debugLog(_T("CSametimeProto::SendFilesToUser() start"));
+	debugLog(L"CSametimeProto::SendFilesToUser() start");
 
 	mwAwareIdBlock id_block;
 	if (GetAwareIdFromContact(hContact, &id_block)) {
@@ -359,7 +359,7 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
-	debugLog(_T("CSametimeProto::AcceptFileTransfer() start"));
+	debugLog(L"CSametimeProto::AcceptFileTransfer() start");
 
 	FileTransferClientData* ftcd = new FileTransferClientData;
 	memset(ftcd, 0, sizeof(FileTransferClientData));
@@ -388,7 +388,7 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 
 	ftcd->hFile = CreateFileA(fp, GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, 0, 0);
 	if (ftcd->hFile == INVALID_HANDLE_VALUE) {
-		debugLog(_T("CSametimeProto::AcceptFileTransfer() INVALID_HANDLE_VALUE"));
+		debugLog(L"CSametimeProto::AcceptFileTransfer() INVALID_HANDLE_VALUE");
 		mwFileTransfer_close(ft, mwFileTransfer_ERROR);
 		return 0;
 	}
@@ -405,7 +405,7 @@ void CSametimeProto::RejectFileTransfer(HANDLE hFt)
 {
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
-	debugLog(_T("CSametimeProto::RejectFileTransfer() start"));
+	debugLog(L"CSametimeProto::RejectFileTransfer() start");
 
 	mwFileTransfer_reject(ft);
 }
@@ -414,7 +414,7 @@ void CSametimeProto::CancelFileTransfer(HANDLE hFt)
 {
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
-	debugLog(_T("CSametimeProto::CancelFileTransfer() start"));
+	debugLog(L"CSametimeProto::CancelFileTransfer() start");
 
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
 
@@ -429,13 +429,13 @@ void CSametimeProto::CancelFileTransfer(HANDLE hFt)
 
 void CSametimeProto::InitFiles()
 {
-	debugLog(_T("CSametimeProto::InitFiles()"));
+	debugLog(L"CSametimeProto::InitFiles()");
 	mwSession_addService(session, (mwService*)(service_files = mwServiceFileTransfer_new(session, &mwFileTransfer_handler)));
 }
 
 void CSametimeProto::DeinitFiles()
 {
-	debugLog(_T("CSametimeProto::DeinitFiles()"));
+	debugLog(L"CSametimeProto::DeinitFiles()");
 	mwSession_removeService(session, mwService_FILE_TRANSFER);
 	mwService_free((mwService*)service_files);
 	service_files = 0;

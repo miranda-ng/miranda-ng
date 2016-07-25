@@ -36,9 +36,9 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 		p[1] = 0;
 
 	if ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 )
-		ShellExecute(0, _T("explore"), szMirandaPath, 0, 0, SW_SHOWNORMAL);
+		ShellExecute(0, L"explore", szMirandaPath, 0, 0, SW_SHOWNORMAL);
 	else
-		ShellExecute(0, _T("open"), szMirandaPath, 0, 0, SW_SHOWNORMAL);
+		ShellExecute(0, L"open", szMirandaPath, 0, 0, SW_SHOWNORMAL);
 
 	return 0;
 }

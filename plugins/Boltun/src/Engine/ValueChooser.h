@@ -66,7 +66,7 @@ public:
 		{
 			Reset();
 			if (notifyOnReset)
-				return _T("");
+				return L"";
 		}
 		int result;
 		while (numbers[result = rand() % data.size()])

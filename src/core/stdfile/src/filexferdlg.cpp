@@ -99,13 +99,13 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 		if (dbv.ptszVal[0]) {
 			STARTUPINFO si = { 0 };
 			si.cb = sizeof(si);
-			TCHAR *pszReplace = _tcsstr(dbv.ptszVal, _T("%f"));
+			TCHAR *pszReplace = _tcsstr(dbv.ptszVal, L"%f");
 			TCHAR szCmdLine[768];
 			if (pszReplace) {
 				if (info->szFile[mir_tstrlen(info->szFile) - 1] == '\\')
 					info->szFile[mir_tstrlen(info->szFile) - 1] = '\0';
 				*pszReplace = 0;
-				mir_sntprintf(szCmdLine, _T("%s\"%s\"%s"), dbv.ptszVal, info->szFile, pszReplace + 2);
+				mir_sntprintf(szCmdLine, L"%s\"%s\"%s", dbv.ptszVal, info->szFile, pszReplace + 2);
 			} else
 				_tcsncpy_s(szCmdLine, dbv.ptszVal, _TRUNCATE);
 
@@ -139,7 +139,7 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 	if (dat->hIcon) DestroyIcon(dat->hIcon); dat->hIcon = NULL;
 
 	if (fn && (fts->totalFiles > 1)) {
-		mir_sntprintf(msg, _T("%s: %s (%d %s %d)"),
+		mir_sntprintf(msg, L"%s: %s (%d %s %d)",
 			pcli->pfnGetContactDisplayName(fts->hContact, 0),
 			fn, fts->currentFileNumber + 1, TranslateT("of"), fts->totalFiles);
 
@@ -147,7 +147,7 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 		dat->hIcon = shfi.hIcon;
 	}
 	else if (fn) {
-		mir_sntprintf(msg, _T("%s: %s"), pcli->pfnGetContactDisplayName(fts->hContact, 0), fn);
+		mir_sntprintf(msg, L"%s: %s", pcli->pfnGetContactDisplayName(fts->hContact, 0), fn);
 
 		SHGetFileInfo(fn, FILE_ATTRIBUTE_NORMAL, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_SMALLICON);
 		dat->hIcon = shfi.hIcon;
@@ -267,7 +267,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_CONTACTNAME, WM_SETFONT, (WPARAM)hFont, 0);
 
 			SHFILEINFO shfi = { 0 };
-			SHGetFileInfo(_T(""), FILE_ATTRIBUTE_DIRECTORY, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_SMALLICON);
+			SHGetFileInfo(L"", FILE_ATTRIBUTE_DIRECTORY, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_SMALLICON);
 			dat->hIconFolder = shfi.hIcon;
 		}
 		dat->hIcon = NULL;
@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			GetSensiblyFormattedSize((dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) / dat->bytesRecvedHistorySize, szSpeed, _countof(szSpeed), 0, 1, NULL);
 			if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1])
-				mir_tstrcpy(szTime, _T("??:??:??"));
+				mir_tstrcpy(szTime, L"??:??:??");
 			else {
 				li.QuadPart = BIGI(10000000)*(dat->transferStatus.currentFileSize - dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
 				ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &st, NULL, szTime, _countof(szTime));
 			}
 
-			mir_sntprintf(szDisplay, _T("%s/%s  (%s %s)"), szSpeed, TranslateT("sec"), szTime, TranslateT("remaining"));
+			mir_sntprintf(szDisplay, L"%s/%s  (%s %s)", szSpeed, TranslateT("sec"), szTime, TranslateT("remaining"));
 			SetDlgItemText(hwndDlg, IDC_ALLSPEED, szDisplay);
 		}
 		break;
@@ -378,7 +378,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					TCHAR *p = _tcsrchr(path, '\\'); if (p) *p = 0;
 				}
 
-				if (path) ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
+				if (path) ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
 			}
 			break;
 
@@ -446,7 +446,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						*p = 0;
 				}
 
-				if (path) ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
+				if (path) ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
 			}
 			else if (ret && CheckVirusScanned(hwndDlg, dat, ret))
 				ShellExecute(NULL, NULL, files[ret - 10], NULL, NULL, SW_SHOW);
@@ -483,7 +483,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					size_t size = (pszExtension - szOriginalFilename) + 21 + mir_tstrlen(pszExtension);
 					pfr->szFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 					for (int i = 1;; i++) {
-						mir_sntprintf((TCHAR*)pfr->szFilename, size, _T("%.*s (%u)%s"), pszExtension - szOriginalFilename, szOriginalFilename, i, pszExtension);
+						mir_sntprintf((TCHAR*)pfr->szFilename, size, L"%.*s (%u)%s", pszExtension - szOriginalFilename, szOriginalFilename, i, pszExtension);
 						if (_taccess(pfr->szFilename, 0) != 0)
 							break;
 					}
@@ -596,14 +596,14 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					const unsigned long nextPos = fts->totalBytes ? (BIGI(100) * fts->totalProgress / fts->totalBytes) : 0;
 					if (lastPos != nextPos || firstTime) {
 						SendDlgItemMessage(hwndDlg, IDC_ALLFILESPROGRESS, PBM_SETPOS, nextPos, 0);
-						mir_sntprintf(str, _T("%u%%"), nextPos);
+						mir_sntprintf(str, L"%u%%", nextPos);
 						SetDlgItemText(hwndDlg, IDC_ALLPRECENTS, str);
 					}
 
 					int units;
 					GetSensiblyFormattedSize(fts->totalBytes, szSizeTotal, _countof(szSizeTotal), 0, 1, &units);
 					GetSensiblyFormattedSize(fts->totalProgress, szSizeDone, _countof(szSizeDone), units, 0, NULL);
-					mir_sntprintf(str, _T("%s/%s"), szSizeDone, szSizeTotal);
+					mir_sntprintf(str, L"%s/%s", szSizeDone, szSizeTotal);
 					str2[0] = 0;
 					GetDlgItemText(hwndDlg, IDC_ALLTRANSFERRED, str2, _countof(str2));
 					if (mir_tstrcmp(str, str2))

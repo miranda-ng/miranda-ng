@@ -207,12 +207,12 @@ int ModulesLoaded(WPARAM, LPARAM)
 	
 	TCHAR ftpExe[MAX_PATH];
 	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
-		_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
+		_tcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 		DWORD atr = GetFileAttributes(ftpExe);
 		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 #ifdef _WIN64
 			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
-				_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
+				_tcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 				atr = GetFileAttributes(ftpExe);
 				if (!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
 					Options::instance->ftpExePathDef = ftpExe;
@@ -222,7 +222,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		else Options::instance->ftpExePathDef = ftpExe;
 	}
 
-	TCHAR *log = _T("%miranda_logpath%\\BasicHistory\\ftplog.txt");
+	TCHAR *log = L"%miranda_logpath%\\BasicHistory\\ftplog.txt";
 	TCHAR *logAbsolute = Utils_ReplaceVarsT(log);
 	Options::instance->ftpLogPath = logAbsolute;
 	mir_free(logAbsolute);

@@ -98,7 +98,7 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		if (data->setView) {
 			HWND hwndParent = GetParent(hwnd);
-			HWND hwndLv = FindWindowEx(hwndParent, NULL, _T("SHELLDLL_DefView"), NULL);
+			HWND hwndLv = FindWindowEx(hwndParent, NULL, L"SHELLDLL_DefView", NULL);
 			if (hwndLv != NULL) {
 				SendMessage(hwndLv, WM_COMMAND, SHVIEW_THUMBNAIL, 0);
 				data->setView = FALSE;
@@ -138,9 +138,9 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 		ofn.nMaxFile = MAX_PATH;
 		ofn.nMaxFileTitle = MAX_PATH;
 		ofn.Flags = OFN_FILEMUSTEXIST | OFN_ENABLETEMPLATE | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
-		ofn.lpstrInitialDir = _T(".");
+		ofn.lpstrInitialDir = L".";
 		*FileName = '\0';
-		ofn.lpstrDefExt = _T("");
+		ofn.lpstrDefExt = L"";
 		ofn.hInstance = g_hInst;
 		ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPENSUBCLASS);
 		ofn.lpfnHook = OpenFileSubclass;
@@ -255,25 +255,25 @@ static int InternalRemoveMyAvatar(char *protocol)
 
 static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 {
-	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png"), TranslateT("All files"));
-	if (swf) filter.Append(_T(";*.swf"));
-	if (xml) filter.Append(_T(";*.xml"));
+	filter.AppendFormat(L"%s (*.bmp;*.jpg;*.gif;*.png", TranslateT("All files"));
+	if (swf) filter.Append(L";*.swf");
+	if (xml) filter.Append(L";*.xml");
 
-	filter.AppendFormat(_T(")%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), 0);
-	if (swf) filter.Append(_T(";*.SWF"));
-	if (xml) filter.Append(_T(";*.XML"));
+	filter.AppendFormat(L")%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG", 0);
+	if (swf) filter.Append(L";*.SWF");
+	if (xml) filter.Append(L";*.XML");
 	filter.AppendChar(0);
 
-	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.gif)%c*.GIF%c"), TranslateT("GIF bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.png)%c*.PNG%c"), TranslateT("PNG bitmaps"), 0, 0);
+	filter.AppendFormat(L"%s (*.bmp;*.rle)%c*.BMP;*.RLE%c", TranslateT("Windows bitmaps"), 0, 0);
+	filter.AppendFormat(L"%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c", TranslateT("JPEG bitmaps"), 0, 0);
+	filter.AppendFormat(L"%s (*.gif)%c*.GIF%c", TranslateT("GIF bitmaps"), 0, 0);
+	filter.AppendFormat(L"%s (*.png)%c*.PNG%c", TranslateT("PNG bitmaps"), 0, 0);
 
 	if (swf)
-		filter.AppendFormat(_T("%s (*.swf)%c*.SWF%c"), TranslateT("Flash animations"), 0, 0);
+		filter.AppendFormat(L"%s (*.swf)%c*.SWF%c", TranslateT("Flash animations"), 0, 0);
 
 	if (xml)
-		filter.AppendFormat(_T("%s (*.xml)%c*.XML%c"), TranslateT("XML files"), 0, 0);
+		filter.AppendFormat(L"%s (*.xml)%c*.XML%c", TranslateT("XML files"), 0, 0);
 
 	filter.AppendChar(0);
 }
@@ -310,7 +310,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 		data = (SetMyAvatarHookData *)ofn->lCustData;
 		if (data->thumbnail) {
 			HWND hwndParent = GetParent(hwnd);
-			HWND hwndLv = FindWindowEx(hwndParent, NULL, _T("SHELLDLL_DefView"), NULL);
+			HWND hwndLv = FindWindowEx(hwndParent, NULL, L"SHELLDLL_DefView", NULL);
 			if (hwndLv != NULL) {
 				SendMessage(hwndLv, WM_COMMAND, SHVIEW_THUMBNAIL, 0);
 				data->thumbnail = FALSE;
@@ -347,7 +347,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 	if (!Proto_IsAvatarFormatSupported(protocol, format))
 		return;
 
-	mir_sntprintf(d.image_file_name, _T("%s%s"), d.temp_file, ProtoGetAvatarExtension(format));
+	mir_sntprintf(d.image_file_name, L"%s%s", d.temp_file, ProtoGetAvatarExtension(format));
 	if (BmpFilterSaveBitmap(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
 		return;
 
@@ -437,7 +437,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 		if (d.temp_file[0] == '\0') {
 			d.temp_file[0] = '\0';
 			if (GetTempPath(MAX_PATH, d.temp_file) == 0
-				|| GetTempFileName(d.temp_file, _T("mir_av_"), 0, d.temp_file) == 0) {
+				|| GetTempFileName(d.temp_file, L"mir_av_", 0, d.temp_file) == 0) {
 				DeleteObject(d.hBmpProto);
 				return -1;
 			}
@@ -549,14 +549,14 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 			// Copy avatar file to store as global one
 			TCHAR globalFile[1024];
 			BOOL saved = TRUE;
-			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), _T(""))) {
-				mir_sntprintf(globalFile, _T("%s%s"), g_szDataPath, _T("GlobalAvatar"));
+			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
+				mir_sntprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
 				CreateDirectory(globalFile, NULL);
 			}
 
 			TCHAR *ext = _tcsrchr(szFinalName, _T('.')); // Can't be NULL here
 			if (format == PA_FORMAT_XML || format == PA_FORMAT_SWF) {
-				mir_sntprintf(globalFile, _T("%s\\my_global_avatar%s"), globalFile, ext);
+				mir_sntprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 				CopyFile(szFinalName, globalFile, FALSE);
 			}
 			else {
@@ -574,12 +574,12 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 				// Check if need to resize
 				if (hBmpTmp == hBmp || hBmpTmp == NULL) {
 					// Use original image
-					mir_sntprintf(globalFile, _T("%s\\my_global_avatar%s"), globalFile, ext);
+					mir_sntprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 					CopyFile(szFinalName, globalFile, FALSE);
 				}
 				else {
 					// Save as PNG
-					mir_sntprintf(globalFile, _T("%s\\my_global_avatar.png"), globalFile);
+					mir_sntprintf(globalFile, L"%s\\my_global_avatar.png", globalFile);
 					if (BmpFilterSaveBitmap(hBmpTmp, globalFile, 0))
 						saved = FALSE;
 
@@ -665,7 +665,7 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		FilterGetStrings(filter, allAcceptXML, allAcceptSWF);
 
 		TCHAR inipath[1024];
-		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, _countof(inipath), _T("."));
+		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, _countof(inipath), L".");
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
@@ -680,7 +680,7 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		ofn.lCustData = (LPARAM)&data;
 
 		*FileName = '\0';
-		ofn.lpstrDefExt = _T("");
+		ofn.lpstrDefExt = L"";
 		ofn.hInstance = g_hInst;
 
 		TCHAR title[256];

@@ -43,8 +43,8 @@ BOOL gbMathExpression = 0;
 
 HANDLE hStopSpamLogDirH=0;
 
-tstring gbSpammersGroup = _T("Spammers");
-tstring gbAutoAuthGroup	= _T("NotSpammers");
+tstring gbSpammersGroup = L"Spammers";
+tstring gbAutoAuthGroup	= L"NotSpammers";
 
 tstring gbQuestion;
 tstring gbAnswer;
@@ -79,17 +79,17 @@ extern tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szMo
 
 void InitVars()
 {
-	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("Spammers"));
-	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
+	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
+	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
+	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", L"Congratulations! You just passed human/robot test. Now you can write me a message.");
 	gbInfTalkProtection = db_get_b(NULL, pluginName, "infTalkProtection", 0);
 	gbAddPermanent = db_get_b(NULL, pluginName, "addPermanent", 0);
 	gbMaxQuestCount = db_get_dw(NULL, pluginName, "maxQuestCount", 5);
 	gbHandleAuthReq = db_get_b(NULL, pluginName, "handleAuthReq", 1);
 	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
-	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
-	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", _T("StopSpam: send a message and reply to an anti-spam bot question."));
+	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
+	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", L"Congratulations! You just passed human/robot test. Now you can write me a message.");
+	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", L"StopSpam: send a message and reply to an anti-spam bot question.");
 	gbSpecialGroup = db_get_b(NULL, pluginName, "SpecialGroup", 0);
 	gbHideContacts = db_get_b(NULL, pluginName, "HideContacts", 0);
 	gbIgnoreContacts = db_get_b(NULL, pluginName, "IgnoreContacts", 0);
@@ -100,7 +100,7 @@ void InitVars()
 	gbRegexMatch = db_get_b(NULL, pluginName, "RegexMatch", 0);
 	gbInvisDisable = db_get_b(NULL, pluginName, "DisableInInvis", 0);
 	gbIgnoreURL = db_get_b(NULL, pluginName, "IgnoreURL", 0);
-	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("Not Spammers"));
+	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"Not Spammers");
 	gbAutoAuth = db_get_b(NULL, pluginName, "AutoAuth", 0);
 	gbAutoAddToServerList = db_get_b(NULL, pluginName, "AutoAddToServerList", 0);
 	gbAutoReqAuth = db_get_b(NULL, pluginName, "AutoReqAuth", 0);

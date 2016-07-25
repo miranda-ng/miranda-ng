@@ -131,7 +131,7 @@ void dialog_resize_helper::add_sizegrip()
 {
 	if (parent != 0 && sizegrip == 0)
 	{
-		sizegrip = CreateWindowEx(0, WC_SCROLLBAR, _T(""), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | SBS_SIZEGRIP | SBS_SIZEBOXBOTTOMRIGHTALIGN,
+		sizegrip = CreateWindowEx(0, WC_SCROLLBAR, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | SBS_SIZEGRIP | SBS_SIZEBOXBOTTOMRIGHTALIGN,
 			0, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 			parent, (HMENU)0, NULL, NULL);
 		if (sizegrip != 0)

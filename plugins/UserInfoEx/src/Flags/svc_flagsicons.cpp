@@ -284,7 +284,7 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 void InitIcons()
 {
 	// all those flag icons storing in a large 24bit opaque bitmap to reduce file size
-	FIBITMAP *dib = LoadResource(IDB_FLAGSPNG, _T("PNG"));
+	FIBITMAP *dib = LoadResource(IDB_FLAGSPNG, L"PNG");
 	if (dib == NULL)
 		return;
 

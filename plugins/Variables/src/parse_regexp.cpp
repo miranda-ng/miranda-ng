@@ -46,7 +46,7 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 		return mir_a2t(szVal);
 	}
 
-	return mir_tstrdup(_T("0"));
+	return mir_tstrdup(L"0");
 }
 
 /*
@@ -84,7 +84,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 		return tres;
 	}
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 void registerRegExpTokens()

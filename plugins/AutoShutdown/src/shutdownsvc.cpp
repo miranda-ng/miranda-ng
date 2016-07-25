@@ -87,9 +87,9 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			DWORD dwSetting, dwSize;
 			/* NoLogOff is BINARY on Win9x/ME and DWORD on Win2000+ */
 			bReturn = TRUE;
-			if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
+			if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				dwSize = sizeof(dwSetting);
-				if (RegQueryValueEx(hKey, _T("NoLogOff"), 0, NULL, (LPBYTE)&dwSetting, &dwSize) == ERROR_SUCCESS)
+				if (RegQueryValueEx(hKey, L"NoLogOff", 0, NULL, (LPBYTE)&dwSetting, &dwSize) == ERROR_SUCCESS)
 					if (dwSetting) bReturn = FALSE;
 				RegCloseKey(hKey);
 			}
@@ -101,9 +101,9 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			DWORD dwSize, dwSetting;
 			/* DisableLockWorkstation is DWORD on Win2000+ */
 			bReturn = TRUE;
-			if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
+			if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				dwSize = sizeof(dwSetting);
-				if (!RegQueryValueEx(hKey, _T("DisableLockWorkstation"), 0, NULL, (LPBYTE)&dwSetting, &dwSize))
+				if (!RegQueryValueEx(hKey, L"DisableLockWorkstation", 0, NULL, (LPBYTE)&dwSetting, &dwSize))
 					if (dwSetting)
 						bReturn = FALSE;
 				RegCloseKey(hKey);

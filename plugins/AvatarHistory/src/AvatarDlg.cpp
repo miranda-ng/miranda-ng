@@ -320,7 +320,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				TCHAR avfolder[MAX_PATH];
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				GetContactFolder(avfolder, hContact);
-				ShellExecute(NULL, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? _T("explore") : _T("open"), avfolder, NULL, NULL, SW_SHOWNORMAL);
+				ShellExecute(NULL, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, NULL, NULL, SW_SHOWNORMAL);
 				return TRUE;
 			}
 			break;
@@ -374,7 +374,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, _T("%s\\*.*"), dir);
+	mir_sntprintf(path, L"%s\\*.*", dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -384,7 +384,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	{
 		if (finddata.cFileName[0] != '.')
 		{
-			mir_sntprintf(path, _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(path, L"%s\\%s", dir, finddata.cFileName);
 			max_pos = AddFileToList(path,finddata.cFileName,finddata.cFileName,list);
 		}
 	}
@@ -401,7 +401,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, _T("%s\\*.lnk"), dir);
+	mir_sntprintf(path, L"%s\\*.lnk", dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -412,7 +412,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 		if (finddata.cFileName[0] != '.')
 		{
 			TCHAR lnk[MAX_PATH];
-			mir_sntprintf(lnk, _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(lnk, L"%s\\%s", dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
 				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
 		}
@@ -436,7 +436,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 
 		// Get time
 		TCHAR date[64];
-		TimeZone_ToStringT(dbei.timestamp, _T("d s"), date, _countof(date));
+		TimeZone_ToStringT(dbei.timestamp, L"d s", date, _countof(date));
 
 		// Get file in disk
 		TCHAR path[MAX_PATH];
@@ -569,7 +569,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	}
 	else
 	{
-		ofn.lpstrInitialDir = _T(".");
+		ofn.lpstrInitialDir = L".";
 	}
 	if (GetSaveFileName(&ofn))
 	{

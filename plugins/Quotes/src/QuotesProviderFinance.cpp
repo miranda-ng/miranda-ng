@@ -159,7 +159,7 @@ namespace
 					if (LB_ERR == is_quote_added(hwndList, sQuoteSymbol)) {
 						CQuotesProviderBase::CQuote quote(sQuoteSymbol, sQuoteSymbol);
 						if (add_quote_to_wnd(quote, hwndList) >= 0) {
-							SetDlgItemText(hDlg, IDC_EDIT_QUOTE, _T(""));
+							SetDlgItemText(hDlg, IDC_EDIT_QUOTE, L"");
 							SetFocus(hEdit);
 							PropSheet_Changed(::GetParent(hDlg), hDlg);
 						}

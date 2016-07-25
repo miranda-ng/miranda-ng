@@ -49,27 +49,27 @@ struct TCpTable {
 	TCHAR *cpName;
 }
 cpTable[] = {
-	{ CP_UTF8,	_T("UTF-8")	 },
-	{ 1250,	_T("windows-1250")	 },
-	{ 1251,	_T("windows-1251") },
-	{ 1252,	_T("windows-1252") },
-	{ 1253,	_T("windows-1253") },
-	{ 1254,	_T("windows-1254") },
-	{ 1255,	_T("windows-1255") },
-	{ 1256,	_T("windows-1256") },
-	{ 1257,	_T("windows-1257") },
-	{ 1258,	_T("windows-1258") },
-	{ 28591,	_T("iso-8859-1") },
-	{ 28592,	_T("iso-8859-2") },
-	{ 28593,	_T("iso-8859-3") },
-	{ 28594,	_T("iso-8859-4") },
-	{ 28595,	_T("iso-8859-5") },
-	{ 28596,	_T("iso-8859-6") },
-	{ 28597,	_T("iso-8859-7") },
-	{ 28598,	_T("iso-8859-8") },
-	{ 28599,	_T("iso-8859-9") },
-	{ 28603,	_T("iso-8859-13") },
-	{ 28605,	_T("iso-8859-15") },
+	{ CP_UTF8,	L"UTF-8"	 },
+	{ 1250,	L"windows-1250"	 },
+	{ 1251,	L"windows-1251" },
+	{ 1252,	L"windows-1252" },
+	{ 1253,	L"windows-1253" },
+	{ 1254,	L"windows-1254" },
+	{ 1255,	L"windows-1255" },
+	{ 1256,	L"windows-1256" },
+	{ 1257,	L"windows-1257" },
+	{ 1258,	L"windows-1258" },
+	{ 28591,	L"iso-8859-1" },
+	{ 28592,	L"iso-8859-2" },
+	{ 28593,	L"iso-8859-3" },
+	{ 28594,	L"iso-8859-4" },
+	{ 28595,	L"iso-8859-5" },
+	{ 28596,	L"iso-8859-6" },
+	{ 28597,	L"iso-8859-7" },
+	{ 28598,	L"iso-8859-8" },
+	{ 28599,	L"iso-8859-9" },
+	{ 28603,	L"iso-8859-13" },
+	{ 28605,	L"iso-8859-15" },
 };
 
 Options::Options()
@@ -105,9 +105,9 @@ Options::Options()
 	codepageTxt = CP_UTF8;
 	codepageHtml1 = CP_UTF8;
 	codepageHtml2 = CP_UTF8;
-	encodingTxt = _T("UTF-8");
-	encodingHtml1 = _T("UTF-8");
-	encodingHtml2 = _T("UTF-8");
+	encodingTxt = L"UTF-8";
+	encodingHtml1 = L"UTF-8";
+	encodingHtml2 = L"UTF-8";
 	exportHtml1ShowDate = true;
 	exportHtml2ShowDate = false;
 	exportHtml2UseSmileys = true;
@@ -182,14 +182,14 @@ struct HotkeyOptionsList {
 };
 
 static FontOptionsList g_FontOptionsList[] = {
-	{LPGENT(">> Outgoing timestamp"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming timestamp"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT(">> Outgoing name"), RGB(100,100,100), _T("MS Shell Dlg 2"), DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming name"), RGB(90,160,90), _T("MS Shell Dlg 2"), DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT(">> Outgoing messages"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming messages"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("Group list"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Group list background"), FIDF_DISABLESTYLES},
-	{LPGENT("Find window"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Find window background"), FIDF_DISABLESTYLES},
+	{LPGENT(">> Outgoing timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENT("<< Incoming timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENT(">> Outgoing name"), RGB(100,100,100), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENT("<< Incoming name"), RGB(90,160,90), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENT(">> Outgoing messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENT("<< Incoming messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENT("Group list"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Group list background"), FIDF_DISABLESTYLES},
+	{LPGENT("Find window"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Find window background"), FIDF_DISABLESTYLES},
 };
 
 static ColorOptionsList g_ColorOptionsList[] = {
@@ -238,7 +238,7 @@ void Options::Load(void)
 	cid.cbSize = sizeof(ColourIDT);
 	hid.cbSize = sizeof(HOTKEYDESC);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
-	_tcsncpy_s(fid.backgroundGroup, _T("History"), _TRUNCATE);
+	_tcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
 	_tcsncpy_s(fid.group, LPGENT("History"), _TRUNCATE);
 	for (int i = 0; i < g_fontsSize; ++i) {
 		fid.order = i;
@@ -369,19 +369,19 @@ void Options::Load(void)
 		encodingTxt = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else encodingTxt = _T("UTF-8");
+	else encodingTxt = L"UTF-8";
 
 	if (!db_get_ws(0, MODULE, "encodingHtml1", &encodingV)) {
 		encodingHtml1 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else encodingHtml1 = _T("UTF-8");
+	else encodingHtml1 = L"UTF-8";
 
 	if (!db_get_ws(0, MODULE, "encodingHtml2", &encodingV)) {
 		encodingHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else encodingHtml2 = _T("UTF-8");
+	else encodingHtml2 = L"UTF-8";
 
 	exportHtml1ShowDate = db_get_b(0, MODULE, "exportHtml1ShowDate", 1) ? true : false;
 	exportHtml2ShowDate = db_get_b(0, MODULE, "exportHtml2ShowDate", 0) ? true : false;
@@ -390,7 +390,7 @@ void Options::Load(void)
 		extCssHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else extCssHtml2 = _T("");
+	else extCssHtml2 = L"";
 
 	if (!db_get_ws(0, MODULE, "ftpLogPath", &encodingV)) {
 		ftpLogPath = encodingV.pwszVal;
@@ -722,7 +722,7 @@ void SetEventCB(HWND hwndCB, int eventId)
 
 	if (selCpIdx == -1) {
 		TCHAR buf[24];
-		mir_sntprintf(buf, _T("%d"), eventId);
+		mir_sntprintf(buf, L"%d", eventId);
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
@@ -777,7 +777,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 
 		if (selCpIdx == -1) {
 			TCHAR buf[24];
-			mir_sntprintf(buf, _T("%d"), *it);
+			mir_sntprintf(buf, L"%d", *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
 		else ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
@@ -807,11 +807,11 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
-	mir_sntprintf(filter + len, _countof(filter) - len, _T("*.%s"), ext);
+	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_tstrlen(filter + len) + 1;
 	_tcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
 	len += mir_tstrlen(filter + len) + 1;
-	_tcscpy_s(filter + len, 1024 - len, _T("*.*"));
+	_tcscpy_s(filter + len, 1024 - len, L"*.*");
 	len += mir_tstrlen(filter + len) + 1;
 	filter[len] = 0;
 	TCHAR stzFilePath[1024];
@@ -1042,12 +1042,12 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 
 				case IDC_WINSCP_BROWSE:
-					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCP), _T("WinSCP.exe"), _T("exe"), TranslateT("Browse WinSCP file"), true))
+					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCP), L"WinSCP.exe", L"exe", TranslateT("Browse WinSCP file"), true))
 						return TRUE;
 					break;
 
 				case IDC_WINSCPLOG_BROWSE:
-					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCPLOG), _T("ftplog.txt"), _T("txt"), TranslateT("Save WinSCP log file"), false))
+					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCPLOG), L"ftplog.txt", L"txt", TranslateT("Save WinSCP log file"), false))
 						return TRUE;
 					break;
 				}
@@ -1283,7 +1283,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 
 	if (selCpIdx == -1) {
 		TCHAR buf[300];
-		mir_sntprintf(buf, _T("%d;%s"), codepage, name.c_str());
+		mir_sntprintf(buf, L"%d;%s", codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
@@ -1298,7 +1298,7 @@ unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int, const st
 		TCHAR text[128];
 		ComboBox_GetText(hwndCB, text, 128);
 		std::wstring str = text;
-		name = _T("");
+		name = L"";
 		size_t pos = str.find_first_of(_T(';'));
 		if (pos < str.length()) {
 			text[pos] = 0;
@@ -1362,7 +1362,7 @@ INT_PTR CALLBACK Options::DlgProcOptsExport(HWND hwndDlg, UINT msg, WPARAM wPara
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CSS_BROWSE), en);
 			}
 			else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_CSS_BROWSE) {
-				if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), _T(""), _T("css"), TranslateT("Browse CSS file"), true))
+				if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), L"", L"css", TranslateT("Browse CSS file"), true))
 					return TRUE;
 			}
 
@@ -1403,7 +1403,7 @@ INT_PTR CALLBACK Options::DlgProcOptsExport(HWND hwndDlg, UINT msg, WPARAM wPara
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), buf, MAX_PATH);
 				instance->extCssHtml2 = buf;
 			}
-			else instance->extCssHtml2 = _T("");
+			else instance->extCssHtml2 = L"";
 
 			instance->codepageTxt = cp1;
 			instance->encodingTxt = newName1;
@@ -1701,7 +1701,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				TCHAR sep = _T(':');
 				if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_STIME, timeFormat, 10) > 0)
 					sep = timeFormat[0];
-				mir_sntprintf(timeFormat, _T("HH%cmm"), sep);
+				mir_sntprintf(timeFormat, L"HH%cmm", sep);
 			}
 
 			SYSTEMTIME st;
@@ -1881,7 +1881,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 					str = TranslateT("* Use negative values to filter younger events");
 				else {
 					str = TranslateT("* Use negative values to filter younger events");
-					str += _T("\n");
+					str += L"\n";
 					str += TranslateT("** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name");
 				}
 

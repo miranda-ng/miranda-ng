@@ -275,7 +275,7 @@ lParam = not used
 /* UserInfo/MsgBox v0.1.0.4+
 Slightly modified version of MButtonClass, to draw both text and icon in a button control
 */
-#define UINFOBUTTONCLASS	_T("UInfoButtonClass")
+#define UINFOBUTTONCLASS	L"UInfoButtonClass"
 
 /*************************************************************
  *	contact info module

@@ -50,7 +50,7 @@ void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str);
 tstring &GetDlgItemString(HWND hwnd, int id);
 bool IsExistMyMessage(MCONTACT hContact);
 tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact);
-tstring trim(tstring const &tstr, tstring const &trimChars = _T(" \f\n\r\t\v"));
+tstring trim(tstring const &tstr, tstring const &trimChars = L" \f\n\r\t\v");
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);
 INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam);

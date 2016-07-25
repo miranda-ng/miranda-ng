@@ -124,7 +124,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 		}
 		else {
 			// Get real height of the line
-			text_height = DrawText(hdcMem, _T("A"), 1, &text_rc, DT_CALCRECT | uTextFormat);
+			text_height = DrawText(hdcMem, L"A", 1, &text_rc, DT_CALCRECT | uTextFormat);
 
 			// See each item of list
 			int i;
@@ -196,13 +196,13 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 		i = 0;
 
 	// Get real height of the line
-	text_height = DrawText(hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat);
+	text_height = DrawText(hdcMem, L"A", 1, &tmp_rc, DT_CALCRECT | uTextFormat);
 
 	mir_ptr<COLOR32> pBits(SaveAlpha(&free_rc));
 
 	// Just draw ellipsis
 	if (free_rc.right <= free_rc.left)
-		DrawText(hdcMem, _T("..."), 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
+		DrawText(hdcMem, L"...", 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 	else {
 		// Draw text and smileys
 		RECT text_rc = free_rc;

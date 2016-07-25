@@ -8,7 +8,7 @@
  * OptionsCtrlImpl
  */
 
-const TCHAR* OptionsCtrlImpl::m_ClassName = _T("HistoryStatsOptions");
+const TCHAR* OptionsCtrlImpl::m_ClassName = L"HistoryStatsOptions";
 HIMAGELIST OptionsCtrlImpl::m_hStateIcons = NULL;
 int OptionsCtrlImpl::m_nStateIconsRef = 0;
 
@@ -434,7 +434,7 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 	m_hTree = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		WC_TREEVIEW,
-		_T(""),
+		L"",
 		WS_CHILD | WS_VISIBLE | WS_TABSTOP | TVS_HASLINES | TVS_NOHSCROLL | TVS_SHOWSELALWAYS | dwStyle,
 		0,
 		0,
@@ -1043,7 +1043,7 @@ void OptionsCtrlImpl::onOCMMoveItem(HTREEITEM& hItem, HTREEITEM hInsertAfter)
 		TreeView_DeleteItem(m_hTree, hItem);
 
 		tvis.item.mask |= TVIF_TEXT;
-		tvis.item.pszText = _T("");
+		tvis.item.pszText = L"";
 
 		hItem = TreeView_InsertItem(m_hTree, &tvis);
 

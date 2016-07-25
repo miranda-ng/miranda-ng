@@ -173,15 +173,15 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 		// send congratulation
 		if (bSendMsg) {
-			tstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", _T(""));
+			tstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
 			// for notICQ protocols or disable auto auth. reqwest
-			if ((Stricmp(_T("ICQ"), prot.c_str())) || (!gbAutoReqAuth)) {
+			if ((Stricmp(L"ICQ", prot.c_str())) || (!gbAutoReqAuth)) {
 				char * buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 			// Note: For ANSI can be not work
-			if (!Stricmp(_T("ICQ"), prot.c_str())) {
+			if (!Stricmp(L"ICQ", prot.c_str())) {
 				// grand auth.
 				if (gbAutoAuth)
 					CallProtoService(dbei->szModule, "/GrantAuth", w, 0);
@@ -203,22 +203,22 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	if (bSendMsg) {
-		if ((!gbInfTalkProtection || tstring::npos == message.find(_T("StopSpam automatic message:\r\n")))
+		if ((!gbInfTalkProtection || tstring::npos == message.find(L"StopSpam automatic message:\r\n"))
 			&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount)) {
 			// send question
 			tstring q;
 			if (gbInfTalkProtection)
-				q += _T("StopSpam automatic message:\r\n");
+				q += L"StopSpam automatic message:\r\n";
 			if (gbMathExpression) { //parse math expression in question
 				tstring tmp_question = gbQuestion;
 				std::list<int> args;
 				std::list<TCHAR> actions;
-				tstring::size_type p1 = gbQuestion.find(_T("X")), p2 = 0;
-				const tstring expr_chars = _T("X+-/*"), expr_acts = _T("+-/*");
+				tstring::size_type p1 = gbQuestion.find(L"X"), p2 = 0;
+				const tstring expr_chars = L"X+-/*", expr_acts = L"+-/*";
 				while (p1 < gbQuestion.length() && p1 != tstring::npos && expr_chars.find(gbQuestion[p1]) != tstring::npos) {
 					std::string arg;
 					p2 = p1;
-					for (p1 = gbQuestion.find(_T("X"), p1); (p1 < gbQuestion.length()) && (gbQuestion[p1] == L'X'); ++p1)
+					for (p1 = gbQuestion.find(L"X", p1); (p1 < gbQuestion.length()) && (gbQuestion[p1] == L'X'); ++p1)
 						arg += get_random_num(1);
 
 					tmp_question.replace(p2, arg.size(), toUTF16(arg));

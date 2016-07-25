@@ -72,7 +72,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 	initcheck NULL;
 
 	mir_cslock lck(trayLockCS);
-	TCHAR *szSeparator = _T("\n");
+	TCHAR *szSeparator = L"\n";
 
 	if (szProto == NULL) {
 		if (accounts.getCount() == 0)
@@ -107,16 +107,16 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			if (!tszTip.IsEmpty())
 				tszTip.AppendChar('\n');
 			if (hasTips()) {
-				tszTip.AppendFormat(_T("<b>%-12.12s</b>\t%s"), pa->tszAccountName, szStatus);
+				tszTip.AppendFormat(L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
 
 				ptrT ProtoXStatus(sttGetXStatus(pa->szModuleName));
 				if (ProtoXStatus != NULL) {
 					if (!tszTip.IsEmpty())
 						tszTip.AppendChar('\n');
-					tszTip.AppendFormat(_T("%-24.24s\n"), ProtoXStatus);
+					tszTip.AppendFormat(L"%-24.24s\n", ProtoXStatus);
 				}
 			}
-			else tszTip.AppendFormat(_T("%s %s"), pa->tszAccountName, szStatus);
+			else tszTip.AppendFormat(L"%s %s", pa->tszAccountName, szStatus);
 		}
 
 		_tcsncpy_s(cli.szTip, MAX_TIP_SIZE, tszTip, _TRUNCATE);
@@ -130,22 +130,22 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {
 						if (ProtoXStatus != NULL)
-							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s%s%-24.24s"), szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
+							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
 						else
-							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s"), szPrefix, szSeparator, pa->tszAccountName, szStatus);
+							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
 					}
-					else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s%s %s"), szPrefix, szSeparator, pa->tszAccountName, szStatus);
+					else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s%s %s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
 				}
 				else mir_tstrncpy(cli.szTip, szPrefix, MAX_TIP_SIZE);
 			}
 			else {
 				if (hasTips()) {
 					if (ProtoXStatus != NULL)
-						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("<b>%-12.12s</b>\t%s\n%-24.24s"), pa->tszAccountName, szStatus, ProtoXStatus);
+						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s\n%-24.24s", pa->tszAccountName, szStatus, ProtoXStatus);
 					else
-						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("<b>%-12.12s</b>\t%s"), pa->tszAccountName, szStatus);
+						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
 				}
-				else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s %s"), pa->tszAccountName, szStatus);
+				else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s %s", pa->tszAccountName, szStatus);
 			}
 		}
 	}
@@ -645,8 +645,8 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG *)wParam;
 	switch (msg->message) {
 	case WM_CREATE: {
-		WM_TASKBARCREATED = RegisterWindowMessage(_T("TaskbarCreated"));
-		WM_TASKBARBUTTONCREATED = RegisterWindowMessage(_T("TaskbarButtonCreated"));
+		WM_TASKBARCREATED = RegisterWindowMessage(L"TaskbarCreated");
+		WM_TASKBARBUTTONCREATED = RegisterWindowMessage(L"TaskbarButtonCreated");
 		PostMessage(msg->hwnd, TIM_CREATE, 0, 0);
 		break;
 	}

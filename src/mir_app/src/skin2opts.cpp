@@ -118,7 +118,7 @@ static void __fastcall MySetCursor(TCHAR* nCursor)
 static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _T("%s,"), filename);
+	mir_sntprintf(path, L"%s,", filename);
 	size_t suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
@@ -230,26 +230,26 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 
 	mir_tstrcpy(filter, TranslateT("Icon sets"));
 	if (bAll)
-		mir_tstrcat(filter, _T(" (*.dll;*.mir;*.icl;*.exe;*.ico)"));
+		mir_tstrcat(filter, L" (*.dll;*.mir;*.icl;*.exe;*.ico)");
 	else
-		mir_tstrcat(filter, _T(" (*.dll;*.mir)"));
+		mir_tstrcat(filter, L" (*.dll;*.mir)");
 
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (bAll)
-		mir_tstrcpy(pfilter, _T("*.DLL;*.MIR;*.ICL;*.EXE;*.ICO"));
+		mir_tstrcpy(pfilter, L"*.DLL;*.MIR;*.ICL;*.EXE;*.ICO");
 	else
-		mir_tstrcpy(pfilter, _T("*.DLL;*.MIR"));
+		mir_tstrcpy(pfilter, L"*.DLL;*.MIR");
 
 	pfilter += mir_tstrlen(pfilter) + 1;
 	mir_tstrcpy(pfilter, TranslateT("All files"));
-	mir_tstrcat(pfilter, _T(" (*)"));
+	mir_tstrcat(pfilter, L" (*)");
 	pfilter += mir_tstrlen(pfilter) + 1;
-	mir_tstrcpy(pfilter, _T("*"));
+	mir_tstrcpy(pfilter, L"*");
 	pfilter += mir_tstrlen(pfilter) + 1;
 	*pfilter = '\0';
 
 	ofn.lpstrFilter = filter;
-	ofn.lpstrDefExt = _T("dll");
+	ofn.lpstrDefExt = L"dll";
 	mir_tstrncpy(file, szFile, _countof(file));
 	ofn.lpstrFile = file;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
@@ -387,7 +387,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		SHAutoComplete(GetDlgItem(hwndDlg, IDC_ICONSET), 1);
 
-		SetDlgItemText(hwndDlg, IDC_ICONSET, _T("icons.dll"));
+		SetDlgItemText(hwndDlg, IDC_ICONSET, L"icons.dll");
 		return TRUE;
 
 	case DM_REBUILDICONSPREVIEW:
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lvi.iItem = 0;
 			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
 			for (int i = 0; i < count; lvi.iItem++, i++) {
-				mir_sntprintf(caption, _T("%d"), i + 1);
+				mir_sntprintf(caption, L"%d", i + 1);
 				lvi.pszText = caption;
 
 				HICON hIcon = NULL;
@@ -520,7 +520,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
-				mir_sntprintf(path, _T("%s,%d"), filename, (int)lvi.lParam);
+				mir_sntprintf(path, L"%s,%d", filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
 				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 			}
@@ -934,7 +934,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if (item->temp_file)
 						_tcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
 					else if (item->default_file)
-						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file->file, item->default_indx);
+						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item->default_file->file, item->default_indx);
 				}
 			}
 			if (bNeedRebuild) {

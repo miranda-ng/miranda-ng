@@ -186,23 +186,23 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
-			setTString(hContact, "MirVer", _T("Steam"));
+			setTString(hContact, "MirVer", L"Steam");
 	}
 	else if (stateflags & 2) {
 		// game
-		setTString(hContact, "MirVer", _T("Steam (in game)"));
+		setTString(hContact, "MirVer", L"Steam (in game)");
 	}
 	else if (stateflags & 256) {
 		// on website
-		setTString(hContact, "MirVer", _T("Steam (website)"));
+		setTString(hContact, "MirVer", L"Steam (website)");
 	}
 	else if (stateflags & 512) {
 		// on mobile
-		setTString(hContact, "MirVer", _T("Steam (mobile)"));
+		setTString(hContact, "MirVer", L"Steam (mobile)");
 	}
 	else if (stateflags & 1024) {
 		// big picture mode
-		setTString(hContact, "MirVer", _T("Steam (Big Picture)"));
+		setTString(hContact, "MirVer", L"Steam (Big Picture)");
 	}
 	else {
 		// none/unknown (e.g. when contact is offline)
@@ -268,7 +268,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 		TCHAR message[MAX_PATH];
 		mir_sntprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick);
 
-		ShowNotification(_T("Steam"), message);
+		ShowNotification(L"Steam", message);
 	}
 }
 
@@ -286,7 +286,7 @@ void CSteamProto::ContactIsFriend(MCONTACT hContact)
 		TCHAR message[MAX_PATH];
 		mir_sntprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
 
-		ShowNotification(_T("Steam"), message);
+		ShowNotification(L"Steam", message);
 	}
 }
 
@@ -602,7 +602,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
 		return;
 	}
 
-	FILE *fp = _tfopen(ai.filename, _T("wb"));
+	FILE *fp = _tfopen(ai.filename, L"wb");
 	if (fp)
 	{
 		fwrite(response->pData, sizeof(char), response->dataLength, fp);

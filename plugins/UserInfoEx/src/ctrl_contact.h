@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /* contact control	v0.1.0.6+
 */
-#define UINFOCOMBOEXCLASS	_T("UInfoComboExWndClass")
+#define UINFOCOMBOEXCLASS	L"UInfoComboExWndClass"
 
 // messages
 #define CBEXM_ADDITEM			 (WM_USER+4)

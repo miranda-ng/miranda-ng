@@ -26,7 +26,7 @@ extern "C"
 
 ITunes::ITunes()
 {
-	name = _T("iTunes");
+	name = L"iTunes";
 	needPoll = TRUE;
 
 	filename[0] = L'\0';
@@ -40,7 +40,7 @@ ITunes::ITunes()
 
 void ITunes::FindWindow()
 {
-	hwnd = ::FindWindow(_T("iTunes"), _T("iTunes"));
+	hwnd = ::FindWindow(L"iTunes", L"iTunes");
 }
 
 void ITunes::FreeTempData()
@@ -125,12 +125,12 @@ BOOL ITunes::FillCache()
 		int h = (lret / 60) / 60;
 
 		if (h > 0)
-			mir_sntprintf(listening_info.ptszLength, 9, _T("%d:%02d:%02d"), h, m, s);
+			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d:%02d", h, m, s);
 		else
-			mir_sntprintf(listening_info.ptszLength, 9, _T("%d:%02d"), m, s);
+			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d", m, s);
 	}
 
-	listening_info.ptszType = mir_tstrdup(_T("Music"));
+	listening_info.ptszType = mir_tstrdup(L"Music");
 
 	if (listening_info.ptszTitle == NULL) {
 		// Get from filename

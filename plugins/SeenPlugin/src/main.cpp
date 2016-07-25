@@ -44,8 +44,8 @@ PLUGININFOEX pluginInfo = {
 
 #define TRANSNUMBER 2
 DBVTranslation idleTr[TRANSNUMBER] = {
-	{ any_to_IdleNotidleUnknown, _T("Any to Idle/Not Idle/Unknown"), 0 },
-	{ any_to_Idle, _T("Any to /Idle or empty"), 0 }
+	{ any_to_IdleNotidleUnknown, L"Any to Idle/Not Idle/Unknown", 0 },
+	{ any_to_Idle, L"Any to /Idle or empty", 0 }
 };
 
 static int CompareProtos(const char *p1, const char *p2)

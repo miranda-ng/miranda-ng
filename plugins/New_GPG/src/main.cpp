@@ -49,7 +49,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PASSWD), 0);
 
 			LVCOLUMN col = { 0 };
-			col.pszText = _T("Key ID");
+			col.pszText = L"Key ID";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 50;
@@ -96,7 +96,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
 				item.iSubItem = 0;
-				item.pszText = _T("");
+				item.pszText = L"";
 				{
 					//parse gpg output
 					string out;
@@ -216,10 +216,10 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 							setting += accounts[n]->szModuleName;
 							setting += ")";
 							setting += "_KeyID";
-							TCHAR *str = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), _T(""));
+							TCHAR *str = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), L"");
 							if (key_id == str) {
 								if (!accs.empty())
-									accs += _T(",");
+									accs += L",";
 								accs += accounts[n]->tszAccountName;
 							}
 							mir_free(str);
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				{
 					if (_tcschr(name, _T('('))) {
 						wstring str = name;
-						wstring::size_type p = str.find(_T("(")) - 1;
+						wstring::size_type p = str.find(L"(") - 1;
 						mir_tstrcpy(name, str.substr(0, p).c_str());
 					}
 				}
@@ -323,8 +323,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					}
 					if (!mir_strcmp(buf, Translate("Default"))) {
 						wstring keyinfo = TranslateT("Default private key ID");
-						keyinfo += _T(": ");
-						keyinfo += (fp[0]) ? fp : _T("not set");
+						keyinfo += L": ";
+						keyinfo += (fp[0]) ? fp : L"not set";
 						extern HWND hwndCurKey_p;
 						SetWindowText(hwndCurKey_p, keyinfo.c_str());
 					}
@@ -358,7 +358,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					item.mask = LVIF_TEXT;
 					item.iItem = i;
 					item.iSubItem = 0;
-					item.pszText = _T("");
+					item.pszText = L"";
 					{//parse gpg output
 						string out;
 						DWORD code;
@@ -505,10 +505,10 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				wstring path;
 				{
 					// generating key file
-					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 					path = tmp;
 					mir_free(tmp);
-					path.append(_T("\\new_key"));
+					path.append(L"\\new_key");
 					wfstream f(path.c_str(), std::ios::out);
 					if (!f.is_open()) {
 						MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
@@ -681,7 +681,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 
 		case IDC_EXPORT_PRIVATE:
 			{
-				TCHAR *p = GetFilePath(_T("Choose file to export key"), _T("*"), _T("Any file"), true);
+				TCHAR *p = GetFilePath(L"Choose file to export key", L"*", L"Any file", true);
 				if (!p || !p[0]) {
 					delete[] p;
 					//TODO: handle error
@@ -796,12 +796,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				
 				ptrT tmp(mir_a2t(mir_path));
 
-				wstring gpg_path(tmp); gpg_path += _T("\\GnuPG\\gpg.exe");
-				wstring gpg_lang_path(tmp); gpg_lang_path += _T("\\GnuPG\\gnupg.nls\\en@quot.mo");
+				wstring gpg_path(tmp); gpg_path += L"\\GnuPG\\gpg.exe";
+				wstring gpg_lang_path(tmp); gpg_lang_path += L"\\GnuPG\\gnupg.nls\\en@quot.mo";
 
 				if (boost::filesystem::exists(gpg_path)) {
 					gpg_exists = true;
-					mir_tstrcpy(path, _T("GnuPG\\gpg.exe"));
+					mir_tstrcpy(path, L"GnuPG\\gpg.exe");
 				}
 				else mir_tstrcpy(path, gpg_path.c_str());
 				
@@ -815,7 +815,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				ptrT tmp;
 				if (!gpg_exists) {
-					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS) ? path : _T(""));
+					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, path, &len) == ERROR_SUCCESS) ? path : L"");
 					if (tmp[0])
 						if (!boost::filesystem::exists((TCHAR*)tmp))
 							MessageBox(0, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
@@ -854,7 +854,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 			{
-				ptrT tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T("")));
+				ptrT tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 				if (!tmp[0]) {
 					mir_free(tmp);
 					char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
@@ -865,12 +865,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						MessageBox(0, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
 					}
 					else {
-						wstring path_ = _wgetenv(_T("APPDATA"));
-						path_ += _T("\\GnuPG");
+						wstring path_ = _wgetenv(L"APPDATA");
+						path_ += L"\\GnuPG";
 						tmp = mir_wstrdup(path_.c_str());
 					}
 				}
-				SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists ? tmp : _T("gpg"));
+				SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists ? tmp : L"gpg");
 			}
 			//TODO: additional check for write access
 			if (gpg_exists && lang_exists && !bad_version)
@@ -886,8 +886,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			switch (LOWORD(wParam)) {
 			case IDC_SET_BIN_PATH:
 				{
-					GetFilePath(_T("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), _T("EXE Executables"));
-					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"));
+					GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
+					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
 					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 					char mir_path[MAX_PATH];
 					char *atmp = mir_t2a(tmp);
@@ -903,8 +903,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 			case IDC_SET_HOME_DIR:
 				{
-					GetFolderPath(_T("Set home directory"), "szHomePath");
-					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+					GetFolderPath(L"Set home directory", "szHomePath");
+					TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 					char mir_path[MAX_PATH];
 					char *atmp = mir_t2a(tmp);
@@ -975,7 +975,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
 					{
-						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						DWORD dwFileAttr = GetFileAttributes(path);
 						if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 							dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -1046,7 +1046,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
 					{
-						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						DWORD dwFileAttr = GetFileAttributes(path);
 						if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 							dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -1058,10 +1058,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					wstring path;
 					{ //generating key file
-						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						path = tmp;
 						mir_free(tmp);
-						path.append(_T("\\new_key"));
+						path.append(L"\\new_key");
 						wfstream f(path.c_str(), std::ios::out);
 						if (!f.is_open()) {
 							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
@@ -1190,7 +1190,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			//new_key_hcnt_mutex.unlock();
 			SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
-			TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
+			TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0) ? 0 : 1);
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
@@ -1248,8 +1248,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetWindowPos(hwndDlg, 0, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			SetWindowText(hwndDlg, TranslateT("Key Generation dialog"));
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("RSA"), 0);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("DSA"), 1);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), L"RSA", 0);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), L"DSA", 1);
 			SendDlgItemMessage(hwndDlg, IDC_KEY_TYPE, CB_SETCURSEL, 1, 0);
 			SetDlgItemInt(hwndDlg, IDC_KEY_EXPIRE_DATE, 0, 0);
 			SetDlgItemInt(hwndDlg, IDC_KEY_LENGTH, 4096, 0);
@@ -1315,12 +1315,12 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						mir_free(tmp);
 					}
 					{ //generating key file
-						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						char  *tmp2;// = mir_t2a(tmp);
 						path = tmp;
 						mir_free(tmp);
 						//			  mir_free(tmp2);
-						path.append(_T("\\new_key"));
+						path.append(L"\\new_key");
 						wfstream f(path.c_str(), std::ios::out);
 						if (!f.is_open()) {
 							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
@@ -1436,7 +1436,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						item.mask = LVIF_TEXT;
 						item.iItem = i;
 						item.iSubItem = 0;
-						item.pszText = _T("");
+						item.pszText = L"";
 						string out;
 						DWORD code;
 						string::size_type p = 0, p2 = 0, stop = 0;
@@ -1546,37 +1546,37 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 		{
 			SetWindowPos(hwndDlg, 0, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
-			col.pszText = _T("Key ID");
+			col.pszText = L"Key ID";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 50;
 			ListView_InsertColumn(hwndList, 0, &col);
 			memset(&col, 0, sizeof(col));
-			col.pszText = _T("Email");
+			col.pszText = L"Email";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 30;
 			ListView_InsertColumn(hwndList, 1, &col);
 			memset(&col, 0, sizeof(col));
-			col.pszText = _T("Name");
+			col.pszText = L"Name";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 250;
 			ListView_InsertColumn(hwndList, 2, &col);
 			memset(&col, 0, sizeof(col));
-			col.pszText = _T("Creation date");
+			col.pszText = L"Creation date";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 30;
 			ListView_InsertColumn(hwndList, 3, &col);
 			memset(&col, 0, sizeof(col));
-			col.pszText = _T("Expiration date");
+			col.pszText = L"Expiration date";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 30;
 			ListView_InsertColumn(hwndList, 4, &col);
 			memset(&col, 0, sizeof(col));
-			col.pszText = _T("Key length");
+			col.pszText = L"Key length";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 30;
@@ -1587,7 +1587,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
 				item.iSubItem = 0;
-				item.pszText = _T("");
+				item.pszText = L"";
 				{//parse gpg output
 					string out;
 					DWORD code;
@@ -1773,8 +1773,8 @@ static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wP
 			new_key_hcnt_mutex.unlock();
 			SetWindowPos(hwndDlg, 0, import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("subkeys.pgp.net"), 0);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("keys.gnupg.net"), 0);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), L"subkeys.pgp.net", 0);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), L"keys.gnupg.net", 0);
 		}
 		return TRUE;
 
@@ -1875,33 +1875,33 @@ void InitCheck()
 {
 	{
 		// parse gpg output
-		TCHAR *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-		db_set_ts(NULL, szGPGModuleName, "szHomePath", _T("")); //we do not need home for gpg binary validation
+		TCHAR *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		db_set_ts(NULL, szGPGModuleName, "szHomePath", L""); //we do not need home for gpg binary validation
 		gpg_valid = isGPGValid();
 		db_set_ts(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
 		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
-		TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+		TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		std::wstring test_path = home_dir;
 		mir_free(home_dir);
-		test_path += _T("/");
+		test_path += L"/";
 		test_path += toUTF16(get_random(13));
 		wfstream test_file;
 		test_file.open(test_path, std::ios::trunc | std::ios::out);
 		if (test_file.is_open() && test_file.good()) {
-			test_file << _T("access_test\n");
+			test_file << L"access_test\n";
 			if (test_file.good())
 				home_dir_access = true;
 			test_file.close();
 			boost::filesystem::remove(test_path);
 		}
-		home_dir = _tgetenv(_T("TEMP"));
+		home_dir = _tgetenv(L"TEMP");
 		test_path = home_dir;
-		test_path += _T("/");
+		test_path += L"/";
 		test_path += toUTF16(get_random(13));
 		test_file.open(test_path, std::ios::trunc | std::ios::out);
 		if (test_file.is_open() && test_file.good()) {
-			test_file << _T("access_test\n");
+			test_file << L"access_test\n";
 			if (test_file.good())
 				temp_access = true;
 			test_file.close();
@@ -1936,10 +1936,10 @@ void InitCheck()
 			if (result == pxNotFound)
 				return;
 		}
-		home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+		home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		wstring tmp_dir = home_dir;
 		mir_free(home_dir);
-		tmp_dir += _T("\\tmp");
+		tmp_dir += L"\\tmp";
 		_wmkdir(tmp_dir.c_str());
 		int count = 0;
 		PROTOACCOUNT **accounts;
@@ -2072,7 +2072,7 @@ void InitCheck()
 		mir_free(key);
 	}
 	{
-		TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+		TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -2137,16 +2137,16 @@ void ImportKey()
 	std::vector<wstring> cmd;
 	TCHAR tmp2[MAX_PATH] = { 0 };
 	{
-		_tcsncpy(tmp2, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""))), MAX_PATH - 1);
-		mir_tstrncat(tmp2, _T("\\"), _countof(tmp2) - mir_tstrlen(tmp2));
-		mir_tstrncat(tmp2, _T("temporary_exported.asc"), _countof(tmp2) - mir_tstrlen(tmp2));
+		_tcsncpy(tmp2, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")), MAX_PATH - 1);
+		mir_tstrncat(tmp2, L"\\", _countof(tmp2) - mir_tstrlen(tmp2));
+		mir_tstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_tstrlen(tmp2));
 		boost::filesystem::remove(tmp2);
 
 		ptrT ptmp;
 		if (db_mc_isMeta(hContact))
-			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", _T(""));
+			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", L"");
 		else
-			ptmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
+			ptmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 
 		wfstream f(tmp2, std::ios::out);
 		f << ptmp;
@@ -2358,6 +2358,6 @@ void ImportKey()
 		db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
 	}
 
-	MessageBox(0, toUTF16(output).c_str(), _T(""), MB_OK);
+	MessageBox(0, toUTF16(output).c_str(), L"", MB_OK);
 	boost::filesystem::remove(tmp2);
 }

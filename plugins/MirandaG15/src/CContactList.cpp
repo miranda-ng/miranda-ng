@@ -78,7 +78,7 @@ CContactListEntry *CContactList::GetContactData(CListEntry<CContactListEntry*,CC
 //************************************************************************
 tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 {
-	tstring strGroup = _T("");
+	tstring strGroup = L"";
 	if(db_get_b(0, "MetaContacts", "Enabled", 1) && db_mc_isSub(hContact))
 	{
 		MCONTACT hMetaContact = db_mc_getMeta(hContact);
@@ -86,7 +86,7 @@ tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 			strGroup = CAppletManager::GetContactGroup(hMetaContact);
 
 		tstring strMetaName = CAppletManager::GetContactDisplayname(hMetaContact);
-		strGroup += (strGroup.empty()?_T(""):_T("\\"))+ strMetaName;
+		strGroup += (strGroup.empty()?L"":L"\\")+ strMetaName;
 	}
 	else
 		strGroup = CAppletManager::GetContactGroup(hContact);
@@ -133,8 +133,8 @@ void CContactList::AddContact(MCONTACT hContact)
 	if(!mir_strcmpi(szProto,"MetaContacts"))
 	{
 		if(!CConfig::GetBoolSetting(CLIST_USEGROUPS))
-			strGroup = _T("");
-		strGroup += (strGroup.empty()?_T(""):_T("\\"))+psContact->strName;
+			strGroup = L"";
+		strGroup += (strGroup.empty()?L"":L"\\")+psContact->strName;
 		pGroup = GetGroupByString(strGroup);
 		if(pGroup == NULL)
 			pGroup = AddGroupByString(strGroup);
@@ -195,7 +195,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 		return false;
 	}
 	
-	if(pEntry->strProto != _T("MetaContacts")) {
+	if(pEntry->strProto != L"MetaContacts") {
 		if(pEntry->iStatus == ID_STATUS_OFFLINE && CConfig::GetBoolSetting(CLIST_HIDEOFFLINE)) {
 			return false;
 		}
@@ -321,7 +321,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::GetGroupByS
 CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::AddGroupByString(tstring strGroup)
 {
 	tstring strParse = strGroup;
-	tstring strPath = _T("");
+	tstring strPath = L"";
 
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = (CListContainer<CContactListEntry*,CContactListGroup*>*)this;
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup2 = NULL;
@@ -344,7 +344,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::AddGroupByS
 			pGroup = pGroup2;
 		}
 		ASSERT(pGroup != NULL);
-		strPath += _T("\\");
+		strPath += L"\\";
 	}
 	strPath += strParse;
 	if(pGroup2 = FindGroupInGroup(strParse,pGroup))
@@ -402,11 +402,11 @@ void CContactList::DrawEntry(CLCDGfx *pGfx,CContactListEntry *pEntry,bool bSelec
 	if(pEntry == NULL)
 		return;
 
-	tstring strText = _T("");
+	tstring strText = L"";
 	if(pEntry->iMessages > 0) {
-		strText = _T("[");
+		strText = L"[";
 		strText += pEntry->strMessages;
-		strText += _T("]");
+		strText += L"]";
 	}
 	strText += pEntry->strName;
 
@@ -445,7 +445,7 @@ void CContactList::DrawGroup(CLCDGfx *pGfx,CContactListGroup *pGroup,bool bOpen,
 	if(!pGroup->hMetaContact)
 	{
 		if(CConfig::GetBoolSetting(CLIST_COUNTERS))
-			strText = strText + _T(" (") + toTstring(num2).c_str()+ _T("/") + toTstring(num).c_str() + _T(")");
+			strText = strText + L" (" + toTstring(num2).c_str()+ L"/" + toTstring(num).c_str() + L")";
 	}
 	else
 	{
@@ -456,16 +456,16 @@ void CContactList::DrawGroup(CLCDGfx *pGfx,CContactListGroup *pGroup,bool bOpen,
 	if(iEvents != 0)
 	{
 		itoa(iEvents,num,10);
-		strText = _T("[") + toTstring(num) + _T("]") + strText;
+		strText = L"[" + toTstring(num) + L"]" + strText;
 	}
 
 	int iOffset = !pGroup->hMetaContact?m_iFontHeight*0.8:m_iFontHeight*0.8+8;
 	pGfx->DrawText(iOffset,0,pGfx->GetClipWidth()-iOffset,strText.c_str());
 
 	if(bOpen)
-		pGfx->DrawText(1,0,_T("-"));
+		pGfx->DrawText(1,0,L"-");
 	else
-		pGfx->DrawText(1,0,_T("+"));
+		pGfx->DrawText(1,0,L"+");
 	
 	if(bSelected && (GetTickCount() - m_dwLastScroll < 1000|| !CConfig::GetBoolSetting(CLIST_SELECTION)))
 	{
@@ -687,7 +687,7 @@ void CContactList::OnContactNickChanged(MCONTACT hContact, tstring strNick)
 		CListContainer *pGroup = ((CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry);
 		pGroup->GetGroupData()->strName = strNick;
 		tstring strPath =  GetContactGroupPath(hContact);
-		pGroup->GetGroupData()->strPath = strPath + (strPath.empty()?_T(""):_T("\\")) + strNick;
+		pGroup->GetGroupData()->strPath = strPath + (strPath.empty()?L"":L"\\") + strNick;
 	}
 
 	CContactListEntry* pEntry = GetContactData(pContactEntry);
@@ -865,7 +865,7 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 		{
 			iter = pGroup->begin();
 			if((*iter)->GetType() == ITEM)
-				OnContactGroupChanged(GetContactData(*iter)->hHandle,_T(""));
+				OnContactGroupChanged(GetContactData(*iter)->hHandle,L"");
 			Sleep(1);
 		}
 	}
@@ -877,10 +877,10 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 	if(bMetaContact)
 	{
 		tstring strName = CAppletManager::GetContactDisplayname(hContact);
-		tstring strPath = _T("");
+		tstring strPath = L"";
 		if(pOldGroup)
 			strPath += pOldGroup->strPath;
-		strPath += (strPath.empty()?_T(""):_T("\\")) + strName;
+		strPath += (strPath.empty()?L"":L"\\") + strName;
 		DeleteGroupObjectByPath(strPath);
 	}
 
@@ -920,7 +920,7 @@ void CContactList::UpdateMessageCounter(CListEntry<CContactListEntry*,CContactLi
 		}
 	}
 	if(pEntry->iMessages >= 100)
-		pEntry->strMessages = _T(">99");
+		pEntry->strMessages = L">99";
 	else
 	{
 		char buffer[8];
@@ -1003,10 +1003,10 @@ void CContactList::InitializeGroupObjects()
 		if(szProto && db_get_b(NULL,META_PROTO,"Enabled",1) && !mir_strcmpi(szProto,META_PROTO))
 		{
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
-			tstring strPath = _T("");
+			tstring strPath = L"";
 			if(CConfig::GetBoolSetting(CLIST_USEGROUPS))
 				strPath += strGroup;
-			strPath += (strPath.empty()?_T(""):_T("\\")) + strName;
+			strPath += (strPath.empty()?L"":L"\\") + strName;
 
 			CContactListGroup *pGroup = CreateGroupObjectByPath(strPath);
 			pGroup->hMetaContact = hContact;
@@ -1060,7 +1060,7 @@ CContactListGroup *CContactList::CreateGroupObjectByPath(tstring strPath)
 	CContactListGroup *pNewGroup = new CContactListGroup();
 	CContactListGroup *pParentGroup = NULL;
 
-	tstring strParsePath = _T("");
+	tstring strParsePath = L"";
 	tstring strName = strPath;
 	tstring::size_type pos;
 
@@ -1072,7 +1072,7 @@ CContactListGroup *CContactList::CreateGroupObjectByPath(tstring strPath)
 		pParentGroup = GetGroupObjectByPath(strParsePath);
 		if(!pParentGroup)
 			pParentGroup = CreateGroupObjectByPath(strParsePath);
-		strParsePath += _T("\\");
+		strParsePath += L"\\";
 	}
 	
 	if(pParentGroup)

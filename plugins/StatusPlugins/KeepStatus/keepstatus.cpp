@@ -146,7 +146,7 @@ int LoadMainOptions()
 		hCSStatusChangeExHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
 		if (db_get_b(NULL, MODULENAME, SETTING_CHECKAPMRESUME, 0) && (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00040000)) {
 			if (!IsWindow(hMessageWindow)) {
-				hMessageWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+				hMessageWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 				SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
 			}
 		}
@@ -932,7 +932,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
-			mir_tstrcpy(protoInfo, _T("\r\n"));
+			mir_tstrcpy(protoInfo, L"\r\n");
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
 				if (mir_tstrlen(ps[i]->tszAccName) > 0 && mir_strlen(ps[i]->szName) > 0) {
 					if (db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {

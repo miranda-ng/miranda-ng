@@ -160,6 +160,6 @@ BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 extern char szIndicators[];
 
-#define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
+#define DEFLOGFILENAME L"%miranda_logpath%\\%proto%\\%userid%.log"
 
 #endif

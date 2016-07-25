@@ -133,7 +133,7 @@ static void WriteLine(FILE *out, const char pszText[])
 
 static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
 {
-	FILE *out = _tfopen(filename, _T("w"));
+	FILE *out = _tfopen(filename, L"w");
 	if (out == NULL) {
 		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
@@ -164,7 +164,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 
 			HDC hdc = GetDC(hwndDlg);
 			HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-			GetTextExtentPoint32(hdc, _T("_W"), 2, &size);
+			GetTextExtentPoint32(hdc, L"_W", 2, &size);
 			ReleaseDC(hwndDlg, hdc);
 			SelectObject(hdc, hOldFont);
 			DeleteObject(hFont);
@@ -518,7 +518,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 		HFONT hFont = CreateFontIndirect(&lf);
 		HDC hdc = GetDC(hwndDlg);
 		HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-		GetTextExtentPoint32(hdc, _T("_W"), 2, &size);
+		GetTextExtentPoint32(hdc, L"_W", 2, &size);
 		ReleaseDC(hwndDlg, hdc);
 		SelectObject(hdc, hOldFont);
 		DeleteObject(hFont);
@@ -639,7 +639,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 							SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
 						}
 
-						if (mir_tstrcmp(C.name, _T("Background")) == 0)
+						if (mir_tstrcmp(C.name, L"Background") == 0)
 							hBkgColourBrush = CreateSolidBrush(C.value);
 					}
 				}
@@ -820,7 +820,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				SetTextColor(dis->hDC, clText);
 
-				DrawTextWithEffect(dis->hDC, _T("abc"), 3, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+				DrawTextWithEffect(dis->hDC, L"abc", 3, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 
 				if (dis->itemState & ODS_SELECTED) {
 					SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
@@ -1028,7 +1028,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (itemData->colour_id < 0) continue;
 					colour_id_list_w2[itemData->colour_id].value = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 
-					if (mir_tstrcmp(colour_id_list_w2[itemData->colour_id].name, _T("Background")) == 0) {
+					if (mir_tstrcmp(colour_id_list_w2[itemData->colour_id].name, L"Background") == 0) {
 						if (hBkgColourBrush) DeleteObject(hBkgColourBrush);
 						hBkgColourBrush = CreateSolidBrush(colour_id_list_w2[itemData->colour_id].value);
 					}
@@ -1075,7 +1075,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_BTN_EXPORT:
 			{
 				TCHAR fname_buff[MAX_PATH], filter[MAX_PATH];
-				mir_sntprintf(filter, _T("%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c"), TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, L"%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c", TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
@@ -1087,7 +1087,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ofn.lpstrFilter = filter;
 				ofn.nFilterIndex = 1;
 
-				ofn.lpstrDefExt = _T("ini");
+				ofn.lpstrDefExt = L"ini";
 
 				if (GetSaveFileName(&ofn) == TRUE)
 					if (!ExportSettings(hwndDlg, ofn.lpstrFile, font_id_list, colour_id_list, effect_id_list))

@@ -49,7 +49,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	if (i > 1) {
 		TCHAR szFormat[32];
 		if (fileCount && dirCount) {
-			mir_sntprintf(szFormat, _T("%s, %s"), TranslateTS(fileCount == 1 ? _T("%d file") : _T("%d files")), TranslateTS(dirCount == 1 ? _T("%d directory") : _T("%d directories")));
+			mir_sntprintf(szFormat, L"%s, %s", TranslateTS(fileCount == 1 ? L"%d file" : L"%d files"), TranslateTS(dirCount == 1 ? L"%d directory" : L"%d directories"));
 			mir_sntprintf(str, szFormat, fileCount, dirCount);
 		}
 		else if (fileCount) {
@@ -147,9 +147,9 @@ void __cdecl ChooseFilesThread(void* param)
 
 	TCHAR filter[128];
 	mir_tstrcpy(filter, TranslateT("All files"));
-	mir_tstrcat(filter, _T(" (*)"));
+	mir_tstrcat(filter, L" (*)");
 	TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, _T("*"));
+	mir_tstrcpy(pfilter, L"*");
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	pfilter[0] = '\0';
 

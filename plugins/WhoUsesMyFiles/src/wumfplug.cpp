@@ -68,11 +68,11 @@ void ExecuteMenu(HWND hWnd)
         msg(TranslateT("Error creating menu"));
         return;
     }
-    AppendMenu(hMenu, MF_STRING, IDM_ABOUT, _T("About\0"));
+    AppendMenu(hMenu, MF_STRING, IDM_ABOUT, L"About\0");
     AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);//------------------
-    AppendMenu(hMenu, MF_STRING, IDM_SHOW, _T("Show connections\0"));
+    AppendMenu(hMenu, MF_STRING, IDM_SHOW, L"Show connections\0");
     AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);//------------------
-    AppendMenu(hMenu, MF_STRING, IDM_EXIT, _T("Dismiss popup\0"));
+    AppendMenu(hMenu, MF_STRING, IDM_EXIT, L"Dismiss popup\0");
 
     POINT point;
     GetCursorPos(&point);
@@ -119,8 +119,8 @@ void ShowWumfPopup(PWumf w)
 	TCHAR text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
-	mir_sntprintf(title, _T("%s (%s)"), w->szComp, w->szUser);
-	mir_sntprintf(text, _T("%s (%s)"), w->szPath, w->szPerm);
+	mir_sntprintf(title, L"%s (%s)", w->szComp, w->szUser);
+	mir_sntprintf(text, L"%s (%s)", w->szPath, w->szPerm);
 	ShowThePopup(w, title, text);
 }
 
@@ -161,28 +161,28 @@ void ShowThePreview()
 	}
 
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, _T("Guest"), _T("C:\\My Share"));
+		ShowThePopup(NULL, L"Guest", L"C:\\My Share");
 		Sleep(300);
-		ShowThePopup(NULL, _T("Guest"), _T("C:\\My Share\\Photos"));
+		ShowThePopup(NULL, L"Guest", L"C:\\My Share\\Photos");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, _T("Guest"), _T("C:\\Share\\My Photos\\photo.jpg"));
+	ShowThePopup(NULL, L"Guest", L"C:\\Share\\My Photos\\photo.jpg");
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, _T("User"), _T("C:\\My Share"));
+		ShowThePopup(NULL, L"User", L"C:\\My Share");
 		Sleep(300);
-		ShowThePopup(NULL, _T("User"), _T("C:\\My Share\\Movies"));
+		ShowThePopup(NULL, L"User", L"C:\\My Share\\Movies");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, _T("User"), _T("C:\\My Share\\Movies\\The Two Towers.avi"));
+	ShowThePopup(NULL, L"User", L"C:\\My Share\\Movies\\The Two Towers.avi");
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives"));
+		ShowThePopup(NULL, L"Administrator", L"C:\\Distributives");
 		Sleep(300);
-		ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k"));
+		ShowThePopup(NULL, L"Administrator", L"C:\\Distributives\\Win2k");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k\\setup.exe"));
+	ShowThePopup(NULL, L"Administrator", L"C:\\Distributives\\Win2k\\setup.exe");
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
@@ -260,7 +260,7 @@ void ChooseFile(HWND hwndDlg)
 	ofn.hwndOwner = hwndDlg;
 	ofn.lpstrFile = szFile;
 	ofn.nMaxFile = _countof(szFile);
-	ofn.lpstrFilter = _T("All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0");
+	ofn.lpstrFilter = L"All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0";
 	ofn.nFilterIndex = 2;
 	ofn.Flags = OFN_CREATEPROMPT;
 	// Display the Open dialog box. 
@@ -323,7 +323,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), FALSE);
-			SetDlgItemText(hwndDlg, IDC_FILE, _T(""));
+			SetDlgItemText(hwndDlg, IDC_FILE, L"");
 		}
 		break;
 
@@ -358,7 +358,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			case IDC_ALERT_COMP:
 			case IDC_LOG_UNC:
 			case IDC_ALERT_UNC:
-				MessageBox(NULL, TranslateT("Not implemented yet..."), _T("WUMF"), MB_OK | MB_ICONINFORMATION);
+				MessageBox(NULL, TranslateT("Not implemented yet..."), L"WUMF", MB_OK | MB_ICONINFORMATION);
 				break;
 				/* end */
 			case IDC_LOG_INTO_FILE:
@@ -516,7 +516,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (IsUserAnAdmin())
 		SetTimer(NULL, 777, TIME, TimerProc);
 	else
-		MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
+		MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 	return 0;
 }
 

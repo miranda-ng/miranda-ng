@@ -110,9 +110,9 @@ static void SetProtoPic(char *szProto)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.Flags = OFN_HIDEREADONLY;
-	ofn.lpstrInitialDir = _T(".");
+	ofn.lpstrInitialDir = L".";
 	*FileName = '\0';
-	ofn.lpstrDefExt = _T("");
+	ofn.lpstrDefExt = L"";
 	if (!GetOpenFileName(&ofn))
 		return;
 
@@ -388,7 +388,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (!db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
 						if (!PathIsAbsoluteT(VARST(dbv.ptszVal))) {
 							TCHAR szFinalPath[MAX_PATH];
-							mir_sntprintf(szFinalPath, _T("%%miranda_path%%\\%s"), dbv.ptszVal);
+							mir_sntprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.ptszVal);
 							SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
 						}
 						else SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, dbv.ptszVal);
@@ -397,7 +397,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 						db_free(&dbv);
 					}
 					else {
-						SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, _T(""));
+						SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, L"");
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
 					}
 				}
@@ -1073,7 +1073,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_DELETE:
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
-					avSetMyAvatar(NULL, _T(""));
+					avSetMyAvatar(NULL, L"");
 			}
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
@@ -1084,7 +1084,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
 				TCHAR *descr = mir_a2t(description);
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
-					avSetMyAvatar(proto, _T(""));
+					avSetMyAvatar(proto, L"");
 				mir_free(descr);
 			}
 			break;

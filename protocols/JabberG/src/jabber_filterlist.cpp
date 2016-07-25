@@ -180,7 +180,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 
 		case 2:
 			fdat->m_hwndOwner = m_hwnd;
-			fdat->m_hwndEditBox = CreateWindow(_T("edit"), fdat->m_filterText,
+			fdat->m_hwndEditBox = CreateWindow(L"edit", fdat->m_filterText,
 				WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_LEFT|ES_AUTOHSCROLL,
 				0, 0, 0, 0,
 				::GetParent(m_hwnd), (HMENU)-1, hInst, NULL);

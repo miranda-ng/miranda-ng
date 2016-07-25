@@ -84,12 +84,12 @@ void InitXStatusIcons()
 
 			// load xstatus icons lib
 			DWORD dwBuffLen;
-			DWORD dwErrorCode = FindFile(g_szMirWorkDirPath, (DWORD)g_dwMirWorkDirPathLen, _T("xstatus_MRA.dll"), -1, szBuff, _countof(szBuff), &dwBuffLen);
+			DWORD dwErrorCode = FindFile(g_szMirWorkDirPath, (DWORD)g_dwMirWorkDirPathLen, L"xstatus_MRA.dll", -1, szBuff, _countof(szBuff), &dwBuffLen);
 			if (dwErrorCode == NO_ERROR) {
 				g_hDLLXStatusIcons = LoadLibraryEx(szBuff, NULL, 0);
 				if (g_hDLLXStatusIcons) {
 					dwBuffLen = LoadString(g_hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH);
-					if (dwBuffLen == 0 || _tcsnicmp(_T("# Custom Status Icons #"), szBuff, 23)) {
+					if (dwBuffLen == 0 || _tcsnicmp(L"# Custom Status Icons #", szBuff, 23)) {
 						FreeLibrary(g_hDLLXStatusIcons);
 						g_hDLLXStatusIcons = NULL;
 					}
@@ -101,7 +101,7 @@ void InitXStatusIcons()
 	GetModuleFileName((g_hDLLXStatusIcons != NULL) ? g_hDLLXStatusIcons : g_hInstance, szBuff, _countof(szBuff));
 
 	SKINICONDESC sid = { 0 };
-	sid.section.t = LPGENT("Protocols")_T("/") LPGENT("MRA") _T("/") LPGENT("Custom Status");
+	sid.section.t = LPGENT("Protocols")L"/" LPGENT("MRA") L"/" LPGENT("Custom Status");
 	sid.defaultFile.t = szBuff;
 	sid.flags = SIDF_ALL_TCHAR;
 

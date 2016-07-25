@@ -240,7 +240,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 		LPTSTR szExt = mir_tstrdup(szFeature);
 		LPTSTR pSrc, pDst;
 		for (pSrc = szExt, pDst = szExt; *pSrc; pSrc++)
-			if (_tcschr(_T("bcdfghjklmnpqrstvwxz0123456789"), *pSrc))
+			if (_tcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
 				*pDst++ = *pSrc;
 		*pDst = 0;
 		m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szExt, jcb);

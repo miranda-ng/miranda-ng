@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.
 
 
 // To be used by other plugins to send listening info to miranda
-#define MIRANDA_WINDOWCLASS _T("Miranda.ListeningTo")
+#define MIRANDA_WINDOWCLASS L"Miranda.ListeningTo"
 #define MIRANDA_DW_PROTECTION 0x8754
 
 #define LISTENINGTO_ANSI 1

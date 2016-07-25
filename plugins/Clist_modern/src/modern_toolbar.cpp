@@ -69,13 +69,13 @@ void Modern_InitButtons()
 			char buf[255];
 			if (i != 0) {
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
-				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, _T("icons\\toolbar_icons.dll"), BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource);
+				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource);
 			}
 			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, NULL, 0, NULL, SKINICON_OTHER_MAINMENU);
 
 			if (BTNS[i].pszTooltipDn) {
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
-				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, _T("icons\\toolbar_icons.dll"), BTNS[i].icoDefIdx + 1, g_hInst, BTNS[i].defResource2);
+				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx + 1, g_hInst, BTNS[i].defResource2);
 			}
 			else tbb.hIconHandleDn = NULL;
 		}
@@ -279,7 +279,7 @@ void CustomizeToolbar(HWND hwnd)
 	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 
 	CLISTFrame Frame = { sizeof(Frame) };
-	Frame.tname = _T("Toolbar");
+	Frame.tname = L"Toolbar";
 	Frame.hWnd = hwnd;
 	Frame.align = alTop;
 	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;

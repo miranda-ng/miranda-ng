@@ -11,7 +11,7 @@ CQuotesProviderGoogle::~CQuotesProviderGoogle()
 inline tstring make_contact_name(const tstring& rsSymbolFrom, const tstring& rsSymbolTo)
 {
 	tostringstream o;
-	o << rsSymbolFrom << _T("/") << rsSymbolTo;
+	o << rsSymbolFrom << L"/" << rsSymbolTo;
 	return o.str();
 }
 
@@ -86,7 +86,7 @@ bool CQuotesProviderGoogle::GetWatchedRateInfo(size_t nIndex, CRateInfo& rRateIn
 static tstring build_url(const tstring& rsURL, const tstring& from, const tstring& to, double dAmount)
 {
 	tostringstream o;
-	o << rsURL << _T("?a=") << std::fixed << dAmount << _T("&from=") << from << _T("&to=") << to;
+	o << rsURL << L"?a=" << std::fixed << dAmount << L"&from=" << from << L"&to=" << to;
 	return o.str();
 }
 
@@ -101,8 +101,8 @@ typedef IHTMLNode::THTMLNodePtr THTMLNodePtr;
 
 bool parse_html_node(const THTMLNodePtr& pNode, double& rdRate)
 {
-	tstring sID = pNode->GetAttribute(_T("id"));
-	if ((false == sID.empty()) && (0 == mir_tstrcmpi(sID.c_str(), _T("currency_converter_result")))) {
+	tstring sID = pNode->GetAttribute(L"id");
+	if ((false == sID.empty()) && (0 == mir_tstrcmpi(sID.c_str(), L"currency_converter_result"))) {
 		size_t cChild = pNode->GetChildCount();
 		// 			assert(1 == cChild);
 		if (cChild > 0) {

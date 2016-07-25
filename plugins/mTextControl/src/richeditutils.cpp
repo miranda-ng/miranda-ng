@@ -77,7 +77,7 @@ public:
 	HRESULT STDMETHODCALLTYPE  GetNewStorage(LPSTORAGE * lplpstg)
 	{
 		TCHAR sztName[64];
-		mir_sntprintf(sztName, _T("s%u"), this->nextStgId);
+		mir_sntprintf(sztName, L"s%u", this->nextStgId);
 		if (this->pictStg == NULL)
 			return STG_E_MEDIUMFULL;
 
@@ -135,7 +135,7 @@ void LoadRichEdit()
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
-	wcl.lpszClassName = _T("NBRichEditProxyWndClass");
+	wcl.lpszClassName = L"NBRichEditProxyWndClass";
 	wcl.hIconSm = 0;
 	RegisterClassEx(&wcl);
 }
@@ -147,7 +147,7 @@ void UnloadRichEdit()
 
 HWND CreateProxyWindow(ITextServices *ts)
 {
-	HWND hwnd = CreateWindow(_T("NBRichEditProxyWndClass"), _T(""), 0, 0, 0, 0, 0, 0, 0, hInst, 0);
+	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, 0, 0, hInst, 0);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
 }

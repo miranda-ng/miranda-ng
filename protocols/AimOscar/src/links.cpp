@@ -84,16 +84,16 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 		open chatroom: aim:gochat?roomname=ROOM&exchange=NUM
 	*/
 	/* add a contact to the list */
-	if (!_tcsnicmp(arg, _T("addbuddy?"), 9)) {
+	if (!_tcsnicmp(arg, L"addbuddy?", 9)) {
 		TCHAR *tok, *tok2;
 		char *sn = NULL, *group = NULL;
 
 		for (tok = arg + 8; tok != NULL; tok = tok2) {
 			tok2 = _tcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
-			if (!_tcsnicmp(tok, _T("screenname="), 11) && *(tok + 11) != 0)
+			if (!_tcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
 				sn = mir_t2a(url_decode(tok + 11));
-			if (!_tcsnicmp(tok, _T("groupname="), 10) && *(tok + 10) != 0)
+			if (!_tcsnicmp(tok, L"groupname=", 10) && *(tok + 10) != 0)
 				group = mir_utf8encodeT(url_decode(tok + 10));  /* group is currently ignored */
 		}
 		if (sn == NULL) {
@@ -111,16 +111,16 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	/* send a message to a contact */
-	else if (!_tcsnicmp(arg, _T("goim?"), 5)) {
+	else if (!_tcsnicmp(arg, L"goim?", 5)) {
 		TCHAR *tok, *tok2, *msg = NULL;
 		char *sn = NULL;
 
 		for (tok = arg + 4; tok != NULL; tok = tok2) {
 			tok2 = _tcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
-			if (!_tcsnicmp(tok, _T("screenname="), 11) && *(tok + 11) != 0)
+			if (!_tcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
 				sn = mir_t2a(url_decode(tok + 11));
-			if (!_tcsnicmp(tok, _T("message="), 8) && *(tok + 8) != 0)
+			if (!_tcsnicmp(tok, L"message=", 8) && *(tok + 8) != 0)
 				msg = url_decode(tok + 8);
 		}
 		if (sn == NULL) return 1; /* parse failed */
@@ -134,7 +134,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 	}
 
 	/* open a chatroom */
-	else if (!_tcsnicmp(arg, _T("gochat?"), 7)) {
+	else if (!_tcsnicmp(arg, L"gochat?", 7)) {
 		TCHAR *tok, *tok2;
 		char *rm = NULL;
 		int exchange = 0;
@@ -142,12 +142,12 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 		for (tok = arg + 6; tok != NULL; tok = tok2) {
 			tok2 = _tcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
-			if (!_tcsnicmp(tok, _T("roomname="), 9) && *(tok + 9) != 0) {
+			if (!_tcsnicmp(tok, L"roomname=", 9) && *(tok + 9) != 0) {
 				rm = mir_t2a(url_decode(tok + 9));
 				for (char *ch = rm; *ch; ++ch)
 					if (*ch == '+') *ch = ' ';
 			}
-			if (!_tcsnicmp(tok, _T("exchange="), 9))
+			if (!_tcsnicmp(tok, L"exchange=", 9))
 				exchange = _ttoi(tok + 9);
 		}
 		if (rm == NULL || exchange <= 0) {

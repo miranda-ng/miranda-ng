@@ -28,8 +28,8 @@ bool CCreditsScreen::Initialize()
 
 	m_Label.SetAlignment(DT_CENTER);
 	m_Label.SetWordWrap(TRUE);
-	m_Label.SetText(_T(""));
-	m_Label.SetFontFaceName(_T("Microsoft Sans Serif"));
+	m_Label.SetText(L"");
+	m_Label.SetFontFaceName(L"Microsoft Sans Serif");
 	m_Label.SetFontPointSize(10);
 	m_Label.SetFontWeight(FW_BOLD);
 
@@ -65,94 +65,94 @@ bool CCreditsScreen::Update()
 	if(dwTimeElapsed > m_dwDuration)
 	{
 		m_dwDuration = 4000;
-		m_Label.SetText(_T(""));
-		m_Label2.SetText(_T(""));
+		m_Label.SetText(L"");
+		m_Label2.SetText(L"");
 		switch(m_iPosition)
 		{
 		case 0:
-			m_Label.SetText(_T("MirandaG15"));
-			m_Label2.SetText(_T("2008 by Martin Kleinhans"));
+			m_Label.SetText(L"MirandaG15");
+			m_Label2.SetText(L"2008 by Martin Kleinhans");
 			m_dwDuration = 2500;
 			break;
 		case 1:
 			m_Label.SetSize(GetWidth(),GetHeight());
-			m_Label.SetText(_T("Special thanks to:"));
+			m_Label.SetText(L"Special thanks to:");
 			m_dwDuration = 2000;
 			break;
 		case 2:	
 			m_Label.SetSize(GetWidth(),25);
-			m_Label.SetText(_T("Shere Khan\n"));
-			m_Label2.SetText(_T("Concept, Ideas, Testing"));
+			m_Label.SetText(L"Shere Khan\n");
+			m_Label2.SetText(L"Concept, Ideas, Testing");
 			m_dwDuration = 2500;
 			break;
 		case 3:
 			m_Label.SetSize(GetWidth(),25);
-			m_Label.SetText(_T("Tauu and Cloonix\n"));
-			m_Label2.SetText(_T("Ideas, Testing"));
+			m_Label.SetText(L"Tauu and Cloonix\n");
+			m_Label2.SetText(L"Ideas, Testing");
 			m_dwDuration = 2500;
 			break;
 		case 4:	
 			m_Label.SetSize(GetWidth(),GetHeight());
 			m_Label.SetFontPointSize(10);
 			m_Label.SetFontWeight(FW_BOLD);
-			m_Label.SetText(_T("Betatesters:"));
+			m_Label.SetText(L"Betatesters:");
 			m_dwDuration = 2000;
 			break;
 		case 5:
 			m_Label.SetSize(GetWidth(),25);
 			m_Label2.SetFontPointSize(10);
 			m_Label2.SetFontWeight(FW_BOLD);
-			m_Label.SetText(_T("Cyberz"));
-			m_Label2.SetText(_T("Cimlite"));
+			m_Label.SetText(L"Cyberz");
+			m_Label2.SetText(L"Cimlite");
 			m_dwDuration = 2000;
 			break;
 		case 6:
-			m_Label.SetText(_T("Vullcan"));
-			m_Label2.SetText(_T("Snake"));
+			m_Label.SetText(L"Vullcan");
+			m_Label2.SetText(L"Snake");
 			m_dwDuration = 2000;
 			break;
 		case 7:
-			m_Label.SetText(_T("Wiebbe"));
-			m_Label2.SetText(_T("Maluku"));
+			m_Label.SetText(L"Wiebbe");
+			m_Label2.SetText(L"Maluku");
 			m_dwDuration = 2000;
 			break;
 		case 8:
-			m_Label.SetText(_T("lastwebpage"));
+			m_Label.SetText(L"lastwebpage");
 			m_dwDuration = 2000;
 			break;
 		case 9:
 			m_Label.SetSize(GetWidth(),GetHeight());
-			m_Label.SetText(_T("Additional thanks to:"));
+			m_Label.SetText(L"Additional thanks to:");
 			m_dwDuration = 2000;
 			break;
 		case 10:
 			m_Label.SetSize(GetWidth(),25);
 			m_Label2.SetFontPointSize(8);
 			m_Label2.SetFontWeight(FW_NORMAL);
-			m_Label.SetText(_T("Everyone"));
-			m_Label2.SetText(_T("on G15Forums.com"));
+			m_Label.SetText(L"Everyone");
+			m_Label2.SetText(L"on G15Forums.com");
 			m_dwDuration = 2000;
 			break;
 		case 11:
-			m_Label.SetText(_T("Everyone else"));
-			m_Label2.SetText(_T("for feedback and suggestions"));
+			m_Label.SetText(L"Everyone else");
+			m_Label2.SetText(L"for feedback and suggestions");
 			m_dwDuration = 2000;
 			break;
 		case 12:
 			m_Label.SetFontPointSize(10);
 			m_Label.SetFontWeight(FW_BOLD);
 			m_Label.SetSize(GetWidth(),25);
-			m_Label.SetText(_T("Logitech"));
-			m_Label2.SetText(_T("for obvious reasons"));
+			m_Label.SetText(L"Logitech");
+			m_Label2.SetText(L"for obvious reasons");
 			m_dwDuration = 2000;
 			break;
 		case 13:
 			m_Label.SetSize(GetWidth(),10);
-			m_Label.SetText(_T("You can contact me at:"));
+			m_Label.SetText(L"You can contact me at:");
 			m_Label2.SetSize(GetWidth(),33);
 			m_Label2.SetOrigin(0,10);
 			m_Label2.SetFontPointSize(8);
-			m_Label2.SetText(_T("mail@mkleinhans.de\nwww.mkleinhans.de"));
+			m_Label2.SetText(L"mail@mkleinhans.de\nwww.mkleinhans.de");
 			m_dwDuration = 2500;
 			break;
 		default:
@@ -182,8 +182,8 @@ void CCreditsScreen::Reset()
 
 	m_Label2.SetAlignment(DT_CENTER);
 	m_Label2.SetWordWrap(TRUE);
-	m_Label2.SetText(_T(""));
-	m_Label2.SetFontFaceName(_T("Microsoft Sans Serif"));
+	m_Label2.SetText(L"");
+	m_Label2.SetFontFaceName(L"Microsoft Sans Serif");
 	m_Label2.SetFontPointSize(8);
 
 	m_Label.SetOrigin(0,0);

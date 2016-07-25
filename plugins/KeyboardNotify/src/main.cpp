@@ -914,9 +914,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	// Create some synchronisation objects
 	createEventPrefix(eventPrefix, MAX_PATH - 11);
-	mir_sntprintf(eventName, _T("%s/FlashEvent"), eventPrefix);
+	mir_sntprintf(eventName, L"%s/FlashEvent", eventPrefix);
 	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-	mir_sntprintf(eventName, _T("%s/ExitEvent"), eventPrefix);
+	mir_sntprintf(eventName, L"%s/ExitEvent", eventPrefix);
 	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
 
 	hThread = mir_forkthread(FlashThreadFunction, 0);

@@ -117,7 +117,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 /*****************************************************************************/
 
-static TCHAR tszSizeString[] = _T("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+static TCHAR tszSizeString[] = L"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 static MCONTACT FindContactByUrl(HWND hwndDlg)
 {
@@ -212,7 +212,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			txtcolor = TextClr;
 
-			SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
+			SetDlgItemText(hwndDlg, IDC_DATA, L"");
 
 			InvalidateRect(hwndDlg, NULL, 1);
 

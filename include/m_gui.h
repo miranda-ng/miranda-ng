@@ -661,7 +661,7 @@ protected:
 	__inline BYTE GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
 	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
 	__inline void SaveInt(DWORD value) { if (m_dbLink) m_dbLink->SaveInt(value); }
-	__inline const TCHAR *LoadText() { return m_dbLink ? m_dbLink->LoadText() : _T(""); }
+	__inline const TCHAR *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
 	__inline void SaveText(TCHAR *value) { if (m_dbLink) m_dbLink->SaveText(value); }
 };
 

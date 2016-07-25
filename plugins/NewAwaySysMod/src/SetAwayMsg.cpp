@@ -384,7 +384,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 			}
 			else if (ItemType == MCLCIT_INFO) {
 				char *szProto = (char*)CList->GetItemParam(hItem);
-				CProtoSettings(szProto).SetMsgFormat(SMF_PERSONAL, (szProto || Message != NULL) ? Message : _T("")); // "szProto || Message != NULL..." means that we'll set an empty message instead of NULL for the global status, if the message is empty (NULL for the global status has a special meaning - SetMsgFormat will set the default message instead of NULL)
+				CProtoSettings(szProto).SetMsgFormat(SMF_PERSONAL, (szProto || Message != NULL) ? Message : L""); // "szProto || Message != NULL..." means that we'll set an empty message instead of NULL for the global status, if the message is empty (NULL for the global status has a special meaning - SetMsgFormat will set the default message instead of NULL)
 			}
 			else continue;
 
@@ -395,7 +395,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 		if (dat->hInitContact)
 			CContactSettings(0, dat->hInitContact).SetMsgFormat(SMF_PERSONAL, Message);
 		else
-			CProtoSettings(dat->szProtocol).SetMsgFormat(SMF_PERSONAL, (dat->szProtocol || Message != NULL) ? Message : _T(""));
+			CProtoSettings(dat->szProtocol).SetMsgFormat(SMF_PERSONAL, (dat->szProtocol || Message != NULL) ? Message : L"");
 	}
 	SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_SETMODIFY, false, 0);
 	SetDlgItemText(hwndDlg, IDC_OK, TranslateT("OK"));
@@ -603,7 +603,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// init tooltips
 			TOOLINFO ti = { 0 };
-			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			for (int i = 0; i < _countof(Tooltips); i++) {
@@ -723,12 +723,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								if (!MessageDetermined) {
 									TCString CurMessage((ItemType == MCLCIT_CONTACT) ? CContactSettings(0, hContact).GetMsgFormat(GMF_PERSONAL) : CProtoSettings(szProto).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL));
 									if (CurMessage == NULL)
-										CurMessage = _T("");
+										CurMessage = L"";
 
 									if (Message == NULL)
 										Message = CurMessage;
 									else if (CurMessage != (const TCHAR*)Message) {
-										Message = _T("");
+										Message = L"";
 										BtnTitle = TranslateT("Apply");
 										MessageDetermined = true;
 									}
@@ -750,11 +750,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					}
 
 					if (!bLeaveOldMessage)
-						SetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, (Message == NULL) ? _T("") : Message);
+						SetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, (Message == NULL) ? L"" : Message);
 
 					SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 					TCString WindowTitle(TranslateT("Set message for"));
-					WindowTitle += _T(" \"");
+					WindowTitle += L" \"";
 					WindowTitle += Status ? pcli->pfnGetStatusModeDescription(Status, 0) : TranslateT("Statuses");
 					if (nNewContacts == 1) {
 						WindowTitle += TCString(TranslateT("\" ("));
@@ -782,34 +782,34 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						if (hContact) {
 							if (IsAnICQProto(GetContactProto(hContact))) {
 								WindowTitle += TranslateT("message for");
-								WindowTitle += _T(" ");
+								WindowTitle += L" ";
 							}
 							else {
 								WindowTitle += TranslateT("for");
-								WindowTitle += _T(" ");
+								WindowTitle += L" ";
 							}
 
 							WindowTitle += pcli->pfnGetContactDisplayName(hContact, 0);
 							if (!IsAnICQProto(GetContactProto(hContact))) {
-								WindowTitle += _T(" ");
+								WindowTitle += L" ";
 								WindowTitle += TranslateT("available autoreply only");
-								WindowTitle += _T(")");
+								WindowTitle += L")";
 							}
-							else WindowTitle += _T(")");
+							else WindowTitle += L")";
 						}
 						else {
 							if (!szProto) {
 								WindowTitle += TranslateT("all accounts");
-								WindowTitle += _T(")");
+								WindowTitle += L")";
 							}
 							else {
 								PROTOACCOUNT *acc = Proto_GetAccount(szProto);
 								WindowTitle += acc->tszAccountName;
-								WindowTitle += _T(")");
+								WindowTitle += L")";
 							}
 						}
 					}
-					else WindowTitle += _T("\"");
+					else WindowTitle += L"\"";
 
 					SetWindowText(hwndDlg, WindowTitle);
 				}
@@ -872,7 +872,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				// don't forget to change Recent Message Save loop in the UM_SAM_APPLYANDCLOSE if you're changing something here
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					PROTOACCOUNT * acc = Proto_GetAccount(p->szModuleName);
-					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].m_status));
+					hItem = CList->AddInfo(TCString(L"* ") + acc->tszAccountName + L" *", CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].m_status));
 					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
 				}

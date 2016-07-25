@@ -30,11 +30,11 @@ void CDb3Mmap::AddToList(char *name, DWORD ofs)
 	mn->ofs = ofs;
 
 	if (m_lMods.getIndex(mn) != -1)
-		DatabaseCorruption(_T("%s (Module Name not unique)"));
+		DatabaseCorruption(L"%s (Module Name not unique)");
 	m_lMods.insert(mn);
 
 	if (m_lOfs.getIndex(mn) != -1)
-		DatabaseCorruption(_T("%s (Module Offset not unique)"));
+		DatabaseCorruption(L"%s (Module Offset not unique)");
 	m_lOfs.insert(mn);
 }
 

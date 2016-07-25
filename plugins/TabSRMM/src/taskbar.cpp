@@ -97,14 +97,14 @@ bool CTaskbarInteract::haveLargeIcons()
 		 * always returns S_OK, but the icon is simply ignored when using small taskbar icons.
 		 * also, figure out the button grouping mode.
 		 */
-		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"), &hKey) == ERROR_SUCCESS) {
-			::RegQueryValueEx(hKey, _T("TaskbarSmallIcons"), 0, &dwType, (LPBYTE)&val, &size);
+		if (::RegOpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", &hKey) == ERROR_SUCCESS) {
+			::RegQueryValueEx(hKey, L"TaskbarSmallIcons", 0, &dwType, (LPBYTE)&val, &size);
 			size = 4;
 			dwType = REG_DWORD;
 			/*
 			 * this is the "grouping mode" setting for the task bar. 0 = always combine, no labels
 			 */
-			::RegQueryValueEx(hKey, _T("TaskbarGlomLevel"), 0, &dwType, (LPBYTE)&valGrouping, &size);
+			::RegQueryValueEx(hKey, L"TaskbarGlomLevel", 0, &dwType, (LPBYTE)&valGrouping, &size);
 			::RegCloseKey(hKey);
 		}
 		m_fHaveLargeicons = (val ? false : true);			// small icons in use, revert to default icon feedback
@@ -230,11 +230,11 @@ CProxyWindow::CProxyWindow(TWindowData *dat)
 	m_hBigIcon = 0;
 	m_thumb = 0;
 
-	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, _T(""),
+	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
 		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, NULL, NULL, g_hInst, (LPVOID)this);
 
 #if defined(__LOGDEBUG_)
-	_DebugTraceW(_T("create proxy object for: %s"), m_dat->cache->getNick());
+	_DebugTraceW(L"create proxy object for: %s", m_dat->cache->getNick());
 #endif
 	Win7Taskbar->registerTab(m_hwndProxy, m_dat->pContainer->hwnd);
 	if (CMimAPI::m_pfnDwmSetWindowAttribute) {
@@ -252,7 +252,7 @@ CProxyWindow::~CProxyWindow()
 	::DestroyWindow(m_hwndProxy);
 
 #if defined(__LOGDEBUG_)
-	_DebugTraceW(_T("destroy proxy object for: %s"), m_dat->cache->getNick());
+	_DebugTraceW(L"destroy proxy object for: %s", m_dat->cache->getNick());
 #endif
 	if (m_thumb) {
 		delete m_thumb;
@@ -621,7 +621,7 @@ void CThumbBase::renderBase()
 	m_hOldFont = 0;
 
 #if defined(__LOGDEBUG_)
-	_DebugTraceW(_T("refresh base (background) with %d, %d"), m_width, m_height);
+	_DebugTraceW(L"refresh base (background) with %d, %d", m_width, m_height);
 #endif
 
 	m_rc.right = m_width;
@@ -733,7 +733,7 @@ CThumbBase::~CThumbBase()
 		m_isValid = false;
 	}
 #if defined(__LOGDEBUG_)
-	_DebugTraceW(_T("destroy CThumbBase"));
+	_DebugTraceW(L"destroy CThumbBase");
 #endif
 }
 

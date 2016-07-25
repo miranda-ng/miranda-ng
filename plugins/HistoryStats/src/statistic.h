@@ -183,7 +183,7 @@ public:
 	// file management
 	ext::string createFile(const ext::string& desiredName);
 	bool newFile(const TCHAR* fileExt, ext::string& writeFile, ext::string& finalURL);
-	bool newFilePNG(ext::string& writeFile, ext::string& finalURL) { return newFile(_T(".png"), writeFile, finalURL); }
+	bool newFilePNG(ext::string& writeFile, ext::string& finalURL) { return newFile(L".png", writeFile, finalURL); }
 	bool newFilePNG(Canvas& canvas, ext::string& finalURL);
 };
 

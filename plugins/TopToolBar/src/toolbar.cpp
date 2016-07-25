@@ -79,7 +79,7 @@ void InsertLBut(int i)
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
 	ttb.name = LPGEN("Default");
-	ttb.program = _T("Execute Path");
+	ttb.program = L"Execute Path";
 	ttb.wParamDown = i;
 	TTBAddButton((WPARAM)&ttb, 0);
 }

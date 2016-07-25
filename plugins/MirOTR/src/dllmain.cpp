@@ -58,7 +58,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	DEBUGOUT_T("LOAD MIROTR");
+	DEBUGOUTA("LOAD MIROTR");
 
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
@@ -104,7 +104,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnhookEvent(hEventWindow);
 	//UnhookEvent(hEventDbEventAddedFilter);
 	//UnhookEvent(hEventDbEventAdded);
-	DEBUGOUT_T("UNLOAD MIROTR");
+	DEBUGOUTA("UNLOAD MIROTR");
 	DeinitSRMM();
 	DeinitDBFilter();
 

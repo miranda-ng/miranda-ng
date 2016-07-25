@@ -219,7 +219,7 @@ TCHAR *gg_img_getfilter(TCHAR *szFilter, int nSize)
 
 	// Match relative to ImgDecoder presence
 	szFilterName = TranslateT("Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)");
-	szFilterMask = _T("*.bmp;*.gif;*.jpeg;*.jpg;*.png");
+	szFilterMask = L"*.bmp;*.gif;*.jpeg;*.jpg;*.png";
 
 	// Make up filter
 	_tcsncpy(pFilter, szFilterName, nSize);
@@ -259,16 +259,16 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT;
 	if (GetSaveFileName(&ofn))
 	{
-		FILE *fp = _tfopen(szFileName, _T("w+b"));
+		FILE *fp = _tfopen(szFileName, L"w+b");
 		if (fp)
 		{
 			fwrite(dat->lpData, dat->nSize, 1, fp);
 			fclose(fp);
-			gg->debugLog(_T("gg_img_saveimage(): Image saved to %s."), szFileName);
+			gg->debugLog(L"gg_img_saveimage(): Image saved to %s.", szFileName);
 		}
 		else
 		{
-			gg->debugLog(_T("gg_img_saveimage(): Cannot save image to %s."), szFileName);
+			gg->debugLog(L"gg_img_saveimage(): Cannot save image to %s.", szFileName);
 			MessageBox(hwnd, TranslateT("Image cannot be written to disk."), gg->m_tszUserName, MB_OK | MB_ICONERROR);
 		}
 	}
@@ -495,7 +495,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (dat->bReceiving)
 			{
 				TCHAR szTitle[128];
-				mir_sntprintf(szTitle, _T("%s (%d / %d)"), img->lpszFileName, dat->nImg, dat->nImgTotal);
+				mir_sntprintf(szTitle, L"%s (%d / %d)", img->lpszFileName, dat->nImg, dat->nImgTotal);
 				SetDlgItemText(hwndDlg, IDC_IMG_NAME, szTitle);
 			}
 			else
@@ -747,7 +747,7 @@ int gg_img_isexists(TCHAR *szPath, GGIMAGEENTRY *dat)
 
 	if (st.st_size == dat->nSize)
 	{
-		FILE *fp = _tfopen(szPath, _T("rb"));
+		FILE *fp = _tfopen(szPath, L"rb");
 		if (!fp) return 0;
 		char *lpData = (char*)mir_alloc(dat->nSize);
 		if (fread(lpData, 1, dat->nSize, fp) == dat->nSize)
@@ -779,12 +779,12 @@ TCHAR *gg_img_hasextension(TCHAR *filename)
 		{
 			size_t len = mir_tstrlen(imgtype);
 			imgtype++;
-			if (len == 4 && (mir_tstrcmpi(imgtype, _T("bmp")) == 0 ||
-							 mir_tstrcmpi(imgtype, _T("gif")) == 0 ||
-							 mir_tstrcmpi(imgtype, _T("jpg")) == 0 ||
-							 mir_tstrcmpi(imgtype, _T("png")) == 0))
+			if (len == 4 && (mir_tstrcmpi(imgtype, L"bmp") == 0 ||
+							 mir_tstrcmpi(imgtype, L"gif") == 0 ||
+							 mir_tstrcmpi(imgtype, L"jpg") == 0 ||
+							 mir_tstrcmpi(imgtype, L"png") == 0))
 				return --imgtype;
-			if (len == 5 &&  mir_tstrcmpi(imgtype, _T("jpeg")) == 0)
+			if (len == 5 &&  mir_tstrcmpi(imgtype, L"jpeg") == 0)
 				return --imgtype;
 		}
 	}
@@ -801,9 +801,9 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	size_t tPathLen;
 	int i, res;
 
-	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, _T(""))) {
-		TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
-		tPathLen = mir_sntprintf(szPath, _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
+	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
+		TCHAR *tmpPath = Utils_ReplaceVarsT( L"%miranda_userdata%");
+		tPathLen = mir_sntprintf(szPath, L"%s\\%s\\ImageCache", tmpPath, m_tszUserName);
 		mir_free(tmpPath);
 	}
 	else {
@@ -814,33 +814,33 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	if ( _taccess(szPath, 0)){
 		int ret = CreateDirectoryTreeT(szPath);
 		if (ret == 0){
-			debugLog(_T("img_displayasmsg(): Created new directory for image cache: %s."), szPath);
+			debugLog(L"img_displayasmsg(): Created new directory for image cache: %s.", szPath);
 		} else {
-			debugLog(_T("img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s"), szPath, errno, strerror(errno));
+			debugLog(L"img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
 	}
 
-	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, _T("\\%s"), dat->lpszFileName);
+	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, L"\\%s", dat->lpszFileName);
 	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
 		pImgext = szPath + mir_tstrlen(szPath);
 	_tcsncpy_s(imgext, pImgext, _TRUNCATE);
 	for (i = 1; ; ++i)
 	{
 		if ((res = gg_img_isexists(szPath, dat)) != -1) break;
-		mir_sntprintf(szPath, _T("%.*s (%u)%s"), pImgext - szPath, szPath, i, imgext);
+		mir_sntprintf(szPath, L"%.*s (%u)%s", pImgext - szPath, szPath, i, imgext);
 	}
 
 	if (res == 0) {
 		// Image file not found, thus create it
-		FILE *fp = _tfopen(szPath, _T("w+b"));
+		FILE *fp = _tfopen(szPath, L"w+b");
 		if (fp) {
 			res = fwrite(dat->lpData, dat->nSize, 1, fp) > 0;
 			fclose(fp);
 		} else {
-			debugLog(_T("img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s"), szPath, errno, strerror(errno));
+			debugLog(L"img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -850,16 +850,16 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	if (res != 0) {
 		TCHAR image_msg[MAX_PATH + 11];
-		mir_sntprintf(image_msg, _T("[img]%s[/img]"), szPath);
+		mir_sntprintf(image_msg, L"[img]%s[/img]", szPath);
 
 		T2Utf szMessage(image_msg);
 		PROTORECVEVENT pre = {0};
 		pre.timestamp = time(NULL);
 		pre.szMessage = szMessage;
 		ProtoChainRecvMsg(hContact, &pre);
-		debugLog(_T("img_displayasmsg(): Image saved to %s."), szPath);
+		debugLog(L"img_displayasmsg(): Image saved to %s.", szPath);
 	}
-	else debugLog(_T("img_displayasmsg(): Cannot save image to %s."), szPath);
+	else debugLog(L"img_displayasmsg(): Cannot save image to %s.", szPath);
 
 	return 0;
 }
@@ -931,15 +931,15 @@ const TCHAR *gg_img_guessfileextension(const char *lpData)
 	if (lpData != NULL)
 	{
 		if (memcmp(lpData, "BM", 2) == 0)
-			return _T(".bmp");
+			return L".bmp";
 		if (memcmp(lpData, "GIF8", 4) == 0)
-			return _T(".gif");
+			return L".gif";
 		if (memcmp(lpData, "\xFF\xD8", 2) == 0)
-			return _T(".jpg");
+			return L".jpg";
 		if (memcmp(lpData, "\x89PNG", 4) == 0)
-			return _T(".png");
+			return L".png";
 	}
-	return _T("");
+	return L"";
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -958,10 +958,10 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 	// Copy the file name
 	if (szFileName)
 	{
-		FILE *fp = _tfopen(szFileName, _T("rb"));
+		FILE *fp = _tfopen(szFileName, L"rb");
 		if (!fp) {
 			free(dat);
-			debugLog(_T("img_loadpicture(): fopen(\"%s\", \"rb\") failed. errno=%d: %s"), szFileName, errno, strerror(errno));
+			debugLog(L"img_loadpicture(): fopen(\"%s\", \"rb\" failed. errno=%d: %s)", szFileName, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -973,7 +973,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			debugLog(_T("img_loadpicture(): Zero file size \"%s\" failed."), szFileName);
+			debugLog(L"img_loadpicture(): Zero file size \"%s\" failed.", szFileName);
 			return NULL;
 		}
 		// Maximum acceptable image size
@@ -981,7 +981,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			debugLog(_T("img_loadpicture(): Image size of \"%s\" exceeds 255 KB."), szFileName);
+			debugLog(L"img_loadpicture(): Image size of \"%s\" exceeds 255 KB.", szFileName);
 			MessageBox(NULL, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 			return NULL;
 		}
@@ -992,7 +992,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			free(dat->lpData);
 			fclose(fp);
 			free(dat);
-			debugLog(_T("img_loadpicture(): Reading file \"%s\" failed."), szFileName);
+			debugLog(L"img_loadpicture(): Reading file \"%s\" failed.", szFileName);
 			return NULL;
 		}
 		fclose(fp);

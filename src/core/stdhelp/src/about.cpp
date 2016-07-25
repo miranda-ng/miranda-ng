@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define STR_VERSION_FORMAT _T("Miranda NG\nv%S")
+#define STR_VERSION_FORMAT L"Miranda NG\nv%S"
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			verInfoSize = GetFileVersionInfoSize(filename, &unused);
 			pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
-			VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\LegalCopyright"), (LPVOID*)&productCopyright, &blockSize);
+			VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\LegalCopyright", (LPVOID*)&productCopyright, &blockSize);
 			SetDlgItemText(hwndDlg, IDC_DEVS, productCopyright);
 			mir_free(pVerInfo);
 		}
@@ -56,7 +56,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{
-			HRSRC   hResInfo = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
+			HRSRC   hResInfo = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
 			DWORD   ResSize = SizeofResource(hInst, hResInfo);
 			HGLOBAL hRes = LoadResource(hInst, hResInfo);
 			char*   pszMsg = (char*)LockResource(hRes);

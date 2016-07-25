@@ -27,12 +27,12 @@ GenericPlayer *singleton = NULL;
 void m_log(const TCHAR *function, const TCHAR *fmt, ...)
 {
 	if (hLog == NULL) {
-		hLog = mir_createLog(MODULE_NAME, _T("ListeningTo log"), _T("c:\\temp\\listeningto.txt"), 0);
+		hLog = mir_createLog(MODULE_NAME, L"ListeningTo log", L"c:\\temp\\listeningto.txt", 0);
 		if (hLog == NULL)
 			return;
 	}
 
-	mir_writeLogT(hLog, _T("%s: "), function);
+	mir_writeLogT(hLog, L"%s: ", function);
 
 	va_list args;
 	va_start(args, fmt);
@@ -67,7 +67,7 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 GenericPlayer::GenericPlayer()
 {
-	name = _T("GenericPlayer");
+	name = L"GenericPlayer";
 
 	enabled = TRUE;
 	received[0] = L'\0';
@@ -122,7 +122,7 @@ void GenericPlayer::ProcessReceived()
 		parts[pCount] = p;
 		pCount++;
 		p = p1 + 2;
-		p1 = wcsstr(p, _T("\\0"));
+		p1 = wcsstr(p, L"\\0");
 	} while (p1 != NULL && pCount < 10);
 	if (p1 != NULL)
 		*p1 = _T('\0');
@@ -154,7 +154,7 @@ void GenericPlayer::ProcessReceived()
 
 		li->cbSize = sizeof(listening_info);
 		li->dwFlags = LTI_TCHAR;
-		li->ptszType = U2TD(parts[2], _T("Music"));
+		li->ptszType = U2TD(parts[2], L"Music");
 		li->ptszTitle = U2T(parts[3]);
 		li->ptszArtist = U2T(parts[4]);
 		li->ptszAlbum = U2T(parts[5]);
@@ -177,9 +177,9 @@ void GenericPlayer::ProcessReceived()
 				int h = (length / 60) / 60;
 
 				if (h > 0)
-					mir_sntprintf(li->ptszLength, 9, _T("%d:%02d:%02d"), h, m, s);
+					mir_sntprintf(li->ptszLength, 9, L"%d:%02d:%02d", h, m, s);
 				else
-					mir_sntprintf(li->ptszLength, 9, _T("%d:%02d"), m, s);
+					mir_sntprintf(li->ptszLength, 9, L"%d:%02d", m, s);
 			}
 		}
 	}

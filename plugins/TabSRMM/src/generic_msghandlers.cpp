@@ -44,13 +44,13 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 	}
 	else if (dat) {
 		TCHAR szFilter[MAX_PATH], szFilename[MAX_PATH];
-		mir_sntprintf(szFilter, _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
-		mir_sntprintf(szFilename, _T("%s.rtf"), dat->cache->getNick());
+		mir_sntprintf(szFilter, L"%s%c*.rtf%c%c", TranslateT("Rich Edit file"), 0, 0, 0);
+		mir_sntprintf(szFilename, L"%s.rtf", dat->cache->getNick());
 
 		Utils::sanitizeFilename(szFilename);
 
 		TCHAR szInitialDir[MAX_PATH + 2];
-		mir_sntprintf(szInitialDir, _T("%s%s\\"), M.getDataPath(), _T("\\Saved message logs"));
+		mir_sntprintf(szInitialDir, L"%s%s\\", M.getDataPath(), L"\\Saved message logs");
 		CreateDirectoryTreeT(szInitialDir);
 
 		OPENFILENAME ofn = { 0 };
@@ -61,7 +61,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 		ofn.lpstrInitialDir = szInitialDir;
 		ofn.nMaxFile = MAX_PATH;
 		ofn.Flags = OFN_HIDEREADONLY;
-		ofn.lpstrDefExt = _T("rtf");
+		ofn.lpstrDefExt = L"rtf";
 		if (GetSaveFileName(&ofn)) {
 			EDITSTREAM stream = { 0 };
 			stream.dwCookie = (DWORD_PTR)szFilename;
@@ -538,7 +538,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			TCHAR *buf = (TCHAR*)mir_alloc((iLen + 2) * sizeof(TCHAR));
 			GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
 			db_set_ts(dat->hContact, "UserInfo", "MyNotes", buf);
-			SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+			SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 
 			if (!dat->bIsAutosizingInput) {
 				dat->splitterY = dat->iSplitterSaved;
@@ -613,7 +613,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
 
 			TCHAR tStr[80];
-			mir_sntprintf(tStr, _T("%s %d.%d.%d.%d [build %d]"),
+			mir_sntprintf(tStr, L"%s %d.%d.%d.%d [build %d]",
 				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
 		}
@@ -792,7 +792,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 
 	if (!fIsChat && GetWindowTextLength(hwndEdit) > 0)
 		szStreamOut = Message_GetFromStream(hwndEdit);
-	SetWindowText(hwndEdit, _T(""));
+	SetWindowText(hwndEdit, L"");
 
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);
 	SendMessage(hwndEdit, EM_SETBKGNDCOLOR, 0, dat->inputbg);
@@ -862,7 +862,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	pf2.dxOffset = dat->pContainer->theme.left_indent + 30;
 
 	if (!fIsChat) {
-		SetWindowText(hwndLog, _T(""));
+		SetWindowText(hwndLog, L"");
 		SendMessage(hwndLog, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 		// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
@@ -1004,7 +1004,7 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		if (!PluginConfig.m_bDontUseDefaultKbd) {
 			TCHAR	szBuf[20];
 			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
-			mir_sntprintf(szKLName, _T("0000%s"), szBuf);
+			mir_sntprintf(szKLName, L"0000%s", szBuf);
 			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 		}
 		else {
@@ -1053,13 +1053,13 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
 
 		if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR)
-			mir_sntprintf(szBuf, _T("UID: %s"), dat->cache->getUIN());
+			mir_sntprintf(szBuf, L"UID: %s", dat->cache->getUIN());
 		else if (dat->lastMessage) {
 			TCHAR date[64], time[64];
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, _countof(date), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
 			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && mir_tstrlen(date) > 6)
 				date[mir_tstrlen(date) - 5] = 0;
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, _countof(time), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
 			mir_sntprintf(szBuf, TranslateT("Last received: %s at %s"), date, time);
 		}
 		else szBuf[0] = 0;
@@ -1744,11 +1744,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 
 				if (mir_tstrlen(newcontactname) != 0) {
 					if (PluginConfig.m_bStatusOnTabs)
-						mir_sntprintf(newtitle, _T("%s (%s)"), newcontactname, dat->szStatus);
+						mir_sntprintf(newtitle, L"%s (%s)", newcontactname, dat->szStatus);
 					else
 						_tcsncpy_s(newtitle, newcontactname, _TRUNCATE);
 				}
-				else _tcsncpy_s(newtitle, _T("Forward"), _TRUNCATE);
+				else _tcsncpy_s(newtitle, L"Forward", _TRUNCATE);
 
 				item.mask |= TCIF_TEXT;
 			}
@@ -1767,7 +1767,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
-	else _tcsncpy_s(newtitle, _T("Message Session"), _TRUNCATE);
+	else _tcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {

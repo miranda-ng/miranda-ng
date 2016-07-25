@@ -507,11 +507,11 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, _T("chat"))))
+	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, L"chat")))
 	{
 		if (szSecondParam)
 		{
-			TCHAR *szChatId = _tcsstr(szSecondParam, _T("id="));
+			TCHAR *szChatId = _tcsstr(szSecondParam, L"id=");
 			if (szChatId)
 			{
 				szChatId += 5;
@@ -523,14 +523,14 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
-	else if (!mir_tstrcmpi(szCommand, _T("call")))
+	else if (!mir_tstrcmpi(szCommand, L"call"))
 	{
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		NotifyEventHooks(g_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	else if (!mir_tstrcmpi(szCommand, _T("userinfo"))){ return 0; }
-	else if (!mir_tstrcmpi(szCommand, _T("add")))
+	else if (!mir_tstrcmpi(szCommand, L"userinfo")){ return 0; }
+	else if (!mir_tstrcmpi(szCommand, L"add"))
 	{
 		MCONTACT hContact = FindContact(_T2A(szJid));
 		if (hContact == NULL)
@@ -550,13 +550,13 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		}
 		return 0;
 	}
-	if (!mir_tstrcmpi(szCommand, _T("sendfile")))
+	if (!mir_tstrcmpi(szCommand, L"sendfile"))
 	{
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 1;
 	}
-	if (!mir_tstrcmpi(szCommand, _T("voicemail")))
+	if (!mir_tstrcmpi(szCommand, L"voicemail"))
 	{
 		return 1;
 	}

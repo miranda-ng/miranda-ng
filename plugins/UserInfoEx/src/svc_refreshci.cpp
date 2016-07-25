@@ -427,7 +427,7 @@ public:
 		_szText = mir_tstrdup(szTitle);
 		mir_tstrcpy(pd.lptzContactName, _szText);
 		
-		mir_tstrcpy(pd.lptzText, _T(" "));
+		mir_tstrcpy(pd.lptzText, L" ");
 		
 		_pFnCallBack = pFnCallBack;
 		_hWnd = (HWND) CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_RETURN_HWND|APF_NEWDATA);

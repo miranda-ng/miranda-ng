@@ -149,7 +149,7 @@ bool save_url(HANDLE hNetlib, const std::string &url, const std::tstring &filena
 				CreateDirectoryTreeT(dir.c_str());
 
 			// Write to file
-			FILE *f = _tfopen(filename.c_str(), _T("wb"));
+			FILE *f = _tfopen(filename.c_str(), L"wb");
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 		}

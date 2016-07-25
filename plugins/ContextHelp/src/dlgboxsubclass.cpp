@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SC_CONTEXTHELP_SEPARATOR  SC_SEPARATOR+1
 #define SC_CONTEXTHELP_DIALOG     SC_CONTEXTHELP+1
 
-#define PROP_CONTEXTSTATE         _T("HelpPlugin_ContextState")
+#define PROP_CONTEXTSTATE         L"HelpPlugin_ContextState"
 #define PROPF_MENUFORCED          0x01  // always show help context menu for ctl (override default)
 #define PROPF_MENUDISABLED        0x02  // never show help context menu for ctl
 #define PROPF_AUTOTIPFORCED       0x04  // always show autotip for ctl (override default)
@@ -345,7 +345,7 @@ static LRESULT CALLBACK DialogBoxSubclassProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		EnumChildWindows(hwndDlg, RemovePropForAllChildsEnumProc, (LPARAM)PROP_CONTEXTSTATE);
 		{
 			TCHAR text[64];
-			mir_sntprintf(text, _countof(text), _T("unhooked window 0x%X for context help\n"), hwndDlg);
+			mir_sntprintf(text, _countof(text), L"unhooked window 0x%X for context help\n", hwndDlg);
 			OutputDebugString(text);
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)pfnWndProc);
@@ -410,7 +410,7 @@ static LRESULT CALLBACK HelpSendMessageHookProc(int code, WPARAM wParam, LPARAM 
 				}
 				{
 					TCHAR text[64];
-					mir_sntprintf(text, _countof(text), _T("hooked window 0x%X for context help\n"), msg->hwnd);
+					mir_sntprintf(text, _countof(text), L"hooked window 0x%X for context help\n", msg->hwnd);
 					OutputDebugString(text);
 				}
 				break;

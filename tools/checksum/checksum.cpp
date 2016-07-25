@@ -106,16 +106,16 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 			if ( debug ) {
 				switch(machine) {
 				case IMAGE_FILE_MACHINE_I386:
-					_ftprintf( stderr, _T("Build: x86\n"));
+					_ftprintf( stderr, L"Build: x86\n");
 					break;
 				case IMAGE_FILE_MACHINE_AMD64:
-					_ftprintf( stderr, _T("Build: x64\n"));
+					_ftprintf( stderr, L"Build: x64\n");
 					break;
 				case IMAGE_FILE_MACHINE_IA64:
-					_ftprintf( stderr, _T("Build: IA64 :-)\n"));
+					_ftprintf( stderr, L"Build: IA64 :-)\n");
 					break;
 				default:
-					_ftprintf( stderr, _T("Build: unknown :-(\n"));
+					_ftprintf( stderr, L"Build: unknown :-(\n");
 					break;
 				}
 			}
@@ -157,7 +157,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 
 #ifdef DEBUG_REALLOCS
 				if ( debug )
-					_ftprintf( stderr, _T("Image base is 0x%I64x \n"), base );
+					_ftprintf( stderr, L"Image base is 0x%I64x \n", base );
 #endif
 				if ( pIDD ) {
 					// Debugging information entry
@@ -199,7 +199,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 
 #ifdef DEBUG_SECTIONS
 						if ( debug )
-							_ftprintf( stderr, _T("Found debug section entry at 0x%08X (%d), data at 0x%08X (%d)\n"), pISH->PointerToRawData + shift, dbgSize, pDBG->PointerToRawData, pDBG->SizeOfData );
+							_ftprintf( stderr, L"Found debug section entry at 0x%08X (%d), data at 0x%08X (%d)\n", pISH->PointerToRawData + shift, dbgSize, pDBG->PointerToRawData, pDBG->SizeOfData );
 #endif
 					}
 
@@ -214,7 +214,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 						pEXP->TimeDateStamp = 0;
 #ifdef DEBUG_SECTIONS
 						if ( debug )
-							_ftprintf( stderr, _T("Found export section entry at 0x%08X\n"), pISH->PointerToRawData + shift );
+							_ftprintf( stderr, L"Found export section entry at 0x%08X\n", pISH->PointerToRawData + shift );
 #endif
 					}
 
@@ -227,7 +227,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 						pRealloc = ptr + shift + pISH->PointerToRawData;
 #ifdef DEBUG_SECTIONS
 						if ( debug )
-							_ftprintf( stderr, _T("Found reallocation table entry at 0x%08X (%d)\n"), pISH->PointerToRawData + shift, relocSize );
+							_ftprintf( stderr, L"Found reallocation table entry at 0x%08X (%d)\n", pISH->PointerToRawData + shift, relocSize );
 #endif
 					}
 				}
@@ -288,7 +288,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 									pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
 #ifdef DEBUG_REALLOCS
 									if ( debug )
-										_ftprintf( stderr, _T("Realloc block at %08X (%d)\n"), pIBR->VirtualAddress, pIBR->SizeOfBlock );
+										_ftprintf( stderr, L"Realloc block at %08X (%d)\n", pIBR->VirtualAddress, pIBR->SizeOfBlock );
 #endif
 
 									while( len > 0 )
@@ -308,7 +308,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 											}
 #ifdef DEBUG_REALLOCS
 											if ( debug && ( *(PDWORD)pAddr < (DWORD)base ))
-												_ftprintf( stderr, _T("Realloc address is less than base\n"));
+												_ftprintf( stderr, L"Realloc address is less than base\n");
 #endif
 											*(PDWORD)pAddr = (DWORD)((*(PDWORD)pAddr) - (DWORD)base );
 											break;
@@ -321,7 +321,7 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 											}
 #ifdef DEBUG_REALLOCS
 											if ( debug && ( *(ULONGLONG*)pAddr < base ))
-												_ftprintf( stderr, _T("Realloc address is less than base\n"));
+												_ftprintf( stderr, L"Realloc address is less than base\n");
 #endif
 											*(ULONGLONG*)pAddr = (ULONGLONG)((*(ULONGLONG*)pAddr) - base );
 											break;
@@ -336,14 +336,14 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 										case IMAGE_REL_BASED_HIGHADJ:
 #ifdef DEBUG_REALLOCS
 											if ( debug )
-												_ftprintf( stderr, _T("Unexpected block type %d\n"), type );
+												_ftprintf( stderr, L"Unexpected block type %d\n", type );
 #endif
 											break;
 
 										default:
 #ifdef DEBUG_REALLOCS
 											if ( debug )
-												_ftprintf( stderr, _T("Unknown block type %d\n"), type );
+												_ftprintf( stderr, L"Unknown block type %d\n", type );
 #endif
 											break;
 										}
@@ -371,11 +371,11 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 							mir_md5_append( &pms2, ptr + pISH->PointerToRawData, pISH->SizeOfRawData );
 							mir_md5_finish( &pms2, digest2 );
 
-							_ftprintf( stderr, _T("%s - %08X - %d "), pISH->Name, pISH->PointerToRawData, pISH->SizeOfRawData);
+							_ftprintf( stderr, L"%s - %08X - %d ", pISH->Name, pISH->PointerToRawData, pISH->SizeOfRawData);
 
 							for ( i = 0; i < sizeof( digest2 ) / sizeof( digest2[0] ); i++ )
-								_ftprintf( stderr, _T("%02X"), digest2[i] );
-							_ftprintf( stderr, _T("\n"));
+								_ftprintf( stderr, L"%02X", digest2[i] );
+							_ftprintf( stderr, L"\n");
 						}
 #endif
 
@@ -429,24 +429,24 @@ int process(TCHAR *filename)
 
 	switch(res) {
 		case RESULT_NOTFOUND:
-			_ftprintf( stderr, _T("'%s'... not found!\n"), filename );
+			_ftprintf( stderr, L"'%s'... not found!\n", filename );
 			break;
 		case RESULT_READERROR:
-			_ftprintf( stderr, _T("'%s'... read error!\n"), filename );
+			_ftprintf( stderr, L"'%s'... read error!\n", filename );
 			break;
 		case RESULT_NOTPE:
-			_ftprintf( stderr, _T("'%s'... not PE type!\n"), filename );
+			_ftprintf( stderr, L"'%s'... not PE type!\n", filename );
 			break;
 		case RESULT_CORRUPTED:
-			_ftprintf( stderr, _T("'%s'... corrupted!\n"), filename );
+			_ftprintf( stderr, L"'%s'... corrupted!\n", filename );
 			break;
 		case RESULT_OK:
 		{
 			int i;
-			_ftprintf( stdout, _T("%s "), filename );
+			_ftprintf( stdout, L"%s ", filename );
 			for ( i = 0; i < sizeof( digest ) / sizeof( digest[0] ); i++ )
-				_ftprintf( stdout, _T("%02X"), digest[i] );
-			_ftprintf( stdout, _T("\n"));
+				_ftprintf( stdout, L"%02X", digest[i] );
+			_ftprintf( stdout, L"\n");
 			break;
 		}
 		default:
@@ -463,7 +463,7 @@ int _tmain( int argc, TCHAR *argv[] )
 	int cnt = 0;
 	int i;
 
-	_ftprintf( stderr, _T("* PE CHECKSUM TOOL * VERSION %s * by Bio (c) 2012\n\n"), _VERSION_ );
+	_ftprintf( stderr, L"* PE CHECKSUM TOOL * VERSION %s * by Bio (c) 2012\n\n", _VERSION_ );
 
 	if ( argc > 1 )
 	{
@@ -472,18 +472,18 @@ int _tmain( int argc, TCHAR *argv[] )
 
 		for ( i = 1; i < argc; i++ )
 		{
-			if ( !_tcscmp( argv[i], _T("/debug")) || !_tcscmp( argv[i], _T("/DEBUG")))
+			if ( !_tcscmp( argv[i], L"/debug") || !_tcscmp( argv[i], L"/DEBUG"))
 			{
 				debug = 1;
 				break;
 			}
 		}
 
-		_ftprintf( stderr, _T("Processing ... \n"));
+		_ftprintf( stderr, L"Processing ... \n");
 
 		for ( i = 1; i < argc; i++ )
 		{
-			if ( !_tcscmp( argv[i], _T("/stdin")) || !_tcscmp( argv[i], _T("/STDIN")))
+			if ( !_tcscmp( argv[i], L"/stdin") || !_tcscmp( argv[i], L"/STDIN"))
 			{
 				while ( _fgetts( buf, sizeof( buf ), stdin ) != NULL )
 				{
@@ -510,12 +510,12 @@ int _tmain( int argc, TCHAR *argv[] )
 			FindClose( hFind );
 		}
 
-		_ftprintf( stderr, _T("%d file(s) processed.\n"), cnt );
+		_ftprintf( stderr, L"%d file(s) processed.\n", cnt );
 	}
 	else
 	{
-		_ftprintf( stderr, _T("Usage:    checksum.exe [/debug] [/stdin] [*.dll] ... [*.exe]\n"));
-		_ftprintf( stderr, _T("Example:  dir /b /s | checksum.exe /stdin > hashes.txt\n"));
+		_ftprintf( stderr, L"Usage:    checksum.exe [/debug] [/stdin] [*.dll] ... [*.exe]\n");
+		_ftprintf( stderr, L"Example:  dir /b /s | checksum.exe /stdin > hashes.txt\n");
 		res = RESULT_NONE;
 	}
 

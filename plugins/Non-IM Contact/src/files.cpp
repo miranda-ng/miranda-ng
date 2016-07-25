@@ -237,8 +237,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_DELETESTRING, index, 0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
 					if (!index) {
-						SetDlgItemText(hwnd, IDC_FN, _T(""));
-						SetDlgItemText(hwnd, IDC_FILE_CONTENTS, _T(""));
+						SetDlgItemText(hwnd, IDC_FN, L"");
+						SetDlgItemText(hwnd, IDC_FILE_CONTENTS, L"");
 					}
 
 				}
@@ -270,8 +270,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
 					}
 					else {
-						SetDlgItemText(hwnd, IDC_URL, _T(""));
-						SetDlgItemText(hwnd, IDC_WWW_TIMER, _T(""));
+						SetDlgItemText(hwnd, IDC_URL, L"");
+						SetDlgItemText(hwnd, IDC_WWW_TIMER, L"");
 					}
 					readFile(hwnd);
 				}

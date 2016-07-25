@@ -126,14 +126,14 @@ static HANDLE LoadXStatusIconLibrary(TCHAR *path, const TCHAR *sub)
 	HANDLE hLib;
 
 	mir_tstrcpy(p, sub);
-	mir_tstrcat(p, _T("\\xstatus_ICQ.dll"));
+	mir_tstrcat(p, L"\\xstatus_ICQ.dll");
 	if (hLib = LoadLibrary(path))
 		return hLib;
 	mir_tstrcpy(p, sub);
-	mir_tstrcat(p, _T("\\xstatus_icons.dll"));
+	mir_tstrcat(p, L"\\xstatus_icons.dll");
 	if (hLib = LoadLibrary(path))
 		return hLib;
-	mir_tstrcpy(p, _T("\\"));
+	mir_tstrcpy(p, L"\\");
 	return hLib;
 }
 
@@ -145,9 +145,9 @@ static TCHAR* InitXStatusIconLibrary(TCHAR *buf, size_t buf_size)
 	// get miranda's exe path
 	GetModuleFileName(NULL, path, MAX_PATH);
 
-	hXStatusIconsDLL = (HMODULE)LoadXStatusIconLibrary(path, _T("\\Icons"));
+	hXStatusIconsDLL = (HMODULE)LoadXStatusIconLibrary(path, L"\\Icons");
 	if (!hXStatusIconsDLL) // TODO: add "Custom Folders" support
-		hXStatusIconsDLL = (HMODULE)LoadXStatusIconLibrary(path, _T("\\Plugins"));
+		hXStatusIconsDLL = (HMODULE)LoadXStatusIconLibrary(path, L"\\Plugins");
 
 	if (hXStatusIconsDLL) {
 		null_strcpy(buf, path, buf_size - 1);

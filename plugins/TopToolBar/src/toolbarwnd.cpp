@@ -5,7 +5,7 @@ COLORREF bkColour;
 HBITMAP hBmpBackground, hBmpSeparator;
 int backgroundBmpUse;
 
-static TCHAR pluginname[] = _T("TopToolBar");
+static TCHAR pluginname[] = L"TopToolBar";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toolbar window procedure
@@ -257,7 +257,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM)
 	RegisterClass(&wndclass);
 
 	g_ctrl->pButtonList = (SortedList *)&Buttons;
-	g_ctrl->hWnd = CreateWindow(pluginname, _T("Toolbar"),
+	g_ctrl->hWnd = CreateWindow(pluginname, L"Toolbar",
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 		0, 0, 0, g_ctrl->nLastHeight, parent, NULL, hInst, NULL);
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LONG_PTR)g_ctrl);
@@ -273,7 +273,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM)
 	// if there's no customized frames, create our own
 	if (g_ctrl->hFrame == NULL) {
 		CLISTFrame Frame = { sizeof(Frame) };
-		Frame.tname = _T("Toolbar");
+		Frame.tname = L"Toolbar";
 		Frame.hWnd = g_ctrl->hWnd;
 		Frame.align = alTop;
 		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;

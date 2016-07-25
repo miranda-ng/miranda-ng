@@ -118,11 +118,11 @@ struct TaskOptions
 		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf)))
 		{
 			filePath = buf;
-			filePath += _T("\\");
+			filePath += L"\\";
 		}
 
 		filePath += TranslateT("History");
-		filePath += _T("_<contact>_<date>.<ext>");
+		filePath += L"_<contact>_<date>.<ext>";
 		lastExport = time(NULL);
 	}
 };

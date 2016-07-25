@@ -72,7 +72,7 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 		emfCache = newItem;
 		emfCacheSize++;
 
-		HDC emfdc = CreateEnhMetaFile(NULL, NULL, NULL, _T("icon"));
+		HDC emfdc = CreateEnhMetaFile(NULL, NULL, NULL, L"icon");
 		DrawIconEx(emfdc, 0, 0, (HICON)hIcon, 16, 16, 0, NULL, DI_NORMAL);
 		emfCache->hIcon = hIcon;
 		emfCache->hEmf = CloseEnhMetaFile(emfdc);

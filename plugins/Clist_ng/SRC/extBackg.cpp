@@ -367,7 +367,7 @@ static int ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
 		LRESULT lr;
 		TCHAR	szBuf[255];
 
-		mir_sntprintf(tszFinalName, MAX_PATH, _T("%s%s"), tszFolder, fd.cFileName);
+		mir_sntprintf(tszFinalName, MAX_PATH, L"%s%s", tszFolder, fd.cFileName);
 
 		GetPrivateProfileStringW(L"SkinInfo", L"Name", L"None", szBuf, 500, tszFinalName);
 		if(!wcscmp(szBuf, L"None")) {
@@ -414,7 +414,7 @@ static int RescanSkins(HWND hwndCombobox)
 	while (h != INVALID_HANDLE_VALUE) {
 		if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
 			TCHAR	tszSubDir[MAX_PATH];
-			mir_sntprintf(tszSubDir, MAX_PATH, _T("%s%s\\"), tszSkinRoot, fd.cFileName);
+			mir_sntprintf(tszSubDir, MAX_PATH, L"%s%s\\", tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
 	    if(FindNextFile(h, &fd) == 0)

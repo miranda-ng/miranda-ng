@@ -95,9 +95,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitDde();
 
 	/* installation */
-	InstallFile(_T("AssocMgr-Readme.txt"),_T("Docs\\"));
-	InstallFile(_T("AssocMgr-License.txt"),_T("Docs\\"));
-	InstallFile(_T("AssocMgr-SDK.zip"),_T("Docs\\"));
+	InstallFile(L"AssocMgr-Readme.txt",L"Docs\\");
+	InstallFile(L"AssocMgr-License.txt",L"Docs\\");
+	InstallFile(L"AssocMgr-SDK.zip",L"Docs\\");
 	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,AssocMgrModulesLoaded);
 	return 0;
 }

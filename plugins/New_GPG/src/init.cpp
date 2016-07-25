@@ -74,14 +74,14 @@ void init_vars()
 {
 	bAppendTags = db_get_b(NULL, szGPGModuleName, "bAppendTags", 0) != 0;
 	bStripTags = db_get_b(NULL, szGPGModuleName, "bStripTags", 0) != 0;
-	inopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", _T("<GPGdec>"));
-	inclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", _T("</GPGdec>"));
-	outopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", _T("<GPGenc>"));
-	outclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", _T("</GPGenc>"));
+	inopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", L"<GPGdec>");
+	inclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", L"</GPGdec>");
+	outopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", L"<GPGenc>");
+	outclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", L"</GPGenc>");
 	bDebugLog = db_get_b(NULL, szGPGModuleName, "bDebugLog", 0) != 0;
 	bAutoExchange = db_get_b(NULL, szGPGModuleName, "bAutoExchange", 0) != 0;
 	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0) != 0;
-	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 	debuglog.init();
 	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001;
 	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09) != 0;
@@ -102,7 +102,7 @@ void init_vars()
 	load_existing_key_rect.left = db_get_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", 0);
 	load_existing_key_rect.top = db_get_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", 0);
 	tabsrmm_used = isTabsrmmUsed();
-	bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, _T("Arial"));
+	bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"Arial");
 }
 
 static int OnModulesLoaded(WPARAM, LPARAM)

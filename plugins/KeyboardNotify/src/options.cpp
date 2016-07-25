@@ -34,7 +34,7 @@ extern PROCESS_LIST ProcessList;
 
 HWND hwndProto, hwndBasic, hwndEffect, hwndTheme, hwndIgnore, hwndCurrentTab;
 
-TCHAR *AttendedName[]={_T("Miranda"), _T("Windows")};
+TCHAR *AttendedName[]={L"Miranda", L"Windows"};
 TCHAR *OrderName[]={LPGENT("left -> right"), LPGENT("right -> left"), LPGENT("left <-> right")};
 
 PROCESS_LIST ProcessListAux;
@@ -59,7 +59,7 @@ static void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL over
 
 void exportThemes(const TCHAR *filename)
 {
-	FILE *fExport = _tfopen(filename, _T("wt"));
+	FILE *fExport = _tfopen(filename, L"wt");
 
 	if (!fExport)
 		return;
@@ -68,14 +68,14 @@ void exportThemes(const TCHAR *filename)
 
 	TCHAR *szTheme;
 	for (int i = 0; szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
-		_ftprintf(fExport, _T("[%s]\n"), szTheme);
+		_ftprintf(fExport, L"[%s]\n", szTheme);
 		mir_free(szTheme);
 		if (szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i))) {
-			_ftprintf(fExport, _T("%s\n\n"), szTheme);
+			_ftprintf(fExport, L"%s\n\n", szTheme);
 			mir_free(szTheme);
 		}
 		else
-			_ftprintf(fExport, _T("0\n\n"));
+			_ftprintf(fExport, L"0\n\n");
 	}
 
 	_ftprintf(fExport, TranslateT("\n; End of automatically generated Keyboard Notify Theme file\n"));
@@ -85,7 +85,7 @@ void exportThemes(const TCHAR *filename)
 
 void importThemes(const TCHAR *filename, BOOL overrideExisting)
 {
-	FILE *fImport = _tfopen(filename, _T("rt"));
+	FILE *fImport = _tfopen(filename, L"rt");
 	if (!fImport)
 		return;
 
@@ -245,7 +245,7 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
 			SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_DELETESTRING, (WPARAM)item, 0);
 			if (SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0) == 0) {
-				SetDlgItemText(hwndDlg, IDC_PROGRAMS, _T(""));
+				SetDlgItemText(hwndDlg, IDC_PROGRAMS, L"");
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
 			}
 			else
@@ -1037,7 +1037,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				if (str)
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 				else
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
@@ -1049,7 +1049,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				int item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				if (item == CB_ERR) {
 					//new theme
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 				}
@@ -1058,7 +1058,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (str)
 						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 					else
-						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 				}
@@ -1139,8 +1139,8 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					mir_free(str);
 				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
 				if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
-					SetDlgItemText(hwndDlg, IDC_THEME, _T(""));
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
+					SetDlgItemText(hwndDlg, IDC_THEME, L"");
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 				}
 				else {
@@ -1163,20 +1163,20 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				mir_wstrcat(filter, _T(" (*.knt)"));
+				mir_wstrcat(filter, L" (*.knt)");
 				pfilter = filter + mir_tstrlen(filter) + 1;
-				mir_tstrcpy(pfilter, _T("*.knt"));
+				mir_tstrcpy(pfilter, L"*.knt");
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				mir_tstrcpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, _T("*.*"));
+				mir_tstrcpy(pfilter, L"*.*");
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST;
 				ofn.nMaxFile = _countof(path);
-				ofn.lpstrDefExt = _T("knt");
+				ofn.lpstrDefExt = L"knt";
 				if (GetSaveFileName(&ofn))
 					exportThemes(path);
 			}
@@ -1191,20 +1191,20 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				mir_wstrcat(filter, _T(" (*.knt)"));
+				mir_wstrcat(filter, L" (*.knt)");
 				pfilter = filter + mir_tstrlen(filter) + 1;
-				mir_tstrcpy(pfilter, _T("*.knt"));
+				mir_tstrcpy(pfilter, L"*.knt");
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				mir_tstrcpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, _T("*.*"));
+				mir_tstrcpy(pfilter, L"*.*");
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
 				ofn.nMaxFile = _countof(path);
-				ofn.lpstrDefExt = _T("knt");
+				ofn.lpstrDefExt = L"knt";
 				if (GetOpenFileName(&ofn)) {
 					importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
 					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
@@ -1244,7 +1244,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 						if (str)
 							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 						else
-							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
+							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), L"");
 
 						if (!mir_wstrcmp(theme, themeAux))
 							wCustomTheme = i;

@@ -125,8 +125,8 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	if (fname)
 		mir_free(fname);
 
-	TCHAR img[] = _T(".jpg .jpeg .png .bmp");
-	TCHAR audio[] = _T(".mp3");
+	TCHAR img[] = L".jpg .jpeg .png .bmp";
+	TCHAR audio[] = L".mp3";
 
 	TCHAR DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
@@ -233,7 +233,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 
-	ptszDefaultGroup(proto, "ProtoGroup", _T("VKontakte")),
+	ptszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
 	ptszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I\'m back")),
 	ptszVKLang(proto, "VKLang", NULL)
 

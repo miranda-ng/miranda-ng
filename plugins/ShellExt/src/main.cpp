@@ -28,7 +28,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 		bIsVistaPlus = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
 
 		GetTempPath(_countof(tszLogPath), tszLogPath);
-		_tcscat_s(tszLogPath, _countof(tszLogPath), _T("shlext.log"));
+		_tcscat_s(tszLogPath, _countof(tszLogPath), L"shlext.log");
 
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
@@ -102,7 +102,7 @@ char str4[] = "Apartment";
  
 STDAPI DllRegisterServer()
 {
-	HRegKey k1(HKEY_CLASSES_ROOT, _T("miranda.shlext"));
+	HRegKey k1(HKEY_CLASSES_ROOT, L"miranda.shlext");
 	if (k1 == NULL)
 		return E_FAIL;
 
@@ -114,7 +114,7 @@ STDAPI DllRegisterServer()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	HRegKey kClsid(HKEY_CLASSES_ROOT, _T("CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}"));
+	HRegKey kClsid(HKEY_CLASSES_ROOT, L"CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}");
 	if (kClsid == NULL)
 		return E_FAIL;
 
@@ -123,7 +123,7 @@ STDAPI DllRegisterServer()
 	if ( RegSetValueA(kClsid, "ProgID", REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
 
-	HRegKey kInprocServer(kClsid, _T("InprocServer32"));
+	HRegKey kInprocServer(kClsid, L"InprocServer32");
 	if (kInprocServer == NULL)
 		return E_FAIL;
 
@@ -143,7 +143,7 @@ STDAPI DllRegisterServer()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	HRegKey k2(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
+	HRegKey k2(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
 	if (k2 == NULL)
 		return E_FAIL;
 	if ( RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))

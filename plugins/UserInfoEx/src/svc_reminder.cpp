@@ -255,7 +255,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 
 	if (hContact) {
 		ppd.lchContact = hContact;
-		mir_sntprintf(ppd.lptzContactName, _T("%s - %s"), TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
+		mir_sntprintf(ppd.lptzContactName, L"%s - %s", TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
 	}
 	else mir_tstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
 
@@ -406,7 +406,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 								tszMsg += TranslateT("She has the following anniversaries:");
 								break;
 							}						
-						tszMsg.Append(_T("\n- "));
+						tszMsg.Append(L"\n- ");
 
 						switch (Diff) {
 						case 0:
@@ -428,7 +428,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 	if (numAnniversaries != 0 && bNotify) {
 		if (tszMsg.GetLength() >= MAX_SECONDLINE) {
 			tszMsg.Truncate(MAX_SECONDLINE - 5);
-			tszMsg.Append(_T("\n..."));
+			tszMsg.Append(L"\n...");
 		}
 
 		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENT("Anniversaries"), tszMsg);

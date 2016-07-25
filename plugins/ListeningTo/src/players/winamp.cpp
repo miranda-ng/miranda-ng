@@ -20,14 +20,14 @@ Boston, MA 02111-1307, USA.
 #include "../stdafx.h"
 
 static TCHAR *wcs[] = {
-	_T("Winamp v1.x")
+	L"Winamp v1.x"
 };
 
 Winamp::Winamp()
 {
-	name = _T("Winamp");
+	name = L"Winamp";
 	window_classes = wcs;
 	num_window_classes = _countof(wcs);
-	message_window_class = MIRANDA_WINDOWCLASS _T(".Winamp");
+	message_window_class = MIRANDA_WINDOWCLASS L".Winamp";
 	dll_name = "gen_mlt";
 }

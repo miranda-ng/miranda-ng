@@ -42,7 +42,7 @@ EXCEPTION_RECORD API::exRecord = { 0 };
 CONTEXT API::exCtx = { 0 };
 LRESULT API::exLastResult = 0;
 char    API::exSzFile[MAX_PATH] = "";
-TCHAR   API::exReason[256] = _T("");
+TCHAR   API::exReason[256] = L"";
 int     API::exLine = 0;
 bool    API::exAllowContinue = false;
 HMODULE API::hDwm = 0;
@@ -99,7 +99,7 @@ void API::onInit()
 	sysConfig.isSevenPlus = (IsWinVer7Plus() ? true : false);
 
 	if (sysConfig.isVistaPlus) {
-		if ((hDwm = Utils::loadSystemLibrary(_T("\\dwmapi.dll")), true) != 0) {
+		if ((hDwm = Utils::loadSystemLibrary(L"\\dwmapi.dll"), true) != 0) {
 			pfnDwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled_t)GetProcAddress(hDwm, "DwmIsCompositionEnabled");
 			pfnDwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea_t)GetProcAddress(hDwm, "DwmExtendFrameIntoClientArea");
 		}
@@ -202,7 +202,7 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCH
 	memcpy(&exCtx, ep->ContextRecord, sizeof(CONTEXT));
 
 	mir_snprintf(exSzFile, "%s%s", szName, szExt);
-	mir_sntprintf(exReason, _T("An application error has occured: %s"), szReason);
+	mir_sntprintf(exReason, L"An application error has occured: %s", szReason);
 	exLine = line;
 	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
@@ -268,7 +268,7 @@ void CRTException::display() const
 	TCHAR *tszMsg = mir_a2t(what());
 
 	TCHAR tszBoxMsg[500];
-	mir_sntprintf(tszBoxMsg, _T("%s\n\n(%s)"), tszMsg, m_szParam);
-	::MessageBox(0, tszBoxMsg, _T("Clist_nicer runtime error"), MB_OK | MB_ICONERROR);
+	mir_sntprintf(tszBoxMsg, L"%s\n\n(%s)", tszMsg, m_szParam);
+	::MessageBox(0, tszBoxMsg, L"Clist_nicer runtime error", MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

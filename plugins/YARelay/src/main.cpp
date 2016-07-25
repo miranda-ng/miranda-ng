@@ -155,20 +155,20 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 				if (id != NULL)
 					_tcsncpy_s(buf, id, _TRUNCATE);
 				else
-					mir_sntprintf(buf, _T("%p"), hContact);
+					mir_sntprintf(buf, L"%p", hContact);
 			}
 			szUtfMsg.append(T2Utf(buf));
 			break;
 
 		case 't':
 		case 'T':
-			_tcsftime(buf, 10, _T("%H:%M"), tm_time);
+			_tcsftime(buf, 10, L"%H:%M", tm_time);
 			szUtfMsg.append(T2Utf(buf));
 			break;
 
 		case 'd':
 		case 'D':
-			_tcsftime(buf, 12, _T("%d/%m/%Y"), tm_time);
+			_tcsftime(buf, 12, L"%d/%m/%Y", tm_time);
 			szUtfMsg.append(T2Utf(buf));
 			break;
 
@@ -235,7 +235,7 @@ extern "C" int __declspec(dllexport) Load()
 		_tcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
-	else _tcsncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
+	else _tcsncpy(tszForwardTemplate, L"%u: %m", MAXTEMPLATESIZE-1);
 
 	iSplit          = db_get_dw(NULL, "yaRelay", "Split", 0);
 	iSplitMaxSize   = db_get_dw(NULL, "yaRelay", "SplitMaxSize", 100);

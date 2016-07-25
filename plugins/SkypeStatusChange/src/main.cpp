@@ -45,20 +45,20 @@ enum
 	SKYPECONTROLAPI_ATTACH_API_AVAILABLE = 0x8001
 };
 
-LPCTSTR g_pszSkypeWndClassName = _T("SkypeHelperWindow{155198f0-8749-47b7-ac53-58f2ac70844c}");
+LPCTSTR g_pszSkypeWndClassName = L"SkypeHelperWindow{155198f0-8749-47b7-ac53-58f2ac70844c}";
 
 const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
 {
-	{ID_STATUS_AWAY, "AWAY",_T("Away")},
-	{ID_STATUS_NA, "AWAY",_T("Not available")}, // removed in Skype 5
-	{ID_STATUS_DND, "DND",_T("Do not disturb")},
-	{ID_STATUS_ONLINE, "ONLINE",_T("Online")},
-	{ID_STATUS_FREECHAT, "ONLINE",_T("Free for chat")},	// SKYPEME status doesn't work in Skype 4!
-	{ID_STATUS_OFFLINE, "OFFLINE",_T("Offline")},
-	{ID_STATUS_INVISIBLE, "INVISIBLE",_T("Invisible")},
-	{ID_STATUS_OCCUPIED,"DND",_T("Occupied")},
-	{ID_STATUS_ONTHEPHONE,"DND",_T("On the phone")},
-	{ID_STATUS_OUTTOLUNCH,"DND",_T("Out to lunch")}
+	{ID_STATUS_AWAY, "AWAY",L"Away"},
+	{ID_STATUS_NA, "AWAY",L"Not available"}, // removed in Skype 5
+	{ID_STATUS_DND, "DND",L"Do not disturb"},
+	{ID_STATUS_ONLINE, "ONLINE",L"Online"},
+	{ID_STATUS_FREECHAT, "ONLINE",L"Free for chat"},	// SKYPEME status doesn't work in Skype 4!
+	{ID_STATUS_OFFLINE, "OFFLINE",L"Offline"},
+	{ID_STATUS_INVISIBLE, "INVISIBLE",L"Invisible"},
+	{ID_STATUS_OCCUPIED,"DND",L"Occupied"},
+	{ID_STATUS_ONTHEPHONE,"DND",L"On the phone"},
+	{ID_STATUS_OUTTOLUNCH,"DND",L"Out to lunch"}
 };
 
 enum { INVALID_INDEX = 0xFFFFFFFF };
@@ -277,8 +277,8 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&g_pluginInfo);
 
-	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(_T("SkypeControlAPIAttach"));
-	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(_T("SkypeControlAPIDiscover"));
+	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(L"SkypeControlAPIAttach");
+	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(L"SkypeControlAPIDiscover");
 	if ((0 == g_MsgIDSkypeControlAPIAttach) || (0 == g_MsgIDSkypeControlAPIDiscover))
 		return 1;
 
@@ -291,7 +291,7 @@ extern "C" int __declspec(dllexport) Load()
 		return 1;
 
 	g_wndMainWindow = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE,
-		g_pszSkypeWndClassName, _T(""), WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
+		g_pszSkypeWndClassName, L"", WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, NULL, 0, g_hModule, 0);
 	if (g_wndMainWindow == NULL)
 		return 1;

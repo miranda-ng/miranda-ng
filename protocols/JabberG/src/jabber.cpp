@@ -109,8 +109,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
 	bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
-	bMirOTR = GetModuleHandle(_T("mirotr.dll")) != NULL;
-	bNewGPG = GetModuleHandle(_T("new_gpg.dll")) != NULL;
+	bMirOTR = GetModuleHandle(L"mirotr.dll") != NULL;
+	bNewGPG = GetModuleHandle(L"new_gpg.dll") != NULL;
 	#ifdef _WIN64
 		bPlatform = 1;
 	#else
@@ -128,14 +128,14 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	fontid.cbSize = sizeof(fontid);
 	_tcsncpy_s(fontid.group, LPGENT("Jabber"), _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
-	_tcsncpy_s(fontid.backgroundGroup, _T("Jabber"), _TRUNCATE);
-	_tcsncpy_s(fontid.backgroundName, _T("Background"), _TRUNCATE);
+	_tcsncpy_s(fontid.backgroundGroup, L"Jabber", _TRUNCATE);
+	_tcsncpy_s(fontid.backgroundName, L"Background", _TRUNCATE);
 	fontid.flags = FIDF_DEFAULTVALID;
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
 	fontid.deffontsettings.size = -11;
-	mir_tstrncpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), _countof(fontid.deffontsettings.szFace));
+	mir_tstrncpy(fontid.deffontsettings.szFace, L"MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
 	_tcsncpy_s(fontid.name, LPGENT("Frame title"), _TRUNCATE);
@@ -150,10 +150,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	_tcsncpy_s(colourid.group, _T("Jabber"), _TRUNCATE);
+	_tcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
 	strncpy_s(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
 
-	_tcsncpy_s(colourid.name, _T("Background"), _TRUNCATE);
+	_tcsncpy_s(colourid.name, L"Background", _TRUNCATE);
 	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
@@ -188,14 +188,14 @@ extern "C" int __declspec(dllexport) Load()
 	{
 		INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 		if (FIP == NULL || result != S_OK) {
-			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 			return 1;
 		}
 	}
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
-	mir_sntprintf(szCoreVersion, _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
+	mir_sntprintf(szCoreVersion, L"%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
@@ -235,13 +235,13 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (g_nTempFileId != 0) {
 		TCHAR tszTempPath[MAX_PATH], tszFilePath[MAX_PATH];
 		GetTempPath(_countof(tszTempPath), tszTempPath);
-		mir_sntprintf(tszFilePath, _T("%sjab*.tmp.*"), tszTempPath);
+		mir_sntprintf(tszFilePath, L"%sjab*.tmp.*", tszTempPath);
 
 		WIN32_FIND_DATA findData;
 		HANDLE hFind = FindFirstFile(tszFilePath, &findData);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				mir_sntprintf(tszFilePath, _T("%s%s"), tszTempPath, findData.cFileName);
+				mir_sntprintf(tszFilePath, L"%s%s", tszTempPath, findData.cFileName);
 				DeleteFile(tszFilePath);
 			} while (FindNextFile(hFind, &findData));
 			

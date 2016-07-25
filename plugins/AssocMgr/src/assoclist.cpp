@@ -268,7 +268,7 @@ static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static TCHAR szDesc[32];
 	if (assoc->pszFileExt == NULL)
-		mir_sntprintf(szDesc, _T("%hs:"), assoc->pszClassName);
+		mir_sntprintf(szDesc, L"%hs:", assoc->pszClassName);
 	else
 		mir_sntprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
@@ -745,7 +745,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			// autostart
 			TCHAR *pszRunCmd = MakeRunCommand(TRUE, TRUE);
 			if (pszRunCmd != NULL) {
-				CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(_T("MirandaNG"), pszRunCmd) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(L"MirandaNG", pszRunCmd) ? BST_CHECKED : BST_UNCHECKED);
 				mir_free(pszRunCmd);
 			}
 		}
@@ -896,7 +896,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				fRegFailed = FALSE;
 				if (pszRunCmd != NULL) {
 					fEnabled = IsDlgButtonChecked(hwndDlg, IDC_AUTOSTART);
-					if (fEnabled ? !AddRegRunEntry(_T("MirandaNG"), pszRunCmd) : !RemoveRegRunEntry(_T("MirandaNG"), pszRunCmd)) {
+					if (fEnabled ? !AddRegRunEntry(L"MirandaNG", pszRunCmd) : !RemoveRegRunEntry(L"MirandaNG", pszRunCmd)) {
 						char *pszErr;
 						pszErr = GetWinErrorDescription(GetLastError());
 						ShowInfoMessage(NIIF_ERROR, Translate("Autostart error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));

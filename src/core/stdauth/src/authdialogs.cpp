@@ -60,17 +60,17 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			TCHAR* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick);
 			TCHAR* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email);
 
-			TCHAR name[128] = _T("");
+			TCHAR name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, _T("%s %s"), firstT, lastT);
+				off = mir_sntprintf(name, L"%s %s", firstT, lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, _T("%s"), firstT);
+				off = mir_sntprintf(name, L"%s", firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, _T("%s"), lastT);
+				off = mir_sntprintf(name, L"%s", lastT);
 			if (nickT[0]) {
 				if (off)
-					mir_sntprintf(name + off, _countof(name) - off, _T(" (%s)"), nickT);
+					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", nickT);
 				else
 					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}
@@ -185,17 +185,17 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ptrT emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email));
 			ptrT reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason));
 
-			TCHAR name[128] = _T("");
+			TCHAR name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, _T("%s %s"), (TCHAR*)firstT, (TCHAR*)lastT);
+				off = mir_sntprintf(name, L"%s %s", (TCHAR*)firstT, (TCHAR*)lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, _T("%s"), (TCHAR*)firstT);
+				off = mir_sntprintf(name, L"%s", (TCHAR*)firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, _T("%s"), (TCHAR*)lastT);
+				off = mir_sntprintf(name, L"%s", (TCHAR*)lastT);
 			if (mir_tstrlen(nickT)) {
 				if (off)
-					mir_sntprintf(name + off, _countof(name) - off, _T(" (%s)"), (TCHAR*)nickT);
+					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", (TCHAR*)nickT);
 				else
 					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}

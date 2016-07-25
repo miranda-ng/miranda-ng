@@ -54,14 +54,14 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
-	mir_sntprintf(szVal, _T("%x"), val);
+	mir_sntprintf(szVal, L"%x", val);
 	unsigned int zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(TCHAR)));
-	mir_tstrcpy(res, _T("0x"));
+	mir_tstrcpy(res, L"0x");
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
 

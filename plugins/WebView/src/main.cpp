@@ -132,7 +132,7 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_CLIST_DOUBLECLICKED, Doubleclick);
    
 	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-	hRichEd = LoadLibrary(_T("Msftedit.dll"));
+	hRichEd = LoadLibrary(L"Msftedit.dll");
 
 	/*TIMERS*/
 	if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME) != 0)) {  

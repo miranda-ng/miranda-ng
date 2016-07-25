@@ -131,7 +131,7 @@ void doItems(ModuleSettingLL* modlist, int count)
 			continue;
 
 		// Caption
-		mir_sntprintf(percent, _T("%s %d%%"), title, (int)(100 * i / count));
+		mir_sntprintf(percent, L"%s %d%%", title, (int)(100 * i / count));
 		SetWindowText(hwnd, percent);
 
 		for (ModSetLinkLinkItem *module = modlist->first; module && hwnd2mainWindow; module = module->next) {

@@ -76,7 +76,7 @@ void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat
 void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen)
 {
 	TCHAR szPath[MAX_PATH * 2];
-	mir_sntprintf(szPath, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(szPath, L"%s\\%S\\", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = _countof(szPath);
@@ -100,14 +100,14 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	else {
 		TCHAR szBuf[MAX_PATH];
 		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
-			mir_tstrcpy(pszDest + tPathLen, _T("avatar"));
+			mir_tstrcpy(pszDest + tPathLen, L"avatar");
 		else {
 			TCHAR *szLastDot = _tcsrchr(szBuf, '.');
 			if (szLastDot)
 				szLastDot[0] = '\0';
 
 			mir_tstrcpy(pszDest + tPathLen, szBuf);
-			mir_tstrcat(pszDest + tPathLen, _T("_avt"));
+			mir_tstrcat(pszDest + tPathLen, L"_avt");
 		}
 	}
 }
@@ -115,7 +115,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 void AddAvatarExt(int dwFormat, TCHAR *pszDest)
 {
 	const TCHAR *ext = ProtoGetAvatarExtension(dwFormat);
-	mir_tstrcat(pszDest, (*ext == 0) ? _T(".dat") : ext);
+	mir_tstrcat(pszDest, (*ext == 0) ? L".dat" : ext);
 }
 
 #define MD5_BLOCK_SIZE 1024*1024 /* use 1MB blocks */
@@ -1212,7 +1212,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 					const TCHAR *ptszExt;
 					int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
 					TCHAR tszImageFile[MAX_PATH];
-					mir_sntprintf(tszImageFile, _T("%s%s"), pCookieData->szFile, ptszExt);
+					mir_sntprintf(tszImageFile, L"%s%s", pCookieData->szFile, ptszExt);
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format

@@ -259,7 +259,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	// hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	// Folder plugin support
-	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT _T("\\Skins\\Popup"));
+	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT L"\\Skins\\Popup");
 	// load skin
 	skins.load();
 	const PopupSkin *skin;
@@ -331,7 +331,7 @@ MIRAPI int Load(void)
 	LoadGDIPlus();
 
 	// Transparent and animation routines
-	hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
+	hDwmapiDll = LoadLibrary(L"dwmapi.dll");
 	MyDwmEnableBlurBehindWindow = 0;
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
@@ -429,7 +429,7 @@ MIRAPI int Unload(void)
 	SrmmMenu_Unload();
 
 	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), hInst);
-	UnregisterClass(_T("PopupEditBox"), hInst);
+	UnregisterClass(L"PopupEditBox", hInst);
 	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupMenuHostWnd), hInst);
 	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd), hInst);
 	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass), hInst);

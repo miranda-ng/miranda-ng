@@ -105,7 +105,7 @@ EXTERN_C int __declspec(dllexport) Load()
 	g_bInitialized = false;
 	
 	InitDebug();
-	TRACE(_T("Plugin loaded\n"));
+	TRACE(L"Plugin loaded\n");
 	// Schedule actual initialization for later
 	HookEvent(ME_SYSTEM_MODULESLOADED, Init);
 	return 0;
@@ -115,15 +115,15 @@ EXTERN_C int __declspec(dllexport) Load()
 EXTERN_C int __declspec(dllexport) Unload(void)
 {
 	if(!g_bInitialized) {
-		TRACE(_T("ERROR: Unload requested, but plugin is not initialized?!\n"));		
+		TRACE(L"ERROR: Unload requested, but plugin is not initialized?!\n");		
 		return 0;
 	}
-	TRACE(_T("-------------------------------------------\nUnloading started\n"));
+	TRACE(L"-------------------------------------------\nUnloading started\n");
 	UnInit();
-	TRACE(_T("Unloading successful\n"));
-	TRACE(_T("Cleaning up: "));
+	TRACE(L"Unloading successful\n");
+	TRACE(L"Cleaning up: ");
 	UnInitDebug();
-	TRACE(_T("OK!\n"));
+	TRACE(L"OK!\n");
 	return 0;
 }
 
@@ -161,17 +161,17 @@ int Init(WPARAM, LPARAM)
 	if(!g_AppletManager->Initialize(toTstring(APP_SHORTNAME)))
 	{
 		if(CConfig::GetBoolSetting(SKIP_DRIVER_ERROR)) {
-			tstring text = _T("Failed to initialize the LCD connection\n Make sure you have the newest Logitech drivers installed (>=1.03).\n");
+			tstring text = L"Failed to initialize the LCD connection\n Make sure you have the newest Logitech drivers installed (>=1.03).\n";
 			tstring title = _T(APP_SHORTNAME);
 			MessageBox(NULL, text.c_str(), title.c_str(), MB_OK | MB_ICONEXCLAMATION);
 		}
 
-		TRACE(_T("Initialization failed!.\n"));
+		TRACE(L"Initialization failed!.\n");
 		return 0;
 	}
 	
 	g_bInitialized = true;
-	TRACE(_T("Initialization completed successfully.\n-------------------------------------------\n"));
+	TRACE(L"Initialization completed successfully.\n-------------------------------------------\n");
 	return 0;
 }
 //************************************************************************

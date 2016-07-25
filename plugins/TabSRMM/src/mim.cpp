@@ -47,7 +47,7 @@ DURT   CMimAPI::m_pfnDwmUnregisterThumbnail = 0;
 DSIT   CMimAPI::m_pfnDwmSetIconicThumbnail = 0;
 DSILP  CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = 0;
 bool   CMimAPI::m_shutDown = 0;
-TCHAR  CMimAPI::m_userDir[] = _T("\0");
+TCHAR  CMimAPI::m_userDir[] = L"\0";
 
 bool   CMimAPI::m_haveBufferedPaint = false;
 
@@ -138,7 +138,7 @@ const TCHAR* CMimAPI::getUserDir()
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 			_tcsncpy_s(m_userDir, L"%miranda_userdata%", _TRUNCATE);
 		else
-			_tcsncpy_s(m_userDir, VARST(_T("%miranda_userdata%")), _TRUNCATE);
+			_tcsncpy_s(m_userDir, VARST(L"%miranda_userdata%"), _TRUNCATE);
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
@@ -149,14 +149,14 @@ void CMimAPI::InitPaths()
 {
 	const TCHAR *szUserdataDir = getUserDir();
 
-	mir_sntprintf(m_szProfilePath, _T("%stabSRMM"), szUserdataDir);
+	mir_sntprintf(m_szProfilePath, L"%stabSRMM", szUserdataDir);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		_tcsncpy_s(m_szChatLogsPath, _T("%miranda_logpath%"), _TRUNCATE);
-		_tcsncpy_s(m_szSkinsPath, _T("%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
+		_tcsncpy_s(m_szChatLogsPath, L"%miranda_logpath%", _TRUNCATE);
+		_tcsncpy_s(m_szSkinsPath, L"%miranda_path%\\Skins\\TabSRMM", _TRUNCATE);
 	}
 	else {
-		_tcsncpy_s(m_szChatLogsPath, VARST(_T("%miranda_logpath%")), _TRUNCATE);
-		_tcsncpy_s(m_szSkinsPath, VARST(_T("%miranda_path%\\Skins\\TabSRMM")), _TRUNCATE);
+		_tcsncpy_s(m_szChatLogsPath, VARST(L"%miranda_logpath%"), _TRUNCATE);
+		_tcsncpy_s(m_szSkinsPath, VARST(L"%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
 	}
 
 	Utils::ensureTralingBackslash(m_szChatLogsPath);
@@ -164,7 +164,7 @@ void CMimAPI::InitPaths()
 
 	Utils::ensureTralingBackslash(m_szSkinsPath);
 
-	mir_sntprintf(m_szSavedAvatarsPath, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
+	mir_sntprintf(m_szSavedAvatarsPath, L"%s\\Saved Contact Pictures", m_szProfilePath);
 }
 
 bool CMimAPI::getAeroState()

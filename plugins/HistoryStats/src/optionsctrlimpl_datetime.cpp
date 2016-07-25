@@ -23,64 +23,64 @@ ext::string OptionsCtrlImpl::DateTime::getDTFormatString(const ext::string& strF
 
 			switch (strFormat[i]) {
 			case 'a':
-				strCode = _T("ddd");
+				strCode = L"ddd";
 				break;
 
 			case 'A':
-				strCode = _T("dddd");
+				strCode = L"dddd";
 				break;
 
 			case 'b':
-				strCode = _T("MMM");
+				strCode = L"MMM";
 				break;
 
 			case 'B':
-				strCode = _T("MMMM");
+				strCode = L"MMMM";
 				break;
 
 			case 'd':
-				strCode = bSharp ? _T("d") : _T("dd");
+				strCode = bSharp ? L"d" : L"dd";
 				break;
 
 			case 'H':
-				strCode = bSharp ? _T("H") : _T("HH");
+				strCode = bSharp ? L"H" : L"HH";
 				break;
 
 			case 'I':
-				strCode = bSharp ? _T("h") : _T("hh");
+				strCode = bSharp ? L"h" : L"hh";
 				break;
 
 			case 'm':
-				strCode = bSharp ? _T("M") : _T("MM");
+				strCode = bSharp ? L"M" : L"MM";
 				break;
 
 			case 'M':
-				strCode = bSharp ? _T("m") : _T("mm");
+				strCode = bSharp ? L"m" : L"mm";
 				break;
 
 			case 'p':
-				strCode = _T("tt"); // MEMO: seems not to work if current locale is 24-hour
+				strCode = L"tt"; // MEMO: seems not to work if current locale is 24-hour
 				break;
 
 			case 'y':
-				strCode = _T("yy");
+				strCode = L"yy";
 				break;
 
 			case 'Y':
-				strCode = _T("yyyy");
+				strCode = L"yyyy";
 				break;
 
 			case '%':
-				strPart += _T("%");
+				strPart += L"%";
 				break;
 			}
 
 			if (!strCode.empty()) {
 				if (!strPart.empty()) {
-					strOut += _T("'");
+					strOut += L"'";
 					strOut += strPart;
-					strOut += _T("'");
-					strPart = _T("");
+					strOut += L"'";
+					strPart = L"";
 				}
 
 				strOut += strCode;
@@ -90,14 +90,14 @@ ext::string OptionsCtrlImpl::DateTime::getDTFormatString(const ext::string& strF
 			strPart += strFormat[i];
 
 			if (strFormat[i] == '\'')
-				strPart += _T("'");
+				strPart += L"'";
 		}
 	}
 
 	if (!strPart.empty()) {
-		strOut += _T("'");
+		strOut += L"'";
 		strOut += strPart;
-		strOut += _T("'");
+		strOut += L"'";
 	}
 
 	return strOut;
@@ -170,7 +170,7 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 {
 	ext::string strTemp = m_strLabel;
 
-	strTemp += _T(": ");
+	strTemp += L": ";
 
 	if (m_bNone)
 		strTemp += TranslateT("none");
@@ -219,7 +219,7 @@ void OptionsCtrlImpl::DateTime::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | (m_bAllowNone ? DTS_SHOWNONE : 0);
 
 		if (hTempWnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, _T(""), dwStyle,
+			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, L"", dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
 			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccDateTime), g_hInst, NULL)) {
 			// restrict to dates a timestamp can hold (with 1 day less to avoid timezone issues)

@@ -247,7 +247,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 	//You must first register account, before using this function as YAMN must use CreatePOP3Account function to add new accounts
 	//But if CreatePOP3Account is not implemented (equals to NULL), YAMN creates account as YAMN's standard HACCOUNT
 	if (FileName) CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0);	//shoud not happen (only for secure)
-	FileName = (TCHAR *)CallService(MS_YAMN_GETFILENAME, (WPARAM)_T("pop3"), 0);
+	FileName = (TCHAR *)CallService(MS_YAMN_GETFILENAME, (WPARAM)L"pop3", 0);
 
 	switch (CallService(MS_YAMN_READACCOUNTS, (WPARAM)POP3Plugin, (LPARAM)FileName)) {
 	case EACC_FILEVERSION:
@@ -269,7 +269,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		if (ERROR_FILE_NOT_FOUND != GetLastError())
 		{
 			TCHAR temp[1024] = { 0 };
-			mir_sntprintf(temp, _T("%s\n%s"), TranslateT("Reading file error. File already in use?"), FileName);
+			mir_sntprintf(temp, L"%s\n%s", TranslateT("Reading file error. File already in use?"), FileName);
 			MessageBox(NULL, temp, TranslateT("YAMN (internal POP3) read error"), MB_OK);
 			CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0);
 			FileName = NULL;
@@ -344,7 +344,7 @@ DWORD WINAPI WritePOP3Accounts()
 	DWORD ReturnValue = CallService(MS_YAMN_WRITEACCOUNTS, (WPARAM)POP3Plugin, (LPARAM)FileName);
 	if (ReturnValue == EACC_SYSTEM) {
 		TCHAR temp[1024] = { 0 };
-		mir_sntprintf(temp, _T("%s\n%s"), TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
+		mir_sntprintf(temp, L"%s\n%s", TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
 		MessageBox(NULL, temp, TranslateT("POP3 plugin - write file error"), MB_OK);
 	}
 
@@ -380,8 +380,8 @@ DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("CodePage: %d, remaining %d chars"), ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"CodePage: %d, remaining %d chars", ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	return 0;
 }
@@ -1544,12 +1544,12 @@ TCHAR* WINAPI GetErrorString(DWORD Code)
 
 	mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, TranslateT("Error %d-%d-%d-%d:"), ErrorCode->AppError, ErrorCode->POP3Error, ErrorCode->NetError, ErrorCode->SystemError);
 	if (ErrorCode->POP3Error)
-		mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"), ErrorString, TranslateTS(POP3Errors[ErrorCode->POP3Error - 1]));
+		mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(POP3Errors[ErrorCode->POP3Error - 1]));
 	if (ErrorCode->NetError) {
 		if (ErrorCode->SSL)
-			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"), ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError - 1]));
+			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError - 1]));
 		else
-			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"), ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError - 4]));
+			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError - 4]));
 	}
 
 	return ErrorString;

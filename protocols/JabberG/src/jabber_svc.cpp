@@ -153,15 +153,15 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				TCHAR szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
 				if (item->arResources.getCount() != NULL && !isXVcard)
 					if (TCHAR *bestResName = ListGetBestClientResourceNamePtr(tszJid))
-						mir_sntprintf(szJid, _T("%s/%s"), tszJid, bestResName);
+						mir_sntprintf(szJid, L"%s/%s", tszJid, bestResName);
 
 				if (szJid[0] == 0)
 					_tcsncpy_s(szJid, tszJid, _TRUNCATE);
 
-				debugLog(_T("Rereading %s for %s"), isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				debugLog(L"Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
 				m_ThreadInfo->send((isXVcard) ?
-					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP) :
+					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(L"vCard", JABBER_FEAT_VCARD_TEMP) :
 					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetClientAvatar, JABBER_IQ_TYPE_GET, szJid)) << XQUERY(JABBER_FEAT_AVATAR));
 				return GAIR_WAITFOR;
 			}
@@ -299,7 +299,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		m_options.AvatarType = ProtoGetBufferFormat(pResult);
 
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
-		FILE *out = _tfopen(tFileName, _T("wb"));
+		FILE *out = _tfopen(tFileName, L"wb");
 		if (out != NULL) {
 			fwrite(pResult, dwPngSize, 1, out);
 			fclose(out);
@@ -320,7 +320,7 @@ INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR*)lParam) : mir_a2t((char*)lParam);
 
 	setTString("Nick", nickname);
-	SetServerVcard(FALSE, _T(""));
+	SetServerVcard(FALSE, L"");
 	return 0;
 }
 
@@ -341,13 +341,13 @@ static const TCHAR *JabberEnum2AffilationStr[] = { LPGENT("None"), LPGENT("Outca
 static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, CMString &out)
 {
 	if (!out.IsEmpty())
-		out.Append(bIsTipper ? _T("\n") : _T("\r\n"));
+		out.Append(bIsTipper ? L"\n" : L"\r\n");
 
 	if (bIsTipper)
-		out.AppendFormat(_T("<b>%s</b>\t%s"), TranslateTS(tszTitle), tszValue);
+		out.AppendFormat(L"<b>%s</b>\t%s", TranslateTS(tszTitle), tszValue);
 	else {
 		TCHAR *p = TranslateTS(tszTitle);
-		out.AppendFormat(_T("%s%s\t%s"), p, mir_tstrlen(p) <= 7 ? _T("\t") : _T(""), tszValue);
+		out.AppendFormat(L"%s%s\t%s", p, mir_tstrlen(p) <= 7 ? L"\t" : L"", tszValue);
 	}
 }
 
@@ -434,7 +434,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, _T("message")))) {
+	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, L"message"))) {
 		// message
 		if (!ServiceExists(MS_MSG_SENDMESSAGEW))
 			return 1;
@@ -447,7 +447,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			return 1;
 
 		if (szSecondParam) { //there are parameters to message
-			szMsgBody = _tcsstr(szSecondParam, _T("body="));
+			szMsgBody = _tcsstr(szSecondParam, L"body=");
 			if (szMsgBody) {
 				szMsgBody += 5;
 				TCHAR *szDelim = _tcschr(szMsgBody, _T(';'));
@@ -461,7 +461,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	
-	if (!mir_tstrcmpi(szCommand, _T("roster"))) {
+	if (!mir_tstrcmpi(szCommand, L"roster")) {
 		if (!HContactFromJID(szJid)) {
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
@@ -479,21 +479,21 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// chat join invitation
-	if (!mir_tstrcmpi(szCommand, _T("join"))) {
+	if (!mir_tstrcmpi(szCommand, L"join")) {
 		GroupchatJoinRoomByJid(NULL, szJid);
 		return 0;
 	}
 	
 	// service discovery request
-	if (!mir_tstrcmpi(szCommand, _T("disco"))) {
+	if (!mir_tstrcmpi(szCommand, L"disco")) {
 		OnMenuHandleServiceDiscovery(0, (LPARAM)szJid);
 		return 0;
 	}
 	
 	// ad-hoc commands
-	if (!mir_tstrcmpi(szCommand, _T("command"))) {
+	if (!mir_tstrcmpi(szCommand, L"command")) {
 		if (szSecondParam) {
-			if (!_tcsnicmp(szSecondParam, _T("node="), 5)) {
+			if (!_tcsnicmp(szSecondParam, L"node=", 5)) {
 				szSecondParam += 5;
 				if (!*szSecondParam)
 					szSecondParam = NULL;
@@ -506,7 +506,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// send file
-	if (!mir_tstrcmpi(szCommand, _T("sendfile"))) {
+	if (!mir_tstrcmpi(szCommand, L"sendfile")) {
 		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, true, true);
@@ -532,13 +532,13 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	TCHAR tszJid[JABBER_MAX_JID_LEN];
 	TCHAR *szResource = ListGetBestClientResourceNamePtr(jid);
 	if (szResource)
-		mir_sntprintf(tszJid, _T("%s/%s"), jid, szResource);
+		mir_sntprintf(tszJid, L"%s/%s", jid, szResource);
 	else
 		_tcsncpy_s(tszJid, jid, _TRUNCATE);
 
 	m_ThreadInfo->send(
-		XmlNode(_T("message")) << XATTR(_T("type"), _T("headline")) << XATTR(_T("to"), tszJid)
-			<< XCHILDNS(_T("attention"), JABBER_FEAT_ATTENTION));
+		XmlNode(L"message") << XATTR(L"type", L"headline") << XATTR(L"to", tszJid)
+			<< XCHILDNS(L"attention", JABBER_FEAT_ATTENTION));
 	return 0;
 }
 
@@ -548,29 +548,29 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 		return FALSE;
 
 	if (pParams->m_nType == CJabberHttpAuthParams::IQ) {
-		XmlNodeIq iq(bAuthorized ? _T("result") : _T("error"), pParams->m_szIqId, pParams->m_szFrom);
+		XmlNodeIq iq(bAuthorized ? L"result" : L"error", pParams->m_szIqId, pParams->m_szFrom);
 		if (!bAuthorized) {
-			iq << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
-					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
-			iq << XCHILD(_T("error")) << XATTRI(_T("code"), 401) << XATTR(_T("type"), _T("auth"))
-					<< XCHILDNS(_T("not-authorized"), _T("urn:ietf:params:xml:xmpp-stanzas"));
+			iq << XCHILDNS(L"confirm", JABBER_FEAT_HTTP_AUTH) << XATTR(L"id", pParams->m_szId)
+					<< XATTR(L"method", pParams->m_szMethod) << XATTR(L"url", pParams->m_szUrl);
+			iq << XCHILD(L"error") << XATTRI(L"code", 401) << XATTR(L"type", L"auth")
+					<< XCHILDNS(L"not-authorized", L"urn:ietf:params:xml:xmpp-stanzas");
 		}
 		m_ThreadInfo->send(iq);
 	}
 	else if (pParams->m_nType == CJabberHttpAuthParams::MSG) {
-		XmlNode msg(_T("message"));
-		msg << XATTR(_T("to"), pParams->m_szFrom);
+		XmlNode msg(L"message");
+		msg << XATTR(L"to", pParams->m_szFrom);
 		if (!bAuthorized)
-			msg << XATTR(_T("type"), _T("error"));
+			msg << XATTR(L"type", L"error");
 		if (pParams->m_szThreadId)
-			msg << XCHILD(_T("thread"), pParams->m_szThreadId);
+			msg << XCHILD(L"thread", pParams->m_szThreadId);
 
-		msg << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
-					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
+		msg << XCHILDNS(L"confirm", JABBER_FEAT_HTTP_AUTH) << XATTR(L"id", pParams->m_szId)
+					<< XATTR(L"method", pParams->m_szMethod) << XATTR(L"url", pParams->m_szUrl);
 
 		if (!bAuthorized)
-			msg << XCHILD(_T("error")) << XATTRI(_T("code"), 401) << XATTR(_T("type"), _T("auth"))
-					<< XCHILDNS(_T("not-authorized"), _T("urn:ietf:params:xml:xmpp-stanzas"));
+			msg << XCHILD(L"error") << XATTRI(L"code", 401) << XATTR(L"type", L"auth")
+					<< XCHILDNS(L"not-authorized", L"urn:ietf:params:xml:xmpp-stanzas");
 
 		m_ThreadInfo->send(msg);
 	}

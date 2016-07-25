@@ -42,7 +42,7 @@ public:
 	
 	// Returns the display name
 	tstring GetDisplayName() {
-		return m_iBPP == 1? _T("G15") : _T("G19");
+		return m_iBPP == 1? L"G15" : L"G19";
 	}
 
 	// Returns the display size

@@ -38,7 +38,7 @@ bool fileExist(const TCHAR *fname)
 	if (*fname == 0)
 		return false;
 
-	FILE *fp = _tfopen(fname, _T("r+"));
+	FILE *fp = _tfopen(fname, L"r+");
 	bool res = (fp != NULL);
 	if (fp) fclose(fp);
 	return res;
@@ -56,13 +56,13 @@ static void fillProfileName(const TCHAR* ptszFileName)
 
 	_tcsncpy_s(g_shortProfileName, p, _TRUNCATE);
 	TCHAR *pos = _tcsrchr(g_shortProfileName, '.');
-	if (mir_tstrcmpi(pos, _T(".dat")) == 0)
+	if (mir_tstrcmpi(pos, L".dat") == 0)
 		*pos = 0;
 }
 
 bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 {
-	VARST pfd(_T("%miranda_path%"));
+	VARST pfd(L"%miranda_path%");
 	if (exact)
 		return mir_tstrcmpi(profiledir, pfd) == 0;
 
@@ -73,10 +73,10 @@ bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 int getProfilePath(TCHAR *buf, size_t)
 {
 	TCHAR profiledir[MAX_PATH];
-	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), profiledir, _countof(profiledir), mirandabootini);
+	GetPrivateProfileString(L"Database", L"ProfileDir", L"", profiledir, _countof(profiledir), mirandabootini);
 
 	if (profiledir[0] == 0)
-		mir_tstrcpy(profiledir, _T("%miranda_path%\\Profiles"));
+		mir_tstrcpy(profiledir, L"%miranda_path%\\Profiles");
 
 	size_t len = PathToAbsoluteT(VARST(profiledir), buf);
 
@@ -90,7 +90,7 @@ int getProfilePath(TCHAR *buf, size_t)
 int isValidProfileName(const TCHAR *name)
 {
 	size_t len = mir_tstrlen(name) - 4;
-	return len > 0 && mir_tstrcmpi(&name[len], _T(".dat")) == 0;
+	return len > 0 && mir_tstrcmpi(&name[len], L".dat") == 0;
 }
 
 // returns 1 if the profile manager should be shown
@@ -102,8 +102,8 @@ static bool showProfileManager(void)
 		return 1;
 
 	// wanna show it?
-	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T("never"), Mgr, _countof(Mgr), mirandabootini);
-	return (mir_tstrcmpi(Mgr, _T("yes")) == 0);
+	GetPrivateProfileString(L"Database", L"ShowProfileMgr", L"never", Mgr, _countof(Mgr), mirandabootini);
+	return (mir_tstrcmpi(Mgr, L"yes") == 0);
 }
 
 bool shouldAutoCreate(TCHAR *szProfile)
@@ -112,21 +112,21 @@ bool shouldAutoCreate(TCHAR *szProfile)
 		return false;
 
 	TCHAR ac[32];
-	GetPrivateProfileString(_T("Database"), _T("AutoCreate"), _T(""), ac, _countof(ac), mirandabootini);
-	return mir_tstrcmpi(ac, _T("yes")) == 0;
+	GetPrivateProfileString(L"Database", L"AutoCreate", L"", ac, _countof(ac), mirandabootini);
+	return mir_tstrcmpi(ac, L"yes") == 0;
 }
 
 static void getDefaultProfile(TCHAR *szProfile, size_t cch)
 {
 	TCHAR defaultProfile[MAX_PATH];
-	GetPrivateProfileString(_T("Database"), _T("DefaultProfile"), _T(""), defaultProfile, _countof(defaultProfile), mirandabootini);
+	GetPrivateProfileString(L"Database", L"DefaultProfile", L"", defaultProfile, _countof(defaultProfile), mirandabootini);
 
 	if (defaultProfile[0] == 0)
 		return;
 
 	VARST res(defaultProfile);
 	if (res)
-		mir_sntprintf(szProfile, cch, _T("%s\\%s\\%s%s"), g_profileDir, (TCHAR*)res, (TCHAR*)res, isValidProfileName(res) ? _T("") : _T(".dat"));
+		mir_sntprintf(szProfile, cch, L"%s\\%s\\%s%s", g_profileDir, (TCHAR*)res, (TCHAR*)res, isValidProfileName(res) ? L"" : L".dat");
 	else
 		szProfile[0] = 0;
 }
@@ -139,17 +139,17 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 
 	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
 	if (!isValidProfileName(buf) && *p)
-		mir_tstrcat(buf, _T(".dat"));
+		mir_tstrcat(buf, L".dat");
 
 	TCHAR profileName[MAX_PATH], newProfileDir[MAX_PATH];
 	_tcsncpy_s(profileName, p, _TRUNCATE);
 	if (!isValidProfileName(profileName) && *p)
-		mir_tstrcat(profileName, _T(".dat"));
+		mir_tstrcat(profileName, L".dat");
 
 	_tcsncpy_s(profileName, p, _TRUNCATE);
 	p = _tcsrchr(profileName, '.'); if (p) *p = 0;
 
-	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), g_profileDir, profileName);
+	mir_sntprintf(newProfileDir, cch, L"%s\\%s\\", g_profileDir, profileName);
 	PathToAbsoluteT(buf, szProfile, newProfileDir);
 
 	if (_tcschr(buf, '\\')) {
@@ -166,7 +166,7 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 
 void getProfileCmdLine(TCHAR *szProfile, size_t cch)
 {
-	LPCTSTR ptszProfileName = CmdLine_GetOption(_T("profile"));
+	LPCTSTR ptszProfileName = CmdLine_GetOption(L"profile");
 	if (ptszProfileName != NULL)
 		loadProfileByShortName(ptszProfileName, szProfile, cch);
 }
@@ -184,9 +184,9 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 {
 	TCHAR pfd[MAX_PATH];
 	if (isRootDir)
-		_tcsncpy_s(pfd, VARST(_T("%miranda_path%\\*.dat")), _TRUNCATE);
+		_tcsncpy_s(pfd, VARST(L"%miranda_path%\\*.dat"), _TRUNCATE);
 	else
-		mir_sntprintf(pfd, _T("%s\\*.dat"), profiledir);
+		mir_sntprintf(pfd, L"%s\\*.dat", profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
@@ -196,23 +196,23 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			TCHAR path[MAX_PATH], path2[MAX_PATH];
 			TCHAR* profile = mir_tstrdup(ffd.cFileName);
 			c = _tcsrchr(profile, '.'); if (c) *c = 0;
-			mir_sntprintf(path, _T("%s\\%s"), pfd, ffd.cFileName);
-			mir_sntprintf(path2, _T("%s\\%s"), profiledir, profile);
+			mir_sntprintf(path, L"%s\\%s", pfd, ffd.cFileName);
+			mir_sntprintf(path2, L"%s\\%s", profiledir, profile);
 			CreateDirectoryTreeT(path2);
-			mir_sntprintf(path2, _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
+			mir_sntprintf(path2, L"%s\\%s\\%s", profiledir, profile, ffd.cFileName);
 			if (_taccess(path2, 0) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
 								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
 								  path, path2);
-				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
+				MessageBox(NULL, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 			}
 			else if (MoveFile(path, path2) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
 								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
 								  path, path2);
-				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
+				MessageBox(NULL, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 				mir_free(profile);
 				break;
 			}
@@ -240,18 +240,18 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 	if (bShowProfileManager || !reqfd) {
 		TCHAR searchspec[MAX_PATH];
-		mir_sntprintf(searchspec, _T("%s\\*.*"), profiledir);
+		mir_sntprintf(searchspec, L"%s\\*.*", profiledir);
 
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(searchspec, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				// make sure the first hit is actually a *.dat file
-				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(ffd.cFileName, _T(".")) || !mir_tstrcmp(ffd.cFileName, _T("..")))
+				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(ffd.cFileName, L".") || !mir_tstrcmp(ffd.cFileName, L".."))
 					continue;
 
 				TCHAR newProfile[MAX_PATH];
-				mir_sntprintf(newProfile, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
+				mir_sntprintf(newProfile, L"%s\\%s\\%s.dat", profiledir, ffd.cFileName, ffd.cFileName);
 				if (_taccess(newProfile, 0) != 0)
 					continue;
 
@@ -285,8 +285,8 @@ static int getProfileAutoRun(TCHAR *szProfile)
 		return false;
 
 	TCHAR Mgr[32];
-	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T(""), Mgr, _countof(Mgr), mirandabootini);
-	if (mir_tstrcmpi(Mgr, _T("never")))
+	GetPrivateProfileString(L"Database", L"ShowProfileMgr", L"", Mgr, _countof(Mgr), mirandabootini);
+	if (mir_tstrcmpi(Mgr, L"never"))
 		return 0;
 
 	return fileExist(szProfile) || shouldAutoCreate(szProfile);
@@ -297,7 +297,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 {
 	getProfilePath(g_profileDir, _countof(g_profileDir));
 	if (IsInsideRootDir(g_profileDir, true))
-		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
+		if (WritePrivateProfileString(L"Database", L"ProfileDir", L"", mirandabootini))
 			getProfilePath(g_profileDir, _countof(g_profileDir));
 
 	getDefaultProfile(szProfile, cch);
@@ -312,7 +312,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	}
 
 	PROFILEMANAGERDATA pd = { 0 };
-	if (CmdLine_GetOption(_T("ForceShowPM"))) {
+	if (CmdLine_GetOption(L"ForceShowPM")) {
 LBL_Show:
 		pd.ptszProfile = szProfile;
 		pd.ptszProfileDir = g_profileDir;
@@ -454,7 +454,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW *x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res = 0;
-	if (GetClassName(hwnd, classname, _countof(classname)) && mir_tstrcmp(_T("Miranda"), classname) == 0) {
+	if (GetClassName(hwnd, classname, _countof(classname)) && mir_tstrcmp(L"Miranda", classname) == 0) {
 		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
 			x->found++;
 			return FALSE;
@@ -467,7 +467,7 @@ static int FindMirandaForProfile(TCHAR *szProfile)
 {
 	ENUMMIRANDAWINDOW x = { 0 };
 	x.profile = szProfile;
-	x.msg = RegisterWindowMessage(_T("Miranda::ProcessProfile"));
+	x.msg = RegisterWindowMessage(L"Miranda::ProcessProfile");
 	x.aPath = GlobalAddAtom(szProfile);
 	EnumWindows(EnumMirandaWindows, (LPARAM)&x);
 	GlobalDeleteAtom(x.aPath);
@@ -482,7 +482,7 @@ static TCHAR tszNoSuitableDriver[] = LPGENT("Miranda was unable to open '%s'\nTh
 int LoadDatabaseModule(void)
 {
 	TCHAR szProfile[MAX_PATH];
-	PathToAbsoluteT(_T("."), szProfile);
+	PathToAbsoluteT(L".", szProfile);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
 

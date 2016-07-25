@@ -40,7 +40,7 @@ Distributed under GNU's GPL 2 or later
 #define DEFAULT_FNT_CLIPRECISION 2
 #define DEFAULT_FNT_QUALITY 1
 #define DEFAULT_FNT_PITCHANDFAM 49
-#define DEFAULT_FNT_FACENAME _T("Arial")
+#define DEFAULT_FNT_FACENAME L"Arial"
 
 #define DEFAULT_CLRMSG RGB(255, 100, 0) //fore
 #define DEFAULT_CLRSTATUS RGB(40, 160, 255) //fore
@@ -62,7 +62,7 @@ Distributed under GNU's GPL 2 or later
 #define DEFAULT_ANNOUNCESTATUS 1
 #define DEFAULT_ANNOUNCE 0x00000002 //status mask
 #define DEFAULT_SHOWMYSTATUS 1
-#define DEFAULT_MESSAGEFORMAT _T("Message from %n: %m")
+#define DEFAULT_MESSAGEFORMAT L"Message from %n: %m"
 #define DEFAULT_SHOWMSGWIN 1
 #define DEFAULT_SHOWWHEN 0x00000002
 

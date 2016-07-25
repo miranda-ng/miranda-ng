@@ -167,7 +167,7 @@ static void ApplyChanges()
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = g_data.hMeta;
 		ai.format = PA_FORMAT_UNKNOWN;
-		_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+		_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 			db_set_ts(g_data.hMeta, "ContactPhoto", "File", ai.filename);
 	}
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 					}
 					else {
 						g_data.hDefaultContact = 0;
-						SetDlgItemText(hwndDlg, IDC_ED_DEFAULT, _T("None"));
+						SetDlgItemText(hwndDlg, IDC_ED_DEFAULT, L"None");
 					}
 				}
 

@@ -359,8 +359,8 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	time_t ts = time(NULL);
 
 	TCHAR szTs1[64], szTs2[64];
-	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, _T("I"), szTs1, _countof(szTs1), 0);
-	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, _T("I"), szTs2, _countof(szTs2), 0);
+	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, L"I", szTs1, _countof(szTs1), 0);
+	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, L"I", szTs2, _countof(szTs2), 0);
 
 	CMStringA szAuthInfo(FORMAT, authPacket, int(ts), MyOptions.szEmail, ptrA(HtmlEncode(szPassword)), szTs1, szTs2);
 
@@ -929,7 +929,7 @@ LRESULT CALLBACK AuthWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				 * InternetGetCookieExA
 				 */
 				if (!fpInternetGetCookieExA) {
-					HMODULE hMod = LoadLibrary(_T("wininet.dll"));
+					HMODULE hMod = LoadLibrary(L"wininet.dll");
 					if (hMod) fpInternetGetCookieExA = (pfnInternetGetCookieExA)GetProcAddress(hMod, "InternetGetCookieExA");
 				}
 				if (fpInternetGetCookieExA &&
@@ -969,7 +969,7 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 	HWND hWnd;
 	MSG msg;
     WNDCLASSEX wc={0};
-    static const TCHAR  *ClassName = _T("SkypeLoginWindow");
+    static const TCHAR  *ClassName = L"SkypeLoginWindow";
 
     CoInitialize(NULL);
 
@@ -980,7 +980,7 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
     wc.lpszClassName = ClassName;
     RegisterClassEx(&wc);
 
-    if ((hWnd = CreateWindowEx(0, ClassName, _T("MSN Login"), WS_OVERLAPPEDWINDOW,
+    if ((hWnd = CreateWindowEx(0, ClassName, L"MSN Login", WS_OVERLAPPEDWINDOW,
                                             CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
                                             HWND_DESKTOP, NULL, g_hInst, pParam))) {
 		ShowWindow( hWnd, SW_SHOW );

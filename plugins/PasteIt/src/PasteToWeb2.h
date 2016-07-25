@@ -29,7 +29,7 @@ public:
 	virtual ~PasteToWeb2();
 	virtual TCHAR* GetName()
 	{
-		return _T("wklej.to");
+		return L"wklej.to";
 	}
 	virtual void ConfigureSettings();
 	virtual std::list<PasteFormat> GetFormats();

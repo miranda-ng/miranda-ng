@@ -43,12 +43,12 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
-	mir_sntprintf(filter + len, _countof(filter) - len, _T("*.%s"), ext);
+	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_tstrlen(filter + len);
 	filter[++len] = 0;
 	TCHAR stzFilePath[1024];
 	_tcscpy_s(stzFilePath, TranslateT("History"));
-	_tcscat_s(stzFilePath, _T("."));
+	_tcscat_s(stzFilePath, L".");
 	_tcscat_s(stzFilePath, ext);
 	len = mir_tstrlen(stzFilePath) + 1;
 	stzFilePath[len] = 0;
@@ -77,7 +77,7 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 
 std::wstring ReplaceExt(const std::wstring& file, const TCHAR* ext)
 {
-	size_t pos = file.find(_T("<ext>"));
+	size_t pos = file.find(L"<ext>");
 	if (pos < file.length()) {
 		std::wstring fileName = file.substr(0, pos);
 		fileName += ext;
@@ -312,12 +312,12 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 		if (GetEventData(hDbEvent, data)) {
 			lastMe = data.isMe;
 
-			TCHAR* formatDate = Options::instance->messagesShowSec ? _T("d s") : _T("d t");
-			TCHAR* longFormatDate = Options::instance->messagesShowSec ? _T("d s") : _T("d t");
+			TCHAR* formatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
+			TCHAR* longFormatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
 			if (!Options::instance->messagesShowDate) {
 				if (isFirst) {
 					isFirst = false;
-					formatDate = Options::instance->messagesShowSec ? _T("s") : _T("t");
+					formatDate = Options::instance->messagesShowSec ? L"s" : L"t";
 					time_t tt = data.timestamp;
 					localtime_s(&lastTime,  &tt);
 				}
@@ -326,7 +326,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 					tm t;
 					localtime_s(&t,  &tt);
 					if (lastTime.tm_yday == t.tm_yday && lastTime.tm_year == t.tm_year)
-						formatDate = Options::instance->messagesShowSec ? _T("s") : _T("t");
+						formatDate = Options::instance->messagesShowSec ? L"s" : L"t";
 				}
 			}
 				

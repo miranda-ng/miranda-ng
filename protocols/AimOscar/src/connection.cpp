@@ -155,11 +155,11 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 	}
 
 	ptrW buf_w(mir_utf8decodeW(nlhr->pData));
-	HXML root = xmlParseString(buf_w, &datalen, _T(""));
+	HXML root = xmlParseString(buf_w, &datalen, L"");
 	if (!root)
 		return false;
 
-	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
+	HXML status = xmlGetChildByPath(root, L"response/statusCode", 0);
 	if (!status)
 		return false;
 
@@ -168,12 +168,12 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 	if (wcscmp(status_text, L"200"))
 		return false;
 
-	HXML secret_node = xmlGetChildByPath(root, _T("response/data/sessionSecret"), 0);
-	HXML hosttime_node = xmlGetChildByPath(root, _T("response/data/hostTime"), 0);
+	HXML secret_node = xmlGetChildByPath(root, L"response/data/sessionSecret", 0);
+	HXML hosttime_node = xmlGetChildByPath(root, L"response/data/hostTime", 0);
 	if (!secret_node || !hosttime_node)
 		return false;
 
-	HXML token_node = xmlGetChildByPath(root, _T("response/data/token/a"), 0);
+	HXML token_node = xmlGetChildByPath(root, L"response/data/token/a", 0);
 	if (!token_node)
 		return false;
 
@@ -218,11 +218,11 @@ bool parse_start_socar_session_response(const char *response, CMStringA &bos_hos
 
 	int datalen = 0;
 	ptrW buf_w(mir_utf8decodeW(response));
-	HXML root = xmlParseString(buf_w, &datalen, _T(""));
+	HXML root = xmlParseString(buf_w, &datalen, L"");
 	if (!root)
 		return false;
 
-	HXML status = xmlGetChildByPath(root, _T("response/statusCode"), 0);
+	HXML status = xmlGetChildByPath(root, L"response/statusCode", 0);
 	if (!status)
 		return false;
 
@@ -231,9 +231,9 @@ bool parse_start_socar_session_response(const char *response, CMStringA &bos_hos
 	if (wcscmp(status_text, L"200"))
 		return false;
 
-	HXML host_node = xmlGetChildByPath(root, _T("response/data/host"), 0);
-	HXML port_node = xmlGetChildByPath(root, _T("response/data/port"), 0);
-	HXML cookie_node = xmlGetChildByPath(root, _T("response/data/cookie"), 0);
+	HXML host_node = xmlGetChildByPath(root, L"response/data/host", 0);
+	HXML port_node = xmlGetChildByPath(root, L"response/data/port", 0);
+	HXML cookie_node = xmlGetChildByPath(root, L"response/data/cookie", 0);
 	if (!host_node || !port_node || !cookie_node)
 		return false;
 
@@ -246,7 +246,7 @@ bool parse_start_socar_session_response(const char *response, CMStringA &bos_hos
 	cookie = _T2A(cookie_w);
 
 	if (encryption) {
-		HXML tls_node = xmlGetChildByPath(root, _T("response/data/tlsCertName"), 0); //tls is optional, so this is not fatal error
+		HXML tls_node = xmlGetChildByPath(root, L"response/data/tlsCertName", 0); //tls is optional, so this is not fatal error
 		if (tls_node) {
 			LPCTSTR certname_w = xmlGetText(tls_node);
 			if (certname_w)

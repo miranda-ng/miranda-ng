@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 #ifndef _POPWIN_INC
 #define _POPWIN_INC
 
-#define POP_WIN_CLASS					_T(MODULE) _T("MimTTClass")
+#define POP_WIN_CLASS					_T(MODULE) L"MimTTClass"
 
 #define PUM_GETHEIGHT					(WM_USER + 0x020)
 #define PUM_CALCPOS						(WM_USER + 0x021)

@@ -756,7 +756,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 			ofn.nMaxFile = _countof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = _T("bmp");
+			ofn.lpstrDefExt = L"bmp";
 			if (!GetOpenFileName(&ofn))
 				break;
 			SetDlgItemText(hwndDlg, IDC_FILENAME, str);

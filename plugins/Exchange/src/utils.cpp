@@ -95,16 +95,16 @@ char *BinToHex(int size, PBYTE data)
 void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 {
 	TCHAR buffer[32] = { 0 };
-	_tcsncpy(buffer, _T("0x"), _countof(_T("0x")));
+	_tcsncpy(buffer, L"0x", _countof(L"0x"));
 	_tcsncpy(buffer + 2, inData, HEX_SIZE);
-	_stscanf(buffer, _T("%x"), &size);
+	_stscanf(buffer, L"%x", &size);
 	outData = (unsigned char*)new char[size * 2];
 
 	TCHAR *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
 	for (UINT i = 0; i < size; i++) {
 		_tcsncpy(buffer + 2, &tmp[i * 2], 2);
-		_stscanf(buffer, _T("%hhx"), &outData[i]);
+		_stscanf(buffer, L"%hhx", &outData[i]);
 	}
 }
 
@@ -224,7 +224,7 @@ void _popupUtil(TCHAR* szMsg)
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hiMailIcon;
-	_tcsncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME - 1);
+	_tcsncpy(ppd.lptzContactName, L"Exchange notifier", MAX_CONTACTNAME - 1);
 	_tcsncpy(ppd.lptzText, szMsg, MAX_SECONDLINE - 1);
 	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
 }

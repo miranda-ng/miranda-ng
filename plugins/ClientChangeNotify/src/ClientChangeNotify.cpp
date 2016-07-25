@@ -70,7 +70,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 // wParam = hContact
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MOD_NAME)_T("_MenuWindow"), 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _T(MOD_NAME)L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(wParam);
 	GetCursorPos(&pt);
@@ -189,7 +189,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	SHOWPOPUP_DATA sd = {0};
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)
-		sd.MirVer = _T("Miranda NG ICQ 0.93.5.3007");
+		sd.MirVer = L"Miranda NG ICQ 0.93.5.3007";
 	else {
 		if (!hContact) // exit if hContact == NULL and it's not a popup preview
 			return 0;
@@ -198,11 +198,11 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(szProto, META_PROTO)) // workaround for metacontacts
 			return 0;
 
-		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));
+		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, L"");
 		if (sd.MirVer.IsEmpty())
 			return 0;
 	}
-	sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, _T(""));
+	sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, L"");
 	db_set_ts(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
 	if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
 		return 0;
@@ -359,9 +359,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) {
 		TCString Str;
-		Str = db_get_s(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, _T(""));
+		Str = db_get_s(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, L"");
 		if (Str.GetLen()) // fix incorrect regexp from v0.1.1.0
-			db_set_ts(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(_T("/Miranda[0-9A-F]{8}/"), _T("/[0-9A-F]{8}(\\W|$)/")));
+			db_set_ts(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(L"/Miranda[0-9A-F]{8}/", L"/[0-9A-F]{8}(\\W|$)/"));
 
 		db_set_b(NULL, MOD_NAME, DB_SETTINGSVER, 1);
 	}

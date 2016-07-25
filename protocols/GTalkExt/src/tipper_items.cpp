@@ -39,7 +39,7 @@ static LPSTR TipperItemProps[] =
 
 #define TIPPER_ITEMS_MOD_NAME     "Tipper_Items"
 #define TIPPER_ITEM_COUNT_SETTING "DINumValues"
-#define UNREAD_THREADS_RAW        _T("%raw:") _T(SHORT_PLUGIN_NAME) _T("/UnreadThreads%")
+#define UNREAD_THREADS_RAW        L"%raw:" _T(SHORT_PLUGIN_NAME) L"/UnreadThreads%"
 #define UNREAD_THREADS_LABEL      LPGENT("Unread threads:")
 
 void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)

@@ -700,7 +700,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
 	TCHAR tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
-	mir_sntprintf(tszTitle, _T("%s - %s"), _T(MODNAME), TranslateT("Error"));
+	mir_sntprintf(tszTitle, L"%s - %s", _T(MODNAME), TranslateT("Error"));
 
 	va_list vl;
 	va_start(vl, pszFormat);

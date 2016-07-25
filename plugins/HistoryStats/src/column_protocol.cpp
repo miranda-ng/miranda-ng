@@ -14,7 +14,7 @@ void ColProtocol::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpa
 void ColProtocol::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
 {
 	if (display == asContact)
-		tos << _T("<td>") << utils::htmlEscape(contact.getProtocol()) << _T("</td>") << ext::endl;
+		tos << L"<td>" << utils::htmlEscape(contact.getProtocol()) << L"</td>" << ext::endl;
 	else
-		tos << _T("<td>&nbsp;</td>");
+		tos << L"<td>&nbsp;</td>";
 }

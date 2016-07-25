@@ -371,7 +371,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 					continue;
 
 				if (namesUsed > 0)
-					fbc->chat_name += _T(", ");
+					fbc->chat_name += L", ";
 
 				std::tstring tname = _A2T(participant.c_str(), CP_UTF8);
 				fbc->chat_name += utils::text::prepare_name(tname, false);

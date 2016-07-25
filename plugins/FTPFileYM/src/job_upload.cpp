@@ -266,7 +266,7 @@ void UploadJob::upload()
 {
 	refreshTab(true);
 
-	m_fp = _tfopen(m_tszFilePath, _T("rb"));
+	m_fp = _tfopen(m_tszFilePath, L"rb");
 	if (m_fp == NULL) {
 		Utils::msgBox(TranslateT("Error occurred when opening local file.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
@@ -391,10 +391,10 @@ void UploadJob::updateStats()
 		m_avgSpeed /= _countof(m_lastSpeed) + 1;
 		m_lastSpeed[0] = speed;
 
-		mir_sntprintf(m_tab->m_stzSpeed, _T("%0.1f kB/s"), m_avgSpeed);
+		mir_sntprintf(m_tab->m_stzSpeed, L"%0.1f kB/s", m_avgSpeed);
 
 		double perc = m_uiFileSize ? ((double)m_uiTotalSent / m_uiFileSize) * 100 : 0;
-		mir_sntprintf(m_tab->m_stzComplet, _T("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiTotalSent / 1024, (int)m_uiFileSize / 1024);
+		mir_sntprintf(m_tab->m_stzComplet, L"%0.1f%% (%d kB/%d kB)", perc, (int)m_uiTotalSent / 1024, (int)m_uiFileSize / 1024);
 
 		long s = (m_uiFileSize - m_uiTotalSent) / (long)(m_avgSpeed * 1024);
 		int d = (s / 60 / 60 / 24);
@@ -403,9 +403,9 @@ void UploadJob::updateStats()
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
 		TCHAR buff[256];
-		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
-		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
-		mir_sntprintf(m_tab->m_stzRemain, _T("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);
+		if (d > 0) mir_sntprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
+		else mir_sntprintf(buff, L"%02d:%02d:%02d", h, m, s);
+		mir_sntprintf(m_tab->m_stzRemain, L"%s (%d kB/%d kB)", buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);
 
 		refreshTab(false);
 	}
@@ -449,9 +449,9 @@ void UploadJob::refreshTab(bool bTabChanged)
 		}
 
 		if (isCompleted()) {
-			SetDlgItemText(uDlg->m_hwnd, IDC_UP_SPEED, _T(""));
-			SetDlgItemText(uDlg->m_hwnd, IDC_UP_COMPLETED, _T(""));
-			SetDlgItemText(uDlg->m_hwnd, IDC_UP_REMAIN, _T(""));
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_SPEED, L"");
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_COMPLETED, L"");
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_REMAIN, L"");
 
 			SetDlgItemTextA(uDlg->m_hwnd, IDC_ED_URL, m_szFileLink);
 			SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)100);

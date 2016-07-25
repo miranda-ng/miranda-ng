@@ -115,7 +115,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	graphs_init();
 
-	if (options.logging) CallService(PLUG "/Log", (WPARAM)_T("start"), 0);
+	if (options.logging) CallService(PLUG "/Log", (WPARAM)L"start", 0);
 
 	return 0;
 }
@@ -137,7 +137,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
-	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, _T("Local\\ThreadWaitEvent"));
+	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\ThreadWaitEvent");
 
 	// create services before loading options - so we can have the 'getlogfilename' service!
 	CreatePluginServices();
@@ -166,7 +166,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	CloseHandle(mainThread);
 
-	if (options.logging) CallService(PLUG "/Log", (WPARAM)_T("stop"), 0);
+	if (options.logging) CallService(PLUG "/Log", (WPARAM)L"stop", 0);
 
 	return 0;
 }

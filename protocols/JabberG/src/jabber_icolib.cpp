@@ -47,32 +47,32 @@ struct CTransportProtoTableItem
 
 static CTransportProtoTableItem TransportProtoTable[] =
 {
-	{ _T("|*icq*|jit*"),     "ICQ" },
-	{ _T("msn*"),            "MSN" },
-	{ _T("yahoo*"),          "YAHOO" },
-	{ _T("mrim*"),           "MRA" },
-	{ _T("aim*"),            "AIM" },
+	{ L"|*icq*|jit*",     "ICQ" },
+	{ L"msn*",            "MSN" },
+	{ L"yahoo*",          "YAHOO" },
+	{ L"mrim*",           "MRA" },
+	{ L"aim*",            "AIM" },
 	//request #3094
-	{ _T("|gg*|gadu*"),      "GaduGadu" },
-	{ _T("tv*"),             "TV" },
-	{ _T("dict*"),           "Dictionary" },
-	{ _T("weather*"),        "Weather" },
-	{ _T("skype*"),          "Skype" },
-	{ _T("sms*"),            "SMS" },
-	{ _T("smtp*"),           "SMTP" },
+	{ L"|gg*|gadu*",      "GaduGadu" },
+	{ L"tv*",             "TV" },
+	{ L"dict*",           "Dictionary" },
+	{ L"weather*",        "Weather" },
+	{ L"skype*",          "Skype" },
+	{ L"sms*",            "SMS" },
+	{ L"smtp*",           "SMTP" },
 	//j2j
-	{ _T("gtalk.*.*"),       "GTalk" },
-	{ _T("|xmpp.*.*|j2j.*.*"),"Jabber2Jabber" },
+	{ L"gtalk.*.*",       "GTalk" },
+	{ L"|xmpp.*.*|j2j.*.*","Jabber2Jabber" },
 	//jabbim.cz - services
-	{ _T("disk*"),           "Jabber Disk" },
-	{ _T("irc*"),            "IRC" },
-	{ _T("rss*"),            "RSS" },
-	{ _T("tlen*"),           "Tlen" },
+	{ L"disk*",           "Jabber Disk" },
+	{ L"irc*",            "IRC" },
+	{ L"rss*",            "RSS" },
+	{ L"tlen*",           "Tlen" },
 
 	// German social networks
-	{ _T("studivz*"),        "StudiVZ" },
-	{ _T("schuelervz*"),     "SchuelerVZ" },
-	{ _T("meinvz*"),         "MeinVZ" },
+	{ L"studivz*",        "StudiVZ" },
+	{ L"schuelervz*",     "SchuelerVZ" },
+	{ L"meinvz*",         "MeinVZ" },
 };
 
 static int skinIconStatusToResourceId[] = {IDI_OFFLINE,IDI_ONLINE,IDI_AWAY,IDI_DND,IDI_NA,IDI_NA,/*IDI_OCCUPIED,*/IDI_FREE4CHAT,IDI_INVISIBLE,IDI_ONTHEPHONE,IDI_OUTTOLUNCH};
@@ -307,7 +307,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	int first = -1;
 	HICON empty = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
-	mir_sntprintf(Group, LPGENT("Status icons")_T("/%s/%S %s"), m_tszUserName, proto, TranslateT("transport"));
+	mir_sntprintf(Group, LPGENT("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, "proto_%s.dll", proto);
 	if (!hAdvancedStatusIcon)
 		hAdvancedStatusIcon = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);

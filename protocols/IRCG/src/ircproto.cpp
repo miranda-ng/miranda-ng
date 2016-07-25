@@ -219,7 +219,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 
 	TCHAR szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
 	if (pszPerformData != NULL) {
@@ -274,13 +274,13 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	if (m_nick[0]) {
 		TCHAR szBuf[40];
 		if (mir_tstrlen(m_alternativeNick) == 0) {
-			mir_sntprintf(szBuf, _T("%s%u"), m_nick, rand() % 9999);
+			mir_sntprintf(szBuf, L"%s%u", m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
 			mir_tstrncpy(m_alternativeNick, szBuf, 30);
 		}
 
 		if (mir_tstrlen(m_name) == 0) {
-			mir_sntprintf(szBuf, _T("Miranda%u"), rand() % 9999);
+			mir_sntprintf(szBuf, L"Miranda%u", rand() % 9999);
 			setTString("Name", szBuf);
 			mir_tstrncpy(m_name, szBuf, 200);
 		}
@@ -305,7 +305,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 
 	if (hContact) {
 		DBVARIANT dbv1;
-		CMString S = _T("S");
+		CMString S = L"S";
 
 		if (getByte(hContact, "AdvancedMode", 0) == 0) {
 			S += user.name;
@@ -323,7 +323,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 			}
 		}
 		if (getByte("MirVerAutoRequest", 1))
-			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), user.name);
+			PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", user.name);
 	}
 
 	mir_free(id);
@@ -421,14 +421,14 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 
 			// if spaces in the filename surround witrh quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
-				sFileWithQuotes.Insert(0, _T("\""));
-				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), _T("\""));
+				sFileWithQuotes.Insert(0, L"\"");
+				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), L"\"");
 			}
 
 			if (di->bReverse)
-				PostIrcMessage(_T("/PRIVMSG %s \001DCC RESUME %s 0 %I64u %s\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), dwPos, dcc->di->sToken.c_str());
+				PostIrcMessage(L"/PRIVMSG %s \001DCC RESUME %s 0 %I64u %s\001", di->sContactName.c_str(), sFileWithQuotes.c_str(), dwPos, dcc->di->sToken.c_str());
 			else
-				PostIrcMessage(_T("/PRIVMSG %s \001DCC RESUME %s %u %I64u\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), di->iPort, dwPos);
+				PostIrcMessage(L"/PRIVMSG %s \001DCC RESUME %s %u %I64u\001", di->sContactName.c_str(), sFileWithQuotes.c_str(), di->iPort, dwPos);
 
 			return 0;
 		}
@@ -565,8 +565,8 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 			// if spaces in the filename surround witrh quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
-				sFileWithQuotes.Insert(0, _T("\""));
-				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), _T("\""));
+				sFileWithQuotes.Insert(0, L"\"");
+				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), L"\"");
 			}
 
 			dci->hContact = hContact;
@@ -584,12 +584,12 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 			// need to make sure that %'s are doubled to avoid having chat interpret as color codes
 			CMString sFileCorrect = dci->sFile;
-			sFileCorrect.Replace(_T("%"), _T("%%"));
+			sFileCorrect.Replace(L"%", L"%%");
 
 			// is it an reverse filetransfer (receiver acts as server)
 			if (dci->bReverse) {
 				TCHAR szTemp[256];
-				PostIrcMessage(_T("/CTCP %s DCC SEND %s 200 0 %I64u %u"),
+				PostIrcMessage(L"/CTCP %s DCC SEND %s 200 0 %I64u %u",
 					dci->sContactName.c_str(), sFileWithQuotes.c_str(), dci->dwSize, dcc->iToken);
 
 				mir_sntprintf(szTemp,
@@ -599,7 +599,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 				if (m_sendNotice) {
 					mir_sntprintf(szTemp,
-						_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [Reverse transfer]"),
+						L"/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [Reverse transfer]",
 						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024);
 					PostIrcMessage(szTemp);
 				}
@@ -608,7 +608,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 				iPort = dcc->Connect();
 				if (iPort) {
 					TCHAR szTemp[256];
-					PostIrcMessage(_T("/CTCP %s DCC SEND %s %u %u %I64u"),
+					PostIrcMessage(L"/CTCP %s DCC SEND %s %u %u %I64u",
 						dci->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, iPort, dci->dwSize);
 
 					mir_sntprintf(szTemp,
@@ -618,7 +618,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 					if (m_sendNotice) {
 						mir_sntprintf(szTemp,
-							_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]"),
+							L"/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]",
 							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);
 					}
@@ -631,7 +631,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 			index++;
 			while (ppszFiles[index]) {
 				if (_taccess(ppszFiles[index], 0) == 0) {
-					PostIrcMessage(_T("/DCC SEND %s %S"), dci->sContactName.c_str(), ppszFiles[index]);
+					PostIrcMessage(L"/DCC SEND %s %S", dci->sContactName.c_str(), ppszFiles[index]);
 				}
 				index++;
 			}
@@ -753,8 +753,8 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 	else if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_FREECHAT) && IsConnected() && m_iStatus == ID_STATUS_AWAY) //go to online while connected
 	{
-		m_statusMessage = _T("");
-		PostIrcMessage(_T("/AWAY"));
+		m_statusMessage = L"";
+		PostIrcMessage(L"/AWAY");
 		return 0;
 	}
 	else if (iNewStatus == ID_STATUS_OFFLINE && IsConnected()) //go from online/away to offline
@@ -765,7 +765,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 	else if (iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected
 	{
-		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450));
+		PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450));
 		return 0;
 	}
 	else if (iNewStatus == ID_STATUS_ONLINE && IsConnected()) //already online
@@ -781,7 +781,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 
 HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 {
-	WhoisAwayReply = _T("");
+	WhoisAwayReply = L"";
 	DBVARIANT dbv;
 
 	// bypass chat contacts.
@@ -792,7 +792,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 				db_free(&dbv);
 				return 0;
 			}
-			CMString S = _T("WHOIS ");
+			CMString S = L"WHOIS ";
 			S += dbv.ptszVal;
 			if (IsConnected())
 				SendIrcMessage(S.c_str(), false);
@@ -815,7 +815,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 
 	default:
 		CMString newStatus = msg;
-		newStatus.Replace(_T("\r\n"), _T(" "));
+		newStatus.Replace(L"\r\n", L" ");
 		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
 			if (msg == NULL || *msg == 0)
 				m_statusMessage = STR_AWAYMESSAGE;
@@ -823,7 +823,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 				m_statusMessage = newStatus;
 
 			if (m_iStatus == ID_STATUS_AWAY)
-				PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450));
+				PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450));
 		}
 	}
 

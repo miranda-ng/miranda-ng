@@ -36,7 +36,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	g_hToxLibrary = LoadLibrary(_T("libtox.dll"));
+	g_hToxLibrary = LoadLibrary(L"libtox.dll");
 	if (g_hToxLibrary == NULL)
 		return 0;
 

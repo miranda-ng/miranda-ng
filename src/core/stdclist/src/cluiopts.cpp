@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-				HWND hProgMan = FindWindow(_T("Progman"), NULL);
+				HWND hProgMan = FindWindow(L"Progman", NULL);
 				if (hProgMan)
 					SetParent(pcli->hwndContactList, hProgMan);
 			}

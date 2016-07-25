@@ -86,7 +86,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 	TCHAR* ptszDefaultFile;
 	if (ssd->dwFlags & SSDF_UNICODE) {
 		item->ptszDescription = mir_tstrdup(ssd->ptszDescription);
-		item->ptszSection = mir_tstrdup((ssd->pszSection != NULL) ? ssd->ptszSection : _T("Other"));
+		item->ptszSection = mir_tstrdup((ssd->pszSection != NULL) ? ssd->ptszSection : L"Other");
 		ptszDefaultFile = mir_tstrdup(ssd->ptszDefaultFile);
 	}
 	else {
@@ -301,15 +301,15 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						db_free(&dbv);
 			}	}	}
 
-			_tcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : _T("")), _TRUNCATE);
+			_tcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : L""), _TRUNCATE);
 			PathToAbsoluteT(strFull, strdir);
 
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(ofn));
-			if (GetModuleHandle(_T("bass_interface.dll")))
-				mir_sntprintf(filter, _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+			if (GetModuleHandle(L"bass_interface.dll"))
+				mir_sntprintf(filter, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 			else
-				mir_sntprintf(filter, _T("%s (*.wav)%c*.wav%c%s (*)%c*%c"), TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, L"%s (*.wav)%c*.wav%c%s (*)%c*%c", TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = GetParent(hwndDlg);
 			ofn.hInstance = NULL;
@@ -326,7 +326,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ofn.Flags = OFN_FILEMUSTEXIST|OFN_HIDEREADONLY|OFN_EXPLORER|OFN_LONGNAMES|OFN_NOCHANGEDIR;
 			ofn.nMaxFile = _countof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = _T("wav");
+			ofn.lpstrDefExt = L"wav";
 			if (!GetOpenFileName(&ofn))
 				break;
 
@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
 						TCHAR buf[256];
-						mir_sntprintf(buf, _T("%s: %s"), arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
+						mir_sntprintf(buf, L"%s: %s", arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (arSounds[tvi.lParam].ptszTempFile)
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);

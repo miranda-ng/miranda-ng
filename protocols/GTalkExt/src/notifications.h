@@ -21,7 +21,7 @@
 
 #pragma once
 
-#define TEMP_WINDOW_CLASS_NAME _T("AntiShittyFullscreenDetectionWindowClass")
+#define TEMP_WINDOW_CLASS_NAME L"AntiShittyFullscreenDetectionWindowClass"
 
 #define SENDER_COUNT 10
 

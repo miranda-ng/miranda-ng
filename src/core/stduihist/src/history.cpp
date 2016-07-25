@@ -55,7 +55,7 @@ static void GetUrlDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		mir_tstrcat(buf, _T("\r\n"));
+		mir_tstrcat(buf, L"\r\n");
 }
 
 static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
@@ -68,7 +68,7 @@ static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		mir_tstrcat(buf, _T("\r\n"));
+		mir_tstrcat(buf, L"\r\n");
 }
 
 static void GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
@@ -164,8 +164,8 @@ static void FillHistoryThread(void* param)
 		TCHAR str[200], eventText[256], strdatetime[64];
 		GetObjectSummary(&dbei, str, _countof(str));
 		if (str[0]) {
-			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("d t"), strdatetime, _countof(strdatetime), 0);
-			mir_sntprintf(eventText, _T("%s: %s"), strdatetime, str);
+			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"d t", strdatetime, _countof(strdatetime), 0);
+			mir_sntprintf(eventText, L"%s: %s", strdatetime, str);
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}

@@ -54,7 +54,7 @@ void SaveColumnSizes(HWND hwndResults)
 	db_set_b(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
 }
 
-static const TCHAR *szColumnNames[] = { NULL, NULL, _T("Nick"), _T("First Name"), _T("Last Name"), _T("E-mail") };
+static const TCHAR *szColumnNames[] = { NULL, NULL, L"Nick", L"First Name", L"Last Name", L"E-mail" };
 static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
@@ -74,7 +74,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 				lvc.pszText = TranslateTS(szColumnNames[i]);
 			else {
 				if (i == COLUMNID_HANDLE) {
-					lvc.pszText = _T("ID");
+					lvc.pszText = L"ID";
 					if (szProto) {
 						INT_PTR ret = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 						if (ret != CALLSERVICE_NOTFOUND) {
@@ -252,7 +252,7 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 			if (!pa)
 				continue;
 
-			str.Append(i ? _T(", ") : _T(" "));
+			str.Append(i ? L", " : L" ");
 			str.Append(pa->tszAccountName);
 		}
 	}
@@ -317,9 +317,9 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 					continue;
 
 				if (i)
-					str.Append(_T(", "));
+					str.Append(L", ");
 
-				str.AppendFormat(_T("%d %s"), subtotal[i].count, pa->tszAccountName);
+				str.AppendFormat(L"%d %s", subtotal[i].count, pa->tszAccountName);
 			}
 			str.AppendChar(')');
 		}

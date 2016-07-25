@@ -168,8 +168,8 @@ static struct _tagFontBlocks {
 
 int TSAPI CheckThemeVersion(const TCHAR *szIniFilename)
 {
-	int cookie = GetPrivateProfileInt(_T("TabSRMM Theme"), _T("Cookie"), 0, szIniFilename);
-	int version = GetPrivateProfileInt(_T("TabSRMM Theme"), _T("Version"), 0, szIniFilename);
+	int cookie = GetPrivateProfileInt(L"TabSRMM Theme", L"Cookie", 0, szIniFilename);
+	int version = GetPrivateProfileInt(L"TabSRMM Theme", L"Version", 0, szIniFilename);
 
 	if (version >= CURRENT_THEME_VERSION && cookie == THEME_COOKIE)
 		return 1;
@@ -425,7 +425,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	szFilename[0] = 0;
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
+	mir_sntprintf(filter, L"%s%c*.tabsrmm%c%c", TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = 0;
@@ -434,7 +434,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-	ofn.lpstrDefExt = _T("tabsrmm");
+	ofn.lpstrDefExt = L"tabsrmm";
 	if (!iMode) {
 		if (GetOpenFileName(&ofn))
 			return szFilename;

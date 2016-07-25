@@ -331,12 +331,12 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 	}
 	// create the edit control
 	pList->labelEdit.hEdit = CreateWindowEx(WS_EX_NOPARENTNOTIFY | WS_EX_CLIENTEDGE,
-				_T("EDIT"),
+				L"EDIT",
 				(!iSubItem && pItem->idstrList && pItem->iListItem > 0 && pItem->iListItem < pItem->idstrListCount) 
 					? pItem->idstrList[pItem->iListItem].ptszTranslated
 					: (iSubItem >= 0 && iSubItem < 2 && pItem->pszText[iSubItem] && *pItem->pszText[iSubItem])
 						? pItem->pszText[iSubItem] 
-						: _T(""), 
+						: L"", 
 						WS_VISIBLE | WS_CHILD | (iSubItem ? (WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL) : ES_AUTOHSCROLL),
 				pList->labelEdit.rcCombo.left, pList->labelEdit.rcCombo.top,
 				pList->labelEdit.rcCombo.right - pList->labelEdit.rcCombo.left,
@@ -933,7 +933,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 						rc.bottom = rc.top + listHeight;
 					}
 
-					pList->labelEdit.dropDown.hDrop = CreateWindowEx(0, _T("LISTBOX"), NULL,
+					pList->labelEdit.dropDown.hDrop = CreateWindowEx(0, L"LISTBOX", NULL,
 						WS_CHILD | WS_BORDER | WS_VSCROLL | LBS_COMBOBOX | LBS_HASSTRINGS,
 						rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
 						hwnd, NULL, ghInst, NULL);

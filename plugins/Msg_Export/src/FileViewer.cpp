@@ -463,7 +463,7 @@ bool bOpenExternaly(MCONTACT hContact)
 		return true;
 	}
 	tstring sTmp = sFileViewerPrg;
-	sTmp += _T(" \"");
+	sTmp += L" \"";
 	sTmp += sPath;
 	sTmp += '\"';
 
@@ -670,7 +670,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	CloseHandle(hFile);
 
 	TCHAR szTmp[100];
-	mir_sntprintf(szTmp, _T("File open time %d\n"), GetTickCount() - dwStart);
+	mir_sntprintf(szTmp, L"File open time %d\n", GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 
 	GETTEXTLENGTHEX sData = { 0 };
@@ -908,7 +908,7 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
 	ncf.dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
 	ncf.yHeight = db_get_dw(NULL, MODULE, szFileViewDB "THeight", 165);
-	mir_tstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
+	mir_tstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
@@ -988,7 +988,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (n != sPath.npos)
 					sPath.erase(0, n + 1);
 
-				if (mir_sntprintf(szTitle, szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? _T("UTF8") : _T("ANSI"))) > 0)
+				if (mir_sntprintf(szTitle, szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? L"UTF8" : L"ANSI")) > 0)
 					SetWindowText(hwndDlg, szTitle);
 			}
 
@@ -1036,7 +1036,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			mir_tstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
+			mir_tstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;
@@ -1102,7 +1102,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		if ((wParam & 0xFFF0) == ID_FV_SAVE_AS_RTF) {
 			tstring sFile = pclDlg->sPath;
-			sFile += _T(".rtf");
+			sFile += L".rtf";
 			HANDLE hFile = CreateFile(sFile.c_str(), GENERIC_WRITE,
 				FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 

@@ -52,7 +52,7 @@ PROTO<OmegleProto>(proto_name, username)
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	facy.set_handle(m_hNetlibUser);

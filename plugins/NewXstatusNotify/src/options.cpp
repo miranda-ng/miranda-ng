@@ -78,7 +78,7 @@ void LoadOptions()
 	opt.BlinkIcon = db_get_b(0, MODULE, "BlinkIcon", 0);
 	opt.BlinkIcon_Status = db_get_b(0, MODULE, "BlinkIcon_Status", 0);
 	opt.BlinkIcon_ForMsgs = db_get_b(0, MODULE, "BlinkIcon_ForMsgs", 0);
-	DBGetStringDefault(0, MODULE, "LogFilePath", opt.LogFilePath, MAX_PATH, _T(""));
+	DBGetStringDefault(0, MODULE, "LogFilePath", opt.LogFilePath, MAX_PATH, L"");
 	// IDD_AUTODISABLE
 	opt.OnlyGlobalChanges = db_get_b(0, MODULE, "OnlyGlobalChanges", 0);
 	opt.DisablePopupGlobally = db_get_b(0, MODULE, "DisablePopupGlobally", 0);
@@ -256,12 +256,12 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ofn.nMaxFile = MAX_PATH;
 			ofn.hwndOwner = hwndDlg;
 			TCHAR filter[MAX_PATH];
-			mir_sntprintf(filter, _T("%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c"), TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
+			mir_sntprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 2;
 			ofn.lpstrInitialDir = buff;
 			ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.lpstrDefExt = _T("log");
+			ofn.lpstrDefExt = L"log";
 			if (GetSaveFileName(&ofn)) {
 				SetDlgItemText(hwndDlg, IDC_LOGFILE, buff);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -381,7 +381,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			{
 				TCHAR str[MAX_SECONDLINE] = { 0 };
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					_tcsncpy(str, _T(""), _countof(str));
+					_tcsncpy(str, L"", _countof(str));
 
 					if (opt.ShowStatus) {
 						if (opt.UseAlternativeText == 1)
@@ -392,14 +392,14 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						if (opt.ShowPreviousStatus) {
 							TCHAR buff[MAX_STATUSTEXT];
 							mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
-							mir_tstrcat(str, _T(" "));
+							mir_tstrcat(str, L" ");
 							mir_tstrcat(str, buff);
 						}
 					}
 
 					if (opt.ReadAwayMsg) {
 						if (str[0])
-							mir_tstrcat(str, _T("\n"));
+							mir_tstrcat(str, L"\n");
 						mir_tstrcat(str, TranslateT("This is status message"));
 					}
 

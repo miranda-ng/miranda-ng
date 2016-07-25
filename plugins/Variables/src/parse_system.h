@@ -17,26 +17,26 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define COMPUTERNAME		_T("computername")
-#define CPULOAD				_T("cpuload")
-#define CDATE				_T("cdate")
-#define CTIME				_T("ctime")
-#define DIRECTORY			_T("directory")
-#define DIRECTORY2			_T("directory2")
-#define DIFFTIME			_T("difftime")
-#define DIREXISTS			_T("direxists")
-#define ENVIRONMENTVARIABLE	_T("env_var")
-#define FILEEXISTS			_T("fileexists")
-#define FINDWINDOW			_T("findwindow")
-#define LISTDIR				_T("ls")
-#define PROCESSRUNNING		_T("processrunning")
-#define REGISTRYVALUE		_T("regvalue")
-#define TIMESTAMP2DATE		_T("ts2date")
-#define TIMESTAMP2TIME		_T("ts2time")
-#define TXTFILE				_T("txtfile")
-#define UPTIME				_T("uptime")
-#define USERNAME			_T("username")
-#define CLIPBOARD			_T("clipboard")
+#define COMPUTERNAME		L"computername"
+#define CPULOAD				L"cpuload"
+#define CDATE				L"cdate"
+#define CTIME				L"ctime"
+#define DIRECTORY			L"directory"
+#define DIRECTORY2			L"directory2"
+#define DIFFTIME			L"difftime"
+#define DIREXISTS			L"direxists"
+#define ENVIRONMENTVARIABLE	L"env_var"
+#define FILEEXISTS			L"fileexists"
+#define FINDWINDOW			L"findwindow"
+#define LISTDIR				L"ls"
+#define PROCESSRUNNING		L"processrunning"
+#define REGISTRYVALUE		L"regvalue"
+#define TIMESTAMP2DATE		L"ts2date"
+#define TIMESTAMP2TIME		L"ts2time"
+#define TXTFILE				L"txtfile"
+#define UPTIME				L"uptime"
+#define USERNAME			L"username"
+#define CLIPBOARD			L"clipboard"
 
 #define TXTFILEBUFSZ		4096
 #define MAX_REGVALUE_LENGTH	1024

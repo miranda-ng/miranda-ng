@@ -35,11 +35,11 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	LPTSTR word, wordsearch, date_ptr, time_ptr;
 	LPTSTR tok_ctx;
 	static LPCTSTR hyperlinkPrefixes[] = {
-		_T("http://"),_T("ftp://"),_T("https://"),_T("mailto:"),_T("www."),_T("ftp."),
-		_T("icq#"),_T("gopher://"),_T("news://"),_T("file://"),_T("\\\\")
+		L"http://",L"ftp://",L"https://",L"mailto:",L"www.",L"ftp.",
+		L"icq#",L"gopher://",L"news://",L"file://",L"\\\\"
 	};
 	static LPCTSTR hyperlinkSubstrings[] = {
-		_T(".com"),_T(".net"),_T(".org"),_T(".co.uk"),_T(".ru")
+		L".com",L".net",L".org",L".co.uk",L".ru"
 	};
 
 	LISTELEMENT *newElement, *actualElement;
@@ -138,16 +138,16 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		}
 
 		if (isLink && wordlen <= LINK_MAX) {
-			if (_tcsstr(wordsearch, _T("www.")) != NULL && _tcsstr(wordsearch, _T("http://")) == NULL && _tcsstr(wordsearch, _T("https://")) == NULL) {
-				_tcsncpy_s(link, _T("http://"), LINK_MAX);
+			if (_tcsstr(wordsearch, L"www.") != NULL && _tcsstr(wordsearch, L"http://") == NULL && _tcsstr(wordsearch, L"https://") == NULL) {
+				_tcsncpy_s(link, L"http://", LINK_MAX);
 				_tcsncat_s(link, word, LINK_MAX);
 			} else {
 				_tcsncpy_s(link, word, LINK_MAX);
 			}
 
-			TimeZone_ToStringT(dbei->timestamp, _T("d-t"), dbdate, _countof(dbdate));
-			date_ptr = _tcstok_s(dbdate, _T("-"), &tok_ctx);
-			time_ptr = _tcstok_s(NULL, _T("-"), &tok_ctx);
+			TimeZone_ToStringT(dbei->timestamp, L"d-t", dbdate, _countof(dbdate));
+			date_ptr = _tcstok_s(dbdate, L"-", &tok_ctx);
+			time_ptr = _tcstok_s(NULL, L"-", &tok_ctx);
 			_tcsncpy_s(date, date_ptr, _TRUNCATE);
 			_tcsncpy_s(time, time_ptr, _TRUNCATE);
 
@@ -157,10 +157,10 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 				direction = DIRECTION_IN;
 			}
 
-			if (type == LINK_MAIL && _tcsstr(link, _T("mailto:")) == NULL) {
+			if (type == LINK_MAIL && _tcsstr(link, L"mailto:") == NULL) {
 				_tcsncpy_s(templink, link, _TRUNCATE);
-				_tcsncpy_s(link, _T("mailto:"), _TRUNCATE);
-				_tcsncpy_s((link + _mstrlen(_T("mailto:"))), (_countof(link) - _mstrlen(_T("mailto:"))), templink, _TRUNCATE);
+				_tcsncpy_s(link, L"mailto:", _TRUNCATE);
+				_tcsncpy_s((link + _mstrlen(L"mailto:")), (_countof(link) - _mstrlen(L"mailto:")), templink, _TRUNCATE);
 			}
 
 			// Add new Element to list:
@@ -303,10 +303,10 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE | CFM_COLOR;
 				cf.dwEffects = CFE_BOLD;
 				cf.crTextColor = colourSet.text;
-				_tcscpy_s(cf.szFaceName, _T("Arial"));
+				_tcscpy_s(cf.szFaceName, L"Arial");
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				
-				mir_sntprintf(searchText, _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
+				mir_sntprintf(searchText, L"%s '%s': %d\n\n", TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
 			}
@@ -314,7 +314,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_FACE | CFM_BOLD;
-			_tcscpy_s(cf.szFaceName, _T("Courier"));
+			_tcscpy_s(cf.szFaceName, L"Courier");
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 
@@ -343,7 +343,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		{
 			// Create Progressbar
 			GetWindowRect(GetDesktopWindow(), &DesktopRect);
-			hwndProgress = CreateWindow(_T("Progressbar"), TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
+			hwndProgress = CreateWindow(L"Progressbar", TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
 			SetWindowPos(hwndProgress,HWND_TOP,(int)(DesktopRect.right*0.5)-175,(int)(DesktopRect.bottom*0.5)-22,0,0,SWP_NOSIZE);
 		
 			if ( hwndProgress != NULL )
@@ -415,19 +415,19 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 					cf.dwEffects = CFE_BOLD;
-					_tcscpy_s(cf.szFaceName, _T("Arial"));
+					_tcscpy_s(cf.szFaceName, L"Arial");
 					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 					if ( options.showDate != 0 )
 					{
 						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) actualElement->date);
-						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) _T("\n\n"));
+						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) L"\n\n");
 						linePos += 3;
 					}
 					_tcscpy_s(lastDate, actualElement->date);
 					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof cf;
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
-					_tcscpy_s(cf.szFaceName, _T("Courier"));
+					_tcscpy_s(cf.szFaceName, L"Courier");
 					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				}
 				memset(&cf, 0, sizeof(cf));
@@ -443,25 +443,25 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				
 				switch( actualElement->type ) {
 				case LINK_MAIL:
-					type = _T("[mail]");
+					type = L"[mail]";
 					break;
 				case LINK_URL:
-					type = _T("[URL ]");
+					type = L"[URL ]";
 					break;
 				case LINK_FILE:
-					type = _T("[file]");
+					type = L"[file]";
 					break;
 				default:
-					type = _T("[UNK ]");
+					type = L"[UNK ]";
 				}
 
-				mir_sntprintf(textLine, _T("%s%s%s%s%s%s%s\n"),
-					options.showDirection ? (actualElement->direction==DIRECTION_IN?_T("[in ]"):_T("[out]")) : _T(""),
-					options.showDirection? _T(" ") : _T(""),
-					options.showType ? type : _T(""),
-					options.showType ? _T("  ") : _T(""),
-					options.showTime ? actualElement->time : _T(""),
-					options.showTime ? _T(" ") : _T(""),
+				mir_sntprintf(textLine, L"%s%s%s%s%s%s%s\n",
+					options.showDirection ? (actualElement->direction==DIRECTION_IN?L"[in ]":L"[out]") : L"",
+					options.showDirection? L" " : L"",
+					options.showType ? type : L"",
+					options.showType ? L"  " : L"",
+					options.showTime ? actualElement->time : L"",
+					options.showTime ? L" " : L"",
 					actualElement->link);
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE,(LPARAM)textLine);
@@ -485,10 +485,10 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 			cf.dwEffects = CFE_BOLD;
-			_tcscpy_s(cf.szFaceName, _T("Arial"));
+			_tcscpy_s(cf.szFaceName, L"Arial");
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)TranslateT("No messages found!\nPlease change current filter options."));
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
+			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 		}
 			
 	}
@@ -525,31 +525,31 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD | CFM_ITALIC | CFM_COLOR;
-	_tcscpy_s(cf.szFaceName, _T("Courier"));
+	_tcscpy_s(cf.szFaceName, L"Courier");
 	cf.crTextColor = TxtColourSel;
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 	if ( options->showLine == 1 )
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("___________________________________________\n"));
+		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"___________________________________________\n");
 	else
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
+		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 	
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_BOLD | CFM_FACE | CFM_COLOR;
 	cf.dwEffects = CFE_BOLD;
-	_tcscpy_s(cf.szFaceName, _T("Arial"));
+	_tcscpy_s(cf.szFaceName, L"Arial");
 	cf.crTextColor = TxtColourSel;
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 
 	if(options->showDate == 1)
 		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TXT_DATE);
 	
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM) _T("\n"));
+	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM) L"\n");
 
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
-	_tcscpy_s(cf.szFaceName, _T("Courier"));
+	_tcscpy_s(cf.szFaceName, L"Courier");
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 
 	// incoming
@@ -557,47 +557,47 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = InColourSel;
-	_tcscpy_s(cf.szFaceName, _T("Courier"));
+	_tcscpy_s(cf.szFaceName, L"Courier");
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf );
 	
 	if ( options->showDirection == 1 )
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("\n[in ] "));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n[in ] ");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 		
 	if ( options->showType == 1 )
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("URL   "));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"URL   ");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
 	
 	if ( options->showTime == 1 )
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("08:15 http://miranda-ng.org\n"));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:15 http://miranda-ng.org\n");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("http://miranda-ng.org\n"));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"http://miranda-ng.org\n");
 
 	// outgoing
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = OutColourSel;
-	_tcscpy_s(cf.szFaceName, _T("Courier"));
+	_tcscpy_s(cf.szFaceName, L"Courier");
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 	
 	if ( options->showDirection == 1 )
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("[out] "));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"[out] ");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
 		
 	if(options->showType == 1)
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("URL   "));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"URL   ");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
 	
 	if(options->showTime == 1)
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("08:16 http://miranda-ng.org\n"));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:16 http://miranda-ng.org\n");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("http://miranda-ng.org\n"));
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"http://miranda-ng.org\n");
 	
 	return 0;
 }
@@ -661,17 +661,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming URLs
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing URLs
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
 		}
 		else
 		{
 			// both directions (URL)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, "", TXT_URLSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_URLSONLY);
 		}
 	}
 	else if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
@@ -679,17 +679,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming mail
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing mail
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
 		}
 		else
 		{
 			// both directions (mail)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, "", TXT_MAILSONLY);
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_MAILSONLY);
 		}
 	}
 	else
@@ -697,17 +697,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming (both)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, "");
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, "");
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing (both)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, "");
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, "");
 		}
 		else
 		{
 			// no filter
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_NOFILTER, "");
+			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_NOFILTER, "");
 		}
 	}
 }
@@ -726,7 +726,7 @@ void DrawLine(HWND hDlg, size_t lineLen)
 	}
 	line[lineLen+18] = _T('\0');
 	SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)line);
-	SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
+	SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 	return;
 }
 
@@ -1241,13 +1241,13 @@ BOOL SaveEditAsStream( HWND hDlg )
 	TCHAR szFilename[MAX_PATH];
 
 	// Initialize filename field
-	_tcscpy_s(szFilename, _T("*.rtf"));
+	_tcscpy_s(szFilename, L"*.rtf");
 	// Fill in OPENFILENAME struct
 	memset(&ofn, 0, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);      
 	ofn.hwndOwner = hDlg;
 	TCHAR temp[MAX_PATH]; 
-	mir_sntprintf(temp, _T("%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c"), TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
+	mir_sntprintf(temp, L"%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c", TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
 	ofn.nMaxFile = _countof(szFilename);

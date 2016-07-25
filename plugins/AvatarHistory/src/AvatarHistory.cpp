@@ -120,7 +120,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == NULL) {
-		if (!ret || !mir_tstrcmp(dbvOldHash.ptszVal, _T("-"))) {
+		if (!ret || !mir_tstrcmp(dbvOldHash.ptszVal, L"-")) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
 			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before... skipping"));
@@ -130,7 +130,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		SkinPlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
-		db_set_ts(hContact, MODULE_NAME, "AvatarHash", _T("-"));
+		db_set_ts(hContact, MODULE_NAME, "AvatarHash", L"-");
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
 			ShowPopup(hContact, NULL, opts.popup_removed);
@@ -145,7 +145,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		SkinPlaySound("avatar_changed");
 		db_set_ts(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
 
-		TCHAR history_filename[MAX_PATH] = _T("");
+		TCHAR history_filename[MAX_PATH] = L"";
 
 		if (ContactEnabled(hContact, "LogToDisk", AVH_DEF_LOGTODISK)) {
 			if (!opts.log_store_as_hash) {
@@ -158,7 +158,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 					MCONTACT hMetaContact = db_mc_getMeta(hContact);
 					if (hMetaContact && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
-						TCHAR filename[MAX_PATH] = _T("");
+						TCHAR filename[MAX_PATH] = L"";
 
 						GetOldStyleAvatarName(filename, hMetaContact);
 						if (CopyImageFile(avatar->filename, filename))
@@ -188,7 +188,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 						GetProtocolFolder(history_filename, proto);
 
 					mir_sntprintf(history_filename, 
-							_T("%s\\%s"), history_filename, hash);
+							L"%s\\%s", history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
 						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
@@ -236,10 +236,10 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	mir_sntprintf(basedir, _T("%s\\Avatars History"), profilePath);
+	mir_sntprintf(basedir, L"%s\\Avatars History", profilePath);
 
 	hFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatar History"),
-		PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\Avatars History"));
+		PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\Avatars History");
 
 	InitPopups();
 
@@ -344,7 +344,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
 
 	if (CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
-		mir_tstrcpy(profilePath, _T(".")); // Failed, use current dir
+		mir_tstrcpy(profilePath, L"."); // Failed, use current dir
 
 	SkinAddNewSoundExT("avatar_changed",LPGENT("Avatar History"),LPGENT("Contact changed avatar"));
 	SkinAddNewSoundExT("avatar_removed",LPGENT("Avatar History"),LPGENT("Contact removed avatar"));

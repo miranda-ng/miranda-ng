@@ -306,7 +306,7 @@ HRESULT CLUI::LoadDllsRuntime()
 	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(NULL, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(NULL, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
 	if (IsWinVerVistaPlus()) {
-		m_hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
+		m_hDwmapiDll = LoadLibrary(L"dwmapi.dll");
 		if (m_hDwmapiDll)
 			g_proc_DWMEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(m_hDwmapiDll, "DwmEnableBlurBehindWindow");
 	}
@@ -348,7 +348,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
-	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
+	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
 		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST
 		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
@@ -712,7 +712,7 @@ void CLUI_ChangeWindowMode()
 
 	// 6 - Pin to desktop mode
 	if (db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-		HWND hProgMan = FindWindow(_T("Progman"), NULL);
+		HWND hProgMan = FindWindow(L"Progman", NULL);
 		if (IsWindow(hProgMan)) {
 			SetParent(pcli->hwndContactList, hProgMan);
 			Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
@@ -893,7 +893,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 
 	if (szAccoName) {
 		// first of all try to find by account name( or empty - global )
-		mir_sntprintf(fileFull, _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, szAccoName);
+		mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, szAccoName);
 		if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 			return count;
 
@@ -901,7 +901,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(fileFull, _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, acc->szProtoName);
+				mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, acc->szProtoName);
 				if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 					return count;
 			}
@@ -909,7 +909,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 	}
 
 	// third try global
-	mir_sntprintf(fileFull, _T("%s\\Icons\\proto_conn.dll"), tszFolderPath);
+	mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn.dll", tszFolderPath);
 	if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 		return count;
 
@@ -919,7 +919,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 {
 	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
-	mir_sntprintf(szPath, _T("Icons\\%s"), filename);
+	mir_sntprintf(szPath, L"Icons\\%s", filename);
 	PathToAbsoluteT(szPath, szFullPath);
 	if (_taccess(szPath, 0))
 		return NULL;
@@ -935,7 +935,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	HICON hIcon;
 
 	if (szAccoName) {
-		mir_sntprintf(szFullPath, _T("proto_conn_%S.dll"), szAccoName);
+		mir_sntprintf(szFullPath, L"proto_conn_%S.dll", szAccoName);
 		if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 			return hIcon;
 
@@ -943,7 +943,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(szFullPath, _T("proto_conn_%S.dll"), acc->szProtoName);
+				mir_sntprintf(szFullPath, L"proto_conn_%S.dll", acc->szProtoName);
 				if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 					return hIcon;
 			}
@@ -951,7 +951,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	}
 
 	// third try global
-	mir_tstrncpy(szFullPath, _T("proto_conn.dll"), _countof(szFullPath));
+	mir_tstrncpy(szFullPath, L"proto_conn.dll", _countof(szFullPath));
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 
@@ -1500,7 +1500,7 @@ BOOL cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 
 static BOOL FileExists(TCHAR * tszFilename)
 {
-	FILE * f = _tfopen(tszFilename, _T("r"));
+	FILE * f = _tfopen(tszFilename, L"r");
 	if (f == NULL) return FALSE;
 	fclose(f);
 	return TRUE;
@@ -1897,7 +1897,7 @@ LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 	mii.dwItemData = MENU_MINIMIZE;
 	SetMenuItemInfo(GetMenu(m_hWnd), 2, TRUE, &mii);
 
-	uMsgGetProfile = RegisterWindowMessage(_T("Miranda::GetProfile")); // don't localise
+	uMsgGetProfile = RegisterWindowMessage(L"Miranda::GetProfile"); // don't localise
 	bTransparentFocus = 1;
 	return FALSE;
 }

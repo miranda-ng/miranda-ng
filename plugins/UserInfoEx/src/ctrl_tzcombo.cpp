@@ -224,5 +224,5 @@ void CTzCombo::OnChangedByUser(WORD wChangedMsg)
  **/
 void CTzCombo::GetTime(LPTSTR szTime, int cchTime)
 {
-	TimeZone_PrintDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
+	TimeZone_PrintDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), L"t", szTime, cchTime, 0);
 }

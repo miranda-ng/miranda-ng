@@ -33,7 +33,7 @@
 #ifndef __TASKBAR_H
 #define __TASKBAR_H
 
-#define PROXYCLASSNAME  _T("TabSRMM_DWMProxy")
+#define PROXYCLASSNAME  L"TabSRMM_DWMProxy"
 extern HINSTANCE g_hInst;
 
 class CProxyWindow;

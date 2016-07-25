@@ -134,7 +134,7 @@ int Protocol::GetStatus()
 	else {
 		TCHAR *p = (tszXStatusName[0] != 0) ? TranslateTS(tszXStatusName) : TranslateT("<no status name>");
 		if (tszXStatusMessage[0])
-			mir_sntprintf(status_name, _T("%s: %s"), p, tszXStatusMessage);
+			mir_sntprintf(status_name, L"%s: %s", p, tszXStatusMessage);
 		else
 			lcopystr(status_name, p, _countof(status_name));
 	}
@@ -212,14 +212,14 @@ bool Protocol::CanSetStatusMsg(int aStatus)
 void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 {
 	if (!CanGetStatusMsg())
-		lcopystr(msg, _T(""), msg_size);
+		lcopystr(msg, L"", msg_size);
 	else if (aStatus == status && ProtoServiceExists(name, PS_GETMYAWAYMSG)) {
 		ptrT tmp((TCHAR *)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
-		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
+		lcopystr(msg, tmp == NULL ? L"" : tmp, msg_size);
 	}
 	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
 		ptrT tmp((TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, (LPARAM)name));
-		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
+		lcopystr(msg, tmp == NULL ? L"" : tmp, msg_size);
 	}
 }
 
@@ -287,7 +287,7 @@ int Protocol::GetNickMaxLength()
 TCHAR* Protocol::GetNick()
 {
 	ptrT nick(Contact_GetInfo(CNF_DISPLAY, NULL, name));
-	lcopystr(nickname, (nick != NULL) ? nick : _T(""), _countof(nickname));
+	lcopystr(nickname, (nick != NULL) ? nick : L"", _countof(nickname));
 	return nickname;
 }
 
@@ -338,13 +338,13 @@ bool Protocol::ListeningToEnabled()
 TCHAR *Protocol::GetListeningTo()
 {
 	if (!CanGetListeningTo()) {
-		lcopystr(listening_to, _T(""), _countof(listening_to));
+		lcopystr(listening_to, L"", _countof(listening_to));
 		return listening_to;
 	}
 
 	DBVARIANT dbv = { 0 };
 	if (db_get_ts(NULL, name, "ListeningTo", &dbv)) {
-		lcopystr(listening_to, _T(""), _countof(listening_to));
+		lcopystr(listening_to, L"", _countof(listening_to));
 		return listening_to;
 	}
 

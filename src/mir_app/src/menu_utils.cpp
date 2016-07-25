@@ -898,7 +898,7 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
 		int bVisible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
-		const TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : _T("");
+		const TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : L"";
 		
 		char szRootUid[33];
 		if (pmi->mi.root == NULL)
@@ -906,7 +906,7 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		else
 			bin2hex(&pmi->mi.root->mi.uid, sizeof(MUUID), szRootUid);
 
-		CMString szNewValue(FORMAT, _T("%d;%d;%S;%s"), bVisible, pmi->mi.position, szRootUid, ptszName);
+		CMString szNewValue(FORMAT, L"%d;%d;%S;%s", bVisible, pmi->mi.position, szRootUid, ptszName);
 		db_set_ts(NULL, (char*)szModule, menuItemName, szNewValue);
 
 		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->pszUniqName, bVisible, pmi->mi.position);
@@ -1128,7 +1128,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				TCHAR str[256];
-				mir_sntprintf(str, _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
+				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -1142,7 +1142,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				TCHAR str[256];
-				mir_sntprintf(str, _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
+				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -1221,7 +1221,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 	TCHAR sectionName[256];
-	mir_sntprintf(sectionName, LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
+	mir_sntprintf(sectionName, LPGENT("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
 
 	char iconame[256], uname[100];
 	bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), uname);

@@ -368,7 +368,7 @@ WORD	MTime::DateFormatAlt(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 	TCHAR * tszYear = _tcsstr(ptszTimeFormat, tszText);
 
 	if (tszYear && mir_tstrlen(tszYear) == 4)
-		mir_tstrcpy(tszYear, _T("????"));
+		mir_tstrcpy(tszYear, L"????");
 	else {
 		*ptszTimeFormat = 0;
 		return 0;

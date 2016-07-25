@@ -51,7 +51,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
-			mir_tstrcpy(lf->lfFaceName, _T("Arial"));
+			mir_tstrcpy(lf->lfFaceName, L"Arial");
 		else {
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
 			db_free(&dbv);
@@ -149,7 +149,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
 		if (mir_tstrlen(szTemp) > 40)
-			mir_tstrcpy(szTemp + 40, _T("..."));
+			mir_tstrcpy(szTemp + 40, L"...");
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
@@ -202,7 +202,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 void ValidateFilename(TCHAR *filename)
 {
 	TCHAR *p1 = filename;
-	TCHAR szForbidden[] = _T("\\/:*?\"<>|");
+	TCHAR szForbidden[] = L"\\/:*?\"<>|";
 	while (*p1 != '\0') {
 		if (_tcschr(szForbidden, *p1))
 			*p1 = '_';

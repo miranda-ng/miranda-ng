@@ -114,12 +114,12 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				TCHAR tszName[64];
 				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
-					mir_sntprintf(tszName, _T("%s "), pa->tszAccountName);
+					mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
 				else
 					tszName[0] = 0;
 
 				if (showOpts & 4 && mir_tstrlen(tszName) < _countof(tszName) - 1)
-					mir_tstrcat(tszName, _T(" "));
+					mir_tstrcat(tszName, L" ");
 				GetTextExtentPoint32(hdc, tszName, (int)mir_tstrlen(tszName), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room

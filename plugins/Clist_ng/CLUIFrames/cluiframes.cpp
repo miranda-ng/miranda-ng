@@ -1133,7 +1133,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM wParam, LPARAM lParam)
 
 	lockfrm();
 	pos = id2pos((INT_PTR)wParam);
-	if (pos >= 0 && !lstrcmp(Frames[pos].name, _T("My Contacts")))
+	if (pos >= 0 && !lstrcmp(Frames[pos].name, L"My Contacts"))
 		Frames[pos].visible = 1;
 	else {
 		if (pos >= 0 && (int)pos < nFramescount)
@@ -2627,7 +2627,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 				hmenu = CreatePopupMenu();
 				AppendMenu(hmenu, MF_STRING | MF_DISABLED | MF_GRAYED, 15, Frames[framepos].name);
-				AppendMenu(hmenu, MF_SEPARATOR, 16, _T(""));
+				AppendMenu(hmenu, MF_SEPARATOR, 16, L"");
 
 				if (Frames[framepos].Locked)
 					AppendMenu(hmenu, MF_STRING | MF_CHECKED, frame_menu_lock, TranslateT("Lock Frame"));
@@ -3266,7 +3266,7 @@ wchar_t g_ptszEventName[100];
 
 static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
-	mir_sntprintf(g_ptszEventName, _countof(g_ptszEventName), _T("mf_update_evt_%d"), GetCurrentThreadId());
+	mir_sntprintf(g_ptszEventName, _countof(g_ptszEventName), L"mf_update_evt_%d", GetCurrentThreadId());
 	g_hEventThread = CreateEvent(NULL, TRUE, FALSE, g_ptszEventName);
 	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, NULL);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);
@@ -3396,7 +3396,7 @@ void RegisterCLUIFrameClasses()
 	cntclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	cntclass.hbrBackground = NULL;
 	cntclass.lpszMenuName  = NULL;
-	cntclass.lpszClassName = _T("FramesContainer");
+	cntclass.lpszClassName = L"FramesContainer";
 	RegisterClass(&cntclass);
 }
 

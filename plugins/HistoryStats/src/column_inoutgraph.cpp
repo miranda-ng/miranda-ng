@@ -99,24 +99,24 @@ Column::StyleList ColInOutGraph::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 	m_CSS = idp.getID();
 
-	l.push_back(StylePair(_T("td.") + m_CSS, _T("vertical-align: middle; padding: 2px 2px 2px 2px;")));
+	l.push_back(StylePair(L"td." + m_CSS, L"vertical-align: middle; padding: 2px 2px 2px 2px;"));
 
 	if (m_bShowSum)
 	{
-		l.push_back(StylePair(_T("td.") + m_CSS + _T(" div.n"), _T("text-align: center;")));
+		l.push_back(StylePair(L"td." + m_CSS + L" div.n", L"text-align: center;"));
 	}
 
 	if (!usePNG())
 	{
-		l.push_back(StylePair(_T("div.") + m_CSS,                    _T("position: relative; left: 50%; margin-left: -50px; width: 100px; height: 15px; background-color: ") + utils::colorToHTML(con::ColorBack) + _T(";")));
-		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),      _T("position: absolute; top: 0px; height: 15px; overflow: hidden; font-size: 80%; color: ") + utils::colorToHTML(con::ColorBack) + _T(";")));
-		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.obar"), _T("left: 0px; background-color: ") + utils::colorToHTML(con::ColorOut) + _T(";")));
-		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.ibar"), _T("right: 0px; background-color: ") + utils::colorToHTML(con::ColorIn) + _T(";")));
+		l.push_back(StylePair(L"div." + m_CSS,                    L"position: relative; left: 50%; margin-left: -50px; width: 100px; height: 15px; background-color: " + utils::colorToHTML(con::ColorBack) + L";"));
+		l.push_back(StylePair(L"div." + m_CSS + L" div",      L"position: absolute; top: 0px; height: 15px; overflow: hidden; font-size: 80%; color: " + utils::colorToHTML(con::ColorBack) + L";"));
+		l.push_back(StylePair(L"div." + m_CSS + L" div.obar", L"left: 0px; background-color: " + utils::colorToHTML(con::ColorOut) + L";"));
+		l.push_back(StylePair(L"div." + m_CSS + L" div.ibar", L"right: 0px; background-color: " + utils::colorToHTML(con::ColorIn) + L";"));
 
 		if (m_bGraphPercent)
 		{
-			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.otext"), _T("left: 2px; width: 48px; text-align: left; z-index: 9;")));
-			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.itext"), _T("right: 2px; width: 48px; text-align: right; z-index: 9;")));
+			l.push_back(StylePair(L"div." + m_CSS + L" div.otext", L"left: 2px; width: 48px; text-align: left; z-index: 9;"));
+			l.push_back(StylePair(L"div." + m_CSS + L" div.itext", L"right: 2px; width: 48px; text-align: right; z-index: 9;"));
 		}
 	}
 
@@ -155,11 +155,11 @@ void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowS
 		else
 		{
 			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
-				% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource])
-				% _T("#{unit}") * TranslateTS(szSourceUnit[m_nAbsTime]));
+				% L"#{data}" * TranslateTS(szSourceDesc[m_nSource])
+				% L"#{unit}" * TranslateTS(szSourceUnit[m_nAbsTime]));
 		}
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szSourceDesc[m_nSource]), strTitle) + _T("<div style=\"width: 100px;\"></div>"), 1, 2, rowSpan, 2);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szSourceDesc[m_nSource]), strTitle) + L"<div style=\"width: 100px;\"></div>", 1, 2, rowSpan, 2);
 	}
 	else if (row == 2)
 	{
@@ -194,7 +194,7 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 	double avgTotal = avgFactor[m_nAbsTime] * (contact.*getAvgTotal[m_nSource])();
 
 	// begin output
-	tos << _T("<td colspan=\"2\" class=\"") << m_CSS;
+	tos << L"<td colspan=\"2\" class=\"" << m_CSS;
 
 	if (m_bDetail)
 	{
@@ -213,26 +213,26 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 
 		if (m_bDetailPercent)
 		{
-			tos << _T("\" title=\"")
+			tos << L"\" title=\""
 				<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})"))
-					% _T("#{out_amount}") * strOut
-					% _T("#{out_ratio}") * utils::ratioToPercent(numOut, numTotal)
-					% _T("#{in_amount}") * strIn
-					% _T("#{in_ratio}") * utils::ratioToPercent(numIn, numTotal)))
-				<< _T("\">");
+					% L"#{out_amount}" * strOut
+					% L"#{out_ratio}" * utils::ratioToPercent(numOut, numTotal)
+					% L"#{in_amount}" * strIn
+					% L"#{in_ratio}" * utils::ratioToPercent(numIn, numTotal)))
+				<< L"\">";
 		}
 		else
 		{
-			tos << _T("\" title=\"")
+			tos << L"\" title=\""
 				<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[Out] #{out_amount} / [In] #{in_amount}"))
-					% _T("#{out_amount}") * strOut
-					% _T("#{in_amount}") * strIn))
-				<< _T("\">");
+					% L"#{out_amount}" * strOut
+					% L"#{in_amount}" * strIn))
+				<< L"\">";
 		}
 	}
 	else
 	{
-		tos << _T("\">");
+		tos << L"\">";
 	}
 	
 	if (numOut + numIn == 0)
@@ -256,12 +256,12 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 
 	if (usePNG())
 	{
-		tos << _T("<div class=\"n\">");
+		tos << L"<div class=\"n\">";
 
 		if (m_bShowSum)
 		{
 			tos << (m_bAbsolute ? utils::intToGrouped(numTotal) : utils::floatToGrouped(avgTotal, 1))
-				<< _T("<br/>");
+				<< L"<br/>";
 		}
 
 		// draw graph
@@ -298,7 +298,7 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 				CLIP_DEFAULT_PRECIS,
 				DEFAULT_QUALITY,
 				DEFAULT_PITCH | FF_SWISS,
-				_T("Verdana")
+				L"Verdana"
 			};
 
 			HFONT hFont = CreateFontIndirect(&lf);
@@ -317,40 +317,40 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << _T("<img src=\"") << strFinalFile << _T("\" alt=\"\" />");
+			tos << L"<img src=\"" << strFinalFile << L"\" alt=\"\" />";
 		}
 
-		tos << _T("</div>");
+		tos << L"</div>";
 	}
 	else
 	{
 		if (m_bShowSum)
 		{
-			tos << _T("<div class=\"n\">")
+			tos << L"<div class=\"n\">"
 				<< (m_bAbsolute ? utils::intToGrouped(numTotal) : utils::floatToGrouped(avgTotal, 1))
-				<< _T("</div>");
+				<< L"</div>";
 		}
 
-		tos << _T("<div class=\"") << m_CSS << _T("\">");
+		tos << L"<div class=\"" << m_CSS << L"\">";
 
 		if (outW != 0)
 		{
-			tos << _T("<div class=\"obar\" style=\"width: ") << outW << _T("px;\"></div>");
+			tos << L"<div class=\"obar\" style=\"width: " << outW << L"px;\"></div>";
 		}
 
 		if (inW != 0)
 		{
-			tos << _T("<div class=\"ibar\" style=\"width: ") << inW << _T("px;\"></div>");
+			tos << L"<div class=\"ibar\" style=\"width: " << inW << L"px;\"></div>";
 		}
 
 		if (m_bGraphPercent)
 		{
-			tos << _T("<div class=\"otext\">") << utils::ratioToPercent(numOut, allNum) << _T("</div>");
-			tos << _T("<div class=\"itext\">") << utils::ratioToPercent(numIn, allNum) << _T("</div>");
+			tos << L"<div class=\"otext\">" << utils::ratioToPercent(numOut, allNum) << L"</div>";
+			tos << L"<div class=\"itext\">" << utils::ratioToPercent(numIn, allNum) << L"</div>";
 		}
 
-		tos << _T("</div>");
+		tos << L"</div>";
 	}
 
-	tos	<< _T("</td>") << ext::endl;
+	tos	<< L"</td>" << ext::endl;
 }

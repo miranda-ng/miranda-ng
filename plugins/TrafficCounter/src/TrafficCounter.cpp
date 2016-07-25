@@ -42,7 +42,7 @@ _T("{I4}\x0D\x0A\x0A\
 {L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\
 {L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)");
 
-TCHAR* TRAFFIC_COUNTER_WINDOW_CLASS = _T("TrafficCounterWnd");
+TCHAR* TRAFFIC_COUNTER_WINDOW_CLASS = L"TrafficCounterWnd";
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //TRAFFIC COUNTER
@@ -235,7 +235,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	}
 	else //defaults here
 	{
-		mir_tstrcpy(Traffic_TooltipFormat, _T("Traffic Counter"));
+		mir_tstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
 	}
 
 	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
@@ -254,7 +254,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
 	TrafficFontID.deffontsettings.size = 12;
 	TrafficFontID.deffontsettings.style = 0;
-	mir_tstrcpy(TrafficFontID.deffontsettings.szFace, _T("Arial"));
+	mir_tstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
 	TrafficFontID.order = 0;
 	FontRegisterT(&TrafficFontID);
 
@@ -487,14 +487,14 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				if (unOptions.DrawTotalTimeCounter) {
 					TCHAR bu[32];
 
-					GetDurationFormatM(ProtoList[i].Total.Timer, _T("h:mm:ss"), bu, 32);
+					GetDurationFormatM(ProtoList[i].Total.Timer, L"h:mm:ss", bu, 32);
 					TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				}
 				// Текущее время.
 				if (unOptions.DrawCurrentTimeCounter) {
 					TCHAR bu[32];
 
-					GetDurationFormatM(ProtoList[i].Session.Timer, _T("h:mm:ss"), bu, 32);
+					GetDurationFormatM(ProtoList[i].Session.Timer, L"h:mm:ss", bu, 32);
 					rect.right -= 50;
 					TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 					rect.right += 50;
@@ -550,14 +550,14 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			if (unOptions.DrawTotalTimeCounter) {
 				TCHAR bu[32];
 
-				GetDurationFormatM(OverallInfo.Total.Timer, _T("h:mm:ss"), bu, 32);
+				GetDurationFormatM(OverallInfo.Total.Timer, L"h:mm:ss", bu, 32);
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 			}
 			// Текущее время.
 			if (unOptions.DrawCurrentTimeCounter) {
 				TCHAR bu[32];
 
-				GetDurationFormatM(OverallInfo.Session.Timer, _T("h:mm:ss"), bu, 32);
+				GetDurationFormatM(OverallInfo.Session.Timer, L"h:mm:ss", bu, 32);
 				rect.right -= 50;
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				rect.right += 50;

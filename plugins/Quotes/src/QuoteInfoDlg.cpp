@@ -70,7 +70,7 @@ INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WP
 
 			const IQuotesProvider::CProviderInfo& pi = pProvider->GetInfo();
 			tostringstream o;
-			o << TranslateT("Info provided by") << _T(" <a href=\"") << pi.m_sURL << _T("\">") << pi.m_sName << _T("</a>");
+			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
 			::SetDlgItemText(hdlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 		}
@@ -82,7 +82,7 @@ INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WP
 		case NM_CLICK:
 			if (IDC_SYSLINK_PROVIDER == wParam) {
 				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-				::ShellExecute(hdlg, _T("open"), pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
+				::ShellExecute(hdlg, L"open", pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
 			}
 			break;
 		}
@@ -144,7 +144,7 @@ INT_PTR QuotesMenu_OpenLogFile(WPARAM wp, LPARAM)
 
 	tstring sLogFileName;
 	if ((true == get_log_file(hContact, sLogFileName)) && (false == sLogFileName.empty()))
-		::ShellExecute(NULL, _T("open"), sLogFileName.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		::ShellExecute(NULL, L"open", sLogFileName.c_str(), NULL, NULL, SW_SHOWNORMAL);
 
 	return 0;
 }

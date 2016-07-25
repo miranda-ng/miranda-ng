@@ -32,7 +32,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const TCHAR
 	if (opt.ShowGroup) {
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup)
-			buf.AppendFormat(_T(" (%s)"), tszGroup);
+			buf.AppendFormat(L" (%s)", tszGroup);
 	}
 	_tcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
 
@@ -85,7 +85,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 
 	TCHAR stzText[1024];
 	if (pstzLast)
-		mir_sntprintf(stzText, _T("%s\n%s"), pstzLast, tszStatus);
+		mir_sntprintf(stzText, L"%s\n%s", pstzLast, tszStatus);
 	else
 		_tcsncpy(stzText, tszStatus, _countof(stzText));
 	SendMessage(pdp->hWnd, WM_SETREDRAW, FALSE, 0);

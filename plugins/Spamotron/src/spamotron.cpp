@@ -239,7 +239,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				if (_dbei != NULL) {
 					memcpy(&_dbei->cbBlob, _dbv.pbVal, sizeof(DWORD));
 					_dbei->eventType = EVENTTYPE_AUTHREQUEST;
-					_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", _T("ICQ"));
+					_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", L"ICQ");
 					szAuthEventModule = mir_u2a(AuthEventModule);
 					_dbei->szModule = szAuthEventModule;
 					_dbei->timestamp = dbei->timestamp;
@@ -290,7 +290,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	// Completely reject if duplicate incoming message found
 	if (_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) > 0 &&
 		_getCOptD(hContact, "SameMsgCount", 0) >= _getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) &&
-		mir_tstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", _T(""))) == 0) {
+		mir_tstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", L"")) == 0) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s rejected because it reached a maximum for same responses per day."), message);
 			if (bayesEnabled)
 				queue_message(hContact, dbei->timestamp, message);
@@ -388,12 +388,12 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	case SPAMOTRON_MODE_MATH:
 		a = (rand() % 10) + 1;
 		b = (rand() % 10) + 1;
-		mir_sntprintf(mexpr, _T("%d + %d"), a, b);
+		mir_sntprintf(mexpr, L"%d + %d", a, b);
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
 			_getOptS(challengeW, maxmsglen, "AuthChallengeMath", defaultAuthChallengeMath);
 		else
 			_getOptS(challengeW, maxmsglen, "ChallengeMath", defaultChallengeMath);
-		ReplaceVar(challengeW, maxmsglen, _T("%mathexpr%"), mexpr);
+		ReplaceVar(challengeW, maxmsglen, L"%mathexpr%", mexpr);
 		_setCOptD(hContact, "ResponseMath", a + b);
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending math expression challenge to %s."), message);
@@ -423,7 +423,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Save Last Msg and update SameMsgCount
 	if (message != NULL) {
-		if (mir_tstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", _T("")), message) == 0)
+		if (mir_tstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", L""), message) == 0)
 			_setCOptD(hContact, "SameMsgCount", 1+_getCOptD(hContact, "SameMsgCount", 0));
 		else 
 			_setCOptD(hContact, "SameMsgCount", 1);

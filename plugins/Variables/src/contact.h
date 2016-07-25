@@ -17,52 +17,52 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define STR_FIRSTNAME   _T("first")
-#define STR_LASTNAME    _T("last")
-#define STR_NICK        _T("nick")
-#define STR_CUSTOMNICK  _T("cnick")
-#define STR_EMAIL       _T("email")
-#define STR_CITY        _T("city")
-#define STR_STATE       _T("state")
-#define STR_COUNTRY     _T("country")
-#define STR_PHONE       _T("phone")
-#define STR_HOMEPAGE    _T("homepage")
-#define STR_ABOUT       _T("about")
-#define STR_GENDER      _T("gender")
-#define STR_AGE         _T("age")
-#define STR_FIRSTLAST   _T("firstlast")
-#define STR_UNIQUEID    _T("id")
-#define STR_DISPLAY     _T("display")
+#define STR_FIRSTNAME   L"first"
+#define STR_LASTNAME    L"last"
+#define STR_NICK        L"nick"
+#define STR_CUSTOMNICK  L"cnick"
+#define STR_EMAIL       L"email"
+#define STR_CITY        L"city"
+#define STR_STATE       L"state"
+#define STR_COUNTRY     L"country"
+#define STR_PHONE       L"phone"
+#define STR_HOMEPAGE    L"homepage"
+#define STR_ABOUT       L"about"
+#define STR_GENDER      L"gender"
+#define STR_AGE         L"age"
+#define STR_FIRSTLAST   L"firstlast"
+#define STR_UNIQUEID    L"id"
+#define STR_DISPLAY     L"display"
 
-#define STR_FAX         _T("fax")
-#define STR_CELLULAR    _T("cellular")
-#define STR_TIMEZONE    _T("timezone")
-#define STR_MYNOTES     _T("mynotes")
-#define STR_BIRTHDAY    _T("bday")
-#define STR_BIRTHMONTH  _T("bmonth")
-#define STR_BIRTHYEAR   _T("byear")
-#define STR_STREET      _T("street")
-#define STR_ZIP         _T("zip")
-#define STR_LANGUAGE1   _T("lang1")
-#define STR_LANGUAGE2   _T("lang2")
-#define STR_LANGUAGE3   _T("lang3")
-#define STR_CONAME      _T("coname")
-#define STR_CODEPT      _T("codept")
-#define STR_COPOSITION  _T("copos")
-#define STR_COSTREET    _T("costreet")
-#define STR_COCITY      _T("cocity")
-#define STR_COSTATE     _T("costate")
-#define STR_COZIP       _T("cozip")
-#define STR_COCOUNTRY   _T("cocountry")
-#define STR_COHOMEPAGE  _T("cohomepage")
+#define STR_FAX         L"fax"
+#define STR_CELLULAR    L"cellular"
+#define STR_TIMEZONE    L"timezone"
+#define STR_MYNOTES     L"mynotes"
+#define STR_BIRTHDAY    L"bday"
+#define STR_BIRTHMONTH  L"bmonth"
+#define STR_BIRTHYEAR   L"byear"
+#define STR_STREET      L"street"
+#define STR_ZIP         L"zip"
+#define STR_LANGUAGE1   L"lang1"
+#define STR_LANGUAGE2   L"lang2"
+#define STR_LANGUAGE3   L"lang3"
+#define STR_CONAME      L"coname"
+#define STR_CODEPT      L"codept"
+#define STR_COPOSITION  L"copos"
+#define STR_COSTREET    L"costreet"
+#define STR_COCITY      L"cocity"
+#define STR_COSTATE     L"costate"
+#define STR_COZIP       L"cozip"
+#define STR_COCOUNTRY   L"cocountry"
+#define STR_COHOMEPAGE  L"cohomepage"
 
-#define STR_ACCOUNT     _T("account")
-#define STR_PROTOCOL	_T("protocol")
-#define STR_STATUS      _T("status")
-#define STR_INTERNALIP  _T("intip")
-#define STR_EXTERNALIP  _T("extip")
-#define STR_GROUP       _T("group")
-#define STR_PROTOID     _T("protoid")
+#define STR_ACCOUNT     L"account"
+#define STR_PROTOCOL	L"protocol"
+#define STR_STATUS      L"status"
+#define STR_INTERNALIP  L"intip"
+#define STR_EXTERNALIP  L"extip"
+#define STR_GROUP       L"group"
+#define STR_PROTOID     L"protoid"
 
 #define CCNF_ACCOUNT    51 // CUSTOM, returns contact's account name (0.8.0+)
 #define CCNF_PROTOCOL   50 // CUSTOM, returns the contact's protocol (human-readable)

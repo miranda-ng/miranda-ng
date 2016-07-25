@@ -227,12 +227,12 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	if (streamData->lin->ptszNick) {
 		if (g_Settings->bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
 			mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 20);
-			mir_tstrncpy(szTemp2 + 20, _T("..."), 4);
+			mir_tstrncpy(szTemp2 + 20, L"...", 4);
 		}
 		else mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 511);
 
 		if (streamData->lin->ptszUserInfo)
-			mir_sntprintf(szTemp, _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
+			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
 		else
 			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -241,12 +241,12 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	switch (streamData->lin->iType) {
 	case GC_EVENT_MESSAGE:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_ACTION:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText) {
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s "), streamData->lin->ptszNick);
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L"%s ", streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
 		}
 		break;
 	case GC_EVENT_JOIN:
@@ -261,13 +261,13 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 		if (pszNick)
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has left"), pszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_QUIT:
 		if (pszNick)
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has disconnected"), pszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_NICK:
 		if (pszNick && streamData->lin->ptszText) {
@@ -281,17 +281,17 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 		if (streamData->lin->ptszNick && streamData->lin->ptszStatus)
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s kicked %s"), streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_NOTICE:
 		if (pszNick && streamData->lin->ptszText) {
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
 		}
 		break;
 	case GC_EVENT_TOPIC:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is '%s%s'"), streamData->lin->ptszText, _T("%r"));
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is '%s%s'"), streamData->lin->ptszText, L"%r");
 		if (streamData->lin->ptszNick)
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
 			streamData->lin->ptszUserInfo ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"),
@@ -299,7 +299,7 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 		break;
 	case GC_EVENT_INFORMATION:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, (streamData->lin->bIsMe) ? _T("--> %s") : _T("%s"), streamData->lin->ptszText);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, (streamData->lin->bIsMe) ? L"--> %s" : L"%s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_ADDSTATUS:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
@@ -386,7 +386,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
 			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
 				streamData->si->LastTime = lin->time;
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s"), szTimeStamp);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L"%s", szTimeStamp);
 			}
 			Log_Append(buffer, bufferEnd, bufferAlloced, "\\tab ");
 		}
@@ -397,7 +397,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 			Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
 			mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
-			p1 = _tcsstr(pszTemp, _T("%n"));
+			p1 = _tcsstr(pszTemp, L"%n");
 			if (p1)
 				p1[1] = 's';
 

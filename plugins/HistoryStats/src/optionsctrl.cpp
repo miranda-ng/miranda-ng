@@ -38,7 +38,7 @@ HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const TCHAR* sz
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTRADIO, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocr)));
 }
 
-HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szEdit /* = _T("") */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szEdit /* = L"" */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCEDIT oce;
 	oce.dwFlags = dwFlags;
@@ -70,7 +70,7 @@ HANDLE OptionsCtrl::insertButton(HANDLE hParent, const TCHAR* szLabel, const TCH
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTBUTTON, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocb)));
 }
 
-HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const TCHAR* szLabel, DWORD dwDateTime, const TCHAR* szFormat /* = _T("%Y-%m-%d") */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const TCHAR* szLabel, DWORD dwDateTime, const TCHAR* szFormat /* = L"%Y-%m-%d" */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCDATETIME ocdt;
 	ocdt.dwFlags = dwFlags;
@@ -270,7 +270,7 @@ ext::string OptionsCtrl::getDateTimeStr(HANDLE hDateTime)
 	bool bNone = false;
 	DWORD dwTimestamp = getDateTime(hDateTime, &bNone);
 
-	return bNone ? _T("") : utils::formatDate(dwTimestamp);
+	return bNone ? L"" : utils::formatDate(dwTimestamp);
 }
 
 void OptionsCtrl::setDateTimeStr(HANDLE hDateTime, const ext::string& strDateTime)

@@ -539,9 +539,9 @@ bool CMraProto::CmdOfflineMessageAck(BinBuffer &buf)
 		if (dwTemp == NO_ERROR || dwTemp == ERROR_ACCESS_DENIED)
 			MraOfflineMessageDel(dwMsgUIDL);
 		else
-			ShowFormattedErrorMessage(_T("Offline message processing error, message will not deleted from server"), NO_ERROR);
+			ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
 	}
-	else ShowFormattedErrorMessage(_T("Offline message processing error, message will not deleted from server"), NO_ERROR);
+	else ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
 
 	return true;
 }
@@ -558,7 +558,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		MraUpdateContactInfo(hContact);
 
 	if (IsEMailChatAgent(szEmail) == FALSE) {
-		CMStringA szBuff = CreateBlobFromContact(hContact, _T(""));
+		CMStringA szBuff = CreateBlobFromContact(hContact, L"");
 
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.flags = DBEF_UTF;
@@ -730,23 +730,23 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			}
 			break;
 		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
-			ShowFormattedErrorMessage(_T("Data been sent are invalid"), NO_ERROR);
+			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
 			break;
 		case CONTACT_OPER_INTERR:// ## при обработке запроса произошла внутренняя ошибка
-			ShowFormattedErrorMessage(_T("Internal server error"), NO_ERROR);
+			ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
 			break;
 		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
 			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
-			ShowFormattedErrorMessage(_T("No such user to add"), NO_ERROR);
+			ShowFormattedErrorMessage(L"No such user to add", NO_ERROR);
 			break;
 		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
-			ShowFormattedErrorMessage(_T("Invalid user name"), NO_ERROR);
+			ShowFormattedErrorMessage(L"Invalid user name", NO_ERROR);
 			break;
 		case CONTACT_OPER_USER_EXISTS:// ## пользователь уже есть в контакт-листе
-			ShowFormattedErrorMessage(_T("User already added"), NO_ERROR);
+			ShowFormattedErrorMessage(L"User already added", NO_ERROR);
 			break;
 		case CONTACT_OPER_GROUP_LIMIT:// ## превышено максимально допустимое количество групп (20)
-			ShowFormattedErrorMessage(_T("Group limit is 20"), NO_ERROR);
+			ShowFormattedErrorMessage(L"Group limit is 20", NO_ERROR);
 			break;
 		default:// ## unknown error
 			TCHAR szBuff[1024];

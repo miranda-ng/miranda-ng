@@ -242,7 +242,7 @@ int LoadCLUIModule(void)
 	DBVARIANT dbv;
 	TCHAR titleText[256];
 
-	uMsgProcessProfile = RegisterWindowMessage(_T("Miranda::ProcessProfile"));
+	uMsgProcessProfile = RegisterWindowMessage(L"Miranda::ProcessProfile");
 	cli.pfnLoadCluiGlobalOpts();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CluiModulesLoaded);
@@ -301,7 +301,7 @@ int LoadCLUIModule(void)
 		NULL, NULL, cli.hInst, NULL);
 
 	if (db_get_b(NULL, "CList", "OnDesktop", 0)) {
-		HWND hProgMan = FindWindow(_T("Progman"), NULL);
+		HWND hProgMan = FindWindow(L"Progman", NULL);
 		if (IsWindow(hProgMan))
 			SetParent(cli.hwndContactList, hProgMan);
 	}
@@ -412,7 +412,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	if (msg == uMsgProcessProfile) {
 		TCHAR profile[MAX_PATH];
 		if (GlobalGetAtomName((ATOM)wParam, profile, _countof(profile))) {
-			int rc = mir_tstrcmpi(profile, VARST(_T("%miranda_userdata%\\%miranda_profilename%.dat"))) == 0;
+			int rc = mir_tstrcmpi(profile, VARST(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
 			ReplyMessage(rc);
 			if (rc) {
 				ShowWindow(hwnd, SW_RESTORE);
@@ -460,7 +460,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case M_CREATECLC:
-		cli.hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
+		cli.hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
 													  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 													  | CLS_CONTACTLIST
 													  | (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
@@ -994,7 +994,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PROTOACCOUNT *pa;
 					TCHAR tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
-						mir_sntprintf(tszName, _T("%s "), pa->tszAccountName);
+						mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
 					else
 						tszName[0] = 0;
 
@@ -1005,7 +1005,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (showOpts & 4) {
 					TCHAR* szStatus = cli.pfnGetStatusModeDescription(status, 0);
 					if (!szStatus)
-						szStatus = _T("");
+						szStatus = L"";
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
 				}

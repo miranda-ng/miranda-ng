@@ -54,7 +54,7 @@ void ext_yahoo_conf_userdecline(int id, const char*, const char *who, const char
 	TCHAR info[1024];
 	TCHAR *whot = mir_utf8decodeT(who);
 	TCHAR *msgt = mir_utf8decodeT(msg);
-	mir_sntprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : _T(""));
+	mir_sntprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : L"");
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_INFORMATION, info);
 	mir_free(msgt);
 	mir_free(whot);
@@ -316,7 +316,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
-				{ _T(""), 100, MENU_SEPARATOR, FALSE },
+				{ L"", 100, MENU_SEPARATOR, FALSE },
 				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
@@ -356,7 +356,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = _T("");
+					TCHAR buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					who = y_list_append(who, mir_t2a(buf));

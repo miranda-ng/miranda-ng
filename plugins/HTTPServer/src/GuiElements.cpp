@@ -443,7 +443,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 	ofn.lStructSize = sizeof(OPENFILENAME);
 
 	char temp[MAX_PATH];
-	mir_snprintf(temp, _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, "%s (*.*)%c*.*%c%c", Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 
 	ofn.lpstrFile = pstNewShare->pszRealPath;
@@ -1122,24 +1122,24 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{// Url Address
 				SetDlgItemText(hwndDlg, IDC_URL_ADDRESS, sUrlAddress.c_str());
 				HWND hComboBox = GetDlgItem(hwndDlg, IDC_URL_ADDRESS);
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://checkip.dyndns.org"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://checkip.dyndns.org:8245/"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://dynamic.zoneedit.com/checkip.html"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://ipdetect.dnspark.com/"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://update.dynu.com/basic/ipcheck.asp"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://www.dnsart.com/myip.php"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("http://www.dnsart.com:7777/myip.php"));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://checkip.dyndns.org");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://checkip.dyndns.org:8245/");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://dynamic.zoneedit.com/checkip.html");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://ipdetect.dnspark.com/");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://update.dynu.com/basic/ipcheck.asp");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://www.dnsart.com/myip.php");
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"http://www.dnsart.com:7777/myip.php");
 			}
 
 			{// Page keyword
 				SetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, sPageKeyword.c_str());
 				HWND hComboBox = GetDlgItem(hwndDlg, IDC_PAGE_KEYWORD);
 				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"");
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current IP Address: "));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current Address: "));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("IP Address: "));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("You are browsing from"));
-				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("<HTML><BODY>"));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("Current IP Address: "));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("Current Address: "));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("IP Address: "));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("You are browsing from"));
+				SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"<HTML><BODY>");
 			}
 
 			SetDlgItemInt(hwndDlg, IDC_MAX_SPEED, nMaxUploadSpeed >> 10, true);
@@ -1492,7 +1492,7 @@ void InitGuiElements()
 
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	if (!hEventOptionsInitialize)
-		MessageBox(NULL, _T("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
 
 	bShowPopups = db_get_b(NULL, MODULE, "ShowPopups", bShowPopups) != 0;
 }

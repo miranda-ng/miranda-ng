@@ -376,7 +376,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{
 			{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
 			{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
-			{ _T(""), 100, MENU_SEPARATOR, FALSE },
+			{ L"", 100, MENU_SEPARATOR, FALSE },
 			{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
@@ -415,7 +415,7 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 	MCONTACT hNotificationsChatRoom = ChatIDToHContact(FACEBOOK_NOTIFICATIONS_CHATROOM);
 	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
 		TCHAR nameT[200];
-		mir_sntprintf(nameT, _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
+		mir_sntprintf(nameT, L"%s: %s", m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session
 		GCSESSION gcw = { sizeof(gcw) };

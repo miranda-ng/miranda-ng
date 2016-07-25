@@ -20,10 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 /* Conversation */
-#define DDEAPP        _T("Miranda")
-#define DDETOPIC      _T("OpenAssoc")
-#define DDEURLCMD     _T("url,\"%l\"")
-#define DDEFILECMD    _T("file,\"%1\"")
+#define DDEAPP        L"Miranda"
+#define DDETOPIC      L"OpenAssoc"
+#define DDEURLCMD     L"url,\"%l\""
+#define DDEFILECMD    L"file,\"%1\""
 
 /* Misc */
 void InitDde(void);

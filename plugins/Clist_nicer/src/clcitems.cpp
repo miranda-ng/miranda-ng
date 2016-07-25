@@ -410,7 +410,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup != NULL) {
 			TCHAR szGroupMask[256];
-			mir_sntprintf(szGroupMask, _T("%s|"), tszGroup);
+			mir_sntprintf(szGroupMask, L"%s|", tszGroup);
 			int bHasGroup = _tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0;
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | bHasGroup) : (filterResult & bHasGroup);
 		}

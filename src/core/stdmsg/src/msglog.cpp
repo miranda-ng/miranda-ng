@@ -50,7 +50,7 @@ struct LogStreamData
 static int logPixelSY;
 static char szSep2[40], szSep2_RTL[50];
 
-static const TCHAR *bbcodes[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]") };
+static const TCHAR *bbcodes[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[/b]", L"[/i]", L"[/u]", L"[/s]" };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
 
 static void AppendPlainUnicode(CMStringA &buf, const TCHAR *str)
@@ -99,12 +99,12 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 				}
 			}
 			if (!found) {
-				if (!_tcsnicmp(line, _T("[url"), 4)) {
+				if (!_tcsnicmp(line, L"[url", 4)) {
 					const TCHAR* tag = _tcschr(line + 4, ']');
 					if (tag) {
 						const TCHAR *tagu = (line[4] == '=') ? line + 5 : tag + 1;
-						const TCHAR *tage = _tcsstr(tag, _T("[/url]"));
-						if (!tage) tage = _tcsstr(tag, _T("[/URL]"));
+						const TCHAR *tage = _tcsstr(tag, L"[/url]");
+						if (!tage) tage = _tcsstr(tag, L"[/URL]");
 						if (tage) {
 							*(TCHAR*)tag = 0;
 							*(TCHAR*)tage = 0;
@@ -118,14 +118,14 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 						}
 					}
 				}
-				else if (!_tcsnicmp(line, _T("[color="), 7)) {
+				else if (!_tcsnicmp(line, L"[color=", 7)) {
 					const TCHAR* tag = _tcschr(line + 7, ']');
 					if (tag) {
 						line = tag;
 						found = 1;
 					}
 				}
-				else if (!_tcsnicmp(line, _T("[/color]"), 8)) {
+				else if (!_tcsnicmp(line, L"[/color]", 8)) {
 					line += 7;
 					found = 1;
 				}
@@ -258,9 +258,9 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		TCHAR str[64];
 
 		if (g_dat.flags & SMF_SHOWSECS)
-			szFormat = g_dat.flags & SMF_SHOWDATE ? _T("d s") : _T("s");
+			szFormat = g_dat.flags & SMF_SHOWDATE ? L"d s" : L"s";
 		else
-			szFormat = g_dat.flags & SMF_SHOWDATE ? _T("d t") : _T("t");
+			szFormat = g_dat.flags & SMF_SHOWDATE ? L"d t" : L"t";
 
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, _countof(str), 0);
 
@@ -297,13 +297,13 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 				szName = NEWTSTR_ALLOCA(p);
 				mir_free(p);
 			}
-			else szName = _T("");
+			else szName = L"";
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 		buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
 		AppendToBufferWithRTF(buffer, szName);
-		AppendToBufferWithRTF(buffer, _T(" "));
+		AppendToBufferWithRTF(buffer, L" ");
 
 		msg = DbGetEventTextT(&dbei, CP_ACP);
 		if (msg) {

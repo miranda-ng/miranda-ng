@@ -47,16 +47,16 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if(hXml != NULL) {
 					HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
-					HXML node = xmlGetChildByPath(hXml, _T("opml/body/outline"), 0);
+					HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
 					if ( !node)
-						node = xmlGetChildByPath(hXml, _T("body/outline"), 0);
+						node = xmlGetChildByPath(hXml, L"body/outline", 0);
 					int count = (int)SendMessage(FeedsImportList, LB_GETCOUNT, 0, 0);
 					int DUPES = 0;
 					if (node) {
 						while (node) {
 							int outlineAttr = xmlGetAttrCount(node);
 							int outlineChildsCount = xmlGetChildCount(node);
-							TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, _T("xmlUrl"));
+							TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, L"xmlUrl");
 							if (!xmlUrl && !outlineChildsCount) {
 								HXML tmpnode = node;
 								node = xmlGetNextNode(node);
@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										node = xmlGetNextNode(node);
 										if (node)
 											break;
-									} while (mir_tstrcmpi(xmlGetName(node), _T("body")));
+									} while (mir_tstrcmpi(xmlGetName(node), L"body"));
 								}
 							}
 							else if (!xmlUrl && outlineChildsCount)
@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("text"))) {
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"text")) {
 										text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if (!text) {
 											isTextUTF = 0;
@@ -95,7 +95,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("xmlUrl"))) {
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"xmlUrl")) {
 										url = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !url) {
 											isURLUTF = false;
@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("htmlUrl"))) {
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"htmlUrl")) {
 										siteurl = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !siteurl) {
 											isSiteURLUTF = false;
@@ -124,13 +124,13 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								if (NeedToImport) {
 									HXML parent = xmlGetParent(node);
 									TCHAR tmpgroup[1024];
-									while (mir_tstrcmpi(xmlGetName(parent), _T("body"))) {
+									while (mir_tstrcmpi(xmlGetName(parent), L"body")) {
 										for (int i = 0; i < xmlGetAttrCount(parent); i++) {
-											if (!mir_tstrcmpi(xmlGetAttrName(parent, i), _T("text"))) {
+											if (!mir_tstrcmpi(xmlGetAttrName(parent, i), L"text")) {
 												if ( !group)
 													group = (TCHAR *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
 												else {
-													mir_sntprintf(tmpgroup, _T("%s\\%s"), xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
+													mir_sntprintf(tmpgroup, L"%s\\%s", xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
 												break;
@@ -183,7 +183,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										if (node)
 											break;
 									}
-										while (mir_tstrcmpi(xmlGetName(tmpnode), _T("body")));
+										while (mir_tstrcmpi(xmlGetName(tmpnode), L"body"));
 								}
 							}
 						}
@@ -209,12 +209,12 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_BROWSEIMPORTFILE:
 			{
 				TCHAR FileName[MAX_PATH];
-				VARST tszMirDir(_T("%miranda_path%"));
+				VARST tszMirDir(L"%miranda_path%");
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, L"%s (*.opml, *.xml)%c*.opml;*.xml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -223,20 +223,20 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ofn.Flags = OFN_HIDEREADONLY;
 				ofn.lpstrInitialDir = tszMirDir;
 				*FileName = '\0';
-				ofn.lpstrDefExt = _T("");
+				ofn.lpstrDefExt = L"";
 
 				if (GetOpenFileName(&ofn)) {
 					int bytesParsed = 0;
 					HXML hXml = xmlParseFile(FileName, &bytesParsed, NULL);
 					if(hXml != NULL) {
-						HXML node = xmlGetChildByPath(hXml, _T("opml/body/outline"), 0);
+						HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
 						if ( !node)
-							node = xmlGetChildByPath(hXml, _T("body/outline"), 0);
+							node = xmlGetChildByPath(hXml, L"body/outline", 0);
 						if (node) {
 							while (node) {
 								int outlineAttr = xmlGetAttrCount(node);
 								int outlineChildsCount = xmlGetChildCount(node);
-								TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, _T("xmlUrl"));
+								TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, L"xmlUrl");
 								if (!xmlUrl && !outlineChildsCount) {
 									HXML tmpnode = node;
 									node = xmlGetNextNode(node);
@@ -248,14 +248,14 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xmlGetName(node), _T("body")));
+										} while (mir_tstrcmpi(xmlGetName(node), L"body"));
 									}
 								}
 								else if (!xmlUrl && outlineChildsCount)
 									node = xmlGetFirstChild(node);
 								else if (xmlUrl) {
 									for (int i = 0; i < outlineAttr; i++) {
-										if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("text"))) {
+										if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"text")) {
 											TCHAR *text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 											bool isTextUTF;
 											if (!text) {
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xmlGetName(tmpnode), _T("body")));
+										} while (mir_tstrcmpi(xmlGetName(tmpnode), L"body"));
 									}
 								}
 							}
@@ -472,12 +472,12 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDOK:
 			{
 				TCHAR FileName[MAX_PATH];
-				VARST tszMirDir(_T("%miranda_path%"));
+				VARST tszMirDir(L"%miranda_path%");
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, L"%s (*.opml)%c*.opml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -486,14 +486,14 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 				ofn.lpstrInitialDir = tszMirDir;
 				*FileName = '\0';
-				ofn.lpstrDefExt = _T("");
+				ofn.lpstrDefExt = L"";
 
 				if (GetSaveFileName(&ofn)) {
-					HXML hXml = xmlCreateNode(_T("opml"), NULL, FALSE);
-					xmlAddAttr(hXml, _T("version"), _T("1.0"));
-					HXML header = xmlAddChild(hXml, _T("head"), NULL);
-					xmlAddChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
-					header = xmlAddChild(hXml, _T("body"), NULL);
+					HXML hXml = xmlCreateNode(L"opml", NULL, FALSE);
+					xmlAddAttr(hXml, L"version", L"1.0");
+					HXML header = xmlAddChild(hXml, L"head", NULL);
+					xmlAddChild(header, L"title", L"Miranda NG NewsAggregator plugin export");
+					header = xmlAddChild(hXml, L"body", NULL);
 
 					int count = (int)SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
 					for (int i = 0; i < count; i++) {
@@ -509,29 +509,29 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						HXML elem = header;
 						if (group)
 						{
-							TCHAR *section = _tcstok(group, _T("\\"));
+							TCHAR *section = _tcstok(group, L"\\");
 							while (section != NULL)
 							{
-								HXML existgroup = xmlGetChildByAttrValue(header, _T("outline"), _T("title"), section);
+								HXML existgroup = xmlGetChildByAttrValue(header, L"outline", L"title", section);
 								if ( !existgroup)
 								{
-									elem = xmlAddChild(elem, _T("outline"), NULL);
-									xmlAddAttr(elem, _T("title"), section);
-									xmlAddAttr(elem, _T("text"), section);
+									elem = xmlAddChild(elem, L"outline", NULL);
+									xmlAddAttr(elem, L"title", section);
+									xmlAddAttr(elem, L"text", section);
 								} else {
 									elem = existgroup;
 								}
-								section = _tcstok(NULL, _T("\\"));
+								section = _tcstok(NULL, L"\\");
 							}
-							elem = xmlAddChild(elem, _T("outline"), NULL);
+							elem = xmlAddChild(elem, L"outline", NULL);
 						}
 						else
-							elem = xmlAddChild(elem, _T("outline"), NULL);
-						xmlAddAttr(elem, _T("text"), title);
-						xmlAddAttr(elem, _T("title"), title);
-						xmlAddAttr(elem, _T("type"), _T("rss"));
-						xmlAddAttr(elem, _T("xmlUrl"), url);
-						xmlAddAttr(elem, _T("htmlUrl"), siteurl);
+							elem = xmlAddChild(elem, L"outline", NULL);
+						xmlAddAttr(elem, L"text", title);
+						xmlAddAttr(elem, L"title", title);
+						xmlAddAttr(elem, L"type", L"rss");
+						xmlAddAttr(elem, L"xmlUrl", url);
+						xmlAddAttr(elem, L"htmlUrl", siteurl);
 
 						mir_free(title);
 						mir_free(url);

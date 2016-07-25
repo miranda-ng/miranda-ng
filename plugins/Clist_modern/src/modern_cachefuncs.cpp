@@ -394,7 +394,7 @@ LBL_Status:
 			ptrT tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 			if (tszXStatusMsg != NULL && tszXStatusMsg[0] != 0) {
 				TCHAR *tmp = NEWTSTR_ALLOCA(text);
-				mir_sntprintf(text, text_size, _T("%s: %s"), tmp, tszXStatusMsg);
+				mir_sntprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}
@@ -416,7 +416,7 @@ LBL_Status:
 			ptrT tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
 				TCHAR *tmp = NEWTSTR_ALLOCA(text);
-				mir_sntprintf(text, text_size, _T("%s: %s"), tszXStatusName, tmp);
+				mir_sntprintf(text, text_size, L"%s: %s", tszXStatusName, tmp);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}
@@ -457,7 +457,7 @@ LBL_Status:
 		if (pdnce->hTimeZone) {
 			// Get pdnce time
 			text[0] = 0;
-			TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), text, text_size, 0);
+			TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", text, text_size, 0);
 		}
 		return TEXT_CONTACT_TIME;
 	}
@@ -486,7 +486,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 			if (mir_tstrcmpi(name, nick) == 0)
 				mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 			else // Append then
-				mir_sntprintf(contact->szText, _T("%s - %s"), name, nick);
+				mir_sntprintf(contact->szText, L"%s - %s", name, nick);
 		}
 		else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 	}
@@ -570,21 +570,21 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 	*cp = 0;
 
 	//remove bbcodes: [b] [i] [u]  <b> <i> <u>
-	RemoveTag(to, _T("[b]")); RemoveTag(to, _T("[/b]"));
-	RemoveTag(to, _T("[u]")); RemoveTag(to, _T("[/u]"));
-	RemoveTag(to, _T("[i]")); RemoveTag(to, _T("[/i]"));
+	RemoveTag(to, L"[b]"); RemoveTag(to, L"[/b]");
+	RemoveTag(to, L"[u]"); RemoveTag(to, L"[/u]");
+	RemoveTag(to, L"[i]"); RemoveTag(to, L"[/i]");
 
-	RemoveTag(to, _T("<b>")); RemoveTag(to, _T("</b>"));
-	RemoveTag(to, _T("<u>")); RemoveTag(to, _T("</u>"));
-	RemoveTag(to, _T("<i>")); RemoveTag(to, _T("</i>"));
+	RemoveTag(to, L"<b>"); RemoveTag(to, L"</b>");
+	RemoveTag(to, L"<u>"); RemoveTag(to, L"</u>");
+	RemoveTag(to, L"<i>"); RemoveTag(to, L"</i>");
 
-	RemoveTag(to, _T("[B]")); RemoveTag(to, _T("[/b]"));
-	RemoveTag(to, _T("[U]")); RemoveTag(to, _T("[/u]"));
-	RemoveTag(to, _T("[I]")); RemoveTag(to, _T("[/i]"));
+	RemoveTag(to, L"[B]"); RemoveTag(to, L"[/b]");
+	RemoveTag(to, L"[U]"); RemoveTag(to, L"[/u]");
+	RemoveTag(to, L"[I]"); RemoveTag(to, L"[/i]");
 
-	RemoveTag(to, _T("<B>")); RemoveTag(to, _T("</B>"));
-	RemoveTag(to, _T("<U>")); RemoveTag(to, _T("</U>"));
-	RemoveTag(to, _T("<I>")); RemoveTag(to, _T("</I>"));
+	RemoveTag(to, L"<B>"); RemoveTag(to, L"</B>");
+	RemoveTag(to, L"<U>"); RemoveTag(to, L"</U>");
+	RemoveTag(to, L"<I>"); RemoveTag(to, L"</I>");
 	return i;
 }
 
@@ -669,7 +669,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		else
 			height_clip = width_clip * ace->bmHeight / ace->bmWidth;
 
-		if (wildcmpit(contact->avatar_data->szFilename, _T("*.gif"))) {
+		if (wildcmpit(contact->avatar_data->szFilename, L"*.gif")) {
 			if (old_pos == AVATAR_POS_ANIMATED)
 				AniAva_RemoveAvatar(contact->hContact);
 

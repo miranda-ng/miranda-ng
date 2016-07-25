@@ -54,12 +54,12 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\" DEFAULT_UPDATES_FOLDER));
+	TCHAR *tszFolder = Utils_ReplaceVarsT(L"%miranda_userdata%\\" DEFAULT_UPDATES_FOLDER);
 	mir_tstrncpy(tszRoot, tszFolder, _countof(tszRoot));
 
-	hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Pack Updater"), MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
+	hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Pack Updater"), MIRANDA_USERDATAT L"\\" DEFAULT_UPDATES_FOLDER);
 	if (hPackUpdaterFolder)
-		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, _T(""));
+		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, L"");
 
 	mir_free(tszFolder);
 	LoadOptions();

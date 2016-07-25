@@ -68,7 +68,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	setByte(hContact, "AvatarType", ai.format);
 	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
 
-	FILE *out = _tfopen(ai.filename, _T("wb"));
+	FILE *out = _tfopen(ai.filename, L"wb");
 	if (out == NULL) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 		return;
@@ -127,7 +127,7 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -139,7 +139,7 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cb
 	CMStringA username(Contacts[hContact]);
 	username.Replace("live:", "__live_");
 	username.Replace("facebook:", "__facebook_");
-	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), username.c_str(), szFileType);
+	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", username.c_str(), szFileType);
 }
 
 void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)

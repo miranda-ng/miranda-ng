@@ -56,7 +56,7 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 
 void ShowLog(TCHAR *file)
 {
-	INT_PTR res = (INT_PTR)ShellExecute(NULL, _T("open"), file, NULL, NULL, SW_SHOW);
+	INT_PTR res = (INT_PTR)ShellExecute(NULL, L"open", file, NULL, NULL, SW_SHOW);
 	if (res <= 32) // error
 		MessageBox(0, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
 }
@@ -85,7 +85,7 @@ BOOL StatusHasAwayMessage(char *szProto, int status)
 
 void LogToFile(TCHAR *stzText)
 {
-	FILE *fp = _tfopen(opt.LogFilePath, _T("a+b, ccs=UTF-8"));
+	FILE *fp = _tfopen(opt.LogFilePath, L"a+b, ccs=UTF-8");
 	if (fp) {
 		fprintf(fp, T2Utf(stzText));
 		fclose(fp);
@@ -98,7 +98,7 @@ void AddCR(CMString &str, const TCHAR *stzText)
 		return;
 	
 	CMString res(stzText);
-	res.Replace(_T("\n"), _T("\r\n"));
-	res.Replace(_T("\r\r\n"), _T("\r\n"));
+	res.Replace(L"\n", L"\r\n");
+	res.Replace(L"\r\r\n", L"\r\n");
 	str.Append(res);
 }

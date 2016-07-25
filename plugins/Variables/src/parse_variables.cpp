@@ -85,7 +85,7 @@ static TCHAR *parsePuts(ARGUMENTSINFO *ai)
 	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
 		return NULL;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseGet(ARGUMENTSINFO *ai)

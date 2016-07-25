@@ -111,7 +111,7 @@ typedef struct {
 /* An example:
 	NAS_ISWINFO iswi = {0}; // for C you may use ZeroMemory() instead
 	iswi.cbSize = sizeof(iswi);
-	iswi.tszMsg = _T("New global status message.");
+	iswi.tszMsg = L"New global status message.";
 	iswi.Flags = ISWF_TCHAR;
 	CallService(MS_NAS_INVOKESTATUSWINDOW, (WPARAM)&iswi, 0);
 */

@@ -134,7 +134,7 @@ void CluiProtocolStatusChanged(int, const char*)
 				mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
 				szName[_countof(szName) - 1] = 0;
 				if ((showOpts & 4) && mir_tstrlen(szName) < sizeof(szName) - 1)
-					mir_tstrcat(szName, _T(" "));
+					mir_tstrcat(szName, L" ");
 				GetTextExtentPoint32(hdc, szName, (int)mir_tstrlen(szName), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}

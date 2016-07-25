@@ -149,7 +149,7 @@ FIBITMAP* CaptureMonitor(const TCHAR* szDevice, const RECT* cropRect/*=NULL*/)
 	FIBITMAP* dib;
 	/// get screen resolution
 	if (!szDevice) {
-		hScrDC = CreateDC(_T("DISPLAY"), NULL, NULL, NULL);
+		hScrDC = CreateDC(L"DISPLAY", NULL, NULL, NULL);
 		rect.left = GetSystemMetrics(SM_XVIRTUALSCREEN);
 		rect.top = GetSystemMetrics(SM_YVIRTUALSCREEN);
 		rect.right = GetSystemMetrics(SM_XVIRTUALSCREEN) + GetSystemMetrics(SM_CXVIRTUALSCREEN);
@@ -316,7 +316,7 @@ TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename,
 	if (!FileExt) {
 		if (!pszExt) return NULL;
 		mir_tstradd(pszFile, pszFilename);
-		mir_tstradd(pszFile, _T("."));
+		mir_tstradd(pszFile, L".");
 		mir_tstradd(pszFile, pszExt);
 	}
 	else {

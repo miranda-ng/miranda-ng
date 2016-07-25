@@ -120,21 +120,21 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 
 		CMString nick, text;
 		if (tszFirst || tszLast) {
-			nick.AppendFormat(_T("%s %s"), tszFirst, tszLast);
+			nick.AppendFormat(L"%s %s", tszFirst, tszLast);
 			nick.Trim();
 		}
 		if (tszEmail) {
 			if (!nick.IsEmpty())
-				nick.Append(_T(", "));
+				nick.Append(L", ");
 			nick.Append(tszEmail);
 		}
 		if (uin != 0) {
 			if (!nick.IsEmpty())
-				nick.Append(_T(", "));
-			nick.AppendFormat(_T("%d"), uin);
+				nick.Append(L", ");
+			nick.AppendFormat(L"%d", uin);
 		}
 		if (!nick.IsEmpty())
-			nick = _T("(") + nick + _T(")");
+			nick = L"(" + nick + L")";
 
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			ptrT tszReason(getEventString(dbei, buf));
@@ -154,9 +154,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			ptrT tszUin(getEventString(dbei, buf));
 			ptrT tszNick(getEventString(dbei, buf));
 			if (tszNick && *tszNick)
-				text.AppendFormat(_T("\"%s\" "), tszNick);
+				text.AppendFormat(L"\"%s\" ", tszNick);
 			if (tszUin && *tszUin)
-				text.AppendFormat(_T("<%s>; "), tszUin);
+				text.AppendFormat(L"<%s>; ", tszUin);
 		}
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
 	}

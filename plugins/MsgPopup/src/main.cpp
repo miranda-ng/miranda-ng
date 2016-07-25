@@ -152,7 +152,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 
 void HookAPI()
 {
-	PVOID lpMessageBox = (PVOID)GetProcAddress(GetModuleHandle(_T("USER32.DLL")), "MessageBoxW");
+	PVOID lpMessageBox = (PVOID)GetProcAddress(GetModuleHandle(L"USER32.DLL"), "MessageBoxW");
 	PVOID lpPopupMsgBox = (PVOID)newMessageBox;
 
 	prevMessageBox = (MSGBOXPROC)lpMessageBox;

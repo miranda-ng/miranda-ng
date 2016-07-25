@@ -99,7 +99,7 @@ static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
 	"dbx_lmdb",
-	_T("LMDB database driver"),
+	L"LMDB database driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

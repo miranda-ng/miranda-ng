@@ -154,10 +154,10 @@ void TSAPI CacheLogFonts()
 	HFONT hOldFont = (HFONT)SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, _T("WMA"), 3, &sz);
+	GetTextExtentPoint32(hdc, L"WMA", 3, &sz);
 	CInfoPanel::m_ipConfig.height1 = sz.cy;
 	SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_UIN]);
-	GetTextExtentPoint32(hdc, _T("WMA"), 3, &sz);
+	GetTextExtentPoint32(hdc, L"WMA", 3, &sz);
 	CInfoPanel::m_ipConfig.height2 = sz.cy;
 
 	SelectObject(hdc, hOldFont);
@@ -358,13 +358,13 @@ static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR co
 		mir_tstrcpy(szResult, szYesterday);
 	else {
 		if (code == 'D' || code == 'R')
-			szFormat = _T("D");
+			szFormat = L"D";
 		else if (code == 'T')
-			szFormat = _T("s");
+			szFormat = L"s";
 		else if (code == 't')
-			szFormat = _T("t");
+			szFormat = L"t";
 		else
-			szFormat = _T("d");
+			szFormat = L"d";
 
 		TimeZone_PrintTimeStamp(hTimeZone, check, szFormat, szResult, _countof(szResult), 0);
 	}
@@ -831,7 +831,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 							ptrT tszDescr(DbGetEventStringT(&dbei, szDescr));
 
 							TCHAR buf[1000];
-							mir_sntprintf(buf, _T("%s (%s)"), tszFileName, tszDescr);
+							mir_sntprintf(buf, L"%s (%s)", tszFileName, tszDescr);
 							AppendUnicodeToBuffer(str, buf, 0);
 						}
 						else AppendUnicodeToBuffer(str, tszFileName, 0);
@@ -1044,7 +1044,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 	FINDTEXTEX fi;
 	fi.chrg.cpMin = startAt;
 	if (dat->clr_added) {
-		fi.lpstrText = _T("##col##");
+		fi.lpstrText = L"##col##";
 		fi.chrg.cpMax = -1;
 		CHARFORMAT2 cf2;
 		memset(&cf2, 0, sizeof(cf2));
@@ -1061,7 +1061,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 			cr.cpMin = fi.chrgText.cpMin;
 			cr.cpMax = cr.cpMin + 18;
 			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
-			SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+			SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
 			UINT length = (unsigned int)_ttol(&trbuffer[7]);
 			int index = _ttol(&trbuffer[14]);
 			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_ctable_size) {
@@ -1078,7 +1078,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 	if (dat->dwFlags & MWF_LOG_SHOWICONS) {
 		BYTE bIconIndex = 0;
 		char bDirection = 0;
-		fi.lpstrText = _T("#~#");
+		fi.lpstrText = L"#~#";
 		fi.chrg.cpMax = -1;
 
 		CHARFORMAT2 cf2;
@@ -1263,7 +1263,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
-		SetWindowText(hwndrtf, _T(""));
+		SetWindowText(hwndrtf, L"");
 		sel.cpMin = 0;
 		sel.cpMax = GetWindowTextLength(hwndrtf);
 		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
@@ -1291,7 +1291,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		sel.cpMax = SendMessage(hwndrtf, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax - 1;
 		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
-		SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+		SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
 		dat->isAutoRTL |= 2;
 	}
 

@@ -99,9 +99,9 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 	gce.bIsMe = (m_nick == name);
 
 	if (gce.bIsMe)
-		gce.ptszStatus = _T("Admin");
+		gce.ptszStatus = L"Admin";
 	else
-		gce.ptszStatus = _T("Normal");
+		gce.ptszStatus = L"Normal";
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
@@ -140,10 +140,10 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	
-	gce.ptszStatus = _T("Admin");
+	gce.ptszStatus = L"Admin";
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
-	gce.ptszStatus = _T("Normal");
+	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately

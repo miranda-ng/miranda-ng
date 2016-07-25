@@ -69,9 +69,9 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 	// check foregroundwindow
 	HWND hWnd = GetForegroundWindow();
 	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
-		TCHAR tszClassName[128] = _T("");
+		TCHAR tszClassName[128] = L"";
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
-		if (_tcscmp(tszClassName, _T("WorkerW"))) {
+		if (_tcscmp(tszClassName, L"WorkerW")) {
 			RECT rect, rectw, recti;
 			GetWindowRect(hWnd, &rectw);
 
@@ -95,7 +95,7 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 
 	TCHAR tszName[100];
 	DWORD cbName;
-	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, _countof(tszName), &cbName) || mir_tstrcmpi(tszName, _T("default")) != 0);
+	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, _countof(tszName), &cbName) || mir_tstrcmpi(tszName, L"default") != 0);
 	CloseDesktop(hDesk);
 	return bLocked;
 }
@@ -220,192 +220,192 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(TCHAR *buf, size_t bufSize)
 	SYSTEM_INFO sysInfo = { 0 };
 	GetNativeSystemInfo(&sysInfo);
 
-	CMString ret(_T("Microsoft "));
+	CMString ret(L"Microsoft ");
 
 	// Test for the specific product.
 	if (osvi.dwMajorVersion >= 6) {
 		if (osvi.dwMajorVersion == 10) {
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append(_T("Windows 10 "));
+				ret.Append(L"Windows 10 ");
 			else
-				ret.Append(_T("Windows Server 10 "));
+				ret.Append(L"Windows Server 10 ");
 		}
 		else switch (osvi.dwMinorVersion) {
 		case 0:
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append(_T("Windows Vista "));
+				ret.Append(L"Windows Vista ");
 			else
-				ret.Append(_T("Windows Server 2008 "));
+				ret.Append(L"Windows Server 2008 ");
 			break;
 
 		case 1:
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append(_T("Windows 7 "));
+				ret.Append(L"Windows 7 ");
 			else
-				ret.Append(_T("Windows Server 2008 R2 "));
+				ret.Append(L"Windows Server 2008 R2 ");
 			break;
 
 		case 2:
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append(_T("Windows 8 "));
+				ret.Append(L"Windows 8 ");
 			else
-				ret.Append(_T("Windows Server 2012 "));
+				ret.Append(L"Windows Server 2012 ");
 			break;
 
 		case 3:
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append(_T("Windows 8.1 "));
+				ret.Append(L"Windows 8.1 ");
 			else
-				ret.Append(_T("Windows Server 2012 R2 "));
+				ret.Append(L"Windows Server 2012 R2 ");
 			break;
 		}
 
 		DWORD dwType = 0;
-		HMODULE hKernel = GetModuleHandle(_T("kernel32.dll"));
+		HMODULE hKernel = GetModuleHandle(L"kernel32.dll");
 		PGPI pGPI = (PGPI)GetProcAddress(hKernel, "GetProductInfo");
 		if (pGPI != NULL)
 			pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
 
 		switch (dwType) {
 		case PRODUCT_ULTIMATE:
-			ret.Append(_T("Ultimate Edition"));
+			ret.Append(L"Ultimate Edition");
 			break;
 		case PRODUCT_PROFESSIONAL:
-			ret.Append(_T("Professional Edition"));
+			ret.Append(L"Professional Edition");
 			break;
 		case PRODUCT_PROFESSIONAL_WMC:
-			ret.Append(_T("Professional Edition with Media Center"));
+			ret.Append(L"Professional Edition with Media Center");
 			break;
 		case PRODUCT_HOME_PREMIUM:
-			ret.Append(_T("Home Premium Edition"));
+			ret.Append(L"Home Premium Edition");
 			break;
 		case PRODUCT_HOME_BASIC:
-			ret.Append(_T("Home Basic Edition"));
+			ret.Append(L"Home Basic Edition");
 			break;
 		case PRODUCT_ENTERPRISE:
-			ret.Append(_T("Enterprise Edition"));
+			ret.Append(L"Enterprise Edition");
 			break;
 		case PRODUCT_BUSINESS:
-			ret.Append(_T("Business Edition"));
+			ret.Append(L"Business Edition");
 			break;
 		case PRODUCT_STARTER:
-			ret.Append(_T("Starter Edition"));
+			ret.Append(L"Starter Edition");
 			break;
 		case PRODUCT_CLUSTER_SERVER:
-			ret.Append(_T("Cluster Server Edition"));
+			ret.Append(L"Cluster Server Edition");
 			break;
 		case PRODUCT_DATACENTER_SERVER:
-			ret.Append(_T("Datacenter Edition"));
+			ret.Append(L"Datacenter Edition");
 			break;
 		case PRODUCT_DATACENTER_SERVER_CORE:
-			ret.Append(_T("Datacenter Edition (core installation)"));
+			ret.Append(L"Datacenter Edition (core installation)");
 			break;
 		case PRODUCT_ENTERPRISE_SERVER:
-			ret.Append(_T("Enterprise Edition"));
+			ret.Append(L"Enterprise Edition");
 			break;
 		case PRODUCT_ENTERPRISE_SERVER_CORE:
-			ret.Append(_T("Enterprise Edition (core installation)"));
+			ret.Append(L"Enterprise Edition (core installation)");
 			break;
 		case PRODUCT_ENTERPRISE_SERVER_IA64:
-			ret.Append(_T("Enterprise Edition for Itanium-based Systems"));
+			ret.Append(L"Enterprise Edition for Itanium-based Systems");
 			break;
 		case PRODUCT_SMALLBUSINESS_SERVER:
-			ret.Append(_T("Small Business Server"));
+			ret.Append(L"Small Business Server");
 			break;
 		case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-			ret.Append(_T("Small Business Server Premium Edition"));
+			ret.Append(L"Small Business Server Premium Edition");
 			break;
 		case PRODUCT_STANDARD_SERVER:
-			ret.Append(_T("Standard Edition"));
+			ret.Append(L"Standard Edition");
 			break;
 		case PRODUCT_STANDARD_SERVER_CORE:
-			ret.Append(_T("Standard Edition (core installation)"));
+			ret.Append(L"Standard Edition (core installation)");
 			break;
 		case PRODUCT_WEB_SERVER:
-			ret.Append(_T("Web Server Edition"));
+			ret.Append(L"Web Server Edition");
 			break;
 		}
 		if (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-			ret.Append(_T(", 64-bit"));
+			ret.Append(L", 64-bit");
 		else if (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
-			ret.Append(_T(", 32-bit"));
+			ret.Append(L", 32-bit");
 	}
 
 	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
 		if (GetSystemMetrics(SM_SERVERR2))
-			ret.Append(_T("Windows Server 2003 R2, "));
+			ret.Append(L"Windows Server 2003 R2, ");
 		else if (osvi.wSuiteMask == VER_SUITE_STORAGE_SERVER)
-			ret.Append(_T("Windows Storage Server 2003"));
+			ret.Append(L"Windows Storage Server 2003");
 		else if (osvi.wSuiteMask == VER_SUITE_WH_SERVER)
-			ret.Append(_T("Windows Home Server"));
+			ret.Append(L"Windows Home Server");
 		else if (osvi.wProductType == VER_NT_WORKSTATION && sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-			ret.Append(_T("Windows XP Professional x64 Edition"));
+			ret.Append(L"Windows XP Professional x64 Edition");
 		else
-			ret.Append(_T("Windows Server 2003, "));
+			ret.Append(L"Windows Server 2003, ");
 
 		// Test for the server type.
 		if (osvi.wProductType != VER_NT_WORKSTATION) {
 			if (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
 				if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
-					ret.Append(_T("Datacenter Edition for Itanium-based Systems"));
+					ret.Append(L"Datacenter Edition for Itanium-based Systems");
 				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-					ret.Append(_T("Enterprise Edition for Itanium-based Systems"));
+					ret.Append(L"Enterprise Edition for Itanium-based Systems");
 			}
 			else if (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
 				if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
-					ret.Append(_T("Datacenter x64 Edition"));
+					ret.Append(L"Datacenter x64 Edition");
 				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-					ret.Append(_T("Enterprise x64 Edition"));
-				else ret.Append(_T("Standard x64 Edition"));
+					ret.Append(L"Enterprise x64 Edition");
+				else ret.Append(L"Standard x64 Edition");
 			}
 			else {
 				if (osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER)
-					ret.Append(_T("Compute Cluster Edition"));
+					ret.Append(L"Compute Cluster Edition");
 				else if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
-					ret.Append(_T("Datacenter Edition"));
+					ret.Append(L"Datacenter Edition");
 				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-					ret.Append(_T("Enterprise Edition"));
+					ret.Append(L"Enterprise Edition");
 				else if (osvi.wSuiteMask & VER_SUITE_BLADE)
-					ret.Append(_T("Web Edition"));
-				else ret.Append(_T("Standard Edition"));
+					ret.Append(L"Web Edition");
+				else ret.Append(L"Standard Edition");
 			}
 		}
 	}
 
 	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) {
-		ret.Append(_T("Windows XP "));
+		ret.Append(L"Windows XP ");
 		if (osvi.wSuiteMask & VER_SUITE_PERSONAL)
-			ret.Append(_T("Home Edition"));
-		else ret.Append(_T("Professional"));
+			ret.Append(L"Home Edition");
+		else ret.Append(L"Professional");
 	}
 
 	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) {
-		ret.Append(_T("Windows 2000 "));
+		ret.Append(L"Windows 2000 ");
 
 		if (osvi.wProductType == VER_NT_WORKSTATION)
-			ret.Append(_T("Professional"));
+			ret.Append(L"Professional");
 		else {
 			if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
-				ret.Append(_T("Datacenter Server"));
+				ret.Append(L"Datacenter Server");
 			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-				ret.Append(_T("Advanced Server"));
-			else ret.Append(_T("Server"));
+				ret.Append(L"Advanced Server");
+			else ret.Append(L"Server");
 		}
 	}
 
 	// Include service pack (if any) and build number.
 
 	if (mir_tstrlen(osvi.szCSDVersion) > 0) {
-		ret.Append(_T(" "));
+		ret.Append(L" ");
 		ret.Append(osvi.szCSDVersion);
 	}
 
-	ret.AppendFormat(_T(" (build %d)"), osvi.dwBuildNumber);
+	ret.AppendFormat(L" (build %d)", osvi.dwBuildNumber);
 
 	HMODULE hNtDll = GetModuleHandleA("ntdll.dll");
 	if (WGV wine_get_version = (WGV)GetProcAddress(hNtDll, "wine_get_version"))
 	{
-		ret.AppendFormat(_T(" (Wine %s)"), _A2T(wine_get_version()));
+		ret.AppendFormat(L" (Wine %s)", _A2T(wine_get_version()));
 	}
 
 	mir_tstrncpy(buf, ret, bufSize);

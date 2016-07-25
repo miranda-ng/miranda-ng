@@ -106,7 +106,7 @@ void CSendHost_ImageShack::SendThread()
 					mir_free(err);
 					err = mir_a2t(reply->pData);
 				}
-				Error(_T("%s"), err);
+				Error(L"%s", err);
 				mir_free(err);
 			}
 		}

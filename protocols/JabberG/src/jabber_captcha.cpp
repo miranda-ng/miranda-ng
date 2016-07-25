@@ -115,7 +115,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	if (x == NULL)
 		return false;
 
-	HXML y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("from"));
+	HXML y = XmlGetChildByTag(x, L"field", L"var", L"from");
 	if (y == NULL)
 		return false;
 	if ((y = XmlGetChild(y, "value")) == NULL)
@@ -124,19 +124,19 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	CAPTCHA_FORM_PARAMS param;
 	param.fromjid = XmlGetText(y);
 
-	if ((y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("sid"))) == NULL)
+	if ((y = XmlGetChildByTag(x, L"field", L"var", L"sid")) == NULL)
 		return false;
 	if ((y = XmlGetChild(y, "value")) == NULL)
 		return false;
 	param.sid = XmlGetText(y);
 
-	if ((y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("ocr"))) == NULL)
+	if ((y = XmlGetChildByTag(x, L"field", L"var", L"ocr")) == NULL)
 		return false;
-	param.hint = XmlGetAttrValue (y, _T("label"));
+	param.hint = XmlGetAttrValue (y, L"label");
 
-	param.from = XmlGetAttrValue(parentNode, _T("from"));
-	param.to = XmlGetAttrValue(parentNode, _T("to"));
-	param.challenge = XmlGetAttrValue(parentNode, _T("id"));
+	param.from = XmlGetAttrValue(parentNode, L"from");
+	param.to = XmlGetAttrValue(parentNode, L"to");
+	param.challenge = XmlGetAttrValue(parentNode, L"id");
 	HXML o = XmlGetChild(parentNode, "data");
 	if (o == NULL || XmlGetText(o) == NULL)
 		return false;
@@ -158,7 +158,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
 	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, JabberCaptchaFormDlgProc, (LPARAM)&param);
-	if (mir_tstrcmp(param.Result, _T("")) == 0 || !res)
+	if (mir_tstrcmp(param.Result, L"") == 0 || !res)
 		sendCaptchaError(info, param.from, param.to, param.challenge);
 	else
 		sendCaptchaResult(param.Result, info, param.from, param.challenge, param.fromjid, param.sid);
@@ -167,21 +167,21 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 
 void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
 {
-	XmlNodeIq iq(_T("set"), SerialNext());
-	HXML query= iq <<XATTR(_T("to"), from) << XCHILD(_T("captcha")) << XATTR(_T("xmlns"), _T("urn:xmpp:captcha")) << XCHILD (_T("x")) << XATTR(_T("xmlns"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
-		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("FORM_TYPE")) << XCHILD(_T("value"), _T("urn:xmpp:captcha"));
-		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("from")) << XCHILD(_T("value"), fromjid);
-		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("challenge")) << XCHILD(_T("value"), challenge);
-		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("sid")) << XCHILD(_T("value"), sid);
-		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("ocr")) << XCHILD(_T("value"), buf);
+	XmlNodeIq iq(L"set", SerialNext());
+	HXML query= iq <<XATTR(L"to", from) << XCHILD(L"captcha") << XATTR(L"xmlns", L"urn:xmpp:captcha") << XCHILD (L"x") << XATTR(L"xmlns", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
+		query << XCHILD(L"field") << XATTR (L"var", L"FORM_TYPE") << XCHILD(L"value", L"urn:xmpp:captcha");
+		query << XCHILD(L"field") << XATTR (L"var", L"from") << XCHILD(L"value", fromjid);
+		query << XCHILD(L"field") << XATTR (L"var", L"challenge") << XCHILD(L"value", challenge);
+		query << XCHILD(L"field") << XATTR (L"var", L"sid") << XCHILD(L"value", sid);
+		query << XCHILD(L"field") << XATTR (L"var", L"ocr") << XCHILD(L"value", buf);
 	info -> send (iq);
 }
 
 void CJabberProto::sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
 {
-	XmlNode message(_T("message"));
-	message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)
-		<< XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"))
-			<< XCHILD(_T("not-acceptable")) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"));
+	XmlNode message(L"message");
+	message << XATTR(L"type", L"error") << XATTR(L"to", from) << XATTR(L"id", challenge) << XATTR(L"from", to)
+		<< XCHILD(L"error") << XATTR(L"type", L"modify")
+			<< XCHILD(L"not-acceptable") << XATTR(L"xmlns", L"urn:ietf:params:xml:ns:xmpp-stanzas");
 	info->send(message);
 }

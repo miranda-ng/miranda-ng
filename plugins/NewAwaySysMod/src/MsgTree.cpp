@@ -272,7 +272,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				} while (hCurWnd && !GetWindowText(hCurWnd, WndTitle, 256));
 				WndTitle.ReleaseBuffer();
 			}
-			if (!m_bModified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead."), WndTitle + _T(" - ") + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
+			if (!m_bModified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead."), WndTitle + L" - " + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
 				COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 				TCString OldTitle, OldMsg, NewTitle, NewMsg;
 				int OldOrder = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hWnd)));
@@ -294,13 +294,13 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 						NewMsg = ((CTreeItem*)nm.ItemNew)->User_Str1;
 				}
 				if (OldTitle.IsEmpty())
-					OldTitle = _T(""); // to be sure that NULL will be equal to "" in the latter comparisons
+					OldTitle = L""; // to be sure that NULL will be equal to "" in the latter comparisons
 				if (OldMsg.IsEmpty())
-					OldMsg = _T("");
+					OldMsg = L"";
 				if (NewTitle.IsEmpty())
-					NewTitle = _T("");
+					NewTitle = L"";
 				if (NewMsg.IsEmpty())
-					NewMsg = _T("");
+					NewMsg = L"";
 
 				if (OldTitle != (const TCHAR*)NewTitle || OldMsg != (const TCHAR*)NewMsg) {
 					// probably it's better to leave nm.ItemOld = NULL, to prevent accidental rewriting of it with old data from an edit control etc.
@@ -616,7 +616,7 @@ bool CMsgTree::DeleteSelectedItem() // returns true if the item was deleted
 CTreeItem* CMsgTree::AddCategory()
 {
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
-	CTreeItem* TreeItem = TreeCtrl->InsertItem(GetParent(hTreeView), CTreeItem(_T(""), 0, 0, TIF_GROUP));
+	CTreeItem* TreeItem = TreeCtrl->InsertItem(GetParent(hTreeView), CTreeItem(L"", 0, 0, TIF_GROUP));
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = TreeItem->hItem;
@@ -635,7 +635,7 @@ CTreeItem* CMsgTree::AddCategory()
 CTreeItem* CMsgTree::AddMessage()
 {
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
-	CTreeItem* TreeItem = TreeCtrl->InsertItem(GetParent(hTreeView), CTreeItem(_T(""), 0, 0));
+	CTreeItem* TreeItem = TreeCtrl->InsertItem(GetParent(hTreeView), CTreeItem(L"", 0, 0));
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = TreeItem->hItem;

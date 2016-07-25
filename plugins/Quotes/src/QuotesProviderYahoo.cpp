@@ -43,7 +43,7 @@ bool get_double_from_parsed_line(MCONTACT hContact, const TStrings& rasParsedLin
 			return Quotes_DBWriteDouble(hContact, QUOTES_MODULE_NAME, pszDbName, d);
 	}
 
-	db_set_ts(hContact, QUOTES_MODULE_NAME, pszDbName, _T(""));
+	db_set_ts(hContact, QUOTES_MODULE_NAME, pszDbName, L"");
 	return false;
 }
 
@@ -55,7 +55,7 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 	typedef std::map<tstring, MCONTACT> TQuoteID2ContractHandles;
 	TQuoteID2ContractHandles aQuoteID2Handles;
 	tostringstream oURL;
-	oURL << sURL << _T("dioksin.txt?s=");
+	oURL << sURL << L"dioksin.txt?s=";
 	for (TContracts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
 		MCONTACT hContact = *i;
 		if (bUseExtendedStatus)
@@ -64,13 +64,13 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 		tstring sQuoteID = Quotes_DBGetStringT(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_ID);
 		aQuoteID2Handles[sQuoteID] = hContact;
 		if (i != anContacts.begin())
-			oURL << _T("+");
+			oURL << L"+";
 
 		oURL << sQuoteID;
 	}
 
 	if (true == IsOnline()) {
-		oURL << _T("&f=snl1ohgpc1");
+		oURL << L"&f=snl1ohgpc1";
 		CHTTPSession http;
 		if ((true == http.OpenURL(oURL.str())) && (true == IsOnline())) {
 			tstring sFile;

@@ -25,7 +25,7 @@ void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addto
 {
 	// replace % to %% to not interfere with chat color codes
 	std::tstring smessage = message;
-	utils::text::treplace_all(&smessage, _T("%"), _T("%%"));
+	utils::text::treplace_all(&smessage, L"%", L"%%");
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -241,9 +241,9 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
 
 	if (gce.bIsMe)
-		gce.ptszStatus = _T("Admin");
+		gce.ptszStatus = L"Admin";
 	else
-		gce.ptszStatus = _T("Normal");
+		gce.ptszStatus = L"Normal";
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
@@ -281,10 +281,10 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
-	gce.ptszStatus = _T("Admin");
+	gce.ptszStatus = L"Admin";
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
-	gce.ptszStatus = _T("Normal");
+	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	SetTopic();

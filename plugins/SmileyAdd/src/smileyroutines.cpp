@@ -223,7 +223,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 		TCHAR classname[20];
 		GetClassName(hwnd, classname, _countof(classname));
-		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) || fireView;
+		bool ishpp = (_tcsncmp(classname, L"THppRichEdit", 12) == 0) || fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);
 
@@ -261,7 +261,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 		unsigned numBTBSm = 0;
 
-		BSTR spaceb = SysAllocString(_T(" "));
+		BSTR spaceb = SysAllocString(L" ");
 
 		// Replace smileys specified in the list in RichEdit 
 		for (int j = smllist.getCount()-1; j >= 0; j--) {

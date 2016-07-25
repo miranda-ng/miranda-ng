@@ -596,19 +596,19 @@ void CYahooProto::request_avatar(const char* who)
 
 void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen, int type)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_taccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
 
 	if (hContact != NULL) {
 		int ck_sum = getDword(hContact, "PictCK", 0);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%lX"), ck_sum);
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%lX", ck_sum);
 	}
 	else
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar"), m_szModuleName);
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar", m_szModuleName);
 
-	_tcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? _T(".swf") : _T(".png")), _TRUNCATE);
+	_tcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? L".swf" : L".png"), _TRUNCATE);
 }
 
 INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)

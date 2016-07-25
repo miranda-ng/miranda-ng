@@ -538,10 +538,10 @@ bool Omegle_client::events()
 				for (size_t i = 0; i < size; i++) {
 					likes += ptrT(json_as_string(json_at(items, i)));
 					if (i < size - 1)
-						likes += _T(", ");
+						likes += L", ";
 				}
 				
-				parent->debugLog(_T("Got common likes: '%s'"), likes.c_str());
+				parent->debugLog(L"Got common likes: '%s'", likes.c_str());
 				parent->SetTopic(likes.c_str());
 			}
 			else if (name == "question") {
@@ -556,7 +556,7 @@ bool Omegle_client::events()
 				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
 
-				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(_T("Stranger")));
+				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(L"Stranger"));
 				mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
@@ -569,7 +569,7 @@ bool Omegle_client::events()
 				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
 
-				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(_T("Stranger")));
+				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(L"Stranger"));
 				mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);

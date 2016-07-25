@@ -42,7 +42,7 @@ inline void GetBmpSize(HBITMAP hbm, SIZE *sz)
 
 inline void DebugMsg(LPTSTR msg){
 	if (PopupOptions.debug){
-		MessageBox(NULL, msg, _T("debug"), MB_OK);
+		MessageBox(NULL, msg, L"debug", MB_OK);
 	}
 }
 

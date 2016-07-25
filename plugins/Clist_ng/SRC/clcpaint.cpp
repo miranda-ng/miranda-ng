@@ -954,7 +954,7 @@ text:
 				RECT 		rc = rcContent;
 				COLORREF 	oldColor = 0;
 
-				if (TimeZone_PrintDateTime(cEntry->hTimeZone, _T("t"), szResult, _countof(szResult), 0))
+				if (TimeZone_PrintDateTime(cEntry->hTimeZone, L"t", szResult, _countof(szResult), 0))
 					goto nodisplay;
 
 				oldColor = Gfx::getTextColor();

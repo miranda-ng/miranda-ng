@@ -58,7 +58,7 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 		}
 	}
 
-	if (mir_tstrcmpi(error, _T("OK")) != 0)
+	if (mir_tstrcmpi(error, L"OK") != 0)
 	{
 		ptrA errorA(mir_t2a(error));
 		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, errorA);

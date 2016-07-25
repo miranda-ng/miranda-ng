@@ -366,7 +366,7 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 	TCHAR eventText[256];
 	int i;
 	eventText[0] = 0;
-	TimeZone_PrintTimeStamp(NULL, data.timestamp, _T("d t"), eventText, 64, 0);
+	TimeZone_PrintTimeStamp(NULL, data.timestamp, L"d t", eventText, 64, 0);
 	std::wstring time = eventText;
 	std::wstring user;
 	if (data.isMe)
@@ -600,7 +600,7 @@ void HistoryEventList::AddImporter(MCONTACT hContact, IImport::ImportType type, 
 	mir_cslock lck(csEventList);
 
 	TCHAR buf[32];
-	mir_sntprintf(buf, _T("%016llx"), (unsigned long long int)hContact);
+	mir_sntprintf(buf, L"%016llx", (unsigned long long int)hContact);
 	ImportDiscData data;
 	data.file = m_contactFileDir + buf;
 	data.type = type;

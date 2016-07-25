@@ -302,12 +302,12 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 
 	if (tr->flags&TRF_FIELD)
-		mir_sntprintf(desc,  len, _T("%c%s%c"), FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
+		mir_sntprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
 	else {
 		if (args != NULL)
 			tArgs = mir_a2t(args);
 
-		mir_sntprintf(desc,  len, _T("%c%s%s"), FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
+		mir_sntprintf(desc,  len, L"%c%s%s", FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:L""));
 	}
 
 	mir_free(tArgs);
@@ -400,7 +400,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					tszHelpDesc = getHelpDescription(tr);
 
 				if (tszHelpDesc == NULL)
-					tszHelpDesc = mir_tstrdup(_T("unknown"));
+					tszHelpDesc = mir_tstrdup(L"unknown");
 
 				lvItem.iSubItem = 1;
 				lvItem.pszText = TranslateTS(tszHelpDesc);
@@ -434,7 +434,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					if (last != NULL) {
 						mir_free(last);
 						lvItem.iSubItem = 0;
-						lvItem.pszText = _T("");
+						lvItem.pszText = L"";
 						ListView_InsertItem(hList, &lvItem);
 					}
 					last = text;
@@ -470,7 +470,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				break;
 
 			memset(tokenString, 0, ((len + 1) * sizeof(TCHAR)));
-			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
+			mir_sntprintf(tokenString, len + 1, L"%c%s%c", (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
 			SetFocus(GetDlgItem(hwndInputDlg, IDC_TESTSTRING));

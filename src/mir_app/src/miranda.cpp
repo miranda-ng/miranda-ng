@@ -177,7 +177,7 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 
 INT_PTR CheckRestart()
 {
-	LPCTSTR tszPID = CmdLine_GetOption(_T("restart"));
+	LPCTSTR tszPID = CmdLine_GetOption(L"restart");
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
 		if (hProcess) {
@@ -205,18 +205,18 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	setlocale(LC_ALL, "");
 
 #ifdef _DEBUG
-	if (CmdLine_GetOption(_T("memdebug")))
+	if (CmdLine_GetOption(L"memdebug"))
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
 	HMODULE hDwmApi, hThemeAPI;
 	if (IsWinVerVistaPlus()) {
-		hDwmApi = LoadLibrary(_T("dwmapi.dll"));
+		hDwmApi = LoadLibrary(L"dwmapi.dll");
 		if (hDwmApi) {
 			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 		}
-		hThemeAPI = LoadLibrary(_T("uxtheme.dll"));
+		hThemeAPI = LoadLibrary(L"uxtheme.dll");
 		if (hThemeAPI) {
 			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
 			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
@@ -333,7 +333,7 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 
 	UINT blockSize;
 	VS_FIXEDFILEINFO *vsffi;
-	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
+	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
 	DWORD ver = (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
 		((vsffi->dwProductVersionMS & 0xFF) << 16) |
 		(((vsffi->dwProductVersionLS >> 16) & 0xFF) << 8) |
@@ -352,7 +352,7 @@ static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 
 	UINT blockSize;
 	VS_FIXEDFILEINFO *vsffi;
-	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
+	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
 
 	WORD* p = (WORD*)lParam;
 	p[0] = HIWORD(vsffi->dwProductVersionMS);
@@ -372,7 +372,7 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 
 	UINT blockSize;
-	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
+	VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\ProductVersion", (LPVOID*)&productVersion, &blockSize);
 	strncpy((char*)lParam, _T2A(productVersion), wParam);
 #if defined(_WIN64)
 	strcat_s((char*)lParam, wParam, " x64");

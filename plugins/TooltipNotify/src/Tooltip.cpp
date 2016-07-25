@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 
-/*static*/ const TCHAR *CTooltip::s_szTooltipClass = _T("MimTooltipNotify");
+/*static*/ const TCHAR *CTooltip::s_szTooltipClass = L"MimTooltipNotify";
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

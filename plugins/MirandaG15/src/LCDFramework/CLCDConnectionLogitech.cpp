@@ -166,10 +166,10 @@ bool CLCDConnectionLogitech::Initialize(tstring strAppletName, bool bAutostart, 
 //************************************************************************
 tstring CLCDConnectionLogitech::GetDeviceName() {
 	if (m_pConnectedDevice->GetIndex() == LGLCD_DEVICE_BW) {
-		return _T("G15/Z10");
+		return L"G15/Z10";
 	}
 	else {
-		return _T("G19");
+		return L"G19";
 	}
 }
 
@@ -237,7 +237,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 			m_hConnection = m_connectContext.connection;
 			m_hDevice = LGLCD_INVALID_CONNECTION;
 
-			TRACE(_T("CLCDConnectionLogitech: Connection to LCDManager established successfully!\n"));
+			TRACE(L"CLCDConnectionLogitech: Connection to LCDManager established successfully!\n");
 		}
 		else {
 			return false;
@@ -323,7 +323,7 @@ bool CLCDConnectionLogitech::Shutdown()
 //************************************************************************
 bool CLCDConnectionLogitech::HIDReadData(BYTE* data) {
 	static OVERLAPPED olRead;
-	static HANDLE hReadEvent = CreateEvent(NULL, false, true, _T("ReadEvent"));
+	static HANDLE hReadEvent = CreateEvent(NULL, false, true, L"ReadEvent");
 	static BYTE privateBuffer[9];
 
 	DWORD TransBytes;
@@ -460,7 +460,7 @@ bool CLCDConnectionLogitech::Update()
 			}
 		}
 		if (button != 0) {
-			TRACE(_T("GKey pressed: %d \n"), button);
+			TRACE(L"GKey pressed: %d \n", button);
 		}
 	}
 
@@ -630,14 +630,14 @@ void CLCDConnectionLogitech::HandleErrorFromAPI(DWORD dwRes)
 		break;
 		// we lost our device
 	case ERROR_DEVICE_NOT_CONNECTED:
-		TRACE(_T("CLCDConnectionLogitech::HandleErrorFromAPI(): Device was unplugged, closing device\n"));
+		TRACE(L"CLCDConnectionLogitech::HandleErrorFromAPI(): Device was unplugged, closing device\n");
 		Disconnect();
 		SetReconnect(true);
 		SetVolumeWheelHook(false);
 
 		break;
 	default:
-		TRACE(_T("CLCDConnectionLogitech::HandleErrorFromAPI(): FATAL ERROR, closing device and connection\n"));
+		TRACE(L"CLCDConnectionLogitech::HandleErrorFromAPI(): FATAL ERROR, closing device and connection\n");
 		Disconnect();
 		SetReconnect(true);
 

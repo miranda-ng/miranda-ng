@@ -166,16 +166,16 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			size_t len;
 			if (bbc) {
 				if (bbc == 1) {
-					memcpy(tmp, _T("[img]"), 5 * sizeof(TCHAR)); len = 5;
+					memcpy(tmp, L"[img]", 5 * sizeof(TCHAR)); len = 5;
 					len += GetDlgItemText(hwndDlg, edtID, tmp + len, 2048 - 11);
-					memcpy(tmp + len, _T("[/img]"), 7 * sizeof(TCHAR)); len += 7;
+					memcpy(tmp + len, L"[/img]", 7 * sizeof(TCHAR)); len += 7;
 				}
 				else {
-					memcpy(tmp, _T("[url="), 5 * sizeof(TCHAR)); len = 5;
+					memcpy(tmp, L"[url=", 5 * sizeof(TCHAR)); len = 5;
 					len += GetDlgItemText(hwndDlg, ID_edtURL, tmp + len, 1024);
-					memcpy(tmp + len, _T("][img]"), 6 * sizeof(TCHAR)); len += 6;
+					memcpy(tmp + len, L"][img]", 6 * sizeof(TCHAR)); len += 6;
 					len += GetDlgItemText(hwndDlg, edtID, tmp + len, 1024);
-					memcpy(tmp + len, _T("[/img][/url]"), 13 * sizeof(TCHAR)); len += 12;
+					memcpy(tmp + len, L"[/img][/url]", 13 * sizeof(TCHAR)); len += 12;
 				}
 			}
 			else
@@ -217,7 +217,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 	if (m_ChatRoom) {
 		TCHAR* tmp = mir_a2t(szMessage);
 		if (m_pszFileDesc) {
-			mir_tstradd(tmp, _T("\r\n"));
+			mir_tstradd(tmp, L"\r\n");
 			mir_tstradd(tmp, m_pszFileDesc);
 		}
 		GC_INFO gci = { 0 };
@@ -399,7 +399,7 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
-	mir_sntprintf(tszMsg, _T("%s - %s"), _T(SZ_SENDSS), TranslateT("Error"));
+	mir_sntprintf(tszMsg, L"%s - %s", _T(SZ_SENDSS), TranslateT("Error"));
 	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
 
 	va_list vl;
@@ -436,18 +436,18 @@ void CSend::Exit(unsigned int Result)
 			break;
 		case ACKRESULT_DENIED:
 			SkinPlaySound("FileDenied");
-			Error(_T("%s (%i):\nFile transfer denied."), TranslateTS(m_pszSendTyp), Result);
+			Error(L"%s (%i):\nFile transfer denied.", TranslateTS(m_pszSendTyp), Result);
 			MsgBoxService(NULL, (LPARAM)&m_box);
 			err = false;
 			break;
 		case GC_RESULT_WRONGVER:	//.You appear to be using the wrong version of GC API.
-			Error(_T("%s (%i):\nYou appear to be using the wrong version of GC API"), TranslateT("GCHAT error"), Result);
+			Error(L"%s (%i):\nYou appear to be using the wrong version of GC API", TranslateT("GCHAT error"), Result);
 			break;
 		case GC_RESULT_ERROR:		// An internal GC error occurred.
-			Error(_T("%s (%i):\nAn internal GC error occurred."), TranslateT("GCHAT error"), Result);
+			Error(L"%s (%i):\nAn internal GC error occurred.", TranslateT("GCHAT error"), Result);
 			break;
 		case GC_RESULT_NOSESSION:	// contact has no open GC session
-			Error(_T("%s (%i):\nContact has no open GC session."), TranslateT("GCHAT error"), Result);
+			Error(L"%s (%i):\nContact has no open GC session.", TranslateT("GCHAT error"), Result);
 			break;
 		case ACKRESULT_FAILED:
 		default:
@@ -754,7 +754,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, char* url, H
 			}
 			if (!fp) {
 				HTTPFormDestroy(nlhr);
-				Error(_T("Error occurred when opening local file.\nAborting file upload..."));
+				Error(L"Error occurred when opening local file.\nAborting file upload...");
 				Exit(ACKRESULT_FAILED);
 				return 1;
 			}

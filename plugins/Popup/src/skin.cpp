@@ -65,7 +65,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 		TCHAR *str = TranslateTS(wname);
 		GetTextExtentPoint32(hdc, str, (int)mir_tstrlen(str), &szText);
 		mir_free(wname);
-		GetTextExtentPoint32(hdc, _T(" "), 1, &szSpace);
+		GetTextExtentPoint32(hdc, L" ", 1, &szSpace);
 
 		sz.cy = max(sz.cy, szText.cy);
 		sz.cx += szSpace.cx;
@@ -122,7 +122,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		SetTextColor(bmp->getDC(), hover ? fonts.clActionHover : fonts.clAction);
 		SetBkMode(bmp->getDC(), TRANSPARENT);
 
-		GetTextExtentPoint32(bmp->getDC(), _T(" "), 1, &szSpace);
+		GetTextExtentPoint32(bmp->getDC(), L" ", 1, &szSpace);
 
 		LPTSTR wname = mir_a2t(name);
 		TCHAR *str = TranslateTS(wname);
@@ -748,7 +748,7 @@ void PopupSkin::loadOptions(std::wistream &f)
 			f.ignore(1024, '\n');
 			continue;
 		}
-		if (!mir_tstrcmp(buf, _T("option"))) {
+		if (!mir_tstrcmp(buf, L"option")) {
 			int id, val;
 			f >> id >> val;
 			f.getline(buf, 1024);
@@ -767,7 +767,7 @@ void PopupSkin::loadOptions(std::wistream &f)
 			else
 				m_flags &= ~(1 << id);
 		}
-		else if (!mir_tstrcmp(buf, _T("end")))
+		else if (!mir_tstrcmp(buf, L"end"))
 			break;
 	}
 	delete[] buf;
@@ -783,8 +783,8 @@ bool PopupSkin::load(LPCTSTR dir)
 	}
 	m_flags = 0;
 
-	if (!_tcsncmp(_T("res:"), dir, 4)) // resource
-		loadSkin(dir + 4, _T("Skin"));
+	if (!_tcsncmp(L"res:", dir, 4)) // resource
+		loadSkin(dir + 4, L"Skin");
 	else { // filesystem
 		// skin info
 		TCHAR dir_save[1024];
@@ -799,7 +799,7 @@ bool PopupSkin::load(LPCTSTR dir)
 		}
 
 		WIN32_FIND_DATA ffd;
-		HANDLE hFind = FindFirstFile(_T("*.popupskin"), &ffd);
+		HANDLE hFind = FindFirstFile(L"*.popupskin", &ffd);
 		while (hFind != INVALID_HANDLE_VALUE) {
 			loadSkin(ffd.cFileName);
 			if (!FindNextFile(hFind, &ffd))
@@ -840,40 +840,40 @@ void PopupSkin::loadSkin(std::wistream &f)
 			continue;
 		}
 
-		if (!mir_tstrcmp(buf, _T("popup-version"))) {
+		if (!mir_tstrcmp(buf, L"popup-version")) {
 			f >> m_popup_version;
 			m_popup_version = PLUGIN_MAKE_VERSION((m_popup_version / 1000000) % 100, (m_popup_version / 10000) % 100, (m_popup_version / 100) % 100, (m_popup_version / 1) % 100);
 			if (!isCompatible())
 				break;
 		}
-		else if (!mir_tstrcmp(buf, _T("padding-right"))) {
+		else if (!mir_tstrcmp(buf, L"padding-right")) {
 			f >> m_right_gap;
 		}
-		else if (!mir_tstrcmp(buf, _T("padding-bottom"))) {
+		else if (!mir_tstrcmp(buf, L"padding-bottom")) {
 			f >> m_bottom_gap;
 		}
-		else if (!mir_tstrcmp(buf, _T("shadow-region-opacity"))) {
+		else if (!mir_tstrcmp(buf, L"shadow-region-opacity")) {
 			f >> m_shadow_region_opacity;
 		}
-		else if (!mir_tstrcmp(buf, _T("legacy-region-opacity"))) {
+		else if (!mir_tstrcmp(buf, L"legacy-region-opacity")) {
 			f >> m_legacy_region_opacity;
 		}
-		else if (!mir_tstrcmp(buf, _T("w"))) {
+		else if (!mir_tstrcmp(buf, L"w")) {
 			f.getline(buf, 1024);
 			m_fw.set(buf);
 		}
-		else if (!mir_tstrcmp(buf, _T("h"))) {
+		else if (!mir_tstrcmp(buf, L"h")) {
 			f.getline(buf, 1024);
 			m_fh.set(buf);
 		}
-		else if (!mir_tstrcmp(buf, _T("object"))) {
+		else if (!mir_tstrcmp(buf, L"object")) {
 			head->next = loadObject(f);
 			if (head->next && ((head->next->type & ST_TYPEMASK) == ST_CLOCK))
 				m_internalClock = false;
 			head = head->next;
 			head->next = NULL;
 		}
-		else if (!mir_tstrcmp(buf, _T("options"))) {
+		else if (!mir_tstrcmp(buf, L"options")) {
 			loadOptions(f);
 		}
 	}
@@ -928,76 +928,76 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 			continue;
 		}
 
-		if (!mir_tstrcmp(buf, _T("type"))) {
+		if (!mir_tstrcmp(buf, L"type")) {
 			f >> buf;
-			if (!mir_tstrcmp(buf, _T("icon")))
+			if (!mir_tstrcmp(buf, L"icon"))
 				element->type = (element->type & ~ST_TYPEMASK) | ST_ICON;
-			else if (!mir_tstrcmp(buf, _T("bitmap")))
+			else if (!mir_tstrcmp(buf, L"bitmap"))
 				element->type = (element->type & ~ST_TYPEMASK) | ST_MYBITMAP;
-			else if (!mir_tstrcmp(buf, _T("text"))) {
+			else if (!mir_tstrcmp(buf, L"text")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TEXT;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
-			else if (!mir_tstrcmp(buf, _T("title"))) {
+			else if (!mir_tstrcmp(buf, L"title")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TITLE;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
-			else if (!mir_tstrcmp(buf, _T("avatar"))) {
+			else if (!mir_tstrcmp(buf, L"avatar")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_AVATAR;
 			}
-			else if (!mir_tstrcmp(buf, _T("clock"))) {
+			else if (!mir_tstrcmp(buf, L"clock")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_CLOCK;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
 		}
-		else if (!mir_tstrcmp(buf, _T("source"))) {
+		else if (!mir_tstrcmp(buf, L"source")) {
 			f >> buf;
 			if (((element->type & ST_TYPEMASK) == ST_MYBITMAP) || ((element->type & ST_TYPEMASK) == ST_CLOCK))
 				element->myBmp = new MyBitmap(buf);
 		}
-		else if (!mir_tstrcmp(buf, _T("mono"))) {
+		else if (!mir_tstrcmp(buf, L"mono")) {
 			element->type |= ST_MONO;
 		}
-		else if (!mir_tstrcmp(buf, _T("layer"))) {
+		else if (!mir_tstrcmp(buf, L"layer")) {
 			element->type |= ST_BLEND;
 		}
-		else if (!mir_tstrcmp(buf, _T("proportional"))) {
+		else if (!mir_tstrcmp(buf, L"proportional")) {
 			f >> element->proportional;
 		}
-		else if (!mir_tstrcmp(buf, _T("x"))) {
+		else if (!mir_tstrcmp(buf, L"x")) {
 			f.getline(buf, 1024);
 			element->fx.set(buf);
 			element->type &= ~ST_BADPOS;
 		}
-		else if (!mir_tstrcmp(buf, _T("y"))) {
+		else if (!mir_tstrcmp(buf, L"y")) {
 			f.getline(buf, 1024);
 			element->fy.set(buf);
 			element->type &= ~ST_BADPOS;
 		}
-		else if (!mir_tstrcmp(buf, _T("w"))) {
+		else if (!mir_tstrcmp(buf, L"w")) {
 			f.getline(buf, 1024);
 			element->fw.set(buf);
 		}
-		else if (!mir_tstrcmp(buf, _T("h"))) {
+		else if (!mir_tstrcmp(buf, L"h")) {
 			f.getline(buf, 1024);
 			element->fh.set(buf);
 		}
-		else if (!mir_tstrcmp(buf, _T("ifset"))) {
+		else if (!mir_tstrcmp(buf, L"ifset")) {
 			int id;
 			f >> id; id--;
 			element->flag_mask |= 1 << id;
 			element->flags |= 1 << id;
 		}
-		else if (!mir_tstrcmp(buf, _T("ifnotset"))) {
+		else if (!mir_tstrcmp(buf, L"ifnotset")) {
 			int id;
 			f >> id; id--;
 			element->flag_mask |= 1 << id;
 			element->flags &= ~(1 << id);
 		}
-		else if (!mir_tstrcmp(buf, _T("color"))) {
+		else if (!mir_tstrcmp(buf, L"color")) {
 			if (((element->type & ST_TYPEMASK) != ST_TEXT) &&
 				((element->type & ST_TYPEMASK) != ST_TITLE) &&
 				((element->type & ST_TYPEMASK) != ST_CLOCK)) continue;
@@ -1006,7 +1006,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 			f >> r >> g >> b;
 			element->textColor = RGB(r, g, b);
 		}
-		else if (!mir_tstrcmp(buf, _T("clocksize"))) {
+		else if (!mir_tstrcmp(buf, L"clocksize")) {
 			element->clockstart[0] = 0;
 			f >> element->clocksize[0];
 			for (int i = 1; i < CLOCK_ITEMS; i++) {
@@ -1014,7 +1014,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 				f >> element->clocksize[i];
 			}
 		}
-		else if (!mir_tstrcmp(buf, _T("end"))) {
+		else if (!mir_tstrcmp(buf, L"end")) {
 			break;
 		}
 	}
@@ -1086,9 +1086,9 @@ bool Skins::load()
 	SKINLIST *skin = new SKINLIST;
 	skin->next = m_skins;
 	m_skins = skin;
-	m_skins->name = mir_tstrdup(_T("* Popup Classic"));
+	m_skins->name = mir_tstrdup(L"* Popup Classic");
 	m_skins->dir = new TCHAR[1024];
-	mir_tstrcpy(m_skins->dir, _T("res:classic.popupskin"));
+	mir_tstrcpy(m_skins->dir, L"res:classic.popupskin");
 	m_skins->skin = 0;
 
 	TCHAR dir[1024] = { '\0' };
@@ -1098,7 +1098,7 @@ bool Skins::load()
 			return false;
 	}
 	else {
-		mir_tstrncpy(dir, VARST(_T("%miranda_path%\\skins\\popup")), _countof(dir));
+		mir_tstrncpy(dir, VARST(L"%miranda_path%\\skins\\popup"), _countof(dir));
 		DWORD fa = GetFileAttributes(dir);
 		if ((fa == INVALID_FILE_ATTRIBUTES) || !(fa&FILE_ATTRIBUTE_DIRECTORY))
 			return false;
@@ -1109,9 +1109,9 @@ bool Skins::load()
 	SetCurrentDirectory(dir);
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
+	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE) {
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(_T("."), ffd.cFileName) && mir_tstrcmp(_T(".."), ffd.cFileName)) {
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(L".", ffd.cFileName) && mir_tstrcmp(L"..", ffd.cFileName)) {
 			SetCurrentDirectory(ffd.cFileName);
 
 			skin = new SKINLIST;
@@ -1122,7 +1122,7 @@ bool Skins::load()
 			GetCurrentDirectory(1024, m_skins->dir);
 			m_skins->skin = 0;
 
-			SetCurrentDirectory(_T(".."));
+			SetCurrentDirectory(L"..");
 		}
 
 		if (!FindNextFile(hFind, &ffd))
@@ -1139,7 +1139,7 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 {
 	SKINLIST *any = 0;
 	for (SKINLIST *p = m_skins; p; p = p->next) {
-		if (!mir_tstrcmp(p->name, _T("* Popup Classic")) || !any)
+		if (!mir_tstrcmp(p->name, L"* Popup Classic") || !any)
 			any = p;
 		if (!mir_tstrcmpi(p->name, name)) {
 			any = p;

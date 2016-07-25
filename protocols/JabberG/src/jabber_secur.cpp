@@ -36,11 +36,11 @@ TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const TCHAR *hostn
 
 	const TCHAR *szProvider;
 	if (!mir_strcmp(mechanism, "GSS-SPNEGO"))
-		szProvider = _T("Negotiate");
+		szProvider = L"Negotiate";
 	else if (!mir_strcmp(mechanism, "GSSAPI"))
-		szProvider = _T("GSSAPI");
+		szProvider = L"GSSAPI";
 	else if (!mir_strcmp(mechanism, "NTLM"))
-		szProvider = _T("NTLM");
+		szProvider = L"NTLM";
 	else {
 LBL_Invalid:
 		bIsValid = false;
@@ -48,7 +48,7 @@ LBL_Invalid:
 		return;
 	}
 
-	TCHAR szSpn[1024] = _T("");
+	TCHAR szSpn[1024] = L"";
 	if (mir_strcmp(mechanism, "NTLM"))
 		if (!getSpn(szSpn, _countof(szSpn)) && !mir_strcmp(mechanism, "GSSAPI"))
 			goto LBL_Invalid;
@@ -65,7 +65,7 @@ TNtlmAuth::~TNtlmAuth()
 
 bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 {
-	TCHAR szFullUserName[128] = _T("");
+	TCHAR szFullUserName[128] = L"";
 	ULONG szFullUserNameLen = _countof(szFullUserName);
 	if (!GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
 		szFullUserName[0] = 0;
@@ -79,7 +79,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 
 	if (szHostName && szHostName[0]) {
 		TCHAR *szFullUserNameU = _tcsupr(mir_tstrdup(szFullUserName));
-		mir_sntprintf(szSpn, dwSpnLen, _T("xmpp/%s/%s@%s"), szHostName, szFullUserName, szFullUserNameU);
+		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", szHostName, szFullUserName, szFullUserNameU);
 		mir_free(szFullUserNameU);
 	}
 	else {
@@ -91,7 +91,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 			connectHost = host->h_name;
 
 		TCHAR *connectHostT = mir_a2t(connectHost);
-		mir_sntprintf(szSpn, dwSpnLen, _T("xmpp/%s@%s"), connectHostT, _tcsupr(szFullUserName));
+		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s@%s", connectHostT, _tcsupr(szFullUserName));
 		mir_free(connectHostT);
 	}
 
@@ -116,7 +116,7 @@ char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 	if (!hProvider)
 		return NULL;
 
-	ptrA text((!mir_tstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge));
+	ptrA text((!mir_tstrcmp(challenge, L"=")) ? mir_strdup("") : mir_t2a(challenge));
 	if (info->conn.password[0] != 0)
 		return Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
 	

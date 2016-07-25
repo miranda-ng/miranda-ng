@@ -23,7 +23,7 @@ HANDLE hPluginUpdaterFolder;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, _T(""));
+	FoldersGetCustomPathT(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, L"");
 	size_t len = _tcslen(g_tszRoot);
 	if (g_tszRoot[len-1] == '\\' || g_tszRoot[len-1] == '/')
 		g_tszRoot[len-1] = 0;
@@ -36,21 +36,21 @@ void EmptyFolder()
 		NULL,
 		FO_DELETE,
 		g_tszRoot,
-		_T(""),
+		L"",
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
 		0,
-		_T("") };
+		L"" };
 	SHFileOperation(&file_op);
 }
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	if (hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER)) {
+	if (hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHW L"\\" DEFAULT_UPDATES_FOLDER)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
-	else lstrcpyn(g_tszRoot, VARST( _T("%miranda_path%\\" DEFAULT_UPDATES_FOLDER)), _countof(g_tszRoot));
+	else lstrcpyn(g_tszRoot, VARST(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
 
 #if MIRANDA_VER >= 0x0A00
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))

@@ -129,7 +129,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 
 		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
 		SIZE fontSize;
-		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
+		GetTextExtentPoint32(hdc, L"x", 1, &fontSize);
 		SelectObject(hdc, holdfont);
 
 		dat->fontInfo[i].fontHeight = fontSize.cy;

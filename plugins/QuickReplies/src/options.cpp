@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				if (value)
 				{
 					replies.Append(value);
-					replies.Append(_T("\r\n"));
+					replies.Append(L"\r\n");
 				}
 				mir_free(value);
 			}
@@ -132,12 +132,12 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					tszReplies[length] = '\0';
 					{
 						CMString replies = tszReplies;
-						if (replies.Right(2) != _T("\r\n"))
-							replies.Append(_T("\r\n"));
+						if (replies.Right(2) != L"\r\n")
+							replies.Append(L"\r\n");
 
 						count = 0;
 						int pos = -1, prev = 0;
-						while ((pos = replies.Find(_T("\r\n"), prev)) != -1)
+						while ((pos = replies.Find(L"\r\n", prev)) != -1)
 						{
 							mir_snprintf(key, "Reply_%x_%x", iNumber, count++);
 							db_set_ws(NULL, MODULE, key, replies.Mid(prev, pos - prev).GetBuffer());

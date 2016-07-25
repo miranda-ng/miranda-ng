@@ -48,7 +48,7 @@ PLUGININFOEX pluginInfo = {
 
 static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
 
-#define MIND_DIALOG_FILTER _T("%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1")
+#define MIND_DIALOG_FILTER L"%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1"
 
 #ifdef DEBUG_LOAD_TIME
 #include <intrin.h>
@@ -116,7 +116,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	//exit(0);
 	#endif
 	SetCursor(oldCur);
-	HRSRC hRes = FindResource(hInst, MAKEINTRESOURCE(IDR_SMILES), _T("SMILES"));
+	HRSRC hRes = FindResource(hInst, MAKEINTRESOURCE(IDR_SMILES), L"SMILES");
 	if (!hRes) {
 		delete mind;
 		return false;

@@ -89,7 +89,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		tszError = TranslateT("Unknown error occurred");
 	}
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
-	debugLog(_T("CVkProto::SendFileFiled error code = %d (%s)"), ErrorCode, tszError);
+	debugLog(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, tszError);
 	MsgPopup(NULL, tszError, TranslateT("File upload error"), true);
 	delete fup;
 }
@@ -97,7 +97,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 void CVkProto::SendFileThread(void *p)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
-	debugLog(_T("CVkProto::SendFileThread %d %s"), fup->GetType(), fup->fileName());
+	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
 	if (!IsOnline()) {
 		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
@@ -155,7 +155,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 	
-	FILE *pFile = _tfopen(fup->FileName, _T("rb"));
+	FILE *pFile = _tfopen(fup->FileName, L"rb");
 	if (pFile == NULL) {
 		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
 		return;
@@ -263,7 +263,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
 		upload = jnRoot["photo"].as_mstring();
-		if (upload == _T("[]")) {
+		if (upload == L"[]") {
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
@@ -274,7 +274,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
-		if (upload == _T("[]")) {
+		if (upload == L"[]") {
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
@@ -334,13 +334,13 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
-		Attachment.AppendFormat(_T("photo%d_%d"), owner_id, id);
+		Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
 		break;
 	case CVkFileUploadParam::typeAudio:
-		Attachment.AppendFormat(_T("audio%d_%d"), owner_id, id);
+		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
 		break;
 	case CVkFileUploadParam::typeDoc:
-		Attachment.AppendFormat(_T("doc%d_%d"), owner_id, id);
+		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);

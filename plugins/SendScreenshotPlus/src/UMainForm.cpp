@@ -75,7 +75,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 			GetDlgItemText(hDlg, ID_edtSize, filename, _countof(filename));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hDlg;
-			ofn.lpstrFilter = _T("Images\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff\0");
+			ofn.lpstrFilter = L"Images\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff\0";
 			ofn.nFilterIndex = 1;
 			ofn.lpstrFile = filename;
 			ofn.nMaxFile = MAX_PATH;
@@ -240,9 +240,9 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		if (m_MonitorCount > 1) {
 			TCHAR tszTemp[120];
 			for (size_t mon = 0; mon < m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
-				mir_sntprintf(tszTemp, _T("%Iu. %s%s"),
+				mir_sntprintf(tszTemp, L"%Iu. %s%s",
 					mon + 1, TranslateT("Monitor"),
-					(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
+					(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : L""
 					);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp), mon + 1);
 			}
@@ -278,11 +278,11 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	{
 		hCtrl = GetDlgItem(m_hWnd, ID_cboxFormat);
 		ComboBox_ResetContent(hCtrl);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("PNG")), 0);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("JPG")), 1);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("BMP")), 2);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("TIF")), 3);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("GIF")), 4);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"PNG"), 0);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"JPG"), 1);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"BMP"), 2);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"TIF"), 3);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"GIF"), 4);
 		ComboBox_SelectItemData(hCtrl, m_opt_cboxFormat);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init SendBy combo box
@@ -294,7 +294,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("File Transfer")), SS_FILESEND);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail")), SS_EMAIL);
 			if (g_myGlobals.PluginHTTPExist) {
-				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("HTTP Server")), SS_HTTPSERVER);
+				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"HTTP Server"), SS_HTTPSERVER);
 			}
 			else if (m_opt_cboxSendBy == SS_HTTPSERVER) {
 				m_opt_cboxSendBy = SS_IMAGESHACK;
@@ -310,16 +310,16 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
 		if (g_myGlobals.PluginDropboxExist) {
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("Dropbox")), SS_DROPBOX);
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"Dropbox"), SS_DROPBOX);
 		}
 		else if (m_opt_cboxSendBy == SS_DROPBOX) {
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("ImageShack")), SS_IMAGESHACK);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"ImageShack"), SS_IMAGESHACK);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), SS_UPLOADPIE_30M);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), SS_UPLOADPIE_1D);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), SS_UPLOADPIE_1W);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("imgur")), SS_IMGUR);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"imgur"), SS_IMGUR);
 		ComboBox_SelectItemData(hCtrl, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init footer options
@@ -329,21 +329,21 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(ICO_BTN_HELP);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? _T("") : _T("?"));
+		SetWindowText(hCtrl, hIcon ? L"" : L"?");
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnExplore)) {
 		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(ICO_BTN_FOLDER);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? _T("") : _T("..."));
+		SetWindowText(hCtrl, hIcon ? L"" : L"...");
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_chkDesc)) {
 		SendDlgItemMessage(m_hWnd, ID_chkDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESCON : ICO_BTN_DESC);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
+		SetWindowText(hCtrl, hIcon ? L"" : L"D");
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDesc ? BST_CHECKED : BST_UNCHECKED, NULL);
 	}
 
@@ -351,7 +351,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		SendDlgItemMessage(m_hWnd, ID_chkDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? _T("") : _T("X"));
+		SetWindowText(hCtrl, hIcon ? L"" : L"X");
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDeleteAfterSend ? BST_CHECKED : BST_UNCHECKED, NULL);
 	}
 
@@ -359,7 +359,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		SendDlgItemMessage(m_hWnd, ID_chkEditor, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open editor before sending"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
+		SetWindowText(hCtrl, hIcon ? L"" : L"E");
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED, NULL);
 	}
 
@@ -803,7 +803,7 @@ void TfrmMain::btnCaptureClick()
 	else if (m_opt_tabCapture == 2) {
 		TCHAR filename[MAX_PATH];
 		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, _countof(filename));
-		FILE* fp = _wfopen(filename, _T("rb"));
+		FILE* fp = _wfopen(filename, L"rb");
 		if (!fp) {
 			TCHAR *err = TranslateT("Select a file");
 			MessageBox(m_hWnd, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
@@ -919,7 +919,7 @@ void TfrmMain::btnAboutOnCloseWindow(HWND)
 void TfrmMain::btnExploreClick()
 {
 	if (m_FDestFolder)
-		ShellExecute(NULL, _T("explore"), m_FDestFolder, NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, L"explore", m_FDestFolder, NULL, NULL, SW_SHOW);
 }
 
 //---------------------------------------------------------------------------
@@ -944,7 +944,7 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	_itot(rect.right - rect.left, B, 10);
 	//	_itot_s(rect.bottom - rect.top, H, 16, 10);
 	_itot(rect.bottom - rect.top, H, 10);
-	mir_tstrncat(B, _T("x"), _countof(B) - mir_tstrlen(B));
+	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
@@ -956,7 +956,7 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl)
 	_itot(ABS(rect.right - rect.left), B, 10);
 	//	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itot(ABS(rect.bottom - rect.top), H, 10);
-	mir_tstrncat(B, _T("x"), _countof(B) - mir_tstrlen(B));
+	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
@@ -975,8 +975,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	if (FileNumber > 99999) FileNumber = 1;
 	//Generate FileName
 	mir_tstradd(path, m_FDestFolder);
-	if (path[mir_tstrlen(path) - 1] != _T('\\')) mir_tstradd(path, _T("\\"));
-	mir_tstradd(path, _T("shot%.5u"));//on format change, adapt "len" below
+	if (path[mir_tstrlen(path) - 1] != _T('\\')) mir_tstradd(path, L"\\");
+	mir_tstradd(path, L"shot%.5u");//on format change, adapt "len" below
 	size_t len = mir_tstrlen(path) + 2;
 	pszFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len));
 	mir_sntprintf(pszFilename, len, path, FileNumber);
@@ -1034,7 +1034,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	HWND hwndCombo = GetDlgItem(m_hWnd, ID_cboxFormat);
 	switch (ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo))) {
 	case 0: //PNG
-		ret = SaveImage(fif, dib_new, pszFilename, _T("png"));
+		ret = SaveImage(fif, dib_new, pszFilename, L"png");
 		break;
 
 	case 1: //JPG
@@ -1049,16 +1049,16 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
 		dib24 = FIP->FI_ConvertTo24Bits(dib32);
 		FIP->FI_Unload(dib32);
-		ret = SaveImage(fif, dib24, pszFilename, _T("jpg"));
+		ret = SaveImage(fif, dib24, pszFilename, L"jpg");
 		FIP->FI_Unload(dib24);
 		break;
 
 	case 2: //BMP
-		//	ret = SaveImage(FIF_BMP,dib_new, pszFilename, _T("bmp")); //32bit alpha BMP
+		//	ret = SaveImage(FIF_BMP,dib_new, pszFilename, L"bmp"); //32bit alpha BMP
 		dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
 		dib24 = FIP->FI_ConvertTo24Bits(dib32);
 		FIP->FI_Unload(dib32);
-		ret = SaveImage(FIF_BMP, dib24, pszFilename, _T("bmp"));
+		ret = SaveImage(FIF_BMP, dib24, pszFilename, L"bmp");
 		FIP->FI_Unload(dib24);
 		break;
 
@@ -1066,7 +1066,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		{
 			TCHAR* pszFile = NULL;
 			mir_tstradd(pszFile, pszFilename);
-			mir_tstradd(pszFile, _T(".tif"));
+			mir_tstradd(pszFile, L".tif");
 
 			dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
 			dib24 = FIP->FI_ConvertTo24Bits(dib32);
@@ -1083,11 +1083,11 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	case 4: //GIF
 		{
 			//dib24 = FIP->FI_ConvertTo8Bits(dib_new);
-			//ret = SaveImage(FIF_GIF,dib24, pszFilename, _T("gif"));
+			//ret = SaveImage(FIF_GIF,dib24, pszFilename, L"gif");
 			//FIP->FI_Unload(dib24);
 			TCHAR* pszFile = NULL;
 			mir_tstradd(pszFile, pszFilename);
-			mir_tstradd(pszFile, _T(".gif"));
+			mir_tstradd(pszFile, L".gif");
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
 			SaveGIF(hBmp, pszFile);
 			ret = pszFile;
@@ -1103,7 +1103,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		//TCHAR* pszFormat = (TCHAR*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
 		TCHAR pszFormat[6];
 		ComboBox_GetText(hwndCombo, pszFormat, 6);
-		if(ret && (mir_tstrcmpi (pszFormat,_T("png")) != 0)) {
+		if(ret && (mir_tstrcmpi (pszFormat,L"png") != 0)) {
 
 		fif = FIP->FI_GetFIFFromFilenameU(ret);
 		dib_new = FIP->FI_LoadU(fif, ret,0);
@@ -1130,7 +1130,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		}
 		else {
 			mir_free(pszFileDesc);
-			m_pszFileDesc = mir_tstrdup(_T(""));
+			m_pszFileDesc = mir_tstrdup(L"");
 		}
 
 		if (m_cSend) {
@@ -1168,7 +1168,7 @@ void TfrmMain::FormClose()
 	if (m_opt_chkEditor) {
 		SHELLEXECUTEINFO shex = { sizeof(SHELLEXECUTEINFO) };
 		shex.fMask = SEE_MASK_NOCLOSEPROCESS;
-		shex.lpVerb = _T("edit");
+		shex.lpVerb = L"edit";
 		shex.lpFile = m_pszFile;
 		shex.nShow = SW_SHOWNORMAL;
 		ShellExecuteEx(&shex);
@@ -1197,7 +1197,7 @@ void TfrmMain::FormClose()
 			} while (res == WAIT_OBJECT_0 + 1);
 			CloseHandle(shex.hProcess);
 		}
-		if (MessageBox(m_hWnd, TranslateT("Send screenshot?"), _T("SendSS"), MB_YESNO | MB_ICONQUESTION | MB_SYSTEMMODAL) != IDYES)
+		if (MessageBox(m_hWnd, TranslateT("Send screenshot?"), L"SendSS", MB_YESNO | MB_ICONQUESTION | MB_SYSTEMMODAL) != IDYES)
 			send = false;
 	}
 

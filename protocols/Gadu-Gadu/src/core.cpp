@@ -381,8 +381,8 @@ retry:
 	p.status_descr = mir_utf8encodeT(getstatusmsg(m_iDesiredStatus));
 	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
 
-	debugLog(_T("mainthread() (%x): Connecting with number %d, status %d and description \"%s\"."), this, p.uin, m_iDesiredStatus,
-				p.status_descr ? getstatusmsg(m_iDesiredStatus) : _T("<none>"));
+	debugLog(L"mainthread() (%x): Connecting with number %d, status %d and description \"%s\".", this, p.uin, m_iDesiredStatus,
+				p.status_descr ? getstatusmsg(m_iDesiredStatus) : L"<none>");
 	gg_LeaveCriticalSection(&modemsg_mutex, "mainthread", 13, 1, "modemsg_mutex", 1);
 
 	// Check manual hosts
@@ -426,7 +426,7 @@ retry:
 				mir_sntprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"), errno, ws_strerror(errno));
 				perror = error;
 			}
-			debugLog(_T("mainthread() (%x): %s"), this, perror);
+			debugLog(L"mainthread() (%x): %s", this, perror);
 			if (getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS))
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 
@@ -637,7 +637,7 @@ retry:
 
 							_tcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
-								mir_sntprintf(strFmt1, _T(", %s %s"), TranslateT("City:"), __city);
+								mir_sntprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
 								mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
 							}
 							if (__birthyear) {
@@ -646,7 +646,7 @@ retry:
 								int br = atoi(__birthyear);
 
 								if (br < (lt->tm_year + 1900) && br > 1900) {
-									mir_sntprintf(strFmt1, _T(", %s %d"), TranslateT("Age:"), (lt->tm_year + 1900) - br);
+									mir_sntprintf(strFmt1, L", %s %d", TranslateT("Age:"), (lt->tm_year + 1900) - br);
 									mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
 								}
 							}
@@ -837,7 +837,7 @@ retry:
 							gce.ptszNick = (TCHAR*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
-							debugLog(_T("mainthread() (%x): Conference message to room %s & id %s."), this, chat, id);
+							debugLog(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 							mir_free(messageT);
 						}
@@ -907,7 +907,7 @@ retry:
 						gce.time = e->event.multilogon_msg.time;
 						gce.bIsMe = 1;
 						gce.dwFlags = GCEF_ADDTOLOG;
-						debugLog(_T("mainthread() (%x): Sent conference message to room %s."), this, chat);
+						debugLog(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 						mir_free(messageT);
 						mir_free(nickT);
@@ -974,7 +974,7 @@ retry:
 							if (iIndexes && iIndexes[i])
 								continue;
 
-							mir_sntprintf(szMsg, _T("%s (%s)"), szText,
+							mir_sntprintf(szMsg, L"%s (%s)", szText,
 								*e->event.multilogon_info.sessions[i].name != '\0' ?
 								_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
 							showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
@@ -1538,7 +1538,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
-		debugLog(_T("getcontact(): Failed to create Gadu-Gadu contact %s"), szNick);
+		debugLog(L"getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
 		return NULL;
 	}
 
@@ -1701,7 +1701,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 	// Check if there's description and if it's not empty
 	if (idescr && *idescr)
 	{
-		debugLog(_T("changecontactstatus(): Saving for %d status descr \"%s\"."), uin, idescr);
+		debugLog(L"changecontactstatus(): Saving for %d status descr \"%s\".", uin, idescr);
 		db_set_ts(hContact, "CList", GG_KEY_STATUSDESCR, idescr);
 	} else {
 		// Remove status if there's nothing

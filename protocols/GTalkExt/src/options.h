@@ -23,7 +23,7 @@
 
 #include "resources.h"
 
-#define JABBER_FEAT_GTALK_PMUC _T("http://www.google.com/xmpp/protocol/pmuc/v1")
+#define JABBER_FEAT_GTALK_PMUC L"http://www.google.com/xmpp/protocol/pmuc/v1"
 
 #define MAIL_NOTIFICATIONS        LPGENT("GMail notifications")
 #define FULL_NOTIFICATION_FORMAT  LPGENT("subject\n    %s\nfrom\n%s\n%s\n")

@@ -176,7 +176,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 			*errDescr = TranslateT("FTP path must contain '/' instead '\\' and start with '/'.");
 		return false;
 	}
-	if (isImportTask && to.filePath.find(_T("<date>")) < to.filePath.length()) {
+	if (isImportTask && to.filePath.find(L"<date>") < to.filePath.length()) {
 		if (err != NULL)
 			*err = TranslateT("Path to file");
 		if (errDescr != NULL)
@@ -560,7 +560,7 @@ bool DoTask(TaskOptions& to)
 std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName, std::map<std::wstring, bool>& existingContacts, bool replaceContact)
 {
 	std::wstring str = baseName;
-	size_t pos = baseName.find(_T("<contact>"));
+	size_t pos = baseName.find(L"<contact>");
 	if (replaceContact && pos < baseName.length()) {
 		str = baseName.substr(0, pos);
 		std::wstring baseName1 = contactName;
@@ -581,12 +581,12 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 		str += baseName.substr(pos + 9);
 	}
 
-	pos = str.find(_T("<date>"));
+	pos = str.find(L"<date>");
 	if (pos < str.length()) {
 		TCHAR time[256];
 		SYSTEMTIME st;
 		GetLocalTime(&st);
-		mir_sntprintf(time, _T("%d-%02d-%02d %02d%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
+		mir_sntprintf(time, L"%d-%02d-%02d %02d%02d", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
 		std::wstring str1 = str.substr(0, pos);
 		str1 += time;
 		str1 += str.substr(pos + 6);
@@ -608,7 +608,7 @@ std::wstring GetDirectoryName(const std::wstring &path)
 void ListDirectory(const std::wstring &basePath, const std::wstring &path, std::list<std::wstring>& files)
 {   
 	WIN32_FIND_DATA findFileData;
-	HANDLE hFind = FindFirstFile((basePath + path + _T("*")).c_str(), &findFileData);
+	HANDLE hFind = FindFirstFile((basePath + path + L"*").c_str(), &findFileData);
 	if (hFind == INVALID_HANDLE_VALUE) 
 		return;
 
@@ -617,7 +617,7 @@ void ListDirectory(const std::wstring &basePath, const std::wstring &path, std::
 		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			std::wstring name = findFileData.cFileName;
 			if (name != L"." && name != L"..")
-				ListDirectory(basePath, path + findFileData.cFileName + _T("\\"), files);
+				ListDirectory(basePath, path + findFileData.cFileName + L"\\", files);
 		}
 		else files.push_back(path + findFileData.cFileName);
 	}
@@ -1098,7 +1098,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 	std::map<std::wstring, bool> existingContacts;
 	ListDirectory(dir, L"\\", files);
 	if (files.size() > 0) {
-		std::wofstream stream((dir + _T("\\script.sc")).c_str());
+		std::wofstream stream((dir + L"\\script.sc").c_str());
 		if (stream.is_open()) {
 			std::wstring ftpDir = GetDirectoryName(filePath);
 			ftpDir = GetFileName(ftpDir, L"", existingContacts, false);
@@ -1129,7 +1129,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			DeleteFile(log.c_str());
 
 			TCHAR cmdLine[MAX_PATH];
-			mir_sntprintf(cmdLine, _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+			mir_sntprintf(cmdLine, L"\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc", Options::instance->ftpExePath.c_str(), log.c_str());
 
 			STARTUPINFO startupInfo = { 0 };
 			startupInfo.cb = sizeof(STARTUPINFO);
@@ -1196,7 +1196,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 
 bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, const std::wstring& ftpName)
 {
-	std::wstring script = dir + _T("\\script.sc");
+	std::wstring script = dir + L"\\script.sc";
 	std::wofstream stream(script.c_str());
 	if (stream.is_open()) {
 		stream << "option batch continue\noption confirm off\nopen \""
@@ -1220,7 +1220,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 		DeleteFile(log.c_str());
 		TCHAR cmdLine[MAX_PATH];
-		mir_sntprintf(cmdLine, _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+		mir_sntprintf(cmdLine, L"\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc", Options::instance->ftpExePath.c_str(), log.c_str());
 		STARTUPINFO				startupInfo = { 0 };
 		PROCESS_INFORMATION		processInfo;
 		startupInfo.cb = sizeof(STARTUPINFO);

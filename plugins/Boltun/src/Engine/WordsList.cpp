@@ -31,7 +31,7 @@ WordsList::operator tstring() const
 {
 	tstring res;
 	//if (unstrict)
-	//	res = _T("~");
+	//	res = L"~";
 	set<tstring>::const_iterator it = words.begin();
 	if (!words.empty())
 		while (true)
@@ -39,11 +39,11 @@ WordsList::operator tstring() const
 			res += *it;
 			++it;
 			if (it != words.end())
-				res += _T(" ");
+				res += L" ";
 			else
 				break;
 		}
-	res += isQuestion ? _T("?") : _T(".");
+	res += isQuestion ? L"?" : L".";
 	return res;
 }
 

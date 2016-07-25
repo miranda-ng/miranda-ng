@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifdef EDITOR
 extern const TCHAR *szControlTypeNames[] = {
-	_T("Unknown"), _T("Dialog Box"), _T("Button"), _T("Check Box"), _T("Radio Button"),
-	_T("Text"), _T("Image"), _T("Edit Box"), _T("Group Box"), _T("Combo Box"),
-	_T("List Box"), _T("Spin Edit Box"), _T("Progress Bar"), _T("Slider"), _T("List View"),
-	_T("Tree View"), _T("Date/Time Picker"), _T("IP Address"), _T("Status Bar"), _T("Hyperlink"),
-	_T("Contact List"), _T("Scroll Bar"), _T("Animation"), _T("Hotkey"), _T("Tabs"),
-	_T("Colour Picker"), _T("Tool Bar"), _T("Combo Edit Box"), _T("Size Grip") };
+	L"Unknown", L"Dialog Box", L"Button", L"Check Box", L"Radio Button",
+	L"Text", L"Image", L"Edit Box", L"Group Box", L"Combo Box",
+	L"List Box", L"Spin Edit Box", L"Progress Bar", L"Slider", L"List View",
+	L"Tree View", L"Date/Time Picker", L"IP Address", L"Status Bar", L"Hyperlink",
+	L"Contact List", L"Scroll Bar", L"Animation", L"Hotkey", L"Tabs",
+	L"Colour Picker", L"Tool Bar", L"Combo Edit Box", L"Size Grip" };
 #endif
 
 int GetControlType(HWND hwndCtl)
@@ -41,10 +41,10 @@ int GetControlType(HWND hwndCtl)
 		return CTLTYPE_DIALOG;
 	if (!GetClassName(hwndCtl, szClassName, _countof(szClassName)))
 		return CTLTYPE_UNKNOWN;
-	if (!lstrcmpi(szClassName, _T("MDIClient")))
+	if (!lstrcmpi(szClassName, L"MDIClient"))
 		return CTLTYPE_DIALOG;
-	else if (!lstrcmpi(szClassName, _T("Static"))) {
-		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")) || !lstrcmpi(szClassName, WC_COMBOBOXEX))
+	else if (!lstrcmpi(szClassName, L"Static")) {
+		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, L"ComboBox") || !lstrcmpi(szClassName, WC_COMBOBOXEX))
 			return CTLTYPE_COMBO;
 		style = GetWindowLongPtr(hwndCtl, GWL_STYLE);
 		switch (style&SS_TYPEMASK) {
@@ -67,7 +67,7 @@ int GetControlType(HWND hwndCtl)
 	}
 	else if (GetClassLong(hwndCtl, GCW_ATOM) == 32772) // WinNT/2000/XP: icon titles
 		return CTLTYPE_IMAGE;                      // class="#32772"
-	else if (!lstrcmpi(szClassName, _T("Button"))) {
+	else if (!lstrcmpi(szClassName, L"Button")) {
 		style = GetWindowLongPtr(hwndCtl, GWL_STYLE);
 		switch (style & 0x24) {
 		case BS_CHECKBOX:
@@ -89,25 +89,25 @@ int GetControlType(HWND hwndCtl)
 	}
 	else if (!lstrcmpi(szClassName, MIRANDABUTTONCLASS))
 		return CTLTYPE_BUTTON;
-	else if (!lstrcmpi(szClassName, _T("Edit"))) {
-		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("ComboBox")))
+	else if (!lstrcmpi(szClassName, L"Edit")) {
+		if (GetClassName(GetParent(hwndCtl), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, L"ComboBox"))
 			return CTLTYPE_COMBO;
 		if (GetClassName(GetWindow(hwndCtl, GW_HWNDNEXT), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, UPDOWN_CLASS))
 			if ((HWND)SendMessage(GetWindow(hwndCtl, GW_HWNDNEXT), UDM_GETBUDDY, 0, 0) == hwndCtl)
 				return CTLTYPE_SPINEDIT;
 		return CTLTYPE_EDIT;
 	}
-	else if (!_tcsnicmp(szClassName, _T("RichEdit"), 8))
+	else if (!_tcsnicmp(szClassName, L"RichEdit", 8))
 		return CTLTYPE_EDIT; // RICHEDIT,RichEdit20A,RichEdit20W,RichEdit50W and future versions
-	else if (!lstrcmpi(szClassName, _T("ListBox"))) {
+	else if (!lstrcmpi(szClassName, L"ListBox")) {
 		style = GetWindowLongPtr(hwndCtl, GWL_STYLE);
 		if (style&LBS_COMBOBOX)
 			return CTLTYPE_COMBO;
 		return CTLTYPE_LIST;
 	}
-	else if (!lstrcmpi(szClassName, _T("ComboLBox")) || !lstrcmpi(szClassName, _T("ComboBox")) || !lstrcmpi(szClassName, WC_COMBOBOXEX))
+	else if (!lstrcmpi(szClassName, L"ComboLBox") || !lstrcmpi(szClassName, L"ComboBox") || !lstrcmpi(szClassName, WC_COMBOBOXEX))
 		return CTLTYPE_COMBO;
-	else if (!lstrcmpi(szClassName, _T("ScrollBar"))) {
+	else if (!lstrcmpi(szClassName, L"ScrollBar")) {
 		style = GetWindowLongPtr(hwndCtl, GWL_STYLE);
 		if (style&SBS_SIZEBOX)
 			return CTLTYPE_SIZEGRIP;
@@ -116,7 +116,7 @@ int GetControlType(HWND hwndCtl)
 	else if (!lstrcmpi(szClassName, WC_PAGESCROLLER))
 		return CTLTYPE_SCROLL;
 	else if (!lstrcmpi(szClassName, UPDOWN_CLASS)) {
-		if (GetClassName((HWND)SendMessage(hwndCtl, UDM_GETBUDDY, 0, 0), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, _T("Edit")))
+		if (GetClassName((HWND)SendMessage(hwndCtl, UDM_GETBUDDY, 0, 0), szClassName, _countof(szClassName)) && !lstrcmpi(szClassName, L"Edit"))
 			return CTLTYPE_SPINEDIT;
 		return CTLTYPE_SCROLL;
 	}
@@ -136,7 +136,7 @@ int GetControlType(HWND hwndCtl)
 		return CTLTYPE_STATUSBAR;
 	else if (!lstrcmpi(szClassName, (LPCWSTR)CLISTCONTROL_CLASS))
 		return CTLTYPE_CLC; // look at !! casting
-	else if (!lstrcmpi(szClassName, WNDCLASS_HYPERLINK) || !lstrcmpi(szClassName, _T("SysLink")))
+	else if (!lstrcmpi(szClassName, WNDCLASS_HYPERLINK) || !lstrcmpi(szClassName, L"SysLink"))
 		return CTLTYPE_HYPERLINK;
 	else if (!lstrcmpi(szClassName, ANIMATE_CLASS))
 		return CTLTYPE_ANIMATION;
@@ -170,7 +170,7 @@ HWND GetControlDialog(HWND hwndCtl)
 		if (GetClassLong(hwndCtl, GCW_ATOM) == 32770)
 			return hwndCtl;
 		if (GetClassName(hwndCtl, szClassName, _countof(szClassName)))
-			if (!lstrcmpi(szClassName, _T("MDIClient")))
+			if (!lstrcmpi(szClassName, L"MDIClient"))
 				return hwndCtl;
 		hwndCtl = GetParent(hwndCtl);
 	}
@@ -273,7 +273,7 @@ static BOOL CALLBACK CreateCtlIdEnumProc(HWND hwnd, LPARAM lParam)
 	if (GetClassLong(hwnd, GCW_ATOM) == 32770) // class="#32770"
 		return TRUE;
 	if (GetClassName(hwnd, szClassName, _countof(szClassName)))
-		if (!lstrcmpi(szClassName, _T("MDIClient")))
+		if (!lstrcmpi(szClassName, L"MDIClient"))
 			return TRUE;
 	if (GetWindowLongPtr(hwnd, GWL_ID) <= 0 || GetWindowLongPtr(hwnd, GWL_ID) == 0xFFFF)
 		ccid->id--;
@@ -304,7 +304,7 @@ int GetControlID(HWND hwndCtl)
 					hwndCtl = hwndBuddy;
 			}
 		}
-		else if (GetClassLong(hwndCtl, GCW_ATOM) == 32770 || !lstrcmpi(szClassName, _T("MDIClient")))
+		else if (GetClassLong(hwndCtl, GCW_ATOM) == 32770 || !lstrcmpi(szClassName, L"MDIClient"))
 			return 0; // ensure this is always unset
 	}
 	ccid.id = GetWindowLongPtr(hwndCtl, GWL_ID);

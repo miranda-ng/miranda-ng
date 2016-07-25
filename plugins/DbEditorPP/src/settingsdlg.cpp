@@ -166,13 +166,13 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					GetDlgItemText(hwnd, IDC_SETTINGVALUE, setting, settingLength + 1);
 					if (LOWORD(wParam) == CHK_DECIMAL && IsDlgButtonChecked(hwnd, CHK_DECIMAL))
 					{
-						_stscanf(setting, _T("%X"), &tmp);
-						mir_sntprintf(text, _T("%u"), tmp);
+						_stscanf(setting, L"%X", &tmp);
+						mir_sntprintf(text, L"%u", tmp);
 					}
 					else
 					{
-						_stscanf(setting, _T("%u"), &tmp);
-						mir_sntprintf(text, _T("%X"), tmp);
+						_stscanf(setting, L"%u", &tmp);
+						mir_sntprintf(text, L"%X", tmp);
 					}
 					SetDlgItemText(hwnd, IDC_SETTINGVALUE, text);
 					mir_free(setting);

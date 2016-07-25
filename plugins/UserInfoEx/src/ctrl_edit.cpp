@@ -144,7 +144,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			}
 
 		default:
-			SetWindowText(_hwnd, _T(""));
+			SetWindowText(_hwnd, L"");
 			db_free(&dbv);
 			break;
 		}
@@ -325,7 +325,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 			if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0)) {
 				if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
 					memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
-					memcpy(tr.lpstrText, _T("mailto:"), (7 * sizeof(TCHAR)));
+					memcpy(tr.lpstrText, L"mailto:", (7 * sizeof(TCHAR)));
 				}
 
 				Utils_OpenUrlT(tr.lpstrText);

@@ -31,7 +31,7 @@ BOOL _isregex(TCHAR* strSearch)
 	const char *error;
 	int erroroffs, rc;
 	TCHAR *regex;
-	TCHAR regex_parse[] = _T("/(.*)/([igsm]*)");
+	TCHAR regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (strSearch == NULL)
@@ -60,7 +60,7 @@ BOOL _isvalidregex(TCHAR* strSearch)
 	int erroroffs, rc;
 	TCHAR *regex, *regexp, *mod;
 	int opts = 0;
-	TCHAR regex_parse[] = _T("/(.*)/([igsm]*)");
+	TCHAR regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (strSearch == NULL)
@@ -82,11 +82,11 @@ BOOL _isvalidregex(TCHAR* strSearch)
 	mod = regex + ovector[4];
 	mod[ovector[5] - ovector[4]] = 0;
 
-	if (_tcsstr(mod, _T("i")))
+	if (_tcsstr(mod, L"i"))
 		opts |= PCRE_CASELESS;
-	if (_tcsstr(mod, _T("m")))
+	if (_tcsstr(mod, L"m"))
 		opts |= PCRE_MULTILINE;
-	if (_tcsstr(mod, _T("s")))
+	if (_tcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
@@ -108,7 +108,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	int erroroffs, rc;
 	TCHAR *regex, *regexp, *data = NULL, *mod;
 	int opts = 0;
-	TCHAR regex_parse[] = _T("^/(.*)/([igsm]*)");
+	TCHAR regex_parse[] = L"^/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (str == NULL || strSearch == NULL)
@@ -133,11 +133,11 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	data = mir_tstrdup(str);
 	if (data == NULL)
 		goto err_out;
-	if (_tcsstr(mod, _T("i")))
+	if (_tcsstr(mod, L"i"))
 		opts |= PCRE_CASELESS;
-	if (_tcsstr(mod, _T("m")))
+	if (_tcsstr(mod, L"m"))
 		opts |= PCRE_MULTILINE;
-	if (_tcsstr(mod, _T("s")))
+	if (_tcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
@@ -161,7 +161,7 @@ int get_response_id(const TCHAR* strvar)
 	const char *error;
 	int erroroffs, rc;
 	TCHAR *_str, *_strvar;
-	TCHAR regex[] = _T("^%response([#-_]([0-9]+))?%$");
+	TCHAR regex[] = L"^%response([#-_]([0-9]+))?%$";
 	int ovector[9];
 
 	if (strvar == NULL)
@@ -198,10 +198,10 @@ int get_response_num(const TCHAR *str)
 	strc = mir_tstrdup(str);
 	if (strc == NULL)
 		return 0;
-	tmp = _tcstok(strc, _T("\r\n"));
+	tmp = _tcstok(strc, L"\r\n");
 	while (tmp) {
 		i ++;
-		tmp = _tcstok(NULL, _T("\r\n")); /* Move next. */
+		tmp = _tcstok(NULL, L"\r\n"); /* Move next. */
 	}
 	mir_free(strc);
 
@@ -219,7 +219,7 @@ TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
 	if (src == NULL)
 		goto err_out;
 	_getOptS(src, MAX_BUFFER_LENGTH, "Response", defaultResponse);
-	tmp = _tcstok(src, _T("\r\n"));
+	tmp = _tcstok(src, L"\r\n");
 	while (tmp) {
 		if (i == num) {
 			mir_tstrcpy(dst, tmp);
@@ -227,7 +227,7 @@ TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
 			return dst;
 		}
 		i ++;
-		tmp = _tcstok(NULL, _T("\r\n")); /* Move next. */
+		tmp = _tcstok(NULL, L"\r\n"); /* Move next. */
 	}
 	mir_free(src);
 err_out:
@@ -274,10 +274,10 @@ BOOL Contains(TCHAR* dst, TCHAR* src) // Checks for occurence of substring from 
 		goto err_out;
 	tdst = _tcstoupper(tdst);
 	dst_len = mir_tstrlen(tdst);
-	token = _tcstok(tsrc, _T(","));
+	token = _tcstok(tsrc, L",");
 	while (token) {
 		token_end = (token + mir_tstrlen(token));
-		while (!_tcsncmp(token, _T(" "), 1)) { /* Skeep spaces at start. */
+		while (!_tcsncmp(token, L" ", 1)) { /* Skeep spaces at start. */
 			token ++;
 		}
 		/* Skeep spaces at end. */
@@ -291,7 +291,7 @@ BOOL Contains(TCHAR* dst, TCHAR* src) // Checks for occurence of substring from 
 			ret = TRUE;
 			break;		
 		}
-		token = _tcstok(NULL, _T(",")); /* Move next. */
+		token = _tcstok(NULL, L","); /* Move next. */
 	}
 err_out:
 	mir_free(tsrc);
@@ -363,7 +363,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 	const char *error;
 	int erroroffs, rc;
 	TCHAR *_str, *tmp, **r = NULL, **tr, *ttmp, *dstcopy;
-	TCHAR regex[] = _T("%response([#-_]([0-9]+))?%");
+	TCHAR regex[] = L"%response([#-_]([0-9]+))?%";
 	int ovector[9];
 
 	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
@@ -371,14 +371,14 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 		return FALSE; // [TODO] and log some error
 	_getOptS(response, _countof(response), "Response", defaultResponse);	
 
-	ttmp = _tcstok(response, _T("\r\n"));
+	ttmp = _tcstok(response, L"\r\n");
 	for (i = 0; ttmp != NULL; i ++) {
 		tr = (TCHAR**)mir_realloc(r, ((i + 1) * sizeof(TCHAR*)));
 		if (tr == NULL)
 			goto err_out;
 		r = tr;
 		r[i] = ttmp;
-		ttmp = _tcstok(NULL, _T("\r\n")); /* Move next. */
+		ttmp = _tcstok(NULL, L"\r\n"); /* Move next. */
 	}
 
 	do {

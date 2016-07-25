@@ -379,16 +379,16 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 			lvi.iItem = 0x7fffffff;
 
-			str = _tcstok(str, _T("\n"));
+			str = _tcstok(str, L"\n");
 
 			if (gIcons && str != NULL) {
 				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 
-				if (_tcsstr(str, _T("Data received"))) {
+				if (_tcsstr(str, L"Data received")) {
 					if (gSeparator) ListView_InsertItem(dat->hList, &lvi);
 					lvi.iImage = IMG_IN;
 				}
-				else if (_tcsstr(str, _T("Data sent"))) {
+				else if (_tcsstr(str, L"Data sent")) {
 					if (gSeparator) ListView_InsertItem(dat->hList, &lvi);
 					lvi.iImage = IMG_OUT;
 				}
@@ -423,7 +423,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 				last = ListView_InsertItem(dat->hList, &lvi);
 
-				str = _tcstok(NULL, _T("\n"));
+				str = _tcstok(NULL, L"\n");
 
 				if (str) dat->newline = 1;
 				lvi.iImage = IMG_EMPTY;
@@ -545,7 +545,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 			if (!Openfile(szFile, ListView_GetSelectedCount(dat->hList))) break;
 
-			FILE *fp = _tfopen(szFile, _T("wt"));
+			FILE *fp = _tfopen(szFile, L"wt");
 			if (fp) {
 				int idx = 0;
 				TCHAR szText[128];
@@ -555,7 +555,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 				while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0) {
 					ListView_GetItemText(dat->hList, idx, 0, szText, _countof(szText));
-					_ftprintf(fp, _T("%s\n"), szText);
+					_ftprintf(fp, L"%s\n", szText);
 				}
 				fclose(fp);
 			}
@@ -621,7 +621,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)path);
 
-		mir_sntprintf(title, _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
+		mir_sntprintf(title, L"%s - %s\\%s", TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);
@@ -1131,7 +1131,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
-	mir_tstrncpy(fid.deffontsettings.szFace, _T("Courier"), _countof(fid.deffontsettings.szFace));
+	mir_tstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
 	FontRegisterT(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
@@ -1266,7 +1266,7 @@ TCHAR *addstring(TCHAR *str, TCHAR *add) {
 
 static int Openfile(TCHAR *outputFile, int selection)
 {
-	TCHAR filename[MAX_PATH + 2] = _T("");
+	TCHAR filename[MAX_PATH + 2] = L"";
 	TCHAR *title;
 
 	TCHAR *filter, *tmp, *tmp1, *tmp2;
@@ -1274,9 +1274,9 @@ static int Openfile(TCHAR *outputFile, int selection)
 	tmp2 = TranslateT("All Files");
 	filter = tmp = (TCHAR*)_alloca((mir_tstrlen(tmp1) + mir_tstrlen(tmp2) + 11)*sizeof(TCHAR));
 	tmp = addstring(tmp, tmp1);
-	tmp = addstring(tmp, _T("*.TXT"));
+	tmp = addstring(tmp, L"*.TXT");
 	tmp = addstring(tmp, tmp2);
-	tmp = addstring(tmp, _T("*"));
+	tmp = addstring(tmp, L"*");
 	*tmp = 0;
 
 	if (selection)
@@ -1292,7 +1292,7 @@ static int Openfile(TCHAR *outputFile, int selection)
 	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 	ofn.lpstrTitle = title;
 	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrDefExt = _T("txt");
+	ofn.lpstrDefExt = L"txt";
 
 	if (!GetSaveFileName(&ofn))
 		return 0;

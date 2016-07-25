@@ -128,7 +128,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[i]->msg);
 					else {
 						ptrT msg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, settings[i]->status, 0));
-						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msg != NULL) ? msg : _T(""));
+						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msg != NULL) ? msg : L"");
 					}
 
 					if (settings[i]->useCustom) {

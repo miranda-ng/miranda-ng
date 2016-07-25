@@ -1267,7 +1267,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, chat_list_item
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = _T("");
+					TCHAR buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					char *sn = mir_t2a(buf);

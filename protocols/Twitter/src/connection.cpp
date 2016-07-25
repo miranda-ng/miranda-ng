@@ -169,7 +169,7 @@ bool TwitterProto::NegotiateConnection()
 		wchar_t buf[1024] = {};
 		mir_snwprintf(buf, _countof(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
 
-		debugLogW(_T("**NegotiateConnection - Launching %s"), buf);
+		debugLogW(L"**NegotiateConnection - Launching %s", buf);
 		ShellExecute(NULL, L"open", buf, NULL, NULL, SW_SHOWNORMAL);
 
 		ShowPinDialog();

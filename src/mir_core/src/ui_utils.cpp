@@ -2372,7 +2372,7 @@ void CCtrlBase::SetTextA(const char *text)
 void CCtrlBase::SetInt(int value)
 {
 	TCHAR buf[32] = { 0 };
-	mir_sntprintf(buf, _T("%d"), value);
+	mir_sntprintf(buf, L"%d", value);
 	SetWindowText(m_hwnd, buf);
 }
 

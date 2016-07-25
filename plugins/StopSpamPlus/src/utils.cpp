@@ -68,7 +68,7 @@ tstring trim(const tstring &tstr, const tstring& trimChars)
 	size_t e = tstr.find_last_not_of(trimChars);
 
 	if ((tstring::npos == s) || (tstring::npos == e))
-		return _T("");
+		return L"";
 	else
 		return tstr.substr(s, e - s + 1);
 }

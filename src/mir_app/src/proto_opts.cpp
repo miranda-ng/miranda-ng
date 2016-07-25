@@ -143,13 +143,13 @@ static bool OnCreateAccount(HWND hwndDlg)
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
 		TCHAR szPlugin[MAX_PATH];
-		mir_sntprintf(szPlugin, _T("%s.dll"), _A2T(pa->szProtoName));
+		mir_sntprintf(szPlugin, L"%s.dll", _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			TCHAR szNewName[MAX_PATH];
-			mir_sntprintf(szNewName, _T("%s~"), szPlugin);
+			mir_sntprintf(szNewName, L"%s~", szPlugin);
 			MoveFile(szPlugin, szNewName);
 		}
 		param->action = PRAC_ADDED;
@@ -202,9 +202,9 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				TCHAR str[200];
 				if (param->action == PRAC_CHANGED) { // update
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
-					mir_sntprintf(str, _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
+					mir_sntprintf(str, L"%s: %s", TranslateT("Editing account"), param->pa->tszAccountName);
 				}
-				else mir_sntprintf(str, _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
+				else mir_sntprintf(str, L"%s: %s", TranslateT("Upgrading account"), param->pa->tszAccountName);
 
 				SetWindowText(hwndDlg, str);
 				SetDlgItemText(hwndDlg, IDC_ACCNAME, param->pa->tszAccountName);
@@ -351,7 +351,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			rc.bottom = rc.top + max(g_iIconSX, parentDat->titleHeight) + 4 - 1;
 			++rc.top; --rc.right;
 
-			dat->hwndEdit = CreateWindow(_T("EDIT"), pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, hwnd, NULL, g_hInst, NULL);
+			dat->hwndEdit = CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, hwnd, NULL, g_hInst, NULL);
 			mir_subclassWindow(dat->hwndEdit, sttEditSubclassProc);
 			SendMessage(dat->hwndEdit, WM_SETFONT, (WPARAM)parentDat->hfntTitle, 0);
 			SendMessage(dat->hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
@@ -618,7 +618,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			if (lps->itemID == (unsigned)dat->iSelected) {
 				SelectObject(lps->hDC, dat->hfntText);
-				mir_sntprintf(text, size, _T("%s: %S"), TranslateT("Protocol"), acc->szProtoName);
+				mir_sntprintf(text, size, L"%s: %S", TranslateT("Protocol"), acc->szProtoName);
 				length = (int)mir_tstrlen(text);
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
@@ -629,9 +629,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					ptrT tszIdName(szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID")));
 					ptrT tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, NULL, acc->szModuleName));
 					if (tszUniqueID != NULL)
-						mir_sntprintf(text, size, _T("%s: %s"), tszIdName, tszUniqueID);
+						mir_sntprintf(text, size, L"%s: %s", tszIdName, tszUniqueID);
 					else 
-						mir_sntprintf(text, size, _T("%s: %s"), tszIdName, TranslateT("<unknown>"));
+						mir_sntprintf(text, size, L"%s: %s", tszIdName, TranslateT("<unknown>"));
 				}
 				else mir_sntprintf(text, size, TranslateT("Protocol is not loaded."));
 

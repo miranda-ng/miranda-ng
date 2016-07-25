@@ -128,9 +128,9 @@ static ICODESC icoDesc[] = {
 LPTSTR IcoLib_GetDefaultIconFileName()
 {
 	static LPTSTR path[] = {
-		_T("Icons\\uinfoex_icons.dll"),
-		_T("Plugins\\uinfoex_icons.dll"),
-		_T("Customize\\Icons\\uinfoex_icons.dll")
+		L"Icons\\uinfoex_icons.dll",
+		L"Plugins\\uinfoex_icons.dll",
+		L"Customize\\Icons\\uinfoex_icons.dll"
 	};
 	TCHAR absolute[MAX_PATH];
 

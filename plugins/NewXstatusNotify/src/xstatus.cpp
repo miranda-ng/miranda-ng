@@ -154,7 +154,7 @@ CMString ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 
 	if (res.GetLength() > 2044) {
 		res.Truncate(2044);
-		res.Append(_T("..."));
+		res.Append(L"...");
 	}
 
 	return res;
@@ -194,11 +194,11 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		copyText = mir_tstrdup(xsc->stzText);
 		_tcsncpy(buff, xsc->stzText, opt.PXMsgLen);
 		buff[opt.PXMsgLen] = 0;
-		mir_tstrcat(buff, _T("..."));
+		mir_tstrcat(buff, L"...");
 		replaceStrT(xsc->stzText, buff);
 	}
 
-	TCHAR *Template = _T("");
+	TCHAR *Template = L"";
 	switch (xsc->action) {
 	case NOTIFY_NEW_XSTATUS:
 		Template = templates.PopupXstatusChanged; break;
@@ -273,7 +273,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 	if (xsc == NULL || (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact)))
 		return;
 
-	TCHAR *Template = _T("");
+	TCHAR *Template = L"";
 	switch (xsc->action) {
 	case NOTIFY_NEW_XSTATUS:
 		Template = templates.LogXstatusChanged; break;
@@ -289,7 +289,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 	TCHAR stzLastLog[2 * MAX_TEXT_LEN];
 	CMString stzLogText(ReplaceVars(xsc, Template));
-	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, _countof(stzLastLog), _T(""));
+	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, _countof(stzLastLog), L"");
 
 	if (opt.XLogToDB) {
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
@@ -322,10 +322,10 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 
 	TCHAR stzDate[32], stzTime[32], stzText[MAX_TEXT_LEN];
 
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), stzTime, _countof(stzTime));
-	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("dd/MM/yyyy"), stzDate, _countof(stzDate));
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
+	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 
-	TCHAR *Template = _T("");
+	TCHAR *Template = L"";
 	switch (xsc->action) {
 	case NOTIFY_NEW_XSTATUS:
 		Template = templates.LogXstatusChanged; break;
@@ -337,7 +337,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 		Template = templates.LogXMsgRemoved; break;
 	}
 
-	mir_sntprintf(stzText, _T("%s, %s. %s %s\r\n"), stzDate, stzTime, 
+	mir_sntprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, 
 		pcli->pfnGetContactDisplayName(xsc->hContact, 0), ReplaceVars(xsc, Template).GetString());
 
 	LogToFile(stzText);

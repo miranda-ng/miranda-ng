@@ -529,7 +529,7 @@ void CLC::BeginRenameSelection(HWND hwnd, ClcData *dat)
 		for (i = 0; i <= FONTID_LAST; i++)
 			if (h < dat->fontInfo[i].fontHeight + 2) h = dat->fontInfo[i].fontHeight + 2;
 	}
-	dat->hwndRenameEdit = CreateWindowEx(0, _T("RichEdit20W"), contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
+	dat->hwndRenameEdit = CreateWindowEx(0, L"RichEdit20W", contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
 	{
 		if((contact->type == CLCIT_CONTACT && cfg::eCache[contact->extraCacheEntry].dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
@@ -537,12 +537,12 @@ void CLC::BeginRenameSelection(HWND hwnd, ClcData *dat)
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.wEffects = PFE_RTLPARA;
-			SetWindowText(dat->hwndRenameEdit, _T(""));
+			SetWindowText(dat->hwndRenameEdit, L"");
 			SendMessage(dat->hwndRenameEdit, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 			SetWindowText(dat->hwndRenameEdit, contact->szText);
 		}
 	}
-	//dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
+	//dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
 	OldRenameEditWndProc = (WNDPROC) SetWindowLongPtr(dat->hwndRenameEdit, GWLP_WNDPROC, (LONG_PTR) RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM) (contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
@@ -567,7 +567,7 @@ void CLC::LoadClcOptions(HWND hwnd, ClcData *dat, BOOL first)
 
 		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
 		SIZE fontSize;
-		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
+		GetTextExtentPoint32(hdc, L"x", 1, &fontSize);
 		SelectObject(hdc, holdfont);
 
 		dat->fontInfo[i].fontHeight = fontSize.cy;

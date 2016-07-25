@@ -11,7 +11,7 @@ Distributed under GNU's GPL 2 or later
 
 COLORREF pencustcolors[16];
 
-const static osdmsg defstr = { _T(""), 0, RGB(0, 0, 0), 0, 0 };
+const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), 0, 0 };
 
 void FillCheckBoxTree(HWND hwndTree, DWORD style)
 {
@@ -250,7 +250,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		{
 			TCHAR buf[20];
-			mir_sntprintf(buf, _T("%d %%"), ps->alpha * 100 / 255);
+			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
 
@@ -266,7 +266,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		ps->alpha = SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_GETPOS, 0, 0);
 		{
 			TCHAR buf[20];
-			mir_sntprintf(buf, _T("%d %%"), ps->alpha * 100 / 255);
+			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
 		goto xxx;

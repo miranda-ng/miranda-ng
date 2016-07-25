@@ -209,25 +209,25 @@ void Mind::Load(tstring filename)
 					++c;
 					count -= 2;
 					c[count] = '\0';
-					if (mir_tstrcmp(c, _T("QUESTION")) == 0) {
+					if (mir_tstrcmp(c, L"QUESTION") == 0) {
 						toLowerStr(c);
 						data->question.insert(s1);
 					}
-					else if (mir_tstrcmp(c, _T("IGNORED")) == 0) {
+					else if (mir_tstrcmp(c, L"IGNORED") == 0) {
 						toLowerStr(c);
 						data->special.insert(s1);
 					}
-					else if (mir_tstrcmp(c, _T("ESCAPE")) == 0) {
+					else if (mir_tstrcmp(c, L"ESCAPE") == 0) {
 						data->escape.push_back(s1);
 					}
-					else if (mir_tstrcmp(c, _T("FAILURE")) == 0) {
+					else if (mir_tstrcmp(c, L"FAILURE") == 0) {
 						data->failure.push_back(s1);
 					}
-					else if (mir_tstrcmp(c, _T("REPEAT")) == 0) {
+					else if (mir_tstrcmp(c, L"REPEAT") == 0) {
 						data->repeats.push_back(s1);
 					}
 					else {
-						if (mir_tstrcmp(c, _T("INITIAL")) != 0)
+						if (mir_tstrcmp(c, L"INITIAL") != 0)
 							throw error;
 						data->initial.push_back(s1);
 					}
@@ -298,47 +298,47 @@ void Mind::Save(tstring filename) const
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (multimap<WordsList, tstring>::iterator it = data->keywords.begin(); it != data->keywords.end(); ++it) {
-		file << _T(" (") << (tstring)(*it).first << _T(")") << _T('\r') << endl;
+		file << L" (" << (tstring)(*it).first << L")" << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (multimap<WordsList, tstring>::iterator it = data->qkeywords.begin(); it != data->qkeywords.end(); ++it) {
-		file << _T(" (") << (tstring)(*it).first << _T(")") << _T('\r') << endl;
+		file << L" (" << (tstring)(*it).first << L")" << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (multimap<WordsList, tstring>::iterator it = data->specialEscapes.begin(); it != data->specialEscapes.end(); ++it) {
-		file << _T(" {") << (tstring)(*it).first << _T("}") << _T('\r') << endl;
+		file << L" {" << (tstring)(*it).first << L"}" << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (multimap<WordsList, tstring>::iterator it = data->qspecialEscapes.begin(); it != data->qspecialEscapes.end(); ++it) {
-		file << _T(" {") << (tstring)(*it).first << _T("}") << _T('\r') << endl;
+		file << L" {" << (tstring)(*it).first << L"}" << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (string_mmap::iterator it = data->widelyUsed.begin(); it != data->widelyUsed.end(); ++it) {
-		file << _T(" [") << (*it).first << _T("]") << _T('\r') << endl;
+		file << L" [" << (*it).first << L"]" << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
 	for (set<tstring>::iterator it = data->question.begin(); it != data->question.end(); ++it) {
-		file << _T(" <QUESTION>") << _T('\r') << endl;
+		file << L" <QUESTION>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (set<tstring>::iterator it = data->special.begin(); it != data->special.end(); ++it) {
-		file << _T(" <IGNORED>") << _T('\r') << endl;
+		file << L" <IGNORED>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (string_vec::iterator it = data->escape.begin(); it != data->escape.end(); ++it) {
-		file << _T(" <ESCAPE>") << _T('\r') << endl;
+		file << L" <ESCAPE>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (string_vec::iterator it = data->initial.begin(); it != data->initial.end(); ++it) {
-		file << _T(" <INITIAL>") << _T('\r') << endl;
+		file << L" <INITIAL>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (string_vec::iterator it = data->failure.begin(); it != data->failure.end(); ++it) {
-		file << _T(" <FAILURE>") << _T('\r') << endl;
+		file << L" <FAILURE>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (string_vec::iterator it = data->repeats.begin(); it != data->repeats.end(); ++it) {
-		file << _T(" <REPEAT>") << _T('\r') << endl;
+		file << L" <REPEAT>" << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
 	for (map<tstring, vector<tstring>>::const_iterator it = data->raliases.begin(); it != data->raliases.end(); ++it) {
@@ -351,7 +351,7 @@ void Mind::Save(tstring filename) const
 				s = *it1;
 			}
 			else {
-				s += _T(" ") + *it1;
+				s += L" " + *it1;
 			}
 		}
 		file << _T('@') << (*it).first << _T('\r') << endl;

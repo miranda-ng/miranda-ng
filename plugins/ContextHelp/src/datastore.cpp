@@ -139,7 +139,7 @@ static void LoaderThread(void *arg)
 		p = _tcsrchr(szDir, _T('\\'));
 		if (p)
 			*p = _T('\0');
-		mir_sntprintf(szSearch, _T("%s\\helppack_*.txt"), szDir);
+		mir_sntprintf(szSearch, L"%s\\helppack_*.txt", szDir);
 
 		hFind = FindFirstFile(szSearch, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -148,7 +148,7 @@ static void LoaderThread(void *arg)
 					continue;
 				if (lstrlen(wfd.cFileName) < 4 || wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))
 					continue;
-				mir_sntprintf(szSearch, _T("%s\\%s"), szDir, wfd.cFileName);
+				mir_sntprintf(szSearch, L"%s\\%s", szDir, wfd.cFileName);
 				success = 1;
 				break;
 			} while (FindNextFile(hFind, &wfd));
@@ -161,7 +161,7 @@ static void LoaderThread(void *arg)
 		return;
 	}
 
-	fp = _tfopen(szSearch, _T("rt"));
+	fp = _tfopen(szSearch, L"rt");
 	if (fp == NULL) {
 		if (!Miranda_Terminated() && IsWindow(hwndHelpDlg))
 			PostMessage(hwndHelpDlg, M_HELPLOADFAILED, 0, (LPARAM)dtsp->hwndCtl);

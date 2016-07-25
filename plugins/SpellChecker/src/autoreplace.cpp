@@ -39,7 +39,7 @@ AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 
 void AutoReplaceMap::loadAutoReplaceMap()
 {
-	FILE *file = _tfopen(m_filename, _T("rb"));
+	FILE *file = _tfopen(m_filename, L"rb");
 	if (file == NULL)
 		return;
 
@@ -96,7 +96,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 	}
 
 	// Write it
-	FILE *file = _tfopen(m_filename, _T("wb"));
+	FILE *file = _tfopen(m_filename, L"wb");
 	if (file != NULL) {
 		map<tstring, AutoReplacement>::iterator it = m_replacements.begin();
 		for (; it != m_replacements.end(); it++) {
@@ -120,7 +120,7 @@ BOOL AutoReplaceMap::isWordChar(TCHAR c)
 	if (IsNumber(c))
 		return TRUE;
 
-	if (_tcschr(_T("-_.!@#$%&*()[]{}<>:?/\\=+"), c) != NULL)
+	if (_tcschr(L"-_.!@#$%&*()[]{}<>:?/\\=+", c) != NULL)
 		return TRUE;
 
 	return m_dict->isWordChar(c);

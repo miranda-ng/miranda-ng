@@ -17,7 +17,7 @@ private:
 	virtual void Visit(const CQuotesProviderYahoo& rProvider);
 
 private:
-	void FormatDoubleHelper(LPCSTR pszDbSet, const tstring sInvalid = _T("-"));
+	void FormatDoubleHelper(LPCSTR pszDbSet, const tstring sInvalid = L"-");
 	// 	void FormatChangeValueHelper(bool bPercentage);
 
 private:

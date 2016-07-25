@@ -128,7 +128,7 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size
 
 		TCHAR dateTimeStr[64];
 		if (iso)
-			tszTemp.AppendFormat(_T("%d-%02d-%02dT%02d:%02d:%02dZ"), st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
+			tszTemp.AppendFormat(L"%d-%02d-%02dT%02d:%02d:%02dZ", st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
 		else if (date) {
 			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, _countof(dateTimeStr));
 			tszTemp.Append(dateTimeStr);
@@ -166,7 +166,7 @@ MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ)
 	if (tz == NULL)
 		return myInfo.myTZ.tszName;
 	else if (tz == UTC_TIME_HANDLE)
-		return _T("UTC");
+		return L"UTC";
 
 	return tz->tszName;
 }
@@ -179,7 +179,7 @@ MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname)
 		if (!mir_tstrcmp(tz->tszName, TZname))
 			return tz->szDisplay;
 	}
-	return _T("");
+	return L"";
 }
 
 static void CalcTsOffset(MIM_TIMEZONE *tz)
@@ -381,9 +381,9 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		TCHAR	tszClassName[128];
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
-		if (!mir_tstrcmpi(tszClassName, _T("COMBOBOX")))
+		if (!mir_tstrcmpi(tszClassName, L"COMBOBOX"))
 			dwFlags |= TZF_PLF_CB;
-		else if (!mir_tstrcmpi(tszClassName, _T("LISTBOX")))
+		else if (!mir_tstrcmpi(tszClassName, L"LISTBOX"))
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
@@ -531,7 +531,7 @@ void InitTimeZones(void)
 	REG_TZI_FORMAT	tzi;
 	HKEY			hKey;
 
-	const TCHAR *tszKey = _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones");
+	const TCHAR *tszKey = L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones";
 
 	/*
 	 * use GetDynamicTimeZoneInformation() on Vista+ - this will return a structure with
@@ -539,7 +539,7 @@ void InitTimeZones(void)
 	 * localized systems or systems with a MUI pack installed
 	 */
 	if (IsWinVerVistaPlus())
-		pfnGetDynamicTimeZoneInformation = (pfnGetDynamicTimeZoneInformation_t)GetProcAddress(GetModuleHandle(_T("kernel32")), "GetDynamicTimeZoneInformation");
+		pfnGetDynamicTimeZoneInformation = (pfnGetDynamicTimeZoneInformation_t)GetProcAddress(GetModuleHandle(L"kernel32"), "GetDynamicTimeZoneInformation");
 
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey)) {
 		DWORD	dwIndex = 0;
@@ -552,7 +552,7 @@ void InitTimeZones(void)
 				dwSize = sizeof(tszName);
 
 				DWORD dwLength = sizeof(tzi);
-				if (ERROR_SUCCESS != RegQueryValueEx(hSubKey, _T("TZI"), NULL, NULL, (unsigned char *)&tzi, &dwLength))
+				if (ERROR_SUCCESS != RegQueryValueEx(hSubKey, L"TZI", NULL, NULL, (unsigned char *)&tzi, &dwLength))
 					continue;
 
 				MIM_TIMEZONE *tz = new MIM_TIMEZONE;
@@ -567,9 +567,9 @@ void InitTimeZones(void)
 				tz->hash = mir_hashstrT(tszName);
 				tz->offset = INT_MIN;
 
-				GetLocalizedString(hSubKey, _T("Display"), tz->szDisplay, _countof(tz->szDisplay));
-				GetLocalizedString(hSubKey, _T("Std"), tz->tzi.StandardName, _countof(tz->tzi.StandardName));
-				GetLocalizedString(hSubKey, _T("Dlt"), tz->tzi.DaylightName, _countof(tz->tzi.DaylightName));
+				GetLocalizedString(hSubKey, L"Display", tz->szDisplay, _countof(tz->szDisplay));
+				GetLocalizedString(hSubKey, L"Std", tz->tzi.StandardName, _countof(tz->tzi.StandardName));
+				GetLocalizedString(hSubKey, L"Dlt", tz->tzi.DaylightName, _countof(tz->tzi.DaylightName));
 
 				g_timezones.insert(tz);
 				g_timezonesBias.insert(tz);

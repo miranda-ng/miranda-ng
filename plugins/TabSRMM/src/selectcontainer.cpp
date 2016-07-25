@@ -86,7 +86,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			if ((iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETCURSEL, 0, 0)) != LB_ERR) {
 				SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
-				if (!_tcsncmp(szName, _T("default"), CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
+				if (!_tcsncmp(szName, L"default", CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
 					MessageBox(hwndDlg, TranslateT("You cannot delete the default container"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 				else {
 					int iIndex = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETITEMDATA, (WPARAM)iItem, 0);
@@ -120,7 +120,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 				if ((iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETCURSEL, 0, 0)) != LB_ERR) {
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
-					if (!_tcsncmp(szName, _T("default"), CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
+					if (!_tcsncmp(szName, L"default", CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
 						MessageBox(hwndDlg, TranslateT("You cannot rename the default container"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					else {
 						int iIndex = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETITEMDATA, (WPARAM)iItem, 0);
@@ -182,8 +182,8 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (db_get_ts(NULL, szKey, szValue, &dbv))
 				break;          // end of list
 			if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-				if (_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN)) {
-					iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_tstrcmp(dbv.ptszVal, _T("default")) ?
+				if (_tcsncmp(dbv.ptszVal, L"**mir_free**", CONTAINER_NAMELEN)) {
+					iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_tstrcmp(dbv.ptszVal, L"default") ?
 						TranslateT("Default container") : dbv.ptszVal));
 					if (iItemNew != LB_ERR)
 						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETITEMDATA, (WPARAM)iItemNew, (LPARAM)iCounter);
@@ -200,7 +200,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (pContainer) {
 			LRESULT iItem;
 
-			iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(!mir_tstrcmp(pContainer->szName, _T("default")) ?
+			iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(!mir_tstrcmp(pContainer->szName, L"default") ?
 				TranslateT("Default container") : pContainer->szName));
 			if (iItem != LB_ERR)
 				SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETCURSEL, (WPARAM)iItem, 0);

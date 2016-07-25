@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 
 static const TCHAR *m_ptszRoles[] = {
-	_T("admin"),
-	_T("user")
+	L"admin",
+	L"user"
 };
 
 MCONTACT CMsnProto::MSN_GetChatInernalHandle(MCONTACT hContact)
@@ -55,7 +55,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	TCHAR szName[512];
 	InterlockedIncrement(&m_chatID);
 	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), _countof(szName));
-	else mir_sntprintf(szName, _T("%s %s%d"),
+	else mir_sntprintf(szName, L"%s %s%d",
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
 	GCSESSION gcw = { sizeof(gcw) };
@@ -219,7 +219,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 				hContInitiator = MSN_HContactFromEmail(initiator->txt);
 				gce.ptszText= GetContactNameT(hContInitiator);
 			}
-			gce.ptszStatus = _T("admin");
+			gce.ptszStatus = L"admin";
 		}
 
 		if (gcd.iType) {
@@ -330,7 +330,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = _T("");
+					TCHAR buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					if (buf[0]) str.insert(mir_t2a(buf));
@@ -511,7 +511,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_MESSAGE };
 				GCEVENT gce = { sizeof(gce), &gcd };
 				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.ptszNick = bError ? _T("") : dbv.ptszVal;
+				gce.ptszNick = bError ? L"" : dbv.ptszVal;
 				gce.ptszUID = mir_a2t(MyOptions.szEmail);
 				gce.time = time(NULL);
 				gce.ptszText = gch->ptszText;
@@ -574,7 +574,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 
 		case 40:
 			const TCHAR *pszRole = MSN_GCGetRole(MSN_GetThreadByChatId(gch->pDest->ptszID), _T2A(gch->ptszUID));
-			MSN_Promoteuser(gch, (pszRole && !mir_tstrcmp(pszRole, _T("admin"))) ? "user" : "admin");
+			MSN_Promoteuser(gch, (pszRole && !mir_tstrcmp(pszRole, L"admin")) ? "user" : "admin");
 			break;
 		}
 		break;
@@ -605,7 +605,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 			{
 				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
 				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
-				{ _T(""), 100, MENU_SEPARATOR, FALSE },
+				{ L"", 100, MENU_SEPARATOR, FALSE },
 				{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
@@ -620,13 +620,13 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				{ LPGENT("&Op user")     , 40, MENU_ITEM, FALSE }
 			};
 			GCThreadData* thread = MSN_GetThreadByChatId(gcmi->pszID);
-			if (thread && thread->mMe && mir_tstrcmpi(thread->mMe->role, _T("admin"))) {
+			if (thread && thread->mMe && mir_tstrcmpi(thread->mMe->role, L"admin")) {
 				Items[2].bDisabled = TRUE;
 				Items[3].bDisabled = TRUE;
 			}
 			else {
 				const TCHAR *pszRole = MSN_GCGetRole(thread, email);
-				if (pszRole && !mir_tstrcmpi(pszRole, _T("admin")))
+				if (pszRole && !mir_tstrcmpi(pszRole, L"admin"))
 					Items[3].pszDesc = LPGENT("&Deop user");
 			}
 			gcmi->nItems = _countof(Items);

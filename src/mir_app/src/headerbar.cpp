@@ -72,7 +72,7 @@ int LoadHeaderbarModule()
 {
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
-	wc.lpszClassName = _T("MHeaderbarCtrl");
+	wc.lpszClassName = L"MHeaderbarCtrl";
 	wc.lpfnWndProc = MHeaderbarWndProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);

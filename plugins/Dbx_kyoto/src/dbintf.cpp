@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define DBHEADER_SIGNATURE _T("KyotoCabinet")
+#define DBHEADER_SIGNATURE L"KyotoCabinet"
 
 #define CMP_UINT32(A,B) if(A!=B) return (A<B)?-1:1;
 
@@ -158,16 +158,16 @@ int CDbxKyoto::Load(bool bSkipInit)
 
 		if (_taccess(m_tszProfileName, 0) == 0) {
 			TCHAR buf[100];
-			if (0 == GetPrivateProfileString(_T("Database"), _T("Signature"), _T(""), buf, SIZEOF(buf), m_tszProfileName))
+			if (0 == GetPrivateProfileString(L"Database", L"Signature", L"", buf, SIZEOF(buf), m_tszProfileName))
 				return EGROKPRF_CANTREAD;
 			if (_tcscmp(buf, DBHEADER_SIGNATURE))
 				return EGROKPRF_DAMAGED;
 
-			m_dwVersion = GetPrivateProfileInt(_T("Database"), _T("Version"), 1, m_tszProfileName);
+			m_dwVersion = GetPrivateProfileInt(L"Database", L"Version", 1, m_tszProfileName);
 		}
 		else {
-			WritePrivateProfileString(_T("Database"), _T("Version"), _T("1"), m_tszProfileName);
-			WritePrivateProfileString(_T("Database"), _T("Signature"), DBHEADER_SIGNATURE, m_tszProfileName);
+			WritePrivateProfileString(L"Database", L"Version", L"1", m_tszProfileName);
+			WritePrivateProfileString(L"Database", L"Signature", DBHEADER_SIGNATURE, m_tszProfileName);
 
 			DWORD keyVal = 0;
 			DBContact dbc = { DBCONTACT_SIGNATURE, 0, 0, 0 };
@@ -202,8 +202,8 @@ int CDbxKyoto::Load(bool bSkipInit)
 
 int CDbxKyoto::Create(void)
 {
-	WritePrivateProfileString(_T("Database"), _T("Version"), _T("1"), m_tszProfileName);
-	WritePrivateProfileString(_T("Database"), _T("Signature"), DBHEADER_SIGNATURE, m_tszProfileName);
+	WritePrivateProfileString(L"Database", L"Version", L"1", m_tszProfileName);
+	WritePrivateProfileString(L"Database", L"Signature", DBHEADER_SIGNATURE, m_tszProfileName);
 	return 0;
 }
 
@@ -213,7 +213,7 @@ int CDbxKyoto::Check(void)
 		return EGROKPRF_CANTREAD;
 
 	TCHAR buf[100];
-	if (0 == GetPrivateProfileString(_T("Database"), _T("Signature"), _T(""), buf, SIZEOF(buf), m_tszProfileName))
+	if (0 == GetPrivateProfileString(L"Database", L"Signature", L"", buf, SIZEOF(buf), m_tszProfileName))
 		return EGROKPRF_UNKHEADER;
 	if (_tcscmp(buf, DBHEADER_SIGNATURE))
 		return EGROKPRF_UNKHEADER;

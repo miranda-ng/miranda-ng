@@ -88,7 +88,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	if (!bContactRate)
 		tszName = FAVMENUROOTNAME;
 	else
-		tszName.Format(_T("%s (%s)"), TranslateTS(FAVMENUROOTNAME), TranslateTS(rates[bContactRate]));
+		tszName.Format(L"%s (%s)", TranslateTS(FAVMENUROOTNAME), TranslateTS(rates[bContactRate]));
 	Menu_ModifyItem(hFavoriteContactMenu, tszName);
 
 	for (int i = 0; i < _countof(rates); i++)

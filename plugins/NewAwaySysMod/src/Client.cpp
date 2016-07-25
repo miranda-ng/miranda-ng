@@ -171,23 +171,23 @@ int ICQStatusToGeneralStatus(int bICQStat)
 TCString VariablesEscape(TCString Str)
 {
 	if (!Str.GetLen()) {
-		return _T("");
+		return L"";
 	}
 	enum eState
 	{
 		ST_TEXT, ST_QUOTE
 	};
 	eState State = ST_QUOTE;
-	TCString Result(_T("`"));
+	TCString Result(L"`");
 	const TCHAR *p = Str;
 	while (*p) {
 		if (*p == '`') {
 			if (State == ST_TEXT) {
-				Result += _T("````");
+				Result += L"````";
 				State = ST_QUOTE;
 			}
 			else {
-				Result += _T("``");
+				Result += L"``";
 			}
 		}
 		else {

@@ -54,7 +54,7 @@ static const FieldNames ZodiakField[] =
 void ResetComboBox(HWND hWndCombo)
 {
 	SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
-	DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
+	DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
 	SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 	SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 }
@@ -77,7 +77,7 @@ void InitComboBoxNumders(HWND hWndCombo, DWORD dwStart, DWORD dwEnd)
 
 	for (DWORD i = dwStart; i <= dwEnd; i++) {
 		TCHAR szBuff[MAX_PATH];
-		mir_sntprintf(szBuff, _T("%lu"), i);
+		mir_sntprintf(szBuff, L"%lu", i);
 		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, i);
 	}
@@ -215,7 +215,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_STATE);
 				SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
 				ResetComboBox(GetDlgItem(hWndDlg, IDC_CITY));
-				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
+				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 
@@ -234,7 +234,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				DWORD dwStateID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_STATE);
 				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_CITY);
 				SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
-				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
+				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 

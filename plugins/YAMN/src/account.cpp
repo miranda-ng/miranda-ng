@@ -224,8 +224,8 @@ DWORD ReadStringFromMemory(char **Parser,TCHAR *End,char **StoreTo,TCHAR *DebugS
 
 	Finder=*Parser;
 	while((*Finder != (TCHAR)0) && (Finder<=End)) Finder++;
-	mir_sntprintf(Debug, _T("%s: %s,length is %d, remaining %d chars"), DebugString, *Parser, Finder-*Parser, End-Finder);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder-*Parser, End-Finder);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 	if (Finder>=End)
 		return EACC_FILECOMPATIBILITY;
 	if (Size=Finder-*Parser)
@@ -335,8 +335,8 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("NFlags: %04x, remaining %d chars"), Which->Flags, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"NFlags: %04x, remaining %d chars", Which->Flags, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 
 	Which->PopupB = *(COLORREF *)(*Parser);
@@ -344,24 +344,24 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("PopupB: %04x, remaining %d chars"), Which->PopupB, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"PopupB: %04x, remaining %d chars", Which->PopupB, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->PopupT = *(COLORREF *)(*Parser);
 	(*Parser) += sizeof(COLORREF);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("PopupT: %04x, remaining %d chars"), Which->PopupT, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"PopupT: %04x, remaining %d chars", Which->PopupT, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->PopupTime = *(DWORD *)(*Parser);
 	(*Parser) += sizeof(DWORD);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("PopupTime: %04x, remaining %d chars"), Which->PopupTime, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"PopupTime: %04x, remaining %d chars", Which->PopupTime, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 
 #ifdef	DEBUG_FILEREAD
@@ -388,7 +388,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 	char *ReadString;
 
 #ifdef DEBUG_FILEREAD
-	MessageBox(NULL,_T("going to read messages, if any..."),_T("debug"),MB_OK);
+	MessageBox(NULL,L"going to read messages, if any...",L"debug",MB_OK);
 #endif
 	do
 	{
@@ -412,7 +412,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 			}
 			items = NULL;
 #ifdef DEBUG_FILEREADMESSAGES
-			if (Stat=ReadStringFromMemory(Parser,End,&ActualMail->ID,_T("ID")))
+			if (Stat=ReadStringFromMemory(Parser,End,&ActualMail->ID,L"ID"))
 #else
 			if (Stat = ReadStringFromMemory(Parser, End, &ActualMail->ID))
 #endif
@@ -438,7 +438,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 			do
 			{
 #if defined(DEBUG_FILEREADMESSAGES) || defined(DEBUG_FILEREAD)
-				if (Stat=ReadStringFromMemory(Parser,End,&ReadString,_T("Name")))
+				if (Stat=ReadStringFromMemory(Parser,End,&ReadString,L"Name"))
 #else
 				if (Stat = ReadStringFromMemory(Parser, End, &ReadString))
 #endif
@@ -462,7 +462,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 				items->name = ReadString;
 
 #ifdef DEBUG_FILEREADMESSAGES
-				if (Stat=ReadStringFromMemory(Parser,End,&ReadString,_T("Value")))
+				if (Stat=ReadStringFromMemory(Parser,End,&ReadString,L"Value"))
 #else
 				if (Stat = ReadStringFromMemory(Parser, End, &ReadString))
 #endif
@@ -490,7 +490,7 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 	//Read name of account	
 
 #ifdef DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemory(Parser,End,&Which->Name,_T("Name")))
+	if (Stat=ReadStringFromMemory(Parser,End,&Which->Name,L"Name"))
 #else
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Name))
 #endif
@@ -500,7 +500,7 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 
 	//Read server parameters
 #ifdef	DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Name,_T("Server")))
+	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Name,L"Server"))
 #else
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Server->Name))
 #endif
@@ -510,17 +510,17 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef	DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("Port: %d, remaining %d chars"), Which->Server->Port, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"Port: %d, remaining %d chars", Which->Server->Port, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 #ifdef	DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Login,_T("Login")))
+	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Login,L"Login"))
 #else
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Server->Login))
 #endif
 		return Stat;
 #ifdef	DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Passwd,_T("Password")))
+	if (Stat=ReadStringFromMemory(Parser,End,&Which->Server->Passwd,L"Password"))
 #else
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Server->Passwd))
 #endif
@@ -533,20 +533,20 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("Flags: %04x, remaining %d chars"), Which->Flags, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"Flags: %04x, remaining %d chars", Which->Flags, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->StatusFlags = *(DWORD *)(*Parser);
 	(*Parser) += sizeof(DWORD);
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("STFlags: %04x, remaining %d chars"), Which->StatusFlags, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"STFlags: %04x, remaining %d chars", Which->StatusFlags, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->PluginFlags = *(DWORD *)(*Parser);
 	(*Parser) += sizeof(DWORD);
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("PFlags: %04x, remaining %d chars"), Which->PluginFlags, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"PFlags: %04x, remaining %d chars", Which->PluginFlags, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 
 	//Read account miscellaneous parameters
@@ -556,8 +556,8 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("Interval: %d, remaining %d chars"), Which->Interval, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"Interval: %d, remaining %d chars", Which->Interval, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 
 	//Read notification parameters
@@ -599,32 +599,32 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("LastChecked: %04x, remaining %d chars"), Which->LastChecked, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"LastChecked: %04x, remaining %d chars", Which->LastChecked, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->LastSChecked = *(SYSTEMTIME *)(*Parser);
 	(*Parser) += sizeof(SYSTEMTIME);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("LastSChecked: %04x, remaining %d chars"), Which->LastSChecked, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"LastSChecked: %04x, remaining %d chars", Which->LastSChecked, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->LastSynchronised = *(SYSTEMTIME *)(*Parser);
 	(*Parser) += sizeof(SYSTEMTIME);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("LastSynchronised: %04x, remaining %d chars"), Which->LastSynchronised, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"LastSynchronised: %04x, remaining %d chars", Which->LastSynchronised, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	Which->LastMail = *(SYSTEMTIME *)(*Parser);
 	(*Parser) += sizeof(SYSTEMTIME);
 	if (*Parser > End)		//WARNING! There's only > at the end of testing
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _T("LastMail: %04x, remaining %d chars"), Which->LastMail, End-*Parser);
-	MessageBox(NULL,Debug,_T("debug"),MB_OK);
+	mir_sntprintf(Debug, L"LastMail: %04x, remaining %d chars", Which->LastMail, End-*Parser);
+	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	if (*Parser == End)
 		return EACC_ENDOFFILE;

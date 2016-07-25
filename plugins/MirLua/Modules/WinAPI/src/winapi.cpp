@@ -62,8 +62,8 @@ static int lua_FindIterator(lua_State *L)
 		}
 	}
 
-	if (!mir_tstrcmpi(ffd.cFileName, _T(".")) ||
-		!mir_tstrcmpi(ffd.cFileName, _T("..")) ||
+	if (!mir_tstrcmpi(ffd.cFileName, L".") ||
+		!mir_tstrcmpi(ffd.cFileName, L"..") ||
 		(ffd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT))
 	{
 		lua_pushlightuserdata(L, hFind);
@@ -1708,14 +1708,14 @@ static int global_GetOpenFileName(lua_State *L)
 {
 	_A2T tszExt(lua_tostring(L, 1));
 
-	TCHAR buff[MAX_PATH] = _T("");
+	TCHAR buff[MAX_PATH] = L"";
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = buff;
 	ofn.nMaxFile = _countof(buff);
 	ofn.lpstrDefExt = tszExt;
-	ofn.lpstrFilter = _T("\0\0");
+	ofn.lpstrFilter = L"\0\0";
 
 	if (GetOpenFileName(&ofn))
 		lua_pushstring(L, T2Utf(buff));

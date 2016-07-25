@@ -570,7 +570,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
 				return 0;
 			case 0x0b:
-				SetWindowText(hwnd, _T(""));
+				SetWindowText(hwnd, L"");
 				return 0;
 			}
 		}
@@ -1199,9 +1199,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		GetMYUIN(dat);
 		GetClientIcon(dat);
 
-		CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+		CustomizeButton(CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
 			hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL));
-		dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, _T("Static"), _T(""), SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
+		dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, L"Static", L"", SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
 		mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
 
 		dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
@@ -1375,7 +1375,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 		{
 			WNDCLASS wndClass = { 0 };
-			GetClassInfo(g_hInst, _T("RICHEDIT50W"), &wndClass);
+			GetClassInfo(g_hInst, L"RICHEDIT50W", &wndClass);
 			mir_subclassWindowFull(GetDlgItem(hwndDlg, IDC_LOG), MessageLogSubclassProc, wndClass.lpfnWndProc);
 		}
 
@@ -2361,7 +2361,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				dat->iCurrentQueueError = -1;
 				sendQueue->showErrorControls(dat, FALSE);
 				if (wParam != MSGERROR_CANCEL || (wParam == MSGERROR_CANCEL && lParam == 0))
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 				sendQueue->checkQueue(dat);
 				int iNextFailed = sendQueue->findNextFailed(dat);
 				if (iNextFailed >= 0)
@@ -2390,7 +2390,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					job->iStatus = SendQueue::SQ_INPROGRESS;
 					dat->iCurrentQueueError = -1;
 					sendQueue->showErrorControls(dat, FALSE);
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 					sendQueue->checkQueue(dat);
 
 					int iNextFailed = sendQueue->findNextFailed(dat);

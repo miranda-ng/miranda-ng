@@ -104,7 +104,7 @@
 #define TIME  60
 #define Def_color_bg     0x00ffffff
 #define Def_color_txt    0x00000000
-#define Def_font_face    _T("Courier")
+#define Def_font_face    L"Courier"
 #define Def_font_size    14
 #define HK_SHOWHIDE      3001
 

@@ -69,7 +69,7 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, bool bStripResource)
 TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 {
 	if (jid == NULL)
-		return mir_tstrdup(_T(""));
+		return mir_tstrdup(L"");
 
 	const TCHAR *p = _tcschr(jid, '@');
 	if (p == NULL)
@@ -181,7 +181,7 @@ void __stdcall JabberHttpUrlDecode(TCHAR *str)
 	if (str == NULL) return;
 	for (p = q = (TCHAR*)str; *p != '\0'; p++, q++) {
 		if (*p == '%' && *(p + 1) != '\0' && isxdigit(*(p + 1)) && *(p + 2) != '\0' && isxdigit(*(p + 2))) {
-			_stscanf((TCHAR*)p + 1, _T("%2x"), &code);
+			_stscanf((TCHAR*)p + 1, L"%2x", &code);
 			*q = (unsigned char)code;
 			p += 2;
 		}
@@ -258,24 +258,24 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	if (errorNode == NULL) {
 		if (pErrorCode)
 			*pErrorCode = -1;
-		mir_sntprintf(errorStr, 256, _T("%s -1: %s"), TranslateT("Error"), TranslateT("Unknown error message"));
+		mir_sntprintf(errorStr, 256, L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
 		return errorStr;
 	}
 
 	int errorCode = -1;
-	const TCHAR *str = XmlGetAttrValue(errorNode, _T("code"));
+	const TCHAR *str = XmlGetAttrValue(errorNode, L"code");
 	if (str != NULL)
 		errorCode = _ttoi(str);
 
 	str = XmlGetText(errorNode);
 	if (str == NULL)
-		str = XmlGetText(XmlGetChild(errorNode, _T("text")));
+		str = XmlGetText(XmlGetChild(errorNode, L"text"));
 	if (str == NULL) {
 		for (int i = 0;; i++) {
 			HXML c = XmlGetChild(errorNode, i);
 			if (c == NULL) break;
-			const TCHAR *attr = XmlGetAttrValue(c, _T("xmlns"));
-			if (attr && !mir_tstrcmp(attr, _T("urn:ietf:params:xml:ns:xmpp-stanzas"))) {
+			const TCHAR *attr = XmlGetAttrValue(c, L"xmlns");
+			if (attr && !mir_tstrcmp(attr, L"urn:ietf:params:xml:ns:xmpp-stanzas")) {
 				str = XmlGetName(c);
 				break;
 			}
@@ -283,9 +283,9 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	}
 
 	if (str != NULL)
-		mir_sntprintf(errorStr, 256, _T("%s %d: %s\r\n%s"), TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)), str);
+		mir_sntprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)), str);
 	else
-		mir_sntprintf(errorStr, 256, _T("%s %d: %s"), TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)));
+		mir_sntprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)));
 
 	if (pErrorCode)
 		*pErrorCode = errorCode;
@@ -308,7 +308,7 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 
 		WORD apparentMode = getWord(hContact, "ApparentMode", 0);
 		if (invisible == TRUE && apparentMode == ID_STATUS_OFFLINE)
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), item->jid) << XATTR(_T("type"), _T("invisible")));
+			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", item->jid) << XATTR(L"type", L"invisible"));
 		else if (invisible == FALSE && apparentMode == ID_STATUS_ONLINE)
 			SendPresenceTo(m_iStatus, item->jid, NULL);
 	}
@@ -354,7 +354,7 @@ time_t __stdcall JabberIsoToUnixTime(const TCHAR *stamp)
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if (_stscanf(p, _T("%d:%d:%d"), &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
+	if (_stscanf(p, L"%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return (time_t)0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
@@ -376,16 +376,16 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 	TCHAR szPriority[40];
 	_itot(iPriority, szPriority, 10);
 
-	XmlNode p(_T("presence")); p << XCHILD(_T("priority"), szPriority);
+	XmlNode p(L"presence"); p << XCHILD(L"priority", szPriority);
 	if (to != NULL)
-		p << XATTR(_T("to"), to);
+		p << XATTR(L"to", to);
 
 	if (extra)
 		XmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
-	HXML c = p << XCHILDNS(_T("c"), JABBER_FEAT_ENTITY_CAPS) << XATTR(_T("node"), JABBER_CAPS_MIRANDA_NODE)
-		<< XATTR(_T("ver"), szCoreVersion);
+	HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"node", JABBER_CAPS_MIRANDA_NODE)
+		<< XATTR(L"ver", szCoreVersion);
 
 	LIST<TCHAR> arrExtCaps(5);
 	if (bSecureIM)
@@ -430,17 +430,17 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 			szExtCaps.AppendChar(' ');
 			szExtCaps += arrExtCaps[i];
 		}
-		XmlAddAttr(c, _T("ext"), szExtCaps);
+		XmlAddAttr(c, L"ext", szExtCaps);
 	}
 
 	if (m_options.EnableAvatars) {
-		HXML x = p << XCHILDNS(_T("x"), _T("vcard-temp:x:update"));
+		HXML x = p << XCHILDNS(L"x", L"vcard-temp:x:update");
 
 		ptrA hashValue(getStringA("AvatarHash"));
 		if (hashValue != NULL) // XEP-0153: vCard-Based Avatars
-			x << XCHILD(_T("photo"), _A2T(hashValue));
+			x << XCHILD(L"photo", _A2T(hashValue));
 		else
-			x << XCHILD(_T("photo"));
+			x << XCHILD(L"photo");
 	}
 	{
 		mir_cslock lck(m_csModeMsgMutex);
@@ -449,25 +449,25 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 			if (!msg) msg = m_modeMsgs.szOnline;
 			break;
 		case ID_STATUS_INVISIBLE:
-			p << XATTR(_T("type"), _T("invisible"));
+			p << XATTR(L"type", L"invisible");
 			break;
 		case ID_STATUS_AWAY:
 		case ID_STATUS_ONTHEPHONE:
 		case ID_STATUS_OUTTOLUNCH:
-			p << XCHILD(_T("show"), _T("away"));
+			p << XCHILD(L"show", L"away");
 			if (!msg) msg = m_modeMsgs.szAway;
 			break;
 		case ID_STATUS_NA:
-			p << XCHILD(_T("show"), _T("xa"));
+			p << XCHILD(L"show", L"xa");
 			if (!msg) msg = m_modeMsgs.szNa;
 			break;
 		case ID_STATUS_DND:
 		case ID_STATUS_OCCUPIED:
-			p << XCHILD(_T("show"), _T("dnd"));
+			p << XCHILD(L"show", L"dnd");
 			if (!msg) msg = m_modeMsgs.szDnd;
 			break;
 		case ID_STATUS_FREECHAT:
-			p << XCHILD(_T("show"), _T("chat"));
+			p << XCHILD(L"show", L"chat");
 			if (!msg) msg = m_modeMsgs.szFreechat;
 			break;
 		default: // Should not reach here
@@ -475,7 +475,7 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 		}
 
 		if (msg)
-			p << XCHILD(_T("status"), msg);
+			p << XCHILD(L"status", msg);
 	}
 
 	m_ThreadInfo->send(p);
@@ -493,7 +493,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item != NULL && item->nick != NULL) {
 				TCHAR text[1024];
-				mir_sntprintf(text, _T("%s/%s"), item->jid, item->nick);
+				mir_sntprintf(text, L"%s/%s", item->jid, item->nick);
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);
 			}
 		}
@@ -505,7 +505,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 
 int __stdcall JabberGetPacketID(HXML n)
 {
-	const TCHAR *str = XmlGetAttrValue(n, _T("id"));
+	const TCHAR *str = XmlGetAttrValue(n, L"id");
 	if (str)
 		if (!_tcsncmp(str, _T(JABBER_IQID), _countof(JABBER_IQID) - 1))
 			return _ttoi(str + _countof(JABBER_IQID) - 1);
@@ -516,7 +516,7 @@ int __stdcall JabberGetPacketID(HXML n)
 TCHAR* __stdcall JabberId2string(int id)
 {
 	TCHAR text[100];
-	mir_sntprintf(text, _T(JABBER_IQID) _T("%d"), id);
+	mir_sntprintf(text, _T(JABBER_IQID) L"%d", id);
 	return mir_tstrdup(text);
 }
 
@@ -543,7 +543,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->arResources.getCount() == 1 && !mir_tstrcmp(LI->arResources[0]->m_tszCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
+		if (LI->arResources.getCount() == 1 && !mir_tstrcmp(LI->arResources[0]->m_tszCapsNode, L"http://talk.google.com/xmpp/bot/caps")) {
 			if (p) *p = 0;
 			return dest;
 		}
@@ -551,7 +551,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 		if (p == NULL) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != NULL)
-				mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->m_tszResourceName);
+				mir_sntprintf(dest, destLen, L"%s/%s", jid, r->m_tszResourceName);
 		}
 	}
 
@@ -582,17 +582,17 @@ TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
-		if (!mir_tstrcmp(ptszType, _T("image/jpeg")) ||
-			 !mir_tstrcmp(ptszType, _T("image/png")) ||
-			 !mir_tstrcmp(ptszType, _T("image/gif")) ||
-			 !mir_tstrcmp(ptszType, _T("image/bmp")))
+		if (!mir_tstrcmp(ptszType, L"image/jpeg") ||
+			 !mir_tstrcmp(ptszType, L"image/png") ||
+			 !mir_tstrcmp(ptszType, L"image/gif") ||
+			 !mir_tstrcmp(ptszType, L"image/bmp"))
 			return ptszType;
 
 	switch (ProtoGetBufferFormat(picBuf)) {
-		case PA_FORMAT_GIF:	return _T("image/gif");
-		case PA_FORMAT_BMP:  return _T("image/bmp");
-		case PA_FORMAT_PNG:  return _T("image/png");
-		case PA_FORMAT_JPEG: return _T("image/jpeg");
+		case PA_FORMAT_GIF:	return L"image/gif";
+		case PA_FORMAT_BMP:  return L"image/bmp";
+		case PA_FORMAT_PNG:  return L"image/png";
+		case PA_FORMAT_JPEG: return L"image/jpeg";
 	}
 
 	return NULL;
@@ -664,7 +664,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 	}
 
 	if (!SendDlgItemMessage(hwndDlg, idcCombo, CB_GETCOUNT, 0, 0))
-		SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
+		SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)L"");
 }
 
 void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const TCHAR *string, int recentCount)
@@ -676,7 +676,7 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 
 	int id;
 	SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)string);
-	if ((id = SendDlgItemMessage(hwndDlg, idcCombo, CB_FINDSTRING, (WPARAM)-1, (LPARAM)_T(""))) != CB_ERR)
+	if ((id = SendDlgItemMessage(hwndDlg, idcCombo, CB_FINDSTRING, (WPARAM)-1, (LPARAM)L"")) != CB_ERR)
 		SendDlgItemMessage(hwndDlg, idcCombo, CB_DELETESTRING, id, 0);
 
 	id = getByte(param, 0);
@@ -758,7 +758,7 @@ void CJabberProto::RebuildInfoFrame()
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen)
 {
 	struct tm* T = gmtime(&_time);
-	mir_sntprintf(buf, bufLen, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"),
+	mir_sntprintf(buf, bufLen, L"%04d-%02d-%02dT%02d:%02d:%02dZ",
 					  T->tm_year + 1900, T->tm_mon + 1, T->tm_mday, T->tm_hour, T->tm_min, T->tm_sec);
 	return buf;
 }
@@ -766,9 +766,9 @@ TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen)
 time_t str2time(const TCHAR *buf)
 {
 	struct tm T = { 0 };
-	if (_stscanf(buf, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec) != 6) {
+	if (_stscanf(buf, L"%04d-%02d-%02dT%02d:%02d:%02dZ", &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec) != 6) {
 		int boo;
-		if (_stscanf(buf, _T("%04d-%02d-%02dT%02d:%02d:%02d.%dZ"), &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec, &boo) != 7)
+		if (_stscanf(buf, L"%04d-%02d-%02dT%02d:%02d:%02d.%dZ", &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec, &boo) != 7)
 			return 0;
 	}
 
@@ -837,11 +837,11 @@ BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime)
 {
-	HXML n = XmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
+	HXML n = XmlGetChildByTag(node, "delay", "xmlns", L"urn:xmpp:delay");
 	if (n == NULL)
 		return false;
 
-	const TCHAR *ptszTimeStamp = XmlGetAttrValue(n, _T("stamp"));
+	const TCHAR *ptszTimeStamp = XmlGetAttrValue(n, L"stamp");
 	if (ptszTimeStamp == NULL)
 		return false;
 
@@ -927,13 +927,13 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 						TCHAR tszFileName[MAX_PATH];
 						GetAvatarFileName(ai.hContact, tszFileName, _countof(tszFileName));
 						_tcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
-						FILE* out = _tfopen(tszFileName, _T("wb"));
+						FILE* out = _tfopen(tszFileName, L"wb");
 						if (out != NULL) {
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
 							setString(ai.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
-							debugLog(_T("Broadcast new avatar: %s"), ai.filename);
+							debugLog(L"Broadcast new avatar: %s", ai.filename);
 						}
 						else ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 					}

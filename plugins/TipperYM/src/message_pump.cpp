@@ -218,7 +218,7 @@ void InitMessagePump()
 	wcl.lpszClassName = POP_WIN_CLASS;
 	RegisterClassEx(&wcl);
 
-	hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
+	hDwmapiDll = LoadLibrary(L"dwmapi.dll");
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 

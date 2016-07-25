@@ -331,7 +331,7 @@ static int IcqOpenFile(WPARAM wParam, LPARAM lParam)
 		LastName=
 	*/
 	if (pszFile == NULL) return 1; /* sanity check */
-	fp = _tfopen(pszFile, _T("rt"));
+	fp = _tfopen(pszFile, L"rt");
 	if (fp == NULL) return 1; /* open failed */
 	info.type = 0;
 	while (!feof(fp)) {

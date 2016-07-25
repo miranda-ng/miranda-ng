@@ -36,22 +36,22 @@ void Message::makeRawAvailable()
 
 void Message::stripRawRTF()
 {
-	if (m_Raw.substr(0, 6) == _T("{\\rtf1"))
+	if (m_Raw.substr(0, 6) == L"{\\rtf1")
 		m_Raw = RTFFilter::filter(m_Raw);
 }
 
 void Message::stripBBCodes()
 {
 	static const TCHAR* szSimpleBBCodes[][2] = {
-		{ _T("[b]"), _T("[/b]") },
-		{ _T("[u]"), _T("[/u]") },
-		{ _T("[i]"), _T("[/i]") },
-		{ _T("[s]"), _T("[/s]") },
+		{ L"[b]", L"[/b]" },
+		{ L"[u]", L"[/u]" },
+		{ L"[i]", L"[/i]" },
+		{ L"[s]", L"[/s]" },
 	};
 
 	static const TCHAR* szParamBBCodes[][2] = {
-		{ _T("[url="), _T("[/url]") },
-		{ _T("[color="), _T("[/color]") },
+		{ L"[url=", L"[/url]" },
+		{ L"[color=", L"[/color]" },
 	};
 
 	// convert raw string to lower case
@@ -120,11 +120,11 @@ void Message::stripBBCodes()
 
 void Message::filterLinks()
 {
-	static const TCHAR* szSpaces = _T(" \r\r\n");
-	static const TCHAR* szPrefixes = _T("([{<:\"'");
-	static const TCHAR* szSuffixes = _T(".,:;!?)]}>\"'");
-	static const TCHAR* szValidProtocol = _T("abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	static const TCHAR* szValidHost = _T(".-abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	static const TCHAR* szSpaces = L" \r\r\n";
+	static const TCHAR* szPrefixes = L"([{<:\"'";
+	static const TCHAR* szSuffixes = L".,:;!?)]}>\"'";
+	static const TCHAR* szValidProtocol = L"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static const TCHAR* szValidHost = L".-abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	// init with raw text
 	m_WithoutLinks = getRaw();
@@ -134,7 +134,7 @@ void Message::filterLinks()
 
 	// detect: protocol://[user[:password]@]host[/path]
 	while (true) {
-		if ((pos = msg.find(_T("://"), pos + 1)) == ext::string::npos)
+		if ((pos = msg.find(L"://", pos + 1)) == ext::string::npos)
 			break;
 
 		// find start of URL
@@ -187,7 +187,7 @@ void Message::filterLinks()
 	pos = -1;
 
 	while (true) {
-		if ((pos = msg.find(_T("www."), pos + 1)) == ext::string::npos)
+		if ((pos = msg.find(L"www.", pos + 1)) == ext::string::npos)
 			break;
 
 		// find end of URL
@@ -214,7 +214,7 @@ void Message::filterLinks()
 
 			if (pos_invalid == ext::string::npos || pos_invalid >= pos_slash) {
 				if (std::count(msg.begin() + pos_at + 1, msg.begin() + pos_slash, '.') >= 1) {
-					ext::string link = _T("http://") + msg.substr(pos, pos_last - pos + 1);
+					ext::string link = L"http://" + msg.substr(pos, pos_last - pos + 1);
 
 					// remove extracted link from message text
 					msg.erase(pos, link.length() - 7);
@@ -262,8 +262,8 @@ void Message::filterLinks()
 					pos = pos_last - (link.length());
 
 					// prepend "mailto:" if missing
-					if (link.substr(0, 7) != _T("mailto:")) {
-						link.insert(0, _T("mailto:"));
+					if (link.substr(0, 7) != L"mailto:") {
+						link.insert(0, L"mailto:");
 					}
 
 					// TODO: put link in list

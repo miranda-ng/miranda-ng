@@ -52,12 +52,12 @@ struct CSkypeOptions
 		bAutoHistorySync(proto, "AutoSync", true),
 		bMarkAllAsUnread(proto, "MarkMesUnread", true),
 
-		wstrPlace(proto, "Place", _T("")),
+		wstrPlace(proto, "Place", L""),
 		bUseHostnameAsPlace(proto, "UseHostName", true),
 
 		bUseBBCodes(proto, "UseBBCodes", true),
 
-		wstrCListGroup(proto, SKYPE_SETTINGS_GROUP, _T("Skype"))
+		wstrCListGroup(proto, SKYPE_SETTINGS_GROUP, L"Skype")
 	{
 	}
 

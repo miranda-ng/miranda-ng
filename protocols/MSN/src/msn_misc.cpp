@@ -118,7 +118,7 @@ void CMsnProto::InitCustomFolders(void)
 	if (InitCstFldRan) return;
 
 	TCHAR folder[MAX_PATH];
-	mir_sntprintf(folder, _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
+	mir_sntprintf(folder, L"%%miranda_avatarcache%%\\%S", m_szModuleName);
 	hCustomSmileyFolder = FoldersRegisterCustomPathT(LPGEN("Custom Smileys"), m_szModuleName, folder, m_tszUserName);
 
 	InitCstFldRan = true;
@@ -170,7 +170,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
-	size_t tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	size_t tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_taccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
@@ -182,7 +182,7 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t 
 			char* szAvatarHash = MSN_GetAvatarHash(dbv.pszVal);
 			if (szAvatarHash != NULL) {
 				TCHAR *sztAvatarHash = mir_a2t(szAvatarHash);
-				tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s."), sztAvatarHash);
+				tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.", sztAvatarHash);
 				mir_free(sztAvatarHash);
 				mir_free(szAvatarHash);
 			}
@@ -197,12 +197,12 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t 
 	}
 	else {
 		TCHAR *sztModuleName = mir_a2t(m_szModuleName);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar."), sztModuleName);
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s avatar.", sztModuleName);
 		mir_free(sztModuleName);
 	}
 
 	if (ext == NULL) {
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("*"));
+		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"*");
 
 		bool found = false;
 		_tfinddata_t c_file;
@@ -210,7 +210,7 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t 
 		if (hFile > -1L) {
 			do {
 				if (_tcsrchr(c_file.name, '.')) {
-					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, _T("\\%s"), c_file.name);
+					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
 					found = true;
 				}
 			} while (_tfindnext(hFile, &c_file) == 0);
@@ -317,10 +317,10 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 	InitCustomFolders();
 
 	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, _T(""))) {
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, L"")) {
+		TCHAR *tmpPath = Utils_ReplaceVarsT(L"%miranda_userdata%");
 		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s\\CustomSmiley"), tmpPath, tszModuleName);
+		tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%s\\CustomSmiley", tmpPath, tszModuleName);
 		mir_free(tszModuleName);
 		mir_free(tmpPath);
 	}
@@ -337,12 +337,12 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 			_ui64tot((UINT_PTR)hContact, dbv.ptszVal, 10);
 		}
 
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else {
 		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), tszModuleName);
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", tszModuleName);
 		mir_free(tszModuleName);
 	}
 
@@ -357,8 +357,8 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 		CreateDirectoryTreeT(pszDest);
 
 	TCHAR *sztSmileyName = mir_a2t(SmileyName);
-	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), sztSmileyName,
-		type == MSN_APPID_CUSTOMSMILEY ? _T("png") : _T("gif"));
+	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.%s", sztSmileyName,
+		type == MSN_APPID_CUSTOMSMILEY ? L"png" : L"gif");
 	mir_free(sztSmileyName);
 }
 
@@ -623,21 +623,21 @@ void CMsnProto::MSN_SendStatusMessage(const char*)
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
 			LISTENINGTOINFO lti = { 0 };
 			lti.cbSize = sizeof(lti);
-			if (msnCurrentMedia.ptszTitle != NULL) lti.ptszTitle = _T("{0}");
-			if (msnCurrentMedia.ptszArtist != NULL) lti.ptszArtist = _T("{1}");
-			if (msnCurrentMedia.ptszAlbum != NULL) lti.ptszAlbum = _T("{2}");
-			if (msnCurrentMedia.ptszTrack != NULL) lti.ptszTrack = _T("{3}");
-			if (msnCurrentMedia.ptszYear != NULL) lti.ptszYear = _T("{4}");
-			if (msnCurrentMedia.ptszGenre != NULL) lti.ptszGenre = _T("{5}");
-			if (msnCurrentMedia.ptszLength != NULL) lti.ptszLength = _T("{6}");
-			if (msnCurrentMedia.ptszPlayer != NULL) lti.ptszPlayer = _T("{7}");
-			if (msnCurrentMedia.ptszType != NULL) lti.ptszType = _T("{8}");
+			if (msnCurrentMedia.ptszTitle != NULL) lti.ptszTitle = L"{0}";
+			if (msnCurrentMedia.ptszArtist != NULL) lti.ptszArtist = L"{1}";
+			if (msnCurrentMedia.ptszAlbum != NULL) lti.ptszAlbum = L"{2}";
+			if (msnCurrentMedia.ptszTrack != NULL) lti.ptszTrack = L"{3}";
+			if (msnCurrentMedia.ptszYear != NULL) lti.ptszYear = L"{4}";
+			if (msnCurrentMedia.ptszGenre != NULL) lti.ptszGenre = L"{5}";
+			if (msnCurrentMedia.ptszLength != NULL) lti.ptszLength = L"{6}";
+			if (msnCurrentMedia.ptszPlayer != NULL) lti.ptszPlayer = L"{7}";
+			if (msnCurrentMedia.ptszType != NULL) lti.ptszType = L"{8}";
 
-			TCHAR *tmp = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%title% - %artist%"), (LPARAM)&lti);
+			TCHAR *tmp = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
 			szFormatEnc = HtmlEncodeUTF8T(tmp);
 			mir_free(tmp);
 		}
-		else szFormatEnc = HtmlEncodeUTF8T(_T("{0} - {1}"));
+		else szFormatEnc = HtmlEncodeUTF8T(L"{0} - {1}");
 
 		char *szArtist = HtmlEncodeUTF8T(msnCurrentMedia.ptszArtist),
 			*szAlbum = HtmlEncodeUTF8T(msnCurrentMedia.ptszAlbum),
@@ -788,7 +788,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		if (!getStringUtf("Place", &dbv))
 			szPlace = dbv.pszVal;
 		else {
-			TCHAR buf[128] = _T("Miranda");
+			TCHAR buf[128] = L"Miranda";
 			DWORD buflen = _countof(buf);
 			GetComputerName(buf, &buflen);
 			szPlace = mir_utf8encodeT(buf);
@@ -996,14 +996,14 @@ void CMsnProto::InitPopups(void)
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Hotmail"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Hotmail"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Hotmail");
 	hPopupHotmail = Popup_RegisterClass(&ppc);
 
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notify"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&ppc);
 
@@ -1012,7 +1012,7 @@ void CMsnProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 
-	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Error"));
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Error"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&ppc);
 }
@@ -1026,7 +1026,7 @@ void CALLBACK sttMainThreadCallback(void *param)
 	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups) || !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		if (pud->flags & MSN_ALLOW_MSGBOX) {
 			TCHAR szMsg[MAX_SECONDLINE + MAX_CONTACTNAME];
-			mir_sntprintf(szMsg, _T("%s:\n%s"), pud->title, pud->text);
+			mir_sntprintf(szMsg, L"%s:\n%s", pud->title, pud->text);
 			int ret = MessageBox(NULL, szMsg, TranslateT("MSN Protocol"),
 				MB_YESNO | (iserr ? MB_ICONERROR : MB_ICONINFORMATION));
 			if (ret == IDYES)

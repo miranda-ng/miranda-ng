@@ -199,7 +199,7 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 
 	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// <_HANDLE_:hContact>
-		tmp.Format(_T("<%s:%d>"), _T(PROTOID_HANDLE), hContact);
+		tmp.Format(L"<%s:%d>", _T(PROTOID_HANDLE), hContact);
 		bool bMatch = (tmp == tszContact);
 
 		char *szProto = GetContactProto(hContact);
@@ -210,7 +210,7 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 		if ((dwFlags & CI_PROTOID) && !bMatch) {
 			ptrT cInfo(getContactInfoT(CNF_UNIQUEID, hContact));
 			if (cInfo) {
-				tmp.Format(_T("<%S:%s>"), szProto, cInfo);
+				tmp.Format(L"<%S:%s>", szProto, cInfo);
 				if (tmp == tszContact)
 					bMatch = true;
 			}
@@ -368,6 +368,6 @@ TCHAR* encodeContactToString(MCONTACT hContact)
 	size_t size = mir_tstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
 	TCHAR *tszResult = (TCHAR *)mir_calloc(size * sizeof(TCHAR));
 	if (tszResult)
-		mir_sntprintf(tszResult, size, _T("<%S:%s>"), szProto, tszUniqueId);
+		mir_sntprintf(tszResult, size, L"<%S:%s>", szProto, tszUniqueId);
 	return tszResult;
 }

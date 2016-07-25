@@ -92,7 +92,7 @@ void CheckMailInbox(Account *curAcc)
 	}
 	else mir_strcpy(str, "/mail/feed/atom");
 
-	hHTTPRequest = HttpOpenRequest(hHTTPConnection, _T("GET"), _A2T(str), NULL, NULL, NULL, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD, 0);
+	hHTTPRequest = HttpOpenRequest(hHTTPConnection, L"GET", _A2T(str), NULL, NULL, NULL, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD, 0);
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_USERNAME, _A2T(curAcc->name), (int)mir_strlen(curAcc->name) + 1);
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_PASSWORD, _A2T(curAcc->pass), (int)mir_strlen(curAcc->pass) + 1);
 	if (!HttpSendRequest(hHTTPRequest, NULL, 0, NULL, 0)) {

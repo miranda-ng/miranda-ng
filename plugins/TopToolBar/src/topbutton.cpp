@@ -35,7 +35,7 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 	}
 	if (BitChanged(TTBBF_SHOWTOOLTIP)) {
 		dwFlags ^= TTBBF_SHOWTOOLTIP;
-		SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : _T("")), BATF_TCHAR);
+		SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : L""), BATF_TCHAR);
 	}
 	// next settings changing visual side, requires additional actions
 	if (BitChanged(TTBBF_VISIBLE)) {
@@ -53,7 +53,7 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 void TopButtonInt::CreateWnd()
 {
 	if (!(dwFlags & TTBBF_ISSEPARATOR)) {
-		hwnd = CreateWindow(TTB_BUTTON_CLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
+		hwnd = CreateWindow(TTB_BUTTON_CLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
 
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
@@ -65,7 +65,7 @@ void TopButtonInt::CreateWnd()
 	}
 	// maybe SEPWIDTH, not g_ctrl->nButtonWidth?
 	else
-		hwnd = CreateWindow(_T("STATIC"), _T(""), WS_CHILD | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
+		hwnd = CreateWindow(L"STATIC", L"", WS_CHILD | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, id);
 	SetBitmap();

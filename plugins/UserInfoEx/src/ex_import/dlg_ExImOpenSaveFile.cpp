@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "../stdafx.h"
 
-#define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda NG\\PlacesBar")
-#define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")
+#define HKEY_MIRANDA_PLACESBAR	L"Software\\Miranda NG\\PlacesBar"
+#define HKEY_WINPOL_PLACESBAR	L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar"
 
 /**
  * This function maps the current users registry to a dummy key and
@@ -56,9 +56,9 @@ static void InitAlteredPlacesBar()
 			CHAR szProfilePath[MAX_PATH];
 
 			// default places: Desktop, My Documents, My Computer
-			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, _T("Place0"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, _T("Place1"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 17; RegSetValueEx(hkPlacesBar, _T("Place2"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, L"Place0", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, L"Place1", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 17; RegSetValueEx(hkPlacesBar, L"Place2", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
 
 			// Miranda's installation path
 			GetModuleFileNameA(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));

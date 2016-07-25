@@ -153,7 +153,7 @@ public:
 
 	void OpenCurrentFile()
 	{
-		hFile = _tfopen(GetCurrentFilePath(), _T("rb"));
+		hFile = _tfopen(GetCurrentFilePath(), L"rb");
 		if (!hFile)
 			throw DropboxException("Unable to open file");
 		_fseeki64(hFile, 0, SEEK_END);

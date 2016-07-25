@@ -242,7 +242,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		if (hwndCombo != NULL)
 			SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 
-		hwndCombo = CreateWindowEx(WS_EX_CLIENTEDGE, WC_COMBOBOX, _T(""), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
+		hwndCombo = CreateWindowEx(WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
 			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, 0, hInst, NULL);
 
 		// copy a font from listview
@@ -1000,7 +1000,7 @@ void MirandaImport(HWND hdlg)
 	// Get number of contacts
 	int nNumberOfContacts = srcDb->GetContactCount();
 	AddMessage(LPGENT("Number of contacts in database: %d"), nNumberOfContacts);
-	AddMessage(_T(""));
+	AddMessage(L"");
 
 	// Configure database for fast writing
 	dstDb->SetCacheSafetyMode(FALSE);
@@ -1026,7 +1026,7 @@ void MirandaImport(HWND hdlg)
 		if (nGroupsCount == -1)
 			AddMessage(LPGENT("Group import failed."));
 
-		AddMessage(_T(""));
+		AddMessage(L"");
 	}
 	// End of Import Groups
 
@@ -1057,7 +1057,7 @@ void MirandaImport(HWND hdlg)
 			ImportMeta(arMetas[i]);
 	}
 	else AddMessage(LPGENT("Skipping new contacts import."));
-	AddMessage(_T(""));
+	AddMessage(L"");
 	// End of Import Contacts
 
 	// Import NULL contact message chain
@@ -1072,7 +1072,7 @@ void MirandaImport(HWND hdlg)
 			ImportHistory(NULL, accs, protoCount);
 	}
 	else AddMessage(LPGENT("Skipping system history import."));
-	AddMessage(_T(""));
+	AddMessage(L"");
 
 	// Import other contact messages
 	if (nImportOptions & IOPT_HISTORY) {
@@ -1086,7 +1086,7 @@ void MirandaImport(HWND hdlg)
 		}
 	}
 	else AddMessage(LPGENT("Skipping history import."));
-	AddMessage(_T(""));
+	AddMessage(L"");
 
 	// Restore database writing mode
 	dstDb->SetCacheSafetyMode(TRUE);

@@ -495,7 +495,7 @@ LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
 // filters by m_hFilter (contact handle)
 void CSendLater::qMgrFillList(bool fClear)
 {
-	TCHAR *formatTime = _T("%Y.%m.%d - %H:%M");
+	TCHAR *formatTime = L"%Y.%m.%d - %H:%M";
 
 	if (fClear) {
 		::SendMessage(m_hwndList, LVM_DELETEALLITEMS, 0, 0);
@@ -523,7 +523,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			TCHAR tszBuf[255];
-			mir_sntprintf(tszBuf, _T("%s [%s]"), tszNick, c->getRealAccount());
+			mir_sntprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
 			lvItem.cchTextMax = _countof(tszBuf);
 			lvItem.iItem = uIndex++;
@@ -575,14 +575,14 @@ void CSendLater::qMgrFillList(bool fClear)
 				bCode = p->bCode;
 
 			TCHAR tszStatus[20];
-			mir_sntprintf(tszStatus, _T("X/%s[%c] (%d)"), tszStatusText, bCode, p->iSendCount);
+			mir_sntprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
 			tszStatus[0] = p->szId[0];
 			lvItem.pszText = tszStatus;
 			lvItem.iSubItem = 3;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 
 			if (p->lastSent == 0)
-				_tcsncpy_s(tszTimestamp, _T("Never"), _TRUNCATE);
+				_tcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
 			else {
 				_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
 				tszTimestamp[29] = 0;

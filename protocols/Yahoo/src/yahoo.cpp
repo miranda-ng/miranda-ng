@@ -926,7 +926,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 			TCHAR z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
 
 			if (from == NULL) {
-				mir_sntprintf(title, _T("%s: %s"), m_tszUserName, TranslateT("New Mail"));
+				mir_sntprintf(title, L"%s: %s", m_tszUserName, TranslateT("New Mail"));
 				mir_sntprintf(z, TranslateT("You have %i unread messages"), cnt);
 			}
 			else {

@@ -25,11 +25,11 @@
 #include "options.h"
 #include "inbox.h"
 
-#define PLUGIN_DATA_PROP_NAME       _T("{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}")
-#define EVT_DELETED_HOOK_PROP_NAME  _T("{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}")
+#define PLUGIN_DATA_PROP_NAME       L"{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}"
+#define EVT_DELETED_HOOK_PROP_NAME  L"{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}"
 
-#define EVENT_DELETED_MSG  RegisterWindowMessage(_T("{B9B00536-86A0-4BCE-B2FE-4ABD409C22AE}"))
-#define MESSAGE_CLOSEPOPUP RegisterWindowMessage(_T("{7A60EA87-3E77-41DF-8A69-59B147F0C9C6}"))
+#define EVENT_DELETED_MSG  RegisterWindowMessage(L"{B9B00536-86A0-4BCE-B2FE-4ABD409C22AE}")
+#define MESSAGE_CLOSEPOPUP RegisterWindowMessage(L"{7A60EA87-3E77-41DF-8A69-59B147F0C9C6}")
 
 #define CLIST_MODULE_NAME "CList"
 #define CONTACT_DISPLAY_NAME_SETTING "MyHandle"
@@ -158,10 +158,10 @@ static bool DoAddPopup(POPUPDATAT *data)
 
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
 {
-	if (mir_tstrcmp(unreadCount, _T("0")))
-		wsprintf(buff, _T("%s [%s]"), jid, unreadCount); //!!!!!!!!!!!
+	if (mir_tstrcmp(unreadCount, L"0"))
+		wsprintf(buff, L"%s [%s]", jid, unreadCount); //!!!!!!!!!!!
 	else
-		wsprintf(buff, _T("%s"), jid); //!!!!!!!!!!!
+		wsprintf(buff, L"%s", jid); //!!!!!!!!!!!
 }
 
 MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR displayName)
@@ -270,9 +270,9 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 			break;
 
 		if (p.name)
-			tszSenders.AppendFormat(_T("    %s <%s>\n"), p.name, p.addr);
+			tszSenders.AppendFormat(L"    %s <%s>\n", p.name, p.addr);
 		else
-			tszSenders.AppendFormat(_T("    %s\n"), p.addr);
+			tszSenders.AppendFormat(L"    %s\n", p.addr);
 	}
 
 	if (ReadCheckbox(0, IDC_ADDSNIP, (UINT_PTR)TlsGetValue(itlsSettings)))

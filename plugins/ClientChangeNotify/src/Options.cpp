@@ -283,7 +283,7 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 			pItem.ParentID = ParentID;
 			pItem.Flags = Flags;
 			pItem.hItem = NULL;
-			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, _T(""));
+			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
 			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == NULL) ? NULL :
 				db_get_s(NULL, pData->sModule,
 				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (TCHAR*)NULL);
@@ -660,7 +660,7 @@ int ListReadEnum(const char *szSetting, LPARAM lParam)
 	int Len = pData->sDBSettingPrefix.GetLen() + pData->ListCtrl->sDBSetting.GetLen() + _countof(LISTITEM_DBSTR_TEXT) - 1;
 	if (!strncmp(szSetting, pData->sDBSettingPrefix + pData->ListCtrl->sDBSetting + LISTITEM_DBSTR_TEXT, Len) && isdigit(szSetting[Len])) {
 		int ID = atol(szSetting + Len);
-		pData->ListCtrl->m_value.SetAtGrow(ID).Text = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, _T(""));
+		pData->ListCtrl->m_value.SetAtGrow(ID).Text = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
 	}
 	return 0;
 }

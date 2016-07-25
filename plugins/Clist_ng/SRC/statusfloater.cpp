@@ -713,19 +713,19 @@ void SFL_RegisterWindowClass()
     wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
     wndclass.hbrBackground = (HBRUSH) (COLOR_3DFACE);
     wndclass.lpszMenuName = 0;
-    wndclass.lpszClassName = _T("StatusFloaterClass");
+    wndclass.lpszClassName = L"StatusFloaterClass";
     RegisterClass(&wndclass);
 
     wndclass.style = CS_DBLCLKS;
-	wndclass.lpszClassName = _T("ContactFloaterClass");
+	wndclass.lpszClassName = L"ContactFloaterClass";
     wndclass.lpfnWndProc = ContactFloaterClassProc;
     RegisterClass(&wndclass);
 }
 
 void SFL_UnregisterWindowClass()
 {
-	UnregisterClass(_T("StatusFloaterClass"), g_hInst);
-	UnregisterClass(_T("ContactFloaterClass"), g_hInst);
+	UnregisterClass(L"StatusFloaterClass", g_hInst);
+	UnregisterClass(L"ContactFloaterClass", g_hInst);
 }
 
 void SFL_Destroy()
@@ -737,7 +737,7 @@ void SFL_Destroy()
 
 static HICON sfl_hIcon = (HICON)-1;
 static int sfl_iIcon = -1;
-static wchar_t sfl_statustext[100] = _T("");
+static wchar_t sfl_statustext[100] = L"";
 
 void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const wchar_t *szText, BOOL refresh)
 {
@@ -887,7 +887,7 @@ void SFL_SetSize()
 void SFL_Create()
 {
 	if(g_hwndSFL == 0 && cfg::dat.bUseFloater & CLUI_USE_FLOATER)
-		g_hwndSFL = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_LAYERED, _T("StatusFloaterClass"), _T("sfl"), WS_VISIBLE, 0, 0, 0, 0, 0, 0, g_hInst, 0);
+		g_hwndSFL = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_LAYERED, L"StatusFloaterClass", L"sfl", WS_VISIBLE, 0, 0, 0, 0, 0, 0, g_hInst, 0);
 	else
 		return;
 
@@ -943,7 +943,7 @@ void FLT_Create(int iEntry)
 			if(centry->floater == NULL)
 				return;
 			FLT_AddToList(centry->floater);
-			centry->floater->hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_LAYERED, _T("ContactFloaterClass"), _T("sfl"), WS_VISIBLE, 0, 0, 0, 0, 0, 0, g_hInst, (LPVOID)iEntry);
+			centry->floater->hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_LAYERED, L"ContactFloaterClass", L"sfl", WS_VISIBLE, 0, 0, 0, 0, 0, 0, g_hInst, (LPVOID)iEntry);
 			centry->floater->hContact = centry->hContact;
 		}
 		else if(centry->floater != NULL) {

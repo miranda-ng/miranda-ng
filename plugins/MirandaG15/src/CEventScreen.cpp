@@ -111,7 +111,7 @@ void CEventScreen::OnConfigChanged()
 	while(iter != m_EventLog.end())
 	{
 		pItem = static_cast<CListItem<CEventLogEntry*>*>(*iter);
-		pItem->GetItemData()->strTimestamp = CAppletManager::GetFormattedTimestamp(&pItem->GetItemData()->Time) + _T(" ");
+		pItem->GetItemData()->strTimestamp = CAppletManager::GetFormattedTimestamp(&pItem->GetItemData()->Time) + L" ";
 		iter++;
 	}
 
@@ -133,7 +133,7 @@ void CEventScreen::OnEventReceived(CEvent *pEvent)
 	pEntry->eType = pEvent->eType;
 
 	pEntry->Time = pEvent->Time;
-	pEntry->strTimestamp = CAppletManager::GetFormattedTimestamp(&pEvent->Time) + _T(" ");
+	pEntry->strTimestamp = CAppletManager::GetFormattedTimestamp(&pEvent->Time) + L" ";
 	pEntry->strValue = pEvent->strDescription;
 
 	// add it to the list and scroll to it

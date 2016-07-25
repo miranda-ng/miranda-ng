@@ -26,8 +26,8 @@
 #include "notifications.h"
 #include "options.h"
 
-#define JABBER_IQID  _T("mir_")
-#define JABBER_IQID_FORMAT  _T("mir_%d")
+#define JABBER_IQID  L"mir_"
+#define JABBER_IQID_FORMAT  L"mir_%d"
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -53,7 +53,7 @@ void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
 	LPTSTR tidInUrl = _tcsstr(url, tid);
 	LPTSTR trail = tidInUrl + mir_tstrlen(tid);
-	wsprintf(tidInUrl, _T("%x%08x"), iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
+	wsprintf(tidInUrl, L"%x%08x", iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
 	wmemmove(tidInUrl + mir_tstrlen(tidInUrl), trail, mir_tstrlen(trail) + 1);
 }
 
@@ -296,12 +296,12 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *)
 			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
-	if (!mir_tstrcmp(xmlGetName(node), _T("presence")) && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
+	if (!mir_tstrcmp(xmlGetName(node), L"presence") && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
 		if (!gta->m_bGoogleSharedStatus)
 			return FALSE;
 
-		HXML statNode = xmlGetChildByPath(node, _T("status"), 0);
-		HXML showNode = xmlGetChildByPath(node, _T("show"), 0);
+		HXML statNode = xmlGetChildByPath(node, L"status", 0);
+		HXML showNode = xmlGetChildByPath(node, L"show", 0);
 		if (statNode) {
 			LPCTSTR status = xmlGetText(showNode);
 			LPCTSTR msg = xmlGetText(statNode);
@@ -337,12 +337,12 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 
 	int status;
 	HXML query = xmlGetChildByPath(iqNode, NODENAME_QUERY, 0);
-	HXML node = xmlGetChildByPath(query, _T("invisible"), 0);
-	if (0 == mir_tstrcmpi(_T("true"), xmlGetAttrValue(node, _T("value"))))
+	HXML node = xmlGetChildByPath(query, L"invisible", 0);
+	if (0 == mir_tstrcmpi(L"true", xmlGetAttrValue(node, L"value")))
 		status = ID_STATUS_INVISIBLE;
 	else {
-		LPCTSTR txt = xmlGetText(xmlGetChildByPath(query, _T("show"), 0));
-		if (txt && 0 == mir_tstrcmpi(_T("dnd"), txt))
+		LPCTSTR txt = xmlGetText(xmlGetChildByPath(query, L"show", 0));
+		if (txt && 0 == mir_tstrcmpi(L"dnd", txt))
 			status = ID_STATUS_DND;
 		else if (gta->m_pa->ppro->m_iStatus == ID_STATUS_DND || gta->m_pa->ppro->m_iStatus == ID_STATUS_INVISIBLE)
 			status = ID_STATUS_ONLINE;
@@ -363,20 +363,20 @@ void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
 
 	HXML query = xmlAddChild(iq, NODENAME_QUERY, NULL);
 	xmlAddChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
-	xmlAddAttrInt(query, _T("version"), 2);
+	xmlAddAttrInt(query, L"version", 2);
 
-	xmlAddChild(query, _T("status"), msg);
-	if (!mir_tstrcmp(status, _T("invisible"))) {
-		xmlAddChild(query, _T("show"), _T("default"));
-		xmlAddAttr(xmlAddChild(query, _T("invisible"), 0), _T("value"), _T("true"));
+	xmlAddChild(query, L"status", msg);
+	if (!mir_tstrcmp(status, L"invisible")) {
+		xmlAddChild(query, L"show", L"default");
+		xmlAddAttr(xmlAddChild(query, L"invisible", 0), L"value", L"true");
 	}
 	else {
-		if (!mir_tstrcmp(status, _T("dnd")))
-			xmlAddChild(query, _T("show"), _T("dnd"));
+		if (!mir_tstrcmp(status, L"dnd"))
+			xmlAddChild(query, L"show", L"dnd");
 		else
-			xmlAddChild(query, _T("show"), _T("default"));
+			xmlAddChild(query, L"show", L"default");
 
-		xmlAddAttr(xmlAddChild(query, _T("invisible"), 0), _T("value"), _T("false"));
+		xmlAddAttr(xmlAddChild(query, L"invisible", 0), L"value", L"false");
 	}
 	m_bGoogleSharedStatusLock = TRUE;
 	m_japi->SendXmlNode(iq);
@@ -392,13 +392,13 @@ int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
 	// m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
 	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
-	if (!mir_tstrcmp(fld->category, _T("server")) && !mir_tstrcmp(fld->type, _T("im")) && !mir_tstrcmp(fld->name, _T("Google Talk"))) {
+	if (!mir_tstrcmp(fld->category, L"server") && !mir_tstrcmp(fld->type, L"im") && !mir_tstrcmp(fld->name, L"Google Talk")) {
 		HXML iq = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
 		xmlAddAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 
 		HXML query = xmlAddChild(iq, NODENAME_QUERY, NULL);
 		xmlAddChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
-		xmlAddAttrInt(query, _T("version"), 2);
+		xmlAddAttrInt(query, L"version", 2);
 		gta->m_japi->SendXmlNode(iq);
 		xmlDestroyNode(iq);
 	}

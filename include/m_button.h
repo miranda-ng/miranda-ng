@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_BUTTON_H__
 #define M_BUTTON_H__ 1
 
-#define MIRANDABUTTONCLASS	_T("MButtonClass") // Class of the control
+#define MIRANDABUTTONCLASS	L"MButtonClass" // Class of the control
 
 // Sets whether a dropdown arrow is used
 // wParam = TRUE/FALSE turns arrow on or off

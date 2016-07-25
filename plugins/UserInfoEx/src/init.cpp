@@ -176,7 +176,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
 	if (FIP == NULL || result != S_OK) {
-		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags module will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return 1;
 	}
 

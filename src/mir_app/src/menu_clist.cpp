@@ -928,7 +928,7 @@ void RebuildMenuOrder(void)
 				TCHAR buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+				mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				mi.name.t = buf;
 				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
@@ -958,7 +958,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		TCHAR buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+		mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
 
 		hStatusMainMenuHandles[j]->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1145,7 +1145,7 @@ void InitCustomMenus(void)
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.ptszSection = _T("Status");
+	hkd.ptszSection = L"Status";
 	hkd.dwFlags = HKD_TCHAR;
 	for (int i = 0; i < _countof(statusHotkeys); i++) {
 		char szName[30];

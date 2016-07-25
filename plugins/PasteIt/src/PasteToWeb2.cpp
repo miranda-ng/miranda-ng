@@ -54,15 +54,15 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 {
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "text/xml";
-	std::wstring content = _T("<?xml version=\"1.0\"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>");
+	std::wstring content = L"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>";
 	if (fileName == L"")
 	{
 		content += format;
-		content += _T("</value></param><param><value>");
+		content += L"</value></param><param><value>";
 	}
 	else
 	{
-		content += _T("</value></param><param><value>");
+		content += L"</value></param><param><value>";
 	}
 	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
 	{
@@ -80,7 +80,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 		}
 	}
 
-	content += _T("</value></param><param><value></value></param><param><value>");
+	content += L"</value></param><param><value></value></param><param><value>";
 	if (fileName != L"")
 	{
 		for (std::wstring::iterator it = fileName.begin(); it != fileName.end(); ++it)
@@ -99,25 +99,25 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 			}
 		}
 	}
-	content += _T("</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>");
+	content += L"</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>";
 
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	error = TranslateT("Error during sending text to web page");
 	if (resCont != NULL)
 	{
-		HXML hXml = xmlParseString(resCont, NULL, _T("methodResponse"));
+		HXML hXml = xmlParseString(resCont, NULL, L"methodResponse");
 		if (hXml != NULL)
 		{
-			HXML node = xmlGetChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if (node != NULL && !mir_tstrcmp(xmlGetText(node), _T("1")))
+			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
+			if (node != NULL && !mir_tstrcmp(xmlGetText(node), L"1"))
 			{
-				node = xmlGetChildByPath(hXml, _T("params/param/value/array/data"), 0);
+				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
 				if (node != NULL)
 				{
-					node = xmlGetNthChild(node, _T("value"), 1);
+					node = xmlGetNthChild(node, L"value", 1);
 					if (node != NULL)
 					{
-						node = xmlGetChildByPath(node, _T("string"), 0);
+						node = xmlGetChildByPath(node, L"string", 0);
 						if (node != NULL)
 						{
 							char* s = mir_t2a_cp(xmlGetText(node), CP_ACP);
@@ -140,24 +140,24 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "text/xml";
-	std::wstring content = _T("<?xml version=\"1.0\"?>\r\n<methodCall><methodName>types</methodName></methodCall>");
+	std::wstring content = L"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>types</methodName></methodCall>";
 
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	if (resCont != NULL)
 	{
-		HXML hXml = xmlParseString(resCont, NULL, _T("methodResponse"));
+		HXML hXml = xmlParseString(resCont, NULL, L"methodResponse");
 		if (hXml != NULL)
 		{
-			HXML node = xmlGetChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if (node != NULL && !mir_tstrcmp(xmlGetText(node), _T("1")))
+			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
+			if (node != NULL && !mir_tstrcmp(xmlGetText(node), L"1"))
 			{
-				node = xmlGetChildByPath(hXml, _T("params/param/value/array/data"), 0);
+				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
 				if (node != NULL)
 				{
-					node = xmlGetNthChild(node, _T("value"), 1);
+					node = xmlGetNthChild(node, L"value", 1);
 					if (node != NULL)
 					{
-						node = xmlGetChildByPath(node, _T("string"), 0);
+						node = xmlGetChildByPath(node, L"string", 0);
 						if (node != NULL)
 						{
 							std::wstring str = xmlGetText(node);

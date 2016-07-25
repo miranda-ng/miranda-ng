@@ -116,9 +116,9 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 bool CJabberProto::FilterXml(HXML node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !mir_tstrcmp(XmlGetName(node), _T("message"))) return false;
-	if (!m_filterInfo.presence && !mir_tstrcmp(XmlGetName(node), _T("presence"))) return false;
-	if (!m_filterInfo.iq && !mir_tstrcmp(XmlGetName(node), _T("iq"))) return false;
+	if (!m_filterInfo.msg && !mir_tstrcmp(XmlGetName(node), L"message")) return false;
+	if (!m_filterInfo.presence && !mir_tstrcmp(XmlGetName(node), L"presence")) return false;
+	if (!m_filterInfo.iq && !mir_tstrcmp(XmlGetName(node), L"iq")) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	mir_cslock lck(m_filterInfo.csPatternLock);
@@ -126,14 +126,14 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 	const TCHAR *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
-		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? _T("to") : _T("from"));
+		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? L"to" : L"from");
 		if (attrValue)
 			return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		break;
 
 	case TFilterInfo::T_XMLNS:
 		if (XmlGetChildCount(node)) {
-			attrValue = XmlGetAttrValue(XmlGetChild(node, 0), _T("xmlns"));
+			attrValue = XmlGetAttrValue(XmlGetChild(node, 0), L"xmlns");
 			if (attrValue)
 				return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		}
@@ -305,10 +305,10 @@ struct
 }
 static filter_modes[] =
 {
-	{ TFilterInfo::T_JID,   _T("JID"),            "main" },
-	{ TFilterInfo::T_XMLNS, _T("xmlns"),          "xmlconsole" },
-	{ TFilterInfo::T_ANY,   _T("all attributes"), "sd_filter_apply" },
-	{ TFilterInfo::T_OFF,   _T("disabled"),       "sd_filter_reset" },
+	{ TFilterInfo::T_JID,   L"JID",            "main" },
+	{ TFilterInfo::T_XMLNS, L"xmlns",          "xmlconsole" },
+	{ TFilterInfo::T_ANY,   L"all attributes", "sd_filter_apply" },
+	{ TFilterInfo::T_OFF,   L"disabled",       "sd_filter_reset" },
 };
 
 class CJabberDlgConsole: public CJabberDlgBase
@@ -522,12 +522,12 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				mir_free(textToSend);
 
-				SetDlgItemText(m_hwnd, IDC_CONSOLEIN, _T(""));
+				SetDlgItemText(m_hwnd, IDC_CONSOLEIN, L"");
 			}
 			return TRUE;
 
 		case IDC_RESET:
-			SetDlgItemText(m_hwnd, IDC_CONSOLE, _T(""));
+			SetDlgItemText(m_hwnd, IDC_CONSOLE, L"");
 			break;
 
 		case IDC_BTN_MSG:
@@ -615,7 +615,7 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 HMODULE hMsftedit;
 void CJabberProto::ConsoleInit()
 {
-	hMsftedit = LoadLibrary(_T("Msftedit.dll"));
+	hMsftedit = LoadLibrary(L"Msftedit.dll");
 	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 

@@ -16,7 +16,7 @@
 HWND hHistoryWindow = 0; //the history window
 PopupHistoryList lstPopupHistory; //defined in main.cpp
 
-const TCHAR *szHistoryColumns[] = {_T("Title"), _T("Message"), _T("Timestamp")}; //need to make sure that the string and size vectors have the same number of elements
+const TCHAR *szHistoryColumns[] = {L"Title", L"Message", L"Timestamp"}; //need to make sure that the string and size vectors have the same number of elements
 const int cxHistoryColumns[] = {100, 450, 115};
 const int cHistoryColumns = sizeof(szHistoryColumns) / sizeof(szHistoryColumns[0]);
 
@@ -134,7 +134,7 @@ int MatchesFilterCS(const TCHAR *filter, const PopupHistoryData *popupItem) //ca
 	{
 		TCHAR buffer[1024];
 		struct tm *myTime = localtime(&popupItem->timestamp);
-		_tcsftime(buffer, 1024, _T("%c"), myTime);
+		_tcsftime(buffer, 1024, L"%c", myTime);
 		match = (_tcsstr(buffer, filter)) ? 1 : match;
 	}
 	
@@ -169,7 +169,7 @@ int MatchesFilterCI(const TCHAR *filterS, const PopupHistoryData *popupItem)
 	if (!match) //if no match has been found yet try to match the timestamp
 	{
 		struct tm *myTime = localtime(&popupItem->timestamp);
-		_tcsftime(buffer, 1024, _T("%c"), myTime);
+		_tcsftime(buffer, 1024, L"%c", myTime);
 		match = (_tcsstr(buffer, filterI)) ? 1 : match;
 	}
 	
@@ -423,7 +423,7 @@ void AddEventsDefault(HWND hWnd, int, TCHAR *filter, SIG_MATCHESFILTER MatchesFi
 			ListView_InsertItem(hHistoryList, &item);
 			ListView_SetItemText(hHistoryList, lIndex, 1, popupItem->messageT);
 			myTime = localtime(&popupItem->timestamp);
-			_tcsftime(buffer, 1024, _T("%c"), myTime);
+			_tcsftime(buffer, 1024, L"%c", myTime);
 			ListView_SetItemText(hHistoryList, lIndex++, 2, buffer);
 		}
 	}

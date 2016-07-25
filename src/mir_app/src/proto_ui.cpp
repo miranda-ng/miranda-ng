@@ -144,7 +144,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 	if (!_tcsstr(curText, m_proto_interface->m_tszUserName)) {
 		size_t length = curLength + mir_tstrlen(m_proto_interface->m_tszUserName) + 256;
 		TCHAR *text = (TCHAR *)_alloca(length * sizeof(TCHAR));
-		mir_sntprintf(text, length, _T("%s [%s: %s]"), curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
+		mir_sntprintf(text, length, L"%s [%s: %s]", curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
 		SetWindowText(m_hwnd, text);
 	}
 }

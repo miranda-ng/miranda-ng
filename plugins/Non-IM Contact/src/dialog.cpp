@@ -47,7 +47,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 1);
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 1);
 				if (!GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT)))
-					SetDlgItemText(hwnd, IDC_TIMER_INT, _T("1"));
+					SetDlgItemText(hwnd, IDC_TIMER_INT, L"1");
 			}
 			break;
 		}

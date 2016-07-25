@@ -179,7 +179,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
 
 	TCHAR szPort[10];
-	mir_sntprintf(szPort, _T("%d"), connInfo.wPort);
+	mir_sntprintf(szPort, L"%d", connInfo.wPort);
 	ppro->debugLogA("File server incoming connection accepted: %s", connInfo.szIpPort);
 
 	JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_FILE, szPort);
@@ -260,7 +260,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ft->hFileEvent = hEvent;
 
 	TCHAR szPort[20];
-	mir_sntprintf(szPort, _T("%d"), nlb.wPort);
+	mir_sntprintf(szPort, L"%d", nlb.wPort);
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
@@ -294,12 +294,12 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
-				mir_sntprintf(fulljid, len, _T("%s/%s"), ft->jid, ptszResource);
+				mir_sntprintf(fulljid, len, L"%s/%s", ft->jid, ptszResource);
 
-				XmlNodeIq iq(_T("set"), ft->szId, fulljid);
+				XmlNodeIq iq(L"set", ft->szId, fulljid);
 				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
-				query << XCHILD(_T("url"), _A2T(szAddr));
-				query << XCHILD(_T("desc"), ft->szDescription);
+				query << XCHILD(L"url", _A2T(szAddr));
+				query << XCHILD(L"desc", ft->szDescription);
 				m_ThreadInfo->send(iq);
 
 				debugLogA("Waiting for the file to be sent...");
@@ -390,11 +390,11 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					if (ft->httpPath == NULL)
 						debugLogA("Requested file name does not matched (httpPath == NULL)");
 					else
-						debugLog(_T("Requested file name does not matched ('%s' vs. '%s')"), ft->httpPath, t);
+						debugLog(L"Requested file name does not matched ('%s' vs. '%s')", ft->httpPath, t);
 					ft->state = FT_ERROR;
 					break;
 				}
-				debugLog(_T("Sending [%s]"), ft->std.ptszFiles[currentFile]);
+				debugLog(L"Sending [%s]", ft->std.ptszFiles[currentFile]);
 				_tstati64(ft->std.ptszFiles[currentFile], &statbuf);	// file size in statbuf.st_size
 				if ((fileId = _topen(ft->std.ptszFiles[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
@@ -501,7 +501,7 @@ int filetransfer::create()
 		return fileId;
 
 	TCHAR filefull[MAX_PATH];
-	mir_sntprintf(filefull, _T("%s\\%s"), std.tszWorkingDir, std.tszCurrentFile);
+	mir_sntprintf(filefull, L"%s\\%s", std.tszWorkingDir, std.tszCurrentFile);
 	replaceStrT(std.tszCurrentFile, filefull);
 
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
@@ -512,12 +512,12 @@ int filetransfer::create()
 		WaitForSingleObject(hWaitEvent, INFINITE);
 
 	if (fileId == -1) {
-		ppro->debugLog(_T("Saving to [%s]"), std.tszCurrentFile);
+		ppro->debugLog(L"Saving to [%s]", std.tszCurrentFile);
 		fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
 	if (fileId == -1)
-		ppro->debugLog(_T("Cannot create file '%s' during a file transfer"), filefull);
+		ppro->debugLog(L"Cannot create file '%s' during a file transfer", filefull);
 	else if (std.currentFileSize != 0)
 		_chsize(fileId, std.currentFileSize);
 

@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "twitter.h"
 
 static const TCHAR *sites[] = {
-	_T("https://api.twitter.com/"),
-	_T("https://identi.ca/api/")
+	L"https://api.twitter.com/",
+	L"https://identi.ca/api/"
 };
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -109,11 +109,11 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_LIMITTEXT, 140, 0);
-		SetDlgItemText(hwndDlg, IDC_CHARACTERS, _T("140"));
+		SetDlgItemText(hwndDlg, IDC_CHARACTERS, L"140");
 
 		// Set window title
 		TCHAR title[512];
-		mir_sntprintf(title, _T("Send Tweet for %s"), proto->m_tszUserName);
+		mir_sntprintf(title, L"Send Tweet for %s", proto->m_tszUserName);
 		SetWindowText(hwndDlg, title);
 		return true;
 
@@ -299,17 +299,17 @@ namespace popup_options
 		TCHAR *text;
 	} const quotes[] = {
 		{
-			_T("Dorothy Parker"), _T("If, with the literate, I am\n")
-			_T("Impelled to try an epigram,\n")
-			_T("I never seek to take the credit;\n")
-			_T("We all assume that Oscar said it.") },
-			{ _T("Steve Ballmer"), _T("I have never, honestly, thrown a chair in my life.") },
-			{ _T("James Joyce"), _T("I think I would know Nora's fart anywhere. I think ")
-			_T("I could pick hers out in a roomful of farting women.") },
-			{ _T("Brooke Shields"), _T("Smoking kills. If you're killed, you've lost a very ")
-			_T("important part of your life.") },
-			{ _T("Yogi Berra"), _T("Always go to other peoples' funerals, otherwise ")
-			_T("they won't go to yours.") },
+			L"Dorothy Parker", L"If, with the literate, I am\n"
+			L"Impelled to try an epigram,\n"
+			L"I never seek to take the credit;\n"
+			L"We all assume that Oscar said it." },
+			{ L"Steve Ballmer", L"I have never, honestly, thrown a chair in my life." },
+			{ L"James Joyce", L"I think I would know Nora's fart anywhere. I think "
+			L"I could pick hers out in a roomful of farting women." },
+			{ L"Brooke Shields", L"Smoking kills. If you're killed, you've lost a very "
+			L"important part of your life." },
+			{ L"Yogi Berra", L"Always go to other peoples' funerals, otherwise "
+			L"they won't go to yours." },
 	};
 
 	static void preview(HWND hwndDlg)

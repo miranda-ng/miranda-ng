@@ -160,8 +160,8 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							BYTE isLocked = db_get_b(NULL, PD->RealName, "LockMainStatus", 0);
 
 							TCHAR szTipText[256];
-							mir_sntprintf(szTipText, _T("<b>%s</b>: %s%s"),
-								PD->RealName, pcli->pfnGetStatusModeDescription(wStatus, 0), isLocked ? _T("  (LOCKED)") : _T(""));
+							mir_sntprintf(szTipText, L"<b>%s</b>: %s%s",
+								PD->RealName, pcli->pfnGetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
 
 							CLCINFOTIP ti = { sizeof(ti) };
 							ti.isTreeFocused = (GetFocus() == pcli->hwndContactList);

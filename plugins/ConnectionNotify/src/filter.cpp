@@ -74,7 +74,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 			TCHAR tmpPort[6];
 			if (bOptionsOpen)
 			{
-				MessageBox(hWnd, TranslateT("First close options window"), _T("ConnectionNotify"), MB_OK | MB_ICONSTOP);
+				MessageBox(hWnd, TranslateT("First close options window"), L"ConnectionNotify", MB_OK | MB_ICONSTOP);
 				break;
 			}
 			if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100))

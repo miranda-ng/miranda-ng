@@ -267,18 +267,18 @@ void PasteToWeb1::SendToServer(std::wstring str, std::wstring fileName, std::wst
 {
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "application/x-www-form-urlencoded";
-	std::wstring content = _T("api_option=paste&api_paste_private=");
-	content += Options::instance->webOptions[pageIndex]->publicPaste ? _T("0") : _T("1");
-	content += _T("&api_paste_expire_date=");
-	content += Options::instance->webOptions[pageIndex]->combo1.empty() ? _T("1M") : Options::instance->webOptions[pageIndex]->combo1;
-	content += _T("&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=");
+	std::wstring content = L"api_option=paste&api_paste_private=";
+	content += Options::instance->webOptions[pageIndex]->publicPaste ? L"0" : L"1";
+	content += L"&api_paste_expire_date=";
+	content += Options::instance->webOptions[pageIndex]->combo1.empty() ? L"1M" : Options::instance->webOptions[pageIndex]->combo1;
+	content += L"&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=";
 	content += format;
 	if (!Options::instance->webOptions[pageIndex]->pastebinUserKey.empty())
 	{
-		content += _T("&api_user_key=");
+		content += L"&api_user_key=";
 		content += Options::instance->webOptions[pageIndex]->pastebinUserKey;
 	}
-	content += _T("&api_paste_code=");
+	content += L"&api_paste_code=";
 	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
 	{
 		if (*it == L'%')
@@ -325,11 +325,11 @@ std::wstring PasteToWeb1::GetUserKey(std::wstring& user, std::wstring& password)
 {
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "application/x-www-form-urlencoded";
-	std::wstring content = _T("api_user_name=");
+	std::wstring content = L"api_user_name=";
 	content += user;
-	content += _T("&api_user_password=");
+	content += L"&api_user_password=";
 	content += password;
-	content += _T("&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd");
+	content += L"&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd";
 	wchar_t* resCont = SendToWeb("http://pastebin.com/api/api_login.php", headers, content);
 	std::wstring toRet;
 	if (resCont != NULL)

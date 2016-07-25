@@ -50,7 +50,7 @@ static INT_PTR ChangePM(WPARAM, LPARAM)
 {
 	TCHAR fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
-	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
+	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
@@ -59,7 +59,7 @@ static INT_PTR LoadPM(WPARAM, LPARAM)
 {
 	TCHAR fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
-	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
+	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
 	return 0;
 }
 
@@ -71,7 +71,7 @@ static INT_PTR CheckDb(WPARAM, LPARAM)
 		STARTUPINFO si = { 0 };
 		si.cb = sizeof(si);
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-		mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
+		mir_sntprintf(cmdLine, L"\"%s\" /restart:%d /svc:dbchecker", mirandaPath, GetCurrentProcessId());
 		CallService("CloseAction", 0, 0);
 		CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	}

@@ -86,7 +86,7 @@ void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, 
 		&Contact::getTotalFiles,
 	};
 
-	tos << _T("<td class=\"num\">")
+	tos << L"<td class=\"num\">"
 		<< utils::intToGrouped((contact.*getData[m_nSource])())
-		<< _T("</td>") << ext::endl;
+		<< L"</td>" << ext::endl;
 }

@@ -830,7 +830,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_BTNAPP:
 			{
 				TCHAR filter[MAX_PATH];
-				mir_sntprintf(filter, _T("%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c"),
+				mir_sntprintf(filter, L"%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c",
 					TranslateT("Executables"), 0, 0, TranslateT("All Files"), 0, 0);
 
 				OPENFILENAME OFNStruct = { 0 };

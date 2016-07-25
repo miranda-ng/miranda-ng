@@ -69,7 +69,7 @@ int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 	int iFound = NR_SENDJOBS;
 
 	if (m_currentIndex >= NR_SENDJOBS) {
-		_DebugPopup(dat->hContact, _T("Send queue full"));
+		_DebugPopup(dat->hContact, L"Send queue full");
 		return 0;
 	}
 
@@ -90,7 +90,7 @@ int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 	}
 entry_found:
 	if (iFound == NR_SENDJOBS) {
-		_DebugPopup(dat->hContact, _T("Send queue full"));
+		_DebugPopup(dat->hContact, L"Send queue full");
 		return 0;
 	}
 
@@ -104,7 +104,7 @@ entry_found:
 	HWND	hwndDlg = dat->hwnd;
 
 	dat->cache->saveHistory(0, 0);
-	::SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+	::SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 	::SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
 	UpdateSaveAndSendButton(dat);
@@ -682,11 +682,11 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		if (fIsSendLater) {
 			time_t now = time(0);
 			TCHAR tszTimestamp[30];
-			_tcsftime(tszTimestamp, _countof(tszTimestamp), _T("%Y.%m.%d - %H:%M"), _localtime32((__time32_t *)&now));
+			_tcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
 			mir_snprintf(szKeyName, "S%d", now);
 			mir_sntprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
-		else mir_sntprintf(tszHeader, _T("M%d|"), time(0));
+		else mir_sntprintf(tszHeader, L"M%d|", time(0));
 
 		T2Utf utf_header(tszHeader);
 		size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;

@@ -67,7 +67,7 @@ tstring CQuotesProviderDukasCopy::BuildHTTPURL()const
 			MCONTACT hContact = *i;
 			tstring sID = get_quote_id(hContact);
 			if (false == sID.empty())
-				sURL << sID << _T(",");
+				sURL << sID << L",";
 		}
 	}
 
@@ -103,18 +103,18 @@ bool string2double(const TCHAR* pszText, double& rValue)
 void parse_row(const THTMLNodePtr& pRow, TEconomicRates& raRates)
 {
 	CEconomicRateInfo ri;
-	ri.m_sID = pRow->GetAttribute(_T("sid"));
+	ri.m_sID = pRow->GetAttribute(L"sid");
 	if (false == ri.m_sID.empty()) {
 		unsigned short cColsHandled = 0;
 		tostringstream sSidID;
-		sSidID << _T("id") << ri.m_sID;
+		sSidID << L"id" << ri.m_sID;
 		size_t cNodes = pRow->GetChildCount();
 		for (size_t i = 0; i < cNodes && cColsHandled < 2; ++i) {
 			THTMLNodePtr pCol = pRow->GetChildPtr(i);
 			if (pCol) {
-				tstring sColID = pCol->GetAttribute(_T("id"));
+				tstring sColID = pCol->GetAttribute(L"id");
 				if (false == sColID.empty()) {
-					if (0 == mir_tstrcmpi(sColID.c_str(), _T("stock"))) {
+					if (0 == mir_tstrcmpi(sColID.c_str(), L"stock")) {
 						ri.m_sName = pCol->GetText();
 						if (false == ri.m_sName.empty()) {
 							++cColsHandled;
@@ -125,7 +125,7 @@ void parse_row(const THTMLNodePtr& pRow, TEconomicRates& raRates)
 						if ((false == sRate.empty()) && (true == string2double(sRate.c_str(), ri.m_dCurRate))) {
 							ri.m_dPrevRate = ri.m_dCurRate;
 							++cColsHandled;
-							tstring sOldRate = pCol->GetAttribute(_T("oldPrice"));
+							tstring sOldRate = pCol->GetAttribute(L"oldPrice");
 							if (false == sOldRate.empty()) {
 								string2double(sOldRate.c_str(), ri.m_dPrevRate);
 							}

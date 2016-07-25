@@ -37,9 +37,9 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* pts
 	if (_taccess(ptszDest, 0)) {
 		int ret = CreateDirectoryTreeT(ptszDest);
 		if (ret == 0)
-			proto->debugLog(_T("getAvatarFilename(): Created new directory for avatar cache: %s."), ptszDest);
+			proto->debugLog(L"getAvatarFilename(): Created new directory for avatar cache: %s.", ptszDest);
 		else {
-			proto->debugLog(_T("getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s"), ptszDest, errno, strerror(errno));
+			proto->debugLog(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", ptszDest, errno, strerror(errno));
 			TCHAR buffer[512];
 			mir_sntprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ptszDest);
 			PUShowMessageT(buffer, SM_WARNING);

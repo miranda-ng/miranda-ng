@@ -7,10 +7,10 @@ void cslog(const TCHAR *what, const TCHAR *file, int line)
 		time(&t_);
 		tm *t = localtime(&t_);
 		//FILE *f = fopen("na.log", "a");
-		FILE *f = _tfopen(g_settings.log_filename.c_str(), _T("a"));
+		FILE *f = _tfopen(g_settings.log_filename.c_str(), L"a");
 		if (f) {
 			//fprintf(f, "%s: %s:%i\n", what, file, line);
-			_ftprintf(f, _T("[%04i-%02i-%02i %02i:%02i:%02i cs] %s: %s:%i\n"),
+			_ftprintf(f, L"[%04i-%02i-%02i %02i:%02i:%02i cs] %s: %s:%i\n",
 				int(t->tm_year + 1900), int(t->tm_mon), int(t->tm_mday),
 				int(t->tm_hour), int(t->tm_min), int(t->tm_sec), what, file, line);
 			fclose(f);
@@ -91,9 +91,9 @@ void dbg_msg(std::tstring str, int type)
 		time_t t_;
 		time(&t_);
 		tm *t = localtime(&t_);
-		FILE *f = _tfopen(g_settings.log_filename.c_str(), _T("a"));
+		FILE *f = _tfopen(g_settings.log_filename.c_str(), L"a");
 		if (f) {
-			_ftprintf(f, _T("[%04i-%02i-%02i %02i:%02i:%02i dbg_msg] %s\n"),
+			_ftprintf(f, L"[%04i-%02i-%02i %02i:%02i:%02i dbg_msg] %s\n",
 				int(t->tm_year + 1900), int(t->tm_mon), int(t->tm_mday),
 				int(t->tm_hour), int(t->tm_min), int(t->tm_sec), str.c_str());
 			fclose(f);
@@ -139,9 +139,9 @@ void registerSound(const std::tstring &name)
 		return;
 	sset.insert(name);
 
-	std::tstring id = _T("NotifyAnything_") + name;
-	std::tstring desc = _T("NotifyAnything: ") + name;
-	std::tstring file = name + _T(".wav");
+	std::tstring id = L"NotifyAnything_" + name;
+	std::tstring desc = L"NotifyAnything: " + name;
+	std::tstring file = name + L".wav";
 
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
@@ -162,27 +162,27 @@ HICON getIcon(const std::tstring &name)
 		init = true;
 
 		// windows icons
-		icons[_T("exclamation")] = icons[_T("warning")] = LoadIcon(NULL, IDI_WARNING);
-		deficon = icons[_T("information")] = icons[_T("asterisk")] = LoadIcon(NULL, IDI_ASTERISK);
-		icons[_T("hand")] = icons[_T("error")] = LoadIcon(NULL, IDI_ERROR);
-		icons[_T("question")] = LoadIcon(NULL, IDI_QUESTION);
-		icons[_T("winlogo")] = LoadIcon(NULL, IDI_WINLOGO);
+		icons[L"exclamation"] = icons[L"warning"] = LoadIcon(NULL, IDI_WARNING);
+		deficon = icons[L"information"] = icons[L"asterisk"] = LoadIcon(NULL, IDI_ASTERISK);
+		icons[L"hand"] = icons[L"error"] = LoadIcon(NULL, IDI_ERROR);
+		icons[L"question"] = LoadIcon(NULL, IDI_QUESTION);
+		icons[L"winlogo"] = LoadIcon(NULL, IDI_WINLOGO);
 
 		// miranda icons
-		icons[_T("online")] = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
-		icons[_T("offline")] = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
-		icons[_T("away")] = Skin_LoadIcon(SKINICON_STATUS_AWAY);
-		icons[_T("na")] = Skin_LoadIcon(SKINICON_STATUS_NA);
-		icons[_T("occupied")] = Skin_LoadIcon(SKINICON_STATUS_OCCUPIED);
-		icons[_T("dnd")] = Skin_LoadIcon(SKINICON_STATUS_DND);
-		icons[_T("free4chat")] = Skin_LoadIcon(SKINICON_STATUS_FREE4CHAT);
-		icons[_T("invisible")] = Skin_LoadIcon(SKINICON_STATUS_INVISIBLE);
-		icons[_T("onthephone")] = Skin_LoadIcon(SKINICON_STATUS_ONTHEPHONE);
-		icons[_T("outtolunch")] = Skin_LoadIcon(SKINICON_STATUS_OUTTOLUNCH);
+		icons[L"online"] = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
+		icons[L"offline"] = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
+		icons[L"away"] = Skin_LoadIcon(SKINICON_STATUS_AWAY);
+		icons[L"na"] = Skin_LoadIcon(SKINICON_STATUS_NA);
+		icons[L"occupied"] = Skin_LoadIcon(SKINICON_STATUS_OCCUPIED);
+		icons[L"dnd"] = Skin_LoadIcon(SKINICON_STATUS_DND);
+		icons[L"free4chat"] = Skin_LoadIcon(SKINICON_STATUS_FREE4CHAT);
+		icons[L"invisible"] = Skin_LoadIcon(SKINICON_STATUS_INVISIBLE);
+		icons[L"onthephone"] = Skin_LoadIcon(SKINICON_STATUS_ONTHEPHONE);
+		icons[L"outtolunch"] = Skin_LoadIcon(SKINICON_STATUS_OUTTOLUNCH);
 
-		icons[_T("message")] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		icons[_T("url")] = Skin_LoadIcon(SKINICON_EVENT_URL);
-		icons[_T("file")] = Skin_LoadIcon(SKINICON_EVENT_FILE);
+		icons[L"message"] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		icons[L"url"] = Skin_LoadIcon(SKINICON_EVENT_URL);
+		icons[L"file"] = Skin_LoadIcon(SKINICON_EVENT_FILE);
 	}
 
 	std::map<std::tstring, HICON>::iterator i = icons.find(name);
@@ -204,7 +204,7 @@ HICON getIcon(const std::tstring &name)
 
 	std::tstring rname(file.c_str(), p + 1);
 	if (rname.empty()) {
-		dbg_msg(_T("No resource name given."), SM_WARNING);
+		dbg_msg(L"No resource name given.", SM_WARNING);
 		return deficon;
 	}
 
@@ -220,7 +220,7 @@ HICON getIcon(const std::tstring &name)
 		info.found = false;
 		info.nr = _ttoi(rname.c_str());
 		if (info.nr <= 0) {
-			dbg_msg(_T("Icon indices start at 1."), SM_WARNING);
+			dbg_msg(L"Icon indices start at 1.", SM_WARNING);
 			return deficon;
 		}
 
@@ -232,7 +232,7 @@ HICON getIcon(const std::tstring &name)
 					return deficon;
 				}
 			}
-			dbg_msg(_T("Could not find the requested icon."), SM_WARNING);
+			dbg_msg(L"Could not find the requested icon.", SM_WARNING);
 			return deficon;
 		}
 		resname = info.name;
@@ -265,18 +265,18 @@ bool getNext(std::tstring &out, std::tstring &in, TCHAR sep)
 			in.erase(0, 1);
 			size_t p = in.find('\"');
 			if (p == in.npos)
-				throw _T("Unterminated quote: \"") + in;
+				throw L"Unterminated quote: \"" + in;
 			out += '"';
 			out.append(in, 0, p);
 			out += '"';
 			in.erase(0, p + 1);
 			return true;
 		}
-		if (!in.compare(0, 3, _T("<[["))) {
+		if (!in.compare(0, 3, L"<[[")) {
 			in.erase(0, 3);
-			size_t p = in.find(_T("]]>"));
+			size_t p = in.find(L"]]>");
 			if (p == in.npos)
-				throw _T("Unterminated \"<[[\": <[[") + in;
+				throw L"Unterminated \"<[[\": <[[" + in;
 			out.append(in, 0, p);
 			in.erase(0, p + 3);
 			return true;
@@ -315,20 +315,20 @@ const TCHAR *decode_se_arg(std::tstring &str)
 
 void processSingleAction(const std::tstring &what, bool &closeflag)
 {
-	if (!what.compare(0, 7, _T("system:"))) {
+	if (!what.compare(0, 7, L"system:")) {
 		if (!g_settings.allow_execute) {
-			dbg_msg(_T("Application launching is disabled."), SM_WARNING);
+			dbg_msg(L"Application launching is disabled.", SM_WARNING);
 			return;
 		}
 
 		std::tstring argstr(what, 7);
 
 		if (_tsystem(argstr.c_str()) == -1)
-			dbg_msg(_T("Failed to execute: ") + argstr, SM_WARNING);
+			dbg_msg(L"Failed to execute: " + argstr, SM_WARNING);
 	}
-	else if (!what.compare(0, 4, _T("cmd:"))) {
+	else if (!what.compare(0, 4, L"cmd:")) {
 		if (!g_settings.allow_execute) {
-			dbg_msg(_T("Application launching is disabled."), SM_WARNING);
+			dbg_msg(L"Application launching is disabled.", SM_WARNING);
 			return;
 		}
 
@@ -338,7 +338,7 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 		getAll(args, argstr, ' ', true);
 
 		if (args.empty())
-			throw _T("Insufficient arguments: ") + what;
+			throw L"Insufficient arguments: " + what;
 
 		std::vector<const TCHAR *> cargs;
 		for (std::vector<std::tstring>::iterator i = args.begin(), e = args.end(); i != e; ++i)
@@ -346,12 +346,12 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 		cargs.push_back(0);
 
 		if (_tspawnvp(_P_DETACH, cargs[0], &cargs[0]) == -1)
-			dbg_msg(_T("Failed to execute: ") + what.substr(4), SM_WARNING);
+			dbg_msg(L"Failed to execute: " + what.substr(4), SM_WARNING);
 
 	}
-	else if (!what.compare(0, 5, _T("open:"))) {
+	else if (!what.compare(0, 5, L"open:")) {
 		if (!g_settings.allow_execute) {
-			dbg_msg(_T("Application launching is disabled."), SM_WARNING);
+			dbg_msg(L"Application launching is disabled.", SM_WARNING);
 			return;
 		}
 
@@ -359,19 +359,19 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 
 		std::tstring file, args;
 		if (!getNext(file, argstr, ' '))
-			throw _T("No filename provided: ") + what;
+			throw L"No filename provided: " + what;
 		file = strip(file);
 		args = strip(argstr);
 
 		const TCHAR *cargs = decode_se_arg(args);
 
-		if ((INT_PTR)ShellExecute(0, _T("open"), file.c_str(), cargs, 0, SW_SHOWNORMAL) <= 32)
-			throw _T("Failed to open: ") + file + _T(" ") + args;
+		if ((INT_PTR)ShellExecute(0, L"open", file.c_str(), cargs, 0, SW_SHOWNORMAL) <= 32)
+			throw L"Failed to open: " + file + L" " + args;
 
 	}
-	else if (!what.compare(0, 6, _T("shell:"))) {
+	else if (!what.compare(0, 6, L"shell:")) {
 		if (!g_settings.allow_execute) {
-			dbg_msg(_T("Application launching is disabled."), SM_WARNING);
+			dbg_msg(L"Application launching is disabled.", SM_WARNING);
 			return;
 		}
 
@@ -379,9 +379,9 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 
 		std::tstring verb, file, args, dir;
 		if (!getNext(verb, argstr, ':'))
-			throw _T("No verb provided: ") + what;
+			throw L"No verb provided: " + what;
 		if (!getNext(file, argstr, ','))
-			throw _T("No filename provided: ") + what;
+			throw L"No filename provided: " + what;
 		getNext(args, argstr, ',');
 		getNext(dir, argstr, ',');
 		verb = unquote(strip(verb));
@@ -390,12 +390,12 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 		dir = /*unquote(*/strip(dir)/*)*/;
 
 		if ((INT_PTR)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
-			throw _T("Failed: ") + what;
+			throw L"Failed: " + what;
 	}
-	else if (what == _T("close"))
+	else if (what == L"close")
 		closeflag = true;
 	else
-		throw _T("Action not recognized: ") + what;
+		throw L"Action not recognized: " + what;
 }
 
 void processAction(const std::tstring &what, bool &closeflag)
@@ -588,29 +588,29 @@ void loadDefaults(popup_t &msg, char ch)
 	msg.delay = 0;
 	switch (ch) {
 	case '%':
-		msg.icon = _T("message");
+		msg.icon = L"message";
 		msg.background = RGB(173, 206, 247);
 		msg.foreground = RGB(0, 0, 0);
-		msg.contact = _T("Message");
+		msg.contact = L"Message";
 		msg.beep = true;
-		msg.sound = _T("Message");
+		msg.sound = L"Message";
 		return;
 	case '!':
-		msg.icon = _T("exclamation");
+		msg.icon = L"exclamation";
 		msg.background = RGB(191, 0, 0);
 		msg.foreground = RGB(255, 245, 225);
-		msg.contact = _T("Error");
+		msg.contact = L"Error";
 		msg.beep = true;
-		msg.sound = _T("Error");
+		msg.sound = L"Error";
 		return;
 	case ' ':
 	default:
-		msg.icon = _T("information");
+		msg.icon = L"information";
 		msg.background = RGB(255, 245, 225);
 		msg.foreground = RGB(0, 0, 0);
-		msg.contact = _T("Notice");
+		msg.contact = L"Notice";
 		msg.beep = true;
-		msg.sound = _T("Notice");
+		msg.sound = L"Notice";
 		return;
 	}
 }
@@ -642,7 +642,7 @@ bool parseComplexMessage(const std::tstring &buf, popup_t &msg, char sep)
 		if (!wend || npos && npos < wend)
 			wend = npos;
 		if (!wend) {
-			dbg_msg(_T("Unterminated option."), SM_WARNING);
+			dbg_msg(L"Unterminated option.", SM_WARNING);
 			return false;
 		}
 
@@ -656,7 +656,7 @@ bool parseComplexMessage(const std::tstring &buf, popup_t &msg, char sep)
 			arg = cpos + 1;
 
 		if (!g_settings.password.empty() && !passok) {
-			if (what == _T("passwd") && arg == g_settings.password) {
+			if (what == L"passwd" && arg == g_settings.password) {
 				passok = true;
 				continue;
 			}
@@ -664,35 +664,35 @@ bool parseComplexMessage(const std::tstring &buf, popup_t &msg, char sep)
 				return false;
 		}
 
-		if (what == _T("passwd"))
+		if (what == L"passwd")
 			;
-		else if (what == _T("icon"))
+		else if (what == L"icon")
 			msg.icon = arg;
-		else if (what == _T("msg")) {
+		else if (what == L"msg") {
 			if (!cpos) {
-				dbg_msg(_T("No argument given to msg option."), SM_WARNING);
+				dbg_msg(L"No argument given to msg option.", SM_WARNING);
 				return false;
 			}
 			else if (msg.replace != xno && msg.id.empty()) {
-				dbg_msg(_T("ID is required for replacement."), SM_WARNING);
+				dbg_msg(L"ID is required for replacement.", SM_WARNING);
 				return false;
 			}
 			msg.message = arg;
 			return true;
 		}
-		else if (what == _T("replace")) {
-			if (arg == _T("yes"))
+		else if (what == L"replace") {
+			if (arg == L"yes")
 				msg.replace = xreplace;
-			else if (arg == _T("append"))
+			else if (arg == L"append")
 				msg.replace = xappend;
-			else if (arg == _T("prepend"))
+			else if (arg == L"prepend")
 				msg.replace = xprepend;
-			else if (arg == _T("no"))
+			else if (arg == L"no")
 				msg.replace = xno;
 			else
-				dbg_msg(_T("Invalid argument for replace option: ") + arg, SM_WARNING);
+				dbg_msg(L"Invalid argument for replace option: " + arg, SM_WARNING);
 		}
-		else if (what == _T("sound")) {
+		else if (what == L"sound") {
 			if (arg.empty())
 				msg.beep = false;
 			else {
@@ -701,54 +701,54 @@ bool parseComplexMessage(const std::tstring &buf, popup_t &msg, char sep)
 				registerSound(arg);
 			}
 		}
-		else if (what == _T("left")) {
+		else if (what == L"left") {
 			msg.left = arg;
 		}
-		else if (what == _T("right")) {
+		else if (what == L"right") {
 			msg.right = arg;
 		}
-		else if (what == _T("opened")) {
+		else if (what == L"opened") {
 			msg.opened = arg;
 		}
-		else if (what == _T("closed")) {
+		else if (what == L"closed") {
 			msg.closed = arg;
 		}
-		else if (what == _T("delay")) {
+		else if (what == L"delay") {
 			msg.delay = _ttoi(arg.c_str());
 		}
-		else if (what == _T("id")) {
+		else if (what == L"id") {
 			msg.id = arg;
 		}
-		else if (what == _T("bg")) {
+		else if (what == L"bg") {
 			bool ok;
 			msg.background = parseColor(arg, ok);
 			if (!ok)
-				dbg_msg(_T("Invalid color: ") + arg, SM_WARNING);
+				dbg_msg(L"Invalid color: " + arg, SM_WARNING);
 		}
-		else if (what == _T("fg")) {
+		else if (what == L"fg") {
 			bool ok;
 			msg.foreground = parseColor(arg, ok);
 			if (!ok)
-				dbg_msg(_T("Invalid color: ") + arg, SM_WARNING);
+				dbg_msg(L"Invalid color: " + arg, SM_WARNING);
 		}
-		else if (what == _T("from"))
+		else if (what == L"from")
 			msg.contact = arg;
-		else if (what == _T("sep")) {
+		else if (what == L"sep") {
 			if (arg.size() == 1)
 				sep = arg[0];
 			else
-				dbg_msg(_T("Invalid argument for sep option: ") + arg, SM_WARNING);
+				dbg_msg(L"Invalid argument for sep option: " + arg, SM_WARNING);
 		}
-		else if (what == _T("beep")) {
-			if (arg == _T("1"))
+		else if (what == L"beep") {
+			if (arg == L"1")
 				msg.beep = true;
-			else if (arg == _T("0"))
+			else if (arg == L"0")
 				msg.beep = false;
 			else
-				dbg_msg(_T("Invalid argument for beep option: ") + arg, SM_WARNING);
+				dbg_msg(L"Invalid argument for beep option: " + arg, SM_WARNING);
 		}
 		else
-			dbg_msg(_T("Unknown option: ") + what, SM_NOTIFY);
+			dbg_msg(L"Unknown option: " + what, SM_NOTIFY);
 	}
 	return true;
 }
@@ -756,7 +756,7 @@ bool parseComplexMessage(const std::tstring &buf, popup_t &msg, char sep)
 bool parseMessage(const std::tstring &abuf, popup_t &msg)
 {
 	if (abuf.empty()) {
-		dbg_msg(_T("Empty message ignored."), SM_NOTIFY);
+		dbg_msg(L"Empty message ignored.", SM_NOTIFY);
 		return false;
 	}
 
@@ -767,7 +767,7 @@ bool parseMessage(const std::tstring &abuf, popup_t &msg)
 		buf.erase(0, 3);
 	}
 
-	if (_tcschr(_T("*!%"), buf[0]) && sep != buf[0]) {
+	if (_tcschr(L"*!%", buf[0]) && sep != buf[0]) {
 		if (buf.size() < 2) return false;
 		loadDefaults(msg, buf[0]);
 		buf.erase(0, 1);
@@ -789,16 +789,16 @@ void processMessage(std::tstring buf)
 		time_t t_;
 		time(&t_);
 		tm *t = localtime(&t_);
-		FILE *f = _tfopen(g_settings.log_filename.c_str(), _T("a"));
+		FILE *f = _tfopen(g_settings.log_filename.c_str(), L"a");
 		if (f) {
-			bool err = _ftprintf(f, _T("[%04i-%02i-%02i %02i:%02i:%02i] %s\n"),
+			bool err = _ftprintf(f, L"[%04i-%02i-%02i %02i:%02i:%02i] %s\n",
 				int(t->tm_year + 1900), int(t->tm_mon + 1), int(t->tm_mday),
 				int(t->tm_hour), int(t->tm_min), int(t->tm_sec), buf.c_str()) < 0;
 			if (fclose(f) == EOF || err)
-				dbg_msg(_T("Failed to write to log file."), SM_WARNING);
+				dbg_msg(L"Failed to write to log file.", SM_WARNING);
 		}
 		else
-			dbg_msg(_T("Failed to open log file."), SM_WARNING);
+			dbg_msg(L"Failed to open log file.", SM_WARNING);
 	}
 
 	popup_t msg;
@@ -822,7 +822,7 @@ void processMessage(std::tstring buf)
 			if (g_settings.use_pcspeaker)
 				Beep(650, 50);
 			else {
-				std::tstring sname = _T("NotifyAnything_") + msg.sound;
+				std::tstring sname = L"NotifyAnything_" + msg.sound;
 				SkinPlaySound(_T2A(sname.c_str()));
 			}
 		}
@@ -982,12 +982,12 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 
 	TCHAR buf[MAX_PATH + 1];
-	mir_tstrcpy(buf, _T("."));
+	mir_tstrcpy(buf, L".");
 	g_mirandaDir = _tgetcwd(buf, MAX_PATH);
 
-	registerSound(_T("Notice"));
-	registerSound(_T("Message"));
-	registerSound(_T("Error"));
+	registerSound(L"Notice");
+	registerSound(L"Message");
+	registerSound(L"Error");
 
 	load_settings();
 

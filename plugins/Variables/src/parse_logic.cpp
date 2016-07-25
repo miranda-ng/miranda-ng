@@ -32,11 +32,11 @@ static TCHAR *parseAnd(ARGUMENTSINFO *ai)
 
 		if (fi.eCount > 0) {
 			ai->flags |= AIF_FALSE;
-			return mir_tstrdup(_T(""));
+			return mir_tstrdup(L"");
 		}
 	}
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseFalse(ARGUMENTSINFO *ai)
@@ -45,7 +45,7 @@ static TCHAR *parseFalse(ARGUMENTSINFO *ai)
 		return NULL;
 
 	ai->flags |= AIF_FALSE;
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseIf(ARGUMENTSINFO *ai)
@@ -166,7 +166,7 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	if (ai->argc != 5)
 		return NULL;
 
-	TCHAR *res = mir_tstrdup(_T(""));
+	TCHAR *res = mir_tstrdup(L"");
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -209,7 +209,7 @@ static TCHAR *parseEqual(ARGUMENTSINFO *ai)
 	if (ttoi(ai->targv[1]) != ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseGreater(ARGUMENTSINFO *ai)
@@ -220,7 +220,7 @@ static TCHAR *parseGreater(ARGUMENTSINFO *ai)
 	if (ttoi(ai->targv[1]) <= ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseLonger(ARGUMENTSINFO *ai)
@@ -231,7 +231,7 @@ static TCHAR *parseLonger(ARGUMENTSINFO *ai)
 	if (mir_tstrlen(ai->targv[1]) <= mir_tstrlen(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseNot(ARGUMENTSINFO *ai)
@@ -248,7 +248,7 @@ static TCHAR *parseNot(ARGUMENTSINFO *ai)
 	if (fi.eCount == 0)
 		ai->flags |= AIF_FALSE;
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseOr(ARGUMENTSINFO *ai)
@@ -268,12 +268,12 @@ static TCHAR *parseOr(ARGUMENTSINFO *ai)
 			ai->flags &= ~AIF_FALSE;
 	}
 
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 static TCHAR *parseTrue(ARGUMENTSINFO *ai)
 {
-	return (ai->argc != 1) ? NULL : mir_tstrdup(_T(""));
+	return (ai->argc != 1) ? NULL : mir_tstrdup(L"");
 }
 
 static TCHAR *parseXor(ARGUMENTSINFO *ai)
@@ -293,7 +293,7 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai)
 	int val2 = fi.eCount == 0;
 
 	ai->flags |= ((val1 & AIF_FALSE) == !(val2 & AIF_FALSE)) ? 0 : AIF_FALSE;
-	return mir_tstrdup(_T(""));
+	return mir_tstrdup(L"");
 }
 
 void registerLogicTokens()

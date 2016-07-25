@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 extern void HasNewListeningInfo();
 
-Player::Player() : name(_T("Player")), enabled(FALSE), needPoll(FALSE)
+Player::Player() : name(L"Player"), enabled(FALSE), needPoll(FALSE)
 {
 	memset(&listening_info, 0, sizeof(listening_info));
 }
@@ -59,7 +59,7 @@ void Player::FreeData()
 
 ExternalPlayer::ExternalPlayer()
 {
-	name = _T("ExternalPlayer");
+	name = L"ExternalPlayer";
 	needPoll = TRUE;
 
 	window_classes = NULL;
@@ -94,7 +94,7 @@ BOOL ExternalPlayer::GetListeningInfo(LISTENINGTOINFO *lti)
 
 CodeInjectionPlayer::CodeInjectionPlayer()
 {
-	name = _T("CodeInjectionPlayer");
+	name = L"CodeInjectionPlayer";
 	dll_name = NULL;
 	message_window_class = NULL;
 	next_request_time = 0;

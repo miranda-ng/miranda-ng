@@ -170,7 +170,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		PROTO_AVATAR_INFORMATION ai;
 		ai.hContact = hMeta;
 		ai.format = PA_FORMAT_UNKNOWN;
-		_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+		_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 			db_set_ts(hMeta, "ContactPhoto", "File", ai.filename);
@@ -512,13 +512,13 @@ void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
 		tszDest = dbv.pszVal;
 		break;
 	case DBVT_BYTE:
-		tszDest.Format(_T("%d"), dbv.bVal);
+		tszDest.Format(L"%d", dbv.bVal);
 		break;
 	case DBVT_WORD:
-		tszDest.Format(_T("%d"), dbv.wVal);
+		tszDest.Format(L"%d", dbv.wVal);
 		break;
 	case DBVT_DWORD:
-		tszDest.Format(_T("%d"), dbv.dVal);
+		tszDest.Format(L"%d", dbv.dVal);
 		break;
 	default:
 		tszDest.Empty();

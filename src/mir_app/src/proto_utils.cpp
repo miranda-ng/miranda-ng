@@ -155,21 +155,21 @@ MIR_APP_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
 MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 {
 	if (format == PA_FORMAT_PNG)
-		return _T(".png");
+		return L".png";
 	if (format == PA_FORMAT_JPEG)
-		return _T(".jpg");
+		return L".jpg";
 	if (format == PA_FORMAT_ICON)
-		return _T(".ico");
+		return L".ico";
 	if (format == PA_FORMAT_BMP)
-		return _T(".bmp");
+		return L".bmp";
 	if (format == PA_FORMAT_GIF)
-		return _T(".gif");
+		return L".gif";
 	if (format == PA_FORMAT_SWF)
-		return _T(".swf");
+		return L".swf";
 	if (format == PA_FORMAT_XML)
-		return _T(".xml");
+		return L".xml";
 
-	return _T("");
+	return L"";
 }
 
 MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
@@ -181,25 +181,25 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 	if (ptszExt == NULL)
 		return PA_FORMAT_UNKNOWN;
 
-	if (!_tcsicmp(ptszExt, _T(".png")))
+	if (!_tcsicmp(ptszExt, L".png"))
 		return PA_FORMAT_PNG;
 
-	if (!_tcsicmp(ptszExt, _T(".jpg")) || !_tcsicmp(ptszExt, _T(".jpeg")))
+	if (!_tcsicmp(ptszExt, L".jpg") || !_tcsicmp(ptszExt, L".jpeg"))
 		return PA_FORMAT_JPEG;
 
-	if (!_tcsicmp(ptszExt, _T(".ico")))
+	if (!_tcsicmp(ptszExt, L".ico"))
 		return PA_FORMAT_ICON;
 
-	if (!_tcsicmp(ptszExt, _T(".bmp")) || !_tcsicmp(ptszExt, _T(".rle")))
+	if (!_tcsicmp(ptszExt, L".bmp") || !_tcsicmp(ptszExt, L".rle"))
 		return PA_FORMAT_BMP;
 
-	if (!_tcsicmp(ptszExt, _T(".gif")))
+	if (!_tcsicmp(ptszExt, L".gif"))
 		return PA_FORMAT_GIF;
 
-	if (!_tcsicmp(ptszExt, _T(".swf")))
+	if (!_tcsicmp(ptszExt, L".swf"))
 		return PA_FORMAT_SWF;
 
-	if (!_tcsicmp(ptszExt, _T(".xml")))
+	if (!_tcsicmp(ptszExt, L".xml"))
 		return PA_FORMAT_XML;
 
 	return PA_FORMAT_UNKNOWN;
@@ -208,31 +208,31 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
 {
 	if (!memcmp(pBuffer, "\x89PNG", 4)) {
-		if (ptszExtension) *ptszExtension = _T(".png");
+		if (ptszExtension) *ptszExtension = L".png";
 		return PA_FORMAT_PNG;
 	}
 
 	if (!memcmp(pBuffer, "GIF8", 4)) {
-		if (ptszExtension) *ptszExtension = _T(".gif");
+		if (ptszExtension) *ptszExtension = L".gif";
 		return PA_FORMAT_GIF;
 	}
 
 	if (!memicmp(pBuffer, "<?xml", 5)) {
-		if (ptszExtension) *ptszExtension = _T(".xml");
+		if (ptszExtension) *ptszExtension = L".xml";
 		return PA_FORMAT_XML;
 	}
 
 	if (!memcmp(pBuffer, "\xFF\xD8\xFF\xE0", 4) || !memcmp(pBuffer, "\xFF\xD8\xFF\xE1", 4)) {
-		if (ptszExtension) *ptszExtension = _T(".jpg");
+		if (ptszExtension) *ptszExtension = L".jpg";
 		return PA_FORMAT_JPEG;
 	}
 
 	if (!memcmp(pBuffer, "BM", 2)) {
-		if (ptszExtension) *ptszExtension = _T(".bmp");
+		if (ptszExtension) *ptszExtension = L".bmp";
 		return PA_FORMAT_BMP;
 	}
 
-	if (ptszExtension) *ptszExtension = _T("");
+	if (ptszExtension) *ptszExtension = L"";
 	return PA_FORMAT_UNKNOWN;
 }
 

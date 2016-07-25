@@ -1043,7 +1043,7 @@ void HistoryWindow::Initialise()
 	LVCOLUMN col = { 0 };
 	col.mask = LVCF_WIDTH | LVCF_TEXT;
 	col.cx = 470;
-	col.pszText = _T("");
+	col.pszText = L"";
 	ListView_InsertColumn(listWindow, 0, &col);
 	ListView_SetColumnWidth(listWindow, 0, LVSCW_AUTOSIZE_USEHEADER);
 	ListView_SetExtendedListViewStyleEx(listWindow, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
@@ -1233,13 +1233,13 @@ void HistoryWindow::AddGroup(bool, const std::wstring &time, const std::wstring 
 
 	if (Options::instance->groupShowName) {
 		if (msg[0] != 0)
-			_tcscat_s(msg, _T(" "));
+			_tcscat_s(msg, L" ");
 		_tcscat_s(msg, user.c_str());
 	}
 
 	if (Options::instance->groupShowMessage) {
 		if (msg[0] != 0)
-			_tcscat_s(msg, _T(" "));
+			_tcscat_s(msg, L" ");
 		_tcscat_s(msg, eventText.c_str());
 	}
 
@@ -1289,7 +1289,7 @@ void SetFontFromOptions(ITextFont *TextFont, int caps, Options::Fonts fontId)
 
 void HistoryWindow::SelectEventGroup(int sel)
 {
-	SetWindowText(editWindow, _T(""));
+	SetWindowText(editWindow, L"");
 	currentGroup.clear();
 	selected = sel;
 	if (sel < 0 || sel >= (int)m_eventList.size())
@@ -1360,11 +1360,11 @@ void HistoryWindow::SelectEventGroup(int sel)
 				ImageDataObject::InsertIcon(RichEditOle, ico, backColor, 16, 16);
 			}
 
-			TCHAR* formatDate = Options::instance->messagesShowSec ? (isUser ? _T("d s ") : _T("d s\n")) : (isUser ? _T("d t ") : _T("d t\n"));
+			TCHAR* formatDate = Options::instance->messagesShowSec ? (isUser ? L"d s " : L"d s\n") : (isUser ? L"d t " : L"d t\n");
 			if (!Options::instance->messagesShowDate) {
 				if (isFirst) {
 					isFirst = false;
-					formatDate = Options::instance->messagesShowSec ? (isUser ? _T("s ") : _T("s\n")) : (isUser ? _T("t ") : _T("t\n"));
+					formatDate = Options::instance->messagesShowSec ? (isUser ? L"s " : L"s\n") : (isUser ? L"t " : L"t\n");
 					time_t tt = data.timestamp;
 					localtime_s(&lastTime, &tt);
 				}
@@ -1373,7 +1373,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 					tm t;
 					localtime_s(&t, &tt);
 					if (lastTime.tm_yday == t.tm_yday && lastTime.tm_year == t.tm_year)
-						formatDate = Options::instance->messagesShowSec ? (isUser ? _T("s ") : _T("s\n")) : (isUser ? _T("t ") : _T("t\n"));
+						formatDate = Options::instance->messagesShowSec ? (isUser ? L"s " : L"s\n") : (isUser ? L"t " : L"t\n");
 				}
 			}
 
@@ -1387,7 +1387,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			TextFont->Release();
 
 			if (isUser) {
-				mir_sntprintf(str, MAXSELECTSTR, _T("%s\n"), (lastMe) ? m_myName : m_contactName);
+				mir_sntprintf(str, MAXSELECTSTR, L"%s\n", (lastMe) ? m_myName : m_contactName);
 				*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
 				TextSelection->SetStart(MAXLONG);
 				TextSelection->GetFont(&TextFont);
@@ -2031,18 +2031,18 @@ void HistoryWindow::FormatQuote(std::wstring &quote, const MessageData &md, cons
 	else
 		quote += m_contactName;
 	TCHAR str[32];
-	TimeZone_PrintTimeStamp(NULL, md.timestamp, _T("d t"), str, 32, 0);
-	quote += _T(", ");
+	TimeZone_PrintTimeStamp(NULL, md.timestamp, L"d t", str, 32, 0);
+	quote += L", ";
 	quote += str;
-	quote += _T("\n");
+	quote += L"\n";
 	int f = 0;
 	do {
-		int nf = (int)msg.find_first_of(_T("\r\n"), f);
+		int nf = (int)msg.find_first_of(L"\r\n", f);
 		if (nf >= 0 && nf < (int)msg.length()) {
 			if (nf - f >= 0) {
-				quote += _T(">");
+				quote += L">";
 				quote += msg.substr(f, nf - f);
-				quote += _T("\n");
+				quote += L"\n";
 			}
 
 			f = nf + 1;
@@ -2050,9 +2050,9 @@ void HistoryWindow::FormatQuote(std::wstring &quote, const MessageData &md, cons
 				++f;
 		}
 		else if (msg.length() - f > 0) {
-			quote += _T(">");
+			quote += L">";
 			quote += msg.substr(f, msg.length() - f);
-			quote += _T("\n");
+			quote += L"\n";
 			f = -1;
 		}
 		else f = -1;

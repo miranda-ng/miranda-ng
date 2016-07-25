@@ -60,7 +60,7 @@ TwitterProto::TwitterProto(const char *proto_name, const TCHAR *username) :
 	ConsumerKey = OAUTH_CONSUMER_KEY;
 	ConsumerSecret = OAUTH_CONSUMER_SECRET;
 
-	AuthorizeUrl = _T("https://api.twitter.com/oauth/authorize?oauth_token=%s");
+	AuthorizeUrl = L"https://api.twitter.com/oauth/authorize?oauth_token=%s";
 }
 
 TwitterProto::~TwitterProto()
@@ -319,7 +319,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	// Create avatar network connection (TODO: probably remove this)
@@ -332,7 +332,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	if (hAvatarNetlib_ == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
-		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	twit_.set_handle(this, m_hNetlibUser);
@@ -455,7 +455,7 @@ void TwitterProto::UpdateSettings()
 std::tstring TwitterProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }
 

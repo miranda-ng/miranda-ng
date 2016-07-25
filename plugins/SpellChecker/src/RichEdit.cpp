@@ -201,14 +201,14 @@ TCHAR* RichEdit::GetText(int start, int end) const
 	if (m_textDocument != NULL) {
 		ITextRange *range;
 		if (m_textDocument->Range(start, end, &range) != S_OK)
-			return mir_tstrdup(_T(""));
+			return mir_tstrdup(L"");
 
 		BSTR text = NULL;
 		if (FAILED(range->GetText(&text))) {
 			if (text)
 				::SysFreeString(text);
 			range->Release();
-			return mir_tstrdup(_T(""));
+			return mir_tstrdup(L"");
 		}
 
 		TCHAR *res = mir_u2t(text);
@@ -281,7 +281,7 @@ int RichEdit::Delete(int start, int end)
 	CHARRANGE replace_sel = { start, end };
 	SetSel(replace_sel);
 
-	ReplaceSel(_T(""));
+	ReplaceSel(L"");
 
 	int dif = FixSel(&sel, replace_sel, 0);
 	SetSel(sel);

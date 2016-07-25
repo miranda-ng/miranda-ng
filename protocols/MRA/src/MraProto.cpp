@@ -496,7 +496,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		case ID_STATUS_DND:
 		case ID_STATUS_FREECHAT:
 		case ID_STATUS_INVISIBLE:
-			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, _T(""), _T(""));
+			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, L"", L"");
 		case ID_STATUS_CONNECTING:
 			// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
 			if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
@@ -526,11 +526,11 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 		SYSTEMTIME tt = { 0 };
 		dwTime = getDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
 		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
-			mir_sntprintf(szTime, _T("%04ld.%02ld.%02ld %02ld:%02ld: "), tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
+			mir_sntprintf(szTime, L"%04ld.%02ld.%02ld %02ld:%02ld: ", tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
 		else
 			szTime[0] = 0;
 
-		mir_sntprintf(szStatusDesc, _T("%s%s"), szTime, szBlogStatus.c_str());
+		mir_sntprintf(szStatusDesc, L"%s%s", szTime, szBlogStatus.c_str());
 		iRet = GetTickCount();
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}
@@ -549,7 +549,7 @@ int CMraProto::SetAwayMsg(int iStatus, const TCHAR *msg)
 	// не отправляем новый статусный текст для хстатусов, для хстатусов только эвей сообщения
 	if (dwStatus != ID_STATUS_ONLINE || IsXStatusValid(dwXStatus) == FALSE) {
 		dwStatusDescSize = min(dwStatusDescSize, STATUS_DESC_MAX);
-		MraSendNewStatus(dwStatus, dwXStatus, _T(""), msg);
+		MraSendNewStatus(dwStatus, dwXStatus, L"", msg);
 	}
 	return 0;
 }

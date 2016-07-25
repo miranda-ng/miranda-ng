@@ -127,19 +127,19 @@ static bool isPluginBanned(const MUUID& u1)
 
 static MuuidReplacement pluginDefault[] =
 {
-	{ MIID_UIUSERINFO, _T("stduserinfo"),   NULL }, // 0
-	{ MIID_SREMAIL,    _T("stdemail"),      NULL }, // 1
-	{ MIID_SRAUTH,     _T("stdauth"),       NULL }, // 2
-	{ MIID_SRFILE,     _T("stdfile"),       NULL }, // 3
-	{ MIID_UIHELP,     _T("stdhelp"),       NULL }, // 4
-	{ MIID_UIHISTORY,  _T("stduihist"),     NULL }, // 5
-	{ MIID_IDLE,       _T("stdidle"),       NULL }, // 6
-	{ MIID_AUTOAWAY,   _T("stdautoaway"),   NULL }, // 7
-	{ MIID_USERONLINE, _T("stduseronline"), NULL }, // 8
-	{ MIID_SRAWAY,     _T("stdaway"),       NULL }, // 9
-	{ MIID_CLIST,      _T("stdclist"),      NULL }, // 10
-	{ MIID_CHAT,       _T("stdchat"),       NULL }, // 11
-	{ MIID_SRMM,       _T("stdmsg"),        NULL }  // 12
+	{ MIID_UIUSERINFO, L"stduserinfo",   NULL }, // 0
+	{ MIID_SREMAIL,    L"stdemail",      NULL }, // 1
+	{ MIID_SRAUTH,     L"stdauth",       NULL }, // 2
+	{ MIID_SRFILE,     L"stdfile",       NULL }, // 3
+	{ MIID_UIHELP,     L"stdhelp",       NULL }, // 4
+	{ MIID_UIHISTORY,  L"stduihist",     NULL }, // 5
+	{ MIID_IDLE,       L"stdidle",       NULL }, // 6
+	{ MIID_AUTOAWAY,   L"stdautoaway",   NULL }, // 7
+	{ MIID_USERONLINE, L"stduseronline", NULL }, // 8
+	{ MIID_SRAWAY,     L"stdaway",       NULL }, // 9
+	{ MIID_CLIST,      L"stdclist",      NULL }, // 10
+	{ MIID_CHAT,       L"stdchat",       NULL }, // 11
+	{ MIID_SRMM,       L"stdmsg",        NULL }  // 12
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)
@@ -162,7 +162,7 @@ int LoadStdPlugins()
 	}
 
 	if (pluginDefault[12].pImpl == NULL)
-		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), _T("Miranda NG"), MB_OK | MB_ICONWARNING);
+		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), L"Miranda NG", MB_OK | MB_ICONWARNING);
 
 	return 0;
 }
@@ -373,7 +373,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 static int valid_library_name(TCHAR *name)
 {
 	TCHAR *dot = _tcsrchr(name, '.');
-	if (dot != NULL && mir_tstrcmpi(dot + 1, _T("dll")) == 0)
+	if (dot != NULL && mir_tstrcmpi(dot + 1, L"dll") == 0)
 		if (dot[4] == 0)
 			return 1;
 
@@ -389,7 +389,7 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 
 	// create the search filter
 	TCHAR search[MAX_PATH];
-	mir_sntprintf(search, _T("%s\\Plugins\\*.dll"), exe);
+	mir_sntprintf(search, L"%s\\Plugins\\*.dll", exe);
 
 	// FFFN will return filenames for things like dot dll+ or dot dllx
 	WIN32_FIND_DATA ffd;
@@ -413,7 +413,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	pluginList.insert(p);
 
 	TCHAR tszFullPath[MAX_PATH];
-	mir_sntprintf(tszFullPath, _T("%s\\%s\\%s"), path, dir, tszFileName);
+	mir_sntprintf(tszFullPath, L"%s\\%s\\%s", path, dir, tszFileName);
 
 	// map dll into the memory and check its exports
 	bool bIsPlugin = false;
@@ -506,7 +506,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 		if (!(p->pclass & PCLASS_BASICAPI)) {
 			BASIC_PLUGIN_INFO bpi;
-			mir_sntprintf(tszFullPath, _T("%s\\%s\\%s"), exe, (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
+			mir_sntprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->pclass & PCLASS_CORE) ? L"Core" : L"Plugins", p->pluginname);
 			if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 				p->pclass |= PCLASS_FAILED;
 				return false;
@@ -565,8 +565,8 @@ bool LoadCorePlugin(MuuidReplacement &mr)
 	GetModuleFileName(NULL, exe, _countof(exe));
 	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
 
-	mir_sntprintf(tszPlugName, _T("%s.dll"), mr.stdplugname);
-	pluginEntry* pPlug = OpenPlugin(tszPlugName, _T("Core"), exe);
+	mir_sntprintf(tszPlugName, L"%s.dll", mr.stdplugname);
+	pluginEntry* pPlug = OpenPlugin(tszPlugName, L"Core", exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
 		MessageBox(NULL, CMString(FORMAT, TranslateTS(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
@@ -623,14 +623,14 @@ static pluginEntry* getCListModule(TCHAR *exe)
 		if (!isPluginOnWhiteList(p->pluginname))
 			continue;
 
-		mir_sntprintf(tszFullPath, _T("%s\\Plugins\\%s"), exe, p->pluginname);
+		mir_sntprintf(tszFullPath, L"%s\\Plugins\\%s", exe, p->pluginname);
 		if (loadClistModule(tszFullPath, p))
 			return p;
 	}
 
 	MuuidReplacement& stdClist = pluginDefault[10];
 	if (LoadCorePlugin(stdClist)) {
-		mir_sntprintf(tszFullPath, _T("%s\\Core\\%s.dll"), exe, stdClist.stdplugname);
+		mir_sntprintf(tszFullPath, L"%s\\Core\\%s.dll", exe, stdClist.stdplugname);
 		if (loadClistModule(tszFullPath, stdClist.pImpl))
 			return stdClist.pImpl;
 	}
@@ -682,7 +682,7 @@ static int LaunchServicePlugin(pluginEntry *p)
 
 int LoadDefaultServiceModePlugin()
 {
-	LPCTSTR param = CmdLine_GetOption(_T("svc"));
+	LPCTSTR param = CmdLine_GetOption(L"svc");
 	if (param == NULL || *param == 0)
 		return SERVICE_CONTINUE;
 
@@ -709,7 +709,7 @@ void EnsureCheckerLoaded(bool bEnable)
 {
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if (mir_tstrcmpi(p->pluginname, _T("dbchecker.dll")))
+		if (mir_tstrcmpi(p->pluginname, L"dbchecker.dll"))
 			continue;
 
 		if (bEnable) {
@@ -744,7 +744,7 @@ int LoadSslModule(void)
 	}
 	if (!bExtSSLLoaded)
 	{
-		MuuidReplacement stdSsl = { MIID_SSL, _T("stdssl"), NULL };
+		MuuidReplacement stdSsl = { MIID_SSL, L"stdssl", NULL };
 		if (!LoadCorePlugin(stdSsl))
 			return 1;
 	}
@@ -779,7 +779,7 @@ int LoadNewPluginsModule(void)
 		*slice = 0;
 
 	// remember some useful options
-	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
+	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(L"PluginLoader", L"AskAboutIgnoredPlugins", 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
 	if (plugin_crshdmp != NULL && isPluginOnWhiteList(plugin_crshdmp->pluginname))
@@ -789,7 +789,7 @@ int LoadNewPluginsModule(void)
 	// if freeimage is present, load it to provide the basic core functions
 	if (plugin_freeimg != NULL) {
 		BASIC_PLUGIN_INFO bpi;
-		mir_sntprintf(fullPath, _T("%s\\Plugins\\%s"), exe, plugin_freeimg->pluginname);
+		mir_sntprintf(fullPath, L"%s\\Plugins\\%s", exe, plugin_freeimg->pluginname);
 		if (checkAPI(fullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			plugin_freeimg->bpi = bpi;
 			plugin_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
@@ -807,9 +807,9 @@ int LoadNewPluginsModule(void)
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found
 		if (clistPlugins.getCount())
-			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), L"Miranda NG", MB_OK | MB_ICONERROR);
 		else
-			MessageBox(NULL, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin."), _T("Miranda NG"), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin."), L"Miranda NG", MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
@@ -836,14 +836,14 @@ int LoadNewPluginsModule(void)
 
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 {
-	pluginEntry *p = OpenPlugin(fd->cFileName, _T("Plugins"), path);
+	pluginEntry *p = OpenPlugin(fd->cFileName, L"Plugins", path);
 	if (!(p->pclass & PCLASS_FAILED)) {
-		if (plugin_freeimg == NULL && mir_tstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0) {
+		if (plugin_freeimg == NULL && mir_tstrcmpi(fd->cFileName, L"advaimg.dll") == 0) {
 			plugin_freeimg = p;
 			p->pclass |= PCLASS_LAST;
 		}
 
-		if (plugin_crshdmp == NULL && mir_tstrcmpi(fd->cFileName, _T("crashdumper.dll")) == 0) {
+		if (plugin_crshdmp == NULL && mir_tstrcmpi(fd->cFileName, L"crashdumper.dll") == 0) {
 			plugin_crshdmp = p;
 			p->pclass |= PCLASS_LAST;
 		}
@@ -862,12 +862,12 @@ int LoadNewPluginsModuleInfos(void)
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 
 	// remember where the mirandaboot.ini goes
-	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini);
+	PathToAbsoluteT(L"mirandaboot.ini", mirandabootini);
 
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 
-	MuuidReplacement stdCrypt = { MIID_CRYPTO, _T("stdcrypt"), NULL };
+	MuuidReplacement stdCrypt = { MIID_CRYPTO, L"stdcrypt", NULL };
 	return !LoadCorePlugin(stdCrypt);
 }
 

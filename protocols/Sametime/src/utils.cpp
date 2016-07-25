@@ -32,7 +32,7 @@ void CSametimeProto::RegisterPopups()
 	TCHAR szDescr[256];
 	char szName[256];
 
-	debugLog(_T("CSametimeProto::RegisterPopups()"));
+	debugLog(L"CSametimeProto::RegisterPopups()");
 
 	POPUPCLASS puc = { sizeof(puc) };
 	puc.PluginWindowProc = PopupWindowProc;
@@ -41,7 +41,7 @@ void CSametimeProto::RegisterPopups()
 	puc.pszName = szName;
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
-	mir_sntprintf(szDescr, _T("%s/%s"), m_tszUserName, TranslateT("Notification"));
+	mir_sntprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notification"));
 	puc.hIcon = CopyIcon(LoadIconEx("notify", FALSE));
 	ReleaseIconEx("notify", FALSE);
 	puc.iSeconds = 8;
@@ -50,7 +50,7 @@ void CSametimeProto::RegisterPopups()
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
-	mir_sntprintf(szDescr, _T("%s/%s"), m_tszUserName, TranslateT("Error"));
+	mir_sntprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Error"));
 	puc.hIcon = CopyIcon(LoadIconEx("error", FALSE));
 	ReleaseIconEx("error", FALSE);
 	puc.iSeconds = 10;
@@ -62,7 +62,7 @@ void CSametimeProto::RegisterPopups()
 
 void CSametimeProto::UnregisterPopups()
 {
-	debugLog(_T("CSametimeProto::RegisterPopups()"));
+	debugLog(L"CSametimeProto::RegisterPopups()");
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupNotify);
 }
@@ -163,12 +163,12 @@ void LogFromGLib(const gchar* log_domain, GLogLevelFlags log_level, const gchar*
 
 void CSametimeProto::RegisterGLibLogger()
 {
-	debugLog(_T("CSametimeProto::RegisterGLibLogger"));
+	debugLog(L"CSametimeProto::RegisterGLibLogger");
 	gLogHandler = g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_MASK, LogFromGLib, this);
 }
 
 void CSametimeProto::UnRegisterGLibLogger()
 {
-	debugLog(_T("CSametimeProto::UnRegisterGLibLogger"));
+	debugLog(L"CSametimeProto::UnRegisterGLibLogger");
 	if (gLogHandler) g_log_remove_handler(G_LOG_DOMAIN, gLogHandler);
 }

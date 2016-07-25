@@ -64,7 +64,7 @@ static void __stdcall UrlActionAsync(void *param)
 /************************* Conversation ***************************/
 
 #define DDEMESSAGETIMEOUT      30000
-#define WNDCLASS_DDEMSGWINDOW  _T("MirandaDdeMsgWindow")
+#define WNDCLASS_DDEMSGWINDOW  L"MirandaDdeMsgWindow"
 
 // returned pointer points into a substring of ppszString
 // returns an empty string if the string does not have enough arguments
@@ -115,9 +115,9 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					if (pszArg != NULL) {
 						/* we are inside miranda here, we make it async so the shell does
 							* not timeout regardless what the plugins try to do. */
-						if (!mir_tstrcmpi(pszAction, _T("file")))
+						if (!mir_tstrcmpi(pszAction, L"file"))
 							CallFunctionAsync(FileActionAsync, mir_tstrdup(pszArg));
-						else if (!mir_tstrcmpi(pszAction, _T("url")))
+						else if (!mir_tstrcmpi(pszAction, L"url"))
 							CallFunctionAsync(UrlActionAsync, mir_tstrdup(pszArg));
 					}
 					GlobalUnlock(hCommand);
@@ -170,7 +170,7 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 	p = _tcsrchr(szPath, _T('\\'));
 	if (p != NULL) { *p = 0; p = _tcsrchr(szPath, _T('\\')); }
 	if (p == NULL) return NULL;
-	mir_tstrcpy(++p, _T("miranda32.exe"));
+	mir_tstrcpy(++p, L"miranda32.exe");
 
 	/* inherit startup data from RunDll32 process */
 	STARTUPINFO si;

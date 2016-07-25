@@ -83,7 +83,7 @@ void WindowThread(void *param)
 
 	RegisterClass(&wc);
 
-	hMsgWnd = CreateWindow(MESSAGE_WINDOWCLASS, _T("Miranda ListeningTo Winamp Plugin"), 
+	hMsgWnd = CreateWindow(MESSAGE_WINDOWCLASS, L"Miranda ListeningTo Winamp Plugin", 
 							0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 
 	if (hMsgWnd != NULL)
@@ -466,5 +466,5 @@ int init()
 } 
 
 void config() {
-	MessageBox(NULL, _T("Copyright (C) 2006 Ricardo Pescuma Domenecci"), _T("Miranda ListeningTo Winamp Plugin"), 0);
+	MessageBox(NULL, L"Copyright (C) 2006 Ricardo Pescuma Domenecci", L"Miranda ListeningTo Winamp Plugin", 0);
 }

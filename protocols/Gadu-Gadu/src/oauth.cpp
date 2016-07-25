@@ -316,12 +316,12 @@ int GGPROTO::oauth_receivetoken()
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TCHAR *xmlAction = mir_a2t(resp->pData);
-			HXML hXml = xmlParseString(xmlAction, 0, _T("result"));
+			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
-				HXML node = xmlGetChildByPath(hXml, _T("oauth_token"), 0);
+				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
 				token = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 
-				node = xmlGetChildByPath(hXml, _T("oauth_token_secret"), 0);
+				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
 				token_secret = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 
 				xmlDestroyNode(hXml);
@@ -385,12 +385,12 @@ int GGPROTO::oauth_receivetoken()
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TCHAR *xmlAction = mir_a2t(resp->pData);
-			HXML hXml = xmlParseString(xmlAction, 0, _T("result"));
+			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
-				HXML node = xmlGetChildByPath(hXml, _T("oauth_token"), 0);
+				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
 				token = mir_t2a(xmlGetText(node));
 
-				node = xmlGetChildByPath(hXml, _T("oauth_token_secret"), 0);
+				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
 				token_secret = mir_t2a(xmlGetText(node));
 
 				xmlDestroyNode(hXml);

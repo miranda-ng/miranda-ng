@@ -139,7 +139,7 @@ int SetAlpha(BYTE Alpha)
 			if (!(l & WS_EX_LAYERED)) {
 				HWND parent = NULL;
 				if (g_CluiData.fOnDesktop) {
-					HWND hProgMan = FindWindow(_T("Progman"), NULL);
+					HWND hProgMan = FindWindow(L"Progman", NULL);
 					if (IsWindow(hProgMan))
 						parent = hProgMan;
 				}
@@ -1608,7 +1608,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM)
 	SetWindowPos(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
 		TOOLINFO ti = { sizeof(ti) };
-		ti.lpszText = _T("");
+		ti.lpszText = L"";
 		ti.hinst = g_hInst;
 		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.uId = (UINT_PTR)g_pfwFrames[g_nFramesCount].TitleBar.hwnd;
@@ -2655,7 +2655,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 			hmenu = CreatePopupMenu();
 			//				Frames[Frameid].TitleBar.hmenu = hmenu;
 			AppendMenu(hmenu, MF_STRING | MF_DISABLED | MF_GRAYED, 15, g_pfwFrames[framepos].name);
-			AppendMenu(hmenu, MF_SEPARATOR, 16, _T(""));
+			AppendMenu(hmenu, MF_SEPARATOR, 16, L"");
 			AppendMenu(hmenu, g_pfwFrames[framepos].Locked ? (MF_STRING | MF_CHECKED) : MF_STRING, frame_menu_lock, TranslateT("Lock frame"));
 			AppendMenu(hmenu, g_pfwFrames[framepos].visible ? (MF_STRING | MF_CHECKED) : MF_STRING, frame_menu_visible, TranslateT("Visible"));
 			AppendMenu(hmenu, g_pfwFrames[framepos].TitleBar.ShowTitleBar ? (MF_STRING | MF_CHECKED) : MF_STRING, frame_menu_showtitlebar, TranslateT("Show title bar"));
@@ -2735,7 +2735,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 			if (pos != -1) {
 				int oldflags;
 
-				mir_sntprintf(TBcapt, _T("%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d"),
+				mir_sntprintf(TBcapt, L"%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
 					g_pfwFrames[pos].name, g_pfwFrames[pos].height, g_pfwFrames[pos].visible, g_pfwFrames[pos].floating,
 					g_pfwFrames[pos].FloatingPos.x, g_pfwFrames[pos].FloatingPos.y,
 					g_pfwFrames[pos].FloatingSize.x, g_pfwFrames[pos].FloatingSize.y,
@@ -3065,10 +3065,10 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 
 static HWND CreateSubContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, _T("SubContainerWindow"), WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, 0, g_hInst, 0);
+	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, L"SubContainerWindow", WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, 0, g_hInst, 0);
 	SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_BORDER));
 	if (g_CluiData.fOnDesktop) {
-		HWND hProgMan = FindWindow(_T("Progman"), NULL);
+		HWND hProgMan = FindWindow(L"Progman", NULL);
 		if (IsWindow(hProgMan))
 			SetParent(hwnd, hProgMan);
 	}
@@ -3218,7 +3218,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 
 static HWND CreateContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	return CreateWindow(_T("FramesContainer"), _T("FramesContainer"), WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, 0, g_hInst, 0);
+	return CreateWindow(L"FramesContainer", L"FramesContainer", WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, 0, g_hInst, 0);
 }
 
 static int _us_DoSetFrameFloat(WPARAM wParam, LPARAM lParam)
@@ -3365,7 +3365,7 @@ int LoadCLUIFramesModule(void)
 	cntclass.lpfnWndProc = CLUIFrameContainerWndProc;
 	cntclass.hInstance = g_hInst;
 	cntclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	cntclass.lpszClassName = _T("FramesContainer");
+	cntclass.lpszClassName = L"FramesContainer";
 	RegisterClass(&cntclass);
 	//end container helper
 
@@ -3416,7 +3416,7 @@ int LoadCLUIFramesModule(void)
 
 	CreateCluiFramesServices();
 
-	hWndExplorerToolBar = FindWindowEx(0, 0, _T("Shell_TrayWnd"), NULL);
+	hWndExplorerToolBar = FindWindowEx(0, 0, L"Shell_TrayWnd", NULL);
 	OnFrameTitleBarBackgroundChange(0, 0);
 	_fCluiFramesModuleNotStarted = FALSE;
 	return 0;

@@ -39,7 +39,7 @@ struct FontInternal : public FontIDT
 			return true;
 
 		if ((flags & FIDF_CLASSMASK) == 0)
-			if (_tcsstr(name, _T("Incoming nick")) || _tcsstr(name, _T("Outgoing nick")) || _tcsstr(name, _T("Incoming timestamp")) || _tcsstr(name, _T("Outgoing timestamp")))
+			if (_tcsstr(name, L"Incoming nick") || _tcsstr(name, L"Outgoing nick") || _tcsstr(name, L"Incoming timestamp") || _tcsstr(name, L"Outgoing timestamp"))
 				return true;
 		return false;
 	}

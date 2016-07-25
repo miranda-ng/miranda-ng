@@ -352,10 +352,10 @@ void cfg::FS_RegisterFonts()
 }
 
 TSkinDescription cfg::my_default_skin[] = {
-	IDR_SKIN_BASE, _T("base.cng"),
-	IDR_SKIN_BACK, _T("back.png"),
-	IDR_SKIN_BACKAERO, _T("AeroBack.png"),
-	IDR_SKIN_GLYPHS, _T("glyphs.png"),
+	IDR_SKIN_BASE, L"base.cng",
+	IDR_SKIN_BACK, L"back.png",
+	IDR_SKIN_BACKAERO, L"AeroBack.png",
+	IDR_SKIN_GLYPHS, L"glyphs.png",
 };
 
 /**
@@ -619,8 +619,8 @@ void CRTException::display() const
 	wchar_t*	tszMsg = mir_a2t(what());
 	wchar_t  	tszBoxMsg[500];
 
-	mir_sntprintf(tszBoxMsg, 500, _T("%s\n\n(%s)"), tszMsg, m_szParam);
-	::MessageBox(0, tszBoxMsg, _T("ClistNG runtime error"), MB_OK | MB_ICONERROR);
+	mir_sntprintf(tszBoxMsg, 500, L"%s\n\n(%s)", tszMsg, m_szParam);
+	::MessageBox(0, tszBoxMsg, L"ClistNG runtime error", MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }
 

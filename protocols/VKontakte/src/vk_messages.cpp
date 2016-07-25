@@ -104,7 +104,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			UINT mid;
 			if (jnResponse.type() != JSON_STRING) 
 				mid = jnResponse.as_int();
-			else if (_stscanf(jnResponse.as_mstring(), _T("%d"), &mid) != 1)
+			else if (_stscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
 				mid = 0;
 
 			if (param->iMsgID != -1)
@@ -252,7 +252,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (jnFwdMessages) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
-				tszFwdMessages = _T("\n") + tszFwdMessages;
+				tszFwdMessages = L"\n" + tszFwdMessages;
 			tszBody +=  tszFwdMessages;
 		}
 
@@ -261,7 +261,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (jnAttachments) {
 			tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
 			if (!tszBody.IsEmpty())
-				tszBody += _T("\n");
+				tszBody += L"\n";
 			tszBody += tszAttachmentDescr;
 		}
 

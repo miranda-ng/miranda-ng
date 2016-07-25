@@ -73,7 +73,7 @@ static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress, UINT msg, WPA
 
 /************************* Window Class *******************************/
 
-#define COUNTDOWNFRAME_CLASS  _T("AutoShutdownCountdown")
+#define COUNTDOWNFRAME_CLASS  L"AutoShutdownCountdown"
 
 /* Data */
 struct CountdownFrameWndData
@@ -124,17 +124,17 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 	case WM_CREATE:  /*  create childs */
 		{
 			CREATESTRUCT *params = (CREATESTRUCT*)lParam;
-			dat->hwndIcon = CreateWindowEx(WS_EX_NOPARENTNOTIFY, _T("Static"), NULL, WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE | SS_NOTIFY,
+			dat->hwndIcon = CreateWindowEx(WS_EX_NOPARENTNOTIFY, L"Static", NULL, WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE | SS_NOTIFY,
 				3, 0, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), hwndFrame, NULL, params->hInstance, NULL);
 			dat->hwndProgress = CreateWindowEx(WS_EX_NOPARENTNOTIFY, PROGRESS_CLASS, (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"),
 				WS_CHILD | WS_VISIBLE | PBS_SMOOTH, GetSystemMetrics(SM_CXICON) + 5, 5, 90, (GetSystemMetrics(SM_CXICON) / 2) - 5, hwndFrame, NULL, params->hInstance, NULL);
 			if (dat->hwndProgress == NULL) return -1; /* creation failed, calls WM_DESTROY */
 			SendMessage(dat->hwndProgress, PBM_SETSTEP, 1, 0);
 			mir_subclassWindow(dat->hwndProgress, ProgressBarSubclassProc);
-			dat->hwndDesc = CreateWindowEx(WS_EX_NOPARENTNOTIFY, _T("Static"), (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"),
+			dat->hwndDesc = CreateWindowEx(WS_EX_NOPARENTNOTIFY, L"Static", (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"),
 				WS_CHILD | WS_VISIBLE | SS_LEFTNOWORDWRAP | SS_NOTIFY, GetSystemMetrics(SM_CXICON) + 5, (GetSystemMetrics(SM_CXICON) / 2), 75,
 				(GetSystemMetrics(SM_CXICON) / 2), hwndFrame, NULL, params->hInstance, NULL);
-			dat->hwndTime = CreateWindowEx(WS_EX_NOPARENTNOTIFY, _T("Static"), NULL, WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_NOTIFY | SS_ENDELLIPSIS,
+			dat->hwndTime = CreateWindowEx(WS_EX_NOPARENTNOTIFY, L"Static", NULL, WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_NOTIFY | SS_ENDELLIPSIS,
 				(GetSystemMetrics(SM_CXICON) + 80), (GetSystemMetrics(SM_CXICON) / 2), 35, (GetSystemMetrics(SM_CXICON) / 2), hwndFrame, NULL, params->hInstance, NULL);
 			if (dat->hwndTime == NULL)
 				return -1; /* creation failed, calls WM_DESTROY */
@@ -223,9 +223,9 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 
 	case M_REFRESH_COLORS:
 		COLORREF clrBar;
-		if (FontService_GetColor(_T("Automatic shutdown"), _T("Progress bar"), &clrBar))
+		if (FontService_GetColor(L"Automatic shutdown", L"Progress bar", &clrBar))
 			clrBar = GetDefaultColor(FRAMEELEMENT_BAR);
-		if (FontService_GetColor(_T("Automatic shutdown"), _T("Background"), &dat->clrBackground))
+		if (FontService_GetColor(L"Automatic shutdown", L"Background", &dat->clrBackground))
 			dat->clrBackground = GetDefaultColor(FRAMEELEMENT_BKGRND);
 		if (dat->hbrBackground != NULL) DeleteObject(dat->hbrBackground);
 		dat->hbrBackground = CreateSolidBrush(dat->clrBackground);
@@ -240,7 +240,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 	case M_REFRESH_FONTS:
 		{
 			LOGFONT lf;
-			if (!FontService_GetFont(_T("Automatic shutdown"), _T("Countdown on frame"), &dat->clrText, &lf)) {
+			if (!FontService_GetFont(L"Automatic shutdown", L"Countdown on frame", &dat->clrText, &lf)) {
 				if (dat->hFont != NULL) DeleteObject(dat->hFont);
 				dat->hFont = CreateFontIndirect(&lf);
 			}
@@ -468,7 +468,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 						if (dat->fTimeFlags&SDWTF_ST_TIME)
 							GetFormatedDateTime(szTime, _countof(szTime), dat->settingLastTime, FALSE);
 						else GetFormatedCountdown(szTime, _countof(szTime), dat->countdown);
-						mir_sntprintf(ttdi->szText, _T("%s %s"), (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
+						mir_sntprintf(ttdi->szText, L"%s %s", (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
 						ttdi->lpszText = ttdi->szText;
 					}
 					return 0;

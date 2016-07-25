@@ -256,7 +256,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.nMaxFile = _countof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.lpstrDefExt = _T("bmp");
+				ofn.lpstrDefExt = L"bmp";
 				if (!GetOpenFileName(&ofn))
 					return FALSE;
 				SetDlgItemText(hwndDlg, IDC_FILENAME, str);

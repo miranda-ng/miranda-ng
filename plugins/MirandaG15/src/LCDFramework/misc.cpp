@@ -111,7 +111,7 @@ tstring toLower(const tstring &i_str)
 
 tstring Utf8_Decode(const char *str)
 {
-	tstring strRes = _T("");
+	tstring strRes = L"";
 
 	int i;
 	char *p;

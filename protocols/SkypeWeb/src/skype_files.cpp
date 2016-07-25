@@ -38,7 +38,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		JSONNode node = JSONNode::parse((char*)response->pData);
 		std::string strObjectId = node["id"].as_string();
 		fup->uid = mir_strdup(strObjectId.c_str());
-		FILE *pFile = _tfopen(fup->tszFileName, _T("rb"));
+		FILE *pFile = _tfopen(fup->tszFileName, L"rb");
 		if (pFile == NULL) return;
 
 		fseek(pFile, 0, SEEK_END);

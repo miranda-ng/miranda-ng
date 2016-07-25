@@ -59,7 +59,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		AddDCCSession(hContact, dcc);
 		dcc->Connect();
 		if (getByte("MirVerAutoRequest", 1))
-			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), name.c_str());
+			PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", name.c_str());
 	}
 	else {
 		CLISTEVENT cle = {};
@@ -110,7 +110,7 @@ MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 		setTString(hContact, "Default", user->name);
 		setWord(hContact, "Status", SetOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 		if (!InList && getByte("MirVerAutoRequestTemp", 0))
-			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), user->name);
+			PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", user->name);
 		return hContact;
 	}
 	return false;

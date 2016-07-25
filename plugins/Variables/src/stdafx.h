@@ -85,8 +85,8 @@
 #define COMMENT_STRING      "#"
 
 // special tokens
-#define SUBJECT       _T("subject")
-#define MIR_EXTRATEXT _T("extratext")
+#define SUBJECT       L"subject"
+#define MIR_EXTRATEXT L"extratext"
 
 #define VAR_HELP_TEXT LPGENT("--- Special characters ---\r\n\r\n\
 The following characters have a special meaning in a formatting string:\r\n\r\n\

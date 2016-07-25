@@ -48,7 +48,7 @@ static void GetLowestExistingDirName(const TCHAR *szTestDir, TCHAR *szExistingDi
 		GetCurrentDirectory(cchExistingDir, szExistingDir);
 }
 
-static const TCHAR InvalidFilenameChars[] = _T("\\/:*?\"<>|");
+static const TCHAR InvalidFilenameChars[] = L"\\/:*?\"<>|";
 void RemoveInvalidFilenameChars(TCHAR *tszString)
 {
 	size_t i;
@@ -58,7 +58,7 @@ void RemoveInvalidFilenameChars(TCHAR *tszString)
 	}
 }
 
-static const TCHAR InvalidPathChars[] = _T("*?\"<>|"); // "\/:" are excluded as they are allowed in file path
+static const TCHAR InvalidPathChars[] = L"*?\"<>|"; // "\/:" are excluded as they are allowed in file path
 void RemoveInvalidPathChars(TCHAR *tszString)
 {
 	if (tszString)
@@ -94,7 +94,7 @@ int BrowseForFolder(HWND hwnd, TCHAR *szPath)
 	LPITEMIDLIST pidlResult = SHBrowseForFolder(&bi);
 	if (pidlResult) {
 		SHGetPathFromIDList(pidlResult, szPath);
-		mir_tstrcat(szPath, _T("\\"));
+		mir_tstrcat(szPath, L"\\");
 		CoTaskMemFree(pidlResult);
 	}
 	return pidlResult != NULL;
@@ -118,7 +118,7 @@ static void patchDir(TCHAR *str, size_t strSize)
 
 	size_t len = mir_tstrlen(str);
 	if (len + 1 < strSize && str[len - 1] != '\\')
-		mir_tstrcpy(str + len, _T("\\"));
+		mir_tstrcpy(str + len, L"\\");
 }
 
 void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOOL patchVars)
@@ -129,17 +129,17 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
 	if (hContact) {
 		hContact = db_mc_tryMeta(hContact);
 
 		REPLACEVARSARRAY rvaVarsToReplace[4];
-		rvaVarsToReplace[0].key.t = _T("nick");
+		rvaVarsToReplace[0].key.t = L"nick";
 		rvaVarsToReplace[0].value.t = mir_tstrdup((TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0));
-		rvaVarsToReplace[1].key.t = _T("userid");
+		rvaVarsToReplace[1].key.t = L"userid";
 		rvaVarsToReplace[1].value.t = GetContactID(hContact);
-		rvaVarsToReplace[2].key.t = _T("proto");
+		rvaVarsToReplace[2].key.t = L"proto";
 		rvaVarsToReplace[2].value.t = mir_a2t(GetContactProto(hContact));
 		rvaVarsToReplace[3].key.t = NULL;
 		rvaVarsToReplace[3].value.t = NULL;
@@ -169,7 +169,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
 	patchDir(tszTemp, _countof(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else DestroyWindow(hwndDlg);
 
 			TCHAR datetimestr[64];
-			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, _countof(datetimestr), 0);
+			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"t d", datetimestr, _countof(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
 
 			ptrT info(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));

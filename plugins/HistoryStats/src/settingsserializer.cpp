@@ -101,7 +101,7 @@ void SettingsSerializer::readFromDB()
 	m_ShowContactMenu = m_DB.readBool(con::SettShowContactMenu, true);
 	m_ShowContactMenuPseudo = m_DB.readBool(con::SettShowContactMenuPseudo, false);
 	m_ThreadLowPriority = m_DB.readBool(con::SettThreadLowPriority, true);
-	m_PathToBrowser = m_DB.readStr(con::SettPathToBrowser, _T(""));
+	m_PathToBrowser = m_DB.readStr(con::SettPathToBrowser, L"");
 
 	m_HideContactMenuProtos.clear();
 	m_DB.readTree(con::SettHideContactMenuProtos, getDefaultHideContactMenuProtos(), settingsTree);
@@ -110,7 +110,7 @@ void SettingsSerializer::readFromDB()
 
 	upto_each_(i, nHideContactMenuProtos)
 	{
-		m_HideContactMenuProtos.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), _T(""))));
+		m_HideContactMenuProtos.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), L"")));
 	}
 
 	// -- input settings --
@@ -126,12 +126,12 @@ void SettingsSerializer::readFromDB()
 
 	upto_each_(i, nIgnoreProtos)
 	{
-		m_ProtosIgnore.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), _T(""))));
+		m_ProtosIgnore.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), L"")));
 	}
 
 	m_IgnoreOld = m_DB.readWord(con::SettIgnoreOld, 0);
-	m_IgnoreBefore = m_DB.readStr(con::SettIgnoreBefore, _T(""));
-	m_IgnoreAfter = m_DB.readStr(con::SettIgnoreAfter, _T(""));
+	m_IgnoreBefore = m_DB.readStr(con::SettIgnoreBefore, L"");
+	m_IgnoreAfter = m_DB.readStr(con::SettIgnoreAfter, L"");
 	m_FilterRawRTF = m_DB.readBool(con::SettFilterRawRTF, false);
 	m_FilterBBCodes = m_DB.readBool(con::SettFilterBBCodes, false);
 	m_MetaContactsMode = m_DB.readByte(con::SettMetaContactsMode, mcmBoth);
@@ -152,11 +152,11 @@ void SettingsSerializer::readFromDB()
 
 		settingsTree.setKey(colPrefix.c_str());
 
-		Column* pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, _T("")));
+		Column* pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, L""));
 
 		if (pCol) {
 			pCol->setEnabled(settingsTree.readBool(con::KeyEnabled, true));
-			pCol->setCustomTitle(settingsTree.readStr(con::KeyTitle, _T("")));
+			pCol->setCustomTitle(settingsTree.readStr(con::KeyTitle, L""));
 
 			settingsTree.setKey((colPrefix + con::SuffixData).c_str());
 
@@ -224,9 +224,9 @@ void SettingsSerializer::readFromDB()
 		// read filter attributes
 		settingsTree.setKey(strPrefix.c_str());
 
-		FilterSet::iterator F = m_FilterWords.insert(Filter(settingsTree.readStr(con::KeyID, _T("")))).first;
+		FilterSet::iterator F = m_FilterWords.insert(Filter(settingsTree.readStr(con::KeyID, L""))).first;
 		Filter* curFilter = (Filter*)&*F;
-		curFilter->setName(settingsTree.readStr(con::KeyName, _T("")));
+		curFilter->setName(settingsTree.readStr(con::KeyName, L""));
 		curFilter->setMode(settingsTree.readIntRanged(con::KeyMode, fwmWordsMatching, fwmFIRST, fwmLAST));
 
 		int nNumWords = settingsTree.readInt(con::KeyNumWords, 0);
@@ -237,7 +237,7 @@ void SettingsSerializer::readFromDB()
 
 			upto_each_(j, nNumWords)
 			{
-				curFilter->addWord(settingsTree.readStr(utils::intToString(j).c_str(), _T("")));
+				curFilter->addWord(settingsTree.readStr(utils::intToString(j).c_str(), L""));
 			}
 		}
 	}
@@ -481,7 +481,7 @@ void SettingsSerializer::setShowSupportInfo(bool bShow)
 
 ext::string SettingsSerializer::getLastStatisticsFile()
 {
-	return m_DB.readStr(con::SettLastStatisticsFile, _T(""));
+	return m_DB.readStr(con::SettLastStatisticsFile, L"");
 }
 
 void SettingsSerializer::setLastStatisticsFile(const TCHAR* szFileName)

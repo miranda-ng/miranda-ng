@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////
 //
 
-#define WND_CLASS					_T("MirandaThumbsWnd")
+#define WND_CLASS					L"MirandaThumbsWnd"
 #define	WM_REFRESH_CONTACT			WM_USER + 0x100
 
 #ifndef WS_EX_LAYERED

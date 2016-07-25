@@ -309,7 +309,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget, initiator;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("addmember"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"addmember");
 		if (xml == NULL)
 			return;
 
@@ -331,12 +331,12 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("deletemember"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"deletemember");
 		if (xml != NULL) {
-			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
 			xinitiator = node != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xmlGetChildByPath(xml, _T("target"), 0);
+			xmlNode = xmlGetChildByPath(xml, L"target", 0);
 			xtarget = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlDestroyNode(xml);
@@ -353,12 +353,12 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("topicupdate"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"topicupdate");
 		if (xml != NULL) {
-			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xmlGetChildByPath(xml, _T("value"), 0);
+			xmlNode = xmlGetChildByPath(xml, L"value", 0);
 			value = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlDestroyNode(xml);
@@ -372,16 +372,16 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, xRole;
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("roleupdate"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"roleupdate");
 		if (xml != NULL) {
-			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xmlGetChildByPath(xml, _T("target"), 0);
+			xmlNode = xmlGetChildByPath(xml, L"target", 0);
 			if (xmlNode != NULL)
 			{
-				HXML xmlId = xmlGetChildByPath(xmlNode, _T("id"), 0);
-				HXML xmlRole = xmlGetChildByPath(xmlNode, _T("role"), 0);
+				HXML xmlId = xmlGetChildByPath(xmlNode, L"id", 0);
+				HXML xmlRole = xmlGetChildByPath(xmlNode, L"role", 0);
 				xId = xmlId != NULL ? mir_t2a(xmlGetText(xmlId)) : NULL;
 				xRole = xmlRole != NULL ? mir_t2a(xmlGetText(xmlRole)) : NULL;
 			}
@@ -655,7 +655,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 
 CMString CSkypeProto::ChangeTopicForm()
 {
-	CMString caption(FORMAT, _T("[%s] %s"), _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
+	CMString caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = caption;

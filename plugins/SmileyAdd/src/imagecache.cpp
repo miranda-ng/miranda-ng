@@ -527,7 +527,7 @@ void DestroyImageCache(void)
 
 ImageBase* AddCacheImage(const CMString &file, int index)
 {
-	CMString tmpfile(file); tmpfile.AppendFormat(_T("#%d"), index);
+	CMString tmpfile(file); tmpfile.AppendFormat(L"#%d", index);
 	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(TCHAR));
 
 	WaitForSingleObject(g_hMutexIm, 3000);
@@ -541,15 +541,15 @@ ImageBase* AddCacheImage(const CMString &file, int index)
 
 		CMString ext = file.Mid(ind + 1);
 		ext.MakeLower();
-		if (ext == _T("dll") || ext == _T("exe"))
+		if (ext == L"dll" || ext == L"exe")
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoDll) : (ImageBase*)new IconType(id, file, index, icoDll);
-		else if (ext == _T("ico"))
+		else if (ext == L"ico")
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, 0, icoFile) : (ImageBase*)new IconType(id, file, 0, icoFile);
-		else if (ext == _T("icl"))
+		else if (ext == L"icl")
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoIcl) : (ImageBase*)new IconType(id, file, index, icoIcl);
-		else if (ext == _T("gif"))
+		else if (ext == L"gif")
 			img = new ImageType(id, file, NULL);
-		else if (fei == NULL || ext == _T("tif") || ext == _T("tiff"))
+		else if (fei == NULL || ext == L"tif" || ext == L"tiff")
 			img = new ImageType(id, file, NULL);
 		else
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, NULL) : (ImageBase*)new ImageFType(id, file);

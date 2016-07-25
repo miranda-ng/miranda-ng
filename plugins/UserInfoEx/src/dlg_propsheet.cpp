@@ -429,7 +429,7 @@ static int OnShutdown(WPARAM, LPARAM)
 static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = NULL)
 {
 	TCHAR szTitle[MAX_PATH];
-	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, _T("%S\\"), pszProto) : 0;
+	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, L"%S\\", pszProto) : 0;
 
 	odp.ptszTitle = szTitle;
 	
@@ -444,21 +444,21 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000001;
 	odp.pfnDlgProc = PSPProcContactHome;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), _countof(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") L"\\" LPGENT("Contact (private)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
 	odp.position = 0x8000002;
 	odp.pfnDlgProc = PSPProcOrigin;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADVANCED);
-	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), _countof(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") L"\\" LPGENT("Origin"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
 	odp.position = 0x8000003;
 	odp.pfnDlgProc = PSPProcAnniversary;
 	odp.hIcon = (HICON)ICONINDEX(IDI_BIRTHDAY);
-	mir_tstrncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), _countof(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs,  LPGENT("General") L"\\" LPGENT("Anniversaries"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
@@ -472,7 +472,7 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000005;
 	odp.pfnDlgProc = PSPProcContactWork;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), _countof(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("Work") L"\\" LPGENT("Contact (work)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
@@ -486,7 +486,7 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000007;
 	odp.pfnDlgProc = PSPProcContactProfile;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_PROFILE);
-	mir_tstrncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), _countof(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("About") L"\\" LPGENT("Profile"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 	return 0;
 }
@@ -514,7 +514,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 				// ignore common pages for weather contacts
 				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
 					AddProtocolPages(odp, wParam);
-					odp.ptszTitle = LPGENT("About") _T("\\") LPGENT("Notes");
+					odp.ptszTitle = LPGENT("About") L"\\" LPGENT("Notes");
 				}
 				else
 					odp.ptszTitle = LPGENT("Notes");
@@ -735,7 +735,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			GetObject(hNormalFont, sizeof(lf), &lf);
 			lf.lfHeight = 22;
-			mir_tstrcpy(lf.lfFaceName, _T("Segoe UI"));
+			mir_tstrcpy(lf.lfFaceName, L"Segoe UI");
 			pPs->hCaptionFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)pPs->hCaptionFont, 0);
 
@@ -1101,7 +1101,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);
-		SetWindowText(hDlg, CMString(FORMAT, _T("%s - %s"), pszName, TranslateT("edit contact information")));
+		SetWindowText(hDlg, CMString(FORMAT, L"%s - %s", pszName, TranslateT("edit contact information")));
 		SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("View personal user details and more"));
 
 		// redraw the name control
@@ -1141,12 +1141,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (hCtrl = GetDlgItem(hDlg, BTN_IMPORT)) {
 			hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-			SetWindowText(hCtrl, hIcon ? _T("") : _T("I"));
+			SetWindowText(hCtrl, hIcon ? L"" : L"I");
 		}
 		if (hCtrl = GetDlgItem(hDlg, BTN_EXPORT)) {
 			hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-			SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
+			SetWindowText(hCtrl, hIcon ? L"" : L"E");
 		}
 		// update page icons
 		if (PtrIsValid(pPs) && (pPs->dwFlags & PSF_INITIALIZED))

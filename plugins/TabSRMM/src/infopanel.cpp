@@ -30,12 +30,12 @@
 
 TCHAR *xStatusDescr[] =
 {
-	_T("Angry"), _T("Duck"), _T("Tired"), _T("Party"), _T("Beer"), _T("Thinking"), _T("Eating"),
-	_T("TV"), _T("Friends"), _T("Coffee"), _T("Music"), _T("Business"), _T("Camera"), _T("Funny"),
-	_T("Phone"), _T("Games"), _T("College"), _T("Shopping"), _T("Sick"), _T("Sleeping"),
-	_T("Surfing"), _T("@Internet"), _T("Engineering"), _T("Typing"), _T("Eating... yummy"),
-	_T("Having fun"), _T("Chit chatting"), _T("Crashing"), _T("Going to toilet"), _T("<undef>"),
-	_T("<undef>"), _T("<undef>")
+	L"Angry", L"Duck", L"Tired", L"Party", L"Beer", L"Thinking", L"Eating",
+	L"TV", L"Friends", L"Coffee", L"Music", L"Business", L"Camera", L"Funny",
+	L"Phone", L"Games", L"College", L"Shopping", L"Sick", L"Sleeping",
+	L"Surfing", L"@Internet", L"Engineering", L"Typing", L"Eating... yummy",
+	L"Having fun", L"Chit chatting", L"Crashing", L"Going to toilet", L"<undef>",
+	L"<undef>", L"<undef>"
 };
 
 TInfoPanelConfig CInfoPanel::m_ipConfig = { 0 };
@@ -422,7 +422,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 		if (szStatusMsg) {
 			SIZE sStatusMsg, sMask;
 			::GetTextExtentPoint32(hdc, szTextToShow, (int)mir_tstrlen(szTextToShow), &m_szNick);
-			::GetTextExtentPoint32(hdc, _T("A"), 1, &sMask);
+			::GetTextExtentPoint32(hdc, L"A", 1, &sMask);
 			::GetTextExtentPoint32(hdc, szStatusMsg, (int)mir_tstrlen(szStatusMsg), &sStatusMsg);
 
 			DWORD dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
@@ -543,7 +543,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 
 	TCHAR szResult[80]; szResult[0] = 0;
 	if (m_dat->hTimeZone) {
-		TimeZone_PrintDateTime(m_dat->hTimeZone, _T("t"), szResult, _countof(szResult), 0);
+		TimeZone_PrintDateTime(m_dat->hTimeZone, L"t", szResult, _countof(szResult), 0);
 		GetTextExtentPoint32(hdc, szResult, (int)mir_tstrlen(szResult), &sTime);
 	}
 
@@ -670,7 +670,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 
 	SIZE szTitle;
 	TCHAR	szPrefix[100];
-	mir_sntprintf(szPrefix, TranslateT("Topic is: %s"), _T(""));
+	mir_sntprintf(szPrefix, TranslateT("Topic is: %s"), L"");
 	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_tstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
 	if (m_hoverFlags & HOVER_UIN)
@@ -899,8 +899,8 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 			if (tszXStatusName) {
 				str.Append(TranslateT("\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par "));
-				str.AppendFormat(_T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
-					m_dat->cache->getXStatusMsg() ? m_dat->cache->getXStatusMsg() : _T(""));
+				str.AppendFormat(L"%s%s%s", tszXStatusName, m_dat->cache->getXStatusMsg() ? L" / " : L"",
+					m_dat->cache->getXStatusMsg() ? m_dat->cache->getXStatusMsg() : L"");
 
 				if (dbv.ptszVal)
 					mir_free(dbv.ptszVal);
@@ -917,7 +917,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		str.AppendChar('}');
 
 		// convert line breaks to rtf
-		str.Replace(_T("\n"), _T("\\line "));
+		str.Replace(L"\n", L"\\line ");
 
 		POINT pt;
 		RECT rc = { 0, 0, 400, 600 };
@@ -1311,10 +1311,10 @@ void CInfoPanel::dismissConfig(bool fForced)
 
 CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText, const CInfoPanel* panel)
 {
-	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, _T("RichEditTipClass"), _T(""), (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, L"RichEditTipClass", L"", (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		0, 0, 40, 40, 0, 0, g_hInst, this);
 
-	m_hRich = ::CreateWindowEx(0, _T("RICHEDIT50W"), _T(""), WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
+	m_hRich = ::CreateWindowEx(0, L"RICHEDIT50W", L"", WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
 		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, NULL);
 
 	::SendMessage(m_hRich, EM_AUTOURLDETECT, TRUE, 0);
@@ -1416,7 +1416,7 @@ void CTip::registerClass()
 {
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
-	wc.lpszClassName = _T("RichEditTipClass");
+	wc.lpszClassName = L"RichEditTipClass";
 	wc.lpfnWndProc = CTip::WndProcStub;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(CTip *);
@@ -1503,7 +1503,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			LONG cy = rc.bottom;
 			HANDLE hTheme = 0;
 
-			mir_sntprintf(szTitle, m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
+			mir_sntprintf(szTitle, m_szTitle ? L"%s (%s)" : L"%s%s", c->getNick(), m_szTitle ? m_szTitle : L"");
 
 			if (m_panel) {
 				HDC hdcMem = ::CreateCompatibleDC(hdc);

@@ -63,9 +63,9 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 {
 	TCHAR tszOldPath[MAX_PATH];
 	CallService(MS_DB_GETPROFILEPATHT, _countof(tszOldPath), (LPARAM)tszOldPath);
-	mir_tstrcat(tszOldPath, _T("\\*.book"));
+	mir_tstrcat(tszOldPath, L"\\*.book");
 
-	VARST ptszNewPath( _T("%miranda_userdata%"));
+	VARST ptszNewPath( L"%miranda_userdata%");
 
 	SHFILEOPSTRUCT file_op = {
 		NULL,
@@ -75,7 +75,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 		FOF_NOERRORUI | FOF_NOCONFIRMATION | FOF_SILENT,
 		false,
 		0,
-		_T("") };
+		L"" };
 	SHFileOperation(&file_op);
 
 	_tcsncpy(szPath, ptszNewPath, cbPath);
@@ -126,7 +126,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 		#ifdef _DEBUG
 		if (!found) {
 			mir_tstrcat(unknownCP, info.CodePageName);
-			mir_tstrcat(unknownCP, _T("\n"));
+			mir_tstrcat(unknownCP, L"\n");
 		}
 		#endif
 	}
@@ -207,7 +207,7 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 static void LoadPlugins()
 {
 	TCHAR szSearchPath[MAX_PATH];
-	mir_sntprintf(szSearchPath, _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
+	mir_sntprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
 
 	hDllPlugins = NULL;
 
@@ -225,11 +225,11 @@ static void LoadPlugins()
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
-			if ((safe != 3) || (mir_tstrcmpi(dot+1, _T("dll")) != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
+			if ((safe != 3) || (mir_tstrcmpi(dot+1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
 			TCHAR szPluginPath[MAX_PATH];
-			mir_sntprintf(szPluginPath, _T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
+			mir_sntprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
 			if (hDll == NULL)
 				continue;
@@ -265,7 +265,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path
-	PathToAbsoluteT( _T("."), szMirandaDir);
+	PathToAbsoluteT( L".", szMirandaDir);
 
 	// retrieve the current profile name
 	CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn

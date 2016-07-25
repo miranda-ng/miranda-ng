@@ -68,12 +68,12 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 
 			switch (level) {
 			case TRUST_PRIVATE:
-				mir_sntprintf(text, _T("%s [v%i]"), TranslateT(LANG_STATUS_PRIVATE), context->protocol_version);
+				mir_sntprintf(text, L"%s [v%i]", TranslateT(LANG_STATUS_PRIVATE), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_PRIVATE));
 				break;
 
 			case TRUST_UNVERIFIED:
-				mir_sntprintf(text, _T("%s [v%i]"), TranslateT(LANG_STATUS_UNVERIFIED), context->protocol_version);
+				mir_sntprintf(text, L"%s [v%i]", TranslateT(LANG_STATUS_UNVERIFIED), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
 
@@ -150,9 +150,9 @@ void InitMirOTRMenu(void)
 	WNDCLASS wc = { 0 };
 	wc.hInstance = hInst;
 	wc.lpfnWndProc = PopupMenuWndProc;
-	wc.lpszClassName = _T("MirOTRPopupMenuProcessor");
+	wc.lpszClassName = L"MirOTRPopupMenuProcessor";
 	RegisterClass(&wc);
-	hDummyPaintWin = CreateWindowEx(0, _T("MirOTRPopupMenuProcessor"), NULL, 0, 0, 0, 1, 1, 0, 0, hInst, 0);
+	hDummyPaintWin = CreateWindowEx(0, L"MirOTRPopupMenuProcessor", NULL, 0, 0, 0, 1, 1, 0, 0, hInst, 0);
 
 	CreateServiceFunction("MirOTRMenuExecService", MirOTRMenuExecService);
 	CreateServiceFunction("MirOTRMenuCheckService", MirOTRMenuCheckService);
@@ -208,7 +208,7 @@ void UninitMirOTRMenu(void)
 	DestroyWindow(hDummyPaintWin);
 	hDummyPaintWin = 0;
 
-	UnregisterClass(_T("MirOTRPopupMenuProcessor"), hInst);
+	UnregisterClass(L"MirOTRPopupMenuProcessor", hInst);
 
 	Menu_RemoveObject(hMirOTRMenuObject);
 	hMirOTRMenuObject = 0;

@@ -68,7 +68,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	TCHAR szPath[MAX_PATH];
-	mir_sntprintf(szPath, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST(_T("%miranda_userdata%")), m_tszUserName);
+	mir_sntprintf(szPath, L"%s\\%s\\ImageCache", (TCHAR*)VARST(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -431,7 +431,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
-		mir_sntprintf(text, _T("%d %d"), yearFrom, yearTo);
+		mir_sntprintf(text, L"%d %d", yearFrom, yearTo);
 
 		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
@@ -499,7 +499,7 @@ static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPA
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)_T(""));				// 0
+		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)L"");				// 0
 		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));	// 1
 		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));	// 2
 		return TRUE;
@@ -597,7 +597,7 @@ void __cdecl GGPROTO::getawaymsgthread(void *arg)
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
-		debugLog(_T("getawaymsgthread(): Reading away msg <%s>."), dbv.ptszVal);
+		debugLog(L"getawaymsgthread(): Reading away msg <%s>.", dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else {
@@ -627,7 +627,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
 	int status = gg_normalizestatus(iStatus);
 	TCHAR **msgPtr;
 
-	debugLog(_T("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\")."), iStatus, newMsg);
+	debugLog(L"SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\".)", iStatus, newMsg);
 
 	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
 	// Select proper our msg ptr

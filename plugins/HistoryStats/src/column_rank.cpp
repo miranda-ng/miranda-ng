@@ -19,9 +19,9 @@ void ColRank::impl_outputBegin()
 void ColRank::impl_outputRenderRow(ext::ostream& tos, const Contact&, DisplayType display)
 {
 	if (display == asContact)
-		tos << _T("<td class=\"num\">")
-			<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{rank}.")) % _T("#{rank}") * (m_nNextRank++)))
-			<< _T("</td>") << ext::endl;
+		tos << L"<td class=\"num\">"
+			<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{rank}.")) % L"#{rank}" * (m_nNextRank++)))
+			<< L"</td>" << ext::endl;
 	else 
-		tos << _T("<td>&nbsp;</td>");
+		tos << L"<td>&nbsp;</td>";
 }

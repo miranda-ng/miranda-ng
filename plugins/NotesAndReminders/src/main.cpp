@@ -308,7 +308,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	ctrls.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ctrls);
 
-	hRichedDll = LoadLibrary(_T("Msftedit.dll"));
+	hRichedDll = LoadLibrary("Msftedit.dll");
 	if (!hRichedDll) {
 		if (MessageBox(0, TranslateT("Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."), _T(SECTIONNAME), MB_YESNO | MB_ICONINFORMATION) != IDYES)
 			return 1;

@@ -120,7 +120,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
-	_tcsncpy_s(cf.szFaceName, _T("MS Shell Dlg"), _TRUNCATE);
+	_tcsncpy_s(cf.szFaceName, L"MS Shell Dlg", _TRUNCATE);
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 
 	return S_OK;
@@ -148,7 +148,7 @@ HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
-	_tcsncpy_s(cf.szFaceName, _T("MS Shell Dlg"), _TRUNCATE);
+	_tcsncpy_s(cf.szFaceName, L"MS Shell Dlg", _TRUNCATE);
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 	return S_OK;
 }

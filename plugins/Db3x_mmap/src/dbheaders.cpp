@@ -76,8 +76,8 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 					if (p) *p = 0;
 
 					HKEY hPathSetting;
-					if (!RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Miranda NG"), &hPathSetting)) {
-						RegSetValue(hPathSetting, _T("InstallPath"), REG_SZ, tszCurPath, sizeof(tszCurPath));
+					if (!RegCreateKey(HKEY_CURRENT_USER, L"Software\\Miranda NG", &hPathSetting)) {
+						RegSetValue(hPathSetting, L"InstallPath", REG_SZ, tszCurPath, sizeof(tszCurPath));
 						RegCloseKey(hPathSetting);
 					}
 

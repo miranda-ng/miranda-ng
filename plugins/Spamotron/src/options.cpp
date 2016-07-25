@@ -129,8 +129,8 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		for (i = 0, j = 0; i < numProtocols; i++)
 		{
 			lvi.iItem = i;
-			_getMOptS(pName, 200*sizeof(TCHAR), pd[i]->szModuleName, "AM_BaseProto", _T(""));
-			if (mir_tstrcmp(pName, _T("ICQ")) != 0)
+			_getMOptS(pName, 200*sizeof(TCHAR), pd[i]->szModuleName, "AM_BaseProto", L"");
+			if (mir_tstrcmp(pName, L"ICQ") != 0)
 				continue;
 			lvi.pszText = mir_a2u(pd[i]->szModuleName);
 			ListView_InsertItem(hProtocolsList, &lvi);
@@ -332,7 +332,7 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 						return FALSE;
 					break;
 				case IDC_DEFAULTS:
-					SetDlgItemText(optDlg, IDC_STATIC_MODEMSG, _T(""));
+					SetDlgItemText(optDlg, IDC_STATIC_MODEMSG, L"");
 					ShowWindow(GetDlgItem(optDlg, IDC_OPT_MATH_RESPONSE), 0);
 					ShowWindow(GetDlgItem(optDlg, IDC_OPT_RESPONSE), 1);
 					EnableWindow(GetDlgItem(optDlg, IDC_OPT_RESPONSE), TRUE);
@@ -436,17 +436,17 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 			
 			EnableControlsBayes(optDlg, bEnabled);
 
-			mir_sntprintf(buf, _T("%0.02f"), (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
+			mir_sntprintf(buf, L"%0.02f", (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_SPAM_SCORE, buf);
-			mir_sntprintf(buf, _T("%.02f"), (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
+			mir_sntprintf(buf, L"%.02f", (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_HAM_SCORE, buf);
-			mir_sntprintf(buf, _T("%d"), _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
+			mir_sntprintf(buf, L"%d", _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_WAIT_APPROVE, buf);
 
 			if (bEnabled) {
-				mir_sntprintf(buf, _T("%d"), get_msg_count(SPAM));
+				mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
 				SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-				mir_sntprintf(buf, _T("%d"), get_msg_count(HAM));
+				mir_sntprintf(buf, L"%d", get_msg_count(HAM));
 				SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 			}
 
@@ -487,12 +487,12 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 						return FALSE;
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
 					learn_ham(dbuf);
-					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
+					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
 					free(dbuf);
 
-					mir_sntprintf(buf, _T("%d"), get_msg_count(SPAM));
+					mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, _T("%d"), get_msg_count(HAM));
+					mir_sntprintf(buf, L"%d", get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 
@@ -504,12 +504,12 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 						return FALSE;
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
 					learn_spam(dbuf);
-					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
+					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
 					free(dbuf);
 
-					mir_sntprintf(buf, _T("%d"), get_msg_count(SPAM));
+					mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, _T("%d"), get_msg_count(HAM));
+					mir_sntprintf(buf, L"%d", get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 
@@ -520,7 +520,7 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 						return FALSE;
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
 					mir_snprintf(cbuf, "%0.04f", get_msg_score(dbuf));
-					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
+					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
 					MessageBoxA(NULL, cbuf, Translate("Message score"), MB_OK);
 					free(dbuf);
 					return FALSE;

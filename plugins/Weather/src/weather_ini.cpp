@@ -79,11 +79,11 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 void ResetDataItem(WIDATAITEM *Item, const TCHAR *name)
 {
 	Item->Name = mir_tstrdup(name);
-	Item->Start = _T("");
-	Item->End = _T("");
-	Item->Unit = _T("");
+	Item->Start = L"";
+	Item->End = L"";
+	Item->Unit = L"";
 	Item->Url = "";
-	Item->Break = _T("");
+	Item->Break = L"";
 	Item->Type = 0;
 }
 
@@ -183,9 +183,9 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			TCHAR *chop = _tcsrchr(szPath, '\\');
 			if (chop) {
 				*chop = '\0';
-				mir_tstrncat(szPath, _T("\\Plugins\\weather\\"), _countof(szPath) - mir_tstrlen(szPath));
+				mir_tstrncat(szPath, L"\\Plugins\\weather\\", _countof(szPath) - mir_tstrlen(szPath));
 				if (_tmkdir(szPath) == 0)
-					ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
+					ShellExecute((HWND)lParam, L"open", szPath, L"", L"", SW_SHOW);
 			}
 			break;
 		}
@@ -247,7 +247,7 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 	Data->Enabled = FALSE;
 
 	// open the ini file
-	FILE *pfile = _tfsopen(pszFile, _T("rt"), _SH_DENYWR);
+	FILE *pfile = _tfsopen(pszFile, L"rt", _SH_DENYWR);
 	if (pfile != NULL) {
 		char Line[4096];
 		fgets(Line, _countof(Line), pfile);
@@ -279,13 +279,13 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		// initialize all data fields
 		Group = "";
 
-		Data->DisplayName = _T("");
-		Data->InternalName = _T("");
-		Data->Description = _T("");
-		Data->Author = _T("");
-		Data->Version = _T("");
+		Data->DisplayName = L"";
+		Data->InternalName = L"";
+		Data->Description = L"";
+		Data->Author = L"";
+		Data->Version = L"";
 		Data->DefaultURL = "";
-		Data->DefaultMap = _T("");
+		Data->DefaultMap = L"";
 		Data->UpdateURL = "";
 		Data->UpdateURL2 = "";
 		Data->UpdateURL3 = "";
@@ -293,30 +293,30 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		Data->Cookie = "";
 		Data->UserAgent = "";
 		Data->IDSearch.SearchURL = "";
-		Data->IDSearch.NotFoundStr = _T("");
+		Data->IDSearch.NotFoundStr = L"";
 		Data->NameSearch.SearchURL = "";
-		Data->NameSearch.NotFoundStr = _T("");
-		Data->NameSearch.SingleStr = _T("");
-		Data->NameSearch.Single.First = _T("");
-		Data->NameSearch.Multiple.First = _T("");
+		Data->NameSearch.NotFoundStr = L"";
+		Data->NameSearch.SingleStr = L"";
+		Data->NameSearch.Single.First = L"";
+		Data->NameSearch.Multiple.First = L"";
 		Data->IDSearch.Available = FALSE;
 		Data->NameSearch.Single.Available = FALSE;
 		Data->NameSearch.Multiple.Available = FALSE;
 		wSetData(&Data->FileName, pszFile);
 		wSetData(&Data->ShortFileName, pszShortFile);
 
-		ResetDataItem(&Data->IDSearch.Name, _T("ID Search - Station Name"));
-		ResetDataItem(&Data->NameSearch.Single.Name, _T("Name Search Single Result - Station Name"));
-		ResetDataItem(&Data->NameSearch.Single.ID, _T("Name Search Single Result - Station ID"));
-		ResetDataItem(&Data->NameSearch.Multiple.Name, _T("Name Search Multiple Result - Station Name"));
-		ResetDataItem(&Data->NameSearch.Multiple.ID, _T("Name Search Multiple Result - Station ID"));
+		ResetDataItem(&Data->IDSearch.Name, L"ID Search - Station Name");
+		ResetDataItem(&Data->NameSearch.Single.Name, L"Name Search Single Result - Station Name");
+		ResetDataItem(&Data->NameSearch.Single.ID, L"Name Search Single Result - Station ID");
+		ResetDataItem(&Data->NameSearch.Multiple.Name, L"Name Search Multiple Result - Station Name");
+		ResetDataItem(&Data->NameSearch.Multiple.ID, L"Name Search Multiple Result - Station ID");
 
-		DataItem.Name = _T("");
-		DataItem.Start = _T("");
-		DataItem.End = _T("");
-		DataItem.Unit = _T("");
+		DataItem.Name = L"";
+		DataItem.Start = L"";
+		DataItem.End = L"";
+		DataItem.Unit = L"";
 		DataItem.Url = "";
-		DataItem.Break = _T("");
+		DataItem.Break = L"";
 		DataItem.Type = 0;
 
 		Temp = "";
@@ -491,7 +491,7 @@ bool LoadWIData(bool dial)
 	if (chop == NULL)
 		return false;
 	*chop = '\0';
-	mir_tstrncat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"), _countof(szSearchPath) - mir_tstrlen(szSearchPath));
+	mir_tstrncat(szSearchPath, L"\\Plugins\\Weather\\*.ini", _countof(szSearchPath) - mir_tstrlen(szSearchPath));
 	_tcsncpy(FileName, szSearchPath, MAX_PATH - 1);
 
 	WIN32_FIND_DATA fd;
@@ -504,7 +504,7 @@ bool LoadWIData(bool dial)
 			chop = _tcsrchr(FileName, '\\');
 			chop[1] = '\0';
 			mir_tstrncat(FileName, fd.cFileName, _countof(FileName) - mir_tstrlen(FileName));
-			if (mir_tstrcmpi(fd.cFileName, _T("SAMPLE_INI.INI"))) {
+			if (mir_tstrcmpi(fd.cFileName, L"SAMPLE_INI.INI")) {
 				WIDATA Data;
 				LoadStationData(FileName, fd.cFileName, &Data);
 				if (Data.Enabled)

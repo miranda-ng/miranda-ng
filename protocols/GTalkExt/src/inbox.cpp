@@ -25,8 +25,8 @@
 #include "db.h"
 #include "options.h"
 
-#define COMMON_GMAIL_HOST1 _T("gmail.com")
-#define COMMON_GMAIL_HOST2 _T("googlemail.com")
+#define COMMON_GMAIL_HOST1 L"gmail.com"
+#define COMMON_GMAIL_HOST2 L"googlemail.com"
 
 #define AUTH_REQUEST_URL    "https://www.google.com/accounts/ClientAuth"
 #define AUTH_REQUEST_PARAMS "Email=%s&Passwd=%s&accountType=HOSTED_OR_GOOGLE&skipvpage=true&PersistentCookie=false"
@@ -44,7 +44,7 @@ const NETLIBHTTPHEADER HEADER_URL_ENCODED = { "Content-Type", "application/x-www
 
 #define LOGIN_PASS_SETTING_NAME "Password"
 
-#define INBOX_URL_FORMAT  _T("https://mail.google.com/%s%s/#inbox")
+#define INBOX_URL_FORMAT  L"https://mail.google.com/%s%s/#inbox"
 
 // 3 lines from netlib.h
 #define GetNetlibHandleType(h)  (h?*(int*)h:NLH_INVALID)
@@ -207,8 +207,8 @@ void OpenContactInbox(LPCSTR szModuleName)
 
 	TCHAR buf[1024];
 	if (mir_tstrcmpi(host, COMMON_GMAIL_HOST1) && mir_tstrcmpi(host, COMMON_GMAIL_HOST2))
-		mir_sntprintf(buf, INBOX_URL_FORMAT, _T("a/"), host);   // hosted
+		mir_sntprintf(buf, INBOX_URL_FORMAT, L"a/", host);   // hosted
 	else
-		mir_sntprintf(buf, INBOX_URL_FORMAT, _T(""), _T("mail")); // common
+		mir_sntprintf(buf, INBOX_URL_FORMAT, L"", L"mail"); // common
 	OpenUrl(szModuleName, tszJid, buf);
 }

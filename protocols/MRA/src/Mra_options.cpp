@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 			if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
 				SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 		}
-		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
+		SetDlgItemText(hWndDlg, IDC_PASSWORD, L"");
 		return TRUE;
 
 	case WM_COMMAND:
@@ -65,7 +65,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
 				SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 		}
-		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
+		SetDlgItemText(hWndDlg, IDC_PASSWORD, L"");
 		return TRUE;
 
 	case WM_COMMAND:

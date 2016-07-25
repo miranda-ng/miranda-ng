@@ -31,7 +31,7 @@ bool CSteamProto::Relogin()
 			JSONNode *node = json_get(root, "error");
 
 			ptrT error(json_as_string(node));
-			if (!mir_tstrcmpi(error, _T("OK")))
+			if (!mir_tstrcmpi(error, L"OK"))
 			{
 				node = json_get(root, "umqid");
 				setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
@@ -151,7 +151,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 	ptrT messageT(mir_utf8decodeT(message.c_str()));
 	debugLogA("CSteamProto::OnAuthorizationError: %s", message.c_str());
 
-	if (!mir_tstrcmpi(messageT, _T("Incorrect login.")))
+	if (!mir_tstrcmpi(messageT, L"Incorrect login."))
 	{
 		// We can't continue with incorrect login/password
 		DeleteAuthSettings();
@@ -325,7 +325,7 @@ void CSteamProto::HandleTokenExpired()
 	// Try to relogin automatically (but only once)
 	if (isLoginAgain) {
 		// Notify error to user
-		ShowNotification(_T("Steam"), TranslateT("Cannot obtain connection token."));
+		ShowNotification(L"Steam", TranslateT("Cannot obtain connection token."));
 
 		// Just go offline; it also resets the isLoginAgain to false
 		SetStatus(ID_STATUS_OFFLINE);
@@ -358,7 +358,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 		}
 
 		// Probably timeout or no connection, we can do nothing here
-		ShowNotification(_T("Steam"), TranslateT("Unknown login error."));
+		ShowNotification(L"Steam", TranslateT("Unknown login error."));
 
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -368,7 +368,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 
 	JSONNode *node = json_get(root, "error");
 	ptrT error(json_as_string(node));
-	if (mir_tstrcmpi(error, _T("OK")))
+	if (mir_tstrcmpi(error, L"OK"))
 	{
 		// Probably expired TokenSecret
 		HandleTokenExpired();

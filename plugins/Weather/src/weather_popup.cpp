@@ -368,13 +368,13 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PD1:
 			// Popup delay setting from Popup plugin
-			SetDlgItemText(hdlg, IDC_DELAY, _T("0"));
+			SetDlgItemText(hdlg, IDC_DELAY, L"0");
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 			break;
 
 		case IDC_PD2:
 			// Popup delay = permanent
-			SetDlgItemText(hdlg, IDC_DELAY, _T("-1"));
+			SetDlgItemText(hdlg, IDC_DELAY, L"-1");
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD2);
 			break;
 
@@ -394,9 +394,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_VAR3:
 			// display variable list
-			_tcsncpy(str, _T("                                                            \n"), _countof(str) - 1);		// to make the message box wider
+			_tcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
 			mir_tstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_tstrlen(str));
-			mir_tstrncat(str, _T("\n"), _countof(str) - mir_tstrlen(str));
+			mir_tstrncat(str, L"\n", _countof(str) - mir_tstrlen(str));
 			mir_tstrncat(str, CUSTOM_VARS, _countof(str) - mir_tstrlen(str));
 			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
 			break;

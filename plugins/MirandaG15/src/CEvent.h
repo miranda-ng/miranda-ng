@@ -44,11 +44,11 @@ public:
 		hContact = NULL;
 		bNotification = false;
 		bLog = true;
-		strDescription = _T("");
+		strDescription = L"";
 
 		iValue = NULL;
 		hValue = NULL;
-		strValue = _T("");
+		strValue = L"";
 	}
 
 	enum EventType	eType;

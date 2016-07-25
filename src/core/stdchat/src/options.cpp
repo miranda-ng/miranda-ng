@@ -485,7 +485,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12), 0));
 		{
 			TCHAR* pszGroup = NULL;
-			InitSetting(&pszGroup, "AddToGroup", _T("Chat rooms"));
+			InitSetting(&pszGroup, "AddToGroup", L"Chat rooms");
 			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
 		}
@@ -542,9 +542,9 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
 				if (idList) {
 					SHGetPathFromIDList(idList, szDirectory);
-					mir_tstrcat(szDirectory, _T("\\"));
+					mir_tstrcat(szDirectory, L"\\");
 					PathToRelativeT(szDirectory, szTemp);
-					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(szTemp) > 1 ? szTemp : _T("Logs\\"));
+					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(szTemp) > 1 ? szTemp : L"Logs\\");
 					CoTaskMemFree(idList);
 				}
 			}

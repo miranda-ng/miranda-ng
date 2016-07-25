@@ -82,7 +82,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_BTN_LOGBROWSE:
 			{
 				TCHAR filter[MAX_PATH];
-				mir_sntprintf(filter, _T("%s%c*.txt%c%s%c*.*%c"), TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
+				mir_sntprintf(filter, L"%s%c*.txt%c%s%c*.*%c", TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = options.log_filename;
@@ -150,7 +150,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			RefreshWindow(0, 0);
 
-			if (options.logging) CallService(PLUG "/Log", (WPARAM)_T("options changed"), 0);
+			if (options.logging) CallService(PLUG "/Log", (WPARAM)L"options changed", 0);
 			if (hWakeEvent) SetEvent(hWakeEvent);
 			return TRUE;
 		}

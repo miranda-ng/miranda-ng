@@ -286,7 +286,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 
 		TCHAR* nick = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
 		TCHAR tmpMsg[512];
-		mir_sntprintf(tmpMsg, _T("%s %s"), nick, message);
+		mir_sntprintf(tmpMsg, L"%s %s", nick, message);
 		cle.ptszTooltip = tmpMsg;
 		pcli->pfnAddEvent(&cle);
 	}
@@ -323,7 +323,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 
 		TCHAR* nick = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
 		TCHAR tmpMsg[512];
-		mir_sntprintf(tmpMsg, _T("%s %s"), nick, message);
+		mir_sntprintf(tmpMsg, L"%s %s", nick, message);
 		cle.ptszTooltip = tmpMsg;
 		cle.flags = CLEF_TCHAR;
 		pcli->pfnAddEvent(&cle);

@@ -3,7 +3,7 @@
 TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -11,7 +11,7 @@ TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 
 	ptrA steamId(getStringA(hContact, "SteamID"));
 	if (steamId != NULL)
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, _A2T(steamId));
+		mir_sntprintf(path, MAX_PATH, L"%s\\%s.jpg", path, _A2T(steamId));
 	else
 		return NULL;
 

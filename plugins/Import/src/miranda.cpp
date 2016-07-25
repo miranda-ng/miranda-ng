@@ -33,7 +33,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 {
 	// find in Miranda profile subfolders
 	TCHAR searchspec[MAX_PATH];
-	mir_sntprintf(searchspec, _T("%s\\*.*"), mirandaPath);
+	mir_sntprintf(searchspec, L"%s\\*.*", mirandaPath);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchspec, &fd);
@@ -42,7 +42,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 
 	do {
 		// find all subfolders except "." and ".."
-		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
+		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L".."))
 			continue;
 
 		// skip the current profile too
@@ -50,9 +50,9 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 			continue;
 
 		TCHAR buf[MAX_PATH], profile[MAX_PATH];
-		mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), mirandaPath, fd.cFileName, fd.cFileName);
+		mir_sntprintf(buf, L"%s\\%s\\%s.dat", mirandaPath, fd.cFileName, fd.cFileName);
 		if (_taccess(buf, 0) == 0) {
-			mir_sntprintf(profile, _T("%s.dat"), fd.cFileName);
+			mir_sntprintf(profile, L"%s.dat", fd.cFileName);
 
 			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ADDSTRING, 0, (LPARAM)profile);
 			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETITEMDATA, i, (LPARAM)mir_tstrdup(buf));
@@ -71,10 +71,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			VARST pfd(_T("%miranda_path%\\Profiles"));
-			VARST pfd1(_T("%miranda_path%"));
-			VARST pfd2(_T("%miranda_profilesdir%"));
-			VARST pfn(_T("%miranda_profilename%"));
+			VARST pfd(L"%miranda_path%\\Profiles");
+			VARST pfd1(L"%miranda_path%");
+			VARST pfd2(L"%miranda_profilesdir%");
+			VARST pfn(L"%miranda_profilename%");
 
 			SearchForLists(hwndDlg, pfd2, pfn);
 			SearchForLists(hwndDlg, pfd1, NULL);
@@ -119,17 +119,17 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 			break;
 
 		case IDC_OTHER:
-			ptrT pfd(Utils_ReplaceVarsT(_T("%miranda_profilesdir%")));
+			ptrT pfd(Utils_ReplaceVarsT(L"%miranda_profilesdir%"));
 
 			TCHAR str[MAX_PATH], text[256];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-			mir_sntprintf(text, _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			mir_sntprintf(text, L"%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFilter = text;
-			ofn.lpstrDefExt = _T("dat");
+			ofn.lpstrDefExt = L"dat";
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
 			ofn.nMaxFile = _countof(str);

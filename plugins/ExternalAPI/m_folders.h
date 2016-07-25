@@ -49,21 +49,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIRANDA_USERDATAT	MIRANDA_USERDATA
 #endif
 
-#define FOLDER_AVATARS                 PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\avatars")
-#define FOLDER_VCARDS                  PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\vcards")
-#define FOLDER_LOGS                    PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\logs")
-#define FOLDER_RECEIVED_FILES          PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\received files")
-#define FOLDER_DOCS                    MIRANDA_PATHT _T("\\") _T("docs")
-#define FOLDER_CONFIG                  PLUGINS_PATHT _T("\\") _T("config")
-#define FOLDER_SCRIPTS                 MIRANDA_PATHT _T("\\") _T("scripts")
-#define FOLDER_UPDATES                 MIRANDA_PATHT _T("\\") _T("updates")
+#define FOLDER_AVATARS                 PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\avatars"
+#define FOLDER_VCARDS                  PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\vcards"
+#define FOLDER_LOGS                    PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\logs"
+#define FOLDER_RECEIVED_FILES          PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\received files"
+#define FOLDER_DOCS                    MIRANDA_PATHT L"\\" L"docs"
+#define FOLDER_CONFIG                  PLUGINS_PATHT L"\\" L"config"
+#define FOLDER_SCRIPTS                 MIRANDA_PATHT L"\\" L"scripts"
+#define FOLDER_UPDATES                 MIRANDA_PATHT L"\\" L"updates"
 
-#define FOLDER_CUSTOMIZE               MIRANDA_PATHT _T("\\") _T("customize")
-#define FOLDER_CUSTOMIZE_SOUNDS        FOLDER_CUSTOMIZE _T("\\sounds")
-#define FOLDER_CUSTOMIZE_ICONS         FOLDER_CUSTOMIZE _T("\\icons")
-#define FOLDER_CUSTOMIZE_SMILEYS       FOLDER_CUSTOMIZE _T("\\smileys")
-#define FOLDER_CUSTOMIZE_SKINS         FOLDER_CUSTOMIZE _T("\\skins")
-#define FOLDER_CUSTOMIZE_THEMES        FOLDER_CUSTOMIZE _T("\\themes")
+#define FOLDER_CUSTOMIZE               MIRANDA_PATHT L"\\" L"customize"
+#define FOLDER_CUSTOMIZE_SOUNDS        FOLDER_CUSTOMIZE L"\\sounds"
+#define FOLDER_CUSTOMIZE_ICONS         FOLDER_CUSTOMIZE L"\\icons"
+#define FOLDER_CUSTOMIZE_SMILEYS       FOLDER_CUSTOMIZE L"\\smileys"
+#define FOLDER_CUSTOMIZE_SKINS         FOLDER_CUSTOMIZE L"\\skins"
+#define FOLDER_CUSTOMIZE_THEMES        FOLDER_CUSTOMIZE L"\\themes"
 
 #define TO_WIDE(x)     L ## x
 

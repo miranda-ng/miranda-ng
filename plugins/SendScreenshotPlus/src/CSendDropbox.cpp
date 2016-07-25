@@ -56,7 +56,7 @@ void CSendDropbox::SendThread()
 {
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
-	DropboxUploadInfo ui = { m_pszFile, _T("SendSS") };
+	DropboxUploadInfo ui = { m_pszFile, L"SendSS" };
 
 	if (CallService(MS_DROPBOX_UPLOAD, (WPARAM)&m_URL, (LPARAM)&ui))
 	{

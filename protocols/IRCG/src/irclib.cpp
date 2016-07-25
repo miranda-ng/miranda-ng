@@ -68,7 +68,7 @@ CIrcMessage::~CIrcMessage()
 
 void CIrcMessage::Reset()
 {
-	prefix.sNick = prefix.sUser = prefix.sHost = sCommand = _T("");
+	prefix.sNick = prefix.sUser = prefix.sHost = sCommand = L"";
 	m_bIncoming = false;
 	m_bNotify = true;
 
@@ -105,13 +105,13 @@ void CIrcMessage::ParseIrcCommand(const TCHAR* lpszCmdLine)
 	if (*p1 == ':') {
 		// break prefix into its components (nick!user@host)
 		p2 = ++p1;
-		while (*p2 && !_tcschr(_T(" !"), *p2))
+		while (*p2 && !_tcschr(L" !", *p2))
 			++p2;
 		prefix.sNick.SetString(p1, p2 - p1);
 		if (*p2 != '!')
 			goto end_of_prefix;
 		p1 = ++p2;
-		while (*p2 && !_tcschr(_T(" @"), *p2))
+		while (*p2 && !_tcschr(L" @", *p2))
 			++p2;
 		prefix.sUser.SetString(p1, p2 - p1);
 		if (*p2 != '@')
@@ -184,7 +184,7 @@ void CIrcProto::SendIrcMessage(const TCHAR* msg, bool bNotify, int cp)
 
 		if (bNotify) {
 			CIrcMessage ircMsg(this, msg, cp);
-			if (!ircMsg.sCommand.IsEmpty() && ircMsg.sCommand != _T("QUIT"))
+			if (!ircMsg.sCommand.IsEmpty() && ircMsg.sCommand != L"QUIT")
 				Notify(&ircMsg);
 		}
 	}
@@ -201,7 +201,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
 	if (con == NULL) {
 		TCHAR szTemp[300];
-		mir_sntprintf(szTemp, _T("\0035%s \002%s\002 (%S: %u)."),
+		mir_sntprintf(szTemp, L"\0035%s \002%s\002 (%S: %u).",
 			TranslateT("Failed to connect to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		return false;
@@ -230,7 +230,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	Sleep(100);
 	if (info.sPassword.GetLength())
 		NLSend("PASS %s\r\n", info.sPassword.c_str());
-	NLSend(_T("NICK %s\r\n"), info.sNick.c_str());
+	NLSend(L"NICK %s\r\n", info.sNick.c_str());
 
 	CMString userID = GetWord(info.sUserID.c_str(), 0);
 	TCHAR szHostName[MAX_PATH];
@@ -238,10 +238,10 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	GetComputerName(szHostName, &cbHostName);
 	CMString HostName = GetWord(szHostName, 0);
 	if (userID.IsEmpty())
-		userID = _T("Miranda");
+		userID = L"Miranda";
 	if (HostName.IsEmpty())
-		HostName = _T("host");
-	NLSend(_T("USER %s %s %s :%s\r\n"), userID.c_str(), HostName.c_str(), _T("server"), info.sFullName.c_str());
+		HostName = L"host";
+	NLSend(L"USER %s %s %s :%s\r\n", userID.c_str(), HostName.c_str(), L"server", info.sFullName.c_str());
 
 	return con != NULL;
 }
@@ -256,7 +256,7 @@ void CIrcProto::Disconnect(void)
 	KillIdent();
 
 	if (m_quitMessage[0])
-		NLSend(_T("QUIT :%s\r\n"), m_quitMessage);
+		NLSend(L"QUIT :%s\r\n", m_quitMessage);
 	else
 		NLSend("QUIT \r\n");
 
@@ -635,18 +635,18 @@ CIrcSessionInfo::CIrcSessionInfo(const CIrcSessionInfo& si) :
 void CIrcSessionInfo::Reset()
 {
 	sServer = "";
-	sServerName = _T("");
+	sServerName = L"";
 	iPort = 0;
-	sNick = _T("");
-	sUserID = _T("");
-	sFullName = _T("");
+	sNick = L"";
+	sUserID = L"";
+	sFullName = L"";
 	sPassword = "";
 	bIdentServer = false;
 	bNickFlag = false;
 	m_iSSL = 0;
-	sIdentServerType = _T("");
+	sIdentServerType = L"";
 	iIdentServerPort = 0;
-	sNetwork = _T("");
+	sNetwork = L"";
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -978,8 +978,8 @@ int CDccSession::SetupConnection()
 
 			// if spaces in the filename surround with quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
-				sFileWithQuotes.Insert(0, _T("\""));
-				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), _T("\""));
+				sFileWithQuotes.Insert(0, L"\"");
+				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), L"\"");
 			}
 
 			// send out DCC RECV command for passive filetransfers
@@ -990,7 +990,7 @@ int CDccSession::SetupConnection()
 				ulAdr = m_proto->m_IPFromServer ? ConvertIPToInteger(m_proto->m_myHost) : nb.dwExternalIP;
 
 			if (di->iPort && ulAdr)
-				m_proto->PostIrcMessage(_T("/CTCP %s DCC SEND %s %u %u %I64u %s"), di->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, di->iPort, di->dwSize, di->sToken.c_str());
+				m_proto->PostIrcMessage(L"/CTCP %s DCC SEND %s %u %u %I64u %s", di->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, di->iPort, di->dwSize, di->sToken.c_str());
 
 			return TRUE;
 		}

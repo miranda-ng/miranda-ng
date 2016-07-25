@@ -60,7 +60,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	MyCreateTextServices = 0;
-	hMsfteditDll = LoadLibrary(_T("msftedit.dll"));
+	hMsfteditDll = LoadLibrary(L"msftedit.dll");
 	if (hMsfteditDll)
 		MyCreateTextServices = (pfnMyCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
 

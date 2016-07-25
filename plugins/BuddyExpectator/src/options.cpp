@@ -461,7 +461,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		if (tmpTime == -1)
 			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
 		else {
-			_tcsftime(tmpBuf, 50, _T("%#x, %#X"), gmtime(&tmpTime));
+			_tcsftime(tmpBuf, 50, L"%#x, %#X", gmtime(&tmpTime));
 			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
 		}
 
@@ -469,7 +469,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		if (tmpTime == -1)
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
 		else {
-			_tcsftime(tmpBuf, 50, _T("%#x, %#X"), gmtime(&tmpTime));
+			_tcsftime(tmpBuf, 50, L"%#x, %#X", gmtime(&tmpTime));
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 		}
 
@@ -481,7 +481,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		if (isContactGoneFor((MCONTACT)lparam, options.iAbsencePeriod2))
 			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
 		else
-			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
+			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, L"");
 
 		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED);

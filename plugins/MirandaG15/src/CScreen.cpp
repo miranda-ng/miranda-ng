@@ -45,9 +45,9 @@ bool CScreen::Initialize()
 
 	m_Clock.SetOrigin(68,0);
 	m_Clock.SetSize(40,2);
-	m_Clock.SetText(_T("23:00 - "));
+	m_Clock.SetText(L"23:00 - ");
 
-	m_Clock.SetFontFaceName(_T("Small Fonts"));//Digital Limit 3õ3 C"));
+	m_Clock.SetFontFaceName(L"Small Fonts");//Digital Limit 3õ3 C"));
 	m_Clock.SetFontPointSize(10);
 	//m_Clock.SetFont(CConfig::GetFont(FONT_CLIST));
 

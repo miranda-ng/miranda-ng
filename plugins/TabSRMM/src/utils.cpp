@@ -38,15 +38,15 @@ typedef std::basic_string<TCHAR> tstring;
 
 static TRTFColorTable _rtf_ctable[] =
 {
-	{ _T("red"), RGB(255, 0, 0), ID_FONT_RED },
-	{ _T("blue"), RGB(0, 0, 255), ID_FONT_BLUE },
-	{ _T("green"), RGB(0, 255, 0), ID_FONT_GREEN },
-	{ _T("magenta"), RGB(255, 0, 255), ID_FONT_MAGENTA },
-	{ _T("yellow"), RGB(255, 255, 0), ID_FONT_YELLOW },
-	{ _T("cyan"), RGB(0, 255, 255), ID_FONT_CYAN },
-	{ _T("black"), 0, ID_FONT_BLACK },
-	{ _T("white"), RGB(255, 255, 255), ID_FONT_WHITE },
-	{ _T(""), 0, 0 }
+	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
+	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
+	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
+	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
+	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
+	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
+	{ L"black", 0, ID_FONT_BLACK },
+	{ L"white", RGB(255, 255, 255), ID_FONT_WHITE },
+	{ L"", 0, 0 }
 };
 
 int				Utils::rtf_ctable_size = 0;
@@ -54,11 +54,11 @@ TRTFColorTable* Utils::rtf_ctable = 0;
 
 MWindowList CWarning::hWindowList = 0;
 
-static TCHAR *w_bbcodes_begin[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[color=") };
-static TCHAR *w_bbcodes_end[] = { _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]"), _T("[/color]") };
+static TCHAR *w_bbcodes_begin[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[color=" };
+static TCHAR *w_bbcodes_end[] = { L"[/b]", L"[/i]", L"[/u]", L"[/s]", L"[/color]" };
 
-static TCHAR *formatting_strings_begin[] = { _T("b1 "), _T("i1 "), _T("u1 "), _T("s1 "), _T("c1 ") };
-static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _T("s0 "), _T("c0 ") };
+static TCHAR *formatting_strings_begin[] = { L"b1 ", L"i1 ", L"u1 ", L"s1 ", L"c1 " };
+static TCHAR *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ", L"c0 " };
 
 #define NR_CODES 5
 
@@ -91,7 +91,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 			endindex = i;
 			endmark = message.find(w_bbcodes_end[i], beginmark);
 			if (endindex == 4) {                                 // color
-				size_t closing = message.find_first_of(_T("]"), beginmark);
+				size_t closing = message.find_first_of(L"]", beginmark);
 				was_added = false;
 
 				if (closing == message.npos) {                      // must be an invalid [color=] tag w/o closing bracket
@@ -107,19 +107,19 @@ search_again:
 						closing = beginmark + 7 + mir_tstrlen(rtf_ctable[ii].szName);
 						if (endmark != message.npos) {
 							message.erase(endmark, 4);
-							message.replace(endmark, 4, _T("c0 "));
+							message.replace(endmark, 4, L"c0 ");
 						}
 						message.erase(beginmark, (closing - beginmark));
 
 						TCHAR szTemp[5];
-						message.insert(beginmark, _T("cxxx "));
-						mir_sntprintf(szTemp, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
+						message.insert(beginmark, L"cxxx ");
+						mir_sntprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
 						message[beginmark + 3] = szTemp[0];
 						message[beginmark + 4] = szTemp[1];
 						clr_found = true;
 						if (was_added) {
 							TCHAR wszTemp[100];
-							mir_sntprintf(wszTemp, _T("##col##%06u:%04u"), endmark - closing, ii);
+							mir_sntprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
 							wszTemp[99] = 0;
 							message.insert(beginmark, wszTemp);
 						}
@@ -127,7 +127,7 @@ search_again:
 					}
 				}
 				if (!clr_found) {
-					size_t c_closing = colorname.find_first_of(_T("]"), 0);
+					size_t c_closing = colorname.find_first_of(L"]", 0);
 					if (c_closing == colorname.npos)
 						c_closing = colorname.length();
 					const TCHAR *wszColname = colorname.c_str();
@@ -153,17 +153,17 @@ invalid_code:
 			}
 			if (endmark != message.npos)
 				message.replace(endmark, 4, formatting_strings_end[i]);
-			message.insert(beginmark, _T(" "));
+			message.insert(beginmark, L" ");
 			message.replace(beginmark, 4, formatting_strings_begin[i]);
 		}
 	}
 
-	if (!(dwFlags & MWF_LOG_TEXTFORMAT) || message.find(_T("://")) != message.npos) {
+	if (!(dwFlags & MWF_LOG_TEXTFORMAT) || message.find(L"://") != message.npos) {
 		dat->clr_added = clr_was_added ? TRUE : FALSE;
 		return(message.c_str());
 	}
 
-	while ((beginmark = message.find_first_of(_T("*/_"), beginmark)) != message.npos) {
+	while ((beginmark = message.find_first_of(L"*/_", beginmark)) != message.npos) {
 		endmarker = message[beginmark];
 		if (LOWORD(flags)) {
 			if (beginmark > 0 && !_istspace(message[beginmark - 1]) && !_istpunct(message[beginmark - 1])) {
@@ -174,7 +174,7 @@ invalid_code:
 			// search a corresponding endmarker which fulfills the criteria
 			INT_PTR mark = beginmark + 1;
 			while ((endmark = message.find(endmarker, mark)) != message.npos) {
-				if (_istpunct(message[endmark + 1]) || _istspace(message[endmark + 1]) || message[endmark + 1] == 0 || _tcschr(_T("*/_"), message[endmark + 1]) != NULL)
+				if (_istpunct(message[endmark + 1]) || _istspace(message[endmark + 1]) || message[endmark + 1] == 0 || _tcschr(L"*/_", message[endmark + 1]) != NULL)
 					goto ok;
 				mark = endmark + 1;
 			}
@@ -221,9 +221,9 @@ ok:
 				continue;
 			}
 		}
-		message.insert(endmark, _T("%%%"));
+		message.insert(endmark, L"%%%");
 		message.replace(endmark, 4, formatting_strings_end[index]);
-		message.insert(beginmark, _T("%%%"));
+		message.insert(beginmark, L"%%%");
 		message.replace(beginmark, 4, formatting_strings_begin[index]);
 	}
 	dat->clr_added = clr_was_added ? TRUE : FALSE;
@@ -271,7 +271,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat, CMStri
 			break;
 
 		case 'c':
-			dest.Append(!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
+			dest.Append(!mir_tstrcmp(dat->pContainer->szName, L"default") ? TranslateT("Default container") : dat->pContainer->szName);
 			break;
 
 		case 'o':
@@ -299,7 +299,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat, CMStri
 					ptrT szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
-				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
+				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : L"(undef)");
 			}
 			break;
 
@@ -364,7 +364,7 @@ WCHAR* Utils::FilterEventMarkers(WCHAR *wszText)
 void Utils::DoubleAmpersands(TCHAR *pszText, size_t len)
 {
 	CMString text(pszText);
-	text.Replace(_T("&"), _T("&&"));
+	text.Replace(L"&", L"&&");
 	mir_tstrncpy(pszText, text.c_str(), len);
 }
 
@@ -399,7 +399,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 		uRequired = (p - szText) + 6;
 	}
 	TCHAR *szResult = reinterpret_cast<TCHAR *>(mir_alloc((uRequired + 1) * sizeof(TCHAR)));
-	mir_sntprintf(szResult, (uRequired + 1), fEllipsis ? _T("%s...") : _T("%s"), szText);
+	mir_sntprintf(szResult, (uRequired + 1), fEllipsis ? L"%s..." : L"%s", szText);
 
 	if (p)
 		*p = cSaved;
@@ -457,7 +457,7 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 	rtf_ctable_size++;
 	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
 	COLORREF clr = _tcstol(tszColname, &stopped, 16);
-	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, _T("%06x"), clr);
+	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, L"%06x", clr);
 	rtf_ctable[rtf_ctable_size - 1].menuid = 0;
 
 	clr = _tcstol(tszColname, &stopped, 16);
@@ -800,7 +800,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 
 			TCHAR	szFilename[MAX_PATH];
-			mir_sntprintf(szFilename, _T("%s%s"), tszPath, tszFilename);
+			mir_sntprintf(szFilename, L"%s%s", tszPath, tszFilename);
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
 					return true;
@@ -834,7 +834,7 @@ TCHAR* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 	tr.lpstrText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	::SendMessage(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
-		mir_tstrncpy(tr.lpstrText, _T("mailto:"), 7);
+		mir_tstrncpy(tr.lpstrText, L"mailto:", 7);
 		mir_tstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 	}
 	return tr.lpstrText;
@@ -960,14 +960,14 @@ void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
 		mir_tstrcpy(szPath, szFilename);
-		mir_tstrcat(szPath, _T("\\*"));
+		mir_tstrcat(szPath, L"\\*");
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
+				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L".."))
 					continue;
 				mir_tstrcpy(szPath, szFilename);
-				mir_tstrcat(szPath, _T("\\"));
+				mir_tstrcat(szPath, L"\\");
 				mir_tstrcat(szPath, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));

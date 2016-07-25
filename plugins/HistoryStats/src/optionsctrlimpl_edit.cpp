@@ -31,7 +31,7 @@ ext::string OptionsCtrlImpl::Edit::getCombinedText()
 	{
 		ext::string strTemp = m_strLabel;
 
-		strTemp += _T(": ");
+		strTemp += L": ";
 		strTemp += m_strEdit;
 
 		return strTemp;

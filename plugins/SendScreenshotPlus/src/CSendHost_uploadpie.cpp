@@ -95,7 +95,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 				TCHAR* werr;
 				if (err) werr = mir_a2t(err);
 				else werr = mir_a2t(reply->pData);
-				self->Error(_T("%s"), werr);
+				self->Error(L"%s", werr);
 				mir_free(werr);
 			}
 		}

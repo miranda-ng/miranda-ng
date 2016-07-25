@@ -18,7 +18,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
-	mir_sntprintf(sectionName, _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+	mir_sntprintf(sectionName, L"%s/%s", LPGENT("Protocols"), LPGENT(MODULE));
 
 	char settingName[100];
 	mir_snprintf(settingName, "%s_%s", MODULE, "main");
@@ -245,7 +245,7 @@ HANDLE CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, cons
 
 	// Combine all fields to single text
 	TCHAR keywordsT[200];
-	mir_sntprintf(keywordsT, _T("%s %s %s"), nick, firstName, lastName);
+	mir_sntprintf(keywordsT, L"%s %s %s", nick, firstName, lastName);
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA keywords(mir_utf8encodeW(keywordsT));
@@ -296,7 +296,7 @@ int CSteamProto::SetStatus(int new_status)
 	if (new_status == m_iDesiredStatus)
 		return 0;
 
-	debugLog(_T("CSteamProto::SetStatus: changing status from %i to %i"), m_iStatus, new_status);
+	debugLog(L"CSteamProto::SetStatus: changing status from %i to %i", m_iStatus, new_status);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;
@@ -375,7 +375,7 @@ void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
 		ptrT xStatusMsg(getTStringA(hContact, "XStatusMsg"));
 
 		if (xStatusName)
-			message.AppendFormat(_T("%s: %s"), xStatusName, xStatusMsg);
+			message.AppendFormat(L"%s: %s", xStatusName, xStatusMsg);
 		else
 			message.Append(xStatusMsg);
 	}

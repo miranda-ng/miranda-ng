@@ -3,7 +3,7 @@
 #ifdef CHART_IMPLEMENT
 
 #define WINDOW_PREFIX "Quotes Chart_"
-#define CHART_CTRL_CLASS _T("DioksinChart")
+#define CHART_CTRL_CLASS L"DioksinChart"
 
 struct CTimeConvert
 {
@@ -15,7 +15,7 @@ struct CTimeConvert
 	static tstring ToString(const boost::posix_time::ptime& v)
 	{
 		tostringstream k;
-		k.imbue(std::locale(GetSystemLocale(), new ttime_facet(_T("%d/%m/%y %H:%M:%S"))));
+		k.imbue(std::locale(GetSystemLocale(), new ttime_facet(L"%d/%m/%y %H:%M:%S")));
 		k << v;
 		return k.str();
 	}
@@ -33,7 +33,7 @@ bool read_log_file(MCONTACT hContact, TChart& rChart)
 {
 	tstring sLogFileName = GetContactLogFileName(hContact);
 	if (false == sLogFileName.empty()) {
-		std::locale loc(GetSystemLocale(), new ttime_input_facet(_T("%d.%m.%y %H:%M:%S")));
+		std::locale loc(GetSystemLocale(), new ttime_input_facet(L"%d.%m.%y %H:%M:%S"));
 		boost::posix_time::ptime oDateTime;
 		double dRate;
 
@@ -195,7 +195,7 @@ INT_PTR CALLBACK ChartDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 			MCONTACT hContact = reinterpret_cast<HANDLE>(lp);
 
 			tstring sName = get_window_text(hDlg);
-			sName += _T(" - ");
+			sName += L" - ";
 			sName += GetContactName(hContact);
 			::SetWindowText(hDlg, sName.c_str());
 
@@ -290,7 +290,7 @@ INT_PTR CALLBACK ChartDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 			case NM_CLICK:
 				if (IDC_SYSLINK_PROVIDER == wp) {
 					PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-					::ShellExecute(hDlg, _T("open"), pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
+					::ShellExecute(hDlg, L"open", pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
 				}
 				break;
 			}

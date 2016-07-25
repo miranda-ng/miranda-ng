@@ -33,8 +33,8 @@ bool operator==(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
 
 void CJabberProto::EnableArchive(bool bEnable)
 {
-	m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext())
-		<< XCHILDNS(_T("auto"), JABBER_FEAT_ARCHIVE) << XATTR(_T("save"), (bEnable) ? _T("true") : _T("false")));
+	m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext())
+		<< XCHILDNS(L"auto", JABBER_FEAT_ARCHIVE) << XATTR(L"save", (bEnable) ? L"true" : L"false"));
 }
 
 void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *pItem)
@@ -45,38 +45,38 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 	pItem->bHistoryRead = true;
 
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetCollectionList, JABBER_IQ_TYPE_GET));
-	HXML list = iq << XCHILDNS(_T("list"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), pItem->jid);
+	HXML list = iq << XCHILDNS(L"list", JABBER_FEAT_ARCHIVE) << XATTR(L"with", pItem->jid);
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
 		TCHAR buf[40];
-		list << XATTR(_T("start"), time2str(tmLast, buf, _countof(buf)));
+		list << XATTR(L"start", time2str(tmLast, buf, _countof(buf)));
 	}
 	m_ThreadInfo->send(iq);
 }
 
 void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
-	const TCHAR *to = XmlGetAttrValue(iqNode, _T("to"));
-	if (to == NULL || mir_tstrcmp(XmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	const TCHAR *to = XmlGetAttrValue(iqNode, L"to");
+	if (to == NULL || mir_tstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
 	HXML list = XmlGetChild(iqNode, "list");
-	if (!list || mir_tstrcmp(XmlGetAttrValue(list, _T("xmlns")), JABBER_FEAT_ARCHIVE))
+	if (!list || mir_tstrcmp(XmlGetAttrValue(list, L"xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
 	for (int nodeIdx = 1;; nodeIdx++) {
-		HXML itemNode = XmlGetNthChild(list, _T("chat"), nodeIdx);
+		HXML itemNode = XmlGetNthChild(list, L"chat", nodeIdx);
 		if (!itemNode)
 			break;
 
-		const TCHAR* start = XmlGetAttrValue(itemNode, _T("start"));
-		const TCHAR* with = XmlGetAttrValue(itemNode, _T("with"));
+		const TCHAR* start = XmlGetAttrValue(itemNode, L"start");
+		const TCHAR* with = XmlGetAttrValue(itemNode, L"with");
 		if (!start || !with)
 			continue;
 
 		m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetCollection, JABBER_IQ_TYPE_GET))
-			<< XCHILDNS(_T("retrieve"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), with) << XATTR(_T("start"), start));
+			<< XCHILDNS(L"retrieve", JABBER_FEAT_ARCHIVE) << XATTR(L"with", with) << XATTR(L"start", start));
 	}
 }
 
@@ -221,15 +221,15 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 {
-	if (mir_tstrcmp(XmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	if (mir_tstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
 	HXML chatNode = XmlGetChild(iqNode, "chat");
-	if (!chatNode || mir_tstrcmp(XmlGetAttrValue(chatNode, _T("xmlns")), JABBER_FEAT_ARCHIVE))
+	if (!chatNode || mir_tstrcmp(XmlGetAttrValue(chatNode, L"xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
-	const TCHAR* start = XmlGetAttrValue(chatNode, _T("start"));
-	const TCHAR* with = XmlGetAttrValue(chatNode, _T("with"));
+	const TCHAR* start = XmlGetAttrValue(chatNode, L"start");
+	const TCHAR* with = XmlGetAttrValue(chatNode, L"with");
 	if (!start || !with)
 		return;
 
@@ -249,9 +249,9 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 
 		int from;
 		const TCHAR *itemName = XmlGetName(itemNode);
-		if (!mir_tstrcmp(itemName, _T("to")))
+		if (!mir_tstrcmp(itemName, L"to"))
 			from = DBEF_SENT;
-		else if (!mir_tstrcmp(itemName, _T("from")))
+		else if (!mir_tstrcmp(itemName, L"from"))
 			from = 0;
 		else
 			continue;
@@ -261,7 +261,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 			continue;
 
 		const TCHAR *tszBody = XmlGetText(body);
-		const TCHAR *tszSecs = XmlGetAttrValue(itemNode, _T("secs"));
+		const TCHAR *tszSecs = XmlGetAttrValue(itemNode, L"secs");
 		if (!tszBody || !tszSecs)
 			continue;
 

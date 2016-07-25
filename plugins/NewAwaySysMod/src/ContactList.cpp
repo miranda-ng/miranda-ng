@@ -367,7 +367,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 
 	TVINSERTSTRUCT tvIns;
 	memset(&tvIns, 0, sizeof(tvIns));
-	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", _T("")));
+	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", L""));
 	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 	tvIns.hInsertAfter = TVI_ROOT;
 	tvIns.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
@@ -379,7 +379,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 // adds a new group if it doesn't exist yet; returns its hItem
 HTREEITEM CCList::AddGroup(TCString GroupName)
 {
-	if (GroupName == _T(""))
+	if (GroupName == L"")
 		return TVI_ROOT;
 
 	MGROUP hGroupId = Clist_GroupExists(GroupName);
@@ -395,7 +395,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	tvIns.hParent = TVI_ROOT;
 	tvIns.item.pszText = _tcsrchr(GroupName, '\\');
 	if (tvIns.item.pszText) {
-		TCString ParentGroupName(_T(""));
+		TCString ParentGroupName(L"");
 		tvIns.hParent = AddGroup(ParentGroupName.DiffCat(GroupName, tvIns.item.pszText));
 		tvIns.item.pszText++;
 	}

@@ -46,12 +46,12 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 			JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, _countof(szStrippedJid));
 			TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
 			if (szDog && mir_tstrcmpi(szDog + 1, jid))
-				m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
+				m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(L"remove"));
 		}
 
 		// Remove from roster, server also handles the presence unsubscription process.
-		m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
-			<< XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), _T("remove")));
+		m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
+			<< XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove"));
 	}
 	return 0;
 }
@@ -97,7 +97,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 	else {
 		TCHAR *p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && mir_tstrcmp(p, item->group)) {
-			debugLog(_T("Group set to %s"), p);
+			debugLog(L"Group set to %s", p);
 			if (p)
 				AddContactToRoster(item->jid, tszNick, p);
 		}
@@ -120,7 +120,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 
 	ptrT newNick( sttSettingToTchar(cws));
 	if (newNick && mir_tstrcmp(item->nick, newNick)) {
-		debugLog(_T("Renaming contact %s: %s -> %s"), item->jid, item->nick, newNick);
+		debugLog(L"Renaming contact %s: %s -> %s", item->jid, item->nick, newNick);
 		AddContactToRoster(item->jid, newNick, item->group);
 	}
 }
@@ -134,7 +134,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 	if (jid == NULL)
 		return;
 
-	debugLog(_T("Add %s permanently to list"), jid);
+	debugLog(L"Add %s permanently to list", jid);
 	ptrT nick(db_get_tsa(hContact, "CList", "MyHandle"));
 	if (nick == NULL)
 		nick = getTStringA(hContact, "Nick");
@@ -145,10 +145,10 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 
 	AddContactToRoster(jid, nick, ptrT(db_get_tsa(hContact, "CList", "Group")));
 
-	XmlNode xPresence(_T("presence")); xPresence << XATTR(_T("to"), LPCTSTR(jid)) << XATTR(_T("type"), _T("subscribe"));
+	XmlNode xPresence(L"presence"); xPresence << XATTR(L"to", LPCTSTR(jid)) << XATTR(L"type", L"subscribe");
 	ptrT myNick(getTStringA(NULL, "Nick"));
 	if (myNick != NULL)
-		xPresence << XCHILD(_T("nick"), LPCTSTR(myNick)) << XATTR(_T("xmlns"), JABBER_FEAT_NICK);
+		xPresence << XCHILD(L"nick", LPCTSTR(myNick)) << XATTR(L"xmlns", JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);
 
 	SendGetVcard(jid);

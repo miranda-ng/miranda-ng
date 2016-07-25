@@ -128,8 +128,8 @@ struct FRAMEWND
 #define OFFSET_PROTOPOS 200
 #define OFFSET_VISIBLE 400
 
-#define CLUIFrameSubContainerClassName			_T("CLUIFrameSubContainer")
-#define CLUIFrameTitleBarClassName				_T("CLUIFrameTitleBar")
+#define CLUIFrameSubContainerClassName			L"CLUIFrameSubContainer"
+#define CLUIFrameTitleBarClassName				L"CLUIFrameTitleBar"
 #define CLUIFrameModule							"CLUIFrames"
 
 #endif

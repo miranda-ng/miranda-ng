@@ -45,7 +45,7 @@ static TCHAR* get_json_str(JSONNode *item, const char *pszValue)
 {
 	if (JSONNode *node = json_get(item, pszValue)) {
 		TCHAR *ret = json_as_string(node);
-		if (!mir_tstrcmp(ret, _T("null"))) {
+		if (!mir_tstrcmp(ret, L"null")) {
 			mir_free(ret);
 			return NULL;
 		}
@@ -197,7 +197,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_ttoi(value) == 1 ? 'M' : 'F'));
 				if (value = get_json_str(item, "birthday")) {
 					int d, m, y;
-					_stscanf(value, _T("%d-%d-%d"), &y, &m, &d);
+					_stscanf(value, L"%d-%d-%d", &y, &m, &d);
 					setWord(hContact, "BirthYear", y);
 					setByte(hContact, "BirthDay", d);
 					setByte(hContact, "BirthMonth", m);

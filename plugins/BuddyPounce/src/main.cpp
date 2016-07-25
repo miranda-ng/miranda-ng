@@ -83,7 +83,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 					db_set_b(ack->hContact, modname, "Reuse", (BYTE)(reuse-1));
 				else {
 					db_set_b(ack->hContact,modname, "Reuse", 0);
-					db_set_ws(ack->hContact, modname, "PounceMsg", _T(""));
+					db_set_ws(ack->hContact, modname, "PounceMsg", L"");
 				}
 			}
 			WindowList_Remove(hWindowList,(HWND)ack->hProcess);

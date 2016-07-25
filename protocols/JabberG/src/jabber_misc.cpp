@@ -32,11 +32,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const TCHAR *grpName)
 {
-	XmlNodeIq iq(_T("set"), SerialNext());
+	XmlNodeIq iq(L"set", SerialNext());
 	HXML query = iq << XQUERY(JABBER_FEAT_IQ_ROSTER)
-		<< XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("name"), nick);
+		<< XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"name", nick);
 	if (grpName)
-		query << XCHILD(_T("group"), grpName);
+		query << XCHILD(L"group", grpName);
 	m_ThreadInfo->send(iq);
 }
 
@@ -114,7 +114,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
 		pItem->bUseResource = _tcschr(szJid, '/') != 0;
 	
-	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), szJid, nick);
+	debugLog(L"Create Jabber contact jid=%s, nick=%s", szJid, nick);
 	DBCheckIsTransportedContact(szJid, hNewContact);
 	return hNewContact;
 }
@@ -156,7 +156,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 
 void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -176,15 +176,15 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), JabberSha1(str, buf), szFileType);
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
 	}
 	else if (m_ThreadInfo != NULL) {
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar%s"),
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%S avatar%s",
 			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
 	}
 	else {
 		ptrA res1(getStringA("LoginName")), res2(getStringA("LoginServer"));
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar%s"),
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S@%S avatar%s",
 			(res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
 	}
 }
@@ -286,12 +286,12 @@ struct
 }
 static sttCapsNodeToName_Map[] =
 {
-	{ _T("http://miranda-im.org"), _T("Miranda IM Jabber") },
-	{ _T("http://miranda-ng.org"), _T("Miranda NG Jabber") },
-	{ _T("http://www.google.com"), _T("GTalk") },
-	{ _T("http://mail.google.com"), _T("GMail") },
-	{ _T("http://talk.google.com/xmpp/bot"), _T("GTalk Bot") },
-	{ _T("http://www.android.com"), _T("Android") },
+	{ L"http://miranda-im.org", L"Miranda IM Jabber" },
+	{ L"http://miranda-ng.org", L"Miranda NG Jabber" },
+	{ L"http://www.google.com", L"GTalk" },
+	{ L"http://mail.google.com", L"GMail" },
+	{ L"http://talk.google.com/xmpp/bot", L"GTalk Bot" },
+	{ L"http://www.android.com", L"Android" },
 };
 
 void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
@@ -300,7 +300,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 	if (!hContact)
 		return;
 
-	debugLog(_T("JabberUpdateMirVer: for jid %s"), item->jid);
+	debugLog(L"JabberUpdateMirVer: for jid %s", item->jid);
 
 	pResourceStatus p(NULL);
 	if (item->resourceMode == RSMODE_LASTSEEN)
@@ -320,55 +320,55 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
-		debugLog(_T("JabberUpdateMirVer: for iq:version rc %s: %s"), resource->m_tszResourceName, resource->m_tszSoftware);
+		debugLog(L"JabberUpdateMirVer: for iq:version rc %s: %s", resource->m_tszResourceName, resource->m_tszSoftware);
 		if (!resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			res = resource->m_tszSoftware;
 		else
-			res.Format(_T("%s %s"), resource->m_tszSoftware, resource->m_tszSoftwareVersion);
+			res.Format(L"%s %s", resource->m_tszSoftware, resource->m_tszSoftwareVersion);
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
-		debugLog(_T("JabberUpdateMirVer: for rc %s: %s"), resource->m_tszResourceName, resource->m_tszResourceName);
+		debugLog(L"JabberUpdateMirVer: for rc %s: %s", resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
 			res = resource->m_tszResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
-		debugLog(_T("JabberUpdateMirVer: for rc %s: %s#%s"), resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
+		debugLog(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
 
 		int i;
 
 		// search through known software list
 		for (i = 0; i < _countof(sttCapsNodeToName_Map); i++)
 			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
-				res.Format(_T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
+				res.Format(L"%s %s", sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
 				break;
 			}
 
 		// unknown software
 		if (i == _countof(sttCapsNodeToName_Map))
-			res.Format(_T("%s %s"), resource->m_tszCapsNode, resource->m_tszCapsVer);
+			res.Format(L"%s %s", resource->m_tszCapsNode, resource->m_tszCapsVer);
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !_tcsstr(res, _T("x86")))
-		res.Append(_T(" x86"));
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !_tcsstr(res, L"x86"))
+		res.Append(L" x86");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !_tcsstr(res, _T("x64")))
-		res.Append(_T(" x64"));
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !_tcsstr(res, L"x64"))
+		res.Append(L" x64");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !_tcsstr(res, _T("(SecureIM)")))
-		res.Append(_T(" (SecureIM)"));
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !_tcsstr(res, L"(SecureIM)"))
+		res.Append(L" (SecureIM)");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !_tcsstr(res, _T("(MirOTR)")))
-		res.Append(_T(" (MirOTR)"));
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !_tcsstr(res, L"(MirOTR)"))
+		res.Append(L" (MirOTR)");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !_tcsstr(res, _T("(New_GPG)")))
-		res.Append(_T(" (New_GPG)"));
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !_tcsstr(res, L"(New_GPG)"))
+		res.Append(L" (New_GPG)");
 
 	if (resource->m_tszResourceName && !_tcsstr(res, resource->m_tszResourceName))
-		if (_tcsstr(res, _T("Miranda IM")) || _tcsstr(res, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)
-			res.AppendFormat(_T(" [%s]"), resource->m_tszResourceName);
+		if (_tcsstr(res, L"Miranda IM") || _tcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
+			res.AppendFormat(L" [%s]", resource->m_tszResourceName);
 }
 
 
@@ -385,7 +385,7 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
 	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
-		mir_sntprintf(szFullJid, _T("%s/%s"), jid, resource->m_tszResourceName);
+		mir_sntprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
 	else
 		mir_tstrncpy(szFullJid, jid, _countof(szFullJid));
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
@@ -438,7 +438,7 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 void CJabberProto::InitPopups(void)
 {
 	TCHAR desc[256];
-	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
@@ -485,7 +485,7 @@ CMString CJabberProto::ExtractImage(HXML node)
 	if ((nHtml = XmlGetChild(node, "html")) != NULL &&
 		(nBody = XmlGetChild(nHtml, "body")) != NULL &&
 		(nImg = XmlGetChild(nBody, "img")) != NULL &&
-		(src = XmlGetAttrValue(nImg, _T("src"))) != NULL) {
+		(src = XmlGetAttrValue(nImg, L"src")) != NULL) {
 
 		CMString strSrc(src);
 		if (strSrc.Left(11).Compare(L"data:image/") == 0) {
@@ -501,8 +501,8 @@ CMString CJabberProto::ExtractImage(HXML node)
 
 					TCHAR tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
 					GetTempPath(_countof(tszTempPath), tszTempPath);
-					GetTempFileName(tszTempPath, _T("jab"), InterlockedIncrement(&g_nTempFileId), tszTempFile);
-					_tcsncat_s(tszTempFile, _T("."), 1);
+					GetTempFileName(tszTempPath, L"jab", InterlockedIncrement(&g_nTempFileId), tszTempFile);
+					_tcsncat_s(tszTempFile, L".", 1);
 					_tcsncat_s(tszTempFile, ext, ext.GetLength());
 
 					HANDLE h = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE,
@@ -516,7 +516,7 @@ CMString CJabberProto::ExtractImage(HXML node)
 						WriteFile(h, buffer, bufferLen, &n, NULL);
 						CloseHandle(h);
 
-						link = _T(" file:///");
+						link = L" file:///";
 						link += tszTempFile;
 					}
 				}

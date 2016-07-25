@@ -174,7 +174,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 		if (p != NULL)
 			*p = _T('\0');
 		TCHAR szSearch[MAX_PATH];
-		mir_sntprintf(szSearch, _T("%s\\Plugins\\*.dll"), szDir);
+		mir_sntprintf(szSearch, L"%s\\Plugins\\*.dll", szDir);
 		WIN32_FIND_DATA wfd;
 		HANDLE hFind = FindFirstFile(szSearch, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -198,7 +198,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 					continue;
 
 				/* friendly name of the plugin */
-				mir_sntprintf(szSearch, _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
+				mir_sntprintf(szSearch, L"%s\\Plugins\\%s", szDir, wfd.cFileName);
 				HMODULE hModule = GetModuleHandle(szSearch);
 				BOOL fNeedsFree = (hModule == NULL);
 				if (hModule == NULL) {
@@ -217,7 +217,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const HELPPACK_INFO *pac
 						CleanupPluginName(buf);
 
 						TCHAR buf2[128];
-						mir_sntprintf(buf2, _T("%hs (%s)"), buf, CharLower(wfd.cFileName));
+						mir_sntprintf(buf2, L"%hs (%s)", buf, CharLower(wfd.cFileName));
 						SendMessage(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buf2);
 					}
 				}
@@ -271,7 +271,7 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 				TCHAR *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
 				szLocaleName[_countof(szLocaleName) - lstrlen(pszIncompat) - 1] = 0;
-				lstrcat(lstrcat(szLocaleName, _T(" ")), pszIncompat); /* buffer safe */
+				lstrcat(lstrcat(szLocaleName, L" "), pszIncompat); /* buffer safe */
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
 		}
@@ -343,7 +343,7 @@ static void DeletePackFile(HWND hwndDlg, HWND hwndList, int iItem, HELPPACK_INFO
 					lvi.mask = LVIF_PARAM;
 					lvi.iSubItem = 0;
 					if (ListView_GetItem(hwndList, &lvi))
-						EnablePack((HELPPACK_INFO*)lvi.lParam, _T("helppack_*.txt"));
+						EnablePack((HELPPACK_INFO*)lvi.lParam, L"helppack_*.txt");
 				}
 				else
 					DisplayPackInfo(hwndDlg, NULL);
@@ -429,7 +429,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			if (ServiceExists(MS_FLAGS_LOADFLAGICON))
 				ListView_SetImageList(hwndList, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR24, 8, 8), LVSIL_SMALL);
-			CorrectPacks(_T("helppack_*.txt"), _T("helppack_english.txt"), FALSE);
+			CorrectPacks(L"helppack_*.txt", L"helppack_english.txt", FALSE);
 			SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
 			SendMessage(hwndDlg, M_SHOWFILECOL, 0, 1);
 			return TRUE;
@@ -443,7 +443,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
 				ImageList_RemoveAll(himl);
 				/* enum all packs */
-				EnumPacks(InsertPackItemEnumProc, _T("helppack_*.txt"), "Miranda Help Pack Version 1", (WPARAM)hwndList, (LPARAM)himl);
+				EnumPacks(InsertPackItemEnumProc, L"helppack_*.txt", "Miranda Help Pack Version 1", (WPARAM)hwndList, (LPARAM)himl);
 				/* nothing installed */
 				if (!ListView_GetItemCount(hwndList))
 					DisplayPackInfo(hwndDlg, NULL);
@@ -636,7 +636,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				for (lvi.iItem = 0; ListView_GetItem(hwndList, &lvi); ++lvi.iItem) {
 					HELPPACK_INFO *pack = (HELPPACK_INFO*)lvi.lParam;
 					if (lvi.state&INDEXTOSTATEIMAGEMASK(2)) {
-						EnablePack(pack, _T("helppack_*.txt"));
+						EnablePack(pack, L"helppack_*.txt");
 						pack->flags |= HPF_ENABLED;
 					}
 					else
@@ -757,7 +757,7 @@ static int HelpOptInit(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 #ifdef EDITOR
-	odp.ptszTab = _T("Help editor"); /* autotranslated */
+	odp.ptszTab = L"Help editor"; /* autotranslated */
 #else
 	odp.ptszTab = LPGENT("Advanced");    /* autotranslated */
 #endif
@@ -776,7 +776,7 @@ void InitOptions(void)
 
 	hwndLangOpt = NULL;
 	hHookOptInit = HookEvent(ME_OPT_INITIALISE, HelpOptInit);
-	CorrectPacks(_T("helppack_*.txt"), _T("helppack_english.txt"), FALSE);
+	CorrectPacks(L"helppack_*.txt", L"helppack_english.txt", FALSE);
 }
 
 void UninitOptions(void)
