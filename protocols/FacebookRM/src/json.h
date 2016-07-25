@@ -38,7 +38,7 @@ public:
 	int parse_thread_info(std::string* data, std::string* user_id);
 	int parse_user_info(std::string* data, facebook_user* fbu);
 	int parse_chat_info(std::string* data, facebook_chatroom* fbc);
-	int parse_chat_participant_names(std::string *data, std::map<std::string, std::string>* participants);
+	int parse_chat_participant_names(std::string *data, std::map<std::string, chatroom_participant>* participants);
 
 	facebook_json_parser(FacebookProto* proto)
 	{

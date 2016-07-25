@@ -714,18 +714,12 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 		auto itRoom = chat_rooms.find(tid);
 		if (itRoom != chat_rooms.end()) {
 			facebook_chatroom *chatroom = itRoom->second;
-			std::map<std::string, std::string> participants = chatroom->participants;
+			std::map<std::string, chatroom_participant> participants = chatroom->participants;
 
 			// try to get name of this participant
 			auto participant = participants.find(readerId);
 			if (participant != participants.end()) {
-				name = participant->second;
-			}
-			else {
-				// FIXME: This probably shouldn't be here, but chatroom should have all it's participants loaded itself already
-				// add this missing participant, just in case
-				participants.insert(std::make_pair(readerId, name));
-				parent->AddChatContact(tid.c_str(), readerId.c_str(), name.c_str());
+				name = participant->second.nick;
 			}
 		}
 		

@@ -259,22 +259,35 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 
 	// TODO: We could load all names from server at once by skipping this for cycle and using namelessIds as all in participants list, but we would lost our local names of our contacts. But maybe that's not a problem?
 	for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-		if (it->second.empty()) {
-			if (!mir_strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
-				it->second = facy.self_.real_name;
+		const char *id = it->first.c_str();
+		chatroom_participant &user = it->second;
+
+		if (!user.loaded) {
+			if (!mir_strcmp(id, facy.self_.user_id.c_str())) {
+				user.nick = facy.self_.real_name;
+				user.role = ROLE_ME;
+				user.loaded = true;
+			}
 			else {
-				MCONTACT hContact = ContactIDToHContact(it->first.c_str());
+				MCONTACT hContact = ContactIDToHContact(id);
 				if (hContact != NULL) {
 					DBVARIANT dbv;
 					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
-						it->second = dbv.pszVal;
+						user.nick = dbv.pszVal;
 						db_free(&dbv);
 					}
-					// TODO: set correct role (friend/user) for this contact here - need rework participants map to <id, participant>
+					if (user.role == ROLE_NONE) {
+						int type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE);
+						if (type == CONTACT_FRIEND)
+							user.role = ROLE_FRIEND;
+						else
+							user.role = ROLE_NONE;
+					}					
+					user.loaded = true;
 				}
 
-				if (it->second.empty())
-					namelessIds.push_back(it->first);
+				if (!user.loaded)
+					namelessIds.push_back(id);
 			}
 		}
 	}
@@ -292,7 +305,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		data += "&ttstamp=" + facy.ttstamp_;
 		data += "&__rev=" + facy.__rev();
 
-		for (std::string::size_type i = 0; i < namelessIds.size() - 1; i++) {
+		for (std::string::size_type i = 0; i < namelessIds.size(); i++) {
 			std::string pos = utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
 			std::string id = utils::url::encode(namelessIds.at(i));
 			data += "&ids[" + pos + "]=" + id;
@@ -363,8 +376,8 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 		if (fbc->chat_name.empty()) {
 			unsigned int namesUsed = 0;
 
-			for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-				std::string participant = it->second;
+			for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
+				std::string participant = it->second.nick;
 
 				// Ignore empty and numeric only participant names
 				if (participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)

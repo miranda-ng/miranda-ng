@@ -795,8 +795,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				// Set thread id (TID) for later
 				setString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
 
-				for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
-					AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+				for (auto jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
+					AddChatContact(fbc->thread_id.c_str(), jt->second);
 				}
 			}
 
@@ -823,7 +823,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 			auto jt = fbc->participants.find(msg.user_id);
 			if (jt != fbc->participants.end()) {
-				name = jt->second;
+				name = jt->second.nick;
 			}
 
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?

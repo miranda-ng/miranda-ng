@@ -163,14 +163,15 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void FacebookProto::AddChatContact(const char *chat_id, const char *id, const char *name)
+void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participant &user)
 {
-	if (IsChatContact(chat_id, id))
+	// Don't add user if it's already there
+	if (IsChatContact(chat_id, user.user_id.c_str()))
 		return;
 
 	ptrT tchat_id(mir_a2t(chat_id));
-	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
-	ptrT tid(mir_a2t(id));
+	ptrT tnick(mir_a2t_cp(user.nick.c_str(), CP_UTF8));
+	ptrT tid(mir_a2t(user.user_id.c_str()));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -179,17 +180,22 @@ void FacebookProto::AddChatContact(const char *chat_id, const char *id, const ch
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
 	gce.time = ::time(NULL);
-	gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
+	gce.bIsMe = (user.role == ROLE_ME);
 
-	if (gce.bIsMe) {
-		gce.ptszStatus = TranslateT("Myself");
+	if (user.is_former) {
+		gce.ptszStatus = TranslateT("Former");
 	}
 	else {
-		MCONTACT hContact = ContactIDToHContact(id);
-		if (hContact == NULL || getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) != CONTACT_FRIEND)
-			gce.ptszStatus = TranslateT("User");
-		else {
+		switch (user.role) {
+		case ROLE_ME:
+			gce.ptszStatus = TranslateT("Myself");
+			break;
+		case ROLE_FRIEND:
 			gce.ptszStatus = TranslateT("Friend");
+			break;
+		case ROLE_NONE:
+			gce.ptszStatus = TranslateT("User");
+			break;
 		}
 	}
 
@@ -261,6 +267,8 @@ void FacebookProto::AddChat(const char *id, const TCHAR *tname)
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	gce.ptszStatus = TranslateT("User");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	gce.ptszStatus = TranslateT("Former");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	// Finish initialization
 	gcd.iType = GC_EVENT_CONTROL;
@@ -269,8 +277,15 @@ void FacebookProto::AddChat(const char *id, const TCHAR *tname)
 
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
 
+	/*chatroom_participant myself;
+	myself.user_id = facy.self_.user_id;
+	myself.nick = facy.self_.real_name;
+	myself.role = ROLE_ME;
+	myself.is_former = false;
+	myself.loaded = true;
+
 	// Add self contact
-	AddChatContact(id, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
+	AddChatContact(id, myself);*/
 	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
 }
@@ -309,8 +324,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 
 		// Add chat contacts
-		for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
-			AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+		for (std::map<std::string, chatroom_participant>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
+			AddChatContact(fbc->thread_id.c_str(), jt->second);
 		}
 
 		// Load last messages

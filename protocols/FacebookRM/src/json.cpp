@@ -72,7 +72,7 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 	}
 }
 
-int facebook_json_parser::parse_chat_participant_names(std::string *data, std::map<std::string, std::string>* participants)
+int facebook_json_parser::parse_chat_participant_names(std::string *data, std::map<std::string, chatroom_participant>* participants)
 {
 	std::string jsonData = data->substr(9);
 
@@ -87,13 +87,28 @@ int facebook_json_parser::parse_chat_participant_names(std::string *data, std::m
 	for (auto it = profiles.begin(); it != profiles.end(); ++it) {
 		std::string userId = (*it).name();
 		std::string userName = (*it)["name"].as_string();
+		std::string type = (*it)["type"].as_string();
 
 		if (userId.empty() || userName.empty())
 			continue;
 
 		auto participant = participants->find(userId);
-		if (participant != participants->end())
-			participant->second = userName;
+		if (participant != participants->end()) {
+			chatroom_participant &user = participant->second;
+			user.nick = userName;
+
+			if (type == "friend")
+				user.role = ROLE_FRIEND;
+			else if (type == "user")
+				user.role = ROLE_NONE;
+			else if (type == "page") {
+				user.role = ROLE_NONE;
+				// Use prefix for "page" users
+				user.nick = proto->m_pagePrefix + " " + userName;
+			}
+
+			user.loaded = true;
+		}
 	}
 
 	return EXIT_SUCCESS;
@@ -644,19 +659,19 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			auto itRoom = proto->facy.chat_rooms.find(thread_.as_string());
 			if (itRoom != proto->facy.chat_rooms.end()) {
 				facebook_chatroom *chatroom = itRoom->second;
-				std::map<std::string, std::string> participants = chatroom->participants;
+				std::map<std::string, chatroom_participant> participants = chatroom->participants;
 
 				auto participant = participants.find(from_id);
 				if (participant == participants.end()) {
 					// TODO: load name of this participant
-					std::string name = from_id;
-					proto->AddChatContact(tid.c_str(), from_id.c_str(), name.c_str());
+					participant->second.user_id = from_id;
+					proto->AddChatContact(tid.c_str(), participant->second);
 				}
 
 				participant = participants.find(from_id);
 				if (participant != participants.end()) {
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-					ptrT name(mir_utf8decodeT(participant->second.c_str()));
+					ptrT name(mir_utf8decodeT(participant->second.nick.c_str()));
 
 					if (st_.as_int() == 1) {
 						StatusTextData st = { 0 };
@@ -1062,8 +1077,12 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 
 				const JSONNode &participants = (*it)["participants"];
 				for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
-					std::string user_id = (*jt).name();
-					iter->second->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
+					chatroom_participant user;
+					user.user_id = (*jt).name();
+					// user.nick = (*jt).name(); // TODO: get name somehow
+					/// user. ...
+
+					iter->second->participants.insert(std::make_pair(user.user_id, user)); 
 				}
 			}
 		}
@@ -1232,14 +1251,30 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 		if (fbc->thread_id != tid)
 			continue;
 
-		// const JSONNode &former_participants = (*it)["former_participants"]; // TODO: Do we want to list also former participants? We can show them with different role or something like that...
+		chatroom_participant user;
 
-		const JSONNode &participants = (*it)["participants"];
-		for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
-			std::string user_id = (*jt).as_string();
-			fbc->participants.insert(std::make_pair(user_id.substr(5), "")); // strip "fbid:" prefix
+		user.is_former = true;
+		const JSONNode &former_participants = (*it)["former_participants"];
+		for (auto jt = former_participants.begin(); jt != former_participants.end(); ++jt) {
+			user.role = (*jt)["is_friend"].as_bool() ? ROLE_FRIEND : ROLE_NONE;
+			user.user_id = (*jt)["id"].as_string().substr(5); // strip "fbid:" prefix
+			fbc->participants.insert(std::make_pair(user.user_id, user));
 		}
 
+		user.is_former = false;
+		user.role = ROLE_NONE;
+		const JSONNode &participants = (*it)["participants"];
+		for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
+			user.user_id = (*jt).as_string().substr(5); // strip "fbid:" prefix
+			fbc->participants.insert(std::make_pair(user.user_id, user));
+		}
+
+		// TODO: don't automatically join unsubscribed or archived chatrooms
+
+		fbc->can_reply = (*it)["can_reply"].as_bool();
+		fbc->is_archived = (*it)["is_archived"].as_bool();
+		fbc->is_subscribed = (*it)["is_subscribed"].as_bool();
+		fbc->read_only = (*it)["read_only"].as_bool();
 		fbc->chat_name = std::tstring(ptrT(mir_utf8decodeT(name_.as_string().c_str())));
 	}
 

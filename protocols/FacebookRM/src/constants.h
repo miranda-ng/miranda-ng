@@ -189,6 +189,12 @@ enum MessageType {
 	CALL	= 2,	// Video call
 };
 
+enum ParticipantRole {
+	ROLE_ME = 0,
+	ROLE_FRIEND = 1,
+	ROLE_NONE = 2
+};
+
 typedef struct {
 	const char *name;
 	const char *id;

@@ -73,11 +73,26 @@ struct facebook_user
 	}
 };
 
+struct chatroom_participant
+{
+	std::string user_id;
+	std::string nick;	
+	ParticipantRole role;	
+	bool is_former;
+	bool loaded;
+
+	chatroom_participant() : loaded(false), is_former(false), role(ROLE_NONE) {}
+};
+
 struct facebook_chatroom
 {	
 	std::string thread_id;
 	std::tstring chat_name;
-	std::map<std::string, std::string> participants;
+	std::map<std::string, chatroom_participant> participants;
+	bool can_reply;
+	bool is_archived;
+	bool is_subscribed;
+	bool read_only;
 
 	facebook_chatroom(std::string thread_id) : thread_id(thread_id) {}
 };

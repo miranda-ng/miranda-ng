@@ -212,7 +212,7 @@ public:
 	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0, bool is_old = false);
 	void RenameChat(const char *chat_id, const char *name);
 	bool IsChatContact(const char *chat_id, const char *id);
-	void AddChatContact(const char *chat_id, const char *id, const char *name);
+	void AddChatContact(const char *chat_id, const chatroom_participant &user);
 	void RemoveChatContact(const char *chat_id, const char *id, const char *name);
 	char *GetChatUsers(const char *chat_id);
 	void ReceiveMessages(std::vector<facebook_message> &messages, bool check_duplicates = false);
