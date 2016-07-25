@@ -129,7 +129,7 @@ void FacebookProto::ChangeStatus(void*)
 
 			// Load on this day posts
 			if (getByte(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
-				ForkThread(&FacebookProto::ProcessOnThisDay, NULL);
+				ForkThread(&FacebookProto::ProcessMemories, NULL);
 
 			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(NULL));
 			ForkThread(&FacebookProto::UpdateLoop, NULL);

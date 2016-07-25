@@ -43,6 +43,7 @@ static IconItem icons[] =
 	{ LPGEN("Poke"),               "poke",         IDI_POKE         },
 	{ LPGEN("Notification"),       "notification", IDI_NOTIFICATION },
 	{ LPGEN("Newsfeed"),           "newsfeed",     IDI_NEWSFEED     },
+	{ LPGEN("Memories"),           "memories",     IDI_MEMORIES     },
 	{ LPGEN("Friendship details"), "friendship",   IDI_FRIENDS      },
 	{ LPGEN("Conversation"),       "conversation", IDI_CONVERSATION },
 	{ LPGEN("Message read"),       "read",         IDI_READ         },
@@ -266,10 +267,10 @@ void FacebookProto::InitMenu()
 	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = "/CheckOnThisDay";
-	CreateProtoService(mi.pszService, &FacebookProto::CheckOnThisDay);
-	mi.name.a = LPGEN("Check \"On this day\" posts");
-	mi.hIcolibItem = GetIconHandle("newsfeed");
+	mi.pszService = "/CheckMemories";
+	CreateProtoService(mi.pszService, &FacebookProto::CheckMemories);
+	mi.name.a = LPGEN("Check memories");
+	mi.hIcolibItem = GetIconHandle("memories");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckNotifications";

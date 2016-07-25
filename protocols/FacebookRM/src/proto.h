@@ -127,7 +127,7 @@ public:
 	INT_PTR __cdecl CheckNewsfeeds(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckFriendRequests(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckNotifications(WPARAM, LPARAM);
-	INT_PTR __cdecl CheckOnThisDay(WPARAM, LPARAM);
+	INT_PTR __cdecl CheckMemories(WPARAM, LPARAM);
 	INT_PTR __cdecl GetNotificationsCount(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
@@ -175,7 +175,7 @@ public:
 	void __cdecl ProcessPages(void*);
 	void __cdecl LoadLastMessages(void*);
 	void __cdecl SyncThreads(void*);
-	void __cdecl ProcessOnThisDay(void*);
+	void __cdecl ProcessMemories(void*);
 
 	// Worker threads
 	void __cdecl SignOn(void*);

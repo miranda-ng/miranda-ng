@@ -666,7 +666,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 	last_post_time = new_time;
 }
 
-void FacebookProto::ProcessOnThisDay(void*)
+void FacebookProto::ProcessMemories(void*)
 {
 	if (isOffline())
 		return;
@@ -698,7 +698,7 @@ void FacebookProto::ProcessOnThisDay(void*)
 			parseFeeds(html, news, new_time, true);
 
 			if (!news.empty()) {
-				SkinPlaySound("OnThisDay");
+				SkinPlaySound("Memories");
 			}
 
 			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)

@@ -66,7 +66,7 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 		break;
 
 	case FACEBOOK_EVENT_ON_THIS_DAY:
-		mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");		
+		mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");		
 		flags |= NIIF_INFO;
 		break;
 	}

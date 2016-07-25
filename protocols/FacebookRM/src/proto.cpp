@@ -667,11 +667,11 @@ INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR FacebookProto::CheckOnThisDay(WPARAM, LPARAM)
+INT_PTR FacebookProto::CheckMemories(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		NotifyEvent(m_tszUserName, TranslateT("Loading what happened on this day..."), NULL, FACEBOOK_EVENT_OTHER);
-		ForkThread(&FacebookProto::ProcessOnThisDay, NULL);
+		NotifyEvent(m_tszUserName, TranslateT("Loading memories..."), NULL, FACEBOOK_EVENT_OTHER);
+		ForkThread(&FacebookProto::ProcessMemories, NULL);
 	}
 	return 0;
 }
@@ -1074,12 +1074,12 @@ void FacebookProto::InitPopups()
 	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
-	// On this day
-	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("\"On this day\" posts"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
+	// On this day (memories)
+	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Memories"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("memories"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
@@ -1125,7 +1125,7 @@ void FacebookProto::InitSounds()
 	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other event"));
 	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENT("Friendship event"));
 	SkinAddNewSoundExT("Ticker", m_tszUserName, LPGENT("Ticker event"));
-	SkinAddNewSoundExT("OnThisDay", m_tszUserName, LPGENT("\"On this day\" event"));
+	SkinAddNewSoundExT("Memories", m_tszUserName, LPGENT("Memories"));
 }
 
 /**
