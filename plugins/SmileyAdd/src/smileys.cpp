@@ -460,8 +460,8 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 			L"(?:\\s*\"(.*)\")"			// Smiley file name
 			L"(?:[\\s,]+(\\-?\\d+))"		// Icon resource id
 			L"(?:[\\s,]+(R|S)?\"(.*?)\")"	// Trigger text
-			L"(?:[\\s,]+\"(.*?)\"?)"		// Tooltip or insert text
-			L"(?:[\\s,]+\"(.*?)\"?)",		// Tooltip text
+			L"(?:[\\s,]+\"(.*?)\")?"		// Tooltip or insert text
+			L"(?:[\\s,]+\"(.*?)\")?",		// Tooltip text
 			_TPattern::MULTILINE_MATCHING);
 
 		SmileyVectorType hiddenSmileys;
